@@ -14,6 +14,21 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import LoginButton from './LoginButton';
 import UserInfo from './UserInfo';
 
+function buildInfoItem(i, intl) {
+  let target = '';
+  if (i.href) {
+    target = '_blank';
+  }
+  return (
+    <li key={i.name}>
+      {/* eslint-disable-next-line react/jsx-no-target-blank */}
+      <a href={i.href || i.route} target={target}>
+        {intl.formatMessage({ id: i.name, defaultMessage: i.name })}
+      </a>
+    </li>
+  );
+}
+
 const AppBarLarge = (
   { titleClicked, logo, user },
   { router, match, config, intl },
@@ -61,6 +76,7 @@ const AppBarLarge = (
         >
           {logoElement}
         </button>
+
         <div className="empty-space flex-grow" />
         {config.allowLogin &&
           (!user.name ? (
@@ -77,6 +93,10 @@ const AppBarLarge = (
               ]}
             />
           ))}
+
+        <div className="navi-info right-border navi-margin">
+          <ul>{config.footer.content.map(i => buildInfoItem(i, intl))}</ul>
+        </div>
 
         <div className="navi-languages right-border navi-margin">
           <LangSelect />

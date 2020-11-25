@@ -147,6 +147,22 @@ $content-background-color: $background-color;
   }
 }
 
+.navi-info{
+  //desktop
+  ul {
+    margin: 0 5px;
+    li {
+      list-style-type: none;
+      display: inline;
+      margin: 0 10px;
+      a, a:visited {
+        color: white;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
 .right-border {
   border-right: 1px solid rgba(0, 0, 0, 0.15);
 }

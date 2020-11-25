@@ -238,8 +238,6 @@ export default configMerger(walttiConfig, {
 
     footer: {
         content: [
-            { label: `© Stadt Herrenberg ${YEAR}` },
-            {},
             {
                 name: 'about-this-service',
                 nameEn: 'About this service',

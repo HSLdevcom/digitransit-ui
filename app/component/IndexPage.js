@@ -384,6 +384,7 @@ class IndexPage extends React.Component {
                 />
               ))}
           </CtrlPanel>
+
         </div>
       </div>
     );

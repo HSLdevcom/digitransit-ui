@@ -476,12 +476,11 @@ div.route-tabs .tabs-navigation.bp-large {
     @include font-medium;
     font-size: $font-size-small;
   }
-  color: $link-color;
   margin-left: 10px;
   margin-right: 10px;
   a {
     text-decoration: none;
-    color: $link-color;
+    color: white;
   }
 }
 
