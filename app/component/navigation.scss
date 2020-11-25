@@ -155,9 +155,10 @@ $content-background-color: $background-color;
       list-style-type: none;
       display: inline;
       margin: 0 10px;
-      a, a:visited {
+      a, a:visited, span {
         color: white;
         text-decoration: none;
+        cursor: pointer;
       }
     }
   }

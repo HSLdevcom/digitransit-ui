@@ -16,7 +16,11 @@ const AboutPage = ({ currentLanguage }, { config }) => {
               <h1 className="about-header">{section.header}</h1>
               {section.paragraphs &&
                 section.paragraphs.map((p, j) => (
-                  <p key={`about-section-${i}-p-${j}`}>{p}</p>
+                  // eslint-disable-next-line react/no-danger
+                  <p
+                    dangerouslySetInnerHTML={{ __html: p }}
+                    key={`about-section-${i}-p-${j}`}
+                  />
                 ))}
               {section.link && (
                 <a href={section.link}>

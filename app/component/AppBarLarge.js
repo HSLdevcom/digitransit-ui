@@ -14,17 +14,23 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import LoginButton from './LoginButton';
 import UserInfo from './UserInfo';
 
-function buildInfoItem(i, intl) {
-  let target = '';
+function buildInfoItem(i, intl, router) {
   if (i.href) {
-    target = '_blank';
+    return (
+      <li key={i.name}>
+        {/* eslint-disable-next-line react/jsx-no-target-blank */}
+        <a href={i.href} target="_blank">
+          {intl.formatMessage({ id: i.name, defaultMessage: i.name })}
+        </a>
+      </li>
+    );
   }
+
   return (
     <li key={i.name}>
-      {/* eslint-disable-next-line react/jsx-no-target-blank */}
-      <a href={i.href || i.route} target={target}>
+      <span href={i.href} onClick={() => router.push(i.route)}>
         {intl.formatMessage({ id: i.name, defaultMessage: i.name })}
-      </a>
+      </span>
     </li>
   );
 }
@@ -95,7 +101,7 @@ const AppBarLarge = (
           ))}
 
         <div className="navi-info right-border navi-margin">
-          <ul>{config.footer.content.map(i => buildInfoItem(i, intl))}</ul>
+          <ul>{config.footer.content.map(i => buildInfoItem(i, intl, router))}</ul>
         </div>
 
         <div className="navi-languages right-border navi-margin">
