@@ -288,7 +288,9 @@ class SummaryPage extends React.Component {
     this.isFetchingWalkAndBike = true;
     this.params = this.context.match.params;
     this.originalPlan = this.props.viewer && this.props.viewer.plan;
-    /// *** TODO: Hotfix variables for temporary use only
+    this.itineraryTopics = undefined;
+    this.itineraryVehicleInfos = undefined;
+    // *** TODO: Hotfix variables for temporary use only
     this.justMounted = true;
     this.useFitBounds = true;
     this.mapLoaded = false;
@@ -471,19 +473,10 @@ class SummaryPage extends React.Component {
   };
 
   startClient = itineraryTopics => {
-    const { storedItineraryTopics } = this.context.getStore(
-      'RealTimeInformationStore',
-    );
-    if (
-      itineraryTopics &&
-      !isEmpty(itineraryTopics) &&
-      !storedItineraryTopics
-    ) {
+    if (itineraryTopics && !isEmpty(itineraryTopics) && !this.itineraryTopics) {
       const clientConfig = this.configClient(itineraryTopics);
       this.context.executeAction(startRealTimeClient, clientConfig);
-      this.context.getStore(
-        'RealTimeInformationStore',
-      ).storedItineraryTopics = itineraryTopics;
+      this.itineraryTopics = itineraryTopics;
     }
   };
 
@@ -492,9 +485,7 @@ class SummaryPage extends React.Component {
       'RealTimeInformationStore',
     );
 
-    this.context.getStore(
-      'RealTimeInformationStore',
-    ).storedItineraryVehicleInfos = itineraryVehicles;
+    this.itineraryVehicleInfos = itineraryVehicles;
 
     if (isEmpty(itineraryTopics) && client) {
       this.stopClient();
@@ -522,12 +513,8 @@ class SummaryPage extends React.Component {
     const { client } = this.context.getStore('RealTimeInformationStore');
     if (client) {
       this.context.executeAction(stopRealTimeClient, client);
-      this.context.getStore(
-        'RealTimeInformationStore',
-      ).storedItineraryTopics = undefined;
-      this.context.getStore(
-        'RealTimeInformationStore',
-      ).storedItineraryVehicleInfos = undefined;
+      this.itineraryTopics = undefined;
+      this.itineraryVehicleInfos = undefined;
     }
   };
 
@@ -1035,7 +1022,10 @@ class SummaryPage extends React.Component {
               ],
             )
           : {};
-      this.updateClient(itineraryTopics, itineraryVehicles);
+      if (!isEqual(itineraryTopics, this.itineraryTopics)) {
+        this.updateClient(itineraryTopics, itineraryVehicles);
+        this.itineraryTopics = itineraryTopics;
+      }
     }
   }
 
@@ -1332,9 +1322,7 @@ class SummaryPage extends React.Component {
           )
         : {};
 
-    this.context.getStore(
-      'RealTimeInformationStore',
-    ).storedItineraryVehicleInfos = itineraryVehicles;
+    this.itineraryVehicleInfos = itineraryVehicles;
 
     if (!isEmpty(itineraryVehicles)) {
       leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
