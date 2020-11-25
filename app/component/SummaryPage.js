@@ -288,8 +288,6 @@ class SummaryPage extends React.Component {
     this.isFetchingWalkAndBike = true;
     this.params = this.context.match.params;
     this.originalPlan = this.props.viewer && this.props.viewer.plan;
-    this.itineraryTopics = undefined;
-    this.itineraryVehicleInfos = undefined;
     // *** TODO: Hotfix variables for temporary use only
     this.justMounted = true;
     this.useFitBounds = true;
@@ -473,7 +471,11 @@ class SummaryPage extends React.Component {
   };
 
   startClient = itineraryTopics => {
-    if (itineraryTopics && !isEmpty(itineraryTopics) && !this.itineraryTopics) {
+    if (
+      itineraryTopics &&
+      !isEmpty(itineraryTopics) &&
+      !this.itineraryTopics?.length
+    ) {
       const clientConfig = this.configClient(itineraryTopics);
       this.context.executeAction(startRealTimeClient, clientConfig);
       this.itineraryTopics = itineraryTopics;
