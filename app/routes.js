@@ -349,7 +349,7 @@ export default config => {
         }
       />
       <Route
-        path="/tietoja-palvelusta"
+        path="/dieser-dienst"
         getComponent={() =>
           import(/* webpackChunkName: "about" */ './component/AboutPage').then(
             getDefault,
