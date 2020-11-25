@@ -69,7 +69,6 @@ $itinerary-tab-switch-height: 48px;
   flex-direction: column;
   flex-grow: 1;
   transform: scale(1); // start a new z-index context here
-  padding-top: 6px;
 
   .disclaimer-container {
     background-color: rgba(254, 209, 0, 0.1);
@@ -1082,7 +1081,6 @@ $itinerary-tab-switch-height: 48px;
   .itinerary-time-column {
     @include font-medium;
     .itinerary-time-column-time {
-      text-align: right;
       font-size: 0.9375rem;
     }
     .icon {
@@ -1226,13 +1224,8 @@ div.itinerary-container-content {
 }
 
 .date-warning {
-  display: inline-block;
-  background-color: $gray;
-  line-height: 1;
-  @include font-narrow-medium;
-  color: $white;
-  border-radius: $border-radius;
-  padding: 4px 7px;
+  font-size: 0.9375rem;
+  padding-left: 1em;
 }
 
 .itinerary-heading {
@@ -1635,6 +1628,9 @@ $font-print-decrease: 0.7;
 }
 
 .mobile {
+  .date-warning {
+    padding-left: 5%;
+  }
   .itinerary-tab {
     position: relative;
     z-index: 2;
@@ -1676,7 +1672,7 @@ $font-print-decrease: 0.7;
     margin: 0;
     justify-content: unset;
     font-weight: $font-weight-book;
-    padding: 5px 25px 5px;
+    padding: 5px 25px 11px;
     background: transparent;
     font-size: 15px;
     .duration,

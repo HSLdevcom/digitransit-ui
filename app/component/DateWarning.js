@@ -3,6 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import ComponentUsageExample from './ComponentUsageExample';
+import { isTomorrow } from '../util/timeUtils';
 
 const DATE_PATTERN = 'dd D.M.';
 
@@ -12,6 +13,13 @@ const DateWarning = ({ date, refTime }) => {
 
   if (start.isSame(now, 'day')) {
     return null;
+  }
+  if (isTomorrow(date, refTime)) {
+    return (
+      <span className="date-warning">
+        <FormattedMessage id="tomorrow" />
+      </span>
+    );
   }
 
   return (

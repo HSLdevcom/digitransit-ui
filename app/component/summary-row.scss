@@ -99,27 +99,14 @@
       float: right;
     }
     .itinerary-start-date {
-      text-align: right;
+      padding-right: 5px;
       float: left;
-      margin-top: -1px;
-      margin-bottom: -2px;
-      line-height: 1;
-      @include font-narrow-medium;
-      font-size: $font-size-xxxsmall;
-      & > span {
-        line-height: 1;
+      text-transform: capitalize;
+      .tomorrow {
         text-transform: capitalize;
-        border-bottom-left-radius: 2px;
-        border-bottom-right-radius: 2px;
-        color: $white;
-        background-color: $gray;
-        display: inline-block;
       }
-      &.nobg {
-        height: 0.8em;
-        & > span {
-          background-color: transparent;
-        }
+      & > span {
+        text-transform: lowercase;
       }
     }
   }
@@ -452,19 +439,6 @@
 
     .itinerary-duration-container {
       min-width: 50px;
-
-      .itinerary-start-date {
-        @include font-narrow-book;
-        font-size: $font-size-xxsmall;
-        float: left;
-        & > span {
-          border-radius: $border-radius-small;
-        }
-
-        &.nobg {
-          height: 1.2rem;
-        }
-      }
     }
 
     .itinerary-legs {
