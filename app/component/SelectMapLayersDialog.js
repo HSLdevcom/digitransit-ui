@@ -17,7 +17,6 @@ import {
   getMapMode,
 } from '../util/queryUtils';
 import { MapMode } from '../constants';
-import { setMapMode } from '../action/MapModeActions';
 
 class SelectMapLayersDialog extends React.Component {
   updateSetting = newSetting => {

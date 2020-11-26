@@ -2533,6 +2533,7 @@ class SummaryPage extends React.Component {
           plan={this.selectedPlan}
           serviceTimeRange={this.props.serviceTimeRange}
           setMapZoomToLeg={this.setMapZoomToLeg}
+          toggleCarpoolDrawer={this.toggleCarpoolDrawer}
         >
           {this.props.content &&
             combinedItineraries.map((itinerary, i) =>
@@ -2633,6 +2634,13 @@ class SummaryPage extends React.Component {
             open={this.getOffcanvasState()}
             onToggleClick={this.toggleCustomizeSearchOffcanvas}
             mobile
+          />
+        }
+        carpoolDrawer={
+          <CarpoolDrawer
+            onToggleClick={() => this.toggleCarpoolDrawer()}
+            open={this.state.carpoolOpen}
+            carLeg={carLeg}
           />
         }
         mapCenterToggle={this.mapCenterToggle}
