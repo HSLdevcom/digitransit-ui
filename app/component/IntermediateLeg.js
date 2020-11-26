@@ -118,12 +118,6 @@ function IntermediateLeg({
           <div className="itinerary-leg-row-intermediate">
             <div className="itinerary-intermediate-stop-name">
               <span className={cx({ realtime: realTime })}>
-                {realTime && (
-                  <Icon
-                    img="icon-icon_realtime"
-                    className="realtime-icon realtime"
-                  />
-                )}
                 <span className={cx({ canceled: isCanceled })}>
                   {moment(arrivalTime).format('HH:mm')}
                 </span>

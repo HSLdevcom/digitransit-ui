@@ -299,8 +299,10 @@ class TransitLeg extends React.Component {
           <span className="sr-only">{children}</span>
           <span aria-hidden="true">
             <div className="itinerary-time-column-time">
-              <span className={cx({ canceled: legHasCancelation(leg) })}>
-                {moment(leg.startTime).format('HH:mm')}
+              <span className={cx({ realtime: leg.realTime })}>
+                <span className={cx({ canceled: legHasCancelation(leg) })}>
+                  {moment(leg.startTime).format('HH:mm')}
+                </span>
               </span>
               {originalTime}
             </div>
