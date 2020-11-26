@@ -5,9 +5,9 @@ import pick from 'lodash/pick';
 import SimpleOpeningHours from 'simple-opening-hours';
 import { isBrowser } from '../../../util/browser';
 import {
-  drawStopIcon,
   drawIcon,
   drawAvailabilityBadge,
+  drawStopIcon,
 } from '../../../util/mapIconUtils';
 import glfun from '../../../util/glfun';
 
@@ -63,7 +63,7 @@ class DynamicParkingLots {
       );
     });
 
-  getIcon = type => {
+  static getIcon = type => {
     if (type === 'Parkhaus' || type === 'Tiefgarage') {
       return 'covered_carpark';
     }
@@ -87,7 +87,7 @@ class DynamicParkingLots {
       return drawStopIcon(this.tile, geom, 'car');
     }
 
-    const icon = this.getIcon(properties.lot_type);
+    const icon = DynamicParkingLots.getIcon(properties.lot_type);
 
     let isOpenNow = true;
     if (properties.opening_hours) {
