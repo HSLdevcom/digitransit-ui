@@ -4,7 +4,6 @@ import { createRefetchContainer, graphql } from 'react-relay';
 import { intlShape, FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape } from 'found';
-import { indexOf } from 'lodash-es';
 import StopNearYou from './StopNearYou';
 import withBreakpoint from '../util/withBreakpoint';
 import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';
@@ -120,7 +119,7 @@ class StopsNearYouContainer extends React.Component {
         case 'Stop':
           if (stop.stoptimesWithoutPatterns.length > 0) {
             if (stop.parentStation) {
-              if (indexOf(terminalNames, stop.parentStation.name) === -1) {
+              if (terminalNames.indexOf(stop.parentStation.name) === -1) {
                 terminalNames.push(stop.parentStation.name);
                 return (
                   <StopNearYou
