@@ -257,6 +257,11 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             code
             platformCode
             zoneId
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+            }
           }
           bikePark {
             bikeParkId
@@ -277,6 +282,11 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             code
             platformCode
             zoneId
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+            }
           }
         }
         realTime
@@ -301,6 +311,11 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             fareUrl
             name
             phone
+          }
+          alerts {
+            alertSeverityLevel
+            effectiveEndDate
+            effectiveStartDate
           }
         }
         trip {
