@@ -120,7 +120,7 @@ AlertList.propTypes = {
   serviceAlerts: PropTypes.arrayOf(alertShape),
   showExpired: PropTypes.bool,
   showRouteNameLink: PropTypes.bool,
-  breakpoint: PropTypes.string.isRequired,
+  breakpoint: PropTypes.string,
 };
 
 AlertList.defaultProps = {
