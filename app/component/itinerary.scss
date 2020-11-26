@@ -1007,11 +1007,14 @@ $itinerary-tab-switch-height: 48px;
 
     .itinerary-leg-action {
       border-top: 1px solid #ddd;
-      padding: 1.2em 0;
+      padding: 1em 0;
       margin-bottom: 1px;
       height: 60px;
       font-size: 0.9375rem;
       @extend .itinerary-leg-text-gray;
+      button, span {
+        vertical-align: middle;
+      }
       .itinerary-leg-action-content {
         height: 100%;
         display: flex;
