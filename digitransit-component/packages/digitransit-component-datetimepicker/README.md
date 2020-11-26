@@ -19,8 +19,8 @@ This component renders an input to choose a date and time. Renders separate inpu
     -   `props.onNowClick` **[function][4]** Called when "depart now" button is clicked. time is current input value in seconds
     -   `props.embedWhenClosed` **[node][5]** JSX element to render in the corner when input is closed
     -   `props.lang` **[string][6]** Language selection. Default 'en'
-    -   `props.color`
-    -   `props.timeZone`
+    -   `props.color`  
+    -   `props.timeZone`  
 
 ### Examples
 
