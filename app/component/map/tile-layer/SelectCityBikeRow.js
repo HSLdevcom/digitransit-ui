@@ -14,18 +14,23 @@ function SelectCityBikeRow({ selectRow, name, networks }, { config }) {
     getCityBikeNetworkConfig(getCityBikeNetworkId(networks), config),
   );
   return (
-    <div className="no-margin">
-      <div className="cursor-pointer select-row" onClick={selectRow}>
-        <div className="padding-vertical-normal select-row-icon">
+    <>
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+      <div
+        className="stop-popup-choose-row cursor-pointer select-row"
+        onClick={selectRow}
+      >
+        <span className="choose-row-left-column" aria-hidden="true">
           <Icon img={img} />
-        </div>
-        <div className="padding-vertical-normal select-row-text">
-          <span className="header-primary no-margin link-color">{name} ›</span>
-        </div>
-        <div className="clear" />
+        </span>
+        <span className="choose-row-center-column">
+          <h5 className="choose-row-header">{name}</h5>
+        </span>
+        <span className="choose-row-right-column">
+          <Icon img="icon-icon_arrow-collapse--right" />
+        </span>
       </div>
-      <hr className="no-margin gray" />
-    </div>
+    </>
   );
 }
 
