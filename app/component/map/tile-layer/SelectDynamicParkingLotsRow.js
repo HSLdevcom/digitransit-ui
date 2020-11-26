@@ -6,24 +6,26 @@ import DynamicParkingLots from './DynamicParkingLots';
 export default function SelectDynamicParkingLotsRow(props) {
   const { selectRow, properties } = props;
   return (
-    <div className="no-margin">
+    <>
       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-      <div className="cursor-pointer select-row" onClick={selectRow}>
-        <div className="padding-vertical-normal select-row-icon">
+      <div
+        className="stop-popup-choose-row cursor-pointer select-row"
+        onClick={selectRow}
+      >
+        <span className="choose-row-left-column" aria-hidden="true">
           <Icon
             img={`icon-icon_${DynamicParkingLots.getIcon(properties.lot_type)}`}
             viewBox="0 0 600.995 600.995"
           />
-        </div>
-        <div className="padding-vertical-normal select-row-text">
-          <span className="header-primary no-margin link-color">
-            {properties.name}
-          </span>
-        </div>
-        <div className="clear" />
+        </span>
+        <span className="choose-row-center-column">
+          <h5 className="choose-row-header">{properties.name}</h5>
+        </span>
+        <span className="choose-row-right-column">
+          <Icon img="icon-icon_arrow-collapse--right" />
+        </span>
       </div>
-      <hr className="no-margin gray" />
-    </div>
+    </>
   );
 }
 
