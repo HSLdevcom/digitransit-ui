@@ -32,7 +32,6 @@ import Loading from './Loading';
 import { getRoutePath } from '../util/path';
 import {
   validateServiceTimeRange,
-  getStartTime,
   getStartTimeWithColon,
 } from '../util/timeUtils';
 import { planQuery } from '../util/queryUtils';
@@ -207,36 +206,6 @@ const getTopicOptions = (context, planitineraries, match) => {
     });
   }
   return itineraryTopics;
-};
-
-const getVehicleInfos = itinerary => {
-  if (!itinerary) {
-    return {};
-  }
-  let itineraryVehicles = {};
-  const gtfsIdsOfRouteAndDirection = [];
-  const gtfsIdsOfTrip = [];
-  const startTimes = [];
-
-  itinerary.legs.forEach(leg => {
-    if (leg.transitLeg && leg.trip) {
-      gtfsIdsOfTrip.push(leg.trip.gtfsId);
-      startTimes.push(
-        getStartTime(leg.trip.stoptimesForDate[0].scheduledDeparture),
-      );
-      gtfsIdsOfRouteAndDirection.push(
-        `${leg.route.gtfsId}_${leg.trip.directionId}`,
-      );
-    }
-  });
-  if (startTimes.length > 0) {
-    itineraryVehicles = {
-      gtfsIdsOfTrip,
-      gtfsIdsOfRouteAndDirection,
-      startTimes,
-    };
-  }
-  return itineraryVehicles;
 };
 
 class SummaryPage extends React.Component {
@@ -471,23 +440,17 @@ class SummaryPage extends React.Component {
   };
 
   startClient = itineraryTopics => {
-    if (
-      itineraryTopics &&
-      !isEmpty(itineraryTopics) &&
-      !this.itineraryTopics?.length
-    ) {
+    if (itineraryTopics && !isEmpty(itineraryTopics)) {
       const clientConfig = this.configClient(itineraryTopics);
       this.context.executeAction(startRealTimeClient, clientConfig);
       this.itineraryTopics = itineraryTopics;
     }
   };
 
-  updateClient = (itineraryTopics, itineraryVehicles) => {
+  updateClient = itineraryTopics => {
     const { client, topics } = this.context.getStore(
       'RealTimeInformationStore',
     );
-
-    this.itineraryVehicleInfos = itineraryVehicles;
 
     if (isEmpty(itineraryTopics) && client) {
       this.stopClient();
@@ -516,7 +479,6 @@ class SummaryPage extends React.Component {
     if (client) {
       this.context.executeAction(stopRealTimeClient, client);
       this.itineraryTopics = undefined;
-      this.itineraryVehicleInfos = undefined;
     }
   };
 
@@ -1010,22 +972,9 @@ class SummaryPage extends React.Component {
         combinedItineraries,
         this.props.match,
       );
-      const activeIndex =
-        getHashNumber(
-          this.props.match.params.secondHash
-            ? this.props.match.params.secondHash
-            : this.props.match.params.hash,
-        ) || getActiveIndex(this.props.match.location, combinedItineraries);
-      const itineraryVehicles =
-        combinedItineraries.length > 0
-          ? getVehicleInfos(
-              combinedItineraries[
-                activeIndex < combinedItineraries.length ? activeIndex : 0
-              ],
-            )
-          : {};
+
       if (!isEqual(itineraryTopics, this.itineraryTopics)) {
-        this.updateClient(itineraryTopics, itineraryVehicles);
+        this.updateClient(itineraryTopics);
         this.itineraryTopics = itineraryTopics;
       }
     }
@@ -1315,18 +1264,7 @@ class SummaryPage extends React.Component {
       [centerPoint.lat + delta, centerPoint.lon + delta],
     ];
 
-    const itineraryVehicles =
-      filteredItineraries.length > 0
-        ? getVehicleInfos(
-            activeIndex < filteredItineraries.length
-              ? filteredItineraries[activeIndex]
-              : filteredItineraries[0],
-          )
-        : {};
-
-    this.itineraryVehicleInfos = itineraryVehicles;
-
-    if (!isEmpty(itineraryVehicles)) {
+    if (this.showVehicles()) {
       leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
     }
 
