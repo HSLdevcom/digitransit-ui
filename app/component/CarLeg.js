@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -9,15 +9,20 @@ import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import ServiceAlertIcon from './ServiceAlertIcon';
+import { AlertSeverityLevelType } from '../constants';
+import { replaceQueryParams } from '../util/queryUtils';
+import { getServiceAlertDescription } from '../util/alertUtils';
 
 function CarLeg(props, context) {
-  const distance = displayDistance(
-    parseInt(props.leg.distance, 10),
-    context.config,
-  );
-  const duration = durationToString(props.leg.duration * 1000);
+  const { leg } = props;
+  const distance = displayDistance(parseInt(leg.distance, 10), context.config);
+  const duration = durationToString(leg.duration * 1000);
   const firstLegClassName = props.index === 0 ? 'start' : '';
   const modeClassName = 'car';
+
+  const alerts = leg.alerts || [];
+  const carParkAlert = alerts.filter(a => a.alertId === 'car_park_full')[0];
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
@@ -26,32 +31,35 @@ function CarLeg(props, context) {
         <FormattedMessage
           id="itinerary-details.car-leg"
           values={{
-            time: moment(props.leg.startTime).format('HH:mm'),
+            time: moment(leg.startTime).format('HH:mm'),
             distance,
-            origin: props.leg.from ? props.leg.from.name : '',
-            destination: props.leg.to ? props.leg.to.name : '',
+            origin: leg.from ? leg.from.name : '',
+            destination: leg.to ? leg.to.name : '',
             duration,
           }}
         />
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {moment(props.leg.startTime).format('HH:mm')}
+          {moment(leg.startTime).format('HH:mm')}
         </div>
       </div>
       <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
       <div
-        className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
+        className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${leg.mode.toLowerCase()}`}
       >
         <span className="sr-only">
           <FormattedMessage
             id="itinerary-summary.show-on-map"
-            values={{ target: props.leg.from.name || '' }}
+            values={{ target: leg.from.name || '' }}
           />
+          {!!carParkAlert && (
+            <FormattedMessage id="itinerary-details.route-has-info-alert" />
+          )}
         </span>
         <div className="itinerary-leg-first-row" aria-hidden="true">
           <div>
-            {props.leg.from.name}
+            {leg.from.name}
             {props.children}
           </div>
           <div
@@ -76,9 +84,35 @@ function CarLeg(props, context) {
             defaultMessage="Drive {distance} ({duration})}"
           />
         </div>
+        {carParkAlert && (
+          <div className="itinerary-alert-box" aria-hidden="true">
+            <div className="itinerary-alert-info carpool">
+              <ServiceAlertIcon
+                className="inline-icon"
+                severityLevel={AlertSeverityLevelType.Info}
+              />
+              {getServiceAlertDescription(carParkAlert, context.intl.locale)}
+            </div>
+            <button
+              className="standalone-btn cursor-pointer carpool-offer-btn"
+              onClick={() => {
+                replaceQueryParams(
+                  context.router,
+                  context.match,
+                  {
+                    useCarParkAvailabilityInformation: true,
+                  },
+                  context.executeAction,
+                );
+              }}
+            >
+              <FormattedMessage id="car-park-full" />
+            </button>
+          </div>
+        )}
         <div className="itinerary-leg-action" aria-hidden="true">
           <button
-            className="standalone-btn"
+            className="standalone-btn cursor-pointer carpool-offer-btn"
             onClick={props.toggleCarpoolDrawer}
           >
             <FormattedMessage id="offer-ride" defaultMessage="Offer carpool" />
@@ -124,6 +158,7 @@ CarLeg.propTypes = {
       name: PropTypes.string.isRequired,
     }),
     mode: PropTypes.string.isRequired,
+    alerts: PropTypes.array,
   }).isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
@@ -131,6 +166,12 @@ CarLeg.propTypes = {
   toggleCarpoolDrawer: PropTypes.func,
 };
 
-CarLeg.contextTypes = { config: PropTypes.object.isRequired };
+CarLeg.contextTypes = {
+  config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
+  router: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  executeAction: PropTypes.func.isRequired,
+};
 
 export default CarLeg;

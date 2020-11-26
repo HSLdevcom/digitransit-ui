@@ -2740,6 +2740,7 @@ const containerComponent = createRefetchContainer(
         unpreferred: { type: "InputUnpreferred" }
         allowedBikeRentalNetworks: { type: "[String]" }
         locale: { type: "String" }
+        useCarParkAvailabilityInformation: { type: "Boolean" }
       ) {
         plan(
           fromPlace: $fromPlace
@@ -2758,6 +2759,7 @@ const containerComponent = createRefetchContainer(
           allowedTicketTypes: $ticketTypes
           disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
           arriveBy: $arriveBy
+          useCarParkAvailabilityInformation: $useCarParkAvailabilityInformation
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
           optimize: $optimize

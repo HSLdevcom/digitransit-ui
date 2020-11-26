@@ -967,6 +967,11 @@ $itinerary-tab-switch-height: 48px;
       align-items: center;
     }
 
+    .itinerary-alert-box {
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+    }
+
     .itinerary-alert-info {
       border-style: solid;
       border-width: 1px;
@@ -974,11 +979,15 @@ $itinerary-tab-switch-height: 48px;
       padding: 10px 20px 10px 30px;
       color: $gray;
       text-align: justify;
+      margin-bottom: 8px;
       &.citybike {
         border-color: $citybike-color;
       }
+      &.carpool {
+        border-color: $carpool-color;
+      }
       .icon-container {
-        margin-right: 5px;
+        margin-right: 3px;
         margin-left: -22px;
       }
     }
@@ -997,11 +1006,14 @@ $itinerary-tab-switch-height: 48px;
 
     .itinerary-leg-action {
       border-top: 1px solid #ddd;
-      padding: 1.2em 0;
+      padding: 1em 0;
       margin-bottom: 1px;
       height: 60px;
       font-size: 0.9375rem;
       @extend .itinerary-leg-text-gray;
+      button, span {
+        vertical-align: middle;
+      }
       .itinerary-leg-action-content {
         height: 100%;
         display: flex;
