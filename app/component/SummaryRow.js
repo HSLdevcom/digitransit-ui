@@ -491,7 +491,7 @@ const SummaryRow = (
             id="itinerary-summary-row.first-leg-start-time-citybike"
             values={{
               firstDepartureTime: (
-                <span className="first-leg-start-time-green">
+                <span className={cx({ realtime: firstDeparture.realTime })}>
                   <LocalTime time={firstDeparture.startTime} />
                 </span>
               ),
@@ -517,7 +517,7 @@ const SummaryRow = (
             id="itinerary-summary-row.first-leg-start-time"
             values={{
               firstDepartureTime: (
-                <span className="first-leg-start-time-green">
+                <span className={cx({ realtime: firstDeparture.realTime })}>
                   <LocalTime time={firstDeparture.startTime} />
                 </span>
               ),
