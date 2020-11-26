@@ -29,7 +29,7 @@ class ItineraryTab extends React.Component {
     itinerary: PropTypes.object.isRequired,
     focus: PropTypes.func.isRequired,
     setMapZoomToLeg: PropTypes.func.isRequired,
-    toggleCarpoolDrawer: PropTypes.func.isRequired,
+    toggleCarpoolDrawer: PropTypes.func,
   };
 
   static contextTypes = {

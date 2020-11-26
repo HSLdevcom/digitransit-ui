@@ -135,7 +135,7 @@ export default class CarpoolOffer extends React.Component {
   };
 
   close() {
-    this.context.router.goBack();
+    this.context.router.go(-1);
     this.setState({
       formState: 'initial',
       days: this.allWeekdaysFalse,
