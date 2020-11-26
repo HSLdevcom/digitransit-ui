@@ -17,11 +17,8 @@ const Toggle = ({ toggled, title, label, onToggle, id }) => {
           type="checkbox"
           id={useId}
           checked={toggled}
-          onKeyPress={e =>
-            isKeyboardSelectionEvent(e) &&
-            onToggle({ target: { toggled: !toggled } })
-          }
-          onChange={e => onToggle(e)}
+          onKeyDown={e => isKeyboardSelectionEvent(e) && onToggle()}
+          onClick={() => onToggle()}
         />
         <span className="slider round" />
       </label>
