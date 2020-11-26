@@ -2394,6 +2394,7 @@ class SummaryPage extends React.Component {
                   onToggleClick={() => this.toggleCarpoolDrawer()}
                   open={this.state.carpoolOpen}
                   carLeg={carLeg}
+                  mobile={false}
                 />
               }
               content={content}
@@ -2641,6 +2642,7 @@ class SummaryPage extends React.Component {
             onToggleClick={() => this.toggleCarpoolDrawer()}
             open={this.state.carpoolOpen}
             carLeg={carLeg}
+            mobile
           />
         }
         mapCenterToggle={this.mapCenterToggle}
