@@ -968,6 +968,11 @@ $itinerary-tab-switch-height: 48px;
       align-items: center;
     }
 
+    .itinerary-alert-box {
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+    }
+
     .itinerary-alert-info {
       border-style: solid;
       border-width: 1px;
@@ -982,7 +987,7 @@ $itinerary-tab-switch-height: 48px;
         border-color: $carpool-color;
       }
       .icon-container {
-        margin-right: 5px;
+        margin-right: 3px;
         margin-left: -22px;
       }
     }

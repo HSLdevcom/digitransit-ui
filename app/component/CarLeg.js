@@ -77,27 +77,6 @@ function CarLeg(props, context) {
             />
           </div>
         </div>
-        {carParkAlert && (
-          <div className="itinerary-alert-info carpool">
-            <ServiceAlertIcon
-              className="inline-icon"
-              severityLevel={AlertSeverityLevelType.Info}
-            />
-            {getServiceAlertDescription(carParkAlert, context.intl.locale)}
-          </div>
-        )}
-        {carParkAlert && (
-          <button
-            className="standalone-btn cursor-pointer carpool-offer-btn"
-            onClick={() => {
-              replaceQueryParams(context.router, {
-                useCarParkAvailabilityInformation: true,
-              });
-            }}
-          >
-            <FormattedMessage id="car-park-full" />
-          </button>
-        )}
         <div className="itinerary-leg-action" aria-hidden="true">
           <FormattedMessage
             id="car-distance-duration"
@@ -105,6 +84,27 @@ function CarLeg(props, context) {
             defaultMessage="Drive {distance} ({duration})}"
           />
         </div>
+        {carParkAlert && (
+          <div className="itinerary-alert-box" aria-hidden="true">
+            <div className="itinerary-alert-info carpool">
+              <ServiceAlertIcon
+                className="inline-icon"
+                severityLevel={AlertSeverityLevelType.Info}
+              />
+              {getServiceAlertDescription(carParkAlert, context.intl.locale)}
+            </div>
+            <button
+              className="standalone-btn cursor-pointer carpool-offer-btn"
+              onClick={() => {
+                replaceQueryParams(context.router, {
+                  useCarParkAvailabilityInformation: true,
+                });
+              }}
+            >
+              <FormattedMessage id="car-park-full" />
+            </button>
+          </div>
+        )}
         <div className="itinerary-leg-action" aria-hidden="true">
           <button
             className="standalone-btn"
