@@ -16,6 +16,8 @@ import {
   PREFIX_BIKESTATIONS,
   LOCAL_STORAGE_EMITTER_PATH,
   createReturnPath,
+  TAB_NEARBY,
+  TAB_FAVOURITES,
 } from './util/path';
 import { preparePlanParams } from './util/planParamUtil';
 import {
@@ -37,6 +39,46 @@ export const historyMiddlewares = [queryMiddleware];
 export const render = createRender({});
 
 export default config => {
+  const indexPageComponents = {
+    title: (
+      <Route
+        getComponent={() =>
+          import(/* webpackChunkName: "itinerary" */ './component/Title').then(
+            getDefault,
+          )
+        }
+      />
+    ),
+    content: (
+      <Route
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "itinerary" */ './component/IndexPage'
+          ).then(getDefault)
+        }
+      />
+    ),
+    meta: (
+      <Route
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "itinerary" */ './component/IndexPageMeta'
+          ).then(getDefault)
+        }
+      />
+    ),
+    map: (
+      <Route
+        // TODO: Must be decided how we will handle selecting from map!
+        disableMapOnMobile
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "itinerary" */ './component/map/IndexPageMap.js'
+          ).then(getDefault)
+        }
+      />
+    ),
+  };
   return (
     <Route Component={TopLevel}>
       {getStopRoutes()}
@@ -153,6 +195,10 @@ export default config => {
           ),
         }}
       </Route>
+      <Redirect
+        from={`/${PREFIX_ITINERARY_SUMMARY}/:from`}
+        to={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/:from`}
+      />
       <Route
         path={`/${PREFIX_ITINERARY_SUMMARY}/POS/:to`}
         getComponent={() =>
@@ -318,6 +364,18 @@ export default config => {
       <Route path="/js/*" Component={Error404} />
       <Route path="/css/*" Component={Error404} />
       <Route path="/assets/*" Component={Error404} />
+      <Redirect
+        from={`/:from/:to/${TAB_NEARBY}`}
+        to={`${
+          config.indexPath === '' ? '' : `/${config.indexPath}`
+        }/:from/:to`}
+      />
+      <Redirect
+        from={`/:from/:to/${TAB_FAVOURITES}`}
+        to={`${
+          config.indexPath === '' ? '' : `/${config.indexPath}`
+        }/:from/:to`}
+      />
       <Route
         path={`${
           config.indexPath === '' ? '' : `/${config.indexPath}`
@@ -379,52 +437,41 @@ export default config => {
         }}
       </Route>
       <Route
-        path={`${
-          config.indexPath === '' ? '' : `/${config.indexPath}`
-        }/:from?/:to?`}
+        path={config.indexPath === '' ? '/' : `/${config.indexPath}`}
         topBarOptions={{ disableBackButton: true }}
       >
-        {{
-          title: (
-            <Route
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "itinerary" */ './component/Title'
-                ).then(getDefault)
-              }
-            />
-          ),
-          content: (
-            <Route
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "itinerary" */ './component/IndexPage'
-                ).then(getDefault)
-              }
-            />
-          ),
-          meta: (
-            <Route
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "itinerary" */ './component/IndexPageMeta'
-                ).then(getDefault)
-              }
-            />
-          ),
-          map: (
-            <Route
-              // TODO: Must be decided how we will handle selecting from map!
-              disableMapOnMobile
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "itinerary" */ './component/map/IndexPageMap.js'
-                ).then(getDefault)
-              }
-            />
-          ),
-        }}
+        {indexPageComponents}
       </Route>
+      <Route
+        path={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/:from`}
+        topBarOptions={{ disableBackButton: true }}
+      >
+        {indexPageComponents}
+      </Route>
+      <Route
+        path={`${
+          config.indexPath === '' ? '' : `/${config.indexPath}`
+        }/:from/-`}
+        topBarOptions={{ disableBackButton: true }}
+      >
+        {indexPageComponents}
+      </Route>
+      <Route
+        path={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/-/:to`}
+        topBarOptions={{ disableBackButton: true }}
+      >
+        {indexPageComponents}
+      </Route>
+      <Redirect
+        from="/:from/:to"
+        to={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}
+      />
+      {config.indexPath !== '' && (
+        <Redirect
+          from={`/${config.indexPath}/:from/:to`}
+          to={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}
+        />
+      )}
       <Route path="/?mock" topBarOptions={{ disableBackButton: true }}>
         {{
           title: (
@@ -450,9 +497,7 @@ export default config => {
         }}
       </Route>
       {config.indexPath !== '' && (
-        <Route path="/">
-          <Redirect to={`/${config.indexPath}`} />
-        </Route>
+        <Redirect from="/" to={`/${config.indexPath}`} />
       )}
       {/* For all the rest render 404 */}
       <Route path="*" Component={Error404} />

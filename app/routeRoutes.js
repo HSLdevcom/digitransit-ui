@@ -22,7 +22,22 @@ import { prepareServiceDay } from './util/dateParamUtils';
 export default (
   <Route path={`/${PREFIX_ROUTES}`}>
     <Route Component={Error404} />
-    {/* TODO: Should return list of all routes */}
+    <Redirect
+      from=":routeId"
+      to={`:routeId/${PREFIX_STOPS}/:routeId%3A0%3A01`}
+    />
+    <Redirect
+      from={`:routeId/${PREFIX_STOPS}`}
+      to={`${PREFIX_STOPS}/:routeId%3A0%3A01`}
+    />
+    <Redirect
+      from={`:routeId/${PREFIX_TIMETABLE}`}
+      to={`${PREFIX_TIMETABLE}/:routeId%3A0%3A01`}
+    />
+    <Redirect
+      from={`:routeId/${PREFIX_DISRUPTION}`}
+      to={`${PREFIX_DISRUPTION}/:routeId%3A0%3A01`}
+    />
     <Route path=":routeId">
       {{
         title: (
@@ -128,9 +143,6 @@ export default (
         ],
         content: [
           <Route path={PREFIX_STOPS}>
-            <Redirect
-              to={`/${PREFIX_ROUTES}/:routeId/${PREFIX_STOPS}/:routeId%3A0%3A01`}
-            />
             <Route
               path=":patternId"
               getComponent={() =>
@@ -174,57 +186,47 @@ export default (
               render={getComponentOrLoadingRenderer}
             />
           </Route>,
-          <Route path={PREFIX_TIMETABLE}>
-            <Redirect
-              to={`/${PREFIX_ROUTES}/:routeId/${PREFIX_TIMETABLE}/:routeId%3A0%3A01`}
-            />
-            <Route
-              path=":patternId"
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "route" */ './component/RouteScheduleContainer'
-                ).then(getDefault)
-              }
-              query={graphql`
-                query routeRoutes_RouteScheduleContainer_Query(
-                  $patternId: String!
-                  $date: String!
-                ) {
-                  pattern(id: $patternId) {
-                    ...RouteScheduleContainer_pattern
-                    @arguments(serviceDay: $date)
-                  }
+          <Route
+            path={`${PREFIX_TIMETABLE}/:patternId`}
+            getComponent={() =>
+              import(
+                /* webpackChunkName: "route" */ './component/RouteScheduleContainer'
+              ).then(getDefault)
+            }
+            query={graphql`
+              query routeRoutes_RouteScheduleContainer_Query(
+                $patternId: String!
+                $date: String!
+              ) {
+                pattern(id: $patternId) {
+                  ...RouteScheduleContainer_pattern
+                  @arguments(serviceDay: $date)
                 }
-              `}
-              prepareVariables={prepareServiceDay}
-              render={getComponentOrLoadingRenderer}
-            />
-          </Route>,
-          <Route path={PREFIX_DISRUPTION}>
-            <Redirect
-              to={`/${PREFIX_ROUTES}/:routeId/${PREFIX_DISRUPTION}/:routeId%3A0%3A01`}
-            />
-            <Route
-              path=":patternId"
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "route" */ './component/RouteAlertsContainer'
-                ).then(getDefault)
               }
-              query={graphql`
-                query routeRoutes_RouteAlertsContainer_Query(
-                  $routeId: String!
-                  $date: String!
-                ) {
-                  route(id: $routeId) {
-                    ...RouteAlertsContainer_route @arguments(date: $date)
-                  }
+            `}
+            prepareVariables={prepareServiceDay}
+            render={getComponentOrLoadingRenderer}
+          />,
+          <Route
+            path={`${PREFIX_DISRUPTION}/:patternId`}
+            getComponent={() =>
+              import(
+                /* webpackChunkName: "route" */ './component/RouteAlertsContainer'
+              ).then(getDefault)
+            }
+            query={graphql`
+              query routeRoutes_RouteAlertsContainer_Query(
+                $routeId: String!
+                $date: String!
+              ) {
+                route(id: $routeId) {
+                  ...RouteAlertsContainer_route @arguments(date: $date)
                 }
-              `}
-              prepareVariables={prepareServiceDay}
-              render={getComponentOrLoadingRenderer}
-            />
-          </Route>,
+              }
+            `}
+            prepareVariables={prepareServiceDay}
+            render={getComponentOrLoadingRenderer}
+          />,
         ],
       }}
     </Route>
