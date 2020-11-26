@@ -17,8 +17,7 @@ export default class CarpoolOffer extends React.Component {
 
   static propTypes = {
     onToggleClick: PropTypes.func.isRequired,
-    from: PropTypes.object.isRequired,
-    to: PropTypes.object.isRequired,
+    leg: PropTypes.object,
     start: PropTypes.number.isRequired,
   };
 
@@ -78,16 +77,18 @@ export default class CarpoolOffer extends React.Component {
   finishForm = e => {
     e.preventDefault();
 
+    const { from, to } = this.props.leg;
+
     const carpoolOffer = {
       origin: {
-        label: this.props.from.name,
-        lat: this.props.from.lat,
-        lon: this.props.from.lon,
+        label: from.name,
+        lat: from.lat,
+        lon: from.lon,
       },
       destination: {
-        label: this.props.to.name,
-        lat: this.props.to.lat,
-        lon: this.props.to.lon,
+        label: to.name,
+        lat: to.lat,
+        lon: to.lon,
       },
       phoneNumber: this.state.phoneNumber,
       time: {
@@ -135,7 +136,7 @@ export default class CarpoolOffer extends React.Component {
   };
 
   close() {
-    this.context.router.go(-1);
+    this.props.onToggleClick(this.props.leg);
     this.setState({
       formState: 'initial',
       days: this.allWeekdaysFalse,
@@ -165,8 +166,9 @@ export default class CarpoolOffer extends React.Component {
   }
 
   renderSuccessMessage() {
-    const origin = this.props.from.name;
-    const destination = this.props.to.name;
+    const { from, to } = this.props.leg;
+    const origin = from.name;
+    const destination = to.name;
     const { departureDay, departureTime } = this.getOfferedTimes();
     const { isRegularly } = this.state;
 
@@ -213,8 +215,9 @@ export default class CarpoolOffer extends React.Component {
   }
 
   renderForm() {
-    const origin = this.props.from.name;
-    const destination = this.props.to.name;
+    const { from, to } = this.props.leg;
+    const origin = from.name;
+    const destination = to.name;
     const departure = new Moment(this.props.start).format('LT');
     const { GDPR, isRegularly } = this.state;
 
@@ -327,8 +330,6 @@ export default class CarpoolOffer extends React.Component {
   }
 
   render() {
-    const { onToggleClick } = this.props;
-
     const stopPropagation = ev => {
       ev.stopPropagation();
     };
@@ -341,7 +342,7 @@ export default class CarpoolOffer extends React.Component {
         onClick={stopPropagation}
         onKeyPress={stopPropagation}
       >
-        <button className="close-offcanvas" onClick={onToggleClick}>
+        <button className="close-offcanvas" onClick={this.close}>
           <Icon className="close-icon" img="icon-icon_close" />
         </button>
         <img alt="Fahrgemeinschaft.de" className="fg_icon" src={logo} />

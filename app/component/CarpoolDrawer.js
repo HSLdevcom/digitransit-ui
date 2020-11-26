@@ -11,8 +11,7 @@ const CarpoolDrawer = ({ open, onToggleClick, mobile, carLeg }) => {
         <CarpoolOffer
           onToggleClick={onToggleClick}
           start={carLeg.startTime}
-          from={carLeg.from}
-          to={carLeg.to}
+          leg={carLeg}
         />
       </div>
     );

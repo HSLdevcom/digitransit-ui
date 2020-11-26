@@ -1718,9 +1718,12 @@ class SummaryPage extends React.Component {
     });
   };
 
-  toggleCarpoolDrawer = () => {
+  toggleCarpoolDrawer = leg => {
     const { carpoolOpen } = this.state;
     this.setState({ carpoolOpen: !carpoolOpen });
+    if (leg) {
+      this.setMapZoomToLeg(leg);
+    }
   };
 
   renderMap() {
@@ -2391,7 +2394,7 @@ class SummaryPage extends React.Component {
               }
               carpoolDrawer={
                 <CarpoolDrawer
-                  onToggleClick={() => this.toggleCarpoolDrawer()}
+                  onToggleClick={this.toggleCarpoolDrawer}
                   open={this.state.carpoolOpen}
                   carLeg={carLeg}
                   mobile={false}
@@ -2639,7 +2642,7 @@ class SummaryPage extends React.Component {
         }
         carpoolDrawer={
           <CarpoolDrawer
-            onToggleClick={() => this.toggleCarpoolDrawer()}
+            onToggleClick={this.toggleCarpoolDrawer}
             open={this.state.carpoolOpen}
             carLeg={carLeg}
             mobile
