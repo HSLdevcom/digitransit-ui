@@ -39,11 +39,15 @@ export default function MobileView({
   map,
   content,
   settingsDrawer,
+  carpoolDrawer,
   selectFromMapHeader,
   mapCenterToggle,
 }) {
   if (settingsDrawer && settingsDrawer.props.open) {
     return <div className="mobile">{settingsDrawer}</div>;
+  }
+  if (carpoolDrawer && carpoolDrawer.props.open) {
+    return <div className="mobile">{carpoolDrawer}</div>;
   }
   const scrollRef = useRef(null);
   const topBarHeight = 64;
@@ -122,6 +126,7 @@ MobileView.propTypes = {
   map: PropTypes.any,
   content: PropTypes.node,
   settingsDrawer: PropTypes.node,
+  carpoolDrawer: PropTypes.node,
   selectFromMapHeader: PropTypes.node,
   mapCenterToggle: PropTypes.bool,
 };

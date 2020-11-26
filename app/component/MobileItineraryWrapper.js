@@ -18,6 +18,7 @@ export default class MobileItineraryWrapper extends React.Component {
     }).isRequired,
     plan: PropTypes.object,
     serviceTimeRange: PropTypes.object.isRequired,
+    toggleCarpoolDrawer: PropTypes.func,
   };
 
   static contextTypes = {
@@ -80,6 +81,7 @@ export default class MobileItineraryWrapper extends React.Component {
           params={this.context.match.params}
           focus={this.props.focus}
           setMapZoomToLeg={this.props.setMapZoomToLeg}
+          toggleCarpoolDrawer={this.props.toggleCarpoolDrawer}
         />
       </div>
     );

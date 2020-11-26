@@ -135,7 +135,7 @@ export default class CarpoolOffer extends React.Component {
   };
 
   close() {
-    this.context.router.goBack();
+    this.context.router.go(-1);
     this.setState({
       formState: 'initial',
       days: this.allWeekdaysFalse,
@@ -337,7 +337,7 @@ export default class CarpoolOffer extends React.Component {
       // disabled because this thing only prevents events from propagating
       // eslint-disable-next-line jsx-a11y/no-static-element-interactions
       <div
-        className="customize-search carpool-offer"
+        className="customize-search carpool-offer scrollable-content-wrapper momentum-scroll"
         onClick={stopPropagation}
         onKeyPress={stopPropagation}
       >
