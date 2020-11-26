@@ -320,9 +320,6 @@ function getSelectedIconCircleOffset(zoom, ratio) {
  * Supported icons are BUS, TRAM, FERRY
  */
 export function drawStopIcon(tile, geom, type, platformNumber, isHilighted) {
-  if (type === 'SUBWAY') {
-    return;
-  }
   const zoom = tile.coords.z - 1;
   const drawNumber = zoom >= 16;
   const styles = getStopIconStyles('stop', zoom);
