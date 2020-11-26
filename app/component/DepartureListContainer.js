@@ -248,6 +248,7 @@ class DepartureListContainer extends Component {
                 name: 'RightNowTab',
               });
             }}
+            role="row"
           >
             {departureObj}
           </Link>,
@@ -261,6 +262,7 @@ class DepartureListContainer extends Component {
       <div
         className={cx('departure-list', this.props.className)}
         onScroll={this.onScroll()}
+        role="table"
       >
         {departureObjs}
       </div>
