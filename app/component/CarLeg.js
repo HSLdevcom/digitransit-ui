@@ -107,7 +107,7 @@ function CarLeg(props, context) {
         )}
         <div className="itinerary-leg-action" aria-hidden="true">
           <button
-            className="standalone-btn"
+            className="standalone-btn cursor-pointer carpool-offer-btn"
             onClick={props.toggleCarpoolDrawer}
           >
             <FormattedMessage id="offer-ride" defaultMessage="Offer carpool" />
