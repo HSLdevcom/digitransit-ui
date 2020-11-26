@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import cx from 'classnames';
 import Modal from 'react-modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
@@ -41,14 +41,14 @@ const MobileSearch = ({
   dialogSecondaryButtonText,
   clearInputButtonText,
   focusInput,
+  color,
+  hoverColor,
 }) => {
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
 
   const [isDialogOpen, setDialogOpen] = useState(false);
   const inputRef = React.useRef();
-
-  useEffect(() => Modal.setAppElement(appElement), []);
 
   const onSelect = (e, ref) => {
     if (ref.suggestion.type === 'clear-search-history') {
@@ -88,6 +88,8 @@ const MobileSearch = ({
           setDialogOpen(false);
         }}
         secondaryButtonOnClick={() => setDialogOpen(false)}
+        color={color}
+        hoverColor={hoverColor}
       />
     );
   };
@@ -100,7 +102,7 @@ const MobileSearch = ({
         onClick={clearInput}
         aria-label={clearInputButtonText}
       >
-        <Icon img="close" />
+        <Icon img="close" color={color} />
       </button>
     );
   };
@@ -141,6 +143,10 @@ const MobileSearch = ({
                   id={id}
                   onKeyDown={onKeyDown}
                   {...p}
+                  style={{
+                    '--color': `${color}`,
+                    '--hover-color': `${hoverColor}`,
+                  }}
                 />
                 {value && clearButton()}
               </>
@@ -153,7 +159,6 @@ const MobileSearch = ({
       </label>
     );
   };
-
   if (focusInput && inputRef.current?.input) {
     inputRef.current.input.focus();
   }
@@ -161,6 +166,7 @@ const MobileSearch = ({
     return (
       <div className={styles['fullscreen-root']}>
         <Modal
+          appElement={document ? document.querySelector(appElement) : undefined}
           isOpen
           className={styles['mobile-modal-content']}
           overlayClassName={styles['mobile-modal-overlay']}
@@ -206,6 +212,8 @@ MobileSearch.propTypes = {
   dialogPrimaryButtonText: PropTypes.string,
   dialogSecondaryButtonText: PropTypes.string,
   focusInput: PropTypes.bool,
+  color: PropTypes.string,
+  hoverColor: PropTypes.string,
 };
 
 export default MobileSearch;

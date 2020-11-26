@@ -18,6 +18,7 @@ import {
 } from '../action/FavouriteActions';
 import FavouriteStore from '../store/FavouriteStore';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { LightenDarkenColor } from '../util/colorUtils';
 
 const AutoSuggestWithSearchContext = withSearchContext(AutoSuggest);
 
@@ -51,6 +52,8 @@ class FavouritesContainer extends React.Component {
     favouriteModalAction: PropTypes.string,
     allowLogin: PropTypes.bool,
     isLoggedIn: PropTypes.bool,
+    color: PropTypes.string,
+    hoverColor: PropTypes.string,
   };
 
   static defaultProps = {
@@ -240,6 +243,8 @@ class FavouritesContainer extends React.Component {
             loginModalOpen: false,
           });
         }}
+        color={this.props.color}
+        hoverColor={this.props.hoverColor}
       />
     );
   };
@@ -342,6 +347,7 @@ class FavouritesContainer extends React.Component {
           }
           lang={this.props.lang}
           isLoading={isLoading}
+          color={this.props.color}
         />
         <FavouriteModal
           appElement="#app"
@@ -366,8 +372,12 @@ class FavouritesContainer extends React.Component {
               onFavouriteSelected={this.setLocationProperties}
               lang={this.props.lang}
               isMobile={this.props.isMobile}
+              color={this.props.color}
+              hoverColor={this.props.hoverColor}
             />
           }
+          color={this.props.color}
+          hoverColor={this.props.hoverColor}
         />
         <FavouriteEditModal
           appElement="#app"
@@ -381,6 +391,8 @@ class FavouritesContainer extends React.Component {
           lang={this.props.lang}
           isMobile={this.props.isMobile}
           isLoading={isLoading}
+          color={this.props.color}
+          hoverColor={this.props.hoverColor}
         />
         {this.renderLoginModal()}
       </React.Fragment>
@@ -405,6 +417,10 @@ const connectedComponent = connectToStores(
     isLoggedIn:
       context.config.allowLogin &&
       context.getStore('UserStore').getUser().sub !== undefined,
+    color: context.config.colors.primary,
+    hoverColor:
+      context.config.colors.hover ||
+      LightenDarkenColor(context.config.colors.primary, -20),
   }),
 );
 

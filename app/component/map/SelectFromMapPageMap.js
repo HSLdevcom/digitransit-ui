@@ -10,6 +10,7 @@ import { otpToLocation } from '../../util/otpStrings';
 import withBreakpoint from '../../util/withBreakpoint';
 import { getJson } from '../../util/xhrPromise';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
+import { LightenDarkenColor } from '../../util/colorUtils';
 
 let map;
 
@@ -178,13 +179,12 @@ class SelectFromMapPageMap extends React.Component {
     locationOfMapCenter,
     positionSelectingFromMap,
   ) => {
-    const { config, intl } = this.context;
+    const { intl } = this.context;
 
     return (
       <LazilyLoad modules={confirmLocationFromMapButtonModules} key="confirm">
         {({ ConfirmLocationFromMapButton }) => (
           <ConfirmLocationFromMapButton
-            color={isEnabled ? config.colors.primary : undefined}
             isEnabled={!!isEnabled}
             address={
               isEnabled
@@ -200,6 +200,11 @@ class SelectFromMapPageMap extends React.Component {
             })}
             type={this.props.type}
             onConfirm={isEnabled ? this.props.onConfirm : undefined}
+            color={this.context.config.colors.primary}
+            hoverColor={
+              this.context.config.colors.hover ||
+              LightenDarkenColor(this.context.config.colors.primary, -20)
+            }
           />
         )}
       </LazilyLoad>

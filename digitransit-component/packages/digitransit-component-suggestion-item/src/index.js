@@ -17,7 +17,7 @@ function getAriaDescription(ariaContentArray) {
   return description;
 }
 
-function getIconProperties(item) {
+function getIconProperties(item, color) {
   let iconId;
   let iconColor = '#888888';
   // because of legacy favourites there might be selectedIconId for some stops or stations
@@ -35,7 +35,7 @@ function getIconProperties(item) {
     // eslint-disable-next-line prefer-destructuring
     iconColor = item.iconColor;
   } else if (isFavourite(item)) {
-    iconColor = '#007ac9';
+    iconColor = color;
   }
   const layerIcon = new Map([
     ['bikeRentalStation', 'citybike'],
@@ -70,6 +70,9 @@ function getIconProperties(item) {
     ['futureRoute', 'future-route'],
   ]);
   const defaultIcon = 'place';
+  if (layerIcon.get(iconId) === 'locate') {
+    iconColor = color;
+  }
   return [layerIcon.get(iconId) || defaultIcon, iconColor];
 }
 
@@ -83,8 +86,16 @@ function getIconProperties(item) {
  * />
  */
 const SuggestionItem = pure(
-  ({ item, content, loading, className, isMobile, ariaFavouriteString }) => {
-    const [iconId, iconColor] = getIconProperties(item);
+  ({
+    item,
+    content,
+    loading,
+    className,
+    isMobile,
+    ariaFavouriteString,
+    color,
+  }) => {
+    const [iconId, iconColor] = getIconProperties(item, color);
     const icon = (
       <span className={styles[iconId]}>
         <Icon color={iconColor} img={iconId} />
@@ -130,16 +141,28 @@ const SuggestionItem = pure(
             [styles.futureroute]: isFutureRoute,
           })}
         >
-          {iconId !== 'future-route' && (
+          {iconId !== 'future-route' &&
+            item.selectedIconId !== 'favourite' &&
+            iconId !== 'edit' && (
+              <span>
+                <p className={cx(styles['suggestion-name'], styles[className])}>
+                  {name}
+                </p>
+                <p className={styles['suggestion-label']}>
+                  {isBikeRentalStation ? suggestionType : label}
+                  {stopCode && (
+                    <span className={styles['stop-code']}>{stopCode}</span>
+                  )}
+                </p>
+              </span>
+            )}
+          {(item.selectedIconId === 'favourite' || iconId === 'edit') && (
             <span>
-              <p className={cx(styles['suggestion-name'], styles[className])}>
+              <p
+                className={cx(styles['suggestion-name'], styles[className])}
+                style={{ color: `${item.color}` }}
+              >
                 {name}
-              </p>
-              <p className={styles['suggestion-label']}>
-                {isBikeRentalStation ? suggestionType : label}
-                {stopCode && (
-                  <span className={styles['stop-code']}>{stopCode}</span>
-                )}
               </p>
             </span>
           )}
@@ -199,7 +222,7 @@ const SuggestionItem = pure(
               [styles.mobile]: isMobile,
             })}
           >
-            <Icon img="arrow" />
+            <Icon img="arrow" color={iconColor} />
           </span>
         )}
       </div>
@@ -229,11 +252,13 @@ SuggestionItem.propTypes = {
   content: PropTypes.arrayOf(PropTypes.string),
   className: PropTypes.string,
   isMobile: PropTypes.bool,
+  color: PropTypes.string,
 };
 
 SuggestionItem.defaultProps = {
   className: undefined,
   isMobile: false,
+  color: '#007ac9',
 };
 
 export default SuggestionItem;

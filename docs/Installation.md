@@ -25,7 +25,6 @@ sudo make install
 ## Installation
 - `yarn setup`
 
-
 ## Start development version
 
 - OSX / Linux: `yarn run dev`
@@ -38,6 +37,11 @@ sudo make install
 
 Note: on Windows, add "win-" prefix to the run commands above. For example: `npm run win-build`.
 The same applies to other npm run commands below.
+
+## Modifying sub-modules and components
+
+After you have changed the files in `digitransit-components` you have to re-run `yarn setup` to build those modules
+and apply the changes. 
 
 ## Analyse webpack bundle
 - run: `webpack -p --json > digitransit.json`

@@ -157,13 +157,15 @@ class FilterTimeTableModal extends React.Component {
                 onClick={() => this.props.showFilterModal(false)}
               >
                 <div className="filter-stop-modal-return-icon">
-                  <Icon img="icon-icon_arrow-left" />
+                  <Icon img="icon-icon_arrow-collapse--left" />
                 </div>
                 <div className="filter-stop-modal-return-header">
-                  <FormattedMessage
-                    id="show-routes"
-                    defaultMessage="Show Lines"
-                  />
+                  <h2 className="h2">
+                    <FormattedMessage
+                      id="show-routes"
+                      defaultMessage="Show Lines"
+                    />
+                  </h2>
                 </div>
               </div>
               <div className="all-routes-header">

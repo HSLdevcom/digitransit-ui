@@ -1323,14 +1323,6 @@
   dependencies:
     "@hsl-fi/sass" " ^0.1.1"
 
-"@digitransit-component/digitransit-component-dialog-modal@0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-dialog-modal/-/digitransit-component-dialog-modal-0.1.6.tgz#41402fb5f3f578515b7527ea4a1b5d00eb32d3da"
-  integrity sha512-DUdRaRDbBgyzrHhfZy9kzlGtkO4Nkisgquj96Mhza9uJcOxhdE3fDGBxOiyBNIwGi5G5OOyn1Q2t/TjY23eAjQ==
-  dependencies:
-    "@hsl-fi/modal" "0.1.8"
-    "@hsl-fi/sass" "^0.1.1"
-
 "@digitransit-component/digitransit-component-favourite-bar@latest":
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-favourite-bar/-/digitransit-component-favourite-bar-0.0.11.tgz#e872e18e11efb79d3e1da0f61829bba6eb1086a0"
@@ -1746,7 +1738,7 @@
   resolved "https://registry.yarnpkg.com/@hsl-fi/icons/-/icons-0.2.3.tgz#d15356d05bad57b96a641eedd0f9b020c90c6861"
   integrity sha512-0Y9e1Dsx3M/WSvk0CrAtiJO8wG2ZKL8CAnJA6ylQgxc1DMP/Xck0EqOg0f3rc1VDGKSVxxjeIi/0OFCoPny6pQ==
 
-"@hsl-fi/modal@0.1.8", "@hsl-fi/modal@^0.1.7":
+"@hsl-fi/modal@^0.1.7":
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/@hsl-fi/modal/-/modal-0.1.8.tgz#df89f7e33e012c1046b83fdcfa2d88b40812149a"
   integrity sha512-jYh4Ybdn0PS3ugPrDfsZppvl6ze8AzDY2XUh2xlkOTHEyAICsLVzz8zgRF4qShj7u6E0tRVPr93lTZJaGAVkTQ==
@@ -17987,6 +17979,11 @@ trim-off-newlines@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-off-newlines/-/trim-off-newlines-1.0.1.tgz#9f9ba9d9efa8764c387698bcbfeb2c848f11adb3"
   integrity sha1-n5up2e+odkw4dpi8v+sshI8RrbM=
+
+trim-right@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
+  integrity sha1-yy4SAwZ+DI3h9hQJS5/kVwTqYAM=
 
 trim-trailing-lines@^1.0.0:
   version "1.1.3"

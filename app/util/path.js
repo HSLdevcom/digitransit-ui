@@ -9,8 +9,10 @@ import {
 import { addAnalyticsEvent } from './analyticsUtils';
 
 const debug = d('path.js');
+export const TAB_NEARBY = 'lahellasi';
+export const TAB_FAVOURITES = 'suosikit';
 export const PREFIX_ROUTES = 'linjat';
-export const PREFIX_NEARYOU = 'lahellasi';
+export const PREFIX_NEARYOU = TAB_NEARBY;
 export const PREFIX_STOPS = 'pysakit';
 export const PREFIX_BIKESTATIONS = 'pyoraasemat';
 export const PREFIX_TERMINALS = 'terminaalit';
@@ -19,6 +21,15 @@ export const PREFIX_DISRUPTION = 'hairiot';
 export const PREFIX_TIMETABLE = 'aikataulu';
 export const stopUrl = id => id;
 export const LOCAL_STORAGE_EMITTER_PATH = '/local-storage-emitter';
+
+export const createReturnPath = (path, origin, destination) => {
+  const returnUrl = path === '' ? '' : `/${path}`;
+  return [
+    returnUrl,
+    encodeURIComponent(decodeURIComponent(origin)),
+    encodeURIComponent(decodeURIComponent(destination)),
+  ].join('/');
+};
 
 export const getNearYouPath = (place, mode) =>
   [

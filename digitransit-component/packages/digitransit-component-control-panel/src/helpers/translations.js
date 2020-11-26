@@ -1,4 +1,20 @@
 const translations = {
+  de: {
+    'pick-mode': 'Wählen Sie ein Verkehrsmittel',
+    'pick-mode-airplane': 'Flug',
+    'pick-mode-bus': 'Bus',
+    'pick-mode-citybike': 'Leihrad',
+    'pick-mode-ferry': 'Fähre',
+    'pick-mode-rail': 'Zug',
+    'pick-mode-subway': 'U-Bahn',
+    'pick-mode-tram': 'Straßenbahn',
+    'placeholder-destination': 'Geben Sie Ihren Zielort ein',
+    'placeholder-origin': 'Geben Sie Ihren Abfahrtsort ein',
+    'placeholder-route-stop-station': 'Enter route, stop or station',
+    'title-route-stop-station': 'Haltestellen und Linien in der Nähe',
+    'title-origin-to-destination': 'Wohin?',
+    'use-own-position': 'Verwende aktuelle Position',
+  },
   en: {
     'pick-mode': 'Select a transport mode',
     'pick-mode-airplane': 'Flight',

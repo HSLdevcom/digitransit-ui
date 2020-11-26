@@ -16,7 +16,7 @@ import {
   getLegBadgeProps,
   isCallAgencyPickupType,
 } from '../util/legUtils';
-import { sameDay, dateOrEmpty } from '../util/timeUtils';
+import { dateOrEmpty, isTomorrow } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import {
@@ -37,34 +37,30 @@ const Leg = ({
   mode,
   routeNumber,
   legLength,
-  renderNumber,
   fitRouteNumber,
+  renderModeIcons,
 }) => {
-  return renderNumber ? (
+  return (
     <div
       className={cx(
         'leg',
         mode.toLowerCase(),
         fitRouteNumber ? 'fit-route-number' : '',
+        renderModeIcons ? 'render-icon' : '',
       )}
       style={{ '--width': `${legLength}%` }}
     >
       {routeNumber}
     </div>
-  ) : (
-    <div className="leg">{routeNumber}</div>
   );
 };
 
 Leg.propTypes = {
   routeNumber: PropTypes.node.isRequired,
   legLength: PropTypes.number.isRequired,
-  renderNumber: PropTypes.bool,
   mode: PropTypes.string,
   fitRouteNumber: PropTypes.bool,
-};
-Leg.defaultProps = {
-  renderNumber: true,
+  renderModeIcons: PropTypes.bool,
 };
 
 export const RouteLeg = ({
@@ -115,7 +111,6 @@ export const RouteLeg = ({
       large={large}
       legLength={legLength}
       fitRouteNumber={fitRouteNumber}
-      renderNumber
     />
   );
 };
@@ -135,7 +130,7 @@ RouteLeg.defaultProps = {
 };
 
 export const ModeLeg = (
-  { leg, mode, large, legLength, duration, renderNumber },
+  { leg, mode, large, legLength, duration, renderModeIcons },
   { config },
 ) => {
   let networkIcon;
@@ -155,7 +150,7 @@ export const ModeLeg = (
       text=""
       className={cx('line', mode.toLowerCase())}
       duration={duration}
-      renderNumber={renderNumber}
+      renderModeIcons={renderModeIcons}
       vertical
       withBar
       icon={networkIcon}
@@ -166,6 +161,7 @@ export const ModeLeg = (
     <Leg
       mode={mode}
       routeNumber={routeNumber}
+      renderModeIcons={renderModeIcons}
       large={large}
       legLength={legLength}
     />
@@ -177,12 +173,8 @@ ModeLeg.propTypes = {
   mode: PropTypes.string.isRequired,
   large: PropTypes.bool.isRequired,
   legLength: PropTypes.number.isRequired,
+  renderModeIcons: PropTypes.bool,
   duration: PropTypes.number,
-  renderNumber: PropTypes.bool,
-};
-
-ModeLeg.defaultProps = {
-  renderNumber: true,
 };
 
 ModeLeg.contextTypes = {
@@ -267,9 +259,9 @@ const SummaryRow = (
   const bikeParkedIndex = usingOwnBicycle
     ? bikeWasParked(compressedLegs)
     : undefined;
+  const renderModeIcons = compressedLegs.length < 10;
 
   compressedLegs.forEach((leg, i) => {
-    let renderNumber = true;
     let renderBar = true;
     let waiting = false;
     let waitTime;
@@ -309,11 +301,6 @@ const SummaryRow = (
       renderBar = false;
       addition += legLength; // carry over the length of the leg to the next
     }
-
-    if (isTransitLeg(leg)) {
-      renderNumber = true; // always try to render route number, it will get hidden in overflow if it doesn't fit
-    }
-
     if (leg.intermediatePlace) {
       onlyIconLegs += 1;
       legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
@@ -327,7 +314,7 @@ const SummaryRow = (
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
-          renderNumber
+          renderModeIcons={renderModeIcons}
           isTransitLeg={false}
           leg={leg}
           duration={walkingTime}
@@ -356,7 +343,7 @@ const SummaryRow = (
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
           isTransitLeg={false}
-          renderNumber
+          renderModeIcons={renderModeIcons}
           leg={leg}
           duration={bikingTime}
           mode="CITYBIKE"
@@ -380,8 +367,8 @@ const SummaryRow = (
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
           isTransitLeg={false}
-          renderNumber={renderNumber}
           duration={bikingTime}
+          renderModeIcons={renderModeIcons}
           leg={leg}
           mode={leg.mode}
           legLength={legLength}
@@ -456,6 +443,7 @@ const SummaryRow = (
           key={`${leg.mode}_${leg.startTime}_wait`}
           leg={leg}
           legLength={waitLength}
+          renderModeIcons={renderModeIcons}
           duration={waitingTimeinMin}
           isTransitLeg={false}
           mode="WAIT"
@@ -609,6 +597,23 @@ const SummaryRow = (
     },
     { number: props.hash + 1 },
   );
+
+  const dateString = dateOrEmpty(startTime, refTime);
+  const date = (
+    <>
+      {dateString}
+      <span> </span>
+      {dateString && <FormattedMessage id="at-time" />}
+    </>
+  );
+
+  const startDate = isTomorrow(startTime, refTime) ? (
+    <div className="tomorrow">
+      <FormattedMessage id="tomorrow" />
+    </div>
+  ) : (
+    date
+  );
   return (
     <span role="listitem" className={classes} aria-atomic="true">
       <h3 className="sr-only">
@@ -656,13 +661,9 @@ const SummaryRow = (
                 key="startTime"
                 aria-hidden="true"
               >
-                <span
-                  className={cx('itinerary-start-date', {
-                    nobg: sameDay(startTime, refTime),
-                  })}
-                >
-                  <span>{dateOrEmpty(startTime, refTime)}</span>
-                </span>
+                {startDate && (
+                  <div className="itinerary-start-date">{startDate}</div>
+                )}
                 <div className="itinerary-start-time-and-end-time">
                   {itineraryStartAndEndTime}
                 </div>

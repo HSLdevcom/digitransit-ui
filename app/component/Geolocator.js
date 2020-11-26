@@ -3,29 +3,36 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import isEqual from 'lodash/isEqual';
 import { startLocationWatch } from '../action/PositionActions';
 import Loading from './Loading';
 import { isBrowser } from '../util/browser';
-import { getRoutePath } from '../util/path';
 import { addressToItinerarySearch } from '../util/otpStrings';
 
-const SummaryGeolocator = () => <Loading />;
+const Geolocator = () => <Loading />;
 
-const SummaryGeolocatorWithPosition = connectToStores(
-  SummaryGeolocator,
+const GeolocatorWithPosition = connectToStores(
+  Geolocator,
   ['PositionStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
-
+    const { createReturnPath, path } = props;
     const { from, to } = props.match.params;
 
     const redirect = () => {
       const locationForUrl = addressToItinerarySearch(locationState);
       const newFrom = from === undefined ? locationForUrl : from;
-      const newTo = to === undefined || to === 'POS' ? locationForUrl : to;
+      let newTo;
+      if (locationForUrl && isEqual(locationForUrl, newFrom)) {
+        newTo = to === undefined || to === 'POS' ? '-' : to;
+      } else {
+        newTo = to === undefined || to === 'POS' ? locationForUrl : to;
+      }
+      const returnPath = createReturnPath(path, newFrom, newTo);
+
       const newLocation = {
         ...props.match.location,
-        pathname: getRoutePath(newFrom, newTo),
+        pathname: returnPath,
       };
       props.router.replace(newLocation);
     };
@@ -52,9 +59,13 @@ const SummaryGeolocatorWithPosition = connectToStores(
   },
 );
 
-SummaryGeolocatorWithPosition.contextTypes = {
-  ...SummaryGeolocatorWithPosition.contextTypes,
+GeolocatorWithPosition.contextTypes = {
+  ...GeolocatorWithPosition.contextTypes,
   executeAction: PropTypes.func.isRequired,
 };
+GeolocatorWithPosition.propTypes = {
+  path: PropTypes.string.isRequired,
+  createReturnPath: PropTypes.func.isRequired,
+};
 
-export default SummaryGeolocatorWithPosition;
+export default GeolocatorWithPosition;

@@ -1,4 +1,7 @@
 const translations = {
+  de: {
+    traffic: 'Aktuelle Verbindungen',
+  },
   en: {
     traffic: 'Services now',
   },

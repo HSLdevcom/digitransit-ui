@@ -12,9 +12,9 @@ const Modal = loadable(() => import('@hsl-fi/modal'));
 
 i18next.init({ lng: 'fi', resources: {} });
 
-i18next.addResourceBundle('en', 'translation', translations.en);
-i18next.addResourceBundle('fi', 'translation', translations.fi);
-i18next.addResourceBundle('sv', 'translation', translations.sv);
+Object.keys(translations).forEach(lang => {
+  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+});
 
 /**
  * General component description in JSDoc format. Markdown is *supported*.
@@ -35,6 +35,8 @@ const DialogModal = ({
   appElement,
   isModalOpen,
   modalAriaLabel,
+  color,
+  hoverColor,
 }) => {
   i18next.changeLanguage(lang);
   return (
@@ -66,6 +68,10 @@ const DialogModal = ({
               styles['digitransit-dialog-modal-button'],
               styles.primary,
             )}
+            style={{
+              '--color': `${color}`,
+              '--hover-color': `${hoverColor}`,
+            }}
             href={href}
             onClick={e => {
               e.stopPropagation();
@@ -83,6 +89,10 @@ const DialogModal = ({
               styles['digitransit-dialog-modal-button'],
               styles.secondary,
             )}
+            style={{
+              '--color': `${color}`,
+              '--hover-color': `${hoverColor}`,
+            }}
             onClick={() => secondaryButtonOnClick()}
           >
             {secondaryButtonText}
@@ -106,6 +116,8 @@ DialogModal.propTypes = {
   lang: PropTypes.string,
   modalAriaLabel: PropTypes.string,
   href: PropTypes.string,
+  color: PropTypes.string,
+  hoverColor: PropTypes.string,
 };
 
 DialogModal.defaultProps = {
@@ -114,6 +126,12 @@ DialogModal.defaultProps = {
   secondaryButtonText: undefined,
   secondaryButtonOnClick: undefined,
   href: undefined,
+  color: '#007ac9',
+  hoverColor: '#0062a1',
+};
+
+DialogModal.contextTypes = {
+  config: PropTypes.object,
 };
 
 export default DialogModal;
