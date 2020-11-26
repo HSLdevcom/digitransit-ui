@@ -180,7 +180,6 @@ export default (
             />
             <Route
               path=":patternId"
-              disableMapOnMobile
               getComponent={() =>
                 import(
                   /* webpackChunkName: "route" */ './component/RouteScheduleContainer'
@@ -207,7 +206,6 @@ export default (
             />
             <Route
               path=":patternId"
-              disableMapOnMobile
               getComponent={() =>
                 import(
                   /* webpackChunkName: "route" */ './component/RouteAlertsContainer'

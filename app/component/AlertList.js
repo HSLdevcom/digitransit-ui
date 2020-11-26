@@ -1,4 +1,3 @@
-import cx from 'classnames';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -8,6 +7,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import RouteAlertsRow from './RouteAlertsRow';
 import { createUniqueAlertList } from '../util/alertUtils';
 import { AlertSeverityLevelType } from '../constants';
+import withBreakpoint from '../util/withBreakpoint';
 
 const AlertList = ({
   cancelations,
@@ -16,6 +16,7 @@ const AlertList = ({
   showExpired,
   serviceAlerts,
   showRouteNameLink,
+  breakpoint,
 }) => {
   const groupedAlerts =
     createUniqueAlertList(
@@ -36,45 +37,57 @@ const AlertList = ({
     );
   }
 
+  let listWrapper = 'route-alerts-list-wrapper';
+  if (breakpoint === 'large') {
+    listWrapper += ' bp-large';
+  }
+
+  const list = 'route-alerts-list';
+  if (!disableScrolling) {
+    listWrapper += ' momentum-scroll';
+  }
+
   return (
-    <div className={cx({ 'momentum-scroll': !disableScrolling })}>
-      <div className="route-alerts-list">
-        {groupedAlerts.map(
-          (
-            {
-              description,
-              expired,
-              header,
-              route: { color, mode, shortName, routeGtfsId } = {},
-              severityLevel,
-              stop: { code, vehicleMode, stopGtfsId } = {},
-              url,
-              validityPeriod: { startTime, endTime },
-            },
-            i,
-          ) => (
-            <RouteAlertsRow
-              color={color ? `#${color}` : null}
-              currentTime={currentTime}
-              description={description}
-              endTime={endTime}
-              entityIdentifier={shortName || code}
-              entityMode={
-                (mode && mode.toLowerCase()) ||
-                (vehicleMode && vehicleMode.toLowerCase())
-              }
-              entityType={(shortName && 'route') || (code && 'stop')}
-              expired={expired}
-              header={header}
-              key={`alert-${shortName}-${severityLevel}-${i}`} // eslint-disable-line react/no-array-index-key
-              severityLevel={severityLevel}
-              startTime={startTime}
-              url={url}
-              gtfsIds={routeGtfsId || stopGtfsId}
-              showRouteNameLink={showRouteNameLink}
-            />
-          ),
-        )}
+    <div className="route-alerts-content-wrapper">
+      <div className={listWrapper}>
+        <div className={list}>
+          {groupedAlerts.map(
+            (
+              {
+                description,
+                expired,
+                header,
+                route: { color, mode, shortName, routeGtfsId } = {},
+                severityLevel,
+                stop: { code, vehicleMode, stopGtfsId } = {},
+                url,
+                validityPeriod: { startTime, endTime },
+              },
+              i,
+            ) => (
+              <RouteAlertsRow
+                color={color ? `#${color}` : null}
+                currentTime={currentTime}
+                description={description}
+                endTime={endTime}
+                entityIdentifier={shortName || code}
+                entityMode={
+                  (mode && mode.toLowerCase()) ||
+                  (vehicleMode && vehicleMode.toLowerCase())
+                }
+                entityType={(shortName && 'route') || (code && 'stop')}
+                expired={expired}
+                header={header}
+                key={`alert-${shortName}-${severityLevel}-${i}`} // eslint-disable-line react/no-array-index-key
+                severityLevel={severityLevel}
+                startTime={startTime}
+                url={url}
+                gtfsIds={routeGtfsId || stopGtfsId}
+                showRouteNameLink={showRouteNameLink}
+              />
+            ),
+          )}
+        </div>
       </div>
     </div>
   );
@@ -107,6 +120,7 @@ AlertList.propTypes = {
   serviceAlerts: PropTypes.arrayOf(alertShape),
   showExpired: PropTypes.bool,
   showRouteNameLink: PropTypes.bool,
+  breakpoint: PropTypes.string.isRequired,
 };
 
 AlertList.defaultProps = {
@@ -225,7 +239,7 @@ AlertList.description = (
 );
 
 const connectedComponent = connectToStores(
-  AlertList,
+  withBreakpoint(AlertList),
   ['TimeStore'],
   context => ({
     currentTime: context.getStore('TimeStore').getCurrentTime().unix(),

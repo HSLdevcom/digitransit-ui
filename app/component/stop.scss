@@ -37,8 +37,9 @@
   display: flex;
   flex: 1 0 6em;
   flex-direction: column;
-  justify-content: center;
   text-align: center;
+  padding-top: 20px;
+  min-height: 50vh;
 
   @media print {
     display: none;

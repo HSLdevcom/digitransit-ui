@@ -16,6 +16,7 @@ import Loading from './Loading';
 import Icon from './Icon';
 import { RealtimeStateType } from '../constants';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import withBreakpoint from '../util/withBreakpoint';
 
 const DATE_FORMAT = 'YYYYMMDD';
 
@@ -49,6 +50,7 @@ class RouteScheduleContainer extends Component {
     }).isRequired,
     serviceDay: PropTypes.string.isRequired,
     match: matchShape.isRequired,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
@@ -206,6 +208,11 @@ class RouteScheduleContainer extends Component {
         this.props.pattern.route,
       );
 
+    let listWrapper = 'route-schedule-list-wrapper';
+    if (this.props.breakpoint === 'large') {
+      listWrapper += ' bp-large';
+    }
+
     return (
       <div className="route-schedule-content-wrapper">
         <div className="route-page-action-bar">
@@ -249,7 +256,7 @@ class RouteScheduleContainer extends Component {
             />
           </div>
         </div>
-        <div className="route-schedule-list-wrapper">
+        <div className={listWrapper}>
           <RouteScheduleHeader
             stops={this.props.pattern.stops}
             from={this.state.from}
@@ -271,7 +278,7 @@ class RouteScheduleContainer extends Component {
 }
 
 const connectedComponent = createRefetchContainer(
-  connectToStores(RouteScheduleContainer, [], context => ({
+  connectToStores(withBreakpoint(RouteScheduleContainer), [], context => ({
     serviceDay: context
       .getStore('TimeStore')
       .getCurrentTime()
