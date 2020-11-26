@@ -181,6 +181,28 @@
     {
       "type": "Feature",
       "properties": {
+        "name_en": "Bicycle charging station",
+        "name_de": "Fahrradladestation",
+        "name": "Fahrradladestation",
+        "popupContent": "Geb\u00fchrenpflichtig: nein, \u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "Geb\u00fchrenpflichtig: nein, \u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Fee: no, Opening hours: 24/7",
+        "id": "Fahrradladestation_8",
+        "icon": {
+          "id": "bikeChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.0055168,
+          48.6879456
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
         "name_en": "Car charging station",
         "name_de": "Elektroauto-Ladestation",
         "name": "Elektroauto-Ladestation",
@@ -207,10 +229,32 @@
         "name_en": "Car charging station",
         "name_de": "Elektroauto-Ladestation",
         "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Capacity: 2, Fee: yes, Opening hours: 24/7",
+        "id": "Elektroauto-Ladestation_1",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8704376,
+          48.5990418
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
         "popupContent": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: nein, \u00d6ffnungszeiten: 24/7",
         "popupContent_de": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: nein, \u00d6ffnungszeiten: 24/7",
         "popupContent_en": "Capacity: 2, Fee: no, Opening hours: 24/7",
-        "id": "Elektroauto-Ladestation_1",
+        "id": "Elektroauto-Ladestation_2",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -232,7 +276,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
-        "id": "Elektroauto-Ladestation_2",
+        "id": "Elektroauto-Ladestation_3",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -254,7 +298,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
-        "id": "Elektroauto-Ladestation_3",
+        "id": "Elektroauto-Ladestation_4",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -276,7 +320,7 @@
         "popupContent": "Stellpl\u00e4tze: 2, \u00d6ffnungszeiten: 24/7",
         "popupContent_de": "Stellpl\u00e4tze: 2, \u00d6ffnungszeiten: 24/7",
         "popupContent_en": "Capacity: 2, Opening hours: 24/7",
-        "id": "Elektroauto-Ladestation_4",
+        "id": "Elektroauto-Ladestation_5",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -298,7 +342,7 @@
         "popupContent": "Stellpl\u00e4tze: 12, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
         "popupContent_de": "Stellpl\u00e4tze: 12, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
         "popupContent_en": "Capacity: 12, Fee: yes, Opening hours: 24/7",
-        "id": "Elektroauto-Ladestation_5",
+        "id": "Elektroauto-Ladestation_6",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -320,7 +364,7 @@
         "popupContent": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 2, Fee: no",
-        "id": "Elektroauto-Ladestation_6",
+        "id": "Elektroauto-Ladestation_7",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -342,7 +386,7 @@
         "popupContent": "\u00d6ffnungszeiten: 24/7",
         "popupContent_de": "\u00d6ffnungszeiten: 24/7",
         "popupContent_en": "Opening hours: 24/7",
-        "id": "Elektroauto-Ladestation_7",
+        "id": "Elektroauto-Ladestation_8",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -364,7 +408,7 @@
         "popupContent": "\u00d6ffnungszeiten: 24/7",
         "popupContent_de": "\u00d6ffnungszeiten: 24/7",
         "popupContent_en": "Opening hours: 24/7",
-        "id": "Elektroauto-Ladestation_8",
+        "id": "Elektroauto-Ladestation_9",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -386,7 +430,7 @@
         "popupContent": "\u00d6ffnungszeiten: 24/7",
         "popupContent_de": "\u00d6ffnungszeiten: 24/7",
         "popupContent_en": "Opening hours: 24/7",
-        "id": "Elektroauto-Ladestation_9",
+        "id": "Elektroauto-Ladestation_10",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -408,7 +452,7 @@
         "popupContent": "\u00d6ffnungszeiten: 24/7",
         "popupContent_de": "\u00d6ffnungszeiten: 24/7",
         "popupContent_en": "Opening hours: 24/7",
-        "id": "Elektroauto-Ladestation_10",
+        "id": "Elektroauto-Ladestation_11",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -430,7 +474,7 @@
         "popupContent": "",
         "popupContent_de": "",
         "popupContent_en": "",
-        "id": "Elektroauto-Ladestation_11",
+        "id": "Elektroauto-Ladestation_12",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -452,7 +496,7 @@
         "popupContent": "Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Fee: no",
-        "id": "Elektroauto-Ladestation_12",
+        "id": "Elektroauto-Ladestation_13",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -474,7 +518,7 @@
         "popupContent": "Stellpl\u00e4tze: 1",
         "popupContent_de": "Stellpl\u00e4tze: 1",
         "popupContent_en": "Capacity: 1",
-        "id": "Elektroauto-Ladestation_13",
+        "id": "Elektroauto-Ladestation_14",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -496,7 +540,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
-        "id": "Elektroauto-Ladestation_14",
+        "id": "Elektroauto-Ladestation_15",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -515,10 +559,32 @@
         "name_en": "Car charging station",
         "name_de": "Elektroauto-Ladestation",
         "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 4, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "Stellpl\u00e4tze: 4, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Capacity: 4, Fee: yes, Opening hours: 24/7",
+        "id": "Elektroauto-Ladestation_16",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.0333892,
+          48.5308253
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
         "popupContent": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
         "popupContent_de": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
         "popupContent_en": "Capacity: 2, Fee: yes, Opening hours: 24/7",
-        "id": "Elektroauto-Ladestation_15",
+        "id": "Elektroauto-Ladestation_17",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -540,7 +606,7 @@
         "popupContent": "Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Fee: no",
-        "id": "Elektroauto-Ladestation_16",
+        "id": "Elektroauto-Ladestation_18",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -562,7 +628,7 @@
         "popupContent": "Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Fee: no",
-        "id": "Elektroauto-Ladestation_17",
+        "id": "Elektroauto-Ladestation_19",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -584,7 +650,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
-        "id": "Elektroauto-Ladestation_18",
+        "id": "Elektroauto-Ladestation_20",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -603,10 +669,54 @@
         "name_en": "Car charging station",
         "name_de": "Elektroauto-Ladestation",
         "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Capacity: 2, Fee: yes, Opening hours: 24/7",
+        "id": "Elektroauto-Ladestation_21",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9645312,
+          48.531861
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Capacity: 2, Fee: yes, Opening hours: 24/7",
+        "id": "Elektroauto-Ladestation_22",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9656926,
+          48.5548748
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
         "popupContent": "",
         "popupContent_de": "",
         "popupContent_en": "",
-        "id": "Elektroauto-Ladestation_19",
+        "id": "Elektroauto-Ladestation_23",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -616,6 +726,116 @@
         "coordinates": [
           9.0134777,
           48.6867849
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Capacity: 2, Fee: yes, Opening hours: 24/7",
+        "id": "Elektroauto-Ladestation_24",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.962924,
+          48.5307374
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Capacity: 2, Fee: yes, Opening hours: 24/7",
+        "id": "Elektroauto-Ladestation_25",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9595171,
+          48.5704192
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Capacity: 2, Fee: yes, Opening hours: 24/7",
+        "id": "Elektroauto-Ladestation_26",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.83552,
+          48.5216617
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Capacity: 2, Fee: yes, Opening hours: 24/7",
+        "id": "Elektroauto-Ladestation_27",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8952867,
+          48.5769084
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
+        "id": "Elektroauto-Ladestation_28",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9392719,
+          48.6615638
         ]
       }
     }

@@ -85,8 +85,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.8777706,
-          48.5875056
+          8.8776164,
+          48.5876387
         ]
       }
     },
@@ -175,28 +175,6 @@
         "coordinates": [
           8.8592143,
           48.6073791
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name_en": "Bicycle repair station",
-        "name_de": "Fahrradreparaturstation",
-        "name": "Fahrradreparaturstation",
-        "popupContent": "Geb\u00fchrenpflichtig: nein, \u00d6ffnungszeiten: 24/7",
-        "popupContent_de": "Geb\u00fchrenpflichtig: nein, \u00d6ffnungszeiten: 24/7",
-        "popupContent_en": "Fee: no, Opening hours: 24/7",
-        "id": "Fahrradreparaturstation_8",
-        "icon": {
-          "id": "bikeRepIcon"
-        }
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          8.8394136,
-          48.5830068
         ]
       }
     },
@@ -339,9 +317,9 @@
         "name": "Radhof Schill",
         "name_en": "Radhof Schill",
         "name_de": "Radhof Schill",
-        "popupContent": "\u00d6ffnungszeiten: Mo-Di,Do-Fr 09:00-12:30,14:00-18:30;Mi 09:00-12:30;Sa 09:00-13:00, Barrierefrei: begrenzt",
-        "popupContent_de": "\u00d6ffnungszeiten: Mo-Di,Do-Fr 09:00-12:30,14:00-18:30;Mi 09:00-12:30;Sa 09:00-13:00, Barrierefrei: begrenzt",
-        "popupContent_en": "Opening hours: Mo-Tu,Th-Fr 09:00-12:30,14:00-18:30;We 09:00-12:30;Sa 09:00-13:00, Wheelchair: limited",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Di,Do-Fr 09:00-12:30,14:00-18:30; Mi 09:00-12:30; Sa 09:00-13:00, Telefon: +49 7032 82728, Barrierefrei: begrenzt",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Di,Do-Fr 09:00-12:30,14:00-18:30; Mi 09:00-12:30; Sa 09:00-13:00, Telefon: +49 7032 82728, Barrierefrei: begrenzt",
+        "popupContent_en": "Opening hours: Mo-Tu,Th-Fr 09:00-12:30,14:00-18:30; We 09:00-12:30; Sa 09:00-13:00, Phone: +49 7032 82728, Wheelchair: limited",
         "id": "Fahrradgesch\u00e4ft_6",
         "icon": {
           "id": "bikeShopIcon"
@@ -427,9 +405,9 @@
         "name": "Sportivo",
         "name_en": "Sportivo",
         "name_de": "Sportivo",
-        "popupContent": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; Sa 10:00-18:00, Barrierefrei: ja",
-        "popupContent_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; Sa 10:00-18:00, Barrierefrei: ja",
-        "popupContent_en": "Opening hours: Mo-Fr 10:00-19:00; Sa 10:00-18:00, Wheelchair: yes",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Fr 12:00-19:00; Sa 10:00-18:00, Barrierefrei: ja",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Fr 12:00-19:00; Sa 10:00-18:00, Barrierefrei: ja",
+        "popupContent_en": "Opening hours: Mo-Fr 12:00-19:00; Sa 10:00-18:00, Wheelchair: yes",
         "id": "Fahrradgesch\u00e4ft_10",
         "icon": {
           "id": "bikeShopIcon"
