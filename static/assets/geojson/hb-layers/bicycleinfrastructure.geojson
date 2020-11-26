@@ -181,28 +181,6 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Bicycle repair station",
-        "name_de": "Fahrradreparaturstation",
-        "name": "Fahrradreparaturstation",
-        "popupContent": "Geb\u00fchrenpflichtig: nein, \u00d6ffnungszeiten: 24/7",
-        "popupContent_de": "Geb\u00fchrenpflichtig: nein, \u00d6ffnungszeiten: 24/7",
-        "popupContent_en": "Fee: no, Opening hours: 24/7",
-        "id": "Fahrradreparaturstation_8",
-        "icon": {
-          "id": "bikeRepIcon"
-        }
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          8.8394136,
-          48.5830068
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "name": "Fahrrad Kaiser",
         "name_en": "Fahrrad Kaiser",
         "name_de": "Fahrrad Kaiser",
