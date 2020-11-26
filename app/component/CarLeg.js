@@ -96,9 +96,14 @@ function CarLeg(props, context) {
             <button
               className="standalone-btn cursor-pointer carpool-offer-btn"
               onClick={() => {
-                replaceQueryParams(context.router, {
-                  useCarParkAvailabilityInformation: true,
-                });
+                replaceQueryParams(
+                  context.router,
+                  context.match,
+                  {
+                    useCarParkAvailabilityInformation: true,
+                  },
+                  context.executeAction,
+                );
               }}
             >
               <FormattedMessage id="car-park-full" />
@@ -164,6 +169,9 @@ CarLeg.propTypes = {
 CarLeg.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
+  router: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  executeAction: PropTypes.func.isRequired,
 };
 
 export default CarLeg;
