@@ -237,6 +237,21 @@ const withRelay = createFragmentContainer(ItineraryTab, {
               alertSeverityLevel
               effectiveEndDate
               effectiveStartDate
+              trip {
+                pattern {
+                  code
+                }
+              }
+              alertHeaderText
+              alertHeaderTextTranslations {
+                text
+                language
+              }
+              alertUrl
+              alertUrlTranslations {
+                text
+                language
+              }
             }
           }
         }
@@ -261,6 +276,24 @@ const withRelay = createFragmentContainer(ItineraryTab, {
               alertSeverityLevel
               effectiveEndDate
               effectiveStartDate
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+              trip {
+                pattern {
+                  code
+                }
+              }
+              alertHeaderText
+              alertHeaderTextTranslations {
+                text
+                language
+              }
+              alertUrl
+              alertUrlTranslations {
+                text
+                language
+              }
             }
           }
           bikePark {
@@ -286,6 +319,21 @@ const withRelay = createFragmentContainer(ItineraryTab, {
               alertSeverityLevel
               effectiveEndDate
               effectiveStartDate
+              trip {
+                pattern {
+                  code
+                }
+              }
+              alertHeaderText
+              alertHeaderTextTranslations {
+                text
+                language
+              }
+              alertUrl
+              alertUrlTranslations {
+                text
+                language
+              }
             }
           }
         }
@@ -316,6 +364,21 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             alertSeverityLevel
             effectiveEndDate
             effectiveStartDate
+            trip {
+              pattern {
+                code
+              }
+            }
+            alertHeaderText
+            alertHeaderTextTranslations {
+              text
+              language
+            }
+            alertUrl
+            alertUrlTranslations {
+              text
+              language
+            }
           }
         }
         trip {
