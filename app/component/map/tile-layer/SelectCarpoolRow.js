@@ -26,5 +26,5 @@ export default function SelectCarpoolRow(props) {
 
 SelectCarpoolRow.propTypes = {
   selectRow: PropTypes.func.isRequired,
-  properties: PropTypes.instanceOf(Object).isRequired,
+  properties: PropTypes.object.isRequired,
 };

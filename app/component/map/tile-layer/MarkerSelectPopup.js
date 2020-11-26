@@ -8,6 +8,7 @@ import SelectParkAndRideRow from './SelectParkAndRideRow';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import { options } from '../../ExampleData';
 import SelectCarpoolRow from './SelectCarpoolRow';
+import SelectDynamicParkingLotsRow from './SelectDynamicParkingLotsRow';
 
 function MarkerSelectPopup(props) {
   const rows = props.options.map(option => {
@@ -24,7 +25,11 @@ function MarkerSelectPopup(props) {
         />
       );
     }
-    if (option.layer === 'stop') {
+    if (
+      option.layer === 'stop' &&
+      (option.feature.properties.name.indexOf('P+M') !== -1 ||
+        option.feature.properties.type !== 'CARPOOL')
+    ) {
       return (
         <SelectStopRow
           gtfsId={option.feature.properties.gtfsId}
@@ -57,6 +62,15 @@ function MarkerSelectPopup(props) {
     if (option.layer === 'carpool') {
       return (
         <SelectCarpoolRow
+          {...option.feature}
+          key={option.feature.properties.name}
+          selectRow={() => props.selectRow(option)}
+        />
+      );
+    }
+    if (option.layer === 'dynamicParkingLots') {
+      return (
+        <SelectDynamicParkingLotsRow
           {...option.feature}
           key={option.feature.properties.name}
           selectRow={() => props.selectRow(option)}
