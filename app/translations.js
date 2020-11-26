@@ -940,7 +940,7 @@ const translations = {
     'canceled-legs': 'Canceled departures on the route',
     car: 'Car',
     'car-distance-duration': 'Drive {distance} ({duration})',
-    'car-park-full': 'Exclude full car parks',
+    'car-park-full': 'Exclude car parks with few spaces',
     car_park: 'Park & ride',
     carpool: 'Carpool',
     'carpool-with-route-number': 'Carpool route {routeNumber} to {headsign}',
