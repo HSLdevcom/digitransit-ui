@@ -11,7 +11,11 @@ import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import {replaceQueryParams, clearQueryParams, getMapMode} from '../util/queryUtils';
+import {
+  replaceQueryParams,
+  clearQueryParams,
+  getMapMode,
+} from '../util/queryUtils';
 import { MapMode } from '../constants';
 import { setMapMode } from '../action/MapModeActions';
 
@@ -179,6 +183,16 @@ class SelectMapLayersDialog extends React.Component {
               }}
             />
           )}
+          {isTransportModeEnabled(transportModes.carpool) && (
+            <Checkbox
+              checked={terminal.carpool}
+              defaultMessage="Carpool stops"
+              labelId="map-layer-carpool"
+              onChange={e =>
+                this.updateStopAndTerminalSetting({ carpool: e.target.checked })
+              }
+            />
+          )}
           {isTransportModeEnabled(transportModes.ferry) && (
             <Checkbox
               checked={stop.ferry}
@@ -222,16 +236,7 @@ class SelectMapLayersDialog extends React.Component {
                 }
               />
             )}
-          {isTransportModeEnabled(transportModes.carpool) && (
-            <Checkbox
-              checked={terminal.carpool}
-              defaultMessage="Carpool stops"
-              labelId="map-layer-carpool"
-              onChange={e =>
-                this.updateStopAndTerminalSetting({ carpool: e.target.checked })
-              }
-            />
-          )}
+
           {config.parkAndRide && config.parkAndRide.showParkAndRide && (
             <Checkbox
               checked={parkAndRide}
