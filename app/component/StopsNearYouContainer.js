@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createPaginationContainer, graphql } from 'react-relay';
 import { intlShape, FormattedMessage } from 'react-intl';
+import { indexOf } from 'lodash-es';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape } from 'found';
 import StopNearYou from './StopNearYou';
