@@ -1,9 +1,11 @@
-.offcanvas {
-  width: 400px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow-y: hidden;
+.desktop {
+  .offcanvas {
+    width: 400px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: hidden;
+  }
 }
 
 .offcanvas-mobile {
