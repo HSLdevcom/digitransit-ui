@@ -149,6 +149,7 @@ function ItineraryPageMap(
       boundsOptions={{ maxZoom: 16 }}
       showScaleBar={showScale}
       hideOrigin
+      locationPopup="all"
     >
       <BackButton
         icon="icon-icon_arrow-collapse--left"
