@@ -11,24 +11,27 @@ import {
 import ComponentUsageExample from './ComponentUsageExample';
 import { station as exampleStation, lang as exampleLang } from './ExampleData';
 
-const CityBikeContent = ({ station, lang }, { config }) => (
+const CityBikeContent = ({ station, lang, type }, { config }) => (
   <div className="city-bike-container">
-    {station.state !== BIKESTATION_ON ? (
+    {station.state !== BIKESTATION_ON && (
       <p className="sub-header-h4 availability-header">
         <FormattedMessage
           id="citybike_off"
           defaultMessage="Bike station closed"
         />
       </p>
-    ) : (
-      <CityBikeAvailability
-        bikesAvailable={station.bikesAvailable}
-        totalSpaces={station.bikesAvailable + station.spacesAvailable}
-        fewAvailableCount={config.cityBike.fewAvailableCount}
-        type={getCityBikeType(station.networks, config)}
-        useSpacesAvailable={config.cityBike.useSpacesAvailable}
-      />
     )}
+    {station.state === BIKESTATION_ON &&
+      type !== 'taxi' &&
+      type !== 'car-sharing' && (
+        <CityBikeAvailability
+          bikesAvailable={station.bikesAvailable}
+          totalSpaces={station.bikesAvailable + station.spacesAvailable}
+          fewAvailableCount={config.cityBike.fewAvailableCount}
+          type={getCityBikeType(station.networks, config)}
+          useSpacesAvailable={config.cityBike.useSpacesAvailable}
+        />
+      )}
     {config.transportModes.citybike.availableForSelection &&
       getCityBikeUrl(station.networks, lang, config) && (
         <CityBikeUse
@@ -63,6 +66,7 @@ CityBikeContent.description = () => (
 CityBikeContent.propTypes = {
   station: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 CityBikeContent.contextTypes = {

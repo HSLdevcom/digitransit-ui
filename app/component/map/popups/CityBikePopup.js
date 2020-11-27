@@ -39,6 +39,7 @@ class CityBikePopup extends React.Component {
           <CityBikeContent
             lang={this.context.getStore('PreferencesStore').getLanguage()}
             station={this.props.station}
+            type={this.props.station.networks[0]}
           />
         </CityBikeCardContainer>
         <MarkerPopupBottom

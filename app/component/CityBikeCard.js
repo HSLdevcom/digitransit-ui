@@ -37,7 +37,7 @@ const CityBikeCard = (
       <CardHeader
         description={description}
         icon={getCityBikeNetworkIcon(networkConfig)}
-        name={station.name}
+        stop={station}
         unlinked
       />
       {children}
