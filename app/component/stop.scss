@@ -318,7 +318,7 @@
       .route-time {
           font-size: $font-size-small;
           font-weight: $font-weight-medium;
-          color: $realtime-color;
+          color: #333;
           &.realtime {
             color: $realtime-color;
           }
