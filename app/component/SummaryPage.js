@@ -1088,6 +1088,7 @@ class SummaryPage extends React.Component {
         $transferPenalty: Int
         $bikeSpeed: Float
         $optimize: OptimizeType
+        $triangle: InputTriangle
         $itineraryFiltering: Float
         $unpreferred: InputUnpreferred
         $allowedBikeRentalNetworks: [String]
@@ -1113,6 +1114,7 @@ class SummaryPage extends React.Component {
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
           optimize: $optimize
+          triangle: $triangle
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
           allowedBikeRentalNetworks: $allowedBikeRentalNetworks
@@ -1284,6 +1286,7 @@ class SummaryPage extends React.Component {
         $transferPenalty: Int
         $bikeSpeed: Float
         $optimize: OptimizeType
+        $triangle: InputTriangle
         $itineraryFiltering: Float
         $unpreferred: InputUnpreferred
         $allowedBikeRentalNetworks: [String]
@@ -1309,6 +1312,7 @@ class SummaryPage extends React.Component {
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
           optimize: $optimize
+          triangle: $triangle
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
           allowedBikeRentalNetworks: $allowedBikeRentalNetworks
