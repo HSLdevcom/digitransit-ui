@@ -3,6 +3,7 @@
 import Store from 'fluxible/addons/BaseStore';
 import { addFutureRoute } from '@digitransit-store/digitransit-store-future-route';
 import { getFutureRoutesStorage, setFutureRoutesStorage } from './localStorage';
+import { PREFIX_ITINERARY_SUMMARY } from '../util/path';
 
 class FutureRouteStore extends Store {
   static storeName = 'FutureRouteStore';
@@ -23,7 +24,9 @@ class FutureRouteStore extends Store {
   }
 
   saveFutureRoute(route) {
-    const storage = addFutureRoute(route, this.getFutureRoutes());
+    const storage = addFutureRoute(route, this.getFutureRoutes(), {
+      itinerarySummaryPrefix: PREFIX_ITINERARY_SUMMARY,
+    });
     setFutureRoutesStorage(storage);
     this.emitChange();
   }

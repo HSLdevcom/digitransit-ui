@@ -3,8 +3,6 @@ import React from 'react';
 import moment from 'moment-timezone';
 import styles from './styles.scss';
 
-moment.tz.setDefault('Europe/Helsinki');
-
 /**
  * Component to display a date input on mobile
  */
@@ -18,7 +16,9 @@ function MobileDatepicker({
   label,
   icon,
   dateTimeCombined,
+  timeZone,
 }) {
+  moment.tz.setDefault(timeZone);
   const startFormatted = moment(startTime).format('YYYY-MM-DD');
   const endFormatted = moment(startTime)
     .add(itemCount, 'day')
@@ -83,11 +83,13 @@ MobileDatepicker.propTypes = {
   label: PropTypes.string.isRequired,
   icon: PropTypes.node,
   dateTimeCombined: PropTypes.bool,
+  timeZone: PropTypes.string,
 };
 
 MobileDatepicker.defaultProps = {
   icon: null,
   dateTimeCombined: false,
+  timeZone: 'Europe/Helsinki',
 };
 
 export default MobileDatepicker;

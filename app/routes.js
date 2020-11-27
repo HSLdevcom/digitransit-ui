@@ -123,78 +123,29 @@ export default config => {
           ),
         }}
       </Route>
-      <Route path={`/${PREFIX_NEARYOU}/:mode/:place/:origin?`}>
-        {{
-          title: (
-            <Route
-              path="(.*)?"
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "itinerary" */ './component/BackButton'
-                ).then(getDefault)
-              }
-            />
-          ),
-          content: isBrowser ? (
-            <Route
-              path="(.*)?"
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "nearyou" */ './component/StopsNearYouPage'
-                ).then(getDefault)
-              }
-              render={({ Component, props, error, match }) => {
-                if (Component) {
-                  return props ? (
-                    <Component
-                      {...props}
-                      match={match}
-                      error={error}
-                      loadingPosition={false}
-                    />
-                  ) : (
-                    <Component match={match} loadingPosition error={error} />
-                  );
-                }
-                return undefined;
-              }}
-            >
-              {{
-                content: (
-                  <Route
-                    getComponent={() =>
-                      import(
-                        /* webpackChunkName: "nearyou" */ './component/StopsNearYouContainer.js'
-                      ).then(getDefault)
-                    }
-                    render={getComponentOrLoadingRenderer}
-                  />
-                ),
-                map: (
-                  <Route
-                    // disableMapOnMobile
-                    getComponent={() =>
-                      import(
-                        /* webpackChunkName: "nearyou" */ './component/map/StopsNearYouMap.js'
-                      ).then(getDefault)
-                    }
-                    render={getComponentOrNullRenderer}
-                  />
-                ),
-              }}
-            </Route>
-          ) : (
-            <Route
-              path="(.*)?"
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "nearyou" */ './component/Loading'
-                ).then(getDefault)
-              }
-            />
-          ),
+      <Route
+        path={`/${PREFIX_NEARYOU}/:mode/:place/:origin?`}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "nearyou" */ './component/StopsNearYouPage'
+          ).then(getDefault)
+        }
+        render={({ Component, props, error, match }) => {
+          if (Component) {
+            return props ? (
+              <Component
+                {...props}
+                match={match}
+                error={error}
+                loadingPosition={false}
+              />
+            ) : (
+              <Component match={match} loadingPosition error={error} />
+            );
+          }
+          return undefined;
         }}
-      </Route>
+      />
       <Redirect
         from={`/${PREFIX_ITINERARY_SUMMARY}/:from`}
         to={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/:from`}

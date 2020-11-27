@@ -16,7 +16,7 @@ import {
   getLegBadgeProps,
   isCallAgencyPickupType,
 } from '../util/legUtils';
-import { sameDay, dateOrEmpty } from '../util/timeUtils';
+import { dateOrEmpty, isTomorrow } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import {
@@ -477,7 +477,7 @@ const SummaryRow = (
             id="itinerary-summary-row.first-leg-start-time-citybike"
             values={{
               firstDepartureTime: (
-                <span className="first-leg-start-time-green">
+                <span className={cx({ realtime: firstDeparture.realTime })}>
                   <LocalTime time={firstDeparture.startTime} />
                 </span>
               ),
@@ -503,7 +503,7 @@ const SummaryRow = (
             id="itinerary-summary-row.first-leg-start-time"
             values={{
               firstDepartureTime: (
-                <span className="first-leg-start-time-green">
+                <span className={cx({ realtime: firstDeparture.realTime })}>
                   <LocalTime time={firstDeparture.startTime} />
                 </span>
               ),
@@ -597,6 +597,23 @@ const SummaryRow = (
     },
     { number: props.hash + 1 },
   );
+
+  const dateString = dateOrEmpty(startTime, refTime);
+  const date = (
+    <>
+      {dateString}
+      <span> </span>
+      {dateString && <FormattedMessage id="at-time" />}
+    </>
+  );
+
+  const startDate = isTomorrow(startTime, refTime) ? (
+    <div className="tomorrow">
+      <FormattedMessage id="tomorrow" />
+    </div>
+  ) : (
+    date
+  );
   return (
     <span role="listitem" className={classes} aria-atomic="true">
       <h3 className="sr-only">
@@ -644,13 +661,9 @@ const SummaryRow = (
                 key="startTime"
                 aria-hidden="true"
               >
-                <span
-                  className={cx('itinerary-start-date', {
-                    nobg: sameDay(startTime, refTime),
-                  })}
-                >
-                  <span>{dateOrEmpty(startTime, refTime)}</span>
-                </span>
+                {startDate && (
+                  <div className="itinerary-start-date">{startDate}</div>
+                )}
                 <div className="itinerary-start-time-and-end-time">
                   {itineraryStartAndEndTime}
                 </div>
