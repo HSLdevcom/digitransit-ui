@@ -177,6 +177,7 @@ class Map extends React.Component {
     if (!this.props.originFromMap && !this.props.destinationFromMap) {
       leafletObjs.push(
         <VectorTileLayerContainer
+          key={mapUrls.join('_')}
           hilightedStops={this.props.hilightedStops}
           stopsNearYouMode={this.props.stopsNearYouMode}
           showStops={this.props.showStops}
