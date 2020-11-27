@@ -163,6 +163,7 @@ class IndexPage extends React.Component {
       'CurrentPosition',
       'FutureRoutes',
       'SelectFromOwnLocations',
+      'Stops',
     ];
     const stopAndRouteSearchTargets =
       this.context.config.cityBike && this.context.config.cityBike.showCityBikes
