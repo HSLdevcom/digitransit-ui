@@ -188,7 +188,13 @@ export default configMerger(walttiConfig, {
         showLayerSelector: true, // DT-3470
         showStopMarkerPopupOnMobile: false, // DT-3470
         showScaleBar: true, // DT-3470, DT-3397
-
+        genericMarker: {
+            popup: {
+                offset: [0,0],
+                maxWidth: 250,
+                minWidth: 250,
+            }
+        },
         attribution: {
             'default': '© <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, <a tabindex=-1 href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>Datensätze der NVBW GmbH</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>',
             'satellite': '© <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href="https://www.lgl-bw.de/">LGL BW</a>, <a tabindex=-1 href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>Datensätze der NVBW GmbH</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>',

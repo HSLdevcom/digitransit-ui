@@ -17,6 +17,7 @@ const CardHeader = (
     headerIcon,
     headingStyle,
     stop,
+    name,
     description,
     code,
     externalLink,
@@ -52,6 +53,7 @@ const CardHeader = (
         <div className="card-header-wrapper">
           <span className={headingStyle || 'h4'}>
             {stop.name}
+            {name}
             {externalLink || null}
             {headerIcon}
             {unlinked ? null : <span className="link-arrow"> ›</span>}
@@ -128,12 +130,14 @@ CardHeader.propTypes = {
   backButtonColor: PropTypes.string, // DT-3472
   headerConfig: PropTypes.object,
   favouriteContainer: PropTypes.element,
+  name: PropTypes.string,
 };
 
 CardHeader.defaultProps = {
   headerIcon: undefined,
   stop: {},
   favouriteContainer: undefined,
+  name: '',
 };
 
 CardHeader.contextTypes = {

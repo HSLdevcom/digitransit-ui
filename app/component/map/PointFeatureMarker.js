@@ -115,9 +115,32 @@ const PointFeatureMarker = ({ feature, icons, language }) => {
 
   const { icon } = properties;
   const header = getPropertyValueOrDefault(properties, 'name', language);
-  const address = getPropertyValueOrDefault(properties, 'address', language);
+
+  const popupContent = getPropertyValueOrDefault(
+    properties,
+    'popupContent',
+    language,
+  );
+  // use header as fallback, so address won't be undefined
+  const address = getPropertyValueOrDefault(
+    properties,
+    'address',
+    language,
+    header,
+  );
+
   const city = getPropertyValueOrDefault(properties, 'city', language);
-  const description = city ? `${address}, ${city}` : address;
+
+  let description = null;
+  // Only display address field as description if it is a real address + add city if exists.
+  if (address !== header && city) {
+    description = `${address}, ${city}`;
+  } else if (address !== header) {
+    description = address;
+  } else if (city) {
+    description = city;
+  }
+
   const useDescriptionAsHeader = !header;
 
   const hasCustomIcon = icon && icon.id && icons[icon.id];
@@ -146,6 +169,7 @@ const PointFeatureMarker = ({ feature, icons, language }) => {
             name={useDescriptionAsHeader ? description : header}
             unlinked
           />
+          {popupContent && <div className="card-text">{popupContent}</div>}
         </div>
       </Card>
       <MarkerPopupBottom
