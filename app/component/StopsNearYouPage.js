@@ -147,7 +147,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     return {
       lat,
       lon,
-      maxResults: this.context.config.maxNearbyStopAmount,
+      maxResults: 2000,
       first: this.context.config.maxNearbyStopAmount,
       maxDistance: this.context.config.maxNearbyStopDistance,
       filterByModes: modes,
