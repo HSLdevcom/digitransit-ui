@@ -29,7 +29,7 @@ $offcanvas-link-text-font-size: 15px;
 /* Content */
 $content-background-color: $background-color;
 
-#mainContent {
+#mainContent .desktop {
   // so that the layer selector bubble doesn't cause scroll bars
   overflow: hidden;
 }
