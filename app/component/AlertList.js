@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -37,20 +38,18 @@ const AlertList = ({
     );
   }
 
-  let listWrapper = 'route-alerts-list-wrapper';
-  if (breakpoint === 'large') {
-    listWrapper += ' bp-large';
-  }
-
-  const list = 'route-alerts-list';
-  if (!disableScrolling) {
-    listWrapper += ' momentum-scroll';
-  }
-
   return (
     <div className="route-alerts-content-wrapper">
-      <div className={listWrapper}>
-        <div className={list}>
+      <div
+        className={cx('route-alerts-list-wrapper', {
+          'bp-large': breakpoint === 'large',
+        })}
+      >
+        <div
+          className={cx('route-alerts-list', {
+            'momentum-scroll': !disableScrolling,
+          })}
+        >
           {groupedAlerts.map(
             (
               {

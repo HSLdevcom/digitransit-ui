@@ -8,6 +8,7 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import keyBy from 'lodash/keyBy';
 import sortBy from 'lodash/sortBy';
 
+import cx from 'classnames';
 import RouteScheduleHeader from './RouteScheduleHeader';
 import RouteScheduleTripRow from './RouteScheduleTripRow';
 import DateSelect from './DateSelect';
@@ -208,11 +209,6 @@ class RouteScheduleContainer extends Component {
         this.props.pattern.route,
       );
 
-    let listWrapper = 'route-schedule-list-wrapper';
-    if (this.props.breakpoint === 'large') {
-      listWrapper += ' bp-large';
-    }
-
     return (
       <div className="route-schedule-content-wrapper">
         <div className="route-page-action-bar">
@@ -256,7 +252,11 @@ class RouteScheduleContainer extends Component {
             />
           </div>
         </div>
-        <div className={listWrapper}>
+        <div
+          className={cx('route-alerts-list-wrapper', {
+            'bp-large': this.props.breakpoint === 'large',
+          })}
+        >
           <RouteScheduleHeader
             stops={this.props.pattern.stops}
             from={this.state.from}
