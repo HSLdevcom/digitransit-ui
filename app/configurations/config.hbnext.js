@@ -56,6 +56,10 @@ export default configMerger(walttiConfig, {
     optimize: "QUICK",
 
     defaultSettings: {
+        optimize: "TRIANGLE",
+        safetyFactor: 0.4,
+        slopeFactor: 0.3,
+        timeFactor: 0.3,
     },
 
     itinerary: {
