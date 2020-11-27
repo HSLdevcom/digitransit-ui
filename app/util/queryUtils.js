@@ -173,6 +173,7 @@ export const planQuery = graphql`
     $transferPenalty: Int
     $bikeSpeed: Float
     $optimize: OptimizeType
+    $triangle: InputTriangle
     $itineraryFiltering: Float
     $unpreferred: InputUnpreferred
     $allowedBikeRentalNetworks: [String]
@@ -200,6 +201,7 @@ export const planQuery = graphql`
         transferPenalty: $transferPenalty
         bikeSpeed: $bikeSpeed
         optimize: $optimize
+        triangle: $triangle
         itineraryFiltering: $itineraryFiltering
         unpreferred: $unpreferred
         allowedBikeRentalNetworks: $allowedBikeRentalNetworks

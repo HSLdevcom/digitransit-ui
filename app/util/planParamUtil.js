@@ -245,7 +245,14 @@ export const preparePlanParams = config => (
         wheelchair,
         transferPenalty: config.transferPenalty,
         bikeSpeed: settings.bikeSpeed,
-        optimize: config.optimize,
+        optimize: settings.includeBikeSuggestions
+          ? config.defaultSettings.optimize
+          : config.optimize,
+        triangle: {
+          safetyFactor: config.defaultSettings.safetyFactor,
+          slopeFactor: config.defaultSettings.slopeFactor,
+          timeFactor: config.defaultSettings.timeFactor,
+        },
         itineraryFiltering: config.itineraryFiltering,
         unpreferred: {
           useUnpreferredRoutesPenalty: config.useUnpreferredRoutesPenalty,

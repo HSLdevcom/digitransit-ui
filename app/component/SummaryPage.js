@@ -556,6 +556,7 @@ class SummaryPage extends React.Component {
         $transferPenalty: Int
         $bikeSpeed: Float
         $optimize: OptimizeType
+        $triangle: InputTriangle
         $itineraryFiltering: Float
         $unpreferred: InputUnpreferred
         $locale: String
@@ -611,6 +612,7 @@ class SummaryPage extends React.Component {
           arriveBy: $arriveBy
           bikeSpeed: $bikeSpeed
           optimize: $optimize
+          triangle: $triangle
           locale: $locale
         ) @include(if: $shouldMakeBikeQuery) {
           ...SummaryPlanContainer_plan
@@ -651,6 +653,7 @@ class SummaryPage extends React.Component {
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
           optimize: $optimize
+          triangle: $triangle
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
           locale: $locale
@@ -707,6 +710,7 @@ class SummaryPage extends React.Component {
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
           optimize: $optimize
+          triangle: $triangle
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
           locale: $locale
@@ -768,6 +772,7 @@ class SummaryPage extends React.Component {
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
           optimize: $optimize
+          triangle: $triangle
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
           locale: $locale
@@ -834,6 +839,7 @@ class SummaryPage extends React.Component {
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
           optimize: $optimize
+          triangle: $triangle
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
           locale: $locale
@@ -2739,6 +2745,7 @@ const containerComponent = createRefetchContainer(
         transferPenalty: { type: "Int" }
         bikeSpeed: { type: "Float" }
         optimize: { type: "OptimizeType" }
+        triangle: { type: "InputTriangle" }
         itineraryFiltering: { type: "Float" }
         unpreferred: { type: "InputUnpreferred" }
         allowedBikeRentalNetworks: { type: "[String]" }
@@ -2766,6 +2773,7 @@ const containerComponent = createRefetchContainer(
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
           optimize: $optimize
+          triangle: $triangle
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
           allowedBikeRentalNetworks: $allowedBikeRentalNetworks
