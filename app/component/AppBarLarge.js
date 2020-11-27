@@ -101,24 +101,28 @@ const AppBarLarge = (
           ))}
 
         <div className="navi-info right-border navi-margin">
-          <ul>{config.footer.content.map(i => buildInfoItem(i, intl, router))}</ul>
+          <ul>
+            {config.footer.content.map(i => buildInfoItem(i, intl, router))}
+          </ul>
         </div>
 
         <div className="navi-languages right-border navi-margin">
           <LangSelect />
         </div>
-        <div className="navi-icons navi-margin padding-horizontal-large">
-          <a
-            className="noborder"
-            onClick={openDisruptionInfo}
-            aria-label={intl.formatMessage({
-              id: 'disruptions',
-              defaultMessage: 'Disruptions',
-            })}
-          >
-            <Icon img="icon-icon_caution" className="caution-topbar" />
-          </a>
-        </div>
+        {config.mainMenu.showDisruptions && (
+          <div className="navi-icons navi-margin padding-horizontal-large">
+            <a
+              className="noborder"
+              onClick={openDisruptionInfo}
+              aria-label={intl.formatMessage({
+                id: 'disruptions',
+                defaultMessage: 'Disruptions',
+              })}
+            >
+              <Icon img="icon-icon_caution" className="caution-topbar" />
+            </a>
+          </div>
+        )}
         <div className="padding-horizontal-large navi-margin">
           <ExternalLink
             className="external-top-bar"

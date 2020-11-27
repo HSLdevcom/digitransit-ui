@@ -44,6 +44,10 @@ export default configMerger(walttiConfig, {
         }/place`,
     },
 
+    mainMenu: {
+        showDisruptions: false,
+    },
+
     availableLanguages: ['de', 'en'],
     defaultLanguage: 'de',
 
