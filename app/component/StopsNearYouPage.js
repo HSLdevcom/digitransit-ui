@@ -378,7 +378,11 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         appElement="#app"
         icon="search"
         sources={['History', 'Datasource', isMobile ? 'Favourite' : '']}
-        targets={['Locations', !isMobile ? 'SelectFromOwnLocations' : '']}
+        targets={[
+          'Locations',
+          !isMobile ? 'SelectFromOwnLocations' : '',
+          'Stops',
+        ]}
         id="origin-stop-near-you"
         placeholder="origin"
         value=""
