@@ -368,6 +368,16 @@ const containerComponent = createFragmentContainer(
             agency {
               name
             }
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+              trip {
+                pattern {
+                  code
+                }
+              }
+            }
           }
           trip {
             pattern {

@@ -3,13 +3,16 @@
   "version": "0.2.2",
   "description": "digitransit-component control-panel module",
   "main": "lib/index.js",
+  "files": [
+    "/lib"
+  ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build:index": "ENV=production webpack --config webpack.config.babel.js && yarn run docs",
+    "build:index": "ENV=production NAME=digitransit-component-control-panel webpack --config ../webpack.config.babel.js && yarn run docs",
     "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties,@babel/plugin-proposal-numeric-separator --out-file test.generated",
-    "watch": "ENV=development webpack --watch --config webpack.config.babel.js",
+    "watch": "ENV=development NAME=digitransit-component-control-panel webpack --watch --config ../webpack.config.babel.js",
     "clean": "rm -rf ./lib ./node_modules",
     "test": "mocha -r esm test.generated",
     "docs": "node -r esm ../../scripts/generate-readmes"
@@ -25,10 +28,10 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@digitransit-component/digitransit-component-icon": "0.0.14",
-    "@hsl-fi/sass": "~0.1.1"
+    "@digitransit-component/digitransit-component-icon": "0.0.14"
   },
   "peerDependencies": {
+    "@hsl-fi/sass": "~0.1.1",
     "i18next": "^19.3.3",
     "prop-types": "^15.7.2",
     "react": "^16.13.0"

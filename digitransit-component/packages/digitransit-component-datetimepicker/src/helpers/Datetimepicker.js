@@ -13,7 +13,6 @@ import styles from './styles.scss';
 import { isMobile, isAndroid } from './mobileDetection';
 import dateTimeInputIsSupported from './dateTimeInputIsSupported';
 
-moment.tz.setDefault('Europe/Helsinki');
 moment.locale('en');
 i18next.init({ lng: 'en', resources: {} });
 Object.keys(translations).forEach(lang =>
@@ -59,7 +58,10 @@ function Datetimepicker({
   embedWhenClosed,
   lang,
   color,
+  timeZone,
 }) {
+  moment.tz.setDefault(timeZone);
+
   const [isOpen, changeOpen] = useState(false);
   const [displayTimestamp, changeDisplayTimestamp] = useState(
     timestamp || moment().valueOf(),
@@ -364,6 +366,7 @@ function Datetimepicker({
                       </span>
                     }
                     dateTimeCombined={useDateTimeCombined}
+                    timeZone={timeZone}
                   />
                 </span>
                 <span
@@ -383,6 +386,7 @@ function Datetimepicker({
                       </span>
                     }
                     dateTimeCombined={useDateTimeCombined}
+                    timeZone={timeZone}
                   />
                 </span>
               </>
@@ -407,6 +411,7 @@ function Datetimepicker({
                     id={`${htmlId}-date`}
                     label={i18next.t('date', translationSettings)}
                     disableTyping
+                    timeZone={timeZone}
                   />
                 </span>
                 <span>
@@ -427,6 +432,7 @@ function Datetimepicker({
                     }
                     id={`${htmlId}-time`}
                     label={i18next.t('time', translationSettings)}
+                    timeZone={timeZone}
                   />
                 </span>
               </>
@@ -440,6 +446,7 @@ function Datetimepicker({
 
 Datetimepicker.propTypes = {
   timestamp: PropTypes.number,
+  timeZone: PropTypes.string,
   onTimeChange: PropTypes.func.isRequired,
   onDateChange: PropTypes.func.isRequired,
   departureOrArrival: PropTypes.oneOf(['departure', 'arrival']).isRequired,
@@ -455,6 +462,7 @@ Datetimepicker.defaultProps = {
   timestamp: null,
   embedWhenClosed: null,
   color: '#007ac9',
+  timeZone: 'Europe/Helsinki',
 };
 
 export default Datetimepicker;

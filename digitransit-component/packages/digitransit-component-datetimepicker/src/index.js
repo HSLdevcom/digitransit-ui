@@ -4,8 +4,6 @@ import moment from 'moment-timezone';
 import debounce from 'lodash/debounce';
 import Datetimepicker from './helpers/Datetimepicker';
 
-moment.tz.setDefault('Europe/Helsinki');
-
 /**
  * This component renders an input to choose a date and time. Renders separate input fields for date and time selection. Values for timestamp and arriveBy correspond to Digitransit query params time and arriveBy. This component will display a native date input on mobile and a custom one for desktop. Mobile detection is done by parsing user agent.
  *
@@ -50,7 +48,9 @@ function DatetimepickerStateContainer({
   embedWhenClosed,
   lang,
   color,
+  timeZone,
 }) {
+  moment.tz.setDefault(timeZone);
   const initialNow = realtime ? null : moment().valueOf();
   const [timestamp, changeTimestampState] = useState(
     initialTimestamp ? initialTimestamp * 1000 : initialNow,
@@ -160,6 +160,7 @@ function DatetimepickerStateContainer({
       embedWhenClosed={embedWhenClosed}
       lang={lang}
       color={color}
+      timeZone={timeZone}
     />
   );
 }
@@ -176,6 +177,7 @@ DatetimepickerStateContainer.propTypes = {
   embedWhenClosed: PropTypes.node,
   lang: PropTypes.string,
   color: PropTypes.string,
+  timeZone: PropTypes.string,
 };
 
 DatetimepickerStateContainer.defaultProps = {
@@ -185,6 +187,7 @@ DatetimepickerStateContainer.defaultProps = {
   embedWhenClosed: null,
   lang: 'en',
   color: '#007ac9',
+  timeZone: 'Europe/Helsinki',
 };
 
 export default DatetimepickerStateContainer;

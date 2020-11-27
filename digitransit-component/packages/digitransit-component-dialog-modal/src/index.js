@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import i18next from 'i18next';
-import Modal from '@hsl-fi/modal';
+import loadable from '@loadable/component';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
+
+const Modal = loadable(() => import('@hsl-fi/modal'));
 
 i18next.init({ lng: 'fi', resources: {} });
 
