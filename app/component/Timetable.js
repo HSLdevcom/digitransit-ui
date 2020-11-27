@@ -261,11 +261,13 @@ class Timetable extends React.Component {
           />
         ) : null}
         <div className="timetable-topbar">
-          <TimeTableOptionsPanel
-            showRoutes={this.state.showRoutes}
-            showFilterModal={this.showModal}
-            stop={this.props.stop}
-          />
+          {this.context.config.showTimeTableOptions && (
+            <TimeTableOptionsPanel
+              showRoutes={this.state.showRoutes}
+              showFilterModal={this.showModal}
+              stop={this.props.stop}
+            />
+          )}
           <StopPageActionBar
             startDate={this.props.propsForStopPageActionBar.startDate}
             selectedDate={this.props.propsForStopPageActionBar.selectedDate}
