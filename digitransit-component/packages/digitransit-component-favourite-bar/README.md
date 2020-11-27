@@ -71,6 +71,10 @@ Optional. Language, fi, en or sv.
 
 Optional. Whether to show loading animation, true or false.
 
+## color
+
+Optional. Default value is '#007ac9'.
+
 [1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 
 [2]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
