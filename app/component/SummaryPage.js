@@ -1974,13 +1974,13 @@ class SummaryPage extends React.Component {
         bikeParkPlan.itineraries.length,
         3,
       );
-    } else if (this.state.streetMode === 'car') {
+    } else if (this.props.match.params.hash === 'car') {
       this.stopClient();
       if (!carPlan) {
         return <Loading />;
       }
       this.selectedPlan = carPlan;
-    } else if (this.state.streetMode === 'parkAndRide') {
+    } else if (this.props.match.params.hash === 'parkAndRide') {
       this.stopClient();
       if (!parkRidePlan) {
         return <Loading />;
@@ -2060,7 +2060,9 @@ class SummaryPage extends React.Component {
     const showStreetModeSelector =
       (showWalkOptionButton ||
         showBikeOptionButton ||
-        showBikeAndPublicOptionButton) &&
+        showBikeAndPublicOptionButton ||
+        showCarOptionButton ||
+        showParkRideOptionButton) &&
       this.props.match.params.hash !== 'bikeAndVehicle';
 
     const hasItineraries =
