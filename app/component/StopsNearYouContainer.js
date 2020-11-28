@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createPaginationContainer, graphql } from 'react-relay';
 import { intlShape, FormattedMessage } from 'react-intl';
-import { indexOf } from 'lodash-es';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape } from 'found';
 import StopNearYou from './StopNearYou';
@@ -67,7 +66,7 @@ class StopsNearYouContainer extends React.Component {
       return n.every(stop => {
         return (
           stop.node.place.parentStation &&
-          indexOf(t, stop.node.place.parentStation.name) !== -1
+          t.indexOf(stop.node.place.parentStation.name) !== -1
         );
       });
     };
@@ -77,7 +76,7 @@ class StopsNearYouContainer extends React.Component {
       const node = stop.node.place;
       if (
         node.parentStation &&
-        indexOf(terminals, node.parentStation.name) === -1
+        terminals.indexOf(node.parentStation.name) === -1
       ) {
         terminals.push(node.parentStation.name);
       }

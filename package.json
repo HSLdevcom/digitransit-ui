@@ -161,7 +161,6 @@
     "intl": "1.2.5",
     "leaflet": "1.6.0",
     "lodash": "4.17.19",
-    "lodash-es": "4.17.15",
     "lru-cache": "6.0.0",
     "material-ui": "0.20.2",
     "moment": "2.28.0",
