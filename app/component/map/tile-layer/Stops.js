@@ -30,9 +30,9 @@ class Stops {
   static getName = () => 'stop';
 
   drawStop(feature, isHybrid) {
-    const isHilighted =
-      this.tile.hilightedStops &&
-      this.tile.hilightedStops.includes(feature.properties.gtfsId);
+    const isHilighted = false;
+      /*this.tile.hilightedStops &&
+      this.tile.hilightedStops.includes(feature.properties.gtfsId);*/
     if (
       !isFeatureLayerEnabled(
         feature,
