@@ -11,6 +11,7 @@ div.map {
     letter-spacing: -0.7px;
     vertical-align: -3px;
   }
+
   .leaflet-container .leaflet-popup-close-button {
     color: $primary-color;
     width: 32px;
@@ -29,6 +30,11 @@ div.map {
     line-height: normal;
     text-align: right;
     color: #666666;
+  }
+}
+.mobile {
+  .leaflet-container .leaflet-control-attribution {
+    top: -15px;
   }
 }
 
