@@ -240,6 +240,7 @@ jobs:
           BS_ACCESS_KEY: ${{ secrets.BS_ACCESS_KEY }}
           BS_USERNAME: ${{ secrets.BS_USERNAME }}
   docker-push:
+    if: github.ref == 'refs/heads/master'
     needs:
       - lint
       - flow-test
@@ -253,7 +254,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Build docker image from master and push it
-        if: github.ref == 'refs/heads/master'
         run: ./.github/workflows/scripts/build_and_push_dev.sh
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
