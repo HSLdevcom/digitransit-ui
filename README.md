@@ -1,4 +1,4 @@
-[![Build](https://github.com/hsldevcom/digitransit-ui/workflows/Process%20master%20push%20or%20pr/badge.svg?branch=master)](https://github.com/HSLdevcom/digitransit-ui/actions)
+[![Build](https://github.com/hsldevcom/digitransit-ui/workflows/Process%20master%20push%20or%20pr/badge.svg?branch=next)](https://github.com/HSLdevcom/digitransit-ui/actions)
 [![codecov](https://codecov.io/gh/HSLdevcom/digitransit-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/HSLdevcom/digitransit-ui)
 
 
