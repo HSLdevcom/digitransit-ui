@@ -223,6 +223,7 @@ class DepartureListContainer extends Component {
         headsign: this.getHeadsign(departure),
         trip: { ...departure.trip, ...{ route: departure.trip.pattern.route } },
         stop: departure.stop,
+        realtime: departure.realtime,
       };
 
       const departureObj = (
