@@ -2,7 +2,7 @@
 set -e
 
 DOCKER_IMAGE="hsldevcom/digitransit-ui"
-DOCKER_TAG="latest"
+DOCKER_TAG=${DOCKER_BASE_TAG:-latest}
 
 COMMIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
 

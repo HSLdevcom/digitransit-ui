@@ -254,7 +254,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Build docker image from master and push it
         if: github.ref == 'refs/heads/master'
-        run: ./.github/workflows/scripts/build_and_push_master.sh
+        run: ./.github/workflows/scripts/build_and_push_dev.sh
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_AUTH: ${{ secrets.DOCKER_AUTH }}
+          DOCKER_BASE_TAG: next
