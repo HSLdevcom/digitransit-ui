@@ -130,3 +130,9 @@ input[type='radio'] {
 .delivery-takeaway {
   font-size: $font-size-normal;
 }
+
+.citybike {
+  p.card-sub-header-address {
+    margin: 3px 0;
+  }
+}

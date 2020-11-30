@@ -31,7 +31,7 @@ class CityBikePopup extends React.Component {
 
   render() {
     return (
-      <div className="card">
+      <div className="card citybike">
         <CityBikeCardContainer
           className="card-padding"
           station={this.props.station}
