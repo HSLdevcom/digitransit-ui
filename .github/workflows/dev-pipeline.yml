@@ -250,6 +250,8 @@ jobs:
       - visual-test-edge
     runs-on: ubuntu-18.04
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Build docker image from master and push it
         if: github.ref == 'refs/heads/master'
         run: ./.github/workflows/scripts/build_and_push_master.sh
