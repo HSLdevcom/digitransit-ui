@@ -76,7 +76,7 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies
         run: yarn
-      - name: Run linters
+      - name: Run flow tests
         run: ./test/flow.sh
         env:
           encrypted_59b1a6418079_key: ${{ secrets.encrypted_59b1a6418079_key }}
