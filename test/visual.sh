@@ -1,8 +1,5 @@
 #/bin/bash
 
-# do nothing if the build is for tagging a prod release
-if [ -n "$TRAVIS_TAG" ]; then exit 0; fi
-
 if [ -z "$BS_ACCESS_KEY" ]; then
     echo "BS_ACCESS_KEY not set, failing build on purpose"
     exit 1
@@ -32,7 +29,7 @@ gzname=${name}.tar.gz
 
 set +e
 while [ $MAX_TRIES -gt 0 ]; do
-    IDENTIFIER=${TRAVIS_COMMIT}_${VISUAL} yarn test-visual --browser $VISUAL
+    IDENTIFIER=${GITHUB_SHA}_${VISUAL} yarn test-visual --browser $VISUAL
     RESULT=$?
     if [ $RESULT -eq 0 ]; then
         exit 0
