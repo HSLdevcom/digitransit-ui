@@ -7,7 +7,7 @@ on:
     branches:
       - master
 jobs:
-  build:
+  install:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: yarn
   lint:
-    needs: build
+    needs: install
     runs-on: ubuntu-18.04
     strategy:
       matrix:
@@ -53,7 +53,7 @@ jobs:
       - name: Run linters
         run: yarn lint
   flow-test:
-    needs: build
+    needs: install
     runs-on: ubuntu-18.04
     strategy:
       matrix:
@@ -84,7 +84,7 @@ jobs:
           BS_ACCESS_KEY: ${{ secrets.BS_ACCESS_KEY }}
           BS_USERNAME: ${{ secrets.BS_USERNAME }}
   unit-test:
-    needs: build
+    needs: install
     runs-on: ubuntu-18.04
     strategy:
       matrix:
@@ -112,7 +112,7 @@ jobs:
       - name: Send test coverage report
         run: yarn run test-report
   visual-test-chrome:
-    needs: build
+    needs: install
     runs-on: ubuntu-18.04
     strategy:
       matrix:
@@ -144,7 +144,7 @@ jobs:
           BS_ACCESS_KEY: ${{ secrets.BS_ACCESS_KEY }}
           BS_USERNAME: ${{ secrets.BS_USERNAME }}
   visual-test-firefox:
-    needs: build
+    needs: install
     runs-on: ubuntu-18.04
     strategy:
       matrix:
@@ -176,7 +176,7 @@ jobs:
           BS_ACCESS_KEY: ${{ secrets.BS_ACCESS_KEY }}
           BS_USERNAME: ${{ secrets.BS_USERNAME }}
   visual-test-safari:
-    needs: build
+    needs: install
     runs-on: ubuntu-18.04
     strategy:
       matrix:
@@ -208,7 +208,7 @@ jobs:
           BS_ACCESS_KEY: ${{ secrets.BS_ACCESS_KEY }}
           BS_USERNAME: ${{ secrets.BS_USERNAME }}
   visual-test-edge:
-    needs: build
+    needs: install
     runs-on: ubuntu-18.04
     strategy:
       matrix:
