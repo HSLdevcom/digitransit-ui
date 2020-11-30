@@ -774,4 +774,7 @@ export default {
   nearYouModes: [],
 
   zoneIconsAsSvg: false,
+
+  /* Option to disable the "next" column of the Route panel as it can be confusing sometimes: https://github.com/mfdz/digitransit-ui/issues/167 */
+  displayNextDeparture: true,
 };

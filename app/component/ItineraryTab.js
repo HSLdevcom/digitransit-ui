@@ -108,12 +108,12 @@ class ItineraryTab extends React.Component {
                   />
                   <ItinerarySummary itinerary={itinerary} key="summary" />
                 </div>
-                <div className="itinerary-timeframe" key="timeframe"> 
-                    <DateWarning date={itinerary.startTime} refTime={plan.date} />
-                </div>
               </div>
             ),
             <div className="momentum-scroll itinerary-tabs__scroll" key="legs">
+              <div className="itinerary-timeframe" key="timeframe"> 
+                <DateWarning date={itinerary.startTime} refTime={plan.date} />
+              </div>
               <div
                 className={cx('itinerary-main', {
                   'bp-large': breakpoint === 'large',
@@ -237,6 +237,21 @@ const withRelay = createFragmentContainer(ItineraryTab, {
               alertSeverityLevel
               effectiveEndDate
               effectiveStartDate
+              trip {
+                pattern {
+                  code
+                }
+              }
+              alertHeaderText
+              alertHeaderTextTranslations {
+                text
+                language
+              }
+              alertUrl
+              alertUrlTranslations {
+                text
+                language
+              }
             }
           }
         }
@@ -257,6 +272,29 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             code
             platformCode
             zoneId
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+              trip {
+                pattern {
+                  code
+                }
+              }
+              alertHeaderText
+              alertHeaderTextTranslations {
+                text
+                language
+              }
+              alertUrl
+              alertUrlTranslations {
+                text
+                language
+              }
+            }
           }
           bikePark {
             bikeParkId
@@ -277,6 +315,26 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             code
             platformCode
             zoneId
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+              trip {
+                pattern {
+                  code
+                }
+              }
+              alertHeaderText
+              alertHeaderTextTranslations {
+                text
+                language
+              }
+              alertUrl
+              alertUrlTranslations {
+                text
+                language
+              }
+            }
           }
         }
         realTime
@@ -301,6 +359,26 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             fareUrl
             name
             phone
+          }
+          alerts {
+            alertSeverityLevel
+            effectiveEndDate
+            effectiveStartDate
+            trip {
+              pattern {
+                code
+              }
+            }
+            alertHeaderText
+            alertHeaderTextTranslations {
+              text
+              language
+            }
+            alertUrl
+            alertUrlTranslations {
+              text
+              language
+            }
           }
         }
         trip {

@@ -45,6 +45,8 @@ Returns Favourite Route objects depending on input
 -   `favourites` **any** 
 -   `input` **[String][1]** Search text, if empty no objects are returned
 -   `transportMode` **[String][1]** If provided, all returned route objects are of this mode, e.g. 'BUS'
+-   `pathOpts`  an object containing two properties routesPrefix and stopsPrefix to override the URL paths returned
+           by this method
 
 ## getFavouriteBikeRentalStationsQuery
 
@@ -64,6 +66,8 @@ Returns Route objects depending on input
 -   `input` **[String][1]** Search text, if empty no objects are returned
 -   `feedIds` **any** 
 -   `transportMode` **[String][1]** Filter routes with a transport mode, e.g. route-BUS
+-   `pathOpts`  an object containing two properties routesPrefix and stopsPrefix to override the URL paths returned
+           by this method
 
 [1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 

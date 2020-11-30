@@ -77,6 +77,59 @@ function RouteNumber(props, context) {
       </React.Fragment>
     );
   };
+
+  const rNumber = (
+    <span
+      className={cx('route-number', {
+        vertical: props.vertical,
+      })}
+    >
+      <span
+        className={cx('vcenter-children', props.className)}
+        aria-label={context.intl.formatMessage({
+          id: mode,
+          defaultMessage: 'Vehicle',
+        })}
+        role="img"
+      >
+        {!props.isTransitLeg && !props.renderModeIcons && (
+          <div className="empty" />
+        )}
+        {props.isTransitLeg === true ? (
+          <div className={`special-icon ${mode}`}>
+            {getIcon(
+              props.icon,
+              props.isCallAgency,
+              props.hasDisruption,
+              props.badgeFill,
+              props.badgeText,
+            )}
+          </div>
+        ) : (
+          <div className={`icon ${mode}`}>
+            {getIcon(props.icon, props.isCallAgency, props.hasDisruption)}
+          </div>
+        )}
+        {props.text && (
+          <div
+            className={cx('vehicle-number-container-v', {
+              long: hasNoShortName,
+            })}
+          >
+            <span className={cx('vehicle-number', mode, { long: longText })}>
+              {props.text}
+            </span>
+          </div>
+        )}
+        {props.isTransitLeg === false && props.duration > 0 && (
+          <div className={`leg-duration-container ${mode} `}>
+            <span className="leg-duration">{props.duration}</span>
+          </div>
+        )}
+      </span>
+    </span>
+  );
+
   return (
     <>
       {props.withBar ? (
@@ -85,112 +138,11 @@ function RouteNumber(props, context) {
             className={cx('bar', mode)}
             style={{ backgroundColor: getColor() }}
           >
-            <span
-              className={cx('route-number', {
-                vertical: props.vertical,
-              })}
-            >
-              <span
-                className={cx('vcenter-children', props.className)}
-                aria-label={context.intl.formatMessage({
-                  id: mode,
-                  defaultMessage: 'Vehicle',
-                })}
-                role="img"
-              >
-                {!props.isTransitLeg && !props.renderModeIcons && (
-                  <div className="empty" />
-                )}
-                {props.isTransitLeg === true ? (
-                  <div className={`special-icon ${mode}`}>
-                    {getIcon(
-                      props.icon,
-                      props.isCallAgency,
-                      props.hasDisruption,
-                      props.badgeFill,
-                      props.badgeText,
-                    )}
-                  </div>
-                ) : (
-                  <div className={`icon ${mode}`}>
-                    {getIcon(
-                      props.icon,
-                      props.isCallAgency,
-                      props.hasDisruption,
-                    )}
-                  </div>
-                )}
-                {props.text && (
-                  <div
-                    className={cx('vehicle-number-container-v', {
-                      long: hasNoShortName,
-                    })}
-                  >
-                    <span
-                      className={cx('vehicle-number', mode, {
-                        long: longText,
-                      })}
-                    >
-                      {props.text}
-                    </span>
-                  </div>
-                )}
-                {props.isTransitLeg === false && (
-                  <div className={`leg-duration-container ${mode} `}>
-                    <span className="leg-duration">{props.duration}</span>
-                  </div>
-                )}
-              </span>
-            </span>
+            {rNumber}
           </div>
         </div>
       ) : (
-        <span
-          className={cx('route-number', {
-            vertical: props.vertical,
-          })}
-        >
-          <span
-            className={cx('vcenter-children', props.className)}
-            aria-label={context.intl.formatMessage({
-              id: mode,
-              defaultMessage: 'Vehicle',
-            })}
-            role="img"
-          >
-            {props.isTransitLeg === true ? (
-              <div className={`special-icon ${mode}`}>
-                {getIcon(
-                  props.icon,
-                  props.isCallAgency,
-                  props.hasDisruption,
-                  props.badgeFill,
-                  props.badgeText,
-                )}
-              </div>
-            ) : (
-              <div className={`icon ${mode}`}>
-                {getIcon(props.icon, props.isCallAgency, props.hasDisruption)}
-              </div>
-            )}
-          </span>
-          {props.text && (
-            <div
-              className={cx('vehicle-number-container-v', {
-                long: hasNoShortName,
-              })}
-            >
-              <span className={cx('vehicle-number', mode, { long: longText })}>
-                {props.text}
-              </span>
-            </div>
-          )}
-          {props.isTransitLeg === false && (
-            <div className={`leg-duration-container ${mode} `}>
-              <span className="leg-duration">{props.duration}</span>
-            </div>
-          )}
-        </span>
+        rNumber
       )}
     </>
   );

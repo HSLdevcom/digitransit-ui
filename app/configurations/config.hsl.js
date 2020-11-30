@@ -75,6 +75,7 @@ export default {
 
   colors: {
     primary: '#007ac9',
+    hover: '#0062a1',
   },
 
   sprites: 'assets/svg-sprite.hsl.svg',

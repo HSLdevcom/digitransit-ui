@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import ExternalLink from './ExternalLink';
 import LegAgencyInfo from './LegAgencyInfo';
@@ -16,9 +17,9 @@ import ServiceAlertIcon from './ServiceAlertIcon';
 import StopCode from './StopCode';
 import {
   getActiveAlertSeverityLevel,
-  getActiveLegAlertSeverityLevel,
   legHasCancelation,
   tripHasCancelationForStop,
+  getActiveLegAlerts,
 } from '../util/alertUtils';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { durationToString } from '../util/timeUtils';
@@ -146,7 +147,7 @@ class TransitLeg extends React.Component {
   }
 
   renderMain = () => {
-    const { children, focusAction, index, leg, mode } = this.props;
+    const { children, focusAction, index, leg, mode, lang } = this.props;
     const { config, intl } = this.context;
     const originalTime = leg.realTime &&
       leg.departureDelay &&
@@ -251,11 +252,16 @@ class TransitLeg extends React.Component {
       />
     );
 
-    const alert = getActiveLegAlertSeverityLevel(leg);
-    let alertDescription = null;
-    if (alert) {
+    const alerts = getActiveLegAlerts(leg, leg.startTime / 1000, lang); // legStartTime converted to ms format
+    const alert = alerts && alerts.length > 0 ? alerts[0] : undefined;
+    const alertSeverityLevel = getActiveAlertSeverityLevel(
+      alerts,
+      leg.startTime / 1000,
+    );
+    let alertSeverityDescription = null;
+    if (alertSeverityLevel) {
       let id;
-      switch (alert) {
+      switch (alertSeverityLevel) {
         case AlertSeverityLevelType.Info:
           id = 'itinerary-details.route-has-info-alert';
           break;
@@ -270,7 +276,7 @@ class TransitLeg extends React.Component {
           id = 'itinerary-details.route-has-unknown-alert';
           break;
       }
-      alertDescription = <FormattedMessage id={id} />;
+      alertSeverityDescription = <FormattedMessage id={id} />;
     }
     const zoneIcons = this.getZoneChange();
     // Checks if route only has letters without identifying numbers and
@@ -299,8 +305,10 @@ class TransitLeg extends React.Component {
           <span className="sr-only">{children}</span>
           <span aria-hidden="true">
             <div className="itinerary-time-column-time">
-              <span className={cx({ canceled: legHasCancelation(leg) })}>
-                {moment(leg.startTime).format('HH:mm')}
+              <span className={cx({ realtime: leg.realTime })}>
+                <span className={cx({ canceled: legHasCancelation(leg) })}>
+                  {moment(leg.startTime).format('HH:mm')}
+                </span>
               </span>
               {originalTime}
             </div>
@@ -420,7 +428,7 @@ class TransitLeg extends React.Component {
             >
               <RouteNumber
                 mode={mode.toLowerCase()}
-                alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
+                alertSeverityLevel={alertSeverityLevel}
                 color={leg.route ? `#${leg.route.color}` : 'currentColor'}
                 text={leg.route && leg.route.shortName}
                 realtime={false}
@@ -430,6 +438,25 @@ class TransitLeg extends React.Component {
             </Link>
             <div className="headsign">{leg.trip.tripHeadsign}</div>
           </div>
+          {(alertSeverityLevel === AlertSeverityLevelType.Warning ||
+            alertSeverityLevel === AlertSeverityLevelType.Severe) && (
+            <div className="disruption">
+              <ExternalLink className="disruption-link" href={alert.url}>
+                <div className="disruption-icon">
+                  <ServiceAlertIcon
+                    className="inline-icon"
+                    severityLevel={alertSeverityLevel}
+                  />
+                </div>
+                <div className="description">{alert.header}</div>
+                <Icon
+                  img="icon-icon_arrow-collapse--right"
+                  className="disruption-link-arrow"
+                  color={config.colors.primary}
+                />
+              </ExternalLink>
+            </div>
+          )}
           <LegAgencyInfo leg={leg} />
           <div>
             <StopInfo
@@ -465,7 +492,7 @@ class TransitLeg extends React.Component {
             </div>
           )}
         </div>
-        <span className="sr-only">{alertDescription}</span>
+        <span className="sr-only">{alertSeverityDescription}</span>
       </div>
     );
   };
@@ -541,6 +568,7 @@ TransitLeg.propTypes = {
   interliningWait: PropTypes.number,
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 TransitLeg.contextTypes = {
@@ -555,4 +583,12 @@ TransitLeg.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-export default TransitLeg;
+const connectedComponent = connectToStores(
+  TransitLeg,
+  ['PreferencesStore'],
+  context => ({
+    lang: context.getStore('PreferencesStore').getLanguage(),
+  }),
+);
+
+export { connectedComponent as default, TransitLeg as Component };

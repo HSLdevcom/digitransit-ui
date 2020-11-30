@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
+import { intlShape } from 'react-intl';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { startLocationWatch } from '../action/PositionActions';
@@ -36,6 +37,11 @@ export default function withGeomover(WrappedComponent) {
             target.type = undefined;
             target.address = undefined;
             context.executeAction(action, target);
+          } else if (!target.address) {
+            target.address = context.intl.formatMessage({
+              id: 'own-position',
+              defaultMessage: 'Own Location',
+            });
           }
           if (locationState.hasLocation === false) {
             if (
@@ -59,6 +65,7 @@ export default function withGeomover(WrappedComponent) {
   );
 
   geomover.contextTypes = {
+    intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
     getStore: PropTypes.func.isRequired,
   };

@@ -9,13 +9,15 @@ import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import omit from 'lodash/omit';
-import ContainerSpinner from '@hsl-fi/container-spinner';
+import loadable from '@loadable/component';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
-import Modal from '@hsl-fi/modal';
 import ModalContent from './helpers/ModalContent';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
+
+const ContainerSpinner = loadable(() => import('@hsl-fi/container-spinner'));
+const Modal = loadable(() => import('@hsl-fi/modal'));
 
 i18next.init({ lng: 'fi', resources: {} });
 
@@ -81,11 +83,15 @@ class FavouriteEditingModal extends React.Component {
     isModalOpen: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool,
     isLoading: PropTypes.bool.isRequired,
+    color: PropTypes.string,
+    hoverColor: PropTypes.string,
   };
 
   static defaulProps = {
     lang: 'fi',
     isMobile: false,
+    color: '#007ac9',
+    hoverColor: '#0062a1',
   };
 
   constructor(props) {
@@ -206,7 +212,13 @@ class FavouriteEditingModal extends React.Component {
 
   renderFavouriteList = (favourites, isLoading) => {
     return (
-      <div className={styles['favourite-edit-list-container']}>
+      <div
+        className={styles['favourite-edit-list-container']}
+        style={{
+          '--color': `${this.props.color}`,
+          '--hover-color': `${this.props.hoverColor}`,
+        }}
+      >
         <ContainerSpinner visible={isLoading}>
           <ReactSortable
             className={styles['favourite-edit-list']}
@@ -255,6 +267,8 @@ class FavouriteEditingModal extends React.Component {
             showDeletePlaceModal: false,
           })
         }
+        color={this.props.color}
+        hoverColor={this.props.hoverColor}
       />
     );
   };

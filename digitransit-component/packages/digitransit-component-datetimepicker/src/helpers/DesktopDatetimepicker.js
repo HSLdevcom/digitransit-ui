@@ -4,8 +4,6 @@ import moment from 'moment-timezone';
 import Autosuggest from 'react-autosuggest';
 import styles from './styles.scss';
 
-moment.tz.setDefault('Europe/Helsinki');
-
 /**
  * Component to display a date or time input on desktop.
  *
@@ -41,7 +39,9 @@ function DesktopDatetimepicker({
   label,
   icon,
   disableTyping,
+  timeZone,
 }) {
+  moment.tz.setDefault(timeZone);
   const [displayValue, changeDisplayValue] = useState(getDisplay(value));
 
   useEffect(() => changeDisplayValue(getDisplay(value)), [value]);
@@ -199,10 +199,12 @@ DesktopDatetimepicker.propTypes = {
   label: PropTypes.node.isRequired,
   icon: PropTypes.node.isRequired,
   disableTyping: PropTypes.bool,
+  timeZone: PropTypes.string,
 };
 
 DesktopDatetimepicker.defaultProps = {
   disableTyping: false,
+  timeZone: 'Europe/Helsinki',
 };
 
 export default DesktopDatetimepicker;

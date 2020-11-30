@@ -3,8 +3,6 @@ import React from 'react';
 import moment from 'moment-timezone';
 import styles from './styles.scss';
 
-moment.tz.setDefault('Europe/Helsinki');
-
 /**
  * Component to display a time input on mobile
  */
@@ -16,7 +14,9 @@ function MobileTimepicker({
   label,
   icon,
   dateTimeCombined,
+  timeZone,
 }) {
+  moment.tz.setDefault(timeZone);
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
   return (
@@ -69,11 +69,13 @@ MobileTimepicker.propTypes = {
   label: PropTypes.string.isRequired,
   icon: PropTypes.node,
   dateTimeCombined: PropTypes.bool,
+  timeZone: PropTypes.string,
 };
 
 MobileTimepicker.defaultProps = {
   icon: null,
   dateTimeCombined: false,
+  timeZone: 'Europe/Helsinki',
 };
 
 export default MobileTimepicker;

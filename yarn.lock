@@ -1110,6 +1110,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.7.7":
+  version "7.12.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.5.tgz#410e7e487441e1b360c29be715d870d9b985882e"
+  integrity sha512-plcc+hbExy3McchJCEQG3knOsuh3HH+Prx1P6cLIkET/0dLuQDEnrT+s27Axgc9bqfsmNUNHfscgMUdBpC9xfg==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.10.4":
   version "7.10.4"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.10.4.tgz#3251996c4200ebc71d1a8fc405fba940f36ba278"
@@ -1315,14 +1322,6 @@
   integrity sha512-wuX1JDxndHewDL+Oosz2rK5zSC5R09dkTEevGv951so5++vvxjxAb6USnm4OM/P01V5cRP6U3ENq20WfxV+d4w==
   dependencies:
     "@hsl-fi/sass" " ^0.1.1"
-
-"@digitransit-component/digitransit-component-dialog-modal@0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-dialog-modal/-/digitransit-component-dialog-modal-0.1.6.tgz#41402fb5f3f578515b7527ea4a1b5d00eb32d3da"
-  integrity sha512-DUdRaRDbBgyzrHhfZy9kzlGtkO4Nkisgquj96Mhza9uJcOxhdE3fDGBxOiyBNIwGi5G5OOyn1Q2t/TjY23eAjQ==
-  dependencies:
-    "@hsl-fi/modal" "0.1.8"
-    "@hsl-fi/sass" "^0.1.1"
 
 "@digitransit-component/digitransit-component-favourite-bar@latest":
   version "0.0.11"
@@ -1739,7 +1738,7 @@
   resolved "https://registry.yarnpkg.com/@hsl-fi/icons/-/icons-0.2.3.tgz#d15356d05bad57b96a641eedd0f9b020c90c6861"
   integrity sha512-0Y9e1Dsx3M/WSvk0CrAtiJO8wG2ZKL8CAnJA6ylQgxc1DMP/Xck0EqOg0f3rc1VDGKSVxxjeIi/0OFCoPny6pQ==
 
-"@hsl-fi/modal@0.1.8", "@hsl-fi/modal@^0.1.7", "@hsl-fi/modal@^0.1.8":
+"@hsl-fi/modal@^0.1.7":
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/@hsl-fi/modal/-/modal-0.1.8.tgz#df89f7e33e012c1046b83fdcfa2d88b40812149a"
   integrity sha512-jYh4Ybdn0PS3ugPrDfsZppvl6ze8AzDY2XUh2xlkOTHEyAICsLVzz8zgRF4qShj7u6E0tRVPr93lTZJaGAVkTQ==
@@ -2503,6 +2502,15 @@
   dependencies:
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
+
+"@loadable/component@5.14.1":
+  version "5.14.1"
+  resolved "https://registry.yarnpkg.com/@loadable/component/-/component-5.14.1.tgz#cacd807162430bb85ae085945318027a600adc85"
+  integrity sha512-UQBZfZrp1FLTf8RNhljXNHFNY4QhAA1L2+GOEeABBFre9TD0aFyQh3Sai5QxcOfy+FTbjIfti5iHaNRR7yUzEQ==
+  dependencies:
+    "@babel/runtime" "^7.7.7"
+    hoist-non-react-statics "^3.3.1"
+    react-is "^16.12.0"
 
 "@mapbox/point-geometry@~0.1.0":
   version "0.1.0"
@@ -9259,7 +9267,7 @@ hoist-non-react-statics@^2.1.1, hoist-non-react-statics@^2.3.1, hoist-non-react-
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
   integrity sha512-rqcy4pJo55FTTLWt+bU8ukscqHeE/e9KWvsOW2b/a3afxQZhwkQdT1rPPCJ0rYXdj4vNcasY8zHTH+jF/qStxw==
 
-hoist-non-react-statics@^3.0.1, hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.2:
+hoist-non-react-statics@^3.0.1, hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.1, hoist-non-react-statics@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
   integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
@@ -11295,7 +11303,7 @@ locate-path@^6.0.0:
   dependencies:
     p-locate "^5.0.0"
 
-lodash-es@4.17.15, lodash-es@^4.17.14:
+lodash-es@^4.17.14:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.15.tgz#21bd96839354412f23d7a10340e5eac6ee455d78"
   integrity sha512-rlrc3yU3+JNOpZ9zj5pQtxnx2THmvRykwL4Xlxoa8I9lHBlVbbyPhgyPMioxVZ4NqyxaVVtaJnzsyOidQIhyyQ==
@@ -15077,7 +15085,7 @@ react-intl@2.8.0:
     intl-relativeformat "^2.1.0"
     invariant "^2.1.1"
 
-react-is@^16.13.1, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.6, react-is@^16.9.0:
+react-is@^16.12.0, react-is@^16.13.1, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.6, react-is@^16.9.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
@@ -17971,6 +17979,11 @@ trim-off-newlines@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-off-newlines/-/trim-off-newlines-1.0.1.tgz#9f9ba9d9efa8764c387698bcbfeb2c848f11adb3"
   integrity sha1-n5up2e+odkw4dpi8v+sshI8RrbM=
+
+trim-right@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
+  integrity sha1-yy4SAwZ+DI3h9hQJS5/kVwTqYAM=
 
 trim-trailing-lines@^1.0.0:
   version "1.1.3"

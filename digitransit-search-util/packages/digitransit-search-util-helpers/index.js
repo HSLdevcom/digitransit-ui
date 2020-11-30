@@ -29,19 +29,26 @@ const LayerType = {
   Venue: 'venue',
   BikeRentalStation: 'bikeRentalStation',
 };
-const PREFIX_ROUTES = 'linjat';
 export const isStop = ({ layer, type }) =>
   layer === 'stop' ||
   layer === 'favouriteStop' ||
   type === 'stop' ||
   type === 'favouriteStop';
 
-export const mapRoute = item => {
+const DEFAULT_ROUTES_PREFIX = 'linjat';
+const DEFAULT_STOPS_PREFIX = 'pysakit';
+
+export const mapRoute = (item, pathOpts) => {
   if (item === null || item === undefined) {
     return null;
   }
 
-  const link = `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${
+  const opts = pathOpts || {};
+
+  const routesPrefix = opts.routesPrefix || DEFAULT_ROUTES_PREFIX;
+  const stopsPrefix = opts.stopsPrefix || DEFAULT_STOPS_PREFIX;
+
+  const link = `/${routesPrefix}/${item.gtfsId}/${stopsPrefix}/${
     orderBy(item.patterns, 'code', ['asc'])[0].code
   }`;
 

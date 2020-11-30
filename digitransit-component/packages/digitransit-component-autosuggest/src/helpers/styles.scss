@@ -3,7 +3,6 @@
 @import '~@hsl-fi/sass/mixins/screen';
 @import '~@hsl-fi/sass/mixins/text';
 
-$primary-color: #007ac9;
 $from-color: #4ea700;
 $to-color: #ec5188;
 $search-result-text-highlight-background-color: #F4F4F5;
@@ -46,10 +45,9 @@ input[type='text'] {
     &:focus {
       background: #fff;
       outline: none;
-      border: solid 1px $primary-color;
+      border: solid 1px var(--color);
       box-shadow: none;
-      border: 1px solid #007AC9;
-      box-shadow: 0px 0px 2px 1px #0074BF;
+      box-shadow: 0px 0px 2px 1px var(--hover-color);
     }
     @include min-width(tablet) {
       font-size: 15px;
@@ -70,7 +68,7 @@ input[type='text'] {
 
 .suggestionsContainerOpen {
   width: 100%;
-  max-height: 60vh;
+  max-height: 44vh;
   border-radius: 5px;
   box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.06);
   border: solid 1px rgba(0, 0, 0, 0.1);
@@ -179,7 +177,7 @@ button.clear-input {
   right: 0px;
   width: 44px;
   height: 100%;
-  color: $primary-color;
+  color: var(--color);
   outline: none;
   border: 0px;
   margin: 0px;
@@ -194,7 +192,7 @@ button.clear-input {
   transition: none;
 
   svg {
-    fill: $primary-color;
+    fill: var(--color);
     width: 16px;
     height: 16px;
   }

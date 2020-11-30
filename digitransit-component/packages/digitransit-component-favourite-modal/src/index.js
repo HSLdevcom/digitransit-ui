@@ -6,11 +6,13 @@ import i18next from 'i18next';
 import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
 import Icon from '@digitransit-component/digitransit-component-icon';
-import Modal from '@hsl-fi/modal';
+import loadable from '@loadable/component';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 import DesktopModal from './helpers/DesktopModal';
 import MobileModal from './helpers/MobileModal';
+
+const Modal = loadable(() => import('@hsl-fi/modal'));
 
 i18next.init({ lng: 'fi', resources: {} });
 
@@ -26,13 +28,19 @@ const FavouriteIconIdToNameMap = {
   'icon-icon_school': 'school',
   'icon-icon_shopping': 'shopping',
 };
-const FavouriteIconTableButton = ({ value, selectedIconId, handleClick }) => {
+
+const FavouriteIconTableButton = ({
+  value,
+  selectedIconId,
+  handleClick,
+  color,
+}) => {
   const [isHovered, setHover] = useState(false);
   const [isFocused, setFocus] = useState(false);
   const iconColor =
     value === FavouriteIconIdToNameMap[selectedIconId] || isHovered || isFocused
       ? '#ffffff'
-      : '#007ac9';
+      : color;
   return (
     <button
       type="button"
@@ -55,12 +63,14 @@ FavouriteIconTableButton.propTypes = {
   handleClick: PropTypes.func.isRequired,
   value: PropTypes.string,
   selectedIconId: PropTypes.string,
+  color: PropTypes.string.isRequired,
 };
 
 const FavouriteIconTable = ({
   favouriteIconIds,
   selectedIconId,
   handleClick,
+  color,
 }) => {
   const columns = favouriteIconIds.map(value => (
     <FavouriteIconTableButton
@@ -68,6 +78,7 @@ const FavouriteIconTable = ({
       value={value}
       selectedIconId={selectedIconId}
       handleClick={handleClick}
+      color={color}
     />
   ));
 
@@ -82,6 +93,7 @@ FavouriteIconTable.propTypes = {
   handleClick: PropTypes.func.isRequired,
   favouriteIconIds: PropTypes.array,
   selectedIconId: PropTypes.string,
+  color: PropTypes.string.isRequired,
 };
 
 /**
@@ -161,6 +173,8 @@ class FavouriteModal extends React.Component {
     /** Optional. */
     isMobile: PropTypes.bool,
     appElement: PropTypes.string.isRequired,
+    color: PropTypes.string,
+    hoverColor: PropTypes.string,
   };
 
   static defaultProps = {
@@ -168,6 +182,8 @@ class FavouriteModal extends React.Component {
     lang: 'fi',
     isMobile: false,
     favourite: null,
+    color: '#007ac9',
+    hoverColor: '#0062a1',
   };
 
   static favouriteIconIds = [
@@ -303,12 +319,17 @@ class FavouriteModal extends React.Component {
 
   render = () => {
     const { favourite } = this.state;
+    const { color, hoverColor } = this.props;
     const headerText = this.isEdit()
       ? i18next.t('edit-place')
       : i18next.t('save-place');
     const modalProps = {
       headerText,
-      autosuggestComponent: this.props.autosuggestComponent,
+      autosuggestComponent: {
+        ...this.props.autosuggestComponent,
+        color,
+        hoverColor,
+      },
       inputPlaceholder: i18next.t('input-placeholder'),
       specifyName: this.specifyName,
       name: (favourite && favourite.name) || '',
@@ -323,6 +344,7 @@ class FavouriteModal extends React.Component {
           })()}
           favouriteIconIds={FavouriteModal.favouriteIconIds}
           handleClick={this.selectIcon}
+          color={this.props.color}
         />
       ),
       saveFavourite: this.save,
@@ -331,6 +353,8 @@ class FavouriteModal extends React.Component {
       isEdit: this.isEdit(),
       cancelText: i18next.t('cancel'),
       cancelSelected: () => this.cancelSelected(),
+      color,
+      hoverColor,
     };
     return (
       <Modal

@@ -20,8 +20,6 @@ import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
 
-moment.tz.setDefault('Europe/Helsinki');
-
 i18next.init({ lng: 'fi', resources: {} });
 
 Object.keys(translations).forEach(lang => {
@@ -194,6 +192,13 @@ class DTAutosuggest extends React.Component {
     sources: PropTypes.arrayOf(PropTypes.string),
     targets: PropTypes.arrayOf(PropTypes.string),
     isMobile: PropTypes.bool,
+    color: PropTypes.string,
+    hoverColor: PropTypes.string,
+    timeZone: PropTypes.string,
+    pathOpts: PropTypes.shape({
+      routesPrefix: PropTypes.string,
+      stopsPrefix: PropTypes.string,
+    }),
   };
 
   static defaultProps = {
@@ -206,11 +211,19 @@ class DTAutosuggest extends React.Component {
     sources: [],
     targets: [],
     isMobile: false,
+    color: '#007ac9',
+    hoverColor: '#0062a1',
+    timeZone: 'Europe/Helsinki',
+    pathOpts: {
+      routesPrefix: 'linjat',
+      stopsPrefix: 'pysakit',
+    },
   };
 
   constructor(props) {
     super(props);
     i18next.changeLanguage(props.lang);
+    moment.tz.setDefault(props.timeZone);
     this.state = {
       value: props.value,
       suggestions: [],
@@ -425,7 +438,7 @@ class DTAutosuggest extends React.Component {
         onClick={this.clearInput}
         aria-label={i18next.t('clear-button-label')}
       >
-        <Icon img="close" />
+        <Icon img="close" color={this.props.color} />
       </button>
     );
   };
@@ -488,6 +501,7 @@ class DTAutosuggest extends React.Component {
               );
             }
           },
+          this.props.pathOpts,
         );
       },
     );
@@ -568,6 +582,7 @@ class DTAutosuggest extends React.Component {
         loading={!this.state.valid}
         isMobile={this.props.isMobile}
         ariaFavouriteString={i18next.t('favourite')}
+        color={this.props.color}
       />
     );
   };
@@ -738,6 +753,8 @@ class DTAutosuggest extends React.Component {
             dialogSecondaryButtonText={i18next.t('cancel')}
             clearInputButtonText={i18next.t('clear-button-label')}
             focusInput={cleanExecuted}
+            color={this.props.color}
+            hoverColor={this.props.hoverColor}
           />
         )}
         {!renderMobileSearch && (
@@ -778,6 +795,10 @@ class DTAutosuggest extends React.Component {
                     onClick={this.inputClicked}
                     onKeyDown={this.keyDown}
                     {...p}
+                    style={{
+                      '--color': `${this.props.color}`,
+                      '--hover-color': `${this.props.hoverColor}`,
+                    }}
                   />
                   {this.state.value && this.clearButton()}
                 </>

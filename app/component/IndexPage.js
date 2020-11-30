@@ -13,6 +13,7 @@ import DTAutosuggestPanel from '@digitransit-component/digitransit-component-aut
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
+import saveFutureRoute from '../action/FutureRoutesActions';
 import withSearchContext from './WithSearchContext';
 import { isBrowser } from '../util/browser';
 import {
@@ -31,6 +32,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import scrollTop from '../util/scroll';
 import FavouritesContainer from './FavouritesContainer';
 import DatetimepickerContainer from './DatetimepickerContainer';
+import { LightenDarkenColor } from '../util/colorUtils';
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 const DTAutosuggestPanelWithSearchContext = withSearchContext(
@@ -65,8 +67,6 @@ class IndexPage extends React.Component {
   processLocation = (locationString, intl) => {
     let location;
     if (locationString) {
-      location = parseLocation(locationString);
-
       if (location.type === 'CurrentLocation') {
         location.address = intl.formatMessage({
           id: 'own-position',
@@ -80,8 +80,8 @@ class IndexPage extends React.Component {
   componentDidMount() {
     const { from, to } = this.context.match.params;
     /* initialize stores from URL params */
-    const origin = this.processLocation(from, this.context.intl);
-    const destination = this.processLocation(to, this.context.intl);
+    const origin = parseLocation(from);
+    const destination = parseLocation(to);
 
     if (origin) {
       this.context.executeAction(storeOrigin, origin);
@@ -111,7 +111,9 @@ class IndexPage extends React.Component {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { intl, config } = this.context;
-    const { trafficNowLink } = config;
+    const { trafficNowLink, colors } = config;
+    const color = colors.primary;
+    const hoverColor = colors.hover || LightenDarkenColor(colors.primary, -20);
     const { breakpoint, destination, origin, lang } = this.props;
     const queryString = this.context.match.location.search;
     const searchSources =
@@ -124,6 +126,7 @@ class IndexPage extends React.Component {
       'CurrentPosition',
       'FutureRoutes',
       'SelectFromOwnLocations',
+      'Stops',
     ];
     const stopAndRouteSearchTargets =
       this.context.config.cityBike && this.context.config.cityBike.showCityBikes
@@ -172,9 +175,11 @@ class IndexPage extends React.Component {
               sources={searchSources}
               targets={locationSearchTargets}
               breakpoint="large"
+              color={color}
+              hoverColor={hoverColor}
             />
             <div className="datetimepicker-container">
-              <DatetimepickerContainer realtime />
+              <DatetimepickerContainer realtime color={color} />
             </div>
             <FavouritesContainer
               favouriteModalAction={this.props.favouriteModalAction}
@@ -215,6 +220,8 @@ class IndexPage extends React.Component {
               value=""
               sources={stopAndRouteSearchSources}
               targets={stopAndRouteSearchTargets}
+              color={color}
+              hoverColor={hoverColor}
             />
             <CtrlPanel.SeparatorLine />
             {!trafficNowLink ||
@@ -264,9 +271,11 @@ class IndexPage extends React.Component {
               isMobile
               breakpoint="small"
               fromMap={this.props.fromMap}
+              color={color}
+              hoverColor={hoverColor}
             />
             <div className="datetimepicker-container">
-              <DatetimepickerContainer realtime />
+              <DatetimepickerContainer realtime color={color} />
             </div>
             <FavouritesContainer
               onClickFavourite={this.clickFavourite}
@@ -308,6 +317,8 @@ class IndexPage extends React.Component {
               sources={stopAndRouteSearchSources}
               targets={stopAndRouteSearchTargets}
               isMobile
+              color={color}
+              hoverColor={hoverColor}
             />
             <CtrlPanel.SeparatorLine />
             {!trafficNowLink ||
@@ -354,6 +365,28 @@ const IndexPageWithStores = connectToStores(
 
     const { location } = props.match;
     if (isItinerarySearchObjects(origin, destination)) {
+      const newRoute = {
+        origin: {
+          address: origin.address,
+          coordinates: {
+            lat: origin.lat,
+            lon: origin.lon,
+          },
+        },
+        destination: {
+          address: destination.address,
+          coordinates: {
+            lat: destination.lat,
+            lon: destination.lon,
+          },
+        },
+        arriveBy: this.context.match.location.query.arriveBy
+          ? this.context.match.location.query.arriveBy
+          : false,
+        time: this.context.match.location.query.time,
+      };
+      this.context.executeAction(saveFutureRoute, newRoute);
+
       const newLocation = {
         ...location,
         pathname: getRoutePath(origin, destination),

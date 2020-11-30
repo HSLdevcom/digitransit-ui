@@ -46,11 +46,16 @@ function ItinerarySummaryListContainer(
   const [showCancelled, setShowCancelled] = useState(false);
   const { config } = context;
 
-  if (!error && itineraries && itineraries.length > 0) {
+  if (
+    !error &&
+    itineraries &&
+    itineraries.length > 0 &&
+    !itineraries.includes(undefined)
+  ) {
     const summaries = itineraries.map((itinerary, i) => (
       <SummaryRow
         refTime={searchTime}
-        key={`${itinerary.startTime}-${itinerary.endTime}`}
+        key={i} // eslint-disable-line react/no-array-index-key
         hash={i}
         data={itinerary}
         passive={i !== activeIndex}
@@ -71,36 +76,39 @@ function ItinerarySummaryListContainer(
       context.match.params.hash &&
       context.match.params.hash === 'bikeAndVehicle'
     ) {
-      summaries.splice(
-        0,
-        0,
-        <ItinerarySummarySubtitle
-          translationId="itinerary-summary.bikePark-title"
-          defaultMessage="Biking \u0026 public transport \u0026 walking"
-          key="itinerary-summary.bikePark-title"
-        />,
-      );
-
+      if (bikeAndParkItinerariesToShow > 0) {
+        summaries.splice(
+          0,
+          0,
+          <ItinerarySummarySubtitle
+            translationId="itinerary-summary.bikePark-title"
+            defaultMessage="Biking \u0026 public transport \u0026 walking"
+            key="itinerary-summary.bikePark-title"
+          />,
+        );
+      }
       if (
         itineraries.length > bikeAndParkItinerariesToShow &&
         bikeAndPublicItinerariesToShow > 0
       ) {
-        const bikeAndParkItineraries = itineraries.slice(
+        const bikeAndPublicItineraries = itineraries.slice(
           bikeAndParkItinerariesToShow,
         );
-        const filteredBikeAndParkItineraries = bikeAndParkItineraries.map(i =>
-          i.legs.filter(obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE'),
+        const filteredBikeAndPublicItineraries = bikeAndPublicItineraries.map(
+          i =>
+            i.legs.filter(obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE'),
         );
         const allModes = Array.from(
           new Set(
-            filteredBikeAndParkItineraries.length > 0
-              ? filteredBikeAndParkItineraries.map(p => p[0].mode.toLowerCase())
+            filteredBikeAndPublicItineraries.length > 0
+              ? filteredBikeAndPublicItineraries.map(p =>
+                  p[0].mode.toLowerCase(),
+                )
               : [],
           ),
         );
-
         summaries.splice(
-          bikeAndParkItinerariesToShow + 1,
+          bikeAndParkItinerariesToShow ? bikeAndParkItinerariesToShow + 1 : 0,
           0,
           <ItinerarySummarySubtitle
             translationId={`itinerary-summary.bikeAndPublic-${allModes
@@ -359,6 +367,16 @@ const containerComponent = createFragmentContainer(
             color
             agency {
               name
+            }
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+              trip {
+                pattern {
+                  code
+                }
+              }
             }
           }
           trip {

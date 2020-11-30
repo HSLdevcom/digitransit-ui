@@ -69,7 +69,7 @@ const AppBarHsl = ({ lang, user }, context) => {
   const url = encodeURI(`${location.pathname}${location.search}`);
 
   const userMenu =
-    config.allowLogin && (initials.length > 0 || user.notLogged)
+    config.allowLogin && (user.sub || user.notLogged)
       ? {
           userMenu: {
             isLoading: false, // When fetching for login-information, `isLoading`-property can be set to true. Spinner will be shown.

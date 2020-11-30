@@ -1890,7 +1890,7 @@ const translations = {
     'location-shopping': 'Kauppa',
     'location-sport': 'Urheilu',
     'location-work': 'Työ',
-    login: 'Kirjaudu',
+    login: 'Siirry kirjautumaan',
     'login-content':
       'Paikkojen, linjojen ja pysäkkien tallentaminen ja hyödyntäminen edellyttää kirjautumista HSL-tunnuksella!',
     'login-header': 'Kirjaudu ensin',

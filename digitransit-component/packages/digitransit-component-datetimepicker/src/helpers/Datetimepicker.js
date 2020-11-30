@@ -13,7 +13,6 @@ import styles from './styles.scss';
 import { isMobile, isAndroid } from './mobileDetection';
 import dateTimeInputIsSupported from './dateTimeInputIsSupported';
 
-moment.tz.setDefault('Europe/Helsinki');
 moment.locale('en');
 i18next.init({ lng: 'en', resources: {} });
 Object.keys(translations).forEach(lang =>
@@ -58,7 +57,11 @@ function Datetimepicker({
   onArrivalClick,
   embedWhenClosed,
   lang,
+  color,
+  timeZone,
 }) {
+  moment.tz.setDefault(timeZone);
+
   const [isOpen, changeOpen] = useState(false);
   const [displayTimestamp, changeDisplayTimestamp] = useState(
     timestamp || moment().valueOf(),
@@ -185,7 +188,11 @@ function Datetimepicker({
     .map((_, i) => dateSelectStartTime + i * dateSelectItemDiff);
 
   return (
-    <fieldset className={styles['dt-datetimepicker']} id={`${htmlId}-root`}>
+    <fieldset
+      className={styles['dt-datetimepicker']}
+      id={`${htmlId}-root`}
+      style={{ '--color': `${color}` }}
+    >
       <legend className={styles['sr-only']}>
         {i18next.t('accessible-title', translationSettings)}
       </legend>
@@ -196,7 +203,7 @@ function Datetimepicker({
           >
             <label className={styles['label-open']} htmlFor={`${htmlId}-open`}>
               <span className={styles['time-icon']}>
-                <Icon img="time" />
+                <Icon img="time" color={color} />
               </span>
               <span className={styles['sr-only']}>
                 {i18next.t('accessible-open', translationSettings)}
@@ -229,7 +236,7 @@ function Datetimepicker({
                   )}
                 </span>
                 <span className={styles['dropdown-icon']}>
-                  <Icon img="arrow-dropdown" />
+                  <Icon img="arrow-dropdown" color={color} />
                 </span>
               </button>
             </label>
@@ -257,7 +264,7 @@ function Datetimepicker({
               }`}
             >
               <span className={styles['time-icon']}>
-                <Icon img="time" />
+                <Icon img="time" color={color} />
               </span>
               <span className={styles['now-text']}>
                 {i18next.t('departure-now', translationSettings)}
@@ -327,7 +334,7 @@ function Datetimepicker({
                 onClick={() => changeOpen(false)}
               >
                 <span className={styles['close-icon']}>
-                  <Icon img="plus" />
+                  <Icon img="plus" color={color} />
                 </span>
                 <span className={styles['sr-only']}>
                   {i18next.t('accessible-close', translationSettings)}
@@ -355,10 +362,11 @@ function Datetimepicker({
                       <span
                         className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}
                       >
-                        <Icon img="calendar" />
+                        <Icon img="calendar" color={color} />
                       </span>
                     }
                     dateTimeCombined={useDateTimeCombined}
+                    timeZone={timeZone}
                   />
                 </span>
                 <span
@@ -374,10 +382,11 @@ function Datetimepicker({
                       <span
                         className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
                       >
-                        <Icon img="time" />
+                        <Icon img="time" color={color} />
                       </span>
                     }
                     dateTimeCombined={useDateTimeCombined}
+                    timeZone={timeZone}
                   />
                 </span>
               </>
@@ -396,12 +405,13 @@ function Datetimepicker({
                       <span
                         className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}
                       >
-                        <Icon img="calendar" />
+                        <Icon img="calendar" color={color} />
                       </span>
                     }
                     id={`${htmlId}-date`}
                     label={i18next.t('date', translationSettings)}
                     disableTyping
+                    timeZone={timeZone}
                   />
                 </span>
                 <span>
@@ -417,11 +427,12 @@ function Datetimepicker({
                       <span
                         className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
                       >
-                        <Icon img="time" />
+                        <Icon img="time" color={color} />
                       </span>
                     }
                     id={`${htmlId}-time`}
                     label={i18next.t('time', translationSettings)}
+                    timeZone={timeZone}
                   />
                 </span>
               </>
@@ -435,6 +446,7 @@ function Datetimepicker({
 
 Datetimepicker.propTypes = {
   timestamp: PropTypes.number,
+  timeZone: PropTypes.string,
   onTimeChange: PropTypes.func.isRequired,
   onDateChange: PropTypes.func.isRequired,
   departureOrArrival: PropTypes.oneOf(['departure', 'arrival']).isRequired,
@@ -443,8 +455,14 @@ Datetimepicker.propTypes = {
   onArrivalClick: PropTypes.func.isRequired,
   embedWhenClosed: PropTypes.node,
   lang: PropTypes.string.isRequired,
+  color: PropTypes.string,
 };
 
-Datetimepicker.defaultProps = { timestamp: null, embedWhenClosed: null };
+Datetimepicker.defaultProps = {
+  timestamp: null,
+  embedWhenClosed: null,
+  color: '#007ac9',
+  timeZone: 'Europe/Helsinki',
+};
 
 export default Datetimepicker;

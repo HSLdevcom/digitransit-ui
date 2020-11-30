@@ -42,6 +42,7 @@ import ModeTram from './assets/mode_tram.svg';
 import ModeFerry from './assets/mode_ferry.svg';
 import ModeCitybike from './assets/mode_citybike.svg';
 import FutureRoute from './assets/icon-route.svg';
+import Position from './assets/position.svg';
 
 const IconMap = style => {
   return {
@@ -89,6 +90,7 @@ const IconMap = style => {
     'mode-ferry': <ModeFerry style={style} />,
     'mode-citybike': <ModeCitybike style={style} />,
     'future-route': <FutureRoute style={style} />,
+    position: <Position style={style} />,
   };
 };
 
@@ -111,6 +113,9 @@ const Icon = ({ color, img, height, width, rotate }) => {
     transform: rotate ? `rotate(${rotate}deg)` : null,
   };
   const icons = IconMap(style);
+  if (img === 'locate' && color && color.toUpperCase() !== '#007AC9') {
+    return <React.Fragment>{icons.position}</React.Fragment>;
+  }
   return <React.Fragment>{icons[img]}</React.Fragment>;
 };
 

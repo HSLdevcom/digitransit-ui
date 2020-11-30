@@ -9,9 +9,12 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
-  navigateTo,
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
+  PREFIX_BIKESTATIONS,
+  PREFIX_STOPS,
+  PREFIX_TERMINALS,
+  PREFIX_ROUTES,
 } from '../util/path';
 import searchContext from '../util/searchContext';
 import intializeSearchContext from '../util/DTSearchContextInitializer';
@@ -19,6 +22,12 @@ import SelectFromMapHeader from './SelectFromMapHeader';
 import SelectFromMapPageMap from './map/SelectFromMapPageMap';
 import DTModal from './DTModal';
 import { addressToItinerarySearch } from '../util/otpStrings';
+
+const PATH_OPTS = {
+  stopsPrefix: PREFIX_STOPS,
+  routesPrefix: PREFIX_ROUTES,
+  itinerarySummaryPrefix: PREFIX_ITINERARY_SUMMARY,
+};
 
 export default function withSearchContext(WrappedComponent) {
   class ComponentWithSearchContext extends React.Component {
@@ -179,20 +188,20 @@ export default function withSearchContext(WrappedComponent) {
       // DT-3577 Favourite's doesn't have id property, use gtfsId instead
       let id = item.properties.id ? item.properties.id : item.properties.gtfsId;
 
-      let path = '/pysakit/';
+      let path;
       switch (item.properties.layer) {
         case 'station':
         case 'favouriteStation':
-          path = '/terminaalit/';
+          path = `/${PREFIX_TERMINALS}/`;
           id = id.replace('GTFS:', '').replace(':', '%3A');
           break;
         case 'bikeRentalStation':
         case 'favouriteBikeRentalStation':
-          path = '/pyoraasemat/';
+          path = `/${PREFIX_BIKESTATIONS}/`;
           id = item.properties.labelId;
           break;
         default:
-          path = '/pysakit/';
+          path = `/${PREFIX_STOPS}/`;
           id = id.replace('GTFS:', '').replace(':', '%3A');
       }
       const link = path.concat(id);
@@ -227,94 +236,15 @@ export default function withSearchContext(WrappedComponent) {
         category: 'ItinerarySettings',
         name: location.type,
       });
-      let origin;
+      /*      let origin;
       let destination;
-      if (id === 'origin') {
-        origin = { ...location, ready: true };
-        // eslint-disable-next-line prefer-destructuring
-        destination = this.props.destination;
-        if (location.type === 'SelectFromMap') {
-          origin = {
-            ...location,
-            ready: !!location.lat,
-          };
-        }
-        if (location.type === 'CurrentLocation') {
-          origin = { ...location, gps: true, ready: !!location.lat };
-          if (destination.gps === true) {
-            // destination has gps, clear destination
-            destination = { set: false };
-          }
-        }
-      } else if (id === 'destination') {
-        // eslint-disable-next-line prefer-destructuring
-        origin = this.props.origin;
-        destination = { ...location, ready: true };
-        if (location.type === 'SelectFromMap') {
-          destination = {
-            ...location,
-            ready: !!location.lat,
-          };
-        }
-        if (location.type === 'CurrentLocation') {
-          destination = {
-            ...location,
-            gps: true,
-            ready: !!location.lat,
-          };
-          if (origin.gps === true) {
-            origin = { set: false };
-          }
-        }
+      if (id === 'origin' && location.type !== 'SelectFromMap') {
+      } else if (id === 'destination' && location.type !== 'SelectFromMap') {
       } else if (id === 'favourite') {
         return;
       }
-
-      if (
-        origin.ready &&
-        destination.ready &&
-        `${origin.address}/${origin.lat}/${origin.lat}` !==
-          `${destination.address}/${destination.lat}/${destination.lat}`
-      ) {
-        const newRoute = {
-          origin: {
-            address: origin.address,
-            coordinates: {
-              lat: origin.lat,
-              lon: origin.lon,
-            },
-          },
-          destination: {
-            address: destination.address,
-            coordinates: {
-              lat: destination.lat,
-              lon: destination.lon,
-            },
-          },
-          arriveBy: this.context.match.location.query.arriveBy
-            ? this.context.match.location.query.arriveBy
-            : false,
-          time: this.context.match.location.query.time,
-        };
-        this.context.executeAction(searchContext.saveFutureRoute, newRoute);
-      }
-      if (location.type !== 'SelectFromMap') {
-        const pathname = this.context.match.location.pathname || '';
-        const pathArr = pathname.split('/');
-        const rootPath =
-          pathArr.length > 1 && pathArr[1] === PREFIX_ITINERARY_SUMMARY
-            ? pathArr[1]
-            : this.context.config.indexPath;
-
-        navigateTo({
-          origin,
-          destination,
-          rootPath,
-          router: this.context.router,
-          base: this.context.match.location,
-          resetIndex: true,
-        });
-      } else {
+*/
+      if (location.type === 'SelectFromMap') {
         this.setState({ fromMap: id });
       }
     };
@@ -403,6 +333,7 @@ export default function withSearchContext(WrappedComponent) {
       if (fromMap) {
         return this.renderSelectFromMapModal(fromMap);
       }
+
       return (
         <WrappedComponent
           appElement="#app"
@@ -410,6 +341,7 @@ export default function withSearchContext(WrappedComponent) {
           addAnalyticsEvent={addAnalyticsEvent}
           onSelect={this.onSelect}
           {...this.props}
+          pathOpts={PATH_OPTS}
         />
       );
     }
