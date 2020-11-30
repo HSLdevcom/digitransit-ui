@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/HSLdevcom/digitransit-ui.svg?branch=master)](https://travis-ci.org/HSLdevcom/digitransit-ui)
+[![Build](https://github.com/hsldevcom/digitransit-ui/workflows/Process%20master%20push/badge.svg)](https://github.com/HSLdevcom/digitransit-ui/actions)
 [![codecov](https://codecov.io/gh/HSLdevcom/digitransit-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/HSLdevcom/digitransit-ui)
 
 
