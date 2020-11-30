@@ -23,13 +23,13 @@ function RouteScheduleHeader({
 
   const maxOptions = Object.keys(options).length;
 
-  const fromOptions = options.slice(0, to > maxOptions ? maxOptions - 1 : to);
+  const fromOptions = options.slice(0, to > maxOptions ? maxOptions : to);
   const toOptions = options.slice(from + 1);
 
   const fromDisplayName = fromOptions.filter(o => o.value === from)[0]
     .displayName;
   const toDisplayName = toOptions.filter(
-    o => o.value === (to > maxOptions ? maxOptions - 1 : to),
+    o => o.value === (to > maxOptions ? maxOptions : to),
   )[0].displayName;
 
   const headerLineStyle = {};
