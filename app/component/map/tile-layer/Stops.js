@@ -123,6 +123,8 @@ class Stops {
                   } else if (
                     this.config.mergeStopsByCode &&
                     f.properties.code &&
+                    prevFeature.properties.type !== 'CARPOOL' &&
+                    f.properties.type !== 'CARPOOL' &&
                     prevFeature.properties.type !== f.properties.type &&
                     f.geom.x === prevFeature.geom.x &&
                     f.geom.y === prevFeature.geom.y
