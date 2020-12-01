@@ -141,8 +141,8 @@ class StopsNearYouContainer extends React.Component {
 
   updatePosition = () => {
     const variables = {
-      lat: 60.171779, // this.props.position.lat,
-      lon: 24.941355, // this.props.position.lon,
+      lat: this.props.position.lat,
+      lon: this.props.position.lon,
       startTime: this.props.currentTime,
     };
     this.setState({
