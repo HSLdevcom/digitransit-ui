@@ -209,7 +209,6 @@ class DTAutosuggest extends React.Component {
     transportMode: undefined,
     lang: 'fi',
     sources: [],
-    targets: [],
     isMobile: false,
     color: '#007ac9',
     hoverColor: '#0062a1',
@@ -232,7 +231,7 @@ class DTAutosuggest extends React.Component {
       pendingCurrentLocation: false,
       renderMobileSearch: false,
       sources: props.sources,
-      targets: props.targets,
+      ownPlaces: false,
       typingTimer: null,
       typing: false,
       pendingSelection: null,
@@ -306,7 +305,7 @@ class DTAutosuggest extends React.Component {
         this.setState(
           {
             sources: ['Favourite', 'Back'],
-            targets: ['Locations'],
+            ownPlaces: true,
             pendingSelection: ref.suggestion.type,
             value: '',
           },
@@ -323,7 +322,7 @@ class DTAutosuggest extends React.Component {
         this.setState(
           {
             sources: this.props.sources,
-            targets: this.props.targets,
+            ownPlaces: false,
             pendingSelection: ref.suggestion.type,
             suggestionIndex: ref.suggestionIndex,
           },
@@ -355,7 +354,7 @@ class DTAutosuggest extends React.Component {
             this.setState({
               renderMobileSearch: false,
               sources: this.props.sources,
-              targets: this.props.targets,
+              ownPlaces: false,
               suggestions: [],
             });
           }
@@ -378,7 +377,7 @@ class DTAutosuggest extends React.Component {
     this.setState({
       suggestions: [],
       sources: this.props.sources,
-      targets: this.props.targets,
+      ownPlaces: false,
       editing: false,
     });
   };
@@ -448,7 +447,7 @@ class DTAutosuggest extends React.Component {
       { valid: false, cleanExecuted: !cleanExecuted ? false : cleanExecuted },
       () => {
         executeSearch(
-          this.state.targets,
+          this.state.ownPlaces ? ['Locations'] : this.props.targets,
           this.state.sources,
           this.props.transportMode,
           this.props.searchContext,
@@ -512,7 +511,7 @@ class DTAutosuggest extends React.Component {
       editing: true,
       value: '',
       sources: this.props.sources,
-      targets: this.props.targets,
+      ownPlaces: false,
     };
     // must update suggestions
     this.setState(newState, () =>
