@@ -1,5 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
+import { BIKEAVL_UNKNOWN } from '../util/citybikes';
 
 const CONFIG = 'lappeenranta';
 const APP_TITLE = 'reittiopas.lappeenranta.fi';
@@ -33,6 +34,33 @@ export default configMerger(walttiConfig, {
       en: 'New! You can now get nearby busses on the map from the settings.',
       sv:
         'Nytt! I inställningarna kan du nu välja att se närliggande bussar på kartan.',
+    },
+  },
+
+  cityBike: {
+    showCityBikes: true,
+    capacity: BIKEAVL_UNKNOWN,
+    networks: {
+      lappeenranta: {
+        icon: 'citybike',
+        name: {
+          fi: 'Lappeenranta',
+          sv: 'Vilmanstrand',
+          en: 'Lappeenranta',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://kaakau.fi/lappeenranta/',
+          sv: 'https://kaakau.fi/lappeenranta/?lang=en',
+          en: 'https://kaakau.fi/lappeenranta/?lang=sv',
+        },
+      },
+    },
+  },
+
+  transportModes: {
+    citybike: {
+      availableForSelection: true,
     },
   },
 
@@ -136,5 +164,19 @@ export default configMerger(walttiConfig, {
     header: {
       showZone: true,
     },
-  },
+  } /*
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Pyöräilyreitit',
+          sv: 'Cykelrutter',
+          en: 'Bike routes',
+        },
+        url:
+          'https://geoserver.joensuu.fi/www/digitransit/pyorailyreitit_lpr.geojson',
+        isOffByDefault: true,
+      },
+    ],
+  }, */,
 });

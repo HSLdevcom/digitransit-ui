@@ -1,5 +1,6 @@
 /* eslint-disable prefer-template */
 import safeJsonParse from '../util/safeJsonParser';
+import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
@@ -264,7 +265,7 @@ export default {
     // When should bikeshare availability be rendered in orange rather than green
     fewAvailableCount: 3,
     networks: {},
-    useSpacesAvailable: true,
+    capacity: BIKEAVL_WITHMAX,
   },
 
   // Lowest level for stops and terminals are rendered
