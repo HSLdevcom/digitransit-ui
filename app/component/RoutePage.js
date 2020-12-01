@@ -5,7 +5,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy'; // DT-3182
-import { matchShape, routerShape } from 'found';
+import { matchShape, routerShape, RedirectException } from 'found';
 
 import CallAgencyWarning from './CallAgencyWarning';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
@@ -37,6 +37,7 @@ import {
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import BackButton from './BackButton'; // DT-3472
+import { isBrowser } from '../util/browser';
 
 const Tab = {
   Disruptions: PREFIX_DISRUPTION,
@@ -255,7 +256,11 @@ class RoutePage extends React.Component {
       /* In this case there is little we can do
        * There is no point continuing rendering as it can only
        * confuse user. Therefore redirect to Routes page */
-      router.replace(`/${PREFIX_ROUTES}`);
+      if (isBrowser) {
+        router.replace(`/${PREFIX_ROUTES}`);
+      } else {
+        throw new RedirectException(`/${PREFIX_ROUTES}`);
+      }
       return null;
     }
 
