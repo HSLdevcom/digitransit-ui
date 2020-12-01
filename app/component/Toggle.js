@@ -18,7 +18,13 @@ const Toggle = ({ toggled, title, label, onToggle, id }) => {
           id={useId}
           checked={toggled}
           onKeyDown={e => isKeyboardSelectionEvent(e) && onToggle()}
-          onClick={() => onToggle()}
+          onClick={e => {
+            if (e.detail === 0) {
+              // event was simulated by browser following keypress
+              return;
+            }
+            onToggle();
+          }}
         />
         <span className="slider round" />
       </label>

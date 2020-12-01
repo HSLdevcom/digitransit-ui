@@ -3,6 +3,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
+import { isKeyboardSelectionEvent } from '../util/browser';
 import Icon from './Icon';
 
 /**
@@ -209,19 +210,27 @@ class SearchSettingsDropdown extends React.Component {
       : options;
 
     return (
-      <fieldset
+      <div
         className="settings-dropdown-wrapper walk-option-inner"
         ref={this.labelRef}
       >
-        <legend className="sr-only">{labelText}</legend>
         <button
           type="button"
           className="settings-dropdown-label"
-          onClick={() => this.toggleDropdown(this.state.showDropdown)}
+          onKeyDown={e =>
+            isKeyboardSelectionEvent(e) &&
+            this.toggleDropdown(this.state.showDropdown)
+          }
+          onClick={e => {
+            if (e.detail === 0) {
+              // event was simulated by browser following keypress
+              return;
+            }
+            this.toggleDropdown(this.state.showDropdown);
+          }}
         >
-          <p className="settings-dropdown-label-text" aria-hidden="true">
-            {labelText}
-          </p>
+          &zwnj;{/* removing this breaks keyboard navigation on firefox??? */}
+          <p className="settings-dropdown-label-text">{labelText}</p>
           <p className="settings-dropdown-label-value">
             {/* eslint-disable-next-line no-nested-ternary */}
             {displayValueFormatter
@@ -253,7 +262,7 @@ class SearchSettingsDropdown extends React.Component {
             {this.getOptionTags(selectOptions, this.state.showDropdown)}
           </ul>
         )}
-      </fieldset>
+      </div>
     );
   }
 }
