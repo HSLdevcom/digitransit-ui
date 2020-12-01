@@ -470,9 +470,6 @@ export default {
         url: '/assets/geojson/hsl_zone_lines_20190508.geojson',
       },
     ],
-    zones: {
-      url: '/assets/geojson/hsl_zone_areas_20190508.geojson',
-    },
   },
   mapLayers: {
     featureMapping: {

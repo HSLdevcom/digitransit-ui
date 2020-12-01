@@ -173,7 +173,7 @@ export default configMerger(walttiConfig, {
     5: 'D',
   },
   zoneIdFontSize: {
-    1: '10px',
+    'A-city': '10px',
   },
   stopCard: {
     header: {
