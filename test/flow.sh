@@ -17,6 +17,6 @@ sudo apt-get install -y fonts-liberation google-chrome-stable
 CONFIG=hsl yarn dev &
 sleep 2 # Sleep so that server starts in time for tests even if available route timetables can't be loaded
 
-wget -N http://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip
+wget -N http://chromedriver.storage.googleapis.com/85.0.4183.87/chromedriver_linux64.zip
 unzip chromedriver_linux64.zip
 CHROMEDRIVER=./chromedriver test/flow/script/run-flow-tests.sh
