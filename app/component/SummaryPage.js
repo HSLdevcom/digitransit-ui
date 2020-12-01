@@ -306,18 +306,6 @@ class SummaryPage extends React.Component {
     } else {
       this.selectedPlan = this.props.viewer && this.props.viewer.plan;
     }
-
-    if (this.showVehicles()) {
-      const combinedItineraries = this.getCombinedItineraries();
-      const itineraryTopics = getTopicOptions(
-        this.context,
-        combinedItineraries,
-        this.props.match,
-      );
-      if (itineraryTopics && itineraryTopics.length > 0) {
-        this.startClient(itineraryTopics);
-      }
-    }
   }
 
   // When user goes straigth to itinerary view with url, map cannot keep up and renders a while after everything else
@@ -1225,6 +1213,23 @@ class SummaryPage extends React.Component {
       // eslint-disable-next-line no-unused-expressions
       import('../util/feedbackly');
     }
+
+    if (this.showVehicles()) {
+      const { client } = this.context.getStore('RealTimeInformationStore');
+      // If user comes from eg. RoutePage, old client may not have been completely shut down yet.
+      // This will prevent situation where RoutePages vehicles would appear on SummaryPage
+      if (!client) {
+        const combinedItineraries = this.getCombinedItineraries();
+        const itineraryTopics = getTopicOptions(
+          this.context,
+          combinedItineraries,
+          this.props.match,
+        );
+        if (itineraryTopics && itineraryTopics.length > 0) {
+          this.startClient(itineraryTopics);
+        }
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -1343,14 +1348,24 @@ class SummaryPage extends React.Component {
       reportError(this.props.error);
     }
     if (this.showVehicles()) {
-      const combinedItineraries = this.getCombinedItineraries();
+      let combinedItineraries = this.getCombinedItineraries();
+      if (
+        combinedItineraries &&
+        combinedItineraries.length > 0 &&
+        this.props.match.params.hash !== 'walk'
+      ) {
+        combinedItineraries = combinedItineraries.filter(
+          itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+        ); // exclude itineraries that have only walking legs from the summary
+      }
       const itineraryTopics = getTopicOptions(
         this.context,
         combinedItineraries,
         this.props.match,
       );
-
-      if (!isEqual(itineraryTopics, this.itineraryTopics)) {
+      const { client } = this.context.getStore('RealTimeInformationStore');
+      // Client may not be initialized yet if there was an client before ComponentDidMount
+      if (!isEqual(itineraryTopics, this.itineraryTopics) || !client) {
         this.updateClient(itineraryTopics);
         this.itineraryTopics = itineraryTopics;
       }
