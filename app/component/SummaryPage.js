@@ -413,10 +413,10 @@ class SummaryPage extends React.Component {
   };
 
   startClient = itineraryTopics => {
+    this.itineraryTopics = itineraryTopics;
     if (itineraryTopics && !isEmpty(itineraryTopics)) {
       const clientConfig = this.configClient(itineraryTopics);
       this.context.executeAction(startRealTimeClient, clientConfig);
-      this.itineraryTopics = itineraryTopics;
     }
   };
 
@@ -424,7 +424,7 @@ class SummaryPage extends React.Component {
     const { client, topics } = this.context.getStore(
       'RealTimeInformationStore',
     );
-
+    this.itineraryTopics = itineraryTopics;
     if (isEmpty(itineraryTopics) && client) {
       this.stopClient();
       return;
@@ -441,10 +441,7 @@ class SummaryPage extends React.Component {
       }
       this.stopClient();
     }
-
-    if (!isEmpty(itineraryTopics)) {
-      this.startClient(itineraryTopics);
-    }
+    this.startClient(itineraryTopics);
   };
 
   stopClient = () => {
@@ -1225,9 +1222,7 @@ class SummaryPage extends React.Component {
           combinedItineraries,
           this.props.match,
         );
-        if (itineraryTopics && itineraryTopics.length > 0) {
-          this.startClient(itineraryTopics);
-        }
+        this.startClient(itineraryTopics);
       }
     }
   }
@@ -1367,7 +1362,6 @@ class SummaryPage extends React.Component {
       // Client may not be initialized yet if there was an client before ComponentDidMount
       if (!isEqual(itineraryTopics, this.itineraryTopics) || !client) {
         this.updateClient(itineraryTopics);
-        this.itineraryTopics = itineraryTopics;
       }
     }
   }
