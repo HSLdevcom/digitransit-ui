@@ -21,7 +21,7 @@ General component description in JSDoc format. Markdown is _supported_.
     -   `$0.appElement`  
     -   `$0.isModalOpen`  
     -   `$0.modalAriaLabel`  
-    -   `$0.normalColor`  
+    -   `$0.color`  
     -   `$0.hoverColor`  
 
 ### Examples
