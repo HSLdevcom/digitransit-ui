@@ -79,9 +79,9 @@ const newRoute = {
 };
 
 //add newRoute to oldRouteCollection
-const newRouteCollection = addFutureRoute(newRoute, oldRouteCollection);
+const newRouteCollection = addFutureRoute(newRoute, oldRouteCollection, { prefixItinerarySummary: 'reitti' });
 
-const url = createUrl(newRoute);
+const url = createUrl(newRoute, { prefixItinerarySummary: 'reitti' });
 //'/reitti/Pasila%2C%20Helsinki%3A%3A60.198828%2C24.933514/Myyrmäki%2C%20Vantaa%3A%3A60.261238%2C24.854782?time=1600888888'
 ```
 

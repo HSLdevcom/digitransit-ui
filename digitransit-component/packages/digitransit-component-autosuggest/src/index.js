@@ -20,8 +20,6 @@ import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
 
-moment.tz.setDefault('Europe/Helsinki');
-
 i18next.init({ lng: 'fi', resources: {} });
 
 Object.keys(translations).forEach(lang => {
@@ -196,6 +194,11 @@ class DTAutosuggest extends React.Component {
     isMobile: PropTypes.bool,
     color: PropTypes.string,
     hoverColor: PropTypes.string,
+    timeZone: PropTypes.string,
+    pathOpts: PropTypes.shape({
+      routesPrefix: PropTypes.string,
+      stopsPrefix: PropTypes.string,
+    }),
   };
 
   static defaultProps = {
@@ -206,15 +209,20 @@ class DTAutosuggest extends React.Component {
     transportMode: undefined,
     lang: 'fi',
     sources: [],
-    targets: [],
     isMobile: false,
     color: '#007ac9',
     hoverColor: '#0062a1',
+    timeZone: 'Europe/Helsinki',
+    pathOpts: {
+      routesPrefix: 'linjat',
+      stopsPrefix: 'pysakit',
+    },
   };
 
   constructor(props) {
     super(props);
     i18next.changeLanguage(props.lang);
+    moment.tz.setDefault(props.timeZone);
     this.state = {
       value: props.value,
       suggestions: [],
@@ -223,7 +231,7 @@ class DTAutosuggest extends React.Component {
       pendingCurrentLocation: false,
       renderMobileSearch: false,
       sources: props.sources,
-      targets: props.targets,
+      ownPlaces: false,
       typingTimer: null,
       typing: false,
       pendingSelection: null,
@@ -297,7 +305,7 @@ class DTAutosuggest extends React.Component {
         this.setState(
           {
             sources: ['Favourite', 'Back'],
-            targets: ['Locations'],
+            ownPlaces: true,
             pendingSelection: ref.suggestion.type,
             value: '',
           },
@@ -314,7 +322,7 @@ class DTAutosuggest extends React.Component {
         this.setState(
           {
             sources: this.props.sources,
-            targets: this.props.targets,
+            ownPlaces: false,
             pendingSelection: ref.suggestion.type,
             suggestionIndex: ref.suggestionIndex,
           },
@@ -346,7 +354,7 @@ class DTAutosuggest extends React.Component {
             this.setState({
               renderMobileSearch: false,
               sources: this.props.sources,
-              targets: this.props.targets,
+              ownPlaces: false,
               suggestions: [],
             });
           }
@@ -369,7 +377,7 @@ class DTAutosuggest extends React.Component {
     this.setState({
       suggestions: [],
       sources: this.props.sources,
-      targets: this.props.targets,
+      ownPlaces: false,
       editing: false,
     });
   };
@@ -439,7 +447,7 @@ class DTAutosuggest extends React.Component {
       { valid: false, cleanExecuted: !cleanExecuted ? false : cleanExecuted },
       () => {
         executeSearch(
-          this.state.targets,
+          this.state.ownPlaces ? ['Locations'] : this.props.targets,
           this.state.sources,
           this.props.transportMode,
           this.props.searchContext,
@@ -492,6 +500,7 @@ class DTAutosuggest extends React.Component {
               );
             }
           },
+          this.props.pathOpts,
         );
       },
     );
@@ -502,7 +511,7 @@ class DTAutosuggest extends React.Component {
       editing: true,
       value: '',
       sources: this.props.sources,
-      targets: this.props.targets,
+      ownPlaces: false,
     };
     // must update suggestions
     this.setState(newState, () =>

@@ -169,6 +169,7 @@ class OriginDestinationBar extends React.Component {
               ? 'SelectFromOwnLocations'
               : '',
             this.props.isMobile ? 'MapPosition' : '',
+            'Stops',
           ]}
           lang={this.props.language}
           disableAutoFocus={this.props.isMobile}

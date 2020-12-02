@@ -27,14 +27,16 @@ const DepartureRow = (
     );
   }
   return (
-    <div role="listitem" className={cx('departure-row', mode)}>
+    <div role="cell" className={cx('departure-row', mode)}>
       <div className="route-number-container">
         <div className="route-number">{departure.trip.route.shortName}</div>
       </div>
       <div className="route-headsign">{departure.headsign}</div>
-      <div className={cx('route-arrival', { realtime: departure.realtime })}>
-        {shownTime}
-      </div>
+      {shownTime && (
+        <div className={cx('route-arrival', { realtime: departure.realtime })}>
+          {shownTime}
+        </div>
+      )}
       <div className={cx('route-time', { realtime: departure.realtime })}>
         <LocalTime time={departureTime} />
       </div>

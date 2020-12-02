@@ -48,4 +48,4 @@ Only Linux and Mac OS are supported.
 - `docker build -t hsldevcom/digitransit-ui .`
 
 ### Releases
-- Done through automated builds in travis
+- Done through automated builds in github actions triggered by github releases

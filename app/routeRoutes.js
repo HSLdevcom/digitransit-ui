@@ -188,7 +188,6 @@ export default (
           </Route>,
           <Route
             path={`${PREFIX_TIMETABLE}/:patternId`}
-            disableMapOnMobile
             getComponent={() =>
               import(
                 /* webpackChunkName: "route" */ './component/RouteScheduleContainer'
@@ -210,7 +209,6 @@ export default (
           />,
           <Route
             path={`${PREFIX_DISRUPTION}/:patternId`}
-            disableMapOnMobile
             getComponent={() =>
               import(
                 /* webpackChunkName: "route" */ './component/RouteAlertsContainer'

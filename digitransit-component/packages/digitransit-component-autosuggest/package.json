@@ -1,15 +1,18 @@
 {
   "name": "@digitransit-component/digitransit-component-autosuggest",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "digitransit-component autosuggest module",
   "main": "lib/index.js",
+  "files": [
+    "/lib"
+  ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build:index": "ENV=production webpack --config webpack.config.babel.js && yarn run docs",
+    "build:index": "ENV=production NAME=digitransit-component-autosuggest webpack --config ../webpack.config.babel.js && yarn run docs",
     "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties,@babel/plugin-proposal-numeric-separator --out-file test.generated",
-    "watch": "ENV=development webpack --watch --config webpack.config.babel.js",
+    "watch": "ENV=development NAME=digitransit-component-autosuggest webpack --watch --config ../webpack.config.babel.js",
     "clean": "rm -rf ./lib ./node_modules",
     "test": "mocha -r esm test.generated",
     "docs": "node -r esm ../../scripts/generate-readmes"
@@ -27,14 +30,14 @@
   "dependencies": {
     "@digitransit-component/digitransit-component-icon": "0.0.14",
     "@digitransit-component/digitransit-component-suggestion-item": "0.1.0",
-    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "0.2.3",
+    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "0.2.4",
     "@digitransit-search-util/digitransit-search-util-get-label": "0.0.4",
     "@digitransit-search-util/digitransit-search-util-suggestion-to-location": "0.0.6",
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "0.0.5",
-    "@digitransit-component/digitransit-component-dialog-modal": "0.2.0",
-    "@hsl-fi/sass": "^0.1.1"
+    "@digitransit-component/digitransit-component-dialog-modal": "0.2.0"
   },
   "peerDependencies": {
+    "@hsl-fi/sass": "^0.1.1",
     "classnames": "2.2.6",
     "i18next": "^19.3.3",
     "lodash": "4.17.14",

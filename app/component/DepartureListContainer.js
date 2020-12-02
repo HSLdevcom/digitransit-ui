@@ -223,6 +223,7 @@ class DepartureListContainer extends Component {
         headsign: this.getHeadsign(departure),
         trip: { ...departure.trip, ...{ route: departure.trip.pattern.route } },
         stop: departure.stop,
+        realtime: departure.realtime,
       };
 
       const departureObj = (
@@ -248,6 +249,7 @@ class DepartureListContainer extends Component {
                 name: 'RightNowTab',
               });
             }}
+            role="row"
           >
             {departureObj}
           </Link>,
@@ -261,6 +263,7 @@ class DepartureListContainer extends Component {
       <div
         className={cx('departure-list', this.props.className)}
         onScroll={this.onScroll()}
+        role="table"
       >
         {departureObjs}
       </div>

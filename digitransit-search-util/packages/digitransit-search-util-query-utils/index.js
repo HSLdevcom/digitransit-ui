@@ -16,7 +16,7 @@ let relayEnvironment = null;
 
 const alertsQuery = graphql`
   query digitransitSearchUtilQueryUtilsAlertsQuery {
-    alerts(severityLevel: [SEVERE]) {
+    alerts(severityLevel: [SEVERE, WARNING]) {
       stop {
         vehicleMode
         patterns {
@@ -362,8 +362,15 @@ export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
  * @param {String} input Search text, if empty no objects are returned
  * @param {*} favourites
  * @param {String} transportMode If provided, all returned route objects are of this mode, e.g. 'BUS'
+ * @param pathOpts an object containing two properties routesPrefix and stopsPrefix to override the URL paths returned
+ *        by this method
  */
-export function getFavouriteRoutesQuery(favourites, input, transportMode) {
+export function getFavouriteRoutesQuery(
+  favourites,
+  input,
+  transportMode,
+  pathOpts,
+) {
   if (
     !relayEnvironment ||
     !Array.isArray(favourites) ||
@@ -372,7 +379,7 @@ export function getFavouriteRoutesQuery(favourites, input, transportMode) {
     return Promise.resolve([]);
   }
   return fetchQuery(relayEnvironment, favouriteRoutesQuery, { ids: favourites })
-    .then(data => data.routes.map(mapRoute))
+    .then(data => data.routes.map(r => mapRoute(r, pathOpts)))
     .then(routes => routes.filter(route => !!route))
     .then(routes =>
       routes.map(favourite => ({
@@ -438,8 +445,10 @@ export function getFavouriteBikeRentalStationsQuery(favourites, input) {
  * @param {String} input Search text, if empty no objects are returned
  * @param {*} feedIds
  * @param {String} transportMode Filter routes with a transport mode, e.g. route-BUS
+ * @param pathOpts an object containing two properties routesPrefix and stopsPrefix to override the URL paths returned
+ *        by this method
  */
-export function getRoutesQuery(input, feedIds, transportMode) {
+export function getRoutesQuery(input, feedIds, transportMode, pathOpts) {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
@@ -461,7 +470,7 @@ export function getRoutesQuery(input, feedIds, transportMode) {
   })
     .then(data =>
       data.viewer.routes
-        .map(mapRoute)
+        .map(r => mapRoute(r, pathOpts))
         .filter(route => !!route)
         .sort((x, y) => routeNameCompare(x.properties, y.properties)),
     )

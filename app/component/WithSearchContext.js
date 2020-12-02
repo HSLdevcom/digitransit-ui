@@ -12,6 +12,10 @@ import {
   navigateTo,
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
+  PREFIX_BIKESTATIONS,
+  PREFIX_STOPS,
+  PREFIX_TERMINALS,
+  PREFIX_ROUTES,
 } from '../util/path';
 import searchContext from '../util/searchContext';
 import intializeSearchContext from '../util/DTSearchContextInitializer';
@@ -19,6 +23,12 @@ import SelectFromMapHeader from './SelectFromMapHeader';
 import SelectFromMapPageMap from './map/SelectFromMapPageMap';
 import DTModal from './DTModal';
 import { addressToItinerarySearch } from '../util/otpStrings';
+
+const PATH_OPTS = {
+  stopsPrefix: PREFIX_STOPS,
+  routesPrefix: PREFIX_ROUTES,
+  itinerarySummaryPrefix: PREFIX_ITINERARY_SUMMARY,
+};
 
 export default function withSearchContext(WrappedComponent) {
   class ComponentWithSearchContext extends React.Component {
@@ -179,20 +189,20 @@ export default function withSearchContext(WrappedComponent) {
       // DT-3577 Favourite's doesn't have id property, use gtfsId instead
       let id = item.properties.id ? item.properties.id : item.properties.gtfsId;
 
-      let path = '/pysakit/';
+      let path;
       switch (item.properties.layer) {
         case 'station':
         case 'favouriteStation':
-          path = '/terminaalit/';
+          path = `/${PREFIX_TERMINALS}/`;
           id = id.replace('GTFS:', '').replace(':', '%3A');
           break;
         case 'bikeRentalStation':
         case 'favouriteBikeRentalStation':
-          path = '/pyoraasemat/';
+          path = `/${PREFIX_BIKESTATIONS}/`;
           id = item.properties.labelId;
           break;
         default:
-          path = '/pysakit/';
+          path = `/${PREFIX_STOPS}/`;
           id = id.replace('GTFS:', '').replace(':', '%3A');
       }
       const link = path.concat(id);
@@ -403,6 +413,7 @@ export default function withSearchContext(WrappedComponent) {
       if (fromMap) {
         return this.renderSelectFromMapModal(fromMap);
       }
+
       return (
         <WrappedComponent
           appElement="#app"
@@ -410,6 +421,7 @@ export default function withSearchContext(WrappedComponent) {
           addAnalyticsEvent={addAnalyticsEvent}
           onSelect={this.onSelect}
           {...this.props}
+          pathOpts={PATH_OPTS}
         />
       );
     }

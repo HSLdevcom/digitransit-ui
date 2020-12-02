@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
@@ -10,6 +11,8 @@ function IntermediateLeg({
   color,
   mode,
   name,
+  arrivalTime,
+  realTime,
   focusFunction,
   gtfsId,
   showCurrentZoneDelimiter,
@@ -18,6 +21,7 @@ function IntermediateLeg({
   currentZoneId,
   nextZoneId,
   zoneLabelColor,
+  isCanceled,
   isLastPlace,
 }) {
   const modeClassName = mode.toLowerCase();
@@ -112,7 +116,14 @@ function IntermediateLeg({
           to={`/${PREFIX_STOPS}/${gtfsId}`}
         >
           <div className="itinerary-leg-row-intermediate">
-            <div className="itinerary-intermediate-stop-name">{` ${name}`}</div>
+            <div className="itinerary-intermediate-stop-name">
+              <span className={cx({ realtime: realTime })}>
+                <span className={cx({ canceled: isCanceled })}>
+                  {moment(arrivalTime).format('HH:mm')}
+                </span>
+              </span>
+              {` ${name}`}
+            </div>
             <Icon
               img="icon-icon_arrow-collapse--right"
               className="itinerary-arrow-icon"
@@ -128,6 +139,8 @@ function IntermediateLeg({
 IntermediateLeg.propTypes = {
   focusFunction: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  arrivalTime: PropTypes.number.isRequired,
+  realTime: PropTypes.bool,
   mode: PropTypes.string.isRequired,
   color: PropTypes.string,
   showCurrentZoneDelimiter: PropTypes.bool,
@@ -138,6 +151,7 @@ IntermediateLeg.propTypes = {
   zoneLabelColor: PropTypes.string,
   isLastPlace: PropTypes.bool,
   gtfsId: PropTypes.string,
+  isCanceled: PropTypes.bool,
 };
 
 IntermediateLeg.defaultProps = {
@@ -146,6 +160,7 @@ IntermediateLeg.defaultProps = {
   previousZoneId: undefined,
   currentZoneId: undefined,
   nextZoneId: undefined,
+  isCanceled: false,
 };
 
 export default IntermediateLeg;

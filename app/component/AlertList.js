@@ -8,6 +8,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import RouteAlertsRow from './RouteAlertsRow';
 import { createUniqueAlertList } from '../util/alertUtils';
 import { AlertSeverityLevelType } from '../constants';
+import withBreakpoint from '../util/withBreakpoint';
 
 const AlertList = ({
   cancelations,
@@ -16,6 +17,7 @@ const AlertList = ({
   showExpired,
   serviceAlerts,
   showRouteNameLink,
+  breakpoint,
 }) => {
   const groupedAlerts =
     createUniqueAlertList(
@@ -37,44 +39,54 @@ const AlertList = ({
   }
 
   return (
-    <div className={cx({ 'momentum-scroll': !disableScrolling })}>
-      <div className="route-alerts-list">
-        {groupedAlerts.map(
-          (
-            {
-              description,
-              expired,
-              header,
-              route: { color, mode, shortName, routeGtfsId } = {},
-              severityLevel,
-              stop: { code, vehicleMode, stopGtfsId } = {},
-              url,
-              validityPeriod: { startTime, endTime },
-            },
-            i,
-          ) => (
-            <RouteAlertsRow
-              color={color ? `#${color}` : null}
-              currentTime={currentTime}
-              description={description}
-              endTime={endTime}
-              entityIdentifier={shortName || code}
-              entityMode={
-                (mode && mode.toLowerCase()) ||
-                (vehicleMode && vehicleMode.toLowerCase())
-              }
-              entityType={(shortName && 'route') || (code && 'stop')}
-              expired={expired}
-              header={header}
-              key={`alert-${shortName}-${severityLevel}-${i}`} // eslint-disable-line react/no-array-index-key
-              severityLevel={severityLevel}
-              startTime={startTime}
-              url={url}
-              gtfsIds={routeGtfsId || stopGtfsId}
-              showRouteNameLink={showRouteNameLink}
-            />
-          ),
-        )}
+    <div className="route-alerts-content-wrapper">
+      <div
+        className={cx('route-alerts-list-wrapper', {
+          'bp-large': breakpoint === 'large',
+        })}
+      >
+        <div
+          className={cx('route-alerts-list', {
+            'momentum-scroll': !disableScrolling,
+          })}
+        >
+          {groupedAlerts.map(
+            (
+              {
+                description,
+                expired,
+                header,
+                route: { color, mode, shortName, routeGtfsId } = {},
+                severityLevel,
+                stop: { code, vehicleMode, stopGtfsId } = {},
+                url,
+                validityPeriod: { startTime, endTime },
+              },
+              i,
+            ) => (
+              <RouteAlertsRow
+                color={color ? `#${color}` : null}
+                currentTime={currentTime}
+                description={description}
+                endTime={endTime}
+                entityIdentifier={shortName || code}
+                entityMode={
+                  (mode && mode.toLowerCase()) ||
+                  (vehicleMode && vehicleMode.toLowerCase())
+                }
+                entityType={(shortName && 'route') || (code && 'stop')}
+                expired={expired}
+                header={header}
+                key={`alert-${shortName}-${severityLevel}-${i}`} // eslint-disable-line react/no-array-index-key
+                severityLevel={severityLevel}
+                startTime={startTime}
+                url={url}
+                gtfsIds={routeGtfsId || stopGtfsId}
+                showRouteNameLink={showRouteNameLink}
+              />
+            ),
+          )}
+        </div>
       </div>
     </div>
   );
@@ -107,6 +119,7 @@ AlertList.propTypes = {
   serviceAlerts: PropTypes.arrayOf(alertShape),
   showExpired: PropTypes.bool,
   showRouteNameLink: PropTypes.bool,
+  breakpoint: PropTypes.string,
 };
 
 AlertList.defaultProps = {
@@ -225,7 +238,7 @@ AlertList.description = (
 );
 
 const connectedComponent = connectToStores(
-  AlertList,
+  withBreakpoint(AlertList),
   ['TimeStore'],
   context => ({
     currentTime: context.getStore('TimeStore').getCurrentTime().unix(),

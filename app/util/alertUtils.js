@@ -575,6 +575,35 @@ export const getActiveLegAlertSeverityLevel = leg => {
 };
 
 /**
+ * Returns an array of currently active alerts for the legs' route and stops
+ *
+ * @param {*} leg the itinerary leg to check.
+ * @param {*} legStartTime the reference unix time stamp (in seconds).
+ * @param {*} locale the locale to use, defaults to 'en'.
+ */
+export const getActiveLegAlerts = (leg, legStartTime, locale = 'en') => {
+  if (!leg) {
+    return undefined;
+  }
+  const serviceAlerts = [
+    ...getServiceAlertsForRoute(
+      leg.route,
+      leg.trip && leg.trip.pattern && leg.trip.pattern.code,
+      locale,
+    ),
+    ...getServiceAlertsForStop(leg.from && leg.from.stop, locale),
+    ...getServiceAlertsForStop(leg.to && leg.to.stop, locale),
+    ...(Array.isArray(leg.intermediatePlaces)
+      ? leg.intermediatePlaces
+          .map(place => getServiceAlertsForStop(place.stop, locale))
+          .reduce((a, b) => a.concat(b), [])
+      : []),
+  ].filter(alert => isAlertActive([{}], alert, legStartTime) !== false);
+
+  return serviceAlerts;
+};
+
+/**
  * Compares the given alerts in order to sort them.
  *
  * @param {*} a the first alert to compare.

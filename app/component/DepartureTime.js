@@ -38,19 +38,6 @@ function DepartureTime(props, context) {
     );
   }
 
-  let realtime;
-  if (props.realtime && !props.canceled) {
-    realtime = (
-      <span
-        aria-label={context.intl.formatMessage({
-          id: 'realtime',
-          defaultMessage: 'Real time',
-        })}
-      >
-        <Icon img="icon-icon_realtime" className="realtime-icon realtime" />
-      </span>
-    );
-  }
   return (
     <React.Fragment>
       <span
@@ -64,7 +51,6 @@ function DepartureTime(props, context) {
           props.className,
         )}
       >
-        {realtime}
         {shownTime}
       </span>
       {props.canceled && props.showCancelationIcon && (
