@@ -18,6 +18,7 @@ Show button links to near you page for different travel modes
         -   `props.alertsContext.currentTime` **[Number][6]** Time stamp with which the returned alerts are validated with
     -   `props.LinkComponent` **[element][7]** React component for creating a link, default is undefined and normal anchor tags are used
     -   `props.origin`  
+    -   `props.omitLanguageUrl`  
 
 ### Examples
 
