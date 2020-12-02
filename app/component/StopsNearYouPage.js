@@ -209,7 +209,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 omitNonPickups: $omitNonPickups
               )
             }
-            alerts: alerts(severityLevel: [SEVERE]) {
+            alerts: alerts(severityLevel: [SEVERE, WARNING]) {
               ...DisruptionBanner_alerts
             }
           }

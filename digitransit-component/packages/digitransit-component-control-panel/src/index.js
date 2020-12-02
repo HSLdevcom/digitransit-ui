@@ -97,6 +97,7 @@ function NearStopsAndRoutes({
   alertsContext,
   LinkComponent,
   origin,
+  omitLanguageUrl,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
   useEffect(() => {
@@ -108,9 +109,10 @@ function NearStopsAndRoutes({
   }, []);
 
   const queryString = origin.queryString || '';
+  const languagePrefix = omitLanguageUrl ? '' : `/${language}`;
   const buttons = modes.map(mode => {
     const withAlert = modesWithAlerts.includes(mode.toUpperCase());
-    let url = `${urlPrefix}/${mode.toUpperCase()}/POS`;
+    let url = `${languagePrefix}${urlPrefix}/${mode.toUpperCase()}/POS`;
     if (origin.set) {
       url += `/${encodeURIComponent(origin.address)}::${origin.lat},${
         origin.lon
@@ -175,6 +177,7 @@ NearStopsAndRoutes.propTypes = {
   }),
   LinkComponent: PropTypes.object,
   origin: PropTypes.object,
+  omitLanguageUrl: PropTypes.bool,
 };
 
 NearStopsAndRoutes.defaultProps = {
@@ -182,6 +185,7 @@ NearStopsAndRoutes.defaultProps = {
   language: 'fi',
   LinkComponent: undefined,
   origin: undefined,
+  omitLanguageUrl: undefined,
 };
 
 /**

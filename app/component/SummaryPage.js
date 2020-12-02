@@ -32,7 +32,6 @@ import Loading from './Loading';
 import { getRoutePath } from '../util/path';
 import {
   validateServiceTimeRange,
-  getStartTime,
   getStartTimeWithColon,
 } from '../util/timeUtils';
 import { planQuery } from '../util/queryUtils';
@@ -209,36 +208,6 @@ const getTopicOptions = (context, planitineraries, match) => {
   return itineraryTopics;
 };
 
-const getVehicleInfos = itinerary => {
-  if (!itinerary) {
-    return {};
-  }
-  let itineraryVehicles = {};
-  const gtfsIdsOfRouteAndDirection = [];
-  const gtfsIdsOfTrip = [];
-  const startTimes = [];
-
-  itinerary.legs.forEach(leg => {
-    if (leg.transitLeg && leg.trip) {
-      gtfsIdsOfTrip.push(leg.trip.gtfsId);
-      startTimes.push(
-        getStartTime(leg.trip.stoptimesForDate[0].scheduledDeparture),
-      );
-      gtfsIdsOfRouteAndDirection.push(
-        `${leg.route.gtfsId}_${leg.trip.directionId}`,
-      );
-    }
-  });
-  if (startTimes.length > 0) {
-    itineraryVehicles = {
-      gtfsIdsOfTrip,
-      gtfsIdsOfRouteAndDirection,
-      startTimes,
-    };
-  }
-  return itineraryVehicles;
-};
-
 class SummaryPage extends React.Component {
   static contextTypes = {
     config: PropTypes.object,
@@ -288,7 +257,7 @@ class SummaryPage extends React.Component {
     this.isFetchingWalkAndBike = true;
     this.params = this.context.match.params;
     this.originalPlan = this.props.viewer && this.props.viewer.plan;
-    /// *** TODO: Hotfix variables for temporary use only
+    // *** TODO: Hotfix variables for temporary use only
     this.justMounted = true;
     this.useFitBounds = true;
     this.mapLoaded = false;
@@ -336,18 +305,6 @@ class SummaryPage extends React.Component {
       };
     } else {
       this.selectedPlan = this.props.viewer && this.props.viewer.plan;
-    }
-
-    if (this.showVehicles()) {
-      const combinedItineraries = this.getCombinedItineraries();
-      const itineraryTopics = getTopicOptions(
-        this.context,
-        combinedItineraries,
-        this.props.match,
-      );
-      if (itineraryTopics && itineraryTopics.length > 0) {
-        this.startClient(itineraryTopics);
-      }
     }
   }
 
@@ -456,31 +413,18 @@ class SummaryPage extends React.Component {
   };
 
   startClient = itineraryTopics => {
-    const { storedItineraryTopics } = this.context.getStore(
-      'RealTimeInformationStore',
-    );
-    if (
-      itineraryTopics &&
-      !isEmpty(itineraryTopics) &&
-      !storedItineraryTopics
-    ) {
+    this.itineraryTopics = itineraryTopics;
+    if (itineraryTopics && !isEmpty(itineraryTopics)) {
       const clientConfig = this.configClient(itineraryTopics);
       this.context.executeAction(startRealTimeClient, clientConfig);
-      this.context.getStore(
-        'RealTimeInformationStore',
-      ).storedItineraryTopics = itineraryTopics;
     }
   };
 
-  updateClient = (itineraryTopics, itineraryVehicles) => {
+  updateClient = itineraryTopics => {
     const { client, topics } = this.context.getStore(
       'RealTimeInformationStore',
     );
-
-    this.context.getStore(
-      'RealTimeInformationStore',
-    ).storedItineraryVehicleInfos = itineraryVehicles;
-
+    this.itineraryTopics = itineraryTopics;
     if (isEmpty(itineraryTopics) && client) {
       this.stopClient();
       return;
@@ -497,22 +441,14 @@ class SummaryPage extends React.Component {
       }
       this.stopClient();
     }
-
-    if (!isEmpty(itineraryTopics)) {
-      this.startClient(itineraryTopics);
-    }
+    this.startClient(itineraryTopics);
   };
 
   stopClient = () => {
     const { client } = this.context.getStore('RealTimeInformationStore');
     if (client) {
       this.context.executeAction(stopRealTimeClient, client);
-      this.context.getStore(
-        'RealTimeInformationStore',
-      ).storedItineraryTopics = undefined;
-      this.context.getStore(
-        'RealTimeInformationStore',
-      ).storedItineraryVehicleInfos = undefined;
+      this.itineraryTopics = undefined;
     }
   };
 
@@ -1274,6 +1210,21 @@ class SummaryPage extends React.Component {
       // eslint-disable-next-line no-unused-expressions
       import('../util/feedbackly');
     }
+
+    if (this.showVehicles()) {
+      const { client } = this.context.getStore('RealTimeInformationStore');
+      // If user comes from eg. RoutePage, old client may not have been completely shut down yet.
+      // This will prevent situation where RoutePages vehicles would appear on SummaryPage
+      if (!client) {
+        const combinedItineraries = this.getCombinedItineraries();
+        const itineraryTopics = getTopicOptions(
+          this.context,
+          combinedItineraries,
+          this.props.match,
+        );
+        this.startClient(itineraryTopics);
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -1392,27 +1343,26 @@ class SummaryPage extends React.Component {
       reportError(this.props.error);
     }
     if (this.showVehicles()) {
-      const combinedItineraries = this.getCombinedItineraries();
+      let combinedItineraries = this.getCombinedItineraries();
+      if (
+        combinedItineraries &&
+        combinedItineraries.length > 0 &&
+        this.props.match.params.hash !== 'walk'
+      ) {
+        combinedItineraries = combinedItineraries.filter(
+          itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+        ); // exclude itineraries that have only walking legs from the summary
+      }
       const itineraryTopics = getTopicOptions(
         this.context,
         combinedItineraries,
         this.props.match,
       );
-      const activeIndex =
-        getHashNumber(
-          this.props.match.params.secondHash
-            ? this.props.match.params.secondHash
-            : this.props.match.params.hash,
-        ) || getActiveIndex(this.props.match.location, combinedItineraries);
-      const itineraryVehicles =
-        combinedItineraries.length > 0
-          ? getVehicleInfos(
-              combinedItineraries[
-                activeIndex < combinedItineraries.length ? activeIndex : 0
-              ],
-            )
-          : {};
-      this.updateClient(itineraryTopics, itineraryVehicles);
+      const { client } = this.context.getStore('RealTimeInformationStore');
+      // Client may not be initialized yet if there was an client before ComponentDidMount
+      if (!isEqual(itineraryTopics, this.itineraryTopics) || !client) {
+        this.updateClient(itineraryTopics);
+      }
     }
   }
 
@@ -1700,20 +1650,7 @@ class SummaryPage extends React.Component {
       [centerPoint.lat + delta, centerPoint.lon + delta],
     ];
 
-    const itineraryVehicles =
-      filteredItineraries.length > 0
-        ? getVehicleInfos(
-            activeIndex < filteredItineraries.length
-              ? filteredItineraries[activeIndex]
-              : filteredItineraries[0],
-          )
-        : {};
-
-    this.context.getStore(
-      'RealTimeInformationStore',
-    ).storedItineraryVehicleInfos = itineraryVehicles;
-
-    if (!isEmpty(itineraryVehicles)) {
+    if (this.showVehicles()) {
       leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
     }
 
