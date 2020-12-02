@@ -16,7 +16,7 @@ let relayEnvironment = null;
 
 const alertsQuery = graphql`
   query digitransitSearchUtilQueryUtilsAlertsQuery {
-    alerts(severityLevel: [SEVERE]) {
+    alerts(severityLevel: [SEVERE, WARNING]) {
       stop {
         vehicleMode
         patterns {
