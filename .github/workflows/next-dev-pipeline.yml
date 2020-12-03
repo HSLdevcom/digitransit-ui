@@ -253,6 +253,9 @@ jobs:
       # - visual-test-safari
       # - visual-test-edge
     runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        node-version: [ 10.x ]
     steps:
       - uses: actions/checkout@v2
       - name: Set time zone to Europe/Helsinki
