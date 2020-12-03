@@ -237,6 +237,7 @@ class IndexPage extends React.Component {
                   alertsContext={alertsContext}
                   LinkComponent={Link}
                   origin={originToStopNearYou}
+                  omitLanguageUrl
                 />
               </div>
             ) : (
@@ -337,6 +338,7 @@ class IndexPage extends React.Component {
                   alertsContext={alertsContext}
                   LinkComponent={Link}
                   origin={originToStopNearYou}
+                  omitLanguageUrl
                 />
               </div>
             ) : (

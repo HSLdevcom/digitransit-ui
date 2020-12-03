@@ -7,12 +7,12 @@ class ViaPointStore extends Store {
 
   addViaPoint(val) {
     this.viaPoints.push(val);
-    this.emit();
+    this.emitChange();
   }
 
   setViaPoints(viaPoints) {
     this.viaPoints = [...viaPoints];
-    this.emit();
+    this.emitChange();
   }
 
   getViaPoints() {
