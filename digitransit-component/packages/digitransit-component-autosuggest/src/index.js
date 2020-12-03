@@ -611,6 +611,10 @@ class DTAutosuggest extends React.Component {
     if (!this.state.editing) {
       this.setState({ editing: true });
     }
+
+    if (keyCode === 9) {
+      return this.onBlur();
+    }
   };
 
   suggestionAsAriaContent = () => {
