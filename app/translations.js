@@ -804,6 +804,7 @@ const translations = {
     'add-home': 'Add home',
     'add-itinerary-via-point': 'Add via point for itinerary',
     'add-location-to-favourites': 'Add an important location to your Favorites',
+    'add-to-favourites': 'Add to your Favorites',
     'add-via-button-label': 'Add via point',
     'add-via-duration-button-label': 'Set stop duration at via point {index}',
     'add-via-duration-button-label-close':
@@ -1645,6 +1646,7 @@ const translations = {
     'add-itinerary-via-point': 'Lisää reitille välipiste',
     'add-location-to-favourites':
       'Lisää sinulle tärkeä paikka Suosikkisi-välilehdelle',
+    'add-to-favourites': 'Lisää suosikiksi',
     'add-via-button-label': 'Lisää välipiste',
     'add-work': 'Lisää työ',
     'aria-itinerary-summary': 'Matkan kokonaiskesto {duration} ',
@@ -3244,6 +3246,7 @@ const translations = {
     'add-itinerary-via-point': 'Lägg till mellanstopp',
     'add-location-to-favourites':
       'Lägg till en plats som är viktig för dig på fliken Favoriter',
+    'add-to-favourites': 'Lägg till för dig på fliken Favoriter',
     'add-via-button-label': 'Lägg till viapunkt',
     'add-via-duration-button-label':
       'Ställ in varaktighet för viapunkten {index}',
