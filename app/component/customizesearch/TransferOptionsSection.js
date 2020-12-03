@@ -27,8 +27,8 @@ const TransferOptionsSection = (
           onToggle={() => {
             executeAction(saveRoutingSettings, {
               walkBoardCost: avoidTransfers
-                ? walkBoardCostHigh
-                : defaultSettings.walkBoardCost,
+                ? defaultSettings.walkBoardCost
+                : walkBoardCostHigh,
             });
             addAnalyticsEvent({
               category: 'ItinerarySettings',
