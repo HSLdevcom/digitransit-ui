@@ -15,7 +15,6 @@ import { dtLocationShape } from '../../util/shapes';
 import { isBrowser } from '../../util/browser';
 import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
 import PositionStore from '../../store/PositionStore';
-import GeoJsonStore from '../../store/GeoJsonStore';
 import MessageStore from '../../store/MessageStore';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import {
@@ -66,8 +65,6 @@ const startClient = context => {
 
 class MapWithTrackingStateHandler extends React.Component {
   static propTypes = {
-    getGeoJsonConfig: PropTypes.func.isRequired,
-    getGeoJsonData: PropTypes.func.isRequired,
     focusPoint: dtLocationShape,
     fitBounds: PropTypes.bool,
     position: PropTypes.shape({
@@ -412,14 +409,13 @@ const MapWithTracking = connectToStores(
       defaultMapCenter: dtLocationShape,
     }),
   })(MapWithTrackingStateHandler),
-  [PositionStore, MapLayerStore, GeoJsonStore, MessageStore],
+  [PositionStore, MapLayerStore, MessageStore],
   ({ getStore }) => {
     const position = getStore(PositionStore).getLocationState();
     const mapLayers = getStore(MapLayerStore).getMapLayers();
-    const { getGeoJsonConfig, getGeoJsonData } = getStore(GeoJsonStore);
     const messages = getStore(MessageStore).getMessages();
 
-    return { position, mapLayers, getGeoJsonConfig, getGeoJsonData, messages };
+    return { position, mapLayers, messages };
   },
 );
 

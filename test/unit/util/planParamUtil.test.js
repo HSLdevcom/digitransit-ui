@@ -55,6 +55,14 @@ describe('planParamUtil', () => {
             },
           },
         },
+        defaultSettings: {
+          walkSpeed: 1.2,
+          bikeSpeed: 5.55,
+        },
+        defaultOptions: {
+          walkSpeed: [0.69, 0.97, 1.2, 1.67, 2.22],
+          bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
+        },
       };
       const params = utils.preparePlanParams(config)(...defaultProps);
       const { modes } = params;
@@ -84,11 +92,13 @@ describe('planParamUtil', () => {
       expect(optimize).to.equal('GREENWAYS');
     });
 
-    it('should use bikeSpeed from localStorage', () => {
+    it('should use bikeSpeed from localStorage to find closest possible option in config', () => {
       setCustomizedSettings({ bikeSpeed: 20 });
       const params = utils.preparePlanParams(defaultConfig)(...defaultProps);
       const { bikeSpeed } = params;
-      expect(bikeSpeed).to.equal(20);
+      expect(bikeSpeed).to.equal(
+        Math.max(...defaultConfig.defaultOptions.bikeSpeed),
+      );
     });
 
     it('should replace the old ticketTypes separator "_" with ":" in localStorage', () => {
