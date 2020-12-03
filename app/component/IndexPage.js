@@ -145,6 +145,13 @@ class IndexPage extends React.Component {
     }${this.context.config.trafficNowLink[lang]}`;
   };
 
+  filterMobileFavouriteStops = (results, type) => {
+    const filteredResults = results.filter(
+      res => !res.properties.layer.includes('favourite'),
+    );
+    return type === 'Stops' ? filteredResults : results;
+  };
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { intl, config } = this.context;
@@ -237,6 +244,7 @@ class IndexPage extends React.Component {
                   alertsContext={alertsContext}
                   LinkComponent={Link}
                   origin={originToStopNearYou}
+                  omitLanguageUrl
                 />
               </div>
             ) : (
@@ -310,7 +318,9 @@ class IndexPage extends React.Component {
                 'CurrentPosition',
                 'MapPosition',
                 'FutureRoutes',
+                'Stops',
               ]}
+              filterResults={this.filterMobileFavouriteStops}
               disableAutoFocus
               isMobile
               breakpoint="small"
@@ -337,6 +347,7 @@ class IndexPage extends React.Component {
                   alertsContext={alertsContext}
                   LinkComponent={Link}
                   origin={originToStopNearYou}
+                  omitLanguageUrl
                 />
               </div>
             ) : (

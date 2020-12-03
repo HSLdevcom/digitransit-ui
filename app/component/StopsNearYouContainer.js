@@ -39,6 +39,7 @@ class StopsNearYouContainer extends React.Component {
 
   constructor(props, context) {
     super(props, context);
+    this.resultsUpdatedAlertRef = React.createRef();
     this.state = {
       stopCount: 5,
       currentPosition: props.position,
@@ -98,7 +99,8 @@ class StopsNearYouContainer extends React.Component {
     return newState;
   };
 
-  componentDidUpdate({ relay, currentTime, position }) {
+  componentDidUpdate(prevProps) {
+    const { relay, currentTime, position } = prevProps;
     const currUnix = this.props.currentTime;
     if (currUnix !== currentTime) {
       const variables = {
@@ -119,6 +121,16 @@ class StopsNearYouContainer extends React.Component {
     if (this.state.fetchMoreStops) {
       this.showMore();
     }
+    if (
+      (this.resultsUpdatedAlertRef.current &&
+        prevProps.stopPatterns.nearest.edges.length <
+          this.props.stopPatterns.nearest.edges.length) ||
+      (this.state.currentPosition.lat === this.props.position.lat &&
+        prevProps.position.lat !== this.state.currentPosition.lat)
+    ) {
+      // eslint-disable-next-line no-self-assign
+      this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
+    }
   }
 
   componentDidMount() {
@@ -135,13 +147,13 @@ class StopsNearYouContainer extends React.Component {
     };
     this.setState({
       isUpdatingPosition: true,
-      currentPosition: this.props.position,
     });
     this.props.relay.refetchConnection(
       this.state.stopCount,
       () => {
         this.setState({
           isUpdatingPosition: false,
+          currentPosition: this.props.position,
         });
       },
       variables,
@@ -224,8 +236,17 @@ class StopsNearYouContainer extends React.Component {
   };
 
   render() {
+    const screenReaderUpdateAlert = (
+      <span className="sr-only" role="alert" ref={this.resultsUpdatedAlertRef}>
+        <FormattedMessage
+          id="stop-near-you-update-alert"
+          defaultMessage="Search results updated"
+        />
+      </span>
+    );
     return (
       <>
+        {screenReaderUpdateAlert}
         {this.state.isUpdatingPosition && (
           <div className="stops-near-you-spinner-container">
             <Loading />

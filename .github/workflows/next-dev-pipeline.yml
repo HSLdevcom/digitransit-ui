@@ -83,34 +83,36 @@ jobs:
   #         encrypted_59b1a6418079_iv: ${{ secrets.encrypted_59b1a6418079_iv }}
   #         BS_ACCESS_KEY: ${{ secrets.BS_ACCESS_KEY }}
   #         BS_USERNAME: ${{ secrets.BS_USERNAME }}
-  # unit-test:
-  #   needs: install
-  #   runs-on: ubuntu-18.04
-  #   strategy:
-  #     matrix:
-  #       node-version: [10.x]
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: "Set time zone to Europe/Helsinki"
-  #       uses: zcong1993/setup-timezone@master
-  #       with:
-  #         timezone: "Europe/Helsinki"
-  #     - name: Use Node.js ${{ matrix.node-version }}
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-  #     - name: Cache node modules
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: '**/node_modules'
-  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-  #     - name: Install dependencies
-  #       run: yarn
-  #     - name: Run unit tests
-  #       run: yarn run test-coverage
-  #     - name: Send test coverage report
-  #       run: yarn run test-report
+  unit-test:
+    needs: install
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        node-version: [10.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: "Set time zone to Europe/Helsinki"
+        uses: zcong1993/setup-timezone@master
+        with:
+          timezone: "Europe/Helsinki"
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies and build shared components
+        run: yarn setup
+      - name: build relay queries
+        run: yarn relay
+      - name: Run unit tests
+        run: yarn run test-coverage
+      - name: Send test coverage report
+        run: yarn run test-report
   # visual-test-chrome:
   #   needs: install
   #   runs-on: ubuntu-18.04
@@ -272,7 +274,7 @@ jobs:
       - lint
       - publish-npm
       # - flow-test
-      # - unit-test
+      - unit-test
       # - visual-test-chrome
       # - visual-test-firefox
       # - visual-test-safari

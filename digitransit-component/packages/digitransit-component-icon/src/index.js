@@ -115,9 +115,8 @@ const Icon = ({ color, img, height, width, rotate }) => {
   const icons = IconMap(style);
   if (img === 'locate' && color && color.toUpperCase() !== '#007AC9') {
     return <React.Fragment>{icons.position}</React.Fragment>;
-  } else {
-    return <React.Fragment>{icons[img]}</React.Fragment>;
   }
+  return <React.Fragment>{icons[img]}</React.Fragment>;
 };
 
 Icon.propTypes = {
