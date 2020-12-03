@@ -105,8 +105,8 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Install dependencies
-        run: yarn
+      - name: Install dependencies and build shared components
+        run: yarn setup
       - name: Run unit tests
         run: yarn run test-coverage
       - name: Send test coverage report
