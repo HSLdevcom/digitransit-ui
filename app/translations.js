@@ -1256,6 +1256,7 @@ const translations = {
     'stop-near-you-modal-info':
       'Using the nearby stops function requires location access.',
     'stop-near-you-title': 'Search for stops and routes',
+    'stop-near-you-update-alert': 'Nearest stops updated',
     'stop-number': 'Stop number',
     'stop-page.description': 'Stop {name} - {code}',
     'stop-page.title': 'Stop {name} - {code}',
@@ -2095,6 +2096,7 @@ const translations = {
     'stop-near-you-modal-info':
       'Lähipysäkkien käyttö edellyttää tietoa sijainnista.',
     'stop-near-you-title': 'Linja- ja pysäkkihaku',
+    'stop-near-you-update-alert': 'Lähimmät pysäkit päivitetty',
     'stop-number': 'Pysäkkinumero',
     'stop-page.description': 'Pysäkki - {name} {code}, {desc}',
     'stop-page.title': 'Pysäkki - {name} {code}',
@@ -3697,6 +3699,7 @@ const translations = {
     'stop-near-you-modal-info':
       'Användning av funktion ”hållplatserna nära dig” förutsätter information om din position.',
     'stop-near-you-title': 'Sök hållplatser och linjer',
+    'stop-near-you-update-alert': 'Närliggande hållplatser uppdaterade',
     'stop-number': 'Hållplatsnummer',
     'stop-page.description': 'Hållplats {name} - {code}',
     'stop-page.title': 'Hållplats {name} - {code}',
