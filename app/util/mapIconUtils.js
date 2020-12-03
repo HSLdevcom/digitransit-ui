@@ -548,7 +548,7 @@ export function drawCitybikeIcon(tile, geom, state, bikesAvailable, iconName) {
   } else if (bikesAvailable <= 3) {
     color = 'yellow';
   }
-  if (style === 'medium') {
+  if (style === 'medium' && state !== undefined) {
     x = geom.x / tile.ratio - width / 2;
     y = geom.y / tile.ratio - height;
     let icon = `${iconName}_station_${color}_small`;
@@ -559,7 +559,11 @@ export function drawCitybikeIcon(tile, geom, state, bikesAvailable, iconName) {
       tile.ctx.drawImage(image, x, y);
     });
   }
-  if (style === 'large') {
+  if (
+    style === 'large' &&
+    state !== undefined &&
+    bikesAvailable !== undefined
+  ) {
     const smallCircleRadius = 11 * tile.scaleratio;
     x = geom.x / tile.ratio - width + smallCircleRadius * 2;
     y = geom.y / tile.ratio - height;
