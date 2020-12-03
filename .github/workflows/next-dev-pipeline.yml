@@ -107,6 +107,8 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies and build shared components
         run: yarn setup
+      - name: build relay queries
+        run: yarn relay
       - name: Run unit tests
         run: yarn run test-coverage
       - name: Send test coverage report
