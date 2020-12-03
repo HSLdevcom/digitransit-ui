@@ -268,9 +268,12 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn setup
-      - run: yarn relay
-      - run: yarn digitransit-npm-autopublish
+      - name: Install dependencies and build shared components
+        run: yarn setup
+      - name: build relay queries
+        run: yarn relay
+      - name: Publish shared components to npm
+        run: yarn digitransit-npm-autopublish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
