@@ -246,6 +246,12 @@ jobs:
     needs:
       - install
       - lint
+      # - flow-test
+      - unit-test
+      # - visual-test-chrome
+      # - visual-test-firefox
+      # - visual-test-safari
+      # - visual-test-edge
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
