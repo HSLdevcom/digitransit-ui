@@ -239,10 +239,34 @@ jobs:
   #         encrypted_59b1a6418079_iv: ${{ secrets.encrypted_59b1a6418079_iv }}
   #         BS_ACCESS_KEY: ${{ secrets.BS_ACCESS_KEY }}
   #         BS_USERNAME: ${{ secrets.BS_USERNAME }}
+  publish-npm:
+    if: github.ref == 'refs/heads/next'
+    needs:
+      - install
+      - lint
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn setup
+      - run: yarn relay
+      - run: yarn digitransit-npm-autopublish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+
   docker-push:
     if: github.ref == 'refs/heads/next'
     needs:
       - lint
+      - publish-npm
       # - flow-test
       # - unit-test
       # - visual-test-chrome
