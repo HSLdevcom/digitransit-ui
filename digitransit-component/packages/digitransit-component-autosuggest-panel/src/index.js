@@ -156,6 +156,7 @@ class DTAutosuggestPanel extends React.Component {
     disableAutoFocus: PropTypes.bool,
     sources: PropTypes.arrayOf(PropTypes.string),
     targets: PropTypes.arrayOf(PropTypes.string),
+    filterResults: PropTypes.func,
     isMobile: PropTypes.bool,
     color: PropTypes.string,
     hoverColor: PropTypes.string,
@@ -171,6 +172,7 @@ class DTAutosuggestPanel extends React.Component {
     lang: 'fi',
     sources: [],
     targets: [],
+    filterResults: undefined,
     disableAutoFocus: false,
     isMobile: false,
     handleViaPointLocationSelected: undefined,
@@ -406,6 +408,7 @@ class DTAutosuggestPanel extends React.Component {
             lang={this.props.lang}
             sources={this.props.sources}
             targets={this.props.targets}
+            filterResults={this.props.filterResults}
             isMobile={this.props.isMobile}
             color={this.props.color}
             hoverColor={this.props.hoverColor}
@@ -480,6 +483,7 @@ class DTAutosuggestPanel extends React.Component {
                       lang={this.props.lang}
                       sources={this.props.sources}
                       targets={this.props.targets}
+                      filterResults={this.props.filterResults}
                       isMobile={this.props.isMobile}
                       color={this.props.color}
                       hoverColor={this.props.hoverColor}
@@ -578,6 +582,7 @@ class DTAutosuggestPanel extends React.Component {
             lang={this.props.lang}
             sources={this.props.sources}
             targets={this.props.targets}
+            filterResults={this.props.filterResults}
             isMobile={this.props.isMobile}
             color={this.props.color}
             hoverColor={this.props.hoverColor}
