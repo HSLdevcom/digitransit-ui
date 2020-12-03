@@ -126,7 +126,7 @@ const MobileSearch = ({
             renderSuggestion={renderItem}
             focusInputOnSuggestionClick={false}
             shouldRenderSuggestions={() => true}
-            highlightFirstSuggestion
+            highlightFirstSuggestion={false}
             inputProps={{
               ...inputProps,
               className: cx(
