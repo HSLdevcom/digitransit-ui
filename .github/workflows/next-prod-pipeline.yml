@@ -9,6 +9,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Set time zone to Europe/Helsinki
+        uses: zcong1993/setup-timezone@master
+        with:
+          timezone: "Europe/Helsinki"
       - name: Push next image as next-prod
         run: ./.github/workflows/scripts/push_prod.sh
         env:
