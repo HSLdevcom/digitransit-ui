@@ -5,8 +5,6 @@ import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import Message from './Message';
 
-import { isKeyboardSelectionEvent } from '../util/browser';
-
 const Toggle = ({ toggled, title, label, onToggle, id }) => {
   const useId = id || uniqueId('input-');
   return (
@@ -17,14 +15,13 @@ const Toggle = ({ toggled, title, label, onToggle, id }) => {
           type="checkbox"
           id={useId}
           checked={toggled}
-          onKeyDown={e => isKeyboardSelectionEvent(e) && onToggle()}
-          onClick={e => {
-            if (e.detail === 0) {
-              // event was simulated by browser following keypress
-              return;
+          onKeyDown={e => {
+            if (e.code === 'Enter' || e.nativeEvent.code === 'Enter') {
+              // spacebar is handled by default with onChange
+              onToggle();
             }
-            onToggle();
           }}
+          onChange={() => onToggle()}
         />
         <span className="slider round" />
       </label>

@@ -3,7 +3,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { isKeyboardSelectionEvent } from '../util/browser';
 import Icon from './Icon';
 
 /**
@@ -217,17 +216,7 @@ class SearchSettingsDropdown extends React.Component {
         <button
           type="button"
           className="settings-dropdown-label"
-          onKeyDown={e =>
-            isKeyboardSelectionEvent(e) &&
-            this.toggleDropdown(this.state.showDropdown)
-          }
-          onClick={e => {
-            if (e.detail === 0) {
-              // event was simulated by browser following keypress
-              return;
-            }
-            this.toggleDropdown(this.state.showDropdown);
-          }}
+          onClick={() => this.toggleDropdown(this.state.showDropdown)}
         >
           &zwnj;{/* removing this breaks keyboard navigation on firefox??? */}
           <p className="settings-dropdown-label-text">{labelText}</p>
