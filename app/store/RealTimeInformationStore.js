@@ -33,15 +33,20 @@ class RealTimeInformationStore extends Store {
   storeClient(data) {
     if (this.client) {
       this.client.end();
+      this.vehicles = {};
     }
     this.client = data.client;
     this.topics = data.topics;
   }
 
   clearClient() {
+    if (this.client) {
+      this.client.end();
+    }
     this.client = undefined;
     this.topics = undefined;
     this.vehicles = {};
+    this.emitChange();
   }
 
   resetClient() {

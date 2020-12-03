@@ -3254,9 +3254,9 @@ const translations = {
     'add-via-duration-button-label-open':
       'Öppna väljaren för varaktighet vid via-punkten',
     'add-work': 'Lägg till arbete',
-    'aria-itinerary-summary': 'Resans varaktighet {duration} ',
-    'aria-itinerary-summary-bike-distance': 'cyckling {distance} ',
-    'aria-itinerary-summary-walk-distance': 'gående {distance} ',
+    'aria-itinerary-summary': 'Den totala restiden {duration}',
+    'aria-itinerary-summary-bike-distance': 'cykling sammanlagt {distance}',
+    'aria-itinerary-summary-walk-distance': 'promenad sammanlagt {distance}',
     'arrive-leave': 'Anländer eller lämnar vid vald tid',
     'search-autosuggest-label':
       'Plats, linje och hållplatssökning. Navigera listan med piltangenterna och välj med Enter-tangeten',
@@ -3707,16 +3707,15 @@ const translations = {
     'stop-virtual-monitor': 'Virtuell monitor',
     stops: 'Hållplatser',
     'street-mode-bicycle': 'Cykel',
-    'street-mode-bike-aria':
-      'Näytä pyöräilyreitti. Kesto {duration}, pituus {length}',
+    'street-mode-bike-aria': 'Visa cykelrutten. Tid {duration}, längd {length}',
     'street-mode-bikeandvehicle-aria':
-      'Näytä pyöräilyn ja julkisen liikenteen yhdistelmä. Kesto {duration}, pyöräilyn pituus {length}',
+      'Visa kombinationen av cykling och kollektivtrafik. Tid {duration}, längd {length}',
     'street-mode-car': 'Bil',
     'street-mode-car_park': 'Infarts\u00ADparkering',
     'street-mode-public_transport': 'Kollektiv\u00ADtrafik',
     'street-mode-walk': 'Gång',
     'street-mode-walk-aria':
-      'Näytä kävelyreitti. Kesto {duration}, pituus {length}',
+      'Visa promenadrutt. Tid {duration}, längd {length}',
     // eslint-disable-next-line sort-keys
     street: 'Gata',
     subway: 'Metro',
