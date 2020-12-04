@@ -104,7 +104,7 @@ class DynamicParkingLotsPopup extends React.Component {
 
   getNotes() {
     const currentLanguage = this.context.intl.locale;
-    const { properties } = this.feature;
+    const { properties } = this.props.feature;
     if (properties.notes) {
       return (
         <div className="large-text padding-vertical-small">
