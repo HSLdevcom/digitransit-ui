@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
-import { intlShape } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
@@ -41,6 +41,7 @@ class DynamicParkingLotsPopup extends React.Component {
     return (
       <span className="inline-block padding-vertical-small">
         {this.getCarCapacity()}
+        {this.getClosed()}
         <br />
         {this.getWheelchairCapacity()}
       </span>
@@ -73,15 +74,28 @@ class DynamicParkingLotsPopup extends React.Component {
     return null;
   }
 
+  getClosed() {
+    const { properties } = this.props.feature;
+    if (properties.state === 'closed') {
+      return (
+        <span>
+          {' '}
+          (<FormattedMessage id="closed" defaultMessage="closed" />)
+        </span>
+      );
+    }
+    return null;
+  }
+
   getWheelchairCapacity() {
     const { properties } = this.props.feature;
-    return properties['free:wheelchair'] !== undefined &&
-      properties['total:wheelchair'] !== undefined
+    return properties['free:disabled'] !== undefined &&
+      properties['total:disabled'] !== undefined
       ? this.context.intl.formatMessage(
           {
-            id: 'wheelchair-parking-spaces-available',
+            id: 'disabled-parking-spaces-available',
             defaultMessage:
-              '{free:wheelchair} of {total:wheelchair} wheelchair-accessible parking spaces available',
+              '{free:disabled} of {total:disabled} wheelchair-accessible parking spaces available',
           },
           properties,
         )
@@ -113,9 +127,10 @@ class DynamicParkingLotsPopup extends React.Component {
     const currentLanguage = this.context.intl.locale;
     const { properties } = this.props.feature;
     if (properties.notes) {
+      const notes = JSON.parse(properties.notes);
       return (
         <div className="large-text padding-vertical-small">
-          {properties.notes[currentLanguage] || null}
+          {notes[currentLanguage] || null}
         </div>
       );
     }
