@@ -289,9 +289,10 @@ jobs:
         shell: bash
       - name: Send published packages to slack
         if:  env.PUBLISHED_PACKAGES != ''
-        run: curl -X POST -H 'Content-type: application/json'--data '{"username":"npm publisher","text":"${{env.PUBLISHED_PACKAGES}}\n", "channel": "reittiopas-git"}' $SLACK_WEBHOOK_URL
+        run: ./.github/workflows/scripts/slack_message.sh
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          PUBLISHED_PACKAGES: ${{ env.PUBLISHED_PACKAGES }}
         shell: bash
 
   docker-push:
