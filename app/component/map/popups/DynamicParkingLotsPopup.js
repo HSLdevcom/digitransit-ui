@@ -71,14 +71,17 @@ class DynamicParkingLotsPopup extends React.Component {
   }
 
   getWheelchairCapacity() {
-    return this.context.intl.formatMessage(
-      {
-        id: 'wheelchair-parking-spaces-available',
-        defaultMessage:
-          '{free:wheelchair} of {total:wheelchair} wheelchair-accessible parking spaces available',
-      },
-      this.props.feature.properties,
-    );
+    const { properties } = this.props.feature;
+    return properties['free:wheelchair'] && properties['total:wheelchair']
+      ? this.context.intl.formatMessage(
+          {
+            id: 'wheelchair-parking-spaces-available',
+            defaultMessage:
+              '{free:wheelchair} of {total:wheelchair} wheelchair-accessible parking spaces available',
+          },
+          properties,
+        )
+      : null;
   }
 
   getUrl() {
