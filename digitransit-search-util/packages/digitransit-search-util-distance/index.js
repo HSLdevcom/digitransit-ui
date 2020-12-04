@@ -1,5 +1,5 @@
 /**
- * Calculates distance betweeh two points.
+ * Calculates distance between two points.
  *
  * @name distance
  * @param {Object} latlon1 object containing lat, lon values
