@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -5,7 +6,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 
 function RouteScheduleTripRow(props) {
   return (
-    <div className="row">
+    <div className="row" role="listitem" tabIndex={0}>
       <div className="trip-column">
         <div
           className={cx('trip-from', 'trip-label', {

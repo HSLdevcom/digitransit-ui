@@ -253,9 +253,10 @@ class RouteScheduleContainer extends Component {
           </div>
         </div>
         <div
-          className={cx('route-alerts-list-wrapper', {
+          className={cx('route-schedule-list-wrapper', {
             'bp-large': this.props.breakpoint === 'large',
           })}
+          aria-live="polite"
         >
           <RouteScheduleHeader
             stops={this.props.pattern.stops}
@@ -264,7 +265,11 @@ class RouteScheduleContainer extends Component {
             onFromSelectChange={this.onFromSelectChange}
             onToSelectChange={this.onToSelectChange}
           />
-          <div className="route-schedule-list momentum-scroll">
+          <div
+            className="route-schedule-list momentum-scroll"
+            role="list"
+            aria-atomic="true"
+          >
             {this.state.hasLoaded ? (
               this.getTrips(this.state.from, this.state.to)
             ) : (
