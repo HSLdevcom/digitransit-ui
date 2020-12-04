@@ -73,6 +73,9 @@ class DynamicParkingLots {
     if (type === 'Wohnmobilparkplatz') {
       return 'caravan';
     }
+    if (type === 'Barrierefreier-Parkplatz') {
+      return 'barrierefrei';
+    }
     return 'open_carpark';
   };
 
@@ -98,11 +101,12 @@ class DynamicParkingLots {
       geom,
       this.parkingLotImageSize,
     ).then(() => {
-      if (properties.free !== undefined) {
+      const { state } = properties;
+      if (state !== 'nodata') {
         let avail;
-        if (properties.free === 0 || !isOpenNow) {
+        if (!isOpenNow || state === 'closed' || state === 'full') {
           avail = 'no';
-        } else if (properties.free / properties.total < 0.1) {
+        } else if (state === 'few') {
           avail = 'poor';
         } else {
           avail = 'good';

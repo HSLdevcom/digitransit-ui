@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
-import { intlShape } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
@@ -12,6 +12,7 @@ import OSMOpeningHours from './OSMOpeningHours';
 class DynamicParkingLotsPopup extends React.Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
+    intl: intlShape.isRequired,
   };
 
   static description = (
@@ -37,30 +38,68 @@ class DynamicParkingLotsPopup extends React.Component {
   };
 
   getCapacity() {
+    return (
+      <span className="inline-block padding-vertical-small">
+        {this.getCarCapacity()}
+        {this.getClosed()}
+        <br />
+        {this.getWheelchairCapacity()}
+      </span>
+    );
+  }
+
+  getCarCapacity() {
     const { intl } = this.context;
-    let text;
-    if (
-      this.props.feature.properties &&
-      typeof this.props.feature.properties.free === 'number'
-    ) {
-      text = intl.formatMessage(
+    const props = this.props.feature.properties;
+
+    if (props && typeof props.free === 'number') {
+      return intl.formatMessage(
         {
           id: 'parking-spaces-available',
           defaultMessage: '{free} of {total} parking spaces available',
         },
-        this.props.feature.properties,
+        props,
       );
-    } else {
-      text = intl.formatMessage(
+    }
+
+    if (props && typeof props.total === 'number') {
+      return intl.formatMessage(
         {
           id: 'parking-spaces-in-total',
           defaultMessage: 'Capacity: {total} parking spaces',
         },
-        this.props.feature.properties,
+        props,
       );
     }
+    return null;
+  }
 
-    return <span className="inline-block padding-vertical-small">{text}</span>;
+  getClosed() {
+    const { properties } = this.props.feature;
+    if (properties.state === 'closed') {
+      return (
+        <span>
+          {' '}
+          (<FormattedMessage id="closed" defaultMessage="closed" />)
+        </span>
+      );
+    }
+    return null;
+  }
+
+  getWheelchairCapacity() {
+    const { properties } = this.props.feature;
+    return properties['free:disabled'] !== undefined &&
+      properties['total:disabled'] !== undefined
+      ? this.context.intl.formatMessage(
+          {
+            id: 'disabled-parking-spaces-available',
+            defaultMessage:
+              '{free:disabled} of {total:disabled} wheelchair-accessible parking spaces available',
+          },
+          properties,
+        )
+      : null;
   }
 
   getUrl() {
@@ -78,6 +117,20 @@ class DynamicParkingLotsPopup extends React.Component {
               defaultMessage: 'More information',
             })}
           </a>
+        </div>
+      );
+    }
+    return null;
+  }
+
+  getNotes() {
+    const currentLanguage = this.context.intl.locale;
+    const { properties } = this.props.feature;
+    if (properties.notes) {
+      const notes = JSON.parse(properties.notes);
+      return (
+        <div className="large-text padding-vertical-small">
+          {notes[currentLanguage] || null}
         </div>
       );
     }
@@ -109,6 +162,7 @@ class DynamicParkingLotsPopup extends React.Component {
           />
           <div>
             {this.renderOpeningHours()}
+            {this.getNotes()}
             {this.getUrl()}
           </div>
         </div>
@@ -123,10 +177,6 @@ class DynamicParkingLotsPopup extends React.Component {
     );
   }
 }
-
-DynamicParkingLotsPopup.contextTypes = {
-  intl: intlShape.isRequired,
-};
 
 export default Relay.createContainer(DynamicParkingLotsPopup, {
   fragments: {},

@@ -112,6 +112,7 @@
   "details": "Details",
   "dialog-return-to-map": "Return to map",
   "digitransit-platform": "Digitransit service platform",
+  "disabled-parking-spaces-available": "{free:disabled} of {total:disabled} wheelchair-accessible parking spaces available",
   "disclaimer": "Please note that the results are based on estimated travel times. The suggested transport connections cannot be guaranteed.",
   "disruption": "Disruption",
   "disruption-info": "Disruption info",
