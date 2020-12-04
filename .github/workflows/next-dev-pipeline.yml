@@ -279,6 +279,8 @@ jobs:
         run: echo //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN} > .npmrc
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+      - name: disregard changed .npmrc
+        run: git update-index --assume-unchanged .npmrc
       - name: Publish shared components to npm
         run: yarn digitransit-npm-autopublish
 
