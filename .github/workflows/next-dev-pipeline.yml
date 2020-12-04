@@ -281,8 +281,6 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
       - name: Publish shared components to npm
         run: yarn digitransit-npm-autopublish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
   docker-push:
     if: github.ref == 'refs/heads/next'
