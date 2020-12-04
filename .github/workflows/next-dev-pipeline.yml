@@ -282,7 +282,7 @@ jobs:
       - name: disregard changed .npmrc
         run: git update-index --assume-unchanged .npmrc
       - name: Publish shared components to npm
-        run: echo ::set-output name=publish-logs::$(digitransit-npm-autopublish)
+        run: echo ::set-output name=publish-logs::$(yarn digitransit-npm-autopublish)
         shell: bash
         id: publish
       - name: Parse publish logs
