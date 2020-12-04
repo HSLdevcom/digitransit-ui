@@ -241,7 +241,7 @@ jobs:
   #         encrypted_59b1a6418079_iv: ${{ secrets.encrypted_59b1a6418079_iv }}
   #         BS_ACCESS_KEY: ${{ secrets.BS_ACCESS_KEY }}
   #         BS_USERNAME: ${{ secrets.BS_USERNAME }}
-   publish-npm:
+  publish-npm:
     if: github.ref == 'refs/heads/next'
     needs:
       - install
