@@ -18,7 +18,7 @@
  * //=157105.77709637067
  */
 
-// Radius of the earth.
+// The radius of the earth.
 const RADIUS = 6371000;
 
 export default function distance(latlon1, latlon2) {
