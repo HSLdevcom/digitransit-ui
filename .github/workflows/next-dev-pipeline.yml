@@ -282,7 +282,17 @@ jobs:
       - name: disregard changed .npmrc
         run: git update-index --assume-unchanged .npmrc
       - name: Publish shared components to npm
-        run: yarn digitransit-npm-autopublish
+        run:   echo ::set-env name=PUBLISH-LOGS::$(digitransit-npm-autopublish)
+        shell: bash
+      - name: Parse publish logs
+        run: echo ::set-env name=PUBLISHED_PACKAGES::$(echo "${{ env.PUBLISH-LOGS }}" | grep -P 'lerna success published[\s\S]*?(?=\n.*?=|$)' | sed '$d')
+        shell: bash
+      - name: Send published packages to slack
+        if:  env.PUBLISHED_PACKAGES != ''
+        run: curl -X POST -H 'Content-type: application/json'--data '{"username":"npm publisher","text":"${{env.PUBLISHED_PACKAGES}}\n", "channel": "reittiopas-git"}' $SLACK_WEBHOOK_URL
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        shell: bash
 
   docker-push:
     if: github.ref == 'refs/heads/next'
