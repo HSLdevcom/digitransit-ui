@@ -13,7 +13,12 @@ describe('<RouteStop />', () => {
         alerts: [],
       },
     };
-    const wrapper = mountWithIntl(<RouteStop {...props} />);
+    const context = {
+      config: {
+        minutesToDepartureLimit: 0,
+      },
+    };
+    const wrapper = mountWithIntl(<RouteStop {...props} />, { context });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(true);
   });
 
@@ -28,7 +33,12 @@ describe('<RouteStop />', () => {
         ],
       },
     };
-    const wrapper = mountWithIntl(<RouteStop {...props} />);
+    const context = {
+      config: {
+        minutesToDepartureLimit: 0,
+      },
+    };
+    const wrapper = mountWithIntl(<RouteStop {...props} />, { context });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(false);
   });
 
@@ -44,7 +54,12 @@ describe('<RouteStop />', () => {
         ],
       },
     };
-    const wrapper = mountWithIntl(<RouteStop {...props} />);
+    const context = {
+      config: {
+        minutesToDepartureLimit: 0,
+      },
+    };
+    const wrapper = mountWithIntl(<RouteStop {...props} />, { context });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(true);
   });
 });
