@@ -12,6 +12,7 @@ import OSMOpeningHours from './OSMOpeningHours';
 class DynamicParkingLotsPopup extends React.Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
+    intl: intlShape.isRequired,
   };
 
   static description = (
@@ -101,6 +102,19 @@ class DynamicParkingLotsPopup extends React.Component {
     return null;
   }
 
+  getNotes() {
+    const currentLanguage = this.context.intl.locale;
+    const { properties } = this.feature;
+    if (properties.notes) {
+      return (
+        <div className="large-text padding-vertical-small">
+          {properties.notes[currentLanguage] || null}
+        </div>
+      );
+    }
+    return null;
+  }
+
   renderOpeningHours() {
     const {
       feature: { properties },
@@ -127,6 +141,7 @@ class DynamicParkingLotsPopup extends React.Component {
           <div>
             {this.renderOpeningHours()}
             {this.getUrl()}
+            {this.getNotes()}
           </div>
         </div>
         <MarkerPopupBottom
@@ -140,10 +155,6 @@ class DynamicParkingLotsPopup extends React.Component {
     );
   }
 }
-
-DynamicParkingLotsPopup.contextTypes = {
-  intl: intlShape.isRequired,
-};
 
 export default Relay.createContainer(DynamicParkingLotsPopup, {
   fragments: {},
