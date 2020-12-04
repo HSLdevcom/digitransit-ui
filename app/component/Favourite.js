@@ -116,6 +116,10 @@ const Favourite = (
             ? 'icon-icon_star-with-circle'
             : 'icon-icon_star-unselected'
         }
+        ariaLabel={context.intl.formatMessage({
+          id: 'add-to-favourites',
+          defautlMessage: 'Set favourite',
+        })}
       />
       {renderLoginModal()}
     </span>

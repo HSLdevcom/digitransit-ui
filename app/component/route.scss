@@ -819,8 +819,7 @@ $margin-left-right: 1.25em;
     }
 
     &:focus {
-      outline: none;
-      border: 1px solid #888;
+      outline: -webkit-focus-ring-color auto 1px;
     }
     @media print {
       border: 0;

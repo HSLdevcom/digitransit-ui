@@ -44,6 +44,7 @@ const AlertList = ({
         className={cx('route-alerts-list-wrapper', {
           'bp-large': breakpoint === 'large',
         })}
+        aria-live="polite"
       >
         <div
           className={cx('route-alerts-list', {

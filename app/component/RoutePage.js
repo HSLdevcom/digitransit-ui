@@ -334,6 +334,7 @@ class RoutePage extends React.Component {
           className={cx('route-container', {
             'bp-large': breakpoint === 'large',
           })}
+          aria-live="polite"
         >
           {breakpoint === 'large' && (
             <BackButton
@@ -360,12 +361,15 @@ class RoutePage extends React.Component {
               gtfsId={route.gtfsId}
             />
           </div>
-          <div className="route-tabs">
+          <div className="route-tabs" role="tablist">
             <a
               className={cx({ 'is-active': activeTab === Tab.Stops })}
               onClick={() => {
                 this.changeTab(Tab.Stops);
               }}
+              tabIndex={0}
+              role="tab"
+              aria-selected={activeTab === Tab.Stops}
             >
               <div>
                 <FormattedMessage id="stops" defaultMessage="Stops" />
@@ -376,6 +380,9 @@ class RoutePage extends React.Component {
               onClick={() => {
                 this.changeTab(Tab.Timetable);
               }}
+              tabIndex={0}
+              role="tab"
+              aria-selected={activeTab === Tab.Timetable}
             >
               <div>
                 <FormattedMessage id="timetable" defaultMessage="Timetable" />
@@ -389,6 +396,9 @@ class RoutePage extends React.Component {
               onClick={() => {
                 this.changeTab(Tab.Disruptions);
               }}
+              tabIndex={0}
+              role="tab"
+              aria-selected={activeTab === Tab.Disruptions}
             >
               <div
                 className={`tab-route-disruption ${
