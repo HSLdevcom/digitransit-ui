@@ -140,8 +140,8 @@ class DynamicParkingLotsPopup extends React.Component {
           />
           <div>
             {this.renderOpeningHours()}
-            {this.getUrl()}
             {this.getNotes()}
+            {this.getUrl()}
           </div>
         </div>
         <MarkerPopupBottom
