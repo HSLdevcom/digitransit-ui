@@ -12,6 +12,7 @@ import MarkerPopupBottom from '../MarkerPopupBottom';
 import { options } from '../../ExampleData';
 import SelectCovid19OpeningHoursRow from './SelectCovid19OpeningHoursRow';
 import RoadworksRow from './RoadworksRow';
+import SelectDynamicParkingLotsRow from './SelectDynamicParkingLotsRow';
 
 function MarkerSelectPopup(props) {
   const rows = props.options.map(option => {
@@ -75,6 +76,15 @@ function MarkerSelectPopup(props) {
         <RoadworksRow
           {...option.feature}
           key={option.feature.properties.Baustellennummer}
+          selectRow={() => props.selectRow(option)}
+        />
+      );
+    }
+    if (option.layer === 'dynamicParkingLots') {
+      return (
+        <SelectDynamicParkingLotsRow
+          {...option.feature}
+          key={option.feature.properties.name}
           selectRow={() => props.selectRow(option)}
         />
       );

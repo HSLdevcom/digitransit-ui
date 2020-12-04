@@ -60,7 +60,7 @@ class DynamicParkingLots {
       );
     });
 
-  getIcon = type => {
+  static getIcon = type => {
     if (type === 'Parkhaus' || type === 'Tiefgarage') {
       return 'covered_carpark';
     }
@@ -87,7 +87,7 @@ class DynamicParkingLots {
       return drawRoundIcon(this.tile, geom, 'car');
     }
 
-    const icon = this.getIcon(properties.lot_type);
+    const icon = DynamicParkingLots.getIcon(properties.lot_type);
 
     let isOpenNow = true;
     if (properties.opening_hours) {
