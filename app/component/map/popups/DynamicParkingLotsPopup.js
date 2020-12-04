@@ -37,6 +37,15 @@ class DynamicParkingLotsPopup extends React.Component {
   };
 
   getCapacity() {
+    return (
+      <>
+        {this.getCarCapacity()}
+        {this.getWheelchairCapacity()}
+      </>
+    );
+  }
+
+  getCarCapacity() {
     const { intl } = this.context;
     let text;
     if (
@@ -61,6 +70,21 @@ class DynamicParkingLotsPopup extends React.Component {
     }
 
     return <span className="inline-block padding-vertical-small">{text}</span>;
+  }
+
+  getWheelchairCapacity() {
+    return (
+      <span className="inline-block padding-vertical-small">
+        {this.context.intl.formatMessage(
+          {
+            id: 'wheelchair-parking-spaces-available',
+            defaultMessage:
+              '{free:wheelchair} of {total:wheelchair} wheelchair-accessible parking spaces available',
+          },
+          this.props.feature.properties,
+        )}
+      </span>
+    );
   }
 
   getUrl() {
