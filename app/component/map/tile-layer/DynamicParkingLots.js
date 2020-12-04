@@ -101,15 +101,12 @@ class DynamicParkingLots {
       geom,
       this.parkingLotImageSize,
     ).then(() => {
-      if (properties.free !== undefined || properties.state !== undefined) {
+      const { state } = properties;
+      if (state !== 'nodata') {
         let avail;
-        if (
-          properties.free === 0 ||
-          !isOpenNow ||
-          properties.state === 'closed'
-        ) {
+        if (!isOpenNow || state === 'closed' || state === 'full') {
           avail = 'no';
-        } else if (properties.free / properties.total < 0.1) {
+        } else if (state === 'few') {
           avail = 'poor';
         } else {
           avail = 'good';
