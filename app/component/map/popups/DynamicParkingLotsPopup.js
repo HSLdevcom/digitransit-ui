@@ -38,52 +38,45 @@ class DynamicParkingLotsPopup extends React.Component {
 
   getCapacity() {
     return (
-      <>
+      <span className="inline-block padding-vertical-small">
         {this.getCarCapacity()}
+        <br />
         {this.getWheelchairCapacity()}
-      </>
+      </span>
     );
   }
 
   getCarCapacity() {
     const { intl } = this.context;
-    let text;
     if (
       this.props.feature.properties &&
       typeof this.props.feature.properties.free === 'number'
     ) {
-      text = intl.formatMessage(
+      return intl.formatMessage(
         {
           id: 'parking-spaces-available',
           defaultMessage: '{free} of {total} parking spaces available',
         },
         this.props.feature.properties,
       );
-    } else {
-      text = intl.formatMessage(
-        {
-          id: 'parking-spaces-in-total',
-          defaultMessage: 'Capacity: {total} parking spaces',
-        },
-        this.props.feature.properties,
-      );
     }
-
-    return <span className="inline-block padding-vertical-small">{text}</span>;
+    return intl.formatMessage(
+      {
+        id: 'parking-spaces-in-total',
+        defaultMessage: 'Capacity: {total} parking spaces',
+      },
+      this.props.feature.properties,
+    );
   }
 
   getWheelchairCapacity() {
-    return (
-      <span className="inline-block padding-vertical-small">
-        {this.context.intl.formatMessage(
-          {
-            id: 'wheelchair-parking-spaces-available',
-            defaultMessage:
-              '{free:wheelchair} of {total:wheelchair} wheelchair-accessible parking spaces available',
-          },
-          this.props.feature.properties,
-        )}
-      </span>
+    return this.context.intl.formatMessage(
+      {
+        id: 'wheelchair-parking-spaces-available',
+        defaultMessage:
+          '{free:wheelchair} of {total:wheelchair} wheelchair-accessible parking spaces available',
+      },
+      this.props.feature.properties,
     );
   }
 
