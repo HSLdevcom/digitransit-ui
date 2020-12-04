@@ -73,6 +73,9 @@ class DynamicParkingLots {
     if (type === 'Wohnmobilparkplatz') {
       return 'caravan';
     }
+    if (type === 'Barrierefreier-Parkplatz') {
+      return 'barrierefrei';
+    }
     return 'open_carpark';
   };
 
