@@ -120,13 +120,6 @@ class OriginDestinationBar extends React.Component {
     }
   };
 
-  filterMobileFavouriteStops = (results, type) => {
-    const filteredResults = results.filter(
-      res => !res.properties.layer.includes('favourite'),
-    );
-    return type === 'Stops' ? filteredResults : results;
-  };
-
   swapEndpoints = () => {
     const { location } = this.context.match;
     const intermediatePlaces = getIntermediatePlaces(location.query);
@@ -167,18 +160,14 @@ class OriginDestinationBar extends React.Component {
           sources={[
             'History',
             'Datasource',
-            this.props.isMobile && this.props.showFavourites ? 'Favourite' : '',
+            this.props.showFavourites ? 'Favourite' : '',
           ]}
           targets={[
             'Locations',
             'CurrentPosition',
-            !this.props.isMobile && this.props.showFavourites
-              ? 'SelectFromOwnLocations'
-              : '',
             this.props.isMobile ? 'MapPosition' : '',
             'Stops',
           ]}
-          filterResults={this.filterMobileFavouriteStops}
           lang={this.props.language}
           disableAutoFocus={this.props.isMobile}
           isMobile={this.props.isMobile}
