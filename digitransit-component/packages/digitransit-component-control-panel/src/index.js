@@ -73,12 +73,14 @@ OriginToDestination.defaultProps = {
  * @param {Object} props.alertsContext
  * @param {function} props.alertsContext.getModesWithAlerts - Function which should return an array of transport modes that have active alerts (e.g. [BUS, SUBWAY])
  * @param {Number} props.alertsContext.currentTime - Time stamp with which the returned alerts are validated with
+ * @param {Number} props.alertsContext.feedIds - feedIds for which the alerts are fetched for
  * @param {element} props.LinkComponent - React component for creating a link, default is undefined and normal anchor tags are used
  *
  * @example
  * const alertsContext = {
  *    getModesWithAlerts: () => ({}),
  *    currentTime: 123456789,
+ *    feedIds: [HSL]
  * }
  * <CtrlPanel.NearStopsAndRoutes
  *      modes={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
@@ -102,9 +104,11 @@ function NearStopsAndRoutes({
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
   useEffect(() => {
     if (alertsContext) {
-      alertsContext.getModesWithAlerts(alertsContext.currentTime).then(res => {
-        setModesWithAlerts(res);
-      });
+      alertsContext
+        .getModesWithAlerts(alertsContext.currentTime, alertsContext.feedIds)
+        .then(res => {
+          setModesWithAlerts(res);
+        });
     }
   }, []);
 
@@ -174,6 +178,7 @@ NearStopsAndRoutes.propTypes = {
   alertsContext: PropTypes.shape({
     getModesWithAlerts: PropTypes.func,
     currentTime: PropTypes.number,
+    feedIds: PropTypes.arrayOf(PropTypes.string),
   }),
   LinkComponent: PropTypes.object,
   origin: PropTypes.object,

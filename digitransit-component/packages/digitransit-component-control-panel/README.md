@@ -16,6 +16,7 @@ Show button links to near you page for different travel modes
     -   `props.alertsContext` **[Object][1]** 
         -   `props.alertsContext.getModesWithAlerts` **[function][5]** Function which should return an array of transport modes that have active alerts (e.g. [BUS, SUBWAY])
         -   `props.alertsContext.currentTime` **[Number][6]** Time stamp with which the returned alerts are validated with
+        -   `props.alertsContext.feedIds` **[Number][6]** feedIds for which the alerts are fetched for
     -   `props.LinkComponent` **[element][7]** React component for creating a link, default is undefined and normal anchor tags are used
     -   `props.origin`  
     -   `props.omitLanguageUrl`  
@@ -26,6 +27,7 @@ Show button links to near you page for different travel modes
 const alertsContext = {
    getModesWithAlerts: () => ({}),
    currentTime: 123456789,
+   feedIds: [HSL]
 }
 <CtrlPanel.NearStopsAndRoutes
      modes={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}

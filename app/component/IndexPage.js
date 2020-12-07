@@ -186,6 +186,7 @@ class IndexPage extends React.Component {
     const alertsContext = {
       currentTime: this.props.currentTime,
       getModesWithAlerts,
+      feedIds: config.feedIds,
     };
 
     return breakpoint === 'large' ? (
