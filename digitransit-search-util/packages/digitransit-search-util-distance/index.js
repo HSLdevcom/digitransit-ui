@@ -17,6 +17,7 @@
  * digitransit-util.distance(latlon1, latlon2);
  * //=157105.77709637067
  */
+
 // The radius of the earth.
 const RADIUS = 6371000;
 
