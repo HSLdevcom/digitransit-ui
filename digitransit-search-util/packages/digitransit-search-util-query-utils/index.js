@@ -17,19 +17,9 @@ let relayEnvironment = null;
 const alertsQuery = graphql`
   query digitransitSearchUtilQueryUtilsAlertsQuery($feedIds: [String!]) {
     alerts(severityLevel: [SEVERE], feeds: $feedIds) {
-      stop {
-        vehicleMode
-        patterns {
-          route {
-            mode
-          }
-        }
-      }
       route {
         mode
-        shortName
       }
-      alertHeaderText
       effectiveStartDate
       effectiveEndDate
     }
