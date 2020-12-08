@@ -135,7 +135,7 @@ export default class Map extends React.Component {
     if (this.props.padding) {
       boundsOptions.paddingTopLeft = this.props.padding;
     }
-    if (center && zoom) {
+    if (zoom) {
       boundsOptions.maxZoom = zoom;
     }
     if (this.props.mapBottomPadding) {
