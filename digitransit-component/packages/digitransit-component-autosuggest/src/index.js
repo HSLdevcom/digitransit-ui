@@ -447,13 +447,23 @@ class DTAutosuggest extends React.Component {
     return this.setState(
       { valid: false, cleanExecuted: !cleanExecuted ? false : cleanExecuted },
       () => {
+        const isLocationSearch =
+          isEmpty(this.props.targets) ||
+          this.props.targets.includes('Locations');
         let targets;
         if (this.state.ownPlaces) {
           targets = ['Locations'];
-        } else {
+          if (
+            isEmpty(this.props.targets) ||
+            this.props.targets.includes('Stops')
+          ) {
+            targets.push('Stops');
+          }
+        } else if (!isEmpty(this.props.targets)) {
           targets = [...this.props.targets];
           // in desktop, favorites are accessed via sub search
           if (
+            isLocationSearch &&
             !this.props.isMobile &&
             (isEmpty(this.props.sources) ||
               this.props.sources.includes('Favourite'))
@@ -461,12 +471,13 @@ class DTAutosuggest extends React.Component {
             targets.push('SelectFromOwnLocations');
           }
         }
-        // remove favourites in desktop search (colletion item replaces it in target array)
+        // remove  location favourites in desktop search (collection item replaces it in target array)
         const sources =
           this.state.sources &&
           this.state.sources.filter(
             s =>
               !(
+                isLocationSearch &&
                 s === 'Favourite' &&
                 !this.state.ownPlaces &&
                 !this.props.isMobile
@@ -489,24 +500,12 @@ class DTAutosuggest extends React.Component {
             }
             // XXX translates current location
             const suggestions = (searchResult.results || [])
-              .filter(suggestion => {
-                if (
-                  suggestion.type === 'FutureRoute' &&
-                  suggestion.properties.time <= moment().unix()
-                ) {
-                  return false;
-                }
-                // A hack to fix inability to handle plain gtfs stops in location search
-                // Stops without position can be found from favorites. That is logically correct
-                // but such stops should be enriched for example with geocoding search
-                if (
-                  targets.includes('Locations') &&
-                  !(suggestion.properties && suggestion.properties.lat)
-                ) {
-                  return false;
-                }
-                return true;
-              })
+              .filter(
+                suggestion =>
+                  suggestion.type !== 'FutureRoute' ||
+                  (suggestion.type === 'FutureRoute' &&
+                    suggestion.properties.time > moment().unix()),
+              )
               .map(suggestion => {
                 if (
                   suggestion.type === 'CurrentLocation' ||

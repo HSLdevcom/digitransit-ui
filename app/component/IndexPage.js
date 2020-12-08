@@ -162,7 +162,6 @@ class IndexPage extends React.Component {
       'Locations',
       'CurrentPosition',
       'FutureRoutes',
-      'SelectFromOwnLocations',
       'Stops',
     ];
     const stopAndRouteSearchTargets =
