@@ -106,7 +106,7 @@ export default function RouteAlertsRow(
           alertSeverityLevel={severityLevel}
           color={color}
           mode={entityMode}
-          vertical
+          withBar
         />
       )) ||
         (entityType === 'stop' && (

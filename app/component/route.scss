@@ -885,11 +885,6 @@ $margin-left-right: 1.25em;
       border-top: 1px solid $light-gray;
     }
 
-    .subicon-caution {
-      stroke: $white;
-      stroke-width: 12;
-    }
-
     .route-alert-contents {
       flex-grow: 1;
       vertical-align: bottom;
@@ -914,9 +909,16 @@ $margin-left-right: 1.25em;
       flex-shrink: 0;
 
       .icon {
-        width: 1.5em;
-        height: 1.5em;
-        margin-bottom: -0.2em;
+        width: 2.5em;
+        height: 2.5em;
+        .subicon-info, .subicon-caution {
+          bottom: 2px;
+          left: -5px;
+          .icon {
+            height: 1.5em;
+            width: 1.5em;
+          }
+        }
       }
       .vehicle-number {
         margin-top: -0.3em;
