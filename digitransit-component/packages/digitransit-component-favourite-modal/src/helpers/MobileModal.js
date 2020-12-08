@@ -17,6 +17,9 @@ const MobileModal = ({
   canSave,
   color,
   hoverColor,
+  savePlaceText,
+  cantSaveText,
+  requiredText,
 }) => {
   return (
     <div className={styles['favourite-modal-mobile-container']}>
@@ -27,6 +30,7 @@ const MobileModal = ({
       </div>
       <div className={styles['favourite-modal-mobile-main']}>
         <div className={styles['favourite-modal-mobile-location-search']}>
+          <p className="sr-only">{requiredText}</p>
           {autosuggestComponent}
         </div>
         <input
@@ -38,6 +42,7 @@ const MobileModal = ({
       </div>
       <div className={styles['favourite-modal-mobile-text']}>
         {chooseIconText}
+        <p className="sr-only">{requiredText}</p>
       </div>
       <div className={styles['favourite-modal-mobile-icons']}>
         {favouriteIconTable}
@@ -55,6 +60,7 @@ const MobileModal = ({
             '--hover-color': `${hoverColor}`,
           }}
           onClick={saveFavourite}
+          aria-label={`${canSave() ? savePlaceText : cantSaveText}`}
         >
           {saveText}
         </button>
@@ -76,6 +82,9 @@ MobileModal.propTypes = {
   canSave: PropTypes.func.isRequired,
   color: PropTypes.string.isRequired,
   hoverColor: PropTypes.string.isRequired,
+  savePlaceText: PropTypes.string.isRequired,
+  cantSaveText: PropTypes.string.isRequired,
+  requiredText: PropTypes.string.isRequired,
 };
 
 export default MobileModal;
