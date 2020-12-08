@@ -343,7 +343,7 @@ export default async function (req, res, next) {
         const preconnects = [config.URL.API_URL, config.URL.MAP_URL];
 
         if (config.staticMessagesUrl) {
-          preconnects.push(preconnects);
+          preconnects.push(config.staticMessagesUrl);
         }
 
         preconnects.forEach(href =>
