@@ -671,7 +671,7 @@ class SummaryPage extends React.Component {
       }
     `;
 
-    const planParams = preparePlanParams(this.context.config)(
+    const planParams = preparePlanParams(this.context.config, false)(
       this.context.match.params,
       this.context.match,
     );
@@ -779,22 +779,11 @@ class SummaryPage extends React.Component {
       }
     `;
 
-    const planParams = preparePlanParams(this.context.config)(
+    const planParams = preparePlanParams(this.context.config, true)(
       this.context.match.params,
       this.context.match,
     );
-    const variables = {
-      ...planParams,
-      modes: [
-        { mode: 'WALK' },
-        { mode: 'BUS' },
-        { mode: 'TRAM' },
-        { mode: 'SUBWAY' },
-        { mode: 'RAIL' },
-        { mode: 'FERRY' },
-      ],
-    };
-    fetchQuery(this.props.relayEnvironment, query, variables).then(
+    fetchQuery(this.props.relayEnvironment, query, planParams).then(
       ({ plan: results }) => {
         this.setState({ alternativePlan: results }, () => {
           this.setLoading(false);
@@ -836,7 +825,7 @@ class SummaryPage extends React.Component {
       return;
     }
 
-    const params = preparePlanParams(this.context.config)(
+    const params = preparePlanParams(this.context.config, false)(
       this.context.match.params,
       this.context.match,
     );
@@ -1032,7 +1021,7 @@ class SummaryPage extends React.Component {
       return;
     }
 
-    const params = preparePlanParams(this.context.config)(
+    const params = preparePlanParams(this.context.config, false)(
       this.context.match.params,
       this.context.match,
     );
@@ -1724,7 +1713,7 @@ class SummaryPage extends React.Component {
             },
             // eslint-disable-next-line func-names
             function () {
-              const planParams = preparePlanParams(this.context.config)(
+              const planParams = preparePlanParams(this.context.config, false)(
                 this.context.match.params,
                 this.context.match,
               );
