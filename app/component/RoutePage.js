@@ -362,7 +362,8 @@ class RoutePage extends React.Component {
             />
           </div>
           <div className="route-tabs" role="tablist">
-            <a
+            <button
+              type="button"
               className={cx({ 'is-active': activeTab === Tab.Stops })}
               onClick={() => {
                 this.changeTab(Tab.Stops);
@@ -374,8 +375,9 @@ class RoutePage extends React.Component {
               <div>
                 <FormattedMessage id="stops" defaultMessage="Stops" />
               </div>
-            </a>
-            <a
+            </button>
+            <button
+              type="button"
               className={cx({ 'is-active': activeTab === Tab.Timetable })}
               onClick={() => {
                 this.changeTab(Tab.Timetable);
@@ -387,8 +389,9 @@ class RoutePage extends React.Component {
               <div>
                 <FormattedMessage id="timetable" defaultMessage="Timetable" />
               </div>
-            </a>
-            <a
+            </button>
+            <button
+              type="button"
               className={cx({
                 activeAlert: hasActiveAlert,
                 'is-active': activeTab === Tab.Disruptions,
@@ -410,7 +413,7 @@ class RoutePage extends React.Component {
                   defaultMessage="Disruptions"
                 />
               </div>
-            </a>
+            </button>
           </div>
           {patternId && (
             <RoutePatternSelect
