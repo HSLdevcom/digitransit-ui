@@ -153,10 +153,7 @@ class IndexPage extends React.Component {
     const hoverColor = colors.hover || LightenDarkenColor(colors.primary, -20);
     const { breakpoint, destination, origin, lang } = this.props;
     const queryString = this.context.match.location.search;
-    const searchSources =
-      breakpoint !== 'large'
-        ? ['Favourite', 'History', 'Datasource']
-        : ['History', 'Datasource'];
+    const searchSources = ['Favourite', 'History', 'Datasource'];
     const stopAndRouteSearchSources = ['Favourite', 'History', 'Datasource'];
     const locationSearchTargets = [
       'Locations',

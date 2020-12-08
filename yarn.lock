@@ -1380,6 +1380,18 @@
     "@digitransit-search-util/digitransit-search-util-uniq-by-label" "0.0.4"
     lodash "4.17.14"
 
+"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-execute-search-immidiate/-/digitransit-search-util-execute-search-immidiate-0.2.4.tgz#dbacbbefea821a3977c20efda63a2d81e95f5879"
+  integrity sha512-O41J0VZSRk0hy2VJbLOD+GNU8WHyE/4txsq5AhZZDBmO4FOenVNfHCBo8UdhlaBLZHviX5PN92a5/lNEirMAgw==
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input" "0.0.1"
+    "@digitransit-search-util/digitransit-search-util-get-geocoding-results" "0.0.3"
+    "@digitransit-search-util/digitransit-search-util-get-json" "0.0.2"
+    "@digitransit-search-util/digitransit-search-util-helpers" "0.0.11"
+    "@digitransit-search-util/digitransit-search-util-uniq-by-label" "0.0.5"
+    lodash "4.17.14"
+
 "@digitransit-search-util/digitransit-search-util-get-label@0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-get-label/-/digitransit-search-util-get-label-0.0.3.tgz#e769e9b401b78e1183b3cd0ff1faa8b0266f6693"

@@ -146,7 +146,7 @@ function translateFutureRouteSuggestionTime(item) {
  * };
  * const transportMode = undefined;
  * const placeholder = "stop-near-you";
- * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, SelectFromOwnLocations, MapPosition and CurrentPosition. Leave empty to search all targets.
+ * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, MapPosition and CurrentPosition. Leave empty to search all targets.
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
  * return (
  *  <DTAutosuggest
