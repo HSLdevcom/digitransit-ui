@@ -40,13 +40,11 @@ const FavouriteLocation = ({
   isLoading,
   color,
 }) => {
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-tabindex */
   return (
-    <div
+    <button
+      type="button"
       className={cx(styles['favourite-content'], styles[className])}
-      onKeyPress={e => isKeyboardSelectionEvent(e) && clickItem}
       onClick={clickItem}
-      tabIndex="0"
       aria-label={text}
     >
       <Shimmer active={isLoading} className={styles.shimmer}>
@@ -58,7 +56,7 @@ const FavouriteLocation = ({
           <div className={styles.address}>{label}</div>
         </div>
       </Shimmer>
-    </div>
+    </button>
   );
 };
 
@@ -257,6 +255,8 @@ class FavouriteBar extends React.Component {
     const { highlightedIndex } = this.state;
     const id = `favourite-suggestion-list--item-${index}`;
     const selected = highlightedIndex === index;
+    /* eslint-disable jsx-a11y/click-events-have-key-events */
+    // The key event is handled by the button that opens the dropdown
     return (
       <li
         key={`favourite-suggestion-item-${index}`}
@@ -277,6 +277,7 @@ class FavouriteBar extends React.Component {
         />
       </li>
     );
+    /* eslint-enable jsx-a11y/click-events-have-key-events */
   };
 
   getCustomSuggestions = () => {
@@ -311,7 +312,6 @@ class FavouriteBar extends React.Component {
       secondFavourite,
     } = this.state;
     const expandIcon = this.props.favourites.length === 0 ? 'plus' : 'arrow';
-    /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/role-supports-aria-props */
     return (
       <React.Fragment>
         <div className={styles['favourite-container']}>
@@ -363,6 +363,7 @@ class FavouriteBar extends React.Component {
             isLoading={isLoading}
             color={this.props.color}
           />
+          {/* eslint-disable jsx-a11y/role-supports-aria-props */}
           <div
             className={cx(styles.expandButton, styles[expandIcon], {
               [styles.rotate]: listOpen,
@@ -381,6 +382,7 @@ class FavouriteBar extends React.Component {
               <Icon img={expandIcon} color={this.props.color} />
             </Shimmer>
           </div>
+          {/* eslint-enable jsx-a11y/role-supports-aria-props */}
         </div>
         <div className={styles['favourite-suggestion-container']}>
           {listOpen && (
