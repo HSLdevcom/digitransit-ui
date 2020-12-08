@@ -154,7 +154,7 @@ class MessageBar extends Component {
 
   ariaContent = content => {
     return (
-      <span>
+      <span key={uuid()}>
         {content.map(e => (
           <span key={uuid()}>{e.content}</span>
         ))}
