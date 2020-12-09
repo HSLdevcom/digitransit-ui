@@ -209,7 +209,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 omitNonPickups: $omitNonPickups
               )
             }
-            alerts: alerts(severityLevel: [SEVERE, WARNING]) {
+            alerts: alerts(severityLevel: [SEVERE]) {
               ...DisruptionBanner_alerts
             }
           }
@@ -371,6 +371,13 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     });
   };
 
+  filterMobileFavouriteStops = (results, type) => {
+    const filteredResults = results.filter(
+      res => !res.properties.layer.includes('favourite'),
+    );
+    return type === 'Stops' ? filteredResults : results;
+  };
+
   renderAutoSuggestField = () => {
     const isMobile = this.props.breakpoint !== 'large';
     return (
@@ -383,6 +390,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           !isMobile ? 'SelectFromOwnLocations' : '',
           'Stops',
         ]}
+        filterResults={this.filterMobileFavouriteStops}
         id="origin-stop-near-you"
         placeholder="origin"
         value=""

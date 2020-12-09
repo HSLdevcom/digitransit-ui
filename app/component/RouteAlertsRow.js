@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import cx from 'classnames';
 import capitalize from 'lodash/capitalize';
 import moment from 'moment';
@@ -95,13 +96,17 @@ export default function RouteAlertsRow(
     url && (url.match(/^[a-zA-Z]+:\/\//) ? url : `http://${url}`);
 
   return (
-    <div className={cx('route-alert-row', { expired })}>
+    <div
+      className={cx('route-alert-row', { expired })}
+      role="listitem"
+      tabIndex={0}
+    >
       {(entityType === 'route' && entityMode && (
         <RouteNumber
           alertSeverityLevel={severityLevel}
           color={color}
           mode={entityMode}
-          vertical
+          withBar
         />
       )) ||
         (entityType === 'stop' && (

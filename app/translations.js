@@ -804,6 +804,7 @@ const translations = {
     'add-home': 'Add home',
     'add-itinerary-via-point': 'Add via point for itinerary',
     'add-location-to-favourites': 'Add an important location to your Favorites',
+    'add-to-favourites': 'Add to your Favorites',
     'add-via-button-label': 'Add via point',
     'add-via-duration-button-label': 'Set stop duration at via point {index}',
     'add-via-duration-button-label-close':
@@ -894,6 +895,7 @@ const translations = {
     'clear-button-label': 'Clear',
     close: 'Close',
     'close-favourite-module': 'Close the Favorites module',
+    'close-settings': 'Close window and save settings',
     'contact-information': '{contactName} contact details',
     continue: 'Continue',
     'create-account': 'Create {contactName} account',
@@ -1256,6 +1258,7 @@ const translations = {
     'stop-near-you-modal-info':
       'Using the nearby stops function requires location access.',
     'stop-near-you-title': 'Search for stops and routes',
+    'stop-near-you-update-alert': 'Nearest stops updated',
     'stop-number': 'Stop number',
     'stop-page.description': 'Stop {name} - {code}',
     'stop-page.title': 'Stop {name} - {code}',
@@ -1645,6 +1648,7 @@ const translations = {
     'add-itinerary-via-point': 'Lisää reitille välipiste',
     'add-location-to-favourites':
       'Lisää sinulle tärkeä paikka Suosikkisi-välilehdelle',
+    'add-to-favourites': 'Lisää suosikiksi',
     'add-via-button-label': 'Lisää välipiste',
     'add-work': 'Lisää työ',
     'aria-itinerary-summary': 'Matkan kokonaiskesto {duration} ',
@@ -1737,6 +1741,7 @@ const translations = {
     'clear-button-label': 'Tyhjennä',
     close: 'Sulje',
     'close-favourite-module': 'Sulje suosikkimoduuli',
+    'close-settings': 'Sulje ikkuna ja tallenna asetukset',
     'contact-information': '{contactName}:n yhteystiedot',
     continue: 'Jatka',
     'create-account': 'Luo {contactName} tunnus',
@@ -2095,6 +2100,7 @@ const translations = {
     'stop-near-you-modal-info':
       'Lähipysäkkien käyttö edellyttää tietoa sijainnista.',
     'stop-near-you-title': 'Linja- ja pysäkkihaku',
+    'stop-near-you-update-alert': 'Lähimmät pysäkit päivitetty',
     'stop-number': 'Pysäkkinumero',
     'stop-page.description': 'Pysäkki - {name} {code}, {desc}',
     'stop-page.title': 'Pysäkki - {name} {code}',
@@ -3244,6 +3250,7 @@ const translations = {
     'add-itinerary-via-point': 'Lägg till mellanstopp',
     'add-location-to-favourites':
       'Lägg till en plats som är viktig för dig på fliken Favoriter',
+    'add-to-favourites': 'Lägg till för dig på fliken Favoriter',
     'add-via-button-label': 'Lägg till viapunkt',
     'add-via-duration-button-label':
       'Ställ in varaktighet för viapunkten {index}',
@@ -3330,6 +3337,7 @@ const translations = {
     'clear-button-label': 'Töm',
     close: 'Stäng',
     'close-favourite-module': 'Stäng favoritmodulen',
+    'close-settings': 'Stäng fönstret och spara inställningar',
     'contact-information': '{contactName} Kontaktuppgifter',
     continue: 'Fortsätt',
     'create-account': 'Skapa {contactName} konto',
@@ -3697,6 +3705,7 @@ const translations = {
     'stop-near-you-modal-info':
       'Användning av funktion ”hållplatserna nära dig” förutsätter information om din position.',
     'stop-near-you-title': 'Sök hållplatser och linjer',
+    'stop-near-you-update-alert': 'Närliggande hållplatser uppdaterade',
     'stop-number': 'Hållplatsnummer',
     'stop-page.description': 'Hållplats {name} - {code}',
     'stop-page.title': 'Hållplats {name} - {code}',

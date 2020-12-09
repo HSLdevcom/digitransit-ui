@@ -202,6 +202,18 @@ export const getDefaultModes = config => [
 ];
 
 /**
+ * Retrieves all default transport modes that are
+ * both available and marked as default and adds WALK mode.
+ *
+ * @param {*} config The configuration for the software installation
+ * @returns {String[]} an array of modes
+ */
+export const getDefaultModesWithWalk = config => [
+  ...getDefaultTransportModes(config),
+  'WALK',
+];
+
+/**
  * Retrieves all modes (as in both transport and street modes)
  * from either the localStorage or the default configuration.
  * If modes include CAR, BICYCLE or WALK modes use default instead

@@ -710,9 +710,9 @@ $margin-left-right: 1.25em;
   margin: 1.25em 0 2em 0;
   border: 2px solid $light-gray;
   border-radius: 5px;
-  a {
+  button {
     width: calc(100% / 3);
-    padding-top: 0.45em;
+    font-size: $font-size-small;
     text-align: center;
     letter-spacing: -0.42px;
     border-radius: 3px;
@@ -819,8 +819,7 @@ $margin-left-right: 1.25em;
     }
 
     &:focus {
-      outline: none;
-      border: 1px solid #888;
+      outline: -webkit-focus-ring-color auto 1px;
     }
     @media print {
       border: 0;
@@ -886,11 +885,6 @@ $margin-left-right: 1.25em;
       border-top: 1px solid $light-gray;
     }
 
-    .subicon-caution {
-      stroke: $white;
-      stroke-width: 12;
-    }
-
     .route-alert-contents {
       flex-grow: 1;
       vertical-align: bottom;
@@ -915,9 +909,16 @@ $margin-left-right: 1.25em;
       flex-shrink: 0;
 
       .icon {
-        width: 1.5em;
-        height: 1.5em;
-        margin-bottom: -0.2em;
+        width: 2.5em;
+        height: 2.5em;
+        .subicon-info, .subicon-caution {
+          bottom: 2px;
+          left: -5px;
+          .icon {
+            height: 1.5em;
+            width: 1.5em;
+          }
+        }
       }
       .vehicle-number {
         margin-top: -0.3em;

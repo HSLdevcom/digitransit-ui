@@ -63,6 +63,7 @@ import { getCurrentSettings, preparePlanParams } from '../util/planParamUtil';
 import { getTotalBikingDistance } from '../util/legUtils';
 import { userHasChangedModes } from '../util/modeUtils';
 
+const MAX_ZOOM = 16; // Maximum zoom available for the bounds.
 /**
 /**
  * Returns the actively selected itinerary's index. Attempts to look for
@@ -308,7 +309,7 @@ class SummaryPage extends React.Component {
     }
   }
 
-  // When user goes straigth to itinerary view with url, map cannot keep up and renders a while after everything else
+  // When user goes straight to itinerary view with url, map cannot keep up and renders a while after everything else
   // This helper function ensures that lat lon values are sent to the map, thus preventing set center and zoom first error.
   mapReady() {
     this.mapLoaded = true;
@@ -670,7 +671,7 @@ class SummaryPage extends React.Component {
       }
     `;
 
-    const planParams = preparePlanParams(this.context.config)(
+    const planParams = preparePlanParams(this.context.config, false)(
       this.context.match.params,
       this.context.match,
     );
@@ -778,22 +779,11 @@ class SummaryPage extends React.Component {
       }
     `;
 
-    const planParams = preparePlanParams(this.context.config)(
+    const planParams = preparePlanParams(this.context.config, true)(
       this.context.match.params,
       this.context.match,
     );
-    const variables = {
-      ...planParams,
-      modes: [
-        { mode: 'WALK' },
-        { mode: 'BUS' },
-        { mode: 'TRAM' },
-        { mode: 'SUBWAY' },
-        { mode: 'RAIL' },
-        { mode: 'FERRY' },
-      ],
-    };
-    fetchQuery(this.props.relayEnvironment, query, variables).then(
+    fetchQuery(this.props.relayEnvironment, query, planParams).then(
       ({ plan: results }) => {
         this.setState({ alternativePlan: results }, () => {
           this.setLoading(false);
@@ -835,7 +825,7 @@ class SummaryPage extends React.Component {
       return;
     }
 
-    const params = preparePlanParams(this.context.config)(
+    const params = preparePlanParams(this.context.config, false)(
       this.context.match.params,
       this.context.match,
     );
@@ -1031,7 +1021,7 @@ class SummaryPage extends React.Component {
       return;
     }
 
-    const params = preparePlanParams(this.context.config)(
+    const params = preparePlanParams(this.context.config, false)(
       this.context.match.params,
       this.context.match,
     );
@@ -1660,6 +1650,7 @@ class SummaryPage extends React.Component {
         leafletObjs={leafletObjs}
         fitBounds
         bounds={bounds.length > 1 ? bounds : defaultBounds}
+        zoom={MAX_ZOOM}
         showScaleBar
         locationPopup="all"
       />
@@ -1722,7 +1713,7 @@ class SummaryPage extends React.Component {
             },
             // eslint-disable-next-line func-names
             function () {
-              const planParams = preparePlanParams(this.context.config)(
+              const planParams = preparePlanParams(this.context.config, false)(
                 this.context.match.params,
                 this.context.match,
               );

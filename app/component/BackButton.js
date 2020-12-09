@@ -75,6 +75,7 @@ export default class BackButton extends React.Component {
             id: 'back-button-title',
             defaultMessage: 'Go back to previous page',
           })}
+          tabIndex={0}
         >
           <Icon
             img={this.props.icon}
