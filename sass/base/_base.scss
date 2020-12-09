@@ -216,6 +216,10 @@ body select {
 
 .subicon-caution,
 .subicon-info {
+  font-size: 65%;
+  position: absolute;
+  bottom: -4px;
+  left: -2px;
   .icon {
     display: block;
     overflow: visible;
