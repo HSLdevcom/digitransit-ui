@@ -15,7 +15,7 @@ const DTModal = ({ show, children, windowed, onClick, onKeyDown }) => {
       onKeyDown={onKeyDown}
     >
       <div className={showClassname}>
-        <section className="modal-main from-map-modal">{children}</section>
+        <section className="modal-main">{children}</section>
       </div>
     </div>
   );
