@@ -2,7 +2,12 @@ import omitBy from 'lodash/omitBy';
 import moment from 'moment';
 import cookie from 'react-cookie';
 
-import { filterModes, getDefaultModes, getModes } from './modeUtils';
+import {
+  filterModes,
+  getDefaultModes,
+  getDefaultModesWithWalk,
+  getModes,
+} from './modeUtils';
 import { otpToLocation, getIntermediatePlaces } from './otpStrings';
 import { getDefaultNetworks } from './citybikes';
 import { getCustomizedSettings } from '../store/localStorage';
@@ -141,7 +146,7 @@ export const getSettings = config => {
   };
 };
 
-export const preparePlanParams = config => (
+export const preparePlanParams = (config, useDefaultModes) => (
   { from, to },
   {
     location: {
@@ -155,13 +160,15 @@ export const preparePlanParams = config => (
   const intermediatePlaceLocations = getIntermediatePlaces({
     intermediatePlaces,
   });
-  const modesOrDefault = filterModes(
-    config,
-    getModes(config),
-    fromLocation,
-    toLocation,
-    intermediatePlaceLocations,
-  );
+  const modesOrDefault = useDefaultModes
+    ? getDefaultModesWithWalk(config).join(',')
+    : filterModes(
+        config,
+        getModes(config),
+        fromLocation,
+        toLocation,
+        intermediatePlaceLocations,
+      );
   const defaultSettings = { ...getDefaultSettings(config) };
   const allowedBikeRentalNetworksMapped =
     settings.allowedBikeRentalNetworks ||

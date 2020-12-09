@@ -260,16 +260,18 @@ class StopsNearYouContainer extends React.Component {
             <Loading />
           </div>
         )}
-        <button
-          aria-label={this.context.intl.formatMessage({
-            id: 'show-more-stops-near-you',
-            defaultMessage: 'Load more nearby stops',
-          })}
-          className="show-more-button"
-          onClick={this.showMore}
-        >
-          <FormattedMessage id="show-more" defaultMessage="Show more" />
-        </button>
+        {this.props.relay.hasMore() && (
+          <button
+            aria-label={this.context.intl.formatMessage({
+              id: 'show-more-stops-near-you',
+              defaultMessage: 'Load more nearby stops',
+            })}
+            className="show-more-button"
+            onClick={this.showMore}
+          >
+            <FormattedMessage id="show-more" defaultMessage="Show more" />
+          </button>
+        )}
       </>
     );
   }

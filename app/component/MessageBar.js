@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
 import SwipeableViews from 'react-swipeable-views';
+import { v4 as uuid } from 'uuid';
 
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
@@ -156,6 +157,16 @@ class MessageBar extends Component {
     }
   };
 
+  ariaContent = content => {
+    return (
+      <span key={uuid()}>
+        {content.map(e => (
+          <span key={uuid()}>{e.content}</span>
+        ))}
+      </span>
+    );
+  };
+
   getTabContent = textColor =>
     this.validMessages().map(el => (
       <MessageBarMessage
@@ -257,63 +268,71 @@ class MessageBar extends Component {
     const textColor = isDisruption ? '#fff' : msg.textColor || '#000';
     const dataURI = msg.dataURI || null;
     return (
-      <section
-        id="messageBar"
-        role="banner"
-        className={cx(
-          'message-bar',
-          { 'mobile-bar ': this.props.mobile },
-          'flex-horizontal',
-        )}
-        style={{ background: backgroundColor }}
-      >
-        <div
-          className={cx('banner-container', {
-            'banner-disruption': isDisruption,
-          })}
+      <>
+        <span className="sr-only" role="alert">
+          {this.validMessages().map(el =>
+            this.ariaContent(el.content[this.props.lang] || el.content.fi),
+          )}
+        </span>
+        <section
+          id="messageBar"
+          role="banner"
+          aria-hidden="true"
+          className={cx(
+            'message-bar',
+            { 'mobile-bar ': this.props.mobile },
+            'flex-horizontal',
+          )}
+          style={{ background: backgroundColor }}
         >
-          <Icon
-            img={iconName}
-            color={iconColor}
-            dataURI={dataURI}
-            className="message-icon"
-          />
-          <div className={`message-bar-content message-bar-${type}`}>
-            <SwipeableViews
-              index={index}
-              onChangeIndex={this.handleChange}
-              className={!maximized ? 'message-bar-fade' : ''}
-              containerStyle={{
-                maxHeight: maximized ? '400px' : '100px',
-                transition: 'max-height 300ms',
-              }}
-              slideStyle={{
-                maxHeight: maximized ? '400px' : '100px',
-                transition: 'max-height 300ms',
-                padding: '10px 10px 0px 10px',
-                overflow: 'hidden',
-                background: isDisruption ? 'inherit' : backgroundColor,
-              }}
-            >
-              {this.getTabContent(textColor)}
-            </SwipeableViews>
+          <div
+            className={cx('banner-container', {
+              'banner-disruption': isDisruption,
+            })}
+          >
+            <Icon
+              img={iconName}
+              color={iconColor}
+              dataURI={dataURI}
+              className="message-icon"
+            />
+            <div className={`message-bar-content message-bar-${type}`}>
+              <SwipeableViews
+                index={index}
+                onChangeIndex={this.handleChange}
+                className={!maximized ? 'message-bar-fade' : ''}
+                containerStyle={{
+                  maxHeight: maximized ? '400px' : '100px',
+                  transition: 'max-height 300ms',
+                }}
+                slideStyle={{
+                  maxHeight: maximized ? '400px' : '100px',
+                  transition: 'max-height 300ms',
+                  padding: '10px 10px 0px 10px',
+                  overflow: 'hidden',
+                  background: isDisruption ? 'inherit' : backgroundColor,
+                }}
+              >
+                {this.getTabContent(textColor)}
+              </SwipeableViews>
+            </div>
+            <div>
+              <button
+                id="close-message-bar"
+                title={this.context.intl.formatMessage({
+                  id: 'messagebar-label-close-message-bar',
+                  defaultMessage: 'Close banner',
+                })}
+                onClick={this.handleClose}
+                className="noborder close-button  cursor-pointer"
+                type="button"
+              >
+                <Icon img="icon-icon_close" className="close" color="#333333" />
+              </button>
+            </div>
           </div>
-          <div>
-            <button
-              id="close-message-bar"
-              title={this.context.intl.formatMessage({
-                id: 'messagebar-label-close-message-bar',
-                defaultMessage: 'Close banner',
-              })}
-              onClick={this.handleClose}
-              className="noborder close-button  cursor-pointer"
-              type="button"
-            >
-              <Icon img="icon-icon_close" className="close" color="#333333" />
-            </button>
-          </div>
-        </div>
-      </section>
+        </section>
+      </>
     );
   }
 }

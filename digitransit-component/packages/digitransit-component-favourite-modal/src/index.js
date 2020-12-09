@@ -53,6 +53,7 @@ const FavouriteIconTableButton = ({
       onFocus={() => setFocus(true)}
       onBlur={() => setFocus(false)}
       onClick={() => handleClick(value)}
+      aria-label={i18next.t(value)}
     >
       <Icon img={value} color={iconColor} />
     </button>
@@ -355,6 +356,9 @@ class FavouriteModal extends React.Component {
       cancelSelected: () => this.cancelSelected(),
       color,
       hoverColor,
+      savePlaceText: i18next.t('save-place'),
+      cantSaveText: i18next.t('cannot-save-place'),
+      requiredText: i18next.t('required-text'),
     };
     return (
       <Modal

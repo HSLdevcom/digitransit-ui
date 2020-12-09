@@ -296,6 +296,7 @@ export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
     .filter(
       item =>
         item.properties.layer === 'station' ||
+        item.properties.layer === 'favouriteStation' ||
         item.properties.type === 'station',
     )
     .map(item => item.gtfsId);
@@ -303,7 +304,9 @@ export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
   const stopIds = stopsToFilter
     .filter(
       item =>
-        item.properties.layer === 'stop' || item.properties.type === 'stop',
+        item.properties.layer === 'stop' ||
+        item.properties.layer === 'favouriteStop' ||
+        item.properties.type === 'stop',
     )
     .map(item => item.gtfsId);
 

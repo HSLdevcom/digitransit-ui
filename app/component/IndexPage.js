@@ -145,13 +145,6 @@ class IndexPage extends React.Component {
     }${this.context.config.trafficNowLink[lang]}`;
   };
 
-  filterMobileFavouriteStops = (results, type) => {
-    const filteredResults = results.filter(
-      res => !res.properties.layer.includes('favourite'),
-    );
-    return type === 'Stops' ? filteredResults : results;
-  };
-
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { intl, config } = this.context;
@@ -160,16 +153,12 @@ class IndexPage extends React.Component {
     const hoverColor = colors.hover || LightenDarkenColor(colors.primary, -20);
     const { breakpoint, destination, origin, lang } = this.props;
     const queryString = this.context.match.location.search;
-    const searchSources =
-      breakpoint !== 'large'
-        ? ['Favourite', 'History', 'Datasource']
-        : ['History', 'Datasource'];
+    const searchSources = ['Favourite', 'History', 'Datasource'];
     const stopAndRouteSearchSources = ['Favourite', 'History', 'Datasource'];
     const locationSearchTargets = [
       'Locations',
       'CurrentPosition',
       'FutureRoutes',
-      'SelectFromOwnLocations',
       'Stops',
     ];
     const stopAndRouteSearchTargets =
@@ -321,7 +310,6 @@ class IndexPage extends React.Component {
                 'FutureRoutes',
                 'Stops',
               ]}
-              filterResults={this.filterMobileFavouriteStops}
               disableAutoFocus
               isMobile
               breakpoint="small"

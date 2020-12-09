@@ -16,6 +16,7 @@ import getLabel from '@digitransit-search-util/digitransit-search-util-get-label
 import Icon from '@digitransit-component/digitransit-component-icon';
 import moment from 'moment-timezone';
 import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
@@ -145,7 +146,7 @@ function translateFutureRouteSuggestionTime(item) {
  * };
  * const transportMode = undefined;
  * const placeholder = "stop-near-you";
- * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, SelectFromOwnLocations, MapPosition and CurrentPosition. Leave empty to search all targets.
+ * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, MapPosition and CurrentPosition. Leave empty to search all targets.
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
  * return (
  *  <DTAutosuggest
@@ -446,9 +447,46 @@ class DTAutosuggest extends React.Component {
     return this.setState(
       { valid: false, cleanExecuted: !cleanExecuted ? false : cleanExecuted },
       () => {
+        const isLocationSearch =
+          isEmpty(this.props.targets) ||
+          this.props.targets.includes('Locations');
+        let targets;
+        if (this.state.ownPlaces) {
+          targets = ['Locations'];
+          if (
+            isEmpty(this.props.targets) ||
+            this.props.targets.includes('Stops')
+          ) {
+            targets.push('Stops');
+          }
+        } else if (!isEmpty(this.props.targets)) {
+          targets = [...this.props.targets];
+          // in desktop, favorites are accessed via sub search
+          if (
+            isLocationSearch &&
+            !this.props.isMobile &&
+            (isEmpty(this.props.sources) ||
+              this.props.sources.includes('Favourite'))
+          ) {
+            targets.push('SelectFromOwnLocations');
+          }
+        }
+        // remove  location favourites in desktop search (collection item replaces it in target array)
+        const sources =
+          this.state.sources &&
+          this.state.sources.filter(
+            s =>
+              !(
+                isLocationSearch &&
+                s === 'Favourite' &&
+                !this.state.ownPlaces &&
+                !this.props.isMobile
+              ),
+          );
+
         executeSearch(
-          this.state.ownPlaces ? ['Locations'] : this.props.targets,
-          this.state.sources,
+          targets,
+          sources,
           this.props.transportMode,
           this.props.searchContext,
           this.props.filterResults,
@@ -462,13 +500,12 @@ class DTAutosuggest extends React.Component {
             }
             // XXX translates current location
             const suggestions = (searchResult.results || [])
-              .filter(suggestion => {
-                return (
+              .filter(
+                suggestion =>
                   suggestion.type !== 'FutureRoute' ||
                   (suggestion.type === 'FutureRoute' &&
-                    suggestion.properties.time > moment().unix())
-                );
-              })
+                    suggestion.properties.time > moment().unix()),
+              )
               .map(suggestion => {
                 if (
                   suggestion.type === 'CurrentLocation' ||
