@@ -42,7 +42,6 @@ describe('<MessageBar />', () => {
       context: mockContext,
     });
     await wrapper.instance().componentDidMount();
-
     expect(wrapper.find(Icon)).to.have.lengthOf(2);
   });
 

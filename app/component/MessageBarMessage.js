@@ -31,7 +31,7 @@ const span = (e, key, color) => {
         });
       return result;
     }
-    return e.content;
+    return <span>{e.content}</span>;
   }
   return null;
 };
@@ -57,18 +57,20 @@ const renderContent = (content, textColor) =>
 /*
  * Renders message
  */
-const MessageBarMessage = ({ content, onMaximize, textColor }) => (
-  // TOOD: find out how this should be accessible
+const MessageBarMessage = ({ content, onMaximize, textColor }) => {
   // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-  <div
-    tabIndex={0}
-    role="button"
-    onClick={onMaximize}
-    style={{ color: textColor }}
-  >
-    {renderContent(content, textColor)}
-  </div>
-);
+  return (
+    <div
+      tabIndex={0}
+      aria-hidden="true"
+      role="button"
+      onClick={onMaximize}
+      style={{ color: textColor }}
+    >
+      {renderContent(content, textColor)}
+    </div>
+  );
+};
 
 MessageBarMessage.propTypes = {
   content: PropTypes.array,
