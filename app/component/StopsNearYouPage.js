@@ -371,26 +371,14 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     });
   };
 
-  filterMobileFavouriteStops = (results, type) => {
-    const filteredResults = results.filter(
-      res => !res.properties.layer.includes('favourite'),
-    );
-    return type === 'Stops' ? filteredResults : results;
-  };
-
   renderAutoSuggestField = () => {
     const isMobile = this.props.breakpoint !== 'large';
     return (
       <DTAutoSuggestWithSearchContext
         appElement="#app"
         icon="search"
-        sources={['History', 'Datasource', isMobile ? 'Favourite' : '']}
-        targets={[
-          'Locations',
-          !isMobile ? 'SelectFromOwnLocations' : '',
-          'Stops',
-        ]}
-        filterResults={this.filterMobileFavouriteStops}
+        sources={['History', 'Datasource', 'Favourite']}
+        targets={['Locations', 'Stops']}
         id="origin-stop-near-you"
         placeholder="origin"
         value=""
