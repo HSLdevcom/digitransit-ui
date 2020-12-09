@@ -1,27 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DTModal = ({ show, children, windowed, dtModalOnClick }) => {
+const DTModal = ({ show, children, windowed, onClick, onKeyDown }) => {
   const showClassname = show
     ? `dtmodal display-block ${windowed ? 'windowed' : ''}`
     : 'modal display-none';
-
-  const handleModalOnClick = e => {
-    if (
-      (dtModalOnClick && e.target.className === 'from-map-modal-container') ||
-      e.keyCode === 27
-    ) {
-      dtModalOnClick();
-    }
-  };
 
   return (
     <div
       role="button"
       tabIndex="0"
       className="from-map-modal-container"
-      onClick={handleModalOnClick}
-      onKeyDown={handleModalOnClick}
+      onClick={onClick}
+      onKeyDown={onKeyDown}
     >
       <div className={showClassname}>
         <section className="modal-main from-map-modal">{children}</section>
@@ -34,7 +25,8 @@ DTModal.propTypes = {
   show: PropTypes.bool.isRequired,
   children: PropTypes.node,
   windowed: PropTypes.bool,
-  dtModalOnClick: PropTypes.func,
+  onClick: PropTypes.func,
+  onKeyDown: PropTypes.func,
 };
 
 DTModal.defaultProps = {

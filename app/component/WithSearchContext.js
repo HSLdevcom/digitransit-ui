@@ -390,8 +390,14 @@ export default function withSearchContext(WrappedComponent) {
       this.selectLocation(mapLocation, type);
     };
 
-    dtModalOnClick = e => {
+    handleDTModalOnClick = e => {
       if (e.target.className === 'from-map-modal-container') {
+        this.setState({ fromMap: undefined });
+      }
+    };
+
+    handleDTModalKeyDown = e => {
+      if (e.keyCode === 27) {
         this.setState({ fromMap: undefined });
       }
     };
@@ -412,7 +418,8 @@ export default function withSearchContext(WrappedComponent) {
           <DTModal
             show
             windowed
-            dtModalOnClick={() => this.setState({ fromMap: undefined })}
+            onClick={this.handleDTModalOnClick}
+            onKeyDown={this.handleDTModalKeyDown}
           >
             <SelectFromMapHeader
               titleId={titleId}
