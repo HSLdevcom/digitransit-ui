@@ -710,9 +710,9 @@ $margin-left-right: 1.25em;
   margin: 1.25em 0 2em 0;
   border: 2px solid $light-gray;
   border-radius: 5px;
-  a {
+  button {
     width: calc(100% / 3);
-    padding-top: 0.45em;
+    font-size: $font-size-small;
     text-align: center;
     letter-spacing: -0.42px;
     border-radius: 3px;
