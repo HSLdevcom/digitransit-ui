@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-query-utils",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "digitransit-search-util query-utils module",
   "main": "index.generated",
   "publishConfig": {
