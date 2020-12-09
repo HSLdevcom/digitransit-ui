@@ -13,7 +13,6 @@ import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { LightenDarkenColor } from '../../util/colorUtils';
 
 const DESKTOP_BREAKPOINT = 'large';
-
 let map;
 
 const locationMarkerWithPermanentTooltipModules = {

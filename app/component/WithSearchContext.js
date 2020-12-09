@@ -22,6 +22,7 @@ import intializeSearchContext from '../util/DTSearchContextInitializer';
 import SelectFromMapHeader from './SelectFromMapHeader';
 import SelectFromMapPageMap from './map/SelectFromMapPageMap';
 import DTModal from './DTModal';
+import FromMapModal from './FromMapModal';
 import { addressToItinerarySearch } from '../util/otpStrings';
 
 const PATH_OPTS = {
@@ -390,18 +391,6 @@ export default function withSearchContext(WrappedComponent) {
       this.selectLocation(mapLocation, type);
     };
 
-    handleDTModalOnClick = e => {
-      if (e.target.className === 'from-map-modal-container') {
-        this.setState({ fromMap: undefined });
-      }
-    };
-
-    handleDTModalKeyDown = e => {
-      if (e.keyCode === 27) {
-        this.setState({ fromMap: undefined });
-      }
-    };
-
     renderSelectFromMapModal = id => {
       let titleId = 'select-from-map-no-title';
 
@@ -415,22 +404,15 @@ export default function withSearchContext(WrappedComponent) {
 
       if (!this.props.isMobile) {
         return (
-          <DTModal
-            show
-            windowed
-            onClick={this.handleDTModalOnClick}
-            onKeyDown={this.handleDTModalKeyDown}
+          <FromMapModal
+            onClose={() => this.setState({ fromMap: undefined })}
+            titleId={titleId}
           >
-            <SelectFromMapHeader
-              titleId={titleId}
-              onCloseBtnClick={() => this.setState({ fromMap: undefined })}
-              hideBackBtn
-            />
             <SelectFromMapPageMap
               type={id}
               onConfirm={this.confirmMapSelection}
             />
-          </DTModal>
+          </FromMapModal>
         );
       }
 

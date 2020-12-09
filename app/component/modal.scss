@@ -11,10 +11,9 @@
 
 .windowed {
   position: relative;
-  border-radius: 10px;
   background-color: rgba(0, 0, 0, 0);
-  height: 55vh;
-  width: 100vh;
+  height: 70vh;
+  width: 60vw;
 }
 
 .from-map-modal-container {
@@ -30,10 +29,21 @@
   z-index: 1000;
 }
 
+.closed {
+  transition: 0.5s;
+  opacity: 0;
+}
+
+.modal-closed {
+  transition: 0.5s;
+  opacity: 0;
+  top: 20%;
+}
+
 .modal-main {
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  border-radius: 5px;
   display: block;
   background-color: #ffffff;
   overflow: hidden;
