@@ -15,21 +15,11 @@ import filterMatchingToInput from '@digitransit-search-util/digitransit-search-u
 let relayEnvironment = null;
 
 const alertsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsAlertsQuery {
-    alerts(severityLevel: [SEVERE, WARNING]) {
-      stop {
-        vehicleMode
-        patterns {
-          route {
-            mode
-          }
-        }
-      }
+  query digitransitSearchUtilQueryUtilsAlertsQuery($feedIds: [String!]) {
+    alerts(severityLevel: [SEVERE], feeds: $feedIds) {
       route {
         mode
-        shortName
       }
-      alertHeaderText
       effectiveStartDate
       effectiveEndDate
     }
@@ -188,11 +178,17 @@ export function setRelayEnvironment(environment) {
   relayEnvironment = environment;
 }
 
-export const getModesWithAlerts = currentTime => {
+/**
+ * Get alerts for modes
+ * @param {Number} currentTime Epoch time
+ * @param {Array} feedIds Array of feedId Strings
+ *
+ */
+export const getModesWithAlerts = (currentTime, feedIds = null) => {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
-  return fetchQuery(relayEnvironment, alertsQuery)
+  return fetchQuery(relayEnvironment, alertsQuery, { feedIds })
     .then(res => {
       const modes = res.alerts.map(i => {
         if (

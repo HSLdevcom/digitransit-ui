@@ -10,14 +10,12 @@ import { v4 as uuid } from 'uuid';
 
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
-import { AlertSeverityLevelType } from '../constants';
 import { markMessageAsRead } from '../action/MessageActions';
 import { getReadMessageIds } from '../store/localStorage';
 import {
   getServiceAlertDescription,
   getServiceAlertHeader,
   getServiceAlertUrl,
-  getActiveAlertSeverityLevel,
 } from '../util/alertUtils';
 import { isIe } from '../util/browser';
 import hashCode from '../util/hashUtil';
@@ -30,7 +28,7 @@ import hashCode from '../util/hashUtil';
 const fetchServiceAlerts = async (feedids, relayEnvironment) => {
   const query = graphql`
     query MessageBarQuery($feedids: [String!]) {
-      alerts: alerts(feeds: $feedids) {
+      alerts: alerts(severityLevel: [SEVERE], feeds: $feedids) {
         id
         alertDescriptionText
         alertHash
@@ -139,17 +137,24 @@ class MessageBar extends Component {
       Array.isArray(config.feedIds) && config.feedIds.length > 0
         ? config.feedIds
         : null;
-    this.setState({
-      ready: true,
-      serviceAlerts: uniqBy(
-        (await getServiceAlertsAsync(feedIds, relayEnvironment)).filter(
-          alert =>
-            getActiveAlertSeverityLevel([alert], currentTime) ===
-            AlertSeverityLevelType.Severe,
+    if (config.messageBarAlerts) {
+      this.setState({
+        ready: true,
+        serviceAlerts: uniqBy(
+          (await getServiceAlertsAsync(feedIds, relayEnvironment)).filter(
+            alert =>
+              alert.effectiveStartDate <= currentTime &&
+              alert.effectiveEndDate >= currentTime,
+          ),
+          alert => alert.alertHash,
         ),
-        alert => alert.alertHash,
-      ),
-    });
+      });
+    } else {
+      this.setState({
+        ready: true,
+        serviceAlerts: [],
+      });
+    }
   };
 
   ariaContent = content => {

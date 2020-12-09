@@ -4,8 +4,6 @@ const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
-const STATIC_MESSAGE_URL = undefined;
-// process.env.STATIC_MESSAGE_URL || 'https://dev-yleisviesti.digitransit.fi';
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
@@ -423,7 +421,6 @@ export default {
     //   },
     // },
   ],
-  staticMessagesUrl: STATIC_MESSAGE_URL,
   geoJson: {
     layers: [
       {

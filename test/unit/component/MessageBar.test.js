@@ -18,11 +18,18 @@ const defaultProps = {
   currentTime: 1558610379,
 };
 
+const context = {
+  ...mockContext,
+  config: {
+    messageBarAlerts: true,
+  },
+};
+
 describe('<MessageBar />', () => {
   it('should render empty if there are no messages', () => {
     const props = { ...defaultProps };
     const wrapper = shallowWithIntl(<MessageBar {...props} />, {
-      context: mockContext,
+      context,
     });
     expect(wrapper.isEmptyRender()).to.equal(true);
   });
@@ -35,30 +42,36 @@ describe('<MessageBar />', () => {
           alertDescriptionText: 'bar',
           alertHeaderText: 'foo',
           alertSeverityLevel: AlertSeverityLevelType.Severe,
+          effectiveStartDate: defaultProps.currentTime - 100,
+          effectiveEndDate: defaultProps.currentTime + 100,
         },
       ],
     };
     const wrapper = shallowWithIntl(<MessageBar {...props} />, {
-      context: mockContext,
+      context,
     });
     await wrapper.instance().componentDidMount();
     expect(wrapper.find(Icon)).to.have.lengthOf(2);
   });
 
   it('should not show a closed service alert  again', async () => {
-    const alertId = 926603079;
+    const alertId = 1375604289;
     const alerts = [
       {
         alertDescriptionText: 'bar',
         alertHash: 1,
         alertHeaderText: 'foo',
         alertSeverityLevel: AlertSeverityLevelType.Severe,
+        effectiveStartDate: defaultProps.currentTime - 100,
+        effectiveEndDate: defaultProps.currentTime + 100,
       },
       {
         alertDescriptionText: 'text',
         alertHash: 2,
         alertHeaderText: 'header',
         alertSeverityLevel: AlertSeverityLevelType.Severe,
+        effectiveStartDate: defaultProps.currentTime - 100,
+        effectiveEndDate: defaultProps.currentTime + 100,
       },
     ];
 
@@ -70,7 +83,7 @@ describe('<MessageBar />', () => {
       getServiceAlertsAsync: async () => alerts,
     };
     const wrapper = shallowWithIntl(<MessageBar {...props} />, {
-      context: mockContext,
+      context,
     });
     await wrapper.instance().componentDidMount();
     expect(wrapper.instance().validMessages()[0].id).to.not.equal(alertId);
@@ -92,10 +105,36 @@ describe('<MessageBar />', () => {
       getServiceAlertsAsync: async () => alerts,
     };
     const wrapper = shallowWithIntl(<MessageBar {...props} />, {
-      context: mockContext,
+      context,
     });
 
     await wrapper.instance().componentDidMount();
+    expect(wrapper.find(Icon)).to.have.lengthOf(0);
+  });
+
+  it('should not render service alerts when messageBarAlerts is false', async () => {
+    const props = {
+      ...defaultProps,
+      getServiceAlertsAsync: async () => [
+        {
+          alertDescriptionText: 'bar',
+          alertHeaderText: 'foo',
+          alertSeverityLevel: AlertSeverityLevelType.Severe,
+          effectiveStartDate: defaultProps.currentTime - 100,
+          effectiveEndDate: defaultProps.currentTime + 100,
+        },
+      ],
+    };
+    const wrapper = shallowWithIntl(<MessageBar {...props} />, {
+      context: {
+        ...context,
+        config: {
+          messageBarAlerts: false,
+        },
+      },
+    });
+    await wrapper.instance().componentDidMount();
+
     expect(wrapper.find(Icon)).to.have.lengthOf(0);
   });
 
@@ -130,7 +169,7 @@ describe('<MessageBar />', () => {
       ],
     };
     const wrapper = shallowWithIntl(<MessageBar {...props} />, {
-      context: mockContext,
+      context,
     });
 
     await wrapper.instance().componentDidMount();
@@ -157,7 +196,7 @@ describe('<MessageBar />', () => {
       ],
     };
     const wrapper = shallowWithIntl(<MessageBar {...props} />, {
-      context: mockContext,
+      context,
     });
     await wrapper.instance().componentDidMount();
     expect(wrapper.find('section').get(0).props.style).to.have.property(
