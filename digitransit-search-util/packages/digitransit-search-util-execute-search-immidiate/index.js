@@ -231,9 +231,13 @@ function getOldSearches(oldSearches, input, dropLayers) {
   );
 }
 
-function hasFavourites(context, locations) {
+function hasFavourites(context, locations, stops) {
   const favouriteLocations = locations(context);
-  return favouriteLocations && favouriteLocations.length > 0;
+  if (favouriteLocations && favouriteLocations.length > 0) {
+    return true;
+  }
+  const favouriteStops = stops(context);
+  return favouriteStops && favouriteStops.length > 0;
 }
 
 const routeLayers = [
@@ -314,7 +318,7 @@ export function getSearchResults(
   }
   if (
     targets.includes('SelectFromOwnLocations') &&
-    hasFavourites(context, locations)
+    hasFavourites(context, locations, stops)
   ) {
     searchComponents.push(selectFromOwnLocations(input));
   }
