@@ -49,6 +49,7 @@ export default function withSearchContext(WrappedComponent) {
       locationState: PropTypes.object,
       mode: PropTypes.string,
       fromMap: PropTypes.string,
+      isMobile: PropTypes.bool,
     };
 
     constructor(props) {
@@ -280,6 +281,13 @@ export default function withSearchContext(WrappedComponent) {
         return;
       }
 
+      if (!destination) {
+        destination = { set: false };
+      }
+      if (!origin) {
+        origin = { set: false };
+      }
+
       if (
         origin.ready &&
         destination.ready &&
@@ -382,6 +390,12 @@ export default function withSearchContext(WrappedComponent) {
       this.selectLocation(mapLocation, type);
     };
 
+    dtModalOnClick = e => {
+      if (e.target.className === 'from-map-modal-container') {
+        this.setState({ fromMap: undefined });
+      }
+    };
+
     renderSelectFromMapModal = id => {
       let titleId = 'select-from-map-no-title';
 
@@ -393,11 +407,32 @@ export default function withSearchContext(WrappedComponent) {
         titleId = 'select-from-map-destination';
       }
 
+      if (!this.props.isMobile) {
+        return (
+          <DTModal
+            show
+            windowed
+            dtModalOnClick={() => this.setState({ fromMap: undefined })}
+          >
+            <SelectFromMapHeader
+              titleId={titleId}
+              onCloseBtnClick={() => this.setState({ fromMap: undefined })}
+              hideBackBtn
+            />
+            <SelectFromMapPageMap
+              type={id}
+              onConfirm={this.confirmMapSelection}
+            />
+          </DTModal>
+        );
+      }
+
       return (
         <DTModal show>
           <SelectFromMapHeader
             titleId={titleId}
             onBackBtnClick={() => this.setState({ fromMap: undefined })}
+            hideCloseBtn
           />
           <SelectFromMapPageMap
             type={id}
