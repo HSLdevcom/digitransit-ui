@@ -15,6 +15,7 @@ const LocationMarkerWithPermanentTooltip = props => {
           iconSize: [0, 0],
         })}
         opacity={0.01}
+        keyboard={false}
       >
         <Tooltip permanent direction="top" offset={L.point(0, -25)}>
           <div style={{ fontSize: 13, letterSpacing: -0.52, color: '#333333' }}>
