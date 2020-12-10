@@ -13,7 +13,7 @@ function isFavourite(item) {
 function getAriaDescription(ariaContentArray) {
   const description = ariaContentArray
     .filter(part => part !== undefined && part !== null && part !== '')
-    .join(' - ');
+    .join(' ');
   return description;
 }
 
@@ -102,7 +102,7 @@ const SuggestionItem = pure(
       </span>
     );
     const [suggestionType, name, label, stopCode] = content || [
-      iconId,
+      '',
       item.name,
       item.address,
     ];
