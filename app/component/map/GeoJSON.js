@@ -76,10 +76,12 @@ const getMarker = (feature, latlng, icons = {}) => {
     marker = L.marker(latlng, {
       icon: new MapIcon({ iconUrl: icons[properties.icon.id] }),
       interactive,
+      keyboard: false,
     });
   } else if (properties.textOnly) {
     marker = L.circleMarker(latlng, {
       interactive,
+      keyboard: false,
     });
     marker.bindTooltip(properties.textOnly, {
       className: 'geoJsonText',
@@ -88,7 +90,7 @@ const getMarker = (feature, latlng, icons = {}) => {
       permanent: true,
     });
   } else {
-    marker = L.circleMarker(latlng, { interactive });
+    marker = L.circleMarker(latlng, { interactive, keyboard: false });
   }
 
   return marker;

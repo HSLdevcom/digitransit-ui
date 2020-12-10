@@ -25,6 +25,7 @@ export default function SpeechBubble({ position, text }) {
         className: `legmarker speech-bubble`,
         iconSize: null,
       })}
+      keyboard={false}
     />
   );
 }

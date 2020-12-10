@@ -83,6 +83,7 @@ class GenericMarker extends React.Component {
       position={{ lat: this.props.position.lat, lng: this.props.position.lon }}
       icon={this.props.getIcon(this.state.zoom)}
       onClick={this.props.onClick}
+      keyboard={false}
     >
       <Popup
         offset={this.context.config.map.genericMarker.popup.offset}
@@ -118,6 +119,7 @@ class GenericMarker extends React.Component {
           iconSize: [150, 0],
           iconAnchor: [-8, 7],
         })}
+        keyboard={false}
       />
     );
   }

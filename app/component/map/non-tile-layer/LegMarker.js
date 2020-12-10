@@ -68,6 +68,7 @@ class LegMarker extends React.Component {
           iconSize: null,
         })}
         zIndexOffset={this.props.zIndexOffset}
+        keyboard={false}
       />
     );
   }
