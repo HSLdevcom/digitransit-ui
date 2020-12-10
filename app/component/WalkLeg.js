@@ -170,7 +170,9 @@ function WalkLeg(
                   <PlatformNumber
                     number={leg.from.stop.platformCode}
                     short
-                    isRailOrSubway={fromMode === 'RAIL' || fromMode === 'RAIL'}
+                    isRailOrSubway={
+                      fromMode === 'RAIL' || fromMode === 'SUBWAY'
+                    }
                   />
                 )}
               </div>
