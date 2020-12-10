@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-with-breakpoint",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "digitransit-component with-breakpoint module",
   "main": "lib/index.js",
   "files": [
