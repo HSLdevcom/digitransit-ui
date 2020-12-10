@@ -371,11 +371,14 @@ class FavouriteBar extends React.Component {
             ref={this.expandListRef}
             id="favourite-expand-button"
             onClick={() => this.toggleList()}
+            onFocus={() => this.toggleList()}
             onKeyDown={e => this.handleKeyDown(e)}
             tabIndex="0"
-            role="button"
+            role="listbox"
             aria-label={i18next.t('open-favourites')}
-            aria-controls="favourite-suggestion-list"
+            aria-owns={favourites
+              .map((_, i) => `favourite-suggestion-list--item-${i}`)
+              .join(' ')}
             aria-activedescendant={`favourite-suggestion-list--item-${highlightedIndex}`}
           >
             <Shimmer active={isLoading}>
@@ -390,7 +393,6 @@ class FavouriteBar extends React.Component {
               className={styles['favourite-suggestion-list']}
               id="favourite-suggestion-list"
               ref={this.suggestionListRef}
-              role="listbox"
             >
               {favourites.map((item, index) =>
                 this.renderSuggestion(
