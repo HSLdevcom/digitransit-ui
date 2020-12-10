@@ -211,6 +211,13 @@ $border-radius-rounded: 30px;
     rgba(0, 0, 0, 1) 25px,
     rgba(0, 0, 0, 1)
   );
+  -webkit-mask-image: linear-gradient(
+    to left,
+    transparent,
+    rgba(0, 0, 0, 0.2) 5px,
+    rgba(0, 0, 0, 1) 25px,
+    rgba(0, 0, 0, 1)
+  );
 }
 
 .overflow-fade-left {

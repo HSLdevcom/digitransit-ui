@@ -467,6 +467,19 @@ const SummaryRow = (
       } else {
         firstDepartureStopType = 'from-stop';
       }
+      let firstDeparturePlatform;
+      if (firstDeparture.from.stop.platformCode) {
+        const comma = ', ';
+        firstDeparturePlatform = (
+          <span className="platform-or-track">
+            {comma}
+            <FormattedMessage
+              id={firstDeparture.mode === 'RAIL' ? 'track-num' : 'platform-num'}
+              values={{ platformCode: firstDeparture.from.stop.platformCode }}
+            />
+          </span>
+        );
+      }
       firstLegStartTime = firstDeparture.rentedBike ? (
         <div
           className={cx('itinerary-first-leg-start-time', {
@@ -477,7 +490,9 @@ const SummaryRow = (
             id="itinerary-summary-row.first-leg-start-time-citybike"
             values={{
               firstDepartureTime: (
-                <span className={cx({ realtime: firstDeparture.realTime })}>
+                <span
+                  className={cx('time', { realtime: firstDeparture.realTime })}
+                >
                   <LocalTime time={firstDeparture.startTime} />
                 </span>
               ),
@@ -495,7 +510,7 @@ const SummaryRow = (
         </div>
       ) : (
         <div
-          className={cx('itinerary-first-leg-start-time', {
+          className={cx('itinerary-first-leg-start-time', 'overflow-fade', {
             small: breakpoint !== 'large',
           })}
         >
@@ -503,7 +518,11 @@ const SummaryRow = (
             id="itinerary-summary-row.first-leg-start-time"
             values={{
               firstDepartureTime: (
-                <span className={cx({ realtime: firstDeparture.realTime })}>
+                <span
+                  className={cx('start-time', {
+                    realtime: firstDeparture.realTime,
+                  })}
+                >
                   <LocalTime time={firstDeparture.startTime} />
                 </span>
               ),
@@ -511,6 +530,7 @@ const SummaryRow = (
                 <FormattedMessage id={firstDepartureStopType} />
               ),
               firstDepartureStop: stopNames[0],
+              firstDeparturePlatform,
             }}
           />
         </div>
