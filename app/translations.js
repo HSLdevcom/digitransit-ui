@@ -1011,7 +1011,7 @@ const translations = {
     'itinerary-summary-row.first-departure':
       '{vehicle} leaves at {departureTime} from stop {stopName}.',
     'itinerary-summary-row.first-leg-start-time':
-      'Leaves at {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}',
+      'Leaves at {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Departure at {firstDepartureTime} from {firstDepartureStop} bike station',
     'itinerary-summary-row.no-transit-legs': 'Leave when it suits you',
@@ -1855,7 +1855,7 @@ const translations = {
     'itinerary-summary-row.first-departure':
       '{vehicle} lähtee asemalta {stopName} kello {departureTime}.',
     'itinerary-summary-row.first-leg-start-time':
-      'Lähtee klo {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}',
+      'Lähtee klo {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Lähtö klo {firstDepartureTime} kaupunkipyöräasemalta {firstDepartureStop}',
     'itinerary-summary-row.no-transit-legs': 'Lähde, kun sinulle sopii',
@@ -3454,7 +3454,7 @@ const translations = {
     'itinerary-summary-row.first-departure':
       '{vehicle} avgår från station {stopName} klockan {departureTime}.',
     'itinerary-summary-row.first-leg-start-time':
-      'Avgår kl {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}',
+      'Avgår kl {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Avgång kl {firstDepartureTime} från {firstDepartureStop} stadscykelstation',
     'itinerary-summary-row.no-transit-legs': 'Avgå när det passar för dig',
