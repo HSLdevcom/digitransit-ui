@@ -4,6 +4,7 @@ import Relay from 'react-relay/classic';
 import pick from 'lodash/pick';
 
 import { isBrowser } from '../../../util/browser';
+
 import {
   drawAvailabilityValue,
   drawIcon,
@@ -13,6 +14,7 @@ import {
 } from '../../../util/mapIconUtils';
 
 import {
+  BIKEAVL_UNKNOWN,
   BIKESTATION_ON,
   BIKESTATION_OFF,
   BIKESTATION_CLOSED,
@@ -140,14 +142,16 @@ class CityBikes {
               geom,
               this.citybikeImageSize,
             ).then(() => {
-              drawAvailabilityValue(
-                this.tile,
-                geom,
-                result.bikesAvailable,
-                this.citybikeImageSize,
-                this.availabilityImageSize,
-                this.scaleratio,
-              );
+              if (this.config.cityBike.capacity !== BIKEAVL_UNKNOWN) {
+                drawAvailabilityValue(
+                  this.tile,
+                  geom,
+                  result.bikesAvailable,
+                  this.citybikeImageSize,
+                  this.availabilityImageSize,
+                  this.scaleratio,
+                );
+              }
             });
           }
         }
