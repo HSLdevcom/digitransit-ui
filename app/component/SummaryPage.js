@@ -961,7 +961,13 @@ class SummaryPage extends React.Component {
     fetchQuery(this.props.relayEnvironment, query, tunedParams).then(
       ({ plan: result }) => {
         if (reversed) {
-          const reversedItineraries = result.itineraries.slice().reverse(); // Need to copy because result is readonly
+          const reversedItineraries = result.itineraries
+            .slice() // Need to copy because result is readonly
+            .reverse()
+            .filter(
+              itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+            );
+          // We need to filter only walk itineraries out to place the "separator" accurately between itineraries
           this.setState(prevState => {
             return {
               earlierItineraries: [
@@ -970,8 +976,8 @@ class SummaryPage extends React.Component {
               ],
               loadingMoreItineraries: undefined,
               separatorPosition: prevState.separatorPosition
-                ? prevState.separatorPosition + result.itineraries.length - 1
-                : result.itineraries.length - 1,
+                ? prevState.separatorPosition + reversedItineraries.length
+                : reversedItineraries.length,
             };
           });
           this.context.router.replace({
@@ -1182,15 +1188,21 @@ class SummaryPage extends React.Component {
           this.setState(prevState => {
             return {
               laterItineraries: [
-                ...result.itineraries,
                 ...prevState.laterItineraries,
+                ...result.itineraries,
               ],
               loadingMoreItineraries: undefined,
             };
           });
         } else {
           // Reverse the results so that route suggestions are in ascending order
-          const reversedItineraries = result.itineraries.slice().reverse(); // Need to copy because result is readonly
+          const reversedItineraries = result.itineraries
+            .slice() // Need to copy because result is readonly
+            .reverse()
+            .filter(
+              itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+            );
+          // We need to filter only walk itineraries out to place the "separator" accurately between itineraries
           this.setState(prevState => {
             return {
               earlierItineraries: [
@@ -1199,8 +1211,8 @@ class SummaryPage extends React.Component {
               ],
               loadingMoreItineraries: undefined,
               separatorPosition: prevState.separatorPosition
-                ? prevState.separatorPosition + reversedItineraries.length - 1
-                : reversedItineraries.length - 1,
+                ? prevState.separatorPosition + reversedItineraries.length
+                : reversedItineraries.length,
             };
           });
 
@@ -1933,6 +1945,7 @@ class SummaryPage extends React.Component {
 
     if (
       hasItineraries &&
+      this.selectedPlan !== this.state.alternativePlan &&
       !isEqual(this.selectedPlan, this.state.previouslySelectedPlan)
     ) {
       if (
