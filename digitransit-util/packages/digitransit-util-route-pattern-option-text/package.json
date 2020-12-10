@@ -1,12 +1,11 @@
 {
   "name": "@digitransit-util/digitransit-util-route-pattern-option-text",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "digitransit-util route-pattern-option-text module",
   "main": "index.js",
   "scripts": {
     "test": "mocha -r esm test.js",
-    "docs": "node -r esm ../../scripts/generate-readmes",
-    "publish": "yarn login && yarn publish --access public"
+    "docs": "node -r esm ../../scripts/generate-readmes"
   },
   "repository": {
     "type": "git",

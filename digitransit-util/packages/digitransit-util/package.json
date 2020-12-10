@@ -18,6 +18,6 @@
     "@digitransit-util/digitransit-util-day-range-allowed-diff": "1.0.3",
     "@digitransit-util/digitransit-util-day-range-pattern": "1.0.3",
     "@digitransit-util/digitransit-util-enrich-patterns": "1.0.3",
-    "@digitransit-util/digitransit-util-route-pattern-option-text": "1.0.3"
+    "@digitransit-util/digitransit-util-route-pattern-option-text": "1.0.4"
   }
 }
