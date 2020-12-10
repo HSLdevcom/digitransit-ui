@@ -389,6 +389,14 @@ class SummaryPage extends React.Component {
     return false;
   };
 
+  planHasNoItineraries = () =>
+    this.props.viewer &&
+    this.props.viewer.plan &&
+    this.props.viewer.plan.itineraries &&
+    this.props.viewer.plan.itineraries.filter(
+      itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+    ).length === 0;
+
   configClient = itineraryTopics => {
     const { config } = this.context;
     const { realTime } = config;
@@ -825,7 +833,10 @@ class SummaryPage extends React.Component {
       return;
     }
 
-    const params = preparePlanParams(this.context.config, false)(
+    const useDefaultModes =
+      this.planHasNoItineraries() && this.state.alternativePlan;
+
+    const params = preparePlanParams(this.context.config, useDefaultModes)(
       this.context.match.params,
       this.context.match,
     );
@@ -951,9 +962,17 @@ class SummaryPage extends React.Component {
       ({ plan: result }) => {
         if (reversed) {
           const reversedItineraries = result.itineraries.slice().reverse(); // Need to copy because result is readonly
-          this.setState({
-            earlierItineraries: reversedItineraries,
-            loadingMoreItineraries: undefined,
+          this.setState(prevState => {
+            return {
+              earlierItineraries: [
+                ...reversedItineraries,
+                ...prevState.earlierItineraries,
+              ],
+              loadingMoreItineraries: undefined,
+              separatorPosition: prevState.separatorPosition
+                ? prevState.separatorPosition + result.itineraries.length - 1
+                : result.itineraries.length - 1,
+            };
           });
           this.context.router.replace({
             ...this.context.match.location,
@@ -963,9 +982,14 @@ class SummaryPage extends React.Component {
             },
           });
         } else {
-          this.setState({
-            laterItineraries: result.itineraries,
-            loadingMoreItineraries: undefined,
+          this.setState(prevState => {
+            return {
+              laterItineraries: [
+                ...prevState.laterItineraries,
+                ...result.itineraries,
+              ],
+              loadingMoreItineraries: undefined,
+            };
           });
         }
         /*
@@ -1021,7 +1045,10 @@ class SummaryPage extends React.Component {
       return;
     }
 
-    const params = preparePlanParams(this.context.config, false)(
+    const useDefaultModes =
+      this.planHasNoItineraries() && this.state.alternativePlan;
+
+    const params = preparePlanParams(this.context.config, useDefaultModes)(
       this.context.match.params,
       this.context.match,
     );
@@ -1154,11 +1181,11 @@ class SummaryPage extends React.Component {
         if (reversed) {
           this.setState(prevState => {
             return {
-              laterItineraries: result.itineraries,
+              laterItineraries: [
+                ...result.itineraries,
+                ...prevState.laterItineraries,
+              ],
               loadingMoreItineraries: undefined,
-              separatorPosition: prevState.separatorPosition
-                ? prevState.separatorPosition + result.itineraries.length
-                : result.itineraries.length,
             };
           });
         } else {
@@ -1166,11 +1193,14 @@ class SummaryPage extends React.Component {
           const reversedItineraries = result.itineraries.slice().reverse(); // Need to copy because result is readonly
           this.setState(prevState => {
             return {
-              earlierItineraries: reversedItineraries,
+              earlierItineraries: [
+                ...reversedItineraries,
+                ...prevState.earlierItineraries,
+              ],
               loadingMoreItineraries: undefined,
               separatorPosition: prevState.separatorPosition
-                ? prevState.separatorPosition + reversedItineraries.length
-                : reversedItineraries.length,
+                ? prevState.separatorPosition + reversedItineraries.length - 1
+                : reversedItineraries.length - 1,
             };
           });
 
@@ -1772,12 +1802,7 @@ class SummaryPage extends React.Component {
     const bikeAndPublicPlan = this.filteredbikeAndPublic(
       this.state.bikeAndPublicPlan,
     );
-    const planHasNoItineraries =
-      plan &&
-      plan.itineraries &&
-      plan.itineraries.filter(
-        itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-      ).length === 0;
+    const planHasNoItineraries = this.planHasNoItineraries();
     if (
       planHasNoItineraries &&
       userHasChangedModes(this.context.config) &&
