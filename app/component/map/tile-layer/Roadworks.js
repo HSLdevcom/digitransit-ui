@@ -53,8 +53,10 @@ class Roadworks {
 
           this.features = range(length).map(index => {
             const feature = layerData.feature(index);
-            feature.geom = feature.loadGeometry();
-            return pick(feature, ['geom', 'properties']);
+            const geometry = feature.loadGeometry();
+            [[feature.geom]] = geometry;
+            feature.polyline = geometry;
+            return pick(feature, ['geom', 'polyline', 'properties']);
           });
 
           this.features.forEach(actionFn);
@@ -77,14 +79,14 @@ class Roadworks {
     return suffix;
   };
 
-  drawStatus = ({ geom, properties }) => {
+  drawStatus = ({ polyline, properties }) => {
     const suffix = Roadworks.getIconSuffix(properties);
     const { ctx } = this.tile;
 
-    ctx.lineWidth = 8;
+    ctx.lineWidth = 6;
     ctx.strokeStyle = '#cc2808';
 
-    geom.forEach(line => {
+    polyline.forEach(line => {
       const first = line[0];
       ctx.beginPath();
       ctx.setLineDash([]);
@@ -98,13 +100,13 @@ class Roadworks {
     return drawIcon(
       `icon-icon_roadworks${suffix}`,
       this.tile,
-      geom[0][0],
+      polyline[0][0],
       this.iconSize,
     ).then(
       drawIcon(
         `icon-icon_roadworks${suffix}`,
         this.tile,
-        last(last(geom)),
+        last(last(polyline)),
         this.iconSize,
       ),
     );
