@@ -43,7 +43,7 @@ export const isFeatureLayerEnabled = (
     return false;
   }
   const featureType = (feature.properties.type || '').toLocaleLowerCase();
-  if (featureType) {
+  if (featureType && layerName !== 'roadworks') {
     if (layerName === 'stop' && feature.properties.stops) {
       return isFeatureLayerEnabled(feature, 'terminal', mapLayers, config);
     }
