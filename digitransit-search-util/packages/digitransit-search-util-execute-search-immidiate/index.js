@@ -39,11 +39,15 @@ function getStopsFromGeocoding(stops, URL_PELIAS_PLACE) {
       const favourite = {
         type: 'FavouriteStop',
         properties: {
-          ...stopStationMap[stop.properties.gid],
+          gid: stopStationMap[stop.properties.gid].gid,
+          code: stopStationMap[stop.properties.gid].code,
+          gtfsId: stopStationMap[stop.properties.gid].gtfsId,
+          lastUpdated: stopStationMap[stop.properties.gid].lastUpdated,
+          favouriteId: stopStationMap[stop.properties.gid].favouriteId,
           address: stop.properties.label,
           layer: isStop(stop.properties) ? 'favouriteStop' : 'favouriteStation',
         },
-        ...stop.geometry,
+        geometry: stop.geometry,
       };
       return favourite;
     });
@@ -227,9 +231,13 @@ function getOldSearches(oldSearches, input, dropLayers) {
   );
 }
 
-function hasFavourites(context, locations) {
+function hasFavourites(context, locations, stops) {
   const favouriteLocations = locations(context);
-  return favouriteLocations && favouriteLocations.length > 0;
+  if (favouriteLocations && favouriteLocations.length > 0) {
+    return true;
+  }
+  const favouriteStops = stops(context);
+  return favouriteStops && favouriteStops.length > 0;
 }
 
 const routeLayers = [
@@ -310,7 +318,7 @@ export function getSearchResults(
   }
   if (
     targets.includes('SelectFromOwnLocations') &&
-    hasFavourites(context, locations)
+    hasFavourites(context, locations, stops)
   ) {
     searchComponents.push(selectFromOwnLocations(input));
   }
