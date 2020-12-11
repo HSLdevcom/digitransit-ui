@@ -6,6 +6,8 @@ import {
   BIKESTATION_CLOSED,
   BIKESTATION_ON,
   BIKESTATION_OFF,
+  BIKEAVL_BIKES,
+  BIKEAVL_WITHMAX,
 } from '../../../app/util/citybikes';
 import RouteNumber from '../../../app/component/RouteNumber';
 
@@ -20,7 +22,7 @@ describe('<BicycleRentalStationRow />', () => {
     const wrapper = shallowWithIntl(<BicycleRentalStationRow {...props} />, {
       context: {
         config: {
-          cityBike: { useSpacesAvailable: true },
+          cityBike: { capacity: BIKEAVL_WITHMAX },
         },
       },
     });
@@ -37,7 +39,7 @@ describe('<BicycleRentalStationRow />', () => {
     const wrapper = shallowWithIntl(<BicycleRentalStationRow {...props} />, {
       context: {
         config: {
-          cityBike: { useSpacesAvailable: true },
+          cityBike: { capacity: BIKEAVL_WITHMAX },
         },
       },
     });
@@ -54,7 +56,7 @@ describe('<BicycleRentalStationRow />', () => {
     const wrapper = shallowWithIntl(<BicycleRentalStationRow {...props} />, {
       context: {
         config: {
-          cityBike: { useSpacesAvailable: true },
+          cityBike: { capacity: BIKEAVL_WITHMAX },
         },
       },
     });
@@ -73,7 +75,7 @@ describe('<BicycleRentalStationRow />', () => {
       context: {
         config: {
           cityBike: { networks: { foobar: { icon: 'foobaz' } } },
-          useSpacesAvailable: true,
+          capacity: BIKEAVL_WITHMAX,
         },
       },
     });
@@ -93,7 +95,7 @@ describe('<BicycleRentalStationRow />', () => {
         config: {
           cityBike: {
             networks: { foobar: { icon: 'foobaz' } },
-            useSpacesAvailable: true,
+            capacity: BIKEAVL_WITHMAX,
           },
         },
       },
@@ -115,7 +117,7 @@ describe('<BicycleRentalStationRow />', () => {
     const wrapper = shallowWithIntl(<BicycleRentalStationRow {...props} />, {
       context: {
         config: {
-          cityBike: { useSpacesAvailable: true },
+          cityBike: { capacity: BIKEAVL_WITHMAX },
         },
       },
     });
@@ -123,11 +125,12 @@ describe('<BicycleRentalStationRow />', () => {
     expect(wrapper.find('.bikes-total').text()).to.equal('5');
   });
 
-  it('should show bikesAvailable but no spacesAvailable value when useSpacesAvailable is false', () => {
+  it('should show bikesAvailable but no spacesAvailable value when capacity selection is "Bikes on station"', () => {
     const props = {
       distance: 0,
       station: {
         state: BIKESTATION_ON,
+        capacity: BIKEAVL_BIKES,
         bikesAvailable: 2,
         spacesAvailable: 3,
       },
@@ -140,6 +143,5 @@ describe('<BicycleRentalStationRow />', () => {
       },
     });
     expect(wrapper.find('.bikes-available').text()).to.equal('2');
-    expect(wrapper.find('.bikes-total')).to.have.lengthOf(0);
   });
 });

@@ -15,6 +15,7 @@ import { getMiddleOf } from '../../util/geo-utils';
 import { isBrowser } from '../../util/browser';
 import { isCallAgencyPickupType } from '../../util/legUtils';
 import IconMarker from './IconMarker';
+import { BIKEAVL_UNKNOWN } from '../../util/citybikes';
 
 const getLegText = (leg, config) => {
   if (!leg.route) {
@@ -100,7 +101,10 @@ class ItineraryLine extends React.Component {
           objs.push(
             <CityBikeMarker
               key={leg.from.bikeRentalStation.stationId}
-              showBikeAvailability={leg.rentedBike}
+              showBikeAvailability={
+                leg.rentedBike &&
+                this.context.config.cityBike.capacity !== BIKEAVL_UNKNOWN
+              }
               station={leg.from.bikeRentalStation}
               transit
             />,

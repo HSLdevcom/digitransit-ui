@@ -23,7 +23,6 @@ export function getJson(url, params) {
     {
       timeout: 10000,
       method: 'GET',
-
       headers: {
         Accept: 'application/json',
       },

@@ -15,19 +15,28 @@ import {
   getCityBikeNetworkId,
   getCityBikeNetworkIcon,
   CityBikeNetworkType,
+  BIKEAVL_UNKNOWN,
+  BIKEAVL_WITHMAX,
 } from '../util/citybikes';
 
 const BicycleRentalStationRow = ({ distance, station }, { config, intl }) => {
+  const { capacity } = config.cityBike;
   let availabilityIcon = null;
 
-  if (station.state !== BIKESTATION_ON) {
+  if (capacity !== BIKEAVL_UNKNOWN) {
+    if (station.state !== BIKESTATION_ON) {
+      availabilityIcon = <Icon img="icon-icon_not-in-use" />;
+    } else if (station.bikesAvailable > config.cityBike.fewAvailableCount) {
+      availabilityIcon = <Icon img="icon-icon_good-availability" />;
+    } else if (station.bikesAvailable > 0) {
+      availabilityIcon = <Icon img="icon-icon_poor-availability" />;
+    } else {
+      availabilityIcon = <Icon img="icon-icon_no-availability" />;
+    }
+  } else if (station.state !== BIKESTATION_ON) {
     availabilityIcon = <Icon img="icon-icon_not-in-use" />;
-  } else if (station.bikesAvailable > config.cityBike.fewAvailableCount) {
-    availabilityIcon = <Icon img="icon-icon_good-availability" />;
-  } else if (station.bikesAvailable > 0) {
-    availabilityIcon = <Icon img="icon-icon_poor-availability" />;
   } else {
-    availabilityIcon = <Icon img="icon-icon_no-availability" />;
+    availabilityIcon = <Icon img="icon-icon_good-availability" />;
   }
 
   const networkConfig = getCityBikeNetworkConfig(
@@ -46,7 +55,7 @@ const BicycleRentalStationRow = ({ distance, station }, { config, intl }) => {
         <RouteNumber
           icon={isOff ? `${networkIcon}_off` : networkIcon}
           mode={isOff ? 'citybike_off' : 'citybike'}
-          text={station.stationId}
+          text={station.stationId !== station.name ? station.stationId : ''}
         />
       </td>
       <td className="td-bikestation" colSpan="1">
@@ -55,29 +64,33 @@ const BicycleRentalStationRow = ({ distance, station }, { config, intl }) => {
         </span>
       </td>
       <td className="td-available-bikes" colSpan="2">
-        <span className="city-bike-station-availability">
-          <span className="bikes-label">
-            {intl.formatMessage({
-              id: `${
-                networkConfig.type === CityBikeNetworkType.CityBike
-                  ? 'bike'
-                  : 'scooter'
-              }-availability-short`,
-              defaultMessage: 'Bikes',
-            })}
+        {capacity !== BIKEAVL_UNKNOWN && (
+          <span className="city-bike-station-availability">
+            <span className="bikes-label">
+              {intl.formatMessage({
+                id: `${
+                  networkConfig.type === CityBikeNetworkType.CityBike
+                    ? 'bike'
+                    : 'scooter'
+                }-availability-short`,
+                defaultMessage: 'Bikes',
+              })}
+            </span>
           </span>
-        </span>
-        <span className="city-bike-station-availability">
-          <span className="bikes-available">{station.bikesAvailable}</span>
-          {config.cityBike.useSpacesAvailable && (
-            <React.Fragment>
-              /
-              <span className="bikes-total">
-                {station.bikesAvailable + station.spacesAvailable}
-              </span>
-            </React.Fragment>
-          )}
-        </span>
+        )}
+        {capacity !== BIKEAVL_UNKNOWN && (
+          <span className="city-bike-station-availability">
+            <span className="bikes-available">{station.bikesAvailable}</span>
+            {capacity === BIKEAVL_WITHMAX && (
+              <React.Fragment>
+                /
+                <span className="bikes-total">
+                  {station.bikesAvailable + station.spacesAvailable}
+                </span>
+              </React.Fragment>
+            )}
+          </span>
+        )}
         {availabilityIcon}
       </td>
     </tr>

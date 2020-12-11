@@ -9,6 +9,10 @@ export const BIKESTATION_ON = 'Station on';
 export const BIKESTATION_OFF = 'Station off';
 export const BIKESTATION_CLOSED = 'Station closed';
 
+export const BIKEAVL_UNKNOWN = 'No availability';
+export const BIKEAVL_BIKES = 'Bikes on station';
+export const BIKEAVL_WITHMAX = 'Bikes and capacity';
+
 /**
  * CityBikeNetworkType depicts different types of citybike networks.
  */
@@ -167,13 +171,6 @@ export const getCityBikeUrl = (networks, lang, config) => {
     config.cityBike.networks[id].url[lang]
   ) {
     return config.cityBike.networks[id].url[lang];
-  }
-  if (
-    config.cityBike &&
-    config.cityBike.useUrl &&
-    config.cityBike.useUrl[lang]
-  ) {
-    return config.cityBike.useUrl[lang];
   }
   return undefined;
 };

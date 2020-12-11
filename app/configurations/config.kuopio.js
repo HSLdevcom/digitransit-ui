@@ -1,5 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
+import { BIKEAVL_BIKES } from '../util/citybikes';
 
 const CONFIG = 'kuopio';
 const APP_TITLE = 'Reittiopas Kuopio';
@@ -106,12 +107,7 @@ export default configMerger(walttiConfig, {
 
   cityBike: {
     showCityBikes: true,
-    useSpacesAvailable: false,
-    useUrl: {
-      fi: 'https://kaupunkipyorat.kuopio.fi/',
-      sv: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
-      en: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
-    },
+    capacity: BIKEAVL_BIKES,
     networks: {
       vilkku: {
         icon: 'citybike',
