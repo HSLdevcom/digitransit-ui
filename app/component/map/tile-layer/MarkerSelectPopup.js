@@ -75,7 +75,7 @@ function MarkerSelectPopup(props) {
       return (
         <RoadworksRow
           {...option.feature}
-          key={option.feature.properties.Baustellennummer}
+          key={option.feature.properties['location.referenceId']}
           selectRow={() => props.selectRow(option)}
         />
       );

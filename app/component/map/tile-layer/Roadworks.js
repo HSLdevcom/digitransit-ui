@@ -1,6 +1,7 @@
 import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
 import pick from 'lodash/pick';
+import last from 'lodash/last';
 
 import range from 'lodash-es/range';
 import { isBrowser } from '../../../util/browser';
@@ -28,7 +29,7 @@ class Roadworks {
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.iconSize = 20 * this.scaleratio * getScale(this.tile.coords.z);
 
-    this.promise = this.fetchWithAction(this.fetchAndDrawStatus);
+    this.promise = this.fetchWithAction(this.drawStatus);
   }
 
   fetchWithAction = actionFn =>
@@ -52,7 +53,7 @@ class Roadworks {
 
           this.features = range(length).map(index => {
             const feature = layerData.feature(index);
-            [[feature.geom]] = feature.loadGeometry();
+            feature.geom = feature.loadGeometry();
             return pick(feature, ['geom', 'properties']);
           });
 
@@ -76,19 +77,42 @@ class Roadworks {
     return suffix;
   };
 
-  fetchAndDrawStatus = ({ geom, properties }) => {
+  drawStatus = ({ geom, properties }) => {
     const suffix = Roadworks.getIconSuffix(properties);
+    const { ctx } = this.tile;
+
+    ctx.lineWidth = 8;
+    ctx.strokeStyle = '#cc2808';
+
+    geom.forEach(line => {
+      const first = line[0];
+      ctx.beginPath();
+      ctx.setLineDash([]);
+      ctx.moveTo(first.x / this.tile.ratio, first.y / this.tile.ratio);
+      line.forEach(g => {
+        ctx.lineTo(g.x / this.tile.ratio, g.y / this.tile.ratio);
+      });
+      ctx.stroke();
+    });
+
     return drawIcon(
       `icon-icon_roadworks${suffix}`,
       this.tile,
-      geom,
+      geom[0][0],
       this.iconSize,
+    ).then(
+      drawIcon(
+        `icon-icon_roadworks${suffix}`,
+        this.tile,
+        last(last(geom)),
+        this.iconSize,
+      ),
     );
   };
 
   onTimeChange = () => {
     if (this.tile.coords.z > this.config.roadworks.roadworksMinZoom) {
-      this.fetchWithAction(this.fetchAndDrawStatus);
+      this.fetchWithAction(this.drawStatus);
     }
   };
 

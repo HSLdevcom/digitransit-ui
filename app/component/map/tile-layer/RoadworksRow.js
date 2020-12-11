@@ -18,7 +18,7 @@ export default function RoadworksRow(props) {
         </div>
         <div className="padding-vertical-normal select-row-text">
           <span className="header-primary no-margin link-color">
-            {properties.Baustellenbeschreibung}
+            {properties['location.street']}
           </span>
         </div>
         <div className="clear" />
