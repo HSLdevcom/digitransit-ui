@@ -36,17 +36,10 @@ class RoadworksPopup extends React.Component {
     return dateTime.format('LT');
   }
 
-  static formatDateTime(start, end, type) {
-    const startM = moment(start).tz('Europe/Berlin');
-    const endM = moment(end).tz('Europe/Berlin');
-    if (type === 'Langzeitbaustelle') {
-      return `${RoadworksPopup.formatDate(
-        startM,
-      )} - ${RoadworksPopup.formatDate(endM)}`;
-    }
+  static formatDateTime(start, end) {
+    const startM = moment(start);
+    const endM = moment(end);
     return `${RoadworksPopup.formatDate(startM)} - ${RoadworksPopup.formatDate(
-      endM,
-    )}, ${RoadworksPopup.formatTime(startM)} - ${RoadworksPopup.formatTime(
       endM,
     )}`;
   }
@@ -57,22 +50,27 @@ class RoadworksPopup extends React.Component {
         feature: { properties },
       },
     } = this;
-    const duration = RoadworksPopup.formatDateTime(
-      properties.gueltig_von,
-      properties.gueltig_bis,
-      properties.Baustellenart,
+    const duration = (
+      <span className="inline-block padding-vertical-small">
+        {RoadworksPopup.formatDateTime(
+          properties.starttime,
+          properties.endtime,
+        )}
+      </span>
     );
+
     return (
       <Card>
-        <div className="padding-small">
+        <div className="padding-normal">
           <CardHeader
-            name={properties.Baustellenbeschreibung}
-            description={properties.Baustellenart}
+            name={properties['location.street']}
+            description={duration}
             unlinked
-            className="padding-small"
+            className="padding-medium"
+            headingStyle="h2"
           />
           <div>
-            <p>{duration}</p>
+            <p>{properties.description}</p>
           </div>
         </div>
       </Card>
