@@ -2,6 +2,7 @@ import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
 import pick from 'lodash/pick';
 
+import range from 'lodash-es/range';
 import { isBrowser } from '../../../util/browser';
 import { drawIcon } from '../../../util/mapIconUtils';
 import glfun from '../../../util/glfun';
@@ -11,13 +12,21 @@ const getScale = glfun({
   stops: [[13, 0.8], [20, 1.6]],
 });
 
+const IncidentType = {
+  RoadClosed: 'ROAD_CLOSED',
+};
+
+const DirectionsType = {
+  BothDirections: 'BOTH_DIRECTIONS',
+};
+
 class Roadworks {
   constructor(tile, config) {
     this.tile = tile;
     this.config = config;
 
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
-    this.iconSize = 36 * this.scaleratio * getScale(this.tile.coords.z);
+    this.iconSize = 20 * this.scaleratio * getScale(this.tile.coords.z);
 
     this.promise = this.fetchWithAction(this.fetchAndDrawStatus);
   }
@@ -38,15 +47,14 @@ class Roadworks {
 
           this.features = [];
 
-          const layerData = vt.layers.roadworks;
+          const layerData = vt.layers.cifs || { length: 0 };
+          const { length } = layerData;
 
-          if (layerData != null) {
-            for (let i = 0, ref = layerData.length - 1; i <= ref; i++) {
-              const feature = layerData.feature(i);
-              [[feature.geom]] = feature.loadGeometry();
-              this.features.push(pick(feature, ['geom', 'properties']));
-            }
-          }
+          this.features = range(length).map(index => {
+            const feature = layerData.feature(index);
+            [[feature.geom]] = feature.loadGeometry();
+            return pick(feature, ['geom', 'properties']);
+          });
 
           this.features.forEach(actionFn);
         },
@@ -57,7 +65,10 @@ class Roadworks {
 
   static getIconSuffix = properties => {
     let suffix = '';
-    if (properties.Vollsperrung === 1) {
+    if (
+      properties.type === IncidentType.RoadClosed &&
+      properties['location.direction'] === DirectionsType.BothDirections
+    ) {
       suffix = '-full-closure';
     } else if (properties.Halbseitige_Sperrung === 1) {
       suffix = '-oneway-closure';
