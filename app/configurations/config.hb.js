@@ -31,6 +31,7 @@ export default configMerger(walttiConfig, {
       semiTransparent: SEMI_TRANSPARENT_MAP_URL,
       bicycle: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png',
     },
+    STOP_MAP: `${API_URL}/map/v1/stop-map/`,
     GEOCODING_BASE_URL: GEOCODING_BASE_URL,
     DYNAMICPARKINGLOTS_MAP: `${API_URL}/map/v1/hb-parking-map/`,
     ROADWORKS_MAP: `${API_URL}/map/v1/cifs/`,
