@@ -24,6 +24,7 @@ class MapLayerStore extends Store {
     },
     showAllBusses: false,
     dynamicParkingLots: true,
+    roadworks: true,
     geoJson: {},
   };
 
