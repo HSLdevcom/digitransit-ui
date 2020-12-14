@@ -39,8 +39,8 @@ class SelectFromMapPageMap extends React.Component {
   };
 
   static propTypes = {
-    breakpoint: PropTypes.string,
     language: PropTypes.string,
+    breakpoint: PropTypes.string,
     type: PropTypes.string.isRequired,
     onConfirm: PropTypes.func.isRequired,
   };
