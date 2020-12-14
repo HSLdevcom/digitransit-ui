@@ -86,6 +86,8 @@ class IndexPage extends React.Component {
   }
 
   componentDidMount() {
+    // To prevent SSR for rendering something https://reactjs.org/docs/react-dom.html#hydrate
+    this.setState({ isClient: true });
     scrollTop();
   }
 
@@ -189,7 +191,7 @@ class IndexPage extends React.Component {
         } fullscreen bp-${breakpoint}`}
       >
         <div
-          style={{ display: isBrowser ? 'block' : 'none' }}
+          style={{ display: this.state.isClient ? 'block' : 'none' }}
           className="scrollable-content-wrapper momentum-scroll"
         >
           <CtrlPanel
@@ -286,7 +288,7 @@ class IndexPage extends React.Component {
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         <div
           style={{
-            display: isBrowser ? 'block' : 'none',
+            display: this.state.isClient ? 'block' : 'none',
             backgroundColor: '#ffffff',
           }}
         >
