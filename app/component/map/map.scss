@@ -880,8 +880,12 @@ div.leaflet-control-scale-line {
     color: #fff;
   }
 
+  &.select-from-map-confirm-button[disabled]:hover {
+    background-color: #bbbbbb;
+    opacity: 1;
+  }
+
   &.disabled {
-    pointer-events: none;
     background-color: #bbbbbb;
     opacity: 1;
   }

@@ -48,6 +48,7 @@ export default function LocationMarker({
   isLarge,
   type,
   streetMode,
+  disabled,
 }) {
   const getValidType = markertype => {
     switch (markertype) {
@@ -63,7 +64,6 @@ export default function LocationMarker({
   const validType = getValidType(type);
   const sideLength = isLarge ? 30 : 24;
   const isOnFoot = streetMode === 'walk' || streetMode === 'bike';
-
   return (
     <>
       {isOnFoot && (
@@ -78,7 +78,12 @@ export default function LocationMarker({
         className={cx(validType, className)}
         icon={{
           className: cx(validType, className),
-          element: <Icon img={`icon-icon_mapMarker-${validType}-map`} />,
+          element: (
+            <Icon
+              img={`icon-icon_mapMarker-${validType}-map`}
+              color={disabled ? '#bbbbbb' : null}
+            />
+          ),
           iconAnchor: [sideLength / 2, sideLength],
           iconSize: [sideLength, sideLength],
         }}
@@ -93,6 +98,7 @@ LocationMarker.propTypes = {
   isLarge: PropTypes.bool,
   type: PropTypes.oneOf(['from', 'via', 'to']),
   streetMode: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 LocationMarker.defaultProps = {
@@ -100,4 +106,5 @@ LocationMarker.defaultProps = {
   isLarge: false,
   type: 'via',
   streetMode: '',
+  disabled: false,
 };

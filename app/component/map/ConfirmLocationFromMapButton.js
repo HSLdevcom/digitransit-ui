@@ -14,6 +14,7 @@ const ConfirmLocationFromMapButton = props => {
     <div className={cx('select-from-map-confirm-button-container')}>
       <button
         type="button"
+        disabled={!props.isEnabled}
         onClick={props.isEnabled ? redirect : undefined}
         className={cx('select-from-map-confirm-button', {
           disabled: !props.isEnabled,

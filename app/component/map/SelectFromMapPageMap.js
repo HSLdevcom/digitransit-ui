@@ -266,21 +266,29 @@ class SelectFromMapPageMap extends React.Component {
     const { locationOfMapCenter, bounds } = this.state;
 
     const defaultLocation = config.defaultMapCenter || config.defaultEndpoint;
+    const isDesktop = this.props.breakpoint === DESKTOP_BREAKPOINT;
 
     const leafletObjs = [];
-    if (!locationOfMapCenter && type === 'origin') {
+
+    if (!locationOfMapCenter && type === 'origin' && !isDesktop) {
       leafletObjs.push(
         <LocationMarker
           key="fromMarker"
           position={defaultLocation}
           type="from"
+          disabled
         />,
       );
     }
 
-    if (!locationOfMapCenter && type === 'destination') {
+    if (!locationOfMapCenter && type === 'destination' && !isDesktop) {
       leafletObjs.push(
-        <LocationMarker key="toMarker" position={defaultLocation} type="to" />,
+        <LocationMarker
+          key="toMarker"
+          position={defaultLocation}
+          type="to"
+          disabled
+        />,
       );
     }
 
@@ -336,7 +344,6 @@ class SelectFromMapPageMap extends React.Component {
     }
 
     const showScale = true;
-    const isDesktop = this.props.breakpoint === DESKTOP_BREAKPOINT;
 
     return (
       <MapContainer
