@@ -338,9 +338,6 @@ class SelectFromMapPageMap extends React.Component {
     const showScale = true;
     const isDesktop = this.props.breakpoint === DESKTOP_BREAKPOINT;
 
-    if (this.props.breakpoint && this.props.breakpoint === 'large') {
-      return null;
-    }
     return (
       <MapContainer
         className="full select-from-map"
