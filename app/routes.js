@@ -210,7 +210,7 @@ export default config => {
                 ).then(getDefault)
               }
               query={planQuery}
-              prepareVariables={preparePlanParams(config)}
+              prepareVariables={preparePlanParams(config, false)}
               render={({ Component, props, error, match }) => {
                 if (Component) {
                   return props ? (

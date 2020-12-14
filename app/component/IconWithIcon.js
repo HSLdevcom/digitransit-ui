@@ -5,13 +5,6 @@ import { intlShape } from 'react-intl';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const subIconTemplate = {
-  fontSize: '65%',
-  position: 'absolute',
-  bottom: '-4px',
-  left: '-2px',
-};
-
 const IconWithIcon = (
   {
     badgeFill,
@@ -38,7 +31,6 @@ const IconWithIcon = (
     {subIcon && (
       <span
         className={subIconClassName}
-        style={subIconTemplate}
         title={intl.formatMessage({ id: 'disruption' })}
       >
         <Icon backgroundShape={subIconShape} img={subIcon} />

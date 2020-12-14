@@ -153,16 +153,12 @@ class IndexPage extends React.Component {
     const hoverColor = colors.hover || LightenDarkenColor(colors.primary, -20);
     const { breakpoint, destination, origin, lang } = this.props;
     const queryString = this.context.match.location.search;
-    const searchSources =
-      breakpoint !== 'large'
-        ? ['Favourite', 'History', 'Datasource']
-        : ['History', 'Datasource'];
+    const searchSources = ['Favourite', 'History', 'Datasource'];
     const stopAndRouteSearchSources = ['Favourite', 'History', 'Datasource'];
     const locationSearchTargets = [
       'Locations',
       'CurrentPosition',
       'FutureRoutes',
-      'SelectFromOwnLocations',
       'Stops',
     ];
     const stopAndRouteSearchTargets =
@@ -179,6 +175,7 @@ class IndexPage extends React.Component {
     const alertsContext = {
       currentTime: this.props.currentTime,
       getModesWithAlerts,
+      feedIds: config.feedIds,
     };
 
     return breakpoint === 'large' ? (
@@ -312,6 +309,7 @@ class IndexPage extends React.Component {
                 'CurrentPosition',
                 'MapPosition',
                 'FutureRoutes',
+                'Stops',
               ]}
               disableAutoFocus
               isMobile

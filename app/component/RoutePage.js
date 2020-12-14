@@ -334,6 +334,7 @@ class RoutePage extends React.Component {
           className={cx('route-container', {
             'bp-large': breakpoint === 'large',
           })}
+          aria-live="polite"
         >
           {breakpoint === 'large' && (
             <BackButton
@@ -360,28 +361,37 @@ class RoutePage extends React.Component {
               gtfsId={route.gtfsId}
             />
           </div>
-          <div className="route-tabs">
-            <a
+          <div className="route-tabs" role="tablist">
+            <button
+              type="button"
               className={cx({ 'is-active': activeTab === Tab.Stops })}
               onClick={() => {
                 this.changeTab(Tab.Stops);
               }}
+              tabIndex={0}
+              role="tab"
+              aria-selected={activeTab === Tab.Stops}
             >
               <div>
                 <FormattedMessage id="stops" defaultMessage="Stops" />
               </div>
-            </a>
-            <a
+            </button>
+            <button
+              type="button"
               className={cx({ 'is-active': activeTab === Tab.Timetable })}
               onClick={() => {
                 this.changeTab(Tab.Timetable);
               }}
+              tabIndex={0}
+              role="tab"
+              aria-selected={activeTab === Tab.Timetable}
             >
               <div>
                 <FormattedMessage id="timetable" defaultMessage="Timetable" />
               </div>
-            </a>
-            <a
+            </button>
+            <button
+              type="button"
               className={cx({
                 activeAlert: hasActiveAlert,
                 'is-active': activeTab === Tab.Disruptions,
@@ -389,6 +399,9 @@ class RoutePage extends React.Component {
               onClick={() => {
                 this.changeTab(Tab.Disruptions);
               }}
+              tabIndex={0}
+              role="tab"
+              aria-selected={activeTab === Tab.Disruptions}
             >
               <div
                 className={`tab-route-disruption ${
@@ -400,7 +413,7 @@ class RoutePage extends React.Component {
                   defaultMessage="Disruptions"
                 />
               </div>
-            </a>
+            </button>
           </div>
           {patternId && (
             <RoutePatternSelect

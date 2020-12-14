@@ -160,14 +160,11 @@ class OriginDestinationBar extends React.Component {
           sources={[
             'History',
             'Datasource',
-            this.props.isMobile && this.props.showFavourites ? 'Favourite' : '',
+            this.props.showFavourites ? 'Favourite' : '',
           ]}
           targets={[
             'Locations',
             'CurrentPosition',
-            !this.props.isMobile && this.props.showFavourites
-              ? 'SelectFromOwnLocations'
-              : '',
             this.props.isMobile ? 'MapPosition' : '',
             'Stops',
           ]}

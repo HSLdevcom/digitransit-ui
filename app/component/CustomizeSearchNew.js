@@ -57,8 +57,9 @@ class CustomizeSearch extends React.Component {
     return (
       <form className="customize-search">
         <button
-          title="Close window and save settings"
-          aria-label="Close window and save settings"
+          aria-label={intl.formatMessage({
+            id: 'close-settings',
+          })}
           type="button"
           className="close-offcanvas"
           onClick={() => {

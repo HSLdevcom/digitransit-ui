@@ -209,7 +209,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 omitNonPickups: $omitNonPickups
               )
             }
-            alerts: alerts(severityLevel: [SEVERE, WARNING]) {
+            alerts: alerts(severityLevel: [SEVERE]) {
               ...DisruptionBanner_alerts
             }
           }
@@ -377,12 +377,8 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       <DTAutoSuggestWithSearchContext
         appElement="#app"
         icon="search"
-        sources={['History', 'Datasource', isMobile ? 'Favourite' : '']}
-        targets={[
-          'Locations',
-          !isMobile ? 'SelectFromOwnLocations' : '',
-          'Stops',
-        ]}
+        sources={['History', 'Datasource', 'Favourite']}
+        targets={['Locations', 'Stops']}
         id="origin-stop-near-you"
         placeholder="origin"
         value=""

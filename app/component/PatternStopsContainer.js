@@ -52,6 +52,7 @@ class PatternStopsContainer extends React.PureComponent {
         className={cx('route-page-content', {
           'bp-large': this.props.breakpoint === 'large',
         })}
+        role="list"
       >
         <RouteListHeader
           key="header"

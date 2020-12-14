@@ -137,11 +137,6 @@ button.clear-input {
   background: #fff;
 }
 
-.suggestionHighlighted {
-  font-size: 15px;
-  background: $suggestion-highlight-background-color;
-}
-
 .suggestionsContainerOpen {
   display: flex;
   position: absolute;
@@ -165,9 +160,6 @@ button.clear-input {
     padding-left: 0;
     margin-bottom: 0;
     background: #f4f4f5;
-    li:hover, li:focus, li:active {
-      background: $suggestion-highlight-background-color;
-    }
   }
 }
 
