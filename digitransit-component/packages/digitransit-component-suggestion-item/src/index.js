@@ -150,7 +150,7 @@ const SuggestionItem = pure(
                 </p>
                 <p className={styles['suggestion-label']}>
                   {isBikeRentalStation ? suggestionType : label}
-                  {stopCode && (
+                  {stopCode && stopCode !== name && (
                     <span className={styles['stop-code']}>{stopCode}</span>
                   )}
                 </p>

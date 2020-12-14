@@ -23,7 +23,9 @@ const BikeRentalStationHeader = (
         <h3>{bikeRentalStation.name}</h3>
         <div className="bike-station-sub-header">
           <FormattedMessage id="citybike-station-no-id" />
-          <StopCode code={bikeRentalStation.stationId} />
+          {bikeRentalStation.name !== bikeRentalStation.stationId && (
+            <StopCode code={bikeRentalStation.stationId} />
+          )}
         </div>
       </div>
       <FavouriteBikeRentalStationContainer
