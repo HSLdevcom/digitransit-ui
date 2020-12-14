@@ -663,7 +663,7 @@ class DTAutosuggest extends React.Component {
       }
       label = label.concat(getSuggestionContent(this.state.suggestions[0]));
     }
-    return label ? label.join(' - ') : '';
+    return [...new Set(label)].join(' - ');
   };
 
   clearOldSearches = () => {
