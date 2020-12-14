@@ -39,8 +39,9 @@ class SelectFromMapPageMap extends React.Component {
   };
 
   static propTypes = {
+    // eslint-disable-next-line no-dupe-keys
+    breakpoint: PropTypes.string,
     language: PropTypes.string,
-    breakpoint: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     onConfirm: PropTypes.func.isRequired,
   };
