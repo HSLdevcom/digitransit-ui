@@ -39,6 +39,10 @@ function ItineraryPageMap(
     fitBounds,
     bounds,
     streetMode,
+    leafletEvents,
+    boundsZoom,
+    geoJsonZoomLevel,
+    mapZoomLevel,
   },
   { match, config },
 ) {
@@ -150,6 +154,10 @@ function ItineraryPageMap(
       showScaleBar={showScale}
       hideOrigin
       locationPopup="all"
+      leafletEvents={leafletEvents}
+      boundsZoom={boundsZoom}
+      geoJsonZoomLevel={geoJsonZoomLevel}
+      mapZoomLevel={mapZoomLevel}
     >
       <BackButton
         icon="icon-icon_arrow-collapse--left"
@@ -170,6 +178,10 @@ ItineraryPageMap.propTypes = {
   fitBounds: PropTypes.bool,
   mapReady: PropTypes.func,
   mapLoaded: PropTypes.bool,
+  leafletEvents: PropTypes.object,
+  boundsZoom: PropTypes.number,
+  geoJsonZoomLevel: PropTypes.number,
+  mapZoomLevel: PropTypes.number,
 };
 
 ItineraryPageMap.contextTypes = {

@@ -56,6 +56,7 @@ export default class Map extends React.Component {
     mapReady: PropTypes.func,
     itineraryMapReady: PropTypes.func,
     disableParkAndRide: PropTypes.bool,
+    mapZoomLevel: PropTypes.number,
   };
 
   static defaultProps = {
@@ -176,6 +177,7 @@ export default class Map extends React.Component {
           {this.props.bottomButtons}
         </span>
         <LeafletMap
+          className={`z${this.props.mapZoomLevel}`}
           keyboard={false}
           ref={el => {
             this.map = el;

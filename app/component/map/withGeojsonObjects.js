@@ -74,7 +74,11 @@ function withGeojsonObjects(Component) {
           objs.push(
             <LazilyLoad modules={jsonModules} key={key}>
               {({ GeoJSON }) => (
-                <GeoJSON bounds={bounds} data={geoJson[key].data} />
+                <GeoJSON
+                  bounds={bounds}
+                  data={geoJson[key].data}
+                  geoJsonZoomLevel={props.geoJsonZoomLevel}
+                />
               )}
             </LazilyLoad>,
           );
@@ -96,6 +100,7 @@ function withGeojsonObjects(Component) {
     getGeoJsonData: PropTypes.func.isRequired,
     leafletObjs: PropTypes.array,
     config: configShape.isRequired,
+    geoJsonZoomLevel: PropTypes.number.isRequired,
   };
   GeojsonWrapper.defaultProps = {
     leafletObjs: [],

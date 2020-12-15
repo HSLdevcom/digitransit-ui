@@ -1,9 +1,10 @@
+/* eslint-disable no-underscore-dangle */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-
+import get from 'lodash/get';
 import MapContainer from './map/MapContainer';
 import RouteLine from './map/route/RouteLine';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
@@ -12,6 +13,13 @@ import withBreakpoint from '../util/withBreakpoint';
 import BackButton from './BackButton';
 
 class RouteMapContainer extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      zoomLevel: -1,
+    };
+  }
+
   static propTypes = {
     match: matchShape.isRequired,
     pattern: PropTypes.object.isRequired,
@@ -29,6 +37,29 @@ class RouteMapContainer extends React.PureComponent {
   dispLat = this.props.lat;
 
   dispLon = this.props.lon;
+
+  endZoom = element => {
+    if (
+      element &&
+      element.target &&
+      this.state.zoomLevel !== element.target._zoom
+    ) {
+      this.setState({
+        zoomLevel: element.target._zoom,
+      });
+    }
+  };
+
+  setMapElementRef = element => {
+    if (!this.map) {
+      this.map = get(element, 'leafletElement', null);
+    }
+    if (this.map) {
+      this.setState({
+        zoomLevel: this.map._zoom,
+      });
+    }
+  };
 
   render() {
     const { pattern, lat, lon, match, breakpoint } = this.props;
@@ -88,6 +119,12 @@ class RouteMapContainer extends React.PureComponent {
             : config.map.minZoom
         }
         showScaleBar={showScale}
+        geoJsonZoomLevel={this.state.zoomLevel}
+        mapZoomLevel={this.state.zoomLevel}
+        leafletEvents={{
+          onZoomend: this.endZoom,
+        }}
+        mapRef={this.setMapElementRef}
       >
         {breakpoint !== 'large' && (
           <React.Fragment>
