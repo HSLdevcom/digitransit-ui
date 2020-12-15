@@ -21,6 +21,6 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@digitransit-search-util/digitransit-search-util-get-label": "0.0.5"
+    "@digitransit-search-util/digitransit-search-util-get-label": "0.0.6"
   }
 }

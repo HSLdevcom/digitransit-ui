@@ -32,7 +32,7 @@
     "@digitransit-component/digitransit-component-icon": "0.0.15",
     "@digitransit-component/digitransit-component-suggestion-item": "0.1.2",
     "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "0.2.6",
-    "@digitransit-search-util/digitransit-search-util-get-label": "0.0.5",
+    "@digitransit-search-util/digitransit-search-util-get-label": "0.0.6",
     "@digitransit-search-util/digitransit-search-util-suggestion-to-location": "0.0.7",
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "0.0.7"
   },
