@@ -1337,7 +1337,8 @@ class SummaryPage extends React.Component {
       if (
         combinedItineraries &&
         combinedItineraries.length > 0 &&
-        this.props.match.params.hash !== 'walk'
+        this.props.match.params.hash !== 'walk' &&
+        this.props.match.params.hash !== 'bikeAndVehicle'
       ) {
         combinedItineraries = combinedItineraries.filter(
           itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
@@ -1934,7 +1935,8 @@ class SummaryPage extends React.Component {
     if (
       combinedItineraries &&
       combinedItineraries.length > 0 &&
-      this.props.match.params.hash !== 'walk'
+      this.props.match.params.hash !== 'walk' &&
+      this.props.match.params.hash !== 'bikeAndVehicle'
     ) {
       combinedItineraries = combinedItineraries.filter(
         itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
