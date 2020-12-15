@@ -13,7 +13,7 @@ function isFavourite(item) {
 function getAriaDescription(ariaContentArray) {
   const description = ariaContentArray
     .filter(part => part !== undefined && part !== null && part !== '')
-    .join(' - ');
+    .join(' ');
   return description;
 }
 
@@ -102,7 +102,7 @@ const SuggestionItem = pure(
       </span>
     );
     const [suggestionType, name, label, stopCode] = content || [
-      iconId,
+      '',
       item.name,
       item.address,
     ];
@@ -145,30 +145,32 @@ const SuggestionItem = pure(
             item.selectedIconId !== 'favourite' &&
             iconId !== 'edit' && (
               <span>
-                <p className={cx(styles['suggestion-name'], styles[className])}>
+                <div
+                  className={cx(styles['suggestion-name'], styles[className])}
+                >
                   {name}
-                </p>
-                <p className={styles['suggestion-label']}>
+                </div>
+                <div className={styles['suggestion-label']}>
                   {isBikeRentalStation ? suggestionType : label}
                   {stopCode && (
                     <span className={styles['stop-code']}>{stopCode}</span>
                   )}
-                </p>
+                </div>
               </span>
             )}
           {(item.selectedIconId === 'favourite' || iconId === 'edit') && (
             <span>
-              <p
+              <div
                 className={cx(styles['suggestion-name'], styles[className])}
                 style={{ color: `${item.color}` }}
               >
                 {name}
-              </p>
+              </div>
             </span>
           )}
           {iconId === 'future-route' && (
             <div>
-              <p
+              <div
                 className={cx(
                   styles['suggestion-name'],
                   styles.futureroute,
@@ -186,8 +188,8 @@ const SuggestionItem = pure(
                 >
                   , {item.properties.origin.locality}
                 </span>
-              </p>
-              <p
+              </div>
+              <div
                 className={cx(
                   styles['suggestion-name'],
                   styles.futureroute,
@@ -205,14 +207,14 @@ const SuggestionItem = pure(
                 >
                   , {item.properties.destination.locality}
                 </span>
-              </p>
-              <p
+              </div>
+              <div
                 className={cx(styles['suggestion-label'], {
                   [styles.futureroute]: isFutureRoute,
                 })}
               >
                 {item.translatedText}
-              </p>
+              </div>
             </div>
           )}
         </div>
