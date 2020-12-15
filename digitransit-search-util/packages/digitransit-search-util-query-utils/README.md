@@ -78,6 +78,16 @@ Returns Route objects depending on input
 -   `pathOpts`  an object containing two properties routesPrefix and stopsPrefix to override the URL paths returned
            by this method
 
+## filterSearchResultsByMode
+
+Can be used to filter stops and stations by a given mode
+
+### Parameters
+
+-   `results` **any** search results from geocoding
+-   `mode` **any** e.g 'BUS' or 'TRAM'
+-   `type` **any** type of search results to filter, e.g 'Stops' or 'Routes'. This function only filters Stops because routes can be filtered with the query itself (optional, default `'Stops'`)
+
 [1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 
 [2]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array

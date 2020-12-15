@@ -489,10 +489,10 @@ export const withCurrentTime = location => {
 /**
  * Can be used to filter stops and stations by a given mode
  * @param {*} results search results from geocoding
- * @param {*} type only 'Stops' is supported
+ * @param {*} type type of search results to filter, e.g 'Stops' or 'Routes'. This function only filters Stops because routes can be filtered with the query itself
  * @param {*} mode e.g 'BUS' or 'TRAM'
  */
-export const filterSearchResultsByMode = (results, type, mode) => {
+export const filterSearchResultsByMode = (results, mode, type = 'Stops') => {
   switch (type) {
     case 'Routes':
       return results;

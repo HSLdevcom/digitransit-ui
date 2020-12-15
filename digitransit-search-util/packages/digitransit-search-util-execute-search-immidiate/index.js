@@ -377,7 +377,7 @@ export function getSearchResults(
           URL_PELIAS_PLACE,
         ).then(results => {
           if (filterResults) {
-            return filterResults(results, 'Stops', mode);
+            return filterResults(results, mode);
           }
           return results;
         });
@@ -388,7 +388,7 @@ export function getSearchResults(
           )
           .then(results => {
             if (filterResults) {
-              return filterResults(results, 'Stops', mode);
+              return filterResults(results, mode);
             }
             return results;
           });
@@ -414,7 +414,7 @@ export function getSearchResults(
           geocodingLayers,
         ).then(results => {
           if (filterResults) {
-            return filterResults(results, 'Stops', mode);
+            return filterResults(results, mode);
           }
           return results;
         }),
@@ -443,7 +443,7 @@ export function getSearchResults(
         }
         searchComponents.push(
           getOldSearches(stopHistory, input, dropLayers).then(result =>
-            filterResults ? filterResults(result, 'Stops', mode) : result,
+            filterResults ? filterResults(result, mode) : result,
           ),
         );
       } else {
@@ -462,13 +462,13 @@ export function getSearchResults(
           mode,
           pathOpts,
         ).then(result =>
-          filterResults ? filterResults(result, 'Routes', mode) : result,
+          filterResults ? filterResults(result, mode, 'Routes') : result,
         ),
       );
     }
     searchComponents.push(
       getRoutesQuery(input, feedIDs, transportMode, pathOpts).then(result =>
-        filterResults ? filterResults(result, 'Routes', mode) : result,
+        filterResults ? filterResults(result, mode, 'Routes') : result,
       ),
     );
     if (allSources || sources.includes('History')) {
@@ -492,7 +492,7 @@ export function getSearchResults(
       dropLayers.push(...locationLayers);
       searchComponents.push(
         getOldSearches(routeHistory, input, dropLayers).then(results =>
-          filterResults ? filterResults(results, 'Routes', mode) : results,
+          filterResults ? filterResults(results, mode, 'Routes') : results,
         ),
       );
     }
