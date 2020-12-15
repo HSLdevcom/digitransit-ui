@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import cx from 'classnames';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
@@ -29,7 +30,7 @@ const AlertList = ({
 
   if (groupedAlerts.length === 0) {
     return (
-      <div className="stop-no-alerts-container">
+      <div className="stop-no-alerts-container" tabIndex="0" aria-live="polite">
         <FormattedMessage
           id="disruption-info-no-alerts"
           defaultMessage="No known disruptions or diversions."
