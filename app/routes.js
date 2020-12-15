@@ -19,7 +19,6 @@ import {
   TAB_NEARBY,
   TAB_FAVOURITES,
 } from './util/path';
-import { preparePlanParams } from './util/planParamUtil';
 import {
   errorLoading,
   getDefault,
@@ -27,12 +26,8 @@ import {
   getComponentOrNullRenderer,
 } from './util/routerUtils';
 
-import { planQuery } from './util/queryUtils';
-
 import getStopRoutes from './stopRoutes';
 import routeRoutes from './routeRoutes';
-import { validateServiceTimeRange } from './util/timeUtils';
-import { isBrowser } from './util/browser';
 
 export const historyMiddlewares = [queryMiddleware];
 
@@ -150,46 +145,6 @@ export default config => {
         from={`/${PREFIX_ITINERARY_SUMMARY}/:from`}
         to={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/:from`}
       />
-      <Route
-        path={`/${PREFIX_ITINERARY_SUMMARY}/POS/:to`}
-        getComponent={() =>
-          import(
-            /* webpackChunkName: "itinerary" */ './component/Geolocator'
-          ).then(getDefault)
-        }
-        render={({ Component, props }) => {
-          if (Component) {
-            return (
-              <Component
-                {...props}
-                createReturnPath={createReturnPath}
-                path={PREFIX_ITINERARY_SUMMARY}
-              />
-            );
-          }
-          return undefined;
-        }}
-      />
-      <Route
-        path={`/${PREFIX_ITINERARY_SUMMARY}/:from/POS`}
-        getComponent={() =>
-          import(
-            /* webpackChunkName: "itinerary" */ './component/Geolocator'
-          ).then(getDefault)
-        }
-        render={({ Component, props }) => {
-          if (Component) {
-            return (
-              <Component
-                {...props}
-                createReturnPath={createReturnPath}
-                path={PREFIX_ITINERARY_SUMMARY}
-              />
-            );
-          }
-          return undefined;
-        }}
-      />
       <Route path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}>
         {{
           title: (
@@ -202,26 +157,21 @@ export default config => {
               }
             />
           ),
-          content: isBrowser ? (
+          content: (
             <Route
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/SummaryPage'
+                  /* webpackChunkName: "itinerary" */ './component/SummaryPageContainer'
                 ).then(getDefault)
               }
-              query={planQuery}
-              prepareVariables={preparePlanParams(config, false)}
-              render={({ Component, props, error, match }) => {
+              render={({ Component, props, match }) => {
                 if (Component) {
-                  return props ? (
-                    <Component {...props} error={error} loading={false} />
-                  ) : (
+                  return (
                     <Component
-                      viewer={{ plan: {} }}
-                      serviceTimeRange={validateServiceTimeRange()}
+                      {...props}
                       match={match}
-                      loading
-                      error={error}
+                      createReturnPath={createReturnPath}
+                      path={PREFIX_ITINERARY_SUMMARY}
                     />
                   );
                 }
@@ -256,15 +206,6 @@ export default config => {
                 ],
               }}
             </Route>
-          ) : (
-            <Route
-              path="(.*)?"
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "itinerary" */ './component/Loading'
-                ).then(getDefault)
-              }
-            />
           ),
           meta: (
             <Route
