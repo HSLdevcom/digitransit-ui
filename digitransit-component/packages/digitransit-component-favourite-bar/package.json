@@ -29,7 +29,7 @@
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
     "@digitransit-component/digitransit-component-icon": "0.0.15",
-    "@digitransit-component/digitransit-component-suggestion-item": "0.1.2"
+    "@digitransit-component/digitransit-component-suggestion-item": "0.1.3"
   },
   "peerDependencies": {
     "@hsl-fi/sass": "^0.1.1",
