@@ -370,7 +370,6 @@ class FavouriteBar extends React.Component {
             })}
             ref={this.expandListRef}
             id="favourite-expand-button"
-            onClick={() => this.toggleList()}
             onFocus={() => this.toggleList()}
             onKeyDown={e => this.handleKeyDown(e)}
             tabIndex="0"
