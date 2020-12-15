@@ -106,9 +106,16 @@ const SuggestionItem = pure(
       item.name,
       item.address,
     ];
-    const ariaParts = isFavourite(item)
-      ? [ariaFavouriteString, suggestionType, name, stopCode, label]
-      : [suggestionType, name, stopCode, label];
+    let ariaParts;
+    if (name !== stopCode) {
+      ariaParts = isFavourite(item)
+        ? [ariaFavouriteString, suggestionType, name, stopCode, label]
+        : [suggestionType, name, stopCode, label];
+    } else {
+      ariaParts = isFavourite(item)
+        ? [ariaFavouriteString, suggestionType, name, label]
+        : [suggestionType, name, label];
+    }
     const ariaDescription = getAriaDescription(ariaParts);
     const acri = (
       <div className={styles['sr-only']}>
@@ -152,7 +159,7 @@ const SuggestionItem = pure(
                 </div>
                 <div className={styles['suggestion-label']}>
                   {isBikeRentalStation ? suggestionType : label}
-                  {stopCode && (
+                  {stopCode && stopCode !== name && (
                     <span className={styles['stop-code']}>{stopCode}</span>
                   )}
                 </div>

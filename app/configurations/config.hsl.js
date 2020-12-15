@@ -1,4 +1,6 @@
 /* eslint-disable prefer-template */
+import { BIKEAVL_BIKES } from '../util/citybikes';
+
 const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL =
@@ -479,6 +481,7 @@ export default {
 
   cityBike: {
     showCityBikes: false,
+    capacity: BIKEAVL_BIKES,
     networks: {
       smoove: {
         icon: 'citybike',

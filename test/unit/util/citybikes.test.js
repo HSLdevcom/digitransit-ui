@@ -151,20 +151,6 @@ describe('citybikes', () => {
       expect(result).to.equal(undefined);
     });
 
-    it('should return cityBike.useUrl if network specific url does not exist', () => {
-      const networks = ['foo', 'bar'];
-      const language = 'fi';
-      const config = {
-        cityBike: {
-          useUrl: {
-            fi: 'https://www.url.fi/',
-          },
-        },
-      };
-      const result = getCityBikeUrl(networks, language, config);
-      expect(result).to.equal(config.cityBike.useUrl.fi);
-    });
-
     it('should return network specific url if it exists', () => {
       const networks = ['foobar', 'bar'];
       const language = 'fi';
