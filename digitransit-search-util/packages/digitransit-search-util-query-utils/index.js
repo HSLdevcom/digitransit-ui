@@ -11,6 +11,7 @@ import {
   isStop,
 } from '@digitransit-search-util/digitransit-search-util-helpers';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
+import { getGTFSId } from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 
 let relayEnvironment = null;
 
@@ -309,7 +310,6 @@ export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
         item.properties.type === 'stop',
     )
     .map(item => item.gtfsId);
-
   const queries = [];
   if (stopIds.length > 0) {
     queries.push(
@@ -485,4 +485,33 @@ export const withCurrentTime = location => {
       time: query.time ? query.time : moment().unix(),
     },
   };
+};
+/**
+ * Can be used to filter stops and stations by a given mode
+ * @param {*} results search results from geocoding
+ * @param {*} type only 'Stops' is supported
+ * @param {*} mode e.g 'BUS' or 'TRAM'
+ */
+export const filterSearchResultsByMode = (results, type, mode) => {
+  switch (type) {
+    case 'Routes':
+      return results;
+    case 'Stops': {
+      const gtfsIds = results.map(x => {
+        const gtfsId = x.properties.gtfsId
+          ? x.properties.gtfsId
+          : getGTFSId({ id: x.properties.id });
+        if (gtfsId) {
+          return {
+            gtfsId,
+            ...x,
+          };
+        }
+        return null;
+      });
+      return filterStopsAndStationsByMode(compact(gtfsIds), mode);
+    }
+    default:
+      return results;
+  }
 };
