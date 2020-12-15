@@ -105,13 +105,27 @@ export const replaceQueryParams = (router, match, newParams, executeAction) => {
  * @param {String|String[]} newIntermediatePlaces A string or an array of intermediate locations
  */
 export const setIntermediatePlaces = (router, match, newIntermediatePlaces) => {
+  const hasUndefined = string => string.includes('undefined');
+
   if (
     isString(newIntermediatePlaces) ||
     (Array.isArray(newIntermediatePlaces) &&
       newIntermediatePlaces.every(isString))
   ) {
+    let parsedIntermediatePlaces;
+
+    if (isString(newIntermediatePlaces)) {
+      parsedIntermediatePlaces = hasUndefined(newIntermediatePlaces)
+        ? ''
+        : newIntermediatePlaces;
+    } else {
+      parsedIntermediatePlaces = newIntermediatePlaces.filter(
+        intermediatePlace => !hasUndefined(intermediatePlace),
+      );
+    }
+
     replaceQueryParams(router, match, {
-      intermediatePlaces: newIntermediatePlaces,
+      intermediatePlaces: parsedIntermediatePlaces,
     });
   }
 };
