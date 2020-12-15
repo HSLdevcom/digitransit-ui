@@ -105,14 +105,14 @@ export const replaceQueryParams = (router, match, newParams, executeAction) => {
  * @param {String|String[]} newIntermediatePlaces A string or an array of intermediate locations
  */
 export const setIntermediatePlaces = (router, match, newIntermediatePlaces) => {
-  const parsedIntermediatePlaces = newIntermediatePlaces.filter(
-    intermediatePlace =>
-      isString(intermediatePlace) && !intermediatePlace.includes('undefined'),
-  );
   if (
-    Array.isArray(parsedIntermediatePlaces) &&
-    parsedIntermediatePlaces.every(isString)
+    Array.isArray(newIntermediatePlaces) &&
+    newIntermediatePlaces.every(isString)
   ) {
+    const parsedIntermediatePlaces = newIntermediatePlaces.filter(
+      intermediatePlace =>
+        isString(intermediatePlace) && !intermediatePlace.includes('undefined'),
+    );
     replaceQueryParams(router, match, {
       intermediatePlaces: parsedIntermediatePlaces,
     });
