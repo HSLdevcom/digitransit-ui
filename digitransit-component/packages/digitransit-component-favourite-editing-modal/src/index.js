@@ -153,7 +153,7 @@ class FavouriteEditingModal extends React.Component {
               styles[iconId],
             )}
           >
-            <Icon img={iconId} />
+            <Icon img={iconId} color={this.props.color} />
           </div>
         </div>
         <div className={styles['favourite-edit-list-item-content']}>

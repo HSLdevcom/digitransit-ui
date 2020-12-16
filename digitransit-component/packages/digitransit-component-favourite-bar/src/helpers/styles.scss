@@ -8,9 +8,9 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   viapoint-input-1, origin-input, search-input-focus, search-input-icon, rectangle, autosuggest-suggestion-container, front;
 
 $favourite-highlight-background-color: #F4F4F5;
-$primary-color: #ff0000;
 
 .button-shared {
+  background-color: #ffffff;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -71,7 +71,6 @@ $primary-color: #ff0000;
         flex-shrink: 0;
       }
       svg {
-        fill: $primary-color;
         width: 20px;
         height: 20px;
         position: relative;
@@ -79,21 +78,18 @@ $primary-color: #ff0000;
       }
       &.place {
         svg {
-          fill: $primary-color;
           width: 24px;
           height: 24px;
         }
       }
       &.home, &.school, &.sport, &.shopping {
         svg {
-          fill: $primary-color;
           width: 18px;
           height: 18px;
         }
       }
       &.work {
         svg {
-          fill: $primary-color;
           width: 20px;
           height: 20px;
         }
@@ -206,7 +202,6 @@ $primary-color: #ff0000;
       background-color: $favourite-highlight-background-color;
     }
     &.custom {
-      color: $primary-color;
       font-size: 15px;
       font-weight: 500;
       letter-spacing: -0.5;
