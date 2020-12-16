@@ -892,13 +892,8 @@ $margin-left-right: 1.25em;
       .route-alert-top-row {
         display: flex;
 
-        .route-alert-url {
-          color: $primary-color;
-          margin-left: auto;
-
-          .external-link {
-            color: $primary-color;
-          }
+        .route-alert-time-period {
+          margin-left: 5px;
         }
       }
     }
@@ -930,6 +925,15 @@ $margin-left-right: 1.25em;
       color: $gray;
       font-size: $font-size-small;
       font-weight: 200;
+
+      .route-alert-url {
+        color: $primary-color;
+        margin-left: 5px;
+
+        .external-link {
+          color: $primary-color;
+        }
+      }
     }
 
     &.expired {
