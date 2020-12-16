@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { QueryRenderer, ReactRelayContext } from 'react-relay';
 import { matchShape } from 'found';
 import SummaryPage from './SummaryPage';
+import Loading from './Loading';
 import { validateServiceTimeRange } from '../util/timeUtils';
 import { planQuery } from '../util/queryUtils';
 import { preparePlanParams } from '../util/planParamUtil';
@@ -45,14 +46,7 @@ const SummaryPageContainer = ({ content, map, match }, { config }) => {
       }}
     />
   ) : (
-    <SummaryPage
-      content={content}
-      map={map}
-      match={match}
-      viewer={{ plan: {} }}
-      serviceTimeRange={validateServiceTimeRange()}
-      loading
-    />
+    <Loading />
   );
 };
 
