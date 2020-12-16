@@ -260,6 +260,7 @@ class IndexPage extends React.Component {
               targets={stopAndRouteSearchTargets}
               color={color}
               hoverColor={hoverColor}
+              fromMap={this.props.fromMap}
             />
             <CtrlPanel.SeparatorLine />
             {!trafficNowLink ||

@@ -23,9 +23,9 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "0.0.1",
-    "@digitransit-search-util/digitransit-search-util-helpers": "0.0.11",
-    "@digitransit-search-util/digitransit-search-util-route-name-compare": "0.0.1",
+    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "0.0.2",
+    "@digitransit-search-util/digitransit-search-util-helpers": "0.0.12",
+    "@digitransit-search-util/digitransit-search-util-route-name-compare": "0.0.2",
     "babel-plugin-relay": "10.0.1",
     "lodash": "4.17.14",
     "react-relay": "10.0.1",

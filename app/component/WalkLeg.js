@@ -28,6 +28,7 @@ function WalkLeg(
   const distance = displayDistance(parseInt(leg.distance, 10), config);
   const duration = durationToString(leg.duration * 1000);
   const modeClassName = 'walk';
+  const fromMode = leg.from.stop ? leg.from.stop.vehicleMode : '';
   const isFirstLeg = i => i === 0;
   const [address, place] = leg.from.name.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
 
@@ -170,7 +171,7 @@ function WalkLeg(
                     number={leg.from.stop.platformCode}
                     short
                     isRailOrSubway={
-                      modeClassName === 'rail' || modeClassName === 'subway'
+                      fromMode === 'RAIL' || fromMode === 'SUBWAY'
                     }
                   />
                 )}
@@ -252,6 +253,7 @@ const walkLegShape = PropTypes.shape({
       code: PropTypes.string,
       gtfsId: PropTypes.string.isRequired,
       platformCode: PropTypes.string,
+      vehicleMode: PropTypes.string,
     }),
     bikeRentalStation: PropTypes.shape({
       networks: PropTypes.array,

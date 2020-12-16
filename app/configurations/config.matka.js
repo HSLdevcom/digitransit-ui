@@ -152,6 +152,21 @@ export default {
           en: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
         },
       },
+      /*
+      lappeenranta: {
+        icon: 'citybike',
+        name: {
+          fi: 'Lappeenranta',
+          sv: 'Vilmanstrand',
+          en: 'Lappeenranta',
+        },
+        type: 'citybike',
+	url: {
+	  fi: 'https://kaakau.fi/lappeenranta/',
+	  sv: 'https://kaakau.fi/lappeenranta/?lang=en',
+	  en: 'https://kaakau.fi/lappeenranta/?lang=sv',
+	},
+	}, */
     },
   },
 

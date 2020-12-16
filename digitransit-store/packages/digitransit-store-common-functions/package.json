@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-store/digitransit-store-common-functions",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "digitransit-store common-functions module",
   "main": "lib/index.js",
   "publishConfig": {
