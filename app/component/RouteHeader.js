@@ -33,7 +33,7 @@ export default function RouteHeader(props) {
   return (
     <div className={cx('route-header', props.className)}>
       <h1 className={mode}>
-        <RouteNumber mode={mode} text={routeLine} />
+        <RouteNumber card={props.card} mode={mode} text={routeLine} />
         {trip}
       </h1>
     </div>
@@ -49,4 +49,5 @@ RouteHeader.propTypes = {
   trip: PropTypes.string,
   pattern: PropTypes.shape({ code: PropTypes.string.isRequired }),
   className: PropTypes.string,
+  card: PropTypes.bool,
 };
