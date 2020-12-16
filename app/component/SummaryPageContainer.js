@@ -7,7 +7,7 @@ import { validateServiceTimeRange } from '../util/timeUtils';
 import { planQuery } from '../util/queryUtils';
 import { preparePlanParams } from '../util/planParamUtil';
 
-const SummaryPageContainer = ({ match }, { config }) => {
+const SummaryPageContainer = ({ content, map, match }, { config }) => {
   const { environment } = useContext(ReactRelayContext);
   const [isClient, setClient] = useState(false);
 
@@ -25,12 +25,16 @@ const SummaryPageContainer = ({ match }, { config }) => {
         return innerProps ? (
           <SummaryPage
             {...innerProps}
+            content={content}
+            map={map}
             match={match}
             error={error}
             loading={false}
           />
         ) : (
           <SummaryPage
+            content={content}
+            map={map}
             match={match}
             viewer={{ plan: {} }}
             serviceTimeRange={validateServiceTimeRange()}
@@ -42,6 +46,8 @@ const SummaryPageContainer = ({ match }, { config }) => {
     />
   ) : (
     <SummaryPage
+      content={content}
+      map={map}
       match={match}
       viewer={{ plan: {} }}
       serviceTimeRange={validateServiceTimeRange()}
@@ -55,6 +61,8 @@ SummaryPageContainer.contextTypes = {
 };
 
 SummaryPageContainer.propTypes = {
+  content: PropTypes.node,
+  map: PropTypes.node,
   match: matchShape.isRequired,
 };
 
