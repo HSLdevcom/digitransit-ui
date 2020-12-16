@@ -86,7 +86,7 @@ class IndexPage extends React.Component {
   }
 
   componentDidMount() {
-    // To prevent SSR for rendering something https://reactjs.org/docs/react-dom.html#hydrate
+    // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
     this.setState({ isClient: true });
     scrollTop();
   }

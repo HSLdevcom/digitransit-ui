@@ -24,7 +24,7 @@ const AppBarContainer = ({
   const [isClient, setClient] = useState(false);
 
   useEffect(() => {
-    // To prevent SSR for rendering something https://reactjs.org/docs/react-dom.html#hydrate
+    // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
     setClient(true);
   });
 
