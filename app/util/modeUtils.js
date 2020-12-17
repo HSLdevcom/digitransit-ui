@@ -1,18 +1,7 @@
-import {
-  intersection,
-  isEmpty,
-  isString,
-  sortedUniq,
-  without,
-  xor,
-  isEqual,
-} from 'lodash';
+import { isEmpty, isString, sortedUniq, xor, isEqual } from 'lodash';
 
 import inside from 'point-in-polygon';
-import {
-  getCustomizedSettings,
-  setCustomizedSettings,
-} from '../store/localStorage';
+import { getCustomizedSettings } from '../store/localStorage';
 import { isInBoundingBox } from './geo-utils';
 import { addAnalyticsEvent } from './analyticsUtils';
 
@@ -69,36 +58,6 @@ export const getDefaultTransportModes = config =>
  */
 export const getAvailableTransportModes = config =>
   getAvailableTransportModeConfigs(config).map(tm => tm.name);
-
-/**
- * Builds a query for the router component to use to update its location url.
- *
- * @param {*} config The configuration for the software installation
- * @param {*} currentModes All currently selected transport and street modes
- * @param {*} streetMode The street mode to select
- * @param {boolean} isExclusive True, if only this mode shoud be selected; otherwise false.
- */
-export const buildStreetModeQuery = (
-  config,
-  currentModes,
-  streetMode,
-  isExclusive = false,
-) => {
-  let transportModes = without(
-    currentModes,
-    ...getAvailableStreetModes(config),
-  );
-  if (isEmpty(transportModes)) {
-    transportModes = getAvailableTransportModeConfigs(config)
-      .filter(tm => tm.defaultValue)
-      .map(tm => tm.name);
-  }
-  return {
-    modes: isExclusive
-      ? [streetMode.toUpperCase()]
-      : transportModes.concat(streetMode.toUpperCase()),
-  };
-};
 
 /**
  * Retrieves the related OTP mode from the given configuration, if available.
@@ -247,84 +206,6 @@ export const userHasChangedModes = config => {
 };
 
 /**
- * Retrieves the current street mode from either the localStorage
- * or the default configuration. This will return undefined if no
- * applicable street mode can be found.
- *
- * @param {*} config The configuration for the software installation
- */
-export const getStreetMode = config => {
-  const currentStreetModes = intersection(
-    getModes(config),
-    getAvailableStreetModes(config),
-  );
-  if (currentStreetModes.length > 0) {
-    return currentStreetModes[0];
-  }
-
-  const defaultStreetModes = getAvailableStreetModeConfigs(config).filter(
-    sm => sm.defaultValue,
-  );
-  return defaultStreetModes.length > 0 ? defaultStreetModes[0].name : undefined;
-};
-
-/**
- * Updates the localStorage to reflect the selected street mode.
- *
- * @param {*} streetMode The street mode to select
- * @param {*} config The configuration for the software installation
- * @param {boolean} isExclusive True, if only this mode shoud be selected; otherwise false.
- */
-export const setStreetMode = (streetMode, config, isExclusive = false) => {
-  const modesQuery = buildStreetModeQuery(
-    config,
-    getModes(config),
-    streetMode,
-    isExclusive,
-  );
-  setCustomizedSettings(modesQuery);
-};
-
-/**
- *  Toggles a streetmode, defaults to configs default street mode. Returns a streetmode
- *  that was selected
- *
- *  @param {*} streetMode The street mode to select
- *  @param {*} config The configuration for the software installation
- *  @returns {String} the streetMode that was enabled
- */
-export const toggleStreetMode = (streetMode, config) => {
-  const currentStreetModes = getStreetMode(config);
-  if (currentStreetModes.includes(streetMode)) {
-    setStreetMode(getDefaultStreetModes(config)[0], config);
-    return getDefaultStreetModes(config)[0];
-  }
-  setStreetMode(streetMode, config);
-  return streetMode;
-};
-
-/**
- * Checks if the user is trying to bring a bicycle
- * to a vehicle with restrictions. Currently exclusive to HSL
- * @param {*} config The configuration for the software installation
- * @param {*} modes The inputted mode or modes to be tested
- */
-export const isBikeRestricted = (config, modes) => {
-  if (config.modesWithNoBike && getStreetMode(config) === 'BICYCLE') {
-    if (
-      Array.isArray(modes) &&
-      modes.some(o => config.modesWithNoBike.includes(o))
-    ) {
-      return true;
-    }
-    if (config.modesWithNoBike.includes(modes)) {
-      return true;
-    }
-  }
-  return false;
-};
-
-/**
  * Updates the localStorage to reflect the selected transport mode.
  *
  * @param {*} transportMode The transport mode to select
@@ -343,9 +224,6 @@ export function toggleTransportMode(transportMode, config) {
     category: 'ItinerarySettings',
     name: transportMode,
   });
-  if (isBikeRestricted(config, transportMode)) {
-    return {};
-  }
   const modes = xor(getModes(config), [transportMode.toUpperCase()]);
   return modes;
 }

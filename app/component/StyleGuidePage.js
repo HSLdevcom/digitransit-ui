@@ -74,7 +74,6 @@ import CallAgencyLeg from './CallAgencyLeg';
 import CallAgencyWarning from './CallAgencyWarning';
 import Timetable from './Timetable';
 import Error404 from './404';
-import SelectStreetModeDialog from './SelectStreetModeDialog';
 import SelectMapLayersDialog from './SelectMapLayersDialog';
 import MainMenuContainer from './MainMenuContainer';
 import OriginDestinationBar from './OriginDestinationBar';
@@ -154,7 +153,6 @@ const components = {
   CallAgencyWarning,
   Timetable,
   Error404,
-  SelectStreetModeDialog,
   AlertList,
   ItineraryTab,
 };
