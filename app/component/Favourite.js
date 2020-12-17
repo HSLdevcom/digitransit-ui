@@ -107,7 +107,7 @@ const Favourite = (
       type="button"
       className={cx('cursor-pointer favourite-icon', className)}
       onClick={onClick}
-      ariaLabel={
+      aria-label={
         favourite && (!allowLogin || isLoggedIn)
           ? context.intl.formatMessage({
               id: 'remove-favourite',
