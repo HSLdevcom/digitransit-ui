@@ -11,6 +11,7 @@ import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
 import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSection';
 import { getDefaultSettings } from '../util/planParamUtil';
 import TransferOptionsSection from './customizesearch/TransferOptionsSection';
+import { getAvailableTransportModes } from '../util/modeUtils';
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
@@ -86,36 +87,48 @@ class CustomizeSearch extends React.Component {
           </h2>
         </div>
         <div className="scrollable-content-wrapper momentum-scroll">
-          <WalkingOptionsSection
-            walkSpeedOptions={config.defaultOptions.walkSpeed}
-            walkReluctanceOptions={config.defaultOptions.walkReluctance}
-            currentSettings={currentSettings}
-            defaultSettings={this.defaultSettings}
-          />
-          <div className="settings-option-container">
-            <TransportModesSection config={config} />
-          </div>
-          <div className="settings-option-container">
-            <TransferOptionsSection
-              defaultSettings={this.defaultSettings}
-              currentSettings={currentSettings}
-              walkBoardCostHigh={config.walkBoardCostHigh}
-            />
-          </div>
-          <div className="settings-option-container">
-            <StreetModeSelectorPanel
+          <div className="settings-section compact-settings-section">
+            <WalkingOptionsSection
+              walkSpeedOptions={config.defaultOptions.walkSpeed}
+              walkReluctanceOptions={config.defaultOptions.walkReluctance}
               currentSettings={currentSettings}
               defaultSettings={this.defaultSettings}
             />
           </div>
-          <div className="settings-option-container">
-            <AccessibilityOptionSection currentSettings={currentSettings} />
+          <div className="settings-section">
+            {getAvailableTransportModes(config).length > 1 && (
+              <div className="settings-option-container">
+                <TransportModesSection config={config} />
+              </div>
+            )}
+            <div className="settings-option-container">
+              <TransferOptionsSection
+                defaultSettings={this.defaultSettings}
+                currentSettings={currentSettings}
+                walkBoardCostHigh={config.walkBoardCostHigh}
+              />
+            </div>
+          </div>
+          <div className="settings-section">
+            <div className="settings-option-container">
+              <StreetModeSelectorPanel
+                currentSettings={currentSettings}
+                defaultSettings={this.defaultSettings}
+              />
+            </div>
+          </div>
+          <div className="settings-section">
+            <div className="settings-option-container">
+              <AccessibilityOptionSection currentSettings={currentSettings} />
+            </div>
           </div>
           {config.showTicketSelector && (
-            <FareZoneSelector
-              options={ticketOptions}
-              currentOption={currentSettings.ticketTypes}
-            />
+            <div className="settings-section">
+              <FareZoneSelector
+                options={ticketOptions}
+                currentOption={currentSettings.ticketTypes}
+              />
+            </div>
           )}
         </div>
       </form>
