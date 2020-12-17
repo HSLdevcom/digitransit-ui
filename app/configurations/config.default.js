@@ -406,36 +406,26 @@ export default {
     public_transport: {
       availableForSelection: true,
       defaultValue: true,
-      exclusive: false,
-      icon: 'bus-withoutBox',
     },
 
     walk: {
       availableForSelection: false,
       defaultValue: false,
-      exclusive: true,
-      icon: 'walk',
     },
 
     bicycle: {
       availableForSelection: true,
       defaultValue: false,
-      exclusive: true,
-      icon: 'bicycle-withoutBox',
     },
 
     car: {
       availableForSelection: true,
       defaultValue: false,
-      exclusive: true,
-      icon: 'car-withoutBox',
     },
 
     car_park: {
       availableForSelection: false,
       defaultValue: false,
-      exclusive: false,
-      icon: 'car_park-withoutBox',
     },
   },
 

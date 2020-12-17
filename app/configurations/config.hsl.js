@@ -119,19 +119,16 @@ export default {
     bicycle: {
       availableForSelection: true,
       defaultValue: false,
-      icon: 'biking',
     },
 
     car_park: {
       availableForSelection: true,
       defaultValue: false,
-      icon: 'car-withoutBox',
     },
 
     car: {
       availableForSelection: false,
       defaultValue: false,
-      icon: 'car_park-withoutBox',
     },
   },
 
