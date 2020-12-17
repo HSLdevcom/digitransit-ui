@@ -90,6 +90,7 @@
       flex-direction: column;
       flex-grow: 1;
       flex-shrink: 0;
+      background: #f4f4f5;
       }
   }
 }
@@ -189,6 +190,7 @@
 
 .settings-section {
   border-bottom: 10px solid #f4f4f5;
+  background:#fff;
   padding-bottom: 0.5em;
   .settings-option-container:last-child {
     border-bottom: 0;
