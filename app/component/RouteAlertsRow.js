@@ -130,7 +130,9 @@ export default function RouteAlertsRow(
                   <div className={entityMode}>{routeLinks}</div>
                 )) ||
                 (!showRouteNameLink && (
-                  <div className={entityMode}>{entityIdentifier} </div>
+                  <div className="route-alert-entityid">
+                    <div className={entityMode}>{entityIdentifier} </div>
+                  </div>
                 )) ||
                 (entityType === 'stop' &&
                   showRouteNameLink &&

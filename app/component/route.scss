@@ -884,16 +884,21 @@ $margin-left-right: 1.25em;
     + .route-alert-row {
       border-top: 1px solid $light-gray;
     }
-
     .route-alert-contents {
       flex-grow: 1;
       vertical-align: bottom;
 
       .route-alert-top-row {
         display: flex;
-
+	.route-alert-entityid {
+          font-family: $font-family-narrow;
+	  font-size: 21px;
+	  font-weight: bold;
+	  margin-right: 10px;
+	}
         .route-alert-time-period {
-          margin-left: 5px;
+	  font-size: 15px;
+	  padding-top: 7px;
         }
       }
     }
@@ -922,7 +927,6 @@ $margin-left-right: 1.25em;
     }
 
     .route-alert-body {
-      color: $gray;
       font-size: $font-size-small;
       font-weight: 200;
 
