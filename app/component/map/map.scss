@@ -570,11 +570,11 @@ div.origin-popup {
     margin: 0px 0px;
   }
 }
-.vehicle-number-container-v {
+.vehicle-number-container-v-map {
+  position: relative;
+  bottom: 40px;
+  left: 41px;
   .vehicle-number-map {
-    position: relative;
-    left: 40px;
-    bottom: 41px;
     margin-right: 1.5em;
     margin-left: 0.3em;
     mask-image: none;

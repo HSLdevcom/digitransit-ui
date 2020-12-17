@@ -112,9 +112,12 @@ function RouteNumber(props, context) {
         )}
         {props.text && (
           <div
-            className={cx('vehicle-number-container-v', {
-              long: hasNoShortName,
-            })}
+            className={cx(
+              'vehicle-number-container-v'.concat(props.card ? '-map' : ''),
+              {
+                long: hasNoShortName,
+              },
+            )}
           >
             <span
               className={cx(
