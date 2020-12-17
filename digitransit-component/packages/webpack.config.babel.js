@@ -8,6 +8,9 @@ const isProduction = mode === 'production';
 module.exports = {
   mode,
   devtool: isProduction ? 'source-map' : 'eval',
+  watchOptions: {
+    ignored: ['files/**/*.js', 'node_modules/**'],
+  },
   output: {
     globalObject: "typeof self !== 'undefined' ? self : this",
     filename: 'index.js',

@@ -8,17 +8,22 @@ const productionPlugins = [
 ];
 
 module.exports = function (api) {
-  api.cache(false);
+  api.cache(true);
   const presets = [
     [
       '@babel/preset-env',
       {
         bugfixes: true,
         modules: 'auto',
-        targets: ['> 0.2% in FI', 'not op_mini all', 'not IE 11'],
       },
     ],
-    ['@babel/preset-react', { useBuiltIns: true }],
+    [
+      '@babel/preset-react',
+      {
+        development: process.env.ENV === 'development',
+        useBuiltIns: true,
+      },
+    ],
   ];
   const plugins = [
     'babel-plugin-optimize-clsx',
@@ -27,6 +32,8 @@ module.exports = function (api) {
     [
       '@babel/plugin-transform-runtime',
       {
+        helpers: true,
+        regenerator: true,
         useESModules: true,
       },
     ],
