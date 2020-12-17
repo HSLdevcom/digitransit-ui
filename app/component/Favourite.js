@@ -103,7 +103,8 @@ const Favourite = (
   };
 
   return (
-    <span
+    <button
+      type="button"
       className={cx('cursor-pointer favourite-icon', className)}
       onClick={onClick}
     >
@@ -116,13 +117,20 @@ const Favourite = (
             ? 'icon-icon_star-with-circle'
             : 'icon-icon_star-unselected'
         }
-        ariaLabel={context.intl.formatMessage({
-          id: 'add-to-favourites',
-          defautlMessage: 'Set favourite',
-        })}
+        ariaLabel={
+          favourite && (!allowLogin || isLoggedIn)
+            ? context.intl.formatMessage({
+                id: 'remove-favourite',
+                defautlMessage: 'Remove favourite selection',
+              })
+            : context.intl.formatMessage({
+                id: 'add-to-favourites',
+                defautlMessage: 'Set favourite',
+              })
+        }
       />
       {renderLoginModal()}
-    </span>
+    </button>
   );
 };
 
