@@ -107,6 +107,17 @@ const Favourite = (
       type="button"
       className={cx('cursor-pointer favourite-icon', className)}
       onClick={onClick}
+      ariaLabel={
+        favourite && (!allowLogin || isLoggedIn)
+          ? context.intl.formatMessage({
+              id: 'remove-favourite',
+              defautlMessage: 'Remove favourite selection',
+            })
+          : context.intl.formatMessage({
+              id: 'add-to-favourites',
+              defautlMessage: 'Set favourite',
+            })
+      }
     >
       <Icon
         className={cx('favourite', {
@@ -116,17 +127,6 @@ const Favourite = (
           favourite && (!allowLogin || isLoggedIn)
             ? 'icon-icon_star-with-circle'
             : 'icon-icon_star-unselected'
-        }
-        ariaLabel={
-          favourite && (!allowLogin || isLoggedIn)
-            ? context.intl.formatMessage({
-                id: 'remove-favourite',
-                defautlMessage: 'Remove favourite selection',
-              })
-            : context.intl.formatMessage({
-                id: 'add-to-favourites',
-                defautlMessage: 'Set favourite',
-              })
         }
       />
       {renderLoginModal()}
