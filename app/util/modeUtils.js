@@ -1,5 +1,8 @@
-import { isEmpty, isString, sortedUniq, xor, isEqual } from 'lodash';
-
+import isEmpty from 'lodash/isEmpty';
+import isString from 'lodash/isString';
+import sortedUniq from 'lodash/sortedUniq';
+import xor from 'lodash/xor';
+import isEqual from 'lodash/isEqual';
 import inside from 'point-in-polygon';
 import { getCustomizedSettings } from '../store/localStorage';
 import { isInBoundingBox } from './geo-utils';
