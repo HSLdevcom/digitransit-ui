@@ -121,6 +121,12 @@ export function getNamedConfiguration(configName) {
 
     configs[configName] = config;
   }
+  if (!process.env.OIDC_CLIENT_ID && configs[configName].allowLogin) {
+    return {
+      ...configs[configName],
+      allowLogin: false,
+    };
+  }
   return configs[configName];
 }
 
