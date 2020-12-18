@@ -332,9 +332,11 @@ export default function(req, res, next) {
         );
     }
 
-    res.write(
-      `<link rel="stylesheet" type="text/css" href="${config.URL.FONT}"/>\n`,
-    );
+    if (config.URL.FONT) {
+      res.write(
+        `<link rel="stylesheet" type="text/css" href="${config.URL.FONT}"/>\n`,
+      );
+    }
 
     const networkLayer = getNetworkLayer(config, agent);
 
