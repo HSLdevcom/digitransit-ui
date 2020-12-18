@@ -41,13 +41,13 @@ const FavouriteLocation = ({
   color,
 }) => {
   return (
-    <button
-      type="button"
-      className={cx(styles['favourite-content'], styles[className])}
-      onClick={clickItem}
-      aria-label={text}
-    >
-      <Shimmer active={isLoading} className={styles.shimmer}>
+    <Shimmer active={isLoading} className={styles.shimmer}>
+      <button
+        type="button"
+        className={cx(styles['favourite-content'], styles[className])}
+        onClick={clickItem}
+        aria-label={text}
+      >
         <span className={cx(styles.icon, styles[iconId])}>
           <Icon img={iconId} color={color} />
         </span>
@@ -55,8 +55,8 @@ const FavouriteLocation = ({
           <div className={styles.name}>{text}</div>
           <div className={styles.address}>{label}</div>
         </div>
-      </Shimmer>
-    </button>
+      </button>
+    </Shimmer>
   );
 };
 
@@ -364,26 +364,26 @@ class FavouriteBar extends React.Component {
             color={this.props.color}
           />
           {/* eslint-disable jsx-a11y/role-supports-aria-props */}
-          <div
-            className={cx(styles.expandButton, styles[expandIcon], {
-              [styles.rotate]: listOpen,
-            })}
-            ref={this.expandListRef}
-            id="favourite-expand-button"
-            onFocus={() => this.toggleList()}
-            onKeyDown={e => this.handleKeyDown(e)}
-            tabIndex="0"
-            role="listbox"
-            aria-label={i18next.t('open-favourites')}
-            aria-owns={favourites
-              .map((_, i) => `favourite-suggestion-list--item-${i}`)
-              .join(' ')}
-            aria-activedescendant={`favourite-suggestion-list--item-${highlightedIndex}`}
-          >
-            <Shimmer active={isLoading}>
+          <Shimmer active={isLoading}>
+            <div
+              className={cx(styles.expandButton, styles[expandIcon], {
+                [styles.rotate]: listOpen,
+              })}
+              ref={this.expandListRef}
+              id="favourite-expand-button"
+              onFocus={() => this.toggleList()}
+              onKeyDown={e => this.handleKeyDown(e)}
+              tabIndex="0"
+              role="listbox"
+              aria-label={i18next.t('open-favourites')}
+              aria-owns={favourites
+                .map((_, i) => `favourite-suggestion-list--item-${i}`)
+                .join(' ')}
+              aria-activedescendant={`favourite-suggestion-list--item-${highlightedIndex}`}
+            >
               <Icon img={expandIcon} color={this.props.color} />
-            </Shimmer>
-          </div>
+            </div>
+          </Shimmer>
           {/* eslint-enable jsx-a11y/role-supports-aria-props */}
         </div>
         <div className={styles['favourite-suggestion-container']}>
