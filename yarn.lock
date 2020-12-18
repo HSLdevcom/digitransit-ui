@@ -11177,15 +11177,15 @@ lead@^1.0.0:
   dependencies:
     flush-write-stream "^1.0.2"
 
-leaflet-active-area@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/leaflet-active-area/-/leaflet-active-area-1.1.0.tgz#d940e8ea85a3d3c7b5963471b4a268b6d29214ea"
-  integrity sha512-pCqlC0IELUe+eWJXl9HD1lZM6BPNWW4KQ2Vfn9h0dCj1Y13QAL0S3xJz11hdXy9ErcPI0dRx7fZ/HXASnuDfVg==
+leaflet-active-area@1.1.2:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/leaflet-active-area/-/leaflet-active-area-1.1.1.tgz#ea25cfa7a2ca429ecf73930b6a8413068789e03d"
+  integrity sha512-PNaMnD9wZ28/V1ZQjS+ebINKD4vqxslrnJkslllmIK+HYPVbFYpH9vqUWFbweJ6aRL2d4OFP4BJcxsoFcQmiTg==
 
-leaflet@1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.6.0.tgz#aecbb044b949ec29469eeb31c77a88e2f448f308"
-  integrity sha512-CPkhyqWUKZKFJ6K8umN5/D2wrJ2+/8UIpXppY7QDnUZW5bZL5+SEI2J7GBpwh4LIupOKqbNSQXgqmrEJopHVNQ==
+leaflet@1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.7.1.tgz#10d684916edfe1bf41d688a3b97127c0322a2a19"
+  integrity sha512-/xwPEBidtg69Q3HlqPdU3DnrXQOvQU/CCHA1tcDQVzOwm91YMYaILjNp7L4Eaw5Z4sOYdbBz6koWyibppd8Zqw==
 
 lerna@3.20.2:
   version "3.20.2"
