@@ -2,12 +2,7 @@ import omitBy from 'lodash/omitBy';
 import moment from 'moment';
 import cookie from 'react-cookie';
 
-import {
-  filterModes,
-  getDefaultModes,
-  getDefaultModesWithWalk,
-  getModes,
-} from './modeUtils';
+import { filterModes, getDefaultModes, getModes } from './modeUtils';
 import { otpToLocation, getIntermediatePlaces } from './otpStrings';
 import { getDefaultNetworks } from './citybikes';
 import { getCustomizedSettings } from '../store/localStorage';
@@ -161,7 +156,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
     intermediatePlaces,
   });
   const modesOrDefault = useDefaultModes
-    ? getDefaultModesWithWalk(config).join(',')
+    ? getDefaultModes(config).join(',')
     : filterModes(
         config,
         getModes(config),

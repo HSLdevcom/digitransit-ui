@@ -357,10 +357,6 @@ export default {
     airplane: 'AIRPLANE',
     ferry: 'FERRY',
     walk: 'WALK',
-    bicycle: 'BICYCLE',
-    car: 'CAR',
-    car_park: 'CAR_PARK',
-    public_transport: 'WALK',
   },
 
   // Control what transport modes that should be possible to select in the UI
@@ -399,33 +395,6 @@ export default {
     citybike: {
       availableForSelection: false,
       defaultValue: false, // always false
-    },
-  },
-
-  streetModes: {
-    public_transport: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
-
-    walk: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
-
-    bicycle: {
-      availableForSelection: true,
-      defaultValue: false,
-    },
-
-    car: {
-      availableForSelection: true,
-      defaultValue: false,
-    },
-
-    car_park: {
-      availableForSelection: false,
-      defaultValue: false,
     },
   },
 

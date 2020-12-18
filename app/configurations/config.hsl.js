@@ -115,23 +115,6 @@ export default {
     },
   },
 
-  streetModes: {
-    bicycle: {
-      availableForSelection: true,
-      defaultValue: false,
-    },
-
-    car_park: {
-      availableForSelection: true,
-      defaultValue: false,
-    },
-
-    car: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
-  },
-
   search: {
     /* identify searches for route numbers/labels: bus | train | metro */
     lineRegexp: new RegExp(

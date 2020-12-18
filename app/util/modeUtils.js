@@ -9,33 +9,6 @@ import { isInBoundingBox } from './geo-utils';
 import { addAnalyticsEvent } from './analyticsUtils';
 
 /**
- * Retrieves an array of street mode configurations that have specified
- * "availableForSelection": true. The full configuration will be returned.
- *
- * @param {*} config The configuration for the software installation
- */
-export const getAvailableStreetModeConfigs = config =>
-  config.streetModes
-    ? Object.keys(config.streetModes)
-        .filter(sm => config.streetModes[sm].availableForSelection)
-        .map(sm => ({ ...config.streetModes[sm], name: sm.toUpperCase() }))
-    : [];
-
-export const getDefaultStreetModes = config =>
-  getAvailableStreetModeConfigs(config)
-    .filter(sm => sm.defaultValue)
-    .map(sm => sm.name);
-
-/**
- * Retrieves all street modes that have specified "availableForSelection": true.
- * Only the name of each street mode will be returned.
- *
- * @param {*} config The configuration for the software installation
- */
-export const getAvailableStreetModes = config =>
-  getAvailableStreetModeConfigs(config).map(sm => sm.name);
-
-/**
  * Retrieves all transport modes that have specified "availableForSelection": true.
  * The full configuration will be returned.
  *
@@ -85,10 +58,7 @@ export const getOTPMode = (config, mode) => {
  * @param {String} mode The mode to check
  */
 const isModeAvailable = (config, mode) =>
-  [
-    ...getAvailableStreetModes(config),
-    ...getAvailableTransportModes(config),
-  ].includes(mode.toUpperCase());
+  ['WALK', ...getAvailableTransportModes(config)].includes(mode.toUpperCase());
 
 /**
  * Checks if mode does not exist in config's modePolygons or
@@ -159,18 +129,6 @@ export const filterModes = (config, modes, from, to, intermediatePlaces) => {
  * @returns {String[]} an array of modes
  */
 export const getDefaultModes = config => [
-  ...getDefaultTransportModes(config),
-  ...getDefaultStreetModes(config),
-];
-
-/**
- * Retrieves all default transport modes that are
- * both available and marked as default and adds WALK mode.
- *
- * @param {*} config The configuration for the software installation
- * @returns {String[]} an array of modes
- */
-export const getDefaultModesWithWalk = config => [
   ...getDefaultTransportModes(config),
   'WALK',
 ];

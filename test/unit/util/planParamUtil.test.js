@@ -21,13 +21,6 @@ const config = {
     walk: 'WALK',
     citybike: 'BICYCLE_RENT',
   },
-  streetModes: {
-    walk: {
-      availableForSelection: true,
-      defaultValue: true,
-      icon: 'walk',
-    },
-  },
   transportModes: {
     bus: {
       availableForSelection: true,
