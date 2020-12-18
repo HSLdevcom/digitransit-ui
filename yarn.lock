@@ -1323,6 +1323,11 @@
   dependencies:
     "@hsl-fi/sass" " ^0.1.1"
 
+"@digitransit-component/digitransit-component-dialog-modal@0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-dialog-modal/-/digitransit-component-dialog-modal-0.2.1.tgz#070de51cc1ea1a9b7b26dd28831ad9a2576e7a22"
+  integrity sha512-1njlrNr5d1C4GfGn95gJ0NEiL4Mg4vvUTsraczfum7CJUReUyyv7cNmju1vJLRT91rzv5M7JNl3tsTWQgtj56g==
+
 "@digitransit-component/digitransit-component-favourite-bar@latest":
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-favourite-bar/-/digitransit-component-favourite-bar-0.0.11.tgz#e872e18e11efb79d3e1da0f61829bba6eb1086a0"
