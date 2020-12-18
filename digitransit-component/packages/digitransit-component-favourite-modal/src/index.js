@@ -345,7 +345,7 @@ class FavouriteModal extends React.Component {
           })()}
           favouriteIconIds={FavouriteModal.favouriteIconIds}
           handleClick={this.selectIcon}
-          color={this.props.color}
+          color={color}
         />
       ),
       saveFavourite: this.save,

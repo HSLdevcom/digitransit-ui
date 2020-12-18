@@ -30,16 +30,16 @@
   position: relative;
   display: block;
   width: 100%;
-  margin-bottom: 19px;
-  padding-bottom: 29px;
+  margin-bottom: 21px;
+  padding-bottom: 31px;
 }
 
 .separator-div2 {
   position: relative;
   display: block;
   width: 100%;
-  margin-bottom: 19px;
-  padding-bottom: 20px;
+  margin-bottom: 26px;
+  padding-bottom: 21px;
 }
 
 .separator-line {
@@ -49,14 +49,13 @@
   height: 1px;
   position: absolute;
   bottom: 0;
-  right: -5px;
-  left: -5px;
+  right: -10px;
+  left: -10px;
 }
 
 .near-you-container {
   .near-you-title {
     font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
-    font-size: 18px;
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;
@@ -65,7 +64,7 @@
     color: #333333;
     margin: 0 0 16px 0;
     @include min-width(tablet)  {
-      margin: 0 0 20px 0;
+      margin: 0px 0 18px 0;
     }
   }
 
@@ -84,9 +83,9 @@
       width: 100%;
       height: 48px;
       @include min-width(tablet)  {
-        min-width: 58px;
+        min-width: 60px;
         max-width: 72px;
-        height: 58px;
+        height: 60px;
       }
     }
 
