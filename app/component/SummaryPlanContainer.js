@@ -76,10 +76,7 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onSelectActive = index => {
-    let isbikeAndVehicle;
-    if (this.props.params.hash === 'bikeAndVehicle') {
-      isbikeAndVehicle = true;
-    }
+    const isbikeAndVehicle = this.props.params.hash === 'bikeAndVehicle';
     if (this.props.activeIndex === index) {
       this.onSelectImmediately(index);
     } else {
@@ -101,10 +98,7 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onSelectImmediately = index => {
-    let isBikeAndPublic;
-    if (this.props.params.hash === 'bikeAndVehicle') {
-      isBikeAndPublic = true;
-    }
+    const isBikeAndPublic = this.props.params.hash === 'bikeAndVehicle';
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'Itinerary',
@@ -302,7 +296,7 @@ const connectedContainer = createFragmentContainer(
     itineraries: graphql`
       fragment SummaryPlanContainer_itineraries on Itinerary
       @relay(plural: true) {
-        ...ItinerarySummaryListContainer_itineraries
+        ...ItinerarySummaryListContainer_itineraries @relay(mask: false)
         endTime
         startTime
         legs {
