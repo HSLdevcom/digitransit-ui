@@ -56,10 +56,6 @@ $favourite-highlight-background-color: #F4F4F5;
     margin-right: 8px;
     overflow: hidden;
 
-    & > div {
-      @extend .shimmer-shared;
-    }
-
     .icon {
       display: flex;
       width: 50px;
@@ -145,11 +141,6 @@ $favourite-highlight-background-color: #F4F4F5;
     width: 42px;
     flex-shrink: 0;
     overflow: hidden;
-
-    & > div {
-      @extend .shimmer-shared;
-      justify-content: center;
-    }
 
     &.plus {
       svg {
