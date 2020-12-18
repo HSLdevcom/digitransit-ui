@@ -1,5 +1,6 @@
 import flatten from 'lodash/flatten';
 import omit from 'lodash/omit';
+import { some } from 'lodash';
 import L from 'leaflet';
 
 import { isBrowser } from '../../../util/browser';
@@ -135,17 +136,20 @@ class TileContainer {
           return false;
         }
 
-        const g = feature.feature.geom;
+        // the geometry can be both a point a and a polyline
+        // therefore we convert it to an array and iterate
+        // trying to find a point less than 22 px away
 
-        const dist = Math.sqrt(
-          (localPoint[0] - g.x / this.ratio) ** 2 +
-            (localPoint[1] - g.y / this.ratio) ** 2,
-        );
+        const g = feature.feature.polyline || [feature.feature.geom];
 
-        if (dist < 22 * this.scaleratio) {
-          return true;
-        }
-        return false;
+        return some(g, p => {
+          const dist = Math.sqrt(
+            (localPoint[0] - p.x / this.ratio) ** 2 +
+              (localPoint[1] - p.y / this.ratio) ** 2,
+          );
+
+          return dist < 22 * this.scaleratio;
+        });
       });
 
       if (nearest.length === 0 && e.type === 'click') {
@@ -168,7 +172,10 @@ class TileContainer {
       if (nearest.length === 1) {
         L.DomEvent.stopPropagation(e);
         // open menu for single stop
-        const latLon = L.latLng(this.project(nearest[0].feature.geom));
+        let latLon = L.latLng(this.project(nearest[0].feature.geom));
+        if (nearest[0].feature.polyline) {
+          latLon = e.latlng;
+        }
         return this.onSelectableTargetClicked(nearest, latLon, true);
       }
       L.DomEvent.stopPropagation(e);
