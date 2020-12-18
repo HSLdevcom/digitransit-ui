@@ -254,10 +254,10 @@ export default configMerger(walttiConfig, {
       {
         header: 'Über diesen Dienst',
         paragraphs: [
-          'Stadtnavi ist eine Reiseplannungs-Anwendung für die Region Herrenberg. Dieser Dienst umfasst ÖPNV, Fußwege, Radverkehr, PKW-Routing (inklusive Park & Ride) und Fahrgemeinschaften.',
+          '<a href="https://stadtnavi.de/">Stadtnavi</a> ist eine Reiseplannungs-Anwendung für die Region Herrenberg. Dieser Dienst umfasst ÖPNV, Fußwege, Radverkehr, PKW-Routing (inklusive Park & Ride) und Fahrgemeinschaften.',
           'Gefördert durch <br>',
           '<a href="https://www.herrenberg.de/stadtluft"><img src="https://www.herrenberg.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
-
+          '<a href="https://stadtnavi.de/">Zur Infoseite</a>'
         ],
       },
       {
@@ -278,8 +278,9 @@ export default configMerger(walttiConfig, {
       {
         header: 'About this service',
         paragraphs: [
-          'Stadtnavi is provided by the city of Herrenberg for route planning in Herrenberg region. The service covers public transport, walking, cycling, private car use and carpooling. Service is built on Digitransit platform and OpenTripPlanner.',
+          '<a href="https://stadtnavi.de/">Stadtnavi</a> is provided by the city of Herrenberg for route planning in Herrenberg region. The service covers public transport, walking, cycling, private car use and carpooling. Service is built on Digitransit platform and OpenTripPlanner.',
           '<a href="https://www.herrenberg.de/stadtluft"><img src="https://www.herrenberg.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
+          '<a href="https://stadtnavi.de/">To the promotional website</a>'
         ],
       },
       {
