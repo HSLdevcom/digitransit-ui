@@ -136,6 +136,7 @@ class FavouriteEditingModal extends React.Component {
       new RegExp(`${escapeRegExp(favourite.name)}(,)?( )?`),
       '',
     );
+    const color = this.props.color || '#007ac9';
     return (
       <li
         className={cx(styles['favourite-edit-list-item'])}
@@ -153,7 +154,7 @@ class FavouriteEditingModal extends React.Component {
               styles[iconId],
             )}
           >
-            <Icon img={iconId} color={this.props.color} />
+            <Icon img={iconId} color={color} />
           </div>
         </div>
         <div className={styles['favourite-edit-list-item-content']}>
