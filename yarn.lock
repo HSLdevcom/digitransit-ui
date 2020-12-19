@@ -11177,15 +11177,14 @@ lead@^1.0.0:
   dependencies:
     flush-write-stream "^1.0.2"
 
-leaflet-active-area@1.1.2:
+leaflet-active-area@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/leaflet-active-area/-/leaflet-active-area-1.1.1.tgz#ea25cfa7a2ca429ecf73930b6a8413068789e03d"
   integrity sha512-PNaMnD9wZ28/V1ZQjS+ebINKD4vqxslrnJkslllmIK+HYPVbFYpH9vqUWFbweJ6aRL2d4OFP4BJcxsoFcQmiTg==
 
-leaflet@1.7.1:
+"leaflet@github:stadtnavi/Leaflet#1.8.0-beta":
   version "1.7.1"
-  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.7.1.tgz#10d684916edfe1bf41d688a3b97127c0322a2a19"
-  integrity sha512-/xwPEBidtg69Q3HlqPdU3DnrXQOvQU/CCHA1tcDQVzOwm91YMYaILjNp7L4Eaw5Z4sOYdbBz6koWyibppd8Zqw==
+  resolved "https://codeload.github.com/stadtnavi/Leaflet/tar.gz/0479c7382afea72fc17b02046bc571f84d413c6d"
 
 lerna@3.20.2:
   version "3.20.2"
