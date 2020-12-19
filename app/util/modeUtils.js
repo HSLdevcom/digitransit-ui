@@ -1,4 +1,3 @@
-import isEmpty from 'lodash/isEmpty';
 import isString from 'lodash/isString';
 import sortedUniq from 'lodash/sortedUniq';
 import xor from 'lodash/xor';
@@ -134,24 +133,32 @@ export const getDefaultModes = config => [
 ];
 
 /**
- * Retrieves all modes (as in both transport and street modes)
- * from either the localStorage or the default configuration.
- * If modes include CAR, BICYCLE or WALK modes use default instead
- * (legacy settings allowed them).
+ * Giving user an option to change mode settings when there are no
+ * alternative options does not makse sense. This function checks
+ * if there are at least two available transport modes
  *
- * @param {*} config The configuration for the software installation
+ * @param {*} config
+ * @returns {Boolean} True if mode settings should be shown to users
+ */
+export const showModeSettings = config =>
+  getAvailableTransportModes(config).length > 1;
+
+/**
+ * Retrieves all transport modes and returns the currently available
+ * modes together with WALK mode. If user has no ability to change
+ * mode settings, always use default modes.
+ *
+ * @param {*} config The configuration for the software
+ * @returns {String[]} returns user set modes or default modes
  */
 export const getModes = config => {
   const { modes } = getCustomizedSettings();
-  if (
-    Array.isArray(modes) &&
-    !isEmpty(modes) &&
-    modes.indexOf('CAR_PARK') === -1 &&
-    modes.indexOf('CAR') === -1 &&
-    modes.indexOf('BICYCLE') === -1 &&
-    modes.indexOf('WALK') === -1
-  ) {
-    return modes;
+  if (showModeSettings(config) && Array.isArray(modes) && modes.length > 0) {
+    const availableTransportModes = getAvailableTransportModes(config);
+    const transportModes = modes.filter(mode =>
+      availableTransportModes.includes(mode),
+    );
+    return [...transportModes, 'WALK'];
   }
   return getDefaultModes(config);
 };

@@ -55,15 +55,16 @@ const intermediatePlaces = [
 
 describe('modeUtils', () => {
   describe('getModes', () => {
-    it('should retrieve modes from localStorage', () => {
+    it('should retrieve modes from localStorage and add WALK mode to them', () => {
       setCustomizedSettings({
         modes: [TransportMode.Rail, TransportMode.Bus],
       });
 
       const modes = utils.getModes(config);
-      expect(modes.length).to.equal(2);
+      expect(modes.length).to.equal(3);
       expect(modes).to.contain(TransportMode.Rail);
       expect(modes).to.contain(TransportMode.Bus);
+      expect(modes).to.contain(StreetMode.Walk);
     });
 
     it('should retrieve all modes with "defaultValue": true from config if localStorage has an empty modes list', () => {

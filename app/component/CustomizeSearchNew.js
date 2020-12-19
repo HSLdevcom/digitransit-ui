@@ -11,7 +11,7 @@ import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
 import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSection';
 import { getDefaultSettings } from '../util/planParamUtil';
 import TransferOptionsSection from './customizesearch/TransferOptionsSection';
-import { getAvailableTransportModes } from '../util/modeUtils';
+import { showModeSettings } from '../util/modeUtils';
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
@@ -96,7 +96,7 @@ class CustomizeSearch extends React.Component {
             />
           </div>
           <div className="settings-section">
-            {getAvailableTransportModes(config).length > 1 && (
+            {showModeSettings(config) && (
               <div className="settings-option-container">
                 <TransportModesSection config={config} />
               </div>
