@@ -398,6 +398,9 @@ export default {
     },
   },
 
+  // modes that should not coexist with BICYCLE mode
+  modesWithNoBike: ['BICYCLE_RENT', 'WALK'],
+
   moment: {
     relativeTimeThreshold: {
       seconds: 55,

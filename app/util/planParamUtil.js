@@ -2,7 +2,13 @@ import omitBy from 'lodash/omitBy';
 import moment from 'moment';
 import cookie from 'react-cookie';
 
-import { filterModes, getDefaultModes, getModes } from './modeUtils';
+import {
+  filterModes,
+  getDefaultModes,
+  getModes,
+  modesAsOTPModes,
+  getModesAvailableOnTransport,
+} from './modeUtils';
 import { otpToLocation, getIntermediatePlaces } from './otpStrings';
 import { getDefaultNetworks } from './citybikes';
 import { getCustomizedSettings } from '../store/localStorage';
@@ -73,8 +79,7 @@ function nullOrUndefined(val) {
 
 function getDisableRemainingWeightHeuristic(modes) {
   let disableRemainingWeightHeuristic;
-  const modesArray = modes ? modes.split(',') : undefined;
-  if (modesArray && modesArray.includes('BICYCLE_RENT')) {
+  if (Array.isArray(modes) && modes.includes('BICYCLE_RENT')) {
     disableRemainingWeightHeuristic = true;
   } else {
     disableRemainingWeightHeuristic = false;
@@ -156,7 +161,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
     intermediatePlaces,
   });
   const modesOrDefault = useDefaultModes
-    ? getDefaultModes(config).join(',')
+    ? getDefaultModes(config)
     : filterModes(
         config,
         getModes(config),
@@ -168,14 +173,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
   const allowedBikeRentalNetworksMapped =
     settings.allowedBikeRentalNetworks ||
     defaultSettings.allowedBikeRentalNetworks;
-  const formattedModes = modesOrDefault
-    .split(',')
-    .map(mode => mode.split('_'))
-    .map(modeAndQualifier =>
-      modeAndQualifier.length > 1
-        ? { mode: modeAndQualifier[0], qualifier: modeAndQualifier[1] }
-        : { mode: modeAndQualifier[0] },
-    );
+  const formattedModes = modesAsOTPModes(modesOrDefault);
   const wheelchair =
     getNumberValueOrDefault(settings.accessibilityOption, defaultSettings) ===
     1;
@@ -251,8 +249,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
       intermediatePlaceLocations.length > 0,
     bikeAndPublicModes: [
       { mode: 'BICYCLE' },
-      ...(modesOrDefault.indexOf('SUBWAY') !== -1 ? [{ mode: 'SUBWAY' }] : []),
-      ...(modesOrDefault.indexOf('RAIL') !== -1 ? [{ mode: 'RAIL' }] : []),
+      ...modesAsOTPModes(getModesAvailableOnTransport(config, modesOrDefault)),
     ],
     bikeParkModes: [{ mode: 'BICYCLE', qualifier: 'PARK' }, ...formattedModes],
   };

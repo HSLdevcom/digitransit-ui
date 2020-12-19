@@ -97,11 +97,11 @@ export const isModeAvailableInsidePolygons = (config, mode, places) => {
  */
 export const filterModes = (config, modes, from, to, intermediatePlaces) => {
   if (!modes) {
-    return '';
+    return [];
   }
   const modesStr = modes instanceof Array ? modes.join(',') : modes;
   if (!isString(modesStr)) {
-    return '';
+    return [];
   }
   return sortedUniq(
     modesStr
@@ -117,7 +117,7 @@ export const filterModes = (config, modes, from, to, intermediatePlaces) => {
       .map(mode => getOTPMode(config, mode))
       .filter(mode => !!mode)
       .sort(),
-  ).join(',');
+  );
 };
 
 /**
@@ -195,3 +195,29 @@ export function toggleTransportMode(transportMode, config) {
   const modes = xor(getModes(config), [transportMode.toUpperCase()]);
   return modes;
 }
+
+/**
+ * Filters away modes that do not allow bicycle boarding.
+ *
+ * @param {*} config The configuration for the software installation
+ * @param {String[]} modes modes to filter from
+ * @returns {String[]} result of filtering
+ */
+export const getModesAvailableOnTransport = (config, modes) =>
+  modes.filter(mode => !config.modesWithNoBike.includes(mode));
+
+/**
+ * Transforms array of mode strings into modern format OTP mode objects
+ *
+ * @param {String[]} modes modes to filter from
+ * @returns {Object[]} array of objects of format
+ * {mode: <uppercase mode name>}, qualifier: <optional qualifier>}
+ */
+export const modesAsOTPModes = modes =>
+  modes
+    .map(mode => mode.split('_'))
+    .map(modeAndQualifier =>
+      modeAndQualifier.length > 1
+        ? { mode: modeAndQualifier[0], qualifier: modeAndQualifier[1] }
+        : { mode: modeAndQualifier[0] },
+    );
