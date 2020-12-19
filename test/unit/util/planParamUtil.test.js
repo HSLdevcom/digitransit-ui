@@ -53,6 +53,7 @@ const config = {
     walkSpeed: [0.69, 0.97, 1.2, 1.67, 2.22],
     bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
+  modesWithNoBike: ['BICYCLE_RENT', 'WALK'],
 };
 
 describe('planParamUtil', () => {

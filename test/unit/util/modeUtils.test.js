@@ -146,16 +146,16 @@ describe('modeUtils', () => {
   });
 
   describe('filterModes', () => {
-    it('should return an empty string if modes is not available', () => {
+    it('should return an empty array if modes is not available', () => {
       expect(
-        utils.filterModes(config, null, from, to, intermediatePlaces),
-      ).to.equal('');
+        utils.filterModes(config, null, from, to, intermediatePlaces).length,
+      ).to.equal(0);
     });
 
-    it('should return an empty string if modes is not an array or a string', () => {
+    it('should return an empty array if modes is not an array or a string', () => {
       expect(
-        utils.filterModes(config, {}, from, to, intermediatePlaces),
-      ).to.equal('');
+        utils.filterModes(config, {}, from, to, intermediatePlaces).length,
+      ).to.equal(0);
     });
 
     it('should support a modes array', () => {
@@ -180,7 +180,9 @@ describe('modeUtils', () => {
         intermediatePlaces,
       );
 
-      expect(result).to.equal('BUS,WALK');
+      expect(result.length).to.equal(2);
+      expect(result).to.contain('BUS');
+      expect(result).to.contain('WALK');
     });
 
     it('should support a single mode', () => {
@@ -205,7 +207,8 @@ describe('modeUtils', () => {
         intermediatePlaces,
       );
 
-      expect(result).to.equal('WALK');
+      expect(result.length).to.equal(1);
+      expect(result).to.contain('WALK');
     });
 
     it('should support a comma-separated modes string', () => {
@@ -230,7 +233,9 @@ describe('modeUtils', () => {
         intermediatePlaces,
       );
 
-      expect(result).to.equal('BUS,WALK');
+      expect(result.length).to.equal(2);
+      expect(result).to.contain('BUS');
+      expect(result).to.contain('WALK');
     });
 
     it('should omit missing OTP modes', () => {
@@ -255,7 +260,9 @@ describe('modeUtils', () => {
         intermediatePlaces,
       );
 
-      expect(result).to.equal('BUS,WALK');
+      expect(result.length).to.equal(2);
+      expect(result).to.contain('BUS');
+      expect(result).to.contain('WALK');
     });
 
     it('should return only distinct OTP modes', () => {
@@ -281,7 +288,9 @@ describe('modeUtils', () => {
         intermediatePlaces,
       );
 
-      expect(result).to.equal('BUS,WALK');
+      expect(result.length).to.equal(2);
+      expect(result).to.contain('BUS');
+      expect(result).to.contain('WALK');
     });
 
     it('should prevent the use of unavailable street or transport modes', () => {
@@ -311,7 +320,9 @@ describe('modeUtils', () => {
         intermediatePlaces,
       );
 
-      expect(result).to.equal('BUS,WALK');
+      expect(result.length).to.equal(2);
+      expect(result).to.contain('BUS');
+      expect(result).to.contain('WALK');
     });
 
     it('should keep FERRY when there is a place inside FERRY modePolygons', () => {
@@ -362,7 +373,9 @@ describe('modeUtils', () => {
         intermediatePlaces,
       );
 
-      expect(result).to.equal('BUS,WALK');
+      expect(result.length).to.equal(2);
+      expect(result).to.contain('BUS');
+      expect(result).to.contain('WALK');
     });
 
     it('should filter out FERRY when no places are inside FERRY modePolygons', () => {
@@ -404,7 +417,9 @@ describe('modeUtils', () => {
         intermediatePlaces.slice(0, -1),
       );
 
-      expect(result).to.equal('BUS,WALK');
+      expect(result.length).to.equal(2);
+      expect(result).to.contain('BUS');
+      expect(result).to.contain('WALK');
     });
   });
 
@@ -482,7 +497,9 @@ describe('modeUtils', () => {
         intermediatePlaces,
       );
 
-      expect(result).to.equal('BUS,WALK');
+      expect(result.length).to.equal(2);
+      expect(result).to.contain('BUS');
+      expect(result).to.contain('WALK');
     });
   });
 });
