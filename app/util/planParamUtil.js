@@ -238,10 +238,12 @@ export const preparePlanParams = (config, useDefaultModes) => (
     showBikeAndPublicItineraries:
       !wheelchair &&
       config.showBikeAndPublicItineraries &&
+      modesOrDefault.length > 1 &&
       includeBikeSuggestions,
     showBikeAndParkItineraries:
       !wheelchair &&
       config.showBikeAndParkItineraries &&
+      modesOrDefault.length > 1 &&
       includeBikeSuggestions,
     bikeAndPublicMaxWalkDistance: config.suggestBikeMaxDistance,
     bikeandPublicDisableRemainingWeightHeuristic:
