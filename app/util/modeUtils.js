@@ -51,12 +51,12 @@ export const getOTPMode = (config, mode) => {
 };
 
 /**
- * Checks if the given mode has been configured as availableForSelection.
+ * Checks if the given mode has been configured as availableForSelection or is WALK.
  *
  * @param {*} config The configuration for the software installation
  * @param {String} mode The mode to check
  */
-const isModeAvailable = (config, mode) =>
+export const isModeAvailable = (config, mode) =>
   ['WALK', ...getAvailableTransportModes(config)].includes(mode.toUpperCase());
 
 /**
@@ -130,8 +130,8 @@ export const filterModes = (config, modes, from, to, intermediatePlaces) => {
 };
 
 /**
- * Retrieves all modes (as in both transport and street modes) that are
- * both available and marked as default.
+ * Retrieves all transport modes that are both available and marked as default,
+ * and additionally WALK mode.
  *
  * @param {*} config The configuration for the software installation
  * @returns {String[]} an array of modes
