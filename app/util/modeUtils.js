@@ -178,7 +178,7 @@ export const getModes = config => {
  * @returns {Boolean} True if current modes differ from the default ones
  */
 export const userHasChangedModes = config => {
-  return !isEqual(getDefaultModes(config), getModes(config));
+  return !isEqual(getDefaultModes(config).sort(), getModes(config).sort());
 };
 
 /**
