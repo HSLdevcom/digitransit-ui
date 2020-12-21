@@ -323,4 +323,40 @@ describe('planParamUtil', () => {
       expect(Array.isArray(defaultSettings.modes)).to.equal(true);
     });
   });
+
+  describe('getCurrentSettings', () => {
+    it('current settings should equal default settings if no user set settings', () => {
+      const defaultSettings = utils.getDefaultSettings(defaultConfig);
+      const currentSettings = utils.getCurrentSettings(defaultConfig);
+      expect(defaultSettings).to.deep.equal(currentSettings);
+    });
+
+    it('setting custom settings should make default settings differ from current settings', () => {
+      setCustomizedSettings({
+        modes: ['BUS', 'TRAM', 'FERRY', 'SUBWAY', 'RAIL', 'WALK'],
+      });
+
+      const defaultSettings = utils.getDefaultSettings(defaultConfig);
+      const currentSettings = utils.getCurrentSettings(defaultConfig);
+      expect(defaultSettings).to.not.deep.equal(currentSettings);
+    });
+
+    it('order of set custom settings should not affect default and current settings comparison', () => {
+      const defaultSettings = utils.getDefaultSettings(defaultConfig);
+      setCustomizedSettings({
+        modes: defaultSettings.modes.slice().reverse(),
+      });
+      const currentSettings = utils.getCurrentSettings(defaultConfig);
+      expect(defaultSettings).to.deep.equal(currentSettings);
+    });
+
+    it('unavailable modes should not exist in current settings', () => {
+      setCustomizedSettings({
+        modes: ['BUS', 'WALK', 'FOO'],
+      });
+      const currentSettings = utils.getCurrentSettings(defaultConfig);
+      expect(currentSettings.modes.length).to.equal(2);
+      expect(currentSettings.modes).to.not.contain('FOO');
+    });
+  });
 });
