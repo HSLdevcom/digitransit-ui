@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import StopNearYouHeader from './StopNearYouHeader';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
 
-const StopNearYou = ({ stop, color, ...props }) => {
+const StopNearYou = ({ stop, ...props }) => {
   const stopOrStation = stop.parentStation ? stop.parentStation : stop;
   const desc = stopOrStation.desc ? stopOrStation.desc : stop.desc;
   const isStation = !!stop.parentStation;
@@ -13,7 +13,6 @@ const StopNearYou = ({ stop, color, ...props }) => {
         <StopNearYouHeader
           stop={stopOrStation}
           desc={desc}
-          color={color}
           isStation={isStation}
         />
         <StopNearYouDepartureRowContainer
@@ -28,7 +27,6 @@ const StopNearYou = ({ stop, color, ...props }) => {
 
 StopNearYou.propTypes = {
   stop: PropTypes.object.isRequired,
-  color: PropTypes.string,
   currentTime: PropTypes.number.isRequired,
 };
 

@@ -8,8 +8,10 @@ import PlatformNumber from './PlatformNumber';
 import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import FavouriteStopContainer from './FavouriteStopContainer';
+import { getZoneLabelColor } from '../util/mapIconUtils';
+import { getZoneLabel } from '../util/legUtils';
 
-const StopNearYouHeader = ({ stop, color, desc, isStation }) => {
+const StopNearYouHeader = ({ stop, desc, isStation }, { config }) => {
   const linkAddress = isStation
     ? `/${PREFIX_TERMINALS}/${stop.gtfsId}`
     : `/${PREFIX_STOPS}/${stop.gtfsId}`;
@@ -44,7 +46,12 @@ const StopNearYouHeader = ({ stop, color, desc, isStation }) => {
             <StopCode code={stop.code} />
           )}
           <PlatformNumber number={stop.platformCode} short />
-          <ZoneIcon zoneId={stop.zoneId} zoneLabelColor={color} />
+          {config.stopCard.header.showZone && (
+            <ZoneIcon
+              zoneId={getZoneLabel(stop.zoneId, config)}
+              zoneLabelColor={getZoneLabelColor(config)}
+            />
+          )}
         </div>
       </div>
       <FavouriteStopContainer
@@ -58,12 +65,14 @@ const StopNearYouHeader = ({ stop, color, desc, isStation }) => {
 
 StopNearYouHeader.propTypes = {
   stop: PropTypes.object.isRequired,
-  color: PropTypes.string,
   desc: PropTypes.string,
   isStation: PropTypes.bool,
 };
 StopNearYouHeader.defaultProps = {
   isStation: false,
+};
+StopNearYouHeader.contextTypes = {
+  config: PropTypes.object.isRequired,
 };
 
 export default StopNearYouHeader;
