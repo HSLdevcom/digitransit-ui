@@ -41,10 +41,12 @@ const FavouriteLocation = ({
   color,
 }) => {
   return (
-    <button
-      type="button"
+    <div
+      role="button"
+      tabIndex="0"
       className={cx(styles['favourite-content'], styles[className])}
       onClick={clickItem}
+      onKeyDown={e => isKeyboardSelectionEvent(e) && clickItem()}
       aria-label={text}
     >
       <Shimmer active={isLoading} className={styles.shimmer}>
@@ -56,7 +58,7 @@ const FavouriteLocation = ({
           <div className={styles.address}>{label}</div>
         </div>
       </Shimmer>
-    </button>
+    </div>
   );
 };
 
