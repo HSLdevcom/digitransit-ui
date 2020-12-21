@@ -14,7 +14,14 @@ import MobileModal from './helpers/MobileModal';
 
 const Modal = loadable(() => import('@hsl-fi/modal'));
 
-i18next.init({ lng: 'fi', resources: {} });
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
+});
 
 Object.keys(translations).forEach(lang => {
   i18next.addResourceBundle(lang, 'translation', translations[lang]);
@@ -202,6 +209,9 @@ class FavouriteModal extends React.Component {
     this.state = {
       favourite: null,
     };
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
   }
 
   static getDerivedStateFromProps = (nextProps, prevState) => {

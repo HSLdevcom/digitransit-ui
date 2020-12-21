@@ -10,12 +10,17 @@ import translations from './helpers/translations';
 
 const Modal = loadable(() => import('@hsl-fi/modal'));
 
-i18next.init({ lng: 'fi', resources: {} });
-
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
+});
 Object.keys(translations).forEach(lang => {
   i18next.addResourceBundle(lang, 'translation', translations[lang]);
 });
-
 /**
  * General component description in JSDoc format. Markdown is *supported*.
  *
@@ -43,7 +48,7 @@ const DialogModal = ({
     <Modal
       appElement={appElement}
       contentLabel={modalAriaLabel}
-      closeButtonLabel={i18next.t('close-favourite-modal')}
+      closeButtonLabel={i18next.t('close-modal')}
       variant="confirmation"
       isOpen={isModalOpen}
       onCrossClick={handleClose}

@@ -21,10 +21,13 @@ import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
 
-i18next.init({ lng: 'fi', resources: {} });
-
-Object.keys(translations).forEach(lang => {
-  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
 });
 
 const Loading = props => (
@@ -239,6 +242,9 @@ class DTAutosuggest extends React.Component {
       suggestionIndex: 0,
       cleanExecuted: false,
     };
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
   }
 
   // DT-4074: When a user's location is updated DTAutosuggest would re-render causing suggestion list to reset.

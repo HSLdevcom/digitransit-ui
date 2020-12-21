@@ -19,10 +19,13 @@ import translations from './helpers/translations';
 const ContainerSpinner = loadable(() => import('@hsl-fi/container-spinner'));
 const Modal = loadable(() => import('@hsl-fi/modal'));
 
-i18next.init({ lng: 'fi', resources: {} });
-
-Object.keys(translations).forEach(lang => {
-  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
 });
 
 const isKeyboardSelectionEvent = event => {
@@ -103,6 +106,9 @@ class FavouriteEditingModal extends React.Component {
       showDeletePlaceModal: false,
       selectedFavourite: null,
     };
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
   }
 
   static getDerivedStateFromProps = (nextProps, prevState) => {

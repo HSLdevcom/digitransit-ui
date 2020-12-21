@@ -8,10 +8,13 @@ import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 
-i18next.init({ lng: 'en', resources: {} });
-
-Object.keys(translations).forEach(lang => {
-  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
 });
 
 function SeparatorLine({ usePaddingBottom20 }) {
@@ -225,6 +228,12 @@ class CtrlPanel extends React.Component {
     children: [],
   };
 
+  constructor(props) {
+    super(props);
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
+  }
   render() {
     const className =
       this.props.position === 'bottom'

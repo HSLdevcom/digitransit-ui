@@ -14,7 +14,14 @@ import { isMobile, isAndroid } from './mobileDetection';
 import dateTimeInputIsSupported from './dateTimeInputIsSupported';
 
 moment.locale('en');
-i18next.init({ lng: 'en', resources: {} });
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
+});
 Object.keys(translations).forEach(lang =>
   i18next.addResourceBundle(lang, 'translation', translations[lang]),
 );

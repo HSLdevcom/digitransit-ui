@@ -9,10 +9,13 @@ import i18next from 'i18next';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 
-i18next.init({ lng: 'en', resources: {} });
-
-Object.keys(translations).forEach(lang => {
-  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
 });
 
 /**
@@ -39,6 +42,13 @@ class TrafficNowLink extends React.Component {
   static defaultProps = {
     lang: 'fi',
   };
+
+  constructor(props) {
+    super(props);
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
+  }
 
   handleKeyDown = (e, lang) => {
     if (e.keyCode === 32 || e.keyCode === 13) {
