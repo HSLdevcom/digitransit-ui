@@ -8,6 +8,7 @@ import {
   getModes,
   modesAsOTPModes,
   getModesAvailableOnTransport,
+  isTransportModeAvailable,
 } from './modeUtils';
 import { otpToLocation, getIntermediatePlaces } from './otpStrings';
 import { getDefaultNetworks } from './citybikes';
@@ -25,7 +26,7 @@ export const getDefaultSettings = config => {
   }
   return {
     ...config.defaultSettings,
-    modes: getDefaultModes(config),
+    modes: getDefaultModes(config).sort(),
     allowedBikeRentalNetworks: getDefaultNetworks(config),
   };
 };
@@ -36,10 +37,22 @@ export const getDefaultSettings = config => {
  * @param {*} config the configuration for the software installation
  * @param {*} query the query part of the current url
  */
-export const getCurrentSettings = config => ({
-  ...getDefaultSettings(config),
-  ...getCustomizedSettings(),
-});
+export const getCurrentSettings = config => {
+  const defaultSettings = getDefaultSettings(config);
+  const customizedSettings = getCustomizedSettings();
+  return {
+    ...defaultSettings,
+    ...customizedSettings,
+    modes: customizedSettings?.modes
+      ? [
+          ...customizedSettings?.modes.filter(mode =>
+            isTransportModeAvailable(config, mode),
+          ),
+          'WALK',
+        ].sort()
+      : defaultSettings.modes,
+  };
+};
 
 function getTicketTypes(settingsTicketType, defaultTicketType) {
   // separator used to be _, map it to : to keep old URLs compatible

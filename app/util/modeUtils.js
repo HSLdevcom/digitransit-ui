@@ -60,6 +60,15 @@ const isModeAvailable = (config, mode) =>
   ['WALK', ...getAvailableTransportModes(config)].includes(mode.toUpperCase());
 
 /**
+ * Checks if the given transport mode has been configured as availableForSelection.
+ *
+ * @param {*} config The configuration for the software installation
+ * @param {String} mode The mode to check
+ */
+export const isTransportModeAvailable = (config, mode) =>
+  getAvailableTransportModes(config).includes(mode.toUpperCase());
+
+/**
  * Checks if mode does not exist in config's modePolygons or
  * at least one of the given coordinates is inside any of the polygons defined for a mode
  *
@@ -154,9 +163,8 @@ export const showModeSettings = config =>
 export const getModes = config => {
   const { modes } = getCustomizedSettings();
   if (showModeSettings(config) && Array.isArray(modes) && modes.length > 0) {
-    const availableTransportModes = getAvailableTransportModes(config);
     const transportModes = modes.filter(mode =>
-      availableTransportModes.includes(mode),
+      isTransportModeAvailable(config, mode),
     );
     return [...transportModes, 'WALK'];
   }
