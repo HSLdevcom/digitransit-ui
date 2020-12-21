@@ -7,7 +7,7 @@ import {
   getDefaultModes,
   getModes,
   modesAsOTPModes,
-  getModesAvailableOnTransport,
+  getBicycleCompatibleModes,
   isTransportModeAvailable,
 } from './modeUtils';
 import { otpToLocation, getIntermediatePlaces } from './otpStrings';
@@ -264,7 +264,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
       intermediatePlaceLocations.length > 0,
     bikeAndPublicModes: [
       { mode: 'BICYCLE' },
-      ...modesAsOTPModes(getModesAvailableOnTransport(config, modesOrDefault)),
+      ...modesAsOTPModes(getBicycleCompatibleModes(config, modesOrDefault)),
     ],
     bikeParkModes: [{ mode: 'BICYCLE', qualifier: 'PARK' }, ...formattedModes],
   };

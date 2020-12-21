@@ -211,7 +211,7 @@ export function toggleTransportMode(transportMode, config) {
  * @param {String[]} modes modes to filter from
  * @returns {String[]} result of filtering
  */
-export const getModesAvailableOnTransport = (config, modes) =>
+export const getBicycleCompatibleModes = (config, modes) =>
   modes.filter(mode => !config.modesWithNoBike.includes(mode));
 
 /**
