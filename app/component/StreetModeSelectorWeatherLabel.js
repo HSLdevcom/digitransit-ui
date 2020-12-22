@@ -21,17 +21,19 @@ export const StreetModeSelectorWeatherLabel = ({ active, weatherData }) => {
           className={cx('street-mode-selector-weather-container')}
           onClick={() => changeOpen(true)}
         >
-          <span className="sr-only">
-            <FormattedMessage id="weather" />
-            <FormattedMessage id={`weather-icon-${weatherData.iconId}`} />
-            {tempLabel}
-          </span>
-          <Icon img={`icon-icon_weather_${iconId}`} />
-          <div
-            className="street-mode-selector-panel-weather-text"
-            aria-hidden="true"
-          >
-            {tempLabel}
+          <div className="hover-frame">
+            <span className="sr-only">
+              <FormattedMessage id="weather" />
+              <FormattedMessage id={`weather-icon-${weatherData.iconId}`} />
+              {tempLabel}
+            </span>
+            <Icon img={`icon-icon_weather_${iconId}`} />
+            <div
+              className="street-mode-selector-panel-weather-text"
+              aria-hidden="true"
+            >
+              {tempLabel}
+            </div>
           </div>
         </button>
         {popupOpen && (
