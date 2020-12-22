@@ -5,7 +5,6 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import postcss from 'rollup-plugin-postcss';
 import babel from 'rollup-plugin-babel';
 import json from '@rollup/plugin-json';
-import image from '@rollup/plugin-image';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import { terser } from 'rollup-plugin-terser';
 import { getPackages } from '@lerna/project';
@@ -51,7 +50,6 @@ export default async () => {
           use: ['sass'],
           config: false,
         }),
-        image(),
         babel({
           runtimeHelpers: true,
           configFile: './config/babel.config.js',
