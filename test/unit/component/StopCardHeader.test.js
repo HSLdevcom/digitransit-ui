@@ -50,7 +50,7 @@ describe('<StopCardHeader />', () => {
       },
       className: 'stop-page header',
     };
-    const wrapper = mountWithIntl(<StopCardHeader {...props} />, {
+    const wrapper = shallowWithIntl(<StopCardHeader {...props} />, {
       context: {
         ...mockContext,
         config: {
@@ -63,6 +63,7 @@ describe('<StopCardHeader />', () => {
           colors: {
             primary: '#000000',
           },
+          allowLogin: false,
         },
       },
       childContextTypes: {
@@ -71,36 +72,6 @@ describe('<StopCardHeader />', () => {
     });
 
     expect(wrapper.find(ExternalLink)).to.have.lengthOf(0);
-  });
-
-  it('should render the virtual monitor link for non-popups if gtfsId and virtualMonitorBaseUrl are defined', () => {
-    const props = {
-      stop: {
-        code: '1270',
-        desc: 'Hietaniemenkatu',
-        gtfsId: 'HSL:1130181',
-        name: 'Hietaniemi',
-        zoneId: 'A',
-      },
-      className: 'stop-page header',
-    };
-    const wrapper = mountWithIntl(<StopCardHeader {...props} />, {
-      context: {
-        config: {
-          stopCard: {
-            header: {
-              showZone: false,
-              virtualMonitorBaseUrl: 'http://foo.com/virtualmonitor/',
-            },
-          },
-        },
-      },
-    });
-
-    expect(wrapper.find(ExternalLink)).to.have.lengthOf(1);
-    expect(wrapper.find(ExternalLink).prop('href')).to.equal(
-      'http://foo.com/virtualmonitor/HSL:1130181',
-    );
   });
 
   it('should not render the zone icon if so configured', () => {
