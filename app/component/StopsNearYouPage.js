@@ -59,6 +59,10 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     match: matchShape.isRequired,
   };
 
+  static defaultProps = {
+    isModalNeeded: true,
+  }
+
   constructor(props) {
     super(props);
 
@@ -445,71 +449,78 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   render() {
     let showModal = true;
-    let proceed = false;
+    let proceed = true;
     let savedChoice;
     const { loadingPosition, position, isModalNeeded } = this.props;
     const { params } = this.props.match;
     const queryString = this.props.queryString || '';
     const { mode } = this.props.match.params;
-
-    if (isModalNeeded !== undefined && !isModalNeeded && position) {
+    savedChoice = this.state.geolocationPermission.state;
+    if (position) {
       showModal = false;
       proceed = true;
-    } else {
-      const { geolocationPermission } = this.state;
-      if (!geolocationPermission.loading) {
-        if (!geolocationPermission.state) {
-          setSavedGeolocationPermission('state', geolocationPermission.state);
-        }
-        if (geolocationPermission.state === 'granted') {
-          this.context.executeAction(startLocationWatch);
-          showModal = false;
-          proceed = true;
-        } else if (params.origin) {
-          this.props.router.replace(
-            `/${PREFIX_NEARYOU}/${params.mode}/${params.origin}${queryString}`,
-          );
-        }
-
-        if (!proceed) {
-          if (position) {
-            if (position.status) {
-              setSavedGeolocationPermission('choice', 'granted');
-            } else if (
-              getSavedGeolocationPermission().choice !== '' &&
-              getSavedGeolocationPermission().choice !== 'rejected'
-            ) {
-              setSavedGeolocationPermission('choice', 'rejected');
-              proceed = true;
-              showModal = false;
-            }
-          }
-        }
-        if (!proceed) {
-          if (geolocationPermission.state !== 'granted') {
-            const savedPermission = getSavedGeolocationPermission();
-            savedChoice =
-              geolocationPermission.state === 'denied'
-                ? geolocationPermission.state
-                : savedPermission.choice || undefined;
-            if (savedPermission.choice === 'granted') {
-              this.context.executeAction(startLocationWatch);
-              showModal = false;
-            } else if (
-              !position &&
-              savedPermission.choice === 'rejected' &&
-              geolocationPermission.closingModal
-            ) {
-              this.context.executeAction(showGeolocationDeniedMessage);
-              showModal = false;
-            }
-          }
-          showModal =
-            showModal && geolocationPermission.closingModal ? false : showModal;
-          proceed = true;
-        }
-      }
+    } 
+    if (this.state.geolocationPermission.closingModal) {
+      showModal = false;
     }
+
+    // if (!isModalNeeded && position) {
+    //   showModal = false;
+    //   proceed = true;
+    // } else {
+    //   const { geolocationPermission } = this.state;
+    //   if (!geolocationPermission.loading) {
+    //     if (!geolocationPermission.state) {
+    //       setSavedGeolocationPermission('state', geolocationPermission.state);
+    //     }
+    //     if (geolocationPermission.state === 'granted') {
+    //       this.context.executeAction(startLocationWatch);
+    //       showModal = false;
+    //       proceed = true;
+    //     } else if (params.origin) {
+    //       this.props.router.replace(
+    //         `/${PREFIX_NEARYOU}/${params.mode}/${params.origin}${queryString}`,
+    //       );
+    //     }
+    //     if (!proceed) {
+    //       if (position) {
+    //         if (position.status) {
+    //           setSavedGeolocationPermission('choice', 'granted');
+    //         } else if (
+    //           getSavedGeolocationPermission().choice !== '' &&
+    //           getSavedGeolocationPermission().choice !== 'rejected'
+    //         ) {
+    //           setSavedGeolocationPermission('choice', 'rejected');
+    //           proceed = true;
+    //           showModal = false;
+    //         }
+    //       }
+    //     }
+    //     if (!proceed) {
+    //       if (geolocationPermission.state !== 'granted') {
+    //         const savedPermission = getSavedGeolocationPermission();
+    //         savedChoice =
+    //           geolocationPermission.state === 'denied'
+    //             ? geolocationPermission.state
+    //             : savedPermission.choice || undefined;
+    //         if (savedPermission.choice === 'granted') {
+    //           this.context.executeAction(startLocationWatch);
+    //           showModal = false;
+    //         } else if (
+    //           !position &&
+    //           savedPermission.choice === 'rejected' &&
+    //           geolocationPermission.closingModal
+    //         ) {
+    //           this.context.executeAction(showGeolocationDeniedMessage);
+    //           showModal = false;
+    //         }
+    //       }
+    //       showModal =
+    //         showModal && geolocationPermission.closingModal ? false : showModal;
+    //       proceed = true;
+    //     }
+    //   }
+    // }
 
     if (!proceed && loadingPosition) {
       return <Loading />;
