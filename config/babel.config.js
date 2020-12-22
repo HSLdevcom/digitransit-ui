@@ -20,7 +20,7 @@ module.exports = function (api) {
     [
       '@babel/preset-react',
       {
-        development: process.env.ENV === 'development',
+        development: process.env.NODE_ENV === 'development',
         useBuiltIns: true,
       },
     ],
