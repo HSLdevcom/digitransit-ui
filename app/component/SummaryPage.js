@@ -34,11 +34,7 @@ import {
   validateServiceTimeRange,
   getStartTimeWithColon,
 } from '../util/timeUtils';
-import {
-  planQuery,
-  moreItinerariesQuery,
-  moreAlternativesQuery,
-} from '../util/queryUtils';
+import { planQuery } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
@@ -713,17 +709,15 @@ class SummaryPage extends React.Component {
     );
     // This is to make sure that this query does not trigger the reset of walk/bike and earlier/later
     this.originalPlan = this.props.viewer.plan;
-    fetchQuery(
-      this.props.relayEnvironment,
-      moreAlternativesQuery,
-      planParams,
-    ).then(({ plan: results }) => {
-      this.setState({ alternativePlan: results }, () => {
-        this.setLoading(false);
-        this.isFetching = false;
-        this.params = this.context.match.params;
-      });
-    });
+    fetchQuery(this.props.relayEnvironment, planQuery, planParams).then(
+      ({ plan: results }) => {
+        this.setState({ alternativePlan: results }, () => {
+          this.setLoading(false);
+          this.isFetching = false;
+          this.params = this.context.match.params;
+        });
+      },
+    );
   };
 
   onLater = (itineraries, reversed) => {
@@ -773,9 +767,7 @@ class SummaryPage extends React.Component {
       date: latestDepartureTime.format('YYYY-MM-DD'),
       time: latestDepartureTime.format('HH:mm'),
     };
-    const query = useDefaultModes
-      ? moreAlternativesQuery
-      : moreItinerariesQuery;
+    const query = planQuery;
     fetchQuery(this.props.relayEnvironment, query, tunedParams).then(
       ({ plan: result }) => {
         if (reversed) {
@@ -885,9 +877,7 @@ class SummaryPage extends React.Component {
       date: earliestArrivalTime.format('YYYY-MM-DD'),
       time: earliestArrivalTime.format('HH:mm'),
     };
-    const query = useDefaultModes
-      ? moreAlternativesQuery
-      : moreItinerariesQuery;
+    const query = planQuery;
     fetchQuery(this.props.relayEnvironment, query, tunedParams).then(
       ({ plan: result }) => {
         if (result.itineraries.length === 0) {
