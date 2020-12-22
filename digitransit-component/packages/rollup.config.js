@@ -6,6 +6,7 @@ import postcss from 'rollup-plugin-postcss';
 import babel from 'rollup-plugin-babel';
 import json from '@rollup/plugin-json';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import { terser } from 'rollup-plugin-terser';
 import { getPackages } from '@lerna/project';
 import filterPackages from '@lerna/filter-packages';
 import batchPackages from '@lerna/batch-packages';
@@ -27,12 +28,6 @@ const globals = {
   'react-dom': 'ReactDOM',
 };
 
-const nodeOptions = {
-  jsnext: true,
-  main: true,
-  browser: true,
-};
-
 export default async () => {
   const config = [];
   const packages = await getSortedPackages();
@@ -41,7 +36,7 @@ export default async () => {
     const basePath = path.relative(__dirname, pkg.location);
     /* Absolute path to input file */
     const input = path.join(__dirname, basePath, 'src/index.js');
-    config.push({
+    const esmConfig = {
       input,
       output: [
         {
@@ -50,17 +45,13 @@ export default async () => {
           sourcemap: true,
           globals,
         },
-        // {
-        //   file: path.join(__dirname, basePath, 'lib', 'index.es.js'),
-        //   format: 'esm'
-        // }
       ],
       external: Object.keys(globals),
       plugins: [
         peerDepsExternal({
           packageJsonPath: path.join(__dirname, basePath, 'package.json'),
         }),
-        nodeResolve(nodeOptions),
+        nodeResolve(),
         postcss({
           extract: false,
           plugins: [autoprefixer()],
@@ -74,15 +65,18 @@ export default async () => {
         }),
         commonjs({
           ignoreGlobal: true,
-          // if false then skip sourceMap generation for CommonJS modules
-          sourceMap: true, // Default: true
+          sourceMap: true,
           namedExports: {
             './node_modules/react-is/index.js': ['isValidElementType'],
           },
         }),
         json(),
       ],
-    });
+    };
+    if (process.env.NODE_ENV === 'production') {
+      esmConfig.plugins.push(terser());
+    }
+    config.push(esmConfig);
   });
   return config;
 };

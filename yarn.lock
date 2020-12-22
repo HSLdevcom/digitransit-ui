@@ -1826,6 +1826,20 @@
   resolved "https://registry.yarnpkg.com/@hsl-fi/icons/-/icons-0.2.3.tgz#d15356d05bad57b96a641eedd0f9b020c90c6861"
   integrity sha512-0Y9e1Dsx3M/WSvk0CrAtiJO8wG2ZKL8CAnJA6ylQgxc1DMP/Xck0EqOg0f3rc1VDGKSVxxjeIi/0OFCoPny6pQ==
 
+"@hsl-fi/modal@0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/modal/-/modal-0.1.8.tgz#df89f7e33e012c1046b83fdcfa2d88b40812149a"
+  integrity sha512-jYh4Ybdn0PS3ugPrDfsZppvl6ze8AzDY2XUh2xlkOTHEyAICsLVzz8zgRF4qShj7u6E0tRVPr93lTZJaGAVkTQ==
+  dependencies:
+    "@hsl-fi/hooks" "^0.2.0"
+    "@hsl-fi/icons" "^0.2.1"
+    react-modal "^3.11.2"
+
+"@hsl-fi/sass@0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/sass/-/sass-0.1.1.tgz#b120d36f7a089343c3cba256d9f9a3972b78ba64"
+  integrity sha512-tzf2A5NBJF/p7HFIzi//uTKYVrMGgNgRlK0eG65UW6Q2LJ+TPRUep7WUx+MeACZ7HQJw2Q4lfPj149zUfJSzlw==
+
 "@hsl-fi/shared-local-storage@0.3.0":
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@hsl-fi/shared-local-storage/-/shared-local-storage-0.3.0.tgz#1f6080ebecd660916a96dbac4a1949b982d7ec7e"
@@ -7752,6 +7766,11 @@ execall@^2.0.0:
   dependencies:
     clone-regexp "^2.1.0"
 
+exenv@^1.2.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
+  integrity sha1-KueOhdmJQVhnCwPUe+wfA72Ru50=
+
 exif-parser@^0.1.9:
   version "0.1.12"
   resolved "https://registry.yarnpkg.com/exif-parser/-/exif-parser-0.1.12.tgz#58a9d2d72c02c1f6f02a0ef4a9166272b7760922"
@@ -10980,7 +10999,7 @@ iterate-value@^1.0.0:
     es-get-iterator "^1.0.2"
     iterate-iterator "^1.0.1"
 
-jest-worker@^26.3.0:
+jest-worker@^26.2.1, jest-worker@^26.3.0:
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-26.6.2.tgz#7f72cbc4d643c365e27b9fd775f9d0eaa9c7a8ed"
   integrity sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==
@@ -15176,7 +15195,7 @@ prop-types-exact@^1.2.0:
     object.assign "^4.1.0"
     reflect.ownkeys "^0.2.0"
 
-prop-types@15.7.2, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@15.7.2, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -15584,10 +15603,20 @@ react-leaflet@2.7.0:
     hoist-non-react-statics "^3.3.2"
     warning "^4.0.3"
 
-react-lifecycles-compat@^3.0.2:
+react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.2:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-modal@^3.11.2:
+  version "3.12.1"
+  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.12.1.tgz#38c33f70d81c33d02ff1ed115530443a3dc2afd3"
+  integrity sha512-WGuXn7Fq31PbFJwtWmOk+jFtGC7E9tJVbFX0lts8ZoS5EPi9+WWylUJWLKKVm3H4GlQ7ZxY7R6tLlbSIBQ5oZA==
+  dependencies:
+    exenv "^1.2.0"
+    prop-types "^15.5.10"
+    react-lifecycles-compat "^3.0.0"
+    warning "^4.0.3"
 
 react-motion@0.5.2:
   version "0.5.2"
@@ -16654,6 +16683,16 @@ rollup-plugin-postcss@4.0.0:
     rollup-pluginutils "^2.8.2"
     safe-identifier "^0.4.2"
     style-inject "^0.3.0"
+
+rollup-plugin-terser@7.0.2:
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-terser/-/rollup-plugin-terser-7.0.2.tgz#e8fbba4869981b2dc35ae7e8a502d5c6c04d324d"
+  integrity sha512-w3iIaU4OxcF52UUXiZNsNeuXIMDvFrr+ZXK6bFZ0Q60qyVfq4uLptoS4bbq3paG3x216eQllFZX7zt6TIImguQ==
+  dependencies:
+    "@babel/code-frame" "^7.10.4"
+    jest-worker "^26.2.1"
+    serialize-javascript "^4.0.0"
+    terser "^5.0.0"
 
 rollup-pluginutils@^2.8.1, rollup-pluginutils@^2.8.2:
   version "2.8.2"
