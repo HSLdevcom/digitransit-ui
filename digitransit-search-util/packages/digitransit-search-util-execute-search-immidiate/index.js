@@ -303,6 +303,7 @@ export function getSearchResults(
           'focus.point.lon': position.lon.toFixed(2),
         }
       : {};
+  const mode = transportMode ? transportMode.split('-')[1] : undefined;
   if (
     targets.includes('CurrentPosition') &&
     position.status !== 'geolocation-not-supported'
@@ -376,7 +377,7 @@ export function getSearchResults(
           URL_PELIAS_PLACE,
         ).then(results => {
           if (filterResults) {
-            return filterResults(results, 'Stops');
+            return filterResults(results, mode);
           }
           return results;
         });
@@ -387,7 +388,7 @@ export function getSearchResults(
           )
           .then(results => {
             if (filterResults) {
-              return filterResults(results, 'Stops');
+              return filterResults(results, mode);
             }
             return results;
           });
@@ -413,7 +414,7 @@ export function getSearchResults(
           geocodingLayers,
         ).then(results => {
           if (filterResults) {
-            return filterResults(results, 'Stops');
+            return filterResults(results, mode);
           }
           return results;
         }),
@@ -442,7 +443,7 @@ export function getSearchResults(
         }
         searchComponents.push(
           getOldSearches(stopHistory, input, dropLayers).then(result =>
-            filterResults ? filterResults(result, 'Stops') : result,
+            filterResults ? filterResults(result, mode) : result,
           ),
         );
       } else {
@@ -454,7 +455,6 @@ export function getSearchResults(
   if (allTargets || targets.includes('Routes')) {
     if (sources.includes('Favourite')) {
       const favouriteRoutes = getFavouriteRoutes(context);
-      const mode = transportMode ? transportMode.split('-')[1] : undefined;
       searchComponents.push(
         getFavouriteRoutesQuery(
           favouriteRoutes,
@@ -462,13 +462,13 @@ export function getSearchResults(
           mode,
           pathOpts,
         ).then(result =>
-          filterResults ? filterResults(result, 'Routes') : result,
+          filterResults ? filterResults(result, mode, 'Routes') : result,
         ),
       );
     }
     searchComponents.push(
       getRoutesQuery(input, feedIDs, transportMode, pathOpts).then(result =>
-        filterResults ? filterResults(result, 'Routes') : result,
+        filterResults ? filterResults(result, mode, 'Routes') : result,
       ),
     );
     if (allSources || sources.includes('History')) {
@@ -492,7 +492,7 @@ export function getSearchResults(
       dropLayers.push(...locationLayers);
       searchComponents.push(
         getOldSearches(routeHistory, input, dropLayers).then(results =>
-          filterResults ? filterResults(results, 'Routes') : results,
+          filterResults ? filterResults(results, mode, 'Routes') : results,
         ),
       );
     }

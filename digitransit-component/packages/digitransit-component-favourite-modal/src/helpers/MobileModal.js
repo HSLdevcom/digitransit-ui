@@ -30,7 +30,7 @@ const MobileModal = ({
       </div>
       <div className={styles['favourite-modal-mobile-main']}>
         <div className={styles['favourite-modal-mobile-location-search']}>
-          <p className="sr-only">{requiredText}</p>
+          <p className={styles['sr-only']}>{requiredText}</p>
           {autosuggestComponent}
         </div>
         <input
@@ -42,7 +42,7 @@ const MobileModal = ({
       </div>
       <div className={styles['favourite-modal-mobile-text']}>
         {chooseIconText}
-        <p className="sr-only">{requiredText}</p>
+        <p className={styles['sr-only']}>{requiredText}</p>
       </div>
       <div className={styles['favourite-modal-mobile-icons']}>
         {favouriteIconTable}

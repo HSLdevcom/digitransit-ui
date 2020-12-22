@@ -17,6 +17,9 @@ describe('<AppBarHsl />', () => {
         },
         config: {
           allowLogin: false,
+          URL: {
+            ROOTLINK: 'http://www.foo.com',
+          },
         },
       },
     });

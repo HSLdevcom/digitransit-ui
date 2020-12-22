@@ -1,34 +1,33 @@
 @import '~@hsl-fi/sass/colors';
 @import '~@hsl-fi/sass/mixins/screen';
 @import '~@hsl-fi/sass/mixins/text';
-  /* stylelint-disable */ 
-  .text {
-    display: flex;
-    line-height: 1;
-    font-size: 18px;
-    padding-left: 13px;
-    font-weight: 500;
-    letter-spacing: -0.67px;
-    color: #333333;
-    margin-top: 0;
+/* stylelint-disable */
+.text {
+  display: flex;
+  line-height: 1;
+  font-size: 18px;
+  padding-left: 15px;
+  font-weight: 500;
+  letter-spacing: -0.67px;
+  color: #333333;
+  margin-top: 1px;
+  margin-left: -1px;
 
-    @include min-width(tablet) {
-      font-size: 20px;
-    }
-
+  @include min-width(tablet) {
+    font-size: 20px;
   }
 
-  .banner {
-    cursor: pointer;
-    display: flex;
-    margin-top: 0;
-    padding: 9px 13px 9px 15px;
-    justify-content: space-between;
-  }
+}
 
-  .caution {
-    margin-top: 0;
+.banner {
+  cursor: pointer;
+  display: flex;
+  margin-top: 0;
+  padding: 6px 13px 6px 16px;
+  justify-content: space-between;
+}
 
-      display: flex;
-  }
-  
+.caution {
+  margin-top: 0;
+  display: flex;
+}

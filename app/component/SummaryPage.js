@@ -15,7 +15,6 @@ import polyline from 'polyline-encoded';
 import { FormattedMessage } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
-import { connectToStores } from 'fluxible-addons-react';
 import isEmpty from 'lodash/isEmpty';
 import SunCalc from 'suncalc';
 import storeOrigin from '../action/originActions';
@@ -43,12 +42,7 @@ import { itineraryHasCancelation } from '../util/alertUtils';
 import triggerMessage from '../util/messageUtils';
 import MessageStore from '../store/MessageStore';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import {
-  otpToLocation,
-  addressToItinerarySearch,
-  getIntermediatePlaces,
-} from '../util/otpStrings';
-import { startLocationWatch } from '../action/PositionActions';
+import { otpToLocation, getIntermediatePlaces } from '../util/otpStrings';
 import { SettingsDrawer } from './SettingsDrawer';
 
 import {
@@ -1453,6 +1447,7 @@ class SummaryPage extends React.Component {
                   temperature: res[0].ParameterValue,
                   windSpeed: res[1].ParameterValue,
                   weatherHash,
+                  time,
                   // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
                   iconId: this.checkDayNight(
                     res[2].ParameterValue,
@@ -2377,54 +2372,8 @@ SummaryPageWithBreakpoint.description = (
   </ComponentUsageExample>
 );
 
-// Handle geolocationing when url contains POS as origin/destination
-const PositioningWrapper = connectToStores(
-  SummaryPageWithBreakpoint,
-  ['PositionStore'],
-  (context, props) => {
-    const { from, to } = props.match.params;
-    if (from !== 'POS' && to !== 'POS') {
-      return props;
-    }
-
-    const locationState = context.getStore('PositionStore').getLocationState();
-    if (locationState.locationingFailed) {
-      // Error message is displayed by locationing message bar
-      return { ...props, loadingPosition: false };
-    }
-
-    if (
-      locationState.isLocationingInProgress ||
-      locationState.isReverseGeocodingInProgress
-    ) {
-      return { ...props, loadingPosition: true };
-    }
-
-    if (locationState.hasLocation) {
-      const locationForUrl = addressToItinerarySearch(locationState);
-      const newFrom = from === 'POS' ? locationForUrl : from;
-      const newTo = to === 'POS' ? locationForUrl : to;
-      const newLocation = {
-        ...props.match.location,
-        pathname: getRoutePath(newFrom, newTo),
-      };
-      props.router.replace(newLocation);
-      return { ...props, loadingPosition: false };
-    }
-
-    // locationing not started...
-    context.executeAction(startLocationWatch);
-    return { ...props, loadingPosition: true };
-  },
-);
-
-PositioningWrapper.contextTypes = {
-  ...PositioningWrapper.contextTypes,
-  executeAction: PropTypes.func.isRequired,
-};
-
 const containerComponent = createRefetchContainer(
-  PositioningWrapper,
+  SummaryPageWithBreakpoint,
   {
     viewer: graphql`
       fragment SummaryPage_viewer on QueryType

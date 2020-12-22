@@ -47,8 +47,8 @@ function getSuggestionContent(item) {
     let suggestionType;
     /* eslint-disable-next-line prefer-const */
     let [name, label] = getNameLabel(item.properties, true);
-    if (label === 'bike-rental-station') {
-      suggestionType = i18next.t(label);
+    if (item.properties.layer.toLowerCase().includes('bikerental')) {
+      suggestionType = i18next.t('bikerentalstation');
       const stopCode = item.properties.labelId;
       return [suggestionType, name, undefined, stopCode];
     }
@@ -396,8 +396,7 @@ class DTAutosuggest extends React.Component {
     ) {
       return '';
     }
-    const value = getLabel(suggestion.properties);
-    return value;
+    return getLabel(suggestion.properties);
   };
 
   checkPendingSelection = () => {
@@ -669,7 +668,7 @@ class DTAutosuggest extends React.Component {
       }
       label = label.concat(getSuggestionContent(this.state.suggestions[0]));
     }
-    return label ? label.join(' - ') : '';
+    return [...new Set(label)].join(' - ');
   };
 
   clearOldSearches = () => {
@@ -746,7 +745,11 @@ class DTAutosuggest extends React.Component {
     });
     return (
       <React.Fragment>
-        <span className={styles['sr-only']} role="alert">
+        <span
+          className={styles['sr-only']}
+          role={this.state.typing ? undefined : 'alert'}
+          aria-hidden={!this.state.editing}
+        >
           {ariaSuggestionLen}
         </span>
         <span

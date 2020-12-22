@@ -4,17 +4,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
 import moment from 'moment';
-import LazilyLoad, { importLazy } from './LazilyLoad';
+import SiteHeader from '@hsl-fi/site-header';
+import SharedLocalStorageObserver from '@hsl-fi/shared-local-storage';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { setLanguage } from '../action/userPreferencesActions';
-
-const modules = {
-  SiteHeader: () => importLazy(import('@hsl-fi/site-header')),
-  SharedLocalStorageObserver: () =>
-    importLazy(import('@hsl-fi/shared-local-storage')),
-};
 
 const clearStorages = context => {
   clearOldSearches(context);
@@ -93,22 +88,18 @@ const AppBarHsl = ({ lang, user }, context) => {
         }
       : {};
   return (
-    <LazilyLoad modules={modules}>
-      {({ SiteHeader, SharedLocalStorageObserver }) => (
-        <>
-          <SharedLocalStorageObserver
-            keys={['saved-searches', 'favouriteStore', 'futureRoutes']}
-            url={config.localStorageEmitter}
-          />
-          <SiteHeader
-            hslFiUrl={config.URL.ROOTLINK}
-            {...userMenu}
-            lang={lang}
-            languageMenu={languages}
-          />
-        </>
-      )}
-    </LazilyLoad>
+    <>
+      <SharedLocalStorageObserver
+        keys={['saved-searches', 'favouriteStore', 'futureRoutes']}
+        url={config.localStorageEmitter}
+      />
+      <SiteHeader
+        hslFiUrl={config.URL.ROOTLINK}
+        {...userMenu}
+        lang={lang}
+        languageMenu={languages}
+      />
+    </>
   );
 };
 

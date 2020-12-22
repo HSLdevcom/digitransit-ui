@@ -1195,7 +1195,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.12.0", "@babel/runtime@^7.12.1", "@babel/runtime@^7.2.0", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.7", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2", "@babel/runtime@^7.9.6":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.2.0", "@babel/runtime@^7.3.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.7", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2", "@babel/runtime@^7.9.6":
   version "7.12.5"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.5.tgz#410e7e487441e1b360c29be715d870d9b985882e"
   integrity sha512-plcc+hbExy3McchJCEQG3knOsuh3HH+Prx1P6cLIkET/0dLuQDEnrT+s27Axgc9bqfsmNUNHfscgMUdBpC9xfg==
@@ -1379,7 +1379,7 @@
     "@digitransit-component/digitransit-component-autosuggest" "1.3.9"
     "@digitransit-component/digitransit-component-icon" "0.0.15"
 
-"@digitransit-component/digitransit-component-autosuggest@1.3.9", "@digitransit-component/digitransit-component-autosuggest@latest":
+"@digitransit-component/digitransit-component-autosuggest@latest":
   version "1.3.9"
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-autosuggest/-/digitransit-component-autosuggest-1.3.9.tgz#3bba21ba4bb7cdf73fca198720719e04ff84f180"
   integrity sha512-dE/L2CDIXDsODgM+nnSB6+nd1LflvySHQa1pULLpKLFJ2r6EUCa6CF7azcIG2mdGTDfHiD3h9tPFcgYOrXGjWg==
@@ -1399,10 +1399,15 @@
   dependencies:
     "@digitransit-component/digitransit-component-icon" "0.0.15"
 
+"@digitransit-component/digitransit-component-dialog-modal@0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-dialog-modal/-/digitransit-component-dialog-modal-0.2.1.tgz#070de51cc1ea1a9b7b26dd28831ad9a2576e7a22"
+  integrity sha512-1njlrNr5d1C4GfGn95gJ0NEiL4Mg4vvUTsraczfum7CJUReUyyv7cNmju1vJLRT91rzv5M7JNl3tsTWQgtj56g==
+
 "@digitransit-component/digitransit-component-favourite-bar@latest":
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-favourite-bar/-/digitransit-component-favourite-bar-0.1.8.tgz#f863976e3f9f5bd752747e5bf5ffb7f3fffde501"
-  integrity sha512-R9QlFTCmhT2A0VTT3cC6ZEjbmL3rkrXrY7MS40AS2wVR4kTAhF9cxn/D5wTfyrH3iQWIJI4yfVnvKHE09ZaSlQ==
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-favourite-bar/-/digitransit-component-favourite-bar-0.1.7.tgz#998f99c6132f743b9ea75217977840450c598b96"
+  integrity sha512-EeZUpAUxK2TNWdshFZXb4TJw5sMiE7Dcv5yYcSJ8zGRsroRobWC+VgtcP7liR+lJOyA1JgAmDdPheNZjA1EozQ==
   dependencies:
     "@digitransit-component/digitransit-component-icon" "0.0.15"
     "@digitransit-component/digitransit-component-suggestion-item" "0.1.3"
@@ -1427,7 +1432,7 @@
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-icon/-/digitransit-component-icon-0.0.15.tgz#27a68f75e9a9c89c1f924cafb37589f33e9d3ef2"
   integrity sha512-aMANJycSCOU9pO+qsu0D+CGemLxlaXB1RRogU2TctijFdaVo8bIDO+K6WCliJBWd+0YSGTyJ2wXKaZHhqAbqxA==
 
-"@digitransit-component/digitransit-component-suggestion-item@0.1.3", "@digitransit-component/digitransit-component-suggestion-item@latest":
+"@digitransit-component/digitransit-component-suggestion-item@latest":
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-suggestion-item/-/digitransit-component-suggestion-item-0.1.3.tgz#092a190628a9a04e158fa783a2a83cfd02767388"
   integrity sha512-tj7/stTlOLSTPEAnVKjGb3Zw8IFDQNBp+2WqMmH5Ypw9kbH9TuWW/pZhkgzF5jHOgPZYutTM0rAy3f9i9iqnoQ==
@@ -1438,40 +1443,6 @@
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-with-breakpoint/-/digitransit-component-with-breakpoint-0.0.4.tgz#af82959c0863bc0aef8252e8fd9bfc7499862bdc"
   integrity sha512-N+ysDfO/124CPI57r6vwzYC6m7US+QseDOqsg8MrLhKDdkW8kXBqOMoYsIfBv8g3ENHwzq9RxoyJUnj5XJPb4Q==
-
-"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@0.2.8":
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-execute-search-immidiate/-/digitransit-search-util-execute-search-immidiate-0.2.8.tgz#1c710fc342ab4896aa464d4fdd2a856a50b5990d"
-  integrity sha512-G6cbMgttIKcSMdGPAAssF8RZIVt1ySQmTR9g6pRAnfqbbM28nss1MrFw9+e+uLQ5BqL5BpXcaFZHLxGyD5V8Dw==
-  dependencies:
-    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input" "0.0.2"
-    "@digitransit-search-util/digitransit-search-util-get-geocoding-results" "0.0.4"
-    "@digitransit-search-util/digitransit-search-util-get-json" "0.0.3"
-    "@digitransit-search-util/digitransit-search-util-helpers" "0.0.12"
-    "@digitransit-search-util/digitransit-search-util-uniq-by-label" "0.0.7"
-    lodash "4.17.14"
-
-"@digitransit-search-util/digitransit-search-util-get-label@0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-get-label/-/digitransit-search-util-get-label-0.0.6.tgz#19bdb2fc7d5add6148e5c637fc0f2526c5c42f5b"
-  integrity sha512-BWW0/6vNutk9e0MLlpzr1zTeZiSyWYQnxmJhg06kmk4gO0TYGWAT7cvPFXblPYoHSBV8CIiOsm8JWMmAd8nPhA==
-  dependencies:
-    "@digitransit-search-util/digitransit-search-util-uniq-by-label" "0.0.7"
-
-"@digitransit-search-util/digitransit-search-util-suggestion-to-location@0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-suggestion-to-location/-/digitransit-search-util-suggestion-to-location-0.0.8.tgz#2237879b5941e8d4e039dc6516c32cf4cab32f56"
-  integrity sha512-+nZ6ozLa3oQ32MDuSbYK+9jBxvAY/KUrTtX/+7vxXrvX6Q2JW/4ozuRgjjxrYXz9+c48WhlNn9K74tdvHYIJgw==
-  dependencies:
-    "@digitransit-search-util/digitransit-search-util-get-label" "0.0.6"
-
-"@digitransit-search-util/digitransit-search-util-uniq-by-label@0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-uniq-by-label/-/digitransit-search-util-uniq-by-label-0.0.7.tgz#6d14bc06ccb5c871c0566556a676ec49ca1276c6"
-  integrity sha512-xAe0ZB1tiPwGpcIbqUpk0MV06mm5sgmUeUmdplMYGY6a/JM53uhXj9ISeeUR0aP9wQWMyzaHy+Y7XRbGl89v4g==
-  dependencies:
-    lodash "^4.17.14"
-    lodash-es "^4.17.14"
 
 "@digitransit-util/digitransit-util-day-range-allowed-diff@1.0.3":
   version "1.0.3"
@@ -1826,7 +1797,7 @@
   resolved "https://registry.yarnpkg.com/@hsl-fi/icons/-/icons-0.2.3.tgz#d15356d05bad57b96a641eedd0f9b020c90c6861"
   integrity sha512-0Y9e1Dsx3M/WSvk0CrAtiJO8wG2ZKL8CAnJA6ylQgxc1DMP/Xck0EqOg0f3rc1VDGKSVxxjeIi/0OFCoPny6pQ==
 
-"@hsl-fi/modal@0.1.8":
+"@hsl-fi/modal@ ^0.1.8":
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/@hsl-fi/modal/-/modal-0.1.8.tgz#df89f7e33e012c1046b83fdcfa2d88b40812149a"
   integrity sha512-jYh4Ybdn0PS3ugPrDfsZppvl6ze8AzDY2XUh2xlkOTHEyAICsLVzz8zgRF4qShj7u6E0tRVPr93lTZJaGAVkTQ==
@@ -1835,7 +1806,7 @@
     "@hsl-fi/icons" "^0.2.1"
     react-modal "^3.11.2"
 
-"@hsl-fi/sass@0.1.1":
+"@hsl-fi/sass@ ^0.1.1":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@hsl-fi/sass/-/sass-0.1.1.tgz#b120d36f7a089343c3cba256d9f9a3972b78ba64"
   integrity sha512-tzf2A5NBJF/p7HFIzi//uTKYVrMGgNgRlK0eG65UW6Q2LJ+TPRUep7WUx+MeACZ7HQJw2Q4lfPj149zUfJSzlw==

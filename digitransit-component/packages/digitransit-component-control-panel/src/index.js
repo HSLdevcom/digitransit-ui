@@ -116,10 +116,17 @@ function NearStopsAndRoutes({
   }, []);
 
   const queryString = origin.queryString || '';
-  const languagePrefix = omitLanguageUrl ? '' : `/${language}`;
+  let urlStart;
+  if (omitLanguageUrl) {
+    urlStart = urlPrefix;
+  } else {
+    const urlParts = urlPrefix.split('/');
+    urlParts.splice(urlParts.length - 1, 0, language);
+    urlStart = urlParts.join('/');
+  }
   const buttons = modes.map(mode => {
     const withAlert = modesWithAlerts.includes(mode.toUpperCase());
-    let url = `${languagePrefix}${urlPrefix}/${mode.toUpperCase()}/POS`;
+    let url = `${urlStart}/${mode.toUpperCase()}/POS`;
     if (origin.set) {
       url += `/${encodeURIComponent(origin.address)}::${origin.lat},${
         origin.lon

@@ -322,7 +322,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   left: -19px !important;
 
   .route-header {
-    height: auto;
+    height: 5em;
     border: none;
 
     h1 {
@@ -572,13 +572,24 @@ div.origin-popup {
     margin: 0px 0px;
   }
 }
+.vehicle-number-container-v-map {
+  position: relative;
+  bottom: 40px;
+  left: 41px;
+  .vehicle-number-map {
+    margin-right: 1.5em;
+    margin-left: 0.3em;
+    mask-image: none;
+    max-width: none;
+  }
+}
 
 .route-header {
   .route-header-trip {
-    top: 0.7em;
+    position: relative;
     height: 1.5em;
     margin-top: 0.2em;
-    margin-left: 0.5em;
+    margin-left: 1.5em;
     font-size: 70%;
     padding: 0.1em 0.4em;
     border: solid 1px $light-gray;
