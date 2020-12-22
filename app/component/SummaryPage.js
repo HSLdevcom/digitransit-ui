@@ -34,7 +34,7 @@ import {
   validateServiceTimeRange,
   getStartTimeWithColon,
 } from '../util/timeUtils';
-import { planQuery } from '../util/queryUtils';
+import { planQuery, moreItinerariesQuery } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
@@ -281,7 +281,6 @@ class SummaryPage extends React.Component {
       loading: false,
       settingsOpen: false,
       bounds: null,
-      alternativePlan: undefined,
       earlierItineraries: [],
       laterItineraries: [],
       previouslySelectedPlan: this.props.viewer && this.props.viewer.plan,
@@ -709,15 +708,12 @@ class SummaryPage extends React.Component {
     );
     // This is to make sure that this query does not trigger the reset of walk/bike and earlier/later
     this.originalPlan = this.props.viewer.plan;
-    fetchQuery(this.props.relayEnvironment, planQuery, planParams).then(
-      ({ plan: results }) => {
-        this.setState({ alternativePlan: results }, () => {
-          this.setLoading(false);
-          this.isFetching = false;
-          this.params = this.context.match.params;
-        });
-      },
-    );
+    this.props.relay.refetch(planParams, null, () => {
+      this.setState({
+        loading: false,
+        usingAlternativeItineraries: true,
+      });
+    });
   };
 
   onLater = (itineraries, reversed) => {
@@ -751,8 +747,7 @@ class SummaryPage extends React.Component {
       return;
     }
 
-    const useDefaultModes =
-      this.planHasNoItineraries() && this.state.alternativePlan;
+    const useDefaultModes = this.state.usingAlternativeItineraries;
 
     const params = preparePlanParams(this.context.config, useDefaultModes)(
       this.context.match.params,
@@ -767,7 +762,7 @@ class SummaryPage extends React.Component {
       date: latestDepartureTime.format('YYYY-MM-DD'),
       time: latestDepartureTime.format('HH:mm'),
     };
-    const query = planQuery;
+    const query = moreItinerariesQuery;
     fetchQuery(this.props.relayEnvironment, query, tunedParams).then(
       ({ plan: result }) => {
         if (reversed) {
@@ -861,8 +856,7 @@ class SummaryPage extends React.Component {
       return;
     }
 
-    const useDefaultModes =
-      this.planHasNoItineraries() && this.state.alternativePlan;
+    const useDefaultModes = this.state.usingAlternativeItineraries;
 
     const params = preparePlanParams(this.context.config, useDefaultModes)(
       this.context.match.params,
@@ -877,7 +871,7 @@ class SummaryPage extends React.Component {
       date: earliestArrivalTime.format('YYYY-MM-DD'),
       time: earliestArrivalTime.format('HH:mm'),
     };
-    const query = planQuery;
+    const query = moreItinerariesQuery;
     fetchQuery(this.props.relayEnvironment, query, tunedParams).then(
       ({ plan: result }) => {
         if (result.itineraries.length === 0) {
@@ -1041,7 +1035,6 @@ class SummaryPage extends React.Component {
         separatorPosition: undefined,
         earlierItineraries: [],
         laterItineraries: [],
-        alternativePlan: undefined,
         weatherData: {},
       });
     }
@@ -1470,6 +1463,7 @@ class SummaryPage extends React.Component {
               this.props.relay.refetch(planParams, null, () => {
                 this.setState({
                   loading: false,
+                  usingAlternativeItineraries: false,
                 });
               });
             },
@@ -1526,7 +1520,7 @@ class SummaryPage extends React.Component {
       planHasNoItineraries &&
       userHasChangedModes(this.context.config) &&
       !this.isFetching &&
-      (!this.state.alternativePlan ||
+      (!this.state.usingAlternativeItineraries ||
         (this.paramsHaveChanged() &&
           !isEqual(
             this.props.viewer && this.props.viewer.plan,
@@ -1536,10 +1530,6 @@ class SummaryPage extends React.Component {
       this.isFetching = true;
       this.makeQueryWithAllModes();
     }
-    const hasAlternativeItineraries =
-      this.state.alternativePlan &&
-      this.state.alternativePlan.itineraries &&
-      this.state.alternativePlan.itineraries.length > 0;
 
     this.bikeAndPublicItinerariesToShow = 0;
     this.bikeAndParkItinerariesToShow = 0;
@@ -1589,8 +1579,6 @@ class SummaryPage extends React.Component {
         bikeParkPlan.itineraries.length,
         3,
       );
-    } else if (planHasNoItineraries && hasAlternativeItineraries) {
-      this.selectedPlan = this.state.alternativePlan;
     } else {
       this.selectedPlan = plan;
     }
@@ -1653,7 +1641,7 @@ class SummaryPage extends React.Component {
 
     if (
       !isEqual(this.selectedPlan, this.state.previouslySelectedPlan) &&
-      this.selectedPlan !== this.state.alternativePlan
+      !this.state.usingAlternativeItineraries
     ) {
       // Remove earlier/later so that they dont show up in walk/bike/bike+public views
       this.setState({
@@ -1881,9 +1869,7 @@ class SummaryPage extends React.Component {
               bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
               walking={showWalkOptionButton}
               biking={showBikeOptionButton}
-              showAlternativePlan={
-                planHasNoItineraries && hasAlternativeItineraries
-              }
+              showAlternativePlan={this.state.usingAlternativeItineraries}
               separatorPosition={this.state.separatorPosition}
               loading={this.isFetchingWalkAndBike && !error}
               onLater={this.onLater}
@@ -2023,9 +2009,7 @@ class SummaryPage extends React.Component {
             bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
             walking={showWalkOptionButton}
             biking={showBikeOptionButton}
-            showAlternativePlan={
-              planHasNoItineraries && hasAlternativeItineraries
-            }
+            showAlternativePlan={this.state.usingAlternativeItineraries}
             separatorPosition={this.state.separatorPosition}
             loading={this.isFetchingWalkAndBike && !error}
             onLater={this.onLater}
