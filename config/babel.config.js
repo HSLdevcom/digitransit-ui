@@ -39,7 +39,7 @@ module.exports = function (api) {
     ],
     ['inline-react-svg'],
   ];
-  if (process.env.ENV === 'production') {
+  if (process.env.NODE_ENV === 'production') {
     plugins.push(...productionPlugins);
   }
   return {

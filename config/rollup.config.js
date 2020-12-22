@@ -5,6 +5,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import postcss from 'rollup-plugin-postcss';
 import babel from 'rollup-plugin-babel';
 import json from '@rollup/plugin-json';
+import image from '@rollup/plugin-image';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import { terser } from 'rollup-plugin-terser';
 import { getPackages } from '@lerna/project';
@@ -12,21 +13,13 @@ import filterPackages from '@lerna/filter-packages';
 import batchPackages from '@lerna/batch-packages';
 
 async function getSortedPackages() {
+  const scope = process.env.SCOPE;
+  const ignore = process.env.IGNORE;
   const packages = await getPackages(__dirname);
 
-  const filtered = filterPackages(
-    packages,
-    '@digitransit-component/*',
-    '@digitransit-component/digitransit-component',
-    false,
-  );
+  const filtered = filterPackages(packages, scope, ignore, false);
   return batchPackages(filtered).reduce((arr, batch) => arr.concat(batch), []);
 }
-
-const globals = {
-  react: 'React',
-  'react-dom': 'ReactDOM',
-};
 
 export default async () => {
   const config = [];
@@ -43,24 +36,25 @@ export default async () => {
           dir: path.join(__dirname, basePath, 'lib'),
           format: 'esm',
           sourcemap: true,
-          globals,
+          inlineDynamicImports: true,
         },
       ],
-      external: Object.keys(globals),
       plugins: [
         peerDepsExternal({
           packageJsonPath: path.join(__dirname, basePath, 'package.json'),
         }),
-        nodeResolve(),
+        nodeResolve({ browser: true }),
         postcss({
           extract: false,
           plugins: [autoprefixer()],
           modules: true,
           use: ['sass'],
+          config: false,
         }),
+        image(),
         babel({
           runtimeHelpers: true,
-          configFile: './digitransit-component/packages/babel.config.js',
+          configFile: './config/babel.config.js',
           exclude: /node_modules/,
         }),
         commonjs({
