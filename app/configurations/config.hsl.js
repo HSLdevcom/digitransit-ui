@@ -348,14 +348,6 @@ export default {
   showTicketInformation: true,
   ticketInformation: {
     primaryAgencyName: 'HSL',
-    trackingParameters: {
-      'HSL:HSL': {
-        utm_campaign: 'omat-palvelut',
-        utm_content: 'nain-ostat-lipun',
-        utm_medium: 'referral',
-        utm_source: 'reittiopas',
-      },
-    },
   },
 
   maxNearbyStopAmount: 5,

@@ -332,18 +332,6 @@ export default {
     /*
     primaryAgencyName: ...,
     */
-    // UTM parameters (per agency) that should be appended to the agency's
-    // fareUrl when the fareUrl link is shown in the UI.
-    /*
-    trackingParameters: {
-      "agencyGtfsId": {
-        utm_campaign: ...,
-        utm_content: ...,
-        utm_medium: ...,
-        utm_source: ...,
-      }
-    },
-    */
   },
 
   useTicketIcons: false,
