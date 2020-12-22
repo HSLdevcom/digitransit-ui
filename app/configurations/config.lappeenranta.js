@@ -164,7 +164,7 @@ export default configMerger(walttiConfig, {
     header: {
       showZone: true,
     },
-  } /*
+  },
   geoJson: {
     layers: [
       {
@@ -177,5 +177,5 @@ export default configMerger(walttiConfig, {
         isOffByDefault: true,
       },
     ],
-  }, */,
+  },
 });
