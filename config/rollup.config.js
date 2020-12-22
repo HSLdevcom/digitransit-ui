@@ -38,6 +38,7 @@ export default async () => {
           inlineDynamicImports: true,
         },
       ],
+      context: 'self',
       plugins: [
         peerDepsExternal({
           packageJsonPath: path.join(__dirname, basePath, 'package.json'),
