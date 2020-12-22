@@ -132,7 +132,7 @@ class SelectFromMapPageMap extends React.Component {
   };
 
   onClick = e => {
-    const clickedDiv = e.originalEvent.path[0];
+    const clickedDiv = e.originalEvent.target;
     if (clickedDiv.tagName === 'BUTTON') {
       return;
     }
