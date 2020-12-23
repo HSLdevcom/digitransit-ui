@@ -1320,6 +1320,7 @@ const translations = {
     'use-national-service-prefix':
       'We recommend you try the national journey planner, ',
     'use-own-position': 'Use current location',
+    userinfo: 'My information',
     'using-modes': 'I want to travel by',
     'very-likely': 'Very likely',
     'very-unlikely': 'Very unlikely',
@@ -2193,6 +2194,7 @@ const translations = {
     'use-national-service-prefix':
       'Suosittelemme kokeilemaan reittihakua koko maan kattavasta ',
     'use-own-position': 'Käytä nykyistä sijaintia',
+    userinfo: 'Omat tiedot',
     'using-modes': 'Haluan kulkea',
     'very-likely': 'Erittäin todennäköistä',
     'very-unlikely': 'Erittäin epätodennäköistä',
@@ -3829,6 +3831,7 @@ const translations = {
     'use-national-service-prefix':
       'Vi rekommenderar att du använder ruttsökning',
     'use-own-position': 'Använd min position',
+    userinfo: 'Mina uppgifter',
     'using-modes': 'Jag vill åka',
     'very-likely': 'Väldigt sannolikt',
     'very-unlikely': 'Väldigt osannolikt',
