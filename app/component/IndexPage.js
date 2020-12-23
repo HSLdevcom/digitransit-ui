@@ -261,6 +261,7 @@ class IndexPage extends React.Component {
               className="destination"
               placeholder="stop-near-you"
               value=""
+              lang={lang}
               sources={stopAndRouteSearchSources}
               targets={stopAndRouteSearchTargets}
               color={color}
@@ -363,6 +364,7 @@ class IndexPage extends React.Component {
               refPoint={origin}
               className="destination"
               placeholder="stop-near-you"
+              lang={lang}
               value=""
               sources={stopAndRouteSearchSources}
               targets={stopAndRouteSearchTargets}
