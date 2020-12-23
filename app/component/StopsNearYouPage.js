@@ -229,6 +229,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 )}
                 {renderSearch && (
                   <StopsNearYouSearch
+                    lang={this.props.lang}
                     mode={mode}
                     breakpoint={this.props.breakpoint}
                   />
@@ -451,7 +452,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     const { params } = this.props.match;
     const queryString = this.props.queryString || '';
     const { mode } = this.props.match.params;
-
     if (isModalNeeded !== undefined && !isModalNeeded && position) {
       showModal = false;
       proceed = true;

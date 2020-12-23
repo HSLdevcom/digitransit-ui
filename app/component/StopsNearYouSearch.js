@@ -5,7 +5,7 @@ import DTAutoSuggest from '@digitransit-component/digitransit-component-autosugg
 import { filterSearchResultsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import withSearchContext from './WithSearchContext';
 
-function StopsNearYouSearch({ mode, breakpoint }) {
+function StopsNearYouSearch({ mode, breakpoint, lang }) {
   const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
   const isMobile = breakpoint !== 'large';
   const transportMode = `route-${mode}`;
@@ -17,6 +17,7 @@ function StopsNearYouSearch({ mode, breakpoint }) {
           icon="search"
           id="stop-route-station"
           refPoint={origin}
+          lang={lang}
           className="destination"
           placeholder={`stop-near-you-${mode.toLowerCase()}`}
           transportMode={transportMode}
@@ -37,6 +38,7 @@ function StopsNearYouSearch({ mode, breakpoint }) {
 StopsNearYouSearch.propTypes = {
   mode: PropTypes.string.isRequired,
   breakpoint: PropTypes.string.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 export default pure(StopsNearYouSearch);
