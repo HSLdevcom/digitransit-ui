@@ -39,11 +39,6 @@ import { LightenDarkenColor } from '../util/colorUtils';
 
 const debug = d('IndexPage.js');
 
-const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
-const DTAutosuggestPanelWithSearchContext = withSearchContext(
-  DTAutosuggestPanel,
-);
-
 class IndexPage extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
@@ -61,7 +56,7 @@ class IndexPage extends React.Component {
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
     showSpinner: PropTypes.bool.isRequired,
-    lang: PropTypes.string,
+    lang: PropTypes.string.isRequired,
     currentTime: PropTypes.number.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     query: PropTypes.object.isRequired,
@@ -71,7 +66,6 @@ class IndexPage extends React.Component {
 
   static defaultProps = {
     autoSetOrigin: true,
-    lang: 'fi',
   };
 
   constructor(props, context) {
@@ -82,6 +76,7 @@ class IndexPage extends React.Component {
     this.state = {
       // eslint-disable-next-line react/no-unused-state
       pendingCurrentLocation: false,
+      isClient: false,
     };
   }
 
@@ -149,6 +144,11 @@ class IndexPage extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
+    const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
+    const DTAutosuggestPanelWithSearchContext = withSearchContext(
+      DTAutosuggestPanel,
+    );
+
     const { intl, config } = this.context;
     const { trafficNowLink, colors } = config;
     const color = colors.primary;
