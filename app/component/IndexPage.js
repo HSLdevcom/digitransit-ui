@@ -149,6 +149,9 @@ class IndexPage extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
+    if (!this.state.isClient) {
+      return null;
+    }
     const { intl, config } = this.context;
     const { trafficNowLink, colors } = config;
     const color = colors.primary;
@@ -191,7 +194,7 @@ class IndexPage extends React.Component {
         } fullscreen bp-${breakpoint}`}
       >
         <div
-          style={{ display: this.state.isClient ? 'block' : 'none' }}
+          style={{ display: 'block' }}
           className="scrollable-content-wrapper momentum-scroll"
         >
           <CtrlPanel
@@ -289,7 +292,7 @@ class IndexPage extends React.Component {
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         <div
           style={{
-            display: this.state.isClient ? 'block' : 'none',
+            display: 'block',
             backgroundColor: '#ffffff',
           }}
         >
