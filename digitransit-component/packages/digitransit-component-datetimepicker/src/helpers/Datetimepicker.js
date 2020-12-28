@@ -22,9 +22,6 @@ i18next.init({
     escapeValue: false, // not needed for react as it escapes by default
   },
 });
-Object.keys(translations).forEach(lang =>
-  i18next.addResourceBundle(lang, 'translation', translations[lang]),
-);
 
 /**
  * This component renders combobox style inputs for selecting date and time. This is a controlled component, timestamp is the current value of both inputs.
@@ -82,6 +79,12 @@ function Datetimepicker({
   const useDateTimeCombined = isAndroid();
 
   const translationSettings = { lng: lang };
+
+  useEffect(() => {
+    Object.keys(translations).forEach(language =>
+      i18next.addResourceBundle(language, 'translation', translations[lang]),
+    );
+  }, []);
 
   useEffect(() => {
     moment.locale(lang);
