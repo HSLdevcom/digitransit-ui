@@ -90,6 +90,7 @@
       flex-direction: column;
       flex-grow: 1;
       flex-shrink: 0;
+      background: #f4f4f5;
       }
   }
 }
@@ -144,7 +145,6 @@
     }
   }
   .walk-options-container {
-    border-bottom: 10px solid #f4f4f5;
     font-weight: 500;
 
     .walk-option-inner {
@@ -188,14 +188,24 @@
   }
 }
 
+.settings-section {
+  border-bottom: 10px solid #f4f4f5;
+  background:#fff;
+  padding-bottom: 0.5em;
+  .settings-option-container:last-child {
+    border-bottom: 0;
+  }
+  .settings-option-container:not(:last-child) {
+    border-bottom: 1px solid #e3e3e3;
+  }
+  &.compact-settings-section {
+    padding-bottom: 0;
+  }
+}
+
 .settings-option-container {
   padding: 0.5em 1em 0 1em;
-  border-bottom: 10px solid #f4f4f5;
   font-weight: 500;
-
-  & + .settings-option-container {
-    padding-bottom: 0.5em;
-  }
 
   h2 {
     text-transform: none;
@@ -214,9 +224,6 @@
   .mode-option-container:last-child {
     border: none;
   }
-}
-.settings-option-container:nth-of-type(2) {
-  border-bottom: 1px solid #dddddd;
 }
 
 .transport-mode-header {

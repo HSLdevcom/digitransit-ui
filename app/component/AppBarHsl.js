@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import React from 'react';
+import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import moment from 'moment';
 import LazilyLoad, { importLazy } from './LazilyLoad';
@@ -38,7 +39,7 @@ const selectLanguage = (executeAction, lang, router, match) => () => {
 };
 
 const AppBarHsl = ({ lang, user }, context) => {
-  const { executeAction, config, router, match } = context;
+  const { executeAction, config, router, match, intl } = context;
   const { location } = match;
 
   const languages = [
@@ -78,12 +79,18 @@ const AppBarHsl = ({ lang, user }, context) => {
             initials,
             menuItems: [
               {
-                name: 'Omat tiedot',
+                name: intl.formatMessage({
+                  id: 'userinfo',
+                  defaultMessage: 'My information',
+                }),
                 url: `${config.URL.ROOTLINK}/omat-tiedot`,
                 selected: false,
               },
               {
-                name: 'Kirjaudu ulos',
+                name: intl.formatMessage({
+                  id: 'logout',
+                  defaultMessage: 'Logout',
+                }),
                 url: '/logout',
                 selected: false,
                 onClick: () => clearStorages(context),
@@ -118,6 +125,7 @@ AppBarHsl.contextTypes = {
   config: PropTypes.object.isRequired,
   getStore: PropTypes.func.isRequired,
   executeAction: PropTypes.func.isRequired,
+  intl: intlShape.isRequired,
 };
 
 AppBarHsl.propTypes = {
