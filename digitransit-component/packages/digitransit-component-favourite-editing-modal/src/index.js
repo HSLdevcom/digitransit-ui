@@ -9,15 +9,13 @@ import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import omit from 'lodash/omit';
-import loadable from '@loadable/component';
+import ContainerSpinner from '@hsl-fi/container-spinner';
+import Modal from '@hsl-fi/modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import ModalContent from './helpers/ModalContent';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
-
-const ContainerSpinner = loadable(() => import('@hsl-fi/container-spinner'));
-const Modal = loadable(() => import('@hsl-fi/modal'));
 
 i18next.init({
   lng: 'fi',

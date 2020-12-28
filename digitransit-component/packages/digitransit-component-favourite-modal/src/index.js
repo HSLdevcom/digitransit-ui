@@ -5,14 +5,12 @@ import cx from 'classnames';
 import i18next from 'i18next';
 import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
+import Modal from '@hsl-fi/modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
-import loadable from '@loadable/component';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 import DesktopModal from './helpers/DesktopModal';
 import MobileModal from './helpers/MobileModal';
-
-const Modal = loadable(() => import('@hsl-fi/modal'));
 
 i18next.init({
   lng: 'fi',
