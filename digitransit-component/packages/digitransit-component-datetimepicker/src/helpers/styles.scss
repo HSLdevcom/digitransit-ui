@@ -270,6 +270,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 
     .suggestionsContainerOpen {
       position: absolute;
+      background: #fff;
       z-index: index($zindex, 'autosuggest-suggestion-container');
       max-height: 250px;
       overflow-x: hidden;
