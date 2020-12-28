@@ -11,12 +11,51 @@ import { getPackages } from '@lerna/project';
 import filterPackages from '@lerna/filter-packages';
 import batchPackages from '@lerna/batch-packages';
 
+const globals = {
+  react: 'React',
+  'react-dom': 'ReactDOM',
+  classnames: 'cx',
+  'prop-types': 'PropTypes',
+  i18next: 'i18next',
+  'moment-timezone': 'moment',
+  'react-autosuggest': 'Autosuggest',
+  'react-sortablejs': 'reactSortablejs',
+  'react-modal': 'ReactModal',
+  '@hsl-fi/modal': 'Modal',
+  '@hsl-fi/shimmer': 'Shimmer',
+  '@hsl-fi/container-spinner': 'ContainerSpinner',
+  '@digitransit-component/digitransit-component-icon': 'Icon',
+  '@digitransit-component/digitransit-component-autosuggest': 'DTAutosuggest',
+  '@digitransit-component/digitransit-component-dialog-modal': 'DialogModal',
+  '@digitransit-component/digitransit-component-suggestion-item':
+    'SuggestionItem',
+  'lodash/isEmpty': 'isEmpty',
+  'lodash/isEqual': 'isEqual',
+  'lodash/debounce': 'debounce',
+  'lodash/uniqueId': 'uniqueId',
+  'lodash/differenceWith': 'differenceWith',
+  'lodash/escapeRegExp': 'escapeRegExp',
+  'lodash/isNumber': 'isNumber',
+  'lodash/flatten': 'flatten',
+  'lodash/take': 'take',
+  'lodash/isString': 'isString',
+  'lodash/orderBy': 'orderBy',
+  'lodash/uniqWith': 'uniqWith',
+  'lodash/memoize': 'memoize',
+  'lodash/cloneDeep': 'cloneDeep',
+  'lodash/get': 'get',
+};
+
 async function getSortedPackages() {
   const scope = process.env.SCOPE;
   const ignore = process.env.IGNORE;
+  const ignored = [
+    '@digitransit-component/digitransit-component',
+    '@digitransit-component/digitransit-component-with-breakpoint',
+    ignore,
+  ];
   const packages = await getPackages(__dirname);
-
-  const filtered = filterPackages(packages, scope, ignore, false);
+  const filtered = filterPackages(packages, scope, ignored, false);
   return batchPackages(filtered).reduce((arr, batch) => arr.concat(batch), []);
 }
 
@@ -28,14 +67,17 @@ export default async () => {
     const basePath = path.relative(__dirname, pkg.location);
     /* Absolute path to input file */
     const input = path.join(__dirname, basePath, 'src/index.js');
-    const esmConfig = {
+    const buildConfig = {
       input,
       output: [
         {
+          name: pkg.name,
           dir: path.join(__dirname, basePath, 'lib'),
-          format: 'esm',
+          format: 'umd',
           sourcemap: true,
           inlineDynamicImports: true,
+          exports: 'named',
+          globals,
         },
       ],
       context: 'self',
@@ -43,14 +85,7 @@ export default async () => {
         peerDepsExternal({
           packageJsonPath: path.join(__dirname, basePath, 'package.json'),
         }),
-        nodeResolve({ browser: true }),
-        postcss({
-          extract: false,
-          plugins: [autoprefixer()],
-          modules: true,
-          use: ['sass'],
-          config: false,
-        }),
+        nodeResolve(),
         babel({
           runtimeHelpers: true,
           configFile: './config/babel.config.js',
@@ -58,18 +93,26 @@ export default async () => {
         }),
         commonjs({
           ignoreGlobal: true,
+          include: /node_modules/,
           sourceMap: true,
           namedExports: {
             './node_modules/react-is/index.js': ['isValidElementType'],
           },
         }),
+        postcss({
+          extract: false,
+          plugins: [autoprefixer()],
+          modules: true,
+          use: ['sass'],
+          config: false,
+        }),
         json(),
       ],
     };
     if (process.env.NODE_ENV === 'production') {
-      esmConfig.plugins.push(terser());
+      buildConfig.plugins.push(terser());
     }
-    config.push(esmConfig);
+    config.push(buildConfig);
   });
   return config;
 };
