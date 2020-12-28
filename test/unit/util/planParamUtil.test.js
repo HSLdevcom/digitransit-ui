@@ -21,13 +21,6 @@ const config = {
     walk: 'WALK',
     citybike: 'BICYCLE_RENT',
   },
-  streetModes: {
-    walk: {
-      availableForSelection: true,
-      defaultValue: true,
-      icon: 'walk',
-    },
-  },
   transportModes: {
     bus: {
       availableForSelection: true,
@@ -60,6 +53,7 @@ const config = {
     walkSpeed: [0.69, 0.97, 1.2, 1.67, 2.22],
     bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
+  modesWithNoBike: ['BICYCLE_RENT', 'WALK'],
 };
 
 describe('planParamUtil', () => {
@@ -327,6 +321,42 @@ describe('planParamUtil', () => {
     it('should include a modes array', () => {
       const defaultSettings = utils.getDefaultSettings(defaultConfig);
       expect(Array.isArray(defaultSettings.modes)).to.equal(true);
+    });
+  });
+
+  describe('getCurrentSettings', () => {
+    it('current settings should equal default settings if no user set settings', () => {
+      const defaultSettings = utils.getDefaultSettings(defaultConfig);
+      const currentSettings = utils.getCurrentSettings(defaultConfig);
+      expect(defaultSettings).to.deep.equal(currentSettings);
+    });
+
+    it('setting custom settings should make default settings differ from current settings', () => {
+      setCustomizedSettings({
+        modes: ['BUS', 'TRAM', 'FERRY', 'SUBWAY', 'RAIL', 'WALK'],
+      });
+
+      const defaultSettings = utils.getDefaultSettings(defaultConfig);
+      const currentSettings = utils.getCurrentSettings(defaultConfig);
+      expect(defaultSettings).to.not.deep.equal(currentSettings);
+    });
+
+    it('order of set custom settings should not affect default and current settings comparison', () => {
+      const defaultSettings = utils.getDefaultSettings(defaultConfig);
+      setCustomizedSettings({
+        modes: defaultSettings.modes.slice().reverse(),
+      });
+      const currentSettings = utils.getCurrentSettings(defaultConfig);
+      expect(defaultSettings).to.deep.equal(currentSettings);
+    });
+
+    it('unavailable modes should not exist in current settings', () => {
+      setCustomizedSettings({
+        modes: ['BUS', 'WALK', 'FOO'],
+      });
+      const currentSettings = utils.getCurrentSettings(defaultConfig);
+      expect(currentSettings.modes.length).to.equal(2);
+      expect(currentSettings.modes).to.not.contain('FOO');
     });
   });
 });
