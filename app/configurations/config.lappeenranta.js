@@ -40,7 +40,7 @@ export default configMerger(walttiConfig, {
   },
 
   cityBike: {
-    showCityBikes: true,
+    showCityBikes: false,
     capacity: BIKEAVL_UNKNOWN,
     networks: {
       lappeenranta: {
@@ -62,7 +62,7 @@ export default configMerger(walttiConfig, {
 
   transportModes: {
     citybike: {
-      availableForSelection: true,
+      availableForSelection: false,
     },
   },
 
@@ -169,7 +169,7 @@ export default configMerger(walttiConfig, {
     header: {
       showZone: true,
     },
-  },
+  } /*
   geoJson: {
     layers: [
       {
@@ -182,5 +182,5 @@ export default configMerger(walttiConfig, {
         isOffByDefault: true,
       },
     ],
-  },
+  }, */,
 });
