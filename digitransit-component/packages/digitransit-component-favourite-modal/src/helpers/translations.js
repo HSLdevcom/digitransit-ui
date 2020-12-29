@@ -20,6 +20,14 @@ const translations = {
     'input-placeholder': 'Give the name a place (optional)',
     save: 'Save',
     'save-place': 'Save place',
+    'cannot-save-place': 'Cannot save a place without address or icon',
+    place: 'a place',
+    home: 'home',
+    work: 'work',
+    sport: 'sport',
+    school: 'school',
+    shopping: 'shopping',
+    'required-text': 'required field',
   },
   fi: {
     cancel: 'Peruuta',
@@ -31,6 +39,15 @@ const translations = {
     'input-placeholder': 'Anna paikalle nimi (vapaaehtoinen)',
     save: 'Tallenna',
     'save-place': 'Tallenna paikka',
+    'cannot-save-place':
+      'Paikkaa ilman osoitetta tai ikonia ei voida tallentaa',
+    place: 'paikka',
+    home: 'koti',
+    work: 'työ',
+    sport: 'urheilu',
+    school: 'koulu',
+    shopping: 'ostokset',
+    'required-text': 'pakollinen kenttä',
   },
   sv: {
     cancel: 'Avbryt',
@@ -42,6 +59,15 @@ const translations = {
     'input-placeholder': 'Ange platsens namn (frivilligt)',
     save: 'Spara',
     'save-place': 'Spara plats',
+    'cannot-save-place':
+      'Det går inte att spara en plats utan adress eller ikon',
+    place: 'en plats',
+    home: 'hem',
+    work: 'arbete',
+    sport: 'sport',
+    school: 'skola',
+    shopping: 'shoppa',
+    'required-field': 'obligatoriskt fält',
   },
 };
 

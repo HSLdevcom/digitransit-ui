@@ -9,7 +9,9 @@ import AttributionControl from 'react-leaflet/es/AttributionControl';
 import ScaleControl from 'react-leaflet/es/ScaleControl';
 import ZoomControl from 'react-leaflet/es/ZoomControl';
 import L from 'leaflet';
-import { get, isString, isEmpty } from 'lodash';
+import get from 'lodash/get';
+import isString from 'lodash/isString';
+import isEmpty from 'lodash/isEmpty';
 // Webpack handles this by bundling it with the other css files
 import 'leaflet/dist/leaflet.css';
 

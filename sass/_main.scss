@@ -48,9 +48,7 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/visual/index';
 @import '../app/component/departures-table.scss';
 @import '../app/component/quickSettingsPanel';
-@import '../app/component/street-mode-selector-panel.scss';
 @import '../app/component/bubble-dialog';
-@import '../app/component/selectstreetmodedialog.scss';
 @import '../app/component/selectmaplayersdialog';
 @import '../app/component/itinerary-profile';
 @import '~zurb-foundation-5/scss/foundation/components/forms';
@@ -59,6 +57,7 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/streetmodeselectorbutton';
 @import '../app/component/streetmodeselectorshimmer';
 @import '../app/component/ItinerarySummarySubtitle';
+@import '../app/component/weather-details';
 
 /* Modal */
 @import '~foundation-apps/scss/helpers/breakpoints';

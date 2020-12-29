@@ -1,5 +1,6 @@
 /* eslint-disable prefer-template */
 import safeJsonParse from '../util/safeJsonParser';
+import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
@@ -231,7 +232,6 @@ export default {
     },
 
     showZoomControl: true, // DT-3470
-    showStreetModeSelector: true, // DT-3470
     showLayerSelector: true, // DT-3470
     showStopMarkerPopupOnMobile: true, // DT-3470
     showScaleBar: true, // DT-3470
@@ -264,7 +264,7 @@ export default {
     // When should bikeshare availability be rendered in orange rather than green
     fewAvailableCount: 3,
     networks: {},
-    useSpacesAvailable: true,
+    capacity: BIKEAVL_WITHMAX,
   },
 
   // Lowest level for stops and terminals are rendered
@@ -357,10 +357,6 @@ export default {
     airplane: 'AIRPLANE',
     ferry: 'FERRY',
     walk: 'WALK',
-    bicycle: 'BICYCLE',
-    car: 'CAR',
-    car_park: 'CAR_PARK',
-    public_transport: 'WALK',
   },
 
   // Control what transport modes that should be possible to select in the UI
@@ -402,42 +398,8 @@ export default {
     },
   },
 
-  streetModes: {
-    public_transport: {
-      availableForSelection: true,
-      defaultValue: true,
-      exclusive: false,
-      icon: 'bus-withoutBox',
-    },
-
-    walk: {
-      availableForSelection: false,
-      defaultValue: false,
-      exclusive: true,
-      icon: 'walk',
-    },
-
-    bicycle: {
-      availableForSelection: true,
-      defaultValue: false,
-      exclusive: true,
-      icon: 'bicycle-withoutBox',
-    },
-
-    car: {
-      availableForSelection: true,
-      defaultValue: false,
-      exclusive: true,
-      icon: 'car-withoutBox',
-    },
-
-    car_park: {
-      availableForSelection: false,
-      defaultValue: false,
-      exclusive: false,
-      icon: 'car_park-withoutBox',
-    },
-  },
+  // modes that should not coexist with BICYCLE mode
+  modesWithNoBike: ['BICYCLE_RENT', 'WALK'],
 
   moment: {
     relativeTimeThreshold: {
@@ -777,4 +739,6 @@ export default {
 
   /* Option to disable the "next" column of the Route panel as it can be confusing sometimes: https://github.com/mfdz/digitransit-ui/issues/167 */
   displayNextDeparture: true,
+
+  messageBarAlerts: false,
 };

@@ -11,25 +11,16 @@ import {
   isStop,
 } from '@digitransit-search-util/digitransit-search-util-helpers';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
+import { getGTFSId } from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 
 let relayEnvironment = null;
 
 const alertsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsAlertsQuery {
-    alerts(severityLevel: [SEVERE]) {
-      stop {
-        vehicleMode
-        patterns {
-          route {
-            mode
-          }
-        }
-      }
+  query digitransitSearchUtilQueryUtilsAlertsQuery($feedIds: [String!]) {
+    alerts(severityLevel: [SEVERE], feeds: $feedIds) {
       route {
         mode
-        shortName
       }
-      alertHeaderText
       effectiveStartDate
       effectiveEndDate
     }
@@ -188,11 +179,17 @@ export function setRelayEnvironment(environment) {
   relayEnvironment = environment;
 }
 
-export const getModesWithAlerts = currentTime => {
+/**
+ * Get alerts for modes
+ * @param {Number} currentTime Epoch time
+ * @param {Array} feedIds Array of feedId Strings
+ *
+ */
+export const getModesWithAlerts = (currentTime, feedIds = null) => {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
-  return fetchQuery(relayEnvironment, alertsQuery)
+  return fetchQuery(relayEnvironment, alertsQuery, { feedIds })
     .then(res => {
       const modes = res.alerts.map(i => {
         if (
@@ -300,6 +297,7 @@ export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
     .filter(
       item =>
         item.properties.layer === 'station' ||
+        item.properties.layer === 'favouriteStation' ||
         item.properties.type === 'station',
     )
     .map(item => item.gtfsId);
@@ -307,10 +305,11 @@ export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
   const stopIds = stopsToFilter
     .filter(
       item =>
-        item.properties.layer === 'stop' || item.properties.type === 'stop',
+        item.properties.layer === 'stop' ||
+        item.properties.layer === 'favouriteStop' ||
+        item.properties.type === 'stop',
     )
     .map(item => item.gtfsId);
-
   const queries = [];
   if (stopIds.length > 0) {
     queries.push(
@@ -486,4 +485,33 @@ export const withCurrentTime = location => {
       time: query.time ? query.time : moment().unix(),
     },
   };
+};
+/**
+ * Can be used to filter stops and stations by a given mode
+ * @param {*} results search results from geocoding
+ * @param {*} type type of search results to filter, e.g 'Stops' or 'Routes'. This function only filters Stops because routes can be filtered with the query itself
+ * @param {*} mode e.g 'BUS' or 'TRAM'
+ */
+export const filterSearchResultsByMode = (results, mode, type = 'Stops') => {
+  switch (type) {
+    case 'Routes':
+      return results;
+    case 'Stops': {
+      const gtfsIds = results.map(x => {
+        const gtfsId = x.properties.gtfsId
+          ? x.properties.gtfsId
+          : getGTFSId({ id: x.properties.id });
+        if (gtfsId) {
+          return {
+            gtfsId,
+            ...x,
+          };
+        }
+        return null;
+      });
+      return filterStopsAndStationsByMode(compact(gtfsIds), mode);
+    }
+    default:
+      return results;
+  }
 };

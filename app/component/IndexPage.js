@@ -15,7 +15,6 @@ import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
 import saveFutureRoute from '../action/FutureRoutesActions';
 import withSearchContext from './WithSearchContext';
-import { isBrowser } from '../util/browser';
 import {
   getRoutePath,
   parseLocation,
@@ -89,6 +88,8 @@ class IndexPage extends React.Component {
     if (destination) {
       this.context.executeAction(storeDestination, destination);
     }
+    // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
+    this.setState({ isClient: true });
     scrollTop();
   }
 
@@ -110,22 +111,21 @@ class IndexPage extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
+    if (!this.state.isClient) {
+      return null;
+    }
     const { intl, config } = this.context;
     const { trafficNowLink, colors } = config;
     const color = colors.primary;
     const hoverColor = colors.hover || LightenDarkenColor(colors.primary, -20);
     const { breakpoint, destination, origin, lang } = this.props;
     const queryString = this.context.match.location.search;
-    const searchSources =
-      breakpoint !== 'large'
-        ? ['Favourite', 'History', 'Datasource']
-        : ['History', 'Datasource'];
+    const searchSources = ['Favourite', 'History', 'Datasource'];
     const stopAndRouteSearchSources = ['Favourite', 'History', 'Datasource'];
     const locationSearchTargets = [
       'Locations',
       'CurrentPosition',
       'FutureRoutes',
-      'SelectFromOwnLocations',
       'Stops',
     ];
     const stopAndRouteSearchTargets =
@@ -141,6 +141,7 @@ class IndexPage extends React.Component {
     const alertsContext = {
       currentTime: this.props.currentTime,
       getModesWithAlerts,
+      feedIds: config.feedIds,
     };
 
     const showSpinner = false;
@@ -152,7 +153,7 @@ class IndexPage extends React.Component {
         } fullscreen bp-${breakpoint}`}
       >
         <div
-          style={{ display: isBrowser ? 'block' : 'none' }}
+          style={{ display: 'block' }}
           className="scrollable-content-wrapper momentum-scroll"
         >
           <CtrlPanel
@@ -197,6 +198,7 @@ class IndexPage extends React.Component {
                   alertsContext={alertsContext}
                   LinkComponent={Link}
                   origin={originToStopNearYou}
+                  omitLanguageUrl
                 />
               </div>
             ) : (
@@ -218,10 +220,12 @@ class IndexPage extends React.Component {
               className="destination"
               placeholder="stop-near-you"
               value=""
+              lang={lang}
               sources={stopAndRouteSearchSources}
               targets={stopAndRouteSearchTargets}
               color={color}
               hoverColor={hoverColor}
+              fromMap={this.props.fromMap}
             />
             <CtrlPanel.SeparatorLine />
             {!trafficNowLink ||
@@ -244,7 +248,7 @@ class IndexPage extends React.Component {
         {(showSpinner && <OverlayWithSpinner />) || null}
         <div
           style={{
-            display: isBrowser ? 'block' : 'none',
+            display: 'block',
             backgroundColor: '#ffffff',
           }}
         >
@@ -266,6 +270,7 @@ class IndexPage extends React.Component {
                 'CurrentPosition',
                 'MapPosition',
                 'FutureRoutes',
+                'Stops',
               ]}
               disableAutoFocus
               isMobile
@@ -293,6 +298,7 @@ class IndexPage extends React.Component {
                   alertsContext={alertsContext}
                   LinkComponent={Link}
                   origin={originToStopNearYou}
+                  omitLanguageUrl
                 />
               </div>
             ) : (
@@ -313,6 +319,7 @@ class IndexPage extends React.Component {
               refPoint={origin}
               className="destination"
               placeholder="stop-near-you"
+              lang={lang}
               value=""
               sources={stopAndRouteSearchSources}
               targets={stopAndRouteSearchTargets}

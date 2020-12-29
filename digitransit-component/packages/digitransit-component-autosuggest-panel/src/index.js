@@ -113,7 +113,7 @@ ItinerarySearchControl.propTypes = {
  * onSelect() {
  *  return null;  // Define what to do when a suggestion is being selected. None by default.
  *  }
- * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, SelectFromOwnLocations, MapPosition and CurrentPosition. Leave empty to search all targets.
+ * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, MapPosition and CurrentPosition. Leave empty to search all targets.
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches), and Datasource. Leave empty to use all sources.
  * <DTAutosuggestPanel
  *    appElement={appElement} // Required. Root element's id. Needed for react-modal component.
@@ -156,6 +156,7 @@ class DTAutosuggestPanel extends React.Component {
     disableAutoFocus: PropTypes.bool,
     sources: PropTypes.arrayOf(PropTypes.string),
     targets: PropTypes.arrayOf(PropTypes.string),
+    filterResults: PropTypes.func,
     isMobile: PropTypes.bool,
     color: PropTypes.string,
     hoverColor: PropTypes.string,
@@ -171,6 +172,7 @@ class DTAutosuggestPanel extends React.Component {
     lang: 'fi',
     sources: [],
     targets: [],
+    filterResults: undefined,
     disableAutoFocus: false,
     isMobile: false,
     handleViaPointLocationSelected: undefined,
@@ -406,6 +408,7 @@ class DTAutosuggestPanel extends React.Component {
             lang={this.props.lang}
             sources={this.props.sources}
             targets={this.props.targets}
+            filterResults={this.props.filterResults}
             isMobile={this.props.isMobile}
             color={this.props.color}
             hoverColor={this.props.hoverColor}
@@ -480,6 +483,7 @@ class DTAutosuggestPanel extends React.Component {
                       lang={this.props.lang}
                       sources={this.props.sources}
                       targets={this.props.targets}
+                      filterResults={this.props.filterResults}
                       isMobile={this.props.isMobile}
                       color={this.props.color}
                       hoverColor={this.props.hoverColor}
@@ -578,6 +582,7 @@ class DTAutosuggestPanel extends React.Component {
             lang={this.props.lang}
             sources={this.props.sources}
             targets={this.props.targets}
+            filterResults={this.props.filterResults}
             isMobile={this.props.isMobile}
             color={this.props.color}
             hoverColor={this.props.hoverColor}

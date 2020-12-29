@@ -134,6 +134,7 @@ describe('<RouteAlertsRow />', () => {
   it('should render the url', () => {
     const props = {
       url: 'https://www.hsl.fi',
+      description: 'Liirum laarum',
     };
     const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
     expect(wrapper.find('.route-alert-url')).to.have.lengthOf(1);
@@ -152,6 +153,7 @@ describe('<RouteAlertsRow />', () => {
   it("should add the http prefix to the url if it's missing", () => {
     const props = {
       url: 'www.hsl.fi',
+      description: 'Liirum laarum',
     };
     const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
     expect(wrapper.find('.route-alert-url').prop('href')).to.equal(

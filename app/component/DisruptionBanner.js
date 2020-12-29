@@ -34,7 +34,15 @@ class DisruptionBanner extends React.Component {
         alert.route.mode === this.props.mode &&
         isAlertValid(currAlert, this.props.currentTime)
       ) {
-        activeAlerts.push(currAlert);
+        if (
+          !activeAlerts.find(
+            activeAlert =>
+              activeAlert.alertDescriptionText ===
+              currAlert.alertDescriptionText,
+          )
+        ) {
+          activeAlerts.push(currAlert);
+        }
       }
     });
     return activeAlerts;

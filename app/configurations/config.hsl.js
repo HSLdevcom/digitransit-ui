@@ -1,11 +1,11 @@
 /* eslint-disable prefer-template */
+import { BIKEAVL_BIKES } from '../util/citybikes';
+
 const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
-const STATIC_MESSAGE_URL = undefined;
-// process.env.STATIC_MESSAGE_URL || 'https://dev-yleisviesti.digitransit.fi';
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
@@ -115,26 +115,6 @@ export default {
     },
   },
 
-  streetModes: {
-    bicycle: {
-      availableForSelection: true,
-      defaultValue: false,
-      icon: 'biking',
-    },
-
-    car_park: {
-      availableForSelection: true,
-      defaultValue: false,
-      icon: 'car-withoutBox',
-    },
-
-    car: {
-      availableForSelection: false,
-      defaultValue: false,
-      icon: 'car_park-withoutBox',
-    },
-  },
-
   search: {
     /* identify searches for route numbers/labels: bus | train | metro */
     lineRegexp: new RegExp(
@@ -143,7 +123,8 @@ export default {
     ),
   },
 
-  modesWithNoBike: ['BUS', 'TRAM'],
+  // modes that should not coexist with BICYCLE mode
+  modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'BUS', 'TRAM', 'FERRY'],
 
   useSearchPolygon: true,
 
@@ -423,7 +404,6 @@ export default {
     //   },
     // },
   ],
-  staticMessagesUrl: STATIC_MESSAGE_URL,
   geoJson: {
     layers: [
       {
@@ -456,7 +436,6 @@ export default {
 
   map: {
     showZoomControl: true, // DT-3470, DT-3397
-    showStreetModeSelector: false, // DT-3470
     showLayerSelector: false, // DT-3470
     showStopMarkerPopupOnMobile: false, // DT-3470
     showScaleBar: true, // DT-3470, DT-3397
@@ -482,6 +461,7 @@ export default {
 
   cityBike: {
     showCityBikes: false,
+    capacity: BIKEAVL_BIKES,
     networks: {
       smoove: {
         icon: 'citybike',

@@ -231,6 +231,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                   <StopsNearYouSearch
                     mode={mode}
                     breakpoint={this.props.breakpoint}
+                    lang={this.props.lang}
                   />
                 )}
                 {renderRefetchButton && (
@@ -377,12 +378,8 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       <DTAutoSuggestWithSearchContext
         appElement="#app"
         icon="search"
-        sources={['History', 'Datasource', isMobile ? 'Favourite' : '']}
-        targets={[
-          'Locations',
-          !isMobile ? 'SelectFromOwnLocations' : '',
-          'Stops',
-        ]}
+        sources={['History', 'Datasource', 'Favourite']}
+        targets={['Locations', 'Stops']}
         id="origin-stop-near-you"
         placeholder="origin"
         value=""

@@ -41,7 +41,7 @@ const AccessibilityOptionSection = ({ currentSettings }, { executeAction }) => {
         </label>
         <Toggle
           id="settings-toggle-accessibility"
-          toggled={currentSettings.accessibilityOption}
+          toggled={!!currentSettings.accessibilityOption}
           title="accessibility"
           onToggle={() => onToggle()}
         />

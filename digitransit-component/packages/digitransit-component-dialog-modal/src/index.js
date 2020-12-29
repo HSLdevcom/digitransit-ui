@@ -43,7 +43,7 @@ const DialogModal = ({
     <Modal
       appElement={appElement}
       contentLabel={modalAriaLabel}
-      closeButtonLabel={i18next.t('close-favourite-modal')}
+      closeButtonLabel={i18next.t('close-modal')}
       variant="confirmation"
       isOpen={isModalOpen}
       onCrossClick={handleClose}

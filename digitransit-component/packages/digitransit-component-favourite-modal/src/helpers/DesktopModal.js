@@ -20,6 +20,9 @@ const DesktopModal = ({
   cancelSelected,
   color,
   hoverColor,
+  savePlaceText,
+  cantSaveText,
+  requiredText,
 }) => {
   return (
     <div className={styles['favourite-modal-desktop-container']}>
@@ -30,6 +33,7 @@ const DesktopModal = ({
       </div>
       <div className={styles['favourite-modal-desktop-main']}>
         <div className={styles['favourite-modal-desktop-location-search']}>
+          <p className={styles['sr-only']}>{requiredText}</p>
           {autosuggestComponent}
         </div>
         <div className={styles['favourite-modal-desktop-name']}>
@@ -47,6 +51,7 @@ const DesktopModal = ({
       </div>
       <div className={styles['favourite-modal-desktop-text']}>
         {chooseIconText}
+        <p className={styles['sr-only']}>{requiredText}</p>
       </div>
       <div className={styles['favourite-modal-desktop-icons']}>
         {favouriteIconTable}
@@ -64,6 +69,7 @@ const DesktopModal = ({
             '--hover-color': `${hoverColor}`,
           }}
           onClick={saveFavourite}
+          aria-label={`${canSave() ? savePlaceText : cantSaveText}`}
         >
           {saveText}
         </button>
@@ -105,6 +111,9 @@ DesktopModal.propTypes = {
   cancelSelected: PropTypes.func,
   color: PropTypes.string.isRequired,
   hoverColor: PropTypes.string.isRequired,
+  savePlaceText: PropTypes.string.isRequired,
+  cantSaveText: PropTypes.string.isRequired,
+  requiredText: PropTypes.string.isRequired,
 };
 
 DesktopModal.defaultProps = {

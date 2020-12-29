@@ -12,6 +12,7 @@ import { getJson } from '../../util/xhrPromise';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { LightenDarkenColor } from '../../util/colorUtils';
 
+const DESKTOP_BREAKPOINT = 'large';
 let map;
 
 const locationMarkerWithPermanentTooltipModules = {
@@ -38,6 +39,8 @@ class SelectFromMapPageMap extends React.Component {
   };
 
   static propTypes = {
+    // eslint-disable-next-line no-dupe-keys
+    breakpoint: PropTypes.string,
     language: PropTypes.string,
     type: PropTypes.string.isRequired,
     onConfirm: PropTypes.func.isRequired,
@@ -68,22 +71,11 @@ class SelectFromMapPageMap extends React.Component {
     });
   };
 
-  getMapLocation = () => {
+  setAddress = (lat, lon) => {
     const { intl } = this.context;
-    const centerOfMap = map.getCenter();
-    const newBounds = map.getBounds();
-
-    if (
-      this.state.locationOfMapCenter &&
-      this.state.locationOfMapCenter.lat === centerOfMap.lat &&
-      this.state.locationOfMapCenter.lon === centerOfMap.lng
-    ) {
-      return;
-    }
-
     getJson(this.context.config.URL.PELIAS_REVERSE_GEOCODER, {
-      'point.lat': centerOfMap.lat,
-      'point.lon': centerOfMap.lng,
+      'point.lat': lat,
+      'point.lon': lon,
       'boundary.circle.radius': 0.1, // 100m
       lang: this.props.language,
       size: 1,
@@ -98,12 +90,11 @@ class SelectFromMapPageMap extends React.Component {
               ...prevState.locationOfMapCenter,
               address: getLabel(match),
               position: {
-                lat: centerOfMap.lat,
-                lon: centerOfMap.lng,
+                lat,
+                lon,
               },
               onlyCoordinates: false,
             },
-            bounds: newBounds,
           }));
         } else {
           this.setState(prevState => ({
@@ -114,12 +105,11 @@ class SelectFromMapPageMap extends React.Component {
                 defaultMessage: 'Selected location',
               }), // + ', ' + JSON.stringify(centerOfMap.lat).match(/[0-9]{1,3}.[0-9]{6}/) + ' ' + JSON.stringify(centerOfMap.lng).match(/[0-9]{1,3}.[0-9]{6}/),
               position: {
-                lat: centerOfMap.lat,
-                lon: centerOfMap.lng,
+                lat,
+                lon,
               },
               onlyCoordinates: true,
             },
-            bounds: newBounds,
           }));
         }
       },
@@ -131,15 +121,47 @@ class SelectFromMapPageMap extends React.Component {
               defaultMessage: 'Selected location',
             }), // + ', ' + JSON.stringify(centerOfMap.lat).match(/[0-9]{1,3}.[0-9]{6}/) + ' ' + JSON.stringify(centerOfMap.lng).match(/[0-9]{1,3}.[0-9]{6}/),
             position: {
-              lat: centerOfMap.lat,
-              lon: centerOfMap.lng,
+              lat,
+              lon,
             },
             onlyCoordinates: true,
           },
-          bounds: newBounds,
         });
       },
     );
+  };
+
+  onClick = e => {
+    const clickedDiv = e.originalEvent.target;
+    if (clickedDiv.tagName === 'BUTTON') {
+      return;
+    }
+
+    this.setState({
+      locationOfMapCenter: {
+        address: '',
+        position: {
+          lat: e.latlng.lat,
+          lon: e.latlng.lng,
+        },
+      },
+    });
+
+    this.setAddress(e.latlng.lat, e.latlng.lng);
+  };
+
+  getMapLocation = () => {
+    const centerOfMap = map.getCenter();
+
+    if (
+      this.state.locationOfMapCenter &&
+      this.state.locationOfMapCenter.lat === centerOfMap.lat &&
+      this.state.locationOfMapCenter.lon === centerOfMap.lng
+    ) {
+      return;
+    }
+
+    this.setAddress(centerOfMap.lat, centerOfMap.lng);
   };
 
   endDragging = () => {
@@ -156,7 +178,10 @@ class SelectFromMapPageMap extends React.Component {
     if (this.zoomLevel !== map.getZoom()) {
       this.zoomLevel = map.getZoom();
     }
-    this.getMapLocation();
+    const isDesktop = this.props.breakpoint === DESKTOP_BREAKPOINT;
+    if (!isDesktop) {
+      this.getMapLocation();
+    }
   };
 
   createAddress = (address, position) => {
@@ -241,21 +266,29 @@ class SelectFromMapPageMap extends React.Component {
     const { locationOfMapCenter, bounds } = this.state;
 
     const defaultLocation = config.defaultMapCenter || config.defaultEndpoint;
+    const isDesktop = this.props.breakpoint === DESKTOP_BREAKPOINT;
 
     const leafletObjs = [];
-    if (!locationOfMapCenter && type === 'origin') {
+
+    if (!locationOfMapCenter && type === 'origin' && !isDesktop) {
       leafletObjs.push(
         <LocationMarker
           key="fromMarker"
           position={defaultLocation}
           type="from"
+          disabled
         />,
       );
     }
 
-    if (!locationOfMapCenter && type === 'destination') {
+    if (!locationOfMapCenter && type === 'destination' && !isDesktop) {
       leafletObjs.push(
-        <LocationMarker key="toMarker" position={defaultLocation} type="to" />,
+        <LocationMarker
+          key="toMarker"
+          position={defaultLocation}
+          type="to"
+          disabled
+        />,
       );
     }
 
@@ -315,11 +348,18 @@ class SelectFromMapPageMap extends React.Component {
     return (
       <MapContainer
         className="full select-from-map"
-        leafletEvents={{
-          onDrag: this.getCoordinates,
-          onDragend: this.endDragging,
-          onZoomend: this.endZoom,
-        }}
+        leafletEvents={
+          isDesktop
+            ? {
+                onZoomEnd: this.endZoom,
+                onClick: this.onClick,
+              }
+            : {
+                onDrag: this.getCoordinates,
+                onDragend: this.endDragging,
+                onZoomend: this.endZoom,
+              }
+        }
         leafletObjs={leafletObjs}
         lat={positionSelectingFromMap.lat} // {center ? center.lat : from.lat}
         lon={positionSelectingFromMap.lon} // {center ? center.lon : from.lon}

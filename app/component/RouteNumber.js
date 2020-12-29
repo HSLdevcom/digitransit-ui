@@ -112,11 +112,20 @@ function RouteNumber(props, context) {
         )}
         {props.text && (
           <div
-            className={cx('vehicle-number-container-v', {
-              long: hasNoShortName,
-            })}
+            className={cx(
+              'vehicle-number-container-v'.concat(props.card ? '-map' : ''),
+              {
+                long: hasNoShortName,
+              },
+            )}
           >
-            <span className={cx('vehicle-number', mode, { long: longText })}>
+            <span
+              className={cx(
+                'vehicle-number'.concat(props.card ? '-map' : ''),
+                mode,
+                { long: longText },
+              )}
+            >
               {props.text}
             </span>
           </div>
@@ -222,6 +231,7 @@ RouteNumber.propTypes = {
   duration: PropTypes.number,
   isTransitLeg: PropTypes.bool,
   withBicycle: PropTypes.bool,
+  card: PropTypes.bool,
 };
 
 RouteNumber.defaultProps = {
@@ -230,6 +240,7 @@ RouteNumber.defaultProps = {
   badgeText: undefined,
   className: '',
   vertical: false,
+  card: false,
   hasDisruption: false,
   text: '',
   withBar: false,

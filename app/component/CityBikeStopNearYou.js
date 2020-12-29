@@ -31,7 +31,7 @@ const CityBikeStopNearYou = ({ stop }) => {
               <FormattedMessage
                 id="citybike-station"
                 values={{
-                  stationId: stop.stationId,
+                  stationId: stop.name !== stop.stationId ? stop.stationId : '',
                 }}
               />
             </div>

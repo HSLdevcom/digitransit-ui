@@ -2,7 +2,14 @@ import omitBy from 'lodash/omitBy';
 import moment from 'moment';
 import cookie from 'react-cookie';
 
-import { filterModes, getDefaultModes, getModes } from './modeUtils';
+import {
+  filterModes,
+  getDefaultModes,
+  getModes,
+  modesAsOTPModes,
+  getBicycleCompatibleModes,
+  isTransportModeAvailable,
+} from './modeUtils';
 import { otpToLocation, getIntermediatePlaces } from './otpStrings';
 import { getDefaultNetworks } from './citybikes';
 import { getCustomizedSettings } from '../store/localStorage';
@@ -19,7 +26,7 @@ export const getDefaultSettings = config => {
   }
   return {
     ...config.defaultSettings,
-    modes: getDefaultModes(config),
+    modes: getDefaultModes(config).sort(),
     allowedBikeRentalNetworks: getDefaultNetworks(config),
   };
 };
@@ -30,10 +37,22 @@ export const getDefaultSettings = config => {
  * @param {*} config the configuration for the software installation
  * @param {*} query the query part of the current url
  */
-export const getCurrentSettings = config => ({
-  ...getDefaultSettings(config),
-  ...getCustomizedSettings(),
-});
+export const getCurrentSettings = config => {
+  const defaultSettings = getDefaultSettings(config);
+  const customizedSettings = getCustomizedSettings();
+  return {
+    ...defaultSettings,
+    ...customizedSettings,
+    modes: customizedSettings?.modes
+      ? [
+          ...customizedSettings?.modes.filter(mode =>
+            isTransportModeAvailable(config, mode),
+          ),
+          'WALK',
+        ].sort()
+      : defaultSettings.modes,
+  };
+};
 
 function getTicketTypes(settingsTicketType, defaultTicketType) {
   // separator used to be _, map it to : to keep old URLs compatible
@@ -73,8 +92,7 @@ function nullOrUndefined(val) {
 
 function getDisableRemainingWeightHeuristic(modes) {
   let disableRemainingWeightHeuristic;
-  const modesArray = modes ? modes.split(',') : undefined;
-  if (modesArray && modesArray.includes('BICYCLE_RENT')) {
+  if (Array.isArray(modes) && modes.includes('BICYCLE_RENT')) {
     disableRemainingWeightHeuristic = true;
   } else {
     disableRemainingWeightHeuristic = false;
@@ -141,7 +159,7 @@ export const getSettings = config => {
   };
 };
 
-export const preparePlanParams = config => (
+export const preparePlanParams = (config, useDefaultModes) => (
   { from, to },
   {
     location: {
@@ -155,25 +173,20 @@ export const preparePlanParams = config => (
   const intermediatePlaceLocations = getIntermediatePlaces({
     intermediatePlaces,
   });
-  const modesOrDefault = filterModes(
-    config,
-    getModes(config),
-    fromLocation,
-    toLocation,
-    intermediatePlaceLocations,
-  );
+  const modesOrDefault = useDefaultModes
+    ? getDefaultModes(config)
+    : filterModes(
+        config,
+        getModes(config),
+        fromLocation,
+        toLocation,
+        intermediatePlaceLocations,
+      );
   const defaultSettings = { ...getDefaultSettings(config) };
   const allowedBikeRentalNetworksMapped =
     settings.allowedBikeRentalNetworks ||
     defaultSettings.allowedBikeRentalNetworks;
-  const formattedModes = modesOrDefault
-    .split(',')
-    .map(mode => mode.split('_'))
-    .map(modeAndQualifier =>
-      modeAndQualifier.length > 1
-        ? { mode: modeAndQualifier[0], qualifier: modeAndQualifier[1] }
-        : { mode: modeAndQualifier[0] },
-    );
+  const formattedModes = modesAsOTPModes(modesOrDefault);
   const wheelchair =
     getNumberValueOrDefault(settings.accessibilityOption, defaultSettings) ===
     1;
@@ -238,10 +251,12 @@ export const preparePlanParams = config => (
     showBikeAndPublicItineraries:
       !wheelchair &&
       config.showBikeAndPublicItineraries &&
+      modesOrDefault.length > 1 &&
       includeBikeSuggestions,
     showBikeAndParkItineraries:
       !wheelchair &&
       config.showBikeAndParkItineraries &&
+      modesOrDefault.length > 1 &&
       includeBikeSuggestions,
     bikeAndPublicMaxWalkDistance: config.suggestBikeMaxDistance,
     bikeandPublicDisableRemainingWeightHeuristic:
@@ -249,8 +264,7 @@ export const preparePlanParams = config => (
       intermediatePlaceLocations.length > 0,
     bikeAndPublicModes: [
       { mode: 'BICYCLE' },
-      ...(modesOrDefault.indexOf('SUBWAY') !== -1 ? [{ mode: 'SUBWAY' }] : []),
-      ...(modesOrDefault.indexOf('RAIL') !== -1 ? [{ mode: 'RAIL' }] : []),
+      ...modesAsOTPModes(getBicycleCompatibleModes(config, modesOrDefault)),
     ],
     bikeParkModes: [{ mode: 'BICYCLE', qualifier: 'PARK' }, ...formattedModes],
   };

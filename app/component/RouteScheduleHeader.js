@@ -28,8 +28,8 @@ function RouteScheduleHeader({
 
   const fromDisplayName = fromOptions.filter(o => o.value === from)[0]
     .displayName;
-  const toDisplayName = toOptions.filter(o =>
-    o.value === to > maxOptions ? maxOptions : to,
+  const toDisplayName = toOptions.filter(
+    o => o.value === (to > maxOptions ? maxOptions : to),
   )[0].displayName;
 
   const headerLineStyle = {};

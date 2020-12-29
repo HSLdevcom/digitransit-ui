@@ -5,7 +5,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy'; // DT-3182
-import { matchShape, routerShape } from 'found';
+import { matchShape, routerShape, RedirectException } from 'found';
 
 import CallAgencyWarning from './CallAgencyWarning';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
@@ -37,6 +37,7 @@ import {
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import BackButton from './BackButton'; // DT-3472
+import { isBrowser } from '../util/browser';
 
 const Tab = {
   Disruptions: PREFIX_DISRUPTION,
@@ -255,7 +256,11 @@ class RoutePage extends React.Component {
       /* In this case there is little we can do
        * There is no point continuing rendering as it can only
        * confuse user. Therefore redirect to Routes page */
-      router.replace(`/${PREFIX_ROUTES}`);
+      if (isBrowser) {
+        router.replace(`/${PREFIX_ROUTES}`);
+      } else {
+        throw new RedirectException(`/${PREFIX_ROUTES}`);
+      }
       return null;
     }
 
@@ -329,6 +334,7 @@ class RoutePage extends React.Component {
           className={cx('route-container', {
             'bp-large': breakpoint === 'large',
           })}
+          aria-live="polite"
         >
           {breakpoint === 'large' && (
             <BackButton
@@ -355,28 +361,37 @@ class RoutePage extends React.Component {
               gtfsId={route.gtfsId}
             />
           </div>
-          <div className="route-tabs">
-            <a
+          <div className="route-tabs" role="tablist">
+            <button
+              type="button"
               className={cx({ 'is-active': activeTab === Tab.Stops })}
               onClick={() => {
                 this.changeTab(Tab.Stops);
               }}
+              tabIndex={0}
+              role="tab"
+              aria-selected={activeTab === Tab.Stops}
             >
               <div>
                 <FormattedMessage id="stops" defaultMessage="Stops" />
               </div>
-            </a>
-            <a
+            </button>
+            <button
+              type="button"
               className={cx({ 'is-active': activeTab === Tab.Timetable })}
               onClick={() => {
                 this.changeTab(Tab.Timetable);
               }}
+              tabIndex={0}
+              role="tab"
+              aria-selected={activeTab === Tab.Timetable}
             >
               <div>
                 <FormattedMessage id="timetable" defaultMessage="Timetable" />
               </div>
-            </a>
-            <a
+            </button>
+            <button
+              type="button"
               className={cx({
                 activeAlert: hasActiveAlert,
                 'is-active': activeTab === Tab.Disruptions,
@@ -384,6 +399,9 @@ class RoutePage extends React.Component {
               onClick={() => {
                 this.changeTab(Tab.Disruptions);
               }}
+              tabIndex={0}
+              role="tab"
+              aria-selected={activeTab === Tab.Disruptions}
             >
               <div
                 className={`tab-route-disruption ${
@@ -395,7 +413,7 @@ class RoutePage extends React.Component {
                   defaultMessage="Disruptions"
                 />
               </div>
-            </a>
+            </button>
           </div>
           {patternId && (
             <RoutePatternSelect

@@ -42,6 +42,7 @@ export const StreetModeSelectorButton = (
   }
 
   let secondaryIcon;
+  let metroColor;
 
   if (name === 'bikeAndVehicle') {
     const publicModes = plan.itineraries[0].legs.filter(
@@ -50,6 +51,9 @@ export const StreetModeSelectorButton = (
     if (publicModes.length > 0) {
       const firstMode = publicModes[0].mode.toLowerCase();
       secondaryIcon = `icon-icon_${firstMode}`;
+      if (firstMode === 'subway') {
+        metroColor = '#FF6319';
+      }
     }
   }
   return (
@@ -80,7 +84,7 @@ export const StreetModeSelectorButton = (
         </div>
         {name === 'bikeAndVehicle' ? (
           <div className="street-mode-selector-button-icon secondary-icon">
-            <Icon img={secondaryIcon} />
+            <Icon img={secondaryIcon} color={metroColor || ''} />
           </div>
         ) : (
           ''

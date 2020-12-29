@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/HSLdevcom/digitransit-ui.svg?branch=master)](https://travis-ci.org/HSLdevcom/digitransit-ui)
+[![Build](https://github.com/hsldevcom/digitransit-ui/workflows/Process%20next%20push%20or%20pr/badge.svg?branch=next)](https://github.com/HSLdevcom/digitransit-ui/actions)
 [![codecov](https://codecov.io/gh/HSLdevcom/digitransit-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/HSLdevcom/digitransit-ui)
 
 
@@ -18,7 +18,7 @@ However, we also monitor this repository's issues and import them to Jira. You c
 ## Testing
 
 Digitransit-ui is tested to work on the latest and the second latest major versions of Firefox, Chrome, Safari and Edge. Additionally, latest version of IE and couple of latest versions Samsung Internet for Android should work almost optimally. For automated testing we use [Nightwatch](http://nightwatchjs.org/) and [BrowserStack](http://browserstack.com/).
-- Continuous Integration: [https://travis-ci.org/HSLdevcom/digitransit-ui](https://travis-ci.org/HSLdevcom/digitransit-ui)
+- Continuous Integration: [https://github.com/HSLdevcom/digitransit-ui/actions](https://github.com/HSLdevcom/digitransit-ui/actions)
 - BrowserStack (not public): [BrowserStack](http://www.browserstack.com/)
 
 Visual tests are run with Gemini. The images must be created using same browser on same platform to eliminate font rendering issues. We use BrowserStack for that too.

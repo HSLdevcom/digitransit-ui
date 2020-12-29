@@ -1,5 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 import forEach from 'lodash/forEach';
+import { BIKEAVL_UNKNOWN } from './citybikes';
 
 function filterLegStops(leg, filter) {
   if (leg.from.stop && leg.to.stop && leg.trip) {
@@ -241,7 +242,12 @@ export const getCityBikeAvailabilityIndicatorColor = (bikesAvailable, config) =>
  * @param {*} config the configuration for the software installation
  */
 export const getLegBadgeProps = (leg, config) => {
-  if (!leg.rentedBike || !leg.from || !leg.from.bikeRentalStation) {
+  if (
+    !leg.rentedBike ||
+    !leg.from ||
+    !leg.from.bikeRentalStation ||
+    config.cityBike.capacity === BIKEAVL_UNKNOWN
+  ) {
     return undefined;
   }
   const { bikesAvailable } = leg.from.bikeRentalStation || 0;

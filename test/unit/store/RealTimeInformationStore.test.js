@@ -18,6 +18,7 @@ describe('RealtimeInformationStore', () => {
       const data = {
         client: {
           foo: 'bar',
+          end: () => {},
         },
         topics: ['/gtfsrt/vp/test/#'],
       };
@@ -32,6 +33,7 @@ describe('RealtimeInformationStore', () => {
       store.storeClient({
         client: {
           foo: 'bar',
+          end: () => {},
         },
         topics: ['/gtfsrt/vp/test/#'],
       });
@@ -47,6 +49,7 @@ describe('RealtimeInformationStore', () => {
       store.storeClient({
         client: {
           foo: 'bar',
+          end: () => {},
         },
         topics: ['/gtfsrt/vp/test/#'],
       });

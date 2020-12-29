@@ -44,6 +44,7 @@
     "relay": "relay-compiler --src ./. --schema ./build/schema.json",
     "relay-watch": "relay-compiler --src . --schema ./build/schema.json --watch",
     "digitransit-npm-publish": "lerna publish from-package --no-git-tag-version --no-push",
+    "digitransit-npm-autopublish": "lerna publish from-package --no-git-tag-version --no-push -y --no-verify-access",
     "digitransit-search-util-docs": "node -r esm ./digitransit-search-util/scripts/generate-readmes",
     "digitransit-search-util-new-module": "node -r esm ./digitransit-search-util/scripts/create-new-module $1",
     "digitransit-search-util-tests": "lerna run test --scope '@digitransit-search-util/*'",
@@ -115,7 +116,8 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged && git-precommit-checks"
+      "pre-commit": "lint-staged && git-precommit-checks",
+      "pre-push": "yarn run test-unit"
     }
   },
   "dependencies": {
@@ -128,6 +130,8 @@
     "@babel/preset-react": "7.10.4",
     "@babel/register": "7.11.5",
     "@hsl-fi/container-spinner": "0.2.0",
+    "@hsl-fi/modal": " ^0.1.8",
+    "@hsl-fi/sass": " ^0.1.1",
     "@hsl-fi/shared-local-storage": "0.3.0",
     "@hsl-fi/shimmer": "0.1.0",
     "@hsl-fi/site-header": "1.0.2",

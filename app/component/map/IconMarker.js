@@ -65,7 +65,12 @@ export default class IconMarker extends React.Component {
     return [
       this.state.div &&
         createPortal(this.props.icon.element, this.state.div, 'icon'),
-      <Marker key="marker" {...this.props} icon={this.state.icon} />,
+      <Marker
+        key="marker"
+        {...this.props}
+        icon={this.state.icon}
+        keyboard={false}
+      />,
     ];
   }
 }

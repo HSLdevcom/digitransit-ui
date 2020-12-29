@@ -21,6 +21,7 @@ import intializeSearchContext from '../util/DTSearchContextInitializer';
 import SelectFromMapHeader from './SelectFromMapHeader';
 import SelectFromMapPageMap from './map/SelectFromMapPageMap';
 import DTModal from './DTModal';
+import FromMapModal from './FromMapModal';
 import { addressToItinerarySearch } from '../util/otpStrings';
 
 const PATH_OPTS = {
@@ -48,6 +49,7 @@ export default function withSearchContext(WrappedComponent) {
       locationState: PropTypes.object,
       mode: PropTypes.string,
       fromMap: PropTypes.string,
+      isMobile: PropTypes.bool,
     };
 
     constructor(props) {
@@ -243,7 +245,7 @@ export default function withSearchContext(WrappedComponent) {
       } else if (id === 'favourite') {
         return;
       }
-*/
+      */
       if (location.type === 'SelectFromMap') {
         this.setState({ fromMap: id });
       }
@@ -313,11 +315,26 @@ export default function withSearchContext(WrappedComponent) {
         titleId = 'select-from-map-destination';
       }
 
+      if (!this.props.isMobile) {
+        return (
+          <FromMapModal
+            onClose={() => this.setState({ fromMap: undefined })}
+            titleId={titleId}
+          >
+            <SelectFromMapPageMap
+              type={id}
+              onConfirm={this.confirmMapSelection}
+            />
+          </FromMapModal>
+        );
+      }
+
       return (
         <DTModal show>
           <SelectFromMapHeader
             titleId={titleId}
             onBackBtnClick={() => this.setState({ fromMap: undefined })}
+            hideCloseBtn
           />
           <SelectFromMapPageMap
             type={id}

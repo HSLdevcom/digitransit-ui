@@ -67,6 +67,7 @@ function Icon({
   viewBox,
   width,
   dataURI,
+  ariaLabel,
 }) {
   return (
     <span aria-hidden className="icon-container">
@@ -79,6 +80,8 @@ function Icon({
         }}
         viewBox={!omitViewBox ? viewBox : null}
         className={cx('icon', className)}
+        aria-label={ariaLabel}
+        tabIndex={-1}
       >
         {backgroundShape === 'circle' && (
           <circle className="icon-circle" cx="20" cy="20" fill="white" r="20" />
@@ -106,6 +109,7 @@ Icon.propTypes = {
   viewBox: PropTypes.string,
   width: PropTypes.number,
   dataURI: PropTypes.string,
+  ariaLabel: PropTypes.string,
 };
 
 Icon.defaultProps = {
@@ -119,6 +123,7 @@ Icon.defaultProps = {
   omitViewBox: false,
   viewBox: '0 0 40 40',
   width: undefined,
+  ariaLabel: '',
 };
 
 Icon.asString = ({
