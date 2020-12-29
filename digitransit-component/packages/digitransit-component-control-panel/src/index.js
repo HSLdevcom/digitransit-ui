@@ -106,6 +106,9 @@ function NearStopsAndRoutes({
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
   useEffect(() => {
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
     if (alertsContext) {
       alertsContext
         .getModesWithAlerts(alertsContext.currentTime, alertsContext.feedIds)
@@ -235,12 +238,6 @@ class CtrlPanel extends React.Component {
     children: [],
   };
 
-  constructor(props) {
-    super(props);
-    Object.keys(translations).forEach(lang => {
-      i18next.addResourceBundle(lang, 'translation', translations[lang]);
-    });
-  }
   render() {
     const className =
       this.props.position === 'bottom'
