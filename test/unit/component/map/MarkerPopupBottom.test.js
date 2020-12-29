@@ -1,117 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { LeafletProvider } from 'react-leaflet/es/context';
 
 import { mockContext, mockChildContextTypes } from '../../helpers/mock-context';
 import { mountWithIntl } from '../../helpers/mock-intl-enzyme';
 import { mockMatch, mockRouter } from '../../helpers/mock-router';
 
-import MarkerPopupBottom, {
-  Component as MarkerPopupBottomWithoutLeaflet,
-} from '../../../../app/component/map/MarkerPopupBottom';
+import { Component as MarkerPopupBottomWithoutLeaflet } from '../../../../app/component/map/MarkerPopupBottom';
 import { PREFIX_ITINERARY_SUMMARY } from '../../../../app/util/path';
 
 describe('<MarkerPopupBottom />', () => {
-  describe('routeFrom', () => {
-    it('should reset the summaryPageSelected state', () => {
-      const props = {
-        location: {},
-      };
-
-      let callParams;
-      const router = {
-        ...mockRouter,
-        replace: params => {
-          callParams = params;
-        },
-      };
-      const match = {
-        ...mockMatch,
-        location: {
-          ...mockMatch.location,
-          state: {
-            summaryPageSelected: 1,
-          },
-        },
-      };
-
-      let instance;
-      mountWithIntl(
-        <LeafletProvider value={{ map: { closePopup: () => {} } }}>
-          <MarkerPopupBottom
-            {...props}
-            ref={el => {
-              instance = el;
-            }}
-          />
-        </LeafletProvider>,
-        {
-          context: {
-            ...mockContext,
-            match,
-            router,
-          },
-          childContextTypes: mockChildContextTypes,
-        },
-      );
-
-      instance.routeFrom();
-
-      const { state } = callParams;
-      expect(state.summaryPageSelected).to.equal(0);
-    });
-  });
-
-  describe('routeTo', () => {
-    it('should reset the summaryPageSelected state', () => {
-      const props = {
-        location: {},
-      };
-
-      let callParams;
-      const router = {
-        ...mockRouter,
-        replace: params => {
-          callParams = params;
-        },
-      };
-      const match = {
-        ...mockMatch,
-        location: {
-          ...mockMatch.location,
-          state: {
-            summaryPageSelected: 1,
-          },
-        },
-      };
-
-      let instance;
-      mountWithIntl(
-        <LeafletProvider value={{ map: { closePopup: () => {} } }}>
-          <MarkerPopupBottom
-            {...props}
-            ref={el => {
-              instance = el;
-            }}
-          />
-        </LeafletProvider>,
-        {
-          context: {
-            ...mockContext,
-            match,
-            router,
-          },
-          childContextTypes: mockChildContextTypes,
-        },
-      );
-
-      instance.routeTo();
-
-      const { state } = callParams;
-      expect(state.summaryPageSelected).to.equal(0);
-    });
-  });
   it('should render a viapoint button when in route view', () => {
     const props = {
       location: {},

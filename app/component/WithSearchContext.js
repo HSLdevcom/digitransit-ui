@@ -30,7 +30,7 @@ const PATH_OPTS = {
   itinerarySummaryPrefix: PREFIX_ITINERARY_SUMMARY,
 };
 
-export default function withSearchContext(WrappedComponent) {
+export default function withSearchContext(WrappedComponent, selectHandler) {
   class ComponentWithSearchContext extends React.Component {
     static contextTypes = {
       config: PropTypes.object.isRequired,
@@ -268,6 +268,9 @@ export default function withSearchContext(WrappedComponent) {
     };
 
     onSelect = (item, id) => {
+      if (selectHandler) {
+        selectHandler(item, id);
+      }
       // type is destination unless timetable or route was clicked
       let type = 'endpoint';
       switch (item.type) {

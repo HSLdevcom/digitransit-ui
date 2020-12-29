@@ -1,14 +1,10 @@
 import get from 'lodash/get';
-import d from 'debug';
-import moment from 'moment';
 import {
   otpToLocation,
   locationToOTP,
   addressToItinerarySearch,
 } from './otpStrings';
-import { addAnalyticsEvent } from './analyticsUtils';
 
-const debug = d('path.js');
 export const TAB_NEARBY = 'lahellasi';
 export const TAB_FAVOURITES = 'suosikit';
 export const PREFIX_ROUTES = 'linjat';
@@ -142,91 +138,4 @@ export const getHomeUrl = (origin, indexPath) => {
   );
 
   return homeUrl;
-};
-
-/**
-  Figure out how to do routing
-
-  Rules for replace/push:
-  - if on front page and sets 2nd endpoint -> push
-  - if on front page and 1st endpoint -> replace
-  - if on itinerary summary page -> replace
-  - on map/route page -> push
-
-  Resets summaryPageSelected index when required
-  */
-export const navigateTo = ({
-  origin,
-  destination,
-  rootPath,
-  router,
-  base,
-  resetIndex = false,
-}) => {
-  let push;
-  switch (rootPath) {
-    case PREFIX_STOPS:
-    case PREFIX_ROUTES:
-      push = true;
-      break;
-    case PREFIX_ITINERARY_SUMMARY:
-      push = false;
-      break;
-    default:
-      if (origin.ready && destination.ready) {
-        push = true;
-      } else {
-        push = false;
-      }
-      break;
-  }
-
-  let url;
-
-  // Reset selected itinerary index if required
-  if (resetIndex && base.state && base.state.summaryPageSelected) {
-    url = {
-      ...base,
-      state: {
-        ...base.state,
-        summaryPageSelected: 0,
-      },
-      pathname: getPathWithEndpointObjects(origin, destination, rootPath),
-    };
-  } else {
-    url = {
-      ...base,
-      pathname: getPathWithEndpointObjects(origin, destination, rootPath),
-    };
-  }
-
-  debug('url, push', url, push);
-
-  if (!url.query) {
-    url.query = {};
-  }
-  // set time to current time if time is not set and both origin and destination are set
-  if (
-    url.query.time === undefined &&
-    origin.set !== false &&
-    destination.set !== false
-  ) {
-    url.query.time = moment().unix();
-  }
-
-  // clean up temporary parameters
-  delete url.query.fromMap;
-
-  if (push) {
-    router.push(url);
-  } else {
-    router.replace(url);
-  }
-  if (origin && destination && origin.ready && destination.ready) {
-    addAnalyticsEvent({
-      category: 'Itinerary',
-      action: 'ItinerariesSearched',
-      name: null,
-    });
-  }
 };

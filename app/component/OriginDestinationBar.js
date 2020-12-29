@@ -8,7 +8,6 @@ import DTAutosuggestPanel from '@digitransit-component/digitransit-component-aut
 import isEmpty from 'lodash/isEmpty';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import ComponentUsageExample from './ComponentUsageExample';
-import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
 import withSearchContext from './WithSearchContext';
 import SelectFromMapHeader from './SelectFromMapHeader';
 import SelectFromMapPageMap from './map/SelectFromMapPageMap';
@@ -18,6 +17,7 @@ import { getIntermediatePlaces } from '../util/otpStrings';
 import { dtLocationShape } from '../util/shapes';
 import { setViaPoints } from '../action/ViaPointActions';
 import { LightenDarkenColor } from '../util/colorUtils';
+import { getRoutePath } from '../util/path';
 
 const DTAutosuggestPanelWithSearchContext = withSearchContext(
   DTAutosuggestPanel,
@@ -126,14 +126,11 @@ class OriginDestinationBar extends React.Component {
     if (intermediatePlaces.length > 1) {
       location.query.intermediatePlaces.reverse();
     }
-    navigateTo({
-      base: location,
-      origin: this.props.destination,
-      destination: this.props.origin,
-      rootPath: PREFIX_ITINERARY_SUMMARY,
-      router: this.context.router,
-      resetIndex: true,
-    });
+    const newLocation = {
+      ...location,
+      pathname: getRoutePath(this.props.destination, this.props.origin),
+    };
+    this.context.router.replace(newLocation);
   };
 
   render() {

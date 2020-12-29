@@ -13,7 +13,7 @@ import DTAutosuggestPanel from '@digitransit-component/digitransit-component-aut
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
-import saveFutureRoute from '../action/FutureRoutesActions';
+import { saveFutureRoute } from '../action/FutureRoutesActions';
 import withSearchContext from './WithSearchContext';
 import {
   getRoutePath,
@@ -75,6 +75,11 @@ class IndexPage extends React.Component {
     }
     return location;
   };
+
+  constructor(props, context) {
+    super(props, context);
+    this.state = {};
+  }
 
   componentDidMount() {
     const { from, to } = this.context.match.params;
