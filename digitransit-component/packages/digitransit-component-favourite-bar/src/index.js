@@ -6,18 +6,19 @@ import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import escapeRegExp from 'lodash/escapeRegExp';
-import loadable from '@loadable/component';
+import Shimmer from '@hsl-fi/shimmer';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
 import Icon from '@digitransit-component/digitransit-component-icon';
-import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
+import translations from './helpers/translations';
 
-const Shimmer = loadable(() => import('@hsl-fi/shimmer'));
-
-i18next.init({ lng: 'fi', resources: {} });
-
-Object.keys(translations).forEach(lang => {
-  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
 });
 
 const isKeyboardSelectionEvent = event => {
@@ -160,6 +161,9 @@ class FavouriteBar extends React.Component {
     };
     this.expandListRef = React.createRef();
     this.suggestionListRef = React.createRef();
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
   }
 
   componentDidMount() {

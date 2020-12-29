@@ -14,10 +14,14 @@ import { isMobile, isAndroid } from './mobileDetection';
 import dateTimeInputIsSupported from './dateTimeInputIsSupported';
 
 moment.locale('en');
-i18next.init({ lng: 'en', resources: {} });
-Object.keys(translations).forEach(lang =>
-  i18next.addResourceBundle(lang, 'translation', translations[lang]),
-);
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
+});
 
 /**
  * This component renders combobox style inputs for selecting date and time. This is a controlled component, timestamp is the current value of both inputs.
@@ -75,6 +79,12 @@ function Datetimepicker({
   const useDateTimeCombined = isAndroid();
 
   const translationSettings = { lng: lang };
+
+  useEffect(() => {
+    Object.keys(translations).forEach(language =>
+      i18next.addResourceBundle(language, 'translation', translations[lang]),
+    );
+  }, []);
 
   useEffect(() => {
     moment.locale(lang);

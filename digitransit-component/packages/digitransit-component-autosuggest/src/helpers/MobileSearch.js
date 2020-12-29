@@ -3,7 +3,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import cx from 'classnames';
-import Modal from 'react-modal';
+import ReactModal from 'react-modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import Autosuggest from 'react-autosuggest';
@@ -165,14 +165,14 @@ const MobileSearch = ({
   if (id !== 'origin-stop-near-you' && id !== 'favourite') {
     return (
       <div className={styles['fullscreen-root']}>
-        <Modal
+        <ReactModal
           appElement={document ? document.querySelector(appElement) : undefined}
           isOpen
           className={styles['mobile-modal-content']}
           overlayClassName={styles['mobile-modal-overlay']}
         >
           {renderContent()}
-        </Modal>
+        </ReactModal>
         {renderDialogModal()}
       </div>
     );
