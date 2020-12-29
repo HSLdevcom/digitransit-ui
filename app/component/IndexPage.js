@@ -20,6 +20,9 @@ import {
   parseLocation,
   isItinerarySearchObjects,
   PREFIX_NEARYOU,
+  PREFIX_BIKESTATIONS,
+  PREFIX_STOPS,
+  PREFIX_TERMINALS,
 } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
@@ -32,11 +35,6 @@ import scrollTop from '../util/scroll';
 import FavouritesContainer from './FavouritesContainer';
 import DatetimepickerContainer from './DatetimepickerContainer';
 import { LightenDarkenColor } from '../util/colorUtils';
-
-const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
-const DTAutosuggestPanelWithSearchContext = withSearchContext(
-  DTAutosuggestPanel,
-);
 
 class IndexPage extends React.Component {
   static contextTypes = {
@@ -79,6 +77,14 @@ class IndexPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {};
+    this.StopRouteSearch = withSearchContext(
+      DTAutoSuggest,
+      this.onSelectStopRoute,
+    );
+    this.LocationSearch = withSearchContext(
+      DTAutosuggestPanel,
+      this.onSelectLocation,
+    );
   }
 
   componentDidMount() {
@@ -97,6 +103,40 @@ class IndexPage extends React.Component {
     this.setState({ isClient: true });
     scrollTop();
   }
+
+  onSelectStopRoute = item => {
+    if (item.properties && item.properties.link) {
+      this.context.router.push(item.properties.link);
+      return;
+    }
+    let id = item.properties.id ? item.properties.id : item.properties.gtfsId;
+    let path;
+    switch (item.properties.layer) {
+      case 'station':
+      case 'favouriteStation':
+        path = `/${PREFIX_TERMINALS}/`;
+        id = id.replace('GTFS:', '').replace(':', '%3A');
+        break;
+      case 'bikeRentalStation':
+      case 'favouriteBikeRentalStation':
+        path = `/${PREFIX_BIKESTATIONS}/`;
+        id = item.properties.labelId;
+        break;
+      default:
+        path = `/${PREFIX_STOPS}/`;
+        id = id.replace('GTFS:', '').replace(':', '%3A');
+    }
+    const link = path.concat(id);
+    this.context.router.push(link);
+  };
+
+  onSelectLocation = (item, id) => {
+    if (id === 'origin') {
+      this.context.executeAction(storeOrigin, item);
+    } else {
+      this.context.executeAction(storeDestination, item);
+    }
+  };
 
   clickFavourite = favourite => {
     addAnalyticsEvent({
@@ -167,7 +207,7 @@ class IndexPage extends React.Component {
             origin={origin}
             position="left"
           >
-            <DTAutosuggestPanelWithSearchContext
+            <this.locationSearch
               appElement="#app"
               searchPanelText={intl.formatMessage({
                 id: 'where',
@@ -217,7 +257,7 @@ class IndexPage extends React.Component {
                 </h2>
               </div>
             )}
-            <DTAutoSuggestWithSearchContext
+            <this.stopRouteSearch
               appElement="#app"
               icon="search"
               id="stop-route-station"
@@ -258,7 +298,7 @@ class IndexPage extends React.Component {
           }}
         >
           <CtrlPanel instance="hsl" language={lang} position="bottom">
-            <DTAutosuggestPanelWithSearchContext
+            <this.locationSearch
               appElement="#app"
               searchPanelText={intl.formatMessage({
                 id: 'where',
@@ -317,7 +357,7 @@ class IndexPage extends React.Component {
                 </h2>
               </div>
             )}
-            <DTAutoSuggestWithSearchContext
+            <this.stopRouteSearch
               appElement="#app"
               icon="search"
               id="stop-route-station"
