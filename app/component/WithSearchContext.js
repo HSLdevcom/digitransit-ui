@@ -270,6 +270,7 @@ export default function withSearchContext(WrappedComponent, selectHandler) {
     onSelect = (item, id) => {
       if (selectHandler) {
         selectHandler(item, id);
+        return;
       }
       // type is destination unless timetable or route was clicked
       let type = 'endpoint';

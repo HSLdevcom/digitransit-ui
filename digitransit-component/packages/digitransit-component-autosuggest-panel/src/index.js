@@ -11,10 +11,13 @@ import Select from './helpers/Select';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 
-i18next.init({ lng: 'fi', resources: {} });
-
-Object.keys(translations).forEach(lang => {
-  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
 });
 
 export const getEmptyViaPointPlaceHolder = () => ({});
@@ -187,6 +190,9 @@ class DTAutosuggestPanel extends React.Component {
       activeSlackInputs: [],
       refs: [],
     };
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
   }
 
   componentDidMount = () => {
