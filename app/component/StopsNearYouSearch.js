@@ -4,9 +4,11 @@ import { pure } from 'recompose';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import { filterSearchResultsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import withSearchContext from './WithSearchContext';
+// import { getStopRoutePath } from '../util/path';
+
+const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 
 function StopsNearYouSearch({ mode, breakpoint, lang }) {
-  const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
   const isMobile = breakpoint !== 'large';
   const transportMode = `route-${mode}`;
   const searchSources = ['Favourite', 'History', 'Datasource'];

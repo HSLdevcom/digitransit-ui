@@ -17,12 +17,10 @@ import { saveFutureRoute } from '../action/FutureRoutesActions';
 import withSearchContext from './WithSearchContext';
 import {
   getRoutePath,
+  getStopRoutePath,
   parseLocation,
   isItinerarySearchObjects,
   PREFIX_NEARYOU,
-  PREFIX_BIKESTATIONS,
-  PREFIX_STOPS,
-  PREFIX_TERMINALS,
 } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
@@ -105,29 +103,7 @@ class IndexPage extends React.Component {
   }
 
   onSelectStopRoute = item => {
-    if (item.properties && item.properties.link) {
-      this.context.router.push(item.properties.link);
-      return;
-    }
-    let id = item.properties.id ? item.properties.id : item.properties.gtfsId;
-    let path;
-    switch (item.properties.layer) {
-      case 'station':
-      case 'favouriteStation':
-        path = `/${PREFIX_TERMINALS}/`;
-        id = id.replace('GTFS:', '').replace(':', '%3A');
-        break;
-      case 'bikeRentalStation':
-      case 'favouriteBikeRentalStation':
-        path = `/${PREFIX_BIKESTATIONS}/`;
-        id = item.properties.labelId;
-        break;
-      default:
-        path = `/${PREFIX_STOPS}/`;
-        id = id.replace('GTFS:', '').replace(':', '%3A');
-    }
-    const link = path.concat(id);
-    this.context.router.push(link);
+    this.context.router.push(getStopRoutePath(item));
   };
 
   onSelectLocation = (item, id) => {

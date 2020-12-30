@@ -66,6 +66,32 @@ export const getEndpointPath = (origin, destination, indexPath) => {
   ].join('/');
 };
 
+export const getStopRoutePath = searchObj => {
+  if (searchObj.properties && searchObj.properties.link) {
+    return searchObj.properties.link;
+  }
+  let id = searchObj.properties.id
+    ? searchObj.properties.id
+    : searchObj.properties.gtfsId;
+  let path;
+  switch (searchObj.properties.layer) {
+    case 'station':
+    case 'favouriteStation':
+      path = `/${PREFIX_TERMINALS}/`;
+      id = id.replace('GTFS:', '').replace(':', '%3A');
+      break;
+    case 'bikeRentalStation':
+    case 'favouriteBikeRentalStation':
+      path = `/${PREFIX_BIKESTATIONS}/`;
+      id = searchObj.properties.labelId;
+      break;
+    default:
+      path = `/${PREFIX_STOPS}/`;
+      id = id.replace('GTFS:', '').replace(':', '%3A');
+  }
+  return path.concat(id);
+};
+
 /**
  * check is parameters are good for itinerary search
  * @deprecated
