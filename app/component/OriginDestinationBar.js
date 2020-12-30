@@ -16,8 +16,13 @@ import { setIntermediatePlaces } from '../util/queryUtils';
 import { getIntermediatePlaces } from '../util/otpStrings';
 import { dtLocationShape } from '../util/shapes';
 import { setViaPoints } from '../action/ViaPointActions';
+import storeOrigin from '../action/originActions';
+import storeDestination from '../action/destinationActions';
 import { LightenDarkenColor } from '../util/colorUtils';
-import { getRoutePath } from '../util/path';
+import {
+  getPathWithEndpointObjects,
+  PREFIX_ITINERARY_SUMMARY,
+} from '../util/path';
 
 const DTAutosuggestPanelWithSearchContext = withSearchContext(
   DTAutosuggestPanel,
@@ -128,7 +133,32 @@ class OriginDestinationBar extends React.Component {
     }
     const newLocation = {
       ...location,
-      pathname: getRoutePath(this.props.destination, this.props.origin),
+      pathname: getPathWithEndpointObjects(
+        this.props.destination,
+        this.props.origin,
+        PREFIX_ITINERARY_SUMMARY,
+      ),
+    };
+    this.context.router.replace(newLocation);
+  };
+
+  onLocationSelect = (item, id) => {
+    let { origin, destination } = this.props;
+    if (id === 'origin') {
+      origin = item;
+      this.context.executeAction(storeOrigin, item);
+    } else {
+      destination = item;
+      this.context.executeAction(storeDestination, item);
+    }
+    const { location } = this.context.match;
+    const newLocation = {
+      ...location,
+      pathname: getPathWithEndpointObjects(
+        origin,
+        destination,
+        PREFIX_ITINERARY_SUMMARY,
+      ),
     };
     this.context.router.replace(newLocation);
   };
@@ -154,6 +184,7 @@ class OriginDestinationBar extends React.Component {
           addAnalyticsEvent={addAnalyticsEvent}
           updateViaPoints={this.updateViaPoints}
           swapOrder={this.swapEndpoints}
+          selectHandler={this.onLocationSelect}
           sources={[
             'History',
             'Datasource',

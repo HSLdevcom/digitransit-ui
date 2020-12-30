@@ -11,19 +11,19 @@ import TrafficNowLink from '@digitransit-component/digitransit-component-traffic
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
+import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
 import withSearchContext from './WithSearchContext';
 import {
-  getRoutePath,
+  getPathWithEndpointObjects,
   getStopRoutePath,
   parseLocation,
   isItinerarySearchObjects,
   PREFIX_NEARYOU,
 } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
@@ -33,6 +33,9 @@ import scrollTop from '../util/scroll';
 import FavouritesContainer from './FavouritesContainer';
 import DatetimepickerContainer from './DatetimepickerContainer';
 import { LightenDarkenColor } from '../util/colorUtils';
+
+const StopRouteSearch = withSearchContext(DTAutoSuggest);
+const LocationSearch = withSearchContext(DTAutosuggestPanel);
 
 class IndexPage extends React.Component {
   static contextTypes = {
@@ -58,31 +61,9 @@ class IndexPage extends React.Component {
 
   static defaultProps = { lang: 'fi' };
 
-  /* eslint-disable no-param-reassign */
-  processLocation = (locationString, intl) => {
-    let location;
-    if (locationString) {
-      if (location.type === 'CurrentLocation') {
-        location.address = intl.formatMessage({
-          id: 'own-position',
-          defaultMessage: 'Own Location',
-        });
-      }
-    }
-    return location;
-  };
-
   constructor(props, context) {
     super(props, context);
     this.state = {};
-    this.StopRouteSearch = withSearchContext(
-      DTAutoSuggest,
-      this.onSelectStopRoute,
-    );
-    this.LocationSearch = withSearchContext(
-      DTAutosuggestPanel,
-      this.onSelectLocation,
-    );
   }
 
   componentDidMount() {
@@ -107,7 +88,9 @@ class IndexPage extends React.Component {
   };
 
   onSelectLocation = (item, id) => {
-    if (id === 'origin') {
+    if (item.type === 'FutureRoute') {
+      this.context.router.push(createUrl(item));
+    } else if (id === 'origin') {
       this.context.executeAction(storeOrigin, item);
     } else {
       this.context.executeAction(storeDestination, item);
@@ -183,7 +166,7 @@ class IndexPage extends React.Component {
             origin={origin}
             position="left"
           >
-            <this.locationSearch
+            <LocationSearch
               appElement="#app"
               searchPanelText={intl.formatMessage({
                 id: 'where',
@@ -199,6 +182,7 @@ class IndexPage extends React.Component {
               breakpoint="large"
               color={color}
               hoverColor={hoverColor}
+              selectHandler={this.onSelectLocation}
             />
             <div className="datetimepicker-container">
               <DatetimepickerContainer realtime color={color} />
@@ -233,7 +217,7 @@ class IndexPage extends React.Component {
                 </h2>
               </div>
             )}
-            <this.stopRouteSearch
+            <StopRouteSearch
               appElement="#app"
               icon="search"
               id="stop-route-station"
@@ -247,6 +231,7 @@ class IndexPage extends React.Component {
               color={color}
               hoverColor={hoverColor}
               fromMap={this.props.fromMap}
+              selectHandler={this.onSelectStopRoute}
             />
             <CtrlPanel.SeparatorLine />
             {!trafficNowLink ||
@@ -274,7 +259,7 @@ class IndexPage extends React.Component {
           }}
         >
           <CtrlPanel instance="hsl" language={lang} position="bottom">
-            <this.locationSearch
+            <LocationSearch
               appElement="#app"
               searchPanelText={intl.formatMessage({
                 id: 'where',
@@ -299,6 +284,7 @@ class IndexPage extends React.Component {
               fromMap={this.props.fromMap}
               color={color}
               hoverColor={hoverColor}
+              selectHandler={this.onSelectLocation}
             />
             <div className="datetimepicker-container">
               <DatetimepickerContainer realtime color={color} />
@@ -333,7 +319,7 @@ class IndexPage extends React.Component {
                 </h2>
               </div>
             )}
-            <this.stopRouteSearch
+            <StopRouteSearch
               appElement="#app"
               icon="search"
               id="stop-route-station"
@@ -347,6 +333,7 @@ class IndexPage extends React.Component {
               isMobile
               color={color}
               hoverColor={hoverColor}
+              selectHandler={this.onSelectStopRoute}
             />
             <CtrlPanel.SeparatorLine />
             {!trafficNowLink ||
@@ -408,16 +395,14 @@ const IndexPageWithStores = connectToStores(
             lon: destination.lon,
           },
         },
-        arriveBy: this.context.match.location.query.arriveBy
-          ? this.context.match.location.query.arriveBy
-          : false,
-        time: this.context.match.location.query.time,
+        arriveBy: location.query.arriveBy ? location.query.arriveBy : false,
+        time: location.query.time,
       };
-      this.context.executeAction(saveFutureRoute, newRoute);
+      context.executeAction(saveFutureRoute, newRoute);
 
       const newLocation = {
         ...location,
-        pathname: getRoutePath(origin, destination),
+        pathname: getPathWithEndpointObjects(origin, destination, ''),
       };
       props.router.push(newLocation);
     }
