@@ -22,6 +22,7 @@ import {
   parseLocation,
   isItinerarySearchObjects,
   PREFIX_NEARYOU,
+  PREFIX_ITINERARY_SUMMARY,
 } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
@@ -33,6 +34,7 @@ import scrollTop from '../util/scroll';
 import FavouritesContainer from './FavouritesContainer';
 import DatetimepickerContainer from './DatetimepickerContainer';
 import { LightenDarkenColor } from '../util/colorUtils';
+import { isBrowser } from '../util/browser';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
@@ -402,9 +404,26 @@ const IndexPageWithStores = connectToStores(
 
       const newLocation = {
         ...location,
-        pathname: getPathWithEndpointObjects(origin, destination, ''),
+        pathname: getPathWithEndpointObjects(
+          origin,
+          destination,
+          PREFIX_ITINERARY_SUMMARY,
+        ),
       };
       props.router.push(newLocation);
+    }
+
+    const path = getPathWithEndpointObjects(
+      origin,
+      destination,
+      context.config.indexPath,
+    );
+    if (isBrowser && path !== location.pathname) {
+      const newLocation = {
+        ...location,
+        pathname: getPathWithEndpointObjects(origin, destination, ''),
+      };
+      props.router.replace(newLocation);
     }
 
     const newProps = {};
