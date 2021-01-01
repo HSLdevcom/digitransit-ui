@@ -28,7 +28,7 @@ import LocationMarker from './map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import { getWeatherData } from '../util/apiUtils';
 import Loading from './Loading';
-import { getRoutePath } from '../util/path';
+import { getSummaryPath } from '../util/path';
 import {
   validateServiceTimeRange,
   getStartTimeWithColon,
@@ -313,11 +313,11 @@ class SummaryPage extends React.Component {
     const newState = {
       ...this.context.match.location,
     };
-    const basePath = getRoutePath(
+    const basePath = getSummaryPath(
       this.context.match.params.from,
       this.context.match.params.to,
     );
-    const indexPath = `${getRoutePath(
+    const indexPath = `${getSummaryPath(
       this.context.match.params.from,
       this.context.match.params.to,
     )}/${newStreetMode}/`;
@@ -346,11 +346,11 @@ class SummaryPage extends React.Component {
       state: { summaryPageSelected: 0 },
     };
 
-    const basePath = `${getRoutePath(
+    const basePath = `${getSummaryPath(
       this.context.match.params.from,
       this.context.match.params.to,
     )}/`;
-    const indexPath = `${getRoutePath(
+    const indexPath = `${getSummaryPath(
       this.context.match.params.from,
       this.context.match.params.to,
     )}/${newStreetMode}`;
@@ -1255,7 +1255,7 @@ class SummaryPage extends React.Component {
         const newState = {
           ...this.context.match.location,
         };
-        const indexPath = `${getRoutePath(
+        const indexPath = `${getSummaryPath(
           this.context.match.params.from,
           this.context.match.params.to,
         )}`;
