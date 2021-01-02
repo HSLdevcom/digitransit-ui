@@ -47,9 +47,9 @@ export const getItineraryPath = (from, to, idx) =>
 export const isEmpty = s =>
   s === undefined || s === null || s.trim() === '' || s.trim() === '-';
 
-export const getEndpointPath = (origin, destination, indexPath) => {
+export const getIndexPath = (origin, destination, indexPath) => {
   if (isEmpty(origin) && isEmpty(destination)) {
-    return indexPath === '' ? '/' : `/${indexPath}/`;
+    return indexPath === '' ? '/' : `/${indexPath}`;
   }
   if (indexPath === '') {
     return [
@@ -92,15 +92,6 @@ export const getStopRoutePath = searchObj => {
   return path.concat(id);
 };
 
-/**
- * check is parameters are good for itinerary search
- * @deprecated
- */
-export const isItinerarySearch = (origin, destination) => {
-  const isSearch = !isEmpty(origin) && !isEmpty(destination);
-  return isSearch;
-};
-
 export const isItinerarySearchObjects = (origin, destination) => {
   return get(origin, 'address') && get(destination, 'address');
 };
@@ -116,7 +107,7 @@ export const getPathWithEndpointObjects = (origin, destination, rootPath) => {
           addressToItinerarySearch(origin),
           addressToItinerarySearch(destination),
         )
-      : getEndpointPath(
+      : getIndexPath(
           locationToOTP(origin),
           locationToOTP(destination),
           rootPath,
@@ -131,37 +122,19 @@ export const getPathWithEndpointObjects = (origin, destination, rootPath) => {
  */
 export const parseLocation = location => {
   if (isEmpty(location)) {
-    return { set: false, ready: false };
+    return {};
   }
   if (location === 'POS') {
-    return {
-      set: true,
-      ready: false, // state ready=true will only be set when we have the actual position too
-      gps: true,
-    };
+    return { type: 'CurrentLocation' };
   }
   const parsed = otpToLocation(decodeURIComponent(location));
-
-  if (parsed.lat && parsed.lon) {
-    parsed.set = true;
-    parsed.ready = true;
-  } else {
-    parsed.ready = false;
-  }
 
   return parsed;
 };
 
 export const getHomeUrl = (origin, indexPath) => {
   // TODO consider looking at destination too
-  const homeUrl = getPathWithEndpointObjects(
-    origin,
-    {
-      set: false,
-      ready: false,
-    },
-    indexPath,
-  );
+  const homeUrl = getPathWithEndpointObjects(origin, {}, indexPath);
 
   return homeUrl;
 };

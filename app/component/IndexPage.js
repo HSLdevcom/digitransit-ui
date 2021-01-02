@@ -381,7 +381,7 @@ const IndexPageWithStores = connectToStores(
     const destination = context.getStore('DestinationStore').getDestination();
 
     const { location } = props.match;
-    if (isItinerarySearchObjects(origin, destination)) {
+    if (isBrowser && isItinerarySearchObjects(origin, destination)) {
       const newRoute = {
         origin: {
           address: origin.address,
@@ -413,17 +413,19 @@ const IndexPageWithStores = connectToStores(
       props.router.push(newLocation);
     }
 
-    const path = getPathWithEndpointObjects(
-      origin,
-      destination,
-      context.config.indexPath,
-    );
-    if (isBrowser && path !== location.pathname) {
-      const newLocation = {
-        ...location,
-        pathname: getPathWithEndpointObjects(origin, destination, ''),
-      };
-      props.router.replace(newLocation);
+    if (isBrowser) {
+      const path = getPathWithEndpointObjects(
+        origin,
+        destination,
+        context.config.indexPath,
+      );
+      if (path !== location.pathname) {
+        const newLocation = {
+          ...location,
+          pathname: path,
+        };
+        props.router.replace(newLocation);
+      }
     }
 
     const newProps = {};

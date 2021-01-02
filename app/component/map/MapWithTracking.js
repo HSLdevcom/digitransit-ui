@@ -298,8 +298,8 @@ class MapWithTrackingStateHandler extends React.Component {
       positionSet = false;
     } else if (focusPoint) {
       const validPoint =
-        focusPoint.ready &&
-        !focusPoint.gps &&
+        focusPoint.lat &&
+        !focusPoint.type !== 'CurrentLocation' &&
         mapLoaded &&
         !isEqual(focusPoint, previousFocusPoint);
       if (validPoint) {
@@ -311,7 +311,7 @@ class MapWithTrackingStateHandler extends React.Component {
         positionSet = false;
       } else {
         // FocusPoint is valid, but map is not loaded. Set location to focusPoint so that the map renders.
-        location = focusPoint.ready
+        location = focusPoint.lat
           ? focusPoint
           : position.hasLocation
           ? position

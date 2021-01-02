@@ -216,20 +216,18 @@ OriginDestinationBar.description = (
   <React.Fragment>
     <ComponentUsageExample>
       <OriginDestinationBar
-        destination={{ ready: false, set: false }}
+        destination={{}}
         origin={{
           address: 'Messukeskus, Itä-Pasila, Helsinki',
           lat: 60.201415,
           lon: 24.936696,
-          ready: true,
-          set: true,
         }}
         showFavourites
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="with-viapoint">
       <OriginDestinationBar
-        destination={{ ready: false, set: false }}
+        destination={{}}
         location={{
           query: {
             intermediatePlaces: 'Opastinsilta 6, Helsinki::60.199093,24.940536',
@@ -239,8 +237,6 @@ OriginDestinationBar.description = (
           address: 'Messukeskus, Itä-Pasila, Helsinki',
           lat: 60.201415,
           lon: 24.936696,
-          ready: true,
-          set: true,
         }}
         showFavourites
       />

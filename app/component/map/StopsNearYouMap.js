@@ -358,11 +358,7 @@ function StopsNearYouMap(
   // Marker for the search point.
   if (position) {
     leafletObjs.push(getLocationMarker(position));
-  } else if (
-    placeForMarker &&
-    placeForMarker !== 'POS' &&
-    placeForMarker.ready
-  ) {
+  } else if (placeForMarker && placeForMarker !== 'POS' && placeForMarker.lat) {
     leafletObjs.push(getLocationMarker(placeForMarker));
   } else {
     leafletObjs.push(getLocationMarker(context.config.defaultEndpoint));

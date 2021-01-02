@@ -27,13 +27,13 @@ function IndexPageMap({ match, breakpoint, origin, destination }, { config }) {
   let focusPoint;
   let initialZoom = 16; // Focus to the selected point
   const useDefaultLocation =
-    (!origin || !origin.set) && (!destination || !destination.set);
+    (!origin || !origin.lat) && (!destination || !destination.lat);
   if (useDefaultLocation) {
     focusPoint = config.defaultMapCenter || config.defaultEndpoint;
     initialZoom = 12; // Show default area
-  } else if (origin.set && origin.ready && origin.lat && origin.lon) {
+  } else if (origin.lat) {
     focusPoint = origin;
-  } else if (destination.set && destination.ready) {
+  } else if (destination.lat) {
     focusPoint = destination;
   }
 
@@ -67,7 +67,7 @@ function IndexPageMap({ match, breakpoint, origin, destination }, { config }) {
   }
   const leafletObjs = [];
 
-  if (origin && origin.ready === true) {
+  if (origin && origin.lat) {
     leafletObjs.push(
       <LazilyLoad modules={locationMarkerModules} key="from">
         {({ LocationMarker }) => (
@@ -77,7 +77,7 @@ function IndexPageMap({ match, breakpoint, origin, destination }, { config }) {
     );
   }
 
-  if (destination && destination.ready === true) {
+  if (destination && destination.lat) {
     leafletObjs.push(
       <LazilyLoad modules={locationMarkerModules} key="to">
         {({ LocationMarker }) => (
