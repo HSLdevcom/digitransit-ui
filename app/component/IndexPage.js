@@ -77,9 +77,8 @@ class IndexPage extends React.Component {
     if (origin) {
       this.context.executeAction(storeOrigin, origin);
     }
-    if (destination) {
-      this.context.executeAction(storeDestination, destination);
-    }
+    this.context.executeAction(storeDestination, destination || {});
+
     // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
     this.setState({ isClient: true });
     scrollTop();
