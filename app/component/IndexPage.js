@@ -34,7 +34,6 @@ import scrollTop from '../util/scroll';
 import FavouritesContainer from './FavouritesContainer';
 import DatetimepickerContainer from './DatetimepickerContainer';
 import { LightenDarkenColor } from '../util/colorUtils';
-import { isBrowser } from '../util/browser';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
@@ -74,14 +73,50 @@ class IndexPage extends React.Component {
     const origin = parseLocation(from);
     const destination = parseLocation(to);
 
-    if (origin) {
-      this.context.executeAction(storeOrigin, origin);
-    }
-    this.context.executeAction(storeDestination, destination || {});
+    this.context.executeAction(storeOrigin, origin);
+    this.context.executeAction(storeDestination, destination);
 
     // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
     this.setState({ isClient: true });
     scrollTop();
+  }
+
+  componentDidUpdate() {
+    const { executeAction, router, match, config } = this.context;
+    const { location } = match;
+    const { origin, destination } = this.props;
+
+    if (isItinerarySearchObjects(origin, destination)) {
+      const itinerarySearch = {
+        origin,
+        destination,
+        query: location.query,
+      };
+      executeAction(saveFutureRoute, itinerarySearch);
+
+      const newLocation = {
+        ...location,
+        pathname: getPathWithEndpointObjects(
+          origin,
+          destination,
+          PREFIX_ITINERARY_SUMMARY,
+        ),
+      };
+      router.push(newLocation);
+    } else {
+      const path = getPathWithEndpointObjects(
+        origin,
+        destination,
+        config.indexPath,
+      );
+      if (path !== location.pathname) {
+        const newLocation = {
+          ...location,
+          pathname: path,
+        };
+        router.replace(newLocation);
+      }
+    }
   }
 
   onSelectStopRoute = item => {
@@ -89,12 +124,13 @@ class IndexPage extends React.Component {
   };
 
   onSelectLocation = (item, id) => {
+    const { router, executeAction } = this.context;
     if (item.type === 'FutureRoute') {
-      this.context.router.push(createUrl(item));
+      router.push(createUrl(item));
     } else if (id === 'origin') {
-      this.context.executeAction(storeOrigin, item);
+      executeAction(storeOrigin, item);
     } else {
-      this.context.executeAction(storeDestination, item);
+      executeAction(storeDestination, item);
     }
   };
 
@@ -378,41 +414,7 @@ const IndexPageWithStores = connectToStores(
   (context, props) => {
     const origin = context.getStore('OriginStore').getOrigin();
     const destination = context.getStore('DestinationStore').getDestination();
-
     const { location } = props.match;
-    if (isBrowser) {
-      if (isItinerarySearchObjects(origin, destination)) {
-        const itinerarySearch = {
-          origin,
-          destination,
-          query: location.query,
-        };
-        context.executeAction(saveFutureRoute, itinerarySearch);
-
-        const newLocation = {
-          ...location,
-          pathname: getPathWithEndpointObjects(
-            origin,
-            destination,
-            PREFIX_ITINERARY_SUMMARY,
-          ),
-        };
-        props.router.push(newLocation);
-      } else {
-        const path = getPathWithEndpointObjects(
-          origin,
-          destination,
-          context.config.indexPath,
-        );
-        if (path !== location.pathname) {
-          const newLocation = {
-            ...location,
-            pathname: path,
-          };
-          props.router.replace(newLocation);
-        }
-      }
-    }
     const newProps = {};
     const { query } = location;
     const { favouriteModalAction, fromMap } = query;
