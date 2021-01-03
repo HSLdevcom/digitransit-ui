@@ -380,53 +380,39 @@ const IndexPageWithStores = connectToStores(
     const destination = context.getStore('DestinationStore').getDestination();
 
     const { location } = props.match;
-    if (isBrowser && isItinerarySearchObjects(origin, destination)) {
-      const newRoute = {
-        origin: {
-          address: origin.address,
-          coordinates: {
-            lat: origin.lat,
-            lon: origin.lon,
-          },
-        },
-        destination: {
-          address: destination.address,
-          coordinates: {
-            lat: destination.lat,
-            lon: destination.lon,
-          },
-        },
-        arriveBy: location.query.arriveBy ? location.query.arriveBy : false,
-        time: location.query.time,
-      };
-      context.executeAction(saveFutureRoute, newRoute);
-
-      const newLocation = {
-        ...location,
-        pathname: getPathWithEndpointObjects(
+    if (isBrowser) {
+      if (isItinerarySearchObjects(origin, destination)) {
+        const itinerarySearch = {
           origin,
           destination,
-          PREFIX_ITINERARY_SUMMARY,
-        ),
-      };
-      props.router.push(newLocation);
-    }
+          query: location.query,
+        };
+        context.executeAction(saveFutureRoute, itinerarySearch);
 
-    if (isBrowser) {
-      const path = getPathWithEndpointObjects(
-        origin,
-        destination,
-        context.config.indexPath,
-      );
-      if (path !== location.pathname) {
         const newLocation = {
           ...location,
-          pathname: path,
+          pathname: getPathWithEndpointObjects(
+            origin,
+            destination,
+            PREFIX_ITINERARY_SUMMARY,
+          ),
         };
-        props.router.replace(newLocation);
+        props.router.push(newLocation);
+      } else {
+        const path = getPathWithEndpointObjects(
+          origin,
+          destination,
+          context.config.indexPath,
+        );
+        if (path !== location.pathname) {
+          const newLocation = {
+            ...location,
+            pathname: path,
+          };
+          props.router.replace(newLocation);
+        }
       }
     }
-
     const newProps = {};
     const { query } = location;
     const { favouriteModalAction, fromMap } = query;

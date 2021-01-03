@@ -76,19 +76,18 @@ export const replaceQueryParams = (router, match, newParams, executeAction) => {
     pathArray.shift();
     const originArray = pathArray[0].split('::');
     const destinationArray = pathArray[1].split('::');
-    const newRoute = {
+    const itinerarySearch = {
       origin: {
         address: originArray[0],
-        coordinates: parseLatLon(originArray[1]),
+        ...parseLatLon(originArray[1]),
       },
       destination: {
         address: destinationArray[0],
-        coordinates: parseLatLon(destinationArray[1]),
+        ...parseLatLon(destinationArray[1]),
       },
-      arriveBy: query.arriveBy ? query.arriveBy : false,
-      time: query.time,
+      query,
     };
-    executeAction(saveFutureRoute, newRoute);
+    executeAction(saveFutureRoute, itinerarySearch);
   }
 
   router.replace({
