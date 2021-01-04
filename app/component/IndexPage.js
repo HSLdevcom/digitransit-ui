@@ -265,12 +265,12 @@ class IndexPage extends React.Component {
                   className="destination"
                   placeholder="stop-near-you"
                   value=""
-              lang={lang}
+                  lang={lang}
                   sources={stopAndRouteSearchSources}
                   targets={stopAndRouteSearchTargets}
-              color={color}
-              hoverColor={hoverColor}
-              fromMap={this.props.fromMap}
+                  color={color}
+                  hoverColor={hoverColor}
+                  fromMap={this.props.fromMap}
                 />
                 <CtrlPanel.SeparatorLine />
               </>
@@ -374,13 +374,13 @@ class IndexPage extends React.Component {
                   refPoint={origin}
                   className="destination"
                   placeholder="stop-near-you"
-              lang={lang}
+                  lang={lang}
                   value=""
                   sources={stopAndRouteSearchSources}
                   targets={stopAndRouteSearchTargets}
                   isMobile
-              color={color}
-              hoverColor={hoverColor}
+                  color={color}
+                  hoverColor={hoverColor}
                 />
                 <CtrlPanel.SeparatorLine />
               </>
@@ -393,7 +393,6 @@ class IndexPage extends React.Component {
                 />
               ))}
           </CtrlPanel>
-
         </div>
       </div>
     );

@@ -32,11 +32,6 @@ div.map {
     color: #666666;
   }
 }
-.mobile {
-  .leaflet-container .leaflet-control-attribution {
-    top: -15px;
-  }
-}
 
 .below-map {
   overflow: auto;
@@ -65,6 +60,11 @@ div.map {
   }
 }
 .mobile {
+
+  .leaflet-container .leaflet-control-attribution {
+    top: -15px;
+  }
+
   .map {
     div.leaflet-control-scale.leaflet-control {
       margin-right: 15px;

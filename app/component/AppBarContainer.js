@@ -76,7 +76,7 @@ const AppBarContainer = ({
             <AppBarLarge
               {...args}
               logo={logo}
-            titleClicked={() => titleClicked(router, homeUrl, match)}
+              titleClicked={() => titleClicked(router, homeUrl, match)}
               user={user}
             />
           );
