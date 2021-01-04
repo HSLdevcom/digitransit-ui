@@ -2,14 +2,20 @@
 /* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import React from 'react';
+import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import moment from 'moment';
-import SiteHeader from '@hsl-fi/site-header';
-import SharedLocalStorageObserver from '@hsl-fi/shared-local-storage';
+import LazilyLoad, { importLazy } from './LazilyLoad';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { setLanguage } from '../action/userPreferencesActions';
+
+const modules = {
+  SiteHeader: () => importLazy(import('@hsl-fi/site-header')),
+  SharedLocalStorageObserver: () =>
+    importLazy(import('@hsl-fi/shared-local-storage')),
+};
 
 const clearStorages = context => {
   clearOldSearches(context);
@@ -33,7 +39,7 @@ const selectLanguage = (executeAction, lang, router, match) => () => {
 };
 
 const AppBarHsl = ({ lang, user }, context) => {
-  const { executeAction, config, router, match } = context;
+  const { executeAction, config, router, match, intl } = context;
   const { location } = match;
 
   const languages = [
@@ -73,12 +79,18 @@ const AppBarHsl = ({ lang, user }, context) => {
             initials,
             menuItems: [
               {
-                name: 'Omat tiedot',
+                name: intl.formatMessage({
+                  id: 'userinfo',
+                  defaultMessage: 'My information',
+                }),
                 url: `${config.URL.ROOTLINK}/omat-tiedot`,
                 selected: false,
               },
               {
-                name: 'Kirjaudu ulos',
+                name: intl.formatMessage({
+                  id: 'logout',
+                  defaultMessage: 'Logout',
+                }),
                 url: '/logout',
                 selected: false,
                 onClick: () => clearStorages(context),
@@ -88,18 +100,22 @@ const AppBarHsl = ({ lang, user }, context) => {
         }
       : {};
   return (
-    <>
-      <SharedLocalStorageObserver
-        keys={['saved-searches', 'favouriteStore', 'futureRoutes']}
-        url={config.localStorageEmitter}
-      />
-      <SiteHeader
-        hslFiUrl={config.URL.ROOTLINK}
-        {...userMenu}
-        lang={lang}
-        languageMenu={languages}
-      />
-    </>
+    <LazilyLoad modules={modules}>
+      {({ SiteHeader, SharedLocalStorageObserver }) => (
+        <>
+          <SharedLocalStorageObserver
+            keys={['saved-searches', 'favouriteStore', 'futureRoutes']}
+            url={config.localStorageEmitter}
+          />
+          <SiteHeader
+            hslFiUrl={config.URL.ROOTLINK}
+            lang={lang}
+            {...userMenu}
+            languageMenu={languages}
+          />
+        </>
+      )}
+    </LazilyLoad>
   );
 };
 
@@ -109,6 +125,7 @@ AppBarHsl.contextTypes = {
   config: PropTypes.object.isRequired,
   getStore: PropTypes.func.isRequired,
   executeAction: PropTypes.func.isRequired,
+  intl: intlShape.isRequired,
 };
 
 AppBarHsl.propTypes = {

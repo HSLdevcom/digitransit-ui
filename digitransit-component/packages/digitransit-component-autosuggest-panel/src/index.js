@@ -11,10 +11,13 @@ import Select from './helpers/Select';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 
-i18next.init({ lng: 'fi', resources: {} });
-
-Object.keys(translations).forEach(lang => {
-  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
 });
 
 export const getEmptyViaPointPlaceHolder = () => ({});
@@ -134,6 +137,8 @@ ItinerarySearchControl.propTypes = {
  *    sources={sources}
  *    targets={targets}
  *    isMobile  // Optional. Defaults to false. Whether to use mobile search.
+ *    originMobileLabel="Origin label" // Optional. Custom label text for origin field on mobile.
+ *    destinationMobileLabel="Destination label" // Optional. Custom label text for destination field on mobile.
  */
 class DTAutosuggestPanel extends React.Component {
   static propTypes = {
@@ -160,6 +165,8 @@ class DTAutosuggestPanel extends React.Component {
     isMobile: PropTypes.bool,
     color: PropTypes.string,
     hoverColor: PropTypes.string,
+    originMobileLabel: PropTypes.string,
+    destinationMobileLabel: PropTypes.string,
   };
 
   static defaultProps = {
@@ -178,6 +185,8 @@ class DTAutosuggestPanel extends React.Component {
     handleViaPointLocationSelected: undefined,
     color: '#007ac9',
     hoverColor: '#0062a1',
+    originMobileLabel: null,
+    destinationMobileLabel: null,
   };
 
   constructor(props) {
@@ -187,6 +196,9 @@ class DTAutosuggestPanel extends React.Component {
       activeSlackInputs: [],
       refs: [],
     };
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
   }
 
   componentDidMount = () => {
@@ -359,6 +371,8 @@ class DTAutosuggestPanel extends React.Component {
       searchContext,
       disableAutoFocus,
       viaPoints,
+      originMobileLabel,
+      destinationMobileLabel,
     } = this.props;
     const { activeSlackInputs } = this.state;
     const slackTime = this.getSlackTimeOptions();
@@ -412,6 +426,7 @@ class DTAutosuggestPanel extends React.Component {
             isMobile={this.props.isMobile}
             color={this.props.color}
             hoverColor={this.props.hoverColor}
+            mobileLabel={originMobileLabel}
           />
           <ItinerarySearchControl
             className={styles.opposite}
@@ -586,6 +601,7 @@ class DTAutosuggestPanel extends React.Component {
             isMobile={this.props.isMobile}
             color={this.props.color}
             hoverColor={this.props.hoverColor}
+            mobileLabel={destinationMobileLabel}
           />
           <ItinerarySearchControl
             className={cx(styles['add-via-point'], styles.more, {

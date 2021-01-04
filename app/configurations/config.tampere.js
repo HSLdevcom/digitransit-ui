@@ -284,6 +284,7 @@ export default configMerger(walttiConfig, {
     },
   },
 
+  // modes that should not coexist with BICYCLE mode
   // boarding a long distance train with bicycle costs extra
-  modesWithNoBike: ['RAIL'],
+  modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'RAIL'],
 });

@@ -232,7 +232,6 @@ export default {
     },
 
     showZoomControl: true, // DT-3470
-    showStreetModeSelector: true, // DT-3470
     showLayerSelector: true, // DT-3470
     showStopMarkerPopupOnMobile: true, // DT-3470
     showScaleBar: true, // DT-3470
@@ -346,10 +345,6 @@ export default {
     airplane: 'AIRPLANE',
     ferry: 'FERRY',
     walk: 'WALK',
-    bicycle: 'BICYCLE',
-    car: 'CAR',
-    car_park: 'CAR_PARK',
-    public_transport: 'WALK',
   },
 
   // Control what transport modes that should be possible to select in the UI
@@ -391,42 +386,8 @@ export default {
     },
   },
 
-  streetModes: {
-    public_transport: {
-      availableForSelection: true,
-      defaultValue: true,
-      exclusive: false,
-      icon: 'bus-withoutBox',
-    },
-
-    walk: {
-      availableForSelection: false,
-      defaultValue: false,
-      exclusive: true,
-      icon: 'walk',
-    },
-
-    bicycle: {
-      availableForSelection: true,
-      defaultValue: false,
-      exclusive: true,
-      icon: 'bicycle-withoutBox',
-    },
-
-    car: {
-      availableForSelection: true,
-      defaultValue: false,
-      exclusive: true,
-      icon: 'car-withoutBox',
-    },
-
-    car_park: {
-      availableForSelection: false,
-      defaultValue: false,
-      exclusive: false,
-      icon: 'car_park-withoutBox',
-    },
-  },
+  // modes that should not coexist with BICYCLE mode
+  modesWithNoBike: ['BICYCLE_RENT', 'WALK'],
 
   moment: {
     relativeTimeThreshold: {

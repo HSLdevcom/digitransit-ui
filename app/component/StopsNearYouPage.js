@@ -231,6 +231,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                   <StopsNearYouSearch
                     mode={mode}
                     breakpoint={this.props.breakpoint}
+                    lang={this.props.lang}
                   />
                 )}
                 {renderRefetchButton && (

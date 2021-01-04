@@ -24,7 +24,7 @@ const SelectFromMapHeaderComponent = (props, { config, intl }) => {
       <div className="select-from-map-nav-container">
         <button
           className={`from-map-modal-nav-button ${backBtnCursorPointerClassName}`}
-          onClick={props.hideBackBtn ? '' : props.onBackBtnClick}
+          onClick={props.hideBackBtn ? undefined : props.onBackBtnClick}
           aria-label={intl.formatMessage({
             id: 'back-button-title',
             defaultMessage: 'Go back to previous page',
@@ -49,7 +49,7 @@ const SelectFromMapHeaderComponent = (props, { config, intl }) => {
         )}
         <button
           className={`from-map-modal-nav-button ${closeBtnCursorPointerClassName}`}
-          onClick={props.hideCloseBtn ? '' : props.onCloseBtnClick}
+          onClick={props.hideCloseBtn ? undefined : props.onCloseBtnClick}
           aria-label={intl.formatMessage({
             id: 'back-button-title',
             defaultMessage: 'Go back to previous page',

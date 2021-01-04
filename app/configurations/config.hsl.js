@@ -115,26 +115,6 @@ export default {
     },
   },
 
-  streetModes: {
-    bicycle: {
-      availableForSelection: true,
-      defaultValue: false,
-      icon: 'biking',
-    },
-
-    car_park: {
-      availableForSelection: true,
-      defaultValue: false,
-      icon: 'car-withoutBox',
-    },
-
-    car: {
-      availableForSelection: false,
-      defaultValue: false,
-      icon: 'car_park-withoutBox',
-    },
-  },
-
   search: {
     /* identify searches for route numbers/labels: bus | train | metro */
     lineRegexp: new RegExp(
@@ -143,7 +123,8 @@ export default {
     ),
   },
 
-  modesWithNoBike: ['BUS', 'TRAM'],
+  // modes that should not coexist with BICYCLE mode
+  modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'BUS', 'TRAM', 'FERRY'],
 
   useSearchPolygon: true,
 
@@ -444,7 +425,6 @@ export default {
 
   map: {
     showZoomControl: true, // DT-3470, DT-3397
-    showStreetModeSelector: false, // DT-3470
     showLayerSelector: false, // DT-3470
     showStopMarkerPopupOnMobile: false, // DT-3470
     showScaleBar: true, // DT-3470, DT-3397

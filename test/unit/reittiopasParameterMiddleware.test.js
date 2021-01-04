@@ -34,16 +34,6 @@ describe('reittiopasParameterMiddleware', () => {
       validateParams(req, config);
       expect(req.query.time).to.be.an('undefined');
     });
-
-    it('should remove invalid modes parameter', () => {
-      const properModes = req.query.modes;
-      validateParams(req, config);
-      expect(req.query.modes).to.equal(properModes);
-
-      req.query.modes = 'test1,test2';
-      validateParams(req, config);
-      expect(req.query.modes).to.be.an('undefined');
-    });
   });
 
   describe('dropLanguageAndSetLocaleParam', () => {

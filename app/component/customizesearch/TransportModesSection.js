@@ -1,25 +1,23 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
-import { matchShape } from 'found';
 
 import cx from 'classnames';
 import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 import Toggle from '../Toggle';
 import Icon from '../Icon';
-import IconWithBigCaution from '../IconWithBigCaution';
 import {
   getAvailableTransportModes,
   getModes,
   toggleTransportMode,
-  isBikeRestricted,
 } from '../../util/modeUtils';
 import CityBikeNetworkSelector from '../CityBikeNetworkSelector';
 import { getCitybikeNetworks } from '../../util/citybikes';
 
 const TransportModesSection = (
   { config },
-  { match, intl, executeAction },
+  { intl, executeAction },
   transportModes = getAvailableTransportModes(config),
   modes = getModes(config),
 ) => (
@@ -44,39 +42,22 @@ const TransportModesSection = (
             )}
           >
             <div className="mode-icon">
-              {isBikeRestricted(match.location, config, mode) ? (
-                <IconWithBigCaution
-                  color="currentColor"
-                  className={mode.toLowerCase()}
-                  img={`icon-icon_${mode.toLowerCase()}`}
-                />
-              ) : (
-                <Icon
-                  className={`${mode}-icon`}
-                  img={`icon-icon_${mode.toLowerCase()}`}
-                />
-              )}
+              <Icon
+                className={`${mode}-icon`}
+                img={`icon-icon_${mode.toLowerCase()}`}
+              />
             </div>
             <div className="mode-name">
               <FormattedMessage
                 id={mode.toLowerCase()}
                 defaultMessage={mode.toLowerCase()}
               />
-              {isBikeRestricted(match.location, config, mode) && (
-                <span className="span-bike-not-allowed">
-                  {intl.formatMessage({
-                    id: `bike-not-allowed-${mode.toLowerCase()}`,
-                    defaultMessage: 'Bikes are not allowed on the vehicle',
-                  })}
-                </span>
-              )}
             </div>
           </label>
           <Toggle
             id={`settings-toggle-${mode}`}
             toggled={modes.filter(o2 => o2 === mode).length > 0}
             onToggle={() =>
-              !isBikeRestricted(match.location, config, mode) &&
               executeAction(saveRoutingSettings, {
                 modes: toggleTransportMode(mode, config),
               })
@@ -122,7 +103,6 @@ TransportModesSection.propTypes = {
 
 TransportModesSection.contextTypes = {
   intl: intlShape.isRequired,
-  match: matchShape.isRequired,
   executeAction: PropTypes.func.isRequired,
 };
 

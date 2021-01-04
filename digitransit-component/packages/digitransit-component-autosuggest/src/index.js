@@ -21,10 +21,13 @@ import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
 
-i18next.init({ lng: 'fi', resources: {} });
-
-Object.keys(translations).forEach(lang => {
-  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
 });
 
 const Loading = props => (
@@ -169,6 +172,7 @@ function translateFutureRouteSuggestionTime(item) {
  *    sources={sources}
  *    targets={targets}
  *    isMobile  // Optional. Defaults to false. Whether to use mobile search.
+ *    mobileLabel="Custom label" // Optional. Custom label text for autosuggest field on mobile.
  */
 class DTAutosuggest extends React.Component {
   static propTypes = {
@@ -200,6 +204,7 @@ class DTAutosuggest extends React.Component {
       routesPrefix: PropTypes.string,
       stopsPrefix: PropTypes.string,
     }),
+    mobileLabel: PropTypes.string,
   };
 
   static defaultProps = {
@@ -218,6 +223,7 @@ class DTAutosuggest extends React.Component {
       routesPrefix: 'linjat',
       stopsPrefix: 'pysakit',
     },
+    mobileLabel: undefined,
   };
 
   constructor(props) {
@@ -239,6 +245,9 @@ class DTAutosuggest extends React.Component {
       suggestionIndex: 0,
       cleanExecuted: false,
     };
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
   }
 
   // DT-4074: When a user's location is updated DTAutosuggest would re-render causing suggestion list to reset.
@@ -737,7 +746,6 @@ class DTAutosuggest extends React.Component {
     const ariaCurrentSuggestion = i18next.t('search-current-suggestion', {
       selection: this.suggestionAsAriaContent(),
     });
-
     return (
       <React.Fragment>
         <span
@@ -788,7 +796,11 @@ class DTAutosuggest extends React.Component {
               )
             }
             ariaLabel={SearchBarId.concat(' ').concat(ariaLabelText)}
-            label={i18next.t(this.props.id)}
+            label={
+              this.props.mobileLabel
+                ? this.props.mobileLabel
+                : i18next.t(this.props.id)
+            }
             onSuggestionSelected={this.onSelected}
             onKeyDown={this.keyDown}
             dialogHeaderText={i18next.t('delete-old-searches-header')}
