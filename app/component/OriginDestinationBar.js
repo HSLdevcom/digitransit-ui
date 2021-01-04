@@ -23,6 +23,7 @@ import {
   getPathWithEndpointObjects,
   PREFIX_ITINERARY_SUMMARY,
 } from '../util/path';
+import { saveFutureRoute } from '../action/FutureRoutesActions';
 
 const DTAutosuggestPanelWithSearchContext = withSearchContext(
   DTAutosuggestPanel,
@@ -126,6 +127,12 @@ class OriginDestinationBar extends React.Component {
   };
 
   updateItinerarySearch = (origin, destination, location) => {
+    this.context.executeAction(saveFutureRoute, {
+      origin,
+      destination,
+      query: location.query,
+    });
+
     const newLocation = {
       ...location,
       state: {

@@ -132,7 +132,7 @@ export default function withSearchContext(WrappedComponent) {
     onSuggestionSelected = (item, id) => {
       if (item.type === 'SelectFromMap') {
         this.setState({ fromMap: id });
-      } else if (id !== 'stop-route-station') {
+      } else if (id !== 'stop-route-station' && item.type !== 'FutureRoute') {
         let location;
         if (item.type === 'CurrentLocation') {
           // item is already a location.

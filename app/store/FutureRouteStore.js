@@ -24,20 +24,20 @@ class FutureRouteStore extends Store {
   }
 
   saveFutureRoute(itinSearch) {
-    const { orig, dest, query } = itinSearch;
+    const { origin, destination, query } = itinSearch;
     const route = {
       origin: {
-        address: orig.address,
+        address: origin.address,
         coordinates: {
-          lat: orig.lat,
-          lon: orig.lon,
+          lat: origin.lat,
+          lon: origin.lon,
         },
       },
       destination: {
-        address: dest.address,
+        address: destination.address,
         coordinates: {
-          lat: dest.lat,
-          lon: dest.lon,
+          lat: destination.lat,
+          lon: destination.lon,
         },
       },
       arriveBy: query.arriveBy ? query.arriveBy : false,
