@@ -249,8 +249,8 @@ const translations = {
   },
 
   de: {
-    'imprint': 'Impressum',
-    'privacy': 'Datenschutz',
+    imprint: 'Impressum',
+    privacy: 'Datenschutz',
     'alert:bikerental:free-floating-drop-off':
       'Ziel ist keine Rückgabestation. Ausleihe kann hier nicht abgeschlossen werden. Anbieterabhängig fallen weiter Gebühren bis zur Rückgabe an einer Station an.',
     monday: 'Montag',
@@ -848,8 +848,8 @@ const translations = {
   },
 
   en: {
-    'imprint': 'Imprint',
-    'privacy': 'Privacy',
+    imprint: 'Imprint',
+    privacy: 'Privacy',
     'weekday-mo': 'Monday',
     'weekday-tu': 'Tuesday',
     'weekday-we': 'Wednesday',
@@ -865,6 +865,8 @@ const translations = {
     closed: 'Closed',
     'map-layer-sharing': 'Sharing',
     'about-this-service': 'About the service',
+    'accept-carpool-policy':
+      'I have read and agreed to the <a href="{policyUrl}" target="_blank">privacy policy</a> and <a href="{termsUrl}" target="_blank">terms of use</a>.',
     accessibility: 'Accessibility',
     'accessibility-limited': 'Wheelchair',
     'accessibility-nolimit': 'No limits',
