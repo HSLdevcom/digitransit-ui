@@ -91,7 +91,6 @@ class IndexPage extends React.Component {
   componentDidUpdate() {
     const { origin, destination } = this.props;
 
-    const pending = this.pendingOrigin || this.pendingDestination;
     if (this.pendingOrigin && isEqual(this.pendingOrigin, origin)) {
       delete this.pendingOrigin;
     }
@@ -101,7 +100,7 @@ class IndexPage extends React.Component {
     ) {
       delete this.pendingDestination;
     }
-    if (pending) {
+    if (this.pendingOrigin || this.pendingDestination) {
       // not ready for navigation yet
       return;
     }
@@ -185,7 +184,9 @@ class IndexPage extends React.Component {
     const { trafficNowLink, colors } = config;
     const color = colors.primary;
     const hoverColor = colors.hover || LightenDarkenColor(colors.primary, -20);
-    const { breakpoint, destination, origin, lang } = this.props;
+    const { breakpoint, lang } = this.props;
+    const origin = this.pendingOrigin || this.props.origin;
+    const destination = this.pendingDestination || this.props.destination;
     const queryString = this.context.match.location.search;
     const searchSources = ['Favourite', 'History', 'Datasource'];
     const stopAndRouteSearchSources = ['Favourite', 'History', 'Datasource'];
