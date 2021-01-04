@@ -2084,7 +2084,7 @@ class SummaryPage extends React.Component {
       (!this.state.weatherData.temperature && !this.state.weatherData.err);
 
     const screenReaderWalkAndBikeUpdateAlert = (
-      <span className="sr-only" role="alert" ref={this.resultsUpdatedAlertRef}>
+      <span className="sr-only" role="alert">
         <FormattedMessage
           id="itinerary-summary-page-street-mode.update-alert"
           defaultMessage="Walking and biking results updated"
