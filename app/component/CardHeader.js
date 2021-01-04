@@ -7,7 +7,7 @@ import ZoneIcon from './ZoneIcon';
 import SplitBars from './SplitBars';
 import Favourite from './Favourite';
 import BackButton from './BackButton'; // DT-3472
-import { getZoneLabelColor, getZoneLabelSize } from '../util/mapIconUtils';
+import { getZoneLabelColor } from '../util/mapIconUtils';
 import { getZoneLabel } from '../util/legUtils';
 
 const CardHeader = (
@@ -64,10 +64,7 @@ const CardHeader = (
             {headerConfig && headerConfig.showZone && stop.zoneId && (
               <ZoneIcon
                 zoneId={getZoneLabel(stop.zoneId, config)}
-                zoneIdFontSize={getZoneLabelSize(
-                  getZoneLabel(stop.zoneId, config),
-                  config,
-                )}
+                zoneIdFontSize="11px"
                 zoneLabelColor={getZoneLabelColor(config)}
                 zoneLabelHeight="15px"
                 zoneLabelWidth="15px"

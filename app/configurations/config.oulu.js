@@ -180,9 +180,6 @@ export default configMerger(walttiConfig, {
   itinerary: {
     showZoneLimits: true,
   },
-  zoneIdFontSize: {
-    'A-city': '10px',
-  },
   stopCard: {
     header: {
       showZone: true,

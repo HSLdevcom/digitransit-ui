@@ -11,10 +11,7 @@ import Loading from '../../Loading';
 import ZoneIcon from '../../ZoneIcon';
 import PreferencesStore from '../../../store/PreferencesStore';
 import { getJson } from '../../../util/xhrPromise';
-import {
-  getZoneLabelColor,
-  getZoneLabelSize,
-} from '../../../util/mapIconUtils';
+import { getZoneLabelColor } from '../../../util/mapIconUtils';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 class LocationPopup extends React.Component {
@@ -151,7 +148,7 @@ class LocationPopup extends React.Component {
           >
             <ZoneIcon
               zoneId={zoneId}
-              zoneIdFontSize={getZoneLabelSize(zoneId, this.context.config)}
+              zoneIdFontSize="11px"
               zoneLabelColor={getZoneLabelColor(this.context.config)}
               zoneLabelHeight="15px"
               zoneLabelWidth="15px"

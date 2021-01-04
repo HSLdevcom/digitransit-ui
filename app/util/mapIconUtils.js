@@ -662,13 +662,3 @@ export const getZoneLabelColor = config => {
   }
   return '#000';
 };
-
-export const getZoneLabelSize = (zoneId, config) => {
-  if (
-    config.zoneIdFontSize &&
-    typeof config.zoneIdFontSize[zoneId] !== 'undefined'
-  ) {
-    return config.zoneIdFontSize[zoneId];
-  }
-  return '11px';
-};
