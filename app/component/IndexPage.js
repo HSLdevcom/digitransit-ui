@@ -12,6 +12,7 @@ import DTAutoSuggest from '@digitransit-component/digitransit-component-autosugg
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
+import moment from 'moment';
 import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
@@ -124,6 +125,9 @@ class IndexPage extends React.Component {
           PREFIX_ITINERARY_SUMMARY,
         ),
       };
+      if (newLocation.query.time === undefined) {
+        newLocation.query.time = moment().unix();
+      }
       router.push(newLocation);
     } else {
       const path = getPathWithEndpointObjects(
