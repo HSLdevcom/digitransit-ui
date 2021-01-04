@@ -189,7 +189,7 @@ export default function withSearchContext(WrappedComponent) {
 
     confirmMapSelection = (type, mapLocation) => {
       this.setState({ fromMap: undefined });
-      this.onSuggestionSelected(mapLocation, type);
+      this.props.selectHandler(mapLocation, type);
     };
 
     renderSelectFromMapModal = id => {
