@@ -20,6 +20,7 @@ import { dateOrEmpty, isTomorrow } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import {
+  BIKEAVL_UNKNOWN,
   getCityBikeNetworkIcon,
   getCityBikeNetworkConfig,
 } from '../util/citybikes';
@@ -208,7 +209,7 @@ const bikeWasParked = legs => {
 
 const SummaryRow = (
   { data, breakpoint, intermediatePlaces, zones, ...props },
-  { intl, intl: { formatMessage } },
+  { intl, intl: { formatMessage }, context },
 ) => {
   const isTransitLeg = leg => leg.transitLeg;
   const isLegOnFoot = leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
@@ -481,6 +482,19 @@ const SummaryRow = (
       } else {
         firstDepartureStopType = 'from-stop';
       }
+      let firstDeparturePlatform;
+      if (firstDeparture.from.stop.platformCode) {
+        const comma = ', ';
+        firstDeparturePlatform = (
+          <span className="platform-or-track">
+            {comma}
+            <FormattedMessage
+              id={firstDeparture.mode === 'RAIL' ? 'track-num' : 'platform-num'}
+              values={{ platformCode: firstDeparture.from.stop.platformCode }}
+            />
+          </span>
+        );
+      }
       firstLegStartTime = firstDeparture.rentedBike ? (
         <div
           className={cx('itinerary-first-leg-start-time', {
@@ -491,7 +505,9 @@ const SummaryRow = (
             id="itinerary-summary-row.first-leg-start-time-citybike"
             values={{
               firstDepartureTime: (
-                <span className={cx({ realtime: firstDeparture.realTime })}>
+                <span
+                  className={cx('time', { realtime: firstDeparture.realTime })}
+                >
                   <LocalTime time={firstDeparture.startTime} />
                 </span>
               ),
@@ -499,17 +515,19 @@ const SummaryRow = (
             }}
           />
           <div>
-            <FormattedMessage
-              id="bikes-available"
-              values={{
-                amount: firstDeparture.from.bikeRentalStation.bikesAvailable,
-              }}
-            />
+            {context.config.cityBike.capacity !== BIKEAVL_UNKNOWN && (
+              <FormattedMessage
+                id="bikes-available"
+                values={{
+                  amount: firstDeparture.from.bikeRentalStation.bikesAvailable,
+                }}
+              />
+            )}
           </div>
         </div>
       ) : (
         <div
-          className={cx('itinerary-first-leg-start-time', {
+          className={cx('itinerary-first-leg-start-time', 'overflow-fade', {
             small: breakpoint !== 'large',
           })}
         >
@@ -517,7 +535,11 @@ const SummaryRow = (
             id="itinerary-summary-row.first-leg-start-time"
             values={{
               firstDepartureTime: (
-                <span className={cx({ realtime: firstDeparture.realTime })}>
+                <span
+                  className={cx('start-time', {
+                    realtime: firstDeparture.realTime,
+                  })}
+                >
                   <LocalTime time={firstDeparture.startTime} />
                 </span>
               ),
@@ -525,6 +547,7 @@ const SummaryRow = (
                 <FormattedMessage id={firstDepartureStopType} />
               ),
               firstDepartureStop: stopNames[0],
+              firstDeparturePlatform,
             }}
           />
         </div>

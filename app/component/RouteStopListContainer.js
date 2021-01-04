@@ -43,6 +43,7 @@ class RouteStopListContainer extends React.PureComponent {
   getStops() {
     const { position } = this.props;
     const { stops } = this.props.pattern;
+
     const nearest =
       position.hasLocation === true
         ? getDistanceToNearestStop(position.lat, position.lon, stops)

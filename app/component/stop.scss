@@ -37,8 +37,9 @@
   display: flex;
   flex: 1 0 6em;
   flex-direction: column;
-  justify-content: center;
   text-align: center;
+  padding-top: 20px;
+  min-height: 50vh;
 
   @media print {
     display: none;
@@ -279,7 +280,7 @@
       border-bottom: 1px solid #dddddd;
       padding-top: 15px;
       .route-arrival {
-          color: $realtime-color;
+          color: #333;
           @include font-medium;
           font-size: 0.75rem;
           padding-right: 8px;
@@ -318,7 +319,7 @@
       .route-time {
           font-size: $font-size-small;
           font-weight: $font-weight-medium;
-          color: $realtime-color;
+          color: #333;
           &.realtime {
             color: $realtime-color;
           }

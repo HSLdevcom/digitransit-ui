@@ -1,5 +1,5 @@
 /**
- * Calculates distance betweeh two points.
+ * Calculates distance between two points.
  *
  * @name distance
  * @param {Object} latlon1 object containing lat, lon values
@@ -18,7 +18,7 @@
  * //=157105.77709637067
  */
 
-// Radius of earth.
+// The radius of the earth.
 const RADIUS = 6371000;
 
 export default function distance(latlon1, latlon2) {

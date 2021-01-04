@@ -16,14 +16,18 @@ import getLabel from '@digitransit-search-util/digitransit-search-util-get-label
 import Icon from '@digitransit-component/digitransit-component-icon';
 import moment from 'moment-timezone';
 import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
 
-i18next.init({ lng: 'fi', resources: {} });
-
-Object.keys(translations).forEach(lang => {
-  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
 });
 
 const Loading = props => (
@@ -43,8 +47,8 @@ function getSuggestionContent(item) {
     let suggestionType;
     /* eslint-disable-next-line prefer-const */
     let [name, label] = getNameLabel(item.properties, true);
-    if (label === 'bike-rental-station') {
-      suggestionType = i18next.t(label);
+    if (item.properties.layer.toLowerCase().includes('bikerental')) {
+      suggestionType = i18next.t('bikerentalstation');
       const stopCode = item.properties.labelId;
       return [suggestionType, name, undefined, stopCode];
     }
@@ -145,7 +149,7 @@ function translateFutureRouteSuggestionTime(item) {
  * };
  * const transportMode = undefined;
  * const placeholder = "stop-near-you";
- * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, SelectFromOwnLocations, MapPosition and CurrentPosition. Leave empty to search all targets.
+ * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, MapPosition and CurrentPosition. Leave empty to search all targets.
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
  * return (
  *  <DTAutosuggest
@@ -168,6 +172,7 @@ function translateFutureRouteSuggestionTime(item) {
  *    sources={sources}
  *    targets={targets}
  *    isMobile  // Optional. Defaults to false. Whether to use mobile search.
+ *    mobileLabel="Custom label" // Optional. Custom label text for autosuggest field on mobile.
  */
 class DTAutosuggest extends React.Component {
   static propTypes = {
@@ -199,6 +204,7 @@ class DTAutosuggest extends React.Component {
       routesPrefix: PropTypes.string,
       stopsPrefix: PropTypes.string,
     }),
+    mobileLabel: PropTypes.string,
   };
 
   static defaultProps = {
@@ -209,7 +215,6 @@ class DTAutosuggest extends React.Component {
     transportMode: undefined,
     lang: 'fi',
     sources: [],
-    targets: [],
     isMobile: false,
     color: '#007ac9',
     hoverColor: '#0062a1',
@@ -218,6 +223,7 @@ class DTAutosuggest extends React.Component {
       routesPrefix: 'linjat',
       stopsPrefix: 'pysakit',
     },
+    mobileLabel: undefined,
   };
 
   constructor(props) {
@@ -232,13 +238,16 @@ class DTAutosuggest extends React.Component {
       pendingCurrentLocation: false,
       renderMobileSearch: false,
       sources: props.sources,
-      targets: props.targets,
+      ownPlaces: false,
       typingTimer: null,
       typing: false,
       pendingSelection: null,
       suggestionIndex: 0,
       cleanExecuted: false,
     };
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
   }
 
   // DT-4074: When a user's location is updated DTAutosuggest would re-render causing suggestion list to reset.
@@ -306,7 +315,7 @@ class DTAutosuggest extends React.Component {
         this.setState(
           {
             sources: ['Favourite', 'Back'],
-            targets: ['Locations'],
+            ownPlaces: true,
             pendingSelection: ref.suggestion.type,
             value: '',
           },
@@ -323,7 +332,7 @@ class DTAutosuggest extends React.Component {
         this.setState(
           {
             sources: this.props.sources,
-            targets: this.props.targets,
+            ownPlaces: false,
             pendingSelection: ref.suggestion.type,
             suggestionIndex: ref.suggestionIndex,
           },
@@ -355,7 +364,7 @@ class DTAutosuggest extends React.Component {
             this.setState({
               renderMobileSearch: false,
               sources: this.props.sources,
-              targets: this.props.targets,
+              ownPlaces: false,
               suggestions: [],
             });
           }
@@ -378,7 +387,7 @@ class DTAutosuggest extends React.Component {
     this.setState({
       suggestions: [],
       sources: this.props.sources,
-      targets: this.props.targets,
+      ownPlaces: false,
       editing: false,
     });
   };
@@ -390,8 +399,7 @@ class DTAutosuggest extends React.Component {
     ) {
       return '';
     }
-    const value = getLabel(suggestion.properties);
-    return value;
+    return getLabel(suggestion.properties);
   };
 
   checkPendingSelection = () => {
@@ -447,9 +455,46 @@ class DTAutosuggest extends React.Component {
     return this.setState(
       { valid: false, cleanExecuted: !cleanExecuted ? false : cleanExecuted },
       () => {
+        const isLocationSearch =
+          isEmpty(this.props.targets) ||
+          this.props.targets.includes('Locations');
+        let targets;
+        if (this.state.ownPlaces) {
+          targets = ['Locations'];
+          if (
+            isEmpty(this.props.targets) ||
+            this.props.targets.includes('Stops')
+          ) {
+            targets.push('Stops');
+          }
+        } else if (!isEmpty(this.props.targets)) {
+          targets = [...this.props.targets];
+          // in desktop, favorites are accessed via sub search
+          if (
+            isLocationSearch &&
+            !this.props.isMobile &&
+            (isEmpty(this.props.sources) ||
+              this.props.sources.includes('Favourite'))
+          ) {
+            targets.push('SelectFromOwnLocations');
+          }
+        }
+        // remove  location favourites in desktop search (collection item replaces it in target array)
+        const sources =
+          this.state.sources &&
+          this.state.sources.filter(
+            s =>
+              !(
+                isLocationSearch &&
+                s === 'Favourite' &&
+                !this.state.ownPlaces &&
+                !this.props.isMobile
+              ),
+          );
+
         executeSearch(
-          this.state.targets,
-          this.state.sources,
+          targets,
+          sources,
           this.props.transportMode,
           this.props.searchContext,
           this.props.filterResults,
@@ -463,13 +508,12 @@ class DTAutosuggest extends React.Component {
             }
             // XXX translates current location
             const suggestions = (searchResult.results || [])
-              .filter(suggestion => {
-                return (
+              .filter(
+                suggestion =>
                   suggestion.type !== 'FutureRoute' ||
                   (suggestion.type === 'FutureRoute' &&
-                    suggestion.properties.time > moment().unix())
-                );
-              })
+                    suggestion.properties.time > moment().unix()),
+              )
               .map(suggestion => {
                 if (
                   suggestion.type === 'CurrentLocation' ||
@@ -512,7 +556,7 @@ class DTAutosuggest extends React.Component {
       editing: true,
       value: '',
       sources: this.props.sources,
-      targets: this.props.targets,
+      ownPlaces: false,
     };
     // must update suggestions
     this.setState(newState, () =>
@@ -612,6 +656,10 @@ class DTAutosuggest extends React.Component {
     if (!this.state.editing) {
       this.setState({ editing: true });
     }
+
+    if (keyCode === 9) {
+      return this.onBlur();
+    }
   };
 
   suggestionAsAriaContent = () => {
@@ -623,7 +671,7 @@ class DTAutosuggest extends React.Component {
       }
       label = label.concat(getSuggestionContent(this.state.suggestions[0]));
     }
-    return label ? label.join(' - ') : '';
+    return [...new Set(label)].join(' - ');
   };
 
   clearOldSearches = () => {
@@ -698,10 +746,13 @@ class DTAutosuggest extends React.Component {
     const ariaCurrentSuggestion = i18next.t('search-current-suggestion', {
       selection: this.suggestionAsAriaContent(),
     });
-
     return (
       <React.Fragment>
-        <span className={styles['sr-only']} role="alert">
+        <span
+          className={styles['sr-only']}
+          role={this.state.typing ? undefined : 'alert'}
+          aria-hidden={!this.state.editing}
+        >
           {ariaSuggestionLen}
         </span>
         <span
@@ -745,7 +796,11 @@ class DTAutosuggest extends React.Component {
               )
             }
             ariaLabel={SearchBarId.concat(' ').concat(ariaLabelText)}
-            label={i18next.t(this.props.id)}
+            label={
+              this.props.mobileLabel
+                ? this.props.mobileLabel
+                : i18next.t(this.props.id)
+            }
             onSuggestionSelected={this.onSelected}
             onKeyDown={this.keyDown}
             dialogHeaderText={i18next.t('delete-old-searches-header')}

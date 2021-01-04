@@ -401,6 +401,7 @@ const containerComponent = createFragmentContainer(
             stop {
               gtfsId
               zoneId
+              platformCode
             }
             bikeRentalStation {
               bikesAvailable

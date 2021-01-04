@@ -5,6 +5,8 @@ import CityBikeAvailability from './CityBikeAvailability';
 import CityBikeUse from './CityBikeUse';
 import {
   BIKESTATION_ON,
+  BIKEAVL_UNKNOWN,
+  BIKEAVL_WITHMAX,
   getCityBikeUrl,
   getCityBikeType,
 } from '../util/citybikes';
@@ -22,6 +24,7 @@ const CityBikeContent = ({ station, lang, type }, { config }) => (
       </p>
     )}
     {station.state === BIKESTATION_ON &&
+      config.cityBike.capacity !== BIKEAVL_UNKNOWN &&
       type !== 'taxi' &&
       type !== 'car-sharing' && (
         <CityBikeAvailability
@@ -29,7 +32,7 @@ const CityBikeContent = ({ station, lang, type }, { config }) => (
           totalSpaces={station.bikesAvailable + station.spacesAvailable}
           fewAvailableCount={config.cityBike.fewAvailableCount}
           type={getCityBikeType(station.networks, config)}
-          useSpacesAvailable={config.cityBike.useSpacesAvailable}
+          useSpacesAvailable={config.cityBike.capacity === BIKEAVL_WITHMAX}
         />
       )}
     {config.transportModes.citybike.availableForSelection &&

@@ -11,20 +11,23 @@ const ConfirmLocationFromMapButton = props => {
   };
 
   return (
-    <button
-      type="button"
-      onClick={props.isEnabled ? redirect : undefined}
-      className={cx('select-from-map-confirm-button', {
-        disabled: !props.isEnabled,
-      })}
-      style={{
-        '--color': `${props.color}`,
-        '--hover-color': `${props.hoverColor}`,
-      }}
-      key="confirmLocation"
-    >
-      {props.title}
-    </button>
+    <div className={cx('select-from-map-confirm-button-container')}>
+      <button
+        type="button"
+        disabled={!props.isEnabled}
+        onClick={props.isEnabled ? redirect : undefined}
+        className={cx('select-from-map-confirm-button', {
+          disabled: !props.isEnabled,
+        })}
+        style={{
+          '--color': `${props.color}`,
+          '--hover-color': `${props.hoverColor}`,
+        }}
+        key="confirmLocation"
+      >
+        {props.title}
+      </button>
+    </div>
   );
 };
 

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import BrowserProtocol from 'farce/BrowserProtocol';
-import createFarceRouter from 'found/createFarceRouter';
+import createInitialFarceRouter from 'found/createInitialFarceRouter';
 import createFarceStore from 'found/createFarceStore';
 import makeRouteConfig from 'found/makeRouteConfig';
 import getStoreRenderArgs from 'found/getStoreRenderArgs';
@@ -174,7 +174,7 @@ async function init() {
     resolver,
   });
 
-  const Router = await createFarceRouter({
+  const Router = await createInitialFarceRouter({
     historyProtocol,
     historyMiddlewares,
     routeConfig,

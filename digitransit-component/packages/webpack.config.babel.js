@@ -8,6 +8,9 @@ const isProduction = mode === 'production';
 module.exports = {
   mode,
   devtool: isProduction ? 'source-map' : 'eval',
+  watchOptions: {
+    ignored: ['files/**/*.js', 'node_modules/**'],
+  },
   output: {
     globalObject: "typeof self !== 'undefined' ? self : this",
     filename: 'index.js',
@@ -22,29 +25,7 @@ module.exports = {
         loader: 'babel-loader',
         options: {
           sourceType: 'unambiguous',
-          configFile: false,
-          presets: [
-            [
-              '@babel/preset-env',
-              {
-                modules: 'auto',
-              },
-            ],
-            ['@babel/preset-react', { useBuiltIns: true }],
-          ],
-          plugins: [
-            [
-              '@babel/plugin-transform-runtime',
-              {
-                helpers: true,
-                regenerator: true,
-                useESModules: true,
-              },
-            ],
-            ['@babel/plugin-proposal-class-properties', { loose: true }],
-            ['@babel/plugin-proposal-numeric-separator', { loose: true }],
-            ['inline-react-svg'],
-          ],
+          configFile: path.resolve(__dirname, 'babel.config.js'),
         },
       },
       {

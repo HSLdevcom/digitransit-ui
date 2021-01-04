@@ -8,10 +8,13 @@ import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 
-i18next.init({ lng: 'en', resources: {} });
-
-Object.keys(translations).forEach(lang => {
-  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
 });
 
 function SeparatorLine({ usePaddingBottom20 }) {
@@ -73,12 +76,14 @@ OriginToDestination.defaultProps = {
  * @param {Object} props.alertsContext
  * @param {function} props.alertsContext.getModesWithAlerts - Function which should return an array of transport modes that have active alerts (e.g. [BUS, SUBWAY])
  * @param {Number} props.alertsContext.currentTime - Time stamp with which the returned alerts are validated with
+ * @param {Number} props.alertsContext.feedIds - feedIds for which the alerts are fetched for
  * @param {element} props.LinkComponent - React component for creating a link, default is undefined and normal anchor tags are used
  *
  * @example
  * const alertsContext = {
  *    getModesWithAlerts: () => ({}),
  *    currentTime: 123456789,
+ *    feedIds: [HSL]
  * }
  * <CtrlPanel.NearStopsAndRoutes
  *      modes={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
@@ -97,20 +102,34 @@ function NearStopsAndRoutes({
   alertsContext,
   LinkComponent,
   origin,
+  omitLanguageUrl,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
   useEffect(() => {
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
     if (alertsContext) {
-      alertsContext.getModesWithAlerts(alertsContext.currentTime).then(res => {
-        setModesWithAlerts(res);
-      });
+      alertsContext
+        .getModesWithAlerts(alertsContext.currentTime, alertsContext.feedIds)
+        .then(res => {
+          setModesWithAlerts(res);
+        });
     }
   }, []);
 
   const queryString = origin.queryString || '';
+  let urlStart;
+  if (omitLanguageUrl) {
+    urlStart = urlPrefix;
+  } else {
+    const urlParts = urlPrefix.split('/');
+    urlParts.splice(urlParts.length - 1, 0, language);
+    urlStart = urlParts.join('/');
+  }
   const buttons = modes.map(mode => {
     const withAlert = modesWithAlerts.includes(mode.toUpperCase());
-    let url = `${urlPrefix}/${mode.toUpperCase()}/POS`;
+    let url = `${urlStart}/${mode.toUpperCase()}/POS`;
     if (origin.set) {
       url += `/${encodeURIComponent(origin.address)}::${origin.lat},${
         origin.lon
@@ -172,9 +191,11 @@ NearStopsAndRoutes.propTypes = {
   alertsContext: PropTypes.shape({
     getModesWithAlerts: PropTypes.func,
     currentTime: PropTypes.number,
+    feedIds: PropTypes.arrayOf(PropTypes.string),
   }),
   LinkComponent: PropTypes.object,
   origin: PropTypes.object,
+  omitLanguageUrl: PropTypes.bool,
 };
 
 NearStopsAndRoutes.defaultProps = {
@@ -182,6 +203,7 @@ NearStopsAndRoutes.defaultProps = {
   language: 'fi',
   LinkComponent: undefined,
   origin: undefined,
+  omitLanguageUrl: undefined,
 };
 
 /**

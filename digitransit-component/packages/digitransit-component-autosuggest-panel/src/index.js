@@ -11,10 +11,13 @@ import Select from './helpers/Select';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 
-i18next.init({ lng: 'fi', resources: {} });
-
-Object.keys(translations).forEach(lang => {
-  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
 });
 
 export const getEmptyViaPointPlaceHolder = () => ({});
@@ -113,7 +116,7 @@ ItinerarySearchControl.propTypes = {
  * onSelect() {
  *  return null;  // Define what to do when a suggestion is being selected. None by default.
  *  }
- * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, SelectFromOwnLocations, MapPosition and CurrentPosition. Leave empty to search all targets.
+ * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, MapPosition and CurrentPosition. Leave empty to search all targets.
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches), and Datasource. Leave empty to use all sources.
  * <DTAutosuggestPanel
  *    appElement={appElement} // Required. Root element's id. Needed for react-modal component.
@@ -134,6 +137,8 @@ ItinerarySearchControl.propTypes = {
  *    sources={sources}
  *    targets={targets}
  *    isMobile  // Optional. Defaults to false. Whether to use mobile search.
+ *    originMobileLabel="Origin label" // Optional. Custom label text for origin field on mobile.
+ *    destinationMobileLabel="Destination label" // Optional. Custom label text for destination field on mobile.
  */
 class DTAutosuggestPanel extends React.Component {
   static propTypes = {
@@ -156,9 +161,12 @@ class DTAutosuggestPanel extends React.Component {
     disableAutoFocus: PropTypes.bool,
     sources: PropTypes.arrayOf(PropTypes.string),
     targets: PropTypes.arrayOf(PropTypes.string),
+    filterResults: PropTypes.func,
     isMobile: PropTypes.bool,
     color: PropTypes.string,
     hoverColor: PropTypes.string,
+    originMobileLabel: PropTypes.string,
+    destinationMobileLabel: PropTypes.string,
   };
 
   static defaultProps = {
@@ -171,11 +179,14 @@ class DTAutosuggestPanel extends React.Component {
     lang: 'fi',
     sources: [],
     targets: [],
+    filterResults: undefined,
     disableAutoFocus: false,
     isMobile: false,
     handleViaPointLocationSelected: undefined,
     color: '#007ac9',
     hoverColor: '#0062a1',
+    originMobileLabel: null,
+    destinationMobileLabel: null,
   };
 
   constructor(props) {
@@ -185,6 +196,9 @@ class DTAutosuggestPanel extends React.Component {
       activeSlackInputs: [],
       refs: [],
     };
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
   }
 
   componentDidMount = () => {
@@ -357,6 +371,8 @@ class DTAutosuggestPanel extends React.Component {
       searchContext,
       disableAutoFocus,
       viaPoints,
+      originMobileLabel,
+      destinationMobileLabel,
     } = this.props;
     const { activeSlackInputs } = this.state;
     const slackTime = this.getSlackTimeOptions();
@@ -406,9 +422,11 @@ class DTAutosuggestPanel extends React.Component {
             lang={this.props.lang}
             sources={this.props.sources}
             targets={this.props.targets}
+            filterResults={this.props.filterResults}
             isMobile={this.props.isMobile}
             color={this.props.color}
             hoverColor={this.props.hoverColor}
+            mobileLabel={originMobileLabel}
           />
           <ItinerarySearchControl
             className={styles.opposite}
@@ -480,6 +498,7 @@ class DTAutosuggestPanel extends React.Component {
                       lang={this.props.lang}
                       sources={this.props.sources}
                       targets={this.props.targets}
+                      filterResults={this.props.filterResults}
                       isMobile={this.props.isMobile}
                       color={this.props.color}
                       hoverColor={this.props.hoverColor}
@@ -578,9 +597,11 @@ class DTAutosuggestPanel extends React.Component {
             lang={this.props.lang}
             sources={this.props.sources}
             targets={this.props.targets}
+            filterResults={this.props.filterResults}
             isMobile={this.props.isMobile}
             color={this.props.color}
             hoverColor={this.props.hoverColor}
+            mobileLabel={destinationMobileLabel}
           />
           <ItinerarySearchControl
             className={cx(styles['add-via-point'], styles.more, {

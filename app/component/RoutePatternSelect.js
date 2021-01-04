@@ -12,6 +12,7 @@ import {
   enrichPatterns,
   routePatternOptionText,
 } from '@digitransit-util/digitransit-util';
+import { intlShape } from 'react-intl';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import {
@@ -26,6 +27,11 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 const DATE_FORMAT = 'YYYYMMDD';
 
 class RoutePatternSelect extends Component {
+  constructor(props) {
+    super(props);
+    this.resultsUpdatedAlertRef = React.createRef();
+  }
+
   static propTypes = {
     params: PropTypes.object.isRequired,
     className: PropTypes.string.isRequired,
@@ -44,6 +50,7 @@ class RoutePatternSelect extends Component {
     router: routerShape.isRequired,
     config: PropTypes.object, // DT-3317
     getStore: PropTypes.func.isRequired, // DT-3347
+    intl: intlShape.isRequired,
   };
 
   state = {
@@ -125,10 +132,33 @@ class RoutePatternSelect extends Component {
 
   render() {
     const options = this.getOptions();
+    const { intl } = this.context;
+    let ariaLabel;
+    let directions;
+    if (!this.state.loading && options && options.length === 2) {
+      const direction1 = options.filter(
+        o => o.props.value === this.props.params.patternId,
+      )[0].props.children;
+      const direction2 = options.find(
+        o => o.props.value !== this.props.params.patternId,
+      ).props.children;
+      directions = [direction1, direction2];
+      ariaLabel = directions[0].concat(' ').concat(
+        intl.formatMessage({
+          id: 'swap-order-button-label',
+        }),
+      );
+    }
     return this.state.loading === true ? (
-      <div className={cx('route-pattern-select', this.props.className)} />
+      <div
+        className={cx('route-pattern-select', this.props.className)}
+        aria-atomic="true"
+      />
     ) : (
-      <div className={cx('route-pattern-select', this.props.className)}>
+      <div
+        className={cx('route-pattern-select', this.props.className)}
+        aria-atomic="true"
+      >
         {options && (options.length > 2 || options.length === 1) ? (
           <React.Fragment>
             <Icon img="icon-icon_arrow-dropdown" />
@@ -144,12 +174,13 @@ class RoutePatternSelect extends Component {
                   name: null,
                 });
               }}
+              tabIndex={0}
             >
               {options}
             </select>
           </React.Fragment>
         ) : (
-          <div className="route-patterns-toggle">
+          <div className="route-patterns-toggle" aria-atomic="true">
             <div
               className="route-option"
               role="button"
@@ -168,6 +199,7 @@ class RoutePatternSelect extends Component {
                   ).props.value,
                 )
               }
+              aria-label={ariaLabel}
             >
               {options &&
                 options.filter(
@@ -185,6 +217,7 @@ class RoutePatternSelect extends Component {
                   ).props.value,
                 )
               }
+              tabIndex={-1}
             >
               <Icon img="icon-icon_direction-c" />
             </button>

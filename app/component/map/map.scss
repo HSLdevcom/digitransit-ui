@@ -100,7 +100,7 @@ div.map {
       .content-container {
         position: relative;
         top: -15px;
-        box-shadow: 0 0px 10px -2px rgba(0,0,0,0.3);
+        box-shadow: 0 0px 10px -2px rgba(0, 0, 0, 0.3);
         border-radius: 15px 15px 0 0;
         padding-top: 15px;
         background-color: white;
@@ -119,7 +119,7 @@ div.map {
     bottom: 10%;
     transition: transform 0.1s;
     .leaflet-control-attribution {
-      background-color: rgba(0,0,0,0);
+      background-color: rgba(0, 0, 0, 0);
     }
   }
   .map-with-tracking-buttons {
@@ -128,7 +128,9 @@ div.map {
   }
 
   .back-button {
-    .icon-holder, .icon-holder:focus, .icon-holder:hover {
+    .icon-holder,
+    .icon-holder:focus,
+    .icon-holder:hover {
       padding: 0.55em 0.2em 0px 0px !important;
       font-size: 16px;
       z-index: index($zindex, map-buttons);
@@ -181,7 +183,7 @@ div.leaflet-bottom.leaflet-right div.leaflet-control-zoom {
   background-color: #ffffff;
   margin-right: 30px;
   margin-bottom: 24px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   &.leaflet-bar {
     border: none;
   }
@@ -309,7 +311,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   padding: 6px;
   border-radius: 5px;
   line-height: 0.5;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .icon-mapMarker-toggle-positioning {
@@ -320,7 +322,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   left: -19px !important;
 
   .route-header {
-    height: auto;
+    height: 5em;
     border: none;
 
     h1 {
@@ -493,15 +495,15 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
 }
 
 .single-popup {
- .leaflet-popup-content {
-   width: 300px;
- }
+  .leaflet-popup-content {
+    width: 300px;
+  }
 }
 
 .choice-popup {
- .leaflet-popup-content {
-   min-width: 240px;
- }
+  .leaflet-popup-content {
+    min-width: 240px;
+  }
 }
 
 .leaflet-popup-content-wrapper,
@@ -570,13 +572,24 @@ div.origin-popup {
     margin: 0px 0px;
   }
 }
+.vehicle-number-container-v-map {
+  position: relative;
+  bottom: 40px;
+  left: 41px;
+  .vehicle-number-map {
+    margin-right: 1.5em;
+    margin-left: 0.3em;
+    mask-image: none;
+    max-width: none;
+  }
+}
 
 .route-header {
   .route-header-trip {
-    top: 0.7em;
+    position: relative;
     height: 1.5em;
     margin-top: 0.2em;
-    margin-left: 0.5em;
+    margin-left: 1.5em;
     font-size: 70%;
     padding: 0.1em 0.4em;
     border: solid 1px $light-gray;
@@ -673,7 +686,7 @@ div.origin-popup {
       top: -35px;
     }
     :before {
-      content: "";
+      content: '';
       width: 0px;
       height: 0px;
       position: absolute;
@@ -841,7 +854,7 @@ div.leaflet-control-scale-line {
   border: none;
   background: transparent;
   cursor: none;
-// interactive: false;
+  // interactive: false;
   font-size: 50px;
   color: $primary-color;
 }
@@ -858,7 +871,6 @@ div.leaflet-control-scale-line {
   z-index: 3000;
   height: 50px;
   width: calc(100% - 40px);
-  margin-left: 20px;
   border-radius: 25px;
   bottom: 15%;
   background-color: var(--color);
@@ -871,6 +883,7 @@ div.leaflet-control-scale-line {
   letter-spacing: -0.6px;
   text-align: center;
   color: #ffffff;
+  max-width: 300px;
 
   &:hover {
     border-color: var(--hover-color);
@@ -878,8 +891,12 @@ div.leaflet-control-scale-line {
     color: #fff;
   }
 
+  &.select-from-map-confirm-button[disabled]:hover {
+    background-color: #bbbbbb;
+    opacity: 1;
+  }
+
   &.disabled {
-    pointer-events: none;
     background-color: #bbbbbb;
     opacity: 1;
   }

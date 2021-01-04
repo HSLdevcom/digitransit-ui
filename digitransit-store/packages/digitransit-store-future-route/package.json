@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-store/digitransit-store-future-route",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "description": "digitransit-store future-route module",
   "main": "lib/index.js",
   "publishConfig": {

@@ -15,7 +15,6 @@ import polyline from 'polyline-encoded';
 import { FormattedMessage } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
-import { connectToStores } from 'fluxible-addons-react';
 import isEmpty from 'lodash/isEmpty';
 import SunCalc from 'suncalc';
 import storeOrigin from '../action/originActions';
@@ -32,7 +31,6 @@ import Loading from './Loading';
 import { getRoutePath } from '../util/path';
 import {
   validateServiceTimeRange,
-  getStartTime,
   getStartTimeWithColon,
 } from '../util/timeUtils';
 import { planQuery } from '../util/queryUtils';
@@ -44,12 +42,7 @@ import { itineraryHasCancelation } from '../util/alertUtils';
 import triggerMessage from '../util/messageUtils';
 import MessageStore from '../store/MessageStore';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import {
-  otpToLocation,
-  addressToItinerarySearch,
-  getIntermediatePlaces,
-} from '../util/otpStrings';
-import { startLocationWatch } from '../action/PositionActions';
+import { otpToLocation, getIntermediatePlaces } from '../util/otpStrings';
 import { SettingsDrawer } from './SettingsDrawer';
 
 import {
@@ -66,6 +59,7 @@ import { userHasChangedModes } from '../util/modeUtils';
 import CarpoolDrawer from './CarpoolDrawer';
 import { MapMode } from '../constants';
 
+const MAX_ZOOM = 16; // Maximum zoom available for the bounds.
 /**
 /**
  * Returns the actively selected itinerary's index. Attempts to look for
@@ -212,36 +206,6 @@ const getTopicOptions = (context, planitineraries, match) => {
   return itineraryTopics;
 };
 
-const getVehicleInfos = itinerary => {
-  if (!itinerary) {
-    return {};
-  }
-  let itineraryVehicles = {};
-  const gtfsIdsOfRouteAndDirection = [];
-  const gtfsIdsOfTrip = [];
-  const startTimes = [];
-
-  itinerary.legs.forEach(leg => {
-    if (leg.transitLeg && leg.trip) {
-      gtfsIdsOfTrip.push(leg.trip.gtfsId);
-      startTimes.push(
-        getStartTime(leg.trip.stoptimesForDate[0].scheduledDeparture),
-      );
-      gtfsIdsOfRouteAndDirection.push(
-        `${leg.route.gtfsId}_${leg.trip.directionId}`,
-      );
-    }
-  });
-  if (startTimes.length > 0) {
-    itineraryVehicles = {
-      gtfsIdsOfTrip,
-      gtfsIdsOfRouteAndDirection,
-      startTimes,
-    };
-  }
-  return itineraryVehicles;
-};
-
 class SummaryPage extends React.Component {
   static contextTypes = {
     config: PropTypes.object,
@@ -291,7 +255,7 @@ class SummaryPage extends React.Component {
     this.isFetchingWalkAndBike = true;
     this.params = this.context.match.params;
     this.originalPlan = this.props.viewer && this.props.viewer.plan;
-    /// *** TODO: Hotfix variables for temporary use only
+    // *** TODO: Hotfix variables for temporary use only
     this.justMounted = true;
     this.useFitBounds = true;
     this.mapLoaded = false;
@@ -347,21 +311,9 @@ class SummaryPage extends React.Component {
     } else {
       this.selectedPlan = this.props.viewer && this.props.viewer.plan;
     }
-
-    if (this.showVehicles()) {
-      const combinedItineraries = this.getCombinedItineraries();
-      const itineraryTopics = getTopicOptions(
-        this.context,
-        combinedItineraries,
-        this.props.match,
-      );
-      if (itineraryTopics && itineraryTopics.length > 0) {
-        this.startClient(itineraryTopics);
-      }
-    }
   }
 
-  // When user goes straigth to itinerary view with url, map cannot keep up and renders a while after everything else
+  // When user goes straight to itinerary view with url, map cannot keep up and renders a while after everything else
   // This helper function ensures that lat lon values are sent to the map, thus preventing set center and zoom first error.
   mapReady() {
     this.mapLoaded = true;
@@ -472,31 +424,18 @@ class SummaryPage extends React.Component {
   };
 
   startClient = itineraryTopics => {
-    const { storedItineraryTopics } = this.context.getStore(
-      'RealTimeInformationStore',
-    );
-    if (
-      itineraryTopics &&
-      !isEmpty(itineraryTopics) &&
-      !storedItineraryTopics
-    ) {
+    this.itineraryTopics = itineraryTopics;
+    if (itineraryTopics && !isEmpty(itineraryTopics)) {
       const clientConfig = this.configClient(itineraryTopics);
       this.context.executeAction(startRealTimeClient, clientConfig);
-      this.context.getStore(
-        'RealTimeInformationStore',
-      ).storedItineraryTopics = itineraryTopics;
     }
   };
 
-  updateClient = (itineraryTopics, itineraryVehicles) => {
+  updateClient = itineraryTopics => {
     const { client, topics } = this.context.getStore(
       'RealTimeInformationStore',
     );
-
-    this.context.getStore(
-      'RealTimeInformationStore',
-    ).storedItineraryVehicleInfos = itineraryVehicles;
-
+    this.itineraryTopics = itineraryTopics;
     if (isEmpty(itineraryTopics) && client) {
       this.stopClient();
       return;
@@ -513,22 +452,14 @@ class SummaryPage extends React.Component {
       }
       this.stopClient();
     }
-
-    if (!isEmpty(itineraryTopics)) {
-      this.startClient(itineraryTopics);
-    }
+    this.startClient(itineraryTopics);
   };
 
   stopClient = () => {
     const { client } = this.context.getStore('RealTimeInformationStore');
     if (client) {
       this.context.executeAction(stopRealTimeClient, client);
-      this.context.getStore(
-        'RealTimeInformationStore',
-      ).storedItineraryTopics = undefined;
-      this.context.getStore(
-        'RealTimeInformationStore',
-      ).storedItineraryVehicleInfos = undefined;
+      this.itineraryTopics = undefined;
     }
   };
 
@@ -886,7 +817,7 @@ class SummaryPage extends React.Component {
       }
     `;
 
-    const planParams = preparePlanParams(this.context.config)(
+    const planParams = preparePlanParams(this.context.config, false)(
       this.context.match.params,
       this.context.match,
     );
@@ -996,22 +927,11 @@ class SummaryPage extends React.Component {
       }
     `;
 
-    const planParams = preparePlanParams(this.context.config)(
+    const planParams = preparePlanParams(this.context.config, true)(
       this.context.match.params,
       this.context.match,
     );
-    const variables = {
-      ...planParams,
-      modes: [
-        { mode: 'WALK' },
-        { mode: 'BUS' },
-        { mode: 'TRAM' },
-        { mode: 'SUBWAY' },
-        { mode: 'RAIL' },
-        { mode: 'FERRY' },
-      ],
-    };
-    fetchQuery(this.props.relayEnvironment, query, variables).then(
+    fetchQuery(this.props.relayEnvironment, query, planParams).then(
       ({ plan: results }) => {
         this.setState({ alternativePlan: results }, () => {
           this.setLoading(false);
@@ -1053,7 +973,7 @@ class SummaryPage extends React.Component {
       return;
     }
 
-    const params = preparePlanParams(this.context.config)(
+    const params = preparePlanParams(this.context.config, false)(
       this.context.match.params,
       this.context.match,
     );
@@ -1251,7 +1171,7 @@ class SummaryPage extends React.Component {
       return;
     }
 
-    const params = preparePlanParams(this.context.config)(
+    const params = preparePlanParams(this.context.config, false)(
       this.context.match.params,
       this.context.match,
     );
@@ -1432,6 +1352,21 @@ class SummaryPage extends React.Component {
       // eslint-disable-next-line no-unused-expressions
       import('../util/feedbackly');
     }
+
+    if (this.showVehicles()) {
+      const { client } = this.context.getStore('RealTimeInformationStore');
+      // If user comes from eg. RoutePage, old client may not have been completely shut down yet.
+      // This will prevent situation where RoutePages vehicles would appear on SummaryPage
+      if (!client) {
+        const combinedItineraries = this.getCombinedItineraries();
+        const itineraryTopics = getTopicOptions(
+          this.context,
+          combinedItineraries,
+          this.props.match,
+        );
+        this.startClient(itineraryTopics);
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -1554,27 +1489,27 @@ class SummaryPage extends React.Component {
       reportError(this.props.error);
     }
     if (this.showVehicles()) {
-      const combinedItineraries = this.getCombinedItineraries();
+      let combinedItineraries = this.getCombinedItineraries();
+      if (
+        combinedItineraries &&
+        combinedItineraries.length > 0 &&
+        this.props.match.params.hash !== 'walk' &&
+        this.props.match.params.hash !== 'bikeAndVehicle'
+      ) {
+        combinedItineraries = combinedItineraries.filter(
+          itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+        ); // exclude itineraries that have only walking legs from the summary
+      }
       const itineraryTopics = getTopicOptions(
         this.context,
         combinedItineraries,
         this.props.match,
       );
-      const activeIndex =
-        getHashNumber(
-          this.props.match.params.secondHash
-            ? this.props.match.params.secondHash
-            : this.props.match.params.hash,
-        ) || getActiveIndex(this.props.match.location, combinedItineraries);
-      const itineraryVehicles =
-        combinedItineraries.length > 0
-          ? getVehicleInfos(
-              combinedItineraries[
-                activeIndex < combinedItineraries.length ? activeIndex : 0
-              ],
-            )
-          : {};
-      this.updateClient(itineraryTopics, itineraryVehicles);
+      const { client } = this.context.getStore('RealTimeInformationStore');
+      // Client may not be initialized yet if there was an client before ComponentDidMount
+      if (!isEqual(itineraryTopics, this.itineraryTopics) || !client) {
+        this.updateClient(itineraryTopics);
+      }
     }
   }
 
@@ -1674,6 +1609,7 @@ class SummaryPage extends React.Component {
                   temperature: res[0].ParameterValue,
                   windSpeed: res[1].ParameterValue,
                   weatherHash,
+                  time,
                   // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
                   iconId: this.checkDayNight(
                     res[2].ParameterValue,
@@ -1870,20 +1806,7 @@ class SummaryPage extends React.Component {
       [centerPoint.lat + delta, centerPoint.lon + delta],
     ];
 
-    const itineraryVehicles =
-      filteredItineraries.length > 0
-        ? getVehicleInfos(
-            activeIndex < filteredItineraries.length
-              ? filteredItineraries[activeIndex]
-              : filteredItineraries[0],
-          )
-        : {};
-
-    this.context.getStore(
-      'RealTimeInformationStore',
-    ).storedItineraryVehicleInfos = itineraryVehicles;
-
-    if (!isEmpty(itineraryVehicles)) {
+    if (this.showVehicles()) {
       leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
     }
 
@@ -1893,6 +1816,7 @@ class SummaryPage extends React.Component {
         leafletObjs={leafletObjs}
         fitBounds
         bounds={bounds.length > 1 ? bounds : defaultBounds}
+        zoom={MAX_ZOOM}
         showScaleBar
         locationPopup="all"
         /* bottomButtons={
@@ -1960,7 +1884,7 @@ class SummaryPage extends React.Component {
             },
             // eslint-disable-next-line func-names
             function () {
-              const planParams = preparePlanParams(this.context.config)(
+              const planParams = preparePlanParams(this.context.config, false)(
                 this.context.match.params,
                 this.context.match,
               );
@@ -2211,7 +2135,8 @@ class SummaryPage extends React.Component {
     if (
       combinedItineraries &&
       combinedItineraries.length > 0 &&
-      this.props.match.params.hash !== 'walk'
+      this.props.match.params.hash !== 'walk' &&
+      this.props.match.params.hash !== 'bikeAndVehicle'
     ) {
       combinedItineraries = combinedItineraries.filter(
         itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
@@ -2678,54 +2603,8 @@ SummaryPageWithBreakpoint.description = (
   </ComponentUsageExample>
 );
 
-// Handle geolocationing when url contains POS as origin/destination
-const PositioningWrapper = connectToStores(
-  SummaryPageWithBreakpoint,
-  ['PositionStore'],
-  (context, props) => {
-    const { from, to } = props.match.params;
-    if (from !== 'POS' && to !== 'POS') {
-      return props;
-    }
-
-    const locationState = context.getStore('PositionStore').getLocationState();
-    if (locationState.locationingFailed) {
-      // Error message is displayed by locationing message bar
-      return { ...props, loadingPosition: false };
-    }
-
-    if (
-      locationState.isLocationingInProgress ||
-      locationState.isReverseGeocodingInProgress
-    ) {
-      return { ...props, loadingPosition: true };
-    }
-
-    if (locationState.hasLocation) {
-      const locationForUrl = addressToItinerarySearch(locationState);
-      const newFrom = from === 'POS' ? locationForUrl : from;
-      const newTo = to === 'POS' ? locationForUrl : to;
-      const newLocation = {
-        ...props.match.location,
-        pathname: getRoutePath(newFrom, newTo),
-      };
-      props.router.replace(newLocation);
-      return { ...props, loadingPosition: false };
-    }
-
-    // locationing not started...
-    context.executeAction(startLocationWatch);
-    return { ...props, loadingPosition: true };
-  },
-);
-
-PositioningWrapper.contextTypes = {
-  ...PositioningWrapper.contextTypes,
-  executeAction: PropTypes.func.isRequired,
-};
-
 const containerComponent = createRefetchContainer(
-  PositioningWrapper,
+  SummaryPageWithBreakpoint,
   {
     viewer: graphql`
       fragment SummaryPage_viewer on QueryType

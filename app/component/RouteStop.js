@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 
 import TripLink from './TripLink';
@@ -62,6 +62,11 @@ class RouteStop extends React.PureComponent {
     last: false,
     prevVehicleDeparture: null,
     displayNextDeparture: true,
+  };
+
+  static contextTypes = {
+    intl: intlShape.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   static description = () => (
@@ -130,6 +135,61 @@ class RouteStop extends React.PureComponent {
     </React.Fragment>
   );
 
+  getDepartureTime(stoptime, currentTime) {
+    const { config, intl } = this.context;
+    const departureTime =
+      stoptime.serviceDay +
+      (stoptime.realtimeState === 'CANCELED' ||
+      stoptime.realtimeDeparture === -1
+        ? stoptime.scheduledDeparture
+        : stoptime.realtimeDeparture);
+    const timeDiffInMinutes = Math.floor((departureTime - currentTime) / 60);
+    let departureText = '';
+    if (
+      timeDiffInMinutes < 0 ||
+      timeDiffInMinutes > config.minutesToDepartureLimit
+    ) {
+      const date = new Date(departureTime * 1000);
+      departureText = `${
+        (date.getHours() < 10 ? '0' : '') + date.getHours()
+      }:${date.getMinutes()}`;
+    } else if (timeDiffInMinutes === 0) {
+      departureText = intl.formatMessage({
+        id: 'arriving-soon',
+        defaultMessage: 'Now',
+      });
+    } else {
+      departureText = intl.formatMessage(
+        { id: 'departure-time-in-minutes', defaultMessage: '{minutes} min' },
+        { minutes: timeDiffInMinutes },
+      );
+    }
+    return departureText;
+  }
+
+  getText(stop, patternExists, displayNextDeparture, currentTime) {
+    const { intl } = this.context;
+    let text = intl.formatMessage({ id: 'stop' });
+    text += ` ${stop.name},`;
+    text += `${stop.code},`;
+    text += `${stop.desc},`;
+    if (patternExists) {
+      text += `${intl.formatMessage({ id: 'leaves' })},`;
+      text += `${this.getDepartureTime(
+        stop.stopTimesForPattern[0],
+        currentTime,
+      )},`;
+      if (displayNextDeparture) {
+        text += `${intl.formatMessage({ id: 'next' })},`;
+        text += `${this.getDepartureTime(
+          stop.stopTimesForPattern[1],
+          currentTime,
+        )},`;
+      }
+    }
+    return text;
+  }
+
   render() {
     const {
       className,
@@ -178,12 +238,16 @@ class RouteStop extends React.PureComponent {
         ref={el => {
           this.element = el;
         }}
+        role="listitem"
       >
         <div className="route-stop-now">
           {vehicleTripLink}
           {vehicleIcon}
         </div>
-        <div className={cx('route-stop-now_circleline', mode)}>
+        <div
+          className={cx('route-stop-now_circleline', mode)}
+          aria-hidden="true"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={15}
@@ -211,6 +275,12 @@ class RouteStop extends React.PureComponent {
                 name: null,
               });
             }}
+            aria-label={this.getText(
+              stop,
+              patternExists,
+              displayNextDeparture,
+              currentTime,
+            )}
           >
             <div className="route-details-upper-row">
               <div className={` route-details_container ${mode}`}>

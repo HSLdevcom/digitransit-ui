@@ -5,7 +5,7 @@ import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
@@ -160,15 +160,13 @@ class OriginDestinationBar extends React.Component {
           sources={[
             'History',
             'Datasource',
-            this.props.isMobile && this.props.showFavourites ? 'Favourite' : '',
+            this.props.showFavourites ? 'Favourite' : '',
           ]}
           targets={[
             'Locations',
             'CurrentPosition',
-            !this.props.isMobile && this.props.showFavourites
-              ? 'SelectFromOwnLocations'
-              : '',
             this.props.isMobile ? 'MapPosition' : '',
+            'Stops',
           ]}
           lang={this.props.language}
           disableAutoFocus={this.props.isMobile}

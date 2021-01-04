@@ -5,13 +5,24 @@ import Icon from './Icon';
 import {
   getCityBikeNetworkIcon,
   getCityBikeNetworkConfig,
+  BIKEAVL_UNKNOWN,
+  BIKEAVL_WITHMAX,
 } from '../util/citybikes';
 
 const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
-  const totalSpaces =
-    bikeRentalStation.bikesAvailable + bikeRentalStation.spacesAvailable;
-  const fewAvailableCount = Math.floor(totalSpaces / 3);
-  const fewerAvailableCount = Math.floor(totalSpaces / 6);
+  if (config.cityBike.capacity === BIKEAVL_UNKNOWN) {
+    return null;
+  }
+  let totalSpaces;
+  let fewAvailableCount;
+  let fewerAvailableCount;
+
+  if (config.cityBike.capacity === BIKEAVL_WITHMAX) {
+    totalSpaces =
+      bikeRentalStation.bikesAvailable + bikeRentalStation.spacesAvailable;
+    fewAvailableCount = Math.floor(totalSpaces / 3);
+    fewerAvailableCount = Math.floor(totalSpaces / 6);
+  }
   const citybikeicon = getCityBikeNetworkIcon(
     getCityBikeNetworkConfig(bikeRentalStation.networks[0], config),
   );
@@ -24,7 +35,7 @@ const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
         totalSpaces={totalSpaces}
         fewAvailableCount={fewAvailableCount}
         fewerAvailableCount={fewerAvailableCount}
-        useSpacesAvailable
+        useSpacesAvailable={config.cityBike.capacity === BIKEAVL_WITHMAX}
       />
     </div>
   );

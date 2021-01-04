@@ -27,6 +27,8 @@ import {
 } from '../store/localStorage';
 import withSearchContext from './WithSearchContext';
 import { PREFIX_NEARYOU } from '../util/path';
+import StopsNearYouContainer from './StopsNearYouContainer';
+import StopsNearYouMap from './map/StopsNearYouMap';
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 
@@ -42,8 +44,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   static propTypes = {
     breakpoint: PropTypes.string.isRequired,
     loadingPosition: PropTypes.bool,
-    content: PropTypes.node,
-    map: PropTypes.node,
     relayEnvironment: PropTypes.object,
     position: PropTypes.shape({
       lat: PropTypes.number,
@@ -147,7 +147,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     return {
       lat,
       lon,
-      maxResults: this.context.config.maxNearbyStopAmount,
+      maxResults: 2000,
       first: this.context.config.maxNearbyStopAmount,
       maxDistance: this.context.config.maxNearbyStopDistance,
       filterByModes: modes,
@@ -231,6 +231,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                   <StopsNearYouSearch
                     mode={mode}
                     breakpoint={this.props.breakpoint}
+                    lang={this.props.lang}
                   />
                 )}
                 {renderRefetchButton && (
@@ -259,16 +260,15 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                     </button>
                   </div>
                 )}
-                {this.props.content &&
-                  React.cloneElement(this.props.content, {
-                    stopPatterns: props.stopPatterns,
-                    // eslint-disable-next-line no-nested-ternary
-                    position: this.state.updatedLocation
-                      ? this.state.updatedLocation
-                      : this.state.startPosition
-                      ? this.state.startPosition
-                      : this.context.config.defaultEndpoint,
-                  })}
+                <StopsNearYouContainer
+                  match={this.props.match}
+                  stopPatterns={props.stopPatterns}
+                  position={
+                    this.state.updatedLocation ||
+                    this.state.startPosition ||
+                    this.context.config.defaultEndpoint
+                  }
+                />
               </div>
             );
           }
@@ -312,16 +312,15 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         render={({ props }) => {
           if (props) {
             return (
-              this.props.map &&
-              React.cloneElement(this.props.map, {
-                // eslint-disable-next-line no-nested-ternary
-                position: this.state.updatedLocation
-                  ? this.state.updatedLocation
-                  : this.state.startPosition
-                  ? this.state.startPosition
-                  : this.context.config.defaultEndpoint,
-                stops: props.stops,
-              })
+              <StopsNearYouMap
+                position={
+                  this.state.updatedLocation ||
+                  this.state.startPosition ||
+                  this.context.config.defaultEndpoint
+                }
+                stops={props.stops}
+                match={this.props.match}
+              />
             );
           }
           return undefined;
@@ -379,8 +378,8 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       <DTAutoSuggestWithSearchContext
         appElement="#app"
         icon="search"
-        sources={['History', 'Datasource', isMobile ? 'Favourite' : '']}
-        targets={['Locations', !isMobile ? 'SelectFromOwnLocations' : '']}
+        sources={['History', 'Datasource', 'Favourite']}
+        targets={['Locations', 'Stops']}
         id="origin-stop-near-you"
         placeholder="origin"
         value=""

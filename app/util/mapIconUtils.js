@@ -522,7 +522,14 @@ export function drawHybridStopIcon(tile, geom, isHilighted) {
  * Draw an icon for citybike stations, including indicator to show bike availability. Draw closed icon for closed stations
  * Determine icon size based on zoom level
  */
-export function drawCitybikeIcon(tile, geom, state, bikesAvailable, iconName) {
+export function drawCitybikeIcon(
+  tile,
+  geom,
+  state,
+  bikesAvailable,
+  iconName,
+  showAvailability,
+) {
   const zoom = tile.coords.z - 1;
   const styles = getStopIconStyles('citybike', zoom);
   const { style } = styles;
@@ -544,10 +551,12 @@ export function drawCitybikeIcon(tile, geom, state, bikesAvailable, iconName) {
     return;
   }
   let color = 'green';
-  if (!bikesAvailable) {
-    color = 'red';
-  } else if (bikesAvailable <= 3) {
-    color = 'yellow';
+  if (showAvailability) {
+    if (!bikesAvailable) {
+      color = 'red';
+    } else if (bikesAvailable <= 3) {
+      color = 'yellow';
+    }
   }
   if (style === 'medium') {
     x = geom.x / tile.ratio - width / 2;
@@ -572,7 +581,7 @@ export function drawCitybikeIcon(tile, geom, state, bikesAvailable, iconName) {
       tile.ctx.drawImage(image, x, y);
       x = x + width - smallCircleRadius;
       y += smallCircleRadius;
-      if (bikesAvailable && state === BIKESTATION_ON) {
+      if (showAvailability && bikesAvailable && state === BIKESTATION_ON) {
         /* eslint-disable no-param-reassign */
         tile.ctx.font = `${
           10.8 * tile.scaleratio

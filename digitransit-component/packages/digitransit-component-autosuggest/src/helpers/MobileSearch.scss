@@ -1,4 +1,5 @@
 
+$primary-color:#007ac9;
 $font-weight-medium: 500;
 $suggestion-highlight-background-color: #F4F4F5;
 
@@ -36,6 +37,8 @@ input[type='text'] {
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 100%;
+    padding-top: 9px;
   }
 }
 
@@ -46,6 +49,7 @@ input[type='text'] {
   height: 100%;
   width: 52px;
   svg {
+    fill: $primary-color;
     width: 14px;
     height: 21px;
     transform: rotate(-180deg);
@@ -63,8 +67,11 @@ input[type='text'] {
 
 .container {
   display: flex;
+  align-items: center;
   width: 100%;
   .input {
+    font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+    width: 100%;
     position: relative;
     padding-bottom: 7px;
     top: 2px;
@@ -88,10 +95,10 @@ input[type='text'] {
 }
 button.clear-input {
   display: flex;
+  align-items: center;
   right: 0px;
-  padding-top: 4px;
-  padding-right: 15px;
-  height: 100%;
+  padding: 0 15px 7px 0;
+  height: 26px;
   color: var(--color);
   outline: none;
   border: 0px;
@@ -135,11 +142,8 @@ button.clear-input {
   color: #333333;
   font-weight: $font-weight-medium;
   background: #fff;
-}
-
-.suggestionHighlighted {
-  font-size: 15px;
-  background: $suggestion-highlight-background-color;
+  margin: 0;
+  padding: 0;
 }
 
 .suggestionsContainerOpen {
@@ -163,11 +167,8 @@ button.clear-input {
     width: 100vw;
     list-style: none;
     padding-left: 0;
-    margin-bottom: 0;
+    margin: 0;
     background: #f4f4f5;
-    li:hover, li:focus, li:active {
-      background: $suggestion-highlight-background-color;
-    }
   }
 }
 

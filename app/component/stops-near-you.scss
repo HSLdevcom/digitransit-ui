@@ -3,6 +3,12 @@
     min-height: 20rem;
 }
 
+.stops-near-you-spinner-container {
+    position: relative;
+    z-index: 1;
+    height: 80px;
+    animation: fadeIn 0.4s;
+}
 .citybike-content-container {
     padding: 15px 14px 22px;
     display: flex;
@@ -42,6 +48,7 @@
     flex-direction: column;
     padding: 10px 3.75em 0;
     .nearest-stops-update-container {
+        height: 80px;
         display: flex;
         flex-direction: column;
         margin: 0 auto;
@@ -73,6 +80,7 @@
         border-radius: 10px;
         width: 100%;
         margin-bottom: 10px;
+        animation: fadeIn 0.7s;
         .stop-near-you-header-container {
             display: flex;
             .stop-near-you-name {

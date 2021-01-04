@@ -5,7 +5,6 @@ import Moment from 'moment';
 import { routerShape } from 'found';
 import Icon from './Icon';
 import Checkbox from './Checkbox';
-import logo from '../../static/img/fahrgemeinschaft-de-rund.png';
 import Loading from './Loading';
 
 export default class CarpoolOffer extends React.Component {
@@ -345,7 +344,11 @@ export default class CarpoolOffer extends React.Component {
         <button className="close-offcanvas" onClick={this.close}>
           <Icon className="close-icon" img="icon-icon_close" />
         </button>
-        <img alt="Fahrgemeinschaft.de" className="fg_icon" src={logo} />
+        <img
+          alt="Fahrgemeinschaft.de"
+          className="fg_icon"
+          src="/img/fahrgemeinschaft-de-rund.png"
+        />
         {this.renderBody()}
       </div>
     );

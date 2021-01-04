@@ -3,7 +3,6 @@ import React from 'react';
 import moment from 'moment';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-import PlatformNumber from './PlatformNumber';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
@@ -55,18 +54,7 @@ function WaitLeg({ children, leg, startTime, waitTime, focusAction, index }) {
                 color="#333"
               />
             </Link>
-            <div className="stop-code-container">
-              {children}
-              {leg.from && leg.from.stop && (
-                <PlatformNumber
-                  number={leg.from.stop.platformCode}
-                  short
-                  isRailOrSubway={
-                    modeClassName === 'rail' || modeClassName === 'subway'
-                  }
-                />
-              )}
-            </div>
+            <div className="stop-code-container">{children}</div>
           </div>
           <div
             className="itinerary-map-action"

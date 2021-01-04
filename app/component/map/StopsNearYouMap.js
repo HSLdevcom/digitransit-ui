@@ -367,6 +367,7 @@ function StopsNearYouMap(
   } else {
     leafletObjs.push(getLocationMarker(context.config.defaultEndpoint));
   }
+  const zoom = 16;
   let map;
   if (breakpoint === 'large') {
     map = (
@@ -378,7 +379,7 @@ function StopsNearYouMap(
         fitBounds={useFitBounds}
         defaultMapCenter={context.config.defaultEndpoint}
         disableParkAndRide
-        initialZoom={16}
+        boundsOptions={{ maxZoom: zoom }}
         bounds={bounds}
         origin={origin}
         destination={destination}
@@ -403,7 +404,7 @@ function StopsNearYouMap(
           stopsNearYouMode={mode}
           fitBounds={useFitBounds}
           defaultMapCenter={context.config.defaultEndpoint}
-          initialZoom={16}
+          boundsOptions={{ maxZoom: zoom }}
           bounds={bounds}
           showScaleBar
           origin={origin}

@@ -209,19 +209,17 @@ class SearchSettingsDropdown extends React.Component {
       : options;
 
     return (
-      <fieldset
+      <div
         className="settings-dropdown-wrapper walk-option-inner"
         ref={this.labelRef}
       >
-        <legend className="sr-only">{labelText}</legend>
         <button
           type="button"
           className="settings-dropdown-label"
           onClick={() => this.toggleDropdown(this.state.showDropdown)}
         >
-          <p className="settings-dropdown-label-text" aria-hidden="true">
-            {labelText}
-          </p>
+          &zwnj;{/* removing this breaks keyboard navigation on firefox??? */}
+          <p className="settings-dropdown-label-text">{labelText}</p>
           <p className="settings-dropdown-label-value">
             {/* eslint-disable-next-line no-nested-ternary */}
             {displayValueFormatter
@@ -253,7 +251,7 @@ class SearchSettingsDropdown extends React.Component {
             {this.getOptionTags(selectOptions, this.state.showDropdown)}
           </ul>
         )}
-      </fieldset>
+      </div>
     );
   }
 }

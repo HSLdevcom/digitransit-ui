@@ -19,7 +19,6 @@ import {
   TAB_NEARBY,
   TAB_FAVOURITES,
 } from './util/path';
-import { preparePlanParams } from './util/planParamUtil';
 import {
   errorLoading,
   getDefault,
@@ -27,12 +26,8 @@ import {
   getComponentOrNullRenderer,
 } from './util/routerUtils';
 
-import { planQuery } from './util/queryUtils';
-
 import getStopRoutes from './stopRoutes';
 import routeRoutes from './routeRoutes';
-import { validateServiceTimeRange } from './util/timeUtils';
-import { isBrowser } from './util/browser';
 
 export const historyMiddlewares = [queryMiddleware];
 
@@ -123,78 +118,29 @@ export default config => {
           ),
         }}
       </Route>
-      <Route path={`/${PREFIX_NEARYOU}/:mode/:place/:origin?`}>
-        {{
-          title: (
-            <Route
-              path="(.*)?"
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "itinerary" */ './component/BackButton'
-                ).then(getDefault)
-              }
-            />
-          ),
-          content: isBrowser ? (
-            <Route
-              path="(.*)?"
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "nearyou" */ './component/StopsNearYouPage'
-                ).then(getDefault)
-              }
-              render={({ Component, props, error, match }) => {
-                if (Component) {
-                  return props ? (
-                    <Component
-                      {...props}
-                      match={match}
-                      error={error}
-                      loadingPosition={false}
-                    />
-                  ) : (
-                    <Component match={match} loadingPosition error={error} />
-                  );
-                }
-                return undefined;
-              }}
-            >
-              {{
-                content: (
-                  <Route
-                    getComponent={() =>
-                      import(
-                        /* webpackChunkName: "nearyou" */ './component/StopsNearYouContainer.js'
-                      ).then(getDefault)
-                    }
-                    render={getComponentOrLoadingRenderer}
-                  />
-                ),
-                map: (
-                  <Route
-                    // disableMapOnMobile
-                    getComponent={() =>
-                      import(
-                        /* webpackChunkName: "nearyou" */ './component/map/StopsNearYouMap.js'
-                      ).then(getDefault)
-                    }
-                    render={getComponentOrNullRenderer}
-                  />
-                ),
-              }}
-            </Route>
-          ) : (
-            <Route
-              path="(.*)?"
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "nearyou" */ './component/Loading'
-                ).then(getDefault)
-              }
-            />
-          ),
+      <Route
+        path={`/${PREFIX_NEARYOU}/:mode/:place/:origin?`}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "nearyou" */ './component/StopsNearYouPage'
+          ).then(getDefault)
+        }
+        render={({ Component, props, error, match }) => {
+          if (Component) {
+            return props ? (
+              <Component
+                {...props}
+                match={match}
+                error={error}
+                loadingPosition={false}
+              />
+            ) : (
+              <Component match={match} loadingPosition error={error} />
+            );
+          }
+          return undefined;
         }}
-      </Route>
+      />
       <Redirect
         from={`/${PREFIX_ITINERARY_SUMMARY}/:from`}
         to={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/:from`}
@@ -251,28 +197,16 @@ export default config => {
               }
             />
           ),
-          content: isBrowser ? (
+          content: (
             <Route
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/SummaryPage'
+                  /* webpackChunkName: "itinerary" */ './component/SummaryPageContainer'
                 ).then(getDefault)
               }
-              query={planQuery}
-              prepareVariables={preparePlanParams(config)}
-              render={({ Component, props, error, match }) => {
+              render={({ Component, props, match }) => {
                 if (Component) {
-                  return props ? (
-                    <Component {...props} error={error} loading={false} />
-                  ) : (
-                    <Component
-                      viewer={{ plan: {} }}
-                      serviceTimeRange={validateServiceTimeRange()}
-                      match={match}
-                      loading
-                      error={error}
-                    />
-                  );
+                  return <Component {...props} match={match} />;
                 }
                 return undefined;
               }}
@@ -305,15 +239,6 @@ export default config => {
                 ],
               }}
             </Route>
-          ) : (
-            <Route
-              path="(.*)?"
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "itinerary" */ './component/Loading'
-                ).then(getDefault)
-              }
-            />
           ),
           meta: (
             <Route

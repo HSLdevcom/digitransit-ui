@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import cx from 'classnames';
 import capitalize from 'lodash/capitalize';
 import moment from 'moment';
@@ -46,7 +47,6 @@ export default function RouteAlertsRow(
     entityMode,
     entityType,
     expired,
-    header,
     severityLevel,
     startTime,
     url,
@@ -95,13 +95,17 @@ export default function RouteAlertsRow(
     url && (url.match(/^[a-zA-Z]+:\/\//) ? url : `http://${url}`);
 
   return (
-    <div className={cx('route-alert-row', { expired })}>
+    <div
+      className={cx('route-alert-row', { expired })}
+      role="listitem"
+      tabIndex={0}
+    >
       {(entityType === 'route' && entityMode && (
         <RouteNumber
           alertSeverityLevel={severityLevel}
           color={color}
           mode={entityMode}
-          vertical
+          withBar
         />
       )) ||
         (entityType === 'stop' && (
@@ -117,7 +121,7 @@ export default function RouteAlertsRow(
           </div>
         )}
       <div className="route-alert-contents">
-        {(entityIdentifier || url) && (
+        {(entityIdentifier || showTime) && (
           <div className="route-alert-top-row">
             {entityIdentifier &&
               ((entityType === 'route' &&
@@ -126,7 +130,9 @@ export default function RouteAlertsRow(
                   <div className={entityMode}>{routeLinks}</div>
                 )) ||
                 (!showRouteNameLink && (
-                  <div className={entityMode}>{entityIdentifier} </div>
+                  <div className="route-alert-entityid">
+                    <div className={entityMode}>{entityIdentifier} </div>
+                  </div>
                 )) ||
                 (entityType === 'stop' &&
                   showRouteNameLink &&
@@ -136,6 +142,21 @@ export default function RouteAlertsRow(
                 (!showRouteNameLink && (
                   <div className={entityMode}>{entityIdentifier}</div>
                 )))}
+            {showTime && (
+              <div className="route-alert-time-period">
+                {getTimePeriod({
+                  currentTime: moment.unix(currentTime),
+                  startTime: moment.unix(startTime),
+                  endTime: moment.unix(endTime),
+                  intl,
+                })}
+              </div>
+            )}
+          </div>
+        )}
+        {description && (
+          <div className="route-alert-body">
+            {description}
             {url && (
               <ExternalLink className="route-alert-url" href={checkedUrl}>
                 {intl.formatMessage({ id: 'extra-info' })}
@@ -143,18 +164,6 @@ export default function RouteAlertsRow(
             )}
           </div>
         )}
-        {showTime && (
-          <div className="route-alert-time-period">
-            {getTimePeriod({
-              currentTime: moment.unix(currentTime),
-              startTime: moment.unix(startTime),
-              endTime: moment.unix(endTime),
-              intl,
-            })}
-          </div>
-        )}
-        {header && <div className="route-alert-header">{header}</div>}
-        {description && <div className="route-alert-body">{description}</div>}
       </div>
     </div>
   );
@@ -169,7 +178,6 @@ RouteAlertsRow.propTypes = {
   entityMode: PropTypes.string,
   entityType: PropTypes.oneOf(['route', 'stop']),
   expired: PropTypes.bool,
-  header: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   severityLevel: PropTypes.string,
   startTime: PropTypes.number,
   url: PropTypes.string,

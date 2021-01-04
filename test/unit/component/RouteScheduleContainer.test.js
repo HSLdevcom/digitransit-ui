@@ -47,6 +47,7 @@ describe('<RouteScheduleContainer />', () => {
         },
       },
       serviceDay: '20190115',
+      breakpoint: 'large',
     };
     const wrapper = shallowWithIntl(
       <RouteScheduleContainer {...props} match={mockMatch} />,

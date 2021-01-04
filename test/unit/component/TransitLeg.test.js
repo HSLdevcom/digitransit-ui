@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import TransitLeg from '../../../app/component/TransitLeg';
+import { Component as TransitLeg } from '../../../app/component/TransitLeg';
 import IntermediateLeg from '../../../app/component/IntermediateLeg';
 import {
   RealtimeStateType,
@@ -11,11 +11,13 @@ import {
 } from '../../../app/constants';
 import RouteNumber from '../../../app/component/RouteNumber';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
+import { mockContext } from '../helpers/mock-context';
 
 const defaultProps = {
   children: <div />,
   focusAction: () => {},
   index: 0,
+  lang: 'fi',
 };
 
 describe('<TransitLeg />', () => {
@@ -62,10 +64,10 @@ describe('<TransitLeg />', () => {
     };
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
+        ...mockContext,
         config: {
-          itinerary: {
-            showZoneLimits: true,
-          },
+          itinerary: { showZoneLimits: true },
+          colors: { primary: 'ffffff' },
         },
         focusFunction: () => () => {},
       },
@@ -127,12 +129,13 @@ describe('<TransitLeg />', () => {
       },
       mode: 'BUS',
     };
+
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
+        ...mockContext,
         config: {
-          itinerary: {
-            showZoneLimits: true,
-          },
+          itinerary: { showZoneLimits: true },
+          colors: { primary: 'ffffff' },
         },
         focusFunction: () => () => {},
       },
@@ -194,10 +197,10 @@ describe('<TransitLeg />', () => {
     };
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
+        ...mockContext,
         config: {
-          itinerary: {
-            showZoneLimits: true,
-          },
+          itinerary: { showZoneLimits: true },
+          colors: { primary: 'ffffff' },
         },
         focusFunction: () => () => {},
       },
@@ -254,10 +257,10 @@ describe('<TransitLeg />', () => {
     };
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
+        ...mockContext,
         config: {
-          itinerary: {
-            showZoneLimits: false,
-          },
+          itinerary: { showZoneLimits: false },
+          colors: { primary: 'ffffff' },
         },
         focusFunction: () => () => {},
       },
@@ -310,10 +313,10 @@ describe('<TransitLeg />', () => {
     };
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
+        ...mockContext,
         config: {
-          itinerary: {
-            showZoneLimits: true,
-          },
+          itinerary: { showZoneLimits: true },
+          colors: { primary: 'ffffff' },
         },
         focusFunction: () => () => {},
       },
@@ -372,9 +375,8 @@ describe('<TransitLeg />', () => {
     };
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
-        config: {
-          itinerary: {},
-        },
+        ...mockContext,
+        config: { itinerary: {}, colors: { primary: 'ffffff' } },
         focusFunction: () => () => {},
       },
     });
@@ -418,7 +420,11 @@ describe('<TransitLeg />', () => {
       mode: 'BUS',
     };
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: { config: { itinerary: {} }, focusFunction: () => {} },
+      context: {
+        ...mockContext,
+        config: { itinerary: {}, colors: { primary: 'ffffff' } },
+        focusFunction: () => () => {},
+      },
     });
     expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
       AlertSeverityLevelType.Warning,
@@ -466,7 +472,11 @@ describe('<TransitLeg />', () => {
       mode: 'BUS',
     };
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: { config: { itinerary: {} }, focusFunction: () => {} },
+      context: {
+        ...mockContext,
+        config: { itinerary: {}, colors: { primary: 'ffffff' } },
+        focusFunction: () => () => {},
+      },
     });
     expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
       AlertSeverityLevelType.Warning,
@@ -510,7 +520,11 @@ describe('<TransitLeg />', () => {
       mode: 'BUS',
     };
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: { config: { itinerary: {} }, focusFunction: () => {} },
+      context: {
+        ...mockContext,
+        config: { itinerary: {}, colors: { primary: 'ffffff' } },
+        focusFunction: () => () => {},
+      },
     });
     expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
       AlertSeverityLevelType.Warning,
@@ -554,7 +568,11 @@ describe('<TransitLeg />', () => {
       mode: 'BUS',
     };
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: { config: { itinerary: {} }, focusFunction: () => {} },
+      context: {
+        ...mockContext,
+        config: { itinerary: {}, colors: { primary: 'ffffff' } },
+        focusFunction: () => () => {},
+      },
     });
     expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
       AlertSeverityLevelType.Warning,
@@ -604,7 +622,11 @@ describe('<TransitLeg />', () => {
       mode: 'BUS',
     };
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: { config: { itinerary: {} }, focusFunction: () => {} },
+      context: {
+        ...mockContext,
+        config: { itinerary: {}, colors: { primary: 'ffffff' } },
+        focusFunction: () => () => {},
+      },
     });
     expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
       AlertSeverityLevelType.Warning,
@@ -647,15 +669,17 @@ describe('<TransitLeg />', () => {
       },
       mode: 'BUS',
     };
+
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
+        ...mockContext,
         config: {
           itinerary: {},
           showTicketInformation: true,
           availableTickets: { HSL: { 'HSL:A': { price: 5.5, zones: ['A'] } } },
           feedIds: ['HSL', 'HSLlautta'],
         },
-        focusFunction: () => {},
+        focusFunction: () => () => {},
       },
     });
     expect(wrapper.find('.disclaimer-container')).to.have.lengthOf(1);
@@ -698,15 +722,17 @@ describe('<TransitLeg />', () => {
       },
       mode: 'BUS',
     };
+
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
+        ...mockContext,
         config: {
           itinerary: {},
           showTicketInformation: true,
           availableTickets: { HSL: { 'foo:A': { price: 5.5, zones: ['A'] } } },
           feedIds: ['HSL', 'HSLlautta'],
         },
-        focusFunction: () => {},
+        focusFunction: () => () => {},
       },
     });
     expect(wrapper.find('.disclaimer-container')).to.have.lengthOf(1);
@@ -751,8 +777,13 @@ describe('<TransitLeg />', () => {
       },
       mode: 'BUS',
     };
+
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: { config: { itinerary: {} }, focusFunction: () => {} },
+      context: {
+        ...mockContext,
+        config: { itinerary: {} },
+        focusFunction: () => () => {},
+      },
     });
     expect(wrapper.find(ServiceAlertIcon).prop('severityLevel')).to.equal(
       AlertSeverityLevelType.Info,
