@@ -125,21 +125,33 @@ class OriginDestinationBar extends React.Component {
     }
   };
 
+  updateItinerarySearch = (origin, destination, location) => {
+    const newLocation = {
+      ...location,
+      state: {
+        ...location.state,
+        summaryPageSelected: 0,
+      },
+      pathname: getPathWithEndpointObjects(
+        origin,
+        destination,
+        PREFIX_ITINERARY_SUMMARY,
+      ),
+    };
+    this.context.router.replace(newLocation);
+  };
+
   swapEndpoints = () => {
     const { location } = this.context.match;
     const intermediatePlaces = getIntermediatePlaces(location.query);
     if (intermediatePlaces.length > 1) {
       location.query.intermediatePlaces.reverse();
     }
-    const newLocation = {
-      ...location,
-      pathname: getPathWithEndpointObjects(
-        this.props.destination,
-        this.props.origin,
-        PREFIX_ITINERARY_SUMMARY,
-      ),
-    };
-    this.context.router.replace(newLocation);
+    this.updateItinerarySearch(
+      this.props.destination,
+      this.props.origin,
+      location,
+    );
   };
 
   onLocationSelect = (item, id) => {
@@ -151,16 +163,11 @@ class OriginDestinationBar extends React.Component {
       destination = item;
       this.context.executeAction(storeDestination, item);
     }
-    const { location } = this.context.match;
-    const newLocation = {
-      ...location,
-      pathname: getPathWithEndpointObjects(
-        origin,
-        destination,
-        PREFIX_ITINERARY_SUMMARY,
-      ),
-    };
-    this.context.router.replace(newLocation);
+    this.updateItinerarySearch(
+      origin,
+      destination,
+      this.context.match.location,
+    );
   };
 
   render() {
