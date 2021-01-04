@@ -47,6 +47,19 @@ export const getItineraryPath = (from, to, idx) =>
 export const isEmpty = s =>
   s === undefined || s === null || s.trim() === '' || s.trim() === '-';
 
+export const coordsDiff = (c1, c2) =>
+  Number.isNaN(c1) !== Number.isNaN(c2) ||
+  (!Number.isNaN(c1) && Math.abs(c1 - c2) > 0.0001);
+
+export const sameLocations = (l1, l2) => {
+  return (
+    (l1.type === 'CurrentLocation' && l2.type === 'CurrentLocation') ||
+    (l1.address === l2.address &&
+      !coordsDiff(l1.lat, l2.lat) &&
+      !coordsDiff(l1.lon, l2.lon))
+  );
+};
+
 export const getIndexPath = (origin, destination, indexPath) => {
   if (isEmpty(origin) && isEmpty(destination)) {
     return indexPath === '' ? '/' : `/${indexPath}`;

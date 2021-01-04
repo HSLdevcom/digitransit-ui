@@ -21,6 +21,7 @@ import {
   getPathWithEndpointObjects,
   getStopRoutePath,
   parseLocation,
+  sameLocations,
   isItinerarySearchObjects,
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
@@ -78,12 +79,17 @@ class IndexPage extends React.Component {
     this.setState({
       isClient: true,
     });
+
     // synchronizing page init using fluxible is - hard -
     // see navigation conditions in componentDidUpdate below
-    this.pendingOrigin = origin;
-    this.pendingDestination = destination;
-    this.context.executeAction(storeOrigin, origin);
-    this.context.executeAction(storeDestination, destination);
+    if (!sameLocations(this.props.origin, origin)) {
+      this.pendingOrigin = origin;
+      this.context.executeAction(storeOrigin, origin);
+    }
+    if (!sameLocations(this.props.destination, destination)) {
+      this.pendingDestination = destination;
+      this.context.executeAction(storeDestination, destination);
+    }
 
     scrollTop();
   }

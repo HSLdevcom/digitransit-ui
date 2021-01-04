@@ -6,9 +6,11 @@ import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { startLocationWatch } from '../action/PositionActions';
 import { isBrowser } from '../util/browser';
+import { coordsDiff } from '../util/path';
 import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
 
+// This container updates origin and destination store if they are set to follow current location
 export default function withGeomover(WrappedComponent) {
   const geomover = connectToStores(
     props => <WrappedComponent {...props} />,
@@ -54,10 +56,16 @@ export default function withGeomover(WrappedComponent) {
             locationState.hasLocation &&
             !locationState.isReverseGeocodingInProgress
           ) {
-            target.address = locationState.address;
-            target.lat = locationState.lat;
-            target.lon = locationState.lon;
-            context.executeAction(action, target);
+            if (
+              target.address !== locationState.address ||
+              coordsDiff(target.lat, locationState.lat) ||
+              coordsDiff(target.lon, locationState.lon)
+            ) {
+              target.address = locationState.address;
+              target.lat = locationState.lat;
+              target.lon = locationState.lon;
+              context.executeAction(action, target);
+            }
           }
         }
       }

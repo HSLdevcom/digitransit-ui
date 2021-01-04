@@ -41,7 +41,7 @@ export const otpToLocation = otpString => {
 };
 
 export const addressToItinerarySearch = location => {
-  if (location.type === 'CurrentPosition' && !location.lat) {
+  if (location.type === 'CurrentLocation' && !location.lat) {
     return 'POS';
   }
   if (!location.lat) {
@@ -53,14 +53,12 @@ export const addressToItinerarySearch = location => {
 };
 
 export const locationToOTP = location => {
-  if (location.type === 'CurrentPosition') {
-    return 'POS';
-  }
-  if (location.address && location.lon && location.lat) {
-    return `${location.address}::${location.lat},${location.lon}`;
+  if (location.lat) {
+    const address = location.address || '';
+    return `${address}::${location.lat},${location.lon}`;
   }
   if (location.type === 'SelectFromMap') {
-    return `${location.type}`;
+    return location.type;
   }
   return '-';
 };
