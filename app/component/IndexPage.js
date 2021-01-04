@@ -73,18 +73,40 @@ class IndexPage extends React.Component {
     const origin = parseLocation(from);
     const destination = parseLocation(to);
 
+    // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
+    this.setState({
+      isClient: true,
+    });
+    // synchronizing page init using fluxible is - hard -
+    // see navigation conditions in componentDidUpdate below
+    this.pendingOrigin = origin;
+    this.pendingDestination = destination;
     this.context.executeAction(storeOrigin, origin);
     this.context.executeAction(storeDestination, destination);
 
-    // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
-    this.setState({ isClient: true });
     scrollTop();
   }
 
   componentDidUpdate() {
+    const { origin, destination } = this.props;
+
+    const pending = this.pendingOrigin || this.pendingDestination;
+    if (this.pendingOrigin && isEqual(this.pendingOrigin, origin)) {
+      delete this.pendingOrigin;
+    }
+    if (
+      this.pendingDestination &&
+      isEqual(this.pendingDestination, destination)
+    ) {
+      delete this.pendingDestination;
+    }
+    if (pending) {
+      // not ready for navigation yet
+      return;
+    }
+
     const { executeAction, router, match, config } = this.context;
     const { location } = match;
-    const { origin, destination } = this.props;
 
     if (isItinerarySearchObjects(origin, destination)) {
       const itinerarySearch = {
