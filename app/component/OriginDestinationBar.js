@@ -12,18 +12,14 @@ import withSearchContext from './WithSearchContext';
 import SelectFromMapHeader from './SelectFromMapHeader';
 import SelectFromMapPageMap from './map/SelectFromMapPageMap';
 import DTModal from './DTModal';
-import { setIntermediatePlaces } from '../util/queryUtils';
+import {
+  setIntermediatePlaces,
+  updateItinerarySearch,
+} from '../util/queryUtils';
 import { getIntermediatePlaces } from '../util/otpStrings';
 import { dtLocationShape } from '../util/shapes';
 import { setViaPoints } from '../action/ViaPointActions';
-import storeOrigin from '../action/originActions';
-import storeDestination from '../action/destinationActions';
 import { LightenDarkenColor } from '../util/colorUtils';
-import {
-  getPathWithEndpointObjects,
-  PREFIX_ITINERARY_SUMMARY,
-} from '../util/path';
-import { saveFutureRoute } from '../action/FutureRoutesActions';
 
 const DTAutosuggestPanelWithSearchContext = withSearchContext(
   DTAutosuggestPanel,
@@ -37,8 +33,8 @@ const locationToOtp = location =>
 class OriginDestinationBar extends React.Component {
   static propTypes = {
     className: PropTypes.string,
-    destination: dtLocationShape,
     origin: dtLocationShape,
+    destination: dtLocationShape,
     language: PropTypes.string,
     isMobile: PropTypes.bool,
     showFavourites: PropTypes.bool.isRequired,
@@ -126,38 +122,18 @@ class OriginDestinationBar extends React.Component {
     }
   };
 
-  updateItinerarySearch = (origin, destination, location) => {
-    this.context.executeAction(saveFutureRoute, {
-      origin,
-      destination,
-      query: location.query,
-    });
-
-    const newLocation = {
-      ...location,
-      state: {
-        ...location.state,
-        summaryPageSelected: 0,
-      },
-      pathname: getPathWithEndpointObjects(
-        origin,
-        destination,
-        PREFIX_ITINERARY_SUMMARY,
-      ),
-    };
-    this.context.router.replace(newLocation);
-  };
-
   swapEndpoints = () => {
     const { location } = this.context.match;
     const intermediatePlaces = getIntermediatePlaces(location.query);
     if (intermediatePlaces.length > 1) {
       location.query.intermediatePlaces.reverse();
     }
-    this.updateItinerarySearch(
+    updateItinerarySearch(
       this.props.destination,
       this.props.origin,
       location,
+      this.context.executeAction,
+      this.context.router,
     );
   };
 
@@ -165,15 +141,15 @@ class OriginDestinationBar extends React.Component {
     let { origin, destination } = this.props;
     if (id === 'origin') {
       origin = item;
-      this.context.executeAction(storeOrigin, item);
     } else {
       destination = item;
-      this.context.executeAction(storeDestination, item);
     }
-    this.updateItinerarySearch(
+    updateItinerarySearch(
       origin,
       destination,
       this.context.match.location,
+      this.context.executeAction,
+      this.context.router,
     );
   };
 

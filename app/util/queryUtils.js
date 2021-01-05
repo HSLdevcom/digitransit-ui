@@ -1,9 +1,8 @@
 import isString from 'lodash/isString';
 import cloneDeep from 'lodash/cloneDeep';
 import { graphql } from 'react-relay';
-
 import { parseLatLon } from './otpStrings';
-import { PREFIX_ITINERARY_SUMMARY } from './path';
+import { getPathWithEndpointObjects, PREFIX_ITINERARY_SUMMARY } from './path';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
 
 /**
@@ -127,6 +126,34 @@ export const setIntermediatePlaces = (router, match, newIntermediatePlaces) => {
       intermediatePlaces: parsedIntermediatePlaces,
     });
   }
+};
+
+export const updateItinerarySearch = (
+  origin,
+  destination,
+  location,
+  executeAction,
+  router,
+) => {
+  executeAction(saveFutureRoute, {
+    origin,
+    destination,
+    query: location.query,
+  });
+
+  const newLocation = {
+    ...location,
+    state: {
+      ...location.state,
+      summaryPageSelected: 0,
+    },
+    pathname: getPathWithEndpointObjects(
+      origin,
+      destination,
+      PREFIX_ITINERARY_SUMMARY,
+    ),
+  };
+  router.replace(newLocation);
 };
 
 /**

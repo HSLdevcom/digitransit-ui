@@ -4,13 +4,14 @@ import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import { withLeaflet } from 'react-leaflet/es/context';
 import { addViaPoint } from '../../action/ViaPointActions';
-import { PREFIX_ITINERARY_SUMMARY } from '../../util/path';
-import { setIntermediatePlaces } from '../../util/queryUtils';
+import { PREFIX_ITINERARY_SUMMARY, parseLocation } from '../../util/path';
 import { getIntermediatePlaces } from '../../util/otpStrings';
+import {
+  setIntermediatePlaces,
+  updateItinerarySearch,
+} from '../../util/queryUtils';
 import { dtLocationShape } from '../../util/shapes';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import storeOrigin from '../../action/originActions';
-import storeDestination from '../../action/destinationActions';
 
 const locationToOtp = location =>
   `${location.address}::${location.lat},${location.lon}${
@@ -37,13 +38,62 @@ class MarkerPopupBottom extends React.Component {
     config: PropTypes.object.isRequired,
   };
 
+  getOrigin = () => {
+    const { pathname } = this.context.match.location;
+    const [, rootPath] = pathname.split('/');
+    let origin = {};
+
+    if (
+      rootPath === PREFIX_ITINERARY_SUMMARY ||
+      (rootPath === this.context.config.indexPath &&
+        this.context.config.indexPath !== '')
+    ) {
+      // itinerary summary or index with custom indexPath
+      const [, , originString] = pathname.split('/');
+      origin = parseLocation(originString);
+    } else {
+      // index
+      const [, originString] = pathname.split('/');
+      origin = parseLocation(originString);
+    }
+    return origin;
+  };
+
+  getDestination = () => {
+    const { pathname } = this.context.match.location;
+    const [, rootPath] = pathname.split('/');
+
+    let destination = {};
+    if (
+      rootPath === PREFIX_ITINERARY_SUMMARY ||
+      (rootPath === this.context.config.indexPath &&
+        this.context.config.indexPath !== '')
+    ) {
+      // itinerary summary or index with custom indexPath
+      const [, , , destinationString] = pathname.split('/');
+      destination = parseLocation(destinationString);
+    } else {
+      // index
+      const [, , destinationString] = pathname.split('/');
+      destination = parseLocation(destinationString);
+    }
+    return destination;
+  };
+
   routeFrom = () => {
     addAnalyticsEvent({
       action: 'EditJourneyStartPoint',
       category: 'ItinerarySettings',
       name: 'MapPopup',
     });
-    this.context.executeAction(storeOrigin, this.props.location);
+
+    updateItinerarySearch(
+      this.props.location,
+      this.getDestination(),
+      this.context.match.location,
+      this.context.executeAction,
+      this.context.router,
+    );
     this.props.leaflet.map.closePopup();
   };
 
@@ -53,7 +103,14 @@ class MarkerPopupBottom extends React.Component {
       category: 'ItinerarySettings',
       name: 'MapPopup',
     });
-    this.context.executeAction(storeDestination, this.props.location);
+
+    updateItinerarySearch(
+      this.getOrigin(),
+      this.props.location,
+      this.context.match.location,
+      this.context.executeAction,
+      this.context.router,
+    );
     this.props.leaflet.map.closePopup();
   };
 
