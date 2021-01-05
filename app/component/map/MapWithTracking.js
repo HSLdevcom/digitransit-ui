@@ -94,6 +94,7 @@ class MapWithTrackingStateHandler extends React.Component {
     setInitialMapTracking: PropTypes.bool,
     initialZoom: PropTypes.number,
     locationPopup: PropTypes.string,
+    onSelectLocation: PropTypes.func,
     showLocationMessages: PropTypes.bool,
     defaultMapCenter: PropTypes.object.isRequired,
     fitBoundsWithSetCenter: PropTypes.bool,
@@ -105,6 +106,7 @@ class MapWithTrackingStateHandler extends React.Component {
     setInitialMapTracking: false,
     initialZoom: undefined,
     locationPopup: 'reversegeocoding',
+    onSelectLocation: () => null,
     fitBounds: false,
     showLocationMessages: false,
     fitBoundsWithSetCenter: false,
@@ -363,6 +365,7 @@ class MapWithTrackingStateHandler extends React.Component {
         fitBounds={useFitBounds}
         className="flex-grow"
         locationPopup={this.props.locationPopup}
+        onSelectLocation={this.props.onSelectLocation}
         leafletEvents={{
           onDragstart: this.disableMapTracking,
           onMoveend: () => this.setState({ keepOnTracking: false }),

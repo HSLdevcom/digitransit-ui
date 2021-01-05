@@ -36,7 +36,8 @@ class TileLayerContainer extends GridLayer {
   static propTypes = {
     tileSize: PropTypes.number.isRequired,
     zoomOffset: PropTypes.number.isRequired,
-    locationPopup: PropTypes.string, // 'all', 'none', 'reversegeocoding'
+    locationPopup: PropTypes.string, // all, none, reversegeocoding, origindestination
+    onSelectLocation: PropTypes.func,
     stopsNearYouMode: PropTypes.string,
     mapLayers: mapLayerShape.isRequired,
     leaflet: PropTypes.shape({
@@ -348,7 +349,8 @@ class TileLayerContainer extends GridLayer {
             <LocationPopup
               lat={this.state.coords.lat}
               lon={this.state.coords.lng}
-              itinerarySearchButtons={this.props.locationPopup === 'all'}
+              onSelectLocation={this.props.onSelectLocation}
+              locationPopup={this.props.locationPopup}
             />
           </Popup>
         );

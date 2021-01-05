@@ -15,8 +15,9 @@ import DTModal from './DTModal';
 import {
   setIntermediatePlaces,
   updateItinerarySearch,
+  onLocationPopup,
 } from '../util/queryUtils';
-import { getIntermediatePlaces } from '../util/otpStrings';
+import { getIntermediatePlaces, locationToOTP } from '../util/otpStrings';
 import { dtLocationShape } from '../util/shapes';
 import { setViaPoints } from '../action/ViaPointActions';
 import { LightenDarkenColor } from '../util/colorUtils';
@@ -24,11 +25,6 @@ import { LightenDarkenColor } from '../util/colorUtils';
 const DTAutosuggestPanelWithSearchContext = withSearchContext(
   DTAutosuggestPanel,
 );
-
-const locationToOtp = location =>
-  `${location.address}::${location.lat},${location.lon}${
-    location.locationSlack ? `::${location.locationSlack}` : ''
-  }`;
 
 class OriginDestinationBar extends React.Component {
   static propTypes = {
@@ -78,7 +74,7 @@ class OriginDestinationBar extends React.Component {
     setIntermediatePlaces(
       this.context.router,
       this.context.match,
-      p.map(locationToOtp),
+      p.map(locationToOTP),
     );
   };
 
@@ -131,27 +127,20 @@ class OriginDestinationBar extends React.Component {
     updateItinerarySearch(
       this.props.destination,
       this.props.origin,
+      this.context.router,
       location,
       this.context.executeAction,
-      this.context.router,
     );
   };
 
-  onLocationSelect = (item, id) => {
-    let { origin, destination } = this.props;
-    if (id === 'origin') {
-      origin = item;
-    } else {
-      destination = item;
-    }
-    updateItinerarySearch(
-      origin,
-      destination,
-      this.context.match.location,
-      this.context.executeAction,
+  onLocationSelect = (item, id) =>
+    onLocationPopup(
+      item,
+      id,
       this.context.router,
+      this.context.match,
+      this.context.executeAction,
     );
-  };
 
   render() {
     return (

@@ -55,7 +55,8 @@ export const addressToItinerarySearch = location => {
 export const locationToOTP = location => {
   if (location.lat) {
     const address = location.address || '';
-    return `${address}::${location.lat},${location.lon}`;
+    const slack = location.locationSlack ? `::${location.locationSlack}` : '';
+    return `${address}::${location.lat},${location.lon}${slack}`;
   }
   if (location.type === 'SelectFromMap') {
     return location.type;

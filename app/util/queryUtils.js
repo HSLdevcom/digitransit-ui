@@ -1,9 +1,15 @@
 import isString from 'lodash/isString';
 import cloneDeep from 'lodash/cloneDeep';
 import { graphql } from 'react-relay';
-import { parseLatLon } from './otpStrings';
+import {
+  parseLatLon,
+  locationToOTP,
+  otpToLocation,
+  getIntermediatePlaces,
+} from './otpStrings';
 import { getPathWithEndpointObjects, PREFIX_ITINERARY_SUMMARY } from './path';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
+import { addViaPoint } from '../action/ViaPointActions';
 
 /**
  * Removes selected itinerary index from url (pathname) and
@@ -131,9 +137,9 @@ export const setIntermediatePlaces = (router, match, newIntermediatePlaces) => {
 export const updateItinerarySearch = (
   origin,
   destination,
+  router,
   location,
   executeAction,
-  router,
 ) => {
   executeAction(saveFutureRoute, {
     origin,
@@ -154,6 +160,31 @@ export const updateItinerarySearch = (
     ),
   };
   router.replace(newLocation);
+};
+
+export const onLocationPopup = (item, id, router, match, executeAction) => {
+  if (id === 'via') {
+    const viaPoints = getIntermediatePlaces(match.location.query)
+      .concat([item])
+      .map(locationToOTP);
+    executeAction(addViaPoint, item);
+    setIntermediatePlaces(this.context.router, match, viaPoints);
+    return;
+  }
+  let origin = otpToLocation(match.params.from);
+  let destination = otpToLocation(match.params.to);
+  if (id === 'origin') {
+    origin = item;
+  } else {
+    destination = item;
+  }
+  updateItinerarySearch(
+    origin,
+    destination,
+    router,
+    match.location,
+    executeAction,
+  );
 };
 
 /**

@@ -12,6 +12,8 @@ import DestinationStore from '../../store/DestinationStore';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { dtLocationShape } from '../../util/shapes';
 import { parseLocation } from '../../util/path';
+import storeOrigin from '../../action/originActions';
+import storeDestination from '../../action/destinationActions';
 
 const renderMapLayerSelector = () => <SelectMapLayersDialog />;
 
@@ -21,7 +23,11 @@ const locationMarkerModules = {
 };
 let previousFocusPoint;
 let previousMapTracking;
-function IndexPageMap({ match, breakpoint, origin, destination }, { config }) {
+
+function IndexPageMap(
+  { match, breakpoint, origin, destination },
+  { config, executeAction },
+) {
   const originFromURI = parseLocation(match.params.from);
   const destinationFromURI = parseLocation(match.params.to);
   let focusPoint;
@@ -86,8 +92,17 @@ function IndexPageMap({ match, breakpoint, origin, destination }, { config }) {
       </LazilyLoad>,
     );
   }
+
   let map;
   if (breakpoint === 'large') {
+    const selectLocation = (item, id) => {
+      if (id === 'origin') {
+        executeAction(storeOrigin, item);
+      } else {
+        executeAction(storeDestination, item);
+      }
+    };
+
     map = (
       <MapWithTracking
         breakpoint={breakpoint}
@@ -99,7 +114,8 @@ function IndexPageMap({ match, breakpoint, origin, destination }, { config }) {
         showLocationMessages
         initialZoom={initialZoom}
         leafletObjs={leafletObjs}
-        locationPopup="all"
+        locationPopup="origindestination"
+        onSelectLocation={selectLocation}
         renderCustomButtons={() => (
           <>{config.map.showLayerSelector && renderMapLayerSelector()}</>
         )}
@@ -141,6 +157,7 @@ IndexPageMap.defaultProps = {
 
 IndexPageMap.contextTypes = {
   config: PropTypes.object.isRequired,
+  executeAction: PropTypes.func.isRequired,
 };
 
 const IndexPageMapWithBreakpoint = withBreakpoint(IndexPageMap);
