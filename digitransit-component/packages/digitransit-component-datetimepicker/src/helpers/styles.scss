@@ -41,6 +41,9 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     cursor: pointer;
     font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
   }
+  .hidden {
+    display: none;
+  }
 
   .top-row-container {
     margin: 0 0 0 18px;
