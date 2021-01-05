@@ -8,7 +8,6 @@ import PlatformNumber from './PlatformNumber';
 import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import FavouriteStopContainer from './FavouriteStopContainer';
-import { getZoneLabelColor } from '../util/mapIconUtils';
 import { getZoneLabel } from '../util/legUtils';
 
 const StopNearYouHeader = ({ stop, desc, isStation }, { config }) => {
@@ -47,10 +46,7 @@ const StopNearYouHeader = ({ stop, desc, isStation }, { config }) => {
           )}
           <PlatformNumber number={stop.platformCode} short />
           {config.stopCard.header.showZone && (
-            <ZoneIcon
-              zoneId={getZoneLabel(stop.zoneId, config)}
-              zoneLabelColor={getZoneLabelColor(config)}
-            />
+            <ZoneIcon zoneId={getZoneLabel(stop.zoneId, config)} />
           )}
         </div>
       </div>

@@ -24,7 +24,6 @@ import {
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { durationToString } from '../util/timeUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { getZoneLabelColor } from '../util/mapIconUtils';
 import { getZoneLabel } from '../util/legUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { shouldShowFareInfo } from '../util/fareUtils';
@@ -137,7 +136,6 @@ class TransitLeg extends React.Component {
             }
             isLastPlace={isLastPlace}
             isCanceled={isCanceled}
-            zoneLabelColor={getZoneLabelColor(this.context.config)}
           />
         );
       });

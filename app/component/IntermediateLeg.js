@@ -20,7 +20,6 @@ function IntermediateLeg({
   previousZoneId,
   currentZoneId,
   nextZoneId,
-  zoneLabelColor,
   isCanceled,
   isLastPlace,
 }) {
@@ -45,38 +44,16 @@ function IntermediateLeg({
       <div className="small-2 columns itinerary-time-column">
         {showZoneLimits && currentZoneId && (
           <div className="zone-icons-container">
-            {previousZoneId && (
-              <ZoneIcon
-                zoneId={previousZoneId}
-                zoneLabelColor={zoneLabelColor}
-                zoneLabelHeight="20px"
-                zoneLabelWidth="20px"
-                zoneLabelLineHeight="20px"
-                zoneIdFontSize="16px"
-              />
-            )}
+            {previousZoneId && <ZoneIcon zoneId={previousZoneId} />}
             <ZoneIcon
               zoneId={currentZoneId}
               className={cx({
                 'zone-delimiter':
                   showCurrentZoneDelimiter || (previousZoneId && currentZoneId),
               })}
-              zoneLabelColor={zoneLabelColor}
-              zoneLabelHeight="20px"
-              zoneLabelWidth="20px"
-              zoneLabelLineHeight="20px"
-              zoneIdFontSize="16px"
             />
             {nextZoneId && (
-              <ZoneIcon
-                zoneId={nextZoneId}
-                zoneLabelColor={zoneLabelColor}
-                zoneLabelHeight="20px"
-                zoneLabelWidth="20px"
-                zoneLabelLineHeight="20px"
-                zoneIdFontSize="16px"
-                className="zone-delimiter"
-              />
+              <ZoneIcon zoneId={nextZoneId} className="zone-delimiter" />
             )}
           </div>
         )}
@@ -148,7 +125,6 @@ IntermediateLeg.propTypes = {
   previousZoneId: PropTypes.string,
   currentZoneId: PropTypes.string,
   nextZoneId: PropTypes.string,
-  zoneLabelColor: PropTypes.string,
   isLastPlace: PropTypes.bool,
   gtfsId: PropTypes.string,
   isCanceled: PropTypes.bool,

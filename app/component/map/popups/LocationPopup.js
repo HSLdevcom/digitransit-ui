@@ -11,7 +11,6 @@ import Loading from '../../Loading';
 import ZoneIcon from '../../ZoneIcon';
 import PreferencesStore from '../../../store/PreferencesStore';
 import { getJson } from '../../../util/xhrPromise';
-import { getZoneLabelColor } from '../../../util/mapIconUtils';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 class LocationPopup extends React.Component {
@@ -146,14 +145,7 @@ class LocationPopup extends React.Component {
             unlinked
             className="padding-small"
           >
-            <ZoneIcon
-              zoneId={zoneId}
-              zoneIdFontSize="11px"
-              zoneLabelColor={getZoneLabelColor(this.context.config)}
-              zoneLabelHeight="15px"
-              zoneLabelWidth="15px"
-              zoneLabelLineHeight="15px"
-            />
+            <ZoneIcon zoneId={zoneId} />
           </CardHeader>
         </div>
         {this.props.itinerarySearchButtons && (

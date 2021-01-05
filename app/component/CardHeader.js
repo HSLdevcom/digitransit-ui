@@ -7,7 +7,6 @@ import ZoneIcon from './ZoneIcon';
 import SplitBars from './SplitBars';
 import Favourite from './Favourite';
 import BackButton from './BackButton'; // DT-3472
-import { getZoneLabelColor } from '../util/mapIconUtils';
 import { getZoneLabel } from '../util/legUtils';
 
 const CardHeader = (
@@ -62,14 +61,7 @@ const CardHeader = (
             ) : null}
             {code != null ? <p className="card-code">{code}</p> : null}
             {headerConfig && headerConfig.showZone && stop.zoneId && (
-              <ZoneIcon
-                zoneId={getZoneLabel(stop.zoneId, config)}
-                zoneIdFontSize="11px"
-                zoneLabelColor={getZoneLabelColor(config)}
-                zoneLabelHeight="15px"
-                zoneLabelWidth="15px"
-                zoneLabelLineHeight="15px"
-              />
+              <ZoneIcon zoneId={getZoneLabel(stop.zoneId, config)} />
             )}
           </div>
         </div>
