@@ -180,9 +180,10 @@ class StopsNearYouContainer extends React.Component {
     const isCityBikeView = this.props.match.params.mode === 'CITYBIKE';
     const sortedPatterns = isCityBikeView
       ? stopPatterns
-          .slice()
+          .slice(0, 5)
           .sort(sortNearbyRentalStations(this.props.favouriteIds))
-      : stopPatterns.slice().sort(sortNearbyStops(this.props.favouriteIds));
+      : stopPatterns.slice(0, 5).sort(sortNearbyStops(this.props.favouriteIds));
+    sortedPatterns.push(...stopPatterns.slice(5));
     const stops = sortedPatterns.map(({ node }) => {
       const stop = node.place;
       /* eslint-disable-next-line no-underscore-dangle */
