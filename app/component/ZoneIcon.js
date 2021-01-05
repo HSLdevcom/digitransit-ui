@@ -2,17 +2,14 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-/**
- * The default identifier for an unknown zone.
- */
-export const ZONE_UNKNOWN = 'Ei HSL';
 
-const ZoneIcon = ({ className, showTitle, zoneId }, { intl }) => {
+const ZoneIcon = ({ className, showTitle, zoneId }, { intl, config }) => {
   if (!zoneId) {
     return null;
   }
 
-  const zoneUnknown = zoneId === ZONE_UNKNOWN;
+  const zoneUnknown =
+    Array.isArray(config.unknownZones) && config.unknownZones.includes(zoneId);
   if (showTitle && zoneUnknown) {
     return null;
   }
@@ -49,6 +46,7 @@ ZoneIcon.defaultProps = {
 
 ZoneIcon.contextTypes = {
   intl: intlShape.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 export default ZoneIcon;

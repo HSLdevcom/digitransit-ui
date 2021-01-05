@@ -417,6 +417,8 @@ export default {
       : '';
   },
 
+  unknownZones: ['Ei HSL'],
+
   showTicketPrice: true,
 
   itinerary: {
