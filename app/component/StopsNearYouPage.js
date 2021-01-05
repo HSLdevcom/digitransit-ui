@@ -613,7 +613,7 @@ const PositioningWrapper = connectToStores(
       };
     }
     if (locationState.locationingFailed) {
-      // Use default endpoint when positioning fails
+      // Use url origin or default endpoint when positioning fails
       if (params.origin) {
         const position = otpToLocation(params.origin);
         return {
