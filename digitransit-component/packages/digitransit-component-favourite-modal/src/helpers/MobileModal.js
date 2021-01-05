@@ -38,6 +38,10 @@ const MobileModal = ({
           value={name || ''}
           placeholder={inputPlaceholder}
           onChange={specifyName}
+          style={{
+            '--color': `${color}`,
+            '--hover-color': `${hoverColor}`,
+          }}
         />
       </div>
       <div className={styles['favourite-modal-mobile-text']}>
