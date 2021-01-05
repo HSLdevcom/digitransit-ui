@@ -67,10 +67,14 @@ class TransitLeg extends React.Component {
       ) {
         return (
           <div className="time-column-zone-icons-container">
-            <ZoneIcon zoneId={getZoneLabel(startZone, this.context.config)} />
+            <ZoneIcon
+              zoneId={getZoneLabel(startZone, this.context.config)}
+              showUnknown
+            />
             <ZoneIcon
               zoneId={getZoneLabel(endZone, this.context.config)}
               className="zone-delimiter"
+              showUnknown
             />
           </div>
         );

@@ -3,25 +3,20 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 
-const ZoneIcon = ({ className, showTitle, zoneId }, { intl, config }) => {
+const ZoneIcon = ({ className, zoneId, showUnknown }, { config }) => {
   if (!zoneId) {
     return null;
   }
 
   const zoneUnknown =
     Array.isArray(config.unknownZones) && config.unknownZones.includes(zoneId);
-  if (showTitle && zoneUnknown) {
+
+  if (!showUnknown && zoneUnknown) {
     return null;
   }
 
   return (
     <div className={cx('zone-icon-container', className)}>
-      {showTitle
-        ? intl.formatMessage({
-            id: 'zone',
-            defaultMessage: 'Zone',
-          })
-        : null}
       {zoneUnknown && <div className="unknown">?</div>}
       {!zoneUnknown && (
         <div className={cx('circle', { 'multi-letter': zoneId.length > 1 })}>
@@ -34,14 +29,14 @@ const ZoneIcon = ({ className, showTitle, zoneId }, { intl, config }) => {
 
 ZoneIcon.propTypes = {
   className: PropTypes.string,
-  showTitle: PropTypes.bool,
   zoneId: PropTypes.string,
+  showUnknown: PropTypes.bool,
 };
 
 ZoneIcon.defaultProps = {
   className: undefined,
-  showTitle: false,
   zoneId: undefined,
+  showUnknown: true,
 };
 
 ZoneIcon.contextTypes = {

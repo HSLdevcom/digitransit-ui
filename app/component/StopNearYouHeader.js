@@ -46,7 +46,10 @@ const StopNearYouHeader = ({ stop, desc, isStation }, { config }) => {
           )}
           <PlatformNumber number={stop.platformCode} short />
           {config.stopCard.header.showZone && (
-            <ZoneIcon zoneId={getZoneLabel(stop.zoneId, config)} />
+            <ZoneIcon
+              zoneId={getZoneLabel(stop.zoneId, config)}
+              showUnknown={false}
+            />
           )}
         </div>
       </div>

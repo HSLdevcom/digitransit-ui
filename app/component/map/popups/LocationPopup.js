@@ -145,7 +145,7 @@ class LocationPopup extends React.Component {
             unlinked
             className="padding-small"
           >
-            <ZoneIcon zoneId={zoneId} />
+            <ZoneIcon zoneId={zoneId} showUnknown={false} />
           </CardHeader>
         </div>
         {this.props.itinerarySearchButtons && (

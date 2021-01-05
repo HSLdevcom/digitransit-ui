@@ -51,9 +51,14 @@ function IntermediateLeg({
                 'zone-delimiter':
                   showCurrentZoneDelimiter || (previousZoneId && currentZoneId),
               })}
+              showUnknown
             />
             {nextZoneId && (
-              <ZoneIcon zoneId={nextZoneId} className="zone-delimiter" />
+              <ZoneIcon
+                zoneId={nextZoneId}
+                className="zone-delimiter"
+                showUnknown
+              />
             )}
           </div>
         )}

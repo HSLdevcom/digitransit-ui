@@ -61,7 +61,10 @@ const CardHeader = (
             ) : null}
             {code != null ? <p className="card-code">{code}</p> : null}
             {headerConfig && headerConfig.showZone && stop.zoneId && (
-              <ZoneIcon zoneId={getZoneLabel(stop.zoneId, config)} />
+              <ZoneIcon
+                zoneId={getZoneLabel(stop.zoneId, config)}
+                showUnknown={false}
+              />
             )}
           </div>
         </div>
