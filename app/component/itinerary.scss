@@ -644,16 +644,21 @@ $itinerary-tab-switch-height: 48px;
       .zone-icon-container {
         position: relative;
         padding: 4px 4px 7px 1px;
-        width: 29px;
         margin-right: 3px;
         &.zone-delimiter {
           border-top: 1px solid $light-gray;
         }
         .circle {
-          height: 20px;
-          width: 20px;
-          font-size: 16px;
+          font-size: 17px;
           margin-left: 5px;
+          line-height: 20px;
+          padding: 0 3px 0 3px;
+          &.multi-letter {
+            margin-left: 2px;
+          }
+        }
+        .circle:not(.multi-letter) {
+          width: 20px;
         }
         .unknown {
           margin-right: 0px;

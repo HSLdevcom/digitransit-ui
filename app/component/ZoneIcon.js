@@ -26,7 +26,11 @@ const ZoneIcon = ({ className, showTitle, zoneId }, { intl }) => {
           })
         : null}
       {zoneUnknown && <div className="unknown">?</div>}
-      {!zoneUnknown && <div className="circle">{zoneId}</div>}
+      {!zoneUnknown && (
+        <div className={cx('circle', { 'multi-letter': zoneId.length > 1 })}>
+          {zoneId}
+        </div>
+      )}
     </div>
   );
 };
