@@ -29,6 +29,8 @@ export default class ParkAndRidePopup extends React.Component {
     name: PropTypes.string.isRequired,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
+    locationPopup: PropTypes.string,
+    onSelectLocation: PropTypes.func,
   };
 
   render() {
@@ -56,6 +58,8 @@ export default class ParkAndRidePopup extends React.Component {
             lat: this.props.lat,
             lon: this.props.lon,
           }}
+          locationPopup={this.props.locationPopup}
+          onSelectLocation={this.props.onSelectLocation}
         />
       </div>
     );

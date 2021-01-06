@@ -265,7 +265,14 @@ class TileLayerContainer extends GridLayer {
         let id;
         if (this.state.selectableTargets[0].layer === 'citybike') {
           ({ id } = this.state.selectableTargets[0].feature.properties);
-          contents = <CityBikePopup stationId={id} context={this.context} />;
+          contents = (
+            <CityBikePopup
+              stationId={id}
+              context={this.context}
+              onSelectLocation={this.props.onSelectLocation}
+              locationPopup={this.props.locationPopup}
+            />
+          );
         } else if (
           this.state.selectableTargets[0].layer === 'parkAndRide' &&
           this.state.selectableTargets[0].feature.properties.facilityIds
@@ -281,6 +288,8 @@ class TileLayerContainer extends GridLayer {
               }
               coords={this.state.coords}
               context={this.context}
+              onSelectLocation={this.props.onSelectLocation}
+              locationPopup={this.props.locationPopup}
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {
@@ -295,6 +304,8 @@ class TileLayerContainer extends GridLayer {
               }
               coords={this.state.coords}
               context={this.context}
+              onSelectLocation={this.props.onSelectLocation}
+              locationPopup={this.props.locationPopup}
             />
           );
         }

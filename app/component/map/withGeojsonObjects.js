@@ -74,7 +74,7 @@ function withGeojsonObjects(Component) {
           objs.push(
             <LazilyLoad modules={jsonModules} key={key}>
               {({ GeoJSON }) => (
-                <GeoJSON bounds={bounds} data={geoJson[key].data} />
+                <GeoJSON bounds={bounds} data={geoJson[key].data} {...props} />
               )}
             </LazilyLoad>,
           );

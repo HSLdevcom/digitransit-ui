@@ -27,6 +27,8 @@ class CityBikePopup extends React.Component {
 
   static propTypes = {
     station: PropTypes.object.isRequired,
+    locationPopup: PropTypes.string,
+    onSelectLocation: PropTypes.func,
   };
 
   render() {
@@ -47,6 +49,8 @@ class CityBikePopup extends React.Component {
             lat: this.props.station.lat,
             lon: this.props.station.lon,
           }}
+          locationPopup={this.props.locationPopup}
+          onSelectLocation={this.props.onSelectLocation}
         />
       </div>
     );
