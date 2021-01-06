@@ -2187,7 +2187,7 @@ class SummaryPage extends React.Component {
     // Call props.map directly in order to render to same map instance
     let map;
     if (
-      this.props.match.params.hash === 'bikeAndVehicle' &&
+      ['bikeAndVehicle', 'parkAndRide'].includes(match.params.hash) &&
       !routeSelected(
         match.params.hash,
         match.params.secondHash,
