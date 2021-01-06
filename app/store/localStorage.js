@@ -120,6 +120,14 @@ export function setCustomizedSettings(data) {
       data.includeBikeSuggestions,
       oldSettings.includeBikeSuggestions,
     ),
+    includeCarSuggestions: getValueOrDefault(
+      data.includeBikeSuggestions,
+      oldSettings.includeBikeSuggestions,
+    ),
+    includeParkAndRideSuggestions: getValueOrDefault(
+      data.includeParkAndRideSuggestions,
+      oldSettings.includeParkAndRideSuggestions,
+    ),
   };
 
   setItem('customizedSettings', newSettings);
