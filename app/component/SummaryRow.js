@@ -353,10 +353,12 @@ const SummaryRow = (
         />,
       );
     } else if (leg.mode === 'CAR') {
+      const drivingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
           leg={leg}
+          duration={drivingTime}
           mode="CAR"
           legLength={legLength}
           large={breakpoint === 'large'}
