@@ -87,7 +87,7 @@ function getDisplayName(Component) {
 
 /**
  * Extends the given Component with breakpoint handling. The breakpoint is
- * extracted from context and given to the extended component as a property.
+ * setModeToParkRideIfSelected from context and given to the extended component as a property.
  *
  * @param {*} Component The component to extend with breakpoint handling
  * @param {boolean} forwardRef Whether any ref given to the HOC should be forwarded to the extended Component.

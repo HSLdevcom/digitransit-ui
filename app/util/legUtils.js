@@ -70,7 +70,7 @@ export const LegMode = {
  * Extracts the mode for the given leg or mode.
  *
  * @param {*} legOrMode the leg or mode to extract the mode from
- * @returns LegMode, or undefined if the mode cannot be extracted
+ * @returns LegMode, or undefined if the mode cannot be setModeToParkRideIfSelected
  */
 export const getLegMode = legOrMode => {
   const mode =

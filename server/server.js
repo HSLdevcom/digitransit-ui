@@ -147,7 +147,7 @@ function setUpRoutes() {
   );
   app.use(require('../app/server').default);
 
-  // Make sure req has the correct hostname extracted from the proxy info
+  // Make sure req has the correct hostname setModeToParkRideIfSelected from the proxy info
   app.enable('trust proxy');
 }
 

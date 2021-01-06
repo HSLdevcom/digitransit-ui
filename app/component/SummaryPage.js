@@ -967,6 +967,8 @@ class SummaryPage extends React.Component {
       time: latestDepartureTime.format('HH:mm'),
     };
 
+    this.setModeToParkRideIfSelected(tunedParams);
+
     const query = graphql`
       query SummaryPage_later_Query(
         $fromPlace: String!
@@ -1021,6 +1023,7 @@ class SummaryPage extends React.Component {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
           itineraries {
+            duration
             startTime
             endTime
             ...ItineraryTab_itinerary
@@ -1066,6 +1069,10 @@ class SummaryPage extends React.Component {
                 }
                 bikePark {
                   bikeParkId
+                  name
+                }
+                carPark {
+                  carParkId
                   name
                 }
               }
@@ -1163,6 +1170,8 @@ class SummaryPage extends React.Component {
       time: earliestArrivalTime.format('HH:mm'),
     };
 
+    this.setModeToParkRideIfSelected(tunedParams);
+
     const query = graphql`
       query SummaryPage_earlier_Query(
         $fromPlace: String!
@@ -1217,6 +1226,7 @@ class SummaryPage extends React.Component {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
           itineraries {
+            duration
             startTime
             endTime
             ...ItineraryTab_itinerary
@@ -1262,6 +1272,10 @@ class SummaryPage extends React.Component {
                 }
                 bikePark {
                   bikeParkId
+                  name
+                }
+                carPark {
+                  carParkId
                   name
                 }
               }
@@ -1313,6 +1327,16 @@ class SummaryPage extends React.Component {
       },
     );
   };
+
+  setModeToParkRideIfSelected(tunedParams) {
+    if (this.props.match.params.hash === 'parkAndRide') {
+      // eslint-disable-next-line no-param-reassign
+      tunedParams.modes = [
+        { mode: 'CAR', qualifier: 'PARK' },
+        { mode: 'TRANSIT' },
+      ];
+    }
+  }
 
   componentDidMount() {
     const host =
