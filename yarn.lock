@@ -1764,7 +1764,7 @@
     "@hsl-fi/animated-spinner" "^0.1.0"
     "@hsl-fi/utilities" "^0.2.1"
 
-"@hsl-fi/hooks@^0.2.0":
+"@hsl-fi/hooks@0.2.0", "@hsl-fi/hooks@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@hsl-fi/hooks/-/hooks-0.2.0.tgz#7d1aa19c033787211e1197d29642be313f736a73"
   integrity sha512-Ojy3hoq2joh2kKT2KmZ0rSSdnNoHqjumEfTw59b4TcnCaszicPLrLvgGbOvXBO34R9MMFtfzdmx/JQ7ZzIinsQ==
