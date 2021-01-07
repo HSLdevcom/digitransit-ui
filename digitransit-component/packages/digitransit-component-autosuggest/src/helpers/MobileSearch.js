@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useCallback } from 'react';
-import { useScrollLock } from '@hsl-fi/hooks';
+import hooks from '@hsl-fi/hooks';
 import cx from 'classnames';
 import ReactModal from 'react-modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
@@ -48,7 +48,7 @@ const MobileSearch = ({
 }) => {
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
-  const { lock, unlock } = useScrollLock();
+  const { lock, unlock } = hooks.useScrollLock();
   const [isDialogOpen, setDialogOpen] = useState(false);
   const inputRef = React.useRef();
 
