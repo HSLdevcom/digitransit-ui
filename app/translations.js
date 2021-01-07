@@ -433,6 +433,8 @@ const translations = {
       'Zeige Details zu Routenvorschlag {number}',
     'itinerary-page.title': 'Reisebeschreibung',
     'itinerary-page.update-alert': 'Suchergebnisse aktualisiert',
+    'itinerary-summary-page-street-mode.update-alert':
+      'Walking and biking results updated',
     'itinerary-summary-page.description': 'Reisevorschläge',
     'itinerary-summary-page.title': 'Routenvorschläge',
     'itinerary-summary-row.biking-distance':
@@ -1001,6 +1003,8 @@ const translations = {
     'itinerary-page.show-details-label': 'Show itinerary {number} details',
     'itinerary-page.title': 'Itinerary',
     'itinerary-page.update-alert': 'Search results updated',
+    'itinerary-summary-page-street-mode.update-alert':
+      'Walking and biking results updated',
     'itinerary-summary-page.description': 'Route suggestions',
     'itinerary-summary-page.title': 'Route suggestions',
     'itinerary-summary-row.biking-distance':
@@ -1878,6 +1882,8 @@ const translations = {
     'itinerary-page.show-details-label': 'Näytä reittiohje {number}',
     'itinerary-page.title': 'Reittiohje',
     'itinerary-page.update-alert': 'Hakutulokset päivitetty',
+    'itinerary-summary-page-street-mode.update-alert':
+      'Kävely ja pyöräily hakutulokset päivitetty',
     'itinerary-summary-page.description': 'Reittiehdotukset',
     'itinerary-summary-row.biking-distance':
       'Pyöräilyä yhteensä {totalDistance}.',
@@ -3019,6 +3025,8 @@ const translations = {
     'itinerary-page.show-details': 'Afișează detalierea itinerarului',
     'itinerary-page.title': 'Itinerar',
     'itinerary-page.update-alert': 'Rezultatele căutării au fost actualizate',
+    'itinerary-summary-page-street-mode.update-alert':
+      'Walking and biking results updated',
     'itinerary-summary-page.description': 'Sugestii de trasee',
     'itinerary-summary-page.title': 'Sugestii de trasee',
     'itinerary-summary-row.biking-distance':
@@ -3508,6 +3516,8 @@ const translations = {
     'itinerary-page.show-details-label': 'Visa ruttbeskrivningen {number}',
     'itinerary-page.title': 'Ruttinformation',
     'itinerary-page.update-alert': 'Sökresultaten uppdaterade',
+    'itinerary-summary-page-street-mode.update-alert':
+      'Walking and biking results updated',
     'itinerary-summary-page.description': 'Ruttförslag',
     'itinerary-summary-page.title': 'Ruttförslag',
     'itinerary-summary-row.biking-distance':

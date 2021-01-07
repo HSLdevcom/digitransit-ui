@@ -2105,6 +2105,21 @@ class SummaryPage extends React.Component {
         />
       </span>
     );
+
+    const loadingStreeModeSelector =
+      this.props.loading ||
+      this.isFetchingWalkAndBike ||
+      (!this.state.weatherData.temperature && !this.state.weatherData.err);
+
+    const screenReaderWalkAndBikeUpdateAlert = (
+      <span className="sr-only" role="alert">
+        <FormattedMessage
+          id="itinerary-summary-page-street-mode.update-alert"
+          defaultMessage="Walking and biking results updated"
+        />
+      </span>
+    );
+
     // added config.itinerary.serviceTimeRange parameter (DT-3175)
     const serviceTimeRange = validateServiceTimeRange(
       this.context.config.itinerary.serviceTimeRange,
@@ -2241,6 +2256,7 @@ class SummaryPage extends React.Component {
                   }
                 />
               )}
+              {!loadingStreeModeSelector && screenReaderWalkAndBikeUpdateAlert}
             </React.Fragment>
           }
           content={content}
@@ -2371,6 +2387,7 @@ class SummaryPage extends React.Component {
                   }
                 />
               )}
+              {!loadingStreeModeSelector && screenReaderWalkAndBikeUpdateAlert}
             </React.Fragment>
           ) : (
             false

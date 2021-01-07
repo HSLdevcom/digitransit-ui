@@ -172,6 +172,7 @@ function translateFutureRouteSuggestionTime(item) {
  *    sources={sources}
  *    targets={targets}
  *    isMobile  // Optional. Defaults to false. Whether to use mobile search.
+ *    mobileLabel="Custom label" // Optional. Custom label text for autosuggest field on mobile.
  */
 class DTAutosuggest extends React.Component {
   static propTypes = {
@@ -203,6 +204,7 @@ class DTAutosuggest extends React.Component {
       routesPrefix: PropTypes.string,
       stopsPrefix: PropTypes.string,
     }),
+    mobileLabel: PropTypes.string,
   };
 
   static defaultProps = {
@@ -221,6 +223,7 @@ class DTAutosuggest extends React.Component {
       routesPrefix: 'linjat',
       stopsPrefix: 'pysakit',
     },
+    mobileLabel: undefined,
   };
 
   constructor(props) {
@@ -793,7 +796,11 @@ class DTAutosuggest extends React.Component {
               )
             }
             ariaLabel={SearchBarId.concat(' ').concat(ariaLabelText)}
-            label={i18next.t(this.props.id)}
+            label={
+              this.props.mobileLabel
+                ? this.props.mobileLabel
+                : i18next.t(this.props.id)
+            }
             onSuggestionSelected={this.onSelected}
             onKeyDown={this.keyDown}
             dialogHeaderText={i18next.t('delete-old-searches-header')}

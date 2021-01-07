@@ -145,7 +145,7 @@ const isRobotRequest = agent =>
   (agent.indexOf('facebook') !== -1 || agent.indexOf('Twitterbot') !== -1);
 
 const RELAY_FETCH_TIMEOUT =
-  parseInt(process.env.RELAY_FETCH_TIMEOUT, 10) || 1000;
+  parseInt(process.env.RELAY_FETCH_TIMEOUT, 10) || 3000;
 
 function getEnvironment(config, agent) {
   const relaySSRMiddleware = new RelayServerSSR();
