@@ -43,7 +43,7 @@ function IntermediateLeg({
     >
       <div className="small-2 columns itinerary-time-column">
         {showZoneLimits && currentZoneId && (
-          <div className="zone-icons-container">
+          <div className="time-column-zone-icons-container intermediate-leg">
             {previousZoneId && <ZoneIcon zoneId={previousZoneId} />}
             <ZoneIcon
               zoneId={currentZoneId}
