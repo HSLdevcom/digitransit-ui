@@ -1314,6 +1314,7 @@ class SummaryPage extends React.Component {
 
     // Reset walk and bike suggestions when new search is made
     if (
+      this.selectedPlan !== this.state.alternativePlan &&
       !isEqual(
         this.props.viewer && this.props.viewer.plan,
         this.originalPlan,
@@ -1336,6 +1337,7 @@ class SummaryPage extends React.Component {
         earlierItineraries: [],
         laterItineraries: [],
         weatherData: {},
+        separatorPosition: undefined,
       });
     }
 
@@ -1944,28 +1946,17 @@ class SummaryPage extends React.Component {
       this.selectedPlan && Array.isArray(this.selectedPlan.itineraries);
 
     if (
+      !this.isFetching &&
       hasItineraries &&
       this.selectedPlan !== this.state.alternativePlan &&
       !isEqual(this.selectedPlan, this.state.previouslySelectedPlan)
     ) {
-      if (
-        this.props.match.params.hash !== 'walk' &&
-        this.props.match.params.hash !== 'bike'
-      ) {
-        this.setState({
-          previouslySelectedPlan: this.selectedPlan,
-          separatorPosition: undefined,
-          earlierItineraries: [],
-          laterItineraries: [],
-        });
-      } else {
-        this.setState({
-          previouslySelectedPlan: this.selectedPlan,
-          separatorPosition: undefined,
-          earlierItineraries: [],
-          laterItineraries: [],
-        });
-      }
+      this.setState({
+        previouslySelectedPlan: this.selectedPlan,
+        separatorPosition: undefined,
+        earlierItineraries: [],
+        laterItineraries: [],
+      });
     }
     let combinedItineraries = this.getCombinedItineraries();
 
