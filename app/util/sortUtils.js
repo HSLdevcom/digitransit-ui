@@ -25,24 +25,21 @@ export const sortNearbyRentalStations = favouriteRentalStationsIds => {
 
 /**
  * Sorts favourite stops or stations first. Prioritizes stations if they are within
- * 3000m and stops if they are within 1500m.
+ * a given distance
  *
  * @param {Set} favouriteStopIds gtfsIds of favourite stops and stations.
+ * @param distanceThreshold maximum distance with which the stops are priorized
  */
-export const sortNearbyStops = favouriteStopIds => {
+export const sortNearbyStops = (favouriteStopIds, distanceThreshold) => {
   return (first, second) => {
     const firstStopOrStationId = first.node.place.parentStation
       ? first.node.place.parentStation.gtfsId
       : first.node.place.gtfsId;
-    const firstStopOrStationIsClose = first.node.place.parentStation
-      ? first.node.distance < 3000
-      : first.node.distance < 1500;
+    const firstStopOrStationIsClose = first.node.distance < distanceThreshold;
     const secondStopOrStationId = second.node.place.parentStation
       ? second.node.place.parentStation.gtfsId
       : second.node.place.gtfsId;
-    const secondStopOrStationIsClose = second.node.place.parentStation
-      ? second.node.distance < 3000
-      : second.node.distance < 1500;
+    const secondStopOrStationIsClose = second.node.distance < distanceThreshold;
     const firstIsFavourite =
       favouriteStopIds.has(firstStopOrStationId) && firstStopOrStationIsClose;
     const secondIsFavourite =

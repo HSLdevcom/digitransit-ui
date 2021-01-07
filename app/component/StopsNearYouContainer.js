@@ -175,6 +175,9 @@ class StopsNearYouContainer extends React.Component {
   };
 
   createNearbyStops = () => {
+    const { mode } = this.props.match.params;
+    const walkRoutingThreshold =
+      mode === 'RAIL' || mode === 'SUBWAY' || mode === 'FERRY' ? 3000 : 1500;
     const stopPatterns = this.props.stopPatterns.nearest.edges;
     const terminalNames = [];
     const isCityBikeView = this.props.match.params.mode === 'CITYBIKE';
@@ -182,7 +185,9 @@ class StopsNearYouContainer extends React.Component {
       ? stopPatterns
           .slice(0, 5)
           .sort(sortNearbyRentalStations(this.props.favouriteIds))
-      : stopPatterns.slice(0, 5).sort(sortNearbyStops(this.props.favouriteIds));
+      : stopPatterns
+          .slice(0, 5)
+          .sort(sortNearbyStops(this.props.favouriteIds, walkRoutingThreshold));
     sortedPatterns.push(...stopPatterns.slice(5));
     const stops = sortedPatterns.map(({ node }) => {
       const stop = node.place;
