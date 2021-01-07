@@ -154,15 +154,17 @@ const PointFeatureMarker = ({
           />
         </div>
       </Card>
-      <MarkerPopupBottom
-        location={{
-          address,
-          lat,
-          lon,
-        }}
-        locationPopup={locationPopup}
-        onSelectLocation={onSelectLocation}
-      />
+      {(locationPopup === 'all' || locationPopup === 'origindestination') && (
+        <MarkerPopupBottom
+          location={{
+            address,
+            lat,
+            lon,
+          }}
+          locationPopup={locationPopup}
+          onSelectLocation={onSelectLocation}
+        />
+      )}
     </GenericMarker>
   );
 };

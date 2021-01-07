@@ -43,15 +43,18 @@ class CityBikePopup extends React.Component {
             station={this.props.station}
           />
         </CityBikeCardContainer>
-        <MarkerPopupBottom
-          location={{
-            address: this.props.station.name,
-            lat: this.props.station.lat,
-            lon: this.props.station.lon,
-          }}
-          locationPopup={this.props.locationPopup}
-          onSelectLocation={this.props.onSelectLocation}
-        />
+        {(this.props.locationPopup === 'all' ||
+          this.props.locationPopup === 'origindestination') && (
+          <MarkerPopupBottom
+            location={{
+              address: this.props.station.name,
+              lat: this.props.station.lat,
+              lon: this.props.station.lon,
+            }}
+            locationPopup={this.props.locationPopup}
+            onSelectLocation={this.props.onSelectLocation}
+          />
+        )}
       </div>
     );
   }

@@ -74,7 +74,12 @@ function withGeojsonObjects(Component) {
           objs.push(
             <LazilyLoad modules={jsonModules} key={key}>
               {({ GeoJSON }) => (
-                <GeoJSON bounds={bounds} data={geoJson[key].data} {...props} />
+                <GeoJSON
+                  bounds={bounds}
+                  data={geoJson[key].data}
+                  locationPopup={props.locationPopup}
+                  onSelectLocation={props.onSelectLocation}
+                />
               )}
             </LazilyLoad>,
           );
@@ -96,6 +101,8 @@ function withGeojsonObjects(Component) {
     getGeoJsonData: PropTypes.func.isRequired,
     leafletObjs: PropTypes.array,
     config: configShape.isRequired,
+    locationPopup: PropTypes.string,
+    onSelectLocation: PropTypes.func,
   };
   GeojsonWrapper.defaultProps = {
     leafletObjs: [],
