@@ -36,7 +36,7 @@ const StopNearYouHeader = ({ stop, desc, isStation }, { config }) => {
           </h3>
         </Link>
         <div className="stop-near-you-info">
-          <span className="stop-near-you-desc">{desc}</span>
+          {desc && <span className="stop-near-you-desc">{desc}</span>}
           {isStation ? (
             <span className="itinerary-stop-code">
               <FormattedMessage id="station" />

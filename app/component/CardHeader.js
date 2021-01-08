@@ -56,9 +56,9 @@ const CardHeader = (
             {unlinked ? null : <span className="link-arrow"> ›</span>}
           </span>
           <div className="card-sub-header">
-            {description != null && description !== 'null' ? (
+            {description && description !== 'null' && (
               <p className="card-sub-header-address">{description}</p>
-            ) : null}
+            )}
             {code != null ? <p className="card-code">{code}</p> : null}
             {headerConfig &&
               headerConfig.showZone &&
