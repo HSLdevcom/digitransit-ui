@@ -17,9 +17,16 @@ const ZoneIcon = ({ className, zoneId, showUnknown }, { config }) => {
 
   return (
     <div
-      className={cx('zone-icon-container', className, {
-        'multi-letter-container': !zoneUnknown && zoneId.length > 1,
-      })}
+      className={cx(
+        'zone-icon-container',
+        className,
+        {
+          'multi-letter-container': !zoneUnknown && zoneId.length > 1,
+        },
+        {
+          'unknown-container': zoneUnknown,
+        },
+      )}
     >
       {zoneUnknown && <div className="unknown">?</div>}
       {!zoneUnknown && (

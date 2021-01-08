@@ -655,6 +655,10 @@ $itinerary-tab-switch-height: 48px;
             .circle {
               margin-top: 6px;
             }
+            padding: 4px 4px 2px 1px;
+          }
+          .unknown {
+            margin-right: 4px;
           }
           &.multi-letter-container {
             padding-right: 1px;
@@ -667,6 +671,9 @@ $itinerary-tab-switch-height: 48px;
         margin-right: 3px;
         &.zone-delimiter {
           border-top: 1px solid $light-gray;
+        }
+        &.unknown-container {
+          padding: 4px 4px 2px 1px;
         }
         .circle {
           font-size: 16px;
