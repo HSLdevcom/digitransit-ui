@@ -24,6 +24,7 @@ const globals = {
   '@hsl-fi/modal': 'Modal',
   '@hsl-fi/shimmer': 'Shimmer',
   '@hsl-fi/container-spinner': 'ContainerSpinner',
+  '@hsl-fi/hooks': 'hooks',
   '@digitransit-component/digitransit-component-icon': 'Icon',
   '@digitransit-component/digitransit-component-autosuggest': 'DTAutosuggest',
   '@digitransit-component/digitransit-component-dialog-modal': 'DialogModal',
