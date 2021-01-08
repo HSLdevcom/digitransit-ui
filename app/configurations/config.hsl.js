@@ -329,14 +329,6 @@ export default {
   showTicketInformation: true,
   ticketInformation: {
     primaryAgencyName: 'HSL',
-    trackingParameters: {
-      'HSL:HSL': {
-        utm_campaign: 'omat-palvelut',
-        utm_content: 'nain-ostat-lipun',
-        utm_medium: 'referral',
-        utm_source: 'reittiopas',
-      },
-    },
   },
 
   maxNearbyStopAmount: 5,
@@ -415,9 +407,6 @@ export default {
         url: '/assets/geojson/hsl_zone_lines_20190508.geojson',
       },
     ],
-    zones: {
-      url: '/assets/geojson/hsl_zone_areas_20190508.geojson',
-    },
   },
 
   // mapping fareId from OTP fare identifiers to human readable form
@@ -427,6 +416,8 @@ export default {
       ? fareId.substring(fareId.indexOf(':') + 1)
       : '';
   },
+
+  unknownZones: ['Ei HSL'],
 
   showTicketPrice: true,
 

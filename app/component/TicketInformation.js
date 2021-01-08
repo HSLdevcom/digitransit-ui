@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
@@ -10,23 +9,6 @@ import ExternalLink from './ExternalLink';
 import { renderZoneTicket } from './ZoneTicket';
 import { getAlternativeFares } from '../util/fareUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-
-export const getUtmParameters = (agency, config) => {
-  const gtfsId = get(agency, 'gtfsId');
-  if (!gtfsId) {
-    return '';
-  }
-  const parameters = get(
-    config,
-    `ticketInformation.trackingParameters['${gtfsId}']`,
-  );
-  if (!parameters) {
-    return '';
-  }
-  return `?${Object.keys(parameters)
-    .map(key => `${key}=${encodeURIComponent(parameters[key])}`)
-    .join('&')}`;
-};
 
 const getUnknownFareRoute = (fares, route) => {
   for (let i = 0; i < fares.length; i++) {
@@ -126,10 +108,7 @@ export default function TicketInformation(
           >
             <ExternalLink
               className="itinerary-ticket-external-link"
-              href={`${fare.agency.fareUrl}${getUtmParameters(
-                fare.agency,
-                config,
-              )}`}
+              href={fare.agency.fareUrl}
               onClick={() => {
                 addAnalyticsEvent({
                   category: 'Itinerary',

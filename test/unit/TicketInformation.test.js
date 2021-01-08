@@ -4,9 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { mountWithIntl, shallowWithIntl } from './helpers/mock-intl-enzyme';
 
 import ExternalLink from '../../app/component/ExternalLink';
-import TicketInformation, {
-  getUtmParameters,
-} from '../../app/component/TicketInformation';
+import TicketInformation from '../../app/component/TicketInformation';
 import ZoneTicket from '../../app/component/ZoneTicket';
 import { getFares } from '../../app/util/fareUtils';
 
@@ -396,51 +394,5 @@ describe('<TicketInformation />', () => {
       'Merisataman lauttaliikenne',
     );
     expect(wrapper.find(ExternalLink).prop('href')).to.equal('foobaz');
-  });
-
-  describe('getUtmParameters', () => {
-    const agency = {
-      gtfsId: 'foobar',
-    };
-
-    const config = {
-      ticketInformation: {
-        trackingParameters: {
-          foobar: {
-            utm_campaign: 'test campaign',
-            utm_content: 'content',
-            utm_source: 'source',
-          },
-        },
-      },
-    };
-
-    it('should return an empty string if the agency is missing', () => {
-      expect(getUtmParameters(undefined, config)).to.equal('');
-      expect(getUtmParameters({}, config)).to.equal('');
-      expect(getUtmParameters({ gtfsId: undefined }, config)).to.equal('');
-    });
-
-    it('should return an empty string if the parameters are missing from configuration', () => {
-      expect(getUtmParameters(agency, undefined)).to.equal('');
-      expect(getUtmParameters(agency, {})).to.equal('');
-      expect(getUtmParameters(agency, { ticketInformation: {} })).to.equal('');
-      expect(
-        getUtmParameters(agency, {
-          ticketInformation: { trackingParameters: {} },
-        }),
-      ).to.equal('');
-      expect(
-        getUtmParameters(agency, {
-          ticketInformation: { trackingParameters: { foobar: undefined } },
-        }),
-      ).to.equal('');
-    });
-
-    it('should return a url-encoded query string composed of the configured parameters', () => {
-      expect(getUtmParameters(agency, config)).to.equal(
-        '?utm_campaign=test%20campaign&utm_content=content&utm_source=source',
-      );
-    });
   });
 });

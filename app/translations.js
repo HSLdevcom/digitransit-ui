@@ -803,6 +803,7 @@ const translations = {
     accessibility: 'Accessibility',
     'accessibility-limited': 'Wheelchair',
     'accessibility-nolimit': 'No limits',
+    'accessibility-statement': 'Accessibility statement',
     'add-home': 'Add home',
     'add-itinerary-via-point': 'Add via point for itinerary',
     'add-location-to-favourites': 'Add an important location to your Favorites',
@@ -1682,6 +1683,7 @@ const translations = {
     accessibility: 'Esteettömyys',
     'accessibility-limited': 'Pyörätuoli',
     'accessibility-nolimit': 'Ei rajoitusta',
+    'accessibility-statement': 'Saavutettavuusseloste',
     'add-home': 'Lisää koti',
     'add-itinerary-via-point': 'Lisää reitille välipiste',
     'add-location-to-favourites':
@@ -3322,6 +3324,7 @@ const translations = {
     accessibility: 'Tillgänglighet',
     'accessibility-limited': 'Med rullstolen',
     'accessibility-nolimit': 'Ingen begränsning',
+    'accessibility-statement': 'Tillgänglighetsförklaring',
     'add-home': 'Lägg till hem',
     'add-itinerary-via-point': 'Lägg till mellanstopp',
     'add-location-to-favourites':

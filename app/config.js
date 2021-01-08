@@ -117,10 +117,6 @@ export function getNamedConfiguration(configName) {
       }
     }
 
-    if (config.geoJson && config.geoJson.zones) {
-      config.geoJson.zones.url = appPathPrefix + config.geoJson.zones.url;
-    }
-
     configs[configName] = config;
   }
   if (!process.env.OIDC_CLIENT_ID && configs[configName].allowLogin) {

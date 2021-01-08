@@ -80,8 +80,22 @@
     font-weight: 500;
     margin-left: 4px;
     margin-top: 14px;
-    margin-right: 7px;
+    margin-right: 5px;
     padding: 0px 2px 0px 2px;
+  }
+
+  .circle {
+    padding: 0px 3px 0px 2px;
+  }
+}
+
+.mobile .stop-page.header {
+  .card-code {
+    margin-right: 2px;
+  }
+
+  .zone-icon-container {
+    margin-bottom: 4px;
   }
 }
 

@@ -1,0 +1,19 @@
+.zone-icon-container {
+  .circle {
+    border-radius: 50%;
+    font-size: 12px;
+    color: #fff;
+    letter-spacing: 0;
+    padding: 0px 2px 0px 2px;
+    line-height: 1.2;
+    text-align: center;
+    background: $primary-color;
+    font-weight: 500;
+    &.multi-letter {
+      border-radius: 25px;
+    }
+  }
+  .unknown {
+    text-align: center;
+  }
+}

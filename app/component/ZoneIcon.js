@@ -2,70 +2,35 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import Icon from './Icon';
 
-/**
- * The default identifier for an unknown zone.
- */
-export const ZONE_UNKNOWN = 'Ei HSL';
-
-const ZoneIcon = (
-  {
-    className,
-    showTitle,
-    zoneId,
-    zoneIdFontSize,
-    zoneLabelColor,
-    zoneLabelHeight,
-    zoneLabelWidth,
-    zoneLabelMarginLeft,
-    zoneLabelLineHeight,
-  },
-  { intl, config },
-) => {
+const ZoneIcon = ({ className, zoneId, showUnknown }, { config }) => {
   if (!zoneId) {
     return null;
   }
 
-  const zoneUnknown = zoneId === ZONE_UNKNOWN;
-  if (showTitle && zoneUnknown) {
+  const zoneUnknown =
+    Array.isArray(config.unknownZones) && config.unknownZones.includes(zoneId);
+
+  if (!showUnknown && zoneUnknown) {
     return null;
   }
 
-  const zoneIconStyle = {
-    height: zoneLabelHeight,
-    width: zoneLabelWidth,
-    borderRadius: '50%',
-    fontSize: zoneIdFontSize,
-    color: '#fff',
-    lineHeight: zoneLabelLineHeight,
-    textAlign: 'center',
-    background: zoneLabelColor,
-    marginLeft: zoneLabelMarginLeft,
-  };
-
   return (
-    <div className={cx('zone-icon-container', className)}>
-      {showTitle
-        ? intl.formatMessage({
-            id: 'zone',
-            defaultMessage: 'Zone',
-          })
-        : null}
-      {zoneUnknown && (
-        <div className="icon" style={{ textAlign: 'center' }}>
-          ?
-        </div>
+    <div
+      className={cx(
+        'zone-icon-container',
+        className,
+        {
+          'multi-letter-container': !zoneUnknown && zoneId.length > 1,
+        },
+        {
+          'unknown-container': zoneUnknown,
+        },
       )}
-      {!zoneUnknown && config.zoneIconsAsSvg && (
-        <Icon
-          img={`icon-icon_zone-${zoneId.toLowerCase()}`}
-          className="svg"
-          viewBox="0 0 22 22"
-        />
-      )}
-      {!zoneUnknown && !config.zoneIconsAsSvg && (
-        <div className="circle" style={zoneIconStyle}>
+    >
+      {zoneUnknown && <div className="unknown">?</div>}
+      {!zoneUnknown && (
+        <div className={cx('circle', { 'multi-letter': zoneId.length > 1 })}>
           {zoneId}
         </div>
       )}
@@ -75,20 +40,14 @@ const ZoneIcon = (
 
 ZoneIcon.propTypes = {
   className: PropTypes.string,
-  showTitle: PropTypes.bool,
   zoneId: PropTypes.string,
-  zoneIdFontSize: PropTypes.string,
-  zoneLabelColor: PropTypes.string,
-  zoneLabelHeight: PropTypes.string,
-  zoneLabelWidth: PropTypes.string,
-  zoneLabelLineHeight: PropTypes.string,
-  zoneLabelMarginLeft: PropTypes.string,
+  showUnknown: PropTypes.bool,
 };
 
 ZoneIcon.defaultProps = {
   className: undefined,
-  showTitle: false,
   zoneId: undefined,
+  showUnknown: true,
 };
 
 ZoneIcon.contextTypes = {
