@@ -23,7 +23,7 @@ const CityBikeContent = ({ station, lang }, { config }) => (
       </p>
     )}
     {station.state === BIKESTATION_ON &&
-      getCityBikeNetworkId(station.networks) !== 'taxi' &&
+      station.bikesAvailable > -1 &&
       getCityBikeNetworkId(station.networks) !== 'car-sharing' && (
         <CityBikeAvailability
           bikesAvailable={station.bikesAvailable}

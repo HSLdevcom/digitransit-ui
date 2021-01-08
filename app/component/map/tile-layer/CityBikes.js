@@ -19,7 +19,6 @@ import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
-  CityBikeNetworkType,
 } from '../../../util/citybikes';
 
 const timeOfLastFetch = {};
@@ -107,10 +106,6 @@ class CityBikes {
             return drawRoundIcon(this.tile, geom, mode);
           }
 
-          const { type } = getCityBikeNetworkConfig(
-            getCityBikeNetworkId(result.networks),
-            this.config,
-          );
           const iconName = getCityBikeNetworkIcon(
             getCityBikeNetworkConfig(
               getCityBikeNetworkId(result.networks),
@@ -138,10 +133,7 @@ class CityBikes {
             );
           }
 
-          if (
-            result.state === BIKESTATION_ON &&
-            type === CityBikeNetworkType.CityBike
-          ) {
+          if (result.state === BIKESTATION_ON && result.bikesAvailable > -1) {
             return drawIcon(
               iconName,
               this.tile,

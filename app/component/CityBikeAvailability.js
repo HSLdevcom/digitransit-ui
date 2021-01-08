@@ -17,6 +17,16 @@ const CityBikeAvailability = mapProps(
     const total = Number.isNaN(totalSpaces) ? 0 : totalSpaces;
     const available = Number.isNaN(bikesAvailable) ? 0 : bikesAvailable;
 
+    let translationId;
+
+    if (type === 'scooter') {
+      translationId = 'scooter-availability';
+    } else if (type === 'taxi') {
+      translationId = 'taxi-availability';
+    } else {
+      translationId = 'bike-availability';
+    }
+
     return {
       available,
       total,
@@ -24,9 +34,7 @@ const CityBikeAvailability = mapProps(
       text: (
         <p className="sub-header-h4 availability-header">
           <FormattedMessage
-            id={
-              type === 'scooter' ? 'scooter-availability' : 'bike-availability'
-            }
+            id={translationId}
             defaultMessage="Bikes available at the station right now"
           />
           {'\u00a0'}
