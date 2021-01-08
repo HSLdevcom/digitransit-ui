@@ -1,6 +1,7 @@
 import { VectorTile } from '@mapbox/vector-tile';
 import pick from 'lodash/pick';
 import Protobuf from 'pbf';
+import range from 'lodash-es/range';
 import { drawWeatherStationIcon } from '../../../util/mapIconUtils';
 import { isBrowser } from '../../../util/browser';
 
@@ -43,17 +44,19 @@ export default class WeatherStations {
 
         this.features = [];
 
-        if (vt.layers.weatherstations != null) {
-          for (
-            let i = 0, ref = vt.layers.weatherstations.length - 1;
-            i <= ref;
-            i++
-          ) {
-            const feature = vt.layers.weatherstations.feature(i);
+        const layerData = vt.layers.weatherstations || { length: 0 };
+        const { length } = layerData;
+
+        if (layerData != null) {
+          this.features = range(length).map(index => {
+            const feature = layerData.feature(index);
             [[feature.geom]] = feature.loadGeometry();
-            this.features.push(pick(feature, ['geom', 'properties']));
-            drawWeatherStationIcon(this.tile, feature.geom, this.imageSize);
-          }
+            return pick(feature, ['geom', 'properties']);
+          });
+
+          this.features.forEach(feature =>
+            drawWeatherStationIcon(this.tile, feature.geom, this.imageSize),
+          );
         }
       });
   }
