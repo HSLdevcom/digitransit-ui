@@ -646,14 +646,18 @@ $itinerary-tab-switch-height: 48px;
         float: right;
         top: -16px;
         .zone-icon-container {
+          .circle {
+            padding: 0px 3px 0 4px;
+
+          }
           &.zone-delimiter {
             top: -4px;
             .circle {
               margin-top: 6px;
             }
           }
-          .circle:not(.multi-letter), .unknown {
-            margin-right: 4px;
+          &.multi-letter-container {
+            padding-right: 1px;
           }
         }
       }
@@ -665,7 +669,7 @@ $itinerary-tab-switch-height: 48px;
           border-top: 1px solid $light-gray;
         }
         .circle {
-          font-size: 17px;
+          font-size: 16px;
           margin-left: 5px;
           line-height: 20px;
           padding: 0 3px 0 3px;
