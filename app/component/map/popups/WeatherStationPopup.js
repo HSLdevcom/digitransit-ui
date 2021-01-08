@@ -6,9 +6,7 @@ import CardHeader from '../../CardHeader';
 import WeatherStationContent from '../../WeatherStationContent';
 import ComponentUsageExample from '../../ComponentUsageExample';
 
-function WeatherStationPopup({ station, lang }, { intl }) {
-  const localName = station.names[lang] || station.name;
-
+function WeatherStationPopup(props, { intl }) {
   return (
     <div className="card">
       <Card className="padding-small">
@@ -17,15 +15,11 @@ function WeatherStationPopup({ station, lang }, { intl }) {
             id: 'road-weather',
             defaultMessage: 'Road weather',
           })}
-          description={localName}
+          description="weather station"
           icon="icon-icon_weather-station"
           unlinked
         />
-        <WeatherStationContent
-          sensors={station.sensorValues}
-          measuredTime={station.measuredTime}
-          lang={lang}
-        />
+        <WeatherStationContent {...props} />
       </Card>
     </div>
   );
@@ -42,10 +36,6 @@ WeatherStationPopup.description = (
   </div>
 );
 
-WeatherStationPopup.propTypes = {
-  lang: PropTypes.string.isRequired,
-  station: PropTypes.object.isRequired,
-};
 
 WeatherStationPopup.contextTypes = {
   intl: intlShape.isRequired,

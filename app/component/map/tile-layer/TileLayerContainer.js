@@ -328,13 +328,8 @@ class TileLayerContainer extends GridLayer {
     />
   );
 
-  getWeatherContent = () => (
-    <Relay.RootContainer
-      Component={WeatherStationPopup}
-      forceFetch
-      renderLoading={this.loadingPopup}
-      renderFetched={data => <WeatherStationPopup {...data} />}
-    />
+  getWeatherContent = ({ feature: { properties } }) => (
+    <WeatherStationPopup {...properties} />
   );
 
   showOneTargetPopup = () => {

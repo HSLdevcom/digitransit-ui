@@ -5,9 +5,19 @@ import moment from 'moment';
 import ComponentUsageExample from './ComponentUsageExample';
 import { lang as exampleLang } from './ExampleData';
 
-const WeatherStationContent = ({ sensors, measuredTime, lang }) => {
-  const airTemperatureSensor = sensors.find(item => item.name === 'ILMA');
-  const roadTemperatureSensor = sensors.find(item => item.name === 'TIE_1');
+const makeValue = number => {
+  return {
+    sensorValue: number,
+    sensorUnit: '°C',
+  };
+};
+
+const WeatherStationContent = ({ airTemperatureC, roadTemperatureC }) => {
+  const lang = 'en';
+  const sensors = [];
+  const measuredTime = 0;
+  const airTemperatureSensor = makeValue(airTemperatureC);
+  const roadTemperatureSensor = makeValue(roadTemperatureC);
   const rainSensor = sensors.find(item => item.name === 'SADE');
   const weatherSensor = sensors.find(item => item.name === 'KELI_1');
   return (
@@ -100,9 +110,12 @@ WeatherStationContent.description = (
 );
 
 WeatherStationContent.propTypes = {
-  sensors: PropTypes.array.isRequired,
-  measuredTime: PropTypes.string.isRequired,
-  lang: PropTypes.string.isRequired,
+  address: PropTypes.string,
+  airTemperatureC: PropTypes.number,
+  precipitationType: PropTypes.number,
+  roadCondition: PropTypes.number,
+  roadTemperatureC: PropTypes.number,
+  updatedAt: PropTypes.string,
 };
 
 export default WeatherStationContent;
