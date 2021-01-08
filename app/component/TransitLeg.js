@@ -64,6 +64,7 @@ class TransitLeg extends React.Component {
         startZone !== endZone &&
         !this.state.showIntermediateStops &&
         this.context.config.itinerary.showZoneLimits &&
+        leg.from.stop.gtfsId &&
         this.context.config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0])
       ) {
         return (
