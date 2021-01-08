@@ -7,22 +7,25 @@ import ZoneIcon from './ZoneIcon';
 import { PREFIX_STOPS } from '../util/path';
 import Icon from './Icon';
 
-function IntermediateLeg({
-  color,
-  mode,
-  name,
-  arrivalTime,
-  realTime,
-  focusFunction,
-  gtfsId,
-  showCurrentZoneDelimiter,
-  showZoneLimits,
-  previousZoneId,
-  currentZoneId,
-  nextZoneId,
-  isCanceled,
-  isLastPlace,
-}) {
+function IntermediateLeg(
+  {
+    color,
+    mode,
+    name,
+    arrivalTime,
+    realTime,
+    focusFunction,
+    gtfsId,
+    showCurrentZoneDelimiter,
+    showZoneLimits,
+    previousZoneId,
+    currentZoneId,
+    nextZoneId,
+    isCanceled,
+    isLastPlace,
+  },
+  { config },
+) {
   const modeClassName = mode.toLowerCase();
   const isDualZone = currentZoneId && (previousZoneId || nextZoneId);
   const isTripleZone = currentZoneId && previousZoneId && nextZoneId;
@@ -42,26 +45,30 @@ function IntermediateLeg({
       onClick={e => focusFunction(e)}
     >
       <div className="small-2 columns itinerary-time-column">
-        {showZoneLimits && currentZoneId && (
-          <div className="time-column-zone-icons-container intermediate-leg">
-            {previousZoneId && <ZoneIcon zoneId={previousZoneId} />}
-            <ZoneIcon
-              zoneId={currentZoneId}
-              className={cx({
-                'zone-delimiter':
-                  showCurrentZoneDelimiter || (previousZoneId && currentZoneId),
-              })}
-              showUnknown
-            />
-            {nextZoneId && (
+        {showZoneLimits &&
+          currentZoneId &&
+          gtfsId &&
+          config.feedIds.includes(gtfsId.split(':')[0]) && (
+            <div className="time-column-zone-icons-container intermediate-leg">
+              {previousZoneId && <ZoneIcon zoneId={previousZoneId} />}
               <ZoneIcon
-                zoneId={nextZoneId}
-                className="zone-delimiter"
+                zoneId={currentZoneId}
+                className={cx({
+                  'zone-delimiter':
+                    showCurrentZoneDelimiter ||
+                    (previousZoneId && currentZoneId),
+                })}
                 showUnknown
               />
-            )}
-          </div>
-        )}
+              {nextZoneId && (
+                <ZoneIcon
+                  zoneId={nextZoneId}
+                  className="zone-delimiter"
+                  showUnknown
+                />
+              )}
+            </div>
+          )}
       </div>
       <div className={`leg-before ${modeClassName}`}>
         <div className={`leg-before-circle circle-fill ${modeClassName}`}>
@@ -142,6 +149,10 @@ IntermediateLeg.defaultProps = {
   currentZoneId: undefined,
   nextZoneId: undefined,
   isCanceled: false,
+};
+
+IntermediateLeg.contextTypes = {
+  config: PropTypes.object.isRequired,
 };
 
 export default IntermediateLeg;

@@ -60,12 +60,16 @@ const CardHeader = (
               <p className="card-sub-header-address">{description}</p>
             ) : null}
             {code != null ? <p className="card-code">{code}</p> : null}
-            {headerConfig && headerConfig.showZone && stop.zoneId && (
-              <ZoneIcon
-                zoneId={getZoneLabel(stop.zoneId, config)}
-                showUnknown={false}
-              />
-            )}
+            {headerConfig &&
+              headerConfig.showZone &&
+              stop.zoneId &&
+              stop.gtfsId &&
+              config.feedIds.includes(stop.gtfsId.split(':')[0]) && (
+                <ZoneIcon
+                  zoneId={getZoneLabel(stop.zoneId, config)}
+                  showUnknown={false}
+                />
+              )}
           </div>
         </div>
         {icons && icons.length ? <SplitBars>{icons}</SplitBars> : null}

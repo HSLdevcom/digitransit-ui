@@ -63,7 +63,8 @@ class TransitLeg extends React.Component {
       if (
         startZone !== endZone &&
         !this.state.showIntermediateStops &&
-        this.context.config.itinerary.showZoneLimits
+        this.context.config.itinerary.showZoneLimits &&
+        this.context.config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0])
       ) {
         return (
           <div className="time-column-zone-icons-container">

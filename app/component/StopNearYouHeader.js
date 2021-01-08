@@ -45,12 +45,13 @@ const StopNearYouHeader = ({ stop, desc, isStation }, { config }) => {
             <StopCode code={stop.code} />
           )}
           <PlatformNumber number={stop.platformCode} short />
-          {config.stopCard.header.showZone && (
-            <ZoneIcon
-              zoneId={getZoneLabel(stop.zoneId, config)}
-              showUnknown={false}
-            />
-          )}
+          {config.stopCard.header.showZone &&
+            config.feedIds.includes(stop.gtfsId.split(':')[0]) && (
+              <ZoneIcon
+                zoneId={getZoneLabel(stop.zoneId, config)}
+                showUnknown={false}
+              />
+            )}
         </div>
       </div>
       <FavouriteStopContainer
