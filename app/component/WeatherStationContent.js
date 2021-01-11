@@ -12,14 +12,75 @@ const makeValue = number => {
   };
 };
 
-const WeatherStationContent = ({ airTemperatureC, roadTemperatureC }) => {
-  const lang = 'en';
-  const sensors = [];
-  const measuredTime = 0;
+/*
+0  = kein Niederschlag
+60 = Regen
+67 = Eisregen
+69 = Schneeregen
+70 = Schnee
+90 = Hagel
+ */
+const translatePrecipitation = num => {
+  const prefix = 'precipitation';
+  switch (num) {
+    case 0:
+      return `${prefix}-none`;
+    case 60:
+      return `${prefix}-rain`;
+    case 67:
+      return `${prefix}-icy-rain`;
+    case 69:
+      return `${prefix}-sleet`;
+    case 70:
+      return `${prefix}-snow`;
+    case 90:
+      return `${prefix}-hail`;
+    default:
+      return `${prefix}-unknown`;
+  }
+};
+
+/*
+10 = Trocken
+15 = Feucht
+20 = Nass
+25 = Feucht mit Salz
+30 = Nass mit Salz
+35 = Eis
+40 = Schnee
+45 = Frost/Reif
+*/
+const translateRoadCondition = num => {
+  const prefix = 'road-condition';
+  switch (num) {
+    case 10:
+      return `${prefix}-dry`;
+    case 15:
+      return `${prefix}-moist`;
+    case 20:
+      return `${prefix}-wet`;
+    case 25:
+      return `${prefix}-moist-salty`;
+    case 35:
+      return `${prefix}-icy`;
+    case 40:
+      return `${prefix}-snowy`;
+    case 45:
+      return `${prefix}-frosty`;
+    default:
+      return `${prefix}-unknown`;
+  }
+};
+
+const WeatherStationContent = ({
+  airTemperatureC,
+  roadTemperatureC,
+  precipitationType,
+  roadCondition,
+  updatedAt,
+}) => {
   const airTemperatureSensor = makeValue(airTemperatureC);
   const roadTemperatureSensor = makeValue(roadTemperatureC);
-  const rainSensor = sensors.find(item => item.name === 'SADE');
-  const weatherSensor = sensors.find(item => item.name === 'KELI_1');
   return (
     <table className="component-list">
       <tbody>
@@ -55,21 +116,25 @@ const WeatherStationContent = ({ airTemperatureC, roadTemperatureC }) => {
             </td>
           </tr>
         )}
-        {rainSensor && (
+        {precipitationType && (
           <tr>
             <td>
-              <FormattedMessage id="rain" defaultMessage="Rain">
+              <FormattedMessage
+                id="precipitation"
+                defaultMessage="Precipitation"
+              >
                 {(...content) => `${content}:`}
               </FormattedMessage>
             </td>
             <td>
-              {lang === 'fi'
-                ? rainSensor.sensorValueDescriptionFi.toLowerCase()
-                : rainSensor.sensorValueDescriptionEn.toLowerCase()}
+              <FormattedMessage
+                id={translatePrecipitation(precipitationType)}
+                defaultMessage={translatePrecipitation(precipitationType)}
+              />
             </td>
           </tr>
         )}
-        {weatherSensor && (
+        {roadCondition && (
           <tr>
             <td>
               <FormattedMessage id="condition" defaultMessage="Condition">
@@ -77,19 +142,20 @@ const WeatherStationContent = ({ airTemperatureC, roadTemperatureC }) => {
               </FormattedMessage>
             </td>
             <td>
-              {lang === 'fi'
-                ? weatherSensor.sensorValueDescriptionFi.toLowerCase()
-                : weatherSensor.sensorValueDescriptionEn.toLowerCase()}
+              <FormattedMessage
+                id={translateRoadCondition(roadCondition)}
+                defaultMessage={translateRoadCondition(roadCondition)}
+              />
             </td>
           </tr>
         )}
-        {measuredTime && (
+        {updatedAt && (
           <tr>
             <td colSpan={2} className="last-updated">
               <FormattedMessage id="last-updated" defaultMessage="Last updated">
                 {(...content) => `${content} `}
               </FormattedMessage>
-              {moment(measuredTime).format('HH:mm:ss') || ''}
+              {moment(updatedAt).format('HH:mm:ss') || ''}
             </td>
           </tr>
         )}

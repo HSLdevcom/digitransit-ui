@@ -15,7 +15,7 @@ function WeatherStationPopup(props, { intl }) {
             id: 'road-weather',
             defaultMessage: 'Road weather',
           })}
-          description="weather station"
+          description={props.address}
           icon="icon-icon_weather-station"
           unlinked
         />
@@ -36,6 +36,9 @@ WeatherStationPopup.description = (
   </div>
 );
 
+WeatherStationPopup.propTypes= {
+    address: PropTypes.string,
+};
 
 WeatherStationPopup.contextTypes = {
   intl: intlShape.isRequired,
