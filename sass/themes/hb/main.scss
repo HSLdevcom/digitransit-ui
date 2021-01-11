@@ -111,3 +111,63 @@ input[type='radio'] {
 .delivery-takeaway {
   font-size: $font-size-normal;
 }
+
+.last-updated {
+  font-size: $font-size-xsmall;
+  font-style: italic;
+  color: $gray;
+  padding-top: 5px;
+}
+
+.component-list {
+  list-style: none;
+  padding: 0;
+  margin: $padding-medium 0;
+  font-size: $font-size-small;
+  color: $gray;
+  td {
+    vertical-align: top;
+
+    &:first-child {
+      color: lighten($gray, 10%);
+      padding-right: 10px;
+      white-space: nowrap;
+    }
+  }
+}
+
+.road-condition-content {
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: $padding-medium 0;
+  font-size: $font-size-xsmall;
+  color: $gray;
+
+  thead {
+    td {
+      padding-bottom: 5px;
+      vertical-align: top;
+    }
+  }
+
+  td {
+    text-align: center;
+    padding-left: 2px;
+
+    &:first-child {
+      padding-left: 0;
+    }
+  }
+
+  tbody tr:last-child td {
+    text-align: left;
+  }
+
+  .road-condition-symbol {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  }
+}

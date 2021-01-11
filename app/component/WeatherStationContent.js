@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
+import { isNumber } from 'lodash';
 import ComponentUsageExample from './ComponentUsageExample';
 import { lang as exampleLang } from './ExampleData';
 
@@ -116,7 +117,7 @@ const WeatherStationContent = ({
             </td>
           </tr>
         )}
-        {precipitationType && (
+        {isNumber(precipitationType) && (
           <tr>
             <td>
               <FormattedMessage
@@ -134,7 +135,7 @@ const WeatherStationContent = ({
             </td>
           </tr>
         )}
-        {roadCondition && (
+        {isNumber(roadCondition) && (
           <tr>
             <td>
               <FormattedMessage id="condition" defaultMessage="Condition">
@@ -176,7 +177,6 @@ WeatherStationContent.description = (
 );
 
 WeatherStationContent.propTypes = {
-  address: PropTypes.string,
   airTemperatureC: PropTypes.number,
   precipitationType: PropTypes.number,
   roadCondition: PropTypes.number,

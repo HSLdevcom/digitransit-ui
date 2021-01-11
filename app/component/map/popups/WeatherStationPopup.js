@@ -36,8 +36,8 @@ WeatherStationPopup.description = (
   </div>
 );
 
-WeatherStationPopup.propTypes= {
-    address: PropTypes.string,
+WeatherStationPopup.propTypes = {
+  address: PropTypes.string,
 };
 
 WeatherStationPopup.contextTypes = {
