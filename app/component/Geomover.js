@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
 import { intlShape } from 'react-intl';
 import React from 'react';
