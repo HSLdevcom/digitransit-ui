@@ -16,7 +16,7 @@ function WeatherStationPopup(props, { intl }) {
             defaultMessage: 'Road weather',
           })}
           description={props.address}
-          icon="icon-icon_weather-station"
+          icon="icon-icon_monitor"
           unlinked
         />
         <WeatherStationContent {...props} />
