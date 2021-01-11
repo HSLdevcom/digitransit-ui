@@ -114,7 +114,7 @@ export default configMerger(walttiConfig, {
   weatherStations: {
     show: true,
     smallIconZoom: 17,
-    minZoom: 15
+    minZoom: 12
   },
 
   cityBike: {
