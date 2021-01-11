@@ -35,15 +35,22 @@ export default function withGeomover(WrappedComponent) {
           action = storeDestination;
         }
         if (action) {
+          let newAddress;
+
           if (locationState.locationingFailed) {
             target.type = undefined;
             target.address = undefined;
             context.executeAction(action, target);
           } else if (!target.address) {
-            target.address = context.intl.formatMessage({
+            newAddress = context.intl.formatMessage({
               id: 'own-position',
               defaultMessage: 'Own Location',
             });
+          } else if (
+            target.address !== locationState.address &&
+            locationState.address
+          ) {
+            newAddress = locationState.address;
           }
           if (locationState.hasLocation === false) {
             if (
@@ -57,11 +64,13 @@ export default function withGeomover(WrappedComponent) {
             !locationState.isReverseGeocodingInProgress
           ) {
             if (
-              target.address !== locationState.address ||
+              newAddress ||
               coordsDiff(target.lat, locationState.lat) ||
               coordsDiff(target.lon, locationState.lon)
             ) {
-              target.address = locationState.address;
+              if (newAddress) {
+                target.address = newAddress;
+              }
               target.lat = locationState.lat;
               target.lon = locationState.lon;
               context.executeAction(action, target);
