@@ -2,7 +2,10 @@ import { VectorTile } from '@mapbox/vector-tile';
 import pick from 'lodash/pick';
 import Protobuf from 'pbf';
 import range from 'lodash-es/range';
-import { drawWeatherStationIcon } from '../../../util/mapIconUtils';
+import {
+  drawRoundIcon,
+  drawWeatherStationIcon,
+} from '../../../util/mapIconUtils';
 import { isBrowser } from '../../../util/browser';
 
 export default class WeatherStations {
@@ -54,9 +57,18 @@ export default class WeatherStations {
             return pick(feature, ['geom', 'properties']);
           });
 
-          this.features.forEach(feature =>
-            drawWeatherStationIcon(this.tile, feature.geom, this.imageSize),
-          );
+          this.features.forEach(feature => {
+            if (
+              this.tile.coords.z <= this.config.weatherStations.smallIconZoom
+            ) {
+              return drawRoundIcon(this.tile, feature.geom, 'weather-station');
+            }
+            return drawWeatherStationIcon(
+              this.tile,
+              feature.geom,
+              this.imageSize,
+            );
+          });
         }
       });
   }
