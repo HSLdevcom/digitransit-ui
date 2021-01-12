@@ -52,6 +52,7 @@ export default class Map extends React.Component {
     originFromMap: PropTypes.bool,
     destinationFromMap: PropTypes.bool,
     locationPopup: PropTypes.string,
+    onSelectLocation: PropTypes.func,
     mapBottomPadding: PropTypes.number,
     buttonBottomPadding: PropTypes.number,
     bottomButtons: PropTypes.node,
@@ -120,6 +121,7 @@ export default class Map extends React.Component {
       zoom,
       boundsOptions,
       locationPopup,
+      onSelectLocation,
       leafletObjs,
       mapReady,
       itineraryMapReady,
@@ -157,6 +159,7 @@ export default class Map extends React.Component {
           showStops={this.props.showStops}
           disableMapTracking={this.props.disableMapTracking}
           locationPopup={locationPopup}
+          onSelectLocation={onSelectLocation}
           disableParkAndRide={disableParkAndRide}
         />,
       );

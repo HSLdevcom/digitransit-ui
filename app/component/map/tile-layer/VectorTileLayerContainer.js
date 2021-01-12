@@ -34,6 +34,7 @@ export default function VectorTileLayerContainer(props, { config }) {
       zoomOffset={config.map.zoomOffset || 0}
       disableMapTracking={props.disableMapTracking}
       locationPopup={props.locationPopup}
+      onSelectLocation={props.onSelectLocation}
     />
   );
 }
@@ -43,7 +44,8 @@ VectorTileLayerContainer.propTypes = {
   disableMapTracking: PropTypes.func,
   showStops: PropTypes.bool,
   stopsNearYouMode: PropTypes.string,
-  locationPopup: PropTypes.string, // 'all', 'none', 'reversegeocoding'
+  locationPopup: PropTypes.string,
+  onSelectLocation: PropTypes.func,
   disableParkAndRide: PropTypes.bool,
 };
 

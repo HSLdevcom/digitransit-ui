@@ -17,7 +17,7 @@ import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
 import TimeStore from '../store/TimeStore';
 import PositionStore from '../store/PositionStore';
 import { otpToLocation, getIntermediatePlaces } from '../util/otpStrings';
-import { getRoutePath } from '../util/path';
+import { getSummaryPath } from '../util/path';
 import { replaceQueryParams } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -83,7 +83,7 @@ class SummaryPlanContainer extends React.Component {
       this.context.router.replace({
         ...this.context.match.location,
         state: { summaryPageSelected: index },
-        pathname: `${getRoutePath(
+        pathname: `${getSummaryPath(
           this.props.params.from,
           this.props.params.to,
         )}${isbikeAndVehicle ? '/bikeAndVehicle/' : ''}`,
@@ -110,11 +110,11 @@ class SummaryPlanContainer extends React.Component {
       ...this.context.match.location,
       state: { summaryPageSelected: index },
     };
-    const basePath = `${getRoutePath(
+    const basePath = `${getSummaryPath(
       this.props.params.from,
       this.props.params.to,
     )}${isbikeAndVehicle ? '/bikeAndVehicle/' : '/'}`;
-    const indexPath = `${getRoutePath(
+    const indexPath = `${getSummaryPath(
       this.props.params.from,
       this.props.params.to,
     )}${isbikeAndVehicle ? '/bikeAndVehicle/' : '/'}${index}`;

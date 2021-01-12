@@ -12,6 +12,8 @@ import DestinationStore from '../../store/DestinationStore';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { dtLocationShape } from '../../util/shapes';
 import { parseLocation } from '../../util/path';
+import storeOrigin from '../../action/originActions';
+import storeDestination from '../../action/destinationActions';
 
 const renderMapLayerSelector = () => <SelectMapLayersDialog />;
 
@@ -21,19 +23,23 @@ const locationMarkerModules = {
 };
 let previousFocusPoint;
 let previousMapTracking;
-function IndexPageMap({ match, breakpoint, origin, destination }, { config }) {
+
+function IndexPageMap(
+  { match, breakpoint, origin, destination },
+  { config, executeAction },
+) {
   const originFromURI = parseLocation(match.params.from);
   const destinationFromURI = parseLocation(match.params.to);
   let focusPoint;
   let initialZoom = 16; // Focus to the selected point
   const useDefaultLocation =
-    (!origin || !origin.set) && (!destination || !destination.set);
+    (!origin || !origin.lat) && (!destination || !destination.lat);
   if (useDefaultLocation) {
     focusPoint = config.defaultMapCenter || config.defaultEndpoint;
     initialZoom = 12; // Show default area
-  } else if (origin.set && origin.ready && origin.lat && origin.lon) {
+  } else if (origin.lat) {
     focusPoint = origin;
-  } else if (destination.set && destination.ready) {
+  } else if (destination.lat) {
     focusPoint = destination;
   }
 
@@ -67,7 +73,7 @@ function IndexPageMap({ match, breakpoint, origin, destination }, { config }) {
   }
   const leafletObjs = [];
 
-  if (origin && origin.ready === true) {
+  if (origin && origin.lat) {
     leafletObjs.push(
       <LazilyLoad modules={locationMarkerModules} key="from">
         {({ LocationMarker }) => (
@@ -77,7 +83,7 @@ function IndexPageMap({ match, breakpoint, origin, destination }, { config }) {
     );
   }
 
-  if (destination && destination.ready === true) {
+  if (destination && destination.lat) {
     leafletObjs.push(
       <LazilyLoad modules={locationMarkerModules} key="to">
         {({ LocationMarker }) => (
@@ -86,8 +92,17 @@ function IndexPageMap({ match, breakpoint, origin, destination }, { config }) {
       </LazilyLoad>,
     );
   }
+
   let map;
   if (breakpoint === 'large') {
+    const selectLocation = (item, id) => {
+      if (id === 'origin') {
+        executeAction(storeOrigin, item);
+      } else {
+        executeAction(storeDestination, item);
+      }
+    };
+
     map = (
       <MapWithTracking
         breakpoint={breakpoint}
@@ -99,7 +114,8 @@ function IndexPageMap({ match, breakpoint, origin, destination }, { config }) {
         showLocationMessages
         initialZoom={initialZoom}
         leafletObjs={leafletObjs}
-        locationPopup="all"
+        locationPopup="origindestination"
+        onSelectLocation={selectLocation}
         renderCustomButtons={() => (
           <>{config.map.showLayerSelector && renderMapLayerSelector()}</>
         )}
@@ -141,6 +157,7 @@ IndexPageMap.defaultProps = {
 
 IndexPageMap.contextTypes = {
   config: PropTypes.object.isRequired,
+  executeAction: PropTypes.func.isRequired,
 };
 
 const IndexPageMapWithBreakpoint = withBreakpoint(IndexPageMap);
