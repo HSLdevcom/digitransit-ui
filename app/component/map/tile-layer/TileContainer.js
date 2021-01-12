@@ -160,9 +160,7 @@ class TileContainer {
             })),
         ),
       );
-
-      features = features.concat(projectedVehicles);
-      features.reverse();
+      features = projectedVehicles.concat(features);
 
       nearest = features.filter((feature, index) => {
         if (!feature) {
