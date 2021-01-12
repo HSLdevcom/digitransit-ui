@@ -92,6 +92,7 @@ export default function suggestionToLocation(item) {
   return {
     gid: item.properties.gid,
     address: name,
+    name: item.properties.name,
     type: item.type,
     gtfsId: getGTFSId(item.properties),
     code: getStopCode(item.properties),

@@ -94,6 +94,7 @@ class MapWithTrackingStateHandler extends React.Component {
     setInitialMapTracking: PropTypes.bool,
     initialZoom: PropTypes.number,
     locationPopup: PropTypes.string,
+    onSelectLocation: PropTypes.func,
     showLocationMessages: PropTypes.bool,
     defaultMapCenter: PropTypes.object.isRequired,
     fitBoundsWithSetCenter: PropTypes.bool,
@@ -105,6 +106,7 @@ class MapWithTrackingStateHandler extends React.Component {
     setInitialMapTracking: false,
     initialZoom: undefined,
     locationPopup: 'reversegeocoding',
+    onSelectLocation: () => null,
     fitBounds: false,
     showLocationMessages: false,
     fitBoundsWithSetCenter: false,
@@ -298,8 +300,8 @@ class MapWithTrackingStateHandler extends React.Component {
       positionSet = false;
     } else if (focusPoint) {
       const validPoint =
-        focusPoint.ready &&
-        !focusPoint.gps &&
+        focusPoint.lat &&
+        !focusPoint.type !== 'CurrentLocation' &&
         mapLoaded &&
         !isEqual(focusPoint, previousFocusPoint);
       if (validPoint) {
@@ -311,7 +313,7 @@ class MapWithTrackingStateHandler extends React.Component {
         positionSet = false;
       } else {
         // FocusPoint is valid, but map is not loaded. Set location to focusPoint so that the map renders.
-        location = focusPoint.ready
+        location = focusPoint.lat
           ? focusPoint
           : position.hasLocation
           ? position
@@ -363,6 +365,7 @@ class MapWithTrackingStateHandler extends React.Component {
         fitBounds={useFitBounds}
         className="flex-grow"
         locationPopup={this.props.locationPopup}
+        onSelectLocation={this.props.onSelectLocation}
         leafletEvents={{
           onDragstart: this.disableMapTracking,
           onMoveend: () => this.setState({ keepOnTracking: false }),

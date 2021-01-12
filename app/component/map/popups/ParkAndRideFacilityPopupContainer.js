@@ -28,6 +28,8 @@ function ParkAndRideFacilityPopupContainer(props) {
             lat={props.coords.lat}
             lon={props.coords.lng}
             name={props.name}
+            locationPopup={props.locationPopup}
+            onSelectLocation={props.onSelectLocation}
           />
         ) : (
           <div className="card" style={{ height: '12rem' }}>
@@ -47,6 +49,8 @@ ParkAndRideFacilityPopupContainer.propTypes = {
     lng: PropTypes.number.isRequired,
   }).isRequired,
   name: PropTypes.string.isRequired,
+  locationPopup: PropTypes.string,
+  onSelectLocation: PropTypes.func,
 };
 
 export default ParkAndRideFacilityPopupContainer;

@@ -7,6 +7,8 @@ export default createFragmentContainer(
     realtime: props.facility.realtime,
     maxCapacity: props.facility.maxCapacity,
     spacesAvailable: props.facility.spacesAvailable,
+    locationPopup: props.locationPopup,
+    onSelectLocation: props.onSelectLocation,
   }))(ParkAndRidePopup),
   {
     facility: graphql`
