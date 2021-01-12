@@ -1771,7 +1771,7 @@
     "@hsl-fi/animated-spinner" "^0.1.0"
     "@hsl-fi/utilities" "^0.2.1"
 
-"@hsl-fi/hooks@^0.2.0":
+"@hsl-fi/hooks@0.2.0", "@hsl-fi/hooks@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@hsl-fi/hooks/-/hooks-0.2.0.tgz#7d1aa19c033787211e1197d29642be313f736a73"
   integrity sha512-Ojy3hoq2joh2kKT2KmZ0rSSdnNoHqjumEfTw59b4TcnCaszicPLrLvgGbOvXBO34R9MMFtfzdmx/JQ7ZzIinsQ==
@@ -1786,7 +1786,7 @@
   resolved "https://registry.yarnpkg.com/@hsl-fi/icons/-/icons-0.2.3.tgz#d15356d05bad57b96a641eedd0f9b020c90c6861"
   integrity sha512-0Y9e1Dsx3M/WSvk0CrAtiJO8wG2ZKL8CAnJA6ylQgxc1DMP/Xck0EqOg0f3rc1VDGKSVxxjeIi/0OFCoPny6pQ==
 
-"@hsl-fi/modal@ ^0.1.8":
+"@hsl-fi/modal@ ^0.1.8", "@hsl-fi/modal@^0.1.8":
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/@hsl-fi/modal/-/modal-0.1.8.tgz#df89f7e33e012c1046b83fdcfa2d88b40812149a"
   integrity sha512-jYh4Ybdn0PS3ugPrDfsZppvl6ze8AzDY2XUh2xlkOTHEyAICsLVzz8zgRF4qShj7u6E0tRVPr93lTZJaGAVkTQ==

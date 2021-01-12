@@ -151,12 +151,7 @@ div.map {
 
   .location-popup-wrapper {
     .zone-icon-container {
-      margin-top: 10px;
-
-      .svg {
-        width: 15px;
-        height: 15px;
-      }
+      margin-bottom: 15px;
     }
   }
 }
@@ -406,14 +401,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
 
 .location-popup-wrapper {
   display: flex;
-  .zone-icon-container {
-    margin-top: 25px;
-
-    .svg {
-      width: 15px;
-      height: 15px;
-    }
-  }
+  align-items: center;
 }
 
 .popup {

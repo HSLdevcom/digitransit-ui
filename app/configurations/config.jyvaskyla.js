@@ -107,6 +107,12 @@ export default configMerger(walttiConfig, {
         route: '/tietoja-palvelusta',
         icon: 'icon-icon_info',
       },
+      {
+        name: 'accessibility-statement',
+        nameEn: 'Accessibility statement',
+        href:
+          'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
+      },
     ],
   },
 
@@ -141,5 +147,35 @@ export default configMerger(walttiConfig, {
         ],
       },
     ],
+  },
+
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/jkl_zone_lines_20201118.geojson',
+      },
+    ],
+  },
+
+  zoneIdMapping: {
+    1: 'A',
+    2: 'B',
+    3: 'C',
+    4: 'D',
+  },
+  itinerary: {
+    showZoneLimits: true,
+  },
+
+  stopCard: {
+    header: {
+      showZone: true,
+      virtualMonitorBaseUrl: 'https://pysakit.jyvaskyla.fi/stop/',
+    },
   },
 });

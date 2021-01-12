@@ -275,6 +275,8 @@ class SummaryPage extends React.Component {
       reportError(props.error);
     }
     this.resultsUpdatedAlertRef = React.createRef();
+    this.itinerariesLoadingAlertRef = React.createRef();
+    this.itinerariesLoadedAlertRef = React.createRef();
 
     this.state = {
       weatherData: {},
@@ -803,6 +805,10 @@ class SummaryPage extends React.Component {
       name: null,
     });
     this.setState({ loadingMoreItineraries: reversed ? 'top' : 'bottom' });
+    if (this.itinerariesLoadingAlertRef.current) {
+      // eslint-disable-next-line no-self-assign
+      this.itinerariesLoadingAlertRef.current.innerHTML = this.itinerariesLoadingAlertRef.current.innerHTML;
+    }
 
     const end = moment.unix(this.props.serviceTimeRange.end);
     const latestDepartureTime = itineraries.reduce((previous, current) => {
@@ -950,6 +956,10 @@ class SummaryPage extends React.Component {
 
     fetchQuery(this.props.relayEnvironment, query, tunedParams).then(
       ({ plan: result }) => {
+        if (this.itinerariesLoadedAlertRef.current) {
+          // eslint-disable-next-line no-self-assign
+          this.itinerariesLoadedAlertRef.current.innerHTML = this.itinerariesLoadedAlertRef.current.innerHTML;
+        }
         if (reversed) {
           const reversedItineraries = result.itineraries.slice().reverse(); // Need to copy because result is readonly
           this.setState({
@@ -1002,6 +1012,10 @@ class SummaryPage extends React.Component {
       name: null,
     });
     this.setState({ loadingMoreItineraries: reversed ? 'bottom' : 'top' });
+    if (this.itinerariesLoadingAlertRef.current) {
+      // eslint-disable-next-line no-self-assign
+      this.itinerariesLoadingAlertRef.current.innerHTML = this.itinerariesLoadingAlertRef.current.innerHTML;
+    }
 
     const start = moment.unix(this.props.serviceTimeRange.start);
     const earliestArrivalTime = itineraries.reduce((previous, current) => {
@@ -1150,6 +1164,10 @@ class SummaryPage extends React.Component {
           // Could not find routes arriving at original departure time
           // --> cannot calculate earlier start time
           this.setError('no-route-start-date-too-early');
+        }
+        if (this.itinerariesLoadedAlertRef.current) {
+          // eslint-disable-next-line no-self-assign
+          this.itinerariesLoadedAlertRef.current.innerHTML = this.itinerariesLoadedAlertRef.current.innerHTML;
         }
 
         if (reversed) {
@@ -2097,15 +2115,6 @@ class SummaryPage extends React.Component {
 
     const intermediatePlaces = getIntermediatePlaces(match.location.query);
 
-    const screenReaderUpdateAlert = (
-      <span className="sr-only" role="alert" ref={this.resultsUpdatedAlertRef}>
-        <FormattedMessage
-          id="itinerary-page.update-alert"
-          defaultMessage="Search results updated"
-        />
-      </span>
-    );
-
     const loadingStreeModeSelector =
       this.props.loading ||
       this.isFetchingWalkAndBike ||
@@ -2118,6 +2127,40 @@ class SummaryPage extends React.Component {
           defaultMessage="Walking and biking results updated"
         />
       </span>
+    );
+    const screenReaderAlert = (
+      <>
+        <span
+          className="sr-only"
+          role="alert"
+          ref={this.itinerariesLoadedAlertRef}
+        >
+          <FormattedMessage
+            id="itinerary-page.itineraries-loaded"
+            defaultMessage="More itineraries loaded"
+          />
+        </span>
+        <span
+          className="sr-only"
+          role="alert"
+          ref={this.itinerariesLoadingAlertRef}
+        >
+          <FormattedMessage
+            id="itinerary-page.loading-itineraries"
+            defaultMessage="Loading for more itineraries"
+          />
+        </span>
+        <span
+          className="sr-only"
+          role="alert"
+          ref={this.resultsUpdatedAlertRef}
+        >
+          <FormattedMessage
+            id="itinerary-page.update-alert"
+            defaultMessage="Search results updated"
+          />
+        </span>
+      </>
     );
 
     // added config.itinerary.serviceTimeRange parameter (DT-3175)
@@ -2152,7 +2195,7 @@ class SummaryPage extends React.Component {
 
           content = (
             <>
-              {screenReaderUpdateAlert}
+              {screenReaderAlert}
               <ItineraryTab
                 plan={currentTime}
                 itinerary={selectedItinerary}
@@ -2178,7 +2221,7 @@ class SummaryPage extends React.Component {
         }
         content = (
           <>
-            {screenReaderUpdateAlert}
+            {screenReaderAlert}
             <SummaryPlanContainer
               activeIndex={activeIndex}
               plan={this.selectedPlan}
@@ -2344,7 +2387,7 @@ class SummaryPage extends React.Component {
             onEarlier={this.onEarlier}
             loadingMoreItineraries={this.state.loadingMoreItineraries}
           />
-          {screenReaderUpdateAlert}
+          {screenReaderAlert}
         </>
       );
     }

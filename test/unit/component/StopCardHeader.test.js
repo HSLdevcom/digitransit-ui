@@ -63,6 +63,7 @@ describe('<StopCardHeader />', () => {
           colors: {
             primary: '#000000',
           },
+          allowLogin: false,
         },
       },
       childContextTypes: {

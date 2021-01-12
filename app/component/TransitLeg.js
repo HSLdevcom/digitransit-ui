@@ -24,7 +24,6 @@ import {
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { durationToString } from '../util/timeUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { getZoneLabelColor } from '../util/mapIconUtils';
 import { getZoneLabel } from '../util/legUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { shouldShowFareInfo } from '../util/fareUtils';
@@ -64,14 +63,20 @@ class TransitLeg extends React.Component {
       if (
         startZone !== endZone &&
         !this.state.showIntermediateStops &&
-        this.context.config.itinerary.showZoneLimits
+        this.context.config.itinerary.showZoneLimits &&
+        leg.from.stop.gtfsId &&
+        this.context.config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0])
       ) {
         return (
           <div className="time-column-zone-icons-container">
-            <ZoneIcon zoneId={getZoneLabel(startZone, this.context.config)} />
+            <ZoneIcon
+              zoneId={getZoneLabel(startZone, this.context.config)}
+              showUnknown
+            />
             <ZoneIcon
               zoneId={getZoneLabel(endZone, this.context.config)}
               className="zone-delimiter"
+              showUnknown
             />
           </div>
         );
@@ -137,7 +142,6 @@ class TransitLeg extends React.Component {
             }
             isLastPlace={isLastPlace}
             isCanceled={isCanceled}
-            zoneLabelColor={getZoneLabelColor(this.context.config)}
           />
         );
       });

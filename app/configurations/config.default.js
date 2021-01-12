@@ -45,7 +45,7 @@ export default {
     }/place`,
     ROUTE_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/routes/`,
-      tampere: 'http://joukkoliikenne.tampere.fi/media/aikataulut/',
+      tampere: 'http://nysse.fi/media/aikataulut/',
     },
     STOP_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/stops/`,
@@ -330,18 +330,6 @@ export default {
     // that the primary agency is not responsible for ticketing.
     /*
     primaryAgencyName: ...,
-    */
-    // UTM parameters (per agency) that should be appended to the agency's
-    // fareUrl when the fareUrl link is shown in the UI.
-    /*
-    trackingParameters: {
-      "agencyGtfsId": {
-        utm_campaign: ...,
-        utm_content: ...,
-        utm_medium: ...,
-        utm_source: ...,
-      }
-    },
     */
   },
 
