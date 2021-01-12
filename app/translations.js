@@ -882,6 +882,8 @@ const translations = {
     cause: 'cause',
     'char-left': 'characters',
     'choose-stop': 'Select stop',
+    'choose-stop-or-vehicle': 'Select vehicle or stop',
+    'choose-vehicle': 'Select vehicle',
     citybike: 'City bike',
     'citybike-buy-season': 'Buy a daily, weekly or season pass',
     'citybike-distance-duration': 'Bike {distance} ({duration})',
@@ -1763,6 +1765,8 @@ const translations = {
     cause: 'syy',
     'char-left': 'merkkiä',
     'choose-stop': 'Valitse pysäkki',
+    'choose-stop-or-vehicle': 'Valitse linja tai pysäkki',
+    'choose-vehicle': 'Valitse linja',
     citybike: 'Kaupunkipyörä',
     'citybike-buy-season':
       'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi',

@@ -15,6 +15,7 @@ class TileContainer {
     stopsNearYouMode,
     relayEnvironment,
     hilightedStops,
+    vehicles,
   ) {
     const markersMinZoom = Math.min(
       config.cityBike.cityBikeMinZoom,
@@ -32,6 +33,7 @@ class TileContainer {
     this.el = this.createElement();
     this.clickCount = 0;
     this.hilightedStops = hilightedStops;
+    this.vehicles = vehicles;
 
     if (this.coords.z < markersMinZoom || !this.el.getContext) {
       setTimeout(() => done(null, this.el), 0);
@@ -101,6 +103,23 @@ class TileContainer {
     };
   };
 
+  latLngToPoint = (lat, lon) => {
+    const size =
+      this.extent * 2 ** (this.coords.z + (this.props.zoomOffset || 0));
+
+    const x0 = this.extent * this.coords.x;
+    const y0 = this.extent * this.coords.y;
+
+    const x = ((lon + 180) * size) / 360;
+    const pointX = x - x0;
+
+    const y1 =
+      180 * (Math.log(Math.tan(((lat + 90) * Math.PI) / 360)) / Math.PI);
+    const y2 = Math.abs((y1 - 180) * size) / 360;
+    const pointY = y2 - y0;
+    return { x: pointX, y: pointY };
+  };
+
   createElement = () => {
     const el = document.createElement('canvas');
     el.setAttribute('class', 'leaflet-tile');
@@ -114,6 +133,16 @@ class TileContainer {
     let nearest;
     let features;
     let localPoint;
+
+    const vehicleKeys = Object.keys(this.vehicles);
+    const projectedVehicles = vehicleKeys.map(key => {
+      const vehicle = this.vehicles[key];
+      const pointGeom = this.latLngToPoint(vehicle.lat, vehicle.long);
+      return {
+        layer: 'realTimeVehicle',
+        feature: { geom: pointGeom, vehicle, properties: {} },
+      };
+    });
 
     if (this.layers) {
       localPoint = [
@@ -131,6 +160,9 @@ class TileContainer {
             })),
         ),
       );
+
+      features = features.concat(projectedVehicles);
+      features.reverse();
 
       nearest = features.filter((feature, index) => {
         if (!feature) {
@@ -157,10 +189,10 @@ class TileContainer {
             width *= this.scaleratio;
             height *= this.scaleratio;
             const circleRadius = width / 2;
-            if (style === 'large') {
+            if (style === 'large' || feature.layer === 'realTimeVehicle') {
               featureY -= height - circleRadius;
             }
-            // combo stops have a larger hitbos that is not circular
+            // combo stops have a larger hitbox that is not circular
             // use two points for collision detection, lower and upper center of icon
             // features array is sorted by y coord so combo stops should be next to each other
             if (
@@ -177,13 +209,11 @@ class TileContainer {
             ) {
               isCombo = true;
             }
-
             if (isCombo && style === 'large') {
               secondY = featureY - width;
             }
           }
         }
-
         let dist = Math.sqrt(
           (localPoint[0] - featureX) ** 2 + (localPoint[1] - featureY) ** 2,
         );
@@ -195,7 +225,6 @@ class TileContainer {
             ),
           );
         }
-
         if (dist < 22 * this.scaleratio) {
           return true;
         }
