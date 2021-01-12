@@ -8,10 +8,13 @@ import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 
-i18next.init({ lng: 'en', resources: {} });
-
-Object.keys(translations).forEach(lang => {
-  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
 });
 
 function SeparatorLine({ usePaddingBottom20 }) {
@@ -103,6 +106,9 @@ function NearStopsAndRoutes({
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
   useEffect(() => {
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
     if (alertsContext) {
       alertsContext
         .getModesWithAlerts(alertsContext.currentTime, alertsContext.feedIds)
@@ -113,10 +119,17 @@ function NearStopsAndRoutes({
   }, []);
 
   const queryString = origin.queryString || '';
-  const languagePrefix = omitLanguageUrl ? '' : `/${language}`;
+  let urlStart;
+  if (omitLanguageUrl) {
+    urlStart = urlPrefix;
+  } else {
+    const urlParts = urlPrefix.split('/');
+    urlParts.splice(urlParts.length - 1, 0, language);
+    urlStart = urlParts.join('/');
+  }
   const buttons = modes.map(mode => {
     const withAlert = modesWithAlerts.includes(mode.toUpperCase());
-    let url = `${languagePrefix}${urlPrefix}/${mode.toUpperCase()}/POS`;
+    let url = `${urlStart}/${mode.toUpperCase()}/POS`;
     if (origin.set) {
       url += `/${encodeURIComponent(origin.address)}::${origin.lat},${
         origin.lon

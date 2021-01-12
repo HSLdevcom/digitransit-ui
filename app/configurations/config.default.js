@@ -1,12 +1,13 @@
 /* eslint-disable prefer-template */
 import safeJsonParse from '../util/safeJsonParser';
+import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const GEOCODING_BASE_URL = `${API_URL}/geocoding/v1`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
+const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || 'next-'; // TODO maybe use regular endpoint again at some point
 const APP_PATH = process.env.APP_CONTEXT || '';
 const { SENTRY_DSN } = process.env;
 const PORT = process.env.PORT || 8080;
@@ -44,7 +45,7 @@ export default {
     }/place`,
     ROUTE_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/routes/`,
-      tampere: 'http://joukkoliikenne.tampere.fi/media/aikataulut/',
+      tampere: 'http://nysse.fi/media/aikataulut/',
     },
     STOP_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/stops/`,
@@ -231,7 +232,6 @@ export default {
     },
 
     showZoomControl: true, // DT-3470
-    showStreetModeSelector: true, // DT-3470
     showLayerSelector: true, // DT-3470
     showStopMarkerPopupOnMobile: true, // DT-3470
     showScaleBar: true, // DT-3470
@@ -264,7 +264,7 @@ export default {
     // When should bikeshare availability be rendered in orange rather than green
     fewAvailableCount: 3,
     networks: {},
-    useSpacesAvailable: true,
+    capacity: BIKEAVL_WITHMAX,
   },
 
   // Lowest level for stops and terminals are rendered
@@ -331,18 +331,6 @@ export default {
     /*
     primaryAgencyName: ...,
     */
-    // UTM parameters (per agency) that should be appended to the agency's
-    // fareUrl when the fareUrl link is shown in the UI.
-    /*
-    trackingParameters: {
-      "agencyGtfsId": {
-        utm_campaign: ...,
-        utm_content: ...,
-        utm_medium: ...,
-        utm_source: ...,
-      }
-    },
-    */
   },
 
   useTicketIcons: false,
@@ -357,10 +345,6 @@ export default {
     airplane: 'AIRPLANE',
     ferry: 'FERRY',
     walk: 'WALK',
-    bicycle: 'BICYCLE',
-    car: 'CAR',
-    car_park: 'CAR_PARK',
-    public_transport: 'WALK',
   },
 
   // Control what transport modes that should be possible to select in the UI
@@ -402,42 +386,8 @@ export default {
     },
   },
 
-  streetModes: {
-    public_transport: {
-      availableForSelection: true,
-      defaultValue: true,
-      exclusive: false,
-      icon: 'bus-withoutBox',
-    },
-
-    walk: {
-      availableForSelection: false,
-      defaultValue: false,
-      exclusive: true,
-      icon: 'walk',
-    },
-
-    bicycle: {
-      availableForSelection: true,
-      defaultValue: false,
-      exclusive: true,
-      icon: 'bicycle-withoutBox',
-    },
-
-    car: {
-      availableForSelection: true,
-      defaultValue: false,
-      exclusive: true,
-      icon: 'car-withoutBox',
-    },
-
-    car_park: {
-      availableForSelection: false,
-      defaultValue: false,
-      exclusive: false,
-      icon: 'car_park-withoutBox',
-    },
-  },
+  // modes that should not coexist with BICYCLE mode
+  modesWithNoBike: ['BICYCLE_RENT', 'WALK'],
 
   moment: {
     relativeTimeThreshold: {

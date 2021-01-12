@@ -21,31 +21,10 @@ const config = {
       availableForSelection: true,
       defaultValue: false,
     },
-  },
 
-  streetModes: {
-    walk: {
-      availableForSelection: true,
-      defaultValue: true,
-      icon: 'walk',
-    },
-
-    bicycle: {
-      availableForSelection: true,
-      defaultValue: false,
-      icon: 'bicycle-withoutBox',
-    },
-
-    car: {
-      availableForSelection: true,
-      defaultValue: false,
-      icon: 'car-withoutBox',
-    },
-
-    car_park: {
+    airplane: {
       availableForSelection: false,
       defaultValue: false,
-      icon: 'car_park-withoutBox',
     },
   },
 
@@ -80,16 +59,29 @@ const intermediatePlaces = [
 ];
 
 describe('modeUtils', () => {
+  describe('getAvailableTransportModeConfigs', () => {
+    it('should return only available transport modes from config', () => {
+      const transportModeConfigs = utils.getAvailableTransportModeConfigs(
+        config,
+      );
+      expect(transportModeConfigs.length).to.equal(3);
+      expect(transportModeConfigs[0].name).to.equal(TransportMode.Bus);
+      expect(transportModeConfigs[1].name).to.equal(TransportMode.Rail);
+      expect(transportModeConfigs[2].name).to.equal(TransportMode.Citybike);
+    });
+  });
+
   describe('getModes', () => {
-    it('should retrieve modes from localStorage', () => {
+    it('should retrieve modes from localStorage and add WALK mode to them', () => {
       setCustomizedSettings({
         modes: [TransportMode.Rail, TransportMode.Bus],
       });
 
       const modes = utils.getModes(config);
-      expect(modes.length).to.equal(2);
+      expect(modes.length).to.equal(3);
       expect(modes).to.contain(TransportMode.Rail);
       expect(modes).to.contain(TransportMode.Bus);
+      expect(modes).to.contain(StreetMode.Walk);
     });
 
     it('should retrieve all modes with "defaultValue": true from config if localStorage has an empty modes list', () => {
@@ -111,21 +103,66 @@ describe('modeUtils', () => {
       expect(modes).to.contain(TransportMode.Bus);
       expect(modes).to.contain(TransportMode.Rail);
     });
-  });
 
-  describe('getAvailableStreetModes', () => {
-    it('should return all streetModes from config with "availableForSelection": true', () => {
-      const modes = utils.getAvailableStreetModes(config);
-      expect(modes.length).to.equal(3);
+    it('should filter out all modes with "availableForSelection": false from localStorage', () => {
+      setCustomizedSettings({
+        modes: [TransportMode.Rail, TransportMode.Airplane, StreetMode.Walk],
+      });
+
+      const modes = utils.getModes(config);
+      expect(modes.length).to.equal(2);
       expect(modes).to.contain(StreetMode.Walk);
-      expect(modes).to.contain(StreetMode.Bicycle);
-      expect(modes).to.contain(StreetMode.Car);
+      expect(modes).to.contain(TransportMode.Rail);
     });
 
-    it('should return an empty array if nothing has been configured', () => {
-      const modeConfig = {};
-      const modes = utils.getAvailableStreetModes(modeConfig);
-      expect(modes).to.be.empty;
+    it('should filter out all unconfigured modes from localStorage', () => {
+      setCustomizedSettings({
+        modes: [
+          TransportMode.Rail,
+          'FOO',
+          StreetMode.Walk,
+          StreetMode.ParkAndRide,
+        ],
+      });
+
+      const modes = utils.getModes(config);
+      expect(modes.length).to.equal(2);
+      expect(modes).to.contain(StreetMode.Walk);
+      expect(modes).to.contain(TransportMode.Rail);
+    });
+
+    it('should retrieve all modes with "defaultValue": true from config if has only one available transport mode', () => {
+      setCustomizedSettings({
+        modes: [
+          TransportMode.Rail,
+          'FOO',
+          StreetMode.Walk,
+          StreetMode.ParkAndRide,
+        ],
+      });
+
+      const modeConfig = {
+        modeToOTP: {
+          bus: 'BUS',
+          citybike: 'CITYBIKE',
+          walk: 'WALK',
+        },
+        transportModes: {
+          bus: {
+            availableForSelection: true,
+            defaultValue: true,
+          },
+          citybike: {
+            availableForSelection: false,
+            defaultValue: false,
+          },
+        },
+      };
+
+      const modes = utils.getModes(modeConfig);
+      expect(modes.length).to.equal(2);
+      expect(modes).to.contain(StreetMode.Walk);
+      expect(modes).to.contain(TransportMode.Bus);
     });
   });
 
@@ -142,71 +179,6 @@ describe('modeUtils', () => {
       const modeConfig = {};
       const modes = utils.getAvailableTransportModes(modeConfig);
       expect(modes).to.be.empty;
-    });
-  });
-
-  describe('getStreetMode', () => {
-    it('It should return the street mode that has "defaultValue": true', () => {
-      const configWithSingleDefault = {
-        streetModes: {
-          car: {
-            availableForSelection: true,
-            defaultValue: true,
-          },
-          walk: {
-            availableForSelection: true,
-            defaultValue: false,
-          },
-        },
-        transportModes: {
-          ...config.transportModes,
-        },
-      };
-
-      const mode = utils.getStreetMode(configWithSingleDefault);
-      expect(mode).to.equal(StreetMode.Car);
-    });
-
-    it('For an Empty localStorage It should return the first street mode that has "defaultValue": true', () => {
-      const configWithMultipleDefaults = {
-        streetModes: {
-          car: {
-            availableForSelection: true,
-            defaultValue: true,
-          },
-          walk: {
-            availableForSelection: true,
-            defaultValue: true,
-          },
-        },
-        transportModes: {
-          ...config.transportModes,
-        },
-      };
-
-      const mode = utils.getStreetMode(configWithMultipleDefaults);
-      expect(mode).to.equal(StreetMode.Car);
-    });
-
-    it('It should return undefined if no street mode has been set as default', () => {
-      const brokenConfig = {
-        streetModes: {
-          car: {
-            availableForSelection: true,
-            defaultValue: false,
-          },
-          walk: {
-            availableForSelection: true,
-            defaultValue: false,
-          },
-        },
-        transportModes: {
-          ...config.transportModes,
-        },
-      };
-
-      const mode = utils.getStreetMode(brokenConfig);
-      expect(mode).to.equal(undefined);
     });
   });
 
@@ -251,33 +223,62 @@ describe('modeUtils', () => {
     });
   });
 
-  describe('filterModes', () => {
-    it('should return an empty string if modes is not available', () => {
-      expect(
-        utils.filterModes(config, null, from, to, intermediatePlaces),
-      ).to.equal('');
+  describe('isModeAvailable', () => {
+    it('should return true if mode has availableForSelection true', () => {
+      expect(utils.isModeAvailable(config, 'BUS')).to.equal(true);
     });
 
-    it('should return an empty string if modes is not an array or a string', () => {
+    it('should always return true for WALK mode', () => {
+      expect(utils.isModeAvailable(config, 'WALK')).to.equal(true);
+    });
+
+    it('should return false if mode has availableForSelection false', () => {
+      expect(utils.isModeAvailable(config, 'AIRPLANE')).to.equal(false);
+    });
+
+    it('should return false if mode does not exist in config', () => {
+      expect(utils.isModeAvailable(config, 'FOO')).to.equal(false);
+    });
+  });
+
+  describe('isTransportModeAvailable', () => {
+    it('should return true if mode has availableForSelection true', () => {
+      expect(utils.isTransportModeAvailable(config, 'BUS')).to.equal(true);
+    });
+
+    it('should always return false for WALK mode', () => {
+      expect(utils.isTransportModeAvailable(config, 'WALK')).to.equal(false);
+    });
+
+    it('should return false if mode has availableForSelection false', () => {
+      expect(utils.isTransportModeAvailable(config, 'AIRPLANE')).to.equal(
+        false,
+      );
+    });
+
+    it('should return false if mode does not exist in config', () => {
+      expect(utils.isTransportModeAvailable(config, 'FOO')).to.equal(false);
+    });
+  });
+
+  describe('filterModes', () => {
+    it('should return an empty array if modes is not available', () => {
       expect(
-        utils.filterModes(config, {}, from, to, intermediatePlaces),
-      ).to.equal('');
+        utils.filterModes(config, null, from, to, intermediatePlaces).length,
+      ).to.equal(0);
+    });
+
+    it('should return an empty array if modes is not an array or a string', () => {
+      expect(
+        utils.filterModes(config, {}, from, to, intermediatePlaces).length,
+      ).to.equal(0);
     });
 
     it('should support a modes array', () => {
       const modeConfig = {
         modeToOTP: {
           bus: 'BUS',
-          car_park: 'CAR_PARK',
           walk: 'WALK',
-        },
-        streetModes: {
-          car_park: {
-            availableForSelection: true,
-          },
-          walk: {
-            availableForSelection: true,
-          },
         },
         transportModes: {
           bus: {
@@ -286,11 +287,7 @@ describe('modeUtils', () => {
         },
         modePolygons: {},
       };
-      const modes = [
-        StreetMode.ParkAndRide,
-        StreetMode.Walk,
-        TransportMode.Bus,
-      ];
+      const modes = [StreetMode.Walk, TransportMode.Bus];
       const result = utils.filterModes(
         modeConfig,
         modes,
@@ -299,23 +296,16 @@ describe('modeUtils', () => {
         intermediatePlaces,
       );
 
-      expect(result).to.equal('BUS,CAR_PARK,WALK');
+      expect(result.length).to.equal(2);
+      expect(result).to.contain('BUS');
+      expect(result).to.contain('WALK');
     });
 
     it('should support a single mode', () => {
       const modeConfig = {
         modeToOTP: {
           bus: 'BUS',
-          car_park: 'CAR_PARK',
           walk: 'WALK',
-        },
-        streetModes: {
-          car_park: {
-            availableForSelection: true,
-          },
-          walk: {
-            availableForSelection: true,
-          },
         },
         transportModes: {
           bus: {
@@ -324,7 +314,7 @@ describe('modeUtils', () => {
         },
         modePolygons: {},
       };
-      const modes = 'CAR_PARK';
+      const modes = StreetMode.Walk;
       const result = utils.filterModes(
         modeConfig,
         modes,
@@ -333,23 +323,15 @@ describe('modeUtils', () => {
         intermediatePlaces,
       );
 
-      expect(result).to.equal('CAR_PARK');
+      expect(result.length).to.equal(1);
+      expect(result).to.contain('WALK');
     });
 
     it('should support a comma-separated modes string', () => {
       const modeConfig = {
         modeToOTP: {
           bus: 'BUS',
-          car_park: 'CAR_PARK',
           walk: 'WALK',
-        },
-        streetModes: {
-          car_park: {
-            availableForSelection: true,
-          },
-          walk: {
-            availableForSelection: true,
-          },
         },
         transportModes: {
           bus: {
@@ -358,7 +340,7 @@ describe('modeUtils', () => {
         },
         modePolygons: {},
       };
-      const modes = 'WALK,BUS,CAR_PARK';
+      const modes = 'WALK,BUS';
       const result = utils.filterModes(
         modeConfig,
         modes,
@@ -367,7 +349,9 @@ describe('modeUtils', () => {
         intermediatePlaces,
       );
 
-      expect(result).to.equal('BUS,CAR_PARK,WALK');
+      expect(result.length).to.equal(2);
+      expect(result).to.contain('BUS');
+      expect(result).to.contain('WALK');
     });
 
     it('should omit missing OTP modes', () => {
@@ -375,14 +359,6 @@ describe('modeUtils', () => {
         modeToOTP: {
           bus: 'BUS',
           walk: 'WALK',
-        },
-        streetModes: {
-          car_park: {
-            availableForSelection: true,
-          },
-          walk: {
-            availableForSelection: true,
-          },
         },
         transportModes: {
           bus: {
@@ -400,7 +376,9 @@ describe('modeUtils', () => {
         intermediatePlaces,
       );
 
-      expect(result).to.equal('BUS,WALK');
+      expect(result.length).to.equal(2);
+      expect(result).to.contain('BUS');
+      expect(result).to.contain('WALK');
     });
 
     it('should return only distinct OTP modes', () => {
@@ -409,14 +387,6 @@ describe('modeUtils', () => {
           bus: 'BUS',
           public_transport: 'WALK',
           walk: 'WALK',
-        },
-        streetModes: {
-          public_transport: {
-            availableForSelection: true,
-          },
-          walk: {
-            availableForSelection: true,
-          },
         },
         transportModes: {
           bus: {
@@ -434,7 +404,9 @@ describe('modeUtils', () => {
         intermediatePlaces,
       );
 
-      expect(result).to.equal('BUS,WALK');
+      expect(result.length).to.equal(2);
+      expect(result).to.contain('BUS');
+      expect(result).to.contain('WALK');
     });
 
     it('should prevent the use of unavailable street or transport modes', () => {
@@ -444,14 +416,6 @@ describe('modeUtils', () => {
           car: 'CAR',
           rail: 'RAIL',
           walk: 'WALK',
-        },
-        streetModes: {
-          walk: {
-            availableForSelection: true,
-          },
-          car: {
-            availableForSelection: false,
-          },
         },
         transportModes: {
           bus: {
@@ -472,7 +436,9 @@ describe('modeUtils', () => {
         intermediatePlaces,
       );
 
-      expect(result).to.equal('BUS,WALK');
+      expect(result.length).to.equal(2);
+      expect(result).to.contain('BUS');
+      expect(result).to.contain('WALK');
     });
 
     it('should keep FERRY when there is a place inside FERRY modePolygons', () => {
@@ -481,11 +447,6 @@ describe('modeUtils', () => {
           bus: 'BUS',
           ferry: 'FERRY',
           walk: 'WALK',
-        },
-        streetModes: {
-          walk: {
-            availableForSelection: true,
-          },
         },
         transportModes: {
           bus: {
@@ -528,7 +489,9 @@ describe('modeUtils', () => {
         intermediatePlaces,
       );
 
-      expect(result).to.equal('BUS,WALK');
+      expect(result.length).to.equal(2);
+      expect(result).to.contain('BUS');
+      expect(result).to.contain('WALK');
     });
 
     it('should filter out FERRY when no places are inside FERRY modePolygons', () => {
@@ -537,11 +500,6 @@ describe('modeUtils', () => {
           bus: 'BUS',
           ferry: 'FERRY',
           walk: 'WALK',
-        },
-        streetModes: {
-          walk: {
-            availableForSelection: true,
-          },
         },
         transportModes: {
           bus: {
@@ -575,32 +533,9 @@ describe('modeUtils', () => {
         intermediatePlaces.slice(0, -1),
       );
 
-      expect(result).to.equal('BUS,WALK');
-    });
-  });
-
-  describe('getDefaultStreetModes', () => {
-    it('should include only modes that are both available and default', () => {
-      const modeConfig = {
-        streetModes: {
-          a: {
-            availableForSelection: true,
-            defaultValue: true,
-          },
-          b: {
-            availableForSelection: false,
-            defaultValue: true,
-          },
-          c: {
-            availableForSelection: true,
-            defaultValue: false,
-          },
-        },
-      };
-      const result = utils.getDefaultStreetModes(modeConfig);
-
-      expect(result.length).to.equal(1);
-      expect(result).to.contain('A');
+      expect(result.length).to.equal(2);
+      expect(result).to.contain('BUS');
+      expect(result).to.contain('WALK');
     });
   });
 
@@ -630,22 +565,8 @@ describe('modeUtils', () => {
   });
 
   describe('getDefaultModes', () => {
-    it('should include only modes that are both available and default', () => {
+    it('should include only modes that are both available and default, and WALK', () => {
       const modeConfig = {
-        streetModes: {
-          a: {
-            availableForSelection: true,
-            defaultValue: true,
-          },
-          b: {
-            availableForSelection: false,
-            defaultValue: true,
-          },
-          c: {
-            availableForSelection: true,
-            defaultValue: false,
-          },
-        },
         transportModes: {
           d: {
             availableForSelection: true,
@@ -664,22 +585,50 @@ describe('modeUtils', () => {
       const result = utils.getDefaultModes(modeConfig);
 
       expect(result.length).to.equal(2);
-      expect(result).to.contain('A');
+      expect(result).to.contain('WALK');
       expect(result).to.contain('D');
+    });
+  });
+
+  describe('showModeSettings', () => {
+    it('should return true when there are multiple available transport modes', () => {
+      const modeConfig = {
+        transportModes: {
+          d: {
+            availableForSelection: true,
+            defaultValue: true,
+          },
+          e: {
+            availableForSelection: true,
+            defaultValue: false,
+          },
+        },
+      };
+
+      expect(utils.showModeSettings(modeConfig)).to.equal(true);
+    });
+
+    it('should return false when there is only one available transport mode', () => {
+      const modeConfig = {
+        transportModes: {
+          d: {
+            availableForSelection: true,
+            defaultValue: true,
+          },
+          e: {
+            availableForSelection: false,
+            defaultValue: false,
+          },
+        },
+      };
+
+      expect(utils.showModeSettings(modeConfig)).to.equal(false);
     });
   });
 
   describe('getDefaultOTPModes', () => {
     it('should map non-OTP modes to their OTP counterparts', () => {
       const modeConfig = {
-        streetModes: {
-          public_transport: {
-            availableForSelection: true,
-          },
-          walk: {
-            availableForSelection: true,
-          },
-        },
         transportModes: {
           bus: {
             availableForSelection: true,
@@ -688,11 +637,10 @@ describe('modeUtils', () => {
         modeToOTP: {
           bus: 'BUS',
           walk: 'WALK',
-          public_transport: 'WALK',
         },
         modePolygons: {},
       };
-      const modes = 'BUS,CAR_PARK,WALK,UNKNOWN,PUBLIC_TRANSPORT';
+      const modes = 'BUS,WALK,UNKNOWN';
       const result = utils.filterModes(
         modeConfig,
         modes,
@@ -701,7 +649,97 @@ describe('modeUtils', () => {
         intermediatePlaces,
       );
 
-      expect(result).to.equal('BUS,WALK');
+      expect(result.length).to.equal(2);
+      expect(result).to.contain('BUS');
+      expect(result).to.contain('WALK');
+    });
+  });
+
+  describe('userHasChangedModes', () => {
+    it('should return true if user has set custom modes', () => {
+      setCustomizedSettings({
+        modes: [TransportMode.Rail, TransportMode.Airplane, StreetMode.Walk],
+      });
+
+      expect(utils.userHasChangedModes(config)).to.equal(true);
+    });
+
+    it('should return false if user has not set custom modes', () => {
+      expect(utils.userHasChangedModes(config)).to.equal(false);
+    });
+
+    it('should return false if user has set unavailable for selection custom modes in addition to default modes', () => {
+      setCustomizedSettings({
+        modes: [
+          TransportMode.Bus,
+          'FOO',
+          TransportMode.Rail,
+          TransportMode.Airplane,
+        ],
+      });
+
+      expect(utils.userHasChangedModes(config)).to.equal(false);
+    });
+  });
+
+  describe('toggleTransportMode', () => {
+    it('should return previous modes in addition to new mode', () => {
+      setCustomizedSettings({
+        modes: [TransportMode.Rail, StreetMode.Walk],
+      });
+
+      const result = utils.toggleTransportMode(TransportMode.Bus, config);
+
+      expect(result.length).to.equal(3);
+      expect(result).to.contain(TransportMode.Rail);
+      expect(result).to.contain(TransportMode.Bus);
+      expect(result).to.contain(StreetMode.Walk);
+    });
+
+    it('should return previous modes minus toggled mode if it previously existed', () => {
+      setCustomizedSettings({
+        modes: [TransportMode.Rail, TransportMode.Bus, StreetMode.Walk],
+      });
+
+      const result = utils.toggleTransportMode(TransportMode.Rail, config);
+
+      expect(result.length).to.equal(2);
+      expect(result).to.contain(TransportMode.Bus);
+      expect(result).to.contain(StreetMode.Walk);
+    });
+  });
+
+  describe('getBicycleCompatibleModes', () => {
+    it('should filter modes that are configured to be uncompatible with bicycle', () => {
+      const modeConfig = {
+        modesWithNoBike: [
+          TransportMode.Airplane,
+          TransportMode.Citybike,
+          StreetMode.Walk,
+        ],
+      };
+      const modes = [
+        TransportMode.Rail,
+        TransportMode.Airplane,
+        TransportMode.Citybike,
+        StreetMode.Walk,
+      ];
+      const result = utils.getBicycleCompatibleModes(modeConfig, modes);
+
+      expect(result.length).to.equal(1);
+      expect(result).to.contain(TransportMode.Rail);
+    });
+  });
+
+  describe('modesAsOTPModes', () => {
+    it('should convert modes into modern OTP format mode objects', () => {
+      const modes = ['RAIL', 'BICYCLE_RENT', 'WALK'];
+      const result = utils.modesAsOTPModes(modes);
+
+      expect(result.length).to.equal(3);
+      expect(result[0]).to.deep.equal({ mode: 'RAIL' });
+      expect(result[1]).to.deep.equal({ mode: 'BICYCLE', qualifier: 'RENT' });
+      expect(result[2]).to.deep.equal({ mode: 'WALK' });
     });
   });
 });

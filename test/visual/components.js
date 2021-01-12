@@ -167,7 +167,6 @@ testVariation('DateWarning', 'tomorrow-show-warning', 2);
 
 testVariation('Error404');
 
-testVariation('SelectStreetModeDialog').then(skip('ie11'));
 testVariation('SelectMapLayersDialog').then(skip('ie11'));
 testVariation('MainMenuContainer');
 

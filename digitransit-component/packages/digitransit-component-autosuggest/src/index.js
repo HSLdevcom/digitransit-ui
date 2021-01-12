@@ -21,10 +21,13 @@ import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
 
-i18next.init({ lng: 'fi', resources: {} });
-
-Object.keys(translations).forEach(lang => {
-  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
 });
 
 const Loading = props => (
@@ -44,8 +47,8 @@ function getSuggestionContent(item) {
     let suggestionType;
     /* eslint-disable-next-line prefer-const */
     let [name, label] = getNameLabel(item.properties, true);
-    if (label === 'bike-rental-station') {
-      suggestionType = i18next.t(label);
+    if (item.properties.layer.toLowerCase().includes('bikerental')) {
+      suggestionType = i18next.t('bikerentalstation');
       const stopCode = item.properties.labelId;
       return [suggestionType, name, undefined, stopCode];
     }
@@ -169,6 +172,7 @@ function translateFutureRouteSuggestionTime(item) {
  *    sources={sources}
  *    targets={targets}
  *    isMobile  // Optional. Defaults to false. Whether to use mobile search.
+ *    mobileLabel="Custom label" // Optional. Custom label text for autosuggest field on mobile.
  */
 class DTAutosuggest extends React.Component {
   static propTypes = {
@@ -200,6 +204,7 @@ class DTAutosuggest extends React.Component {
       routesPrefix: PropTypes.string,
       stopsPrefix: PropTypes.string,
     }),
+    mobileLabel: PropTypes.string,
   };
 
   static defaultProps = {
@@ -218,6 +223,7 @@ class DTAutosuggest extends React.Component {
       routesPrefix: 'linjat',
       stopsPrefix: 'pysakit',
     },
+    mobileLabel: undefined,
   };
 
   constructor(props) {
@@ -238,7 +244,11 @@ class DTAutosuggest extends React.Component {
       pendingSelection: null,
       suggestionIndex: 0,
       cleanExecuted: false,
+      scrollY: 0,
     };
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
   }
 
   // DT-4074: When a user's location is updated DTAutosuggest would re-render causing suggestion list to reset.
@@ -390,8 +400,7 @@ class DTAutosuggest extends React.Component {
     ) {
       return '';
     }
-    const value = getLabel(suggestion.properties);
-    return value;
+    return getLabel(suggestion.properties);
   };
 
   checkPendingSelection = () => {
@@ -663,7 +672,7 @@ class DTAutosuggest extends React.Component {
       }
       label = label.concat(getSuggestionContent(this.state.suggestions[0]));
     }
-    return label ? label.join(' - ') : '';
+    return [...new Set(label)].join(' - ');
   };
 
   clearOldSearches = () => {
@@ -687,6 +696,25 @@ class DTAutosuggest extends React.Component {
     this.props.id === 'via-point' ||
     this.props.id === 'origin-stop-near-you';
 
+  onFocus = () => {
+    const positions = [
+      'Valittu sijainti',
+      'Current position',
+      'Selected location',
+      'Vald position',
+      'Använd min position',
+      'Käytä nykyistä sijaintia',
+      'Use current location',
+    ];
+    if (positions.includes(this.state.value)) {
+      this.clearInput();
+    }
+    return this.setState({
+      renderMobileSearch: this.props.isMobile,
+      scrollY: window.pageYOffset,
+    });
+  };
+
   render() {
     if (this.state.pendingCurrentLocation) {
       return <Loading />;
@@ -702,22 +730,6 @@ class DTAutosuggest extends React.Component {
       value,
       onChange: this.onChange,
       onBlur: !this.props.isMobile ? this.onBlur : () => null,
-      onFocus: () => {
-        // DT-3460 empty input field if value is in array below (HSL.fi translations also.)
-        const positions = [
-          'Valittu sijainti',
-          'Current position',
-          'Selected location',
-          'Vald position',
-          'Använd min position',
-          'Käytä nykyistä sijaintia',
-          'Use current location',
-        ];
-        if (positions.includes(this.state.value)) {
-          this.clearInput();
-        }
-        return this.setState({ renderMobileSearch: this.props.isMobile });
-      },
       className: cx(
         `${styles.input} ${
           this.props.isMobile && this.props.transportMode ? styles.thin : ''
@@ -741,7 +753,11 @@ class DTAutosuggest extends React.Component {
 
     return (
       <React.Fragment>
-        <span className={styles['sr-only']} role="alert">
+        <span
+          className={styles['sr-only']}
+          role={this.state.typing ? undefined : 'alert'}
+          aria-hidden={!this.state.editing}
+        >
           {ariaSuggestionLen}
         </span>
         <span
@@ -751,8 +767,9 @@ class DTAutosuggest extends React.Component {
         >
           {ariaCurrentSuggestion}
         </span>
-        {renderMobileSearch && (
+        {this.props.isMobile && (
           <MobileSearch
+            searchOpen={renderMobileSearch}
             appElement={this.props.appElement}
             clearOldSearches={this.clearOldSearches}
             id={this.props.id}
@@ -781,11 +798,18 @@ class DTAutosuggest extends React.Component {
                   renderMobileSearch: false,
                   value: this.props.value,
                 },
-                () => this.onSuggestionsClearRequested(),
+                () => {
+                  window.scrollTo(0, this.state.scrollY);
+                  this.onSuggestionsClearRequested();
+                },
               )
             }
             ariaLabel={SearchBarId.concat(' ').concat(ariaLabelText)}
-            label={i18next.t(this.props.id)}
+            label={
+              this.props.mobileLabel
+                ? this.props.mobileLabel
+                : i18next.t(this.props.id)
+            }
             onSuggestionSelected={this.onSelected}
             onKeyDown={this.keyDown}
             dialogHeaderText={i18next.t('delete-old-searches-header')}
@@ -822,7 +846,10 @@ class DTAutosuggest extends React.Component {
               onSuggestionsClearRequested={this.onSuggestionsClearRequested}
               getSuggestionValue={this.getSuggestionValue}
               renderSuggestion={this.renderItem}
-              inputProps={inputProps}
+              inputProps={{
+                ...inputProps,
+                onFocus: this.onFocus,
+              }}
               focusInputOnSuggestionClick
               shouldRenderSuggestions={() => this.state.editing}
               highlightFirstSuggestion

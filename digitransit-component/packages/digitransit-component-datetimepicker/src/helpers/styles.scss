@@ -42,6 +42,10 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
   }
 
+  .hidden {
+    display: none;
+  }
+
   .top-row-container {
     margin: 0 0 0 18px;
     display: flex;
@@ -270,6 +274,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 
     .suggestionsContainerOpen {
       position: absolute;
+      background: #fff;
       z-index: index($zindex, 'autosuggest-suggestion-container');
       max-height: 250px;
       overflow-x: hidden;
@@ -285,6 +290,8 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       }
     }
     .input {
+      font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+      width: 100%;
       padding-left: 12px;
       padding-right: 0;
       border: none;

@@ -10,6 +10,7 @@ import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
+  BIKEAVL_UNKNOWN,
 } from '../../../util/citybikes';
 
 const timeOfLastFetch = {};
@@ -92,6 +93,7 @@ class CityBikes {
           result.state,
           result.bikesAvailable,
           iconName,
+          this.config.cityBike.capacity !== BIKEAVL_UNKNOWN,
         );
       }
       return this;

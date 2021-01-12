@@ -21,8 +21,11 @@ describe('<IntermediateLeg />', () => {
       currentZoneId: 'foo',
       nextZoneId: 'bar',
       showZoneLimits: true,
+      gtfsId: 'foo:1',
     };
-    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />);
+    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />, {
+      context: { config: { feedIds: ['foo'] } },
+    });
     expect(wrapper.find('.zone-dual')).to.have.lengthOf(1);
     expect(wrapper.find(ZoneIcon)).to.have.lengthOf(2);
   });
@@ -34,8 +37,11 @@ describe('<IntermediateLeg />', () => {
       nextZoneId: 'bar',
       previousZoneId: 'baz',
       showZoneLimits: true,
+      gtfsId: 'foo:1',
     };
-    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />);
+    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />, {
+      context: { config: { feedIds: ['foo'] } },
+    });
     expect(wrapper.find('.zone-triple')).to.have.lengthOf(1);
     expect(wrapper.find(ZoneIcon)).to.have.lengthOf(3);
   });
@@ -47,8 +53,11 @@ describe('<IntermediateLeg />', () => {
       nextZoneId: 'bar',
       previousZoneId: 'baz',
       showZoneLimits: true,
+      gtfsId: 'foo:1',
     };
-    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />);
+    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />, {
+      context: { config: { feedIds: ['foo'] } },
+    });
     expect(wrapper.find('.zone-dual')).to.have.lengthOf(0);
   });
 
@@ -58,8 +67,11 @@ describe('<IntermediateLeg />', () => {
       currentZoneId: 'foo',
       previousZoneId: 'baz',
       showZoneLimits: true,
+      gtfsId: 'foo:1',
     };
-    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />);
+    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />, {
+      context: { config: { feedIds: ['foo'] } },
+    });
     expect(wrapper.find('.zone-previous')).to.have.lengthOf(1);
     expect(wrapper.find(ZoneIcon)).to.have.lengthOf(2);
   });

@@ -9,20 +9,21 @@ import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import omit from 'lodash/omit';
-import loadable from '@loadable/component';
+import ContainerSpinner from '@hsl-fi/container-spinner';
+import Modal from '@hsl-fi/modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import ModalContent from './helpers/ModalContent';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 
-const ContainerSpinner = loadable(() => import('@hsl-fi/container-spinner'));
-const Modal = loadable(() => import('@hsl-fi/modal'));
-
-i18next.init({ lng: 'fi', resources: {} });
-
-Object.keys(translations).forEach(lang => {
-  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
 });
 
 const isKeyboardSelectionEvent = event => {
@@ -87,7 +88,7 @@ class FavouriteEditingModal extends React.Component {
     hoverColor: PropTypes.string,
   };
 
-  static defaulProps = {
+  static defaultProps = {
     lang: 'fi',
     isMobile: false,
     color: '#007ac9',
@@ -103,6 +104,9 @@ class FavouriteEditingModal extends React.Component {
       showDeletePlaceModal: false,
       selectedFavourite: null,
     };
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
   }
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
@@ -128,7 +132,7 @@ class FavouriteEditingModal extends React.Component {
     }
   };
 
-  renderFavouriteListItem = favourite => {
+  renderFavouriteListItem = (favourite, color) => {
     const iconId = favourite.selectedIconId
       ? favourite.selectedIconId.replace('icon-icon_', '')
       : 'place';
@@ -153,7 +157,7 @@ class FavouriteEditingModal extends React.Component {
               styles[iconId],
             )}
           >
-            <Icon img={iconId} />
+            <Icon img={iconId} color={color} />
           </div>
         </div>
         <div className={styles['favourite-edit-list-item-content']}>
@@ -210,13 +214,13 @@ class FavouriteEditingModal extends React.Component {
     );
   };
 
-  renderFavouriteList = (favourites, isLoading) => {
+  renderFavouriteList = (favourites, isLoading, color, hoverColor) => {
     return (
       <div
         className={styles['favourite-edit-list-container']}
         style={{
-          '--color': `${this.props.color}`,
-          '--hover-color': `${this.props.hoverColor}`,
+          '--color': `${color}`,
+          '--hover-color': `${hoverColor}`,
         }}
       >
         <ContainerSpinner visible={isLoading}>
@@ -288,7 +292,13 @@ class FavouriteEditingModal extends React.Component {
     const { favourites, showDeletePlaceModal, selectedFavourite } = this.state;
     const modalProps = {
       headerText: i18next.t('edit-places'),
-      renderList: () => this.renderFavouriteList(favourites, isLoading),
+      renderList: () =>
+        this.renderFavouriteList(
+          favourites,
+          isLoading,
+          this.props.color,
+          this.props.hoverColor,
+        ),
     };
     return (
       <div>

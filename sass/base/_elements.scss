@@ -30,16 +30,10 @@ $border-radius-rounded: 30px;
     font-size: $font-size-xxsmall;
     font-weight: $font-weight-medium;
 
-    .icon {
+    .unknown {
       display: block;
       height: 2em;
       width: 2em;
-    }
-
-    .svg {
-      width: 14px;
-      height: 14px;
-      margin-left: -2px;
     }
   }
 
@@ -205,6 +199,13 @@ $border-radius-rounded: 30px;
 .overflow-fade {
   overflow: hidden;
   mask-image: linear-gradient(
+    to left,
+    transparent,
+    rgba(0, 0, 0, 0.2) 5px,
+    rgba(0, 0, 0, 1) 25px,
+    rgba(0, 0, 0, 1)
+  );
+  -webkit-mask-image: linear-gradient(
     to left,
     transparent,
     rgba(0, 0, 0, 0.2) 5px,

@@ -1,9 +1,11 @@
 /* eslint-disable prefer-template */
+import { BIKEAVL_BIKES } from '../util/citybikes';
+
 const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
+const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || 'next-'; // TODO maybe use regular endpoint again at some point
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
@@ -113,26 +115,6 @@ export default {
     },
   },
 
-  streetModes: {
-    bicycle: {
-      availableForSelection: true,
-      defaultValue: false,
-      icon: 'biking',
-    },
-
-    car_park: {
-      availableForSelection: true,
-      defaultValue: false,
-      icon: 'car-withoutBox',
-    },
-
-    car: {
-      availableForSelection: false,
-      defaultValue: false,
-      icon: 'car_park-withoutBox',
-    },
-  },
-
   search: {
     /* identify searches for route numbers/labels: bus | train | metro */
     lineRegexp: new RegExp(
@@ -141,7 +123,8 @@ export default {
     ),
   },
 
-  modesWithNoBike: ['BUS', 'TRAM'],
+  // modes that should not coexist with BICYCLE mode
+  modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'BUS', 'TRAM', 'FERRY'],
 
   useSearchPolygon: true,
 
@@ -346,14 +329,6 @@ export default {
   showTicketInformation: true,
   ticketInformation: {
     primaryAgencyName: 'HSL',
-    trackingParameters: {
-      'HSL:HSL': {
-        utm_campaign: 'omat-palvelut',
-        utm_content: 'nain-ostat-lipun',
-        utm_medium: 'referral',
-        utm_source: 'reittiopas',
-      },
-    },
   },
 
   maxNearbyStopAmount: 5,
@@ -432,9 +407,6 @@ export default {
         url: '/assets/geojson/hsl_zone_lines_20190508.geojson',
       },
     ],
-    zones: {
-      url: '/assets/geojson/hsl_zone_areas_20190508.geojson',
-    },
   },
 
   // mapping fareId from OTP fare identifiers to human readable form
@@ -445,6 +417,8 @@ export default {
       : '';
   },
 
+  unknownZones: ['Ei HSL'],
+
   showTicketPrice: true,
 
   itinerary: {
@@ -453,7 +427,6 @@ export default {
 
   map: {
     showZoomControl: true, // DT-3470, DT-3397
-    showStreetModeSelector: false, // DT-3470
     showLayerSelector: false, // DT-3470
     showStopMarkerPopupOnMobile: false, // DT-3470
     showScaleBar: true, // DT-3470, DT-3397
@@ -479,6 +452,7 @@ export default {
 
   cityBike: {
     showCityBikes: false,
+    capacity: BIKEAVL_BIKES,
     networks: {
       smoove: {
         icon: 'citybike',

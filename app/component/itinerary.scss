@@ -139,6 +139,26 @@ $itinerary-tab-switch-height: 48px;
     .zone-triple {
       min-height: 6em;
     }
+    .zone-dual, .zone-triple {
+      .itinerary-time-column {
+        .time-column-zone-icons-container {
+          &.intermediate-leg {
+            top: -12px;
+            .zone-icon-container {
+              .circle {
+                margin-bottom: 6px;
+              }
+            }
+            .zone-icon-container.zone-delimiter {
+              top: -4px;
+              .circle {
+                margin-top: 4px;
+              }
+            }
+          }
+        }
+      }
+    }
     .zone-previous {
       .leg-before-circle {
         bottom: 0;
@@ -166,35 +186,6 @@ $itinerary-tab-switch-height: 48px;
 
       .itinerary-instruction-column {
         justify-content: center;
-      }
-    }
-  }
-
-  .zone-icons-container {
-    position: relative;
-    float: right;
-    margin-right: 3px;
-    width: 29px;
-    top: -8px;
-    .zone-icon-container {
-      position: relative;
-      top: -2px;
-      .circle {
-        display: inline-block;
-        padding: 0;
-        margin-left: 5px;
-      }
-      &.zone-delimiter {
-        border-top: 1px solid $light-gray;
-        padding: 9px 0 0 0;
-        top: -9px;
-      }
-      & + .zone-icon-container {
-        margin-top: 0.85em;
-      }
-      .svg {
-        width: 20px;
-        height: 20px;
       }
     }
   }
@@ -650,26 +641,55 @@ $itinerary-tab-switch-height: 48px;
     .time-column-zone-icons-container {
       position: relative;
       top: 2.5em;
+      &.intermediate-leg {
+        position: relative;
+        float: right;
+        top: -16px;
+        .zone-icon-container {
+          .circle {
+            padding: 0px 3px 0 4px;
+
+          }
+          &.zone-delimiter {
+            top: -4px;
+            .circle {
+              margin-top: 6px;
+            }
+            padding: 4px 4px 2px 1px;
+          }
+          .unknown {
+            margin-right: 4px;
+          }
+          &.multi-letter-container {
+            padding-right: 1px;
+          }
+        }
+      }
       .zone-icon-container {
         position: relative;
-        padding: 4px 0;
+        padding: 4px 4px 7px 1px;
         margin-right: 3px;
-        width: 29px;
         &.zone-delimiter {
           border-top: 1px solid $light-gray;
         }
+        &.unknown-container {
+          padding: 4px 4px 2px 1px;
+        }
         .circle {
-          height: 20px;
-          width: 20px;
-          color: $white;
-          background-color: $primary-color;
           font-size: 16px;
           margin-left: 5px;
           line-height: 20px;
+          padding: 0 3px 0 3px;
+          &.multi-letter {
+            margin-left: 2px;
+          }
         }
-        .svg {
+        .circle:not(.multi-letter) {
           width: 20px;
-          height: 20px;
+        }
+        .unknown {
+          margin-right: 0px;
+          padding-left: 5px;
         }
       }
     }
@@ -699,6 +719,9 @@ $itinerary-tab-switch-height: 48px;
         left: -0.4em;
         position: absolute;
       }
+      font-size: 14pt;
+    }
+    .unknown {
       font-size: 14pt;
     }
     .icon-badge {
@@ -1105,6 +1128,9 @@ $itinerary-tab-switch-height: 48px;
       font-size: 0.9375rem;
     }
     .icon {
+      font-size: 24px;
+    }
+    .unknown {
       font-size: 24px;
     }
 

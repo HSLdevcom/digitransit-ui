@@ -16,7 +16,7 @@ const maxLon = 24.9;
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  appBarLink: { name: 'Nysse', href: 'https://joukkoliikenne.tampere.fi/' },
+  appBarLink: { name: 'Nysse', href: 'https://www.nysse.fi/' },
 
   colors: {
     primary: '#1c57cf',
@@ -36,7 +36,7 @@ export default configMerger(walttiConfig, {
 
   favicon: './sass/themes/tampere/favicon.png',
 
-  feedIds: ['tampere', 'TampereVR'],
+  feedIds: ['tampere', 'TampereVR', 'tampereDRT'],
 
   geoJson: {
     layers: [
@@ -50,9 +50,6 @@ export default configMerger(walttiConfig, {
         isOffByDefault: true,
       },
     ],
-    zones: {
-      url: '/assets/geojson/tre_zone_areas_20191028.geojson',
-    },
   },
 
   mapLayers: {
@@ -75,7 +72,7 @@ export default configMerger(walttiConfig, {
   stopCard: {
     header: {
       showZone: true,
-      virtualMonitorBaseUrl: 'https://tremonitori.digitransit.fi/stop/tampere:',
+      virtualMonitorBaseUrl: 'https://tremonitori.digitransit.fi/stop/',
     },
   },
   showTicketInformation: true,
@@ -86,7 +83,7 @@ export default configMerger(walttiConfig, {
     primaryAgencyName: 'Tampereen seudun joukkoliikenne',
   },
 
-  ticketLink: 'https://joukkoliikenne.tampere.fi/liput-ja-hinnat.html',
+  ticketLink: 'https://www.nysse.fi/liput-ja-hinnat.html',
 
   // mapping fareId from OTP fare identifiers to human readable form
   fareMapping: function mapFareId(fareId) {
@@ -143,8 +140,7 @@ export default configMerger(walttiConfig, {
       {
         name: 'footer-feedback',
         nameEn: 'Submit feedback',
-        href:
-          'https://joukkoliikenne.tampere.fi/ohjeita-ja-tietoa/asiakaspalvelu/palaute.html',
+        href: 'https://www.nysse.fi/palaute.html',
         icon: 'icon-icon_speech-bubble',
       },
       {
@@ -152,6 +148,12 @@ export default configMerger(walttiConfig, {
         nameEn: 'About this service',
         route: '/tietoja-palvelusta',
         icon: 'icon-icon_info',
+      },
+      {
+        name: 'accessibility-statement',
+        nameEn: 'Accessibility statement',
+        href:
+          'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
       },
     ],
   },
@@ -210,8 +212,7 @@ export default configMerger(walttiConfig, {
         paragraphs: [
           'Tervetuloa reittioppaaseen! Tämän palvelun tarjoaa Tampereen seudun joukkoliikenne (Nysse) reittisuunnittelua varten Tampereen kaupunkiseudun alueella (Kangasala, Lempäälä, Nokia, Orivesi, Pirkkala, Tampere, Vesilahti ja Ylöjärvi). Palvelu perustuu Digitransit-palvelualustaan.',
         ],
-        link:
-          'https://joukkoliikenne.tampere.fi/ohjeita-ja-tietoa/digipalvelut/ohje-repa-reittiopas.html',
+        link: 'https://www.nysse.fi/reittiopas-ohje.html',
       },
       {
         header: 'Digitransit-palvelualusta',
@@ -283,6 +284,7 @@ export default configMerger(walttiConfig, {
     },
   },
 
+  // modes that should not coexist with BICYCLE mode
   // boarding a long distance train with bicycle costs extra
-  modesWithNoBike: ['RAIL'],
+  modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'RAIL'],
 });

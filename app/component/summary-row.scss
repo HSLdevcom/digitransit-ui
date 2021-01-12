@@ -126,11 +126,12 @@
 
     .itinerary-first-leg-start-time {
       font-size: 13px;
-      text-overflow: ellipsis;
       overflow: hidden;
-      white-space: normal;
-      .first-leg-start-time-green {
-        color: $realtime-color;
+      white-space: nowrap;
+      .platform-or-track {
+        text-transform: lowercase;
+      }
+      .start-time {
         font-weight: 500;
       }
   }
@@ -484,10 +485,9 @@
     flex-direction: column;
     max-width: 100%;
   }
-
   .itinerary-summary-header {
-      display: flex;
-      flex: auto;
+    display: flex;
+    flex: auto;
   }
 }
 
@@ -532,6 +532,9 @@
   }
   .summary-clickable-area {
     border-bottom: 1px solid #ddd !important;
+  }
+  .itinerary-summary-header {
+    display: block;
   }
 }
 

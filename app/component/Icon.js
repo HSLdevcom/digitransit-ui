@@ -69,12 +69,6 @@ function Icon({
   dataURI,
   ariaLabel,
 }) {
-  let tabIndex = '-1';
-  let role = '';
-  if (className === 'favourite') {
-    tabIndex = '0';
-    role = 'button';
-  }
   return (
     <span aria-hidden className="icon-container">
       <svg
@@ -83,12 +77,12 @@ function Icon({
           fill: color || null,
           height: height ? `${height}em` : null,
           width: width ? `${width}em` : null,
+          outline: 0,
         }}
         viewBox={!omitViewBox ? viewBox : null}
         className={cx('icon', className)}
         aria-label={ariaLabel}
-        tabIndex={tabIndex}
-        role={role}
+        tabIndex={-1}
       >
         {backgroundShape === 'circle' && (
           <circle className="icon-circle" cx="20" cy="20" fill="white" r="20" />

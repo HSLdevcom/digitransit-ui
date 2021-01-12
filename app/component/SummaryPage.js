@@ -15,7 +15,6 @@ import polyline from 'polyline-encoded';
 import { FormattedMessage } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
-import { connectToStores } from 'fluxible-addons-react';
 import isEmpty from 'lodash/isEmpty';
 import SunCalc from 'suncalc';
 import storeOrigin from '../action/originActions';
@@ -43,12 +42,7 @@ import { itineraryHasCancelation } from '../util/alertUtils';
 import triggerMessage from '../util/messageUtils';
 import MessageStore from '../store/MessageStore';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import {
-  otpToLocation,
-  addressToItinerarySearch,
-  getIntermediatePlaces,
-} from '../util/otpStrings';
-import { startLocationWatch } from '../action/PositionActions';
+import { otpToLocation, getIntermediatePlaces } from '../util/otpStrings';
 import { SettingsDrawer } from './SettingsDrawer';
 
 import {
@@ -274,6 +268,8 @@ class SummaryPage extends React.Component {
       reportError(props.error);
     }
     this.resultsUpdatedAlertRef = React.createRef();
+    this.itinerariesLoadingAlertRef = React.createRef();
+    this.itinerariesLoadedAlertRef = React.createRef();
 
     this.state = {
       weatherData: {},
@@ -818,6 +814,10 @@ class SummaryPage extends React.Component {
       name: null,
     });
     this.setState({ loadingMoreItineraries: reversed ? 'top' : 'bottom' });
+    if (this.itinerariesLoadingAlertRef.current) {
+      // eslint-disable-next-line no-self-assign
+      this.itinerariesLoadingAlertRef.current.innerHTML = this.itinerariesLoadingAlertRef.current.innerHTML;
+    }
 
     const end = moment.unix(this.props.serviceTimeRange.end);
     const latestDepartureTime = itineraries.reduce((previous, current) => {
@@ -863,6 +863,10 @@ class SummaryPage extends React.Component {
       moreItinerariesQuery,
       tunedParams,
     ).then(({ plan: result }) => {
+      if (this.itinerariesLoadedAlertRef.current) {
+        // eslint-disable-next-line no-self-assign
+        this.itinerariesLoadedAlertRef.current.innerHTML = this.itinerariesLoadedAlertRef.current.innerHTML;
+      }
       if (reversed) {
         const reversedItineraries = result.itineraries
           .slice() // Need to copy because result is readonly
@@ -933,6 +937,10 @@ class SummaryPage extends React.Component {
       name: null,
     });
     this.setState({ loadingMoreItineraries: reversed ? 'bottom' : 'top' });
+    if (this.itinerariesLoadingAlertRef.current) {
+      // eslint-disable-next-line no-self-assign
+      this.itinerariesLoadingAlertRef.current.innerHTML = this.itinerariesLoadingAlertRef.current.innerHTML;
+    }
 
     const start = moment.unix(this.props.serviceTimeRange.start);
     const earliestArrivalTime = itineraries.reduce((previous, current) => {
@@ -980,7 +988,10 @@ class SummaryPage extends React.Component {
         // --> cannot calculate earlier start time
         this.setError('no-route-start-date-too-early');
       }
-
+      if (this.itinerariesLoadedAlertRef.current) {
+        // eslint-disable-next-line no-self-assign
+        this.itinerariesLoadedAlertRef.current.innerHTML = this.itinerariesLoadedAlertRef.current.innerHTML;
+      }
       if (reversed) {
         this.setState(prevState => {
           return {
@@ -1179,7 +1190,8 @@ class SummaryPage extends React.Component {
       if (
         combinedItineraries &&
         combinedItineraries.length > 0 &&
-        this.props.match.params.hash !== 'walk'
+        this.props.match.params.hash !== 'walk' &&
+        this.props.match.params.hash !== 'bikeAndVehicle'
       ) {
         combinedItineraries = combinedItineraries.filter(
           itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
@@ -1294,6 +1306,7 @@ class SummaryPage extends React.Component {
                   temperature: res[0].ParameterValue,
                   windSpeed: res[1].ParameterValue,
                   weatherHash,
+                  time,
                   // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
                   iconId: this.checkDayNight(
                     res[2].ParameterValue,
@@ -1766,7 +1779,8 @@ class SummaryPage extends React.Component {
     if (
       combinedItineraries &&
       combinedItineraries.length > 0 &&
-      this.props.match.params.hash !== 'walk'
+      this.props.match.params.hash !== 'walk' &&
+      this.props.match.params.hash !== 'bikeAndVehicle'
     ) {
       combinedItineraries = combinedItineraries.filter(
         itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
@@ -1899,14 +1913,54 @@ class SummaryPage extends React.Component {
 
     const intermediatePlaces = getIntermediatePlaces(match.location.query);
 
-    const screenReaderUpdateAlert = (
-      <span className="sr-only" role="alert" ref={this.resultsUpdatedAlertRef}>
+    const loadingStreeModeSelector =
+      this.props.loading ||
+      this.isFetchingWalkAndBike ||
+      (!this.state.weatherData.temperature && !this.state.weatherData.err);
+
+    const screenReaderWalkAndBikeUpdateAlert = (
+      <span className="sr-only" role="alert">
         <FormattedMessage
-          id="itinerary-page.update-alert"
-          defaultMessage="Search results updated"
+          id="itinerary-summary-page-street-mode.update-alert"
+          defaultMessage="Walking and biking results updated"
         />
       </span>
     );
+    const screenReaderAlert = (
+      <>
+        <span
+          className="sr-only"
+          role="alert"
+          ref={this.itinerariesLoadedAlertRef}
+        >
+          <FormattedMessage
+            id="itinerary-page.itineraries-loaded"
+            defaultMessage="More itineraries loaded"
+          />
+        </span>
+        <span
+          className="sr-only"
+          role="alert"
+          ref={this.itinerariesLoadingAlertRef}
+        >
+          <FormattedMessage
+            id="itinerary-page.loading-itineraries"
+            defaultMessage="Loading for more itineraries"
+          />
+        </span>
+        <span
+          className="sr-only"
+          role="alert"
+          ref={this.resultsUpdatedAlertRef}
+        >
+          <FormattedMessage
+            id="itinerary-page.update-alert"
+            defaultMessage="Search results updated"
+          />
+        </span>
+      </>
+    );
+
     // added config.itinerary.serviceTimeRange parameter (DT-3175)
     const serviceTimeRange = validateServiceTimeRange(
       this.context.config.itinerary.serviceTimeRange,
@@ -1939,7 +1993,7 @@ class SummaryPage extends React.Component {
 
           content = (
             <>
-              {screenReaderUpdateAlert}
+              {screenReaderAlert}
               <ItineraryTab
                 plan={currentTime}
                 itinerary={selectedItinerary}
@@ -1965,7 +2019,7 @@ class SummaryPage extends React.Component {
         }
         content = (
           <>
-            {screenReaderUpdateAlert}
+            {screenReaderAlert}
             <SummaryPlanContainer
               activeIndex={activeIndex}
               plan={this.selectedPlan}
@@ -2043,6 +2097,7 @@ class SummaryPage extends React.Component {
                   }
                 />
               )}
+              {!loadingStreeModeSelector && screenReaderWalkAndBikeUpdateAlert}
             </React.Fragment>
           }
           content={content}
@@ -2130,7 +2185,7 @@ class SummaryPage extends React.Component {
             onEarlier={this.onEarlier}
             loadingMoreItineraries={this.state.loadingMoreItineraries}
           />
-          {screenReaderUpdateAlert}
+          {screenReaderAlert}
         </>
       );
     }
@@ -2173,6 +2228,7 @@ class SummaryPage extends React.Component {
                   }
                 />
               )}
+              {!loadingStreeModeSelector && screenReaderWalkAndBikeUpdateAlert}
             </React.Fragment>
           ) : (
             false
@@ -2207,54 +2263,8 @@ SummaryPageWithBreakpoint.description = (
   </ComponentUsageExample>
 );
 
-// Handle geolocationing when url contains POS as origin/destination
-const PositioningWrapper = connectToStores(
-  SummaryPageWithBreakpoint,
-  ['PositionStore'],
-  (context, props) => {
-    const { from, to } = props.match.params;
-    if (from !== 'POS' && to !== 'POS') {
-      return props;
-    }
-
-    const locationState = context.getStore('PositionStore').getLocationState();
-    if (locationState.locationingFailed) {
-      // Error message is displayed by locationing message bar
-      return { ...props, loadingPosition: false };
-    }
-
-    if (
-      locationState.isLocationingInProgress ||
-      locationState.isReverseGeocodingInProgress
-    ) {
-      return { ...props, loadingPosition: true };
-    }
-
-    if (locationState.hasLocation) {
-      const locationForUrl = addressToItinerarySearch(locationState);
-      const newFrom = from === 'POS' ? locationForUrl : from;
-      const newTo = to === 'POS' ? locationForUrl : to;
-      const newLocation = {
-        ...props.match.location,
-        pathname: getRoutePath(newFrom, newTo),
-      };
-      props.router.replace(newLocation);
-      return { ...props, loadingPosition: false };
-    }
-
-    // locationing not started...
-    context.executeAction(startLocationWatch);
-    return { ...props, loadingPosition: true };
-  },
-);
-
-PositioningWrapper.contextTypes = {
-  ...PositioningWrapper.contextTypes,
-  executeAction: PropTypes.func.isRequired,
-};
-
 const containerComponent = createRefetchContainer(
-  PositioningWrapper,
+  SummaryPageWithBreakpoint,
   {
     viewer: graphql`
       fragment SummaryPage_viewer on QueryType

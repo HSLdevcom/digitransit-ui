@@ -34,34 +34,12 @@ export function validateParams(req, config) {
     }
   }
 
-  const numericParams = [
-    'time',
-    'minTransferTime',
-    'transferPenalty',
-    'walkBoardCost',
-    'walkReluctance',
-    'walkSpeed',
-  ];
+  const numericParams = ['time'];
   Object.keys(req.query).forEach(key => {
     if (numericParams.indexOf(key) > -1 && !isFinite(Number(req.query[key]))) {
       url = removeUrlParam(req, key);
     }
   });
-
-  const availableModes = Object.keys(config.modeToOTP).map(k =>
-    k.toUpperCase(),
-  );
-
-  if (req.query.modes) {
-    const modeArray = Array.isArray(req.query.modes)
-      ? req.query.modes
-      : req.query.modes.split(',');
-    modeArray.forEach(key => {
-      if (availableModes.indexOf(key) === -1) {
-        url = removeUrlParam(req, 'modes');
-      }
-    });
-  }
 
   return url;
 }

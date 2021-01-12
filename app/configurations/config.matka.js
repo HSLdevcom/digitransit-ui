@@ -88,6 +88,12 @@ export default {
         href: 'https://www.traficom.fi/fi/joukkoliikenteen-informaatiopalvelut',
         icon: 'icon-icon_info',
       },
+      {
+        name: 'accessibility-statement',
+        nameEn: 'Accessibility statement',
+        href:
+          'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas/matkafi-reittioppaan-saavutettavuusseloste',
+      },
     ],
   },
 
@@ -152,6 +158,21 @@ export default {
           en: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
         },
       },
+      /*
+      lappeenranta: {
+        icon: 'citybike',
+        name: {
+          fi: 'Lappeenranta',
+          sv: 'Vilmanstrand',
+          en: 'Lappeenranta',
+        },
+        type: 'citybike',
+	url: {
+	  fi: 'https://kaakau.fi/lappeenranta/',
+	  sv: 'https://kaakau.fi/lappeenranta/?lang=en',
+	  en: 'https://kaakau.fi/lappeenranta/?lang=sv',
+	},
+	}, */
     },
   },
 

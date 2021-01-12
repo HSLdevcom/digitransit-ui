@@ -111,15 +111,19 @@ export function getNamedConfiguration(configName) {
     if (config.geoJson && Array.isArray(config.geoJson.layers)) {
       for (let i = 0; i < config.geoJson.layers.length; i++) {
         const layer = config.geoJson.layers[i];
-        layer.url = appPathPrefix + layer.url;
+        if (layer.url.indexOf('http') !== 0) {
+          layer.url = appPathPrefix + layer.url;
+        }
       }
     }
 
-    if (config.geoJson && config.geoJson.zones) {
-      config.geoJson.zones.url = appPathPrefix + config.geoJson.zones.url;
-    }
-
     configs[configName] = config;
+  }
+  if (!process.env.OIDC_CLIENT_ID && configs[configName].allowLogin) {
+    return {
+      ...configs[configName],
+      allowLogin: false,
+    };
   }
   return configs[configName];
 }

@@ -22,6 +22,7 @@ function TripMarkerPopup(props) {
   return (
     <div className="card">
       <RouteHeader
+        card
         route={props.route}
         pattern={props.trip && props.trip.pattern}
         trip={props.message.tripStartTime}
