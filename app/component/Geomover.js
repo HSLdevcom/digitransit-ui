@@ -39,11 +39,6 @@ export default function withGeomover(WrappedComponent) {
             target.type = undefined;
             target.address = undefined;
             context.executeAction(action, target);
-          } else if (!target.address) {
-            newAddress = context.intl.formatMessage({
-              id: 'own-position',
-              defaultMessage: 'Own Location',
-            });
           } else if (
             target.address !== locationState.address &&
             locationState.address
@@ -68,6 +63,12 @@ export default function withGeomover(WrappedComponent) {
             ) {
               if (newAddress) {
                 target.address = newAddress;
+              } else {
+                // rev geocoding failed
+                target.address = context.intl.formatMessage({
+                  id: 'own-position',
+                  defaultMessage: 'Own Location',
+                });
               }
               target.lat = locationState.lat;
               target.lon = locationState.lon;

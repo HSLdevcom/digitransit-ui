@@ -217,7 +217,9 @@ class IndexPage extends React.Component {
       feedIds: config.feedIds,
     };
 
-    const showSpinner = false;
+    const showSpinner =
+      (origin.type === 'CurrentLocation' && !origin.address) ||
+      (destination.type === 'CurrentLocation' && !destination.address);
 
     return breakpoint === 'large' ? (
       <div

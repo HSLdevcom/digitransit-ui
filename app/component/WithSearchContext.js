@@ -146,7 +146,6 @@ export default function withSearchContext(WrappedComponent) {
               { pendingCurrentLocation: true, positioningSelectedFrom: id },
               this.context.executeAction(searchContext.startLocationWatch),
             );
-            return;
           }
         } else {
           location = suggestionToLocation(item);
