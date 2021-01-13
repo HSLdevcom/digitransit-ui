@@ -18,6 +18,9 @@ function SelectVehicleRow(props) {
     case 'BUS':
       iconId = 'icon-icon_bus';
       break;
+    case 'SUBWAY':
+      iconId = 'icon-icon_subway';
+      break;
     default:
       iconId = 'icon-icon_bus';
       break;
