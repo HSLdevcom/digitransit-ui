@@ -76,7 +76,7 @@ class RoutePage extends React.Component {
   // gets called if pattern has not been visited before
   componentDidMount() {
     const { match, router, route } = this.props;
-    const { config, executeAction } = this.context;
+    const { config } = this.context;
     if (!route || !route.patterns) {
       return;
     }
@@ -145,27 +145,23 @@ class RoutePage extends React.Component {
       return;
     }
 
-    const id =
-      sortedPatternsByCountOfTrips !== undefined &&
-      pattern.code !== match.params.patternId
-        ? routeParts[1]
-        : source.routeSelector(this.props);
-
-    executeAction(startRealTimeClient, {
-      ...source,
-      agency,
-      options: [
-        {
-          route: id,
-          // add some information from the context
-          // to compensate potentially missing feed data
-          mode: route.mode.toLowerCase(),
-          gtfsId: routeParts[1],
-          headsign: pattern.headsign,
-        },
-      ],
-    });
+    // DT-4161: Start real time client if current day is in active days
+    if (this.isActiveDate(route.patterns[0])) {
+      this.startClient(route.patterns[0]);
+    }
   }
+
+  isActiveDate = pattern => {
+    if (!pattern) {
+      return false;
+    }
+
+    const activeDates = pattern.activeDates.reduce((dates, activeDate) => {
+      return dates.concat(activeDate.day);
+    }, []);
+    const now = moment().format('YYYYMMDD');
+    return activeDates.indexOf(now) > -1;
+  };
 
   componentWillUnmount() {
     const { client } = this.context.getStore('RealTimeInformationStore');
@@ -184,6 +180,9 @@ class RoutePage extends React.Component {
     const { config, executeAction, getStore } = this.context;
     const { client, topics } = getStore('RealTimeInformationStore');
 
+    const pattern = route.patterns.find(({ code }) => code === newPattern);
+    const isActivePattern = this.isActiveDate(pattern);
+
     // if config contains mqtt feed and old client has not been removed
     if (client) {
       const { realTime } = config;
@@ -191,8 +190,7 @@ class RoutePage extends React.Component {
       const agency = routeParts[0];
       const source = realTime[agency];
 
-      const pattern = route.patterns.find(({ code }) => code === newPattern);
-      if (pattern) {
+      if (isActivePattern) {
         const id = source.routeSelector(this.props);
         executeAction(changeRealTimeClientTopics, {
           ...source,
@@ -208,7 +206,12 @@ class RoutePage extends React.Component {
           oldTopics: topics,
           client,
         });
+      } else {
+        //  Close MQTT, we don't want to show vehicles when pattern is in future / past
+        executeAction(stopRealTimeClient, client);
       }
+    } else if (isActivePattern) {
+      this.startClient(pattern);
     }
 
     router.replace(
@@ -218,6 +221,41 @@ class RoutePage extends React.Component {
       ),
     );
   };
+
+  startClient(pattern) {
+    const { config, executeAction } = this.context;
+    const { match, route } = this.props;
+    const { realTime } = config;
+
+    if (!realTime) {
+      return;
+    }
+
+    const routeParts = route.gtfsId.split(':');
+    const agency = routeParts[0];
+    const source = realTime[agency];
+    const id =
+      pattern.code !== match.params.patternId
+        ? routeParts[1]
+        : source.routeSelector(this.props);
+    if (!source || !source.active) {
+      return;
+    }
+    executeAction(startRealTimeClient, {
+      ...source,
+      agency,
+      options: [
+        {
+          route: id,
+          // add some information from the context
+          // to compensate potentially missing feed data
+          mode: route.mode.toLowerCase(),
+          gtfsId: routeParts[1],
+          headsign: pattern.headsign,
+        },
+      ],
+    });
+  }
 
   changeTab = tab => {
     const path = `/${PREFIX_ROUTES}/${this.props.route.gtfsId}/${tab}/${

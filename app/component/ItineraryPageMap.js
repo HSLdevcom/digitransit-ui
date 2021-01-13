@@ -39,6 +39,7 @@ function ItineraryPageMap(
     fitBounds,
     bounds,
     streetMode,
+    showVehicles,
   },
   { match, config },
 ) {
@@ -80,7 +81,12 @@ function ItineraryPageMap(
       streetMode={streetMode}
     />,
   ];
-  if (hash !== undefined && hash !== 'walk' && hash !== 'bike') {
+  if (
+    hash !== undefined &&
+    hash !== 'walk' &&
+    hash !== 'bike' &&
+    showVehicles
+  ) {
     leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
   }
   if (match.location.query && match.location.query.intermediatePlaces) {
@@ -170,6 +176,7 @@ ItineraryPageMap.propTypes = {
   fitBounds: PropTypes.bool,
   mapReady: PropTypes.func,
   mapLoaded: PropTypes.bool,
+  showVehicles: PropTypes.bool,
 };
 
 ItineraryPageMap.contextTypes = {

@@ -271,6 +271,9 @@ class SummaryPage extends React.Component {
     this.itinerariesLoadingAlertRef = React.createRef();
     this.itinerariesLoadedAlertRef = React.createRef();
 
+    // DT-4161: Threshold to determine should vehicles be shown if search is made in the future
+    this.show_vehicles_threshold_minutes = 720;
+
     this.state = {
       weatherData: {},
       center: null,
@@ -1745,7 +1748,18 @@ class SummaryPage extends React.Component {
   };
 
   showVehicles = () => {
+    const now = moment();
+    const startTime = moment.unix(this.props.match.location.query.time);
+    const diff = now.diff(startTime, 'minutes');
+
+    // Vehicles are typically not shown if they are not in transit. But for some quirk in mqtt, if you
+    // search for a route for example tomorrow, real time vehicle would be shown.
+    this.inRange =
+      (diff <= this.show_vehicles_threshold_minutes && diff >= 0) ||
+      (diff >= -1 * this.show_vehicles_threshold_minutes && diff <= 0);
+
     return (
+      this.inRange &&
       this.context.config.showNewMqtt &&
       this.context.config.showVehiclesOnSummaryPage &&
       (this.props.breakpoint === 'large' || this.props.match.params.hash)
@@ -2054,6 +2068,7 @@ class SummaryPage extends React.Component {
               itinerary: combinedItineraries && combinedItineraries[hash],
               center,
               bounds,
+              showVehicles: this.inRange,
               forceCenter: this.justMounted,
               streetMode: this.state.streetMode,
               fitBounds: this.useFitBounds,
