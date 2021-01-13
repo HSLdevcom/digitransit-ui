@@ -152,7 +152,7 @@ class RoutePage extends React.Component {
   }
 
   isActiveDate = pattern => {
-    if (!pattern) {
+    if (!pattern || !pattern.activeDates) {
       return false;
     }
 
