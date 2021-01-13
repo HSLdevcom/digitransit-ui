@@ -4,7 +4,7 @@ import cx from 'classnames';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import { matchShape } from 'found';
 import { intlShape } from 'react-intl';
-import Icon from '@digitransit-component/digitransit-component-icon';
+import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
@@ -105,13 +105,7 @@ const Favourite = (
   return (
     <button
       type="button"
-      className={cx(
-        'cursor-pointer favourite-icon',
-        {
-          selected: favourite && (!allowLogin || isLoggedIn),
-        },
-        className,
-      )}
+      className={cx('cursor-pointer favourite-icon', className)}
       onClick={onClick}
       aria-label={
         favourite && (!allowLogin || isLoggedIn)
@@ -126,13 +120,14 @@ const Favourite = (
       }
     >
       <Icon
+        className={cx('favourite', {
+          selected: favourite && (!allowLogin || isLoggedIn),
+        })}
         img={
           favourite && (!allowLogin || isLoggedIn)
-            ? 'favourite-selected'
-            : 'favourite-unselected'
+            ? 'icon-icon_star-with-circle'
+            : 'icon-icon_star-unselected'
         }
-        height={1.875}
-        width={1.875}
       />
       {renderLoginModal()}
     </button>
