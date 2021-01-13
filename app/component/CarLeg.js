@@ -21,6 +21,8 @@ function CarLeg(props, context) {
   const firstLegClassName = props.index === 0 ? 'start' : '';
   const modeClassName = 'car';
 
+  const [address, place] = props.leg.from.name.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
+
   const alerts = leg.alerts || [];
   const carParkAlert = alerts.filter(a => a.alertId === 'car_park_full')[0];
 
@@ -58,10 +60,20 @@ function CarLeg(props, context) {
           )}
         </span>
         <div className="itinerary-leg-first-row" aria-hidden="true">
-          <div>
-            {leg.from.name}
-            {props.children}
+          <div className="address-container">
+            <div className="address">
+              {address}
+              {leg.from.stop && (
+                <Icon
+                  img="icon-icon_arrow-collapse--right"
+                  className="itinerary-arrow-icon"
+                  color="#333"
+                />
+              )}
+            </div>
+            <div className="place">{place}</div>
           </div>
+          <div>{props.children}</div>
           <div
             className="itinerary-map-action"
             onClick={props.focusAction}

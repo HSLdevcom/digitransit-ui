@@ -124,6 +124,14 @@ export function setCustomizedSettings(data) {
       data.useCarParkAvailabilityInformation,
       oldSettings.useCarParkAvailabilityInformation,
     ),
+    includeCarSuggestions: getValueOrDefault(
+      data.includeBikeSuggestions,
+      oldSettings.includeBikeSuggestions,
+    ),
+    includeParkAndRideSuggestions: getValueOrDefault(
+      data.includeParkAndRideSuggestions,
+      oldSettings.includeParkAndRideSuggestions,
+    ),
   };
 
   setItem('customizedSettings', newSettings);

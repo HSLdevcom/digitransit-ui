@@ -248,13 +248,13 @@
               align-self: center;
             }
           }
-          &.walk, &.citybike, &.bicycle, &.wait, &.bicycle_walk {
+          &.walk, &.citybike, &.bicycle, &.wait, &.bicycle_walk, &.car {
             display: block;
             overflow: hidden;
             min-width: unset;
             .icon {
               width: 16px;
-              &.walk, &.citybike, &.bicycle, &.wait, &.bicycle_walk{
+              &.walk, &.citybike, &.bicycle, &.wait, &.bicycle_walk, &.car {
                 float: left;
                 display: flex;
                 justify-content: center;
@@ -326,6 +326,11 @@
               .leg-duration{
                 padding-bottom: 2px;
                 padding-left: 5px;
+              }
+            }
+            &.car {
+              .leg-duration{
+                color: $white;
               }
             }
           }
