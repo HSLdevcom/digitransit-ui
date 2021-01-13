@@ -43,6 +43,7 @@ import ModeFerry from './assets/mode_ferry.svg';
 import ModeCitybike from './assets/mode_citybike.svg';
 import FutureRoute from './assets/icon-route.svg';
 import Position from './assets/position.svg';
+import FavouriteUnselected from './assets/star_unselected.svg';
 
 const IconMap = style => {
   return {
@@ -91,6 +92,8 @@ const IconMap = style => {
     'mode-citybike': <ModeCitybike style={style} />,
     'future-route': <FutureRoute style={style} />,
     position: <Position style={style} />,
+    'favourite-selected': <Star style={style} />,
+    'favourite-unselected': <FavouriteUnselected style={style} />,
   };
 };
 

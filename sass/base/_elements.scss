@@ -136,22 +136,23 @@ $border-radius-rounded: 30px;
 
 .favourite-icon {
   padding: 0;
-  .icon.favourite {
-    height: 30px;
-    width: 30px;
-    fill: transparent;
-    stroke: #DDDDDD;
-    &.selected {
-      stroke: transparent;
-    }
-    &:hover {
-      stroke: #BBBBBB;
-    }
-    &.selected:hover {
-      stroke: transparent;
-    }
+  background: white;
+  stroke: #DDDDDD;
+
+  &:hover {
+    background: white;
+    stroke: #BBBBBB;
+  }
+
+  &.selected {
+    stroke: transparent;
+  }
+
+  &.selected:hover {
+    stroke: transparent;
   }
 }
+
 .fullscreen-toggle {
   position: absolute;
   height: 34px;
