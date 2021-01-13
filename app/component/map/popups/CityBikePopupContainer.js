@@ -8,7 +8,11 @@ import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import CityBikePopup from './CityBikePopup';
 import Loading from '../../Loading';
 
-function CityBikePopupContainer({ stationId }) {
+function CityBikePopupContainer({
+  stationId,
+  locationPopup,
+  onSelectLocation,
+}) {
   const { environment } = useContext(ReactRelayContext);
   return (
     <QueryRenderer
@@ -24,7 +28,11 @@ function CityBikePopupContainer({ stationId }) {
       environment={environment}
       render={({ props: renderProps }) =>
         renderProps ? (
-          <CityBikePopup {...renderProps} />
+          <CityBikePopup
+            locationPopup={locationPopup}
+            onSelectLocation={onSelectLocation}
+            {...renderProps}
+          />
         ) : (
           <div className="card" style={{ height: '12rem' }}>
             <Loading />
@@ -37,6 +45,8 @@ function CityBikePopupContainer({ stationId }) {
 
 CityBikePopupContainer.propTypes = {
   stationId: PropTypes.string.isRequired,
+  locationPopup: PropTypes.string,
+  onSelectLocation: PropTypes.func,
 };
 
 export default CityBikePopupContainer;

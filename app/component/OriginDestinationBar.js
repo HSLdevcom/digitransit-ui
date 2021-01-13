@@ -8,13 +8,16 @@ import DTAutosuggestPanel from '@digitransit-component/digitransit-component-aut
 import isEmpty from 'lodash/isEmpty';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import ComponentUsageExample from './ComponentUsageExample';
-import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
 import withSearchContext from './WithSearchContext';
 import SelectFromMapHeader from './SelectFromMapHeader';
 import SelectFromMapPageMap from './map/SelectFromMapPageMap';
 import DTModal from './DTModal';
-import { setIntermediatePlaces } from '../util/queryUtils';
-import { getIntermediatePlaces } from '../util/otpStrings';
+import {
+  setIntermediatePlaces,
+  updateItinerarySearch,
+  onLocationPopup,
+} from '../util/queryUtils';
+import { getIntermediatePlaces, locationToOTP } from '../util/otpStrings';
 import { dtLocationShape } from '../util/shapes';
 import { setViaPoints } from '../action/ViaPointActions';
 import { LightenDarkenColor } from '../util/colorUtils';
@@ -23,16 +26,11 @@ const DTAutosuggestPanelWithSearchContext = withSearchContext(
   DTAutosuggestPanel,
 );
 
-const locationToOtp = location =>
-  `${location.address}::${location.lat},${location.lon}${
-    location.locationSlack ? `::${location.locationSlack}` : ''
-  }`;
-
 class OriginDestinationBar extends React.Component {
   static propTypes = {
     className: PropTypes.string,
-    destination: dtLocationShape,
     origin: dtLocationShape,
+    destination: dtLocationShape,
     language: PropTypes.string,
     isMobile: PropTypes.bool,
     showFavourites: PropTypes.bool.isRequired,
@@ -76,7 +74,7 @@ class OriginDestinationBar extends React.Component {
     setIntermediatePlaces(
       this.context.router,
       this.context.match,
-      p.map(locationToOtp),
+      p.map(locationToOTP),
     );
   };
 
@@ -126,15 +124,23 @@ class OriginDestinationBar extends React.Component {
     if (intermediatePlaces.length > 1) {
       location.query.intermediatePlaces.reverse();
     }
-    navigateTo({
-      base: location,
-      origin: this.props.destination,
-      destination: this.props.origin,
-      rootPath: PREFIX_ITINERARY_SUMMARY,
-      router: this.context.router,
-      resetIndex: true,
-    });
+    updateItinerarySearch(
+      this.props.destination,
+      this.props.origin,
+      this.context.router,
+      location,
+      this.context.executeAction,
+    );
   };
+
+  onLocationSelect = (item, id) =>
+    onLocationPopup(
+      item,
+      id,
+      this.context.router,
+      this.context.match,
+      this.context.executeAction,
+    );
 
   render() {
     return (
@@ -157,6 +163,7 @@ class OriginDestinationBar extends React.Component {
           addAnalyticsEvent={addAnalyticsEvent}
           updateViaPoints={this.updateViaPoints}
           swapOrder={this.swapEndpoints}
+          selectHandler={this.onLocationSelect}
           sources={[
             'History',
             'Datasource',
@@ -188,20 +195,18 @@ OriginDestinationBar.description = (
   <React.Fragment>
     <ComponentUsageExample>
       <OriginDestinationBar
-        destination={{ ready: false, set: false }}
+        destination={{}}
         origin={{
           address: 'Messukeskus, Itä-Pasila, Helsinki',
           lat: 60.201415,
           lon: 24.936696,
-          ready: true,
-          set: true,
         }}
         showFavourites
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="with-viapoint">
       <OriginDestinationBar
-        destination={{ ready: false, set: false }}
+        destination={{}}
         location={{
           query: {
             intermediatePlaces: 'Opastinsilta 6, Helsinki::60.199093,24.940536',
@@ -211,8 +216,6 @@ OriginDestinationBar.description = (
           address: 'Messukeskus, Itä-Pasila, Helsinki',
           lat: 60.201415,
           lon: 24.936696,
-          ready: true,
-          set: true,
         }}
         showFavourites
       />

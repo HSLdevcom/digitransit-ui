@@ -17,7 +17,6 @@ import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import SunCalc from 'suncalc';
-import storeOrigin from '../action/originActions';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import MapContainer from './map/MapContainer';
@@ -28,12 +27,16 @@ import LocationMarker from './map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import { getWeatherData } from '../util/apiUtils';
 import Loading from './Loading';
-import { getRoutePath } from '../util/path';
+import { getSummaryPath } from '../util/path';
 import {
   validateServiceTimeRange,
   getStartTimeWithColon,
 } from '../util/timeUtils';
-import { planQuery } from '../util/queryUtils';
+import {
+  planQuery,
+  setIntermediatePlaces,
+  updateItinerarySearch,
+} from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
@@ -42,7 +45,11 @@ import { itineraryHasCancelation } from '../util/alertUtils';
 import triggerMessage from '../util/messageUtils';
 import MessageStore from '../store/MessageStore';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { otpToLocation, getIntermediatePlaces } from '../util/otpStrings';
+import {
+  locationToOTP,
+  otpToLocation,
+  getIntermediatePlaces,
+} from '../util/otpStrings';
 import { SettingsDrawer } from './SettingsDrawer';
 
 import {
@@ -58,6 +65,7 @@ import { getTotalBikingDistance } from '../util/legUtils';
 import { userHasChangedModes } from '../util/modeUtils';
 import CarpoolDrawer from './CarpoolDrawer';
 import { MapMode } from '../constants';
+import { addViaPoint } from '../action/ViaPointActions';
 
 const MAX_ZOOM = 16; // Maximum zoom available for the bounds.
 /**
@@ -266,7 +274,6 @@ class SummaryPage extends React.Component {
     this.fooAgain = undefined;
     this.fooCount = 0;
     // ****     ****
-    context.executeAction(storeOrigin, otpToLocation(props.match.params.from));
     if (props.error) {
       reportError(props.error);
     }
@@ -325,11 +332,11 @@ class SummaryPage extends React.Component {
     const newState = {
       ...this.context.match.location,
     };
-    const basePath = getRoutePath(
+    const basePath = getSummaryPath(
       this.context.match.params.from,
       this.context.match.params.to,
     );
-    const indexPath = `${getRoutePath(
+    const indexPath = `${getSummaryPath(
       this.context.match.params.from,
       this.context.match.params.to,
     )}/${newStreetMode}/`;
@@ -361,11 +368,11 @@ class SummaryPage extends React.Component {
       state: { summaryPageSelected: 0 },
     };
 
-    const basePath = `${getRoutePath(
+    const basePath = `${getSummaryPath(
       this.context.match.params.from,
       this.context.match.params.to,
     )}/`;
-    const indexPath = `${getRoutePath(
+    const indexPath = `${getSummaryPath(
       this.context.match.params.from,
       this.context.match.params.to,
     )}/${newStreetMode}`;
@@ -1433,7 +1440,7 @@ class SummaryPage extends React.Component {
         const newState = {
           ...this.context.match.location,
         };
-        const indexPath = `${getRoutePath(
+        const indexPath = `${getSummaryPath(
           this.context.match.params.from,
           this.context.match.params.to,
         )}`;
@@ -1650,10 +1657,6 @@ class SummaryPage extends React.Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (!isEqual(nextProps.match.params.from, this.props.match.params.from)) {
-      this.context.executeAction(storeOrigin, nextProps.match.params.from);
-    }
-
     if (nextProps.breakpoint === 'large' && this.state.center) {
       this.setState({ center: null });
     }
@@ -1688,6 +1691,32 @@ class SummaryPage extends React.Component {
     if (leg) {
       this.setMapZoomToLeg(leg);
     }
+  };
+
+  selectLocation = (item, id) => {
+    const { match } = this.context;
+    if (id === 'via') {
+      const viaPoints = getIntermediatePlaces(match.location.query)
+        .concat([item])
+        .map(locationToOTP);
+      this.context.executeAction(addViaPoint, item);
+      setIntermediatePlaces(this.context.router, match, viaPoints);
+      return;
+    }
+    let origin = otpToLocation(match.params.from);
+    let destination = otpToLocation(match.params.to);
+    if (id === 'origin') {
+      origin = item;
+    } else {
+      destination = item;
+    }
+    updateItinerarySearch(
+      origin,
+      destination,
+      this.context.router,
+      match.location,
+      this.context.executeAction,
+    );
   };
 
   renderMap() {
@@ -1827,7 +1856,10 @@ class SummaryPage extends React.Component {
     if (this.showVehicles()) {
       leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
     }
-
+    const locationPopup = // max 5 viapoints
+      getIntermediatePlaces(this.context.match.location.query).length < 5
+        ? 'all'
+        : 'origindestination';
     return (
       <MapContainer
         className="summary-map"
@@ -1836,12 +1868,8 @@ class SummaryPage extends React.Component {
         bounds={bounds.length > 1 ? bounds : defaultBounds}
         zoom={MAX_ZOOM}
         showScaleBar
-        locationPopup="all"
-        /* bottomButtons={
-          <div className="map-with-tracking-buttons roomForZoomControl">
-            <SelectMapLayersDialog />
-          </div>
-        } */
+        locationPopup={locationPopup}
+        onSelectLocation={this.selectLocation}
       />
     );
   }

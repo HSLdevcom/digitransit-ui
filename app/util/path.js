@@ -1,14 +1,10 @@
 import get from 'lodash/get';
-import d from 'debug';
-import moment from 'moment';
 import {
   otpToLocation,
   locationToOTP,
   addressToItinerarySearch,
 } from './otpStrings';
-import { addAnalyticsEvent } from './analyticsUtils';
 
-const debug = d('path.js');
 export const TAB_NEARBY = 'inderhaehe';
 export const TAB_FAVOURITES = 'favouriten';
 export const PREFIX_ROUTES = 'routen';
@@ -38,7 +34,7 @@ export const getNearYouPath = (place, mode) =>
     encodeURIComponent(decodeURIComponent(place)),
   ].join('/');
 
-export const getRoutePath = (origin, destination) =>
+export const getSummaryPath = (origin, destination) =>
   [
     `/${PREFIX_ITINERARY_SUMMARY}`,
     encodeURIComponent(decodeURIComponent(origin)),
@@ -46,14 +42,27 @@ export const getRoutePath = (origin, destination) =>
   ].join('/');
 
 export const getItineraryPath = (from, to, idx) =>
-  [getRoutePath(from, to), idx].join('/');
+  [getSummaryPath(from, to), idx].join('/');
 
 export const isEmpty = s =>
   s === undefined || s === null || s.trim() === '' || s.trim() === '-';
 
-export const getEndpointPath = (origin, destination, indexPath) => {
+export const coordsDiff = (c1, c2) =>
+  Number.isNaN(c1) !== Number.isNaN(c2) ||
+  (!Number.isNaN(c1) && Math.abs(c1 - c2) > 0.0001);
+
+export const sameLocations = (l1, l2) => {
+  return (
+    (l1.type === 'CurrentLocation' && l2.type === 'CurrentLocation') ||
+    (l1.address === l2.address &&
+      !coordsDiff(l1.lat, l2.lat) &&
+      !coordsDiff(l1.lon, l2.lon))
+  );
+};
+
+export const getIndexPath = (origin, destination, indexPath) => {
   if (isEmpty(origin) && isEmpty(destination)) {
-    return indexPath === '' ? '/' : `/${indexPath}/`;
+    return indexPath === '' ? '/' : `/${indexPath}`;
   }
   if (indexPath === '') {
     return [
@@ -70,19 +79,34 @@ export const getEndpointPath = (origin, destination, indexPath) => {
   ].join('/');
 };
 
-/**
- * check is parameters are good for itinerary search
- * @deprecated
- */
-export const isItinerarySearch = (origin, destination) => {
-  const isSearch = !isEmpty(origin) && !isEmpty(destination);
-  return isSearch;
+export const getStopRoutePath = searchObj => {
+  if (searchObj.properties && searchObj.properties.link) {
+    return searchObj.properties.link;
+  }
+  let id = searchObj.properties.id
+    ? searchObj.properties.id
+    : searchObj.properties.gtfsId;
+  let path;
+  switch (searchObj.properties.layer) {
+    case 'station':
+    case 'favouriteStation':
+      path = `/${PREFIX_TERMINALS}/`;
+      id = id.replace('GTFS:', '').replace(':', '%3A');
+      break;
+    case 'bikeRentalStation':
+    case 'favouriteBikeRentalStation':
+      path = `/${PREFIX_BIKESTATIONS}/`;
+      id = searchObj.properties.labelId;
+      break;
+    default:
+      path = `/${PREFIX_STOPS}/`;
+      id = id.replace('GTFS:', '').replace(':', '%3A');
+  }
+  return path.concat(id);
 };
 
 export const isItinerarySearchObjects = (origin, destination) => {
-  const isSearch =
-    get(origin, 'ready') === true && get(destination, 'ready') === true;
-  return isSearch;
+  return get(origin, 'address') && get(destination, 'address');
 };
 
 /**
@@ -92,11 +116,11 @@ export const getPathWithEndpointObjects = (origin, destination, rootPath) => {
   const r =
     rootPath === PREFIX_ITINERARY_SUMMARY ||
     isItinerarySearchObjects(origin, destination)
-      ? getRoutePath(
+      ? getSummaryPath(
           addressToItinerarySearch(origin),
           addressToItinerarySearch(destination),
         )
-      : getEndpointPath(
+      : getIndexPath(
           locationToOTP(origin),
           locationToOTP(destination),
           rootPath,
@@ -111,124 +135,19 @@ export const getPathWithEndpointObjects = (origin, destination, rootPath) => {
  */
 export const parseLocation = location => {
   if (isEmpty(location)) {
-    return { set: false, ready: false };
+    return {};
   }
   if (location === 'POS') {
-    return {
-      set: true,
-      ready: false, // state ready=true will only be set when we have the actual position too
-      gps: true,
-    };
+    return { type: 'CurrentLocation' };
   }
   const parsed = otpToLocation(decodeURIComponent(location));
-
-  if (parsed.lat && parsed.lon) {
-    parsed.set = true;
-    parsed.ready = true;
-  } else {
-    parsed.ready = false;
-  }
 
   return parsed;
 };
 
 export const getHomeUrl = (origin, indexPath) => {
   // TODO consider looking at destination too
-  const homeUrl = getPathWithEndpointObjects(
-    origin,
-    {
-      set: false,
-      ready: false,
-    },
-    indexPath,
-  );
+  const homeUrl = getPathWithEndpointObjects(origin, {}, indexPath);
 
   return homeUrl;
-};
-
-/**
-  Figure out how to do routing
-
-  Rules for replace/push:
-  - if on front page and sets 2nd endpoint -> push
-  - if on front page and 1st endpoint -> replace
-  - if on itinerary summary page -> replace
-  - on map/route page -> push
-
-  Resets summaryPageSelected index when required
-  */
-export const navigateTo = ({
-  origin,
-  destination,
-  rootPath,
-  router,
-  base,
-  resetIndex = false,
-}) => {
-  let push;
-  switch (rootPath) {
-    case PREFIX_STOPS:
-    case PREFIX_ROUTES:
-      push = true;
-      break;
-    case PREFIX_ITINERARY_SUMMARY:
-      push = false;
-      break;
-    default:
-      if (origin.ready && destination.ready) {
-        push = true;
-      } else {
-        push = false;
-      }
-      break;
-  }
-
-  let url;
-
-  // Reset selected itinerary index if required
-  if (resetIndex && base.state && base.state.summaryPageSelected) {
-    url = {
-      ...base,
-      state: {
-        ...base.state,
-        summaryPageSelected: 0,
-      },
-      pathname: getPathWithEndpointObjects(origin, destination, rootPath),
-    };
-  } else {
-    url = {
-      ...base,
-      pathname: getPathWithEndpointObjects(origin, destination, rootPath),
-    };
-  }
-
-  debug('url, push', url, push);
-
-  if (!url.query) {
-    url.query = {};
-  }
-  // set time to current time if time is not set and both origin and destination are set
-  if (
-    url.query.time === undefined &&
-    origin.set !== false &&
-    destination.set !== false
-  ) {
-    url.query.time = moment().unix();
-  }
-
-  // clean up temporary parameters
-  delete url.query.fromMap;
-
-  if (push) {
-    router.push(url);
-  } else {
-    router.replace(url);
-  }
-  if (origin && destination && origin.ready && destination.ready) {
-    addAnalyticsEvent({
-      category: 'Itinerary',
-      action: 'ItinerariesSearched',
-      name: null,
-    });
-  }
 };

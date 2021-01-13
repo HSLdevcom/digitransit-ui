@@ -6,12 +6,14 @@ import sumBy from 'lodash/sumBy';
 import ParkAndRidePopup from './ParkAndRidePopup';
 
 export default createFragmentContainer(
-  withProps(({ facilities }) => ({
+  withProps(({ facilities, locationPopup, onSelectLocation }) => ({
     // compact removes any falseisch values from the array
     // (bike parks are included in the hub but return null from graphQL carParks)
     realtime: every(compact(facilities), 'realtime'),
     maxCapacity: sumBy(compact(facilities), 'maxCapacity'),
     spacesAvailable: sumBy(compact(facilities), 'spacesAvailable'),
+    locationPopup,
+    onSelectLocation,
   }))(ParkAndRidePopup),
   {
     facilities: graphql`

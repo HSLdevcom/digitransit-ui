@@ -107,7 +107,13 @@ export const getPropertyValueOrDefault = (
       properties[propertyName])) ||
   defaultValue;
 
-const PointFeatureMarker = ({ feature, icons, language }) => {
+const PointFeatureMarker = ({
+  feature,
+  icons,
+  language,
+  locationPopup,
+  onSelectLocation,
+}) => {
   const { geometry, properties } = feature;
   if (!isPointTypeGeometry(geometry)) {
     return null;
@@ -172,13 +178,17 @@ const PointFeatureMarker = ({ feature, icons, language }) => {
           {popupContent && <div className="card-text">{popupContent}</div>}
         </div>
       </Card>
-      <MarkerPopupBottom
-        location={{
-          address,
-          lat,
-          lon,
-        }}
-      />
+      {(locationPopup === 'all' || locationPopup === 'origindestination') && (
+        <MarkerPopupBottom
+          location={{
+            address,
+            lat,
+            lon,
+          }}
+          locationPopup={locationPopup}
+          onSelectLocation={onSelectLocation}
+        />
+      )}
     </GenericMarker>
   );
 };
@@ -200,6 +210,8 @@ PointFeatureMarker.propTypes = {
   }).isRequired,
   icons: PropTypes.object,
   language: PropTypes.string.isRequired,
+  locationPopup: PropTypes.string,
+  onSelectLocation: PropTypes.func,
 };
 
 PointFeatureMarker.defaultProps = {

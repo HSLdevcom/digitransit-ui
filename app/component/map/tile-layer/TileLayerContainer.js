@@ -37,7 +37,8 @@ class TileLayerContainer extends GridLayer {
   static propTypes = {
     tileSize: PropTypes.number.isRequired,
     zoomOffset: PropTypes.number.isRequired,
-    locationPopup: PropTypes.string, // 'all', 'none', 'reversegeocoding'
+    locationPopup: PropTypes.string, // all, none, reversegeocoding, origindestination
+    onSelectLocation: PropTypes.func,
     stopsNearYouMode: PropTypes.string,
     mapLayers: mapLayerShape.isRequired,
     leaflet: PropTypes.shape({
@@ -265,7 +266,14 @@ class TileLayerContainer extends GridLayer {
         let id;
         if (this.state.selectableTargets[0].layer === 'citybike') {
           ({ id } = this.state.selectableTargets[0].feature.properties);
-          contents = <CityBikePopup stationId={id} context={this.context} />;
+          contents = (
+            <CityBikePopup
+              stationId={id}
+              context={this.context}
+              onSelectLocation={this.props.onSelectLocation}
+              locationPopup={this.props.locationPopup}
+            />
+          );
         } else if (
           this.state.selectableTargets[0].layer === 'parkAndRide' &&
           this.state.selectableTargets[0].feature.properties.facilityIds
@@ -281,6 +289,8 @@ class TileLayerContainer extends GridLayer {
               }
               coords={this.state.coords}
               context={this.context}
+              onSelectLocation={this.props.onSelectLocation}
+              locationPopup={this.props.locationPopup}
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {
@@ -295,6 +305,8 @@ class TileLayerContainer extends GridLayer {
               }
               coords={this.state.coords}
               context={this.context}
+              onSelectLocation={this.props.onSelectLocation}
+              locationPopup={this.props.locationPopup}
             />
           );
         } else if (
@@ -359,7 +371,8 @@ class TileLayerContainer extends GridLayer {
             <LocationPopup
               lat={this.state.coords.lat}
               lon={this.state.coords.lng}
-              itinerarySearchButtons={this.props.locationPopup === 'all'}
+              onSelectLocation={this.props.onSelectLocation}
+              locationPopup={this.props.locationPopup}
             />
           </Popup>
         );

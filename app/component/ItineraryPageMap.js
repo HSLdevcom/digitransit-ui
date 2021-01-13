@@ -8,6 +8,7 @@ import MapContainer from './map/MapContainer';
 import { otpToLocation } from '../util/otpStrings';
 import { isBrowser } from '../util/browser';
 import { dtLocationShape } from '../util/shapes';
+import { onLocationPopup } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import BackButton from './BackButton';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer'; // DT-3473
@@ -40,7 +41,7 @@ function ItineraryPageMap(
     bounds,
     streetMode,
   },
-  { match, config },
+  { match, config, router, executeAction },
 ) {
   // DT-4011: When user changes orientation, i.e. with tablet, map would crash. This check prevents it.
   breakpointChanged = !isEqual(breakpoint, prevBreakpoint);
@@ -121,6 +122,9 @@ function ItineraryPageMap(
     // bounds = polyline.decode(itinerary.legs[0].legGeometry.points);
   }
 
+  const onSelectLocation = (item, id) =>
+    onLocationPopup(item, id, router, match, executeAction);
+
   const showScale = breakpoint === 'large';
   const validCenter = latlon && latlon.lat !== undefined;
   // eslint-disable-next-line no-nested-ternary
@@ -150,6 +154,7 @@ function ItineraryPageMap(
       showScaleBar={showScale}
       hideOrigin
       locationPopup="all"
+      onSelectLocation={onSelectLocation}
     >
       <BackButton
         icon="icon-icon_arrow-collapse--left"
@@ -176,6 +181,7 @@ ItineraryPageMap.contextTypes = {
   match: matchShape.isRequired,
   router: routerShape.isRequired,
   config: PropTypes.object,
+  executeAction: PropTypes.func.isRequired,
 };
 
 export default withBreakpoint(ItineraryPageMap);

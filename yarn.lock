@@ -1426,6 +1426,13 @@
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-with-breakpoint/-/digitransit-component-with-breakpoint-0.0.4.tgz#af82959c0863bc0aef8252e8fd9bfc7499862bdc"
   integrity sha512-N+ysDfO/124CPI57r6vwzYC6m7US+QseDOqsg8MrLhKDdkW8kXBqOMoYsIfBv8g3ENHwzq9RxoyJUnj5XJPb4Q==
 
+"@digitransit-search-util/digitransit-search-util-suggestion-to-location@0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-suggestion-to-location/-/digitransit-search-util-suggestion-to-location-0.0.8.tgz#2237879b5941e8d4e039dc6516c32cf4cab32f56"
+  integrity sha512-+nZ6ozLa3oQ32MDuSbYK+9jBxvAY/KUrTtX/+7vxXrvX6Q2JW/4ozuRgjjxrYXz9+c48WhlNn9K74tdvHYIJgw==
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-get-label" "0.0.6"
+
 "@digitransit-util/digitransit-util-day-range-allowed-diff@1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@digitransit-util/digitransit-util-day-range-allowed-diff/-/digitransit-util-day-range-allowed-diff-1.0.3.tgz#4a11624486fda72126d8776192fc0dfea600b97d"

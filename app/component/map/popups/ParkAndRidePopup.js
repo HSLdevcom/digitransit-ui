@@ -29,6 +29,8 @@ export default class ParkAndRidePopup extends React.Component {
     name: PropTypes.string.isRequired,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
+    locationPopup: PropTypes.string,
+    onSelectLocation: PropTypes.func,
   };
 
   render() {
@@ -50,13 +52,18 @@ export default class ParkAndRidePopup extends React.Component {
             spacesAvailable={this.props.spacesAvailable}
           />
         </Card>
-        <MarkerPopupBottom
-          location={{
-            address: this.props.name,
-            lat: this.props.lat,
-            lon: this.props.lon,
-          }}
-        />
+        {(this.props.locationPopup === 'all' ||
+          this.props.locationPopup === 'origindestination') && (
+          <MarkerPopupBottom
+            location={{
+              address: this.props.name,
+              lat: this.props.lat,
+              lon: this.props.lon,
+            }}
+            locationPopup={this.props.locationPopup}
+            onSelectLocation={this.props.onSelectLocation}
+          />
+        )}
       </div>
     );
   }

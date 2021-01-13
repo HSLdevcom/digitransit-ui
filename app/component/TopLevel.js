@@ -42,10 +42,7 @@ class TopLevel extends React.Component {
   };
 
   static defaultProps = {
-    origin: {
-      set: false,
-      ready: false,
-    },
+    origin: {},
   };
 
   static childContextTypes = {

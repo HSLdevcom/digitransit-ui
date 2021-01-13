@@ -1,12 +1,16 @@
 import isString from 'lodash/isString';
 import cloneDeep from 'lodash/cloneDeep';
 import { graphql } from 'react-relay';
-
 import omit from 'lodash/omit';
-import { parseLatLon } from './otpStrings';
-import { PREFIX_ITINERARY_SUMMARY } from './path';
+import { parseLatLon ,
+  locationToOTP,
+  otpToLocation,
+  getIntermediatePlaces,
+} from './otpStrings';
+import { getPathWithEndpointObjects, PREFIX_ITINERARY_SUMMARY } from './path';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { MapMode } from '../constants';
+import { addViaPoint } from '../action/ViaPointActions';
 
 /**
  * Removes selected itinerary index from url (pathname) and
@@ -78,19 +82,18 @@ export const replaceQueryParams = (router, match, newParams, executeAction) => {
     pathArray.shift();
     const originArray = pathArray[0].split('::');
     const destinationArray = pathArray[1].split('::');
-    const newRoute = {
+    const itinerarySearch = {
       origin: {
         address: originArray[0],
-        coordinates: parseLatLon(originArray[1]),
+        ...parseLatLon(originArray[1]),
       },
       destination: {
         address: destinationArray[0],
-        coordinates: parseLatLon(destinationArray[1]),
+        ...parseLatLon(destinationArray[1]),
       },
-      arriveBy: query.arriveBy ? query.arriveBy : false,
-      time: query.time,
+      query,
     };
-    executeAction(saveFutureRoute, newRoute);
+    executeAction(saveFutureRoute, itinerarySearch);
   }
 
   router.replace({
@@ -161,6 +164,59 @@ export const setIntermediatePlaces = (router, match, newIntermediatePlaces) => {
       intermediatePlaces: parsedIntermediatePlaces,
     });
   }
+};
+
+export const updateItinerarySearch = (
+  origin,
+  destination,
+  router,
+  location,
+  executeAction,
+) => {
+  executeAction(saveFutureRoute, {
+    origin,
+    destination,
+    query: location.query,
+  });
+
+  const newLocation = {
+    ...location,
+    state: {
+      ...location.state,
+      summaryPageSelected: 0,
+    },
+    pathname: getPathWithEndpointObjects(
+      origin,
+      destination,
+      PREFIX_ITINERARY_SUMMARY,
+    ),
+  };
+  router.replace(newLocation);
+};
+
+export const onLocationPopup = (item, id, router, match, executeAction) => {
+  if (id === 'via') {
+    const viaPoints = getIntermediatePlaces(match.location.query)
+      .concat([item])
+      .map(locationToOTP);
+    executeAction(addViaPoint, item);
+    setIntermediatePlaces(this.context.router, match, viaPoints);
+    return;
+  }
+  let origin = otpToLocation(match.params.from);
+  let destination = otpToLocation(match.params.to);
+  if (id === 'origin') {
+    origin = item;
+  } else {
+    destination = item;
+  }
+  updateItinerarySearch(
+    origin,
+    destination,
+    router,
+    match.location,
+    executeAction,
+  );
 };
 
 /**

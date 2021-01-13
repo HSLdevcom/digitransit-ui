@@ -206,7 +206,6 @@ class StopsNearYouContainer extends React.Component {
                     key={`${stop.gtfsId}`}
                     stop={stop}
                     distance={node.distance}
-                    color={this.context.config.colors.primary}
                     currentTime={this.props.currentTime}
                   />
                 );
@@ -217,7 +216,6 @@ class StopsNearYouContainer extends React.Component {
                   key={`${stop.gtfsId}`}
                   stop={stop}
                   distance={node.distance}
-                  color={this.context.config.colors.primary}
                   currentTime={this.props.currentTime}
                 />
               );
