@@ -146,6 +146,10 @@ button.clear-input {
   padding: 0;
 }
 
+.suggestionHighlighted {
+  background-color: $search-result-text-highlight-background-color;
+}
+
 .suggestionsContainerOpen {
   display: flex;
   position: absolute;
@@ -170,10 +174,6 @@ button.clear-input {
     margin: 0;
     background: #f4f4f5;
   }
-}
-
-.suggestionHighlighted {
-  background-color: $search-result-text-highlight-background-color;
 }
 
 .clear-search-history {
