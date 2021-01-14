@@ -340,11 +340,12 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 }
 .mobile-modal-content {
   background: white;
-  width: 90%;
+  width: 89%;
   position: absolute;
-  left: 5%;
+  left: 5.5%;
   padding: 31px 20px 33px 20px;
   top: 80px;
+  border-radius: 5px;
   .top-row {
     display: flex;
     justify-content: space-between;
