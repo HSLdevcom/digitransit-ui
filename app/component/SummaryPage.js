@@ -1608,12 +1608,23 @@ class SummaryPage extends React.Component {
               );
               this.makeWalkAndBikeQueries();
               this.props.relay.refetch(planParams, null, () => {
-                this.setState({
-                  loading: false,
-                  earlierItineraries: [],
-                  laterItineraries: [],
-                  separatorPosition: undefined,
-                });
+                this.setState(
+                  {
+                    loading: false,
+                    earlierItineraries: [],
+                    laterItineraries: [],
+                    separatorPosition: undefined,
+                  },
+                  () => {
+                    this.context.router.replace({
+                      ...this.context.match.location,
+                      state: {
+                        ...this.context.match.location.state,
+                        summaryPageSelected: undefined,
+                      },
+                    });
+                  },
+                );
               });
             },
           );
