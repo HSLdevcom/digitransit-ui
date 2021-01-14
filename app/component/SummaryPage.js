@@ -1581,6 +1581,31 @@ class SummaryPage extends React.Component {
     } else {
       this.setState({ settingsOpen: newState });
       if (this.props.breakpoint !== 'large') {
+        if (
+          !isEqual(
+            otpToLocation(this.context.match.params.from),
+            otpToLocation(this.context.match.params.to),
+          ) ||
+          getIntermediatePlaces(this.context.match.location.query).length > 0
+        ) {
+          this.setState(
+            {
+              loading: false,
+              earlierItineraries: [],
+              laterItineraries: [],
+              separatorPosition: undefined,
+            },
+            () => {
+              this.context.router.replace({
+                ...this.context.match.location,
+                state: {
+                  ...this.context.match.location.state,
+                  summaryPageSelected: undefined,
+                },
+              });
+            },
+          );
+        }
         this.context.router.go(-1);
       } else if (
         !isEqual(
