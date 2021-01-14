@@ -478,31 +478,15 @@ hr.action-bar {
     }
   }
 }
+
 .filter-stop-modal-overlay {
-  background: rgba(0, 0, 0, 0.541176);
-  width: 100vw;
-  height: 100%;
   position: fixed;
-  z-index: 9996;
+  height: 100%;
+  width: 100%;
   top: 0;
   left: 0;
-}
-
-//The two classes below are to center the modal
-.filter-stop-modal-fixed-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 99995;
-}
-
-.filter-stop-modal-relative-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  z-index: 99995;
+  background-color: rgba(0,0,0,0.2);
+  z-index: index($zindex, click-prevent-overlay);
 }
 
 .filter-stop-modal {
@@ -516,35 +500,8 @@ hr.action-bar {
   transform: translate(-50%, -50%);
   max-width: 720px;
 
-  .filter-stop-modal-return {
-    background-color: $background-color;
-    display: flex;
-    cursor: pointer;
-    border-radius: 8px 8px 0px 0px;
-  }
-
-  .filter-stop-modal-return-icon {
-    margin-top: 1.5em;
-    margin-left: 1em;
-    border: 1px solid #ddd;
-    border-radius: 50%;
-    height: 2.5em;
-    width: 2.5em;
-
-    & svg {
-      width: 21px;
-      height: 21px;
-      fill: $primary-color;
-    }
-
-    .icon-container {
-      position: relative;
-      top: 6px;
-      left: 5px;
-    }
-  }
-
-  .filter-stop-modal-return-header {
+  .filter-stop-modal-header {
+    margin: auto;
     margin-top: 0.75em;
     margin-left: 1em;
   }
@@ -584,7 +541,6 @@ hr.action-bar {
     position: relative;
 
     & input[type='checkbox'] {
-      visibility: hidden;
       width: 2em;
       height: 2em;
     }
@@ -721,7 +677,6 @@ hr.action-bar {
   text-transform: uppercase;
   color: $primary-color;
   font-weight: 700;
-  cursor: pointer;
   width: 25%;
   font-size: 0.9em;
   & span {
@@ -744,6 +699,19 @@ hr.action-bar {
   }
 }
 
+.mobile-filter-stop-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  bottom: 0;
+  right: 0;
+  background-color: none;
+  z-index: 1000; // Needed to cover up the navbar
+  //transform: translate(-50%, -50%);
+}
+
 .mobile {
   .print-button-container {
     display: none;
@@ -760,16 +728,31 @@ hr.action-bar {
     padding: 0em 1em 0em 1em;
   }
 
+  .filter-stop-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    bottom: 0;
+    right: 0;
+    background-color: none;
+    z-index: 1000; // Needed to cover up the navbar
+    //transform: translate(-50%, -50%);
+  }
+
   .filter-stop-modal {
+    background-color: #ffffff;
+    z-index: 99999;
+    height: 100%;
+    width: 100%;
     min-height: 100%;
     max-width: 100%;
-    height: 100%;
-    padding-bottom: 8em;
-    left: 0;
-    top: 64px;
     position: fixed;
     border-radius: 0;
-    transform: translate(0%, 0%);
+    transform: translate(-50%, -50%);
+    //left: 0;
+    //top: 0;
   }
 
   .routes-container {

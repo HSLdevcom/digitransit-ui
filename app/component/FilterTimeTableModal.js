@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import intersection from 'lodash/intersection';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
+import Modal from '@hsl-fi/modal';
 import Icon from './Icon';
 import routeCompare from '../util/route-compare';
+import withBreakpoint from '../util/withBreakpoint';
 
 class FilterTimeTableModal extends React.Component {
   static propTypes = {
@@ -12,6 +14,11 @@ class FilterTimeTableModal extends React.Component {
     setRoutes: PropTypes.func,
     showFilterModal: PropTypes.func,
     showRoutesList: PropTypes.array,
+    breakpoint: PropTypes.string.isRequired,
+  };
+
+  static contextTypes = {
+    intl: intlShape.isRequired,
   };
 
   constructor(props) {
@@ -84,6 +91,7 @@ class FilterTimeTableModal extends React.Component {
               checked={intersection(this.state.showRoutes, [o.code]).length > 0}
               id={`input-${o.code}`}
               onChange={() => this.handleCheckbox(o.code)}
+              tabIndex="0"
             />
             {/* eslint-disable jsx-a11y/label-has-associated-control */}
             <label
@@ -124,10 +132,8 @@ class FilterTimeTableModal extends React.Component {
     return routeDivs;
   };
 
-  closeModal = e => {
-    if (e.target === document.getElementById('stopmodal-relative-overlay')) {
-      this.props.showFilterModal(false);
-    }
+  closeModal = () => {
+    this.props.showFilterModal(false);
   };
 
   updateParent(newOptions) {
@@ -139,78 +145,60 @@ class FilterTimeTableModal extends React.Component {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const routeList = this.constructRouteDivs();
+    const { intl } = this.context;
     return (
-      <div>
-        <div className="filter-stop-modal-overlay" />
-        <div
-          className="filter-stop-modal-fixed-container"
-          onClick={e => this.closeModal(e)}
-        >
-          <div
-            className="filter-stop-modal-relative-container"
-            id="stopmodal-relative-overlay"
-          >
-            <div className="filter-stop-modal">
-              <div
-                className="filter-stop-modal-return"
-                id="stopmodal-return"
-                onClick={() => this.props.showFilterModal(false)}
-              >
-                <div className="filter-stop-modal-return-icon">
-                  <Icon img="icon-icon_arrow-collapse--left" />
-                </div>
-                <div className="filter-stop-modal-return-header">
-                  <h2 className="h2">
-                    <FormattedMessage
-                      id="show-routes"
-                      defaultMessage="Show Lines"
-                    />
-                  </h2>
-                </div>
-              </div>
-              <div className="all-routes-header">
-                <div className="checkbox-container">
-                  <input
-                    type="checkbox"
-                    id="input-all-routes"
-                    checked={this.state.allRoutes}
-                    onClick={e =>
-                      this.state.allRoutes === true && e.preventDefault()
-                    }
-                    onChange={e => {
-                      this.toggleAllRoutes(e);
-                    }}
-                  />
-                  {/* eslint-disable jsx-a11y/label-has-associated-control */}
-                  <label
-                    htmlFor="input-all-routes"
-                    className={this.state.allRoutes && 'checked'}
-                  >
-                    {this.state.allRoutes ? (
-                      <Icon
-                        img="icon-icon_checkbox_checked"
-                        className="checkbox-icon"
-                      />
-                    ) : null}
-                  </label>
-                  {/* eslint-enable jsx-a11y/label-has-associated-control */}
-                </div>
-                <div className="all-routes-header-title">
-                  <FormattedMessage
-                    id="all-routes"
-                    defaultMessage="All lines"
-                  />
-                </div>
-              </div>
-              <div className="routes-container">
-                {routeList.length > 0 ? routeList : null}
-              </div>
-            </div>
+      <Modal
+        appElement="#app"
+        contentLabel=""
+        closeButtonLabel={intl.formatMessage({ id: 'close' })}
+        isOpen
+        onCrossClick={this.closeModal}
+        className="filter-stop-modal"
+        overlayClassName={
+          this.props.breakpoint === 'large'
+            ? 'filter-stop-modal-overlay'
+            : 'mobile mobile-filter-stop-modal-overlay stop-scroll-container'
+        }
+      >
+        <h2 className="filter-stop-modal-header">
+          <FormattedMessage id="show-routes" defaultMessage="Show Lines" />
+        </h2>
+        <div className="all-routes-header">
+          <div className="checkbox-container">
+            <input
+              type="checkbox"
+              id="input-all-routes"
+              checked={this.state.allRoutes}
+              onClick={e => this.state.allRoutes === true && e.preventDefault()}
+              onChange={e => {
+                this.toggleAllRoutes(e);
+              }}
+              tabIndex="0"
+            />
+            {/* eslint-disable jsx-a11y/label-has-associated-control */}
+            <label
+              htmlFor="input-all-routes"
+              className={this.state.allRoutes && 'checked'}
+            >
+              {this.state.allRoutes ? (
+                <Icon
+                  img="icon-icon_checkbox_checked"
+                  className="checkbox-icon"
+                />
+              ) : null}
+            </label>
+            {/* eslint-enable jsx-a11y/label-has-associated-control */}
+          </div>
+          <div className="all-routes-header-title">
+            <FormattedMessage id="all-routes" defaultMessage="All lines" />
           </div>
         </div>
-      </div>
+        <div className="routes-container">
+          {routeList.length > 0 ? routeList : null}
+        </div>
+      </Modal>
     );
   }
 }
 
-export default FilterTimeTableModal;
+export default withBreakpoint(FilterTimeTableModal);
