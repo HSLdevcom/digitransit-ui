@@ -1610,6 +1610,9 @@ class SummaryPage extends React.Component {
               this.props.relay.refetch(planParams, null, () => {
                 this.setState({
                   loading: false,
+                  earlierItineraries: [],
+                  laterItineraries: [],
+                  separatorPosition: undefined,
                 });
               });
             },
