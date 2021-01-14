@@ -10,22 +10,23 @@ function SelectStopRow({ gtfsId, type, name, code, terminal, desc }) {
   switch (type) {
     case 'TRAM':
       iconOptions.iconId = 'icon-icon_bus-stop';
-      iconOptions.color = '#00985f';
+      iconOptions.className = 'tram-stop';
       break;
     case 'RAIL':
       iconOptions.iconId = 'icon-icon_station';
-      iconOptions.color = '#8c4799';
+      iconOptions.className = 'rail-stop';
       break;
     case 'BUS':
       iconOptions.iconId = 'icon-icon_bus-stop';
-      iconOptions.color = '#007ac9';
+      iconOptions.className = 'bus-stop';
       break;
     case 'SUBWAY':
       iconOptions.iconId = 'icon-icon_station';
-      iconOptions.color = '#ff6319';
+      iconOptions.className = 'subway-stop';
       break;
     case 'FERRY':
       iconOptions.iconId = 'icon-icon_ferry';
+      iconOptions.className = 'ferry-stop';
       break;
     case 'AIRPLANE':
       iconOptions.iconId = 'icon-icon_airplane';
@@ -45,7 +46,11 @@ function SelectStopRow({ gtfsId, type, name, code, terminal, desc }) {
       to={`/${prefix}/${encodeURIComponent(gtfsId)}`}
     >
       <span className="choose-row-left-column" aria-hidden="true">
-        <Icon img={iconOptions.iconId} color={iconOptions.color || null} />
+        <Icon
+          className={iconOptions.className}
+          img={iconOptions.iconId}
+          color={iconOptions.color || null}
+        />
       </span>
       <span className="choose-row-center-column">
         <h5 className="choose-row-header">{name}</h5>
