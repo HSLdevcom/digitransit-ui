@@ -5,10 +5,17 @@ import { FormattedMessage } from 'react-intl';
 import SelectStopRow from './SelectStopRow';
 import SelectCityBikeRow from './SelectCityBikeRow';
 import SelectParkAndRideRow from './SelectParkAndRideRow';
+import SelectVehicleContainer from './SelectVehicleContainer';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import { options } from '../../ExampleData';
 
 function MarkerSelectPopup(props) {
+  const hasStop = () =>
+    props.options.find(option => option.layer !== 'realTimeVehicle');
+
+  const hasVehicle = () =>
+    props.options.find(option => option.layer === 'realTimeVehicle');
+
   const rows = props.options.map(option => {
     if (option.layer === 'stop' && option.feature.properties.stops) {
       return (
@@ -53,13 +60,27 @@ function MarkerSelectPopup(props) {
         />
       );
     }
+    if (option.layer === 'realTimeVehicle') {
+      return (
+        <SelectVehicleContainer vehicle={option.feature.vehicle} rowView />
+      );
+    }
     return null;
   });
+
+  let id = 'choose-stop';
+  if (hasStop() && hasVehicle()) {
+    id = 'choose-stop-or-vehicle';
+  }
+
+  if (!hasStop() && hasVehicle()) {
+    id = 'choose-vehicle';
+  }
 
   return (
     <div className="card marker-select-popup">
       <h3 className="stop-popup-choose-header">
-        <FormattedMessage id="choose-stop" defaultMessage="Choose stop" />
+        <FormattedMessage id={id} defaultMessage="Choose stop" />
       </h3>
       <hr className="no-margin gray" />
       <div className="scrollable momentum-scroll card-row select-scroll-container">
