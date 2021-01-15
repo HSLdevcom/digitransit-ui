@@ -91,8 +91,6 @@ function getSuggestionContent(item) {
 }
 
 function translateFutureRouteSuggestionTime(item) {
-  moment.locale(i18next.language);
-
   const time = moment.unix(item.properties.time);
   let str = item.properties.arriveBy
     ? i18next.t('arrival')
@@ -102,7 +100,8 @@ function translateFutureRouteSuggestionTime(item) {
   } else if (time.isSame(moment().add(1, 'day'), 'day')) {
     str = `${str} ${i18next.t('tomorrow')}`;
   } else {
-    str = `${str} ${time.format('dd D.M.')}`;
+    // str = `${str} ${time.format('dd D.M.')}`;
+    str = `${str} ${time.format('D.M.')}`;
   }
   str = `${str} ${moment(time).format('HH:mm')}`;
   return str;
@@ -230,6 +229,12 @@ class DTAutosuggest extends React.Component {
     super(props);
     i18next.changeLanguage(props.lang);
     moment.tz.setDefault(props.timeZone);
+    moment.locale(props.lang);
+    if (props.lang !== 'en') {
+      // eslint-disable-next-line global-require, import/no-dynamic-require
+      require(`moment/locale/${props.lang}`);
+    }
+
     this.state = {
       value: props.value,
       suggestions: [],
@@ -614,16 +619,17 @@ class DTAutosuggest extends React.Component {
   };
 
   renderItem = item => {
-    const newItem = {
-      ...item,
-      translatedText: translateFutureRouteSuggestionTime(item),
-    };
-    const content = getSuggestionContent(
-      item.type === 'FutureRoute' ? newItem : item,
-    );
+    const newItem =
+      item.type === 'FutureRoute'
+        ? {
+            ...item,
+            translatedText: translateFutureRouteSuggestionTime(item),
+          }
+        : item;
+    const content = getSuggestionContent(item);
     return (
       <SuggestionItem
-        item={item.type === 'FutureRoute' ? newItem : item}
+        item={newItem}
         content={content}
         loading={!this.state.valid}
         isMobile={this.props.isMobile}
