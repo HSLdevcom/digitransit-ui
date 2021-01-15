@@ -67,7 +67,20 @@ const AppBarContainer = ({
             <AppBarLarge
               {...args}
               logo={logo}
-              titleClicked={() => router.push(homeUrl)}
+              titleClicked={() =>
+                router.push({
+                  ...match.location,
+                  pathname: homeUrl,
+                  state: {
+                    ...match.location.state,
+                    errorBoundaryKey:
+                      match.location.state &&
+                      match.location.state.errorBoundaryKey
+                        ? match.location.state.errorBoundaryKey + 1
+                        : 1,
+                  },
+                })
+              }
               user={user}
             />
           );
