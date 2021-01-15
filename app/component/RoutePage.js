@@ -28,6 +28,7 @@ import {
   getCancelationsForStop,
   getServiceAlertsForStopRoutes,
 } from '../util/alertUtils';
+import { isActiveDate } from '../util/patternUtils';
 import {
   PREFIX_DISRUPTION,
   PREFIX_ROUTES,
@@ -115,6 +116,9 @@ class RoutePage extends React.Component {
     if (!pattern) {
       return;
     }
+    let selectedPattern = sortedPatternsByCountOfTrips.find(
+      sorted => sorted.code === match.params.patternId,
+    );
 
     // DT-3182: call this only 1st time for changing URL to wanted route (most trips)
     // DT-3331: added reRouteAllowed
@@ -124,6 +128,8 @@ class RoutePage extends React.Component {
       match.params.patternId !== pattern.code &&
       reRouteAllowed
     ) {
+      // DT-4161: When user comes from first time, sortedPatterns aren't in sync with routePatternSelect
+      selectedPattern = pattern;
       router.replace(
         decodeURIComponent(location.pathname).replace(
           new RegExp(`${match.params.patternId}(.*)`),
@@ -146,22 +152,10 @@ class RoutePage extends React.Component {
     }
 
     // DT-4161: Start real time client if current day is in active days
-    if (this.isActiveDate(route.patterns[0])) {
-      this.startClient(route.patterns[0]);
+    if (isActiveDate(selectedPattern)) {
+      this.startClient(selectedPattern);
     }
   }
-
-  isActiveDate = pattern => {
-    if (!pattern || !pattern.activeDates) {
-      return false;
-    }
-
-    const activeDates = pattern.activeDates.reduce((dates, activeDate) => {
-      return dates.concat(activeDate.day);
-    }, []);
-    const now = moment().format('YYYYMMDD');
-    return activeDates.indexOf(now) > -1;
-  };
 
   componentWillUnmount() {
     const { client } = this.context.getStore('RealTimeInformationStore');
@@ -181,7 +175,7 @@ class RoutePage extends React.Component {
     const { client, topics } = getStore('RealTimeInformationStore');
 
     const pattern = route.patterns.find(({ code }) => code === newPattern);
-    const isActivePattern = this.isActiveDate(pattern);
+    const isActivePattern = isActiveDate(pattern);
 
     // if config contains mqtt feed and old client has not been removed
     if (client) {
