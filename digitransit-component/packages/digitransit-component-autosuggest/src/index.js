@@ -15,11 +15,14 @@ import { getStopName } from '@digitransit-search-util/digitransit-search-util-he
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import moment from 'moment-timezone';
+import 'moment/locale/fi';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
+
+moment.locale('en');
 
 i18next.init({
   lng: 'fi',
@@ -100,8 +103,7 @@ function translateFutureRouteSuggestionTime(item) {
   } else if (time.isSame(moment().add(1, 'day'), 'day')) {
     str = `${str} ${i18next.t('tomorrow')}`;
   } else {
-    // str = `${str} ${time.format('dd D.M.')}`;
-    str = `${str} ${time.format('D.M.')}`;
+    str = `${str} ${time.format('dd D.M.')}`;
   }
   str = `${str} ${moment(time).format('HH:mm')}`;
   return str;
