@@ -351,7 +351,10 @@ class RoutePage extends React.Component {
               text=""
             />
             <div className="route-info">
-              <div className={cx('route-short-name', route.mode.toLowerCase())}>
+              <div
+                className={cx('route-short-name', route.mode.toLowerCase())}
+                style={{ color: route.color ? `#${route.color}` : null }}
+              >
                 {route.shortName}
               </div>
               <div className="route-long-name">{route.longName}</div>
