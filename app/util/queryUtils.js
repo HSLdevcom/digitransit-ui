@@ -2,7 +2,6 @@ import isString from 'lodash/isString';
 import cloneDeep from 'lodash/cloneDeep';
 import { graphql } from 'react-relay';
 import {
-  parseLatLon,
   locationToOTP,
   otpToLocation,
   getIntermediatePlaces,
@@ -59,7 +58,7 @@ export const fixArrayParams = query => {
  * @param {*} match The match object from found
  * @param {*} newParams The location query params to apply
  */
-export const replaceQueryParams = (router, match, newParams, executeAction) => {
+export const replaceQueryParams = (router, match, newParams) => {
   let { location } = match;
   location = resetSelectedItineraryIndex(location);
 
@@ -67,33 +66,6 @@ export const replaceQueryParams = (router, match, newParams, executeAction) => {
     ...location.query,
     ...newParams,
   });
-
-  if (
-    query &&
-    query.time &&
-    location &&
-    location.pathname.indexOf(PREFIX_ITINERARY_SUMMARY) === 1 &&
-    executeAction
-  ) {
-    const pathArray = decodeURIComponent(location.pathname)
-      .substring(1)
-      .split('/');
-    pathArray.shift();
-    const originArray = pathArray[0].split('::');
-    const destinationArray = pathArray[1].split('::');
-    const itinerarySearch = {
-      origin: {
-        address: originArray[0],
-        ...parseLatLon(originArray[1]),
-      },
-      destination: {
-        address: destinationArray[0],
-        ...parseLatLon(destinationArray[1]),
-      },
-      query,
-    };
-    executeAction(saveFutureRoute, itinerarySearch);
-  }
 
   router.replace({
     ...location,

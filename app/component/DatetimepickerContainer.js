@@ -19,18 +19,13 @@ function DatetimepickerContainer(
   { realtime, embedWhenClosed, lang, color },
   context,
 ) {
-  const { router, match, executeAction } = context;
+  const { router, match } = context;
 
   const setParams = debounce((time, arriveBy) => {
-    replaceQueryParams(
-      router,
-      match,
-      {
-        time,
-        arriveBy,
-      },
-      executeAction,
-    );
+    replaceQueryParams(router, match, {
+      time,
+      arriveBy,
+    });
   }, 10);
 
   const onTimeChange = (time, arriveBy) => {
@@ -115,7 +110,6 @@ DatetimepickerContainer.contextTypes = {
   router: routerShape.isRequired,
   match: matchShape.isRequired,
   config: PropTypes.object.isRequired,
-  executeAction: PropTypes.func,
 };
 
 const withLang = connectToStores(
