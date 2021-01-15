@@ -803,15 +803,15 @@ class SummaryPage extends React.Component {
       this.context.match.params,
       this.context.match,
     );
-    fetchQuery(this.props.relayEnvironment, query, planParams).then(
-      ({ plan: results }) => {
-        this.setState({ alternativePlan: results }, () => {
-          this.setLoading(false);
-          this.isFetching = false;
-          this.params = this.context.match.params;
-        });
-      },
-    );
+    fetchQuery(this.props.relayEnvironment, query, planParams, {
+      force: true,
+    }).then(({ plan: results }) => {
+      this.setState({ alternativePlan: results }, () => {
+        this.setLoading(false);
+        this.isFetching = false;
+        this.params = this.context.match.params;
+      });
+    });
   };
 
   onLater = (itineraries, reversed) => {
@@ -1155,6 +1155,7 @@ class SummaryPage extends React.Component {
         laterItineraries: [],
         weatherData: {},
         separatorPosition: undefined,
+        alternativePlan: undefined,
       });
     }
 
@@ -1573,40 +1574,35 @@ class SummaryPage extends React.Component {
             customizeSearchOffcanvas: newState,
           },
         });
-      } else {
-        this.setState({
-          settingsOnOpen: getCurrentSettings(this.context.config, ''),
-        });
       }
+      this.setState({
+        settingsOnOpen: getCurrentSettings(this.context.config, ''),
+      });
     } else {
       this.setState({ settingsOpen: newState });
       if (this.props.breakpoint !== 'large') {
         if (
           !isEqual(
-            otpToLocation(this.context.match.params.from),
-            otpToLocation(this.context.match.params.to),
-          ) ||
-          getIntermediatePlaces(this.context.match.location.query).length > 0
+            this.state.settingsOnOpen,
+            getCurrentSettings(this.context.config, ''),
+          )
         ) {
-          this.setState(
-            {
-              loading: false,
+          if (
+            !isEqual(
+              otpToLocation(this.context.match.params.from),
+              otpToLocation(this.context.match.params.to),
+            ) ||
+            getIntermediatePlaces(this.context.match.location.query).length > 0
+          ) {
+            this.context.router.go(-1);
+            this.setState({
               earlierItineraries: [],
               laterItineraries: [],
               separatorPosition: undefined,
-            },
-            () => {
-              this.context.router.replace({
-                ...this.context.match.location,
-                state: {
-                  ...this.context.match.location.state,
-                  summaryPageSelected: undefined,
-                },
-              });
-            },
-          );
+              alternativePlan: undefined,
+            });
+          }
         }
-        this.context.router.go(-1);
       } else if (
         !isEqual(
           this.state.settingsOnOpen,
@@ -1639,6 +1635,7 @@ class SummaryPage extends React.Component {
                     earlierItineraries: [],
                     laterItineraries: [],
                     separatorPosition: undefined,
+                    alternativePlan: undefined,
                   },
                   () => {
                     this.context.router.replace({
@@ -1768,11 +1765,7 @@ class SummaryPage extends React.Component {
         bikeParkPlan.itineraries.length,
         3,
       );
-    } else if (
-      planHasNoItineraries &&
-      hasAlternativeItineraries &&
-      !this.paramsHaveChanged()
-    ) {
+    } else if (planHasNoItineraries && hasAlternativeItineraries) {
       this.selectedPlan = this.state.alternativePlan;
     } else {
       this.selectedPlan = plan;
@@ -1837,7 +1830,10 @@ class SummaryPage extends React.Component {
     if (
       !this.isFetching &&
       hasItineraries &&
-      this.selectedPlan !== this.state.alternativePlan &&
+      (this.selectedPlan === this.state.walkPlan ||
+        this.selectedPlan === this.state.bikePlan ||
+        this.selectedPlan === this.state.bikeParkPlan ||
+        this.selectedPlan === this.state.bikeAndPublicPlan) &&
       !isEqual(this.selectedPlan, this.state.previouslySelectedPlan)
     ) {
       this.setState({
