@@ -1216,6 +1216,10 @@ class SummaryPage extends React.Component {
     pathArray.shift();
     const originArray = pathArray[0].split('::');
     const destinationArray = pathArray[1].split('::');
+    // make sure endpoints are valid locations and time is defined
+    if (!query.time || originArray.length < 2 || destinationArray.length < 2) {
+      return;
+    }
     const itinerarySearch = {
       origin: {
         address: originArray[0],
