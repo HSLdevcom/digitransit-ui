@@ -46,6 +46,7 @@ import triggerMessage from '../util/messageUtils';
 import MessageStore from '../store/MessageStore';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
+  parseLatLon,
   locationToOTP,
   otpToLocation,
   getIntermediatePlaces,
@@ -64,6 +65,7 @@ import { getCurrentSettings, preparePlanParams } from '../util/planParamUtil';
 import { getTotalBikingDistance } from '../util/legUtils';
 import { userHasChangedModes } from '../util/modeUtils';
 import { addViaPoint } from '../action/ViaPointActions';
+import { saveFutureRoute } from '../action/FutureRoutesActions';
 
 const MAX_ZOOM = 16; // Maximum zoom available for the bounds.
 /**
@@ -1205,6 +1207,29 @@ class SummaryPage extends React.Component {
     );
   };
 
+  updateFutureRoutes = () => {
+    const { location } = this.props.match;
+    const { query } = location;
+    const pathArray = decodeURIComponent(location.pathname)
+      .substring(1)
+      .split('/');
+    pathArray.shift();
+    const originArray = pathArray[0].split('::');
+    const destinationArray = pathArray[1].split('::');
+    const itinerarySearch = {
+      origin: {
+        address: originArray[0],
+        ...parseLatLon(originArray[1]),
+      },
+      destination: {
+        address: destinationArray[0],
+        ...parseLatLon(destinationArray[1]),
+      },
+      query,
+    };
+    this.context.executeAction(saveFutureRoute, itinerarySearch);
+  };
+
   componentDidMount() {
     const host =
       this.context.headers &&
@@ -1219,7 +1244,7 @@ class SummaryPage extends React.Component {
       // eslint-disable-next-line no-unused-expressions
       import('../util/feedbackly');
     }
-
+    this.updateFutureRoutes();
     if (this.showVehicles()) {
       const { client } = this.context.getStore('RealTimeInformationStore');
       // If user comes from eg. RoutePage, old client may not have been completely shut down yet.
@@ -1287,6 +1312,13 @@ class SummaryPage extends React.Component {
         newState.pathname = indexPath;
         this.context.router.push(newState);
       }
+    }
+    if (
+      this.props.match.location.pathname !==
+        prevProps.match.location.pathname ||
+      this.props.match.location.query !== prevProps.match.location.query
+    ) {
+      this.updateFutureRoutes();
     }
 
     // Reset walk and bike suggestions when new search is made
