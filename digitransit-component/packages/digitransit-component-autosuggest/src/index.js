@@ -16,6 +16,7 @@ import getLabel from '@digitransit-search-util/digitransit-search-util-get-label
 import Icon from '@digitransit-component/digitransit-component-icon';
 import moment from 'moment-timezone';
 import 'moment/locale/fi';
+import 'moment/locale/sv';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import translations from './helpers/translations';
@@ -232,10 +233,6 @@ class DTAutosuggest extends React.Component {
     i18next.changeLanguage(props.lang);
     moment.tz.setDefault(props.timeZone);
     moment.locale(props.lang);
-    if (props.lang !== 'en') {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      require(`moment/locale/${props.lang}`);
-    }
 
     this.state = {
       value: props.value,
