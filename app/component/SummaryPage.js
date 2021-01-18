@@ -1836,10 +1836,8 @@ class SummaryPage extends React.Component {
     if (
       !this.isFetching &&
       hasItineraries &&
-      (this.selectedPlan === walkPlan ||
-        this.selectedPlan === bikePlan ||
-        this.selectedPlan === bikeParkPlan ||
-        this.selectedPlan === bikeAndPublicPlan) &&
+      (this.selectedPlan !== this.state.alternativePlan ||
+        this.selectedPlan !== plan) &&
       !isEqual(this.selectedPlan, this.state.previouslySelectedPlan)
     ) {
       this.setState({
