@@ -61,6 +61,7 @@ function MarkerSelectPopup(props) {
             option.feature.properties.facilities[0].id
           }
           selectRow={() => props.selectRow(option)}
+          colors={props.colors}
         />
       );
     }
@@ -112,6 +113,7 @@ MarkerSelectPopup.description = (
 MarkerSelectPopup.propTypes = {
   options: PropTypes.array.isRequired,
   selectRow: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
+  colors: PropTypes.object.isRequired,
 };
 
 export default MarkerSelectPopup;

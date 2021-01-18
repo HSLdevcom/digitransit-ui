@@ -70,6 +70,7 @@ export default function RouteAlertsRow(
             key={gtfsIdList[i]}
             to={`/${PREFIX_ROUTES}/${gtfsIdList[i]}/${PREFIX_STOPS}/${gtfsIdList[i]}:0:01`}
             className="route-alert-row-link"
+            style={{ color }}
           >
             {' '}
             {identifier}{' '}
@@ -105,7 +106,6 @@ export default function RouteAlertsRow(
           alertSeverityLevel={severityLevel}
           color={color}
           mode={entityMode}
-          withBar
         />
       )) ||
         (entityType === 'stop' && (
@@ -131,7 +131,9 @@ export default function RouteAlertsRow(
                 )) ||
                 (!showRouteNameLink && (
                   <div className="route-alert-entityid">
-                    <div className={entityMode}>{entityIdentifier} </div>
+                    <div className={entityMode} style={{ color }}>
+                      {entityIdentifier}{' '}
+                    </div>
                   </div>
                 )) ||
                 (entityType === 'stop' &&

@@ -113,7 +113,6 @@ const WithContext = connectToStores(
 );
 
 WithContext.propTypes = {
-  disableBackButton: PropTypes.bool,
   title: PropTypes.node,
 };
 

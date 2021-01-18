@@ -86,6 +86,10 @@ describe('<MarkerSelectPopup />', () => {
         lat: 60.169525626502484,
         lng: 24.933235645294193,
       },
+      colors: {
+        primary: '#007ac9',
+        hover: '#0062a1',
+      },
     };
     const wrapper = shallowWithIntl(<MarkerSelectPopup {...props} />, {
       context: {
