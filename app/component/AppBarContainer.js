@@ -54,6 +54,7 @@ const AppBarContainer = ({
               logo={logo}
               homeUrl={homeUrl}
               user={user}
+              disableBackButton={style !== 'hsl'}
             />
           );
         }}
