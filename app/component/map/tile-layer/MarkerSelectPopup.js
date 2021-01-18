@@ -55,7 +55,11 @@ function MarkerSelectPopup(props) {
       return (
         <SelectParkAndRideRow
           {...option.feature.properties}
-          key={option.feature.properties.carParkId}
+          key={
+            Array.isArray(option.feature.properties.facilities) &&
+            option.feature.properties.facilities.length > 0 &&
+            option.feature.properties.facilities[0].id
+          }
           selectRow={() => props.selectRow(option)}
         />
       );
@@ -64,11 +68,7 @@ function MarkerSelectPopup(props) {
       return (
         <SelectVehicleContainer
           vehicle={option.feature.vehicle}
-          key={
-            option.feature.vehicle.tripId
-              ? option.feature.vehicle.tripId
-              : option.feature.vehicle.id
-          }
+          key={option.feature.vehicle.tripId || option.feature.vehicle.id}
           rowView
         />
       );
