@@ -116,7 +116,7 @@ class RoutePage extends React.Component {
     if (!pattern) {
       return;
     }
-    let selectedPattern = sortedPatternsByCountOfTrips.find(
+    let selectedPattern = sortedPatternsByCountOfTrips?.find(
       sorted => sorted.code === match.params.patternId,
     );
 

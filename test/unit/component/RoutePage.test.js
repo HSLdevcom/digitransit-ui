@@ -122,12 +122,26 @@ describe('<RoutePage />', () => {
   it('should start the real time client after mounting if active pattern is found', () => {
     const activeDates = [{ day: moment().format('YYYYMMDD') }];
     const props = {
+      reRouteAllowed: true,
       breakpoint: 'large',
       route: {
         gtfsId: 'tampere:32',
         mode: 'BUS',
         patterns: [
-          { code: 'tampere:32:1:01', headsign: 'Tampella', activeDates },
+          {
+            code: 'tampere:32:1:01',
+            headsign: 'Tampella',
+            activeDates,
+            trips: [
+              {
+                stoptimes: [
+                  {
+                    realtimeState: 'CANCELED',
+                  },
+                ],
+              },
+            ],
+          },
         ],
       },
       router: mockRouter,
