@@ -28,6 +28,7 @@ import {
   getCancelationsForStop,
   getServiceAlertsForStopRoutes,
 } from '../util/alertUtils';
+import { isActiveDate } from '../util/patternUtils';
 import {
   PREFIX_DISRUPTION,
   PREFIX_ROUTES,
@@ -76,7 +77,7 @@ class RoutePage extends React.Component {
   // gets called if pattern has not been visited before
   componentDidMount() {
     const { match, router, route } = this.props;
-    const { config, executeAction } = this.context;
+    const { config } = this.context;
     if (!route || !route.patterns) {
       return;
     }
@@ -115,6 +116,9 @@ class RoutePage extends React.Component {
     if (!pattern) {
       return;
     }
+    let selectedPattern = sortedPatternsByCountOfTrips?.find(
+      sorted => sorted.code === match.params.patternId,
+    );
 
     // DT-3182: call this only 1st time for changing URL to wanted route (most trips)
     // DT-3331: added reRouteAllowed
@@ -124,6 +128,8 @@ class RoutePage extends React.Component {
       match.params.patternId !== pattern.code &&
       reRouteAllowed
     ) {
+      // DT-4161: When user comes from first time, sortedPatterns aren't in sync with routePatternSelect
+      selectedPattern = pattern;
       router.replace(
         decodeURIComponent(location.pathname).replace(
           new RegExp(`${match.params.patternId}(.*)`),
@@ -145,26 +151,10 @@ class RoutePage extends React.Component {
       return;
     }
 
-    const id =
-      sortedPatternsByCountOfTrips !== undefined &&
-      pattern.code !== match.params.patternId
-        ? routeParts[1]
-        : source.routeSelector(this.props);
-
-    executeAction(startRealTimeClient, {
-      ...source,
-      agency,
-      options: [
-        {
-          route: id,
-          // add some information from the context
-          // to compensate potentially missing feed data
-          mode: route.mode.toLowerCase(),
-          gtfsId: routeParts[1],
-          headsign: pattern.headsign,
-        },
-      ],
-    });
+    // DT-4161: Start real time client if current day is in active days
+    if (isActiveDate(selectedPattern)) {
+      this.startClient(selectedPattern);
+    }
   }
 
   componentWillUnmount() {
@@ -184,6 +174,9 @@ class RoutePage extends React.Component {
     const { config, executeAction, getStore } = this.context;
     const { client, topics } = getStore('RealTimeInformationStore');
 
+    const pattern = route.patterns.find(({ code }) => code === newPattern);
+    const isActivePattern = isActiveDate(pattern);
+
     // if config contains mqtt feed and old client has not been removed
     if (client) {
       const { realTime } = config;
@@ -191,8 +184,7 @@ class RoutePage extends React.Component {
       const agency = routeParts[0];
       const source = realTime[agency];
 
-      const pattern = route.patterns.find(({ code }) => code === newPattern);
-      if (pattern) {
+      if (isActivePattern) {
         const id = source.routeSelector(this.props);
         executeAction(changeRealTimeClientTopics, {
           ...source,
@@ -208,7 +200,12 @@ class RoutePage extends React.Component {
           oldTopics: topics,
           client,
         });
+      } else {
+        //  Close MQTT, we don't want to show vehicles when pattern is in future / past
+        executeAction(stopRealTimeClient, client);
       }
+    } else if (isActivePattern) {
+      this.startClient(pattern);
     }
 
     router.replace(
@@ -218,6 +215,41 @@ class RoutePage extends React.Component {
       ),
     );
   };
+
+  startClient(pattern) {
+    const { config, executeAction } = this.context;
+    const { match, route } = this.props;
+    const { realTime } = config;
+
+    if (!realTime) {
+      return;
+    }
+
+    const routeParts = route.gtfsId.split(':');
+    const agency = routeParts[0];
+    const source = realTime[agency];
+    const id =
+      pattern.code !== match.params.patternId
+        ? routeParts[1]
+        : source.routeSelector(this.props);
+    if (!source || !source.active) {
+      return;
+    }
+    executeAction(startRealTimeClient, {
+      ...source,
+      agency,
+      options: [
+        {
+          route: id,
+          // add some information from the context
+          // to compensate potentially missing feed data
+          mode: route.mode.toLowerCase(),
+          gtfsId: routeParts[1],
+          headsign: pattern.headsign,
+        },
+      ],
+    });
+  }
 
   changeTab = tab => {
     const path = `/${PREFIX_ROUTES}/${this.props.route.gtfsId}/${tab}/${
