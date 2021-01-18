@@ -39,7 +39,14 @@ function SelectVehicleRow(props) {
   return (
     <Link className="stop-popup-choose-row" to={patternPath}>
       <span className="choose-row-left-column" aria-hidden="true">
-        <Icon img={iconId} />
+        <Icon
+          img={iconId}
+          color={
+            props.trip.route.color
+              ? `#${props.trip.route.color}`
+              : 'currentColor'
+          }
+        />
       </span>
       <span className="choose-row-center-column">
         <h5 className="choose-row-header">{props.trip.route.shortName}</h5>
@@ -70,6 +77,7 @@ const containerComponent = createFragmentContainer(SelectVehicleRow, {
         mode
         shortName
         longName
+        color
       }
     }
   `,
@@ -87,6 +95,7 @@ SelectVehicleRow.propTypes = {
       mode: PropTypes.string,
       longName: PropTypes.string,
       shortName: PropTypes.string,
+      color: PropTypes.string,
     }).isRequired,
   }).isRequired,
   message: PropTypes.shape({
