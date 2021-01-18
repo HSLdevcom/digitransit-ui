@@ -65,6 +65,7 @@ TripMarkerPopup.propTypes = {
       gtfsId: PropTypes.string.isRequired,
       mode: PropTypes.string.isRequired,
       shortName: PropTypes.string,
+      color: PropTypes.string,
     }).isRequired,
   }).isRequired,
   message: PropTypes.shape({
@@ -88,6 +89,7 @@ const containerComponent = createFragmentContainer(TripMarkerPopup, {
         gtfsId
         mode
         shortName
+        color
       }
     }
   `,
