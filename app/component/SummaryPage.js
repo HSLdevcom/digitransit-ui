@@ -806,11 +806,19 @@ class SummaryPage extends React.Component {
     fetchQuery(this.props.relayEnvironment, query, planParams, {
       force: true,
     }).then(({ plan: results }) => {
-      this.setState({ alternativePlan: results }, () => {
-        this.setLoading(false);
-        this.isFetching = false;
-        this.params = this.context.match.params;
-      });
+      this.setState(
+        {
+          alternativePlan: results,
+          earlierItineraries: [],
+          laterItineraries: [],
+          separatorPosition: undefined,
+        },
+        () => {
+          this.setLoading(false);
+          this.isFetching = false;
+          this.params = this.context.match.params;
+        },
+      );
     });
   };
 
@@ -1136,11 +1144,7 @@ class SummaryPage extends React.Component {
       ) &&
       this.paramsHaveChanged() &&
       this.secondQuerySent &&
-      !this.isFetchingWalkAndBike &&
-      (this.state.walkPlan ||
-        this.state.bikePlan ||
-        this.state.bikeAndPublicPlan ||
-        this.state.bikeParkPlan)
+      !this.isFetchingWalkAndBike
     ) {
       this.params = this.context.match.params;
       this.secondQuerySent = false;
@@ -1710,7 +1714,9 @@ class SummaryPage extends React.Component {
     ) {
       this.originalPlan = this.props.viewer.plan;
       this.isFetching = true;
+      this.isFetchingWalkAndBike = true;
       this.makeQueryWithAllModes();
+      this.makeWalkAndBikeQueries();
     }
     const hasAlternativeItineraries =
       this.state.alternativePlan &&
@@ -1830,10 +1836,10 @@ class SummaryPage extends React.Component {
     if (
       !this.isFetching &&
       hasItineraries &&
-      (this.selectedPlan === this.state.walkPlan ||
-        this.selectedPlan === this.state.bikePlan ||
-        this.selectedPlan === this.state.bikeParkPlan ||
-        this.selectedPlan === this.state.bikeAndPublicPlan) &&
+      (this.selectedPlan === walkPlan ||
+        this.selectedPlan === bikePlan ||
+        this.selectedPlan === bikeParkPlan ||
+        this.selectedPlan === bikeAndPublicPlan) &&
       !isEqual(this.selectedPlan, this.state.previouslySelectedPlan)
     ) {
       this.setState({
