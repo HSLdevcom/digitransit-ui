@@ -8,6 +8,9 @@ import Icon from '../../Icon';
 
 function SelectVehicleRow(props) {
   let iconId;
+  if (!props.trip) {
+    return null;
+  }
   switch (props.trip.route.mode) {
     case 'TRAM':
       iconId = 'icon-icon_tram';
