@@ -7,17 +7,39 @@ import Loading from '../../Loading';
 import ComponentUsageExample from '../../ComponentUsageExample';
 
 const rowQuery = graphql`
-  query SelectVehicleContainerQuery(
-    $route: String!
+  query SelectVehicleContainerRowQuery($routeId: String!, $tripId: String!) {
+    route: route(id: $routeId) {
+      ...SelectVehicleRow_route
+    }
+    trip: trip(id: $tripId) {
+      ...SelectVehicleRow_trip
+    }
+  }
+`;
+
+const query = graphql`
+  query SelectVehicleContainerQuery($routeId: String!, $tripId: String!) {
+    route: route(id: $routeId) {
+      ...TripMarkerPopup_route
+    }
+    trip: trip(id: $tripId) {
+      ...TripMarkerPopup_trip
+    }
+  }
+`;
+
+const fuzzyRowQuery = graphql`
+  query SelectVehicleContainerFuzzyRowQuery(
+    $routeId: String!
     $direction: Int!
     $time: Int!
     $date: String!
   ) {
-    route: route(id: $route) {
+    route: route(id: $routeId) {
       ...SelectVehicleRow_route
     }
     trip: fuzzyTrip(
-      route: $route
+      route: $routeId
       direction: $direction
       time: $time
       date: $date
@@ -27,18 +49,18 @@ const rowQuery = graphql`
   }
 `;
 
-const query = graphql`
+const fuzzyQuery = graphql`
   query SelectVehicleContainerFuzzyQuery(
-    $route: String!
+    $routeId: String!
     $direction: Int!
     $time: Int!
     $date: String!
   ) {
-    route: route(id: $route) {
+    route: route(id: $routeId) {
       ...TripMarkerPopup_route
     }
     trip: fuzzyTrip(
-      route: $route
+      route: $routeId
       direction: $direction
       time: $time
       date: $date
@@ -50,15 +72,39 @@ const query = graphql`
 
 function SelectVehicleContainer(props) {
   const { environment } = useContext(ReactRelayContext);
-  const graphqlQuery = props.rowView ? rowQuery : query;
   if (!props.vehicle) {
     return null;
   }
-  return (
+  return props.vehicle.tripId ? (
     <QueryRenderer
-      query={graphqlQuery}
+      query={props.rowView ? rowQuery : query}
       variables={{
-        route: props.vehicle.route,
+        routeId: props.vehicle.route,
+        tripId: props.vehicle.tripId,
+      }}
+      environment={environment}
+      render={results => {
+        if (results.props) {
+          const content = props.rowView ? (
+            <SelectVehicleRow {...results.props} message={props.vehicle} />
+          ) : (
+            <TripMarkerPopup {...results.props} message={props.vehicle} />
+          );
+          return content;
+        }
+
+        return (
+          <div className="card" style={{ height: '12rem' }}>
+            <Loading />
+          </div>
+        );
+      }}
+    />
+  ) : (
+    <QueryRenderer
+      query={props.rowView ? fuzzyRowQuery : fuzzyQuery}
+      variables={{
+        routeId: props.vehicle.route,
         direction: props.vehicle.direction,
         date: props.vehicle.operatingDay,
         time:
