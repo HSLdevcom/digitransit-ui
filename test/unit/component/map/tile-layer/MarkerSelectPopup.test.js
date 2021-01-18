@@ -9,7 +9,7 @@ import SelectVehicleContainer from '../../../../../app/component/map/tile-layer/
 import { mockMatch } from '../../../helpers/mock-router';
 
 describe('<MarkerSelectPopup />', () => {
-  it('should use a unique key for each row when the rows include citybike stops', () => {
+  it('should render stop, citybike, parkandride and vehicle rows with valid data', () => {
     const props = {
       options: [
         {
