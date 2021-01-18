@@ -62,7 +62,15 @@ function MarkerSelectPopup(props) {
     }
     if (option.layer === 'realTimeVehicle') {
       return (
-        <SelectVehicleContainer vehicle={option.feature.vehicle} rowView />
+        <SelectVehicleContainer
+          vehicle={option.feature.vehicle}
+          key={
+            option.feature.vehicle.tripId
+              ? option.feature.vehicle.tripId
+              : option.feature.vehicle.id
+          }
+          rowView
+        />
       );
     }
     return null;
