@@ -241,8 +241,6 @@ class MapWithTrackingStateHandler extends React.Component {
     }
     this.setState({
       bounds: newBounds,
-      // eslint-disable-next-line no-underscore-dangle
-      zoomLevel: this.mapElement._zoom,
     });
   };
 
@@ -355,10 +353,9 @@ class MapWithTrackingStateHandler extends React.Component {
         : 'icon-tracking-offline-v2'
       : 'icon-tracking-off-v2';
     const iconColor = this.state.mapTracking ? '#ff0000' : '#78909c';
-    const zoomLevel =
-      this.state.zoomLevel && this.state.zoomLevel !== this.state.initialZoom
-        ? this.state.zoomLevel
-        : this.state.initialZoom;
+    const zoomLevel = !this.mapElement
+      ? this.state.initialZoom
+      : this.mapElement.leafletElement._zoom; // eslint-disable-line no-underscore-dangle
     return (
       <Component
         lat={location ? location.lat : undefined}

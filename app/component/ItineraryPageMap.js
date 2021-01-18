@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
+import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import LocationMarker from './map/LocationMarker';
 import ItineraryLine from './map/ItineraryLine';
@@ -18,6 +19,7 @@ let useCenter = true;
 let itineraryMapReady = false;
 let breakpointChanged = false;
 let prevBreakpoint;
+let zoomLevel = -1;
 if (isBrowser) {
   // eslint-disable-next-line
   L = require('leaflet');
@@ -27,6 +29,14 @@ function isItineraryMapReady(mapReady) {
     mapReady();
   }
   itineraryMapReady = true;
+}
+
+function setMapElementRef(element) {
+  const map = get(element, 'leafletElement', null);
+  if (map) {
+    // eslint-disable-next-line no-underscore-dangle
+    zoomLevel = map._zoom;
+  }
 }
 function ItineraryPageMap(
   {
@@ -40,9 +50,6 @@ function ItineraryPageMap(
     bounds,
     streetMode,
     leafletEvents,
-    boundsZoom,
-    geoJsonZoomLevel,
-    mapZoomLevel,
   },
   { match, config },
 ) {
@@ -155,9 +162,10 @@ function ItineraryPageMap(
       hideOrigin
       locationPopup="all"
       leafletEvents={leafletEvents}
-      boundsZoom={boundsZoom}
-      geoJsonZoomLevel={geoJsonZoomLevel}
-      mapZoomLevel={mapZoomLevel}
+      boundsZoom={zoomLevel}
+      geoJsonZoomLevel={zoomLevel}
+      mapZoomLevel={zoomLevel}
+      mapRef={setMapElementRef}
     >
       <BackButton
         icon="icon-icon_arrow-collapse--left"
@@ -179,9 +187,6 @@ ItineraryPageMap.propTypes = {
   mapReady: PropTypes.func,
   mapLoaded: PropTypes.bool,
   leafletEvents: PropTypes.object,
-  boundsZoom: PropTypes.number,
-  geoJsonZoomLevel: PropTypes.number,
-  mapZoomLevel: PropTypes.number,
 };
 
 ItineraryPageMap.contextTypes = {

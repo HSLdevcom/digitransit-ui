@@ -1525,6 +1525,20 @@ class SummaryPage extends React.Component {
 
   setMapElementRef = element => {
     this.map = get(element, 'leafletElement', null);
+    if (this.map && this.mapZoomLevel === -1) {
+      // eslint-disable-next-line no-underscore-dangle
+      this.mapZoomLevel = this.map._zoom;
+    }
+  };
+
+  getZoomLevel = (stateZoom, mapZoom, boundsZoom) => {
+    if (stateZoom === -1) {
+      if (mapZoom === -1) {
+        return boundsZoom;
+      }
+      return mapZoom;
+    }
+    return stateZoom;
   };
 
   renderMap() {
@@ -1668,6 +1682,11 @@ class SummaryPage extends React.Component {
       ? this.map.getBoundsZoom(bounds.length > 1 ? bounds : defaultBounds)
       : this.boundsZoom;
 
+    const zoomLevel = this.getZoomLevel(
+      this.state.zoomLevel,
+      this.mapZoomLevel,
+      this.boundsZoom,
+    );
     return (
       <MapContainer
         className="summary-map"
@@ -1681,9 +1700,9 @@ class SummaryPage extends React.Component {
           onZoomend: this.endZoom,
         }}
         mapRef={this.setMapElementRef}
-        boundsZoom={this.boundsZoom}
-        geoJsonZoomLevel={this.state.zoomLevel}
-        mapZoomLevel={this.mapZoomLevel}
+        boundsZoom={zoomLevel}
+        geoJsonZoomLevel={zoomLevel}
+        mapZoomLevel={zoomLevel}
       />
     );
   }
@@ -2077,13 +2096,10 @@ class SummaryPage extends React.Component {
               mapReady: this.mapReady.bind(this),
               mapLoaded: this.mapLoaded,
               ...this.props,
-              geoJsonZoomLevel: this.mapZoomLevel,
-              boundsZoom: this.boundsZoom,
               leafletEvents: {
                 onZoomend: this.endZoom,
               },
               mapRef: this.setMapElementRef,
-              mapZoomLevel: this.mapZoomLevel,
             },
             this.context,
           )
