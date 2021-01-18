@@ -16,6 +16,7 @@ class TileContainer {
     relayEnvironment,
     hilightedStops,
     vehicles,
+    match,
   ) {
     const markersMinZoom = Math.min(
       config.cityBike.cityBikeMinZoom,
@@ -34,6 +35,7 @@ class TileContainer {
     this.clickCount = 0;
     this.hilightedStops = hilightedStops;
     this.vehicles = vehicles;
+    this.match = match;
 
     if (this.coords.z < markersMinZoom || !this.el.getContext) {
       setTimeout(() => done(null, this.el), 0);
@@ -133,15 +135,23 @@ class TileContainer {
     let nearest;
     let features;
     let localPoint;
+    let direction;
 
     const vehicleKeys = Object.keys(this.vehicles);
-    const projectedVehicles = vehicleKeys.map(key => {
+    if (this.match.params && this.match.params.patternId) {
+      const patternIdSplit = this.match.params.patternId.split(':');
+      direction = patternIdSplit[patternIdSplit.length - 2];
+    }
+    const projectedVehicles = [];
+    vehicleKeys.forEach(key => {
       const vehicle = this.vehicles[key];
       const pointGeom = this.latLngToPoint(vehicle.lat, vehicle.long);
-      return {
-        layer: 'realTimeVehicle',
-        feature: { geom: pointGeom, vehicle, properties: {} },
-      };
+      if (`${vehicle.direction}` === direction || this.props.stopsNearYouMode) {
+        projectedVehicles.push({
+          layer: 'realTimeVehicle',
+          feature: { geom: pointGeom, vehicle, properties: {} },
+        });
+      }
     });
 
     if (this.layers) {
