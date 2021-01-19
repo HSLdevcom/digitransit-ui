@@ -11,7 +11,10 @@ import RouteHeader from '../../RouteHeader';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 function TripMarkerPopup(props) {
-  let patternPath = `/${PREFIX_ROUTES}/${props.route.gtfsId}/${PREFIX_STOPS}`;
+  if (!props.trip) {
+    return null;
+  }
+  let patternPath = `/${PREFIX_ROUTES}/${props.trip.route.gtfsId}/${PREFIX_STOPS}`;
   let tripPath = patternPath;
 
   if (props.trip) {
@@ -23,7 +26,7 @@ function TripMarkerPopup(props) {
     <div className="card">
       <RouteHeader
         card
-        route={props.route}
+        route={props.trip.route}
         pattern={props.trip && props.trip.pattern}
         trip={props.message.tripStartTime}
       />
@@ -34,7 +37,7 @@ function TripMarkerPopup(props) {
             addAnalyticsEvent({
               category: 'Map',
               action: 'OpenTripInformation',
-              name: props.route.mode,
+              name: props.trip.route.mode,
             });
           }}
         >
@@ -53,15 +56,17 @@ function TripMarkerPopup(props) {
 }
 
 TripMarkerPopup.propTypes = {
-  route: PropTypes.shape({
-    gtfsId: PropTypes.string.isRequired,
-    mode: PropTypes.string,
-  }).isRequired,
   trip: PropTypes.shape({
     gtfsId: PropTypes.string,
     pattern: PropTypes.shape({
       code: PropTypes.string.isRequired,
     }),
+    route: PropTypes.shape({
+      gtfsId: PropTypes.string.isRequired,
+      mode: PropTypes.string.isRequired,
+      shortName: PropTypes.string,
+      color: PropTypes.string,
+    }).isRequired,
   }).isRequired,
   message: PropTypes.shape({
     mode: PropTypes.string.isRequired,
@@ -80,14 +85,12 @@ const containerComponent = createFragmentContainer(TripMarkerPopup, {
           name
         }
       }
-    }
-  `,
-  route: graphql`
-    fragment TripMarkerPopup_route on Route {
-      gtfsId
-      mode
-      shortName
-      longName
+      route {
+        gtfsId
+        mode
+        shortName
+        color
+      }
     }
   `,
 });
