@@ -279,8 +279,9 @@ $heading-color: #858585;
   display: flex;
   flex-direction: column;
   background-color: #fff;
+  margin-top: 35px;
   .datetimepicker-container {
-    margin: 20px 0 11px 0;
+    margin: 20px 0 9px 0;
     .datetimepicker-bottom-row-open {
       padding-bottom: 30px;
       border-bottom: 1px solid rgb(221, 221, 221);
@@ -325,6 +326,9 @@ $heading-color: #858585;
 
 .near-you-buttons-container {
   margin-bottom: 31px;
+}
+.stop-route-search-container {
+  margin-bottom: 5px;
 }
 
 .map-container {
@@ -503,6 +507,10 @@ svg.icon.footer-icon {
   margin-right: 6px;
 }
 .front-page.bp-large {
+  margin-top: 47px;
+  .datetimepicker-container {
+    margin-bottom: 11px;
+  }
   .scrollable-content-wrapper {
     overflow-y: auto;
     overflow-x: hidden;
