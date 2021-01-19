@@ -76,10 +76,7 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onSelectActive = index => {
-    let isbikeAndVehicle;
-    if (this.props.params.hash === 'bikeAndVehicle') {
-      isbikeAndVehicle = true;
-    }
+    const isbikeAndVehicle = this.props.params.hash === 'bikeAndVehicle';
     if (this.props.activeIndex === index) {
       this.onSelectImmediately(index);
     } else {
@@ -101,10 +98,8 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onSelectImmediately = index => {
-    let isBikeAndPublic;
-    if (this.props.params.hash === 'bikeAndVehicle') {
-      isBikeAndPublic = true;
-    }
+    const isbikeAndVehicle = this.props.params.hash === 'bikeAndVehicle';
+
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'Itinerary',
@@ -118,11 +113,11 @@ class SummaryPlanContainer extends React.Component {
     const basePath = `${getSummaryPath(
       this.props.params.from,
       this.props.params.to,
-    )}${isBikeAndPublic ? '/bikeAndVehicle/' : '/'}`;
+    )}${isbikeAndVehicle ? '/bikeAndVehicle/' : '/'}`;
     const indexPath = `${getSummaryPath(
       this.props.params.from,
       this.props.params.to,
-    )}${isBikeAndPublic ? '/bikeAndVehicle/' : '/'}${index}`;
+    )}${isbikeAndVehicle ? '/bikeAndVehicle/' : '/'}${index}`;
 
     newState.pathname = basePath;
     this.context.router.replace(newState);
