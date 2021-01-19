@@ -45,7 +45,7 @@ const CardHeader = (
             className="left"
             style={{ fontSize: 32, paddingRight: 10, height: 32 }}
           >
-            <Icon img={icon} />
+            <Icon img={icon} color={config.colors.primary} />
           </div>
         ) : null}
         <div className="card-header-wrapper">

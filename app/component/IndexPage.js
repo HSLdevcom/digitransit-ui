@@ -14,7 +14,6 @@ import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import moment from 'moment';
 import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
-import { saveFutureRoute } from '../action/FutureRoutesActions';
 import withSearchContext from './WithSearchContext';
 import {
   getPathWithEndpointObjects,
@@ -110,17 +109,10 @@ class IndexPage extends React.Component {
       return;
     }
 
-    const { executeAction, router, match, config } = this.context;
+    const { router, match, config } = this.context;
     const { location } = match;
 
     if (isItinerarySearchObjects(origin, destination)) {
-      const itinerarySearch = {
-        origin,
-        destination,
-        query: location.query,
-      };
-      executeAction(saveFutureRoute, itinerarySearch);
-
       const newLocation = {
         ...location,
         pathname: getPathWithEndpointObjects(
