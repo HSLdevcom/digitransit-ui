@@ -15,11 +15,15 @@ import { getStopName } from '@digitransit-search-util/digitransit-search-util-he
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import moment from 'moment-timezone';
+import 'moment/locale/fi';
+import 'moment/locale/sv';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
+
+moment.locale('en');
 
 i18next.init({
   lng: 'fi',
@@ -91,8 +95,6 @@ function getSuggestionContent(item) {
 }
 
 function translateFutureRouteSuggestionTime(item) {
-  moment.locale(i18next.language);
-
   const time = moment.unix(item.properties.time);
   let str = item.properties.arriveBy
     ? i18next.t('arrival')
@@ -230,6 +232,8 @@ class DTAutosuggest extends React.Component {
     super(props);
     i18next.changeLanguage(props.lang);
     moment.tz.setDefault(props.timeZone);
+    moment.locale(props.lang);
+
     this.state = {
       value: props.value,
       suggestions: [],
@@ -614,16 +618,17 @@ class DTAutosuggest extends React.Component {
   };
 
   renderItem = item => {
-    const newItem = {
-      ...item,
-      translatedText: translateFutureRouteSuggestionTime(item),
-    };
-    const content = getSuggestionContent(
-      item.type === 'FutureRoute' ? newItem : item,
-    );
+    const newItem =
+      item.type === 'FutureRoute'
+        ? {
+            ...item,
+            translatedText: translateFutureRouteSuggestionTime(item),
+          }
+        : item;
+    const content = getSuggestionContent(item);
     return (
       <SuggestionItem
-        item={item.type === 'FutureRoute' ? newItem : item}
+        item={newItem}
         content={content}
         loading={!this.state.valid}
         isMobile={this.props.isMobile}
