@@ -136,17 +136,22 @@ class TileContainer {
     let features;
     let localPoint;
     let direction;
+    let routeId;
 
     const vehicleKeys = Object.keys(this.vehicles);
     if (this.match.params && this.match.params.patternId) {
       const patternIdSplit = this.match.params.patternId.split(':');
       direction = patternIdSplit[patternIdSplit.length - 2];
+      routeId = this.match.params.route;
     }
     const projectedVehicles = [];
     vehicleKeys.forEach(key => {
       const vehicle = this.vehicles[key];
       const pointGeom = this.latLngToPoint(vehicle.lat, vehicle.long);
-      if (`${vehicle.direction}` === direction || this.props.stopsNearYouMode) {
+      if (
+        (`${vehicle.direction}` === direction && vehicle.routeId === routeId) ||
+        this.props.stopsNearYouMode
+      ) {
         projectedVehicles.push({
           layer: 'realTimeVehicle',
           feature: { geom: pointGeom, vehicle, properties: {} },

@@ -28,7 +28,7 @@ function SelectVehicleRow(props) {
   let patternPath = `/${PREFIX_ROUTES}/${props.route.gtfsId}/${PREFIX_STOPS}`;
 
   if (props.trip) {
-    patternPath += `/${props.trip.pattern.code}`;
+    patternPath += `/${props.trip.pattern.code}/${props.trip.gtfsId}`;
   }
   const name = props.trip ? props.trip.pattern.headsign : props.route.longName;
   return (
