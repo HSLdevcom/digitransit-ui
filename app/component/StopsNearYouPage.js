@@ -45,6 +45,11 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     breakpoint: PropTypes.string.isRequired,
     loadingPosition: PropTypes.bool,
     relayEnvironment: PropTypes.object,
+    params: PropTypes.shape({
+      place: PropTypes.string,
+      origin: PropTypes.string,
+    }),
+    hasLocation: PropTypes.bool,
     position: PropTypes.shape({
       lat: PropTypes.number,
       lon: PropTypes.number,
@@ -86,7 +91,8 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     if (
       this.props.match.params &&
       this.props.match.params.origin &&
-      savedPermission.state !== 'granted'
+      savedPermission.state !== 'granted' &&
+      !this.props.hasLocation
     ) {
       const queryString = this.props.queryString || '';
       this.props.router.replace(
@@ -134,6 +140,19 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       (!prevState.startPosition.address &&
         nextProps.position &&
         nextProps.position.address)
+    ) {
+      return {
+        startPosition: nextProps.position,
+        updatedLocation: nextProps.position,
+      };
+    }
+    // ensure that position is updated when browsing with a direct link to a location
+    if (
+      nextProps.params &&
+      !nextProps.params.origin &&
+      nextProps.params.place !== 'POS' &&
+      nextProps.position &&
+      nextProps.position.address
     ) {
       return {
         startPosition: nextProps.position,
@@ -560,6 +579,7 @@ const PositioningWrapper = connectToStores(
       return {
         ...props,
         position: locationState,
+        hasLocation: true,
         loadingPosition: false,
         lang,
         queryString: location.search,
@@ -569,6 +589,7 @@ const PositioningWrapper = connectToStores(
       // Use url origin or default endpoint when positioning fails
       if (params.origin) {
         const position = otpToLocation(params.origin);
+
         return {
           ...props,
           position,
