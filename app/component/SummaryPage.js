@@ -469,6 +469,16 @@ class SummaryPage extends React.Component {
     return !isEqual(this.params, this.context.match.params);
   };
 
+  resetSummaryPageSelection = () => {
+    this.context.router.replace({
+      ...this.context.match.location,
+      state: {
+        ...this.context.match.location.state,
+        summaryPageSelected: undefined,
+      },
+    });
+  };
+
   makeWalkAndBikeQueries = () => {
     const query = graphql`
       query SummaryPage_WalkBike_Query(
@@ -707,13 +717,7 @@ class SummaryPage extends React.Component {
   makeQueryWithAllModes = () => {
     this.setLoading(true);
 
-    this.context.router.replace({
-      ...this.context.match.location,
-      state: {
-        ...this.context.match.location.state,
-        summaryPageSelected: undefined,
-      },
-    });
+    this.resetSummaryPageSelection();
 
     const query = graphql`
       query SummaryPage_Query(
@@ -903,13 +907,7 @@ class SummaryPage extends React.Component {
               : reversedItineraries.length,
           };
         });
-        this.context.router.replace({
-          ...this.context.match.location,
-          state: {
-            ...this.context.match.location.state,
-            summaryPageSelected: undefined,
-          },
-        });
+        this.resetSummaryPageSelection();
       } else {
         this.setState(prevState => {
           return {
@@ -1040,13 +1038,7 @@ class SummaryPage extends React.Component {
           };
         });
 
-        this.context.router.replace({
-          ...this.context.match.location,
-          state: {
-            ...this.context.match.location.state,
-            summaryPageSelected: undefined,
-          },
-        });
+        this.resetSummaryPageSelection();
       }
     });
   };
@@ -1642,13 +1634,7 @@ class SummaryPage extends React.Component {
                     alternativePlan: undefined,
                   },
                   () => {
-                    this.context.router.replace({
-                      ...this.context.match.location,
-                      state: {
-                        ...this.context.match.location.state,
-                        summaryPageSelected: undefined,
-                      },
-                    });
+                    this.resetSummaryPageSelection();
                   },
                 );
               });
