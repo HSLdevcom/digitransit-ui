@@ -335,7 +335,7 @@ class DTAutosuggestPanel extends React.Component {
       this.props.addAnalyticsEvent({
         action: 'AddJourneyViaPoint',
         category: 'ItinerarySettings',
-        name: 'Qu}ickSettingsButton',
+        name: 'QuickSettingsButton',
       });
     }
     const { viaPoints } = this.props;
