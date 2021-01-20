@@ -233,6 +233,7 @@ class DepartureListContainer extends Component {
           departureTime={departure.stoptime}
           currentTime={this.props.currentTime}
           showPlatformCode={isTerminal}
+          canceled={departure.canceled}
         />
       );
 

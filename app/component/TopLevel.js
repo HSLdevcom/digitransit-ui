@@ -42,10 +42,7 @@ class TopLevel extends React.Component {
   };
 
   static defaultProps = {
-    origin: {
-      set: false,
-      ready: false,
-    },
+    origin: {},
   };
 
   static childContextTypes = {
@@ -199,7 +196,16 @@ class TopLevel extends React.Component {
         <section id="mainContent" className="content">
           {this.props.meta}
           <noscript>This page requires JavaScript to run.</noscript>
-          <ErrorBoundary>{content}</ErrorBoundary>
+          <ErrorBoundary
+            key={
+              this.props.match.location.state &&
+              this.props.match.location.state.errorBoundaryKey
+                ? this.props.match.location.state.errorBoundaryKey
+                : 0
+            }
+          >
+            {content}
+          </ErrorBoundary>
         </section>
       </Fragment>
     );

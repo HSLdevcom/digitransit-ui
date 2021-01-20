@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import moment from 'moment-timezone';
 import Autosuggest from 'react-autosuggest';
+import utils from './utils';
 import styles from './styles.scss';
 
 /**
@@ -49,9 +50,10 @@ function DesktopDatetimepicker({
   // keep track of dropdown state for scroll position management
   const [open, changeOpen] = useState(false);
   const scrollRef = useRef(null);
+  const minute = 1000 * 60;
 
   const diffs = timeChoices.map(t => value - t);
-  const scrollIndex = diffs.findIndex(t => t <= 0); // closest index after selected time
+  const scrollIndex = diffs.findIndex(t => t < minute); // when time is now, the times might differ by less than one minute
   const elementHeight = 50;
   // scroll to selected time when dropdown is opened
   useLayoutEffect(() => {
@@ -81,24 +83,13 @@ function DesktopDatetimepicker({
     switch (method) {
       case 'type':
         if (!disableTyping) {
-          let actualValue = newValue;
-          if (
-            actualValue.length === 3 &&
-            actualValue.split('').every(n => Number.isInteger(Number(n)))
-          ) {
-            // add ':' if user types three numbers in a row
-            if (Number(actualValue.slice(0, 2)) <= 23) {
-              actualValue = `${actualValue.slice(0, 2)}:${actualValue[2]}`;
-            } else {
-              actualValue = `${actualValue[0]}:${actualValue.slice(1)}`;
-            }
-          }
+          const actualValue = utils.parseTypedTime(newValue);
           changeDisplayValue(actualValue);
         }
         break;
       case 'inputenter':
         if (!disableTyping) {
-          validated = validate(newValue);
+          validated = validate(newValue, value);
           if (validated !== null) {
             handleTimestamp(validated);
           } else {

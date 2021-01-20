@@ -147,6 +147,11 @@ function DatetimepickerStateContainer({
       onArrivalClick(Math.round(newTime / 1000));
     }
   };
+  const onModalSubmit = (time, mode) => {
+    changeTimestampState(time);
+    changeDepartureOrArrival(mode);
+    onTimeChange(time / 1000, mode === 'arrival');
+  };
 
   return (
     <Datetimepicker
@@ -161,6 +166,7 @@ function DatetimepickerStateContainer({
       lang={lang}
       color={color}
       timeZone={timeZone}
+      onModalSubmit={onModalSubmit}
     />
   );
 }

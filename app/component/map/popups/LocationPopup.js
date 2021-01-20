@@ -11,7 +11,6 @@ import Loading from '../../Loading';
 import ZoneIcon from '../../ZoneIcon';
 import PreferencesStore from '../../../store/PreferencesStore';
 import { getJson } from '../../../util/xhrPromise';
-import { getZoneLabelColor } from '../../../util/mapIconUtils';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 class LocationPopup extends React.Component {
@@ -24,11 +23,8 @@ class LocationPopup extends React.Component {
     language: PropTypes.string.isRequired,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
-    itinerarySearchButtons: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    itinerarySearchButtons: false,
+    locationPopup: PropTypes.string,
+    onSelectLocation: PropTypes.func,
   };
 
   constructor(props) {
@@ -48,7 +44,10 @@ class LocationPopup extends React.Component {
 
     function parseZoneName(fullZoneName) {
       if (fullZoneName) {
-        return fullZoneName.split(':')[1];
+        const [feedId, zoneId] = fullZoneName.split(':');
+        if (config.feedIds.includes(feedId)) {
+          return zoneId;
+        }
       }
       return undefined;
     }
@@ -143,18 +142,16 @@ class LocationPopup extends React.Component {
             unlinked
             className="padding-small"
           >
-            <ZoneIcon
-              zoneId={zoneId}
-              zoneLabelColor={getZoneLabelColor(this.context.config)}
-              zoneIdFontSize="11px"
-              zoneLabelHeight="15px"
-              zoneLabelWidth="15px"
-              zoneLabelLineHeight="15px"
-            />
+            <ZoneIcon zoneId={zoneId} showUnknown={false} />
           </CardHeader>
         </div>
-        {this.props.itinerarySearchButtons && (
-          <MarkerPopupBottom location={this.state.location} />
+        {(this.props.locationPopup === 'all' ||
+          this.props.locationPopup === 'origindestination') && (
+          <MarkerPopupBottom
+            location={this.state.location}
+            locationPopup={this.props.locationPopup}
+            onSelectLocation={this.props.onSelectLocation}
+          />
         )}
       </Card>
     );

@@ -7,23 +7,25 @@ import ZoneIcon from './ZoneIcon';
 import { PREFIX_STOPS } from '../util/path';
 import Icon from './Icon';
 
-function IntermediateLeg({
-  color,
-  mode,
-  name,
-  arrivalTime,
-  realTime,
-  focusFunction,
-  gtfsId,
-  showCurrentZoneDelimiter,
-  showZoneLimits,
-  previousZoneId,
-  currentZoneId,
-  nextZoneId,
-  zoneLabelColor,
-  isCanceled,
-  isLastPlace,
-}) {
+function IntermediateLeg(
+  {
+    color,
+    mode,
+    name,
+    arrivalTime,
+    realTime,
+    focusFunction,
+    gtfsId,
+    showCurrentZoneDelimiter,
+    showZoneLimits,
+    previousZoneId,
+    currentZoneId,
+    nextZoneId,
+    isCanceled,
+    isLastPlace,
+  },
+  { config },
+) {
   const modeClassName = mode.toLowerCase();
   const isDualZone = currentZoneId && (previousZoneId || nextZoneId);
   const isTripleZone = currentZoneId && previousZoneId && nextZoneId;
@@ -43,43 +45,30 @@ function IntermediateLeg({
       onClick={e => focusFunction(e)}
     >
       <div className="small-2 columns itinerary-time-column">
-        {showZoneLimits && currentZoneId && (
-          <div className="zone-icons-container">
-            {previousZoneId && (
+        {showZoneLimits &&
+          currentZoneId &&
+          gtfsId &&
+          config.feedIds.includes(gtfsId.split(':')[0]) && (
+            <div className="time-column-zone-icons-container intermediate-leg">
+              {previousZoneId && <ZoneIcon zoneId={previousZoneId} />}
               <ZoneIcon
-                zoneId={previousZoneId}
-                zoneLabelColor={zoneLabelColor}
-                zoneLabelHeight="20px"
-                zoneLabelWidth="20px"
-                zoneLabelLineHeight="20px"
-                zoneIdFontSize="16px"
+                zoneId={currentZoneId}
+                className={cx({
+                  'zone-delimiter':
+                    showCurrentZoneDelimiter ||
+                    (previousZoneId && currentZoneId),
+                })}
+                showUnknown
               />
-            )}
-            <ZoneIcon
-              zoneId={currentZoneId}
-              className={cx({
-                'zone-delimiter':
-                  showCurrentZoneDelimiter || (previousZoneId && currentZoneId),
-              })}
-              zoneLabelColor={zoneLabelColor}
-              zoneLabelHeight="20px"
-              zoneLabelWidth="20px"
-              zoneLabelLineHeight="20px"
-              zoneIdFontSize="16px"
-            />
-            {nextZoneId && (
-              <ZoneIcon
-                zoneId={nextZoneId}
-                zoneLabelColor={zoneLabelColor}
-                zoneLabelHeight="20px"
-                zoneLabelWidth="20px"
-                zoneLabelLineHeight="20px"
-                zoneIdFontSize="16px"
-                className="zone-delimiter"
-              />
-            )}
-          </div>
-        )}
+              {nextZoneId && (
+                <ZoneIcon
+                  zoneId={nextZoneId}
+                  className="zone-delimiter"
+                  showUnknown
+                />
+              )}
+            </div>
+          )}
       </div>
       <div className={`leg-before ${modeClassName}`}>
         <div className={`leg-before-circle circle-fill ${modeClassName}`}>
@@ -148,7 +137,6 @@ IntermediateLeg.propTypes = {
   previousZoneId: PropTypes.string,
   currentZoneId: PropTypes.string,
   nextZoneId: PropTypes.string,
-  zoneLabelColor: PropTypes.string,
   isLastPlace: PropTypes.bool,
   gtfsId: PropTypes.string,
   isCanceled: PropTypes.bool,
@@ -161,6 +149,10 @@ IntermediateLeg.defaultProps = {
   currentZoneId: undefined,
   nextZoneId: undefined,
   isCanceled: false,
+};
+
+IntermediateLeg.contextTypes = {
+  config: PropTypes.object.isRequired,
 };
 
 export default IntermediateLeg;

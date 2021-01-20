@@ -655,10 +655,3 @@ export function drawIcon(icon, tile, geom, imageSize) {
     drawIconImage(image, tile, geom, imageSize, imageSize);
   });
 }
-
-export const getZoneLabelColor = config => {
-  if (typeof config.colors !== 'undefined' && config.colors.primary) {
-    return config.colors.primary;
-  }
-  return '#000';
-};

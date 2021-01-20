@@ -15,11 +15,15 @@ import { getStopName } from '@digitransit-search-util/digitransit-search-util-he
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import moment from 'moment-timezone';
+import 'moment/locale/fi';
+import 'moment/locale/sv';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
+
+moment.locale('en');
 
 i18next.init({
   lng: 'fi',
@@ -91,8 +95,6 @@ function getSuggestionContent(item) {
 }
 
 function translateFutureRouteSuggestionTime(item) {
-  moment.locale(i18next.language);
-
   const time = moment.unix(item.properties.time);
   let str = item.properties.arriveBy
     ? i18next.t('arrival')
@@ -230,6 +232,8 @@ class DTAutosuggest extends React.Component {
     super(props);
     i18next.changeLanguage(props.lang);
     moment.tz.setDefault(props.timeZone);
+    moment.locale(props.lang);
+
     this.state = {
       value: props.value,
       suggestions: [],
@@ -244,6 +248,7 @@ class DTAutosuggest extends React.Component {
       pendingSelection: null,
       suggestionIndex: 0,
       cleanExecuted: false,
+      scrollY: 0,
     };
     Object.keys(translations).forEach(lang => {
       i18next.addResourceBundle(lang, 'translation', translations[lang]);
@@ -305,6 +310,7 @@ class DTAutosuggest extends React.Component {
     }
     this.setState({
       editing: false,
+      renderMobileSearch: false,
       value: this.props.value,
     });
   };
@@ -612,16 +618,17 @@ class DTAutosuggest extends React.Component {
   };
 
   renderItem = item => {
-    const newItem = {
-      ...item,
-      translatedText: translateFutureRouteSuggestionTime(item),
-    };
-    const content = getSuggestionContent(
-      item.type === 'FutureRoute' ? newItem : item,
-    );
+    const newItem =
+      item.type === 'FutureRoute'
+        ? {
+            ...item,
+            translatedText: translateFutureRouteSuggestionTime(item),
+          }
+        : item;
+    const content = getSuggestionContent(item);
     return (
       <SuggestionItem
-        item={item.type === 'FutureRoute' ? newItem : item}
+        item={newItem}
         content={content}
         loading={!this.state.valid}
         isMobile={this.props.isMobile}
@@ -631,16 +638,28 @@ class DTAutosuggest extends React.Component {
     );
   };
 
+  closeMobileSearch = () => {
+    this.setState(
+      {
+        renderMobileSearch: false,
+        value: this.props.value,
+      },
+      () => {
+        window.scrollTo(0, this.state.scrollY);
+        this.onSuggestionsClearRequested();
+      },
+    );
+  };
+
   // DT-3263 starts
   // eslint-disable-next-line consistent-return
   keyDown = event => {
     const keyCode = event.keyCode || event.which;
-    if (this.state.editing) {
-      return this.inputClicked();
-    }
-
     if ((keyCode === 13 || keyCode === 40) && this.state.value === '') {
       return this.clearInput();
+    }
+    if (this.state.editing) {
+      return this.inputClicked();
     }
 
     if (keyCode === 40 && this.state.value !== '') {
@@ -695,6 +714,25 @@ class DTAutosuggest extends React.Component {
     this.props.id === 'via-point' ||
     this.props.id === 'origin-stop-near-you';
 
+  onFocus = () => {
+    const positions = [
+      'Valittu sijainti',
+      'Current position',
+      'Selected location',
+      'Vald position',
+      'Använd min position',
+      'Käytä nykyistä sijaintia',
+      'Use current location',
+    ];
+    if (positions.includes(this.state.value)) {
+      this.clearInput();
+    }
+    return this.setState({
+      renderMobileSearch: this.props.isMobile,
+      scrollY: window.pageYOffset,
+    });
+  };
+
   render() {
     if (this.state.pendingCurrentLocation) {
       return <Loading />;
@@ -710,22 +748,6 @@ class DTAutosuggest extends React.Component {
       value,
       onChange: this.onChange,
       onBlur: !this.props.isMobile ? this.onBlur : () => null,
-      onFocus: () => {
-        // DT-3460 empty input field if value is in array below (HSL.fi translations also.)
-        const positions = [
-          'Valittu sijainti',
-          'Current position',
-          'Selected location',
-          'Vald position',
-          'Använd min position',
-          'Käytä nykyistä sijaintia',
-          'Use current location',
-        ];
-        if (positions.includes(this.state.value)) {
-          this.clearInput();
-        }
-        return this.setState({ renderMobileSearch: this.props.isMobile });
-      },
       className: cx(
         `${styles.input} ${
           this.props.isMobile && this.props.transportMode ? styles.thin : ''
@@ -746,6 +768,7 @@ class DTAutosuggest extends React.Component {
     const ariaCurrentSuggestion = i18next.t('search-current-suggestion', {
       selection: this.suggestionAsAriaContent(),
     });
+
     return (
       <React.Fragment>
         <span
@@ -762,8 +785,9 @@ class DTAutosuggest extends React.Component {
         >
           {ariaCurrentSuggestion}
         </span>
-        {renderMobileSearch && (
+        {this.props.isMobile && (
           <MobileSearch
+            searchOpen={renderMobileSearch}
             appElement={this.props.appElement}
             clearOldSearches={this.clearOldSearches}
             id={this.props.id}
@@ -786,15 +810,7 @@ class DTAutosuggest extends React.Component {
             onSuggestionsClearRequested={this.onSuggestionsClearRequested}
             getSuggestionValue={this.getSuggestionValue}
             renderSuggestion={this.renderItem}
-            closeHandle={() =>
-              this.setState(
-                {
-                  renderMobileSearch: false,
-                  value: this.props.value,
-                },
-                () => this.onSuggestionsClearRequested(),
-              )
-            }
+            closeHandle={this.closeMobileSearch}
             ariaLabel={SearchBarId.concat(' ').concat(ariaLabelText)}
             label={
               this.props.mobileLabel
@@ -837,7 +853,10 @@ class DTAutosuggest extends React.Component {
               onSuggestionsClearRequested={this.onSuggestionsClearRequested}
               getSuggestionValue={this.getSuggestionValue}
               renderSuggestion={this.renderItem}
-              inputProps={inputProps}
+              inputProps={{
+                ...inputProps,
+                onFocus: this.onFocus,
+              }}
               focusInputOnSuggestionClick
               shouldRenderSuggestions={() => this.state.editing}
               highlightFirstSuggestion

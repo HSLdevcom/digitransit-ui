@@ -3,7 +3,11 @@ import { describe, it } from 'mocha';
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import ZoneIcon, { ZONE_UNKNOWN } from '../../../app/component/ZoneIcon';
+import ZoneIcon from '../../../app/component/ZoneIcon';
+
+const config = {
+  unknownZones: ['FOO'],
+};
 
 describe('<ZoneIcon />', () => {
   it('should not render if zoneId is missing', () => {
@@ -11,15 +15,24 @@ describe('<ZoneIcon />', () => {
     expect(wrapper.isEmptyRender()).to.equal(true);
   });
 
-  it('should not render if the title should be shown but the zone is unknown', () => {
+  it('should not render unknown zone if the unknown zones should not be shown', () => {
     const wrapper = shallowWithIntl(
-      <ZoneIcon showTitle zoneId={ZONE_UNKNOWN} />,
+      <ZoneIcon zoneId="FOO" showUnknown={false} />,
+      {
+        context: {
+          config,
+        },
+      },
     );
     expect(wrapper.isEmptyRender()).to.equal(true);
   });
 
   it('should render a placeholder if the zone is unknown', () => {
-    const wrapper = shallowWithIntl(<ZoneIcon zoneId={ZONE_UNKNOWN} />);
+    const wrapper = shallowWithIntl(<ZoneIcon zoneId="FOO" showUnknown />, {
+      context: {
+        config,
+      },
+    });
     expect(wrapper.text()).to.equal('?');
   });
 });

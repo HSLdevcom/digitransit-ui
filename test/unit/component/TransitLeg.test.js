@@ -29,6 +29,7 @@ describe('<TransitLeg />', () => {
           name: 'Lokkalantie',
           stop: {
             zoneId: 'A',
+            gtfsId: 'HSL:1',
           },
         },
         duration: 10000,
@@ -68,6 +69,7 @@ describe('<TransitLeg />', () => {
         config: {
           itinerary: { showZoneLimits: true },
           colors: { primary: 'ffffff' },
+          feedIds: ['HSL'],
         },
         focusFunction: () => () => {},
       },
@@ -136,6 +138,7 @@ describe('<TransitLeg />', () => {
         config: {
           itinerary: { showZoneLimits: true },
           colors: { primary: 'ffffff' },
+          feedIds: ['HSL'],
         },
         focusFunction: () => () => {},
       },
@@ -160,7 +163,9 @@ describe('<TransitLeg />', () => {
       leg: {
         from: {
           name: 'Lokkalantie',
-          stop: {},
+          stop: {
+            gtfsId: 'HSL:1',
+          },
         },
         duration: 10000,
         intermediatePlaces: [
@@ -201,6 +206,7 @@ describe('<TransitLeg />', () => {
         config: {
           itinerary: { showZoneLimits: true },
           colors: { primary: 'ffffff' },
+          feedIds: ['HSL'],
         },
         focusFunction: () => () => {},
       },
@@ -220,7 +226,9 @@ describe('<TransitLeg />', () => {
       leg: {
         from: {
           name: 'Lokkalantie',
-          stop: {},
+          stop: {
+            gtfsId: 'HSL:1',
+          },
         },
         duration: 10000,
         intermediatePlaces: [
@@ -261,6 +269,7 @@ describe('<TransitLeg />', () => {
         config: {
           itinerary: { showZoneLimits: false },
           colors: { primary: 'ffffff' },
+          feedIds: ['HSL'],
         },
         focusFunction: () => () => {},
       },

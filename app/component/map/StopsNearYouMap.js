@@ -140,10 +140,14 @@ function StopsNearYouMap(
   { ...context },
 ) {
   const { mode } = match.params;
+  const walkRoutingThreshold =
+    mode === 'RAIL' || mode === 'SUBWAY' || mode === 'FERRY' ? 3000 : 1500;
   const sortedStopEdges =
     mode === 'CITYBIKE'
       ? stops.nearest.edges.slice().sort(sortNearbyRentalStations(favouriteIds))
-      : stops.nearest.edges.slice().sort(sortNearbyStops(favouriteIds));
+      : stops.nearest.edges
+          .slice()
+          .sort(sortNearbyStops(favouriteIds, walkRoutingThreshold));
   let useFitBounds = true;
   const bounds = handleBounds(locationState, sortedStopEdges);
 
@@ -200,10 +204,7 @@ function StopsNearYouMap(
           }
         }
       `;
-      if (
-        stop.distance < 2000 ||
-        favouriteIds.has(stop.gtfsId || stop.stationId)
-      ) {
+      if (stop.distance < walkRoutingThreshold) {
         fetchQuery(environment, query, variables).then(({ plan: result }) => {
           if (first) {
             setFirstPlan({ itinerary: result, isFetching: false, stop });
@@ -358,11 +359,7 @@ function StopsNearYouMap(
   // Marker for the search point.
   if (position) {
     leafletObjs.push(getLocationMarker(position));
-  } else if (
-    placeForMarker &&
-    placeForMarker !== 'POS' &&
-    placeForMarker.ready
-  ) {
+  } else if (placeForMarker && placeForMarker !== 'POS' && placeForMarker.lat) {
     leafletObjs.push(getLocationMarker(placeForMarker));
   } else {
     leafletObjs.push(getLocationMarker(context.config.defaultEndpoint));

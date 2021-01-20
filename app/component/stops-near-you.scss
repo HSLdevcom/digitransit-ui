@@ -99,6 +99,7 @@
             padding: 14px 15px 1px 20px;
             .stop-near-you-info {
                 display: flex;
+                margin-bottom: 5px;
                 .platform-short {
                     @include font-medium;
                     font-weight: normal;
@@ -116,24 +117,15 @@
                     height: 16px;
                     padding: 0 4px;
                     align-self: center;
-                    margin-top: -6px;
+                    margin-bottom: 2px;
                 }
                 .zone-icon-container {
-                    padding-left:3px;
+                    margin-left:4px;
+                    padding-bottom: 2px;
                     align-self: center;
-                    .circle {
-                        height: 14px;
-                        width: 14px;
-                        font-size: 12px;
-                        line-height: 14px;
-                    }
-
-                    .svg {
-                        width: 14px;
-                        height: 14px;
-                        margin-left: 1px;
-                        margin-bottom: 1px;
-                      }
+                }
+                .circle {
+                    padding: 0px 3px 0px 3px;
                 }
             }
             .stop-favourite-container {
@@ -144,6 +136,15 @@
                 padding-top: 8px;
                 margin-left: auto;
             }
+        }
+        .stop-near-you-more-departures {
+            margin: 0 0 19px 20px;
+            padding: 9px 20px 8px;
+            border-radius: 25px;
+            border: solid 1px #dddddd;
+            font-size: 13px;
+            font-weight: $font-weight-medium;
+            color: $primary-color;
         }
     }
     .near-departures-container {
