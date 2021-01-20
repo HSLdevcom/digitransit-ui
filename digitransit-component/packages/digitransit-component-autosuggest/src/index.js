@@ -15,11 +15,15 @@ import { getStopName } from '@digitransit-search-util/digitransit-search-util-he
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import moment from 'moment-timezone';
+import 'moment/locale/fi';
+import 'moment/locale/sv';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
+
+moment.locale('en');
 
 i18next.init({
   lng: 'fi',
@@ -91,8 +95,6 @@ function getSuggestionContent(item) {
 }
 
 function translateFutureRouteSuggestionTime(item) {
-  moment.locale(i18next.language);
-
   const time = moment.unix(item.properties.time);
   let str = item.properties.arriveBy
     ? i18next.t('arrival')
@@ -230,6 +232,8 @@ class DTAutosuggest extends React.Component {
     super(props);
     i18next.changeLanguage(props.lang);
     moment.tz.setDefault(props.timeZone);
+    moment.locale(props.lang);
+
     this.state = {
       value: props.value,
       suggestions: [],
@@ -306,6 +310,7 @@ class DTAutosuggest extends React.Component {
     }
     this.setState({
       editing: false,
+      renderMobileSearch: false,
       value: this.props.value,
     });
   };
@@ -613,16 +618,17 @@ class DTAutosuggest extends React.Component {
   };
 
   renderItem = item => {
-    const newItem = {
-      ...item,
-      translatedText: translateFutureRouteSuggestionTime(item),
-    };
-    const content = getSuggestionContent(
-      item.type === 'FutureRoute' ? newItem : item,
-    );
+    const newItem =
+      item.type === 'FutureRoute'
+        ? {
+            ...item,
+            translatedText: translateFutureRouteSuggestionTime(item),
+          }
+        : item;
+    const content = getSuggestionContent(item);
     return (
       <SuggestionItem
-        item={item.type === 'FutureRoute' ? newItem : item}
+        item={newItem}
         content={content}
         loading={!this.state.valid}
         isMobile={this.props.isMobile}
@@ -632,16 +638,28 @@ class DTAutosuggest extends React.Component {
     );
   };
 
+  closeMobileSearch = () => {
+    this.setState(
+      {
+        renderMobileSearch: false,
+        value: this.props.value,
+      },
+      () => {
+        window.scrollTo(0, this.state.scrollY);
+        this.onSuggestionsClearRequested();
+      },
+    );
+  };
+
   // DT-3263 starts
   // eslint-disable-next-line consistent-return
   keyDown = event => {
     const keyCode = event.keyCode || event.which;
-    if (this.state.editing) {
-      return this.inputClicked();
-    }
-
     if ((keyCode === 13 || keyCode === 40) && this.state.value === '') {
       return this.clearInput();
+    }
+    if (this.state.editing) {
+      return this.inputClicked();
     }
 
     if (keyCode === 40 && this.state.value !== '') {
@@ -792,18 +810,7 @@ class DTAutosuggest extends React.Component {
             onSuggestionsClearRequested={this.onSuggestionsClearRequested}
             getSuggestionValue={this.getSuggestionValue}
             renderSuggestion={this.renderItem}
-            closeHandle={() =>
-              this.setState(
-                {
-                  renderMobileSearch: false,
-                  value: this.props.value,
-                },
-                () => {
-                  window.scrollTo(0, this.state.scrollY);
-                  this.onSuggestionsClearRequested();
-                },
-              )
-            }
+            closeHandle={this.closeMobileSearch}
             ariaLabel={SearchBarId.concat(' ').concat(ariaLabelText)}
             label={
               this.props.mobileLabel

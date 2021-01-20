@@ -19,10 +19,12 @@ import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 import MapLayerStore, { mapLayerShape } from '../../../store/MapLayerStore';
+import RealTimeInformationStore from '../../../store/RealTimeInformationStore';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { getClientBreakpoint } from '../../../util/withBreakpoint';
 import { PREFIX_STOPS, PREFIX_TERMINALS } from '../../../util/path';
 import DynamicParkingLotsPopup from '../popups/DynamicParkingLotsPopup';
+import SelectVehicleContainer from './SelectVehicleContainer';
 
 const initialState = {
   selectableTargets: undefined,
@@ -54,6 +56,7 @@ class TileLayerContainer extends GridLayer {
     }).isRequired,
     relayEnvironment: PropTypes.object.isRequired,
     hilightedStops: PropTypes.arrayOf(PropTypes.string),
+    vehicles: PropTypes.object,
   };
 
   static contextTypes = {
@@ -158,6 +161,7 @@ class TileLayerContainer extends GridLayer {
       this.props.stopsNearYouMode,
       this.props.relayEnvironment,
       this.props.hilightedStops,
+      this.props.vehicles,
     );
 
     tile.onSelectableTargetClicked = (
@@ -196,13 +200,15 @@ class TileLayerContainer extends GridLayer {
       }
 
       this.setState({
-        selectableTargets: selectableTargets.filter(target =>
-          isFeatureLayerEnabled(
-            target.feature,
-            target.layer,
-            mapLayers,
-            this.context.config,
-          ),
+        selectableTargets: selectableTargets.filter(
+          target =>
+            target.layer === 'realTimeVehicle' ||
+            isFeatureLayerEnabled(
+              target.feature,
+              target.layer,
+              mapLayers,
+              this.context.config,
+            ),
         ),
         coords,
       });
@@ -256,6 +262,7 @@ class TileLayerContainer extends GridLayer {
 
   render() {
     let popup = null;
+    let latlng = this.state.coords;
     let contents;
 
     const breakpoint = getClientBreakpoint(); // DT-3470
@@ -310,6 +317,19 @@ class TileLayerContainer extends GridLayer {
             />
           );
         } else if (
+          this.state.selectableTargets[0].layer === 'realTimeVehicle'
+        ) {
+          const { vehicle } = this.state.selectableTargets[0].feature;
+          const realTimeInfoVehicle = this.props.vehicles[vehicle.id];
+          if (realTimeInfoVehicle) {
+            latlng = {
+              lat: realTimeInfoVehicle.lat,
+              lng: realTimeInfoVehicle.long,
+            };
+          }
+          this.PopupOptions.className = 'vehicle-popup';
+          contents = <SelectVehicleContainer vehicle={vehicle} />;
+        } else if (
           this.state.selectableTargets[0].layer === 'dynamicParkingLots'
         ) {
           contents = (
@@ -324,7 +344,7 @@ class TileLayerContainer extends GridLayer {
           <Popup
             {...this.PopupOptions}
             key={id}
-            position={this.state.coords}
+            position={latlng}
             className={`${this.PopupOptions.className} single-popup`}
           >
             {contents}
@@ -349,6 +369,7 @@ class TileLayerContainer extends GridLayer {
             <MarkerSelectPopup
               selectRow={this.selectRow}
               options={this.state.selectableTargets}
+              colors={this.context.config.colors}
             />
           </Popup>
         );
@@ -392,9 +413,10 @@ const connectedComponent = withLeaflet(
         )}
       </ReactRelayContext.Consumer>
     ),
-    [MapLayerStore],
+    [MapLayerStore, RealTimeInformationStore],
     context => ({
       mapLayers: context.getStore(MapLayerStore).getMapLayers(),
+      vehicles: context.getStore(RealTimeInformationStore).vehicles,
     }),
   ),
 );

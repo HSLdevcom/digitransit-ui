@@ -6,31 +6,36 @@ import ComponentUsageExample from '../../ComponentUsageExample';
 import { PREFIX_TERMINALS, PREFIX_STOPS } from '../../../util/path';
 
 function SelectStopRow({ gtfsId, type, name, code, terminal, desc }) {
-  let iconId;
+  const iconOptions = {};
   switch (type) {
     case 'TRAM':
-      iconId = 'icon-icon_tram';
+      iconOptions.iconId = 'icon-icon_bus-stop';
+      iconOptions.className = 'tram-stop';
       break;
     case 'RAIL':
-      iconId = 'icon-icon_rail';
+      iconOptions.iconId = 'icon-icon_station';
+      iconOptions.className = 'rail-stop';
       break;
     case 'BUS':
-      iconId = 'icon-icon_bus';
+      iconOptions.iconId = 'icon-icon_bus-stop';
+      iconOptions.className = 'bus-stop';
       break;
     case 'SUBWAY':
-      iconId = 'icon-icon_subway';
+      iconOptions.iconId = 'icon-icon_station';
+      iconOptions.className = 'subway-stop';
       break;
     case 'FERRY':
-      iconId = 'icon-icon_ferry';
+      iconOptions.iconId = 'icon-icon_ferry';
+      iconOptions.className = 'ferry-stop';
       break;
     case 'AIRPLANE':
-      iconId = 'icon-icon_airplane';
+      iconOptions.iconId = 'icon-icon_airplane';
       break;
     case 'CARPOOL':
       iconId = 'icon-icon_carpool';
       break;
     default:
-      iconId = 'icon-icon_bus';
+      iconOptions.iconId = 'icon-icon_bus';
       break;
   }
 
@@ -44,7 +49,11 @@ function SelectStopRow({ gtfsId, type, name, code, terminal, desc }) {
       to={`/${prefix}/${encodeURIComponent(gtfsId)}`}
     >
       <span className="choose-row-left-column" aria-hidden="true">
-        <Icon img={iconId} />
+        <Icon
+          className={iconOptions.className}
+          img={iconOptions.iconId}
+          color={iconOptions.color || null}
+        />
       </span>
       <span className="choose-row-center-column">
         <h5 className="choose-row-header">{name}</h5>

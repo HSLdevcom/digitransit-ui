@@ -2,7 +2,7 @@ import isString from 'lodash/isString';
 import cloneDeep from 'lodash/cloneDeep';
 import { graphql } from 'react-relay';
 import omit from 'lodash/omit';
-import { parseLatLon ,
+import {
   locationToOTP,
   otpToLocation,
   getIntermediatePlaces,
@@ -60,7 +60,7 @@ export const fixArrayParams = query => {
  * @param {*} match The match object from found
  * @param {*} newParams The location query params to apply
  */
-export const replaceQueryParams = (router, match, newParams, executeAction) => {
+export const replaceQueryParams = (router, match, newParams) => {
   let { location } = match;
   location = resetSelectedItineraryIndex(location);
 
@@ -68,33 +68,6 @@ export const replaceQueryParams = (router, match, newParams, executeAction) => {
     ...location.query,
     ...newParams,
   });
-
-  if (
-    query &&
-    query.time &&
-    location &&
-    location.pathname.indexOf(PREFIX_ITINERARY_SUMMARY) === 1 &&
-    executeAction
-  ) {
-    const pathArray = decodeURIComponent(location.pathname)
-      .substring(1)
-      .split('/');
-    pathArray.shift();
-    const originArray = pathArray[0].split('::');
-    const destinationArray = pathArray[1].split('::');
-    const itinerarySearch = {
-      origin: {
-        address: originArray[0],
-        ...parseLatLon(originArray[1]),
-      },
-      destination: {
-        address: destinationArray[0],
-        ...parseLatLon(destinationArray[1]),
-      },
-      query,
-    };
-    executeAction(saveFutureRoute, itinerarySearch);
-  }
 
   router.replace({
     ...location,
@@ -281,6 +254,119 @@ export const planQuery = graphql`
 
     serviceTimeRange {
       ...SummaryPage_serviceTimeRange
+    }
+  }
+`;
+
+export const moreItinerariesQuery = graphql`
+  query queryUtils_SummaryPage_moreItins_Query(
+    $fromPlace: String!
+    $toPlace: String!
+    $intermediatePlaces: [InputCoordinates!]
+    $numItineraries: Int!
+    $modes: [TransportMode!]
+    $date: String!
+    $time: String!
+    $walkReluctance: Float
+    $walkBoardCost: Int
+    $minTransferTime: Int
+    $walkSpeed: Float
+    $maxWalkDistance: Float
+    $wheelchair: Boolean
+    $ticketTypes: [String]
+    $disableRemainingWeightHeuristic: Boolean
+    $arriveBy: Boolean
+    $transferPenalty: Int
+    $bikeSpeed: Float
+    $optimize: OptimizeType
+    $itineraryFiltering: Float
+    $unpreferred: InputUnpreferred
+    $allowedBikeRentalNetworks: [String]
+    $locale: String
+  ) {
+    plan(
+      fromPlace: $fromPlace
+      toPlace: $toPlace
+      intermediatePlaces: $intermediatePlaces
+      numItineraries: $numItineraries
+      transportModes: $modes
+      date: $date
+      time: $time
+      walkReluctance: $walkReluctance
+      walkBoardCost: $walkBoardCost
+      minTransferTime: $minTransferTime
+      walkSpeed: $walkSpeed
+      maxWalkDistance: $maxWalkDistance
+      wheelchair: $wheelchair
+      allowedTicketTypes: $ticketTypes
+      disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+      arriveBy: $arriveBy
+      transferPenalty: $transferPenalty
+      bikeSpeed: $bikeSpeed
+      optimize: $optimize
+      itineraryFiltering: $itineraryFiltering
+      unpreferred: $unpreferred
+      allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+      locale: $locale
+    ) {
+      ...SummaryPlanContainer_plan
+      ...ItineraryTab_plan
+      itineraries {
+        duration
+        startTime
+        endTime
+        ...ItineraryTab_itinerary
+        ...SummaryPlanContainer_itineraries
+        legs {
+          mode
+          ...ItineraryLine_legs
+          transitLeg
+          legGeometry {
+            points
+          }
+          route {
+            gtfsId
+          }
+          trip {
+            gtfsId
+            directionId
+            stoptimesForDate {
+              scheduledDeparture
+              pickupType
+            }
+            pattern {
+              ...RouteLine_pattern
+            }
+          }
+          from {
+            name
+            lat
+            lon
+            stop {
+              gtfsId
+              zoneId
+            }
+            bikeRentalStation {
+              bikesAvailable
+              networks
+            }
+          }
+          to {
+            stop {
+              gtfsId
+              zoneId
+            }
+            bikePark {
+              bikeParkId
+              name
+            }
+            carPark {
+              carParkId
+              name
+            }
+          }
+        }
+      }
     }
   }
 `;

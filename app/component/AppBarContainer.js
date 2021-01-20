@@ -76,7 +76,20 @@ const AppBarContainer = ({
             <AppBarLarge
               {...args}
               logo={logo}
-              titleClicked={() => titleClicked(router, homeUrl, match)}
+              titleClicked={() =>
+                router.push({
+                  ...match.location,
+                  pathname: homeUrl,
+                  state: {
+                    ...match.location.state,
+                    errorBoundaryKey:
+                      match.location.state &&
+                      match.location.state.errorBoundaryKey
+                        ? match.location.state.errorBoundaryKey + 1
+                        : 1,
+                  },
+                })
+              }
               user={user}
             />
           );
@@ -109,7 +122,6 @@ const WithContext = connectToStores(
 );
 
 WithContext.propTypes = {
-  disableBackButton: PropTypes.bool,
   title: PropTypes.node,
 };
 
