@@ -37,6 +37,7 @@ export default function withSearchContext(WrappedComponent) {
       destination: PropTypes.object,
       children: PropTypes.node,
       selectHandler: PropTypes.func.isRequired,
+      onGeolocationStart: PropTypes.func,
       locationState: PropTypes.object,
       fromMap: PropTypes.string,
       isMobile: PropTypes.bool,
@@ -146,6 +147,10 @@ export default function withSearchContext(WrappedComponent) {
               { pendingCurrentLocation: true, positioningSelectedFrom: id },
               this.context.executeAction(searchContext.startLocationWatch),
             );
+            if (this.props.onGeolocationStart) {
+              this.props.onGeolocationStart(item, id);
+            }
+            return;
           }
         } else {
           location = suggestionToLocation(item);

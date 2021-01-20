@@ -246,6 +246,7 @@ class IndexPage extends React.Component {
               color={color}
               hoverColor={hoverColor}
               selectHandler={this.onSelectLocation}
+              onGeolocationStart={this.onSelectLocation}
               fromMap={this.props.fromMap}
             />
             <div className="datetimepicker-container">
@@ -348,6 +349,7 @@ class IndexPage extends React.Component {
               color={color}
               hoverColor={hoverColor}
               selectHandler={this.onSelectLocation}
+              onGeolocationStart={this.onSelectLocation}
             />
             <div className="datetimepicker-container">
               <DatetimepickerContainer realtime color={color} />
