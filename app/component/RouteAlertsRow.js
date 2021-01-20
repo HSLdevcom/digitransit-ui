@@ -95,7 +95,7 @@ export default function RouteAlertsRow(
   const checkedUrl =
     url && (url.match(/^[a-zA-Z]+:\/\//) ? url : `http://${url}`);
 
-  if (!description && !showTime) {
+  if (!description) {
     return null;
   }
 
