@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 import DepartureRow from './DepartureRow';
 
 const StopNearYouDepartureRowContainer = ({ stopTimes, ...props }) => {
-  const departures = stopTimes.map(row => {
+  const sortedStopTimes = stopTimes
+    .slice()
+    .sort(
+      (a, b) =>
+        a.serviceDay + a.realtimeArrival - (b.serviceDay + b.realtimeArrival),
+    );
+  const departures = sortedStopTimes.map(row => {
     const departureTime = row.serviceDay + row.realtimeArrival;
     return (
       <DepartureRow
@@ -16,7 +22,6 @@ const StopNearYouDepartureRowContainer = ({ stopTimes, ...props }) => {
       />
     );
   });
-
   return (
     <div role="list" className="near-departures-container">
       {departures}
