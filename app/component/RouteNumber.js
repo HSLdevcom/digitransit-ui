@@ -120,7 +120,7 @@ function RouteNumber(props, context) {
                 mode,
                 { long: longText },
               )}
-              style={{ color: getColor() }}
+              style={{ color: !props.withBar && getColor() }}
             >
               {props.text}
             </span>
