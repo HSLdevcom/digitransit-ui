@@ -2134,8 +2134,10 @@ class SummaryPage extends React.Component {
         }
         center = { lat: origin.lat, lon: origin.lon };
       } else if (
-        (hash !== undefined && this.props.match.params.hash === 'walk') ||
-        this.props.match.params.hash === 'bike'
+        hash !== undefined &&
+        // these modes always contain only a single result and therefore we directly show the route rather than
+        // an overview
+        ['walk', 'bike', 'car'].includes(match.params.hash)
       ) {
         bounds = [].concat(
           ...combinedItineraries[hash].legs.map(leg =>
@@ -2159,6 +2161,7 @@ class SummaryPage extends React.Component {
     // Call props.map directly in order to render to same map instance
     let map;
     if (
+      // display the first result in the map for those modes
       ['bikeAndVehicle', 'parkAndRide'].includes(match.params.hash) &&
       !routeSelected(
         match.params.hash,
