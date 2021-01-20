@@ -235,6 +235,9 @@ class RoutePage extends React.Component {
     if (!source || !source.active) {
       return;
     }
+
+    const patternIdSplit = match.params.patternId.split(':');
+    const direction = patternIdSplit[patternIdSplit.length - 2];
     executeAction(startRealTimeClient, {
       ...source,
       agency,
@@ -246,6 +249,7 @@ class RoutePage extends React.Component {
           mode: route.mode.toLowerCase(),
           gtfsId: routeParts[1],
           headsign: pattern.headsign,
+          direction,
         },
       ],
     });
