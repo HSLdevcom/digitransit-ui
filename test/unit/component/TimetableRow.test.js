@@ -40,6 +40,7 @@ describe('<TimetableRow />', () => {
           longName: 'Kamppi-Töölö-Pihlajamäki-Pukinmäki-Malmi',
           isCanceled: true,
           duplicate: false,
+          mode: 'BUS',
         },
         {
           id: 'HSL:1070:1:01',
@@ -50,6 +51,7 @@ describe('<TimetableRow />', () => {
           longName: 'Kamppi-Töölö-Pihlajamäki-Pukinmäki-Malmi',
           isCanceled: false,
           duplicate: false,
+          mode: 'BUS',
         },
       ],
       showRoutes: [],
