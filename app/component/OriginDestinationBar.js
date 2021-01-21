@@ -28,8 +28,8 @@ const DTAutosuggestPanelWithSearchContext = withSearchContext(
 class OriginDestinationBar extends React.Component {
   static propTypes = {
     className: PropTypes.string,
-    origin: dtLocationShape,
-    destination: dtLocationShape,
+    origin: dtLocationShape.isRequired,
+    destination: dtLocationShape.isRequired,
     language: PropTypes.string,
     isMobile: PropTypes.bool,
     showFavourites: PropTypes.bool.isRequired,
@@ -116,19 +116,16 @@ class OriginDestinationBar extends React.Component {
   };
 
   onLocationSelect = (item, id) => {
+    let action;
     if (id === parseInt(id, 10)) {
       // id = via point index
-      addAnalyticsEvent({
-        action: 'EditJourneyViaPoint',
-        category: 'ItinerarySettings',
-        name: item.type,
-      });
+      action = 'EditJourneyViaPoint';
       const points = [...this.props.viaPoints];
-      points[id] = {
-        ...item,
-      };
+      points[id] = { ...item };
       this.updateViaPoints(points);
     } else {
+      action =
+        id === 'origin' ? 'EditJourneyStartPoint' : 'EditJourneyEndPoint';
       onLocationPopup(
         item,
         id,
@@ -137,6 +134,11 @@ class OriginDestinationBar extends React.Component {
         this.context.executeAction,
       );
     }
+    addAnalyticsEvent({
+      action,
+      category: 'ItinerarySettings',
+      name: item.type,
+    });
   };
 
   render() {
