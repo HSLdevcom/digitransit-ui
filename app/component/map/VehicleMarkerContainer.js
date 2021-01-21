@@ -104,7 +104,8 @@ function VehicleMarkerContainer(containerProps) {
       containerProps.headsign,
     ),
   );
-  containerProps.setVisibleVehicles(visibleVehicles.map(([id]) => id));
+  const visibleVehicleIds = visibleVehicles.map(([id]) => id);
+  containerProps.setVisibleVehicles(visibleVehicleIds);
 
   return visibleVehicles.map(([id, message]) => (
     <IconMarker
