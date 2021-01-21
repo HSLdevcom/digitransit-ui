@@ -258,7 +258,6 @@ class IndexPage extends React.Component {
             position="left"
           >
             <LocationSearch
-              breakpoint="large"
               targets={[
                 'Locations',
                 'CurrentPosition',
@@ -337,7 +336,6 @@ class IndexPage extends React.Component {
               ]}
               disableAutoFocus
               isMobile
-              breakpoint="small"
               {...locationSearchProps}
             />
             <div className="datetimepicker-container">
