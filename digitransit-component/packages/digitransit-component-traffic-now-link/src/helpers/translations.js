@@ -9,7 +9,7 @@ const translations = {
     traffic: 'Trafiken nu',
   },
   fi: {
-    traffic: 'Häiriöt ja muutokset',
+    traffic: 'Liikenne nyt',
   },
 };
 export default translations;
