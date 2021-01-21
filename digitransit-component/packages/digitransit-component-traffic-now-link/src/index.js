@@ -70,7 +70,7 @@ class TrafficNowLink extends React.Component {
           {' '}
           <Icon
             img="caution-white"
-            color="#007ac9"
+            color="#DC0451"
             height={1.375}
             width={1.25}
           />{' '}
