@@ -7,6 +7,7 @@ import Modal from '@hsl-fi/modal';
 import Icon from './Icon';
 import routeCompare from '../util/route-compare';
 import withBreakpoint from '../util/withBreakpoint';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 class FilterTimeTableModal extends React.Component {
   static propTypes = {
@@ -109,7 +110,7 @@ class FilterTimeTableModal extends React.Component {
               id={`input-${o.code}`}
               onChange={() => this.handleCheckbox(o.code)}
               onKeyDown={e => {
-                if (e.keyCode === 13) {
+                if (isKeyboardSelectionEvent(e)) {
                   this.handleCheckbox(o.code);
                 }
               }}
@@ -197,7 +198,7 @@ class FilterTimeTableModal extends React.Component {
               aria-checked={this.state.allRoutes}
               onClick={e => this.state.allRoutes === true && e.preventDefault()}
               onKeyDown={e => {
-                if (e.keyCode === 13) {
+                if (isKeyboardSelectionEvent(e)) {
                   this.toggleAllRoutes(e);
                 }
               }}
