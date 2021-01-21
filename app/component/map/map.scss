@@ -657,7 +657,7 @@ div.origin-popup {
   align-items: center;
   min-width: 40px;
   height: 18px;
-  &.speech-bubble {
+  &.speech-bubble.normal {
     background-color: transparent;
     div {
       box-shadow: -3px 5px 8px 0 rgba(0, 0, 0, 0.3);
@@ -689,6 +689,45 @@ div.origin-popup {
     .shadow {
       top: -15px;
       box-shadow: -10px 6px 8px 0 rgba(0, 0, 0, 0.5);
+      width: 5px;
+      height: 5px;
+      background-color: transparent;
+      position: absolute;
+      bottom: -11px;
+    }
+  }
+  &.speech-bubble.flip {
+    div {
+      box-shadow: -3px 5px 8px 0 rgba(0, 0, 0, 0.3);
+      @include font-medium;
+      font-size: 15px;
+      border-radius: 8px;
+      height: 30px;
+      padding: 0 7px;
+      background-color: $white;
+      margin: 0;
+      line-height: 2;
+      position: relative;
+      left: calc(-100% - 7px);
+      top: 90%;
+    }
+    :before {
+      content: '';
+      width: 0px;
+      height: 0px;
+      position: absolute;
+      border-left: 0px solid #ffffff;
+      border-right: 15px solid transparent;
+      border-top: 0px solid transparent;
+      border-bottom: 15px solid #ffffff;
+      right: -10px;
+      top: -11px;
+      transform: skewX(-60deg);
+    }
+    .shadow {
+      top: 10px;
+      left: -22px;
+      box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.5);
       width: 5px;
       height: 5px;
       background-color: transparent;

@@ -10,6 +10,7 @@ const translations = {
     work: 'Arbeit',
   },
   en: {
+    'add-destination': 'Set as destination',
     'add-favourite': 'Add favourite',
     'add-home': 'Add home',
     'add-place': 'Add place',
@@ -20,6 +21,7 @@ const translations = {
     work: 'Work',
   },
   fi: {
+    'add-destination': 'Aseta määränpääksi',
     'add-favourite': 'Lisää suosikki',
     'add-home': 'Lisää koti',
     'add-place': 'Lisää paikka',
@@ -30,6 +32,7 @@ const translations = {
     work: 'Työ',
   },
   sv: {
+    'add-destination': 'Ställa in som destination',
     'add-favourite': 'Lägg till favorit',
     'add-home': 'Lägg till hem',
     'add-place': 'Lägg till plats',

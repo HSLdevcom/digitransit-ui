@@ -3,7 +3,6 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { routerShape } from 'found';
-import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import AutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import FavouriteBar from '@digitransit-component/digitransit-component-favourite-bar';
 import FavouriteModal from '@digitransit-component/digitransit-component-favourite-modal';
@@ -103,13 +102,11 @@ class FavouritesContainer extends React.Component {
   }
 
   setLocationProperties = item => {
-    const location =
-      item.type === 'CurrentLocation' ? item : suggestionToLocation(item);
     this.setState(prevState => ({
       favourite: {
-        ...location,
+        ...item,
         name: (prevState.favourite && prevState.favourite.name) || '',
-        defaultName: item.name || item.properties.name,
+        defaultName: item.name || item.address,
       },
     }));
   };
@@ -369,7 +366,7 @@ class FavouritesContainer extends React.Component {
               value={
                 (this.state.favourite && this.state.favourite.address) || ''
               }
-              onFavouriteSelected={this.setLocationProperties}
+              selectHandler={this.setLocationProperties}
               lang={this.props.lang}
               isMobile={this.props.isMobile}
               color={this.props.color}

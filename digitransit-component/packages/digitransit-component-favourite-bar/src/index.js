@@ -41,6 +41,8 @@ const FavouriteLocation = ({
   isLoading,
   color,
 }) => {
+  const ariaLabel =
+    label === '' ? text : `${text} ${label} ${i18next.t('add-destination')}`;
   return (
     <div
       role="button"
@@ -48,7 +50,7 @@ const FavouriteLocation = ({
       className={cx(styles['favourite-content'], styles[className])}
       onClick={clickItem}
       onKeyDown={e => isKeyboardSelectionEvent(e) && clickItem()}
-      aria-label={text}
+      aria-label={ariaLabel}
     >
       <Shimmer active={isLoading} className={styles.shimmer}>
         <span className={cx(styles.icon, styles[iconId])}>

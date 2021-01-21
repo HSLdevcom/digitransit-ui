@@ -23,7 +23,26 @@ class FutureRouteStore extends Store {
     return storage;
   }
 
-  saveFutureRoute(route) {
+  saveFutureRoute(itinSearch) {
+    const { origin, destination, query } = itinSearch;
+    const route = {
+      origin: {
+        address: origin.address,
+        coordinates: {
+          lat: origin.lat,
+          lon: origin.lon,
+        },
+      },
+      destination: {
+        address: destination.address,
+        coordinates: {
+          lat: destination.lat,
+          lon: destination.lon,
+        },
+      },
+      arriveBy: query.arriveBy ? query.arriveBy : false,
+      time: query.time,
+    };
     const storage = addFutureRoute(route, this.getFutureRoutes(), {
       itinerarySummaryPrefix: PREFIX_ITINERARY_SUMMARY,
     });

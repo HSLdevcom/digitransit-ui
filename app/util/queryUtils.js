@@ -1,10 +1,14 @@
 import isString from 'lodash/isString';
 import cloneDeep from 'lodash/cloneDeep';
 import { graphql } from 'react-relay';
-
-import { parseLatLon } from './otpStrings';
-import { PREFIX_ITINERARY_SUMMARY } from './path';
+import {
+  locationToOTP,
+  otpToLocation,
+  getIntermediatePlaces,
+} from './otpStrings';
+import { getPathWithEndpointObjects, PREFIX_ITINERARY_SUMMARY } from './path';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
+import { addViaPoint } from '../action/ViaPointActions';
 
 /**
  * Removes selected itinerary index from url (pathname) and
@@ -54,7 +58,7 @@ export const fixArrayParams = query => {
  * @param {*} match The match object from found
  * @param {*} newParams The location query params to apply
  */
-export const replaceQueryParams = (router, match, newParams, executeAction) => {
+export const replaceQueryParams = (router, match, newParams) => {
   let { location } = match;
   location = resetSelectedItineraryIndex(location);
 
@@ -62,34 +66,6 @@ export const replaceQueryParams = (router, match, newParams, executeAction) => {
     ...location.query,
     ...newParams,
   });
-
-  if (
-    query &&
-    query.time &&
-    location &&
-    location.pathname.indexOf(PREFIX_ITINERARY_SUMMARY) === 1 &&
-    executeAction
-  ) {
-    const pathArray = decodeURIComponent(location.pathname)
-      .substring(1)
-      .split('/');
-    pathArray.shift();
-    const originArray = pathArray[0].split('::');
-    const destinationArray = pathArray[1].split('::');
-    const newRoute = {
-      origin: {
-        address: originArray[0],
-        coordinates: parseLatLon(originArray[1]),
-      },
-      destination: {
-        address: destinationArray[0],
-        coordinates: parseLatLon(destinationArray[1]),
-      },
-      arriveBy: query.arriveBy ? query.arriveBy : false,
-      time: query.time,
-    };
-    executeAction(saveFutureRoute, newRoute);
-  }
 
   router.replace({
     ...location,
@@ -128,6 +104,59 @@ export const setIntermediatePlaces = (router, match, newIntermediatePlaces) => {
       intermediatePlaces: parsedIntermediatePlaces,
     });
   }
+};
+
+export const updateItinerarySearch = (
+  origin,
+  destination,
+  router,
+  location,
+  executeAction,
+) => {
+  executeAction(saveFutureRoute, {
+    origin,
+    destination,
+    query: location.query,
+  });
+
+  const newLocation = {
+    ...location,
+    state: {
+      ...location.state,
+      summaryPageSelected: 0,
+    },
+    pathname: getPathWithEndpointObjects(
+      origin,
+      destination,
+      PREFIX_ITINERARY_SUMMARY,
+    ),
+  };
+  router.replace(newLocation);
+};
+
+export const onLocationPopup = (item, id, router, match, executeAction) => {
+  if (id === 'via') {
+    const viaPoints = getIntermediatePlaces(match.location.query)
+      .concat([item])
+      .map(locationToOTP);
+    executeAction(addViaPoint, item);
+    setIntermediatePlaces(this.context.router, match, viaPoints);
+    return;
+  }
+  let origin = otpToLocation(match.params.from);
+  let destination = otpToLocation(match.params.to);
+  if (id === 'origin') {
+    origin = item;
+  } else {
+    destination = item;
+  }
+  updateItinerarySearch(
+    origin,
+    destination,
+    router,
+    match.location,
+    executeAction,
+  );
 };
 
 /**
@@ -190,6 +219,114 @@ export const planQuery = graphql`
 
     serviceTimeRange {
       ...SummaryPage_serviceTimeRange
+    }
+  }
+`;
+
+export const moreItinerariesQuery = graphql`
+  query queryUtils_SummaryPage_moreItins_Query(
+    $fromPlace: String!
+    $toPlace: String!
+    $intermediatePlaces: [InputCoordinates!]
+    $numItineraries: Int!
+    $modes: [TransportMode!]
+    $date: String!
+    $time: String!
+    $walkReluctance: Float
+    $walkBoardCost: Int
+    $minTransferTime: Int
+    $walkSpeed: Float
+    $maxWalkDistance: Float
+    $wheelchair: Boolean
+    $ticketTypes: [String]
+    $disableRemainingWeightHeuristic: Boolean
+    $arriveBy: Boolean
+    $transferPenalty: Int
+    $bikeSpeed: Float
+    $optimize: OptimizeType
+    $itineraryFiltering: Float
+    $unpreferred: InputUnpreferred
+    $allowedBikeRentalNetworks: [String]
+    $locale: String
+  ) {
+    plan(
+      fromPlace: $fromPlace
+      toPlace: $toPlace
+      intermediatePlaces: $intermediatePlaces
+      numItineraries: $numItineraries
+      transportModes: $modes
+      date: $date
+      time: $time
+      walkReluctance: $walkReluctance
+      walkBoardCost: $walkBoardCost
+      minTransferTime: $minTransferTime
+      walkSpeed: $walkSpeed
+      maxWalkDistance: $maxWalkDistance
+      wheelchair: $wheelchair
+      allowedTicketTypes: $ticketTypes
+      disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+      arriveBy: $arriveBy
+      transferPenalty: $transferPenalty
+      bikeSpeed: $bikeSpeed
+      optimize: $optimize
+      itineraryFiltering: $itineraryFiltering
+      unpreferred: $unpreferred
+      allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+      locale: $locale
+    ) {
+      ...SummaryPlanContainer_plan
+      ...ItineraryTab_plan
+      itineraries {
+        startTime
+        endTime
+        ...ItineraryTab_itinerary
+        ...SummaryPlanContainer_itineraries
+        legs {
+          mode
+          ...ItineraryLine_legs
+          transitLeg
+          legGeometry {
+            points
+          }
+          route {
+            gtfsId
+          }
+          trip {
+            gtfsId
+            directionId
+            stoptimesForDate {
+              scheduledDeparture
+              pickupType
+            }
+            pattern {
+              ...RouteLine_pattern
+            }
+          }
+          from {
+            name
+            lat
+            lon
+            stop {
+              gtfsId
+              zoneId
+            }
+            bikeRentalStation {
+              bikesAvailable
+              networks
+            }
+          }
+          to {
+            stop {
+              gtfsId
+              zoneId
+            }
+            bikePark {
+              bikeParkId
+              name
+            }
+          }
+        }
+      }
     }
   }
 `;

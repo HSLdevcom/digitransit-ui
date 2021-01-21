@@ -1426,6 +1426,40 @@
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-with-breakpoint/-/digitransit-component-with-breakpoint-0.0.4.tgz#af82959c0863bc0aef8252e8fd9bfc7499862bdc"
   integrity sha512-N+ysDfO/124CPI57r6vwzYC6m7US+QseDOqsg8MrLhKDdkW8kXBqOMoYsIfBv8g3ENHwzq9RxoyJUnj5XJPb4Q==
 
+"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@0.2.8":
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-execute-search-immidiate/-/digitransit-search-util-execute-search-immidiate-0.2.8.tgz#1c710fc342ab4896aa464d4fdd2a856a50b5990d"
+  integrity sha512-G6cbMgttIKcSMdGPAAssF8RZIVt1ySQmTR9g6pRAnfqbbM28nss1MrFw9+e+uLQ5BqL5BpXcaFZHLxGyD5V8Dw==
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input" "0.0.2"
+    "@digitransit-search-util/digitransit-search-util-get-geocoding-results" "0.0.4"
+    "@digitransit-search-util/digitransit-search-util-get-json" "0.0.3"
+    "@digitransit-search-util/digitransit-search-util-helpers" "0.0.12"
+    "@digitransit-search-util/digitransit-search-util-uniq-by-label" "0.0.7"
+    lodash "4.17.14"
+
+"@digitransit-search-util/digitransit-search-util-get-label@0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-get-label/-/digitransit-search-util-get-label-0.0.6.tgz#19bdb2fc7d5add6148e5c637fc0f2526c5c42f5b"
+  integrity sha512-BWW0/6vNutk9e0MLlpzr1zTeZiSyWYQnxmJhg06kmk4gO0TYGWAT7cvPFXblPYoHSBV8CIiOsm8JWMmAd8nPhA==
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-uniq-by-label" "0.0.7"
+
+"@digitransit-search-util/digitransit-search-util-suggestion-to-location@0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-suggestion-to-location/-/digitransit-search-util-suggestion-to-location-0.0.8.tgz#2237879b5941e8d4e039dc6516c32cf4cab32f56"
+  integrity sha512-+nZ6ozLa3oQ32MDuSbYK+9jBxvAY/KUrTtX/+7vxXrvX6Q2JW/4ozuRgjjxrYXz9+c48WhlNn9K74tdvHYIJgw==
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-get-label" "0.0.6"
+
+"@digitransit-search-util/digitransit-search-util-uniq-by-label@0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-uniq-by-label/-/digitransit-search-util-uniq-by-label-0.0.7.tgz#6d14bc06ccb5c871c0566556a676ec49ca1276c6"
+  integrity sha512-xAe0ZB1tiPwGpcIbqUpk0MV06mm5sgmUeUmdplMYGY6a/JM53uhXj9ISeeUR0aP9wQWMyzaHy+Y7XRbGl89v4g==
+  dependencies:
+    lodash "^4.17.14"
+    lodash-es "^4.17.14"
+
 "@digitransit-util/digitransit-util-day-range-allowed-diff@1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@digitransit-util/digitransit-util-day-range-allowed-diff/-/digitransit-util-day-range-allowed-diff-1.0.3.tgz#4a11624486fda72126d8776192fc0dfea600b97d"
@@ -6287,6 +6321,16 @@ dateformat@^3.0.0:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-3.0.3.tgz#a6e37499a4d9a9cf85ef5872044d62901c9889ae"
   integrity sha512-jyCETtSl3VMZMWeRo7iY1FL19ges1t55hMo5yaam4Jrsm5EPL89UQkoQRyiI+Yf4k8r2ZpdngkV8hr1lIdjb3Q==
+
+"datetimepicker-A@npm:@digitransit-component/digitransit-component-datetimepicker@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-datetimepicker/-/digitransit-component-datetimepicker-0.4.1.tgz#c0485399d9781be1e3aebb3f5eee2e023ba21bde"
+  integrity sha512-beat4f235IbzeESZpoc0iIL+nn16utwVSxbOtBCZVo4RGIItEd1zAmzi8i1BUgpBt5uK/gsFYeRe4axjCyeFyA==
+
+"datetimepicker-B@npm:@digitransit-component/digitransit-component-datetimepicker@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-datetimepicker/-/digitransit-component-datetimepicker-0.5.0.tgz#5d173491c25deceb29183b467134039b1f619b01"
+  integrity sha512-O10Vk8GaGcduAzK0eeBsl5rAR98Y5ZJQcHh+1d8sYbDd6H4LhEDpGujPR6J8YOM4QWnC5R7S2qFENV3zuj/kjg==
 
 de-indent@^1.0.2:
   version "1.0.2"

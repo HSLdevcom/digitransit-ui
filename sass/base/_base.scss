@@ -234,6 +234,9 @@ body select {
     width: 13px;
   }
 }
+.ReactModal__Body--open {
+  width: 100%;
+}
 
 .subicon-info {
   .icon {

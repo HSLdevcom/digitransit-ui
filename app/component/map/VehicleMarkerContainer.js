@@ -1,18 +1,12 @@
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
-import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
+import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import TripMarkerPopup from './route/TripMarkerPopup';
 import IconWithTail from '../IconWithTail';
 import IconMarker from './IconMarker';
-import Loading from '../Loading';
-
 import { isBrowser } from '../../util/browser';
 
 const MODES_WITH_ICONS = ['bus', 'tram', 'rail', 'subway', 'ferry'];
-
-let Popup;
 
 function getVehicleIcon(
   mode,
@@ -77,12 +71,6 @@ function getVehicleIcon(
   };
 }
 
-if (isBrowser) {
-  /* eslint-disable global-require */
-  Popup = require('react-leaflet/es/Popup').default;
-  /* eslint-enable global-require */
-}
-
 // if tripStartTime has been specified,
 // use only the updates for vehicles with matching startTime
 
@@ -105,7 +93,6 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
 }
 
 function VehicleMarkerContainer(containerProps) {
-  const { environment } = useContext(ReactRelayContext);
   return Object.entries(containerProps.vehicles)
     .filter(([, message]) =>
       shouldShowVehicle(
@@ -131,88 +118,7 @@ function VehicleMarkerContainer(containerProps) {
           false,
           containerProps.useLargeIcon,
         )}
-      >
-        <Popup
-          offset={[106, 0]}
-          maxWidth={250}
-          minWidth={250}
-          className="vehicle-popup"
-        >
-          {message.tripId ? (
-            <QueryRenderer
-              query={graphql`
-                query VehicleMarkerContainerQuery(
-                  $route: String!
-                  $id: String!
-                ) {
-                  route: route(id: $route) {
-                    ...TripMarkerPopup_route
-                  }
-                  trip: trip(id: $id) {
-                    ...TripMarkerPopup_trip
-                  }
-                }
-              `}
-              variables={{
-                route: message.route,
-                id: message.tripId,
-              }}
-              environment={environment}
-              render={({ props }) =>
-                props ? (
-                  <TripMarkerPopup {...props} message={message} />
-                ) : (
-                  <div className="card" style={{ height: '12rem' }}>
-                    <Loading />
-                  </div>
-                )
-              }
-            />
-          ) : (
-            <QueryRenderer
-              query={graphql`
-                query VehicleMarkerContainerFuzzyQuery(
-                  $route: String!
-                  $direction: Int!
-                  $time: Int!
-                  $date: String!
-                ) {
-                  route: route(id: $route) {
-                    ...TripMarkerPopup_route
-                  }
-                  trip: fuzzyTrip(
-                    route: $route
-                    direction: $direction
-                    time: $time
-                    date: $date
-                  ) {
-                    ...TripMarkerPopup_trip
-                  }
-                }
-              `}
-              variables={{
-                route: message.route,
-                direction: message.direction,
-                date: message.operatingDay,
-                time:
-                  message.tripStartTime.substring(0, 2) * 60 * 60 +
-                  message.tripStartTime.substring(2, 4) * 60,
-              }}
-              environment={environment}
-              // eslint-disable-next-line no-unused-vars
-              render={({ props }) =>
-                props ? (
-                  <TripMarkerPopup {...props} message={message} />
-                ) : (
-                  <div className="card" style={{ height: '12rem' }}>
-                    <Loading />
-                  </div>
-                )
-              }
-            />
-          )}
-        </Popup>
-      </IconMarker>
+      />
     ));
 }
 

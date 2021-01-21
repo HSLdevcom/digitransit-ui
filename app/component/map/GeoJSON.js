@@ -111,6 +111,8 @@ class GeoJSON extends React.Component {
         }),
       ),
     }).isRequired,
+    locationPopup: PropTypes.string,
+    onSelectLocation: PropTypes.func,
   };
 
   static defaultProps = {
@@ -217,6 +219,8 @@ class GeoJSON extends React.Component {
               feature={feature}
               icons={this.icons}
               key={feature.id}
+              locationPopup={this.props.locationPopup}
+              onSelectLocation={this.props.onSelectLocation}
             />
           ))}
       </React.Fragment>

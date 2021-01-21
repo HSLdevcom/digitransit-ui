@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import LocalTime from './LocalTime';
 
 const DepartureRow = (
-  { departure, departureTime, showPlatformCode, ...props },
+  { departure, departureTime, showPlatformCode, canceled, ...props },
   { config },
 ) => {
   const mode = departure.trip.route.mode.toLowerCase();
@@ -29,15 +29,27 @@ const DepartureRow = (
   return (
     <div role="cell" className={cx('departure-row', mode)}>
       <div className="route-number-container">
-        <div className="route-number">{departure.trip.route.shortName}</div>
+        <div
+          className="route-number"
+          style={{ backgroundColor: `#${departure.trip.route.color}` }}
+        >
+          {departure.trip.route.shortName}
+        </div>
       </div>
       <div className="route-headsign">{departure.headsign}</div>
       {shownTime && (
-        <div className={cx('route-arrival', { realtime: departure.realtime })}>
+        <div
+          className={cx('route-arrival', {
+            realtime: departure.realtime,
+            canceled,
+          })}
+        >
           {shownTime}
         </div>
       )}
-      <div className={cx('route-time', { realtime: departure.realtime })}>
+      <div
+        className={cx('route-time', { realtime: departure.realtime, canceled })}
+      >
         <LocalTime time={departureTime} />
       </div>
       {showPlatformCode && (
@@ -59,6 +71,7 @@ DepartureRow.propTypes = {
   departureTime: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
   showPlatformCode: PropTypes.bool,
+  canceled: PropTypes.bool,
 };
 
 DepartureRow.contextTypes = {

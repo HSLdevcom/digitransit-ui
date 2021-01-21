@@ -33,7 +33,12 @@ export default function RouteHeader(props) {
   return (
     <div className={cx('route-header', props.className)}>
       <h1 className={mode}>
-        <RouteNumber card={props.card} mode={mode} text={routeLine} />
+        <RouteNumber
+          card={props.card}
+          mode={mode}
+          text={routeLine}
+          color={props.route.color ? `#${props.route.color}` : 'currentColor'}
+        />
         {trip}
       </h1>
     </div>
@@ -45,6 +50,7 @@ RouteHeader.propTypes = {
     gtfsId: PropTypes.string.isRequired,
     mode: PropTypes.string.isRequired,
     shortName: PropTypes.string,
+    color: PropTypes.string,
   }).isRequired,
   trip: PropTypes.string,
   pattern: PropTypes.shape({ code: PropTypes.string.isRequired }),
