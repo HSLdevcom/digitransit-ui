@@ -206,10 +206,11 @@ export default function withSearchContext(WrappedComponent) {
 
       if (id === 'origin') {
         titleId = 'select-from-map-origin';
-      }
-
-      if (id === 'destination') {
+      } else if (id === 'destination') {
         titleId = 'select-from-map-destination';
+      } else if (id === parseInt(id, 10)) {
+        // id = via point index
+        titleId = 'select-from-map-viaPoint';
       }
 
       if (!this.props.isMobile) {
