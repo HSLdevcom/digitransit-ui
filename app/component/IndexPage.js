@@ -382,24 +382,22 @@ class IndexPage extends React.Component {
                 </h2>
               </div>
             )}
-            <div className="stop-route-search-container">
-              <StopRouteSearch
-                appElement="#app"
-                icon="search"
-                id="stop-route-station"
-                refPoint={origin}
-                className="destination"
-                placeholder="stop-near-you"
-                lang={lang}
-                value=""
-                sources={stopAndRouteSearchSources}
-                targets={stopAndRouteSearchTargets}
-                isMobile
-                color={color}
-                hoverColor={hoverColor}
-                selectHandler={this.onSelectStopRoute}
-              />
-            </div>
+            <StopRouteSearch
+              appElement="#app"
+              icon="search"
+              id="stop-route-station"
+              refPoint={origin}
+              className="destination"
+              placeholder="stop-near-you"
+              lang={lang}
+              value=""
+              sources={stopAndRouteSearchSources}
+              targets={stopAndRouteSearchTargets}
+              isMobile
+              color={color}
+              hoverColor={hoverColor}
+              selectHandler={this.onSelectStopRoute}
+            />
             <CtrlPanel.SeparatorLine />
             {!trafficNowLink ||
               (trafficNowLink[lang] !== '' && (
