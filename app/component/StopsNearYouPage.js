@@ -45,6 +45,11 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     breakpoint: PropTypes.string.isRequired,
     loadingPosition: PropTypes.bool,
     relayEnvironment: PropTypes.object,
+    params: PropTypes.shape({
+      place: PropTypes.string,
+      origin: PropTypes.string,
+    }),
+    hasLocation: PropTypes.bool,
     position: PropTypes.shape({
       lat: PropTypes.number,
       lon: PropTypes.number,
@@ -59,47 +64,64 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     match: matchShape.isRequired,
   };
 
+  static defaultProps = {
+    isModalNeeded: false,
+  };
+
   constructor(props) {
     super(props);
-
     this.state = {
       startPosition: null,
       updatedLocation: null,
-      geolocationPermission: {
-        loading: true,
-        state: undefined,
-        closingModal: false,
-      },
+      loadingGeolocationState: true,
+      modalClosed: false,
     };
-
-    this.checkGeolocation();
   }
 
-  checkGeolocation = async () => {
-    try {
-      this.setState({
-        geolocationPermission: {
-          loading: true,
-          state: 'unknown',
-        },
-      });
-      const result = await checkPositioningPermission();
-      setSavedGeolocationPermission('state', result.state);
-      this.setState({
-        geolocationPermission: {
-          loading: false,
-          state: result.state,
-        },
-      });
-    } catch (e) {
-      this.setState({
-        geolocationPermission: {
-          loading: false,
-          state: 'error',
-        },
-      });
+  componentDidUpdate() {
+    const savedPermission = getSavedGeolocationPermission();
+    if (
+      !this.props.position &&
+      savedPermission.state === 'denied' &&
+      this.state.modalClosed
+    ) {
+      this.context.executeAction(showGeolocationDeniedMessage);
     }
-  };
+    // if there is no location access but origin is set, append it to url
+    if (
+      this.props.match.params &&
+      this.props.match.params.origin &&
+      savedPermission.state !== 'granted' &&
+      !this.props.hasLocation
+    ) {
+      const queryString = this.props.queryString || '';
+      this.props.router.replace(
+        `/${PREFIX_NEARYOU}/${this.props.match.params.mode}/${this.props.match.params.origin}${queryString}`,
+      );
+    }
+    // if we have location access, clear origin from url
+    if (
+      this.props.match.params &&
+      this.props.match.params.origin &&
+      savedPermission.state === 'granted' &&
+      !this.state.loadingGeolocationState
+    ) {
+      const queryString = this.props.queryString || '';
+      this.props.router.replace(
+        `/${PREFIX_NEARYOU}/${this.props.match.params.mode}/POS${queryString}`,
+      );
+    }
+  }
+
+  componentDidMount() {
+    checkPositioningPermission().then(permission => {
+      setSavedGeolocationPermission('state', permission.state);
+      if (permission.state === 'granted') {
+        this.context.executeAction(startLocationWatch);
+      }
+      this.setState({ loadingGeolocationState: false });
+    });
+  }
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
     if (
@@ -118,6 +140,19 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       (!prevState.startPosition.address &&
         nextProps.position &&
         nextProps.position.address)
+    ) {
+      return {
+        startPosition: nextProps.position,
+        updatedLocation: nextProps.position,
+      };
+    }
+    // ensure that position is updated when browsing with a direct link to a location
+    if (
+      nextProps.params &&
+      !nextProps.params.origin &&
+      nextProps.params.place !== 'POS' &&
+      nextProps.position &&
+      nextProps.position.address
     ) {
       return {
         startPosition: nextProps.position,
@@ -158,7 +193,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   positionChanged = () => {
     const { updatedLocation } = this.state;
-
     if (
       updatedLocation &&
       updatedLocation.lat &&
@@ -348,27 +382,17 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   handleClose = () => {
-    setSavedGeolocationPermission('choice', 'rejected');
-    const { geolocationPermission } = this.state;
+    setSavedGeolocationPermission('state', 'denied');
     this.setState({
-      geolocationPermission: {
-        ...geolocationPermission,
-        loading: false,
-        closingModal: true,
-      },
+      modalClosed: true,
     });
   };
 
   handleGrantGeolocation = () => {
-    setSavedGeolocationPermission('choice', 'granted');
+    setSavedGeolocationPermission('state', 'granted');
     this.context.executeAction(startLocationWatch);
-    const { geolocationPermission } = this.state;
     this.setState({
-      geolocationPermission: {
-        ...geolocationPermission,
-        loading: false,
-        closingModal: true,
-      },
+      modalClosed: true,
     });
   };
 
@@ -454,75 +478,31 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     );
   };
 
-  render() {
-    let showModal = true;
-    let proceed = false;
-    let savedChoice;
-    const { loadingPosition, position, isModalNeeded } = this.props;
-    const { params } = this.props.match;
-    const queryString = this.props.queryString || '';
-    const { mode } = this.props.match.params;
-
-    if (isModalNeeded !== undefined && !isModalNeeded && position) {
-      showModal = false;
-      proceed = true;
-    } else {
-      const { geolocationPermission } = this.state;
-      if (!geolocationPermission.loading) {
-        if (!geolocationPermission.state) {
-          setSavedGeolocationPermission('state', geolocationPermission.state);
-        }
-        if (geolocationPermission.state === 'granted') {
-          this.context.executeAction(startLocationWatch);
-          showModal = false;
-          proceed = true;
-        } else if (params.origin) {
-          this.props.router.replace(
-            `/${PREFIX_NEARYOU}/${params.mode}/${params.origin}${queryString}`,
-          );
-        }
-
-        if (!proceed) {
-          if (position) {
-            if (position.status) {
-              setSavedGeolocationPermission('choice', 'granted');
-            } else if (
-              getSavedGeolocationPermission().choice !== '' &&
-              getSavedGeolocationPermission().choice !== 'rejected'
-            ) {
-              setSavedGeolocationPermission('choice', 'rejected');
-              proceed = true;
-              showModal = false;
-            }
-          }
-        }
-        if (!proceed) {
-          if (geolocationPermission.state !== 'granted') {
-            const savedPermission = getSavedGeolocationPermission();
-            savedChoice =
-              geolocationPermission.state === 'denied'
-                ? geolocationPermission.state
-                : savedPermission.choice || undefined;
-            if (savedPermission.choice === 'granted') {
-              this.context.executeAction(startLocationWatch);
-              showModal = false;
-            } else if (
-              !position &&
-              savedPermission.choice === 'rejected' &&
-              geolocationPermission.closingModal
-            ) {
-              this.context.executeAction(showGeolocationDeniedMessage);
-              showModal = false;
-            }
-          }
-          showModal =
-            showModal && geolocationPermission.closingModal ? false : showModal;
-          proceed = true;
-        }
-      }
+  shouldRenderModal() {
+    const { origin } = this.props.match.params;
+    const { position, isModalNeeded } = this.props;
+    const savedChoice = getSavedGeolocationPermission();
+    if (savedChoice.state === 'granted' || this.state.modalClosed) {
+      return false;
     }
+    if (origin && savedChoice.state === 'denied') {
+      return false;
+    }
+    if (position && !isModalNeeded) {
+      return false;
+    }
+    if (savedChoice.state === 'prompt' && origin) {
+      return false;
+    }
+    return true;
+  }
 
-    if (!proceed && loadingPosition) {
+  render() {
+    const showModal = this.shouldRenderModal();
+    const savedChoice = getSavedGeolocationPermission();
+    const { loadingPosition } = this.props;
+    const { mode } = this.props.match.params;
+    if ((!showModal && loadingPosition) || this.state.loadingGeolocationState) {
       return <Loading />;
     }
     if (!showModal) {
@@ -569,7 +549,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         />
       );
     }
-    return <div>{this.renderDialogModal(savedChoice)}</div>;
+    return <div>{this.renderDialogModal(savedChoice.state)}</div>;
   }
 }
 
@@ -598,19 +578,43 @@ const PositioningWrapper = connectToStores(
       const position = otpToLocation(place);
       return {
         ...props,
+        isModalNeeded: !position,
         position,
-        isModalNeeded: false,
         lang,
         params,
         queryString: location.search,
       };
     }
     const locationState = context.getStore('PositionStore').getLocationState();
+    if (locationState.hasLocation) {
+      return {
+        ...props,
+        position: locationState,
+        hasLocation: true,
+        loadingPosition: false,
+        lang,
+        queryString: location.search,
+      };
+    }
     if (locationState.locationingFailed) {
-      // Use default endpoint when positioning fails
+      // Use url origin or default endpoint when positioning fails
+      if (params.origin) {
+        const position = otpToLocation(params.origin);
+
+        return {
+          ...props,
+          position,
+          isModalNeeded: false,
+          loadingPosition: false,
+          lang,
+          params,
+          queryString: location.search,
+        };
+      }
       return {
         ...props,
         position: context.config.defaultEndpoint,
+        isModalNeeded: true,
         loadingPosition: false,
         lang,
         params,
@@ -631,20 +635,11 @@ const PositioningWrapper = connectToStores(
         queryString: location.search,
       };
     }
-
-    if (locationState.hasLocation) {
-      return {
-        ...props,
-        position: locationState,
-        loadingPosition: false,
-        lang,
-        queryString: location.search,
-      };
-    }
     return {
       ...props,
       position: undefined,
-      loadingPosition: true,
+      isModalNeeded: false,
+      loadingPosition: false,
       lang,
       params,
       queryString: location.search,

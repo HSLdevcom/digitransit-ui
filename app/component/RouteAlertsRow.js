@@ -95,6 +95,10 @@ export default function RouteAlertsRow(
   const checkedUrl =
     url && (url.match(/^[a-zA-Z]+:\/\//) ? url : `http://${url}`);
 
+  if (!description) {
+    return null;
+  }
+
   return (
     <div
       className={cx('route-alert-row', { expired })}
