@@ -39,7 +39,6 @@ function ItineraryPageMap(
     forceCenter,
     fitBounds,
     bounds,
-    streetMode,
     showVehicles,
   },
   { match, config, router, executeAction },
@@ -73,13 +72,13 @@ function ItineraryPageMap(
       key="fromMarker"
       position={otpToLocation(from)}
       type="from"
-      streetMode={streetMode}
+      streetMode={match.params.hash}
     />,
     <LocationMarker
       key="toMarker"
       position={otpToLocation(to)}
       type="to"
-      streetMode={streetMode}
+      streetMode={match.params.hash}
     />,
   ];
   if (
@@ -176,7 +175,6 @@ ItineraryPageMap.propTypes = {
   center: dtLocationShape,
   breakpoint: PropTypes.string.isRequired,
   bounds: PropTypes.array,
-  streetMode: PropTypes.string,
   forceCenter: PropTypes.bool,
   fitBounds: PropTypes.bool,
   mapReady: PropTypes.func,
