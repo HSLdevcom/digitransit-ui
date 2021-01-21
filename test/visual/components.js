@@ -71,10 +71,6 @@ testVariation('RouteNumber', 'with-disruption', 2);
 testVariation('RouteNumber', 'vertical', 4);
 testVariation('RouteNumber', 'vertical-with-disruption', 5);
 
-testVariation('RouteDestination', 'normal');
-testVariation('RouteDestination', 'drop-off', 2);
-testVariation('RouteDestination', 'last-stop', 3);
-
 testVariation('PlatformNumber');
 
 testVariation('CardHeader');

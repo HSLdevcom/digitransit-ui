@@ -11,9 +11,7 @@ import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import ComponentDocumentation from './ComponentDocumentation';
 import RouteNumber from './RouteNumber';
-import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
-import Distance from './Distance';
 import PlatformNumber from './PlatformNumber';
 import CardHeader from './CardHeader';
 import Card from './Card';
@@ -90,9 +88,7 @@ const components = {
   IconWithIcon,
   ComponentDocumentation,
   RouteNumber,
-  RouteDestination,
   DepartureTime,
-  Distance,
   PlatformNumber,
   CardHeader,
   Card,

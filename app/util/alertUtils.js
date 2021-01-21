@@ -654,6 +654,7 @@ export const createUniqueAlertList = (
   const getMode = alert => getRoute(alert).mode;
   const getShortName = alert => getRoute(alert).shortName;
   const getRouteGtfsId = alert => getRoute(alert).gtfsId;
+  const getRouteColor = alert => getRoute(alert).color;
 
   const getStop = alert => alert.stop || {};
   const getVehicleMode = alert => getStop(alert).vehicleMode;
@@ -705,6 +706,7 @@ export const createUniqueAlertList = (
           mode: getMode(alert),
           routeGtfsId: alerts.sort(alertCompare).map(getRouteGtfsId).join(','),
           shortName: alerts.sort(alertCompare).map(getShortName).join(', '),
+          color: getRouteColor(alert),
         }) ||
         undefined,
       stop:

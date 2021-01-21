@@ -20,12 +20,7 @@ function RouteNumber(props, context) {
     props.text &&
     new RegExp(/^([^0-9]*)$/).test(props.text) &&
     props.text.length > 3;
-  const getColor = () => {
-    if (props.isTransitLeg) {
-      return color || 'currentColor';
-    }
-    return null;
-  };
+  const getColor = () => color || (props.isTransitLeg ? 'currentColor' : null);
 
   const getIcon = (icon, isCallAgency, hasDisruption, badgeFill, badgeText) => {
     if (isCallAgency) {
@@ -125,6 +120,7 @@ function RouteNumber(props, context) {
                 mode,
                 { long: longText },
               )}
+              style={{ color: !props.withBar && getColor() }}
             >
               {props.text}
             </span>
