@@ -80,7 +80,7 @@ class TrafficNowLink extends React.Component {
         </div>
 
         <span>
-          <Icon width={0.8125} height={1.1875} img="arrow" />
+          <Icon width={0.8125} height={1.1875} img="arrow" color="#007ac9" />
         </span>
       </div>
     );
