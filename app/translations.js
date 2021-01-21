@@ -918,6 +918,7 @@ const translations = {
     'departure-is-canceled-tram': 'Tram {shortName}',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Departures',
+    'departures-by-hour': 'Departures by hour (minutes/line)',
     description: 'Find public transport services to locations near and far.',
     destination: 'Destination',
     'destination-outside-service':
@@ -1229,8 +1230,10 @@ const translations = {
     'search-search-results-but-no-destination':
       'View results in the adjacent “About the route or stop” tab',
     'searching-position': 'Detecting location...',
+    'select-all-routes': 'Select all routes',
     'select-map-layers-header': 'What should be shown on the map?',
     'select-position': 'Select your location from your previous searches',
+    'select-route': 'Select {mode} route {shortName} to {headsign}',
     send: 'Send',
     'separate-ticket-required':
       'A separate ticket is required for this part of the itinerary.',
@@ -1802,6 +1805,7 @@ const translations = {
     'departure-is-canceled-tram': 'Raitiolinjan {shortName}',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Lähdöt',
+    'departures-by-hour': 'Lähdöt tunneittain (minuutit/linja)',
     description: 'Löydä joukkoliikennetarjonta lähelle ja kauas.',
     destination: 'Määränpää',
     'destination-label-change': 'Vaihda määränpää',
@@ -2108,8 +2112,10 @@ const translations = {
     'search-search-results-but-no-destination':
       'Katso tulokset viereiseltä "Tietoja linjasta tai pysäkistä" –välilehdeltä',
     'searching-position': 'Paikannetaan...',
+    'select-all-routes': 'Valitse kaikki reitit',
     'select-map-layers-header': 'Mitä haluat näyttää kartalla?',
     'select-position': 'Valitse sijaintisi edellisistä hauistasi',
+    'select-route': 'Valitse {mode}linja {shortName} kohti {headsign}',
     send: 'Lähetä',
     'separate-ticket-required':
       'Tälle matkan osuudelle tarvitaan erillinen lippu.',
@@ -3437,6 +3443,7 @@ const translations = {
     'departure-is-canceled-tram': 'spårvagnslinje {shortName}',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Avgångar',
+    'departures-by-hour': 'Avgångar per timme (minuter/rad)',
     description: 'Res kollektivt när och fjärran.',
     destination: 'Destination',
     'destination-label-change': 'Byt destination',
@@ -3747,12 +3754,14 @@ const translations = {
     'search-search-results-but-no-destination':
       'Se resultaten under fliken Linje eller hållplats',
     'searching-position': 'Söker position...',
+    'select-all-routes': 'Välj alla rutter',
     'select-from-map-destination': 'Välj destination',
     'select-from-map-no-title': 'Ingen rubrik',
     'select-from-map-origin': 'Välj avfärdsplats',
     'select-from-map-viaPoint': 'Välj mellanpunkt',
     'select-map-layers-header': 'Vad vill du visa på kartan?',
     'select-position': 'Välj din position bland tidigare sökningar',
+    'select-route': 'Välj {mode} rutt {shortName} till {headsign}',
     send: 'Skicka',
     'separate-ticket-required':
       'Denna etapp av resan kräver en separat biljett.',

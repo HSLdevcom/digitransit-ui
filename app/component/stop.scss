@@ -541,6 +541,7 @@ hr.action-bar {
     position: relative;
 
     & input[type='checkbox'] {
+      opacity: 0;
       width: 2em;
       height: 2em;
     }
@@ -561,6 +562,9 @@ hr.action-bar {
       &.checked {
         border: none;
       }
+    }
+    input[type='checkbox']:focus + label {
+      outline: black solid 1px;
     }
   }
 
@@ -679,6 +683,7 @@ hr.action-bar {
   font-weight: 700;
   width: 25%;
   font-size: 0.9em;
+  text-align: left;
   & span {
     transition: all 0.2s ease-out;
     &:hover {
@@ -691,7 +696,7 @@ hr.action-bar {
   display: inline-block;
   font-size: $font-size-xxsmall;
   width: 66%;
-  margin-top: 0.1em;
+  margin-top: 0.5em;
 
   .showroute-number {
     margin-right: 15px;

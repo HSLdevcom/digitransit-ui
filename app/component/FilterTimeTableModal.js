@@ -88,10 +88,31 @@ class FilterTimeTableModal extends React.Component {
           <div className="checkbox-container">
             <input
               type="checkbox"
+              aria-label={this.context.intl.formatMessage(
+                {
+                  id: 'select-route',
+                  defaultMessage:
+                    'Select {mode} route {shortName} to {headsign}',
+                },
+                {
+                  mode: this.context.intl.formatMessage({
+                    id: o.mode.toLowerCase(),
+                  }),
+                  shortName: o.shortName,
+                  headsign: o.headsign,
+                },
+              )}
               checked={intersection(this.state.showRoutes, [o.code]).length > 0}
+              aria-checked={
+                intersection(this.state.showRoutes, [o.code]).length > 0
+              }
               id={`input-${o.code}`}
               onChange={() => this.handleCheckbox(o.code)}
-              tabIndex="0"
+              onKeyDown={e => {
+                if (e.keyCode === 13) {
+                  this.handleCheckbox(o.code);
+                }
+              }}
             />
             {/* eslint-disable jsx-a11y/label-has-associated-control */}
             <label
@@ -168,12 +189,21 @@ class FilterTimeTableModal extends React.Component {
             <input
               type="checkbox"
               id="input-all-routes"
+              aria-label={intl.formatMessage({
+                id: 'select-all-routes',
+                defaultMessage: 'Select all routes',
+              })}
               checked={this.state.allRoutes}
+              aria-checked={this.state.allRoutes}
               onClick={e => this.state.allRoutes === true && e.preventDefault()}
+              onKeyDown={e => {
+                if (e.keyCode === 13) {
+                  this.toggleAllRoutes(e);
+                }
+              }}
               onChange={e => {
                 this.toggleAllRoutes(e);
               }}
-              tabIndex="0"
             />
             {/* eslint-disable jsx-a11y/label-has-associated-control */}
             <label
