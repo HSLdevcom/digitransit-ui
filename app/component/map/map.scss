@@ -708,7 +708,7 @@ div.origin-popup {
       margin: 0;
       line-height: 2;
       position: relative;
-      left: -120%;
+      left: calc(-100% - 7px);
       top: 90%;
     }
     :before {
@@ -720,13 +720,13 @@ div.origin-popup {
       border-right: 15px solid transparent;
       border-top: 0px solid transparent;
       border-bottom: 15px solid #ffffff;
-      right: -12px;
+      right: -10px;
       top: -11px;
       transform: skewX(-60deg);
     }
     .shadow {
-      top: 8px;
-      left: -23px;
+      top: 10px;
+      left: -22px;
       box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.5);
       width: 5px;
       height: 5px;

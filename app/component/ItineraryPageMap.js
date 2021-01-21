@@ -119,7 +119,7 @@ function ItineraryPageMap(
         legs={itinerary.legs}
         showTransferLabels
         showIntermediateStops
-        streetMode={streetMode}
+        streetMode={match.params.hash}
       />,
     );
   }
