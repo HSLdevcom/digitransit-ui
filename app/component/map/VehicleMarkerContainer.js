@@ -93,33 +93,36 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
 }
 
 function VehicleMarkerContainer(containerProps) {
-  return Object.entries(containerProps.vehicles)
-    .filter(([, message]) =>
-      shouldShowVehicle(
-        message,
-        containerProps.direction,
-        containerProps.tripStart,
-        containerProps.pattern,
-        containerProps.headsign,
-      ),
-    )
-    .map(([id, message]) => (
-      <IconMarker
-        key={id}
-        position={{
-          lat: message.lat,
-          lon: message.long,
-        }}
-        zIndexOffset={10000}
-        icon={getVehicleIcon(
-          containerProps.ignoreMode ? null : message.mode,
-          message.heading,
-          message.shortName ? message.shortName : message.route.split(':')[1],
-          false,
-          containerProps.useLargeIcon,
-        )}
-      />
-    ));
+  const visibleVehicles = Object.entries(
+    containerProps.vehicles,
+  ).filter(([, message]) =>
+    shouldShowVehicle(
+      message,
+      containerProps.direction,
+      containerProps.tripStart,
+      containerProps.pattern,
+      containerProps.headsign,
+    ),
+  );
+  containerProps.setVisibleVehicles(visibleVehicles.map(([id]) => id));
+
+  return visibleVehicles.map(([id, message]) => (
+    <IconMarker
+      key={id}
+      position={{
+        lat: message.lat,
+        lon: message.long,
+      }}
+      zIndexOffset={10000}
+      icon={getVehicleIcon(
+        containerProps.ignoreMode ? null : message.mode,
+        message.heading,
+        message.shortName ? message.shortName : message.route.split(':')[1],
+        false,
+        containerProps.useLargeIcon,
+      )}
+    />
+  ));
 }
 
 VehicleMarkerContainer.propTypes = {
@@ -149,10 +152,13 @@ const connectedComponent = connectToStores(
   VehicleMarkerContainer,
   ['RealTimeInformationStore'],
   (context, props) => {
-    const { vehicles } = context.getStore('RealTimeInformationStore');
+    const { vehicles, setVisibleVehicles } = context.getStore(
+      'RealTimeInformationStore',
+    );
     return {
       ...props,
       vehicles,
+      setVisibleVehicles,
     };
   },
 );
