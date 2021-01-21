@@ -16,7 +16,6 @@ class TileContainer {
     relayEnvironment,
     hilightedStops,
     vehicles,
-    match,
   ) {
     const markersMinZoom = Math.min(
       config.cityBike.cityBikeMinZoom,
@@ -35,7 +34,6 @@ class TileContainer {
     this.clickCount = 0;
     this.hilightedStops = hilightedStops;
     this.vehicles = vehicles;
-    this.match = match;
 
     if (this.coords.z < markersMinZoom || !this.el.getContext) {
       setTimeout(() => done(null, this.el), 0);
