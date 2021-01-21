@@ -33,14 +33,19 @@ export default function withSearchContext(WrappedComponent) {
     };
 
     static propTypes = {
-      origin: PropTypes.object,
-      destination: PropTypes.object,
-      children: PropTypes.node,
       selectHandler: PropTypes.func.isRequired,
+      locationState: PropTypes.object.isRequired,
       onGeolocationStart: PropTypes.func,
-      locationState: PropTypes.object,
       fromMap: PropTypes.string,
       isMobile: PropTypes.bool,
+      showMultiPointControls: PropTypes.bool,
+    };
+
+    static defaultProps = {
+      onGeolocationStart: null,
+      fromMap: null,
+      isMobile: false,
+      showMultiPointControls: false,
     };
 
     constructor(props) {
@@ -242,6 +247,9 @@ export default function withSearchContext(WrappedComponent) {
         return this.renderSelectFromMapModal(fromMap);
       }
 
+      const viaProps = this.props.showMultiPointControls
+        ? { handleViaPointLocationSelected: this.onSelect }
+        : {};
       return (
         <WrappedComponent
           appElement="#app"
@@ -249,6 +257,7 @@ export default function withSearchContext(WrappedComponent) {
           addAnalyticsEvent={addAnalyticsEvent}
           onSelect={this.onSelect}
           {...this.props}
+          {...viaProps}
           pathOpts={PATH_OPTS}
         />
       );

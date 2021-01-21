@@ -68,8 +68,8 @@ class OriginDestinationBar extends React.Component {
   }
 
   updateViaPoints = newViaPoints => {
-    this.context.executeAction(setViaPoints, newViaPoints);
     const p = newViaPoints.filter(vp => vp.lat && vp.address);
+    this.context.executeAction(setViaPoints, p);
     setIntermediatePlaces(
       this.context.router,
       this.context.match,
@@ -100,23 +100,6 @@ class OriginDestinationBar extends React.Component {
     this.setState({ mapSelectionIndex: undefined });
   };
 
-  handleViaPointLocationSelected = (viaPointLocation, i) => {
-    addAnalyticsEvent({
-      action: 'EditJourneyViaPoint',
-      category: 'ItinerarySettings',
-      name: viaPointLocation.type,
-    });
-    if (viaPointLocation.type !== 'SelectFromMap') {
-      const points = [...this.props.viaPoints];
-      points[i] = {
-        ...viaPointLocation,
-      };
-      this.updateViaPoints(points);
-    } else {
-      this.setState({ mapSelectionIndex: i });
-    }
-  };
-
   swapEndpoints = () => {
     const { location } = this.context.match;
     const intermediatePlaces = getIntermediatePlaces(location.query);
@@ -132,14 +115,29 @@ class OriginDestinationBar extends React.Component {
     );
   };
 
-  onLocationSelect = (item, id) =>
-    onLocationPopup(
-      item,
-      id,
-      this.context.router,
-      this.context.match,
-      this.context.executeAction,
-    );
+  onLocationSelect = (item, id) => {
+    if (id === parseInt(id, 10)) {
+      // id = via point index
+      addAnalyticsEvent({
+        action: 'EditJourneyViaPoint',
+        category: 'ItinerarySettings',
+        name: item.type,
+      });
+      const points = [...this.props.viaPoints];
+      points[id] = {
+        ...item,
+      };
+      this.updateViaPoints(points);
+    } else {
+      onLocationPopup(
+        item,
+        id,
+        this.context.router,
+        this.context.match,
+        this.context.executeAction,
+      );
+    }
+  };
 
   render() {
     return (
@@ -158,9 +156,8 @@ class OriginDestinationBar extends React.Component {
           destinationPlaceHolder="search-destination-index"
           showMultiPointControls
           viaPoints={this.props.viaPoints}
-          handleViaPointLocationSelected={this.handleViaPointLocationSelected}
-          addAnalyticsEvent={addAnalyticsEvent}
           updateViaPoints={this.updateViaPoints}
+          addAnalyticsEvent={addAnalyticsEvent}
           swapOrder={this.swapEndpoints}
           selectHandler={this.onLocationSelect}
           sources={[
