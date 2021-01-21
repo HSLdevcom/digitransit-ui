@@ -8,9 +8,6 @@ import DTAutosuggestPanel from '@digitransit-component/digitransit-component-aut
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 import withSearchContext from './WithSearchContext';
-import SelectFromMapHeader from './SelectFromMapHeader';
-import SelectFromMapPageMap from './map/SelectFromMapPageMap';
-import DTModal from './DTModal';
 import {
   setIntermediatePlaces,
   updateItinerarySearch,
@@ -75,29 +72,6 @@ class OriginDestinationBar extends React.Component {
       this.context.match,
       p.map(locationToOTP),
     );
-  };
-
-  renderSelectFromMapModal = () => {
-    const titleId = 'select-from-map-viaPoint';
-    return (
-      <DTModal show={this.state.mapSelectionIndex !== undefined}>
-        <SelectFromMapHeader
-          titleId={titleId}
-          onBackBtnClick={() => this.setState({ mapSelectionIndex: undefined })}
-        />
-        <SelectFromMapPageMap
-          type="viaPoint"
-          onConfirm={this.confirmMapSelection}
-        />
-      </DTModal>
-    );
-  };
-
-  confirmMapSelection = (type, mapLocation) => {
-    const viaPoints = [...this.props.viaPoints];
-    viaPoints[this.state.mapSelectionIndex] = mapLocation;
-    this.updateViaPoints(viaPoints);
-    this.setState({ mapSelectionIndex: undefined });
   };
 
   swapEndpoints = () => {
@@ -183,7 +157,6 @@ class OriginDestinationBar extends React.Component {
             LightenDarkenColor(this.context.config.colors.primary, -20)
           }
         />{' '}
-        {this.renderSelectFromMapModal()}
       </div>
     );
   }

@@ -43,7 +43,7 @@ export default function withSearchContext(WrappedComponent) {
 
     static defaultProps = {
       onGeolocationStart: null,
-      fromMap: null,
+      fromMap: undefined,
       isMobile: false,
       showMultiPointControls: false,
     };
@@ -122,7 +122,7 @@ export default function withSearchContext(WrappedComponent) {
         item.type !== 'CurrentLocation' &&
         item.type !== 'SelectFromMap' &&
         item.type.indexOf('Favourite') === -1 &&
-        id.indexOf('favourite') === -1 &&
+        id !== 'favourite' &&
         (!item.properties ||
           !item.properties.layer ||
           item.properties.layer.indexOf('favourite') === -1)
@@ -196,8 +196,9 @@ export default function withSearchContext(WrappedComponent) {
     };
 
     confirmMapSelection = (type, mapLocation) => {
-      this.setState({ fromMap: undefined });
-      this.props.selectHandler(mapLocation, type);
+      this.setState({ fromMap: undefined }, () =>
+        this.props.selectHandler(mapLocation, type),
+      );
     };
 
     renderSelectFromMapModal = id => {
@@ -243,7 +244,7 @@ export default function withSearchContext(WrappedComponent) {
     render() {
       const { fromMap } = this.state;
 
-      if (fromMap) {
+      if (fromMap !== undefined) {
         return this.renderSelectFromMapModal(fromMap);
       }
 

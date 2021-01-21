@@ -6,7 +6,6 @@ import cx from 'classnames';
 import Autosuggest from 'react-autosuggest';
 import { executeSearch } from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
-import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import {
   getNameLabel,
   getStopCode,
@@ -348,16 +347,6 @@ class DTAutosuggest extends React.Component {
         );
         return;
       }
-      if (this.props.handleViaPoints) {
-        this.props.handleViaPoints(
-          suggestionToLocation(ref.suggestion),
-          ref.suggestionIndex,
-        );
-        this.setState({
-          renderMobileSearch: false,
-          suggestions: [],
-        });
-      }
       this.setState(
         {
           editing: false,
@@ -365,15 +354,17 @@ class DTAutosuggest extends React.Component {
         },
         () => {
           this.input.blur();
-          if (!this.props.handleViaPoints) {
+          if (this.props.handleViaPoints) {
+            this.props.handleViaPoints(ref.suggestion, ref.suggestionIndex);
+          } else {
             this.props.onSelect(ref.suggestion, this.props.id);
-            this.setState({
-              renderMobileSearch: false,
-              sources: this.props.sources,
-              ownPlaces: false,
-              suggestions: [],
-            });
           }
+          this.setState({
+            renderMobileSearch: false,
+            sources: this.props.sources,
+            ownPlaces: false,
+            suggestions: [],
+          });
           if (this.props.focusChange && !this.props.isMobile) {
             this.props.focusChange();
           }
