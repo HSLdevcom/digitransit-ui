@@ -79,7 +79,7 @@ input[type='text'] {
     height: 26px;
     font-weight: normal;
     box-shadow: none;
-    font-size: 15px;
+    font-size: 16px;
     letter-spacing: -0.5px;
     color: #666666;
     -webkit-appearance: none;
@@ -200,13 +200,35 @@ button.clear-input {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100vw;
+  height: 100%;
   background-color: white;
-  position: absolute;
+  position: fixed;
 }
-.mobile-modal-content {
+
+.mobile-modal {
   position: absolute;
-  width: 100vw;
-  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  /* stylelint-disable-next-line */
+  &:global(.ReactModal__Content--after-open > div) {
+    transform: translateY(0);
+  }
+
+  /* stylelint-disable-next-line */
+  &:global(.ReactModal__Content--before-close > div) {
+    transform: translateY(10%);
+  }
+}
+
+.mobile-modal-content {
+  position: fixed;
+  width: 100%;
+  height: 100%;
   outline: none;
+  background-color: #ffffff;
+  transition: transform 0.25s;
+  transform: translateY(10%);
 }
