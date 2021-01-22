@@ -635,6 +635,27 @@ export const alertCompare = (a, b) => {
 };
 
 /**
+ * Compares the given alerts in order to sort them based on severity level.
+ * The most severe alerts are sorted first.
+ *
+ * @param {*} a the first alert to compare.
+ * @param {*} b the second alert to compare.
+ */
+export const alertSeverityCompare = (a, b) => {
+  const severityLevels = [
+    AlertSeverityLevelType.Info,
+    AlertSeverityLevelType.Unknown,
+    AlertSeverityLevelType.Warning,
+    AlertSeverityLevelType.Severe,
+  ];
+
+  return (
+    severityLevels.indexOf(b.severityLevel) -
+    severityLevels.indexOf(a.severityLevel)
+  );
+};
+
+/**
  * Creates a list of unique alerts grouped under one header
  *@param {*} serviceAlerts The list of Service alerts to be mapped and filtered,
   @param {*} cancelations The list of Cancelations to be mapped and filtered,

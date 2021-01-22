@@ -20,6 +20,7 @@ import {
   legHasCancelation,
   tripHasCancelationForStop,
   getActiveLegAlerts,
+  alertSeverityCompare,
 } from '../util/alertUtils';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { durationToString } from '../util/timeUtils';
@@ -257,7 +258,10 @@ class TransitLeg extends React.Component {
     );
 
     const alerts = getActiveLegAlerts(leg, leg.startTime / 1000, lang); // legStartTime converted to ms format
-    const alert = alerts && alerts.length > 0 ? alerts[0] : undefined;
+    const alert =
+      alerts && alerts.length > 0
+        ? alerts.sort(alertSeverityCompare)[0]
+        : undefined;
     const alertSeverityLevel = getActiveAlertSeverityLevel(
       alerts,
       leg.startTime / 1000,

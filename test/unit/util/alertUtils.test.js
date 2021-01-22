@@ -1289,4 +1289,32 @@ describe('alertUtils', () => {
       ).to.equal(11);
     });
   });
+  describe('alertSeverityCompare', () => {
+    it('should sort alerts SEVERE alerts first', () => {
+      const alerts = [
+        { severityLevel: AlertSeverityLevelType.Warning },
+        { severityLevel: AlertSeverityLevelType.Severe },
+        { severityLevel: AlertSeverityLevelType.Info },
+        { severityLevel: AlertSeverityLevelType.Severe },
+        { severityLevel: 'foo' },
+      ];
+      const sortedAlerts = alerts.sort(utils.alertSeverityCompare);
+      expect(sortedAlerts[0].severityLevel).to.equal(
+        AlertSeverityLevelType.Severe,
+      );
+    });
+
+    it('should sort alerts WARNING alerts first if there are no SEVERE alerts', () => {
+      const alerts = [
+        { severityLevel: AlertSeverityLevelType.Unknown },
+        { severityLevel: AlertSeverityLevelType.Warning },
+        { severityLevel: AlertSeverityLevelType.Info },
+        { severityLevel: 'foo' },
+      ];
+      const sortedAlerts = alerts.sort(utils.alertSeverityCompare);
+      expect(sortedAlerts[0].severityLevel).to.equal(
+        AlertSeverityLevelType.Warning,
+      );
+    });
+  });
 });

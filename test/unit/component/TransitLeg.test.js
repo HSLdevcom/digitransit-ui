@@ -798,4 +798,65 @@ describe('<TransitLeg />', () => {
       AlertSeverityLevelType.Info,
     );
   });
+
+  it('should show header of the most severe alert', () => {
+    const startTime = 123456789;
+    const props = {
+      ...defaultProps,
+      leg: {
+        from: {
+          name: 'Test',
+          stop: {},
+        },
+        duration: 10000,
+        intermediatePlaces: [],
+        route: {
+          gtfsId: 'A1234',
+          alerts: [
+            {
+              alertSeverityLevel: AlertSeverityLevelType.Info,
+              effectiveEndDate: startTime + 1,
+              effectiveStartDate: startTime - 1,
+              alertHeaderText: 'info header',
+            },
+            {
+              alertSeverityLevel: AlertSeverityLevelType.Severe,
+              effectiveEndDate: startTime + 1,
+              effectiveStartDate: startTime - 1,
+              alertHeaderText: 'severe header',
+            },
+            {
+              alertSeverityLevel: AlertSeverityLevelType.Warning,
+              effectiveEndDate: startTime + 1,
+              effectiveStartDate: startTime - 1,
+              alertHeaderText: 'warning header',
+            },
+          ],
+        },
+        startTime: startTime * 1000,
+        to: {
+          name: 'Testitie',
+          stop: {},
+        },
+        trip: {
+          gtfsId: 'A1234:01',
+          pattern: {
+            code: 'A',
+          },
+          tripHeadsign: 'foo - bar',
+        },
+        interlineWithPreviousLeg: false,
+      },
+      mode: 'BUS',
+    };
+
+    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
+      context: {
+        ...mockContext,
+        config: { itinerary: {}, colors: { primary: '#007ac9' } },
+        focusFunction: () => () => {},
+      },
+    });
+    expect(wrapper.find('.description').text()).to.equal('severe header');
+  });
 });
