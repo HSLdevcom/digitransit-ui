@@ -445,7 +445,8 @@ class TransitLeg extends React.Component {
             <div className="headsign">{leg.trip.tripHeadsign}</div>
           </div>
           {(alertSeverityLevel === AlertSeverityLevelType.Warning ||
-            alertSeverityLevel === AlertSeverityLevelType.Severe) && (
+            alertSeverityLevel === AlertSeverityLevelType.Severe ||
+            alertSeverityLevel === AlertSeverityLevelType.Unknown) && (
             <div className="disruption">
               <ExternalLink className="disruption-link" href={alert.url}>
                 <div className="disruption-icon">
