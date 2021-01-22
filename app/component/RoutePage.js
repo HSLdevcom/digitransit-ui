@@ -238,7 +238,7 @@ class RoutePage extends React.Component {
 
     const patternIdSplit = match.params.patternId.split(':');
     const direction = patternIdSplit[patternIdSplit.length - 2];
-    const directionInt = parseInt(direction, 10) + 1;
+    const directionInt = parseInt(direction, 10);
 
     executeAction(startRealTimeClient, {
       ...source,
