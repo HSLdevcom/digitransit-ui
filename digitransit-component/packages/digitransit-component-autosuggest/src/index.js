@@ -82,13 +82,16 @@ function getSuggestionContent(item) {
     }
     return [suggestionType, name, label];
   }
+  const { origin, destination } = item.properties;
+  const tail1 = origin.locality ? `, ${origin.locality} foobar` : '';
+  const tail2 = destination.locality ? `, ${destination.locality}` : '';
+  const name1 = origin.name;
+  const name2 = destination.name;
   return [
     i18next.t('future-route'),
-    `${i18next.t('origin')} ${item.properties.origin.name}, ${
-      item.properties.origin.locality
-    }, ${i18next.t('destination')} ${item.properties.destination.name}, ${
-      item.properties.destination.locality
-    }`,
+    `${i18next.t('origin')} ${name1}${tail1} ${i18next.t(
+      'destination',
+    )} ${name2}${tail2}`,
     item.translatedText,
   ];
 }
