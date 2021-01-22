@@ -124,7 +124,6 @@ ItinerarySearchControl.propTypes = {
  *    destination={destination} // Selected destination point
  *    originPlaceHolder={'Give origin'} // Optional Give string shown initially inside origin search field
  *    destinationPlaceHolder={'Give destination'} // Optional Give string shown initally inside destination search field
- *    breakpoint={'large'} // Required. available options are 'small' or 'large'. Large shows panel styles etc. meant for desktop and small shows panel styles etc meant for mobile.
  *    showMultiPointControls={false} // Optional. If true, controls for via points and reversing is being shown.
  *    initialViaPoints={[]} // Optional.  If showMultiPointControls is set to true, pass initial via points to the panel. Currently no default implementation is given.
  *    updateViaPoints={() => return []} // Optional. If showMultiPointControls is set to true, define how to update your via point list with this function. Currenlty no default implementation is given.
@@ -151,7 +150,6 @@ class DTAutosuggestPanel extends React.Component {
     viaPoints: PropTypes.arrayOf(PropTypes.object),
     updateViaPoints: PropTypes.func,
     handleViaPointLocationSelected: PropTypes.func,
-    breakpoint: PropTypes.string.isRequired,
     swapOrder: PropTypes.func,
     searchPanelText: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
@@ -335,7 +333,7 @@ class DTAutosuggestPanel extends React.Component {
       this.props.addAnalyticsEvent({
         action: 'AddJourneyViaPoint',
         category: 'ItinerarySettings',
-        name: 'Qu}ickSettingsButton',
+        name: 'QuickSettingsButton',
       });
     }
     const { viaPoints } = this.props;
@@ -364,7 +362,6 @@ class DTAutosuggestPanel extends React.Component {
 
   render = () => {
     const {
-      breakpoint,
       showMultiPointControls,
       origin,
       searchPanelText,
@@ -388,7 +385,7 @@ class DTAutosuggestPanel extends React.Component {
         className={cx([
           styles['autosuggest-panel'],
           {
-            small: breakpoint !== 'large',
+            small: this.props.isMobile,
             showMultiPointControls,
           },
         ])}
@@ -410,7 +407,7 @@ class DTAutosuggestPanel extends React.Component {
             autoFocus={
               disableAutoFocus === true
                 ? false
-                : breakpoint === 'large' && !origin.ready
+                : !this.props.isMobile && !origin.lat
             }
             storeRef={this.storeReference}
             className={this.class(origin)}
@@ -483,9 +480,7 @@ class DTAutosuggestPanel extends React.Component {
                       id="via-point"
                       ariaLabel={i18next.t('via-point-index', { index: i + 1 })}
                       autoFocus={
-                        disableAutoFocus === true
-                          ? false
-                          : breakpoint === 'large'
+                        disableAutoFocus === true ? false : !this.props.isMobile
                       }
                       placeholder="via-point"
                       className="viapoint"
@@ -586,7 +581,7 @@ class DTAutosuggestPanel extends React.Component {
             autoFocus={
               disableAutoFocus === true
                 ? false
-                : breakpoint === 'large' && origin.ready
+                : !this.props.isMobile && origin.lat
             }
             storeRef={this.storeReference}
             placeholder={this.props.destinationPlaceHolder}

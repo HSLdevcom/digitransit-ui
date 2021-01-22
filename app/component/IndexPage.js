@@ -185,14 +185,7 @@ class IndexPage extends React.Component {
     const origin = this.pendingOrigin || this.props.origin;
     const destination = this.pendingDestination || this.props.destination;
     const queryString = this.context.match.location.search;
-    const searchSources = ['Favourite', 'History', 'Datasource'];
-    const stopAndRouteSearchSources = ['Favourite', 'History', 'Datasource'];
-    const locationSearchTargets = [
-      'Locations',
-      'CurrentPosition',
-      'FutureRoutes',
-      'Stops',
-    ];
+    const sources = ['Favourite', 'History', 'Datasource'];
     const stopAndRouteSearchTargets =
       this.context.config.cityBike && this.context.config.cityBike.showCityBikes
         ? ['Stops', 'Routes', 'BikeRentalStations']
@@ -213,6 +206,41 @@ class IndexPage extends React.Component {
       (origin.type === 'CurrentLocation' && !origin.address) ||
       (destination.type === 'CurrentLocation' && !destination.address);
 
+    const locationSearchProps = {
+      appElement: '#app',
+      origin,
+      destination,
+      lang,
+      sources,
+      color,
+      hoverColor,
+      searchPanelText: intl.formatMessage({
+        id: 'where',
+        defaultMessage: 'Where to?',
+      }),
+      originPlaceHolder: 'search-origin-index',
+      destinationPlaceHolder: 'search-destination-index',
+      selectHandler: this.onSelectLocation,
+      onGeolocationStart: this.onSelectLocation,
+      fromMap: this.props.fromMap,
+    };
+
+    const stopRouteSearchProps = {
+      appElement: '#app',
+      icon: 'search',
+      id: 'stop-route-station',
+      refPoint: origin,
+      className: 'destination',
+      placeholder: 'stop-near-you',
+      selectHandler: this.onSelectStopRoute,
+      value: '',
+      lang,
+      color,
+      hoverColor,
+      sources,
+      targets: stopAndRouteSearchTargets,
+    };
+
     return breakpoint === 'large' ? (
       <div
         className={`front-page flex-vertical ${
@@ -230,23 +258,13 @@ class IndexPage extends React.Component {
             position="left"
           >
             <LocationSearch
-              appElement="#app"
-              searchPanelText={intl.formatMessage({
-                id: 'where',
-                defaultMessage: 'Where to?',
-              })}
-              origin={origin}
-              destination={destination}
-              originPlaceHolder="search-origin-index"
-              destinationPlaceHolder="search-destination-index"
-              lang={lang}
-              sources={searchSources}
-              targets={locationSearchTargets}
-              breakpoint="large"
-              color={color}
-              hoverColor={hoverColor}
-              selectHandler={this.onSelectLocation}
-              fromMap={this.props.fromMap}
+              targets={[
+                'Locations',
+                'CurrentPosition',
+                'FutureRoutes',
+                'Stops',
+              ]}
+              {...locationSearchProps}
             />
             <div className="datetimepicker-container">
               <DatetimepickerContainer realtime color={color} />
@@ -281,21 +299,7 @@ class IndexPage extends React.Component {
                 </h2>
               </div>
             )}
-            <StopRouteSearch
-              appElement="#app"
-              icon="search"
-              id="stop-route-station"
-              refPoint={origin}
-              className="destination"
-              placeholder="stop-near-you"
-              value=""
-              lang={lang}
-              sources={stopAndRouteSearchSources}
-              targets={stopAndRouteSearchTargets}
-              color={color}
-              hoverColor={hoverColor}
-              selectHandler={this.onSelectStopRoute}
-            />
+            <StopRouteSearch {...stopRouteSearchProps} />
             <CtrlPanel.SeparatorLine />
             {!trafficNowLink ||
               (trafficNowLink[lang] !== '' && (
@@ -323,17 +327,6 @@ class IndexPage extends React.Component {
         >
           <CtrlPanel instance="hsl" language={lang} position="bottom">
             <LocationSearch
-              appElement="#app"
-              searchPanelText={intl.formatMessage({
-                id: 'where',
-                defaultMessage: 'Where to?',
-              })}
-              origin={origin}
-              destination={destination}
-              originPlaceHolder="search-origin-index"
-              destinationPlaceHolder="search-destination-index"
-              lang={lang}
-              sources={searchSources}
               targets={[
                 'Locations',
                 'CurrentPosition',
@@ -343,11 +336,7 @@ class IndexPage extends React.Component {
               ]}
               disableAutoFocus
               isMobile
-              breakpoint="small"
-              fromMap={this.props.fromMap}
-              color={color}
-              hoverColor={hoverColor}
-              selectHandler={this.onSelectLocation}
+              {...locationSearchProps}
             />
             <div className="datetimepicker-container">
               <DatetimepickerContainer realtime color={color} />
@@ -382,22 +371,7 @@ class IndexPage extends React.Component {
                 </h2>
               </div>
             )}
-            <StopRouteSearch
-              appElement="#app"
-              icon="search"
-              id="stop-route-station"
-              refPoint={origin}
-              className="destination"
-              placeholder="stop-near-you"
-              lang={lang}
-              value=""
-              sources={stopAndRouteSearchSources}
-              targets={stopAndRouteSearchTargets}
-              isMobile
-              color={color}
-              hoverColor={hoverColor}
-              selectHandler={this.onSelectStopRoute}
-            />
+            <StopRouteSearch isMobile {...stopRouteSearchProps} />
             <CtrlPanel.SeparatorLine />
             {!trafficNowLink ||
               (trafficNowLink[lang] !== '' && (

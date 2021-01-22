@@ -6,7 +6,6 @@ import cx from 'classnames';
 import Autosuggest from 'react-autosuggest';
 import { executeSearch } from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
-import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import {
   getNameLabel,
   getStopCode,
@@ -83,13 +82,16 @@ function getSuggestionContent(item) {
     }
     return [suggestionType, name, label];
   }
+  const { origin, destination } = item.properties;
+  const tail1 = origin.locality ? `, ${origin.locality} foobar` : '';
+  const tail2 = destination.locality ? `, ${destination.locality}` : '';
+  const name1 = origin.name;
+  const name2 = destination.name;
   return [
     i18next.t('future-route'),
-    `${i18next.t('origin')} ${item.properties.origin.name}, ${
-      item.properties.origin.locality
-    }, ${i18next.t('destination')} ${item.properties.destination.name}, ${
-      item.properties.destination.locality
-    }`,
+    `${i18next.t('origin')} ${name1}${tail1} ${i18next.t(
+      'destination',
+    )} ${name2}${tail2}`,
     item.translatedText,
   ];
 }
@@ -348,16 +350,6 @@ class DTAutosuggest extends React.Component {
         );
         return;
       }
-      if (this.props.handleViaPoints) {
-        this.props.handleViaPoints(
-          suggestionToLocation(ref.suggestion),
-          ref.suggestionIndex,
-        );
-        this.setState({
-          renderMobileSearch: false,
-          suggestions: [],
-        });
-      }
       this.setState(
         {
           editing: false,
@@ -365,15 +357,17 @@ class DTAutosuggest extends React.Component {
         },
         () => {
           this.input.blur();
-          if (!this.props.handleViaPoints) {
+          if (this.props.handleViaPoints) {
+            this.props.handleViaPoints(ref.suggestion, ref.suggestionIndex);
+          } else {
             this.props.onSelect(ref.suggestion, this.props.id);
-            this.setState({
-              renderMobileSearch: false,
-              sources: this.props.sources,
-              ownPlaces: false,
-              suggestions: [],
-            });
           }
+          this.setState({
+            renderMobileSearch: false,
+            sources: this.props.sources,
+            ownPlaces: false,
+            suggestions: [],
+          });
           if (this.props.focusChange && !this.props.isMobile) {
             this.props.focusChange();
           }
@@ -654,12 +648,12 @@ class DTAutosuggest extends React.Component {
   // DT-3263 starts
   // eslint-disable-next-line consistent-return
   keyDown = event => {
+    if (this.state.editing) {
+      return this.inputClicked();
+    }
     const keyCode = event.keyCode || event.which;
     if ((keyCode === 13 || keyCode === 40) && this.state.value === '') {
       return this.clearInput();
-    }
-    if (this.state.editing) {
-      return this.inputClicked();
     }
 
     if (keyCode === 40 && this.state.value !== '') {

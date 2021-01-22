@@ -193,7 +193,9 @@ const SuggestionItem = pure(
                     styles[className],
                   )}
                 >
-                  , {item.properties.origin.locality}
+                  {item.properties.origin.locality
+                    ? `, ${item.properties.origin.locality}`
+                    : ''}
                 </span>
               </div>
               <div
@@ -212,7 +214,9 @@ const SuggestionItem = pure(
                     styles[className],
                   )}
                 >
-                  , {item.properties.destination.locality}
+                  {item.properties.destination.locality
+                    ? `, ${item.properties.destination.locality}`
+                    : ''}
                 </span>
               </div>
               <div
