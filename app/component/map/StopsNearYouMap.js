@@ -337,6 +337,7 @@ function StopsNearYouMap(
           <ItineraryLine
             key="itinerary"
             hash={i}
+            flipBubble
             legs={itinerary.legs}
             passive={false}
             showIntermediateStops={false}
