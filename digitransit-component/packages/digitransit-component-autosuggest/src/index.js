@@ -648,12 +648,12 @@ class DTAutosuggest extends React.Component {
   // DT-3263 starts
   // eslint-disable-next-line consistent-return
   keyDown = event => {
+    if (this.state.editing) {
+      return this.inputClicked();
+    }
     const keyCode = event.keyCode || event.which;
     if ((keyCode === 13 || keyCode === 40) && this.state.value === '') {
       return this.clearInput();
-    }
-    if (this.state.editing) {
-      return this.inputClicked();
     }
 
     if (keyCode === 40 && this.state.value !== '') {
