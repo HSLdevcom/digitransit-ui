@@ -292,7 +292,6 @@ class SummaryPage extends React.Component {
       bikeParkPlan: undefined,
       scrolled: false,
       loadingMoreItineraries: undefined,
-      zoomLevel: -1,
     };
     if (this.props.match.params.hash === 'walk') {
       this.selectedPlan = this.state.walkPlan;
@@ -308,8 +307,6 @@ class SummaryPage extends React.Component {
     } else {
       this.selectedPlan = this.props.viewer && this.props.viewer.plan;
     }
-    this.boundsZoom = -1;
-    this.mapZoomLevel = -1;
   }
 
   // When user goes straight to itinerary view with url, map cannot keep up and renders a while after everything else
@@ -1247,8 +1244,6 @@ class SummaryPage extends React.Component {
         center: undefined,
         bounds: undefined,
       });
-      this.boundsZoom = -1;
-      this.mapZoomLevel = -1;
     }
     if (
       this.props.match.params.hash &&
@@ -1523,24 +1518,6 @@ class SummaryPage extends React.Component {
     }
   };
 
-  setMapElementRef = element => {
-    this.map = get(element, 'leafletElement', null);
-    if (this.map && this.mapZoomLevel === -1) {
-      // eslint-disable-next-line no-underscore-dangle
-      this.mapZoomLevel = this.map._zoom;
-    }
-  };
-
-  getZoomLevel = (stateZoom, mapZoom, boundsZoom) => {
-    if (stateZoom === -1) {
-      if (mapZoom === -1) {
-        return boundsZoom;
-      }
-      return mapZoom;
-    }
-    return stateZoom;
-  };
-
   renderMap() {
     const { match, breakpoint } = this.props;
     this.justMounted = true;
@@ -1678,15 +1655,6 @@ class SummaryPage extends React.Component {
     if (this.showVehicles()) {
       leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
     }
-    this.boundsZoom = this.map
-      ? this.map.getBoundsZoom(bounds.length > 1 ? bounds : defaultBounds)
-      : this.boundsZoom;
-
-    const zoomLevel = this.getZoomLevel(
-      this.state.zoomLevel,
-      this.mapZoomLevel,
-      this.boundsZoom,
-    );
     return (
       <MapContainer
         className="summary-map"
@@ -1699,10 +1667,6 @@ class SummaryPage extends React.Component {
         leafletEvents={{
           onZoomend: this.endZoom,
         }}
-        mapRef={this.setMapElementRef}
-        boundsZoom={zoomLevel}
-        geoJsonZoomLevel={zoomLevel}
-        mapZoomLevel={zoomLevel}
       />
     );
   }
@@ -2099,7 +2063,6 @@ class SummaryPage extends React.Component {
               leafletEvents: {
                 onZoomend: this.endZoom,
               },
-              mapRef: this.setMapElementRef,
             },
             this.context,
           )
