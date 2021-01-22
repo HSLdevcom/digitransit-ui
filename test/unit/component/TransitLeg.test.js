@@ -588,7 +588,7 @@ describe('<TransitLeg />', () => {
     );
   });
 
-  it('should apply alertSeverityLevel due to a stop alert at an intermediate stop', () => {
+  it('should not apply alertSeverityLevel due to a stop alert at an intermediate stop', () => {
     const props = {
       ...defaultProps,
       leg: {
@@ -638,7 +638,7 @@ describe('<TransitLeg />', () => {
       },
     });
     expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
-      AlertSeverityLevelType.Warning,
+      undefined,
     );
   });
 

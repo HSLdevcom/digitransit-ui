@@ -562,11 +562,6 @@ export const getActiveLegAlertSeverityLevel = leg => {
     ),
     ...getServiceAlertsForStop(leg.from && leg.from.stop),
     ...getServiceAlertsForStop(leg.to && leg.to.stop),
-    ...(Array.isArray(leg.intermediatePlaces)
-      ? leg.intermediatePlaces
-          .map(place => getServiceAlertsForStop(place.stop))
-          .reduce((a, b) => a.concat(b), [])
-      : []),
   ];
   return getActiveAlertSeverityLevel(
     serviceAlerts,

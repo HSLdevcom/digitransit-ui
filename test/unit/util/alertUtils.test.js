@@ -1138,7 +1138,7 @@ describe('alertUtils', () => {
       );
     });
 
-    it('should return "WARNING" if there is an active stop alert at an intermediate stop', () => {
+    it('should not return "WARNING" if there is an active stop alert at an intermediate stop', () => {
       const leg = {
         intermediatePlaces: [
           {
@@ -1155,9 +1155,7 @@ describe('alertUtils', () => {
         ],
         startTime: 1553769600000,
       };
-      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
-        AlertSeverityLevelType.Warning,
-      );
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(undefined);
     });
 
     it('should return the given alertSeverityLevel', () => {
