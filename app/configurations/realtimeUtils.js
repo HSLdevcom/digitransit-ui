@@ -42,13 +42,17 @@ export default {
   HSL: {
     mqttTopicResolver: function mqttTopicResolver(
       route,
-      direction,
+      hslDirection,
       tripStartTime,
       headsign, // eslint-disable-line no-unused-vars
       feedId, // eslint-disable-line no-unused-vars
       tripId, // eslint-disable-line no-unused-vars
       geoHash, // eslint-disable-line no-unused-vars
     ) {
+      let direction = hslDirection;
+      if (Number.isInteger(direction)) {
+        direction += 1;
+      }
       return (
         '/hfp/v2/journey/ongoing/+/+/+/+/' +
         route +
