@@ -241,7 +241,6 @@ class DTAutosuggest extends React.Component {
       suggestions: [],
       editing: false,
       valid: true,
-      pendingCurrentLocation: false,
       renderMobileSearch: false,
       sources: props.sources,
       ownPlaces: false,
@@ -711,12 +710,15 @@ class DTAutosuggest extends React.Component {
   onFocus = () => {
     const positions = [
       'Valittu sijainti',
+      'Nykyinen sijaintisi',
       'Current position',
       'Selected location',
       'Vald position',
       'Använd min position',
+      'Min position',
       'Käytä nykyistä sijaintia',
       'Use current location',
+      'Your current location',
     ];
     if (positions.includes(this.state.value)) {
       this.clearInput();
@@ -728,9 +730,6 @@ class DTAutosuggest extends React.Component {
   };
 
   render() {
-    if (this.state.pendingCurrentLocation) {
-      return <Loading />;
-    }
     const {
       value,
       suggestions,

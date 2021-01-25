@@ -97,12 +97,7 @@ export default function withSearchContext(WrappedComponent) {
             gid: locState.gid,
             name: locState.name,
             layer: locState.layer,
-            address:
-              locState.address ||
-              this.context.intl.formatMessage({
-                id: 'own-position',
-                defaultMessage: 'Own Location',
-              }),
+            address: locState.address,
           };
           this.onSuggestionSelected(
             location,
@@ -156,6 +151,12 @@ export default function withSearchContext(WrappedComponent) {
               this.props.onGeolocationStart(item, id);
             }
             return;
+          }
+          if (!location.address) {
+            location.address = this.context.intl.formatMessage({
+              id: 'own-position',
+              defaultMessage: 'Own Location',
+            });
           }
         } else {
           location = suggestionToLocation(item);
