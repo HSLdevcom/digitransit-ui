@@ -73,11 +73,18 @@ export function parseMessage(topic, message, agency) {
     parsedMessage.long &&
     (parsedMessage.seq === undefined || parsedMessage.seq === 1) // seq is used for hsl metro carriage sequence
   ) {
+    // change times from 24 hour system to 29 hour system
+    const tripStartTime =
+      startTime && parseInt(startTime.substring(0, 2), 10) < 5
+        ? `${parseInt(startTime.substring(0, 2), 10) + 24}${startTime.substring(
+            3,
+          )}`
+        : startTime.replace(/:/g, '');
     return {
       id: vehid,
       route: `${agency}:${line}`,
       direction: parseInt(dir, 10) - 1,
-      tripStartTime: startTime.replace(/:/g, ''),
+      tripStartTime,
       operatingDay:
         parsedMessage.oday && parsedMessage.oday !== 'XXX'
           ? parsedMessage.oday
