@@ -2170,7 +2170,37 @@ class SummaryPage extends React.Component {
             <Loading />
           </div>
         );
-        return content;
+        return hash !== undefined ? (
+          <DesktopView
+            title={
+              <FormattedMessage
+                id="itinerary-page.title"
+                defaultMessage="Itinerary suggestions"
+              />
+            }
+            content={content}
+            map={map}
+            scrollable
+            bckBtnVisible={false}
+          />
+        ) : (
+          <DesktopView
+            title={
+              <FormattedMessage
+                id="summary-page.title"
+                defaultMessage="Itinerary suggestions"
+              />
+            }
+            header={
+              <React.Fragment>
+                <SummaryNavigation params={match.params} />
+                <StreetModeSelector loading />
+              </React.Fragment>
+            }
+            content={content}
+            map={map}
+          />
+        );
       }
       return (
         <DesktopView
