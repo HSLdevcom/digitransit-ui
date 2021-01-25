@@ -87,7 +87,7 @@ const stopClient = context => {
   }
 };
 
-const handleBounds = (location, edges) => {
+const handleBounds = (location, edges, breakpoint) => {
   if (!location || (location.lat === 0 && location.lon === 0)) {
     // Still waiting for a location
     return [];
@@ -100,14 +100,29 @@ const handleBounds = (location, edges) => {
         [location.lat, location.lon],
       ];
     }
+
     const nearestStop = edges[0].node.place;
-    const bounds = [
-      [nearestStop.lat, nearestStop.lon],
-      [
-        location.lat + location.lat - nearestStop.lat,
-        location.lon + location.lon - nearestStop.lon,
-      ],
-    ];
+
+    const bounds =
+      breakpoint !== 'large'
+        ? [
+            [
+              nearestStop.lat + (nearestStop.lat - location.lat) * 0.5,
+              nearestStop.lon + (nearestStop.lon - location.lon) * 0.5,
+            ],
+            [
+              location.lat + (location.lat - nearestStop.lat) * 0.5,
+              location.lon + (location.lon - nearestStop.lon) * 0.5,
+            ],
+          ]
+        : [
+            [nearestStop.lat, nearestStop.lon],
+            [
+              location.lat + location.lat - nearestStop.lat,
+              location.lon + location.lon - nearestStop.lon,
+            ],
+          ];
+
     return bounds;
   }
   return [];
@@ -149,7 +164,7 @@ function StopsNearYouMap(
           .slice()
           .sort(sortNearbyStops(favouriteIds, walkRoutingThreshold));
   let useFitBounds = true;
-  const bounds = handleBounds(locationState, sortedStopEdges);
+  const bounds = handleBounds(locationState, sortedStopEdges, breakpoint);
 
   if (!bounds.length) {
     useFitBounds = false;
