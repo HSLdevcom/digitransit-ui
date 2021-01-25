@@ -2162,11 +2162,15 @@ class SummaryPage extends React.Component {
           </>
         );
       } else {
+        this.justMounted = true;
+        this.useFitBounds = true;
+        this.mapLoaded = false;
         content = (
           <div style={{ position: 'relative', height: 200 }}>
             <Loading />
           </div>
         );
+        return content;
       }
       return (
         <DesktopView
