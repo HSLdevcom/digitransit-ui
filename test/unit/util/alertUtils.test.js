@@ -492,6 +492,7 @@ describe('alertUtils', () => {
         color: 'pink',
         mode: 'BUS',
         shortName: 'foobar',
+        gtfsId: 'foo: 1',
       };
       expect(utils.getServiceAlertsForRoute(route)).to.deep.equal([
         {
@@ -503,6 +504,10 @@ describe('alertUtils', () => {
             color: 'pink',
             mode: 'BUS',
             shortName: 'foobar',
+            gtfsId: 'foo: 1',
+          },
+          stop: {
+            gtfsId: undefined,
           },
           severityLevel: 'foo',
           url: 'https://www.hsl.fi/en',

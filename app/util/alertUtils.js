@@ -349,7 +349,7 @@ export const getServiceAlertsForRoute = (
         patternIdPredicate(alert, patternId),
       ),
     },
-    { ...route, routeGtfsId: route.gtfsId },
+    { ...route, routeGtfsId: route && route.gtfsId },
     locale,
   );
 };
@@ -362,7 +362,7 @@ export const getServiceAlertsForRoute = (
  * @param {*} locale the locale to use, defaults to 'en'.
  */
 export const getServiceAlertsForStop = (stop, locale = 'en') =>
-  getServiceAlerts(stop, { stopGtfsId: stop.gtfsId }, locale);
+  getServiceAlerts(stop, { stopGtfsId: stop && stop.gtfsId }, locale);
 
 /**
  * Retrieves OTP-style Service Alerts from the given Terminal stop's stops  and
