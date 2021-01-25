@@ -492,6 +492,7 @@ describe('alertUtils', () => {
         color: 'pink',
         mode: 'BUS',
         shortName: 'foobar',
+        gtfsId: 'foo: 1',
       };
       expect(utils.getServiceAlertsForRoute(route)).to.deep.equal([
         {
@@ -503,6 +504,10 @@ describe('alertUtils', () => {
             color: 'pink',
             mode: 'BUS',
             shortName: 'foobar',
+            gtfsId: 'foo: 1',
+          },
+          stop: {
+            gtfsId: undefined,
           },
           severityLevel: 'foo',
           url: 'https://www.hsl.fi/en',
@@ -1138,7 +1143,7 @@ describe('alertUtils', () => {
       );
     });
 
-    it('should return "WARNING" if there is an active stop alert at an intermediate stop', () => {
+    it('should not return "WARNING" if there is an active stop alert at an intermediate stop', () => {
       const leg = {
         intermediatePlaces: [
           {
@@ -1155,9 +1160,7 @@ describe('alertUtils', () => {
         ],
         startTime: 1553769600000,
       };
-      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
-        AlertSeverityLevelType.Warning,
-      );
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(undefined);
     });
 
     it('should return the given alertSeverityLevel', () => {
@@ -1287,6 +1290,64 @@ describe('alertUtils', () => {
         utils.createUniqueAlertList(serviceAlerts, false, 1566199501, true)
           .length,
       ).to.equal(11);
+    });
+  });
+  describe('alertSeverityCompare', () => {
+    it('should sort alerts SEVERE alerts first', () => {
+      const alerts = [
+        { severityLevel: AlertSeverityLevelType.Warning },
+        { severityLevel: AlertSeverityLevelType.Severe },
+        { severityLevel: AlertSeverityLevelType.Info },
+        { severityLevel: AlertSeverityLevelType.Severe },
+        { severityLevel: 'foo' },
+      ];
+      const sortedAlerts = alerts.sort(utils.alertSeverityCompare);
+      expect(sortedAlerts[0].severityLevel).to.equal(
+        AlertSeverityLevelType.Severe,
+      );
+    });
+
+    it('should sort alerts WARNING alerts first if there are no SEVERE alerts', () => {
+      const alerts = [
+        { severityLevel: AlertSeverityLevelType.Unknown },
+        { severityLevel: AlertSeverityLevelType.Warning },
+        { severityLevel: AlertSeverityLevelType.Info },
+        { severityLevel: 'foo' },
+      ];
+      const sortedAlerts = alerts.sort(utils.alertSeverityCompare);
+      expect(sortedAlerts[0].severityLevel).to.equal(
+        AlertSeverityLevelType.Warning,
+      );
+    });
+
+    it('should sort alert that affects a route before a route that affects a stop if severity level is the same', () => {
+      const alerts = [
+        {
+          severityLevel: AlertSeverityLevelType.Severe,
+          stop: { gtfsId: 'foo:1' },
+        },
+        {
+          severityLevel: AlertSeverityLevelType.Severe,
+          route: { gtfsId: 'foo:1' },
+        },
+      ];
+      const sortedAlerts = alerts.sort(utils.alertSeverityCompare);
+      expect(sortedAlerts[0].route.gtfsId).to.equal('foo:1');
+    });
+
+    it('should not sort alert that affects a route before a route that affects a stop if route alert is less severe', () => {
+      const alerts = [
+        {
+          severityLevel: AlertSeverityLevelType.Severe,
+          stop: { gtfsId: 'foo:1' },
+        },
+        {
+          severityLevel: AlertSeverityLevelType.Warning,
+          route: { gtfsId: 'foo:1' },
+        },
+      ];
+      const sortedAlerts = alerts.sort(utils.alertSeverityCompare);
+      expect(sortedAlerts[0].stop.gtfsId).to.equal('foo:1');
     });
   });
 });

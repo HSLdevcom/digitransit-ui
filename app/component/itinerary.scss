@@ -1025,17 +1025,18 @@ $itinerary-tab-switch-height: 48px;
         height: 18px
       }
 
-      .external-link-container {
+      .disruption-link-container {
         border: none;
         width: 100%;
         padding: 0px;
       }
 
-      .external-link {
+      .disruption-link {
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 6px 15px 8px 12px;
+        text-decoration: none;
       }
     }
 

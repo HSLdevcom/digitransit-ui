@@ -20,8 +20,10 @@ import {
   legHasCancelation,
   tripHasCancelationForStop,
   getActiveLegAlerts,
+  alertSeverityCompare,
+  getMaximumAlertSeverityLevel,
 } from '../util/alertUtils';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
+import { PREFIX_ROUTES, PREFIX_STOPS, PREFIX_DISRUPTION } from '../util/path';
 import { durationToString } from '../util/timeUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { getZoneLabel } from '../util/legUtils';
@@ -257,11 +259,11 @@ class TransitLeg extends React.Component {
     );
 
     const alerts = getActiveLegAlerts(leg, leg.startTime / 1000, lang); // legStartTime converted to ms format
-    const alert = alerts && alerts.length > 0 ? alerts[0] : undefined;
-    const alertSeverityLevel = getActiveAlertSeverityLevel(
-      alerts,
-      leg.startTime / 1000,
-    );
+    const alert =
+      alerts && alerts.length > 0
+        ? alerts.sort(alertSeverityCompare)[0]
+        : undefined;
+    const alertSeverityLevel = getMaximumAlertSeverityLevel(alerts);
     let alertSeverityDescription = null;
     if (alertSeverityLevel) {
       let id;
@@ -443,22 +445,35 @@ class TransitLeg extends React.Component {
             <div className="headsign">{leg.trip.tripHeadsign}</div>
           </div>
           {(alertSeverityLevel === AlertSeverityLevelType.Warning ||
-            alertSeverityLevel === AlertSeverityLevelType.Severe) && (
+            alertSeverityLevel === AlertSeverityLevelType.Severe ||
+            alertSeverityLevel === AlertSeverityLevelType.Unknown) && (
             <div className="disruption">
-              <ExternalLink className="disruption-link" href={alert.url}>
-                <div className="disruption-icon">
-                  <ServiceAlertIcon
-                    className="inline-icon"
-                    severityLevel={alertSeverityLevel}
+              <div className="disruption-link-container">
+                <Link
+                  to={
+                    (alert.route &&
+                      alert.route.gtfsId &&
+                      `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_DISRUPTION}/`) ||
+                    (alert.stop &&
+                      alert.stop.gtfsId &&
+                      `/${PREFIX_STOPS}/${alert.stop.gtfsId}/${PREFIX_DISRUPTION}/`)
+                  }
+                  className="disruption-link"
+                >
+                  <div className="disruption-icon">
+                    <ServiceAlertIcon
+                      className="inline-icon"
+                      severityLevel={alertSeverityLevel}
+                    />
+                  </div>
+                  <div className="description">{alert.header}</div>
+                  <Icon
+                    img="icon-icon_arrow-collapse--right"
+                    className="disruption-link-arrow"
+                    color={config.colors.primary}
                   />
-                </div>
-                <div className="description">{alert.header}</div>
-                <Icon
-                  img="icon-icon_arrow-collapse--right"
-                  className="disruption-link-arrow"
-                  color={config.colors.primary}
-                />
-              </ExternalLink>
+                </Link>
+              </div>
             </div>
           )}
           <LegAgencyInfo leg={leg} />

@@ -430,7 +430,7 @@ describe('<SummaryRow />', () => {
     ).to.equal(AlertSeverityLevelType.Warning);
   });
 
-  it('should indicate that there is a disruption due to a stop alert at an intermediate stop', () => {
+  it('should not indicate that there is a disruption due to a stop alert at an intermediate stop', () => {
     const props = {
       ...defaultProps,
       data: {
@@ -474,6 +474,6 @@ describe('<SummaryRow />', () => {
     });
     expect(
       wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
-    ).to.equal(AlertSeverityLevelType.Warning);
+    ).to.equal(undefined);
   });
 });
