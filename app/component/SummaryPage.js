@@ -262,6 +262,7 @@ class SummaryPage extends React.Component {
     this.secondQuerySent = false;
     this.isFetchingWalkAndBike = true;
     this.params = this.context.match.params;
+    this.query = this.context.match.location.query;
     this.originalPlan = this.props.viewer && this.props.viewer.plan;
     // *** TODO: Hotfix variables for temporary use only
     this.justMounted = true;
@@ -470,8 +471,11 @@ class SummaryPage extends React.Component {
     }
   };
 
-  paramsHaveChanged = () => {
-    return !isEqual(this.params, this.context.match.params);
+  paramsOrQueryHaveChanged = () => {
+    return (
+      !isEqual(this.params, this.context.match.params) ||
+      !isEqual(this.query, this.context.match.location.query)
+    );
   };
 
   resetSummaryPageSelection = () => {
@@ -826,6 +830,7 @@ class SummaryPage extends React.Component {
           this.setLoading(false);
           this.isFetching = false;
           this.params = this.context.match.params;
+          this.query = this.context.match.location.query;
         },
       );
     });
@@ -1173,11 +1178,12 @@ class SummaryPage extends React.Component {
         this.props.viewer && this.props.viewer.plan,
         this.originalPlan,
       ) &&
-      this.paramsHaveChanged() &&
+      this.paramsOrQueryHaveChanged() &&
       this.secondQuerySent &&
       !this.isFetchingWalkAndBike
     ) {
       this.params = this.context.match.params;
+      this.query = this.context.match.location.query;
       this.secondQuerySent = false;
       this.isFetchingWalkAndBike = true;
       // eslint-disable-next-line react/no-did-update-set-state
