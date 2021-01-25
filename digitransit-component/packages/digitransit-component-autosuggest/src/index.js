@@ -241,7 +241,6 @@ class DTAutosuggest extends React.Component {
       suggestions: [],
       editing: false,
       valid: true,
-      pendingCurrentLocation: false,
       renderMobileSearch: false,
       sources: props.sources,
       ownPlaces: false,
@@ -731,9 +730,6 @@ class DTAutosuggest extends React.Component {
   };
 
   render() {
-    if (this.state.pendingCurrentLocation) {
-      return <Loading />;
-    }
     const {
       value,
       suggestions,
