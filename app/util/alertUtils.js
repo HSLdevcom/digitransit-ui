@@ -305,7 +305,7 @@ export const getServiceAlertMetadata = (alert = {}) => ({
 
 const getServiceAlerts = (
   { alerts } = {},
-  { color, mode, shortName } = {},
+  { color, mode, shortName, routeGtfsId, stopGtfsId } = {},
   locale = 'en',
 ) =>
   Array.isArray(alerts)
@@ -318,6 +318,10 @@ const getServiceAlerts = (
           color,
           mode,
           shortName,
+          gtfsId: routeGtfsId,
+        },
+        stop: {
+          gtfsId: stopGtfsId,
         },
         url: getServiceAlertUrl(alert, locale),
       }))
@@ -345,7 +349,7 @@ export const getServiceAlertsForRoute = (
         patternIdPredicate(alert, patternId),
       ),
     },
-    route,
+    { ...route, routeGtfsId: route.gtfsId },
     locale,
   );
 };
@@ -358,7 +362,7 @@ export const getServiceAlertsForRoute = (
  * @param {*} locale the locale to use, defaults to 'en'.
  */
 export const getServiceAlertsForStop = (stop, locale = 'en') =>
-  getServiceAlerts(stop, {}, locale);
+  getServiceAlerts(stop, { stopGtfsId: stop.gtfsId }, locale);
 
 /**
  * Retrieves OTP-style Service Alerts from the given Terminal stop's stops  and
