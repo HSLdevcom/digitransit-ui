@@ -570,7 +570,7 @@ export const getActiveLegAlertSeverityLevel = leg => {
 };
 
 /**
- * Returns an array of currently active alerts for the legs' route and stops
+ * Returns an array of currently active alerts for the legs' route and origin/destination stops
  *
  * @param {*} leg the itinerary leg to check.
  * @param {*} legStartTime the reference unix time stamp (in seconds).
@@ -588,11 +588,6 @@ export const getActiveLegAlerts = (leg, legStartTime, locale = 'en') => {
     ),
     ...getServiceAlertsForStop(leg.from && leg.from.stop, locale),
     ...getServiceAlertsForStop(leg.to && leg.to.stop, locale),
-    ...(Array.isArray(leg.intermediatePlaces)
-      ? leg.intermediatePlaces
-          .map(place => getServiceAlertsForStop(place.stop, locale))
-          .reduce((a, b) => a.concat(b), [])
-      : []),
   ].filter(alert => isAlertActive([{}], alert, legStartTime) !== false);
 
   return serviceAlerts;
