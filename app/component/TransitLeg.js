@@ -21,7 +21,7 @@ import {
   tripHasCancelationForStop,
   getActiveLegAlerts,
   alertSeverityCompare,
-  getActiveLegAlertSeverityLevel,
+  getMaximumAlertSeverityLevel,
 } from '../util/alertUtils';
 import { PREFIX_ROUTES, PREFIX_STOPS, PREFIX_DISRUPTION } from '../util/path';
 import { durationToString } from '../util/timeUtils';
@@ -263,7 +263,7 @@ class TransitLeg extends React.Component {
       alerts && alerts.length > 0
         ? alerts.sort(alertSeverityCompare)[0]
         : undefined;
-    const alertSeverityLevel = getActiveLegAlertSeverityLevel(leg);
+    const alertSeverityLevel = getMaximumAlertSeverityLevel(alerts);
     let alertSeverityDescription = null;
     if (alertSeverityLevel) {
       let id;

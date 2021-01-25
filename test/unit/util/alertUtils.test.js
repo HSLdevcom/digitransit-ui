@@ -1314,5 +1314,35 @@ describe('alertUtils', () => {
         AlertSeverityLevelType.Warning,
       );
     });
+
+    it('should sort alert that affects a route before a route that affects a stop if severity level is the same', () => {
+      const alerts = [
+        {
+          severityLevel: AlertSeverityLevelType.Severe,
+          stop: { gtfsId: 'foo:1' },
+        },
+        {
+          severityLevel: AlertSeverityLevelType.Severe,
+          route: { gtfsId: 'foo:1' },
+        },
+      ];
+      const sortedAlerts = alerts.sort(utils.alertSeverityCompare);
+      expect(sortedAlerts[0].route.gtfsId).to.equal('foo:1');
+    });
+
+    it('should not sort alert that affects a route before a route that affects a stop if route alert is less severe', () => {
+      const alerts = [
+        {
+          severityLevel: AlertSeverityLevelType.Severe,
+          stop: { gtfsId: 'foo:1' },
+        },
+        {
+          severityLevel: AlertSeverityLevelType.Warning,
+          route: { gtfsId: 'foo:1' },
+        },
+      ];
+      const sortedAlerts = alerts.sort(utils.alertSeverityCompare);
+      expect(sortedAlerts[0].stop.gtfsId).to.equal('foo:1');
+    });
   });
 });
