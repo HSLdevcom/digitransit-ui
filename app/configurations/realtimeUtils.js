@@ -1,4 +1,5 @@
 /* eslint-disable prefer-template */
+import { convertTo24HourFormat } from '../util/timeUtils';
 
 function defaultRouteSelector(routePageProps) {
   const route = routePageProps.route.gtfsId.split(':');
@@ -49,13 +50,17 @@ export default {
       tripId, // eslint-disable-line no-unused-vars
       geoHash, // eslint-disable-line no-unused-vars
     ) {
+      const fixedStartTime =
+        tripStartTime && tripStartTime !== '+'
+          ? convertTo24HourFormat(tripStartTime)
+          : tripStartTime;
       return (
         '/hfp/v2/journey/ongoing/+/+/+/+/' +
         route +
         '/' +
         direction +
         '/+/' +
-        tripStartTime +
+        fixedStartTime +
         '/#'
       );
     },
