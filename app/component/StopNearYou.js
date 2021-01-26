@@ -11,7 +11,7 @@ const StopNearYou = ({ stop, ...props }) => {
   const desc = stopOrStation.desc ? stopOrStation.desc : stop.desc;
   const isStation = !!stop.parentStation;
   const linkAddress = isStation
-    ? `/${PREFIX_TERMINALS}/${stop.gtfsId}`
+    ? `/${PREFIX_TERMINALS}/${stop.parentStation.gtfsId}`
     : `/${PREFIX_STOPS}/${stop.gtfsId}`;
 
   return (
