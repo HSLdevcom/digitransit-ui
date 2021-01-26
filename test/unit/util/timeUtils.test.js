@@ -4,6 +4,7 @@ import moment from 'moment';
 import {
   validateServiceTimeRange,
   RANGE_PAST,
+  convertTo24HourFormat,
 } from '../../../app/util/timeUtils';
 
 const now = moment().unix();
@@ -60,6 +61,17 @@ describe('timeUtils', () => {
       expect((validated.end - validated.start) / 1000 / 86400).to.be.at.most(
         RANGE_FUTURE + RANGE_PAST + 1,
       ); // +1 for today
+    });
+  });
+  describe('convertTo24HourFormat', () => {
+    it('should just add : to times under 2400', () => {
+      expect(convertTo24HourFormat('2355')).to.equal('23:55');
+    });
+    it('should change format to 24 hour system after midnight', () => {
+      expect(convertTo24HourFormat('2630')).to.equal('02:30');
+    });
+    it('should change format to 00:00 at midnight', () => {
+      expect(convertTo24HourFormat('2400')).to.equal('00:00');
     });
   });
 });
