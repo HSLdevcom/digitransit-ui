@@ -81,7 +81,6 @@
 
   .near-you-buttons-container {
     display: flex;
-    justify-content: space-between;
     & > a:not(:last-child) {
       margin-right: 9px;
       @include min-width(tablet)  {
@@ -94,9 +93,9 @@
       width: 100%;
       height: 50px;
       @include min-width(tablet)  {
-        min-width: 60px;
+        min-width: 58px;
         max-width: 72px;
-        height: 60px;
+        height: 58px;
       }
     }
 
