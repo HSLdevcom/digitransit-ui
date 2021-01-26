@@ -98,6 +98,8 @@ class MapWithTrackingStateHandler extends React.Component {
     showLocationMessages: PropTypes.bool,
     defaultMapCenter: PropTypes.object.isRequired,
     fitBoundsWithSetCenter: PropTypes.bool,
+    setMapState: PropTypes.func,
+    onDragEndCallback: PropTypes.func,
   };
 
   static defaultProps = {
@@ -195,6 +197,9 @@ class MapWithTrackingStateHandler extends React.Component {
   setMapElementRef = element => {
     if (element && this.mapElement !== element) {
       this.mapElement = element;
+      if (this.props.setMapState) {
+        this.props.setMapState(element);
+      }
     }
   };
 
@@ -244,6 +249,10 @@ class MapWithTrackingStateHandler extends React.Component {
     this.setState({
       bounds: newBounds,
     });
+    // Callback to get coords and bounds on center of map on StopNearYouMap
+    if (this.props.onDragEndCallback) {
+      this.props.onDragEndCallback();
+    }
   };
 
   updateZoom(zoom) {

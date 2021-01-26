@@ -4,6 +4,7 @@ import { connectToStores } from 'fluxible-addons-react';
 import { matchShape } from 'found';
 import { createRefetchContainer, graphql, fetchQuery } from 'react-relay';
 import moment from 'moment';
+import get from 'lodash/get';
 import uniqBy from 'lodash/uniqBy';
 import compact from 'lodash/compact';
 import indexOf from 'lodash/indexOf';
@@ -92,6 +93,7 @@ const handleBounds = (location, edges, breakpoint) => {
     // Still waiting for a location
     return [];
   }
+
   if (location.lat && Array.isArray(edges)) {
     if (edges.length === 0) {
       // No stops anywhere near
@@ -182,6 +184,23 @@ function StopsNearYouMap(
     stop: null,
   });
   const stopsAndStations = handleStopsAndStations(sortedStopEdges);
+
+  const [mapState, setMap] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [locationOfMapCenter, setlocationOfMapCenter] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [boundsOfCenter, setBoundsOfCenter] = useState(null);
+
+  const setMapState = element => {
+    setMap(get(element, 'leafletElement', null));
+  };
+
+  const getCoordinates = () => {
+    const centerOfMap = mapState.getCenter();
+    const newBounds = mapState.getBounds();
+    setlocationOfMapCenter(centerOfMap);
+    setBoundsOfCenter(newBounds);
+  };
 
   const fetchPlan = (stop, first) => {
     if (locationState && locationState.lat) {
@@ -400,6 +419,8 @@ function StopsNearYouMap(
         setInitialMapTracking
         hilightedStops={hilightedStops()}
         leafletObjs={leafletObjs}
+        setMapState={setMapState}
+        onDragEndCallback={getCoordinates}
       />
     );
   } else {
@@ -426,10 +447,13 @@ function StopsNearYouMap(
           setInitialMapTracking
           hilightedStops={hilightedStops()}
           leafletObjs={leafletObjs}
+          setMapState={setMapState}
+          onDragEndCallback={getCoordinates}
         />
       </>
     );
   }
+
   return map;
 }
 
