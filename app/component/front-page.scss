@@ -507,7 +507,9 @@ svg.icon.footer-icon {
   margin-right: 6px;
 }
 .front-page.bp-large {
-  margin-top: 47px;
+  margin-top: 0;
+  padding-top: 47px;
+  border-right: 1px solid #ccc;
   .datetimepicker-container {
     margin-bottom: 11px;
   }
