@@ -262,8 +262,8 @@ class DTAutosuggest extends React.Component {
     return !isEqual(nextState, this.state) || !isEqual(nextProps, this.props);
   }
 
-  componentDidUpdate = prevProps => {
-    if (prevProps.lang !== this.props.lang) {
+  componentDidUpdate = () => {
+    if (i18next.language !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
     }
   };
