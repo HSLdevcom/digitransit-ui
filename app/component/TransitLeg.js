@@ -348,7 +348,6 @@ class TransitLeg extends React.Component {
               first: index === 0,
               interlining: leg.interlineWithPreviousLeg,
             })}
-            aria-hidden="true"
           >
             <div className="itinerary-leg-row">
               <Link
@@ -403,6 +402,10 @@ class TransitLeg extends React.Component {
               onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
               role="button"
               tabIndex="0"
+              aria-label={intl.formatMessage(
+                { id: 'itinerary-summary.show-on-map' },
+                { target: leg.from.name || '' },
+              )}
             >
               <Icon
                 img="icon-icon_show-on-map"
@@ -414,31 +417,31 @@ class TransitLeg extends React.Component {
             className={cx('itinerary-transit-leg-route', {
               'long-name': hasNoShortName,
             })}
-            aria-hidden="true"
           >
             <Link
               onClick={e => {
                 e.stopPropagation();
               }}
-              onKeyPress={e => {
-                if (isKeyboardSelectionEvent(e)) {
-                  e.stopPropagation();
-                }
-              }}
               to={
                 `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${leg.trip.pattern.code}/${leg.trip.gtfsId}`
                 // TODO: Create a helper function for generationg links
               }
+              aria-label={`${intl.formatMessage({
+                id: mode.toLowerCase(),
+                defaultMessage: 'Vehicle',
+              })} ${leg.route && leg.route.shortName}`}
             >
-              <RouteNumber
-                mode={mode.toLowerCase()}
-                alertSeverityLevel={alertSeverityLevel}
-                color={leg.route ? `#${leg.route.color}` : 'currentColor'}
-                text={leg.route && leg.route.shortName}
-                realtime={false}
-                withBar
-                fadeLong
-              />
+              <span aria-hidden="true">
+                <RouteNumber
+                  mode={mode.toLowerCase()}
+                  alertSeverityLevel={alertSeverityLevel}
+                  color={leg.route ? `#${leg.route.color}` : 'currentColor'}
+                  text={leg.route && leg.route.shortName}
+                  realtime={false}
+                  withBar
+                  fadeLong
+                />
+              </span>
             </Link>
             <div className="headsign">{leg.trip.tripHeadsign}</div>
           </div>
