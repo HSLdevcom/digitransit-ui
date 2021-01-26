@@ -122,6 +122,7 @@ class Timetable extends React.Component {
             headsign: stoptime.pattern.headsign,
             longName: stoptime.pattern.route.longName,
             isCanceled: st.realtimeState === RealtimeStateType.Canceled,
+            mode: stoptime.pattern.route.mode,
           })),
       )
       .reduce((acc, val) => acc.concat(val), []);
@@ -234,7 +235,6 @@ class Timetable extends React.Component {
       obj.duplicate = getDuplicate ? getDuplicate.duplicate : false;
       return obj;
     });
-
     const timetableMap = this.groupArrayByHour(routesWithDetails);
 
     const stopIdSplitted = this.props.stop.gtfsId.split(':');
@@ -279,6 +279,12 @@ class Timetable extends React.Component {
           </h1>
         </div>
         <div className="timetable-for-printing">{this.dateForPrinting()}</div>
+        <div className="timetable-note">
+          <FormattedMessage
+            id="departures-by-hour"
+            defaultMessage="Departures by hour (minutes/line number)"
+          />
+        </div>
         <div className="momentum-scroll">
           <div className="timetable-time-headers">
             <div className="hour">

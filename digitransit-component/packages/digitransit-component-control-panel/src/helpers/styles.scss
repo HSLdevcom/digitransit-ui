@@ -14,15 +14,15 @@
   background-color: ffffff;
   height: 100%;
   width: calc(100% - 2em);
-  max-width: 400px;
+  max-width: 399px;
   z-index: 20;
   margin: 0 auto;
 }
 
 .main-bottom {
   background-color: #ffffff;
-  width: calc(100% - 2em);
-  margin: 0 auto;
+  width: calc(100% - 40px);
+  margin: 0 20px;
   padding-bottom: 32px,
 }
 
@@ -30,8 +30,12 @@
   position: relative;
   display: block;
   width: 100%;
-  margin-bottom: 21px;
-  padding-bottom: 31px;
+  margin-bottom: 25px;
+  padding-bottom: 21px;
+  @include min-width(tablet)  {
+    padding-bottom: 31px;
+    margin-bottom: 20px;
+  }
 }
 
 .separator-div2 {
@@ -49,28 +53,35 @@
   height: 1px;
   position: absolute;
   bottom: 0;
-  right: -10px;
-  left: -10px;
+  right: -5px;
+  left: -5px;
+  @include min-width(tablet)  {
+    right: -10px;
+    left: -10px;
+  }
 }
 
 .near-you-container {
+  font-size: 16px;
   .near-you-title {
     font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
-    letter-spacing: -0.6px;
+    letter-spacing: -0.67px;
     color: #333333;
-    margin: 0 0 16px 0;
+    margin: 0 0 15px 0;
+    font-size: 1.125em;
     @include min-width(tablet)  {
+      letter-spacing: -0.6px;
+      font-size: 1.25em;
       margin: 0px 0 18px 0;
     }
   }
 
   .near-you-buttons-container {
     display: flex;
-    justify-content: space-between;
     & > a:not(:last-child) {
       margin-right: 9px;
       @include min-width(tablet)  {
@@ -81,11 +92,11 @@
       display: flex;
       flex: 1;
       width: 100%;
-      height: 48px;
+      height: 50px;
       @include min-width(tablet)  {
-        min-width: 60px;
+        min-width: 58px;
         max-width: 72px;
-        height: 60px;
+        height: 58px;
       }
     }
 

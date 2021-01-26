@@ -125,7 +125,7 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
 
   return (
     <div>
-      <div className="stop-tab-container">
+      <div className="stop-tab-container" role="tablist">
         <Link
           to={urlBase}
           className={cx('stop-tab-singletab', {
@@ -138,6 +138,7 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
               name: null,
             });
           }}
+          role="tab"
         >
           <div className="stop-tab-singletab-container">
             <div>
@@ -157,6 +158,7 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
               name: null,
             });
           }}
+          role="tab"
         >
           <div className="stop-tab-singletab-container">
             <div>
@@ -179,6 +181,7 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
               name: null,
             });
           }}
+          role="tab"
         >
           <div className="stop-tab-singletab-container">
             <div className={`${disruptionClassName || `no-alerts`}`}>
