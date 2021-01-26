@@ -100,7 +100,7 @@ export function getCurrentSecs() {
   return moment().unix();
 }
 
-// converts time from 24 hour HH:mm to 24+ hour HHmm format
+// converts time from 24+ hour HHmm to 24 hour HH:mm format
 export function convertTo24HourFormat(time) {
   return parseInt(time.substring(0, 2), 10) > 23
     ? `0${parseInt(time.substring(0, 2), 10) - 24}:${time.substring(2, 4)}`
