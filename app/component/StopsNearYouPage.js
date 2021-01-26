@@ -114,13 +114,20 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   }
 
   componentDidMount() {
-    checkPositioningPermission().then(permission => {
-      setSavedGeolocationPermission('state', permission.state);
-      if (permission.state === 'granted') {
-        this.context.executeAction(startLocationWatch);
-      }
+    const savedChoice = getSavedGeolocationPermission();
+    if (savedChoice.state === 'granted') {
+      this.context.executeAction(startLocationWatch);
       this.setState({ loadingGeolocationState: false });
-    });
+    } else {
+      checkPositioningPermission().then(permission => {
+        const state = permission.state ? permission.state : 'prompt';
+        setSavedGeolocationPermission('state', state);
+        if (permission.state === 'granted') {
+          this.context.executeAction(startLocationWatch);
+        }
+        this.setState({ loadingGeolocationState: false });
+      });
+    }
   }
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
