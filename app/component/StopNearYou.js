@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
 import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
-import { isKeyboardSelectionEvent } from '../util/browser';
 import StopNearYouHeader from './StopNearYouHeader';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
 
@@ -12,7 +11,7 @@ const StopNearYou = ({ stop, ...props }) => {
   const desc = stopOrStation.desc ? stopOrStation.desc : stop.desc;
   const isStation = !!stop.parentStation;
   const linkAddress = isStation
-    ? `/${PREFIX_TERMINALS}/${stop.gtfsId}`
+    ? `/${PREFIX_TERMINALS}/${stop.parentStation.gtfsId}`
     : `/${PREFIX_STOPS}/${stop.gtfsId}`;
 
   return (
@@ -34,11 +33,6 @@ const StopNearYou = ({ stop, ...props }) => {
           as="button"
           onClick={e => {
             e.stopPropagation();
-          }}
-          onKeyPress={e => {
-            if (isKeyboardSelectionEvent(e)) {
-              e.stopPropagation();
-            }
           }}
           to={linkAddress}
         >
