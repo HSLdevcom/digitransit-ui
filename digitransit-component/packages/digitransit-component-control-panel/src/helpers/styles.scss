@@ -69,11 +69,12 @@
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
-    letter-spacing: -0.6px;
+    letter-spacing: -0.67px;
     color: #333333;
     margin: 0 0 15px 0;
     font-size: 1.125em;
     @include min-width(tablet)  {
+      letter-spacing: -0.6px;
       font-size: 1.25em;
       margin: 0px 0 18px 0;
     }
