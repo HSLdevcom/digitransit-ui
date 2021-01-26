@@ -2267,12 +2267,19 @@ class SummaryPage extends React.Component {
       this.state.loading !== false ||
       this.props.loadingPosition === true
     ) {
+      this.justMounted = true;
+      this.useFitBounds = true;
+      this.mapLoaded = false;
       content = (
         <div style={{ position: 'relative', height: 200 }}>
           <Loading />
         </div>
       );
-    } else if (
+      if (hash !== undefined) {
+        return content;
+      }
+    }
+    if (
       routeSelected(
         match.params.hash,
         match.params.secondHash,
