@@ -201,7 +201,7 @@ class DepartureListContainer extends Component {
     const screenReaderAlert = (
       <span className="sr-only" role="alert" ref={this.pageLoadedAlertRef}>
         <FormattedMessage
-          id="'stop-page.right-now.loaded"
+          id="stop-page.right-now.loaded"
           defaultMessage="Right now stop page loaded"
         />
       </span>
