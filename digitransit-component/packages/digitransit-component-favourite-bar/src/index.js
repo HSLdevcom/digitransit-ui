@@ -13,7 +13,6 @@ import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 
 i18next.init({
-  lng: 'fi',
   fallbackLng: 'fi',
   defaultNS: 'translation',
   interpolation: {
@@ -153,7 +152,6 @@ class FavouriteBar extends React.Component {
 
   constructor(props) {
     super(props);
-    i18next.changeLanguage(props.lang);
     this.state = {
       listOpen: false,
       highlightedIndex: 0,
@@ -169,7 +167,6 @@ class FavouriteBar extends React.Component {
   }
 
   componentDidMount() {
-    i18next.changeLanguage(this.props.lang);
     document.addEventListener('mousedown', this.handleClickOutside);
   }
 
@@ -191,8 +188,8 @@ class FavouriteBar extends React.Component {
     return null;
   }
 
-  componentDidUpdate = prevProps => {
-    if (prevProps.lang !== this.props.lang) {
+  componentDidUpdate = () => {
+    if (i18next.language !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
     }
   };
@@ -202,6 +199,9 @@ class FavouriteBar extends React.Component {
   }
 
   toggleList = () => {
+    if (i18next.language !== this.props.lang) {
+      i18next.changeLanguage(this.props.lang);
+    }
     this.setState(prevState => ({
       listOpen: !prevState.listOpen,
       highlightedIndex: 0,
