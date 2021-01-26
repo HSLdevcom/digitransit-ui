@@ -180,14 +180,14 @@ const MobileSearch = ({
   return (
     <ReactModal
       isOpen={searchOpen}
-      className={styles['mobile-modal-content']}
+      className={styles['mobile-modal']}
       overlayClassName={styles['mobile-modal-overlay']}
       onRequestClose={closeHandle}
       onAfterOpen={onOpen}
       onAfterClose={handleClose}
       shouldCloseOnEsc
     >
-      <div>
+      <div className={styles['mobile-modal-content']}>
         {renderContent()}
         {renderDialogModal()}
       </div>
