@@ -10,7 +10,7 @@ export default function RouteHeader(props) {
   const mode = props.route.mode.toLowerCase();
 
   let trip;
-  if (props.trip) {
+  if (props.trip && props.trip.length > 3) {
     // change to 24h format
     const startTime = convertTo24HourFormat(props.trip);
     trip = <span className="route-header-trip">{startTime} →</span>;

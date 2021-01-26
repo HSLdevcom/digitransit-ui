@@ -55,7 +55,7 @@ export default {
           : time;
       }
       const fixedStartTime =
-        tripStartTime && tripStartTime !== '+'
+        tripStartTime && tripStartTime !== '+' && tripStartTime.lengh > 4
           ? convertTo24HourFormat(tripStartTime)
           : tripStartTime;
       return (

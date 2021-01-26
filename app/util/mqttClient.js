@@ -73,9 +73,11 @@ export function parseMessage(topic, message, agency) {
     parsedMessage.long &&
     (parsedMessage.seq === undefined || parsedMessage.seq === 1) // seq is used for hsl metro carriage sequence
   ) {
-    // change times from 24 hour system to 29 hour system
+    // change times from 24 hour system to 29 hour system, and removes ':'
     const tripStartTime =
-      startTime && parseInt(startTime.substring(0, 2), 10) < 5
+      startTime &&
+      startTime.length > 4 &&
+      parseInt(startTime.substring(0, 2), 10) < 5
         ? `${parseInt(startTime.substring(0, 2), 10) + 24}${startTime.substring(
             3,
           )}`
