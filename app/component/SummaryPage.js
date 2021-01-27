@@ -2261,6 +2261,7 @@ class SummaryPage extends React.Component {
     }
 
     let content;
+    let isLoading = false;
 
     if (
       (!error && (!this.selectedPlan || this.props.loading === true)) ||
@@ -2270,6 +2271,7 @@ class SummaryPage extends React.Component {
       this.justMounted = true;
       this.useFitBounds = true;
       this.mapLoaded = false;
+      isLoading = true;
       content = (
         <div style={{ position: 'relative', height: 200 }}>
           <Loading />
@@ -2309,36 +2311,46 @@ class SummaryPage extends React.Component {
       );
     } else {
       map = undefined;
-      content = (
-        <>
-          <SummaryPlanContainer
-            activeIndex={
-              hash || getActiveIndex(match.location, combinedItineraries)
-            }
-            plan={this.selectedPlan}
-            serviceTimeRange={serviceTimeRange}
-            itineraries={combinedItineraries}
-            params={match.params}
-            error={error || this.state.error}
-            from={match.params.from}
-            to={match.params.to}
-            intermediatePlaces={intermediatePlaces}
-            bikeAndPublicItinerariesToShow={this.bikeAndPublicItinerariesToShow}
-            bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
-            walking={showWalkOptionButton}
-            biking={showBikeOptionButton}
-            showAlternativePlan={
-              planHasNoItineraries && hasAlternativeItineraries
-            }
-            separatorPosition={this.state.separatorPosition}
-            loading={this.isFetchingWalkAndBike && !error}
-            onLater={this.onLater}
-            onEarlier={this.onEarlier}
-            loadingMoreItineraries={this.state.loadingMoreItineraries}
-          />
-          {screenReaderAlert}
-        </>
-      );
+      if (isLoading) {
+        content = (
+          <div style={{ position: 'relative', height: 200 }}>
+            <Loading />
+          </div>
+        );
+      } else {
+        content = (
+          <>
+            <SummaryPlanContainer
+              activeIndex={
+                hash || getActiveIndex(match.location, combinedItineraries)
+              }
+              plan={this.selectedPlan}
+              serviceTimeRange={serviceTimeRange}
+              itineraries={combinedItineraries}
+              params={match.params}
+              error={error || this.state.error}
+              from={match.params.from}
+              to={match.params.to}
+              intermediatePlaces={intermediatePlaces}
+              bikeAndPublicItinerariesToShow={
+                this.bikeAndPublicItinerariesToShow
+              }
+              bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
+              walking={showWalkOptionButton}
+              biking={showBikeOptionButton}
+              showAlternativePlan={
+                planHasNoItineraries && hasAlternativeItineraries
+              }
+              separatorPosition={this.state.separatorPosition}
+              loading={this.isFetchingWalkAndBike && !error}
+              onLater={this.onLater}
+              onEarlier={this.onEarlier}
+              loadingMoreItineraries={this.state.loadingMoreItineraries}
+            />
+            {screenReaderAlert}
+          </>
+        );
+      }
     }
 
     return (
