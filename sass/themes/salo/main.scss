@@ -1,2 +1,34 @@
+/* Theme */
 @import 'theme';
+
 @import '../../main';
+
+// Reset button element styles to prevent old styles from cdn.
+button {
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  font-size: 100%;
+  background: none;
+  border-style: none;
+  border-width: 0px;
+  cursor: pointer;
+  font-family: inherit;
+  position: relative;
+  background-color: transparent;
+  transition: none;
+  color: inherit;
+
+  &:focus {
+    background-color: transparent;
+    color: inherit;
+  }
+  &:active {
+    background-color: transparent;
+    color: inherit;
+  }
+  &:hover {
+    background-color: transparent;
+    color: inherit;
+  }
+}
