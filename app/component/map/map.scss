@@ -276,10 +276,10 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
 
 .map-with-tracking-buttons {
   z-index: 401;
-  bottom: 192px;
+  bottom: 157px;
   display: flex;
+  flex-direction: column;
   right: 30px;
-  max-height: 36px;
   max-width: calc(100% - 2em);
   position: absolute;
 
