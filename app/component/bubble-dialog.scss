@@ -23,7 +23,7 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
 
     .bubble-dialog {
       position: relative;
-      right: 175px;
+      right: 135px;
       background-color: $white;
       border-radius: $border-radius-bigger;
       box-shadow: $bubble-dialog-box-shadow;
@@ -48,7 +48,8 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
       &.bubble-dialog--tooltip {
         display: flex;
         flex-direction: row;
-        width: 23em;
+	right: 16em;
+        width: 19em;
         max-width: calc(100vw - 5.5em);
       }
 
@@ -125,7 +126,6 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
 
     .bubble-dialog-tip-container {
       height: 1rem;
-      margin-left: 0.25rem;
       overflow: hidden;
       width: 2rem;
 
