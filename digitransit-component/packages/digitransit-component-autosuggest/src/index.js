@@ -736,7 +736,6 @@ class DTAutosuggest extends React.Component {
       renderMobileSearch,
       cleanExecuted,
     } = this.state;
-
     const inputProps = {
       placeholder: i18next.t(this.props.placeholder),
       value,
