@@ -115,8 +115,9 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   componentDidMount() {
     checkPositioningPermission().then(permission => {
-      setSavedGeolocationPermission('state', permission.state);
-      if (permission.state === 'granted') {
+      const state = permission.state ? permission.state : 'granted';
+      setSavedGeolocationPermission('state', state);
+      if (state === 'granted') {
         this.context.executeAction(startLocationWatch);
       }
       this.setState({ loadingGeolocationState: false });
