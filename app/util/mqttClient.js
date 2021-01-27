@@ -23,9 +23,7 @@ const getMode = mode => {
 // Input: options - route, direction, tripStartTime are used to generate the topic
 function getTopic(options, settings) {
   const route = options.route ? options.route : '+';
-  const direction = options.direction
-    ? parseInt(options.direction, 10) + 1
-    : '+';
+  const direction = options.direction ? parseInt(options.direction, 10) : '+';
   const geoHash = options.geoHash ? options.geoHash : ['+', '+', '+', '+'];
   const tripId = options.tripId ? options.tripId : '+';
   const headsign = options.headsign ? options.headsign : '+';
