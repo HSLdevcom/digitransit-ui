@@ -357,6 +357,7 @@ class TileLayerContainer extends GridLayer {
             <MarkerSelectPopup
               selectRow={this.selectRow}
               options={this.state.selectableTargets}
+              colors={this.context.config.colors}
             />
           </Popup>
         );

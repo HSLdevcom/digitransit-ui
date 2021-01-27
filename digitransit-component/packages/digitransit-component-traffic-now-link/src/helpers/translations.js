@@ -3,13 +3,13 @@ const translations = {
     traffic: 'Aktuelle Verbindungen',
   },
   en: {
-    traffic: 'Services now',
+    traffic: 'Changes and disruptions',
   },
   sv: {
-    traffic: 'Trafiken nu',
+    traffic: 'Störningar och ändringar',
   },
   fi: {
-    traffic: 'Liikenne nyt',
+    traffic: 'Häiriöt ja muutokset',
   },
 };
 export default translations;

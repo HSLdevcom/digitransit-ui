@@ -5,26 +5,19 @@ import { FormattedMessage } from 'react-intl';
 import StopCode from './StopCode';
 import ZoneIcon from './ZoneIcon';
 import PlatformNumber from './PlatformNumber';
-import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
-import { isKeyboardSelectionEvent } from '../util/browser';
 import FavouriteStopContainer from './FavouriteStopContainer';
 import { getZoneLabel } from '../util/legUtils';
 
-const StopNearYouHeader = ({ stop, desc, isStation }, { config }) => {
-  const linkAddress = isStation
-    ? `/${PREFIX_TERMINALS}/${stop.gtfsId}`
-    : `/${PREFIX_STOPS}/${stop.gtfsId}`;
+const StopNearYouHeader = (
+  { stop, desc, isStation, linkAddress },
+  { config },
+) => {
   return (
     <div className="stop-near-you-header-container">
       <div className="stop-header-content">
         <Link
           onClick={e => {
             e.stopPropagation();
-          }}
-          onKeyPress={e => {
-            if (isKeyboardSelectionEvent(e)) {
-              e.stopPropagation();
-            }
           }}
           to={linkAddress}
         >
@@ -65,6 +58,7 @@ const StopNearYouHeader = ({ stop, desc, isStation }, { config }) => {
 
 StopNearYouHeader.propTypes = {
   stop: PropTypes.object.isRequired,
+  linkAddress: PropTypes.string.isRequired,
   desc: PropTypes.string,
   isStation: PropTypes.bool,
 };

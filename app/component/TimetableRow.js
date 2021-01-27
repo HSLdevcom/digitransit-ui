@@ -1,9 +1,11 @@
+/* eslint-disable no-return-assign */
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
+import { intlShape } from 'react-intl';
 
-const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => (
+const TimetableRow = ({ title, stoptimes, showRoutes, timerows }, { intl }) => (
   <div
     className="timetable-row"
     style={{
@@ -33,7 +35,15 @@ const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => (
             })}
             key={`${time.id}-${time.name}-${time.scheduledDeparture}`}
           >
-            <span>
+            <div className="sr-only">
+              {`${moment
+                .unix(time.serviceDay + time.scheduledDeparture)
+                .format('hh:mm')}, ${intl.formatMessage({
+                id: time.mode.toLowerCase(),
+              })} ${time.name} 
+              `}
+            </div>
+            <span aria-hidden>
               <div>
                 <span className="bold">
                   {moment
@@ -63,6 +73,10 @@ TimetableRow.propTypes = {
   ).isRequired,
   showRoutes: PropTypes.arrayOf(PropTypes.string),
   timerows: PropTypes.arrayOf(PropTypes.string),
+};
+
+TimetableRow.contextTypes = {
+  intl: intlShape.isRequired,
 };
 
 TimetableRow.defaultProps = {

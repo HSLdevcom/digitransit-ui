@@ -137,6 +137,15 @@
                 margin-left: auto;
             }
         }
+        .stop-near-you-more-departures {
+            margin: 0 0 19px 20px;
+            padding: 9px 20px 8px;
+            border-radius: 25px;
+            border: solid 1px #dddddd;
+            font-size: 13px;
+            font-weight: $font-weight-medium;
+            color: $primary-color;
+        }
     }
     .near-departures-container {
         padding: 2px 15px 15px 15px;

@@ -130,7 +130,7 @@ function NearStopsAndRoutes({
   const buttons = modes.map(mode => {
     const withAlert = modesWithAlerts.includes(mode.toUpperCase());
     let url = `${urlStart}/${mode.toUpperCase()}/POS`;
-    if (origin.set) {
+    if (origin.lat && origin.lon) {
       url += `/${encodeURIComponent(origin.address)}::${origin.lat},${
         origin.lon
       }${queryString}`;

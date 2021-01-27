@@ -76,6 +76,7 @@ export const getNameLabel = memoize(
             ];
       case 'venue':
       case 'address':
+      case 'street':
         return [
           suggestion.name,
           suggestion.label.replace(

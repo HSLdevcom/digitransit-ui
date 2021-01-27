@@ -324,7 +324,6 @@ section.content {
     .desktop-title {
       background: #ffffff; // DT-3358: was $desktop-title-color
       &-bordered {
-        position: relative;
         &:after {
           content: '';
           display: block;

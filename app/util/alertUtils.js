@@ -305,7 +305,7 @@ export const getServiceAlertMetadata = (alert = {}) => ({
 
 const getServiceAlerts = (
   { alerts } = {},
-  { color, mode, shortName } = {},
+  { color, mode, shortName, routeGtfsId, stopGtfsId } = {},
   locale = 'en',
 ) =>
   Array.isArray(alerts)
@@ -318,6 +318,10 @@ const getServiceAlerts = (
           color,
           mode,
           shortName,
+          gtfsId: routeGtfsId,
+        },
+        stop: {
+          gtfsId: stopGtfsId,
         },
         url: getServiceAlertUrl(alert, locale),
       }))
@@ -345,7 +349,7 @@ export const getServiceAlertsForRoute = (
         patternIdPredicate(alert, patternId),
       ),
     },
-    route,
+    { ...route, routeGtfsId: route && route.gtfsId },
     locale,
   );
 };
@@ -358,7 +362,7 @@ export const getServiceAlertsForRoute = (
  * @param {*} locale the locale to use, defaults to 'en'.
  */
 export const getServiceAlertsForStop = (stop, locale = 'en') =>
-  getServiceAlerts(stop, {}, locale);
+  getServiceAlerts(stop, { stopGtfsId: stop && stop.gtfsId }, locale);
 
 /**
  * Retrieves OTP-style Service Alerts from the given Terminal stop's stops  and
@@ -562,11 +566,6 @@ export const getActiveLegAlertSeverityLevel = leg => {
     ),
     ...getServiceAlertsForStop(leg.from && leg.from.stop),
     ...getServiceAlertsForStop(leg.to && leg.to.stop),
-    ...(Array.isArray(leg.intermediatePlaces)
-      ? leg.intermediatePlaces
-          .map(place => getServiceAlertsForStop(place.stop))
-          .reduce((a, b) => a.concat(b), [])
-      : []),
   ];
   return getActiveAlertSeverityLevel(
     serviceAlerts,
@@ -575,7 +574,7 @@ export const getActiveLegAlertSeverityLevel = leg => {
 };
 
 /**
- * Returns an array of currently active alerts for the legs' route and stops
+ * Returns an array of currently active alerts for the legs' route and origin/destination stops
  *
  * @param {*} leg the itinerary leg to check.
  * @param {*} legStartTime the reference unix time stamp (in seconds).
@@ -593,11 +592,6 @@ export const getActiveLegAlerts = (leg, legStartTime, locale = 'en') => {
     ),
     ...getServiceAlertsForStop(leg.from && leg.from.stop, locale),
     ...getServiceAlertsForStop(leg.to && leg.to.stop, locale),
-    ...(Array.isArray(leg.intermediatePlaces)
-      ? leg.intermediatePlaces
-          .map(place => getServiceAlertsForStop(place.stop, locale))
-          .reduce((a, b) => a.concat(b), [])
-      : []),
   ].filter(alert => isAlertActive([{}], alert, legStartTime) !== false);
 
   return serviceAlerts;
@@ -635,6 +629,37 @@ export const alertCompare = (a, b) => {
 };
 
 /**
+ * Compares the given alerts in order to sort them based on severity level and affected entity.
+ * The most severe alerts are sorted first, and alerts that affect routes are sorted before alerts
+ * that don't affect a route.
+ *
+ * @param {*} a the first alert to compare.
+ * @param {*} b the second alert to compare.
+ */
+export const alertSeverityCompare = (a, b) => {
+  const severityLevels = [
+    AlertSeverityLevelType.Info,
+    AlertSeverityLevelType.Unknown,
+    AlertSeverityLevelType.Warning,
+    AlertSeverityLevelType.Severe,
+  ];
+
+  const severityLevelDifference =
+    severityLevels.indexOf(b.severityLevel) -
+    severityLevels.indexOf(a.severityLevel);
+
+  if (severityLevelDifference === 0) {
+    if (a.route && a.route.gtfsId) {
+      return -1;
+    }
+    if (b.route && b.route.gtfsId) {
+      return 1;
+    }
+  }
+  return severityLevelDifference;
+};
+
+/**
  * Creates a list of unique alerts grouped under one header
  *@param {*} serviceAlerts The list of Service alerts to be mapped and filtered,
   @param {*} cancelations The list of Cancelations to be mapped and filtered,
@@ -654,6 +679,7 @@ export const createUniqueAlertList = (
   const getMode = alert => getRoute(alert).mode;
   const getShortName = alert => getRoute(alert).shortName;
   const getRouteGtfsId = alert => getRoute(alert).gtfsId;
+  const getRouteColor = alert => getRoute(alert).color;
 
   const getStop = alert => alert.stop || {};
   const getVehicleMode = alert => getStop(alert).vehicleMode;
@@ -705,6 +731,7 @@ export const createUniqueAlertList = (
           mode: getMode(alert),
           routeGtfsId: alerts.sort(alertCompare).map(getRouteGtfsId).join(','),
           shortName: alerts.sort(alertCompare).map(getShortName).join(', '),
+          color: getRouteColor(alert),
         }) ||
         undefined,
       stop:

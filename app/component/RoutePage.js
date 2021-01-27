@@ -101,8 +101,7 @@ class RoutePage extends React.Component {
     let sortedPatternsByCountOfTrips;
     const tripsExists = route.patterns ? 'trips' in route.patterns[0] : false;
 
-    // DT-3331 added reRouteAllowed
-    if (tripsExists && reRouteAllowed) {
+    if (tripsExists) {
       sortedPatternsByCountOfTrips = sortBy(
         sortBy(route.patterns, 'code').reverse(),
         'trips.length',
@@ -150,7 +149,6 @@ class RoutePage extends React.Component {
     if (!source || !source.active) {
       return;
     }
-
     // DT-4161: Start real time client if current day is in active days
     if (isActiveDate(selectedPattern)) {
       this.startClient(selectedPattern);
@@ -389,7 +387,10 @@ class RoutePage extends React.Component {
               text=""
             />
             <div className="route-info">
-              <div className={cx('route-short-name', route.mode.toLowerCase())}>
+              <div
+                className={cx('route-short-name', route.mode.toLowerCase())}
+                style={{ color: route.color ? `#${route.color}` : null }}
+              >
                 {route.shortName}
               </div>
               <div className="route-long-name">{route.longName}</div>

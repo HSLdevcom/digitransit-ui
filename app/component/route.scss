@@ -331,6 +331,7 @@ $margin-left-right: 1.25em;
               font-size: 0.9375rem;
             }
           }
+          flex-direction: row;
         }
       }
     }
@@ -911,8 +912,9 @@ $margin-left-right: 1.25em;
       .icon {
         width: 2.5em;
         height: 2.5em;
+        position: relative;
         .subicon-info, .subicon-caution {
-          bottom: 2px;
+          bottom: -5px;
           left: -5px;
           .icon {
             height: 1.5em;

@@ -2,7 +2,7 @@ import moment from 'moment';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
 
 import ComponentUsageExample from './ComponentUsageExample';
@@ -23,7 +23,7 @@ import { isKeyboardSelectionEvent } from '../util/browser';
 
 function WalkLeg(
   { children, focusAction, setMapZoomToLeg, index, leg, previousLeg },
-  { config },
+  { config, intl },
 ) {
   const distance = displayDistance(parseInt(leg.distance, 10), config);
   const duration = durationToString(leg.duration * 1000);
@@ -89,10 +89,7 @@ function WalkLeg(
           />
         </span>
         {isFirstLeg(index) ? (
-          <div
-            className={cx('itinerary-leg-first-row', 'walk', 'first')}
-            aria-hidden="true"
-          >
+          <div className={cx('itinerary-leg-first-row', 'walk', 'first')}>
             <div className="address-container">
               <div className="address">
                 {address}
@@ -112,6 +109,10 @@ function WalkLeg(
               onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
               role="button"
               tabIndex="0"
+              aria-label={intl.formatMessage(
+                { id: 'itinerary-summary.show-on-map' },
+                { target: leg.from.name || '' },
+              )}
             >
               <Icon
                 img="icon-icon_show-on-map"
@@ -120,7 +121,7 @@ function WalkLeg(
             </div>
           </div>
         ) : (
-          <div className="itinerary-leg-first-row" aria-hidden="true">
+          <div className="itinerary-leg-first-row">
             <div className="itinerary-leg-row">
               {leg.from.stop ? (
                 <Link
@@ -183,6 +184,10 @@ function WalkLeg(
               onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
               role="button"
               tabIndex="0"
+              aria-label={intl.formatMessage(
+                { id: 'itinerary-summary.show-on-map' },
+                { target: leg.from.name || '' },
+              )}
             >
               <Icon
                 img="icon-icon_show-on-map"
@@ -192,7 +197,7 @@ function WalkLeg(
           </div>
         )}
 
-        <div className="itinerary-leg-action" aria-hidden="true">
+        <div className="itinerary-leg-action">
           <div className="itinerary-leg-action-content">
             <FormattedMessage
               id="walk-distance-duration"
@@ -207,6 +212,9 @@ function WalkLeg(
               }
               role="button"
               tabIndex="0"
+              aria-label={intl.formatMessage({
+                id: 'itinerary-summary-row.clickable-area-description',
+              })}
             >
               <Icon
                 img="icon-icon_show-on-map"
@@ -280,6 +288,9 @@ WalkLeg.defaultProps = {
   previousLeg: undefined,
 };
 
-WalkLeg.contextTypes = { config: PropTypes.object.isRequired };
+WalkLeg.contextTypes = {
+  config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
+};
 
 export default WalkLeg;

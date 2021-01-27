@@ -3,18 +3,20 @@ import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
+import { convertTo24HourFormat } from '../util/timeUtils';
 import RouteNumber from './RouteNumber';
 
 export default function RouteHeader(props) {
   const mode = props.route.mode.toLowerCase();
 
-  const trip = props.trip ? (
-    <span className="route-header-trip">
-      {props.trip.substring(0, 2)}:{props.trip.substring(2, 4)} →
-    </span>
-  ) : (
-    ''
-  );
+  let trip;
+  if (props.trip && props.trip.length > 3) {
+    // change to 24h format
+    const startTime = convertTo24HourFormat(props.trip);
+    trip = <span className="route-header-trip">{startTime} →</span>;
+  } else {
+    trip = '';
+  }
 
   const routeLineText = ` ${props.route.shortName || ''}`;
 
@@ -33,7 +35,12 @@ export default function RouteHeader(props) {
   return (
     <div className={cx('route-header', props.className)}>
       <h1 className={mode}>
-        <RouteNumber card={props.card} mode={mode} text={routeLine} />
+        <RouteNumber
+          card={props.card}
+          mode={mode}
+          text={routeLine}
+          color={props.route.color ? `#${props.route.color}` : 'currentColor'}
+        />
         {trip}
       </h1>
     </div>
@@ -45,6 +52,7 @@ RouteHeader.propTypes = {
     gtfsId: PropTypes.string.isRequired,
     mode: PropTypes.string.isRequired,
     shortName: PropTypes.string,
+    color: PropTypes.string,
   }).isRequired,
   trip: PropTypes.string,
   pattern: PropTypes.shape({ code: PropTypes.string.isRequired }),

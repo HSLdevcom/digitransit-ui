@@ -315,26 +315,6 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             code
             platformCode
             zoneId
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-              trip {
-                pattern {
-                  code
-                }
-              }
-              alertHeaderText
-              alertHeaderTextTranslations {
-                text
-                language
-              }
-              alertUrl
-              alertUrlTranslations {
-                text
-                language
-              }
-            }
           }
         }
         realTime
