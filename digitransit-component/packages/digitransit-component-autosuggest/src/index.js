@@ -736,6 +736,14 @@ class DTAutosuggest extends React.Component {
       renderMobileSearch,
       cleanExecuted,
     } = this.state;
+    if (value.length === 0) {
+      suggestions.sort(function (a) {
+        if (a.type === 'FutureRoute') {
+          return -1;
+        }
+        return 0;
+      });
+    }
     const inputProps = {
       placeholder: i18next.t(this.props.placeholder),
       value,
