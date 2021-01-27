@@ -11,9 +11,7 @@ import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import ComponentDocumentation from './ComponentDocumentation';
 import RouteNumber from './RouteNumber';
-import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
-import Distance from './Distance';
 import PlatformNumber from './PlatformNumber';
 import CardHeader from './CardHeader';
 import Card from './Card';
@@ -74,7 +72,6 @@ import CallAgencyLeg from './CallAgencyLeg';
 import CallAgencyWarning from './CallAgencyWarning';
 import Timetable from './Timetable';
 import Error404 from './404';
-import SelectStreetModeDialog from './SelectStreetModeDialog';
 import SelectMapLayersDialog from './SelectMapLayersDialog';
 import MainMenuContainer from './MainMenuContainer';
 import OriginDestinationBar from './OriginDestinationBar';
@@ -91,9 +88,7 @@ const components = {
   IconWithIcon,
   ComponentDocumentation,
   RouteNumber,
-  RouteDestination,
   DepartureTime,
-  Distance,
   PlatformNumber,
   CardHeader,
   Card,
@@ -154,7 +149,6 @@ const components = {
   CallAgencyWarning,
   Timetable,
   Error404,
-  SelectStreetModeDialog,
   AlertList,
   ItineraryTab,
 };

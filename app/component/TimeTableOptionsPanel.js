@@ -46,7 +46,8 @@ class TimeTableOptionsPanel extends React.Component {
               className="showroutes-icon-svg"
             />
           </div>
-          <div
+          <button
+            type="button"
             className="showroutes-header"
             onClick={() => {
               this.props.showFilterModal(true);
@@ -58,7 +59,7 @@ class TimeTableOptionsPanel extends React.Component {
             }}
           >
             <FormattedMessage id="show-routes" defaultMessage="Show Lines" />
-          </div>
+          </button>
           <div className="showroutes-list">
             {showRoutesDiv.length > 0 && showRoutesDiv}
             {showRoutesDiv.length === 0 && (

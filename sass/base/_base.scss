@@ -211,7 +211,7 @@ body select {
   padding: 10px 0;
 }
 .leaflet-container a {
-  color: currentColor;
+  color: currentColor !important;
 }
 
 .subicon-caution,
@@ -233,6 +233,9 @@ body select {
     height: 13px;
     width: 13px;
   }
+}
+.ReactModal__Body--open {
+  width: 100%;
 }
 
 .subicon-info {

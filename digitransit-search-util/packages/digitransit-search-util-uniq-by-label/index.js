@@ -55,7 +55,7 @@ export const getNameLabel = memoize(
         ];
       case 'favouriteBikeRentalStation':
       case 'bikeRentalStation':
-        return [suggestion.name, 'bike-rental-station'];
+        return [suggestion.name];
       case 'favouriteRoute':
       case 'route-BUS':
       case 'route-TRAM':
@@ -76,6 +76,7 @@ export const getNameLabel = memoize(
             ];
       case 'venue':
       case 'address':
+      case 'street':
         return [
           suggestion.name,
           suggestion.label.replace(

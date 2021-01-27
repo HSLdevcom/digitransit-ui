@@ -34,16 +34,6 @@ describe('reittiopasParameterMiddleware', () => {
       validateParams(req, config);
       expect(req.query.time).to.be.an('undefined');
     });
-
-    it('should remove invalid modes parameter', () => {
-      const properModes = req.query.modes;
-      validateParams(req, config);
-      expect(req.query.modes).to.equal(properModes);
-
-      req.query.modes = 'test1,test2';
-      validateParams(req, config);
-      expect(req.query.modes).to.be.an('undefined');
-    });
   });
 
   describe('dropLanguageAndSetLocaleParam', () => {
@@ -72,15 +62,12 @@ describe('reittiopasParameterMiddleware', () => {
       req.query = {
         time: 1565074800,
         arriveBy: false,
-        utm_campaign: 'hsl.fi',
-        utm_source: 'etusivu-reittihaku',
-        utm_medium: 'referral',
         locale: 'fi',
       };
 
       const relativeUrl = dropPathLanguageAndFixLocaleParam(req, 'en');
       expect(relativeUrl).to.equal(
-        `/${PREFIX_ITINERARY_SUMMARY}/Otaniemi,%20Espoo::60.187938,24.83182/Rautatientori,%20Asemanaukio%202,%20Helsinki::60.170384,24.939846?time=1565074800&arriveBy=false&utm_campaign=hsl.fi&utm_source=etusivu-reittihaku&utm_medium=referral&locale=en`,
+        `/${PREFIX_ITINERARY_SUMMARY}/Otaniemi,%20Espoo::60.187938,24.83182/Rautatientori,%20Asemanaukio%202,%20Helsinki::60.170384,24.939846?time=1565074800&arriveBy=false&locale=en`,
       );
     });
   });

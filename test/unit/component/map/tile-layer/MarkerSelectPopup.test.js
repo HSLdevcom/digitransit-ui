@@ -2,10 +2,14 @@ import React from 'react';
 
 import { shallowWithIntl } from '../../../helpers/mock-intl-enzyme';
 import MarkerSelectPopup from '../../../../../app/component/map/tile-layer/MarkerSelectPopup';
+import SelectStopRow from '../../../../../app/component/map/tile-layer/SelectStopRow';
+import SelectCityBikeRow from '../../../../../app/component/map/tile-layer/SelectCityBikeRow';
+import SelectParkAndRideRow from '../../../../../app/component/map/tile-layer/SelectParkAndRideRow';
+import SelectVehicleContainer from '../../../../../app/component/map/tile-layer/SelectVehicleContainer';
 import { mockMatch } from '../../../helpers/mock-router';
 
 describe('<MarkerSelectPopup />', () => {
-  it('should use a unique key for each row when the rows include citybike stops', () => {
+  it('should render stop, citybike, parkandride and vehicle rows with valid data', () => {
     const props = {
       options: [
         {
@@ -35,11 +39,56 @@ describe('<MarkerSelectPopup />', () => {
             },
           },
         },
+        {
+          layer: 'parkAndRide',
+          feature: {
+            geom: { x: 2949, y: 3451 },
+            properties: {
+              facilities: [
+                {
+                  id: 'Q2FyUGFyazo5OTA=',
+                  maxCapacity: 1365,
+                  name: 'Tapiola Park',
+                  realtime: true,
+                  spacesAvailable: 853,
+                },
+              ],
+              facilityIds: '[983,984,985,986,987,990,1058,1085]',
+              name: `{"fi":"Tapiola","sv":"Hagalund","en":"Tapiola"}`,
+            },
+          },
+        },
+        {
+          layer: 'realTimeVehicle',
+          feature: {
+            geom: { x: 2949.5, y: 3451.5 },
+            properties: {},
+            vehicle: {
+              direction: 1,
+              heading: 36,
+              headsign: undefined,
+              id: 'HSL_01317',
+              lat: 60.17874,
+              long: 24.82601,
+              mode: 'bus',
+              next_stop: 'HSL:2222234',
+              operatingDay: '2021-01-18',
+              route: 'HSL:2550',
+              shortName: '550',
+              timestamp: 1610977447,
+              tripStartTime: '1530',
+            },
+          },
+        },
       ],
       selectRow: () => {},
       location: {
         lat: 60.169525626502484,
         lng: 24.933235645294193,
+      },
+      colors: {
+        primary: '#007ac9',
+        hover: '#0062a1',
       },
     };
     const wrapper = shallowWithIntl(<MarkerSelectPopup {...props} />, {
@@ -47,6 +96,9 @@ describe('<MarkerSelectPopup />', () => {
         match: mockMatch,
       },
     });
-    expect(wrapper.isEmptyRender()).to.equal(false);
+    expect(wrapper.find(SelectStopRow)).to.have.lengthOf(1);
+    expect(wrapper.find(SelectCityBikeRow)).to.have.lengthOf(1);
+    expect(wrapper.find(SelectParkAndRideRow)).to.have.lengthOf(1);
+    expect(wrapper.find(SelectVehicleContainer)).to.have.lengthOf(1);
   });
 });

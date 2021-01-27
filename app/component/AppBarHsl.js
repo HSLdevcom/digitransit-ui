@@ -1,14 +1,10 @@
 /* eslint-disable camelcase */
-/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { matchShape, routerShape } from 'found';
-import moment from 'moment';
+import { intlShape } from 'react-intl';
+import { matchShape } from 'found';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
-import { replaceQueryParams } from '../util/queryUtils';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { setLanguage } from '../action/userPreferencesActions';
 
 const modules = {
   SiteHeader: () => importLazy(import('@hsl-fi/site-header')),
@@ -22,39 +18,21 @@ const clearStorages = context => {
   context.getStore('FavouriteStore').clearFavourites();
 };
 
-const selectLanguage = (executeAction, lang, router, match) => () => {
-  addAnalyticsEvent({
-    category: 'Navigation',
-    action: 'ChangeLanguage',
-    name: lang,
-  });
-  executeAction(setLanguage, lang);
-  if (lang !== 'en') {
-    // eslint-disable-next-line global-require, import/no-dynamic-require
-    require(`moment/locale/${lang}`);
-  }
-  moment.locale(lang);
-  replaceQueryParams(router, match, { locale: lang });
-};
-
 const AppBarHsl = ({ lang, user }, context) => {
-  const { executeAction, config, router, match } = context;
+  const { config, match, intl } = context;
   const { location } = match;
 
   const languages = [
     {
       name: 'fi',
-      // onClick: selectLanguage(executeAction, 'fi', router, match),
       url: `/fi${location.pathname}${location.search}`,
     },
     {
       name: 'sv',
-      // onClick: selectLanguage(executeAction, 'sv', router, match),
       url: `/sv${location.pathname}${location.search}`,
     },
     {
       name: 'en',
-      // onClick: selectLanguage(executeAction, 'en', router, match),
       url: `/en${location.pathname}${location.search}`,
     },
   ];
@@ -78,12 +56,18 @@ const AppBarHsl = ({ lang, user }, context) => {
             initials,
             menuItems: [
               {
-                name: 'Omat tiedot',
+                name: intl.formatMessage({
+                  id: 'userinfo',
+                  defaultMessage: 'My information',
+                }),
                 url: `${config.URL.ROOTLINK}/omat-tiedot`,
                 selected: false,
               },
               {
-                name: 'Kirjaudu ulos',
+                name: intl.formatMessage({
+                  id: 'logout',
+                  defaultMessage: 'Logout',
+                }),
                 url: '/logout',
                 selected: false,
                 onClick: () => clearStorages(context),
@@ -102,8 +86,8 @@ const AppBarHsl = ({ lang, user }, context) => {
           />
           <SiteHeader
             hslFiUrl={config.URL.ROOTLINK}
-            {...userMenu}
             lang={lang}
+            {...userMenu}
             languageMenu={languages}
           />
         </>
@@ -113,11 +97,10 @@ const AppBarHsl = ({ lang, user }, context) => {
 };
 
 AppBarHsl.contextTypes = {
-  router: routerShape.isRequired,
   match: matchShape.isRequired,
   config: PropTypes.object.isRequired,
   getStore: PropTypes.func.isRequired,
-  executeAction: PropTypes.func.isRequired,
+  intl: intlShape.isRequired,
 };
 
 AppBarHsl.propTypes = {

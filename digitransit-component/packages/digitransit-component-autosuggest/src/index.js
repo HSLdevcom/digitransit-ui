@@ -6,7 +6,6 @@ import cx from 'classnames';
 import Autosuggest from 'react-autosuggest';
 import { executeSearch } from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
-import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import {
   getNameLabel,
   getStopCode,
@@ -15,16 +14,23 @@ import { getStopName } from '@digitransit-search-util/digitransit-search-util-he
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import moment from 'moment-timezone';
+import 'moment/locale/fi';
+import 'moment/locale/sv';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
 
-i18next.init({ lng: 'fi', resources: {} });
+moment.locale('en');
 
-Object.keys(translations).forEach(lang => {
-  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
 });
 
 const Loading = props => (
@@ -44,8 +50,8 @@ function getSuggestionContent(item) {
     let suggestionType;
     /* eslint-disable-next-line prefer-const */
     let [name, label] = getNameLabel(item.properties, true);
-    if (label === 'bike-rental-station') {
-      suggestionType = i18next.t(label);
+    if (item.properties.layer.toLowerCase().includes('bikerental')) {
+      suggestionType = i18next.t('bikerentalstation');
       const stopCode = item.properties.labelId;
       return [suggestionType, name, undefined, stopCode];
     }
@@ -76,20 +82,21 @@ function getSuggestionContent(item) {
     }
     return [suggestionType, name, label];
   }
+  const { origin, destination } = item.properties;
+  const tail1 = origin.locality ? `, ${origin.locality} foobar` : '';
+  const tail2 = destination.locality ? `, ${destination.locality}` : '';
+  const name1 = origin.name;
+  const name2 = destination.name;
   return [
     i18next.t('future-route'),
-    `${i18next.t('origin')} ${item.properties.origin.name}, ${
-      item.properties.origin.locality
-    }, ${i18next.t('destination')} ${item.properties.destination.name}, ${
-      item.properties.destination.locality
-    }`,
+    `${i18next.t('origin')} ${name1}${tail1} ${i18next.t(
+      'destination',
+    )} ${name2}${tail2}`,
     item.translatedText,
   ];
 }
 
 function translateFutureRouteSuggestionTime(item) {
-  moment.locale(i18next.language);
-
   const time = moment.unix(item.properties.time);
   let str = item.properties.arriveBy
     ? i18next.t('arrival')
@@ -169,6 +176,7 @@ function translateFutureRouteSuggestionTime(item) {
  *    sources={sources}
  *    targets={targets}
  *    isMobile  // Optional. Defaults to false. Whether to use mobile search.
+ *    mobileLabel="Custom label" // Optional. Custom label text for autosuggest field on mobile.
  */
 class DTAutosuggest extends React.Component {
   static propTypes = {
@@ -200,6 +208,7 @@ class DTAutosuggest extends React.Component {
       routesPrefix: PropTypes.string,
       stopsPrefix: PropTypes.string,
     }),
+    mobileLabel: PropTypes.string,
   };
 
   static defaultProps = {
@@ -218,18 +227,20 @@ class DTAutosuggest extends React.Component {
       routesPrefix: 'linjat',
       stopsPrefix: 'pysakit',
     },
+    mobileLabel: undefined,
   };
 
   constructor(props) {
     super(props);
     i18next.changeLanguage(props.lang);
     moment.tz.setDefault(props.timeZone);
+    moment.locale(props.lang);
+
     this.state = {
       value: props.value,
       suggestions: [],
       editing: false,
       valid: true,
-      pendingCurrentLocation: false,
       renderMobileSearch: false,
       sources: props.sources,
       ownPlaces: false,
@@ -238,7 +249,11 @@ class DTAutosuggest extends React.Component {
       pendingSelection: null,
       suggestionIndex: 0,
       cleanExecuted: false,
+      scrollY: 0,
     };
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
   }
 
   // DT-4074: When a user's location is updated DTAutosuggest would re-render causing suggestion list to reset.
@@ -247,8 +262,8 @@ class DTAutosuggest extends React.Component {
     return !isEqual(nextState, this.state) || !isEqual(nextProps, this.props);
   }
 
-  componentDidUpdate = prevProps => {
-    if (prevProps.lang !== this.props.lang) {
+  componentDidUpdate = () => {
+    if (i18next.language !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
     }
   };
@@ -296,6 +311,7 @@ class DTAutosuggest extends React.Component {
     }
     this.setState({
       editing: false,
+      renderMobileSearch: false,
       value: this.props.value,
     });
   };
@@ -333,16 +349,6 @@ class DTAutosuggest extends React.Component {
         );
         return;
       }
-      if (this.props.handleViaPoints) {
-        this.props.handleViaPoints(
-          suggestionToLocation(ref.suggestion),
-          ref.suggestionIndex,
-        );
-        this.setState({
-          renderMobileSearch: false,
-          suggestions: [],
-        });
-      }
       this.setState(
         {
           editing: false,
@@ -350,15 +356,17 @@ class DTAutosuggest extends React.Component {
         },
         () => {
           this.input.blur();
-          if (!this.props.handleViaPoints) {
+          if (this.props.handleViaPoints) {
+            this.props.handleViaPoints(ref.suggestion, ref.suggestionIndex);
+          } else {
             this.props.onSelect(ref.suggestion, this.props.id);
-            this.setState({
-              renderMobileSearch: false,
-              sources: this.props.sources,
-              ownPlaces: false,
-              suggestions: [],
-            });
           }
+          this.setState({
+            renderMobileSearch: false,
+            sources: this.props.sources,
+            ownPlaces: false,
+            suggestions: [],
+          });
           if (this.props.focusChange && !this.props.isMobile) {
             this.props.focusChange();
           }
@@ -390,8 +398,7 @@ class DTAutosuggest extends React.Component {
     ) {
       return '';
     }
-    const value = getLabel(suggestion.properties);
-    return value;
+    return getLabel(suggestion.properties);
   };
 
   checkPendingSelection = () => {
@@ -604,16 +611,17 @@ class DTAutosuggest extends React.Component {
   };
 
   renderItem = item => {
-    const newItem = {
-      ...item,
-      translatedText: translateFutureRouteSuggestionTime(item),
-    };
-    const content = getSuggestionContent(
-      item.type === 'FutureRoute' ? newItem : item,
-    );
+    const newItem =
+      item.type === 'FutureRoute'
+        ? {
+            ...item,
+            translatedText: translateFutureRouteSuggestionTime(item),
+          }
+        : item;
+    const content = getSuggestionContent(item);
     return (
       <SuggestionItem
-        item={item.type === 'FutureRoute' ? newItem : item}
+        item={newItem}
         content={content}
         loading={!this.state.valid}
         isMobile={this.props.isMobile}
@@ -623,14 +631,26 @@ class DTAutosuggest extends React.Component {
     );
   };
 
+  closeMobileSearch = () => {
+    this.setState(
+      {
+        renderMobileSearch: false,
+        value: this.props.value,
+      },
+      () => {
+        window.scrollTo(0, this.state.scrollY);
+        this.onSuggestionsClearRequested();
+      },
+    );
+  };
+
   // DT-3263 starts
   // eslint-disable-next-line consistent-return
   keyDown = event => {
-    const keyCode = event.keyCode || event.which;
     if (this.state.editing) {
       return this.inputClicked();
     }
-
+    const keyCode = event.keyCode || event.which;
     if ((keyCode === 13 || keyCode === 40) && this.state.value === '') {
       return this.clearInput();
     }
@@ -663,7 +683,7 @@ class DTAutosuggest extends React.Component {
       }
       label = label.concat(getSuggestionContent(this.state.suggestions[0]));
     }
-    return label ? label.join(' - ') : '';
+    return [...new Set(label)].join(' - ');
   };
 
   clearOldSearches = () => {
@@ -687,10 +707,29 @@ class DTAutosuggest extends React.Component {
     this.props.id === 'via-point' ||
     this.props.id === 'origin-stop-near-you';
 
-  render() {
-    if (this.state.pendingCurrentLocation) {
-      return <Loading />;
+  onFocus = () => {
+    const positions = [
+      'Valittu sijainti',
+      'Nykyinen sijaintisi',
+      'Current position',
+      'Selected location',
+      'Vald position',
+      'Använd min position',
+      'Min position',
+      'Käytä nykyistä sijaintia',
+      'Use current location',
+      'Your current location',
+    ];
+    if (positions.includes(this.state.value)) {
+      this.clearInput();
     }
+    return this.setState({
+      renderMobileSearch: this.props.isMobile,
+      scrollY: window.pageYOffset,
+    });
+  };
+
+  render() {
     const {
       value,
       suggestions,
@@ -702,22 +741,6 @@ class DTAutosuggest extends React.Component {
       value,
       onChange: this.onChange,
       onBlur: !this.props.isMobile ? this.onBlur : () => null,
-      onFocus: () => {
-        // DT-3460 empty input field if value is in array below (HSL.fi translations also.)
-        const positions = [
-          'Valittu sijainti',
-          'Current position',
-          'Selected location',
-          'Vald position',
-          'Använd min position',
-          'Käytä nykyistä sijaintia',
-          'Use current location',
-        ];
-        if (positions.includes(this.state.value)) {
-          this.clearInput();
-        }
-        return this.setState({ renderMobileSearch: this.props.isMobile });
-      },
       className: cx(
         `${styles.input} ${
           this.props.isMobile && this.props.transportMode ? styles.thin : ''
@@ -741,7 +764,11 @@ class DTAutosuggest extends React.Component {
 
     return (
       <React.Fragment>
-        <span className={styles['sr-only']} role="alert">
+        <span
+          className={styles['sr-only']}
+          role={this.state.typing ? undefined : 'alert'}
+          aria-hidden={!this.state.editing}
+        >
           {ariaSuggestionLen}
         </span>
         <span
@@ -751,8 +778,9 @@ class DTAutosuggest extends React.Component {
         >
           {ariaCurrentSuggestion}
         </span>
-        {renderMobileSearch && (
+        {this.props.isMobile && (
           <MobileSearch
+            searchOpen={renderMobileSearch}
             appElement={this.props.appElement}
             clearOldSearches={this.clearOldSearches}
             id={this.props.id}
@@ -775,17 +803,13 @@ class DTAutosuggest extends React.Component {
             onSuggestionsClearRequested={this.onSuggestionsClearRequested}
             getSuggestionValue={this.getSuggestionValue}
             renderSuggestion={this.renderItem}
-            closeHandle={() =>
-              this.setState(
-                {
-                  renderMobileSearch: false,
-                  value: this.props.value,
-                },
-                () => this.onSuggestionsClearRequested(),
-              )
-            }
+            closeHandle={this.closeMobileSearch}
             ariaLabel={SearchBarId.concat(' ').concat(ariaLabelText)}
-            label={i18next.t(this.props.id)}
+            label={
+              this.props.mobileLabel
+                ? this.props.mobileLabel
+                : i18next.t(this.props.id)
+            }
             onSuggestionSelected={this.onSelected}
             onKeyDown={this.keyDown}
             dialogHeaderText={i18next.t('delete-old-searches-header')}
@@ -822,7 +846,10 @@ class DTAutosuggest extends React.Component {
               onSuggestionsClearRequested={this.onSuggestionsClearRequested}
               getSuggestionValue={this.getSuggestionValue}
               renderSuggestion={this.renderItem}
-              inputProps={inputProps}
+              inputProps={{
+                ...inputProps,
+                onFocus: this.onFocus,
+              }}
               focusInputOnSuggestionClick
               shouldRenderSuggestions={() => this.state.editing}
               highlightFirstSuggestion

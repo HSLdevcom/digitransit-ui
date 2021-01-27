@@ -52,7 +52,13 @@ const productionPlugins = [
     caches: {
       main: [':rest:'],
       additional: [],
-      optional: ['*.png', 'css/*.css', 'assets/*.svg', ':externals:'],
+      optional: [
+        '*.png',
+        'css/*.css',
+        'assets/*.svg',
+        'assets/geojson/*.geojson',
+        ':externals:',
+      ],
     },
     // src for google fonts might change so https://fonts.gstatic.com addresses might require
     // some maintenance in this list to still keep them cached by service worker in the future.

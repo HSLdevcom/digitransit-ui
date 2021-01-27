@@ -2,36 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { connectToStores } from 'fluxible-addons-react';
-import { matchShape, routerShape } from 'found';
+import { matchShape } from 'found';
 import isEqual from 'lodash/isEqual';
 import MapWithTracking from './MapWithTracking';
 import withBreakpoint from '../../util/withBreakpoint';
 import SelectMapLayersDialog from '../SelectMapLayersDialog';
-import SelectStreetModeDialog from '../SelectStreetModeDialog';
 import OriginStore from '../../store/OriginStore';
 import DestinationStore from '../../store/DestinationStore';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { dtLocationShape } from '../../util/shapes';
 import { parseLocation } from '../../util/path';
-import * as ModeUtils from '../../util/modeUtils';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import storeOrigin from '../../action/originActions';
+import storeDestination from '../../action/destinationActions';
 
 const renderMapLayerSelector = () => <SelectMapLayersDialog />;
-
-const renderStreetModeSelector = (config, router, match) => (
-  <SelectStreetModeDialog
-    selectedStreetMode={ModeUtils.getStreetMode(match.location, config)}
-    selectStreetMode={(streetMode, isExclusive) => {
-      addAnalyticsEvent({
-        category: 'ItinerarySettings',
-        action: 'SelectTravelingModeFromIndexPage',
-        name: streetMode,
-      });
-      ModeUtils.setStreetMode(streetMode, config, isExclusive);
-    }}
-    streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
-  />
-);
 
 const locationMarkerModules = {
   LocationMarker: () =>
@@ -39,22 +23,23 @@ const locationMarkerModules = {
 };
 let previousFocusPoint;
 let previousMapTracking;
+
 function IndexPageMap(
-  { match, router, breakpoint, origin, destination },
-  { config },
+  { match, breakpoint, origin, destination },
+  { config, executeAction },
 ) {
   const originFromURI = parseLocation(match.params.from);
   const destinationFromURI = parseLocation(match.params.to);
   let focusPoint;
   let initialZoom = 16; // Focus to the selected point
   const useDefaultLocation =
-    (!origin || !origin.set) && (!destination || !destination.set);
+    (!origin || !origin.lat) && (!destination || !destination.lat);
   if (useDefaultLocation) {
     focusPoint = config.defaultMapCenter || config.defaultEndpoint;
     initialZoom = 12; // Show default area
-  } else if (origin.set && origin.ready && origin.lat && origin.lon) {
+  } else if (origin.lat) {
     focusPoint = origin;
-  } else if (destination.set && destination.ready) {
+  } else if (destination.lat) {
     focusPoint = destination;
   }
 
@@ -88,7 +73,7 @@ function IndexPageMap(
   }
   const leafletObjs = [];
 
-  if (origin && origin.ready === true) {
+  if (origin && origin.lat) {
     leafletObjs.push(
       <LazilyLoad modules={locationMarkerModules} key="from">
         {({ LocationMarker }) => (
@@ -98,7 +83,7 @@ function IndexPageMap(
     );
   }
 
-  if (destination && destination.ready === true) {
+  if (destination && destination.lat) {
     leafletObjs.push(
       <LazilyLoad modules={locationMarkerModules} key="to">
         {({ LocationMarker }) => (
@@ -107,8 +92,17 @@ function IndexPageMap(
       </LazilyLoad>,
     );
   }
+
   let map;
   if (breakpoint === 'large') {
+    const selectLocation = (item, id) => {
+      if (id === 'origin') {
+        executeAction(storeOrigin, item);
+      } else {
+        executeAction(storeDestination, item);
+      }
+    };
+
     map = (
       <MapWithTracking
         breakpoint={breakpoint}
@@ -120,13 +114,10 @@ function IndexPageMap(
         showLocationMessages
         initialZoom={initialZoom}
         leafletObjs={leafletObjs}
-        locationPopup="all"
+        locationPopup="origindestination"
+        onSelectLocation={selectLocation}
         renderCustomButtons={() => (
-          <>
-            {config.map.showStreetModeSelector &&
-              renderStreetModeSelector(config, router, match)}
-            {config.map.showLayerSelector && renderMapLayerSelector()}
-          </>
+          <>{config.map.showLayerSelector && renderMapLayerSelector()}</>
         )}
       />
     );
@@ -141,11 +132,7 @@ function IndexPageMap(
             defaultMapCenter={config.defaultMapCenter || config.defaultEndpoint}
             leafletObjs={leafletObjs}
             renderCustomButtons={() => (
-              <>
-                {config.map.showStreetModeSelector &&
-                  renderStreetModeSelector(config, router, match)}
-                {config.map.showLayerSelector && renderMapLayerSelector()}
-              </>
+              <>{config.map.showLayerSelector && renderMapLayerSelector()}</>
             )}
           />
         </div>
@@ -158,7 +145,6 @@ function IndexPageMap(
 
 IndexPageMap.propTypes = {
   match: matchShape.isRequired,
-  router: routerShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   origin: dtLocationShape,
   destination: dtLocationShape,
@@ -171,6 +157,7 @@ IndexPageMap.defaultProps = {
 
 IndexPageMap.contextTypes = {
   config: PropTypes.object.isRequired,
+  executeAction: PropTypes.func.isRequired,
 };
 
 const IndexPageMapWithBreakpoint = withBreakpoint(IndexPageMap);

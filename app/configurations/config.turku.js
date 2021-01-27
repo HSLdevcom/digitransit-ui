@@ -56,11 +56,6 @@ export default configMerger(walttiConfig, {
 
   cityBike: {
     showCityBikes: true,
-    useUrl: {
-      fi: 'https://www.foli.fi/kaupunkipyorat',
-      sv: 'https://www.foli.fi/sv/stadscyklar',
-      en: 'https://www.foli.fi/en/citybikes',
-    },
     networks: {
       turku: {
         icon: 'citybike',
@@ -113,6 +108,12 @@ export default configMerger(walttiConfig, {
         nameEn: 'About this service',
         route: '/tietoja-palvelusta',
         icon: 'icon-icon_info',
+      },
+      {
+        name: 'accessibility-statement',
+        nameEn: 'Accessibility statement',
+        href:
+          'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
       },
     ],
   },

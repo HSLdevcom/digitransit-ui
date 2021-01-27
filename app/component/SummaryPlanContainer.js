@@ -17,7 +17,7 @@ import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
 import TimeStore from '../store/TimeStore';
 import PositionStore from '../store/PositionStore';
 import { otpToLocation, getIntermediatePlaces } from '../util/otpStrings';
-import { getRoutePath } from '../util/path';
+import { getSummaryPath } from '../util/path';
 import { replaceQueryParams } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -76,17 +76,14 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onSelectActive = index => {
-    let isbikeAndVehicle;
-    if (this.props.params.hash === 'bikeAndVehicle') {
-      isbikeAndVehicle = true;
-    }
+    const isbikeAndVehicle = this.props.params.hash === 'bikeAndVehicle';
     if (this.props.activeIndex === index) {
       this.onSelectImmediately(index);
     } else {
       this.context.router.replace({
         ...this.context.match.location,
         state: { summaryPageSelected: index },
-        pathname: `${getRoutePath(
+        pathname: `${getSummaryPath(
           this.props.params.from,
           this.props.params.to,
         )}${isbikeAndVehicle ? '/bikeAndVehicle/' : ''}`,
@@ -101,10 +98,8 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onSelectImmediately = index => {
-    let isBikeAndPublic;
-    if (this.props.params.hash === 'bikeAndVehicle') {
-      isBikeAndPublic = true;
-    }
+    const isbikeAndVehicle = this.props.params.hash === 'bikeAndVehicle';
+
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'Itinerary',
@@ -115,14 +110,14 @@ class SummaryPlanContainer extends React.Component {
       ...this.context.match.location,
       state: { summaryPageSelected: index },
     };
-    const basePath = `${getRoutePath(
+    const basePath = `${getSummaryPath(
       this.props.params.from,
       this.props.params.to,
-    )}${isBikeAndPublic ? '/bikeAndVehicle/' : '/'}`;
-    const indexPath = `${getRoutePath(
+    )}${isbikeAndVehicle ? '/bikeAndVehicle/' : '/'}`;
+    const indexPath = `${getSummaryPath(
       this.props.params.from,
       this.props.params.to,
-    )}${isBikeAndPublic ? '/bikeAndVehicle/' : '/'}${index}`;
+    )}${isbikeAndVehicle ? '/bikeAndVehicle/' : '/'}${index}`;
 
     newState.pathname = basePath;
     this.context.router.replace(newState);

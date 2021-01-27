@@ -1,9 +1,6 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import isEqual from 'lodash/isEqual';
 import { startLocationWatch } from '../action/PositionActions';
 import Loading from './Loading';
 import { isBrowser } from '../util/browser';
@@ -23,10 +20,10 @@ const GeolocatorWithPosition = connectToStores(
       const locationForUrl = addressToItinerarySearch(locationState);
       const newFrom = from === undefined ? locationForUrl : from;
       let newTo;
-      if (locationForUrl && isEqual(locationForUrl, newFrom)) {
-        newTo = to === undefined || to === 'POS' ? '-' : to;
+      if (to === 'POS' || (from !== undefined && to === undefined)) {
+        newTo = locationForUrl;
       } else {
-        newTo = to === undefined || to === 'POS' ? locationForUrl : to;
+        newTo = to === undefined ? '-' : to;
       }
       const returnPath = createReturnPath(path, newFrom, newTo);
 

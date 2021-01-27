@@ -11,6 +11,7 @@ import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import { getStartTime } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import BackButton from './BackButton';
+import { isActiveDate } from '../util/patternUtils';
 
 class RouteMapContainer extends React.PureComponent {
   constructor(props) {
@@ -85,16 +86,18 @@ class RouteMapContainer extends React.PureComponent {
 
     let tripStart;
 
-    const leafletObjs = [
-      <RouteLine key="line" pattern={pattern} />,
-      <VehicleMarkerContainer
-        key="vehicles"
-        direction={pattern.directionId}
-        pattern={pattern.code}
-        headsign={pattern.headsign}
-        tripStart={tripStart}
-      />,
-    ];
+    const leafletObjs = [<RouteLine key="line" pattern={pattern} />];
+    if (isActiveDate(pattern)) {
+      leafletObjs.push(
+        <VehicleMarkerContainer
+          key="vehicles"
+          direction={pattern.directionId}
+          pattern={pattern.code}
+          headsign={pattern.headsign}
+          tripStart={tripStart}
+        />,
+      );
+    }
 
     const showScale = breakpoint === 'large';
 
@@ -195,6 +198,9 @@ export default createFragmentContainer(RouteMapContainerWithVehicles, {
         name
         gtfsId
         ...StopCardHeaderContainer_stop
+      }
+      activeDates: trips {
+        day: activeDates
       }
       ...RouteLine_pattern
     }

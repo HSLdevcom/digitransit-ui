@@ -3,6 +3,7 @@ import { describe, it } from 'mocha';
 import React from 'react';
 import sinon from 'sinon';
 
+import moment from 'moment';
 import { mockContext } from '../helpers/mock-context';
 import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
@@ -118,13 +119,30 @@ describe('<RoutePage />', () => {
     expect(wrapper.find('.activeAlert')).to.have.lengthOf(0);
   });
 
-  it('should start the real time client after mounting', () => {
+  it('should start the real time client after mounting if active pattern is found', () => {
+    const activeDates = [{ day: moment().format('YYYYMMDD') }];
     const props = {
+      reRouteAllowed: true,
       breakpoint: 'large',
       route: {
         gtfsId: 'tampere:32',
         mode: 'BUS',
-        patterns: [{ code: 'tampere:32:1:01', headsign: 'Tampella' }],
+        patterns: [
+          {
+            code: 'tampere:32:1:01',
+            headsign: 'Tampella',
+            activeDates,
+            trips: [
+              {
+                stoptimes: [
+                  {
+                    realtimeState: 'CANCELED',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
       router: mockRouter,
       match: {

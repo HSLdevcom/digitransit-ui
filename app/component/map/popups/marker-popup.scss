@@ -6,7 +6,7 @@
   .select-scroll-container {
     min-width: max-content;
     overflow-y: auto;
-    overflow-x: hidden,
+    overflow-x: hidden;
   }
 }
 
@@ -52,9 +52,24 @@
 
   .choose-row-left-column {
     margin: 0 16px 0 8px;
-    .icon-container>svg {
+    .icon-container > svg {
       height: 24px;
       width: 24px;
+    }
+    .bus-stop {
+      color: $bus-color;
+    }
+    .tram-stop {
+      color: $tram-color;
+    }
+    .subway-stop {
+      color: $metro-color;
+    }
+    .rail-stop {
+      color: $rail-color;
+    }
+    .ferry-stop {
+      color: $ferry-color;
     }
   }
 
@@ -109,7 +124,7 @@
   .choose-row-right-column {
     color: $primary-color;
     margin: 0 4px 0 20px;
-    .icon-container>svg {
+    .icon-container > svg {
       height: 20px;
       width: 16px;
     }

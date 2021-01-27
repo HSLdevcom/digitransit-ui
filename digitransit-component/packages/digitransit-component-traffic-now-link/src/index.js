@@ -9,10 +9,13 @@ import i18next from 'i18next';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 
-i18next.init({ lng: 'en', resources: {} });
-
-Object.keys(translations).forEach(lang => {
-  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+i18next.init({
+  lng: 'fi',
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
 });
 
 /**
@@ -40,6 +43,19 @@ class TrafficNowLink extends React.Component {
     lang: 'fi',
   };
 
+  constructor(props) {
+    super(props);
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
+  }
+
+  componentDidUpdate = () => {
+    if (i18next.language !== this.props.lang) {
+      i18next.changeLanguage(this.props.lang);
+    }
+  };
+
   handleKeyDown = (e, lang) => {
     if (e.keyCode === 32 || e.keyCode === 13) {
       this.props.handleClick(e, lang);
@@ -60,7 +76,7 @@ class TrafficNowLink extends React.Component {
           {' '}
           <Icon
             img="caution-white"
-            color="#007ac9"
+            color="#DC0451"
             height={1.375}
             width={1.25}
           />{' '}
@@ -70,7 +86,7 @@ class TrafficNowLink extends React.Component {
         </div>
 
         <span>
-          <Icon width={0.8125} height={1.1875} img="arrow" />
+          <Icon width={0.8125} height={1.1875} img="arrow" color="#007ac9" />
         </span>
       </div>
     );

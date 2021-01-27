@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import getContext from 'recompose/getContext';
@@ -20,54 +20,75 @@ const AppBarContainer = ({
   style,
   lang,
   ...args
-}) => (
-  <Fragment>
-    <a href="#mainContent" id="skip-to-content-link">
-      <FormattedMessage id="skip-to-content" defaultMessage="Skip to content" />
-    </a>
-    <DesktopOrMobile
-      mobile={() => {
-        if (style === 'hsl') {
-          return (
-            <div>
-              {' '}
+}) => {
+  const [isClient, setClient] = useState(false);
+
+  useEffect(() => {
+    // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
+    setClient(true);
+  });
+
+  return (
+    <>
+      <a
+        href="#mainContent"
+        id="skip-to-content-link"
+        style={{ display: isClient ? 'block' : 'none' }}
+      >
+        <FormattedMessage
+          id="skip-to-content"
+          defaultMessage="Skip to content"
+        />
+      </a>
+      <DesktopOrMobile
+        mobile={() => {
+          return style === 'hsl' ? (
+            <div style={{ display: isClient ? 'block' : 'none' }}>
               <AppBarHsl user={user} lang={lang} />
               <MessageBar mobile />{' '}
             </div>
+          ) : (
+            <AppBarSmall
+              {...args}
+              showLogo={match.location.pathname === homeUrl}
+              logo={logo}
+              homeUrl={homeUrl}
+              user={user}
+            />
           );
-        }
-        return (
-          <AppBarSmall
-            {...args}
-            showLogo={match.location.pathname === homeUrl}
-            logo={logo}
-            homeUrl={homeUrl}
-            user={user}
-          />
-        );
-      }}
-      desktop={() => {
-        if (style === 'hsl') {
-          return (
-            <div>
-              {' '}
+        }}
+        desktop={() => {
+          return style === 'hsl' ? (
+            <div style={{ display: isClient ? 'block' : 'none' }}>
               <AppBarHsl user={user} lang={lang} />
               <MessageBar />{' '}
             </div>
+          ) : (
+            <AppBarLarge
+              {...args}
+              logo={logo}
+              titleClicked={() =>
+                router.push({
+                  ...match.location,
+                  pathname: homeUrl,
+                  state: {
+                    ...match.location.state,
+                    errorBoundaryKey:
+                      match.location.state &&
+                      match.location.state.errorBoundaryKey
+                        ? match.location.state.errorBoundaryKey + 1
+                        : 1,
+                  },
+                })
+              }
+              user={user}
+            />
           );
-        }
-        return (
-          <AppBarLarge
-            {...args}
-            logo={logo}
-            titleClicked={() => router.push(homeUrl)}
-            user={user}
-          />
-        );
-      }}
-    />
-  </Fragment>
-);
+        }}
+      />
+    </>
+  );
+};
 
 AppBarContainer.propTypes = {
   match: matchShape.isRequired,
@@ -92,7 +113,6 @@ const WithContext = connectToStores(
 );
 
 WithContext.propTypes = {
-  disableBackButton: PropTypes.bool,
   title: PropTypes.node,
 };
 

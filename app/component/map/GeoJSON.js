@@ -105,6 +105,8 @@ class GeoJSON extends React.Component {
       ),
     }).isRequired,
     geoJsonZoomLevel: PropTypes.number,
+    locationPopup: PropTypes.string,
+    onSelectLocation: PropTypes.func,
   };
 
   static defaultProps = {
@@ -153,7 +155,10 @@ class GeoJSON extends React.Component {
         : defaultMarkerStyle;
     }
 
-    if (this.props.geoJsonZoomLevel && geometry.type === 'MultiLineString') {
+    if (
+      this.props.geoJsonZoomLevel &&
+      (geometry.type === 'MultiLineString' || geometry.type === 'LineString')
+    ) {
       const lineArray = [
         0.5,
         0.5,
@@ -275,6 +280,8 @@ class GeoJSON extends React.Component {
               feature={feature}
               icons={this.icons}
               key={feature.id}
+              locationPopup={this.props.locationPopup}
+              onSelectLocation={this.props.onSelectLocation}
             />
           ))}
       </React.Fragment>

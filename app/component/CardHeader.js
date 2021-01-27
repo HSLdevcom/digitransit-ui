@@ -7,7 +7,6 @@ import ZoneIcon from './ZoneIcon';
 import SplitBars from './SplitBars';
 import Favourite from './Favourite';
 import BackButton from './BackButton'; // DT-3472
-import { getZoneLabelColor } from '../util/mapIconUtils';
 import { getZoneLabel } from '../util/legUtils';
 
 const CardHeader = (
@@ -46,7 +45,7 @@ const CardHeader = (
             className="left"
             style={{ fontSize: 32, paddingRight: 10, height: 32 }}
           >
-            <Icon img={icon} />
+            <Icon img={icon} color={config.colors.primary} />
           </div>
         ) : null}
         <div className="card-header-wrapper">
@@ -57,20 +56,20 @@ const CardHeader = (
             {unlinked ? null : <span className="link-arrow"> ›</span>}
           </span>
           <div className="card-sub-header">
-            {description != null && description !== 'null' ? (
+            {description && description !== 'null' && (
               <p className="card-sub-header-address">{description}</p>
-            ) : null}
-            {code != null ? <p className="card-code">{code}</p> : null}
-            {headerConfig && headerConfig.showZone && stop.zoneId && (
-              <ZoneIcon
-                zoneId={getZoneLabel(stop.zoneId, config)}
-                zoneIdFontSize="11px"
-                zoneLabelColor={getZoneLabelColor(config)}
-                zoneLabelHeight="15px"
-                zoneLabelWidth="15px"
-                zoneLabelLineHeight="15px"
-              />
             )}
+            {code != null ? <p className="card-code">{code}</p> : null}
+            {headerConfig &&
+              headerConfig.showZone &&
+              stop.zoneId &&
+              stop.gtfsId &&
+              config.feedIds.includes(stop.gtfsId.split(':')[0]) && (
+                <ZoneIcon
+                  zoneId={getZoneLabel(stop.zoneId, config)}
+                  showUnknown={false}
+                />
+              )}
           </div>
         </div>
         {icons && icons.length ? <SplitBars>{icons}</SplitBars> : null}

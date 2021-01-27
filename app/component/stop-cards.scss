@@ -35,6 +35,7 @@
   }
   .card-sub-header {
     margin-top: -0.7em;
+    min-height: 2.75rem;
     .card-sub-header-address {
       font-size: 13px;
       color: #666666;
@@ -70,8 +71,8 @@
       font-size: 18px;
     }
     .card-sub-header {
-      min-height: 2em;
       margin-top: -0.4em;
+      min-height: 2.5rem;
       .card-sub-header-address {
         margin-top: 0.5em;
       }
@@ -81,13 +82,6 @@
       .zone-icon-container {
         margin-top: -0.2em;
         margin-left: 2px;
-
-        .svg {
-          width: 14px;
-          height: 14px;
-          margin-left: -1px;
-          margin-top: -4px;
-        }
       }
     }
   }

@@ -11,7 +11,7 @@ function SelectParkAndRideRow(props, { intl }) {
     <div className="no-margin">
       <div className="cursor-pointer select-row" onClick={props.selectRow}>
         <div className="padding-vertical-normal select-row-icon">
-          <Icon img="icon-icon_car" />
+          <Icon img="icon-icon_car" color={props.colors.primary} />
         </div>
         <div className="padding-vertical-normal select-row-text">
           <span className="header-primary no-margin link-color">
@@ -42,6 +42,7 @@ SelectParkAndRideRow.description = (
 SelectParkAndRideRow.propTypes = {
   selectRow: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  colors: PropTypes.object.isRequired,
 };
 
 SelectParkAndRideRow.contextTypes = {

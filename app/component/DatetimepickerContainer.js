@@ -3,26 +3,29 @@ import React from 'react';
 import { matchShape, routerShape } from 'found';
 import debounce from 'lodash/debounce';
 import { connectToStores } from 'fluxible-addons-react';
-import Datetimepicker from '@digitransit-component/digitransit-component-datetimepicker';
+// TODO use this again once AB testing is done
+// import Datetimepicker from '@digitransit-component/digitransit-component-datetimepicker';
+import DatetimepickerA from 'datetimepicker-A';
+import DatetimepickerB from 'datetimepicker-B';
 import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+
+// placeholder for AB testing
+
+const testVariant = 'A';
+const Datetimepicker = testVariant === 'A' ? DatetimepickerA : DatetimepickerB;
 
 function DatetimepickerContainer(
   { realtime, embedWhenClosed, lang, color },
   context,
 ) {
-  const { router, match, executeAction } = context;
+  const { router, match } = context;
 
   const setParams = debounce((time, arriveBy) => {
-    replaceQueryParams(
-      router,
-      match,
-      {
-        time,
-        arriveBy,
-      },
-      executeAction,
-    );
+    replaceQueryParams(router, match, {
+      time,
+      arriveBy,
+    });
   }, 10);
 
   const onTimeChange = (time, arriveBy) => {
@@ -107,7 +110,6 @@ DatetimepickerContainer.contextTypes = {
   router: routerShape.isRequired,
   match: matchShape.isRequired,
   config: PropTypes.object.isRequired,
-  executeAction: PropTypes.func,
 };
 
 const withLang = connectToStores(

@@ -131,32 +131,34 @@ class RouteStop extends React.PureComponent {
 
   getDepartureTime(stoptime, currentTime) {
     const { config, intl } = this.context;
-    const departureTime =
-      stoptime.serviceDay +
-      (stoptime.realtimeState === 'CANCELED' ||
-      stoptime.realtimeDeparture === -1
-        ? stoptime.scheduledDeparture
-        : stoptime.realtimeDeparture);
-    const timeDiffInMinutes = Math.floor((departureTime - currentTime) / 60);
     let departureText = '';
-    if (
-      timeDiffInMinutes < 0 ||
-      timeDiffInMinutes > config.minutesToDepartureLimit
-    ) {
-      const date = new Date(departureTime * 1000);
-      departureText = `${
-        (date.getHours() < 10 ? '0' : '') + date.getHours()
-      }:${date.getMinutes()}`;
-    } else if (timeDiffInMinutes === 0) {
-      departureText = intl.formatMessage({
-        id: 'arriving-soon',
-        defaultMessage: 'Now',
-      });
-    } else {
-      departureText = intl.formatMessage(
-        { id: 'departure-time-in-minutes', defaultMessage: '{minutes} min' },
-        { minutes: timeDiffInMinutes },
-      );
+    if (stoptime) {
+      const departureTime =
+        stoptime.serviceDay +
+        (stoptime.realtimeState === 'CANCELED' ||
+        stoptime.realtimeDeparture === -1
+          ? stoptime.scheduledDeparture
+          : stoptime.realtimeDeparture);
+      const timeDiffInMinutes = Math.floor((departureTime - currentTime) / 60);
+      if (
+        timeDiffInMinutes < 0 ||
+        timeDiffInMinutes > config.minutesToDepartureLimit
+      ) {
+        const date = new Date(departureTime * 1000);
+        departureText = `${
+          (date.getHours() < 10 ? '0' : '') + date.getHours()
+        }:${date.getMinutes()}`;
+      } else if (timeDiffInMinutes === 0) {
+        departureText = intl.formatMessage({
+          id: 'arriving-soon',
+          defaultMessage: 'Now',
+        });
+      } else {
+        departureText = intl.formatMessage(
+          { id: 'departure-time-in-minutes', defaultMessage: '{minutes} min' },
+          { minutes: timeDiffInMinutes },
+        );
+      }
     }
     return departureText;
   }
@@ -237,7 +239,10 @@ class RouteStop extends React.PureComponent {
               r="5"
             />
           </svg>
-          <div className={cx('route-stop-now_line', mode)} />
+          <div
+            className={cx('route-stop-now_line', mode)}
+            style={{ backgroundColor: color }}
+          />
         </div>
         <div className="route-stop-row_content-container">
           <Link

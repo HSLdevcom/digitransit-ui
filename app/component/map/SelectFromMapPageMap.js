@@ -13,7 +13,6 @@ import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { LightenDarkenColor } from '../../util/colorUtils';
 
 const DESKTOP_BREAKPOINT = 'large';
-let map;
 
 const locationMarkerWithPermanentTooltipModules = {
   LocationMarkerWithPermanentTooltip: () =>
@@ -133,7 +132,7 @@ class SelectFromMapPageMap extends React.Component {
   };
 
   onClick = e => {
-    const clickedDiv = e.originalEvent.path[0];
+    const clickedDiv = e.originalEvent.target;
     if (clickedDiv.tagName === 'BUTTON') {
       return;
     }
@@ -152,7 +151,7 @@ class SelectFromMapPageMap extends React.Component {
   };
 
   getMapLocation = () => {
-    const centerOfMap = map.getCenter();
+    const centerOfMap = this.map.getCenter();
 
     if (
       this.state.locationOfMapCenter &&
@@ -344,8 +343,6 @@ class SelectFromMapPageMap extends React.Component {
       );
     }
 
-    const showScale = true;
-
     return (
       <MapContainer
         className="full select-from-map"
@@ -370,7 +367,7 @@ class SelectFromMapPageMap extends React.Component {
         bounds={bounds}
         fitBounds={Boolean(bounds)}
         locationPopup="none"
-        showScaleBar={showScale}
+        showScaleBar={!isDesktop}
         mapRef={this.setMapElementRef}
       />
     );

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
+import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import LocationMarker from './map/LocationMarker';
 import ItineraryLine from './map/ItineraryLine';
@@ -8,6 +9,7 @@ import MapContainer from './map/MapContainer';
 import { otpToLocation } from '../util/otpStrings';
 import { isBrowser } from '../util/browser';
 import { dtLocationShape } from '../util/shapes';
+import { onLocationPopup } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import BackButton from './BackButton';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer'; // DT-3473
@@ -18,6 +20,7 @@ let useCenter = true;
 let itineraryMapReady = false;
 let breakpointChanged = false;
 let prevBreakpoint;
+let zoomLevel = -1;
 
 if (isBrowser) {
   // eslint-disable-next-line
@@ -30,6 +33,14 @@ function isItineraryMapReady(mapReady) {
   itineraryMapReady = true;
 }
 
+function setMapElementRef(element) {
+  const map = get(element, 'leafletElement', null);
+  if (map) {
+    // eslint-disable-next-line no-underscore-dangle
+    zoomLevel = map._zoom;
+  }
+}
+
 function ItineraryPageMap(
   {
     itinerary,
@@ -40,10 +51,10 @@ function ItineraryPageMap(
     forceCenter,
     fitBounds,
     bounds,
-    streetMode,
     leafletEvents,
+    showVehicles,
   },
-  { match, config },
+  { match, config, router, executeAction },
 ) {
   // DT-4011: When user changes orientation, i.e. with tablet, map would crash. This check prevents it.
   breakpointChanged = !isEqual(breakpoint, prevBreakpoint);
@@ -74,16 +85,21 @@ function ItineraryPageMap(
       key="fromMarker"
       position={otpToLocation(from)}
       type="from"
-      streetMode={streetMode}
+      streetMode={match.params.hash}
     />,
     <LocationMarker
       key="toMarker"
       position={otpToLocation(to)}
       type="to"
-      streetMode={streetMode}
+      streetMode={match.params.hash}
     />,
   ];
-  if (hash !== undefined && hash !== 'walk' && hash !== 'bike') {
+  if (
+    hash !== undefined &&
+    hash !== 'walk' &&
+    hash !== 'bike' &&
+    showVehicles
+  ) {
     leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
   }
   if (match.location.query && match.location.query.intermediatePlaces) {
@@ -115,7 +131,7 @@ function ItineraryPageMap(
         legs={itinerary.legs}
         showTransferLabels
         showIntermediateStops
-        streetMode={streetMode}
+        streetMode={match.params.hash}
       />,
     );
   }
@@ -123,6 +139,9 @@ function ItineraryPageMap(
   if (!center && itinerary && !itinerary.legs[0].transitLeg) {
     // bounds = polyline.decode(itinerary.legs[0].legGeometry.points);
   }
+
+  const onSelectLocation = (item, id) =>
+    onLocationPopup(item, id, router, match, executeAction);
 
   const showScale = breakpoint === 'large';
   const validCenter = latlon && latlon.lat !== undefined;
@@ -155,6 +174,9 @@ function ItineraryPageMap(
       hideOrigin
       locationPopup="all"
       leafletEvents={leafletEvents}
+      onSelectLocation={onSelectLocation}
+      geoJsonZoomLevel={zoomLevel}
+      mapRef={setMapElementRef}
     >
       <BackButton
         icon="icon-icon_arrow-collapse--left"
@@ -170,18 +192,19 @@ ItineraryPageMap.propTypes = {
   center: dtLocationShape,
   breakpoint: PropTypes.string.isRequired,
   bounds: PropTypes.array,
-  streetMode: PropTypes.string,
   forceCenter: PropTypes.bool,
   fitBounds: PropTypes.bool,
   mapReady: PropTypes.func,
   mapLoaded: PropTypes.bool,
   leafletEvents: PropTypes.object,
+  showVehicles: PropTypes.bool,
 };
 
 ItineraryPageMap.contextTypes = {
   match: matchShape.isRequired,
   router: routerShape.isRequired,
   config: PropTypes.object,
+  executeAction: PropTypes.func.isRequired,
 };
 
 export default withBreakpoint(ItineraryPageMap);

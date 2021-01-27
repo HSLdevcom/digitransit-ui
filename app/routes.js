@@ -19,7 +19,6 @@ import {
   TAB_NEARBY,
   TAB_FAVOURITES,
 } from './util/path';
-import { preparePlanParams } from './util/planParamUtil';
 import {
   errorLoading,
   getDefault,
@@ -27,12 +26,8 @@ import {
   getComponentOrNullRenderer,
 } from './util/routerUtils';
 
-import { planQuery } from './util/queryUtils';
-
 import getStopRoutes from './stopRoutes';
 import routeRoutes from './routeRoutes';
-import { validateServiceTimeRange } from './util/timeUtils';
-import { isBrowser } from './util/browser';
 
 export const historyMiddlewares = [queryMiddleware];
 
@@ -202,28 +197,16 @@ export default config => {
               }
             />
           ),
-          content: isBrowser ? (
+          content: (
             <Route
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/SummaryPage'
+                  /* webpackChunkName: "itinerary" */ './component/SummaryPageContainer'
                 ).then(getDefault)
               }
-              query={planQuery}
-              prepareVariables={preparePlanParams(config, false)}
-              render={({ Component, props, error, match }) => {
+              render={({ Component, props, match }) => {
                 if (Component) {
-                  return props ? (
-                    <Component {...props} error={error} loading={false} />
-                  ) : (
-                    <Component
-                      viewer={{ plan: {} }}
-                      serviceTimeRange={validateServiceTimeRange()}
-                      match={match}
-                      loading
-                      error={error}
-                    />
-                  );
+                  return <Component {...props} match={match} />;
                 }
                 return undefined;
               }}
@@ -256,15 +239,6 @@ export default config => {
                 ],
               }}
             </Route>
-          ) : (
-            <Route
-              path="(.*)?"
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "itinerary" */ './component/Loading'
-                ).then(getDefault)
-              }
-            />
           ),
           meta: (
             <Route
@@ -331,7 +305,6 @@ export default config => {
         path={`${
           config.indexPath === '' ? '' : `/${config.indexPath}`
         }/POS/:to?`}
-        topBarOptions={{ disableBackButton: true }}
       >
         {{
           content: (
@@ -361,7 +334,6 @@ export default config => {
         path={`${
           config.indexPath === '' ? '' : `/${config.indexPath}`
         }/:from/POS`}
-        topBarOptions={{ disableBackButton: true }}
       >
         {{
           content: (
@@ -387,15 +359,11 @@ export default config => {
           ),
         }}
       </Route>
-      <Route
-        path={config.indexPath === '' ? '/' : `/${config.indexPath}`}
-        topBarOptions={{ disableBackButton: true }}
-      >
+      <Route path={config.indexPath === '' ? '/' : `/${config.indexPath}`}>
         {indexPageComponents}
       </Route>
       <Route
         path={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/:from`}
-        topBarOptions={{ disableBackButton: true }}
       >
         {indexPageComponents}
       </Route>
@@ -403,13 +371,11 @@ export default config => {
         path={`${
           config.indexPath === '' ? '' : `/${config.indexPath}`
         }/:from/-`}
-        topBarOptions={{ disableBackButton: true }}
       >
         {indexPageComponents}
       </Route>
       <Route
         path={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/-/:to`}
-        topBarOptions={{ disableBackButton: true }}
       >
         {indexPageComponents}
       </Route>
@@ -423,7 +389,7 @@ export default config => {
           to={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}
         />
       )}
-      <Route path="/?mock" topBarOptions={{ disableBackButton: true }}>
+      <Route path="/?mock">
         {{
           title: (
             <Route

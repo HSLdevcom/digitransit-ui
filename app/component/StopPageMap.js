@@ -153,10 +153,6 @@ const StopPageMap = (
       ],
     ];
   }
-  const focusPoint = {
-    ...stop,
-    ready: true,
-  };
   return (
     <MapWithTracking
       className="flex-grow"
@@ -166,7 +162,7 @@ const StopPageMap = (
       hilightedStops={[id]}
       leafletObjs={leafletObjs}
       showScaleBar
-      focusPoint={focusPoint}
+      focusPoint={stop}
       origin={locationState}
       destination={stop}
       bounds={bounds}
