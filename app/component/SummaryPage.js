@@ -2170,10 +2170,44 @@ class SummaryPage extends React.Component {
           </>
         );
       } else {
+        this.justMounted = true;
+        this.useFitBounds = true;
+        this.mapLoaded = false;
         content = (
           <div style={{ position: 'relative', height: 200 }}>
             <Loading />
           </div>
+        );
+        return hash !== undefined ? (
+          <DesktopView
+            title={
+              <FormattedMessage
+                id="itinerary-page.title"
+                defaultMessage="Itinerary suggestions"
+              />
+            }
+            content={content}
+            map={map}
+            scrollable
+            bckBtnVisible={false}
+          />
+        ) : (
+          <DesktopView
+            title={
+              <FormattedMessage
+                id="summary-page.title"
+                defaultMessage="Itinerary suggestions"
+              />
+            }
+            header={
+              <React.Fragment>
+                <SummaryNavigation params={match.params} />
+                <StreetModeSelector loading />
+              </React.Fragment>
+            }
+            content={content}
+            map={map}
+          />
         );
       }
       return (
@@ -2235,18 +2269,27 @@ class SummaryPage extends React.Component {
     }
 
     let content;
+    let isLoading = false;
 
     if (
       (!error && (!this.selectedPlan || this.props.loading === true)) ||
       this.state.loading !== false ||
       this.props.loadingPosition === true
     ) {
+      this.justMounted = true;
+      this.useFitBounds = true;
+      this.mapLoaded = false;
+      isLoading = true;
       content = (
         <div style={{ position: 'relative', height: 200 }}>
           <Loading />
         </div>
       );
-    } else if (
+      if (hash !== undefined) {
+        return content;
+      }
+    }
+    if (
       routeSelected(
         match.params.hash,
         match.params.secondHash,
@@ -2276,36 +2319,46 @@ class SummaryPage extends React.Component {
       );
     } else {
       map = undefined;
-      content = (
-        <>
-          <SummaryPlanContainer
-            activeIndex={
-              hash || getActiveIndex(match.location, combinedItineraries)
-            }
-            plan={this.selectedPlan}
-            serviceTimeRange={serviceTimeRange}
-            itineraries={combinedItineraries}
-            params={match.params}
-            error={error || this.state.error}
-            from={match.params.from}
-            to={match.params.to}
-            intermediatePlaces={intermediatePlaces}
-            bikeAndPublicItinerariesToShow={this.bikeAndPublicItinerariesToShow}
-            bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
-            walking={showWalkOptionButton}
-            biking={showBikeOptionButton}
-            showAlternativePlan={
-              planHasNoItineraries && hasAlternativeItineraries
-            }
-            separatorPosition={this.state.separatorPosition}
-            loading={this.isFetchingWalkAndBike && !error}
-            onLater={this.onLater}
-            onEarlier={this.onEarlier}
-            loadingMoreItineraries={this.state.loadingMoreItineraries}
-          />
-          {screenReaderAlert}
-        </>
-      );
+      if (isLoading) {
+        content = (
+          <div style={{ position: 'relative', height: 200 }}>
+            <Loading />
+          </div>
+        );
+      } else {
+        content = (
+          <>
+            <SummaryPlanContainer
+              activeIndex={
+                hash || getActiveIndex(match.location, combinedItineraries)
+              }
+              plan={this.selectedPlan}
+              serviceTimeRange={serviceTimeRange}
+              itineraries={combinedItineraries}
+              params={match.params}
+              error={error || this.state.error}
+              from={match.params.from}
+              to={match.params.to}
+              intermediatePlaces={intermediatePlaces}
+              bikeAndPublicItinerariesToShow={
+                this.bikeAndPublicItinerariesToShow
+              }
+              bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
+              walking={showWalkOptionButton}
+              biking={showBikeOptionButton}
+              showAlternativePlan={
+                planHasNoItineraries && hasAlternativeItineraries
+              }
+              separatorPosition={this.state.separatorPosition}
+              loading={this.isFetchingWalkAndBike && !error}
+              onLater={this.onLater}
+              onEarlier={this.onEarlier}
+              loadingMoreItineraries={this.state.loadingMoreItineraries}
+            />
+            {screenReaderAlert}
+          </>
+        );
+      }
     }
 
     return (
