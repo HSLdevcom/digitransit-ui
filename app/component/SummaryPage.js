@@ -328,6 +328,7 @@ class SummaryPage extends React.Component {
   toggleStreetMode = newStreetMode => {
     const newState = {
       ...this.context.match.location,
+      state: { summaryPageSelected: 0 },
     };
     const basePath = getSummaryPath(
       this.context.match.params.from,
