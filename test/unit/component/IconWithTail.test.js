@@ -6,7 +6,6 @@ import IconWithTail from '../../../app/component/IconWithTail';
 describe('<IconWithTail />', () => {
   it('should render correct svg when allVehicles is false', () => {
     const props = {
-      img: 'icon-icon_bus-live',
       rotate: 180,
     };
     const wrapper = shallowWithIntl(<IconWithTail {...props} />);

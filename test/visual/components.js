@@ -107,7 +107,6 @@ testVariation('IconWithTail', 'rotate', 2);
 testVariation('IconWithTail', 'class', 3);
 testVariation('IconWithTail', 'notail', 4);
 
-testVariation('SelectedIconWithTail');
 testVariation('IconWithBigCaution');
 testVariation('IconWithIcon', 'customStyle', 1);
 testVariation('IconWithIcon', 'normal', 2);

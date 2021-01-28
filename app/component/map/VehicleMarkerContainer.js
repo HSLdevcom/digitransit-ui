@@ -51,7 +51,6 @@ function getVehicleIcon(
     return {
       element: (
         <IconWithTail
-          img={`icon-icon_${mode}-live`}
           rotate={heading}
           mode={mode}
           vehicleNumber={vehicleNumber}
@@ -64,7 +63,7 @@ function getVehicleIcon(
   }
 
   return {
-    element: <IconWithTail img="icon-icon_bus-live" rotate={heading} />,
+    element: <IconWithTail rotate={heading} />,
     className: `vehicle-icon bus ${useSmallIcon ? 'small-map-icon' : ''}`,
     iconSize: [20, 20],
     iconAnchor: [10, 10],

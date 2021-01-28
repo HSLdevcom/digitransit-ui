@@ -221,20 +221,6 @@ describe('<VehicleMarkerContainer />', () => {
   });
 
   describe('getVehicleIcon', () => {
-    it('should use an appropriate icon for the given mode', () => {
-      const icon = getVehicleIcon('subway', 180, '32');
-      const wrapper = mountWithIntl(icon.element);
-      expect(wrapper.prop('img')).to.equal('icon-icon_subway-live');
-      expect(icon.className).to.contain('subway');
-    });
-
-    it('should use a bus icon for an unknown mode', () => {
-      const icon = getVehicleIcon('foobar', 180, '32');
-      const wrapper = mountWithIntl(icon.element);
-      expect(wrapper.prop('img')).to.equal('icon-icon_bus-live');
-      expect(icon.className).to.contain('bus');
-    });
-
     describe('modeless icon', () => {
       it('should use a small icon when useLargeIcon is false', () => {
         const icon = getVehicleIcon(null, 180);

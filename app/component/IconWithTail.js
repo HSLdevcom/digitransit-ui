@@ -143,16 +143,10 @@ IconWithTail.description = () => (
   <div>
     <p>Shows an icon from the SVG sprite and adds blue &lsquo;tail&rsquo;.</p>
     <ComponentUsageExample description="Rotate 0">
-      <IconWithTail img="icon-icon_bus-live" rotate={0} />
+      <IconWithTail rotate={0} vehicleNumber="550" />
     </ComponentUsageExample>
     <ComponentUsageExample description="Rotate 90">
-      <IconWithTail img="icon-icon_bus-live" rotate={90} />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="Rotate 90, desaturated">
-      <IconWithTail desaturate img="icon-icon_bus-live" rotate={90} />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="no tail">
-      <IconWithTail desaturate img="icon-icon_bus-live" />
+      <IconWithTail rotate={90} vehicleNumber="550" />
     </ComponentUsageExample>
   </div>
 );
