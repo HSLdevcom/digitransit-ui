@@ -288,6 +288,11 @@
               margin-left: 1px;
             }
           }
+          &.citybike {
+            .icon {
+              width: 24px;
+            }
+          }
         }
         .itinerary-icon_with-bicycle {
           color: white;
