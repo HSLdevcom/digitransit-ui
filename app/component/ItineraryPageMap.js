@@ -174,9 +174,9 @@ function ItineraryPageMap(
       hideOrigin
       locationPopup="all"
       leafletEvents={leafletEvents}
-      onSelectLocation={onSelectLocation}
       geoJsonZoomLevel={zoomLevel}
       mapRef={setMapElementRef}
+      onSelectLocation={onSelectLocation}
     >
       <BackButton
         icon="icon-icon_arrow-collapse--left"
