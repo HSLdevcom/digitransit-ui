@@ -42,8 +42,12 @@
   position: relative;
   display: block;
   width: 100%;
-  margin-bottom: 26px;
+  margin-bottom: 15px;
   padding-bottom: 21px;
+  @include min-width(tablet)  {
+    margin-bottom: 26px;
+    padding-bottom: 21px;
+  }
 }
 
 .separator-line {
@@ -96,7 +100,7 @@
       @include min-width(tablet)  {
         min-width: 58px;
         max-width: 72px;
-        height: 58px;
+        height: 60px;
       }
     }
 

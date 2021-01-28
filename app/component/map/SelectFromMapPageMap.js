@@ -13,7 +13,6 @@ import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { LightenDarkenColor } from '../../util/colorUtils';
 
 const DESKTOP_BREAKPOINT = 'large';
-let map;
 
 const locationMarkerWithPermanentTooltipModules = {
   LocationMarkerWithPermanentTooltip: () =>
@@ -50,15 +49,16 @@ class SelectFromMapPageMap extends React.Component {
     super(props);
     this.state = {};
     this.zoomLevel = 12;
+    this.map = null;
   }
 
   setMapElementRef = element => {
-    map = get(element, 'leafletElement', null);
+    this.map = get(element, 'leafletElement', null);
   };
 
   getCoordinates = () => {
-    const centerOfMap = map.getCenter();
-    const newBounds = map.getBounds();
+    const centerOfMap = this.map.getCenter();
+    const newBounds = this.map.getBounds();
     this.setState({
       locationOfMapCenter: {
         address: '',
@@ -151,7 +151,7 @@ class SelectFromMapPageMap extends React.Component {
   };
 
   getMapLocation = () => {
-    const centerOfMap = map.getCenter();
+    const centerOfMap = this.map.getCenter();
 
     if (
       this.state.locationOfMapCenter &&
@@ -165,18 +165,18 @@ class SelectFromMapPageMap extends React.Component {
   };
 
   endDragging = () => {
-    if (!map) {
+    if (!this.map) {
       return;
     }
     this.getMapLocation();
   };
 
   endZoom = () => {
-    if (!map) {
+    if (!this.map) {
       return;
     }
-    if (this.zoomLevel !== map.getZoom()) {
-      this.zoomLevel = map.getZoom();
+    if (this.zoomLevel !== this.map.getZoom()) {
+      this.zoomLevel = this.map.getZoom();
     }
     const isDesktop = this.props.breakpoint === DESKTOP_BREAKPOINT;
     if (!isDesktop) {
@@ -362,6 +362,8 @@ class SelectFromMapPageMap extends React.Component {
         lat={positionSelectingFromMap.lat} // {center ? center.lat : from.lat}
         lon={positionSelectingFromMap.lon} // {center ? center.lon : from.lon}
         zoom={this.zoomLevel}
+        geoJsonZoomLevel={this.zoomLevel}
+        mapZoomLevel={this.zoomLevel}
         bounds={bounds}
         fitBounds={Boolean(bounds)}
         locationPopup="none"

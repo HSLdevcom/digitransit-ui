@@ -37,10 +37,14 @@ const styleFeatures = data => {
       output.features.push(cloneDeep(feature));
       return;
     }
-    feature.styles.forEach(style => {
+    const size = feature.styles.length;
+    feature.styles.forEach((style, index) => {
       const clone = cloneDeep(feature);
       delete clone.styles;
       clone.style = cloneDeep(style);
+      if (size === 2) {
+        clone.style.type = index === 1 ? 'halo' : 'line';
+      }
       output.features.push(clone);
     });
   });

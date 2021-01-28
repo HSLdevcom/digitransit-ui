@@ -1445,6 +1445,14 @@
   dependencies:
     "@digitransit-search-util/digitransit-search-util-uniq-by-label" "0.0.7"
 
+"@digitransit-search-util/digitransit-search-util-helpers@0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-helpers/-/digitransit-search-util-helpers-0.0.12.tgz#0add09ab4ece2bd174ca234c281f6538481682b3"
+  integrity sha512-I/xn2IMSX1rGYE3qvYBdVtvGQO4JEhR6CVKkcnAIYB2M3Ga16G16SD71sFqOoSHflG4gb+7y8GhPc4dqLsaQyw==
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-is-duplicate" "0.0.6"
+    lodash "4.17.14"
+
 "@digitransit-search-util/digitransit-search-util-suggestion-to-location@0.0.8":
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-suggestion-to-location/-/digitransit-search-util-suggestion-to-location-0.0.8.tgz#2237879b5941e8d4e039dc6516c32cf4cab32f56"
