@@ -19,13 +19,14 @@
 }
 
 .banner {
+  font-size: 16px;
   cursor: pointer;
   display: flex;
   margin-top: 0;
   @include min-width(tablet) {
     padding: 7px 13px 6px 16px;
   }
-  padding: 0 13px 6px 16px;
+  padding: 6px 13px 6px 16px;
   justify-content: space-between;
 }
 

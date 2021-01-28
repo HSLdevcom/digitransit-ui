@@ -46,7 +46,8 @@ function IndexPageMap(
   const mwtProps = {};
 
   const mapTracking =
-    (origin && origin.gps) || (destination && destination.gps);
+    (origin && origin.type === 'CurrentLocation') ||
+    (destination && destination.type === 'CurrentLocation');
   if (previousFocusPoint && previousFocusPoint.gps && !mapTracking) {
     previousMapTracking = false;
     mwtProps.mapTracking = false;
@@ -60,13 +61,13 @@ function IndexPageMap(
     previousFocusPoint = focusPoint;
     mwtProps.focusPoint = focusPoint;
     initialZoom = 16;
-    if (!focusPoint.gps) {
+    if (focusPoint.type !== 'CurrentLocation') {
       mwtProps.mapTracking = false;
     }
   }
-  if (originFromURI.set || destinationFromURI.set) {
+  if (originFromURI.lat || destinationFromURI.lat) {
     // Origin or destination from URI
-    mwtProps.focusPoint = originFromURI.set
+    mwtProps.focusPoint = originFromURI.lat
       ? originFromURI
       : destinationFromURI;
     initialZoom = 16;
