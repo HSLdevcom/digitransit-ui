@@ -13,8 +13,9 @@ function TripLink({ vehicle }) {
   const icon = (
     <IconWithTail
       className={cx(vehicle.mode, 'tail-icon')}
-      img={`icon-icon_${vehicle.mode}-live`}
+      mode={vehicle.mode}
       rotate={180}
+      vehicleNumber={vehicle.shortName}
     />
   );
 
@@ -71,6 +72,7 @@ TripLink.propTypes = {
     mode: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     tripId: PropTypes.string.isRequired,
+    shortName: PropTypes.string.isRequired,
   }).isRequired,
 };
 

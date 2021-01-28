@@ -24,6 +24,7 @@ describe('<TripLink />', () => {
         mode: 'bus',
         id: 'OULU:1074',
         tripId: 'OULU:0000075602101021',
+        shortName: '74',
       },
     };
     const environment = {};
