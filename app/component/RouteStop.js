@@ -318,6 +318,32 @@ class RouteStop extends React.PureComponent {
                   walkDistance={distance}
                 />
               )}
+
+              {patternExists && (
+                <div className="platform-number-container">
+                  {displayNextDeparture ? (
+                    stop.stopTimesForPattern.map(stopTime => (
+                      <div
+                        key={`${stopTime.scheduledDeparture}-platform-number`}
+                        className={`platform-code ${
+                          !stop.platformCode && 'empty'
+                        }`}
+                      >
+                        {stopTime.stop.platformCode}
+                      </div>
+                    ))
+                  ) : (
+                    <div
+                      key={`${stop.scheduledDeparture}-platform-number`}
+                      className={`platform-code ${
+                        !stop.platformCode && 'empty'
+                      }`}
+                    >
+                      {stop.platformCode}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </Link>
         </div>
