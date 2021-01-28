@@ -208,6 +208,8 @@ class DTAutosuggest extends React.Component {
       stopsPrefix: PropTypes.string,
     }),
     mobileLabel: PropTypes.string,
+    fromColor: PropTypes.string,
+    toColor: PropTypes.string,
   };
 
   static defaultProps = {
@@ -227,6 +229,8 @@ class DTAutosuggest extends React.Component {
       stopsPrefix: 'pysakit',
     },
     mobileLabel: undefined,
+    fromColor: '#4ea700',
+    toColor: '#ec5188',
   };
 
   constructor(props) {
@@ -763,6 +767,13 @@ class DTAutosuggest extends React.Component {
       selection: this.suggestionAsAriaContent(),
     });
 
+    let iconColor;
+    if (this.props.id === 'origin') {
+      iconColor = this.props.fromColor;
+    } else if (this.props.id === 'destination') {
+      iconColor = this.props.toColor;
+    }
+
     return (
       <React.Fragment>
         <span
@@ -820,6 +831,8 @@ class DTAutosuggest extends React.Component {
             focusInput={cleanExecuted}
             color={this.props.color}
             hoverColor={this.props.hoverColor}
+            fromColor={this.props.fromColor}
+            toColor={this.props.toColor}
           />
         )}
         {!renderMobileSearch && (
@@ -836,7 +849,7 @@ class DTAutosuggest extends React.Component {
                   styles[this.props.id],
                 ])}
               >
-                <Icon img={`${this.props.icon}`} />
+                <Icon img={`${this.props.icon}`} color={`${iconColor}`} />
               </div>
             )}
             <Autosuggest
@@ -866,6 +879,8 @@ class DTAutosuggest extends React.Component {
                     style={{
                       '--color': `${this.props.color}`,
                       '--hover-color': `${this.props.hoverColor}`,
+                      '--from-color': `${this.props.fromColor}`,
+                      '--to-color': `${this.props.toColor}`,
                     }}
                   />
                   {this.state.value && this.clearButton()}

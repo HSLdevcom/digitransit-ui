@@ -165,6 +165,8 @@ class DTAutosuggestPanel extends React.Component {
     hoverColor: PropTypes.string,
     originMobileLabel: PropTypes.string,
     destinationMobileLabel: PropTypes.string,
+    fromColor: PropTypes.string,
+    toColor: PropTypes.string,
   };
 
   static defaultProps = {
@@ -185,6 +187,8 @@ class DTAutosuggestPanel extends React.Component {
     hoverColor: '#0062a1',
     originMobileLabel: null,
     destinationMobileLabel: null,
+    fromColor: '#4ea700',
+    toColor: '#ec5188',
   };
 
   constructor(props) {
@@ -424,6 +428,8 @@ class DTAutosuggestPanel extends React.Component {
             color={this.props.color}
             hoverColor={this.props.hoverColor}
             mobileLabel={originMobileLabel}
+            fromColor={this.props.fromColor}
+            toColor={this.props.toColor}
           />
           <ItinerarySearchControl
             className={styles.opposite}
@@ -497,6 +503,8 @@ class DTAutosuggestPanel extends React.Component {
                       isMobile={this.props.isMobile}
                       color={this.props.color}
                       hoverColor={this.props.hoverColor}
+                      fromColor={this.props.fromColor}
+                      toColor={this.props.toColor}
                     />
                   </div>
                   <ItinerarySearchControl
@@ -597,6 +605,8 @@ class DTAutosuggestPanel extends React.Component {
             color={this.props.color}
             hoverColor={this.props.hoverColor}
             mobileLabel={destinationMobileLabel}
+            fromColor={this.props.fromColor}
+            toColor={this.props.toColor}
           />
           <ItinerarySearchControl
             className={cx(styles['add-via-point'], styles.more, {
