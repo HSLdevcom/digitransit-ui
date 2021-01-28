@@ -301,6 +301,7 @@ class SummaryPage extends React.Component {
       bikeParkPlan: undefined,
       scrolled: false,
       loadingMoreItineraries: undefined,
+      zoomLevel: -1,
     };
     if (this.props.match.params.hash === 'walk') {
       this.selectedPlan = this.state.walkPlan;
@@ -1409,6 +1410,17 @@ class SummaryPage extends React.Component {
     });
   };
 
+  endZoom = element => {
+    // eslint-disable-next-line no-underscore-dangle
+    const mapZoomLevel = element.target._zoom;
+    this.mapZoomLevel = mapZoomLevel;
+    if (this.state.zoomLevel !== this.mapZoomLevel) {
+      this.setState({
+        zoomLevel: mapZoomLevel,
+      });
+    }
+  };
+
   selectLocation = (item, id) => {
     const { match } = this.context;
     if (id === 'via') {
@@ -1576,6 +1588,16 @@ class SummaryPage extends React.Component {
       getIntermediatePlaces(this.context.match.location.query).length < 5
         ? 'all'
         : 'origindestination';
+
+    this.boundsZoom = this.map
+      ? this.map.getBoundsZoom(bounds.length > 1 ? bounds : defaultBounds)
+      : this.boundsZoom;
+
+    const zoomLevel = this.getZoomLevel(
+      this.state.zoomLevel,
+      this.mapZoomLevel,
+      this.boundsZoom,
+    );
     return (
       <MapContainer
         className="summary-map"
@@ -1584,6 +1606,10 @@ class SummaryPage extends React.Component {
         bounds={bounds.length > 1 ? bounds : defaultBounds}
         zoom={MAX_ZOOM}
         showScaleBar
+        leafletEvents={{
+          onZoomend: this.endZoom,
+        }}
+        geoJsonZoomLevel={zoomLevel}
         locationPopup={locationPopup}
         onSelectLocation={this.selectLocation}
       />
@@ -1733,6 +1759,16 @@ class SummaryPage extends React.Component {
     } else {
       this.mapCenterToggle = !this.mapCenterToggle;
     }
+  };
+
+  getZoomLevel = (stateZoom, mapZoom, boundsZoom) => {
+    if (stateZoom === -1) {
+      if (mapZoom === -1) {
+        return boundsZoom;
+      }
+      return mapZoom;
+    }
+    return stateZoom;
   };
 
   render() {
@@ -2009,6 +2045,9 @@ class SummaryPage extends React.Component {
               mapReady: this.mapReady.bind(this),
               mapLoaded: this.mapLoaded,
               ...this.props,
+              leafletEvents: {
+                onZoomend: this.endZoom,
+              },
             },
             this.context,
           )

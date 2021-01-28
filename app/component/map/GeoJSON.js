@@ -50,16 +50,6 @@ const getIcons = features => {
 };
 
 /**
- * The icon template to use for drawing custom icons on the map.
- */
-const MapIcon = L.Icon.extend({
-  options: {
-    iconSize: [30, 30],
-    iconAnchor: [15, 15],
-  },
-});
-
-/**
  * Generates a suitable leaflet marker with a tooltip and a popup attached (if applicable)
  * for the given feature.
  *
@@ -74,7 +64,10 @@ const getMarker = (feature, latlng, icons = {}) => {
 
   if (properties.icon) {
     marker = L.marker(latlng, {
-      icon: new MapIcon({ iconUrl: icons[properties.icon.id] }),
+      icon: new L.Icon({
+        iconUrl: icons[properties.icon.id],
+        className: 'icon-zone',
+      }),
       interactive,
       keyboard: false,
     });
@@ -111,12 +104,14 @@ class GeoJSON extends React.Component {
         }),
       ),
     }).isRequired,
+    geoJsonZoomLevel: PropTypes.number,
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
   };
 
   static defaultProps = {
     bounds: undefined,
+    geoJsonZoomLevel: undefined,
   };
 
   static contextTypes = { config: PropTypes.object.isRequired };
@@ -159,6 +154,72 @@ class GeoJSON extends React.Component {
         ? { ...defaultMarkerStyle, ...feature.style }
         : defaultMarkerStyle;
     }
+
+    if (
+      this.props.geoJsonZoomLevel &&
+      (geometry.type === 'MultiLineString' || geometry.type === 'LineString')
+    ) {
+      const lineArray = [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.55,
+        0.61,
+        0.69,
+        0.78,
+        0.89,
+        1.02,
+        1.17,
+        1.36,
+        1.58,
+        1.85,
+        2.17,
+        2.56,
+        3.02,
+        3.57,
+        4.24,
+        5.04,
+        6,
+      ];
+      const haloArray = [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2.74,
+        3.62,
+        4.68,
+        5.95,
+        7.48,
+        9.31,
+        11.51,
+        14.05,
+        17.31,
+        21.11,
+        25.67,
+        31.14,
+        37.71,
+        45.59,
+        55.04,
+        66.39,
+        80,
+      ];
+
+      const index =
+        this.props.geoJsonZoomLevel !== -1 ? this.props.geoJsonZoomLevel : 0;
+      const newStyle = {
+        ...feature.style,
+        weight:
+          feature.style.type === 'halo' ? haloArray[index] : lineArray[index],
+      };
+      return { ...defaultLineStyle, ...newStyle };
+    }
+
     return feature.style
       ? { ...defaultLineStyle, ...feature.style }
       : defaultLineStyle;
