@@ -8,14 +8,14 @@ import IconWithTail from './IconWithTail';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-function TripLink({ vehicle }) {
+function TripLink({ vehicle, shortName }) {
   const { environment } = useContext(ReactRelayContext);
   const icon = (
     <IconWithTail
       className={cx(vehicle.mode, 'tail-icon')}
       mode={vehicle.mode}
       rotate={180}
-      vehicleNumber={vehicle.shortName}
+      vehicleNumber={vehicle.shortName || shortName}
     />
   );
 
@@ -74,6 +74,7 @@ TripLink.propTypes = {
     tripId: PropTypes.string.isRequired,
     shortName: PropTypes.string.isRequired,
   }).isRequired,
+  shortName: PropTypes.string,
 };
 
 export default TripLink;

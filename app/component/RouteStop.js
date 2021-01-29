@@ -52,6 +52,7 @@ class RouteStop extends React.PureComponent {
     currentTime: PropTypes.number.isRequired,
     last: PropTypes.bool,
     displayNextDeparture: PropTypes.bool,
+    shortName: PropTypes.string,
   };
 
   static defaultProps = {
@@ -197,6 +198,7 @@ class RouteStop extends React.PureComponent {
       stop,
       vehicle,
       displayNextDeparture,
+      shortName,
     } = this.props;
     const patternExists =
       stop.stopTimesForPattern && stop.stopTimesForPattern.length > 0;
@@ -205,7 +207,7 @@ class RouteStop extends React.PureComponent {
 
     if (vehicle) {
       vehicleTripLink = vehicle.tripId ? (
-        <TripLink key={vehicle.id} vehicle={vehicle} />
+        <TripLink key={vehicle.id} vehicle={vehicle} shortName={shortName} />
       ) : (
         <FuzzyTripLink key={vehicle.id} vehicle={vehicle} />
       );
