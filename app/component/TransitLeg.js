@@ -456,7 +456,7 @@ class TransitLeg extends React.Component {
                   to={
                     (alert.route &&
                       alert.route.gtfsId &&
-                      `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_DISRUPTION}/`) ||
+                      `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_DISRUPTION}/${leg.trip.pattern.code}`) ||
                     (alert.stop &&
                       alert.stop.gtfsId &&
                       `/${PREFIX_STOPS}/${alert.stop.gtfsId}/${PREFIX_DISRUPTION}/`)
