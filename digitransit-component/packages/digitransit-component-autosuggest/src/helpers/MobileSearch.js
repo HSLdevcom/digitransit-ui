@@ -45,8 +45,6 @@ const MobileSearch = ({
   color,
   hoverColor,
   searchOpen,
-  fromColor,
-  toColor,
 }) => {
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
@@ -162,8 +160,6 @@ const MobileSearch = ({
                   style={{
                     '--color': `${color}`,
                     '--hover-color': `${hoverColor}`,
-                    '--from-color': `${fromColor}`,
-                    '--to-color': `${toColor}`,
                   }}
                 />
                 {value && clearButton()}
@@ -229,8 +225,6 @@ MobileSearch.propTypes = {
   color: PropTypes.string,
   hoverColor: PropTypes.string,
   searchOpen: PropTypes.bool.isRequired,
-  fromColor: PropTypes.string,
-  toColor: PropTypes.string,
 };
 
 export default MobileSearch;

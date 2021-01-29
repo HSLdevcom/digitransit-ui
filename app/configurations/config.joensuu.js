@@ -28,8 +28,6 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#5c4696',
-    from: '#64be14',
-    to: '#ff7200',
   },
 
   socialMedia: {

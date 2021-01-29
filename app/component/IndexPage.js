@@ -181,8 +181,6 @@ class IndexPage extends React.Component {
     const { trafficNowLink, colors } = config;
     const color = colors.primary;
     const hoverColor = colors.hover || LightenDarkenColor(colors.primary, -20);
-    const fromColor = colors.from;
-    const toColor = colors.to;
     const { breakpoint, lang } = this.props;
     const origin = this.pendingOrigin || this.props.origin;
     const destination = this.pendingDestination || this.props.destination;
@@ -225,8 +223,6 @@ class IndexPage extends React.Component {
       selectHandler: this.onSelectLocation,
       onGeolocationStart: this.onSelectLocation,
       fromMap: this.props.fromMap,
-      fromColor,
-      toColor,
     };
 
     const stopRouteSearchProps = {

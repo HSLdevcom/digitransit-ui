@@ -156,8 +156,6 @@ class OriginDestinationBar extends React.Component {
             this.context.config.colors.hover ||
             LightenDarkenColor(this.context.config.colors.primary, -20)
           }
-          fromColor={this.context.config.colors.from}
-          toColor={this.context.config.colors.to}
         />{' '}
       </div>
     );
