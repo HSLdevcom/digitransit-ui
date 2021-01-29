@@ -29,6 +29,7 @@ const TripRouteStop = props => {
     stop,
     stopPassed,
     stoptime,
+    shortName,
   } = props;
   const vehicles =
     props.vehicles &&
@@ -40,7 +41,7 @@ const TripRouteStop = props => {
             mode={vehicle.mode}
             pattern={props.pattern}
             route={props.route}
-            vehicleNumber={vehicle.shortName}
+            vehicleNumber={vehicle.shortName || shortName}
             selected={
               props.selectedVehicle && props.selectedVehicle.id === vehicle.id
             }
@@ -134,6 +135,7 @@ TripRouteStop.propTypes = {
     PropTypes.object,
     PropTypes.oneOf([false]),
   ]).isRequired,
+  shortName: PropTypes.string,
 };
 
 TripRouteStop.displayName = 'TripRouteStop';

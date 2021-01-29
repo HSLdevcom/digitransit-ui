@@ -136,6 +136,7 @@ class TripStopListContainer extends React.PureComponent {
           last={index === trip.stoptimesForDate.length - 1}
           first={index === 0}
           className={`bp-${breakpoint}`}
+          shortName={trip.route && trip.route.shortName}
         />
       );
     });
@@ -177,6 +178,7 @@ const connectedComponent = createFragmentContainer(
           mode
           gtfsId
           color
+          shortName
         }
         pattern {
           code
