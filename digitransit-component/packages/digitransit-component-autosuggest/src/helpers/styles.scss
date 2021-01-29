@@ -3,6 +3,8 @@
 @import '~@hsl-fi/sass/mixins/screen';
 @import '~@hsl-fi/sass/mixins/text';
 
+$from-color: #4ea700;
+$to-color: #ec5188;
 $search-result-text-highlight-background-color: #F4F4F5;
 $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   map-buttons, context-panel, search-panel, search-overlay, stop-route-station-input, destination-input,
