@@ -49,7 +49,9 @@ export const mapRoute = (item, pathOpts) => {
   const routesPrefix = opts.routesPrefix || DEFAULT_ROUTES_PREFIX;
   const stopsPrefix = opts.stopsPrefix || DEFAULT_STOPS_PREFIX;
 
-  const link = `/${routesPrefix}/${item.gtfsId}/${stopsPrefix}/${item.gtfsId}`;
+  const link = `/${routesPrefix}/${item.gtfsId}/${stopsPrefix}/${
+    orderBy(item.patterns, 'code', ['asc'])[0].code
+  }`;
 
   return {
     type: 'Route',
