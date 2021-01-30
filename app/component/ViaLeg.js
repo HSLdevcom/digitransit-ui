@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -103,7 +103,7 @@ function ViaLeg(props, context) {
             values={{ target: props.leg.from.name || '' }}
           />
         </span>
-        <div className="itinerary-leg-first-row via" aria-hidden="true">
+        <div className="itinerary-leg-first-row via">
           <div>
             <div className="address-container">
               <div className="address">{address}</div>
@@ -128,6 +128,10 @@ function ViaLeg(props, context) {
             }
             role="button"
             tabIndex="0"
+            aria-label={context.intl.formatMessage(
+              { id: 'itinerary-summary.show-on-map' },
+              { target: props.leg.from.name || '' },
+            )}
           >
             <Icon
               img="icon-icon_show-on-map"
@@ -135,7 +139,7 @@ function ViaLeg(props, context) {
             />
           </div>
         </div>
-        <div className="itinerary-leg-action" aria-hidden="true">
+        <div className="itinerary-leg-action">
           <div className="itinerary-leg-action-content">
             {getDescription(props.leg.mode, distance, duration)}
             <div
@@ -146,6 +150,10 @@ function ViaLeg(props, context) {
               }
               role="button"
               tabIndex="0"
+              aria-label={context.intl.formatMessage(
+                { id: 'itinerary-summary.show-on-map' },
+                { target: '' },
+              )}
             >
               <Icon
                 img="icon-icon_show-on-map"
@@ -211,6 +219,9 @@ ViaLeg.propTypes = {
   children: PropTypes.node,
 };
 
-ViaLeg.contextTypes = { config: PropTypes.object.isRequired };
+ViaLeg.contextTypes = {
+  config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
+};
 
 export default ViaLeg;

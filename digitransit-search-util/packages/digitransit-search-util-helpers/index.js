@@ -21,6 +21,7 @@ const LayerType = {
   FavouriteStation: 'favouriteStation',
   FavouritePlace: 'favouritePlace',
   FavouriteRoute: 'favouriteRoute',
+  FutureRoute: 'futureRoute',
   Station: 'station',
   SelectFromMap: 'selectFromMap',
   SelectFromOwnLocations: 'ownLocations',
@@ -119,11 +120,13 @@ export const getLayerRank = (layer, source) => {
     case LayerType.FavouriteStop:
     case LayerType.FavouriteRoute:
       return 0.45;
+    case LayerType.FutureRoute:
+      return 0.44;
     case LayerType.Station: {
       if (isString(source) && source.indexOf('gtfs') === 0) {
-        return 0.44;
+        return 0.43;
       }
-      return 0.43;
+      return 0.42;
     }
     case LayerType.FavouriteBikeRentalStation:
     default:

@@ -29,6 +29,11 @@ $offcanvas-link-text-font-size: 15px;
 /* Content */
 $content-background-color: $background-color;
 
+#mainContent {
+  // so that the layer selector bubble doesn't cause scroll bars
+  overflow: hidden;
+}
+
 .top-bar-login {
   display: flex;
   flex-direction: row;
@@ -324,7 +329,6 @@ section.content {
     .desktop-title {
       background: #ffffff; // DT-3358: was $desktop-title-color
       &-bordered {
-        position: relative;
         &:after {
           content: '';
           display: block;

@@ -22,6 +22,8 @@ import { isDebugTiles } from '../../util/browser';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
 import events from '../../util/events';
 
+import GeoJSON from './GeoJSON';
+
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
 
 const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_plus"/></svg>`;
@@ -59,6 +61,8 @@ export default class Map extends React.Component {
     mapReady: PropTypes.func,
     itineraryMapReady: PropTypes.func,
     disableParkAndRide: PropTypes.bool,
+    geoJson: PropTypes.object,
+    mapLayers: PropTypes.object,
   };
 
   static defaultProps = {
@@ -113,6 +117,7 @@ export default class Map extends React.Component {
           this.props.boundsOptions,
         );
       }
+      this.mapZoomLvl = this.map.leafletElement._zoom;
     }
   };
 
@@ -126,6 +131,8 @@ export default class Map extends React.Component {
       mapReady,
       itineraryMapReady,
       disableParkAndRide,
+      geoJson,
+      mapLayers,
     } = this.props;
     const { config } = this.context;
     if (itineraryMapReady) {
@@ -170,6 +177,29 @@ export default class Map extends React.Component {
       attribution = false;
     }
 
+    if (this.map) {
+      this.mapZoomLvl = this.map.leafletElement._zoom;
+    }
+
+    if (geoJson) {
+      // bounds are only used when geojson only contains point geometries
+      Object.keys(geoJson)
+        .filter(
+          key =>
+            mapLayers.geoJson[key] !== false &&
+            (mapLayers.geoJson[key] === true ||
+              geoJson[key].isOffByDefault !== true),
+        )
+        .forEach(key => {
+          leafletObjs.push(
+            <GeoJSON
+              bounds={null}
+              data={geoJson[key].data}
+              geoJsonZoomLevel={this.mapZoomLvl ? this.mapZoomLvl : 9}
+            />,
+          );
+        });
+    }
     return (
       <div aria-hidden="true">
         <span
@@ -181,6 +211,7 @@ export default class Map extends React.Component {
           {this.props.bottomButtons}
         </span>
         <LeafletMap
+          className={`z${this.mapZoomLvl ? this.mapZoomLvl : 9}`}
           keyboard={false}
           ref={el => {
             this.map = el;

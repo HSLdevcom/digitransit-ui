@@ -25,7 +25,6 @@ import MobileSearch from './helpers/MobileSearch';
 moment.locale('en');
 
 i18next.init({
-  lng: 'fi',
   fallbackLng: 'fi',
   defaultNS: 'translation',
   interpolation: {
@@ -232,7 +231,6 @@ class DTAutosuggest extends React.Component {
 
   constructor(props) {
     super(props);
-    i18next.changeLanguage(props.lang);
     moment.tz.setDefault(props.timeZone);
     moment.locale(props.lang);
 
@@ -241,7 +239,6 @@ class DTAutosuggest extends React.Component {
       suggestions: [],
       editing: false,
       valid: true,
-      pendingCurrentLocation: false,
       renderMobileSearch: false,
       sources: props.sources,
       ownPlaces: false,
@@ -263,8 +260,8 @@ class DTAutosuggest extends React.Component {
     return !isEqual(nextState, this.state) || !isEqual(nextProps, this.props);
   }
 
-  componentDidUpdate = prevProps => {
-    if (prevProps.lang !== this.props.lang) {
+  componentDidUpdate = () => {
+    if (i18next.language !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
     }
   };
@@ -711,12 +708,15 @@ class DTAutosuggest extends React.Component {
   onFocus = () => {
     const positions = [
       'Valittu sijainti',
+      'Nykyinen sijaintisi',
       'Current position',
       'Selected location',
       'Vald position',
       'Använd min position',
+      'Min position',
       'Käytä nykyistä sijaintia',
       'Use current location',
+      'Your current location',
     ];
     if (positions.includes(this.state.value)) {
       this.clearInput();
@@ -728,8 +728,8 @@ class DTAutosuggest extends React.Component {
   };
 
   render() {
-    if (this.state.pendingCurrentLocation) {
-      return <Loading />;
+    if (i18next.language !== this.props.lang) {
+      i18next.changeLanguage(this.props.lang);
     }
     const {
       value,

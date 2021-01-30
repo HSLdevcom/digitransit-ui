@@ -126,8 +126,8 @@ class FavouriteEditingModal extends React.Component {
     return null;
   };
 
-  componentDidUpdate = prevProps => {
-    if (prevProps.lang !== this.props.lang) {
+  componentDidUpdate = () => {
+    if (i18next.language !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
     }
   };
