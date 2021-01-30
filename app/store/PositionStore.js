@@ -3,10 +3,7 @@ import d from 'debug';
 import { api, init } from '../action/MockGeolocationApi';
 import { isBrowser } from '../util/browser';
 import { parseLatLon } from '../util/otpStrings';
-import {
-  getPositioningHasSucceeded,
-  setPositioningHasSucceeded,
-} from './localStorage';
+import { getGeolocationState, setGeolocationState } from './localStorage';
 
 const debug = d('PositionStore.js');
 
@@ -64,11 +61,6 @@ export default class PositionStore extends Store {
       navigator.geoapi = navigator.geolocation;
     }
     super(dispatcher);
-    this.removeLocation();
-    this.positioningHasSucceeded = getPositioningHasSucceeded();
-  }
-
-  removeLocation() {
     this.lat = 0;
     this.lon = 0;
     this.heading = null;
@@ -77,7 +69,13 @@ export default class PositionStore extends Store {
     this.name = undefined;
     this.layer = undefined;
     this.status = PositionStore.STATUS_NO_LOCATION;
+    this.savedState = getGeolocationState();
     this.emitChange();
+  }
+
+  saveGeolocationState(state) {
+    this.savedState = state;
+    setGeolocationState(state);
   }
 
   geolocationSearch() {
@@ -88,35 +86,38 @@ export default class PositionStore extends Store {
 
   geolocationNotSupported() {
     this.status = PositionStore.STATUS_GEOLOCATION_NOT_SUPPORTED;
+    this.saveGeolocationState('failed');
     this.emitChange();
   }
 
   geolocationDenied() {
     this.status = PositionStore.STATUS_GEOLOCATION_DENIED;
+    this.saveGeolocationState('denied');
     this.emitChange();
   }
 
   geolocationTimeout() {
     this.status = PositionStore.STATUS_GEOLOCATION_TIMEOUT;
+    this.saveGeolocationState('timeout');
     this.emitChange();
   }
 
   geolocationWatchTimeout() {
     this.status = PositionStore.STATUS_GEOLOCATION_WATCH_TIMEOUT;
+    this.saveGeolocationState('timeout');
     this.emitChange();
   }
 
   geolocationPrompt() {
     this.status = PositionStore.STATUS_GEOLOCATION_PROMPT;
+    this.saveGeolocationState('prompt');
     this.emitChange();
   }
 
   storeLocation(location) {
-    if (!this.positioningHasSucceeded) {
-      setPositioningHasSucceeded(true);
-      this.positioningHasSucceeded = true;
+    if (this.this.savedState !== 'granted') {
+      this.saveGeolocationState('granted');
     }
-
     if (
       location &&
       location.disableFiltering !== true &&
@@ -132,7 +133,7 @@ export default class PositionStore extends Store {
     this.heading = location.heading ? location.heading : this.heading;
     this.status = PositionStore.STATUS_FOUND_LOCATION;
 
-    this.emitChange();
+    this.emitChangeG();
   }
 
   storeAddress(location) {
