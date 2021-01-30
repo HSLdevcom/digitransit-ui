@@ -12,7 +12,11 @@ import Icon from './Icon';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import withBreakpoint, { DesktopOrMobile } from '../util/withBreakpoint';
-import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
+import {
+  otpToLocation,
+  addressToItinerarySearch,
+  locationToOTP,
+} from '../util/otpStrings';
 import Loading from './Loading';
 import {
   checkPositioningPermission,
@@ -62,10 +66,12 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     queryString: PropTypes.string,
     router: routerShape.isRequired,
     match: matchShape.isRequired,
+    locationingFailed: PropTypes.bool,
   };
 
   static defaultProps = {
     isModalNeeded: false,
+    locationingFailed: false,
   };
 
   constructor(props) {
@@ -75,6 +81,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       updatedLocation: null,
       loadingGeolocationState: true,
       modalClosed: false,
+      origin: undefined,
     };
   }
 
@@ -96,7 +103,9 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     ) {
       const queryString = this.props.queryString || '';
       this.props.router.replace(
-        `/${PREFIX_NEARYOU}/${this.props.match.params.mode}/${this.props.match.params.origin}${queryString}`,
+        `/${PREFIX_NEARYOU}/${this.props.match.params.mode}/${locationToOTP(
+          this.state.origin,
+        )}${queryString}`,
       );
     }
     // if we have location access, clear origin from url
@@ -115,12 +124,24 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   componentDidMount() {
     checkPositioningPermission().then(permission => {
-      const state = permission.state ? permission.state : 'granted';
+      const { origin } = this.props.match.routeParams;
+      let state;
+      if (permission.state && permission.state !== 'error') {
+        state = permission.state;
+      } else if (permission.state === 'error') {
+        const fromStore = getSavedGeolocationPermission();
+        state = fromStore.state === 'granted' ? fromStore.state : 'prompt';
+      } else {
+        state = 'granted';
+      }
       setSavedGeolocationPermission('state', state);
       if (state === 'granted') {
         this.context.executeAction(startLocationWatch);
       }
-      this.setState({ loadingGeolocationState: false });
+      this.setState({
+        loadingGeolocationState: false,
+        origin: origin ? otpToLocation(origin) : null,
+      });
     });
   }
 
@@ -213,6 +234,14 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     });
   };
 
+  getPosition = () => {
+    return this.props.locationingFailed && this.state.origin
+      ? this.state.origin
+      : this.state.updatedLocation ||
+          this.state.startPosition ||
+          this.context.config.defaultEndpoint;
+  };
+
   renderContent = () => {
     const { mode } = this.props.match.params;
     const renderDisruptionBanner = mode !== 'CITYBIKE';
@@ -298,11 +327,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 <StopsNearYouContainer
                   match={this.props.match}
                   stopPatterns={props.stopPatterns}
-                  position={
-                    this.state.updatedLocation ||
-                    this.state.startPosition ||
-                    this.context.config.defaultEndpoint
-                  }
+                  position={this.getPosition()}
                 />
               </div>
             );
@@ -348,11 +373,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           if (props) {
             return (
               <StopsNearYouMap
-                position={
-                  this.state.updatedLocation ||
-                  this.state.startPosition ||
-                  this.context.config.defaultEndpoint
-                }
+                position={this.getPosition()}
                 stops={props.stops}
                 match={this.props.match}
               />
@@ -480,7 +501,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   shouldRenderModal() {
-    const { origin } = this.props.match.params;
+    const { origin } = this.state;
     const { position, isModalNeeded } = this.props;
     const savedChoice = getSavedGeolocationPermission();
     if (savedChoice.state === 'granted' || this.state.modalClosed) {
@@ -598,6 +619,7 @@ const PositioningWrapper = connectToStores(
       };
     }
     if (locationState.locationingFailed) {
+      const permission = getSavedGeolocationPermission();
       // Use url origin or default endpoint when positioning fails
       if (params.origin) {
         const position = otpToLocation(params.origin);
@@ -612,10 +634,22 @@ const PositioningWrapper = connectToStores(
           queryString: location.search,
         };
       }
+      if (permission.state !== 'denied') {
+        // Permission state is error, ie. because of missing permissions api, don't send any position.
+        return {
+          ...props,
+          isModalNeeded: false,
+          locationingFailed: true,
+          loadingPosition: false,
+          lang,
+          params,
+          queryString: location.search,
+        };
+      }
       return {
         ...props,
         position: context.config.defaultEndpoint,
-        isModalNeeded: true,
+        isModalNeeded: false,
         loadingPosition: false,
         lang,
         params,
