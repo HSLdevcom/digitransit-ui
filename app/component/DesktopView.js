@@ -14,7 +14,6 @@ export default function DesktopView(
     scrollable,
     scrolled,
     onScroll,
-    bckBtnColor,
     bckBtnVisible,
     bckBtnUrl,
   },
@@ -33,7 +32,6 @@ export default function DesktopView(
               <BackButton
                 title={title}
                 icon="icon-icon_arrow-collapse--left"
-                color={bckBtnColor}
                 iconClassName="arrow-icon"
                 urlToBack={bckBtnUrl || config.URL.ROOTLINK}
               />
@@ -67,7 +65,6 @@ DesktopView.propTypes = {
   scrollable: PropTypes.bool,
   scrolled: PropTypes.bool,
   onScroll: PropTypes.func,
-  bckBtnColor: PropTypes.string,
   bckBtnVisible: PropTypes.bool, // DT-3471
   bckBtnUrl: PropTypes.string,
 };

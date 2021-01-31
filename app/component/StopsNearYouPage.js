@@ -548,7 +548,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
               scrollable
               content={this.renderContent()}
               map={this.renderMap()}
-              bckBtnColor={this.context.config.colors.primary}
               bckBtnUrl={
                 this.context.config.URL.ROOTLINK
                   ? undefined
@@ -560,7 +559,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             <MobileView
               content={this.renderContent()}
               map={this.renderMap()}
-              bckBtnColor={this.context.config.colors.primary}
               bckBtnUrl={
                 this.context.config.URL.ROOTLINK
                   ? undefined

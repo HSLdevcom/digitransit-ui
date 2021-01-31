@@ -54,7 +54,7 @@ function ItineraryPageMap(
     leafletEvents,
     showVehicles,
   },
-  { match, config, router, executeAction },
+  { match, router, executeAction },
 ) {
   // DT-4011: When user changes orientation, i.e. with tablet, map would crash. This check prevents it.
   breakpointChanged = !isEqual(breakpoint, prevBreakpoint);
@@ -181,7 +181,6 @@ function ItineraryPageMap(
       <BackButton
         icon="icon-icon_arrow-collapse--left"
         iconClassName="arrow-icon"
-        color={config.colors.primary}
       />
     </MapContainer>
   );

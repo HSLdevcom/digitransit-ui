@@ -103,7 +103,6 @@ class ItineraryTab extends React.Component {
                       />
                     }
                     icon="icon-icon_arrow-collapse--left"
-                    color={config.colors.primary}
                     iconClassName="arrow-icon"
                   />
                   <ItinerarySummary itinerary={itinerary} key="summary" />
