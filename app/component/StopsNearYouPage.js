@@ -25,10 +25,7 @@ import {
 } from '../action/PositionActions';
 import DisruptionBanner from './DisruptionBanner';
 import StopsNearYouSearch from './StopsNearYouSearch';
-import {
-  getSavedGeolocationPermission,
-  setSavedGeolocationPermission,
-} from '../store/localStorage';
+import { getGeolocationState } from '../store/localStorage';
 import withSearchContext from './WithSearchContext';
 import { PREFIX_NEARYOU } from '../util/path';
 import StopsNearYouContainer from './StopsNearYouContainer';
@@ -62,7 +59,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       address: PropTypes.string,
     }),
     lang: PropTypes.string.isRequired,
-    isModalNeeded: PropTypes.bool,
+    hasGeolocation: PropTypes.bool,
     queryString: PropTypes.string,
     router: routerShape.isRequired,
     match: matchShape.isRequired,
@@ -70,7 +67,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   static defaultProps = {
-    isModalNeeded: false,
+    hasGeolocation: false,
     locationingFailed: false,
   };
 
@@ -86,7 +83,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   }
 
   componentDidUpdate() {
-    const savedPermission = getSavedGeolocationPermission();
+    const savedPermission = getGeolocationState();
     if (
       !this.props.position &&
       savedPermission.state === 'denied' &&
@@ -129,12 +126,11 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       if (permission.state && permission.state !== 'error') {
         state = permission.state;
       } else if (permission.state === 'error') {
-        const fromStore = getSavedGeolocationPermission();
+        const fromStore = getGeolocationState();
         state = fromStore.state === 'granted' ? fromStore.state : 'prompt';
       } else {
         state = 'granted';
       }
-      setSavedGeolocationPermission('state', state);
       if (state === 'granted') {
         this.context.executeAction(startLocationWatch);
       }
@@ -404,14 +400,12 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   handleClose = () => {
-    setSavedGeolocationPermission('state', 'denied');
     this.setState({
       modalClosed: true,
     });
   };
 
   handleGrantGeolocation = () => {
-    setSavedGeolocationPermission('state', 'granted');
     this.context.executeAction(startLocationWatch);
     this.setState({
       modalClosed: true,
@@ -502,15 +496,15 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   shouldRenderModal() {
     const { origin } = this.state;
-    const { position, isModalNeeded } = this.props;
-    const savedChoice = getSavedGeolocationPermission();
+    const { position, hasGeolocation } = this.props;
+    const savedChoice = getGeolocationState();
     if (savedChoice.state === 'granted' || this.state.modalClosed) {
       return false;
     }
     if (origin && savedChoice.state === 'denied') {
       return false;
     }
-    if (position && !isModalNeeded) {
+    if (position && !hasGeolocation) {
       return false;
     }
     if (savedChoice.state === 'prompt' && origin) {
@@ -521,7 +515,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   render() {
     const showModal = this.shouldRenderModal();
-    const savedChoice = getSavedGeolocationPermission();
+    const savedChoice = getGeolocationState();
     const { loadingPosition } = this.props;
     const { mode } = this.props.match.params;
     if ((!showModal && loadingPosition) || this.state.loadingGeolocationState) {
@@ -600,7 +594,7 @@ const PositioningWrapper = connectToStores(
       const position = otpToLocation(place);
       return {
         ...props,
-        isModalNeeded: !position,
+        hasGeolocation: !position,
         position,
         lang,
         params,
@@ -619,7 +613,7 @@ const PositioningWrapper = connectToStores(
       };
     }
     if (locationState.locationingFailed) {
-      const permission = getSavedGeolocationPermission();
+      const permission = getGeolocationState();
       // Use url origin or default endpoint when positioning fails
       if (params.origin) {
         const position = otpToLocation(params.origin);
@@ -627,7 +621,7 @@ const PositioningWrapper = connectToStores(
         return {
           ...props,
           position,
-          isModalNeeded: false,
+          hasGeolocation: false,
           loadingPosition: false,
           lang,
           params,
@@ -638,7 +632,7 @@ const PositioningWrapper = connectToStores(
         // Permission state is error, ie. because of missing permissions api, don't send any position.
         return {
           ...props,
-          isModalNeeded: false,
+          hasGeolocation: false,
           locationingFailed: true,
           loadingPosition: false,
           lang,
@@ -649,7 +643,7 @@ const PositioningWrapper = connectToStores(
       return {
         ...props,
         position: context.config.defaultEndpoint,
-        isModalNeeded: false,
+        hasGeolocation: false,
         loadingPosition: false,
         lang,
         params,
@@ -673,7 +667,7 @@ const PositioningWrapper = connectToStores(
     return {
       ...props,
       position: undefined,
-      isModalNeeded: false,
+      hasGeolocation: false,
       loadingPosition: false,
       lang,
       params,
