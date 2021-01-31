@@ -158,6 +158,7 @@ export default class PositionStore extends Store {
 
   getLocationState() {
     return {
+      type: 'CurrentLocation',
       lat: this.lat,
       lon: this.lon,
       address: this.address,
