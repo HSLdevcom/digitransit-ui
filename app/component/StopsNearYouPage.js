@@ -12,7 +12,7 @@ import Icon from './Icon';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import withBreakpoint, { DesktopOrMobile } from '../util/withBreakpoint';
-import { otpToLocation } from '../util/otpStrings';
+import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
 import Loading from './Loading';
 import {
   checkPositioningPermission,
@@ -372,6 +372,15 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     });
   };
 
+  selectHandler = item => {
+    const { mode } = this.props.match.params;
+    let path = `/${PREFIX_NEARYOU}/${mode}/${addressToItinerarySearch(item)}`;
+    if (this.props.match.location.search) {
+      path += this.props.match.location.search;
+    }
+    this.props.router.replace(path);
+  };
+
   renderAutoSuggestField = () => {
     const isMobile = this.props.breakpoint !== 'large';
     return (
@@ -386,6 +395,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         lang={this.props.lang}
         mode={this.props.match.params.mode}
         isMobile={isMobile}
+        selectHandler={this.selectHandler} // prop for context handler
       />
     );
   };
