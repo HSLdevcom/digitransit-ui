@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-autosuggest",
-  "version": "1.5.3",
+  "version": "1.5.5",
   "description": "digitransit-component autosuggest module",
   "main": "lib/index.js",
   "files": [
@@ -28,7 +28,7 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "^0.2.9",
+    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "^0.2.11",
     "@digitransit-search-util/digitransit-search-util-get-label": "^0.1.0",
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "^0.1.0",
     "@hsl-fi/hooks": "^0.2.0"

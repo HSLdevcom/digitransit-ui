@@ -375,7 +375,6 @@ class RoutePage extends React.Component {
           {breakpoint === 'large' && (
             <BackButton
               icon="icon-icon_arrow-collapse--left"
-              color={config.colors.primary}
               iconClassName="arrow-icon"
               urlToBack={config.URL.ROOTLINK}
             />
