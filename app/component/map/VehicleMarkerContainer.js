@@ -23,16 +23,16 @@ function getVehicleIcon(
       ? {
           element: (
             <IconWithTail
-              img="icon-icon_all-vehicles-large"
               rotate={heading}
-              allVehicles
+              mode={mode}
               vehicleNumber={vehicleNumber}
-              useLargeIcon={useLargeIcon}
             />
           ),
-          className: `vehicle-icon bus ${useSmallIcon ? 'small-map-icon' : ''}`,
+          className: `vehicle-icon ${mode} ${
+            useSmallIcon ? 'small-map-icon' : ''
+          }`,
           iconSize: [20, 20],
-          iconAnchor: [10, 10],
+          iconAnchor: [15, 15],
         }
       : {
           element: (
