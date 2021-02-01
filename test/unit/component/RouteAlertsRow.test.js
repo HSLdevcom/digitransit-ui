@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import IconWithBigCaution from '../../../app/component/IconWithBigCaution';
+import Icon from '../../../app/component/Icon';
 import RouteAlertsRow from '../../../app/component/RouteAlertsRow';
 import RouteNumber from '../../../app/component/RouteNumber';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
@@ -53,7 +53,7 @@ describe('<RouteAlertsRow />', () => {
     expect(wrapper.find(RouteNumber)).to.have.lengthOf(1);
   });
 
-  it('should render an IconWithBigCaution if a mode is provided, has description and the type is stop', () => {
+  it('should render an Icon if a mode is provided, has description and the type is stop', () => {
     const props = {
       entityMode: 'BUS',
       entityType: 'stop',
@@ -63,7 +63,7 @@ describe('<RouteAlertsRow />', () => {
       description: 'Lorem ipsum',
     };
     const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
-    expect(wrapper.find(IconWithBigCaution)).to.have.lengthOf(1);
+    expect(wrapper.find(Icon)).to.have.lengthOf(1);
   });
 
   it('should render a ServiceAlertIcon if a mode is not provided', () => {
