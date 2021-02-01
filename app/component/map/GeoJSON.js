@@ -157,6 +157,7 @@ class GeoJSON extends React.Component {
 
     if (
       this.props.geoJsonZoomLevel &&
+      feature.style &&
       (geometry.type === 'MultiLineString' || geometry.type === 'LineString')
     ) {
       const lineArray = [
