@@ -12,11 +12,7 @@ import Icon from './Icon';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import withBreakpoint, { DesktopOrMobile } from '../util/withBreakpoint';
-import {
-  otpToLocation,
-  addressToItinerarySearch,
-  locationToOTP,
-} from '../util/otpStrings';
+import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
 import Loading from './Loading';
 import {
   checkPositioningPermission,
@@ -103,9 +99,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     ) {
       const queryString = this.props.queryString || '';
       this.props.router.replace(
-        `/${PREFIX_NEARYOU}/${this.props.match.params.mode}/${locationToOTP(
-          this.state.origin,
-        )}${queryString}`,
+        `/${PREFIX_NEARYOU}/${this.props.match.params.mode}/${this.props.match.params.origin}${queryString}`,
       );
     }
     // if we have location access, clear origin from url
