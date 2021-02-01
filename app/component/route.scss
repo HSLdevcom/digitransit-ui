@@ -880,6 +880,18 @@ $margin-left-right: 1.25em;
     display: flex;
     padding: 0.8em 0.8em 0.8em 0.8em;
     position: relative;
+
+    .icon.stop-disruption {
+      width: 2em;
+      color: #fff;
+      &.warning {
+        fill: $disruption-color;
+      }
+      &.info {
+        fill: $gray-blue;
+      }
+    }
+
     .route-alert-row-link {
       padding-right: 1px;
       padding-left: 1px;

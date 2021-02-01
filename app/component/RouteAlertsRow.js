@@ -9,7 +9,7 @@ import Link from 'found/Link';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import ExternalLink from './ExternalLink';
-import IconWithBigCaution from './IconWithBigCaution';
+import Icon from './Icon';
 import RouteNumber from './RouteNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../constants';
@@ -114,10 +114,14 @@ export default function RouteAlertsRow(
       )) ||
         (entityType === 'stop' && (
           <div className="route-number">
-            <IconWithBigCaution
-              alertSeverityLevel={severityLevel}
-              img="icon-icon_bus-stop"
-            />
+            {severityLevel === 'WARNING' ? (
+              <Icon
+                img="icon-icon_caution"
+                className="stop-disruption warning"
+              />
+            ) : (
+              <Icon img="icon-icon_info" className="stop-disruption info" />
+            )}
           </div>
         )) || (
           <div className="route-number">
