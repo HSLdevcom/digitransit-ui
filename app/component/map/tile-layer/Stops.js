@@ -58,7 +58,6 @@ class Stops {
       isHilighted,
       !!(
         feature.properties.type === 'FERRY' &&
-        feature.properties.code !== 'null' &&
         feature.properties.code !== 'null'
       ),
     );
