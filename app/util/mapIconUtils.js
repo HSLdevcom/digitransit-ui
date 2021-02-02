@@ -286,8 +286,11 @@ function getSmallStopIcon(type, radius) {
   ctx.beginPath();
   ctx.fillStyle = getModeColor(type);
   if (type === 'FERRY') {
-    // different color for srops only
+    // different color for stops only
     ctx.fillStyle = '#666666';
+  }
+  if (type === 'FERRY_TERMINAL') {
+    ctx.fillStyle = '#00B9E4';
   }
   ctx.arc(x, y, radius - 1, 0, FULL_CIRCLE);
   ctx.fill();
@@ -315,7 +318,14 @@ function getSelectedIconCircleOffset(zoom, ratio) {
  * Determine size from zoom level.
  * Supported icons are BUS, TRAM, FERRY
  */
-export function drawStopIcon(tile, geom, type, platformNumber, isHilighted) {
+export function drawStopIcon(
+  tile,
+  geom,
+  type,
+  platformNumber,
+  isHilighted,
+  isFerryTerminal,
+) {
   if (type === 'SUBWAY') {
     return;
   }
@@ -336,16 +346,20 @@ export function drawStopIcon(tile, geom, type, platformNumber, isHilighted) {
   if (style === 'small') {
     x = geom.x / tile.ratio - radius;
     y = geom.y / tile.ratio - radius;
-    getMemoizedStopIcon(type, radius).then(image => {
-      tile.ctx.drawImage(image, x, y);
-    });
+    getMemoizedStopIcon(isFerryTerminal ? 'FERRY_TERMINAL' : type, radius).then(
+      image => {
+        tile.ctx.drawImage(image, x, y);
+      },
+    );
     return;
   }
   if (style === 'large') {
     x = geom.x / tile.ratio - width / 2;
     y = geom.y / tile.ratio - height;
     getImageFromSpriteCache(
-      `icon-icon_stop_${type.toLowerCase()}`,
+      !isFerryTerminal
+        ? `icon-icon_stop_${type.toLowerCase()}`
+        : `icon-icon_${type.toLowerCase()}`,
       width,
       height,
     ).then(image => {
@@ -356,9 +370,12 @@ export function drawStopIcon(tile, geom, type, platformNumber, isHilighted) {
         tile.ctx.beginPath();
         /* eslint-disable no-param-reassign */
         tile.ctx.fillStyle = getModeColor(type);
-        if (type === 'FERRY') {
+        if (type === 'FERRY' && !isFerryTerminal) {
           // ferry stops have different color than terminals
           tile.ctx.fillStyle = '#666666';
+        } else if (type === 'FERRY' && isFerryTerminal) {
+          // ferry terminals
+          tile.ctx.fillStyle = '#00B9E4';
         }
         tile.ctx.arc(x, y, radius - 1, 0, FULL_CIRCLE);
         tile.ctx.fill();
