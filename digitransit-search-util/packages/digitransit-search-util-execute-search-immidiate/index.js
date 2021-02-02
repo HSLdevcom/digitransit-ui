@@ -259,10 +259,10 @@ export function getSearchResults(
   searchContext,
   filterResults,
   geocodingSize,
-  refPoint,
   { input },
   callback,
   pathOpts,
+  refPoint,
 ) {
   const {
     getPositions,
@@ -549,10 +549,10 @@ export const executeSearch = (
   searchContext,
   filterResults,
   geocodingSize,
-  refPoint,
   data,
   callback,
   pathOpts,
+  refPoint,
 ) => {
   callback(null); // This means 'we are searching'
   debouncedSearch(
@@ -562,9 +562,9 @@ export const executeSearch = (
     searchContext,
     filterResults,
     geocodingSize,
-    refPoint,
     data,
     callback,
     pathOpts,
+    refPoint,
   );
 };

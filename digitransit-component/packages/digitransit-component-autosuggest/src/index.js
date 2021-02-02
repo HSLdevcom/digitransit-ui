@@ -497,7 +497,6 @@ class DTAutosuggest extends React.Component {
           this.props.searchContext,
           this.props.filterResults,
           this.props.geocodingSize,
-          this.props.refPoint,
           {
             input: value || '',
           },
@@ -545,6 +544,7 @@ class DTAutosuggest extends React.Component {
             }
           },
           this.props.pathOpts,
+          this.props.refPoint,
         );
       },
     );
