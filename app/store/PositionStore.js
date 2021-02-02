@@ -115,7 +115,7 @@ export default class PositionStore extends Store {
   }
 
   storeLocation(location) {
-    if (this.this.savedState !== 'granted') {
+    if (this.savedState !== 'granted') {
       this.saveGeolocationState('granted');
     }
     if (
@@ -133,7 +133,7 @@ export default class PositionStore extends Store {
     this.heading = location.heading ? location.heading : this.heading;
     this.status = PositionStore.STATUS_FOUND_LOCATION;
 
-    this.emitChangeG();
+    this.emitChange();
   }
 
   storeAddress(location) {
