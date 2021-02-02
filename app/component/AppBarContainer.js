@@ -50,7 +50,7 @@ const AppBarContainer = ({
           ) : (
             <AppBarSmall
               {...args}
-              showLogo={match.location.pathname === homeUrl}
+              showLogo
               logo={logo}
               homeUrl={homeUrl}
               user={user}

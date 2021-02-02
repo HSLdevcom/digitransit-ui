@@ -2303,7 +2303,6 @@ class SummaryPage extends React.Component {
           scrollable
           scrolled={this.state.scrolled}
           onScroll={this.handleScroll}
-          bckBtnColor={this.context.config.colors.primary}
         />
       );
     }

@@ -33,11 +33,11 @@ const PH_START = 'start';
 const PH_SEARCH = 'search';
 const PH_SEARCH_GEOLOCATION = 'search+geolocation';
 const PH_GEOLOCATIONING = 'geolocationing';
-const PH_USEORIGIN = 'useOrigin';
-const PH_USEGEOLOCATION = 'useGeolocation';
+const PH_USEDEFAULTPOS = 'usedefaultpos';
+const PH_USEGEOLOCATION = 'usegeolocation';
 
 const PH_SHOWSEARCH = [PH_SEARCH, PH_SEARCH_GEOLOCATION]; // show modal
-const PH_READY = [PH_USEORIGIN, PH_USEGEOLOCATION]; // render the actual page
+const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION]; // render the actual page
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 
@@ -82,7 +82,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           }
         } else {
           newState = {
-            phase: PH_USEORIGIN,
+            phase: PH_USEDEFAULTPOS,
             startPosition: this.props.defaultPosition,
             updatedLocation: this.props.defaultPosition,
           };
@@ -97,7 +97,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         this.context.executeAction(startLocationWatch);
       } else if (origin) {
         newState = {
-          phase: PH_USEORIGIN,
+          phase: PH_USEDEFAULTPOS,
           startPosition: this.props.defaultPosition,
           updatedLocation: this.props.defaultPosition,
         };
@@ -114,7 +114,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       if (nextProps.position.locationingFailed) {
         this.context.executeAction(showGeolocationDeniedMessage);
         newState = {
-          phase: PH_USEORIGIN,
+          phase: PH_USEDEFAULTPOS,
           startPosition: nextProps.defaultPosition,
           updatedLocation: nextProps.defaultPosition,
         };
@@ -163,7 +163,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   getPosition = () => {
-    return this.state.phase === PH_USEORIGIN
+    return this.state.phase === PH_USEDEFAULTPOS
       ? this.props.defaultPosition
       : this.props.position;
   };
@@ -313,7 +313,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   handleClose = () => {
     this.setState({
-      phase: PH_USEORIGIN,
+      phase: PH_USEDEFAULTPOS,
       startPosition: this.props.defaultPosition,
       updatedLocation: this.props.defaultPosition,
     });

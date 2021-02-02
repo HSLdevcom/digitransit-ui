@@ -315,7 +315,28 @@ $margin-left-right: 1.25em;
           overflow: hidden;
           width: 100%;
         }
-      }
+        .platform-number-container {
+          display: inherit;
+
+          .platform-code {
+            background: #f4f4f5;
+            color: #333333;
+            width: 24px;
+            height: 20px;
+            border-radius: 4px;
+            font-size: $font-size-xsmall;
+            font-weight: $font-weight-medium;
+            text-align: center;
+            margin-left: 1em;
+            margin-right: 0.3em;
+            line-height: 1.6;
+            white-space: nowrap;
+            &.empty {
+              background: none;
+            }
+          }
+        }
+    }
       .departure-times-container {
         display: flex;
         color: $black;

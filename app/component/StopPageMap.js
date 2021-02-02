@@ -111,7 +111,6 @@ const StopPageMap = (
     children.push(
       <BackButton
         icon="icon-icon_arrow-collapse--left"
-        color={config.colors.primary}
         iconClassName="arrow-icon"
         key="stop-page-back-button"
         urlToBack={config.URL.ROOTLINK}

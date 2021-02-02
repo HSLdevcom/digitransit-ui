@@ -423,6 +423,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
     }
   }
   .card {
+    width: max-content;
     border: none;
     border-radius: 4px;
     > a {
