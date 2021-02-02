@@ -31,6 +31,12 @@
       }
     }
   }
+  .timetable-note {
+    border-top: 1px solid $light-gray;
+    margin-left: $padding-large;
+    margin-right: $padding-large;
+    padding-top: $padding-large;
+  }
   .timetable-row-printing {
     @media print {
       display: flex;
@@ -65,8 +71,6 @@
       }
     }
     background-color: $white;
-    border: 1px solid $light-gray;
-    border-top: none;
     padding: $padding-medium $padding-large $padding-large $padding-large;
     .mobile h1.title {
       font-size: $font-size-large;

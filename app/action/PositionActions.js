@@ -1,7 +1,10 @@
 import debounce from 'lodash/debounce';
 import d from 'debug';
 import { getJson } from '../util/xhrPromise';
-import { getPositioningHasSucceeded } from '../store/localStorage';
+import {
+  getPositioningHasSucceeded,
+  setSavedGeolocationPermission,
+} from '../store/localStorage';
 import geolocationMessages from '../util/geolocationMessages';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
@@ -75,6 +78,10 @@ export function geolocatonCallback(actionContext, { pos, disableDebounce }) {
 }
 
 function updateGeolocationMessage(actionContext, newId) {
+  // Important for Safari
+  if (newId === 'denied') {
+    setSavedGeolocationPermission('state', 'denied');
+  }
   Object.keys(geolocationMessages).forEach(id => {
     if (id !== newId) {
       actionContext.dispatch('MarkMessageAsRead', geolocationMessages[id].id);
@@ -172,7 +179,7 @@ export function checkPositioningPermission() {
       return;
     }
     if (!navigator.permissions) {
-      resolve({ state: null });
+      resolve({ state: 'error' });
     } else {
       navigator.permissions
         .query({ name: 'geolocation' })

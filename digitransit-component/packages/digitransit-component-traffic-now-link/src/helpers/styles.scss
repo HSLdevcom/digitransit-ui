@@ -10,7 +10,6 @@
   font-weight: 500;
   letter-spacing: -0.67px;
   color: #333333;
-  margin-top: 1px;
   margin-left: -1px;
 
   @include min-width(tablet) {
@@ -20,9 +19,13 @@
 }
 
 .banner {
+  font-size: 16px;
   cursor: pointer;
   display: flex;
   margin-top: 0;
+  @include min-width(tablet) {
+    padding: 7px 13px 6px 16px;
+  }
   padding: 6px 13px 6px 16px;
   justify-content: space-between;
 }

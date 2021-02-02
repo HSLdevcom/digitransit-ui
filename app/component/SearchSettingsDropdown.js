@@ -5,6 +5,11 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
 
+const roundToOneDecimal = number => {
+  const rounded = Math.round(number * 10) / 10;
+  return rounded.toFixed(1).replace('.', ',');
+};
+
 /**
  * Builds an array of options: least, less, default, more, most with preset
  * multipliers or given values for each option. Note: a higher value (relative to
@@ -16,19 +21,27 @@ export const getFiveStepOptions = options => [
   {
     title: 'option-least',
     value: options.least || options[0],
+    kmhValue: `${roundToOneDecimal(options[0] * 3.6)} km/h`,
   },
   {
     title: 'option-less',
     value: options.less || options[1],
+    kmhValue: `${roundToOneDecimal(options[1] * 3.6)} km/h`,
   },
-  { title: 'option-default', value: options[2] },
+  {
+    title: 'option-default',
+    value: options[2],
+    kmhValue: `${roundToOneDecimal(options[2] * 3.6)} km/h`,
+  },
   {
     title: 'option-more',
     value: options.more || options[3],
+    kmhValue: `${roundToOneDecimal(options[3] * 3.6)} km/h`,
   },
   {
     title: 'option-most',
     value: options.most || options[4],
+    kmhValue: `${roundToOneDecimal(options[4] * 3.6)} km/h`,
   },
 ];
 
@@ -114,16 +127,22 @@ class SearchSettingsDropdown extends React.Component {
           }`}
           htmlFor={`dropdown-${this.props.name}-${option.value}`}
         >
-          {option.displayNameObject
-            ? option.displayNameObject
-            : option.displayName}
-          {option.value === this.props.currentSelection.value && (
-            <Icon
-              className="selected-checkmark"
-              img="icon-icon_check"
-              viewBox="0 0 15 11"
-            />
-          )}
+          <span>
+            {option.displayNameObject
+              ? option.displayNameObject
+              : option.displayName}
+          </span>
+          <span className="checkmark">
+            &nbsp;
+            {option.value === this.props.currentSelection.value && (
+              <Icon
+                className="selected-checkmark"
+                img="icon-icon_check"
+                viewBox="0 0 15 11"
+              />
+            )}
+          </span>
+          <span className="kmh-value">{option.kmhValue}</span>
           <input
             id={`dropdown-${this.props.name}-${option.value}`}
             type="radio"
@@ -185,6 +204,7 @@ class SearchSettingsDropdown extends React.Component {
                     : o.title,
                 ),
                 value: o.value,
+                kmhValue: o.kmhValue || undefined,
               }
             : {
                 displayName: `${this.props.displayPattern}_${o}`,
@@ -204,6 +224,7 @@ class SearchSettingsDropdown extends React.Component {
                     : getFormattedValue(o),
                 ),
                 value: o,
+                kmhValue: o.kmhValue || undefined,
               },
         )
       : options;

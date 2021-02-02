@@ -233,6 +233,11 @@ class RoutePage extends React.Component {
     if (!source || !source.active) {
       return;
     }
+
+    const patternIdSplit = match.params.patternId.split(':');
+    const direction = patternIdSplit[patternIdSplit.length - 2];
+    const directionInt = parseInt(direction, 10);
+
     executeAction(startRealTimeClient, {
       ...source,
       agency,
@@ -244,6 +249,7 @@ class RoutePage extends React.Component {
           mode: route.mode.toLowerCase(),
           gtfsId: routeParts[1],
           headsign: pattern.headsign,
+          directionInt,
         },
       ],
     });
@@ -369,7 +375,6 @@ class RoutePage extends React.Component {
           {breakpoint === 'large' && (
             <BackButton
               icon="icon-icon_arrow-collapse--left"
-              color={config.colors.primary}
               iconClassName="arrow-icon"
               urlToBack={config.URL.ROOTLINK}
             />

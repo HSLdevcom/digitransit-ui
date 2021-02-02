@@ -75,7 +75,7 @@ $margin-left-right: 1.25em;
 
 .mobile {
   background-color: $white;
-  .route-page-container{
+  .route-page-container {
     padding-top: 0;
     background-color: transparent;
     position: relative;
@@ -266,27 +266,27 @@ $margin-left-right: 1.25em;
           white-space: nowrap;
           text-overflow: ellipsis;
         }
-          span {
-            text-decoration: none;
-          }
-          .drop-off-container {
-            white-space: nowrap;
-            color: $gray;
-            font-size: $font-size-xsmall;
-            font-family: $font-family-narrow;
-            font-weight: 400;
+        span {
+          text-decoration: none;
+        }
+        .drop-off-container {
+          white-space: nowrap;
+          color: $gray;
+          font-size: $font-size-xsmall;
+          font-family: $font-family-narrow;
+          font-weight: 400;
 
-            span {
-              vertical-align: middle;
-            }
+          span {
+            vertical-align: middle;
           }
-          .drop-off-stop-icon {
-            margin-left: 0.5em;
-            margin-right: 0.3em;
-            display: inline-block;
-            width: 13px;
-            height: 12px;
-            background: url(drop_off_svg($gray));
+        }
+        .drop-off-stop-icon {
+          margin-left: 0.5em;
+          margin-right: 0.3em;
+          display: inline-block;
+          width: 13px;
+          height: 12px;
+          background: url(drop_off_svg($gray));
         }
       }
       .route-details-bottom-row {
@@ -431,7 +431,8 @@ $margin-left-right: 1.25em;
 }
 
 // Schedule or alert list
-.route-schedule-content-wrapper, .route-alerts-content-wrapper {
+.route-schedule-content-wrapper,
+.route-alerts-content-wrapper {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -442,8 +443,8 @@ $margin-left-right: 1.25em;
   }
 }
 
-.route-schedule-list-wrapper, .route-alerts-list-wrapper {
-
+.route-schedule-list-wrapper,
+.route-alerts-list-wrapper {
   &.bp-large {
     flex: 1;
     display: flex;
@@ -686,6 +687,7 @@ $margin-left-right: 1.25em;
     margin-right: 7px;
     width: 15px;
     height: 15px;
+    color: $primary-color;
   }
 
   select {
@@ -900,8 +902,8 @@ $margin-left-right: 1.25em;
     padding: 0.8em 0.8em 0.8em 0.8em;
     position: relative;
     .route-alert-row-link {
-       padding-right: 1px;
-       padding-left: 1px;
+      padding-right: 1px;
+      padding-left: 1px;
     }
     + .route-alert-row {
       border-top: 1px solid $light-gray;
@@ -912,15 +914,15 @@ $margin-left-right: 1.25em;
 
       .route-alert-top-row {
         display: flex;
-	.route-alert-entityid {
+        .route-alert-entityid {
           font-family: $font-family-narrow;
-	  font-size: 21px;
-	  font-weight: bold;
-	  margin-right: 10px;
-	}
+          font-size: 21px;
+          font-weight: bold;
+          margin-right: 10px;
+        }
         .route-alert-time-period {
-	  font-size: 15px;
-	  padding-top: 7px;
+          font-size: 15px;
+          padding-top: 7px;
         }
       }
     }
@@ -934,7 +936,8 @@ $margin-left-right: 1.25em;
         width: 2.5em;
         height: 2.5em;
         position: relative;
-        .subicon-info, .subicon-caution {
+        .subicon-info,
+        .subicon-caution {
           bottom: -5px;
           left: -5px;
           .icon {

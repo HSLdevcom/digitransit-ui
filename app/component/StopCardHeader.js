@@ -81,7 +81,6 @@ class StopCardHeader extends React.Component {
         externalLink={this.getExternalLink(stop.gtfsId, isPopUp)}
         icons={icons}
         showBackButton={breakpoint === 'large'}
-        backButtonColor={this.context.config.colors.primary}
         stop={stop}
         headerConfig={this.headerConfig}
         favouriteContainer={

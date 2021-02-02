@@ -23,9 +23,7 @@ const getMode = mode => {
 // Input: options - route, direction, tripStartTime are used to generate the topic
 function getTopic(options, settings) {
   const route = options.route ? options.route : '+';
-  const direction = options.direction
-    ? parseInt(options.direction, 10) + 1
-    : '+';
+  const direction = options.direction ? parseInt(options.direction, 10) : '+';
   const geoHash = options.geoHash ? options.geoHash : ['+', '+', '+', '+'];
   const tripId = options.tripId ? options.tripId : '+';
   const headsign = options.headsign ? options.headsign : '+';
@@ -73,11 +71,20 @@ export function parseMessage(topic, message, agency) {
     parsedMessage.long &&
     (parsedMessage.seq === undefined || parsedMessage.seq === 1) // seq is used for hsl metro carriage sequence
   ) {
+    // change times from 24 hour system to 29 hour system, and removes ':'
+    const tripStartTime =
+      startTime &&
+      startTime.length > 4 &&
+      parseInt(startTime.substring(0, 2), 10) < 5
+        ? `${parseInt(startTime.substring(0, 2), 10) + 24}${startTime.substring(
+            3,
+          )}`
+        : startTime.replace(/:/g, '');
     return {
       id: vehid,
       route: `${agency}:${line}`,
       direction: parseInt(dir, 10) - 1,
-      tripStartTime: startTime.replace(/:/g, ''),
+      tripStartTime,
       operatingDay:
         parsedMessage.oday && parsedMessage.oday !== 'XXX'
           ? parsedMessage.oday

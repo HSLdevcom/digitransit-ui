@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import Link from 'found/Link';
 import Icon from './Icon';
@@ -63,7 +63,10 @@ function renderLink(leg, legDescription) {
   }
   return legDescription;
 }
-function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
+function BicycleLeg(
+  { focusAction, index, leg, setMapZoomToLeg },
+  { config, intl },
+) {
   let stopsDescription;
   const distance = displayDistance(parseInt(leg.distance, 10), config);
   const duration = durationToString(leg.endTime - leg.startTime);
@@ -165,10 +168,7 @@ function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
           />
         </span>
         {isFirstLeg(index) ? (
-          <div
-            className={cx('itinerary-leg-first-row', 'bicycle', 'first')}
-            aria-hidden="true"
-          >
+          <div className={cx('itinerary-leg-first-row', 'bicycle', 'first')}>
             <div className="address-container">
               <div className="address">
                 {address}
@@ -188,6 +188,10 @@ function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
               onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
               role="button"
               tabIndex="0"
+              aria-label={intl.formatMessage(
+                { id: 'itinerary-summary.show-on-map' },
+                { target: leg.from.name || '' },
+              )}
             >
               <Icon
                 img="icon-icon_show-on-map"
@@ -198,7 +202,6 @@ function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
         ) : (
           <div
             className={cx('itinerary-leg-first-row', { first: index === 0 })}
-            aria-hidden="true"
           >
             {renderLink(leg, legDescription)}
             <div
@@ -207,6 +210,10 @@ function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
               onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
               role="button"
               tabIndex="0"
+              aria-label={intl.formatMessage(
+                { id: 'itinerary-summary.show-on-map' },
+                { target: leg.from.name || '' },
+              )}
             >
               <Icon
                 img="icon-icon_show-on-map"
@@ -215,7 +222,7 @@ function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
             </div>
           </div>
         )}
-        <div className="itinerary-leg-action" aria-hidden="true">
+        <div className="itinerary-leg-action">
           <div className="itinerary-leg-action-content">
             {stopsDescription}
             <div
@@ -226,6 +233,9 @@ function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
               }
               role="button"
               tabIndex="0"
+              aria-label={intl.formatMessage({
+                id: 'itinerary-summary-row.clickable-area-description',
+              })}
             >
               <Icon
                 img="icon-icon_show-on-map"
@@ -383,6 +393,9 @@ BicycleLeg.propTypes = {
   setMapZoomToLeg: PropTypes.func.isRequired,
 };
 
-BicycleLeg.contextTypes = { config: PropTypes.object.isRequired };
+BicycleLeg.contextTypes = {
+  config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
+};
 
 export default BicycleLeg;

@@ -301,6 +301,7 @@ class SummaryPage extends React.Component {
       bikeParkPlan: undefined,
       scrolled: false,
       loadingMoreItineraries: undefined,
+      zoomLevel: -1,
     };
     if (this.props.match.params.hash === 'walk') {
       this.selectedPlan = this.state.walkPlan;
@@ -327,6 +328,7 @@ class SummaryPage extends React.Component {
   toggleStreetMode = newStreetMode => {
     const newState = {
       ...this.context.match.location,
+      state: { summaryPageSelected: 0 },
     };
     const basePath = getSummaryPath(
       this.context.match.params.from,
@@ -1409,6 +1411,17 @@ class SummaryPage extends React.Component {
     });
   };
 
+  endZoom = element => {
+    // eslint-disable-next-line no-underscore-dangle
+    const mapZoomLevel = element.target._zoom;
+    this.mapZoomLevel = mapZoomLevel;
+    if (this.state.zoomLevel !== this.mapZoomLevel) {
+      this.setState({
+        zoomLevel: mapZoomLevel,
+      });
+    }
+  };
+
   selectLocation = (item, id) => {
     const { match } = this.context;
     if (id === 'via') {
@@ -1576,6 +1589,16 @@ class SummaryPage extends React.Component {
       getIntermediatePlaces(this.context.match.location.query).length < 5
         ? 'all'
         : 'origindestination';
+
+    this.boundsZoom = this.map
+      ? this.map.getBoundsZoom(bounds.length > 1 ? bounds : defaultBounds)
+      : this.boundsZoom;
+
+    const zoomLevel = this.getZoomLevel(
+      this.state.zoomLevel,
+      this.mapZoomLevel,
+      this.boundsZoom,
+    );
     return (
       <MapContainer
         className="summary-map"
@@ -1584,6 +1607,10 @@ class SummaryPage extends React.Component {
         bounds={bounds.length > 1 ? bounds : defaultBounds}
         zoom={MAX_ZOOM}
         showScaleBar
+        leafletEvents={{
+          onZoomend: this.endZoom,
+        }}
+        geoJsonZoomLevel={zoomLevel}
         locationPopup={locationPopup}
         onSelectLocation={this.selectLocation}
       />
@@ -1733,6 +1760,16 @@ class SummaryPage extends React.Component {
     } else {
       this.mapCenterToggle = !this.mapCenterToggle;
     }
+  };
+
+  getZoomLevel = (stateZoom, mapZoom, boundsZoom) => {
+    if (stateZoom === -1) {
+      if (mapZoom === -1) {
+        return boundsZoom;
+      }
+      return mapZoom;
+    }
+    return stateZoom;
   };
 
   render() {
@@ -2009,6 +2046,9 @@ class SummaryPage extends React.Component {
               mapReady: this.mapReady.bind(this),
               mapLoaded: this.mapLoaded,
               ...this.props,
+              leafletEvents: {
+                onZoomend: this.endZoom,
+              },
             },
             this.context,
           )
@@ -2170,10 +2210,44 @@ class SummaryPage extends React.Component {
           </>
         );
       } else {
+        this.justMounted = true;
+        this.useFitBounds = true;
+        this.mapLoaded = false;
         content = (
           <div style={{ position: 'relative', height: 200 }}>
             <Loading />
           </div>
+        );
+        return hash !== undefined ? (
+          <DesktopView
+            title={
+              <FormattedMessage
+                id="itinerary-page.title"
+                defaultMessage="Itinerary suggestions"
+              />
+            }
+            content={content}
+            map={map}
+            scrollable
+            bckBtnVisible={false}
+          />
+        ) : (
+          <DesktopView
+            title={
+              <FormattedMessage
+                id="summary-page.title"
+                defaultMessage="Itinerary suggestions"
+              />
+            }
+            header={
+              <React.Fragment>
+                <SummaryNavigation params={match.params} />
+                <StreetModeSelector loading />
+              </React.Fragment>
+            }
+            content={content}
+            map={map}
+          />
         );
       }
       return (
@@ -2229,24 +2303,32 @@ class SummaryPage extends React.Component {
           scrollable
           scrolled={this.state.scrolled}
           onScroll={this.handleScroll}
-          bckBtnColor={this.context.config.colors.primary}
         />
       );
     }
 
     let content;
+    let isLoading = false;
 
     if (
       (!error && (!this.selectedPlan || this.props.loading === true)) ||
       this.state.loading !== false ||
       this.props.loadingPosition === true
     ) {
+      this.justMounted = true;
+      this.useFitBounds = true;
+      this.mapLoaded = false;
+      isLoading = true;
       content = (
         <div style={{ position: 'relative', height: 200 }}>
           <Loading />
         </div>
       );
-    } else if (
+      if (hash !== undefined) {
+        return content;
+      }
+    }
+    if (
       routeSelected(
         match.params.hash,
         match.params.secondHash,
@@ -2276,36 +2358,46 @@ class SummaryPage extends React.Component {
       );
     } else {
       map = undefined;
-      content = (
-        <>
-          <SummaryPlanContainer
-            activeIndex={
-              hash || getActiveIndex(match.location, combinedItineraries)
-            }
-            plan={this.selectedPlan}
-            serviceTimeRange={serviceTimeRange}
-            itineraries={combinedItineraries}
-            params={match.params}
-            error={error || this.state.error}
-            from={match.params.from}
-            to={match.params.to}
-            intermediatePlaces={intermediatePlaces}
-            bikeAndPublicItinerariesToShow={this.bikeAndPublicItinerariesToShow}
-            bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
-            walking={showWalkOptionButton}
-            biking={showBikeOptionButton}
-            showAlternativePlan={
-              planHasNoItineraries && hasAlternativeItineraries
-            }
-            separatorPosition={this.state.separatorPosition}
-            loading={this.isFetchingWalkAndBike && !error}
-            onLater={this.onLater}
-            onEarlier={this.onEarlier}
-            loadingMoreItineraries={this.state.loadingMoreItineraries}
-          />
-          {screenReaderAlert}
-        </>
-      );
+      if (isLoading) {
+        content = (
+          <div style={{ position: 'relative', height: 200 }}>
+            <Loading />
+          </div>
+        );
+      } else {
+        content = (
+          <>
+            <SummaryPlanContainer
+              activeIndex={
+                hash || getActiveIndex(match.location, combinedItineraries)
+              }
+              plan={this.selectedPlan}
+              serviceTimeRange={serviceTimeRange}
+              itineraries={combinedItineraries}
+              params={match.params}
+              error={error || this.state.error}
+              from={match.params.from}
+              to={match.params.to}
+              intermediatePlaces={intermediatePlaces}
+              bikeAndPublicItinerariesToShow={
+                this.bikeAndPublicItinerariesToShow
+              }
+              bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
+              walking={showWalkOptionButton}
+              biking={showBikeOptionButton}
+              showAlternativePlan={
+                planHasNoItineraries && hasAlternativeItineraries
+              }
+              separatorPosition={this.state.separatorPosition}
+              loading={this.isFetchingWalkAndBike && !error}
+              onLater={this.onLater}
+              onEarlier={this.onEarlier}
+              loadingMoreItineraries={this.state.loadingMoreItineraries}
+            />
+            {screenReaderAlert}
+          </>
+        );
+      }
     }
 
     return (

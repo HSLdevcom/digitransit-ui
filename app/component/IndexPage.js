@@ -371,8 +371,10 @@ class IndexPage extends React.Component {
                 </h2>
               </div>
             )}
-            <StopRouteSearch isMobile {...stopRouteSearchProps} />
-            <CtrlPanel.SeparatorLine />
+            <div className="stop-route-search-container">
+              <StopRouteSearch isMobile {...stopRouteSearchProps} />
+            </div>
+            <CtrlPanel.SeparatorLine usePaddingBottom20 />
             {!trafficNowLink ||
               (trafficNowLink[lang] !== '' && (
                 <TrafficNowLink
