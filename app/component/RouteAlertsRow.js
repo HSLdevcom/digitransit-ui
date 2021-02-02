@@ -114,13 +114,13 @@ export default function RouteAlertsRow(
       )) ||
         (entityType === 'stop' && (
           <div className="route-number">
-            {severityLevel === 'WARNING' ? (
+            {severityLevel === 'INFO' ? (
+              <Icon img="icon-icon_info" className="stop-disruption info" />
+            ) : (
               <Icon
                 img="icon-icon_caution"
                 className="stop-disruption warning"
               />
-            ) : (
-              <Icon img="icon-icon_info" className="stop-disruption info" />
             )}
           </div>
         )) || (
