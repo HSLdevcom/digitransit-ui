@@ -901,6 +901,18 @@ $margin-left-right: 1.25em;
     display: flex;
     padding: 0.8em 0.8em 0.8em 0.8em;
     position: relative;
+
+    .icon.stop-disruption {
+      width: 2em;
+      color: #fff;
+      &.warning {
+        fill: $disruption-color;
+      }
+      &.info {
+        fill: $gray-blue;
+      }
+    }
+
     .route-alert-row-link {
       padding-right: 1px;
       padding-left: 1px;
@@ -914,6 +926,7 @@ $margin-left-right: 1.25em;
 
       .route-alert-top-row {
         display: flex;
+        align-items: center;
         .route-alert-entityid {
           font-family: $font-family-narrow;
           font-size: 21px;
@@ -922,7 +935,7 @@ $margin-left-right: 1.25em;
         }
         .route-alert-time-period {
           font-size: 15px;
-          padding-top: 7px;
+          padding: 0 0 0 5px;
         }
       }
     }
