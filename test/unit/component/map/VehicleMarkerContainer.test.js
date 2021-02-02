@@ -230,9 +230,11 @@ describe('<VehicleMarkerContainer />', () => {
       });
 
       it('should use a large icon when useLargeIcon is true', () => {
-        const icon = getVehicleIcon(null, 180, '32', false, true);
+        const icon = getVehicleIcon('bus', 180, '32', false, true);
         const wrapper = mountWithIntl(icon.element);
-        expect(wrapper.prop('img')).to.equal('icon-icon_all-vehicles-large');
+        expect(wrapper.find('use').prop('xlinkHref')).to.equal(
+          '#icon-icon_vehicle-live-marker',
+        );
         expect(icon.className).to.contain('bus');
       });
     });
