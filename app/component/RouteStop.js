@@ -175,12 +175,20 @@ class RouteStop extends React.PureComponent {
         stop.stopTimesForPattern[0],
         currentTime,
       )},`;
+      if (stop.stopTimesForPattern[0].stop.platformCode) {
+        text += `${intl.formatMessage({ id: 'platform' })},`;
+        text += `${stop.stopTimesForPattern[0].stop.platformCode},`;
+      }
       if (displayNextDeparture) {
         text += `${intl.formatMessage({ id: 'next' })},`;
         text += `${this.getDepartureTime(
           stop.stopTimesForPattern[1],
           currentTime,
         )},`;
+        if (stop.stopTimesForPattern[1].stop.platformCode) {
+          text += `${intl.formatMessage({ id: 'platform' })},`;
+          text += `${stop.stopTimesForPattern[1].stop.platformCode}`;
+        }
       }
     }
     return text;
@@ -326,7 +334,7 @@ class RouteStop extends React.PureComponent {
                       <div
                         key={`${stopTime.scheduledDeparture}-platform-number`}
                         className={`platform-code ${
-                          !stop.platformCode && 'empty'
+                          !stopTime.stop.platformCode ? 'empty' : ''
                         }`}
                       >
                         {stopTime.stop.platformCode}
@@ -336,7 +344,7 @@ class RouteStop extends React.PureComponent {
                     <div
                       key={`${stop.scheduledDeparture}-platform-number`}
                       className={`platform-code ${
-                        !stop.platformCode && 'empty'
+                        !stop.platformCode ? 'empty' : ''
                       }`}
                     >
                       {stop.platformCode}
