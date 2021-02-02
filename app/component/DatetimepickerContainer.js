@@ -12,7 +12,7 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 // placeholder for AB testing
 
-const testVariant = 'A';
+const testVariant = 'B';
 const Datetimepicker = testVariant === 'A' ? DatetimepickerA : DatetimepickerB;
 
 function DatetimepickerContainer(
