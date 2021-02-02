@@ -114,10 +114,12 @@ $content-background-color: $background-color;
 }
 
 #lang-select {
-  color: white;
   border-bottom: 1px solid #262626;
   padding: 0px 5px;
   .lang {
+    text-decoration: none;
+    line-height: normal;
+    color: white;
     @include font-medium;
     font-size: $font-size-small;
     display: inline-block;
