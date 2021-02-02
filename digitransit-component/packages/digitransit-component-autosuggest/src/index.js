@@ -208,6 +208,7 @@ class DTAutosuggest extends React.Component {
       stopsPrefix: PropTypes.string,
     }),
     mobileLabel: PropTypes.string,
+    refPoint: PropTypes.object,
   };
 
   static defaultProps = {
@@ -496,6 +497,7 @@ class DTAutosuggest extends React.Component {
           this.props.searchContext,
           this.props.filterResults,
           this.props.geocodingSize,
+          this.props.refPoint,
           {
             input: value || '',
           },

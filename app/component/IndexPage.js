@@ -5,6 +5,7 @@ import { matchShape, routerShape, Link } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import TrafficNowLink from '@digitransit-component/digitransit-component-traffic-now-link';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
@@ -205,7 +206,12 @@ class IndexPage extends React.Component {
     const showSpinner =
       (origin.type === 'CurrentLocation' && !origin.address) ||
       (destination.type === 'CurrentLocation' && !destination.address);
-
+    let refPoint;
+    if (!isEmpty(origin)) {
+      refPoint = origin;
+    } else if (!isEmpty(destination)) {
+      refPoint = destination;
+    }
     const locationSearchProps = {
       appElement: '#app',
       origin,
@@ -214,6 +220,7 @@ class IndexPage extends React.Component {
       sources,
       color,
       hoverColor,
+      refPoint,
       searchPanelText: intl.formatMessage({
         id: 'where',
         defaultMessage: 'Where to?',
@@ -229,7 +236,6 @@ class IndexPage extends React.Component {
       appElement: '#app',
       icon: 'search',
       id: 'stop-route-station',
-      refPoint: origin,
       className: 'destination',
       placeholder: 'stop-near-you',
       selectHandler: this.onSelectStopRoute,

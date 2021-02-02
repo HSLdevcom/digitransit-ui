@@ -165,6 +165,7 @@ class DTAutosuggestPanel extends React.Component {
     hoverColor: PropTypes.string,
     originMobileLabel: PropTypes.string,
     destinationMobileLabel: PropTypes.string,
+    refPoint: PropTypes.object,
   };
 
   static defaultProps = {
@@ -410,6 +411,7 @@ class DTAutosuggestPanel extends React.Component {
                 : !this.props.isMobile && !origin.lat
             }
             storeRef={this.storeReference}
+            refPoint={this.props.refPoint}
             className={this.class(origin)}
             placeholder={this.props.originPlaceHolder}
             value={this.value(origin)}
@@ -485,6 +487,7 @@ class DTAutosuggestPanel extends React.Component {
                       placeholder="via-point"
                       className="viapoint"
                       searchContext={searchContext}
+                      refPoint={this.props.refPoint}
                       value={(o && o.address) || ''}
                       onSelect={this.props.onSelect}
                       handleViaPoints={item =>
@@ -588,6 +591,7 @@ class DTAutosuggestPanel extends React.Component {
             className={this.class(this.props.destination)}
             searchContext={searchContext}
             onSelect={this.props.onSelect}
+            refPoint={this.props.refPoint}
             value={this.value(this.props.destination)}
             lang={this.props.lang}
             sources={this.props.sources}

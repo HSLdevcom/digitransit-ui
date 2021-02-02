@@ -259,6 +259,7 @@ export function getSearchResults(
   searchContext,
   filterResults,
   geocodingSize,
+  refPoint,
   { input },
   callback,
   pathOpts,
@@ -277,7 +278,8 @@ export function getSearchResults(
     getFavouriteRoutes,
     getRoutesQuery,
     context,
-    isPeliasLocationAware: locationAware,
+    // eslint-disable-next-line no-unused-vars
+    isPeliasLocationAware: locationAware, // TODO: verify
     minimalRegexp,
     lineRegexp,
     URL_PELIAS,
@@ -296,11 +298,11 @@ export function getSearchResults(
   const searches = { type: 'all', term: input, results: [] };
   const language = getLanguage(context);
   const focusPoint =
-    locationAware && position.hasLocation
+    refPoint?.lat && refPoint?.lon
       ? {
           // Round coordinates to approx 1 km, in order to improve caching
-          'focus.point.lat': position.lat.toFixed(2),
-          'focus.point.lon': position.lon.toFixed(2),
+          'focus.point.lat': refPoint.lat.toFixed(3),
+          'focus.point.lon': refPoint.lon.toFixed(3),
         }
       : {};
   const mode = transportMode ? transportMode.split('-')[1] : undefined;
@@ -348,6 +350,7 @@ export function getSearchResults(
           URL_PELIAS,
           regex,
           geocodingLayers,
+          refPoint,
         ),
       );
     }
@@ -546,6 +549,7 @@ export const executeSearch = (
   searchContext,
   filterResults,
   geocodingSize,
+  refPoint,
   data,
   callback,
   pathOpts,
@@ -558,6 +562,7 @@ export const executeSearch = (
     searchContext,
     filterResults,
     geocodingSize,
+    refPoint,
     data,
     callback,
     pathOpts,

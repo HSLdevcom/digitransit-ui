@@ -5,6 +5,7 @@ import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
+import isEmpty from 'lodash/isEmpty';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 import withSearchContext from './WithSearchContext';
@@ -116,6 +117,12 @@ class OriginDestinationBar extends React.Component {
   };
 
   render() {
+    let refPoint;
+    if (!isEmpty(this.props.origin)) {
+      refPoint = this.props.origin;
+    } else if (!isEmpty(this.props.destination)) {
+      refPoint = this.props.destination;
+    }
     return (
       <div
         className={cx(
@@ -128,6 +135,7 @@ class OriginDestinationBar extends React.Component {
           appElement="#app"
           origin={this.props.origin}
           destination={this.props.destination}
+          refPoint={refPoint}
           originPlaceHolder="search-origin-index"
           destinationPlaceHolder="search-destination-index"
           showMultiPointControls
