@@ -218,16 +218,27 @@ $itinerary-tab-switch-height: 48px;
     align-self: center;
   }
   .icon {
-    height: 1.2em;
-    width: 1.2em;
+    height: 1.4em;
+    width: 1.4em;
   }
   .duration {
-    padding-left: 12px;
+    padding-left: 8px;
+  }
+  .walk-distance {
+    padding-left: 6px;
   }
   .duration, .walk-distance {
     white-space: nowrap;
     align-self: center;
     font-size: 0.9375rem;
+    span {
+      display: block;
+      font-size: 14px;
+      font-weight: normal;
+      &::before {
+        content: attr(data-text);
+      }
+    }
   }
 }
 
@@ -271,7 +282,7 @@ $itinerary-tab-switch-height: 48px;
   color: $primary-color;
 }
 
-.duration {
+.duration, .walk-distance {
   font-weight: 500;
 }
 

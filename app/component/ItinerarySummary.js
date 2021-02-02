@@ -8,6 +8,8 @@ import {
   containsBiking,
   onlyBiking,
   compressLegs,
+  getTotalBikingDuration,
+  getTotalWalkingDuration,
 } from '../util/legUtils';
 
 const ItinerarySummary = ({ itinerary }) => {
@@ -21,18 +23,23 @@ const ItinerarySummary = ({ itinerary }) => {
       <Duration
         duration={compressedItinerary.duration}
         className="duration--itinerary-summary"
+        startTime={compressedItinerary.startTime}
+        endTime={compressedItinerary.endTime}
       />
+      {!onlyBiking(compressedItinerary) &&
+        getTotalWalkingDistance(compressedItinerary) > 0 && (
+          <WalkDistance
+            className="distance--itinerary-summary"
+            walkDistance={getTotalWalkingDistance(compressedItinerary)}
+            walkDuration={getTotalWalkingDuration(compressedItinerary)}
+          />
+        )}
       {containsBiking(compressedItinerary) && (
         <WalkDistance
           className="distance--itinerary-summary"
-          icon="icon_biking"
+          icon="icon_cyclist"
           walkDistance={getTotalBikingDistance(compressedItinerary)}
-        />
-      )}
-      {!onlyBiking(compressedItinerary) && (
-        <WalkDistance
-          className="distance--itinerary-summary"
-          walkDistance={getTotalWalkingDistance(compressedItinerary)}
+          walkDuration={getTotalBikingDuration(compressedItinerary)}
         />
       )}
     </div>

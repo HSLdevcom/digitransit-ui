@@ -7,11 +7,15 @@ import { intlShape } from 'react-intl';
 import { displayDistance } from '../util/geo-utils';
 import { getTotalDistance, containsBiking } from '../util/legUtils';
 
-const ItineraryProfile = ({ itinerary, small }, { config, intl }) => {
+const ItineraryProfile = (
+  { itinerary, small, onlyDistance },
+  { config, intl },
+) => {
   const { elevationGained, elevationLost } = itinerary;
   return (
     <div className={cx('itinerary-profile-container', { small })}>
-      {containsBiking(itinerary) &&
+      {!onlyDistance &&
+        containsBiking(itinerary) &&
         Number.isFinite(elevationGained) &&
         Number.isFinite(elevationLost) && (
           <React.Fragment>
@@ -65,10 +69,12 @@ ItineraryProfile.propTypes = {
     ).isRequired,
   }).isRequired,
   small: PropTypes.bool,
+  onlyDistance: PropTypes.bool,
 };
 
 ItineraryProfile.defaultProps = {
   small: false,
+  onlyDistance: false,
 };
 
 ItineraryProfile.contextTypes = {

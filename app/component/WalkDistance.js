@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 
 import Icon from './Icon';
+import { durationToString } from '../util/timeUtils';
 
 function WalkDistance(props) {
   const roundedWalkDistanceInM = Math.round(props.walkDistance / 100) * 100;
@@ -11,11 +12,13 @@ function WalkDistance(props) {
 
   const walkDistance =
     roundedWalkDistanceInM < 1000
-      ? `${roundedWalkDistanceInM}m`
-      : `${roundedWalkDistanceInKm}km`;
+      ? `${roundedWalkDistanceInM} m`
+      : `${roundedWalkDistanceInKm} km`;
 
   const icon = `icon-${props.icon || 'icon_walk'}`;
-  const mode = props.icon === 'icon_biking' ? 'bike' : 'walk';
+  const mode = props.icon === 'icon_cyclist' ? 'bike' : 'walk';
+
+  const walkDuration = durationToString(props.walkDuration * 1000);
 
   return (
     <span className={cx(props.className)} style={{ whiteSpace: 'nowrap' }}>
@@ -27,7 +30,8 @@ function WalkDistance(props) {
       </span>
       <Icon img={icon} />
       <span aria-hidden className="walk-distance">
-        &nbsp;{walkDistance}
+        {walkDuration}
+        <span data-text={walkDistance} />
       </span>
     </span>
   );
@@ -41,6 +45,7 @@ WalkDistance.propTypes = {
   walkDistance: PropTypes.number.isRequired,
   icon: PropTypes.string,
   className: PropTypes.string,
+  walkDuration: PropTypes.number.isRequired,
 };
 
 WalkDistance.displayName = 'WalkDistance';

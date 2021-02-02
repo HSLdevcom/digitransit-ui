@@ -110,7 +110,7 @@ class ItineraryTab extends React.Component {
               </div>
             ),
             <div className="momentum-scroll itinerary-tabs__scroll" key="legs">
-              <div className="itinerary-timeframe" key="timeframe"> 
+              <div className="itinerary-timeframe" key="timeframe">
                 <DateWarning date={itinerary.startTime} refTime={plan.date} />
               </div>
               <div

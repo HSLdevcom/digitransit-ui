@@ -7,8 +7,18 @@ import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
 
 function Duration(props) {
+  const timeOptions = {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: false,
+  };
   const duration = durationToString(props.duration * 1000);
-
+  const startTime = new Intl.DateTimeFormat('en-US', timeOptions).format(
+    new Date(props.startTime),
+  );
+  const endTime = new Intl.DateTimeFormat('en-US', timeOptions).format(
+    new Date(props.endTime),
+  );
   return (
     <span className={cx(props.className)}>
       <span className="sr-only">
@@ -17,6 +27,7 @@ function Duration(props) {
       <Icon img="icon-icon_clock" />
       <span className="duration" aria-hidden>
         {duration}
+        <span data-text={`${startTime} - ${endTime}`} />
       </span>
     </span>
   );
@@ -29,6 +40,8 @@ Duration.description = () =>
 Duration.propTypes = {
   duration: PropTypes.number.isRequired,
   className: PropTypes.string,
+  startTime: PropTypes.number.isRequired,
+  endTime: PropTypes.number.isRequired,
 };
 
 export default Duration;
