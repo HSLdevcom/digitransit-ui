@@ -278,8 +278,7 @@ export function getSearchResults(
     getFavouriteRoutes,
     getRoutesQuery,
     context,
-    // eslint-disable-next-line no-unused-vars
-    isPeliasLocationAware: locationAware, // TODO: verify
+    isPeliasLocationAware: locationAware,
     minimalRegexp,
     lineRegexp,
     URL_PELIAS,
@@ -298,7 +297,7 @@ export function getSearchResults(
   const searches = { type: 'all', term: input, results: [] };
   const language = getLanguage(context);
   const focusPoint =
-    refPoint?.lat && refPoint?.lon
+    locationAware && refPoint?.lat && refPoint?.lon
       ? {
           // Round coordinates to approx 1 km, in order to improve caching
           'focus.point.lat': refPoint.lat.toFixed(3),

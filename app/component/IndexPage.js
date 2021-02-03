@@ -430,9 +430,8 @@ const IndexPageWithStores = connectToStores(
     const newProps = {};
     const { query } = location;
     const { favouriteModalAction, fromMap } = query;
-    if (locationState) {
-      newProps.locationState = locationState;
-    }
+    newProps.locationState = locationState;
+
     if (favouriteModalAction) {
       newProps.favouriteModalAction = favouriteModalAction;
     }
