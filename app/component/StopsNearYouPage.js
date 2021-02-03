@@ -443,15 +443,6 @@ const PositioningWrapper = connectToStores(
   StopsNearYouPageWithBreakpoint,
   ['PositionStore', 'PreferencesStore', 'FavouriteStore'],
   (context, props) => {
-    // the favorite code below looks like a hack
-    // favourite initialization should happen automatically
-    // it should not be responsibulity of every component to fix fav loading bugs
-    if (
-      context.config.allowLogin &&
-      context.getStore('UserStore').getUser().sub !== undefined
-    ) {
-      context.getStore('FavouriteStore').getFavourites();
-    }
     return {
       ...props,
       position: context.getStore('PositionStore').getLocationState(),
