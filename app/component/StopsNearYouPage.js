@@ -83,8 +83,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         } else {
           newState = {
             phase: PH_USEDEFAULTPOS,
-            startPosition: this.props.defaultPosition,
-            updatedLocation: this.props.defaultPosition,
+            searchPosition: this.props.defaultPosition,
           };
         }
       } else if (
@@ -98,8 +97,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       } else if (origin) {
         newState = {
           phase: PH_USEDEFAULTPOS,
-          startPosition: this.props.defaultPosition,
-          updatedLocation: this.props.defaultPosition,
+          searchPosition: this.props.defaultPosition,
         };
       } else {
         newState = { phase: PH_SEARCH };
@@ -115,14 +113,12 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         this.context.executeAction(showGeolocationDeniedMessage);
         newState = {
           phase: PH_USEDEFAULTPOS,
-          startPosition: nextProps.defaultPosition,
-          updatedLocation: nextProps.defaultPosition,
+          searchPosition: nextProps.defaultPosition,
         };
       } else if (nextProps.position.hasLocation) {
         newState = {
           phase: PH_USEGEOLOCATION,
-          startPosition: nextProps.position,
-          updatedLocation: nextProps.position,
+          searchPosition: nextProps.position,
         };
       }
       return newState;
@@ -131,7 +127,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   getQueryVariables = () => {
-    const { startPosition } = this.state;
+    const { searchPosition } = this.state;
     const { mode } = this.context.match.params;
     let placeTypes = 'STOP';
     let modes = [mode];
@@ -140,8 +136,8 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       modes = ['BICYCLE'];
     }
     return {
-      lat: startPosition.lat,
-      lon: startPosition.lon,
+      lat: searchPosition.lat,
+      lon: searchPosition.lon,
       maxResults: 2000,
       first: this.context.config.maxNearbyStopAmount,
       maxDistance: this.context.config.maxNearbyStopDistance,
@@ -152,14 +148,12 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   positionChanged = () => {
-    const { updatedLocation } = this.state;
     const position = this.getPosition();
-
-    return distance(updatedLocation, position) > 100;
+    return distance(this.state.searchPosition, position) > 100;
   };
 
   updateLocation = () => {
-    this.setState({ updatedLocation: this.getPosition() });
+    this.setState({ searchPosition: this.getPosition() });
   };
 
   getPosition = () => {
@@ -253,7 +247,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 <StopsNearYouContainer
                   match={this.context.match}
                   stopPatterns={props.stopPatterns}
-                  position={this.getPosition()}
+                  position={this.state.searchPosition}
                 />
               </div>
             );
@@ -299,7 +293,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           if (props) {
             return (
               <StopsNearYouMap
-                position={this.getPosition()}
+                position={this.state.searchPosition}
                 stops={props.stops}
                 match={this.context.match}
               />
@@ -314,8 +308,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   handleClose = () => {
     this.setState({
       phase: PH_USEDEFAULTPOS,
-      startPosition: this.props.defaultPosition,
-      updatedLocation: this.props.defaultPosition,
+      searchPosition: this.props.defaultPosition,
     });
   };
 
@@ -326,11 +319,13 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   selectHandler = item => {
     const { mode } = this.context.match.params;
-    let path = `/${PREFIX_NEARYOU}/${mode}/${addressToItinerarySearch(item)}`;
-    if (this.context.match.location.search) {
-      path += this.context.match.location.search;
-    }
-    this.context.router.replace(path);
+    this.context.router.replace(
+      `/${PREFIX_NEARYOU}/${mode}/POS/${addressToItinerarySearch(item)}`,
+    );
+    this.setState({
+      phase: PH_USEDEFAULTPOS,
+      searchPosition: item,
+    });
   };
 
   renderAutoSuggestField = () => {
@@ -460,27 +455,21 @@ const PositioningWrapper = connectToStores(
   (context, props) => {
     const lang = context.getStore('PreferencesStore').getLanguage();
 
-    // the fav code below looks like a hack - favourite initialization should happen automatically
+    // the favorite code below looks like a hack
+    // favourite initialization should happen automatically
+    // it should not be responsibulity of every component to fix fav loading bugs
     if (
       context.config.allowLogin &&
       context.getStore('UserStore').getUser().sub !== undefined
     ) {
       context.getStore('FavouriteStore').getFavourites();
     }
-    const { place, origin } = context.match.params;
+    const { origin } = context.match.params;
     let defaultPosition;
     if (origin) {
       defaultPosition = otpToLocation(origin);
     } else {
       defaultPosition = context.config.defaultEndpoint;
-    }
-
-    if (place !== 'POS') {
-      return {
-        ...props,
-        position: defaultPosition,
-        lang,
-      };
     }
     return {
       ...props,
