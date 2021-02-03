@@ -18,7 +18,6 @@ import Loading from './Loading';
 import {
   checkPositioningPermission,
   startLocationWatch,
-  showGeolocationDeniedMessage,
 } from '../action/PositionActions';
 import DisruptionBanner from './DisruptionBanner';
 import StopsNearYouSearch from './StopsNearYouSearch';
@@ -56,7 +55,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     breakpoint: PropTypes.string.isRequired,
     relayEnvironment: PropTypes.object.isRequired,
     position: dtLocationShape.isrequired,
-    defaultPosition: dtLocationShape,
     lang: PropTypes.string.isRequired,
   };
 
@@ -68,39 +66,38 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   componentDidMount() {
     checkPositioningPermission().then(permission => {
       const { origin } = this.context.match.params;
-      const savedState = getGeolocationState();
+      const savedPermission = getGeolocationState();
       const { state } = permission;
-      let newState;
+      const newState = {};
 
-      if (savedState === 'unknown') {
+      if (origin) {
+        newState.searchPosition = otpToLocation(origin);
+      } else {
+        newState.searchPosition = this.context.config.defaultEndpoint;
+      }
+      if (savedPermission === 'unknown') {
         if (!origin) {
           // state = 'error' means no permission api, so we assume geolocation will work
           if (state === 'prompt' || state === 'granted' || state === 'error') {
-            newState = { phase: PH_SEARCH_GEOLOCATION };
+            newState.phase = PH_SEARCH_GEOLOCATION;
           } else {
-            newState = { phase: PH_SEARCH };
+            newState.phase = PH_SEARCH;
           }
         } else {
-          newState = {
-            phase: PH_USEDEFAULTPOS,
-            searchPosition: this.props.defaultPosition,
-          };
+          newState.phase = PH_USEDEFAULTPOS;
         }
       } else if (
         state === 'prompt' ||
         state === 'granted' ||
-        (state === 'error' && savedState !== 'denied')
+        (state === 'error' && savedPermission !== 'denied')
       ) {
         // reason to expect that geolocation will work
-        newState = { phase: PH_GEOLOCATIONING };
+        newState.phase = PH_GEOLOCATIONING;
         this.context.executeAction(startLocationWatch);
       } else if (origin) {
-        newState = {
-          phase: PH_USEDEFAULTPOS,
-          searchPosition: this.props.defaultPosition,
-        };
+        newState.phase = PH_USEDEFAULTPOS;
       } else {
-        newState = { phase: PH_SEARCH };
+        newState.phase = PH_SEARCH;
       }
       this.setState(newState);
     });
@@ -110,11 +107,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     let newState = {};
     if (prevState.phase === PH_GEOLOCATIONING) {
       if (nextProps.position.locationingFailed) {
-        this.context.executeAction(showGeolocationDeniedMessage);
-        newState = {
-          phase: PH_USEDEFAULTPOS,
-          searchPosition: nextProps.defaultPosition,
-        };
+        newState = { phase: PH_USEDEFAULTPOS };
       } else if (nextProps.position.hasLocation) {
         newState = {
           phase: PH_USEGEOLOCATION,
@@ -158,7 +151,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   getPosition = () => {
     return this.state.phase === PH_USEDEFAULTPOS
-      ? this.props.defaultPosition
+      ? this.state.searchPosition
       : this.props.position;
   };
 
@@ -306,13 +299,10 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   handleClose = () => {
-    this.setState({
-      phase: PH_USEDEFAULTPOS,
-      searchPosition: this.props.defaultPosition,
-    });
+    this.setState({ phase: PH_USEDEFAULTPOS });
   };
 
-  handleGrantGeolocation = () => {
+  handleStartGeolocation = () => {
     this.context.executeAction(startLocationWatch);
     this.setState({ phase: PH_GEOLOCATIONING });
   };
@@ -384,7 +374,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
               <button
                 type="submit"
                 className="modal-desktop-button save"
-                onClick={() => this.handleGrantGeolocation()}
+                onClick={() => this.handleStartGeolocation()}
               >
                 <DTIcon img="locate" height={1.375} width={1.375} />
                 <FormattedMessage id="use-own-position" />
@@ -453,8 +443,6 @@ const PositioningWrapper = connectToStores(
   StopsNearYouPageWithBreakpoint,
   ['PositionStore', 'PreferencesStore', 'FavouriteStore'],
   (context, props) => {
-    const lang = context.getStore('PreferencesStore').getLanguage();
-
     // the favorite code below looks like a hack
     // favourite initialization should happen automatically
     // it should not be responsibulity of every component to fix fav loading bugs
@@ -464,18 +452,10 @@ const PositioningWrapper = connectToStores(
     ) {
       context.getStore('FavouriteStore').getFavourites();
     }
-    const { origin } = context.match.params;
-    let defaultPosition;
-    if (origin) {
-      defaultPosition = otpToLocation(origin);
-    } else {
-      defaultPosition = context.config.defaultEndpoint;
-    }
     return {
       ...props,
       position: context.getStore('PositionStore').getLocationState(),
-      defaultPosition,
-      lang,
+      lang: context.getStore('PreferencesStore').getLanguage(),
     };
   },
 );
