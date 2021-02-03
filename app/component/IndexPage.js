@@ -5,7 +5,6 @@ import { matchShape, routerShape, Link } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
-import isEmpty from 'lodash/isEmpty';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import TrafficNowLink from '@digitransit-component/digitransit-component-traffic-now-link';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
@@ -35,6 +34,7 @@ import scrollTop from '../util/scroll';
 import FavouritesContainer from './FavouritesContainer';
 import DatetimepickerContainer from './DatetimepickerContainer';
 import { LightenDarkenColor } from '../util/colorUtils';
+import { getRefPoint } from '../util/apiUtils';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
@@ -59,6 +59,7 @@ class IndexPage extends React.Component {
     query: PropTypes.object.isRequired,
     favouriteModalAction: PropTypes.string,
     fromMap: PropTypes.string,
+    locationState: dtLocationShape.isRequired,
   };
 
   static defaultProps = { lang: 'fi' };
@@ -206,12 +207,7 @@ class IndexPage extends React.Component {
     const showSpinner =
       (origin.type === 'CurrentLocation' && !origin.address) ||
       (destination.type === 'CurrentLocation' && !destination.address);
-    let refPoint;
-    if (!isEmpty(origin)) {
-      refPoint = origin;
-    } else if (!isEmpty(destination)) {
-      refPoint = destination;
-    }
+    const refPoint = getRefPoint(origin, destination, this.props.locationState);
     const locationSearchProps = {
       appElement: '#app',
       origin,
@@ -403,7 +399,8 @@ const Index = shouldUpdate(
       isEqual(nextProps.destination, props.destination) &&
       isEqual(nextProps.breakpoint, props.breakpoint) &&
       isEqual(nextProps.lang, props.lang) &&
-      isEqual(nextProps.query, props.query)
+      isEqual(nextProps.query, props.query) &&
+      isEqual(nextProps.locationState, props.locationState)
     );
   },
 )(IndexPage);
@@ -418,14 +415,24 @@ IndexPageWithBreakpoint.description = (
 
 const IndexPageWithStores = connectToStores(
   IndexPageWithBreakpoint,
-  ['OriginStore', 'DestinationStore', 'TimeStore', 'PreferencesStore'],
+  [
+    'OriginStore',
+    'DestinationStore',
+    'TimeStore',
+    'PreferencesStore',
+    'PositionStore',
+  ],
   (context, props) => {
     const origin = context.getStore('OriginStore').getOrigin();
     const destination = context.getStore('DestinationStore').getDestination();
+    const locationState = context.getStore('PositionStore').getLocationState();
     const { location } = props.match;
     const newProps = {};
     const { query } = location;
     const { favouriteModalAction, fromMap } = query;
+    if (locationState) {
+      newProps.locationState = locationState;
+    }
     if (favouriteModalAction) {
       newProps.favouriteModalAction = favouriteModalAction;
     }

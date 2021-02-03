@@ -5,7 +5,6 @@ import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
-import isEmpty from 'lodash/isEmpty';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 import withSearchContext from './WithSearchContext';
@@ -18,6 +17,7 @@ import { getIntermediatePlaces, locationToOTP } from '../util/otpStrings';
 import { dtLocationShape } from '../util/shapes';
 import { setViaPoints } from '../action/ViaPointActions';
 import { LightenDarkenColor } from '../util/colorUtils';
+import { getRefPoint } from '../util/apiUtils';
 
 const DTAutosuggestPanelWithSearchContext = withSearchContext(
   DTAutosuggestPanel,
@@ -32,6 +32,7 @@ class OriginDestinationBar extends React.Component {
     isMobile: PropTypes.bool,
     showFavourites: PropTypes.bool.isRequired,
     viaPoints: PropTypes.array,
+    locationState: dtLocationShape.isRequired,
   };
 
   static contextTypes = {
@@ -117,12 +118,11 @@ class OriginDestinationBar extends React.Component {
   };
 
   render() {
-    let refPoint;
-    if (!isEmpty(this.props.origin)) {
-      refPoint = this.props.origin;
-    } else if (!isEmpty(this.props.destination)) {
-      refPoint = this.props.destination;
-    }
+    const refPoint = getRefPoint(
+      this.props.origin,
+      this.props.destination,
+      this.props.locationState,
+    );
     return (
       <div
         className={cx(
@@ -204,11 +204,12 @@ OriginDestinationBar.description = (
 
 const connectedComponent = connectToStores(
   OriginDestinationBar,
-  ['PreferencesStore', 'FavouriteStore', 'ViaPointStore'],
+  ['PreferencesStore', 'FavouriteStore', 'ViaPointStore', 'PositionStore'],
   ({ getStore }) => ({
     language: getStore('PreferencesStore').getLanguage(),
     showFavourites: getStore('FavouriteStore').getStatus() === 'has-data',
     viaPoints: getStore('ViaPointStore').getViaPoints(),
+    locationState: getStore('PositionStore').getLocationState(),
   }),
 );
 
