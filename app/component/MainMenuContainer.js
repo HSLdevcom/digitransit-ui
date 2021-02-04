@@ -74,15 +74,7 @@ class MainMenuContainer extends Component {
       <React.Fragment>
         <LazilyLoad modules={this.mainMenuModules}>
           {({ MenuDrawer, MainMenu }) => (
-            <MenuDrawer
-              className="offcanvas"
-              disableSwipeToOpen
-              docked={false}
-              open={isOpen}
-              openSecondary
-              onRequestChange={this.onRequestChange}
-              style={{ position: 'absolute' }}
-            >
+            <MenuDrawer open={isOpen} onRequestChange={this.toggleOffcanvas}>
               <MainMenu
                 toggleVisibility={this.toggleOffcanvas}
                 showDisruptionInfo={isOpen && !isForcedOpen}

@@ -1,35 +1,28 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
-import cx from 'classnames';
+import React from 'react';
+import Modal from 'react-modal';
 
 function MenuDrawer({ open, children, onRequestChange }) {
-  const [visible, setVisible] = useState();
-
-  useEffect(() => {
-    setTimeout(
-      () => {
-        setVisible(open);
-      },
-      open ? 0 : 450,
-    ); // 450ms animation
-  }, [open]);
-
+  const classNames = {
+    base: 'mobile-menu-content',
+    afterOpen: 'mobile-menu-content-open',
+    beforeClose: 'mobile-menu-content-close',
+  };
+  const overlayClassNames = {
+    base: 'mobile-menu-background',
+    afterOpen: 'mobile-menu-background-open',
+    beforeClose: 'mobile-menu-background-close',
+  };
   return (
-    <div
-      className="offcanvas mobile-menu"
-      style={{ visibility: visible ? 'visible' : 'hidden' }}
+    <Modal
+      isOpen={open}
+      closeTimeoutMS={450}
+      className={classNames}
+      overlayClassName={overlayClassNames}
+      onRequestClose={onRequestChange}
     >
-      <div
-        className={cx('menu-background', open ? 'open' : 'close')}
-        onClick={() => {
-          onRequestChange();
-        }}
-        aria-hidden="true"
-      />
-      <div className={cx('menu-content', open ? 'open' : 'close')}>
-        {children}
-      </div>
-    </div>
+      {children}
+    </Modal>
   );
 }
 MenuDrawer.propTypes = {
