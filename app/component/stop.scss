@@ -143,6 +143,9 @@
   > button {
     outline: 0;
   }
+  @media print {
+    display: none;
+  }
 }
 
 .stop-tabs-fillerline {
@@ -591,6 +594,9 @@ hr.action-bar {
     }
   }
   .combobox-container {
+    @media print {
+      display: none;
+    }
     background-color: #fff;
     border: solid #888888 1px;
     display: flex;

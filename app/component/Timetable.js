@@ -7,7 +7,6 @@ import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
-import StopPageActionBar from './StopPageActionBar';
 import FilterTimeTableModal from './FilterTimeTableModal';
 import TimeTableOptionsPanel from './TimeTableOptionsPanel';
 import TimetableRow from './TimetableRow';
@@ -15,6 +14,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { RealtimeStateType } from '../constants';
 import SecondaryButton from './SecondaryButton';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import DateSelect from './DateSelect';
 
 class Timetable extends React.Component {
   static propTypes = {
@@ -43,7 +43,7 @@ class Timetable extends React.Component {
         }),
       ).isRequired,
     }).isRequired,
-    propsForStopPageActionBar: PropTypes.shape({
+    propsForDateSelect: PropTypes.shape({
       startDate: PropTypes.string,
       selectedDate: PropTypes.string,
       onDateChange: PropTypes.func,
@@ -135,9 +135,7 @@ class Timetable extends React.Component {
     );
 
   dateForPrinting = () => {
-    const selectedDate = moment(
-      this.props.propsForStopPageActionBar.selectedDate,
-    );
+    const selectedDate = moment(this.props.propsForDateSelect.selectedDate);
     return (
       <div className="printable-date-container">
         <div className="printable-date-icon">
@@ -273,11 +271,18 @@ class Timetable extends React.Component {
           />
         ) : null}
         <div className="timetable-topbar">
-          <StopPageActionBar
-            startDate={this.props.propsForStopPageActionBar.startDate}
-            selectedDate={this.props.propsForStopPageActionBar.selectedDate}
-            onDateChange={this.props.propsForStopPageActionBar.onDateChange}
-            stopPDFURL={stopPDFURL}
+          <DateSelect
+            startDate={this.props.propsForDateSelect.startDate}
+            selectedDate={this.props.propsForDateSelect.selectedDate}
+            onDateChange={e => {
+              this.props.propsForDateSelect.onDateChange(e);
+              addAnalyticsEvent({
+                category: 'Stop',
+                action: 'ChangeTimetableDay',
+                name: null,
+              });
+            }}
+            dateFormat="YYYYMMDD"
           />
           <TimeTableOptionsPanel
             showRoutes={this.state.showRoutes}
@@ -429,7 +434,7 @@ Timetable.description = () => (
     <ComponentUsageExample description="">
       <Timetable
         stop={exampleStop}
-        propsForStopPageActionBar={{
+        propsForDateSelect={{
           startDate: '20190110',
           selectedDate: '20190110',
           onDateChange: () => {},
