@@ -54,7 +54,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   static propTypes = {
     breakpoint: PropTypes.string.isRequired,
     relayEnvironment: PropTypes.object.isRequired,
-    position: dtLocationShape.isrequired,
+    position: dtLocationShape.isRequired,
     lang: PropTypes.string.isRequired,
   };
 
@@ -96,7 +96,12 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         this.context.executeAction(startLocationWatch);
       } else if (origin) {
         newState.phase = PH_USEDEFAULTPOS;
+      } else if (state === 'error') {
+        // No permission api.
+        // Suggest geolocation, user may have changed permissions from browser settings
+        newState.phase = PH_SEARCH_GEOLOCATION;
       } else {
+        // Geolocationing is known to be denied. Provide search modal
         newState.phase = PH_SEARCH;
       }
       this.setState(newState);
