@@ -2,6 +2,9 @@
   .desktop-title {
     display: none;
   }
+  .back-button {
+    display: none !important;
+  }
 }
 
 .timetable {
@@ -35,11 +38,8 @@
     border-top: 1px solid $light-gray;
     padding-top: $padding-large;
     margin: 0.5em 4em 1em 4em;
-
-    .print-button-container {
-      @media print {
-        display: none;
-      }
+    @media print {
+      display: none;
     }
   }
   .timetable-row-printing {
