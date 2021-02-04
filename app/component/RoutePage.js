@@ -376,7 +376,6 @@ class RoutePage extends React.Component {
             <BackButton
               icon="icon-icon_arrow-collapse--left"
               iconClassName="arrow-icon"
-              urlToBack={config.URL.ROOTLINK}
             />
           )}
           <div className="route-header">
