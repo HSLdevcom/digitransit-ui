@@ -8,65 +8,25 @@ import { isBrowser } from '../../util/browser';
 
 const MODES_WITH_ICONS = ['bus', 'tram', 'rail', 'subway', 'ferry'];
 
-function getVehicleIcon(
-  mode,
-  heading,
-  vehicleNumber,
-  useSmallIcon = false,
-  useLargeIcon = false,
-) {
+function getVehicleIcon(mode, heading, vehicleNumber, useLargeIcon = true) {
   if (!isBrowser) {
     return null;
   }
-  if (!mode) {
-    return useLargeIcon
-      ? {
-          element: (
-            <IconWithTail
-              rotate={heading}
-              mode={mode}
-              vehicleNumber={vehicleNumber}
-            />
-          ),
-          className: `vehicle-icon ${mode} ${
-            useSmallIcon ? 'small-map-icon' : ''
-          }`,
-          iconSize: [20, 20],
-          iconAnchor: [15, 15],
-        }
-      : {
-          element: (
-            <IconWithTail
-              img="icon-icon_all-vehicles-small"
-              rotate={heading}
-              allVehicles
-            />
-          ),
-          className: `vehicle-icon bus ${useSmallIcon ? 'small-map-icon' : ''}`,
-          iconSize: [20, 20],
-          iconAnchor: [10, 10],
-        };
-  }
-  if (MODES_WITH_ICONS.indexOf(mode) !== -1) {
-    return {
-      element: (
-        <IconWithTail
-          rotate={heading}
-          mode={mode}
-          vehicleNumber={vehicleNumber}
-        />
-      ),
-      className: `vehicle-icon ${mode} ${useSmallIcon ? 'small-map-icon' : ''}`,
-      iconSize: [20, 20],
-      iconAnchor: [15, 15],
-    };
-  }
-
+  const modeOrDefault = MODES_WITH_ICONS.indexOf(mode) !== -1 ? mode : 'bus';
   return {
-    element: <IconWithTail rotate={heading} />,
-    className: `vehicle-icon bus ${useSmallIcon ? 'small-map-icon' : ''}`,
+    element: (
+      <IconWithTail
+        rotate={heading}
+        mode={modeOrDefault}
+        vehicleNumber={vehicleNumber}
+        useLargeIcon={useLargeIcon}
+      />
+    ),
+    className: `vehicle-icon ${modeOrDefault} ${
+      !useLargeIcon ? 'small-map-icon' : ''
+    }`,
     iconSize: [20, 20],
-    iconAnchor: [10, 10],
+    iconAnchor: useLargeIcon ? [15, 15] : [10, 10],
   };
 }
 
@@ -118,7 +78,6 @@ function VehicleMarkerContainer(containerProps) {
         containerProps.ignoreMode ? null : message.mode,
         message.heading,
         message.shortName ? message.shortName : message.route.split(':')[1],
-        false,
         containerProps.useLargeIcon,
       )}
     />

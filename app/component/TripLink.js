@@ -16,6 +16,7 @@ function TripLink({ vehicle, shortName }) {
       mode={vehicle.mode}
       rotate={180}
       vehicleNumber={vehicle.shortName || shortName}
+      useLargeIcon
     />
   );
 

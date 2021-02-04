@@ -18,9 +18,7 @@ describe('<IconWithTail />', () => {
   describe('allVehicles is true', () => {
     it('should use right image when useLargeIcon is true and render vehicle number', () => {
       const props = {
-        img: 'icon-icon_all-vehicles-large',
         rotate: 180,
-        allVehicles: true,
         vehicleNumber: '32',
         useLargeIcon: true,
       };
@@ -39,9 +37,7 @@ describe('<IconWithTail />', () => {
 
     it('should use right image when useLargeIcon is false', () => {
       const props = {
-        img: 'icon-icon_all-vehicles-small',
         rotate: 180,
-        allVehicles: true,
       };
       const wrapper = shallowWithIntl(<IconWithTail {...props} />);
 

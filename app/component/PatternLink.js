@@ -24,6 +24,7 @@ function PatternLink({
         rotate={180}
         vehicleNumber={vehicleNumber}
         className={cx({ 'selected-tail-icon': selected })}
+        useLargeIcon
       />
     </Link>
   );
