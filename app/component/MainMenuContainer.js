@@ -28,7 +28,7 @@ class MainMenuContainer extends Component {
   };
 
   mainMenuModules = {
-    Drawer: () => importLazy(import('material-ui/Drawer')),
+    MenuDrawer: () => importLazy(import('./MenuDrawer')),
     MainMenu: () => importLazy(import('./MainMenu')),
   };
 
@@ -73,8 +73,8 @@ class MainMenuContainer extends Component {
     return (
       <React.Fragment>
         <LazilyLoad modules={this.mainMenuModules}>
-          {({ Drawer, MainMenu }) => (
-            <Drawer
+          {({ MenuDrawer, MainMenu }) => (
+            <MenuDrawer
               className="offcanvas"
               disableSwipeToOpen
               docked={false}
@@ -90,7 +90,7 @@ class MainMenuContainer extends Component {
                 homeUrl={this.props.homeUrl}
                 user={this.props.user}
               />
-            </Drawer>
+            </MenuDrawer>
           )}
         </LazilyLoad>
         {this.context.config.mainMenu.show ? (
