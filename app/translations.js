@@ -914,6 +914,7 @@ const translations = {
     currentposition: 'Current position',
     datasources: 'Data sources',
     date: 'Date',
+    day: 'Day',
     delete: 'Delete',
     'departure-is-canceled': '{modeInfo} {from}–{to} at {time} is cancelled',
     'departure-is-canceled-airplane': 'Flight {shortName}',
@@ -1241,6 +1242,7 @@ const translations = {
     'select-map-layers-header': 'What should be shown on the map?',
     'select-position': 'Select your location from your previous searches',
     'select-route': 'Select {mode} route {shortName} to {headsign}',
+    'selected-routes': 'Selected lines',
     send: 'Send',
     'separate-ticket-required':
       'A separate ticket is required for this part of the itinerary.',
@@ -1806,6 +1808,7 @@ const translations = {
     currentposition: 'Tämänhetkinen sijainti',
     datasources: 'Tietolähteet',
     date: 'Päivämäärä',
+    day: 'Päivä',
     delete: 'Poista',
     'departure-is-canceled':
       '{modeInfo} lähtö {from}–{to} kello {time} on peruttu',
@@ -2129,6 +2132,7 @@ const translations = {
     'select-map-layers-header': 'Mitä haluat näyttää kartalla?',
     'select-position': 'Valitse sijaintisi edellisistä hauistasi',
     'select-route': 'Valitse {mode}linja {shortName} kohti {headsign}',
+    'selected-routes': 'Valitut linjat',
     send: 'Lähetä',
     'separate-ticket-required':
       'Tälle matkan osuudelle tarvitaan erillinen lippu.',
@@ -3454,6 +3458,7 @@ const translations = {
     currentposition: 'Nuvarande position',
     datasources: 'Datakällor',
     date: 'Datum',
+    day: 'Dagen',
     delete: 'Ta bort',
     'departure-is-canceled':
       'Avgång på {modeInfo} {from}–{to} kl. {time} är inställd',
@@ -3785,6 +3790,7 @@ const translations = {
     'select-map-layers-header': 'Vad vill du visa på kartan?',
     'select-position': 'Välj din position bland tidigare sökningar',
     'select-route': 'Välj {mode} rutt {shortName} till {headsign}',
+    'selected-routes': 'Valda linjen',
     send: 'Skicka',
     'separate-ticket-required':
       'Denna etapp av resan kräver en separat biljett.',

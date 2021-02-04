@@ -261,16 +261,16 @@ class Timetable extends React.Component {
           />
         ) : null}
         <div className="timetable-topbar">
-          <TimeTableOptionsPanel
-            showRoutes={this.state.showRoutes}
-            showFilterModal={this.showModal}
-            stop={this.props.stop}
-          />
           <StopPageActionBar
             startDate={this.props.propsForStopPageActionBar.startDate}
             selectedDate={this.props.propsForStopPageActionBar.selectedDate}
             onDateChange={this.props.propsForStopPageActionBar.onDateChange}
             stopPDFURL={stopPDFURL}
+          />
+          <TimeTableOptionsPanel
+            showRoutes={this.state.showRoutes}
+            showFilterModal={this.showModal}
+            stop={this.props.stop}
           />
         </div>
         <div className="timetable-for-printing-header">
