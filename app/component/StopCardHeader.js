@@ -26,6 +26,10 @@ class StopCardHeader extends React.Component {
       description += ` // ${Math.round(this.props.distance)} m`;
     }
 
+    if (this.props.isTerminal && this.props.stop.stops) {
+      description = this.props.stop.stops[0].desc;
+    }
+
     return description;
   }
 
@@ -83,6 +87,7 @@ class StopCardHeader extends React.Component {
         showBackButton={breakpoint === 'large'}
         stop={stop}
         headerConfig={this.headerConfig}
+        isTerminal={isTerminal}
         favouriteContainer={
           <FavouriteStopContainer stop={stop} isTerminal={isTerminal} />
         }
@@ -100,6 +105,11 @@ StopCardHeader.propTypes = {
     desc: PropTypes.string,
     isPopUp: PropTypes.bool,
     zoneId: PropTypes.string,
+    stops: PropTypes.arrayOf(
+      PropTypes.shape({
+        desc: PropTypes.string,
+      }),
+    ),
     alerts: PropTypes.arrayOf(
       PropTypes.shape({
         alertSeverityLevel: PropTypes.string,

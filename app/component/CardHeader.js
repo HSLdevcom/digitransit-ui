@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import cx from 'classnames';
+import { FormattedMessage } from 'react-intl';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import ZoneIcon from './ZoneIcon';
@@ -25,6 +26,7 @@ const CardHeader = (
     showBackButton, // DT-3472
     headerConfig,
     favouriteContainer,
+    isTerminal,
   },
   { config },
 ) => (
@@ -57,6 +59,11 @@ const CardHeader = (
               <p className="card-sub-header-address">{description}</p>
             )}
             {code != null ? <p className="card-code">{code}</p> : null}
+            {isTerminal && (
+              <p className="card-code">
+                <FormattedMessage id="station" />
+              </p>
+            )}
             {headerConfig &&
               headerConfig.showZone &&
               stop.zoneId &&
@@ -123,6 +130,7 @@ CardHeader.propTypes = {
   showBackButton: PropTypes.bool, // DT-3472
   headerConfig: PropTypes.object,
   favouriteContainer: PropTypes.element,
+  isTerminal: PropTypes.bool,
 };
 
 CardHeader.defaultProps = {
