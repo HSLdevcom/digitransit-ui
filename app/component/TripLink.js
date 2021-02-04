@@ -38,7 +38,7 @@ function TripLink({ vehicle }) {
       }}
       environment={environment}
       render={({ props }) => {
-        if (!props) {
+        if (!props || props.trip === null) {
           return <span className="route-now-content">{icon}</span>;
         }
 

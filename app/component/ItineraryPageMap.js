@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
+import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import LocationMarker from './map/LocationMarker';
 import ItineraryLine from './map/ItineraryLine';
@@ -19,6 +20,8 @@ let useCenter = true;
 let itineraryMapReady = false;
 let breakpointChanged = false;
 let prevBreakpoint;
+let zoomLevel = -1;
+
 if (isBrowser) {
   // eslint-disable-next-line
   L = require('leaflet');
@@ -29,6 +32,15 @@ function isItineraryMapReady(mapReady) {
   }
   itineraryMapReady = true;
 }
+
+function setMapElementRef(element) {
+  const map = get(element, 'leafletElement', null);
+  if (map) {
+    // eslint-disable-next-line no-underscore-dangle
+    zoomLevel = map._zoom;
+  }
+}
+
 function ItineraryPageMap(
   {
     itinerary,
@@ -39,9 +51,10 @@ function ItineraryPageMap(
     forceCenter,
     fitBounds,
     bounds,
+    leafletEvents,
     showVehicles,
   },
-  { match, config, router, executeAction },
+  { match, router, executeAction },
 ) {
   // DT-4011: When user changes orientation, i.e. with tablet, map would crash. This check prevents it.
   breakpointChanged = !isEqual(breakpoint, prevBreakpoint);
@@ -144,6 +157,7 @@ function ItineraryPageMap(
   if (bounds?.length === undefined) {
     useFitBound = false;
   }
+
   return (
     <MapContainer
       className="full itinerary"
@@ -159,12 +173,14 @@ function ItineraryPageMap(
       showScaleBar={showScale}
       hideOrigin
       locationPopup="all"
+      leafletEvents={leafletEvents}
+      geoJsonZoomLevel={zoomLevel}
+      mapRef={setMapElementRef}
       onSelectLocation={onSelectLocation}
     >
       <BackButton
         icon="icon-icon_arrow-collapse--left"
         iconClassName="arrow-icon"
-        color={config.colors.primary}
       />
     </MapContainer>
   );
@@ -179,6 +195,7 @@ ItineraryPageMap.propTypes = {
   fitBounds: PropTypes.bool,
   mapReady: PropTypes.func,
   mapLoaded: PropTypes.bool,
+  leafletEvents: PropTypes.object,
   showVehicles: PropTypes.bool,
 };
 

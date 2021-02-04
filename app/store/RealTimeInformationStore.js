@@ -74,6 +74,15 @@ class RealTimeInformationStore extends Store {
 
   getVehicle = id => this.vehicles[id];
 
+  setVisibleVehicles(visibleVehicleKeys) {
+    const vehicleKeys = Object.keys(this.vehicles);
+    vehicleKeys.forEach(key => {
+      const vehicle = this.vehicles[key];
+      vehicle.visible = visibleVehicleKeys.includes(key);
+      this.vehicles[key] = vehicle;
+    });
+  }
+
   static handlers = {
     RealTimeClientStarted: 'storeClient',
     RealTimeClientStopped: 'clearClient',

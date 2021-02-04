@@ -135,13 +135,17 @@ class TileContainer {
     let localPoint;
 
     const vehicleKeys = Object.keys(this.vehicles);
-    const projectedVehicles = vehicleKeys.map(key => {
+
+    const projectedVehicles = [];
+    vehicleKeys.forEach(key => {
       const vehicle = this.vehicles[key];
       const pointGeom = this.latLngToPoint(vehicle.lat, vehicle.long);
-      return {
-        layer: 'realTimeVehicle',
-        feature: { geom: pointGeom, vehicle, properties: {} },
-      };
+      if (vehicle.visible) {
+        projectedVehicles.push({
+          layer: 'realTimeVehicle',
+          feature: { geom: pointGeom, vehicle, properties: {} },
+        });
+      }
     });
 
     if (this.layers) {

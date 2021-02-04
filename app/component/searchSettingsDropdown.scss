@@ -34,8 +34,18 @@
         }
         .icon-container {
           float: right;
-          margin: 0px;
+          margin: -2px;
         }
+      }
+      .kmh-value {
+        float: right;
+        font-weight: normal;
+        color: $gray;
+      }
+      .checkmark {
+        float: right;
+        min-width: 3em;
+        width: 3em;
       }
     }
   }

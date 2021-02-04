@@ -11,12 +11,7 @@ import isEqual from 'lodash/isEqual';
 import polyline from 'polyline-encoded';
 import withBreakpoint from '../../util/withBreakpoint';
 import TimeStore from '../../store/TimeStore';
-import OriginStore from '../../store/OriginStore';
-import DestinationStore from '../../store/DestinationStore';
-import PositionStore from '../../store/PositionStore';
 import FavouriteStore from '../../store/FavouriteStore';
-import { parseLocation } from '../../util/path';
-import { dtLocationShape } from '../../util/shapes';
 import PreferencesStore from '../../store/PreferencesStore';
 import BackButton from '../BackButton';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
@@ -88,12 +83,7 @@ const stopClient = context => {
 };
 
 const handleBounds = (location, edges, breakpoint) => {
-  if (!location || (location.lat === 0 && location.lon === 0)) {
-    // Still waiting for a location
-    return [];
-  }
-
-  if (location.lat && Array.isArray(edges)) {
+  if (Array.isArray(edges)) {
     if (edges.length === 0) {
       // No stops anywhere near
       return [
@@ -142,11 +132,8 @@ const getLocationMarker = location => {
 function StopsNearYouMap(
   {
     breakpoint,
-    origin,
     currentTime,
-    destination,
     stops,
-    locationState,
     match,
     loading,
     favouriteIds,
@@ -165,7 +152,7 @@ function StopsNearYouMap(
           .slice()
           .sort(sortNearbyStops(favouriteIds, walkRoutingThreshold));
   let useFitBounds = true;
-  const bounds = handleBounds(locationState, sortedStopEdges, breakpoint);
+  const bounds = handleBounds(position, sortedStopEdges, breakpoint);
 
   if (!bounds.length) {
     useFitBounds = false;
@@ -185,54 +172,52 @@ function StopsNearYouMap(
   const stopsAndStations = handleStopsAndStations(sortedStopEdges);
 
   const fetchPlan = (stop, first) => {
-    if (locationState && locationState.lat) {
-      const toPlace = {
-        address: stop.name ? stop.name : 'stop',
-        lon: stop.lon,
-        lat: stop.lat,
-      };
-      const variables = {
-        fromPlace: addressToItinerarySearch(locationState),
-        toPlace: addressToItinerarySearch(toPlace),
-        date: moment(currentTime * 1000).format('YYYY-MM-DD'),
-        time: moment(currentTime * 1000).format('HH:mm:ss'),
-      };
-      const query = graphql`
-        query StopsNearYouMapQuery(
-          $fromPlace: String!
-          $toPlace: String!
-          $date: String!
-          $time: String!
+    const toPlace = {
+      address: stop.name ? stop.name : 'stop',
+      lon: stop.lon,
+      lat: stop.lat,
+    };
+    const variables = {
+      fromPlace: addressToItinerarySearch(position),
+      toPlace: addressToItinerarySearch(toPlace),
+      date: moment(currentTime * 1000).format('YYYY-MM-DD'),
+      time: moment(currentTime * 1000).format('HH:mm:ss'),
+    };
+    const query = graphql`
+      query StopsNearYouMapQuery(
+        $fromPlace: String!
+        $toPlace: String!
+        $date: String!
+        $time: String!
+      ) {
+        plan: plan(
+          fromPlace: $fromPlace
+          toPlace: $toPlace
+          date: $date
+          time: $time
+          transportModes: [{ mode: WALK }]
         ) {
-          plan: plan(
-            fromPlace: $fromPlace
-            toPlace: $toPlace
-            date: $date
-            time: $time
-            transportModes: [{ mode: WALK }]
-          ) {
-            itineraries {
-              legs {
-                mode
-                ...ItineraryLine_legs
-              }
+          itineraries {
+            legs {
+              mode
+              ...ItineraryLine_legs
             }
           }
         }
-      `;
-      if (stop.distance < walkRoutingThreshold) {
-        fetchQuery(environment, query, variables).then(({ plan: result }) => {
-          if (first) {
-            setFirstPlan({ itinerary: result, isFetching: false, stop });
-          } else {
-            setSecondPlan({ itinerary: result, isFetching: false, stop });
-          }
-        });
-      } else if (first) {
-        setFirstPlan({ itinerary: [], isFetching: false, stop });
-      } else {
-        setSecondPlan({ itinerary: [], isFetching: false, stop });
       }
+    `;
+    if (stop.distance < walkRoutingThreshold) {
+      fetchQuery(environment, query, variables).then(({ plan: result }) => {
+        if (first) {
+          setFirstPlan({ itinerary: result, isFetching: false, stop });
+        } else {
+          setSecondPlan({ itinerary: result, isFetching: false, stop });
+        }
+      });
+    } else if (first) {
+      setFirstPlan({ itinerary: [], isFetching: false, stop });
+    } else {
+      setSecondPlan({ itinerary: [], isFetching: false, stop });
     }
   };
 
@@ -253,7 +238,7 @@ function StopsNearYouMap(
     };
   }, []);
 
-  if (locationState.loadingPosition || loading) {
+  if (loading) {
     return <Loading />;
   }
 
@@ -284,7 +269,6 @@ function StopsNearYouMap(
     }
   }, [favouriteIds, stops]);
 
-  const placeForMarker = parseLocation(match.params.place);
   const routeLines = [];
   const realtimeTopics = [];
   const renderRouteLines = mode !== 'CITYBIKE';
@@ -374,13 +358,8 @@ function StopsNearYouMap(
     return [''];
   };
   // Marker for the search point.
-  if (position) {
-    leafletObjs.push(getLocationMarker(position));
-  } else if (placeForMarker && placeForMarker !== 'POS' && placeForMarker.lat) {
-    leafletObjs.push(getLocationMarker(placeForMarker));
-  } else {
-    leafletObjs.push(getLocationMarker(context.config.defaultEndpoint));
-  }
+  leafletObjs.push(getLocationMarker(position));
+
   const zoom = 16;
   let map;
   if (breakpoint === 'large') {
@@ -395,8 +374,6 @@ function StopsNearYouMap(
         disableParkAndRide
         boundsOptions={{ maxZoom: zoom }}
         bounds={bounds}
-        origin={origin}
-        destination={destination}
         fitBoundsWithSetCenter
         setInitialMapTracking
         hilightedStops={hilightedStops()}
@@ -421,8 +398,6 @@ function StopsNearYouMap(
           boundsOptions={{ maxZoom: zoom }}
           bounds={bounds}
           showScaleBar
-          origin={origin}
-          destination={destination}
           fitBoundsWithSetCenter
           setInitialMapTracking
           hilightedStops={hilightedStops()}
@@ -437,10 +412,7 @@ function StopsNearYouMap(
 
 StopsNearYouMap.propTypes = {
   match: matchShape.isRequired,
-  locationState: dtLocationShape,
   breakpoint: PropTypes.string.isRequired,
-  origin: dtLocationShape,
-  destination: dtLocationShape,
   language: PropTypes.string.isRequired,
   relay: PropTypes.shape({
     refetch: PropTypes.func.isRequired,
@@ -453,34 +425,15 @@ StopsNearYouMap.contextTypes = {
   getStore: PropTypes.func,
 };
 
-StopsNearYouMap.defaultProps = {
-  origin: {},
-  destination: {},
-};
-
 const StopsNearYouMapWithBreakpoint = withBreakpoint(StopsNearYouMap);
 
 const StopsNearYouMapWithStores = connectToStores(
   StopsNearYouMapWithBreakpoint,
-  [
-    OriginStore,
-    TimeStore,
-    DestinationStore,
-    PreferencesStore,
-    PositionStore,
-    FavouriteStore,
-  ],
-  ({ getStore }, { match, position }) => {
+  [TimeStore, PreferencesStore, FavouriteStore],
+  ({ getStore }, { match }) => {
     const currentTime = getStore(TimeStore).getCurrentTime().unix();
-    const origin = getStore(OriginStore).getOrigin();
-    const destination = getStore(DestinationStore).getDestination();
     const language = getStore(PreferencesStore).getLanguage();
-    let locationState;
-    if (match.params.place !== 'POS') {
-      locationState = position;
-    } else {
-      locationState = getStore(PositionStore).getLocationState();
-    }
+
     const favouriteIds =
       match.params.mode === 'CITYBIKE'
         ? new Set(
@@ -494,11 +447,8 @@ const StopsNearYouMapWithStores = connectToStores(
               .map(stop => stop.gtfsId),
           );
     return {
-      origin,
-      destination,
       language,
       currentTime,
-      locationState,
       favouriteIds,
     };
   },

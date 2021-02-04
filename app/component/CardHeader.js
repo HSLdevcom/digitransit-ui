@@ -23,7 +23,6 @@ const CardHeader = (
     icons,
     unlinked,
     showBackButton, // DT-3472
-    backButtonColor, // DT-3472
     headerConfig,
     favouriteContainer,
   },
@@ -34,7 +33,6 @@ const CardHeader = (
       {showBackButton && (
         <BackButton
           icon="icon-icon_arrow-collapse--left"
-          color={backButtonColor}
           iconClassName="arrow-icon"
           urlToBack={config.URL.ROOTLINK}
         />
@@ -124,7 +122,6 @@ CardHeader.propTypes = {
   children: PropTypes.node,
   unlinked: PropTypes.bool,
   showBackButton: PropTypes.bool, // DT-3472
-  backButtonColor: PropTypes.string, // DT-3472
   headerConfig: PropTypes.object,
   favouriteContainer: PropTypes.element,
 };

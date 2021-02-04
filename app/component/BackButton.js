@@ -26,7 +26,7 @@ export default class BackButton extends React.Component {
 
   static defaultProps = {
     icon: 'icon-icon_arrow-left',
-    color: 'white',
+    color: undefined,
     iconClassName: '',
     title: undefined,
     titleClassName: undefined, // DT-3472
@@ -69,7 +69,10 @@ export default class BackButton extends React.Component {
           onClick={
             this.props.onBackBtnClick
               ? this.onClick
-              : () => this.goBack(this.props.urlToBack)
+              : () =>
+                  this.goBack(
+                    this.props.urlToBack || this.context.config.URL.ROOTLINK,
+                  )
           }
           aria-label={this.context.intl.formatMessage({
             id: 'back-button-title',
@@ -79,7 +82,7 @@ export default class BackButton extends React.Component {
         >
           <Icon
             img={this.props.icon}
-            color={this.props.color}
+            color={this.props.color || this.context.config.colors.primary}
             className={`${this.props.iconClassName} cursor-pointer`}
           />
         </button>

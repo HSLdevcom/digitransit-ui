@@ -25,7 +25,6 @@ import MobileSearch from './helpers/MobileSearch';
 moment.locale('en');
 
 i18next.init({
-  lng: 'fi',
   fallbackLng: 'fi',
   defaultNS: 'translation',
   interpolation: {
@@ -209,6 +208,7 @@ class DTAutosuggest extends React.Component {
       stopsPrefix: PropTypes.string,
     }),
     mobileLabel: PropTypes.string,
+    refPoint: PropTypes.object,
   };
 
   static defaultProps = {
@@ -232,7 +232,6 @@ class DTAutosuggest extends React.Component {
 
   constructor(props) {
     super(props);
-    i18next.changeLanguage(props.lang);
     moment.tz.setDefault(props.timeZone);
     moment.locale(props.lang);
 
@@ -545,6 +544,7 @@ class DTAutosuggest extends React.Component {
             }
           },
           this.props.pathOpts,
+          this.props.refPoint,
         );
       },
     );
@@ -730,6 +730,9 @@ class DTAutosuggest extends React.Component {
   };
 
   render() {
+    if (i18next.language !== this.props.lang) {
+      i18next.changeLanguage(this.props.lang);
+    }
     const {
       value,
       suggestions,

@@ -32,6 +32,7 @@ const defaultProps = {
       tripStartTime: '1514',
     },
   },
+  setVisibleVehicles: () => {},
 };
 
 describe('<VehicleMarkerContainer />', () => {

@@ -5,7 +5,8 @@ This is a list of the existing z-index values of UI components. The z-index prop
 Selector | Component | Z-Index | Comment
 ---------|-----------|---------|--------
 `.modal-overlay` | Modal util | 1400 |
-N/A | React Material Drawer | 1200/1300 | Defined by material-ui
+`.menu-background` | Mobile menu drawer background | 1200 |
+`.menu-content` | Mobile menu drawer | 1300 |
 `.search-modal` | Search modal | 1301 |
 `.search-modal-overlay` | Search modal | 1100 |
 `.spinner-loader` | RoutePage | 40000 | 

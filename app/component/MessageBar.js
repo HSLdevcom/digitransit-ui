@@ -177,7 +177,6 @@ class MessageBar extends Component {
       />
     ));
 
-  // TODO: This is a hack to get around the hard-coded height in material-ui Tab component
   getTabMarker = (i, isSelected, isDisruption) => {
     const colorSet = isDisruption ? ['inherit', 'white'] : ['#007ac9', '#ddd'];
     return (
