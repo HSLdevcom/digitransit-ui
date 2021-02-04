@@ -51,7 +51,11 @@ const ItineraryProfile = (
           })}:`}
         </div>
         <div className="itinerary-profile-item-value">
-          {displayDistance(getTotalDistance(itinerary), config)}
+          {displayDistance(
+            getTotalDistance(itinerary),
+            config,
+            intl.formatNumber,
+          )}
         </div>
       </div>
     </div>

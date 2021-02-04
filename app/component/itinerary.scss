@@ -235,6 +235,8 @@ $itinerary-tab-switch-height: 48px;
       display: block;
       font-size: 14px;
       font-weight: normal;
+      letter-spacing: -0.025em;
+      color: #666;
       &::before {
         content: attr(data-text);
       }
@@ -1701,6 +1703,7 @@ $font-print-decrease: 0.7;
   .itinerary-main {
     margin: 0 0.4em 0 0.6em;
   }
+
   .itinerary-row {
     .leg-before-line {
       &.call {
@@ -1728,7 +1731,8 @@ $font-print-decrease: 0.7;
     flex-shrink: 0; //for ie mobile
     color: #333;
     position: static;
-    margin: 0;
+    margin: 0 0.4em 1em 0.6em;
+    border-bottom: 1px solid #ddd;
     justify-content: unset;
     font-weight: $font-weight-book;
     padding: 5px 25px 11px;
@@ -1740,6 +1744,10 @@ $font-print-decrease: 0.7;
     }
     .distance--itinerary-summary {
       padding-left: 10px;
+    }
+    .icon {
+      height: 2rem;
+      width: 2rem;
     }
   }
 }

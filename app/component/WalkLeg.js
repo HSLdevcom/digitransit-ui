@@ -25,7 +25,11 @@ function WalkLeg(
   { children, focusAction, setMapZoomToLeg, index, leg, previousLeg },
   { config, intl },
 ) {
-  const distance = displayDistance(parseInt(leg.distance, 10), config);
+  const distance = displayDistance(
+    parseInt(leg.distance, 10),
+    config,
+    intl.formatNumber,
+  );
   const duration = durationToString(leg.duration * 1000);
   const modeClassName = 'walk';
   const fromMode = leg.from.stop ? leg.from.stop.vehicleMode : '';

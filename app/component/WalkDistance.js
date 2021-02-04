@@ -1,19 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
-
+import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
+import { displayDistance } from '../util/geo-utils';
 
-function WalkDistance(props) {
-  const roundedWalkDistanceInM = Math.round(props.walkDistance / 100) * 100;
-  const roundedWalkDistanceInKm = (roundedWalkDistanceInM / 1000).toFixed(1);
-
-  const walkDistance =
-    roundedWalkDistanceInM < 1000
-      ? `${roundedWalkDistanceInM} m`
-      : `${roundedWalkDistanceInKm} km`;
+function WalkDistance(props, { config, intl }) {
+  const walkDistance = displayDistance(
+    props.walkDistance,
+    config,
+    intl.formatNumber,
+  );
 
   const icon = `icon-${props.icon || 'icon_walk'}`;
   const mode = props.icon === 'icon_cyclist' ? 'bike' : 'walk';
@@ -46,6 +44,11 @@ WalkDistance.propTypes = {
   icon: PropTypes.string,
   className: PropTypes.string,
   walkDuration: PropTypes.number.isRequired,
+};
+
+WalkDistance.contextTypes = {
+  config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 };
 
 WalkDistance.displayName = 'WalkDistance';
