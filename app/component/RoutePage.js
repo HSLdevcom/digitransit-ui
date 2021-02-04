@@ -85,7 +85,15 @@ class RoutePage extends React.Component {
 
     this.context.executeAction(saveSearch, {
       item: {
-        properties: { gtfsId: route.gtfsId },
+        properties: {
+          mode: route.mode,
+          gtfsId: route.gtfsId,
+          longName: route.longName,
+          shortName: route.shortName,
+          layer: `route-${route.mode}`,
+          agency: { name: route.agency.name },
+          fromUrl: 1,
+        },
         type: 'Route',
       },
       type: 'search',
@@ -503,6 +511,7 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
         }
       }
       agency {
+        name
         phone
       }
       patterns {

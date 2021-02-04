@@ -42,27 +42,32 @@ class OldSearchesStore extends Store {
     return storage;
   }
 
-  saveSearch(destination) {
-    if (isCurrentLocationItem(destination)) {
+  saveSearch(search) {
+    if (isCurrentLocationItem(search)) {
       return;
     }
     const { items } = this.getStorageObject();
 
-    const key = getNameLabel(destination.item.properties, true);
+    const key = getNameLabel(search.item.properties, true);
     const found = find(items, oldItem =>
       isEqual(key, getNameLabel(oldItem.item.properties, true)),
     );
 
     const timestamp = moment().unix();
     if (found != null) {
+      if (search.properties.fromUrl) {
+        // items extracted and saved at page mounting should not increase count ranking
+        // because they usually get saved twice
+        return;
+      }
       found.count += 1;
       found.lastUpdated = timestamp;
-      found.item = cloneDeep(destination.item);
+      found.item = cloneDeep(search.item);
     } else {
       items.push({
         count: 1,
         lastUpdated: timestamp,
-        ...destination,
+        ...search,
       });
     }
 
@@ -71,7 +76,7 @@ class OldSearchesStore extends Store {
       items: orderBy(items, 'count', 'desc'),
     });
 
-    this.emitChange(destination);
+    this.emitChange();
   }
 
   getOldSearches(type) {
