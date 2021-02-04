@@ -315,7 +315,28 @@ $margin-left-right: 1.25em;
           overflow: hidden;
           width: 100%;
         }
-      }
+        .platform-number-container {
+          display: inherit;
+
+          .platform-code {
+            background: #f4f4f5;
+            color: #333333;
+            width: 24px;
+            height: 20px;
+            border-radius: 4px;
+            font-size: $font-size-xsmall;
+            font-weight: $font-weight-medium;
+            text-align: center;
+            margin-left: 1em;
+            margin-right: 0.3em;
+            line-height: 1.6;
+            white-space: nowrap;
+            &.empty {
+              background: none;
+            }
+          }
+        }
+    }
       .departure-times-container {
         display: flex;
         color: $black;
@@ -880,6 +901,18 @@ $margin-left-right: 1.25em;
     display: flex;
     padding: 0.8em 0.8em 0.8em 0.8em;
     position: relative;
+
+    .icon.stop-disruption {
+      width: 2em;
+      color: #fff;
+      &.warning {
+        fill: $disruption-color;
+      }
+      &.info {
+        fill: $gray-blue;
+      }
+    }
+
     .route-alert-row-link {
       padding-right: 1px;
       padding-left: 1px;
@@ -893,6 +926,7 @@ $margin-left-right: 1.25em;
 
       .route-alert-top-row {
         display: flex;
+        align-items: center;
         .route-alert-entityid {
           font-family: $font-family-narrow;
           font-size: 21px;
@@ -901,7 +935,7 @@ $margin-left-right: 1.25em;
         }
         .route-alert-time-period {
           font-size: 15px;
-          padding-top: 7px;
+          padding: 0 0 0 5px;
         }
       }
     }

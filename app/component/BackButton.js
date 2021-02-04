@@ -69,7 +69,10 @@ export default class BackButton extends React.Component {
           onClick={
             this.props.onBackBtnClick
               ? this.onClick
-              : () => this.goBack(this.props.urlToBack)
+              : () =>
+                  this.goBack(
+                    this.props.urlToBack || this.context.config.URL.ROOTLINK,
+                  )
           }
           aria-label={this.context.intl.formatMessage({
             id: 'back-button-title',

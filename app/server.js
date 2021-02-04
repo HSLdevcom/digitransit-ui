@@ -27,15 +27,12 @@ import { IntlProvider } from 'react-intl';
 import polyfillLibrary from 'polyfill-library';
 import fs from 'fs';
 import path from 'path';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import LRU from 'lru-cache';
 
 // Application
 import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import appCreator from './app';
 import translations from './translations';
-import MUITheme from './MuiTheme';
 import configureMoment from './util/configure-moment';
 import { BreakpointProvider, getServerBreakpoint } from './util/withBreakpoint';
 import meta from './meta';
@@ -264,24 +261,17 @@ export default async function (req, res, next) {
             context={context.getComponentContext()}
           >
             <ReactRelayContext.Provider value={{ environment }}>
-              <MuiThemeProvider
-                muiTheme={getMuiTheme(
-                  MUITheme(context.getComponentContext().config),
-                  { userAgent: agent },
-                )}
-              >
-                <React.Fragment>
-                  {element}
-                  <Helmet
-                    {...meta(
-                      context.getStore('PreferencesStore').getLanguage(),
-                      req.hostname,
-                      `https://${req.hostname}${req.originalUrl}`,
-                      config,
-                    )}
-                  />
-                </React.Fragment>
-              </MuiThemeProvider>
+              <React.Fragment>
+                {element}
+                <Helmet
+                  {...meta(
+                    context.getStore('PreferencesStore').getLanguage(),
+                    req.hostname,
+                    `https://${req.hostname}${req.originalUrl}`,
+                    config,
+                  )}
+                />
+              </React.Fragment>
             </ReactRelayContext.Provider>
           </ContextProvider>
         </BreakpointProvider>,

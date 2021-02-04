@@ -211,6 +211,7 @@ class DTAutosuggest extends React.Component {
     mobileLabel: PropTypes.string,
     lock: PropTypes.func.isRequired,
     unlock: PropTypes.func.isRequired,
+    refPoint: PropTypes.object,
   };
 
   static defaultProps = {
@@ -546,6 +547,7 @@ class DTAutosuggest extends React.Component {
             }
           },
           this.props.pathOpts,
+          this.props.refPoint,
         );
       },
     );
