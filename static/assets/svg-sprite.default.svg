@@ -978,9 +978,6 @@
 		</g>
 	</g>
 </symbol>
-<symbol id="icon-icon_all-vehicles-shadow" viewBox="0 0 1024 1024">
-	<path fill="url(#all-busses)" opacity="0.7" class="path1" d="M693.568 516.62c0-97.725-79.222-176.948-176.948-176.948s-176.948 79.222-176.948 176.948c0 0.509 0.036 1.012 0.040 1.521-0.004 0.47-0.040 0.936-0.040 1.405 0 90.208 79.222 509.074 176.948 509.074s176.948-418.862 176.948-509.074c0-0.47-0.036-0.936-0.036-1.405 0-0.509 0.036-1.012 0.036-1.521z"></path>
-</symbol>
 <symbol id="icon-icon_all-vehicles-large" width="24px" height="24px" viewBox="0 0 24 24">
 	<g id="Vehicles" transform="translate(-48.000000, -41.000000)">
 		<g transform="translate(48.000000, 40.000000)">

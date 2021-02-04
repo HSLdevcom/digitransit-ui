@@ -223,14 +223,16 @@ describe('<VehicleMarkerContainer />', () => {
   describe('getVehicleIcon', () => {
     describe('modeless icon', () => {
       it('should use a small icon when useLargeIcon is false', () => {
-        const icon = getVehicleIcon(null, 180);
+        const icon = getVehicleIcon(null, 180, '32', false);
         const wrapper = mountWithIntl(icon.element);
-        expect(wrapper.prop('img')).to.equal('icon-icon_all-vehicles-small');
+        expect(wrapper.find('use').prop('xlinkHref')).to.equal(
+          '#icon-icon_all-vehicles-small',
+        );
         expect(icon.className).to.contain('bus');
       });
 
       it('should use a large icon when useLargeIcon is true', () => {
-        const icon = getVehicleIcon('bus', 180, '32', false, true);
+        const icon = getVehicleIcon('bus', 180, '32', true);
         const wrapper = mountWithIntl(icon.element);
         expect(wrapper.find('use').prop('xlinkHref')).to.equal(
           '#icon-icon_vehicle-live-marker',

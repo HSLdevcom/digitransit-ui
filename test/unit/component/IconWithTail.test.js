@@ -7,6 +7,7 @@ describe('<IconWithTail />', () => {
   it('should render correct svg when allVehicles is false', () => {
     const props = {
       rotate: 180,
+      useLargeIcon: true,
     };
     const wrapper = shallowWithIntl(<IconWithTail {...props} />);
 
@@ -25,11 +26,7 @@ describe('<IconWithTail />', () => {
       const wrapper = shallowWithIntl(<IconWithTail {...props} />);
 
       expect(wrapper.find('use').at(0).prop('xlinkHref')).to.equal(
-        '#icon-icon_all-vehicles-shadow',
-      );
-
-      expect(wrapper.find('use').at(1).prop('xlinkHref')).to.equal(
-        '#icon-icon_all-vehicles-large',
+        '#icon-icon_vehicle-live-marker',
       );
 
       expect(wrapper.find('tspan').text()).to.equal('32');
