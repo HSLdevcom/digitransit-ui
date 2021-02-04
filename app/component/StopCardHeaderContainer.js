@@ -22,6 +22,10 @@ export default createFragmentContainer(
         }
         lat
         lon
+        stops {
+          name
+          desc
+        }
       }
     `,
   },
