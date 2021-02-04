@@ -16,17 +16,19 @@ function MenuDrawer({ open, children, onRequestChange }) {
 
   return (
     <div
-      className="offcanvas"
+      className="offcanvas mobile-menu"
       style={{ visibility: visible ? 'visible' : 'hidden' }}
     >
       <div
-        className={cx('background', open ? 'open' : 'close')}
+        className={cx('menu-background', open ? 'open' : 'close')}
         onClick={() => {
           onRequestChange();
         }}
         aria-hidden="true"
       />
-      <div className={cx('content', open ? 'open' : 'close')}>{children}</div>
+      <div className={cx('menu-content', open ? 'open' : 'close')}>
+        {children}
+      </div>
     </div>
   );
 }

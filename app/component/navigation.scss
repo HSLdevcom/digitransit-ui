@@ -280,9 +280,9 @@ $content-background-color: $background-color;
     @include font-medium;
   }
 }
-.offcanvas {
+.mobile-menu {
   position: absolute;
-  .background {
+  .menu-background {
     background-color: rgba(0, 0, 0, 0.54);
     position: fixed;
     height: 100%;
@@ -296,7 +296,7 @@ $content-background-color: $background-color;
       opacity: 0;
     }
   }
-  .content {
+  .menu-content {
     position: fixed;
     left: auto;
     right: 0px;
