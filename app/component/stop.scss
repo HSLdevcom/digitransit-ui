@@ -689,7 +689,9 @@ hr.action-bar {
 }
 
 .print-button-container {
+  margin-top: 0.5em;
   display: flex;
+  float: left;
   button {
     margin-right: 1em;
     margin-left: auto;

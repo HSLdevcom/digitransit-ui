@@ -13,6 +13,8 @@ import TimeTableOptionsPanel from './TimeTableOptionsPanel';
 import TimetableRow from './TimetableRow';
 import ComponentUsageExample from './ComponentUsageExample';
 import { RealtimeStateType } from '../constants';
+import SecondaryButton from './SecondaryButton';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class Timetable extends React.Component {
   static propTypes = {
@@ -153,6 +155,16 @@ class Timetable extends React.Component {
     );
   };
 
+  printStop = e => {
+    e.stopPropagation();
+    window.print();
+  };
+
+  printStopPDF = (e, stopPDFURL) => {
+    e.stopPropagation();
+    window.open(stopPDFURL);
+  };
+
   formTimeRow = (timetableMap, hour) => {
     const sortedArr = timetableMap[hour].sort(
       (time1, time2) => time1.scheduledDeparture - time2.scheduledDeparture,
@@ -280,12 +292,46 @@ class Timetable extends React.Component {
         </div>
         <div className="timetable-for-printing">{this.dateForPrinting()}</div>
         <div className="timetable-note">
-          <FormattedMessage
-            id="departures-by-hour"
-            defaultMessage="Departures by hour (minutes/line number)"
-          />
+          <div>
+            <FormattedMessage
+              id="departures-by-hour"
+              defaultMessage="Departures by hour (minutes/line number)"
+            />
+          </div>
+          <div className="print-button-container">
+            {stopPDFURL && (
+              <SecondaryButton
+                ariaLabel="print-timetable"
+                buttonName="print-timetable"
+                buttonClickAction={e => {
+                  this.printStopPDF(e, stopPDFURL);
+                  addAnalyticsEvent({
+                    category: 'Stop',
+                    action: 'PrintWeeklyTimetable',
+                    name: null,
+                  });
+                }}
+                buttonIcon="icon-icon_print"
+                smallSize
+              />
+            )}
+            <SecondaryButton
+              ariaLabel="print"
+              buttonName="print"
+              buttonClickAction={e => {
+                this.printStop(e);
+                addAnalyticsEvent({
+                  category: 'Stop',
+                  action: 'PrintTimetable',
+                  name: null,
+                });
+              }}
+              buttonIcon="icon-icon_print"
+              smallSize
+            />
+          </div>
         </div>
-        <div className="momentum-scroll">
+        <div className="momentum-scroll timetable-content-container">
           <div className="timetable-time-headers">
             <div className="hour">
               <FormattedMessage id="hour" defaultMessage="Hour" />

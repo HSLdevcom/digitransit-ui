@@ -33,15 +33,23 @@
   }
   .timetable-note {
     border-top: 1px solid $light-gray;
-    margin-left: $padding-large;
-    margin-right: $padding-large;
     padding-top: $padding-large;
+    margin: 0.5em 4em 1em 4em;
+
+    .print-button-container {
+      @media print {
+        display: none;
+      }
+    }
   }
   .timetable-row-printing {
     @media print {
       display: flex;
       flex: 50%;
     }
+  }
+  .timetable-content-container {
+    margin: 0.5em 3em 1em 4em;
   }
   .momentum-scroll {
     flex: 1 0 auto;
@@ -71,7 +79,7 @@
       }
     }
     background-color: $white;
-    padding: $padding-medium $padding-large $padding-large $padding-large;
+    padding: $padding-medium 0em $padding-large 0em;
     .mobile h1.title {
       font-size: $font-size-large;
     }
@@ -127,4 +135,11 @@
 .mobile .timetable {
   flex-basis: 100%;
   overflow-y: visible;
+
+  .timetable-content-container {
+    margin: 0em 1em 1em 1em;
+  }
+  .timetable-note {
+    margin: 0em 1em 0.5em 1em;
+  }
 }
