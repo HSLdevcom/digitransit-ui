@@ -39,6 +39,7 @@ import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import BackButton from './BackButton'; // DT-3472
 import { isBrowser } from '../util/browser';
+import { saveSearch } from '../action/SearchActions';
 
 const Tab = {
   Disruptions: PREFIX_DISRUPTION,
@@ -81,6 +82,14 @@ class RoutePage extends React.Component {
     if (!route || !route.patterns) {
       return;
     }
+
+    this.context.executeAction(saveSearch, {
+      item: {
+        properties: { gtfsId: route.gtfsId },
+        type: 'Route',
+      },
+      type: 'search',
+    });
 
     const { location } = match;
 
