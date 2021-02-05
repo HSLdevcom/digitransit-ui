@@ -43,8 +43,6 @@ import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
 import { isBrowser } from '../util/browser';
 import { itineraryHasCancelation } from '../util/alertUtils';
-import triggerMessage from '../util/messageUtils';
-import MessageStore from '../store/MessageStore';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
   parseLatLon,
@@ -1478,20 +1476,6 @@ class SummaryPage extends React.Component {
       ) || getActiveIndex(match.location, filteredItineraries);
     const from = otpToLocation(match.params.from);
     const to = otpToLocation(match.params.to);
-
-    triggerMessage(
-      from.lat,
-      from.lon,
-      this.context,
-      this.context.getStore(MessageStore).getMessages(),
-    );
-
-    triggerMessage(
-      to.lat,
-      to.lon,
-      this.context,
-      this.context.getStore(MessageStore).getMessages(),
-    );
 
     let leafletObjs = [];
 

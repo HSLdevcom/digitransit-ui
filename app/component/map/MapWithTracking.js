@@ -21,7 +21,6 @@ import {
   startRealTimeClient,
   stopRealTimeClient,
 } from '../../action/realTimeClientAction';
-import triggerMessage from '../../util/messageUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 const DEFAULT_ZOOM = 12;
@@ -95,7 +94,6 @@ class MapWithTrackingStateHandler extends React.Component {
     initialZoom: PropTypes.number,
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
-    showLocationMessages: PropTypes.bool,
     defaultMapCenter: PropTypes.object.isRequired,
     fitBoundsWithSetCenter: PropTypes.bool,
   };
@@ -108,7 +106,6 @@ class MapWithTrackingStateHandler extends React.Component {
     locationPopup: 'reversegeocoding',
     onSelectLocation: () => null,
     fitBounds: false,
-    showLocationMessages: false,
     fitBoundsWithSetCenter: false,
   };
 
@@ -127,12 +124,6 @@ class MapWithTrackingStateHandler extends React.Component {
   async componentDidMount() {
     if (!isBrowser) {
       return;
-    }
-    const { showLocationMessages } = this.props;
-
-    if (this.focusPoint && showLocationMessages) {
-      const { lat, lon } = this.focusPoint;
-      await triggerMessage(lat, lon, this.context, this.props.messages);
     }
 
     if (this.props.mapLayers.showAllBusses) {
@@ -162,14 +153,6 @@ class MapWithTrackingStateHandler extends React.Component {
     }
     if (newProps.initialZoom !== this.state.initialZoom) {
       this.updateZoom(newProps.initialZoom);
-      if (newProps.focusPoint) {
-        triggerMessage(
-          newProps.focusPoint.lat,
-          newProps.focusPoint.lon,
-          this.context,
-          this.props.messages,
-        );
-      }
     }
     if (newProps.mapLayers.showAllBusses) {
       if (!this.props.mapLayers.showAllBusses) {
