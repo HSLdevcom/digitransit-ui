@@ -128,12 +128,7 @@ export default config => {
         render={({ Component, props, error, match }) => {
           if (Component) {
             return props ? (
-              <Component
-                {...props}
-                match={match}
-                error={error}
-                loadingPosition={false}
-              />
+              <Component {...props} match={match} error={error} />
             ) : (
               <Component match={match} loadingPosition error={error} />
             );

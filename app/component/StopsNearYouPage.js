@@ -47,7 +47,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     headers: PropTypes.object.isRequired,
     getStore: PropTypes.func,
     intl: intlShape.isRequired,
-    match: matchShape.isRequired,
     router: routerShape.isRequired,
   };
 
@@ -56,6 +55,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     relayEnvironment: PropTypes.object.isRequired,
     position: dtLocationShape.isRequired,
     lang: PropTypes.string.isRequired,
+    match: matchShape.isRequired,
   };
 
   constructor(props) {
@@ -65,7 +65,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   componentDidMount() {
     checkPositioningPermission().then(permission => {
-      const { origin } = this.context.match.params;
+      const { origin } = this.props.match.params;
       const savedPermission = getGeolocationState();
       const { state } = permission;
       const newState = {};
@@ -126,7 +126,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   getQueryVariables = () => {
     const { searchPosition } = this.state;
-    const { mode } = this.context.match.params;
+    const { mode } = this.props.match.params;
     let placeTypes = 'STOP';
     let modes = [mode];
     if (mode === 'CITYBIKE') {
@@ -161,7 +161,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   renderContent = () => {
-    const { mode } = this.context.match.params;
+    const { mode } = this.props.match.params;
     const renderDisruptionBanner = mode !== 'CITYBIKE';
     const renderSearch = mode !== 'FERRY';
     const renderRefetchButton = this.positionChanged();
@@ -243,7 +243,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                   </div>
                 )}
                 <StopsNearYouContainer
-                  match={this.context.match}
+                  match={this.props.match}
                   stopPatterns={props.stopPatterns}
                   position={this.state.searchPosition}
                 />
@@ -293,7 +293,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
               <StopsNearYouMap
                 position={this.state.searchPosition}
                 stops={props.stops}
-                match={this.context.match}
+                match={this.props.match}
               />
             );
           }
@@ -313,13 +313,13 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   selectHandler = item => {
-    const { mode } = this.context.match.params;
+    const { mode } = this.props.match.params;
     const path = `/${PREFIX_NEARYOU}/${mode}/POS/${addressToItinerarySearch(
       item,
     )}`;
 
     this.context.router.replace({
-      ...this.context.match.location,
+      ...this.props.match.location,
       pathname: path,
     });
     this.setState({
@@ -340,7 +340,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         placeholder="origin"
         value=""
         lang={this.props.lang}
-        mode={this.context.match.params.mode}
+        mode={this.props.match.params.mode}
         isMobile={isMobile}
         selectHandler={this.selectHandler} // prop for context handler
       />
@@ -402,7 +402,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   render() {
-    const { mode } = this.context.match.params;
+    const { mode } = this.props.match.params;
     const { phase } = this.state;
 
     if (PH_SHOWSEARCH.includes(phase)) {
@@ -464,7 +464,6 @@ const PositioningWrapper = connectToStores(
 PositioningWrapper.contextTypes = {
   getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
-  match: matchShape.isRequired,
 };
 
 export {
