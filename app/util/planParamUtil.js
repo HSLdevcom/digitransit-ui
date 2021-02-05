@@ -266,6 +266,9 @@ export const preparePlanParams = (config, useDefaultModes) => (
       { mode: 'BICYCLE' },
       ...modesAsOTPModes(getBicycleCompatibleModes(config, modesOrDefault)),
     ],
-    bikeParkModes: [{ mode: 'BICYCLE', qualifier: 'PARK' }, ...formattedModes],
+    bikeParkModes: [
+      { mode: 'BICYCLE', qualifier: 'PARK' },
+      ...formattedModes,
+    ].filter(mode => mode.qualifier !== 'RENT'), // BIKE_RENT can't be used together with BICYCLE_PARK
   };
 };
