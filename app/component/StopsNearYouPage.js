@@ -314,9 +314,14 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   selectHandler = item => {
     const { mode } = this.context.match.params;
-    this.context.router.replace(
-      `/${PREFIX_NEARYOU}/${mode}/POS/${addressToItinerarySearch(item)}`,
-    );
+    const path = `/${PREFIX_NEARYOU}/${mode}/POS/${addressToItinerarySearch(
+      item,
+    )}`;
+
+    this.context.router.replace({
+      ...this.context.match.location,
+      pathname: path,
+    });
     this.setState({
       phase: PH_USEDEFAULTPOS,
       searchPosition: item,
