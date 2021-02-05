@@ -208,8 +208,7 @@ class MessageBar extends Component {
     const filteredServiceAlerts = serviceAlerts.filter(
       alert => readMessageIds.indexOf(getServiceAlertId(alert)) === -1,
     );
-    const { lang } = this.props;
-    const messages = this.props.messages.filter(msg => msg.shouldTrigger);
+    const { lang, messages } = this.props;
     return [
       ...filteredServiceAlerts.map(alert => toMessage(alert, intl)),
       ...messages,
