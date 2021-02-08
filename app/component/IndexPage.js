@@ -34,6 +34,7 @@ import scrollTop from '../util/scroll';
 import FavouritesContainer from './FavouritesContainer';
 import DatetimepickerContainer from './DatetimepickerContainer';
 import { LightenDarkenColor } from '../util/colorUtils';
+import { getRefPoint } from '../util/apiUtils';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
@@ -58,6 +59,7 @@ class IndexPage extends React.Component {
     query: PropTypes.object.isRequired,
     favouriteModalAction: PropTypes.string,
     fromMap: PropTypes.string,
+    locationState: dtLocationShape.isRequired,
   };
 
   static defaultProps = { lang: 'fi' };
@@ -205,7 +207,7 @@ class IndexPage extends React.Component {
     const showSpinner =
       (origin.type === 'CurrentLocation' && !origin.address) ||
       (destination.type === 'CurrentLocation' && !destination.address);
-
+    const refPoint = getRefPoint(origin, destination, this.props.locationState);
     const locationSearchProps = {
       appElement: '#app',
       origin,
@@ -214,6 +216,7 @@ class IndexPage extends React.Component {
       sources,
       color,
       hoverColor,
+      refPoint,
       searchPanelText: intl.formatMessage({
         id: 'where',
         defaultMessage: 'Where to?',
@@ -229,7 +232,6 @@ class IndexPage extends React.Component {
       appElement: '#app',
       icon: 'search',
       id: 'stop-route-station',
-      refPoint: origin,
       className: 'destination',
       placeholder: 'stop-near-you',
       selectHandler: this.onSelectStopRoute,
@@ -397,7 +399,8 @@ const Index = shouldUpdate(
       isEqual(nextProps.destination, props.destination) &&
       isEqual(nextProps.breakpoint, props.breakpoint) &&
       isEqual(nextProps.lang, props.lang) &&
-      isEqual(nextProps.query, props.query)
+      isEqual(nextProps.query, props.query) &&
+      isEqual(nextProps.locationState, props.locationState)
     );
   },
 )(IndexPage);
@@ -412,14 +415,23 @@ IndexPageWithBreakpoint.description = (
 
 const IndexPageWithStores = connectToStores(
   IndexPageWithBreakpoint,
-  ['OriginStore', 'DestinationStore', 'TimeStore', 'PreferencesStore'],
+  [
+    'OriginStore',
+    'DestinationStore',
+    'TimeStore',
+    'PreferencesStore',
+    'PositionStore',
+  ],
   (context, props) => {
     const origin = context.getStore('OriginStore').getOrigin();
     const destination = context.getStore('DestinationStore').getDestination();
+    const locationState = context.getStore('PositionStore').getLocationState();
     const { location } = props.match;
     const newProps = {};
     const { query } = location;
     const { favouriteModalAction, fromMap } = query;
+    newProps.locationState = locationState;
+
     if (favouriteModalAction) {
       newProps.favouriteModalAction = favouriteModalAction;
     }

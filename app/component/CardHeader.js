@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import cx from 'classnames';
+import { FormattedMessage } from 'react-intl';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import ZoneIcon from './ZoneIcon';
@@ -26,6 +27,7 @@ const CardHeader = (
     showBackButton, // DT-3472
     headerConfig,
     favouriteContainer,
+    isTerminal,
   },
   { config },
 ) => {
@@ -37,7 +39,6 @@ const CardHeader = (
           <BackButton
             icon="icon-icon_arrow-collapse--left"
             iconClassName="arrow-icon"
-            urlToBack={config.URL.ROOTLINK}
           />
         )}
         <div className="card-header-content">
@@ -60,6 +61,22 @@ const CardHeader = (
               {description && description !== 'null' && (
                 <p className="card-sub-header-address">{description}</p>
               )}
+              {code != null ? <p className="card-code">{code}</p> : null}
+              {isTerminal && (
+                <p className="card-code">
+                  <FormattedMessage id="station" />
+                </p>
+              )}
+              {headerConfig &&
+                headerConfig.showZone &&
+                stop.zoneId &&
+                stop.gtfsId &&
+                config.feedIds.includes(stop.gtfsId.split(':')[0]) && (
+                  <ZoneIcon
+                    zoneId={getZoneLabel(stop.zoneId, config)}
+                    showUnknown={false}
+                  />
+                )}
               {code != null ? <p className="card-code">{code}</p> : null}
               {headerConfig &&
                 headerConfig.showZone &&
@@ -129,6 +146,7 @@ CardHeader.propTypes = {
   headerConfig: PropTypes.object,
   favouriteContainer: PropTypes.element,
   name: PropTypes.string,
+  isTerminal: PropTypes.bool,
 };
 
 CardHeader.defaultProps = {

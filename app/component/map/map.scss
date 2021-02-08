@@ -491,6 +491,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
 .choice-popup {
   .leaflet-popup-content {
     min-width: 240px;
+    width: max-content;
   }
 }
 

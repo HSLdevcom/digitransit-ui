@@ -729,4 +729,6 @@ export default {
   displayNextDeparture: true,
 
   messageBarAlerts: false,
+
+  availableTickets: {},
 };
