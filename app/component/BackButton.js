@@ -19,9 +19,9 @@ export default class BackButton extends React.Component {
     title: PropTypes.node,
     titleClassName: PropTypes.string, // DT-3472
     titleCustomStyle: PropTypes.object,
-    urlToBack: PropTypes.string,
     className: PropTypes.string, // DT-3614
     onBackBtnClick: PropTypes.func,
+    popFallback: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -31,33 +31,44 @@ export default class BackButton extends React.Component {
     title: undefined,
     titleClassName: undefined, // DT-3472
     titleCustomStyle: undefined,
-    urlToBack: undefined,
     className: 'back-button', // DT-3614
+    popFallback: false,
   };
 
-  goBack = urlToGo => {
-    if (
-      this.context.match.location.index > 0 ||
-      (this.context.match.params && this.context.match.params.hash)
+  goBack = url => {
+    const { router, match } = this.context;
+    const { location } = match;
+
+    if (location.index > 0) {
+      router.go(-1);
+    } else if (
+      this.props.popFallback &&
+      location.pathname.split('/').length > 1
     ) {
-      this.context.router.go(-1);
-    } else if (urlToGo) {
-      const { config, intl } = this.context;
-      if (
-        config.passLanguageToRootLink &&
-        urlToGo.indexOf(config.URL.ROOTLINK) !== -1 &&
-        intl.locale !== 'fi'
-      ) {
-        window.location.href = `${urlToGo}/${intl.locale}`;
-      } else {
-        window.location.href = urlToGo;
-      }
+      const parts = location.pathname.split('/');
+      parts.pop();
+      const newLoc = {
+        ...location,
+        pathname: parts.join('/'),
+      };
+      router.replace(newLoc);
+    } else if (url) {
+      window.location.href = url;
     } else {
-      this.context.router.push('/');
+      router.push('/');
     }
   };
 
   render() {
+    let url;
+    if (!this.props.onBackBtnClick) {
+      const { config, intl } = this.context;
+      if (config.passLanguageToRootLink && intl.locale !== 'fi') {
+        url = `${config.URL.ROOTLINK}/${intl.locale}`;
+      } else {
+        url = config.URL.ROOTLINK;
+      }
+    }
     return (
       <div className={this.props.className} style={{ display: 'flex' }}>
         <button
@@ -65,10 +76,7 @@ export default class BackButton extends React.Component {
           onClick={
             this.props.onBackBtnClick
               ? this.props.onBackBtnClick
-              : () =>
-                  this.goBack(
-                    this.props.urlToBack || this.context.config.URL.ROOTLINK,
-                  )
+              : () => this.goBack(url)
           }
           aria-label={this.context.intl.formatMessage({
             id: 'back-button-title',
