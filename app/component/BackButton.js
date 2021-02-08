@@ -57,10 +57,6 @@ export default class BackButton extends React.Component {
     }
   };
 
-  onClick = () => {
-    this.props.onBackBtnClick();
-  };
-
   render() {
     return (
       <div className={this.props.className} style={{ display: 'flex' }}>
@@ -68,7 +64,7 @@ export default class BackButton extends React.Component {
           className="icon-holder noborder cursor-pointer"
           onClick={
             this.props.onBackBtnClick
-              ? this.onClick
+              ? this.props.onBackBtnClick
               : () =>
                   this.goBack(
                     this.props.urlToBack || this.context.config.URL.ROOTLINK,
