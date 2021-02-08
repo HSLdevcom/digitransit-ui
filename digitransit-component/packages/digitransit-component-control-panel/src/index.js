@@ -103,6 +103,7 @@ function NearStopsAndRoutes({
   LinkComponent,
   origin,
   omitLanguageUrl,
+  onClick,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
   useEffect(() => {
@@ -134,38 +135,48 @@ function NearStopsAndRoutes({
         origin.lon
       }`;
     }
+
+    const modeButton = (
+      <>
+        <span className={styles['sr-only']}>
+          {i18next.t(`pick-mode-${mode}`, { lng: language })}
+        </span>
+        <span className={styles['transport-mode-icon-container']}>
+          <span className={styles['transport-mode-icon-with-icon']}>
+            <Icon img={`mode-${mode}`} />
+            {withAlert && (
+              <span className={styles['transport-mode-alert-icon']}>
+                <Icon img="caution" color="#dc0451" />
+              </span>
+            )}
+          </span>
+        </span>
+      </>
+    );
+
+    if (onClick) {
+      return (
+        <div
+          key={mode}
+          role="link"
+          tabIndex="0"
+          onKeyDown={e => onClick(url, e)}
+          onClick={() => onClick(url)}
+        >
+          {modeButton}
+        </div>
+      );
+    }
     if (LinkComponent) {
       return (
         <LinkComponent to={url} key={mode}>
-          <span className={styles['sr-only']}>
-            {i18next.t(`pick-mode-${mode}`, { lng: language })}
-          </span>
-          <span className={styles['transport-mode-icon-container']}>
-            <span className={styles['transport-mode-icon-with-icon']}>
-              <Icon img={`mode-${mode}`} />
-              {withAlert && (
-                <span className={styles['transport-mode-alert-icon']}>
-                  <Icon img="caution" color="#dc0451" />
-                </span>
-              )}
-            </span>
-          </span>
+          {modeButton}
         </LinkComponent>
       );
     }
     return (
       <a href={url} key={mode}>
-        <span className={styles['sr-only']}>
-          {i18next.t(`pick-mode-${mode}`, { lng: language })}
-        </span>
-        <span className={styles['transport-mode-icon-container']}>
-          <Icon img={`mode-${mode}`} />
-          {withAlert && (
-            <span className={styles['transport-mode-alert-icon']}>
-              <Icon img="caution" color="#dc0451" />
-            </span>
-          )}
-        </span>
+        {modeButton}
       </a>
     );
   });
@@ -195,6 +206,7 @@ NearStopsAndRoutes.propTypes = {
   LinkComponent: PropTypes.object,
   origin: PropTypes.object,
   omitLanguageUrl: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 NearStopsAndRoutes.defaultProps = {
