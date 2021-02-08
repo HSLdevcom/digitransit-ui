@@ -15,6 +15,7 @@ const CardHeader = (
     children,
     headerIcon,
     headingStyle,
+    name,
     stop,
     description,
     code,
@@ -27,56 +28,59 @@ const CardHeader = (
     favouriteContainer,
   },
   { config },
-) => (
-  <Fragment>
-    <div className={cx('card-header', className)}>
-      {showBackButton && (
-        <BackButton
-          icon="icon-icon_arrow-collapse--left"
-          iconClassName="arrow-icon"
-          urlToBack={config.URL.ROOTLINK}
-        />
-      )}
-      <div className="card-header-content">
-        {icon ? (
-          <div
-            className="left"
-            style={{ fontSize: 32, paddingRight: 10, height: 32 }}
-          >
-            <Icon img={icon} color={config.colors.primary} />
-          </div>
-        ) : null}
-        <div className="card-header-wrapper">
-          <span className={headingStyle || 'h4'}>
-            {stop.name}
-            {externalLink || null}
-            {headerIcon}
-            {unlinked ? null : <span className="link-arrow"> ›</span>}
-          </span>
-          <div className="card-sub-header">
-            {description && description !== 'null' && (
-              <p className="card-sub-header-address">{description}</p>
-            )}
-            {code != null ? <p className="card-code">{code}</p> : null}
-            {headerConfig &&
-              headerConfig.showZone &&
-              stop.zoneId &&
-              stop.gtfsId &&
-              config.feedIds.includes(stop.gtfsId.split(':')[0]) && (
-                <ZoneIcon
-                  zoneId={getZoneLabel(stop.zoneId, config)}
-                  showUnknown={false}
-                />
+) => {
+  const headerTitle = stop.name ? stop.name : name;
+  return (
+    <Fragment>
+      <div className={cx('card-header', className)}>
+        {showBackButton && (
+          <BackButton
+            icon="icon-icon_arrow-collapse--left"
+            iconClassName="arrow-icon"
+            urlToBack={config.URL.ROOTLINK}
+          />
+        )}
+        <div className="card-header-content">
+          {icon ? (
+            <div
+              className="left"
+              style={{ fontSize: 32, paddingRight: 10, height: 32 }}
+            >
+              <Icon img={icon} color={config.colors.primary} />
+            </div>
+          ) : null}
+          <div className="card-header-wrapper">
+            <span className={headingStyle || 'h4'}>
+              {headerTitle !== description ? headerTitle : ''}
+              {externalLink || null}
+              {headerIcon}
+              {unlinked ? null : <span className="link-arrow"> ›</span>}
+            </span>
+            <div className="card-sub-header">
+              {description && description !== 'null' && (
+                <p className="card-sub-header-address">{description}</p>
               )}
+              {code != null ? <p className="card-code">{code}</p> : null}
+              {headerConfig &&
+                headerConfig.showZone &&
+                stop.zoneId &&
+                stop.gtfsId &&
+                config.feedIds.includes(stop.gtfsId.split(':')[0]) && (
+                  <ZoneIcon
+                    zoneId={getZoneLabel(stop.zoneId, config)}
+                    showUnknown={false}
+                  />
+                )}
+            </div>
           </div>
+          {icons && icons.length ? <SplitBars>{icons}</SplitBars> : null}
+          {favouriteContainer}
         </div>
-        {icons && icons.length ? <SplitBars>{icons}</SplitBars> : null}
-        {favouriteContainer}
       </div>
-    </div>
-    {children}
-  </Fragment>
-);
+      {children}
+    </Fragment>
+  );
+};
 
 const emptyFunction = () => {};
 const exampleIcons = [
@@ -124,6 +128,7 @@ CardHeader.propTypes = {
   showBackButton: PropTypes.bool, // DT-3472
   headerConfig: PropTypes.object,
   favouriteContainer: PropTypes.element,
+  name: PropTypes.string,
 };
 
 CardHeader.defaultProps = {
