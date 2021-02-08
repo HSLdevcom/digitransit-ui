@@ -118,7 +118,6 @@ function NearStopsAndRoutes({
     }
   }, []);
 
-  const queryString = origin.queryString || '';
   let urlStart;
   if (omitLanguageUrl) {
     urlStart = urlPrefix;
@@ -133,7 +132,7 @@ function NearStopsAndRoutes({
     if (origin.lat && origin.lon) {
       url += `/${encodeURIComponent(origin.address)}::${origin.lat},${
         origin.lon
-      }${queryString}`;
+      }`;
     }
     if (LinkComponent) {
       return (

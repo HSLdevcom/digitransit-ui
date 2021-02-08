@@ -186,17 +186,11 @@ class IndexPage extends React.Component {
     const { breakpoint, lang } = this.props;
     const origin = this.pendingOrigin || this.props.origin;
     const destination = this.pendingDestination || this.props.destination;
-    const queryString = this.context.match.location.search;
     const sources = ['Favourite', 'History', 'Datasource'];
     const stopAndRouteSearchTargets =
       this.context.config.cityBike && this.context.config.cityBike.showCityBikes
         ? ['Stops', 'Routes', 'BikeRentalStations']
         : ['Stops', 'Routes'];
-
-    const originToStopNearYou = {
-      ...origin,
-      queryString,
-    };
 
     const alertsContext = {
       currentTime: this.props.currentTime,
@@ -286,7 +280,7 @@ class IndexPage extends React.Component {
                   showTitle
                   alertsContext={alertsContext}
                   LinkComponent={Link}
-                  origin={originToStopNearYou}
+                  origin={origin}
                   omitLanguageUrl
                 />
               </div>
@@ -358,7 +352,7 @@ class IndexPage extends React.Component {
                   showTitle
                   alertsContext={alertsContext}
                   LinkComponent={Link}
-                  origin={originToStopNearYou}
+                  origin={origin}
                   omitLanguageUrl
                 />
               </div>
