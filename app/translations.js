@@ -808,6 +808,9 @@ const translations = {
     'accessibility-limited': 'Wheelchair',
     'accessibility-nolimit': 'No limits',
     'accessibility-statement': 'Accessibility statement',
+    'add-favourite-stop-failed-heading': 'Adding the stop failed',
+    'add-favourite-stop-failed-text':
+      'Unable to save the stop at the moment.\nPlease try again in a while.',
     'add-home': 'Add home',
     'add-itinerary-via-point': 'Add via point for itinerary',
     'add-location-to-favourites': 'Add an important location to your Favorites',
@@ -1697,6 +1700,9 @@ const translations = {
     'accessibility-limited': 'Pyörätuoli',
     'accessibility-nolimit': 'Ei rajoitusta',
     'accessibility-statement': 'Saavutettavuusseloste',
+    'add-favourite-stop-failed-heading': 'Pysäkin lisääminen ei onnistunut',
+    'add-favourite-stop-failed-text':
+      'Pysäkkiä ei voitu juuri nyt tallentaa.\nYritä hetken päästä uudelleen.',
     'add-home': 'Lisää koti',
     'add-itinerary-via-point': 'Lisää reitille välipiste',
     'add-location-to-favourites':
@@ -3351,6 +3357,9 @@ const translations = {
     'accessibility-limited': 'Med rullstolen',
     'accessibility-nolimit': 'Ingen begränsning',
     'accessibility-statement': 'Tillgänglighetsförklaring',
+    'add-favourite-stop-failed-heading': 'Adding the stop failed',
+    'add-favourite-stop-failed-text':
+      'Unable to save the stop at the moment.\nPlease try again in a while.',
     'add-home': 'Lägg till hem',
     'add-itinerary-via-point': 'Lägg till mellanstopp',
     'add-location-to-favourites':
