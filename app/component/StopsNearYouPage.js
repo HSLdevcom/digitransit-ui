@@ -56,6 +56,8 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     position: dtLocationShape.isRequired,
     lang: PropTypes.string.isRequired,
     match: matchShape.isRequired,
+    favouriteStopIds: PropTypes.object.isRequired,
+    favouriteBikeStationIds: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -129,9 +131,18 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     const { mode } = this.props.match.params;
     let placeTypes = 'STOP';
     let modes = [mode];
+    let filterByIds;
     if (mode === 'CITYBIKE') {
       placeTypes = 'BICYCLE_RENT';
       modes = ['BICYCLE'];
+    }
+    if (mode === 'FAVOURITE') {
+      modes = undefined;
+      placeTypes = undefined;
+      filterByIds = {
+        stops: Array.from(this.props.favouriteStopIds),
+        bikeRentalStations: Array.from(this.props.favouriteBikeStationIds),
+      };
     }
     return {
       lat: searchPosition.lat,
@@ -141,6 +152,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       maxDistance: this.context.config.maxNearbyStopDistance,
       filterByModes: modes,
       filterByPlaceTypes: placeTypes,
+      filterByIds,
       omitNonPickups: this.context.config.omitNonPickups,
     };
   };
@@ -163,7 +175,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   renderContent = () => {
     const { mode } = this.props.match.params;
     const renderDisruptionBanner = mode !== 'CITYBIKE';
-    const renderSearch = mode !== 'FERRY';
+    const renderSearch = mode !== 'FERRY' && mode !== 'FAVOURITE';
     const renderRefetchButton = this.positionChanged();
     return (
       <QueryRenderer
@@ -173,6 +185,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             $lon: Float!
             $filterByPlaceTypes: [FilterPlaceType]
             $filterByModes: [Mode]
+            $filterByIds: InputFilters
             $first: Int!
             $maxResults: Int!
             $maxDistance: Int!
@@ -185,6 +198,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 lon: $lon
                 filterByPlaceTypes: $filterByPlaceTypes
                 filterByModes: $filterByModes
+                filterByIds: $filterByIds
                 first: $first
                 maxResults: $maxResults
                 maxDistance: $maxDistance
@@ -453,10 +467,30 @@ const PositioningWrapper = connectToStores(
   StopsNearYouPageWithBreakpoint,
   ['PositionStore', 'PreferencesStore', 'FavouriteStore'],
   (context, props) => {
+    const favouriteStopIds =
+      props.match.params.mode === 'FAVOURITE'
+        ? new Set(
+            context
+              .getStore('FavouriteStore')
+              .getStopsAndStations()
+              .map(stop => stop.gtfsId),
+          )
+        : [];
+    const favouriteBikeStationIds =
+      props.match.params.mode === 'FAVOURITE'
+        ? new Set(
+            context
+              .getStore('FavouriteStore')
+              .getBikeRentalStations()
+              .map(station => station.stationId),
+          )
+        : [];
     return {
       ...props,
       position: context.getStore('PositionStore').getLocationState(),
       lang: context.getStore('PreferencesStore').getLanguage(),
+      favouriteStopIds,
+      favouriteBikeStationIds,
     };
   },
 );

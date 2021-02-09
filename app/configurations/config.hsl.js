@@ -491,7 +491,14 @@ export default {
   showBikeAndParkItineraries: true,
 
   showNearYouButtons: true,
-  nearYouModes: ['bus', 'tram', 'subway', 'rail', 'ferry' /* , 'citybike' */],
+  nearYouModes: [
+    'favourite',
+    'bus',
+    'tram',
+    'subway',
+    'rail',
+    'ferry' /* , 'citybike' */,
+  ],
 
   zoneIconsAsSvg: true,
 };

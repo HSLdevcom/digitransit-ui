@@ -145,12 +145,28 @@ function StopsNearYouMap(
   const { mode } = match.params;
   const walkRoutingThreshold =
     mode === 'RAIL' || mode === 'SUBWAY' || mode === 'FERRY' ? 3000 : 1500;
-  const sortedStopEdges =
-    mode === 'CITYBIKE'
-      ? stops.nearest.edges.slice().sort(sortNearbyRentalStations(favouriteIds))
-      : stops.nearest.edges
-          .slice()
-          .sort(sortNearbyStops(favouriteIds, walkRoutingThreshold));
+  let sortedStopEdges;
+  switch (mode) {
+    case 'FAVOURITE':
+      sortedStopEdges = stops.nearest.edges;
+      break;
+    case 'CITYBIKE':
+      sortedStopEdges = stops.nearest.edges
+        .slice()
+        .sort(sortNearbyRentalStations(favouriteIds));
+      break;
+    default:
+      sortedStopEdges = stops.nearest.edges
+        .slice()
+        .sort(sortNearbyStops(favouriteIds, walkRoutingThreshold));
+      break;
+  }
+  // const sortedStopEdges =
+  //   mode === 'CITYBIKE'
+  //     ? stops.nearest.edges.slice().sort(sortNearbyRentalStations(favouriteIds))
+  //     : stops.nearest.edges
+  //         .slice()
+  //         .sort(sortNearbyStops(favouriteIds, walkRoutingThreshold));
   let useFitBounds = true;
   const bounds = handleBounds(position, sortedStopEdges, breakpoint);
 
@@ -271,7 +287,7 @@ function StopsNearYouMap(
 
   const routeLines = [];
   const realtimeTopics = [];
-  const renderRouteLines = mode !== 'CITYBIKE';
+  const renderRouteLines = mode !== 'CITYBIKE' && mode !== 'FAVOURITE';
   let leafletObjs = [];
   if (renderRouteLines && Array.isArray(sortedStopEdges)) {
     sortedStopEdges.forEach(item => {
