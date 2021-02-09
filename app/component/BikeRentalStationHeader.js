@@ -6,16 +6,12 @@ import StopCode from './StopCode';
 import BackButton from './BackButton';
 import FavouriteBikeRentalStationContainer from './FavouriteBikeRentalStationContainer';
 
-const BikeRentalStationHeader = (
-  { bikeRentalStation, breakpoint },
-  { config },
-) => {
+const BikeRentalStationHeader = ({ bikeRentalStation, breakpoint }) => {
   return (
     <div className="bike-station-header">
       {breakpoint === 'large' && (
         <BackButton
           icon="icon-icon_arrow-collapse--left"
-          color={config.colors.primary}
           iconClassName="arrow-icon"
         />
       )}
@@ -33,10 +29,6 @@ const BikeRentalStationHeader = (
       />
     </div>
   );
-};
-
-BikeRentalStationHeader.contextTypes = {
-  config: PropTypes.object.isRequired,
 };
 
 BikeRentalStationHeader.propTypes = {

@@ -1,5 +1,6 @@
 import moment from 'moment';
 import xmlParser from 'fast-xml-parser';
+import isEmpty from 'lodash/isEmpty';
 import { retryFetch } from './fetchUtils';
 
 export function getUser() {
@@ -65,4 +66,17 @@ export function getWeatherData(baseURL, time, lat, lon) {
     .catch(err => {
       throw new Error(`Error fetching weather data: ${err}`);
     });
+}
+
+export function getRefPoint(origin, destination, location) {
+  if (!isEmpty(origin)) {
+    return origin;
+  }
+  if (!isEmpty(destination)) {
+    return destination;
+  }
+  if (location && location.hasLocation) {
+    return location;
+  }
+  return null;
 }

@@ -44,9 +44,9 @@ export default (
           <Route
             path="(.*)?"
             getComponent={() =>
-              import(
-                /* webpackChunkName: "route" */ './component/RouteTitle'
-              ).then(getDefault)
+              import(/* webpackChunkName: "route" */ './component/Title').then(
+                getDefault,
+              )
             }
             query={graphql`
               query routeRoutes_RouteTitle_Query($routeId: String!) {

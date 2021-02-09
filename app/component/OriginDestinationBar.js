@@ -17,6 +17,7 @@ import { getIntermediatePlaces, locationToOTP } from '../util/otpStrings';
 import { dtLocationShape } from '../util/shapes';
 import { setViaPoints } from '../action/ViaPointActions';
 import { LightenDarkenColor } from '../util/colorUtils';
+import { getRefPoint } from '../util/apiUtils';
 
 const DTAutosuggestPanelWithSearchContext = withSearchContext(
   DTAutosuggestPanel,
@@ -31,6 +32,7 @@ class OriginDestinationBar extends React.Component {
     isMobile: PropTypes.bool,
     showFavourites: PropTypes.bool.isRequired,
     viaPoints: PropTypes.array,
+    locationState: dtLocationShape.isRequired,
   };
 
   static contextTypes = {
@@ -116,6 +118,11 @@ class OriginDestinationBar extends React.Component {
   };
 
   render() {
+    const refPoint = getRefPoint(
+      this.props.origin,
+      this.props.destination,
+      this.props.locationState,
+    );
     return (
       <div
         className={cx(
@@ -128,6 +135,7 @@ class OriginDestinationBar extends React.Component {
           appElement="#app"
           origin={this.props.origin}
           destination={this.props.destination}
+          refPoint={refPoint}
           originPlaceHolder="search-origin-index"
           destinationPlaceHolder="search-destination-index"
           showMultiPointControls
@@ -196,11 +204,12 @@ OriginDestinationBar.description = (
 
 const connectedComponent = connectToStores(
   OriginDestinationBar,
-  ['PreferencesStore', 'FavouriteStore', 'ViaPointStore'],
+  ['PreferencesStore', 'FavouriteStore', 'ViaPointStore', 'PositionStore'],
   ({ getStore }) => ({
     language: getStore('PreferencesStore').getLanguage(),
     showFavourites: getStore('FavouriteStore').getStatus() === 'has-data',
     viaPoints: getStore('ViaPointStore').getViaPoints(),
+    locationState: getStore('PositionStore').getLocationState(),
   }),
 );
 
