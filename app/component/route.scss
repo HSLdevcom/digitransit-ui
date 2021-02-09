@@ -746,6 +746,9 @@ $margin-left-right: 1.25em;
       font-weight: 500;
       background-color: $white;
     }
+    .no-alerts > span {
+      color: #b7b7b7;
+    }
   }
 
   .tab-panel {

@@ -8,8 +8,6 @@ import distance from '@digitransit-search-util/digitransit-search-util-distance'
 import { graphql, fetchQuery } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import TimeStore from '../store/TimeStore';
-import OriginStore from '../store/OriginStore';
-import DestinationStore from '../store/DestinationStore';
 import PositionStore from '../store/PositionStore';
 import MapWithTracking from './map/MapWithTracking';
 import SelectedStopPopup from './map/popups/SelectedStopPopup';
@@ -113,7 +111,6 @@ const StopPageMap = (
         icon="icon-icon_arrow-collapse--left"
         iconClassName="arrow-icon"
         key="stop-page-back-button"
-        urlToBack={config.URL.ROOTLINK}
       />,
     );
   }
@@ -162,8 +159,6 @@ const StopPageMap = (
       leafletObjs={leafletObjs}
       showScaleBar
       focusPoint={stop}
-      origin={locationState}
-      destination={stop}
       bounds={bounds}
       fitBounds={bounds.length > 0}
     >
@@ -196,9 +191,9 @@ StopPageMap.defaultProps = {
 
 const componentWithBreakpoint = withBreakpoint(StopPageMap);
 
-const StopsNearYouMapWithStores = connectToStores(
+const StopPageMapWithStores = connectToStores(
   componentWithBreakpoint,
-  [OriginStore, TimeStore, DestinationStore, PositionStore],
+  [TimeStore, PositionStore],
   ({ getStore }) => {
     const currentTime = getStore(TimeStore).getCurrentTime().unix();
     const locationState = getStore(PositionStore).getLocationState();
@@ -210,6 +205,6 @@ const StopsNearYouMapWithStores = connectToStores(
 );
 
 export {
-  StopsNearYouMapWithStores as default,
+  StopPageMapWithStores as default,
   componentWithBreakpoint as Component,
 };

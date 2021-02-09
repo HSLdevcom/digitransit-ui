@@ -90,17 +90,8 @@ export default function withSearchContext(WrappedComponent) {
         const locState = this.props.locationState;
 
         if (locState.status === 'found-address') {
-          const location = {
-            type: 'CurrentLocation',
-            lat: locState.lat,
-            lon: locState.lon,
-            gid: locState.gid,
-            name: locState.name,
-            layer: locState.layer,
-            address: locState.address,
-          };
           this.onSuggestionSelected(
-            location,
+            locState,
             prevState.positioningSelectedFrom,
           );
         }
