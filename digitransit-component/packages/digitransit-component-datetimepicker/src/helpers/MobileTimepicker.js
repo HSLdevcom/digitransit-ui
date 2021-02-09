@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useRef, useLayoutEffect, useState } from 'react';
 import moment from 'moment-timezone';
 import styles from './styles.scss';
 import utils from './utils';
@@ -21,6 +21,13 @@ function MobileTimepicker({
   moment.tz.setDefault(timeZone);
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
+  const timeInputRef = useRef(null);
+
+  useLayoutEffect(() => {
+    if (timeInputRef.current) {
+      timeInputRef.current.focus();
+    }
+  }, []);
   return (
     <>
       <label className={styles['input-container']} htmlFor={inputId}>
@@ -35,7 +42,6 @@ function MobileTimepicker({
           maxLength="5"
           className={styles['time-input-mobile']}
           value={inputValue}
-          onFocus={e => e.target.select()}
           onChange={event => {
             const newValue = event.target.value;
             const actual = utils.parseTypedTime(newValue);
@@ -45,6 +51,7 @@ function MobileTimepicker({
               onChange(timestamp);
             }
           }}
+          ref={timeInputRef}
         />
       </label>
     </>
