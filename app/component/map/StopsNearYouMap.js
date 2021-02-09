@@ -275,7 +275,7 @@ function StopsNearYouMap(
     }
   }, [favouriteIds, stops]);
 
-  if (loading || relay.isLoading()) {
+  if (loading) {
     return <Loading />;
   }
 
