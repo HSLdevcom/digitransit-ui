@@ -2628,7 +2628,7 @@
   dependencies:
     "@mapbox/point-geometry" "~0.1.0"
 
-"@marvelapp/react-ab-test@2.3.0", "@marvelapp/react-ab-test@^2.3.0":
+"@marvelapp/react-ab-test@2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@marvelapp/react-ab-test/-/react-ab-test-2.3.0.tgz#a7185bfb4531c95c4126cc6be85f8d3718aac27a"
   integrity sha512-xs0+sV8rFWwCo0eS2jq1obLr2+dsWqmyYOmiTxdMGNgPbPnuwN+qFUhN2D9/A/DrW8MyUsChFxAM5JlAn2rk/Q==
