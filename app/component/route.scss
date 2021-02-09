@@ -661,15 +661,6 @@ $margin-left-right: 1.25em;
   }
 }
 
-.print-button-container {
-  display: flex;
-  button {
-    margin-right: 1em;
-    margin-left: auto;
-    margin-bottom: $padding-medium;
-  }
-}
-
 .mobile .route-page-action-bar .secondary-button {
   display: none;
 }
@@ -699,7 +690,6 @@ $margin-left-right: 1.25em;
     border-bottom: none !important;
     font-weight: 500;
     padding: 0;
-    text-transform: uppercase;
     background-image: none;
     width: 7em;
     text-align: left;

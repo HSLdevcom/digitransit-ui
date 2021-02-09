@@ -140,6 +140,12 @@
   border-radius: 5px;
   margin: 0.5em 4em 1em 4em;
   position: relative;
+  > button {
+    outline: 0;
+  }
+  @media print {
+    display: none;
+  }
 }
 
 .stop-tabs-fillerline {
@@ -393,35 +399,6 @@
   padding-bottom: 0.6em;
   text-align: right;
 
-  .route-schedule-date {
-    text-align: left;
-    width: 52%;
-    font-size: 0.9em;
-    & select {
-      text-align: left;
-      text-transform: uppercase;
-      color: $primary-color;
-      font-weight: 700;
-      margin-right: 20px;
-      cursor: pointer;
-      font-size: 100%;
-      border-bottom: 2px none !important;
-      transition: all 0.2s ease-out;
-      width: 37%;
-      height: 1.27em;
-      line-height: 1.3em;
-      &:hover {
-        color: $secondary-color;
-        border-bottom: 2px none !important;
-      }
-    }
-    & svg {
-      width: 1.2em;
-      height: 1.2em;
-      margin-left: 0.5em;
-      margin-right: 1.4em;
-    }
-  }
   @media print {
     display: none;
   }
@@ -609,16 +586,15 @@ hr.action-bar {
 }
 
 .timetable-topbar {
+  display: flex;
+  justify-content: center;
   background: $white;
+  margin: 0.5em 3em 1em 4em;
   .secondary-button.print {
     @media print {
       display: none;
     }
   }
-}
-
-.timetable-options-panel {
-  display: flex;
 }
 
 .timetable-for-printing-header {
@@ -634,7 +610,9 @@ hr.action-bar {
 }
 
 .print-button-container {
+  margin-top: 0.5em;
   display: flex;
+  float: left;
   button {
     margin-right: 1em;
     margin-left: auto;
@@ -676,13 +654,10 @@ hr.action-bar {
 
 .timetable-showroutes {
   display: flex;
-  width: 100%;
   margin-bottom: 0.3em;
 }
 
 .showroutes-icon {
-  margin-left: 1em;
-  margin-right: 1em;
 
   & svg,
   .showroutes-icon-svg {
@@ -691,33 +666,6 @@ hr.action-bar {
   }
   @media print {
     margin-left: 0;
-  }
-}
-
-.showroutes-header {
-  text-transform: uppercase;
-  color: $primary-color;
-  font-weight: 700;
-  width: 25%;
-  font-size: 0.9em;
-  text-align: left;
-  & span {
-    transition: all 0.2s ease-out;
-    &:hover {
-      color: $secondary-color;
-    }
-  }
-}
-
-.showroutes-list {
-  display: inline-block;
-  font-size: $font-size-xxsmall;
-  width: 66%;
-  margin-top: 0.5em;
-
-  .showroute-number {
-    margin-right: 15px;
-    float: left;
   }
 }
 
@@ -737,6 +685,10 @@ hr.action-bar {
 .mobile {
   .print-button-container {
     display: none;
+  }
+
+  .timetable-topbar {
+    margin: 0em 1em 1em 1em;
   }
 
   .stop-tab-container {
