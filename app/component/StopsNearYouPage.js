@@ -160,6 +160,26 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       : this.props.position;
   };
 
+  renderSearchBox = () => {
+    return (
+      <div className="stops-near-you-location-search">
+        <DTAutoSuggestWithSearchContext
+          appElement="#app"
+          icon="search"
+          sources={['History', 'Datasource', 'Favourite']}
+          targets={['Locations', 'Stops']}
+          id="origin-stop-near-you-selector"
+          placeholder="move-on-map"
+          value=""
+          lang={this.props.lang}
+          mode={this.props.match.params.mode}
+          isMobile
+          selectHandler={this.selectHandler} // prop for context handler
+        />
+      </div>
+    );
+  };
+
   renderContent = () => {
     const { mode } = this.props.match.params;
     const renderDisruptionBanner = mode !== 'CITYBIKE';
@@ -432,7 +452,11 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             />
           )}
           mobile={() => (
-            <MobileView content={this.renderContent()} map={this.renderMap()} />
+            <MobileView
+              content={this.renderContent()}
+              map={this.renderMap()}
+              searchBox={this.renderSearchBox()}
+            />
           )}
         />
       );

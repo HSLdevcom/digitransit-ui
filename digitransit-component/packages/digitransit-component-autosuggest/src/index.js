@@ -709,7 +709,8 @@ class DTAutosuggest extends React.Component {
     this.props.id === 'origin' ||
     this.props.id === 'destination' ||
     this.props.id === 'via-point' ||
-    this.props.id === 'origin-stop-near-you';
+    this.props.id === 'origin-stop-near-you' ||
+    this.props.id === 'origin-stop-near-you-selector';
 
   onFocus = () => {
     const positions = [
@@ -842,7 +843,7 @@ class DTAutosuggest extends React.Component {
             {this.props.icon && (
               <div
                 className={cx([
-                  styles['autosuggest-input-icon'],
+                  styles[`autosuggest-input-icon`],
                   styles[this.props.id],
                 ])}
               >
