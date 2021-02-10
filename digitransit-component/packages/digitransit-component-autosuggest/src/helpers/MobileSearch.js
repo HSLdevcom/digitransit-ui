@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useCallback } from 'react';
-import hooks from '@hsl-fi/hooks';
 import cx from 'classnames';
 import ReactModal from 'react-modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
@@ -48,18 +47,13 @@ const MobileSearch = ({
 }) => {
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
-  const { lock, unlock } = hooks.useScrollLock();
+
   const [isDialogOpen, setDialogOpen] = useState(false);
   const inputRef = React.useRef();
 
-  const onOpen = useCallback(() => {
-    lock();
-  }, []);
-
-  const handleClose = useCallback(() => {
-    unlock();
+  const onClose = useCallback(() => {
     closeHandle();
-  }, []);
+  });
 
   useEffect(() => {
     ReactModal.setAppElement(appElement);
@@ -126,7 +120,7 @@ const MobileSearch = ({
   const renderContent = () => {
     return (
       <label className={styles['combobox-container']} htmlFor={inputId}>
-        <div className={styles['combobox-icon']} onClick={handleClose}>
+        <div className={styles['combobox-icon']} onClick={onClose}>
           <Icon img="arrow" />
         </div>
         <span className={styles['right-column']}>
@@ -186,9 +180,7 @@ const MobileSearch = ({
       isOpen={searchOpen}
       className={styles['mobile-modal']}
       overlayClassName={styles['mobile-modal-overlay']}
-      onRequestClose={closeHandle}
-      onAfterOpen={onOpen}
-      onAfterClose={handleClose}
+      onAfterClose={onClose}
       shouldCloseOnEsc
     >
       <div className={styles['mobile-modal-content']}>

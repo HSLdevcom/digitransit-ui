@@ -21,6 +21,7 @@ import isEmpty from 'lodash/isEmpty';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
+import withScrollLock from './helpers/withScrollLock';
 
 moment.locale('en');
 
@@ -208,6 +209,8 @@ class DTAutosuggest extends React.Component {
       stopsPrefix: PropTypes.string,
     }),
     mobileLabel: PropTypes.string,
+    lock: PropTypes.func.isRequired,
+    unlock: PropTypes.func.isRequired,
     refPoint: PropTypes.object,
   };
 
@@ -651,6 +654,7 @@ class DTAutosuggest extends React.Component {
   };
 
   closeMobileSearch = () => {
+    this.props.unlock();
     this.setState(
       {
         renderMobileSearch: false,
@@ -666,10 +670,15 @@ class DTAutosuggest extends React.Component {
   // DT-3263 starts
   // eslint-disable-next-line consistent-return
   keyDown = event => {
+    const keyCode = event.keyCode || event.which;
+
     if (this.state.editing) {
+      if (keyCode === 13) {
+        this.fetchFunction({ value: this.state.value });
+      }
       return this.inputClicked();
     }
-    const keyCode = event.keyCode || event.which;
+
     if ((keyCode === 13 || keyCode === 40) && this.state.value === '') {
       return this.clearInput();
     }
@@ -742,9 +751,13 @@ class DTAutosuggest extends React.Component {
     if (positions.includes(this.state.value)) {
       this.clearInput();
     }
+    const scrollY = window.pageYOffset;
+    if (this.props.isMobile) {
+      this.props.lock();
+    }
     return this.setState({
       renderMobileSearch: this.props.isMobile,
-      scrollY: window.pageYOffset,
+      scrollY,
     });
   };
 
@@ -902,4 +915,6 @@ class DTAutosuggest extends React.Component {
   }
 }
 
-export default DTAutosuggest;
+const DTAutosuggestWithScrollLock = withScrollLock(DTAutosuggest);
+
+export default DTAutosuggestWithScrollLock;

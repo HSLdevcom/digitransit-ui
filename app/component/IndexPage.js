@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { matchShape, routerShape, Link } from 'found';
+import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
@@ -35,6 +35,7 @@ import FavouritesContainer from './FavouritesContainer';
 import DatetimepickerContainer from './DatetimepickerContainer';
 import { LightenDarkenColor } from '../util/colorUtils';
 import { getRefPoint } from '../util/apiUtils';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
@@ -147,6 +148,13 @@ class IndexPage extends React.Component {
     this.context.router.push(getStopRoutePath(item));
   };
 
+  clickStopNearIcon = (url, kbdEvent) => {
+    if (kbdEvent && !isKeyboardSelectionEvent(kbdEvent)) {
+      return;
+    }
+    this.context.router.push(url);
+  };
+
   onSelectLocation = (item, id) => {
     const { router, executeAction } = this.context;
     if (item.type === 'FutureRoute') {
@@ -186,17 +194,11 @@ class IndexPage extends React.Component {
     const { breakpoint, lang } = this.props;
     const origin = this.pendingOrigin || this.props.origin;
     const destination = this.pendingDestination || this.props.destination;
-    const queryString = this.context.match.location.search;
     const sources = ['Favourite', 'History', 'Datasource'];
     const stopAndRouteSearchTargets =
       this.context.config.cityBike && this.context.config.cityBike.showCityBikes
         ? ['Stops', 'Routes', 'BikeRentalStations']
         : ['Stops', 'Routes'];
-
-    const originToStopNearYou = {
-      ...origin,
-      queryString,
-    };
 
     const alertsContext = {
       currentTime: this.props.currentTime,
@@ -243,6 +245,31 @@ class IndexPage extends React.Component {
       targets: stopAndRouteSearchTargets,
     };
 
+    const NearStops = config.showNearYouButtons ? (
+      <div className="near-you-buttons-container">
+        <CtrlPanel.NearStopsAndRoutes
+          modes={config.nearYouModes}
+          urlPrefix={`/${PREFIX_NEARYOU}`}
+          language={lang}
+          showTitle
+          alertsContext={alertsContext}
+          origin={origin}
+          omitLanguageUrl
+          onClick={this.clickStopNearIcon}
+        />
+      </div>
+    ) : (
+      <div className="stops-near-you-text">
+        <h2>
+          {' '}
+          {intl.formatMessage({
+            id: 'stop-near-you-title',
+            defaultMessage: 'Stops and lines near you',
+          })}
+        </h2>
+      </div>
+    );
+
     return breakpoint === 'large' ? (
       <div
         className={`front-page flex-vertical ${
@@ -277,30 +304,7 @@ class IndexPage extends React.Component {
               lang={lang}
             />
             <CtrlPanel.SeparatorLine usePaddingBottom20 />
-            {config.showNearYouButtons ? (
-              <div className="near-you-buttons-container">
-                <CtrlPanel.NearStopsAndRoutes
-                  modes={config.nearYouModes}
-                  urlPrefix={`/${PREFIX_NEARYOU}`}
-                  language={lang}
-                  showTitle
-                  alertsContext={alertsContext}
-                  LinkComponent={Link}
-                  origin={originToStopNearYou}
-                  omitLanguageUrl
-                />
-              </div>
-            ) : (
-              <div className="stops-near-you-text">
-                <h2>
-                  {' '}
-                  {intl.formatMessage({
-                    id: 'stop-near-you-title',
-                    defaultMessage: 'Stops and lines near you',
-                  })}
-                </h2>
-              </div>
-            )}
+            <>{NearStops}</>
             <StopRouteSearch {...stopRouteSearchProps} />
             <CtrlPanel.SeparatorLine />
             {!trafficNowLink ||
@@ -349,30 +353,7 @@ class IndexPage extends React.Component {
               isMobile
             />
             <CtrlPanel.SeparatorLine />
-            {config.showNearYouButtons ? (
-              <div className="near-you-buttons-container">
-                <CtrlPanel.NearStopsAndRoutes
-                  modes={config.nearYouModes}
-                  urlPrefix={`/${PREFIX_NEARYOU}`}
-                  language={lang}
-                  showTitle
-                  alertsContext={alertsContext}
-                  LinkComponent={Link}
-                  origin={originToStopNearYou}
-                  omitLanguageUrl
-                />
-              </div>
-            ) : (
-              <div className="stops-near-you-text">
-                <h2>
-                  {' '}
-                  {intl.formatMessage({
-                    id: 'stop-near-you-title',
-                    defaultMessage: 'Stops and lines near you',
-                  })}
-                </h2>
-              </div>
-            )}
+            <>{NearStops}</>
             <div className="stop-route-search-container">
               <StopRouteSearch isMobile {...stopRouteSearchProps} />
             </div>

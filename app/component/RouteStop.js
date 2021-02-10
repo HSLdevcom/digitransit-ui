@@ -185,7 +185,10 @@ class RouteStop extends React.PureComponent {
           stop.stopTimesForPattern[1],
           currentTime,
         )},`;
-        if (stop.stopTimesForPattern[1].stop.platformCode) {
+        if (
+          stop.stopTimesForPattern[1] &&
+          stop.stopTimesForPattern[1].stop.platformCode
+        ) {
           text += `${intl.formatMessage({ id: 'platform' })},`;
           text += `${stop.stopTimesForPattern[1].stop.platformCode}`;
         }

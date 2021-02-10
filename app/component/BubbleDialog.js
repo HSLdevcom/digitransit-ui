@@ -7,10 +7,8 @@ import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 
 import Icon from './Icon';
-import LazilyLoad, { importLazy } from './LazilyLoad';
 import { getDialogState, setDialogState } from '../store/localStorage';
 import {
-  getDrawerWidth,
   getIsBrowser,
   isBrowser,
   isKeyboardSelectionEvent,
@@ -18,10 +16,6 @@ import {
 import withBreakpoint from '../util/withBreakpoint';
 
 class BubbleDialog extends React.Component {
-  modules = {
-    Drawer: () => importLazy(import('material-ui/Drawer')),
-  };
-
   constructor(props, context) {
     super(props);
 
@@ -208,30 +202,11 @@ class BubbleDialog extends React.Component {
     );
   }
 
-  renderContainer(isFullscreen) {
+  renderContainer() {
     const isOpen = this.state.isOpen || this.props.isOpen;
     return (
       <div className="bubble-dialog-component-container">
-        {isFullscreen ? (
-          <LazilyLoad modules={this.modules}>
-            {({ Drawer }) => (
-              <Drawer
-                containerStyle={{
-                  maxHeight: '100vh',
-                }}
-                disableSwipeToOpen
-                docked={false}
-                open={isOpen}
-                openSecondary
-                width={getDrawerWidth(window)}
-              >
-                {this.renderContent(true)}
-              </Drawer>
-            )}
-          </LazilyLoad>
-        ) : (
-          isOpen && this.renderContent(false)
-        )}
+        {isOpen && this.renderContent(false)}
         {this.renderTooltip()}
         <div
           className="bubble-dialog-toggle"
