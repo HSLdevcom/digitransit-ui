@@ -196,6 +196,8 @@ export default class Map extends React.Component {
               bounds={null}
               data={geoJson[key].data}
               geoJsonZoomLevel={this.mapZoomLvl ? this.mapZoomLvl : 9}
+              locationPopup={locationPopup}
+              onSelectLocation={onSelectLocation}
             />,
           );
         });
