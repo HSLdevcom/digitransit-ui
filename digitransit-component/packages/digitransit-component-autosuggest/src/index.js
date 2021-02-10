@@ -278,8 +278,12 @@ class DTAutosuggest extends React.Component {
   };
 
   onChange = (event, { newValue, method }) => {
+    // Compare street names, not location
+    if (isEqual(newValue.split(',')[0], this.state.value.split(',')[0])) {
+      return;
+    }
     const newState = {
-      value: newValue || '',
+      value: newValue.split(',')[0] || '',
     };
     if (!this.state.editing) {
       newState.editing = true;
@@ -610,6 +614,20 @@ class DTAutosuggest extends React.Component {
     }
   };
 
+  // Fill input when user clicks fill input button in street suggestion item
+  fillInput = newValue => {
+    const newState = {
+      editing: true,
+      value: newValue.properties.name,
+      checkPendingSelection: newValue,
+      valid: true,
+    };
+    // must update suggestions
+    this.setState(newState);
+    this.fetchFunction({ value: newValue.properties.name });
+    this.input.focus();
+  };
+
   renderItem = item => {
     const newItem =
       item.type === 'FutureRoute'
@@ -627,6 +645,7 @@ class DTAutosuggest extends React.Component {
         isMobile={this.props.isMobile}
         ariaFavouriteString={i18next.t('favourite')}
         color={this.props.color}
+        fillInput={this.fillInput}
       />
     );
   };

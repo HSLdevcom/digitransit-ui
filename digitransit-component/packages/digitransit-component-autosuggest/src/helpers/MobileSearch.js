@@ -68,7 +68,8 @@ const MobileSearch = ({
   const onSelect = (e, ref) => {
     if (ref.suggestion.type === 'clear-search-history') {
       setDialogOpen(true);
-    } else {
+    } else if (!ref.suggestion.properties.arrowClicked) {
+      // Select item if fill input button is not pressed (diagonal arrow in suggestion items)
       onSuggestionSelected(e, ref);
     }
   };
@@ -139,7 +140,10 @@ const MobileSearch = ({
             onSuggestionsFetchRequested={fetchFunction}
             getSuggestionValue={getValue}
             renderSuggestion={renderItem}
-            focusInputOnSuggestionClick={false}
+            // focusInputOnSuggestionClick must be set to true.
+            // If set to false, input won't be focused when user clicks on
+            // Fill input button in suggestion list. (diagonal arrow in street name items)
+            focusInputOnSuggestionClick
             shouldRenderSuggestions={() => true}
             inputProps={{
               ...inputProps,

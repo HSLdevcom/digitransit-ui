@@ -224,6 +224,7 @@ function getOldSearches(oldSearches, input, dropLayers) {
         ...item,
         type: 'OldSearch',
         timetableClicked: false, // reset latest selection action
+        arrowClicked: false,
       };
       delete newItem.properties.confidence;
       return newItem;
