@@ -21,7 +21,7 @@ describe('<ItinerarySummary />', () => {
     expect(wrapper.find(WalkDistance).length).to.equal(2);
   });
 
-  it('should show biking distance before walking distance', () => {
+  it('should show walking distance before biking distance', () => {
     const props = {
       children: <div />,
       itinerary: data.bikingAndWalking,
@@ -29,11 +29,9 @@ describe('<ItinerarySummary />', () => {
     const wrapper = mountWithIntl(<ItinerarySummary {...props} />, {
       context: mockContext,
       childContextTypes: mockChildContextTypes,
-    }).find('.itinerary-summary');
-    expect(wrapper.childAt(1).prop('className')).to.equal(
-      'distance--itinerary-summary',
-    );
-    expect(wrapper.childAt(2).is(WalkDistance)).to.equal(true);
+    }).find('.distance--itinerary-summary');
+    expect(wrapper.first().find('.icon.walk').length).to.equal(1);
+    expect(wrapper.last().find('.icon.bike').length).to.equal(1);
   });
 
   it('should show only biking distance for only biking itinerary', () => {
@@ -44,8 +42,9 @@ describe('<ItinerarySummary />', () => {
     const wrapper = mountWithIntl(<ItinerarySummary {...props} />, {
       context: mockContext,
       childContextTypes: mockChildContextTypes,
-    }).find(WalkDistance);
-    expect(wrapper.length).to.equal(1);
-    expect(wrapper.is('.distance--itinerary-summary')).to.equal(true);
+    });
+    expect(wrapper.find(WalkDistance).length).to.equal(1);
+    expect(wrapper.find('.icon.bike').length).to.equal(1);
+    expect(wrapper.find('.icon.walk').length).to.equal(0);
   });
 });

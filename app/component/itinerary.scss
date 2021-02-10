@@ -62,6 +62,8 @@ $itinerary-tab-switch-height: 48px;
   background: $white;
   flex-grow: 1;
   padding: 0 3.125em;
+  position: relative;
+  top: 10.9375rem;
 }
 
 .itinerary-main {
@@ -204,36 +206,61 @@ $itinerary-tab-switch-height: 48px;
 .duration--itinerary-summary,
 .distance--itinerary-summary {
   display: flex;
+  position: relative;
+  top: 0.875rem;
 }
+
 .itinerary-summary {
+  position: absolute;
+  top: 5.875rem; // 94px
   display: flex;
-  flex: 1;
-  margin-right: 70px;
-  margin-left: 10px;
-  justify-content: flex-end;
-  color: #333;
-  font-weight: $font-weight-book;
-  font-size: 16px;
-  .icon-container {
-    align-self: center;
+  margin-left: 4.0625rem; // 65px
+
+  .divider-top, .divider-bottom {
+    position: absolute;
+    width: 25rem;
+    height: 1px;
+    left: -0.3125rem;
+    top: 0px;
+    border: 1px solid #DDDDDD;
+    box-sizing: border-box;
   }
+
+  .divider-bottom {
+    top: 3.625rem;
+    &.multirow {
+      top: 4.75rem;
+    }
+  }
+
   .icon {
-    height: 1.4em;
-    width: 1.4em;
-  }
-  .duration {
-    padding-left: 8px;
-  }
-  .walk-distance {
-    padding-left: 6px;
+    margin-right: 0.3125rem; // 5px
+    margin-top: 0.0625rem; // 1px
+    position: relative;
+
+    &.clock {
+      height: 1.51375rem;
+      width: 1.51375rem;
+      top: 0.243125rem;
+    }
+    &.walk {
+      height: 1.51375rem;
+      width: 1.51375rem;
+      top: 0.215rem;
+    }
+    &.bike {
+      height: 1.58rem;
+      width: 1.58rem;
+      top: 0.21rem;
+    }
   }
   .duration, .walk-distance {
-    white-space: nowrap;
-    align-self: center;
     font-size: 0.9375rem;
+    line-height: 1.125rem;
     span {
       display: block;
-      font-size: 14px;
+      font-size: 0.9375rem;
+      line-height: 1.125rem;
       font-weight: normal;
       letter-spacing: -0.025em;
       color: #666;
@@ -1247,7 +1274,7 @@ div.itinerary-container-content {
   //for ie mobile
   max-height: 100%;
   .desktop-title {
-    position: relative;
+    position: absolute;
     .title-container {
       display: flex;
     }
@@ -1699,6 +1726,11 @@ $font-print-decrease: 0.7;
   }
   .itinerary-tabs__scroll {
     padding: 0;
+    position: relative;
+    top: 0.4375rem;
+    &.multirow {
+      top: 1.5625rem;
+    }
   }
   .itinerary-main {
     margin: 0 0.4em 0 0.6em;
@@ -1730,24 +1762,29 @@ $font-print-decrease: 0.7;
     flex-grow: 0;
     flex-shrink: 0; //for ie mobile
     color: #333;
-    position: static;
-    margin: 0 0.4em 1em 0.6em;
-    border-bottom: 1px solid #ddd;
+    position: relative;
     justify-content: unset;
     font-weight: $font-weight-book;
-    padding: 5px 25px 11px;
+    padding: 0;
     background: transparent;
     font-size: 15px;
-    .duration,
-    .walk-distance {
+    top: 0;
+    margin-left: 0;
+    height: 3.75rem;
+    .duration, .walk-distance {
       align-self: unset;
+      margin-right: 0.5625rem;
     }
-    .distance--itinerary-summary {
-      padding-left: 10px;
+    .duration--itinerary-summary {
+      left: 1.375rem;
     }
-    .icon {
-      height: 2rem;
-      width: 2rem;
+    .divider-bottom {
+      left: 0.625rem;
+      right: 0.625rem;
+      width: calc(100% - 1.25rem);
+      &.multirow {
+        top: 4.75rem;
+      }
     }
   }
 }

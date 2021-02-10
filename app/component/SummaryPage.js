@@ -2157,6 +2157,7 @@ class SummaryPage extends React.Component {
                 itinerary={selectedItinerary}
                 focus={this.updateCenter}
                 setMapZoomToLeg={this.setMapZoomToLeg}
+                isMobile={false}
               />
             </>
           );

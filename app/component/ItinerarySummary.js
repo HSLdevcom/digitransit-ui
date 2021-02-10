@@ -1,47 +1,42 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import cx from 'classnames';
 import Duration from './Duration';
 import WalkDistance from './WalkDistance';
-import {
-  getTotalWalkingDistance,
-  getTotalBikingDistance,
-  containsBiking,
-  onlyBiking,
-  compressLegs,
-  getTotalBikingDuration,
-  getTotalWalkingDuration,
-} from '../util/legUtils';
 
 const ItinerarySummary = ({ itinerary }) => {
-  const compressedLegs = compressLegs(itinerary.legs);
-  const compressedItinerary = {
-    ...itinerary,
-    legs: compressedLegs,
-  };
+  const { futureText, isMultiRow, isMobile, walking, biking } = itinerary;
   return (
     <div className="itinerary-summary">
+      {!isMobile && <div className="divider-top" />}
       <Duration
-        duration={compressedItinerary.duration}
+        duration={itinerary.duration}
         className="duration--itinerary-summary"
-        startTime={compressedItinerary.startTime}
-        endTime={compressedItinerary.endTime}
+        startTime={itinerary.startTime}
+        endTime={itinerary.endTime}
+        futureText={futureText}
+        multiRow={isMultiRow}
       />
-      {!onlyBiking(compressedItinerary) &&
-        getTotalWalkingDistance(compressedItinerary) > 0 && (
-          <WalkDistance
-            className="distance--itinerary-summary"
-            walkDistance={getTotalWalkingDistance(compressedItinerary)}
-            walkDuration={getTotalWalkingDuration(compressedItinerary)}
-          />
-        )}
-      {containsBiking(compressedItinerary) && (
+      {walking && walking.distance > 0 && (
+        <WalkDistance
+          className="distance--itinerary-summary"
+          walkDistance={walking.distance}
+          walkDuration={walking.duration}
+        />
+      )}
+      {biking && biking.distance > 0 && (
         <WalkDistance
           className="distance--itinerary-summary"
           icon="icon_cyclist"
-          walkDistance={getTotalBikingDistance(compressedItinerary)}
-          walkDuration={getTotalBikingDuration(compressedItinerary)}
+          walkDistance={biking.distance}
+          walkDuration={biking.duration}
         />
       )}
+      <div
+        className={cx('divider-bottom', {
+          multirow: isMultiRow,
+        })}
+      />
     </div>
   );
 };

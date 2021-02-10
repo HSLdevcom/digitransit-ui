@@ -80,6 +80,7 @@ export default class MobileItineraryWrapper extends React.Component {
           params={this.context.match.params}
           focus={this.props.focus}
           setMapZoomToLeg={this.props.setMapZoomToLeg}
+          isMobile
         />
       </div>
     );

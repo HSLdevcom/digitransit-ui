@@ -40,7 +40,10 @@ export default {
         agency: null,
       },
     ],
-    walkDistance: 3884.315300000004,
+    biking: {
+      distance: 3884.315300000004,
+      duration: 926,
+    },
     duration: 926,
     fares: null,
   },
@@ -619,8 +622,15 @@ export default {
         agency: null,
       },
     ],
-    walkDistance: 1555.2174791714042,
-    duration: 814,
+    biking: {
+      distance: 1000,
+      duration: 180,
+    },
+    walking: {
+      distance: 555,
+      duration: 300,
+    },
+    duration: 480,
     fares: [
       {
         type: 'regular',

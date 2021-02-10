@@ -19,15 +19,27 @@ function Duration(props) {
   const endTime = new Intl.DateTimeFormat('en-US', timeOptions).format(
     new Date(props.endTime),
   );
+  const futureText = props.futureText
+    ? props.futureText.charAt(0).toUpperCase() + props.futureText.slice(1)
+    : '';
   return (
     <span className={cx(props.className)}>
       <span className="sr-only">
         <FormattedMessage id="aria-itinerary-summary" values={{ duration }} />{' '}
       </span>
-      <Icon img="icon-icon_clock" />
+      <Icon img="icon-icon_clock" className="clock" />
       <span className="duration" aria-hidden>
         {duration}
-        <span data-text={`${startTime} - ${endTime}`} />
+        {props.futureText !== '' && props.multiRow && (
+          <span data-text={futureText} />
+        )}
+        <span
+          data-text={
+            props.multiRow && props.futureText !== ''
+              ? `${startTime} - ${endTime}`
+              : `${futureText} ${startTime} - ${endTime}`
+          }
+        />
       </span>
     </span>
   );
@@ -42,6 +54,13 @@ Duration.propTypes = {
   className: PropTypes.string,
   startTime: PropTypes.number.isRequired,
   endTime: PropTypes.number.isRequired,
+  futureText: PropTypes.string,
+  multiRow: PropTypes.bool,
+};
+
+Duration.defaultTypes = {
+  futureText: '',
+  multiRow: false,
 };
 
 export default Duration;
