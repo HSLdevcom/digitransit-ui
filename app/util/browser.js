@@ -6,7 +6,8 @@ export const getIsBrowser = () =>
 
 export const isBrowser = getIsBrowser();
 export const isIOSApp = isBrowser && navigator.standalone;
-
+export const isIOS =
+  true || (isBrowser && !!navigator.platform.match(/iPhone|iPod|iPad/));
 export const isWindowsPhone =
   isBrowser && navigator.userAgent.match(/Windows Phone/) != null;
 export const isLangMockEn =
@@ -80,25 +81,6 @@ export const isKeyboardSelectionEvent = event => {
   }
   event.preventDefault();
   return true;
-};
-
-/**
- * Calculates the width for the Drawer component.
- *
- * @param {*} window The browser's window object.
- * @param {number} minWidth The minimum width (in pixels) for the component.
- * @param {number} maxWidth The maximum width (in pixels) for the component.
- */
-export const getDrawerWidth = (
-  window,
-  { minWidth = 291, maxWidth = 400 } = {},
-) => {
-  if (typeof window !== 'undefined') {
-    return 0.5 * window.innerWidth > minWidth
-      ? Math.min(maxWidth, 0.5 * window.innerWidth)
-      : '100%';
-  }
-  return minWidth;
 };
 
 /**
