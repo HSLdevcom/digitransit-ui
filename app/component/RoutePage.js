@@ -38,7 +38,7 @@ import {
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import BackButton from './BackButton'; // DT-3472
-import { isBrowser } from '../util/browser';
+import { isBrowser, isIOS } from '../util/browser';
 import { saveSearch } from '../action/SearchActions';
 
 const Tab = {
@@ -79,27 +79,29 @@ class RoutePage extends React.Component {
   componentDidMount() {
     const { match, router, route } = this.props;
     const { config } = this.context;
+    const { location } = match;
+
     if (!route || !route.patterns) {
       return;
     }
 
-    this.context.executeAction(saveSearch, {
-      item: {
-        properties: {
-          mode: route.mode,
-          gtfsId: route.gtfsId,
-          longName: route.longName,
-          shortName: route.shortName,
-          layer: `route-${route.mode}`,
-          agency: { name: route.agency.name },
-          fromUrl: 1,
+    if (isIOS && location.query.save) {
+      this.context.executeAction(saveSearch, {
+        item: {
+          properties: {
+            mode: route.mode,
+            gtfsId: route.gtfsId,
+            longName: route.longName,
+            shortName: route.shortName,
+            layer: `route-${route.mode}`,
+            agency: { name: route.agency.name },
+            fromUrl: 1,
+          },
+          type: 'Route',
         },
-        type: 'Route',
-      },
-      type: 'search',
-    });
-
-    const { location } = match;
+        type: 'search',
+      });
+    }
 
     const lengthPathName =
       location !== undefined ? location.pathname.length : 0; // DT-3331
