@@ -63,7 +63,7 @@ $itinerary-tab-switch-height: 48px;
   flex-grow: 1;
   padding: 0 3.125em;
   position: relative;
-  top: 10.9375rem;
+  top: 175px;
 }
 
 .itinerary-main {
@@ -207,60 +207,62 @@ $itinerary-tab-switch-height: 48px;
 .distance--itinerary-summary {
   display: flex;
   position: relative;
-  top: 0.875rem;
+  top: 14px;
 }
 
 .itinerary-summary {
   position: absolute;
-  top: 5.875rem; // 94px
+  top: 94px;
   display: flex;
-  margin-left: 4.0625rem; // 65px
+  margin-left: 65px;
 
   .divider-top, .divider-bottom {
     position: absolute;
-    width: 25rem;
+    width: 400px;
     height: 1px;
-    left: -0.3125rem;
+    left: -5px;
     top: 0px;
     border: 1px solid #DDDDDD;
     box-sizing: border-box;
   }
 
   .divider-bottom {
-    top: 3.625rem;
+    top: 58px;
     &.multirow {
-      top: 4.75rem;
+      top: 76px;
     }
   }
 
   .icon {
-    margin-right: 0.3125rem; // 5px
-    margin-top: 0.0625rem; // 1px
+    margin-right: 5px;
+    margin-top: 1px;
     position: relative;
+    height: 25px;
+    width: 25px;
 
     &.clock {
-      height: 1.51375rem;
-      width: 1.51375rem;
-      top: 0.243125rem;
+      height: 24.22px;
+      width: 24.22px;
+      top: 3.89px;
     }
     &.walk {
-      height: 1.51375rem;
-      width: 1.51375rem;
-      top: 0.215rem;
+      height: 25.32px;
+      width: 25.32px;
+      top: 3.44px;
     }
     &.bike {
-      height: 1.58rem;
-      width: 1.58rem;
-      top: 0.21rem;
+      height: 25.28px;
+      width: 25.28px;
+      top: 3.36px;
     }
   }
   .duration, .walk-distance {
-    font-size: 0.9375rem;
-    line-height: 1.125rem;
+    font-size: 15px;
+    line-height: 18px;
     span {
       display: block;
-      font-size: 0.9375rem;
-      line-height: 1.125rem;
+      font-size: 15px;
+      line-height: 18px;
       font-weight: normal;
       letter-spacing: -0.025em;
       color: #666;
@@ -1266,9 +1268,6 @@ div.itinerary-container-content {
 
 .itinerary-tab {
   @include font-medium;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
   //for ie mobile
   min-height: 100%;
   //for ie mobile
@@ -1770,20 +1769,20 @@ $font-print-decrease: 0.7;
     font-size: 15px;
     top: 0;
     margin-left: 0;
-    height: 3.75rem;
+    height: 60px;
     .duration, .walk-distance {
       align-self: unset;
-      margin-right: 0.5625rem;
+      margin-right: 9px;
     }
     .duration--itinerary-summary {
-      left: 1.375rem;
+      left: 22px;
     }
     .divider-bottom {
-      left: 0.625rem;
-      right: 0.625rem;
-      width: calc(100% - 1.25rem);
+      left: 10px;
+      right: 10px;
+      width: calc(100% - 20px);
       &.multirow {
-        top: 4.75rem;
+        top: 76px;
       }
     }
   }
