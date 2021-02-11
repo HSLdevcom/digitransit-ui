@@ -337,7 +337,7 @@ class SummaryPage extends React.Component {
     const indexPath = `${getSummaryPath(
       this.context.match.params.from,
       this.context.match.params.to,
-    )}/${newStreetMode}/`;
+    )}/${newStreetMode}`;
 
     newState.pathname = basePath;
     this.context.router.replace(newState);
@@ -366,7 +366,7 @@ class SummaryPage extends React.Component {
     const basePath = `${getSummaryPath(
       this.context.match.params.from,
       this.context.match.params.to,
-    )}/`;
+    )}`;
     const indexPath = `${getSummaryPath(
       this.context.match.params.from,
       this.context.match.params.to,
@@ -1753,11 +1753,12 @@ class SummaryPage extends React.Component {
   };
 
   getCombinedItineraries = () => {
-    return [
+    const itineraries = [
       ...(this.state.earlierItineraries || []),
       ...(this.selectedPlan?.itineraries || []),
       ...(this.state.laterItineraries || []),
     ];
+    return itineraries.filter(x => x !== undefined);
   };
 
   setMapCenterToggle = () => {
