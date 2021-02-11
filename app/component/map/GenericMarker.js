@@ -86,7 +86,6 @@ class GenericMarker extends React.Component {
       keyboard={false}
     >
       <Popup
-        offset={this.context.config.map.genericMarker.popup.offset}
         maxWidth={this.context.config.map.genericMarker.popup.maxWidth}
         minWidth={this.context.config.map.genericMarker.popup.minWidth}
         className="popup"

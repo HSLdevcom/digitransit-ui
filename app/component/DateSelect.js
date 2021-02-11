@@ -43,12 +43,27 @@ function DateSelect(props, context) {
   }
 
   return (
-    <div className="route-schedule-date">
-      <Icon img="icon-icon_time" />
-      <select value={props.selectedDate} onChange={props.onDateChange}>
-        {dates}
-      </select>
-    </div>
+    <label
+      className="route-schedule-date combobox-container"
+      htmlFor="route-schedule-date-select"
+    >
+      <span className="left-column">
+        <span className="combobox-label">
+          {context.intl.formatMessage({ id: 'day', defaultMessage: 'day' })}
+        </span>
+        <select
+          className="combobox-selected-value"
+          value={props.selectedDate}
+          onChange={props.onDateChange}
+          id="route-schedule-date-select"
+        >
+          {dates}
+        </select>
+      </span>
+      <div>
+        <Icon id="route-schedule-date-icon" img="icon-icon_calendar" />
+      </div>
+    </label>
   );
 }
 DateSelect.propTypes = {

@@ -16,6 +16,7 @@ class SummaryNavigation extends React.Component {
     params: PropTypes.shape({
       from: PropTypes.string,
       to: PropTypes.string,
+      hash: PropTypes.string,
     }).isRequired,
     startTime: PropTypes.number,
     endTime: PropTypes.number,
@@ -85,7 +86,7 @@ class SummaryNavigation extends React.Component {
             }
             icon="icon-icon_arrow-collapse--left"
             iconClassName="arrow-icon"
-            urlToBack={this.context.config.URL.ROOTLINK}
+            popFallback={this.props.params.hash === 'bikeAndVehicle'}
           />
         )}
         <OriginDestinationBar

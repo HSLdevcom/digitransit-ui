@@ -21,6 +21,7 @@ import isEmpty from 'lodash/isEmpty';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
+import withScrollLock from './helpers/withScrollLock';
 
 moment.locale('en');
 
@@ -208,6 +209,8 @@ class DTAutosuggest extends React.Component {
       stopsPrefix: PropTypes.string,
     }),
     mobileLabel: PropTypes.string,
+    lock: PropTypes.func.isRequired,
+    unlock: PropTypes.func.isRequired,
     refPoint: PropTypes.object,
   };
 
@@ -279,8 +282,10 @@ class DTAutosuggest extends React.Component {
 
   onChange = (event, { newValue, method }) => {
     const newState = {
-      value: newValue || '',
+      value: this.fInput || newValue || '',
     };
+    // Remove filled input value so it wont be reused unnecessary
+    this.fInput = null;
     if (!this.state.editing) {
       newState.editing = true;
       this.setState(newState, () =>
@@ -610,6 +615,21 @@ class DTAutosuggest extends React.Component {
     }
   };
 
+  // Fill input when user clicks fill input button in street suggestion item
+  fillInput = newValue => {
+    this.fInput = newValue.properties.name;
+    const newState = {
+      editing: true,
+      value: newValue.properties.name,
+      checkPendingSelection: newValue,
+      valid: true,
+    };
+    // must update suggestions
+    this.setState(newState);
+    this.fetchFunction({ value: newValue.properties.name });
+    this.input.focus();
+  };
+
   renderItem = item => {
     const newItem =
       item.type === 'FutureRoute'
@@ -627,11 +647,13 @@ class DTAutosuggest extends React.Component {
         isMobile={this.props.isMobile}
         ariaFavouriteString={i18next.t('favourite')}
         color={this.props.color}
+        fillInput={this.fillInput}
       />
     );
   };
 
   closeMobileSearch = () => {
+    this.props.unlock();
     this.setState(
       {
         renderMobileSearch: false,
@@ -647,10 +669,15 @@ class DTAutosuggest extends React.Component {
   // DT-3263 starts
   // eslint-disable-next-line consistent-return
   keyDown = event => {
+    const keyCode = event.keyCode || event.which;
+
     if (this.state.editing) {
+      if (keyCode === 13) {
+        this.fetchFunction({ value: this.state.value });
+      }
       return this.inputClicked();
     }
-    const keyCode = event.keyCode || event.which;
+
     if ((keyCode === 13 || keyCode === 40) && this.state.value === '') {
       return this.clearInput();
     }
@@ -723,9 +750,13 @@ class DTAutosuggest extends React.Component {
     if (positions.includes(this.state.value)) {
       this.clearInput();
     }
+    const scrollY = window.pageYOffset;
+    if (this.props.isMobile) {
+      this.props.lock();
+    }
     return this.setState({
       renderMobileSearch: this.props.isMobile,
-      scrollY: window.pageYOffset,
+      scrollY,
     });
   };
 
@@ -883,4 +914,6 @@ class DTAutosuggest extends React.Component {
   }
 }
 
-export default DTAutosuggest;
+const DTAutosuggestWithScrollLock = withScrollLock(DTAutosuggest);
+
+export default DTAutosuggestWithScrollLock;

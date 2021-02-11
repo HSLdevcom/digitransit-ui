@@ -111,7 +111,6 @@ const StopPageMap = (
         icon="icon-icon_arrow-collapse--left"
         iconClassName="arrow-icon"
         key="stop-page-back-button"
-        urlToBack={config.URL.ROOTLINK}
       />,
     );
   }

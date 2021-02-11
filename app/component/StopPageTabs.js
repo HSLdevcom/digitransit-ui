@@ -3,7 +3,6 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-import Link from 'found/Link';
 import { matchShape } from 'found';
 import { AlertSeverityLevelType } from '../constants';
 import {
@@ -47,6 +46,7 @@ const getActiveTab = pathname => {
 };
 
 function StopPageTabs({ breakpoint, stop }, { intl, match }) {
+  const { router } = match;
   if (
     !stop ||
     (match.location.state &&
@@ -126,12 +126,12 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
   return (
     <div>
       <div className="stop-tab-container" role="tablist">
-        <Link
-          to={urlBase}
+        <button
           className={cx('stop-tab-singletab', {
             active: activeTab === Tab.RightNow,
           })}
           onClick={() => {
+            router.replace(urlBase);
             addAnalyticsEvent({
               category: 'Stop',
               action: 'OpenRightNowTab',
@@ -139,19 +139,21 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
             });
           }}
           role="tab"
+          tabIndex={0}
+          aria-selected={activeTab === Tab.RightNow}
         >
           <div className="stop-tab-singletab-container">
             <div>
               <FormattedMessage id="right-now" defaultMessage="right now" />
             </div>
           </div>
-        </Link>
-        <Link
-          to={`${urlBase}/${Tab.Timetable}`}
+        </button>
+        <button
           className={cx('stop-tab-singletab', {
             active: activeTab === Tab.Timetable,
           })}
           onClick={() => {
+            router.replace(`${urlBase}/${Tab.Timetable}`);
             addAnalyticsEvent({
               category: 'Stop',
               action: 'OpenTimetableTab',
@@ -159,15 +161,16 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
             });
           }}
           role="tab"
+          tabIndex={0}
+          aria-selected={activeTab === Tab.Timetable}
         >
           <div className="stop-tab-singletab-container">
             <div>
               <FormattedMessage id="timetable" defaultMessage="timetable" />
             </div>
           </div>
-        </Link>
-        <Link
-          to={`${urlBase}/${Tab.Disruptions}`}
+        </button>
+        <button
           className={cx('stop-tab-singletab', {
             active: activeTab === Tab.Disruptions,
             'alert-active': hasActiveAlert || stopRoutesWithAlerts.length > 0,
@@ -175,6 +178,7 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
               hasActiveServiceAlerts || stopRoutesWithAlerts.length > 0,
           })}
           onClick={() => {
+            router.replace(`${urlBase}/${Tab.Disruptions}`);
             addAnalyticsEvent({
               category: 'Stop',
               action: 'OpenDisruptionsTab',
@@ -182,13 +186,15 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
             });
           }}
           role="tab"
+          tabIndex={0}
+          aria-selected={activeTab === Tab.Disruptions}
         >
           <div className="stop-tab-singletab-container">
             <div className={`${disruptionClassName || `no-alerts`}`}>
               <FormattedMessage id="disruptions" />
             </div>
           </div>
-        </Link>
+        </button>
       </div>
     </div>
   );

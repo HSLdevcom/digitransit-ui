@@ -1,0 +1,97 @@
+.combobox-container {
+  @media print {
+    display: none;
+  }
+  background-color: #fff;
+  border: solid #888888 1px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  height: 50px;
+  justify-content: space-between;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 4px;
+  max-width: 200px;
+  flex-basis: 200px;
+
+  &:focus-within {
+    border-color: $primary-color;
+  }
+
+  &.route-schedule-date {
+    margin-right: 1em;
+  }
+
+  .icon-container {
+    height: 100%;
+    display: flex;
+    width: 43px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    flex-shrink: 0;
+
+    #route-schedule-date-icon {
+      margin: auto;
+      width: 24px;
+      height: 24px;
+    }
+  }
+  .left-column {
+    width: 75%;
+    padding-left: 6px;
+    padding-right: 4px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid $gray;
+
+    .combobox-selected-value {
+      color: $black;
+      font-size: $font-size-normal;
+      font-weight: 500;
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      background-color: none;
+      & span {
+        transition: all 0.2s ease-out;
+        &:hover {
+          color: $secondary-color;
+        }
+      }
+    }
+
+    & select {
+      cursor: pointer;
+      border-bottom: 2px none !important;
+      transition: all 0.2s ease-out;
+      height: 1.27em;
+      line-height: 1.3em;
+      &:hover {
+        color: $secondary-color;
+        border-bottom: 2px none !important;
+      }
+    }
+    .showroutes-list {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+.combobox-label {
+  font-size: $font-size-xsmall;
+  white-space: nowrap;
+  color: #666666;
+  letter-spacing: -0.48px;
+}
+
+.mobile {
+  .combobox-container {
+  &.route-schedule-date {
+      margin-right: 0.75em;
+    }
+  }
+}
