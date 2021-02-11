@@ -162,6 +162,9 @@ export default configMerger(walttiConfig, {
     8: 'H',
     9: 'I',
   },
+  zoneIdFontSize: {
+    'G/H': '14px',
+  },
   stopCard: {
     header: {
       showZone: true,
