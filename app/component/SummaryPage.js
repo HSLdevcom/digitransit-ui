@@ -1753,11 +1753,12 @@ class SummaryPage extends React.Component {
   };
 
   getCombinedItineraries = () => {
-    return [
+    const itineraries = [
       ...(this.state.earlierItineraries || []),
       ...(this.selectedPlan?.itineraries || []),
       ...(this.state.laterItineraries || []),
     ];
+    return itineraries.filter(x => x !== undefined);
   };
 
   setMapCenterToggle = () => {
