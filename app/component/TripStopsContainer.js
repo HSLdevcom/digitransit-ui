@@ -6,7 +6,6 @@ import pure from 'recompose/pure';
 import { matchShape } from 'found';
 
 import { getStartTime } from '../util/timeUtils';
-import TripListHeader from './TripListHeader';
 import TripStopListContainer from './TripStopListContainer';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -32,7 +31,6 @@ function TripStopsContainer({ breakpoint, match, trip }) {
         'fullscreen-map': fullscreen && breakpoint !== 'large',
       })}
     >
-      <TripListHeader key="header" className={`bp-${breakpoint}`} />
       <TripStopListContainer
         key="list"
         trip={trip}
