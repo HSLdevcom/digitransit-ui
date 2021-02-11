@@ -147,7 +147,7 @@ function StopsNearYouMap(
     mode === 'RAIL' || mode === 'SUBWAY' || mode === 'FERRY' ? 3000 : 1500;
   let sortedStopEdges;
   switch (mode) {
-    case 'FAVOURITE':
+    case 'FAVORITE':
       sortedStopEdges = stops.nearest.edges;
       break;
     case 'CITYBIKE':
@@ -287,7 +287,7 @@ function StopsNearYouMap(
 
   const routeLines = [];
   const realtimeTopics = [];
-  const renderRouteLines = mode !== 'CITYBIKE' && mode !== 'FAVOURITE';
+  const renderRouteLines = mode !== 'CITYBIKE' && mode !== 'FAVORITE';
   let leafletObjs = [];
   if (renderRouteLines && Array.isArray(sortedStopEdges)) {
     sortedStopEdges.forEach(item => {

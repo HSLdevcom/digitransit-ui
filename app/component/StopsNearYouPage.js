@@ -136,7 +136,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       placeTypes = 'BICYCLE_RENT';
       modes = ['BICYCLE'];
     }
-    if (mode === 'FAVOURITE') {
+    if (mode === 'FAVORITE') {
       modes = undefined;
       placeTypes = undefined;
       filterByIds = {
@@ -175,7 +175,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   renderContent = () => {
     const { mode } = this.props.match.params;
     const renderDisruptionBanner = mode !== 'CITYBIKE';
-    const renderSearch = mode !== 'FERRY' && mode !== 'FAVOURITE';
+    const renderSearch = mode !== 'FERRY' && mode !== 'FAVORITE';
     const renderRefetchButton = this.positionChanged();
     return (
       <QueryRenderer
@@ -468,7 +468,7 @@ const PositioningWrapper = connectToStores(
   ['PositionStore', 'PreferencesStore', 'FavouriteStore'],
   (context, props) => {
     const favouriteStopIds =
-      props.match.params.mode === 'FAVOURITE'
+      props.match.params.mode === 'FAVORITE'
         ? new Set(
             context
               .getStore('FavouriteStore')
@@ -477,7 +477,7 @@ const PositioningWrapper = connectToStores(
           )
         : [];
     const favouriteBikeStationIds =
-      props.match.params.mode === 'FAVOURITE'
+      props.match.params.mode === 'FAVORITE'
         ? new Set(
             context
               .getStore('FavouriteStore')

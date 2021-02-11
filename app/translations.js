@@ -1099,7 +1099,7 @@ const translations = {
     'nearest-stops': 'The closest stops',
     'nearest-stops-bus': 'The closest bus stops',
     'nearest-stops-citybike': 'The closest bike stations',
-    'nearest-stops-favourite': 'The closest favourite stops',
+    'nearest-stops-favourite': 'The closest favorite stops',
     'nearest-stops-ferry': 'The closest ferry piers',
     'nearest-stops-rail': 'The closest train stations',
     'nearest-stops-subway': 'The closest metro stations',
