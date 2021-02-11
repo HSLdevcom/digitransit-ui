@@ -6,7 +6,6 @@ import { FormattedMessage } from 'react-intl';
 import DepartureListContainer from './DepartureListContainer';
 import Error404 from './404';
 import Icon from './Icon';
-import { saveSearch } from '../action/SearchActions';
 
 class TerminalPageContent extends React.Component {
   static propTypes = {
@@ -21,10 +20,6 @@ class TerminalPageContent extends React.Component {
     currentTime: PropTypes.number.isRequired,
   };
 
-  static contextTypes = {
-    executeAction: PropTypes.func.isRequired,
-  };
-
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps({ relay, currentTime }) {
     const currUnix = this.props.currentTime;
@@ -33,23 +28,6 @@ class TerminalPageContent extends React.Component {
         return { ...oldVariables, startTime: currentTime };
       });
     }
-  }
-
-  componentDidMount() {
-    const { station } = this.props;
-    if (!station) {
-      return;
-    }
-    this.context.executeAction(saveSearch, {
-      item: {
-        properties: {
-          gtfsId: station.gtfsId,
-          fromUrl: 1,
-        },
-        type: 'Station',
-      },
-      type: 'endpoint',
-    });
   }
 
   render() {

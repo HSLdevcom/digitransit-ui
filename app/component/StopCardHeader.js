@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-
+import { matchShape } from 'found';
 import CardHeader from './CardHeader';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
@@ -9,8 +9,41 @@ import ServiceAlertIcon from './ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import ExternalLink from './ExternalLink';
 import FavouriteStopContainer from './FavouriteStopContainer';
+import { saveSearch } from '../action/SearchActions';
 
 class StopCardHeader extends React.Component {
+  componentDidMount() {
+    const { stop, isPopUp } = this.props;
+    if (!stop || isPopUp || this.context.match.location.query.ext) {
+      return;
+    }
+    const layer = this.props.isTerminal ? 'station' : 'stop';
+    const desc = stop.desc || (stop.stops.length && stop.stops[0].desc);
+    let id = `GTFS:${stop.gtfsId}`;
+    let { name } = stop;
+    if (stop.code) {
+      id = `${id}#${stop.code}`;
+      name = `${name} ${stop.code}`;
+    }
+
+    this.context.executeAction(saveSearch, {
+      item: {
+        geometry: { coordinates: [stop.lon, stop.lat] },
+        properties: {
+          name,
+          id,
+          gid: `gtfs:${layer}:${id}`,
+          layer,
+          label: `${stop.name}, ${desc}`,
+          fromUrl: 1,
+        },
+        type: 'Feature',
+        fromUrl: 1,
+      },
+      type: 'endpoint',
+    });
+  }
+
   get headerConfig() {
     return this.context.config.stopCard.header;
   }
@@ -147,6 +180,8 @@ StopCardHeader.contextTypes = {
     }).isRequired,
   }).isRequired,
   intl: intlShape.isRequired,
+  executeAction: PropTypes.func.isRequired,
+  match: matchShape.isRequired,
 };
 
 const exampleStop = {
