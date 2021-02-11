@@ -5,9 +5,9 @@
 
 .stops-near-you-location-search {
     position: fixed;
-    margin: 25px 15px 0 0;
+    margin: 30px 30px 0 0;
     right: 0;
-    width: 250px;
+    width: 300px;
     z-index: index($zindex, map-buttons);
 }
 
@@ -264,6 +264,7 @@
 .mobile {
     .stops-near-you-location-search {
         width: 145px;
+        margin: 25px 15px 0 0;
     }
     .stops-near-you-search-container {
         padding: 0 5px 15px;
