@@ -25,6 +25,7 @@ import { getGeolocationState } from '../store/localStorage';
 import withSearchContext from './WithSearchContext';
 import { PREFIX_NEARYOU } from '../util/path';
 import StopsNearYouContainer from './StopsNearYouContainer';
+import StopsNearYouFavorites from './StopsNearYouFavorites';
 import StopsNearYouMap from './map/StopsNearYouMap';
 
 // component initialization phases
@@ -177,6 +178,20 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     const renderDisruptionBanner = mode !== 'CITYBIKE';
     const renderSearch = mode !== 'FERRY' && mode !== 'FAVORITE';
     const renderRefetchButton = this.positionChanged();
+    if (mode === 'FAVORITE' && true) {
+      return (
+        <StopsNearYouFavorites
+          searchPosition={this.state.searchPosition}
+          match={this.props.match}
+          relayEnvironment={this.props.relayEnvironment}
+          favoriteStops={Array.from(this.props.favouriteStopIds)}
+          favoriteStations={Array.from(this.props.favouriteStationIds)}
+          favoriteBikeRentalStationIds={Array.from(
+            this.props.favouriteBikeStationIds,
+          )}
+        />
+      );
+    }
     return (
       <QueryRenderer
         query={graphql`
@@ -473,6 +488,17 @@ const PositioningWrapper = connectToStores(
             context
               .getStore('FavouriteStore')
               .getStopsAndStations()
+              .filter(stop => stop.type === 'stop')
+              .map(stop => stop.gtfsId),
+          )
+        : [];
+    const favouriteStationIds =
+      props.match.params.mode === 'FAVORITE'
+        ? new Set(
+            context
+              .getStore('FavouriteStore')
+              .getStopsAndStations()
+              .filter(stop => stop.type === 'station')
               .map(stop => stop.gtfsId),
           )
         : [];
@@ -491,6 +517,7 @@ const PositioningWrapper = connectToStores(
       lang: context.getStore('PreferencesStore').getLanguage(),
       favouriteStopIds,
       favouriteBikeStationIds,
+      favouriteStationIds,
     };
   },
 );

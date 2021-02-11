@@ -6,11 +6,11 @@ import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import StopNearYouHeader from './StopNearYouHeader';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
 
-const StopNearYou = ({ stop, ...props }) => {
+const StopNearYou = ({ stop, stopIsStation, ...props }) => {
   const stopOrStation = stop.parentStation ? stop.parentStation : stop;
   const desc = stopOrStation.desc ? stopOrStation.desc : stop.desc;
-  const isStation = !!stop.parentStation;
-  const linkAddress = isStation
+  const isStation = !!stop.parentStation || stopIsStation;
+  const linkAddress = stop.parentStation
     ? `/${PREFIX_TERMINALS}/${stop.parentStation.gtfsId}`
     : `/${PREFIX_STOPS}/${stop.gtfsId}`;
 
