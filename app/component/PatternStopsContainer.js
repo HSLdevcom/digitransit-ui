@@ -3,7 +3,6 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import cx from 'classnames';
-import RouteListHeader from './RouteListHeader';
 import RouteStopListContainer from './RouteStopListContainer';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -54,11 +53,6 @@ class PatternStopsContainer extends React.PureComponent {
         })}
         role="list"
       >
-        <RouteListHeader
-          key="header"
-          displayNextDeparture={this.context.config.displayNextDeparture}
-          className={`bp-${this.props.breakpoint}`}
-        />
         <RouteStopListContainer
           key="list"
           pattern={this.props.pattern}
