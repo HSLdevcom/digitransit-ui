@@ -83,6 +83,21 @@ class TransitLeg extends React.Component {
           </div>
         );
       }
+      if (
+        startZone === endZone &&
+        this.context.config.itinerary.showZoneLimits &&
+        leg.from.stop.gtfsId &&
+        this.context.config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0])
+      ) {
+        return (
+          <div className="time-column-zone-icons-container single">
+            <ZoneIcon
+              zoneId={getZoneLabel(startZone, this.context.config)}
+              showUnknown
+            />
+          </div>
+        );
+      }
     }
     return null;
   }
