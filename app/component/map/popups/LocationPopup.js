@@ -42,14 +42,25 @@ class LocationPopup extends React.Component {
     const { lat, lon } = this.props;
     const { config } = this.context;
 
-    function parseZoneName(fullZoneName) {
-      if (fullZoneName) {
-        const [feedId, zoneId] = fullZoneName.split(':');
-        if (config.feedIds.includes(feedId)) {
-          return zoneId;
-        }
+    function getZoneId(propertiesZones, dataZones) {
+      function zoneFilter(zones) {
+        return Array.isArray(zones)
+          ? zones.filter(
+              zone => zone && config.feedIds.includes(zone.split(':')[0]),
+            )
+          : [];
       }
-      return undefined;
+      let filteredZones;
+      if (propertiesZones) {
+        filteredZones = zoneFilter(propertiesZones);
+      } else if (dataZones) {
+        filteredZones = zoneFilter(dataZones);
+      }
+      const zone =
+        Array.isArray(filteredZones) && filteredZones.length > 0
+          ? filteredZones[0]
+          : undefined;
+      return zone ? zone.split(':')[1] : undefined;
     }
 
     getJson(config.URL.PELIAS_REVERSE_GEOCODER, {
@@ -70,14 +81,7 @@ class LocationPopup extends React.Component {
             location: {
               ...prevState.location,
               address: getLabel(match),
-              zoneId: parseZoneName(
-                // eslint-disable-next-line no-nested-ternary
-                match.zones
-                  ? match.zones[0]
-                  : data.zones
-                  ? data.zones[0]
-                  : undefined,
-              ),
+              zoneId: getZoneId(match.zones, data.zones),
             },
           }));
           pointName = 'FreeAddress';
@@ -90,7 +94,7 @@ class LocationPopup extends React.Component {
                 id: 'location-from-map',
                 defaultMessage: 'Selected location',
               }),
-              zoneId: parseZoneName(data.zones ? data.zones[0] : undefined),
+              zoneId: getZoneId(data.zones),
             },
           }));
           pointName = 'NoAddress';
