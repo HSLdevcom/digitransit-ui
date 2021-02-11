@@ -60,7 +60,11 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   constructor(props) {
     super(props);
-    this.state = { phase: PH_START };
+    this.state = {
+      phase: PH_START,
+      centerOfMap: null,
+      centerOfMapChanged: false,
+    };
   }
 
   componentDidMount() {
@@ -145,13 +149,52 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     };
   };
 
+  setCenterOfMap = location => {
+    if (!location) {
+      return this.setState({ searchPosition: this.getPosition() });
+    }
+    return this.setState({ centerOfMap: location, centerOfMapChanged: true });
+  };
+
   positionChanged = () => {
+    const { searchPosition, centerOfMap } = this.state;
+    if (
+      centerOfMap &&
+      searchPosition.lat === centerOfMap.lat &&
+      searchPosition.lon === centerOfMap.lon
+    ) {
+      return false;
+    }
     const position = this.getPosition();
-    return distance(this.state.searchPosition, position) > 100;
+    return distance(searchPosition, position) > 100;
+  };
+
+  centerOfMapChanged = () => {
+    const position = this.getPosition();
+    const { centerOfMap, searchPosition } = this.state;
+    if (
+      centerOfMap &&
+      searchPosition &&
+      searchPosition.lat === centerOfMap.lat &&
+      searchPosition.lon === centerOfMap.lon
+    ) {
+      return false;
+    }
+    if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
+      return distance(centerOfMap, position) > 100;
+    }
+    return false;
   };
 
   updateLocation = () => {
-    this.setState({ searchPosition: this.getPosition() });
+    const { centerOfMap } = this.state;
+    if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
+      return this.setState({
+        searchPosition: { ...centerOfMap, type: 'CenterOfMap' },
+        centerOfMapChanged: false,
+      });
+    }
+    return this.setState({ searchPosition: this.getPosition() });
   };
 
   getPosition = () => {
@@ -161,10 +204,11 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   renderContent = () => {
+    const { centerOfMapChanged } = this.state;
     const { mode } = this.context.match.params;
     const renderDisruptionBanner = mode !== 'CITYBIKE';
     const renderSearch = mode !== 'FERRY';
-    const renderRefetchButton = this.positionChanged();
+    const renderRefetchButton = centerOfMapChanged || this.positionChanged();
     return (
       <QueryRenderer
         query={graphql`
@@ -220,6 +264,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                   <div className="nearest-stops-update-container">
                     <FormattedMessage id="nearest-stops-updated-location" />
                     <button
+                      type="button"
                       aria-label={this.context.intl.formatMessage({
                         id: 'show-more-stops-near-you',
                         defaultMessage: 'Load more nearby stops',
@@ -294,6 +339,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 position={this.state.searchPosition}
                 stops={props.stops}
                 match={this.context.match}
+                setCenterOfMap={this.setCenterOfMap}
               />
             );
           }

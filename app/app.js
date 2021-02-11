@@ -17,7 +17,6 @@ import UserStore from './store/UserStore';
 import FavouriteStore from './store/FavouriteStore';
 import RoutingSettingsStore from './store/RoutingSettingsStore';
 import FutureRouteStore from './store/FutureRouteStore';
-import MapCenterStore from './store/MapCenterStore';
 
 export default config => {
   const app = new Fluxible({
@@ -40,7 +39,6 @@ export default config => {
   app.registerStore(FavouriteStore);
   app.registerStore(RoutingSettingsStore);
   app.registerStore(FutureRouteStore);
-  app.registerStore(MapCenterStore);
 
   app.plug({
     name: 'extra-context-plugin',

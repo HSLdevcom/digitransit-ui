@@ -8,7 +8,6 @@ import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import getContext from 'recompose/getContext';
 import isEqual from 'lodash/isEqual';
 import { startLocationWatch } from '../../action/PositionActions';
-import { storeCoordsOfMapCenter } from '../../action/MapCenterActions';
 import ComponentUsageExample from '../ComponentUsageExample';
 import MapContainer from './MapContainer';
 import ToggleMapTracking from '../ToggleMapTracking';
@@ -99,6 +98,7 @@ class MapWithTrackingStateHandler extends React.Component {
     showLocationMessages: PropTypes.bool,
     defaultMapCenter: PropTypes.object.isRequired,
     fitBoundsWithSetCenter: PropTypes.bool,
+    setCenterOfMap: PropTypes.func,
   };
 
   static defaultProps = {
@@ -209,6 +209,9 @@ class MapWithTrackingStateHandler extends React.Component {
       locationingOn: true,
       initialZoom: 16,
     });
+    if (this.props.setCenterOfMap) {
+      this.props.setCenterOfMap(null);
+    }
     addAnalyticsEvent({
       category: 'Map',
       action: 'ReCenterToMyGeolocation',
@@ -245,8 +248,10 @@ class MapWithTrackingStateHandler extends React.Component {
     this.setState({
       bounds: newBounds,
     });
-    const centerOfMap = this.mapElement.leafletElement.getCenter();
-    this.context.executeAction(storeCoordsOfMapCenter, centerOfMap);
+    if (this.props.setCenterOfMap) {
+      const centerOfMap = this.mapElement.leafletElement.getCenter();
+      this.props.setCenterOfMap({ lat: centerOfMap.lat, lon: centerOfMap.lng });
+    }
   };
 
   updateZoom(zoom) {
