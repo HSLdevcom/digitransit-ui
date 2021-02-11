@@ -55,7 +55,7 @@ class OldSearchesStore extends Store {
 
     const timestamp = moment().unix();
     if (found != null) {
-      if (search.properties.fromUrl) {
+      if (search.item.properties.fromUrl) {
         // items extracted and saved at page mounting should not increase count ranking
         // because they usually get saved twice
         return;
