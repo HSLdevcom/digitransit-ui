@@ -50,16 +50,10 @@ class LocationPopup extends React.Component {
             )
           : [];
       }
-      let filteredZones;
-      if (propertiesZones) {
-        filteredZones = zoneFilter(propertiesZones);
-      } else if (dataZones) {
-        filteredZones = zoneFilter(dataZones);
-      }
-      const zone =
-        Array.isArray(filteredZones) && filteredZones.length > 0
-          ? filteredZones[0]
-          : undefined;
+      const filteredZones = propertiesZones
+        ? zoneFilter(propertiesZones)
+        : zoneFilter(dataZones);
+      const zone = filteredZones.length > 0 ? filteredZones[0] : undefined;
       return zone ? zone.split(':')[1] : undefined;
     }
 
