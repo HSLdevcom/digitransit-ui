@@ -243,59 +243,63 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         variables={this.getQueryVariables()}
         environment={this.props.relayEnvironment}
         render={({ props }) => {
-          if (props) {
-            return (
-              <div className="stops-near-you-page">
-                {renderDisruptionBanner && (
-                  <DisruptionBanner
-                    alerts={props.alerts || []}
-                    mode={mode}
-                    trafficNowLink={this.context.config.trafficNowLink}
-                  />
-                )}
-                {renderSearch && (
-                  <StopsNearYouSearch
-                    mode={mode}
-                    breakpoint={this.props.breakpoint}
-                    lang={this.props.lang}
-                  />
-                )}
-                {renderRefetchButton && (
-                  <div className="nearest-stops-update-container">
-                    <FormattedMessage id="nearest-stops-updated-location" />
-                    <button
-                      type="button"
-                      aria-label={this.context.intl.formatMessage({
-                        id: 'show-more-stops-near-you',
-                        defaultMessage: 'Load more nearby stops',
-                      })}
-                      className="update-stops-button"
-                      onClick={this.updateLocation}
-                    >
-                      <Icon img="icon-icon_update" />
-                      <FormattedMessage
-                        id="nearest-stops-update-location"
-                        defaultMessage="Update stops"
-                        values={{
-                          mode: (
-                            <FormattedMessage
-                              id={`nearest-stops-${mode.toLowerCase()}`}
-                            />
-                          ),
-                        }}
-                      />
-                    </button>
-                  </div>
-                )}
+          return (
+            <div className="stops-near-you-page">
+              {renderDisruptionBanner && (
+                <DisruptionBanner
+                  alerts={(props && props.alerts) || []}
+                  mode={mode}
+                  trafficNowLink={this.context.config.trafficNowLink}
+                />
+              )}
+              {renderSearch && (
+                <StopsNearYouSearch
+                  mode={mode}
+                  breakpoint={this.props.breakpoint}
+                  lang={this.props.lang}
+                />
+              )}
+              {renderRefetchButton && (
+                <div className="nearest-stops-update-container">
+                  <FormattedMessage id="nearest-stops-updated-location" />
+                  <button
+                    type="button"
+                    aria-label={this.context.intl.formatMessage({
+                      id: 'show-more-stops-near-you',
+                      defaultMessage: 'Load more nearby stops',
+                    })}
+                    className="update-stops-button"
+                    onClick={this.updateLocation}
+                  >
+                    <Icon img="icon-icon_update" />
+                    <FormattedMessage
+                      id="nearest-stops-update-location"
+                      defaultMessage="Update stops"
+                      values={{
+                        mode: (
+                          <FormattedMessage
+                            id={`nearest-stops-${mode.toLowerCase()}`}
+                          />
+                        ),
+                      }}
+                    />
+                  </button>
+                </div>
+              )}
+              {!props && (
+                <div className="stops-near-you-spinner-container">
+                  <Loading />
+                </div>
+              )}
+              {props && (
                 <StopsNearYouContainer
                   match={this.props.match}
                   stopPatterns={props.stopPatterns}
                   position={this.state.searchPosition}
                 />
-              </div>
-            );
-          }
-          return undefined;
+              )}
+            </div>
+          );
         }}
       />
     );
@@ -343,7 +347,14 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
               />
             );
           }
-          return undefined;
+          return (
+            <StopsNearYouMap
+              position={null}
+              stops={null}
+              match={this.props.match}
+              setCenterOfMap={this.setCenterOfMap}
+            />
+          );
         }}
       />
     );
