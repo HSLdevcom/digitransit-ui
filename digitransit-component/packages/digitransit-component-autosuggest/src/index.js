@@ -281,13 +281,11 @@ class DTAutosuggest extends React.Component {
   };
 
   onChange = (event, { newValue, method }) => {
-    // Compare street names, not location
-    if (isEqual(newValue.split(',')[0], this.state.value.split(',')[0])) {
-      return;
-    }
     const newState = {
-      value: newValue.split(',')[0] || '',
+      value: this.fInput || newValue || '',
     };
+    // Remove filled input value so it wont be reused unnecessary
+    this.fInput = null;
     if (!this.state.editing) {
       newState.editing = true;
       this.setState(newState, () =>
@@ -619,6 +617,7 @@ class DTAutosuggest extends React.Component {
 
   // Fill input when user clicks fill input button in street suggestion item
   fillInput = newValue => {
+    this.fInput = newValue.properties.name;
     const newState = {
       editing: true,
       value: newValue.properties.name,
