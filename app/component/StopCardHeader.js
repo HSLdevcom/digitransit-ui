@@ -9,16 +9,18 @@ import ServiceAlertIcon from './ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import ExternalLink from './ExternalLink';
 import FavouriteStopContainer from './FavouriteStopContainer';
+import { getJson } from '../util/xhrPromise';
 import { saveSearch } from '../action/SearchActions';
+import { isIOS } from '../util/browser';
 
 class StopCardHeader extends React.Component {
   componentDidMount() {
+    // update localStorage searches if necessary
     const { stop, isPopUp } = this.props;
-    if (!stop || isPopUp || this.context.match.location.query.ext) {
+    if (!isIOS || !stop || isPopUp || !this.context.match.location.query.save) {
       return;
     }
     const layer = this.props.isTerminal ? 'station' : 'stop';
-    const desc = stop.desc || (stop.stops.length && stop.stops[0].desc);
     let id = `GTFS:${stop.gtfsId}`;
     let { name } = stop;
     if (stop.code) {
@@ -26,21 +28,34 @@ class StopCardHeader extends React.Component {
       name = `${name} ${stop.code}`;
     }
 
-    this.context.executeAction(saveSearch, {
-      item: {
-        geometry: { coordinates: [stop.lon, stop.lat] },
-        properties: {
-          name,
-          id,
-          gid: `gtfs:${layer}:${id}`,
-          layer,
-          label: `${stop.name}, ${desc}`,
-          fromUrl: 1,
-        },
-        type: 'Feature',
-        fromUrl: 1,
-      },
-      type: 'endpoint',
+    getJson(this.context.config.URL.PELIAS_REVERSE_GEOCODER, {
+      'point.lat': stop.lat,
+      'point.lon': stop.lon,
+      'boundary.circle.radius': 0.2,
+      size: 1,
+    }).then(data => {
+      if (data.features != null && data.features.length > 0) {
+        const match = data.features[0].properties;
+        const city = match.localadmin;
+
+        this.context.executeAction(saveSearch, {
+          item: {
+            geometry: { coordinates: [stop.lon, stop.lat] },
+            properties: {
+              name,
+              id,
+              gid: `gtfs:${layer}:${id}`,
+              layer,
+              label: `${stop.name}, ${city}`,
+              localadmin: city,
+              fromUrl: 1,
+            },
+            type: 'Feature',
+            fromUrl: 1,
+          },
+          type: 'endpoint',
+        });
+      }
     });
   }
 
