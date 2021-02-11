@@ -173,7 +173,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           value=""
           lang={this.props.lang}
           mode={this.props.match.params.mode}
-          isMobile
+          isMobile={this.props.breakpoint !== 'large'}
           selectHandler={this.selectHandler} // prop for context handler
         />
       </div>
@@ -310,11 +310,14 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         render={({ props }) => {
           if (props) {
             return (
-              <StopsNearYouMap
-                position={this.state.searchPosition}
-                stops={props.stops}
-                match={this.props.match}
-              />
+              <>
+                {this.renderSearchBox()}
+                <StopsNearYouMap
+                  position={this.state.searchPosition}
+                  stops={props.stops}
+                  match={this.props.match}
+                />
+              </>
             );
           }
           return undefined;

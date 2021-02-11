@@ -92,13 +92,13 @@ export default function MobileView({
   return (
     <div className="mobile">
       {selectFromMapHeader}
+      {searchBox && <span>{searchBox}</span>}
       {map ? (
         <>
           <MapBottomsheetContext.Provider value={bottomsheetState.context}>
             {map}
           </MapBottomsheetContext.Provider>
           <div className="drawer-container" onScroll={onScroll} ref={scrollRef}>
-            {searchBox && <span>{searchBox}</span>}
             <div className="drawer-padding" />
             <div className="drawer-content">
               <div className="drag-line" />

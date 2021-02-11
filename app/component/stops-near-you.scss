@@ -2,12 +2,13 @@
     position: relative;
     min-height: 20rem;
 }
+
 .stops-near-you-location-search {
     position: fixed;
     margin: 25px 15px 0 0;
     right: 0;
-    width: 145px;
-    z-index: 1100;
+    width: 250px;
+    z-index: index($zindex, map-buttons);
 }
 
 .stops-near-you-spinner-container {
@@ -261,6 +262,9 @@
 }
 
 .mobile {
+    .stops-near-you-location-search {
+        width: 145px;
+    }
     .stops-near-you-search-container {
         padding: 0 5px 15px;
     }
