@@ -128,7 +128,17 @@ li:last-child > div.suggestion-item-container.mobile {
       width: 17px;
       height: 17px;
     }
+
+
+
     &.mobile {
+      &.fill-input{
+        border-left: 1px solid #ddd;
+        width: 48px;
+        height: 40px;
+        padding-right: 10px;
+        padding-left: 20px;
+      }
       svg {
         width: 12px;
         height: 21px;
