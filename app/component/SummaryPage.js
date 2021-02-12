@@ -41,7 +41,7 @@ import {
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
-import { isBrowser } from '../util/browser';
+import { isBrowser, isIOS } from '../util/browser';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import triggerMessage from '../util/messageUtils';
 import MessageStore from '../store/MessageStore';
@@ -67,6 +67,7 @@ import { getTotalBikingDistance } from '../util/legUtils';
 import { userHasChangedModes } from '../util/modeUtils';
 import { addViaPoint } from '../action/ViaPointActions';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
+import { saveSearch } from '../action/SearchActions';
 
 const MAX_ZOOM = 16; // Maximum zoom available for the bounds.
 /**
@@ -1058,15 +1059,55 @@ class SummaryPage extends React.Component {
     });
   };
 
-  updateFutureRoutes = () => {
+  // save url-defined location to old searches
+  saveUrlSearch = endpoint => {
+    const parts = endpoint.split('::'); // label::lat,lon
+    if (parts.length !== 2) {
+      return;
+    }
+    const label = parts[0];
+    const ll = parseLatLon(parts[1]);
+    const names = label.split(','); // addr or name, city
+    if (names.length < 2 || Number.isNaN(ll.lat) || Number.isNaN(ll.lon)) {
+      return;
+    }
+    const layer =
+      /\d/.test(names[0]) && names[0].indexOf(' ') >= 0 ? 'address' : 'venue';
+
+    this.context.executeAction(saveSearch, {
+      item: {
+        geometry: { coordinates: [ll.lon, ll.lat] },
+        properties: {
+          name: names[0],
+          id: label,
+          gid: label,
+          layer,
+          label,
+          localadmin: names[names.length - 1],
+          fromUrl: 1,
+        },
+        type: 'Feature',
+      },
+      type: 'endpoint',
+    });
+  };
+
+  updateLocalStorage = saveEndpoints => {
     const { location } = this.props.match;
     const { query } = location;
     const pathArray = decodeURIComponent(location.pathname)
       .substring(1)
       .split('/');
-    pathArray.shift();
-    const originArray = pathArray[0].split('::');
-    const destinationArray = pathArray[1].split('::');
+
+    // endpoints to oldSearches store
+    if (saveEndpoints && isIOS && query.save) {
+      this.saveUrlSearch(pathArray[1]); // origin
+      this.saveUrlSearch(pathArray[2]); // destination
+    }
+
+    // update future routes, too
+    const originArray = pathArray[1].split('::');
+    const destinationArray = pathArray[2].split('::');
     // make sure endpoints are valid locations and time is defined
     if (!query.time || originArray.length < 2 || destinationArray.length < 2) {
       return;
@@ -1099,7 +1140,7 @@ class SummaryPage extends React.Component {
       // eslint-disable-next-line no-unused-expressions
       import('../util/feedbackly');
     }
-    this.updateFutureRoutes();
+    this.updateLocalStorage(true);
     if (this.showVehicles()) {
       const { client } = this.context.getStore('RealTimeInformationStore');
       // If user comes from eg. RoutePage, old client may not have been completely shut down yet.
@@ -1173,7 +1214,7 @@ class SummaryPage extends React.Component {
         prevProps.match.location.pathname ||
       this.props.match.location.query !== prevProps.match.location.query
     ) {
-      this.updateFutureRoutes();
+      this.updateLocalStorage(false);
     }
 
     // Reset walk and bike suggestions when new search is made

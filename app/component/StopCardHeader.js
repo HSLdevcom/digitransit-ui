@@ -51,7 +51,6 @@ class StopCardHeader extends React.Component {
               fromUrl: 1,
             },
             type: 'Feature',
-            fromUrl: 1,
           },
           type: 'endpoint',
         });
