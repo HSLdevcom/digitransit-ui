@@ -235,7 +235,9 @@ const SuggestionItem = pure(
           )}
         </div>
         {iconId !== 'arrow' &&
-          (item.properties.layer !== 'street' || !isMobile || arrowClicked) && (
+          (item?.properties?.layer !== 'street' ||
+            !isMobile ||
+            arrowClicked) && (
             <span
               className={cx(styles['arrow-icon'], {
                 [styles.mobile]: isMobile,
@@ -245,7 +247,7 @@ const SuggestionItem = pure(
             </span>
           )}
         {iconId !== 'arrow' &&
-          item.properties.layer === 'street' &&
+          item?.properties?.layer === 'street' &&
           !arrowClicked &&
           isMobile && (
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
