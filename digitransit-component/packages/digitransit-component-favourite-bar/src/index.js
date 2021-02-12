@@ -158,6 +158,7 @@ class FavouriteBar extends React.Component {
       firstFavourite: props.favourites[0] || null,
       secondFavourite: props.favourites[1] || null,
       favourites: props.favourites.slice(2, props.favourites.length),
+      timestamp: 0,
     };
     this.expandListRef = React.createRef();
     this.suggestionListRef = React.createRef();
@@ -199,13 +200,17 @@ class FavouriteBar extends React.Component {
   }
 
   toggleList = () => {
+    const eventDiff = new Date().getTime() - this.state.timestamp;
     if (i18next.language !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
     }
-    this.setState(prevState => ({
-      listOpen: !prevState.listOpen,
-      highlightedIndex: 0,
-    }));
+    if (eventDiff > 200) {
+      this.setState(prevState => ({
+        listOpen: !prevState.listOpen,
+        highlightedIndex: 0,
+        timestamp: new Date().getTime(),
+      }));
+    }
   };
 
   highlightSuggestion = index => {
@@ -245,6 +250,10 @@ class FavouriteBar extends React.Component {
         this.toggleList();
       } else {
         this.suggestionSelected();
+      }
+    } else if (key === 'Escape' || key === 27) {
+      if (listOpen) {
+        this.toggleList();
       }
     } else if (key === 'ArrowUp' || key === 38) {
       const next =
@@ -380,6 +389,7 @@ class FavouriteBar extends React.Component {
             id="favourite-expand-button"
             onFocus={() => this.toggleList()}
             onKeyDown={e => this.handleKeyDown(e)}
+            onClick={() => this.toggleList()}
             tabIndex="0"
             role="listbox"
             aria-label={i18next.t('open-favourites')}
