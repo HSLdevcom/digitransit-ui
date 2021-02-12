@@ -67,6 +67,10 @@ export function displayImperialDistance(meters) {
 }
 
 function displayDistanceWithLocale(meters, formatNumber) {
+  const opts = {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  };
   if (meters < 100) {
     return `${formatNumber((Math.round(meters / 10) * 10).toFixed(1))} m`; // Tens of meters
   }
@@ -76,12 +80,16 @@ function displayDistanceWithLocale(meters, formatNumber) {
   if (meters < 10000) {
     return `${formatNumber(
       ((Math.round(meters / 100) * 100) / 1000).toFixed(1),
+      opts,
     )} km`; // hudreds of meters
   }
   if (meters < 100000) {
-    return `${formatNumber(Math.round(meters / 1000).toFixed(1))} km`; // kilometers
+    return `${formatNumber(Math.round(meters / 1000).toFixed(1), opts)} km`; // kilometers
   }
-  return `${formatNumber((Math.round(meters / 10000) * 10).toFixed(1))} km`; // tens of kilometers
+  return `${formatNumber(
+    (Math.round(meters / 10000) * 10).toFixed(1),
+    opts,
+  )} km`; // tens of kilometers
 }
 
 export function displayDistance(meters, config, formatNumber) {
