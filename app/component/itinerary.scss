@@ -56,7 +56,7 @@ $itinerary-tab-switch-height: 48px;
   }
 }
 .itinerary-list-container {
-  padding-bottom: 1.75em;
+  padding-bottom: 16px;
 }
 .itinerary-tabs__scroll {
   background: $white;
@@ -318,7 +318,7 @@ $itinerary-tab-switch-height: 48px;
 }
 
 .itinerary-disclaimer {
-  margin: 1em 1em 1em 0em;
+  margin: 17px 15px 15px 15px;
   white-space: normal;
   color: #666;
   font-weight: normal;
@@ -333,6 +333,31 @@ $itinerary-tab-switch-height: 48px;
   padding: 0 0.6em;
 }
 
+.itinerary-ticket-external-link {
+  align-self: center;
+  .external-link-container {
+    width: 140px;
+    text-align: center;
+    border-radius: 25px;
+    border: 1px solid #666;
+    min-height: 30px;
+    a {
+        font-weight: 500;
+        color: #666;
+        font-size: $font-size-small;
+        padding-top: 3px;
+    }
+  }
+
+  .external-link-icon-outer {
+    color: white;
+  }
+
+  .external-link-icon {
+    color: $primary-color;
+  }
+}
+
 .itinerary-ticket-information {
   display: flex;
   color: $gray;
@@ -344,14 +369,14 @@ $itinerary-tab-switch-height: 48px;
   .ticket-type-agency-link {
     flex: 0;
     .external-link-container {
-      width: 140px;
+      width: 120px;
       text-align: center;
       border-radius: 25px;
-      border: 1px solid #666;
-      min-height: 30px;
+      border: 1px solid #888;
+      min-height: 28px;
       .external-link {
         font-weight: 500;
-        color: #666;
+        color: $primary-color;
         font-size: $font-size-small;
         padding-top: 3px;
       }
@@ -359,31 +384,6 @@ $itinerary-tab-switch-height: 48px;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
         cursor: pointer;
       }
-    }
-  }
-
-  .itinerary-ticket-external-link {
-    align-self: center;
-    .external-link-container {
-      width: 140px;
-      text-align: center;
-      border-radius: 25px;
-      border: 1px solid #666;
-      min-height: 30px;
-      a {
-          font-weight: 500;
-          color: #666;
-          font-size: $font-size-small;
-          padding-top: 3px;
-      }
-  }
-
-    .external-link-icon-outer {
-      color: white;
-    }
-
-    .external-link-icon {
-      color: $primary-color;
     }
   }
 
@@ -397,6 +397,7 @@ $itinerary-tab-switch-height: 48px;
     border-bottom: 1px solid #ddd;
     .ticket-container {
       display: flex;
+      margin: -4px 10px -4px 15px;
     }
     .ticket-info-container {
       flex: 1;
@@ -404,7 +405,6 @@ $itinerary-tab-switch-height: 48px;
     }
     .ticket-type-agency-link {
       align-self: center;
-      padding-left: 10px;
     }
 
     .ticket-type-zone {
