@@ -7,7 +7,7 @@ export const getIsBrowser = () =>
 export const isBrowser = getIsBrowser();
 export const isIOSApp = isBrowser && navigator.standalone;
 export const isIOS =
-  true || (isBrowser && !!navigator.platform.match(/iPhone|iPod|iPad/));
+  isBrowser && !!navigator.platform.match(/iPhone|iPod|iPad/);
 export const isWindowsPhone =
   isBrowser && navigator.userAgent.match(/Windows Phone/) != null;
 export const isLangMockEn =
