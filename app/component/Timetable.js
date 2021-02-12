@@ -7,12 +7,14 @@ import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
-import StopPageActionBar from './StopPageActionBar';
 import FilterTimeTableModal from './FilterTimeTableModal';
 import TimeTableOptionsPanel from './TimeTableOptionsPanel';
 import TimetableRow from './TimetableRow';
 import ComponentUsageExample from './ComponentUsageExample';
 import { RealtimeStateType } from '../constants';
+import SecondaryButton from './SecondaryButton';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
+import DateSelect from './DateSelect';
 
 class Timetable extends React.Component {
   static propTypes = {
@@ -41,7 +43,7 @@ class Timetable extends React.Component {
         }),
       ).isRequired,
     }).isRequired,
-    propsForStopPageActionBar: PropTypes.shape({
+    propsForDateSelect: PropTypes.shape({
       startDate: PropTypes.string,
       selectedDate: PropTypes.string,
       onDateChange: PropTypes.func,
@@ -133,9 +135,7 @@ class Timetable extends React.Component {
     );
 
   dateForPrinting = () => {
-    const selectedDate = moment(
-      this.props.propsForStopPageActionBar.selectedDate,
-    );
+    const selectedDate = moment(this.props.propsForDateSelect.selectedDate);
     return (
       <div className="printable-date-container">
         <div className="printable-date-icon">
@@ -151,6 +151,16 @@ class Timetable extends React.Component {
         </div>
       </div>
     );
+  };
+
+  printStop = e => {
+    e.stopPropagation();
+    window.print();
+  };
+
+  printStopPDF = (e, stopPDFURL) => {
+    e.stopPropagation();
+    window.open(stopPDFURL);
   };
 
   formTimeRow = (timetableMap, hour) => {
@@ -261,16 +271,23 @@ class Timetable extends React.Component {
           />
         ) : null}
         <div className="timetable-topbar">
+          <DateSelect
+            startDate={this.props.propsForDateSelect.startDate}
+            selectedDate={this.props.propsForDateSelect.selectedDate}
+            onDateChange={e => {
+              this.props.propsForDateSelect.onDateChange(e);
+              addAnalyticsEvent({
+                category: 'Stop',
+                action: 'ChangeTimetableDay',
+                name: null,
+              });
+            }}
+            dateFormat="YYYYMMDD"
+          />
           <TimeTableOptionsPanel
             showRoutes={this.state.showRoutes}
             showFilterModal={this.showModal}
             stop={this.props.stop}
-          />
-          <StopPageActionBar
-            startDate={this.props.propsForStopPageActionBar.startDate}
-            selectedDate={this.props.propsForStopPageActionBar.selectedDate}
-            onDateChange={this.props.propsForStopPageActionBar.onDateChange}
-            stopPDFURL={stopPDFURL}
           />
         </div>
         <div className="timetable-for-printing-header">
@@ -280,12 +297,46 @@ class Timetable extends React.Component {
         </div>
         <div className="timetable-for-printing">{this.dateForPrinting()}</div>
         <div className="timetable-note">
-          <FormattedMessage
-            id="departures-by-hour"
-            defaultMessage="Departures by hour (minutes/line number)"
-          />
+          <div>
+            <FormattedMessage
+              id="departures-by-hour"
+              defaultMessage="Departures by hour (minutes/line number)"
+            />
+          </div>
+          <div className="print-button-container">
+            {stopPDFURL && (
+              <SecondaryButton
+                ariaLabel="print-timetable"
+                buttonName="print-timetable"
+                buttonClickAction={e => {
+                  this.printStopPDF(e, stopPDFURL);
+                  addAnalyticsEvent({
+                    category: 'Stop',
+                    action: 'PrintWeeklyTimetable',
+                    name: null,
+                  });
+                }}
+                buttonIcon="icon-icon_print"
+                smallSize
+              />
+            )}
+            <SecondaryButton
+              ariaLabel="print"
+              buttonName="print"
+              buttonClickAction={e => {
+                this.printStop(e);
+                addAnalyticsEvent({
+                  category: 'Stop',
+                  action: 'PrintTimetable',
+                  name: null,
+                });
+              }}
+              buttonIcon="icon-icon_print"
+              smallSize
+            />
+          </div>
         </div>
-        <div className="momentum-scroll">
+        <div className="momentum-scroll timetable-content-container">
           <div className="timetable-time-headers">
             <div className="hour">
               <FormattedMessage id="hour" defaultMessage="Hour" />
@@ -383,7 +434,7 @@ Timetable.description = () => (
     <ComponentUsageExample description="">
       <Timetable
         stop={exampleStop}
-        propsForStopPageActionBar={{
+        propsForDateSelect={{
           startDate: '20190110',
           selectedDate: '20190110',
           onDateChange: () => {},

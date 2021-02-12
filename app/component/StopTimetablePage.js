@@ -36,7 +36,7 @@ class StopTimetablePage extends React.Component {
       <TimetableContainer
         stop={this.props.stop}
         date={this.state.date}
-        propsForStopPageActionBar={{
+        propsForDateSelect={{
           startDate: initialDate,
           selectedDate: this.state.date,
           onDateChange: this.onDateChange,

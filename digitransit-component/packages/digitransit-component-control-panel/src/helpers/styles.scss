@@ -86,13 +86,13 @@
 
   .near-you-buttons-container {
     display: flex;
-    & > a:not(:last-child) {
+    & > a:not(:last-child), & > div:not(:last-child) {
       margin-right: 9px;
       @include min-width(tablet)  {
         margin-right: 10px;
       }
     }
-    & > a {
+    & > a, & > div {
       display: flex;
       flex: 1;
       width: 100%;

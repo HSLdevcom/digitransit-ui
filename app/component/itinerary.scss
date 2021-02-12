@@ -318,10 +318,15 @@ $itinerary-tab-switch-height: 48px;
 }
 
 .itinerary-disclaimer {
-  color: #333;
   margin: 1em 1em 1em 0em;
-  font-size: $font-size-small;
   white-space: normal;
+  color: #666;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.03em;
 }
 
 .mobile .itinerary-disclaimer {
@@ -683,6 +688,9 @@ $itinerary-tab-switch-height: 48px;
     .time-column-zone-icons-container {
       position: relative;
       top: 2.5em;
+      &.single {
+        top: 3.5em;
+      }
       &.intermediate-leg {
         position: relative;
         float: right;

@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import cx from 'classnames';
 import pure from 'recompose/pure';
 import Icon from '@digitransit-component/digitransit-component-icon';
@@ -94,8 +94,13 @@ const SuggestionItem = pure(
     isMobile,
     ariaFavouriteString,
     color,
+    fillInput,
   }) => {
     const [iconId, iconColor] = getIconProperties(item, color);
+    // Arrow clicked is for street itmes. Instead of selecting item when a user clicks on arrow,
+    // It fills the input field.
+    const [arrowClicked, setArrowClicked] = useState(false);
+
     const icon = (
       <span className={styles[iconId]}>
         <Icon color={iconColor} img={iconId} />
@@ -229,15 +234,43 @@ const SuggestionItem = pure(
             </div>
           )}
         </div>
-        {iconId !== 'arrow' && (
-          <span
-            className={cx(styles['arrow-icon'], {
-              [styles.mobile]: isMobile,
-            })}
-          >
-            <Icon img="arrow" color={iconColor} />
-          </span>
-        )}
+        {iconId !== 'arrow' &&
+          (item?.properties?.layer !== 'street' ||
+            !isMobile ||
+            arrowClicked) && (
+            <span
+              className={cx(styles['arrow-icon'], {
+                [styles.mobile]: isMobile,
+              })}
+            >
+              <Icon img="arrow" color={iconColor} />
+            </span>
+          )}
+        {iconId !== 'arrow' &&
+          item?.properties?.layer === 'street' &&
+          !arrowClicked &&
+          isMobile && (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+            <span
+              className={cx(styles['arrow-icon'], {
+                [styles.mobile]: isMobile,
+                [styles['fill-input']]: !arrowClicked,
+              })}
+              onClick={() => {
+                // Input is already filled for this item, no need
+                // To fill it again
+                if (arrowClicked) {
+                  return;
+                }
+                setArrowClicked(true);
+                // eslint-disable-next-line no-param-reassign
+                item.properties.arrowClicked = true;
+                fillInput(item);
+              }}
+            >
+              <Icon img="search-street-name" color={iconColor} />
+            </span>
+          )}
       </div>
     );
     return (

@@ -4,14 +4,14 @@ import React from 'react';
 
 import Timetable from '../../../app/component/Timetable';
 import TimetableRow from '../../../app/component/TimetableRow';
-import StopPageActionBar from '../../../app/component/StopPageActionBar';
+import SecondaryButton from '../../../app/component/SecondaryButton';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import * as timetables from '../../../app/configurations/timetableConfigUtils';
 
 const stopIdNumber = '1140199';
 
 const props = {
-  propsForStopPageActionBar: {
+  propsForDateSelect: {
     startDate: '20190110',
     selectedDate: '20190110',
     onDateChange: () => {},
@@ -73,9 +73,6 @@ describe('<Timetable />', () => {
         },
       },
     });
-    expect(wrapper.find(StopPageActionBar)).to.have.lengthOf(1);
-    expect(wrapper.find(StopPageActionBar).prop('stopPDFURL')).to.equal(
-      `${baseTimetableURL}${stopIdNumber}.pdf`,
-    );
+    expect(wrapper.find(SecondaryButton)).to.have.lengthOf(2);
   });
 });

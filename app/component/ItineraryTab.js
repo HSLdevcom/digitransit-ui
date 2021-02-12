@@ -163,13 +163,14 @@ class ItineraryTab extends React.Component {
                       }
                       icon="icon-icon_arrow-collapse--left"
                       iconClassName="arrow-icon"
+                      popFallback
                     />
                   </div>
                 </div>
                 <ItinerarySummary itinerary={enrichedItinerary} key="summary"/>
               </>
             ),
-            <div 
+            <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
               'multirow': enrichedItinerary.isMultiRow,
             })} key="legs">

@@ -134,7 +134,6 @@ class RouteMapContainer extends React.PureComponent {
             <BackButton
               icon="icon-icon_arrow-collapse--left"
               iconClassName="arrow-icon"
-              urlToBack={config.URL.ROOTLINK}
             />
           </React.Fragment>
         )}
