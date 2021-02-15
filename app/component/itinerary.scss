@@ -60,10 +60,8 @@ $itinerary-tab-switch-height: 48px;
 }
 .itinerary-tabs__scroll {
   background: $white;
-  flex-grow: 1;
   padding: 0 3.125em;
   position: relative;
-  top: 158px;
 }
 
 .itinerary-main {
@@ -110,8 +108,8 @@ $itinerary-tab-switch-height: 48px;
 
     &.unknown-fare-disclaimer__top {
       @include font-medium;
-      margin-bottom: $padding-large;
-      margin-top: $padding-small;
+      margin-bottom: 5px;
+      margin-top: 9px;
 
       .icon-container {
         flex: 0;
@@ -211,10 +209,11 @@ $itinerary-tab-switch-height: 48px;
 }
 
 .itinerary-summary {
-  position: absolute;
+  position: relative;
   top: 94px;
   display: flex;
   margin-left: 65px;
+  margin-bottom: 122px;
 
   .divider-top, .divider-bottom {
     position: absolute;
@@ -1276,9 +1275,11 @@ div.itinerary-container-content {
 
 .itinerary-tab {
   @include font-medium;
-  //for ie mobile
+  letter-spacing: -.025em;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
   min-height: 100%;
-  //for ie mobile
   max-height: 100%;
   .desktop-title {
     position: absolute;
@@ -1777,6 +1778,7 @@ $font-print-decrease: 0.7;
     font-size: 15px;
     top: 0;
     margin-left: 0;
+    margin-bottom: 0;
     height: 60px;
     .duration, .walk-distance {
       align-self: unset;
