@@ -69,6 +69,8 @@ $itinerary-tab-switch-height: 48px;
   flex-direction: column;
   flex-grow: 1;
   transform: scale(1); // start a new z-index context here
+  position: relative;
+  top: 5px;
 
   .disclaimer-container {
     background-color: rgba(254, 209, 0, 0.1);
@@ -206,7 +208,7 @@ $itinerary-tab-switch-height: 48px;
   display: inline-flex;
   position: relative;
   top: 12px;
-  padding-bottom: 27px;
+  padding-bottom: 22px;
 }
 
 .itinerary-summary {
