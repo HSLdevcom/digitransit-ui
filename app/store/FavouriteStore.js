@@ -192,7 +192,6 @@ export default class FavouriteStore extends Store {
         })
         .catch(() => {
           this.favourites = newFavourites;
-          this.storeFavourites();
           this.fetchComplete();
         });
     } else {
@@ -218,7 +217,6 @@ export default class FavouriteStore extends Store {
         })
         .catch(() => {
           this.favourites = newFavourites;
-          this.storeFavourites();
           this.fetchComplete();
         });
     } else {
