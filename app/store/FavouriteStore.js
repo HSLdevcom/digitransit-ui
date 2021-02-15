@@ -166,7 +166,7 @@ export default class FavouriteStore extends Store {
       throw new Error(`New favourite is not a object:${JSON.stringify(data)}`);
     }
     this.fetchingOrUpdating();
-    const newFavourites = this.favourites;
+    const newFavourites = this.favourites.slice();
     const editIndex = findIndex(
       this.favourites,
       item => data.favouriteId === item.favouriteId,
@@ -191,7 +191,6 @@ export default class FavouriteStore extends Store {
           this.fetchComplete();
         })
         .catch(() => {
-          this.favourites = newFavourites;
           this.fetchComplete();
         });
     } else {
@@ -216,7 +215,6 @@ export default class FavouriteStore extends Store {
           this.fetchComplete();
         })
         .catch(() => {
-          this.favourites = newFavourites;
           this.fetchComplete();
         });
     } else {
@@ -242,7 +240,6 @@ export default class FavouriteStore extends Store {
           this.fetchComplete();
         })
         .catch(() => {
-          this.favourites = newFavourites;
           this.fetchComplete();
         });
     } else {
