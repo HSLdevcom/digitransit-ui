@@ -203,17 +203,15 @@ $itinerary-tab-switch-height: 48px;
 
 .duration--itinerary-summary,
 .distance--itinerary-summary {
-  display: flex;
+  display: inline-flex;
   position: relative;
-  top: 14px;
+  top: 12px;
+  padding-bottom: 27px;
 }
 
 .itinerary-summary {
   position: relative;
-  top: 94px;
-  display: flex;
   margin-left: 65px;
-  margin-bottom: 122px;
 
   .divider-top, .divider-bottom {
     position: absolute;
@@ -1282,7 +1280,6 @@ div.itinerary-container-content {
   min-height: 100%;
   max-height: 100%;
   .desktop-title {
-    position: absolute;
     .title-container {
       display: flex;
     }
