@@ -3,6 +3,27 @@
     min-height: 20rem;
 }
 
+.stops-near-you-location-search {
+    position: fixed;
+    margin: 30px 30px 0 0;
+    right: 0;
+    width: 300px;
+    z-index: index($zindex, map-buttons);
+    .origin-stop-near-you-selector-input-icon {
+        margin-left: 9px;
+    }
+    div > div > .origin-stop-near-you-selector {
+        height: 44px;
+        box-shadow: 0px 4px 20px 0px rgba(0,0,0,0.15);
+        width: 100%;
+        border-radius: 8px;
+        border: none;
+        background-color: #ffffff;
+        padding-left: 37px;
+        padding-right: 5px;
+    }
+}
+
 .stops-near-you-spinner-container {
     position: relative;
     z-index: 1;
@@ -254,6 +275,13 @@
 }
 
 .mobile {
+    .stops-near-you-location-search {
+        width: 145px;
+        margin: 25px 15px 0 0;
+        div > div > .origin-stop-near-you-selector {
+            height: 34px;
+        }
+    }
     .stops-near-you-search-container {
         padding: 0 5px 15px;
     }

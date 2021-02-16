@@ -103,6 +103,7 @@ function NearStopsAndRoutes({
   LinkComponent,
   origin,
   omitLanguageUrl,
+  onClick,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
   useEffect(() => {
@@ -118,7 +119,6 @@ function NearStopsAndRoutes({
     }
   }, []);
 
-  const queryString = origin.queryString || '';
   let urlStart;
   if (omitLanguageUrl) {
     urlStart = urlPrefix;
@@ -133,12 +133,12 @@ function NearStopsAndRoutes({
     if (origin.lat && origin.lon) {
       url += `/${encodeURIComponent(origin.address)}::${origin.lat},${
         origin.lon
-      }${queryString}`;
+      }`;
     }
-    if (LinkComponent) {
-      return (
-        <LinkComponent to={url} key={mode}>
-          <span className={styles['sr-only']}>
+
+    const modeButton = (
+      <>
+        <span className={styles['sr-only']}>
             {i18next.t(`pick-mode-${mode}`, { lng: language })}
           </span>
           <span className={styles['transport-mode-icon-container']}>
@@ -151,22 +151,32 @@ function NearStopsAndRoutes({
               )}
             </span>
           </span>
+      </>
+    );
+
+    if (onClick) {
+      return (
+        <div
+          key={mode}
+          role="link"
+          tabIndex="0"
+          onKeyDown={e => onClick(url, e)}
+          onClick={() => onClick(url)}
+        >
+          {modeButton}
+        </div>
+      );
+    }
+    if (LinkComponent) {
+      return (
+        <LinkComponent to={url} key={mode}>
+          {modeButton}
         </LinkComponent>
       );
     }
     return (
       <a href={url} key={mode}>
-        <span className={styles['sr-only']}>
-          {i18next.t(`pick-mode-${mode}`, { lng: language })}
-        </span>
-        <span className={styles['transport-mode-icon-container']}>
-          <Icon img={mode === 'favourite' ? 'star' : `mode-${mode}`} />
-          {withAlert && (
-            <span className={styles['transport-mode-alert-icon']}>
-              <Icon img="caution" color="#dc0451" />
-            </span>
-          )}
-        </span>
+        {modeButton}
       </a>
     );
   });
@@ -196,6 +206,7 @@ NearStopsAndRoutes.propTypes = {
   LinkComponent: PropTypes.object,
   origin: PropTypes.object,
   omitLanguageUrl: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 NearStopsAndRoutes.defaultProps = {

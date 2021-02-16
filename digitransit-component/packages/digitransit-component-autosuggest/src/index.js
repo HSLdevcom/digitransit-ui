@@ -177,6 +177,8 @@ function translateFutureRouteSuggestionTime(item) {
  *    targets={targets}
  *    isMobile  // Optional. Defaults to false. Whether to use mobile search.
  *    mobileLabel="Custom label" // Optional. Custom label text for autosuggest field on mobile.
+ *    inputClassName="" // Optional. Custom classname applied to the input element of the component for providing CSS styles.
+ *    translatedPlaceholder= // Optional. Custon translated placeholder text for autosuggest field.
  */
 class DTAutosuggest extends React.Component {
   static propTypes = {
@@ -186,6 +188,7 @@ class DTAutosuggest extends React.Component {
     icon: PropTypes.string,
     id: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
+    translatedPlaceholder: PropTypes.string,
     value: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
     ariaLabel: PropTypes.string,
@@ -212,6 +215,7 @@ class DTAutosuggest extends React.Component {
     lock: PropTypes.func.isRequired,
     unlock: PropTypes.func.isRequired,
     refPoint: PropTypes.object,
+    inputClassName: PropTypes.string,
   };
 
   static defaultProps = {
@@ -231,6 +235,8 @@ class DTAutosuggest extends React.Component {
       stopsPrefix: 'pysakit',
     },
     mobileLabel: undefined,
+    inputClassName: '',
+    translatedPlaceholder: undefined,
   };
 
   constructor(props) {
@@ -282,8 +288,10 @@ class DTAutosuggest extends React.Component {
 
   onChange = (event, { newValue, method }) => {
     const newState = {
-      value: newValue || '',
+      value: this.fInput || newValue || '',
     };
+    // Remove filled input value so it wont be reused unnecessary
+    this.fInput = null;
     if (!this.state.editing) {
       newState.editing = true;
       this.setState(newState, () =>
@@ -613,6 +621,21 @@ class DTAutosuggest extends React.Component {
     }
   };
 
+  // Fill input when user clicks fill input button in street suggestion item
+  fillInput = newValue => {
+    this.fInput = newValue.properties.name;
+    const newState = {
+      editing: true,
+      value: newValue.properties.name,
+      checkPendingSelection: newValue,
+      valid: true,
+    };
+    // must update suggestions
+    this.setState(newState);
+    this.fetchFunction({ value: newValue.properties.name });
+    this.input.focus();
+  };
+
   renderItem = item => {
     const newItem =
       item.type === 'FutureRoute'
@@ -630,6 +653,7 @@ class DTAutosuggest extends React.Component {
         isMobile={this.props.isMobile}
         ariaFavouriteString={i18next.t('favourite')}
         color={this.props.color}
+        fillInput={this.fillInput}
       />
     );
   };
@@ -651,10 +675,15 @@ class DTAutosuggest extends React.Component {
   // DT-3263 starts
   // eslint-disable-next-line consistent-return
   keyDown = event => {
+    const keyCode = event.keyCode || event.which;
+
     if (this.state.editing) {
+      if (keyCode === 13) {
+        this.fetchFunction({ value: this.state.value });
+      }
       return this.inputClicked();
     }
-    const keyCode = event.keyCode || event.which;
+
     if ((keyCode === 13 || keyCode === 40) && this.state.value === '') {
       return this.clearInput();
     }
@@ -748,7 +777,9 @@ class DTAutosuggest extends React.Component {
       cleanExecuted,
     } = this.state;
     const inputProps = {
-      placeholder: i18next.t(this.props.placeholder),
+      placeholder: this.props.translatedPlaceholder
+        ? this.props.translatedPlaceholder
+        : i18next.t(this.props.placeholder),
       value,
       onChange: this.onChange,
       onBlur: !this.props.isMobile ? this.onBlur : () => null,
@@ -757,7 +788,7 @@ class DTAutosuggest extends React.Component {
           this.props.isMobile && this.props.transportMode ? styles.thin : ''
         } ${styles[this.props.id] || ''} ${
           this.state.value ? styles.hasValue : ''
-        }`,
+        } ${this.props.inputClassName}`,
       ),
       onKeyDown: this.keyDown, // DT-3263
     };
@@ -842,8 +873,10 @@ class DTAutosuggest extends React.Component {
             {this.props.icon && (
               <div
                 className={cx([
-                  styles['autosuggest-input-icon'],
+                  styles[`autosuggest-input-icon`],
                   styles[this.props.id],
+                  this.props.inputClassName &&
+                    `${this.props.inputClassName}-input-icon`,
                 ])}
               >
                 <Icon img={`${this.props.icon}`} />

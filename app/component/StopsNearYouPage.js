@@ -357,21 +357,39 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     });
   };
 
-  renderAutoSuggestField = () => {
+  renderSearchBox = () => {
+    return (
+      <div className="stops-near-you-location-search">
+        {this.renderAutoSuggestField(true)}
+      </div>
+    );
+  };
+
+  renderAutoSuggestField = onMap => {
     const isMobile = this.props.breakpoint !== 'large';
+    const searchProps = {
+      id: 'origin-stop-near-you',
+      placeholder: 'origin',
+      translatedPlaceholder: onMap
+        ? this.context.intl.formatMessage({ id: 'move-on-map' })
+        : undefined,
+      mobileLabel: onMap
+        ? this.context.intl.formatMessage({ id: 'position' })
+        : undefined,
+      inputClassName: onMap ? 'origin-stop-near-you-selector' : undefined,
+    };
     return (
       <DTAutoSuggestWithSearchContext
         appElement="#app"
         icon="search"
         sources={['History', 'Datasource', 'Favourite']}
         targets={['Locations', 'Stops']}
-        id="origin-stop-near-you"
-        placeholder="origin"
         value=""
         lang={this.props.lang}
         mode={this.props.match.params.mode}
         isMobile={isMobile}
         selectHandler={this.selectHandler} // prop for context handler
+        {...searchProps}
       />
     );
   };
@@ -457,11 +475,20 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
               }
               scrollable
               content={this.renderContent()}
-              map={this.renderMap()}
+              map={
+                <>
+                  {this.renderSearchBox()}
+                  {this.renderMap()}
+                </>
+              }
             />
           )}
           mobile={() => (
-            <MobileView content={this.renderContent()} map={this.renderMap()} />
+            <MobileView
+              content={this.renderContent()}
+              map={this.renderMap()}
+              searchBox={this.renderSearchBox()}
+            />
           )}
         />
       );

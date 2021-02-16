@@ -41,6 +41,7 @@ export default function MobileView({
   settingsDrawer,
   selectFromMapHeader,
   mapCenterToggle,
+  searchBox,
 }) {
   if (settingsDrawer && settingsDrawer.props.open) {
     return <div className="mobile">{settingsDrawer}</div>;
@@ -91,6 +92,7 @@ export default function MobileView({
   return (
     <div className="mobile">
       {selectFromMapHeader}
+      {searchBox && <span>{searchBox}</span>}
       {map ? (
         <>
           <MapBottomsheetContext.Provider value={bottomsheetState.context}>
@@ -123,5 +125,6 @@ MobileView.propTypes = {
   content: PropTypes.node,
   settingsDrawer: PropTypes.node,
   selectFromMapHeader: PropTypes.node,
+  searchBox: PropTypes.node,
   mapCenterToggle: PropTypes.bool,
 };

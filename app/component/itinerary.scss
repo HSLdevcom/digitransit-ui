@@ -641,6 +641,9 @@ $itinerary-tab-switch-height: 48px;
     .time-column-zone-icons-container {
       position: relative;
       top: 2.5em;
+      &.single {
+        top: 3.5em;
+      }
       &.intermediate-leg {
         position: relative;
         float: right;

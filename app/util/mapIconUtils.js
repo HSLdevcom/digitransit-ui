@@ -17,8 +17,9 @@ const FULL_CIRCLE = Math.PI * 2;
  *
  * @param {string} type one of 'stop', 'citybike', 'hybrid'
  * @param {number} zoom
+ * @param {bool} isHilighted
  */
-export function getStopIconStyles(type, zoom) {
+export function getStopIconStyles(type, zoom, isHilighted) {
   const styles = {
     stop: {
       13: {
@@ -90,6 +91,10 @@ export function getStopIconStyles(type, zoom) {
 
   if (!styles[type]) {
     return null;
+  }
+  if (zoom < 16 && isHilighted) {
+    // use bigger icon for hilighted stops always
+    return styles[type][15];
   }
   if (zoom < 13) {
     return null;
@@ -300,17 +305,14 @@ function getSmallStopIcon(type, radius) {
 
 const getMemoizedStopIcon = memoize(
   getSmallStopIcon,
-  (type, radius) => `${type}_${radius}`,
+  (type, radius, isHilighted) => `${type}_${radius}_${isHilighted}`,
 );
 
 function getSelectedIconCircleOffset(zoom, ratio) {
   if (zoom > 15) {
     return 94 / ratio;
   }
-  if (zoom === 15) {
-    return 78 / ratio;
-  }
-  return 63 / ratio;
+  return 78 / ratio;
 }
 
 /**
@@ -331,7 +333,7 @@ export function drawStopIcon(
   }
   const zoom = tile.coords.z - 1;
   const drawNumber = zoom >= 16;
-  const styles = getStopIconStyles('stop', zoom);
+  const styles = getStopIconStyles('stop', zoom, isHilighted);
   if (!styles) {
     return;
   }
@@ -346,11 +348,13 @@ export function drawStopIcon(
   if (style === 'small') {
     x = geom.x / tile.ratio - radius;
     y = geom.y / tile.ratio - radius;
-    getMemoizedStopIcon(isFerryTerminal ? 'FERRY_TERMINAL' : type, radius).then(
-      image => {
-        tile.ctx.drawImage(image, x, y);
-      },
-    );
+    getMemoizedStopIcon(
+      isFerryTerminal ? 'FERRY_TERMINAL' : type,
+      radius,
+      isHilighted,
+    ).then(image => {
+      tile.ctx.drawImage(image, x, y);
+    });
     return;
   }
   if (style === 'large') {
@@ -415,7 +419,7 @@ export function drawStopIcon(
  */
 export function drawHybridStopIcon(tile, geom, isHilighted) {
   const zoom = tile.coords.z - 1;
-  const styles = getStopIconStyles('hybrid', zoom);
+  const styles = getStopIconStyles('hybrid', zoom, isHilighted);
   if (!styles) {
     return;
   }
