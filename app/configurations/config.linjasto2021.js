@@ -14,6 +14,8 @@ const minLon = 22.68;
 const maxLon = 24.9;
 
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
+const MAP_URL =
+  process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -22,6 +24,7 @@ export default configMerger(walttiConfig, {
     OTP:
       process.env.OTP_URL ||
       `${API_URL}/routing/v1/routers/linjasto2021-waltti/`,
+    STOP_MAP: `${MAP_URL}/map/v1/linjasto2021-waltti-stop-map/`,
   },
 
   appBarLink: { name: 'Nysse', href: 'https://www.nysse.fi/' },
