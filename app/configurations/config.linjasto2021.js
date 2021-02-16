@@ -13,8 +13,16 @@ const maxLat = 62.31;
 const minLon = 22.68;
 const maxLon = 24.9;
 
+const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
+
 export default configMerger(walttiConfig, {
   CONFIG,
+
+  URL: {
+    OTP:
+      process.env.OTP_URL ||
+      `${API_URL}/routing/v1/routers/linjasto2021-waltti/`,
+  },
 
   appBarLink: { name: 'Nysse', href: 'https://www.nysse.fi/' },
 
