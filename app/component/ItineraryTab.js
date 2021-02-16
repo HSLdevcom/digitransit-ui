@@ -221,6 +221,7 @@ class ItineraryTab extends React.Component {
                   />
                 </div>
               )}
+              <div className="itinerary-empty-space" />
             </div>
           ]}
         </BreakpointConsumer>

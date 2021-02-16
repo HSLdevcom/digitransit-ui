@@ -62,8 +62,6 @@ $itinerary-tab-switch-height: 48px;
   background: $white;
   padding: 0 3.125em;
   position: relative;
-
-  overflow-y: visible;
 }
 
 .itinerary-main {
@@ -328,6 +326,10 @@ $itinerary-tab-switch-height: 48px;
   display: flex;
   align-items: center;
   letter-spacing: -0.03em;
+}
+
+.itinerary-empty-space {
+  min-height: 10px;
 }
 
 .mobile .itinerary-disclaimer {
