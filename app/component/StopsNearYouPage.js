@@ -341,6 +341,9 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     const searchProps = {
       id: 'origin-stop-near-you',
       placeholder: onMap ? 'move-on-map' : 'origin',
+      translatedPlaceholder: onMap
+        ? this.context.intl.formatMessage({ id: 'move-on-map' })
+        : undefined,
       mobileLabel: onMap
         ? this.context.intl.formatMessage({ id: 'position' })
         : undefined,

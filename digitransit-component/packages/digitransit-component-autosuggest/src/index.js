@@ -187,6 +187,7 @@ class DTAutosuggest extends React.Component {
     icon: PropTypes.string,
     id: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
+    translatedPlaceholder: PropTypes.string,
     value: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
     ariaLabel: PropTypes.string,
@@ -234,6 +235,7 @@ class DTAutosuggest extends React.Component {
     },
     mobileLabel: undefined,
     inputClassName: '',
+    translatedPlaceholder: undefined,
   };
 
   constructor(props) {
@@ -756,7 +758,9 @@ class DTAutosuggest extends React.Component {
       cleanExecuted,
     } = this.state;
     const inputProps = {
-      placeholder: i18next.t(this.props.placeholder),
+      placeholder: this.props.translatedPlaceholder
+        ? this.props.translatedPlaceholder
+        : i18next.t(this.props.placeholder),
       value,
       onChange: this.onChange,
       onBlur: !this.props.isMobile ? this.onBlur : () => null,
