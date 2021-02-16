@@ -164,7 +164,11 @@ function StopsNearYouMap(
   // }
   const activeStops = stops.nearest.edges
     .slice()
-    .filter(stop => stop.node.place.stoptimesWithoutPatterns && stop.node.place.stoptimesWithoutPatterns.length);
+    .filter(
+      stop =>
+        stop.node.place.stoptimesWithoutPatterns &&
+        stop.node.place.stoptimesWithoutPatterns.length,
+    );
   const sortedStopEdges =
     mode === 'CITYBIKE'
       ? activeStops.slice().sort(sortNearbyRentalStations(favouriteIds))
@@ -261,7 +265,11 @@ function StopsNearYouMap(
   useEffect(() => {
     const active = stops.nearest.edges
       .slice()
-      .filter(stop => stop.node.place.stoptimesWithoutPatterns && stop.node.place.stoptimesWithoutPatterns.length);
+      .filter(
+        stop =>
+          stop.node.place.stoptimesWithoutPatterns &&
+          stop.node.place.stoptimesWithoutPatterns.length,
+      );
     if (!active.length && relay.hasMore()) {
       relay.loadMore(5);
       return;

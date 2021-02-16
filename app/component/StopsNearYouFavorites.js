@@ -2,10 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import { dtLocationShape } from '../util/shapes';
 import StopNearYou from './StopNearYou';
 import CityBikeStopNearYou from './CityBikeStopNearYou';
 import withBreakpoint from '../util/withBreakpoint';
-import StopsNearYouContainer from './StopsNearYouContainer';
 
 function StopsNearYouFavorites({
   favoriteStops,
@@ -13,10 +14,8 @@ function StopsNearYouFavorites({
   favoriteBikeRentalStationIds,
   relayEnvironment,
   currentTime,
-  match,
   searchPosition,
 }) {
-  // getStopAndStationsQuery(Array.from(favorites)).then(res => console.log(res));
   return (
     <QueryRenderer
       query={graphql`
@@ -153,37 +152,71 @@ function StopsNearYouFavorites({
       environment={relayEnvironment}
       render={({ props }) => {
         if (props) {
-          const favouriteStops = props.stops.map(stop => {
-            // console.log(stop)
-            return <StopNearYou stop={stop} currentTime={currentTime} />;
-          });
-          const favouriteStations = props.stations.map(stop => {
-            console.log(stop);
-            return (
-              <StopNearYou
-                stop={stop}
-                stopIsStation
-                currentTime={currentTime}
-              />
-            );
-          });
-          const favouritebikeStations = props.bikeRentalStations.map(stop => {
-            console.log(stop);
-            return <CityBikeStopNearYou stop={stop} />;
-          });
-          return (
-            <div className="stops-near-you-page">
-              {favouriteStops}
-              {favouriteStations}
-              {favouritebikeStations}
-            </div>
+          const stopList = [];
+          stopList.push(
+            ...props.stops.map(stop => {
+              return {
+                type: 'stop',
+                distance: distance(searchPosition, stop),
+                ...stop,
+              };
+            }),
           );
+          stopList.push(
+            ...props.stations.map(stop => {
+              return {
+                type: 'station',
+                distance: distance(searchPosition, stop),
+                ...stop,
+              };
+            }),
+          );
+          stopList.push(
+            ...props.bikeRentalStations.map(stop => {
+              return {
+                type: 'bikeRentalStation',
+                distance: distance(searchPosition, stop),
+                ...stop,
+              };
+            }),
+          );
+          stopList.sort((a, b) => a.distance - b.distance);
+          const stopElements = stopList.map(stop => {
+            switch (stop.type) {
+              case 'stop':
+                return <StopNearYou stop={stop} currentTime={currentTime} />;
+              case 'station':
+                return (
+                  <StopNearYou
+                    stop={stop}
+                    stopIsStation
+                    currentTime={currentTime}
+                  />
+                );
+              case 'bikeRentalStation':
+                return <CityBikeStopNearYou stop={stop} />;
+              default:
+                return null;
+            }
+          });
+          return <div className="stops-near-you-page">{stopElements}</div>;
         }
         return undefined;
       }}
     />
   );
 }
+StopsNearYouFavorites.propTypes = {
+  favoriteStops: PropTypes.array,
+  favoriteStations: PropTypes.array,
+  favoriteBikeRentalStationIds: PropTypes.array,
+  relayEnvironment: PropTypes.object.isRequired,
+  currentTime: PropTypes.number.isRequired,
+  searchPosition: dtLocationShape.isRequired,
+  stops: PropTypes.array,
+  stations: PropTypes.array,
+  bikeRentalStations: PropTypes.array,
+};
 
 const StopsNearYouFavoritesWithBreakpoint = withBreakpoint(
   StopsNearYouFavorites,

@@ -139,18 +139,18 @@ function NearStopsAndRoutes({
     const modeButton = (
       <>
         <span className={styles['sr-only']}>
-            {i18next.t(`pick-mode-${mode}`, { lng: language })}
+          {i18next.t(`pick-mode-${mode}`, { lng: language })}
+        </span>
+        <span className={styles['transport-mode-icon-container']}>
+          <span className={styles['transport-mode-icon-with-icon']}>
+            <Icon img={mode === 'favorite' ? 'star' : `mode-${mode}`} />
+            {withAlert && (
+              <span className={styles['transport-mode-alert-icon']}>
+                <Icon img="caution" color="#dc0451" />
+              </span>
+            )}
           </span>
-          <span className={styles['transport-mode-icon-container']}>
-            <span className={styles['transport-mode-icon-with-icon']}>
-              <Icon img={mode === 'favourite' ? 'star' : `mode-${mode}`} />
-              {withAlert && (
-                <span className={styles['transport-mode-alert-icon']}>
-                  <Icon img="caution" color="#dc0451" />
-                </span>
-              )}
-            </span>
-          </span>
+        </span>
       </>
     );
 
