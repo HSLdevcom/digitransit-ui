@@ -392,7 +392,7 @@ function StopsNearYouMap(
   };
 
   // Marker for the search point.
-  if (position) {
+  if (position && position.type !== 'CurrentLocation') {
     leafletObjs.push(getLocationMarker(position));
   }
 

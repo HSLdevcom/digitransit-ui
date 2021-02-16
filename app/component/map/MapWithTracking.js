@@ -249,8 +249,7 @@ class MapWithTrackingStateHandler extends React.Component {
       bounds: newBounds,
     });
     if (this.props.setCenterOfMap) {
-      const centerOfMap = this.mapElement.leafletElement.getCenter();
-      this.props.setCenterOfMap({ lat: centerOfMap.lat, lon: centerOfMap.lng });
+      this.props.setCenterOfMap(this.mapElement);
     }
   };
 

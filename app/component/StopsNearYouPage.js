@@ -149,9 +149,29 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     };
   };
 
-  setCenterOfMap = location => {
-    if (!location) {
-      return this.setState({ searchPosition: this.getPosition() });
+  setCenterOfMap = mapElement => {
+    let location;
+    if (!mapElement) {
+      return this.setState({
+        searchPosition: this.getPosition(),
+        centerOfMap: null,
+        centerOfMapChanged: false,
+      });
+    }
+    if (this.props.breakpoint === 'large') {
+      const centerOfMap = mapElement.leafletElement.getCenter();
+      location = { lat: centerOfMap.lat, lon: centerOfMap.lng };
+    } else {
+      const drawer = document.getElementsByClassName('drawer-container')[0];
+      const { scrollTop } = drawer;
+
+      const height = (window.innerHeight * 0.9 - 24 - scrollTop) / 2;
+      const width = window.innerWidth / 2;
+      const point = mapElement.leafletElement.containerPointToLatLng([
+        width,
+        height,
+      ]);
+      location = { lat: point.lat, lon: point.lng };
     }
     return this.setState({ centerOfMap: location, centerOfMapChanged: true });
   };
