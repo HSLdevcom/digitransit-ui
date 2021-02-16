@@ -260,7 +260,6 @@ class SummaryPage extends React.Component {
     super(props, context);
     this.isFetching = false;
     this.secondQuerySent = false;
-    this.isFetchingWalkAndBike = true;
     this.setParamsAndQuery();
     this.originalPlan = this.props.viewer && this.props.viewer.plan;
     // *** TODO: Hotfix variables for temporary use only
@@ -302,6 +301,7 @@ class SummaryPage extends React.Component {
       scrolled: false,
       loadingMoreItineraries: undefined,
       zoomLevel: -1,
+      isFetchingWalkAndBike: true,
     };
     if (this.props.match.params.hash === 'walk') {
       this.selectedPlan = this.state.walkPlan;
@@ -337,7 +337,7 @@ class SummaryPage extends React.Component {
     const indexPath = `${getSummaryPath(
       this.context.match.params.from,
       this.context.match.params.to,
-    )}/${newStreetMode}/`;
+    )}/${newStreetMode}`;
 
     newState.pathname = basePath;
     this.context.router.replace(newState);
@@ -366,7 +366,7 @@ class SummaryPage extends React.Component {
     const basePath = `${getSummaryPath(
       this.context.match.params.from,
       this.context.match.params.to,
-    )}/`;
+    )}`;
     const indexPath = `${getSummaryPath(
       this.context.match.params.from,
       this.context.match.params.to,
@@ -713,20 +713,25 @@ class SummaryPage extends React.Component {
       this.context.match,
     );
 
-    fetchQuery(this.props.relayEnvironment, query, planParams).then(result => {
-      this.isFetchingWalkAndBike = false;
-      this.setState(
-        {
-          walkPlan: result.walkPlan,
-          bikePlan: result.bikePlan,
-          bikeAndPublicPlan: result.bikeAndPublicPlan,
-          bikeParkPlan: result.bikeParkPlan,
-        },
-        () => {
-          this.makeWeatherQuery();
-        },
-      );
-    });
+    fetchQuery(this.props.relayEnvironment, query, planParams)
+      .then(result => {
+        this.setState(
+          {
+            isFetchingWalkAndBike: false,
+            isFetchingWeather: true,
+            walkPlan: result.walkPlan,
+            bikePlan: result.bikePlan,
+            bikeAndPublicPlan: result.bikeAndPublicPlan,
+            bikeParkPlan: result.bikeParkPlan,
+          },
+          () => {
+            this.makeWeatherQuery();
+          },
+        );
+      })
+      .catch(() => {
+        this.setState({ isFetchingWalkAndBike: false });
+      });
   };
 
   makeQueryWithAllModes = () => {
@@ -1185,13 +1190,13 @@ class SummaryPage extends React.Component {
       ) &&
       this.paramsOrQueryHaveChanged() &&
       this.secondQuerySent &&
-      !this.isFetchingWalkAndBike
+      !this.state.isFetchingWalkAndBike
     ) {
       this.setParamsAndQuery();
       this.secondQuerySent = false;
-      this.isFetchingWalkAndBike = true;
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
+        isFetchingWalkAndBike: true,
         walkPlan: undefined,
         bikePlan: undefined,
         bikeAndPublicPlan: undefined,
@@ -1222,7 +1227,8 @@ class SummaryPage extends React.Component {
       ) {
         this.makeWalkAndBikeQueries();
       } else {
-        this.isFetchingWalkAndBike = false;
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({ isFetchingWalkAndBike: false });
       }
     }
 
@@ -1370,12 +1376,12 @@ class SummaryPage extends React.Component {
                   ),
                 };
               }
-              this.setState({ weatherData });
+              this.setState({ isFetchingWeather: false, weatherData });
             }
           })
           .catch(err => {
             this.pendingWeatherHash = undefined;
-            this.setState({ weatherData: { err } });
+            this.setState({ isFetchingWeather: false, weatherData: { err } });
           });
       }
     }
@@ -1686,9 +1692,9 @@ class SummaryPage extends React.Component {
           ) ||
           getIntermediatePlaces(this.context.match.location.query).length > 0
         ) {
-          this.isFetchingWalkAndBike = true;
           this.setState(
             {
+              isFetchingWalkAndBike: true,
               loading: true,
             },
             // eslint-disable-next-line func-names
@@ -1747,11 +1753,12 @@ class SummaryPage extends React.Component {
   };
 
   getCombinedItineraries = () => {
-    return [
+    const itineraries = [
       ...(this.state.earlierItineraries || []),
       ...(this.selectedPlan?.itineraries || []),
       ...(this.state.laterItineraries || []),
     ];
+    return itineraries.filter(x => x !== undefined);
   };
 
   setMapCenterToggle = () => {
@@ -1795,7 +1802,7 @@ class SummaryPage extends React.Component {
     ) {
       this.originalPlan = this.props.viewer.plan;
       this.isFetching = true;
-      this.isFetchingWalkAndBike = true;
+      this.setState({ isFetchingWalkAndBike: true });
       this.makeQueryWithAllModes();
       this.makeWalkAndBikeQueries();
     }
@@ -2073,7 +2080,7 @@ class SummaryPage extends React.Component {
 
     const loadingStreeModeSelector =
       this.props.loading ||
-      this.isFetchingWalkAndBike ||
+      this.state.isFetchingWalkAndBike ||
       (!this.state.weatherData.temperature && !this.state.weatherData.err);
 
     const screenReaderWalkAndBikeUpdateAlert = (
@@ -2195,7 +2202,7 @@ class SummaryPage extends React.Component {
                 planHasNoItineraries && hasAlternativeItineraries
               }
               separatorPosition={this.state.separatorPosition}
-              loading={this.isFetchingWalkAndBike && !error}
+              loading={this.state.isFetchingWalkAndBike && !error}
               onLater={this.onLater}
               onEarlier={this.onEarlier}
               loadingMoreItineraries={this.state.loadingMoreItineraries}
@@ -2269,7 +2276,7 @@ class SummaryPage extends React.Component {
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
               />
               {error ||
-              (!this.isFetchingWalkAndBike &&
+              (!this.state.isFetchingWalkAndBike &&
                 !showStreetModeSelector) ? null : (
                 <StreetModeSelector
                   showWalkOptionButton={showWalkOptionButton}
@@ -2284,9 +2291,8 @@ class SummaryPage extends React.Component {
                   bikeParkPlan={bikeParkPlan}
                   loading={
                     this.props.loading ||
-                    this.isFetchingWalkAndBike ||
-                    (!this.state.weatherData.temperature &&
-                      !this.state.weatherData.err)
+                    this.state.isFetchingWalkAndBike ||
+                    this.state.isFetchingWeather
                   }
                 />
               )}
@@ -2390,7 +2396,7 @@ class SummaryPage extends React.Component {
                 planHasNoItineraries && hasAlternativeItineraries
               }
               separatorPosition={this.state.separatorPosition}
-              loading={this.isFetchingWalkAndBike && !error}
+              loading={this.state.isFetchingWalkAndBike && !error}
               onLater={this.onLater}
               onEarlier={this.onEarlier}
               loadingMoreItineraries={this.state.loadingMoreItineraries}
@@ -2418,7 +2424,7 @@ class SummaryPage extends React.Component {
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
               />
               {error ||
-              (!this.isFetchingWalkAndBike &&
+              (!this.state.isFetchingWalkAndBike &&
                 !showStreetModeSelector) ? null : (
                 <StreetModeSelector
                   showWalkOptionButton={showWalkOptionButton}
@@ -2433,9 +2439,8 @@ class SummaryPage extends React.Component {
                   bikeParkPlan={bikeParkPlan}
                   loading={
                     this.props.loading ||
-                    this.isFetchingWalkAndBike ||
-                    (!this.state.weatherData.temperature &&
-                      !this.state.weatherData.err)
+                    this.state.isFetchingWalkAndBike ||
+                    this.state.isFetchingWeather
                   }
                 />
               )}
