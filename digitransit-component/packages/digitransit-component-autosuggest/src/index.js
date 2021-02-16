@@ -177,6 +177,7 @@ function translateFutureRouteSuggestionTime(item) {
  *    targets={targets}
  *    isMobile  // Optional. Defaults to false. Whether to use mobile search.
  *    mobileLabel="Custom label" // Optional. Custom label text for autosuggest field on mobile.
+ *    inputClassName="" // Optional. Custom classname applied to the input element of the component for providing CSS styles.
  */
 class DTAutosuggest extends React.Component {
   static propTypes = {
@@ -212,6 +213,7 @@ class DTAutosuggest extends React.Component {
     lock: PropTypes.func.isRequired,
     unlock: PropTypes.func.isRequired,
     refPoint: PropTypes.object,
+    inputClassName: PropTypes.string,
   };
 
   static defaultProps = {
@@ -231,6 +233,7 @@ class DTAutosuggest extends React.Component {
       stopsPrefix: 'pysakit',
     },
     mobileLabel: undefined,
+    inputClassName: '',
   };
 
   constructor(props) {
@@ -714,8 +717,7 @@ class DTAutosuggest extends React.Component {
     this.props.id === 'origin' ||
     this.props.id === 'destination' ||
     this.props.id === 'via-point' ||
-    this.props.id === 'origin-stop-near-you' ||
-    this.props.id === 'origin-stop-near-you-selector';
+    this.props.id === 'origin-stop-near-you';
 
   onFocus = () => {
     const positions = [
@@ -763,7 +765,7 @@ class DTAutosuggest extends React.Component {
           this.props.isMobile && this.props.transportMode ? styles.thin : ''
         } ${styles[this.props.id] || ''} ${
           this.state.value ? styles.hasValue : ''
-        }`,
+        } ${this.props.inputClassName}`,
       ),
       onKeyDown: this.keyDown, // DT-3263
     };
@@ -850,6 +852,8 @@ class DTAutosuggest extends React.Component {
                 className={cx([
                   styles[`autosuggest-input-icon`],
                   styles[this.props.id],
+                  this.props.inputClassName &&
+                    `${this.props.inputClassName}-input-icon`,
                 ])}
               >
                 <Icon img={`${this.props.icon}`} />

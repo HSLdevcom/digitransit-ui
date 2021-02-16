@@ -339,8 +339,12 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   renderAutoSuggestField = onMap => {
     const isMobile = this.props.breakpoint !== 'large';
     const searchProps = {
-      id: onMap ? 'origin-stop-near-you-selector' : 'origin-stop-near-you',
+      id: 'origin-stop-near-you',
       placeholder: onMap ? 'move-on-map' : 'origin',
+      mobileLabel: onMap
+        ? this.context.intl.formatMessage({ id: 'position' })
+        : undefined,
+      inputClassName: onMap ? 'origin-stop-near-you-selector' : undefined,
     };
     return (
       <DTAutoSuggestWithSearchContext

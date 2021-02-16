@@ -32,20 +32,6 @@ input[type='text'] {
     &.thin {
       height: 34px;
     }
-    &.origin-stop-near-you-selector {
-      height: 34px;
-      @include min-width(tablet)
-      {
-        height: 44px;
-      }
-      box-shadow: 0px 4px 20px 0px rgba(0,0,0,0.15);
-      width: 100%;
-      border-radius: 8px;
-      border: none;
-      background-color: #ffffff;
-      padding-left: 37px;
-      padding-right: 10px;
-    }
     font-size: 16px;
     font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
     display: flex;
@@ -183,14 +169,6 @@ input[type='text'] {
     }
   }
   &.origin-stop-near-you {
-    svg {
-      fill: #888888;
-      width: 16px;
-      height: 16px;
-    }
-  }
-  &.origin-stop-near-you-selector {
-    margin-left: 9px;
     svg {
       fill: #888888;
       width: 16px;
