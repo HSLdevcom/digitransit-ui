@@ -1,0 +1,25 @@
+@import '../../base/waltti';
+
+/* main theme colors */
+$primary-color: #1c57cf;
+$secondary-color: #1645a5;
+$hilight-color: $primary-color;
+$action-color: $primary-color;
+$bus-color: $primary-color;
+$tram-color: #da2128;
+$viewpoint-marker-color: $primary-color;
+$current-location-color: $primary-color;
+$selected-lang-background: #1a4a8f;
+
+/* Component palette */
+
+$standalone-btn-color: $primary-color;
+$link-color: $primary-color;
+$desktop-title-color: #40ba54;
+$desktop-title-arrow-icon-color: $white;
+$caution-icon-color: #ec5e47;
+$caution-icon-font-color: $white;
+$top-bar-color: $primary-color;
+
+/* Navbar dimensions */
+$nav-logo-height: 2.5em;

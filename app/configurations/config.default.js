@@ -749,6 +749,7 @@ export default {
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
     matka: 'matka',
+    linjasto2021: 'linjasto2021',
     walttiOpas: 'waltti',
     salo: 'salo',
     rovaniemi: 'rovaniemi',
