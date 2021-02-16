@@ -153,7 +153,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     let location;
     if (!mapElement) {
       return this.setState({
-        searchPosition: this.getPosition(),
         centerOfMap: null,
         centerOfMapChanged: false,
       });
