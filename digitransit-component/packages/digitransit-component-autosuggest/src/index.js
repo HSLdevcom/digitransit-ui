@@ -178,6 +178,7 @@ function translateFutureRouteSuggestionTime(item) {
  *    isMobile  // Optional. Defaults to false. Whether to use mobile search.
  *    mobileLabel="Custom label" // Optional. Custom label text for autosuggest field on mobile.
  *    inputClassName="" // Optional. Custom classname applied to the input element of the component for providing CSS styles.
+ *    translatedPlaceholder= //Optional. Custon translated placeholder text for autosuggest field.
  */
 class DTAutosuggest extends React.Component {
   static propTypes = {
