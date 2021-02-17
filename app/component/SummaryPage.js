@@ -1388,6 +1388,34 @@ class SummaryPage extends React.Component {
     }
   }
 
+  changeHash = index => {
+    const isbikeAndVehicle = this.props.match.params.hash === 'bikeAndVehicle';
+
+    addAnalyticsEvent({
+      event: 'sendMatomoEvent',
+      category: 'Itinerary',
+      action: 'OpenItineraryDetails',
+      name: index,
+    });
+    const newState = {
+      ...this.context.match.location,
+      state: { summaryPageSelected: index },
+    };
+    const basePath = `${getSummaryPath(
+      this.props.match.params.from,
+      this.props.match.params.to,
+    )}${isbikeAndVehicle ? '/bikeAndVehicle/' : '/'}`;
+    const indexPath = `${getSummaryPath(
+      this.props.match.params.from,
+      this.props.match.params.to,
+    )}${isbikeAndVehicle ? '/bikeAndVehicle/' : '/'}${index}`;
+
+    newState.pathname = basePath;
+    this.context.router.replace(newState);
+    newState.pathname = indexPath;
+    this.context.router.push(newState);
+  };
+
   setMapZoomToLeg = leg => {
     if (this.props.breakpoint !== 'large') {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -2344,6 +2372,7 @@ class SummaryPage extends React.Component {
           plan={this.selectedPlan}
           serviceTimeRange={this.props.serviceTimeRange}
           setMapZoomToLeg={this.setMapZoomToLeg}
+          onSwipe={this.changeHash}
         >
           {this.props.content &&
             combinedItineraries.map((itinerary, i) =>

@@ -3,6 +3,7 @@ import React from 'react';
 import { matchShape, routerShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
 import ItineraryTab from './ItineraryTab';
+import SwipeableTabs from './SwipeableTabs';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 export default class MobileItineraryWrapper extends React.Component {
@@ -18,6 +19,7 @@ export default class MobileItineraryWrapper extends React.Component {
     }).isRequired,
     plan: PropTypes.object,
     serviceTimeRange: PropTypes.object.isRequired,
+    onSwipe: PropTypes.func,
   };
 
   static contextTypes = {
@@ -69,19 +71,28 @@ export default class MobileItineraryWrapper extends React.Component {
     const fullscreenMap =
       this.context.match.location.state &&
       this.context.match.location.state.fullscreenMap === true;
-    const itinerary = fullscreenMap ? undefined : (
-      <div>
+
+    const itineraryTabs = this.props.children.map((child, i) => {
+      return (
         <ItineraryTab
-          key={index.toString()}
-          activeIndex={index}
+          key={child.key}
+          activeIndex={index + i}
           plan={this.props.plan}
           serviceTimeRange={this.props.serviceTimeRange}
-          itinerary={this.props.children[index].props.itinerary}
+          itinerary={child.props.itinerary}
           params={this.context.match.params}
           focus={this.props.focus}
           setMapZoomToLeg={this.props.setMapZoomToLeg}
         />
-      </div>
+      );
+    });
+
+    const itinerary = fullscreenMap ? undefined : (
+      <SwipeableTabs
+        tabs={itineraryTabs}
+        tabIndex={index}
+        onSwipe={this.props.onSwipe}
+      />
     );
     /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
     return <>{itinerary}</>;
