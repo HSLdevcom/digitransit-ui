@@ -5,8 +5,6 @@ import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
-import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
-import TrafficNowLink from '@digitransit-component/digitransit-component-traffic-now-link';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
@@ -25,20 +23,32 @@ import {
   PREFIX_ITINERARY_SUMMARY,
 } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 import Geomover from './Geomover';
 import ComponentUsageExample from './ComponentUsageExample';
 import scrollTop from '../util/scroll';
-import FavouritesContainer from './FavouritesContainer';
-import DatetimepickerContainer from './DatetimepickerContainer';
 import { LightenDarkenColor } from '../util/colorUtils';
 import { getRefPoint } from '../util/apiUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import LazilyLoad, { importLazy } from './LazilyLoad';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
+const modules = {
+  CtrlPanel: () =>
+    importLazy(
+      import('@digitransit-component/digitransit-component-control-panel'),
+    ),
+  TrafficNowLink: () =>
+    importLazy(
+      import('@digitransit-component/digitransit-component-traffic-now-link'),
+    ),
+  OverlayWithSpinner: () => importLazy(import('./visual/OverlayWithSpinner')),
+  FavouritesContainer: () => importLazy(import('./FavouritesContainer')),
+  DatetimepickerContainer: () =>
+    importLazy(import('./DatetimepickerContainer')),
+};
 
 class IndexPage extends React.Component {
   static contextTypes = {
@@ -75,11 +85,6 @@ class IndexPage extends React.Component {
     /* initialize stores from URL params */
     const origin = parseLocation(from);
     const destination = parseLocation(to);
-
-    // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
-    this.setState({
-      isClient: true,
-    });
 
     // synchronizing page init using fluxible is - hard -
     // see navigation conditions in componentDidUpdate below
@@ -184,9 +189,6 @@ class IndexPage extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
-    if (!this.state.isClient) {
-      return null;
-    }
     const { intl, config } = this.context;
     const { trafficNowLink, colors } = config;
     const color = colors.primary;
@@ -247,16 +249,20 @@ class IndexPage extends React.Component {
 
     const NearStops = config.showNearYouButtons ? (
       <div className="near-you-buttons-container">
-        <CtrlPanel.NearStopsAndRoutes
-          modes={config.nearYouModes}
-          urlPrefix={`/${PREFIX_NEARYOU}`}
-          language={lang}
-          showTitle
-          alertsContext={alertsContext}
-          origin={origin}
-          omitLanguageUrl
-          onClick={this.clickStopNearIcon}
-        />
+        <LazilyLoad modules={modules}>
+          {({ CtrlPanel }) => (
+            <CtrlPanel.NearStopsAndRoutes
+              modes={config.nearYouModes}
+              urlPrefix={`/${PREFIX_NEARYOU}`}
+              language={lang}
+              showTitle
+              alertsContext={alertsContext}
+              origin={origin}
+              omitLanguageUrl
+              onClick={this.clickStopNearIcon}
+            />
+          )}
+        </LazilyLoad>
       </div>
     ) : (
       <div className="stops-near-you-text">
@@ -270,104 +276,116 @@ class IndexPage extends React.Component {
       </div>
     );
 
-    return breakpoint === 'large' ? (
-      <div
-        className={`front-page flex-vertical ${
-          showSpinner && `blurred`
-        } fullscreen bp-${breakpoint}`}
-      >
-        <div
-          style={{ display: 'block' }}
-          className="scrollable-content-wrapper momentum-scroll"
-        >
-          <CtrlPanel
-            instance="hsl"
-            language={lang}
-            origin={origin}
-            position="left"
-          >
-            <LocationSearch
-              targets={[
-                'Locations',
-                'CurrentPosition',
-                'FutureRoutes',
-                'Stops',
-              ]}
-              {...locationSearchProps}
-            />
-            <div className="datetimepicker-container">
-              <DatetimepickerContainer realtime color={color} />
+    return (
+      <LazilyLoad modules={modules}>
+        {({
+          CtrlPanel,
+          TrafficNowLink,
+          OverlayWithSpinner,
+          FavouritesContainer,
+          DatetimepickerContainer,
+        }) =>
+          breakpoint === 'large' ? (
+            <div
+              className={`front-page flex-vertical ${
+                showSpinner && `blurred`
+              } fullscreen bp-${breakpoint}`}
+            >
+              <div
+                style={{ display: 'block' }}
+                className="scrollable-content-wrapper momentum-scroll"
+              >
+                <CtrlPanel
+                  instance="hsl"
+                  language={lang}
+                  origin={origin}
+                  position="left"
+                >
+                  <LocationSearch
+                    targets={[
+                      'Locations',
+                      'CurrentPosition',
+                      'FutureRoutes',
+                      'Stops',
+                    ]}
+                    {...locationSearchProps}
+                  />
+                  <div className="datetimepicker-container">
+                    <DatetimepickerContainer realtime color={color} />
+                  </div>
+                  <FavouritesContainer
+                    favouriteModalAction={this.props.favouriteModalAction}
+                    onClickFavourite={this.clickFavourite}
+                    lang={lang}
+                  />
+                  <CtrlPanel.SeparatorLine usePaddingBottom20 />
+                  <>{NearStops}</>
+                  <StopRouteSearch {...stopRouteSearchProps} />
+                  <CtrlPanel.SeparatorLine />
+                  {!trafficNowLink ||
+                    (trafficNowLink[lang] !== '' && (
+                      <TrafficNowLink
+                        lang={lang}
+                        handleClick={this.trafficNowHandler}
+                      />
+                    ))}
+                </CtrlPanel>
+              </div>
+              {(showSpinner && <OverlayWithSpinner />) || null}
             </div>
-            <FavouritesContainer
-              favouriteModalAction={this.props.favouriteModalAction}
-              onClickFavourite={this.clickFavourite}
-              lang={lang}
-            />
-            <CtrlPanel.SeparatorLine usePaddingBottom20 />
-            <>{NearStops}</>
-            <StopRouteSearch {...stopRouteSearchProps} />
-            <CtrlPanel.SeparatorLine />
-            {!trafficNowLink ||
-              (trafficNowLink[lang] !== '' && (
-                <TrafficNowLink
-                  lang={lang}
-                  handleClick={this.trafficNowHandler}
-                />
-              ))}
-          </CtrlPanel>
-        </div>
-        {(showSpinner && <OverlayWithSpinner />) || null}
-      </div>
-    ) : (
-      <div
-        className={`front-page flex-vertical ${
-          showSpinner && `blurred`
-        } bp-${breakpoint}`}
-      >
-        {(showSpinner && <OverlayWithSpinner />) || null}
-        <div
-          style={{
-            display: 'block',
-            backgroundColor: '#ffffff',
-          }}
-        >
-          <CtrlPanel instance="hsl" language={lang} position="bottom">
-            <LocationSearch
-              targets={[
-                'Locations',
-                'CurrentPosition',
-                'MapPosition',
-                'FutureRoutes',
-                'Stops',
-              ]}
-              disableAutoFocus
-              isMobile
-              {...locationSearchProps}
-            />
-            <div className="datetimepicker-container">
-              <DatetimepickerContainer realtime color={color} />
+          ) : (
+            <div
+              className={`front-page flex-vertical ${
+                showSpinner && `blurred`
+              } bp-${breakpoint}`}
+            >
+              {(showSpinner && <OverlayWithSpinner />) || null}
+              <div
+                style={{
+                  display: 'block',
+                  backgroundColor: '#ffffff',
+                }}
+              >
+                <CtrlPanel instance="hsl" language={lang} position="bottom">
+                  <LocationSearch
+                    targets={[
+                      'Locations',
+                      'CurrentPosition',
+                      'MapPosition',
+                      'FutureRoutes',
+                      'Stops',
+                    ]}
+                    disableAutoFocus
+                    isMobile
+                    {...locationSearchProps}
+                  />
+                  <div className="datetimepicker-container">
+                    <DatetimepickerContainer realtime color={color} />
+                  </div>
+                  <FavouritesContainer
+                    onClickFavourite={this.clickFavourite}
+                    lang={lang}
+                    isMobile
+                  />
+                  <CtrlPanel.SeparatorLine />
+                  <>{NearStops}</>
+                  <div className="stop-route-search-container">
+                    <StopRouteSearch isMobile {...stopRouteSearchProps} />
+                  </div>
+                  <CtrlPanel.SeparatorLine usePaddingBottom20 />
+                  {!trafficNowLink ||
+                    (trafficNowLink[lang] !== '' && (
+                      <TrafficNowLink
+                        lang={lang}
+                        handleClick={this.trafficNowHandler}
+                      />
+                    ))}
+                </CtrlPanel>
+              </div>
             </div>
-            <FavouritesContainer
-              onClickFavourite={this.clickFavourite}
-              lang={lang}
-              isMobile
-            />
-            <CtrlPanel.SeparatorLine />
-            <>{NearStops}</>
-            <div className="stop-route-search-container">
-              <StopRouteSearch isMobile {...stopRouteSearchProps} />
-            </div>
-            <CtrlPanel.SeparatorLine usePaddingBottom20 />
-            {!trafficNowLink ||
-              (trafficNowLink[lang] !== '' && (
-                <TrafficNowLink
-                  lang={lang}
-                  handleClick={this.trafficNowHandler}
-                />
-              ))}
-          </CtrlPanel>
-        </div>
-      </div>
+          )
+        }
+      </LazilyLoad>
     );
   }
 }

@@ -161,6 +161,7 @@ export default class Map extends React.Component {
     if (!this.props.originFromMap && !this.props.destinationFromMap) {
       leafletObjs.push(
         <VectorTileLayerContainer
+          key="vectorTileLayerContainer"
           hilightedStops={this.props.hilightedStops}
           stopsNearYouMode={this.props.stopsNearYouMode}
           showStops={this.props.showStops}
@@ -190,9 +191,10 @@ export default class Map extends React.Component {
             (mapLayers.geoJson[key] === true ||
               geoJson[key].isOffByDefault !== true),
         )
-        .forEach(key => {
+        .forEach((key, i) => {
           leafletObjs.push(
             <GeoJSON
+              key={key.concat(i)}
               bounds={null}
               data={geoJson[key].data}
               geoJsonZoomLevel={this.mapZoomLvl ? this.mapZoomLvl : 9}
