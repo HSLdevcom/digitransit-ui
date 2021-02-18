@@ -1245,16 +1245,16 @@ div.itinerary-container-content {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  border: solid 2px #cccccc;
-  background-color: #cccccc;
+  border: solid 2px $medium-gray;
+  background-color: $medium-gray;
   transition: 0.5s;
   margin-right: 5px;
   margin-left: 5px;
   &.selected {
     width: 8px;
     height: 8px;
-    border: solid 2px #333;
-    background-color: #333;
+    border: solid 2px $black;
+    background-color: $black;
   }
   &.decreasing {
     width: 4px;
@@ -1264,7 +1264,7 @@ div.itinerary-container-content {
   &.decreasing-small {
     width: 2px;
     height: 2px;
-    border: solid 1px #cccccc;
+    border: solid 1px $medium-gray;
   }
   &.hidden {
     display: none;
@@ -1280,12 +1280,12 @@ div.itinerary-container-content {
 }
 
 .mobile-swipe-button .icon {
-  fill: #007ac9;
+  fill: $primary-color;
   height: 1.3em;
   width: 1.3em;
 
   &.disabled {
-    fill: #cccccc;
+    fill: $medium-gray;
   }
 }
 
