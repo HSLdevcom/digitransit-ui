@@ -58,6 +58,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     lang: PropTypes.string.isRequired,
     match: matchShape.isRequired,
     favouriteStopIds: PropTypes.object.isRequired,
+    favouriteStationIds: PropTypes.object.isRequired,
     favouriteBikeStationIds: PropTypes.object.isRequired,
   };
 
@@ -183,7 +184,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         <StopsNearYouFavorites
           searchPosition={this.state.searchPosition}
           match={this.props.match}
-          relayEnvironment={this.props.relayEnvironment}
           favoriteStops={Array.from(this.props.favouriteStopIds)}
           favoriteStations={Array.from(this.props.favouriteStationIds)}
           favoriteBikeRentalStationIds={Array.from(
@@ -461,17 +461,21 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           desktop={() => (
             <DesktopView
               title={
-                <FormattedMessage
-                  id="nearest"
-                  defaultMessage="Stops near you"
-                  values={{
-                    mode: (
-                      <FormattedMessage
-                        id={`nearest-stops-${mode.toLowerCase()}`}
-                      />
-                    ),
-                  }}
-                />
+                mode === 'FAVORITE' ? (
+                  <FormattedMessage id="nearest-favorites" />
+                ) : (
+                  <FormattedMessage
+                    id="nearest"
+                    defaultMessage="Stops near you"
+                    values={{
+                      mode: (
+                        <FormattedMessage
+                          id={`nearest-stops-${mode.toLowerCase()}`}
+                        />
+                      ),
+                    }}
+                  />
+                )
               }
               scrollable
               content={this.renderContent()}

@@ -13,7 +13,6 @@ const StopNearYou = ({ stop, stopIsStation, ...props }) => {
   const linkAddress = stop.parentStation
     ? `/${PREFIX_TERMINALS}/${stop.parentStation.gtfsId}`
     : `/${PREFIX_STOPS}/${stop.gtfsId}`;
-
   return (
     <span role="listitem">
       <div className="stop-near-you-container">
@@ -48,6 +47,7 @@ const StopNearYou = ({ stop, stopIsStation, ...props }) => {
 
 StopNearYou.propTypes = {
   stop: PropTypes.object.isRequired,
+  stopIsStation: PropTypes.bool.isRequired,
   currentTime: PropTypes.number.isRequired,
 };
 

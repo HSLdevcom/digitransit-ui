@@ -1,11 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { graphql, QueryRenderer } from 'react-relay';
-import connectToStores from 'fluxible-addons-react/connectToStores';
-import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
 import { dtLocationShape } from '../util/shapes';
-import StopNearYou from './StopNearYou';
-import CityBikeStopNearYou from './CityBikeStopNearYou';
+import StopsNearYouFavouritesContainer from './StopsNearYouFavouritesContainer';
 import withBreakpoint from '../util/withBreakpoint';
 
 function StopsNearYouFavorites({
@@ -13,7 +10,6 @@ function StopsNearYouFavorites({
   favoriteStations,
   favoriteBikeRentalStationIds,
   relayEnvironment,
-  currentTime,
   searchPosition,
 }) {
   return (
@@ -25,122 +21,13 @@ function StopsNearYouFavorites({
           $bikeRentalStationIds: [String!]!
         ) {
           stops: stops(ids: $stopIds) {
-            id
-            name
-            gtfsId
-            code
-            desc
-            lat
-            lon
-            zoneId
-            platformCode
-            vehicleMode
-            stoptimesWithoutPatterns(startTime: 0, omitNonPickups: true) {
-              scheduledArrival
-              realtimeArrival
-              arrivalDelay
-              scheduledDeparture
-              realtimeDeparture
-              departureDelay
-              realtime
-              realtimeState
-              serviceDay
-              headsign
-              trip {
-                route {
-                  shortName
-                  gtfsId
-                  mode
-                  color
-                  patterns {
-                    headsign
-                  }
-                }
-              }
-            }
-            parentStation {
-              id
-              name
-              gtfsId
-              code
-              desc
-              lat
-              lon
-              zoneId
-              platformCode
-              vehicleMode
-              stoptimesWithoutPatterns(startTime: 0, omitNonPickups: true) {
-                scheduledArrival
-                realtimeArrival
-                arrivalDelay
-                scheduledDeparture
-                realtimeDeparture
-                departureDelay
-                realtime
-                realtimeState
-                serviceDay
-                headsign
-                trip {
-                  route {
-                    shortName
-                    gtfsId
-                    mode
-                    patterns {
-                      headsign
-                    }
-                  }
-                }
-                stop {
-                  platformCode
-                }
-              }
-            }
+            ...StopsNearYouFavouritesContainer_stops
           }
           stations: stations(ids: $stationIds) {
-            id
-            name
-            gtfsId
-            code
-            desc
-            lat
-            lon
-            zoneId
-            platformCode
-            vehicleMode
-            stoptimesWithoutPatterns(startTime: 0, omitNonPickups: true) {
-              scheduledArrival
-              realtimeArrival
-              arrivalDelay
-              scheduledDeparture
-              realtimeDeparture
-              departureDelay
-              realtime
-              realtimeState
-              serviceDay
-              headsign
-              trip {
-                route {
-                  shortName
-                  gtfsId
-                  mode
-                  patterns {
-                    headsign
-                  }
-                }
-              }
-              stop {
-                platformCode
-              }
-            }
+            ...StopsNearYouFavouritesContainer_stations
           }
-          bikeRentalStations: bikeRentalStations(ids: $bikeRentalStationIds) {
-            stationId
-            name
-            bikesAvailable
-            spacesAvailable
-            networks
-            lat
-            lon
+          bikeStations: bikeRentalStations(ids: $bikeRentalStationIds) {
+            ...StopsNearYouFavouritesContainer_bikeStations
           }
         }
       `}
@@ -152,54 +39,16 @@ function StopsNearYouFavorites({
       environment={relayEnvironment}
       render={({ props }) => {
         if (props) {
-          const stopList = [];
-          stopList.push(
-            ...props.stops.map(stop => {
-              return {
-                type: 'stop',
-                distance: distance(searchPosition, stop),
-                ...stop,
-              };
-            }),
+          return (
+            <div className="stops-near-you-page">
+              <StopsNearYouFavouritesContainer
+                searchPosition={searchPosition}
+                stops={props.stops}
+                stations={props.stations}
+                bikeStations={props.bikeStations}
+              />
+            </div>
           );
-          stopList.push(
-            ...props.stations.map(stop => {
-              return {
-                type: 'station',
-                distance: distance(searchPosition, stop),
-                ...stop,
-              };
-            }),
-          );
-          stopList.push(
-            ...props.bikeRentalStations.map(stop => {
-              return {
-                type: 'bikeRentalStation',
-                distance: distance(searchPosition, stop),
-                ...stop,
-              };
-            }),
-          );
-          stopList.sort((a, b) => a.distance - b.distance);
-          const stopElements = stopList.map(stop => {
-            switch (stop.type) {
-              case 'stop':
-                return <StopNearYou stop={stop} currentTime={currentTime} />;
-              case 'station':
-                return (
-                  <StopNearYou
-                    stop={stop}
-                    stopIsStation
-                    currentTime={currentTime}
-                  />
-                );
-              case 'bikeRentalStation':
-                return <CityBikeStopNearYou stop={stop} />;
-              default:
-                return null;
-            }
-          });
-          return <div className="stops-near-you-page">{stopElements}</div>;
         }
         return undefined;
       }}
@@ -211,25 +60,18 @@ StopsNearYouFavorites.propTypes = {
   favoriteStations: PropTypes.array,
   favoriteBikeRentalStationIds: PropTypes.array,
   relayEnvironment: PropTypes.object.isRequired,
-  currentTime: PropTypes.number.isRequired,
   searchPosition: dtLocationShape.isRequired,
   stops: PropTypes.array,
   stations: PropTypes.array,
-  bikeRentalStations: PropTypes.array,
+  bikeStations: PropTypes.array,
 };
 
-const StopsNearYouFavoritesWithBreakpoint = withBreakpoint(
-  StopsNearYouFavorites,
-);
+const StopsNearYouFavoritesWithBreakpoint = withBreakpoint(props => (
+  <ReactRelayContext.Consumer>
+    {({ environment }) => (
+      <StopsNearYouFavorites {...props} relayEnvironment={environment} />
+    )}
+  </ReactRelayContext.Consumer>
+));
 
-const connectedContainer = connectToStores(
-  StopsNearYouFavoritesWithBreakpoint,
-  ['TimeStore'],
-  ({ getStore }) => {
-    return {
-      currentTime: getStore('TimeStore').getCurrentTime().unix(),
-    };
-  },
-);
-
-export default connectedContainer;
+export default StopsNearYouFavoritesWithBreakpoint;
