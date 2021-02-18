@@ -41,7 +41,10 @@ export const otpToLocation = otpString => {
 };
 
 export const addressToItinerarySearch = location => {
-  if (location.type === 'CurrentLocation' && !location.lat) {
+  if (
+    location.type === 'CurrentLocation' &&
+    location.status === 'no-location'
+  ) {
     return 'POS';
   }
   if (!location.lat) {

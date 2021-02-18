@@ -411,13 +411,22 @@ class RoutePage extends React.Component {
               >
                 {route.shortName}
               </div>
-              <div className="route-long-name">{route.longName}</div>
             </div>
             <FavouriteRouteContainer
               className="route-page-header"
               gtfsId={route.gtfsId}
             />
           </div>
+          {patternId && (
+            <RoutePatternSelect
+              params={match.params}
+              route={route}
+              onSelectChange={this.onPatternChange}
+              gtfsId={route.gtfsId}
+              className={cx({ 'bp-large': breakpoint === 'large' })}
+              useCurrentTime={useCurrentTime}
+            />
+          )}
           <div className="route-tabs" role="tablist">
             <button
               type="button"
@@ -472,16 +481,6 @@ class RoutePage extends React.Component {
               </div>
             </button>
           </div>
-          {patternId && (
-            <RoutePatternSelect
-              params={match.params}
-              route={route}
-              onSelectChange={this.onPatternChange}
-              gtfsId={route.gtfsId}
-              className={cx({ 'bp-large': breakpoint === 'large' })}
-              useCurrentTime={useCurrentTime}
-            />
-          )}
           <RouteAgencyInfo route={route} />
         </div>
       </div>

@@ -146,13 +146,16 @@ function Datetimepicker({
   // param date is timestamp
   const getDateDisplay = date => {
     const time = moment(date);
+    let formatted;
     if (time.isSame(moment(), 'day')) {
-      return i18next.t('today', translationSettings);
+      formatted = i18next.t('today', translationSettings);
+    } else if (time.isSame(moment().add(1, 'day'), 'day')) {
+      formatted = i18next.t('tomorrow', translationSettings);
+    } else {
+      formatted = time.format('dd D.M.');
     }
-    if (time.isSame(moment().add(1, 'day'), 'day')) {
-      return i18next.t('tomorrow', translationSettings);
-    }
-    return time.format('dd D.M.');
+    formatted = `${formatted.charAt(0).toUpperCase()}${formatted.slice(1)}`;
+    return formatted;
   };
 
   // param time is timestamp
