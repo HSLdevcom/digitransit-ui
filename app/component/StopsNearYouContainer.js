@@ -71,44 +71,53 @@ class StopsNearYouContainer extends React.Component {
         );
       });
     };
-    const stopsForFiltering = [...nextProps.stopPatterns.nearest.edges];
-    const newestStops = stopsForFiltering.splice(stopsForFiltering.length - 5);
-    stopsForFiltering.forEach(stop => {
-      const node = stop.node.place;
+    if (nextProps.stopPatterns) {
+      const stopsForFiltering = [...nextProps.stopPatterns.nearest.edges];
+      const newestStops = stopsForFiltering.splice(
+        stopsForFiltering.length - 5,
+      );
+      stopsForFiltering.forEach(stop => {
+        const node = stop.node.place;
+        if (
+          node.parentStation &&
+          terminals.indexOf(node.parentStation.name) === -1
+        ) {
+          terminals.push(node.parentStation.name);
+        }
+      });
       if (
-        node.parentStation &&
-        terminals.indexOf(node.parentStation.name) === -1
+        newestStops.every(stop => {
+          return (
+            stop.node.place.stoptimesWithoutPatterns &&
+            stop.node.place.stoptimesWithoutPatterns.length === 0
+          );
+        }) ||
+        checkStops(terminals, newestStops)
       ) {
-        terminals.push(node.parentStation.name);
+        newState = {
+          ...newState,
+          fetchMoreStops: true,
+        };
       }
-    });
-    if (
-      newestStops.every(stop => {
-        return (
-          stop.node.place.stoptimesWithoutPatterns &&
-          stop.node.place.stoptimesWithoutPatterns.length === 0
-        );
-      }) ||
-      checkStops(terminals, newestStops)
-    ) {
-      newState = {
-        ...newState,
-        fetchMoreStops: true,
-      };
     }
     return newState;
   };
 
   componentDidUpdate(prevProps) {
-    const { relay, currentTime, position } = prevProps;
-    const currUnix = this.props.currentTime;
+    const {
+      relay,
+      currentTime,
+      position,
+      stopPatterns: prevStopPatterns,
+    } = prevProps;
+    const { currentTime: currUnix, stopPatterns } = this.props;
     if (currUnix !== currentTime) {
       const variables = {
         startTime: currentTime,
         lat: this.props.position.lat,
         lon: this.props.position.lon,
       };
-      relay.refetchConnection(this.state.stopCount, () => {}, variables);
+      relay.refetchConnection(this.state.stopCount, null, variables);
     }
     if (position && this.state.currentPosition) {
       if (
@@ -123,8 +132,12 @@ class StopsNearYouContainer extends React.Component {
     }
     if (
       (this.resultsUpdatedAlertRef.current &&
-        prevProps.stopPatterns.nearest.edges.length <
-          this.props.stopPatterns.nearest.edges.length) ||
+        stopPatterns &&
+        stopPatterns.nearest &&
+        prevStopPatterns &&
+        prevStopPatterns.nearest &&
+        prevStopPatterns.nearest.edges.length <
+          stopPatterns.nearest.edges.length) ||
       (this.state.currentPosition.lat === this.props.position.lat &&
         prevProps.position.lat !== this.state.currentPosition.lat)
     ) {
@@ -175,6 +188,9 @@ class StopsNearYouContainer extends React.Component {
   };
 
   createNearbyStops = () => {
+    if (!this.props.stopPatterns || !this.props.stopPatterns.nearest) {
+      return null;
+    }
     const { mode } = this.props.match.params;
     const walkRoutingThreshold =
       mode === 'RAIL' || mode === 'SUBWAY' || mode === 'FERRY' ? 3000 : 1500;
@@ -266,6 +282,7 @@ class StopsNearYouContainer extends React.Component {
         )}
         {this.props.relay.hasMore() && (
           <button
+            type="button"
             aria-label={this.context.intl.formatMessage({
               id: 'show-more-stops-near-you',
               defaultMessage: 'Load more nearby stops',

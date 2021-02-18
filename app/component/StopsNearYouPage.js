@@ -64,7 +64,11 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   constructor(props) {
     super(props);
-    this.state = { phase: PH_START };
+    this.state = {
+      phase: PH_START,
+      centerOfMap: null,
+      centerOfMapChanged: false,
+    };
   }
 
   componentDidMount() {
@@ -159,13 +163,71 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     };
   };
 
+  setCenterOfMap = mapElement => {
+    let location;
+    if (!mapElement) {
+      return this.setState({
+        centerOfMap: null,
+        centerOfMapChanged: false,
+      });
+    }
+    if (this.props.breakpoint === 'large') {
+      const centerOfMap = mapElement.leafletElement.getCenter();
+      location = { lat: centerOfMap.lat, lon: centerOfMap.lng };
+    } else {
+      const drawer = document.getElementsByClassName('drawer-container')[0];
+      const { scrollTop } = drawer;
+
+      const height = (window.innerHeight * 0.9 - 24 - scrollTop) / 2;
+      const width = window.innerWidth / 2;
+      const point = mapElement.leafletElement.containerPointToLatLng([
+        width,
+        height,
+      ]);
+      location = { lat: point.lat, lon: point.lng };
+    }
+    return this.setState({ centerOfMap: location, centerOfMapChanged: true });
+  };
+
   positionChanged = () => {
+    const { searchPosition, centerOfMap } = this.state;
+    if (
+      centerOfMap &&
+      searchPosition.lat === centerOfMap.lat &&
+      searchPosition.lon === centerOfMap.lon
+    ) {
+      return false;
+    }
     const position = this.getPosition();
-    return distance(this.state.searchPosition, position) > 100;
+    return distance(searchPosition, position) > 100;
+  };
+
+  centerOfMapChanged = () => {
+    const position = this.getPosition();
+    const { centerOfMap, searchPosition } = this.state;
+    if (
+      centerOfMap &&
+      searchPosition &&
+      searchPosition.lat === centerOfMap.lat &&
+      searchPosition.lon === centerOfMap.lon
+    ) {
+      return false;
+    }
+    if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
+      return distance(centerOfMap, position) > 100;
+    }
+    return false;
   };
 
   updateLocation = () => {
-    this.setState({ searchPosition: this.getPosition() });
+    const { centerOfMap } = this.state;
+    if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
+      return this.setState({
+        searchPosition: { ...centerOfMap, type: 'CenterOfMap' },
+        centerOfMapChanged: false,
+      });
+    }
+    return this.setState({ searchPosition: this.getPosition() });
   };
 
   getPosition = () => {
@@ -175,10 +237,11 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   renderContent = () => {
+    const { centerOfMapChanged } = this.state;
     const { mode } = this.props.match.params;
     const renderDisruptionBanner = mode !== 'CITYBIKE';
     const renderSearch = mode !== 'FERRY' && mode !== 'FAVORITE';
-    const renderRefetchButton = this.positionChanged();
+    const renderRefetchButton = centerOfMapChanged || this.positionChanged();
     if (mode === 'FAVORITE' && true) {
       return (
         <StopsNearYouFavorites
@@ -228,58 +291,63 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         variables={this.getQueryVariables()}
         environment={this.props.relayEnvironment}
         render={({ props }) => {
-          if (props) {
-            return (
-              <div className="stops-near-you-page">
-                {renderDisruptionBanner && (
-                  <DisruptionBanner
-                    alerts={props.alerts || []}
-                    mode={mode}
-                    trafficNowLink={this.context.config.trafficNowLink}
-                  />
-                )}
-                {renderSearch && (
-                  <StopsNearYouSearch
-                    mode={mode}
-                    breakpoint={this.props.breakpoint}
-                    lang={this.props.lang}
-                  />
-                )}
-                {renderRefetchButton && (
-                  <div className="nearest-stops-update-container">
-                    <FormattedMessage id="nearest-stops-updated-location" />
-                    <button
-                      aria-label={this.context.intl.formatMessage({
-                        id: 'show-more-stops-near-you',
-                        defaultMessage: 'Load more nearby stops',
-                      })}
-                      className="update-stops-button"
-                      onClick={this.updateLocation}
-                    >
-                      <Icon img="icon-icon_update" />
-                      <FormattedMessage
-                        id="nearest-stops-update-location"
-                        defaultMessage="Update stops"
-                        values={{
-                          mode: (
-                            <FormattedMessage
-                              id={`nearest-stops-${mode.toLowerCase()}`}
-                            />
-                          ),
-                        }}
-                      />
-                    </button>
-                  </div>
-                )}
+          return (
+            <div className="stops-near-you-page">
+              {renderDisruptionBanner && (
+                <DisruptionBanner
+                  alerts={(props && props.alerts) || []}
+                  mode={mode}
+                  trafficNowLink={this.context.config.trafficNowLink}
+                />
+              )}
+              {renderSearch && (
+                <StopsNearYouSearch
+                  mode={mode}
+                  breakpoint={this.props.breakpoint}
+                  lang={this.props.lang}
+                />
+              )}
+              {renderRefetchButton && (
+                <div className="nearest-stops-update-container">
+                  <FormattedMessage id="nearest-stops-updated-location" />
+                  <button
+                    type="button"
+                    aria-label={this.context.intl.formatMessage({
+                      id: 'show-more-stops-near-you',
+                      defaultMessage: 'Load more nearby stops',
+                    })}
+                    className="update-stops-button"
+                    onClick={this.updateLocation}
+                  >
+                    <Icon img="icon-icon_update" />
+                    <FormattedMessage
+                      id="nearest-stops-update-location"
+                      defaultMessage="Update stops"
+                      values={{
+                        mode: (
+                          <FormattedMessage
+                            id={`nearest-stops-${mode.toLowerCase()}`}
+                          />
+                        ),
+                      }}
+                    />
+                  </button>
+                </div>
+              )}
+              {!props && (
+                <div className="stops-near-you-spinner-container">
+                  <Loading />
+                </div>
+              )}
+              {props && (
                 <StopsNearYouContainer
                   match={this.props.match}
                   stopPatterns={props.stopPatterns}
                   position={this.state.searchPosition}
                 />
-              </div>
-            );
-          }
-          return undefined;
+              )}
+            </div>
+          );
         }}
       />
     );
@@ -323,10 +391,19 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 position={this.state.searchPosition}
                 stops={props.stops}
                 match={this.props.match}
+                setCenterOfMap={this.setCenterOfMap}
               />
             );
           }
-          return undefined;
+          return (
+            <StopsNearYouMap
+              defaultMapCenter={this.state.searchPosition}
+              position={null}
+              stops={null}
+              match={this.props.match}
+              setCenterOfMap={this.setCenterOfMap}
+            />
+          );
         }}
       />
     );
