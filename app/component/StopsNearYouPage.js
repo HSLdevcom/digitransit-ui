@@ -204,6 +204,23 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     return distance(searchPosition, position) > 100;
   };
 
+  centerOfMapChanged = () => {
+    const position = this.getPosition();
+    const { centerOfMap, searchPosition } = this.state;
+    if (
+      centerOfMap &&
+      searchPosition &&
+      searchPosition.lat === centerOfMap.lat &&
+      searchPosition.lon === centerOfMap.lon
+    ) {
+      return false;
+    }
+    if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
+      return distance(centerOfMap, position) > 100;
+    }
+    return false;
+  };
+
   updateLocation = () => {
     const { centerOfMap } = this.state;
     if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
