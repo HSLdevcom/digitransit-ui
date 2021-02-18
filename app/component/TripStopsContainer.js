@@ -5,11 +5,12 @@ import cx from 'classnames';
 import pure from 'recompose/pure';
 import { matchShape } from 'found';
 
+import RoutePageControlPanel from './RoutePageControlPanel';
 import { getStartTime } from '../util/timeUtils';
 import TripStopListContainer from './TripStopListContainer';
 import withBreakpoint from '../util/withBreakpoint';
 
-function TripStopsContainer({ breakpoint, match, trip }) {
+function TripStopsContainer({ breakpoint, match, trip, route }) {
   if (!trip) {
     return null;
   }
@@ -27,10 +28,24 @@ function TripStopsContainer({ breakpoint, match, trip }) {
 
   return (
     <div
-      className={cx('route-page-content', {
-        'fullscreen-map': fullscreen && breakpoint !== 'large',
-      })}
+      className={cx(
+        'route-page-content',
+        'momentum-scroll',
+        {
+          'fullscreen-map': fullscreen && breakpoint !== 'large',
+        },
+        {
+          'bp-large': breakpoint === 'large',
+        },
+      )}
     >
+      {route && route.patterns && (
+        <RoutePageControlPanel
+          match={match}
+          route={route}
+          breakpoint={breakpoint}
+        />
+      )}
       <TripStopListContainer
         key="list"
         trip={trip}
@@ -51,10 +66,12 @@ TripStopsContainer.propTypes = {
   }),
   match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
+  route: PropTypes.object,
 };
 
 TripStopsContainer.defaultProps = {
   trip: undefined,
+  route: undefined,
 };
 
 const pureComponent = pure(withBreakpoint(TripStopsContainer));
@@ -70,6 +87,74 @@ const containerComponent = createFragmentContainer(pureComponent, {
   pattern: graphql`
     fragment TripStopsContainer_pattern on Pattern {
       id
+    }
+  `,
+  route: graphql`
+    fragment TripStopsContainer_route on Route
+    @argumentDefinitions(date: { type: "String" }) {
+      gtfsId
+      color
+      shortName
+      longName
+      mode
+      type
+      ...RouteAgencyInfo_route
+      ...RoutePatternSelect_route @arguments(date: $date)
+      alerts {
+        alertSeverityLevel
+        effectiveEndDate
+        effectiveStartDate
+        trip {
+          pattern {
+            code
+          }
+        }
+      }
+      agency {
+        phone
+      }
+      patterns {
+        headsign
+        code
+        stops {
+          id
+          gtfsId
+          code
+          alerts {
+            id
+            alertDescriptionText
+            alertHash
+            alertHeaderText
+            alertSeverityLevel
+            alertUrl
+            effectiveEndDate
+            effectiveStartDate
+            alertDescriptionTextTranslations {
+              language
+              text
+            }
+            alertHeaderTextTranslations {
+              language
+              text
+            }
+            alertUrlTranslations {
+              language
+              text
+            }
+          }
+        }
+        trips: tripsForDate(serviceDate: $date) {
+          stoptimes: stoptimesForDate(serviceDate: $date) {
+            realtimeState
+            scheduledArrival
+            scheduledDeparture
+            serviceDay
+          }
+        }
+        activeDates: trips {
+          day: activeDates
+        }
+      }
     }
   `,
 });
