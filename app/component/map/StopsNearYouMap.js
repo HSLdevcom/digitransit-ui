@@ -140,6 +140,7 @@ function StopsNearYouMap(
     relay,
     position,
     setCenterOfMap,
+    defaultMapCenter,
   },
   { ...context },
 ) {
@@ -214,6 +215,11 @@ function StopsNearYouMap(
 
   useCallback(() => {
     if (position && position.lat && position.lon) {
+      const newBounds = handleBounds(position, sortedStopEdges, breakpoint);
+      if (newBounds.length > 0) {
+        setUseFitBounds(true);
+      }
+      setBounds(newBounds);
       relay.refetchConnection(5, null, oldVariables => {
         return {
           ...oldVariables,
@@ -221,13 +227,8 @@ function StopsNearYouMap(
           lon: position.lon,
         };
       });
-      const newBounds = handleBounds(position, sortedStopEdges, breakpoint);
-      if (newBounds.length > 0) {
-        setUseFitBounds(true);
-      }
-      setBounds(newBounds);
     }
-  }, [position]);
+  }, [position, sortedStopEdges]);
 
   let uniqueRealtimeTopics;
 
@@ -406,7 +407,7 @@ function StopsNearYouMap(
         stopsNearYouMode={mode}
         showScaleBar
         fitBounds={useFitBounds}
-        defaultMapCenter={context.config.defaultEndpoint}
+        defaultMapCenter={defaultMapCenter || context.config.defaultEndpoint}
         disableParkAndRide
         boundsOptions={{ maxZoom: zoom }}
         bounds={bounds}
@@ -430,7 +431,7 @@ function StopsNearYouMap(
           showStops
           stopsNearYouMode={mode}
           fitBounds={useFitBounds}
-          defaultMapCenter={context.config.defaultEndpoint}
+          defaultMapCenter={defaultMapCenter || context.config.defaultEndpoint}
           boundsOptions={{ maxZoom: zoom }}
           bounds={bounds}
           showScaleBar
@@ -457,6 +458,10 @@ StopsNearYouMap.propTypes = {
     loadMore: PropTypes.func.isRequired,
   }).isRequired,
   setCenterOfMap: PropTypes.func.isRequired,
+  defaultMapCenter: PropTypes.shape({
+    lat: PropTypes.number,
+    lon: PropTypes.number,
+  }),
 };
 
 StopsNearYouMap.contextTypes = {

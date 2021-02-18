@@ -368,6 +368,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           }
           return (
             <StopsNearYouMap
+              defaultMapCenter={this.state.searchPosition}
               position={null}
               stops={null}
               match={this.props.match}
