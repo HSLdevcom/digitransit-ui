@@ -1106,8 +1106,12 @@ class SummaryPage extends React.Component {
 
     // endpoints to oldSearches store
     if (saveEndpoints && isIOS && query.save) {
-      this.saveUrlSearch(pathArray[1]); // origin
-      this.saveUrlSearch(pathArray[2]); // destination
+      if (query.save === '1' || query.save === '2') {
+        this.saveUrlSearch(pathArray[1]); // origin
+      }
+      if (query.save === '1' || query.save === '3') {
+        this.saveUrlSearch(pathArray[2]); // destination
+      }
     }
 
     // update future routes, too
