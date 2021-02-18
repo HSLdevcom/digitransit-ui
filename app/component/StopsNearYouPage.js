@@ -26,7 +26,9 @@ import withSearchContext from './WithSearchContext';
 import { PREFIX_NEARYOU } from '../util/path';
 import StopsNearYouContainer from './StopsNearYouContainer';
 import StopsNearYouFavorites from './StopsNearYouFavorites';
-import StopsNearYouMap from './map/StopsNearYouMap';
+// import StopsNearYouMap from './map/StopsNearYouMap';
+import StopsNearYouMapContainer from './StopsNearYouMapContainer';
+import StopsNearYouFavoritesMapContainer from './StopsNearYouFavoritesMapContainer';
 
 // component initialization phases
 const PH_START = 'start';
@@ -64,11 +66,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   constructor(props) {
     super(props);
-    this.state = {
-      phase: PH_START,
-      centerOfMap: null,
-      centerOfMapChanged: false,
-    };
+    this.state = { phase: PH_START };
   }
 
   componentDidMount() {
@@ -163,71 +161,13 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     };
   };
 
-  setCenterOfMap = mapElement => {
-    let location;
-    if (!mapElement) {
-      return this.setState({
-        centerOfMap: null,
-        centerOfMapChanged: false,
-      });
-    }
-    if (this.props.breakpoint === 'large') {
-      const centerOfMap = mapElement.leafletElement.getCenter();
-      location = { lat: centerOfMap.lat, lon: centerOfMap.lng };
-    } else {
-      const drawer = document.getElementsByClassName('drawer-container')[0];
-      const { scrollTop } = drawer;
-
-      const height = (window.innerHeight * 0.9 - 24 - scrollTop) / 2;
-      const width = window.innerWidth / 2;
-      const point = mapElement.leafletElement.containerPointToLatLng([
-        width,
-        height,
-      ]);
-      location = { lat: point.lat, lon: point.lng };
-    }
-    return this.setState({ centerOfMap: location, centerOfMapChanged: true });
-  };
-
   positionChanged = () => {
-    const { searchPosition, centerOfMap } = this.state;
-    if (
-      centerOfMap &&
-      searchPosition.lat === centerOfMap.lat &&
-      searchPosition.lon === centerOfMap.lon
-    ) {
-      return false;
-    }
     const position = this.getPosition();
-    return distance(searchPosition, position) > 100;
-  };
-
-  centerOfMapChanged = () => {
-    const position = this.getPosition();
-    const { centerOfMap, searchPosition } = this.state;
-    if (
-      centerOfMap &&
-      searchPosition &&
-      searchPosition.lat === centerOfMap.lat &&
-      searchPosition.lon === centerOfMap.lon
-    ) {
-      return false;
-    }
-    if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
-      return distance(centerOfMap, position) > 100;
-    }
-    return false;
+    return distance(this.state.searchPosition, position) > 100;
   };
 
   updateLocation = () => {
-    const { centerOfMap } = this.state;
-    if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
-      return this.setState({
-        searchPosition: { ...centerOfMap, type: 'CenterOfMap' },
-        centerOfMapChanged: false,
-      });
-    }
-    return this.setState({ searchPosition: this.getPosition() });
+    this.setState({ searchPosition: this.getPosition() });
   };
 
   getPosition = () => {
@@ -237,12 +177,11 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   renderContent = () => {
-    const { centerOfMapChanged } = this.state;
     const { mode } = this.props.match.params;
     const renderDisruptionBanner = mode !== 'CITYBIKE';
     const renderSearch = mode !== 'FERRY' && mode !== 'FAVORITE';
-    const renderRefetchButton = centerOfMapChanged || this.positionChanged();
-    if (mode === 'FAVORITE' && true) {
+    const renderRefetchButton = this.positionChanged();
+    if (mode === 'FAVORITE') {
       return (
         <StopsNearYouFavorites
           searchPosition={this.state.searchPosition}
@@ -291,69 +230,111 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         variables={this.getQueryVariables()}
         environment={this.props.relayEnvironment}
         render={({ props }) => {
-          return (
-            <div className="stops-near-you-page">
-              {renderDisruptionBanner && (
-                <DisruptionBanner
-                  alerts={(props && props.alerts) || []}
-                  mode={mode}
-                  trafficNowLink={this.context.config.trafficNowLink}
-                />
-              )}
-              {renderSearch && (
-                <StopsNearYouSearch
-                  mode={mode}
-                  breakpoint={this.props.breakpoint}
-                  lang={this.props.lang}
-                />
-              )}
-              {renderRefetchButton && (
-                <div className="nearest-stops-update-container">
-                  <FormattedMessage id="nearest-stops-updated-location" />
-                  <button
-                    type="button"
-                    aria-label={this.context.intl.formatMessage({
-                      id: 'show-more-stops-near-you',
-                      defaultMessage: 'Load more nearby stops',
-                    })}
-                    className="update-stops-button"
-                    onClick={this.updateLocation}
-                  >
-                    <Icon img="icon-icon_update" />
-                    <FormattedMessage
-                      id="nearest-stops-update-location"
-                      defaultMessage="Update stops"
-                      values={{
-                        mode: (
-                          <FormattedMessage
-                            id={`nearest-stops-${mode.toLowerCase()}`}
-                          />
-                        ),
-                      }}
-                    />
-                  </button>
-                </div>
-              )}
-              {!props && (
-                <div className="stops-near-you-spinner-container">
-                  <Loading />
-                </div>
-              )}
-              {props && (
+          if (props) {
+            return (
+              <div className="stops-near-you-page">
+                {renderDisruptionBanner && (
+                  <DisruptionBanner
+                    alerts={props.alerts || []}
+                    mode={mode}
+                    trafficNowLink={this.context.config.trafficNowLink}
+                  />
+                )}
+                {renderSearch && (
+                  <StopsNearYouSearch
+                    mode={mode}
+                    breakpoint={this.props.breakpoint}
+                    lang={this.props.lang}
+                  />
+                )}
+                {renderRefetchButton && (
+                  <div className="nearest-stops-update-container">
+                    <FormattedMessage id="nearest-stops-updated-location" />
+                    <button
+                      aria-label={this.context.intl.formatMessage({
+                        id: 'show-more-stops-near-you',
+                        defaultMessage: 'Load more nearby stops',
+                      })}
+                      className="update-stops-button"
+                      onClick={this.updateLocation}
+                    >
+                      <Icon img="icon-icon_update" />
+                      <FormattedMessage
+                        id="nearest-stops-update-location"
+                        defaultMessage="Update stops"
+                        values={{
+                          mode: (
+                            <FormattedMessage
+                              id={`nearest-stops-${mode.toLowerCase()}`}
+                            />
+                          ),
+                        }}
+                      />
+                    </button>
+                  </div>
+                )}
                 <StopsNearYouContainer
                   match={this.props.match}
                   stopPatterns={props.stopPatterns}
                   position={this.state.searchPosition}
                 />
-              )}
-            </div>
-          );
+              </div>
+            );
+          }
+          return undefined;
         }}
       />
     );
   };
 
   renderMap = () => {
+    const { mode } = this.props.match.params;
+    if (mode === 'FAVORITE') {
+      return (
+        <QueryRenderer
+          query={graphql`
+            query StopsNearYouPageFavoritesMapQuery(
+              $stopIds: [String!]!
+              $stationIds: [String!]!
+              $bikeRentalStationIds: [String!]!
+            ) {
+              stops: stops(ids: $stopIds) {
+                ...StopsNearYouFavoritesMapContainer_stops
+              }
+              stations: stations(ids: $stationIds) {
+                ...StopsNearYouFavoritesMapContainer_stations
+              }
+              bikeStations: bikeRentalStations(ids: $bikeRentalStationIds) {
+                ...StopsNearYouFavoritesMapContainer_bikeStations
+              }
+            }
+          `}
+          variables={{
+            stopIds: Array.from(this.props.favouriteStopIds),
+            stationIds: Array.from(this.props.favouriteStationIds),
+            bikeRentalStationIds: Array.from(
+              this.props.favouriteBikeStationIds,
+            ),
+          }}
+          environment={this.props.relayEnvironment}
+          render={({ props }) => {
+            if (props) {
+              return (
+                <StopsNearYouFavoritesMapContainer
+                  position={this.state.searchPosition}
+                  match={this.props.match}
+                  setCenterOfMap={this.setCenterOfMap}
+                  stops={props.stops}
+                  stations={props.stations}
+                  bikeStations={props.bikeStations}
+                />
+              );
+            }
+            return undefined;
+          }}
+        />
+      );
+    }
     return (
       <QueryRenderer
         query={graphql`
@@ -368,7 +349,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             $omitNonPickups: Boolean
           ) {
             stops: viewer {
-              ...StopsNearYouMap_stops
+              ...StopsNearYouMapContainer_stopsNearYou
               @arguments(
                 lat: $lat
                 lon: $lon
@@ -387,19 +368,19 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         render={({ props }) => {
           if (props) {
             return (
-              <StopsNearYouMap
+              <StopsNearYouMapContainer
                 position={this.state.searchPosition}
-                stops={props.stops}
+                stopsNearYou={props.stops}
                 match={this.props.match}
                 setCenterOfMap={this.setCenterOfMap}
               />
             );
           }
           return (
-            <StopsNearYouMap
+            <StopsNearYouMapContainer
               defaultMapCenter={this.state.searchPosition}
               position={null}
-              stops={null}
+              stopsNearYou={null}
               match={this.props.match}
               setCenterOfMap={this.setCenterOfMap}
             />
