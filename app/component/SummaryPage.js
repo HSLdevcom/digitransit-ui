@@ -1397,23 +1397,18 @@ class SummaryPage extends React.Component {
       action: 'OpenItineraryDetails',
       name: index,
     });
+
     const newState = {
       ...this.context.match.location,
       state: { summaryPageSelected: index },
     };
-    const basePath = `${getSummaryPath(
-      this.props.match.params.from,
-      this.props.match.params.to,
-    )}${isbikeAndVehicle ? '/bikeAndVehicle/' : '/'}`;
     const indexPath = `${getSummaryPath(
       this.props.match.params.from,
       this.props.match.params.to,
     )}${isbikeAndVehicle ? '/bikeAndVehicle/' : '/'}${index}`;
 
-    newState.pathname = basePath;
-    this.context.router.replace(newState);
     newState.pathname = indexPath;
-    this.context.router.push(newState);
+    this.context.router.replace(newState);
   };
 
   setMapZoomToLeg = leg => {
