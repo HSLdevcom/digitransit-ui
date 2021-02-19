@@ -66,6 +66,12 @@ export function displayImperialDistance(meters) {
   return `${Math.round(feet / 528) / 10} mi`; // tenth of a mile
 }
 
+/**
+ * Returns distance with locale format (fraction digits is 1)
+ * e.g. fi/sv - 20,1 km, en - 20.1 km
+ * @param {*} meters
+ * @param {*} formatNumber
+ */
 function displayDistanceWithLocale(meters, formatNumber) {
   const opts = {
     minimumFractionDigits: 1,

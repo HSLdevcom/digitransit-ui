@@ -1,48 +1,14 @@
 import cx from 'classnames';
-import ceil from 'lodash/ceil';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 
 import { displayDistance } from '../util/geo-utils';
-import { getTotalDistance, containsBiking } from '../util/legUtils';
+import { getTotalDistance } from '../util/legUtils';
 
-const ItineraryProfile = (
-  { itinerary, small, onlyDistance },
-  { config, intl },
-) => {
-  const { elevationGained, elevationLost } = itinerary;
+const ItineraryProfile = ({ itinerary, small }, { config, intl }) => {
   return (
     <div className={cx('itinerary-profile-container', { small })}>
-      {!onlyDistance &&
-        containsBiking(itinerary) &&
-        Number.isFinite(elevationGained) &&
-        Number.isFinite(elevationLost) && (
-          <React.Fragment>
-            <div className="itinerary-profile-item">
-              <div className="itinerary-profile-item-title">
-                {`${intl.formatMessage({
-                  id: 'elevation-gained-total',
-                  defaultMessage: 'Elevation gained',
-                })}:`}
-              </div>
-              <div className="itinerary-profile-item-value">
-                {`${ceil(elevationGained, 0)} m`}
-              </div>
-            </div>
-            <div className="itinerary-profile-item">
-              <div className="itinerary-profile-item-title">
-                {`${intl.formatMessage({
-                  id: 'elevation-lost-total',
-                  defaultMessage: 'Elevation lost',
-                })}:`}
-              </div>
-              <div className="itinerary-profile-item-value">
-                {`${ceil(elevationLost, 0)} m`}
-              </div>
-            </div>
-          </React.Fragment>
-        )}
       <div className="itinerary-profile-item">
         <div className="itinerary-profile-item-title">
           {`${intl.formatMessage({
@@ -64,8 +30,6 @@ const ItineraryProfile = (
 
 ItineraryProfile.propTypes = {
   itinerary: PropTypes.shape({
-    elevationGained: PropTypes.number,
-    elevationLost: PropTypes.number,
     legs: PropTypes.arrayOf(
       PropTypes.shape({
         distance: PropTypes.number,
@@ -73,12 +37,10 @@ ItineraryProfile.propTypes = {
     ).isRequired,
   }).isRequired,
   small: PropTypes.bool,
-  onlyDistance: PropTypes.bool,
 };
 
 ItineraryProfile.defaultProps = {
   small: false,
-  onlyDistance: false,
 };
 
 ItineraryProfile.contextTypes = {

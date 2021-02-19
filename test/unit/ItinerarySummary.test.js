@@ -13,6 +13,16 @@ describe('<ItinerarySummary />', () => {
     const props = {
       children: <div />,
       itinerary: data.bikingAndWalking,
+      extra: {
+        biking: {
+          distance: 1000,
+          duration: 180,
+        },
+        walking: {
+          distance: 555,
+          duration: 300,
+        },
+      },
     };
     const wrapper = mountWithIntl(<ItinerarySummary {...props} />, {
       context: mockContext,
@@ -25,6 +35,16 @@ describe('<ItinerarySummary />', () => {
     const props = {
       children: <div />,
       itinerary: data.bikingAndWalking,
+      extra: {
+        biking: {
+          distance: 1000,
+          duration: 180,
+        },
+        walking: {
+          distance: 555,
+          duration: 300,
+        },
+      },
     };
     const wrapper = mountWithIntl(<ItinerarySummary {...props} />, {
       context: mockContext,
@@ -38,6 +58,12 @@ describe('<ItinerarySummary />', () => {
     const props = {
       children: <div />,
       itinerary: data.onlyBiking,
+      extra: {
+        biking: {
+          distance: 1000,
+          duration: 180,
+        },
+      },
     };
     const wrapper = mountWithIntl(<ItinerarySummary {...props} />, {
       context: mockContext,

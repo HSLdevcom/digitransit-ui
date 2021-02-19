@@ -123,6 +123,9 @@ export function getFormattedTimeDate(startTime, pattern) {
   return moment(startTime).format(pattern);
 }
 
+/**
+ * Returns number of milliseconds since the Unix Epoch
+ */
 export function getCurrentMillis() {
   return moment().valueOf();
 }

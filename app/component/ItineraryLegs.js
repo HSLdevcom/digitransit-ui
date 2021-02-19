@@ -276,7 +276,7 @@ class ItineraryLegs extends React.Component {
       />,
     );
 
-    legs.push(<ItineraryProfile itinerary={itinerary} onlyDistance />);
+    legs.push(<ItineraryProfile itinerary={itinerary} />);
 
     return (
       <span className="itinerary-list-container" role="list">

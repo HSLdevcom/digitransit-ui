@@ -360,8 +360,14 @@ export const getRoutes = legs => {
   return Object.keys(routes).map(key => ({ ...routes[key] }));
 };
 
-const sumDuration = legs =>
+/**
+ * Calculates and returns the total duration undertaken in legs.
+ *
+ * @param {*} legs the legs to extract the total duration from
+ */
+const sumDurations = legs =>
   legs.map(l => l.duration).reduce((x, y) => (x || 0) + (y || 0), 0);
+
 /**
  * Calculates and returns the total walking duration undertaken in an itinerary.
  * This could be used as a fallback if the backend returns an invalid value.
@@ -370,7 +376,7 @@ const sumDuration = legs =>
  */
 export const getTotalWalkingDuration = itinerary =>
   // TODO: could be itinerary.walkDuration, but that is invalid for CITYBIKE legs
-  sumDuration(itinerary.legs.filter(isWalkingLeg));
+  sumDurations(itinerary.legs.filter(isWalkingLeg));
 
 /**
  * Calculates and returns the total biking duration undertaken in an itinerary.
@@ -378,4 +384,4 @@ export const getTotalWalkingDuration = itinerary =>
  * @param {*} itinerary the itinerary to extract the total biking duration from
  */
 export const getTotalBikingDuration = itinerary =>
-  sumDuration(itinerary.legs.filter(isBikingLeg));
+  sumDurations(itinerary.legs.filter(isBikingLeg));

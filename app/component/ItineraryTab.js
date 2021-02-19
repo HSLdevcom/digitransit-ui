@@ -106,7 +106,7 @@ class ItineraryTab extends React.Component {
     return getFormattedTimeDate(startTime, 'dd D.M.');
   };
 
-  enrichItinerary = (itinerary) => {
+  setExtra = (itinerary) => {
     const compressedItinerary = {
       ...itinerary,
       legs: compressLegs(itinerary.legs),
@@ -117,8 +117,7 @@ class ItineraryTab extends React.Component {
     const bikingDuration = getTotalBikingDuration(compressedItinerary);
     const futureText = this.getFutureText(itinerary.startTime);
     const isMultiRow = walkingDistance > 0 && bikingDistance > 0 && futureText !== '';
-    const newItinerary = {
-      ...itinerary,
+    const extra = {
       walking: {
         duration: walkingDuration,
         distance: walkingDistance,
@@ -131,7 +130,7 @@ class ItineraryTab extends React.Component {
       isMultiRow,
       isMobile: this.props.isMobile,
     }
-    return newItinerary;
+    return extra;
   };
 
   render() {
@@ -143,13 +142,13 @@ class ItineraryTab extends React.Component {
     }
 
     const fares = getFares(itinerary.fares, getRoutes(itinerary.legs), config);
-    const enrichedItinerary = this.enrichItinerary(itinerary);
+    const extra = this.setExtra(itinerary);
     return (
       <div className="itinerary-tab">
         <BreakpointConsumer>
           {breakpoint => [
             breakpoint !== 'large' ? (
-              <ItinerarySummary itinerary={enrichedItinerary} key="summary"/>
+              <ItinerarySummary itinerary={itinerary} key="summary" extra={extra} />
             ) : (
               <>
                 <div className="desktop-title" key="header">
@@ -167,12 +166,12 @@ class ItineraryTab extends React.Component {
                     />
                   </div>
                 </div>
-                <ItinerarySummary itinerary={enrichedItinerary} key="summary"/>
+                <ItinerarySummary itinerary={itinerary} key="summary" extra={extra} />
               </>
             ),
             <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
-              'multirow': enrichedItinerary.isMultiRow,
+              'multirow': extra.isMultiRow,
             })} key="legs">
               <div
                 className={cx('itinerary-main', {
@@ -256,8 +255,6 @@ const withRelay = createFragmentContainer(ItineraryTab, {
       duration
       startTime
       endTime
-      elevationGained
-      elevationLost
       fares {
         cents
         components {

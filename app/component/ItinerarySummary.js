@@ -4,8 +4,8 @@ import cx from 'classnames';
 import Duration from './Duration';
 import WalkDistance from './WalkDistance';
 
-const ItinerarySummary = ({ itinerary }) => {
-  const { futureText, isMultiRow, isMobile, walking, biking } = itinerary;
+const ItinerarySummary = ({ itinerary, extra }) => {
+  const { futureText, isMultiRow, isMobile, walking, biking } = extra;
   return (
     <div className="itinerary-summary">
       {!isMobile && <div className="divider-top" />}
@@ -46,6 +46,7 @@ ItinerarySummary.description = () =>
 
 ItinerarySummary.propTypes = {
   itinerary: PropTypes.object.isRequired,
+  extra: PropTypes.object.isRequired,
 };
 
 ItinerarySummary.displayName = 'ItinerarySummary';
