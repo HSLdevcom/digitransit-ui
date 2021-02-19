@@ -808,8 +808,12 @@ const translations = {
     'accessibility-limited': 'Wheelchair',
     'accessibility-nolimit': 'No limits',
     'accessibility-statement': 'Accessibility statement',
+    'add-favourite-bike-station-failed-heading':
+      'Saving the citybike station failed',
+    'add-favourite-failed-text': 'Please try again in a while.',
+    'add-favourite-route-failed-heading': 'Saving the route failed',
+    'add-favourite-station-failed-heading': 'Saving the station failed.',
     'add-favourite-stop-failed-heading': 'Saving the stop failed',
-    'add-favourite-stop-failed-text': 'Please try again in a while.',
     'add-home': 'Add home',
     'add-itinerary-via-point': 'Add via point for itinerary',
     'add-location-to-favourites': 'Add an important location to your Favorites',
@@ -1699,8 +1703,13 @@ const translations = {
     'accessibility-limited': 'Pyörätuoli',
     'accessibility-nolimit': 'Ei rajoitusta',
     'accessibility-statement': 'Saavutettavuusseloste',
+    'add-favourite-bike-station-failed-heading':
+      'Kaupunkipyöräaseman tallentaminen ei onnistunut',
+    'add-favourite-failed-text': 'Yritä hetken päästä uudelleen.',
+    'add-favourite-route-failed-heading': 'Linjan tallentaminen ei onnistunut',
+    'add-favourite-station-failed-heading':
+      'Aseman tallentaminen ei onnistunut',
     'add-favourite-stop-failed-heading': 'Pysäkin tallentaminen ei onnistunut',
-    'add-favourite-stop-failed-text': 'Yritä hetken päästä uudelleen.',
     'add-home': 'Lisää koti',
     'add-itinerary-via-point': 'Lisää reitille välipiste',
     'add-location-to-favourites':
@@ -3355,8 +3364,12 @@ const translations = {
     'accessibility-limited': 'Med rullstolen',
     'accessibility-nolimit': 'Ingen begränsning',
     'accessibility-statement': 'Tillgänglighetsförklaring',
-    'add-favourite-stop-failed-heading': 'Saving the stop failed',
-    'add-favourite-stop-failed-text': 'Please try again in a while.',
+    'add-favourite-bike-station-failed-heading':
+      'Kunde inte spara stadscykelstationen',
+    'add-favourite-failed-text': 'Försök på nytt senare.',
+    'add-favourite-route-failed-heading': 'Kunde inte spara linjen',
+    'add-favourite-station-failed-heading': 'Kunde inte spara stationen',
+    'add-favourite-stop-failed-heading': 'Kunde inte spara hållplatsen',
     'add-home': 'Lägg till hem',
     'add-itinerary-via-point': 'Lägg till mellanstopp',
     'add-location-to-favourites':
