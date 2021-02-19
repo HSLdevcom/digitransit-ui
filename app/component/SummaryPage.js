@@ -1343,7 +1343,7 @@ class SummaryPage extends React.Component {
 
     if (itin && this.context.config.showWeatherInformation) {
       const time = itin.startTime;
-      const weatherHash = `${time}_${from.lat}_{from.lon}`;
+      const weatherHash = `${time}_${from.lat}_${from.lon}`;
       if (
         weatherHash !== this.state.weatherData.weatherHash &&
         weatherHash !== this.pendingWeatherHash
