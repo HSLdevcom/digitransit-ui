@@ -161,8 +161,9 @@ export default class FavouriteStore extends Store {
     );
   }
 
-  saveFavourite(data) {
+  saveFavourite(data, onFail) {
     if (typeof data !== 'object') {
+      onFail();
       throw new Error(`New favourite is not a object:${JSON.stringify(data)}`);
     }
     this.fetchingOrUpdating();
@@ -191,6 +192,7 @@ export default class FavouriteStore extends Store {
           this.fetchComplete();
         })
         .catch(() => {
+          onFail();
           this.fetchComplete();
         });
     } else {
