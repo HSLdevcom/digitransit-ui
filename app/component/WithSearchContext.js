@@ -183,6 +183,7 @@ export default function withSearchContext(WrappedComponent) {
             this.onSuggestionSelected(item, id);
           })
           .catch(() => {
+            this.saveOldSearch(item, type, id);
             this.onSuggestionSelected(item, id);
           });
       } else {
