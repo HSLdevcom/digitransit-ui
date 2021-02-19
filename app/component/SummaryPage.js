@@ -1102,7 +1102,6 @@ class SummaryPage extends React.Component {
     const pathArray = decodeURIComponent(location.pathname)
       .substring(1)
       .split('/');
-
     // endpoints to oldSearches store
     if (saveEndpoints && isIOS && query.save) {
       if (query.save === '1' || query.save === '2') {
@@ -1111,8 +1110,10 @@ class SummaryPage extends React.Component {
       if (query.save === '1' || query.save === '3') {
         this.saveUrlSearch(pathArray[2]); // destination
       }
+      const newLocation = { ...location };
+      delete newLocation.query.save;
+      this.context.router.replace(newLocation);
     }
-
     // update future routes, too
     const originArray = pathArray[1].split('::');
     const destinationArray = pathArray[2].split('::');
@@ -1135,6 +1136,7 @@ class SummaryPage extends React.Component {
   };
 
   componentDidMount() {
+    this.updateLocalStorage(true);
     const host =
       this.context.headers &&
       (this.context.headers['x-forwarded-host'] || this.context.headers.host);
@@ -1148,7 +1150,6 @@ class SummaryPage extends React.Component {
       // eslint-disable-next-line no-unused-expressions
       import('../util/feedbackly');
     }
-    this.updateLocalStorage(true);
     if (this.showVehicles()) {
       const { client } = this.context.getStore('RealTimeInformationStore');
       // If user comes from eg. RoutePage, old client may not have been completely shut down yet.
