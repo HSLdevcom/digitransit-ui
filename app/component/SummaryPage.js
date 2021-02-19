@@ -1089,7 +1089,6 @@ class SummaryPage extends React.Component {
           layer,
           label,
           localadmin: names[names.length - 1],
-          fromUrl: 1,
         },
         type: 'Feature',
       },

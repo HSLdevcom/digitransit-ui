@@ -96,7 +96,6 @@ class RoutePage extends React.Component {
             layer: `route-${route.mode}`,
             link: location.pathname,
             agency: { name: route.agency.name },
-            fromUrl: 1,
           },
           type: 'Route',
         },

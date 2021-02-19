@@ -48,7 +48,6 @@ class StopCardHeader extends React.Component {
               layer,
               label: `${stop.name}, ${city}`,
               localadmin: city,
-              fromUrl: 1,
             },
             type: 'Feature',
           },
