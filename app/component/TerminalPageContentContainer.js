@@ -3,7 +3,6 @@ import React from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
-
 import DepartureListContainer from './DepartureListContainer';
 import Error404 from './404';
 import Icon from './Icon';
@@ -13,6 +12,7 @@ class TerminalPageContent extends React.Component {
     station: PropTypes.shape({
       stoptimes: PropTypes.array,
       stops: PropTypes.array,
+      gtfsId: PropTypes.string,
     }).isRequired,
     relay: PropTypes.shape({
       refetch: PropTypes.func.isRequired,

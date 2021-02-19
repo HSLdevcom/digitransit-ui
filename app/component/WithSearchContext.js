@@ -171,16 +171,21 @@ export default function withSearchContext(WrappedComponent) {
       if (item.type === 'OldSearch' && item.properties.gid) {
         getJson(this.context.config.URL.PELIAS_PLACE, {
           ids: item.properties.gid,
-        }).then(res => {
-          const newItem = { ...item };
-          if (res.features != null && res.features.length > 0) {
-            // update only position. It is surprising if, say, the name changes at selection.
-            const geom = res.features[0].geometry;
-            newItem.geometry.coordinates = geom.coordinates;
-          }
-          this.saveOldSearch(newItem, type, id);
-          this.onSuggestionSelected(item, id);
-        });
+        })
+          .then(res => {
+            const newItem = { ...item };
+            if (res.features != null && res.features.length > 0) {
+              // update only position. It is surprising if, say, the name changes at selection.
+              const geom = res.features[0].geometry;
+              newItem.geometry.coordinates = geom.coordinates;
+            }
+            this.saveOldSearch(newItem, type, id);
+            this.onSuggestionSelected(item, id);
+          })
+          .catch(() => {
+            this.saveOldSearch(item, type, id);
+            this.onSuggestionSelected(item, id);
+          });
       } else {
         this.saveOldSearch(item, type, id);
         this.onSuggestionSelected(item, id);
