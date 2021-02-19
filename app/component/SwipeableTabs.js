@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import SwipeableViews from 'react-swipeable-views';
+import ReactSwipe from 'react-swipe';
 import Icon from './Icon';
 
 export default class SwipeableTabs extends React.Component {
@@ -14,15 +14,6 @@ export default class SwipeableTabs extends React.Component {
     tabIndex: PropTypes.number,
     tabs: PropTypes.array.isRequired,
     onSwipe: PropTypes.func,
-  };
-
-  onSwipeButtonClick = ({ increment, maxTabIndex }) => {
-    let tabIndex = parseInt(this.state.tabIndex, 10);
-    tabIndex += increment;
-
-    if (tabIndex > -1 && tabIndex < maxTabIndex) {
-      this.setState({ tabIndex });
-    }
   };
 
   setDecreasingAttributes = tabBalls => {
@@ -108,7 +99,7 @@ export default class SwipeableTabs extends React.Component {
     const { tabs } = this.props;
     const tabBalls = this.tabBalls(tabs.length);
     const disabled = tabBalls.length < 2;
-
+    let reactSwipeEl;
     /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
     return (
       <div>
@@ -116,12 +107,7 @@ export default class SwipeableTabs extends React.Component {
           <div className="mobile-swipe-button-container">
             <div
               className="mobile-swipe-button"
-              onClick={() => {
-                this.onSwipeButtonClick({
-                  increment: -1,
-                  maxTabIndex: tabs.length,
-                });
-              }}
+              onClick={() => reactSwipeEl.prev()}
             >
               <Icon
                 img="icon-icon_arrow-collapse--left"
@@ -136,13 +122,8 @@ export default class SwipeableTabs extends React.Component {
           </div>
           <div className="mobile-swipe-button-container">
             <div
-              onClick={() => {
-                this.onSwipeButtonClick({
-                  increment: 1,
-                  maxTabIndex: tabs.length,
-                });
-              }}
               className="mobile-swipe-button"
+              onClick={() => reactSwipeEl.next()}
             >
               <Icon
                 img="icon-icon_arrow-collapse--right"
@@ -155,18 +136,22 @@ export default class SwipeableTabs extends React.Component {
             </div>
           </div>
         </div>
-        <SwipeableViews
-          disabled={disabled}
-          index={this.state.tabIndex}
-          onChangeIndex={index => {
-            this.setState({ tabIndex: index });
+        <ReactSwipe
+          swipeOptions={{
+            startSlide: this.props.tabIndex,
+            continuous: false,
+            transitionEnd: e => {
+              this.setState({ tabIndex: e });
+              this.props.onSwipe(e);
+            },
           }}
-          onTransitionEnd={() => {
-            this.props.onSwipe(this.state.tabIndex);
+          childCount={tabs.length}
+          ref={el => {
+            reactSwipeEl = el;
           }}
         >
           {tabs}
-        </SwipeableViews>
+        </ReactSwipe>
       </div>
     );
   }

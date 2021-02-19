@@ -74,16 +74,18 @@ export default class MobileItineraryWrapper extends React.Component {
 
     const itineraryTabs = this.props.children.map((child, i) => {
       return (
-        <ItineraryTab
-          key={child.key}
-          activeIndex={index + i}
-          plan={this.props.plan}
-          serviceTimeRange={this.props.serviceTimeRange}
-          itinerary={child.props.itinerary}
-          params={this.context.match.params}
-          focus={this.props.focus}
-          setMapZoomToLeg={this.props.setMapZoomToLeg}
-        />
+        <div key={child.key}>
+          <ItineraryTab
+            key={child.key}
+            activeIndex={index + i}
+            plan={this.props.plan}
+            serviceTimeRange={this.props.serviceTimeRange}
+            itinerary={child.props.itinerary}
+            params={this.context.match.params}
+            focus={this.props.focus}
+            setMapZoomToLeg={this.props.setMapZoomToLeg}
+          />
+        </div>
       );
     });
 
