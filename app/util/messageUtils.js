@@ -2,27 +2,27 @@ import { v4 as uuid } from 'uuid';
 
 import translations from '../translations';
 
-const english = translations.en;
-const content = {};
-const sections = ['heading', 'text'];
-Object.keys(translations).forEach(lang => {
-  const current = translations[lang];
-  content[lang] = [];
+export default function failedFavouriteMessage(type) {
+  const english = translations.en;
+  const content = {};
+  Object.keys(translations).forEach(lang => {
+    const current = translations[lang];
+    content[lang] = [];
 
-  sections.forEach(s => {
-    const key = `add-favourite-stop-failed-${s}`;
-    const section = current[key] || english[key];
+    const headingKey = `add-favourite-${type}-failed-heading`;
+    const heading = current[headingKey] || english[headingKey];
+    content[lang].push({
+      type: 'heading',
+      content: heading,
+    });
 
-    if (section) {
-      content[lang].push({
-        type: s,
-        content: section,
-      });
-    }
+    const textKey = 'add-favourite-failed-text';
+    const text = current[textKey] || english[textKey];
+    content[lang].push({
+      type: 'text',
+      content: text,
+    });
   });
-});
-
-export default function failedFavouriteStopMessage() {
   return {
     id: uuid(),
     priority: -1,
