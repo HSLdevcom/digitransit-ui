@@ -37,23 +37,8 @@ class ItineraryTab extends React.Component {
     match: matchShape.isRequired,
   };
 
-  state = {
-    lat: undefined,
-    lon: undefined,
-  };
-
-  getState = () => ({
-    lat: this.state.lat || this.props.itinerary.legs[0].from.lat,
-    lon: this.state.lon || this.props.itinerary.legs[0].from.lon,
-  });
-
   handleFocus = (lat, lon) => {
     this.props.focus(lat, lon);
-
-    return this.setState({
-      lat,
-      lon,
-    });
   };
 
   shouldShowDisclaimer = (config) => {
