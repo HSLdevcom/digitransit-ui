@@ -270,8 +270,8 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-  showAllBusses: true,
-  showVehiclesOnStopPage: true,
+  showAllBusses: false,
+  showVehiclesOnStopPage: false,
   timetables: {
     tampere: tampereTimetables,
   },
