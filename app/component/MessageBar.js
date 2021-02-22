@@ -268,7 +268,13 @@ class MessageBar extends Component {
             <div className={`message-bar-content message-bar-${type}`}>
               <div className={!maximized ? 'message-bar-fade' : ''}>
                 <div className={`message-bar-container ${maximized}`}>
-                  {this.getTabContent(textColor)}
+                  <div
+                    style={{
+                      background: isDisruption ? 'inherit' : backgroundColor,
+                    }}
+                  >
+                    {this.getTabContent(textColor)}
+                  </div>
                 </div>
               </div>
             </div>
