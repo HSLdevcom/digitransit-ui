@@ -13,10 +13,9 @@ jobs:
         uses: zcong1993/setup-timezone@master
         with:
           timezone: "Europe/Helsinki"
-      - name: Push next image as next-prod
-        run: ./.github/workflows/scripts/push_prod.sh
+      - name: Build docker image from next-prod and push it
+        run: ./.github/workflows/scripts/build_and_push_dev.sh
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_AUTH: ${{ secrets.DOCKER_AUTH }}
           DOCKER_BASE_TAG: next-prod
-          DOCKER_DEV_TAG: latest
