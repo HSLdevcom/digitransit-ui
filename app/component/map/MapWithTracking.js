@@ -384,7 +384,6 @@ class MapWithTrackingStateHandler extends React.Component {
           onZoomend: this.updateCurrentBounds,
           onZoomstart: this.disableMapTrackingForZoomControl,
         }}
-        disableMapTracking={this.disableMapTracking}
         {...rest}
         leafletObjs={leafletObjs}
         mapRef={this.setMapElementRef}
