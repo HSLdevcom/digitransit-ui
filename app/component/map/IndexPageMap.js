@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
 import { connectToStores } from 'fluxible-addons-react';
 import { matchShape } from 'found';
 import isEqual from 'lodash/isEqual';
@@ -94,7 +93,6 @@ function IndexPageMap(
     );
   }
 
-  let map;
   if (breakpoint === 'large') {
     const selectLocation = (item, id) => {
       if (id === 'origin') {
@@ -104,7 +102,7 @@ function IndexPageMap(
       }
     };
 
-    map = (
+    return (
       <MapWithTracking
         breakpoint={breakpoint}
         // TODO: Fix an issue where map doesn't center to right place when user is coming to indexPage with origin or destination set with url
@@ -122,26 +120,7 @@ function IndexPageMap(
         )}
       />
     );
-  } else {
-    map = (
-      <>
-        <div className={cx('flex-grow', 'map-container')}>
-          <MapWithTracking
-            breakpoint={breakpoint}
-            showStops
-            {...mwtProps}
-            defaultMapCenter={config.defaultMapCenter || config.defaultEndpoint}
-            leafletObjs={leafletObjs}
-            renderCustomButtons={() => (
-              <>{config.map.showLayerSelector && renderMapLayerSelector()}</>
-            )}
-          />
-        </div>
-      </>
-    );
   }
-
-  return map;
 }
 
 IndexPageMap.propTypes = {
