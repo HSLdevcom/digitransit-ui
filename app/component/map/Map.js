@@ -51,8 +51,6 @@ export default class Map extends React.Component {
     loaded: PropTypes.func,
     disableZoom: PropTypes.bool,
     mapRef: PropTypes.func,
-    originFromMap: PropTypes.bool,
-    destinationFromMap: PropTypes.bool,
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
     mapBottomPadding: PropTypes.number,
@@ -158,19 +156,17 @@ export default class Map extends React.Component {
     if (mapUrl !== null && typeof mapUrl === 'object') {
       mapUrl = mapUrl[this.props.lang] || config.URL.MAP.default;
     }
-    if (!this.props.originFromMap && !this.props.destinationFromMap) {
-      leafletObjs.push(
-        <VectorTileLayerContainer
-          hilightedStops={this.props.hilightedStops}
-          stopsNearYouMode={this.props.stopsNearYouMode}
-          showStops={this.props.showStops}
-          disableMapTracking={this.props.disableMapTracking}
-          locationPopup={locationPopup}
-          onSelectLocation={onSelectLocation}
-          disableParkAndRide={disableParkAndRide}
-        />,
-      );
-    }
+    leafletObjs.push(
+      <VectorTileLayerContainer
+        hilightedStops={this.props.hilightedStops}
+        stopsNearYouMode={this.props.stopsNearYouMode}
+        showStops={this.props.showStops}
+        disableMapTracking={this.props.disableMapTracking}
+        locationPopup={locationPopup}
+        onSelectLocation={onSelectLocation}
+        disableParkAndRide={disableParkAndRide}
+      />,
+    );
 
     let attribution = get(config, 'map.attribution');
     if (!isString(attribution) || isEmpty(attribution)) {
@@ -234,11 +230,7 @@ export default class Map extends React.Component {
           {...this.props.leafletOptions}
           boundsOptions={boundsOptions}
           {...this.props.leafletEvents}
-          onPopupopen={
-            !this.props.originFromMap && !this.props.destinationFromMap
-              ? this.onPopupopen
-              : null
-          }
+          onPopupopen={this.onPopupopen}
           closePopupOnClick={false}
         >
           <TileLayer
@@ -288,10 +280,7 @@ export default class Map extends React.Component {
             }
           </BreakpointConsumer>
           {leafletObjs}
-
-          {!this.props.originFromMap && !this.props.destinationFromMap && (
-            <PositionMarker key="position" />
-          )}
+          <PositionMarker key="position" />
         </LeafletMap>
       </div>
     );
