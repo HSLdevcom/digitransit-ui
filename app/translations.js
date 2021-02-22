@@ -277,9 +277,12 @@ const translations = {
     'all-routes': 'Alle Linien',
     'all-routes-disabled': 'Keine Linien',
     'approx-meters': '{approxDistance} Meter',
-    'aria-itinerary-summary': 'Gesamtdauer {duration} ',
-    'aria-itinerary-summary-bike-distance': 'Strecke per Rad {distance} ',
-    'aria-itinerary-summary-walk-distance': 'Strecke zu Fuß {distance} ',
+    'aria-itinerary-summary':
+      'Gesamtdauer {duration}. Route fährt ab {inFuture} {departureTime} mit Ankunft {arrivalTime}.',
+    'aria-itinerary-summary-bike-distance':
+      'Strecke per Rad {duration}, {distance} ',
+    'aria-itinerary-summary-walk-distance':
+      'Strecke zu Fuß {duration}, {distance} ',
     'arrive-leave': 'Ankunft oder Abfahrt an der ausgewählten Zeit',
     'arriving-at': 'Ankunft',
     'arriving-soon': 'Jetzt',
@@ -819,10 +822,12 @@ const translations = {
     'add-via-duration-button-label-open':
       'Open stop duration selector at via point {index}',
     'add-work': 'Add work',
-    'aria-itinerary-summary': 'Total journey time {duration} ',
+    'aria-itinerary-summary':
+      'Total journey time {duration}. Departing at {inFuture} {departureTime} and arriving at {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
-      'Total cycling distance {distance} ',
-    'aria-itinerary-summary-walk-distance': 'Total walking {distance} ',
+      'Total cycling {duration}, {distance} ',
+    'aria-itinerary-summary-walk-distance':
+      'Total walking {duration}, {distance} ',
     'arrive-leave': 'Arrive or leave at selected time',
     'search-autosuggest-label':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
@@ -1706,9 +1711,12 @@ const translations = {
     'add-to-favourites': 'Lisää suosikiksi',
     'add-via-button-label': 'Lisää välipiste',
     'add-work': 'Lisää työ',
-    'aria-itinerary-summary': 'Matkan kokonaiskesto {duration} ',
-    'aria-itinerary-summary-bike-distance': 'pyöräilyä yhteensä {distance} ',
-    'aria-itinerary-summary-walk-distance': 'kävelyä yhteensä {distance} ',
+    'aria-itinerary-summary':
+      'Matkan kokonaiskesto {duration}. Lähtö {inFuture} kello {departureTime}. Perillä kello {arrivalTime}.',
+    'aria-itinerary-summary-bike-distance':
+      'pyöräilyä yhteensä {duration}, {distance} ',
+    'aria-itinerary-summary-walk-distance':
+      'kävelyä yhteensä {duration}, {distance} ',
     'arrive-leave': 'Saavu tai lähde valittuna aikana',
     'search-autosuggest-label':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
@@ -3368,9 +3376,12 @@ const translations = {
     'add-via-duration-button-label-open':
       'Öppna väljaren för varaktighet vid via-punkten',
     'add-work': 'Lägg till arbete',
-    'aria-itinerary-summary': 'Den totala restiden {duration}',
-    'aria-itinerary-summary-bike-distance': 'cykling sammanlagt {distance}',
-    'aria-itinerary-summary-walk-distance': 'promenad sammanlagt {distance}',
+    'aria-itinerary-summary':
+      'Den totala restiden {duration}. Avgång {inFuture} klockan {departureTime}. Framme klockan {arrivalTime}',
+    'aria-itinerary-summary-bike-distance':
+      'cykling sammanlagt {duration}, {distance}',
+    'aria-itinerary-summary-walk-distance':
+      'promenad sammanlagt {duration}, {distance}',
     'arrive-leave': 'Anländer eller lämnar vid vald tid',
     'search-autosuggest-label':
       'Plats, linje och hållplatssökning. Navigera listan med piltangenterna och välj med Enter-tangeten',

@@ -23,7 +23,7 @@ function WalkDistance(props, { config, intl }) {
       <span className="sr-only">
         <FormattedMessage
           id={`aria-itinerary-summary-${mode}-distance`}
-          values={{ distance: walkDistance }}
+          values={{ distance: walkDistance, duration: walkDuration }}
         />
       </span>
       <Icon img={icon} className={cx(mode)} />

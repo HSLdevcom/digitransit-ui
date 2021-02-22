@@ -106,7 +106,7 @@ class ItineraryTab extends React.Component {
     return getFormattedTimeDate(startTime, 'dd D.M.');
   };
 
-  setExtra = (itinerary) => {
+  setExtraProps = (itinerary) => {
     const compressedItinerary = {
       ...itinerary,
       legs: compressLegs(itinerary.legs),
@@ -117,7 +117,7 @@ class ItineraryTab extends React.Component {
     const bikingDuration = getTotalBikingDuration(compressedItinerary);
     const futureText = this.getFutureText(itinerary.startTime);
     const isMultiRow = walkingDistance > 0 && bikingDistance > 0 && futureText !== '';
-    const extra = {
+    const extraProps = {
       walking: {
         duration: walkingDuration,
         distance: walkingDistance,
@@ -130,7 +130,7 @@ class ItineraryTab extends React.Component {
       isMultiRow,
       isMobile: this.props.isMobile,
     }
-    return extra;
+    return extraProps;
   };
 
   render() {
@@ -142,13 +142,13 @@ class ItineraryTab extends React.Component {
     }
 
     const fares = getFares(itinerary.fares, getRoutes(itinerary.legs), config);
-    const extra = this.setExtra(itinerary);
+    const extraProps = this.setExtraProps(itinerary);
     return (
       <div className="itinerary-tab">
         <BreakpointConsumer>
           {breakpoint => [
             breakpoint !== 'large' ? (
-              <ItinerarySummary itinerary={itinerary} key="summary" extra={extra} />
+              <ItinerarySummary itinerary={itinerary} key="summary" extraProps={extraProps} />
             ) : (
               <>
                 <div className="desktop-title" key="header">
@@ -166,12 +166,12 @@ class ItineraryTab extends React.Component {
                     />
                   </div>
                 </div>
-                <ItinerarySummary itinerary={itinerary} key="summary" extra={extra} />
+                <ItinerarySummary itinerary={itinerary} key="summary" extraProps={extraProps} />
               </>
             ),
             <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
-              'multirow': extra.isMultiRow,
+              'multirow': extraProps.isMultiRow,
             })} key="legs">
               <div
                 className={cx('itinerary-main', {

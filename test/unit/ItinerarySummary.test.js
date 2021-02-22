@@ -13,7 +13,7 @@ describe('<ItinerarySummary />', () => {
     const props = {
       children: <div />,
       itinerary: data.bikingAndWalking,
-      extra: {
+      extraProps: {
         biking: {
           distance: 1000,
           duration: 180,
@@ -35,7 +35,7 @@ describe('<ItinerarySummary />', () => {
     const props = {
       children: <div />,
       itinerary: data.bikingAndWalking,
-      extra: {
+      extraProps: {
         biking: {
           distance: 1000,
           duration: 180,
@@ -58,7 +58,7 @@ describe('<ItinerarySummary />', () => {
     const props = {
       children: <div />,
       itinerary: data.onlyBiking,
-      extra: {
+      extraProps: {
         biking: {
           distance: 1000,
           duration: 180,

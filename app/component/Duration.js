@@ -22,10 +22,21 @@ function Duration(props) {
   const futureText = props.futureText
     ? props.futureText.charAt(0).toUpperCase() + props.futureText.slice(1)
     : '';
+
+  const departureTime = futureText ? `${futureText}, ${startTime}` : startTime;
+  const arrivalTime = endTime;
   return (
     <span className={cx(props.className)}>
       <span className="sr-only">
-        <FormattedMessage id="aria-itinerary-summary" values={{ duration }} />{' '}
+        <FormattedMessage
+          id="aria-itinerary-summary"
+          values={{
+            duration,
+            inFuture: futureText,
+            departureTime,
+            arrivalTime,
+          }}
+        />{' '}
       </span>
       <Icon img="icon-icon_clock" className="clock" />
       <span className="duration" aria-hidden>
