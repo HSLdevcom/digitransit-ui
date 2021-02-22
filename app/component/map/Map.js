@@ -42,7 +42,6 @@ export default class Map extends React.Component {
     leafletEvents: PropTypes.object,
     leafletObjs: PropTypes.array,
     leafletOptions: PropTypes.object,
-    padding: PropTypes.array,
     showStops: PropTypes.bool,
     stopsNearYouMode: PropTypes.string,
     zoom: PropTypes.number,
@@ -140,9 +139,6 @@ export default class Map extends React.Component {
         this.props.lat &&
         this.props.lon && [this.props.lat, this.props.lon]) ||
       null;
-    if (this.props.padding) {
-      boundsOptions.paddingTopLeft = this.props.padding;
-    }
     if (center && zoom) {
       boundsOptions.maxZoom = zoom;
     }

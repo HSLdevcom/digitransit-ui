@@ -385,7 +385,7 @@ function StopsNearYouMap(
     return [''];
   };
 
-  const mapTracking = position && position.type === 'CurrentLocation';
+  const mapTracking = !position || position.type !== 'CenterOfMap';
 
   // Marker for the search point.
   if (position && position.type !== 'CurrentLocation') {
