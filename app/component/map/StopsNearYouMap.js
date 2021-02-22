@@ -385,12 +385,7 @@ function StopsNearYouMap(
     return [''];
   };
 
-  const useInitialMapTracking = () => {
-    if (position && position.type === 'CenterOfMap') {
-      return false;
-    }
-    return true;
-  };
+  const mapTracking = position && position.type === 'CurrentLocation';
 
   // Marker for the search point.
   if (position && position.type !== 'CurrentLocation') {
@@ -407,12 +402,12 @@ function StopsNearYouMap(
         stopsNearYouMode={mode}
         showScaleBar
         fitBounds={useFitBounds}
-        defaultMapCenter={defaultMapCenter || context.config.defaultEndpoint}
+        defaultMapCenter={defaultMapCenter}
         disableParkAndRide
         boundsOptions={{ maxZoom: zoom }}
         bounds={bounds}
         fitBoundsWithSetCenter
-        setInitialMapTracking={useInitialMapTracking()}
+        mapTracking={mapTracking}
         hilightedStops={hilightedStops()}
         leafletObjs={leafletObjs}
         setCenterOfMap={setCenterOfMap}
@@ -431,12 +426,12 @@ function StopsNearYouMap(
           showStops
           stopsNearYouMode={mode}
           fitBounds={useFitBounds}
-          defaultMapCenter={defaultMapCenter || context.config.defaultEndpoint}
+          defaultMapCenter={defaultMapCenter}
           boundsOptions={{ maxZoom: zoom }}
           bounds={bounds}
           showScaleBar
           fitBoundsWithSetCenter
-          setInitialMapTracking={useInitialMapTracking()}
+          mapTracking={mapTracking}
           hilightedStops={hilightedStops()}
           leafletObjs={leafletObjs}
           setCenterOfMap={setCenterOfMap}

@@ -91,7 +91,7 @@ class MapWithTrackingStateHandler extends React.Component {
     renderCustomButtons: PropTypes.func,
     mapLayers: mapLayerShape.isRequired,
     messages: PropTypes.array,
-    setInitialMapTracking: PropTypes.bool,
+    mapTracking: PropTypes.bool,
     initialZoom: PropTypes.number,
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
@@ -104,7 +104,7 @@ class MapWithTrackingStateHandler extends React.Component {
   static defaultProps = {
     focusPoint: undefined,
     renderCustomButtons: undefined,
-    setInitialMapTracking: false,
+    mapTracking: false,
     initialZoom: undefined,
     locationPopup: 'reversegeocoding',
     onSelectLocation: () => null,
@@ -121,7 +121,7 @@ class MapWithTrackingStateHandler extends React.Component {
       defaultMapCenter: props.defaultMapCenter,
       keepOnTracking: false,
       initialZoom: props.initialZoom ? props.initialZoom : defaultZoom,
-      mapTracking: props.setInitialMapTracking,
+      mapTracking: props.mapTracking,
     };
   }
 
@@ -151,7 +151,7 @@ class MapWithTrackingStateHandler extends React.Component {
         locationingOn: true,
       });
     }
-    if (newProps.mapTracking || newProps.initialMapWithTracking) {
+    if (newProps.mapTracking) {
       this.setState({
         mapTracking: true,
       });
