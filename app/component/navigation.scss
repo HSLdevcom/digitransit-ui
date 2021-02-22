@@ -505,6 +505,7 @@ section.content {
     .message-bar-container {
       max-height: 100px;
       overflow: hidden;
+      padding: 10px 10px 0px 10px;
       &.maximized {
         max-height: 400px;
       }
