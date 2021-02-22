@@ -247,6 +247,32 @@ class IndexPage extends React.Component {
       targets: stopAndRouteSearchTargets,
     };
 
+    const NearStops = CtrlPanel =>
+      config.showNearYouButtons ? (
+        <div className="near-you-buttons-container">
+          <CtrlPanel.NearStopsAndRoutes
+            modes={config.nearYouModes}
+            urlPrefix={`/${PREFIX_NEARYOU}`}
+            language={lang}
+            showTitle
+            alertsContext={alertsContext}
+            origin={origin}
+            omitLanguageUrl
+            onClick={this.clickStopNearIcon}
+          />
+        </div>
+      ) : (
+        <div className="stops-near-you-text">
+          <h2>
+            {' '}
+            {intl.formatMessage({
+              id: 'stop-near-you-title',
+              defaultMessage: 'Stops and lines near you',
+            })}
+          </h2>
+        </div>
+      );
+
     return (
       <LazilyLoad modules={modules}>
         {({
@@ -290,32 +316,7 @@ class IndexPage extends React.Component {
                     lang={lang}
                   />
                   <CtrlPanel.SeparatorLine usePaddingBottom20 />
-                  <>
-                    {config.showNearYouButtons ? (
-                      <div className="near-you-buttons-container">
-                        <CtrlPanel.NearStopsAndRoutes
-                          modes={config.nearYouModes}
-                          urlPrefix={`/${PREFIX_NEARYOU}`}
-                          language={lang}
-                          showTitle
-                          alertsContext={alertsContext}
-                          origin={origin}
-                          omitLanguageUrl
-                          onClick={this.clickStopNearIcon}
-                        />
-                      </div>
-                    ) : (
-                      <div className="stops-near-you-text">
-                        <h2>
-                          {' '}
-                          {intl.formatMessage({
-                            id: 'stop-near-you-title',
-                            defaultMessage: 'Stops and lines near you',
-                          })}
-                        </h2>
-                      </div>
-                    )}
-                  </>
+                  <>{NearStops(CtrlPanel)}</>
                   <StopRouteSearch {...stopRouteSearchProps} />
                   <CtrlPanel.SeparatorLine />
                   {!trafficNowLink ||
@@ -364,32 +365,7 @@ class IndexPage extends React.Component {
                     isMobile
                   />
                   <CtrlPanel.SeparatorLine />
-                  <>
-                    {config.showNearYouButtons ? (
-                      <div className="near-you-buttons-container">
-                        <CtrlPanel.NearStopsAndRoutes
-                          modes={config.nearYouModes}
-                          urlPrefix={`/${PREFIX_NEARYOU}`}
-                          language={lang}
-                          showTitle
-                          alertsContext={alertsContext}
-                          origin={origin}
-                          omitLanguageUrl
-                          onClick={this.clickStopNearIcon}
-                        />
-                      </div>
-                    ) : (
-                      <div className="stops-near-you-text">
-                        <h2>
-                          {' '}
-                          {intl.formatMessage({
-                            id: 'stop-near-you-title',
-                            defaultMessage: 'Stops and lines near you',
-                          })}
-                        </h2>
-                      </div>
-                    )}
-                  </>
+                  <>{NearStops(CtrlPanel)}</>
                   <div className="stop-route-search-container">
                     <StopRouteSearch isMobile {...stopRouteSearchProps} />
                   </div>
