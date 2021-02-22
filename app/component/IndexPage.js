@@ -202,6 +202,17 @@ class IndexPage extends React.Component {
         ? ['Stops', 'Routes', 'BikeRentalStations']
         : ['Stops', 'Routes'];
 
+    const locationSearchTargets = [
+      'Locations',
+      'CurrentPosition',
+      'FutureRoutes',
+      'Stops',
+    ];
+    const locationSearchTargetsMobile = [
+      ...locationSearchTargets,
+      'MapPosition',
+    ];
+
     const alertsContext = {
       currentTime: this.props.currentTime,
       getModesWithAlerts,
@@ -299,12 +310,7 @@ class IndexPage extends React.Component {
                   position="left"
                 >
                   <LocationSearch
-                    targets={[
-                      'Locations',
-                      'CurrentPosition',
-                      'FutureRoutes',
-                      'Stops',
-                    ]}
+                    targets={locationSearchTargets}
                     {...locationSearchProps}
                   />
                   <div className="datetimepicker-container">
@@ -345,15 +351,9 @@ class IndexPage extends React.Component {
               >
                 <CtrlPanel instance="hsl" language={lang} position="bottom">
                   <LocationSearch
-                    targets={[
-                      'Locations',
-                      'CurrentPosition',
-                      'MapPosition',
-                      'FutureRoutes',
-                      'Stops',
-                    ]}
                     disableAutoFocus
                     isMobile
+                    targets={locationSearchTargetsMobile}
                     {...locationSearchProps}
                   />
                   <div className="datetimepicker-container">
