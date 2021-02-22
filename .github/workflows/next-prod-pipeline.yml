@@ -19,4 +19,4 @@ jobs:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_AUTH: ${{ secrets.DOCKER_AUTH }}
           DOCKER_BASE_TAG: next-prod
-          DOCKER_DEV_TAG: next
+          DOCKER_DEV_TAG: latest
