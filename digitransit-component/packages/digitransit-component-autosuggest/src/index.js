@@ -177,6 +177,8 @@ function translateFutureRouteSuggestionTime(item) {
  *    targets={targets}
  *    isMobile  // Optional. Defaults to false. Whether to use mobile search.
  *    mobileLabel="Custom label" // Optional. Custom label text for autosuggest field on mobile.
+ *    inputClassName="" // Optional. Custom classname applied to the input element of the component for providing CSS styles.
+ *    translatedPlaceholder= // Optional. Custon translated placeholder text for autosuggest field.
  */
 class DTAutosuggest extends React.Component {
   static propTypes = {
@@ -186,6 +188,7 @@ class DTAutosuggest extends React.Component {
     icon: PropTypes.string,
     id: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
+    translatedPlaceholder: PropTypes.string,
     value: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
     ariaLabel: PropTypes.string,
@@ -212,6 +215,7 @@ class DTAutosuggest extends React.Component {
     lock: PropTypes.func.isRequired,
     unlock: PropTypes.func.isRequired,
     refPoint: PropTypes.object,
+    inputClassName: PropTypes.string,
   };
 
   static defaultProps = {
@@ -231,6 +235,8 @@ class DTAutosuggest extends React.Component {
       stopsPrefix: 'pysakit',
     },
     mobileLabel: undefined,
+    inputClassName: '',
+    translatedPlaceholder: undefined,
   };
 
   constructor(props) {
@@ -771,7 +777,9 @@ class DTAutosuggest extends React.Component {
       cleanExecuted,
     } = this.state;
     const inputProps = {
-      placeholder: i18next.t(this.props.placeholder),
+      placeholder: this.props.translatedPlaceholder
+        ? this.props.translatedPlaceholder
+        : i18next.t(this.props.placeholder),
       value,
       onChange: this.onChange,
       onBlur: !this.props.isMobile ? this.onBlur : () => null,
@@ -780,7 +788,7 @@ class DTAutosuggest extends React.Component {
           this.props.isMobile && this.props.transportMode ? styles.thin : ''
         } ${styles[this.props.id] || ''} ${
           this.state.value ? styles.hasValue : ''
-        }`,
+        } ${this.props.inputClassName}`,
       ),
       onKeyDown: this.keyDown, // DT-3263
     };
@@ -865,8 +873,10 @@ class DTAutosuggest extends React.Component {
             {this.props.icon && (
               <div
                 className={cx([
-                  styles['autosuggest-input-icon'],
+                  styles[`autosuggest-input-icon`],
                   styles[this.props.id],
+                  this.props.inputClassName &&
+                    `${this.props.inputClassName}-input-icon`,
                 ])}
               >
                 <Icon img={`${this.props.icon}`} />

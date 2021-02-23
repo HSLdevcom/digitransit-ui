@@ -98,6 +98,7 @@ class MapWithTrackingStateHandler extends React.Component {
     showLocationMessages: PropTypes.bool,
     defaultMapCenter: PropTypes.object.isRequired,
     fitBoundsWithSetCenter: PropTypes.bool,
+    setCenterOfMap: PropTypes.func,
   };
 
   static defaultProps = {
@@ -208,6 +209,9 @@ class MapWithTrackingStateHandler extends React.Component {
       locationingOn: true,
       initialZoom: 16,
     });
+    if (this.props.setCenterOfMap) {
+      this.props.setCenterOfMap(null);
+    }
     addAnalyticsEvent({
       category: 'Map',
       action: 'ReCenterToMyGeolocation',
@@ -244,6 +248,9 @@ class MapWithTrackingStateHandler extends React.Component {
     this.setState({
       bounds: newBounds,
     });
+    if (this.props.setCenterOfMap) {
+      this.props.setCenterOfMap(this.mapElement);
+    }
   };
 
   updateZoom(zoom) {

@@ -38,7 +38,8 @@ import {
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import BackButton from './BackButton'; // DT-3472
-import { isBrowser } from '../util/browser';
+import { isBrowser, isIOS } from '../util/browser';
+import { saveSearch } from '../action/SearchActions';
 
 const Tab = {
   Disruptions: PREFIX_DISRUPTION,
@@ -78,11 +79,29 @@ class RoutePage extends React.Component {
   componentDidMount() {
     const { match, router, route } = this.props;
     const { config } = this.context;
+    const { location } = match;
+
     if (!route || !route.patterns) {
       return;
     }
 
-    const { location } = match;
+    if (isIOS && location.query.save) {
+      this.context.executeAction(saveSearch, {
+        item: {
+          properties: {
+            mode: route.mode,
+            gtfsId: route.gtfsId,
+            longName: route.longName,
+            shortName: route.shortName,
+            layer: `route-${route.mode}`,
+            link: location.pathname,
+            agency: { name: route.agency.name },
+          },
+          type: 'Route',
+        },
+        type: 'search',
+      });
+    }
 
     const lengthPathName =
       location !== undefined ? location.pathname.length : 0; // DT-3331
@@ -492,6 +511,7 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
         }
       }
       agency {
+        name
         phone
       }
       patterns {
