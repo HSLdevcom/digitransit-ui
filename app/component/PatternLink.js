@@ -11,21 +11,39 @@ function PatternLink({
   route,
   vehicleNumber,
   selected = false,
+  setHumanScrolling,
+  keepTracking,
 }) {
   const trackedVehicleRef = useRef();
+  const shouldUpdate = useRef(true);
 
   useEffect(() => {
-    if (selected) {
+    if (selected && keepTracking && shouldUpdate.current) {
+      setHumanScrolling(false);
+      shouldUpdate.current = false;
+
       const elemRect = document
         .getElementById('tracked-vehicle-marker')
         .getBoundingClientRect();
-      const bodyRect = document
+      const containerRect = document
         .getElementById('trip-route-page-content')
         .getBoundingClientRect();
-      const topPos = elemRect.top - bodyRect.top - 30; // Leave a bit of space between the marker and the top of the div
-      document.getElementById('trip-route-page-content').scrollTop = topPos;
+      const markerPadding = 30;
+      const topPos = Math.abs(elemRect.top - containerRect.top - markerPadding);
+      const elemToScroll = document.getElementById('trip-route-page-content');
+
+      if (topPos && topPos !== elemToScroll.scrollTop) {
+        elemToScroll.scrollTop += topPos;
+      }
+
+      setTimeout(() => {
+        setHumanScrolling(true);
+      }, 500);
+      setTimeout(() => {
+        shouldUpdate.current = true;
+      }, 5000);
     }
-  }, []);
+  });
 
   const imgName = `icon-icon_${mode}-live`;
   const icon = (selected && (
@@ -62,6 +80,8 @@ PatternLink.propTypes = {
   route: PropTypes.string.isRequired,
   selected: PropTypes.bool,
   vehicleNumber: PropTypes.string,
+  setHumanScrolling: PropTypes.func,
+  keepTracking: PropTypes.bool,
 };
 
 export default PatternLink;

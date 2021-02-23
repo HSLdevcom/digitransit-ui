@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import cx from 'classnames';
 import pure from 'recompose/pure';
 import { matchShape } from 'found';
+import debounce from 'lodash/debounce';
 
 import RoutePageControlPanel from './RoutePageControlPanel';
 import { getStartTime } from '../util/timeUtils';
@@ -11,6 +12,13 @@ import TripStopListContainer from './TripStopListContainer';
 import withBreakpoint from '../util/withBreakpoint';
 
 function TripStopsContainer({ breakpoint, match, trip, route }) {
+  const [keepTracking, setTracking] = useState(true);
+  const humanScrolling = useRef(true);
+
+  const setHumanScrolling = boolVal => {
+    humanScrolling.current = boolVal;
+  };
+
   if (!trip) {
     return null;
   }
@@ -26,6 +34,12 @@ function TripStopsContainer({ breakpoint, match, trip, route }) {
     return <div className="route-page-content" />;
   }
 
+  const handleScroll = () => {
+    if (humanScrolling.current && keepTracking) {
+      setTracking(false);
+    }
+  };
+
   return (
     <div
       className={cx(
@@ -39,6 +53,7 @@ function TripStopsContainer({ breakpoint, match, trip, route }) {
         },
       )}
       id="trip-route-page-content"
+      onScroll={debounce(handleScroll, 100)}
     >
       {route && route.patterns && (
         <RoutePageControlPanel
@@ -52,6 +67,8 @@ function TripStopsContainer({ breakpoint, match, trip, route }) {
         trip={trip}
         tripStart={tripStartTime}
         fullscreenMap={fullscreen}
+        keepTracking={keepTracking}
+        setHumanScrolling={setHumanScrolling}
       />
     </div>
   );
