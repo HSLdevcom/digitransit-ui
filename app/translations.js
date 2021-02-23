@@ -3508,7 +3508,7 @@ const translations = {
     'footer-feedback': 'Skicka respons',
     'footer-link-to-privacy-policy': 'Registerbeskrivning',
     'from-station': 'från stationen',
-    'from-stop': 'från stopp',
+    'from-stop': 'från hållplats',
     frontpage: 'Framsidan',
     'generic-error': 'Det hände ett fel',
     'geolocate-yourself': 'Sök position',
