@@ -68,7 +68,11 @@ function BicycleLeg(
   { config, intl },
 ) {
   let stopsDescription;
-  const distance = displayDistance(parseInt(leg.distance, 10), config);
+  const distance = displayDistance(
+    parseInt(leg.distance, 10),
+    config,
+    intl.formatNumber,
+  );
   const duration = durationToString(leg.endTime - leg.startTime);
   let { mode } = leg;
   let legDescription = <span>{leg.from ? leg.from.name : ''}</span>;
