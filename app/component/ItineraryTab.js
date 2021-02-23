@@ -128,7 +128,6 @@ class ItineraryTab extends React.Component {
       },
       futureText,
       isMultiRow,
-      isMobile: this.props.isMobile,
     }
     return extraProps;
   };
@@ -148,7 +147,7 @@ class ItineraryTab extends React.Component {
         <BreakpointConsumer>
           {breakpoint => [
             breakpoint !== 'large' ? (
-              <ItinerarySummary itinerary={itinerary} key="summary" extraProps={extraProps} />
+              <ItinerarySummary itinerary={itinerary} key="summary" walking={extraProps.walking} biking={extraProps.biking} futureText={extraProps.futureText} isMultiRow={extraProps.isMultiRow} isMobile={this.props.isMobile} />
             ) : (
               <>
                 <div className="desktop-title" key="header">
