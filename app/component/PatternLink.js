@@ -16,17 +16,20 @@ function PatternLink({
 
   useEffect(() => {
     if (selected) {
-      trackedVehicleRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-        inline: 'center',
-      });
+      const elemRect = document
+        .getElementById('tracked-vehicle-marker')
+        .getBoundingClientRect();
+      const bodyRect = document
+        .getElementById('trip-route-page-content')
+        .getBoundingClientRect();
+      const topPos = elemRect.top - bodyRect.top - 30; // Leave a bit of space between the marker and the top of the div
+      document.getElementById('trip-route-page-content').scrollTop = topPos;
     }
   }, []);
 
   const imgName = `icon-icon_${mode}-live`;
   const icon = (selected && (
-    <div ref={trackedVehicleRef}>
+    <div ref={trackedVehicleRef} id="tracked-vehicle-marker">
       <SelectedIconWithTail
         img={imgName}
         mode={mode}

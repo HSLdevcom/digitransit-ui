@@ -50,6 +50,10 @@ $margin-left-right: 1.25em;
     background-color: transparent;
     position: relative;
   }
+  .bottom-whitespace {
+    min-height: 300px;
+    display: block;
+  }
 }
 .route-page-container {
   background-color: $white;

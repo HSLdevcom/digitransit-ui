@@ -38,6 +38,7 @@ function TripStopsContainer({ breakpoint, match, trip, route }) {
           'bp-large': breakpoint === 'large',
         },
       )}
+      id="trip-route-page-content"
     >
       {route && route.patterns && (
         <RoutePageControlPanel
