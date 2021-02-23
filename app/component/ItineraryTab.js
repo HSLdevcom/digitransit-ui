@@ -165,7 +165,7 @@ class ItineraryTab extends React.Component {
                     />
                   </div>
                 </div>
-                <ItinerarySummary itinerary={itinerary} key="summary" extraProps={extraProps} />
+                <ItinerarySummary itinerary={itinerary} key="summary" walking={extraProps.walking} biking={extraProps.biking} futureText={extraProps.futureText} isMultiRow={extraProps.isMultiRow} isMobile={this.props.isMobile} />
               </>
             ),
             <div
