@@ -19,7 +19,6 @@ function PatternLink({
       className="route-now-content"
     >
       <IconWithTail
-        desaturate
         mode={mode}
         rotate={180}
         vehicleNumber={vehicleNumber}

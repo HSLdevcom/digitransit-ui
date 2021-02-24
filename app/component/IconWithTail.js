@@ -36,13 +36,39 @@ const getTextOffSet = length => {
   }
 };
 
+const getSvgContent = (rotate, useLargeIcon) => {
+  const transform = useLargeIcon
+    ? 'translate(24 24) scale(1.3)'
+    : 'translate(5 5) scale(0.7)';
+  return rotate ? (
+    <g transform={`rotate(${(rotate || 0) + 180} 40 40)`}>
+      <use
+        xlinkHref={
+          useLargeIcon
+            ? '#icon-icon_vehicle-live-marker'
+            : '#icon-icon_all-vehicles-small'
+        }
+        transform={transform}
+      />
+    </g>
+  ) : (
+    <use
+      xlinkHref={
+        useLargeIcon
+          ? '#icon-icon_vehicle-live-marker-without-direction'
+          : '#icon-icon_all-vehicles-small-without-direction'
+      }
+      transform={transform}
+    />
+  );
+};
+
 const IconWithTail = ({
   className,
   id,
   rotate,
   children,
   mode = 'bus',
-  desaturate = false,
   scrollIntoView = false,
   vehicleNumber = '',
   useLargeIcon = false,
@@ -55,19 +81,7 @@ const IconWithTail = ({
         className={cx('icon', 'tail-icon', 'large-icon', className, mode)}
         ref={el => scrollIntoView && el && el.scrollIntoView()}
       >
-        {rotate ? (
-          <g transform={`rotate(${(rotate || 0) + 180} 40 40)`}>
-            <use
-              xlinkHref="#icon-icon_vehicle-live-marker"
-              transform="translate(24 24) scale(1.3)"
-            />
-          </g>
-        ) : (
-          <use
-            xlinkHref="#icon-icon_vehicle-live-marker-without-direction"
-            transform="translate(24 24) scale(1.3)"
-          />
-        )}
+        {getSvgContent(rotate, useLargeIcon)}
         <text
           textAnchor="middle"
           fontSize={getFontSize(vehicleNumber.length)}
@@ -85,13 +99,7 @@ const IconWithTail = ({
         className={cx('allVehicles', className)}
         ref={el => scrollIntoView && el && el.scrollIntoView()}
       >
-        <React.Fragment>
-          <use
-            filter={desaturate ? 'url(#desaturate)' : undefined}
-            xlinkHref="#icon-icon_all-vehicles-small"
-            transform="translate(5 5) scale(0.7)"
-          />
-        </React.Fragment>
+        {getSvgContent(rotate, useLargeIcon)}
         {children}
       </svg>
     )}
@@ -118,7 +126,6 @@ IconWithTail.propTypes = {
   rotate: PropTypes.number,
   mode: PropTypes.string,
   children: PropTypes.element,
-  desaturate: PropTypes.bool,
   scrollIntoView: PropTypes.bool,
   vehicleNumber: PropTypes.string,
   useLargeIcon: PropTypes.bool,
