@@ -55,12 +55,19 @@ const IconWithTail = ({
         className={cx('icon', 'tail-icon', 'large-icon', className, mode)}
         ref={el => scrollIntoView && el && el.scrollIntoView()}
       >
-        <g transform={`rotate(${(rotate || 0) + 180} 40 40)`}>
+        {rotate ? (
+          <g transform={`rotate(${(rotate || 0) + 180} 40 40)`}>
+            <use
+              xlinkHref="#icon-icon_vehicle-live-marker"
+              transform="translate(24 24) scale(1.3)"
+            />
+          </g>
+        ) : (
           <use
-            xlinkHref="#icon-icon_vehicle-live-marker"
+            xlinkHref="#icon-icon_vehicle-live-marker-without-direction"
             transform="translate(24 24) scale(1.3)"
           />
-        </g>
+        )}
         <text
           textAnchor="middle"
           fontSize={getFontSize(vehicleNumber.length)}
