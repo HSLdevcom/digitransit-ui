@@ -476,17 +476,6 @@
     </g>
   </g>
 </symbol>
-<linearGradient id="fadeGrad" x1="0" x2="0" y1="0" y2="1">
-	<stop offset="0" stop-color="#999" stop-opacity="1"/>
-	<stop offset="1" stop-color="#999" stop-opacity="0"/>
-</linearGradient>
-<mask id="fadeMask" maskContentUnits="objectBoundingBox" x="0" y="0" width="1" height="1">
-	<rect x="0" y="0" width="1" height="1" fill="url(#fadeGrad)"/>
-</mask>
-<linearGradient id="tailGrad" x1="0" x2="0" y1="0" y2="1">
-	<stop offset="0" stop-color="currentColor" stop-opacity="0.8"/>
-	<stop offset="1" stop-color="currentColor" stop-opacity="0.05"/>
-</linearGradient>
 <filter id="desaturate">
 	<feColorMatrix type="matrix" values="0.3333 0.3333 0.3333 0 0
 																	     0.3333 0.3333 0.3333 0 0
