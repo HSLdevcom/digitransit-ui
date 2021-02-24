@@ -436,6 +436,9 @@
 	<circle cx="13" cy="13" r="12.5" stroke="#fff"/>
 	<circle cx="13" cy="13" r="10.5" fill="#fff"/>
 </symbol>
+<symbol id="icon-icon_all-vehicles-small" width="10px" height="11px" viewBox="0 0 10 11">
+	<path d="M4.735 9.508L5 9.773l.265-.265 2.121-2.122a3.375 3.375 0 10-4.773 0l2.122 2.122z" fill="#333" stroke="#fff" stroke-width=".75"/>
+</symbol>
 <symbol id="icon-icon_right-now" viewBox="0 0 1024 1024">
 	<path d="M368.356 1024.014c-44.781 0-81.079-36.302-81.079-81.079 0-361.528 294.123-655.658 655.651-655.658 44.781 0 81.079 36.302 81.079 81.079s-36.298 81.079-81.079 81.079c-272.112 0-493.497 221.385-493.497 493.5 0.004 44.773-36.295 81.079-81.075 81.079z"/>
 	<path d="M81.072 1024.014c-44.781 0-81.079-36.302-81.079-81.079 0-519.948 423.002-942.946 942.939-942.946 44.781 0 81.079 36.302 81.079 81.079s-36.298 81.079-81.079 81.079c-430.524 0-780.781 350.257-780.781 780.788 0 44.773-36.298 81.079-81.079 81.079z"/>
@@ -975,21 +978,6 @@
   </g>
 </symbol>
 
-<symbol id="icon-icon_all-vehicles-small" width="9px" height="20px" viewBox="0 0 9 20" stroke="none" stroke-width="1">
-	<g id="Vehicles" transform="translate(-48.000000, -41.000000)">
-		<g transform="translate(48.000000, 40.000000)">
-			<path d="M4.845 20.81c2.209 0 4-1.99 4-4.445S7.054.809 4.845.809c-2.21 0-4 13.101-4 15.556 0 2.455 1.79 4.444 4 4.444z" fill="url(#all-busses)" fill-rule="nonzero" opacity=".5"/>
-			<circle stroke="#FFF" fill="#007AC9" cx="4.845" cy="16.809" r="3.5"/>
-		</g>
-	</g>
-</symbol>
-<symbol id="icon-icon_all-vehicles-large" width="24px" height="24px" viewBox="0 0 24 24">
-	<g id="Vehicles" transform="translate(-48.000000, -41.000000)">
-		<g transform="translate(48.000000, 40.000000)">
-			<circle stroke-opacity=".2" stroke="#000" fill="#007AC9" cx="10" cy="11.206" r="3.5"/>
-		</g>
-	</g>
-</symbol>
 <symbol id="icon-icon_wheelchair" viewBox="0 0 25 32">
   <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 	<g id="hsl-reittiasetukset-valikot-auki-pyörä" transform="translate(-557.000000, -1321.000000)" fill="#333333" fill-rule="nonzero">
