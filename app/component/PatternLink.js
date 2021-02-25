@@ -38,10 +38,10 @@ function PatternLink({
 
       setTimeout(() => {
         setHumanScrolling(true);
-      }, 500);
+      }, 250);
       setTimeout(() => {
         shouldUpdate.current = true;
-      }, 5000);
+      }, 4000);
     }
   });
 
