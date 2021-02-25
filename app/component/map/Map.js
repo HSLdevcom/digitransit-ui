@@ -37,6 +37,7 @@ export default class Map extends React.Component {
     disableMapTracking: PropTypes.func,
     fitBounds: PropTypes.bool,
     hilightedStops: PropTypes.array,
+    stopsToShow: PropTypes.array,
     lang: PropTypes.string.isRequired,
     lat: PropTypes.number,
     lon: PropTypes.number,
@@ -164,6 +165,7 @@ export default class Map extends React.Component {
           hilightedStops={this.props.hilightedStops}
           stopsNearYouMode={this.props.stopsNearYouMode}
           showStops={this.props.showStops}
+          stopsToShow={this.props.stopsToShow}
           disableMapTracking={this.props.disableMapTracking}
           locationPopup={locationPopup}
           onSelectLocation={onSelectLocation}

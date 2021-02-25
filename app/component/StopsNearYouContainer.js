@@ -336,7 +336,6 @@ const refetchContainer = createPaginationContainer(
         lon: { type: "Float!", defaultValue: 0 }
         filterByPlaceTypes: { type: "[FilterPlaceType]", defaultValue: null }
         filterByModes: { type: "[Mode]", defaultValue: null }
-        filterByIds: { type: "InputFilters", defaultValue: null }
         first: { type: "Int!", defaultValue: 5 }
         after: { type: "String" }
         maxResults: { type: "Int" }
@@ -347,7 +346,6 @@ const refetchContainer = createPaginationContainer(
           lon: $lon
           filterByPlaceTypes: $filterByPlaceTypes
           filterByModes: $filterByModes
-          filterByIds: $filterByIds
           first: $first
           after: $after
           maxResults: $maxResults
@@ -474,7 +472,6 @@ const refetchContainer = createPaginationContainer(
         $lon: Float!
         $filterByPlaceTypes: [FilterPlaceType]
         $filterByModes: [Mode]
-        $filterByIds: InputFilters
         $first: Int!
         $after: String
         $maxResults: Int!
@@ -491,7 +488,6 @@ const refetchContainer = createPaginationContainer(
             lon: $lon
             filterByPlaceTypes: $filterByPlaceTypes
             filterByModes: $filterByModes
-            filterByIds: $filterByIds
             first: $first
             after: $after
             maxResults: $maxResults

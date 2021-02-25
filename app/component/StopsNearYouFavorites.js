@@ -40,14 +40,12 @@ function StopsNearYouFavorites({
       render={({ props }) => {
         if (props) {
           return (
-            <div className="stops-near-you-page">
-              <StopsNearYouFavouritesContainer
-                searchPosition={searchPosition}
-                stops={props.stops}
-                stations={props.stations}
-                bikeStations={props.bikeStations}
-              />
-            </div>
+            <StopsNearYouFavouritesContainer
+              searchPosition={searchPosition}
+              stops={props.stops}
+              stations={props.stations}
+              bikeStations={props.bikeStations}
+            />
           );
         }
         return undefined;

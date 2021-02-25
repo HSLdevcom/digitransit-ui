@@ -3,10 +3,11 @@ import { graphql, createFragmentContainer } from 'react-relay';
 import StopsNearYouMap from './map/StopsNearYouMap';
 import TimeStore from '../store/TimeStore';
 import PreferencesStore from '../store/PreferencesStore';
+import FavouriteStore from '../store/FavouriteStore';
 
 const StopsNearYouMapWithStores = connectToStores(
   StopsNearYouMap,
-  [TimeStore, PreferencesStore],
+  [TimeStore, PreferencesStore, FavouriteStore],
   ({ getStore }) => {
     const currentTime = getStore(TimeStore).getCurrentTime().unix();
     const language = getStore(PreferencesStore).getLanguage();

@@ -63,7 +63,7 @@ function StopsNearYouFavouritesContainer({
         return null;
     }
   });
-  return <div>{stopElements}</div>;
+  return <>{stopElements}</>;
 }
 StopsNearYouFavouritesContainer.propTypes = {
   stops: PropTypes.array,
@@ -75,14 +75,6 @@ StopsNearYouFavouritesContainer.propTypes = {
   }).isRequired,
   currentTime: PropTypes.number.isRequired,
 };
-
-// const StopsNearYouFavouritesContainerWithBreakpoint = withBreakpoint(props => (
-//   <ReactRelayContext.Consumer>
-//     {({ environment }) => (
-//       <StopsNearYouPage {...props} relayEnvironment={environment} />
-//     )}
-//   </ReactRelayContext.Consumer>
-// ));
 
 const connectedContainer = connectToStores(
   StopsNearYouFavouritesContainer,

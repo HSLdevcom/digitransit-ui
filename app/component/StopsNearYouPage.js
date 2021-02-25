@@ -66,6 +66,9 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   constructor(props) {
     super(props);
+    this.favouriteStopIds = props.favouriteStopIds;
+    this.favouriteStationIds = props.favouriteStationIds;
+    this.favouriteBikeStationIds = props.favouriteBikeStationIds;
     this.state = {
       phase: PH_START,
       centerOfMap: null,
@@ -139,7 +142,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     const { mode } = this.props.match.params;
     let placeTypes = 'STOP';
     let modes = [mode];
-    let filterByIds;
     if (mode === 'CITYBIKE') {
       placeTypes = 'BICYCLE_RENT';
       modes = ['BICYCLE'];
@@ -147,10 +149,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     if (mode === 'FAVORITE') {
       modes = undefined;
       placeTypes = undefined;
-      filterByIds = {
-        stops: Array.from(this.props.favouriteStopIds),
-        bikeRentalStations: Array.from(this.props.favouriteBikeStationIds),
-      };
     }
     return {
       lat: searchPosition.lat,
@@ -160,7 +158,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       maxDistance: this.context.config.maxNearbyStopDistance,
       filterByModes: modes,
       filterByPlaceTypes: placeTypes,
-      filterByIds,
       omitNonPickups: this.context.config.omitNonPickups,
     };
   };
@@ -238,6 +235,35 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       : this.props.position;
   };
 
+  refetchButton = () => {
+    const { mode } = this.props.match.params;
+    return (
+      <div className="nearest-stops-update-container">
+        <FormattedMessage id="nearest-stops-updated-location" />
+        <button
+          type="button"
+          aria-label={this.context.intl.formatMessage({
+            id: 'show-more-stops-near-you',
+            defaultMessage: 'Load more nearby stops',
+          })}
+          className="update-stops-button"
+          onClick={this.updateLocation}
+        >
+          <Icon img="icon-icon_update" />
+          <FormattedMessage
+            id="nearest-stops-update-location"
+            defaultMessage="Update stops"
+            values={{
+              mode: (
+                <FormattedMessage id={`nearest-stops-${mode.toLowerCase()}`} />
+              ),
+            }}
+          />
+        </button>
+      </div>
+    );
+  };
+
   renderContent = () => {
     const { centerOfMapChanged } = this.state;
     const { mode } = this.props.match.params;
@@ -246,15 +272,18 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     const renderRefetchButton = centerOfMapChanged || this.positionChanged();
     if (mode === 'FAVORITE') {
       return (
-        <StopsNearYouFavorites
-          searchPosition={this.state.searchPosition}
-          match={this.props.match}
-          favoriteStops={Array.from(this.props.favouriteStopIds)}
-          favoriteStations={Array.from(this.props.favouriteStationIds)}
-          favoriteBikeRentalStationIds={Array.from(
-            this.props.favouriteBikeStationIds,
-          )}
-        />
+        <div className="stops-near-you-page">
+          {renderRefetchButton && this.refetchButton()}
+          <StopsNearYouFavorites
+            searchPosition={this.state.searchPosition}
+            match={this.props.match}
+            favoriteStops={Array.from(this.favouriteStopIds)}
+            favoriteStations={Array.from(this.favouriteStationIds)}
+            favoriteBikeRentalStationIds={Array.from(
+              this.favouriteBikeStationIds,
+            )}
+          />
+        </div>
       );
     }
     return (
@@ -265,7 +294,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             $lon: Float!
             $filterByPlaceTypes: [FilterPlaceType]
             $filterByModes: [Mode]
-            $filterByIds: InputFilters
             $first: Int!
             $maxResults: Int!
             $maxDistance: Int!
@@ -278,7 +306,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 lon: $lon
                 filterByPlaceTypes: $filterByPlaceTypes
                 filterByModes: $filterByModes
-                filterByIds: $filterByIds
                 first: $first
                 maxResults: $maxResults
                 maxDistance: $maxDistance
@@ -309,33 +336,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                   lang={this.props.lang}
                 />
               )}
-              {renderRefetchButton && (
-                <div className="nearest-stops-update-container">
-                  <FormattedMessage id="nearest-stops-updated-location" />
-                  <button
-                    type="button"
-                    aria-label={this.context.intl.formatMessage({
-                      id: 'show-more-stops-near-you',
-                      defaultMessage: 'Load more nearby stops',
-                    })}
-                    className="update-stops-button"
-                    onClick={this.updateLocation}
-                  >
-                    <Icon img="icon-icon_update" />
-                    <FormattedMessage
-                      id="nearest-stops-update-location"
-                      defaultMessage="Update stops"
-                      values={{
-                        mode: (
-                          <FormattedMessage
-                            id={`nearest-stops-${mode.toLowerCase()}`}
-                          />
-                        ),
-                      }}
-                    />
-                  </button>
-                </div>
-              )}
+              {renderRefetchButton && this.refetchButton()}
               {!props && (
                 <div className="stops-near-you-spinner-container">
                   <Loading />
@@ -378,8 +379,8 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             }
           `}
           variables={{
-            stopIds: Array.from(this.props.favouriteStopIds),
-            stationIds: Array.from(this.props.favouriteStationIds),
+            stopIds: Array.from(this.favouriteStopIds),
+            stationIds: Array.from(this.favouriteStationIds),
             bikeRentalStationIds: Array.from(
               this.props.favouriteBikeStationIds,
             ),
@@ -395,6 +396,11 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                   stops={props.stops}
                   stations={props.stations}
                   bikeStations={props.bikeStations}
+                  favouriteIds={[
+                    ...Array.from(this.favouriteStopIds),
+                    ...Array.from(this.favouriteStationIds),
+                    ...Array.from(this.favouriteBikeStationIds),
+                  ]}
                 />
               );
             }
