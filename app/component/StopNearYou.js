@@ -10,9 +10,11 @@ const StopNearYou = ({ stop, desc, stopIsStation, ...props }) => {
   const stopOrStation = stop.parentStation ? stop.parentStation : stop;
   const description = desc || stop.desc;
   const isStation = !!stop.parentStation || stopIsStation;
-  const linkAddress = stop.parentStation
-    ? `/${PREFIX_TERMINALS}/${stop.parentStation.gtfsId}`
-    : `/${PREFIX_STOPS}/${stop.gtfsId}`;
+  const gtfsId =
+    (stop.parentStation && stop.parentStation.gtfsId) || stop.gtfsId;
+  const linkAddress = isStation
+    ? `/${PREFIX_TERMINALS}/${gtfsId}`
+    : `/${PREFIX_STOPS}/${gtfsId}`;
   return (
     <span role="listitem">
       <div className="stop-near-you-container">

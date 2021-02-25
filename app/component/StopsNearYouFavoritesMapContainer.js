@@ -1,12 +1,70 @@
+import PropTypes from 'prop-types';
+import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { graphql, createFragmentContainer } from 'react-relay';
+import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import StopsNearYouMap from './map/StopsNearYouMap';
 import TimeStore from '../store/TimeStore';
 import PreferencesStore from '../store/PreferencesStore';
 import FavouriteStore from '../store/FavouriteStore';
+import { dtLocationShape } from '../util/shapes';
+
+function StopsNearYouFavoritesMapContainer(props) {
+  const { stops, stations, bikeStations, position } = props;
+  const stopList = [];
+  stopList.push(
+    ...stops.map(stop => {
+      return {
+        type: 'stop',
+        node: {
+          distance: distance(position, stop),
+          place: {
+            ...stop,
+          },
+        },
+      };
+    }),
+  );
+  stopList.push(
+    ...stations.map(stop => {
+      return {
+        type: 'station',
+        node: {
+          distance: distance(position, stop),
+          place: {
+            ...stop,
+          },
+        },
+      };
+    }),
+  );
+  stopList.push(
+    ...bikeStations.map(stop => {
+      return {
+        type: 'bikeRentalStation',
+        node: {
+          distance: distance(position, stop),
+          place: {
+            ...stop,
+          },
+        },
+      };
+    }),
+  );
+  stopList.sort((a, b) => a.node.distance - b.node.distance);
+
+  return <StopsNearYouMap {...props} stopsNearYou={stopList} />;
+}
+
+StopsNearYouFavoritesMapContainer.propTypes = {
+  stops: PropTypes.array,
+  stations: PropTypes.array,
+  bikeStations: PropTypes.array,
+  position: dtLocationShape.isRequired,
+};
 
 const StopsNearYouMapWithStores = connectToStores(
-  StopsNearYouMap,
+  StopsNearYouFavoritesMapContainer,
   [TimeStore, PreferencesStore, FavouriteStore],
   ({ getStore }) => {
     const currentTime = getStore(TimeStore).getCurrentTime().unix();
@@ -87,4 +145,7 @@ const containerComponent = createFragmentContainer(StopsNearYouMapWithStores, {
   `,
 });
 
-export default containerComponent;
+export {
+  containerComponent as default,
+  StopsNearYouFavoritesMapContainer as Component,
+};

@@ -8,7 +8,6 @@ import compact from 'lodash/compact';
 import indexOf from 'lodash/indexOf';
 import isEqual from 'lodash/isEqual';
 import polyline from 'polyline-encoded';
-import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import withBreakpoint from '../../util/withBreakpoint';
 import BackButton from '../BackButton';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
@@ -131,9 +130,6 @@ function StopsNearYouMap(
     breakpoint,
     currentTime,
     stopsNearYou,
-    stops,
-    stations,
-    bikeStations,
     match,
     loading,
     favouriteIds,
@@ -149,6 +145,7 @@ function StopsNearYouMap(
   const [routes, setRouteLines] = useState([]);
   const [bounds, setBounds] = useState([]);
   const [useFitBounds, setUseFitBounds] = useState(false);
+  const [clientOn, setClientOn] = useState(false);
   const [secondPlan, setSecondPlan] = useState({
     itinerary: [],
     isFetching: false,
@@ -163,7 +160,6 @@ function StopsNearYouMap(
   const walkRoutingThreshold =
     mode === 'RAIL' || mode === 'SUBWAY' || mode === 'FERRY' ? 3000 : 1500;
   const { environment } = relay;
-
   const fetchPlan = (stop, first) => {
     const toPlace = {
       address: stop.name ? stop.name : 'stop',
@@ -270,7 +266,9 @@ function StopsNearYouMap(
     });
 
     setRouteLines(routeLines);
-    setUniqueRealtimeTopics(uniqBy(realtimeTopics, route => route.route));
+    if (!clientOn) {
+      setUniqueRealtimeTopics(uniqBy(realtimeTopics, route => route.route));
+    }
   };
 
   useCallback(() => {
@@ -291,7 +289,10 @@ function StopsNearYouMap(
   }, [position, sortedStopEdges]);
 
   useEffect(() => {
-    startClient(context, uniqueRealtimeTopics);
+    if (uniqueRealtimeTopics.length > 0 && !clientOn) {
+      startClient(context, uniqueRealtimeTopics);
+      setClientOn(true);
+    }
     return function cleanup() {
       stopClient(context);
     };
@@ -324,56 +325,12 @@ function StopsNearYouMap(
       setSortedStopEdges(sortedEdges);
       setRoutes(sortedEdges);
     }
-  }, [stopsNearYou]);
-
-  useEffect(() => {
     if (mode === 'FAVORITE') {
-      const stopList = [];
-      stopList.push(
-        ...stops.map(stop => {
-          return {
-            type: 'stop',
-            node: {
-              distance: distance(position, stop),
-              place: {
-                ...stop,
-              },
-            },
-          };
-        }),
-      );
-      stopList.push(
-        ...stations.map(stop => {
-          return {
-            type: 'station',
-            node: {
-              distance: distance(position, stop),
-              place: {
-                ...stop,
-              },
-            },
-          };
-        }),
-      );
-      stopList.push(
-        ...bikeStations.map(stop => {
-          return {
-            type: 'bikeRentalStation',
-            node: {
-              distance: distance(position, stop),
-              place: {
-                ...stop,
-              },
-            },
-          };
-        }),
-      );
-      stopList.sort((a, b) => a.node.distance - b.node.distance);
-      handleWalkRoutes(handleStopsAndStations(stopList));
-      setSortedStopEdges(stopList);
-      setRoutes(stopList);
+      handleWalkRoutes(handleStopsAndStations(stopsNearYou));
+      setSortedStopEdges(stopsNearYou);
+      setRoutes(stopsNearYou);
     }
-  }, [stops, stations, bikeStations, position]);
+  }, [stopsNearYou]);
 
   if (loading) {
     return <Loading />;
@@ -399,7 +356,6 @@ function StopsNearYouMap(
     });
   }
 
-  // setUniqueRealtimeTopics(uniqBy(realtimeTopics, route => route.route));
   if (uniqueRealtimeTopics.length > 0) {
     leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
   }
