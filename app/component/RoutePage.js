@@ -130,6 +130,7 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
         }
       }
       agency {
+        name
         phone
       }
       patterns {

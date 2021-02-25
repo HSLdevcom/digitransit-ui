@@ -33,7 +33,8 @@ import {
   PREFIX_TIMETABLE,
 } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { isBrowser } from '../util/browser';
+import { isBrowser, isIOS } from '../util/browser';
+import { saveSearch } from '../action/SearchActions';
 
 const Tab = {
   Disruptions: PREFIX_DISRUPTION,
@@ -73,11 +74,29 @@ class RoutePageControlPanel extends React.Component {
   componentDidMount() {
     const { match, route } = this.props;
     const { config, router } = this.context;
+    const { location } = match;
+
     if (!route || !route.patterns) {
       return;
     }
 
-    const { location } = match;
+    if (isIOS && location.query.save) {
+      this.context.executeAction(saveSearch, {
+        item: {
+          properties: {
+            mode: route.mode,
+            gtfsId: route.gtfsId,
+            longName: route.longName,
+            shortName: route.shortName,
+            layer: `route-${route.mode}`,
+            link: location.pathname,
+            agency: { name: route.agency.name },
+          },
+          type: 'Route',
+        },
+        type: 'search',
+      });
+    }
 
     const lengthPathName =
       location !== undefined ? location.pathname.length : 0; // DT-3331

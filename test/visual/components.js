@@ -159,8 +159,6 @@ testVariation('CallAgencyWarning');
 // testVariation('SuggestionItem', 'Stop', 4);
 // testVariation('SuggestionItem', 'Stop-without-timetable', 5);
 
-testVariation('DateWarning', 'tomorrow-show-warning', 2);
-
 testVariation('Error404');
 
 testVariation('SelectMapLayersDialog').then(skip('ie11'));
