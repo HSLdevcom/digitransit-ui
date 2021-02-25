@@ -375,12 +375,15 @@ function StopsNearYouMap(
   }
 
   const hilightedStops = () => {
+    const stopsAndStations = handleStopsAndStations(sortedStopEdges);
     if (
-      Array.isArray(sortedStopEdges) &&
-      sortedStopEdges.length > 0 &&
+      Array.isArray(stopsAndStations) &&
+      stopsAndStations.length > 0 &&
       mode !== 'CITYBIKE'
     ) {
-      return [sortedStopEdges[0].node.place.gtfsId];
+      return [
+        stopsAndStations[0]?.gtfsId || stopsAndStations[0].node.place.gtfsId,
+      ];
     }
     return [''];
   };
