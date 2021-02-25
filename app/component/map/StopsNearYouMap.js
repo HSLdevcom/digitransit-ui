@@ -524,9 +524,9 @@ StopsNearYouMap.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
   relay: PropTypes.shape({
-    refetchConnection: PropTypes.func.isRequired,
-    hasMore: PropTypes.func.isRequired,
-    loadMore: PropTypes.func.isRequired,
+    refetchConnection: PropTypes.func,
+    hasMore: PropTypes.func,
+    loadMore: PropTypes.func,
   }).isRequired,
   setCenterOfMap: PropTypes.func.isRequired,
   defaultMapCenter: PropTypes.shape({

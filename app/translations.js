@@ -1099,6 +1099,9 @@ const translations = {
     navigate: 'Navigate',
     nearest: '{ mode } near you',
     'nearest-favorites': 'Omat lähipysäkit',
+    'nearest-favorites-browse-stops': 'Selaa ja valitse pysäkkejä',
+    'nearest-favorites-no-favorites':
+      'Valitsemiesi pysäkkien aikataulut ja ajoneuvot kartalla',
     'nearest-stops': 'The closest stops',
     'nearest-stops-bus': 'The closest bus stops',
     'nearest-stops-citybike': 'The closest bike stations',
@@ -1992,6 +1995,9 @@ const translations = {
     navigate: 'Navigoi',
     nearest: 'Lähimmät {mode}',
     'nearest-favorites': 'Omat lähipysäkit',
+    'nearest-favorites-browse-stops': 'Selaa ja valitse pysäkkejä',
+    'nearest-favorites-no-favorites':
+      'Valitsemiesi pysäkkien aikataulut ja ajoneuvot kartalla',
     'nearest-stops': 'Lähimmät pysäkit',
     'nearest-stops-bus': 'bussipysäkit',
     'nearest-stops-citybike': 'pyöräasemat',
@@ -3650,6 +3656,9 @@ const translations = {
     navigate: 'Navigera',
     nearest: 'Närmaste { mode }',
     'nearest-favorites': 'Omat lähipysäkit',
+    'nearest-favorites-browse-stops': 'Selaa ja valitse pysäkkejä',
+    'nearest-favorites-no-favorites':
+      'Valitsemiesi pysäkkien aikataulut ja ajoneuvot kartalla',
     'nearest-stops': 'Närliggande hållplatser',
     'nearest-stops-bus': 'busshållplatser',
     'nearest-stops-citybike': 'cykelstationer',

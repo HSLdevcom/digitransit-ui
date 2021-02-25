@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
+import { FormattedMessage } from 'react-intl';
 import { dtLocationShape } from '../util/shapes';
 import StopsNearYouFavouritesContainer from './StopsNearYouFavouritesContainer';
 import withBreakpoint from '../util/withBreakpoint';
@@ -11,7 +12,33 @@ function StopsNearYouFavorites({
   favoriteBikeRentalStationIds,
   relayEnvironment,
   searchPosition,
+  breakpoint,
+  noFavorites,
 }) {
+  if (noFavorites) {
+    return (
+      <div className="no-favorites-container">
+        {breakpoint !== 'large' && (
+          <div className="no-favorites-header">
+            <FormattedMessage id="nearest-favorites" />
+          </div>
+        )}
+        <div className="no-favorites-content">
+          <FormattedMessage id="nearest-favorites-no-favorites" />
+        </div>
+        {breakpoint !== 'large' && (
+          <>
+            <img
+              className="instruction-image"
+              src="/img/ohjekuva.png"
+              alt="Käyttöohje"
+            />
+            <FormattedMessage id="nearest-favorites-browse-stops" />
+          </>
+        )}
+      </div>
+    );
+  }
   return (
     <QueryRenderer
       query={graphql`
@@ -32,9 +59,9 @@ function StopsNearYouFavorites({
         }
       `}
       variables={{
-        stopIds: favoriteStops,
-        stationIds: favoriteStations,
-        bikeRentalStationIds: favoriteBikeRentalStationIds,
+        stopIds: favoriteStops || [],
+        stationIds: favoriteStations || [],
+        bikeRentalStationIds: favoriteBikeRentalStationIds || [],
       }}
       environment={relayEnvironment}
       render={({ props }) => {
@@ -62,6 +89,8 @@ StopsNearYouFavorites.propTypes = {
   stops: PropTypes.array,
   stations: PropTypes.array,
   bikeStations: PropTypes.array,
+  breakpoint: PropTypes.string,
+  noFavorites: PropTypes.bool,
 };
 
 const StopsNearYouFavoritesWithBreakpoint = withBreakpoint(props => (

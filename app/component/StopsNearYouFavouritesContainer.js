@@ -52,10 +52,17 @@ function StopsNearYouFavouritesContainer({
   const stopElements = stopList.map(stop => {
     switch (stop.type) {
       case 'stop':
-        return <StopNearYou stop={stop} currentTime={currentTime} />;
+        return (
+          <StopNearYou
+            key={stop.gtfsId}
+            stop={stop}
+            currentTime={currentTime}
+          />
+        );
       case 'station':
         return (
           <StopNearYou
+            key={stop.gtfsId}
             stop={stop}
             desc={stop.stops[0].desc}
             stopIsStation
@@ -63,7 +70,7 @@ function StopsNearYouFavouritesContainer({
           />
         );
       case 'bikeRentalStation':
-        return <CityBikeStopNearYou stop={stop} />;
+        return <CityBikeStopNearYou key={stop.name} stop={stop} />;
       default:
         return null;
     }
