@@ -10,7 +10,7 @@ export default function VectorTileLayerContainer(props, { config }) {
   const layers = [];
   if (props.showStops) {
     layers.push(Stops);
-    if (true || (config.cityBike && config.cityBike.showCityBikes)) {
+    if (config.cityBike && config.cityBike.showCityBikes) {
       layers.push(CityBikes);
     }
 

@@ -665,15 +665,18 @@ const PositioningWrapper = connectToStores(
               .map(stop => stop.gtfsId),
           )
         : [];
-    const favouriteBikeStationIds =
-      props.match.params.mode === 'FAVORITE'
-        ? new Set(
-            context
-              .getStore('FavouriteStore')
-              .getBikeRentalStations()
-              .map(station => station.stationId),
-          )
-        : [];
+    let favouriteBikeStationIds = [];
+    if (context.config.cityBike && context.config.cityBike.showCityBikes) {
+      favouriteBikeStationIds =
+        props.match.params.mode === 'FAVORITE'
+          ? new Set(
+              context
+                .getStore('FavouriteStore')
+                .getBikeRentalStations()
+                .map(station => station.stationId),
+            )
+          : [];
+    }
     return {
       ...props,
       position: context.getStore('PositionStore').getLocationState(),
