@@ -55,7 +55,12 @@ function StopsNearYouFavouritesContainer({
         return <StopNearYou stop={stop} currentTime={currentTime} />;
       case 'station':
         return (
-          <StopNearYou stop={stop} stopIsStation currentTime={currentTime} />
+          <StopNearYou
+            stop={stop}
+            desc={stop.stops[0].desc}
+            stopIsStation
+            currentTime={currentTime}
+          />
         );
       case 'bikeRentalStation':
         return <CityBikeStopNearYou stop={stop} />;
@@ -180,6 +185,9 @@ const refetchContainer = createRefetchContainer(
         zoneId
         platformCode
         vehicleMode
+        stops {
+          desc
+        }
         stoptimesWithoutPatterns(startTime: $startTime, omitNonPickups: true) {
           scheduledArrival
           realtimeArrival

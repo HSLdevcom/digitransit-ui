@@ -6,9 +6,9 @@ import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import StopNearYouHeader from './StopNearYouHeader';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
 
-const StopNearYou = ({ stop, stopIsStation, ...props }) => {
+const StopNearYou = ({ stop, desc, stopIsStation, ...props }) => {
   const stopOrStation = stop.parentStation ? stop.parentStation : stop;
-  const desc = stopOrStation.desc ? stopOrStation.desc : stop.desc;
+  const description = desc || stop.desc;
   const isStation = !!stop.parentStation || stopIsStation;
   const linkAddress = stop.parentStation
     ? `/${PREFIX_TERMINALS}/${stop.parentStation.gtfsId}`
@@ -18,7 +18,7 @@ const StopNearYou = ({ stop, stopIsStation, ...props }) => {
       <div className="stop-near-you-container">
         <StopNearYouHeader
           stop={stopOrStation}
-          desc={desc}
+          desc={description}
           isStation={isStation}
           linkAddress={linkAddress}
         />
@@ -47,8 +47,13 @@ const StopNearYou = ({ stop, stopIsStation, ...props }) => {
 
 StopNearYou.propTypes = {
   stop: PropTypes.object.isRequired,
-  stopIsStation: PropTypes.bool.isRequired,
+  stopIsStation: PropTypes.bool,
   currentTime: PropTypes.number.isRequired,
+  desc: PropTypes.string,
+};
+
+StopNearYou.defaultProps = {
+  stopIsStation: false,
 };
 
 export default StopNearYou;

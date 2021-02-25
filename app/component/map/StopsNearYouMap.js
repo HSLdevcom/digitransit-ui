@@ -164,39 +164,6 @@ function StopsNearYouMap(
     mode === 'RAIL' || mode === 'SUBWAY' || mode === 'FERRY' ? 3000 : 1500;
   const { environment } = relay;
 
-  const setRoutes = sortedRoutes => {
-    const routeLines = [];
-    const realtimeTopics = [];
-    sortedRoutes.forEach(item => {
-      const { place } = item.node;
-      // eslint-disable-next-line no-unused-expressions
-      place.patterns &&
-        place.patterns.forEach(pattern => {
-          const feedId = pattern.route.gtfsId.split(':')[0];
-          realtimeTopics.push({
-            feedId,
-            route: pattern.route.gtfsId.split(':')[1],
-            shortName: pattern.route.shortName,
-          });
-          routeLines.push(pattern);
-        });
-      // eslint-disable-next-line no-unused-expressions
-      place.stops &&
-        place.stops.forEach(stop => {
-          stop.patterns.forEach(pattern => {
-            const feedId = pattern.route.gtfsId.split(':')[0];
-            realtimeTopics.push({
-              feedId,
-              route: pattern.route.gtfsId.split(':')[1],
-              shortName: pattern.route.shortName,
-            });
-            routeLines.push(pattern);
-          });
-        });
-    });
-    setRouteLines(routeLines);
-    setUniqueRealtimeTopics(uniqBy(realtimeTopics, route => route.route));
-  };
   const fetchPlan = (stop, first) => {
     const toPlace = {
       address: stop.name ? stop.name : 'stop',
@@ -246,6 +213,65 @@ function StopsNearYouMap(
       setSecondPlan({ itinerary: [], isFetching: false, stop });
     }
   };
+  const handleWalkRoutes = stopsAndStations => {
+    if (stopsAndStations.length > 0) {
+      const firstStop = stopsAndStations[0];
+      if (!isEqual(firstStop, firstPlan.stop)) {
+        setFirstPlan({
+          itinerary: firstPlan.itinerary,
+          isFetching: true,
+          stop: firstStop,
+        });
+        fetchPlan(firstStop, true);
+      }
+    }
+    if (stopsAndStations.length > 1) {
+      const secondStop = stopsAndStations[1];
+      if (!isEqual(secondStop, secondPlan.stop)) {
+        setSecondPlan({
+          itinerary: secondPlan.itinerary,
+          isFetching: true,
+          stop: secondStop,
+        });
+        fetchPlan(secondStop, false);
+      }
+    }
+  };
+
+  const setRoutes = sortedRoutes => {
+    const routeLines = [];
+    const realtimeTopics = [];
+    sortedRoutes.forEach(item => {
+      const { place } = item.node;
+      // eslint-disable-next-line no-unused-expressions
+      place.patterns &&
+        place.patterns.forEach(pattern => {
+          const feedId = pattern.route.gtfsId.split(':')[0];
+          realtimeTopics.push({
+            feedId,
+            route: pattern.route.gtfsId.split(':')[1],
+            shortName: pattern.route.shortName,
+          });
+          routeLines.push(pattern);
+        });
+      // eslint-disable-next-line no-unused-expressions
+      place.stops &&
+        place.stops.forEach(stop => {
+          stop.patterns.forEach(pattern => {
+            const feedId = pattern.route.gtfsId.split(':')[0];
+            realtimeTopics.push({
+              feedId,
+              route: pattern.route.gtfsId.split(':')[1],
+              shortName: pattern.route.shortName,
+            });
+            routeLines.push(pattern);
+          });
+        });
+    });
+
+    setRouteLines(routeLines);
+    setUniqueRealtimeTopics(uniqBy(realtimeTopics, route => route.route));
+  };
 
   useCallback(() => {
     if (position && position.lat && position.lon) {
@@ -294,28 +320,7 @@ function StopsNearYouMap(
               .sort(sortNearbyStops(favouriteIds, walkRoutingThreshold));
       const stopsAndStations = handleStopsAndStations(sortedEdges);
 
-      if (stopsAndStations.length > 0) {
-        const firstStop = stopsAndStations[0];
-        if (!isEqual(firstStop, firstPlan.stop)) {
-          setFirstPlan({
-            itinerary: firstPlan.itinerary,
-            isFetching: true,
-            stop: firstStop,
-          });
-          fetchPlan(firstStop, true);
-        }
-      }
-      if (stopsAndStations.length > 1) {
-        const secondStop = stopsAndStations[1];
-        if (!isEqual(secondStop, secondPlan.stop)) {
-          setSecondPlan({
-            itinerary: secondPlan.itinerary,
-            isFetching: true,
-            stop: secondStop,
-          });
-          fetchPlan(stopsAndStations[1], false);
-        }
-      }
+      handleWalkRoutes(stopsAndStations);
       setSortedStopEdges(sortedEdges);
       setRoutes(sortedEdges);
     }
@@ -328,8 +333,8 @@ function StopsNearYouMap(
         ...stops.map(stop => {
           return {
             type: 'stop',
-            distance: distance(position, stop),
             node: {
+              distance: distance(position, stop),
               place: {
                 ...stop,
               },
@@ -341,8 +346,8 @@ function StopsNearYouMap(
         ...stations.map(stop => {
           return {
             type: 'station',
-            distance: distance(position, stop),
             node: {
+              distance: distance(position, stop),
               place: {
                 ...stop,
               },
@@ -354,8 +359,8 @@ function StopsNearYouMap(
         ...bikeStations.map(stop => {
           return {
             type: 'bikeRentalStation',
-            distance: distance(position, stop),
             node: {
+              distance: distance(position, stop),
               place: {
                 ...stop,
               },
@@ -363,11 +368,12 @@ function StopsNearYouMap(
           };
         }),
       );
-      stopList.sort((a, b) => a.distance - b.distance);
+      stopList.sort((a, b) => a.node.distance - b.node.distance);
+      handleWalkRoutes(handleStopsAndStations(stopList));
       setSortedStopEdges(stopList);
       setRoutes(stopList);
     }
-  }, [stops, stations, bikeStations]);
+  }, [stops, stations, bikeStations, position]);
 
   if (loading) {
     return <Loading />;
