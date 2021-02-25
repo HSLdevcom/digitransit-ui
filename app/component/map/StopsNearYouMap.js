@@ -535,12 +535,6 @@ StopsNearYouMap.propTypes = {
   }),
 };
 
-StopsNearYouMap.defaultProps = {
-  stops: [],
-  stations: [],
-  bikeStations: [],
-};
-
 StopsNearYouMap.contextTypes = {
   config: PropTypes.object,
   executeAction: PropTypes.func,

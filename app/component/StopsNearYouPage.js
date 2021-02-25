@@ -26,7 +26,6 @@ import withSearchContext from './WithSearchContext';
 import { PREFIX_NEARYOU } from '../util/path';
 import StopsNearYouContainer from './StopsNearYouContainer';
 import StopsNearYouFavorites from './StopsNearYouFavorites';
-// import StopsNearYouMap from './map/StopsNearYouMap';
 import StopsNearYouMapContainer from './StopsNearYouMapContainer';
 import StopsNearYouFavoritesMapContainer from './StopsNearYouFavoritesMapContainer';
 
@@ -145,10 +144,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     if (mode === 'CITYBIKE') {
       placeTypes = 'BICYCLE_RENT';
       modes = ['BICYCLE'];
-    }
-    if (mode === 'FAVORITE') {
-      modes = undefined;
-      placeTypes = undefined;
     }
     return {
       lat: searchPosition.lat,
@@ -283,11 +278,9 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           <StopsNearYouFavorites
             searchPosition={this.state.searchPosition}
             match={this.props.match}
-            favoriteStops={Array.from(this.favouriteStopIds)}
-            favoriteStations={Array.from(this.favouriteStationIds)}
-            favoriteBikeRentalStationIds={Array.from(
-              this.favouriteBikeStationIds,
-            )}
+            favoriteStops={this.favouriteStopIds}
+            favoriteStations={this.favouriteStationIds}
+            favoriteBikeRentalStationIds={this.favouriteBikeStationIds}
             noFavorites={noFavorites}
           />
         </div>
@@ -386,11 +379,9 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             }
           `}
           variables={{
-            stopIds: Array.from(this.favouriteStopIds),
-            stationIds: Array.from(this.favouriteStationIds),
-            bikeRentalStationIds: Array.from(
-              this.props.favouriteBikeStationIds,
-            ),
+            stopIds: this.favouriteStopIds,
+            stationIds: this.favouriteStationIds,
+            bikeRentalStationIds: this.props.favouriteBikeStationIds,
           }}
           environment={this.props.relayEnvironment}
           render={({ props }) => {
@@ -404,9 +395,9 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                   stations={props.stations}
                   bikeStations={props.bikeStations}
                   favouriteIds={[
-                    ...Array.from(this.favouriteStopIds),
-                    ...Array.from(this.favouriteStationIds),
-                    ...Array.from(this.favouriteBikeStationIds),
+                    ...this.favouriteStopIds,
+                    ...this.favouriteStationIds,
+                    ...this.favouriteBikeStationIds,
                   ]}
                 />
               );
