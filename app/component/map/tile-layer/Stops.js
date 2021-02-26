@@ -198,11 +198,15 @@ class Stops {
                 this.stopsNearYouCheck(feature)
               ) {
                 [[feature.geom]] = feature.loadGeometry();
+                const isHilighted =
+                  this.tile.hilightedStops &&
+                  this.tile.hilightedStops.includes(feature.properties.gtfsId);
                 this.features.unshift(pick(feature, ['geom', 'properties']));
                 drawTerminalIcon(
                   this.tile,
                   feature.geom,
                   feature.properties.type,
+                  isHilighted,
                 );
               }
             }
