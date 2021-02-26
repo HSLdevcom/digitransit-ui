@@ -4,7 +4,7 @@ import {
   getStopAndStationsQuery,
   getFavouriteRoutesQuery,
   getFavouriteBikeRentalStationsQuery,
-  getAllBikeRentalStations,
+  // getAllBikeRentalStations,  // Bike stations are fetched from Geocoding
 } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import {
   getPositions,
@@ -47,7 +47,7 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.getFavouriteRoutes = getFavouriteRoutes;
   searchContext.getPositions = getPositions;
   searchContext.getRoutesQuery = getRoutesQuery;
-  searchContext.getAllBikeRentalStations = getAllBikeRentalStations;
+  // searchContext.getAllBikeRentalStations = getAllBikeRentalStations; // Bike stations are fetched from Geocoding
   searchContext.getStopAndStationsQuery = getStopAndStationsQuery;
   searchContext.getFavouriteRoutesQuery = getFavouriteRoutesQuery;
   searchContext.getFavouriteBikeRentalStations = getFavouriteBikeRentalStations;

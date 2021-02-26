@@ -30,6 +30,8 @@ function getIconProperties(item, color) {
     iconId = item.selectedIconId;
   } else if (item && item.properties) {
     iconId = item.properties.selectedIconId || item.properties.layer;
+  } else if (item && item.properties.layer === 'bikestation') {
+    iconId = 'citybike';
   }
   if (item && item.iconColor) {
     // eslint-disable-next-line prefer-destructuring
@@ -39,6 +41,7 @@ function getIconProperties(item, color) {
   }
   const layerIcon = new Map([
     ['bikeRentalStation', 'citybike'],
+    ['bikestation', 'citybike'],
     ['currentPosition', 'locate'],
     ['favouritePlace', 'star'],
     ['favouriteRoute', 'star'],
@@ -111,6 +114,7 @@ const SuggestionItem = pure(
       item.name,
       item.address,
     ];
+
     let ariaParts;
     if (name !== stopCode) {
       ariaParts = isFavourite(item)
@@ -131,7 +135,11 @@ const SuggestionItem = pure(
     const isBikeRentalStation =
       item.properties &&
       (item.properties.layer === 'bikeRentalStation' ||
-        item.properties.layer === 'favouriteBikeRentalStation');
+        item.properties.layer === 'favouriteBikeRentalStation' ||
+        item.properties.layer === 'bikestation');
+    const cityBikeLabel = isBikeRentalStation
+      ? suggestionType.concat(', ').concat(item.properties.localadmin)
+      : label;
     const ri = (
       <div
         aria-hidden="true"
@@ -163,9 +171,12 @@ const SuggestionItem = pure(
                   {name}
                 </div>
                 <div className={styles['suggestion-label']}>
-                  {isBikeRentalStation ? suggestionType : label}
-                  {stopCode && stopCode !== name && (
-                    <span className={styles['stop-code']}>{stopCode}</span>
+                  {isBikeRentalStation ? cityBikeLabel : label}
+                  {((stopCode && stopCode !== name) ||
+                    item.properties.layer === 'bikestation') && (
+                    <span className={styles['stop-code']}>
+                      {stopCode || item.properties.id}
+                    </span>
                   )}
                 </div>
               </span>

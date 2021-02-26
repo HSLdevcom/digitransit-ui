@@ -50,7 +50,10 @@ function getSuggestionContent(item) {
     let suggestionType;
     /* eslint-disable-next-line prefer-const */
     let [name, label] = getNameLabel(item.properties, true);
-    if (item.properties.layer.toLowerCase().includes('bikerental')) {
+    if (
+      item.properties.layer.toLowerCase().includes('bikerental') ||
+      item.properties.layer.toLowerCase().includes('bikestation')
+    ) {
       suggestionType = i18next.t('bikerentalstation');
       const stopCode = item.properties.labelId;
       return [suggestionType, name, undefined, stopCode];
@@ -216,6 +219,7 @@ class DTAutosuggest extends React.Component {
     unlock: PropTypes.func.isRequired,
     refPoint: PropTypes.object,
     inputClassName: PropTypes.string,
+    cityBikeNetworks: PropTypes.arrayOf(PropTypes.string),
   };
 
   static defaultProps = {
@@ -556,6 +560,7 @@ class DTAutosuggest extends React.Component {
           },
           this.props.pathOpts,
           this.props.refPoint,
+          this.props.cityBikeNetworks,
         );
       },
     );

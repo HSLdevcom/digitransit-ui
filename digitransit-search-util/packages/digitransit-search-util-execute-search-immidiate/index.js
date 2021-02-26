@@ -264,6 +264,7 @@ export function getSearchResults(
   callback,
   pathOpts,
   refPoint,
+  cityBikeNetworks,
 ) {
   const {
     getPositions,
@@ -337,9 +338,19 @@ export function getSearchResults(
     }
     if (allSources || sources.includes('Datasource')) {
       const regex = minimalRegexp || undefined;
-      const geocodingLayers = ['station', 'venue', 'address', 'street'];
+      const geocodingLayers = [
+        'station',
+        'venue',
+        'address',
+        'street',
+        'bikestation',
+      ];
       const feedis = feedIDs.map(v => `gtfs${v}`);
-      const geosources = geocodingSources.concat(feedis).join(',');
+      let geosources = geocodingSources.concat(feedis).join(',');
+
+      if (cityBikeNetworks?.length) {
+        geosources = geosources.concat(',').concat(cityBikeNetworks.join(','));
+      }
       searchComponents.push(
         getGeocodingResults(
           input,
@@ -400,11 +411,14 @@ export function getSearchResults(
     }
     if (allSources || sources.includes('Datasource')) {
       const regex = minimalRegexp || undefined;
-      const geocodingLayers = ['stop', 'station'];
+      const geocodingLayers = ['stop', 'station', 'bikestation'];
       const searchParams = {
         size: geocodingSize,
       };
-      const feedis = feedIDs.map(v => `gtfs${v}`).join(',');
+      let feedis = feedIDs.map(v => `gtfs${v}`).join(',');
+      if (cityBikeNetworks?.length) {
+        feedis = feedis.concat(',').concat(cityBikeNetworks.join(','));
+      }
       searchComponents.push(
         getGeocodingResults(
           input,
@@ -436,6 +450,7 @@ export function getSearchResults(
         'futureRoute',
         'ownLocations',
         'favouritePlace',
+        'bikeRentalStation',
         'back',
       ];
       dropLayers.push(...routeLayers);
@@ -443,6 +458,7 @@ export function getSearchResults(
       if (transportMode) {
         if (transportMode !== 'route-CITYBIKE') {
           dropLayers.push('bikeRentalStation');
+          dropLayers.push('bikestation');
         }
         searchComponents.push(
           getOldSearches(stopHistory, input, dropLayers).then(result =>
@@ -489,6 +505,7 @@ export function getSearchResults(
       if (transportMode) {
         if (transportMode !== 'route-CITYBIKE') {
           dropLayers.push('bikeRentalStation');
+          dropLayers.pus('bikestation');
         }
         dropLayers.push(...routeLayers.filter(i => !(i === transportMode)));
       }
@@ -508,7 +525,10 @@ export function getSearchResults(
         getFavouriteBikeRentalStationsQuery(favouriteRoutes, input),
       );
     }
-    if (allSources || sources.includes('Datasource')) {
+    if (
+      (allSources || sources.includes('Datasource')) &&
+      getAllBikeRentalStations
+    ) {
       const regex = minimalRegexp || undefined;
       if (
         (!transportMode || transportMode === 'route-CITYBIKE') &&
@@ -553,6 +573,7 @@ export const executeSearch = (
   callback,
   pathOpts,
   refPoint,
+  cityBikeNetworks,
 ) => {
   callback(null); // This means 'we are searching'
   debouncedSearch(
@@ -566,5 +587,6 @@ export const executeSearch = (
     callback,
     pathOpts,
     refPoint,
+    cityBikeNetworks,
   );
 };
