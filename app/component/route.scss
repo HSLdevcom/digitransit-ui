@@ -127,16 +127,6 @@ $margin-left-right: 1.25em;
     margin-left: 0.57em;
     transform: scale(3.5);
   }
-  .allVehicles {
-    width: 24px;
-    height: 24px;
-    color: $gray-blue;
-    position: absolute;
-    pointer-events: none;
-  }
-  .large-icon {
-    transform: scale(2.86);
-  }
 }
 .route-details-upper-row {
   display: flex;
@@ -374,10 +364,6 @@ $margin-left-right: 1.25em;
   }
 }
 
-.vehicle-icon {
-  width: 100px;
-  height: 100px;
-}
 .route-page-header.favourite-icon {
   @media print {
     display: none;

@@ -67,7 +67,6 @@ const IconWithTail = ({
   className,
   id,
   rotate,
-  children,
   mode = 'bus',
   scrollIntoView = false,
   vehicleNumber = '',
@@ -78,7 +77,7 @@ const IconWithTail = ({
       <svg
         id={id}
         viewBox="0 0 80 80"
-        className={cx('icon', 'tail-icon', 'large-icon', className, mode)}
+        className={cx('icon', 'tail-icon', className, mode)}
         ref={el => scrollIntoView && el && el.scrollIntoView()}
       >
         {getSvgContent(rotate, useLargeIcon)}
@@ -96,11 +95,10 @@ const IconWithTail = ({
       <svg
         id={id}
         viewBox="0 0 24 24"
-        className={cx('allVehicles', className)}
+        className={className}
         ref={el => scrollIntoView && el && el.scrollIntoView()}
       >
         {getSvgContent(rotate, useLargeIcon)}
-        {children}
       </svg>
     )}
   </span>
@@ -125,7 +123,6 @@ IconWithTail.propTypes = {
   className: PropTypes.string,
   rotate: PropTypes.number,
   mode: PropTypes.string,
-  children: PropTypes.element,
   scrollIntoView: PropTypes.bool,
   vehicleNumber: PropTypes.string,
   useLargeIcon: PropTypes.bool,
