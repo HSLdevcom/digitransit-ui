@@ -38,7 +38,8 @@ import {
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import BackButton from './BackButton'; // DT-3472
-import { isBrowser } from '../util/browser';
+import { isBrowser, isIOS } from '../util/browser';
+import { saveSearch } from '../action/SearchActions';
 
 const Tab = {
   Disruptions: PREFIX_DISRUPTION,
@@ -78,11 +79,29 @@ class RoutePage extends React.Component {
   componentDidMount() {
     const { match, router, route } = this.props;
     const { config } = this.context;
+    const { location } = match;
+
     if (!route || !route.patterns) {
       return;
     }
 
-    const { location } = match;
+    if (isIOS && location.query.save) {
+      this.context.executeAction(saveSearch, {
+        item: {
+          properties: {
+            mode: route.mode,
+            gtfsId: route.gtfsId,
+            longName: route.longName,
+            shortName: route.shortName,
+            layer: `route-${route.mode}`,
+            link: location.pathname,
+            agency: { name: route.agency.name },
+          },
+          type: 'Route',
+        },
+        type: 'search',
+      });
+    }
 
     const lengthPathName =
       location !== undefined ? location.pathname.length : 0; // DT-3331
@@ -375,9 +394,7 @@ class RoutePage extends React.Component {
           {breakpoint === 'large' && (
             <BackButton
               icon="icon-icon_arrow-collapse--left"
-              color={config.colors.primary}
               iconClassName="arrow-icon"
-              urlToBack={config.URL.ROOTLINK}
             />
           )}
           <div className="route-header">
@@ -393,13 +410,22 @@ class RoutePage extends React.Component {
               >
                 {route.shortName}
               </div>
-              <div className="route-long-name">{route.longName}</div>
             </div>
             <FavouriteRouteContainer
               className="route-page-header"
               gtfsId={route.gtfsId}
             />
           </div>
+          {patternId && (
+            <RoutePatternSelect
+              params={match.params}
+              route={route}
+              onSelectChange={this.onPatternChange}
+              gtfsId={route.gtfsId}
+              className={cx({ 'bp-large': breakpoint === 'large' })}
+              useCurrentTime={useCurrentTime}
+            />
+          )}
           <div className="route-tabs" role="tablist">
             <button
               type="button"
@@ -454,16 +480,6 @@ class RoutePage extends React.Component {
               </div>
             </button>
           </div>
-          {patternId && (
-            <RoutePatternSelect
-              params={match.params}
-              route={route}
-              onSelectChange={this.onPatternChange}
-              gtfsId={route.gtfsId}
-              className={cx({ 'bp-large': breakpoint === 'large' })}
-              useCurrentTime={useCurrentTime}
-            />
-          )}
           <RouteAgencyInfo route={route} />
         </div>
       </div>
@@ -495,6 +511,7 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
         }
       }
       agency {
+        name
         phone
       }
       patterns {

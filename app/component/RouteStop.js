@@ -176,12 +176,23 @@ class RouteStop extends React.PureComponent {
         stop.stopTimesForPattern[0],
         currentTime,
       )},`;
+      if (stop.stopTimesForPattern[0].stop.platformCode) {
+        text += `${intl.formatMessage({ id: 'platform' })},`;
+        text += `${stop.stopTimesForPattern[0].stop.platformCode},`;
+      }
       if (displayNextDeparture) {
         text += `${intl.formatMessage({ id: 'next' })},`;
         text += `${this.getDepartureTime(
           stop.stopTimesForPattern[1],
           currentTime,
         )},`;
+        if (
+          stop.stopTimesForPattern[1] &&
+          stop.stopTimesForPattern[1].stop.platformCode
+        ) {
+          text += `${intl.formatMessage({ id: 'platform' })},`;
+          text += `${stop.stopTimesForPattern[1].stop.platformCode}`;
+        }
       }
     }
     return text;
@@ -319,6 +330,32 @@ class RouteStop extends React.PureComponent {
                   icon="icon_location-with-user"
                   walkDistance={distance}
                 />
+              )}
+
+              {patternExists && (
+                <div className="platform-number-container">
+                  {displayNextDeparture ? (
+                    stop.stopTimesForPattern.map(stopTime => (
+                      <div
+                        key={`${stopTime.scheduledDeparture}-platform-number`}
+                        className={`platform-code ${
+                          !stopTime.stop.platformCode ? 'empty' : ''
+                        }`}
+                      >
+                        {stopTime.stop.platformCode}
+                      </div>
+                    ))
+                  ) : (
+                    <div
+                      key={`${stop.scheduledDeparture}-platform-number`}
+                      className={`platform-code ${
+                        !stop.platformCode ? 'empty' : ''
+                      }`}
+                    >
+                      {stop.platformCode}
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           </Link>

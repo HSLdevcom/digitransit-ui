@@ -59,30 +59,38 @@ class TransitLeg extends React.Component {
 
   getZoneChange() {
     const { leg } = this.props;
-    if (leg.intermediatePlaces.length > 0) {
-      const startZone = leg.from.stop.zoneId;
-      const endZone = leg.to.stop.zoneId;
-      if (
-        startZone !== endZone &&
-        !this.state.showIntermediateStops &&
-        this.context.config.itinerary.showZoneLimits &&
-        leg.from.stop.gtfsId &&
-        this.context.config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0])
-      ) {
-        return (
-          <div className="time-column-zone-icons-container">
-            <ZoneIcon
-              zoneId={getZoneLabel(startZone, this.context.config)}
-              showUnknown
-            />
-            <ZoneIcon
-              zoneId={getZoneLabel(endZone, this.context.config)}
-              className="zone-delimiter"
-              showUnknown
-            />
-          </div>
-        );
-      }
+    const startZone = leg.from.stop.zoneId;
+    const endZone = leg.to.stop.zoneId;
+    if (
+      startZone !== endZone &&
+      !this.state.showIntermediateStops &&
+      this.context.config.itinerary.showZoneLimits &&
+      leg.from.stop.gtfsId &&
+      this.context.config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0])
+    ) {
+      return (
+        <div className="time-column-zone-icons-container">
+          <ZoneIcon
+            zoneId={getZoneLabel(startZone, this.context.config)}
+            showUnknown
+          />
+          <ZoneIcon
+            zoneId={getZoneLabel(endZone, this.context.config)}
+            className="zone-delimiter"
+            showUnknown
+          />
+        </div>
+      );
+    }
+    if (startZone === endZone && this.context.config.itinerary.showZoneLimits) {
+      return (
+        <div className="time-column-zone-icons-container single">
+          <ZoneIcon
+            zoneId={getZoneLabel(startZone, this.context.config)}
+            showUnknown
+          />
+        </div>
+      );
     }
     return null;
   }
@@ -456,7 +464,7 @@ class TransitLeg extends React.Component {
                   to={
                     (alert.route &&
                       alert.route.gtfsId &&
-                      `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_DISRUPTION}/`) ||
+                      `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_DISRUPTION}/${leg.trip.pattern.code}`) ||
                     (alert.stop &&
                       alert.stop.gtfsId &&
                       `/${PREFIX_STOPS}/${alert.stop.gtfsId}/${PREFIX_DISRUPTION}/`)

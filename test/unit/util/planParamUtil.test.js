@@ -295,6 +295,29 @@ describe('planParamUtil', () => {
       expect(disableRemainingWeightHeuristic).to.equal(false);
     });
 
+    it('should not include CITYBIKE in bikepark modes', () => {
+      setCustomizedSettings({
+        modes: ['CITYBIKE', 'BUS'],
+      });
+      const params = utils.preparePlanParams(defaultConfig, false)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {},
+          },
+        },
+      );
+      const { bikeParkModes } = params;
+      expect(bikeParkModes).to.deep.equal([
+        { mode: 'BICYCLE', qualifier: 'PARK' },
+        { mode: 'BUS' },
+        { mode: 'WALK' },
+      ]);
+    });
+
     it('should have disableRemainingWeightHeuristic as true when CITYBIKE is selected', () => {
       setCustomizedSettings({
         modes: ['CITYBIKE', 'BUS', 'TRAM', 'FERRY', 'SUBWAY', 'RAIL'],

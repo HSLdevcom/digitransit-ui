@@ -1,7 +1,6 @@
 import debounce from 'lodash/debounce';
 import d from 'debug';
 import { getJson } from '../util/xhrPromise';
-import { getPositioningHasSucceeded } from '../store/localStorage';
 import geolocationMessages from '../util/geolocationMessages';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
@@ -48,12 +47,9 @@ const debouncedRunReverseGeocodingAction = debounce(
   },
 );
 
-const setCurrentLocation = (actionContext, position) =>
-  actionContext.dispatch('GeolocationFound', position);
-
-export function geolocatonCallback(actionContext, { pos, disableDebounce }) {
+function geoCallback(actionContext, { pos, disableDebounce }) {
   actionContext.dispatch('StartReverseGeocoding');
-  setCurrentLocation(actionContext, {
+  actionContext.dispatch('GeolocationFound', {
     lat: pos.coords.latitude,
     lon: pos.coords.longitude,
     heading: pos.coords.heading,
@@ -132,7 +128,7 @@ function watchPosition(actionContext) {
           lon !== undefined &&
           !Number.isNaN(lon)
         ) {
-          geolocatonCallback(actionContext, { pos: position, disableDebounce });
+          geoCallback(actionContext, { pos: position, disableDebounce });
         }
       },
       error => {
@@ -172,7 +168,7 @@ export function checkPositioningPermission() {
       return;
     }
     if (!navigator.permissions) {
-      resolve({ state: null });
+      resolve({ state: 'error' });
     } else {
       navigator.permissions
         .query({ name: 'geolocation' })
@@ -233,64 +229,6 @@ export function startLocationWatch(actionContext) {
     startPositioning(actionContext); // from geolocation.js
   } else {
     debug('already started...');
-  }
-}
-let init = false;
-
-/**
- * This is called only from Index page.
- * TODO all other states but granted are not needed here
- */
-export function initGeolocation(actionContext) {
-  if (init === true) {
-    debug('Already initialized, bailing out');
-    return;
-  }
-  init = true;
-  let start = false;
-  debug('Initializing');
-
-  if (typeof window !== 'undefined' && window.mock !== undefined) {
-    debug('Geolocation mock is enabled', window.mock);
-    start = true;
-  }
-
-  if (!navigator.geoapi) {
-    debug('Geolocation is not supported');
-    actionContext.dispatch('GeolocationNotSupported');
-    updateGeolocationMessage(actionContext, 'failed');
-  } else {
-    // Check if we have previous permissions to get geolocation.
-    // If yes, start immediately, if not, we will not prompt for permission at this point.
-    checkPositioningPermission().then(status => {
-      debug('examining status', status);
-      switch (status.state) {
-        case 'granted':
-          debug('Permission granted.');
-          start = true;
-          updateGeolocationMessage(actionContext);
-          break;
-        case 'denied':
-          debug('Permission denied.');
-          // for ff with permisson api display error immediately instead of timeout error
-          actionContext.dispatch('GeolocationDenied');
-          updateGeolocationMessage(actionContext, 'denied');
-          break;
-        case null: // no permission api
-          start = getPositioningHasSucceeded(true);
-          break;
-        default:
-          start = true; // TODO
-          debug('Unprocessed result:', status.state);
-          break;
-      }
-      if (start === true) {
-        debug('Starting positioning');
-        startPositioning(actionContext);
-      } else {
-        debug('Not starting positioning');
-      }
-    });
   }
 }
 

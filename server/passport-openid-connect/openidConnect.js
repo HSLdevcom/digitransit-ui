@@ -134,7 +134,7 @@ export default function setUpOIDC(app, port, indexPath) {
         host: RedisHost,
         port: RedisPort,
         client: RedisClient,
-        ttl: 1000 * 60 * 60 * 24 * 365 * 10,
+        ttl: 1000 * 60 * 60 * 24 * 60,
       }),
       resave: false,
       saveUninitialized: false,

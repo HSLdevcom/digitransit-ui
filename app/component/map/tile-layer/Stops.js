@@ -56,6 +56,10 @@ class Stops {
         ? feature.properties.platform
         : false,
       isHilighted,
+      !!(
+        feature.properties.type === 'FERRY' &&
+        feature.properties.code !== 'null'
+      ),
     );
   }
 
@@ -82,9 +86,18 @@ class Stops {
 
           this.features = [];
 
+          // draw highlighted stops on lower zoom levels on near you page
+          const hasHilightedNearyouStops = !!(
+            this.stopsNearYouMode &&
+            this.tile.hilightedStops &&
+            this.tile.hilightedStops.length &&
+            this.tile.hilightedStops[0]
+          );
+
           if (
             vt.layers.stops != null &&
-            this.tile.coords.z >= this.config.stopsMinZoom
+            (this.tile.coords.z >= this.config.stopsMinZoom ||
+              hasHilightedNearyouStops)
           ) {
             const featureByCode = {};
             const hybridGtfsIdByCode = {};
@@ -101,6 +114,17 @@ class Stops {
               ) {
                 [[feature.geom]] = feature.loadGeometry();
                 const f = pick(feature, ['geom', 'properties']);
+
+                if (
+                  // if under zoom level limit, only draw highlighted stops on near you page
+                  this.tile.coords.z < this.config.stopsMinZoom &&
+                  !(
+                    hasHilightedNearyouStops &&
+                    this.tile.hilightedStops.includes(f.properties.gtfsId)
+                  )
+                ) {
+                  continue; // eslint-disable-line no-continue
+                }
                 if (
                   f.properties.code &&
                   this.config.mergeStopsByCode &&
@@ -174,11 +198,15 @@ class Stops {
                 this.stopsNearYouCheck(feature)
               ) {
                 [[feature.geom]] = feature.loadGeometry();
+                const isHilighted =
+                  this.tile.hilightedStops &&
+                  this.tile.hilightedStops.includes(feature.properties.gtfsId);
                 this.features.unshift(pick(feature, ['geom', 'properties']));
                 drawTerminalIcon(
                   this.tile,
                   feature.geom,
                   feature.properties.type,
+                  isHilighted,
                 );
               }
             }

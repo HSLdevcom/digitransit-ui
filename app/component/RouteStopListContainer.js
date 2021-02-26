@@ -155,6 +155,9 @@ const containerComponent = createRefetchContainer(
             serviceDay
             scheduledDeparture
             pickupType
+            stop {
+              platformCode
+            }
           }
           gtfsId
           lat
@@ -162,6 +165,7 @@ const containerComponent = createRefetchContainer(
           name
           desc
           code
+          platformCode
         }
       }
     `,

@@ -25,7 +25,8 @@ function SelectStopRow({ gtfsId, type, name, code, terminal, desc }) {
       iconOptions.className = 'subway-stop';
       break;
     case 'FERRY':
-      iconOptions.iconId = 'icon-icon_ferry';
+      iconOptions.iconId =
+        code !== 'null' ? 'icon-icon_ferry' : 'icon-icon_stop_ferry';
       iconOptions.className = 'ferry-stop';
       break;
     case 'AIRPLANE':

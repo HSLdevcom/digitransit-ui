@@ -1,0 +1,43 @@
+{
+  "name": "@digitransit-component/digitransit-component-abtesting",
+  "version": "0.0.2",
+  "description": "digitransit-component abtesting module",
+  "main": "lib/index.js",
+  "files": [
+    "/lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build:index": "ENV=production NAME=digitransit-component-abtesting webpack --config ../webpack.config.babel.js && yarn run docs",
+    "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties,@babel/plugin-proposal-numeric-separator --out-file test.generated",
+    "watch": "ENV=development NAME=digitransit-component-abtesting webpack --watch --config ../webpack.config.babel.js",
+    "clean": "rm -rf ./lib ./node_modules",
+    "test": "mocha -r esm test.generated",
+    "docs": "node -r esm ../../scripts/generate-readmes"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/HSLdevcom/digitransit-ui.git"
+  },
+  "keywords": [
+    "digitransit-component",
+    "Abtesting"
+  ],
+  "author": "Digitransit Authors",
+  "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "peerDependencies": {
+    "i18next": "^19.3.3",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.0",
+    "@marvelapp/react-ab-test": "2.3.0",
+    "datetimepicker-A": "npm:@digitransit-component/digitransit-component-datetimepicker@0.4.1",
+    "datetimepicker-B": "npm:@digitransit-component/digitransit-component-datetimepicker@0.5.1"
+  },
+  "dependencies": {
+    "@marvelapp/react-ab-test": "2.3.0",
+    "datetimepicker-A": "npm:@digitransit-component/digitransit-component-datetimepicker@0.4.1",
+    "datetimepicker-B": "npm:@digitransit-component/digitransit-component-datetimepicker@0.5.1"
+  }
+}

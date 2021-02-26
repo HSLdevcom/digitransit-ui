@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -10,10 +10,11 @@ import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
-function CarLeg(props, context) {
+function CarLeg(props, { config, intl }) {
   const distance = displayDistance(
     parseInt(props.leg.distance, 10),
-    context.config,
+    config,
+    intl.formatNumber,
   );
   const duration = durationToString(props.leg.duration * 1000);
   const firstLegClassName = props.index === 0 ? 'start' : '';
@@ -122,6 +123,9 @@ CarLeg.propTypes = {
   children: PropTypes.node,
 };
 
-CarLeg.contextTypes = { config: PropTypes.object.isRequired };
+CarLeg.contextTypes = {
+  config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
+};
 
 export default CarLeg;

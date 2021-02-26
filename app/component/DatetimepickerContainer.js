@@ -5,15 +5,9 @@ import debounce from 'lodash/debounce';
 import { connectToStores } from 'fluxible-addons-react';
 // TODO use this again once AB testing is done
 // import Datetimepicker from '@digitransit-component/digitransit-component-datetimepicker';
-import DatetimepickerA from 'datetimepicker-A';
-import DatetimepickerB from 'datetimepicker-B';
+import { MobileDatetimepickerTest } from '@digitransit-component/digitransit-component-abtesting';
 import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-
-// placeholder for AB testing
-
-const testVariant = 'A';
-const Datetimepicker = testVariant === 'A' ? DatetimepickerA : DatetimepickerB;
 
 function DatetimepickerContainer(
   { realtime, embedWhenClosed, lang, color },
@@ -74,9 +68,10 @@ function DatetimepickerContainer(
       name: 'SelectArriving',
     });
   };
-
+  const forceTestVariant = match.location.query.dtVariant;
   return (
-    <Datetimepicker
+    <MobileDatetimepickerTest
+      forceVariant={forceTestVariant}
       realtime={realtime}
       initialTimestamp={match.location.query.time}
       initialArriveBy={match.location.query.arriveBy === 'true'}
