@@ -219,7 +219,6 @@ class DTAutosuggest extends React.Component {
     unlock: PropTypes.func.isRequired,
     refPoint: PropTypes.object,
     inputClassName: PropTypes.string,
-    cityBikeNetworks: PropTypes.arrayOf(PropTypes.string),
   };
 
   static defaultProps = {
@@ -560,7 +559,6 @@ class DTAutosuggest extends React.Component {
           },
           this.props.pathOpts,
           this.props.refPoint,
-          this.props.cityBikeNetworks,
         );
       },
     );

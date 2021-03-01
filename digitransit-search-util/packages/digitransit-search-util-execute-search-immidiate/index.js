@@ -264,7 +264,6 @@ export function getSearchResults(
   callback,
   pathOpts,
   refPoint,
-  cityBikeNetworks,
 ) {
   const {
     getPositions,
@@ -289,6 +288,7 @@ export function getSearchResults(
     geocodingSearchParams,
     geocodingSources,
     getFutureRoutes,
+    cityBikeNetworks,
   } = searchContext;
   // if no targets are provided, search them all.
   const allTargets = !targets || targets.length === 0;
@@ -573,7 +573,6 @@ export const executeSearch = (
   callback,
   pathOpts,
   refPoint,
-  cityBikeNetworks,
 ) => {
   callback(null); // This means 'we are searching'
   debouncedSearch(
@@ -587,6 +586,5 @@ export const executeSearch = (
     callback,
     pathOpts,
     refPoint,
-    cityBikeNetworks,
   );
 };

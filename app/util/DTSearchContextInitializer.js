@@ -37,6 +37,9 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.URL_PELIAS_PLACE = config.URL.PELIAS_PLACE;
   // FeedId's like  [HSL, HSLLautta]
   searchContext.feedIDs = config.feedIds;
+  searchContext.cityBikeNetworks = config.cityBike.showCityBikes
+    ? Object.keys(config.cityBike.networks).map(t => `citybikes${t}`)
+    : [];
   // searchSources e.g. [oa,osm,nlsfi.]
   searchContext.geocodingSources = config.searchSources;
   searchContext.geocodingSearchParams = config.searchParams;

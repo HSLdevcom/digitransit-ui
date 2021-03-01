@@ -236,11 +236,6 @@ export default function withSearchContext(WrappedComponent) {
 
     render() {
       const { fromMap } = this.state;
-      const cityBikeNetworks = this.context.config.cityBike.showCityBikes
-        ? Object.keys(this.context.config.cityBike.networks).map(
-            t => `citybikes${t}`,
-          )
-        : [];
 
       if (fromMap !== undefined) {
         return this.renderSelectFromMapModal(fromMap);
@@ -258,7 +253,6 @@ export default function withSearchContext(WrappedComponent) {
           {...this.props}
           {...viaProps}
           pathOpts={PATH_OPTS}
-          cityBikeNetworks={cityBikeNetworks}
         />
       );
     }
