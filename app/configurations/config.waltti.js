@@ -75,4 +75,39 @@ export default {
   queryMaxAgeDays: 14,
 
   nationalServiceLink: { name: 'matka.fi', href: 'https://opas.matka.fi/' },
+
+  nearYouModeTitles: {
+    borderRadius: '50%',
+    color: '#000F94',
+    header: {
+      fi: 'Aikataulut ja linjat',
+      sv: 'Tidtabeller och linjer',
+      en: 'Timetables and routes',
+    },
+    bus: {
+      fi: 'Waltti bussi',
+      sv: 'Waltti buss',
+      en: 'Waltti bus',
+    },
+    citybike: {
+      fi: 'Waltti kaupunkipyörä',
+      sv: 'Waltti stadscykel',
+      en: 'Waltti citybike',
+    },
+    ferry: {
+      fi: 'Waltti lautta',
+      sv: 'Waltti färja',
+      en: 'Waltti ferry',
+    },
+    rail: {
+      fi: 'Waltti juna',
+      sv: 'Waltti tåg',
+      en: 'Waltti train',
+    },
+    tram: {
+      fi: 'Waltti raitiovaunu',
+      sv: 'Waltti spårvagn',
+      en: 'Waltti tram',
+    },
+  },
 };

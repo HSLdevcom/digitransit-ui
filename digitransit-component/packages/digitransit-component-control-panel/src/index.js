@@ -104,6 +104,7 @@ function NearStopsAndRoutes({
   origin,
   omitLanguageUrl,
   onClick,
+  modeTitles,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
   useEffect(() => {
@@ -136,7 +137,7 @@ function NearStopsAndRoutes({
       }`;
     }
 
-    const modeButton = (
+    const modeButton = !modeTitles ? (
       <>
         <span className={styles['sr-only']}>
           {i18next.t(`pick-mode-${mode}`, { lng: language })}
@@ -149,6 +150,35 @@ function NearStopsAndRoutes({
                 <Icon img="caution" color="#dc0451" />
               </span>
             )}
+          </span>
+        </span>
+      </>
+    ) : (
+      <>
+        <span className={styles['sr-only']}>
+          {i18next.t(`pick-mode-${mode}`, { lng: language })}
+        </span>
+        <span className={styles['transport-mode-icon-container']}>
+          <span
+            className={styles['transport-mode-icon-with-icon']}
+            style={{
+              '--bckColor': `${
+                modeTitles[mode]['color']
+                  ? modeTitles[mode]['color']
+                  : modeTitles['color']
+              }`,
+              '--borderRadius': `${modeTitles.borderRadius}`,
+            }}
+          >
+            <Icon img={`${mode}-waltti`} />
+            {withAlert && (
+              <span className={styles['transport-mode-alert-icon']}>
+                <Icon img="caution" color="#dc0451" />
+              </span>
+            )}
+          </span>
+          <span className={styles['transport-mode-title']}>
+            {modeTitles[mode][language]}
           </span>
         </span>
       </>
@@ -185,10 +215,20 @@ function NearStopsAndRoutes({
     <div className={styles['near-you-container']}>
       {showTitle && (
         <h2 className={styles['near-you-title']}>
-          {i18next.t('title-route-stop-station', { lng: language })}
+          {!modeTitles
+            ? i18next.t('title-route-stop-station', { lng: language })
+            : modeTitles['header'][language]}
         </h2>
       )}
-      <div className={styles['near-you-buttons-container']}>{buttons}</div>
+      <div
+        className={
+          !modeTitles
+            ? styles['near-you-buttons-container']
+            : styles['near-you-buttons-container-wide']
+        }
+      >
+        {buttons}
+      </div>
     </div>
   );
 }
@@ -207,6 +247,7 @@ NearStopsAndRoutes.propTypes = {
   origin: PropTypes.object,
   omitLanguageUrl: PropTypes.bool,
   onClick: PropTypes.func,
+  modeTitles: PropTypes.object,
 };
 
 NearStopsAndRoutes.defaultProps = {
@@ -215,6 +256,7 @@ NearStopsAndRoutes.defaultProps = {
   LinkComponent: undefined,
   origin: undefined,
   omitLanguageUrl: undefined,
+  modeTitles: undefined,
 };
 
 /**

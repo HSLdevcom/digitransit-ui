@@ -260,7 +260,7 @@ class IndexPage extends React.Component {
 
     const NearStops = CtrlPanel =>
       config.showNearYouButtons ? (
-        <div className="near-you-buttons-container">
+        <>
           <CtrlPanel.NearStopsAndRoutes
             modes={config.nearYouModes}
             urlPrefix={`/${PREFIX_NEARYOU}`}
@@ -270,8 +270,9 @@ class IndexPage extends React.Component {
             origin={origin}
             omitLanguageUrl
             onClick={this.clickStopNearIcon}
+            modeTitles={config.nearYouModeTitles}
           />
-        </div>
+        </>
       ) : (
         <div className="stops-near-you-text">
           <h2>
