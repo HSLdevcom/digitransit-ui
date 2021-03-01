@@ -42,178 +42,6 @@ const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION]; // render the actual pag
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 const NEAR_BY_STOPS_MODES = ['BUS', 'TRAM', 'SUBWAY', 'RAIL', 'FERRY'];
 
-const queries = {
-  BUS: graphql`
-    query StopsNearYouPageContentBusQuery(
-      $lat: Float!
-      $lon: Float!
-      $filterByPlaceTypes: [FilterPlaceType]
-      $first: Int!
-      $maxResults: Int!
-      $maxDistance: Int!
-      $omitNonPickups: Boolean
-    ) {
-      stopPatterns: viewer {
-        ...StopsNearYouContainer_stopPatterns
-        @arguments(
-          lat: $lat
-          lon: $lon
-          filterByPlaceTypes: $filterByPlaceTypes
-          filterByModes: [BUS]
-          first: $first
-          maxResults: $maxResults
-          maxDistance: $maxDistance
-          omitNonPickups: $omitNonPickups
-        )
-      }
-      alerts: alerts(severityLevel: [SEVERE]) {
-        ...DisruptionBanner_alerts
-      }
-    }
-  `,
-  TRAM: graphql`
-    query StopsNearYouPageContentTramQuery(
-      $lat: Float!
-      $lon: Float!
-      $filterByPlaceTypes: [FilterPlaceType]
-      $first: Int!
-      $maxResults: Int!
-      $maxDistance: Int!
-      $omitNonPickups: Boolean
-    ) {
-      stopPatterns: viewer {
-        ...StopsNearYouContainer_stopPatterns
-        @arguments(
-          lat: $lat
-          lon: $lon
-          filterByPlaceTypes: $filterByPlaceTypes
-          filterByModes: [TRAM]
-          first: $first
-          maxResults: $maxResults
-          maxDistance: $maxDistance
-          omitNonPickups: $omitNonPickups
-        )
-      }
-      alerts: alerts(severityLevel: [SEVERE]) {
-        ...DisruptionBanner_alerts
-      }
-    }
-  `,
-  SUBWAY: graphql`
-    query StopsNearYouPageContentSubwayQuery(
-      $lat: Float!
-      $lon: Float!
-      $filterByPlaceTypes: [FilterPlaceType]
-      $first: Int!
-      $maxResults: Int!
-      $maxDistance: Int!
-      $omitNonPickups: Boolean
-    ) {
-      stopPatterns: viewer {
-        ...StopsNearYouContainer_stopPatterns
-        @arguments(
-          lat: $lat
-          lon: $lon
-          filterByPlaceTypes: $filterByPlaceTypes
-          filterByModes: [SUBWAY]
-          first: $first
-          maxResults: $maxResults
-          maxDistance: $maxDistance
-          omitNonPickups: $omitNonPickups
-        )
-      }
-      alerts: alerts(severityLevel: [SEVERE]) {
-        ...DisruptionBanner_alerts
-      }
-    }
-  `,
-  RAIL: graphql`
-    query StopsNearYouPageContentRailQuery(
-      $lat: Float!
-      $lon: Float!
-      $filterByPlaceTypes: [FilterPlaceType]
-      $first: Int!
-      $maxResults: Int!
-      $maxDistance: Int!
-      $omitNonPickups: Boolean
-    ) {
-      stopPatterns: viewer {
-        ...StopsNearYouContainer_stopPatterns
-        @arguments(
-          lat: $lat
-          lon: $lon
-          filterByPlaceTypes: $filterByPlaceTypes
-          filterByModes: [RAIL]
-          first: $first
-          maxResults: $maxResults
-          maxDistance: $maxDistance
-          omitNonPickups: $omitNonPickups
-        )
-      }
-      alerts: alerts(severityLevel: [SEVERE]) {
-        ...DisruptionBanner_alerts
-      }
-    }
-  `,
-  FERRY: graphql`
-    query StopsNearYouPageContentFerryQuery(
-      $lat: Float!
-      $lon: Float!
-      $filterByPlaceTypes: [FilterPlaceType]
-      $first: Int!
-      $maxResults: Int!
-      $maxDistance: Int!
-      $omitNonPickups: Boolean
-    ) {
-      stopPatterns: viewer {
-        ...StopsNearYouContainer_stopPatterns
-        @arguments(
-          lat: $lat
-          lon: $lon
-          filterByPlaceTypes: $filterByPlaceTypes
-          filterByModes: [FERRY]
-          first: $first
-          maxResults: $maxResults
-          maxDistance: $maxDistance
-          omitNonPickups: $omitNonPickups
-        )
-      }
-      alerts: alerts(severityLevel: [SEVERE]) {
-        ...DisruptionBanner_alerts
-      }
-    }
-  `,
-  ALL: graphql`
-    query StopsNearYouPageContentQuery(
-      $lat: Float!
-      $lon: Float!
-      $filterByPlaceTypes: [FilterPlaceType]
-      $filterByModes: [Mode]
-      $first: Int!
-      $maxResults: Int!
-      $maxDistance: Int!
-      $omitNonPickups: Boolean
-    ) {
-      stopPatterns: viewer {
-        ...StopsNearYouContainer_stopPatterns
-        @arguments(
-          lat: $lat
-          lon: $lon
-          filterByPlaceTypes: $filterByPlaceTypes
-          filterByModes: $filterByModes
-          first: $first
-          maxResults: $maxResults
-          maxDistance: $maxDistance
-          omitNonPickups: $omitNonPickups
-        )
-      }
-      alerts: alerts(severityLevel: [SEVERE]) {
-        ...DisruptionBanner_alerts
-      }
-    }
-  `,
-};
-
 class StopsNearYouPage extends React.Component {
   // eslint-disable-line
   static contextTypes = {
@@ -303,11 +131,11 @@ class StopsNearYouPage extends React.Component {
     return null;
   };
 
-  getQueryVariables = () => {
+  getQueryVariables = nearByMode => {
     const { searchPosition } = this.state;
     const { mode } = this.props.match.params;
     let placeTypes = 'STOP';
-    let modes = [mode];
+    let modes = nearByMode ? [nearByMode] : [mode];
     if (mode === 'CITYBIKE') {
       placeTypes = 'BICYCLE_RENT';
       modes = ['BICYCLE'];
@@ -414,14 +242,41 @@ class StopsNearYouPage extends React.Component {
     const renderRefetchButton = centerOfMapChanged || this.positionChanged();
     const index = NEAR_BY_STOPS_MODES.indexOf(mode);
     const modePerTab =
-      this.props.breakpoint === 'large' ? ['ALL'] : NEAR_BY_STOPS_MODES;
+      this.props.breakpoint === 'large' ? [mode] : NEAR_BY_STOPS_MODES;
     const tabs = modePerTab.map(nearByStopMode => {
-      const query = queries[nearByStopMode];
       return (
         <div key={nearByStopMode}>
           <QueryRenderer
-            query={query}
-            variables={this.getQueryVariables()}
+            query={graphql`
+              query StopsNearYouPageContentQuery(
+                $lat: Float!
+                $lon: Float!
+                $filterByPlaceTypes: [FilterPlaceType]
+                $filterByModes: [Mode]
+                $first: Int!
+                $maxResults: Int!
+                $maxDistance: Int!
+                $omitNonPickups: Boolean
+              ) {
+                stopPatterns: viewer {
+                  ...StopsNearYouContainer_stopPatterns
+                  @arguments(
+                    lat: $lat
+                    lon: $lon
+                    filterByPlaceTypes: $filterByPlaceTypes
+                    filterByModes: $filterByModes
+                    first: $first
+                    maxResults: $maxResults
+                    maxDistance: $maxDistance
+                    omitNonPickups: $omitNonPickups
+                  )
+                }
+                alerts: alerts(severityLevel: [SEVERE]) {
+                  ...DisruptionBanner_alerts
+                }
+              }
+            `}
+            variables={this.getQueryVariables(nearByStopMode)}
             environment={this.props.relayEnvironment}
             render={({ props }) => {
               if (props) {
