@@ -285,13 +285,13 @@ class StopsNearYouPage extends React.Component {
                     {renderDisruptionBanner && (
                       <DisruptionBanner
                         alerts={props.alerts || []}
-                        mode={mode}
+                        mode={nearByStopMode}
                         trafficNowLink={this.context.config.trafficNowLink}
                       />
                     )}
                     {renderSearch && (
                       <StopsNearYouSearch
-                        mode={mode}
+                        mode={nearByStopMode}
                         breakpoint={this.props.breakpoint}
                         lang={this.props.lang}
                       />
@@ -314,7 +314,7 @@ class StopsNearYouPage extends React.Component {
                             values={{
                               mode: (
                                 <FormattedMessage
-                                  id={`nearest-stops-${mode.toLowerCase()}`}
+                                  id={`nearest-stops-${nearByStopMode.toLowerCase()}`}
                                 />
                               ),
                             }}
