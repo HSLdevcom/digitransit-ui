@@ -26,6 +26,7 @@ import withSearchContext from './WithSearchContext';
 import { PREFIX_NEARYOU } from '../util/path';
 import StopsNearYouContainer from './StopsNearYouContainer';
 import StopsNearYouMap from './map/StopsNearYouMap';
+import SwipeableTabs from './SwipeableTabs';
 
 // component initialization phases
 const PH_START = 'start';
@@ -39,8 +40,182 @@ const PH_SHOWSEARCH = [PH_SEARCH, PH_SEARCH_GEOLOCATION]; // show modal
 const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION]; // render the actual page
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
+const NEAR_BY_STOPS_MODES = ['BUS', 'TRAM', 'SUBWAY', 'RAIL', 'FERRY'];
 
-class StopsNearYouPage extends React.Component { // eslint-disable-line
+const queries = {
+  BUS: graphql`
+    query StopsNearYouPageContentBusQuery(
+      $lat: Float!
+      $lon: Float!
+      $filterByPlaceTypes: [FilterPlaceType]
+      $first: Int!
+      $maxResults: Int!
+      $maxDistance: Int!
+      $omitNonPickups: Boolean
+    ) {
+      stopPatterns: viewer {
+        ...StopsNearYouContainer_stopPatterns
+        @arguments(
+          lat: $lat
+          lon: $lon
+          filterByPlaceTypes: $filterByPlaceTypes
+          filterByModes: [BUS]
+          first: $first
+          maxResults: $maxResults
+          maxDistance: $maxDistance
+          omitNonPickups: $omitNonPickups
+        )
+      }
+      alerts: alerts(severityLevel: [SEVERE]) {
+        ...DisruptionBanner_alerts
+      }
+    }
+  `,
+  TRAM: graphql`
+    query StopsNearYouPageContentTramQuery(
+      $lat: Float!
+      $lon: Float!
+      $filterByPlaceTypes: [FilterPlaceType]
+      $first: Int!
+      $maxResults: Int!
+      $maxDistance: Int!
+      $omitNonPickups: Boolean
+    ) {
+      stopPatterns: viewer {
+        ...StopsNearYouContainer_stopPatterns
+        @arguments(
+          lat: $lat
+          lon: $lon
+          filterByPlaceTypes: $filterByPlaceTypes
+          filterByModes: [TRAM]
+          first: $first
+          maxResults: $maxResults
+          maxDistance: $maxDistance
+          omitNonPickups: $omitNonPickups
+        )
+      }
+      alerts: alerts(severityLevel: [SEVERE]) {
+        ...DisruptionBanner_alerts
+      }
+    }
+  `,
+  SUBWAY: graphql`
+    query StopsNearYouPageContentSubwayQuery(
+      $lat: Float!
+      $lon: Float!
+      $filterByPlaceTypes: [FilterPlaceType]
+      $first: Int!
+      $maxResults: Int!
+      $maxDistance: Int!
+      $omitNonPickups: Boolean
+    ) {
+      stopPatterns: viewer {
+        ...StopsNearYouContainer_stopPatterns
+        @arguments(
+          lat: $lat
+          lon: $lon
+          filterByPlaceTypes: $filterByPlaceTypes
+          filterByModes: [SUBWAY]
+          first: $first
+          maxResults: $maxResults
+          maxDistance: $maxDistance
+          omitNonPickups: $omitNonPickups
+        )
+      }
+      alerts: alerts(severityLevel: [SEVERE]) {
+        ...DisruptionBanner_alerts
+      }
+    }
+  `,
+  RAIL: graphql`
+    query StopsNearYouPageContentRailQuery(
+      $lat: Float!
+      $lon: Float!
+      $filterByPlaceTypes: [FilterPlaceType]
+      $first: Int!
+      $maxResults: Int!
+      $maxDistance: Int!
+      $omitNonPickups: Boolean
+    ) {
+      stopPatterns: viewer {
+        ...StopsNearYouContainer_stopPatterns
+        @arguments(
+          lat: $lat
+          lon: $lon
+          filterByPlaceTypes: $filterByPlaceTypes
+          filterByModes: [RAIL]
+          first: $first
+          maxResults: $maxResults
+          maxDistance: $maxDistance
+          omitNonPickups: $omitNonPickups
+        )
+      }
+      alerts: alerts(severityLevel: [SEVERE]) {
+        ...DisruptionBanner_alerts
+      }
+    }
+  `,
+  FERRY: graphql`
+    query StopsNearYouPageContentFerryQuery(
+      $lat: Float!
+      $lon: Float!
+      $filterByPlaceTypes: [FilterPlaceType]
+      $first: Int!
+      $maxResults: Int!
+      $maxDistance: Int!
+      $omitNonPickups: Boolean
+    ) {
+      stopPatterns: viewer {
+        ...StopsNearYouContainer_stopPatterns
+        @arguments(
+          lat: $lat
+          lon: $lon
+          filterByPlaceTypes: $filterByPlaceTypes
+          filterByModes: [FERRY]
+          first: $first
+          maxResults: $maxResults
+          maxDistance: $maxDistance
+          omitNonPickups: $omitNonPickups
+        )
+      }
+      alerts: alerts(severityLevel: [SEVERE]) {
+        ...DisruptionBanner_alerts
+      }
+    }
+  `,
+  ALL: graphql`
+    query StopsNearYouPageContentQuery(
+      $lat: Float!
+      $lon: Float!
+      $filterByPlaceTypes: [FilterPlaceType]
+      $filterByModes: [Mode]
+      $first: Int!
+      $maxResults: Int!
+      $maxDistance: Int!
+      $omitNonPickups: Boolean
+    ) {
+      stopPatterns: viewer {
+        ...StopsNearYouContainer_stopPatterns
+        @arguments(
+          lat: $lat
+          lon: $lon
+          filterByPlaceTypes: $filterByPlaceTypes
+          filterByModes: $filterByModes
+          first: $first
+          maxResults: $maxResults
+          maxDistance: $maxDistance
+          omitNonPickups: $omitNonPickups
+        )
+      }
+      alerts: alerts(severityLevel: [SEVERE]) {
+        ...DisruptionBanner_alerts
+      }
+    }
+  `,
+};
+
+class StopsNearYouPage extends React.Component {
+  // eslint-disable-line
   static contextTypes = {
     config: PropTypes.object.isRequired,
     executeAction: PropTypes.func.isRequired,
@@ -222,106 +397,98 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       : this.props.position;
   };
 
+  onSwipe = e => {
+    const newMode = NEAR_BY_STOPS_MODES[e];
+    const path = `/${PREFIX_NEARYOU}/${newMode}/POS/`;
+    this.context.router.replace({
+      ...this.props.match.location,
+      pathname: path,
+    });
+  };
+
   renderContent = () => {
     const { centerOfMapChanged } = this.state;
     const { mode } = this.props.match.params;
     const renderDisruptionBanner = mode !== 'CITYBIKE';
     const renderSearch = mode !== 'FERRY';
     const renderRefetchButton = centerOfMapChanged || this.positionChanged();
-    return (
-      <QueryRenderer
-        query={graphql`
-          query StopsNearYouPageContentQuery(
-            $lat: Float!
-            $lon: Float!
-            $filterByPlaceTypes: [FilterPlaceType]
-            $filterByModes: [Mode]
-            $first: Int!
-            $maxResults: Int!
-            $maxDistance: Int!
-            $omitNonPickups: Boolean
-          ) {
-            stopPatterns: viewer {
-              ...StopsNearYouContainer_stopPatterns
-              @arguments(
-                lat: $lat
-                lon: $lon
-                filterByPlaceTypes: $filterByPlaceTypes
-                filterByModes: $filterByModes
-                first: $first
-                maxResults: $maxResults
-                maxDistance: $maxDistance
-                omitNonPickups: $omitNonPickups
-              )
-            }
-            alerts: alerts(severityLevel: [SEVERE]) {
-              ...DisruptionBanner_alerts
-            }
-          }
-        `}
-        variables={this.getQueryVariables()}
-        environment={this.props.relayEnvironment}
-        render={({ props }) => {
-          return (
-            <div className="stops-near-you-page">
-              {renderDisruptionBanner && (
-                <DisruptionBanner
-                  alerts={(props && props.alerts) || []}
-                  mode={mode}
-                  trafficNowLink={this.context.config.trafficNowLink}
-                />
-              )}
-              {renderSearch && (
-                <StopsNearYouSearch
-                  mode={mode}
-                  breakpoint={this.props.breakpoint}
-                  lang={this.props.lang}
-                />
-              )}
-              {renderRefetchButton && (
-                <div className="nearest-stops-update-container">
-                  <FormattedMessage id="nearest-stops-updated-location" />
-                  <button
-                    type="button"
-                    aria-label={this.context.intl.formatMessage({
-                      id: 'show-more-stops-near-you',
-                      defaultMessage: 'Load more nearby stops',
-                    })}
-                    className="update-stops-button"
-                    onClick={this.updateLocation}
-                  >
-                    <Icon img="icon-icon_update" />
-                    <FormattedMessage
-                      id="nearest-stops-update-location"
-                      defaultMessage="Update stops"
-                      values={{
-                        mode: (
+    const index = NEAR_BY_STOPS_MODES.indexOf(mode);
+    const modePerTab =
+      this.props.breakpoint === 'large' ? ['ALL'] : NEAR_BY_STOPS_MODES;
+    const tabs = modePerTab.map(nearByStopMode => {
+      const query = queries[nearByStopMode];
+      return (
+        <div key={nearByStopMode}>
+          <QueryRenderer
+            query={query}
+            variables={this.getQueryVariables()}
+            environment={this.props.relayEnvironment}
+            render={({ props }) => {
+              if (props) {
+                return (
+                  <div className="stops-near-you-page">
+                    {renderDisruptionBanner && (
+                      <DisruptionBanner
+                        alerts={props.alerts || []}
+                        mode={mode}
+                        trafficNowLink={this.context.config.trafficNowLink}
+                      />
+                    )}
+                    {renderSearch && (
+                      <StopsNearYouSearch
+                        mode={mode}
+                        breakpoint={this.props.breakpoint}
+                        lang={this.props.lang}
+                      />
+                    )}
+                    {renderRefetchButton && (
+                      <div className="nearest-stops-update-container">
+                        <FormattedMessage id="nearest-stops-updated-location" />
+                        <button
+                          aria-label={this.context.intl.formatMessage({
+                            id: 'show-more-stops-near-you',
+                            defaultMessage: 'Load more nearby stops',
+                          })}
+                          className="update-stops-button"
+                          onClick={this.updateLocation}
+                        >
+                          <Icon img="icon-icon_update" />
                           <FormattedMessage
-                            id={`nearest-stops-${mode.toLowerCase()}`}
+                            id="nearest-stops-update-location"
+                            defaultMessage="Update stops"
+                            values={{
+                              mode: (
+                                <FormattedMessage
+                                  id={`nearest-stops-${mode.toLowerCase()}`}
+                                />
+                              ),
+                            }}
                           />
-                        ),
-                      }}
+                        </button>
+                      </div>
+                    )}
+                    <StopsNearYouContainer
+                      match={this.props.match}
+                      stopPatterns={props.stopPatterns}
+                      position={this.state.searchPosition}
                     />
-                  </button>
-                </div>
-              )}
-              {!props && (
-                <div className="stops-near-you-spinner-container">
-                  <Loading />
-                </div>
-              )}
-              {props && (
-                <StopsNearYouContainer
-                  match={this.props.match}
-                  stopPatterns={props.stopPatterns}
-                  position={this.state.searchPosition}
-                />
-              )}
-            </div>
-          );
-        }}
-      />
-    );
+                  </div>
+                );
+              }
+              return undefined;
+            }}
+          />
+        </div>
+      );
+    });
+
+    if (tabs.length > 1) {
+      return (
+        <SwipeableTabs tabIndex={index} onSwipe={this.onSwipe} tabs={tabs} />
+      );
+    } else {
+      return tabs[0];
+    }
   };
 
   renderMap = () => {
@@ -394,7 +561,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     const path = `/${PREFIX_NEARYOU}/${mode}/POS/${addressToItinerarySearch(
       item,
     )}`;
-
     this.context.router.replace({
       ...this.props.match.location,
       pathname: path,

@@ -95,19 +95,40 @@ export default class SwipeableTabs extends React.Component {
     return ballDivs;
   };
 
+  handleKeyPress = (e, reactSwipeEl) => {
+    switch (e.keyCode) {
+      case 37:
+        reactSwipeEl.prev();
+        break;
+      case 39:
+        reactSwipeEl.next();
+        break;
+      default:
+        break;
+    }
+  };
+
   render() {
     const { tabs } = this.props;
     const tabBalls = this.tabBalls(tabs.length);
     const disabled = tabBalls.length < 2;
     let reactSwipeEl;
-    /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
     return (
       <div>
-        <div className="mobile-swipe-header">
+        <div
+          className="mobile-swipe-header"
+          role="row"
+          onKeyDown={e => this.handleKeyPress(e, reactSwipeEl)}
+          aria-label="Swipe result tabs. Navigave with left and right arrow"
+          tabIndex="0"
+        >
           <div className="mobile-swipe-button-container">
             <div
               className="mobile-swipe-button"
               onClick={() => reactSwipeEl.prev()}
+              onKeyDown={() => {}}
+              role="button"
+              tabIndex="0"
             >
               <Icon
                 img="icon-icon_arrow-collapse--left"
@@ -124,6 +145,9 @@ export default class SwipeableTabs extends React.Component {
             <div
               className="mobile-swipe-button"
               onClick={() => reactSwipeEl.next()}
+              onKeyDown={() => {}}
+              role="button"
+              tabIndex="0"
             >
               <Icon
                 img="icon-icon_arrow-collapse--right"
