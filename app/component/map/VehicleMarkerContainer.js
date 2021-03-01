@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import IconWithTail from '../IconWithTail';
+import VehicleIcon from '../VehicleIcon';
 import IconMarker from './IconMarker';
 import { isBrowser } from '../../util/browser';
 
@@ -15,7 +15,7 @@ function getVehicleIcon(mode, heading, vehicleNumber, useLargeIcon = true) {
   const modeOrDefault = MODES_WITH_ICONS.indexOf(mode) !== -1 ? mode : 'bus';
   return {
     element: (
-      <IconWithTail
+      <VehicleIcon
         rotate={heading}
         mode={modeOrDefault}
         vehicleNumber={vehicleNumber}

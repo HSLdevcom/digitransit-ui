@@ -63,7 +63,7 @@ const getSvgContent = (rotate, useLargeIcon) => {
   );
 };
 
-const IconWithTail = ({
+const VehicleIcon = ({
   className,
   id,
   rotate,
@@ -104,21 +104,21 @@ const IconWithTail = ({
   </span>
 );
 
-IconWithTail.displayName = 'IconWithTail';
+VehicleIcon.displayName = 'VehicleIcon';
 
-IconWithTail.description = () => (
+VehicleIcon.description = () => (
   <div>
     <p>Shows an icon from the SVG sprite and adds blue &lsquo;tail&rsquo;.</p>
     <ComponentUsageExample description="Rotate 0">
-      <IconWithTail rotate={0} vehicleNumber="550" />
+      <VehicleIcon rotate={0} vehicleNumber="550" />
     </ComponentUsageExample>
     <ComponentUsageExample description="Rotate 90">
-      <IconWithTail rotate={90} vehicleNumber="550" />
+      <VehicleIcon rotate={90} vehicleNumber="550" />
     </ComponentUsageExample>
   </div>
 );
 
-IconWithTail.propTypes = {
+VehicleIcon.propTypes = {
   id: PropTypes.string,
   className: PropTypes.string,
   rotate: PropTypes.number,
@@ -128,4 +128,4 @@ IconWithTail.propTypes = {
   useLargeIcon: PropTypes.bool,
 };
 
-export default IconWithTail;
+export default VehicleIcon;

@@ -102,10 +102,10 @@ testVariation('Favourite', 'not-favourite-hovered', 2, [], actions =>
   actions.mouseMove('.component-example:nth-of-type(2) .component svg'),
 );
 
-testVariation('IconWithTail', 'normal');
-testVariation('IconWithTail', 'rotate', 2);
-testVariation('IconWithTail', 'class', 3);
-testVariation('IconWithTail', 'notail', 4);
+testVariation('VehicleIcon', 'normal');
+testVariation('VehicleIcon', 'rotate', 2);
+testVariation('VehicleIcon', 'class', 3);
+testVariation('VehicleIcon', 'notail', 4);
 
 testVariation('IconWithBigCaution');
 testVariation('IconWithIcon', 'customStyle', 1);

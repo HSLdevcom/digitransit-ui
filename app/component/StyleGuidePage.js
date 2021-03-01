@@ -5,7 +5,7 @@ import { createMockEnvironment } from 'relay-test-utils';
 import { QueryRenderer } from 'react-relay';
 
 import Icon from './Icon';
-import IconWithTail from './IconWithTail';
+import VehicleIcon from './VehicleIcon';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import ComponentDocumentation from './ComponentDocumentation';
@@ -80,7 +80,7 @@ import { Component as ItineraryTab } from './ItineraryTab';
 
 const components = {
   Icon,
-  IconWithTail,
+  VehicleIcon,
   IconWithBigCaution,
   IconWithIcon,
   ComponentDocumentation,

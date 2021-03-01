@@ -1,15 +1,15 @@
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import IconWithTail from '../../../app/component/IconWithTail';
+import VehicleIcon from '../../../app/component/VehicleIcon';
 
-describe('<IconWithTail />', () => {
+describe('<VehicleIcon />', () => {
   it('should render correct svg when allVehicles is false', () => {
     const props = {
       rotate: 180,
       useLargeIcon: true,
     };
-    const wrapper = shallowWithIntl(<IconWithTail {...props} />);
+    const wrapper = shallowWithIntl(<VehicleIcon {...props} />);
 
     expect(wrapper.find('use').at(0).prop('xlinkHref')).to.equal(
       '#icon-icon_vehicle-live-marker',
@@ -23,7 +23,7 @@ describe('<IconWithTail />', () => {
         vehicleNumber: '32',
         useLargeIcon: true,
       };
-      const wrapper = shallowWithIntl(<IconWithTail {...props} />);
+      const wrapper = shallowWithIntl(<VehicleIcon {...props} />);
 
       expect(wrapper.find('use').at(0).prop('xlinkHref')).to.equal(
         '#icon-icon_vehicle-live-marker',
@@ -36,7 +36,7 @@ describe('<IconWithTail />', () => {
       const props = {
         rotate: 180,
       };
-      const wrapper = shallowWithIntl(<IconWithTail {...props} />);
+      const wrapper = shallowWithIntl(<VehicleIcon {...props} />);
 
       expect(wrapper.find('use').prop('xlinkHref')).to.equal(
         '#icon-icon_all-vehicles-small',

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
-import IconWithTail from './IconWithTail';
+import VehicleIcon from './VehicleIcon';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
 function PatternLink({
@@ -18,7 +18,7 @@ function PatternLink({
       to={`/${PREFIX_ROUTES}/${route}/${PREFIX_STOPS}/${pattern}?sort=no`}
       className="route-now-content"
     >
-      <IconWithTail
+      <VehicleIcon
         mode={mode}
         rotate={180}
         vehicleNumber={vehicleNumber}
