@@ -22,9 +22,7 @@ function getVehicleIcon(mode, heading, vehicleNumber, useLargeIcon = true) {
         useLargeIcon={useLargeIcon}
       />
     ),
-    className: `vehicle-icon ${modeOrDefault} ${
-      !useLargeIcon ? 'small-map-icon' : ''
-    }`,
+    className: `vehicle-icon ${modeOrDefault}`,
     iconSize: [20, 20],
     iconAnchor: useLargeIcon ? [15, 15] : [10, 10],
   };
