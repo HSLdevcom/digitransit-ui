@@ -82,10 +82,12 @@ export default function MobileView({
 
   const onScroll = e => {
     if (map) {
-      const scroll = e.target.scrollTop;
-      changeBottomsheetState({
-        context: { ...bottomsheetState.context, buttonBottomPadding: scroll },
-      });
+      if (e.target.className === 'drawer-container') {
+        const scroll = e.target.scrollTop;
+        changeBottomsheetState({
+          context: { ...bottomsheetState.context, buttonBottomPadding: scroll },
+        });
+      }
     }
   };
 
