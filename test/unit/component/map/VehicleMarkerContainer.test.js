@@ -223,7 +223,7 @@ describe('<VehicleMarkerContainer />', () => {
   describe('getVehicleIcon', () => {
     describe('modeless icon', () => {
       it('should use a small icon when useLargeIcon is false', () => {
-        const icon = getVehicleIcon(null, 180, '32', false);
+        const icon = getVehicleIcon(null, 180, '32', undefined, false);
         const wrapper = mountWithIntl(icon.element);
         expect(wrapper.find('use').prop('xlinkHref')).to.equal(
           '#icon-icon_all-vehicles-small',
@@ -232,7 +232,7 @@ describe('<VehicleMarkerContainer />', () => {
       });
 
       it('should use a large icon when useLargeIcon is true', () => {
-        const icon = getVehicleIcon('bus', 180, '32', true);
+        const icon = getVehicleIcon('bus', 180, '32', undefined, true);
         const wrapper = mountWithIntl(icon.element);
         expect(wrapper.find('use').prop('xlinkHref')).to.equal(
           '#icon-icon_vehicle-live-marker',

@@ -45,6 +45,7 @@ const TripRouteStop = props => {
             selected={
               props.selectedVehicle && props.selectedVehicle.id === vehicle.id
             }
+            color={vehicle.color}
           />
         ),
     );

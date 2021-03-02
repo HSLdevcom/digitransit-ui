@@ -18,6 +18,7 @@ function FuzzyTripLink({ vehicle }) {
       rotate={180}
       vehicleNumber={vehicle.shortName}
       useLargeIcon
+      color={vehicle.color}
     />
   );
   return (
@@ -92,6 +93,7 @@ FuzzyTripLink.propTypes = {
     tripStartTime: PropTypes.string.isRequired,
     operatingDay: PropTypes.string.isRequired,
     shortName: PropTypes.string.isRequired,
+    color: PropTypes.string,
   }).isRequired,
 };
 

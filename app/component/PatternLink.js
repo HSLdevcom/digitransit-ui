@@ -11,6 +11,7 @@ function PatternLink({
   route,
   vehicleNumber,
   selected = false,
+  color,
 }) {
   // DT-3331: added query string sort=no to Link's to
   return (
@@ -24,6 +25,7 @@ function PatternLink({
         vehicleNumber={vehicleNumber}
         className={cx({ 'selected-vehicle-icon': selected })}
         useLargeIcon
+        color={color}
       />
     </Link>
   );
@@ -35,6 +37,7 @@ PatternLink.propTypes = {
   route: PropTypes.string.isRequired,
   selected: PropTypes.bool,
   vehicleNumber: PropTypes.string,
+  color: PropTypes.string,
 };
 
 export default PatternLink;

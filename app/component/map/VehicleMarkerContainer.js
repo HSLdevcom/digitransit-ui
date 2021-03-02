@@ -8,7 +8,13 @@ import { isBrowser } from '../../util/browser';
 
 const MODES_WITH_ICONS = ['bus', 'tram', 'rail', 'subway', 'ferry'];
 
-function getVehicleIcon(mode, heading, vehicleNumber, useLargeIcon = true) {
+function getVehicleIcon(
+  mode,
+  heading,
+  vehicleNumber,
+  color,
+  useLargeIcon = true,
+) {
   if (!isBrowser) {
     return null;
   }
@@ -20,6 +26,7 @@ function getVehicleIcon(mode, heading, vehicleNumber, useLargeIcon = true) {
         mode={modeOrDefault}
         vehicleNumber={vehicleNumber}
         useLargeIcon={useLargeIcon}
+        color={color}
       />
     ),
     className: `vehicle-icon ${modeOrDefault}`,
@@ -76,6 +83,7 @@ function VehicleMarkerContainer(containerProps) {
         containerProps.ignoreMode ? null : message.mode,
         message.heading,
         message.shortName ? message.shortName : message.route.split(':')[1],
+        message.color,
         containerProps.useLargeIcon,
       )}
     />
