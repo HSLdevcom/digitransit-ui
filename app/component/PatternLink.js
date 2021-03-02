@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import Link from 'found/Link';
 import IconWithTail from './IconWithTail';
 import SelectedIconWithTail from './SelectedIconWithTail';
@@ -11,14 +11,49 @@ function PatternLink({
   route,
   vehicleNumber,
   selected = false,
+  setHumanScrolling,
+  keepTracking,
 }) {
+  const trackedVehicleRef = useRef();
+  const shouldUpdate = useRef(true);
+
+  useEffect(() => {
+    if (selected && keepTracking && shouldUpdate.current) {
+      setHumanScrolling(false);
+      shouldUpdate.current = false;
+
+      const elemRect = document
+        .getElementById('tracked-vehicle-marker')
+        .getBoundingClientRect();
+      const containerRect = document
+        .getElementById('trip-route-page-content')
+        .getBoundingClientRect();
+      const markerPadding = 30;
+      const topPos = Math.abs(elemRect.top - containerRect.top - markerPadding);
+      const elemToScroll = document.getElementById('trip-route-page-content');
+
+      if (topPos && topPos !== elemToScroll.scrollTop) {
+        elemToScroll.scrollTop += topPos;
+      }
+
+      setTimeout(() => {
+        setHumanScrolling(true);
+      }, 250);
+      setTimeout(() => {
+        shouldUpdate.current = true;
+      }, 4000);
+    }
+  });
+
   const imgName = `icon-icon_${mode}-live`;
   const icon = (selected && (
-    <SelectedIconWithTail
-      img={imgName}
-      mode={mode}
-      vehicleNumber={vehicleNumber}
-    />
+    <div ref={trackedVehicleRef} id="tracked-vehicle-marker">
+      <SelectedIconWithTail
+        img={imgName}
+        mode={mode}
+        vehicleNumber={vehicleNumber}
+      />
+    </div>
   )) || (
     <IconWithTail
       desaturate
@@ -45,6 +80,8 @@ PatternLink.propTypes = {
   route: PropTypes.string.isRequired,
   selected: PropTypes.bool,
   vehicleNumber: PropTypes.string,
+  setHumanScrolling: PropTypes.func,
+  keepTracking: PropTypes.bool,
 };
 
 export default PatternLink;
