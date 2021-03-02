@@ -4,11 +4,16 @@ import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import AppBarSmall from './AppBarSmall';
-import AppBarLarge from './AppBarLarge';
 import { DesktopOrMobile } from '../util/withBreakpoint';
-import AppBarHsl from './AppBarHsl'; // DT-3376
-import MessageBar from './MessageBar';
+
+import LazilyLoad, { importLazy } from './LazilyLoad';
+
+const modules = {
+  AppBarSmall: () => importLazy(import('./AppBarSmall')),
+  AppBarLarge: () => importLazy(import('./AppBarLarge')),
+  AppBarHsl: () => importLazy(import('./AppBarHsl')),
+  MessageBar: () => importLazy(import('./MessageBar')),
+};
 
 // DT-3375: added style
 const AppBarContainer = ({
@@ -40,52 +45,56 @@ const AppBarContainer = ({
           defaultMessage="Skip to content"
         />
       </a>
-      <DesktopOrMobile
-        mobile={() => {
-          return style === 'hsl' ? (
-            <div style={{ display: isClient ? 'block' : 'none' }}>
-              <AppBarHsl user={user} lang={lang} />
-              <MessageBar mobile />{' '}
-            </div>
-          ) : (
-            <AppBarSmall
-              {...args}
-              showLogo
-              logo={logo}
-              homeUrl={homeUrl}
-              user={user}
-            />
-          );
-        }}
-        desktop={() => {
-          return style === 'hsl' ? (
-            <div style={{ display: isClient ? 'block' : 'none' }}>
-              <AppBarHsl user={user} lang={lang} />
-              <MessageBar />{' '}
-            </div>
-          ) : (
-            <AppBarLarge
-              {...args}
-              logo={logo}
-              titleClicked={() =>
-                router.push({
-                  ...match.location,
-                  pathname: homeUrl,
-                  state: {
-                    ...match.location.state,
-                    errorBoundaryKey:
-                      match.location.state &&
-                      match.location.state.errorBoundaryKey
-                        ? match.location.state.errorBoundaryKey + 1
-                        : 1,
-                  },
-                })
-              }
-              user={user}
-            />
-          );
-        }}
-      />
+      <LazilyLoad modules={modules}>
+        {({ AppBarSmall, AppBarLarge, AppBarHsl, MessageBar }) => (
+          <DesktopOrMobile
+            mobile={() => {
+              return style === 'hsl' ? (
+                <div style={{ display: isClient ? 'block' : 'none' }}>
+                  <AppBarHsl user={user} lang={lang} />
+                  <MessageBar mobile />{' '}
+                </div>
+              ) : (
+                <AppBarSmall
+                  {...args}
+                  showLogo
+                  logo={logo}
+                  homeUrl={homeUrl}
+                  user={user}
+                />
+              );
+            }}
+            desktop={() => {
+              return style === 'hsl' ? (
+                <div style={{ display: isClient ? 'block' : 'none' }}>
+                  <AppBarHsl user={user} lang={lang} />
+                  <MessageBar />{' '}
+                </div>
+              ) : (
+                <AppBarLarge
+                  {...args}
+                  logo={logo}
+                  titleClicked={() =>
+                    router.push({
+                      ...match.location,
+                      pathname: homeUrl,
+                      state: {
+                        ...match.location.state,
+                        errorBoundaryKey:
+                          match.location.state &&
+                          match.location.state.errorBoundaryKey
+                            ? match.location.state.errorBoundaryKey + 1
+                            : 1,
+                      },
+                    })
+                  }
+                  user={user}
+                />
+              );
+            }}
+          />
+        )}
+      </LazilyLoad>
     </>
   );
 };

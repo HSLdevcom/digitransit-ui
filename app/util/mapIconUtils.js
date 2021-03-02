@@ -395,21 +395,37 @@ export function drawStopIcon(
     });
 
     if (isHilighted) {
-      const selectedCircleOffset = getSelectedIconCircleOffset(
-        zoom,
-        tile.ratio,
-      );
-      tile.ctx.beginPath();
-      // eslint-disable-next-line no-param-reassign
-      tile.ctx.lineWidth = 2;
-      tile.ctx.arc(
-        x + selectedCircleOffset,
-        y + selectedCircleOffset,
-        radius + 2,
-        0,
-        FULL_CIRCLE,
-      );
-      tile.ctx.stroke();
+      if (isFerryTerminal) {
+        getImageFromSpriteCache(
+          `icon-icon_station_highlight`,
+          width,
+          height,
+        ).then(image => {
+          tile.ctx.drawImage(
+            image,
+            x - 4 / tile.scaleratio,
+            y - 4 / tile.scaleratio,
+            width + 8 / tile.scaleratio,
+            height + 8 / tile.scaleratio,
+          );
+        });
+      } else {
+        const selectedCircleOffset = getSelectedIconCircleOffset(
+          zoom,
+          tile.ratio,
+        );
+        tile.ctx.beginPath();
+        // eslint-disable-next-line no-param-reassign
+        tile.ctx.lineWidth = 2;
+        tile.ctx.arc(
+          x + selectedCircleOffset,
+          y + selectedCircleOffset,
+          radius + 2,
+          0,
+          FULL_CIRCLE,
+        );
+        tile.ctx.stroke();
+      }
     }
   }
 }
@@ -616,7 +632,7 @@ export function drawCitybikeIcon(
   }
 }
 
-export function drawTerminalIcon(tile, geom, type) {
+export function drawTerminalIcon(tile, geom, type, isHilighted) {
   const zoom = tile.coords.z - 1;
   const styles = getTerminalIconStyles(zoom);
   if (!styles) {
@@ -636,6 +652,19 @@ export function drawTerminalIcon(tile, geom, type) {
       geom.y / tile.ratio - height / 2,
     );
   });
+  if (isHilighted) {
+    getImageFromSpriteCache(`icon-icon_station_highlight`, width, height).then(
+      image => {
+        tile.ctx.drawImage(
+          image,
+          geom.x / tile.ratio - width / 2 - 4 / tile.scaleratio,
+          geom.y / tile.ratio - height / 2 - 4 / tile.scaleratio,
+          width + 8 / tile.scaleratio,
+          height + 8 / tile.scaleratio,
+        );
+      },
+    );
+  }
 }
 
 export function drawParkAndRideIcon(tile, geom, width, height) {

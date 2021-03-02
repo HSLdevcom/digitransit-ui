@@ -106,3 +106,26 @@ export function convertTo24HourFormat(time) {
     ? `0${parseInt(time.substring(0, 2), 10) - 24}:${time.substring(2, 4)}`
     : `${time.substring(0, 2)}:${time.substring(2, 4)}`;
 }
+
+/**
+ * Returns true if startTime is the same day compared to refTime and refTime is some time in current day
+ */
+export function isToday(startTime, refTime) {
+  const now = refTime ? moment(refTime) : moment();
+  const start = moment(startTime);
+  return start.isSame(now, 'day');
+}
+
+/**
+ * Returns formatted date / time
+ */
+export function getFormattedTimeDate(startTime, pattern) {
+  return moment(startTime).format(pattern);
+}
+
+/**
+ * Returns number of milliseconds since the Unix Epoch
+ */
+export function getCurrentMillis() {
+  return moment().valueOf();
+}

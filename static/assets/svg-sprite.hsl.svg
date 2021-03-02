@@ -1722,6 +1722,9 @@
 	</g>
 	</g>
 </symbol>
+<symbol id="icon-icon_station_highlight" width="32" height="32" viewBox="0 0 32 32" fill="none" >
+	<rect x="1" y="1" width="30" height="30" rx="6" stroke="black" stroke-width="2" fill="none"/>
+</symbol>
 <symbol id="icon-icon_weather_1" width="40" height="40" viewBox="0 0 40 40">
     <g fill="none" fill-rule="evenodd">
         <g fill-rule="nonzero">

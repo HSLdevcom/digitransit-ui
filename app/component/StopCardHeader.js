@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-
+import { matchShape } from 'found';
 import CardHeader from './CardHeader';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
@@ -9,8 +9,54 @@ import ServiceAlertIcon from './ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import ExternalLink from './ExternalLink';
 import FavouriteStopContainer from './FavouriteStopContainer';
+import { getJson } from '../util/xhrPromise';
+import { saveSearch } from '../action/SearchActions';
+import { isIOS } from '../util/browser';
 
 class StopCardHeader extends React.Component {
+  componentDidMount() {
+    // update localStorage searches if necessary
+    const { stop, isPopUp } = this.props;
+    if (!isIOS || !stop || isPopUp || !this.context.match.location.query.save) {
+      return;
+    }
+    const layer = this.props.isTerminal ? 'station' : 'stop';
+    let id = `GTFS:${stop.gtfsId}`;
+    let { name } = stop;
+    if (stop.code) {
+      id = `${id}#${stop.code}`;
+      name = `${name} ${stop.code}`;
+    }
+
+    getJson(this.context.config.URL.PELIAS_REVERSE_GEOCODER, {
+      'point.lat': stop.lat,
+      'point.lon': stop.lon,
+      'boundary.circle.radius': 0.2,
+      size: 1,
+    }).then(data => {
+      if (data.features != null && data.features.length > 0) {
+        const match = data.features[0].properties;
+        const city = match.localadmin;
+
+        this.context.executeAction(saveSearch, {
+          item: {
+            geometry: { coordinates: [stop.lon, stop.lat] },
+            properties: {
+              name,
+              id,
+              gid: `gtfs:${layer}:${id}`,
+              layer,
+              label: `${stop.name}, ${city}`,
+              localadmin: city,
+            },
+            type: 'Feature',
+          },
+          type: 'endpoint',
+        });
+      }
+    });
+  }
+
   get headerConfig() {
     return this.context.config.stopCard.header;
   }
@@ -147,6 +193,8 @@ StopCardHeader.contextTypes = {
     }).isRequired,
   }).isRequired,
   intl: intlShape.isRequired,
+  executeAction: PropTypes.func.isRequired,
+  match: matchShape.isRequired,
 };
 
 const exampleStop = {

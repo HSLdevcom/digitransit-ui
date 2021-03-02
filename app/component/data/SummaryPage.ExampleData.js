@@ -954,8 +954,6 @@ export default {
           ],
           walkDistance: 951.5430833129851,
           duration: 1135,
-          elevationGained: 10.059999999999999,
-          elevationLost: 11.439999999999994,
           fares: [
             {
               type: 'regular',
@@ -2054,8 +2052,6 @@ export default {
           ],
           walkDistance: 389.51441664698046,
           duration: 1704,
-          elevationGained: 1.7499999999999973,
-          elevationLost: 9.370000000000001,
           fares: [
             {
               type: 'regular',
@@ -3209,8 +3205,6 @@ export default {
           ],
           walkDistance: 828.6317499799827,
           duration: 1618,
-          elevationGained: 5.839999999999999,
-          elevationLost: 17.330000000000002,
           fares: [
             {
               type: 'regular',

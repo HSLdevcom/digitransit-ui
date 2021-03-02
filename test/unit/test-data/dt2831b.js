@@ -3,8 +3,6 @@ export const exampleData = {
   duration: 835,
   startTime: 1549613561000,
   endTime: 1549614396000,
-  elevationGained: 7.209999999999997,
-  elevationLost: 10.409999999999993,
   fares: [
     {
       type: 'regular',

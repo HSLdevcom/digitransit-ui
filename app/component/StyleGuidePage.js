@@ -51,7 +51,6 @@ import ExternalLink from './ExternalLink';
 import { component as SummaryRow } from './SummaryRow';
 import PageFooter from './PageFooter';
 import FooterItem from './FooterItem';
-import DateWarning from './DateWarning';
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
 import BicycleLeg from './BicycleLeg';
@@ -129,7 +128,6 @@ const components = {
   LangSelect,
   PageFooter,
   FooterItem,
-  DateWarning,
   ItineraryLegs,
   WalkLeg,
   WaitLeg,

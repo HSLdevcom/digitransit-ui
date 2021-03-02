@@ -4,8 +4,6 @@ const dt2831 = {
   duration: 973,
   startTime: 1548851874000,
   endTime: 1548852847000,
-  elevationGained: 8.189999999999998,
-  elevationLost: 8.389999999999993,
   fares: [
     {
       __dataID__: 'client:198107189846',

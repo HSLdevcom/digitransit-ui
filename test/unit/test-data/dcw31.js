@@ -40,7 +40,6 @@ export default {
         agency: null,
       },
     ],
-    walkDistance: 3884.315300000004,
     duration: 926,
     fares: null,
   },
@@ -619,8 +618,7 @@ export default {
         agency: null,
       },
     ],
-    walkDistance: 1555.2174791714042,
-    duration: 814,
+    duration: 480,
     fares: [
       {
         type: 'regular',
