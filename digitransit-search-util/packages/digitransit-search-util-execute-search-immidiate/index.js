@@ -306,7 +306,6 @@ export function getSearchResults(
       }
     }
     if (allSources || sources.includes('Datasource')) {
-      const regex = minimalRegexp || undefined;
       const geocodingLayers = ['station', 'venue', 'address', 'street'];
       const feedis = feedIDs.map(v => `gtfs${v}`);
       const geosources = geocodingSources.concat(feedis).join(',');
@@ -318,7 +317,7 @@ export function getSearchResults(
           focusPoint,
           geosources,
           URL_PELIAS,
-          regex,
+          minimalRegexp,
           geocodingLayers,
           refPoint,
         ),
@@ -369,7 +368,6 @@ export function getSearchResults(
       searchComponents.push(getFavouriteStops(stopsAndStations, input));
     }
     if (allSources || sources.includes('Datasource')) {
-      const regex = minimalRegexp || undefined;
       const geocodingLayers = ['stop', 'station'];
       const searchParams = {
         size: geocodingSize,
@@ -383,7 +381,7 @@ export function getSearchResults(
           focusPoint,
           feedis,
           URL_PELIAS,
-          regex,
+          minimalRegexp,
           geocodingLayers,
         ).then(results => {
           if (filterResults) {
@@ -481,7 +479,6 @@ export function getSearchResults(
       );
     }
     if (allSources || sources.includes('Datasource')) {
-      const regex = minimalRegexp || undefined;
       const geocodingLayers = ['bikestation'];
       const searchParams = {
         size: geocodingSize,
@@ -494,11 +491,11 @@ export function getSearchResults(
           focusPoint,
           cityBikeNetworks.join(','),
           URL_PELIAS,
-          regex,
+          minimalRegexp,
           geocodingLayers,
         ).then(results => {
           if (filterResults) {
-            return filterResults(results, mode);
+            return filterResults(results, mode, 'BikeRentalStations');
           }
           return results;
         }),

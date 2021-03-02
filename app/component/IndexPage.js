@@ -197,21 +197,21 @@ class IndexPage extends React.Component {
     const origin = this.pendingOrigin || this.props.origin;
     const destination = this.pendingDestination || this.props.destination;
     const sources = ['Favourite', 'History', 'Datasource'];
-    const stopAndRouteSearchTargets =
-      this.context.config.cityBike && this.context.config.cityBike.showCityBikes
-        ? ['Stops', 'Routes', 'BikeRentalStations']
-        : ['Stops', 'Routes'];
+    const stopAndRouteSearchTargets = ['Stops', 'Routes'];
+    const locationSearchTargets = [
+      'Locations',
+      'CurrentPosition',
+      'FutureRoutes',
+      'Stops',
+    ];
 
-    const locationSearchTargets =
-      this.context.config.cityBike && this.context.config.cityBike.showCityBikes
-        ? [
-            'Locations',
-            'CurrentPosition',
-            'FutureRoutes',
-            'Stops',
-            'BikeRentalStations',
-          ]
-        : ['Locations', 'CurrentPosition', 'FutureRoutes', 'Stops'];
+    if (
+      this.context.config.cityBike &&
+      this.context.config.cityBike.showCityBikes
+    ) {
+      stopAndRouteSearchTargets.push('BikeRentalStations');
+      locationSearchTargets.push('BikeRentalStations');
+    }
     const locationSearchTargetsMobile = [
       ...locationSearchTargets,
       'MapPosition',

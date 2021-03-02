@@ -317,10 +317,13 @@ class FavouritesContainer extends React.Component {
     const isLoading =
       this.props.favouriteStatus === FavouriteStore.STATUS_FETCHING_OR_UPDATING;
     const { allowLogin, isLoggedIn } = this.props;
-    const targets =
-      this.context.config.cityBike && this.context.config.cityBike.showCityBikes
-        ? ['Locations', 'CurrentPosition', 'BikeRentalStations']
-        : ['Locations', 'CurrentPosition'];
+    const targets = ['Locations', 'CurrentPosition'];
+    if (
+      this.context.config.cityBike &&
+      this.context.config.cityBike.showCityBikes
+    ) {
+      targets.push('BikeRentalStations');
+    }
     return (
       <React.Fragment>
         <FavouriteBar

@@ -508,10 +508,13 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         : undefined,
       inputClassName: onMap ? 'origin-stop-near-you-selector' : undefined,
     };
-    const targets =
-      this.context.config.cityBike && this.context.config.cityBike.showCityBikes
-        ? ['Locations', 'Stops', 'BikeRentalStations']
-        : ['Locations', 'Stops'];
+    const targets = ['Locations', 'Stops'];
+    if (
+      this.context.config.cityBike &&
+      this.context.config.cityBike.showCityBikes
+    ) {
+      targets.push('BikeRentalStations');
+    }
     return (
       <DTAutoSuggestWithSearchContext
         appElement="#app"
