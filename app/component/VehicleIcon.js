@@ -39,7 +39,7 @@ const getTextOffSet = length => {
 const getSvgContent = (rotate, useLargeIcon) => {
   const transform = useLargeIcon
     ? 'translate(24 24) scale(1.3)'
-    : 'translate(5 5) scale(0.7)';
+    : 'translate(10 10) scale(0.7)';
   return rotate ? (
     <g transform={`rotate(${(rotate || 0) + 180} 40 40)`}>
       <use
@@ -77,7 +77,7 @@ const VehicleIcon = ({
       <svg
         id={id}
         viewBox="0 0 80 80"
-        className={cx('icon', 'tail-icon', className, mode)}
+        className={cx('icon', 'large-vehicle-icon', className, mode)}
         ref={el => scrollIntoView && el && el.scrollIntoView()}
       >
         {getSvgContent(rotate, useLargeIcon)}
@@ -94,8 +94,8 @@ const VehicleIcon = ({
     ) : (
       <svg
         id={id}
-        viewBox="0 0 24 24"
-        className={className}
+        viewBox="0 0 120 120"
+        className={cx('icon', 'small-vehicle-icon', className)}
         ref={el => scrollIntoView && el && el.scrollIntoView()}
       >
         {getSvgContent(rotate, useLargeIcon)}

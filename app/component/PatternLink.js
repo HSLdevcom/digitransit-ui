@@ -22,7 +22,7 @@ function PatternLink({
         mode={mode}
         rotate={180}
         vehicleNumber={vehicleNumber}
-        className={cx({ 'selected-tail-icon': selected })}
+        className={cx({ 'selected-vehicle-icon': selected })}
         useLargeIcon
       />
     </Link>

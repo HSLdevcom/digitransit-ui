@@ -143,7 +143,7 @@ class TripStopListContainer extends React.PureComponent {
   }
 
   scrollToSelectedTailIcon = () => {
-    const el = document.getElementsByClassName('selected-tail-icon')[0];
+    const el = document.getElementsByClassName('selected-vehicle-icon')[0];
     if (el) {
       el.scrollIntoView();
       this.setState({ hasScrolled: true });

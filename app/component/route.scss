@@ -122,10 +122,13 @@ $margin-left-right: 1.25em;
 }
 
 .map {
-  .icon.tail-icon {
+  .icon.large-vehicle-icon {
     margin-top: 0.57em;
     margin-left: 0.57em;
     transform: scale(3.5);
+  }
+  .icon.small-vehicle-icon {
+    transform: scale(1);
   }
 }
 .route-details-upper-row {
@@ -162,12 +165,12 @@ $margin-left-right: 1.25em;
       top: -0.3em;
       font-size: 5em;
     }
-    .tail-icon {
+    .large-vehicle-icon {
       font-size: 3.5em;
       bottom: 0;
       left: -10px;
     }
-    .selected-tail-icon {
+    .selected-vehicle-icon {
       font-size: 5em;
       bottom: 0;
       left: -10px;

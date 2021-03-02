@@ -436,10 +436,10 @@
 	<circle cx="13" cy="13" r="12.5" stroke="#fff"/>
 	<circle cx="13" cy="13" r="10.5" fill="#fff"/>
 </symbol>
-<symbol id="icon-icon_all-vehicles-small" width="10px" height="11px" viewBox="0 0 10 11">
+<symbol id="icon-icon_all-vehicles-small" viewBox="0 0 10 10">
 	<path d="M4.735 9.508L5 9.773l.265-.265 2.121-2.122a3.375 3.375 0 10-4.773 0l2.122 2.122z" fill="#333" stroke="#fff" stroke-width=".75"/>
 </symbol>
-<symbol id="icon-icon_all-vehicles-small-without-direction" width="9px" height="10px" viewBox="0 0 9 10">
+<symbol id="icon-icon_all-vehicles-small-without-direction" viewBox="0 0 9 10">
 	<circle cx="4.24" cy="5" r="3.375" fill="#333" stroke="#fff" stroke-width=".75"/>
 </symbol>
 <symbol id="icon-icon_right-now" viewBox="0 0 1024 1024">
