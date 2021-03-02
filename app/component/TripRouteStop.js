@@ -80,36 +80,38 @@ const TripRouteStop = props => {
       </div>
       <div className="route-stop-row_content-container">
         <Link to={`/${PREFIX_STOPS}/${encodeURIComponent(stop.gtfsId)}`}>
-          <div className="route-details-upper-row">
-            <div className={`route-details_container ${mode}`}>
-              <div className="route-stop-name">
-                <span>{stop.name}</span>
-                <ServiceAlertIcon
-                  className="inline-icon"
-                  severityLevel={getActiveAlertSeverityLevel(
-                    stop.alerts,
-                    currentTime,
-                  )}
+          <div>
+            <div className="route-details-upper-row">
+              <div className={`route-details_container ${mode}`}>
+                <div className="route-stop-name">
+                  <span>{stop.name}</span>
+                  <ServiceAlertIcon
+                    className="inline-icon"
+                    severityLevel={getActiveAlertSeverityLevel(
+                      stop.alerts,
+                      currentTime,
+                    )}
+                  />
+                </div>
+              </div>
+              <div className="departure-times-container">
+                <div className="route-stop-time">
+                  {stoptime && fromStopTime(stoptime, currentTime)}
+                </div>
+              </div>
+            </div>
+            <div className="route-details-bottom-row">
+              {stop.code && <StopCode code={stop.code} />}
+              <span className="route-stop-address">{stop.desc}</span>
+              {'\u2002'}
+              {distance && (
+                <WalkDistance
+                  className="nearest-route-stop"
+                  icon="icon_location-with-user"
+                  walkDistance={distance}
                 />
-              </div>
+              )}
             </div>
-            <div className="departure-times-container">
-              <div className="route-stop-time">
-                {stoptime && fromStopTime(stoptime, currentTime)}
-              </div>
-            </div>
-          </div>
-          <div className="route-details-bottom-row">
-            {stop.code && <StopCode code={stop.code} />}
-            <span className="route-stop-address">{stop.desc}</span>
-            {'\u2002'}
-            {distance && (
-              <WalkDistance
-                className="nearest-route-stop"
-                icon="icon_location-with-user"
-                walkDistance={distance}
-              />
-            )}
           </div>
         </Link>
       </div>
