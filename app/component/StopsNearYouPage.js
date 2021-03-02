@@ -280,16 +280,20 @@ class StopsNearYouPage extends React.Component {
     );
   };
 
+  noFavorites = () => {
+    return (
+      !this.favouriteStopIds.length &&
+      !this.favouriteStationIds.length &&
+      !this.favouriteBikeStationIds.length
+    );
+  };
+
   renderContent = () => {
     const { centerOfMapChanged } = this.state;
     const { mode } = this.props.match.params;
     const renderDisruptionBanner = mode !== 'CITYBIKE';
     const renderSearch = mode !== 'FERRY' && mode !== 'FAVORITE';
-    const noFavorites =
-      mode === 'FAVORITE' &&
-      !this.favouriteStopIds.length &&
-      !this.favouriteStationIds.length &&
-      !this.favouriteBikeStationIds.length;
+    const noFavorites = mode === 'FAVORITE' && this.noFavorites();
     const renderRefetchButton =
       (centerOfMapChanged || this.positionChanged()) && !noFavorites;
 
@@ -298,6 +302,7 @@ class StopsNearYouPage extends React.Component {
       this.props.breakpoint === 'large' ? [mode] : NEAR_BY_STOPS_MODES;
     const tabs = modePerTab.map(nearByStopMode => {
       if (nearByStopMode === 'FAVORITE') {
+        const noFavs = this.noFavorites();
         return (
           <div className="stops-near-you-page">
             {renderRefetchButton && this.refetchButton()}
@@ -307,7 +312,7 @@ class StopsNearYouPage extends React.Component {
               favoriteStops={this.favouriteStopIds}
               favoriteStations={this.favouriteStationIds}
               favoriteBikeRentalStationIds={this.favouriteBikeStationIds}
-              noFavorites={noFavorites}
+              noFavorites={noFavs}
             />
           </div>
         );
@@ -679,31 +684,22 @@ const PositioningWrapper = connectToStores(
   StopsNearYouPageWithBreakpoint,
   ['PositionStore', 'PreferencesStore', 'FavouriteStore'],
   (context, props) => {
-    const favouriteStopIds =
-      props.match.params.mode === 'FAVORITE'
-        ? context
-            .getStore('FavouriteStore')
-            .getStopsAndStations()
-            .filter(stop => stop.type === 'stop')
-            .map(stop => stop.gtfsId)
-        : [];
-    const favouriteStationIds =
-      props.match.params.mode === 'FAVORITE'
-        ? context
-            .getStore('FavouriteStore')
-            .getStopsAndStations()
-            .filter(stop => stop.type === 'station')
-            .map(stop => stop.gtfsId)
-        : [];
+    const favouriteStopIds = context
+      .getStore('FavouriteStore')
+      .getStopsAndStations()
+      .filter(stop => stop.type === 'stop')
+      .map(stop => stop.gtfsId);
+    const favouriteStationIds = context
+      .getStore('FavouriteStore')
+      .getStopsAndStations()
+      .filter(stop => stop.type === 'station')
+      .map(stop => stop.gtfsId);
     let favouriteBikeStationIds = [];
     if (context.config.cityBike && context.config.cityBike.showCityBikes) {
-      favouriteBikeStationIds =
-        props.match.params.mode === 'FAVORITE'
-          ? context
-              .getStore('FavouriteStore')
-              .getBikeRentalStations()
-              .map(station => station.stationId)
-          : [];
+      favouriteBikeStationIds = context
+        .getStore('FavouriteStore')
+        .getBikeRentalStations()
+        .map(station => station.stationId);
     }
     return {
       ...props,
