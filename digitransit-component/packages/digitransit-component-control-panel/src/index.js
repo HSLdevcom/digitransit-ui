@@ -69,7 +69,7 @@ OriginToDestination.defaultProps = {
  * Show button links to near you page for different travel modes
  *
  * @param {Object} props
- * @param {string[]} props.modes - Names of transport modes to show buttons for. Should be in lower case. Also defines button order
+ * @param {string[]} props.modeArray - Names of transport modes to show buttons for. Should be in lower case. Also defines button order
  * @param {string} props.language - Language used for accessible labels
  * @param {string} props.urlPrefix - URL prefix for links. Must end with /lahellasi
  * @param {boolean} props.showTitle - Show title, default is false
@@ -86,7 +86,7 @@ OriginToDestination.defaultProps = {
  *    feedIds: [HSL]
  * }
  * <CtrlPanel.NearStopsAndRoutes
- *      modes={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
+ *      modeArray={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
  *      language="fi"
  *      urlPrefix="http://example.com/lahellasi"
  *      showTitle
@@ -95,7 +95,7 @@ OriginToDestination.defaultProps = {
  *
  */
 function NearStopsAndRoutes({
-  modes,
+  modeArray,
   urlPrefix,
   language,
   showTitle,
@@ -104,7 +104,9 @@ function NearStopsAndRoutes({
   origin,
   omitLanguageUrl,
   onClick,
-  modeTitles,
+  buttonStyle,
+  title,
+  modes,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
   useEffect(() => {
@@ -128,7 +130,7 @@ function NearStopsAndRoutes({
     urlParts.splice(urlParts.length - 1, 0, language);
     urlStart = urlParts.join('/');
   }
-  const buttons = modes.map(mode => {
+  const buttons = modeArray.map(mode => {
     const withAlert = modesWithAlerts.includes(mode.toUpperCase());
     let url = `${urlStart}/${mode.toUpperCase()}/POS`;
     if (origin.lat && origin.lon) {
@@ -137,7 +139,7 @@ function NearStopsAndRoutes({
       }`;
     }
 
-    const modeButton = !modeTitles ? (
+    const modeButton = !modes ? (
       <>
         <span className={styles['sr-only']}>
           {i18next.t(`pick-mode-${mode}`, { lng: language })}
@@ -163,11 +165,11 @@ function NearStopsAndRoutes({
             className={styles['transport-mode-icon-with-icon']}
             style={{
               '--bckColor': `${
-                modeTitles[mode]['color']
-                  ? modeTitles[mode]['color']
-                  : modeTitles['color']
+                modes[mode]['color']
+                  ? modes[mode]['color']
+                  : buttonStyle['color']
               }`,
-              '--borderRadius': `${modeTitles.borderRadius}`,
+              '--borderRadius': `${buttonStyle.borderRadius}`,
             }}
           >
             <Icon img={`${mode}-waltti`} />
@@ -178,7 +180,7 @@ function NearStopsAndRoutes({
             )}
           </span>
           <span className={styles['transport-mode-title']}>
-            {modeTitles[mode][language]}
+            {modes[mode]['nearYouLabel'][language]}
           </span>
         </span>
       </>
@@ -215,14 +217,14 @@ function NearStopsAndRoutes({
     <div className={styles['near-you-container']}>
       {showTitle && (
         <h2 className={styles['near-you-title']}>
-          {!modeTitles
+          {!modes
             ? i18next.t('title-route-stop-station', { lng: language })
-            : modeTitles['header'][language]}
+            : title[language]}
         </h2>
       )}
       <div
         className={
-          !modeTitles
+          !modes
             ? styles['near-you-buttons-container']
             : styles['near-you-buttons-container-wide']
         }
@@ -234,7 +236,7 @@ function NearStopsAndRoutes({
 }
 
 NearStopsAndRoutes.propTypes = {
-  modes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  modeArray: PropTypes.arrayOf(PropTypes.string).isRequired,
   urlPrefix: PropTypes.string.isRequired,
   language: PropTypes.string,
   showTitle: PropTypes.bool,
@@ -247,7 +249,9 @@ NearStopsAndRoutes.propTypes = {
   origin: PropTypes.object,
   omitLanguageUrl: PropTypes.bool,
   onClick: PropTypes.func,
-  modeTitles: PropTypes.object,
+  buttonStyle: PropTypes.object,
+  title: PropTypes.object,
+  modes: PropTypes.object,
 };
 
 NearStopsAndRoutes.defaultProps = {
@@ -256,7 +260,9 @@ NearStopsAndRoutes.defaultProps = {
   LinkComponent: undefined,
   origin: undefined,
   omitLanguageUrl: undefined,
-  modeTitles: undefined,
+  buttonStyle: undefined,
+  title: undefined,
+  modes: undefined,
 };
 
 /**
@@ -267,7 +273,7 @@ NearStopsAndRoutes.defaultProps = {
  *    <CtrlPanel.OriginToDestination showTitle />
  *    <CtrlPanel.SeparatorLine />
  *    <CtrlPanel.NearStopsAndRoutes
- *      modes={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
+ *      modearray={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
  *      language="fi"
  *      urlPrefix="http://example.com/lahellasi"
  *      showTitle

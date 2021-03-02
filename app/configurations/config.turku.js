@@ -75,13 +75,19 @@ export default configMerger(walttiConfig, {
   },
 
   transportModes: {
+    bus: {
+      color: '#e8aa27',
+    },
+
     ferry: {
       availableForSelection: true,
       defaultValue: true,
+      color: '#35b5b3',
     },
 
     citybike: {
       availableForSelection: true,
+      color: '#f2b62d',
     },
   },
 
@@ -201,27 +207,4 @@ export default configMerger(walttiConfig, {
   },
 
   showNearYouButtons: true,
-  nearYouModes: ['bus', 'ferry', 'citybike'],
-
-  nearYouModeTitles: {
-    borderRadius: '50%',
-    bus: {
-      color: '#e8aa27',
-      fi: 'Bussit ja lähipysäkit kartalla',
-      sv: 'Buss',
-      en: 'Bus',
-    },
-    citybike: {
-      color: '#f2b62d',
-      fi: 'Lähimmät kaupunkipyöräasemat',
-      sv: 'Stadscykel',
-      en: 'Citybike',
-    },
-    ferry: {
-      color: '#35b5b3',
-      fi: 'Lähimmät lauttarannat',
-      sv: 'Färja',
-      en: 'Ferry',
-    },
-  },
 });
