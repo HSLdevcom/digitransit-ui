@@ -317,6 +317,10 @@ class FavouritesContainer extends React.Component {
     const isLoading =
       this.props.favouriteStatus === FavouriteStore.STATUS_FETCHING_OR_UPDATING;
     const { allowLogin, isLoggedIn } = this.props;
+    const targets =
+      this.context.config.cityBike && this.context.config.cityBike.showCityBikes
+        ? ['Locations', 'CurrentPosition', 'BikeRentalStations']
+        : ['Locations', 'CurrentPosition'];
     return (
       <React.Fragment>
         <FavouriteBar
@@ -359,7 +363,7 @@ class FavouritesContainer extends React.Component {
             <AutoSuggestWithSearchContext
               appElement="#app"
               sources={['History', 'Datasource']}
-              targets={['Locations', 'CurrentPosition']}
+              targets={targets}
               id="favourite"
               icon="search"
               placeholder="search-address-or-place"

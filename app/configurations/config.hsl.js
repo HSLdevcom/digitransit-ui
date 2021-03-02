@@ -451,7 +451,7 @@ export default {
   localStorageTarget: rootLink,
 
   cityBike: {
-    showCityBikes: false,
+    showCityBikes: true,
     capacity: BIKEAVL_BIKES,
     networks: {
       smoove: {
@@ -491,7 +491,7 @@ export default {
   showBikeAndParkItineraries: true,
 
   showNearYouButtons: true,
-  nearYouModes: ['bus', 'tram', 'subway', 'rail', 'ferry' /* , 'citybike' */],
+  nearYouModes: ['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike'],
 
   zoneIconsAsSvg: true,
 };

@@ -17,7 +17,6 @@ function StopsNearYouSearch({ mode, breakpoint, lang }, { router }) {
   const selectHandler = item => {
     router.push(getStopRoutePath(item));
   };
-
   return (
     <div className="stops-near-you-search-container">
       <div className="search-container-first">

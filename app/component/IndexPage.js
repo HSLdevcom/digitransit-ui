@@ -199,6 +199,33 @@ class IndexPage extends React.Component {
       this.context.config.cityBike && this.context.config.cityBike.showCityBikes
         ? ['Stops', 'Routes', 'BikeRentalStations']
         : ['Stops', 'Routes'];
+    const desktopLocationTargets =
+      this.context.config.cityBike && this.context.config.cityBike.showCityBikes
+        ? [
+            'Locations',
+            'CurrentPosition',
+            'FutureRoutes',
+            'Stops',
+            'BikeRentalStations',
+          ]
+        : ['Locations', 'CurrentPosition', 'FutureRoutes', 'Stops'];
+    const mobileLocationTargets =
+      this.context.config.cityBike && this.context.config.cityBike.showCityBikes
+        ? [
+            'Locations',
+            'CurrentPosition',
+            'MapPosition',
+            'FutureRoutes',
+            'Stops',
+            'BikeRentalStations',
+          ]
+        : [
+            'Locations',
+            'CurrentPosition',
+            'MapPosition',
+            'FutureRoutes',
+            'Stops',
+          ];
 
     const alertsContext = {
       currentTime: this.props.currentTime,
@@ -287,12 +314,7 @@ class IndexPage extends React.Component {
             position="left"
           >
             <LocationSearch
-              targets={[
-                'Locations',
-                'CurrentPosition',
-                'FutureRoutes',
-                'Stops',
-              ]}
+              targets={desktopLocationTargets}
               {...locationSearchProps}
             />
             <div className="datetimepicker-container">
@@ -333,13 +355,7 @@ class IndexPage extends React.Component {
         >
           <CtrlPanel instance="hsl" language={lang} position="bottom">
             <LocationSearch
-              targets={[
-                'Locations',
-                'CurrentPosition',
-                'MapPosition',
-                'FutureRoutes',
-                'Stops',
-              ]}
+              targets={mobileLocationTargets}
               disableAutoFocus
               isMobile
               {...locationSearchProps}

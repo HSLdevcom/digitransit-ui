@@ -50,7 +50,6 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.getFavouriteRoutes = getFavouriteRoutes;
   searchContext.getPositions = getPositions;
   searchContext.getRoutesQuery = getRoutesQuery;
-  // searchContext.getAllBikeRentalStations = getAllBikeRentalStations; // Bike stations are fetched from Geocoding
   searchContext.getStopAndStationsQuery = getStopAndStationsQuery;
   searchContext.getFavouriteRoutesQuery = getFavouriteRoutesQuery;
   searchContext.getFavouriteBikeRentalStations = getFavouriteBikeRentalStations;
