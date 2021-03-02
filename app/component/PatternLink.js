@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import Link from 'found/Link';
-import cx from 'classnames';
 import VehicleIcon from './VehicleIcon';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
@@ -12,9 +11,42 @@ function PatternLink({
   vehicleNumber,
   selected = false,
   color,
+  setHumanScrolling,
+  keepTracking,
 }) {
+  const trackedVehicleRef = useRef();
+  const shouldUpdate = useRef(true);
+
+  useEffect(() => {
+    if (selected && keepTracking && shouldUpdate.current) {
+      setHumanScrolling(false);
+      shouldUpdate.current = false;
+
+      const elemRect = document
+        .getElementById('tracked-vehicle-marker')
+        .getBoundingClientRect();
+      const containerRect = document
+        .getElementById('trip-route-page-content')
+        .getBoundingClientRect();
+      const markerPadding = 30;
+      const topPos = Math.abs(elemRect.top - containerRect.top - markerPadding);
+      const elemToScroll = document.getElementById('trip-route-page-content');
+
+      if (topPos && topPos !== elemToScroll.scrollTop) {
+        elemToScroll.scrollTop += topPos;
+      }
+
+      setTimeout(() => {
+        setHumanScrolling(true);
+      }, 250);
+      setTimeout(() => {
+        shouldUpdate.current = true;
+      }, 4000);
+    }
+  });
+
   // DT-3331: added query string sort=no to Link's to
-  return (
+  const icon = (
     <Link
       to={`/${PREFIX_ROUTES}/${route}/${PREFIX_STOPS}/${pattern}?sort=no`}
       className="route-now-content"
@@ -23,11 +55,18 @@ function PatternLink({
         mode={mode}
         rotate={180}
         vehicleNumber={vehicleNumber}
-        className={cx({ 'selected-vehicle-icon': selected })}
         useLargeIcon
         color={color}
       />
     </Link>
+  );
+
+  return selected ? (
+    <div ref={trackedVehicleRef} id="tracked-vehicle-marker">
+      {icon}
+    </div>
+  ) : (
+    icon
   );
 }
 
@@ -38,6 +77,8 @@ PatternLink.propTypes = {
   selected: PropTypes.bool,
   vehicleNumber: PropTypes.string,
   color: PropTypes.string,
+  setHumanScrolling: PropTypes.func,
+  keepTracking: PropTypes.bool,
 };
 
 export default PatternLink;

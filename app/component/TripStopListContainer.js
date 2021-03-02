@@ -20,6 +20,8 @@ class TripStopListContainer extends React.PureComponent {
     currentTime: PropTypes.object.isRequired,
     tripStart: PropTypes.string.isRequired,
     breakpoint: PropTypes.string,
+    keepTracking: PropTypes.bool,
+    setHumanScrolling: PropTypes.func,
   };
 
   static defaultProps = {
@@ -29,23 +31,6 @@ class TripStopListContainer extends React.PureComponent {
   static contextTypes = {
     config: PropTypes.object.isRequired,
   };
-
-  constructor(props) {
-    super(props);
-    this.state = { hasScrolled: false };
-  }
-
-  componentDidMount() {
-    if (this.props.breakpoint === 'large') {
-      this.scrollToSelectedTailIcon();
-    }
-  }
-
-  componentDidUpdate() {
-    if (this.props.breakpoint === 'large' && !this.state.hasScrolled) {
-      this.scrollToSelectedTailIcon();
-    }
-  }
 
   getNearestStopDistance = stops =>
     this.props.locationState.hasLocation === true
@@ -137,26 +122,21 @@ class TripStopListContainer extends React.PureComponent {
           first={index === 0}
           className={`bp-${breakpoint}`}
           shortName={trip.route && trip.route.shortName}
+          keepTracking={this.props.keepTracking}
+          setHumanScrolling={this.props.setHumanScrolling}
         />
       );
     });
   }
 
-  scrollToSelectedTailIcon = () => {
-    const el = document.getElementsByClassName('selected-vehicle-icon')[0];
-    if (el) {
-      el.scrollIntoView();
-      this.setState({ hasScrolled: true });
-    }
-  };
-
   render() {
     return (
-      <div
-        className={cx('route-stop-list momentum-scroll', this.props.className)}
-      >
-        {this.getStops()}
-      </div>
+      <>
+        <div className={cx('route-stop-list', this.props.className)}>
+          {this.getStops()}
+        </div>
+        <div className="bottom-whitespace" />
+      </>
     );
   }
 }

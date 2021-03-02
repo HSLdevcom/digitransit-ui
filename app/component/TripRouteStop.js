@@ -30,6 +30,8 @@ const TripRouteStop = props => {
     stopPassed,
     stoptime,
     shortName,
+    setHumanScrolling,
+    keepTracking,
   } = props;
   const vehicles =
     props.vehicles &&
@@ -46,6 +48,8 @@ const TripRouteStop = props => {
               props.selectedVehicle && props.selectedVehicle.id === vehicle.id
             }
             color={vehicle.color}
+            setHumanScrolling={setHumanScrolling}
+            keepTracking={keepTracking}
           />
         ),
     );
@@ -137,6 +141,8 @@ TripRouteStop.propTypes = {
     PropTypes.oneOf([false]),
   ]).isRequired,
   shortName: PropTypes.string,
+  setHumanScrolling: PropTypes.func,
+  keepTracking: PropTypes.bool,
 };
 
 TripRouteStop.displayName = 'TripRouteStop';

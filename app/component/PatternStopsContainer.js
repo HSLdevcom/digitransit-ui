@@ -5,6 +5,7 @@ import { matchShape, routerShape } from 'found';
 import cx from 'classnames';
 import RouteStopListContainer from './RouteStopListContainer';
 import withBreakpoint from '../util/withBreakpoint';
+import RoutePageControlPanel from './RoutePageControlPanel';
 
 class PatternStopsContainer extends React.PureComponent {
   static propTypes = {
@@ -14,6 +15,7 @@ class PatternStopsContainer extends React.PureComponent {
     match: matchShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
     router: routerShape.isRequired,
+    route: PropTypes.object.isRequired,
   };
 
   static contextTypes = {
@@ -48,11 +50,18 @@ class PatternStopsContainer extends React.PureComponent {
 
     return (
       <div
-        className={cx('route-page-content', {
+        className={cx('route-page-content', 'momentum-scroll', {
           'bp-large': this.props.breakpoint === 'large',
         })}
         role="list"
       >
+        {this.props.route && this.props.route.patterns && (
+          <RoutePageControlPanel
+            match={this.props.match}
+            route={this.props.route}
+            breakpoint={this.props.breakpoint}
+          />
+        )}
         <RouteStopListContainer
           key="list"
           pattern={this.props.pattern}
@@ -73,6 +82,74 @@ export default createFragmentContainer(withBreakpoint(PatternStopsContainer), {
       code
       ...RouteStopListContainer_pattern
       @arguments(currentTime: $currentTime, patternId: $patternId)
+    }
+  `,
+  route: graphql`
+    fragment PatternStopsContainer_route on Route
+    @argumentDefinitions(date: { type: "String" }) {
+      gtfsId
+      color
+      shortName
+      longName
+      mode
+      type
+      ...RouteAgencyInfo_route
+      ...RoutePatternSelect_route @arguments(date: $date)
+      alerts {
+        alertSeverityLevel
+        effectiveEndDate
+        effectiveStartDate
+        trip {
+          pattern {
+            code
+          }
+        }
+      }
+      agency {
+        phone
+      }
+      patterns {
+        headsign
+        code
+        stops {
+          id
+          gtfsId
+          code
+          alerts {
+            id
+            alertDescriptionText
+            alertHash
+            alertHeaderText
+            alertSeverityLevel
+            alertUrl
+            effectiveEndDate
+            effectiveStartDate
+            alertDescriptionTextTranslations {
+              language
+              text
+            }
+            alertHeaderTextTranslations {
+              language
+              text
+            }
+            alertUrlTranslations {
+              language
+              text
+            }
+          }
+        }
+        trips: tripsForDate(serviceDate: $date) {
+          stoptimes: stoptimesForDate(serviceDate: $date) {
+            realtimeState
+            scheduledArrival
+            scheduledDeparture
+            serviceDay
+          }
+        }
+        activeDates: trips {
+          day: activeDates
+        }
+      }
     }
   `,
 });

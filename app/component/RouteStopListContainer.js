@@ -110,9 +110,7 @@ class RouteStopListContainer extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className={cx('route-stop-list momentum-scroll', this.props.className)}
-      >
+      <div className={cx('route-stop-list', this.props.className)}>
         {this.getStops()}
       </div>
     );
