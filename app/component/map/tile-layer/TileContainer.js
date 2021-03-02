@@ -16,13 +16,13 @@ class TileContainer {
     relayEnvironment,
     hilightedStops,
     vehicles,
+    stopsToShow,
   ) {
     const markersMinZoom = Math.min(
       config.cityBike.cityBikeMinZoom,
       config.stopsMinZoom,
       config.terminalStopsMinZoom,
     );
-
     this.coords = coords;
     this.stopsNearYouMode = stopsNearYouMode;
     this.props = props;
@@ -34,6 +34,7 @@ class TileContainer {
     this.clickCount = 0;
     this.hilightedStops = hilightedStops;
     this.vehicles = vehicles;
+    this.stopsToShow = stopsToShow;
 
     if (this.coords.z < markersMinZoom || !this.el.getContext) {
       setTimeout(() => done(null, this.el), 0);
@@ -61,7 +62,10 @@ class TileContainer {
           if (!this.stopsNearYouMode) {
             return isEnabled;
           }
-          if (this.stopsNearYouMode === 'CITYBIKE') {
+          if (
+            this.stopsNearYouMode === 'CITYBIKE' ||
+            this.stopsNearYouMode === 'FAVORITE'
+          ) {
             return true;
           }
         }

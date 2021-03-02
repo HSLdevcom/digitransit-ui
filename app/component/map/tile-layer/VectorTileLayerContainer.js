@@ -30,6 +30,7 @@ export default function VectorTileLayerContainer(props, { config }) {
       layers={layers}
       stopsNearYouMode={props.stopsNearYouMode}
       hilightedStops={props.hilightedStops}
+      stopsToShow={props.stopsToShow}
       tileSize={config.map.tileSize || 256}
       zoomOffset={config.map.zoomOffset || 0}
       disableMapTracking={props.disableMapTracking}
@@ -41,6 +42,7 @@ export default function VectorTileLayerContainer(props, { config }) {
 
 VectorTileLayerContainer.propTypes = {
   hilightedStops: PropTypes.arrayOf(PropTypes.string),
+  stopsToShow: PropTypes.arrayOf(PropTypes.string),
   disableMapTracking: PropTypes.func,
   showStops: PropTypes.bool,
   stopsNearYouMode: PropTypes.string,
