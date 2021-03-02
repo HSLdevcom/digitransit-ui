@@ -67,6 +67,9 @@ class Stops {
     if (!this.stopsNearYouMode) {
       return true;
     }
+    if (this.stopsNearYouMode === 'FAVORITE') {
+      return this.tile.stopsToShow.includes(feature.properties.gtfsId);
+    }
     return feature.properties.type === this.stopsNearYouMode;
   }
 
