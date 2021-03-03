@@ -42,14 +42,6 @@ const PH_SHOWSEARCH = [PH_SEARCH, PH_SEARCH_GEOLOCATION]; // show modal
 const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION]; // render the actual page
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
-const NEAR_BY_STOPS_MODES = [
-  'FAVORITE',
-  'BUS',
-  'TRAM',
-  'SUBWAY',
-  'RAIL',
-  'FERRY',
-];
 
 class StopsNearYouPage extends React.Component {
   // eslint-disable-line
@@ -234,6 +226,23 @@ class StopsNearYouPage extends React.Component {
     return this.setState({ searchPosition: this.getPosition() });
   };
 
+  getNearByStopModes = () => {
+    const configNearByYouModes = this.context.config.nearYouModes.length
+      ? this.context.config.nearYouModes
+      : Object.keys(this.context.config.transportModes).filter(
+          mode =>
+            this.context.config.transportModes[mode].availableForSelection,
+        );
+
+    if (!configNearByYouModes.includes('favorite')) {
+      configNearByYouModes.unshift('favorite');
+    }
+    const nearByStopModes = configNearByYouModes.map(nearYouMode =>
+      nearYouMode.toUpperCase(),
+    );
+    return nearByStopModes;
+  };
+
   getPosition = () => {
     return this.state.phase === PH_USEDEFAULTPOS
       ? this.state.searchPosition
@@ -241,7 +250,8 @@ class StopsNearYouPage extends React.Component {
   };
 
   onSwipe = e => {
-    const newMode = NEAR_BY_STOPS_MODES[e];
+    const nearByStopModes = this.getNearByStopModes();
+    const newMode = nearByStopModes[e];
     const path = `/${PREFIX_NEARYOU}/${newMode}/POS/`;
     this.context.router.replace({
       ...this.props.match.location,
@@ -296,10 +306,10 @@ class StopsNearYouPage extends React.Component {
     const noFavorites = mode === 'FAVORITE' && this.noFavorites();
     const renderRefetchButton =
       (centerOfMapChanged || this.positionChanged()) && !noFavorites;
-
-    const index = NEAR_BY_STOPS_MODES.indexOf(mode);
+    const nearByStopModes = this.getNearByStopModes();
+    const index = nearByStopModes.indexOf(mode);
     const modePerTab =
-      this.props.breakpoint === 'large' ? [mode] : NEAR_BY_STOPS_MODES;
+      this.props.breakpoint === 'large' ? [mode] : nearByStopModes;
     const tabs = modePerTab.map(nearByStopMode => {
       if (nearByStopMode === 'FAVORITE') {
         const noFavs = this.noFavorites();

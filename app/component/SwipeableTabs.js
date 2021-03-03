@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactSwipe from 'react-swipe';
+import { intlShape } from 'react-intl';
 import Icon from './Icon';
 
 export default class SwipeableTabs extends React.Component {
@@ -14,6 +15,10 @@ export default class SwipeableTabs extends React.Component {
     tabIndex: PropTypes.number,
     tabs: PropTypes.array.isRequired,
     onSwipe: PropTypes.func,
+  };
+
+  static contextTypes = {
+    intl: intlShape.isRequired,
   };
 
   setDecreasingAttributes = tabBalls => {
@@ -119,7 +124,11 @@ export default class SwipeableTabs extends React.Component {
           className="mobile-swipe-header"
           role="row"
           onKeyDown={e => this.handleKeyPress(e, reactSwipeEl)}
-          aria-label="Swipe result tabs. Navigave with left and right arrow"
+          aria-label={this.context.intl.formatMessage({
+            id: 'swipe-result-tabs',
+            defaultMessage:
+              'Swipe result tabs. Navigave with left and right arrow',
+          })}
           tabIndex="0"
         >
           <div className="mobile-swipe-button-container">

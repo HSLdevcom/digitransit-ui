@@ -739,6 +739,8 @@ const translations = {
     'summary-page.row-label': 'Reisevorschlag {number}',
     'summary-page.title': 'Reisevorschläge',
     'swap-order-button-label': 'Start und Ziel tauschen',
+    'swipe-result-tabs':
+      'Swipe result tabs. Navigave with left and right arrow',
     'terminal-page.description': 'Terminal - {name}',
     'terminal-page.title': 'Terminal',
     'terminal-page.title-short': 'Terminal - {name}',
@@ -1317,6 +1319,8 @@ const translations = {
     'summary-page.row-label': 'Itinerary suggestion {number}',
     'summary-page.title': 'Itinerary suggestions',
     'swap-order-button-label': 'Reverse origin and destination',
+    'swipe-result-tabs':
+      'Swipe result tabs. Navigave with left and right arrow',
     'terminal-page.description': 'Terminal {name}',
     'terminal-page.title': 'Terminal {name}',
     'terminal-page.title-short': 'Terminal',
@@ -2217,6 +2221,8 @@ const translations = {
     'summary-page.row-label': 'Reittiehdotus {number}',
     'summary-page.title': 'Reittiehdotukset',
     'swap-order-button-label': 'Käännä reitin suunta vastakkaiseksi',
+    'swipe-result-tabs':
+      'Reittiehdotusvälilehdet. Selaa välilehtiä nuolinäppäimillä.',
     'terminal-page.description': 'Terminaali - {name}',
     'terminal-page.title': 'Terminaali - {name}',
     'terminal-page.title-short': 'Terminaali',
@@ -3312,6 +3318,8 @@ const translations = {
     'summary-page.row-label': 'Sugestii itinerar {number}',
     'summary-page.title': 'Sugestii itinerar',
     'swap-order-button-label': 'Schimbați originea cu destinația',
+    'swipe-result-tabs':
+      'Swipe result tabs. Navigave with left and right arrow',
     'terminal-page.description': 'Terminalul {name}',
     'terminal-page.title': 'Terminalul {name}',
     'terminal-page.title-short': 'Terminal',
@@ -3885,6 +3893,8 @@ const translations = {
     'summary-page.row-label': 'Ruttförslag {number}',
     'summary-page.title': 'Ruttförslag',
     'swap-order-button-label': 'Sväng ruttens riktning till den motsatta',
+    'swipe-result-tabs':
+      'Swipe result tabs. Navigave with left and right arrow',
     'terminal-page.description': 'Terminal {name}',
     'terminal-page.title': 'Terminal {name}',
     'terminal-page.title-short': 'Terminal',
