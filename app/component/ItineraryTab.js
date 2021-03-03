@@ -161,7 +161,7 @@ class ItineraryTab extends React.Component {
                       }
                       icon="icon-icon_arrow-collapse--left"
                       iconClassName="arrow-icon"
-                      popFallback
+                      fallback="pop"
                     />
                   </div>
                 </div>

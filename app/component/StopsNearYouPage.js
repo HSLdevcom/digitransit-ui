@@ -615,6 +615,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 )
               }
               scrollable
+              bckBtnFallback="back"
               content={this.renderContent()}
               map={
                 <>
