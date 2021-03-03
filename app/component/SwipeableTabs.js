@@ -10,6 +10,7 @@ export default class SwipeableTabs extends React.Component {
       tabIndex: props.tabIndex || 0,
     };
   }
+
   static propTypes = {
     tabIndex: PropTypes.number,
     tabs: PropTypes.array.isRequired,

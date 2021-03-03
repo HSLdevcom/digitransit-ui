@@ -44,10 +44,11 @@ export default function isDuplicate(item1, item2) {
     return false;
   }
   if (
-    (props1.layer === 'bikeRentalStation' ||
+    ((props1.layer === 'bikeRentalStation' ||
       props1.layer === 'favouriteBikeRentalStation') &&
-    (props2.layer === 'bikeRentalStation' ||
-      props2.layer === 'favouriteBikeRentalStation')
+      (props2.layer === 'bikeRentalStation' ||
+        props2.layer === 'favouriteBikeRentalStation')) ||
+    (props1.layer === 'bikestation' && props2.layer === 'bikestation')
   ) {
     return props1.labelId === props2.labelId;
   }

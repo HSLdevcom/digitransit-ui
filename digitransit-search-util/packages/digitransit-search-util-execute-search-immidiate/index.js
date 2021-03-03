@@ -174,36 +174,6 @@ function getFavouriteStops(stopsAndStations, input) {
   });
 }
 
-function getBikeStations(bikeStations, input) {
-  return bikeStations.then(bikeRentalStations => {
-    return take(
-      filterMatchingToInput(bikeRentalStations.bikeRentalStations, input, [
-        'name',
-      ]),
-      10,
-    ).map(stop => {
-      const newItem = {
-        type: 'BikeRentalStation',
-        address: stop.name,
-        lat: stop.lat,
-        lon: stop.lon,
-        properties: {
-          labelId: stop.stationId,
-          layer: 'bikeRentalStation',
-          name: stop.name,
-          lat: stop.lat,
-          lon: stop.lon,
-        },
-        geometry: {
-          type: 'Point',
-          coordinates: [stop.lat, stop.lon],
-        },
-      };
-      return newItem;
-    });
-  });
-}
-
 function getOldSearches(oldSearches, input, dropLayers) {
   let matchingOldSearches = filterMatchingToInput(oldSearches, input, [
     'properties.name',
@@ -272,7 +242,6 @@ export function getSearchResults(
     getFavouriteStops: stops,
     getLanguage,
     getStopAndStationsQuery,
-    getAllBikeRentalStations,
     getFavouriteBikeRentalStationsQuery,
     getFavouriteBikeRentalStations,
     getFavouriteRoutesQuery,
@@ -288,6 +257,7 @@ export function getSearchResults(
     geocodingSearchParams,
     geocodingSources,
     getFutureRoutes,
+    cityBikeNetworks,
   } = searchContext;
   // if no targets are provided, search them all.
   const allTargets = !targets || targets.length === 0;
@@ -336,7 +306,6 @@ export function getSearchResults(
       }
     }
     if (allSources || sources.includes('Datasource')) {
-      const regex = minimalRegexp || undefined;
       const geocodingLayers = ['station', 'venue', 'address', 'street'];
       const feedis = feedIDs.map(v => `gtfs${v}`);
       const geosources = geocodingSources.concat(feedis).join(',');
@@ -348,7 +317,7 @@ export function getSearchResults(
           focusPoint,
           geosources,
           URL_PELIAS,
-          regex,
+          minimalRegexp,
           geocodingLayers,
           refPoint,
         ),
@@ -399,7 +368,6 @@ export function getSearchResults(
       searchComponents.push(getFavouriteStops(stopsAndStations, input));
     }
     if (allSources || sources.includes('Datasource')) {
-      const regex = minimalRegexp || undefined;
       const geocodingLayers = ['stop', 'station'];
       const searchParams = {
         size: geocodingSize,
@@ -413,7 +381,7 @@ export function getSearchResults(
           focusPoint,
           feedis,
           URL_PELIAS,
-          regex,
+          minimalRegexp,
           geocodingLayers,
         ).then(results => {
           if (filterResults) {
@@ -436,6 +404,7 @@ export function getSearchResults(
         'futureRoute',
         'ownLocations',
         'favouritePlace',
+        'bikeRentalStation',
         'back',
       ];
       dropLayers.push(...routeLayers);
@@ -443,6 +412,7 @@ export function getSearchResults(
       if (transportMode) {
         if (transportMode !== 'route-CITYBIKE') {
           dropLayers.push('bikeRentalStation');
+          dropLayers.push('bikestation');
         }
         searchComponents.push(
           getOldSearches(stopHistory, input, dropLayers).then(result =>
@@ -489,6 +459,7 @@ export function getSearchResults(
       if (transportMode) {
         if (transportMode !== 'route-CITYBIKE') {
           dropLayers.push('bikeRentalStation');
+          dropLayers.push('bikestation');
         }
         dropLayers.push(...routeLayers.filter(i => !(i === transportMode)));
       }
@@ -500,7 +471,6 @@ export function getSearchResults(
       );
     }
   }
-
   if (allTargets || targets.includes('BikeRentalStations')) {
     if (sources.includes('Favourite')) {
       const favouriteRoutes = getFavouriteBikeRentalStations(context);
@@ -509,15 +479,27 @@ export function getSearchResults(
       );
     }
     if (allSources || sources.includes('Datasource')) {
-      const regex = minimalRegexp || undefined;
-      if (
-        (!transportMode || transportMode === 'route-CITYBIKE') &&
-        regex &&
-        regex.test(input)
-      ) {
-        const bikeStations = getAllBikeRentalStations();
-        searchComponents.push(getBikeStations(bikeStations, input));
-      }
+      const geocodingLayers = ['bikestation'];
+      const searchParams = {
+        size: geocodingSize,
+      };
+      searchComponents.push(
+        getGeocodingResults(
+          input,
+          searchParams,
+          language,
+          focusPoint,
+          cityBikeNetworks.join(','),
+          URL_PELIAS,
+          minimalRegexp,
+          geocodingLayers,
+        ).then(results => {
+          if (filterResults) {
+            return filterResults(results, mode, 'BikeRentalStations');
+          }
+          return results;
+        }),
+      );
     }
   }
 
