@@ -339,6 +339,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   z-index: 1000;
 }
 .mobile-modal-content {
+  font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
   background: white;
   width: 89%;
   position: absolute;
@@ -359,6 +360,8 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       padding: 6px 0 0 8px;
     }
     .departure-now-button {
+      background-color: white;
+      font-family: inherit;
       padding: 5px 15px;
       border: 1px solid #888888;
       border-radius: 50px;
@@ -417,6 +420,9 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       display: flex;
       align-items: center;
       height: 40px;
+      line-height: 1.5;
+      font-size: 100%;
+
       &:focus-within {
         background: rgba(0, 122, 201, 0.06);
         border: 2px solid var(--color);
@@ -424,6 +430,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 
       .combobox-icon {
         height: 18px;
+        font-size: 18px;
         padding: 0 0 0 10px;
         border: none;
         position: relative;
@@ -433,6 +440,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
         }
       }
       .time-input-mobile {
+        font-family: inherit;
         box-shadow: none;
         font-size: 18px;
         letter-spacing: -0.5px;
@@ -443,6 +451,8 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
         background: none;
         width: 50px;
         margin-left: 10px;
+        color: #333333;
+        height: 1.5265rem;
       }
       .mobile-input-display {
         position: relative;
@@ -455,6 +465,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
         }
         background: inherit;
         box-shadow: none;
+        font-family: inherit;
         font-weight: 500;
         font-stretch: normal;
         font-style: normal;
@@ -482,13 +493,17 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       .container  {
         position: absolute;
         width: calc((100% - 50px) * 0.6);
+        height: 25px;
+        font-size: 15px;
 
         .suggestion {
+          list-style: none;
           font-size: 16px;
           font-style: normal;
           font-weight: normal;
           line-height: 49px;
           height: 50px;
+          margin: 0;
           padding: 0 0 0 16px;
           // letter-spacing: -0.6px;
           color: rgba(0,0, 0, 0.87);
@@ -525,6 +540,9 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
           background: none;
           font-size: 15px;
           font-weight: 500;
+          height: 25px;
+          display: inline-block;
+          font-family: inherit;
           line-height: 1.33;
           color: #333333;
           padding-left: 46px;
@@ -543,7 +561,10 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     font-size: 16px;
     font-weight: 500;
     button {
+      background-color: white;
+      font-family: inherit;
       font-weight: 500;
+      font-size: 16px;
       letter-spacing: -0.02em;
       width: 100%;
       border-radius: 50px;
