@@ -73,42 +73,19 @@ export default function setUpOIDC(app, port, indexPath) {
       ssoValidTo &&
       ssoValidTo > moment().unix()
     ) {
+      const params = Object.keys(req.query)
+        .map(k => `${k}=${req.query[k]}`)
+        .join('&');
       if (debugLogging) {
         console.log(
           'redirecting to login with sso token ',
           JSON.stringify(ssoToken),
         );
       }
-      res.redirect('/login');
+      res.redirect(`/login?${params}&url=${req.path}`);
     } else {
       next();
     }
-  };
-
-  const setReturnTo = function (req, res, next) {
-    const paths = [
-      '/fi/',
-      '/en/',
-      '/sv/',
-      '/reitti/',
-      '/pysakit/',
-      '/linjat/',
-      '/terminaalit/',
-      '/pyoraasemat/',
-      '/lahellasi/',
-    ];
-    if (
-      (req.path === `/${indexPath}` ||
-        paths.some(path => req.path.includes(path))) &&
-      !req.isAuthenticated() &&
-      !req.path.includes('time-a')
-    ) {
-      const params = Object.keys(req.query)
-        .map(k => `${k}=${req.query[k]}`)
-        .join('&');
-      req.session.returnTo = `${req.path}?${params}`;
-    }
-    next();
   };
 
   const refreshTokens = function (req, res, next) {
@@ -153,22 +130,22 @@ export default function setUpOIDC(app, port, indexPath) {
   passport.use('passport-openid-connect', oic);
   passport.serializeUser(LoginStrategy.serializeUser);
   passport.deserializeUser(LoginStrategy.deserializeUser);
-  app.use(setReturnTo);
+
   app.use(redirectToLogin);
   app.use(refreshTokens);
   // Initiates an authentication request
   // users will be redirected to hsl.id and once authenticated
   // they will be returned to the callback handler below
   app.get('/login', function (req, res) {
-    const favAction = req.query.favouriteModalAction;
-    const { url } = req.query;
-    if (favAction) {
-      req.session.returnTo = `${
-        req.session.returnTo || `/${indexPath}?`
-      }&favouriteModalAction=${favAction}`;
+    const { url, favouriteModalAction, ...rest } = req.query;
+    if (favouriteModalAction) {
+      req.session.returnTo = `/${indexPath}?favouriteModalAction=${favouriteModalAction}`;
     }
     if (url) {
-      req.session.returnTo = `${url}`;
+      const restParams = Object.keys(rest)
+        .map(k => `${k}=${rest[k]}`)
+        .join('&');
+      req.session.returnTo = `${url}?${restParams}`;
     }
     passport.authenticate('passport-openid-connect', {
       scope: 'profile',

@@ -4,7 +4,7 @@ import {
   getStopAndStationsQuery,
   getFavouriteRoutesQuery,
   getFavouriteBikeRentalStationsQuery,
-  getAllBikeRentalStations,
+  // getAllBikeRentalStations,  // Bike stations are fetched from Geocoding
 } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import {
   getPositions,
@@ -37,6 +37,9 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.URL_PELIAS_PLACE = config.URL.PELIAS_PLACE;
   // FeedId's like  [HSL, HSLLautta]
   searchContext.feedIDs = config.feedIds;
+  searchContext.cityBikeNetworks = config.cityBike.showCityBikes
+    ? Object.keys(config.cityBike.networks).map(t => `citybikes${t}`)
+    : [];
   // searchSources e.g. [oa,osm,nlsfi.]
   searchContext.geocodingSources = config.searchSources;
   searchContext.geocodingSearchParams = config.searchParams;
@@ -47,7 +50,6 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.getFavouriteRoutes = getFavouriteRoutes;
   searchContext.getPositions = getPositions;
   searchContext.getRoutesQuery = getRoutesQuery;
-  searchContext.getAllBikeRentalStations = getAllBikeRentalStations;
   searchContext.getStopAndStationsQuery = getStopAndStationsQuery;
   searchContext.getFavouriteRoutesQuery = getFavouriteRoutesQuery;
   searchContext.getFavouriteBikeRentalStations = getFavouriteBikeRentalStations;

@@ -1425,6 +1425,55 @@
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-with-breakpoint/-/digitransit-component-with-breakpoint-0.0.4.tgz#af82959c0863bc0aef8252e8fd9bfc7499862bdc"
   integrity sha512-N+ysDfO/124CPI57r6vwzYC6m7US+QseDOqsg8MrLhKDdkW8kXBqOMoYsIfBv8g3ENHwzq9RxoyJUnj5XJPb4Q==
 
+"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@0.2.8":
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-execute-search-immidiate/-/digitransit-search-util-execute-search-immidiate-0.2.8.tgz#1c710fc342ab4896aa464d4fdd2a856a50b5990d"
+  integrity sha512-G6cbMgttIKcSMdGPAAssF8RZIVt1ySQmTR9g6pRAnfqbbM28nss1MrFw9+e+uLQ5BqL5BpXcaFZHLxGyD5V8Dw==
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input" "0.0.2"
+    "@digitransit-search-util/digitransit-search-util-get-geocoding-results" "0.0.4"
+    "@digitransit-search-util/digitransit-search-util-get-json" "0.0.3"
+    "@digitransit-search-util/digitransit-search-util-helpers" "0.0.12"
+    "@digitransit-search-util/digitransit-search-util-uniq-by-label" "0.0.7"
+    lodash "4.17.14"
+
+"@digitransit-search-util/digitransit-search-util-get-label@0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-get-label/-/digitransit-search-util-get-label-0.0.6.tgz#19bdb2fc7d5add6148e5c637fc0f2526c5c42f5b"
+  integrity sha512-BWW0/6vNutk9e0MLlpzr1zTeZiSyWYQnxmJhg06kmk4gO0TYGWAT7cvPFXblPYoHSBV8CIiOsm8JWMmAd8nPhA==
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-uniq-by-label" "0.0.7"
+
+"@digitransit-search-util/digitransit-search-util-helpers@0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-helpers/-/digitransit-search-util-helpers-0.0.12.tgz#0add09ab4ece2bd174ca234c281f6538481682b3"
+  integrity sha512-I/xn2IMSX1rGYE3qvYBdVtvGQO4JEhR6CVKkcnAIYB2M3Ga16G16SD71sFqOoSHflG4gb+7y8GhPc4dqLsaQyw==
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-is-duplicate" "0.0.6"
+    lodash "4.17.14"
+
+"@digitransit-search-util/digitransit-search-util-is-duplicate@0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-is-duplicate/-/digitransit-search-util-is-duplicate-0.0.6.tgz#2960db996d4f304e71129815a2f4e258b19d4f1c"
+  integrity sha512-vzuc+FSTYZcWqWjcROiAkTAZkU1QqiWnZsIgK8ax2ehfMhOj0Q7JnNHij/PHkFxfMbkQ5Rpg5vLqVHJMwDECsQ==
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-tru-eq" "0.0.2"
+
+"@digitransit-search-util/digitransit-search-util-suggestion-to-location@0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-suggestion-to-location/-/digitransit-search-util-suggestion-to-location-0.0.8.tgz#2237879b5941e8d4e039dc6516c32cf4cab32f56"
+  integrity sha512-+nZ6ozLa3oQ32MDuSbYK+9jBxvAY/KUrTtX/+7vxXrvX6Q2JW/4ozuRgjjxrYXz9+c48WhlNn9K74tdvHYIJgw==
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-get-label" "0.0.6"
+
+"@digitransit-search-util/digitransit-search-util-uniq-by-label@0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-uniq-by-label/-/digitransit-search-util-uniq-by-label-0.0.7.tgz#6d14bc06ccb5c871c0566556a676ec49ca1276c6"
+  integrity sha512-xAe0ZB1tiPwGpcIbqUpk0MV06mm5sgmUeUmdplMYGY6a/JM53uhXj9ISeeUR0aP9wQWMyzaHy+Y7XRbGl89v4g==
+  dependencies:
+    lodash "^4.17.14"
+    lodash-es "^4.17.14"
+
 "@digitransit-util/digitransit-util-day-range-allowed-diff@1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@digitransit-util/digitransit-util-day-range-allowed-diff/-/digitransit-util-day-range-allowed-diff-1.0.3.tgz#4a11624486fda72126d8776192fc0dfea600b97d"
