@@ -143,7 +143,7 @@ class StopsNearYouPage extends React.Component {
     const { mode } = this.props.match.params;
     let placeTypes = 'STOP';
     let modes = nearByMode ? [nearByMode] : [mode];
-    if (mode === 'CITYBIKE') {
+    if (nearByMode === 'CITYBIKE') {
       placeTypes = 'BICYCLE_RENT';
       modes = ['BICYCLE'];
     }
@@ -251,13 +251,17 @@ class StopsNearYouPage extends React.Component {
 
   onSwipe = e => {
     const nearByStopModes = this.getNearByStopModes();
+    const { mode } = this.props.match.params;
     const newMode = nearByStopModes[e];
-    const path = `/${PREFIX_NEARYOU}/${newMode}/POS/`;
+    const paramArray = this.props.match.location.pathname.split(mode);
+    const pathParams = paramArray.length > 1 ? paramArray[1] : '/POS';
+    const path = `/${PREFIX_NEARYOU}/${newMode}${pathParams}`;
     this.context.router.replace({
       ...this.props.match.location,
       pathname: path,
     });
   };
+
   refetchButton = nearByMode => {
     const { mode } = this.props.match.params;
     const modeClass = nearByMode || mode;
@@ -666,6 +670,7 @@ class StopsNearYouPage extends React.Component {
                 )
               }
               scrollable
+              bckBtnFallback="back"
               content={this.renderContent()}
               map={
                 <>

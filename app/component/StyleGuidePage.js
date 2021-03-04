@@ -5,8 +5,7 @@ import { createMockEnvironment } from 'relay-test-utils';
 import { QueryRenderer } from 'react-relay';
 
 import Icon from './Icon';
-import IconWithTail from './IconWithTail';
-import SelectedIconWithTail from './SelectedIconWithTail';
+import VehicleIcon from './VehicleIcon';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import ComponentDocumentation from './ComponentDocumentation';
@@ -81,8 +80,7 @@ import { Component as ItineraryTab } from './ItineraryTab';
 
 const components = {
   Icon,
-  IconWithTail,
-  SelectedIconWithTail,
+  VehicleIcon,
   IconWithBigCaution,
   IconWithIcon,
   ComponentDocumentation,
@@ -388,9 +386,6 @@ function getIcons() {
         ).map(symbol => getIcon(symbol.id))}
       </div>
       <div>
-        <Icon className="large-icon" img="icon-icon_subway-live" />
-        <span className="code">.large-icon</span>
-        <br />
         <Icon className="large-icon" img="icon-icon_user" />
         <span className="code">.large-icon</span>
         <br />

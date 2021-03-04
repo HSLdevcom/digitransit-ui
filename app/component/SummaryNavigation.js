@@ -86,7 +86,9 @@ class SummaryNavigation extends React.Component {
             }
             icon="icon-icon_arrow-collapse--left"
             iconClassName="arrow-icon"
-            popFallback={this.props.params.hash === 'bikeAndVehicle'}
+            fallback={
+              this.props.params.hash === 'bikeAndVehicle' ? 'pop' : undefined
+            }
           />
         )}
         <OriginDestinationBar

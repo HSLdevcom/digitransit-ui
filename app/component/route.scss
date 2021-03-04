@@ -124,20 +124,13 @@ $margin-left-right: 1.25em;
 }
 
 .map {
-  .icon.tail-icon {
+  .icon.large-vehicle-icon {
     margin-top: 0.57em;
     margin-left: 0.57em;
     transform: scale(3.5);
   }
-  .allVehicles {
-    width: 24px;
-    height: 24px;
-    color: $gray-blue;
-    position: absolute;
-    pointer-events: none;
-  }
-  .large-icon {
-    transform: scale(2.86);
+  .icon.small-vehicle-icon {
+    transform: scale(1);
   }
 }
 .route-details-upper-row {
@@ -174,13 +167,8 @@ $margin-left-right: 1.25em;
       top: -0.3em;
       font-size: 5em;
     }
-    .tail-icon {
+    .large-vehicle-icon {
       font-size: 3.5em;
-      bottom: 0;
-      left: -10px;
-    }
-    .selected-tail-icon {
-      font-size: 5em;
       bottom: 0;
       left: -10px;
     }
@@ -376,10 +364,6 @@ $margin-left-right: 1.25em;
   }
 }
 
-.vehicle-icon {
-  width: 100px;
-  height: 100px;
-}
 .route-page-header.favourite-icon {
   @media print {
     display: none;
