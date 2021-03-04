@@ -38,8 +38,7 @@ import RouteAlertsRow from './RouteAlertsRow';
 import ModeFilter from './ModeFilter';
 import Availability from './Availability';
 import ParkAndRideAvailability from './map/popups/ParkAndRideAvailability';
-import AppBarSmall from './AppBarSmall';
-import AppBarLarge from './AppBarLarge';
+import AppBar from './AppBar';
 import StopPageHeader from './StopPageHeader';
 import StopCardHeader from './StopCardHeader';
 import SplitBars from './SplitBars';
@@ -114,8 +113,7 @@ const components = {
   RouteAlertsRow,
   ModeFilter,
   RouteStop,
-  AppBarSmall,
-  AppBarLarge,
+  AppBar,
   CanceledLegsBar,
   StopPageHeader,
   StopCardHeader,

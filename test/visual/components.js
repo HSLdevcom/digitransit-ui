@@ -128,11 +128,6 @@ testVariation('RouteScheduleHeader');
 testVariation('RouteScheduleStopSelect');
 testVariation('RouteScheduleTripRow');
 
-// testVariation('AppBarSmall', 'with-back-arrow');
-// testVariation('AppBarSmall', 'without-back-arrow', 2);
-// testVariation('AppBarSmall', 'with-logo', 3);
-// testVariation('AppBarLarge');
-
 testVariation('ExternalLink');
 testVariation('ExternalLink', 'with-icon-and-text', 2);
 testVariation('LangSelect');
