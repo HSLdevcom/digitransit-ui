@@ -16,6 +16,7 @@ import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import { PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { getZoneLabel } from '../util/legUtils';
+import { estimateItineraryDistance } from '../util/geo-utils';
 
 const exampleStop = {
   stopTimesForPattern: [
@@ -41,6 +42,10 @@ const exampleStop = {
   desc: 'Ratamestarinkatu',
   code: '0663',
 };
+
+const VEHICLE_ARRIVING = 'arriving';
+const VEHICLE_ARRIVED = 'arrived';
+const VEHICLE_DEPARTED = 'departed';
 
 const RouteStop = (
   {
@@ -124,45 +129,55 @@ const RouteStop = (
     }
     return text;
   };
-  let vehicleTripLink;
 
-  if (vehicle) {
-    let iconStyle;
-    if (firstDeparture.realtime) {
-      const { realtimeDeparture, realtimeArrival, serviceDay } = firstDeparture;
-      const arrivalTimeToStop = (serviceDay + realtimeArrival) * 1000;
-      const departureTimeFromStop = (serviceDay + realtimeDeparture) * 1000;
-      const vehicleTime = vehicle.timestamp * 1000;
-      if (vehicleTime < arrivalTimeToStop) {
-        iconStyle = {
-          top: -50,
-        };
-      } else if (
-        vehicleTime >= arrivalTimeToStop &&
-        vehicleTime < departureTimeFromStop
-      ) {
-        iconStyle = {
-          top: -16,
-        };
-      } else {
-        iconStyle = {
-          top: 10,
-        };
+  const getVehicleTripLink = () => {
+    let vehicleTripLink;
+    let vehicleState;
+    if (vehicle) {
+      if (firstDeparture.realtime) {
+        const {
+          realtimeDeparture,
+          realtimeArrival,
+          serviceDay,
+        } = firstDeparture;
+        const arrivalTimeToStop = (serviceDay + realtimeArrival) * 1000;
+        const departureTimeFromStop = (serviceDay + realtimeDeparture) * 1000;
+        const vehicleTime = vehicle.timestamp * 1000;
+        const distanceToStop = estimateItineraryDistance(stop, {
+          lat: vehicle.lat,
+          lon: vehicle.long,
+        });
+        if (distanceToStop > 30 && vehicleTime < arrivalTimeToStop) {
+          vehicleState = VEHICLE_ARRIVING;
+        } else if (
+          (vehicleTime >= arrivalTimeToStop &&
+            vehicleTime < departureTimeFromStop) ||
+          distanceToStop <= 30
+        ) {
+          vehicleState = VEHICLE_ARRIVED;
+        } else if (vehicleTime >= departureTimeFromStop) {
+          vehicleState = VEHICLE_DEPARTED;
+        }
       }
+      vehicleTripLink = vehicle.tripId ? (
+        <TripLink key={vehicle.id} vehicle={vehicle} />
+      ) : (
+        <FuzzyTripLink key={vehicle.id} vehicle={vehicle} />
+      );
     }
-    vehicleTripLink = vehicle.tripId ? (
-      <TripLink key={vehicle.id} vehicle={vehicle} iconStyle={iconStyle} />
-    ) : (
-      <FuzzyTripLink key={vehicle.id} vehicle={vehicle} iconStyle={iconStyle} />
+    return (
+      <div className={cx('route-stop-now', vehicleState)}>
+        {vehicleTripLink}
+      </div>
     );
-  }
+  };
 
   return (
     <div
       className={cx('route-stop location-details_container ', className)}
       role="listitem"
     >
-      <div className="route-stop-now">{vehicleTripLink}</div>
+      {getVehicleTripLink()}
       <div className={cx('route-stop-now_circleline', mode)} aria-hidden="true">
         <svg
           xmlns="http://www.w3.org/2000/svg"

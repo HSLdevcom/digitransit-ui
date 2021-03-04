@@ -174,12 +174,32 @@ $margin-left-right: 0.625em;
     @include min-width(tablet) {
       left: -5px;
     }
+    &.arriving > a > span {
+      svg {
+        top: -45px;
+        @include min-width(tablet) {
+          top: -50px;
+        }
+      }
+    }
+    &.arrived > a > span {
+      svg {
+        top: -16px;
+      }
+    }
+    &.departed > a > span {
+      svg {
+        top: 15px;
+        @include min-width(tablet) {
+          top: 10px;
+        }
+      }
+    }
   }
   .route-now-content {
     padding-top: 10px;
     & svg {
       position: absolute;
-      top: -0.3em;
       font-size: 5em;
     }
     .tail-icon {
