@@ -187,6 +187,18 @@ class IndexPage extends React.Component {
     }${this.context.config.trafficNowLink[lang]}`;
   };
 
+  filterObject = (obj, filter, filterValue) =>
+    Object.keys(obj).reduce(
+      (acc, val) =>
+        obj[val][filter] === filterValue
+          ? {
+              ...acc,
+              [val]: obj[val],
+            }
+          : acc,
+      {},
+    );
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { intl, config } = this.context;
@@ -262,11 +274,21 @@ class IndexPage extends React.Component {
       targets: stopAndRouteSearchTargets,
     };
 
-    const NearStops = CtrlPanel =>
-      config.showNearYouButtons ? (
-        <div className="near-you-buttons-container">
+    const NearStops = CtrlPanel => {
+      const btnWithoutLabel = config.nearYouModes.length > 0;
+      const modeTitles = this.filterObject(
+        config.transportModes,
+        'availableForSelection',
+        true,
+      );
+      const modes = btnWithoutLabel
+        ? config.nearYouModes
+        : Object.keys(modeTitles);
+
+      return config.showNearYouButtons ? (
+        <>
           <CtrlPanel.NearStopsAndRoutes
-            modes={config.nearYouModes}
+            modeArray={modes}
             urlPrefix={`/${PREFIX_NEARYOU}`}
             language={lang}
             showTitle
@@ -274,8 +296,15 @@ class IndexPage extends React.Component {
             origin={origin}
             omitLanguageUrl
             onClick={this.clickStopNearIcon}
+            buttonStyle={
+              btnWithoutLabel ? undefined : config.transportModes?.nearYouButton
+            }
+            title={
+              btnWithoutLabel ? undefined : config.transportModes?.nearYouTitle
+            }
+            modes={btnWithoutLabel ? undefined : modeTitles}
           />
-        </div>
+        </>
       ) : (
         <div className="stops-near-you-text">
           <h2>
@@ -287,6 +316,7 @@ class IndexPage extends React.Component {
           </h2>
         </div>
       );
+    };
 
     return (
       <LazilyLoad modules={modules}>
