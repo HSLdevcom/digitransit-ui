@@ -1,3 +1,17 @@
+// calculate using the YIQ color space:
+// https://en.wikipedia.org/wiki/YIQ
+@mixin navbar-icon-color($background) {
+  $red: red($background);
+  $green: green($background);
+  $blue: blue($background);
+  $yiq: (($red*299) + ($green*587) +($blue*114)) / 1000;
+  @if ($yiq >= 128) {
+    color: #333333;
+  } @else {
+    color: #FFFFFF;
+  }
+}
+
 /* foundation override */
 $menu-slide: 'transform 200ms ease';
 $offcanvas-background: #333333;
@@ -7,7 +21,7 @@ $offcanvas-background-active: scale-color($gray, $lightness: -30%);
 /* top bar */
 $topbar-height: 40px;
 
-$top-navigation-icon-color: $primary-font-color;
+$top-navigation-icon-color: navbar-icon-color($primary-color);
 $top-navigation-title-color: $title-color;
 
 /* offcanvas */
