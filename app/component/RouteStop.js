@@ -134,30 +134,25 @@ const RouteStop = (
     let vehicleTripLink;
     let vehicleState;
     if (vehicle) {
-      if (firstDeparture.realtime) {
-        const {
-          realtimeDeparture,
-          realtimeArrival,
-          serviceDay,
-        } = firstDeparture;
-        const arrivalTimeToStop = (serviceDay + realtimeArrival) * 1000;
-        const departureTimeFromStop = (serviceDay + realtimeDeparture) * 1000;
-        const vehicleTime = vehicle.timestamp * 1000;
-        const distanceToStop = estimateItineraryDistance(stop, {
-          lat: vehicle.lat,
-          lon: vehicle.long,
-        });
-        if (distanceToStop > 30 && vehicleTime < arrivalTimeToStop) {
-          vehicleState = VEHICLE_ARRIVING;
-        } else if (
-          (vehicleTime >= arrivalTimeToStop &&
-            vehicleTime < departureTimeFromStop) ||
-          distanceToStop <= 30
-        ) {
-          vehicleState = VEHICLE_ARRIVED;
-        } else if (vehicleTime >= departureTimeFromStop) {
-          vehicleState = VEHICLE_DEPARTED;
-        }
+      const maxDistance = vehicle.mode === 'rail' ? 100 : 30;
+      const { realtimeDeparture, realtimeArrival, serviceDay } = firstDeparture;
+      const arrivalTimeToStop = (serviceDay + realtimeArrival) * 1000;
+      const departureTimeFromStop = (serviceDay + realtimeDeparture) * 1000;
+      const vehicleTime = vehicle.timestamp * 1000;
+      const distanceToStop = estimateItineraryDistance(stop, {
+        lat: vehicle.lat,
+        lon: vehicle.long,
+      });
+      if (distanceToStop > maxDistance && vehicleTime < arrivalTimeToStop) {
+        vehicleState = VEHICLE_ARRIVING;
+      } else if (
+        (vehicleTime >= arrivalTimeToStop &&
+          vehicleTime < departureTimeFromStop) ||
+        distanceToStop <= maxDistance
+      ) {
+        vehicleState = VEHICLE_ARRIVED;
+      } else if (vehicleTime >= departureTimeFromStop) {
+        vehicleState = VEHICLE_DEPARTED;
       }
       vehicleTripLink = vehicle.tripId ? (
         <TripLink key={vehicle.id} vehicle={vehicle} />
