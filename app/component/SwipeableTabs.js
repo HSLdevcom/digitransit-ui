@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactSwipe from 'react-swipe';
+import { intlShape } from 'react-intl';
 import Icon from './Icon';
 
 export default class SwipeableTabs extends React.Component {
@@ -16,6 +17,10 @@ export default class SwipeableTabs extends React.Component {
     tabs: PropTypes.array.isRequired,
     onSwipe: PropTypes.func,
     desktop: PropTypes.bool,
+  };
+
+  static contextTypes = {
+    intl: intlShape.isRequired,
   };
 
   setDecreasingAttributes = tabBalls => {
@@ -97,12 +102,24 @@ export default class SwipeableTabs extends React.Component {
     return ballDivs;
   };
 
+  handleKeyPress = (e, reactSwipeEl) => {
+    switch (e.keyCode) {
+      case 37:
+        reactSwipeEl.prev();
+        break;
+      case 39:
+        reactSwipeEl.next();
+        break;
+      default:
+        break;
+    }
+  };
+
   render() {
     const { tabs } = this.props;
     const tabBalls = this.tabBalls(tabs.length);
     const disabled = tabBalls.length < 2;
     let reactSwipeEl;
-    /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
     return (
       <div>
         <div className="swipe-header-container">
