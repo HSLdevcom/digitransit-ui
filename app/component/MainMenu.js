@@ -48,23 +48,25 @@ function MainMenu(props, { config, intl }) {
         <LangSelect />
       </section>
       <section className="menu-section main-links">
-        <div className="offcanvas-section">
-          {props.homeUrl !== undefined && (
-            <Link
-              id="frontpage"
-              to={props.homeUrl}
-              onClick={() => {
-                addAnalyticsEvent({
-                  category: 'Navigation',
-                  action: 'Home',
-                  name: null,
-                });
-              }}
-            >
-              <FormattedMessage id="frontpage" defaultMessage="Frontpage" />
-            </Link>
-          )}
-        </div>
+        {config.mainMenu.showFrontPageLink && (
+          <div className="offcanvas-section">
+            {props.homeUrl !== undefined && (
+              <Link
+                id="frontpage"
+                to={props.homeUrl}
+                onClick={() => {
+                  addAnalyticsEvent({
+                    category: 'Navigation',
+                    action: 'Home',
+                    name: null,
+                  });
+                }}
+              >
+                <FormattedMessage id="frontpage" defaultMessage="Frontpage" />
+              </Link>
+            )}
+          </div>
+        )}
         {config.mainMenu.showDisruptions && props.showDisruptionInfo && (
           <div className="offcanvas-section">
             <DisruptionInfoButtonContainer />

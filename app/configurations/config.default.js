@@ -168,6 +168,7 @@ export default {
     showDisruptions: true,
     showLoginCreateAccount: true,
     showOffCanvasList: true,
+    showFrontPageLink: true,
   },
 
   itinerary: {
