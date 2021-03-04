@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useRef, useEffect } from 'react';
 import Link from 'found/Link';
-import IconWithTail from './IconWithTail';
-import SelectedIconWithTail from './SelectedIconWithTail';
+import VehicleIcon from './VehicleIcon';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
 function PatternLink({
@@ -11,6 +10,7 @@ function PatternLink({
   route,
   vehicleNumber,
   selected = false,
+  color,
   setHumanScrolling,
   keepTracking,
 }) {
@@ -45,32 +45,28 @@ function PatternLink({
     }
   });
 
-  const imgName = `icon-icon_${mode}-live`;
-  const icon = (selected && (
-    <div ref={trackedVehicleRef} id="tracked-vehicle-marker">
-      <SelectedIconWithTail
-        img={imgName}
-        mode={mode}
-        vehicleNumber={vehicleNumber}
-      />
-    </div>
-  )) || (
-    <IconWithTail
-      desaturate
-      mode={mode}
-      rotate={180}
-      vehicleNumber={vehicleNumber}
-    />
-  );
-
   // DT-3331: added query string sort=no to Link's to
-  return (
+  const icon = (
     <Link
       to={`/${PREFIX_ROUTES}/${route}/${PREFIX_STOPS}/${pattern}?sort=no`}
       className="route-now-content"
     >
-      {icon}
+      <VehicleIcon
+        mode={mode}
+        rotate={180}
+        vehicleNumber={vehicleNumber}
+        useLargeIcon
+        color={color}
+      />
     </Link>
+  );
+
+  return selected ? (
+    <div ref={trackedVehicleRef} id="tracked-vehicle-marker">
+      {icon}
+    </div>
+  ) : (
+    icon
   );
 }
 
@@ -80,6 +76,7 @@ PatternLink.propTypes = {
   route: PropTypes.string.isRequired,
   selected: PropTypes.bool,
   vehicleNumber: PropTypes.string,
+  color: PropTypes.string,
   setHumanScrolling: PropTypes.func,
   keepTracking: PropTypes.bool,
 };
