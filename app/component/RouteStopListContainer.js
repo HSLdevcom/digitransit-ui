@@ -85,6 +85,9 @@ class RouteStopListContainer extends React.PureComponent {
           first={i === 0}
           className={rowClassName}
           displayNextDeparture={this.context.config.displayNextDeparture}
+          shortName={
+            this.props.pattern.route && this.props.pattern.route.shortName
+          }
         />
       );
     });
@@ -107,9 +110,7 @@ class RouteStopListContainer extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className={cx('route-stop-list momentum-scroll', this.props.className)}
-      >
+      <div className={cx('route-stop-list', this.props.className)}>
         {this.getStops()}
       </div>
     );
@@ -137,6 +138,7 @@ const containerComponent = createRefetchContainer(
         route {
           mode
           color
+          shortName
         }
         stops {
           alerts {

@@ -65,9 +65,44 @@ export function displayImperialDistance(meters) {
   return `${Math.round(feet / 528) / 10} mi`; // tenth of a mile
 }
 
-export function displayDistance(meters, config) {
+/**
+ * Returns distance with locale format (fraction digits is 1)
+ * e.g. fi/sv - 20,1 km, en - 20.1 km
+ * @param {*} meters
+ * @param {*} formatNumber
+ */
+function displayDistanceWithLocale(meters, formatNumber) {
+  const opts = {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  };
+  if (meters < 100) {
+    return `${formatNumber((Math.round(meters / 10) * 10).toFixed(1))} m`; // Tens of meters
+  }
+  if (meters < 975) {
+    return `${formatNumber((Math.round(meters / 50) * 50).toFixed(1))} m`; // fifty meters
+  }
+  if (meters < 10000) {
+    return `${formatNumber(
+      ((Math.round(meters / 100) * 100) / 1000).toFixed(1),
+      opts,
+    )} km`; // hudreds of meters
+  }
+  if (meters < 100000) {
+    return `${formatNumber(Math.round(meters / 1000).toFixed(1), opts)} km`; // kilometers
+  }
+  return `${formatNumber(
+    (Math.round(meters / 10000) * 10).toFixed(1),
+    opts,
+  )} km`; // tens of kilometers
+}
+
+export function displayDistance(meters, config, formatNumber) {
   if (isImperial(config)) {
     return displayImperialDistance(meters);
+  }
+  if (formatNumber) {
+    return displayDistanceWithLocale(meters, formatNumber);
   }
   if (meters < 100) {
     return `${Math.round(meters / 10) * 10} m`; // Tens of meters

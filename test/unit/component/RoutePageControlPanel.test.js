@@ -8,11 +8,11 @@ import { mockContext } from '../helpers/mock-context';
 import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { startRealTimeClient } from '../../../app/action/realTimeClientAction';
-import { Component as RoutePage } from '../../../app/component/RoutePage';
+import { default as RoutePageControlPanel } from '../../../app/component/RoutePageControlPanel';
 import { AlertSeverityLevelType } from '../../../app/constants';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../app/util/path';
 
-describe('<RoutePage />', () => {
+describe('<RoutePageControlPanel />', () => {
   it('should set the activeAlert class if there is an alert and no patternId', () => {
     const props = {
       breakpoint: 'large',
@@ -34,7 +34,7 @@ describe('<RoutePage />', () => {
         },
       },
     };
-    const wrapper = shallowWithIntl(<RoutePage {...props} />, {
+    const wrapper = shallowWithIntl(<RoutePageControlPanel {...props} />, {
       context: {
         ...mockContext,
         config: { colors: { primary: '#00AFFF' }, URL: {} },
@@ -72,7 +72,7 @@ describe('<RoutePage />', () => {
         },
       },
     };
-    const wrapper = shallowWithIntl(<RoutePage {...props} />, {
+    const wrapper = shallowWithIntl(<RoutePageControlPanel {...props} />, {
       context: {
         ...mockContext,
         config: { colors: { primary: '#00AFFF' }, URL: {} },
@@ -110,7 +110,7 @@ describe('<RoutePage />', () => {
         },
       },
     };
-    const wrapper = shallowWithIntl(<RoutePage {...props} />, {
+    const wrapper = shallowWithIntl(<RoutePageControlPanel {...props} />, {
       context: {
         ...mockContext,
         config: { colors: { primary: '#00AFFF' }, URL: {} },
@@ -172,7 +172,7 @@ describe('<RoutePage />', () => {
       executeAction: sinon.stub(),
     };
 
-    shallowWithIntl(<RoutePage {...props} />, {
+    shallowWithIntl(<RoutePageControlPanel {...props} />, {
       context,
     });
 
@@ -215,7 +215,7 @@ describe('<RoutePage />', () => {
       executeAction: sinon.stub(),
     };
 
-    shallowWithIntl(<RoutePage {...props} />, {
+    shallowWithIntl(<RoutePageControlPanel {...props} />, {
       context,
     });
 
@@ -257,7 +257,7 @@ describe('<RoutePage />', () => {
         },
       },
     };
-    const wrapper = shallowWithIntl(<RoutePage {...props} />, {
+    const wrapper = shallowWithIntl(<RoutePageControlPanel {...props} />, {
       context: {
         ...mockContext,
         config: { colors: { primary: '#00AFFF' }, URL: {} },
@@ -301,7 +301,7 @@ describe('<RoutePage />', () => {
         },
       },
     };
-    const wrapper = shallowWithIntl(<RoutePage {...props} />, {
+    const wrapper = shallowWithIntl(<RoutePageControlPanel {...props} />, {
       context: {
         ...mockContext,
         config: { colors: { primary: '#00AFFF' }, URL: {} },
@@ -342,7 +342,7 @@ describe('<RoutePage />', () => {
         },
       },
     };
-    const wrapper = shallowWithIntl(<RoutePage {...props} />, {
+    const wrapper = shallowWithIntl(<RoutePageControlPanel {...props} />, {
       context: {
         ...mockContext,
         config: { colors: { primary: '#00AFFF' }, URL: {} },
@@ -377,7 +377,7 @@ describe('<RoutePage />', () => {
           },
         },
       };
-      const wrapper = shallowWithIntl(<RoutePage {...props} />, {
+      const wrapper = shallowWithIntl(<RoutePageControlPanel {...props} />, {
         context: {
           ...mockContext,
           config: {
@@ -417,7 +417,7 @@ describe('<RoutePage />', () => {
           },
         },
       };
-      const wrapper = shallowWithIntl(<RoutePage {...props} />, {
+      const wrapper = shallowWithIntl(<RoutePageControlPanel {...props} />, {
         context: {
           ...mockContext,
           config: {
@@ -455,7 +455,7 @@ describe('<RoutePage />', () => {
         },
       },
     };
-    const wrapper = shallowWithIntl(<RoutePage {...props} />, {
+    const wrapper = shallowWithIntl(<RoutePageControlPanel {...props} />, {
       context: {
         ...mockContext,
         config: { colors: { primary: '#00AFFF' }, URL: {} },
@@ -494,7 +494,7 @@ describe('<RoutePage />', () => {
         },
       },
     };
-    const wrapper = shallowWithIntl(<RoutePage {...props} />, {
+    const wrapper = shallowWithIntl(<RoutePageControlPanel {...props} />, {
       context: {
         ...mockContext,
         config: { colors: { primary: '#00AFFF' }, URL: {} },
@@ -533,7 +533,7 @@ describe('<RoutePage />', () => {
         },
       },
     };
-    const wrapper = shallowWithIntl(<RoutePage {...props} />, {
+    const wrapper = shallowWithIntl(<RoutePageControlPanel {...props} />, {
       context: {
         ...mockContext,
         config: { colors: { primary: '#00AFFF' }, URL: {} },

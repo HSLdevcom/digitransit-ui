@@ -86,7 +86,7 @@ class SummaryPlanContainer extends React.Component {
         pathname: `${getSummaryPath(
           this.props.params.from,
           this.props.params.to,
-        )}${isbikeAndVehicle ? '/bikeAndVehicle/' : ''}`,
+        )}${isbikeAndVehicle ? '/bikeAndVehicle' : ''}`,
       });
 
       addAnalyticsEvent({
@@ -113,7 +113,7 @@ class SummaryPlanContainer extends React.Component {
     const basePath = `${getSummaryPath(
       this.props.params.from,
       this.props.params.to,
-    )}${isbikeAndVehicle ? '/bikeAndVehicle/' : '/'}`;
+    )}${isbikeAndVehicle ? '/bikeAndVehicle' : '/'}`;
     const indexPath = `${getSummaryPath(
       this.props.params.from,
       this.props.params.to,

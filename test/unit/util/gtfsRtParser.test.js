@@ -16,7 +16,7 @@ describe('gtfsRtParser', () => {
       const result = parseFeedMQTT(
         bindings.FeedMessage.read,
         arrayBuffer,
-        '/gtfsrt/vp/tampere////8/1/Atala/5645934646/123456/14:35/130210/61;23/47/62/47/8/',
+        '/gtfsrt/vp/tampere////8/1/Atala/5645934646/123456/14:35/130210/61;23/47/62/47/8/000000/',
         'tampere',
         'bus',
       );
@@ -38,6 +38,7 @@ describe('gtfsRtParser', () => {
           tripId: 'tampere:5645934646',
           geoHash: ['61;23', '47', '62', '47'],
           shortName: '8',
+          color: '000000',
         },
       ]);
     });
@@ -46,7 +47,7 @@ describe('gtfsRtParser', () => {
       const result = parseFeedMQTT(
         bindings.FeedMessage.read,
         arrayBuffer,
-        '/gtfsrt/vp/tampere////15/0/Petsamo/5660364646/123456/14:30/TKL_23/61;23/47/62/47/15/',
+        '/gtfsrt/vp/tampere////15/0/Petsamo/5660364646/123456/14:30/TKL_23/61;23/47/62/47/15//',
         'tampere',
         'tram',
       );
@@ -68,6 +69,7 @@ describe('gtfsRtParser', () => {
           tripId: 'tampere:5660364646',
           geoHash: ['61;23', '47', '62', '47'],
           shortName: '15',
+          color: undefined,
         },
       ]);
     });
@@ -76,7 +78,7 @@ describe('gtfsRtParser', () => {
       const result = parseFeedMQTT(
         bindings.FeedMessage.read,
         arrayBuffer,
-        '/gtfsrt/vp/tampere////15//////TKL_23/61;23/47/62/47/',
+        '/gtfsrt/vp/tampere////15//////TKL_23/61;23/47/62/47//',
         'tampere',
         'bus',
       );
@@ -98,6 +100,7 @@ describe('gtfsRtParser', () => {
           tripId: undefined,
           geoHash: ['61;23', '47', '62', '47'],
           shortName: undefined,
+          color: undefined,
         },
       ]);
     });

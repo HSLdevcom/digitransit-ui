@@ -119,6 +119,7 @@ function IndexPageMap(
         renderCustomButtons={() => (
           <>{config.map.showLayerSelector && renderMapLayerSelector()}</>
         )}
+        showAllVehicles
       />
     );
   } else {
@@ -134,6 +135,7 @@ function IndexPageMap(
             renderCustomButtons={() => (
               <>{config.map.showLayerSelector && renderMapLayerSelector()}</>
             )}
+            showAllVehicles
           />
         </div>
       </>

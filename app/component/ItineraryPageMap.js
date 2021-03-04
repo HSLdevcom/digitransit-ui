@@ -181,6 +181,7 @@ function ItineraryPageMap(
       <BackButton
         icon="icon-icon_arrow-collapse--left"
         iconClassName="arrow-icon"
+        fallback="pop"
       />
     </MapContainer>
   );

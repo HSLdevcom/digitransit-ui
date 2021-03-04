@@ -69,7 +69,7 @@ OriginToDestination.defaultProps = {
  * Show button links to near you page for different travel modes
  *
  * @param {Object} props
- * @param {string[]} props.modes - Names of transport modes to show buttons for. Should be in lower case. Also defines button order
+ * @param {string[]} props.modeArray - Names of transport modes to show buttons for. Should be in lower case. Also defines button order
  * @param {string} props.language - Language used for accessible labels
  * @param {string} props.urlPrefix - URL prefix for links. Must end with /lahellasi
  * @param {boolean} props.showTitle - Show title, default is false
@@ -86,7 +86,7 @@ OriginToDestination.defaultProps = {
  *    feedIds: [HSL]
  * }
  * <CtrlPanel.NearStopsAndRoutes
- *      modes={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
+ *      modeArray={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
  *      language="fi"
  *      urlPrefix="http://example.com/lahellasi"
  *      showTitle
@@ -95,7 +95,7 @@ OriginToDestination.defaultProps = {
  *
  */
 function NearStopsAndRoutes({
-  modes,
+  modeArray,
   urlPrefix,
   language,
   showTitle,
@@ -103,6 +103,10 @@ function NearStopsAndRoutes({
   LinkComponent,
   origin,
   omitLanguageUrl,
+  onClick,
+  buttonStyle,
+  title,
+  modes,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
   useEffect(() => {
@@ -118,7 +122,6 @@ function NearStopsAndRoutes({
     }
   }, []);
 
-  const queryString = origin.queryString || '';
   let urlStart;
   if (omitLanguageUrl) {
     urlStart = urlPrefix;
@@ -127,46 +130,85 @@ function NearStopsAndRoutes({
     urlParts.splice(urlParts.length - 1, 0, language);
     urlStart = urlParts.join('/');
   }
-  const buttons = modes.map(mode => {
+  const buttons = modeArray.map(mode => {
     const withAlert = modesWithAlerts.includes(mode.toUpperCase());
     let url = `${urlStart}/${mode.toUpperCase()}/POS`;
     if (origin.lat && origin.lon) {
       url += `/${encodeURIComponent(origin.address)}::${origin.lat},${
         origin.lon
-      }${queryString}`;
+      }`;
+    }
+
+    const modeButton = !modes ? (
+      <>
+        <span className={styles['sr-only']}>
+          {i18next.t(`pick-mode-${mode}`, { lng: language })}
+        </span>
+        <span className={styles['transport-mode-icon-container']}>
+          <span className={styles['transport-mode-icon-with-icon']}>
+            <Icon img={mode === 'favorite' ? 'star' : `mode-${mode}`} />
+            {withAlert && (
+              <span className={styles['transport-mode-alert-icon']}>
+                <Icon img="caution" color="#dc0451" />
+              </span>
+            )}
+          </span>
+        </span>
+      </>
+    ) : (
+      <>
+        <span className={styles['sr-only']}>
+          {i18next.t(`pick-mode-${mode}`, { lng: language })}
+        </span>
+        <span className={styles['transport-mode-icon-container']}>
+          <span
+            className={styles['transport-mode-icon-with-icon']}
+            style={{
+              '--bckColor': `${
+                modes[mode]['color']
+                  ? modes[mode]['color']
+                  : buttonStyle['color']
+              }`,
+              '--borderRadius': `${buttonStyle.borderRadius}`,
+            }}
+          >
+            <Icon img={`${mode}-waltti`} />
+            {withAlert && (
+              <span className={styles['transport-mode-alert-icon']}>
+                <Icon img="caution" color="#dc0451" />
+              </span>
+            )}
+          </span>
+          <span className={styles['transport-mode-title']}>
+            {modes[mode]['nearYouLabel'][language]}
+          </span>
+        </span>
+      </>
+    );
+
+    if (onClick) {
+      return (
+        <div
+          key={mode}
+          role="link"
+          tabIndex="0"
+          onKeyDown={e => onClick(url, e)}
+          onClick={() => onClick(url)}
+        >
+          {modeButton}
+        </div>
+      );
     }
     if (LinkComponent) {
       return (
         <LinkComponent to={url} key={mode}>
-          <span className={styles['sr-only']}>
-            {i18next.t(`pick-mode-${mode}`, { lng: language })}
-          </span>
-          <span className={styles['transport-mode-icon-container']}>
-            <span className={styles['transport-mode-icon-with-icon']}>
-              <Icon img={`mode-${mode}`} />
-              {withAlert && (
-                <span className={styles['transport-mode-alert-icon']}>
-                  <Icon img="caution" color="#dc0451" />
-                </span>
-              )}
-            </span>
-          </span>
+          {modeButton}
         </LinkComponent>
       );
     }
     return (
       <a href={url} key={mode}>
-        <span className={styles['sr-only']}>
-          {i18next.t(`pick-mode-${mode}`, { lng: language })}
-        </span>
-        <span className={styles['transport-mode-icon-container']}>
-          <Icon img={`mode-${mode}`} />
-          {withAlert && (
-            <span className={styles['transport-mode-alert-icon']}>
-              <Icon img="caution" color="#dc0451" />
-            </span>
-          )}
-        </span>
+        {modeButton}
       </a>
     );
   });
@@ -175,16 +217,26 @@ function NearStopsAndRoutes({
     <div className={styles['near-you-container']}>
       {showTitle && (
         <h2 className={styles['near-you-title']}>
-          {i18next.t('title-route-stop-station', { lng: language })}
+          {!modes
+            ? i18next.t('title-route-stop-station', { lng: language })
+            : title[language]}
         </h2>
       )}
-      <div className={styles['near-you-buttons-container']}>{buttons}</div>
+      <div
+        className={
+          !modes
+            ? styles['near-you-buttons-container']
+            : styles['near-you-buttons-container-wide']
+        }
+      >
+        {buttons}
+      </div>
     </div>
   );
 }
 
 NearStopsAndRoutes.propTypes = {
-  modes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  modeArray: PropTypes.arrayOf(PropTypes.string).isRequired,
   urlPrefix: PropTypes.string.isRequired,
   language: PropTypes.string,
   showTitle: PropTypes.bool,
@@ -196,6 +248,10 @@ NearStopsAndRoutes.propTypes = {
   LinkComponent: PropTypes.object,
   origin: PropTypes.object,
   omitLanguageUrl: PropTypes.bool,
+  onClick: PropTypes.func,
+  buttonStyle: PropTypes.object,
+  title: PropTypes.object,
+  modes: PropTypes.object,
 };
 
 NearStopsAndRoutes.defaultProps = {
@@ -204,6 +260,9 @@ NearStopsAndRoutes.defaultProps = {
   LinkComponent: undefined,
   origin: undefined,
   omitLanguageUrl: undefined,
+  buttonStyle: undefined,
+  title: undefined,
+  modes: undefined,
 };
 
 /**
@@ -214,7 +273,7 @@ NearStopsAndRoutes.defaultProps = {
  *    <CtrlPanel.OriginToDestination showTitle />
  *    <CtrlPanel.SeparatorLine />
  *    <CtrlPanel.NearStopsAndRoutes
- *      modes={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
+ *      modearray={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
  *      language="fi"
  *      urlPrefix="http://example.com/lahellasi"
  *      showTitle

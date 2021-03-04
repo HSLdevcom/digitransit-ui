@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
-import SwipeableViews from 'react-swipeable-views';
 import { v4 as uuid } from 'uuid';
 
 import Icon from './Icon';
@@ -177,25 +176,6 @@ class MessageBar extends Component {
       />
     ));
 
-  getTabMarker = (i, isSelected, isDisruption) => {
-    const colorSet = isDisruption ? ['inherit', 'white'] : ['#007ac9', '#ddd'];
-    return (
-      <span
-        style={{
-          color: colorSet[isSelected ? 0 : 1],
-          height: '18px',
-          position: 'absolute',
-        }}
-        title={`${this.context.intl.formatMessage({
-          id: 'messagebar-label-page',
-          defaultMessage: 'Page',
-        })} ${i + 1}`}
-      >
-        •
-      </span>
-    );
-  };
-
   maximize = () => {
     this.setState({ maximized: true });
   };
@@ -224,24 +204,14 @@ class MessageBar extends Component {
     });
   };
 
-  handleChange = value => {
-    this.setState({ slideIndex: value });
-  };
-
   handleClose = () => {
     const messages = this.validMessages();
-    let index = this.state.slideIndex;
+    const index = this.state.slideIndex;
     const msgId = messages[index].id;
 
     // apply delayed closing on iexplorer to avoid app freezing
     const t = isIe ? 600 : 0;
     setTimeout(() => this.context.executeAction(markMessageAsRead, msgId), t);
-
-    // slideIndex needs to be updated
-    if (index > 0) {
-      index -= 1;
-      this.handleChange(index);
-    }
   };
 
   render() {
@@ -295,24 +265,17 @@ class MessageBar extends Component {
               className="message-icon"
             />
             <div className={`message-bar-content message-bar-${type}`}>
-              <SwipeableViews
-                index={index}
-                onChangeIndex={this.handleChange}
-                className={!maximized ? 'message-bar-fade' : ''}
-                containerStyle={{
-                  maxHeight: maximized ? '400px' : '100px',
-                  transition: 'max-height 300ms',
-                }}
-                slideStyle={{
-                  maxHeight: maximized ? '400px' : '100px',
-                  transition: 'max-height 300ms',
-                  padding: '10px 10px 0px 10px',
-                  overflow: 'hidden',
-                  background: isDisruption ? 'inherit' : backgroundColor,
-                }}
-              >
-                {this.getTabContent(textColor)}
-              </SwipeableViews>
+              <div className={!maximized ? 'message-bar-fade' : ''}>
+                <div className={`message-bar-container ${maximized}`}>
+                  <div
+                    style={{
+                      background: isDisruption ? 'inherit' : backgroundColor,
+                    }}
+                  >
+                    {this.getTabContent(textColor)}
+                  </div>
+                </div>
+              </div>
             </div>
             <div>
               <button

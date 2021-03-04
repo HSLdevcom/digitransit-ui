@@ -85,14 +85,16 @@ class GenericMarker extends React.Component {
       onClick={this.props.onClick}
       keyboard={false}
     >
-      <Popup
-        offset={this.context.config.map.genericMarker.popup.offset}
-        maxWidth={this.context.config.map.genericMarker.popup.maxWidth}
-        minWidth={this.context.config.map.genericMarker.popup.minWidth}
-        className="popup"
-      >
-        {this.props.children}
-      </Popup>
+      {this.props.children && (
+        <Popup
+          offset={this.context.config.map.genericMarker.popup.offset}
+          maxWidth={this.context.config.map.genericMarker.popup.maxWidth}
+          minWidth={this.context.config.map.genericMarker.popup.minWidth}
+          className="popup"
+        >
+          {this.props.children}
+        </Popup>
+      )}
     </Marker>
   );
 

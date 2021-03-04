@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import cx from 'classnames';
 import pure from 'recompose/pure';
 import Icon from '@digitransit-component/digitransit-component-icon';
@@ -30,6 +30,8 @@ function getIconProperties(item, color) {
     iconId = item.selectedIconId;
   } else if (item && item.properties) {
     iconId = item.properties.selectedIconId || item.properties.layer;
+  } else if (item && item.properties.layer === 'bikestation') {
+    iconId = 'citybike';
   }
   if (item && item.iconColor) {
     // eslint-disable-next-line prefer-destructuring
@@ -39,6 +41,7 @@ function getIconProperties(item, color) {
   }
   const layerIcon = new Map([
     ['bikeRentalStation', 'citybike'],
+    ['bikestation', 'citybike'],
     ['currentPosition', 'locate'],
     ['favouritePlace', 'star'],
     ['favouriteRoute', 'star'],
@@ -94,8 +97,13 @@ const SuggestionItem = pure(
     isMobile,
     ariaFavouriteString,
     color,
+    fillInput,
   }) => {
     const [iconId, iconColor] = getIconProperties(item, color);
+    // Arrow clicked is for street itmes. Instead of selecting item when a user clicks on arrow,
+    // It fills the input field.
+    const [arrowClicked, setArrowClicked] = useState(false);
+
     const icon = (
       <span className={styles[iconId]}>
         <Icon color={iconColor} img={iconId} />
@@ -106,6 +114,7 @@ const SuggestionItem = pure(
       item.name,
       item.address,
     ];
+
     let ariaParts;
     if (name !== stopCode) {
       ariaParts = isFavourite(item)
@@ -126,7 +135,11 @@ const SuggestionItem = pure(
     const isBikeRentalStation =
       item.properties &&
       (item.properties.layer === 'bikeRentalStation' ||
-        item.properties.layer === 'favouriteBikeRentalStation');
+        item.properties.layer === 'favouriteBikeRentalStation' ||
+        item.properties.layer === 'bikestation');
+    const cityBikeLabel = isBikeRentalStation
+      ? suggestionType.concat(', ').concat(item.properties.localadmin)
+      : label;
     const ri = (
       <div
         aria-hidden="true"
@@ -158,9 +171,12 @@ const SuggestionItem = pure(
                   {name}
                 </div>
                 <div className={styles['suggestion-label']}>
-                  {isBikeRentalStation ? suggestionType : label}
-                  {stopCode && stopCode !== name && (
-                    <span className={styles['stop-code']}>{stopCode}</span>
+                  {isBikeRentalStation ? cityBikeLabel : label}
+                  {((stopCode && stopCode !== name) ||
+                    item.properties.layer === 'bikestation') && (
+                    <span className={styles['stop-code']}>
+                      {stopCode || item.properties.id}
+                    </span>
                   )}
                 </div>
               </span>
@@ -229,15 +245,43 @@ const SuggestionItem = pure(
             </div>
           )}
         </div>
-        {iconId !== 'arrow' && (
-          <span
-            className={cx(styles['arrow-icon'], {
-              [styles.mobile]: isMobile,
-            })}
-          >
-            <Icon img="arrow" color={iconColor} />
-          </span>
-        )}
+        {iconId !== 'arrow' &&
+          (item?.properties?.layer !== 'street' ||
+            !isMobile ||
+            arrowClicked) && (
+            <span
+              className={cx(styles['arrow-icon'], {
+                [styles.mobile]: isMobile,
+              })}
+            >
+              <Icon img="arrow" color={iconColor} />
+            </span>
+          )}
+        {iconId !== 'arrow' &&
+          item?.properties?.layer === 'street' &&
+          !arrowClicked &&
+          isMobile && (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+            <span
+              className={cx(styles['arrow-icon'], {
+                [styles.mobile]: isMobile,
+                [styles['fill-input']]: !arrowClicked,
+              })}
+              onClick={() => {
+                // Input is already filled for this item, no need
+                // To fill it again
+                if (arrowClicked) {
+                  return;
+                }
+                setArrowClicked(true);
+                // eslint-disable-next-line no-param-reassign
+                item.properties.arrowClicked = true;
+                fillInput(item);
+              }}
+            >
+              <Icon img="search-street-name" color={iconColor} />
+            </span>
+          )}
       </div>
     );
     return (

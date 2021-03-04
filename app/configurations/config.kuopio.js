@@ -102,6 +102,7 @@ export default configMerger(walttiConfig, {
 
   showAllBusses: true,
   showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
 
   cityBike: {
     showCityBikes: true,
@@ -209,7 +210,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/kuopio_zone_lines_20201119.geojson',
+        url: '/assets/geojson/kuopio_zone_lines_20210222.geojson',
       },
     ],
   },

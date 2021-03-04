@@ -153,10 +153,15 @@ export default (
               query={graphql`
                 query routeRoutes_PatternStopsContainer_Query(
                   $patternId: String!
+                  $routeId: String!
+                  $date: String!
                 ) {
                   pattern(id: $patternId) {
                     ...PatternStopsContainer_pattern
                     @arguments(patternId: $patternId)
+                  }
+                  route(id: $routeId) {
+                    ...PatternStopsContainer_route @arguments(date: $date)
                   }
                 }
               `}
@@ -174,6 +179,8 @@ export default (
                 query routeRoutes_TripStopsContainer_Query(
                   $patternId: String!
                   $tripId: String!
+                  $routeId: String!
+                  $date: String!
                 ) {
                   pattern(id: $patternId) {
                     ...TripStopsContainer_pattern
@@ -181,8 +188,12 @@ export default (
                   trip(id: $tripId) {
                     ...TripStopsContainer_trip
                   }
+                  route(id: $routeId) {
+                    ...TripStopsContainer_route @arguments(date: $date)
+                  }
                 }
               `}
+              prepareVariables={prepareServiceDay}
               render={getComponentOrLoadingRenderer}
             />
           </Route>,

@@ -12,6 +12,8 @@ const HSLTimetables = require('./timetableConfigUtils').default.HSL;
 
 const rootLink = process.env.ROOTLINK || 'https://dev.hslfi.hsldev.com';
 
+const cityBikesEnabled = true;
+
 export default {
   CONFIG,
 
@@ -109,6 +111,9 @@ export default {
   },
 
   transportModes: {
+    citybike: {
+      availableForSelection: cityBikesEnabled,
+    },
     airplane: {
       availableForSelection: false,
       defaultValue: false,
@@ -450,7 +455,7 @@ export default {
   localStorageTarget: rootLink,
 
   cityBike: {
-    showCityBikes: false,
+    showCityBikes: cityBikesEnabled,
     capacity: BIKEAVL_BIKES,
     networks: {
       smoove: {
@@ -490,7 +495,15 @@ export default {
   showBikeAndParkItineraries: true,
 
   showNearYouButtons: true,
-  nearYouModes: ['bus', 'tram', 'subway', 'rail', 'ferry' /* , 'citybike' */],
+  nearYouModes: [
+    'favorite',
+    'bus',
+    'tram',
+    'subway',
+    'rail',
+    'ferry',
+    cityBikesEnabled && 'citybike',
+  ],
 
   zoneIconsAsSvg: true,
 };

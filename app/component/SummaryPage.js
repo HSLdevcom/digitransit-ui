@@ -41,7 +41,7 @@ import {
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
-import { isBrowser } from '../util/browser';
+import { isBrowser, isIOS } from '../util/browser';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
@@ -65,6 +65,7 @@ import { getTotalBikingDistance } from '../util/legUtils';
 import { userHasChangedModes } from '../util/modeUtils';
 import { addViaPoint } from '../action/ViaPointActions';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
+import { saveSearch } from '../action/SearchActions';
 
 const MAX_ZOOM = 16; // Maximum zoom available for the bounds.
 /**
@@ -258,7 +259,6 @@ class SummaryPage extends React.Component {
     super(props, context);
     this.isFetching = false;
     this.secondQuerySent = false;
-    this.isFetchingWalkAndBike = true;
     this.setParamsAndQuery();
     this.originalPlan = this.props.viewer && this.props.viewer.plan;
     // *** TODO: Hotfix variables for temporary use only
@@ -300,6 +300,7 @@ class SummaryPage extends React.Component {
       scrolled: false,
       loadingMoreItineraries: undefined,
       zoomLevel: -1,
+      isFetchingWalkAndBike: true,
     };
     if (this.props.match.params.hash === 'walk') {
       this.selectedPlan = this.state.walkPlan;
@@ -335,7 +336,7 @@ class SummaryPage extends React.Component {
     const indexPath = `${getSummaryPath(
       this.context.match.params.from,
       this.context.match.params.to,
-    )}/${newStreetMode}/`;
+    )}/${newStreetMode}`;
 
     newState.pathname = basePath;
     this.context.router.replace(newState);
@@ -364,7 +365,7 @@ class SummaryPage extends React.Component {
     const basePath = `${getSummaryPath(
       this.context.match.params.from,
       this.context.match.params.to,
-    )}/`;
+    )}`;
     const indexPath = `${getSummaryPath(
       this.context.match.params.from,
       this.context.match.params.to,
@@ -711,20 +712,25 @@ class SummaryPage extends React.Component {
       this.context.match,
     );
 
-    fetchQuery(this.props.relayEnvironment, query, planParams).then(result => {
-      this.isFetchingWalkAndBike = false;
-      this.setState(
-        {
-          walkPlan: result.walkPlan,
-          bikePlan: result.bikePlan,
-          bikeAndPublicPlan: result.bikeAndPublicPlan,
-          bikeParkPlan: result.bikeParkPlan,
-        },
-        () => {
-          this.makeWeatherQuery();
-        },
-      );
-    });
+    fetchQuery(this.props.relayEnvironment, query, planParams)
+      .then(result => {
+        this.setState(
+          {
+            isFetchingWalkAndBike: false,
+            isFetchingWeather: true,
+            walkPlan: result.walkPlan,
+            bikePlan: result.bikePlan,
+            bikeAndPublicPlan: result.bikeAndPublicPlan,
+            bikeParkPlan: result.bikeParkPlan,
+          },
+          () => {
+            this.makeWeatherQuery();
+          },
+        );
+      })
+      .catch(() => {
+        this.setState({ isFetchingWalkAndBike: false });
+      });
   };
 
   makeQueryWithAllModes = () => {
@@ -1056,15 +1062,59 @@ class SummaryPage extends React.Component {
     });
   };
 
-  updateFutureRoutes = () => {
+  // save url-defined location to old searches
+  saveUrlSearch = endpoint => {
+    const parts = endpoint.split('::'); // label::lat,lon
+    if (parts.length !== 2) {
+      return;
+    }
+    const label = parts[0];
+    const ll = parseLatLon(parts[1]);
+    const names = label.split(','); // addr or name, city
+    if (names.length < 2 || Number.isNaN(ll.lat) || Number.isNaN(ll.lon)) {
+      return;
+    }
+    const layer =
+      /\d/.test(names[0]) && names[0].indexOf(' ') >= 0 ? 'address' : 'venue';
+
+    this.context.executeAction(saveSearch, {
+      item: {
+        geometry: { coordinates: [ll.lon, ll.lat] },
+        properties: {
+          name: names[0],
+          id: label,
+          gid: label,
+          layer,
+          label,
+          localadmin: names[names.length - 1],
+        },
+        type: 'Feature',
+      },
+      type: 'endpoint',
+    });
+  };
+
+  updateLocalStorage = saveEndpoints => {
     const { location } = this.props.match;
     const { query } = location;
     const pathArray = decodeURIComponent(location.pathname)
       .substring(1)
       .split('/');
-    pathArray.shift();
-    const originArray = pathArray[0].split('::');
-    const destinationArray = pathArray[1].split('::');
+    // endpoints to oldSearches store
+    if (saveEndpoints && isIOS && query.save) {
+      if (query.save === '1' || query.save === '2') {
+        this.saveUrlSearch(pathArray[1]); // origin
+      }
+      if (query.save === '1' || query.save === '3') {
+        this.saveUrlSearch(pathArray[2]); // destination
+      }
+      const newLocation = { ...location };
+      delete newLocation.query.save;
+      this.context.router.replace(newLocation);
+    }
+    // update future routes, too
+    const originArray = pathArray[1].split('::');
+    const destinationArray = pathArray[2].split('::');
     // make sure endpoints are valid locations and time is defined
     if (!query.time || originArray.length < 2 || destinationArray.length < 2) {
       return;
@@ -1084,6 +1134,7 @@ class SummaryPage extends React.Component {
   };
 
   componentDidMount() {
+    this.updateLocalStorage(true);
     const host =
       this.context.headers &&
       (this.context.headers['x-forwarded-host'] || this.context.headers.host);
@@ -1097,7 +1148,6 @@ class SummaryPage extends React.Component {
       // eslint-disable-next-line no-unused-expressions
       import('../util/feedbackly');
     }
-    this.updateFutureRoutes();
     if (this.showVehicles()) {
       const { client } = this.context.getStore('RealTimeInformationStore');
       // If user comes from eg. RoutePage, old client may not have been completely shut down yet.
@@ -1171,7 +1221,7 @@ class SummaryPage extends React.Component {
         prevProps.match.location.pathname ||
       this.props.match.location.query !== prevProps.match.location.query
     ) {
-      this.updateFutureRoutes();
+      this.updateLocalStorage(false);
     }
 
     // Reset walk and bike suggestions when new search is made
@@ -1183,13 +1233,13 @@ class SummaryPage extends React.Component {
       ) &&
       this.paramsOrQueryHaveChanged() &&
       this.secondQuerySent &&
-      !this.isFetchingWalkAndBike
+      !this.state.isFetchingWalkAndBike
     ) {
       this.setParamsAndQuery();
       this.secondQuerySent = false;
-      this.isFetchingWalkAndBike = true;
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
+        isFetchingWalkAndBike: true,
         walkPlan: undefined,
         bikePlan: undefined,
         bikeAndPublicPlan: undefined,
@@ -1220,7 +1270,8 @@ class SummaryPage extends React.Component {
       ) {
         this.makeWalkAndBikeQueries();
       } else {
-        this.isFetchingWalkAndBike = false;
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({ isFetchingWalkAndBike: false });
       }
     }
 
@@ -1335,7 +1386,7 @@ class SummaryPage extends React.Component {
 
     if (itin && this.context.config.showWeatherInformation) {
       const time = itin.startTime;
-      const weatherHash = `${time}_${from.lat}_{from.lon}`;
+      const weatherHash = `${time}_${from.lat}_${from.lon}`;
       if (
         weatherHash !== this.state.weatherData.weatherHash &&
         weatherHash !== this.pendingWeatherHash
@@ -1368,12 +1419,12 @@ class SummaryPage extends React.Component {
                   ),
                 };
               }
-              this.setState({ weatherData });
+              this.setState({ isFetchingWeather: false, weatherData });
             }
           })
           .catch(err => {
             this.pendingWeatherHash = undefined;
-            this.setState({ weatherData: { err } });
+            this.setState({ isFetchingWeather: false, weatherData: { err } });
           });
       }
     }
@@ -1385,6 +1436,29 @@ class SummaryPage extends React.Component {
       this.setState({ center: null });
     }
   }
+
+  changeHash = index => {
+    const isbikeAndVehicle = this.props.match.params.hash === 'bikeAndVehicle';
+
+    addAnalyticsEvent({
+      event: 'sendMatomoEvent',
+      category: 'Itinerary',
+      action: 'OpenItineraryDetails',
+      name: index,
+    });
+
+    const newState = {
+      ...this.context.match.location,
+      state: { summaryPageSelected: index },
+    };
+    const indexPath = `${getSummaryPath(
+      this.props.match.params.from,
+      this.props.match.params.to,
+    )}${isbikeAndVehicle ? '/bikeAndVehicle/' : '/'}${index}`;
+
+    newState.pathname = indexPath;
+    this.context.router.replace(newState);
+  };
 
   setMapZoomToLeg = leg => {
     if (this.props.breakpoint !== 'large') {
@@ -1670,9 +1744,9 @@ class SummaryPage extends React.Component {
           ) ||
           getIntermediatePlaces(this.context.match.location.query).length > 0
         ) {
-          this.isFetchingWalkAndBike = true;
           this.setState(
             {
+              isFetchingWalkAndBike: true,
               loading: true,
             },
             // eslint-disable-next-line func-names
@@ -1731,11 +1805,12 @@ class SummaryPage extends React.Component {
   };
 
   getCombinedItineraries = () => {
-    return [
+    const itineraries = [
       ...(this.state.earlierItineraries || []),
       ...(this.selectedPlan?.itineraries || []),
       ...(this.state.laterItineraries || []),
     ];
+    return itineraries.filter(x => x !== undefined);
   };
 
   setMapCenterToggle = () => {
@@ -1779,7 +1854,7 @@ class SummaryPage extends React.Component {
     ) {
       this.originalPlan = this.props.viewer.plan;
       this.isFetching = true;
-      this.isFetchingWalkAndBike = true;
+      this.setState({ isFetchingWalkAndBike: true });
       this.makeQueryWithAllModes();
       this.makeWalkAndBikeQueries();
     }
@@ -2057,7 +2132,7 @@ class SummaryPage extends React.Component {
 
     const loadingStreeModeSelector =
       this.props.loading ||
-      this.isFetchingWalkAndBike ||
+      this.state.isFetchingWalkAndBike ||
       (!this.state.weatherData.temperature && !this.state.weatherData.err);
 
     const screenReaderWalkAndBikeUpdateAlert = (
@@ -2141,6 +2216,7 @@ class SummaryPage extends React.Component {
                 itinerary={selectedItinerary}
                 focus={this.updateCenter}
                 setMapZoomToLeg={this.setMapZoomToLeg}
+                isMobile={false}
               />
             </>
           );
@@ -2179,7 +2255,7 @@ class SummaryPage extends React.Component {
                 planHasNoItineraries && hasAlternativeItineraries
               }
               separatorPosition={this.state.separatorPosition}
-              loading={this.isFetchingWalkAndBike && !error}
+              loading={this.state.isFetchingWalkAndBike && !error}
               onLater={this.onLater}
               onEarlier={this.onEarlier}
               loadingMoreItineraries={this.state.loadingMoreItineraries}
@@ -2242,6 +2318,9 @@ class SummaryPage extends React.Component {
               defaultMessage="Itinerary suggestions"
             />
           }
+          bckBtnFallback={
+            match.params.hash === 'bikeAndVehicle' ? 'pop' : undefined
+          }
           header={
             <React.Fragment>
               <SummaryNavigation
@@ -2252,7 +2331,7 @@ class SummaryPage extends React.Component {
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
               />
               {error ||
-              (!this.isFetchingWalkAndBike &&
+              (!this.state.isFetchingWalkAndBike &&
                 !showStreetModeSelector) ? null : (
                 <StreetModeSelector
                   showWalkOptionButton={showWalkOptionButton}
@@ -2267,9 +2346,8 @@ class SummaryPage extends React.Component {
                   bikeParkPlan={bikeParkPlan}
                   loading={
                     this.props.loading ||
-                    this.isFetchingWalkAndBike ||
-                    (!this.state.weatherData.temperature &&
-                      !this.state.weatherData.err)
+                    this.state.isFetchingWalkAndBike ||
+                    this.state.isFetchingWeather
                   }
                 />
               )}
@@ -2328,6 +2406,7 @@ class SummaryPage extends React.Component {
           plan={this.selectedPlan}
           serviceTimeRange={this.props.serviceTimeRange}
           setMapZoomToLeg={this.setMapZoomToLeg}
+          onSwipe={this.changeHash}
         >
           {this.props.content &&
             combinedItineraries.map((itinerary, i) =>
@@ -2373,7 +2452,7 @@ class SummaryPage extends React.Component {
                 planHasNoItineraries && hasAlternativeItineraries
               }
               separatorPosition={this.state.separatorPosition}
-              loading={this.isFetchingWalkAndBike && !error}
+              loading={this.state.isFetchingWalkAndBike && !error}
               onLater={this.onLater}
               onEarlier={this.onEarlier}
               loadingMoreItineraries={this.state.loadingMoreItineraries}
@@ -2401,7 +2480,7 @@ class SummaryPage extends React.Component {
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
               />
               {error ||
-              (!this.isFetchingWalkAndBike &&
+              (!this.state.isFetchingWalkAndBike &&
                 !showStreetModeSelector) ? null : (
                 <StreetModeSelector
                   showWalkOptionButton={showWalkOptionButton}
@@ -2416,9 +2495,8 @@ class SummaryPage extends React.Component {
                   bikeParkPlan={bikeParkPlan}
                   loading={
                     this.props.loading ||
-                    this.isFetchingWalkAndBike ||
-                    (!this.state.weatherData.temperature &&
-                      !this.state.weatherData.err)
+                    this.state.isFetchingWalkAndBike ||
+                    this.state.isFetchingWeather
                   }
                 />
               )}

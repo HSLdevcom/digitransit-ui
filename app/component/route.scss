@@ -6,36 +6,6 @@ $route-schedule-date-height: 36px;
 $margin-left-right-large: 3.75em;
 $margin-left-right: 1.25em;
 
-/* table headers */
-.route-list-header {
-  border-bottom: solid 1px #eef1f3;
-  border-top: solid 1px #eef1f3;
-  @include font-narrow-medium;
-  line-height: $line-height-normal;
-  flex-shrink: 0;
-  overflow: hidden;
-  div,
-  .columns.route-stop-time {
-    @include font-narrow-book;
-    color: $gray;
-    font-size: $font-size-small;
-  }
-  &.route-stop {
-    min-height: 0;
-  }
-
-  &.bp-large {
-    &.route-stop {
-      padding: 1em 0;
-    }
-
-    div,
-    .columns.route-stop-time {
-      font-size: 16px;
-    }
-  }
-}
-
 .error {
   div {
     p {
@@ -80,6 +50,10 @@ $margin-left-right: 1.25em;
     background-color: transparent;
     position: relative;
   }
+  .bottom-whitespace {
+    min-height: 300px;
+    display: block;
+  }
 }
 .route-page-container {
   background-color: $white;
@@ -87,20 +61,25 @@ $margin-left-right: 1.25em;
 }
 
 .route-page-content {
+  overflow-x: hidden;
+  overflow-y: auto;
   padding: 1.5em $margin-left-right 0;
   display: flex;
   position: relative;
   flex-direction: column;
-  max-height: 100%;
-  flex-grow: 1;
-  flex-basis: 100%;
+  padding-bottom: 1.5em;
+  flex: 1 0;
+  flex-basis: 0px;
+  max-height: 100vh;
   background: $white;
   transition: flex-grow 500ms cubic-bezier(0.215, 0.61, 0.355, 1),
     flex-basis 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
 
   &.bp-large {
     top: 0;
-    padding: 0 $margin-left-right-large;
+    padding-top: 0;
+    padding-left: 3.5em;
+    padding-right: 2.5em;
   }
   &:empty {
     flex-basis: 0;
@@ -111,42 +90,19 @@ $margin-left-right: 1.25em;
     flex-grow: 0;
     flex-basis: 110px;
   }
-  .route-list-header {
-    display: flex;
-    flex-direction: row;
-    .route-stop-now {
-      flex: 0 0 6em;
-      max-width: 5em;
-    }
-    .route-stop-name {
-      flex: 1 0 11em;
-    }
-    .route-stop-time {
-      text-align: left;
-      padding-right: 0.6em;
-      flex: 0 0 3.7em;
-    }
-  }
 }
 
 // stop list
 .route-stop-list {
   @include font-narrow-medium;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 1.5em;
-  overflow-x: hidden;
-  overflow-y: auto;
-  flex: 1 0;
-  flex-basis: 0px;
   background-color: $white;
   .route-stop:last-child .route-stop-row_content-container {
     border-bottom: none;
   }
 }
 
-.mobile .route-stop-list {
+.mobile .route-page-content {
+  padding-top: 0;
   overflow-y: visible;
   flex-basis: auto;
 }
@@ -168,20 +124,13 @@ $margin-left-right: 1.25em;
 }
 
 .map {
-  .icon.tail-icon {
+  .icon.large-vehicle-icon {
     margin-top: 0.57em;
     margin-left: 0.57em;
     transform: scale(3.5);
   }
-  .allVehicles {
-    width: 24px;
-    height: 24px;
-    color: $gray-blue;
-    position: absolute;
-    pointer-events: none;
-  }
-  .large-icon {
-    transform: scale(2.86);
+  .icon.small-vehicle-icon {
+    transform: scale(1);
   }
 }
 .route-details-upper-row {
@@ -218,13 +167,8 @@ $margin-left-right: 1.25em;
       top: -0.3em;
       font-size: 5em;
     }
-    .tail-icon {
+    .large-vehicle-icon {
       font-size: 3.5em;
-      bottom: 0;
-      left: -10px;
-    }
-    .selected-tail-icon {
-      font-size: 5em;
       bottom: 0;
       left: -10px;
     }
@@ -391,10 +335,10 @@ $margin-left-right: 1.25em;
   display: flex;
   //margin: 10px $margin-left-right;
   .route-number {
-    min-width: 53px;
+    min-width: 45px;
     .icon {
-      height: 40px;
-      width: 40px;
+      height: 35px;
+      width: 35px;
     }
   }
   .route-info {
@@ -402,7 +346,7 @@ $margin-left-right: 1.25em;
     min-width: 0;
     .route-short-name {
       font-family: $font-family-narrow;
-      font-size: 21px;
+      font-size: 30px;
       font-weight: 500;
       font-stretch: normal;
       font-style: normal;
@@ -420,10 +364,6 @@ $margin-left-right: 1.25em;
   }
 }
 
-.vehicle-icon {
-  width: 100px;
-  height: 100px;
-}
 .route-page-header.favourite-icon {
   @media print {
     display: none;
@@ -440,6 +380,10 @@ $margin-left-right: 1.25em;
 
   @media print {
     display: block;
+  }
+
+  .route-page-control-panel-container {
+    padding: 10px 1.25em 0;
   }
 }
 
@@ -661,15 +605,6 @@ $margin-left-right: 1.25em;
   }
 }
 
-.print-button-container {
-  display: flex;
-  button {
-    margin-right: 1em;
-    margin-left: auto;
-    margin-bottom: $padding-medium;
-  }
-}
-
 .mobile .route-page-action-bar .secondary-button {
   display: none;
 }
@@ -699,7 +634,6 @@ $margin-left-right: 1.25em;
     border-bottom: none !important;
     font-weight: 500;
     padding: 0;
-    text-transform: uppercase;
     background-image: none;
     width: 7em;
     text-align: left;
@@ -718,8 +652,22 @@ $margin-left-right: 1.25em;
   background-color: white;
   padding: 5px 20px 0 20px;
   &.bp-large {
-    padding: 0 $margin-left-right-large 1.5em;
+    padding: 0 $margin-left-right-large 0;
     box-shadow: none;
+  }
+}
+
+.route-page-control-panel-container {
+  padding-bottom: 1.5em;
+  &.hairiot, &.aikataulu {
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+  }
+  &.bp-large {
+    &.hairiot, &.aikataulu {
+      padding-left: 3.5em;
+      padding-right: 3.5em;
+    }
   }
 }
 
@@ -731,7 +679,6 @@ $margin-left-right: 1.25em;
   height: 2.5em;
   display: flex;
   background-color: $light-gray;
-  margin: 1.25em 0 2em 0;
   border: 2px solid $light-gray;
   border-radius: 5px;
   button {
@@ -780,6 +727,7 @@ $margin-left-right: 1.25em;
 .route-pattern-select {
   height: 2.5em;
   position: relative;
+  margin: 0.5em 0 1em 0;
   .route-option {
     background: $white;
     font-size: $font-size-xsmall;

@@ -1,5 +1,4 @@
 import React from 'react';
-import SwipeableViews from 'react-swipeable-views';
 
 import {
   Component as MessageBar,
@@ -161,11 +160,6 @@ describe('<MessageBar />', () => {
     });
     await wrapper.instance().componentDidMount();
     expect(wrapper.find('section').get(0).props.style).to.have.property(
-      'background',
-      '#000000',
-    );
-    expect(wrapper.find(Icon)).to.have.lengthOf(2);
-    expect(wrapper.find(SwipeableViews).props().slideStyle).to.have.property(
       'background',
       '#000000',
     );

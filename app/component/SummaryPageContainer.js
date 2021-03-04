@@ -1,12 +1,18 @@
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
-import { QueryRenderer, ReactRelayContext } from 'react-relay';
+import { ReactRelayContext } from 'react-relay';
 import { matchShape } from 'found';
-import SummaryPage from './SummaryPage';
 import Loading from './Loading';
 import { validateServiceTimeRange } from '../util/timeUtils';
 import { planQuery } from '../util/queryUtils';
 import { preparePlanParams } from '../util/planParamUtil';
+import LazilyLoad, { importLazy } from './LazilyLoad';
+
+const modules = {
+  QueryRenderer: () =>
+    importLazy(import('react-relay/lib/ReactRelayQueryRenderer')),
+  SummaryPage: () => importLazy(import('./SummaryPage')),
+};
 
 const SummaryPageContainer = ({ content, map, match }, { config }) => {
   const { environment } = useContext(ReactRelayContext);
@@ -16,35 +22,38 @@ const SummaryPageContainer = ({ content, map, match }, { config }) => {
     // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
     setClient(true);
   });
-
   return isClient ? (
-    <QueryRenderer
-      query={planQuery}
-      variables={preparePlanParams(config, false)(match.params, match)}
-      environment={environment}
-      render={({ props: innerProps, error }) => {
-        return innerProps ? (
-          <SummaryPage
-            {...innerProps}
-            content={content}
-            map={map}
-            match={match}
-            error={error}
-            loading={false}
-          />
-        ) : (
-          <SummaryPage
-            content={content}
-            map={map}
-            match={match}
-            viewer={{ plan: {} }}
-            serviceTimeRange={validateServiceTimeRange()}
-            loading
-            error={error}
-          />
-        );
-      }}
-    />
+    <LazilyLoad modules={modules}>
+      {({ QueryRenderer, SummaryPage }) => (
+        <QueryRenderer
+          query={planQuery}
+          variables={preparePlanParams(config, false)(match.params, match)}
+          environment={environment}
+          render={({ props: innerProps, error }) => {
+            return innerProps ? (
+              <SummaryPage
+                {...innerProps}
+                content={content}
+                map={map}
+                match={match}
+                error={error}
+                loading={false}
+              />
+            ) : (
+              <SummaryPage
+                content={content}
+                map={map}
+                match={match}
+                viewer={{ plan: {} }}
+                serviceTimeRange={validateServiceTimeRange()}
+                loading
+                error={error}
+              />
+            );
+          }}
+        />
+      )}
+    </LazilyLoad>
   ) : (
     <Loading />
   );

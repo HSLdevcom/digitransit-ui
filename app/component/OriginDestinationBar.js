@@ -123,6 +123,15 @@ class OriginDestinationBar extends React.Component {
       this.props.destination,
       this.props.locationState,
     );
+    const desktopTargets = ['Locations', 'CurrentPosition', 'Stops'];
+    if (
+      this.context.config.cityBike &&
+      this.context.config.cityBike.showCityBikes
+    ) {
+      desktopTargets.push('BikeRentalStations');
+    }
+    const mobileTargets = [...desktopTargets, 'MapPosition'];
+
     return (
       <div
         className={cx(
@@ -149,12 +158,7 @@ class OriginDestinationBar extends React.Component {
             'Datasource',
             this.props.showFavourites ? 'Favourite' : '',
           ]}
-          targets={[
-            'Locations',
-            'CurrentPosition',
-            this.props.isMobile ? 'MapPosition' : '',
-            'Stops',
-          ]}
+          targets={this.props.isMobile ? mobileTargets : desktopTargets}
           lang={this.props.language}
           disableAutoFocus={this.props.isMobile}
           isMobile={this.props.isMobile}

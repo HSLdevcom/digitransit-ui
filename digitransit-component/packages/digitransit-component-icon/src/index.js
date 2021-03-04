@@ -43,6 +43,12 @@ import ModeFerry from './assets/mode_ferry.svg';
 import ModeCitybike from './assets/mode_citybike.svg';
 import FutureRoute from './assets/icon-route.svg';
 import Position from './assets/position.svg';
+import SearchStreetName from './assets/search-streetname.svg';
+import BusWaltti from './assets/bus-waltti.svg';
+import FerryWaltti from './assets/ferry-waltti.svg';
+import CitybikeWaltti from './assets/citybike-waltti.svg';
+import RailWaltti from './assets/rail-waltti.svg';
+import TramWaltti from './assets/tram-waltti.svg';
 
 const IconMap = style => {
   return {
@@ -91,6 +97,12 @@ const IconMap = style => {
     'mode-citybike': <ModeCitybike style={style} />,
     'future-route': <FutureRoute style={style} />,
     position: <Position style={style} />,
+    'search-street-name': <SearchStreetName style={style} />,
+    'bus-waltti': <BusWaltti style={style} />,
+    'citybike-waltti': <CitybikeWaltti style={style} />,
+    'ferry-waltti': <FerryWaltti style={style} />,
+    'rail-waltti': <RailWaltti style={style} />,
+    'tram-waltti': <TramWaltti style={style} />,
   };
 };
 
