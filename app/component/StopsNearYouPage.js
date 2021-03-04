@@ -143,7 +143,7 @@ class StopsNearYouPage extends React.Component {
     const { mode } = this.props.match.params;
     let placeTypes = 'STOP';
     let modes = nearByMode ? [nearByMode] : [mode];
-    if (mode === 'CITYBIKE') {
+    if (nearByMode === 'CITYBIKE') {
       placeTypes = 'BICYCLE_RENT';
       modes = ['BICYCLE'];
     }
