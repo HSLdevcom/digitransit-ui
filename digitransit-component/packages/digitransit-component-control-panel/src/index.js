@@ -146,7 +146,7 @@ function NearStopsAndRoutes({
         </span>
         <span className={styles['transport-mode-icon-container']}>
           <span className={styles['transport-mode-icon-with-icon']}>
-            <Icon img={`mode-${mode}`} />
+            <Icon img={mode === 'favorite' ? 'star' : `mode-${mode}`} />
             {withAlert && (
               <span className={styles['transport-mode-alert-icon']}>
                 <Icon img="caution" color="#dc0451" />

@@ -91,10 +91,9 @@
       @include min-width(tablet)  {
         margin-right: 10px;
       }
-      margin-bottom: 8px;
     }
     & > a:last-child, & > div:last-child {
-      margin-bottom: 24px;
+      margin-bottom: 32px;
     }
     & > a, & > div {
       display: flex;
@@ -166,7 +165,6 @@
       @include min-width(tablet)  {
         margin-right: 10px;
       }
-      margin-bottom: 8px;
     }
     & > a:last-child, & > div:last-child {
       margin-bottom: 24px;

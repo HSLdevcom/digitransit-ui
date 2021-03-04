@@ -18,6 +18,7 @@ class RouteMapContainer extends React.PureComponent {
     super(props);
     this.state = {
       zoomLevel: -1,
+      trackVehicle: !!this.props.match.params.tripId,
     };
   }
 
@@ -51,6 +52,10 @@ class RouteMapContainer extends React.PureComponent {
     }
   };
 
+  stopTracking = () => {
+    this.setState({ trackVehicle: false });
+  };
+
   setMapElementRef = element => {
     if (!this.map) {
       this.map = get(element, 'leafletElement', null);
@@ -68,12 +73,16 @@ class RouteMapContainer extends React.PureComponent {
     let centerToMarker = false;
 
     if (this.props.match.params.tripId !== this.tripId) {
+      this.setState({ trackVehicle: true });
       this.tripId = this.props.match.params.tripId;
       centerToMarker = true;
     }
 
     [this.dispLat, this.dispLon] =
-      (centerToMarker || !this.dispLat || !this.dispLon) &&
+      (centerToMarker ||
+        !this.dispLat ||
+        !this.dispLon ||
+        this.state.trackVehicle) &&
       (match.params.tripId || breakpoint !== 'large') &&
       lat &&
       lon
@@ -126,6 +135,7 @@ class RouteMapContainer extends React.PureComponent {
         mapZoomLevel={this.state.zoomLevel}
         leafletEvents={{
           onZoomend: this.endZoom,
+          onDragstart: this.stopTracking,
         }}
         mapRef={this.setMapElementRef}
       >

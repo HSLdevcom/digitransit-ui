@@ -44,15 +44,15 @@ const AppBarHsl = ({ lang, user }, context) => {
       ? given_name.charAt(0) + family_name.charAt(0)
       : ''; // Authenticated user's initials, will be shown next to Person-icon.
 
-  const url = encodeURI(`${location.pathname}${location.search}`);
-
+  const url = encodeURI(location.pathname);
+  const params = location.search && location.search.substring(1);
   const userMenu =
     config.allowLogin && (user.sub || user.notLogged)
       ? {
           userMenu: {
             isLoading: false, // When fetching for login-information, `isLoading`-property can be set to true. Spinner will be shown.
             isAuthenticated: !!user.sub, // If user is authenticated, set `isAuthenticated`-property to true.
-            loginUrl: `/login?url=${url}`, // Url that user will be redirect to when Person-icon is pressed and user is not logged in.
+            loginUrl: `/login?url=${url}&${params}`, // Url that user will be redirect to when Person-icon is pressed and user is not logged in.
             initials,
             menuItems: [
               {

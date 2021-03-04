@@ -50,7 +50,10 @@ function getSuggestionContent(item) {
     let suggestionType;
     /* eslint-disable-next-line prefer-const */
     let [name, label] = getNameLabel(item.properties, true);
-    if (item.properties.layer.toLowerCase().includes('bikerental')) {
+    if (
+      item.properties.layer.toLowerCase().includes('bikerental') ||
+      item.properties.layer.toLowerCase().includes('bikestation')
+    ) {
       suggestionType = i18next.t('bikerentalstation');
       const stopCode = item.properties.labelId;
       return [suggestionType, name, undefined, stopCode];
