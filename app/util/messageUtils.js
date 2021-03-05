@@ -1,5 +1,3 @@
-import { v4 as uuid } from 'uuid';
-
 import translations from '../translations';
 
 export default function failedFavouriteMessage(type) {
@@ -24,7 +22,8 @@ export default function failedFavouriteMessage(type) {
     });
   });
   return {
-    id: uuid(),
+    id: 'failedFavouriteSave',
+    persistence: 'repeat',
     priority: -1,
     icon: 'caution_white_exclamation',
     iconColor: '#dc0451',
