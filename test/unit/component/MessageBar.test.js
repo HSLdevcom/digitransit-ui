@@ -15,6 +15,7 @@ const defaultProps = {
   lang: 'fi',
   messages: [],
   currentTime: 1558610379,
+  duplicateMessageCounter: 0,
 };
 
 const context = {
