@@ -40,10 +40,11 @@ const getDescription = (mode, distance, duration) => {
   );
 };
 
-function ViaLeg(props, context) {
+function ViaLeg(props, { config, intl }) {
   const distance = displayDistance(
     parseInt(props.leg.distance, 10),
-    context.config,
+    config,
+    intl.formatNumber,
   );
   const [address, place] = props.leg.from.name.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
   const duration = durationToString(props.leg.duration * 1000);
@@ -128,7 +129,7 @@ function ViaLeg(props, context) {
             }
             role="button"
             tabIndex="0"
-            aria-label={context.intl.formatMessage(
+            aria-label={intl.formatMessage(
               { id: 'itinerary-summary.show-on-map' },
               { target: props.leg.from.name || '' },
             )}
@@ -150,7 +151,7 @@ function ViaLeg(props, context) {
               }
               role="button"
               tabIndex="0"
-              aria-label={context.intl.formatMessage(
+              aria-label={intl.formatMessage(
                 { id: 'itinerary-summary.show-on-map' },
                 { target: '' },
               )}

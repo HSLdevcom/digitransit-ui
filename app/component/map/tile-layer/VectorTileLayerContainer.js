@@ -30,6 +30,7 @@ export default function VectorTileLayerContainer(props, { config }) {
       layers={layers}
       stopsNearYouMode={props.stopsNearYouMode}
       hilightedStops={props.hilightedStops}
+      stopsToShow={props.stopsToShow}
       tileSize={config.map.tileSize || 256}
       zoomOffset={config.map.zoomOffset || 0}
       locationPopup={props.locationPopup}
@@ -40,6 +41,7 @@ export default function VectorTileLayerContainer(props, { config }) {
 
 VectorTileLayerContainer.propTypes = {
   hilightedStops: PropTypes.arrayOf(PropTypes.string),
+  stopsToShow: PropTypes.arrayOf(PropTypes.string),
   showStops: PropTypes.bool,
   stopsNearYouMode: PropTypes.string,
   locationPopup: PropTypes.string,

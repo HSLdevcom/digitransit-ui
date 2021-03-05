@@ -99,7 +99,7 @@ div.map {
       .content-container {
         position: relative;
         top: -15px;
-        box-shadow: 0 0px 10px -2px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 -10px 10px -10px rgba(0, 0, 0, 0.3);
         border-radius: 15px 15px 0 0;
         padding-top: 15px;
         background-color: white;
@@ -250,23 +250,9 @@ div.leaflet-marker-icon.via {
 }
 
 div.leaflet-marker-icon.vehicle-icon {
-  border: none;
-  background: none;
   > span > svg.icon {
     width: 1.5em;
     height: 1.5em;
-    top: -0.25em;
-  }
-}
-
-div.leaflet-marker-icon.vehicle-icon.small-map-icon {
-  > span > svg.icon {
-    stroke-width: 40px;
-    stroke: white;
-    width: 0.78em;
-    height: 0.78em;
-    top: -0.2em;
-    left: -0.2em;
   }
 }
 
@@ -391,7 +377,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   }
 
   .leaflet-popup-tip-container {
-    margin: -5px 0px;
+    margin: -5px 5px;
     left: 0px;
     .leaflet-popup-tip {
       background: $background-color;

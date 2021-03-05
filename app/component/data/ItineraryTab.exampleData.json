@@ -167,8 +167,6 @@
     ],
     "walkDistance": 11.433,
     "duration": 217,
-    "elevationGained": 0.0,
-    "elevationLost": 0.0,
     "fares": [
       {
         "type": "regular",

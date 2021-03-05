@@ -44,7 +44,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/hml_zone_lines_20210126.geojson',
+        url: '/assets/geojson/hml_zone_lines_20210222.geojson',
       },
     ],
   },
@@ -168,4 +168,5 @@ export default configMerger(walttiConfig, {
 
   showAllBusses: true,
   showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
 });

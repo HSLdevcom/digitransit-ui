@@ -46,7 +46,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/tre_zone_lines_20191028.geojson',
+        url: '/assets/geojson/tre_zone_lines_20210222.geojson',
         isOffByDefault: true,
       },
     ],
@@ -272,6 +272,7 @@ export default configMerger(walttiConfig, {
   },
   showAllBusses: true,
   showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
   timetables: {
     tampere: tampereTimetables,
   },
