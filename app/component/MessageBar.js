@@ -116,6 +116,7 @@ class MessageBar extends Component {
     messages: PropTypes.array.isRequired,
     relayEnvironment: PropTypes.object,
     mobile: PropTypes.bool,
+    duplicateMessageCounter: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
@@ -243,6 +244,7 @@ class MessageBar extends Component {
           )}
         </span>
         <section
+          key={this.props.duplicateMessageCounter}
           id="messageBar"
           role="banner"
           aria-hidden="true"
@@ -311,6 +313,9 @@ const connectedComponent = connectToStores(
     lang: context.getStore('PreferencesStore').getLanguage(),
     messages: context.getStore('MessageStore').getMessages(),
     currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+    duplicateMessageCounter: context
+      .getStore('MessageStore')
+      .getDuplicateMessageCounter(),
   }),
 );
 

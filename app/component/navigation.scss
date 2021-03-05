@@ -475,6 +475,12 @@ section.content {
   @media print {
     display: none;
   }
+
+  @keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  animation: fadein 1s;
   position: relative;
   z-index: 802;
   width: 100%;

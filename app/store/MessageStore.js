@@ -43,6 +43,7 @@ class MessageStore extends Store {
   constructor(...args) {
     super(...args);
     this.messages = new Map();
+    this.duplicateMessageCounter = 0;
   }
 
   /* Message format:
@@ -72,6 +73,8 @@ class MessageStore extends Store {
     }
 
     if (this.messages.has(message.id)) {
+      this.duplicateMessageCounter += 1;
+      this.emitChange();
       return;
     }
 
@@ -158,6 +161,8 @@ class MessageStore extends Store {
 
     return arr;
   };
+
+  getDuplicateMessageCounter = () => this.duplicateMessageCounter;
 }
 
 export default MessageStore;
