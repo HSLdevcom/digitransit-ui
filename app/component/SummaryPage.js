@@ -2334,7 +2334,9 @@ class SummaryPage extends React.Component {
               defaultMessage="Itinerary suggestions"
             />
           }
-          bckBtnPopFallback={match.params.hash === 'bikeAndVehicle'}
+          bckBtnFallback={
+            match.params.hash === 'bikeAndVehicle' ? 'pop' : undefined
+          }
           header={
             <React.Fragment>
               <SummaryNavigation
