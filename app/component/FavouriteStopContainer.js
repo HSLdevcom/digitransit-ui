@@ -42,7 +42,7 @@ const FavouriteStopContainer = connectToStores(
             },
             context.executeAction(
               addMessage,
-              failedFavouriteMessage(favouriteType),
+              failedFavouriteMessage(favouriteType, true),
             ),
           );
           addAnalyticsEvent({
@@ -61,10 +61,18 @@ const FavouriteStopContainer = connectToStores(
       });
     },
     deleteFavourite: () => {
+      const favouriteType = isTerminal ? 'station' : 'stop';
       const stopToDelete = context
         .getStore('FavouriteStore')
         .getByGtfsId(stop.gtfsId, isTerminal ? 'station' : 'stop');
-      context.executeAction(deleteFavourite, stopToDelete);
+      context.executeAction(
+        deleteFavourite,
+        stopToDelete,
+        context.executeAction(
+          addMessage,
+          failedFavouriteMessage(favouriteType, false),
+        ),
+      );
       addAnalyticsEvent({
         category: 'Stop',
         action: 'MarkStopAsFavourite',

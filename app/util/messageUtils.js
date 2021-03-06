@@ -1,20 +1,22 @@
 import translations from '../translations';
 
-export default function failedFavouriteMessage(type) {
+export default function failedFavouriteMessage(type, isSave) {
   const english = translations.en;
   const content = {};
   Object.keys(translations).forEach(lang => {
     const current = translations[lang];
     content[lang] = [];
 
-    const headingKey = `add-favourite-${type}-failed-heading`;
+    const headingKey = isSave
+      ? `add-favourite-${type}-failed-heading`
+      : 'delete-favourite-failed-heading';
     const heading = current[headingKey] || english[headingKey];
     content[lang].push({
       type: 'heading',
       content: heading,
     });
 
-    const textKey = 'add-favourite-failed-text';
+    const textKey = 'favourite-failed-text';
     const text = current[textKey] || english[textKey];
     content[lang].push({
       type: 'text',
@@ -22,7 +24,7 @@ export default function failedFavouriteMessage(type) {
     });
   });
   return {
-    id: 'failedFavouriteSave',
+    id: isSave ? 'failedFavouriteSave' : 'failedFavouriteDeletion',
     persistence: 'repeat',
     priority: -1,
     icon: 'caution_white_exclamation',

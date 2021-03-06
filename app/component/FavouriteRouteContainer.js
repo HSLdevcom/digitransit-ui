@@ -15,7 +15,10 @@ const FavouriteRouteContainer = connectToStores(
       context.executeAction(
         saveFavourite,
         { type: 'route', gtfsId },
-        context.executeAction(addMessage, failedFavouriteMessage('route')),
+        context.executeAction(
+          addMessage,
+          failedFavouriteMessage('route', true),
+        ),
       );
       addAnalyticsEvent({
         category: 'Route',
@@ -27,7 +30,14 @@ const FavouriteRouteContainer = connectToStores(
       const route = context
         .getStore('FavouriteStore')
         .getByGtfsId(gtfsId, 'route');
-      context.executeAction(deleteFavourite, route);
+      context.executeAction(
+        deleteFavourite,
+        route,
+        context.executeAction(
+          addMessage,
+          failedFavouriteMessage('route', false),
+        ),
+      );
       addAnalyticsEvent({
         category: 'Route',
         action: 'MarkRouteAsFavourite',

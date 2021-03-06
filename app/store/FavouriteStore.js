@@ -202,8 +202,9 @@ export default class FavouriteStore extends Store {
     }
   }
 
-  updateFavourites(newFavourites) {
+  updateFavourites(newFavourites, onFail) {
     if (!Array.isArray(newFavourites)) {
+      onFail();
       throw new Error(
         `New favourites is not an array:${JSON.stringify(newFavourites)}`,
       );
@@ -217,6 +218,7 @@ export default class FavouriteStore extends Store {
           this.fetchComplete();
         })
         .catch(() => {
+          onFail();
           this.fetchComplete();
         });
     } else {
@@ -226,8 +228,9 @@ export default class FavouriteStore extends Store {
     }
   }
 
-  deleteFavourite(data) {
+  deleteFavourite(data, onFail) {
     if (typeof data !== 'object') {
+      onFail();
       throw new Error(`Favourite is not an object:${JSON.stringify(data)}`);
     }
     this.fetchingOrUpdating();
@@ -242,6 +245,7 @@ export default class FavouriteStore extends Store {
           this.fetchComplete();
         })
         .catch(() => {
+          onFail();
           this.fetchComplete();
         });
     } else {
@@ -254,7 +258,7 @@ export default class FavouriteStore extends Store {
   migrateRoutes() {
     const routes = getFavouriteRoutesStorage();
     routes.forEach(route => {
-      this.saveFavourite({ type: 'route', gtfsId: route });
+      this.saveFavourite({ type: 'route', gtfsId: route }, () => {});
     });
     removeItem('favouriteRoutes');
   }
@@ -272,7 +276,7 @@ export default class FavouriteStore extends Store {
         layer: stop.layer,
         selectedIconId: stop.selectedIconId,
       };
-      this.saveFavourite(newStop);
+      this.saveFavourite(newStop, () => {});
     });
     removeItem('favouriteStops');
   }
@@ -306,7 +310,7 @@ export default class FavouriteStore extends Store {
             layer: data.properties.layer,
             selectedIconId: location.selectedIconId,
           };
-          this.saveFavourite(newLocation);
+          this.saveFavourite(newLocation, () => {});
         }
       });
     });

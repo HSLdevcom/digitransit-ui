@@ -815,7 +815,7 @@ const translations = {
     'accessibility-statement': 'Accessibility statement',
     'add-favourite-bike-station-failed-heading':
       'Saving the citybike station failed',
-    'add-favourite-failed-text': 'Please try again in a while.',
+    'add-favourite-place-failed-heading': 'Saving the place failed',
     'add-favourite-route-failed-heading': 'Saving the route failed',
     'add-favourite-station-failed-heading': 'Saving the station failed.',
     'add-favourite-stop-failed-heading': 'Saving the stop failed',
@@ -929,6 +929,7 @@ const translations = {
     date: 'Date',
     day: 'Day',
     delete: 'Delete',
+    'delete-favourite-failed-heading': 'Unable to delete save',
     'departure-is-canceled': '{modeInfo} {from}–{to} at {time} is cancelled',
     'departure-is-canceled-airplane': 'Flight {shortName}',
     'departure-is-canceled-bus': 'Bus {shortName}',
@@ -963,6 +964,7 @@ const translations = {
     'elevation-lost-total': 'Elevation lost',
     explanations: 'Explanations',
     'extra-info': 'More info',
+    'favourite-failed-text': 'Please try again in a while.',
     'favourite-target': 'Favorite location',
     ferry: 'Ferry',
     'ferry-with-route-number': 'Ferry {routeNumber} {headSign}',
@@ -1723,7 +1725,7 @@ const translations = {
     'accessibility-statement': 'Saavutettavuusseloste',
     'add-favourite-bike-station-failed-heading':
       'Kaupunkipyöräaseman tallentaminen ei onnistunut',
-    'add-favourite-failed-text': 'Yritä hetken päästä uudelleen.',
+    'add-favourite-place-failed-heading': 'Paikan tallentaminen ei onnistunut',
     'add-favourite-route-failed-heading': 'Linjan tallentaminen ei onnistunut',
     'add-favourite-station-failed-heading':
       'Aseman tallentaminen ei onnistunut',
@@ -1842,6 +1844,7 @@ const translations = {
     date: 'Päivämäärä',
     day: 'Päivä',
     delete: 'Poista',
+    'delete-favourite-failed-heading': 'Tallennuksen poistaminen ei onnistunut',
     'departure-is-canceled':
       '{modeInfo} lähtö {from}–{to} kello {time} on peruttu',
     'departure-is-canceled-airplane': 'Lennon {shortName}',
@@ -1879,6 +1882,7 @@ const translations = {
     'elevation-lost-total': 'Laskua yhteensä',
     explanations: 'Selitykset',
     'extra-info': 'Lisätiedot',
+    'favourite-failed-text': 'Yritä hetken päästä uudelleen.',
     'favourite-target': 'Suosikkikohde',
     ferry: 'Lautta',
     'ferry-with-route-number': 'Lautta {routeNumber} {headSign}',
@@ -3400,7 +3404,7 @@ const translations = {
     'accessibility-statement': 'Tillgänglighetsförklaring',
     'add-favourite-bike-station-failed-heading':
       'Kunde inte spara stadscykelstationen',
-    'add-favourite-failed-text': 'Försök på nytt senare.',
+    'add-favourite-place-failed-heading': 'Kunde inte spara platsen',
     'add-favourite-route-failed-heading': 'Kunde inte spara linjen',
     'add-favourite-station-failed-heading': 'Kunde inte spara stationen',
     'add-favourite-stop-failed-heading': 'Kunde inte spara hållplatsen',
@@ -3512,6 +3516,7 @@ const translations = {
     date: 'Datum',
     day: 'Dagen',
     delete: 'Ta bort',
+    'delete-favourite-failed-heading': 'Unable to delete save',
     'departure-is-canceled':
       'Avgång på {modeInfo} {from}–{to} kl. {time} är inställd',
     'departure-is-canceled-airplane': 'flyg {shortName}',
@@ -3548,6 +3553,7 @@ const translations = {
     'elevation-lost-total': 'Nedförsbacke totalt',
     explanations: 'Förklaringar',
     'extra-info': 'Mer info',
+    'favourite-failed-text': 'Försök på nytt senare.',
     'favourite-target': 'Favoritdestination',
     ferry: 'Färja',
     'ferry-with-route-number': 'Färja {routeNumber} {headSign}',
