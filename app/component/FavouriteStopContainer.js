@@ -55,7 +55,7 @@ const FavouriteStopContainer = connectToStores(
         } else {
           context.executeAction(
             addMessage,
-            failedFavouriteMessage(favouriteType),
+            failedFavouriteMessage(favouriteType, true),
           );
         }
       });
