@@ -27,10 +27,12 @@ const FavouriteBikeRentalStationContainer = connectToStores(
           stationId: bikeRentalStation.stationId,
           type: 'bikeStation',
         },
-        context.executeAction(
-          addMessage,
-          failedFavouriteMessage('bike-station', true),
-        ),
+        () => {
+          context.executeAction(
+            addMessage,
+            failedFavouriteMessage('bike-station', true),
+          );
+        },
       );
       addAnalyticsEvent({
         category: 'BikeRentalStation',
@@ -50,14 +52,12 @@ const FavouriteBikeRentalStationContainer = connectToStores(
           bikeRentalStation.stationId,
           bikeRentalStation.networks,
         );
-      context.executeAction(
-        deleteFavourite,
-        bikeRentalStationToDelete,
+      context.executeAction(deleteFavourite, bikeRentalStationToDelete, () => {
         context.executeAction(
           addMessage,
           failedFavouriteMessage('bike-station', false),
-        ),
-      );
+        );
+      });
       addAnalyticsEvent({
         category: 'BikeRentalStation',
         action: 'MarkBikeRentalStationAsFavourite',

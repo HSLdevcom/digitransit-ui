@@ -155,14 +155,12 @@ class FavouritesContainer extends React.Component {
       action: 'SaveFavourite',
       name: null,
     });
-    this.context.executeAction(
-      saveFavourite,
-      favourite,
+    this.context.executeAction(saveFavourite, favourite, () => {
       this.context.executeAction(
         addMessage,
         failedFavouriteMessage('place', true),
-      ),
-    );
+      );
+    });
   };
 
   deleteFavourite = favourite => {
@@ -171,14 +169,12 @@ class FavouritesContainer extends React.Component {
       action: 'DeleteFavourite',
       name: null,
     });
-    this.context.executeAction(
-      deleteFavourite,
-      favourite,
+    this.context.executeAction(deleteFavourite, favourite, () => {
       this.context.executeAction(
         addMessage,
         failedFavouriteMessage('place', false),
-      ),
-    );
+      );
+    });
   };
 
   updateFavourites = favourites => {
@@ -187,14 +183,12 @@ class FavouritesContainer extends React.Component {
       action: 'UpdateFavourite',
       name: null,
     });
-    this.context.executeAction(
-      updateFavourites,
-      favourites,
+    this.context.executeAction(updateFavourites, favourites, () => {
       this.context.executeAction(
         addMessage,
         failedFavouriteMessage('place', true),
-      ),
-    );
+      );
+    });
   };
 
   editFavourite = currentFavourite => {

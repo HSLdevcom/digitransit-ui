@@ -161,7 +161,8 @@ export default class FavouriteStore extends Store {
     );
   }
 
-  saveFavourite(data, onFail) {
+  saveFavourite(actionData) {
+    const { onFail, ...data } = actionData;
     if (typeof data !== 'object') {
       onFail();
       throw new Error(`New favourite is not a object:${JSON.stringify(data)}`);
@@ -202,7 +203,8 @@ export default class FavouriteStore extends Store {
     }
   }
 
-  updateFavourites(newFavourites, onFail) {
+  updateFavourites(actionData) {
+    const { onFail, newFavourites } = actionData;
     if (!Array.isArray(newFavourites)) {
       onFail();
       throw new Error(
@@ -228,7 +230,8 @@ export default class FavouriteStore extends Store {
     }
   }
 
-  deleteFavourite(data, onFail) {
+  deleteFavourite(actionData) {
+    const { onFail, ...data } = actionData;
     if (typeof data !== 'object') {
       onFail();
       throw new Error(`Favourite is not an object:${JSON.stringify(data)}`);
@@ -258,7 +261,7 @@ export default class FavouriteStore extends Store {
   migrateRoutes() {
     const routes = getFavouriteRoutesStorage();
     routes.forEach(route => {
-      this.saveFavourite({ type: 'route', gtfsId: route }, () => {});
+      this.saveFavourite({ type: 'route', gtfsId: route, onFail: () => {} });
     });
     removeItem('favouriteRoutes');
   }
@@ -276,7 +279,7 @@ export default class FavouriteStore extends Store {
         layer: stop.layer,
         selectedIconId: stop.selectedIconId,
       };
-      this.saveFavourite(newStop, () => {});
+      this.saveFavourite({ ...newStop, onFail: () => {} });
     });
     removeItem('favouriteStops');
   }
@@ -310,7 +313,7 @@ export default class FavouriteStore extends Store {
             layer: data.properties.layer,
             selectedIconId: location.selectedIconId,
           };
-          this.saveFavourite(newLocation, () => {});
+          this.saveFavourite({ ...newLocation, onFail: () => {} });
         }
       });
     });
