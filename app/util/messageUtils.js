@@ -1,5 +1,13 @@
 import translations from '../translations';
 
+/**
+ * Generates a multi-language favourite save or delete error message
+ * that can be stored in MessageStore.
+ *
+ * @param {string} type the type of the favourite (stop|station|citybike-station|route|place)
+ * @param {boolean} isSave if message is generated for failed save, alternatively it's for failed deletion
+ * @returns error message that can be added to MessageStore
+ */
 export default function failedFavouriteMessage(type, isSave) {
   const english = translations.en;
   const content = {};

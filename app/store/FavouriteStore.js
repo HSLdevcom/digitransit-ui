@@ -161,6 +161,15 @@ export default class FavouriteStore extends Store {
     );
   }
 
+  /**
+   * Saves (or updates) favourite.
+   * Triggers onFail callback function when storing favourite fails.
+   * Generates or updates lastUpdated epoch and for new favourites,
+   * it also generates favouriteId.
+   *
+   * @param {*} actionData object containing favourite data
+   * and on fail callback function under onFail key
+   */
   saveFavourite(actionData) {
     const { onFail, ...data } = actionData;
     if (typeof data !== 'object') {
@@ -203,6 +212,12 @@ export default class FavouriteStore extends Store {
     }
   }
 
+  /**
+   * Replaces existing array of favourites with an updated array of favourites.
+   *
+   * @param {*} actionData object containing array of new favourites
+   * and on fail callback function under onFail key
+   */
   updateFavourites(actionData) {
     const { onFail, newFavourites } = actionData;
     if (!Array.isArray(newFavourites)) {
@@ -230,6 +245,12 @@ export default class FavouriteStore extends Store {
     }
   }
 
+  /**
+   * Deletes given favourite if one exists in store.
+   *
+   * @param {*} actionData object containing data for favourite to be deleted
+   * and on fail callback function under onFail key
+   */
   deleteFavourite(actionData) {
     const { onFail, ...data } = actionData;
     if (typeof data !== 'object') {
