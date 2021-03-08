@@ -26,7 +26,7 @@ export default function failedFavouriteMessage(type, isSave) {
   return {
     id: isSave ? 'failedFavouriteSave' : 'failedFavouriteDeletion',
     persistence: 'repeat',
-    priority: -1,
+    priority: 4,
     icon: 'caution_white_exclamation',
     iconColor: '#dc0451',
     backgroundColor: '#fdf0f5',
