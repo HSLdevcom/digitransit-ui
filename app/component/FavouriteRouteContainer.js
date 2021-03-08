@@ -2,9 +2,7 @@ import PropTypes from 'prop-types';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Favourite from './Favourite';
 import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
-import { addMessage } from '../action/MessageActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import failedFavouriteMessage from '../util/messageUtils';
 
 const FavouriteRouteContainer = connectToStores(
   Favourite,
@@ -12,12 +10,7 @@ const FavouriteRouteContainer = connectToStores(
   (context, { gtfsId }) => ({
     favourite: context.getStore('FavouriteStore').isFavourite(gtfsId, 'route'),
     addFavourite: () => {
-      context.executeAction(saveFavourite, { type: 'route', gtfsId }, () => {
-        context.executeAction(
-          addMessage,
-          failedFavouriteMessage('route', true),
-        );
-      });
+      context.executeAction(saveFavourite, { type: 'route', gtfsId }, 'route');
       addAnalyticsEvent({
         category: 'Route',
         action: 'MarkRouteAsFavourite',
@@ -28,12 +21,7 @@ const FavouriteRouteContainer = connectToStores(
       const route = context
         .getStore('FavouriteStore')
         .getByGtfsId(gtfsId, 'route');
-      context.executeAction(deleteFavourite, route, () => {
-        context.executeAction(
-          addMessage,
-          failedFavouriteMessage('route', false),
-        );
-      });
+      context.executeAction(deleteFavourite, route, 'route');
       addAnalyticsEvent({
         category: 'Route',
         action: 'MarkRouteAsFavourite',

@@ -2,9 +2,7 @@ import PropTypes from 'prop-types';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Favourite from './Favourite';
 import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
-import { addMessage } from '../action/MessageActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import failedFavouriteMessage from '../util/messageUtils';
 
 const FavouriteBikeRentalStationContainer = connectToStores(
   Favourite,
@@ -27,12 +25,7 @@ const FavouriteBikeRentalStationContainer = connectToStores(
           stationId: bikeRentalStation.stationId,
           type: 'bikeStation',
         },
-        () => {
-          context.executeAction(
-            addMessage,
-            failedFavouriteMessage('citybike-station', true),
-          );
-        },
+        'citybike-station',
       );
       addAnalyticsEvent({
         category: 'BikeRentalStation',
@@ -52,12 +45,11 @@ const FavouriteBikeRentalStationContainer = connectToStores(
           bikeRentalStation.stationId,
           bikeRentalStation.networks,
         );
-      context.executeAction(deleteFavourite, bikeRentalStationToDelete, () => {
-        context.executeAction(
-          addMessage,
-          failedFavouriteMessage('citybike-station', false),
-        );
-      });
+      context.executeAction(
+        deleteFavourite,
+        bikeRentalStationToDelete,
+        'citybike-station',
+      );
       addAnalyticsEvent({
         category: 'BikeRentalStation',
         action: 'MarkBikeRentalStationAsFavourite',

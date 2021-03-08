@@ -1,11 +1,38 @@
-export function saveFavourite(actionContext, data, onFail) {
-  actionContext.dispatch('SaveFavourite', { ...data, onFail });
+import { addMessage } from './MessageActions';
+import failedFavouriteMessage from '../util/messageUtils';
+
+export function saveFavourite(actionContext, data, type) {
+  actionContext.dispatch('SaveFavourite', {
+    ...data,
+    onFail: () => {
+      actionContext.executeAction(
+        addMessage,
+        failedFavouriteMessage(type, true),
+      );
+    },
+  });
 }
 
-export function updateFavourites(actionContext, data, onFail) {
-  actionContext.dispatch('UpdateFavourites', { newFavourites: data, onFail });
+export function updateFavourites(actionContext, data, type) {
+  actionContext.dispatch('UpdateFavourites', {
+    newFavourites: data,
+    onFail: () => {
+      actionContext.executeAction(
+        addMessage,
+        failedFavouriteMessage(type, true),
+      );
+    },
+  });
 }
 
-export function deleteFavourite(actionContext, data, onFail) {
-  actionContext.dispatch('DeleteFavourite', { ...data, onFail });
+export function deleteFavourite(actionContext, data, type) {
+  actionContext.dispatch('DeleteFavourite', {
+    ...data,
+    onFail: () => {
+      actionContext.executeAction(
+        addMessage,
+        failedFavouriteMessage(type, false),
+      );
+    },
+  });
 }
