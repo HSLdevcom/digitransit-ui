@@ -74,6 +74,7 @@ class StopsNearYouPage extends React.Component {
       phase: PH_START,
       centerOfMap: null,
       centerOfMapChanged: false,
+      mapState: 'position',
     };
   }
 
@@ -162,9 +163,17 @@ class StopsNearYouPage extends React.Component {
   setCenterOfMap = mapElement => {
     let location;
     if (!mapElement) {
+      if (distance(this.state.searchPosition, this.props.position) > 100) {
+        return this.setState({
+          centerOfMap: this.props.position,
+          centerOfMapChanged: true,
+          mapState: 'userLocation',
+        });
+      }
       return this.setState({
         centerOfMap: null,
         centerOfMapChanged: false,
+        mapState: 'userLocation'
       });
     }
     if (this.props.breakpoint === 'large') {
@@ -182,11 +191,14 @@ class StopsNearYouPage extends React.Component {
       ]);
       location = { lat: point.lat, lon: point.lng };
     }
-    return this.setState({ centerOfMap: location, centerOfMapChanged: true });
+    return this.setState({ centerOfMap: location, centerOfMapChanged: true, mapState: 'centerOfMap' });
   };
 
   positionChanged = () => {
     const { searchPosition, centerOfMap } = this.state;
+    if (!position || !searchPosition) {
+      return false;
+    }
     if (
       centerOfMap &&
       searchPosition.lat === centerOfMap.lat &&
@@ -221,6 +233,7 @@ class StopsNearYouPage extends React.Component {
       return this.setState({
         searchPosition: { ...centerOfMap, type: 'CenterOfMap' },
         centerOfMapChanged: false,
+        mapState: 'newCenterOfMap',
       });
     }
     return this.setState({ searchPosition: this.getPosition() });
@@ -443,6 +456,7 @@ class StopsNearYouPage extends React.Component {
                   position={this.state.searchPosition}
                   match={this.props.match}
                   setCenterOfMap={this.setCenterOfMap}
+                  mapState={this.state.mapState}
                   stops={props.stops}
                   stations={props.stations}
                   bikeStations={props.bikeStations}
@@ -494,8 +508,10 @@ class StopsNearYouPage extends React.Component {
             return (
               <StopsNearYouMapContainer
                 position={this.state.searchPosition}
+                centerOfMap={this.state.centerOfMap}
                 stopsNearYou={props.stops}
                 match={this.props.match}
+                mapState={this.state.mapState}
                 setCenterOfMap={this.setCenterOfMap}
               />
             );
@@ -535,6 +551,9 @@ class StopsNearYouPage extends React.Component {
     this.setState({
       phase: PH_USEDEFAULTPOS,
       searchPosition: item,
+      centerOfMap: null,
+      centerOfMapChanged: false,
+      mapState: 'location',
     });
   };
 

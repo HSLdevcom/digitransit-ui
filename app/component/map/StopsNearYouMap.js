@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { matchShape } from 'found';
 import { graphql, fetchQuery } from 'react-relay';
@@ -109,7 +109,6 @@ const handleBounds = (location, edges, breakpoint) => {
               location.lon + location.lon - nearestStop.lon,
             ],
           ];
-
     return bounds;
   }
   return [];
@@ -135,8 +134,10 @@ function StopsNearYouMap(
     favouriteIds,
     relay,
     position,
+    centerOfMap,
     setCenterOfMap,
     defaultMapCenter,
+    mapState,
   },
   { ...context },
 ) {
@@ -234,6 +235,57 @@ function StopsNearYouMap(
     }
   };
 
+  useEffect(() => {
+    let newBounds;
+    console.log(mapState);
+    if (sortedStopEdges.length > 0) {
+
+    switch (mapState) {
+      case 'centerOfMap':
+        //newBounds = handleBounds(centerOfMap, sortedStopEdges, breakpoint);
+        break;
+      case 'newCenterOfMap':
+        newBounds = handleBounds(centerOfMap, sortedStopEdges, breakpoint);
+        if (newBounds.length > 0) {
+          setUseFitBounds(true);
+        }
+        setBounds(newBounds);
+        break;
+      case 'position':
+        console.log("position", position, sortedStopEdges)
+        if (position && position.lat && position.lon) {
+          newBounds = handleBounds(position, sortedStopEdges, breakpoint);
+          if (newBounds.length > 0) {
+            setUseFitBounds(true);
+          }
+          setBounds(newBounds);
+        }
+        break;
+      case 'userLocation':
+        if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
+          newBounds = handleBounds(centerOfMap, sortedStopEdges, breakpoint);
+          if (newBounds.length > 0) {
+            setUseFitBounds(true);
+          }
+          setBounds(newBounds);
+        }
+        break;
+      case 'location':
+        if (position && position.lat && position.lon) {
+          newBounds = handleBounds(position, sortedStopEdges, breakpoint);
+          if (newBounds.length > 0) {
+            setUseFitBounds(true);
+          }
+          setBounds(newBounds);
+        }
+      break;
+
+
+    }
+          
+  }
+  }, [mapState, sortedStopEdges]);
+
   const setRoutes = sortedRoutes => {
     const routeLines = [];
     const realtimeTopics = [];
@@ -271,22 +323,37 @@ function StopsNearYouMap(
     }
   };
 
-  useCallback(() => {
-    if (position && position.lat && position.lon) {
-      const newBounds = handleBounds(position, sortedStopEdges, breakpoint);
-      if (newBounds.length > 0) {
-        setUseFitBounds(true);
-      }
-      setBounds(newBounds);
-      relay.refetchConnection(5, null, oldVariables => {
-        return {
-          ...oldVariables,
-          lat: position.lat,
-          lon: position.lon,
-        };
-      });
-    }
-  }, [position, sortedStopEdges]);
+  useEffect(() => {
+    // if (position && position.lat && position.lon) {
+    //   let newBounds;
+    //   if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
+    //     newBounds = handleBounds(centerOfMap, sortedStopEdges, breakpoint);
+    //   } else {
+    //     newBounds = handleBounds(position, sortedStopEdges, breakpoint);
+    //   }
+    //   if (newBounds.length > 0) {
+    //     setUseFitBounds(true);
+    //   }
+    //   setBounds(newBounds);
+    // }
+  }, [position, centerOfMap, sortedStopEdges]);
+
+  // useCallback(() => {
+  //   if (position && position.lat && position.lon) {
+  //     const newBounds = handleBounds(position, sortedStopEdges, breakpoint);
+  //     if (newBounds.length > 0) {
+  //       setUseFitBounds(true);
+  //     }
+  //     setBounds(newBounds);
+  //     relay.refetchConnection(5, null, oldVariables => {
+  //       return {
+  //         ...oldVariables,
+  //         lat: position.lat,
+  //         lon: position.lon,
+  //       };
+  //     });
+  //   }
+  // }, [position, sortedStopEdges]);
 
   useEffect(() => {
     if (uniqueRealtimeTopics.length > 0 && !clientOn) {
