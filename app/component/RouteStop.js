@@ -134,7 +134,7 @@ const RouteStop = (
     let vehicleTripLink;
     let vehicleState;
     if (vehicle) {
-      const maxDistance = vehicle.mode === 'rail' ? 100 : 30;
+      const maxDistance = vehicle.mode === 'rail' ? 100 : 50;
       const { realtimeDeparture, realtimeArrival, serviceDay } = firstDeparture;
       const arrivalTimeToStop = (serviceDay + realtimeArrival) * 1000;
       const departureTimeFromStop = (serviceDay + realtimeDeparture) * 1000;
