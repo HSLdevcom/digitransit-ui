@@ -14,7 +14,7 @@ export default function DesktopView({
   scrolled,
   onScroll,
   bckBtnVisible,
-  bckBtnPopFallback,
+  bckBtnFallback,
 }) {
   return (
     <div className="desktop">
@@ -30,7 +30,7 @@ export default function DesktopView({
                 title={title}
                 icon="icon-icon_arrow-collapse--left"
                 iconClassName="arrow-icon"
-                popFallback={bckBtnPopFallback}
+                fallback={bckBtnFallback}
               />
             </div>
           </div>
@@ -63,7 +63,7 @@ DesktopView.propTypes = {
   scrolled: PropTypes.bool,
   onScroll: PropTypes.func,
   bckBtnVisible: PropTypes.bool,
-  bckBtnPopFallback: PropTypes.bool,
+  bckBtnFallback: PropTypes.string,
 };
 
 DesktopView.defaultProps = {
@@ -71,5 +71,5 @@ DesktopView.defaultProps = {
   scrolled: false,
   onScroll: undefined,
   bckBtnVisible: true,
-  bckBtnPopFallback: false,
+  bckBtnFallback: undefined,
 };

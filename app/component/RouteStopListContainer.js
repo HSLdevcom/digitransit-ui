@@ -85,6 +85,9 @@ class RouteStopListContainer extends React.PureComponent {
           first={i === 0}
           className={rowClassName}
           displayNextDeparture={this.context.config.displayNextDeparture}
+          shortName={
+            this.props.pattern.route && this.props.pattern.route.shortName
+          }
         />
       );
     });
@@ -135,6 +138,7 @@ const containerComponent = createRefetchContainer(
         route {
           mode
           color
+          shortName
         }
         stops {
           alerts {
