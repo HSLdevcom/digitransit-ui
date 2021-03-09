@@ -14,6 +14,7 @@ import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import withBreakpoint, { DesktopOrMobile } from '../util/withBreakpoint';
 import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
+import { MAPSTATES } from '../util/stopsNearYouUtils';
 import Loading from './Loading';
 import {
   checkPositioningPermission,
@@ -42,12 +43,6 @@ const PH_SHOWSEARCH = [PH_SEARCH, PH_SEARCH_GEOLOCATION]; // show modal
 const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION]; // render the actual page
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
-
-export const MAPSTATES = {
-  FITBOUNDSTOCENTER: 'fitBoundsToCenter',
-  HUMANSCROLL: 'humanScroll',
-  FITBOUNDSTOSEARCHPOSITION: 'fitBoundsToSearchPosition',
-}
 
 class StopsNearYouPage extends React.Component {
   // eslint-disable-line
@@ -177,7 +172,7 @@ class StopsNearYouPage extends React.Component {
         });
       }
       return this.setState({
-        centerOfMap: null,
+        centerOfMap: this.props.position,
         centerOfMapChanged: false,
         mapState: MAPSTATES.FITBOUNDSTOCENTER,
       });
@@ -206,7 +201,7 @@ class StopsNearYouPage extends React.Component {
 
   positionChanged = () => {
     const { searchPosition, centerOfMap } = this.state;
-    if (!position || !searchPosition) {
+    if (!searchPosition) {
       return false;
     }
     if (

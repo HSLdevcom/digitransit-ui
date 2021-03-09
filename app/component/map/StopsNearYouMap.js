@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { matchShape } from 'found';
 import { graphql, fetchQuery } from 'react-relay';
@@ -25,7 +25,7 @@ import {
 import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
-import { MAPSTATES } from '../StopsNearYouPage';
+import { MAPSTATES } from '../../util/stopsNearYouUtils';
 
 const locationMarkerModules = {
   LocationMarker: () =>
@@ -237,29 +237,21 @@ function StopsNearYouMap(
   };
 
   useEffect(() => {
-    let newBounds;
+    let newBounds = [];
     if (sortedStopEdges.length > 0) {
-      switch (mapState) {
-        case MAPSTATES.HUMAN_SCROLL:
-          // newBounds = handleBounds(centerOfMap, sortedStopEdges, breakpoint);
-          break;
-        case MAPSTATES.FITBOUNDSTOCENTER:
+      if (mapState === MAPSTATES.FITBOUNDSTOCENTER) {
+        if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
           newBounds = handleBounds(centerOfMap, sortedStopEdges, breakpoint);
-          if (newBounds.length > 0) {
-            setUseFitBounds(true);
-          }
-          setBounds(newBounds);
-          break;
-        case MAPSTATES.FITBOUNDSTOSEARCHPOSITION:
-          if (position && position.lat && position.lon) {
-            newBounds = handleBounds(position, sortedStopEdges, breakpoint);
-            if (newBounds.length > 0) {
-              setUseFitBounds(true);
-            }
-            setBounds(newBounds);
-          }
-          break;
+        }
+      } else if (mapState === MAPSTATES.FITBOUNDSTOSEARCHPOSITION) {
+        if (position && position.lat && position.lon) {
+          newBounds = handleBounds(position, sortedStopEdges, breakpoint);
+        }
       }
+      if (newBounds && newBounds.length > 0) {
+        setUseFitBounds(true);
+      }
+      setBounds(newBounds);
     }
   }, [mapState, sortedStopEdges]);
 
@@ -301,38 +293,6 @@ function StopsNearYouMap(
   };
 
   useEffect(() => {
-    // if (position && position.lat && position.lon) {
-    //   let newBounds;
-    //   if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
-    //     newBounds = handleBounds(centerOfMap, sortedStopEdges, breakpoint);
-    //   } else {
-    //     newBounds = handleBounds(position, sortedStopEdges, breakpoint);
-    //   }
-    //   if (newBounds.length > 0) {
-    //     setUseFitBounds(true);
-    //   }
-    //   setBounds(newBounds);
-    // }
-  }, [position, centerOfMap, sortedStopEdges]);
-
-  // useCallback(() => {
-  //   if (position && position.lat && position.lon) {
-  //     const newBounds = handleBounds(position, sortedStopEdges, breakpoint);
-  //     if (newBounds.length > 0) {
-  //       setUseFitBounds(true);
-  //     }
-  //     setBounds(newBounds);
-  //     relay.refetchConnection(5, null, oldVariables => {
-  //       return {
-  //         ...oldVariables,
-  //         lat: position.lat,
-  //         lon: position.lon,
-  //       };
-  //     });
-  //   }
-  // }, [position, sortedStopEdges]);
-
-  useEffect(() => {
     if (uniqueRealtimeTopics.length > 0 && !clientOn) {
       startClient(context, uniqueRealtimeTopics);
       setClientOn(true);
@@ -360,7 +320,7 @@ function StopsNearYouMap(
           ? stopsNearYou.nearest.edges
               .slice()
               .sort(sortNearbyRentalStations(favouriteIds))
-          : stopsNearYou.nearest.edges
+          : active
               .slice()
               .sort(sortNearbyStops(favouriteIds, walkRoutingThreshold));
       const stopsAndStations = handleStopsAndStations(sortedEdges);
@@ -451,7 +411,9 @@ function StopsNearYouMap(
       mode !== 'CITYBIKE'
     ) {
       return [
-        stopsAndStations[0]?.gtfsId || stopsAndStations[0]?.stationId || stopsAndStations[0].node.place.gtfsId,
+        stopsAndStations[0]?.gtfsId ||
+          stopsAndStations[0]?.stationId ||
+          stopsAndStations[0].node.place.gtfsId,
       ];
     }
     return [''];
@@ -507,6 +469,7 @@ function StopsNearYouMap(
           stopsToShow={Array.from(favouriteIds)}
           stopsNearYouMode={mode}
           fitBounds={useFitBounds}
+          mapState={mapState}
           defaultMapCenter={defaultMapCenter || context.config.defaultEndpoint}
           boundsOptions={{ maxZoom: zoom }}
           bounds={bounds}
