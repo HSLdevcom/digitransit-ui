@@ -18,6 +18,11 @@ import {
   vehicle as exampleVehicle,
 } from './ExampleData';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
+import { estimateItineraryDistance } from '../util/geo-utils';
+
+const VEHICLE_ARRIVING = 'arriving';
+const VEHICLE_ARRIVED = 'arrived';
+const VEHICLE_DEPARTED = 'departed';
 
 const TripRouteStop = props => {
   const {
@@ -30,24 +35,52 @@ const TripRouteStop = props => {
     stopPassed,
     stoptime,
   } = props;
+
+  const getVehiclePatternLink = vehicle => {
+    const maxDistance = vehicle.mode === 'rail' ? 100 : 50;
+    const { realtimeDeparture, realtimeArrival, serviceDay } = stoptime;
+    const arrivalTimeToStop = (serviceDay + realtimeArrival) * 1000;
+    const departureTimeFromStop = (serviceDay + realtimeDeparture) * 1000;
+    const vehicleTime = vehicle.timestamp * 1000;
+    const distanceToStop = estimateItineraryDistance(stop, {
+      lat: vehicle.lat,
+      lon: vehicle.long,
+    });
+
+    let vehicleState = '';
+    if (distanceToStop > maxDistance && vehicleTime < arrivalTimeToStop) {
+      vehicleState = VEHICLE_ARRIVING;
+    } else if (
+      (vehicleTime >= arrivalTimeToStop &&
+        vehicleTime < departureTimeFromStop) ||
+      distanceToStop <= maxDistance
+    ) {
+      vehicleState = VEHICLE_ARRIVED;
+    } else if (vehicleTime >= departureTimeFromStop) {
+      vehicleState = VEHICLE_DEPARTED;
+    }
+    return (
+      <div className={cx('route-stop-now', vehicleState)}>
+        <PatternLink
+          key={vehicle.id}
+          mode={vehicle.mode}
+          pattern={props.pattern}
+          route={props.route}
+          vehicleNumber={vehicle.shortName}
+          selected={
+            props.selectedVehicle && props.selectedVehicle.id === vehicle.id
+          }
+          className={vehicleState}
+        />
+      </div>
+    );
+  };
   const vehicles =
     props.vehicles &&
     props.vehicles.map(
       vehicle =>
-        vehicle.route === props.route && (
-          <PatternLink
-            key={vehicle.id}
-            mode={vehicle.mode}
-            pattern={props.pattern}
-            route={props.route}
-            vehicleNumber={vehicle.shortName}
-            selected={
-              props.selectedVehicle && props.selectedVehicle.id === vehicle.id
-            }
-          />
-        ),
+        vehicle.route === props.route && getVehiclePatternLink(vehicle),
     );
-
   return (
     <div
       className={cx(
@@ -56,7 +89,7 @@ const TripRouteStop = props => {
         className,
       )}
     >
-      <div className=" route-stop-now">{vehicles}</div>
+      {vehicles}
       <div className={cx('route-stop-now_circleline', mode)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"

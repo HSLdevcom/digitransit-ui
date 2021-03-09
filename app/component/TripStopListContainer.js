@@ -196,6 +196,7 @@ const connectedComponent = createFragmentContainer(
               effectiveStartDate
             }
           }
+          realtimeArrival
           realtimeDeparture
           realtime
           scheduledDeparture
