@@ -124,6 +124,7 @@ class MapWithTrackingStateHandler extends React.Component {
       keepOnTracking: false,
       initialZoom: props.initialZoom ? props.initialZoom : defaultZoom,
       mapTracking: props.setInitialMapTracking,
+      humanIsScrolling: false,
     };
   }
 
@@ -253,7 +254,7 @@ class MapWithTrackingStateHandler extends React.Component {
     this.setState({
       bounds: newBounds,
     });
-    if (this.props.setCenterOfMap) {
+    if (this.props.setCenterOfMap && this.state.humanIsScrolling) {
       this.props.setCenterOfMap(this.mapElement);
     }
   };
@@ -273,6 +274,7 @@ class MapWithTrackingStateHandler extends React.Component {
       mapLayers,
       fitBounds,
       focusPoint,
+      mapState,
       ...rest
     } = this.props;
     let useFitBounds = fitBounds;
@@ -370,6 +372,9 @@ class MapWithTrackingStateHandler extends React.Component {
     const zoomLevel = !this.mapElement
       ? this.state.initialZoom
       : this.mapElement.leafletElement._zoom; // eslint-disable-line no-underscore-dangle
+    if (mapState === 'fitBoundsToSearchPosition') {
+      useFitBounds = true;
+    }
     return (
       <Component
         lat={location ? location.lat : undefined}
@@ -383,9 +388,15 @@ class MapWithTrackingStateHandler extends React.Component {
         locationPopup={this.props.locationPopup}
         onSelectLocation={this.props.onSelectLocation}
         leafletEvents={{
-          onDragstart: this.disableMapTracking,
+          onDragstart: () => {
+            this.disableMapTracking();
+            this.setState({ humanIsScrolling: true });
+          },
           onMoveend: () => this.setState({ keepOnTracking: false }),
-          onDragend: this.updateCurrentBounds,
+          onDragend: () => {
+            this.updateCurrentBounds();
+            this.setState({ humanIsScrolling: false });
+          },
           onZoomend: this.updateCurrentBounds,
           onZoomstart: this.disableMapTrackingForZoomControl,
         }}

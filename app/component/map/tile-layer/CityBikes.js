@@ -90,6 +90,7 @@ class CityBikes {
         );
         if (
           !this.stopsNearYouMode ||
+          this.stopsNearYouMode === 'CITYBIKE' ||
           (this.stopsNearYouMode === 'FAVORITE' &&
             this.tile.stopsToShow.includes(result.stationId))
         ) {
