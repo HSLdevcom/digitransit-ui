@@ -25,6 +25,7 @@ import {
 import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
+import { MAPSTATES } from '../StopsNearYouPage';
 
 const locationMarkerModules = {
   LocationMarker: () =>
@@ -237,53 +238,29 @@ function StopsNearYouMap(
 
   useEffect(() => {
     let newBounds;
-    console.log(mapState);
     if (sortedStopEdges.length > 0) {
-
-    switch (mapState) {
-      case 'centerOfMap':
-        //newBounds = handleBounds(centerOfMap, sortedStopEdges, breakpoint);
-        break;
-      case 'newCenterOfMap':
-        newBounds = handleBounds(centerOfMap, sortedStopEdges, breakpoint);
-        if (newBounds.length > 0) {
-          setUseFitBounds(true);
-        }
-        setBounds(newBounds);
-        break;
-      case 'position':
-        console.log("position", position, sortedStopEdges)
-        if (position && position.lat && position.lon) {
-          newBounds = handleBounds(position, sortedStopEdges, breakpoint);
-          if (newBounds.length > 0) {
-            setUseFitBounds(true);
-          }
-          setBounds(newBounds);
-        }
-        break;
-      case 'userLocation':
-        if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
+      switch (mapState) {
+        case MAPSTATES.HUMAN_SCROLL:
+          // newBounds = handleBounds(centerOfMap, sortedStopEdges, breakpoint);
+          break;
+        case MAPSTATES.FITBOUNDSTOCENTER:
           newBounds = handleBounds(centerOfMap, sortedStopEdges, breakpoint);
           if (newBounds.length > 0) {
             setUseFitBounds(true);
           }
           setBounds(newBounds);
-        }
-        break;
-      case 'location':
-        if (position && position.lat && position.lon) {
-          newBounds = handleBounds(position, sortedStopEdges, breakpoint);
-          if (newBounds.length > 0) {
-            setUseFitBounds(true);
+          break;
+        case MAPSTATES.FITBOUNDSTOSEARCHPOSITION:
+          if (position && position.lat && position.lon) {
+            newBounds = handleBounds(position, sortedStopEdges, breakpoint);
+            if (newBounds.length > 0) {
+              setUseFitBounds(true);
+            }
+            setBounds(newBounds);
           }
-          setBounds(newBounds);
-        }
-      break;
-
-
+          break;
+      }
     }
-          
-  }
   }, [mapState, sortedStopEdges]);
 
   const setRoutes = sortedRoutes => {
@@ -474,7 +451,7 @@ function StopsNearYouMap(
       mode !== 'CITYBIKE'
     ) {
       return [
-        stopsAndStations[0]?.gtfsId || stopsAndStations[0].node.place.gtfsId,
+        stopsAndStations[0]?.gtfsId || stopsAndStations[0]?.stationId || stopsAndStations[0].node.place.gtfsId,
       ];
     }
     return [''];
@@ -503,6 +480,7 @@ function StopsNearYouMap(
         stopsNearYouMode={mode}
         showScaleBar
         fitBounds={useFitBounds}
+        mapState={mapState}
         defaultMapCenter={defaultMapCenter || context.config.defaultEndpoint}
         disableParkAndRide
         boundsOptions={{ maxZoom: zoom }}

@@ -43,6 +43,12 @@ const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION]; // render the actual pag
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 
+export const MAPSTATES = {
+  FITBOUNDSTOCENTER: 'fitBoundsToCenter',
+  HUMANSCROLL: 'humanScroll',
+  FITBOUNDSTOSEARCHPOSITION: 'fitBoundsToSearchPosition',
+}
+
 class StopsNearYouPage extends React.Component {
   // eslint-disable-line
   static contextTypes = {
@@ -74,7 +80,7 @@ class StopsNearYouPage extends React.Component {
       phase: PH_START,
       centerOfMap: null,
       centerOfMapChanged: false,
-      mapState: 'position',
+      mapState: MAPSTATES.FITBOUNDSTOSEARCHPOSITION,
     };
   }
 
@@ -167,13 +173,13 @@ class StopsNearYouPage extends React.Component {
         return this.setState({
           centerOfMap: this.props.position,
           centerOfMapChanged: true,
-          mapState: 'userLocation',
+          mapState: MAPSTATES.FITBOUNDSTOCENTER,
         });
       }
       return this.setState({
         centerOfMap: null,
         centerOfMapChanged: false,
-        mapState: 'userLocation'
+        mapState: MAPSTATES.FITBOUNDSTOCENTER,
       });
     }
     if (this.props.breakpoint === 'large') {
@@ -191,7 +197,11 @@ class StopsNearYouPage extends React.Component {
       ]);
       location = { lat: point.lat, lon: point.lng };
     }
-    return this.setState({ centerOfMap: location, centerOfMapChanged: true, mapState: 'centerOfMap' });
+    return this.setState({
+      centerOfMap: location,
+      centerOfMapChanged: true,
+      mapState: MAPSTATES.HUMANSCROLL,
+    });
   };
 
   positionChanged = () => {
@@ -233,7 +243,7 @@ class StopsNearYouPage extends React.Component {
       return this.setState({
         searchPosition: { ...centerOfMap, type: 'CenterOfMap' },
         centerOfMapChanged: false,
-        mapState: 'newCenterOfMap',
+        mapState: MAPSTATES.FITBOUNDSTOSEARCHPOSITION,
       });
     }
     return this.setState({ searchPosition: this.getPosition() });
@@ -420,9 +430,8 @@ class StopsNearYouPage extends React.Component {
       return (
         <SwipeableTabs tabIndex={index} onSwipe={this.onSwipe} tabs={tabs} />
       );
-    } else {
-      return tabs[0];
     }
+    return tabs[0];
   };
 
   renderMap = () => {
@@ -450,7 +459,7 @@ class StopsNearYouPage extends React.Component {
           variables={{
             stopIds: this.favouriteStopIds,
             stationIds: this.favouriteStationIds,
-            bikeRentalStationIds: this.props.favouriteBikeStationIds,
+            bikeRentalStationIds: this.favouriteBikeStationIds,
           }}
           environment={this.props.relayEnvironment}
           render={({ props }) => {
@@ -458,6 +467,7 @@ class StopsNearYouPage extends React.Component {
               return (
                 <StopsNearYouFavoritesMapContainer
                   position={this.state.searchPosition}
+                  centerOfMap={this.state.centerOfMap}
                   match={this.props.match}
                   setCenterOfMap={this.setCenterOfMap}
                   mapState={this.state.mapState}
@@ -557,7 +567,7 @@ class StopsNearYouPage extends React.Component {
       searchPosition: item,
       centerOfMap: null,
       centerOfMapChanged: false,
-      mapState: 'location',
+      mapState: MAPSTATES.FITBOUNDSTOSEARCHPOSITION,
     });
   };
 
