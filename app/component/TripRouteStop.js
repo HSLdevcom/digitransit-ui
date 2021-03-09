@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
+import isEmpty from 'lodash/isEmpty';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import WalkDistance from './WalkDistance';
@@ -129,7 +130,7 @@ const TripRouteStop = props => {
               </div>
               <div className="departure-times-container">
                 <div className="route-stop-time">
-                  {stoptime && fromStopTime(stoptime, currentTime)}
+                  {!isEmpty(stoptime) && fromStopTime(stoptime, currentTime)}
                 </div>
               </div>
             </div>
