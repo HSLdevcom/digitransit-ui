@@ -19,12 +19,12 @@ function DepartureTime(props, context) {
     (props.departureTime - props.currentTime) / 60,
   );
 
-  if (timeDiffInMinutes <= 0) {
+  if (timeDiffInMinutes === 0) {
     shownTime = context.intl.formatMessage({
       id: 'arriving-soon',
       defaultMessage: 'Now',
     });
-  } else {
+  } else if (timeDiffInMinutes > 0) {
     shownTime = context.intl.formatMessage(
       { id: 'departure-time-in-minutes', defaultMessage: '{minutes} min' },
       { minutes: timeDiffInMinutes },
