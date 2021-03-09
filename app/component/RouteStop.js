@@ -53,6 +53,7 @@ const RouteStop = (
     color,
     currentTime,
     distance,
+    first,
     last,
     mode,
     stop,
@@ -144,15 +145,21 @@ const RouteStop = (
         lat: vehicle.lat,
         lon: vehicle.long,
       });
-      if (distanceToStop > maxDistance && vehicleTime < arrivalTimeToStop) {
+      if (
+        distanceToStop > maxDistance &&
+        vehicleTime < arrivalTimeToStop &&
+        !first
+      ) {
         vehicleState = VEHICLE_ARRIVING;
       } else if (
         (vehicleTime >= arrivalTimeToStop &&
           vehicleTime < departureTimeFromStop) ||
+        (first && vehicleTime < arrivalTimeToStop) ||
+        (last && vehicleTime >= departureTimeFromStop) ||
         distanceToStop <= maxDistance
       ) {
         vehicleState = VEHICLE_ARRIVED;
-      } else if (vehicleTime >= departureTimeFromStop) {
+      } else if (vehicleTime >= departureTimeFromStop && !last) {
         vehicleState = VEHICLE_DEPARTED;
       }
       vehicleTripLink = vehicle.tripId ? (
@@ -293,6 +300,7 @@ RouteStop.propTypes = {
   className: PropTypes.string,
   distance: PropTypes.number,
   currentTime: PropTypes.number.isRequired,
+  first: PropTypes.bool,
   last: PropTypes.bool,
   displayNextDeparture: PropTypes.bool,
   shortName: PropTypes.string,
