@@ -189,12 +189,6 @@ class FavouriteBar extends React.Component {
     return null;
   }
 
-  componentDidUpdate = () => {
-    if (i18next.language !== this.props.lang) {
-      i18next.changeLanguage(this.props.lang);
-    }
-  };
-
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClickOutside);
   }
@@ -329,6 +323,11 @@ class FavouriteBar extends React.Component {
       secondFavourite,
     } = this.state;
     const expandIcon = this.props.favourites.length === 0 ? 'plus' : 'arrow';
+
+    if (i18next.language !== this.props.lang) {
+      i18next.changeLanguage(this.props.lang);
+    }
+
     return (
       <React.Fragment>
         <div className={styles['favourite-container']}>
