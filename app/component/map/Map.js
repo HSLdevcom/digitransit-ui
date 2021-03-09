@@ -37,6 +37,7 @@ export default class Map extends React.Component {
     disableMapTracking: PropTypes.func,
     fitBounds: PropTypes.bool,
     hilightedStops: PropTypes.array,
+    stopsToShow: PropTypes.array,
     lang: PropTypes.string.isRequired,
     lat: PropTypes.number,
     lon: PropTypes.number,
@@ -161,9 +162,11 @@ export default class Map extends React.Component {
     if (!this.props.originFromMap && !this.props.destinationFromMap) {
       leafletObjs.push(
         <VectorTileLayerContainer
+          key="vectorTileLayerContainer"
           hilightedStops={this.props.hilightedStops}
           stopsNearYouMode={this.props.stopsNearYouMode}
           showStops={this.props.showStops}
+          stopsToShow={this.props.stopsToShow}
           disableMapTracking={this.props.disableMapTracking}
           locationPopup={locationPopup}
           onSelectLocation={onSelectLocation}
@@ -190,9 +193,10 @@ export default class Map extends React.Component {
             (mapLayers.geoJson[key] === true ||
               geoJson[key].isOffByDefault !== true),
         )
-        .forEach(key => {
+        .forEach((key, i) => {
           leafletObjs.push(
             <GeoJSON
+              key={key.concat(i)}
               bounds={null}
               data={geoJson[key].data}
               geoJsonZoomLevel={this.mapZoomLvl ? this.mapZoomLvl : 9}

@@ -52,6 +52,10 @@ $margin-left-right: 0.625em;
     background-color: transparent;
     position: relative;
   }
+  .bottom-whitespace {
+    min-height: 300px;
+    display: block;
+  }
 }
 .route-page-container {
   background-color: $white;
@@ -59,20 +63,25 @@ $margin-left-right: 0.625em;
 }
 
 .route-page-content {
+  overflow-x: hidden;
+  overflow-y: auto;
   padding: 1.5em $margin-left-right 0;
   display: flex;
   position: relative;
   flex-direction: column;
-  max-height: 100%;
-  flex-grow: 1;
-  flex-basis: 100%;
+  padding-bottom: 1.5em;
+  flex: 1 0;
+  flex-basis: 0px;
+  max-height: 100vh;
   background: $white;
   transition: flex-grow 500ms cubic-bezier(0.215, 0.61, 0.355, 1),
     flex-basis 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
 
   &.bp-large {
     top: 0;
-    padding: 0 $margin-left-right-large;
+    padding-top: 0;
+    padding-left: 3.5em;
+    padding-right: 2.5em;
   }
   &:empty {
     flex-basis: 0;
@@ -88,21 +97,14 @@ $margin-left-right: 0.625em;
 // stop list
 .route-stop-list {
   @include font-narrow-medium;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 1.5em;
-  overflow-x: hidden;
-  overflow-y: auto;
-  flex: 1 0;
-  flex-basis: 0px;
   background-color: $white;
   .route-stop:last-child .route-stop-row_content-container {
     border-bottom: none;
   }
 }
 
-.mobile .route-stop-list {
+.mobile .route-page-content {
+  padding-top: 0;
   overflow-y: visible;
   flex-basis: auto;
 }
@@ -124,20 +126,13 @@ $margin-left-right: 0.625em;
 }
 
 .map {
-  .icon.tail-icon {
+  .icon.large-vehicle-icon {
     margin-top: 0.57em;
     margin-left: 0.57em;
     transform: scale(3.5);
   }
-  .allVehicles {
-    width: 24px;
-    height: 24px;
-    color: $gray-blue;
-    position: absolute;
-    pointer-events: none;
-  }
-  .large-icon {
-    transform: scale(2.86);
+  .icon.small-vehicle-icon {
+    transform: scale(1);
   }
 }
 .route-details-upper-row {
@@ -170,28 +165,55 @@ $margin-left-right: 0.625em;
     min-width: 13%;
     position: absolute;
     z-index: 4;
-    left: -1.3px;
+    left: -1.7px;
     @include min-width(tablet) {
-      left: -5px;
+      left: 41px;
     }
-    &.arriving > a > span {
-      svg {
-        top: -45px;
-        @include min-width(tablet) {
-          top: -50px;
+    &.arriving {
+      > a > span {
+        svg {
+          top: -45px;
+          @include min-width(tablet) {
+            top: -50px;
+          }
+        }
+      }
+      div > a > span {
+        svg {
+          top: -45px;
+          @include min-width(tablet) {
+            top: -50px;
+          }
         }
       }
     }
-    &.arrived > a > span {
-      svg {
-        top: -16px;
+    &.arrived {
+      > a > span {
+        svg {
+          top: -16px;
+        }
+      }
+      div > a > span {
+        svg {
+          top: -16px;
+        }
       }
     }
-    &.departed > a > span {
-      svg {
-        top: 15px;
-        @include min-width(tablet) {
-          top: 10px;
+    &.departed {
+      > a > span {
+        svg {
+          top: 15px;
+          @include min-width(tablet) {
+            top: 10px;
+          }
+        }
+      }
+      div > a > span {
+        svg {
+          top: 15px;
+          @include min-width(tablet) {
+            top: 10px;
+          }
         }
       }
     }
@@ -202,13 +224,8 @@ $margin-left-right: 0.625em;
       position: absolute;
       font-size: 5em;
     }
-    .tail-icon {
+    .large-vehicle-icon {
       font-size: 3.5em;
-      bottom: 0;
-      left: -10px;
-    }
-    .selected-tail-icon {
-      font-size: 5em;
       bottom: 0;
       left: -10px;
     }
@@ -216,7 +233,6 @@ $margin-left-right: 0.625em;
   .route-stop-now_circleline {
     position: relative;
     min-width: 15px;
-    margin-left: 10px;
     .route-stop-now_line {
       width: 5px;
       height: 100%;
@@ -349,6 +365,10 @@ $margin-left-right: 0.625em;
         color: $black;
         flex: 0 1 auto;
         font-size: $font-size-small;
+        margin-right: 0.9375em;
+        @include min-width(tablet) {
+          margin-right: 2.75em;
+        }
         span {
           margin: 0;
           font-family: $font-family;
@@ -361,6 +381,8 @@ $margin-left-right: 0.625em;
             height: 14px;
             align-items: center;
             justify-content: flex-end;
+            padding: 0;
+            margin: 0;
           }
           &.first {
             font-size: 15px;
@@ -438,10 +460,6 @@ $margin-left-right: 0.625em;
   }
 }
 
-.vehicle-icon {
-  width: 100px;
-  height: 100px;
-}
 .route-page-header.favourite-icon {
   @media print {
     display: none;
@@ -458,6 +476,10 @@ $margin-left-right: 0.625em;
 
   @media print {
     display: block;
+  }
+
+  .route-page-control-panel-container {
+    padding: 10px 1.25em 0;
   }
 }
 
@@ -726,8 +748,22 @@ $margin-left-right: 0.625em;
   background-color: white;
   padding: 5px 20px 0 20px;
   &.bp-large {
-    padding: 0 $margin-left-right-large 1.5em;
+    padding: 0 $margin-left-right-large 0;
     box-shadow: none;
+  }
+}
+
+.route-page-control-panel-container {
+  padding-bottom: 1.5em;
+  &.hairiot, &.aikataulu {
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+  }
+  &.bp-large {
+    &.hairiot, &.aikataulu {
+      padding-left: 3.5em;
+      padding-right: 3.5em;
+    }
   }
 }
 

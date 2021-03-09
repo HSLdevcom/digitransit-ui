@@ -98,6 +98,8 @@ class MapWithTrackingStateHandler extends React.Component {
     showLocationMessages: PropTypes.bool,
     defaultMapCenter: PropTypes.object.isRequired,
     fitBoundsWithSetCenter: PropTypes.bool,
+    setCenterOfMap: PropTypes.func,
+    showAllVehicles: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -110,6 +112,7 @@ class MapWithTrackingStateHandler extends React.Component {
     fitBounds: false,
     showLocationMessages: false,
     fitBoundsWithSetCenter: false,
+    showAllVehicles: false,
   };
 
   constructor(props) {
@@ -135,7 +138,7 @@ class MapWithTrackingStateHandler extends React.Component {
       await triggerMessage(lat, lon, this.context, this.props.messages);
     }
 
-    if (this.props.mapLayers.showAllBusses) {
+    if (this.props.showAllVehicles && this.props.mapLayers.showAllBusses) {
       startClient(this.context);
     }
   }
@@ -171,11 +174,14 @@ class MapWithTrackingStateHandler extends React.Component {
         );
       }
     }
-    if (newProps.mapLayers.showAllBusses) {
+    if (this.props.showAllVehicles && newProps.mapLayers.showAllBusses) {
       if (!this.props.mapLayers.showAllBusses) {
         startClient(this.context);
       }
-    } else if (this.props.mapLayers.showAllBusses) {
+    } else if (
+      this.props.showAllVehicles &&
+      this.props.mapLayers.showAllBusses
+    ) {
       const { client } = this.context.getStore('RealTimeInformationStore');
       if (client) {
         this.context.executeAction(stopRealTimeClient, client);
@@ -208,6 +214,9 @@ class MapWithTrackingStateHandler extends React.Component {
       locationingOn: true,
       initialZoom: 16,
     });
+    if (this.props.setCenterOfMap) {
+      this.props.setCenterOfMap(null);
+    }
     addAnalyticsEvent({
       category: 'Map',
       action: 'ReCenterToMyGeolocation',
@@ -244,6 +253,9 @@ class MapWithTrackingStateHandler extends React.Component {
     this.setState({
       bounds: newBounds,
     });
+    if (this.props.setCenterOfMap) {
+      this.props.setCenterOfMap(this.mapElement);
+    }
   };
 
   updateZoom(zoom) {
@@ -273,7 +285,7 @@ class MapWithTrackingStateHandler extends React.Component {
     if (this.props.leafletObjs) {
       leafletObjs.push(...this.props.leafletObjs);
     }
-    if (this.props.mapLayers.showAllBusses) {
+    if (this.props.showAllVehicles && this.props.mapLayers.showAllBusses) {
       const currentZoom =
         this.mapElement && this.mapElement.leafletElement
           ? this.mapElement.leafletElement._zoom // eslint-disable-line no-underscore-dangle

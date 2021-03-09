@@ -569,4 +569,113 @@ describe('legUtils', () => {
       expect(utils.getZones(legs)).to.deep.equal(['A', 'B', 'C']);
     });
   });
+
+  describe('getTotalWalkingDuration', () => {
+    it('should return 0 if there are no legs available', () => {
+      const itinerary = {
+        legs: [],
+      };
+      const duration = utils.getTotalWalkingDuration(itinerary);
+      expect(duration).to.equal(0);
+    });
+
+    it('should include only walking legs', () => {
+      const itinerary = {
+        legs: [
+          {
+            duration: 240,
+            mode: utils.LegMode.Walk,
+          },
+          {
+            duration: 120,
+            mode: utils.LegMode.Bicycle,
+          },
+        ],
+      };
+      const duration = utils.getTotalWalkingDuration(itinerary);
+      expect(duration).to.equal(240);
+    });
+
+    it('should include all walking legs', () => {
+      const itinerary = {
+        legs: [
+          {
+            duration: 240,
+            mode: utils.LegMode.Walk,
+          },
+          {
+            duration: 120,
+            mode: utils.LegMode.Bicycle,
+          },
+          {
+            duration: 240,
+            mode: utils.LegMode.Walk,
+          },
+        ],
+      };
+      const duration = utils.getTotalWalkingDuration(itinerary);
+      expect(duration).to.equal(480);
+    });
+
+    it('should include bicycle_walk legs', () => {
+      const itinerary = {
+        legs: [
+          {
+            duration: 240,
+            mode: utils.LegMode.Walk,
+          },
+          {
+            duration: 120,
+            mode: utils.LegMode.BicycleWalk,
+          },
+        ],
+      };
+      const duration = utils.getTotalWalkingDuration(itinerary);
+      expect(duration).to.equal(360);
+    });
+  });
+
+  describe('getTotalBikingDuration', () => {
+    it('should return 0 if there are no legs available', () => {
+      const itinerary = {
+        legs: [],
+      };
+      const duration = utils.getTotalBikingDuration(itinerary);
+      expect(duration).to.equal(0);
+    });
+
+    it('should include bicycle legs', () => {
+      const itinerary = {
+        legs: [
+          {
+            duration: 120,
+            mode: utils.LegMode.Bicycle,
+          },
+          {
+            duration: 240,
+            mode: utils.LegMode.Walk,
+          },
+        ],
+      };
+      const duration = utils.getTotalBikingDuration(itinerary);
+      expect(duration).to.equal(120);
+    });
+
+    it('should include citybike legs', () => {
+      const itinerary = {
+        legs: [
+          {
+            duration: 120,
+            mode: utils.LegMode.CityBike,
+          },
+          {
+            duration: 240,
+            mode: utils.LegMode.Walk,
+          },
+        ],
+      };
+      const duration = utils.getTotalBikingDuration(itinerary);
+      expect(duration).to.equal(120);
+    });
+  });
 });

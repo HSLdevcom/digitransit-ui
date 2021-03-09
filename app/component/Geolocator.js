@@ -19,11 +19,23 @@ const GeolocatorWithPosition = connectToStores(
     const redirect = () => {
       const locationForUrl = addressToItinerarySearch(locationState);
       const newFrom = from === undefined ? locationForUrl : from;
+      let { save } = props.match.location.query;
       let newTo;
       if (to === 'POS' || (from !== undefined && to === undefined)) {
         newTo = locationForUrl;
+        if (save) {
+          if (from === undefined) {
+            // both are POS, save nothing
+            save = '0';
+          } else {
+            save = '2'; // save origin only
+          }
+        }
       } else {
         newTo = to === undefined ? '-' : to;
+        if (save) {
+          save = '3'; // save destination only
+        }
       }
       const returnPath = createReturnPath(path, newFrom, newTo);
 
@@ -31,6 +43,9 @@ const GeolocatorWithPosition = connectToStores(
         ...props.match.location,
         pathname: returnPath,
       };
+      if (save) {
+        newLocation.query.save = save;
+      }
       props.router.replace(newLocation);
     };
 

@@ -214,7 +214,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/lahti_zone_lines_20201118.geojson',
+        url: '/assets/geojson/lahti_zone_lines_20210222.geojson',
       },
     ],
   },
@@ -241,4 +241,5 @@ export default configMerger(walttiConfig, {
 
   showAllBusses: true,
   showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
 });

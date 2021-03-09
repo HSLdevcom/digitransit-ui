@@ -55,6 +55,23 @@
 .stops-near-you-page {
     position: relative;
     overflow: visible;
+    .no-favorites-container {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        margin: 2em 2.5em;
+        .no-favorites-header {
+            margin-bottom: 8px;
+        }
+        .no-favorites-content {
+            font-weight: normal;
+        }
+        .instruction-image {
+            margin: 30px 0 15px 0;
+            width: 140px;
+            align-self: center;
+        }
+    }
     .show-more-button {
         margin: 0 6.25em 20px;
         font-weight: 500;
