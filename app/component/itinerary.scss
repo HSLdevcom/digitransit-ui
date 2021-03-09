@@ -1291,18 +1291,24 @@ div.itinerary-container-content {
     margin-left: 60px;
     width: 400px;
     border-top: 1px solid #dddddd;
+    font-size: 12px;
+
+    .icon-container {
+      display: flex;
+    }
   }
 }
 
 .swipe-header {
   display: flex;
   justify-content: space-evenly;
-  padding: 0 0 0.7em 0;
+  padding: 0 0 10px 0;
   outline: 0;
   width: 100%;
 
   &.desktop {
     max-width: 250px;
+    padding: 0 0 15px 0;
   }
 }
 .swipe-tab-indicator {
@@ -1352,7 +1358,6 @@ div.itinerary-container-content {
 
 .swipe-button .icon {
   fill: $primary-color;
-  font-size: 15px;
   height: 1.3em;
   width: 1.3em;
 
