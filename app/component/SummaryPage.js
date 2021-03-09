@@ -17,6 +17,7 @@ import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import SunCalc from 'suncalc';
+import BackButton from './BackButton';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import MapContainer from './map/MapContainer';
@@ -62,6 +63,7 @@ import {
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import ItineraryTab from './ItineraryTab';
 import { StreetModeSelector } from './StreetModeSelector';
+import SwipeableTabs from './SwipeableTabs';
 import { getCurrentSettings, preparePlanParams } from '../util/planParamUtil';
 import { getTotalBikingDistance } from '../util/legUtils';
 import { userHasChangedModes } from '../util/modeUtils';
@@ -2224,17 +2226,46 @@ class SummaryPage extends React.Component {
             date: moment().valueOf(),
           };
 
+          const itineraryTabs = selectedItineraries.map(itinerary => {
+            return (
+              <div key={itinerary.key}>
+                <ItineraryTab
+                  hideTitle
+                  plan={currentTime}
+                  itinerary={itinerary}
+                  focus={this.updateCenter}
+                  setMapZoomToLeg={this.setMapZoomToLeg}
+                  isMobile={false}
+                />
+              </div>
+            );
+          });
+
           content = (
-            <>
+            <div className="itinerary-tab-container">
               {screenReaderAlert}
-              <ItineraryTab
-                plan={currentTime}
-                itinerary={selectedItinerary}
-                focus={this.updateCenter}
-                setMapZoomToLeg={this.setMapZoomToLeg}
-                isMobile={false}
+              <div className="desktop-title" key="header">
+                <div className="title-container h2">
+                  <BackButton
+                    title={
+                      <FormattedMessage
+                        id="itinerary-page.title"
+                        defaultMessage="Itinerary suggestions"
+                      />
+                    }
+                    icon="icon-icon_arrow-collapse--left"
+                    iconClassName="arrow-icon"
+                    popFallback
+                  />
+                </div>
+              </div>
+              <SwipeableTabs
+                tabs={itineraryTabs}
+                tabIndex={activeIndex}
+                onSwipe={this.changeHash}
+                desktop
               />
-            </>
+            </div>
           );
           return (
             <DesktopView

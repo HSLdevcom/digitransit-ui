@@ -1282,20 +1282,43 @@ div.itinerary-container-content {
   margin: 1em;
 }
 
-.mobile-swipe-header {
+.swipe-header-container {
+  display: flex;
+  justify-content: center;
+
+  &.desktop {
+    padding-top: 18px;
+    margin-left: 60px;
+    width: 400px;
+    border-top: 1px solid #dddddd;
+    font-size: 12px;
+
+    .icon-container {
+      display: flex;
+    }
+  }
+}
+
+.swipe-header {
   display: flex;
   justify-content: space-evenly;
-  padding: 0 0 0.7em 0px;
+  padding: 0 0 10px 0;
   outline: 0;
+  width: 100%;
+
+  &.desktop {
+    max-width: 250px;
+    padding: 0 0 15px 0;
+  }
 }
-.mobile-swipe-tab-indicator {
+.swipe-tab-indicator {
   flex-grow: 1;
   justify-content: center;
   align-items: center;
   display: flex;
 }
 
-.mobile-swipe-tab-ball {
+.swipe-tab-ball {
   width: 6px;
   height: 6px;
   border-radius: 50%;
@@ -1325,7 +1348,7 @@ div.itinerary-container-content {
   }
 }
 
-.mobile-swipe-button-container {
+.swipe-button-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1333,7 +1356,7 @@ div.itinerary-container-content {
   padding: 0 1em 0 1em;
 }
 
-.mobile-swipe-button .icon {
+.swipe-button .icon {
   fill: $primary-color;
   height: 1.3em;
   width: 1.3em;
@@ -1341,6 +1364,10 @@ div.itinerary-container-content {
   &.disabled {
     fill: $medium-gray;
   }
+}
+
+.itinerary-tab-container {
+  user-select: none;
 }
 
 .itinerary-tab {
