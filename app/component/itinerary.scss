@@ -1285,6 +1285,13 @@ div.itinerary-container-content {
 .swipe-header-container {
   display: flex;
   justify-content: center;
+
+  &.desktop {
+    padding-top: 15px;
+    margin-right: 60px;
+    margin-left: 60px;
+    border-top: 1px solid #dddddd;
+  }
 }
 
 .swipe-header {
@@ -1345,6 +1352,7 @@ div.itinerary-container-content {
 
 .swipe-button .icon {
   fill: $primary-color;
+  font-size: 15px;
   height: 1.3em;
   width: 1.3em;
 

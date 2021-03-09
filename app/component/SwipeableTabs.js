@@ -122,7 +122,11 @@ export default class SwipeableTabs extends React.Component {
     let reactSwipeEl;
     return (
       <div>
-        <div className="swipe-header-container">
+        <div
+          className={`swipe-header-container ${
+            this.props.desktop ? 'desktop' : ''
+          }`}
+        >
           <div
             className={`swipe-header ${this.props.desktop ? 'desktop' : ''}`}
             role="row"
