@@ -141,7 +141,6 @@ testVariation(
 
 testVariation('StopPageHeader');
 testVariation('Timetable');
-testVariation('PageFooter');
 
 testVariation('SummaryRow', 'large', 1);
 testVariation('SummaryRow', 'small', 2);

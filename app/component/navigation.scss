@@ -1,14 +1,10 @@
-// calculate using the YIQ color space:
-// https://en.wikipedia.org/wiki/YIQ
-@mixin navbar-icon-color($background) {
-  $red: red($background);
-  $green: green($background);
-  $blue: blue($background);
-  $yiq: (($red*299) + ($green*587) +($blue*114)) / 1000;
-  @if ($yiq >= 128) {
-    color: #333333;
-  } @else {
-    color: #FFFFFF;
+
+@function navbar-icon-color($color) {
+  @if (lightness($color) > 50) {
+    @return #333333;
+  }
+  @else {
+    @return #FFFFFF;
   }
 }
 
@@ -148,7 +144,7 @@ $content-background-color: $background-color;
     display: inline-block;
     text-transform: uppercase;
     cursor: pointer;
-    padding: 10px 15px;
+    padding: 8px 13px;
     margin: 0px 2px;
     &.selected {
       color: $white;
@@ -256,6 +252,7 @@ $content-background-color: $background-color;
 }
 
 .main-menu {
+  outline: none;
   width: 400px;
   padding: 0;
   padding-left: 20px;
@@ -385,7 +382,7 @@ $content-background-color: $background-color;
 .offcanvas-section {
   line-height: 35px;
   padding: 0.5em 0;
-  .footer-item {
+  .menu-item {
     margin: 0px;
     display: inline-block;
     font-size: $font-size-normal;

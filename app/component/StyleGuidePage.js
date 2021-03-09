@@ -48,8 +48,7 @@ import SelectedStopPopupContent from './SelectedStopPopupContent';
 import { Component as LangSelect } from './LangSelect';
 import ExternalLink from './ExternalLink';
 import { component as SummaryRow } from './SummaryRow';
-import PageFooter from './PageFooter';
-import FooterItem from './FooterItem';
+import MenuItem from './MenuItem';
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
 import BicycleLeg from './BicycleLeg';
@@ -124,8 +123,7 @@ const components = {
   SummaryRow,
   ExternalLink,
   LangSelect,
-  PageFooter,
-  FooterItem,
+  MenuItem,
   ItineraryLegs,
   WalkLeg,
   WaitLeg,

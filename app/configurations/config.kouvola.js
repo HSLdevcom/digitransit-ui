@@ -69,7 +69,7 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  footer: {
+  menu: {
     content: [
       { label: `© Kouvola ${walttiConfig.YEAR}` },
       {},

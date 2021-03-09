@@ -72,7 +72,7 @@ export default {
     //  HSL: HSLRouteTimetable,
   },
 
-  footer: {
+  menu: {
     content: [
       { label: `© Traficom ${YEAR}` },
       {},

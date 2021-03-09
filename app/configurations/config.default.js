@@ -288,7 +288,7 @@ export default {
   appBarStyle: 'default', // DT-3375
 
   colors: {
-    primary: '#00AFFF',
+    primary: '#000F94',
   },
 
   sprites: 'assets/svg-sprite.default.svg',
@@ -486,7 +486,7 @@ export default {
   // This reduces complexity in finding routes for the query.
   modePolygons: {},
 
-  footer: {
+  menu: {
     content: [
       { label: `© HSL, Traficom ${YEAR}` },
       {},
@@ -494,13 +494,11 @@ export default {
         name: 'footer-feedback',
         nameEn: 'Submit feedback',
         href: 'https://github.com/HSLdevcom/digitransit-ui/issues',
-        icon: 'icon-icon_speech-bubble',
       },
       {
         name: 'about-this-service',
         nameEn: 'About this service',
         route: '/tietoja-palvelusta',
-        icon: 'icon-icon_info',
       },
     ],
   },

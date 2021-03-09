@@ -130,7 +130,7 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  footer: {
+  menu: {
     content: [
       { label: `© Kuopio ${walttiConfig.YEAR}` },
       {},

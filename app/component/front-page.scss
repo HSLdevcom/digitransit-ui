@@ -471,7 +471,7 @@ div.route-tabs .tabs-navigation.bp-large {
   height: 30px;
 }
 
-.footer-item {
+.menu-item {
   cursor: pointer;
   font-size: $font-size-small;
   button {
@@ -488,7 +488,7 @@ div.route-tabs .tabs-navigation.bp-large {
   }
 }
 
-.footer-text {
+.menu-text {
   @include font-book;
   color: $gray;
 }
@@ -501,7 +501,7 @@ div.route-tabs .tabs-navigation.bp-large {
   border-right: 1px solid $medium-gray;
 }
 
-svg.icon.footer-icon {
+svg.icon.menu-icon {
   position: relative;
   top: 2px;
   margin-right: 6px;

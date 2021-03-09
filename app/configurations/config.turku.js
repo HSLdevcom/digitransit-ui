@@ -92,7 +92,7 @@ export default configMerger(walttiConfig, {
     [22.939795, 59.963388],
   ],
 
-  footer: {
+  menu: {
     content: [
       { label: `© Turun seudun joukkoliikenne ${walttiConfig.YEAR}` },
       {},

@@ -114,7 +114,7 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  footer: {
+  menu: {
     content: [
       { label: `© Oulu ${walttiConfig.YEAR}` },
       {},

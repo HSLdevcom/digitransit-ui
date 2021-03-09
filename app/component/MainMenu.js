@@ -34,6 +34,7 @@ function MainMenu(props, { config, intl }) {
             />
           ))}
         <button
+          ref={input => input && input.focus()}
           onClick={props.toggleVisibility}
           className="close-button cursor-pointer"
           aria-label={intl.formatMessage({
@@ -74,9 +75,9 @@ function MainMenu(props, { config, intl }) {
         )}
         {config.appBarLink && config.appBarLink.name && config.appBarLink.href && (
           <div className="offcanvas-section">
-            <Link
+            <a
               id="appBarLink"
-              to={config.appBarLink.href}
+              href={config.appBarLink.href}
               onClick={() => {
                 addAnalyticsEvent({
                   category: 'Navigation',
@@ -86,18 +87,18 @@ function MainMenu(props, { config, intl }) {
               }}
             >
               {config.appBarLink.name}
-            </Link>
+            </a>
           </div>
         )}
       </section>
-      <section className="menu-section footer">
+      <section className="menu-section">
         <MainMenuLinks
-          content={((config.footer && config.footer.content) || []).filter(
+          content={((config.menu && config.menu.content) || []).filter(
             item => item.href || item.route,
           )}
         />
       </section>
-      <div className="copyright">© Digitransit 2021</div>
+      <div className="copyright">{`© Digitransit ${new Date().getFullYear()}`}</div>
     </div>
   );
 }

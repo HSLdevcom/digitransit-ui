@@ -91,7 +91,7 @@ export default configMerger(walttiConfig, {
   showAllBusses: true,
   showVehiclesOnStopPage: true,
 
-  footer: {
+  menu: {
     content: [
       { label: `© Jyvaskyla ${walttiConfig.YEAR}` },
       {},

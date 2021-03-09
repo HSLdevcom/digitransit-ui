@@ -79,7 +79,7 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  footer: {
+  menu: {
     content: [
       { label: `© Kotka ${walttiConfig.YEAR}` },
       {},

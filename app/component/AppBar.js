@@ -20,10 +20,8 @@ const AppBar = (
     <DisruptionInfo />
     <nav className={`top-bar ${breakpoint !== 'large' ? 'mobile' : ''}`}>
       <section className="title">
-        <LogoSmall
-          showLogo={showLogo}
-          logo={logo}
-          title={title}
+        <button
+          type="button"
           onClick={e => {
             titleClicked(e);
             addAnalyticsEvent({
@@ -32,7 +30,9 @@ const AppBar = (
               name: null,
             });
           }}
-        />
+        >
+          <LogoSmall showLogo={showLogo} logo={logo} title={title} />
+        </button>
       </section>
       <section className="controls">
         {config.allowLogin &&

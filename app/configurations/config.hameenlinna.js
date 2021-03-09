@@ -95,7 +95,7 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  footer: {
+  menu: {
     content: [
       { label: `© Hameenlinna ${walttiConfig.YEAR}` },
       {},

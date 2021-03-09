@@ -87,7 +87,7 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  footer: {
+  menu: {
     content: [
       { label: `© Lahti ${walttiConfig.YEAR}` },
       {},

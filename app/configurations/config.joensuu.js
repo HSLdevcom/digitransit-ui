@@ -58,7 +58,7 @@ export default configMerger(walttiConfig, {
     [31.0931, 62.2692],
   ],
 
-  footer: {
+  menu: {
     content: [
       { label: `© Joensuun kaupunki ${walttiConfig.YEAR}` },
       {},

@@ -133,7 +133,7 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  footer: {
+  menu: {
     content: [
       { label: `© Tampere ${walttiConfig.YEAR}` },
       {},

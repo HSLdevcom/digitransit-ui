@@ -946,6 +946,7 @@ const translations = {
     'disruption-info-route-no-alerts':
       'No known disruptions or diversions to the route.',
     disruptions: 'Disruptions',
+    'disruptions-and-diversions': 'Disruptions and diversions',
     'distance-between': 'Distance {distance1} m — {distance2} m',
     'distance-total': 'Total distance',
     'distance-under': 'Distance less than {distance} m',
@@ -1848,6 +1849,7 @@ const translations = {
     'disruption-info-route-no-alerts':
       'Linjalla ei tiedossa olevia häiriöitä tai poikkeuksia.',
     disruptions: 'Häiriöt',
+    'disruptions-and-diversions': 'Häiriöt ja poikkeukset',
     'distance-between': 'Etäisyys {distance1} m — {distance2} m',
     'distance-total': 'Matkan pituus',
     'distance-under': 'Etäisyys alle {distance} m',
@@ -3502,6 +3504,7 @@ const translations = {
     'disruption-info-route-no-alerts':
       'Linjen har för tillfället inga kända störningar eller avvikelser.',
     disruptions: 'Störningar',
+    'disruptions-and-diversions': 'Störningar och avvikelser',
     'distance-between': 'Avstånd {distance1} m — {distance2} m',
     'distance-total': 'Resans längd',
     'distance-under': 'Avstånd mindre än {distance} m',
