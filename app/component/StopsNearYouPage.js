@@ -510,7 +510,7 @@ class StopsNearYouPage extends React.Component {
             }
           }
         `}
-        variables={this.getQueryVariables()}
+        variables={this.getQueryVariables(mode)}
         environment={this.props.relayEnvironment}
         render={({ props }) => {
           if (props) {
