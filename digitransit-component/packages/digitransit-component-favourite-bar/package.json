@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-favourite-bar",
-  "version": "0.2.5",
+  "version": "0.2.4",
   "description": "digitransit-component favourite-bar module",
   "main": "lib/index.js",
   "files": [
