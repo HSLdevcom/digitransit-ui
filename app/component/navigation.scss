@@ -1,10 +1,12 @@
 
 @function navbar-icon-color($color) {
-  @if (lightness($color) > 50) {
-    @return #333333;
+  $background-color-brightness: (red($color)*299)+(green($color)*587)+(blue($color)*114)/1000;
+  $light-color-lightness: round((red(#ffffff)*299)+(green(#ffffff)*587)+(blue(#ffffff)*114)/1000);
+  @if abs($background-color-brightness) < ($light-color-lightness / 3) {
+    @return #ffffff;
   }
   @else {
-    @return #FFFFFF;
+    @return #333333;
   }
 }
 
