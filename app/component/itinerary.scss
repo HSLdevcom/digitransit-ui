@@ -1286,7 +1286,7 @@ div.itinerary-container-content {
   display: flex;
   justify-content: center;
 
-  &.desktop {
+  &.swipe-desktop-view {
     padding-top: 18px;
     margin-left: 60px;
     width: 400px;
@@ -1306,7 +1306,7 @@ div.itinerary-container-content {
   outline: 0;
   width: 100%;
 
-  &.desktop {
+  &.swipe-desktop-view {
     max-width: 250px;
     padding: 0 0 15px 0;
   }
