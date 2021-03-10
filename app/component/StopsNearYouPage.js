@@ -14,6 +14,7 @@ import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import withBreakpoint, { DesktopOrMobile } from '../util/withBreakpoint';
 import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
+import { MAPSTATES } from '../util/stopsNearYouUtils';
 import Loading from './Loading';
 import {
   checkPositioningPermission,
@@ -74,6 +75,7 @@ class StopsNearYouPage extends React.Component {
       phase: PH_START,
       centerOfMap: null,
       centerOfMapChanged: false,
+      mapState: MAPSTATES.FITBOUNDSTOSEARCHPOSITION,
     };
   }
 
@@ -162,9 +164,17 @@ class StopsNearYouPage extends React.Component {
   setCenterOfMap = mapElement => {
     let location;
     if (!mapElement) {
+      if (distance(this.state.searchPosition, this.props.position) > 100) {
+        return this.setState({
+          centerOfMap: this.props.position,
+          centerOfMapChanged: true,
+          mapState: MAPSTATES.FITBOUNDSTOCENTER,
+        });
+      }
       return this.setState({
-        centerOfMap: null,
+        centerOfMap: this.props.position,
         centerOfMapChanged: false,
+        mapState: MAPSTATES.FITBOUNDSTOCENTER,
       });
     }
     if (this.props.breakpoint === 'large') {
@@ -182,11 +192,18 @@ class StopsNearYouPage extends React.Component {
       ]);
       location = { lat: point.lat, lon: point.lng };
     }
-    return this.setState({ centerOfMap: location, centerOfMapChanged: true });
+    return this.setState({
+      centerOfMap: location,
+      centerOfMapChanged: true,
+      mapState: MAPSTATES.HUMANSCROLL,
+    });
   };
 
   positionChanged = () => {
     const { searchPosition, centerOfMap } = this.state;
+    if (!searchPosition) {
+      return false;
+    }
     if (
       centerOfMap &&
       searchPosition.lat === centerOfMap.lat &&
@@ -221,6 +238,7 @@ class StopsNearYouPage extends React.Component {
       return this.setState({
         searchPosition: { ...centerOfMap, type: 'CenterOfMap' },
         centerOfMapChanged: false,
+        mapState: MAPSTATES.FITBOUNDSTOSEARCHPOSITION,
       });
     }
     return this.setState({ searchPosition: this.getPosition() });
@@ -436,7 +454,7 @@ class StopsNearYouPage extends React.Component {
           variables={{
             stopIds: this.favouriteStopIds,
             stationIds: this.favouriteStationIds,
-            bikeRentalStationIds: this.props.favouriteBikeStationIds,
+            bikeRentalStationIds: this.favouriteBikeStationIds,
           }}
           environment={this.props.relayEnvironment}
           render={({ props }) => {
@@ -444,8 +462,10 @@ class StopsNearYouPage extends React.Component {
               return (
                 <StopsNearYouFavoritesMapContainer
                   position={this.state.searchPosition}
+                  centerOfMap={this.state.centerOfMap}
                   match={this.props.match}
                   setCenterOfMap={this.setCenterOfMap}
+                  mapState={this.state.mapState}
                   stops={props.stops}
                   stations={props.stations}
                   bikeStations={props.bikeStations}
@@ -490,15 +510,17 @@ class StopsNearYouPage extends React.Component {
             }
           }
         `}
-        variables={this.getQueryVariables()}
+        variables={this.getQueryVariables(mode)}
         environment={this.props.relayEnvironment}
         render={({ props }) => {
           if (props) {
             return (
               <StopsNearYouMapContainer
                 position={this.state.searchPosition}
+                centerOfMap={this.state.centerOfMap}
                 stopsNearYou={props.stops}
                 match={this.props.match}
+                mapState={this.state.mapState}
                 setCenterOfMap={this.setCenterOfMap}
               />
             );
@@ -538,6 +560,9 @@ class StopsNearYouPage extends React.Component {
     this.setState({
       phase: PH_USEDEFAULTPOS,
       searchPosition: item,
+      centerOfMap: null,
+      centerOfMapChanged: false,
+      mapState: MAPSTATES.FITBOUNDSTOSEARCHPOSITION,
     });
   };
 

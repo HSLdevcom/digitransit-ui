@@ -44,6 +44,7 @@ class ItineraryTab extends React.Component {
     focus: PropTypes.func.isRequired,
     setMapZoomToLeg: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
+    hideTitle: PropTypes.bool,
   };
 
   static contextTypes = {
@@ -57,9 +58,13 @@ class ItineraryTab extends React.Component {
     this.props.focus(lat, lon);
   };
 
-  shouldShowDisclaimer = (config) => {
-    return config.showDisclaimer && this.context.match.params.hash !== 'walk' && this.context.match.params.hash !== 'bike';
-  }
+  shouldShowDisclaimer = config => {
+    return (
+      config.showDisclaimer &&
+      this.context.match.params.hash !== 'walk' &&
+      this.context.match.params.hash !== 'bike'
+    );
+  };
 
   printItinerary = e => {
     e.stopPropagation();
@@ -78,12 +83,12 @@ class ItineraryTab extends React.Component {
     });
   };
 
-  getFutureText = (startTime) => {
+  getFutureText = startTime => {
     const refTime = getCurrentMillis();
-    if(isToday(startTime, refTime)) {
+    if (isToday(startTime, refTime)) {
       return '';
     }
-    if(isTomorrow(startTime, refTime)) {
+    if (isTomorrow(startTime, refTime)) {
       return this.context.intl.formatMessage({
         id: 'tomorrow',
       });
@@ -91,7 +96,7 @@ class ItineraryTab extends React.Component {
     return getFormattedTimeDate(startTime, 'dd D.M.');
   };
 
-  setExtraProps = (itinerary) => {
+  setExtraProps = itinerary => {
     const compressedItinerary = {
       ...itinerary,
       legs: compressLegs(itinerary.legs),
@@ -101,7 +106,8 @@ class ItineraryTab extends React.Component {
     const bikingDistance = getTotalBikingDistance(compressedItinerary);
     const bikingDuration = getTotalBikingDuration(compressedItinerary);
     const futureText = this.getFutureText(itinerary.startTime);
-    const isMultiRow = walkingDistance > 0 && bikingDistance > 0 && futureText !== '';
+    const isMultiRow =
+      walkingDistance > 0 && bikingDistance > 0 && futureText !== '';
     const extraProps = {
       walking: {
         duration: walkingDuration,
@@ -113,7 +119,7 @@ class ItineraryTab extends React.Component {
       },
       futureText,
       isMultiRow,
-    }
+    };
     return extraProps;
   };
 
@@ -121,7 +127,7 @@ class ItineraryTab extends React.Component {
     const { itinerary } = this.props;
     const { config } = this.context;
 
-    if(!itinerary || !itinerary.legs[0]) {
+    if (!itinerary || !itinerary.legs[0]) {
       return null;
     }
 
@@ -132,31 +138,51 @@ class ItineraryTab extends React.Component {
         <BreakpointConsumer>
           {breakpoint => [
             breakpoint !== 'large' ? (
-              <ItinerarySummary itinerary={itinerary} key="summary" walking={extraProps.walking} biking={extraProps.biking} futureText={extraProps.futureText} isMultiRow={extraProps.isMultiRow} isMobile={this.props.isMobile} />
+              <ItinerarySummary
+                itinerary={itinerary}
+                key="summary"
+                walking={extraProps.walking}
+                biking={extraProps.biking}
+                futureText={extraProps.futureText}
+                isMultiRow={extraProps.isMultiRow}
+                isMobile={this.props.isMobile}
+              />
             ) : (
               <>
-                <div className="desktop-title" key="header">
-                  <div className="title-container h2">
-                    <BackButton
-                      title={
-                        <FormattedMessage
-                          id="itinerary-page.title"
-                          defaultMessage="Itinerary suggestions"
-                        />
-                      }
-                      icon="icon-icon_arrow-collapse--left"
-                      iconClassName="arrow-icon"
-                      fallback="pop"
-                    />
+                {!this.props.hideTitle && (
+                  <div className="desktop-title" key="header">
+                    <div className="title-container h2">
+                      <BackButton
+                        title={
+                          <FormattedMessage
+                            id="itinerary-page.title"
+                            defaultMessage="Itinerary suggestions"
+                          />
+                        }
+                        icon="icon-icon_arrow-collapse--left"
+                        iconClassName="arrow-icon"
+                        fallback="pop"
+                      />
+                    </div>
                   </div>
-                </div>
-                <ItinerarySummary itinerary={itinerary} key="summary" walking={extraProps.walking} biking={extraProps.biking} futureText={extraProps.futureText} isMultiRow={extraProps.isMultiRow} isMobile={this.props.isMobile} />
+                )}
+                <ItinerarySummary
+                  itinerary={itinerary}
+                  key="summary"
+                  walking={extraProps.walking}
+                  biking={extraProps.biking}
+                  futureText={extraProps.futureText}
+                  isMultiRow={extraProps.isMultiRow}
+                  isMobile={this.props.isMobile}
+                />
               </>
             ),
             <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
-              'multirow': extraProps.isMultiRow,
-            })} key="legs">
+                multirow: extraProps.isMultiRow,
+              })}
+              key="legs"
+            >
               <div
                 className={cx('itinerary-main', {
                   'bp-large': breakpoint === 'large',
@@ -180,7 +206,7 @@ class ItineraryTab extends React.Component {
                         />
                       </div>
                     </div>
-                        )}
+                  )}
                 <ItineraryLegs
                   fares={fares}
                   itinerary={itinerary}
@@ -192,7 +218,7 @@ class ItineraryTab extends React.Component {
                     fares={fares}
                     zones={getZones(itinerary.legs)}
                     legs={itinerary.legs}
-                />
+                  />
                 )}
                 {config.showRouteInformation && <RouteInformation />}
               </div>
@@ -205,10 +231,10 @@ class ItineraryTab extends React.Component {
                 </div>
               )}
               <div className="itinerary-empty-space" />
-            </div>
+            </div>,
           ]}
         </BreakpointConsumer>
-        </div>
+      </div>
     );
   }
 }
@@ -219,7 +245,7 @@ ItineraryTab.description = (
       <ItineraryTab
         focus={() => {}}
         itinerary={{ ...exampleData.itinerary }}
-        plan={{date: 1553845502000}}
+        plan={{ date: 1553845502000 }}
         setMapZoomToLeg={() => {}}
         isMobile={false}
       />

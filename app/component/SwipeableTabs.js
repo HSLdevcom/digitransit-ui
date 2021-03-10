@@ -16,6 +16,7 @@ export default class SwipeableTabs extends React.Component {
     tabIndex: PropTypes.number,
     tabs: PropTypes.array.isRequired,
     onSwipe: PropTypes.func,
+    desktop: PropTypes.bool,
   };
 
   static contextTypes = {
@@ -89,7 +90,7 @@ export default class SwipeableTabs extends React.Component {
       return (
         <div
           key={key}
-          className={`mobile-swipe-tab-ball ${
+          className={`swipe-tab-ball ${
             index === this.state.tabIndex ? 'selected' : ''
           } ${ball.smaller ? 'decreasing-small' : ''} ${
             ball.small ? 'decreasing' : ''
@@ -122,56 +123,59 @@ export default class SwipeableTabs extends React.Component {
     return (
       <div>
         <div
-          className="mobile-swipe-header"
-          role="row"
-          onKeyDown={e => this.handleKeyPress(e, reactSwipeEl)}
-          aria-label={this.context.intl.formatMessage({
-            id: 'swipe-result-tabs',
-            defaultMessage:
-              'Swipe result tabs. Navigave with left and right arrow',
-          })}
-          tabIndex="0"
+          className={`swipe-header-container ${
+            this.props.desktop ? 'desktop' : ''
+          }`}
         >
-          <div className="mobile-swipe-button-container">
-            <div
-              className="mobile-swipe-button"
-              onClick={() => reactSwipeEl.prev()}
-              onKeyDown={() => {}}
-              role="button"
-              tabIndex="0"
-            >
-              <Icon
-                img="icon-icon_arrow-collapse--left"
-                className={`itinerary-arrow-icon ${
-                  disabled || this.state.tabIndex <= 0 ? 'disabled' : ''
-                }`}
-              />
+          <div
+            className={`swipe-header ${this.props.desktop ? 'desktop' : ''}`}
+            role="row"
+            onKeyDown={e => this.handleKeyPress(e, reactSwipeEl)}
+            aria-label="Swipe result tabs. Navigave with left and right arrow"
+            tabIndex="0"
+          >
+            <div className="swipe-button-container">
+              <div
+                className="swipe-button"
+                onClick={() => reactSwipeEl.prev()}
+                onKeyDown={() => {}}
+                role="button"
+                tabIndex="0"
+              >
+                <Icon
+                  img="icon-icon_arrow-collapse--left"
+                  className={`itinerary-arrow-icon ${
+                    disabled || this.state.tabIndex <= 0 ? 'disabled' : ''
+                  }`}
+                />
+              </div>
             </div>
-          </div>
-          <div className="mobile-swipe-tab-indicator">
-            {disabled ? null : tabBalls}
-          </div>
-          <div className="mobile-swipe-button-container">
-            <div
-              className="mobile-swipe-button"
-              onClick={() => reactSwipeEl.next()}
-              onKeyDown={() => {}}
-              role="button"
-              tabIndex="0"
-            >
-              <Icon
-                img="icon-icon_arrow-collapse--right"
-                className={`itinerary-arrow-icon ${
-                  disabled || this.state.tabIndex >= tabs.length - 1
-                    ? 'disabled'
-                    : ''
-                }`}
-              />
+            <div className="swipe-tab-indicator">
+              {disabled ? null : tabBalls}
+            </div>
+            <div className="swipe-button-container">
+              <div
+                className="swipe-button"
+                onClick={() => reactSwipeEl.next()}
+                onKeyDown={() => {}}
+                role="button"
+                tabIndex="0"
+              >
+                <Icon
+                  img="icon-icon_arrow-collapse--right"
+                  className={`itinerary-arrow-icon ${
+                    disabled || this.state.tabIndex >= tabs.length - 1
+                      ? 'disabled'
+                      : ''
+                  }`}
+                />
+              </div>
             </div>
           </div>
         </div>
         <ReactSwipe
           swipeOptions={{
+            enableCursor: this.props.desktop,
             startSlide: this.props.tabIndex,
             continuous: false,
             transitionEnd: e => {
