@@ -196,7 +196,7 @@
     "react-relay-network-modern": "5.0.0",
     "react-relay-network-modern-ssr": "1.4.0",
     "react-sortablejs": "2.0.11",
-    "react-swipe": "https://github.com/HSLdevcom/react-swipe.git",
+    "react-swipe": "6.0.4",
     "recompose": "0.30.0",
     "redis": "2.8.0",
     "relay-runtime": "10.0.1",
@@ -204,7 +204,7 @@
     "request": "2.88.2",
     "serialize-javascript": "4.0.0",
     "suncalc": "1.8.0",
-    "swipe-js-iso": "https://github.com/HSLdevcom/swipe-js-iso.git",
+    "swipe-js-iso": "2.1.5",
     "trim-right": "1.0.1",
     "uuid": "8.3.0",
     "zurb-foundation-5": "5.4.7"
