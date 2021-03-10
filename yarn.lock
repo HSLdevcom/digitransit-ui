@@ -6327,10 +6327,10 @@ dateformat@^3.0.0:
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-datetimepicker/-/digitransit-component-datetimepicker-0.4.1.tgz#c0485399d9781be1e3aebb3f5eee2e023ba21bde"
   integrity sha512-beat4f235IbzeESZpoc0iIL+nn16utwVSxbOtBCZVo4RGIItEd1zAmzi8i1BUgpBt5uK/gsFYeRe4axjCyeFyA==
 
-"datetimepicker-B@npm:@digitransit-component/digitransit-component-datetimepicker@0.5.2":
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-datetimepicker/-/digitransit-component-datetimepicker-0.5.2.tgz#2d75b4a34863a67c72b06c19cb4697b0edfa0583"
-  integrity sha512-DQS4U7Cst3SPXxy1o6HLGlxbA1y0xd3B6GP/sU/rR9l13GljFUnTbpktrQho5sOhGPMbMViEA45MMLcupQmfBQ==
+"datetimepicker-B@npm:@digitransit-component/digitransit-component-datetimepicker@0.5.4":
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-datetimepicker/-/digitransit-component-datetimepicker-0.5.4.tgz#aaedf8a21258a2752ad7b48e70211e1182f061bf"
+  integrity sha512-tkE+O7pzwVXSdm6adyI/svf3162JaZinTksoYx/+WbHejL4nBS+4jJHWhqoR0LfHBQoYbcRQYlUcE95An98Zig==
 
 de-indent@^1.0.2:
   version "1.0.2"
@@ -15709,13 +15709,14 @@ react-static-container@^1.0.2:
   resolved "https://registry.yarnpkg.com/react-static-container/-/react-static-container-1.0.2.tgz#30a4f7548860be1d55d5eb4c20645b835c2bdf34"
   integrity sha512-rxlZtZk5t6Y3gqqpaZ1lxY3RqlQcBU5uGsSoZj/hbF3ZweDqPbFHDkczT4emAxeaw37OD96RAAoayFGFQZCdWg==
 
-"react-swipe@https://github.com/HSLdevcom/react-swipe.git":
+react-swipe@6.0.4:
   version "6.0.4"
-  resolved "https://github.com/HSLdevcom/react-swipe.git#f5222d46f533f7cca5acde059de22257c3d0ccb0"
+  resolved "https://registry.yarnpkg.com/react-swipe/-/react-swipe-6.0.4.tgz#76e53599b1a093d5a3a841c7f391ef0abcc1babb"
+  integrity sha512-NIF+gVOqPpE8GyCg0ssFC+fPgeqCwNnvqFU/A8nDAOvoncW3KjSVFwgkYNnErHvpFZGmsVw4SLWK96n7+mnChg==
   dependencies:
     lodash.isequal "^4.5.0"
     prop-types "^15.6.0"
-    swipe-js-iso "https://github.com/HSLdevcom/swipe-js-iso.git"
+    swipe-js-iso "^2.1.5"
 
 react-test-renderer@^16.0.0-0:
   version "16.14.0"
@@ -18092,9 +18093,10 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-"swipe-js-iso@https://github.com/HSLdevcom/swipe-js-iso.git":
-  version "2.1.6"
-  resolved "https://github.com/HSLdevcom/swipe-js-iso.git#0ebe5699d0750218197c9afe5711cc569ef6f1d0"
+swipe-js-iso@2.1.5, swipe-js-iso@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/swipe-js-iso/-/swipe-js-iso-2.1.5.tgz#9b0eea8b9740487e6169d655184fc6440b6a2e34"
+  integrity sha512-yTTU5tDYEvtKfCD8PN+Rva25acJwogUCd6wPT1n1im/MOJlg6PtHiPKaaNK7HDBiIrWThA/WRbJZbox2letghg==
 
 symbol-observable@^1.0.4, symbol-observable@^1.2.0:
   version "1.2.0"
