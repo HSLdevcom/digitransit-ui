@@ -432,7 +432,7 @@ export default {
 
   map: {
     showZoomControl: true, // DT-3470, DT-3397
-    showLayerSelector: false, // DT-3470
+    showLayerSelector: true, // DT-3470
     showStopMarkerPopupOnMobile: false, // DT-3470
     showScaleBar: true, // DT-3470, DT-3397
     attribution:

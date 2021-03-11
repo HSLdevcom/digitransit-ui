@@ -1,10 +1,35 @@
 .option-checkbox-container {
   display: flex;
-
+  &.layer {
+    max-height: 55px;
+    > span {
+      font-weight: 400;
+      user-select: none;
+      line-height: 4;
+    }
+  }
   .option-checkbox {
     position: relative;
     margin-right: 2em;
+   &.layer {
 
+     margin-right: 1em;
+     margin-bottom: 1em;
+     margin-top: 1em;
+     label {
+       height: 32px;
+       width: 32px;
+       position: relative;
+
+       &.checked {
+         border: #007ac9 1px solid;
+
+         &.disabled:before {
+           color: $gray;
+         }
+       }
+     }
+   }
     label {
       height: 20px;
       width: 20px;
@@ -24,7 +49,6 @@
 
         &:before {
           color: $primary-color;
-          content: "#{'\2714 \fe0e'}";
           font-family: $font-family;
           font-size: 1.25em;
           font-weight: 700;
@@ -60,5 +84,10 @@
   > span {
     font-weight: 400;
     user-select: none;
+  }
+  .checkmark{
+    position: absolute;
+    margin-left: 0.2em;
+    margin-top: 0.15em;
   }
 }

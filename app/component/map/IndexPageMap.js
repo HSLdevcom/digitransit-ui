@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { connectToStores } from 'fluxible-addons-react';
@@ -14,8 +14,12 @@ import { dtLocationShape } from '../../util/shapes';
 import { parseLocation } from '../../util/path';
 import storeOrigin from '../../action/originActions';
 import storeDestination from '../../action/destinationActions';
+// eslint-disable-next-line import/no-named-as-default
+import SettingsDrawer from '../SettingsDrawer';
 
-const renderMapLayerSelector = () => <SelectMapLayersDialog />;
+const renderMapLayerSelector = setOpen => (
+  <SelectMapLayersDialog setOpen={setOpen} />
+);
 
 const locationMarkerModules = {
   LocationMarker: () =>
@@ -28,6 +32,8 @@ function IndexPageMap(
   { match, breakpoint, origin, destination },
   { config, executeAction },
 ) {
+  const [isSettingsOpen, setSettingsOpen] = useState(false);
+
   const originFromURI = parseLocation(match.params.from);
   const destinationFromURI = parseLocation(match.params.to);
   let focusPoint;
@@ -105,22 +111,35 @@ function IndexPageMap(
     };
 
     map = (
-      <MapWithTracking
-        breakpoint={breakpoint}
-        // TODO: Fix an issue where map doesn't center to right place when user is coming to indexPage with origin or destination set with url
-        defaultMapCenter={config.defaultMapCenter || config.defaultEndpoint}
-        showStops
-        showScaleBar
-        {...mwtProps}
-        showLocationMessages
-        initialZoom={initialZoom}
-        leafletObjs={leafletObjs}
-        locationPopup="origindestination"
-        onSelectLocation={selectLocation}
-        renderCustomButtons={() => (
-          <>{config.map.showLayerSelector && renderMapLayerSelector()}</>
-        )}
-      />
+      <>
+        <MapWithTracking
+          breakpoint={breakpoint}
+          // TODO: Fix an issue where map doesn't center to right place when user is coming to indexPage with origin or destination set with url
+          defaultMapCenter={config.defaultMapCenter || config.defaultEndpoint}
+          showStops
+          showScaleBar
+          {...mwtProps}
+          showLocationMessages
+          initialZoom={initialZoom}
+          leafletObjs={leafletObjs}
+          locationPopup="origindestination"
+          onSelectLocation={selectLocation}
+          renderCustomButtons={() => (
+            <>
+              {config.map.showLayerSelector &&
+                renderMapLayerSelector(setSettingsOpen)}
+            </>
+          )}
+        />
+        <SettingsDrawer
+          onToggleClick={() => {
+            return null;
+          }}
+          open={isSettingsOpen}
+          settingsType="MapLayer"
+          setOpen={setSettingsOpen}
+        />
+      </>
     );
   } else {
     map = (
@@ -133,7 +152,10 @@ function IndexPageMap(
             defaultMapCenter={config.defaultMapCenter || config.defaultEndpoint}
             leafletObjs={leafletObjs}
             renderCustomButtons={() => (
-              <>{config.map.showLayerSelector && renderMapLayerSelector()}</>
+              <>
+                {config.map.showLayerSelector &&
+                  renderMapLayerSelector(setSettingsOpen)}
+              </>
             )}
           />
         </div>
