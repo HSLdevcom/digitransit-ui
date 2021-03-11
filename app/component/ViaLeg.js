@@ -9,6 +9,7 @@ import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import { splitStringToAddressAndPlace } from '../util/otpStrings';
 
 const getDescription = (mode, distance, duration) => {
   if (mode === 'BICYCLE_WALK') {
@@ -46,7 +47,7 @@ function ViaLeg(props, { config, intl }) {
     config,
     intl.formatNumber,
   );
-  const [address, place] = props.leg.from.name.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
+  const [address, place] = splitStringToAddressAndPlace(props.leg.from.name);
   const duration = durationToString(props.leg.duration * 1000);
   const stayDuration = props.leg.startTime - props.arrivalTime;
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */

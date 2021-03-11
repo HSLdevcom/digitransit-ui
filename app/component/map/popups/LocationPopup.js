@@ -11,6 +11,7 @@ import ZoneIcon from '../../ZoneIcon';
 import PreferencesStore from '../../../store/PreferencesStore';
 import { getJson } from '../../../util/xhrPromise';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
+import { splitStringToAddressAndPlace } from '../../../util/otpStrings';
 
 class LocationPopup extends React.Component {
   static contextTypes = {
@@ -130,14 +131,16 @@ class LocationPopup extends React.Component {
       );
     }
     const { zoneId } = this.state.location;
-    const [address, place] = this.state.location.address.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
+    const [address, place] = splitStringToAddressAndPlace(
+      this.state.location.address,
+    );
     return (
       <Card>
         <div className="location-popup-wrapper">
           <div className="location-address">{address}</div>
           <div className="location-place">
             {place}
-            <ZoneIcon zoneId={zoneId} showUnknown={false} />
+            {place && <ZoneIcon zoneId={zoneId} showUnknown={false} />}
           </div>
         </div>
         {(this.props.locationPopup === 'all' ||
