@@ -20,7 +20,7 @@ $offcanvas-background-active: scale-color($gray, $lightness: -30%);
 $topbar-height: 40px;
 
 $top-navigation-icon-color: navbar-icon-color($primary-color);
-$top-navigation-title-color: $title-color;
+$top-navigation-title-color: navbar-icon-color($primary-color);
 
 /* offcanvas */
 $offcanvas-profile-icon-size: 60px;

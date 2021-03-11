@@ -14,13 +14,17 @@ import UserInfo from './UserInfo';
 
 const AppBar = (
   { showLogo, title, homeUrl, logo, user, breakpoint, titleClicked },
-  { config },
+  { config, intl },
 ) => (
   <>
     <DisruptionInfo />
     <nav className={`top-bar ${breakpoint !== 'large' ? 'mobile' : ''}`}>
       <section className="title">
         <button
+          aria-label={intl.formatMessage({
+            id: 'to-frontpage',
+            defaultMessage: 'To frontpage',
+          })}
           type="button"
           onClick={e => {
             titleClicked(e);
