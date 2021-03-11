@@ -199,6 +199,9 @@ $content-background-color: $background-color;
     font-size: 1.2em;
     margin: 0 0 0 2.5em;
     font-weight: 500;
+    &::first-letter {
+      text-transform: capitalize;
+    }
   }
 }
 
