@@ -536,15 +536,7 @@ class StopsNearYouPage extends React.Component {
               />
             );
           }
-          return (
-            <StopsNearYouMapContainer
-              defaultMapCenter={this.state.searchPosition}
-              position={null}
-              stopsNearYou={null}
-              match={this.props.match}
-              setCenterOfMap={this.setCenterOfMap}
-            />
-          );
+          return null;
         }}
       />
     );
