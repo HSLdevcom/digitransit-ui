@@ -172,7 +172,6 @@ export default class SwipeableTabs extends React.Component {
         </div>
         <ReactSwipe
           swipeOptions={{
-            enableCursor: this.props.desktop,
             startSlide: this.props.tabIndex,
             continuous: false,
             transitionEnd: e => {
