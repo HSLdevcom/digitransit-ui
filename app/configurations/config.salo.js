@@ -74,7 +74,7 @@ export default configMerger(walttiConfig, {
     content: [
       {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'https://www.salo.fi/kaupunkijahallinto/osallistu/palaute/?sub=liikennepalvelut',
         icon: 'icon-icon_speech-bubble',

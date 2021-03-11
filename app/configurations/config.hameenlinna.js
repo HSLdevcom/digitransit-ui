@@ -100,7 +100,7 @@ export default configMerger(walttiConfig, {
     content: [
       {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href:
           'http://kartta.hameenlinna.fi/eFeedback/fi/Feedback/35-Joukkoliikenne',

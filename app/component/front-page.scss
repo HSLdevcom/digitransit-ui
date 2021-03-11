@@ -455,22 +455,6 @@ div.route-tabs .tabs-navigation.bp-large {
   flex-direction: column;
 }
 
-#page-footer-container {
-  bottom: 0px;
-  position: absolute;
-  z-index: index($zindex, footer);
-  left: 32% // DT-3381: TODO Placeholder values!
-}
-
-#page-footer {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  background-color: rgba(255, 255, 255, 0.7);
-
-  height: 30px;
-}
-
 .menu-item {
   cursor: pointer;
   font-size: $font-size-small;
@@ -491,14 +475,6 @@ div.route-tabs .tabs-navigation.bp-large {
 .menu-text {
   @include font-book;
   color: $gray;
-}
-
-.footer-separator {
-  width: 1px;
-  height: 20px;
-  margin-left: 10px;
-  margin-right: 10px;
-  border-right: 1px solid $medium-gray;
 }
 
 svg.icon.menu-icon {

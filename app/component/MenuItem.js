@@ -70,7 +70,7 @@ MenuItem.displayName = 'MenuItem';
 
 MenuItem.description = () => (
   <div>
-    <p>Front page footer item</p>
+    <p>Front page menu item</p>
     <ComponentUsageExample description="external">
       <MenuItem name="Palaute" href="http://www.hsl.fi/" />
     </ComponentUsageExample>

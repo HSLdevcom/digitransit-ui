@@ -77,7 +77,7 @@ $content-background-color: $background-color;
   }
 
   .icon-holder {
-    padding: $padding-medium;
+    margin: $padding-medium;
     align-self: stretch;
   }
   .icon {
@@ -394,6 +394,13 @@ $content-background-color: $background-color;
     .icon {
       display: none;
     }
+  }
+  .disruption-info .icon.disruption-info {
+    padding-left: 0;
+    margin-left: 5px;
+    width: 24px;
+    fill: #dc0451;
+    height: 21px;
   }
 }
 

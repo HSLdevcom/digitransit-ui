@@ -138,7 +138,7 @@ export default configMerger(walttiConfig, {
     content: [
       {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'https://www.nysse.fi/palaute.html',
         icon: 'icon-icon_speech-bubble',

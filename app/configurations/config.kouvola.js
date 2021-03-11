@@ -74,7 +74,7 @@ export default configMerger(walttiConfig, {
     content: [
       {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'http://www.palautekouvola.fi',
         icon: 'icon-icon_speech-bubble',
