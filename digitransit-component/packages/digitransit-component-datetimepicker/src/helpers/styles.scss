@@ -39,7 +39,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 
   label button {
     cursor: pointer;
-    font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+    font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
   }
 
   .hidden {
@@ -290,7 +290,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       }
     }
     .input {
-      font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+      font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
       width: 100%;
       padding-left: 12px;
       padding-right: 0;
@@ -339,7 +339,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   z-index: 1000;
 }
 .mobile-modal-content {
-  font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+  font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
   background: white;
   width: 89%;
   position: absolute;
