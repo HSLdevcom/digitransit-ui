@@ -173,7 +173,7 @@ const SuggestionItem = pure(
                 <div className={styles['suggestion-label']}>
                   {isBikeRentalStation ? cityBikeLabel : label}
                   {((stopCode && stopCode !== name) ||
-                    item.properties.layer === 'bikestation') && (
+                    item.properties?.layer === 'bikestation') && (
                     <span className={styles['stop-code']}>
                       {stopCode || item.properties.id}
                     </span>
