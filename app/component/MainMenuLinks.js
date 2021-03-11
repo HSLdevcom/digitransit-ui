@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import ComponentUsageExample from './ComponentUsageExample';
-import FooterItem from './FooterItem';
+import MenuItem from './MenuItem';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const MainMenuLinks = ({ content }) => (
-  <div id="page-m-footer">
+  <div>
     {content.map(link =>
       Object.keys(link).length === 0 ? (
         <span key="separator" />
       ) : (
         <div key={link.label || link.name} className="offcanvas-section">
-          <FooterItem
+          <MenuItem
             onClick={() => {
               if (link.label || link.name) {
                 addAnalyticsEvent({
@@ -30,7 +30,7 @@ const MainMenuLinks = ({ content }) => (
 );
 
 MainMenuLinks.propTypes = {
-  content: PropTypes.arrayOf(PropTypes.shape(FooterItem.propTypes)),
+  content: PropTypes.arrayOf(PropTypes.shape(MenuItem.propTypes)),
 };
 
 MainMenuLinks.defaultProps = {

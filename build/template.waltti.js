@@ -61,10 +61,9 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  footer: {
+  menu: {
     content: [
       { label: `© __Theme__ ${walttiConfig.YEAR}` },
-      {},
       {
         name: 'about-this-service',
         nameEn: 'About this service',

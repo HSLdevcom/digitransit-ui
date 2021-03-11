@@ -37,8 +37,7 @@ import RouteAlertsRow from './RouteAlertsRow';
 import ModeFilter from './ModeFilter';
 import Availability from './Availability';
 import ParkAndRideAvailability from './map/popups/ParkAndRideAvailability';
-import AppBarSmall from './AppBarSmall';
-import AppBarLarge from './AppBarLarge';
+import AppBar from './AppBar';
 import StopPageHeader from './StopPageHeader';
 import StopCardHeader from './StopCardHeader';
 import SplitBars from './SplitBars';
@@ -48,8 +47,7 @@ import SelectedStopPopupContent from './SelectedStopPopupContent';
 import { Component as LangSelect } from './LangSelect';
 import ExternalLink from './ExternalLink';
 import { component as SummaryRow } from './SummaryRow';
-import PageFooter from './PageFooter';
-import FooterItem from './FooterItem';
+import MenuItem from './MenuItem';
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
 import BicycleLeg from './BicycleLeg';
@@ -112,8 +110,7 @@ const components = {
   RouteAlertsRow,
   ModeFilter,
   RouteStop,
-  AppBarSmall,
-  AppBarLarge,
+  AppBar,
   CanceledLegsBar,
   StopPageHeader,
   StopCardHeader,
@@ -124,8 +121,7 @@ const components = {
   SummaryRow,
   ExternalLink,
   LangSelect,
-  PageFooter,
-  FooterItem,
+  MenuItem,
   ItineraryLegs,
   WalkLeg,
   WaitLeg,

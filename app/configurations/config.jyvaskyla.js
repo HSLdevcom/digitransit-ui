@@ -92,12 +92,11 @@ export default configMerger(walttiConfig, {
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
 
-  footer: {
+  menu: {
+    copyright: { label: `© Jyvaskyla ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Jyvaskyla ${walttiConfig.YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'https://s-asiointi.jkl.fi/eFeedback/fi/Feedback/38',
         icon: 'icon-icon_speech-bubble',

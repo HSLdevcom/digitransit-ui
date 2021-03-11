@@ -455,23 +455,7 @@ div.route-tabs .tabs-navigation.bp-large {
   flex-direction: column;
 }
 
-#page-footer-container {
-  bottom: 0px;
-  position: absolute;
-  z-index: index($zindex, footer);
-  left: 32% // DT-3381: TODO Placeholder values!
-}
-
-#page-footer {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  background-color: rgba(255, 255, 255, 0.7);
-
-  height: 30px;
-}
-
-.footer-item {
+.menu-item {
   cursor: pointer;
   font-size: $font-size-small;
   button {
@@ -488,20 +472,12 @@ div.route-tabs .tabs-navigation.bp-large {
   }
 }
 
-.footer-text {
+.menu-text {
   @include font-book;
   color: $gray;
 }
 
-.footer-separator {
-  width: 1px;
-  height: 20px;
-  margin-left: 10px;
-  margin-right: 10px;
-  border-right: 1px solid $medium-gray;
-}
-
-svg.icon.footer-icon {
+svg.icon.menu-icon {
   position: relative;
   top: 2px;
   margin-right: 6px;

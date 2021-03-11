@@ -3,4 +3,5 @@ export const MAPSTATES = {
   FITBOUNDSTOCENTER: 'fitBoundsToCenter',
   HUMANSCROLL: 'humanScroll',
   FITBOUNDSTOSEARCHPOSITION: 'fitBoundsToSearchPosition',
+  FITBOUNDSTOSTARTLOCATION: 'fitBoundsToStartLocation',
 };
