@@ -166,6 +166,9 @@ class DTAutosuggestPanel extends React.Component {
     originMobileLabel: PropTypes.string,
     destinationMobileLabel: PropTypes.string,
     refPoint: PropTypes.object,
+    fontWeights: PropTypes.shape({
+      bold: PropTypes.number,
+    }),
   };
 
   static defaultProps = {
@@ -186,6 +189,9 @@ class DTAutosuggestPanel extends React.Component {
     hoverColor: '#0062a1',
     originMobileLabel: null,
     destinationMobileLabel: null,
+    fontWeights: {
+      bold: 500,
+    },
   };
 
   constructor(props) {
@@ -371,6 +377,7 @@ class DTAutosuggestPanel extends React.Component {
       viaPoints,
       originMobileLabel,
       destinationMobileLabel,
+      fontWeights,
     } = this.props;
     const { activeSlackInputs } = this.state;
     const slackTime = this.getSlackTimeOptions();
@@ -390,6 +397,10 @@ class DTAutosuggestPanel extends React.Component {
             showMultiPointControls,
           },
         ])}
+        style={{
+          '--color': `${this.props.color}`,
+          '--font-weight-bold': fontWeights.bold,
+        }}
       >
         {' '}
         {searchPanelText ? (
@@ -426,6 +437,7 @@ class DTAutosuggestPanel extends React.Component {
             color={this.props.color}
             hoverColor={this.props.hoverColor}
             mobileLabel={originMobileLabel}
+            fontWeights={this.props.fontWeights}
           />
           <ItinerarySearchControl
             className={styles.opposite}
@@ -500,6 +512,7 @@ class DTAutosuggestPanel extends React.Component {
                       isMobile={this.props.isMobile}
                       color={this.props.color}
                       hoverColor={this.props.hoverColor}
+                      fontWeights={this.props.fontWeights}
                     />
                   </div>
                   <ItinerarySearchControl
@@ -547,9 +560,6 @@ class DTAutosuggestPanel extends React.Component {
                       icon={
                         <span
                           className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
-                          style={{
-                            '--color': `${this.props.color}`,
-                          }}
                         >
                           <Icon img="time" color={this.props.color} />
                         </span>
@@ -601,6 +611,7 @@ class DTAutosuggestPanel extends React.Component {
             color={this.props.color}
             hoverColor={this.props.hoverColor}
             mobileLabel={destinationMobileLabel}
+            fontWeights={this.props.fontWeights}
           />
           <ItinerarySearchControl
             className={cx(styles['add-via-point'], styles.more, {

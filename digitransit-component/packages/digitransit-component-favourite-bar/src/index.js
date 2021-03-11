@@ -128,6 +128,11 @@ class FavouriteBar extends React.Component {
     isLoading: PropTypes.bool,
     /** Optional. Default value is '#007ac9'. */
     color: PropTypes.string,
+    /** Optional. */
+    fontWeights: PropTypes.shape({
+      /** Default value is 500. */
+      bold: PropTypes.number,
+    }),
   };
 
   static defaultProps = {
@@ -139,6 +144,9 @@ class FavouriteBar extends React.Component {
     lang: 'fi',
     isLoading: false,
     color: '#007ac9',
+    fontWeights: {
+      bold: 500,
+    },
   };
 
   static FavouriteIconIdToNameMap = {
@@ -285,6 +293,7 @@ class FavouriteBar extends React.Component {
           item={item}
           iconColor={this.props.color}
           className={className}
+          fontWeights={this.props.fontWeights}
         />
       </li>
     );
@@ -314,7 +323,7 @@ class FavouriteBar extends React.Component {
   };
 
   render() {
-    const { onClickFavourite, isLoading } = this.props;
+    const { onClickFavourite, isLoading, fontWeights } = this.props;
     const {
       listOpen,
       favourites,
@@ -329,7 +338,7 @@ class FavouriteBar extends React.Component {
     }
 
     return (
-      <React.Fragment>
+      <div style={{ '--font-weight-bold': fontWeights.bold }}>
         <div className={styles['favourite-container']}>
           <FavouriteLocation
             text={
@@ -439,7 +448,7 @@ class FavouriteBar extends React.Component {
             </ul>
           )}
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

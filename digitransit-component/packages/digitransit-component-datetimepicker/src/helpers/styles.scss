@@ -2,7 +2,6 @@
 @import '~@hsl-fi/sass/mixins/screen';
 @import '~@hsl-fi/sass/mixins/text';
 
-$font-weight-medium: 500;
 @mixin default-focus-outline {
   /* First apply outline that is used in Edge and Firefox */
   outline: 1px dotted #212121;
@@ -30,7 +29,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   padding: 0;
   margin: 0;
   font-size: 15px;
-  font-weight: $font-weight-medium;
+  font-weight: var(--font-weight-bold);
 
   button, label {
     font-size: 1em;
@@ -309,7 +308,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       letter-spacing: -0.6px;
       color: #333333;
       font-size: 15px;
-      font-weight: 500;
+      font-weight: var(--font-weight-bold);
       margin: -6px 0 0 -1px;
       position: relative;
     }
@@ -352,7 +351,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     justify-content: space-between;
     margin-bottom: 21px;
     .modal-title {
-      font-weight: 500;
+      font-weight: var(--font-weight-bold);
       font-size: 20px;
       line-height: 18px;
       letter-spacing: -0.5px;
@@ -365,7 +364,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       padding: 5px 15px;
       border: 1px solid #888888;
       border-radius: 50px;
-      font-weight: 500;
+      font-weight: var(--font-weight-bold);
       font-size: 15px;
       line-height: 18px;
       letter-spacing: -0.02em;
@@ -389,7 +388,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       text-align: center;
       color: #333333;
       &.active {
-        font-weight: 500;
+        font-weight: var(--font-weight-bold);
         background-color: #ffffff;
       }
     }
@@ -445,7 +444,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
         font-size: 18px;
         letter-spacing: -0.5px;
         line-height: 20px;
-        font-weight: 500;
+        font-weight: var(--font-weight-bold);
         border: none;
         outline: none;
         background: none;
@@ -466,7 +465,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
         background: inherit;
         box-shadow: none;
         font-family: inherit;
-        font-weight: 500;
+        font-weight: var(--font-weight-bold);
         font-stretch: normal;
         font-style: normal;
         font-size: 16px;
@@ -539,7 +538,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
           border: none;
           background: none;
           font-size: 16px;
-          font-weight: 500;
+          font-weight: var(--font-weight-bold);
           height: 25px;
           display: inline-block;
           font-family: inherit;
@@ -559,11 +558,11 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     display:flex;
     flex-direction: column;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: var(--font-weight-bold);
     button {
       background-color: white;
       font-family: inherit;
-      font-weight: 500;
+      font-weight: var(--font-weight-bold);
       font-size: 16px;
       letter-spacing: -0.02em;
       width: 100%;

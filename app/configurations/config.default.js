@@ -290,6 +290,10 @@ export default {
     primary: '#00AFFF',
   },
 
+  fontWeights: {
+    bold: 700,
+  },
+
   sprites: 'assets/svg-sprite.default.svg',
 
   disruption: {
