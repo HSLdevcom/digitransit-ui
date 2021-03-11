@@ -455,7 +455,7 @@ export const isPointTypeGeometry = geometry =>
  * Caluclates itinerary distance as the crow flies
  *
  */
-export function estimateItineraryDistance(from, to, viaPoints) {
+export function estimateItineraryDistance(from, to, viaPoints = []) {
   let dist = 0;
   const points = [...[from], ...viaPoints, ...[to]];
   const arrayLength = points.length;
