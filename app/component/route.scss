@@ -347,7 +347,7 @@ $margin-left-right: 1.25em;
     .route-short-name {
       font-family: $font-family-narrow;
       font-size: 30px;
-      font-weight: 500;
+      font-weight: $font-weight-medium;
       font-stretch: normal;
       font-style: normal;
       line-height: normal;
@@ -427,7 +427,7 @@ $margin-left-right: 1.25em;
     display: block;
     h1 {
       font-size: 26px;
-      font-weight: 500;
+      font-weight: $font-weight-medium;
       font-family: $font-family;
     }
   }
@@ -439,7 +439,7 @@ $margin-left-right: 1.25em;
     margin-top: 1em;
     display: flex;
     font-size: 24px;
-    font-weight: 700;
+    font-weight: $font-weight-bold;
     .printable-stop-header_from {
       margin-right: 1em;
       width: 8.4em;
@@ -480,7 +480,7 @@ $margin-left-right: 1.25em;
     color: #333;
     height: 30px;
     line-height: 24px;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     appearance: none;
   }
 
@@ -587,7 +587,7 @@ $margin-left-right: 1.25em;
     }
     .printable-date-content {
       font-size: 20px;
-      font-weight: 700;
+      font-weight: $font-weight-bold;
     }
   }
   .secondary-button.print {
@@ -632,7 +632,7 @@ $margin-left-right: 1.25em;
     background-color: $white;
     color: $primary-color;
     border-bottom: none !important;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     padding: 0;
     background-image: none;
     width: 7em;
@@ -690,7 +690,7 @@ $margin-left-right: 1.25em;
     color: #333;
     font-weight: normal;
     &.is-active {
-      font-weight: 500;
+      font-weight: $font-weight-medium;
       background-color: $white;
     }
     .no-alerts > span {
@@ -764,7 +764,7 @@ $margin-left-right: 1.25em;
 
   .route-option option {
     margin-top: 0.4em;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     color: rgba(0, 0, 0, 0.75);
     cursor: pointer;
   }

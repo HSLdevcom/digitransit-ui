@@ -49,7 +49,7 @@
     .combobox-selected-value {
       color: $black;
       font-size: $font-size-normal;
-      font-weight: 500;
+      font-weight: $font-weight-medium;
       text-align: left;
       overflow: hidden;
       text-overflow: ellipsis;

@@ -145,7 +145,7 @@
     }
   }
   .walk-options-container {
-    font-weight: 500;
+    font-weight: $font-weight-medium;
 
     .walk-option-inner {
       padding: 0 1em 0 1em;
@@ -205,13 +205,13 @@
 
 .settings-option-container {
   padding: 0.5em 1em 0 1em;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
 
   h2 {
     text-transform: none;
     font-size: $font-size-xlarge;
     letter-spacing: -0.6pt;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     font-family: $font-family;
     padding: 1.5em 0.5em 0.5em 0.5em;
     margin: 0;
@@ -264,7 +264,7 @@
 
   label.toggle-label {
     font-size: 0.92rem;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
   }
 
   .mode-option-block {

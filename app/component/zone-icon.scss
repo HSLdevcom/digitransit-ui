@@ -8,7 +8,7 @@
     line-height: 1.2;
     text-align: center;
     background: $primary-color;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     &.multi-letter {
       border-radius: 25px;
     }

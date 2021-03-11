@@ -10,7 +10,7 @@
 
     .settings-dropdown-choice {
       font-size: 15px;
-      font-weight: 500;
+      font-weight: $font-weight-medium;
       cursor: pointer;
       color: $primary-color;
       margin-bottom: 5px;
@@ -76,7 +76,7 @@
         color: $primary-color;
         width: 100%;
         padding-right: 1em;
-        font-weight: 500;
+        font-weight: $font-weight-medium;
         text-align: end;
       }
   }

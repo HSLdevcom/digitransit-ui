@@ -198,7 +198,7 @@ $content-background-color: $background-color;
   .h2 {
     font-size: 1.2em;
     margin: 0 0 0 2.5em;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
   }
 }
 
