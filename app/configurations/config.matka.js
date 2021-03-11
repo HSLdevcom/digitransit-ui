@@ -75,7 +75,6 @@ export default {
   menu: {
     copyright: { label: `© Traficom ${YEAR}` },
     content: [
-      {},
       {
         name: 'menu-feedback',
         nameEn: 'Submit feedback',

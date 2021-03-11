@@ -136,7 +136,6 @@ export default configMerger(walttiConfig, {
   menu: {
     copyright: { label: `© Tampere ${walttiConfig.YEAR}` },
     content: [
-      {},
       {
         name: 'menu-feedback',
         nameEn: 'Submit feedback',

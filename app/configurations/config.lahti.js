@@ -90,7 +90,6 @@ export default configMerger(walttiConfig, {
   menu: {
     copyright: { label: `© Lahti ${walttiConfig.YEAR}` },
     content: [
-      {},
       {
         name: 'menu-feedback',
         nameEn: 'Submit feedback',

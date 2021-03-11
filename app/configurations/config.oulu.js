@@ -117,7 +117,6 @@ export default configMerger(walttiConfig, {
   menu: {
     copyright: { label: `© Oulu ${walttiConfig.YEAR}` },
     content: [
-      {},
       {
         name: 'menu-feedback',
         nameEn: 'Submit feedback',

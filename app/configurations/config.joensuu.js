@@ -61,7 +61,6 @@ export default configMerger(walttiConfig, {
   menu: {
     copyright: { label: `© Joensuun kaupunki ${walttiConfig.YEAR}` },
     content: [
-      {},
       {
         name: 'about-this-service',
         nameEn: 'About this service',

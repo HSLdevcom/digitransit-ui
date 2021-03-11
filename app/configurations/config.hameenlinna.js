@@ -98,7 +98,6 @@ export default configMerger(walttiConfig, {
   menu: {
     copyright: { label: `© Hameenlinna ${walttiConfig.YEAR}` },
     content: [
-      {},
       {
         name: 'menu-feedback',
         nameEn: 'Submit feedback',
