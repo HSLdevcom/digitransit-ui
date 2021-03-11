@@ -376,8 +376,13 @@ class TileLayerContainer extends GridLayer {
             key={this.state.coords.toString()}
             {...this.PopupOptions}
             maxHeight={220}
+            maxWidth="auto"
             position={this.state.coords}
-            className={`${this.PopupOptions.className} single-popup`}
+            className={`${this.PopupOptions.className} ${
+              this.props.locationPopup === 'all'
+                ? 'single-popup'
+                : 'narrow-popup'
+            }`}
           >
             <LocationPopup
               lat={this.state.coords.lat}

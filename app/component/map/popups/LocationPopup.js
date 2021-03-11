@@ -6,7 +6,6 @@ import { intlShape } from 'react-intl';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
-import CardHeader from '../../CardHeader';
 import Loading from '../../Loading';
 import ZoneIcon from '../../ZoneIcon';
 import PreferencesStore from '../../../store/PreferencesStore';
@@ -131,17 +130,15 @@ class LocationPopup extends React.Component {
       );
     }
     const { zoneId } = this.state.location;
+    const [address, place] = this.state.location.address.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
     return (
       <Card>
-        <div className="card-padding location-popup-wrapper">
-          <CardHeader
-            name={this.state.location.address}
-            description={this.state.location.address}
-            unlinked
-            className="padding-small"
-          >
+        <div className="location-popup-wrapper">
+          <div className="location-address">{address}</div>
+          <div className="location-place">
+            {place}
             <ZoneIcon zoneId={zoneId} showUnknown={false} />
-          </CardHeader>
+          </div>
         </div>
         {(this.props.locationPopup === 'all' ||
           this.props.locationPopup === 'origindestination') && (
