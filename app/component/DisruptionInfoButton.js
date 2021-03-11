@@ -12,7 +12,7 @@ function DisruptionInfoButton(props, { config }) {
         onClick={props.toggleDisruptionInfo}
       >
         <FormattedMessage
-          id="disruptions-and-exceptions"
+          id="disruptions-and-diversions"
           defaultMessage="Disruptions and diversions"
         />
         {props.viewer &&
