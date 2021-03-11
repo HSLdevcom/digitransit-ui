@@ -77,8 +77,8 @@ export default configMerger(walttiConfig, {
   ],
 
   menu: {
+    copyright: { label: `© Rovaniemi ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Rovaniemi ${walttiConfig.YEAR}` },
       {},
       {
         name: 'about-this-service',

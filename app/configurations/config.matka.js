@@ -73,8 +73,8 @@ export default {
   },
 
   menu: {
+    copyright: { label: `© Traficom ${YEAR}` },
     content: [
-      { label: `© Traficom ${YEAR}` },
       {},
       {
         name: 'footer-feedback',

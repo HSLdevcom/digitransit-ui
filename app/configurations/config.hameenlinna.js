@@ -96,8 +96,8 @@ export default configMerger(walttiConfig, {
   ],
 
   menu: {
+    copyright: { label: `© Hameenlinna ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Hameenlinna ${walttiConfig.YEAR}` },
       {},
       {
         name: 'footer-feedback',

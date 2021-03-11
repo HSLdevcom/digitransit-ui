@@ -98,7 +98,9 @@ function MainMenu(props, { config, intl }) {
           )}
         />
       </section>
-      <div className="copyright">{`© Digitransit ${new Date().getFullYear()}`}</div>
+      {config.menu?.copyright && (
+        <div className="copyright">{config.menu.copyright.label}</div>
+      )}
     </div>
   );
 }

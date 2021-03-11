@@ -80,8 +80,8 @@ export default configMerger(walttiConfig, {
   ],
 
   menu: {
+    copyright: { label: `© Kotka ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Kotka ${walttiConfig.YEAR}` },
       {},
       {
         name: 'about-this-service',

@@ -70,8 +70,8 @@ export default configMerger(walttiConfig, {
   ],
 
   menu: {
+    copyright: { label: `© Salo ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Salo ${walttiConfig.YEAR}` },
       {},
       {
         name: 'footer-feedback',

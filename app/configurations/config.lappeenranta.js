@@ -111,8 +111,8 @@ export default configMerger(walttiConfig, {
   showVehiclesOnStopPage: true,
 
   menu: {
+    copyright: { label: `© Lappeenranta ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Lappeenranta ${walttiConfig.YEAR}` },
       {},
       {
         name: 'about-this-service',

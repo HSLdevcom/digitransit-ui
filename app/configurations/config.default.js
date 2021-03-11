@@ -487,8 +487,8 @@ export default {
   modePolygons: {},
 
   menu: {
+    copyright: { label: `© Digitransit ${YEAR}` },
     content: [
-      { label: `© HSL, Traficom ${YEAR}` },
       {},
       {
         name: 'footer-feedback',

@@ -134,8 +134,8 @@ export default configMerger(walttiConfig, {
   ],
 
   menu: {
+    copyright: { label: `© Tampere ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Tampere ${walttiConfig.YEAR}` },
       {},
       {
         name: 'footer-feedback',

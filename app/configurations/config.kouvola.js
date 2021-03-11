@@ -70,8 +70,8 @@ export default configMerger(walttiConfig, {
   ],
 
   menu: {
+    copyright: { label: `© Kouvola ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Kouvola ${walttiConfig.YEAR}` },
       {},
       {
         name: 'footer-feedback',

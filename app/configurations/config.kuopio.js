@@ -131,8 +131,8 @@ export default configMerger(walttiConfig, {
   },
 
   menu: {
+    copyright: { label: `© Kuopio ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Kuopio ${walttiConfig.YEAR}` },
       {},
       {
         name: 'footer-feedback',

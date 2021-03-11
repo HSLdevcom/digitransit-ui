@@ -88,8 +88,8 @@ export default configMerger(walttiConfig, {
   ],
 
   menu: {
+    copyright: { label: `© Lahti ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Lahti ${walttiConfig.YEAR}` },
       {},
       {
         name: 'footer-feedback',

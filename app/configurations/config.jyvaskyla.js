@@ -92,8 +92,8 @@ export default configMerger(walttiConfig, {
   showVehiclesOnStopPage: true,
 
   menu: {
+    copyright: { label: `© Jyvaskyla ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Jyvaskyla ${walttiConfig.YEAR}` },
       {},
       {
         name: 'footer-feedback',

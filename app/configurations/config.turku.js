@@ -93,8 +93,8 @@ export default configMerger(walttiConfig, {
   ],
 
   menu: {
+    copyright: { label: `© Turun seudun joukkoliikenne ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Turun seudun joukkoliikenne ${walttiConfig.YEAR}` },
       {},
       {
         name: 'footer-feedback',
