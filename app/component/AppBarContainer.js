@@ -4,13 +4,12 @@ import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { DesktopOrMobile } from '../util/withBreakpoint';
+import withBreakpoint from '../util/withBreakpoint';
 
 import LazilyLoad, { importLazy } from './LazilyLoad';
 
 const modules = {
-  AppBarSmall: () => importLazy(import('./AppBarSmall')),
-  AppBarLarge: () => importLazy(import('./AppBarLarge')),
+  AppBar: () => importLazy(import('./AppBar')),
   AppBarHsl: () => importLazy(import('./AppBarHsl')),
   MessageBar: () => importLazy(import('./MessageBar')),
 };
@@ -24,6 +23,7 @@ const AppBarContainer = ({
   user,
   style,
   lang,
+  breakpoint,
   ...args
 }) => {
   const [isClient, setClient] = useState(false);
@@ -46,54 +46,37 @@ const AppBarContainer = ({
         />
       </a>
       <LazilyLoad modules={modules}>
-        {({ AppBarSmall, AppBarLarge, AppBarHsl, MessageBar }) => (
-          <DesktopOrMobile
-            mobile={() => {
-              return style === 'hsl' ? (
-                <div style={{ display: isClient ? 'block' : 'none' }}>
-                  <AppBarHsl user={user} lang={lang} />
-                  <MessageBar mobile />{' '}
-                </div>
-              ) : (
-                <AppBarSmall
-                  {...args}
-                  showLogo
-                  logo={logo}
-                  homeUrl={homeUrl}
-                  user={user}
-                />
-              );
-            }}
-            desktop={() => {
-              return style === 'hsl' ? (
-                <div style={{ display: isClient ? 'block' : 'none' }}>
-                  <AppBarHsl user={user} lang={lang} />
-                  <MessageBar />{' '}
-                </div>
-              ) : (
-                <AppBarLarge
-                  {...args}
-                  logo={logo}
-                  titleClicked={() =>
-                    router.push({
-                      ...match.location,
-                      pathname: homeUrl,
-                      state: {
-                        ...match.location.state,
-                        errorBoundaryKey:
-                          match.location.state &&
-                          match.location.state.errorBoundaryKey
-                            ? match.location.state.errorBoundaryKey + 1
-                            : 1,
-                      },
-                    })
-                  }
-                  user={user}
-                />
-              );
-            }}
-          />
-        )}
+        {({ AppBar, AppBarHsl, MessageBar }) =>
+          style === 'hsl' ? (
+            <div style={{ display: isClient ? 'block' : 'none' }}>
+              <AppBarHsl user={user} lang={lang} />
+              <MessageBar mobile />{' '}
+            </div>
+          ) : (
+            <AppBar
+              {...args}
+              showLogo
+              logo={logo}
+              homeUrl={homeUrl}
+              user={user}
+              breakpoint={breakpoint}
+              titleClicked={() =>
+                router.push({
+                  ...match.location,
+                  pathname: homeUrl,
+                  state: {
+                    ...match.location.state,
+                    errorBoundaryKey:
+                      match.location.state &&
+                      match.location.state.errorBoundaryKey
+                        ? match.location.state.errorBoundaryKey + 1
+                        : 1,
+                  },
+                })
+              }
+            />
+          )
+        }
       </LazilyLoad>
     </>
   );
@@ -107,13 +90,16 @@ AppBarContainer.propTypes = {
   user: PropTypes.object,
   style: PropTypes.string.isRequired, // DT-3375
   lang: PropTypes.string, // DT-3376
+  breakpoint: PropTypes.string.isRequired,
 };
+
+const AppBarContainerWithBreakpoint = withBreakpoint(AppBarContainer);
 
 const WithContext = connectToStores(
   getContext({
     match: matchShape.isRequired,
     router: routerShape.isRequired,
-  })(AppBarContainer),
+  })(AppBarContainerWithBreakpoint),
   ['UserStore', 'PreferencesStore'],
   context => ({
     user: context.getStore('UserStore').getUser(),

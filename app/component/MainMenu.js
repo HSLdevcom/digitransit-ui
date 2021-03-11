@@ -15,63 +15,92 @@ function MainMenu(props, { config, intl }) {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div aria-hidden={!props.visible} className="main-menu no-select">
-      <button
-        onClick={props.toggleVisibility}
-        className="close-button cursor-pointer"
-        aria-label={intl.formatMessage({
-          id: 'main-menu-label-close',
-          defaultMessage: 'Close the main menu',
-        })}
-      >
-        <Icon img="icon-icon_close" className="medium" />
-      </button>
-      <header className="offcanvas-section">
-        <LangSelect />
-      </header>
-      <div className="offcanvas-section">
-        {props.homeUrl !== undefined && (
-          <Link
-            id="frontpage"
-            to={props.homeUrl}
-            onClick={() => {
-              addAnalyticsEvent({
-                category: 'Navigation',
-                action: 'Home',
-                name: null,
-              });
-            }}
-          >
-            <FormattedMessage id="frontpage" defaultMessage="Frontpage" />
-          </Link>
-        )}
+      <div className="main-menu-top-section">
+        {props.breakpoint === 'large' &&
+          config.allowLogin &&
+          (!props.user.name ? (
+            <LoginButton />
+          ) : (
+            <UserInfo
+              user={props.user}
+              list={[
+                {
+                  key: 'dropdown-item-1',
+                  messageId: 'logout',
+                  href: '/logout',
+                },
+              ]}
+              isMobile
+            />
+          ))}
+        <button
+          ref={input => input && input.focus()}
+          onClick={props.toggleVisibility}
+          className="close-button cursor-pointer"
+          aria-label={intl.formatMessage({
+            id: 'main-menu-label-close',
+            defaultMessage: 'Close the main menu',
+          })}
+        >
+          <Icon img="icon-icon_close" className="medium" />
+        </button>
       </div>
-      {config.mainMenu.showDisruptions && props.showDisruptionInfo && (
-        <div className="offcanvas-section">
-          <DisruptionInfoButtonContainer />
-        </div>
+      <section className="menu-section">
+        <LangSelect />
+      </section>
+      <section className="menu-section main-links">
+        {config.mainMenu.showFrontPageLink && (
+          <div className="offcanvas-section">
+            {props.homeUrl !== undefined && (
+              <Link
+                id="frontpage"
+                to={props.homeUrl}
+                onClick={() => {
+                  addAnalyticsEvent({
+                    category: 'Navigation',
+                    action: 'Home',
+                    name: null,
+                  });
+                }}
+              >
+                <FormattedMessage id="frontpage" defaultMessage="Frontpage" />
+              </Link>
+            )}
+          </div>
+        )}
+        {config.mainMenu.showDisruptions && props.showDisruptionInfo && (
+          <div className="offcanvas-section">
+            <DisruptionInfoButtonContainer />
+          </div>
+        )}
+        {config.appBarLink && config.appBarLink.name && config.appBarLink.href && (
+          <div className="offcanvas-section">
+            <a
+              id="appBarLink"
+              href={config.appBarLink.href}
+              onClick={() => {
+                addAnalyticsEvent({
+                  category: 'Navigation',
+                  action: 'appBarLink',
+                  name: null,
+                });
+              }}
+            >
+              {config.appBarLink.name}
+            </a>
+          </div>
+        )}
+      </section>
+      <section className="menu-section">
+        <MainMenuLinks
+          content={((config.menu && config.menu.content) || []).filter(
+            item => item.href || item.route,
+          )}
+        />
+      </section>
+      {config.menu?.copyright && (
+        <div className="copyright">{config.menu.copyright.label}</div>
       )}
-      <MainMenuLinks
-        content={(
-          [config.appBarLink].concat(config.footer && config.footer.content) ||
-          []
-        ).filter(item => item.href || item.route)}
-      />
-      {config.allowLogin &&
-        (!props.user.name ? (
-          <LoginButton isMobile />
-        ) : (
-          <UserInfo
-            user={props.user}
-            list={[
-              {
-                key: 'dropdown-item-1',
-                messageId: 'logout',
-                href: '/logout',
-              },
-            ]}
-            isMobile
-          />
-        ))}
     </div>
   );
 }
@@ -82,6 +111,7 @@ MainMenu.propTypes = {
   visible: PropTypes.bool,
   homeUrl: PropTypes.string.isRequired,
   user: PropTypes.object,
+  breakpoint: PropTypes.string.isRequired,
 };
 
 MainMenu.defaultProps = {

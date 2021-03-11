@@ -248,7 +248,7 @@ export default {
       ],
     ],
   },
-  footer: {},
+  menu: {},
 
   defaultEndpoint: {
     address: 'Rautatieasema, Helsinki',

@@ -131,12 +131,11 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  footer: {
+  menu: {
+    copyright: { label: `© Kuopio ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Kuopio ${walttiConfig.YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'https://palaute.kuopio.fi/fi#!/palautelomake/27050/27054',
         icon: 'icon-icon_speech-bubble',

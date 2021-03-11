@@ -168,6 +168,7 @@ export default {
     showDisruptions: true,
     showLoginCreateAccount: true,
     showOffCanvasList: true,
+    showFrontPageLink: true,
   },
 
   itinerary: {
@@ -287,7 +288,7 @@ export default {
   appBarStyle: 'default', // DT-3375
 
   colors: {
-    primary: '#00AFFF',
+    primary: '#000F94',
   },
 
   sprites: 'assets/svg-sprite.default.svg',
@@ -485,21 +486,18 @@ export default {
   // This reduces complexity in finding routes for the query.
   modePolygons: {},
 
-  footer: {
+  menu: {
+    copyright: { label: `© Digitransit ${YEAR}` },
     content: [
-      { label: `© HSL, Traficom ${YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'https://github.com/HSLdevcom/digitransit-ui/issues',
-        icon: 'icon-icon_speech-bubble',
       },
       {
         name: 'about-this-service',
         nameEn: 'About this service',
         route: '/tietoja-palvelusta',
-        icon: 'icon-icon_info',
       },
     ],
   },
