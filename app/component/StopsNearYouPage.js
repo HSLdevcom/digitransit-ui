@@ -75,7 +75,7 @@ class StopsNearYouPage extends React.Component {
       phase: PH_START,
       centerOfMap: null,
       centerOfMapChanged: false,
-      mapState: MAPSTATES.FITBOUNDSTOSEARCHPOSITION,
+      mapState: MAPSTATES.FITBOUNDSTOSTARTLOCATION,
     };
   }
 
@@ -235,10 +235,16 @@ class StopsNearYouPage extends React.Component {
   updateLocation = () => {
     const { centerOfMap } = this.state;
     if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
+      let mapState = MAPSTATES.FITBOUNDSTOSEARCHPOSITION;
+      let type = 'CenterOfMap';
+      if (centerOfMap.type === 'CurrentLocation') {
+        mapState = MAPSTATES.FITBOUNDSTOSTARTLOCATION;
+        type = centerOfMap.type;
+      }
       return this.setState({
-        searchPosition: { ...centerOfMap, type: 'CenterOfMap' },
+        searchPosition: { ...centerOfMap, type },
         centerOfMapChanged: false,
-        mapState: MAPSTATES.FITBOUNDSTOSEARCHPOSITION,
+        mapState,
       });
     }
     return this.setState({ searchPosition: this.getPosition() });
@@ -562,7 +568,7 @@ class StopsNearYouPage extends React.Component {
       searchPosition: item,
       centerOfMap: null,
       centerOfMapChanged: false,
-      mapState: MAPSTATES.FITBOUNDSTOSEARCHPOSITION,
+      mapState: MAPSTATES.FITBOUNDSTOSTARTLOCATION,
     });
   };
 

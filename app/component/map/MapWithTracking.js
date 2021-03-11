@@ -23,6 +23,7 @@ import {
 } from '../../action/realTimeClientAction';
 import triggerMessage from '../../util/messageUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import { MAPSTATES } from '../../util/stopsNearYouUtils';
 
 const DEFAULT_ZOOM = 12;
 const FOCUS_ZOOM = 16;
@@ -372,7 +373,10 @@ class MapWithTrackingStateHandler extends React.Component {
     const zoomLevel = !this.mapElement
       ? this.state.initialZoom
       : this.mapElement.leafletElement._zoom; // eslint-disable-line no-underscore-dangle
-    if (mapState === 'fitBoundsToSearchPosition') {
+    if (
+      mapState === MAPSTATES.FITBOUNDSTOSEARCHPOSITION ||
+      mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION
+    ) {
       useFitBounds = true;
     }
     return (
