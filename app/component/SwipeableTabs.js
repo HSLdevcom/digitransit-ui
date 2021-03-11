@@ -17,7 +17,6 @@ export default class SwipeableTabs extends React.Component {
     tabs: PropTypes.array.isRequired,
     onSwipe: PropTypes.func,
     classname: PropTypes.string,
-    desktop: PropTypes.bool,
   };
 
   static contextTypes = {
