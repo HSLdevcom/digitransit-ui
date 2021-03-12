@@ -1227,6 +1227,9 @@ const translations = {
     'route-not-possible':
       'Unfortunately, your route is not available. Technical error: "{error}"',
     'route-page.description': 'Route {shortName} - {longName}',
+    'route-page.pattern-chosen': 'Selected',
+    'route-page.pattern-select-title': 'Select route to view',
+    'route-page.special-patterns-name': 'Special routes',
     'route-page.title': 'Route {shortName}',
     'route-page.title-short': 'Route',
     routes: 'Routes',
@@ -2131,6 +2134,9 @@ const translations = {
     'route-not-possible':
       'Valitettavasti reittisi ei ole mahdollinen. Tekninen virhe: "{error}"',
     'route-page.description': 'Linja {shortName}, {longName}',
+    'route-page.pattern-chosen': 'Valittu',
+    'route-page.pattern-select-title': 'Valitse tarkasteltava reitti',
+    'route-page.special-patterns-name': 'Hallivuorot ja poikkeusreitit',
     'route-page.title': 'Linja {shortName}',
     'route-page.title-short': 'Linja',
     routes: 'Linjat',
@@ -3802,6 +3808,9 @@ const translations = {
     'route-not-possible':
       'Tyvärr är din rutt inte möjlig. Tekniskt fel: "{error}"',
     'route-page.description': 'Linje {shortName} - {longName}',
+    'route-page.pattern-chosen': 'Vald',
+    'route-page.pattern-select-title': 'TODO',
+    'route-page.special-patterns-name': 'TODO',
     'route-page.title': 'Linje {shortName}',
     'route-page.title-short': 'Linje',
     routes: 'Linjer',
