@@ -161,12 +161,23 @@ export default class FavouriteStore extends Store {
     );
   }
 
-  saveFavourite(data) {
+  /**
+   * Saves (or updates) favourite.
+   * Triggers onFail callback function when storing favourite fails.
+   * Generates or updates lastUpdated epoch and for new favourites,
+   * it also generates favouriteId.
+   *
+   * @param {*} actionData object containing favourite data
+   * and on fail callback function under onFail key
+   */
+  saveFavourite(actionData) {
+    const { onFail, ...data } = actionData;
     if (typeof data !== 'object') {
+      onFail();
       throw new Error(`New favourite is not a object:${JSON.stringify(data)}`);
     }
     this.fetchingOrUpdating();
-    const newFavourites = this.favourites;
+    const newFavourites = this.favourites.slice();
     const editIndex = findIndex(
       this.favourites,
       item => data.favouriteId === item.favouriteId,
@@ -191,8 +202,7 @@ export default class FavouriteStore extends Store {
           this.fetchComplete();
         })
         .catch(() => {
-          this.favourites = newFavourites;
-          this.storeFavourites();
+          onFail();
           this.fetchComplete();
         });
     } else {
@@ -202,8 +212,16 @@ export default class FavouriteStore extends Store {
     }
   }
 
-  updateFavourites(newFavourites) {
+  /**
+   * Replaces existing array of favourites with an updated array of favourites.
+   *
+   * @param {*} actionData object containing array of new favourites
+   * and on fail callback function under onFail key
+   */
+  updateFavourites(actionData) {
+    const { onFail, newFavourites } = actionData;
     if (!Array.isArray(newFavourites)) {
+      onFail();
       throw new Error(
         `New favourites is not an array:${JSON.stringify(newFavourites)}`,
       );
@@ -217,8 +235,7 @@ export default class FavouriteStore extends Store {
           this.fetchComplete();
         })
         .catch(() => {
-          this.favourites = newFavourites;
-          this.storeFavourites();
+          onFail();
           this.fetchComplete();
         });
     } else {
@@ -228,8 +245,16 @@ export default class FavouriteStore extends Store {
     }
   }
 
-  deleteFavourite(data) {
+  /**
+   * Deletes given favourite if one exists in store.
+   *
+   * @param {*} actionData object containing data for favourite to be deleted
+   * and on fail callback function under onFail key
+   */
+  deleteFavourite(actionData) {
+    const { onFail, ...data } = actionData;
     if (typeof data !== 'object') {
+      onFail();
       throw new Error(`Favourite is not an object:${JSON.stringify(data)}`);
     }
     this.fetchingOrUpdating();
@@ -244,7 +269,7 @@ export default class FavouriteStore extends Store {
           this.fetchComplete();
         })
         .catch(() => {
-          this.favourites = newFavourites;
+          onFail();
           this.fetchComplete();
         });
     } else {
@@ -257,7 +282,7 @@ export default class FavouriteStore extends Store {
   migrateRoutes() {
     const routes = getFavouriteRoutesStorage();
     routes.forEach(route => {
-      this.saveFavourite({ type: 'route', gtfsId: route });
+      this.saveFavourite({ type: 'route', gtfsId: route, onFail: () => {} });
     });
     removeItem('favouriteRoutes');
   }
@@ -275,7 +300,7 @@ export default class FavouriteStore extends Store {
         layer: stop.layer,
         selectedIconId: stop.selectedIconId,
       };
-      this.saveFavourite(newStop);
+      this.saveFavourite({ ...newStop, onFail: () => {} });
     });
     removeItem('favouriteStops');
   }
@@ -309,7 +334,7 @@ export default class FavouriteStore extends Store {
             layer: data.properties.layer,
             selectedIconId: location.selectedIconId,
           };
-          this.saveFavourite(newLocation);
+          this.saveFavourite({ ...newLocation, onFail: () => {} });
         }
       });
     });

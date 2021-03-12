@@ -345,7 +345,6 @@ export default {
     // {
     //   id: '2',
     //   priority: -1,
-    //   shouldTrigger: true,
     //   content: {
     //     fi: [
     //       {
