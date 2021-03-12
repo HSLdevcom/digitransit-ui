@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import failedFavouriteMessage from '../../../app/util/messageUtils';
+import { failedFavouriteMessage } from '../../../app/util/messageUtils';
 
 describe('failedFavouriteMessage', () => {
   it('should generate message content for english', async () => {

@@ -153,7 +153,7 @@ class FavouritesContainer extends React.Component {
       action: 'SaveFavourite',
       name: null,
     });
-    this.context.executeAction(saveFavourite, favourite, 'place');
+    this.context.executeAction(saveFavourite, favourite);
   };
 
   deleteFavourite = favourite => {
@@ -162,7 +162,7 @@ class FavouritesContainer extends React.Component {
       action: 'DeleteFavourite',
       name: null,
     });
-    this.context.executeAction(deleteFavourite, favourite, 'place');
+    this.context.executeAction(deleteFavourite, favourite);
   };
 
   updateFavourites = favourites => {
@@ -171,7 +171,7 @@ class FavouritesContainer extends React.Component {
       action: 'UpdateFavourite',
       name: null,
     });
-    this.context.executeAction(updateFavourites, favourites, 'place');
+    this.context.executeAction(updateFavourites, favourites);
   };
 
   editFavourite = currentFavourite => {

@@ -813,7 +813,7 @@ const translations = {
     'accessibility-limited': 'Wheelchair',
     'accessibility-nolimit': 'No limits',
     'accessibility-statement': 'Accessibility statement',
-    'add-favourite-citybike-station-failed-heading':
+    'add-favourite-bikeStation-failed-heading':
       'Saving the citybike station failed',
     'add-favourite-place-failed-heading': 'Saving the place failed',
     'add-favourite-route-failed-heading': 'Saving the route failed',
@@ -1723,7 +1723,7 @@ const translations = {
     'accessibility-limited': 'Pyörätuoli',
     'accessibility-nolimit': 'Ei rajoitusta',
     'accessibility-statement': 'Saavutettavuusseloste',
-    'add-favourite-citybike-station-failed-heading':
+    'add-favourite-bikeStation-failed-heading':
       'Kaupunkipyöräaseman tallentaminen ei onnistunut',
     'add-favourite-place-failed-heading': 'Paikan tallentaminen ei onnistunut',
     'add-favourite-route-failed-heading': 'Linjan tallentaminen ei onnistunut',
@@ -3402,7 +3402,7 @@ const translations = {
     'accessibility-limited': 'Med rullstolen',
     'accessibility-nolimit': 'Ingen begränsning',
     'accessibility-statement': 'Tillgänglighetsförklaring',
-    'add-favourite-citybike-station-failed-heading':
+    'add-favourite-bikeStation-failed-heading':
       'Kunde inte spara stadscykelstationen',
     'add-favourite-place-failed-heading': 'Kunde inte spara platsen',
     'add-favourite-route-failed-heading': 'Kunde inte spara linjen',

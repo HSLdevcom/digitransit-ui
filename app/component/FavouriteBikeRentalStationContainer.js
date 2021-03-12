@@ -15,18 +15,14 @@ const FavouriteBikeRentalStationContainer = connectToStores(
         bikeRentalStation.networks,
       ),
     addFavourite: () => {
-      context.executeAction(
-        saveFavourite,
-        {
-          lat: bikeRentalStation.lat,
-          lon: bikeRentalStation.lon,
-          networks: bikeRentalStation.networks,
-          name: bikeRentalStation.name,
-          stationId: bikeRentalStation.stationId,
-          type: 'bikeStation',
-        },
-        'citybike-station',
-      );
+      context.executeAction(saveFavourite, {
+        lat: bikeRentalStation.lat,
+        lon: bikeRentalStation.lon,
+        networks: bikeRentalStation.networks,
+        name: bikeRentalStation.name,
+        stationId: bikeRentalStation.stationId,
+        type: 'bikeStation',
+      });
       addAnalyticsEvent({
         category: 'BikeRentalStation',
         action: 'MarkBikeRentalStationAsFavourite',
@@ -45,11 +41,7 @@ const FavouriteBikeRentalStationContainer = connectToStores(
           bikeRentalStation.stationId,
           bikeRentalStation.networks,
         );
-      context.executeAction(
-        deleteFavourite,
-        bikeRentalStationToDelete,
-        'citybike-station',
-      );
+      context.executeAction(deleteFavourite, bikeRentalStationToDelete);
       addAnalyticsEvent({
         category: 'BikeRentalStation',
         action: 'MarkBikeRentalStationAsFavourite',

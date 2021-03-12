@@ -5,7 +5,7 @@ import Favourite from './Favourite';
 import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
 import { addMessage } from '../action/MessageActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import failedFavouriteMessage from '../util/messageUtils';
+import { failedFavouriteMessage } from '../util/messageUtils';
 
 const FavouriteStopContainer = connectToStores(
   Favourite,
@@ -29,19 +29,15 @@ const FavouriteStopContainer = connectToStores(
         if (Array.isArray(res.features) && res.features.length > 0) {
           const stopOrStation = res.features[0];
           const { label } = stopOrStation.properties;
-          context.executeAction(
-            saveFavourite,
-            {
-              address: label,
-              code: stop.code,
-              gid,
-              gtfsId: stop.gtfsId,
-              lat: stop.lat,
-              lon: stop.lon,
-              type: favouriteType,
-            },
-            favouriteType,
-          );
+          context.executeAction(saveFavourite, {
+            address: label,
+            code: stop.code,
+            gid,
+            gtfsId: stop.gtfsId,
+            lat: stop.lat,
+            lon: stop.lon,
+            type: favouriteType,
+          });
           addAnalyticsEvent({
             category: 'Stop',
             action: 'MarkStopAsFavourite',
@@ -58,11 +54,10 @@ const FavouriteStopContainer = connectToStores(
       });
     },
     deleteFavourite: () => {
-      const favouriteType = isTerminal ? 'station' : 'stop';
       const stopToDelete = context
         .getStore('FavouriteStore')
         .getByGtfsId(stop.gtfsId, isTerminal ? 'station' : 'stop');
-      context.executeAction(deleteFavourite, stopToDelete, favouriteType);
+      context.executeAction(deleteFavourite, stopToDelete);
       addAnalyticsEvent({
         category: 'Stop',
         action: 'MarkStopAsFavourite',
