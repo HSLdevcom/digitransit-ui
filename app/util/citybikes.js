@@ -106,7 +106,8 @@ const addAnalytics = (action, name) => {
 };
 
 /** *
- * Updates the list of allowed citybike networks either by removing or adding
+ * Updates the list of allowed citybike networks either by removing or adding.
+ * Note: legacy settings had network names always in uppercase letters.
  *
  * @param currentSettings the current settings
  * @param newValue the network to be added/removed
@@ -124,8 +125,10 @@ export const updateCitybikeNetworks = (
   let chosenNetworks;
 
   if (isUsingCitybike) {
-    chosenNetworks = currentSettings.find(o => o === newValue)
-      ? without(currentSettings, newValue)
+    chosenNetworks = currentSettings.find(
+      o => o.toLowerCase() === newValue.toLowerCase(),
+    )
+      ? without(currentSettings, newValue, newValue.toUpperCase())
       : currentSettings.concat([newValue]);
   } else {
     chosenNetworks = [newValue];
