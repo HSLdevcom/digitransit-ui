@@ -43,7 +43,9 @@ export function failedFavouriteMessage(type, isSave) {
     });
   });
   return {
-    id: isSave ? 'failedFavouriteSave' : 'failedFavouriteDeletion',
+    id: isSave
+      ? `failedFavouriteSave-${favouriteType}`
+      : `failedFavouriteDeletion-${favouriteType}`,
     persistence: 'repeat',
     priority: 4,
     icon: 'caution_white_exclamation',
