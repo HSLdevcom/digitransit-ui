@@ -45,7 +45,7 @@ export function failedFavouriteMessage(type, isSave) {
   return {
     id: isSave
       ? `failedFavouriteSave-${favouriteType}`
-      : `failedFavouriteDeletion-${favouriteType}`,
+      : 'failedFavouriteDeletion',
     persistence: 'repeat',
     priority: 4,
     icon: 'caution_white_exclamation',
