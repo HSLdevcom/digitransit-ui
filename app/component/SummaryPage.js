@@ -2247,7 +2247,7 @@ class SummaryPage extends React.Component {
                 tabs={itineraryTabs}
                 tabIndex={activeIndex}
                 onSwipe={this.changeHash}
-                desktop
+                classname="swipe-desktop-view"
               />
             </div>
           );

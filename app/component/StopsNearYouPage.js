@@ -336,9 +336,7 @@ class StopsNearYouPage extends React.Component {
       (centerOfMapChanged || this.positionChanged()) && !noFavorites;
     const nearByStopModes = this.getNearByStopModes();
     const index = nearByStopModes.indexOf(mode);
-    const modePerTab =
-      this.props.breakpoint === 'large' ? [mode] : nearByStopModes;
-    const tabs = modePerTab.map(nearByStopMode => {
+    const tabs = nearByStopModes.map(nearByStopMode => {
       if (nearByStopMode === 'FAVORITE') {
         const noFavs = this.noFavorites();
         return (
@@ -429,7 +427,14 @@ class StopsNearYouPage extends React.Component {
 
     if (tabs.length > 1) {
       return (
-        <SwipeableTabs tabIndex={index} onSwipe={this.onSwipe} tabs={tabs} />
+        <SwipeableTabs
+          tabIndex={index}
+          onSwipe={this.onSwipe}
+          tabs={tabs}
+          classname={
+            this.props.breakpoint === 'large' ? 'swipe-desktop-view' : ''
+          }
+        />
       );
     }
     return tabs[0];
