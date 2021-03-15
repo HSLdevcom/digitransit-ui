@@ -3,16 +3,28 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
+import { routerShape, RedirectException } from 'found';
+
 import CityBikeStopContent from './CityBikeStopContent';
 import BikeRentalStationHeader from './BikeRentalStationHeader';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
 import { getCityBikeNetworkConfig } from '../util/citybikes';
+import { isBrowser } from '../util/browser';
+import { PREFIX_BIKESTATIONS } from '../util/path';
 
 const BikeRentalStationContent = (
-  { bikeRentalStation, breakpoint, language },
+  { bikeRentalStation, breakpoint, language, router },
   { config },
 ) => {
+  if (!bikeRentalStation) {
+    if (isBrowser) {
+      router.replace(`/${PREFIX_BIKESTATIONS}`);
+    } else {
+      throw new RedirectException(`/${PREFIX_BIKESTATIONS}`);
+    }
+    return null;
+  }
   const networkConfig = getCityBikeNetworkConfig(
     bikeRentalStation.networks[0],
     config,
@@ -50,6 +62,7 @@ BikeRentalStationContent.propTypes = {
   bikeRentalStation: PropTypes.any,
   breakpoint: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
+  router: routerShape.isRequired,
 };
 BikeRentalStationContent.contextTypes = {
   config: PropTypes.object.isRequired,
