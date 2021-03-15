@@ -222,7 +222,11 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
  * @param {string} stopCode stop code.
  */
 export const getStopName = (name, stopCode) => {
-  if (stopCode !== undefined && stopCode !== null) {
+  if (
+    stopCode !== undefined &&
+    stopCode !== null &&
+    name.lastIndexOf(stopCode) !== -1
+  ) {
     return name.substring(0, name.lastIndexOf(stopCode) - 1);
   }
   return name;
