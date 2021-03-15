@@ -7,7 +7,7 @@
   padding: 1em;
   .map-layer-header {
     font-size: 18px;
-    font-weight: 700;
+    font-weight: $font-weight-bold;
     line-height: 88px;
   }
   .desktop-button {
@@ -18,10 +18,10 @@
     width: 100%;
     height: 50px;
     font-size: 18px;
-    font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
-    font-weight: 500;
+    font-family: $font-family;
+    font-weight: $font-weight-medium;
     letter-spacing: -0.5px;
-    background: #000F94;
+    background: $primary-color;
     color: #fff;
     line-height: 0;
     text-align: center;
@@ -66,9 +66,7 @@
     &::before {
       border-top: 1px solid $light-gray;
       content: '';
-      /* left: 0; */
       margin-top: -1.92em;
-      /* right: 0; */
       display: block;
       position: relative;
     }
