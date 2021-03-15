@@ -13,11 +13,9 @@
     background: $primary-color;
     font-weight: $font-weight-medium;
     &.multi-letter {
-      border-radius: 50%;
-      line-height: 1.9;
-      font-size: 9px;
-      width: 18px;
-      height: 18px;
+      border-radius: 10px;
+      line-height: 1.1;
+      width: 30px;
     }
   }
   .unknown {
