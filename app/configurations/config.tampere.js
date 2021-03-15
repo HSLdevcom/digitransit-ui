@@ -170,24 +170,21 @@ export default configMerger(walttiConfig, {
             type: 'a',
             content:
               'Tutustu turvallisen matkustamisen ohjeisiin koronaviruksen aikana tästä linkistä',
-            href:
-              'https://joukkoliikenne.tampere.fi/aikataulut-ja-reitit/poikkeusinfo/liikennetiedotteet/korona-viruksen-vaikutukset-nysse-liikenteeseen.html',
+            href: 'https://www.nysse.fi/korona.html',
           },
         ],
         en: [
           {
             type: 'a',
             content: 'Please check instructions for safe travelling here',
-            href:
-              'https://joukkoliikenne.tampere.fi/aikataulut-ja-reitit/poikkeusinfo/liikennetiedotteet/korona-viruksen-vaikutukset-nysse-liikenteeseen.html',
+            href: 'https://www.nysse.fi/en/service-changes/coronavirus.html',
           },
         ],
         sv: [
           {
             type: 'a',
             content: 'Please check instructions for safe travelling here',
-            href:
-              'https://joukkoliikenne.tampere.fi/aikataulut-ja-reitit/poikkeusinfo/liikennetiedotteet/korona-viruksen-vaikutukset-nysse-liikenteeseen.html',
+            href: 'https://www.nysse.fi/en/service-changes/coronavirus.html',
           },
         ],
       },
