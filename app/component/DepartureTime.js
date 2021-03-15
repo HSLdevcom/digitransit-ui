@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { intlShape, FormattedMessage } from 'react-intl';
+import { intlShape } from 'react-intl';
 
 import Icon from './Icon';
 import LocalTime from './LocalTime';
@@ -19,27 +19,35 @@ function DepartureTime(props, context) {
     (props.departureTime - props.currentTime) / 60,
   );
 
-  if (
-    timeDiffInMinutes < 0 ||
-    timeDiffInMinutes > context.config.minutesToDepartureLimit
-  ) {
-    shownTime = (
-      <LocalTime forceUtc={props.useUTC} time={props.departureTime} />
-    );
-  } else if (timeDiffInMinutes === 0) {
-    shownTime = <FormattedMessage id="arriving-soon" defaultMessage="Now" />;
-  } else {
-    shownTime = (
-      <FormattedMessage
-        id="departure-time-in-minutes"
-        defaultMessage="{minutes} min"
-        values={{ minutes: timeDiffInMinutes }}
-      />
+  if (timeDiffInMinutes === 0) {
+    shownTime = context.intl.formatMessage({
+      id: 'arriving-soon',
+      defaultMessage: 'Now',
+    });
+  } else if (timeDiffInMinutes > 0) {
+    shownTime = context.intl.formatMessage(
+      { id: 'departure-time-in-minutes', defaultMessage: '{minutes} min' },
+      { minutes: timeDiffInMinutes },
     );
   }
 
   return (
     <React.Fragment>
+      {!props.isNextDeparture && (
+        <span
+          style={props.style}
+          className={cx(
+            'time',
+            {
+              realtime: props.realtime,
+              canceled: props.canceled,
+            },
+            props.className,
+          )}
+        >
+          {shownTime}
+        </span>
+      )}
       <span
         style={props.style}
         className={cx(
@@ -47,11 +55,18 @@ function DepartureTime(props, context) {
           {
             realtime: props.realtime,
             canceled: props.canceled,
+            first: !props.isNextDeparture,
+            next: props.isNextDeparture,
           },
           props.className,
         )}
       >
-        {shownTime}
+        {props.isNextDeparture &&
+          `${context.intl.formatMessage({
+            id: 'next',
+            defaultMessage: 'Next',
+          })} `}
+        <LocalTime forceUtc={props.useUTC} time={props.departureTime} />
       </span>
       {props.canceled && props.showCancelationIcon && (
         <Icon className="caution" img="icon-icon_caution" />
@@ -110,10 +125,12 @@ DepartureTime.propTypes = {
   style: PropTypes.object,
   useUTC: PropTypes.bool,
   showCancelationIcon: PropTypes.bool,
+  isNextDeparture: PropTypes.bool,
 };
 
 DepartureTime.defaultProps = {
   showCancelationIcon: false,
+  isNextDeparture: false,
 };
 
 DepartureTime.contextTypes = {
@@ -149,15 +166,18 @@ export const mapStopTime = (stoptime, pattern) => ({
  *  @param stoptime stoptime from graphql
  *  @param currentTime
  *  @param showCancelationIcon whether an icon should be shown if the departure is canceled.
+ *  @param isNextDeparture whether a string "Next" should rendered instead of departure time in minutes
  */
 export const fromStopTime = (
   stoptime,
   currentTime,
   showCancelationIcon = true,
+  isNextDeparture = false,
 ) => (
   <DepartureTime
     currentTime={currentTime}
     {...mapStopTime(stoptime)}
     showCancelationIcon={showCancelationIcon}
+    isNextDeparture={isNextDeparture}
   />
 );

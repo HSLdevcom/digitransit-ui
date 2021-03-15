@@ -21,8 +21,8 @@ import {
   startRealTimeClient,
   stopRealTimeClient,
 } from '../../action/realTimeClientAction';
-import triggerMessage from '../../util/messageUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import { MAPSTATES } from '../../util/stopsNearYouUtils';
 
 const DEFAULT_ZOOM = 12;
 const FOCUS_ZOOM = 16;
@@ -95,10 +95,10 @@ class MapWithTrackingStateHandler extends React.Component {
     initialZoom: PropTypes.number,
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
-    showLocationMessages: PropTypes.bool,
     defaultMapCenter: PropTypes.object.isRequired,
     fitBoundsWithSetCenter: PropTypes.bool,
     setCenterOfMap: PropTypes.func,
+    showAllVehicles: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -109,8 +109,8 @@ class MapWithTrackingStateHandler extends React.Component {
     locationPopup: 'reversegeocoding',
     onSelectLocation: () => null,
     fitBounds: false,
-    showLocationMessages: false,
     fitBoundsWithSetCenter: false,
+    showAllVehicles: false,
   };
 
   constructor(props) {
@@ -122,6 +122,7 @@ class MapWithTrackingStateHandler extends React.Component {
       keepOnTracking: false,
       initialZoom: props.initialZoom ? props.initialZoom : defaultZoom,
       mapTracking: props.setInitialMapTracking,
+      humanIsScrolling: false,
     };
   }
 
@@ -129,14 +130,8 @@ class MapWithTrackingStateHandler extends React.Component {
     if (!isBrowser) {
       return;
     }
-    const { showLocationMessages } = this.props;
 
-    if (this.focusPoint && showLocationMessages) {
-      const { lat, lon } = this.focusPoint;
-      await triggerMessage(lat, lon, this.context, this.props.messages);
-    }
-
-    if (this.props.mapLayers.showAllBusses) {
+    if (this.props.showAllVehicles && this.props.mapLayers.showAllBusses) {
       startClient(this.context);
     }
   }
@@ -163,20 +158,15 @@ class MapWithTrackingStateHandler extends React.Component {
     }
     if (newProps.initialZoom !== this.state.initialZoom) {
       this.updateZoom(newProps.initialZoom);
-      if (newProps.focusPoint) {
-        triggerMessage(
-          newProps.focusPoint.lat,
-          newProps.focusPoint.lon,
-          this.context,
-          this.props.messages,
-        );
-      }
     }
-    if (newProps.mapLayers.showAllBusses) {
+    if (this.props.showAllVehicles && newProps.mapLayers.showAllBusses) {
       if (!this.props.mapLayers.showAllBusses) {
         startClient(this.context);
       }
-    } else if (this.props.mapLayers.showAllBusses) {
+    } else if (
+      this.props.showAllVehicles &&
+      this.props.mapLayers.showAllBusses
+    ) {
       const { client } = this.context.getStore('RealTimeInformationStore');
       if (client) {
         this.context.executeAction(stopRealTimeClient, client);
@@ -248,7 +238,7 @@ class MapWithTrackingStateHandler extends React.Component {
     this.setState({
       bounds: newBounds,
     });
-    if (this.props.setCenterOfMap) {
+    if (this.props.setCenterOfMap && this.state.humanIsScrolling) {
       this.props.setCenterOfMap(this.mapElement);
     }
   };
@@ -268,6 +258,7 @@ class MapWithTrackingStateHandler extends React.Component {
       mapLayers,
       fitBounds,
       focusPoint,
+      mapState,
       ...rest
     } = this.props;
     let useFitBounds = fitBounds;
@@ -280,7 +271,7 @@ class MapWithTrackingStateHandler extends React.Component {
     if (this.props.leafletObjs) {
       leafletObjs.push(...this.props.leafletObjs);
     }
-    if (this.props.mapLayers.showAllBusses) {
+    if (this.props.showAllVehicles && this.props.mapLayers.showAllBusses) {
       const currentZoom =
         this.mapElement && this.mapElement.leafletElement
           ? this.mapElement.leafletElement._zoom // eslint-disable-line no-underscore-dangle
@@ -365,6 +356,12 @@ class MapWithTrackingStateHandler extends React.Component {
     const zoomLevel = !this.mapElement
       ? this.state.initialZoom
       : this.mapElement.leafletElement._zoom; // eslint-disable-line no-underscore-dangle
+    if (
+      mapState === MAPSTATES.FITBOUNDSTOSEARCHPOSITION ||
+      mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION
+    ) {
+      useFitBounds = true;
+    }
     return (
       <Component
         lat={location ? location.lat : undefined}
@@ -378,9 +375,15 @@ class MapWithTrackingStateHandler extends React.Component {
         locationPopup={this.props.locationPopup}
         onSelectLocation={this.props.onSelectLocation}
         leafletEvents={{
-          onDragstart: this.disableMapTracking,
+          onDragstart: () => {
+            this.disableMapTracking();
+            this.setState({ humanIsScrolling: true });
+          },
           onMoveend: () => this.setState({ keepOnTracking: false }),
-          onDragend: this.updateCurrentBounds,
+          onDragend: () => {
+            this.updateCurrentBounds();
+            this.setState({ humanIsScrolling: false });
+          },
           onZoomend: this.updateCurrentBounds,
           onZoomstart: this.disableMapTrackingForZoomControl,
         }}

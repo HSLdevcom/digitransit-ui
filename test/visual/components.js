@@ -102,12 +102,11 @@ testVariation('Favourite', 'not-favourite-hovered', 2, [], actions =>
   actions.mouseMove('.component-example:nth-of-type(2) .component svg'),
 );
 
-testVariation('IconWithTail', 'normal');
-testVariation('IconWithTail', 'rotate', 2);
-testVariation('IconWithTail', 'class', 3);
-testVariation('IconWithTail', 'notail', 4);
+testVariation('VehicleIcon', 'normal');
+testVariation('VehicleIcon', 'rotate', 2);
+testVariation('VehicleIcon', 'class', 3);
+testVariation('VehicleIcon', 'notail', 4);
 
-testVariation('SelectedIconWithTail');
 testVariation('IconWithBigCaution');
 testVariation('IconWithIcon', 'customStyle', 1);
 testVariation('IconWithIcon', 'normal', 2);
@@ -128,11 +127,6 @@ testVariation('RouteScheduleHeader');
 testVariation('RouteScheduleStopSelect');
 testVariation('RouteScheduleTripRow');
 
-// testVariation('AppBarSmall', 'with-back-arrow');
-// testVariation('AppBarSmall', 'without-back-arrow', 2);
-// testVariation('AppBarSmall', 'with-logo', 3);
-// testVariation('AppBarLarge');
-
 testVariation('ExternalLink');
 testVariation('ExternalLink', 'with-icon-and-text', 2);
 testVariation('LangSelect');
@@ -146,7 +140,6 @@ testVariation(
 
 testVariation('StopPageHeader');
 testVariation('Timetable');
-testVariation('PageFooter');
 
 testVariation('SummaryRow', 'large', 1);
 testVariation('SummaryRow', 'small', 2);

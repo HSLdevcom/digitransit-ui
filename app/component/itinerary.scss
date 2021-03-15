@@ -216,13 +216,14 @@ $itinerary-tab-switch-height: 48px;
   position: relative;
   margin-left: 65px;
 
-  .divider-top, .divider-bottom {
+  .divider-top,
+  .divider-bottom {
     position: absolute;
     width: 400px;
     height: 1px;
     left: -5px;
     top: 0px;
-    border-top: 1px solid #DDDDDD;
+    border-top: 1px solid #dddddd;
     box-sizing: border-box;
   }
 
@@ -256,7 +257,8 @@ $itinerary-tab-switch-height: 48px;
       top: 3.36px;
     }
   }
-  .duration, .walk-distance {
+  .duration,
+  .walk-distance {
     font-size: 15px;
     line-height: 18px;
     span {
@@ -313,7 +315,8 @@ $itinerary-tab-switch-height: 48px;
   color: $primary-color;
 }
 
-.duration, .walk-distance {
+.duration,
+.walk-distance {
   font-weight: 500;
 }
 
@@ -346,10 +349,10 @@ $itinerary-tab-switch-height: 48px;
     border: 1px solid #666;
     min-height: 30px;
     a {
-        font-weight: 500;
-        color: #666;
-        font-size: $font-size-small;
-        padding-top: 3px;
+      font-weight: 500;
+      color: #666;
+      font-size: $font-size-small;
+      padding-top: 3px;
     }
   }
 
@@ -1279,21 +1282,43 @@ div.itinerary-container-content {
   margin: 1em;
 }
 
-.mobile-swipe-header {
+.swipe-header-container {
+  display: flex;
+  justify-content: center;
+
+  &.swipe-desktop-view {
+    padding-top: 18px;
+    margin-left: 60px;
+    width: 400px;
+    border-top: 1px solid #dddddd;
+    font-size: 12px;
+
+    .icon-container {
+      display: flex;
+    }
+  }
+}
+
+.swipe-header {
   display: flex;
   justify-content: space-evenly;
-  padding: 0 0 0.7em 0px;
-  border-bottom: 1px solid #ddd;
-  margin: 0 1em 0 1em;
+  padding: 0 0 10px 0;
+  outline: 0;
+  width: 100%;
+
+  &.swipe-desktop-view {
+    max-width: 250px;
+    padding: 0 0 15px 0;
+  }
 }
-.mobile-swipe-tab-indicator {
+.swipe-tab-indicator {
   flex-grow: 1;
   justify-content: center;
   align-items: center;
   display: flex;
 }
 
-.mobile-swipe-tab-ball {
+.swipe-tab-ball {
   width: 6px;
   height: 6px;
   border-radius: 50%;
@@ -1323,7 +1348,7 @@ div.itinerary-container-content {
   }
 }
 
-.mobile-swipe-button-container {
+.swipe-button-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1331,7 +1356,7 @@ div.itinerary-container-content {
   padding: 0 1em 0 1em;
 }
 
-.mobile-swipe-button .icon {
+.swipe-button .icon {
   fill: $primary-color;
   height: 1.3em;
   width: 1.3em;
@@ -1341,9 +1366,13 @@ div.itinerary-container-content {
   }
 }
 
+.itinerary-tab-container {
+  user-select: none;
+}
+
 .itinerary-tab {
   @include font-medium;
-  letter-spacing: -.025em;
+  letter-spacing: -0.025em;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -1847,7 +1876,8 @@ $font-print-decrease: 0.7;
     margin-left: 0;
     margin-bottom: 0;
     height: 60px;
-    .duration, .walk-distance {
+    .duration,
+    .walk-distance {
       align-self: unset;
       margin-right: 9px;
     }

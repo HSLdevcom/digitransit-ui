@@ -48,7 +48,6 @@ class RouteStopListContainer extends React.PureComponent {
         ? getDistanceToNearestStop(position.lat, position.lon, stops)
         : null;
     const mode = this.props.pattern.route.mode.toLowerCase();
-
     const vehicles = groupBy(
       values(this.props.vehicles).filter(
         vehicle =>
@@ -56,7 +55,6 @@ class RouteStopListContainer extends React.PureComponent {
       ),
       vehicle => vehicle.next_stop,
     );
-
     const rowClassName = `bp-${this.props.breakpoint}`;
 
     return stops.map((stop, i) => {
@@ -85,6 +83,9 @@ class RouteStopListContainer extends React.PureComponent {
           first={i === 0}
           className={rowClassName}
           displayNextDeparture={this.context.config.displayNextDeparture}
+          shortName={
+            this.props.pattern.route && this.props.pattern.route.shortName
+          }
         />
       );
     });
@@ -135,6 +136,7 @@ const containerComponent = createRefetchContainer(
         route {
           mode
           color
+          shortName
         }
         stops {
           alerts {
@@ -145,6 +147,7 @@ const containerComponent = createRefetchContainer(
           stopTimesForPattern(id: $patternId, startTime: $currentTime) {
             realtime
             realtimeState
+            realtimeArrival
             realtimeDeparture
             serviceDay
             scheduledDeparture
@@ -160,6 +163,7 @@ const containerComponent = createRefetchContainer(
           desc
           code
           platformCode
+          zoneId
         }
       }
     `,

@@ -58,10 +58,9 @@ export default configMerger(walttiConfig, {
     [31.0931, 62.2692],
   ],
 
-  footer: {
+  menu: {
+    copyright: { label: `© Joensuun kaupunki ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Joensuun kaupunki ${walttiConfig.YEAR}` },
-      {},
       {
         name: 'about-this-service',
         nameEn: 'About this service',
@@ -105,6 +104,7 @@ export default configMerger(walttiConfig, {
 
   showAllBusses: true,
   showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
 
   aboutThisService: {
     fi: [

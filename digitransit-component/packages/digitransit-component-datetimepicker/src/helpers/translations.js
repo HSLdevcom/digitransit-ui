@@ -26,6 +26,9 @@ const translations = {
     departure: 'Departure',
     'departure-now': 'Leaving now',
     time: 'Time',
+    'choose-time': 'Choose time',
+    ready: 'Ready',
+    cancel: 'Cancel',
   },
   fi: {
     today: 'Tänään',
@@ -40,6 +43,9 @@ const translations = {
     departure: 'Lähtöaika',
     'departure-now': 'Lähtö nyt',
     time: 'Aika',
+    'choose-time': 'Valitse aika',
+    ready: 'Valmis',
+    cancel: 'Peruuta',
   },
   sv: {
     today: 'I dag',
@@ -54,6 +60,9 @@ const translations = {
     departure: 'Avgångstid',
     'departure-now': 'Avgår nu',
     time: 'Tid',
+    'choose-time': 'Välj tid',
+    ready: 'Färdig',
+    cancel: 'Avbryt',
   },
 };
 

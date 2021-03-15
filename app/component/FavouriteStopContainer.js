@@ -3,7 +3,9 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import Favourite from './Favourite';
 import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
+import { addMessage } from '../action/MessageActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { failedFavouriteMessage } from '../util/messageUtils';
 
 const FavouriteStopContainer = connectToStores(
   Favourite,
@@ -43,6 +45,11 @@ const FavouriteStopContainer = connectToStores(
               .getStore('FavouriteStore')
               .isFavourite(stop.gtfsId, favouriteType),
           });
+        } else {
+          context.executeAction(
+            addMessage,
+            failedFavouriteMessage(favouriteType, true),
+          );
         }
       });
     },

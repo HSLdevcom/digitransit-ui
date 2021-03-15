@@ -95,12 +95,11 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  footer: {
+  menu: {
+    copyright: { label: `© Hameenlinna ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Hameenlinna ${walttiConfig.YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href:
           'http://kartta.hameenlinna.fi/eFeedback/fi/Feedback/35-Joukkoliikenne',
@@ -168,4 +167,5 @@ export default configMerger(walttiConfig, {
 
   showAllBusses: true,
   showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
 });

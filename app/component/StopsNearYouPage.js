@@ -14,6 +14,7 @@ import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import withBreakpoint, { DesktopOrMobile } from '../util/withBreakpoint';
 import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
+import { MAPSTATES } from '../util/stopsNearYouUtils';
 import Loading from './Loading';
 import {
   checkPositioningPermission,
@@ -25,6 +26,7 @@ import { getGeolocationState } from '../store/localStorage';
 import withSearchContext from './WithSearchContext';
 import { PREFIX_NEARYOU } from '../util/path';
 import StopsNearYouContainer from './StopsNearYouContainer';
+import SwipeableTabs from './SwipeableTabs';
 import StopsNearYouFavorites from './StopsNearYouFavorites';
 import StopsNearYouMapContainer from './StopsNearYouMapContainer';
 import StopsNearYouFavoritesMapContainer from './StopsNearYouFavoritesMapContainer';
@@ -42,7 +44,8 @@ const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION]; // render the actual pag
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 
-class StopsNearYouPage extends React.Component { // eslint-disable-line
+class StopsNearYouPage extends React.Component {
+  // eslint-disable-line
   static contextTypes = {
     config: PropTypes.object.isRequired,
     executeAction: PropTypes.func.isRequired,
@@ -72,6 +75,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       phase: PH_START,
       centerOfMap: null,
       centerOfMapChanged: false,
+      mapState: MAPSTATES.FITBOUNDSTOSTARTLOCATION,
     };
   }
 
@@ -136,12 +140,12 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     return null;
   };
 
-  getQueryVariables = () => {
+  getQueryVariables = nearByMode => {
     const { searchPosition } = this.state;
     const { mode } = this.props.match.params;
     let placeTypes = 'STOP';
-    let modes = [mode];
-    if (mode === 'CITYBIKE') {
+    let modes = nearByMode ? [nearByMode] : [mode];
+    if (nearByMode === 'CITYBIKE') {
       placeTypes = 'BICYCLE_RENT';
       modes = ['BICYCLE'];
     }
@@ -160,9 +164,17 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   setCenterOfMap = mapElement => {
     let location;
     if (!mapElement) {
+      if (distance(this.state.searchPosition, this.props.position) > 100) {
+        return this.setState({
+          centerOfMap: this.props.position,
+          centerOfMapChanged: true,
+          mapState: MAPSTATES.FITBOUNDSTOCENTER,
+        });
+      }
       return this.setState({
-        centerOfMap: null,
+        centerOfMap: this.props.position,
         centerOfMapChanged: false,
+        mapState: MAPSTATES.FITBOUNDSTOCENTER,
       });
     }
     if (this.props.breakpoint === 'large') {
@@ -180,11 +192,18 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       ]);
       location = { lat: point.lat, lon: point.lng };
     }
-    return this.setState({ centerOfMap: location, centerOfMapChanged: true });
+    return this.setState({
+      centerOfMap: location,
+      centerOfMapChanged: true,
+      mapState: MAPSTATES.HUMANSCROLL,
+    });
   };
 
   positionChanged = () => {
     const { searchPosition, centerOfMap } = this.state;
+    if (!searchPosition) {
+      return false;
+    }
     if (
       centerOfMap &&
       searchPosition.lat === centerOfMap.lat &&
@@ -216,12 +235,36 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   updateLocation = () => {
     const { centerOfMap } = this.state;
     if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
+      let mapState = MAPSTATES.FITBOUNDSTOSEARCHPOSITION;
+      let type = 'CenterOfMap';
+      if (centerOfMap.type === 'CurrentLocation') {
+        mapState = MAPSTATES.FITBOUNDSTOSTARTLOCATION;
+        type = centerOfMap.type;
+      }
       return this.setState({
-        searchPosition: { ...centerOfMap, type: 'CenterOfMap' },
+        searchPosition: { ...centerOfMap, type },
         centerOfMapChanged: false,
+        mapState,
       });
     }
     return this.setState({ searchPosition: this.getPosition() });
+  };
+
+  getNearByStopModes = () => {
+    const configNearByYouModes = this.context.config.nearYouModes.length
+      ? this.context.config.nearYouModes
+      : Object.keys(this.context.config.transportModes).filter(
+          mode =>
+            this.context.config.transportModes[mode].availableForSelection,
+        );
+
+    if (!configNearByYouModes.includes('favorite')) {
+      configNearByYouModes.unshift('favorite');
+    }
+    const nearByStopModes = configNearByYouModes.map(nearYouMode =>
+      nearYouMode.toUpperCase(),
+    );
+    return nearByStopModes;
   };
 
   getPosition = () => {
@@ -230,8 +273,22 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       : this.props.position;
   };
 
-  refetchButton = () => {
+  onSwipe = e => {
+    const nearByStopModes = this.getNearByStopModes();
     const { mode } = this.props.match.params;
+    const newMode = nearByStopModes[e];
+    const paramArray = this.props.match.location.pathname.split(mode);
+    const pathParams = paramArray.length > 1 ? paramArray[1] : '/POS';
+    const path = `/${PREFIX_NEARYOU}/${newMode}${pathParams}`;
+    this.context.router.replace({
+      ...this.props.match.location,
+      pathname: path,
+    });
+  };
+
+  refetchButton = nearByMode => {
+    const { mode } = this.props.match.params;
+    const modeClass = nearByMode || mode;
     return (
       <div className="nearest-stops-update-container">
         <FormattedMessage id="nearest-stops-updated-location" />
@@ -250,7 +307,9 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             defaultMessage="Update stops"
             values={{
               mode: (
-                <FormattedMessage id={`nearest-stops-${mode.toLowerCase()}`} />
+                <FormattedMessage
+                  id={`nearest-stops-${modeClass.toLowerCase()}`}
+                />
               ),
             }}
           />
@@ -259,101 +318,126 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     );
   };
 
+  noFavorites = () => {
+    return (
+      !this.favouriteStopIds.length &&
+      !this.favouriteStationIds.length &&
+      !this.favouriteBikeStationIds.length
+    );
+  };
+
   renderContent = () => {
     const { centerOfMapChanged } = this.state;
     const { mode } = this.props.match.params;
     const renderDisruptionBanner = mode !== 'CITYBIKE';
     const renderSearch = mode !== 'FERRY' && mode !== 'FAVORITE';
-    const noFavorites =
-      mode === 'FAVORITE' &&
-      !this.favouriteStopIds.length &&
-      !this.favouriteStationIds.length &&
-      !this.favouriteBikeStationIds.length;
+    const noFavorites = mode === 'FAVORITE' && this.noFavorites();
     const renderRefetchButton =
       (centerOfMapChanged || this.positionChanged()) && !noFavorites;
-    if (mode === 'FAVORITE') {
+    const nearByStopModes = this.getNearByStopModes();
+    const index = nearByStopModes.indexOf(mode);
+    const tabs = nearByStopModes.map(nearByStopMode => {
+      if (nearByStopMode === 'FAVORITE') {
+        const noFavs = this.noFavorites();
+        return (
+          <div className="stops-near-you-page">
+            {renderRefetchButton && this.refetchButton()}
+            <StopsNearYouFavorites
+              searchPosition={this.state.searchPosition}
+              match={this.props.match}
+              favoriteStops={this.favouriteStopIds}
+              favoriteStations={this.favouriteStationIds}
+              favoriteBikeRentalStationIds={this.favouriteBikeStationIds}
+              noFavorites={noFavs}
+            />
+          </div>
+        );
+      }
       return (
-        <div className="stops-near-you-page">
-          {renderRefetchButton && this.refetchButton()}
-          <StopsNearYouFavorites
-            searchPosition={this.state.searchPosition}
-            match={this.props.match}
-            favoriteStops={this.favouriteStopIds}
-            favoriteStations={this.favouriteStationIds}
-            favoriteBikeRentalStationIds={this.favouriteBikeStationIds}
-            noFavorites={noFavorites}
+        <div key={nearByStopMode}>
+          <QueryRenderer
+            query={graphql`
+              query StopsNearYouPageContentQuery(
+                $lat: Float!
+                $lon: Float!
+                $filterByPlaceTypes: [FilterPlaceType]
+                $filterByModes: [Mode]
+                $first: Int!
+                $maxResults: Int!
+                $maxDistance: Int!
+                $omitNonPickups: Boolean
+              ) {
+                stopPatterns: viewer {
+                  ...StopsNearYouContainer_stopPatterns
+                  @arguments(
+                    lat: $lat
+                    lon: $lon
+                    filterByPlaceTypes: $filterByPlaceTypes
+                    filterByModes: $filterByModes
+                    first: $first
+                    maxResults: $maxResults
+                    maxDistance: $maxDistance
+                    omitNonPickups: $omitNonPickups
+                  )
+                }
+                alerts: alerts(severityLevel: [SEVERE]) {
+                  ...DisruptionBanner_alerts
+                }
+              }
+            `}
+            variables={this.getQueryVariables(nearByStopMode)}
+            environment={this.props.relayEnvironment}
+            render={({ props }) => {
+              return (
+                <div className="stops-near-you-page">
+                  {renderDisruptionBanner && (
+                    <DisruptionBanner
+                      alerts={(props && props.alerts) || []}
+                      mode={nearByStopMode}
+                      trafficNowLink={this.context.config.trafficNowLink}
+                    />
+                  )}
+                  {renderSearch && (
+                    <StopsNearYouSearch
+                      mode={nearByStopMode}
+                      breakpoint={this.props.breakpoint}
+                      lang={this.props.lang}
+                    />
+                  )}
+                  {renderRefetchButton && this.refetchButton(nearByStopMode)}
+                  {!props && (
+                    <div className="stops-near-you-spinner-container">
+                      <Loading />
+                    </div>
+                  )}
+                  {props && (
+                    <StopsNearYouContainer
+                      match={this.props.match}
+                      stopPatterns={props.stopPatterns}
+                      position={this.state.searchPosition}
+                    />
+                  )}
+                </div>
+              );
+            }}
           />
         </div>
       );
-    }
-    return (
-      <QueryRenderer
-        query={graphql`
-          query StopsNearYouPageContentQuery(
-            $lat: Float!
-            $lon: Float!
-            $filterByPlaceTypes: [FilterPlaceType]
-            $filterByModes: [Mode]
-            $first: Int!
-            $maxResults: Int!
-            $maxDistance: Int!
-            $omitNonPickups: Boolean
-          ) {
-            stopPatterns: viewer {
-              ...StopsNearYouContainer_stopPatterns
-              @arguments(
-                lat: $lat
-                lon: $lon
-                filterByPlaceTypes: $filterByPlaceTypes
-                filterByModes: $filterByModes
-                first: $first
-                maxResults: $maxResults
-                maxDistance: $maxDistance
-                omitNonPickups: $omitNonPickups
-              )
-            }
-            alerts: alerts(severityLevel: [SEVERE]) {
-              ...DisruptionBanner_alerts
-            }
+    });
+
+    if (tabs.length > 1) {
+      return (
+        <SwipeableTabs
+          tabIndex={index}
+          onSwipe={this.onSwipe}
+          tabs={tabs}
+          classname={
+            this.props.breakpoint === 'large' ? 'swipe-desktop-view' : ''
           }
-        `}
-        variables={this.getQueryVariables()}
-        environment={this.props.relayEnvironment}
-        render={({ props }) => {
-          return (
-            <div className="stops-near-you-page">
-              {renderDisruptionBanner && (
-                <DisruptionBanner
-                  alerts={(props && props.alerts) || []}
-                  mode={mode}
-                  trafficNowLink={this.context.config.trafficNowLink}
-                />
-              )}
-              {renderSearch && (
-                <StopsNearYouSearch
-                  mode={mode}
-                  breakpoint={this.props.breakpoint}
-                  lang={this.props.lang}
-                />
-              )}
-              {renderRefetchButton && this.refetchButton()}
-              {!props && (
-                <div className="stops-near-you-spinner-container">
-                  <Loading />
-                </div>
-              )}
-              {props && (
-                <StopsNearYouContainer
-                  match={this.props.match}
-                  stopPatterns={props.stopPatterns}
-                  position={this.state.searchPosition}
-                />
-              )}
-            </div>
-          );
-        }}
-      />
-    );
+        />
+      );
+    }
+    return tabs[0];
   };
 
   renderMap = () => {
@@ -381,7 +465,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           variables={{
             stopIds: this.favouriteStopIds,
             stationIds: this.favouriteStationIds,
-            bikeRentalStationIds: this.props.favouriteBikeStationIds,
+            bikeRentalStationIds: this.favouriteBikeStationIds,
           }}
           environment={this.props.relayEnvironment}
           render={({ props }) => {
@@ -389,8 +473,10 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
               return (
                 <StopsNearYouFavoritesMapContainer
                   position={this.state.searchPosition}
+                  centerOfMap={this.state.centerOfMap}
                   match={this.props.match}
                   setCenterOfMap={this.setCenterOfMap}
+                  mapState={this.state.mapState}
                   stops={props.stops}
                   stations={props.stations}
                   bikeStations={props.bikeStations}
@@ -435,15 +521,17 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             }
           }
         `}
-        variables={this.getQueryVariables()}
+        variables={this.getQueryVariables(mode)}
         environment={this.props.relayEnvironment}
         render={({ props }) => {
           if (props) {
             return (
               <StopsNearYouMapContainer
                 position={this.state.searchPosition}
+                centerOfMap={this.state.centerOfMap}
                 stopsNearYou={props.stops}
                 match={this.props.match}
+                mapState={this.state.mapState}
                 setCenterOfMap={this.setCenterOfMap}
               />
             );
@@ -476,7 +564,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     const path = `/${PREFIX_NEARYOU}/${mode}/POS/${addressToItinerarySearch(
       item,
     )}`;
-
     this.context.router.replace({
       ...this.props.match.location,
       pathname: path,
@@ -484,6 +571,9 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     this.setState({
       phase: PH_USEDEFAULTPOS,
       searchPosition: item,
+      centerOfMap: null,
+      centerOfMapChanged: false,
+      mapState: MAPSTATES.FITBOUNDSTOSTARTLOCATION,
     });
   };
 
@@ -615,6 +705,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 )
               }
               scrollable
+              bckBtnFallback="back"
               content={this.renderContent()}
               map={
                 <>
@@ -650,31 +741,22 @@ const PositioningWrapper = connectToStores(
   StopsNearYouPageWithBreakpoint,
   ['PositionStore', 'PreferencesStore', 'FavouriteStore'],
   (context, props) => {
-    const favouriteStopIds =
-      props.match.params.mode === 'FAVORITE'
-        ? context
-            .getStore('FavouriteStore')
-            .getStopsAndStations()
-            .filter(stop => stop.type === 'stop')
-            .map(stop => stop.gtfsId)
-        : [];
-    const favouriteStationIds =
-      props.match.params.mode === 'FAVORITE'
-        ? context
-            .getStore('FavouriteStore')
-            .getStopsAndStations()
-            .filter(stop => stop.type === 'station')
-            .map(stop => stop.gtfsId)
-        : [];
+    const favouriteStopIds = context
+      .getStore('FavouriteStore')
+      .getStopsAndStations()
+      .filter(stop => stop.type === 'stop')
+      .map(stop => stop.gtfsId);
+    const favouriteStationIds = context
+      .getStore('FavouriteStore')
+      .getStopsAndStations()
+      .filter(stop => stop.type === 'station')
+      .map(stop => stop.gtfsId);
     let favouriteBikeStationIds = [];
     if (context.config.cityBike && context.config.cityBike.showCityBikes) {
-      favouriteBikeStationIds =
-        props.match.params.mode === 'FAVORITE'
-          ? context
-              .getStore('FavouriteStore')
-              .getBikeRentalStations()
-              .map(station => station.stationId)
-          : [];
+      favouriteBikeStationIds = context
+        .getStore('FavouriteStore')
+        .getBikeRentalStations()
+        .map(station => station.stationId);
     }
     return {
       ...props,

@@ -21,7 +21,7 @@ export default class BackButton extends React.Component {
     titleCustomStyle: PropTypes.object,
     className: PropTypes.string, // DT-3614
     onBackBtnClick: PropTypes.func,
-    popFallback: PropTypes.bool,
+    fallback: PropTypes.string,
   };
 
   static defaultProps = {
@@ -32,17 +32,21 @@ export default class BackButton extends React.Component {
     titleClassName: undefined, // DT-3472
     titleCustomStyle: undefined,
     className: 'back-button', // DT-3614
-    popFallback: false,
+    fallback: undefined,
   };
 
   goBack = url => {
     const { router, match } = this.context;
     const { location } = match;
 
-    if (location.index > 0) {
+    if (
+      location.index > 0 ||
+      // eslint-disable-next-line no-restricted-globals
+      (history.length > 1 && this.props.fallback === 'back')
+    ) {
       router.go(-1);
     } else if (
-      this.props.popFallback &&
+      this.props.fallback === 'pop' &&
       location.pathname.split('/').length > 1
     ) {
       const parts = location.pathname.split('/');

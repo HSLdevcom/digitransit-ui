@@ -76,13 +76,15 @@ function MobilePickerModal({
     >
       <div style={{ '--color': `${color}` }}>
         <div className={styles['top-row']}>
-          <h3 className={styles['modal-title']}>Valitse aika</h3>
+          <h3 className={styles['modal-title']}>
+            {i18next.t('choose-time', translationSettings)}
+          </h3>
           <button
             type="button"
             className={styles['departure-now-button']}
             onClick={onNowClick}
           >
-            Lähtö nyt
+            {i18next.t('departure-now', translationSettings)}
           </button>
         </div>
         <div className={styles['tab-row']}>
@@ -178,14 +180,14 @@ function MobilePickerModal({
               onSubmit(displayTimestamp, departureOrArrivalCurrent)
             }
           >
-            Valmis
+            {i18next.t('ready', translationSettings)}
           </button>
           <button
             type="button"
             className={styles['cancel-button']}
             onClick={onCancel}
           >
-            Peruuta
+            {i18next.t('cancel', translationSettings)}
           </button>
         </div>
       </div>

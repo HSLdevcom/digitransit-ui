@@ -273,13 +273,14 @@ SelectMapLayersDialog.propTypes = {
   mapLayers: mapLayerShape.isRequired,
   updateMapLayers: PropTypes.func.isRequired,
   lang: PropTypes.string,
-  setOpen: PropTypes.func.isRequired,
+  setOpen: PropTypes.func,
 };
 
 SelectMapLayersDialog.defaultProps = {
   config: {},
   isOpen: false,
   lang: 'fi',
+  setOpen: undefined,
 };
 
 SelectMapLayersDialog.description = (

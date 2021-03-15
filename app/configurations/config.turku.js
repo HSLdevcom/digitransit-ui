@@ -75,13 +75,19 @@ export default configMerger(walttiConfig, {
   },
 
   transportModes: {
+    bus: {
+      color: '#e8aa27',
+    },
+
     ferry: {
       availableForSelection: true,
       defaultValue: true,
+      color: '#35b5b3',
     },
 
     citybike: {
       availableForSelection: true,
+      color: '#f2b62d',
     },
   },
 
@@ -92,12 +98,11 @@ export default configMerger(walttiConfig, {
     [22.939795, 59.963388],
   ],
 
-  footer: {
+  menu: {
+    copyright: { label: `© Turun seudun joukkoliikenne ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Turun seudun joukkoliikenne ${walttiConfig.YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href:
           'https://opaskartta.turku.fi/eFeedback/fi/Feedback/35-Joukkoliikenne%20F%C3%B6li',
@@ -147,6 +152,7 @@ export default configMerger(walttiConfig, {
 
   showAllBusses: true,
   showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
 
   aboutThisService: {
     fi: [
@@ -199,4 +205,6 @@ export default configMerger(walttiConfig, {
   geoJson: {
     layerConfigUrl: 'https://data.foli.fi/geojson/reittiopas',
   },
+
+  showNearYouButtons: true,
 });

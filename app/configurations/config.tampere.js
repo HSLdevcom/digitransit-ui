@@ -133,12 +133,11 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  footer: {
+  menu: {
+    copyright: { label: `© Tampere ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Tampere ${walttiConfig.YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'https://www.nysse.fi/palaute.html',
         icon: 'icon-icon_speech-bubble',
@@ -162,7 +161,6 @@ export default configMerger(walttiConfig, {
     {
       id: '3',
       priority: -1,
-      shouldTrigger: true,
       persistence: 'repeat',
       content: {
         fi: [
@@ -272,6 +270,7 @@ export default configMerger(walttiConfig, {
   },
   showAllBusses: true,
   showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
   timetables: {
     tampere: tampereTimetables,
   },

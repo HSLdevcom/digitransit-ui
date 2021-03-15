@@ -121,6 +121,7 @@ class TripStopListContainer extends React.PureComponent {
           last={index === trip.stoptimesForDate.length - 1}
           first={index === 0}
           className={`bp-${breakpoint}`}
+          shortName={trip.route && trip.route.shortName}
           keepTracking={this.props.keepTracking}
           setHumanScrolling={this.props.setHumanScrolling}
         />
@@ -157,6 +158,7 @@ const connectedComponent = createFragmentContainer(
           mode
           gtfsId
           color
+          shortName
         }
         pattern {
           code
@@ -176,6 +178,7 @@ const connectedComponent = createFragmentContainer(
               effectiveStartDate
             }
           }
+          realtimeArrival
           realtimeDeparture
           realtime
           scheduledDeparture

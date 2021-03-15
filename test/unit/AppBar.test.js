@@ -4,13 +4,13 @@ import { describe, it } from 'mocha';
 
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
 
-import AppBarLarge from '../../app/component/AppBarLarge';
+import AppBar from '../../app/component/AppBar';
 import LogoSmall from '../../app/component/LogoSmall';
 
-describe('<AppBarLarge />', () => {
-  it('should show logo image', () => {
+describe('<AppBar />', () => {
+  it('should show logo component with right props', () => {
     const wrapper = shallowWithIntl(
-      <AppBarLarge titleClicked={() => {}} logo="/" />,
+      <AppBar titleClicked={() => {}} logo="/" homeUrl="/" showLogo />,
       {
         context: {
           config: {
@@ -20,13 +20,14 @@ describe('<AppBarLarge />', () => {
       },
     );
 
-    expect(wrapper.find('section.title')).to.have.lengthOf(0);
+    expect(wrapper.find(LogoSmall)).to.have.lengthOf(1);
     expect(wrapper.find(LogoSmall).props().showLogo).to.equal(true);
+    expect(wrapper.find(LogoSmall).props().logo).to.equal('/');
   });
 
   it('should show text logo when textLogo is true', () => {
     const wrapper = shallowWithIntl(
-      <AppBarLarge titleClicked={() => {}} logo="/" />,
+      <AppBar titleClicked={() => {}} logo="/" homeUrl="/" />,
       {
         context: {
           config: {
@@ -36,7 +37,7 @@ describe('<AppBarLarge />', () => {
       },
     );
 
-    expect(wrapper.find('section.title')).to.have.lengthOf(1);
+    expect(wrapper.find('section.title.title')).to.have.lengthOf(1);
     expect(wrapper.find(LogoSmall).props().showLogo).to.equal(false);
   });
 });

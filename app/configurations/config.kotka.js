@@ -79,10 +79,9 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  footer: {
+  menu: {
+    copyright: { label: `© Kotka ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Kotka ${walttiConfig.YEAR}` },
-      {},
       {
         name: 'about-this-service',
         nameEn: 'About this service',

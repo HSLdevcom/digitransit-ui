@@ -15,6 +15,7 @@ const defaultProps = {
   lang: 'fi',
   messages: [],
   currentTime: 1558610379,
+  duplicateMessageCounter: 0,
 };
 
 const context = {
@@ -137,51 +138,12 @@ describe('<MessageBar />', () => {
     expect(wrapper.find(Icon)).to.have.lengthOf(0);
   });
 
-  it('should render one message when there are two messages but one of them has shouldTrigger: false ', async () => {
-    const props = {
-      ...defaultProps,
-      messages: [
-        {
-          id: '23072019_135154_87',
-          shouldTrigger: true,
-          content: {
-            fi: [
-              {
-                type: 'text',
-                content: 'Test message',
-              },
-            ],
-          },
-        },
-        {
-          id: '23072019_135154_88',
-          shouldTrigger: false,
-          content: {
-            fi: [
-              {
-                type: 'text',
-                content: 'Test message',
-              },
-            ],
-          },
-        },
-      ],
-    };
-    const wrapper = shallowWithIntl(<MessageBar {...props} />, {
-      context,
-    });
-
-    await wrapper.instance().componentDidMount();
-    expect(wrapper.find(Icon)).to.have.lengthOf(2);
-  });
-
   it('should have correct background color', async () => {
     const props = {
       ...defaultProps,
       messages: [
         {
           id: '23072019_135154_87',
-          shouldTrigger: true,
           backgroundColor: '#000000',
           content: {
             fi: [

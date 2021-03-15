@@ -87,20 +87,23 @@
   .near-you-buttons-container {
     display: flex;
     & > a:not(:last-child), & > div:not(:last-child) {
-      margin-right: 9px;
+      margin-right: 7px;
       @include min-width(tablet)  {
-        margin-right: 10px;
+        margin-right: 8px;
       }
+    }
+    & > a:last-child, & > div:last-child {
+      margin-bottom: 32px;
     }
     & > a, & > div {
       display: flex;
       flex: 1;
       width: 100%;
-      height: 50px;
+      height: 42px;
       @include min-width(tablet)  {
-        min-width: 58px;
+        min-width: 50px;
         max-width: 72px;
-        height: 60px;
+        height: 50px;
       }
     }
 
@@ -141,13 +144,95 @@
         }
       }
       svg {
-        width: 32px;
-        height: 32px;
+        width: 30px;
+        height: 30px;
         margin: auto;
         @include min-width(tablet)  {
-          width: 40px;
-          height: 40px;
+          width: 34px;
+          height: 34px;
         }
+      }
+      &:hover {
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+
+  .near-you-buttons-container-wide {
+
+    & > a:not(:last-child), & > div:not(:last-child) {
+      margin-right: 9px;
+      @include min-width(tablet)  {
+        margin-right: 10px;
+      }
+    }
+    & > a:last-child, & > div:last-child {
+      margin-bottom: 24px;
+    }
+    & > a, & > div {
+      width: 100%;
+      height: 48px;
+      @include min-width(tablet)  {
+        margin-bottom: 8px;
+      }
+    }
+
+    .sr-only:not(:focus):not(:active) {
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      height: 1px;
+      overflow: hidden;
+      position: absolute;
+      white-space: nowrap;
+      width: 1px;
+    }
+
+    .transport-mode-icon-container {
+      position: relative;
+      display: flex;
+      border-radius: 5px;
+      border: solid 1px #dddddd;
+      background-color: white;
+      flex: 1;
+      min-width: 100%;
+      height: 48px;
+      .transport-mode-icon-with-icon {
+        display: flex;
+        position: relative;
+        left: 17px;
+        border-radius: var(--borderRadius);
+        background-color: var(--bckColor);
+        height: 30px;
+        width: 30px;
+        align-items: center;
+        align-self: center;
+        justify-content: center;
+      }
+      .transport-mode-alert-icon {
+        position: absolute;
+        bottom: -7px;
+        right: -8px;
+        svg {
+          height: 15px;
+          width: 15px;
+          @include min-width(tablet)  {
+            width: 18px;
+            height: 18px;
+          }
+        }
+      }
+      .transport-mode-title {
+        position: relative;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 15px;
+        line-height: 18px;
+        align-self: center;
+        left: 26px;
+        width: calc(100% - 58px);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
       &:hover {
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);

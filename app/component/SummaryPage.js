@@ -17,6 +17,7 @@ import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import SunCalc from 'suncalc';
+import BackButton from './BackButton';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import MapContainer from './map/MapContainer';
@@ -43,8 +44,6 @@ import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
 import { isBrowser, isIOS } from '../util/browser';
 import { itineraryHasCancelation } from '../util/alertUtils';
-import triggerMessage from '../util/messageUtils';
-import MessageStore from '../store/MessageStore';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
   parseLatLon,
@@ -62,6 +61,7 @@ import {
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import ItineraryTab from './ItineraryTab';
 import { StreetModeSelector } from './StreetModeSelector';
+import SwipeableTabs from './SwipeableTabs';
 import { getCurrentSettings, preparePlanParams } from '../util/planParamUtil';
 import { getTotalBikingDistance } from '../util/legUtils';
 import { userHasChangedModes } from '../util/modeUtils';
@@ -1553,20 +1553,6 @@ class SummaryPage extends React.Component {
     const from = otpToLocation(match.params.from);
     const to = otpToLocation(match.params.to);
 
-    triggerMessage(
-      from.lat,
-      from.lon,
-      this.context,
-      this.context.getStore(MessageStore).getMessages(),
-    );
-
-    triggerMessage(
-      to.lat,
-      to.lon,
-      this.context,
-      this.context.getStore(MessageStore).getMessages(),
-    );
-
     let leafletObjs = [];
 
     if (filteredItineraries && filteredItineraries.length > 0) {
@@ -2224,17 +2210,46 @@ class SummaryPage extends React.Component {
             date: moment().valueOf(),
           };
 
+          const itineraryTabs = selectedItineraries.map(itinerary => {
+            return (
+              <div key={itinerary.key}>
+                <ItineraryTab
+                  hideTitle
+                  plan={currentTime}
+                  itinerary={itinerary}
+                  focus={this.updateCenter}
+                  setMapZoomToLeg={this.setMapZoomToLeg}
+                  isMobile={false}
+                />
+              </div>
+            );
+          });
+
           content = (
-            <>
+            <div className="itinerary-tab-container">
               {screenReaderAlert}
-              <ItineraryTab
-                plan={currentTime}
-                itinerary={selectedItinerary}
-                focus={this.updateCenter}
-                setMapZoomToLeg={this.setMapZoomToLeg}
-                isMobile={false}
+              <div className="desktop-title" key="header">
+                <div className="title-container h2">
+                  <BackButton
+                    title={
+                      <FormattedMessage
+                        id="itinerary-page.title"
+                        defaultMessage="Itinerary suggestions"
+                      />
+                    }
+                    icon="icon-icon_arrow-collapse--left"
+                    iconClassName="arrow-icon"
+                    popFallback
+                  />
+                </div>
+              </div>
+              <SwipeableTabs
+                tabs={itineraryTabs}
+                tabIndex={activeIndex}
+                onSwipe={this.changeHash}
+                classname="swipe-desktop-view"
               />
-            </>
+            </div>
           );
           return (
             <DesktopView
@@ -2334,7 +2349,9 @@ class SummaryPage extends React.Component {
               defaultMessage="Itinerary suggestions"
             />
           }
-          bckBtnPopFallback={match.params.hash === 'bikeAndVehicle'}
+          bckBtnFallback={
+            match.params.hash === 'bikeAndVehicle' ? 'pop' : undefined
+          }
           header={
             <React.Fragment>
               <SummaryNavigation
