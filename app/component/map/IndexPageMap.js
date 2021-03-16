@@ -110,7 +110,6 @@ function IndexPageMap(
         showStops
         showScaleBar
         {...mwtProps}
-        showLocationMessages
         initialZoom={initialZoom}
         leafletObjs={leafletObjs}
         locationPopup="origindestination"

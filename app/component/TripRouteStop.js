@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
+import isEmpty from 'lodash/isEmpty';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import WalkDistance from './WalkDistance';
@@ -18,6 +19,11 @@ import {
   vehicle as exampleVehicle,
 } from './ExampleData';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
+import { estimateItineraryDistance } from '../util/geo-utils';
+
+const VEHICLE_ARRIVING = 'arriving';
+const VEHICLE_ARRIVED = 'arrived';
+const VEHICLE_DEPARTED = 'departed';
 
 const TripRouteStop = props => {
   const {
@@ -33,27 +39,54 @@ const TripRouteStop = props => {
     setHumanScrolling,
     keepTracking,
   } = props;
+
+  const getVehiclePatternLink = vehicle => {
+    const maxDistance = vehicle.mode === 'rail' ? 100 : 50;
+    const { realtimeDeparture, realtimeArrival, serviceDay } = stoptime;
+    const arrivalTimeToStop = (serviceDay + realtimeArrival) * 1000;
+    const departureTimeFromStop = (serviceDay + realtimeDeparture) * 1000;
+    const vehicleTime = vehicle.timestamp * 1000;
+    const distanceToStop = estimateItineraryDistance(stop, {
+      lat: vehicle.lat,
+      lon: vehicle.long,
+    });
+
+    let vehicleState = '';
+    if (distanceToStop > maxDistance && vehicleTime < arrivalTimeToStop) {
+      vehicleState = VEHICLE_ARRIVING;
+    } else if (
+      (vehicleTime >= arrivalTimeToStop &&
+        vehicleTime < departureTimeFromStop) ||
+      distanceToStop <= maxDistance
+    ) {
+      vehicleState = VEHICLE_ARRIVED;
+    } else if (vehicleTime >= departureTimeFromStop) {
+      vehicleState = VEHICLE_DEPARTED;
+    }
+    return (
+      <div className={cx('route-stop-now', vehicleState)}>
+        <PatternLink
+          key={vehicle.id}
+          mode={vehicle.mode}
+          pattern={props.pattern}
+          route={props.route}
+          vehicleNumber={vehicle.shortName || shortName}
+          selected={
+            props.selectedVehicle && props.selectedVehicle.id === vehicle.id
+          }
+          color={vehicle.color}
+          setHumanScrolling={setHumanScrolling}
+          keepTracking={keepTracking}
+        />
+      </div>
+    );
+  };
   const vehicles =
     props.vehicles &&
     props.vehicles.map(
       vehicle =>
-        vehicle.route === props.route && (
-          <PatternLink
-            key={vehicle.id}
-            mode={vehicle.mode}
-            pattern={props.pattern}
-            route={props.route}
-            vehicleNumber={vehicle.shortName || shortName}
-            selected={
-              props.selectedVehicle && props.selectedVehicle.id === vehicle.id
-            }
-            color={vehicle.color}
-            setHumanScrolling={setHumanScrolling}
-            keepTracking={keepTracking}
-          />
-        ),
+        vehicle.route === props.route && getVehiclePatternLink(vehicle),
     );
-
   return (
     <div
       className={cx(
@@ -62,7 +95,7 @@ const TripRouteStop = props => {
         className,
       )}
     >
-      <div className=" route-stop-now">{vehicles}</div>
+      {vehicles}
       <div className={cx('route-stop-now_circleline', mode)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -86,36 +119,38 @@ const TripRouteStop = props => {
       </div>
       <div className="route-stop-row_content-container">
         <Link to={`/${PREFIX_STOPS}/${encodeURIComponent(stop.gtfsId)}`}>
-          <div className="route-details-upper-row">
-            <div className={`route-details_container ${mode}`}>
-              <div className="route-stop-name">
-                <span>{stop.name}</span>
-                <ServiceAlertIcon
-                  className="inline-icon"
-                  severityLevel={getActiveAlertSeverityLevel(
-                    stop.alerts,
-                    currentTime,
-                  )}
+          <div>
+            <div className="route-details-upper-row">
+              <div className={`route-details_container ${mode}`}>
+                <div className="route-stop-name">
+                  <span>{stop.name}</span>
+                  <ServiceAlertIcon
+                    className="inline-icon"
+                    severityLevel={getActiveAlertSeverityLevel(
+                      stop.alerts,
+                      currentTime,
+                    )}
+                  />
+                </div>
+              </div>
+              <div className="departure-times-container">
+                <div className="route-stop-time">
+                  {!isEmpty(stoptime) && fromStopTime(stoptime, currentTime)}
+                </div>
+              </div>
+            </div>
+            <div className="route-details-bottom-row">
+              {stop.code && <StopCode code={stop.code} />}
+              <span className="route-stop-address">{stop.desc}</span>
+              {'\u2002'}
+              {distance && (
+                <WalkDistance
+                  className="nearest-route-stop"
+                  icon="icon_location-with-user"
+                  walkDistance={distance}
                 />
-              </div>
+              )}
             </div>
-            <div className="departure-times-container">
-              <div className="route-stop-time">
-                {stoptime && fromStopTime(stoptime, currentTime)}
-              </div>
-            </div>
-          </div>
-          <div className="route-details-bottom-row">
-            {stop.code && <StopCode code={stop.code} />}
-            <span className="route-stop-address">{stop.desc}</span>
-            {'\u2002'}
-            {distance && (
-              <WalkDistance
-                className="nearest-route-stop"
-                icon="icon_location-with-user"
-                walkDistance={distance}
-              />
-            )}
           </div>
         </Link>
       </div>

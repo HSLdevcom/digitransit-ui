@@ -98,12 +98,11 @@ export default configMerger(walttiConfig, {
     [22.939795, 59.963388],
   ],
 
-  footer: {
+  menu: {
+    copyright: { label: `© Turun seudun joukkoliikenne ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Turun seudun joukkoliikenne ${walttiConfig.YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href:
           'https://opaskartta.turku.fi/eFeedback/fi/Feedback/35-Joukkoliikenne%20F%C3%B6li',

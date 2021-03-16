@@ -72,12 +72,11 @@ export default {
     //  HSL: HSLRouteTimetable,
   },
 
-  footer: {
+  menu: {
+    copyright: { label: `© Traficom ${YEAR}` },
     content: [
-      { label: `© Traficom ${YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas',
         icon: 'icon-icon_speech-bubble',

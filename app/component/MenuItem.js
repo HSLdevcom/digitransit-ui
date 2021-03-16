@@ -27,12 +27,12 @@ const mapToRoute = (router, route, children, onClick) => (
   </button>
 );
 
-const FooterItem = (
+const MenuItem = (
   { name, href, label, nameEn, route, icon, onClick },
   { router },
 ) => {
   const displayIcon =
-    (icon && <Icon className="footer-icon" img={icon} />) || undefined;
+    (icon && <Icon className="menu-icon" img={icon} />) || undefined;
   const displayLabel = label || (
     <FormattedMessage id={name} defaultMessage={nameEn || name} />
   );
@@ -47,12 +47,12 @@ const FooterItem = (
   } else if (route) {
     item = mapToRoute(router, route, item, onClick);
   } else {
-    item = <span className="footer-text">{item}</span>;
+    item = <span className="menu-text">{item}</span>;
   }
-  return <span className="footer-item">{item}</span>;
+  return <span className="menu-item">{item}</span>;
 };
 
-FooterItem.propTypes = {
+MenuItem.propTypes = {
   name: PropTypes.string,
   nameEn: PropTypes.string,
   icon: PropTypes.string,
@@ -62,22 +62,22 @@ FooterItem.propTypes = {
   onClick: PropTypes.func,
 };
 
-FooterItem.contextTypes = {
+MenuItem.contextTypes = {
   router: routerShape.isRequired,
 };
 
-FooterItem.displayName = 'FooterItem';
+MenuItem.displayName = 'MenuItem';
 
-FooterItem.description = () => (
+MenuItem.description = () => (
   <div>
-    <p>Front page footer item</p>
+    <p>Front page menu item</p>
     <ComponentUsageExample description="external">
-      <FooterItem name="Palaute" href="http://www.hsl.fi/" />
+      <MenuItem name="Palaute" href="http://www.hsl.fi/" />
     </ComponentUsageExample>
     <ComponentUsageExample description="with icon">
-      <FooterItem icon="icon-icon_speech-bubble" name="Feedback" route="/" />
+      <MenuItem icon="icon-icon_speech-bubble" name="Feedback" route="/" />
     </ComponentUsageExample>
   </div>
 );
 
-export default FooterItem;
+export default MenuItem;

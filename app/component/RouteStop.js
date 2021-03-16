@@ -3,18 +3,20 @@ import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
-
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
 import WalkDistance from './WalkDistance';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import StopCode from './StopCode';
 import { fromStopTime } from './DepartureTime';
+import ZoneIcon from './ZoneIcon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { AlertSeverityLevelType, RealtimeStateType } from '../constants';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import { PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { getZoneLabel } from '../util/legUtils';
+import { estimateItineraryDistance } from '../util/geo-utils';
 
 const exampleStop = {
   stopTimesForPattern: [
@@ -41,97 +43,33 @@ const exampleStop = {
   code: '0663',
 };
 
-class RouteStop extends React.PureComponent {
-  static propTypes = {
-    color: PropTypes.string,
-    vehicle: PropTypes.object,
-    stop: PropTypes.object,
-    mode: PropTypes.string,
-    className: PropTypes.string,
-    distance: PropTypes.number,
-    currentTime: PropTypes.number.isRequired,
-    last: PropTypes.bool,
-    displayNextDeparture: PropTypes.bool,
-    shortName: PropTypes.string,
-  };
+const VEHICLE_ARRIVING = 'arriving';
+const VEHICLE_ARRIVED = 'arrived';
+const VEHICLE_DEPARTED = 'departed';
 
-  static defaultProps = {
-    displayNextDeparture: true,
-  };
+const RouteStop = (
+  {
+    className,
+    color,
+    currentTime,
+    distance,
+    first,
+    last,
+    mode,
+    stop,
+    vehicle,
+    displayNextDeparture,
+    shortName,
+  },
+  { config, intl },
+) => {
+  const patternExists =
+    stop.stopTimesForPattern && stop.stopTimesForPattern.length > 0;
 
-  static contextTypes = {
-    intl: intlShape.isRequired,
-    config: PropTypes.object.isRequired,
-  };
+  const firstDeparture = patternExists && stop.stopTimesForPattern[0];
+  const nextDeparture = patternExists && stop.stopTimesForPattern[1];
 
-  static description = () => (
-    <React.Fragment>
-      <ComponentUsageExample description="basic">
-        <RouteStop
-          stop={{ ...exampleStop }}
-          mode="bus"
-          distance={200}
-          last={false}
-          currentTime={1471515614}
-        />
-      </ComponentUsageExample>
-      <ComponentUsageExample description="with info">
-        <RouteStop
-          stop={{
-            ...exampleStop,
-            alerts: [{ alertSeverityLevel: AlertSeverityLevelType.Info }],
-          }}
-          mode="bus"
-          distance={200}
-          last={false}
-          currentTime={1471515614}
-        />
-      </ComponentUsageExample>
-      <ComponentUsageExample description="with caution">
-        <RouteStop
-          stop={{
-            ...exampleStop,
-            alerts: [{ alertSeverityLevel: AlertSeverityLevelType.Warning }],
-            stopTimesForPattern: [],
-          }}
-          mode="bus"
-          distance={200}
-          last={false}
-          currentTime={1471515614}
-        />
-      </ComponentUsageExample>
-      <ComponentUsageExample description="with cancelation">
-        <RouteStop
-          stop={{
-            ...exampleStop,
-            stopTimesForPattern: [
-              {
-                realtime: false,
-                realtimeState: RealtimeStateType.Canceled,
-                realtimeDeparture: 48796,
-                serviceDay: 1471467600,
-                scheduledDeparture: 48780,
-              },
-              {
-                realtime: false,
-                realtimeState: RealtimeStateType.Canceled,
-                realtimeDeparture: 49980,
-                serviceDay: 1471467600,
-                scheduledDeparture: 49980,
-              },
-            ],
-          }}
-          mode="bus"
-          distance={200}
-          last={false}
-          currentTime={1471515614}
-        />
-      </ComponentUsageExample>
-    </React.Fragment>
-  );
-
-  getDepartureTime(stoptime, currentTime) {
-    const { config, intl } = this.context;
+  const getDepartureTime = stoptime => {
     let departureText = '';
     if (stoptime) {
       const departureTime =
@@ -162,27 +100,23 @@ class RouteStop extends React.PureComponent {
       }
     }
     return departureText;
-  }
+  };
 
-  getText(stop, patternExists, displayNextDeparture, currentTime) {
-    const { intl } = this.context;
+  const getText = () => {
     let text = intl.formatMessage({ id: 'stop' });
     text += ` ${stop.name},`;
     text += `${stop.code},`;
     text += `${stop.desc},`;
     if (patternExists) {
       text += `${intl.formatMessage({ id: 'leaves' })},`;
-      text += `${this.getDepartureTime(
-        stop.stopTimesForPattern[0],
-        currentTime,
-      )},`;
+      text += `${getDepartureTime(stop.stopTimesForPattern[0])},`;
       if (stop.stopTimesForPattern[0].stop.platformCode) {
         text += `${intl.formatMessage({ id: 'platform' })},`;
         text += `${stop.stopTimesForPattern[0].stop.platformCode},`;
       }
       if (displayNextDeparture) {
         text += `${intl.formatMessage({ id: 'next' })},`;
-        text += `${this.getDepartureTime(
+        text += `${getDepartureTime(
           stop.stopTimesForPattern[1],
           currentTime,
         )},`;
@@ -196,84 +130,91 @@ class RouteStop extends React.PureComponent {
       }
     }
     return text;
-  }
+  };
 
-  render() {
-    const {
-      className,
-      color,
-      currentTime,
-      distance,
-      last,
-      mode,
-      stop,
-      vehicle,
-      displayNextDeparture,
-      shortName,
-    } = this.props;
-    const patternExists =
-      stop.stopTimesForPattern && stop.stopTimesForPattern.length > 0;
-
+  const getVehicleTripLink = () => {
     let vehicleTripLink;
-
+    let vehicleState;
     if (vehicle) {
+      const maxDistance = vehicle.mode === 'rail' ? 100 : 50;
+      const { realtimeDeparture, realtimeArrival, serviceDay } = firstDeparture;
+      const arrivalTimeToStop = (serviceDay + realtimeArrival) * 1000;
+      const departureTimeFromStop = (serviceDay + realtimeDeparture) * 1000;
+      const vehicleTime = vehicle.timestamp * 1000;
+      const distanceToStop = estimateItineraryDistance(stop, {
+        lat: vehicle.lat,
+        lon: vehicle.long,
+      });
+      if (
+        distanceToStop > maxDistance &&
+        vehicleTime < arrivalTimeToStop &&
+        !first
+      ) {
+        vehicleState = VEHICLE_ARRIVING;
+      } else if (
+        (vehicleTime >= arrivalTimeToStop &&
+          vehicleTime < departureTimeFromStop) ||
+        (first && vehicleTime < arrivalTimeToStop) ||
+        (last && vehicleTime >= departureTimeFromStop) ||
+        distanceToStop <= maxDistance
+      ) {
+        vehicleState = VEHICLE_ARRIVED;
+      } else if (vehicleTime >= departureTimeFromStop && !last) {
+        vehicleState = VEHICLE_DEPARTED;
+      }
       vehicleTripLink = vehicle.tripId ? (
         <TripLink key={vehicle.id} vehicle={vehicle} shortName={shortName} />
       ) : (
         <FuzzyTripLink key={vehicle.id} vehicle={vehicle} />
       );
     }
-
     return (
-      <div
-        className={cx('route-stop location-details_container ', className)}
-        ref={el => {
-          this.element = el;
-        }}
-        role="listitem"
-      >
-        <div className="route-stop-now">{vehicleTripLink}</div>
-        <div
-          className={cx('route-stop-now_circleline', mode)}
-          aria-hidden="true"
+      <div className={cx('route-stop-now', vehicleState)}>
+        {vehicleTripLink}
+      </div>
+    );
+  };
+
+  return (
+    <div
+      className={cx('route-stop location-details_container ', className)}
+      role="listitem"
+    >
+      {getVehicleTripLink()}
+      <div className={cx('route-stop-now_circleline', mode)} aria-hidden="true">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={15}
+          height={30}
+          style={{ fill: color, stroke: color }}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={15}
-            height={30}
-            style={{ fill: color, stroke: color }}
-          >
-            <circle
-              strokeWidth="2"
-              stroke={color || 'currentColor'}
-              fill="white"
-              cx="6"
-              cy="13"
-              r="5"
-            />
-          </svg>
-          <div
-            className={cx('route-stop-now_line', mode)}
-            style={{ backgroundColor: color }}
+          <circle
+            strokeWidth="2"
+            stroke={color || 'currentColor'}
+            fill="white"
+            cx="6"
+            cy="13"
+            r="5"
           />
-        </div>
-        <div className="route-stop-row_content-container">
-          <Link
-            to={`/${PREFIX_STOPS}/${encodeURIComponent(stop.gtfsId)}`}
-            onClick={() => {
-              addAnalyticsEvent({
-                category: 'Routes',
-                action: 'OpenStopViewFromRoute',
-                name: null,
-              });
-            }}
-            aria-label={this.getText(
-              stop,
-              patternExists,
-              displayNextDeparture,
-              currentTime,
-            )}
-          >
+        </svg>
+        <div
+          className={cx('route-stop-now_line', mode)}
+          style={{ backgroundColor: color }}
+        />
+      </div>
+      <div className="route-stop-row_content-container">
+        <Link
+          to={`/${PREFIX_STOPS}/${encodeURIComponent(stop.gtfsId)}`}
+          onClick={() => {
+            addAnalyticsEvent({
+              category: 'Routes',
+              action: 'OpenStopViewFromRoute',
+              name: null,
+            });
+          }}
+          aria-label={getText()}
+        >
+          <div>
             <div className="route-details-upper-row">
               <div className={` route-details_container ${mode}`}>
                 <div className="route-stop-name">
@@ -285,6 +226,16 @@ class RouteStop extends React.PureComponent {
                       currentTime,
                     )}
                   />
+                </div>
+                <div className="platform-number-container">
+                  <div
+                    key={`${stop.scheduledDeparture}-platform-number`}
+                    className={`platform-code ${
+                      !stop.platformCode ? 'empty' : ''
+                    }`}
+                  >
+                    {stop.platformCode}
+                  </div>
                 </div>
                 {patternExists &&
                   stop.stopTimesForPattern[0].pickupType === 'NONE' &&
@@ -299,30 +250,32 @@ class RouteStop extends React.PureComponent {
                   )}
               </div>
               {patternExists && (
-                <div className="departure-times-container">
-                  {displayNextDeparture ? (
-                    stop.stopTimesForPattern.map(stopTime => (
-                      <div
-                        key={stopTime.scheduledDeparture}
-                        className="route-stop-time"
-                      >
-                        {fromStopTime(stopTime, currentTime)}
-                      </div>
-                    ))
-                  ) : (
-                    <div
-                      key={stop.stopTimesForPattern[0].scheduledDeparture}
-                      className="route-stop-time"
-                    >
-                      {fromStopTime(stop.stopTimesForPattern[0], currentTime)}
-                    </div>
-                  )}
+                <div
+                  key={firstDeparture.scheduledDeparture}
+                  className="route-stop-time"
+                >
+                  {fromStopTime(firstDeparture, currentTime)}
                 </div>
               )}
             </div>
             <div className="route-details-bottom-row">
-              {stop.code && <StopCode code={stop.code} />}
               <span className="route-stop-address">{stop.desc}</span>
+              {stop.code && <StopCode code={stop.code} />}
+              {stop.zoneId && (
+                <ZoneIcon
+                  className="itinerary-zone-icon"
+                  zoneId={getZoneLabel(stop.zoneId, config)}
+                  showUnknown={false}
+                />
+              )}
+              {nextDeparture && displayNextDeparture && (
+                <div
+                  key={nextDeparture.scheduledDeparture}
+                  className="route-stop-time"
+                >
+                  {fromStopTime(nextDeparture, currentTime, true, true)}
+                </div>
+              )}
               {'\u2002'}
               {distance && (
                 <WalkDistance
@@ -331,38 +284,101 @@ class RouteStop extends React.PureComponent {
                   walkDistance={distance}
                 />
               )}
-
-              {patternExists && (
-                <div className="platform-number-container">
-                  {displayNextDeparture ? (
-                    stop.stopTimesForPattern.map(stopTime => (
-                      <div
-                        key={`${stopTime.scheduledDeparture}-platform-number`}
-                        className={`platform-code ${
-                          !stopTime.stop.platformCode ? 'empty' : ''
-                        }`}
-                      >
-                        {stopTime.stop.platformCode}
-                      </div>
-                    ))
-                  ) : (
-                    <div
-                      key={`${stop.scheduledDeparture}-platform-number`}
-                      className={`platform-code ${
-                        !stop.platformCode ? 'empty' : ''
-                      }`}
-                    >
-                      {stop.platformCode}
-                    </div>
-                  )}
-                </div>
-              )}
             </div>
-          </Link>
-        </div>
+          </div>
+        </Link>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+RouteStop.propTypes = {
+  color: PropTypes.string,
+  vehicle: PropTypes.object,
+  stop: PropTypes.object,
+  mode: PropTypes.string,
+  className: PropTypes.string,
+  distance: PropTypes.number,
+  currentTime: PropTypes.number.isRequired,
+  first: PropTypes.bool,
+  last: PropTypes.bool,
+  displayNextDeparture: PropTypes.bool,
+  shortName: PropTypes.string,
+};
+
+RouteStop.defaultProps = {
+  displayNextDeparture: true,
+};
+
+RouteStop.contextTypes = {
+  intl: intlShape.isRequired,
+  config: PropTypes.object.isRequired,
+};
+
+RouteStop.description = () => (
+  <React.Fragment>
+    <ComponentUsageExample description="basic">
+      <RouteStop
+        stop={{ ...exampleStop }}
+        mode="bus"
+        distance={200}
+        last={false}
+        currentTime={1471515614}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="with info">
+      <RouteStop
+        stop={{
+          ...exampleStop,
+          alerts: [{ alertSeverityLevel: AlertSeverityLevelType.Info }],
+        }}
+        mode="bus"
+        distance={200}
+        last={false}
+        currentTime={1471515614}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="with caution">
+      <RouteStop
+        stop={{
+          ...exampleStop,
+          alerts: [{ alertSeverityLevel: AlertSeverityLevelType.Warning }],
+          stopTimesForPattern: [],
+        }}
+        mode="bus"
+        distance={200}
+        last={false}
+        currentTime={1471515614}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="with cancelation">
+      <RouteStop
+        stop={{
+          ...exampleStop,
+          stopTimesForPattern: [
+            {
+              realtime: false,
+              realtimeState: RealtimeStateType.Canceled,
+              realtimeDeparture: 48796,
+              serviceDay: 1471467600,
+              scheduledDeparture: 48780,
+            },
+            {
+              realtime: false,
+              realtimeState: RealtimeStateType.Canceled,
+              realtimeDeparture: 49980,
+              serviceDay: 1471467600,
+              scheduledDeparture: 49980,
+            },
+          ],
+        }}
+        mode="bus"
+        distance={200}
+        last={false}
+        currentTime={1471515614}
+      />
+    </ComponentUsageExample>
+  </React.Fragment>
+);
 
 export default RouteStop;

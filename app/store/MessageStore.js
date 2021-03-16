@@ -37,13 +37,13 @@ class MessageStore extends Store {
 
   static handlers = {
     AddMessage: 'addMessage',
-    UpdateMessage: 'updateMessage',
     MarkMessageAsRead: 'markMessageAsRead',
   };
 
   constructor(...args) {
     super(...args);
     this.messages = new Map();
+    this.duplicateMessageCounter = 0;
   }
 
   /* Message format:
@@ -73,6 +73,8 @@ class MessageStore extends Store {
     }
 
     if (this.messages.has(message.id)) {
+      this.duplicateMessageCounter += 1;
+      this.emitChange();
       return;
     }
 
@@ -83,19 +85,7 @@ class MessageStore extends Store {
       return;
     }
 
-    // If message has geojson, it should be triggered when user's origin or destination is in the correct area
-    if (message.geoJson) {
-      message.shouldTrigger = false;
-    } else {
-      message.shouldTrigger = true;
-    }
-
     this.messages.set(message.id, message);
-    this.emitChange();
-  };
-
-  updateMessage = msg => {
-    this.messages.set(msg.id, msg);
     this.emitChange();
   };
 
@@ -171,6 +161,8 @@ class MessageStore extends Store {
 
     return arr;
   };
+
+  getDuplicateMessageCounter = () => this.duplicateMessageCounter;
 }
 
 export default MessageStore;

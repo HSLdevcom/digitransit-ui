@@ -21,8 +21,8 @@ import {
   startRealTimeClient,
   stopRealTimeClient,
 } from '../../action/realTimeClientAction';
-import triggerMessage from '../../util/messageUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import { MAPSTATES } from '../../util/stopsNearYouUtils';
 
 const DEFAULT_ZOOM = 12;
 const FOCUS_ZOOM = 16;
@@ -95,7 +95,6 @@ class MapWithTrackingStateHandler extends React.Component {
     initialZoom: PropTypes.number,
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
-    showLocationMessages: PropTypes.bool,
     defaultMapCenter: PropTypes.object.isRequired,
     fitBoundsWithSetCenter: PropTypes.bool,
     setCenterOfMap: PropTypes.func,
@@ -110,7 +109,6 @@ class MapWithTrackingStateHandler extends React.Component {
     locationPopup: 'reversegeocoding',
     onSelectLocation: () => null,
     fitBounds: false,
-    showLocationMessages: false,
     fitBoundsWithSetCenter: false,
     showAllVehicles: false,
   };
@@ -131,12 +129,6 @@ class MapWithTrackingStateHandler extends React.Component {
   async componentDidMount() {
     if (!isBrowser) {
       return;
-    }
-    const { showLocationMessages } = this.props;
-
-    if (this.focusPoint && showLocationMessages) {
-      const { lat, lon } = this.focusPoint;
-      await triggerMessage(lat, lon, this.context, this.props.messages);
     }
 
     if (this.props.showAllVehicles && this.props.mapLayers.showAllBusses) {
@@ -166,14 +158,6 @@ class MapWithTrackingStateHandler extends React.Component {
     }
     if (newProps.initialZoom !== this.state.initialZoom) {
       this.updateZoom(newProps.initialZoom);
-      if (newProps.focusPoint) {
-        triggerMessage(
-          newProps.focusPoint.lat,
-          newProps.focusPoint.lon,
-          this.context,
-          this.props.messages,
-        );
-      }
     }
     if (this.props.showAllVehicles && newProps.mapLayers.showAllBusses) {
       if (!this.props.mapLayers.showAllBusses) {
@@ -372,7 +356,10 @@ class MapWithTrackingStateHandler extends React.Component {
     const zoomLevel = !this.mapElement
       ? this.state.initialZoom
       : this.mapElement.leafletElement._zoom; // eslint-disable-line no-underscore-dangle
-    if (mapState === 'fitBoundsToSearchPosition') {
+    if (
+      mapState === MAPSTATES.FITBOUNDSTOSEARCHPOSITION ||
+      mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION
+    ) {
       useFitBounds = true;
     }
     return (

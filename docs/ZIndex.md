@@ -22,7 +22,6 @@ Selector | Component | Z-Index | Comment
 `.background-gradient` | Shadow at top of map | 400 |
 `.map-click-prevent-overlay` | Overlay to prevent interaction with map | 801 |
 `.itinerary-feedback-container .form-container` | Itinerary feedback form | 800 | Component not in use
-`#page-footer-container` | Frontpage footer | 800
 `#stop-page-action-bar` | tool bar on stop page so that the shadow casts over the map|  400 |
 `.trip-from, .trip-to` | Route schedule times | 1 |
 `.route-stop { div { .route-now-content { svg` | Selected trip icon with tail | 1 |

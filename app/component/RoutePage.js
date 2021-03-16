@@ -6,7 +6,6 @@ import cx from 'classnames';
 import { matchShape, routerShape, RedirectException } from 'found';
 
 import CallAgencyWarning from './CallAgencyWarning';
-import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from './RouteNumber';
 import RoutePageControlPanel from './RoutePageControlPanel';
@@ -14,6 +13,12 @@ import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import BackButton from './BackButton'; // DT-3472
 import { isBrowser } from '../util/browser';
+import LazilyLoad, { importLazy } from './LazilyLoad';
+
+const modules = {
+  FavouriteRouteContainer: () =>
+    importLazy(import('./FavouriteRouteContainer')),
+};
 
 // eslint-disable-next-line react/prefer-stateless-function
 class RoutePage extends React.Component {
@@ -84,10 +89,14 @@ class RoutePage extends React.Component {
                 {route.shortName}
               </div>
             </div>
-            <FavouriteRouteContainer
-              className="route-page-header"
-              gtfsId={route.gtfsId}
-            />
+            <LazilyLoad modules={modules}>
+              {({ FavouriteRouteContainer }) => (
+                <FavouriteRouteContainer
+                  className="route-page-header"
+                  gtfsId={route.gtfsId}
+                />
+              )}
+            </LazilyLoad>
           </div>
           <RouteAgencyInfo route={route} />
         </div>

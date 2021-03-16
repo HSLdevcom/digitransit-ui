@@ -212,27 +212,40 @@ function StopsNearYouMap(
     }
   };
   const handleWalkRoutes = stopsAndStations => {
-    if (stopsAndStations.length > 0) {
-      const firstStop = stopsAndStations[0];
-      if (!isEqual(firstStop, firstPlan.stop)) {
-        setFirstPlan({
-          itinerary: firstPlan.itinerary,
-          isFetching: true,
-          stop: firstStop,
-        });
-        fetchPlan(firstStop, true);
+    if (mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION) {
+      if (stopsAndStations.length > 0) {
+        const firstStop = stopsAndStations[0];
+        if (!isEqual(firstStop, firstPlan.stop)) {
+          setFirstPlan({
+            itinerary: firstPlan.itinerary,
+            isFetching: true,
+            stop: firstStop,
+          });
+          fetchPlan(firstStop, true);
+        }
       }
-    }
-    if (stopsAndStations.length > 1) {
-      const secondStop = stopsAndStations[1];
-      if (!isEqual(secondStop, secondPlan.stop)) {
-        setSecondPlan({
-          itinerary: secondPlan.itinerary,
-          isFetching: true,
-          stop: secondStop,
-        });
-        fetchPlan(secondStop, false);
+      if (stopsAndStations.length > 1) {
+        const secondStop = stopsAndStations[1];
+        if (!isEqual(secondStop, secondPlan.stop)) {
+          setSecondPlan({
+            itinerary: secondPlan.itinerary,
+            isFetching: true,
+            stop: secondStop,
+          });
+          fetchPlan(secondStop, false);
+        }
       }
+    } else {
+      setFirstPlan({
+        itinerary: [],
+        isFetching: false,
+        stop: null,
+      });
+      setSecondPlan({
+        itinerary: [],
+        isFetching: false,
+        stop: null,
+      });
     }
   };
 
@@ -243,7 +256,10 @@ function StopsNearYouMap(
         if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
           newBounds = handleBounds(centerOfMap, sortedStopEdges, breakpoint);
         }
-      } else if (mapState === MAPSTATES.FITBOUNDSTOSEARCHPOSITION) {
+      } else if (
+        mapState === MAPSTATES.FITBOUNDSTOSEARCHPOSITION ||
+        mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION
+      ) {
         if (position && position.lat && position.lon) {
           newBounds = handleBounds(position, sortedStopEdges, breakpoint);
         }
@@ -422,7 +438,11 @@ function StopsNearYouMap(
   const mapTracking = !position || position.type !== 'CenterOfMap';
 
   // Marker for the search point.
-  if (position && position.type !== 'CurrentLocation') {
+  if (
+    position &&
+    position.type !== 'CurrentLocation' &&
+    mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION
+  ) {
     leafletObjs.push(getLocationMarker(position));
   }
 

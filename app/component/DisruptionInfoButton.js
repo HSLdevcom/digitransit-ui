@@ -11,11 +11,17 @@ function DisruptionInfoButton(props, { config }) {
         className="cursor-pointer disruption-info noborder"
         onClick={props.toggleDisruptionInfo}
       >
-        <FormattedMessage id="disruptions" defaultMessage="Disruptions" />
+        <FormattedMessage
+          id="disruptions-and-diversions"
+          defaultMessage="Disruptions and diversions"
+        />
         {props.viewer &&
           props.viewer.alerts &&
           props.viewer.alerts.length > 0 && (
-            <Icon img="icon-icon_caution" className="disruption-info" />
+            <Icon
+              img="icon-icon_caution_white_exclamation"
+              className="disruption-info"
+            />
           )}
       </button>
     );

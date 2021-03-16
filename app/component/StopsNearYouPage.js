@@ -75,7 +75,7 @@ class StopsNearYouPage extends React.Component {
       phase: PH_START,
       centerOfMap: null,
       centerOfMapChanged: false,
-      mapState: MAPSTATES.FITBOUNDSTOSEARCHPOSITION,
+      mapState: MAPSTATES.FITBOUNDSTOSTARTLOCATION,
     };
   }
 
@@ -235,10 +235,16 @@ class StopsNearYouPage extends React.Component {
   updateLocation = () => {
     const { centerOfMap } = this.state;
     if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
+      let mapState = MAPSTATES.FITBOUNDSTOSEARCHPOSITION;
+      let type = 'CenterOfMap';
+      if (centerOfMap.type === 'CurrentLocation') {
+        mapState = MAPSTATES.FITBOUNDSTOSTARTLOCATION;
+        type = centerOfMap.type;
+      }
       return this.setState({
-        searchPosition: { ...centerOfMap, type: 'CenterOfMap' },
+        searchPosition: { ...centerOfMap, type },
         centerOfMapChanged: false,
-        mapState: MAPSTATES.FITBOUNDSTOSEARCHPOSITION,
+        mapState,
       });
     }
     return this.setState({ searchPosition: this.getPosition() });
@@ -330,9 +336,7 @@ class StopsNearYouPage extends React.Component {
       (centerOfMapChanged || this.positionChanged()) && !noFavorites;
     const nearByStopModes = this.getNearByStopModes();
     const index = nearByStopModes.indexOf(mode);
-    const modePerTab =
-      this.props.breakpoint === 'large' ? [mode] : nearByStopModes;
-    const tabs = modePerTab.map(nearByStopMode => {
+    const tabs = nearByStopModes.map(nearByStopMode => {
       if (nearByStopMode === 'FAVORITE') {
         const noFavs = this.noFavorites();
         return (
@@ -423,7 +427,14 @@ class StopsNearYouPage extends React.Component {
 
     if (tabs.length > 1) {
       return (
-        <SwipeableTabs tabIndex={index} onSwipe={this.onSwipe} tabs={tabs} />
+        <SwipeableTabs
+          tabIndex={index}
+          onSwipe={this.onSwipe}
+          tabs={tabs}
+          classname={
+            this.props.breakpoint === 'large' ? 'swipe-desktop-view' : ''
+          }
+        />
       );
     }
     return tabs[0];
@@ -525,15 +536,7 @@ class StopsNearYouPage extends React.Component {
               />
             );
           }
-          return (
-            <StopsNearYouMapContainer
-              defaultMapCenter={this.state.searchPosition}
-              position={null}
-              stopsNearYou={null}
-              match={this.props.match}
-              setCenterOfMap={this.setCenterOfMap}
-            />
-          );
+          return null;
         }}
       />
     );
@@ -562,7 +565,7 @@ class StopsNearYouPage extends React.Component {
       searchPosition: item,
       centerOfMap: null,
       centerOfMapChanged: false,
-      mapState: MAPSTATES.FITBOUNDSTOSEARCHPOSITION,
+      mapState: MAPSTATES.FITBOUNDSTOSTARTLOCATION,
     });
   };
 
