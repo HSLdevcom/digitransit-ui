@@ -68,8 +68,8 @@
 .near-you-container {
   font-size: 16px;
   .near-you-title {
-    font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
-    font-weight: 500;
+    font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
+    font-weight: var(--font-weight-bold);
     font-stretch: normal;
     font-style: normal;
     line-height: normal;

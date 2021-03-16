@@ -44,6 +44,7 @@ const MobileSearch = ({
   color,
   hoverColor,
   searchOpen,
+  fontWeights,
 }) => {
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
@@ -100,6 +101,7 @@ const MobileSearch = ({
         secondaryButtonOnClick={() => setDialogOpen(false)}
         color={color}
         hoverColor={hoverColor}
+        fontWeights={fontWeights}
       />
     );
   };
@@ -155,10 +157,6 @@ const MobileSearch = ({
                   id={id}
                   onKeyDown={onKeyDown}
                   {...p}
-                  style={{
-                    '--color': `${color}`,
-                    '--hover-color': `${hoverColor}`,
-                  }}
                 />
                 {value && clearButton()}
               </>
@@ -183,7 +181,14 @@ const MobileSearch = ({
       onAfterClose={onClose}
       shouldCloseOnEsc
     >
-      <div className={styles['mobile-modal-content']}>
+      <div
+        className={styles['mobile-modal-content']}
+        style={{
+          '--color': `${color}`,
+          '--hover-color': `${hoverColor}`,
+          '--font-weight-bold': fontWeights.bold,
+        }}
+      >
         {renderContent()}
         {renderDialogModal()}
       </div>
@@ -221,6 +226,9 @@ MobileSearch.propTypes = {
   color: PropTypes.string,
   hoverColor: PropTypes.string,
   searchOpen: PropTypes.bool.isRequired,
+  fontWeights: PropTypes.shape({
+    bold: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 export default MobileSearch;

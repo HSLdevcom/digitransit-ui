@@ -84,13 +84,13 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
         .bubble-dialog-header {
           color: $black;
           font-size: 1rem;
-          font-weight: 700;
+          font-weight: $font-weight-bold;
           text-transform: uppercase;
           user-select: none;
 
           &.bubble-dialog-header--fullscreen {
             font-size: $bubble-dialog-font-size--fullscreen;
-            font-weight: 500;
+            font-weight: $font-weight-medium;
             text-transform: none;
           }
         }

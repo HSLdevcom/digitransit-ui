@@ -63,9 +63,9 @@ function Datetimepicker({
   color,
   timeZone,
   onModalSubmit,
+  fontWeights,
 }) {
   moment.tz.setDefault(timeZone);
-
   const [isOpen, changeOpen] = useState(false);
   const [displayTimestamp, changeDisplayTimestamp] = useState(
     timestamp || moment().valueOf(),
@@ -247,6 +247,7 @@ function Datetimepicker({
             dateSelectItemCount={dateSelectItemCount}
             getDisplay={getTimeDisplay}
             validateTime={validateTime}
+            fontWeights={fontWeights}
           />
         )
       );
@@ -420,7 +421,7 @@ function Datetimepicker({
     <fieldset
       className={styles['dt-datetimepicker']}
       id={`${htmlId}-root`}
-      style={{ '--color': `${color}` }}
+      style={{ '--color': `${color}`, '--font-weight-bold': fontWeights.bold }}
     >
       <legend className={styles['sr-only']}>
         {i18next.t('accessible-title', translationSettings)}
@@ -498,6 +499,9 @@ Datetimepicker.propTypes = {
   lang: PropTypes.string.isRequired,
   color: PropTypes.string,
   onModalSubmit: PropTypes.func.isRequired,
+  fontWeights: PropTypes.shape({
+    bold: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 Datetimepicker.defaultProps = {
