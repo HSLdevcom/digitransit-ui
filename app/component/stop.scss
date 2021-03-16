@@ -574,7 +574,7 @@ hr.action-bar {
 
   .route-headsign {
     font-family: $font-family-narrow;
-    font-weight: 400;
+    font-weight: $font-weight-book;
     margin-top: 0.1em;
   }
 }
@@ -604,7 +604,7 @@ hr.action-bar {
     h1 {
       font-family: $font-family;
       font-size: 13px;
-      font-weight: 400;
+      font-weight: $font-weight-book;
     }
   }
 }
@@ -642,7 +642,7 @@ hr.action-bar {
       }
       .printable-date-header {
         font-size: 11px;
-        font-weight: 400;
+        font-weight: $font-weight-book;
       }
       .printable-date-content {
         font-size: 12px;
