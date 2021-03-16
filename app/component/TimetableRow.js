@@ -15,7 +15,7 @@ const TimetableRow = ({ title, stoptimes, showRoutes, timerows }, { intl }) => (
           : undefined,
     }}
   >
-    <h1 className="title medium">{title}:</h1>
+    <h1 className="title">{title}:</h1>
     <div className="timetable-printable-title">{title}</div>
     <div className="timetable-rowcontainer">
       {stoptimes
@@ -45,7 +45,7 @@ const TimetableRow = ({ title, stoptimes, showRoutes, timerows }, { intl }) => (
             </div>
             <span aria-hidden>
               <div>
-                <span className="medium">
+                <span>
                   {moment
                     .unix(time.serviceDay + time.scheduledDeparture)
                     .format('mm')}
