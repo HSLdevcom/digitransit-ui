@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Card from '../Card';
-import CardHeader from '../CardHeader';
 import GenericMarker from './GenericMarker';
 import MarkerPopupBottom from './MarkerPopupBottom';
 import PreferencesStore from '../../store/PreferencesStore';
@@ -15,6 +14,7 @@ import {
   getHubRadius,
   getMapIconScale,
 } from '../../util/mapIconUtils';
+import PopupHeader from './PopupHeader';
 
 /**
  * The minimum radius at which the default round icon is visible.
@@ -136,6 +136,7 @@ const PointFeatureMarker = ({
           ? getCustomIcon(zoom, icons[icon.id])
           : getRoundIcon(zoom)
       }
+      maxWidth={locationPopup === 'all' ? 320 : 250}
       position={{
         lat,
         lon,
@@ -145,26 +146,22 @@ const PointFeatureMarker = ({
       }
     >
       <Card>
-        <div className="padding-small">
-          <CardHeader
-            className="padding-small"
-            description={useDescriptionAsHeader ? '' : description}
-            name={useDescriptionAsHeader ? description : header}
-            unlinked
-          />
-        </div>
-      </Card>
-      {(locationPopup === 'all' || locationPopup === 'origindestination') && (
-        <MarkerPopupBottom
-          location={{
-            address,
-            lat,
-            lon,
-          }}
-          locationPopup={locationPopup}
-          onSelectLocation={onSelectLocation}
+        <PopupHeader
+          header={useDescriptionAsHeader ? description : header}
+          subHeader={useDescriptionAsHeader ? '' : description}
         />
-      )}
+        {(locationPopup === 'all' || locationPopup === 'origindestination') && (
+          <MarkerPopupBottom
+            location={{
+              address,
+              lat,
+              lon,
+            }}
+            locationPopup={locationPopup}
+            onSelectLocation={onSelectLocation}
+          />
+        )}
+      </Card>
     </GenericMarker>
   );
 };

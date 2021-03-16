@@ -12,6 +12,7 @@ import PreferencesStore from '../../../store/PreferencesStore';
 import { getJson } from '../../../util/xhrPromise';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { splitStringToAddressAndPlace } from '../../../util/otpStrings';
+import PopupHeader from '../PopupHeader';
 
 class LocationPopup extends React.Component {
   static contextTypes = {
@@ -136,13 +137,9 @@ class LocationPopup extends React.Component {
     );
     return (
       <Card>
-        <div className="location-popup-wrapper">
-          <div className="location-address">{address}</div>
-          <div className="location-place">
-            {place}
-            {place && <ZoneIcon zoneId={zoneId} showUnknown={false} />}
-          </div>
-        </div>
+        <PopupHeader header={address} subHeader={place}>
+          {place && <ZoneIcon zoneId={zoneId} showUnknown={false} />}
+        </PopupHeader>
         {(this.props.locationPopup === 'all' ||
           this.props.locationPopup === 'origindestination') && (
           <MarkerPopupBottom
