@@ -89,7 +89,7 @@ class FavouriteEditingModal extends React.Component {
     /** Optional. */
     fontWeights: PropTypes.shape({
       /** Default value is 500. */
-      bold: PropTypes.number,
+      medium: PropTypes.number,
     }),
   };
 
@@ -99,7 +99,7 @@ class FavouriteEditingModal extends React.Component {
     color: '#007ac9',
     hoverColor: '#0062a1',
     fontWeights: {
-      bold: 500,
+      medium: 500,
     },
   };
 
@@ -303,7 +303,7 @@ class FavouriteEditingModal extends React.Component {
         style={{
           '--color': `${color}`,
           '--hover-color': `${hoverColor}`,
-          '--font-weight-bold': fontWeights.bold,
+          '--font-weight-medium': fontWeights.medium,
         }}
       >
         <ModalContent {...modalProps} />

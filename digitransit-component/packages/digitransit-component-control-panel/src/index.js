@@ -292,14 +292,14 @@ class CtrlPanel extends React.Component {
     language: PropTypes.string.isRequired,
     position: PropTypes.string.isRequired,
     fontWeights: PropTypes.shape({
-      bold: PropTypes.number,
+      medium: PropTypes.number,
     }),
   };
 
   static defaultProps = {
     children: [],
     fontWeights: {
-      bold: 500,
+      medium: 500,
     },
   };
 
@@ -324,7 +324,7 @@ class CtrlPanel extends React.Component {
         <div
           key="main"
           className={className}
-          style={{ '--font-weight-bold': this.props.fontWeights.bold }}
+          style={{ '--font-weight-medium': this.props.fontWeights.medium }}
         >
           {children}
         </div>

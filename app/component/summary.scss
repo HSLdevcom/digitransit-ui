@@ -62,7 +62,7 @@
     border-radius: $border-radius;
     appearance: none;
     @include font-book;
-    font-weight: $font-weight-bold;
+    font-weight: $font-weight-medium;
     height: 2.6em;
 
     &:hover {
@@ -243,7 +243,7 @@
     padding-right: 0.8em;
     outline: none;
     span {
-      font-weight: $font-weight-bold;
+      font-weight: $font-weight-medium;
       font-size: $font-size-xxsmall;
     }
     &.settings .icon {

@@ -186,7 +186,7 @@ const MobileSearch = ({
         style={{
           '--color': `${color}`,
           '--hover-color': `${hoverColor}`,
-          '--font-weight-bold': fontWeights.bold,
+          '--font-weight-medium': fontWeights.medium,
         }}
       >
         {renderContent()}
@@ -227,7 +227,7 @@ MobileSearch.propTypes = {
   hoverColor: PropTypes.string,
   searchOpen: PropTypes.bool.isRequired,
   fontWeights: PropTypes.shape({
-    bold: PropTypes.number.isRequired,
+    medium: PropTypes.number.isRequired,
   }).isRequired,
 };
 

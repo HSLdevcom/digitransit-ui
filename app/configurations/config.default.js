@@ -292,7 +292,7 @@ export default {
   },
 
   fontWeights: {
-    bold: 700,
+    medium: 700,
   },
 
   sprites: 'assets/svg-sprite.default.svg',

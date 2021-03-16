@@ -19,7 +19,7 @@ $margin-left-right: 0.625em;
 .route-warning-message {
   background-color: rgba(254, 209, 0, 0.3);
   .upper {
-    @include font-bold;
+    @include font-medium;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -533,7 +533,7 @@ $margin-left-right: 0.625em;
     margin-top: 1em;
     display: flex;
     font-size: 24px;
-    font-weight: $font-weight-bold;
+    font-weight: $font-weight-medium;
     .printable-stop-header_from {
       margin-right: 1em;
       width: 8.4em;
@@ -681,7 +681,7 @@ $margin-left-right: 0.625em;
     }
     .printable-date-content {
       font-size: 20px;
-      font-weight: $font-weight-bold;
+      font-weight: $font-weight-medium;
     }
   }
   .secondary-button.print {
@@ -1072,7 +1072,7 @@ $margin-left-right: 0.625em;
         .route-alert-entityid {
           font-family: $font-family-narrow;
           font-size: 21px;
-          font-weight: bold;
+          font-weight: $font-weight-medium;
           margin-right: 10px;
         }
         .route-alert-time-period {
@@ -1182,7 +1182,7 @@ nav.top-bar .title .route-number {
         max-width: calc(100% - 1em);
       }
       a {
-        font-weight: $font-weight-bold;
+        font-weight: $font-weight-medium;
         color: $link-color;
         max-width: 100%;
       }

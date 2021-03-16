@@ -40,14 +40,14 @@ class TrafficNowLink extends React.Component {
     /** Optional. */
     fontWeights: PropTypes.shape({
       /** Default value is 500. */
-      bold: PropTypes.number,
+      medium: PropTypes.number,
     }),
   };
 
   static defaultProps = {
     lang: 'fi',
     fontWeights: {
-      bold: 500,
+      medium: 500,
     },
   };
 
@@ -80,7 +80,7 @@ class TrafficNowLink extends React.Component {
         role="button"
         onClick={e => this.props.handleClick(e, lang)}
         onKeyDown={e => this.handleKeyDown(e, lang)}
-        style={{ '--font-weight-bold': fontWeights.bold }}
+        style={{ '--font-weight-medium': fontWeights.medium }}
       >
         <div className={styles.caution}>
           {' '}

@@ -131,7 +131,7 @@ class FavouriteBar extends React.Component {
     /** Optional. */
     fontWeights: PropTypes.shape({
       /** Default value is 500. */
-      bold: PropTypes.number,
+      medium: PropTypes.number,
     }),
   };
 
@@ -145,7 +145,7 @@ class FavouriteBar extends React.Component {
     isLoading: false,
     color: '#007ac9',
     fontWeights: {
-      bold: 500,
+      medium: 500,
     },
   };
 
@@ -338,7 +338,7 @@ class FavouriteBar extends React.Component {
     }
 
     return (
-      <div style={{ '--font-weight-bold': fontWeights.bold }}>
+      <div style={{ '--font-weight-medium': fontWeights.medium }}>
         <div className={styles['favourite-container']}>
           <FavouriteLocation
             text={

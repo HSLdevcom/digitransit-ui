@@ -517,7 +517,7 @@ div.origin-popup {
   left: -21px !important;
 
   .origin-popup-header {
-    @include font-bold;
+    @include font-medium;
     text-transform: uppercase;
     color: $link-color;
     width: 90%;

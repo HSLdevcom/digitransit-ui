@@ -78,7 +78,7 @@ function MobilePickerModal({
       <div
         style={{
           '--color': `${color}`,
-          '--font-weight-bold': fontWeights.bold,
+          '--font-weight-medium': fontWeights.medium,
         }}
       >
         <div className={styles['top-row']}>
@@ -215,7 +215,7 @@ MobilePickerModal.propTypes = {
   getDateDisplay: PropTypes.func.isRequired,
   validateTime: PropTypes.func.isRequired,
   fontWeights: PropTypes.shape({
-    bold: PropTypes.number.isRequired,
+    medium: PropTypes.number.isRequired,
   }).isRequired,
 };
 
