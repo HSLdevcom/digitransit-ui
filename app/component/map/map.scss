@@ -16,6 +16,8 @@ div.map {
   }
   .leaflet-container .leaflet-popup-close-button {
     color: $primary-color;
+    font-size: 25px;
+    font-weight: 100;
     width: 32px;
     height: 32px;
     top: 12px;
@@ -387,7 +389,22 @@ div.leaflet-marker-icon.vehicle-icon {
 
 .location-popup-wrapper {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  font-size: 16px;
+  margin: 15px 14px 10px;
+  .location-address {
+    font-size: 0.9375em;
+    font-weight: $font-weight-medium;
+  }
+  .location-place {
+    margin-top: 4px;
+    font-size: 0.8125em;
+    display: flex;
+    flex-direction: row;
+    .zone-icon-container {
+      margin-left: 6px;
+    }
+  }
 }
 
 .popup {
@@ -432,29 +449,31 @@ div.leaflet-marker-icon.vehicle-icon {
 
   .bottom {
     @include font-medium;
-    font-size: $font-size-xsmall;
+    font-size: 16px;
     line-height: $line-height-normal;
     color: $link-color;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin: 0;
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
+    margin: 0 10px 10px;
+    border-radius: 5px;
     background: $white;
-    border-top: solid 1px #ddd;
+    border: solid 1px #ddd;
 
     div,
     a {
-      display: block;
-      padding: 1em;
+      height: 26px;
+      min-width: 100px;
+      display: flex;
+      font-size: 0.8125em;
+      justify-content: center;
+      align-items: center;
       flex-grow: 1;
       text-align: center;
       text-decoration: none;
       border-left: 1px solid $light-gray;
-
       &:first-child {
-        border-right: none;
+        border-left: none;
       }
     }
   }
@@ -470,7 +489,12 @@ div.leaflet-marker-icon.vehicle-icon {
 
 .single-popup {
   .leaflet-popup-content {
-    width: 300px;
+    width: 320px;
+  }
+}
+.narrow-popup {
+  .leaflet-popup-content {
+    width: 220px;
   }
 }
 
