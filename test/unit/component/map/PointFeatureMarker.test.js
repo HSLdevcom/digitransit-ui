@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { shallowWithIntl } from '../../helpers/mock-intl-enzyme';
-import CardHeader from '../../../../app/component/CardHeader';
+import PopupHeader from '../../../../app/component/map/PopupHeader';
 import {
   Component as PointFeatureMarker,
   CUSTOM_ICON_MIN_ZOOM,
@@ -64,7 +64,7 @@ describe('<PointFeatureMarker />', () => {
       language: 'fi',
     };
     const wrapper = shallowWithIntl(<PointFeatureMarker {...props} />);
-    expect(wrapper.find(CardHeader).props().name).to.equal('foobar');
+    expect(wrapper.find(PopupHeader).props().header).to.equal('foobar');
   });
 
   it('should use the address and city properties as header', () => {
@@ -82,7 +82,7 @@ describe('<PointFeatureMarker />', () => {
       language: 'fi',
     };
     const wrapper = shallowWithIntl(<PointFeatureMarker {...props} />);
-    expect(wrapper.find(CardHeader).props().name).to.equal('foo, bar');
+    expect(wrapper.find(PopupHeader).props().header).to.equal('foo, bar');
   });
 
   it('should use the address and city properties as description', () => {
@@ -101,7 +101,7 @@ describe('<PointFeatureMarker />', () => {
       language: 'fi',
     };
     const wrapper = shallowWithIntl(<PointFeatureMarker {...props} />);
-    expect(wrapper.find(CardHeader).props().description).to.equal('foo, bar');
+    expect(wrapper.find(PopupHeader).props().subHeader).to.equal('foo, bar');
   });
 
   describe('getPropertyValueOrDefault', () => {
