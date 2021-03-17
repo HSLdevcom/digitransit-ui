@@ -389,6 +389,7 @@ const refetchContainer = createPaginationContainer(
                     serviceDay
                     headsign
                     trip {
+                      tripHeadsign
                       route {
                         shortName
                         gtfsId

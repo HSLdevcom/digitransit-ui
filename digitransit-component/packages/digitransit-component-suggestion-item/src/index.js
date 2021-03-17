@@ -98,6 +98,7 @@ const SuggestionItem = pure(
     ariaFavouriteString,
     color,
     fillInput,
+    fontWeights,
   }) => {
     const [iconId, iconColor] = getIconProperties(item, color);
     // Arrow clicked is for street itmes. Instead of selecting item when a user clicks on arrow,
@@ -152,6 +153,7 @@ const SuggestionItem = pure(
             [styles.futureroute]: isFutureRoute,
           },
         )}
+        style={{ '--font-weight-medium': fontWeights.medium }}
       >
         <span aria-label={suggestionType} className={styles['suggestion-icon']}>
           {icon}
@@ -310,12 +312,18 @@ SuggestionItem.propTypes = {
   className: PropTypes.string,
   isMobile: PropTypes.bool,
   color: PropTypes.string,
+  fontWeights: PropTypes.shape({
+    medium: PropTypes.number,
+  }),
 };
 
 SuggestionItem.defaultProps = {
   className: undefined,
   isMobile: false,
   color: '#007ac9',
+  fontWeights: {
+    medium: 500,
+  },
 };
 
 export default SuggestionItem;

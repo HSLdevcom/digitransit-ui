@@ -145,7 +145,7 @@
     }
   }
   .walk-options-container {
-    font-weight: 500;
+    font-weight: $font-weight-medium;
 
     .walk-option-inner {
       padding: 0 1em 0 1em;
@@ -205,13 +205,13 @@
 
 .settings-option-container {
   padding: 0.5em 1em 0 1em;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
 
   h2 {
     text-transform: none;
     font-size: $font-size-xlarge;
     letter-spacing: -0.6pt;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     font-family: $font-family;
     padding: 1.5em 0.5em 0.5em 0.5em;
     margin: 0;
@@ -231,7 +231,7 @@
     text-transform: uppercase;
     letter-spacing: -0.6pt;
     font-size: $font-size-normal;
-    font-weight: $font-weight-bold;
+    font-weight: $font-weight-medium;
     font-family: $font-family;
   }
 }
@@ -264,7 +264,7 @@
 
   label.toggle-label {
     font-size: 0.92rem;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
   }
 
   .mode-option-block {
@@ -316,7 +316,7 @@
     text-transform: none;
     font-size: $font-size-normal;
     letter-spacing: -0.6pt;
-    font-weight: $font-weight-bold;
+    font-weight: $font-weight-medium;
     font-family: $font-family;
   }
   h4 {
@@ -338,7 +338,7 @@
       border-radius: 4px;
       height: 3.5em;
       font-size: $font-size-normal;
-      font-weight: $font-weight-bold;
+      font-weight: $font-weight-medium;
       border: 1px solid rgb(221, 221, 221);
       cursor: pointer;
 
@@ -382,7 +382,7 @@
       text-transform: uppercase;
       letter-spacing: -0.6pt;
       font-size: $font-size-normal;
-      font-weight: $font-weight-bold;
+      font-weight: $font-weight-medium;
       font-family: $font-family;
     }
   }

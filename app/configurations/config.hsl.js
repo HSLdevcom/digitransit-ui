@@ -80,6 +80,10 @@ export default {
     hover: '#0062a1',
   },
 
+  fontWeights: {
+    medium: 500,
+  },
+
   sprites: 'assets/svg-sprite.hsl.svg',
 
   appBarStyle: 'hsl',

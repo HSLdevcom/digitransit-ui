@@ -68,7 +68,7 @@ import CallAgencyLeg from './CallAgencyLeg';
 import CallAgencyWarning from './CallAgencyWarning';
 import Timetable from './Timetable';
 import Error404 from './404';
-import SelectMapLayersDialog from './SelectMapLayersDialog';
+import MapLayersDialogContent from './MapLayersDialogContent';
 import MainMenuContainer from './MainMenuContainer';
 import OriginDestinationBar from './OriginDestinationBar';
 import { Component as IndexPage } from './IndexPage';
@@ -146,7 +146,7 @@ const components = {
 };
 
 const fullscreenComponents = {
-  SelectMapLayersDialog,
+  MapLayersDialogContent,
   MainMenuContainer,
   OriginDestinationBar,
   IndexPage,
@@ -248,11 +248,6 @@ function getFonts() {
         B&quot;, Arial, Georgia, Serif
         <span className="code">@include font-medium</span>
       </p>
-      <p style={{ fontWeight: '700' }}>
-        Primary font: &quot;Gotham Rounded A&quot;,&quot; Gotham Rounded
-        B&quot;, Arial, Georgia, Serif
-        <span className="code">@include font-bold</span>
-      </p>
       <span className="code">$font-family-narrow</span>
       <p
         style={{
@@ -339,13 +334,6 @@ function getTextStyles() {
       <span className="code">
         <span />
       </span>
-      <p className="bold">
-        this text is bold (should be avoided, set the complete font with mixins
-        instead)
-        <span className="code">
-          .bold or <b />
-        </span>
-      </p>
     </section>
   );
 }
@@ -429,9 +417,6 @@ function getHelpers() {
       <br />
       <div className="cursor-pointer">
         some div<span className="code">.cursor-pointer</span>
-      </div>
-      <div className="bold">
-        some div<span className="code">.bold</span>
       </div>
       <div className="uppercase">
         some div<span className="code">.uppercase</span>

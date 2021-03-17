@@ -1,4 +1,3 @@
-import cx from 'classnames';
 import isFunction from 'lodash/isFunction';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -55,6 +54,9 @@ class BubbleDialog extends React.Component {
 
   openDialog = (applyFocus = false) => {
     this.closeTooltip(applyFocus);
+    if (this.props.setOpen) {
+      this.props.setOpen(true);
+    }
     this.setDialogState(true, () => {
       if (isFunction(this.props.onDialogOpen)) {
         this.props.onDialogOpen(applyFocus);
@@ -65,6 +67,9 @@ class BubbleDialog extends React.Component {
   };
 
   closeDialog = (applyFocus = false) => {
+    if (this.props.setOpen) {
+      this.props.setOpen(false);
+    }
     this.setDialogState(false, () => {
       if (applyFocus && this.toggleDialogRef.current) {
         this.toggleDialogRef.current.focus();
@@ -86,7 +91,6 @@ class BubbleDialog extends React.Component {
 
   handleClickOutside() {
     this.closeTooltip();
-    this.closeDialog();
   }
 
   renderTooltip() {
@@ -117,96 +121,11 @@ class BubbleDialog extends React.Component {
     );
   }
 
-  renderContent(isFullscreen) {
-    const { breakpoint, children, contentClassName, header } = this.props;
-    const { intl } = this.context;
-    const isLarge = breakpoint === 'large';
-    return (
-      <div
-        className={cx('bubble-dialog-container', {
-          'bubble-dialog-container--fullscreen': isFullscreen,
-        })}
-      >
-        <div
-          className={cx('bubble-dialog', {
-            'bubble-dialog--fullscreen': isFullscreen,
-            'bubble-dialog--large': isLarge,
-          })}
-        >
-          <div
-            className={cx('bubble-dialog-header-container', {
-              'bubble-dialog-header-container--fullscreen': isFullscreen,
-            })}
-          >
-            <span
-              className={cx('bubble-dialog-header', {
-                'bubble-dialog-header--fullscreen': isFullscreen,
-              })}
-            >
-              {intl.formatMessage({
-                id: header,
-                defaultMessage: 'Bubble Dialog Header',
-              })}
-            </span>
-            <button
-              className={cx('bubble-dialog-close', {
-                'bubble-dialog-close--fullscreen': isFullscreen,
-              })}
-              onClick={() => this.closeDialog()}
-              onKeyDown={e =>
-                isKeyboardSelectionEvent(e) && this.closeDialog(true)
-              }
-              type="button"
-            >
-              <Icon img="icon-icon_close" />
-            </button>
-          </div>
-          <div
-            className={cx('bubble-dialog-content', contentClassName, {
-              'bubble-dialog-content--fullscreen': isFullscreen,
-              'bubble-dialog-content--large': isLarge,
-            })}
-            ref={this.dialogContentRef}
-            tabIndex="-1"
-          >
-            {children}
-          </div>
-          <div
-            className={cx('bubble-dialog-buttons', {
-              collapsed: !isFullscreen,
-            })}
-          >
-            <button
-              className="standalone-btn"
-              onClick={() => this.closeDialog()}
-              onKeyDown={e =>
-                isKeyboardSelectionEvent(e) && this.closeDialog(true)
-              }
-              type="button"
-            >
-              {intl.formatMessage({
-                id: 'dialog-return-to-map',
-                defaultMessage: 'Return to map',
-              })}
-            </button>
-          </div>
-        </div>
-        <div
-          className={cx('bubble-dialog-tip-container', {
-            collapsed: isFullscreen,
-          })}
-        >
-          <div className="bubble-dialog-tip" />
-        </div>
-      </div>
-    );
-  }
-
   renderContainer() {
-    const isOpen = this.state.isOpen || this.props.isOpen;
+    // TODO: fix mismatch with props.isOpen and state isOpen, if you want to enable toggle open/close from button
+    const { isOpen } = this.props;
     return (
       <div className="bubble-dialog-component-container">
-        {isOpen && this.renderContent(false)}
         {this.renderTooltip()}
         <div
           className="bubble-dialog-toggle"
@@ -237,23 +156,18 @@ class BubbleDialog extends React.Component {
 
 BubbleDialog.propTypes = {
   breakpoint: PropTypes.oneOf(['small', 'medium', 'large']),
-  children: PropTypes.node,
-  contentClassName: PropTypes.string,
-  header: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   isFullscreenOnMobile: PropTypes.bool,
-  isOpen: PropTypes.bool,
   onDialogOpen: PropTypes.func,
   tooltip: PropTypes.string,
+  isOpen: PropTypes.bool.isRequired,
+  setOpen: PropTypes.func.isRequired,
 };
 
 BubbleDialog.defaultProps = {
   breakpoint: 'small',
-  children: null,
-  contentClassName: undefined,
   isFullscreenOnMobile: false,
-  isOpen: false,
   onDialogOpen: undefined,
   tooltip: undefined,
 };

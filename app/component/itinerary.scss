@@ -317,7 +317,7 @@ $itinerary-tab-switch-height: 48px;
 
 .duration,
 .walk-distance {
-  font-weight: 500;
+  font-weight: $font-weight-medium;
 }
 
 .itinerary-disclaimer {
@@ -349,7 +349,7 @@ $itinerary-tab-switch-height: 48px;
     border: 1px solid #666;
     min-height: 30px;
     a {
-      font-weight: 500;
+      font-weight: $font-weight-medium;
       color: #666;
       font-size: $font-size-small;
       padding-top: 3px;
@@ -382,7 +382,7 @@ $itinerary-tab-switch-height: 48px;
       border: 1px solid #888;
       min-height: 28px;
       .external-link {
-        font-weight: 500;
+        font-weight: $font-weight-medium;
         color: $primary-color;
         font-size: $font-size-small;
         padding-top: 3px;
@@ -863,7 +863,7 @@ $itinerary-tab-switch-height: 48px;
         cursor: pointer;
         color: #333;
         font-size: 0.9375rem;
-        font-weight: 500;
+        font-weight: $font-weight-medium;
         padding-bottom: 22px;
         display: flex;
         .itinerary-arrow-icon {
@@ -1149,7 +1149,7 @@ $itinerary-tab-switch-height: 48px;
       }
       .intermediate-stops-amount {
         color: $primary-color;
-        font-weight: 500;
+        font-weight: $font-weight-medium;
         line-height: 1.2;
         border-bottom: none;
         padding-right: 4px;
@@ -1266,7 +1266,7 @@ div.itinerary-container-content {
     .agency-link {
       font-size: 0.625rem;
       a {
-        font-weight: $font-weight-bold;
+        font-weight: $font-weight-medium;
         color: $link-color;
         max-width: 100%;
       }
@@ -1471,7 +1471,7 @@ div.itinerary-container-content {
     white-space: normal;
     color: $black;
     .route-name {
-      @include font-bold;
+      @include font-medium;
     }
   }
 }
@@ -1549,7 +1549,7 @@ $font-print-decrease: 0.7;
   display: flex;
   .header {
     font-size: 1.62rem;
-    font-weight: $font-weight-bold;
+    font-weight: $font-weight-medium;
   }
 
   .subheader {
@@ -1592,7 +1592,7 @@ $font-print-decrease: 0.7;
     font-size: $font-size-small;
   }
   .header-details-content {
-    font-weight: $font-weight-bold;
+    font-weight: $font-weight-medium;
     font-size: $font-size-large;
     @media print {
       font-size: $font-size-large * $font-print-decrease;
@@ -1658,7 +1658,7 @@ $font-print-decrease: 0.7;
 
   .itinerary-timestamp {
     color: $black;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     font-size: $font-size-large;
     @media print {
       font-size: $font-size-large * $font-print-decrease;
@@ -1717,7 +1717,7 @@ $font-print-decrease: 0.7;
 
   .itinerary-leg-stopname {
     font-family: $font-family;
-    font-weight: 700;
+    font-weight: $font-weight-medium;
     font-size: $font-size-large;
     color: $black;
 
@@ -1757,7 +1757,7 @@ $font-print-decrease: 0.7;
   }
 
   .intermediate-stops-count {
-    font-weight: 700;
+    font-weight: $font-weight-medium;
     font-size: $font-size-large;
     @media print {
       font-size: $font-size-large * $font-print-decrease;

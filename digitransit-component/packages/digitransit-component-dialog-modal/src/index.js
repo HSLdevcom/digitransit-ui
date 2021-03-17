@@ -40,6 +40,7 @@ const DialogModal = ({
   modalAriaLabel,
   color,
   hoverColor,
+  fontWeights,
 }) => {
   i18next.changeLanguage(lang);
   return (
@@ -51,56 +52,56 @@ const DialogModal = ({
       isOpen={isModalOpen}
       onCrossClick={handleClose}
     >
-      <div className={styles['digitransit-dialog-modal-top']}>
-        <div className={styles['digitransit-dialog-modal-header']}>
-          {headerText}
-        </div>
-        {dialogContent && (
-          <div className={styles['digitransit-dialog-modal-content']}>
-            {dialogContent}
+      <div
+        style={{
+          '--color': `${color}`,
+          '--hover-color': `${hoverColor}`,
+          '--font-weight-medium': fontWeights.medium,
+        }}
+      >
+        <div className={styles['digitransit-dialog-modal-top']}>
+          <div className={styles['digitransit-dialog-modal-header']}>
+            {headerText}
           </div>
-        )}
-      </div>
-      <div className={styles['digitransit-dialog-modal-buttons']}>
-        {
-          <a
-            type="button"
-            role="button"
-            tabIndex="0"
-            className={cx(
-              styles['digitransit-dialog-modal-button'],
-              styles.primary,
-            )}
-            style={{
-              '--color': `${color}`,
-              '--hover-color': `${hoverColor}`,
-            }}
-            href={href}
-            onClick={e => {
-              e.stopPropagation();
-              primaryButtonOnClick(e);
-            }}
-          >
-            {primaryButtonText}
-          </a>
-        }
-        {secondaryButtonText && secondaryButtonOnClick && (
-          <button
-            type="button"
-            tabIndex="0"
-            className={cx(
-              styles['digitransit-dialog-modal-button'],
-              styles.secondary,
-            )}
-            style={{
-              '--color': `${color}`,
-              '--hover-color': `${hoverColor}`,
-            }}
-            onClick={() => secondaryButtonOnClick()}
-          >
-            {secondaryButtonText}
-          </button>
-        )}
+          {dialogContent && (
+            <div className={styles['digitransit-dialog-modal-content']}>
+              {dialogContent}
+            </div>
+          )}
+        </div>
+        <div className={styles['digitransit-dialog-modal-buttons']}>
+          {
+            <a
+              type="button"
+              role="button"
+              tabIndex="0"
+              className={cx(
+                styles['digitransit-dialog-modal-button'],
+                styles.primary,
+              )}
+              href={href}
+              onClick={e => {
+                e.stopPropagation();
+                primaryButtonOnClick(e);
+              }}
+            >
+              {primaryButtonText}
+            </a>
+          }
+          {secondaryButtonText && secondaryButtonOnClick && (
+            <button
+              type="button"
+              tabIndex="0"
+              className={cx(
+                styles['digitransit-dialog-modal-button'],
+                styles.secondary,
+              )}
+              onClick={() => secondaryButtonOnClick()}
+            >
+              {secondaryButtonText}
+            </button>
+          )}
+        </div>
       </div>
     </Modal>
   );
@@ -121,6 +122,9 @@ DialogModal.propTypes = {
   href: PropTypes.string,
   color: PropTypes.string,
   hoverColor: PropTypes.string,
+  fontWeights: PropTypes.shape({
+    medium: PropTypes.number,
+  }),
 };
 
 DialogModal.defaultProps = {
@@ -131,6 +135,9 @@ DialogModal.defaultProps = {
   href: undefined,
   color: '#007ac9',
   hoverColor: '#0062a1',
+  fontWeights: {
+    medium: 500,
+  },
 };
 
 DialogModal.contextTypes = {

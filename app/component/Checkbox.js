@@ -6,9 +6,11 @@ import { intlShape } from 'react-intl';
 import Message from './Message';
 
 import { isKeyboardSelectionEvent } from '../util/browser';
+import Icon from './Icon';
 
 const Checkbox = (
   {
+    large,
     checked,
     disabled,
     onChange,
@@ -22,10 +24,10 @@ const Checkbox = (
 ) => {
   const id = uniqueId('input-');
   return (
-    <div className="option-checkbox-container" title={title}>
+    <div className={cx('option-checkbox-container', { large })} title={title}>
       <div
         aria-checked={checked}
-        className="option-checkbox"
+        className={cx('option-checkbox', { large })}
         onKeyPress={e =>
           !disabled &&
           isKeyboardSelectionEvent(e) &&
@@ -35,6 +37,15 @@ const Checkbox = (
         tabIndex={disabled ? -1 : 0}
       >
         <label className={cx({ checked, disabled })} htmlFor={id}>
+          {checked && (
+            <Icon
+              className="checkmark"
+              img="icon-icon_check-digitransit"
+              viewBox="0 0 15 11"
+              width={1.875}
+              height={1.75}
+            />
+          )}
           <input
             aria-label={
               labelId
@@ -69,6 +80,7 @@ Checkbox.propTypes = {
   showLabel: PropTypes.bool,
   title: PropTypes.string,
   name: PropTypes.string,
+  large: PropTypes.bool,
 };
 
 Checkbox.defaultProps = {
@@ -78,6 +90,7 @@ Checkbox.defaultProps = {
   labelId: undefined,
   showLabel: true,
   title: undefined,
+  large: false,
 };
 
 Checkbox.contextTypes = {
