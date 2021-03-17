@@ -61,7 +61,7 @@ describe('<MapLayersDialogContent />', () => {
       },
     );
     wrapper
-      .find('.option-checkbox.layer input')
+      .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -102,7 +102,7 @@ describe('<MapLayersDialogContent />', () => {
     );
 
     wrapper
-      .find('.option-checkbox.layer input')
+      .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -143,7 +143,7 @@ describe('<MapLayersDialogContent />', () => {
     );
 
     wrapper
-      .find('.option-checkbox.layer input')
+      .find('.option-checkbox.large input')
       .at(1)
       .simulate('change', { target: { checked: true } });
 
@@ -184,7 +184,7 @@ describe('<MapLayersDialogContent />', () => {
     );
 
     wrapper
-      .find('.option-checkbox.layer input')
+      .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -271,7 +271,7 @@ describe('<MapLayersDialogContent />', () => {
     );
 
     wrapper
-      .find('.option-checkbox.layer input')
+      .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -313,7 +313,7 @@ describe('<MapLayersDialogContent />', () => {
     );
 
     wrapper
-      .find('.option-checkbox.layer input')
+      .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -356,7 +356,7 @@ describe('<MapLayersDialogContent />', () => {
     );
 
     wrapper
-      .find('.option-checkbox.layer input')
+      .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -394,7 +394,7 @@ describe('<MapLayersDialogContent />', () => {
     );
 
     wrapper
-      .find('.option-checkbox.layer input')
+      .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -467,7 +467,7 @@ describe('<MapLayersDialogContent />', () => {
         childContextTypes: { ...mockChildContextTypes },
       },
     );
-    const checkboxes = wrapper.find('.option-checkbox.layer input');
+    const checkboxes = wrapper.find('.option-checkbox.large input');
     expect(checkboxes.length).to.equal(2);
 
     checkboxes.at(1).simulate('change', { target: { checked: true } });
