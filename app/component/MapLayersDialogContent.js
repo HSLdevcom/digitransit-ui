@@ -164,7 +164,7 @@ class MapLayersDialogContent extends React.Component {
         {this.context.config.showAllBusses && (
           <div className="checkbox-grouping">
             <Checkbox
-              layer
+              large
               checked={showAllBusses}
               defaultMessage="Moving vehicles"
               labelId="map-layer-vehicles"
@@ -179,7 +179,7 @@ class MapLayersDialogContent extends React.Component {
           {isTransportModeEnabled(transportModes.bus) && (
             <Fragment>
               <Checkbox
-                layer
+                large
                 checked={stop.bus}
                 defaultMessage="Bus stop"
                 labelId="map-layer-stop-bus"
@@ -189,7 +189,7 @@ class MapLayersDialogContent extends React.Component {
                 }}
               />
               <Checkbox
-                layer
+                large
                 checked={terminal.bus}
                 defaultMessage="Bus terminal"
                 labelId="map-layer-terminal-bus"
@@ -202,7 +202,7 @@ class MapLayersDialogContent extends React.Component {
           )}
           {isTransportModeEnabled(transportModes.tram) && (
             <Checkbox
-              layer
+              large
               checked={stop.tram}
               defaultMessage="Tram stop"
               labelId="map-layer-stop-tram"
@@ -214,7 +214,7 @@ class MapLayersDialogContent extends React.Component {
           )}
           {isTransportModeEnabled(transportModes.rail) && (
             <Checkbox
-              layer
+              large
               checked={terminal.rail}
               defaultMessage="Railway station"
               labelId="map-layer-terminal-rail"
@@ -226,7 +226,7 @@ class MapLayersDialogContent extends React.Component {
           )}
           {isTransportModeEnabled(transportModes.subway) && (
             <Checkbox
-              layer
+              large
               checked={terminal.subway}
               defaultMessage="Subway station"
               labelId="map-layer-terminal-subway"
@@ -241,7 +241,7 @@ class MapLayersDialogContent extends React.Component {
           )}
           {isTransportModeEnabled(transportModes.ferry) && (
             <Checkbox
-              layer
+              large
               checked={stop.ferry}
               defaultMessage="Ferry"
               labelId="map-layer-stop-ferry"
@@ -254,7 +254,7 @@ class MapLayersDialogContent extends React.Component {
           {this.context.config.cityBike &&
             this.context.config.cityBike.showCityBikes && (
               <Checkbox
-                layer
+                large
                 checked={citybike}
                 defaultMessage="Citybike station"
                 labelId="map-layer-citybike"
@@ -267,7 +267,7 @@ class MapLayersDialogContent extends React.Component {
           {this.context.config.parkAndRide &&
             this.context.config.parkAndRide.showParkAndRide && (
               <Checkbox
-                layer
+                large
                 checked={parkAndRide}
                 defaultMessage="Park &amp; ride"
                 labelId="map-layer-park-and-ride"
@@ -282,7 +282,7 @@ class MapLayersDialogContent extends React.Component {
           <div className="checkbox-grouping">
             {arr.map(gj => (
               <Checkbox
-                layer
+                large
                 checked={
                   (gj.isOffByDefault && geoJson[gj.url] === true) ||
                   (!gj.isOffByDefault && geoJson[gj.url] !== false)

@@ -10,7 +10,7 @@ import Icon from './Icon';
 
 const Checkbox = (
   {
-    layer,
+    large,
     checked,
     disabled,
     onChange,
@@ -24,10 +24,10 @@ const Checkbox = (
 ) => {
   const id = uniqueId('input-');
   return (
-    <div className={cx('option-checkbox-container', { layer })} title={title}>
+    <div className={cx('option-checkbox-container', { large })} title={title}>
       <div
         aria-checked={checked}
-        className={cx('option-checkbox', { layer })}
+        className={cx('option-checkbox', { large })}
         onKeyPress={e =>
           !disabled &&
           isKeyboardSelectionEvent(e) &&
@@ -80,7 +80,7 @@ Checkbox.propTypes = {
   showLabel: PropTypes.bool,
   title: PropTypes.string,
   name: PropTypes.string,
-  layer: PropTypes.bool,
+  large: PropTypes.bool,
 };
 
 Checkbox.defaultProps = {
@@ -90,7 +90,7 @@ Checkbox.defaultProps = {
   labelId: undefined,
   showLabel: true,
   title: undefined,
-  layer: false,
+  large: false,
 };
 
 Checkbox.contextTypes = {

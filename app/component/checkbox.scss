@@ -1,6 +1,6 @@
 .option-checkbox-container {
   display: flex;
-  &.layer {
+  &.large {
     max-height: 55px;
     > span {
       font-weight: 400;
@@ -11,8 +11,7 @@
   .option-checkbox {
     position: relative;
     margin-right: 2em;
-   &.layer {
-
+   &.large {
      margin-right: 1em;
      margin-bottom: 1em;
      margin-top: 1em;
