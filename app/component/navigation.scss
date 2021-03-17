@@ -58,7 +58,7 @@ $content-background-color: $background-color;
   justify-content: space-between;
   background: $primary-color;
   text-align: center;
-  overflow: visible; // Show drawer menu
+  overflow: hidden; // Show drawer menu
   z-index: 1008;
 
   // Fixed navbar height for now, as dynamic height leads to Safari issues

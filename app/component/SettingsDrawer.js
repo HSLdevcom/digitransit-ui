@@ -2,27 +2,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
-import CustomizeSearch from './CustomizeSearchNew';
 
-export const SettingsDrawer = ({ open, onToggleClick, mobile }) => {
+export const SettingsDrawer = ({ children, open, className }) => {
   if (open) {
-    return (
-      <div className={`offcanvas${mobile ? '-mobile' : ''}`}>
-        <CustomizeSearch onToggleClick={onToggleClick} mobile={mobile} />
-      </div>
-    );
+    return <div className={className}>{children}</div>;
   }
   return null;
 };
 
 SettingsDrawer.propTypes = {
   open: PropTypes.bool.isRequired,
-  onToggleClick: PropTypes.func.isRequired,
-  mobile: PropTypes.bool,
-};
-
-SettingsDrawer.defaultProps = {
-  mobile: false,
+  className: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 SettingsDrawer.contextTypes = {
