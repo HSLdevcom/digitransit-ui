@@ -12,6 +12,7 @@ const DepartureRow = (
   const timeDiffInMinutes = Math.floor(
     (departureTime - props.currentTime) / 60,
   );
+  const headsign = departure.headsign || departure.trip.tripHeadsign;
   let shownTime;
   if (timeDiffInMinutes <= 0) {
     shownTime = <FormattedMessage id="arriving-soon" defaultMessage="Now" />;
@@ -36,7 +37,7 @@ const DepartureRow = (
           {departure.trip.route.shortName}
         </div>
       </div>
-      <div className="route-headsign">{departure.headsign}</div>
+      <div className="route-headsign">{headsign}</div>
       {shownTime && (
         <div
           className={cx('route-arrival', {

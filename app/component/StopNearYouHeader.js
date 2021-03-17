@@ -35,7 +35,7 @@ const StopNearYouHeader = (
               <FormattedMessage id="station" />
             </span>
           ) : (
-            <StopCode code={stop.code} />
+            <StopCode code={stop.code || stop.name} />
           )}
           <PlatformNumber number={stop.platformCode} short />
           {config.stopCard.header.showZone &&
