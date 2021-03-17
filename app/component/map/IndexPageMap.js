@@ -4,9 +4,9 @@ import cx from 'classnames';
 import { connectToStores } from 'fluxible-addons-react';
 import { matchShape } from 'found';
 import isEqual from 'lodash/isEqual';
+import { intlShape } from 'react-intl';
 import MapWithTracking from './MapWithTracking';
 import withBreakpoint from '../../util/withBreakpoint';
-import SelectMapLayersDialog from '../SelectMapLayersDialog';
 import OriginStore from '../../store/OriginStore';
 import DestinationStore from '../../store/DestinationStore';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
@@ -16,10 +16,27 @@ import storeOrigin from '../../action/originActions';
 import storeDestination from '../../action/destinationActions';
 // eslint-disable-next-line import/no-named-as-default
 import SettingsDrawer from '../SettingsDrawer';
+import BubbleDialog from '../BubbleDialog';
+import MapLayersDialogContent from '../MapLayersDialogContent';
 
-const renderMapLayerSelector = setOpen => (
-  <SelectMapLayersDialog setOpen={setOpen} />
-);
+const renderMapLayerSelector = (isOpen, setOpen, config, lang) => {
+  const tooltip =
+    config.mapLayers &&
+    config.mapLayers.tooltip &&
+    config.mapLayers.tooltip[lang];
+  return (
+    <BubbleDialog
+      contentClassName="select-map-layers-dialog-content"
+      header="select-map-layers-header"
+      icon="map-layers"
+      id="mapLayerSelectorV2"
+      isFullscreenOnMobile
+      isOpen={isOpen}
+      tooltip={tooltip}
+      setOpen={setOpen}
+    />
+  );
+};
 
 const locationMarkerModules = {
   LocationMarker: () =>
@@ -29,11 +46,10 @@ let previousFocusPoint;
 let previousMapTracking;
 
 function IndexPageMap(
-  { match, breakpoint, origin, destination },
-  { config, executeAction },
+  { match, breakpoint, origin, destination, lang },
+  { config, executeAction, intl },
 ) {
   const [isSettingsOpen, setSettingsOpen] = useState(false);
-
   const originFromURI = parseLocation(match.params.from);
   const destinationFromURI = parseLocation(match.params.to);
   let focusPoint;
@@ -126,7 +142,12 @@ function IndexPageMap(
           renderCustomButtons={() => (
             <>
               {config.map.showLayerSelector &&
-                renderMapLayerSelector(setSettingsOpen)}
+                renderMapLayerSelector(
+                  isSettingsOpen,
+                  setSettingsOpen,
+                  config,
+                  lang,
+                )}
             </>
           )}
           showAllVehicles
@@ -138,7 +159,19 @@ function IndexPageMap(
           open={isSettingsOpen}
           settingsType="MapLayer"
           setOpen={setSettingsOpen}
-        />
+          className="offcanvas-layers"
+        >
+          <MapLayersDialogContent
+            open={isSettingsOpen}
+            setOpen={setSettingsOpen}
+          />
+          <button
+            className="desktop-button"
+            onClick={() => setSettingsOpen(false)}
+          >
+            {intl.formatMessage({ id: 'close', defaultMessage: 'Close' })}
+          </button>
+        </SettingsDrawer>
       </>
     );
   } else {
@@ -154,7 +187,12 @@ function IndexPageMap(
             renderCustomButtons={() => (
               <>
                 {config.map.showLayerSelector &&
-                  renderMapLayerSelector(setSettingsOpen)}
+                  renderMapLayerSelector(
+                    isSettingsOpen,
+                    setSettingsOpen,
+                    config,
+                    lang,
+                  )}
               </>
             )}
             showAllVehicles
@@ -182,20 +220,23 @@ IndexPageMap.defaultProps = {
 IndexPageMap.contextTypes = {
   config: PropTypes.object.isRequired,
   executeAction: PropTypes.func.isRequired,
+  intl: intlShape.isRequired,
 };
 
 const IndexPageMapWithBreakpoint = withBreakpoint(IndexPageMap);
 
 const IndexPageMapWithStores = connectToStores(
   IndexPageMapWithBreakpoint,
-  [OriginStore, DestinationStore],
+  [OriginStore, DestinationStore, 'PreferencesStore'],
   ({ getStore }) => {
     const origin = getStore(OriginStore).getOrigin();
     const destination = getStore(DestinationStore).getDestination();
+    const lang = getStore('PreferencesStore').getLanguage();
 
     return {
       origin,
       destination,
+      lang,
     };
   },
 );

@@ -68,7 +68,7 @@ import CallAgencyLeg from './CallAgencyLeg';
 import CallAgencyWarning from './CallAgencyWarning';
 import Timetable from './Timetable';
 import Error404 from './404';
-import SelectMapLayersDialog from './SelectMapLayersDialog';
+import MapLayersDialogContent from './MapLayersDialogContent';
 import MainMenuContainer from './MainMenuContainer';
 import OriginDestinationBar from './OriginDestinationBar';
 import { Component as IndexPage } from './IndexPage';
@@ -146,7 +146,7 @@ const components = {
 };
 
 const fullscreenComponents = {
-  SelectMapLayersDialog,
+  MapLayersDialogContent,
   MainMenuContainer,
   OriginDestinationBar,
   IndexPage,

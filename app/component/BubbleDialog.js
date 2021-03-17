@@ -54,7 +54,7 @@ class BubbleDialog extends React.Component {
 
   openDialog = (applyFocus = false) => {
     this.closeTooltip(applyFocus);
-    if (isFunction(this.props.setOpen)) {
+    if (this.props.setOpen) {
       this.props.setOpen(true);
     }
     this.setDialogState(true, () => {
@@ -67,7 +67,7 @@ class BubbleDialog extends React.Component {
   };
 
   closeDialog = (applyFocus = false) => {
-    if (isFunction(this.props.setOpen)) {
+    if (this.props.setOpen) {
       this.props.setOpen(false);
     }
     this.setDialogState(false, () => {

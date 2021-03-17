@@ -11,6 +11,7 @@ import GeoJsonStore from '../store/GeoJsonStore';
 import MapLayerStore from '../store/MapLayerStore';
 import { updateMapLayers } from '../action/MapLayerActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import withGeojsonObjects from './map/withGeojsonObjects';
 
 const transportModeConfigShape = PropTypes.shape({
   availableForSelection: PropTypes.bool,
@@ -60,6 +61,7 @@ class MapLayersDialogContent extends React.Component {
     updateMapLayers: PropTypes.func,
     lang: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
+    geoJson: PropTypes.array,
   };
 
   sendLayerChangeAnalytic = (name, enable) => {
@@ -71,11 +73,11 @@ class MapLayersDialogContent extends React.Component {
     });
   };
 
-  handlePanelState(setOpen) {
-    if (setOpen === this.props.open) {
+  handlePanelState(open) {
+    if (open === this.props.open) {
       return;
     }
-    this.props.setOpen(setOpen);
+    this.props.setOpen(open);
   }
 
   updateSetting = newSetting => {
@@ -131,6 +133,12 @@ class MapLayersDialogContent extends React.Component {
       geoJson,
       showAllBusses,
     } = this.props.mapLayers;
+    let arr;
+    if (this.props.geoJson) {
+      arr = Object.entries(this.props.geoJson)?.map(([k, v]) => {
+        return { url: k, ...v };
+      });
+    }
     const isTransportModeEnabled = transportMode =>
       transportMode && transportMode.availableForSelection;
     const transportModes = this.context.config.transportModes || {};
@@ -270,28 +278,27 @@ class MapLayersDialogContent extends React.Component {
               />
             )}
         </div>
-        {this.context.config.geoJson &&
-          Array.isArray(this.context.config.geoJson.layers) && (
-            <div className="checkbox-grouping">
-              {this.context.config.geoJson.layers.map(gj => (
-                <Checkbox
-                  layer
-                  checked={
-                    (gj.isOffByDefault && geoJson[gj.url] === true) ||
-                    (!gj.isOffByDefault && geoJson[gj.url] !== false)
-                  }
-                  defaultMessage={gj.name[this.props.lang]}
-                  key={gj.url}
-                  onChange={e => {
-                    const newSetting = {};
-                    newSetting[gj.url] = e.target.checked;
-                    this.updateGeoJsonSetting(newSetting);
-                    this.sendLayerChangeAnalytic('Zones', e.target.checked);
-                  }}
-                />
-              ))}
-            </div>
-          )}
+        {arr && Array.isArray(arr) && (
+          <div className="checkbox-grouping">
+            {arr.map(gj => (
+              <Checkbox
+                layer
+                checked={
+                  (gj.isOffByDefault && geoJson[gj.url] === true) ||
+                  (!gj.isOffByDefault && geoJson[gj.url] !== false)
+                }
+                defaultMessage={gj.name[this.props.lang]}
+                key={gj.url}
+                onChange={e => {
+                  const newSetting = {};
+                  newSetting[gj.url] = e.target.checked;
+                  this.updateGeoJsonSetting(newSetting);
+                  this.sendLayerChangeAnalytic('Zones', e.target.checked);
+                }}
+              />
+            ))}
+          </div>
+        )}
       </Fragment>
     );
   }
@@ -315,16 +322,19 @@ export const getGeoJsonLayersOrDefault = (
   config,
   store,
   defaultValue = undefined,
-) =>
-  (config &&
-    config.geoJson &&
-    Array.isArray(config.geoJson.layers) &&
-    config.geoJson.layers) ||
-  (store && Array.isArray(store.layers) && store.layers) ||
-  defaultValue;
+) => {
+  return (
+    (config &&
+      config.geoJson &&
+      Array.isArray(config.geoJson.layers) &&
+      config.geoJson.layers) ||
+    (store && Array.isArray(store.layers) && store.layers) ||
+    defaultValue
+  );
+};
 
 const connectedComponent = connectToStores(
-  MapLayersDialogContent,
+  withGeojsonObjects(MapLayersDialogContent),
   [GeoJsonStore, MapLayerStore, 'PreferencesStore'],
   ({ config, executeAction, getStore }) => ({
     config: {

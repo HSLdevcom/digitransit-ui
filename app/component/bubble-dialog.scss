@@ -39,19 +39,6 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
         margin: 0;
         padding: 0;
       }
-      /*
-
-      &.foo {
-        height: 803px;
-        width: 1;
-        width: -24px;
-        overflow-y: auto;
-        padding: 1em;
-        bottom: -292px;
-        left: -178px;
-        border-radius: 0;
-      }
-      */
 
       &.bubble-dialog--large {
         max-height: calc(100vh - 150px);

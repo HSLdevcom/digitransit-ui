@@ -419,6 +419,22 @@ describe('<MapLayersDialogContent />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
+      geoJson: {
+        somejson: {
+          name: {
+            fi: 'testi',
+            sv: 'test',
+            en: 'test',
+          },
+        },
+        morejson: {
+          name: {
+            fi: 'nimi',
+            sv: 'namn',
+            en: 'name',
+          },
+        },
+      },
     };
     const context = {
       config: {
@@ -451,7 +467,6 @@ describe('<MapLayersDialogContent />', () => {
         childContextTypes: { ...mockChildContextTypes },
       },
     );
-
     const checkboxes = wrapper.find('.option-checkbox.layer input');
     expect(checkboxes.length).to.equal(2);
 
