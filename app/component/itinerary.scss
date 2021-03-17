@@ -212,6 +212,14 @@ $itinerary-tab-switch-height: 48px;
   padding-bottom: 22px;
 }
 
+.summary-divider {
+  height: 1px;
+  width: 400px;
+  margin-left: 60px;
+  border-bottom: 1px solid #dddddd;
+  box-sizing: border-box;
+}
+
 .itinerary-summary {
   position: relative;
   margin-left: 65px;
@@ -944,6 +952,13 @@ $itinerary-tab-switch-height: 48px;
         font-weight: normal;
         font-size: 0.813rem;
       }
+      .platform-number-wrapper {
+        padding: 3px 10px 3px 10px;
+        border-radius: 5px;
+        margin: 0px 3px 0px 3px;
+        background-color: #f4f4f5;
+        font-weight: 500;
+      }
       .stop-code-container {
         padding-top: 5px;
         .itinerary-stop-code {
@@ -1044,6 +1059,7 @@ $itinerary-tab-switch-height: 48px;
       @extend .itinerary-leg-text-gray;
       margin-top: 1px;
       overflow: hidden;
+      color: #333;
       font-size: 0.813rem;
       font-weight: normal;
       display: flex;

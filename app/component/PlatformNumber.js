@@ -12,11 +12,9 @@ function PlatformNumber({ number, short, isRailOrSubway }) {
       <span className="platform-short">
         <FormattedMessage
           id={isRailOrSubway ? 'track-short' : 'platform-short'}
-          values={{ platformCode: number }}
-          defaultMessage={
-            isRailOrSubway ? 'Track {platformCode}' : 'Plat. {platformCode}'
-          }
+          defaultMessage={isRailOrSubway ? 'Track ' : 'Plat. '}
         />
+        <span className="platform-number-wrapper">{number}</span>
       </span>
     );
   }
@@ -25,11 +23,9 @@ function PlatformNumber({ number, short, isRailOrSubway }) {
     <span className="platform-number">
       <FormattedMessage
         id={isRailOrSubway ? 'track-num' : 'platform-num'}
-        values={{ platformCode: number }}
-        defaultMessage={
-          isRailOrSubway ? 'Track {platformCode}' : 'Platform {platformCode}'
-        }
+        defaultMessage={isRailOrSubway ? 'Track ' : 'Platform '}
       />
+      <span className="platform-number-wrapper">{number}</span>
     </span>
   );
 }
