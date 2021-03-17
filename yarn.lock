@@ -1425,48 +1425,6 @@
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-with-breakpoint/-/digitransit-component-with-breakpoint-0.0.5.tgz#c5559ced29c994d15616649506a9ad53e09feb3e"
   integrity sha512-R62Oo6XEGiCV0ZE1MnG9JwU0V0RuD/lPsr8lq1rPtLTXzCpPz0+glrMjqho+Wdohq9WpfUtAWCGPkUCxiQA4Hw==
 
-"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-execute-search-immidiate/-/digitransit-search-util-execute-search-immidiate-0.3.1.tgz#7dc46bac7c85b0ca28da135b02e4b2f601b169bb"
-  integrity sha512-XDDfKsDtXD8ZZJshIxF2DoU55YpXZJtSA6pJw+50lESPGcMJodssqFZpy4RCQ/+jOO6KCYzxg/QMyE72Y6J8fg==
-  dependencies:
-    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input" "0.0.3"
-    "@digitransit-search-util/digitransit-search-util-get-geocoding-results" "0.0.4"
-    "@digitransit-search-util/digitransit-search-util-get-json" "0.0.3"
-    "@digitransit-search-util/digitransit-search-util-helpers" "^0.1.4"
-    "@digitransit-search-util/digitransit-search-util-uniq-by-label" "0.1.1"
-    lodash "4.17.21"
-
-"@digitransit-search-util/digitransit-search-util-filter-matching-to-input@0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-filter-matching-to-input/-/digitransit-search-util-filter-matching-to-input-0.0.3.tgz#8fa60f9685e0ee2f3e1450621dd24f2949bc1f69"
-  integrity sha512-RpzQMJ0bBvIbjI92W1ms0Vo64M6ZrJdXI8MybzOb2pjz8TsECwztWpA4/wzLYugrNY33ja5gdNUA//UOsOrGvw==
-  dependencies:
-    lodash "4.17.21"
-
-"@digitransit-search-util/digitransit-search-util-get-label@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-get-label/-/digitransit-search-util-get-label-0.1.1.tgz#88c1d7ecf25359d387ecacc2b0d10c1fe7ea7f90"
-  integrity sha512-BLhZURN8jQb8V+u/q7OjrEbVHwpGJJiz5zWEWLqFBSZU1zeRZfCVWdb23n1FMUCKceT6GPRXOPj8lnoj0CjBRg==
-  dependencies:
-    "@digitransit-search-util/digitransit-search-util-uniq-by-label" "0.1.1"
-
-"@digitransit-search-util/digitransit-search-util-helpers@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-helpers/-/digitransit-search-util-helpers-0.1.4.tgz#379c92264dfb1e5d4d569d9c50a59dd6e2c3e84d"
-  integrity sha512-K6zN0QX2W3UcgyjUk5kx3MfI+Nmf1lRHlMpzagpKhqzAalLPb4m0gNaQIuH2R1mkSDw62n2OzKE+Uk7+CMAWZA==
-  dependencies:
-    "@digitransit-search-util/digitransit-search-util-is-duplicate" "0.0.7"
-    lodash "4.17.21"
-
-"@digitransit-search-util/digitransit-search-util-uniq-by-label@0.1.1", "@digitransit-search-util/digitransit-search-util-uniq-by-label@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-uniq-by-label/-/digitransit-search-util-uniq-by-label-0.1.1.tgz#5909724582861df202fd44d1052ba59575e62745"
-  integrity sha512-XNkZwYtvslUgDPYDg7d+9NLKGPXjyCTizsOrLRmCmpPjJ05AcrvrDJTtFOIWFG34UIjtYnd9uIpIacpX1cLHMA==
-  dependencies:
-    lodash "4.17.21"
-    lodash-es "4.17.21"
-
 "@digitransit-util/digitransit-util-day-range-allowed-diff@1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@digitransit-util/digitransit-util-day-range-allowed-diff/-/digitransit-util-day-range-allowed-diff-1.0.3.tgz#4a11624486fda72126d8776192fc0dfea600b97d"
@@ -6369,10 +6327,10 @@ dateformat@^3.0.0:
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-datetimepicker/-/digitransit-component-datetimepicker-0.4.1.tgz#c0485399d9781be1e3aebb3f5eee2e023ba21bde"
   integrity sha512-beat4f235IbzeESZpoc0iIL+nn16utwVSxbOtBCZVo4RGIItEd1zAmzi8i1BUgpBt5uK/gsFYeRe4axjCyeFyA==
 
-"datetimepicker-B@npm:@digitransit-component/digitransit-component-datetimepicker@0.5.4":
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-datetimepicker/-/digitransit-component-datetimepicker-0.5.4.tgz#aaedf8a21258a2752ad7b48e70211e1182f061bf"
-  integrity sha512-tkE+O7pzwVXSdm6adyI/svf3162JaZinTksoYx/+WbHejL4nBS+4jJHWhqoR0LfHBQoYbcRQYlUcE95An98Zig==
+"datetimepicker-B@npm:@digitransit-component/digitransit-component-datetimepicker@0.5.5":
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-datetimepicker/-/digitransit-component-datetimepicker-0.5.5.tgz#cdc7bdbb8b8476b8b6fa8f831c71f662aa907e4d"
+  integrity sha512-jR4z3hRfG2VLkvZVix945zocp7Yl8uhMcHWRucBK+KzrJ9BPRa4ZkJd1DwVwXO+aY2v7o5TNKDhh50WAS12uBA==
 
 de-indent@^1.0.2:
   version "1.0.2"
@@ -10891,6 +10849,11 @@ is-unc-path@^1.0.0:
   dependencies:
     unc-path-regex "^0.1.2"
 
+is-unicode-supported@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/is-unicode-supported/-/is-unicode-supported-0.1.0.tgz#3f26c76a809593b52bfa2ecb5710ed2779b522a7"
+  integrity sha512-knxG2q4UC3u8stRGyAVJCOdxFmv5DZiRcdlIaAQXAbSfJya+OhopNotLQrstBhququ4ZpuKbDc/8S6mgXgPFPw==
+
 is-url@^1.2.2:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/is-url/-/is-url-1.2.4.tgz#04a4df46d28c4cff3d73d01ff06abeb318a1aa52"
@@ -11746,7 +11709,7 @@ locate-path@^6.0.0:
   dependencies:
     p-locate "^5.0.0"
 
-lodash-es@4.17.21, lodash-es@^4.17.14:
+lodash-es@4.17.21:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
   integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
@@ -12005,11 +11968,6 @@ lodash.without@^4.4.0:
   resolved "https://registry.yarnpkg.com/lodash.without/-/lodash.without-4.4.0.tgz#3cd4574a00b67bae373a94b748772640507b7aac"
   integrity sha1-PNRXSgC2e643OpS3SHcmQFB7eqw=
 
-lodash@4.17.14:
-  version "4.17.14"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.14.tgz#9ce487ae66c96254fe20b599f21b6816028078ba"
-  integrity sha512-mmKYbW3GLuJeX+iGP+Y7Gp1AiGHGbXHCOh/jZmrawMmsE7MS4znI3RL2FsjbqOyMayHInjOeykW7PEajUk1/xw==
-
 lodash@4.17.19:
   version "4.17.19"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
@@ -12025,12 +11983,20 @@ lodash@^3.2.0, lodash@^3.5.0:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
   integrity sha1-W/Rejkm6QYnhfUgnid/RW9FAt7Y=
 
-log-symbols@4.0.0, log-symbols@^4.0.0:
+log-symbols@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/log-symbols/-/log-symbols-4.0.0.tgz#69b3cc46d20f448eccdb75ea1fa733d9e821c920"
   integrity sha512-FN8JBzLx6CzeMrB0tg6pqlGU1wCrXW+ZXGH481kfsBqer0hToTIiHdjH4Mq8xJUbvATujKCvaREGWpGUionraA==
   dependencies:
     chalk "^4.0.0"
+
+log-symbols@^4.0.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/log-symbols/-/log-symbols-4.1.0.tgz#3fbdbb95b4683ac9fc785111e792e558d4abd503"
+  integrity sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==
+  dependencies:
+    chalk "^4.1.0"
+    is-unicode-supported "^0.1.0"
 
 log-update@^4.0.0:
   version "4.0.0"
