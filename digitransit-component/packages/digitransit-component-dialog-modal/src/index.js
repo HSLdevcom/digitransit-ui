@@ -56,7 +56,7 @@ const DialogModal = ({
         style={{
           '--color': `${color}`,
           '--hover-color': `${hoverColor}`,
-          '--font-weight-bold': fontWeights.bold,
+          '--font-weight-medium': fontWeights.medium,
         }}
       >
         <div className={styles['digitransit-dialog-modal-top']}>
@@ -123,7 +123,7 @@ DialogModal.propTypes = {
   color: PropTypes.string,
   hoverColor: PropTypes.string,
   fontWeights: PropTypes.shape({
-    bold: PropTypes.number,
+    medium: PropTypes.number,
   }),
 };
 
@@ -136,7 +136,7 @@ DialogModal.defaultProps = {
   color: '#007ac9',
   hoverColor: '#0062a1',
   fontWeights: {
-    bold: 500,
+    medium: 500,
   },
 };
 

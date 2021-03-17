@@ -220,7 +220,7 @@ class DTAutosuggest extends React.Component {
     refPoint: PropTypes.object,
     inputClassName: PropTypes.string,
     fontWeights: PropTypes.shape({
-      bold: PropTypes.number,
+      medium: PropTypes.number,
     }),
   };
 
@@ -244,7 +244,7 @@ class DTAutosuggest extends React.Component {
     inputClassName: '',
     translatedPlaceholder: undefined,
     fontWeights: {
-      bold: 500,
+      medium: 500,
     },
   };
 

@@ -167,7 +167,7 @@ class DTAutosuggestPanel extends React.Component {
     destinationMobileLabel: PropTypes.string,
     refPoint: PropTypes.object,
     fontWeights: PropTypes.shape({
-      bold: PropTypes.number,
+      medium: PropTypes.number,
     }),
   };
 
@@ -190,7 +190,7 @@ class DTAutosuggestPanel extends React.Component {
     originMobileLabel: null,
     destinationMobileLabel: null,
     fontWeights: {
-      bold: 500,
+      medium: 500,
     },
   };
 
@@ -399,7 +399,7 @@ class DTAutosuggestPanel extends React.Component {
         ])}
         style={{
           '--color': `${this.props.color}`,
-          '--font-weight-bold': fontWeights.bold,
+          '--font-weight-medium': fontWeights.medium,
         }}
       >
         {' '}

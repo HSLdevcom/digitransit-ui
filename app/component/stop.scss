@@ -23,7 +23,7 @@
 }
 
 .stop-page.header {
-  @include font-bold;
+  @include font-medium;
   @media print {
     padding-left: 0;
   }
@@ -646,7 +646,7 @@ hr.action-bar {
       }
       .printable-date-content {
         font-size: 12px;
-        font-weight: $font-weight-bold;
+        font-weight: $font-weight-medium;
       }
     }
   }

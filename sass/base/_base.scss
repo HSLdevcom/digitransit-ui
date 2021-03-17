@@ -111,7 +111,7 @@ h3,
 h4,
 .h4 {
   font-family: $font-family;
-  font-weight: $font-weight-bold;
+  font-weight: $font-weight-medium;
   font-size: $font-size-xsmall;
   text-transform: uppercase;
   line-height: $line-height-normal;
@@ -205,7 +205,7 @@ body select {
   margin-bottom: -20px;
 }
 .sub-header {
-  font-weight: bold;
+  font-weight: $font-weight-medium;
   font-size: 20px;
   text-transform: uppercase;
   padding: 10px 0;

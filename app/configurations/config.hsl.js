@@ -81,7 +81,7 @@ export default {
   },
 
   fontWeights: {
-    bold: 500,
+    medium: 500,
   },
 
   sprites: 'assets/svg-sprite.hsl.svg',

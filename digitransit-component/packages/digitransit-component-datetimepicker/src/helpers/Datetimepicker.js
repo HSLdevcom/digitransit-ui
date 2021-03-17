@@ -421,7 +421,10 @@ function Datetimepicker({
     <fieldset
       className={styles['dt-datetimepicker']}
       id={`${htmlId}-root`}
-      style={{ '--color': `${color}`, '--font-weight-bold': fontWeights.bold }}
+      style={{
+        '--color': `${color}`,
+        '--font-weight-medium': fontWeights.medium,
+      }}
     >
       <legend className={styles['sr-only']}>
         {i18next.t('accessible-title', translationSettings)}
@@ -500,7 +503,7 @@ Datetimepicker.propTypes = {
   color: PropTypes.string,
   onModalSubmit: PropTypes.func.isRequired,
   fontWeights: PropTypes.shape({
-    bold: PropTypes.number.isRequired,
+    medium: PropTypes.number.isRequired,
   }).isRequired,
 };
 

@@ -187,7 +187,7 @@ DatetimepickerStateContainer.propTypes = {
   color: PropTypes.string,
   timeZone: PropTypes.string,
   fontWeights: PropTypes.shape({
-    bold: PropTypes.number,
+    medium: PropTypes.number,
   }),
 };
 
@@ -200,7 +200,7 @@ DatetimepickerStateContainer.defaultProps = {
   color: '#007ac9',
   timeZone: 'Europe/Helsinki',
   fontWeights: {
-    bold: 500,
+    medium: 500,
   },
 };
 

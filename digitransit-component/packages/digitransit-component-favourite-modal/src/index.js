@@ -184,7 +184,7 @@ class FavouriteModal extends React.Component {
     /** Optional. */
     fontWeights: PropTypes.shape({
       /** Default value is 500. */
-      bold: PropTypes.number,
+      medium: PropTypes.number,
     }),
   };
 
@@ -196,7 +196,7 @@ class FavouriteModal extends React.Component {
     color: '#007ac9',
     hoverColor: '#0062a1',
     fontWeights: {
-      bold: 500,
+      medium: 500,
     },
   };
 

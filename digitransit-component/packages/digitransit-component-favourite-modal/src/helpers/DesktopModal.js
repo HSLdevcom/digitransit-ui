@@ -31,7 +31,7 @@ const DesktopModal = ({
       style={{
         '--color': `${color}`,
         '--hover-color': `${hoverColor}`,
-        '--font-weight-bold': fontWeights.bold,
+        '--font-weight-medium': fontWeights.medium,
       }}
     >
       <div className={styles['favourite-modal-desktop-top']}>
@@ -111,7 +111,7 @@ DesktopModal.propTypes = {
   cantSaveText: PropTypes.string.isRequired,
   requiredText: PropTypes.string.isRequired,
   fontWeights: PropTypes.shape({
-    bold: PropTypes.number.isRequired,
+    medium: PropTypes.number.isRequired,
   }).isRequired,
 };
 

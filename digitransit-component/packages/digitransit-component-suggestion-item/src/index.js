@@ -153,7 +153,7 @@ const SuggestionItem = pure(
             [styles.futureroute]: isFutureRoute,
           },
         )}
-        style={{ '--font-weight-bold': fontWeights.bold }}
+        style={{ '--font-weight-medium': fontWeights.medium }}
       >
         <span aria-label={suggestionType} className={styles['suggestion-icon']}>
           {icon}
@@ -313,7 +313,7 @@ SuggestionItem.propTypes = {
   isMobile: PropTypes.bool,
   color: PropTypes.string,
   fontWeights: PropTypes.shape({
-    bold: PropTypes.number,
+    medium: PropTypes.number,
   }),
 };
 
@@ -322,7 +322,7 @@ SuggestionItem.defaultProps = {
   isMobile: false,
   color: '#007ac9',
   fontWeights: {
-    bold: 500,
+    medium: 500,
   },
 };
 
