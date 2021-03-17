@@ -61,7 +61,7 @@ class MapLayersDialogContent extends React.Component {
     updateMapLayers: PropTypes.func,
     lang: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
-    geoJson: PropTypes.array,
+    geoJson: PropTypes.object,
   };
 
   sendLayerChangeAnalytic = (name, enable) => {
