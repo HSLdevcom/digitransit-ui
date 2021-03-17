@@ -115,6 +115,42 @@ export default class SwipeableTabs extends React.Component {
     }
   };
 
+  handleAccessibilityNavigation = e => {
+    // Prevents keyboard navigation out of visible swipe tabs
+
+    const elementArr = document.getElementsByClassName(
+      'react-swipe-container',
+    )[0].childNodes[0];
+
+    const tabElements = elementArr.childNodes;
+    const currentTabElement = tabElements[this.state.tabIndex].childNodes[0];
+    const keyboardfocusableElements = currentTabElement.querySelectorAll(
+      'a, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])',
+    );
+    if (!keyboardfocusableElements.length) {
+      return;
+    }
+
+    let nextIndex;
+    Object.values(keyboardfocusableElements).forEach((value, index) => {
+      if (e.target === value) {
+        nextIndex = index + 1;
+      }
+    });
+    const nextFocusable = keyboardfocusableElements[nextIndex];
+    if (!nextFocusable) {
+      e.preventDefault();
+      if (nextIndex === keyboardfocusableElements.length) {
+        const firstKeyboardfocusableElements = document.querySelectorAll(
+          'a, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])',
+        )[0];
+        firstKeyboardfocusableElements.focus();
+      } else {
+        keyboardfocusableElements[0].focus();
+      }
+    }
+  };
+
   render() {
     const { tabs } = this.props;
     const tabBalls = this.tabBalls(tabs.length);
@@ -169,22 +205,28 @@ export default class SwipeableTabs extends React.Component {
             </div>
           </div>
         </div>
-        <ReactSwipe
-          swipeOptions={{
-            startSlide: this.props.tabIndex,
-            continuous: false,
-            transitionEnd: e => {
-              this.setState({ tabIndex: e });
-              this.props.onSwipe(e);
-            },
-          }}
-          childCount={tabs.length}
-          ref={el => {
-            reactSwipeEl = el;
-          }}
+        <span
+          aria-hidden="true"
+          onKeyDown={this.handleAccessibilityNavigation}
+          role="tablist"
         >
-          {tabs}
-        </ReactSwipe>
+          <ReactSwipe
+            swipeOptions={{
+              startSlide: this.props.tabIndex,
+              continuous: false,
+              transitionEnd: e => {
+                this.setState({ tabIndex: e });
+                this.props.onSwipe(e);
+              },
+            }}
+            childCount={tabs.length}
+            ref={el => {
+              reactSwipeEl = el;
+            }}
+          >
+            {tabs}
+          </ReactSwipe>
+        </span>
       </div>
     );
   }

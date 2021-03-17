@@ -2226,7 +2226,7 @@ class SummaryPage extends React.Component {
           });
 
           content = (
-            <div className="itinerary-tab-container">
+            <div>
               {screenReaderAlert}
               <div className="desktop-title" key="header">
                 <div className="title-container h2">
