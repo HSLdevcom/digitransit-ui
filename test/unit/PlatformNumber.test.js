@@ -43,6 +43,8 @@ describe('<PlatformNumber />', () => {
       isRailOrSubway: false,
     };
     const wrapper = shallowWithIntl(<PlatformNumber {...props} />);
-    expect(wrapper.find('span').props().className).to.equal('platform-short');
+    expect(wrapper.find('FormattedMessage').props().id).to.equal(
+      'platform-short',
+    );
   });
 });
