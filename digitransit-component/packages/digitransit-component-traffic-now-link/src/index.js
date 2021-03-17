@@ -37,10 +37,18 @@ class TrafficNowLink extends React.Component {
     lang: PropTypes.string,
     /* href. if provided show <a> link  */
     href: PropTypes.string,
+    /** Optional. */
+    fontWeights: PropTypes.shape({
+      /** Default value is 500. */
+      medium: PropTypes.number,
+    }),
   };
 
   static defaultProps = {
     lang: 'fi',
+    fontWeights: {
+      medium: 500,
+    },
   };
 
   constructor(props) {
@@ -63,14 +71,16 @@ class TrafficNowLink extends React.Component {
   };
 
   render() {
-    i18next.changeLanguage(this.props.lang);
+    const { lang, fontWeights } = this.props;
+    i18next.changeLanguage(lang);
     return (
       <div
         className={styles.banner}
         tabIndex="0"
         role="button"
-        onClick={e => this.props.handleClick(e, this.props.lang)}
-        onKeyDown={e => this.handleKeyDown(e, this.props.lang)}
+        onClick={e => this.props.handleClick(e, lang)}
+        onKeyDown={e => this.handleKeyDown(e, lang)}
+        style={{ '--font-weight-medium': fontWeights.medium }}
       >
         <div className={styles.caution}>
           {' '}

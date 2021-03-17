@@ -318,6 +318,7 @@ class FavouritesContainer extends React.Component {
       this.props.favouriteStatus === FavouriteStore.STATUS_FETCHING_OR_UPDATING;
     const { allowLogin, isLoggedIn } = this.props;
     const targets = ['Locations', 'CurrentPosition'];
+    const { fontWeights } = this.context.config;
     if (
       this.context.config.cityBike &&
       this.context.config.cityBike.showCityBikes
@@ -352,6 +353,7 @@ class FavouritesContainer extends React.Component {
           lang={this.props.lang}
           isLoading={isLoading}
           color={this.props.color}
+          fontWeights={fontWeights}
         />
         <FavouriteModal
           appElement="#app"
@@ -362,6 +364,7 @@ class FavouritesContainer extends React.Component {
           favourite={this.state.favourite}
           lang={this.props.lang}
           isMobile={this.props.isMobile}
+          fontWeights={fontWeights}
           autosuggestComponent={
             <AutoSuggestWithSearchContext
               appElement="#app"
@@ -378,6 +381,7 @@ class FavouritesContainer extends React.Component {
               isMobile={this.props.isMobile}
               color={this.props.color}
               hoverColor={this.props.hoverColor}
+              fontWeights={fontWeights}
             />
           }
           color={this.props.color}
@@ -397,6 +401,7 @@ class FavouritesContainer extends React.Component {
           isLoading={isLoading}
           color={this.props.color}
           hoverColor={this.props.hoverColor}
+          fontWeights={fontWeights}
         />
         {this.renderLoginModal()}
       </React.Fragment>

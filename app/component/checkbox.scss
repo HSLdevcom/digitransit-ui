@@ -51,7 +51,7 @@
           color: $primary-color;
           font-family: $font-family;
           font-size: 1.25em;
-          font-weight: 700;
+          font-weight: $font-weight-medium;
           line-height: 1;
           margin-left: 0.1em;
           margin-top: 0.2em;
@@ -82,7 +82,7 @@
   }
 
   > span {
-    font-weight: 400;
+    font-weight: $font-weight-book;
     user-select: none;
   }
   .checkmark{

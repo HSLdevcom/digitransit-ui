@@ -33,6 +33,7 @@ function MobilePickerModal({
   dateSelectItemCount,
   getDateDisplay,
   validateTime,
+  fontWeights,
 }) {
   moment.tz.setDefault(timeZone);
   const translationSettings = { lng: lang };
@@ -74,7 +75,12 @@ function MobilePickerModal({
       className={styles['mobile-modal-content']}
       overlayClassName={styles['mobile-modal-overlay']}
     >
-      <div style={{ '--color': `${color}` }}>
+      <div
+        style={{
+          '--color': `${color}`,
+          '--font-weight-medium': fontWeights.medium,
+        }}
+      >
         <div className={styles['top-row']}>
           <h3 className={styles['modal-title']}>
             {i18next.t('choose-time', translationSettings)}
@@ -208,6 +214,9 @@ MobilePickerModal.propTypes = {
   dateSelectItemCount: PropTypes.number.isRequired,
   getDateDisplay: PropTypes.func.isRequired,
   validateTime: PropTypes.func.isRequired,
+  fontWeights: PropTypes.shape({
+    medium: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 MobilePickerModal.defaultProps = {
