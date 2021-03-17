@@ -32,7 +32,7 @@
 
 .stop-popup-choose-header {
   font-size: 13px;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
@@ -81,7 +81,7 @@
 
   .choose-row-header {
     font-size: 13px;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.54;
@@ -112,7 +112,7 @@
     border-radius: 3px;
     border: solid 1px #dddddd;
     font-size: 11px;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;

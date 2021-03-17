@@ -80,6 +80,10 @@ export default {
     hover: '#0062a1',
   },
 
+  fontWeights: {
+    medium: 500,
+  },
+
   sprites: 'assets/svg-sprite.hsl.svg',
 
   appBarStyle: 'hsl',
@@ -248,7 +252,7 @@ export default {
       ],
     ],
   },
-  footer: {},
+  menu: {},
 
   defaultEndpoint: {
     address: 'Rautatieasema, Helsinki',
@@ -345,7 +349,6 @@ export default {
     // {
     //   id: '2',
     //   priority: -1,
-    //   shouldTrigger: true,
     //   content: {
     //     fi: [
     //       {

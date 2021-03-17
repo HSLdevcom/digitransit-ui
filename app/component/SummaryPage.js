@@ -44,8 +44,6 @@ import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
 import { isBrowser, isIOS } from '../util/browser';
 import { itineraryHasCancelation } from '../util/alertUtils';
-import triggerMessage from '../util/messageUtils';
-import MessageStore from '../store/MessageStore';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
   parseLatLon,
@@ -70,6 +68,7 @@ import { userHasChangedModes } from '../util/modeUtils';
 import { addViaPoint } from '../action/ViaPointActions';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { saveSearch } from '../action/SearchActions';
+import CustomizeSearch from './CustomizeSearchNew';
 
 const MAX_ZOOM = 16; // Maximum zoom available for the bounds.
 /**
@@ -1555,20 +1554,6 @@ class SummaryPage extends React.Component {
     const from = otpToLocation(match.params.from);
     const to = otpToLocation(match.params.to);
 
-    triggerMessage(
-      from.lat,
-      from.lon,
-      this.context,
-      this.context.getStore(MessageStore).getMessages(),
-    );
-
-    triggerMessage(
-      to.lat,
-      to.lon,
-      this.context,
-      this.context.getStore(MessageStore).getMessages(),
-    );
-
     let leafletObjs = [];
 
     if (filteredItineraries && filteredItineraries.length > 0) {
@@ -2263,7 +2248,7 @@ class SummaryPage extends React.Component {
                 tabs={itineraryTabs}
                 tabIndex={activeIndex}
                 onSwipe={this.changeHash}
-                desktop
+                classname="swipe-desktop-view"
               />
             </div>
           );
@@ -2405,8 +2390,12 @@ class SummaryPage extends React.Component {
           settingsDrawer={
             <SettingsDrawer
               open={this.getOffcanvasState()}
-              onToggleClick={this.toggleCustomizeSearchOffcanvas}
-            />
+              className="offcanvas"
+            >
+              <CustomizeSearch
+                onToggleClick={this.toggleCustomizeSearchOffcanvas}
+              />
+            </SettingsDrawer>
           }
           map={map}
           scrollable
@@ -2558,9 +2547,13 @@ class SummaryPage extends React.Component {
         settingsDrawer={
           <SettingsDrawer
             open={this.getOffcanvasState()}
-            onToggleClick={this.toggleCustomizeSearchOffcanvas}
-            mobile
-          />
+            className="offcanvas-mobile"
+          >
+            <CustomizeSearch
+              onToggleClick={this.toggleCustomizeSearchOffcanvas}
+              mobile
+            />
+          </SettingsDrawer>
         }
         mapCenterToggle={this.mapCenterToggle}
       />

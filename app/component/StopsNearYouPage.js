@@ -68,14 +68,14 @@ class StopsNearYouPage extends React.Component {
 
   constructor(props) {
     super(props);
-    this.favouriteStopIds = props.favouriteStopIds;
-    this.favouriteStationIds = props.favouriteStationIds;
-    this.favouriteBikeStationIds = props.favouriteBikeStationIds;
     this.state = {
       phase: PH_START,
       centerOfMap: null,
       centerOfMapChanged: false,
       mapState: MAPSTATES.FITBOUNDSTOSTARTLOCATION,
+      favouriteStopIds: props.favouriteStopIds,
+      favouriteStationIds: props.favouriteStationIds,
+      favouriteBikeStationIds: props.favouriteBikeStationIds,
     };
   }
 
@@ -125,7 +125,22 @@ class StopsNearYouPage extends React.Component {
   }
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
-    let newState = {};
+    let newState = null;
+    if (
+      nextProps.match.params.mode !== 'FAVORITE' &&
+      (prevState.favouriteStopIds.length !==
+        nextProps.favouriteStopIds.length ||
+        prevState.favouriteStationIds.length !==
+          nextProps.favouriteStationIds.length ||
+        prevState.favouriteBikeStationIds.length !==
+          nextProps.favouriteBikeStationIds.length)
+    ) {
+      newState = {
+        favouriteStopIds: nextProps.favouriteStopIds,
+        favouriteStationIds: nextProps.favouriteStationIds,
+        favouriteBikeStationIds: nextProps.favouriteBikeStationIds,
+      };
+    }
     if (prevState.phase === PH_GEOLOCATIONING) {
       if (nextProps.position.locationingFailed) {
         newState = { phase: PH_USEDEFAULTPOS };
@@ -137,7 +152,7 @@ class StopsNearYouPage extends React.Component {
       }
       return newState;
     }
-    return null;
+    return newState;
   };
 
   getQueryVariables = nearByMode => {
@@ -320,9 +335,9 @@ class StopsNearYouPage extends React.Component {
 
   noFavorites = () => {
     return (
-      !this.favouriteStopIds.length &&
-      !this.favouriteStationIds.length &&
-      !this.favouriteBikeStationIds.length
+      !this.state.favouriteStopIds.length &&
+      !this.state.favouriteStationIds.length &&
+      !this.state.favouriteBikeStationIds.length
     );
   };
 
@@ -336,9 +351,7 @@ class StopsNearYouPage extends React.Component {
       (centerOfMapChanged || this.positionChanged()) && !noFavorites;
     const nearByStopModes = this.getNearByStopModes();
     const index = nearByStopModes.indexOf(mode);
-    const modePerTab =
-      this.props.breakpoint === 'large' ? [mode] : nearByStopModes;
-    const tabs = modePerTab.map(nearByStopMode => {
+    const tabs = nearByStopModes.map(nearByStopMode => {
       if (nearByStopMode === 'FAVORITE') {
         const noFavs = this.noFavorites();
         return (
@@ -347,9 +360,9 @@ class StopsNearYouPage extends React.Component {
             <StopsNearYouFavorites
               searchPosition={this.state.searchPosition}
               match={this.props.match}
-              favoriteStops={this.favouriteStopIds}
-              favoriteStations={this.favouriteStationIds}
-              favoriteBikeRentalStationIds={this.favouriteBikeStationIds}
+              favoriteStops={this.state.favouriteStopIds}
+              favoriteStations={this.state.favouriteStationIds}
+              favoriteBikeRentalStationIds={this.state.favouriteBikeStationIds}
               noFavorites={noFavs}
             />
           </div>
@@ -429,7 +442,14 @@ class StopsNearYouPage extends React.Component {
 
     if (tabs.length > 1) {
       return (
-        <SwipeableTabs tabIndex={index} onSwipe={this.onSwipe} tabs={tabs} />
+        <SwipeableTabs
+          tabIndex={index}
+          onSwipe={this.onSwipe}
+          tabs={tabs}
+          classname={
+            this.props.breakpoint === 'large' ? 'swipe-desktop-view' : ''
+          }
+        />
       );
     }
     return tabs[0];
@@ -458,9 +478,9 @@ class StopsNearYouPage extends React.Component {
             }
           `}
           variables={{
-            stopIds: this.favouriteStopIds,
-            stationIds: this.favouriteStationIds,
-            bikeRentalStationIds: this.favouriteBikeStationIds,
+            stopIds: this.state.favouriteStopIds,
+            stationIds: this.state.favouriteStationIds,
+            bikeRentalStationIds: this.state.favouriteBikeStationIds,
           }}
           environment={this.props.relayEnvironment}
           render={({ props }) => {
@@ -476,9 +496,9 @@ class StopsNearYouPage extends React.Component {
                   stations={props.stations}
                   bikeStations={props.bikeStations}
                   favouriteIds={[
-                    ...this.favouriteStopIds,
-                    ...this.favouriteStationIds,
-                    ...this.favouriteBikeStationIds,
+                    ...this.state.favouriteStopIds,
+                    ...this.state.favouriteStationIds,
+                    ...this.state.favouriteBikeStationIds,
                   ]}
                 />
               );
@@ -531,15 +551,7 @@ class StopsNearYouPage extends React.Component {
               />
             );
           }
-          return (
-            <StopsNearYouMapContainer
-              defaultMapCenter={this.state.searchPosition}
-              position={null}
-              stopsNearYou={null}
-              match={this.props.match}
-              setCenterOfMap={this.setCenterOfMap}
-            />
-          );
+          return null;
         }}
       />
     );

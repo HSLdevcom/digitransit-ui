@@ -171,7 +171,7 @@
   height: 24px;
   border-radius: 4px;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
   text-align: center;
   margin-left: 1em;
   &.empty {
@@ -282,7 +282,7 @@
   }
   .bikes-available {
     padding-left: 0.25em;
-    font-weight: 700;
+    font-weight: $font-weight-medium;
   }
 
   & > div,

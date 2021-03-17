@@ -16,7 +16,7 @@ export default class SwipeableTabs extends React.Component {
     tabIndex: PropTypes.number,
     tabs: PropTypes.array.isRequired,
     onSwipe: PropTypes.func,
-    desktop: PropTypes.bool,
+    classname: PropTypes.string,
   };
 
   static contextTypes = {
@@ -122,13 +122,9 @@ export default class SwipeableTabs extends React.Component {
     let reactSwipeEl;
     return (
       <div>
-        <div
-          className={`swipe-header-container ${
-            this.props.desktop ? 'desktop' : ''
-          }`}
-        >
+        <div className={`swipe-header-container ${this.props.classname}`}>
           <div
-            className={`swipe-header ${this.props.desktop ? 'desktop' : ''}`}
+            className={`swipe-header ${this.props.classname}`}
             role="row"
             onKeyDown={e => this.handleKeyPress(e, reactSwipeEl)}
             aria-label="Swipe result tabs. Navigave with left and right arrow"

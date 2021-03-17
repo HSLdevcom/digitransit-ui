@@ -183,9 +183,26 @@ export const preparePlanParams = (config, useDefaultModes) => (
         intermediatePlaceLocations,
       );
   const defaultSettings = { ...getDefaultSettings(config) };
-  const allowedBikeRentalNetworksMapped =
-    settings.allowedBikeRentalNetworks ||
-    defaultSettings.allowedBikeRentalNetworks;
+  // legacy settings used to set network name in uppercase in localstorage
+  const allowedBikeRentalNetworksMapped = Array.isArray(
+    settings.allowedBikeRentalNetworks,
+  )
+    ? settings.allowedBikeRentalNetworks
+        .filter(
+          network =>
+            defaultSettings.allowedBikeRentalNetworks.includes(network) ||
+            defaultSettings.allowedBikeRentalNetworks.includes(
+              network.toLowerCase(),
+            ),
+        )
+        .map(network =>
+          defaultSettings.allowedBikeRentalNetworks.includes(
+            network.toLowerCase(),
+          )
+            ? network.toLowerCase()
+            : network,
+        )
+    : defaultSettings.allowedBikeRentalNetworks;
   const formattedModes = modesAsOTPModes(modesOrDefault);
   const wheelchair =
     getNumberValueOrDefault(settings.accessibilityOption, defaultSettings) ===

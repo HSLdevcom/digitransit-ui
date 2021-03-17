@@ -6,12 +6,13 @@ import { intlShape } from 'react-intl';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
-import CardHeader from '../../CardHeader';
 import Loading from '../../Loading';
 import ZoneIcon from '../../ZoneIcon';
 import PreferencesStore from '../../../store/PreferencesStore';
 import { getJson } from '../../../util/xhrPromise';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
+import { splitStringToAddressAndPlace } from '../../../util/otpStrings';
+import PopupHeader from '../PopupHeader';
 
 class LocationPopup extends React.Component {
   static contextTypes = {
@@ -131,18 +132,14 @@ class LocationPopup extends React.Component {
       );
     }
     const { zoneId } = this.state.location;
+    const [address, place] = splitStringToAddressAndPlace(
+      this.state.location.address,
+    );
     return (
       <Card>
-        <div className="card-padding location-popup-wrapper">
-          <CardHeader
-            name={this.state.location.address}
-            description={this.state.location.address}
-            unlinked
-            className="padding-small"
-          >
-            <ZoneIcon zoneId={zoneId} showUnknown={false} />
-          </CardHeader>
-        </div>
+        <PopupHeader header={address} subHeader={place}>
+          {place && <ZoneIcon zoneId={zoneId} showUnknown={false} />}
+        </PopupHeader>
         {(this.props.locationPopup === 'all' ||
           this.props.locationPopup === 'origindestination') && (
           <MarkerPopupBottom

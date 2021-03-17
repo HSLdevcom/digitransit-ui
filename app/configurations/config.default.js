@@ -35,7 +35,7 @@ export default {
     STOP_MAP: `${MAP_URL}/map/v1/finland-stop-map/`,
     CITYBIKE_MAP: `${MAP_URL}/map/v1/finland-citybike-map/`,
     FONT:
-      'https://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700',
+      'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700',
     PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
     PELIAS_REVERSE_GEOCODER: `${
       process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
@@ -168,6 +168,7 @@ export default {
     showDisruptions: true,
     showLoginCreateAccount: true,
     showOffCanvasList: true,
+    showFrontPageLink: true,
   },
 
   itinerary: {
@@ -287,7 +288,11 @@ export default {
   appBarStyle: 'default', // DT-3375
 
   colors: {
-    primary: '#00AFFF',
+    primary: '#000F94',
+  },
+
+  fontWeights: {
+    medium: 700,
   },
 
   sprites: 'assets/svg-sprite.default.svg',
@@ -485,21 +490,18 @@ export default {
   // This reduces complexity in finding routes for the query.
   modePolygons: {},
 
-  footer: {
+  menu: {
+    copyright: { label: `© Digitransit ${YEAR}` },
     content: [
-      { label: `© HSL, Traficom ${YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'https://github.com/HSLdevcom/digitransit-ui/issues',
-        icon: 'icon-icon_speech-bubble',
       },
       {
         name: 'about-this-service',
         nameEn: 'About this service',
         route: '/tietoja-palvelusta',
-        icon: 'icon-icon_info',
       },
     ],
   },
@@ -609,7 +611,6 @@ export default {
     {
       id: '3',
       priority: -1,
-      shouldTrigger: true,
       content: {
         fi: [
           {

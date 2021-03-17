@@ -99,3 +99,11 @@ export const getIntermediatePlaces = query => {
   }
   return [];
 };
+
+/**
+ * Splits the name-string to two parts from the first occurance of ', '
+ * @param {*} string String to split, e.g 'Ristolantie 15, Helsinki'
+ */
+export const splitStringToAddressAndPlace = string => {
+  return string.split(/, (.+)/);
+};

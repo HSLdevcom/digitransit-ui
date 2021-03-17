@@ -20,6 +20,7 @@ import { isKeyboardSelectionEvent } from '../util/browser';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import StopCode from './StopCode';
 import PlatformNumber from './PlatformNumber';
+import { splitStringToAddressAndPlace } from '../util/otpStrings';
 
 function showStopCode(stopCode) {
   return stopCode && <StopCode code={stopCode} />;
@@ -78,7 +79,7 @@ function BicycleLeg(
   let legDescription = <span>{leg.from ? leg.from.name : ''}</span>;
   const firstLegClassName = index === 0 ? 'start' : '';
   let modeClassName = 'bicycle';
-  const [address, place] = leg.from.name.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
+  const [address, place] = splitStringToAddressAndPlace(leg.from.name);
   const networkConfig =
     leg.rentedBike &&
     leg.from.bikeRentalStation &&

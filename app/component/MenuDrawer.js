@@ -2,16 +2,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Modal from 'react-modal';
 
-function MenuDrawer({ open, children, onRequestChange }) {
+function MenuDrawer({ open, children, onRequestChange, breakpoint }) {
   const classNames = {
-    base: 'mobile-menu-content',
-    afterOpen: 'mobile-menu-content-open',
-    beforeClose: 'mobile-menu-content-close',
+    base: `${breakpoint !== 'large' ? 'mobile' : ''} menu-content`,
+    afterOpen: 'menu-content-open',
+    beforeClose: 'menu-content-close',
   };
   const overlayClassNames = {
-    base: 'mobile-menu-background',
-    afterOpen: 'mobile-menu-background-open',
-    beforeClose: 'mobile-menu-background-close',
+    base: `${breakpoint !== 'large' ? 'mobile' : ''} menu-background`,
+    afterOpen: 'menu-background-open',
+    beforeClose: 'menu-background-close',
   };
   return (
     <Modal
@@ -29,6 +29,7 @@ MenuDrawer.propTypes = {
   open: PropTypes.bool.isRequired,
   children: PropTypes.node,
   onRequestChange: PropTypes.func,
+  breakpoint: PropTypes.string.isRequired,
 };
 
 export default MenuDrawer;
