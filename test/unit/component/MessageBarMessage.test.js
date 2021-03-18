@@ -29,23 +29,4 @@ describe('<MessageBarMessage />', () => {
     const wrapper = shallowWithIntl(<MessageBarMessage {...props} />);
     expect(wrapper.find(TruncatedMessage)).to.have.lengthOf(1);
   });
-
-  it('should render tags "heading" and "span" with correct color', () => {
-    const props = {
-      content: [
-        { type: 'heading', content: 'This is header' },
-        { type: 'text', content: 'This is text' },
-      ],
-      textColor: '#ffffff',
-    };
-    const wrapper = shallowWithIntl(<MessageBarMessage {...props} />);
-    expect(wrapper.find('div').get(0).props.style).to.have.property(
-      'color',
-      '#ffffff',
-    );
-    expect(wrapper.find('h2').get(0).props.style).to.have.property(
-      'color',
-      '#ffffff',
-    );
-  });
 });

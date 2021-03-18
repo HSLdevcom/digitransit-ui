@@ -35,7 +35,7 @@ const TruncatedMessage = ({ lines, message, className }, { intl }) => {
 
 TruncatedMessage.propTypes = {
   lines: PropTypes.number.isRequired,
-  message: PropTypes.string.isRequired,
+  message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   className: PropTypes.string,
 };
 
