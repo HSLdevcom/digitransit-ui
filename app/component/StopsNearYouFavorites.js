@@ -40,46 +40,44 @@ function StopsNearYouFavorites({
     );
   }
   return (
-    <div key="favorite">
-      <QueryRenderer
-        query={graphql`
-          query StopsNearYouFavoritesQuery(
-            $stopIds: [String!]!
-            $stationIds: [String!]!
-            $bikeRentalStationIds: [String!]!
-          ) {
-            stops: stops(ids: $stopIds) {
-              ...StopsNearYouFavouritesContainer_stops
-            }
-            stations: stations(ids: $stationIds) {
-              ...StopsNearYouFavouritesContainer_stations
-            }
-            bikeStations: bikeRentalStations(ids: $bikeRentalStationIds) {
-              ...StopsNearYouFavouritesContainer_bikeStations
-            }
+    <QueryRenderer
+      query={graphql`
+        query StopsNearYouFavoritesQuery(
+          $stopIds: [String!]!
+          $stationIds: [String!]!
+          $bikeRentalStationIds: [String!]!
+        ) {
+          stops: stops(ids: $stopIds) {
+            ...StopsNearYouFavouritesContainer_stops
           }
-        `}
-        variables={{
-          stopIds: favoriteStops || [],
-          stationIds: favoriteStations || [],
-          bikeRentalStationIds: favoriteBikeRentalStationIds || [],
-        }}
-        environment={relayEnvironment}
-        render={({ props }) => {
-          if (props) {
-            return (
-              <StopsNearYouFavouritesContainer
-                searchPosition={searchPosition}
-                stops={props.stops}
-                stations={props.stations}
-                bikeStations={props.bikeStations}
-              />
-            );
+          stations: stations(ids: $stationIds) {
+            ...StopsNearYouFavouritesContainer_stations
           }
-          return undefined;
-        }}
-      />
-    </div>
+          bikeStations: bikeRentalStations(ids: $bikeRentalStationIds) {
+            ...StopsNearYouFavouritesContainer_bikeStations
+          }
+        }
+      `}
+      variables={{
+        stopIds: favoriteStops || [],
+        stationIds: favoriteStations || [],
+        bikeRentalStationIds: favoriteBikeRentalStationIds || [],
+      }}
+      environment={relayEnvironment}
+      render={({ props }) => {
+        if (props) {
+          return (
+            <StopsNearYouFavouritesContainer
+              searchPosition={searchPosition}
+              stops={props.stops}
+              stations={props.stations}
+              bikeStations={props.bikeStations}
+            />
+          );
+        }
+        return undefined;
+      }}
+    />
   );
 }
 StopsNearYouFavorites.propTypes = {
