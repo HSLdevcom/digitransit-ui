@@ -2211,9 +2211,12 @@ class SummaryPage extends React.Component {
             date: moment().valueOf(),
           };
 
-          const itineraryTabs = selectedItineraries.map(itinerary => {
+          const itineraryTabs = selectedItineraries.map((itinerary, i) => {
             return (
-              <div key={itinerary.key}>
+              <div
+                className={`swipeable-tab ${activeIndex !== i && 'inactive'}`}
+                key={itinerary.key}
+              >
                 <ItineraryTab
                   hideTitle
                   plan={currentTime}

@@ -350,6 +350,12 @@ svg.realtime-icon {
   }
 }
 
+.swipeable-tab {
+  &.inactive {
+      max-height: 100vh;
+  }
+}
+
 // TODO: These are styles for the disabled position marker.
 
 // .paused {
