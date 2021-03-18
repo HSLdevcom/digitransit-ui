@@ -6,40 +6,20 @@ import { intlShape } from 'react-intl';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
-function DateSelect(props, context) {
+function DateSelect(props) {
   const dates = [];
   const date = moment(props.startDate, props.dateFormat);
 
-  dates.push(
-    <option
-      value={date.format(props.dateFormat)}
-      key={date.format(props.dateFormat)}
-    >
-      {context.intl.formatMessage({ id: 'today', defaultMessage: 'Today' })}
-    </option>,
-  );
-
-  dates.push(
-    <option
-      value={date.add(1, 'd').format(props.dateFormat)}
-      key={date.format(props.dateFormat)}
-    >
-      {context.intl.formatMessage({
-        id: 'tomorrow',
-        defaultMessage: 'Tomorrow',
-      })}
-    </option>,
-  );
-
-  for (let i = 0; i < 28; i++) {
+  for (let i = 0; i < 32; i++) {
     dates.push(
       <option
-        value={date.add(1, 'd').format(props.dateFormat)}
+        value={date.format(props.dateFormat)}
         key={date.format(props.dateFormat)}
       >
         {date.format('dd D.M.')}
       </option>,
     );
+    date.add(1, 'd');
   }
 
   return (
