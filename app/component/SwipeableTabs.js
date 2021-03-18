@@ -3,6 +3,7 @@ import React from 'react';
 import ReactSwipe from 'react-swipe';
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 export default class SwipeableTabs extends React.Component {
   constructor(props) {
@@ -16,7 +17,6 @@ export default class SwipeableTabs extends React.Component {
     tabIndex: PropTypes.number,
     tabs: PropTypes.array.isRequired,
     onSwipe: PropTypes.func,
-    desktop: PropTypes.bool,
     hideArrows: PropTypes.bool,
     navigationOnBottom: PropTypes.bool,
     classname: PropTypes.string,
@@ -96,10 +96,19 @@ export default class SwipeableTabs extends React.Component {
     const ballDivs = tabBalls.map((ball, index) => {
       const key = ball.toString().length + index;
       return (
-        // eslint-disable-next-line
         <div
           key={key}
           role="button"
+          aria-label={this.context.intl.formatMessage(
+            {
+              id: 'move-to-tab',
+              defaultMessage: 'Move to tab {number}',
+            },
+            {
+              number: index + 1,
+            },
+          )}
+          tabIndex={0}
           className={`swipe-tab-ball ${
             index === this.state.tabIndex ? 'selected' : ''
           } ${ball.smaller ? 'decreasing-small' : ''} ${
@@ -108,6 +117,12 @@ export default class SwipeableTabs extends React.Component {
           onClick={() => {
             this.setState({ tabIndex: index });
             this.props.onSwipe(index);
+          }}
+          onKeyDown={e => {
+            if (isKeyboardSelectionEvent(e)) {
+              this.setState({ tabIndex: index });
+              this.props.onSwipe(index);
+            }
           }}
         />
       );
@@ -134,13 +149,8 @@ export default class SwipeableTabs extends React.Component {
     const tabBalls = this.tabBalls(tabs.length);
     const disabled = tabBalls.length < 2;
     let reactSwipeEl;
-
     return (
-      <div
-        className={`${this.props.hideArrows ? '' : 'swipe-header-container'} ${
-          this.props.desktop ? 'desktop' : ''
-        }`}
-      >
+      <div>
         {navigationOnBottom && (
           <ReactSwipe
             swipeOptions={{
