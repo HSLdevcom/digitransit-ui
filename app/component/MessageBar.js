@@ -116,6 +116,7 @@ class MessageBar extends Component {
     lang: PropTypes.string.isRequired,
     messages: PropTypes.array.isRequired,
     relayEnvironment: PropTypes.object,
+    duplicateMessageCounter: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
@@ -195,8 +196,7 @@ class MessageBar extends Component {
     const filteredServiceAlerts = serviceAlerts.filter(
       alert => readMessageIds.indexOf(getServiceAlertId(alert)) === -1,
     );
-    const { lang } = this.props;
-    const messages = this.props.messages.filter(msg => msg.shouldTrigger);
+    const { lang, messages } = this.props;
     return [
       ...filteredServiceAlerts.map(alert => toMessage(alert, intl)),
       ...messages,
@@ -251,6 +251,7 @@ class MessageBar extends Component {
           )}
         </span>
         <section
+          key={this.props.duplicateMessageCounter}
           id="messageBar"
           role="banner"
           aria-hidden="true"
@@ -323,6 +324,9 @@ const connectedComponent = connectToStores(
     lang: context.getStore('PreferencesStore').getLanguage(),
     messages: context.getStore('MessageStore').getMessages(),
     currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+    duplicateMessageCounter: context
+      .getStore('MessageStore')
+      .getDuplicateMessageCounter(),
   }),
 );
 

@@ -181,6 +181,11 @@ class FavouriteModal extends React.Component {
     appElement: PropTypes.string.isRequired,
     color: PropTypes.string,
     hoverColor: PropTypes.string,
+    /** Optional. */
+    fontWeights: PropTypes.shape({
+      /** Default value is 500. */
+      medium: PropTypes.number,
+    }),
   };
 
   static defaultProps = {
@@ -190,6 +195,9 @@ class FavouriteModal extends React.Component {
     favourite: null,
     color: '#007ac9',
     hoverColor: '#0062a1',
+    fontWeights: {
+      medium: 500,
+    },
   };
 
   static favouriteIconIds = [
@@ -328,7 +336,7 @@ class FavouriteModal extends React.Component {
 
   render = () => {
     const { favourite } = this.state;
-    const { color, hoverColor } = this.props;
+    const { color, hoverColor, fontWeights } = this.props;
     const headerText = this.isEdit()
       ? i18next.t('edit-place')
       : i18next.t('save-place');
@@ -367,6 +375,7 @@ class FavouriteModal extends React.Component {
       savePlaceText: i18next.t('save-place'),
       cantSaveText: i18next.t('cannot-save-place'),
       requiredText: i18next.t('required-text'),
+      fontWeights,
     };
     return (
       <Modal

@@ -19,6 +19,7 @@ export default class SwipeableTabs extends React.Component {
     desktop: PropTypes.bool,
     hideArrows: PropTypes.bool,
     navigationOnBottom: PropTypes.bool,
+    classname: PropTypes.string,
   };
 
   static defaultProps = {
@@ -135,7 +136,11 @@ export default class SwipeableTabs extends React.Component {
     let reactSwipeEl;
 
     return (
-      <div>
+      <div
+        className={`swipe-header-container ${
+          this.props.desktop ? 'desktop' : ''
+        }`}
+      >
         {navigationOnBottom && (
           <ReactSwipe
             swipeOptions={{
@@ -154,13 +159,9 @@ export default class SwipeableTabs extends React.Component {
             {tabs}
           </ReactSwipe>
         )}
-        <div
-          className={`swipe-header-container ${
-            this.props.desktop ? 'desktop' : ''
-          }`}
-        >
+        <div className={`swipe-header-container ${this.props.classname}`}>
           <div
-            className={`swipe-header ${this.props.desktop ? 'desktop' : ''}`}
+            className={`swipe-header ${this.props.classname}`}
             role="row"
             onKeyDown={e => this.handleKeyPress(e, reactSwipeEl)}
             aria-label="Swipe result tabs. Navigave with left and right arrow"

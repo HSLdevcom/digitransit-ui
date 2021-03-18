@@ -6,27 +6,31 @@ import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
 
 import {
-  Component as SelectMapLayersDialog,
+  Component as MapLayersDialogContent,
   getGeoJsonLayersOrDefault,
-} from '../../../app/component/SelectMapLayersDialog';
+} from '../../../app/component/MapLayersDialogContent';
 
-describe('<SelectMapLayersDialog />', () => {
+describe('<MapLayersDialogContent />', () => {
   it('should render', () => {
     const props = {
+      open: true,
+      setOpen: () => {},
+      lang: 'fi',
       mapLayers: {
         stop: {},
         terminal: {},
       },
       updateMapLayers: () => {},
     };
-    const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
-
-    expect(wrapper.find('.select-map-layers-dialog-content')).to.have.lengthOf(
-      1,
+    const wrapper = mountWithIntl(
+      <MapLayersDialogContent isOpen {...props} />,
+      {
+        context: { ...mockContext },
+        childContextTypes: { ...mockChildContextTypes },
+      },
     );
+
+    expect(wrapper.find('.map-layer-header')).to.have.lengthOf(1);
   });
 
   it('should update the vehicles layer', () => {
@@ -36,21 +40,28 @@ describe('<SelectMapLayersDialog />', () => {
       terminal: {},
     };
     const props = {
-      config: {
-        showAllBusses: true,
-      },
+      open: true,
+      setOpen: () => {},
+      lang: 'fi',
       mapLayers,
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
     };
-    const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
-
+    const context = {
+      config: {
+        showAllBusses: true,
+      },
+    };
+    const wrapper = mountWithIntl(
+      <MapLayersDialogContent isOpen {...props} />,
+      {
+        context: { ...mockContext, ...context },
+        childContextTypes: { ...mockChildContextTypes },
+      },
+    );
     wrapper
-      .find('.option-checkbox input')
+      .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -65,6 +76,15 @@ describe('<SelectMapLayersDialog />', () => {
       terminal: {},
     };
     const props = {
+      open: true,
+      setOpen: () => {},
+      lang: 'fi',
+      mapLayers,
+      updateMapLayers: layers => {
+        mapLayers = { ...layers };
+      },
+    };
+    const context = {
       config: {
         transportModes: {
           bus: {
@@ -72,18 +92,17 @@ describe('<SelectMapLayersDialog />', () => {
           },
         },
       },
-      mapLayers,
-      updateMapLayers: layers => {
-        mapLayers = { ...layers };
-      },
     };
-    const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
+    const wrapper = mountWithIntl(
+      <MapLayersDialogContent isOpen {...props} />,
+      {
+        context: { ...mockContext, ...context },
+        childContextTypes: { ...mockChildContextTypes },
+      },
+    );
 
     wrapper
-      .find('.option-checkbox input')
+      .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -98,6 +117,15 @@ describe('<SelectMapLayersDialog />', () => {
       },
     };
     const props = {
+      open: true,
+      setOpen: () => {},
+      lang: 'fi',
+      mapLayers,
+      updateMapLayers: layers => {
+        mapLayers = { ...layers };
+      },
+    };
+    const context = {
       config: {
         transportModes: {
           bus: {
@@ -105,18 +133,17 @@ describe('<SelectMapLayersDialog />', () => {
           },
         },
       },
-      mapLayers,
-      updateMapLayers: layers => {
-        mapLayers = { ...layers };
-      },
     };
-    const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
+    const wrapper = mountWithIntl(
+      <MapLayersDialogContent isOpen {...props} />,
+      {
+        context: { ...mockContext, ...context },
+        childContextTypes: { ...mockChildContextTypes },
+      },
+    );
 
     wrapper
-      .find('.option-checkbox input')
+      .find('.option-checkbox.large input')
       .at(1)
       .simulate('change', { target: { checked: true } });
 
@@ -131,6 +158,15 @@ describe('<SelectMapLayersDialog />', () => {
       terminal: {},
     };
     const props = {
+      open: true,
+      setOpen: () => {},
+      lang: 'fi',
+      mapLayers,
+      updateMapLayers: layers => {
+        mapLayers = { ...layers };
+      },
+    };
+    const context = {
       config: {
         transportModes: {
           tram: {
@@ -138,18 +174,17 @@ describe('<SelectMapLayersDialog />', () => {
           },
         },
       },
-      mapLayers,
-      updateMapLayers: layers => {
-        mapLayers = { ...layers };
-      },
     };
-    const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
+    const wrapper = mountWithIntl(
+      <MapLayersDialogContent isOpen {...props} />,
+      {
+        context: { ...mockContext, ...context },
+        childContextTypes: { ...mockChildContextTypes },
+      },
+    );
 
     wrapper
-      .find('.option-checkbox input')
+      .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -166,6 +201,15 @@ describe('<SelectMapLayersDialog />', () => {
       },
     };
     const props = {
+      open: true,
+      setOpen: () => {},
+      lang: 'fi',
+      mapLayers,
+      updateMapLayers: layers => {
+        mapLayers = { ...layers };
+      },
+    };
+    const context = {
       config: {
         transportModes: {
           rail: {
@@ -173,15 +217,14 @@ describe('<SelectMapLayersDialog />', () => {
           },
         },
       },
-      mapLayers,
-      updateMapLayers: layers => {
-        mapLayers = { ...layers };
-      },
     };
-    const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
+    const wrapper = mountWithIntl(
+      <MapLayersDialogContent isOpen {...props} />,
+      {
+        context: { ...mockContext, ...context },
+        childContextTypes: { ...mockChildContextTypes },
+      },
+    );
 
     wrapper
       .find('.option-checkbox input')
@@ -202,6 +245,15 @@ describe('<SelectMapLayersDialog />', () => {
       },
     };
     const props = {
+      open: true,
+      setOpen: () => {},
+      lang: 'fi',
+      mapLayers,
+      updateMapLayers: layers => {
+        mapLayers = { ...layers };
+      },
+    };
+    const context = {
       config: {
         transportModes: {
           subway: {
@@ -209,18 +261,17 @@ describe('<SelectMapLayersDialog />', () => {
           },
         },
       },
-      mapLayers,
-      updateMapLayers: layers => {
-        mapLayers = { ...layers };
-      },
     };
-    const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
+    const wrapper = mountWithIntl(
+      <MapLayersDialogContent isOpen {...props} />,
+      {
+        context: { ...mockContext, ...context },
+        childContextTypes: { ...mockChildContextTypes },
+      },
+    );
 
     wrapper
-      .find('.option-checkbox input')
+      .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -236,6 +287,15 @@ describe('<SelectMapLayersDialog />', () => {
       terminal: {},
     };
     const props = {
+      open: true,
+      setOpen: () => {},
+      lang: 'fi',
+      mapLayers,
+      updateMapLayers: layers => {
+        mapLayers = { ...layers };
+      },
+    };
+    const context = {
       config: {
         transportModes: {
           ferry: {
@@ -243,18 +303,17 @@ describe('<SelectMapLayersDialog />', () => {
           },
         },
       },
-      mapLayers,
-      updateMapLayers: layers => {
-        mapLayers = { ...layers };
-      },
     };
-    const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
+    const wrapper = mountWithIntl(
+      <MapLayersDialogContent isOpen {...props} />,
+      {
+        context: { ...mockContext, ...context },
+        childContextTypes: { ...mockChildContextTypes },
+      },
+    );
 
     wrapper
-      .find('.option-checkbox input')
+      .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -268,6 +327,15 @@ describe('<SelectMapLayersDialog />', () => {
       terminal: {},
     };
     const props = {
+      open: true,
+      setOpen: () => {},
+      lang: 'fi',
+      mapLayers,
+      updateMapLayers: layers => {
+        mapLayers = { ...layers };
+      },
+    };
+    const context = {
       config: {
         cityBike: {
           showCityBikes: true,
@@ -278,18 +346,17 @@ describe('<SelectMapLayersDialog />', () => {
           },
         },
       },
-      mapLayers,
-      updateMapLayers: layers => {
-        mapLayers = { ...layers };
-      },
     };
-    const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
+    const wrapper = mountWithIntl(
+      <MapLayersDialogContent isOpen {...props} />,
+      {
+        context: { ...mockContext, ...context },
+        childContextTypes: { ...mockChildContextTypes },
+      },
+    );
 
     wrapper
-      .find('.option-checkbox input')
+      .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -303,23 +370,31 @@ describe('<SelectMapLayersDialog />', () => {
       terminal: {},
     };
     const props = {
-      config: {
-        parkAndRide: {
-          showParkAndRide: true,
-        },
-      },
+      open: true,
+      setOpen: () => {},
+      lang: 'fi',
       mapLayers,
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
     };
-    const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
+    const context = {
+      config: {
+        parkAndRide: {
+          showParkAndRide: true,
+        },
+      },
+    };
+    const wrapper = mountWithIntl(
+      <MapLayersDialogContent isOpen {...props} />,
+      {
+        context: { ...mockContext, ...context },
+        childContextTypes: { ...mockChildContextTypes },
+      },
+    );
 
     wrapper
-      .find('.option-checkbox input')
+      .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -337,6 +412,31 @@ describe('<SelectMapLayersDialog />', () => {
       },
     };
     const props = {
+      open: true,
+      setOpen: () => {},
+      lang: 'fi',
+      mapLayers,
+      updateMapLayers: layers => {
+        mapLayers = { ...layers };
+      },
+      geoJson: {
+        somejson: {
+          name: {
+            fi: 'testi',
+            sv: 'test',
+            en: 'test',
+          },
+        },
+        morejson: {
+          name: {
+            fi: 'nimi',
+            sv: 'namn',
+            en: 'name',
+          },
+        },
+      },
+    };
+    const context = {
       config: {
         geoJson: {
           layers: [
@@ -359,17 +459,15 @@ describe('<SelectMapLayersDialog />', () => {
           ],
         },
       },
-      mapLayers,
-      updateMapLayers: layers => {
-        mapLayers = { ...layers };
-      },
     };
-    const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
-
-    const checkboxes = wrapper.find('.option-checkbox input');
+    const wrapper = mountWithIntl(
+      <MapLayersDialogContent isOpen {...props} />,
+      {
+        context: { ...mockContext, ...context },
+        childContextTypes: { ...mockChildContextTypes },
+      },
+    );
+    const checkboxes = wrapper.find('.option-checkbox.large input');
     expect(checkboxes.length).to.equal(2);
 
     checkboxes.at(1).simulate('change', { target: { checked: true } });

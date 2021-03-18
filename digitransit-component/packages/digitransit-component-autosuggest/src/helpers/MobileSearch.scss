@@ -60,7 +60,7 @@ input[type='text'] {
   position: relative;
   top: -2px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   letter-spacing: -0.2px;
   color: #333333;
 }
@@ -70,7 +70,7 @@ input[type='text'] {
   align-items: center;
   width: 100%;
   .input {
-    font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+    font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
     width: 100%;
     position: relative;
     padding-bottom: 7px;
@@ -186,7 +186,7 @@ button.clear-input {
   background: #f4f4f5;
   color: var(--color);
   font-size: 15px;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   letter-spacing: -0.42px;
   border-top: 1px solid #ddd;
 }

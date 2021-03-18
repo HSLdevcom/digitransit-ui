@@ -268,7 +268,7 @@ const RouteStop = (
                   showUnknown={false}
                 />
               )}
-              {patternExists && displayNextDeparture && (
+              {nextDeparture && displayNextDeparture && (
                 <div
                   key={nextDeparture.scheduledDeparture}
                   className="route-stop-time"

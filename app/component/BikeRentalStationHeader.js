@@ -4,7 +4,12 @@ import { FormattedMessage } from 'react-intl';
 // import Favourite from './Favourite';
 import StopCode from './StopCode';
 import BackButton from './BackButton';
-import FavouriteBikeRentalStationContainer from './FavouriteBikeRentalStationContainer';
+import LazilyLoad, { importLazy } from './LazilyLoad';
+
+const modules = {
+  FavouriteBikeRentalStationContainer: () =>
+    importLazy(import('./FavouriteBikeRentalStationContainer')),
+};
 
 const BikeRentalStationHeader = ({ bikeRentalStation, breakpoint }) => {
   return (
@@ -24,9 +29,13 @@ const BikeRentalStationHeader = ({ bikeRentalStation, breakpoint }) => {
           )}
         </div>
       </div>
-      <FavouriteBikeRentalStationContainer
-        bikeRentalStation={bikeRentalStation}
-      />
+      <LazilyLoad modules={modules}>
+        {({ FavouriteBikeRentalStationContainer }) => (
+          <FavouriteBikeRentalStationContainer
+            bikeRentalStation={bikeRentalStation}
+          />
+        )}
+      </LazilyLoad>
     </div>
   );
 };

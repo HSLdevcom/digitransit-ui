@@ -74,7 +74,7 @@
     }
     .show-more-button {
         margin: 0 6.25em 20px;
-        font-weight: 500;
+        font-weight: $font-weight-medium;
         background-color: $white;
         color: $primary-color;
         border: 1px solid #ddd;
@@ -100,7 +100,7 @@
             padding: 0 16px;
             border-radius: 15px;
             color: $primary-color;
-            font-weight: 500;
+            font-weight: $font-weight-medium;
             margin: 7px 0 20px;
             background-color: $white;
             letter-spacing: -0.5px;
@@ -318,7 +318,7 @@
 }
 
 .modal-desktop-container {
-  font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+  font-family: $font-family;
   display: flex;
   flex-direction: column;
   .modal-desktop-top {
@@ -329,7 +329,7 @@
       position: relative;
       width: 100%;
       font-size: 18px;
-      font-weight: 500;
+      font-weight: $font-weight-medium;
       line-height: 1.33;
       letter-spacing: -0.6px;
       color: #333333;
@@ -355,7 +355,7 @@
         top: 3px;
         width: 100%;
         height: 44px;
-        font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+        font-family: $font-family;
         border-radius: 5px;
         border: solid 1px #888888;
         background-color: #ffffff;
@@ -396,7 +396,7 @@
 
     &.title {
       position: relative;
-      font-weight: 500;
+      font-weight: $font-weight-medium;
       margin-bottom: 15px;
       top: 4px;
     }
@@ -405,7 +405,7 @@
       position: relative;
       top: -6px;
       font-size: 15px;
-      font-weight: 500;
+      font-weight: $font-weight-medium;
     }
   }
 
@@ -425,8 +425,8 @@
       width: 100%;
       height: 40px;
       font-size: 15px;
-      font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
-      font-weight: 500;
+      font-family: $font-family;
+      font-weight: $font-weight-medium;
       letter-spacing: -0.5px;
       background: $primary-color;
       color: #fff;

@@ -58,7 +58,7 @@ $content-background-color: $background-color;
   justify-content: space-between;
   background: $primary-color;
   text-align: center;
-  overflow: visible; // Show drawer menu
+  overflow: hidden; // Show drawer menu
   z-index: 1008;
 
   // Fixed navbar height for now, as dynamic height leads to Safari issues
@@ -219,7 +219,7 @@ $content-background-color: $background-color;
   .h2 {
     font-size: 1.2em;
     margin: 0 0 0 2.5em;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     &::first-letter {
       text-transform: capitalize;
     }
@@ -236,7 +236,7 @@ $content-background-color: $background-color;
 .select-from-map-nav-title {
   flex-grow: 1;
   font-size: 18px;
-  font-weight: 500px;
+  font-weight: $font-weight-medium;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
@@ -313,10 +313,10 @@ $content-background-color: $background-color;
   .menu-section.main-links {
     .offcanvas-section {
       button {
-        font-weight: bold;
+        font-weight: $font-weight-medium;
       }
     }
-    font-weight: bold !important;
+    font-weight: $font-weight-medium !important;
   }
   .copyright {
     color: black;
@@ -544,6 +544,12 @@ section.content {
   @media print {
     display: none;
   }
+
+  @keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  animation: fadein 1s;
   position: relative;
   z-index: 802;
   width: 100%;

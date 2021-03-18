@@ -8,10 +8,14 @@ import Icon from './Icon';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import ExternalLink from './ExternalLink';
-import FavouriteStopContainer from './FavouriteStopContainer';
 import { getJson } from '../util/xhrPromise';
 import { saveSearch } from '../action/SearchActions';
 import { isIOS } from '../util/browser';
+import LazilyLoad, { importLazy } from './LazilyLoad';
+
+const modules = {
+  FavouriteStopContainer: () => importLazy(import('./FavouriteStopContainer')),
+};
 
 class StopCardHeader extends React.Component {
   componentDidMount() {
@@ -135,7 +139,11 @@ class StopCardHeader extends React.Component {
         headerConfig={this.headerConfig}
         isTerminal={isTerminal}
         favouriteContainer={
-          <FavouriteStopContainer stop={stop} isTerminal={isTerminal} />
+          <LazilyLoad modules={modules}>
+            {({ FavouriteStopContainer }) => (
+              <FavouriteStopContainer stop={stop} isTerminal={isTerminal} />
+            )}
+          </LazilyLoad>
         }
       />
     );

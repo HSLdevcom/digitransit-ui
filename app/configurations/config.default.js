@@ -35,7 +35,7 @@ export default {
     STOP_MAP: `${MAP_URL}/map/v1/finland-stop-map/`,
     CITYBIKE_MAP: `${MAP_URL}/map/v1/finland-citybike-map/`,
     FONT:
-      'https://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700',
+      'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700',
     PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
     PELIAS_REVERSE_GEOCODER: `${
       process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
@@ -289,6 +289,10 @@ export default {
 
   colors: {
     primary: '#000F94',
+  },
+
+  fontWeights: {
+    medium: 700,
   },
 
   sprites: 'assets/svg-sprite.default.svg',
@@ -607,7 +611,6 @@ export default {
     {
       id: '3',
       priority: -1,
-      shouldTrigger: true,
       content: {
         fi: [
           {

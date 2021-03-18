@@ -19,7 +19,7 @@ $margin-left-right: 0.625em;
 .route-warning-message {
   background-color: rgba(254, 209, 0, 0.3);
   .upper {
-    @include font-bold;
+    @include font-medium;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -441,7 +441,7 @@ $margin-left-right: 0.625em;
     .route-short-name {
       font-family: $font-family-narrow;
       font-size: 30px;
-      font-weight: 500;
+      font-weight: $font-weight-medium;
       font-stretch: normal;
       font-style: normal;
       line-height: normal;
@@ -521,7 +521,7 @@ $margin-left-right: 0.625em;
     display: block;
     h1 {
       font-size: 26px;
-      font-weight: 500;
+      font-weight: $font-weight-medium;
       font-family: $font-family;
     }
   }
@@ -533,7 +533,7 @@ $margin-left-right: 0.625em;
     margin-top: 1em;
     display: flex;
     font-size: 24px;
-    font-weight: 700;
+    font-weight: $font-weight-medium;
     .printable-stop-header_from {
       margin-right: 1em;
       width: 8.4em;
@@ -574,7 +574,7 @@ $margin-left-right: 0.625em;
     color: #333;
     height: 30px;
     line-height: 24px;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     appearance: none;
   }
 
@@ -681,7 +681,7 @@ $margin-left-right: 0.625em;
     }
     .printable-date-content {
       font-size: 20px;
-      font-weight: 700;
+      font-weight: $font-weight-medium;
     }
   }
   .secondary-button.print {
@@ -726,7 +726,7 @@ $margin-left-right: 0.625em;
     background-color: $white;
     color: $primary-color;
     border-bottom: none !important;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     padding: 0;
     background-image: none;
     width: 7em;
@@ -784,7 +784,7 @@ $margin-left-right: 0.625em;
     color: #333;
     font-weight: normal;
     &.is-active {
-      font-weight: 500;
+      font-weight: $font-weight-medium;
       background-color: $white;
     }
     .no-alerts > span {
@@ -819,46 +819,41 @@ $margin-left-right: 0.625em;
 }
 
 .route-pattern-select {
-  height: 2.5em;
-  position: relative;
-  margin: 0.5em 0 1em 0;
+  margin: 14px 0 18px 0;
   .route-option {
     background: $white;
     font-size: $font-size-xsmall;
     font-weight: normal;
   }
-  #select-route-pattern {
-    cursor: pointer;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-image: none;
-  }
 
-  button.toggle-direction,
-  button.toggle-direction:hover {
+  .route-pattern-toggle {
+    border: 1px solid #888888;
+    width: 100%;
+    height: 44px;
     background: $white;
-    padding: 0;
-    position: absolute;
-    top: 0.6em;
-    right: 0.9em;
+    border-radius: 5px;
     display: block;
-    cursor: pointer;
-    pointer-events: all;
-    font-size: 1.15em;
-    .icon {
+    font-size: 15px;
+    line-height: 18px;
+    letter-spacing: -0.03em;
+    padding: 13px 16px;
+    text-align: left;
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+    }
+
+    .toggle-icon {
       color: $link-color;
       position: static;
+      float: right;
+      transform: rotate(90deg);
     }
-  }
-
-  button.toggle-direction:hover .icon {
-    color: #0062a1;
   }
 
   .route-option option {
     margin-top: 0.4em;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     color: rgba(0, 0, 0, 0.75);
     cursor: pointer;
   }
@@ -896,10 +891,11 @@ $margin-left-right: 0.625em;
     }
   }
   .icon {
-    color: $gray-blue;
+    color: $primary-color;
     position: absolute;
     right: 1rem;
-    top: 0.8rem;
+    top: 15px;
+    width: 16px;
     pointer-events: none;
     @media print {
       display: none;
@@ -925,6 +921,107 @@ $margin-left-right: 0.625em;
       -webkit-padding-start: 20px;
       @media print {
         padding-left: 0;
+      }
+    }
+  }
+  .in-text-arrow {
+    position: relative;
+    float: none;
+    top: 3px;
+    right: 0;
+    width: 24px;
+  }
+
+  .react-autosuggest__container {
+    width: 100%;
+    height: 44px;
+    background: white;
+    border: 1px solid #888888;
+    border-radius: 4px;
+    position: relative;
+    &:focus-within {
+      border-color: $primary-color;
+      box-shadow: none;
+    }
+    .input-display {
+      position: relative;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 18px;
+      letter-spacing: -0.03em;
+      padding: 13px 16px;
+
+    }
+    .react-autosuggest__input {
+      height: 0;
+      margin: 0;
+      padding: 0;
+      font-size: 16px;
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+
+    &.react-autosuggest__container--open .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+    .react-autosuggest__suggestions-container--open {
+      border: 1px solid #dddddd;
+      border-bottom: none;
+      box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.15);
+    }
+    .react-autosuggest__suggestions-container {
+      background: #f4f4f5;
+      z-index: index($zindex, 'autosuggest-suggestion-container');
+      position: absolute;
+      top: 52px;
+      left: 0;
+      right: 0;
+      border-radius: 4px;
+      .react-autosuggest__section-container {
+        &:not(:first-child) {
+          margin-top: 4px;
+          border-top: 1px solid #dddddd;
+        }
+        &:first-child {
+          border-radius: 4px 4px 0 0;
+        }
+        &:last-child {
+          border-radius: 0 0 4px 4px;
+        }
+        background: white;
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 18px;
+        letter-spacing: -0.03em;
+        .react-autosuggest__section-title {
+          font-weight: 500;
+          border-bottom: 1px solid #dddddd;
+          height: 44px;
+          padding: 13px 16px;
+        }
+        ul {
+          padding: 0;
+          margin: 0;
+          .react-autosuggest__suggestion {
+            border-bottom: 1px solid #dddddd;
+            list-style: none;
+            min-height: 44px;
+            padding: 13px 16px;
+            .icon.check, .icon.dropdown-arrow {
+              height: 20px;
+              width: 20px;
+              position: relative;
+              top: 0;
+              right: -2px;
+              float: right;
+            }
+          }
+          .react-autosuggest__suggestion--highlighted {
+            background: #dfe5e8;
+          }
+        }
       }
     }
   }
@@ -975,7 +1072,7 @@ $margin-left-right: 0.625em;
         .route-alert-entityid {
           font-family: $font-family-narrow;
           font-size: 21px;
-          font-weight: bold;
+          font-weight: $font-weight-medium;
           margin-right: 10px;
         }
         .route-alert-time-period {
@@ -1085,7 +1182,7 @@ nav.top-bar .title .route-number {
         max-width: calc(100% - 1em);
       }
       a {
-        font-weight: $font-weight-bold;
+        font-weight: $font-weight-medium;
         color: $link-color;
         max-width: 100%;
       }

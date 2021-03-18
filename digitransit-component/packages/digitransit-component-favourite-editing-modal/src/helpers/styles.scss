@@ -98,7 +98,7 @@
         width: calc(100% - 69px - 86px);
         .favourite-edit-list-item-name {
           margin: 0;
-          font-weight: 500;
+          font-weight: var(--font-weight-medium);
           color: #333333;
           font-size: 15px;
           line-height: 1;

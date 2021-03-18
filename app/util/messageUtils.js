@@ -1,32 +1,57 @@
-import { findFeatures } from './geo-utils';
-import { updateMessage } from '../action/MessageActions';
-import GeoJsonStore from '../store/GeoJsonStore';
+import translations from '../translations';
+
+export const favouriteTypes = [
+  'stop',
+  'station',
+  'bikeStation',
+  'place',
+  'route',
+];
 
 /**
- * Checks if the user is inside an area polygon featured in a message
+ * Generates a multi-language favourite save or delete error message
+ * that can be stored in MessageStore.
  *
- * @param {*} lat The latitude of the position
- * @param {*} lon The longitude of the position
- * @param {*} context the context of the component
- * @param {*} messagesToCheck the messages to be checked
+ * @param {string} type the type of the favourite (stop|station|citybike-station|route|place)
+ * @param {boolean} isSave if message is generated for failed save, alternatively it's for failed deletion
+ * @returns error message that can be added to MessageStore
  */
-export default function triggerMessage(lat, lon, context, messagesToCheck) {
-  const { getGeoJsonData } = context.getStore(GeoJsonStore);
-  const messages = messagesToCheck.filter(
-    msg => !msg.shouldTrigger && msg.content && msg.geoJson,
-  );
-  messages.forEach(msg => {
-    return new Promise(resolve => {
-      resolve(getGeoJsonData(msg.geoJson));
-    }).then(value => {
-      const data = findFeatures(
-        { lat, lon },
-        (value && value.data && value.data.features) || [],
-      );
-      if (data.length > 0) {
-        msg.shouldTrigger = true; // eslint-disable-line no-param-reassign
-        context.executeAction(updateMessage, msg);
-      }
+export function failedFavouriteMessage(type, isSave) {
+  const english = translations.en;
+  const content = {};
+  const favouriteType = favouriteTypes.includes(type)
+    ? type
+    : favouriteTypes[0];
+  Object.keys(translations).forEach(lang => {
+    const current = translations[lang];
+    content[lang] = [];
+
+    const headingKey = isSave
+      ? `add-favourite-${favouriteType}-failed-heading`
+      : 'delete-favourite-failed-heading';
+    const heading = current[headingKey] || english[headingKey];
+    content[lang].push({
+      type: 'heading',
+      content: heading,
+    });
+
+    const textKey = 'favourite-failed-text';
+    const text = current[textKey] || english[textKey];
+    content[lang].push({
+      type: 'text',
+      content: text,
     });
   });
+  return {
+    id: isSave
+      ? `failedFavouriteSave-${favouriteType}`
+      : 'failedFavouriteDeletion',
+    persistence: 'repeat',
+    priority: 4,
+    icon: 'caution_white_exclamation',
+    iconColor: '#dc0451',
+    backgroundColor: '#fdf0f5',
+    type: 'error',
+    content,
+  };
 }
