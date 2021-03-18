@@ -607,6 +607,7 @@ section.content {
         fill: white;
       }
       #close-message-bar {
+        display: inline-block;
         .icon {
           fill: white !important;
         }
