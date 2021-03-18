@@ -268,6 +268,8 @@ function StopsNearYouMap(
         setUseFitBounds(true);
       }
       setBounds(newBounds);
+    } else {
+      setBounds(handleBounds(position, sortedStopEdges, breakpoint));
     }
   }, [mapState, sortedStopEdges]);
 
