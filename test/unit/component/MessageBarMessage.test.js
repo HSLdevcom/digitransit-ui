@@ -11,8 +11,6 @@ describe('<MessageBarMessage />', () => {
     };
     const wrapper = shallowWithIntl(<MessageBarMessage {...props} />);
     expect(wrapper.find('a').prop('href')).to.equal('foobar');
-    expect(wrapper.find('a').text()).to.contain('This is a link');
-    expect(wrapper.find('.message-bar-link-icon')).to.have.lengthOf(1);
   });
 
   it('should not render tag "a" if the href is missing', () => {

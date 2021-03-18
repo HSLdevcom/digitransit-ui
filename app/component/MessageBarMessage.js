@@ -44,20 +44,22 @@ const MessageBarMessage = (
   const a = (e, key, color) => {
     if (e.type === 'a' && e.href && maximized) {
       return (
-        <span>
-          {` ${intl.formatMessage({
-            id: 'read-more',
-            defaultMessage: 'Read more',
-          })}:`}
-          <a
-            className="message-bar-link"
-            key={`${key}-link`}
-            href={e.href}
-            style={{ color: e.color || null }}
-          >
-            {e.href}
-          </a>
-        </span>
+        e.href && (
+          <span>
+            {` ${intl.formatMessage({
+              id: 'read-more',
+              defaultMessage: 'Read more',
+            })}:`}
+            <a
+              className="message-bar-link"
+              key={`${key}-link`}
+              href={e.href}
+              style={{ color: e.color || null }}
+            >
+              {e.href}
+            </a>
+          </span>
+        )
       );
     }
     return null;
