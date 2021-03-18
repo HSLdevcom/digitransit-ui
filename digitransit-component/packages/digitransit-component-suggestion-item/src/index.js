@@ -139,7 +139,9 @@ const SuggestionItem = pure(
         item.properties.layer === 'favouriteBikeRentalStation' ||
         item.properties.layer === 'bikestation');
     const cityBikeLabel = isBikeRentalStation
-      ? suggestionType.concat(', ').concat(item.properties.localadmin)
+      ? suggestionType.concat(
+          item.properties.localadmin ? `, ${item.properties.localadmin}` : '',
+        )
       : label;
     const ri = (
       <div
