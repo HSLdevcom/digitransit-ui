@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
-import moment from 'moment';
 
 import TimetableContainer from './TimetableContainer';
 
-const initialDate = moment().format('YYYYMMDD');
-
+const initialDate = '20210809';
 class TimetablePage extends React.Component {
   static propTypes = {
     stop: PropTypes.shape({
