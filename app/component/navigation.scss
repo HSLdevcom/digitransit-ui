@@ -296,10 +296,6 @@ $content-background-color: $background-color;
     }
   }
   .close-button {
-    &.mobile-bar-close {
-      width: 15px;
-      margin: 2px -10px 0px 0px;
-    }
     padding: 15px 0px;
     float: right;
     background: none;
@@ -551,20 +547,16 @@ section.content {
   position: relative;
   z-index: 802;
   width: 100%;
-  height: 70px;
+  height: 100px;
   display: block;
   @include font-book;
   font-size: 15px;
-  line-height: 19px;
+  line-height: 21px;
   letter-spacing: -0.42px;
   color: $black;
   text-align: left;
   cursor: pointer;
-  &.mobile-bar {
-    height: 110px;
-    -webkit-line-clamp: 2; /* number of lines to show */
-    -webkit-box-orient: vertical;
-  }
+
   .banner-container {
     display: flex;
     max-height: 100%;
@@ -579,8 +571,24 @@ section.content {
       max-height: 100px;
       overflow: hidden;
       padding: 10px 10px 0px 10px;
-      &.maximized {
-        max-height: 400px;
+
+      .react-swipe-container {
+        height: 72px;
+        .message-content.hideContent {
+          //overflow: hidden;
+          //line-height: 1em;
+          //height: 2em;
+          span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* number of lines to show */
+            -webkit-box-orient: vertical;
+            button {
+              text-decoration: underline;
+            }
+          }
+      }
       }
     }
 
@@ -600,8 +608,34 @@ section.content {
     }
   }
 
-  span {
-    width: 45px;
+  &.maximized {
+    height: auto;
+
+    .banner-container {
+      height: auto;
+    }
+    .message-bar-container {
+      max-height: 100%;
+
+      .react-swipe-container {
+        height: auto;
+        margin-bottom: 5px;
+
+        .message-content {
+          //line-height: 1em;
+          //height: auto;
+          a {
+            font-weight: $font-weight-bold;
+            color: $white;
+          }
+        }
+      }
+      &.message-bar-disruption {
+        a {
+          color: white;
+        }
+      }
+    }
   }
 
   h2 {
