@@ -553,7 +553,6 @@ section.content {
   position: relative;
   z-index: 802;
   width: 100%;
-  height: 100px;
   display: block;
   @include font-book;
   font-size: 15px;
@@ -564,6 +563,7 @@ section.content {
   cursor: pointer;
 
   .banner-container {
+    height: auto;
     display: flex;
     max-height: 100%;
 
@@ -574,36 +574,42 @@ section.content {
     }
 
     .message-bar-container {
-      max-height: 100px;
       overflow: hidden;
       padding: 10px 10px 0px 10px;
 
       .react-swipe-container {
-        height: 72px;
-        .message-content.hideContent {
-          //overflow: hidden;
-          //line-height: 1em;
-          //height: 2em;
-          span {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2; /* number of lines to show */
-            -webkit-box-orient: vertical;
-            button {
-              text-decoration: underline;
-            }
+        height: auto;
+        margin-bottom: 3px;
+        .message-content {
+          button {
+            text-decoration: underline;
+            font-weight: $font-weight-bold;
           }
-      }
+          .message-bar-link {
+            word-break: break-word;
+          }
+        }
       }
     }
 
     &.banner-disruption {
       background: $disruption-color;
 
+      .swipe-tab-ball {
+        &.selected {
+          border: solid 2px $white;
+          background-color: $white;
+        }
+      }
+
       .icon {
         color: $disruption-color;
         fill: white;
+      }
+      #close-message-bar {
+        .icon {
+          fill: white !important;
+        }
       }
 
       .message-bar-content,
@@ -614,32 +620,23 @@ section.content {
     }
   }
 
-  &.maximized {
-    height: auto;
+  .message-bar-container {
+    max-height: 100%;
 
-    .banner-container {
+    .react-swipe-container {
       height: auto;
-    }
-    .message-bar-container {
-      max-height: 100%;
+      margin-bottom: 5px;
 
-      .react-swipe-container {
-        height: auto;
-        margin-bottom: 5px;
-
-        .message-content {
-          //line-height: 1em;
-          //height: auto;
-          a {
-            font-weight: $font-weight-bold;
-            color: $white;
-          }
+      .message-content {
+        a {
+          font-weight: $font-weight-bold;
+          color: $white;
         }
       }
-      &.message-bar-disruption {
-        a {
-          color: white;
-        }
+    }
+    &.message-bar-disruption {
+      a {
+        color: white;
       }
     }
   }
@@ -648,7 +645,7 @@ section.content {
     font-size: 15px;
     letter-spacing: -0.42px;
     margin-top: 12px;
-    line-height: 9px;
+    line-height: 15px;
     margin-bottom: 6px;
   }
 
@@ -675,9 +672,7 @@ section.content {
     margin: -3px -5px 0px 0px;
   }
 }
-.message-bar-fade {
-  mask-image: linear-gradient(rgba(0, 0, 0, 1) 80px, rgba(0, 0, 0, 0));
-}
+
 // Need more specific selector to override
 .message-bar .icon {
   margin: 17px;

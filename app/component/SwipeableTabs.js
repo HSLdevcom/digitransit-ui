@@ -137,7 +137,7 @@ export default class SwipeableTabs extends React.Component {
 
     return (
       <div
-        className={`swipe-header-container ${
+        className={`${this.props.hideArrows ? '' : 'swipe-header-container'} ${
           this.props.desktop ? 'desktop' : ''
         }`}
       >

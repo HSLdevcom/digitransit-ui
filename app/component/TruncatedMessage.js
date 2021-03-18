@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { intlShape } from 'react-intl';
 import Truncate from 'react-truncate';
 
-const TruncatedMessage = ({ lines, message, className }, { intl }) => {
+const TruncatedMessage = (
+  { lines, message, className, onExpand },
+  { intl },
+) => {
   const [isTruncated, setTruncated] = useState(true);
   return (
     <Truncate
@@ -15,7 +18,10 @@ const TruncatedMessage = ({ lines, message, className }, { intl }) => {
           <button
             className={className}
             type="button"
-            onClick={() => setTruncated(false)}
+            onClick={e => {
+              setTruncated(false);
+              onExpand(e);
+            }}
           >
             {intl.formatMessage({
               id: 'show-more',
@@ -35,6 +41,7 @@ TruncatedMessage.propTypes = {
   lines: PropTypes.number.isRequired,
   message: PropTypes.string.isRequired,
   className: PropTypes.string,
+  onExpand: PropTypes.func,
 };
 
 TruncatedMessage.contextTypes = {

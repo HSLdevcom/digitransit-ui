@@ -125,7 +125,6 @@ class MessageBar extends Component {
 
   state = {
     slideIndex: 0,
-    maximized: false,
   };
 
   onSwipe = e => {
@@ -175,18 +174,12 @@ class MessageBar extends Component {
       <div key={el.id}>
         <MessageBarMessage
           key={el.id}
-          onMaximize={this.maximize}
           content={el.content[this.props.lang] || el.content.fi}
           textColor={textColor}
-          maximized={this.state.maximized}
           intl={this.context.intl}
         />
       </div>
     ));
-
-  maximize = () => {
-    this.setState({ maximized: true });
-  };
 
   validMessages = () => {
     const { serviceAlerts } = this.state;
@@ -223,7 +216,7 @@ class MessageBar extends Component {
   };
 
   render() {
-    const { maximized, ready, slideIndex } = this.state;
+    const { ready, slideIndex } = this.state;
     if (!ready) {
       return null;
     }
@@ -255,9 +248,7 @@ class MessageBar extends Component {
           id="messageBar"
           role="banner"
           aria-hidden="true"
-          className={`message-bar flex-horizontal ${
-            this.state.maximized ? 'maximized' : ''
-          }`}
+          className="message-bar flex-horizontal"
           style={{ background: backgroundColor }}
         >
           <div
@@ -272,8 +263,8 @@ class MessageBar extends Component {
               className="message-icon"
             />
             <div className={`message-bar-content message-bar-${type}`}>
-              <div className={!maximized ? 'message-bar-fade' : ''}>
-                <div className={`message-bar-container ${maximized}`}>
+              <div>
+                <div className="message-bar-container">
                   <div
                     style={{
                       background: isDisruption ? 'inherit' : backgroundColor,

@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import { v4 as uuid } from 'uuid';
+import React, { useState } from 'react';
 import { intlShape } from 'react-intl';
 
-const MessageBarMessage = (
-  { content, onMaximize, textColor, maximized },
-  { intl },
-) => {
+import TruncatedMessage from './TruncatedMessage';
+
+const MessageBarMessage = ({ content, textColor }, { intl }) => {
+  const [isMaximized, setMaximized] = useState(false);
+
   const heading = (e, key, color) => {
     if (e.type === 'heading') {
       return (
@@ -21,45 +21,36 @@ const MessageBarMessage = (
   // eslint-disable-next-line no-unused-vars
   const span = (e, key, color) => {
     if (e.type === 'text') {
-      if (e.content.includes('\n')) {
-        const result = e.content
-          .split('\n')
-          .filter(item => item !== '')
-          .map(item => {
-            return (
-              <span key={uuid()}>
-                {item}
-                <br />
-              </span>
-            );
-          });
-        return result;
-      }
-      return <span>{e.content}</span>;
+      return (
+        <TruncatedMessage
+          lines={2}
+          message={e.content}
+          className="message-bar-text"
+          onExpand={setMaximized}
+        />
+      );
     }
     return null;
   };
 
   // eslint-disable-next-line no-unused-vars
   const a = (e, key, color) => {
-    if (e.type === 'a' && e.href && maximized) {
+    if (e.type === 'a' && e.href && isMaximized) {
       return (
-        e.href && (
-          <span>
-            {` ${intl.formatMessage({
-              id: 'read-more',
-              defaultMessage: 'Read more',
-            })}:`}
-            <a
-              className="message-bar-link"
-              key={`${key}-link`}
-              href={e.href}
-              style={{ color: e.color || null }}
-            >
-              {e.href}
-            </a>
-          </span>
-        )
+        <span>
+          {` ${intl.formatMessage({
+            id: 'read-more',
+            defaultMessage: 'Read more',
+          })}:`}
+          <a
+            className="message-bar-link"
+            key={`${key}-link`}
+            href={e.href}
+            style={{ color: e.color || null }}
+          >
+            {e.href}
+          </a>
+        </span>
       );
     }
     return null;
@@ -70,20 +61,14 @@ const MessageBarMessage = (
   // eslint-disable-next-line jsx-a11y/click-events-have-key-events
   return (
     <div
-      className={`message-content ${maximized ? 'maximized' : 'hideContent'}`}
+      className="message-content"
       tabIndex={0}
       aria-hidden="true"
       role="button"
-      onClick={onMaximize}
       style={{ color: textColor }}
     >
       {content.map((fragment, i) =>
-        elements.map(t => t(fragment, i, textColor, maximized)),
-      )}
-      {!maximized && (
-        <button type="button" onClick={onMaximize}>
-          Näytä lisää
-        </button>
+        elements.map(t => t(fragment, i, textColor, isMaximized)),
       )}
     </div>
   );
@@ -91,9 +76,7 @@ const MessageBarMessage = (
 
 MessageBarMessage.propTypes = {
   content: PropTypes.array,
-  onMaximize: PropTypes.func.isRequired,
   textColor: PropTypes.string,
-  maximized: PropTypes.bool,
 };
 
 MessageBarMessage.contextTypes = {
