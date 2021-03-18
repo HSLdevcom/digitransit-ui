@@ -356,6 +356,7 @@ class StopsNearYouPage extends React.Component {
         const noFavs = this.noFavorites();
         return (
           <div
+            key={nearByStopMode}
             className={`stops-near-you-page swipeable-tab ${
               nearByStopMode !== mode && 'inactive'
             }`}
