@@ -3,9 +3,11 @@ on:
   push:
     branches:
       - master
+      - ratikka
   pull_request:
     branches:
       - master
+      - ratikka
 jobs:
   install:
     runs-on: ubuntu-18.04
@@ -253,8 +255,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Build docker image from master and push it
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/ratikka'
         run: ./.github/workflows/scripts/build_and_push_master.sh
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_AUTH: ${{ secrets.DOCKER_AUTH }}
+          DOCKER_BASE_TAG: ratikka
