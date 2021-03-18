@@ -352,7 +352,8 @@ svg.realtime-icon {
 
 .swipeable-tab {
   &.inactive {
-      max-height: 100vh;
+    // just an arbitrary small value
+      max-height: 1px;
   }
 }
 
