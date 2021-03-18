@@ -67,7 +67,7 @@ class IndexPage extends React.Component {
 
   static defaultProps = {
     autoSetOrigin: true,
-    tab: TAB_NEARBY,
+    tab: TAB_FAVOURITES,
   };
 
   constructor(props, context) {
@@ -83,7 +83,7 @@ class IndexPage extends React.Component {
   componentDidMount() {
     // auto select nearby tab if none selected and bp=large
     if (this.props.tab === undefined) {
-      this.clickNearby();
+      this.clickFavourites();
     }
 
     events.on('popupOpened', this.onPopupOpen);
@@ -104,9 +104,9 @@ class IndexPage extends React.Component {
   getSelectedTab = () => {
     switch (this.props.tab) {
       case TAB_FAVOURITES:
-        return 2;
-      case TAB_NEARBY:
         return 1;
+      case TAB_NEARBY:
+        return 2;
       default:
         return undefined;
     }
@@ -182,7 +182,7 @@ class IndexPage extends React.Component {
         Tab = FavouritesPanel;
         break;
       default:
-        Tab = NearbyRoutesPanel;
+        Tab = FavouritesPanel;
     }
     return (
       <Tab origin={this.props.origin} destination={this.props.destination} />
