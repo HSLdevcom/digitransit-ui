@@ -259,9 +259,8 @@
     }
 }
 
-.disruption-banner-container {
+ .disruption-banner-container {
     @include font-medium;
-    height: 60px;
     text-decoration: none;
     font-weight: 100;
     background-color: #dc0451;
@@ -273,7 +272,8 @@
     display: flex;
     .disruption-icon-container {
         width: 40px;
-        align-self: center;
+        height: 100%;
+        padding: 4px 0;
         .icon-container {
             font-size: 24px;
             display: flex;
@@ -282,13 +282,22 @@
     }
     .disruption-info-container {
         line-height: 1.2;
-        height: 2.4em;
         flex: 1;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
+        .disruption-info-content {
+          color: inherit;
+          text-decoration: none;
+        }
+        .disruption-show-more {
+          font-weight: $font-weight-medium;
+        }
+    }
+    .disruption-close-button {
+      height: 100%;
+      float: right;
+      svg {
+        width: 13.5px;
+        height: 13.5px;
+      }
     }
 }
 
