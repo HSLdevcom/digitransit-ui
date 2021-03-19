@@ -115,11 +115,89 @@ export default class SwipeableTabs extends React.Component {
     }
   };
 
-  render() {
+  handleAccessibilityNavigation = e => {
+    // Prevents keyboard navigation out of visible swipe tabs
+    if (e.keyCode !== 9) {
+      return;
+    }
+    const focusableTags =
+      'a, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])';
+
+    const allKeyboardfocusableElements = document.querySelectorAll(
+      focusableTags,
+    );
+    const swipeContainerElements = document.getElementsByClassName(
+      'react-swipe-container',
+    )[0].childNodes[0];
+
+    const tabElements = swipeContainerElements.childNodes;
+    const currentTabElement = tabElements[this.state.tabIndex].childNodes[0];
+    const currentTabKeyboardfocusableElements = currentTabElement.querySelectorAll(
+      focusableTags,
+    );
+    if (!currentTabKeyboardfocusableElements.length) {
+      return;
+    }
+
+    const lastTabElement = tabElements[tabElements.length - 1].childNodes[0];
+    const lastKeyboardfocusableElements = lastTabElement.querySelectorAll(
+      focusableTags,
+    );
+    const lastTabFocusableElement =
+      lastKeyboardfocusableElements[lastKeyboardfocusableElements.length - 1];
+
+    let elementAfterLastSwipeElement;
+    allKeyboardfocusableElements.forEach((el, index) => {
+      if (el === lastTabFocusableElement) {
+        const element = allKeyboardfocusableElements[index + 1];
+        elementAfterLastSwipeElement =
+          element || allKeyboardfocusableElements[0];
+      }
+    });
+
+    let nextIndex;
+    Object.values(currentTabKeyboardfocusableElements).forEach(
+      (value, index) => {
+        if (e.target === value) {
+          nextIndex = index + 1;
+        }
+      },
+    );
+    // Get next focusable element in current tab. If it doesn't exist focus to next element outside swipe tabs
+    const nextFocusable = currentTabKeyboardfocusableElements[nextIndex];
+    if (!nextFocusable) {
+      e.preventDefault();
+      if (nextIndex === currentTabKeyboardfocusableElements.length) {
+        elementAfterLastSwipeElement.focus();
+      } else {
+        currentTabKeyboardfocusableElements[0].focus();
+      }
+    }
+  };
+
+  setHiddenTabsUntabbable = () => {
     const { tabs } = this.props;
+
+    const unTabbableTabs = tabs.map((tab, index) => {
+      return (
+        <div
+          key={tab.key}
+          style={{ outline: 'none' }}
+          tabIndex={index === this.state.tabIndex ? '0' : '-1'}
+        >
+          {tab}
+        </div>
+      );
+    });
+    return unTabbableTabs;
+  };
+
+  render() {
+    const tabs = this.setHiddenTabsUntabbable();
     const tabBalls = this.tabBalls(tabs.length);
     const disabled = tabBalls.length < 2;
     let reactSwipeEl;
+
     return (
       <div>
         <div className={`swipe-header-container ${this.props.classname}`}>
@@ -127,16 +205,30 @@ export default class SwipeableTabs extends React.Component {
             className={`swipe-header ${this.props.classname}`}
             role="row"
             onKeyDown={e => this.handleKeyPress(e, reactSwipeEl)}
-            aria-label="Swipe result tabs. Navigave with left and right arrow"
+            aria-label={this.context.intl.formatMessage({
+              id: 'swipe-result-tabs',
+              defaultMessage:
+                'Swipe result tabs. Navigate with left and right arrow',
+            })}
             tabIndex="0"
           >
             <div className="swipe-button-container">
               <div
                 className="swipe-button"
                 onClick={() => reactSwipeEl.prev()}
-                onKeyDown={() => {}}
+                onKeyDown={e => {
+                  if (e.keyCode === 13 || e.keyCode === 32) {
+                    e.preventDefault();
+                    reactSwipeEl.prev();
+                  }
+                }}
                 role="button"
                 tabIndex="0"
+                aria-label={this.context.intl.formatMessage({
+                  id: 'swipe-result-tab-left',
+                  defaultMessage:
+                    'Swipe result tabs left arrow. Press enter or space to show previous result.',
+                })}
               >
                 <Icon
                   img="icon-icon_arrow-collapse--left"
@@ -153,9 +245,19 @@ export default class SwipeableTabs extends React.Component {
               <div
                 className="swipe-button"
                 onClick={() => reactSwipeEl.next()}
-                onKeyDown={() => {}}
+                onKeyDown={e => {
+                  if (e.keyCode === 13 || e.keyCode === 32) {
+                    e.preventDefault();
+                    reactSwipeEl.next();
+                  }
+                }}
                 role="button"
                 tabIndex="0"
+                aria-label={this.context.intl.formatMessage({
+                  id: 'swipe-result-tab-right',
+                  defaultMessage:
+                    'Swipe result tabs right arrow. Press enter or space to show next result.',
+                })}
               >
                 <Icon
                   img="icon-icon_arrow-collapse--right"
@@ -169,22 +271,30 @@ export default class SwipeableTabs extends React.Component {
             </div>
           </div>
         </div>
-        <ReactSwipe
-          swipeOptions={{
-            startSlide: this.props.tabIndex,
-            continuous: false,
-            transitionEnd: e => {
-              this.setState({ tabIndex: e });
-              this.props.onSwipe(e);
-            },
-          }}
-          childCount={tabs.length}
-          ref={el => {
-            reactSwipeEl = el;
-          }}
-        >
-          {tabs}
-        </ReactSwipe>
+        <span>
+          <div
+            tabIndex="0"
+            role="tablist"
+            onKeyDown={this.handleAccessibilityNavigation}
+          >
+            <ReactSwipe
+              swipeOptions={{
+                startSlide: this.props.tabIndex,
+                continuous: false,
+                transitionEnd: e => {
+                  this.setState({ tabIndex: e });
+                  this.props.onSwipe(e);
+                },
+              }}
+              childCount={tabs.length}
+              ref={el => {
+                reactSwipeEl = el;
+              }}
+            >
+              {tabs}
+            </ReactSwipe>
+          </div>
+        </span>
       </div>
     );
   }
