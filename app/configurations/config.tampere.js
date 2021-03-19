@@ -169,22 +169,26 @@ export default configMerger(walttiConfig, {
           {
             type: 'a',
             content:
-              'Tutustu turvallisen matkustamisen ohjeisiin koronaviruksen aikana tästä linkistä',
-            href: 'https://www.nysse.fi/korona.html',
+              'Tervetuloa tutustumaan 9.8.2021 aloittavaan Nyssen palveluun. Aikataulut ovat alustavia. Lisätietoa linjastosta tästä linkistä.',
+            href: 'https://www.nysse.fi/ratikka/linjaston-uudistus.html',
           },
         ],
         en: [
           {
             type: 'a',
-            content: 'Please check instructions for safe travelling here',
-            href: 'https://www.nysse.fi/en/service-changes/coronavirus.html',
+            content:
+              'Welcome to explore the Nysse service that starts on August 9, 2021. Schedules are preliminary. More information about the service at this link.',
+            href:
+              'https://www.nysse.fi/en/tampere-tramway/new-service-desing.html',
           },
         ],
         sv: [
           {
             type: 'a',
-            content: 'Please check instructions for safe travelling here',
-            href: 'https://www.nysse.fi/en/service-changes/coronavirus.html',
+            content:
+              'Welcome to explore the Nysse service that starts on August 9, 2021. Schedules are preliminary. More information about the service at this link.',
+            href:
+              'https://www.nysse.fi/en/tampere-tramway/new-service-desing.html',
           },
         ],
       },
