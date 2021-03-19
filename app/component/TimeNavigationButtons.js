@@ -16,7 +16,6 @@ class TimeNavigationButtons extends React.Component {
     isLaterDisabled: PropTypes.bool.isRequired,
     onEarlier: PropTypes.func.isRequired,
     onLater: PropTypes.func.isRequired,
-    onNow: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
@@ -84,16 +83,6 @@ class TimeNavigationButtons extends React.Component {
             >
               {leftArrow}
               <FormattedMessage id="earlier" defaultMessage="Earlier" />
-            </button>
-            <button
-              aria-label={intl.formatMessage({
-                id: 'set-time-now-button-label',
-                defaultMessage: 'Set travel time to now',
-              })}
-              className="standalone-btn time-navigation-now-btn"
-              onClick={this.props.onNow}
-            >
-              <FormattedMessage id="now" defaultMessage="Now" />
             </button>
             <button
               aria-label={intl.formatMessage({

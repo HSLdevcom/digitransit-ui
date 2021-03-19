@@ -232,20 +232,7 @@ class Timetable extends React.Component {
     });
 
     const timetableMap = this.groupArrayByHour(routesWithDetails);
-
-    const stopIdSplitted = this.props.stop.gtfsId.split(':');
-    const stopTimetableHandler =
-      this.context.config.timetables &&
-      this.context.config.timetables[stopIdSplitted[0]];
-    const stopPDFURL =
-      stopTimetableHandler &&
-      this.context.config.URL.STOP_TIMETABLES[stopIdSplitted[0]] &&
-      this.props.stop.locationType !== 'STATION'
-        ? stopTimetableHandler.stopPdfUrlResolver(
-            this.context.config.URL.STOP_TIMETABLES[stopIdSplitted[0]],
-            this.props.stop,
-          )
-        : null;
+    const stopPDFURL = null;
     return (
       <div className="timetable">
         {this.state.showFilterModal === true ? (
