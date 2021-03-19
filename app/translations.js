@@ -2256,9 +2256,9 @@ const translations = {
     'summary-page.title': 'Reittiehdotukset',
     'swap-order-button-label': 'Käännä reitin suunta vastakkaiseksi',
     'swipe-result-tab-left':
-      'Reittiehdotusvälilehtien navigointi. Näytä edellinen välilehti painamalla enteriä tai välilyöntiä.',
+      'Reittiehdotusvälilehtien navigointipainike. Näytä edellinen välilehti painamalla enteriä tai välilyöntiä.',
     'swipe-result-tab-right':
-      'Reittiehdotusvälilehtien navigointi. Näytä seuraava välilehti painamalla enteriä tai välilyöntiä.',
+      'Reittiehdotusvälilehtien navigointipainike. Näytä seuraava välilehti painamalla enteriä tai välilyöntiä.',
     'swipe-result-tabs':
       'Reittiehdotusvälilehdet. Selaa välilehtiä nuolinäppäimillä.',
     'terminal-page.description': 'Terminaali - {name}',

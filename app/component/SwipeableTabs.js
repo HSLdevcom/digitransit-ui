@@ -225,7 +225,7 @@ export default class SwipeableTabs extends React.Component {
                 role="button"
                 tabIndex="0"
                 aria-label={this.context.intl.formatMessage({
-                  id: 'swipe-result-tabs-left',
+                  id: 'swipe-result-tab-left',
                   defaultMessage:
                     'Swipe result tabs left arrow. Press enter or space to show previous result.',
                 })}
@@ -254,7 +254,7 @@ export default class SwipeableTabs extends React.Component {
                 role="button"
                 tabIndex="0"
                 aria-label={this.context.intl.formatMessage({
-                  id: 'swipe-result-tabs-right',
+                  id: 'swipe-result-tab-right',
                   defaultMessage:
                     'Swipe result tabs right arrow. Press enter or space to show next result.',
                 })}
