@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import ComponentUsageExample from './ComponentUsageExample';
 
 function PlatformNumber({ number, short, isRailOrSubway }) {
@@ -11,7 +11,7 @@ function PlatformNumber({ number, short, isRailOrSubway }) {
     return (
       <span className="platform-short">
         <FormattedMessage
-          id={isRailOrSubway ? 'track-short' : 'platform-short'}
+          id={isRailOrSubway ? 'track-short-no-num' : 'platform-short-no-num'}
           defaultMessage={isRailOrSubway ? 'Track ' : 'Plat. '}
         />
         <span className="platform-number-wrapper">{number}</span>
@@ -22,7 +22,7 @@ function PlatformNumber({ number, short, isRailOrSubway }) {
   return (
     <span className="platform-number">
       <FormattedMessage
-        id={isRailOrSubway ? 'track-num' : 'platform-num'}
+        id={isRailOrSubway ? 'track' : 'platform'}
         defaultMessage={isRailOrSubway ? 'Track ' : 'Platform '}
       />
       <span className="platform-number-wrapper">{number}</span>
@@ -39,6 +39,10 @@ PlatformNumber.propTypes = {
 PlatformNumber.defaultProps = {
   number: undefined,
   short: true,
+};
+
+PlatformNumber.contextTypes = {
+  intl: intlShape.isRequired,
 };
 
 PlatformNumber.displayName = 'PlatformNumber';
