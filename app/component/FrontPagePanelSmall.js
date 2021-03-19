@@ -2,12 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
-import NearbyTabLabel from './NearbyTabLabel';
 import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
 
 const FrontPagePanelSmall = ({
   selectedPanel,
-  nearbyClicked,
   favouritesClicked,
   mapExpanded,
   children,
@@ -17,7 +15,7 @@ const FrontPagePanelSmall = ({
   const nearbyClasses = ['nearby-routes', 'h4'];
   const favouritesClasses = ['favourites', 'h4'];
 
-  if (selectedPanel === 1) {
+  if (selectedPanel === 2) {
     nearbyClasses.push('selected');
   } else {
     favouritesClasses.push('selected');
@@ -52,10 +50,6 @@ const FrontPagePanelSmall = ({
           },
         ])}
       >
-        <NearbyTabLabel
-          classes={cx(tabClasses, nearbyClasses)}
-          onClick={nearbyClicked}
-        />
         <FavouritesTabLabelContainer
           classes={cx(tabClasses, favouritesClasses)}
           onClick={favouritesClicked}
@@ -90,7 +84,6 @@ FrontPagePanelSmall.defaultProps = {
 
 FrontPagePanelSmall.propTypes = {
   selectedPanel: PropTypes.oneOf([1, 2]),
-  nearbyClicked: PropTypes.func.isRequired,
   favouritesClicked: PropTypes.func.isRequired,
   mapExpanded: PropTypes.bool.isRequired,
   children: PropTypes.node,

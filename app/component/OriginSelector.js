@@ -3,7 +3,7 @@ import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { routerShape } from 'react-router';
 import { dtLocationShape } from '../util/shapes';
-import { navigateTo, TAB_NEARBY } from '../util/path';
+import { navigateTo, TAB_FAVOURITES } from '../util/path';
 import { isBrowser } from '../util/browser';
 import OriginSelectorRow from './OriginSelectorRow';
 import { suggestionToLocation, getIcon } from '../util/suggestionUtils';
@@ -129,7 +129,7 @@ OriginSelector.propTypes = {
   tab: PropTypes.string,
 };
 OriginSelector.defaultProps = {
-  tab: TAB_NEARBY,
+  tab: TAB_FAVOURITES,
 };
 
 OriginSelector.contextTypes = {
