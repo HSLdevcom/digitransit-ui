@@ -375,7 +375,7 @@ class TransitLeg extends React.Component {
                 <Icon
                   img="icon-icon_arrow-collapse--right"
                   className="itinerary-arrow-icon"
-                  color="#333"
+                  color={config.colors.primary}
                 />
               </Link>
               <ServiceAlertIcon
