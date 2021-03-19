@@ -86,6 +86,16 @@ class IndexPage extends React.Component {
       this.clickFavourites();
     }
 
+    const location = this.context.router.getCurrentLocation();
+    if (location.query.time !== 1628499600) {
+      this.context.router.replace({
+        ...location,
+        query: {
+          ...location.query,
+          time: 1628499600,
+        },
+      });
+    }
     events.on('popupOpened', this.onPopupOpen);
   }
 
