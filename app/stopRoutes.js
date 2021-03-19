@@ -99,7 +99,7 @@ export default function getStopRoutes(isTerminal = false) {
         render={ComponentLoading404Renderer}
       >
         <IndexRoute
-          getComponent={getStopPageContentPage}
+          getComponent={getTimetablePage}
           queries={queries}
           render={RelayRenderer}
         />

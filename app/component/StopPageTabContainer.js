@@ -49,7 +49,7 @@ const getActiveTab = pathname => {
   if (pathname.indexOf(`/${Tab.Timetable}`) > -1) {
     return Tab.Timetable;
   }
-  return Tab.RightNow;
+  return Tab.Timetable;
 };
 
 function StopPageTabContainer(
@@ -133,31 +133,6 @@ function StopPageTabContainer(
     <div className="stop-page-content-wrapper">
       <div>
         <div className="stop-tab-container">
-          <Link
-            to={urlBase}
-            className={cx('stop-tab-singletab', {
-              active: activeTab === Tab.RightNow,
-            })}
-            onClick={() => {
-              addAnalyticsEvent({
-                category: 'Stop',
-                action: 'OpenRightNowTab',
-                name: null,
-              });
-            }}
-          >
-            <div className="stop-tab-singletab-container">
-              <div>
-                <Icon
-                  className="stop-page-tab_icon"
-                  img="icon-icon_right-now"
-                />
-              </div>
-              <div>
-                <FormattedMessage id="right-now" defaultMessage="right now" />
-              </div>
-            </div>
-          </Link>
           <Link
             to={`${urlBase}/${Tab.Timetable}`}
             className={cx('stop-tab-singletab', {
