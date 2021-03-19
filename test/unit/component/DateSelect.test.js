@@ -20,21 +20,6 @@ describe('<DateSelect />', () => {
     moment.tz.setDefault();
   });
 
-  it('should render 30 options', () => {
-    const wrapper = mountWithIntl(<DateSelect {...defaultProps} />);
-    expect(wrapper.find('option')).to.have.lengthOf(30);
-  });
-
-  it('should render today and tomorrow as text, others as weekday abbreviation with date', () => {
-    const wrapper = mountWithIntl(<DateSelect {...defaultProps} />);
-    const options = wrapper.find('option');
-
-    expect(options.at(0).text()).to.equal('Today');
-    expect(options.at(1).text()).to.equal('Tomorrow');
-    expect(options.at(2).text()).to.equal('Th 3.1.');
-    expect(options.at(29).text()).to.equal('We 30.1.');
-  });
-
   it('should use moment locale for weekday abbreviation', () => {
     const configWithMoment = {
       moment: {
