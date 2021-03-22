@@ -116,7 +116,7 @@ export default {
 
   transportModes: {
     citybike: {
-      availableForSelection: cityBikesEnabled,
+      availableForSelection: false, // cityBikesEnabled,
     },
     airplane: {
       availableForSelection: false,
@@ -500,7 +500,7 @@ export default {
 
   showNearYouButtons: true,
   nearYouModes: [
-    'favorite',
+    //    'favorite',
     'bus',
     'tram',
     'subway',

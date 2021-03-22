@@ -272,10 +272,6 @@ class StopsNearYouPage extends React.Component {
           mode =>
             this.context.config.transportModes[mode].availableForSelection,
         );
-
-    if (!configNearByYouModes.includes('favorite')) {
-      configNearByYouModes.unshift('favorite');
-    }
     const nearByStopModes = configNearByYouModes.map(nearYouMode =>
       nearYouMode.toUpperCase(),
     );
