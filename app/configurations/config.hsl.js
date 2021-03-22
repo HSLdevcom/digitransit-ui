@@ -506,7 +506,7 @@ export default {
     'subway',
     'rail',
     'ferry',
-    cityBikesEnabled && 'citybike',
+    // cityBikesEnabled && 'citybike',
   ],
 
   zoneIconsAsSvg: true,
