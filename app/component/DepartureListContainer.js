@@ -17,6 +17,7 @@ import {
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { getHeadsignFromRouteLongName } from '../util/legUtils';
 
 const asDepartures = stoptimes =>
   !stoptimes
@@ -189,21 +190,11 @@ class DepartureListContainer extends Component {
         defaultMessage: 'Drop-off only',
       });
     }
-    let headsign =
+    const headsign =
       departure.headsign ||
       departure.pattern.headsign ||
-      (departure.trip && departure.trip.tripHeadsign);
-
-    if (!headsign) {
-      const { longName, shortName } = departure.pattern.route;
-      headsign = longName;
-      if (
-        longName.substring(0, shortName.length) === shortName &&
-        longName.length > shortName.length
-      ) {
-        headsign = longName.substring(shortName.length);
-      }
-    }
+      (departure.trip && departure.trip.tripHeadsign) ||
+      getHeadsignFromRouteLongName(departure.pattern.route);
 
     return headsign;
   };
