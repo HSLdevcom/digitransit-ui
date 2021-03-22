@@ -189,12 +189,23 @@ class DepartureListContainer extends Component {
         defaultMessage: 'Drop-off only',
       });
     }
-    return (
+    let headsign =
       departure.headsign ||
       departure.pattern.headsign ||
-      (departure.trip && departure.trip.tripHeadsign) ||
-      departure.pattern.route.longName
-    );
+      (departure.trip && departure.trip.tripHeadsign);
+
+    if (!headsign) {
+      const { longName, shortName } = departure.pattern.route;
+      headsign = longName;
+      if (
+        longName.substring(0, shortName.length) === shortName &&
+        longName.length > shortName.length
+      ) {
+        headsign = longName.substring(shortName.length);
+      }
+    }
+
+    return headsign;
   };
 
   render() {

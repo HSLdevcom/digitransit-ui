@@ -160,6 +160,21 @@ class TransitLeg extends React.Component {
     return null;
   }
 
+  getHeadsign = leg => {
+    let headsign = leg.trip.tripHeadsign;
+    if (!headsign) {
+      const { longName, shortName } = leg.route;
+      headsign = longName;
+      if (
+        longName.substring(0, shortName.length) === shortName &&
+        longName.length > shortName.length
+      ) {
+        headsign = longName.substring(shortName.length);
+      }
+    }
+    return headsign;
+  };
+
   renderMain = () => {
     const { children, focusAction, index, leg, mode, lang } = this.props;
     const { config, intl } = this.context;
@@ -299,6 +314,8 @@ class TransitLeg extends React.Component {
       leg.route.shortName &&
       new RegExp(/^([^0-9]*)$/).test(leg.route.shortName) &&
       leg.route.shortName.length > 3;
+
+    const headsign = this.getHeadsign(leg);
 
     const interLining = () => {
       if (leg.interlineWithPreviousLeg && this.props.isNextLegInterlining) {
@@ -453,7 +470,7 @@ class TransitLeg extends React.Component {
                 />
               </span>
             </Link>
-            <div className="headsign">{leg.trip.tripHeadsign}</div>
+            <div className="headsign">{headsign}</div>
           </div>
           {(alertSeverityLevel === AlertSeverityLevelType.Warning ||
             alertSeverityLevel === AlertSeverityLevelType.Severe ||
