@@ -94,7 +94,7 @@ $content-background-color: $background-color;
   }
   .logo {
     height: 100%;
-    min-height: 45px;
+    min-height: 40px;
     min-width: 13em;
     background-size: contain;
     background-repeat: no-repeat;
@@ -119,6 +119,9 @@ $content-background-color: $background-color;
 .mobile.top-bar {
   height: 50px;
   background: $primary-color;
+  .logo {
+    min-height: 30px;
+  }
 }
 
 #skip-to-content-link {
