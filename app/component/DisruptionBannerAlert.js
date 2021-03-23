@@ -15,14 +15,14 @@ const DisruptionBannerAlert = ({ message, language }, { intl, config }) => {
           <Icon img="icon-icon_disruption-banner-alert" />
         </div>
         <div className="disruption-info-container">
-          {config.CONFIG !== 'hsl' && (
+          {(!config.URL.ROOTLINK || !config.trafficNowLink) && (
             <TruncatedMessage
               className="disruption-show-more"
               lines={3}
               message={message}
             />
           )}
-          {config.CONFIG === 'hsl' && (
+          {config.URL.ROOTLINK && config.trafficNowLink && (
             <a
               className="disruption-info-content"
               onClick={e => e.stopPropagation()}
