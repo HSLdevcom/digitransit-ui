@@ -739,6 +739,10 @@ const translations = {
     'summary-page.row-label': 'Reisevorschlag {number}',
     'summary-page.title': 'Reisevorschläge',
     'swap-order-button-label': 'Start und Ziel tauschen',
+    'swipe-result-tab-left':
+      'Swipe result tabs left arrow. Press enter or space to show previous result.',
+    'swipe-result-tab-right':
+      'Swipe result tabs right arrow. Press enter or space to show next result.',
     'swipe-result-tabs':
       'Swipe result tabs. Navigave with left and right arrow',
     'terminal-page.description': 'Terminal - {name}',
@@ -1333,6 +1337,10 @@ const translations = {
     'summary-page.row-label': 'Itinerary suggestion {number}',
     'summary-page.title': 'Itinerary suggestions',
     'swap-order-button-label': 'Reverse origin and destination',
+    'swipe-result-tab-left':
+      'Swipe result tabs left arrow. Press enter or space to show previous result.',
+    'swipe-result-tab-right':
+      'Swipe result tabs right arrow. Press enter or space to show next result.',
     'swipe-result-tabs':
       'Swipe result tabs. Navigave with left and right arrow',
     'terminal-page.description': 'Terminal {name}',
@@ -2251,6 +2259,10 @@ const translations = {
     'summary-page.row-label': 'Reittiehdotus {number}',
     'summary-page.title': 'Reittiehdotukset',
     'swap-order-button-label': 'Käännä reitin suunta vastakkaiseksi',
+    'swipe-result-tab-left':
+      'Reittiehdotusvälilehtien navigointipainike. Näytä edellinen välilehti painamalla enteriä tai välilyöntiä.',
+    'swipe-result-tab-right':
+      'Reittiehdotusvälilehtien navigointipainike. Näytä seuraava välilehti painamalla enteriä tai välilyöntiä.',
     'swipe-result-tabs':
       'Reittiehdotusvälilehdet. Selaa välilehtiä nuolinäppäimillä.',
     'terminal-page.description': 'Terminaali - {name}',
@@ -3349,6 +3361,10 @@ const translations = {
     'summary-page.row-label': 'Sugestii itinerar {number}',
     'summary-page.title': 'Sugestii itinerar',
     'swap-order-button-label': 'Schimbați originea cu destinația',
+    'swipe-result-tab-left':
+      'Swipe result tabs left arrow. Press enter or space to show previous result.',
+    'swipe-result-tab-right':
+      'Swipe result tabs right arrow. Press enter or space to show next result.',
     'swipe-result-tabs':
       'Swipe result tabs. Navigave with left and right arrow',
     'terminal-page.description': 'Terminalul {name}',
@@ -3938,6 +3954,10 @@ const translations = {
     'summary-page.row-label': 'Ruttförslag {number}',
     'summary-page.title': 'Ruttförslag',
     'swap-order-button-label': 'Sväng ruttens riktning till den motsatta',
+    'swipe-result-tab-left':
+      'Swipe result tabs left arrow. Press enter or space to show previous result.',
+    'swipe-result-tab-right':
+      'Swipe result tabs right arrow. Press enter or space to show next result.',
     'swipe-result-tabs':
       'Swipe result tabs. Navigave with left and right arrow',
     'terminal-page.description': 'Terminal {name}',

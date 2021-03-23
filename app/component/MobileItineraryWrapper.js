@@ -74,7 +74,10 @@ export default class MobileItineraryWrapper extends React.Component {
 
     const itineraryTabs = this.props.children.map((child, i) => {
       return (
-        <div key={child.key}>
+        <div
+          className={`swipeable-tab ${index !== i && 'inactive'}`}
+          key={child.key}
+        >
           <ItineraryTab
             key={child.key}
             activeIndex={index + i}
