@@ -829,14 +829,14 @@ $margin-left-right: 0.625em;
   .route-pattern-toggle {
     border: 1px solid #888888;
     width: 100%;
-    height: 44px;
+    min-height: 44px;
     background: $white;
     border-radius: 5px;
     display: block;
     font-size: 15px;
     line-height: 18px;
     letter-spacing: -0.03em;
-    padding: 13px 16px;
+    padding: 13px 32px 13px 16px;
     text-align: left;
     &:focus {
       outline: none;
@@ -845,8 +845,8 @@ $margin-left-right: 0.625em;
 
     .toggle-icon {
       color: $link-color;
-      position: static;
-      float: right;
+      position: absolute;
+      right: 16px;
       transform: rotate(90deg);
     }
   }
@@ -934,7 +934,7 @@ $margin-left-right: 0.625em;
 
   .react-autosuggest__container {
     width: 100%;
-    height: 44px;
+    min-height: 44px;
     background: white;
     border: 1px solid #888888;
     border-radius: 4px;
@@ -949,7 +949,7 @@ $margin-left-right: 0.625em;
       font-size: 15px;
       line-height: 18px;
       letter-spacing: -0.03em;
-      padding: 13px 16px;
+      padding: 13px 32px 13px 16px;
 
     }
     .react-autosuggest__input {
@@ -1008,14 +1008,14 @@ $margin-left-right: 0.625em;
             border-bottom: 1px solid #dddddd;
             list-style: none;
             min-height: 44px;
-            padding: 13px 16px;
+            padding: 13px 32px 13px 16px;
+            position: relative;
             .icon.check, .icon.dropdown-arrow {
               height: 20px;
               width: 20px;
-              position: relative;
-              top: 0;
-              right: -2px;
-              float: right;
+              position: absolute;
+              top: 13px;
+              right: 16px;
             }
           }
           .react-autosuggest__suggestion--highlighted {
