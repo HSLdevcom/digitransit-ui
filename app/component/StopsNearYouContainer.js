@@ -361,6 +361,7 @@ const refetchContainer = createPaginationContainer(
                   name
                   bikesAvailable
                   spacesAvailable
+                  capacity
                   networks
                 }
                 ... on Stop {

@@ -230,6 +230,7 @@ const refetchContainer = createRefetchContainer(
         name
         bikesAvailable
         spacesAvailable
+        capacity
         networks
       }
     `,
