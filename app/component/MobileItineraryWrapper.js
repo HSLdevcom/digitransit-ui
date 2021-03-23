@@ -98,6 +98,7 @@ export default class MobileItineraryWrapper extends React.Component {
         tabs={itineraryTabs}
         tabIndex={index}
         onSwipe={this.props.onSwipe}
+        classname="swipe-mobile-divider"
       />
     );
     /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */

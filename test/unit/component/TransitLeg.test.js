@@ -687,6 +687,7 @@ describe('<TransitLeg />', () => {
           showTicketInformation: true,
           availableTickets: { HSL: { 'HSL:A': { price: 5.5, zones: ['A'] } } },
           feedIds: ['HSL', 'HSLlautta'],
+          colors: { primary: '#007ac9' },
         },
         focusFunction: () => () => {},
       },
@@ -740,6 +741,7 @@ describe('<TransitLeg />', () => {
           showTicketInformation: true,
           availableTickets: { HSL: { 'foo:A': { price: 5.5, zones: ['A'] } } },
           feedIds: ['HSL', 'HSLlautta'],
+          colors: { primary: '#007ac9' },
         },
         focusFunction: () => () => {},
       },
@@ -790,7 +792,7 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
         ...mockContext,
-        config: { itinerary: {} },
+        config: { itinerary: {}, colors: { primary: '#007ac9' } },
         focusFunction: () => () => {},
       },
     });
