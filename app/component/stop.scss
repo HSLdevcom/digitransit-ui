@@ -318,8 +318,9 @@
         margin-top: 2px;
         background-color: currentColor;
         border-radius: 3px;
-        width: 2.25em;
+        min-width: 2.25em;
         height: 1.25em;
+        padding: 0 4px;
         text-align: center;
         .route-number {
           color: $white;
