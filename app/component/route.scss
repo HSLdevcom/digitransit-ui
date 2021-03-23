@@ -6,7 +6,7 @@
 
 $route-schedule-date-height: 36px;
 $margin-left-right-large: 3.75em;
-$margin-left-right: 0.625em;
+$margin-left-right: 1.333em;
 
 .error {
   div {
@@ -98,6 +98,7 @@ $margin-left-right: 0.625em;
 .route-stop-list {
   @include font-narrow-medium;
   background-color: $white;
+  margin-left: 2px;
   .route-stop:last-child .route-stop-row_content-container {
     border-bottom: none;
   }
@@ -165,24 +166,24 @@ $margin-left-right: 0.625em;
     min-width: 13%;
     position: absolute;
     z-index: 4;
-    left: -1.7px;
+    left: 12px;
     @include min-width(tablet) {
-      left: 41px;
+      left: 45px;
     }
     &.arriving {
       > a > span {
         svg {
-          top: -45px;
+          top: -50px;
           @include min-width(tablet) {
-            top: -50px;
+            top: -55px;
           }
         }
       }
       div > a > span {
         svg {
-          top: -45px;
+          top: -50px;
           @include min-width(tablet) {
-            top: -50px;
+            top: -55px;
           }
         }
       }
@@ -190,29 +191,29 @@ $margin-left-right: 0.625em;
     &.arrived {
       > a > span {
         svg {
-          top: -16px;
+          top: -21px;
         }
       }
       div > a > span {
         svg {
-          top: -16px;
+          top: -21px;
         }
       }
     }
     &.departed {
       > a > span {
         svg {
-          top: 15px;
+          top: 10px;
           @include min-width(tablet) {
-            top: 10px;
+            top: 6px;
           }
         }
       }
       div > a > span {
         svg {
-          top: 15px;
+          top: 10px;
           @include min-width(tablet) {
-            top: 10px;
+            top: 6px;
           }
         }
       }
@@ -234,12 +235,16 @@ $margin-left-right: 0.625em;
     position: relative;
     min-width: 15px;
     .route-stop-now_line {
-      width: 5px;
+      width: 8px;
       height: 100%;
       background-color: currentColor;
       position: absolute;
-      top: 1em;
+      border-radius: 4px;
+      top: 11px;
       left: 4px;
+      @include min-width(tablet) {
+        left: 4.25px;
+      }
     }
     svg {
       position: absolute;
@@ -331,7 +336,7 @@ $margin-left-right: 0.625em;
           margin-right: 5px;
         }
         .route-stop-address {
-          font-size: $font-size-xxsmall;
+          font-size: $font-size-xsmall;
           font-family: $font-family;
           font-weight: $font-weight-book;
           line-height: 1.25rem;
@@ -360,7 +365,7 @@ $margin-left-right: 0.625em;
         position: absolute;
         right: 0;
         flex-direction: row;
-        color: $black;
+        color: #666;
         flex: 0 1 auto;
         font-size: $font-size-small;
         margin-right: 0.9375em;
@@ -381,15 +386,18 @@ $margin-left-right: 0.625em;
             justify-content: flex-end;
             padding: 0;
             margin: 0;
+            line-height: 14px;
           }
           &.first {
             font-size: 15px;
             font-family: $font-family-narrow;
             height: 18px;
+            line-height: 18px;
           }
           &.next {
             font-weight: $font-weight-book;
             width: 100%;
+            letter-spacing: -0.03em;
           }
         }
       }
@@ -774,13 +782,14 @@ $margin-left-right: 0.625em;
   display: flex;
   background-color: $light-gray;
   border: 2px solid $light-gray;
-  border-radius: 5px;
+  border-radius: 8px;
+  margin: 0 2px;
   button {
     width: calc(100% / 3);
-    font-size: $font-size-small;
+    font-size: $font-size-normal;
     text-align: center;
     letter-spacing: -0.42px;
-    border-radius: 3px;
+    border-radius: 6px;
     color: #333;
     font-weight: normal;
     &.is-active {
@@ -838,6 +847,7 @@ $margin-left-right: 0.625em;
     letter-spacing: -0.03em;
     padding: 13px 16px;
     text-align: left;
+    color: #333;
     &:focus {
       outline: none;
       border-color: $primary-color;
