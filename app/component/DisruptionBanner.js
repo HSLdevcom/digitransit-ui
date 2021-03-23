@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import isEmpty from 'lodash/isEmpty';
 import {
   isAlertValid,
   getServiceAlertDescription,
@@ -32,6 +33,7 @@ class DisruptionBanner extends React.Component {
       if (
         alert.route &&
         alert.route.mode === this.props.mode &&
+        !isEmpty(alert.alertDescriptionText) &&
         isAlertValid(currAlert, this.props.currentTime)
       ) {
         if (
