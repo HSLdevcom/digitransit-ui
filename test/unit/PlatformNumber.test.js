@@ -23,7 +23,7 @@ describe('<PlatformNumber />', () => {
       isRailOrSubway: false,
     };
     const wrapper = shallowWithIntl(<PlatformNumber {...props} />);
-    expect(wrapper.find(FormattedMessage).props().id).to.equal('platform-num');
+    expect(wrapper.find(FormattedMessage).props().id).to.equal('platform');
   });
 
   it('should render when isRailOrSubway is true', () => {
@@ -33,7 +33,7 @@ describe('<PlatformNumber />', () => {
       isRailOrSubway: true,
     };
     const wrapper = shallowWithIntl(<PlatformNumber {...props} />);
-    expect(wrapper.find(FormattedMessage).props().id).to.equal('track-num');
+    expect(wrapper.find(FormattedMessage).props().id).to.equal('track');
   });
 
   it('should render shorter message when short is true', () => {
@@ -43,6 +43,8 @@ describe('<PlatformNumber />', () => {
       isRailOrSubway: false,
     };
     const wrapper = shallowWithIntl(<PlatformNumber {...props} />);
-    expect(wrapper.find('span').props().className).to.equal('platform-short');
+    expect(wrapper.find('FormattedMessage').props().id).to.equal(
+      'platform-short-no-num',
+    );
   });
 });
