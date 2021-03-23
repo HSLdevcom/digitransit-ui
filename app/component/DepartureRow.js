@@ -12,7 +12,10 @@ const DepartureRow = (
   const timeDiffInMinutes = Math.floor(
     (departureTime - props.currentTime) / 60,
   );
-  const headsign = departure.headsign || departure.trip.tripHeadsign;
+  const headsign =
+    departure.headsign ||
+    departure.trip.tripHeadsign ||
+    departure.trip.route.longName;
   let shownTime;
   if (timeDiffInMinutes <= 0) {
     shownTime = <FormattedMessage id="arriving-soon" defaultMessage="Now" />;
