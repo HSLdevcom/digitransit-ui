@@ -820,11 +820,6 @@ $margin-left-right: 0.625em;
 
 .route-pattern-select {
   margin: 14px 0 18px 0;
-  .route-option {
-    background: $white;
-    font-size: $font-size-xsmall;
-    font-weight: normal;
-  }
 
   .route-pattern-toggle {
     border: 1px solid #888888;
@@ -851,45 +846,6 @@ $margin-left-right: 0.625em;
     }
   }
 
-  .route-option option {
-    margin-top: 0.4em;
-    font-weight: $font-weight-medium;
-    color: rgba(0, 0, 0, 0.75);
-    cursor: pointer;
-  }
-
-  .route-option-togglable {
-    margin-top: 0.4em;
-    overflow: hidden;
-    white-space: nowrap;
-    line-height: 1.2;
-    padding-top: 0.4em;
-  }
-
-  select,
-  .route-option {
-    padding: 0 35px 0 10px;
-    -webkit-padding-end: 35px;
-    -webkit-padding-start: 10px;
-    @include font-medium;
-    height: 2.5rem;
-    border-radius: 5px;
-    border: 1px solid #888;
-    appearance: none;
-
-    option {
-      max-height: 1.4em;
-      overflow: hidden;
-    }
-
-    &:focus {
-      outline: -webkit-focus-ring-color auto 1px;
-    }
-    @media print {
-      border: 0;
-      padding-left: 0;
-    }
-  }
   .icon {
     color: $primary-color;
     position: absolute;
@@ -902,28 +858,6 @@ $margin-left-right: 0.625em;
     }
   }
 
-  &.bp-large {
-    @media print {
-      padding-left: 0;
-    }
-
-    .route-option option {
-      font-size: 18px;
-      margin-top: 0.5em;
-    }
-
-    select,
-    .route-option {
-      font-size: $font-size-small;
-      font-weight: normal;
-      padding: 0 48px 0 20px;
-      -webkit-padding-end: 48px;
-      -webkit-padding-start: 20px;
-      @media print {
-        padding-left: 0;
-      }
-    }
-  }
   .in-text-arrow {
     position: relative;
     float: none;
