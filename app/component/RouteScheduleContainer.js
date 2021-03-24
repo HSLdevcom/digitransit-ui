@@ -207,7 +207,7 @@ class RouteScheduleContainer extends Component {
       <div className="route-schedule-content-wrapper">
         <div className="route-page-action-bar">
           <DateSelect
-            startDate={this.props.serviceDay}
+            startDate="20210809"
             selectedDate={this.props.relay.variables.serviceDay}
             dateFormat={DATE_FORMAT}
             onDateChange={this.changeDate}
