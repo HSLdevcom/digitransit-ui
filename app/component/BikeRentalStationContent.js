@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
@@ -17,6 +17,7 @@ const BikeRentalStationContent = (
   { bikeRentalStation, breakpoint, language, router },
   { config },
 ) => {
+  const [isFull, setFull] = useState(false);
   if (!bikeRentalStation) {
     if (isBrowser) {
       router.replace(`/${PREFIX_BIKESTATIONS}`);
@@ -30,13 +31,32 @@ const BikeRentalStationContent = (
     config,
   );
   const url = networkConfig.url[language];
+  const returnInstructionsUrl = networkConfig.returnInstructions[language];
   return (
     <div className="bike-station-page-container">
       <BikeRentalStationHeader
         bikeRentalStation={bikeRentalStation}
         breakpoint={breakpoint}
       />
-      <CityBikeStopContent bikeRentalStation={bikeRentalStation} />
+      <CityBikeStopContent
+        bikeRentalStation={bikeRentalStation}
+        setFull={setFull}
+      />
+      {config.cityBike.showFullInfo && isFull && (
+        <div className="citybike-full-station-guide">
+          <FormattedMessage id="citybike-return-full" />
+          <a
+            onClick={e => {
+              e.stopPropagation();
+            }}
+            className="external-link"
+            href={returnInstructionsUrl}
+          >
+            {' '}
+            <FormattedMessage id="citybike-return-full-link" />{' '}
+          </a>
+        </div>
+      )}
       <div className="citybike-use-disclaimer">
         <div className="disclaimer-header">
           <FormattedMessage id="citybike-start-using" />

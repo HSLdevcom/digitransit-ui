@@ -1830,6 +1830,9 @@ const translations = {
     'citybike-purchase-link': 'Siirry ostamaan',
     'citybike-register-required':
       'Kaupunkipyörien käyttö vaatii rekisteröitymisen',
+    'citybike-return-full': 'Palauttamassa kaupunkipyörää?',
+    'citybike-return-full-link':
+      'Näin palautat pyörän, kun pyöräasema on täynnä ›',
     'citybike-start-using': 'Ota kaupunkipyörät käyttöön',
     'citybike-station': 'Pyöräasema {stationId}',
     'citybike-station-no-id': 'Pyöräasema',

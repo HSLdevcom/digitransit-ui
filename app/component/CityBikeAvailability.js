@@ -14,10 +14,14 @@ const CityBikeAvailability = mapProps(
     fewerAvailableCount,
     type,
     useSpacesAvailable,
+    setFull,
   }) => {
     const total = Number.isNaN(totalSpaces) ? 0 : totalSpaces;
     const available = Number.isNaN(bikesAvailable) ? 0 : bikesAvailable;
-
+    const isFull = available >= total && total > 0;
+    if (isFull && setFull) {
+      setFull(isFull);
+    }
     return {
       available,
       total,
@@ -32,7 +36,7 @@ const CityBikeAvailability = mapProps(
             defaultMessage="Bikes available at the station right now"
           />
           {'\u00a0'}
-          {available}
+          <strong>{available}</strong>
           {useSpacesAvailable && <React.Fragment>/{total}</React.Fragment>}
         </p>
       ),

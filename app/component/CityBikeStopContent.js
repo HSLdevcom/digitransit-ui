@@ -9,7 +9,7 @@ import {
   BIKEAVL_WITHMAX,
 } from '../util/citybikes';
 
-const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
+const CityBikeStopContent = ({ bikeRentalStation, setFull }, { config }) => {
   if (config.cityBike.capacity === BIKEAVL_UNKNOWN) {
     return null;
   }
@@ -36,6 +36,7 @@ const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
         fewAvailableCount={fewAvailableCount}
         fewerAvailableCount={fewerAvailableCount}
         useSpacesAvailable={config.cityBike.capacity === BIKEAVL_WITHMAX}
+        setFull={setFull}
       />
     </div>
   );
@@ -50,5 +51,6 @@ CityBikeStopContent.propTypes = {
     spacesAvailable: PropTypes.number.isRequired,
     networks: PropTypes.arrayOf(PropTypes.string),
   }),
+  setFull: PropTypes.func.isRequired,
 };
 export default CityBikeStopContent;

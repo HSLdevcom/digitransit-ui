@@ -259,6 +259,7 @@ export default {
   cityBike: {
     // Config for map features. NOTE: availability for routing is controlled by
     // transportModes.citybike.availableForSelection
+    showFullInfo: false,
     showStationId: true,
     cityBikeMinZoom: 14,
     cityBikeSmallIconZoom: 14,

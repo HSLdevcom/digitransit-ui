@@ -9,6 +9,12 @@
     position: relative;
     top: -15px;
     margin: 0;
+    .citybike-full-station-guide {
+      display: grid;
+      margin-top: 19px;
+      font-weight: $font-weight-medium;
+      font-size: $font-size-small;
+    }
     .citybike-use-disclaimer {
       margin-top: 19px;
     }
@@ -41,6 +47,12 @@
 }
 .bike-station-page-container {
   margin: 0 3.75em;
+  .citybike-full-station-guide {
+    display: grid;
+    margin-top: 19px;
+    font-weight: $font-weight-medium;
+    font-size: 15px; // TODO CHANGE TO VARIABLE
+  }
   .citybike-use-disclaimer {
     height: 120px;
     border-radius: 8px;
