@@ -28,7 +28,6 @@ import Loading from './Loading';
 import { getHomeUrl } from '../util/path';
 import { defaultRoutingSettings } from '../util/planParamUtil';
 import { getIntermediatePlaces } from '../util/queryUtils';
-import { validateServiceTimeRange } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
@@ -357,13 +356,8 @@ class SummaryPage extends React.Component {
         )
       : this.renderMap();
 
-    let earliestStartTime;
-    let latestArrivalTime;
-
-    if (hasItineraries) {
-      earliestStartTime = Math.min(...itineraries.map(i => i.startTime));
-      latestArrivalTime = Math.max(...itineraries.map(i => i.endTime));
-    }
+    const earliestStartTime = 1628456400000;
+    const latestArrivalTime = 1631221200000;
 
     const screenReaderUpdateAlert = (
       <span className="sr-only" role="alert" ref={this.resultsUpdatedAlertRef}>
@@ -374,11 +368,11 @@ class SummaryPage extends React.Component {
       </span>
     );
 
-    // added config.itinerary.serviceTimeRange parameter (DT-3175)
-    const serviceTimeRange = validateServiceTimeRange(
-      this.context.config.itinerary.serviceTimeRange,
-      this.props.serviceTimeRange,
-    );
+    const serviceTimeRange = {
+      start: earliestStartTime / 1000,
+      end: latestArrivalTime / 1000,
+    };
+
     if (this.props.breakpoint === 'large') {
       let content;
       if (this.state.loading === false && (done || error !== null)) {
