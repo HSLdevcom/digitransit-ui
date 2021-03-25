@@ -49,7 +49,7 @@ const BikeRentalStationContent = (
             onClick={e => {
               e.stopPropagation();
             }}
-            className="external-link"
+            className="external-link-citybike"
             href={returnInstructionsUrl}
           >
             {' '}
@@ -107,6 +107,7 @@ const containerComponent = createFragmentContainer(connectedComponent, {
       name
       spacesAvailable
       bikesAvailable
+      capacity
       networks
       stationId
     }

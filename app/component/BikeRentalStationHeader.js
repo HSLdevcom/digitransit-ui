@@ -31,7 +31,6 @@ const BikeRentalStationHeader = (
   { config },
 ) => {
   const [zoneId, setZoneId] = useState(undefined);
-
   getJson(config.URL.PELIAS_REVERSE_GEOCODER, {
     'point.lat': bikeRentalStation.lat,
     'point.lon': bikeRentalStation.lon,
@@ -63,7 +62,9 @@ const BikeRentalStationHeader = (
             <>
               <StopCode code={bikeRentalStation.stationId} />
               {zone && (
-                <Icon img={zone} color="#007AC9" height={0.875} width={0.875} />
+                <span className="bike-station-zone-icon">
+                  <Icon img={zone} color="#007AC9" height={1.25} width={1.25} />
+                </span>
               )}
             </>
           )}

@@ -19,6 +19,7 @@ const CityBikeStopContent = ({ bikeRentalStation, setFull }, { config }) => {
 
   if (config.cityBike.capacity === BIKEAVL_WITHMAX) {
     totalSpaces =
+      bikeRentalStation.capacity ||
       bikeRentalStation.bikesAvailable + bikeRentalStation.spacesAvailable;
     fewAvailableCount = Math.floor(totalSpaces / 3);
     fewerAvailableCount = Math.floor(totalSpaces / 6);
@@ -49,6 +50,7 @@ CityBikeStopContent.propTypes = {
   bikeRentalStation: PropTypes.shape({
     bikesAvailable: PropTypes.number.isRequired,
     spacesAvailable: PropTypes.number.isRequired,
+    capacity: PropTypes.number.isRequired,
     networks: PropTypes.arrayOf(PropTypes.string),
   }),
   setFull: PropTypes.func.isRequired,

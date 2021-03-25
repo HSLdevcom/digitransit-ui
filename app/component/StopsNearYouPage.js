@@ -272,10 +272,6 @@ class StopsNearYouPage extends React.Component {
           mode =>
             this.context.config.transportModes[mode].availableForSelection,
         );
-
-    if (!configNearByYouModes.includes('favorite')) {
-      configNearByYouModes.unshift('favorite');
-    }
     const nearByStopModes = configNearByYouModes.map(nearYouMode =>
       nearYouMode.toUpperCase(),
     );
@@ -355,7 +351,12 @@ class StopsNearYouPage extends React.Component {
       if (nearByStopMode === 'FAVORITE') {
         const noFavs = this.noFavorites();
         return (
-          <div className="stops-near-you-page">
+          <div
+            key={nearByStopMode}
+            className={`stops-near-you-page swipeable-tab ${
+              nearByStopMode !== mode && 'inactive'
+            }`}
+          >
             {renderRefetchButton && this.refetchButton()}
             <StopsNearYouFavorites
               searchPosition={this.state.searchPosition}
@@ -369,7 +370,10 @@ class StopsNearYouPage extends React.Component {
         );
       }
       return (
-        <div key={nearByStopMode}>
+        <div
+          className={`swipeable-tab ${nearByStopMode !== mode && 'inactive'}`}
+          key={nearByStopMode}
+        >
           <QueryRenderer
             query={graphql`
               query StopsNearYouPageContentQuery(

@@ -11,9 +11,13 @@
     margin: 0;
     .citybike-full-station-guide {
       display: grid;
-      margin-top: 19px;
+      margin-top: 22px;
       font-weight: $font-weight-medium;
-      font-size: $font-size-small;
+      font-size: 15px;
+    }
+    .external-link-citybike {
+      color: $link-color;
+      text-decoration: none;
     }
     .citybike-use-disclaimer {
       margin-top: 19px;
@@ -49,9 +53,13 @@
   margin: 0 3.75em;
   .citybike-full-station-guide {
     display: grid;
-    margin-top: 19px;
+    margin-top: 22px;
     font-weight: $font-weight-medium;
-    font-size: 15px; // TODO CHANGE TO VARIABLE
+    font-size: 15px;
+  }
+  .external-link-citybike {
+    color: $link-color;
+    text-decoration: none;
   }
   .citybike-use-disclaimer {
     height: 120px;
@@ -60,7 +68,7 @@
     background-color: #f4f4f5;
     padding: 12px 21px 21px 18px;
     width: 100%;
-    margin-top: 27px;
+    margin-top: 24px;
     .disclaimer-header {
       font-size: 1.125rem;
     }
@@ -92,6 +100,11 @@
         font-size: 1.5rem;
       }
     }
+  }
+
+  .bike-station-zone-icon {
+    padding-top: 2px;
+    position: absolute;
   }
   .bike-station-sub-header {
     font-size: 0.813rem;

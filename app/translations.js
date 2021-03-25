@@ -153,6 +153,7 @@ const translations = {
     'place-route-or-keyword': 'Adresse eller stoppested',
     'platform-num': 'Platform {platformCode}',
     'platform-short': 'Plat.',
+    'platform-short-no-num': 'Plat.',
     'prefer-walking': 'Foretræk at gå',
     previous: 'Tidligere',
     print: 'Skriv ud',
@@ -608,6 +609,7 @@ const translations = {
     platform: 'Gleis',
     'platform-num': 'Gleis {platformCode}',
     'platform-short': 'Gl. {platformCode}',
+    'platform-short-no-num': 'Gl.',
     'prefer-walking': 'Gehen bevorzugen',
     previous: 'Vorherige',
     print: 'Drucken',
@@ -739,6 +741,10 @@ const translations = {
     'summary-page.row-label': 'Reisevorschlag {number}',
     'summary-page.title': 'Reisevorschläge',
     'swap-order-button-label': 'Start und Ziel tauschen',
+    'swipe-result-tab-left':
+      'Swipe result tabs left arrow. Press enter or space to show previous result.',
+    'swipe-result-tab-right':
+      'Swipe result tabs right arrow. Press enter or space to show next result.',
     'swipe-result-tabs':
       'Swipe result tabs. Navigave with left and right arrow',
     'terminal-page.description': 'Terminal - {name}',
@@ -760,6 +766,7 @@ const translations = {
     track: 'Gleis',
     'track-num': 'Gleis {platformCode}',
     'track-short': 'Gl. {platformCode}',
+    'track-short-no-num': 'Gl.',
     tram: 'Tram',
     'tram-with-route-number': 'Tram {routeNumber} {headSign}',
     transfers: 'Umstiege',
@@ -910,6 +917,9 @@ const translations = {
       'City bike stations will be opened again next spring',
     'citybike-purchase-link': 'Buy',
     'citybike-register-required': 'To use city bikes, you need to register',
+    'citybike-return-full': 'Returning city bike?',
+    'citybike-return-full-link':
+      'How to return the bike when bike station is full ›',
     'citybike-start-using': 'Start using city bikes',
     'citybike-station': 'Bike station {stationId}',
     'citybike-station-no-id': 'Bike station',
@@ -1200,6 +1210,7 @@ const translations = {
     platform: 'Platform',
     'platform-num': 'Platform {platformCode}',
     'platform-short': 'Plat. {platformCode}',
+    'platform-short-no-num': 'Plat.',
     position: 'Position',
     'prefer-walking': 'Prefer walking',
     previous: 'Previous',
@@ -1331,6 +1342,10 @@ const translations = {
     'summary-page.row-label': 'Itinerary suggestion {number}',
     'summary-page.title': 'Itinerary suggestions',
     'swap-order-button-label': 'Reverse origin and destination',
+    'swipe-result-tab-left':
+      'Swipe result tabs left arrow. Press enter or space to show previous result.',
+    'swipe-result-tab-right':
+      'Swipe result tabs right arrow. Press enter or space to show next result.',
     'swipe-result-tabs':
       'Swipe result tabs. Navigave with left and right arrow',
     'terminal-page.description': 'Terminal {name}',
@@ -1351,6 +1366,7 @@ const translations = {
     track: 'Track',
     'track-num': 'Track {platformCode}',
     'track-short': 'Track {platformCode}',
+    'track-short-no-num': 'Track',
     tram: 'Tram',
     'tram-with-route-number': 'Tram {routeNumber} {headSign}',
     transfers: 'Number of transfers',
@@ -1613,6 +1629,7 @@ const translations = {
     'place-route-or-keyword': 'Destino, ruta o parada',
     'platform-num': 'Platforma {platformCode}',
     'platform-short': 'Plat. {platformCode}',
+    'platform-short-no-num': 'Plat.',
     'prefer-walking': 'Preferir andar',
     previous: 'Anterior',
     print: 'Imprimir',
@@ -1834,8 +1851,8 @@ const translations = {
     'citybike-return-full-link':
       'Näin palautat pyörän, kun pyöräasema on täynnä ›',
     'citybike-start-using': 'Ota kaupunkipyörät käyttöön',
-    'citybike-station': 'Pyöräasema {stationId}',
-    'citybike-station-no-id': 'Pyöräasema',
+    'citybike-station': 'Kaupunkipyöräasema {stationId}',
+    'citybike-station-no-id': 'Kaupunkipyöräasema',
     citybike_off: 'Suljettu',
     'clear-button-label': 'Tyhjennä',
     close: 'Sulje',
@@ -2119,6 +2136,7 @@ const translations = {
     platform: 'Laituri',
     'platform-num': 'Laituri {platformCode}',
     'platform-short': 'Lait. {platformCode}',
+    'platform-short-no-num': 'Lait.',
     position: 'Sijainti',
     'prefer-walking': 'Suosi kävelyä',
     previous: 'Edelliset',
@@ -2250,6 +2268,10 @@ const translations = {
     'summary-page.row-label': 'Reittiehdotus {number}',
     'summary-page.title': 'Reittiehdotukset',
     'swap-order-button-label': 'Käännä reitin suunta vastakkaiseksi',
+    'swipe-result-tab-left':
+      'Reittiehdotusvälilehtien navigointipainike. Näytä edellinen välilehti painamalla enteriä tai välilyöntiä.',
+    'swipe-result-tab-right':
+      'Reittiehdotusvälilehtien navigointipainike. Näytä seuraava välilehti painamalla enteriä tai välilyöntiä.',
     'swipe-result-tabs':
       'Reittiehdotusvälilehdet. Selaa välilehtiä nuolinäppäimillä.',
     'terminal-page.description': 'Terminaali - {name}',
@@ -2270,6 +2292,7 @@ const translations = {
     track: 'Raide',
     'track-num': 'Raide {platformCode}',
     'track-short': 'Raide {platformCode}',
+    'track-short-no-num': 'Raide',
     tram: 'Raitiovaunu',
     'tram-with-route-number': 'Raitiovaunu {routeNumber} {headSign}',
     transfers: 'Vaihtojen määrä',
@@ -2557,7 +2580,8 @@ const translations = {
     'pick-mode': 'Sélectionner un mode de transport',
     'place-route-or-keyword': 'Lieu, ligne ou mot-clé',
     'platform-num': 'Quai {platformCode}',
-    'platform-short': 'Plat. {platformCode}',
+    'platform-short': 'Quai {platformCode}',
+    'platform-short-no-num': 'Quai',
     'prefer-walking': 'Préférer la marche',
     previous: 'Précédent',
     print: 'Imprimer',
@@ -2834,6 +2858,7 @@ const translations = {
     'place-route-or-keyword': 'Adresse eller stoppested',
     'platform-num': 'Plattform {platformCode}',
     'platform-short': 'Plat. {platformCode}',
+    'platform-short-no-num': 'Plat.',
     'prefer-walking': 'Foretrekk gange',
     previous: 'Tidligere',
     print: 'Skriv ut',
@@ -3246,6 +3271,7 @@ const translations = {
     'place-route-or-keyword': 'Destinație, rută sau stație',
     'platform-num': 'Peron {platformCode}',
     'platform-short': 'Prn. {platformCode}',
+    'platform-short-no-num': 'Prn.',
     'prefer-walking': 'Preferă mersul pe jos',
     previous: 'Precedenta',
     print: 'Imprimați',
@@ -3348,6 +3374,10 @@ const translations = {
     'summary-page.row-label': 'Sugestii itinerar {number}',
     'summary-page.title': 'Sugestii itinerar',
     'swap-order-button-label': 'Schimbați originea cu destinația',
+    'swipe-result-tab-left':
+      'Swipe result tabs left arrow. Press enter or space to show previous result.',
+    'swipe-result-tab-right':
+      'Swipe result tabs right arrow. Press enter or space to show next result.',
     'swipe-result-tabs':
       'Swipe result tabs. Navigave with left and right arrow',
     'terminal-page.description': 'Terminalul {name}',
@@ -3510,6 +3540,9 @@ const translations = {
     'citybike-purchase-link': 'Gå till köp',
     'citybike-register-required':
       'Det krävs registrering för att kunna använda stadscyklar',
+    'citybike-return-full': 'Returning city bike?',
+    'citybike-return-full-link':
+      'How to return the bike when bike station is full ›',
     'citybike-start-using': 'Ta stadscyklar i bruk',
     'citybike-station': 'Stadscykelstation {stationId}',
     'citybike-station-no-id': 'Stadscykelstation',
@@ -3801,6 +3834,7 @@ const translations = {
     platform: 'Plattform',
     'platform-num': 'Plattform {platformCode}',
     'platform-short': 'Plattf. {platformCode}',
+    'platform-short-no-num': 'Plattf.',
     position: 'Position',
     'prefer-walking': 'Främja gång',
     previous: 'Senaste',
@@ -3935,6 +3969,10 @@ const translations = {
     'summary-page.row-label': 'Ruttförslag {number}',
     'summary-page.title': 'Ruttförslag',
     'swap-order-button-label': 'Sväng ruttens riktning till den motsatta',
+    'swipe-result-tab-left':
+      'Swipe result tabs left arrow. Press enter or space to show previous result.',
+    'swipe-result-tab-right':
+      'Swipe result tabs right arrow. Press enter or space to show next result.',
     'swipe-result-tabs':
       'Swipe result tabs. Navigave with left and right arrow',
     'terminal-page.description': 'Terminal {name}',
@@ -3955,6 +3993,7 @@ const translations = {
     track: 'Spår',
     'track-num': 'Spår {platformCode}',
     'track-short': 'Spår {platformCode}',
+    'track-short-no-num': 'Spår',
     tram: 'Spårvagn',
     'tram-with-route-number': 'Spårvagn {routeNumber} {headSign}',
     transfers: 'Antal byten',
