@@ -5,7 +5,7 @@ import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 
 import ComponentUsageExample from './ComponentUsageExample';
-import WalkDistance from './WalkDistance';
+// import WalkDistance from './WalkDistance';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import StopCode from './StopCode';
 import PatternLink from './PatternLink';
@@ -30,7 +30,7 @@ const TripRouteStop = props => {
     className,
     color,
     currentTime,
-    distance,
+    // distance,
     mode,
     stop,
     stopPassed,
@@ -145,13 +145,13 @@ const TripRouteStop = props => {
               {stop.code && <StopCode code={stop.code} />}
               <span className="route-stop-address">{stop.desc}</span>
               {'\u2002'}
-              {distance && (
+              {/* temporarily remove TODO {distance && (
                 <WalkDistance
                   className="nearest-route-stop"
                   icon="icon_location-with-user"
                   walkDistance={distance}
                 />
-              )}
+              )} */}
             </div>
           </div>
         </Link>
@@ -166,8 +166,8 @@ TripRouteStop.propTypes = {
   color: PropTypes.string,
   stopPassed: PropTypes.bool,
   stop: PropTypes.object.isRequired,
-  distance: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([false])])
-    .isRequired,
+  // distance: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([false])])
+  // .isRequired,
   stoptime: PropTypes.object.isRequired,
   currentTime: PropTypes.number.isRequired,
   pattern: PropTypes.string.isRequired,
