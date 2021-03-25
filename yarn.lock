@@ -1778,6 +1778,11 @@
   resolved "https://registry.yarnpkg.com/@hsl-fi/icons/-/icons-0.2.3.tgz#d15356d05bad57b96a641eedd0f9b020c90c6861"
   integrity sha512-0Y9e1Dsx3M/WSvk0CrAtiJO8wG2ZKL8CAnJA6ylQgxc1DMP/Xck0EqOg0f3rc1VDGKSVxxjeIi/0OFCoPny6pQ==
 
+"@hsl-fi/icons@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/icons/-/icons-1.0.0.tgz#dcfd5cf0334f8a2a81e880099cefaf26e81d8373"
+  integrity sha512-q4GSlzY+BAIlooGFoINRXqnA/65CTqZe1Hg5nao/Wq0vm1Ax81aiDvSeeOC+m40ulmDTdazZbrqs6bgT9feHJQ==
+
 "@hsl-fi/modal@ ^0.1.8", "@hsl-fi/modal@^0.1.8":
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/@hsl-fi/modal/-/modal-0.1.8.tgz#df89f7e33e012c1046b83fdcfa2d88b40812149a"
@@ -1802,14 +1807,14 @@
   resolved "https://registry.yarnpkg.com/@hsl-fi/shimmer/-/shimmer-0.1.0.tgz#111eca690401db43bc5ac0b1d142d00e97bcfaea"
   integrity sha512-8aGzCxClDzZf1ZVm7etEi3UEJIy0uMakMFC+p6eS6XalBuGhXptk8Luwavw1NiNo633yW1sJA2C3QRGwoHr6pg==
 
-"@hsl-fi/site-header@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@hsl-fi/site-header/-/site-header-1.0.2.tgz#2ab88c9f63dd47126e8cdf4b6baf081fd5cf6640"
-  integrity sha512-7b4wqjzbD+j2xFC2qgUoaiF355nm++lr2iFEKRv3fML8/hG7XV3h3olyTJyGLVYFLo4SfmcSHDIu39DKre7ohg==
+"@hsl-fi/site-header@1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/site-header/-/site-header-1.1.2.tgz#a0ed020d472f4e75a3e4cd646101cfb531f40e24"
+  integrity sha512-UKiqGLekDt8xtVyNO6Xs8Xs2kaP0d1M/mvER/3X3IuStn71JDIYuEBTHoREAT0QVoqQJs/Glm7tmO4xXGcfV9w==
   dependencies:
     "@hsl-fi/animated-spinner" "^0.1.0"
     "@hsl-fi/hooks" "^0.2.0"
-    "@hsl-fi/icons" "^0.2.3"
+    "@hsl-fi/icons" "^1.0.0"
     "@hsl-fi/utilities" "^0.2.2"
 
 "@hsl-fi/utilities@^0.2.1", "@hsl-fi/utilities@^0.2.2":

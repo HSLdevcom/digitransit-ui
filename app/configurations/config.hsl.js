@@ -11,6 +11,10 @@ const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
 
 const rootLink = process.env.ROOTLINK || 'https://dev.hslfi.hsldev.com';
+const BANNER_URL =
+  rootLink === 'https://dev.hslfi.hsldev.com'
+    ? 'https://test-api.hslfi.hsldev.com/api/v1/banners?language=fi&site=JourneyPlanner'
+    : 'https://content.hsl.fi/api/v1/banners?language=fi&site=JourneyPlanner';
 
 const cityBikesEnabled = true;
 
@@ -24,6 +28,7 @@ export default {
     FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
     CITYBIKE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-citybike-map/`,
     ROOTLINK: rootLink,
+    BANNERS: BANNER_URL,
   },
 
   indexPath: 'etusivu',
