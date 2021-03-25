@@ -11,10 +11,9 @@ const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
 
 const rootLink = process.env.ROOTLINK || 'https://dev.hslfi.hsldev.com';
-const BANNER_URL =
-  rootLink === 'https://dev.hslfi.hsldev.com'
-    ? 'https://test-api.hslfi.hsldev.com/api/v1/banners?language=fi&site=JourneyPlanner'
-    : 'https://content.hsl.fi/api/v1/banners?language=fi&site=JourneyPlanner';
+const BANNER_URL = false // set true to use test api
+  ? 'https://test-api.hslfi.hsldev.com/api/v1/banners?language=fi&site=JourneyPlanner'
+  : 'https://content.hsl.fi/api/v1/banners?language=fi&site=JourneyPlanner';
 
 const cityBikesEnabled = true;
 
