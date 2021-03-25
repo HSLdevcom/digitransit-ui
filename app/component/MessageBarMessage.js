@@ -55,7 +55,7 @@ const MessageBarMessage = ({ content, textColor }, { intl }) => {
       style={{ color: textColor }}
     >
       {heading(
-        content.find(part => part.type === 'header'),
+        content.find(part => part.type === 'heading'),
         textColor,
       )}
       {body(
