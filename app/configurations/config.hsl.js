@@ -11,9 +11,9 @@ const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
 
 const rootLink = process.env.ROOTLINK || 'https://dev.hslfi.hsldev.com';
-const BANNER_URL = false // set true to use test api
-  ? 'https://test-api.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner'
-  : 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
+const BANNER_URL = null;
+// 'https://test-api.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
+// 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
 
 const cityBikesEnabled = true;
 
@@ -120,7 +120,7 @@ export default {
 
   transportModes: {
     citybike: {
-      availableForSelection: cityBikesEnabled,
+      availableForSelection: false, // cityBikesEnabled,
     },
     airplane: {
       availableForSelection: false,
@@ -463,7 +463,7 @@ export default {
   localStorageTarget: rootLink,
 
   cityBike: {
-    showCityBikes: cityBikesEnabled,
+    showCityBikes: false, // cityBikesEnabled,
     capacity: BIKEAVL_WITHMAX,
     networks: {
       smoove: {
@@ -504,7 +504,7 @@ export default {
 
   showNearYouButtons: true,
   nearYouModes: [
-    'favorite',
+    // 'favorite',
     'bus',
     'tram',
     'subway',
