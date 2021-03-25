@@ -1,5 +1,5 @@
 /* eslint-disable prefer-template */
-import { BIKEAVL_BIKES } from '../util/citybikes';
+import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
@@ -460,7 +460,7 @@ export default {
 
   cityBike: {
     showCityBikes: cityBikesEnabled,
-    capacity: BIKEAVL_BIKES,
+    capacity: BIKEAVL_WITHMAX,
     networks: {
       smoove: {
         icon: 'citybike',
@@ -471,9 +471,9 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: 'https://kaupunkipyorat.hsl.fi/fi',
-          sv: 'https://kaupunkipyorat.hsl.fi/sv',
-          en: 'https://kaupunkipyorat.hsl.fi/en',
+          fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors',
+          en: 'https://www.hsl.fi/en/citybikes/helsinki',
         },
       },
       vantaa: {
@@ -485,9 +485,9 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: 'https://kaupunkipyorat.hsl.fi/fi',
-          sv: 'https://kaupunkipyorat.hsl.fi/sv',
-          en: 'https://kaupunkipyorat.hsl.fi/en',
+          fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/vantaa',
+          en: 'https://www.hsl.fi/en/citybikes/vantaa',
         },
       },
     },

@@ -13,7 +13,7 @@ import { PREFIX_STOPS } from '../util/path';
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function WaitLeg(
   { children, leg, startTime, waitTime, focusAction, index },
-  { intl },
+  { config, intl },
 ) {
   const modeClassName = 'wait';
   return (
@@ -54,7 +54,7 @@ function WaitLeg(
               <Icon
                 img="icon-icon_arrow-collapse--right"
                 className="itinerary-arrow-icon"
-                color="#333"
+                color={config.colors.primary}
               />
             </Link>
             <div className="stop-code-container">{children}</div>
@@ -156,6 +156,7 @@ WaitLeg.propTypes = {
 };
 
 WaitLeg.contextTypes = {
+  config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 };
 

@@ -159,6 +159,7 @@ function StopsNearYouMap(
     stop: null,
   });
   const { mode } = match.params;
+  const isTransitMode = mode !== 'CITYBIKE';
   const walkRoutingThreshold =
     mode === 'RAIL' || mode === 'SUBWAY' || mode === 'FERRY' ? 3000 : 1500;
   const { environment } = relay;
@@ -268,6 +269,8 @@ function StopsNearYouMap(
         setUseFitBounds(true);
       }
       setBounds(newBounds);
+    } else {
+      setBounds(handleBounds(position, sortedStopEdges, breakpoint));
     }
   }, [mapState, sortedStopEdges]);
 
@@ -327,18 +330,17 @@ function StopsNearYouMap(
             stop.node.place.stoptimesWithoutPatterns &&
             stop.node.place.stoptimesWithoutPatterns.length,
         );
-      if (!active.length && relay.hasMore()) {
+      if (isTransitMode && !active.length && relay.hasMore()) {
         relay.loadMore(5);
         return;
       }
-      const sortedEdges =
-        mode === 'CITYBIKE'
-          ? stopsNearYou.nearest.edges
-              .slice()
-              .sort(sortNearbyRentalStations(favouriteIds))
-          : active
-              .slice()
-              .sort(sortNearbyStops(favouriteIds, walkRoutingThreshold));
+      const sortedEdges = !isTransitMode
+        ? stopsNearYou.nearest.edges
+            .slice()
+            .sort(sortNearbyRentalStations(favouriteIds))
+        : active
+            .slice()
+            .sort(sortNearbyStops(favouriteIds, walkRoutingThreshold));
       const stopsAndStations = handleStopsAndStations(sortedEdges);
 
       handleWalkRoutes(stopsAndStations);
@@ -356,9 +358,9 @@ function StopsNearYouMap(
     return <Loading />;
   }
 
-  const renderRouteLines = mode !== 'CITYBIKE';
   let leafletObjs = [];
-  if (renderRouteLines && Array.isArray(routes)) {
+  // create route lines
+  if (isTransitMode && Array.isArray(routes)) {
     const getPattern = pattern =>
       pattern.patternGeometry ? pattern.patternGeometry.points : '';
     leafletObjs = uniqBy(routes, getPattern).map(pattern => {

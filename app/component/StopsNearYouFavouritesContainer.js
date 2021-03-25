@@ -127,6 +127,7 @@ const refetchContainer = createRefetchContainer(
           trip {
             route {
               shortName
+              longName
               gtfsId
               mode
               color
@@ -164,6 +165,7 @@ const refetchContainer = createRefetchContainer(
             trip {
               route {
                 shortName
+                longName
                 gtfsId
                 mode
                 patterns {
@@ -209,6 +211,7 @@ const refetchContainer = createRefetchContainer(
           trip {
             route {
               shortName
+              longName
               gtfsId
               mode
               color
@@ -230,6 +233,7 @@ const refetchContainer = createRefetchContainer(
         name
         bikesAvailable
         spacesAvailable
+        capacity
         networks
       }
     `,
