@@ -1,10 +1,11 @@
 /* eslint-disable camelcase */
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
+import { getJson } from '../util/xhrPromise';
 
 const modules = {
   SiteHeader: () => importLazy(import('@hsl-fi/site-header')),
@@ -21,6 +22,14 @@ const clearStorages = context => {
 const AppBarHsl = ({ lang, user }, context) => {
   const { config, match, intl } = context;
   const { location } = match;
+
+  const [banners, setBanners] = useState([]);
+
+  useEffect(() => {
+    getJson(`${config.URL.BANNERS}&language=${lang}`).then(data =>
+      setBanners(data),
+    );
+  }, [lang]);
 
   const languages = [
     {
@@ -76,6 +85,7 @@ const AppBarHsl = ({ lang, user }, context) => {
           },
         }
       : {};
+
   return (
     <LazilyLoad modules={modules}>
       {({ SiteHeader, SharedLocalStorageObserver }) => (
@@ -89,6 +99,7 @@ const AppBarHsl = ({ lang, user }, context) => {
             lang={lang}
             {...userMenu}
             languageMenu={languages}
+            banners={banners}
           />
         </>
       )}
