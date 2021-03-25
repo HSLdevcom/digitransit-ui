@@ -52,6 +52,7 @@ $content-background-color: $background-color;
 }
 .top-bar {
   height: 70px;
+  min-height: 70px;
   position: relative;
   display: flex;
   align-items: center;
@@ -118,6 +119,7 @@ $content-background-color: $background-color;
 
 .mobile.top-bar {
   height: 50px;
+  min-height: 50px;
   background: $primary-color;
 }
 

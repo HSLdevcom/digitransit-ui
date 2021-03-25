@@ -5,8 +5,8 @@ import { intlShape } from 'react-intl';
 import TruncatedMessage from './TruncatedMessage';
 
 const MessageBarMessage = ({ content, textColor }, { intl }) => {
-  const heading = (e, key, color) => {
-    if (e.type === 'heading') {
+  const heading = (e, color) => {
+    if (e?.type === 'heading') {
       return <h2 style={{ color }}>{e.content}</h2>;
     }
     return null;
@@ -54,8 +54,14 @@ const MessageBarMessage = ({ content, textColor }, { intl }) => {
       role="button"
       style={{ color: textColor }}
     >
-      {heading(content[0], textColor)}
-      {body(content[1] || undefined, content[2] || undefined)}
+      {heading(
+        content.find(part => part.type === 'header'),
+        textColor,
+      )}
+      {body(
+        content.find(part => part.type === 'text'),
+        content.find(part => part.type === 'a'),
+      )}
     </div>
   );
 };
