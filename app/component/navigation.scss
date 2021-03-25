@@ -568,6 +568,7 @@ section.content {
     height: auto;
     display: flex;
     max-height: 100%;
+    overflow: hidden;
 
     .message-bar-content {
       flex-basis: auto;
