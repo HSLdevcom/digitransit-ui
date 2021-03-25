@@ -93,8 +93,6 @@ BikeRentalStationHeader.propTypes = {
 
 BikeRentalStationHeader.contextTypes = {
   config: PropTypes.object.isRequired,
-  //    executeAction: PropTypes.func.isRequired,
-  //    intl: intlShape.isRequired,
 };
 
 export default BikeRentalStationHeader;
