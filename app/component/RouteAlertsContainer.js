@@ -6,7 +6,6 @@ import { intlShape } from 'react-intl';
 
 import AlertList from './AlertList';
 import DepartureCancelationInfo from './DepartureCancelationInfo';
-import { DATE_FORMAT } from '../constants';
 import {
   RouteAlertsWithContentQuery,
   StopAlertsWithContentQuery,
@@ -139,7 +138,7 @@ const containerComponent = Relay.createContainer(RouteAlertsContainer, {
     `,
   },
   initialVariables: {
-    serviceDay: moment().format(DATE_FORMAT),
+    serviceDay: moment('20210809'),
   },
 });
 

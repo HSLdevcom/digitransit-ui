@@ -266,7 +266,7 @@ class RouteScheduleContainer extends Component {
 const connectedComponent = connectToStores(
   Relay.createContainer(RouteScheduleContainer, {
     initialVariables: {
-      serviceDay: moment().format(DATE_FORMAT),
+      serviceDay: moment('20210809'),
     },
     fragments: {
       pattern: () => Relay.QL`

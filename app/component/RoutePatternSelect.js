@@ -218,7 +218,7 @@ RoutePatternSelect.description = () => (
 const withStore = connectToStores(
   Relay.createContainer(RoutePatternSelect, {
     initialVariables: {
-      serviceDay: moment().format(DATE_FORMAT),
+      serviceDay: moment('20210809'),
     },
     fragments: {
       route: () => Relay.QL`
