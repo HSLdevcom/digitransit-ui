@@ -14,6 +14,9 @@ const FavouriteStopContainer = connectToStores(
     favourite: context
       .getStore('FavouriteStore')
       .isFavourite(stop.gtfsId, isTerminal ? 'station' : 'stop'),
+    isFetching: context
+      .getStore('FavouriteStore')
+      .getStatus() === 'fetching',
     addFavourite: () => {
       const favouriteType = isTerminal ? 'station' : 'stop';
       let gid = `gtfs${stop.gtfsId

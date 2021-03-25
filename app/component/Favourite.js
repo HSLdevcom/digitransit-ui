@@ -14,6 +14,7 @@ const Favourite = (
     addFavourite,
     deleteFavourite,
     favourite,
+    isFetching,
     className,
     allowLogin,
     isLoggedIn,
@@ -25,8 +26,8 @@ const Favourite = (
   const [showLoginModal, setLoginModalVisibility] = useState(false);
 
   useEffect(() => {
-    handleDisable(false);
-  }, [favourite]);
+    handleDisable(isFetching);
+  }, [isFetching]);
 
   let isModalClosed = false;
 
