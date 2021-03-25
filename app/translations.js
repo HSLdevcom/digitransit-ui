@@ -918,7 +918,7 @@ const translations = {
     'citybike-distance-duration': 'Bike {duration} ({distance})',
     'citybike-network-headers': 'Citybikes',
     'citybike-off-season':
-      'City bike stations will be opened again next spring',
+      'City bike stations will be opened again this spring',
     'citybike-purchase-link': 'Buy',
     'citybike-register-required': 'To use city bikes, you need to register',
     'citybike-start-using': 'Start using city bikes',
@@ -1848,7 +1848,7 @@ const translations = {
       'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi',
     'citybike-distance-duration': 'Pyöräile {duration} ({distance})',
     'citybike-network-headers': 'Kaupunkipyörät',
-    'citybike-off-season': 'Kaupunkipyörät palaavat käyttöön ensi keväänä',
+    'citybike-off-season': 'Kaupunkipyörät palaavat käyttöön tänä keväänä',
     'citybike-purchase-link': 'Siirry ostamaan',
     'citybike-register-required':
       'Kaupunkipyörien käyttö vaatii rekisteröitymisen',
@@ -3547,7 +3547,7 @@ const translations = {
       'Köp ett abonnemang för en dag, en vecka eller för en hel säsong',
     'citybike-distance-duration': 'Cykla {duration} ({distance})',
     'citybike-network-headers': 'Stadscyklarna',
-    'citybike-off-season': 'Stadscyklarna tas i bruk igen nästa vår',
+    'citybike-off-season': 'Stadscyklarna tas i bruk igen i vår',
     'citybike-purchase-link': 'Gå till köp',
     'citybike-register-required':
       'Det krävs registrering för att kunna använda stadscyklar',

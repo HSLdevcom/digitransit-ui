@@ -463,7 +463,7 @@ export default {
   localStorageTarget: rootLink,
 
   cityBike: {
-    showCityBikes: false, // cityBikesEnabled,
+    showCityBikes: cityBikesEnabled,
     capacity: BIKEAVL_WITHMAX,
     networks: {
       smoove: {
