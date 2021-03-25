@@ -74,7 +74,7 @@ const TripRouteStop = props => {
           selected={
             props.selectedVehicle && props.selectedVehicle.id === vehicle.id
           }
-          color={vehicle.color}
+          color={!stopPassed && vehicle.color}
           setHumanScrolling={setHumanScrolling}
           keepTracking={keepTracking}
         />
@@ -103,19 +103,20 @@ const TripRouteStop = props => {
           viewBox="0 0 16 16"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          style={{ fill: !stopPassed && color, stroke: !stopPassed && color }}
         >
           <circle
             cx="8"
             cy="8"
             r="6"
             fill="white"
-            stroke={color || 'currentColor'}
+            stroke={(!stopPassed && color) || 'currentColor'}
             strokeWidth="4"
           />
         </svg>
         <div
           className={cx('route-stop-now_line', mode)}
-          style={{ backgroundColor: color }}
+          style={{ backgroundColor: !stopPassed && color }}
         />
       </div>
       <div className="route-stop-row_content-container">
