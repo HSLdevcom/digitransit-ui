@@ -58,7 +58,7 @@ const containerComponent = createPaginationContainer(
           after: $after
           maxResults: $maxResults
           maxDistance: $maxDistance
-        ) @connection(key: "StopsNearYouMap_nearest") {
+        ) @connection(key: "StopsNearYouMapContainer_nearest") {
           edges {
             node {
               distance
@@ -110,7 +110,7 @@ const containerComponent = createPaginationContainer(
   {
     direction: 'forward',
     getConnectionFromProps(props) {
-      return props.stops && props.stops.nearest;
+      return props.stopsNearYou && props.stopsNearYou.nearest;
     },
     getFragmentVariables(prevVars, totalCount) {
       return {

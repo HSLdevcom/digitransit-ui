@@ -361,6 +361,7 @@ const refetchContainer = createPaginationContainer(
                   name
                   bikesAvailable
                   spacesAvailable
+                  capacity
                   networks
                 }
                 ... on Stop {
@@ -392,6 +393,7 @@ const refetchContainer = createPaginationContainer(
                       tripHeadsign
                       route {
                         shortName
+                        longName
                         gtfsId
                         mode
                         color
@@ -429,6 +431,7 @@ const refetchContainer = createPaginationContainer(
                       trip {
                         route {
                           shortName
+                          longName
                           gtfsId
                           mode
                           patterns {

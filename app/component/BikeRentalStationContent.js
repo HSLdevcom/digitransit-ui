@@ -87,6 +87,7 @@ const containerComponent = createFragmentContainer(connectedComponent, {
       name
       spacesAvailable
       bikesAvailable
+      capacity
       networks
       stationId
     }

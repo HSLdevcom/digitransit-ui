@@ -74,7 +74,10 @@ export default class MobileItineraryWrapper extends React.Component {
 
     const itineraryTabs = this.props.children.map((child, i) => {
       return (
-        <div key={child.key}>
+        <div
+          className={`swipeable-tab ${index !== i && 'inactive'}`}
+          key={child.key}
+        >
           <ItineraryTab
             key={child.key}
             activeIndex={index + i}
@@ -95,6 +98,7 @@ export default class MobileItineraryWrapper extends React.Component {
         tabs={itineraryTabs}
         tabIndex={index}
         onSwipe={this.props.onSwipe}
+        classname="swipe-mobile-divider"
       />
     );
     /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
