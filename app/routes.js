@@ -14,6 +14,7 @@ import {
   PREFIX_ITINERARY_SUMMARY,
   PREFIX_NEARYOU,
   PREFIX_BIKESTATIONS,
+  PREFIX_BIKEPARK,
   LOCAL_STORAGE_EMITTER_PATH,
   createReturnPath,
   TAB_NEARBY,
@@ -110,6 +111,45 @@ export default config => {
                 query routes_BikeRentalStationMap_Query($id: String!) {
                   bikeRentalStation(id: $id) {
                     ...BikeRentalStationPageMapContainer_bikeRentalStation
+                  }
+                }
+              `}
+              render={getComponentOrNullRenderer}
+            />
+          ),
+        }}
+      </Route>
+      <Route path={`${PREFIX_BIKEPARK}/:id`}>
+        {{
+          content: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/BikeParkContent'
+                ).then(getDefault)
+              }
+              query={graphql`
+                query routes_BikePark_Query($id: String!) {
+                  bikePark(id: $id) {
+                    ...BikeParkContent_bikePark
+                  }
+                }
+              `}
+              render={getComponentOrNullRenderer}
+            />
+          ),
+          map: (
+            <Route
+              path="(.*)?"
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/BikeParkMapContainer'
+                ).then(getDefault)
+              }
+              query={graphql`
+                query routes_BikeParkMap_Query($id: String!) {
+                  bikePark(id: $id) {
+                    ...BikeParkMapContainer_bikePark
                   }
                 }
               `}
