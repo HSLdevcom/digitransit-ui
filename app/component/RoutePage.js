@@ -13,7 +13,7 @@ import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RoutePatternSelect from './RoutePatternSelect';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from './RouteNumber';
-import { DATE_FORMAT, AlertSeverityLevelType } from '../constants';
+import { AlertSeverityLevelType } from '../constants';
 import {
   startRealTimeClient,
   stopRealTimeClient,
@@ -457,7 +457,7 @@ const containerComponent = Relay.createContainer(withBreakpoint(RoutePage), {
     `,
   },
   initialVariables: {
-    serviceDay: moment().format(DATE_FORMAT),
+    serviceDay: moment('20210809'),
   },
 });
 
