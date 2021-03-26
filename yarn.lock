@@ -2883,6 +2883,11 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
+"@trysound/sax@0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@trysound/sax/-/sax-0.1.1.tgz#3348564048e7a2d7398c935d466c0414ebb6a669"
+  integrity sha512-Z6DoceYb/1xSg5+e+ZlPZ9v0N16ZvZ+wYMraFue4HYrE4ttONKtsvruIRf6t9TBR0YvSOfi1hUU0fJfBLCDYow==
+
 "@types/cacheable-request@^6.0.1":
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/@types/cacheable-request/-/cacheable-request-6.0.1.tgz#5d22f3dded1fd3a84c0bbeb5039a7419c2c91976"
@@ -3968,16 +3973,16 @@ babel-plugin-dynamic-import-node@2.3.3, babel-plugin-dynamic-import-node@^2.3.3:
   dependencies:
     object.assign "^4.1.0"
 
-babel-plugin-inline-react-svg@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-inline-react-svg/-/babel-plugin-inline-react-svg-1.1.1.tgz#3fce30c5653a6c032c21ccc2b3e0141cd494b1d8"
-  integrity sha512-KCCzSKJUigDXd/dxJDE6uNyVTYE46FiTt8Md3vpYHtbADeTjOLJq5LkmaVpISplxKCK25VZU8sha2Km6uIEFJA==
+babel-plugin-inline-react-svg@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-inline-react-svg/-/babel-plugin-inline-react-svg-2.0.1.tgz#68c9c119d643a8f2d7bf939b942534d89ae3ade9"
+  integrity sha512-aD4gy2G3gNVDaw97LtoixzWbaOcSEnOb4KJPe8kZedSeqxY3v71KsBs8DGmButGZtEloCRhRRuU2TpW1hIPXig==
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/parser" "^7.0.0"
     lodash.isplainobject "^4.0.6"
-    resolve "^1.10.0"
-    svgo "^0.7.2"
+    resolve "^1.20.0"
+    svgo "^2.0.3"
 
 babel-plugin-istanbul@6.0.0:
   version "6.0.0"
@@ -5149,13 +5154,6 @@ cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
-clap@^1.0.9:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/clap/-/clap-1.2.3.tgz#4f36745b32008492557f46412d66d50cb99bce51"
-  integrity sha512-4CoL/A3hf90V3VIEjeuhSvlGFEHKzOz+Wfc2IVZc+FaUgU0ZQafJTP49fvnULipOPcAfqhyI2duwQyns6xqjYA==
-  dependencies:
-    chalk "^1.1.3"
-
 class-utils@^0.3.5:
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/class-utils/-/class-utils-0.3.6.tgz#f93369ae8b9a7ce02fd41faad0ca83033190c463"
@@ -5337,7 +5335,7 @@ co@~3.0.6:
   resolved "https://registry.yarnpkg.com/co/-/co-3.0.6.tgz#1445f226c5eb956138e68c9ac30167ea7d2e6bda"
   integrity sha1-FEXyJsXrlWE45oyawwFn6n0ua9o=
 
-coa@^1.0.1, coa@~1.0.1:
+coa@^1.0.1:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/coa/-/coa-1.0.4.tgz#a9ef153660d6a86a8bdec0289a5c684d217432fd"
   integrity sha1-qe8VNmDWqGqL3sAomlxoTSF0Mv0=
@@ -5454,11 +5452,6 @@ colors@^1.1.2:
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.4.0.tgz#c50491479d4c1bdaed2c9ced32cf7c7dc2360f78"
   integrity sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==
 
-colors@~1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/colors/-/colors-1.1.2.tgz#168a4701756b6a7f51a12ce0c97bfa28c084ed63"
-  integrity sha1-FopHAXVran9RoSzgyXv6KMCE7WM=
-
 columnify@^1.5.4:
   version "1.5.4"
   resolved "https://registry.yarnpkg.com/columnify/-/columnify-1.5.4.tgz#4737ddf1c7b69a8a7c340570782e947eec8e78bb"
@@ -5510,6 +5503,11 @@ commander@^6.0.0:
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-6.2.1.tgz#0792eb682dfbc325999bb2b84fddddba110ac73c"
   integrity sha512-U7VdrJFnJgo4xjrHpTzu0yrHPGImdsmD95ZlgYSEajAn2JKzDhDTPG9kBTefmObL2w/ngeZnilk+OV9CG3d7UA==
+
+commander@^7.1.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-7.2.0.tgz#a36cb57d0b501ce108e4d20559a150a391d97ab7"
+  integrity sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==
 
 commist@^1.0.0:
   version "1.1.0"
@@ -6253,20 +6251,12 @@ cssnano@^4.1.10:
     is-resolvable "^1.0.0"
     postcss "^7.0.0"
 
-csso@^4.0.2:
+csso@^4.0.2, csso@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/csso/-/csso-4.2.0.tgz#ea3a561346e8dc9f546d6febedd50187cf389529"
   integrity sha512-wvlcdIbf6pwKEk7vHj8/Bkc0B4ylXZruLvOgs9doS5eOsOpuodOV2zJChSpkp+pRpYQLQMeF04nr3Z68Sta9jA==
   dependencies:
     css-tree "^1.1.2"
-
-csso@~2.3.1:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/csso/-/csso-2.3.2.tgz#ddd52c587033f49e94b71fc55569f252e8ff5f85"
-  integrity sha1-3dUsWHAz9J6Utx/FVWnyUuj/X4U=
-  dependencies:
-    clap "^1.0.9"
-    source-map "^0.5.3"
 
 cssom@0.3.x, cssom@^0.3.4:
   version "0.3.8"
@@ -7657,11 +7647,6 @@ esprima@3.x.x:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/esprima/-/esprima-3.1.3.tgz#fdca51cee6133895e3c88d535ce49dbff62a4633"
   integrity sha1-/cpRzuYTOJXjyI1TXOSdv/YqRjM=
-
-esprima@^2.6.0:
-  version "2.7.3"
-  resolved "https://registry.yarnpkg.com/esprima/-/esprima-2.7.3.tgz#96e3b70d5779f6ad49cd032673d1c312767ba581"
-  integrity sha1-luO3DVd59q1JzQMmc9HDEnZ7pYE=
 
 esprima@^4.0.0, esprima@^4.0.1:
   version "4.0.1"
@@ -11180,14 +11165,6 @@ js-yaml@^3.10.0, js-yaml@^3.13.1, js-yaml@^3.2.5:
   dependencies:
     argparse "^1.0.7"
     esprima "^4.0.0"
-
-js-yaml@~3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.7.0.tgz#5c967ddd837a9bfdca5f2de84253abe8a1c03b80"
-  integrity sha1-XJZ93YN6m/3KXy3oQlOr6KHAO4A=
-  dependencies:
-    argparse "^1.0.7"
-    esprima "^2.6.0"
 
 jsbn@~0.1.0:
   version "0.1.1"
@@ -16849,7 +16826,7 @@ sass-loader@10.0.2:
     schema-utils "^2.7.1"
     semver "^7.3.2"
 
-sax@>=0.6.0, sax@~1.2.1, sax@~1.2.4:
+sax@>=0.6.0, sax@~1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
@@ -18125,19 +18102,6 @@ svg2png@~3.0.1:
     pn "^1.0.0"
     yargs "^3.31.0"
 
-svgo@^0.7.2:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/svgo/-/svgo-0.7.2.tgz#9f5772413952135c6fefbf40afe6a4faa88b4bb5"
-  integrity sha1-n1dyQTlSE1xv779Ar+ak+qiLS7U=
-  dependencies:
-    coa "~1.0.1"
-    colors "~1.1.2"
-    csso "~2.3.1"
-    js-yaml "~3.7.0"
-    mkdirp "~0.5.1"
-    sax "~1.2.1"
-    whet.extend "~0.9.9"
-
 svgo@^1.0.0:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/svgo/-/svgo-1.3.2.tgz#b6dc511c063346c9e415b81e43401145b96d4167"
@@ -18156,6 +18120,19 @@ svgo@^1.0.0:
     stable "^0.1.8"
     unquote "~1.1.1"
     util.promisify "~1.0.0"
+
+svgo@^2.0.3:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/svgo/-/svgo-2.2.2.tgz#51d67c7149661282d22a3c8683f4795cdb40f687"
+  integrity sha512-kJugY2d0yrsONnG4YavppVkKmKULMw2iFRbB9+usyWqzTaqoBuUaqdMnQ2G1n5P1dmOA2tZvc5zmMM6sPOVBSQ==
+  dependencies:
+    "@trysound/sax" "0.1.1"
+    chalk "^4.1.0"
+    commander "^7.1.0"
+    css-select "^3.1.2"
+    css-tree "^1.1.2"
+    csso "^4.2.0"
+    stable "^0.1.8"
 
 swipe-js-iso@2.1.5, swipe-js-iso@^2.1.5:
   version "2.1.5"
@@ -19785,11 +19762,6 @@ whatwg-url@^7.0.0:
     lodash.sortby "^4.7.0"
     tr46 "^1.0.1"
     webidl-conversions "^4.0.2"
-
-whet.extend@~0.9.9:
-  version "0.9.9"
-  resolved "https://registry.yarnpkg.com/whet.extend/-/whet.extend-0.9.9.tgz#f877d5bf648c97e5aa542fadc16d6a259b9c11a1"
-  integrity sha1-+HfVv2SMl+WqVC+twW1qJZucEaE=
 
 which-boxed-primitive@^1.0.1:
   version "1.0.2"

@@ -921,6 +921,9 @@ const translations = {
       'City bike stations will be opened again this spring',
     'citybike-purchase-link': 'Buy',
     'citybike-register-required': 'To use city bikes, you need to register',
+    'citybike-return-full': 'Returning city bike?',
+    'citybike-return-full-link':
+      'How to return the bike when bike station is full ›',
     'citybike-start-using': 'Start using city bikes',
     'citybike-station': 'Bike station {stationId}',
     'citybike-station-no-id': 'Bike station',
@@ -1852,9 +1855,12 @@ const translations = {
     'citybike-purchase-link': 'Siirry ostamaan',
     'citybike-register-required':
       'Kaupunkipyörien käyttö vaatii rekisteröitymisen',
+    'citybike-return-full': 'Palauttamassa kaupunkipyörää?',
+    'citybike-return-full-link':
+      'Näin palautat pyörän, kun pyöräasema on täynnä ›',
     'citybike-start-using': 'Ota kaupunkipyörät käyttöön',
-    'citybike-station': 'Pyöräasema {stationId}',
-    'citybike-station-no-id': 'Pyöräasema',
+    'citybike-station': 'Kaupunkipyöräasema {stationId}',
+    'citybike-station-no-id': 'Kaupunkipyöräasema',
     citybike_off: 'Suljettu',
     'clear-button-label': 'Tyhjennä',
     close: 'Sulje',
@@ -3551,6 +3557,9 @@ const translations = {
     'citybike-purchase-link': 'Gå till köp',
     'citybike-register-required':
       'Det krävs registrering för att kunna använda stadscyklar',
+    'citybike-return-full': 'Returning city bike?',
+    'citybike-return-full-link':
+      'How to return the bike when bike station is full ›',
     'citybike-start-using': 'Ta stadscyklar i bruk',
     'citybike-station': 'Stadscykelstation {stationId}',
     'citybike-station-no-id': 'Stadscykelstation',

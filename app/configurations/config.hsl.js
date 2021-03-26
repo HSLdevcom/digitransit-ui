@@ -464,6 +464,7 @@ export default {
   cityBike: {
     showCityBikes: cityBikesEnabled,
     capacity: BIKEAVL_WITHMAX,
+    showFullInfo: true,
     networks: {
       smoove: {
         icon: 'citybike',
@@ -478,6 +479,12 @@ export default {
           sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors',
           en: 'https://www.hsl.fi/en/citybikes/helsinki',
         },
+        returnInstructions: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#palauta',
+          sv:
+            'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#aterlamna',
+          en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#return',
+        },
       },
       vantaa: {
         icon: 'citybike-secondary',
@@ -491,6 +498,11 @@ export default {
           fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa',
           sv: 'https://www.hsl.fi/sv/stadscyklar/vantaa',
           en: 'https://www.hsl.fi/en/citybikes/vantaa',
+        },
+        returnInstructions: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa/kayttoohje#palauta',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/vanda/anvisningar#aterlamna',
+          en: 'https://www.hsl.fi/en/citybikes/vantaa/instructions#return',
         },
       },
     },
