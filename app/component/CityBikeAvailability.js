@@ -14,14 +14,9 @@ const CityBikeAvailability = mapProps(
     fewerAvailableCount,
     type,
     useSpacesAvailable,
-    setFull,
   }) => {
     const total = Number.isNaN(totalSpaces) ? 0 : totalSpaces;
     const available = Number.isNaN(bikesAvailable) ? 0 : bikesAvailable;
-    const isFull = available >= total && total > 0;
-    if (isFull && setFull) {
-      setFull(isFull);
-    }
     return {
       available,
       total,

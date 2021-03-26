@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
@@ -17,7 +17,8 @@ const BikeRentalStationContent = (
   { bikeRentalStation, breakpoint, language, router },
   { config },
 ) => {
-  const [isFull, setFull] = useState(false);
+  const { bikesAvailable, capacity } = bikeRentalStation;
+  const isFull = bikesAvailable >= capacity;
   if (!bikeRentalStation) {
     if (isBrowser) {
       router.replace(`/${PREFIX_BIKESTATIONS}`);
@@ -38,10 +39,7 @@ const BikeRentalStationContent = (
         bikeRentalStation={bikeRentalStation}
         breakpoint={breakpoint}
       />
-      <CityBikeStopContent
-        bikeRentalStation={bikeRentalStation}
-        setFull={setFull}
-      />
+      <CityBikeStopContent bikeRentalStation={bikeRentalStation} />
       {config.cityBike.showFullInfo && isFull && (
         <div className="citybike-full-station-guide">
           <FormattedMessage id="citybike-return-full" />
