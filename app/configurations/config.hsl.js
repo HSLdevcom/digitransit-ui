@@ -496,7 +496,7 @@ export default {
         type: 'citybike',
         url: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa',
-          sv: 'https://www.hsl.fi/sv/stadscyklar/vantaa',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/vanda',
           en: 'https://www.hsl.fi/en/citybikes/vantaa',
         },
         returnInstructions: {
