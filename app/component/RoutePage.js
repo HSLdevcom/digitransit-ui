@@ -457,7 +457,7 @@ const containerComponent = Relay.createContainer(withBreakpoint(RoutePage), {
     `,
   },
   initialVariables: {
-    serviceDay: moment('20210809'),
+    serviceDay: '20210809',
   },
 });
 

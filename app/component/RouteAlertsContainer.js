@@ -1,4 +1,3 @@
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
@@ -138,7 +137,7 @@ const containerComponent = Relay.createContainer(RouteAlertsContainer, {
     `,
   },
   initialVariables: {
-    serviceDay: moment('20210809'),
+    serviceDay: '20210809',
   },
 });
 

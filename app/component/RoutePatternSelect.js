@@ -8,7 +8,6 @@ import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
 import { routerShape } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import moment from 'moment';
 import {
   enrichPatterns,
   routePatternOptionText,
@@ -22,8 +21,6 @@ import {
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 // DT-3317
-
-const DATE_FORMAT = 'YYYYMMDD';
 
 class RoutePatternSelect extends Component {
   static propTypes = {
@@ -218,7 +215,7 @@ RoutePatternSelect.description = () => (
 const withStore = connectToStores(
   Relay.createContainer(RoutePatternSelect, {
     initialVariables: {
-      serviceDay: moment('20210809'),
+      serviceDay: '20210809',
     },
     fragments: {
       route: () => Relay.QL`
@@ -250,10 +247,7 @@ const withStore = connectToStores(
   }),
   ['PreferencesStore'],
   context => ({
-    serviceDay: context
-      .getStore('TimeStore')
-      .getCurrentTime()
-      .format(DATE_FORMAT),
+    serviceDay: '20210809',
     lang: context.getStore('PreferencesStore').getLanguage(), // DT-3347
   }),
 );
