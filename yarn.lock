@@ -1816,10 +1816,10 @@
   resolved "https://registry.yarnpkg.com/@hsl-fi/shimmer/-/shimmer-0.1.0.tgz#111eca690401db43bc5ac0b1d142d00e97bcfaea"
   integrity sha512-8aGzCxClDzZf1ZVm7etEi3UEJIy0uMakMFC+p6eS6XalBuGhXptk8Luwavw1NiNo633yW1sJA2C3QRGwoHr6pg==
 
-"@hsl-fi/site-header@1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@hsl-fi/site-header/-/site-header-1.1.2.tgz#a0ed020d472f4e75a3e4cd646101cfb531f40e24"
-  integrity sha512-UKiqGLekDt8xtVyNO6Xs8Xs2kaP0d1M/mvER/3X3IuStn71JDIYuEBTHoREAT0QVoqQJs/Glm7tmO4xXGcfV9w==
+"@hsl-fi/site-header@1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/site-header/-/site-header-1.1.3.tgz#df45e97c4392d833c368141120cb1448e32bf9b6"
+  integrity sha512-XiHfNJv6wgBxka7/JTqw9hbxd5o2cfbNxr0E4j5Tx8saogYW87h832UQg1O05CFM8O+kjy9GZ3g3FpRH/J7RhQ==
   dependencies:
     "@hsl-fi/animated-spinner" "^0.1.0"
     "@hsl-fi/hooks" "^0.2.0"
@@ -6358,10 +6358,10 @@ dateformat@^3.0.0:
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-datetimepicker/-/digitransit-component-datetimepicker-0.4.1.tgz#c0485399d9781be1e3aebb3f5eee2e023ba21bde"
   integrity sha512-beat4f235IbzeESZpoc0iIL+nn16utwVSxbOtBCZVo4RGIItEd1zAmzi8i1BUgpBt5uK/gsFYeRe4axjCyeFyA==
 
-"datetimepicker-B@npm:@digitransit-component/digitransit-component-datetimepicker@0.5.5":
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-datetimepicker/-/digitransit-component-datetimepicker-0.5.5.tgz#cdc7bdbb8b8476b8b6fa8f831c71f662aa907e4d"
-  integrity sha512-jR4z3hRfG2VLkvZVix945zocp7Yl8uhMcHWRucBK+KzrJ9BPRa4ZkJd1DwVwXO+aY2v7o5TNKDhh50WAS12uBA==
+"datetimepicker-B@npm:@digitransit-component/digitransit-component-datetimepicker@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-datetimepicker/-/digitransit-component-datetimepicker-0.5.6.tgz#cd285d2f684a02e31750c34534727757c7e13323"
+  integrity sha512-egkIltqBGPAXxLIOcPpHd9ymCrcWNwj7plSQFWwXzBSmKvFAUExG+R4eJuGy2YQ1o8WprY0ZW/xHaHPiWbvK1g==
 
 de-indent@^1.0.2:
   version "1.0.2"
