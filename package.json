@@ -197,6 +197,7 @@
     "react-relay-network-modern-ssr": "1.4.0",
     "react-sortablejs": "2.0.11",
     "react-swipe": "6.0.4",
+    "react-truncate": "2.4.0",
     "recompose": "0.30.0",
     "redis": "2.8.0",
     "relay-runtime": "10.0.1",
