@@ -23,6 +23,39 @@ export default class SwipeableTabs extends React.Component {
     intl: intlShape.isRequired,
   };
 
+  componentDidMount() {
+    window.addEventListener('resize', this.setFocusables);
+  }
+
+  componentDidUpdate() {
+    this.setFocusables();
+  }
+
+  setFocusables = () => {
+    // Set inactive tab focusables to unfocusable and for active tab set previously made unfocusable elements to focusable
+    const focusableTags =
+      'a, button, input, textarea, select, details, [tabindex="0"]';
+    const unFocusableTags =
+      'a, button, input, textarea, select, details, [tabindex="-2"]';
+    const inactiveTabs = document.getElementsByClassName('swipeable-tab');
+
+    for (let i = 0; i < inactiveTabs.length; i++) {
+      const focusables = inactiveTabs[i].querySelectorAll(focusableTags);
+      const unFocusables = inactiveTabs[i].querySelectorAll(unFocusableTags);
+      if (inactiveTabs[i].className === 'swipeable-tab inactive') {
+        focusables.forEach(focusable => {
+          // eslint-disable-next-line no-param-reassign
+          focusable.tabIndex = '-2';
+        });
+      } else {
+        unFocusables.forEach(unFocusable => {
+          // eslint-disable-next-line no-param-reassign
+          unFocusable.tabIndex = '0';
+        });
+      }
+    }
+  };
+
   setDecreasingAttributes = tabBalls => {
     const newTabBalls = tabBalls;
     for (let i = 0; i < tabBalls.length; i++) {
@@ -115,85 +148,8 @@ export default class SwipeableTabs extends React.Component {
     }
   };
 
-  handleAccessibilityNavigation = e => {
-    // Prevents keyboard navigation out of visible swipe tabs
-    if (e.keyCode !== 9) {
-      return;
-    }
-    const focusableTags =
-      'a, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])';
-
-    const allKeyboardfocusableElements = document.querySelectorAll(
-      focusableTags,
-    );
-    const swipeContainerElements = document.getElementsByClassName(
-      'react-swipe-container',
-    )[0].childNodes[0];
-
-    const tabElements = swipeContainerElements.childNodes;
-    const currentTabElement = tabElements[this.state.tabIndex].childNodes[0];
-    const currentTabKeyboardfocusableElements = currentTabElement.querySelectorAll(
-      focusableTags,
-    );
-    if (!currentTabKeyboardfocusableElements.length) {
-      return;
-    }
-
-    const lastTabElement = tabElements[tabElements.length - 1].childNodes[0];
-    const lastKeyboardfocusableElements = lastTabElement.querySelectorAll(
-      focusableTags,
-    );
-    const lastTabFocusableElement =
-      lastKeyboardfocusableElements[lastKeyboardfocusableElements.length - 1];
-
-    let elementAfterLastSwipeElement;
-    allKeyboardfocusableElements.forEach((el, index) => {
-      if (el === lastTabFocusableElement) {
-        const element = allKeyboardfocusableElements[index + 1];
-        elementAfterLastSwipeElement =
-          element || allKeyboardfocusableElements[0];
-      }
-    });
-
-    let nextIndex;
-    Object.values(currentTabKeyboardfocusableElements).forEach(
-      (value, index) => {
-        if (e.target === value) {
-          nextIndex = index + 1;
-        }
-      },
-    );
-    // Get next focusable element in current tab. If it doesn't exist focus to next element outside swipe tabs
-    const nextFocusable = currentTabKeyboardfocusableElements[nextIndex];
-    if (!nextFocusable) {
-      e.preventDefault();
-      if (nextIndex === currentTabKeyboardfocusableElements.length) {
-        elementAfterLastSwipeElement.focus();
-      } else {
-        currentTabKeyboardfocusableElements[0].focus();
-      }
-    }
-  };
-
-  setHiddenTabsUntabbable = () => {
-    const { tabs } = this.props;
-
-    const unTabbableTabs = tabs.map((tab, index) => {
-      return (
-        <div
-          key={tab.key}
-          style={{ outline: 'none' }}
-          tabIndex={index === this.state.tabIndex ? '0' : '-1'}
-        >
-          {tab}
-        </div>
-      );
-    });
-    return unTabbableTabs;
-  };
-
   render() {
-    const tabs = this.setHiddenTabsUntabbable();
+    const { tabs } = this.props;
     const tabBalls = this.tabBalls(tabs.length);
     const disabled = tabBalls.length < 2;
     let reactSwipeEl;
@@ -202,7 +158,7 @@ export default class SwipeableTabs extends React.Component {
       <div>
         <div className={`swipe-header-container ${this.props.classname}`}>
           <div
-            className={`swipe-header ${this.props.classname || ''}`}
+            className={`swipe-header ${this.props.classname}`}
             role="row"
             onKeyDown={e => this.handleKeyPress(e, reactSwipeEl)}
             aria-label={this.context.intl.formatMessage({
@@ -271,33 +227,25 @@ export default class SwipeableTabs extends React.Component {
             </div>
           </div>
         </div>
-        <span>
-          <div
-            tabIndex="0"
-            role="tablist"
-            onKeyDown={this.handleAccessibilityNavigation}
-          >
-            <ReactSwipe
-              swipeOptions={{
-                startSlide: this.props.tabIndex,
-                continuous: false,
-                callback: i => {
-                  // force transition after animation should be over because animation can randomly fail sometimes
-                  setTimeout(() => {
-                    this.setState({ tabIndex: i });
-                    this.props.onSwipe(i);
-                  }, 300);
-                },
-              }}
-              childCount={tabs.length}
-              ref={el => {
-                reactSwipeEl = el;
-              }}
-            >
-              {tabs}
-            </ReactSwipe>
-          </div>
-        </span>
+        <ReactSwipe
+          swipeOptions={{
+            startSlide: this.props.tabIndex,
+            continuous: false,
+            callback: i => {
+              // force transition after animation should be over because animation can randomly fail sometimes
+              setTimeout(() => {
+                this.setState({ tabIndex: i });
+                this.props.onSwipe(i);
+              }, 300);
+            },
+          }}
+          childCount={tabs.length}
+          ref={el => {
+            reactSwipeEl = el;
+          }}
+        >
+          {tabs}
+        </ReactSwipe>
       </div>
     );
   }
