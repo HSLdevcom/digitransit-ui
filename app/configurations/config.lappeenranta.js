@@ -40,7 +40,7 @@ export default configMerger(walttiConfig, {
   },
 
   cityBike: {
-    showCityBikes: false,
+    showCityBikes: true,
     capacity: BIKEAVL_UNKNOWN,
     networks: {
       lappeenranta: {
@@ -62,7 +62,7 @@ export default configMerger(walttiConfig, {
 
   transportModes: {
     citybike: {
-      availableForSelection: false,
+      availableForSelection: true,
     },
   },
 
