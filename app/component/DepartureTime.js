@@ -24,7 +24,7 @@ function DepartureTime(props, context) {
       id: 'arriving-soon',
       defaultMessage: 'Now',
     });
-  } else if (timeDiffInMinutes <= context.minutesToDepartureLimit) {
+  } else if (timeDiffInMinutes <= context.config.minutesToDepartureLimit) {
     shownTime = context.intl.formatMessage(
       { id: 'departure-time-in-minutes', defaultMessage: '{minutes} min' },
       { minutes: timeDiffInMinutes },
