@@ -27,7 +27,9 @@ const CityBikeContent = ({ station, lang }, { config }) => (
       config.cityBike.capacity !== BIKEAVL_UNKNOWN && (
         <CityBikeAvailability
           bikesAvailable={station.bikesAvailable}
-          totalSpaces={station.bikesAvailable + station.spacesAvailable}
+          totalSpaces={
+            station.capacity || station.bikesAvailable + station.spacesAvailable
+          }
           fewAvailableCount={config.cityBike.fewAvailableCount}
           type={getCityBikeType(station.networks, config)}
           useSpacesAvailable={config.cityBike.capacity === BIKEAVL_WITHMAX}

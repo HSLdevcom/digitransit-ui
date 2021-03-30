@@ -12,6 +12,7 @@ import PreferencesStore from '../../../store/PreferencesStore';
 import { getJson } from '../../../util/xhrPromise';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { splitStringToAddressAndPlace } from '../../../util/otpStrings';
+import getZoneId from '../../../util/zoneIconUtils';
 import PopupHeader from '../PopupHeader';
 
 class LocationPopup extends React.Component {
@@ -43,21 +44,6 @@ class LocationPopup extends React.Component {
     const { lat, lon } = this.props;
     const { config } = this.context;
 
-    function getZoneId(propertiesZones, dataZones) {
-      function zoneFilter(zones) {
-        return Array.isArray(zones)
-          ? zones.filter(
-              zone => zone && config.feedIds.includes(zone.split(':')[0]),
-            )
-          : [];
-      }
-      const filteredZones = propertiesZones
-        ? zoneFilter(propertiesZones)
-        : zoneFilter(dataZones);
-      const zone = filteredZones.length > 0 ? filteredZones[0] : undefined;
-      return zone ? zone.split(':')[1] : undefined;
-    }
-
     getJson(config.URL.PELIAS_REVERSE_GEOCODER, {
       'point.lat': lat,
       'point.lon': lon,
@@ -76,7 +62,7 @@ class LocationPopup extends React.Component {
             location: {
               ...prevState.location,
               address: getLabel(match),
-              zoneId: getZoneId(match.zones, data.zones),
+              zoneId: getZoneId(config, match.zones, data.zones),
             },
           }));
           pointName = 'FreeAddress';
@@ -89,7 +75,7 @@ class LocationPopup extends React.Component {
                 id: 'location-from-map',
                 defaultMessage: 'Selected location',
               }),
-              zoneId: getZoneId(data.zones),
+              zoneId: getZoneId(config, data.zones),
             },
           }));
           pointName = 'NoAddress';

@@ -17,6 +17,8 @@ const BikeRentalStationContent = (
   { bikeRentalStation, breakpoint, language, router },
   { config },
 ) => {
+  const { bikesAvailable, capacity } = bikeRentalStation;
+  const isFull = bikesAvailable >= capacity;
   if (!bikeRentalStation) {
     if (isBrowser) {
       router.replace(`/${PREFIX_BIKESTATIONS}`);
@@ -30,6 +32,7 @@ const BikeRentalStationContent = (
     config,
   );
   const url = networkConfig.url[language];
+  const returnInstructionsUrl = networkConfig.returnInstructions[language];
   return (
     <div className="bike-station-page-container">
       <BikeRentalStationHeader
@@ -37,6 +40,21 @@ const BikeRentalStationContent = (
         breakpoint={breakpoint}
       />
       <CityBikeStopContent bikeRentalStation={bikeRentalStation} />
+      {config.cityBike.showFullInfo && isFull && (
+        <div className="citybike-full-station-guide">
+          <FormattedMessage id="citybike-return-full" />
+          <a
+            onClick={e => {
+              e.stopPropagation();
+            }}
+            className="external-link-citybike"
+            href={returnInstructionsUrl}
+          >
+            {' '}
+            <FormattedMessage id="citybike-return-full-link" />{' '}
+          </a>
+        </div>
+      )}
       <div className="citybike-use-disclaimer">
         <div className="disclaimer-header">
           <FormattedMessage id="citybike-start-using" />
@@ -87,6 +105,7 @@ const containerComponent = createFragmentContainer(connectedComponent, {
       name
       spacesAvailable
       bikesAvailable
+      capacity
       networks
       stationId
     }

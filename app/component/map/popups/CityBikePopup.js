@@ -69,6 +69,7 @@ export default createFragmentContainer(CityBikePopup, {
       lon
       bikesAvailable
       spacesAvailable
+      capacity
       state
       networks
     }

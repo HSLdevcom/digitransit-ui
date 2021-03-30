@@ -178,11 +178,13 @@ function ItineraryPageMap(
       mapRef={setMapElementRef}
       onSelectLocation={onSelectLocation}
     >
-      <BackButton
-        icon="icon-icon_arrow-collapse--left"
-        iconClassName="arrow-icon"
-        fallback="pop"
-      />
+      {breakpoint !== 'large' && (
+        <BackButton
+          icon="icon-icon_arrow-collapse--left"
+          iconClassName="arrow-icon"
+          fallback="pop"
+        />
+      )}
     </MapContainer>
   );
 }

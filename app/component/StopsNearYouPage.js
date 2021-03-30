@@ -173,6 +173,7 @@ class StopsNearYouPage extends React.Component {
       filterByModes: modes,
       filterByPlaceTypes: placeTypes,
       omitNonPickups: this.context.config.omitNonPickups,
+      feedIds: this.context.config.feedIds,
     };
   };
 
@@ -272,10 +273,6 @@ class StopsNearYouPage extends React.Component {
           mode =>
             this.context.config.transportModes[mode].availableForSelection,
         );
-
-    if (!configNearByYouModes.includes('favorite')) {
-      configNearByYouModes.unshift('favorite');
-    }
     const nearByStopModes = configNearByYouModes.map(nearYouMode =>
       nearYouMode.toUpperCase(),
     );
@@ -355,7 +352,12 @@ class StopsNearYouPage extends React.Component {
       if (nearByStopMode === 'FAVORITE') {
         const noFavs = this.noFavorites();
         return (
-          <div className="stops-near-you-page">
+          <div
+            key={nearByStopMode}
+            className={`stops-near-you-page swipeable-tab ${
+              nearByStopMode !== mode && 'inactive'
+            }`}
+          >
             {renderRefetchButton && this.refetchButton()}
             <StopsNearYouFavorites
               searchPosition={this.state.searchPosition}
@@ -369,7 +371,10 @@ class StopsNearYouPage extends React.Component {
         );
       }
       return (
-        <div key={nearByStopMode}>
+        <div
+          className={`swipeable-tab ${nearByStopMode !== mode && 'inactive'}`}
+          key={nearByStopMode}
+        >
           <QueryRenderer
             query={graphql`
               query StopsNearYouPageContentQuery(
@@ -381,6 +386,7 @@ class StopsNearYouPage extends React.Component {
                 $maxResults: Int!
                 $maxDistance: Int!
                 $omitNonPickups: Boolean
+                $feedIds: [String!]
               ) {
                 stopPatterns: viewer {
                   ...StopsNearYouContainer_stopPatterns
@@ -395,7 +401,7 @@ class StopsNearYouPage extends React.Component {
                     omitNonPickups: $omitNonPickups
                   )
                 }
-                alerts: alerts(severityLevel: [SEVERE]) {
+                alerts: alerts(feeds: $feedIds, severityLevel: [SEVERE]) {
                   ...DisruptionBanner_alerts
                 }
               }
