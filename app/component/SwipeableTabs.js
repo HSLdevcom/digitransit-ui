@@ -281,9 +281,12 @@ export default class SwipeableTabs extends React.Component {
               swipeOptions={{
                 startSlide: this.props.tabIndex,
                 continuous: false,
-                transitionEnd: e => {
-                  this.setState({ tabIndex: e });
-                  this.props.onSwipe(e);
+                callback: i => {
+                  // force transition after animation should be over because animation can randomly fail sometimes
+                  setTimeout(() => {
+                    this.setState({ tabIndex: i });
+                    this.props.onSwipe(i);
+                  }, 300);
                 },
               }}
               childCount={tabs.length}
