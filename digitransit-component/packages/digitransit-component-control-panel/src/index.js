@@ -172,7 +172,7 @@ function NearStopsAndRoutes({
               '--bckColor': `${
                 modes[mode]['color']
                   ? modes[mode]['color']
-                  : buttonStyle['color']
+                  : modeIconColors[`mode-${mode}`] || buttonStyle['color']
               }`,
               '--borderRadius': `${buttonStyle.borderRadius}`,
             }}
