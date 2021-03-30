@@ -26,9 +26,11 @@ const AppBarHsl = ({ lang, user }, context) => {
   const [banners, setBanners] = useState([]);
 
   useEffect(() => {
-    getJson(`${config.URL.BANNERS}&language=${lang}`).then(data =>
-      setBanners(data),
-    );
+    if (config.URL.BANNERS) {
+      getJson(`${config.URL.BANNERS}&language=${lang}`).then(data =>
+        setBanners(data),
+      );
+    }
   }, [lang]);
 
   const languages = [

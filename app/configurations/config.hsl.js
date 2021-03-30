@@ -11,9 +11,8 @@ const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
 
 const rootLink = process.env.ROOTLINK || 'https://dev.hslfi.hsldev.com';
-const BANNER_URL = false // set true to use test api
-  ? 'https://test-api.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner'
-  : 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
+const BANNER_URL = 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
+// 'https://test-api.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
 
 const cityBikesEnabled = true;
 
@@ -465,6 +464,7 @@ export default {
   cityBike: {
     showCityBikes: cityBikesEnabled,
     capacity: BIKEAVL_WITHMAX,
+    showFullInfo: true,
     networks: {
       smoove: {
         icon: 'citybike',
@@ -479,6 +479,12 @@ export default {
           sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors',
           en: 'https://www.hsl.fi/en/citybikes/helsinki',
         },
+        returnInstructions: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#palauta',
+          sv:
+            'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#aterlamna',
+          en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#return',
+        },
       },
       vantaa: {
         icon: 'citybike-secondary',
@@ -490,8 +496,13 @@ export default {
         type: 'citybike',
         url: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa',
-          sv: 'https://www.hsl.fi/sv/stadscyklar/vantaa',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/vanda',
           en: 'https://www.hsl.fi/en/citybikes/vantaa',
+        },
+        returnInstructions: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa/kayttoohje#palauta',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/vanda/anvisningar#aterlamna',
+          en: 'https://www.hsl.fi/en/citybikes/vantaa/instructions#return',
         },
       },
     },

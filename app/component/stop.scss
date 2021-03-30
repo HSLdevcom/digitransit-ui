@@ -9,6 +9,7 @@
   flex-direction: column;
   height: 100%;
   position: relative;
+  overflow: hidden;
   background-color: white;
 
   @media print {
@@ -480,7 +481,7 @@ hr.action-bar {
   top: 0;
   left: 0;
   background-color: rgba(0,0,0,0.2);
-  z-index: index($zindex, click-prevent-overlay);
+  z-index: 1000; // Needs to be higher than the navbar
 }
 
 .filter-stop-modal {
@@ -712,7 +713,7 @@ hr.action-bar {
     bottom: 0;
     right: 0;
     background-color: none;
-    z-index: 1000; // Needed to cover up the navbar
+    z-index: 1000; // Needs to be higher than the navbar
     //transform: translate(-50%, -50%);
   }
 

@@ -918,9 +918,12 @@ const translations = {
     'citybike-distance-duration': 'Bike {duration} ({distance})',
     'citybike-network-headers': 'Citybikes',
     'citybike-off-season':
-      'City bike stations will be opened again next spring',
+      'City bike stations will be opened again this spring',
     'citybike-purchase-link': 'Buy',
     'citybike-register-required': 'To use city bikes, you need to register',
+    'citybike-return-full': 'Returning city bike?',
+    'citybike-return-full-link':
+      'How to return the bike when bike station is full ›',
     'citybike-start-using': 'Start using city bikes',
     'citybike-station': 'Bike station {stationId}',
     'citybike-station-no-id': 'Bike station',
@@ -1848,13 +1851,16 @@ const translations = {
       'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi',
     'citybike-distance-duration': 'Pyöräile {duration} ({distance})',
     'citybike-network-headers': 'Kaupunkipyörät',
-    'citybike-off-season': 'Kaupunkipyörät palaavat käyttöön ensi keväänä',
+    'citybike-off-season': 'Kaupunkipyörät palaavat käyttöön tänä keväänä',
     'citybike-purchase-link': 'Siirry ostamaan',
     'citybike-register-required':
       'Kaupunkipyörien käyttö vaatii rekisteröitymisen',
+    'citybike-return-full': 'Palauttamassa kaupunkipyörää?',
+    'citybike-return-full-link':
+      'Näin palautat pyörän, kun pyöräasema on täynnä ›',
     'citybike-start-using': 'Ota kaupunkipyörät käyttöön',
-    'citybike-station': 'Pyöräasema {stationId}',
-    'citybike-station-no-id': 'Pyöräasema',
+    'citybike-station': 'Kaupunkipyöräasema {stationId}',
+    'citybike-station-no-id': 'Kaupunkipyöräasema',
     citybike_off: 'Suljettu',
     'clear-button-label': 'Tyhjennä',
     close: 'Sulje',
@@ -3547,10 +3553,13 @@ const translations = {
       'Köp ett abonnemang för en dag, en vecka eller för en hel säsong',
     'citybike-distance-duration': 'Cykla {duration} ({distance})',
     'citybike-network-headers': 'Stadscyklarna',
-    'citybike-off-season': 'Stadscyklarna tas i bruk igen nästa vår',
+    'citybike-off-season': 'Stadscyklarna tas i bruk igen i vår',
     'citybike-purchase-link': 'Gå till köp',
     'citybike-register-required':
       'Det krävs registrering för att kunna använda stadscyklar',
+    'citybike-return-full': 'Returning city bike?',
+    'citybike-return-full-link':
+      'How to return the bike when bike station is full ›',
     'citybike-start-using': 'Ta stadscyklar i bruk',
     'citybike-station': 'Stadscykelstation {stationId}',
     'citybike-station-no-id': 'Stadscykelstation',

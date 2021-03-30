@@ -186,12 +186,13 @@ function Datetimepicker({
   };
 
   const selectedMoment = moment(displayTimestamp);
-  const timeSelectItemCount = 24 * 4;
-  const timeSelectItemDiff = 1000 * 60 * 15; // 15 minutes in ms
   const timeSelectStartTime = moment(displayTimestamp).startOf('day').valueOf();
-  let timeChoices = Array(timeSelectItemCount)
-    .fill()
-    .map((_, i) => timeSelectStartTime + i * timeSelectItemDiff);
+  let timeChoices = [];
+  const current = moment(timeSelectStartTime);
+  while (current.isSame(timeSelectStartTime, 'day')) {
+    timeChoices.push(current.valueOf());
+    current.add(15, 'minutes');
+  }
   if (timestamp === null) {
     // if time is set to now
     // add times in 5 min intervals for next 30 mins
@@ -208,7 +209,6 @@ function Datetimepicker({
   }
 
   const dateSelectItemCount = 30;
-  const dateSelectItemDiff = 1000 * 60 * 60 * 24; // 24 hrs in ms
   const dateSelectStartTime = moment()
     .startOf('day')
     .hour(selectedMoment.hour())
@@ -216,7 +216,7 @@ function Datetimepicker({
     .valueOf();
   const dateChoices = Array(dateSelectItemCount)
     .fill()
-    .map((_, i) => dateSelectStartTime + i * dateSelectItemDiff);
+    .map((_, i) => moment(dateSelectStartTime).add(i, 'day').valueOf());
 
   const ariaOpenPickerLabel = isOpen
     ? i18next.t('accessible-opened', translationSettings)
