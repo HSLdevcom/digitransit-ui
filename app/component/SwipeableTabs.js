@@ -37,12 +37,12 @@ export default class SwipeableTabs extends React.Component {
       'a, button, input, textarea, select, details, [tabindex="0"]';
     const unFocusableTags =
       'a, button, input, textarea, select, details, [tabindex="-2"]';
-    const inactiveTabs = document.getElementsByClassName('swipeable-tab');
+    const swipeableTabs = document.getElementsByClassName('swipeable-tab');
 
-    for (let i = 0; i < inactiveTabs.length; i++) {
-      const focusables = inactiveTabs[i].querySelectorAll(focusableTags);
-      const unFocusables = inactiveTabs[i].querySelectorAll(unFocusableTags);
-      if (inactiveTabs[i].className === 'swipeable-tab inactive') {
+    for (let i = 0; i < swipeableTabs.length; i++) {
+      const focusables = swipeableTabs[i].querySelectorAll(focusableTags);
+      const unFocusables = swipeableTabs[i].querySelectorAll(unFocusableTags);
+      if (swipeableTabs[i].className === 'swipeable-tab inactive') {
         focusables.forEach(focusable => {
           // eslint-disable-next-line no-param-reassign
           focusable.tabIndex = '-2';
