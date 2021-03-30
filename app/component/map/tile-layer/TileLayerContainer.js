@@ -22,7 +22,11 @@ import MapLayerStore, { mapLayerShape } from '../../../store/MapLayerStore';
 import RealTimeInformationStore from '../../../store/RealTimeInformationStore';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { getClientBreakpoint } from '../../../util/withBreakpoint';
-import { PREFIX_STOPS, PREFIX_TERMINALS } from '../../../util/path';
+import {
+  PREFIX_BIKESTATIONS,
+  PREFIX_STOPS,
+  PREFIX_TERMINALS,
+} from '../../../util/path';
 import SelectVehicleContainer from './SelectVehicleContainer';
 
 const initialState = {
@@ -175,7 +179,19 @@ class TileLayerContainer extends GridLayer {
       } = this.props;
       const { coords: prevCoords } = this.state;
       const popup = map._popup; // eslint-disable-line no-underscore-dangle
-      // navigate to stop page if single stop is clicked
+      // navigate to citybike stop page if single stop is clicked
+      if (
+        selectableTargets.length === 1 &&
+        selectableTargets[0].layer === 'citybike'
+      ) {
+        this.context.router.push(
+          `/${PREFIX_BIKESTATIONS}/${encodeURIComponent(
+            selectableTargets[0].feature.properties.id,
+          )}`,
+        );
+        return;
+      }
+      // ... Or to stop page
       if (
         selectableTargets.length === 1 &&
         selectableTargets[0].layer === 'stop'
@@ -264,7 +280,6 @@ class TileLayerContainer extends GridLayer {
     let popup = null;
     let latlng = this.state.coords;
     let contents;
-
     const breakpoint = getClientBreakpoint(); // DT-3470
     let showPopup = true; // DT-3470
 
@@ -273,6 +288,7 @@ class TileLayerContainer extends GridLayer {
         let id;
         if (this.state.selectableTargets[0].layer === 'citybike') {
           ({ id } = this.state.selectableTargets[0].feature.properties);
+          showPopup = false;
           contents = (
             <CityBikePopup
               stationId={id}
