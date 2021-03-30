@@ -274,6 +274,7 @@ class IndexPage extends React.Component {
       sources,
       targets: stopAndRouteSearchTargets,
       fontWeights,
+      modeIconColors: config?.colors?.iconColors,
     };
 
     const NearStops = CtrlPanel => {
@@ -305,6 +306,7 @@ class IndexPage extends React.Component {
               btnWithoutLabel ? undefined : config.transportModes?.nearYouTitle
             }
             modes={btnWithoutLabel ? undefined : modeTitles}
+            modeIconColors={config?.colors?.iconColors}
           />
         </>
       ) : (

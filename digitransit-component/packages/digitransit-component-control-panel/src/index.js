@@ -78,6 +78,7 @@ OriginToDestination.defaultProps = {
  * @param {Number} props.alertsContext.currentTime - Time stamp with which the returned alerts are validated with
  * @param {Number} props.alertsContext.feedIds - feedIds for which the alerts are fetched for
  * @param {element} props.LinkComponent - React component for creating a link, default is undefined and normal anchor tags are used
+ * @param {element} props.modeIconColors - object of mode icon colors used for transport mode icons
  *
  * @example
  * const alertsContext = {
@@ -107,6 +108,7 @@ function NearStopsAndRoutes({
   buttonStyle,
   title,
   modes,
+  modeIconColors,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
   useEffect(() => {
@@ -146,7 +148,10 @@ function NearStopsAndRoutes({
         </span>
         <span className={styles['transport-mode-icon-container']}>
           <span className={styles['transport-mode-icon-with-icon']}>
-            <Icon img={mode === 'favorite' ? 'star' : `mode-${mode}`} />
+            <Icon
+              img={mode === 'favorite' ? 'star' : `mode-${mode}`}
+              color={modeIconColors[`mode-${mode}`]}
+            />
             {withAlert && (
               <span className={styles['transport-mode-alert-icon']}>
                 <Icon img="caution" color="#dc0451" />
@@ -252,6 +257,7 @@ NearStopsAndRoutes.propTypes = {
   buttonStyle: PropTypes.object,
   title: PropTypes.object,
   modes: PropTypes.object,
+  modeIconColors: PropTypes.object,
 };
 
 NearStopsAndRoutes.defaultProps = {
@@ -263,6 +269,13 @@ NearStopsAndRoutes.defaultProps = {
   buttonStyle: undefined,
   title: undefined,
   modes: undefined,
+  modeIconColors: {
+    'mode-bus': '#007ac9',
+    'mode-rail': '#8c4799',
+    'mode-tram': '#00985f',
+    'mode-ferry': '#00b9e4',
+    'mode-citybike': '#F2B62D',
+  },
 };
 
 /**
