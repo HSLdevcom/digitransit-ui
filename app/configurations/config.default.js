@@ -146,10 +146,11 @@ export default {
   walkBoardCost: 600,
   walkBoardCostHigh: 1200,
 
-  maxWalkDistance: 10000,
+  maxWalkDistance: 2500,
   suggestWalkMaxDistance: 10000,
-  maxBikingDistance: 100000,
+  maxBikingDistance: 30000,
   suggestBikeMaxDistance: 30000,
+  suggestBikeAndPublicMaxDistance: 15000,
   itineraryFiltering: 1.5, // drops 66% worse routes
   useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
   minTransferTime: 120,
