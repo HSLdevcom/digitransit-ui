@@ -401,7 +401,7 @@ class StopsNearYouPage extends React.Component {
                     omitNonPickups: $omitNonPickups
                   )
                 }
-                alerts: alerts(feeds: $feedIds, severityLevel: [SEVERE]) {
+                alerts: alerts(feeds: $feedIds, severityLevel: [INFO, SEVERE]) {
                   ...DisruptionBanner_alerts
                 }
               }

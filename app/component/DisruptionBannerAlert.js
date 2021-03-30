@@ -4,13 +4,15 @@ import cx from 'classnames';
 import { intlShape } from 'react-intl';
 
 import Icon from './Icon';
+import SwipeableTabs from './SwipeableTabs';
 import TruncatedMessage from './TruncatedMessage';
 
-const DisruptionBannerAlert = ({ message, language }, { intl, config }) => {
+const DisruptionBannerAlert = ({ messages, language }, { intl, config }) => {
   const [isOpen, setOpen] = useState(true);
-  return (
-    isOpen && (
-      <div className="disruption-banner-container">
+
+  const tabs = messages.map(alert => {
+    return (
+      <>
         <div className="disruption-icon-container">
           <Icon img="icon-icon_disruption-banner-alert" />
         </div>
@@ -19,7 +21,7 @@ const DisruptionBannerAlert = ({ message, language }, { intl, config }) => {
             <TruncatedMessage
               className="disruption-show-more"
               lines={3}
-              message={message}
+              message={alert}
             />
           )}
           {config.URL.ROOTLINK && config.trafficNowLink && (
@@ -30,10 +32,19 @@ const DisruptionBannerAlert = ({ message, language }, { intl, config }) => {
                 language === 'fi' ? '' : `${language}/`
               }${config.trafficNowLink[language]}`}
             >
-              {message}
+              {alert}
             </a>
           )}
         </div>
+      </>
+    );
+  });
+
+  return (
+    isOpen && (
+      <div className="disruption-banner-container">
+        <SwipeableTabs tabs={tabs} />
+
         <button
           title={intl.formatMessage({
             id: 'messagebar-label-close-message-bar',
@@ -55,7 +66,7 @@ const DisruptionBannerAlert = ({ message, language }, { intl, config }) => {
 };
 
 DisruptionBannerAlert.propTypes = {
-  message: PropTypes.string.isRequired,
+  messages: PropTypes.array.isRequired,
   language: PropTypes.string.isRequired,
 };
 

@@ -57,13 +57,15 @@ class DisruptionBanner extends React.Component {
   render() {
     const activeAlerts = this.getAlerts();
     if (activeAlerts.length > 0) {
-      return activeAlerts.map(alert => (
+      return (
         <DisruptionBannerAlert
-          key={alert.id}
-          message={this.createAlertText(alert)}
+          messages={activeAlerts.map(alert => {
+            return this.createAlertText(alert);
+          })}
+          message={this.createAlertText}
           language={this.props.language}
         />
-      ));
+      );
     }
     return null;
   }
