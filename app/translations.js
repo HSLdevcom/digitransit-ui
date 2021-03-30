@@ -889,6 +889,7 @@ const translations = {
     'bike-availability': 'Bikes available at the station right now',
     'bike-not-allowed-bus': 'Bikes are not allowed on the bus',
     'bike-not-allowed-tram': 'Bikes are not allowed on the tram',
+    'bike-park': 'Park & ride',
     'bikes-available': '{amount} bikes at the station ',
     'biketransport-citybike': "I'm using a citybike",
     'biketransport-only-bike': "I'm travelling only by bike",
@@ -1749,6 +1750,7 @@ const translations = {
 
   fi: {
     'about-this-service': 'Tietoja palvelusta',
+    'access-with-hsl-card': 'Maksuton, pääsy HSL-kortilla',
     accessibility: 'Esteettömyys',
     'accessibility-limited': 'Pyörätuoli',
     'accessibility-nolimit': 'Ei rajoitusta',
@@ -1822,6 +1824,11 @@ const translations = {
     'bike-availability': 'Pyöriä asemalla juuri nyt',
     'bike-not-allowed-bus': 'Pyörää ei voi kuljettaa bussissa',
     'bike-not-allowed-tram': 'Pyörää ei voi kuljettaa raitiovaunussa',
+    'bike-park': 'Liityntäpyöräparkki',
+    'bike-park-disclaimer':
+      'Voit yhdistää kätevästi joukkoliikenteen ja pyöräilyn, kun jätät pyöräsi liityntäpysäköintiin ja jatkat matkaasi junalla, bussilla, metrolla tai ratikalla. Pyörän pysäköinti on maksutonta eikä siinä ole aikarajaa.',
+    'bike-park-disclaimer-header': 'Jätä pyörä parkkiin',
+    'bike-park-disclaimer-link': 'Lue lisää liityntäpyöräpysäköinnistä',
     'bikes-available': 'Pyöriä asemalla {amount}',
     'biketransport-citybike': 'Käytän kaupunkipyörää',
     'biketransport-only-bike': 'Liikun vain pyörällä',
@@ -1921,6 +1928,7 @@ const translations = {
     ferry: 'Lautta',
     'ferry-with-route-number': 'Lautta {routeNumber} {headSign}',
     'fetch-new-route': 'Hae uusi reitti',
+    'free-of-charge': 'Maksuton',
     'from-station': 'asemalta',
     'from-stop': 'pysäkiltä',
     frontpage: 'Etusivu',
@@ -1946,6 +1954,7 @@ const translations = {
     'in-addition': 'Lisäksi',
     inquiry: 'Mitä pidät uudesta Reittioppaasta? Kerro se meille! ',
     instructions: 'Ohjeet',
+    'is-open': 'Avoinna:',
     'itinerary-details.biking-leg':
       '{time} pyöräile kohteesta {origin} {distance} kohteeseen {destination}. Matka-aika {duration}',
     'itinerary-details.car-leg':
@@ -2104,6 +2113,7 @@ const translations = {
       '{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other {{number} pysäkkiä} }',
     'number-of-minutes':
       '{number, plural, =0 {0 minuuttia} one {1 minuutti} other {{number} minuuttia}}',
+    'number-of-spots': 'Paikkojen määrä:',
     'off-canvas-info':
       'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
     'option-default': 'Keskimääräinen',
@@ -3524,6 +3534,7 @@ const translations = {
     'bike-availability': 'Antal cyklar just nu',
     'bike-not-allowed-bus': 'Cyklar är inte tillåtna på bussen',
     'bike-not-allowed-tram': 'Cyklar är inte tillåtna på spårvagnen',
+    'bike-park': 'Cykelparkering',
     'bikes-available': '{amount} cyklar vid stationen',
     'biketransport-citybike': 'Jag använder en stadscykel',
     'biketransport-only-bike': 'Jag reser bara med cykel',
