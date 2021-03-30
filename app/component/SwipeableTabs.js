@@ -202,7 +202,7 @@ export default class SwipeableTabs extends React.Component {
       <div>
         <div className={`swipe-header-container ${this.props.classname}`}>
           <div
-            className={`swipe-header ${this.props.classname}`}
+            className={`swipe-header ${this.props.classname || ''}`}
             role="row"
             onKeyDown={e => this.handleKeyPress(e, reactSwipeEl)}
             aria-label={this.context.intl.formatMessage({

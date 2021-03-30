@@ -21,6 +21,7 @@ const query = graphql`
       stationId
       bikesAvailable
       spacesAvailable
+      capacity
       networks
       state
     }

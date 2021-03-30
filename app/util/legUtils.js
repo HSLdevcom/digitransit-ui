@@ -360,6 +360,20 @@ export const getRoutes = legs => {
   return Object.keys(routes).map(key => ({ ...routes[key] }));
 };
 
+export const getHeadsignFromRouteLongName = route => {
+  const { longName, shortName } = route;
+  let headsign = longName;
+  if (
+    longName &&
+    shortName &&
+    longName.substring(0, shortName.length) === shortName &&
+    longName.length > shortName.length
+  ) {
+    headsign = longName.substring(shortName.length);
+  }
+  return headsign;
+};
+
 /**
  * Calculates and returns the total duration undertaken in legs.
  *

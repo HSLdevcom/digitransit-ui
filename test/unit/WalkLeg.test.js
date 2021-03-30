@@ -175,7 +175,7 @@ describe('<WalkLeg />', () => {
     };
 
     const wrapper = shallowWithIntl(<WalkLeg {...props} />, {
-      context: { config: {} },
+      context: { config: { colors: { primary: '#007ac9' } } },
     });
 
     expect(wrapper.find(ServiceAlertIcon).prop('severityLevel')).to.equal(

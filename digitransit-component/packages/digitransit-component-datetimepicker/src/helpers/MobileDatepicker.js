@@ -23,10 +23,9 @@ function MobileDatepicker({
 
   const [open, changeOpen] = useState(false);
   const scrollRef = useRef(null);
-  const day = 1000 * 60 * 60 * 24;
   const dateChoices = Array(itemCount)
     .fill()
-    .map((_, i) => startTime + i * day);
+    .map((_, i) => moment(startTime).add(i, 'day').valueOf());
   const minute = 1000 * 60;
   const diffs = dateChoices.map(t => value - t);
   const scrollIndex = diffs.findIndex(t => t < minute); // when time is now, the times might differ by less than one minute

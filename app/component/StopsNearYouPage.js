@@ -173,6 +173,7 @@ class StopsNearYouPage extends React.Component {
       filterByModes: modes,
       filterByPlaceTypes: placeTypes,
       omitNonPickups: this.context.config.omitNonPickups,
+      feedIds: this.context.config.feedIds,
     };
   };
 
@@ -385,6 +386,7 @@ class StopsNearYouPage extends React.Component {
                 $maxResults: Int!
                 $maxDistance: Int!
                 $omitNonPickups: Boolean
+                $feedIds: [String!]
               ) {
                 stopPatterns: viewer {
                   ...StopsNearYouContainer_stopPatterns
@@ -399,7 +401,7 @@ class StopsNearYouPage extends React.Component {
                     omitNonPickups: $omitNonPickups
                   )
                 }
-                alerts: alerts(severityLevel: [SEVERE]) {
+                alerts: alerts(feeds: $feedIds, severityLevel: [SEVERE]) {
                   ...DisruptionBanner_alerts
                 }
               }

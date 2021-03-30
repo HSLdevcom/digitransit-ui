@@ -5,7 +5,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
-import WalkDistance from './WalkDistance';
+// import WalkDistance from './WalkDistance';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import StopCode from './StopCode';
 import { fromStopTime } from './DepartureTime';
@@ -52,7 +52,7 @@ const RouteStop = (
     className,
     color,
     currentTime,
-    distance,
+    // distance,
     first,
     last,
     mode,
@@ -183,18 +183,19 @@ const RouteStop = (
       {getVehicleTripLink()}
       <div className={cx('route-stop-now_circleline', mode)} aria-hidden="true">
         <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          width={15}
-          height={30}
-          style={{ fill: color, stroke: color }}
         >
           <circle
-            strokeWidth="2"
-            stroke={color || 'currentColor'}
+            cx="8"
+            cy="8"
+            r="6"
             fill="white"
-            cx="6"
-            cy="13"
-            r="5"
+            stroke={color || 'currentColor'}
+            strokeWidth="4"
           />
         </svg>
         <div
@@ -277,13 +278,13 @@ const RouteStop = (
                 </div>
               )}
               {'\u2002'}
-              {distance && (
+              {/* temporarily remove TODO {distance && (
                 <WalkDistance
                   className="nearest-route-stop"
                   icon="icon_location-with-user"
                   walkDistance={distance}
                 />
-              )}
+              )} */}
             </div>
           </div>
         </Link>
@@ -298,7 +299,7 @@ RouteStop.propTypes = {
   stop: PropTypes.object,
   mode: PropTypes.string,
   className: PropTypes.string,
-  distance: PropTypes.number,
+  // distance: PropTypes.number,
   currentTime: PropTypes.number.isRequired,
   first: PropTypes.bool,
   last: PropTypes.bool,
