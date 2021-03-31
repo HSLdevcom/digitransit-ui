@@ -164,7 +164,7 @@ export default class SwipeableTabs extends React.Component {
             aria-label={this.context.intl.formatMessage({
               id: 'swipe-result-tabs',
               defaultMessage:
-                'Swipe result tabs. Navigate with left and right arrow',
+                'Swipe result tabs. Switch tabs using arrow keys.',
             })}
             tabIndex="0"
           >
@@ -183,7 +183,7 @@ export default class SwipeableTabs extends React.Component {
                 aria-label={this.context.intl.formatMessage({
                   id: 'swipe-result-tab-left',
                   defaultMessage:
-                    'Swipe result tabs left arrow. Press enter or space to show previous result.',
+                    'Swipe result tabs left arrow. Press Enter or Space to show the previous tab.',
                 })}
               >
                 <Icon
@@ -212,7 +212,7 @@ export default class SwipeableTabs extends React.Component {
                 aria-label={this.context.intl.formatMessage({
                   id: 'swipe-result-tab-right',
                   defaultMessage:
-                    'Swipe result tabs right arrow. Press enter or space to show next result.',
+                    'Swipe result tabs right arrow. Press Enter or Space to show the next tab.',
                 })}
               >
                 <Icon
