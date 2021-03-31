@@ -75,10 +75,7 @@ testVariation('PlatformNumber');
 
 testVariation('CardHeader');
 testVariation('Card');
-testVariation('CityBikeCard');
-// testVariation('CityBikeContent');
 testVariation('CityBikeAvailability');
-testVariation('CityBikeUse');
 
 testVariation('Availability');
 
