@@ -18,7 +18,6 @@ import CityBikeCard from './CityBikeCard';
 import CityBikeContent from './CityBikeContent';
 import CityBikeAvailability from './CityBikeAvailability';
 import CityBikeUse from './CityBikeUse';
-import CityBikePopupContainer from './map/popups/CityBikePopupContainer';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import TripRouteStop from './TripRouteStop';
 import MarkerSelectPopup from './map/tile-layer/MarkerSelectPopup';
@@ -91,7 +90,6 @@ const components = {
   CityBikeContent,
   CityBikeAvailability,
   CityBikeUse,
-  CityBikePopupContainer,
   Availability,
   ParkAndRideAvailability,
   RightOffcanvasToggle,

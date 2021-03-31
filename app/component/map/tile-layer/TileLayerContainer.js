@@ -12,7 +12,6 @@ import { withLeaflet } from 'react-leaflet/es/context';
 import { matchShape, routerShape } from 'found';
 
 import MarkerSelectPopup from './MarkerSelectPopup';
-import CityBikePopup from '../popups/CityBikePopupContainer';
 import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopupContainer';
 import ParkAndRideFacilityPopup from '../popups/ParkAndRideFacilityPopupContainer';
 import LocationPopup from '../popups/LocationPopup';
@@ -286,18 +285,7 @@ class TileLayerContainer extends GridLayer {
     if (typeof this.state.selectableTargets !== 'undefined') {
       if (this.state.selectableTargets.length === 1) {
         let id;
-        if (this.state.selectableTargets[0].layer === 'citybike') {
-          ({ id } = this.state.selectableTargets[0].feature.properties);
-          showPopup = false;
-          contents = (
-            <CityBikePopup
-              stationId={id}
-              context={this.context}
-              onSelectLocation={this.props.onSelectLocation}
-              locationPopup={this.props.locationPopup}
-            />
-          );
-        } else if (
+        if (
           this.state.selectableTargets[0].layer === 'parkAndRide' &&
           this.state.selectableTargets[0].feature.properties.facilityIds
         ) {
