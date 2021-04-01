@@ -147,9 +147,9 @@ export default {
   walkBoardCostHigh: 1200,
 
   maxWalkDistance: 10000,
-  suggestWalkMaxDistance: 5000,
-  maxBikingDistance: 100000,
-  suggestBikeMaxDistance: 15000,
+  suggestWalkMaxDistance: 10000,
+  suggestBikeMaxDistance: 30000,
+  suggestBikeAndPublicMaxDistance: 15000,
   itineraryFiltering: 1.5, // drops 66% worse routes
   useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
   minTransferTime: 120,
@@ -259,6 +259,7 @@ export default {
   cityBike: {
     // Config for map features. NOTE: availability for routing is controlled by
     // transportModes.citybike.availableForSelection
+    showFullInfo: false,
     showStationId: true,
     cityBikeMinZoom: 14,
     cityBikeSmallIconZoom: 14,
@@ -289,6 +290,15 @@ export default {
 
   colors: {
     primary: '#000F94',
+    iconColors: {
+      'mode-airplane': '#0046ad',
+      'mode-bus': '#0088ce',
+      'mode-tram': '#6a8925',
+      'mode-metro': '#ed8c00',
+      'mode-rail': '#af8dbc',
+      'mode-ferry': '#35b5b3',
+      'mode-citybike': '#f2b62d',
+    },
   },
 
   fontWeights: {

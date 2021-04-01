@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import CityBikePopupContainer from '../popups/CityBikePopupContainer';
+import { routerShape } from 'found';
 import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
 import { station as exampleStation } from '../../ExampleData';
@@ -13,6 +12,7 @@ import {
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
 } from '../../../util/citybikes';
+import { PREFIX_BIKESTATIONS } from '../../../util/path';
 
 let L;
 
@@ -33,6 +33,11 @@ const smallIconSvg = `
 `;
 
 export default class CityBikeMarker extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
   static description = (
     <div>
       <p>Renders a citybike marker</p>
@@ -56,6 +61,7 @@ export default class CityBikeMarker extends React.Component {
 
   static contextTypes = {
     config: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
   };
 
   static defaultProps = {
@@ -64,7 +70,15 @@ export default class CityBikeMarker extends React.Component {
 
   static contextTypes = {
     config: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
   };
+
+  handleClick() {
+    const { stationId } = this.props.station;
+    this.context.router.push(
+      `/${PREFIX_BIKESTATIONS}/${encodeURIComponent(stationId)}`,
+    );
+  }
 
   getIcon = zoom => {
     const { showBikeAvailability, station, transit } = this.props;
@@ -110,14 +124,10 @@ export default class CityBikeMarker extends React.Component {
           lat: this.props.station.lat,
           lon: this.props.station.lon,
         }}
+        onClick={this.handleClick}
         getIcon={this.getIcon}
         id={this.props.station.stationId}
-      >
-        <CityBikePopupContainer
-          stationId={this.props.station.stationId}
-          context={this.context}
-        />
-      </GenericMarker>
+      />
     );
   }
 }

@@ -19,12 +19,12 @@ function DepartureTime(props, context) {
     (props.departureTime - props.currentTime) / 60,
   );
 
-  if (timeDiffInMinutes === 0) {
+  if (timeDiffInMinutes <= 0) {
     shownTime = context.intl.formatMessage({
       id: 'arriving-soon',
       defaultMessage: 'Now',
     });
-  } else if (timeDiffInMinutes > 0) {
+  } else if (timeDiffInMinutes <= context.config.minutesToDepartureLimit) {
     shownTime = context.intl.formatMessage(
       { id: 'departure-time-in-minutes', defaultMessage: '{minutes} min' },
       { minutes: timeDiffInMinutes },
@@ -77,6 +77,7 @@ function DepartureTime(props, context) {
 
 DepartureTime.contextTypes = {
   intl: intlShape.isRequired, // eslint-disable-line react/no-typos
+  config: PropTypes.object.isRequired,
 };
 
 DepartureTime.description = () => (

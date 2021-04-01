@@ -10,6 +10,7 @@ describe('<SelectCityBikeRow />', () => {
       name: 'foobar',
       networks: 'some_network',
       selectRow: () => {},
+      id: '001',
     };
     const wrapper = shallowWithIntl(<SelectCityBikeRow {...props} />);
     expect(wrapper.find(Icon).prop('img')).to.contain('citybike');
@@ -20,6 +21,7 @@ describe('<SelectCityBikeRow />', () => {
       name: 'foobar',
       networks: 'scooter_network',
       selectRow: () => {},
+      id: '001',
     };
     const wrapper = shallowWithIntl(<SelectCityBikeRow {...props} />, {
       context: {

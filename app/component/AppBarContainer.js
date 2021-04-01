@@ -48,7 +48,10 @@ const AppBarContainer = ({
       <LazilyLoad modules={modules}>
         {({ AppBar, AppBarHsl, MessageBar }) =>
           style === 'hsl' ? (
-            <div style={{ display: isClient ? 'block' : 'none' }}>
+            <div
+              className="hsl-header-container"
+              style={{ display: isClient ? 'block' : 'none' }}
+            >
               <AppBarHsl user={user} lang={lang} />
               <MessageBar mobile />{' '}
             </div>

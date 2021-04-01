@@ -10,6 +10,9 @@ $citybike-not-available-color: $light-gray;
 .availability-container {
 
   .availability-header {
+    .available-bikes {
+      font-weight: 500;
+    }
     margin-top: 5px !important;
     margin-bottom: 6px !important;
   }
