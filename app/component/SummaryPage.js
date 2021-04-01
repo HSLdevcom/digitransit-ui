@@ -720,7 +720,6 @@ class SummaryPage extends React.Component {
         this.setState(
           {
             isFetchingWalkAndBike: false,
-            isFetchingWeather: true,
             walkPlan: result.walkPlan,
             bikePlan: result.bikePlan,
             bikeAndPublicPlan: result.bikeAndPublicPlan,
@@ -1395,6 +1394,7 @@ class SummaryPage extends React.Component {
       ) {
         this.pendingWeatherHash = weatherHash;
         const timem = moment(time);
+        this.setState({ isFetchingWeather: true });
         getWeatherData(
           this.context.config.URL.WEATHER_DATA,
           timem,
@@ -1428,8 +1428,6 @@ class SummaryPage extends React.Component {
             this.pendingWeatherHash = undefined;
             this.setState({ isFetchingWeather: false, weatherData: { err } });
           });
-      } else {
-        this.setState({ isFetchingWeather: false });
       }
     }
   }
