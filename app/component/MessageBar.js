@@ -176,7 +176,6 @@ class MessageBar extends Component {
           key={el.id}
           content={el.content[this.props.lang] || el.content.fi}
           textColor={textColor}
-          intl={this.context.intl}
         />
       </div>
     ));
@@ -210,6 +209,7 @@ class MessageBar extends Component {
     const index = this.state.slideIndex;
     const msgId = messages[index].id;
 
+    this.setState({ slideIndex: Math.max(0, index - 1) });
     // apply delayed closing on iexplorer to avoid app freezing
     const t = isIe ? 600 : 0;
     setTimeout(() => this.context.executeAction(markMessageAsRead, msgId), t);

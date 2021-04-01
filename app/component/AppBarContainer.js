@@ -38,7 +38,7 @@ const AppBarContainer = ({
       <a
         href="#mainContent"
         id="skip-to-content-link"
-        style={{ display: isClient ? 'block' : 'none' }}
+        style={{ display: isClient ? 'block sr-only' : 'none' }}
       >
         <FormattedMessage
           id="skip-to-content"
