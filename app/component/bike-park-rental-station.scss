@@ -47,6 +47,33 @@
         }
       }
     }
+    .bikepark-content-container {
+      display: flex;
+      flex-direction: row;
+      margin-top: 23px;
+      font-weight: $font-weight-book;
+      font-size: $font-size-normal;
+      letter-spacing: -0.03em;
+      .bikepark-details {
+        display: flex;
+        flex-direction: column;
+        margin-left: 15px;
+        line-height: 18px;
+        span {
+          display: inline-flex;
+          color: #666;
+          margin-top: 8px;
+          p {
+            margin: 0;
+            font-weight: $font-weight-medium;
+            color: #333;
+          }
+        }
+        span:first-child {
+          margin-top: 0;
+        }
+      }
+    }
   }
 }
 .bike-station-page-container {
@@ -62,7 +89,7 @@
     text-decoration: none;
   }
   .citybike-use-disclaimer {
-    height: 120px;
+    min-height: 120px;
     border-radius: 8px;
     border: solid 1px #dddddd;
     background-color: #f4f4f5;
@@ -75,6 +102,7 @@
     .disclaimer-content {
       font-weight: normal;
       font-size: 0.9375rem;
+      margin-bottom: 8px;
     }
     .external-link {
       font-size: 0.9375rem;
@@ -105,12 +133,20 @@
   .bike-station-zone-icon {
     padding-top: 2px;
     position: absolute;
+    margin-left: 5px;
+    svg {
+      width: 14px;
+      height: 14px;
+    }
   }
   .bike-station-sub-header {
     font-size: 0.813rem;
     color: #666;
     font-weight: normal;
     padding-top: 2px;
+    span.itinerary-stop-code {
+      margin-right: 0;
+    }
   }
   .citybike-content-container {
     height: 48px;
@@ -122,6 +158,34 @@
       .icon {
         width: 48px;
         height: 48px;
+      }
+    }
+  }
+
+  .bikepark-content-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 23px;
+    font-weight: $font-weight-book;
+    font-size: $font-size-normal;
+    letter-spacing: -0.03em;
+    .bikepark-details {
+      display: flex;
+      flex-direction: column;
+      margin-left: 15px;
+      line-height: 18px;
+      span {
+        display: inline-flex;
+        color: #666;
+        margin-top: 8px;
+        p {
+          margin: 0;
+          font-weight: $font-weight-medium;
+          color: #333;
+        }
+      }
+      span:first-child {
+        margin-top: 0;
       }
     }
   }

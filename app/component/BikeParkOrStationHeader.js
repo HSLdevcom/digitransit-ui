@@ -13,15 +13,15 @@ const modules = {
   FavouriteBikeRentalStationContainer: () =>
     importLazy(import('./FavouriteBikeRentalStationContainer')),
 };
-const BikeRentalStationHeader = (
-  { bikeRentalStation, breakpoint },
+const BikeParkOrStationHeader = (
+  { bikeParkOrStation, breakpoint },
   { config },
 ) => {
   const [zoneId, setZoneId] = useState(undefined);
   useEffect(() => {
     getJson(config.URL.PELIAS_REVERSE_GEOCODER, {
-      'point.lat': bikeRentalStation.lat,
-      'point.lon': bikeRentalStation.lon,
+      'point.lat': bikeParkOrStation.lat,
+      'point.lon': bikeParkOrStation.lon,
       'boundary.circle.radius': 0.2,
       layers: 'address',
       size: 1,
@@ -35,6 +35,8 @@ const BikeRentalStationHeader = (
     });
   }, []);
   const zone = zoneId ? `zone-${zoneId}` : '';
+
+  const { name, bikeParkId, stationId } = bikeParkOrStation;
   return (
     <div className="bike-station-header">
       {breakpoint === 'large' && (
@@ -44,25 +46,27 @@ const BikeRentalStationHeader = (
         />
       )}
       <div className="header">
-        <h3>{bikeRentalStation.name}</h3>
+        <h3>{name}</h3>
         <div className="bike-station-sub-header">
-          <FormattedMessage id="citybike-station-no-id" />
-          {bikeRentalStation.name !== bikeRentalStation.stationId && (
+          <FormattedMessage
+            id={bikeParkId ? 'bike-park' : 'citybike-station-no-id'}
+          />
+          {stationId && name !== stationId && (
             <>
-              <StopCode code={bikeRentalStation.stationId} />
-              {zone && (
-                <span className="bike-station-zone-icon">
-                  <Icon img={zone} color="#007AC9" height={1.25} width={1.25} />
-                </span>
-              )}
+              <StopCode code={stationId} />
             </>
+          )}
+          {zone && (
+            <span className="bike-station-zone-icon">
+              <Icon img={zone} color="#007AC9" />
+            </span>
           )}
         </div>
       </div>
       <LazilyLoad modules={modules}>
         {({ FavouriteBikeRentalStationContainer }) => (
           <FavouriteBikeRentalStationContainer
-            bikeRentalStation={bikeRentalStation}
+            bikeRentalStation={bikeParkOrStation}
           />
         )}
       </LazilyLoad>
@@ -70,18 +74,23 @@ const BikeRentalStationHeader = (
   );
 };
 
-BikeRentalStationHeader.propTypes = {
+BikeParkOrStationHeader.propTypes = {
   breakpoint: PropTypes.string.isRequired,
-  bikeRentalStation: PropTypes.shape({
+  bikeParkOrStation: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    stationId: PropTypes.string.isRequired,
+    bikeParkId: PropTypes.string,
+    stationId: PropTypes.string,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
   }),
 };
 
-BikeRentalStationHeader.contextTypes = {
+BikeParkOrStationHeader.contextTypes = {
   config: PropTypes.object.isRequired,
+  bikeParkOrStation: {
+    stationId: null,
+    bikeParkId: null,
+  },
 };
 
-export default BikeRentalStationHeader;
+export default BikeParkOrStationHeader;
