@@ -1378,7 +1378,6 @@ class SummaryPage extends React.Component {
     const bikeAndPublicPlan = this.filteredbikeAndPublic(
       this.state.bikeAndPublicPlan,
     );
-
     const itin =
       (walkPlan && walkPlan.itineraries && walkPlan.itineraries[0]) ||
       (bikePlan && bikePlan.itineraries && bikePlan.itineraries[0]) ||
@@ -1429,6 +1428,8 @@ class SummaryPage extends React.Component {
             this.pendingWeatherHash = undefined;
             this.setState({ isFetchingWeather: false, weatherData: { err } });
           });
+      } else {
+        this.setState({ isFetchingWeather: false });
       }
     }
   }
