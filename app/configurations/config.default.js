@@ -290,6 +290,15 @@ export default {
 
   colors: {
     primary: '#000F94',
+    iconColors: {
+      'mode-airplane': '#0046ad',
+      'mode-bus': '#0088ce',
+      'mode-tram': '#6a8925',
+      'mode-metro': '#ed8c00',
+      'mode-rail': '#af8dbc',
+      'mode-ferry': '#35b5b3',
+      'mode-citybike': '#f2b62d',
+    },
   },
 
   fontWeights: {

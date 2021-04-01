@@ -222,6 +222,7 @@ class DTAutosuggest extends React.Component {
     fontWeights: PropTypes.shape({
       medium: PropTypes.number,
     }),
+    modeIconColors: PropTypes.object,
   };
 
   static defaultProps = {
@@ -245,6 +246,12 @@ class DTAutosuggest extends React.Component {
     translatedPlaceholder: undefined,
     fontWeights: {
       medium: 500,
+    },
+    modeIconColors: {
+      'mode-bus': '#007ac9',
+      'mode-rail': '#8c4799',
+      'mode-tram': '#00985f',
+      'mode-ferry': '#00b9e4',
     },
   };
 
@@ -664,6 +671,7 @@ class DTAutosuggest extends React.Component {
         color={this.props.color}
         fillInput={this.fillInput}
         fontWeights={this.props.fontWeights}
+        modeIconColors={this.props.modeIconColors}
       />
     );
   };

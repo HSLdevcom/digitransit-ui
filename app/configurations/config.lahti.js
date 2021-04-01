@@ -18,6 +18,9 @@ export default configMerger(walttiConfig, {
   appBarLink: { name: 'LSL.fi', href: 'http://www.lsl.fi/' },
   colors: {
     primary: '#0066B3',
+    iconColors: {
+      'mode-bus': '#0066B3',
+    },
   },
 
   socialMedia: {

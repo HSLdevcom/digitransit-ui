@@ -99,15 +99,19 @@ const SuggestionItem = pure(
     color,
     fillInput,
     fontWeights,
+    modeIconColors,
   }) => {
     const [iconId, iconColor] = getIconProperties(item, color);
+    const modeIconColor = modeIconColors && modeIconColors[iconId];
     // Arrow clicked is for street itmes. Instead of selecting item when a user clicks on arrow,
     // It fills the input field.
     const [arrowClicked, setArrowClicked] = useState(false);
 
     const icon = (
-      <span className={styles[iconId]}>
-        <Icon color={iconColor} img={iconId} />
+      <span
+        className={`${styles[iconId]} ${item?.properties?.mode?.toLowerCase()}`}
+      >
+        <Icon color={modeIconColor || iconColor} img={iconId} />
       </span>
     );
     const [suggestionType, name, label, stopCode] = content || [
@@ -317,6 +321,7 @@ SuggestionItem.propTypes = {
   fontWeights: PropTypes.shape({
     medium: PropTypes.number,
   }),
+  modeIconColors: PropTypes.object,
 };
 
 SuggestionItem.defaultProps = {
@@ -325,6 +330,12 @@ SuggestionItem.defaultProps = {
   color: '#007ac9',
   fontWeights: {
     medium: 500,
+  },
+  modeIconColors: {
+    'mode-bus': '#007ac9',
+    'mode-rail': '#8c4799',
+    'mode-tram': '#00985f',
+    'mode-ferry': '#00b9e4',
   },
 };
 
