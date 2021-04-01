@@ -1020,6 +1020,7 @@ const translations = {
     'in-addition': 'In addition',
     inquiry: 'How did you find the new Journey Planner? Please tell us!',
     instructions: 'Instructions',
+    'is-open': 'Open:',
     'itinerary-details.biking-leg':
       'At {time} cycle {distance} from {origin} to {destination}. Estimated time {duration}',
     'itinerary-details.car-leg':
@@ -2126,7 +2127,7 @@ const translations = {
       '{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other {{number} pysäkkiä} }',
     'number-of-minutes':
       '{number, plural, =0 {0 minuuttia} one {1 minuutti} other {{number} minuuttia}}',
-    'number-of-spots': 'Paikkojen määrä:',
+    'number-of-spaces': 'Paikkojen määrä:',
     'off-canvas-info':
       'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
     'option-default': 'Keskimääräinen',
