@@ -9,9 +9,7 @@ const FavouriteRouteContainer = connectToStores(
   ['FavouriteStore', 'UserStore', 'PreferencesStore'],
   (context, { gtfsId }) => ({
     favourite: context.getStore('FavouriteStore').isFavourite(gtfsId, 'route'),
-    isFetching: context
-      .getStore('FavouriteStore')
-      .getStatus() === 'fetching',
+    isFetching: context.getStore('FavouriteStore').getStatus() === 'fetching',
     addFavourite: () => {
       context.executeAction(saveFavourite, { type: 'route', gtfsId });
       addAnalyticsEvent({
