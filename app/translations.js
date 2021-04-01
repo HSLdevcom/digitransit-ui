@@ -819,6 +819,7 @@ const translations = {
 
   en: {
     'about-this-service': 'About the service',
+    'access-with-hsl-card': 'access with HSL card',
     accessibility: 'Accessibility',
     'accessibility-limited': 'Wheelchair',
     'accessibility-nolimit': 'No limits',
@@ -888,7 +889,11 @@ const translations = {
     'bike-availability': 'Bikes available at the station right now',
     'bike-not-allowed-bus': 'Bikes are not allowed on the bus',
     'bike-not-allowed-tram': 'Bikes are not allowed on the tram',
-    'bike-park': 'Park & ride',
+    'bike-park': 'Park & Ride for bikes',
+    'bike-park-disclaimer':
+      'You can conveniently combine cycling and public transport: leave your bike at a Park & Ride and continue by train, bus, metro or tram. Bike parking is free of charge and there are no time limits.',
+    'bike-park-disclaimer-header': 'Park your bike',
+    'bike-park-disclaimer-link': 'Read more about Park & Ride for bikes',
     'bikes-available': '{amount} bikes at the station ',
     'biketransport-citybike': "I'm using a citybike",
     'biketransport-only-bike': "I'm travelling only by bike",
@@ -898,6 +903,7 @@ const translations = {
     'bus-with-route-number': 'Bus {routeNumber} {headSign}',
     'buy-ticket': 'How to buy a ticket',
     call: 'Call',
+    'camera-surveillance': 'Camera surveillance',
     cancel: 'Cancel',
     canceled: 'Canceled',
     'canceled-itineraries-amount':
@@ -984,6 +990,8 @@ const translations = {
     ferry: 'Ferry',
     'ferry-with-route-number': 'Ferry {routeNumber} {headSign}',
     'fetch-new-route': 'Fetch a new route',
+    'frame-locking': 'Frame locking',
+    'free-of-charge': 'Free',
     'from-station': 'from station',
     'from-stop': 'from stop',
     frontpage: 'Frontpage',
@@ -1080,6 +1088,7 @@ const translations = {
     later: 'Later departures',
     leaves: 'Leaves',
     'leaving-at': 'Leaving at',
+    lighting: 'Lighting',
     'likely-to-recommend':
       'How likely are you to recommend our service to your friends or colleagues?',
     'likely-to-use':
@@ -1175,6 +1184,7 @@ const translations = {
       '{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }',
     'number-of-minutes':
       '{number, plural, =0 {0 minutes} one {1 minute} other {{number} minutes}}',
+    'number-of-spaces': 'Number of spaces:',
     'off-canvas-info':
       'Log in to the service to save your favorites and utilize them on other devices',
     'option-default': 'Average',
@@ -1296,6 +1306,7 @@ const translations = {
     'settings-dropdown-open-label': 'Open options',
     'settings-label-change': 'Change settings',
     share: 'Share itinerary',
+    sheltered: 'Sheltered',
     show: 'Show',
     'show-departures': 'Show departures',
     'show-more': 'Show more',
@@ -1837,6 +1848,7 @@ const translations = {
     'bus-with-route-number': 'Bussi {routeNumber} {headSign}',
     'buy-ticket': 'Näin ostat lipun',
     call: 'Soita',
+    'camera-surveillance': 'Kameravalvonta',
     cancel: 'Peruuta',
     canceled: 'Peruttu',
     'canceled-itineraries-amount':
@@ -1927,6 +1939,7 @@ const translations = {
     ferry: 'Lautta',
     'ferry-with-route-number': 'Lautta {routeNumber} {headSign}',
     'fetch-new-route': 'Hae uusi reitti',
+    'frame-locking': 'Runkolukitus',
     'free-of-charge': 'Maksuton',
     'from-station': 'asemalta',
     'from-stop': 'pysäkiltä',
@@ -2018,6 +2031,7 @@ const translations = {
     later: 'Myöhempiä lähtöjä',
     leaves: 'Lähtee',
     'leaving-at': 'Lähtöaika',
+    lighting: 'Valaistus',
     'likely-to-recommend':
       'Kuinka todennäköistä on, että suosittelisit palveluamme ystävälle tai kollegallesi?',
     'likely-to-use':
@@ -2234,6 +2248,7 @@ const translations = {
     'settings-dropdown-open-label': 'Avaa vaihtoehdot',
     'settings-label-change': 'Muuta reittihaun asetuksia',
     share: 'Jaa ohje',
+    sheltered: 'Katettu',
     show: 'Näytä',
     'show-departures': 'Näytä lähdöt',
     'show-more': 'Näytä lisää',
@@ -3466,6 +3481,7 @@ const translations = {
 
   sv: {
     'about-this-service': 'Om tjänsten',
+    'access-with-hsl-card': 'åtgång med HRT-kortet',
     accessibility: 'Tillgänglighet',
     'accessibility-limited': 'Med rullstolen',
     'accessibility-nolimit': 'Ingen begränsning',
@@ -3532,7 +3548,11 @@ const translations = {
     'bike-availability': 'Antal cyklar just nu',
     'bike-not-allowed-bus': 'Cyklar är inte tillåtna på bussen',
     'bike-not-allowed-tram': 'Cyklar är inte tillåtna på spårvagnen',
-    'bike-park': 'Cykelparkering',
+    'bike-park': 'Anslutningsparkering för cyklar',
+    'bike-park-disclaimer':
+      'Du kan enkelt kombinera kollektivtrafiken med cykling, när du lämnar din cykel i anslutningsparkering och fortsätter din resa med tåg, buss, metro eller spårvagn. Cykelparkeringen är gratis och den har inte en begränsad parkeringstid.',
+    'bike-park-disclaimer-header': 'Lämna din cykel i parkeringen',
+    'bike-park-disclaimer-link': 'Lämna din cykel i parkeringen',
     'bikes-available': '{amount} cyklar vid stationen',
     'biketransport-citybike': 'Jag använder en stadscykel',
     'biketransport-only-bike': 'Jag reser bara med cykel',
@@ -3542,6 +3562,7 @@ const translations = {
     'bus-with-route-number': 'Buss {routeNumber} {headSign}',
     'buy-ticket': 'Så här köper du biljetten',
     call: 'Ring',
+    'camera-surveillance': 'Kameraövervakning',
     cancel: 'Avbryt',
     canceled: 'Inställt',
     'canceled-itineraries-amount':
@@ -3631,6 +3652,8 @@ const translations = {
     ferry: 'Färja',
     'ferry-with-route-number': 'Färja {routeNumber} {headSign}',
     'fetch-new-route': 'Sök en ny rutt',
+    'frame-locking': 'Ramlås',
+    'free-of-charge': 'Kostnadsfri',
     'from-station': 'från stationen',
     'from-stop': 'från hållplats',
     frontpage: 'Framsidan',
@@ -3657,6 +3680,7 @@ const translations = {
     'in-addition': 'Även',
     inquiry: 'Vad tycker du om den nya Reseplaneraren. Berätta för oss!',
     instructions: 'Anvisningar',
+    'is-open': 'Öppet:',
     'itinerary-details.biking-leg':
       '{time} cykla {distance} från {origin} till destinationen {destination}. Restid {duration}',
     'itinerary-details.car-leg':
@@ -3725,6 +3749,7 @@ const translations = {
     later: 'Senare avgångar',
     leaves: 'Avgår',
     'leaving-at': 'Avgångstid',
+    lighting: 'Belysning',
     'likely-to-recommend':
       'Hur sannolikt är det att du skulle rekommendera den här tjänsten åt en vän eller kollega?',
     'likely-to-use':
@@ -3820,6 +3845,7 @@ const translations = {
       '{number, plural, =0 {Inga hållplatser} one {1 hållplats} other {{number} hållplatser} }',
     'number-of-minutes':
       '{number, plural, =0 {0 minuter} one {1 minut} other {{number} minuter}}',
+    'number-of-spaces': 'Antalet platser:',
     'off-canvas-info':
       'Genom att logga in kan du spara dina favoriter och använda dem med dina andra enheter.',
     'option-default': 'Standard',
@@ -3945,6 +3971,7 @@ const translations = {
     'settings-dropdown-open-label': 'Öppna alternativen',
     'settings-label-change': 'Anpassa sökning',
     share: 'Dela resan',
+    sheltered: 'Tak',
     show: 'Visa',
     'show-departures': 'Visa avgångarna',
     'show-more': 'Visa flera',
