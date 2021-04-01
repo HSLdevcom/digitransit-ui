@@ -14,11 +14,7 @@ import DepartureTime from './DepartureTime';
 import PlatformNumber from './PlatformNumber';
 import CardHeader from './CardHeader';
 import Card from './Card';
-import CityBikeCard from './CityBikeCard';
-import CityBikeContent from './CityBikeContent';
 import CityBikeAvailability from './CityBikeAvailability';
-import CityBikeUse from './CityBikeUse';
-import CityBikePopupContainer from './map/popups/CityBikePopupContainer';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import TripRouteStop from './TripRouteStop';
 import MarkerSelectPopup from './map/tile-layer/MarkerSelectPopup';
@@ -87,11 +83,7 @@ const components = {
   PlatformNumber,
   CardHeader,
   Card,
-  CityBikeCard,
-  CityBikeContent,
   CityBikeAvailability,
-  CityBikeUse,
-  CityBikePopupContainer,
   Availability,
   ParkAndRideAvailability,
   RightOffcanvasToggle,

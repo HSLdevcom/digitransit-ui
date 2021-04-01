@@ -515,7 +515,7 @@ export default {
 
   showNearYouButtons: true,
   nearYouModes: [
-    'favorite',
+    // 'favorite',
     'bus',
     'tram',
     'subway',
