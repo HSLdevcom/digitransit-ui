@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import withBreakpoint from '../util/withBreakpoint';
 
 import TruncatedMessage from './TruncatedMessage';
 
-const MessageBarMessage = ({ content, textColor }) => {
+const MessageBarMessage = ({ content, textColor, breakpoint }) => {
   const heading = (e, color) => {
     if (e?.type === 'heading') {
       return <h2 style={{ color }}>{e.content}</h2>;
@@ -30,6 +31,10 @@ const MessageBarMessage = ({ content, textColor }) => {
         {linkPart}
       </>
     );
+
+    if (breakpoint === 'large') {
+      return bodyContent;
+    }
 
     return (
       <TruncatedMessage
@@ -64,6 +69,7 @@ const MessageBarMessage = ({ content, textColor }) => {
 MessageBarMessage.propTypes = {
   content: PropTypes.array,
   textColor: PropTypes.string,
+  breakpoint: PropTypes.string.isRequired,
 };
 
-export default MessageBarMessage;
+export default withBreakpoint(MessageBarMessage);
