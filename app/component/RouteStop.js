@@ -5,7 +5,6 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
-// import WalkDistance from './WalkDistance';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import StopCode from './StopCode';
 import { fromStopTime } from './DepartureTime';
@@ -52,7 +51,6 @@ const RouteStop = (
     className,
     color,
     currentTime,
-    // distance,
     first,
     last,
     mode,
@@ -277,14 +275,6 @@ const RouteStop = (
                   {fromStopTime(nextDeparture, currentTime, true, true)}
                 </div>
               )}
-              {'\u2002'}
-              {/* temporarily remove TODO {distance && (
-                <WalkDistance
-                  className="nearest-route-stop"
-                  icon="icon_location-with-user"
-                  walkDistance={distance}
-                />
-              )} */}
             </div>
           </div>
         </Link>
@@ -299,7 +289,6 @@ RouteStop.propTypes = {
   stop: PropTypes.object,
   mode: PropTypes.string,
   className: PropTypes.string,
-  // distance: PropTypes.number,
   currentTime: PropTypes.number.isRequired,
   first: PropTypes.bool,
   last: PropTypes.bool,

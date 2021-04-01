@@ -100,9 +100,7 @@ describe('<RouteStopListContainer />', () => {
     const wrapper = shallowWithIntl(<RouteStopListContainer {...props} />, {
       context: {
         config: {
-          nearestStopDistance: {
-            maxShownDistance: 1000,
-          },
+          nearestStopDistance: {},
         },
         match: mockMatch,
       },
