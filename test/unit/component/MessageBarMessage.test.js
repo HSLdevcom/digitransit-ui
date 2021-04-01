@@ -8,6 +8,7 @@ describe('<MessageBarMessage />', () => {
   it('should not render tag "a" if the href is missing', () => {
     const props = {
       content: [{ type: 'a', content: 'This is a link', href: undefined }],
+      breakpoint: 'small',
     };
     const wrapper = shallowWithIntl(<MessageBarMessage {...props} />);
     expect(wrapper.find('a')).to.have.lengthOf(0);
@@ -16,6 +17,7 @@ describe('<MessageBarMessage />', () => {
   it('should render tag "h2" for type "heading"', () => {
     const props = {
       content: [{ type: 'heading', content: 'This is a header' }],
+      breakpoint: 'small',
       onMaximize: () => {},
     };
     const wrapper = shallowWithIntl(<MessageBarMessage {...props} />);
@@ -25,6 +27,7 @@ describe('<MessageBarMessage />', () => {
   it('should render text for type "text"', () => {
     const props = {
       content: [{ type: 'text', content: 'This is text' }],
+      breakpoint: 'small',
     };
     const wrapper = shallowWithIntl(<MessageBarMessage {...props} />);
     expect(wrapper.find(TruncatedMessage)).to.have.lengthOf(1);

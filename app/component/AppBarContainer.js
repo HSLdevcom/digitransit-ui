@@ -53,7 +53,7 @@ const AppBarContainer = ({
               style={{ display: isClient ? 'block' : 'none' }}
             >
               <AppBarHsl user={user} lang={lang} />
-              <MessageBar mobile />{' '}
+              <MessageBar breakpoint />{' '}
             </div>
           ) : (
             <AppBar

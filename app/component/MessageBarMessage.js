@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import withBreakpoint from '../util/withBreakpoint';
 
 import TruncatedMessage from './TruncatedMessage';
 
@@ -72,4 +71,4 @@ MessageBarMessage.propTypes = {
   breakpoint: PropTypes.string.isRequired,
 };
 
-export default withBreakpoint(MessageBarMessage);
+export default MessageBarMessage;
