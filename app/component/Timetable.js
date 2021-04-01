@@ -300,7 +300,7 @@ class Timetable extends React.Component {
           <div>
             <FormattedMessage
               id="departures-by-hour"
-              defaultMessage="Departures by hour (minutes/line number)"
+              defaultMessage="Departures by hour (minutes/route)"
             />
           </div>
           <div className="print-button-container">

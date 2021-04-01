@@ -58,7 +58,7 @@ export default {
       nearYouLabel: {
         fi: 'Bussit ja lähipysäkit kartalla',
         sv: 'Bussar och hållplatser på kartan',
-        en: 'Buses and nearby stops on the map',
+        en: 'Buses and nearby stops on map',
       },
     },
 
@@ -68,7 +68,7 @@ export default {
       nearYouLabel: {
         fi: 'Junat ja lähiasemat kartalla',
         sv: 'Tåg och stationer på kartan',
-        en: 'Trains and the closest stations on the map',
+        en: 'Trains and nearby stations on map',
       },
     },
 
@@ -78,7 +78,7 @@ export default {
       nearYouLabel: {
         fi: 'Raitiovaunut ja lähipysäkit kartalla',
         sv: 'Spårvagnar och hållplatser på kartan',
-        en: 'Trams and the closest stops on the map',
+        en: 'Trams and nearby stops on map',
       },
     },
 
@@ -88,7 +88,7 @@ export default {
       nearYouLabel: {
         fi: 'Metrot ja lähiasemat kartalla',
         sv: 'Metro och stationer på kartan',
-        en: 'Subways and the closest stations on the map',
+        en: 'Metro and nearby stations on map',
       },
     },
 
@@ -98,7 +98,7 @@ export default {
       nearYouLabel: {
         fi: 'Lähimmät kaupunkipyöräasemat',
         sv: 'Närmaste cykelstationer',
-        en: 'The closest bike stations',
+        en: 'The closest city bike stations',
       },
     },
 
