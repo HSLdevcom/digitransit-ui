@@ -591,6 +591,7 @@ section.content {
           }
           .message-bar-link {
             word-break: break-word;
+            color: $primary-color;
           }
         }
       }
@@ -621,6 +622,15 @@ section.content {
       a,
       h2 {
         color: white;
+      }
+      .message-bar-container {
+        .react-swipe-container {
+          .message-content {
+            .message-bar-link {
+              color: $white;
+            }
+          }
+        }
       }
     }
   }

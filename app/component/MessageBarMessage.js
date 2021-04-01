@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
 
 import TruncatedMessage from './TruncatedMessage';
 
-const MessageBarMessage = ({ content, textColor }, { intl }) => {
+const MessageBarMessage = ({ content, textColor }) => {
   const heading = (e, color) => {
     if (e?.type === 'heading') {
       return <h2 style={{ color }}>{e.content}</h2>;
@@ -16,16 +15,12 @@ const MessageBarMessage = ({ content, textColor }, { intl }) => {
     const textPart = text && text.content;
     const linkPart = link && link.href && (
       <span>
-        {` ${intl.formatMessage({
-          id: 'read-more',
-          defaultMessage: 'Read more',
-        })}:`}
         <a
           className="message-bar-link"
           href={link.href}
           style={{ color: link.color || null }}
         >
-          {link.href}
+          {link.content || link.href}
         </a>
       </span>
     );
@@ -69,10 +64,6 @@ const MessageBarMessage = ({ content, textColor }, { intl }) => {
 MessageBarMessage.propTypes = {
   content: PropTypes.array,
   textColor: PropTypes.string,
-};
-
-MessageBarMessage.contextTypes = {
-  intl: intlShape,
 };
 
 export default MessageBarMessage;
