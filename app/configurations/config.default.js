@@ -188,10 +188,6 @@ export default {
     serviceTimeRange: 30,
   },
 
-  nearestStopDistance: {
-    maxShownDistance: 5000,
-  },
-
   map: {
     useRetinaTiles: true,
     tileSize: 512,
