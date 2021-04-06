@@ -14,6 +14,7 @@ import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import withBreakpoint, { DesktopOrMobile } from '../util/withBreakpoint';
 import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
+import { isKeyboardSelectionEvent } from '../util/browser';
 import { MAPSTATES } from '../util/stopsNearYouUtils';
 import Loading from './Loading';
 import {
@@ -22,7 +23,11 @@ import {
 } from '../action/PositionActions';
 import DisruptionBanner from './DisruptionBanner';
 import StopsNearYouSearch from './StopsNearYouSearch';
-import { getGeolocationState } from '../store/localStorage';
+import {
+  getGeolocationState,
+  getReadMessageIds,
+  setReadMessageIds,
+} from '../store/localStorage';
 import withSearchContext from './WithSearchContext';
 import { PREFIX_NEARYOU } from '../util/path';
 import StopsNearYouContainer from './StopsNearYouContainer';
@@ -76,10 +81,14 @@ class StopsNearYouPage extends React.Component {
       favouriteStopIds: props.favouriteStopIds,
       favouriteStationIds: props.favouriteStationIds,
       favouriteBikeStationIds: props.favouriteBikeStationIds,
+      showCityBikeTeaser: true,
     };
   }
 
   componentDidMount() {
+    const readMessageIds = getReadMessageIds();
+    const showCityBikeTeaser = !readMessageIds.includes('citybike_teaser');
+    this.setState({ showCityBikeTeaser });
     checkPositioningPermission().then(permission => {
       const { origin } = this.props.match.params;
       const savedPermission = getGeolocationState();
@@ -338,6 +347,13 @@ class StopsNearYouPage extends React.Component {
     );
   };
 
+  handleCityBikeTeaserClose = () => {
+    const readMessageIds = getReadMessageIds() || [];
+    readMessageIds.push('citybike_teaser');
+    setReadMessageIds(readMessageIds);
+    this.setState({ showCityBikeTeaser: false });
+  };
+
   renderContent = () => {
     const { centerOfMapChanged } = this.state;
     const { mode } = this.props.match.params;
@@ -370,6 +386,7 @@ class StopsNearYouPage extends React.Component {
           </div>
         );
       }
+
       return (
         <div
           className={`swipeable-tab ${nearByStopMode !== mode && 'inactive'}`}
@@ -425,6 +442,66 @@ class StopsNearYouPage extends React.Component {
                       lang={this.props.lang}
                     />
                   )}
+                  {this.state.showCityBikeTeaser &&
+                    nearByStopMode === 'CITYBIKE' && (
+                      <div className="stops-near-you-citybike-teaser">
+                        <div className="stops-near-you-citybike-header">
+                          <div className="stops-near-you-citybike-teaser-title">
+                            <FormattedMessage id="stops-near-you-citybike-teaser.title" />
+                          </div>
+                          <div
+                            className="stops-near-you-citybike-teaser-close"
+                            aria-label="Sulje kaupunkipyöräoikeuden ostaminen"
+                            tabIndex="0"
+                            onKeyDown={e => {
+                              if (
+                                isKeyboardSelectionEvent(e) &&
+                                (e.keyCode === 13 || e.keyCode === 32)
+                              ) {
+                                this.handleCityBikeTeaserClose();
+                              }
+                            }}
+                            onClick={this.handleCityBikeTeaserClose}
+                            role="button"
+                          >
+                            <Icon
+                              color={this.context.config.colors.primary}
+                              img="icon-icon_close"
+                            />
+                          </div>
+                        </div>
+                        <div className="stops-near-you-citybike-teaser-description-container">
+                          <div className="stops-near-you-citybike-teaser-description">
+                            <FormattedMessage id="stops-near-you-citybike-teaser.description" />
+                          </div>
+                          <a
+                            href="https://www.hsl.fi/kaupunkipyorat/osta"
+                            rel="noreferrer"
+                            className="stops-near-you-city-bike-teaser-close-button-container"
+                            target="_blank"
+                            tabIndex="0"
+                            role="button"
+                            onKeyDown={e => {
+                              if (
+                                isKeyboardSelectionEvent(e) &&
+                                (e.keyCode === 13 || e.keyCode === 32)
+                              ) {
+                                window.location =
+                                  'https://www.hsl.fi/kaupunkipyorat/osta';
+                              }
+                            }}
+                          >
+                            <div
+                              aria-label="Siirry ostamaan kaupunkipyöräoikeutta."
+                              className="stops-near-you-city-bike-teaser-close-button"
+                            >
+                              <FormattedMessage id="buy" />
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    )}
+
                   {renderRefetchButton && this.refetchButton(nearByStopMode)}
                   {!props && (
                     <div className="stops-near-you-spinner-container">
