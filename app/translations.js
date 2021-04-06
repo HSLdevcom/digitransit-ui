@@ -1025,7 +1025,7 @@ const translations = {
       'At {time} ride your kick scooter {distance} from {origin} to {destination}. Estimated time {duration}',
     'itinerary-details.transit-leg-part-1': 'At {time} take',
     'itinerary-details.transit-leg-part-2':
-      'from stop {startStop} {trackInfo} to stop {endStop}. Estimated duration {duration}',
+      'from stop {startStop} {startZoneInfo} {trackInfo} to stop {endStop} {endZoneInfo}. Estimated duration {duration}',
     'itinerary-details.walk-leg':
       'At {time} walk {distance} from {origin} to {destination}. Estimated time {duration}',
     'itinerary-feedback-button': 'Send feedback',
@@ -1449,6 +1449,8 @@ const translations = {
     where: 'Where to?',
     yesterday: 'Yesterday',
     zone: 'Zone',
+    'zone-info': 'Zone {zone}',
+    'zone-unknown': 'Unknown zone',
     zones: 'Fare zones',
   },
 
@@ -1958,7 +1960,7 @@ const translations = {
       '{time} potkulautaile {distance} kohteesta {origin} kohteeseen {destination}. Matka-aika {duration}',
     'itinerary-details.transit-leg-part-1': '{time} ota',
     'itinerary-details.transit-leg-part-2':
-      'pysäkiltä {startStop} {trackInfo} Pysäkille {endStop}. Arvioitu matka-aika {duration}',
+      'pysäkiltä {startStop} {startZoneInfo} {trackInfo} Pysäkille {endStop} {endZoneInfo}. Arvioitu matka-aika {duration}',
     'itinerary-details.walk-leg':
       '{time} kävele {distance} kohteesta {origin} kohteeseen {destination}. Matka-aika {duration}',
     'itinerary-feedback-button': 'Lähetä palautetta',
@@ -2382,6 +2384,8 @@ const translations = {
     where: 'Minne mennään?',
     yesterday: 'Eilen',
     zone: 'Vyöhyke',
+    'zone-info': 'Vyöhyke {zone}',
+    'zone-unknown': 'Tuntematon vyöhyke',
     zones: 'Lippuvyöhykkeet',
   },
 
@@ -3661,7 +3665,7 @@ const translations = {
       '{time} sparkcykla {distance} från {origin} till destinationen {destination}. Restid {duration}',
     'itinerary-details.transit-leg-part-1': '{time} ta',
     'itinerary-details.transit-leg-part-2':
-      'från hållplats {startStop} {trackInfo} till hållplats {endStop}. Beräknad restid {duration}',
+      'från hållplats {startStop} {startZoneInfo} {trackInfo} till hållplats {endStop} {endZoneInfo}. Beräknad restid {duration}',
     'itinerary-details.walk-leg':
       '{time} promenera {distance} från {origin} till destinationen {destination}. Restid {duration}',
     'itinerary-feedback-button': 'Skicka respons',
@@ -4091,6 +4095,8 @@ const translations = {
     where: 'Vart vill du åka?',
     yesterday: 'I går',
     zone: 'Zon',
+    'zone-info': 'Zon {zone}',
+    'zone-unknown': 'Okänd zon',
     zones: 'Biljettzoner',
   },
 };
