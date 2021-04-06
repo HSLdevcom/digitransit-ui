@@ -7,6 +7,7 @@ import {
   isAlertValid,
   getServiceAlertDescription,
   getServiceAlertMetadata,
+  getServiceAlertHeader,
 } from '../util/alertUtils';
 import DisruptionBannerAlert from './DisruptionBannerAlert';
 
@@ -54,12 +55,17 @@ class DisruptionBanner extends React.Component {
     return getServiceAlertDescription(alert, this.props.language);
   }
 
+  createAlertHeader(alert) {
+    return getServiceAlertHeader(alert, this.props.language);
+  }
+
   render() {
     const activeAlerts = this.getAlerts();
     if (activeAlerts.length > 0) {
       return activeAlerts.map(alert => (
         <DisruptionBannerAlert
           key={alert.id}
+          header={this.createAlertHeader(alert)}
           message={this.createAlertText(alert)}
           language={this.props.language}
         />
@@ -87,6 +93,10 @@ const containerComponent = createFragmentContainer(
         alertEffect
         alertCause
         alertDescriptionText
+        alertHeaderTextTranslations {
+          text
+          language
+        }
         alertDescriptionTextTranslations {
           text
           language
