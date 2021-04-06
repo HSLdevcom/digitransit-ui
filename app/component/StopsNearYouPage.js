@@ -477,7 +477,7 @@ class StopsNearYouPage extends React.Component {
                           <a
                             href="https://www.hsl.fi/kaupunkipyorat/osta"
                             rel="noreferrer"
-                            className="stops-near-you-city-bike-teaser-close-button-container"
+                            className="stops-near-you-citybike-teaser-close-button-container"
                             target="_blank"
                             tabIndex="0"
                             role="button"
@@ -493,7 +493,7 @@ class StopsNearYouPage extends React.Component {
                           >
                             <div
                               aria-label="Siirry ostamaan kaupunkipyöräoikeutta."
-                              className="stops-near-you-city-bike-teaser-close-button"
+                              className="stops-near-you-citybike-teaser-close-button"
                             >
                               <FormattedMessage id="buy" />
                             </div>
