@@ -250,8 +250,9 @@ class DTAutosuggest extends React.Component {
     modeIconColors: {
       'mode-bus': '#007ac9',
       'mode-rail': '#8c4799',
-      'mode-tram': '#00985f',
-      'mode-ferry': '#00b9e4',
+      'mode-tram': '#008151',
+      'mode-metro': '#ed8c00',
+      'mode-ferry': '#007A97',
     },
   };
 

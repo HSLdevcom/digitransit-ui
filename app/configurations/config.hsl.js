@@ -84,9 +84,9 @@ export default {
     iconColors: {
       'mode-bus': '#007ac9',
       'mode-rail': '#8c4799',
-      'mode-tram': '#00985f',
-      'mode-ferry': '#00b9e4',
-      'mode-metro': '#ff6319',
+      'mode-tram': '#008151',
+      'mode-ferry': '#007A97',
+      'mode-metro': '#CA4000',
       'mode-citybike': '#f2b62d',
     },
   },
@@ -513,6 +513,11 @@ export default {
           en: 'https://www.hsl.fi/en/citybikes/vantaa/instructions#return',
         },
       },
+    },
+    buyUrl: {
+      fi: 'https://www.hsl.fi/kaupunkipyorat/osta',
+      sv: 'https://www.hsl.fi/sv/stadscyklar/kop',
+      en: 'https://www.hsl.fi/en/citybikes/buy',
     },
   },
 

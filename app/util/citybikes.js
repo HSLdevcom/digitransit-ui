@@ -33,8 +33,10 @@ export const getCityBikeNetworkName = (
   language = 'en',
 ) => (networkConfig.name && networkConfig.name[language]) || undefined;
 
-export const getCityBikeNetworkIcon = (networkConfig = defaultNetworkConfig) =>
-  `icon-icon_${networkConfig.icon || 'citybike'}`;
+export const getCityBikeNetworkIcon = (
+  networkConfig = defaultNetworkConfig,
+  disabled,
+) => `icon-icon_${networkConfig.icon || 'citybike'}${disabled ? '_off' : ''}`;
 
 export const getCityBikeNetworkId = networks => {
   if (isString(networks) && networks.length > 0) {

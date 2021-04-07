@@ -6,8 +6,12 @@ import { intlShape } from 'react-intl';
 import Icon from './Icon';
 import TruncatedMessage from './TruncatedMessage';
 
-const DisruptionBannerAlert = ({ message, language }, { intl, config }) => {
+const DisruptionBannerAlert = (
+  { message, header, language },
+  { intl, config },
+) => {
   const [isOpen, setOpen] = useState(true);
+  const useHeader = header && header.length <= 120 && !message.includes(header);
   return (
     isOpen && (
       <div className="disruption-banner-container">
@@ -15,10 +19,11 @@ const DisruptionBannerAlert = ({ message, language }, { intl, config }) => {
           <Icon img="icon-icon_disruption-banner-alert" />
         </div>
         <div className="disruption-info-container">
+          {useHeader && <h3 className="disruption-info-header">{header}</h3>}
           {(!config.URL.ROOTLINK || !config.trafficNowLink) && (
             <TruncatedMessage
               className="disruption-show-more"
-              lines={3}
+              lines={useHeader ? 2 : 3}
               message={message}
             />
           )}
@@ -56,7 +61,12 @@ const DisruptionBannerAlert = ({ message, language }, { intl, config }) => {
 
 DisruptionBannerAlert.propTypes = {
   message: PropTypes.string.isRequired,
+  header: PropTypes.string,
   language: PropTypes.string.isRequired,
+};
+
+DisruptionBannerAlert.defaultProps = {
+  header: null,
 };
 
 DisruptionBannerAlert.contextTypes = {
