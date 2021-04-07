@@ -444,13 +444,11 @@ class StopsNearYouPage extends React.Component {
                   )}
                   {this.state.showCityBikeTeaser &&
                     nearByStopMode === 'CITYBIKE' && (
-                      <div className="stops-near-you-citybike-teaser">
-                        <div className="stops-near-you-citybike-header">
-                          <div className="stops-near-you-citybike-teaser-title">
-                            <FormattedMessage id="stops-near-you-citybike-teaser.title" />
-                          </div>
+                      <div className="citybike-use-disclaimer">
+                        <div className="disclaimer-header">
+                          <FormattedMessage id="citybike-start-using" />
                           <div
-                            className="stops-near-you-citybike-teaser-close"
+                            className="disclaimer-close"
                             aria-label="Sulje kaupunkipyöräoikeuden ostaminen"
                             tabIndex="0"
                             onKeyDown={e => {
@@ -470,15 +468,15 @@ class StopsNearYouPage extends React.Component {
                             />
                           </div>
                         </div>
-                        <div className="stops-near-you-citybike-teaser-description-container">
-                          <div className="stops-near-you-citybike-teaser-description">
-                            <FormattedMessage id="stops-near-you-citybike-teaser.description" />
-                          </div>
+                        <div className="disclaimer-content">
+                          <FormattedMessage id="citybike-buy-season" />
                           <a
-                            href="https://www.hsl.fi/kaupunkipyorat/osta"
-                            rel="noreferrer"
-                            className="stops-near-you-citybike-teaser-close-button-container"
-                            target="_blank"
+                            href={
+                              this.context.config.cityBike.buyUrl[
+                                this.props.lang
+                              ]
+                            }
+                            className="disclaimer-close-button-container"
                             tabIndex="0"
                             role="button"
                             onKeyDown={e => {
@@ -486,14 +484,15 @@ class StopsNearYouPage extends React.Component {
                                 isKeyboardSelectionEvent(e) &&
                                 (e.keyCode === 13 || e.keyCode === 32)
                               ) {
-                                window.location =
-                                  'https://www.hsl.fi/kaupunkipyorat/osta';
+                                window.location = this.context.config.cityBike.buyUrl[
+                                  this.props.lang
+                                ];
                               }
                             }}
                           >
                             <div
                               aria-label="Siirry ostamaan kaupunkipyöräoikeutta."
-                              className="stops-near-you-citybike-teaser-close-button"
+                              className="disclaimer-close-button"
                             >
                               <FormattedMessage id="buy" />
                             </div>

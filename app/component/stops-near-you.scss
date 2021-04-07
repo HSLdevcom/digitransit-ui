@@ -56,48 +56,52 @@
   position: relative;
   overflow: visible;
 
-  .stops-near-you-citybike-teaser {
-    border: 1px solid #d9d9d9;
-    border-radius: 10px;
+  .citybike-use-disclaimer {
+    border-radius: 8px;
+    border: solid 1px #dddddd;
+    background-color: #f4f4f5;
+    padding: 12px 18px 12px 18px;
     width: 100%;
+    margin-top: 24px;
     margin-bottom: 10px;
-    animation: fadeIn 0.7s;
-    padding: 10px 15px 10px 15px;
-    background-color: #f8f8f8;
-  }
+    .disclaimer-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.125rem;
+    }
+    .disclaimer-content {
+      display: flex;
+      align-items: center;
+      font-weight: normal;
+      font-size: 0.9375rem;
+    }
+    .external-link {
+      font-size: 0.9375rem;
+      text-decoration: none;
+      .icon-container {
+        padding-left: 7px;
+        vertical-align: text-top;
+      }
+    }
 
-  .stops-near-you-citybike-header {
-    display: flex;
-    justify-content: space-between;
-  }
+    .disclaimer-close-button-container {
+      margin-left: 10px;
+      background-color: $primary-color;
+      width: fit-content;
+      height: fit-content;
+      color: white;
+      text-decoration: none;
+      border-radius: 25px;
+      padding: 3px 25px 3px 25px;
+    }
 
-  .stops-near-you-citybike-teaser-description-container {
-    display: flex;
-    align-items: center;
-  }
-  .stops-near-you-citybike-teaser-close {
-    cursor: pointer;
-  }
+    .disclaimer-close-button {
+      font-weight: 500;
+    }
 
-  .stops-near-you-citybike-teaser-description {
-    font-weight: 400;
-    font-size: 0.813rem;
-    color: #666;
-  }
-
-  .stops-near-you-citybike-teaser-close-button-container {
-    margin-left: 10px;
-    background-color: $primary-color;
-    width: fit-content;
-    height: fit-content;
-    color: white;
-    text-decoration: none;
-    border-radius: 25px;
-    padding: 3px 25px 3px 25px;
-  }
-
-  .stops-near-you-citybike-teaser-close-button {
-    font-weight: 500;
+    .disclaimer-close {
+      cursor: pointer;
+    }
   }
 
   .no-favorites-container {

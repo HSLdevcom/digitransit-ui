@@ -206,9 +206,6 @@ const translations = {
     'stop-page.title': 'Holdeplads - {name} {code}',
     'stop-page.title-short': 'Holdeplads',
     stops: 'Holdepladser',
-    'stops-near-you-citybike-teaser.description':
-      'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi.',
-    'stops-near-you-citybike-teaser.title': 'Ota kaupunkipyörät käyttöön',
     'stops-near-you.description': 'Stop timetables and vehicles near your',
     'stops-near-you.title': 'Near by stops timetables',
     subway: 'Metro',
@@ -731,9 +728,6 @@ const translations = {
     'stop-page.title-short': 'Haltestelle',
     'stop-virtual-monitor': 'Virtueller Monitor',
     stops: 'Haltestellen',
-    'stops-near-you-citybike-teaser.description':
-      'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi.',
-    'stops-near-you-citybike-teaser.title': 'Ota kaupunkipyörät käyttöön',
     'stops-near-you.description': 'Stop timetables and vehicles near your',
     'stops-near-you.title': 'Near by stops timetables',
     street: 'Straße',
@@ -1336,9 +1330,6 @@ const translations = {
     'stop-page.title-short': 'Stop',
     'stop-virtual-monitor': 'Virtual monitor',
     stops: 'Stops',
-    'stops-near-you-citybike-teaser.description':
-      'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi.',
-    'stops-near-you-citybike-teaser.title': 'Ota kaupunkipyörät käyttöön',
     'stops-near-you.description': 'Stop timetables and vehicles near your',
     'stops-near-you.title': 'Near by stops timetables',
     'street-mode-bicycle': 'Bicycle',
@@ -1707,9 +1698,6 @@ const translations = {
     'stop-page.title': 'Parada {name} - {code}',
     'stop-page.title-short': 'Parada',
     stops: 'Paradas',
-    'stops-near-you-citybike-teaser.description':
-      'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi.',
-    'stops-near-you-citybike-teaser.title': 'Ota kaupunkipyörät käyttöön',
     'stops-near-you.description': 'Stop timetables and vehicles near your',
     'stops-near-you.title': 'Near by stops timetables',
     subway: 'Metro',
@@ -2273,9 +2261,6 @@ const translations = {
     'stop-page.title-short': 'Pysäkki',
     'stop-virtual-monitor': 'Virtuaalimonitori',
     stops: 'Pysäkit',
-    'stops-near-you-citybike-teaser.description':
-      'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi.',
-    'stops-near-you-citybike-teaser.title': 'Ota kaupunkipyörät käyttöön',
     'stops-near-you.description':
       'Lähialueesi pysäkkiaikataulut ja ajoneuvot kartalla.',
     'stops-near-you.title': 'Lähipysäkkien aikataulut',
@@ -2679,9 +2664,6 @@ const translations = {
     'stop-page.title': 'Arrêt - {name} {code}',
     'stop-page.title-short': 'Arrêt',
     stops: 'Arrêts',
-    'stops-near-you-citybike-teaser.description':
-      'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi.',
-    'stops-near-you-citybike-teaser.title': 'Ota kaupunkipyörät käyttöön',
     'stops-near-you.description': 'Stop timetables and vehicles near your',
     'stops-near-you.title': 'Near by stops timetables',
     'street-mode-bicycle': 'Vélo',
@@ -2947,9 +2929,6 @@ const translations = {
     'stop-page.title': 'Holdeplass - {name} {code}',
     'stop-page.title-short': 'Holdeplass',
     stops: 'Holdeplasser',
-    'stops-near-you-citybike-teaser.description':
-      'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi.',
-    'stops-near-you-citybike-teaser.title': 'Ota kaupunkipyörät käyttöön',
     'stops-near-you.description': 'Stop timetables and vehicles near your',
     'stops-near-you.title': 'Near by stops timetables',
     subway: 'T-bane',
@@ -3404,9 +3383,6 @@ const translations = {
     'stop-page.title-short': 'Stație',
     'stop-virtual-monitor': 'Panou plecări',
     stops: 'Stații',
-    'stops-near-you-citybike-teaser.description':
-      'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi.',
-    'stops-near-you-citybike-teaser.title': 'Ota kaupunkipyörät käyttöön',
     'stops-near-you.description': 'Stop timetables and vehicles near your',
     'stops-near-you.title': 'Near by stops timetables',
     'street-mode-bicycle': 'Bicicletă',
@@ -4000,9 +3976,6 @@ const translations = {
     'stop-page.title-short': 'Hållplats',
     'stop-virtual-monitor': 'Virtuell monitor',
     stops: 'Hållplatser',
-    'stops-near-you-citybike-teaser.description':
-      'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi.',
-    'stops-near-you-citybike-teaser.title': 'Ota kaupunkipyörät käyttöön',
     'stops-near-you.description': 'Stop timetables and vehicles near your',
     'stops-near-you.title': 'Near by stops timetables',
     'street-mode-bicycle': 'Cykel',
