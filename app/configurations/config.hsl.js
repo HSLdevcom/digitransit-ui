@@ -514,6 +514,11 @@ export default {
         },
       },
     },
+    buyUrl: {
+      fi: 'https://www.hsl.fi/kaupunkipyorat/osta',
+      sv: 'https://www.hsl.fi/sv/stadscyklar/kop',
+      en: 'https://www.hsl.fi/en/citybikes/buy',
+    },
   },
 
   // DT-3611

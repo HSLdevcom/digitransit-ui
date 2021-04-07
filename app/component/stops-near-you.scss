@@ -1,335 +1,378 @@
 .map.flex-grow {
-    position: relative;
-    min-height: 20rem;
+  position: relative;
+  min-height: 20rem;
 }
 
 .stops-near-you-location-search {
-    position: fixed;
-    margin: 30px 30px 0 0;
-    right: 0;
-    width: 300px;
-    z-index: index($zindex, map-buttons);
-    .origin-stop-near-you-selector-input-icon {
-        margin-left: 9px;
-    }
-    div > div > .origin-stop-near-you-selector {
-        height: 44px;
-        box-shadow: 0px 4px 20px 0px rgba(0,0,0,0.15);
-        width: 100%;
-        border-radius: 8px;
-        border: none;
-        background-color: #ffffff;
-        padding-left: 37px;
-        padding-right: 5px;
-    }
+  position: fixed;
+  margin: 30px 30px 0 0;
+  right: 0;
+  width: 300px;
+  z-index: index($zindex, map-buttons);
+  .origin-stop-near-you-selector-input-icon {
+    margin-left: 9px;
+  }
+  div > div > .origin-stop-near-you-selector {
+    height: 44px;
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    border-radius: 8px;
+    border: none;
+    background-color: #ffffff;
+    padding-left: 37px;
+    padding-right: 5px;
+  }
 }
 
 .stops-near-you-spinner-container {
-    position: relative;
-    z-index: 1;
-    height: 80px;
-    animation: fadeIn 0.4s;
+  position: relative;
+  z-index: 1;
+  height: 80px;
+  animation: fadeIn 0.4s;
 }
 .citybike-content-container {
-    padding: 15px 14px 22px;
+  padding: 15px 14px 22px;
+  display: flex;
+  height: 45px;
+  box-sizing: content-box;
+  .availability-container {
+    padding-left: 15px;
+    flex: 1;
+    .sub-header-h4 {
+      font-size: 0.813rem;
+    }
+  }
+  .icon-container {
     display: flex;
-    height: 45px;
-    box-sizing: content-box;
-    .availability-container {
-        padding-left: 15px;
-        flex: 1;
-        .sub-header-h4 {
-            font-size: 0.813rem;
-        }
+    align-self: center;
+    .icon {
+      width: 36px;
+      height: 36px;
     }
-    .icon-container {
-        display: flex;
-        align-self: center;
-        .icon {
-            width: 36px;
-            height: 36px;
-        }
-    }
+  }
 }
 
 .stops-near-you-page {
-    position: relative;
-    overflow: visible;
-    .no-favorites-container {
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-        margin: 2em 2.5em;
-        .no-favorites-header {
-            margin-bottom: 8px;
-        }
-        .no-favorites-content {
-            font-weight: normal;
-        }
-        .instruction-image {
-            margin: 30px 0 15px 0;
-            width: 140px;
-            align-self: center;
-        }
+  position: relative;
+  overflow: visible;
+
+  .citybike-use-disclaimer {
+    border-radius: 8px;
+    border: solid 1px #dddddd;
+    background-color: #f4f4f5;
+    padding: 12px 18px 12px 18px;
+    width: 100%;
+    margin-bottom: 10px;
+    .disclaimer-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1rem;
     }
-    .show-more-button {
-        margin: 0 6.25em 20px;
-        font-weight: $font-weight-medium;
-        background-color: $white;
-        color: $primary-color;
-        border: 1px solid #ddd;
-        min-height: 28px;
-        border-radius: 16px;
-        font-size: 0.9375rem;
+    .disclaimer-content {
+      display: flex;
+      align-items: center;
+      font-weight: normal;
+      font-size: 0.813rem;
     }
+
+    .disclaimer-close-button-container {
+      margin-left: 10px;
+      background-color: $primary-color;
+      width: fit-content;
+      height: fit-content;
+      color: white;
+      text-decoration: none;
+      border-radius: 25px;
+      padding: 3px 25px 3px 25px;
+    }
+
+    .disclaimer-close-button {
+      font-weight: 500;
+    }
+
+    .disclaimer-close {
+      cursor: pointer;
+    }
+  }
+
+  .no-favorites-container {
     display: flex;
     flex-direction: column;
-    padding: 10px 3.75em 0;
-    .nearest-stops-update-container {
-        height: 80px;
-        display: flex;
-        flex-direction: column;
-        margin: 0 auto;
-        font-weight: normal;
-        font-size: 0.9375rem;
-        text-align: center;
-        color: #666666;
-        .update-stops-button {
-            border: 1px solid #ddd;
-            min-height: 30px;
-            padding: 0 16px;
-            border-radius: 15px;
-            color: $primary-color;
-            font-weight: $font-weight-medium;
-            margin: 7px 0 20px;
-            background-color: $white;
-            letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            .icon-container {
-                display: flex;
-                font-size: 20px;
-                padding-right: 13px;
-            }
-        }
+    text-align: center;
+    margin: 2em 2.5em;
+    .no-favorites-header {
+      margin-bottom: 8px;
     }
-    .stop-near-you-container {
-        border: 1px solid #d9d9d9;
-        border-radius: 10px;
-        width: 100%;
-        margin-bottom: 10px;
-        animation: fadeIn 0.7s;
-        .stop-near-you-header-container {
-            display: flex;
-            .stop-near-you-name {
-                line-height: 24px;
-            }
-            .stop-header-content {
-                a {
-                    text-decoration: none;
-                    color: #333;
-                }
-                .bike-station-code {
-                    font-size: 0.813rem;
-                    font-weight: normal;
-                }
-            }
-            padding: 14px 15px 1px 20px;
-            .stop-near-you-info {
-                display: flex;
-                margin-bottom: 5px;
-                .platform-short {
-                    @include font-medium;
-                    font-weight: normal;
-                    white-space: nowrap;
-                    font-size: 0.813rem;
-                    margin-right: 5px;
-                    width: unset;
-                }
-                .stop-near-you-desc {
-                    font-weight: normal;
-                    font-size: 0.8125rem;
-                    padding-right: 5px;
-                }
-                .itinerary-stop-code {
-                    height: 16px;
-                    padding: 0 4px;
-                    align-self: center;
-                    margin-bottom: 2px;
-                }
-                .zone-icon-container {
-                    margin-left:4px;
-                    padding-bottom: 2px;
-                    align-self: center;
-                }
-                .circle {
-                    padding: 0px 3px 0px 3px;
-                }
-            }
-            .stop-favourite-container {
-                padding-top: 8px;
-                margin-left: auto;
-            }
-            .bike-rental-favourite-container {
-                padding-top: 8px;
-                margin-left: auto;
-            }
-        }
-        .stop-near-you-more-departures {
-            margin: 0 0 19px 20px;
-            padding: 9px 20px 8px;
-            border-radius: 25px;
-            border: solid 1px #dddddd;
-            font-size: 13px;
-            font-weight: $font-weight-medium;
-            color: $primary-color;
-        }
+    .no-favorites-content {
+      font-weight: normal;
     }
-    .near-departures-container {
-        padding: 2px 15px 15px 15px;
-        .departure-row {
-            .platform-code {
-                height: 20px;
-                width: 26px;
-                font-size: 0.813rem;
-                align-self: center;
-            }
-            @include font-narrow-book;
-            font-weight: normal;
-            display: flex;
-            .route-arrival {
-                color: #333;
-                @include font-medium;
-                font-size: 0.75rem;
-                padding-right: 8px;
-                span {
-                    vertical-align: sub;
-                }
-                &.realtime {
-                    color: $realtime-color;
-                }
-            }
-            .route-number-container {
-                background-color: currentColor;
-                margin-right: 10px;
-                border-radius: 3px;
-                min-width: 2.25em;
-                height: 1.25em;
-                padding: 0 4px;
-                text-align: center;
-                .route-number {
-                    color: $white;
-                    line-height: 1.25;
-                    min-width: unset;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                }
-            }
-            .route-headsign {
-                font-weight: normal;
-                color: #333;
-                flex: 1;
-            }
-            .route-time {
-                color: #333;
-                &.realtime {
-                    color: $realtime-color;
-                }
-            }
-        }
+    .instruction-image {
+      margin: 30px 0 15px 0;
+      width: 140px;
+      align-self: center;
     }
-}
-.scrollable-content-wrapper {
-    .stops-near-you-search-container {
-        margin-bottom: 22px;
-    }
-    .back-button.near-you-back-button {
-        font-size: 1.25rem;
-        margin: 50px 0 16px 0;
-        line-height: 1;
-        button .icon {
-            height: 1.3em;
-            width: 1.3em;
-        }
-        .arrow-icon {
-            font-size: 0.75em;
-            margin: 2px 1em;
-        }
-    }
-}
-
- .disruption-banner-container {
-    @include font-medium;
-    text-decoration: none;
-    font-weight: 100;
-    background-color: #dc0451;
-    color: white;
+  }
+  .show-more-button {
+    margin: 0 6.25em 20px;
+    font-weight: $font-weight-medium;
+    background-color: $white;
+    color: $primary-color;
+    border: 1px solid #ddd;
+    min-height: 28px;
+    border-radius: 16px;
     font-size: 0.9375rem;
-    padding: 12px 14px 12px 17px;
-    border-radius: 10px;
-    margin-bottom: 15px;
+  }
+  display: flex;
+  flex-direction: column;
+  padding: 10px 3.75em 0;
+  .nearest-stops-update-container {
+    height: 80px;
     display: flex;
-    .disruption-icon-container {
-        width: 40px;
-        height: 100%;
-        padding: 4px 0;
-        .icon-container {
-            font-size: 24px;
-            display: flex;
-            padding-left: 3px;
-        }
-    }
-    .disruption-info-container {
-        line-height: 1.2;
-        flex: 1;
-        .disruption-info-header {
-          color: inherit;
-          margin-bottom: 2px;
-        }
-        .disruption-info-content {
-          color: inherit;
-          text-decoration: none;
-          font-size: $font-size-normal;
-        }
-        .disruption-show-more {
-          font-weight: $font-weight-medium;
-        }
-    }
-    .disruption-close-button {
-      height: 100%;
-      float: right;
-      svg {
-        width: 13.5px;
-        height: 13.5px;
+    flex-direction: column;
+    margin: 0 auto;
+    font-weight: normal;
+    font-size: 0.9375rem;
+    text-align: center;
+    color: #666666;
+    .update-stops-button {
+      border: 1px solid #ddd;
+      min-height: 30px;
+      padding: 0 16px;
+      border-radius: 15px;
+      color: $primary-color;
+      font-weight: $font-weight-medium;
+      margin: 7px 0 20px;
+      background-color: $white;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .icon-container {
+        display: flex;
+        font-size: 20px;
+        padding-right: 13px;
       }
     }
+  }
+  .stop-near-you-container {
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+    animation: fadeIn 0.7s;
+    .stop-near-you-header-container {
+      display: flex;
+      .stop-near-you-name {
+        line-height: 24px;
+      }
+      .stop-header-content {
+        a {
+          text-decoration: none;
+          color: #333;
+        }
+        .bike-station-code {
+          font-size: 0.813rem;
+          font-weight: normal;
+        }
+      }
+      padding: 14px 15px 1px 20px;
+      .stop-near-you-info {
+        display: flex;
+        margin-bottom: 5px;
+        .platform-short {
+          @include font-medium;
+          font-weight: normal;
+          white-space: nowrap;
+          font-size: 0.813rem;
+          margin-right: 5px;
+          width: unset;
+        }
+        .stop-near-you-desc {
+          font-weight: normal;
+          font-size: 0.8125rem;
+          padding-right: 5px;
+        }
+        .itinerary-stop-code {
+          height: 16px;
+          padding: 0 4px;
+          align-self: center;
+          margin-bottom: 2px;
+        }
+        .zone-icon-container {
+          margin-left: 4px;
+          padding-bottom: 2px;
+          align-self: center;
+        }
+        .circle {
+          padding: 0px 3px 0px 3px;
+        }
+      }
+      .stop-favourite-container {
+        padding-top: 8px;
+        margin-left: auto;
+      }
+      .bike-rental-favourite-container {
+        padding-top: 8px;
+        margin-left: auto;
+      }
+    }
+    .stop-near-you-more-departures {
+      margin: 0 0 19px 20px;
+      padding: 9px 20px 8px;
+      border-radius: 25px;
+      border: solid 1px #dddddd;
+      font-size: 13px;
+      font-weight: $font-weight-medium;
+      color: $primary-color;
+    }
+  }
+  .near-departures-container {
+    padding: 2px 15px 15px 15px;
+    .departure-row {
+      .platform-code {
+        height: 20px;
+        width: 26px;
+        font-size: 0.813rem;
+        align-self: center;
+      }
+      @include font-narrow-book;
+      font-weight: normal;
+      display: flex;
+      .route-arrival {
+        color: #333;
+        @include font-medium;
+        font-size: 0.75rem;
+        padding-right: 8px;
+        span {
+          vertical-align: sub;
+        }
+        &.realtime {
+          color: $realtime-color;
+        }
+      }
+      .route-number-container {
+        background-color: currentColor;
+        margin-right: 10px;
+        border-radius: 3px;
+        min-width: 2.25em;
+        height: 1.25em;
+        padding: 0 4px;
+        text-align: center;
+        .route-number {
+          color: $white;
+          line-height: 1.25;
+          min-width: unset;
+          display: block;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+      }
+      .route-headsign {
+        font-weight: normal;
+        color: #333;
+        flex: 1;
+      }
+      .route-time {
+        color: #333;
+        &.realtime {
+          color: $realtime-color;
+        }
+      }
+    }
+  }
+}
+.scrollable-content-wrapper {
+  .stops-near-you-search-container {
+    margin-bottom: 22px;
+  }
+  .back-button.near-you-back-button {
+    font-size: 1.25rem;
+    margin: 50px 0 16px 0;
+    line-height: 1;
+    button .icon {
+      height: 1.3em;
+      width: 1.3em;
+    }
+    .arrow-icon {
+      font-size: 0.75em;
+      margin: 2px 1em;
+    }
+  }
+}
+
+.disruption-banner-container {
+  @include font-medium;
+  text-decoration: none;
+  font-weight: 100;
+  background-color: #dc0451;
+  color: white;
+  font-size: 0.9375rem;
+  padding: 12px 14px 12px 17px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  display: flex;
+  .disruption-icon-container {
+    width: 40px;
+    height: 100%;
+    padding: 4px 0;
+    .icon-container {
+      font-size: 24px;
+      display: flex;
+      padding-left: 3px;
+    }
+    .disruption-info-container {
+      line-height: 1.2;
+      flex: 1;
+      .disruption-info-header {
+        color: inherit;
+        margin-bottom: 2px;
+      }
+      .disruption-info-content {
+        color: inherit;
+        text-decoration: none;
+        font-size: $font-size-normal;
+      }
+      .disruption-show-more {
+        font-weight: $font-weight-medium;
+      }
+    }
+    .disruption-show-more {
+      font-weight: $font-weight-medium;
+    }
+  }
+  .disruption-close-button {
+    height: 100%;
+    float: right;
+    svg {
+      width: 13.5px;
+      height: 13.5px;
+    }
+  }
 }
 
 .mobile {
-    .stops-near-you-location-search {
-        width: 145px;
-        margin: 25px 15px 0 0;
-        div > div > .origin-stop-near-you-selector {
-            height: 34px;
-        }
+  .stops-near-you-location-search {
+    width: 145px;
+    margin: 25px 15px 0 0;
+    div > div > .origin-stop-near-you-selector {
+      height: 34px;
     }
-    .stops-near-you-search-container {
-        padding: 0 5px 15px;
+  }
+  .stops-near-you-search-container {
+    padding: 0 5px 15px;
+  }
+  .stops-near-you-page {
+    height: calc(100% - 20rem);
+    padding: 5px 0.625em 0;
+    background-color: white;
+    position: relative;
+    .stops-near-you-container {
+      padding: 0;
     }
-    .stops-near-you-page {
-        height: calc(100% - 20rem);
-        padding: 5px 0.625em 0;
-        background-color: white;
-        position: relative;
-        .stops-near-you-container {
-            padding: 0;
-        }
-        .disruption-banner-container {
-            margin: 0 5px 15px;
-        }
+    .disruption-banner-container {
+      margin: 0 5px 15px;
     }
+  }
 }
 
 .modal-desktop-container {
@@ -454,7 +497,8 @@
       border-radius: 25px;
       cursor: pointer;
       &.save {
-        &:active, &:focus {
+        &:active,
+        &:focus {
           background: darken($primary-color, 5%);
         }
         &.disabled {
