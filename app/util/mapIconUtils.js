@@ -295,7 +295,7 @@ function getSmallStopIcon(type, radius) {
     ctx.fillStyle = '#666666';
   }
   if (type === 'FERRY_TERMINAL') {
-    ctx.fillStyle = '#00B9E4';
+    ctx.fillStyle = '#007A97';
   }
   ctx.arc(x, y, radius - 1, 0, FULL_CIRCLE);
   ctx.fill();
@@ -379,7 +379,7 @@ export function drawStopIcon(
           tile.ctx.fillStyle = '#666666';
         } else if (type === 'FERRY' && isFerryTerminal) {
           // ferry terminals
-          tile.ctx.fillStyle = '#00B9E4';
+          tile.ctx.fillStyle = '#007A97';
         }
         tile.ctx.arc(x, y, radius - 1, 0, FULL_CIRCLE);
         tile.ctx.fill();
