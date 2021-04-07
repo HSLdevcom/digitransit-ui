@@ -25,6 +25,7 @@ export default class SwipeableTabs extends React.Component {
 
   componentDidMount() {
     window.addEventListener('resize', this.setFocusables);
+    this.setFocusables();
   }
 
   componentDidUpdate() {
