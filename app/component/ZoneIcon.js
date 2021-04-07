@@ -11,7 +11,7 @@ const ZoneIcon = ({ className, zoneId, showUnknown }, { config, intl }) => {
   const zoneUnknown =
     Array.isArray(config.unknownZones) && config.unknownZones.includes(zoneId);
 
-  if (showUnknown && zoneUnknown) {
+  if (!showUnknown && zoneUnknown) {
     return null;
   }
 
