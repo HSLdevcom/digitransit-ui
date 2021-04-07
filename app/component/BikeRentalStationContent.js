@@ -116,6 +116,7 @@ const containerComponent = createFragmentContainer(connectedComponent, {
       capacity
       networks
       stationId
+      state
     }
   `,
 });

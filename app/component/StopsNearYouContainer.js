@@ -363,6 +363,7 @@ const refetchContainer = createPaginationContainer(
                   spacesAvailable
                   capacity
                   networks
+                  state
                 }
                 ... on Stop {
                   id
