@@ -320,13 +320,21 @@
       display: flex;
       padding-left: 3px;
     }
-  }
-  .disruption-info-container {
-    line-height: 1.2;
-    flex: 1;
-    .disruption-info-content {
-      color: inherit;
-      text-decoration: none;
+    .disruption-info-container {
+      line-height: 1.2;
+      flex: 1;
+      .disruption-info-header {
+        color: inherit;
+        margin-bottom: 2px;
+      }
+      .disruption-info-content {
+        color: inherit;
+        text-decoration: none;
+        font-size: $font-size-normal;
+      }
+      .disruption-show-more {
+        font-weight: $font-weight-medium;
+      }
     }
     .disruption-show-more {
       font-weight: $font-weight-medium;

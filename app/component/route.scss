@@ -942,7 +942,7 @@ $margin-left-right: 1.333em;
         .react-autosuggest__section-title {
           font-weight: 500;
           border-bottom: 1px solid #dddddd;
-          height: 44px;
+          min-height: 44px;
           padding: 13px 16px;
         }
         ul {
