@@ -251,6 +251,14 @@ class TransitLeg extends React.Component {
         values={{
           vehicle: <>{children}</>,
           startStop: leg.from.name,
+          startZoneInfo: intl.formatMessage(
+            { id: 'zone-info' },
+            { zone: leg.from.stop.zoneId },
+          ),
+          endZoneInfo: intl.formatMessage(
+            { id: 'zone-info' },
+            { zone: leg.to.stop.zoneId },
+          ),
           endStop: leg.to.name,
           duration: durationToString(leg.duration * 1000),
           trackInfo: (
