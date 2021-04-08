@@ -42,7 +42,6 @@ export default {
     },
     STOP_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/stops/`,
-      tampere: 'https://www.tampere.fi/ekstrat/ptdata/pdf/',
     },
   },
 
