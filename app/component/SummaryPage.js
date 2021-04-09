@@ -2250,6 +2250,7 @@ class SummaryPage extends React.Component {
               map={map}
               scrollable
               bckBtnVisible
+              bckBtnFallback="pop"
             />
           );
         }
