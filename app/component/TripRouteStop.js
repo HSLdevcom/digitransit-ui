@@ -5,7 +5,6 @@ import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 
 import ComponentUsageExample from './ComponentUsageExample';
-import WalkDistance from './WalkDistance';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import StopCode from './StopCode';
 import PatternLink from './PatternLink';
@@ -30,7 +29,6 @@ const TripRouteStop = props => {
     className,
     color,
     currentTime,
-    distance,
     mode,
     stop,
     stopPassed,
@@ -74,7 +72,7 @@ const TripRouteStop = props => {
           selected={
             props.selectedVehicle && props.selectedVehicle.id === vehicle.id
           }
-          color={vehicle.color}
+          color={!stopPassed && vehicle.color}
           setHumanScrolling={setHumanScrolling}
           keepTracking={keepTracking}
         />
@@ -98,23 +96,25 @@ const TripRouteStop = props => {
       {vehicles}
       <div className={cx('route-stop-now_circleline', mode)}>
         <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          width={15}
-          height={30}
-          style={{ fill: color, stroke: color }}
+          style={{ fill: !stopPassed && color, stroke: !stopPassed && color }}
         >
           <circle
-            strokeWidth="2"
-            stroke={color || 'currentColor'}
+            cx="8"
+            cy="8"
+            r="6"
             fill="white"
-            cx="6"
-            cy="13"
-            r="5"
+            stroke={(!stopPassed && color) || 'currentColor'}
+            strokeWidth="4"
           />
         </svg>
         <div
           className={cx('route-stop-now_line', mode)}
-          style={{ backgroundColor: color }}
+          style={{ backgroundColor: !stopPassed && color }}
         />
       </div>
       <div className="route-stop-row_content-container">
@@ -142,14 +142,6 @@ const TripRouteStop = props => {
             <div className="route-details-bottom-row">
               {stop.code && <StopCode code={stop.code} />}
               <span className="route-stop-address">{stop.desc}</span>
-              {'\u2002'}
-              {distance && (
-                <WalkDistance
-                  className="nearest-route-stop"
-                  icon="icon_location-with-user"
-                  walkDistance={distance}
-                />
-              )}
             </div>
           </div>
         </Link>
@@ -164,8 +156,6 @@ TripRouteStop.propTypes = {
   color: PropTypes.string,
   stopPassed: PropTypes.bool,
   stop: PropTypes.object.isRequired,
-  distance: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([false])])
-    .isRequired,
   stoptime: PropTypes.object.isRequired,
   currentTime: PropTypes.number.isRequired,
   pattern: PropTypes.string.isRequired,

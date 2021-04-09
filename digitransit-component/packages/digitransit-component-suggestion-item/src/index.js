@@ -98,15 +98,20 @@ const SuggestionItem = pure(
     ariaFavouriteString,
     color,
     fillInput,
+    fontWeights,
+    modeIconColors,
   }) => {
     const [iconId, iconColor] = getIconProperties(item, color);
+    const modeIconColor = modeIconColors && modeIconColors[iconId];
     // Arrow clicked is for street itmes. Instead of selecting item when a user clicks on arrow,
     // It fills the input field.
     const [arrowClicked, setArrowClicked] = useState(false);
 
     const icon = (
-      <span className={styles[iconId]}>
-        <Icon color={iconColor} img={iconId} />
+      <span
+        className={`${styles[iconId]} ${item?.properties?.mode?.toLowerCase()}`}
+      >
+        <Icon color={modeIconColor || iconColor} img={iconId} />
       </span>
     );
     const [suggestionType, name, label, stopCode] = content || [
@@ -138,7 +143,9 @@ const SuggestionItem = pure(
         item.properties.layer === 'favouriteBikeRentalStation' ||
         item.properties.layer === 'bikestation');
     const cityBikeLabel = isBikeRentalStation
-      ? suggestionType.concat(', ').concat(item.properties.localadmin)
+      ? suggestionType.concat(
+          item.properties.localadmin ? `, ${item.properties.localadmin}` : '',
+        )
       : label;
     const ri = (
       <div
@@ -152,6 +159,7 @@ const SuggestionItem = pure(
             [styles.futureroute]: isFutureRoute,
           },
         )}
+        style={{ '--font-weight-medium': fontWeights.medium }}
       >
         <span aria-label={suggestionType} className={styles['suggestion-icon']}>
           {icon}
@@ -310,12 +318,26 @@ SuggestionItem.propTypes = {
   className: PropTypes.string,
   isMobile: PropTypes.bool,
   color: PropTypes.string,
+  fontWeights: PropTypes.shape({
+    medium: PropTypes.number,
+  }),
+  modeIconColors: PropTypes.object,
 };
 
 SuggestionItem.defaultProps = {
   className: undefined,
   isMobile: false,
   color: '#007ac9',
+  fontWeights: {
+    medium: 500,
+  },
+  modeIconColors: {
+    'mode-bus': '#007ac9',
+    'mode-rail': '#8c4799',
+    'mode-tram': '#008151',
+    'mode-metro': '#ed8c00',
+    'mode-ferry': '#007A97',
+  },
 };
 
 export default SuggestionItem;

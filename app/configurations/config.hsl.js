@@ -1,5 +1,5 @@
 /* eslint-disable prefer-template */
-import { BIKEAVL_BIKES } from '../util/citybikes';
+import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
@@ -11,6 +11,8 @@ const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
 
 const rootLink = process.env.ROOTLINK || 'https://dev.hslfi.hsldev.com';
+const BANNER_URL = 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
+// 'https://test-api.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
 
 const cityBikesEnabled = true;
 
@@ -24,6 +26,7 @@ export default {
     FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
     CITYBIKE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-citybike-map/`,
     ROOTLINK: rootLink,
+    BANNERS: BANNER_URL,
   },
 
   indexPath: 'etusivu',
@@ -78,6 +81,18 @@ export default {
   colors: {
     primary: '#007ac9',
     hover: '#0062a1',
+    iconColors: {
+      'mode-bus': '#007ac9',
+      'mode-rail': '#8c4799',
+      'mode-tram': '#008151',
+      'mode-ferry': '#007A97',
+      'mode-metro': '#CA4000',
+      'mode-citybike': '#f2b62d',
+    },
+  },
+
+  fontWeights: {
+    medium: 500,
   },
 
   sprites: 'assets/svg-sprite.hsl.svg',
@@ -456,7 +471,8 @@ export default {
 
   cityBike: {
     showCityBikes: cityBikesEnabled,
-    capacity: BIKEAVL_BIKES,
+    capacity: BIKEAVL_WITHMAX,
+    showFullInfo: true,
     networks: {
       smoove: {
         icon: 'citybike',
@@ -467,9 +483,15 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: 'https://kaupunkipyorat.hsl.fi/fi',
-          sv: 'https://kaupunkipyorat.hsl.fi/sv',
-          en: 'https://kaupunkipyorat.hsl.fi/en',
+          fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors',
+          en: 'https://www.hsl.fi/en/citybikes/helsinki',
+        },
+        returnInstructions: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#palauta',
+          sv:
+            'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#aterlamna',
+          en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#return',
         },
       },
       vantaa: {
@@ -481,11 +503,21 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: 'https://kaupunkipyorat.hsl.fi/fi',
-          sv: 'https://kaupunkipyorat.hsl.fi/sv',
-          en: 'https://kaupunkipyorat.hsl.fi/en',
+          fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/vanda',
+          en: 'https://www.hsl.fi/en/citybikes/vantaa',
+        },
+        returnInstructions: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa/kayttoohje#palauta',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/vanda/anvisningar#aterlamna',
+          en: 'https://www.hsl.fi/en/citybikes/vantaa/instructions#return',
         },
       },
+    },
+    buyUrl: {
+      fi: 'https://www.hsl.fi/kaupunkipyorat/osta',
+      sv: 'https://www.hsl.fi/sv/stadscyklar/kop',
+      en: 'https://www.hsl.fi/en/citybikes/buy',
     },
   },
 

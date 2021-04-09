@@ -20,6 +20,7 @@ import {
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import { splitStringToAddressAndPlace } from '../util/otpStrings';
 
 function WalkLeg(
   { children, focusAction, setMapZoomToLeg, index, leg, previousLeg },
@@ -34,7 +35,7 @@ function WalkLeg(
   const modeClassName = 'walk';
   const fromMode = leg.from.stop ? leg.from.stop.vehicleMode : '';
   const isFirstLeg = i => i === 0;
-  const [address, place] = leg.from.name.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
+  const [address, place] = splitStringToAddressAndPlace(leg.from.name);
 
   const networkType = getCityBikeNetworkConfig(
     getCityBikeNetworkId(
@@ -101,7 +102,7 @@ function WalkLeg(
                   <Icon
                     img="icon-icon_arrow-collapse--right"
                     className="itinerary-arrow-icon"
-                    color="#333"
+                    color={config.colors.primary}
                   />
                 )}
               </div>
@@ -139,7 +140,7 @@ function WalkLeg(
                     <Icon
                       img="icon-icon_arrow-collapse--right"
                       className="itinerary-arrow-icon"
-                      color="#333"
+                      color={config.colors.primary}
                     />
                   )}
                   <ServiceAlertIcon
@@ -157,7 +158,7 @@ function WalkLeg(
                     <Icon
                       img="icon-icon_arrow-collapse--right"
                       className="itinerary-arrow-icon"
-                      color="#333"
+                      color={config.colors.primary}
                     />
                   )}
                   <ServiceAlertIcon

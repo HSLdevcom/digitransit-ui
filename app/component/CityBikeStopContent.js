@@ -7,6 +7,8 @@ import {
   getCityBikeNetworkConfig,
   BIKEAVL_UNKNOWN,
   BIKEAVL_WITHMAX,
+  BIKESTATION_OFF,
+  BIKESTATION_CLOSED,
 } from '../util/citybikes';
 
 const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
@@ -19,18 +21,24 @@ const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
 
   if (config.cityBike.capacity === BIKEAVL_WITHMAX) {
     totalSpaces =
+      bikeRentalStation.capacity ||
       bikeRentalStation.bikesAvailable + bikeRentalStation.spacesAvailable;
     fewAvailableCount = Math.floor(totalSpaces / 3);
     fewerAvailableCount = Math.floor(totalSpaces / 6);
   }
+  const disabled =
+    bikeRentalStation.state === BIKESTATION_OFF ||
+    bikeRentalStation.state === BIKESTATION_CLOSED;
+
   const citybikeicon = getCityBikeNetworkIcon(
     getCityBikeNetworkConfig(bikeRentalStation.networks[0], config),
+    disabled,
   );
-
   return (
     <div className="citybike-content-container">
       <Icon img={citybikeicon} />
       <CityBikeAvailability
+        disabled={disabled}
         bikesAvailable={bikeRentalStation.bikesAvailable}
         totalSpaces={totalSpaces}
         fewAvailableCount={fewAvailableCount}
@@ -48,7 +56,9 @@ CityBikeStopContent.propTypes = {
   bikeRentalStation: PropTypes.shape({
     bikesAvailable: PropTypes.number.isRequired,
     spacesAvailable: PropTypes.number.isRequired,
+    capacity: PropTypes.number.isRequired,
     networks: PropTypes.arrayOf(PropTypes.string),
+    state: PropTypes.string.isRequired,
   }),
 };
 export default CityBikeStopContent;

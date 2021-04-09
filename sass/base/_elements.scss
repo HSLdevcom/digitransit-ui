@@ -341,12 +341,19 @@ svg.realtime-icon {
     fill: #fff;
     font-family: $font-family;
     font-size: 2rem;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     text-anchor: middle;
 
     &.long {
       font-size: 1.5rem;
     }
+  }
+}
+
+.swipeable-tab {
+  &.inactive {
+    // just an arbitrary small value
+      max-height: 1px;
   }
 }
 

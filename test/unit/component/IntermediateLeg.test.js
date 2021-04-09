@@ -24,7 +24,7 @@ describe('<IntermediateLeg />', () => {
       gtfsId: 'foo:1',
     };
     const wrapper = shallowWithIntl(<IntermediateLeg {...props} />, {
-      context: { config: { feedIds: ['foo'] } },
+      context: { config: { feedIds: ['foo'], colors: { primary: '#007ac9' } } },
     });
     expect(wrapper.find('.zone-dual')).to.have.lengthOf(1);
     expect(wrapper.find(ZoneIcon)).to.have.lengthOf(2);
@@ -40,7 +40,7 @@ describe('<IntermediateLeg />', () => {
       gtfsId: 'foo:1',
     };
     const wrapper = shallowWithIntl(<IntermediateLeg {...props} />, {
-      context: { config: { feedIds: ['foo'] } },
+      context: { config: { feedIds: ['foo'], colors: { primary: '#007ac9' } } },
     });
     expect(wrapper.find('.zone-triple')).to.have.lengthOf(1);
     expect(wrapper.find(ZoneIcon)).to.have.lengthOf(3);
@@ -56,7 +56,7 @@ describe('<IntermediateLeg />', () => {
       gtfsId: 'foo:1',
     };
     const wrapper = shallowWithIntl(<IntermediateLeg {...props} />, {
-      context: { config: { feedIds: ['foo'] } },
+      context: { config: { feedIds: ['foo'], colors: { primary: '#007ac9' } } },
     });
     expect(wrapper.find('.zone-dual')).to.have.lengthOf(0);
   });
@@ -70,7 +70,7 @@ describe('<IntermediateLeg />', () => {
       gtfsId: 'foo:1',
     };
     const wrapper = shallowWithIntl(<IntermediateLeg {...props} />, {
-      context: { config: { feedIds: ['foo'] } },
+      context: { config: { feedIds: ['foo'], colors: { primary: '#007ac9' } } },
     });
     expect(wrapper.find('.zone-previous')).to.have.lengthOf(1);
     expect(wrapper.find(ZoneIcon)).to.have.lengthOf(2);
@@ -84,7 +84,9 @@ describe('<IntermediateLeg />', () => {
       previousZoneId: 'baz',
       showZoneLimits: false,
     };
-    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />);
+    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />, {
+      context: { config: { colors: { primary: '#007ac9' } } },
+    });
     expect(wrapper.find('.zone-dual')).to.have.lengthOf(0);
     expect(wrapper.find('.zone-triple')).to.have.lengthOf(0);
     expect(wrapper.find('.zone-previous')).to.have.lengthOf(0);

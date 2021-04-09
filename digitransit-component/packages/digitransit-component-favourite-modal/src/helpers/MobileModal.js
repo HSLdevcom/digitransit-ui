@@ -20,9 +20,17 @@ const MobileModal = ({
   savePlaceText,
   cantSaveText,
   requiredText,
+  fontWeights,
 }) => {
   return (
-    <div className={styles['favourite-modal-mobile-container']}>
+    <div
+      className={styles['favourite-modal-mobile-container']}
+      style={{
+        '--color': `${color}`,
+        '--hover-color': `${hoverColor}`,
+        '--font-weight-medium': fontWeights.medium,
+      }}
+    >
       <div className={styles['favourite-modal-mobile-top']}>
         <div className={styles['favourite-modal-mobile-header']}>
           {headerText}
@@ -38,10 +46,6 @@ const MobileModal = ({
           value={name || ''}
           placeholder={inputPlaceholder}
           onChange={specifyName}
-          style={{
-            '--color': `${color}`,
-            '--hover-color': `${hoverColor}`,
-          }}
         />
       </div>
       <div className={styles['favourite-modal-mobile-text']}>
@@ -59,10 +63,6 @@ const MobileModal = ({
               canSave() ? '' : styles.disabled
             }`,
           )}
-          style={{
-            '--color': `${color}`,
-            '--hover-color': `${hoverColor}`,
-          }}
           onClick={saveFavourite}
           aria-label={`${canSave() ? savePlaceText : cantSaveText}`}
         >
@@ -89,6 +89,9 @@ MobileModal.propTypes = {
   savePlaceText: PropTypes.string.isRequired,
   cantSaveText: PropTypes.string.isRequired,
   requiredText: PropTypes.string.isRequired,
+  fontWeights: PropTypes.shape({
+    medium: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 export default MobileModal;

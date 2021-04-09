@@ -104,10 +104,10 @@ $favourite-highlight-background-color: #F4F4F5;
       flex-direction: row;
 
       .name {
-        font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+        font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
         font-size: 15px;
         margin-right: 6px;
-        font-weight: 500;
+        font-weight: var(--font-weight-medium);
         font-stretch: normal;
         font-style: normal;
         line-height: 1;
@@ -123,7 +123,7 @@ $favourite-highlight-background-color: #F4F4F5;
       }
 
       .address {
-        font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+        font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
         font-size: 12px;
         margin-right: 6px;
         font-weight: normal;
@@ -205,7 +205,7 @@ $favourite-highlight-background-color: #F4F4F5;
     }
     &.custom {
       font-size: 15px;
-      font-weight: 500;
+      font-weight: var(--font-weight-medium);
       letter-spacing: -0.5;
     }
   }

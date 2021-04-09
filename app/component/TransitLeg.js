@@ -26,7 +26,7 @@ import {
 import { PREFIX_ROUTES, PREFIX_STOPS, PREFIX_DISRUPTION } from '../util/path';
 import { durationToString } from '../util/timeUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { getZoneLabel } from '../util/legUtils';
+import { getZoneLabel, getHeadsignFromRouteLongName } from '../util/legUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { shouldShowFareInfo } from '../util/fareUtils';
 import { AlertSeverityLevelType } from '../constants';
@@ -251,6 +251,14 @@ class TransitLeg extends React.Component {
         values={{
           vehicle: <>{children}</>,
           startStop: leg.from.name,
+          startZoneInfo: intl.formatMessage(
+            { id: 'zone-info' },
+            { zone: leg.from.stop.zoneId },
+          ),
+          endZoneInfo: intl.formatMessage(
+            { id: 'zone-info' },
+            { zone: leg.to.stop.zoneId },
+          ),
           endStop: leg.to.name,
           duration: durationToString(leg.duration * 1000),
           trackInfo: (
@@ -299,6 +307,9 @@ class TransitLeg extends React.Component {
       leg.route.shortName &&
       new RegExp(/^([^0-9]*)$/).test(leg.route.shortName) &&
       leg.route.shortName.length > 3;
+
+    const headsign =
+      leg.trip.tripHeadsign || getHeadsignFromRouteLongName(leg.route);
 
     const interLining = () => {
       if (leg.interlineWithPreviousLeg && this.props.isNextLegInterlining) {
@@ -375,7 +386,7 @@ class TransitLeg extends React.Component {
                 <Icon
                   img="icon-icon_arrow-collapse--right"
                   className="itinerary-arrow-icon"
-                  color="#333"
+                  color={config.colors.primary}
                 />
               </Link>
               <ServiceAlertIcon
@@ -453,7 +464,7 @@ class TransitLeg extends React.Component {
                 />
               </span>
             </Link>
-            <div className="headsign">{leg.trip.tripHeadsign}</div>
+            <div className="headsign">{headsign}</div>
           </div>
           {(alertSeverityLevel === AlertSeverityLevelType.Warning ||
             alertSeverityLevel === AlertSeverityLevelType.Severe ||

@@ -202,7 +202,7 @@ class IndexPage extends React.Component {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { intl, config } = this.context;
-    const { trafficNowLink, colors } = config;
+    const { trafficNowLink, colors, fontWeights } = config;
     const color = colors.primary;
     const hoverColor = colors.hover || LightenDarkenColor(colors.primary, -20);
     const { breakpoint, lang } = this.props;
@@ -257,6 +257,7 @@ class IndexPage extends React.Component {
       selectHandler: this.onSelectLocation,
       onGeolocationStart: this.onSelectLocation,
       fromMap: this.props.fromMap,
+      fontWeights,
     };
 
     const stopRouteSearchProps = {
@@ -272,6 +273,8 @@ class IndexPage extends React.Component {
       hoverColor,
       sources,
       targets: stopAndRouteSearchTargets,
+      fontWeights,
+      modeIconColors: config.colors.iconColors,
     };
 
     const NearStops = CtrlPanel => {
@@ -303,6 +306,7 @@ class IndexPage extends React.Component {
               btnWithoutLabel ? undefined : config.transportModes?.nearYouTitle
             }
             modes={btnWithoutLabel ? undefined : modeTitles}
+            modeIconColors={config.colors.iconColors}
           />
         </>
       ) : (
@@ -342,6 +346,7 @@ class IndexPage extends React.Component {
                   language={lang}
                   origin={origin}
                   position="left"
+                  fontWeights={fontWeights}
                 >
                   <LocationSearch
                     targets={locationSearchTargets}
@@ -383,7 +388,12 @@ class IndexPage extends React.Component {
                   backgroundColor: '#ffffff',
                 }}
               >
-                <CtrlPanel instance="hsl" language={lang} position="bottom">
+                <CtrlPanel
+                  instance="hsl"
+                  language={lang}
+                  position="bottom"
+                  fontWeights={fontWeights}
+                >
                   <LocationSearch
                     disableAutoFocus
                     isMobile
@@ -409,6 +419,7 @@ class IndexPage extends React.Component {
                       <TrafficNowLink
                         lang={lang}
                         handleClick={this.trafficNowHandler}
+                        fontWeights={fontWeights}
                       />
                     ))}
                 </CtrlPanel>

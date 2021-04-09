@@ -68,6 +68,7 @@ import { userHasChangedModes } from '../util/modeUtils';
 import { addViaPoint } from '../action/ViaPointActions';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { saveSearch } from '../action/SearchActions';
+import CustomizeSearch from './CustomizeSearchNew';
 
 const MAX_ZOOM = 16; // Maximum zoom available for the bounds.
 /**
@@ -719,7 +720,6 @@ class SummaryPage extends React.Component {
         this.setState(
           {
             isFetchingWalkAndBike: false,
-            isFetchingWeather: true,
             walkPlan: result.walkPlan,
             bikePlan: result.bikePlan,
             bikeAndPublicPlan: result.bikeAndPublicPlan,
@@ -1377,7 +1377,6 @@ class SummaryPage extends React.Component {
     const bikeAndPublicPlan = this.filteredbikeAndPublic(
       this.state.bikeAndPublicPlan,
     );
-
     const itin =
       (walkPlan && walkPlan.itineraries && walkPlan.itineraries[0]) ||
       (bikePlan && bikePlan.itineraries && bikePlan.itineraries[0]) ||
@@ -1395,6 +1394,7 @@ class SummaryPage extends React.Component {
       ) {
         this.pendingWeatherHash = weatherHash;
         const timem = moment(time);
+        this.setState({ isFetchingWeather: true });
         getWeatherData(
           this.context.config.URL.WEATHER_DATA,
           timem,
@@ -2210,9 +2210,12 @@ class SummaryPage extends React.Component {
             date: moment().valueOf(),
           };
 
-          const itineraryTabs = selectedItineraries.map(itinerary => {
+          const itineraryTabs = selectedItineraries.map((itinerary, i) => {
             return (
-              <div key={itinerary.key}>
+              <div
+                className={`swipeable-tab ${activeIndex !== i && 'inactive'}`}
+                key={itinerary.key}
+              >
                 <ItineraryTab
                   hideTitle
                   plan={currentTime}
@@ -2226,7 +2229,7 @@ class SummaryPage extends React.Component {
           });
 
           content = (
-            <div className="itinerary-tab-container">
+            <div>
               {screenReaderAlert}
               <div className="desktop-title" key="header">
                 <div className="title-container h2">
@@ -2389,8 +2392,12 @@ class SummaryPage extends React.Component {
           settingsDrawer={
             <SettingsDrawer
               open={this.getOffcanvasState()}
-              onToggleClick={this.toggleCustomizeSearchOffcanvas}
-            />
+              className="offcanvas"
+            >
+              <CustomizeSearch
+                onToggleClick={this.toggleCustomizeSearchOffcanvas}
+              />
+            </SettingsDrawer>
           }
           map={map}
           scrollable
@@ -2542,9 +2549,13 @@ class SummaryPage extends React.Component {
         settingsDrawer={
           <SettingsDrawer
             open={this.getOffcanvasState()}
-            onToggleClick={this.toggleCustomizeSearchOffcanvas}
-            mobile
-          />
+            className="offcanvas-mobile"
+          >
+            <CustomizeSearch
+              onToggleClick={this.toggleCustomizeSearchOffcanvas}
+              mobile
+            />
+          </SettingsDrawer>
         }
         mapCenterToggle={this.mapCenterToggle}
       />

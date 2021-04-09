@@ -23,6 +23,40 @@ export default class SwipeableTabs extends React.Component {
     intl: intlShape.isRequired,
   };
 
+  componentDidMount() {
+    window.addEventListener('resize', this.setFocusables);
+    this.setFocusables();
+  }
+
+  componentDidUpdate() {
+    this.setFocusables();
+  }
+
+  setFocusables = () => {
+    // Set inactive tab focusables to unfocusable and for active tab set previously made unfocusable elements to focusable
+    const focusableTags =
+      'a, button, input, textarea, select, details, [tabindex="0"]';
+    const unFocusableTags =
+      'a, button, input, textarea, select, details, [tabindex="-2"]';
+    const swipeableTabs = document.getElementsByClassName('swipeable-tab');
+
+    for (let i = 0; i < swipeableTabs.length; i++) {
+      const focusables = swipeableTabs[i].querySelectorAll(focusableTags);
+      const unFocusables = swipeableTabs[i].querySelectorAll(unFocusableTags);
+      if (swipeableTabs[i].className === 'swipeable-tab inactive') {
+        focusables.forEach(focusable => {
+          // eslint-disable-next-line no-param-reassign
+          focusable.tabIndex = '-2';
+        });
+      } else {
+        unFocusables.forEach(unFocusable => {
+          // eslint-disable-next-line no-param-reassign
+          unFocusable.tabIndex = '0';
+        });
+      }
+    }
+  };
+
   setDecreasingAttributes = tabBalls => {
     const newTabBalls = tabBalls;
     for (let i = 0; i < tabBalls.length; i++) {
@@ -120,6 +154,7 @@ export default class SwipeableTabs extends React.Component {
     const tabBalls = this.tabBalls(tabs.length);
     const disabled = tabBalls.length < 2;
     let reactSwipeEl;
+
     return (
       <div>
         <div className={`swipe-header-container ${this.props.classname}`}>
@@ -127,16 +162,30 @@ export default class SwipeableTabs extends React.Component {
             className={`swipe-header ${this.props.classname}`}
             role="row"
             onKeyDown={e => this.handleKeyPress(e, reactSwipeEl)}
-            aria-label="Swipe result tabs. Navigave with left and right arrow"
+            aria-label={this.context.intl.formatMessage({
+              id: 'swipe-result-tabs',
+              defaultMessage:
+                'Swipe result tabs. Switch tabs using arrow keys.',
+            })}
             tabIndex="0"
           >
             <div className="swipe-button-container">
               <div
                 className="swipe-button"
                 onClick={() => reactSwipeEl.prev()}
-                onKeyDown={() => {}}
+                onKeyDown={e => {
+                  if (e.keyCode === 13 || e.keyCode === 32) {
+                    e.preventDefault();
+                    reactSwipeEl.prev();
+                  }
+                }}
                 role="button"
                 tabIndex="0"
+                aria-label={this.context.intl.formatMessage({
+                  id: 'swipe-result-tab-left',
+                  defaultMessage:
+                    'Swipe result tabs left arrow. Press Enter or Space to show the previous tab.',
+                })}
               >
                 <Icon
                   img="icon-icon_arrow-collapse--left"
@@ -153,9 +202,19 @@ export default class SwipeableTabs extends React.Component {
               <div
                 className="swipe-button"
                 onClick={() => reactSwipeEl.next()}
-                onKeyDown={() => {}}
+                onKeyDown={e => {
+                  if (e.keyCode === 13 || e.keyCode === 32) {
+                    e.preventDefault();
+                    reactSwipeEl.next();
+                  }
+                }}
                 role="button"
                 tabIndex="0"
+                aria-label={this.context.intl.formatMessage({
+                  id: 'swipe-result-tab-right',
+                  defaultMessage:
+                    'Swipe result tabs right arrow. Press Enter or Space to show the next tab.',
+                })}
               >
                 <Icon
                   img="icon-icon_arrow-collapse--right"
@@ -173,9 +232,12 @@ export default class SwipeableTabs extends React.Component {
           swipeOptions={{
             startSlide: this.props.tabIndex,
             continuous: false,
-            transitionEnd: e => {
-              this.setState({ tabIndex: e });
-              this.props.onSwipe(e);
+            callback: i => {
+              // force transition after animation should be over because animation can randomly fail sometimes
+              setTimeout(() => {
+                this.setState({ tabIndex: i });
+                this.props.onSwipe(i);
+              }, 300);
             },
           }}
           childCount={tabs.length}

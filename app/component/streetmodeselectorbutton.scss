@@ -29,7 +29,7 @@
     }
     .street-mode-selector-panel-weather-text {
         font-size: 15px;
-        font-weight: 500;
+        font-weight: $font-weight-medium;
         font-stretch: normal;
         font-style: normal;
         line-height: normal;
@@ -84,7 +84,7 @@
             margin-top: 4px;
             .street-mode-button-time {
                 font-size: 15px;
-                font-weight: 500;
+                font-weight: $font-weight-medium;
                 height: 15px;
                 line-height: 15px;
             }

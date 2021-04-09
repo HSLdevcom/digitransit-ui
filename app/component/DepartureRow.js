@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import LocalTime from './LocalTime';
+import { getHeadsignFromRouteLongName } from '../util/legUtils';
 
 const DepartureRow = (
   { departure, departureTime, showPlatformCode, canceled, ...props },
@@ -12,6 +13,10 @@ const DepartureRow = (
   const timeDiffInMinutes = Math.floor(
     (departureTime - props.currentTime) / 60,
   );
+  const headsign =
+    departure.headsign ||
+    departure.trip.tripHeadsign ||
+    getHeadsignFromRouteLongName(departure.trip.route);
   let shownTime;
   if (timeDiffInMinutes <= 0) {
     shownTime = <FormattedMessage id="arriving-soon" defaultMessage="Now" />;
@@ -36,7 +41,7 @@ const DepartureRow = (
           {departure.trip.route.shortName}
         </div>
       </div>
-      <div className="route-headsign">{departure.headsign}</div>
+      <div className="route-headsign">{headsign}</div>
       {shownTime && (
         <div
           className={cx('route-arrival', {

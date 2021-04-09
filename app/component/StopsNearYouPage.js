@@ -14,6 +14,7 @@ import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import withBreakpoint, { DesktopOrMobile } from '../util/withBreakpoint';
 import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
+import { isKeyboardSelectionEvent } from '../util/browser';
 import { MAPSTATES } from '../util/stopsNearYouUtils';
 import Loading from './Loading';
 import {
@@ -22,7 +23,11 @@ import {
 } from '../action/PositionActions';
 import DisruptionBanner from './DisruptionBanner';
 import StopsNearYouSearch from './StopsNearYouSearch';
-import { getGeolocationState } from '../store/localStorage';
+import {
+  getGeolocationState,
+  getReadMessageIds,
+  setReadMessageIds,
+} from '../store/localStorage';
 import withSearchContext from './WithSearchContext';
 import { PREFIX_NEARYOU } from '../util/path';
 import StopsNearYouContainer from './StopsNearYouContainer';
@@ -68,18 +73,22 @@ class StopsNearYouPage extends React.Component {
 
   constructor(props) {
     super(props);
-    this.favouriteStopIds = props.favouriteStopIds;
-    this.favouriteStationIds = props.favouriteStationIds;
-    this.favouriteBikeStationIds = props.favouriteBikeStationIds;
     this.state = {
       phase: PH_START,
       centerOfMap: null,
       centerOfMapChanged: false,
       mapState: MAPSTATES.FITBOUNDSTOSTARTLOCATION,
+      favouriteStopIds: props.favouriteStopIds,
+      favouriteStationIds: props.favouriteStationIds,
+      favouriteBikeStationIds: props.favouriteBikeStationIds,
+      showCityBikeTeaser: true,
     };
   }
 
   componentDidMount() {
+    const readMessageIds = getReadMessageIds();
+    const showCityBikeTeaser = !readMessageIds.includes('citybike_teaser');
+    this.setState({ showCityBikeTeaser });
     checkPositioningPermission().then(permission => {
       const { origin } = this.props.match.params;
       const savedPermission = getGeolocationState();
@@ -125,7 +134,22 @@ class StopsNearYouPage extends React.Component {
   }
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
-    let newState = {};
+    let newState = null;
+    if (
+      nextProps.match.params.mode !== 'FAVORITE' &&
+      (prevState.favouriteStopIds.length !==
+        nextProps.favouriteStopIds.length ||
+        prevState.favouriteStationIds.length !==
+          nextProps.favouriteStationIds.length ||
+        prevState.favouriteBikeStationIds.length !==
+          nextProps.favouriteBikeStationIds.length)
+    ) {
+      newState = {
+        favouriteStopIds: nextProps.favouriteStopIds,
+        favouriteStationIds: nextProps.favouriteStationIds,
+        favouriteBikeStationIds: nextProps.favouriteBikeStationIds,
+      };
+    }
     if (prevState.phase === PH_GEOLOCATIONING) {
       if (nextProps.position.locationingFailed) {
         newState = { phase: PH_USEDEFAULTPOS };
@@ -137,7 +161,7 @@ class StopsNearYouPage extends React.Component {
       }
       return newState;
     }
-    return null;
+    return newState;
   };
 
   getQueryVariables = nearByMode => {
@@ -158,6 +182,7 @@ class StopsNearYouPage extends React.Component {
       filterByModes: modes,
       filterByPlaceTypes: placeTypes,
       omitNonPickups: this.context.config.omitNonPickups,
+      feedIds: this.context.config.feedIds,
     };
   };
 
@@ -257,10 +282,6 @@ class StopsNearYouPage extends React.Component {
           mode =>
             this.context.config.transportModes[mode].availableForSelection,
         );
-
-    if (!configNearByYouModes.includes('favorite')) {
-      configNearByYouModes.unshift('favorite');
-    }
     const nearByStopModes = configNearByYouModes.map(nearYouMode =>
       nearYouMode.toUpperCase(),
     );
@@ -320,10 +341,17 @@ class StopsNearYouPage extends React.Component {
 
   noFavorites = () => {
     return (
-      !this.favouriteStopIds.length &&
-      !this.favouriteStationIds.length &&
-      !this.favouriteBikeStationIds.length
+      !this.state.favouriteStopIds.length &&
+      !this.state.favouriteStationIds.length &&
+      !this.state.favouriteBikeStationIds.length
     );
+  };
+
+  handleCityBikeTeaserClose = () => {
+    const readMessageIds = getReadMessageIds() || [];
+    readMessageIds.push('citybike_teaser');
+    setReadMessageIds(readMessageIds);
+    this.setState({ showCityBikeTeaser: false });
   };
 
   renderContent = () => {
@@ -340,21 +368,30 @@ class StopsNearYouPage extends React.Component {
       if (nearByStopMode === 'FAVORITE') {
         const noFavs = this.noFavorites();
         return (
-          <div className="stops-near-you-page">
+          <div
+            key={nearByStopMode}
+            className={`stops-near-you-page swipeable-tab ${
+              nearByStopMode !== mode && 'inactive'
+            }`}
+          >
             {renderRefetchButton && this.refetchButton()}
             <StopsNearYouFavorites
               searchPosition={this.state.searchPosition}
               match={this.props.match}
-              favoriteStops={this.favouriteStopIds}
-              favoriteStations={this.favouriteStationIds}
-              favoriteBikeRentalStationIds={this.favouriteBikeStationIds}
+              favoriteStops={this.state.favouriteStopIds}
+              favoriteStations={this.state.favouriteStationIds}
+              favoriteBikeRentalStationIds={this.state.favouriteBikeStationIds}
               noFavorites={noFavs}
             />
           </div>
         );
       }
+
       return (
-        <div key={nearByStopMode}>
+        <div
+          className={`swipeable-tab ${nearByStopMode !== mode && 'inactive'}`}
+          key={nearByStopMode}
+        >
           <QueryRenderer
             query={graphql`
               query StopsNearYouPageContentQuery(
@@ -366,6 +403,7 @@ class StopsNearYouPage extends React.Component {
                 $maxResults: Int!
                 $maxDistance: Int!
                 $omitNonPickups: Boolean
+                $feedIds: [String!]
               ) {
                 stopPatterns: viewer {
                   ...StopsNearYouContainer_stopPatterns
@@ -380,7 +418,7 @@ class StopsNearYouPage extends React.Component {
                     omitNonPickups: $omitNonPickups
                   )
                 }
-                alerts: alerts(severityLevel: [SEVERE]) {
+                alerts: alerts(feeds: $feedIds, severityLevel: [SEVERE]) {
                   ...DisruptionBanner_alerts
                 }
               }
@@ -404,6 +442,65 @@ class StopsNearYouPage extends React.Component {
                       lang={this.props.lang}
                     />
                   )}
+                  {this.state.showCityBikeTeaser &&
+                    nearByStopMode === 'CITYBIKE' && (
+                      <div className="citybike-use-disclaimer">
+                        <div className="disclaimer-header">
+                          <FormattedMessage id="citybike-start-using" />
+                          <div
+                            className="disclaimer-close"
+                            aria-label="Sulje kaupunkipyöräoikeuden ostaminen"
+                            tabIndex="0"
+                            onKeyDown={e => {
+                              if (
+                                isKeyboardSelectionEvent(e) &&
+                                (e.keyCode === 13 || e.keyCode === 32)
+                              ) {
+                                this.handleCityBikeTeaserClose();
+                              }
+                            }}
+                            onClick={this.handleCityBikeTeaserClose}
+                            role="button"
+                          >
+                            <Icon
+                              color={this.context.config.colors.primary}
+                              img="icon-icon_close"
+                            />
+                          </div>
+                        </div>
+                        <div className="disclaimer-content">
+                          <FormattedMessage id="citybike-buy-season" />
+                          <a
+                            href={
+                              this.context.config.cityBike.buyUrl[
+                                this.props.lang
+                              ]
+                            }
+                            className="disclaimer-close-button-container"
+                            tabIndex="0"
+                            role="button"
+                            onKeyDown={e => {
+                              if (
+                                isKeyboardSelectionEvent(e) &&
+                                (e.keyCode === 13 || e.keyCode === 32)
+                              ) {
+                                window.location = this.context.config.cityBike.buyUrl[
+                                  this.props.lang
+                                ];
+                              }
+                            }}
+                          >
+                            <div
+                              aria-label="Siirry ostamaan kaupunkipyöräoikeutta."
+                              className="disclaimer-close-button"
+                            >
+                              <FormattedMessage id="buy" />
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    )}
+
                   {renderRefetchButton && this.refetchButton(nearByStopMode)}
                   {!props && (
                     <div className="stops-near-you-spinner-container">
@@ -463,9 +560,9 @@ class StopsNearYouPage extends React.Component {
             }
           `}
           variables={{
-            stopIds: this.favouriteStopIds,
-            stationIds: this.favouriteStationIds,
-            bikeRentalStationIds: this.favouriteBikeStationIds,
+            stopIds: this.state.favouriteStopIds,
+            stationIds: this.state.favouriteStationIds,
+            bikeRentalStationIds: this.state.favouriteBikeStationIds,
           }}
           environment={this.props.relayEnvironment}
           render={({ props }) => {
@@ -481,9 +578,9 @@ class StopsNearYouPage extends React.Component {
                   stations={props.stations}
                   bikeStations={props.bikeStations}
                   favouriteIds={[
-                    ...this.favouriteStopIds,
-                    ...this.favouriteStationIds,
-                    ...this.favouriteBikeStationIds,
+                    ...this.state.favouriteStopIds,
+                    ...this.state.favouriteStationIds,
+                    ...this.state.favouriteBikeStationIds,
                   ]}
                 />
               );

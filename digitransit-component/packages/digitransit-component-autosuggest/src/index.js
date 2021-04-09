@@ -219,6 +219,10 @@ class DTAutosuggest extends React.Component {
     unlock: PropTypes.func.isRequired,
     refPoint: PropTypes.object,
     inputClassName: PropTypes.string,
+    fontWeights: PropTypes.shape({
+      medium: PropTypes.number,
+    }),
+    modeIconColors: PropTypes.object,
   };
 
   static defaultProps = {
@@ -240,6 +244,16 @@ class DTAutosuggest extends React.Component {
     mobileLabel: undefined,
     inputClassName: '',
     translatedPlaceholder: undefined,
+    fontWeights: {
+      medium: 500,
+    },
+    modeIconColors: {
+      'mode-bus': '#007ac9',
+      'mode-rail': '#8c4799',
+      'mode-tram': '#008151',
+      'mode-metro': '#ed8c00',
+      'mode-ferry': '#007A97',
+    },
   };
 
   constructor(props) {
@@ -657,6 +671,8 @@ class DTAutosuggest extends React.Component {
         ariaFavouriteString={i18next.t('favourite')}
         color={this.props.color}
         fillInput={this.fillInput}
+        fontWeights={this.props.fontWeights}
+        modeIconColors={this.props.modeIconColors}
       />
     );
   };
@@ -864,6 +880,7 @@ class DTAutosuggest extends React.Component {
             focusInput={cleanExecuted}
             color={this.props.color}
             hoverColor={this.props.hoverColor}
+            fontWeights={this.props.fontWeights}
           />
         )}
         {!renderMobileSearch && (
@@ -872,6 +889,10 @@ class DTAutosuggest extends React.Component {
               styles['autosuggest-input-container'],
               styles[this.props.id],
             ])}
+            style={{
+              '--color': `${this.props.color}`,
+              '--hover-color': `${this.props.hoverColor}`,
+            }}
           >
             {this.props.icon && (
               <div
@@ -909,10 +930,6 @@ class DTAutosuggest extends React.Component {
                     onClick={this.inputClicked}
                     onKeyDown={this.keyDown}
                     {...p}
-                    style={{
-                      '--color': `${this.props.color}`,
-                      '--hover-color': `${this.props.hoverColor}`,
-                    }}
                   />
                   {this.state.value && this.clearButton()}
                 </>

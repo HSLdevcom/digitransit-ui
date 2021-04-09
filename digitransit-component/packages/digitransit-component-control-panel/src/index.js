@@ -78,6 +78,7 @@ OriginToDestination.defaultProps = {
  * @param {Number} props.alertsContext.currentTime - Time stamp with which the returned alerts are validated with
  * @param {Number} props.alertsContext.feedIds - feedIds for which the alerts are fetched for
  * @param {element} props.LinkComponent - React component for creating a link, default is undefined and normal anchor tags are used
+ * @param {element} props.modeIconColors - object of mode icon colors used for transport mode icons
  *
  * @example
  * const alertsContext = {
@@ -107,6 +108,7 @@ function NearStopsAndRoutes({
   buttonStyle,
   title,
   modes,
+  modeIconColors,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
   useEffect(() => {
@@ -146,7 +148,10 @@ function NearStopsAndRoutes({
         </span>
         <span className={styles['transport-mode-icon-container']}>
           <span className={styles['transport-mode-icon-with-icon']}>
-            <Icon img={mode === 'favorite' ? 'star' : `mode-${mode}`} />
+            <Icon
+              img={mode === 'favorite' ? 'star' : `mode-${mode}`}
+              color={modeIconColors[`mode-${mode}`]}
+            />
             {withAlert && (
               <span className={styles['transport-mode-alert-icon']}>
                 <Icon img="caution" color="#dc0451" />
@@ -167,7 +172,7 @@ function NearStopsAndRoutes({
               '--bckColor': `${
                 modes[mode]['color']
                   ? modes[mode]['color']
-                  : buttonStyle['color']
+                  : modeIconColors[`mode-${mode}`] || buttonStyle['color']
               }`,
               '--borderRadius': `${buttonStyle.borderRadius}`,
             }}
@@ -252,6 +257,7 @@ NearStopsAndRoutes.propTypes = {
   buttonStyle: PropTypes.object,
   title: PropTypes.object,
   modes: PropTypes.object,
+  modeIconColors: PropTypes.object,
 };
 
 NearStopsAndRoutes.defaultProps = {
@@ -263,6 +269,14 @@ NearStopsAndRoutes.defaultProps = {
   buttonStyle: undefined,
   title: undefined,
   modes: undefined,
+  modeIconColors: {
+    'mode-bus': '#007ac9',
+    'mode-rail': '#8c4799',
+    'mode-tram': '#008151',
+    'mode-metro': '#ed8c00',
+    'mode-ferry': '#007A97',
+    'mode-citybike': '#F2B62D',
+  },
 };
 
 /**
@@ -291,10 +305,16 @@ class CtrlPanel extends React.Component {
     children: PropTypes.node,
     language: PropTypes.string.isRequired,
     position: PropTypes.string.isRequired,
+    fontWeights: PropTypes.shape({
+      medium: PropTypes.number,
+    }),
   };
 
   static defaultProps = {
     children: [],
+    fontWeights: {
+      medium: 500,
+    },
   };
 
   render() {
@@ -315,7 +335,11 @@ class CtrlPanel extends React.Component {
     });
     return (
       <Fragment>
-        <div key="main" className={className}>
+        <div
+          key="main"
+          className={className}
+          style={{ '--font-weight-medium': this.props.fontWeights.medium }}
+        >
           {children}
         </div>
       </Fragment>

@@ -169,7 +169,21 @@ class RoutePatternSelect extends Component {
         </div>
       );
     }
-
+    const showExtraSection = options && options.length > 2;
+    let suggestions;
+    if (showExtraSection) {
+      suggestions = [
+        { options: options.slice(0, 2), name: '' },
+        {
+          options: options.slice(2),
+          name: intl.formatMessage({
+            id: 'route-page.special-patterns-name',
+          }),
+        },
+      ];
+    } else {
+      suggestions = [{ options, name: '' }];
+    }
     return (
       <div
         className={cx('route-pattern-select', this.props.className)}
@@ -182,15 +196,7 @@ class RoutePatternSelect extends Component {
           </span>
           <Autosuggest
             id="select-route-pattern"
-            suggestions={[
-              { options: options.slice(0, 2), name: '' },
-              {
-                options: options.slice(2),
-                name: intl.formatMessage({
-                  id: 'route-page.special-patterns-name',
-                }),
-              },
-            ]}
+            suggestions={suggestions}
             multiSection
             renderSectionTitle={s => {
               return s.name || null;
@@ -253,7 +259,7 @@ class RoutePatternSelect extends Component {
                 </>
               );
             }}
-            focusInputOnSuggestionClick={false}
+            focusInputOnSuggestionClick
             onSuggestionsClearRequested={() => null}
           />
         </label>

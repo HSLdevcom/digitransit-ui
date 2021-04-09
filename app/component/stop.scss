@@ -9,6 +9,7 @@
   flex-direction: column;
   height: 100%;
   position: relative;
+  overflow: hidden;
   background-color: white;
 
   @media print {
@@ -23,7 +24,7 @@
 }
 
 .stop-page.header {
-  @include font-bold;
+  @include font-medium;
   @media print {
     padding-left: 0;
   }
@@ -68,7 +69,7 @@
     margin: 1px 19px 1px 0;
     font-family: $font-family;
     font-size: 24px;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
@@ -77,7 +78,7 @@
 
   .card-code {
     font-size: 11px;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     margin-left: 4px;
     margin-top: 14px;
     margin-right: 5px;
@@ -185,7 +186,7 @@
   &.active:hover {
     background-color: $white;
     color: $black;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     svg {
       stroke: $black;
       fill: $black;
@@ -318,8 +319,9 @@
         margin-top: 2px;
         background-color: currentColor;
         border-radius: 3px;
-        width: 2.25em;
+        min-width: 2.25em;
         height: 1.25em;
+        padding: 0 4px;
         text-align: center;
         .route-number {
           color: $white;
@@ -479,7 +481,7 @@ hr.action-bar {
   top: 0;
   left: 0;
   background-color: rgba(0,0,0,0.2);
-  z-index: index($zindex, click-prevent-overlay);
+  z-index: 1000; // Needs to be higher than the navbar
 }
 
 .filter-stop-modal {
@@ -574,7 +576,7 @@ hr.action-bar {
 
   .route-headsign {
     font-family: $font-family-narrow;
-    font-weight: 400;
+    font-weight: $font-weight-book;
     margin-top: 0.1em;
   }
 }
@@ -604,7 +606,7 @@ hr.action-bar {
     h1 {
       font-family: $font-family;
       font-size: 13px;
-      font-weight: 400;
+      font-weight: $font-weight-book;
     }
   }
 }
@@ -642,11 +644,11 @@ hr.action-bar {
       }
       .printable-date-header {
         font-size: 11px;
-        font-weight: 400;
+        font-weight: $font-weight-book;
       }
       .printable-date-content {
         font-size: 12px;
-        font-weight: 700;
+        font-weight: $font-weight-medium;
       }
     }
   }
@@ -711,7 +713,7 @@ hr.action-bar {
     bottom: 0;
     right: 0;
     background-color: none;
-    z-index: 1000; // Needed to cover up the navbar
+    z-index: 1000; // Needs to be higher than the navbar
     //transform: translate(-50%, -50%);
   }
 
