@@ -7,11 +7,6 @@ const APP_DESCRIPTION = 'Uusi Reittiopas - Waltti-opas';
 
 const walttiConfig = require('./config.waltti').default;
 
-const minLat = 60.356;
-const maxLat = 61.103;
-const minLon = 26.041;
-const maxLon = 27.661;
-
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 
 export default configMerger(walttiConfig, {
@@ -39,21 +34,7 @@ export default configMerger(walttiConfig, {
 
   textLogo: false, // title text instead of logo img
 
-  feedIds: ['Kotka', 'Kouvola'],
-
-  searchParams: {
-    'boundary.rect.min_lat': minLat,
-    'boundary.rect.max_lat': maxLat,
-    'boundary.rect.min_lon': minLon,
-    'boundary.rect.max_lon': maxLon,
-  },
-
-  areaPolygon: [
-    [minLon, minLat],
-    [minLon, maxLat],
-    [maxLon, maxLat],
-    [maxLon, minLat],
-  ],
+  feedIds: ['Kotka', 'Kouvola', 'Salo'],
 
   defaultEndpoint: {
     address: 'Helsinki-Vantaan Lentoasema',
@@ -73,6 +54,12 @@ export default configMerger(walttiConfig, {
       label: 'Kotkan kauppatori',
       lat: 60.467348,
       lon: 26.945758,
+    },
+    {
+      icon: 'icon-icon_bus',
+      label: 'Salon linja-autoasema',
+      lat: 60.387506389,
+      lon: 23.120275278,
     },
   ],
 
