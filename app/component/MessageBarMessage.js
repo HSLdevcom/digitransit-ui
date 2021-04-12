@@ -1,81 +1,74 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { v4 as uuid } from 'uuid';
-import Icon from './Icon';
 
-const heading = (e, key, color) => {
-  if (e.type === 'heading') {
-    return (
-      <h2 key={`${key}-heading`} style={{ color }}>
-        {e.content}
-      </h2>
-    );
-  }
-  return null;
-};
+import TruncatedMessage from './TruncatedMessage';
 
-// eslint-disable-next-line no-unused-vars
-const span = (e, key, color) => {
-  if (e.type === 'text') {
-    if (e.content.includes('\n')) {
-      const result = e.content
-        .split('\n')
-        .filter(item => item !== '')
-        .map(item => {
-          return (
-            <span key={uuid()}>
-              {item}
-              <br />
-            </span>
-          );
-        });
-      return result;
+const MessageBarMessage = ({ content, textColor, breakpoint }) => {
+  const heading = (e, color) => {
+    if (e?.type === 'heading') {
+      return <h2 style={{ color }}>{e.content}</h2>;
     }
-    return <span>{e.content}</span>;
-  }
-  return null;
-};
+    return null;
+  };
 
-// eslint-disable-next-line no-unused-vars
-const a = (e, key, color) => {
-  if (e.type === 'a' && e.href) {
-    return (
-      <a key={`${key}-link`} href={e.href} style={{ color: e.color || null }}>
-        {e.content}
-        <Icon className="message-bar-link-icon" img="icon-icon_external_link" />
-      </a>
+  const body = (text, link) => {
+    const textPart = text && text.content;
+    const linkPart = link && link.href && (
+      <span>
+        <a
+          className="message-bar-link"
+          href={link.href}
+          style={{ color: link.color || null }}
+        >
+          {link.content || link.href}
+        </a>
+      </span>
     );
-  }
-  return null;
-};
+    const bodyContent = (
+      <>
+        {textPart}
+        {linkPart}
+      </>
+    );
 
-const elements = [heading, span, a];
+    if (breakpoint === 'large') {
+      return bodyContent;
+    }
 
-const renderContent = (content, textColor) =>
-  content.map((fragment, i) => elements.map(t => t(fragment, i, textColor)));
+    return (
+      <TruncatedMessage
+        lines={2}
+        message={bodyContent}
+        className="message-bar-text"
+      />
+    );
+  };
 
-/*
- * Renders message
- */
-const MessageBarMessage = ({ content, onMaximize, textColor }) => {
   // eslint-disable-next-line jsx-a11y/click-events-have-key-events
   return (
     <div
+      className="message-content"
       tabIndex={0}
       aria-hidden="true"
       role="button"
-      onClick={onMaximize}
       style={{ color: textColor }}
     >
-      {renderContent(content, textColor)}
+      {heading(
+        content.find(part => part.type === 'heading'),
+        textColor,
+      )}
+      {body(
+        content.find(part => part.type === 'text'),
+        content.find(part => part.type === 'a'),
+      )}
     </div>
   );
 };
 
 MessageBarMessage.propTypes = {
   content: PropTypes.array,
-  onMaximize: PropTypes.func.isRequired,
   textColor: PropTypes.string,
+  breakpoint: PropTypes.string.isRequired,
 };
 
 export default MessageBarMessage;
