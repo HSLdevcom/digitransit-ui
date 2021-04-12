@@ -1,7 +1,7 @@
 import ceil from 'lodash/ceil';
 import Pbf from 'pbf';
 // eslint-disable-next-line import/prefer-default-export
-export const parseFeedMQTT = (feedParser, data, topic, agency, mode) => {
+export const parseFeedMQTT = (feedParser, data, topic, agency) => {
   const pbf = new Pbf(data);
   const feed = feedParser(pbf);
 
@@ -13,7 +13,7 @@ export const parseFeedMQTT = (feedParser, data, topic, agency, mode) => {
     ,
     ,
     ,
-    ,
+    mode,
     routeId,
     directionId,
     headsign,
@@ -41,7 +41,7 @@ export const parseFeedMQTT = (feedParser, data, topic, agency, mode) => {
           tripStartTime:
             startTime === '' ? undefined : startTime.replace(/:/g, ''),
           operatingDay: trip.start_date,
-          mode: mode || 'bus',
+          mode: mode === '' ? 'bus' : mode.toLowerCase(),
           next_stop: stopId === '' ? undefined : `${agency}:${stopId}`,
           timestamp: vehiclePos.timestamp || feed.header.timestamp,
           lat: ceil(position.latitude, 5),
