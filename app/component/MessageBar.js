@@ -7,6 +7,7 @@ import { intlShape } from 'react-intl';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
 import { v4 as uuid } from 'uuid';
 
+import SwipeableTabs from './SwipeableTabs';
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
 import { markMessageAsRead } from '../action/MessageActions';
@@ -115,18 +116,20 @@ class MessageBar extends Component {
     lang: PropTypes.string.isRequired,
     messages: PropTypes.array.isRequired,
     relayEnvironment: PropTypes.object,
-    mobile: PropTypes.bool,
     duplicateMessageCounter: PropTypes.number.isRequired,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
     getServiceAlertsAsync: fetchServiceAlerts,
-    mobile: false,
   };
 
   state = {
     slideIndex: 0,
-    maximized: false,
+  };
+
+  onSwipe = e => {
+    this.setState({ slideIndex: e });
   };
 
   componentDidMount = async () => {
@@ -169,17 +172,15 @@ class MessageBar extends Component {
 
   getTabContent = textColor =>
     this.validMessages().map(el => (
-      <MessageBarMessage
-        key={el.id}
-        onMaximize={this.maximize}
-        content={el.content[this.props.lang] || el.content.fi}
-        textColor={textColor}
-      />
+      <div key={el.id}>
+        <MessageBarMessage
+          key={el.id}
+          content={el.content[this.props.lang] || el.content.fi}
+          textColor={textColor}
+          breakpoint={this.props.breakpoint}
+        />
+      </div>
     ));
-
-  maximize = () => {
-    this.setState({ maximized: true });
-  };
 
   validMessages = () => {
     const { serviceAlerts } = this.state;
@@ -210,13 +211,14 @@ class MessageBar extends Component {
     const index = this.state.slideIndex;
     const msgId = messages[index].id;
 
+    this.setState({ slideIndex: Math.max(0, index - 1) });
     // apply delayed closing on iexplorer to avoid app freezing
     const t = isIe ? 600 : 0;
     setTimeout(() => this.context.executeAction(markMessageAsRead, msgId), t);
   };
 
   render() {
-    const { maximized, ready, slideIndex } = this.state;
+    const { ready, slideIndex } = this.state;
     if (!ready) {
       return null;
     }
@@ -248,11 +250,7 @@ class MessageBar extends Component {
           id="messageBar"
           role="banner"
           aria-hidden="true"
-          className={cx(
-            'message-bar',
-            { 'mobile-bar ': this.props.mobile },
-            'flex-horizontal',
-          )}
+          className="message-bar flex-horizontal"
           style={{ background: backgroundColor }}
         >
           <div
@@ -267,14 +265,20 @@ class MessageBar extends Component {
               className="message-icon"
             />
             <div className={`message-bar-content message-bar-${type}`}>
-              <div className={!maximized ? 'message-bar-fade' : ''}>
-                <div className={`message-bar-container ${maximized}`}>
+              <div>
+                <div className="message-bar-container">
                   <div
                     style={{
                       background: isDisruption ? 'inherit' : backgroundColor,
                     }}
                   >
-                    {this.getTabContent(textColor)}
+                    <SwipeableTabs
+                      tabIndex={index}
+                      tabs={this.getTabContent(textColor)}
+                      onSwipe={this.onSwipe}
+                      hideArrows
+                      navigationOnBottom
+                    />
                   </div>
                 </div>
               </div>

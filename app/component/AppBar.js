@@ -18,6 +18,8 @@ const AppBar = (
 ) => (
   <>
     <DisruptionInfo />
+    <MessageBar breakpoint={breakpoint} />
+    <CanceledLegsBar />
     <nav className={`top-bar ${breakpoint !== 'large' ? 'mobile' : ''}`}>
       <section className="title">
         <button
@@ -62,8 +64,6 @@ const AppBar = (
         />
       </section>
     </nav>
-    <MessageBar />
-    <CanceledLegsBar />
   </>
 );
 
