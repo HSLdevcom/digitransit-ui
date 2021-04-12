@@ -39,7 +39,7 @@ function getTopic(options, settings) {
     direction,
     tripStartTime,
     headsign,
-    settings.agency,
+    settings.topicFeedId || settings.agency, // TODO topicFeedId can be removed once testing with alternative tampere trams is done
     tripId,
     geoHash,
   );
