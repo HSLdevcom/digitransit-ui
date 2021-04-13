@@ -182,7 +182,7 @@ class StopsNearYouPage extends React.Component {
       filterByModes: modes,
       filterByPlaceTypes: placeTypes,
       omitNonPickups: this.context.config.omitNonPickups,
-      feedIds: this.context.config.feedIds,
+      // feedIds: this.context.config.feedIds,
     };
   };
 
@@ -418,7 +418,7 @@ class StopsNearYouPage extends React.Component {
                     omitNonPickups: $omitNonPickups
                   )
                 }
-                alerts: alerts(feeds: $feedIds, severityLevel: [INFO, SEVERE]) {
+                alerts: alerts(feeds: $feedIds, severityLevel: [SEVERE]) {
                   ...DisruptionBanner_alerts
                 }
               }
