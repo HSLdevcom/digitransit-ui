@@ -44,7 +44,12 @@ class Stops {
       return;
     }
     if (isHybrid) {
-      drawHybridStopIcon(this.tile, feature.geom, isHilighted);
+      drawHybridStopIcon(
+        this.tile,
+        feature.geom,
+        isHilighted,
+        this.config.colors.iconColors,
+      );
       return;
     }
 
@@ -60,6 +65,7 @@ class Stops {
         feature.properties.type === 'FERRY' &&
         feature.properties.code !== 'null'
       ),
+      this.config.colors.iconColors,
     );
   }
 
