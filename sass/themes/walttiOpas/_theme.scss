@@ -1,8 +1,8 @@
 @import '../../base/waltti';
 
 /* main theme colors */
-$primary-color: #FFC439;
-$secondary-color: darken($primary-color, 20%);
+$primary-color: #F16522;
+$secondary-color: #FFC439;
 $hilight-color: $primary-color;
 $action-color: $primary-color;
 $bus-color: $primary-color;
@@ -15,6 +15,7 @@ $link-color: $primary-color;
 /* Component palette */
 $desktop-title-color: $primary-color;
 $desktop-title-arrow-icon-color: $secondary-color;
+$top-bar-color: $secondary-color;
 
 /* Navbar dimensions */
 $nav-logo-height: 4em;
