@@ -47,16 +47,12 @@ export default class Map extends React.Component {
     stopsNearYouMode: PropTypes.string,
     zoom: PropTypes.number,
     showScaleBar: PropTypes.bool,
-    loaded: PropTypes.func,
-    disableZoom: PropTypes.bool,
     mapRef: PropTypes.func,
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
     mapBottomPadding: PropTypes.number,
     buttonBottomPadding: PropTypes.number,
     bottomButtons: PropTypes.node,
-    mapReady: PropTypes.func,
-    itineraryMapReady: PropTypes.func,
     disableParkAndRide: PropTypes.bool,
     geoJson: PropTypes.object,
     mapLayers: PropTypes.object,
@@ -64,7 +60,6 @@ export default class Map extends React.Component {
 
   static defaultProps = {
     animate: true,
-    loaded: () => {},
     showScaleBar: false,
     mapRef: null,
     locationPopup: 'reversegeocoding',
@@ -101,10 +96,6 @@ export default class Map extends React.Component {
 
   onPopupopen = () => events.emit('popupOpened');
 
-  setLoaded = () => {
-    this.props.loaded();
-  };
-
   resizeMap = () => {
     if (this.map) {
       this.map.leafletElement.invalidateSize(false);
@@ -125,16 +116,11 @@ export default class Map extends React.Component {
       locationPopup,
       onSelectLocation,
       leafletObjs,
-      mapReady,
-      itineraryMapReady,
       disableParkAndRide,
       geoJson,
       mapLayers,
     } = this.props;
     const { config } = this.context;
-    if (itineraryMapReady) {
-      itineraryMapReady(mapReady);
-    }
     const center =
       (!this.props.fitBounds &&
         this.props.lat &&
@@ -232,7 +218,6 @@ export default class Map extends React.Component {
           closePopupOnClick={false}
         >
           <TileLayer
-            onLoad={this.setLoaded}
             url={`${mapUrl}{z}/{x}/{y}{size}.png`}
             tileSize={config.map.tileSize || 256}
             zoomOffset={config.map.zoomOffset || 0}
@@ -267,7 +252,6 @@ export default class Map extends React.Component {
           <BreakpointConsumer>
             {breakpoint =>
               breakpoint === 'large' &&
-              !this.props.disableZoom &&
               config.map.showZoomControl && (
                 <ZoomControl
                   position={config.map.controls.zoom.position}

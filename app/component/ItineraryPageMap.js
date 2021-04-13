@@ -17,7 +17,6 @@ import VehicleMarkerContainer from './map/VehicleMarkerContainer'; // DT-3473
 let L;
 let prevCenter;
 let useCenter = true;
-let itineraryMapReady = false;
 let breakpointChanged = false;
 let prevBreakpoint;
 let zoomLevel = -1;
@@ -25,12 +24,6 @@ let zoomLevel = -1;
 if (isBrowser) {
   // eslint-disable-next-line
   L = require('leaflet');
-}
-function isItineraryMapReady(mapReady) {
-  if (mapReady) {
-    mapReady();
-  }
-  itineraryMapReady = true;
 }
 
 function setMapElementRef(element) {
@@ -45,8 +38,6 @@ function ItineraryPageMap(
   {
     itinerary,
     center,
-    mapReady,
-    mapLoaded,
     breakpoint,
     forceCenter,
     fitBounds,
@@ -65,19 +56,11 @@ function ItineraryPageMap(
     useCenter = false;
   }
   if (center && !isEqual(center, prevCenter)) {
-    if (!mapLoaded) {
-      if (center !== undefined) {
-        latlon = center;
-        prevCenter = center;
-        useCenter = true;
-      }
-    } else {
-      latlon = center;
-      prevCenter = center;
-      useCenter = true;
-    }
+    latlon = center;
+    prevCenter = center;
+    useCenter = true;
   }
-  if (forceCenter || breakpointChanged || !mapLoaded || !itineraryMapReady) {
+  if (forceCenter || breakpointChanged) {
     useCenter = true;
   }
   const leafletObjs = [
@@ -149,9 +132,7 @@ function ItineraryPageMap(
   const lat = validCenter ? latlon.lat : undefined;
   // eslint-disable-next-line no-nested-ternary
   const lon = validCenter ? latlon.lon : undefined;
-  const send = useCenter; // || !mapLoaded || !itineraryMapReady;
-
-  itineraryMapReady = false;
+  const send = useCenter;
 
   let useFitBound = fitBounds;
   if (bounds?.length === undefined) {
@@ -166,8 +147,6 @@ function ItineraryPageMap(
       lon={send ? lon : undefined}
       zoom={bounds ? undefined : 16}
       bounds={bounds}
-      mapReady={mapReady}
-      itineraryMapReady={isItineraryMapReady}
       fitBounds={useFitBound}
       boundsOptions={{ maxZoom: 16 }}
       showScaleBar={showScale}
@@ -196,8 +175,6 @@ ItineraryPageMap.propTypes = {
   bounds: PropTypes.array,
   forceCenter: PropTypes.bool,
   fitBounds: PropTypes.bool,
-  mapReady: PropTypes.func,
-  mapLoaded: PropTypes.bool,
   leafletEvents: PropTypes.object,
   showVehicles: PropTypes.bool,
 };

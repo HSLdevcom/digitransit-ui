@@ -266,7 +266,6 @@ class SummaryPage extends React.Component {
     // *** TODO: Hotfix variables for temporary use only
     this.justMounted = true;
     this.useFitBounds = true;
-    this.mapLoaded = false;
     this.origin = undefined;
     this.destination = undefined;
     this.mapCenterToggle = undefined;
@@ -320,12 +319,6 @@ class SummaryPage extends React.Component {
     }
   }
 
-  // When user goes straight to itinerary view with url, map cannot keep up and renders a while after everything else
-  // This helper function ensures that lat lon values are sent to the map, thus preventing set center and zoom first error.
-  mapReady() {
-    this.mapLoaded = true;
-  }
-
   toggleStreetMode = newStreetMode => {
     const newState = {
       ...this.context.match.location,
@@ -349,7 +342,6 @@ class SummaryPage extends React.Component {
   setStreetModeAndSelect = newStreetMode => {
     this.justMounted = true;
     this.useFitBounds = true;
-    this.mapLoaded = false;
     addAnalyticsEvent({
       category: 'Itinerary',
       action: 'OpenItineraryDetailsWithMode',
@@ -1171,7 +1163,6 @@ class SummaryPage extends React.Component {
     }
     this.justMounted = true;
     this.useFitBounds = true;
-    this.mapLoaded = false;
     //  alert screen reader when search results appear
     if (this.resultsUpdatedAlertRef.current) {
       // eslint-disable-next-line no-self-assign
@@ -2103,8 +2094,6 @@ class SummaryPage extends React.Component {
               forceCenter: this.justMounted,
               streetMode: this.state.streetMode,
               fitBounds: this.useFitBounds,
-              mapReady: this.mapReady.bind(this),
-              mapLoaded: this.mapLoaded,
               ...this.props,
               leafletEvents: {
                 onZoomend: this.endZoom,
@@ -2291,7 +2280,6 @@ class SummaryPage extends React.Component {
       } else {
         this.justMounted = true;
         this.useFitBounds = true;
-        this.mapLoaded = false;
         content = (
           <div style={{ position: 'relative', height: 200 }}>
             <Loading />
@@ -2402,7 +2390,6 @@ class SummaryPage extends React.Component {
     ) {
       this.justMounted = true;
       this.useFitBounds = true;
-      this.mapLoaded = false;
       isLoading = true;
       content = (
         <div style={{ position: 'relative', height: 200 }}>
