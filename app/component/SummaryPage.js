@@ -311,8 +311,8 @@ class SummaryPage extends React.Component {
     } else if (this.props.match.params.hash === 'bikeAndVehicle') {
       this.selectedPlan = {
         itineraries: [
-          ...this.state.bikeParkPlan?.itineraries,
-          ...this.state.bikeAndPublicPlan?.itineraries,
+          ...(this.state.bikeParkPlan?.itineraries || []),
+          ...(this.state.bikeAndPublicPlan?.itineraries || []),
         ],
       };
     } else {
