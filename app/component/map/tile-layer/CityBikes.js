@@ -102,6 +102,7 @@ class CityBikes {
             result.bikesAvailable,
             iconName,
             this.config.cityBike.capacity !== BIKEAVL_UNKNOWN,
+            this.config.colors.iconColors['mode-citybike'],
           );
         }
       }
