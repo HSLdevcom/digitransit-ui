@@ -3,9 +3,7 @@ import React from 'react';
 import { matchShape, routerShape } from 'found';
 import debounce from 'lodash/debounce';
 import { connectToStores } from 'fluxible-addons-react';
-// TODO use this again once AB testing is done
-// import Datetimepicker from '@digitransit-component/digitransit-component-datetimepicker';
-import { MobileDatetimepickerTest } from '@digitransit-component/digitransit-component-abtesting';
+import Datetimepicker from '@digitransit-component/digitransit-component-datetimepicker';
 import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
@@ -68,10 +66,8 @@ function DatetimepickerContainer(
       name: 'SelectArriving',
     });
   };
-  const forceTestVariant = match.location.query.dtVariant;
   return (
-    <MobileDatetimepickerTest
-      forceVariant={forceTestVariant}
+    <Datetimepicker
       realtime={realtime}
       initialTimestamp={match.location.query.time}
       initialArriveBy={match.location.query.arriveBy === 'true'}

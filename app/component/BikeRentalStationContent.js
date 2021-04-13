@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
@@ -17,6 +17,12 @@ const BikeRentalStationContent = (
   { bikeRentalStation, breakpoint, language, router },
   { config },
 ) => {
+  const [isClient, setClient] = useState(false);
+  useEffect(() => {
+    // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
+    setClient(true);
+  });
+
   const { bikesAvailable, capacity } = bikeRentalStation;
   const isFull = bikesAvailable >= capacity;
   if (!bikeRentalStation) {
@@ -62,16 +68,18 @@ const BikeRentalStationContent = (
         <div className="disclaimer-content">
           <FormattedMessage id="citybike-buy-season" />
         </div>
-        <a
-          onClick={e => {
-            e.stopPropagation();
-          }}
-          className="external-link"
-          href={url}
-        >
-          <FormattedMessage id="citybike-purchase-link" />
-          <Icon img="icon-icon_external-link-box" />
-        </a>
+        {isClient && (
+          <a
+            onClick={e => {
+              e.stopPropagation();
+            }}
+            className="external-link"
+            href={url}
+          >
+            <FormattedMessage id="citybike-purchase-link" />
+            <Icon img="icon-icon_external-link-box" />
+          </a>
+        )}
       </div>
     </div>
   );
@@ -108,6 +116,7 @@ const containerComponent = createFragmentContainer(connectedComponent, {
       capacity
       networks
       stationId
+      state
     }
   `,
 });

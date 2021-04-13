@@ -17,7 +17,6 @@ import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import SunCalc from 'suncalc';
-import BackButton from './BackButton';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import MapContainer from './map/MapContainer';
@@ -720,7 +719,6 @@ class SummaryPage extends React.Component {
         this.setState(
           {
             isFetchingWalkAndBike: false,
-            isFetchingWeather: true,
             walkPlan: result.walkPlan,
             bikePlan: result.bikePlan,
             bikeAndPublicPlan: result.bikeAndPublicPlan,
@@ -1378,7 +1376,6 @@ class SummaryPage extends React.Component {
     const bikeAndPublicPlan = this.filteredbikeAndPublic(
       this.state.bikeAndPublicPlan,
     );
-
     const itin =
       (walkPlan && walkPlan.itineraries && walkPlan.itineraries[0]) ||
       (bikePlan && bikePlan.itineraries && bikePlan.itineraries[0]) ||
@@ -1396,6 +1393,7 @@ class SummaryPage extends React.Component {
       ) {
         this.pendingWeatherHash = weatherHash;
         const timem = moment(time);
+        this.setState({ isFetchingWeather: true });
         getWeatherData(
           this.context.config.URL.WEATHER_DATA,
           timem,
@@ -2232,21 +2230,6 @@ class SummaryPage extends React.Component {
           content = (
             <div>
               {screenReaderAlert}
-              <div className="desktop-title" key="header">
-                <div className="title-container h2">
-                  <BackButton
-                    title={
-                      <FormattedMessage
-                        id="itinerary-page.title"
-                        defaultMessage="Itinerary suggestions"
-                      />
-                    }
-                    icon="icon-icon_arrow-collapse--left"
-                    iconClassName="arrow-icon"
-                    popFallback
-                  />
-                </div>
-              </div>
               <SwipeableTabs
                 tabs={itineraryTabs}
                 tabIndex={activeIndex}
@@ -2266,7 +2249,8 @@ class SummaryPage extends React.Component {
               content={content}
               map={map}
               scrollable
-              bckBtnVisible={false}
+              bckBtnVisible
+              bckBtnFallback="pop"
             />
           );
         }

@@ -49,7 +49,6 @@ export default {
     },
     STOP_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/stops/`,
-      tampere: 'https://www.tampere.fi/ekstrat/ptdata/pdf/',
     },
     WEATHER_DATA:
       'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::hirlam::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
@@ -147,9 +146,9 @@ export default {
   walkBoardCostHigh: 1200,
 
   maxWalkDistance: 10000,
-  suggestWalkMaxDistance: 5000,
-  maxBikingDistance: 100000,
-  suggestBikeMaxDistance: 15000,
+  suggestWalkMaxDistance: 10000,
+  suggestBikeMaxDistance: 30000,
+  suggestBikeAndPublicMaxDistance: 15000,
   itineraryFiltering: 1.5, // drops 66% worse routes
   useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
   minTransferTime: 120,
@@ -186,10 +185,6 @@ export default {
     showZoneLimits: false,
     // Number of days to include to the service time range from the future (DT-3317)
     serviceTimeRange: 30,
-  },
-
-  nearestStopDistance: {
-    maxShownDistance: 5000,
   },
 
   map: {
@@ -290,6 +285,15 @@ export default {
 
   colors: {
     primary: '#000F94',
+    iconColors: {
+      'mode-airplane': '#0046ad',
+      'mode-bus': '#0088ce',
+      'mode-tram': '#6a8925',
+      'mode-metro': '#ed8c00',
+      'mode-rail': '#af8dbc',
+      'mode-ferry': '#35b5b3',
+      'mode-citybike': '#f2b62d',
+    },
   },
 
   fontWeights: {

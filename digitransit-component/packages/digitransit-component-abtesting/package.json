@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-abtesting",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "digitransit-component abtesting module",
   "main": "lib/index.js",
   "files": [
@@ -31,13 +31,9 @@
     "i18next": "^19.3.3",
     "prop-types": "^15.7.2",
     "react": "^16.13.0",
-    "@marvelapp/react-ab-test": "2.3.0",
-    "datetimepicker-A": "npm:@digitransit-component/digitransit-component-datetimepicker@0.4.1",
-    "datetimepicker-B": "npm:@digitransit-component/digitransit-component-datetimepicker@0.5.5"
+    "@marvelapp/react-ab-test": "2.3.0"
   },
   "dependencies": {
-    "@marvelapp/react-ab-test": "2.3.0",
-    "datetimepicker-A": "npm:@digitransit-component/digitransit-component-datetimepicker@0.4.1",
-    "datetimepicker-B": "npm:@digitransit-component/digitransit-component-datetimepicker@0.5.6"
+    "@marvelapp/react-ab-test": "2.3.0"
   }
 }

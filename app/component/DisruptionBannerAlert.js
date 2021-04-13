@@ -7,21 +7,25 @@ import Icon from './Icon';
 import SwipeableTabs from './SwipeableTabs';
 import TruncatedMessage from './TruncatedMessage';
 
-const DisruptionBannerAlert = ({ messages, language }, { intl, config }) => {
+const DisruptionBannerAlert = (
+  { message, header, language },
+  { intl, config },
+) => {
   const [isOpen, setOpen] = useState(true);
-
-  const tabs = messages.map(alert => {
-    return (
-      <>
+  const useHeader = header && header.length <= 120 && !message.includes(header);
+  return (
+    isOpen && (
+      <div className="disruption-banner-container">
         <div className="disruption-icon-container">
           <Icon img="icon-icon_disruption-banner-alert" />
         </div>
         <div className="disruption-info-container">
+          {useHeader && <h3 className="disruption-info-header">{header}</h3>}
           {(!config.URL.ROOTLINK || !config.trafficNowLink) && (
             <TruncatedMessage
               className="disruption-show-more"
-              lines={3}
-              message={alert}
+              lines={useHeader ? 2 : 3}
+              message={message}
             />
           )}
           {config.URL.ROOTLINK && config.trafficNowLink && (
@@ -32,42 +36,49 @@ const DisruptionBannerAlert = ({ messages, language }, { intl, config }) => {
                 language === 'fi' ? '' : `${language}/`
               }${config.trafficNowLink[language]}`}
             >
-              {alert}
+              {message}
             </a>
           )}
         </div>
-      </>
-    );
-  });
-
-  return (
-    isOpen && (
-      <div className="disruption-banner-container">
-        <SwipeableTabs tabs={tabs} />
-
-        <button
-          title={intl.formatMessage({
-            id: 'messagebar-label-close-message-bar',
-            defaultMessage: 'Close banner',
-          })}
-          onClick={() => setOpen(false)}
-          className={cx(
-            'noborder',
-            'disruption-close-button',
-            'cursor-pointer',
-          )}
-          type="button"
-        >
-          <Icon img="icon-icon_close" className="close" color="#fff" />
-        </button>
       </div>
     )
-  );
-};
+    );
+  };
+
+  // return (
+  //   isOpen && (
+  //     <div className="disruption-banner-container">
+  //       <SwipeableTabs tabs={tabs} />
+
+  //       <button
+  //         title={intl.formatMessage({
+  //           id: 'messagebar-label-close-message-bar',
+  //           defaultMessage: 'Close banner',
+  //         })}
+  //         onClick={() => setOpen(false)}
+  //         className={cx(
+  //           'noborder',
+  //           'disruption-close-button',
+  //           'cursor-pointer',
+  //         )}
+  //         type="button"
+  //       >
+  //         <Icon img="icon-icon_close" className="close" color="#fff" />
+  //       </button>
+  //     </div>
+  //   )
+  // );
+//};
 
 DisruptionBannerAlert.propTypes = {
   messages: PropTypes.array.isRequired,
+  message: PropTypes.string.isRequired,
+  header: PropTypes.string,
   language: PropTypes.string.isRequired,
+};
+
+DisruptionBannerAlert.defaultProps = {
+  header: null,
 };
 
 DisruptionBannerAlert.contextTypes = {

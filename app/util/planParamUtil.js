@@ -275,7 +275,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
       config.showBikeAndParkItineraries &&
       modesOrDefault.length > 1 &&
       includeBikeSuggestions,
-    bikeAndPublicMaxWalkDistance: config.suggestBikeMaxDistance,
+    bikeAndPublicMaxWalkDistance: config.suggestBikeAndPublicMaxDistance,
     bikeandPublicDisableRemainingWeightHeuristic:
       Array.isArray(intermediatePlaceLocations) &&
       intermediatePlaceLocations.length > 0,

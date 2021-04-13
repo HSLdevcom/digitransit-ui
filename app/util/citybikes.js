@@ -33,8 +33,10 @@ export const getCityBikeNetworkName = (
   language = 'en',
 ) => (networkConfig.name && networkConfig.name[language]) || undefined;
 
-export const getCityBikeNetworkIcon = (networkConfig = defaultNetworkConfig) =>
-  `icon-icon_${networkConfig.icon || 'citybike'}`;
+export const getCityBikeNetworkIcon = (
+  networkConfig = defaultNetworkConfig,
+  disabled,
+) => `icon-icon_${networkConfig.icon || 'citybike'}${disabled ? '_off' : ''}`;
 
 export const getCityBikeNetworkId = networks => {
   if (isString(networks) && networks.length > 0) {
@@ -150,37 +152,4 @@ export const updateCitybikeNetworks = (
     addAnalytics(action, newValue);
   }
   return chosenNetworks;
-};
-
-// Returns network specific url if it exists. Defaults to cityBike.useUrl
-export const getCityBikeUrl = (networks, lang, config) => {
-  const id = getCityBikeNetworkId(networks).toLowerCase();
-
-  if (
-    config &&
-    config.cityBike &&
-    config.cityBike.networks &&
-    config.cityBike.networks[id] &&
-    config.cityBike.networks[id].url &&
-    config.cityBike.networks[id].url[lang]
-  ) {
-    return config.cityBike.networks[id].url[lang];
-  }
-  return undefined;
-};
-
-// Returns network specific type if it exists. Defaults to citybike
-export const getCityBikeType = (networks, config) => {
-  const id = getCityBikeNetworkId(networks).toLowerCase();
-
-  if (
-    config &&
-    config.cityBike &&
-    config.cityBike.networks &&
-    config.cityBike.networks[id] &&
-    config.cityBike.networks[id].type
-  ) {
-    return config.cityBike.networks[id].type;
-  }
-  return defaultNetworkConfig.type;
 };

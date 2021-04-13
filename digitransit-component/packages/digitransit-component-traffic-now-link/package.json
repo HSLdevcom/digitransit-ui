@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-traffic-now-link",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "description": "digitransit-component traffic-now-link module",
   "main": "lib/index.js",
   "files": [
@@ -30,7 +30,7 @@
   "dependencies": {
   },
   "peerDependencies": {
-    "@digitransit-component/digitransit-component-icon": "^0.1.4",
+    "@digitransit-component/digitransit-component-icon": "^0.1.6",
     "@hsl-fi/sass": "^0.1.1",
     "i18next": "^19.3.3",
     "prop-types": "^15.7.2",

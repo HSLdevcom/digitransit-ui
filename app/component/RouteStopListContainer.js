@@ -7,7 +7,6 @@ import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 import cx from 'classnames';
 
-import { getDistanceToNearestStop } from '../util/geo-utils';
 import RouteStop from './RouteStop';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -16,7 +15,6 @@ class RouteStopListContainer extends React.PureComponent {
     pattern: PropTypes.object.isRequired,
     className: PropTypes.string,
     vehicles: PropTypes.object,
-    position: PropTypes.object.isRequired,
     currentTime: PropTypes.object.isRequired,
     relay: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
@@ -29,24 +27,9 @@ class RouteStopListContainer extends React.PureComponent {
     match: matchShape.isRequired,
   };
 
-  componentDidMount() {
-    if (this.nearestStop) {
-      this.nearestStop.element.scrollIntoView(false);
-    }
-  }
-
-  setNearestStop = element => {
-    this.nearestStop = element;
-  };
-
   getStops() {
-    const { position } = this.props;
     const { stops } = this.props.pattern;
 
-    const nearest =
-      position.hasLocation === true
-        ? getDistanceToNearestStop(position.lat, position.lon, stops)
-        : null;
     const mode = this.props.pattern.route.mode.toLowerCase();
     const vehicles = groupBy(
       values(this.props.vehicles).filter(
@@ -59,11 +42,6 @@ class RouteStopListContainer extends React.PureComponent {
 
     return stops.map((stop, i) => {
       const idx = i; // DT-3159: using in key of RouteStop component
-      const isNearest =
-        (nearest &&
-          nearest.distance <
-            this.context.config.nearestStopDistance.maxShownDistance &&
-          nearest.stop.gtfsId) === stop.gtfsId;
 
       return (
         <RouteStop
@@ -76,8 +54,6 @@ class RouteStopListContainer extends React.PureComponent {
           stop={stop}
           mode={mode}
           vehicle={vehicles[stop.gtfsId] ? vehicles[stop.gtfsId][0] : null}
-          distance={isNearest ? nearest.distance : null}
-          ref={isNearest ? this.setNearestStop : null}
           currentTime={this.props.currentTime.unix()}
           last={i === stops.length - 1}
           first={i === 0}
@@ -121,7 +97,6 @@ const containerComponent = createRefetchContainer(
     ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
     ({ getStore }) => ({
       vehicles: getStore('RealTimeInformationStore').vehicles,
-      position: getStore('PositionStore').getLocationState(),
       currentTime: getStore('TimeStore').getCurrentTime(),
     }),
   ),
