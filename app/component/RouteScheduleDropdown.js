@@ -9,16 +9,8 @@ export default function RouteScheduleDropdown(props, context) {
   const { alignRight, id, labelId, list, onSelectChange, title } = props;
   const { intl } = context;
 
-  // eslint-disable-next-line no-unused-vars
-  const [ariaFocusMessage, setAriaFocusMessage] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState([]);
-
-  const onFocus = ({ focused }) => {
-    const msg = focused.label;
-    // setAriaFocusMessage(msg);
-    return msg;
-  };
 
   const onMenuOpen = () => setIsMenuOpen(true);
   const onMenuClose = () => setIsMenuOpen(false);
@@ -51,7 +43,7 @@ export default function RouteScheduleDropdown(props, context) {
             <>
               <span>{option.label}</span>
               {option.label === title && (
-                <Icon img="check" height="1.1525" width="0.904375" />
+                <Icon img="check" height={1.1525} width={0.904375} />
               )}
             </>
           ),
@@ -82,15 +74,8 @@ export default function RouteScheduleDropdown(props, context) {
         </span>
       )}
 
-      {!!ariaFocusMessage && !!isMenuOpen && (
-        <span className="sr-only">{ariaFocusMessage}</span>
-      )}
-
       <Select
         aria-labelledby={`aria-label-${id}`}
-        ariaLiveMessages={{
-          onFocus,
-        }}
         className="dd-select"
         classNamePrefix={classNamePrefix}
         components={{
@@ -113,8 +98,8 @@ export default function RouteScheduleDropdown(props, context) {
               </span>
               <Icon
                 img="arrow-dropdown"
-                height="0.625"
-                width="0.625"
+                height={0.625}
+                width={0.625}
                 color={context.config.colors.primary}
               />
             </>
@@ -131,8 +116,8 @@ export default function RouteScheduleDropdown(props, context) {
               </span>
               <Icon
                 img="arrow-dropdown"
-                height="0.625"
-                width="0.625"
+                height={0.625}
+                width={0.625}
                 color={context.config.colors.primary}
               />
             </>
