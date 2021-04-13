@@ -53,10 +53,14 @@ class RouteScheduleContainer extends Component {
     relay: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
     }).isRequired,
-    serviceDay: PropTypes.string.isRequired,
+    serviceDay: PropTypes.string,
     match: matchShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
     firstDepartures: PropTypes.object.isRequired,
+  };
+
+  static defaultProps = {
+    serviceDay: undefined,
   };
 
   static contextTypes = {

@@ -9,13 +9,14 @@ export default function RouteScheduleDropdown(props, context) {
   const { alignRight, id, labelId, list, onSelectChange, title } = props;
   const { intl } = context;
 
+  // eslint-disable-next-line no-unused-vars
   const [ariaFocusMessage, setAriaFocusMessage] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState([]);
 
   const onFocus = ({ focused }) => {
     const msg = focused.label;
-    setAriaFocusMessage(msg);
+    // setAriaFocusMessage(msg);
     return msg;
   };
 
