@@ -1439,10 +1439,33 @@
   resolved "https://registry.yarnpkg.com/@digitransit-util/digitransit-util-day-range-allowed-diff/-/digitransit-util-day-range-allowed-diff-1.0.3.tgz#4a11624486fda72126d8776192fc0dfea600b97d"
   integrity sha512-UBcIlJchyepGFtOWtv+4gNEjNt59RSr3gTJnudCiMHXLcy4fyUaRCbvt8SFqrHsh68l488JkS3dd5Buf176j2Q==
 
+"@digitransit-util/digitransit-util-day-range-allowed-diff@latest":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@digitransit-util/digitransit-util-day-range-allowed-diff/-/digitransit-util-day-range-allowed-diff-1.0.4.tgz#4df568a739a895273d20ec73a2952718f5ce262f"
+  integrity sha512-d53sfkH0oAgOKYHo6y0U75otspp23yaUJKp51n211Iuj1EdYR/7wVivIAWcCYlbCc3+v7NNO9B8NF8zgym8FxA==
+
 "@digitransit-util/digitransit-util-day-range-pattern@1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@digitransit-util/digitransit-util-day-range-pattern/-/digitransit-util-day-range-pattern-1.0.3.tgz#74ffc2c4745fa1200567fbddb0eb593171627430"
   integrity sha512-c9eYYcoLPc8M/xKZWDCKtzblLhiUO4vOiYkWLzRnWtKBWF5xWt4QYdpI8p7HbNMpvcdYjkxDWCPaSXX2Mq7QkA==
+
+"@digitransit-util/digitransit-util-day-range-pattern@latest":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@digitransit-util/digitransit-util-day-range-pattern/-/digitransit-util-day-range-pattern-1.0.4.tgz#35b88d8f55e71ce85832cecb55b6e7b3f91f6965"
+  integrity sha512-cn6UTWTC2w4xJIYcjT29pXRLwXIQFXe9MrfxCuGm2a2r71bKRS3ZPy556OjhYXCe0vZBUrYJHvmhdH6KPg2ntg==
+
+"@digitransit-util/digitransit-util-enrich-patterns@latest":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@digitransit-util/digitransit-util-enrich-patterns/-/digitransit-util-enrich-patterns-1.0.4.tgz#461ccc7a582361ab0af3c93bc04ea8a70a98a9e4"
+  integrity sha512-noujbqpREjtgHNNF7UVcnN40pd1CMOAR0Qx/cOvvf+VtSXKd2MI9qBnhL71P91aw0uf7O2VsaeLq+RYoBhUsQw==
+  dependencies:
+    "@digitransit-util/digitransit-util-day-range-allowed-diff" "1.0.3"
+    "@digitransit-util/digitransit-util-day-range-pattern" "1.0.3"
+
+"@digitransit-util/digitransit-util-route-pattern-option-text@latest":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@digitransit-util/digitransit-util-route-pattern-option-text/-/digitransit-util-route-pattern-option-text-1.0.4.tgz#bc00c030983d852120d19b2afc91cbb8985b182a"
+  integrity sha512-+Ykzm2jZ7DNQzDkd5U3iSnlciMM9s+E/PTwhRDALbMOXoi0IzKbRuDx1bIpqZDon8rCKYwwNGAyp2hApykWwyg==
 
 "@emotion/cache@^11.0.0", "@emotion/cache@^11.1.3":
   version "11.1.3"

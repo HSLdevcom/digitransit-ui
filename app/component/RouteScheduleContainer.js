@@ -196,7 +196,7 @@ class RouteScheduleContainer extends Component {
     if (departures) {
       const modifiedDepartures = [];
       for (let z = 1; z <= 5; z++) {
-        let sortedData;
+        let sortedData = [];
         // eslint-disable-next-line no-restricted-syntax
         for (const [key, value] of Object.entries(departures)) {
           if (key.indexOf(`wk${z}`) !== -1) {

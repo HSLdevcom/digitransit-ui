@@ -41,6 +41,7 @@ describe('<RouteScheduleContainer />', () => {
         ],
         route: { gtfsId: '2550' },
       },
+      firstDepartures: {},
       relay: {
         refetch: (variables, renderVariables, callback) => {
           callback();
