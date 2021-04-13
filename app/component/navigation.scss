@@ -101,16 +101,6 @@ $content-background-color: $background-color;
     background-repeat: no-repeat;
     background-position: left center;
   }
-  .navi-logo {
-    margin-left: 32px;
-    width: $nav-logo-width;
-    height: $nav-logo-height;
-    min-width: 130px; //for ff
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: left center;
-    cursor: pointer;
-  }
 
   .controls {
     display: flex;
