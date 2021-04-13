@@ -33,7 +33,7 @@ function getTopic(options, settings) {
     direction,
     tripStartTime,
     headsign,
-    settings.agency,
+    settings.topicFeedId || settings.agency, // TODO topicFeedId can be removed once testing with alternative tampere trams is done
     tripId,
     geoHash,
   );
@@ -117,7 +117,6 @@ export function changeTopics(settings, actionContext) {
 export function startMqttClient(settings, actionContext) {
   const options = settings.options || [{}];
   const topics = options.map(option => getTopic(option, settings));
-  const mode = options.length && options[0].mode ? options[0].mode : 'bus';
 
   return import(/* webpackChunkName: "mqtt" */ 'mqtt').then(mqtt => {
     if (settings.gtfsrt) {
@@ -134,7 +133,6 @@ export function startMqttClient(settings, actionContext) {
               messages,
               topic,
               settings.agency,
-              mode,
             );
             parsedMessages.forEach(message => {
               actionContext.dispatch('RealTimeClientMessage', message);
