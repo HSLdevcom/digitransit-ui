@@ -483,9 +483,12 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki',
-          sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors',
-          en: 'https://www.hsl.fi/en/citybikes/helsinki',
+          fi:
+            'https://www.hsl.fi/kaupunkipyorat/osta?area=helsinki-espoo&utm_campaign=kaupunkipyorat-omat-hkiespoo&utm_source=reittiopas&utm_medium=referral',
+          sv:
+            'https://www.hsl.fi/sv/stadscyklar/kop?area=helsinki-espoo&utm_campaign=kaupunkipyorat-omat-hkiespoo&utm_source=reittiopas&utm_medium=referral',
+          en:
+            'https://www.hsl.fi/en/citybikes/buy?area=helsinki-espoo&utm_campaign=kaupunkipyorat-omat-hkiespoo&utm_source=reittiopas&utm_medium=referral',
         },
         returnInstructions: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#palauta',
@@ -503,9 +506,12 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa',
-          sv: 'https://www.hsl.fi/sv/stadscyklar/vanda',
-          en: 'https://www.hsl.fi/en/citybikes/vantaa',
+          fi:
+            'https://www.hsl.fi/kaupunkipyorat/osta?area=vantaa&utm_campaign=kaupunkipyorat-omat-vantaa&utm_source=reittiopas&utm_medium=referral',
+          sv:
+            'https://www.hsl.fi/sv/stadscyklar/kop?area=vantaa&utm_campaign=kaupunkipyorat-omat-vantaa&utm_source=reittiopas&utm_medium=referral',
+          en:
+            'https://www.hsl.fi/en/citybikes/buy?area=vantaa&utm_campaign=kaupunkipyorat-omat-vantaa&utm_source=reittiopas&utm_medium=referral',
         },
         returnInstructions: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa/kayttoohje#palauta',
@@ -515,9 +521,12 @@ export default {
       },
     },
     buyUrl: {
-      fi: 'https://www.hsl.fi/kaupunkipyorat/osta',
-      sv: 'https://www.hsl.fi/sv/stadscyklar/kop',
-      en: 'https://www.hsl.fi/en/citybikes/buy',
+      fi:
+        'https://www.hsl.fi/kaupunkipyorat/osta?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral',
+      sv:
+        'https://www.hsl.fi/sv/stadscyklar/kop?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral',
+      en:
+        'https://www.hsl.fi/en/citybikes/buy?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral',
     },
   },
 
