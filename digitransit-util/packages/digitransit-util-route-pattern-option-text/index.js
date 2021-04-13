@@ -279,3 +279,20 @@ export default function routePatternOptionText(language, pattern, isTogglable) {
   }
   return retValue;
 }
+
+export function getTranslatedDayString(language, dayString, clean) {
+  i18next.changeLanguage(language);
+  const splittedDayStr = dayString.split(',');
+  let text = translateText({
+    id: `route-pattern-select-range-${splittedDayStr[0]}`,
+  });
+  if (splittedDayStr.length > 1) {
+    text += ` - ${translateText({
+      id: `route-pattern-select-range-${splittedDayStr[1]}`,
+    })}`;
+  }
+  if (clean) {
+    text = text.replace(/\(|\)| /gi, '');
+  }
+  return text;
+}

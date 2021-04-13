@@ -18,6 +18,7 @@ import {
   getComponentOrLoadingRenderer,
 } from './util/routerUtils';
 import { prepareServiceDay } from './util/dateParamUtils';
+import prepareRouteScheduleParams from './util/routeScheduleParamUtils';
 
 export default (
   <Route path={`/${PREFIX_ROUTES}`}>
@@ -208,15 +209,92 @@ export default (
               query routeRoutes_RouteScheduleContainer_Query(
                 $patternId: String!
                 $date: String!
+                $wk1day1: String!
+                $wk1day2: String!
+                $wk1day3: String!
+                $wk1day4: String!
+                $wk1day5: String!
+                $wk1day6: String!
+                $wk1day7: String!
+                $wk2day1: String!
+                $wk2day2: String!
+                $wk2day3: String!
+                $wk2day4: String!
+                $wk2day5: String!
+                $wk2day6: String!
+                $wk2day7: String!
+                $wk3day1: String!
+                $wk3day2: String!
+                $wk3day3: String!
+                $wk3day4: String!
+                $wk3day5: String!
+                $wk3day6: String!
+                $wk3day7: String!
+                $wk4day1: String!
+                $wk4day2: String!
+                $wk4day3: String!
+                $wk4day4: String!
+                $wk4day5: String!
+                $wk4day6: String!
+                $wk4day7: String!
+                $wk5day1: String!
+                $wk5day2: String!
+                $wk5day3: String!
+                $wk5day4: String!
+                $wk5day5: String!
+                $wk5day6: String!
+                $wk5day7: String!
               ) {
                 pattern(id: $patternId) {
                   ...RouteScheduleContainer_pattern
                   @arguments(serviceDay: $date)
                 }
+                firstDepartures: pattern(id: $patternId) {
+                  ...RouteScheduleContainer_firstDepartures
+                  @arguments(
+                    wk1day1: $wk1day1
+                    wk1day2: $wk1day2
+                    wk1day3: $wk1day3
+                    wk1day4: $wk1day4
+                    wk1day5: $wk1day5
+                    wk1day6: $wk1day6
+                    wk1day7: $wk1day7
+                    wk2day1: $wk2day1
+                    wk2day2: $wk2day2
+                    wk2day3: $wk2day3
+                    wk2day4: $wk2day4
+                    wk2day5: $wk2day5
+                    wk2day6: $wk2day6
+                    wk2day7: $wk2day7
+                    wk3day1: $wk3day1
+                    wk3day2: $wk3day2
+                    wk3day3: $wk3day3
+                    wk3day4: $wk3day4
+                    wk3day5: $wk3day5
+                    wk3day6: $wk3day6
+                    wk3day7: $wk3day7
+                    wk4day1: $wk4day1
+                    wk4day2: $wk4day2
+                    wk4day3: $wk4day3
+                    wk4day4: $wk4day4
+                    wk4day5: $wk4day5
+                    wk4day6: $wk4day6
+                    wk4day7: $wk4day7
+                    wk5day1: $wk5day1
+                    wk5day2: $wk5day2
+                    wk5day3: $wk5day3
+                    wk5day4: $wk5day4
+                    wk5day5: $wk5day5
+                    wk5day6: $wk5day6
+                    wk5day7: $wk5day7
+                  )
+                }
               }
             `}
-            prepareVariables={prepareServiceDay}
-            render={getComponentOrLoadingRenderer}
+            prepareVariables={prepareRouteScheduleParams}
+            render={({ Component, props, match }) =>
+              Component && props ? <Component {...props} match={match} /> : null
+            }
           />,
           <Route
             path={`${PREFIX_DISRUPTION}/:patternId`}

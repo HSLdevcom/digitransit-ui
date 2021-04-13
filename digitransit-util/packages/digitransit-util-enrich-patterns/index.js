@@ -1,8 +1,8 @@
+/* eslint-disable no-bitwise */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable func-names */
 /* eslint-disable no-param-reassign */
 /* eslint-disable prefer-destructuring */
-import dayRangePattern from '@digitransit-util/digitransit-util-day-range-pattern';
 import dayRangeAllowedDiff from '@digitransit-util/digitransit-util-day-range-allowed-diff';
 import cloneDeep from 'lodash/cloneDeep';
 import moment from 'moment';
@@ -21,40 +21,42 @@ const DATE_FORMAT = 'YYYYMMDD';
  * digitransit-util.enrichPatterns([ { code: 'HSL:3002U:0:02', headsign: 'Kirkkonummi', stops: [{ name: 'Helsinki' }, { name: 'Kirkkonummi' }], tripsForDate: [], activeDates: [{ "day": [ "20200329" ] },{ "day": [ "20200329" ] },{ "day": [ "20200329" ] }, { "day": [ "20200329" ] }] } ], true, 30);
  * //=[ { code: 'HSL:3002U:0:02', headsign: 'Kirkkonummi', stops: [{ name: 'Helsinki' }, { name: 'Kirkkonummi' }], tripsForDate: [], activeDates: ["20200221","20200222","20200228","20200229"],  } ]
  */
+
+function makeHash(s) {
+  return s.split('').reduce(function (a, b) {
+    a = (a << 5) - a + b.charCodeAt(0);
+    return a & a;
+  }, 0);
+}
+
+function getSevenDays(currentDate) {
+  const sevenDays = [];
+  let day = moment(currentDate.startOf('isoWeek'));
+  while (day <= moment(currentDate.endOf('isoWeek'))) {
+    sevenDays.push(day.format(DATE_FORMAT));
+    day = day.clone().add(1, 'd');
+  }
+  return sevenDays;
+}
+
 export default function enrichPatterns(
   patterns,
   onlyInFuture,
   serviceTimeRange,
 ) {
-  const currentDate = moment(moment().format(DATE_FORMAT));
-  const lastRangeDate = moment(moment().format(DATE_FORMAT)).add(
-    serviceTimeRange,
-    'days',
-  );
+  const currentDate = moment();
+  const lastRangeDate = moment()
+    .add(serviceTimeRange, 'days')
+    .format(DATE_FORMAT);
 
   let futureTrips = cloneDeep(patterns);
-
-  if (onlyInFuture === true) {
-    // DT-3182
-    const wantedTime = moment().unix();
-    futureTrips.forEach(function (o) {
-      if (o.tripsForDate !== undefined) {
-        o.tripsForDate.forEach(function (t) {
-          if (t.stoptimes !== undefined) {
-            t.stoptimes = t.stoptimes.filter(
-              s => s.serviceDay + s.scheduledDeparture >= wantedTime,
-            );
-          }
-        });
-      }
-    });
-  }
-
   futureTrips.forEach(function (x) {
     if (x.tripsForDate !== undefined) {
       x.tripsForDate = x.tripsForDate.filter(s => s.stoptimes.length > 0);
+      x.countTripsForDate = x.tripsForDate.length;
     } else {
       x.tripsForDate = [];
+      x.countTripsForDate = 0;
     }
     const uniqueDates = [];
     if (x.activeDates !== undefined) {
@@ -72,6 +74,10 @@ export default function enrichPatterns(
       moment(x.activeDates[0], DATE_FORMAT).isAfter(lastRangeDate)
     ) {
       x.activeDates = [];
+    }
+    if (x.stops) {
+      const stopNames = x.stops.map(s => s.name);
+      x.stopsHash = makeHash(stopNames.join(','));
     }
   });
 
@@ -123,8 +129,7 @@ export default function enrichPatterns(
     futureTrips[y].lastRangeDate = lastRangeDate;
     futureTrips[y].rangeFollowingDays = rangeFollowingDays;
     futureTrips[y].dayDiff = dayDiff;
-    futureTrips[y].activeDates = Array.from(new Set(actDates));
-    futureTrips[y].dayString = dayRangePattern(dayNumbers);
+    futureTrips[y].activeDates = Array.from(new Set(actDates.sort()));
     futureTrips[y].allowedDiff = dayRangeAllowedDiff(
       dayNumbers,
       Number(currentDate.format('E')),
@@ -172,6 +177,12 @@ export default function enrichPatterns(
     futureTrips[y].activeDates = futureTrips[y].activeDates.filter(
       ad => moment(ad, DATE_FORMAT).isSameOrAfter(currentDate) === true,
     );
+
+    futureTrips[y].sevenDays = getSevenDays(currentDate);
+    futureTrips[y].minAndMaxDate = minAndMaxDate;
+    futureTrips[y].inFuture =
+      Number(moment().startOf('isoWeek')) <
+      Number(moment(futureTrips[y].minAndMaxDate[0]).startOf('isoWeek'));
   }
 
   futureTrips = futureTrips.filter(

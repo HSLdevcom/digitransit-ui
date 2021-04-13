@@ -14,9 +14,9 @@
     "docs": "node -r esm ../../scripts/generate-readmes"
   },
   "dependencies": {
-    "@digitransit-util/digitransit-util-day-range-allowed-diff": "1.0.3",
-    "@digitransit-util/digitransit-util-day-range-pattern": "1.0.4",
-    "@digitransit-util/digitransit-util-enrich-patterns": "1.0.4",
-    "@digitransit-util/digitransit-util-route-pattern-option-text": "1.0.4"
+    "@digitransit-util/digitransit-util-day-range-allowed-diff": "latest",
+    "@digitransit-util/digitransit-util-day-range-pattern": "latest",
+    "@digitransit-util/digitransit-util-enrich-patterns": "latest",
+    "@digitransit-util/digitransit-util-route-pattern-option-text": "latest"
   }
 }
