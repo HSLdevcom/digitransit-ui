@@ -29,16 +29,6 @@ function makeHash(s) {
   }, 0);
 }
 
-function getSevenDays(currentDate) {
-  const sevenDays = [];
-  let day = moment(currentDate.startOf('isoWeek'));
-  while (day <= moment(currentDate.endOf('isoWeek'))) {
-    sevenDays.push(day.format(DATE_FORMAT));
-    day = day.clone().add(1, 'd');
-  }
-  return sevenDays;
-}
-
 export default function enrichPatterns(
   patterns,
   onlyInFuture,
@@ -175,10 +165,9 @@ export default function enrichPatterns(
     }
 
     futureTrips[y].activeDates = futureTrips[y].activeDates.filter(
-      ad => moment(ad, DATE_FORMAT).isSameOrAfter(currentDate) === true,
+      ad => moment(ad).isSameOrAfter(currentDate) === true,
     );
 
-    futureTrips[y].sevenDays = getSevenDays(currentDate);
     futureTrips[y].minAndMaxDate = minAndMaxDate;
     futureTrips[y].inFuture =
       Number(moment().startOf('isoWeek')) <
@@ -188,11 +177,9 @@ export default function enrichPatterns(
   futureTrips = futureTrips.filter(
     f => f.tripsForDate.length > 0 || f.activeDates.length > 0,
   );
-
   // DT-2531: shows main routes (both directions) if there is no futureTrips
   if (futureTrips.length === 0 && patterns.length > 0) {
     futureTrips = patterns.filter(p => p.code.endsWith(':01'));
   }
-
   return futureTrips;
 }

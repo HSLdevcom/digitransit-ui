@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-util/digitransit-util",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "a JavaScript library for Digitransit",
   "main": "digitransit-util",
   "module": "digitransit-util.mjs",
@@ -16,7 +16,7 @@
   "dependencies": {
     "@digitransit-util/digitransit-util-day-range-allowed-diff": "^1.0.4",
     "@digitransit-util/digitransit-util-day-range-pattern": "^1.1.0",
-    "@digitransit-util/digitransit-util-enrich-patterns": "^1.1.0",
+    "@digitransit-util/digitransit-util-enrich-patterns": "^1.1.1",
     "@digitransit-util/digitransit-util-route-pattern-option-text": "^1.1.0"
   }
 }

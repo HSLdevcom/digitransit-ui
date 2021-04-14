@@ -231,15 +231,15 @@ class RouteScheduleContainer extends Component {
   renderDayTabs = data => {
     const dayArray = data[2][3];
     if (dayArray.length > 0) {
-      let idx = 0;
       const singleDays = dayArray.filter(s => s.length === 1);
       const multiDays = dayArray.filter(s => s.length !== 1);
       let dayTabs = multiDays.map(m => {
         const daySplitted = m.split('');
+        let idx = 0;
         const tabs = daySplitted.reduce((r, n, i) => {
           r[idx] = r[idx] || n;
           if (i > 0 && i < m.length) {
-            if (n - Number(m[i - 1]) === 1) {
+            if (Number(n) - Number(m[i - 1]) === 1) {
               r[idx] += n;
             } else {
               idx += 1;
@@ -250,8 +250,16 @@ class RouteScheduleContainer extends Component {
         }, []);
         return tabs;
       });
+
+      const separatedMultiDays = [];
+      dayTabs.forEach(d => {
+        d.forEach(x => {
+          separatedMultiDays.push(x);
+        });
+      });
+
       dayTabs = singleDays
-        .concat(dayTabs[0])
+        .concat(separatedMultiDays)
         .filter(d => d)
         .sort();
 

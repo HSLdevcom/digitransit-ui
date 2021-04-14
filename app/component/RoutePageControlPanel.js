@@ -266,7 +266,7 @@ class RoutePageControlPanel extends React.Component {
       new RegExp(`${match.params.patternId}(.*)`),
       newPattern,
     );
-    if (type === PREFIX_TIMETABLE) {
+    if (type === PREFIX_TIMETABLE && pattern[0].minAndMaxDate) {
       newPathname += `?serviceDay=${pattern[0].minAndMaxDate[0]}`;
     }
     router.replace(newPathname);

@@ -1434,11 +1434,6 @@
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-with-breakpoint/-/digitransit-component-with-breakpoint-0.0.5.tgz#c5559ced29c994d15616649506a9ad53e09feb3e"
   integrity sha512-R62Oo6XEGiCV0ZE1MnG9JwU0V0RuD/lPsr8lq1rPtLTXzCpPz0+glrMjqho+Wdohq9WpfUtAWCGPkUCxiQA4Hw==
 
-"@digitransit-util/digitransit-util-day-range-allowed-diff@1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@digitransit-util/digitransit-util-day-range-allowed-diff/-/digitransit-util-day-range-allowed-diff-1.0.3.tgz#4a11624486fda72126d8776192fc0dfea600b97d"
-  integrity sha512-UBcIlJchyepGFtOWtv+4gNEjNt59RSr3gTJnudCiMHXLcy4fyUaRCbvt8SFqrHsh68l488JkS3dd5Buf176j2Q==
-
 "@emotion/cache@^11.0.0", "@emotion/cache@^11.1.3":
   version "11.1.3"
   resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-11.1.3.tgz#c7683a9484bcd38d5562f2b9947873cf66829afd"

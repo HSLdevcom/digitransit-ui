@@ -120,7 +120,15 @@ class RoutePatternSelect extends Component {
       o => o.code === this.props.params.patternId,
     );
 
-    const mainRoutes = options.slice(0, 2).filter(o => !o.inFuture);
+    const possibleMainRoutes = options.slice(0, 2).filter(o => !o.inFuture);
+    let mainRoutes = options.slice(0, 2).filter(o => !o.inFuture);
+    if (
+      possibleMainRoutes.every(o => o.directionId === 0) ||
+      possibleMainRoutes.every(o => o.directionId === 0)
+    ) {
+      mainRoutes = possibleMainRoutes.slice(0, 1);
+    }
+
     const specialRoutes = options
       .slice(mainRoutes.length)
       .filter(o => !o.inFuture);
