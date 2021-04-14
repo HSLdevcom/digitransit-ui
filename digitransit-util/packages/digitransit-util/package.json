@@ -16,7 +16,7 @@
   "dependencies": {
     "@digitransit-util/digitransit-util-day-range-allowed-diff": "^1.0.4",
     "@digitransit-util/digitransit-util-day-range-pattern": "^1.1.0",
-    "@digitransit-util/digitransit-util-enrich-patterns": "^1.1.1",
+    "@digitransit-util/digitransit-util-enrich-patterns": "^1.1.2",
     "@digitransit-util/digitransit-util-route-pattern-option-text": "^1.1.0"
   }
 }

@@ -139,7 +139,7 @@ export default function enrichPatterns(
       futureTrips[y].rangeFollowingDays[0][0] !==
         futureTrips[y].rangeFollowingDays[0][1]
     ) {
-      if (moment(minAndMaxDate[0]).isAfter(currentDate)) {
+      if (moment(minAndMaxDate[0]).isAfter(currentDate.format(DATE_FORMAT))) {
         futureTrips[y].fromDate = futureTrips[y].rangeFollowingDays[0][0];
       } else {
         futureTrips[y].fromDate = '-';
@@ -154,7 +154,7 @@ export default function enrichPatterns(
     } else {
       futureTrips[y].fromDate = moment(minAndMaxDate[0])
         .subtract(futureTrips[y].allowedDiff, 'days')
-        .isSameOrAfter(currentDate)
+        .isSameOrAfter(currentDate.format(DATE_FORMAT))
         ? `${minAndMaxDate[0]}`
         : '-';
       futureTrips[y].untilDate = moment(minAndMaxDate[1]).isBefore(
@@ -165,7 +165,7 @@ export default function enrichPatterns(
     }
 
     futureTrips[y].activeDates = futureTrips[y].activeDates.filter(
-      ad => moment(ad).isSameOrAfter(currentDate) === true,
+      ad => moment(ad).isSameOrAfter(currentDate.format(DATE_FORMAT)) === true,
     );
 
     futureTrips[y].minAndMaxDate = minAndMaxDate;
@@ -177,9 +177,11 @@ export default function enrichPatterns(
   futureTrips = futureTrips.filter(
     f => f.tripsForDate.length > 0 || f.activeDates.length > 0,
   );
+
   // DT-2531: shows main routes (both directions) if there is no futureTrips
   if (futureTrips.length === 0 && patterns.length > 0) {
     futureTrips = patterns.filter(p => p.code.endsWith(':01'));
   }
+
   return futureTrips;
 }

@@ -256,7 +256,7 @@ class RoutePatternSelect extends Component {
                 </>
               );
             }}
-            focusInputOnSuggestionClick
+            focusInputOnSuggestionClick={false}
             onSuggestionsClearRequested={() => null}
           />
         </label>
