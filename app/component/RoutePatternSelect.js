@@ -124,7 +124,7 @@ class RoutePatternSelect extends Component {
     let mainRoutes = options.slice(0, 2).filter(o => !o.inFuture);
     if (
       possibleMainRoutes.every(o => o.directionId === 0) ||
-      possibleMainRoutes.every(o => o.directionId === 0)
+      possibleMainRoutes.every(o => o.directionId === 1)
     ) {
       mainRoutes = possibleMainRoutes.slice(0, 1);
     }
