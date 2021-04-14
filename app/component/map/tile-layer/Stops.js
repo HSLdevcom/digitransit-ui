@@ -17,6 +17,7 @@ class Stops {
     stopsNearYouMode,
     relayEnvironment,
     getCurrentTime = () => new Date().getTime(),
+    showStops,
   ) {
     this.tile = tile;
     this.config = config;
@@ -25,6 +26,7 @@ class Stops {
     this.promise = this.getPromise();
     this.getCurrentTime = getCurrentTime;
     this.relayEnvironment = relayEnvironment;
+    this.showStops = showStops;
   }
 
   static getName = () => 'stop';
@@ -126,11 +128,12 @@ class Stops {
 
                 if (
                   // if under zoom level limit, only draw highlighted stops on near you page
-                  this.tile.coords.z < this.config.stopsMinZoom &&
-                  !(
-                    hasHilightedNearyouStops &&
-                    this.tile.hilightedStops.includes(f.properties.gtfsId)
-                  )
+                  (this.tile.coords.z < this.config.stopsMinZoom &&
+                    !(
+                      hasHilightedNearyouStops &&
+                      this.tile.hilightedStops.includes(f.properties.gtfsId)
+                    )) ||
+                  !this.showStops
                 ) {
                   continue; // eslint-disable-line no-continue
                 }

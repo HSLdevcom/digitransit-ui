@@ -13,9 +13,7 @@ import MapContainer from './MapContainer';
 import ToggleMapTracking from '../ToggleMapTracking';
 import { dtLocationShape } from '../../util/shapes';
 import { isBrowser } from '../../util/browser';
-import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
 import PositionStore from '../../store/PositionStore';
-import MessageStore from '../../store/MessageStore';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import {
   startRealTimeClient,
@@ -23,6 +21,7 @@ import {
 } from '../../action/realTimeClientAction';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { MAPSTATES } from '../../util/stopsNearYouUtils';
+import { mapLayerShape } from '../../store/MapLayerStore';
 
 const DEFAULT_ZOOM = 12;
 const FOCUS_ZOOM = 16;
@@ -37,7 +36,7 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'leafletObjs',
 ]);
 
-const Component = onlyUpdateCoordChanges(MapContainer);
+const Map = onlyUpdateCoordChanges(MapContainer);
 
 /* stop yet another eslint madness */
 /* eslint-disable react/sort-comp */
@@ -90,7 +89,6 @@ class MapWithTrackingStateHandler extends React.Component {
     leafletObjs: PropTypes.array,
     renderCustomButtons: PropTypes.func,
     mapLayers: mapLayerShape.isRequired,
-    messages: PropTypes.array,
     mapTracking: PropTypes.bool,
     initialZoom: PropTypes.number,
     locationPopup: PropTypes.string,
@@ -363,7 +361,7 @@ class MapWithTrackingStateHandler extends React.Component {
       useFitBounds = true;
     }
     return (
-      <Component
+      <Map
         lat={location ? location.lat : undefined}
         lon={location ? location.lon : undefined}
         zoom={this.state.initialZoom}
@@ -408,7 +406,7 @@ class MapWithTrackingStateHandler extends React.Component {
         }
       >
         {children}
-      </Component>
+      </Map>
     );
   }
 }
@@ -425,13 +423,10 @@ const MapWithTracking = connectToStores(
       defaultMapCenter: dtLocationShape,
     }),
   })(MapWithTrackingStateHandler),
-  [PositionStore, MapLayerStore, MessageStore],
+  [PositionStore],
   ({ getStore }) => {
     const position = getStore(PositionStore).getLocationState();
-    const mapLayers = getStore(MapLayerStore).getMapLayers();
-    const messages = getStore(MessageStore).getMessages();
-
-    return { position, mapLayers, messages };
+    return { position };
   },
 );
 

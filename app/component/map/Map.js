@@ -43,7 +43,6 @@ export default class Map extends React.Component {
     leafletEvents: PropTypes.object,
     leafletObjs: PropTypes.array,
     leafletOptions: PropTypes.object,
-    showStops: PropTypes.bool,
     stopsNearYouMode: PropTypes.string,
     zoom: PropTypes.number,
     showScaleBar: PropTypes.bool,
@@ -53,7 +52,6 @@ export default class Map extends React.Component {
     mapBottomPadding: PropTypes.number,
     buttonBottomPadding: PropTypes.number,
     bottomButtons: PropTypes.node,
-    disableParkAndRide: PropTypes.bool,
     geoJson: PropTypes.object,
     mapLayers: PropTypes.object,
   };
@@ -67,6 +65,7 @@ export default class Map extends React.Component {
     mapBottomPadding: 0,
     buttonBottomPadding: 0,
     bottomButtons: null,
+    mapLayers: { geoJson: {} },
   };
 
   static contextTypes = {
@@ -116,7 +115,6 @@ export default class Map extends React.Component {
       locationPopup,
       onSelectLocation,
       leafletObjs,
-      disableParkAndRide,
       geoJson,
       mapLayers,
     } = this.props;
@@ -143,11 +141,10 @@ export default class Map extends React.Component {
         key="vectorTileLayerContainer"
         hilightedStops={this.props.hilightedStops}
         stopsNearYouMode={this.props.stopsNearYouMode}
-        showStops={this.props.showStops}
         stopsToShow={this.props.stopsToShow}
         locationPopup={locationPopup}
         onSelectLocation={onSelectLocation}
-        disableParkAndRide={disableParkAndRide}
+        mapLayers={this.props.mapLayers}
       />,
     );
 
@@ -165,7 +162,7 @@ export default class Map extends React.Component {
       Object.keys(geoJson)
         .filter(
           key =>
-            mapLayers.geoJson[key] !== false &&
+            mapLayers?.geoJson[key] !== false &&
             (mapLayers.geoJson[key] === true ||
               geoJson[key].isOffByDefault !== true),
         )

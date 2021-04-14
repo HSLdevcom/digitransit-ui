@@ -9,6 +9,7 @@ import {
   graphql,
   ReactRelayContext,
 } from 'react-relay';
+import { connectToStores } from 'fluxible-addons-react';
 import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
 import polyline from 'polyline-encoded';
@@ -68,6 +69,7 @@ import { addViaPoint } from '../action/ViaPointActions';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { saveSearch } from '../action/SearchActions';
 import CustomizeSearch from './CustomizeSearchNew';
+import { mapLayerShape } from '../store/MapLayerStore';
 
 const MAX_ZOOM = 16; // Maximum zoom available for the bounds.
 /**
@@ -248,6 +250,7 @@ class SummaryPage extends React.Component {
     relay: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
     }).isRequired,
+    mapLayers: mapLayerShape.isRequired,
   };
 
   static defaultProps = {
@@ -1640,10 +1643,6 @@ class SummaryPage extends React.Component {
         ? 'all'
         : 'origindestination';
 
-    this.boundsZoom = this.map
-      ? this.map.getBoundsZoom(bounds.length > 1 ? bounds : defaultBounds)
-      : this.boundsZoom;
-
     const zoomLevel = this.getZoomLevel(
       this.state.zoomLevel,
       this.mapZoomLevel,
@@ -1663,6 +1662,7 @@ class SummaryPage extends React.Component {
         geoJsonZoomLevel={zoomLevel}
         locationPopup={locationPopup}
         onSelectLocation={this.selectLocation}
+        mapLayers={this.props.mapLayers}
       />
     );
   }
@@ -2549,8 +2549,14 @@ SummaryPageWithBreakpoint.description = (
   </ComponentUsageExample>
 );
 
-const containerComponent = createRefetchContainer(
+const SummaryPageWithStores = connectToStores(
   SummaryPageWithBreakpoint,
+  ['MapLayerStore'],
+  ({ getStore }) => ({ mapLayers: getStore('MapLayerStore').getMapLayers() }),
+);
+
+const containerComponent = createRefetchContainer(
+  SummaryPageWithStores,
   {
     viewer: graphql`
       fragment SummaryPage_viewer on QueryType

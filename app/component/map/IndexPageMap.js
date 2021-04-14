@@ -17,6 +17,7 @@ import storeDestination from '../../action/destinationActions';
 import SettingsDrawer from '../SettingsDrawer';
 import BubbleDialog from '../BubbleDialog';
 import MapLayersDialogContent from '../MapLayersDialogContent';
+import { mapLayerShape } from '../../store/MapLayerStore';
 
 const renderMapLayerSelector = (isOpen, setOpen, config, lang) => {
   const tooltip =
@@ -45,7 +46,7 @@ let previousFocusPoint;
 let previousMapTracking;
 
 function IndexPageMap(
-  { match, breakpoint, origin, destination, lang },
+  { match, breakpoint, origin, destination, lang, mapLayers },
   { config, executeAction, intl },
 ) {
   const [isSettingsOpen, setSettingsOpen] = useState(false);
@@ -150,6 +151,7 @@ function IndexPageMap(
             </>
           )}
           showAllVehicles
+          mapLayers={mapLayers}
         />
         <SettingsDrawer
           onToggleClick={() => {
@@ -183,6 +185,7 @@ IndexPageMap.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   origin: dtLocationShape,
   destination: dtLocationShape,
+  mapLayers: mapLayerShape.isRequired,
 };
 
 IndexPageMap.defaultProps = {
@@ -200,7 +203,7 @@ const IndexPageMapWithBreakpoint = withBreakpoint(IndexPageMap);
 
 const IndexPageMapWithStores = connectToStores(
   IndexPageMapWithBreakpoint,
-  [OriginStore, DestinationStore, 'PreferencesStore'],
+  [OriginStore, DestinationStore, 'PreferencesStore', 'MapLayerStore'],
   ({ getStore }) => {
     const origin = getStore(OriginStore).getOrigin();
     const destination = getStore(DestinationStore).getDestination();
@@ -210,6 +213,7 @@ const IndexPageMapWithStores = connectToStores(
       origin,
       destination,
       lang,
+      mapLayers: getStore('MapLayerStore').getMapLayers(),
     };
   },
 );

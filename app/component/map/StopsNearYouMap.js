@@ -139,6 +139,7 @@ function StopsNearYouMap(
     setCenterOfMap,
     defaultMapCenter,
     mapState,
+    mapLayers,
   },
   { ...context },
 ) {
@@ -454,14 +455,14 @@ function StopsNearYouMap(
     map = (
       <MapWithTracking
         breakpoint={breakpoint}
-        showStops
         stopsToShow={Array.from(favouriteIds)}
         stopsNearYouMode={mode}
         showScaleBar
+        showStops
         fitBounds={useFitBounds}
         mapState={mapState}
+        mapLayers={mapLayers}
         defaultMapCenter={defaultMapCenter || context.config.defaultEndpoint}
-        disableParkAndRide
         boundsOptions={{ maxZoom: zoom }}
         bounds={bounds}
         fitBoundsWithSetCenter
@@ -482,11 +483,12 @@ function StopsNearYouMap(
         />
         <MapWithTracking
           breakpoint={breakpoint}
-          showStops
           stopsToShow={Array.from(favouriteIds)}
           stopsNearYouMode={mode}
+          showStops
           fitBounds={useFitBounds}
           mapState={mapState}
+          mapLayers={mapLayers}
           defaultMapCenter={defaultMapCenter || context.config.defaultEndpoint}
           boundsOptions={{ maxZoom: zoom }}
           bounds={bounds}

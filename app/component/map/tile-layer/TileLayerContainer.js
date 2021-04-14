@@ -10,14 +10,13 @@ import isEqual from 'lodash/isEqual';
 import Popup from 'react-leaflet/es/Popup';
 import { withLeaflet } from 'react-leaflet/es/context';
 import { matchShape, routerShape } from 'found';
-
+import { mapLayerShape } from '../../../store/MapLayerStore';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopupContainer';
 import ParkAndRideFacilityPopup from '../popups/ParkAndRideFacilityPopupContainer';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
-import MapLayerStore, { mapLayerShape } from '../../../store/MapLayerStore';
 import RealTimeInformationStore from '../../../store/RealTimeInformationStore';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { getClientBreakpoint } from '../../../util/withBreakpoint';
@@ -60,6 +59,7 @@ class TileLayerContainer extends GridLayer {
     hilightedStops: PropTypes.arrayOf(PropTypes.string),
     stopsToShow: PropTypes.arrayOf(PropTypes.string),
     vehicles: PropTypes.object,
+    showStops: PropTypes.bool,
   };
 
   static contextTypes = {
@@ -166,6 +166,7 @@ class TileLayerContainer extends GridLayer {
       this.props.hilightedStops,
       this.props.vehicles,
       this.props.stopsToShow,
+      this.props.showStops,
     );
     tile.onSelectableTargetClicked = (
       selectableTargets,
@@ -412,9 +413,8 @@ const connectedComponent = withLeaflet(
         )}
       </ReactRelayContext.Consumer>
     ),
-    [MapLayerStore, RealTimeInformationStore],
+    [RealTimeInformationStore],
     context => ({
-      mapLayers: context.getStore(MapLayerStore).getMapLayers(),
       vehicles: context.getStore(RealTimeInformationStore).vehicles,
     }),
   ),

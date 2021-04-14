@@ -35,6 +35,7 @@ import SwipeableTabs from './SwipeableTabs';
 import StopsNearYouFavorites from './StopsNearYouFavorites';
 import StopsNearYouMapContainer from './StopsNearYouMapContainer';
 import StopsNearYouFavoritesMapContainer from './StopsNearYouFavoritesMapContainer';
+import { mapLayerShape } from '../store/MapLayerStore';
 
 // component initialization phases
 const PH_START = 'start';
@@ -69,6 +70,7 @@ class StopsNearYouPage extends React.Component {
     favouriteStopIds: PropTypes.array.isRequired,
     favouriteStationIds: PropTypes.array.isRequired,
     favouriteBikeStationIds: PropTypes.array.isRequired,
+    mapLayers: mapLayerShape.isRequired,
   };
 
   constructor(props) {
@@ -584,6 +586,7 @@ class StopsNearYouPage extends React.Component {
                   setCenterOfMap={this.setCenterOfMap}
                   mapState={this.state.mapState}
                   stops={props.stops}
+                  mapLayers={this.props.mapLayers}
                   stations={props.stations}
                   bikeStations={props.bikeStations}
                   favouriteIds={[
@@ -637,6 +640,7 @@ class StopsNearYouPage extends React.Component {
                 centerOfMap={this.state.centerOfMap}
                 stopsNearYou={props.stops}
                 match={this.props.match}
+                mapLayers={this.props.mapLayers}
                 mapState={this.state.mapState}
                 setCenterOfMap={this.setCenterOfMap}
               />
@@ -837,7 +841,7 @@ const StopsNearYouPageWithBreakpoint = withBreakpoint(props => (
 
 const PositioningWrapper = connectToStores(
   StopsNearYouPageWithBreakpoint,
-  ['PositionStore', 'PreferencesStore', 'FavouriteStore'],
+  ['PositionStore', 'PreferencesStore', 'FavouriteStore', 'MapLayerStore'],
   (context, props) => {
     const favouriteStopIds = context
       .getStore('FavouriteStore')
@@ -860,6 +864,7 @@ const PositioningWrapper = connectToStores(
       ...props,
       position: context.getStore('PositionStore').getLocationState(),
       lang: context.getStore('PreferencesStore').getLanguage(),
+      mapLayers: context.getStore('MapLayerStore').getMapLayers(),
       favouriteStopIds,
       favouriteBikeStationIds,
       favouriteStationIds,
