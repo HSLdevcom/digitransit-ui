@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl';
 import StopCode from './StopCode';
 import ZoneIcon from './ZoneIcon';
 import PlatformNumber from './PlatformNumber';
-import { isKeyboardSelectionEvent } from '../util/browser';
 import FavouriteStopContainer from './FavouriteStopContainer';
 import { getZoneLabel } from '../util/legUtils';
 
@@ -19,11 +18,6 @@ const StopNearYouHeader = (
         <Link
           onClick={e => {
             e.stopPropagation();
-          }}
-          onKeyPress={e => {
-            if (isKeyboardSelectionEvent(e)) {
-              e.stopPropagation();
-            }
           }}
           to={linkAddress}
         >
@@ -41,7 +35,7 @@ const StopNearYouHeader = (
               <FormattedMessage id="station" />
             </span>
           ) : (
-            <StopCode code={stop.code} />
+            <StopCode code={stop.code || stop.name} />
           )}
           <PlatformNumber number={stop.platformCode} short />
           {config.stopCard.header.showZone &&

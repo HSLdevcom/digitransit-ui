@@ -22,6 +22,9 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#118ddd',
+    iconColors: {
+      'mode-bus': '#118ddd',
+    },
   },
 
   socialMedia: {
@@ -79,10 +82,9 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  footer: {
+  menu: {
+    copyright: { label: `© Kotka ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Kotka ${walttiConfig.YEAR}` },
-      {},
       {
         name: 'about-this-service',
         nameEn: 'About this service',

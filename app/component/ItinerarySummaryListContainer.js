@@ -402,6 +402,11 @@ const containerComponent = createFragmentContainer(
               gtfsId
               zoneId
               platformCode
+              alerts {
+                alertSeverityLevel
+                effectiveEndDate
+                effectiveStartDate
+              }
             }
             bikeRentalStation {
               bikesAvailable
@@ -412,6 +417,11 @@ const containerComponent = createFragmentContainer(
             stop {
               gtfsId
               zoneId
+              alerts {
+                alertSeverityLevel
+                effectiveEndDate
+                effectiveStartDate
+              }
             }
             bikePark {
               bikeParkId

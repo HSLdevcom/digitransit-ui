@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
-import SwipeableViews from 'react-swipeable-views';
 import { v4 as uuid } from 'uuid';
 
+import SwipeableTabs from './SwipeableTabs';
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
 import { markMessageAsRead } from '../action/MessageActions';
@@ -116,17 +116,20 @@ class MessageBar extends Component {
     lang: PropTypes.string.isRequired,
     messages: PropTypes.array.isRequired,
     relayEnvironment: PropTypes.object,
-    mobile: PropTypes.bool,
+    duplicateMessageCounter: PropTypes.number.isRequired,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
     getServiceAlertsAsync: fetchServiceAlerts,
-    mobile: false,
   };
 
   state = {
     slideIndex: 0,
-    maximized: false,
+  };
+
+  onSwipe = e => {
+    this.setState({ slideIndex: e });
   };
 
   componentDidMount = async () => {
@@ -169,37 +172,15 @@ class MessageBar extends Component {
 
   getTabContent = textColor =>
     this.validMessages().map(el => (
-      <MessageBarMessage
-        key={el.id}
-        onMaximize={this.maximize}
-        content={el.content[this.props.lang] || el.content.fi}
-        textColor={textColor}
-      />
+      <div key={el.id}>
+        <MessageBarMessage
+          key={el.id}
+          content={el.content[this.props.lang] || el.content.fi}
+          textColor={textColor}
+          breakpoint={this.props.breakpoint}
+        />
+      </div>
     ));
-
-  // TODO: This is a hack to get around the hard-coded height in material-ui Tab component
-  getTabMarker = (i, isSelected, isDisruption) => {
-    const colorSet = isDisruption ? ['inherit', 'white'] : ['#007ac9', '#ddd'];
-    return (
-      <span
-        style={{
-          color: colorSet[isSelected ? 0 : 1],
-          height: '18px',
-          position: 'absolute',
-        }}
-        title={`${this.context.intl.formatMessage({
-          id: 'messagebar-label-page',
-          defaultMessage: 'Page',
-        })} ${i + 1}`}
-      >
-        •
-      </span>
-    );
-  };
-
-  maximize = () => {
-    this.setState({ maximized: true });
-  };
 
   validMessages = () => {
     const { serviceAlerts } = this.state;
@@ -209,8 +190,7 @@ class MessageBar extends Component {
     const filteredServiceAlerts = serviceAlerts.filter(
       alert => readMessageIds.indexOf(getServiceAlertId(alert)) === -1,
     );
-    const { lang } = this.props;
-    const messages = this.props.messages.filter(msg => msg.shouldTrigger);
+    const { lang, messages } = this.props;
     return [
       ...filteredServiceAlerts.map(alert => toMessage(alert, intl)),
       ...messages,
@@ -226,28 +206,19 @@ class MessageBar extends Component {
     });
   };
 
-  handleChange = value => {
-    this.setState({ slideIndex: value });
-  };
-
   handleClose = () => {
     const messages = this.validMessages();
-    let index = this.state.slideIndex;
+    const index = this.state.slideIndex;
     const msgId = messages[index].id;
 
+    this.setState({ slideIndex: Math.max(0, index - 1) });
     // apply delayed closing on iexplorer to avoid app freezing
     const t = isIe ? 600 : 0;
     setTimeout(() => this.context.executeAction(markMessageAsRead, msgId), t);
-
-    // slideIndex needs to be updated
-    if (index > 0) {
-      index -= 1;
-      this.handleChange(index);
-    }
   };
 
   render() {
-    const { maximized, ready, slideIndex } = this.state;
+    const { ready, slideIndex } = this.state;
     if (!ready) {
       return null;
     }
@@ -275,14 +246,11 @@ class MessageBar extends Component {
           )}
         </span>
         <section
+          key={this.props.duplicateMessageCounter}
           id="messageBar"
           role="banner"
           aria-hidden="true"
-          className={cx(
-            'message-bar',
-            { 'mobile-bar ': this.props.mobile },
-            'flex-horizontal',
-          )}
+          className="message-bar flex-horizontal"
           style={{ background: backgroundColor }}
         >
           <div
@@ -297,24 +265,23 @@ class MessageBar extends Component {
               className="message-icon"
             />
             <div className={`message-bar-content message-bar-${type}`}>
-              <SwipeableViews
-                index={index}
-                onChangeIndex={this.handleChange}
-                className={!maximized ? 'message-bar-fade' : ''}
-                containerStyle={{
-                  maxHeight: maximized ? '400px' : '100px',
-                  transition: 'max-height 300ms',
-                }}
-                slideStyle={{
-                  maxHeight: maximized ? '400px' : '100px',
-                  transition: 'max-height 300ms',
-                  padding: '10px 10px 0px 10px',
-                  overflow: 'hidden',
-                  background: isDisruption ? 'inherit' : backgroundColor,
-                }}
-              >
-                {this.getTabContent(textColor)}
-              </SwipeableViews>
+              <div>
+                <div className="message-bar-container">
+                  <div
+                    style={{
+                      background: isDisruption ? 'inherit' : backgroundColor,
+                    }}
+                  >
+                    <SwipeableTabs
+                      tabIndex={index}
+                      tabs={this.getTabContent(textColor)}
+                      onSwipe={this.onSwipe}
+                      hideArrows
+                      navigationOnBottom
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
             <div>
               <button
@@ -350,6 +317,9 @@ const connectedComponent = connectToStores(
     lang: context.getStore('PreferencesStore').getLanguage(),
     messages: context.getStore('MessageStore').getMessages(),
     currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+    duplicateMessageCounter: context
+      .getStore('MessageStore')
+      .getDuplicateMessageCounter(),
   }),
 );
 

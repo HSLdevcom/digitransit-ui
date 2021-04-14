@@ -8,6 +8,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 
 const CityBikeAvailability = mapProps(
   ({
+    disabled,
     bikesAvailable,
     totalSpaces,
     fewAvailableCount,
@@ -17,7 +18,18 @@ const CityBikeAvailability = mapProps(
   }) => {
     const total = Number.isNaN(totalSpaces) ? 0 : totalSpaces;
     const available = Number.isNaN(bikesAvailable) ? 0 : bikesAvailable;
-
+    if (disabled) {
+      return {
+        available,
+        total,
+        text: (
+          <p className="sub-header-h4 availability-header">
+            <FormattedMessage id="bike-station-disabled" />
+          </p>
+        ),
+        showStatusBar: useSpacesAvailable,
+      };
+    }
     return {
       available,
       total,
@@ -32,7 +44,7 @@ const CityBikeAvailability = mapProps(
             defaultMessage="Bikes available at the station right now"
           />
           {'\u00a0'}
-          {available}
+          <span className="available-bikes">{available}</span>
           {useSpacesAvailable && <React.Fragment>/{total}</React.Fragment>}
         </p>
       ),

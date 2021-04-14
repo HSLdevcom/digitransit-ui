@@ -9,6 +9,7 @@
   flex-direction: column;
   height: 100%;
   position: relative;
+  overflow: hidden;
   background-color: white;
 
   @media print {
@@ -23,7 +24,7 @@
 }
 
 .stop-page.header {
-  @include font-bold;
+  @include font-medium;
   @media print {
     padding-left: 0;
   }
@@ -68,7 +69,7 @@
     margin: 1px 19px 1px 0;
     font-family: $font-family;
     font-size: 24px;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
@@ -77,7 +78,7 @@
 
   .card-code {
     font-size: 11px;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     margin-left: 4px;
     margin-top: 14px;
     margin-right: 5px;
@@ -143,6 +144,9 @@
   > button {
     outline: 0;
   }
+  @media print {
+    display: none;
+  }
 }
 
 .stop-tabs-fillerline {
@@ -182,7 +186,7 @@
   &.active:hover {
     background-color: $white;
     color: $black;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     svg {
       stroke: $black;
       fill: $black;
@@ -315,8 +319,9 @@
         margin-top: 2px;
         background-color: currentColor;
         border-radius: 3px;
-        width: 2.25em;
+        min-width: 2.25em;
         height: 1.25em;
+        padding: 0 4px;
         text-align: center;
         .route-number {
           color: $white;
@@ -396,35 +401,6 @@
   padding-bottom: 0.6em;
   text-align: right;
 
-  .route-schedule-date {
-    text-align: left;
-    width: 52%;
-    font-size: 0.9em;
-    & select {
-      text-align: left;
-      text-transform: uppercase;
-      color: $primary-color;
-      font-weight: 700;
-      margin-right: 20px;
-      cursor: pointer;
-      font-size: 100%;
-      border-bottom: 2px none !important;
-      transition: all 0.2s ease-out;
-      width: 37%;
-      height: 1.27em;
-      line-height: 1.3em;
-      &:hover {
-        color: $secondary-color;
-        border-bottom: 2px none !important;
-      }
-    }
-    & svg {
-      width: 1.2em;
-      height: 1.2em;
-      margin-left: 0.5em;
-      margin-right: 1.4em;
-    }
-  }
   @media print {
     display: none;
   }
@@ -449,6 +425,8 @@
 }
 .external-stop-link {
   float:right;
+  margin-right: 14px;
+  margin-top: 14px;
 
   a {
     color: $link-color !important;
@@ -495,31 +473,15 @@ hr.action-bar {
     }
   }
 }
+
 .filter-stop-modal-overlay {
-  background: rgba(0, 0, 0, 0.541176);
-  width: 100vw;
-  height: 100%;
   position: fixed;
-  z-index: 9996;
+  height: 100%;
+  width: 100%;
   top: 0;
   left: 0;
-}
-
-//The two classes below are to center the modal
-.filter-stop-modal-fixed-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 99995;
-}
-
-.filter-stop-modal-relative-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  z-index: 99995;
+  background-color: rgba(0,0,0,0.2);
+  z-index: 1000; // Needs to be higher than the navbar
 }
 
 .filter-stop-modal {
@@ -533,37 +495,11 @@ hr.action-bar {
   transform: translate(-50%, -50%);
   max-width: 720px;
 
-  .filter-stop-modal-return {
-    background-color: $background-color;
-    display: flex;
-    cursor: pointer;
-    border-radius: 8px 8px 0px 0px;
-  }
-
-  .filter-stop-modal-return-icon {
-    margin-top: 1.5em;
+  .filter-stop-modal-header {
+    margin: auto;
+    margin-top: 2.5em;
     margin-left: 1em;
-    border: 1px solid #ddd;
-    border-radius: 50%;
-    height: 2.5em;
-    width: 2.5em;
-
-    & svg {
-      width: 21px;
-      height: 21px;
-      fill: $primary-color;
-    }
-
-    .icon-container {
-      position: relative;
-      top: 6px;
-      left: 5px;
-    }
-  }
-
-  .filter-stop-modal-return-header {
-    margin-top: 0.75em;
-    margin-left: 1em;
+    text-align: center;
   }
 
   .all-routes-header {
@@ -601,7 +537,7 @@ hr.action-bar {
     position: relative;
 
     & input[type='checkbox'] {
-      visibility: hidden;
+      opacity: 0;
       width: 2em;
       height: 2em;
     }
@@ -623,6 +559,9 @@ hr.action-bar {
         border: none;
       }
     }
+    input[type='checkbox']:focus + label {
+      outline: black solid 1px;
+    }
   }
 
   .route-mode {
@@ -637,7 +576,7 @@ hr.action-bar {
 
   .route-headsign {
     font-family: $font-family-narrow;
-    font-weight: 400;
+    font-weight: $font-weight-book;
     margin-top: 0.1em;
   }
 }
@@ -649,16 +588,15 @@ hr.action-bar {
 }
 
 .timetable-topbar {
+  display: flex;
+  justify-content: center;
   background: $white;
+  margin: 0.5em 3em 1em 4em;
   .secondary-button.print {
     @media print {
       display: none;
     }
   }
-}
-
-.timetable-options-panel {
-  display: flex;
 }
 
 .timetable-for-printing-header {
@@ -668,13 +606,15 @@ hr.action-bar {
     h1 {
       font-family: $font-family;
       font-size: 13px;
-      font-weight: 400;
+      font-weight: $font-weight-book;
     }
   }
 }
 
 .print-button-container {
+  margin-top: 0.5em;
   display: flex;
+  float: left;
   button {
     margin-right: 1em;
     margin-left: auto;
@@ -704,11 +644,11 @@ hr.action-bar {
       }
       .printable-date-header {
         font-size: 11px;
-        font-weight: 400;
+        font-weight: $font-weight-book;
       }
       .printable-date-content {
         font-size: 12px;
-        font-weight: 700;
+        font-weight: $font-weight-medium;
       }
     }
   }
@@ -716,13 +656,10 @@ hr.action-bar {
 
 .timetable-showroutes {
   display: flex;
-  width: 100%;
   margin-bottom: 0.3em;
 }
 
 .showroutes-icon {
-  margin-left: 1em;
-  margin-right: 1em;
 
   & svg,
   .showroutes-icon-svg {
@@ -734,36 +671,26 @@ hr.action-bar {
   }
 }
 
-.showroutes-header {
-  text-transform: uppercase;
-  color: $primary-color;
-  font-weight: 700;
-  cursor: pointer;
-  width: 25%;
-  font-size: 0.9em;
-  & span {
-    transition: all 0.2s ease-out;
-    &:hover {
-      color: $secondary-color;
-    }
-  }
-}
-
-.showroutes-list {
-  display: inline-block;
-  font-size: $font-size-xxsmall;
-  width: 66%;
-  margin-top: 0.1em;
-
-  .showroute-number {
-    margin-right: 15px;
-    float: left;
-  }
+.mobile-filter-stop-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  bottom: 0;
+  right: 0;
+  background-color: none;
+  z-index: 1000; // Needed to cover up the navbar
+  //transform: translate(-50%, -50%);
 }
 
 .mobile {
   .print-button-container {
     display: none;
+  }
+
+  .timetable-topbar {
+    margin: 0em 1em 1em 1em;
   }
 
   .stop-tab-container {
@@ -777,16 +704,31 @@ hr.action-bar {
     padding: 0em 1em 0em 1em;
   }
 
+  .filter-stop-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    bottom: 0;
+    right: 0;
+    background-color: none;
+    z-index: 1000; // Needs to be higher than the navbar
+    //transform: translate(-50%, -50%);
+  }
+
   .filter-stop-modal {
+    background-color: #ffffff;
+    z-index: 99999;
+    height: 100%;
+    width: 100%;
     min-height: 100%;
     max-width: 100%;
-    height: 100%;
-    padding-bottom: 8em;
-    left: 0;
-    top: 64px;
     position: fixed;
     border-radius: 0;
-    transform: translate(0%, 0%);
+    transform: translate(-50%, -50%);
+    //left: 0;
+    //top: 0;
   }
 
   .routes-container {

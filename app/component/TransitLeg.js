@@ -20,11 +20,13 @@ import {
   legHasCancelation,
   tripHasCancelationForStop,
   getActiveLegAlerts,
+  alertSeverityCompare,
+  getMaximumAlertSeverityLevel,
 } from '../util/alertUtils';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
+import { PREFIX_ROUTES, PREFIX_STOPS, PREFIX_DISRUPTION } from '../util/path';
 import { durationToString } from '../util/timeUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { getZoneLabel } from '../util/legUtils';
+import { getZoneLabel, getHeadsignFromRouteLongName } from '../util/legUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { shouldShowFareInfo } from '../util/fareUtils';
 import { AlertSeverityLevelType } from '../constants';
@@ -57,30 +59,38 @@ class TransitLeg extends React.Component {
 
   getZoneChange() {
     const { leg } = this.props;
-    if (leg.intermediatePlaces.length > 0) {
-      const startZone = leg.from.stop.zoneId;
-      const endZone = leg.to.stop.zoneId;
-      if (
-        startZone !== endZone &&
-        !this.state.showIntermediateStops &&
-        this.context.config.itinerary.showZoneLimits &&
-        leg.from.stop.gtfsId &&
-        this.context.config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0])
-      ) {
-        return (
-          <div className="time-column-zone-icons-container">
-            <ZoneIcon
-              zoneId={getZoneLabel(startZone, this.context.config)}
-              showUnknown
-            />
-            <ZoneIcon
-              zoneId={getZoneLabel(endZone, this.context.config)}
-              className="zone-delimiter"
-              showUnknown
-            />
-          </div>
-        );
-      }
+    const startZone = leg.from.stop.zoneId;
+    const endZone = leg.to.stop.zoneId;
+    if (
+      startZone !== endZone &&
+      !this.state.showIntermediateStops &&
+      this.context.config.itinerary.showZoneLimits &&
+      leg.from.stop.gtfsId &&
+      this.context.config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0])
+    ) {
+      return (
+        <div className="time-column-zone-icons-container">
+          <ZoneIcon
+            zoneId={getZoneLabel(startZone, this.context.config)}
+            showUnknown
+          />
+          <ZoneIcon
+            zoneId={getZoneLabel(endZone, this.context.config)}
+            className="zone-delimiter"
+            showUnknown
+          />
+        </div>
+      );
+    }
+    if (startZone === endZone && this.context.config.itinerary.showZoneLimits) {
+      return (
+        <div className="time-column-zone-icons-container single">
+          <ZoneIcon
+            zoneId={getZoneLabel(startZone, this.context.config)}
+            showUnknown
+          />
+        </div>
+      );
     }
     return null;
   }
@@ -241,6 +251,14 @@ class TransitLeg extends React.Component {
         values={{
           vehicle: <>{children}</>,
           startStop: leg.from.name,
+          startZoneInfo: intl.formatMessage(
+            { id: 'zone-info' },
+            { zone: leg.from.stop.zoneId },
+          ),
+          endZoneInfo: intl.formatMessage(
+            { id: 'zone-info' },
+            { zone: leg.to.stop.zoneId },
+          ),
           endStop: leg.to.name,
           duration: durationToString(leg.duration * 1000),
           trackInfo: (
@@ -257,11 +275,11 @@ class TransitLeg extends React.Component {
     );
 
     const alerts = getActiveLegAlerts(leg, leg.startTime / 1000, lang); // legStartTime converted to ms format
-    const alert = alerts && alerts.length > 0 ? alerts[0] : undefined;
-    const alertSeverityLevel = getActiveAlertSeverityLevel(
-      alerts,
-      leg.startTime / 1000,
-    );
+    const alert =
+      alerts && alerts.length > 0
+        ? alerts.sort(alertSeverityCompare)[0]
+        : undefined;
+    const alertSeverityLevel = getMaximumAlertSeverityLevel(alerts);
     let alertSeverityDescription = null;
     if (alertSeverityLevel) {
       let id;
@@ -289,6 +307,9 @@ class TransitLeg extends React.Component {
       leg.route.shortName &&
       new RegExp(/^([^0-9]*)$/).test(leg.route.shortName) &&
       leg.route.shortName.length > 3;
+
+    const headsign =
+      leg.trip.tripHeadsign || getHeadsignFromRouteLongName(leg.route);
 
     const interLining = () => {
       if (leg.interlineWithPreviousLeg && this.props.isNextLegInterlining) {
@@ -348,7 +369,6 @@ class TransitLeg extends React.Component {
               first: index === 0,
               interlining: leg.interlineWithPreviousLeg,
             })}
-            aria-hidden="true"
           >
             <div className="itinerary-leg-row">
               <Link
@@ -366,7 +386,7 @@ class TransitLeg extends React.Component {
                 <Icon
                   img="icon-icon_arrow-collapse--right"
                   className="itinerary-arrow-icon"
-                  color="#333"
+                  color={config.colors.primary}
                 />
               </Link>
               <ServiceAlertIcon
@@ -403,6 +423,10 @@ class TransitLeg extends React.Component {
               onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
               role="button"
               tabIndex="0"
+              aria-label={intl.formatMessage(
+                { id: 'itinerary-summary.show-on-map' },
+                { target: leg.from.name || '' },
+              )}
             >
               <Icon
                 img="icon-icon_show-on-map"
@@ -414,51 +438,64 @@ class TransitLeg extends React.Component {
             className={cx('itinerary-transit-leg-route', {
               'long-name': hasNoShortName,
             })}
-            aria-hidden="true"
           >
             <Link
               onClick={e => {
                 e.stopPropagation();
               }}
-              onKeyPress={e => {
-                if (isKeyboardSelectionEvent(e)) {
-                  e.stopPropagation();
-                }
-              }}
               to={
                 `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${leg.trip.pattern.code}/${leg.trip.gtfsId}`
                 // TODO: Create a helper function for generationg links
               }
+              aria-label={`${intl.formatMessage({
+                id: mode.toLowerCase(),
+                defaultMessage: 'Vehicle',
+              })} ${leg.route && leg.route.shortName}`}
             >
-              <RouteNumber
-                mode={mode.toLowerCase()}
-                alertSeverityLevel={alertSeverityLevel}
-                color={leg.route ? `#${leg.route.color}` : 'currentColor'}
-                text={leg.route && leg.route.shortName}
-                realtime={false}
-                withBar
-                fadeLong
-              />
+              <span aria-hidden="true">
+                <RouteNumber
+                  mode={mode.toLowerCase()}
+                  alertSeverityLevel={alertSeverityLevel}
+                  color={leg.route ? `#${leg.route.color}` : 'currentColor'}
+                  text={leg.route && leg.route.shortName}
+                  realtime={false}
+                  withBar
+                  fadeLong
+                />
+              </span>
             </Link>
-            <div className="headsign">{leg.trip.tripHeadsign}</div>
+            <div className="headsign">{headsign}</div>
           </div>
           {(alertSeverityLevel === AlertSeverityLevelType.Warning ||
-            alertSeverityLevel === AlertSeverityLevelType.Severe) && (
+            alertSeverityLevel === AlertSeverityLevelType.Severe ||
+            alertSeverityLevel === AlertSeverityLevelType.Unknown) && (
             <div className="disruption">
-              <ExternalLink className="disruption-link" href={alert.url}>
-                <div className="disruption-icon">
-                  <ServiceAlertIcon
-                    className="inline-icon"
-                    severityLevel={alertSeverityLevel}
+              <div className="disruption-link-container">
+                <Link
+                  to={
+                    (alert.route &&
+                      alert.route.gtfsId &&
+                      `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_DISRUPTION}/${leg.trip.pattern.code}`) ||
+                    (alert.stop &&
+                      alert.stop.gtfsId &&
+                      `/${PREFIX_STOPS}/${alert.stop.gtfsId}/${PREFIX_DISRUPTION}/`)
+                  }
+                  className="disruption-link"
+                >
+                  <div className="disruption-icon">
+                    <ServiceAlertIcon
+                      className="inline-icon"
+                      severityLevel={alertSeverityLevel}
+                    />
+                  </div>
+                  <div className="description">{alert.header}</div>
+                  <Icon
+                    img="icon-icon_arrow-collapse--right"
+                    className="disruption-link-arrow"
+                    color={config.colors.primary}
                   />
-                </div>
-                <div className="description">{alert.header}</div>
-                <Icon
-                  img="icon-icon_arrow-collapse--right"
-                  className="disruption-link-arrow"
-                  color={config.colors.primary}
-                />
-              </ExternalLink>
+                </Link>
+              </div>
             </div>
           )}
           <LegAgencyInfo leg={leg} />

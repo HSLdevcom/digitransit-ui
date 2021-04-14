@@ -279,9 +279,9 @@ $heading-color: #858585;
   display: flex;
   flex-direction: column;
   background-color: #fff;
-  padding: 27px 10px;
+  margin-top: 35px;
   .datetimepicker-container {
-    margin: 20px 0 11px 0;
+    margin: 20px 0 9px 0;
     .datetimepicker-bottom-row-open {
       padding-bottom: 30px;
       border-bottom: 1px solid rgb(221, 221, 221);
@@ -326,6 +326,9 @@ $heading-color: #858585;
 
 .near-you-buttons-container {
   margin-bottom: 31px;
+}
+.stop-route-search-container {
+  margin-bottom: 5px;
 }
 
 .map-container {
@@ -452,23 +455,7 @@ div.route-tabs .tabs-navigation.bp-large {
   flex-direction: column;
 }
 
-#page-footer-container {
-  bottom: 0px;
-  position: absolute;
-  z-index: index($zindex, footer);
-  left: 32% // DT-3381: TODO Placeholder values!
-}
-
-#page-footer {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  background-color: rgba(255, 255, 255, 0.7);
-
-  height: 30px;
-}
-
-.footer-item {
+.menu-item {
   cursor: pointer;
   font-size: $font-size-small;
   button {
@@ -484,25 +471,23 @@ div.route-tabs .tabs-navigation.bp-large {
   }
 }
 
-.footer-text {
+.menu-text {
   @include font-book;
   color: $gray;
 }
 
-.footer-separator {
-  width: 1px;
-  height: 20px;
-  margin-left: 10px;
-  margin-right: 10px;
-  border-right: 1px solid $medium-gray;
-}
-
-svg.icon.footer-icon {
+svg.icon.menu-icon {
   position: relative;
   top: 2px;
   margin-right: 6px;
 }
 .front-page.bp-large {
+  margin-top: 0;
+  padding-top: 47px;
+  border-right: 1px solid #ccc;
+  .datetimepicker-container {
+    margin-bottom: 11px;
+  }
   .scrollable-content-wrapper {
     overflow-y: auto;
     overflow-x: hidden;
@@ -625,7 +610,7 @@ svg.icon.footer-icon {
   padding-bottom: 0.625rem;
   padding-left: 1.25rem;
   padding-right: 1.25rem;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
   border-top: 1px solid transparent;
   color: #fff;
 

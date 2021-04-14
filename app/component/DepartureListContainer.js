@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import Link from 'found/Link';
-import { intlShape } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
 
 import DepartureRow from './DepartureRow';
 import { patternIdPredicate } from '../util/alertUtils';
@@ -17,6 +17,7 @@ import {
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { getHeadsignFromRouteLongName } from '../util/legUtils';
 
 const asDepartures = stoptimes =>
   !stoptimes
@@ -76,9 +77,14 @@ class DepartureListContainer extends Component {
     super(props);
     this.startClient = this.startClient.bind(this);
     this.updateClient = this.updateClient.bind(this);
+    this.pageLoadedAlertRef = React.createRef();
   }
 
   componentDidMount() {
+    if (this.pageLoadedAlertRef.current) {
+      // eslint-disable-next-line no-self-assign
+      this.pageLoadedAlertRef.current.innerHTML = this.pageLoadedAlertRef.current.innerHTML;
+    }
     if (this.context.config.showVehiclesOnStopPage && this.props.isStopPage) {
       const departures = asDepartures(this.props.stoptimes)
         .filter(departure => !(this.props.isTerminal && departure.isArrival))
@@ -184,15 +190,25 @@ class DepartureListContainer extends Component {
         defaultMessage: 'Drop-off only',
       });
     }
-    return (
+    const headsign =
       departure.headsign ||
       departure.pattern.headsign ||
       (departure.trip && departure.trip.tripHeadsign) ||
-      departure.pattern.route.longName
-    );
+      getHeadsignFromRouteLongName(departure.pattern.route);
+
+    return headsign;
   };
 
   render() {
+    const screenReaderAlert = (
+      <span className="sr-only" role="alert" ref={this.pageLoadedAlertRef}>
+        <FormattedMessage
+          id="stop-page.right-now.loaded"
+          defaultMessage="Right now stop page loaded"
+        />
+      </span>
+    );
+
     const departureObjs = [];
     const { currentTime, limit, isTerminal, stoptimes } = this.props;
 
@@ -261,13 +277,16 @@ class DepartureListContainer extends Component {
     });
 
     return (
-      <div
-        className={cx('departure-list', this.props.className)}
-        onScroll={this.onScroll()}
-        role="table"
-      >
-        {departureObjs}
-      </div>
+      <>
+        {screenReaderAlert}
+        <div
+          className={cx('departure-list', this.props.className)}
+          onScroll={this.onScroll()}
+          role="table"
+        >
+          {departureObjs}
+        </div>
+      </>
     );
   }
 }

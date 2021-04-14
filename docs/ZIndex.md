@@ -5,7 +5,8 @@ This is a list of the existing z-index values of UI components. The z-index prop
 Selector | Component | Z-Index | Comment
 ---------|-----------|---------|--------
 `.modal-overlay` | Modal util | 1400 |
-N/A | React Material Drawer | 1200/1300 | Defined by material-ui
+`.menu-background` | Mobile menu drawer background | 1200 |
+`.menu-content` | Mobile menu drawer | 1300 |
 `.search-modal` | Search modal | 1301 |
 `.search-modal-overlay` | Search modal | 1100 |
 `.spinner-loader` | RoutePage | 40000 | 
@@ -21,7 +22,6 @@ N/A | React Material Drawer | 1200/1300 | Defined by material-ui
 `.background-gradient` | Shadow at top of map | 400 |
 `.map-click-prevent-overlay` | Overlay to prevent interaction with map | 801 |
 `.itinerary-feedback-container .form-container` | Itinerary feedback form | 800 | Component not in use
-`#page-footer-container` | Frontpage footer | 800
 `#stop-page-action-bar` | tool bar on stop page so that the shadow casts over the map|  400 |
 `.trip-from, .trip-to` | Route schedule times | 1 |
 `.route-stop { div { .route-now-content { svg` | Selected trip icon with tail | 1 |

@@ -17,6 +17,9 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#F76013',
+    iconColors: {
+      'mode-bus': '#F76013',
+    },
   },
 
   socialMedia: {
@@ -35,6 +38,19 @@ export default configMerger(walttiConfig, {
   logo: 'hameenlinna/logo.png',
 
   feedIds: ['Hameenlinna', 'HameenlinnaEly'],
+
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/hml_zone_lines_20210222.geojson',
+      },
+    ],
+  },
 
   mapLayers: {
     tooltip: {
@@ -82,12 +98,11 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  footer: {
+  menu: {
+    copyright: { label: `© Hameenlinna ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Hameenlinna ${walttiConfig.YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href:
           'http://kartta.hameenlinna.fi/eFeedback/fi/Feedback/35-Joukkoliikenne',
@@ -155,4 +170,5 @@ export default configMerger(walttiConfig, {
 
   showAllBusses: true,
   showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
 });

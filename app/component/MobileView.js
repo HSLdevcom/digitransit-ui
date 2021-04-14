@@ -42,6 +42,7 @@ export default function MobileView({
   carpoolDrawer,
   selectFromMapHeader,
   mapCenterToggle,
+  searchBox,
 }) {
   if (settingsDrawer && settingsDrawer.props.open) {
     return <div className="mobile">{settingsDrawer}</div>;
@@ -85,16 +86,19 @@ export default function MobileView({
 
   const onScroll = e => {
     if (map) {
-      const scroll = e.target.scrollTop;
-      changeBottomsheetState({
-        context: { ...bottomsheetState.context, buttonBottomPadding: scroll },
-      });
+      if (e.target.className === 'drawer-container') {
+        const scroll = e.target.scrollTop;
+        changeBottomsheetState({
+          context: { ...bottomsheetState.context, buttonBottomPadding: scroll },
+        });
+      }
     }
   };
 
   return (
     <div className="mobile">
       {selectFromMapHeader}
+      {searchBox && <span>{searchBox}</span>}
       {map ? (
         <>
           <MapBottomsheetContext.Provider value={bottomsheetState.context}>
@@ -128,5 +132,6 @@ MobileView.propTypes = {
   settingsDrawer: PropTypes.node,
   carpoolDrawer: PropTypes.node,
   selectFromMapHeader: PropTypes.node,
+  searchBox: PropTypes.node,
   mapCenterToggle: PropTypes.bool,
 };

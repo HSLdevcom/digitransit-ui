@@ -3,7 +3,7 @@ $primary-color:#007ac9;
 $font-weight-medium: 500;
 $search-result-text-highlight-background-color: #F4F4F5;
 
-$zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
+$zindex: base, map-container, map-gradient, map-fullscreen-toggle,
   map-buttons, context-panel, search-panel, search-overlay, stop-route-station-input, destination-input,
   viapoint-input-5, viapoint-input-4, viapoint-input-3, viapoint-input-2,
   viapoint-input-1, origin-input, search-input-focus, search-input-icon, rectangle, autosuggest-suggestion-container, front;
@@ -60,7 +60,7 @@ input[type='text'] {
   position: relative;
   top: -2px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   letter-spacing: -0.2px;
   color: #333333;
 }
@@ -70,7 +70,7 @@ input[type='text'] {
   align-items: center;
   width: 100%;
   .input {
-    font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+    font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
     width: 100%;
     position: relative;
     padding-bottom: 7px;
@@ -79,7 +79,7 @@ input[type='text'] {
     height: 26px;
     font-weight: normal;
     box-shadow: none;
-    font-size: 15px;
+    font-size: 16px;
     letter-spacing: -0.5px;
     color: #666666;
     -webkit-appearance: none;
@@ -186,7 +186,7 @@ button.clear-input {
   background: #f4f4f5;
   color: var(--color);
   font-size: 15px;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   letter-spacing: -0.42px;
   border-top: 1px solid #ddd;
 }
@@ -200,13 +200,35 @@ button.clear-input {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100vw;
+  height: 100%;
   background-color: white;
-  position: absolute;
+  position: fixed;
 }
-.mobile-modal-content {
+
+.mobile-modal {
   position: absolute;
-  width: 100vw;
-  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  /* stylelint-disable-next-line */
+  &:global(.ReactModal__Content--after-open > div) {
+    transform: translateY(0);
+  }
+
+  /* stylelint-disable-next-line */
+  &:global(.ReactModal__Content--before-close > div) {
+    transform: translateY(10%);
+  }
+}
+
+.mobile-modal-content {
+  position: fixed;
+  width: 100%;
+  height: 100%;
   outline: none;
+  background-color: #ffffff;
+  transition: transform 0.25s;
+  transform: translateY(10%);
 }

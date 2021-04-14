@@ -7,12 +7,13 @@ import { createRefetchContainer, graphql } from 'react-relay';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
 import { routerShape, RedirectException } from 'found';
+import Autosuggest from 'react-autosuggest';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import {
   enrichPatterns,
   routePatternOptionText,
 } from '@digitransit-util/digitransit-util';
-import { intlShape } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import {
@@ -25,6 +26,22 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 // DT-3317
 
 const DATE_FORMAT = 'YYYYMMDD';
+
+function patternTextWithIcon(lang, pattern, isTogglable) {
+  const text = routePatternOptionText(lang, pattern, isTogglable);
+  const i = text.search(/➔/);
+  if (i === -1) {
+    return text;
+  }
+  return (
+    <>
+      {text.slice(0, i)}
+      <Icon className="in-text-arrow" img="icon-icon_arrow-right-long" />
+      <span className="sr-only">➔</span>
+      {text.slice(i + 1)}
+    </>
+  );
+}
 
 class RoutePatternSelect extends Component {
   constructor(props) {
@@ -68,7 +85,7 @@ class RoutePatternSelect extends Component {
   };
 
   getOptions = () => {
-    const { gtfsId, params, route, useCurrentTime, lang } = this.props; // DT-3182: added useCurrentTime, DT-3347: added lang
+    const { gtfsId, params, route, useCurrentTime } = this.props; // DT-3182: added useCurrentTime, DT-3347: added lang
     const { router } = this.context;
     const { patterns } = route;
 
@@ -94,36 +111,16 @@ class RoutePatternSelect extends Component {
         'activeDates[0]',
       ).reverse(),
       'tripsForDate.length',
-    )
-      .reverse()
-      .map(pattern => {
-        // DT-2531 changed to correct variable (maybe confusing with variable 'patterns')
-        if (futureTrips.length === 2) {
-          return (
-            <div
-              key={pattern.code}
-              value={pattern.code}
-              className="route-option-togglable"
-            >
-              {routePatternOptionText(lang, pattern, true)}
-            </div>
-          );
-        }
-        return (
-          <option key={pattern.code} value={pattern.code}>
-            {routePatternOptionText(lang, pattern, false)}
-          </option>
-        );
-      });
+    ).reverse();
 
-    if (options.every(o => o.key !== params.patternId)) {
+    if (options.every(o => o.code !== params.patternId)) {
       if (isBrowser) {
         router.replace(
-          `/${PREFIX_ROUTES}/${gtfsId}/${PREFIX_STOPS}/${options[0].key}`,
+          `/${PREFIX_ROUTES}/${gtfsId}/${PREFIX_STOPS}/${options[0].code}`,
         );
       } else {
         throw new RedirectException(
-          `/${PREFIX_ROUTES}/${gtfsId}/${PREFIX_STOPS}/${options[0].key}`,
+          `/${PREFIX_ROUTES}/${gtfsId}/${PREFIX_STOPS}/${options[0].code}`,
         );
       }
     }
@@ -131,98 +128,141 @@ class RoutePatternSelect extends Component {
   };
 
   render() {
-    const options = this.getOptions();
-    const { intl } = this.context;
-    let ariaLabel;
-    let directions;
-    if (!this.state.loading && options && options.length === 2) {
-      const direction1 = options.filter(
-        o => o.props.value === this.props.params.patternId,
-      )[0].props.children;
-      const direction2 = options.find(
-        o => o.props.value !== this.props.params.patternId,
-      ).props.children;
-      directions = [direction1, direction2];
-      ariaLabel = directions[0].concat(' ').concat(
-        intl.formatMessage({
-          id: 'swap-order-button-label',
-        }),
+    if (this.state.loading === true) {
+      return (
+        <div
+          className={cx('route-pattern-select', this.props.className)}
+          aria-atomic="true"
+        />
       );
     }
-    return this.state.loading === true ? (
-      <div
-        className={cx('route-pattern-select', this.props.className)}
-        aria-atomic="true"
-      />
-    ) : (
+
+    const { intl } = this.context;
+    const options = this.getOptions();
+    const currentPattern = options.find(
+      o => o.code === this.props.params.patternId,
+    );
+    const renderButtonOnly = options && options.length === 2;
+    if (renderButtonOnly) {
+      const otherPattern = options.find(
+        o => o.code !== this.props.params.patternId,
+      );
+      return (
+        <div
+          className={cx('route-pattern-select', this.props.className)}
+          aria-atomic="true"
+        >
+          <label htmlFor="route-pattern-toggle-button">
+            <span className="sr-only">
+              <FormattedMessage id="swap-order-button-label" />
+            </span>
+            <button
+              id="route-pattern-toggle-button"
+              className="route-pattern-toggle"
+              type="button"
+              onClick={() => this.props.onSelectChange(otherPattern.code)}
+            >
+              {patternTextWithIcon(this.props.lang, currentPattern, true)}
+              <Icon className="toggle-icon" img="icon-icon_direction-c" />
+            </button>
+          </label>
+        </div>
+      );
+    }
+    const showExtraSection = options && options.length > 2;
+    let suggestions;
+    if (showExtraSection) {
+      suggestions = [
+        { options: options.slice(0, 2), name: '' },
+        {
+          options: options.slice(2),
+          name: intl.formatMessage({
+            id: 'route-page.special-patterns-name',
+          }),
+        },
+      ];
+    } else {
+      suggestions = [{ options, name: '' }];
+    }
+    return (
       <div
         className={cx('route-pattern-select', this.props.className)}
         aria-atomic="true"
       >
-        {options && (options.length > 2 || options.length === 1) ? (
-          <React.Fragment>
-            <Icon img="icon-icon_arrow-dropdown" />
-            <select
-              id="select-route-pattern"
-              onChange={e => this.props.onSelectChange(e.target.value)}
-              value={this.props.params && this.props.params.patternId}
-              // mousedown works for detecting select box open atleast for firefox, chrome and edge
-              onMouseDown={() => {
+        {/* eslint-disable-next-line  jsx-a11y/label-has-associated-control */}
+        <label htmlFor="select-route-pattern-input">
+          <span className="sr-only">
+            <FormattedMessage id="route-page.pattern-select-title" />
+          </span>
+          <Autosuggest
+            id="select-route-pattern"
+            suggestions={suggestions}
+            multiSection
+            renderSectionTitle={s => {
+              return s.name || null;
+            }}
+            getSectionSuggestions={s => {
+              return s.options;
+            }}
+            getSuggestionValue={s => s.code}
+            renderSuggestion={s => (
+              <>
+                {patternTextWithIcon(this.props.lang, s, false)}
+                {s.code === currentPattern.code && (
+                  <>
+                    <Icon className="check" img="icon-icon_check" />
+                    <span className="sr-only">
+                      <FormattedMessage id="route-page.pattern-chosen" />
+                    </span>
+                  </>
+                )}
+              </>
+            )}
+            onSuggestionsFetchRequested={() => null}
+            shouldRenderSuggestions={() => true}
+            inputProps={{
+              value:
+                this.props.params &&
+                routePatternOptionText(this.props.lang, currentPattern, false),
+              onChange: (_, { newValue, method }) => {
+                if (['click', 'enter'].includes(method)) {
+                  this.props.onSelectChange(newValue);
+                }
+              },
+              onMouseDown: () => {
                 addAnalyticsEvent({
                   category: 'Route',
                   action: 'OpenDirectionMenu',
                   name: null,
                 });
-              }}
-              tabIndex={0}
-            >
-              {options}
-            </select>
-          </React.Fragment>
-        ) : (
-          <div className="route-patterns-toggle" aria-atomic="true">
-            <div
-              className="route-option"
-              role="button"
-              tabIndex={0}
-              onKeyPress={() =>
-                this.props.onSelectChange(
-                  options.find(
-                    o => o.props.value !== this.props.params.patternId,
-                  ).props.value,
-                )
-              }
-              onClick={() =>
-                this.props.onSelectChange(
-                  options.find(
-                    o => o.props.value !== this.props.params.patternId,
-                  ).props.value,
-                )
-              }
-              aria-label={ariaLabel}
-            >
-              {options &&
-                options.filter(
-                  o => o.props.value === this.props.params.patternId,
-                )[0]}
-            </div>
-
-            <button
-              type="button"
-              className="toggle-direction"
-              onClick={() =>
-                this.props.onSelectChange(
-                  options.find(
-                    o => o.props.value !== this.props.params.patternId,
-                  ).props.value,
-                )
-              }
-              tabIndex={-1}
-            >
-              <Icon img="icon-icon_direction-c" />
-            </button>
-          </div>
-        )}
+              },
+              id: 'select-route-pattern-input',
+              'aria-autocomplete': 'none',
+              readOnly: true,
+              'aria-labelledby': 'pattern-select-label-text',
+            }}
+            renderInputComponent={inputProps => {
+              return (
+                <>
+                  <div className="input-display" aria-hidden="true">
+                    {patternTextWithIcon(
+                      this.props.lang,
+                      currentPattern,
+                      false,
+                    )}
+                    <Icon
+                      className="dropdown-arrow"
+                      img="icon-icon_arrow-collapse"
+                    />
+                  </div>
+                  <input {...inputProps} />
+                </>
+              );
+            }}
+            focusInputOnSuggestionClick
+            onSuggestionsClearRequested={() => null}
+          />
+        </label>
       </div>
     );
   }

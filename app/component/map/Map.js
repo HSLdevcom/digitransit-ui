@@ -25,6 +25,8 @@ import events from '../../util/events';
 import { MapMode } from '../../constants';
 import { getMapMode } from '../../util/queryUtils';
 
+import GeoJSON from './GeoJSON';
+
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
 
 const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_plus"/></svg>`;
@@ -38,6 +40,7 @@ class Map extends React.Component {
     disableMapTracking: PropTypes.func,
     fitBounds: PropTypes.bool,
     hilightedStops: PropTypes.array,
+    stopsToShow: PropTypes.array,
     lang: PropTypes.string.isRequired,
     lat: PropTypes.number,
     lon: PropTypes.number,
@@ -62,6 +65,8 @@ class Map extends React.Component {
     mapReady: PropTypes.func,
     itineraryMapReady: PropTypes.func,
     disableParkAndRide: PropTypes.bool,
+    geoJson: PropTypes.object,
+    mapLayers: PropTypes.object,
   };
 
   static defaultProps = {
@@ -118,6 +123,7 @@ class Map extends React.Component {
           this.props.boundsOptions,
         );
       }
+      this.mapZoomLvl = this.map.leafletElement._zoom;
     }
   };
 
@@ -156,6 +162,8 @@ class Map extends React.Component {
       mapReady,
       itineraryMapReady,
       disableParkAndRide,
+      geoJson,
+      mapLayers,
     } = this.props;
     const { config } = this.context;
     if (itineraryMapReady) {
@@ -182,9 +190,11 @@ class Map extends React.Component {
       leafletObjs.push(
         <VectorTileLayerContainer
           key={mapUrls.join('_')}
+          key="vectorTileLayerContainer"
           hilightedStops={this.props.hilightedStops}
           stopsNearYouMode={this.props.stopsNearYouMode}
           showStops={this.props.showStops}
+          stopsToShow={this.props.stopsToShow}
           disableMapTracking={this.props.disableMapTracking}
           locationPopup={locationPopup}
           onSelectLocation={onSelectLocation}
@@ -198,6 +208,32 @@ class Map extends React.Component {
       attribution = false;
     }
 
+    if (this.map) {
+      this.mapZoomLvl = this.map.leafletElement._zoom;
+    }
+
+    if (geoJson) {
+      // bounds are only used when geojson only contains point geometries
+      Object.keys(geoJson)
+        .filter(
+          key =>
+            mapLayers.geoJson[key] !== false &&
+            (mapLayers.geoJson[key] === true ||
+              geoJson[key].isOffByDefault !== true),
+        )
+        .forEach((key, i) => {
+          leafletObjs.push(
+            <GeoJSON
+              key={key.concat(i)}
+              bounds={null}
+              data={geoJson[key].data}
+              geoJsonZoomLevel={this.mapZoomLvl ? this.mapZoomLvl : 9}
+              locationPopup={locationPopup}
+              onSelectLocation={onSelectLocation}
+            />,
+          );
+        });
+    }
     return (
       <div aria-hidden="true">
         <span
@@ -209,6 +245,7 @@ class Map extends React.Component {
           {this.props.bottomButtons}
         </span>
         <LeafletMap
+          className={`z${this.mapZoomLvl ? this.mapZoomLvl : 9}`}
           keyboard={false}
           ref={el => {
             this.map = el;

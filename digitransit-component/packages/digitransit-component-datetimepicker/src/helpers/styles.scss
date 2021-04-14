@@ -2,7 +2,6 @@
 @import '~@hsl-fi/sass/mixins/screen';
 @import '~@hsl-fi/sass/mixins/text';
 
-$font-weight-medium: 500;
 @mixin default-focus-outline {
   /* First apply outline that is used in Edge and Firefox */
   outline: 1px dotted #212121;
@@ -10,7 +9,7 @@ $font-weight-medium: 500;
   outline: 5px auto -webkit-focus-ring-color; /* stylelint-disable-line declaration-block-no-duplicate-properties */
 }
 
-$zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
+$zindex: base, map-container, map-gradient, map-fullscreen-toggle,
   map-buttons, context-panel, search-panel, search-overlay, stop-route-station-input, destination-input,
   viapoint-input-5, viapoint-input-4, viapoint-input-3, viapoint-input-2,
   viapoint-input-1, origin-input, search-input-focus, search-input-icon, autosuggest-suggestion-container, front;
@@ -30,7 +29,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   padding: 0;
   margin: 0;
   font-size: 15px;
-  font-weight: $font-weight-medium;
+  font-weight: var(--font-weight-medium);
 
   button, label {
     font-size: 1em;
@@ -39,7 +38,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 
   label button {
     cursor: pointer;
-    font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+    font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
   }
 
   .hidden {
@@ -195,7 +194,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 
   .combobox-container {
     cursor: pointer;
-    font-family: 'Gotham Rounded A', 'Gotham Rounded B',Arial, Georgia, Serif;
+    font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
     border: solid #888888 1px;
     display: flex;
     align-items: center;
@@ -290,7 +289,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       }
     }
     .input {
-      font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+      font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
       width: 100%;
       padding-left: 12px;
       padding-right: 0;
@@ -309,7 +308,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       letter-spacing: -0.6px;
       color: #333333;
       font-size: 15px;
-      font-weight: 500;
+      font-weight: var(--font-weight-medium);
       margin: -6px 0 0 -1px;
       position: relative;
     }
@@ -339,6 +338,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   z-index: 1000;
 }
 .mobile-modal-content {
+  font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
   background: white;
   width: 89%;
   position: absolute;
@@ -351,7 +351,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     justify-content: space-between;
     margin-bottom: 21px;
     .modal-title {
-      font-weight: 500;
+      font-weight: var(--font-weight-medium);
       font-size: 20px;
       line-height: 18px;
       letter-spacing: -0.5px;
@@ -359,10 +359,12 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       padding: 6px 0 0 8px;
     }
     .departure-now-button {
+      background-color: white;
+      font-family: inherit;
       padding: 5px 15px;
       border: 1px solid #888888;
       border-radius: 50px;
-      font-weight: 500;
+      font-weight: var(--font-weight-medium);
       font-size: 15px;
       line-height: 18px;
       letter-spacing: -0.02em;
@@ -386,7 +388,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       text-align: center;
       color: #333333;
       &.active {
-        font-weight: 500;
+        font-weight: var(--font-weight-medium);
         background-color: #ffffff;
       }
     }
@@ -417,6 +419,9 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       display: flex;
       align-items: center;
       height: 40px;
+      line-height: 1.5;
+      font-size: 100%;
+
       &:focus-within {
         background: rgba(0, 122, 201, 0.06);
         border: 2px solid var(--color);
@@ -424,6 +429,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 
       .combobox-icon {
         height: 18px;
+        font-size: 18px;
         padding: 0 0 0 10px;
         border: none;
         position: relative;
@@ -433,16 +439,19 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
         }
       }
       .time-input-mobile {
+        font-family: inherit;
         box-shadow: none;
         font-size: 18px;
         letter-spacing: -0.5px;
         line-height: 20px;
-        font-weight: 500;
+        font-weight: var(--font-weight-medium);
         border: none;
         outline: none;
         background: none;
         width: 50px;
         margin-left: 10px;
+        color: #333333;
+        height: 1.5265rem;
       }
       .mobile-input-display {
         position: relative;
@@ -451,13 +460,15 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
         &:focus {
           outline: none;
           box-shadow: none;
+          background: none;
         }
         background: inherit;
         box-shadow: none;
-        font-weight: 500;
+        font-family: inherit;
+        font-weight: var(--font-weight-medium);
         font-stretch: normal;
         font-style: normal;
-        font-size: 15px;
+        font-size: 16px;
         line-height: 1.33;
         letter-spacing: -0.5px;
         color: #333333;
@@ -481,13 +492,17 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       .container  {
         position: absolute;
         width: calc((100% - 50px) * 0.6);
+        height: 25px;
+        font-size: 15px;
 
         .suggestion {
+          list-style: none;
           font-size: 16px;
           font-style: normal;
           font-weight: normal;
           line-height: 49px;
           height: 50px;
+          margin: 0;
           padding: 0 0 0 16px;
           // letter-spacing: -0.6px;
           color: rgba(0,0, 0, 0.87);
@@ -522,8 +537,11 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
           box-shadow: none;
           border: none;
           background: none;
-          font-size: 15px;
-          font-weight: 500;
+          font-size: 16px;
+          font-weight: var(--font-weight-medium);
+          height: 25px;
+          display: inline-block;
+          font-family: inherit;
           line-height: 1.33;
           color: #333333;
           padding-left: 46px;
@@ -540,8 +558,13 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     display:flex;
     flex-direction: column;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     button {
+      background-color: white;
+      font-family: inherit;
+      font-weight: var(--font-weight-medium);
+      font-size: 16px;
+      letter-spacing: -0.02em;
       width: 100%;
       border-radius: 50px;
       height: 40px;

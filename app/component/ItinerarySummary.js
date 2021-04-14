@@ -1,40 +1,48 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import cx from 'classnames';
 import Duration from './Duration';
 import WalkDistance from './WalkDistance';
-import {
-  getTotalWalkingDistance,
-  getTotalBikingDistance,
-  containsBiking,
-  onlyBiking,
-  compressLegs,
-} from '../util/legUtils';
 
-const ItinerarySummary = ({ itinerary }) => {
-  const compressedLegs = compressLegs(itinerary.legs);
-  const compressedItinerary = {
-    ...itinerary,
-    legs: compressedLegs,
-  };
+const ItinerarySummary = ({
+  itinerary,
+  walking,
+  biking,
+  futureText,
+  isMultiRow,
+  isMobile,
+}) => {
   return (
     <div className="itinerary-summary">
+      {!isMobile && <div className="divider-top" />}
       <Duration
-        duration={compressedItinerary.duration}
+        duration={itinerary.duration}
         className="duration--itinerary-summary"
+        startTime={itinerary.startTime}
+        endTime={itinerary.endTime}
+        futureText={futureText}
+        multiRow={isMultiRow}
       />
-      {containsBiking(compressedItinerary) && (
+      {walking && walking.distance > 0 && (
         <WalkDistance
           className="distance--itinerary-summary"
-          icon="icon_biking"
-          walkDistance={getTotalBikingDistance(compressedItinerary)}
+          walkDistance={walking.distance}
+          walkDuration={walking.duration}
         />
       )}
-      {!onlyBiking(compressedItinerary) && (
+      {biking && biking.distance > 0 && (
         <WalkDistance
           className="distance--itinerary-summary"
-          walkDistance={getTotalWalkingDistance(compressedItinerary)}
+          icon="icon_cyclist"
+          walkDistance={biking.distance}
+          walkDuration={biking.duration}
         />
       )}
+      <div
+        className={cx('divider-bottom', {
+          multirow: isMultiRow,
+        })}
+      />
     </div>
   );
 };
@@ -44,6 +52,19 @@ ItinerarySummary.description = () =>
 
 ItinerarySummary.propTypes = {
   itinerary: PropTypes.object.isRequired,
+  walking: PropTypes.object,
+  biking: PropTypes.object,
+  futureText: PropTypes.string,
+  isMultiRow: PropTypes.bool,
+  isMobile: PropTypes.bool,
+};
+
+ItinerarySummary.defaultTypes = {
+  walking: {},
+  biking: {},
+  futureText: '',
+  isMultiRow: false,
+  isMobile: false,
 };
 
 ItinerarySummary.displayName = 'ItinerarySummary';

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import Link from 'found/Link';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
@@ -11,7 +11,10 @@ import { isKeyboardSelectionEvent } from '../util/browser';
 import { PREFIX_STOPS } from '../util/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function WaitLeg({ children, leg, startTime, waitTime, focusAction, index }) {
+function WaitLeg(
+  { children, leg, startTime, waitTime, focusAction, index },
+  { config, intl },
+) {
   const modeClassName = 'wait';
   return (
     <div className="row itinerary-row">
@@ -39,7 +42,7 @@ function WaitLeg({ children, leg, startTime, waitTime, focusAction, index }) {
             values={{ target: leg.to.name || '' }}
           />
         </span>
-        <div className="itinerary-leg-first-row wait" aria-hidden="true">
+        <div className="itinerary-leg-first-row wait">
           <div className="itinerary-leg-row">
             <Link
               onClick={e => {
@@ -51,7 +54,7 @@ function WaitLeg({ children, leg, startTime, waitTime, focusAction, index }) {
               <Icon
                 img="icon-icon_arrow-collapse--right"
                 className="itinerary-arrow-icon"
-                color="#333"
+                color={config.colors.primary}
               />
             </Link>
             <div className="stop-code-container">{children}</div>
@@ -62,6 +65,10 @@ function WaitLeg({ children, leg, startTime, waitTime, focusAction, index }) {
             onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
             role="button"
             tabIndex="0"
+            aria-label={intl.formatMessage(
+              { id: 'itinerary-summary.show-on-map' },
+              { target: leg.to.name || '' },
+            )}
           >
             <Icon
               img="icon-icon_show-on-map"
@@ -69,7 +76,7 @@ function WaitLeg({ children, leg, startTime, waitTime, focusAction, index }) {
             />
           </div>
         </div>
-        <div className="itinerary-leg-action" aria-hidden="true">
+        <div className="itinerary-leg-action">
           <div className="itinerary-leg-action-content">
             <FormattedMessage
               id="wait-amount-of-time"
@@ -82,6 +89,10 @@ function WaitLeg({ children, leg, startTime, waitTime, focusAction, index }) {
               onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
               role="button"
               tabIndex="0"
+              aria-label={intl.formatMessage(
+                { id: 'itinerary-summary.show-on-map' },
+                { target: '' },
+              )}
             >
               <Icon
                 img="icon-icon_show-on-map"
@@ -142,6 +153,11 @@ WaitLeg.propTypes = {
       }),
     }).isRequired,
   }).isRequired,
+};
+
+WaitLeg.contextTypes = {
+  config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 };
 
 export default WaitLeg;

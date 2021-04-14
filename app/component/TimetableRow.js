@@ -1,9 +1,11 @@
+/* eslint-disable no-return-assign */
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
+import { intlShape } from 'react-intl';
 
-const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => (
+const TimetableRow = ({ title, stoptimes, showRoutes, timerows }, { intl }) => (
   <div
     className="timetable-row"
     style={{
@@ -13,7 +15,7 @@ const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => (
           : undefined,
     }}
   >
-    <h1 className="title bold">{title}:</h1>
+    <h1 className="title">{title}:</h1>
     <div className="timetable-printable-title">{title}</div>
     <div className="timetable-rowcontainer">
       {stoptimes
@@ -33,9 +35,17 @@ const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => (
             })}
             key={`${time.id}-${time.name}-${time.scheduledDeparture}`}
           >
-            <span>
+            <div className="sr-only">
+              {`${moment
+                .unix(time.serviceDay + time.scheduledDeparture)
+                .format('hh:mm')}, ${intl.formatMessage({
+                id: time.mode.toLowerCase(),
+              })} ${time.name} 
+              `}
+            </div>
+            <span aria-hidden>
               <div>
-                <span className="bold">
+                <span>
                   {moment
                     .unix(time.serviceDay + time.scheduledDeparture)
                     .format('mm')}
@@ -63,6 +73,10 @@ TimetableRow.propTypes = {
   ).isRequired,
   showRoutes: PropTypes.arrayOf(PropTypes.string),
   timerows: PropTypes.arrayOf(PropTypes.string),
+};
+
+TimetableRow.contextTypes = {
+  intl: intlShape.isRequired,
 };
 
 TimetableRow.defaultProps = {

@@ -19,6 +19,9 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#000000',
+    iconColors: {
+      'mode-bus': '#000000',
+    },
   },
 
   socialMedia: {
@@ -69,12 +72,11 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  footer: {
+  menu: {
+    copyright: { label: `© Kouvola ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Kouvola ${walttiConfig.YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'http://www.palautekouvola.fi',
         icon: 'icon-icon_speech-bubble',

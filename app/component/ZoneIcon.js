@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 
-const ZoneIcon = ({ className, zoneId, showUnknown }, { config }) => {
+const ZoneIcon = ({ className, zoneId, showUnknown }, { config, intl }) => {
   if (!zoneId) {
     return null;
   }
@@ -27,10 +27,22 @@ const ZoneIcon = ({ className, zoneId, showUnknown }, { config }) => {
           'unknown-container': zoneUnknown,
         },
       )}
+      aria-label={
+        !zoneUnknown
+          ? `${intl.formatMessage({ id: 'zone' })} ${zoneId}`
+          : intl.formatMessage({ id: 'zone-unknown' })
+      }
     >
-      {zoneUnknown && <div className="unknown">?</div>}
+      {zoneUnknown && (
+        <div aria-hidden className="unknown">
+          ?
+        </div>
+      )}
       {!zoneUnknown && (
-        <div className={cx('circle', { 'multi-letter': zoneId.length > 1 })}>
+        <div
+          aria-hidden
+          className={cx('circle', { 'multi-letter': zoneId.length > 1 })}
+        >
           {zoneId}
         </div>
       )}

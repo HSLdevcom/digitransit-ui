@@ -9,7 +9,7 @@ function StopPageTabContainer({ children, stop }, { match }) {
     return null;
   }
   return (
-    <div className="stop-page-content-wrapper">
+    <div className="stop-page-content-wrapper" aria-live="polite">
       <StopPageTabs stop={stop} />
       {children}
     </div>

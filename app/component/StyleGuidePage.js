@@ -5,8 +5,7 @@ import { createMockEnvironment } from 'relay-test-utils';
 import { QueryRenderer } from 'react-relay';
 
 import Icon from './Icon';
-import IconWithTail from './IconWithTail';
-import SelectedIconWithTail from './SelectedIconWithTail';
+import VehicleIcon from './VehicleIcon';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import ComponentDocumentation from './ComponentDocumentation';
@@ -15,11 +14,7 @@ import DepartureTime from './DepartureTime';
 import PlatformNumber from './PlatformNumber';
 import CardHeader from './CardHeader';
 import Card from './Card';
-import CityBikeCard from './CityBikeCard';
-import CityBikeContent from './CityBikeContent';
 import CityBikeAvailability from './CityBikeAvailability';
-import CityBikeUse from './CityBikeUse';
-import CityBikePopupContainer from './map/popups/CityBikePopupContainer';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import TripRouteStop from './TripRouteStop';
 import MarkerSelectPopup from './map/tile-layer/MarkerSelectPopup';
@@ -38,8 +33,7 @@ import RouteAlertsRow from './RouteAlertsRow';
 import ModeFilter from './ModeFilter';
 import Availability from './Availability';
 import ParkAndRideAvailability from './map/popups/ParkAndRideAvailability';
-import AppBarSmall from './AppBarSmall';
-import AppBarLarge from './AppBarLarge';
+import AppBar from './AppBar';
 import StopPageHeader from './StopPageHeader';
 import StopCardHeader from './StopCardHeader';
 import SplitBars from './SplitBars';
@@ -49,9 +43,7 @@ import SelectedStopPopupContent from './SelectedStopPopupContent';
 import { Component as LangSelect } from './LangSelect';
 import ExternalLink from './ExternalLink';
 import { component as SummaryRow } from './SummaryRow';
-import PageFooter from './PageFooter';
-import FooterItem from './FooterItem';
-import DateWarning from './DateWarning';
+import MenuItem from './MenuItem';
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
 import BicycleLeg from './BicycleLeg';
@@ -72,7 +64,7 @@ import CallAgencyLeg from './CallAgencyLeg';
 import CallAgencyWarning from './CallAgencyWarning';
 import Timetable from './Timetable';
 import Error404 from './404';
-import SelectMapLayersDialog from './SelectMapLayersDialog';
+import MapLayersDialogContent from './MapLayersDialogContent';
 import MainMenuContainer from './MainMenuContainer';
 import OriginDestinationBar from './OriginDestinationBar';
 import { Component as IndexPage } from './IndexPage';
@@ -82,8 +74,7 @@ import { Component as ItineraryTab } from './ItineraryTab';
 
 const components = {
   Icon,
-  IconWithTail,
-  SelectedIconWithTail,
+  VehicleIcon,
   IconWithBigCaution,
   IconWithIcon,
   ComponentDocumentation,
@@ -92,11 +83,7 @@ const components = {
   PlatformNumber,
   CardHeader,
   Card,
-  CityBikeCard,
-  CityBikeContent,
   CityBikeAvailability,
-  CityBikeUse,
-  CityBikePopupContainer,
   Availability,
   ParkAndRideAvailability,
   RightOffcanvasToggle,
@@ -115,8 +102,7 @@ const components = {
   RouteAlertsRow,
   ModeFilter,
   RouteStop,
-  AppBarSmall,
-  AppBarLarge,
+  AppBar,
   CanceledLegsBar,
   StopPageHeader,
   StopCardHeader,
@@ -127,9 +113,7 @@ const components = {
   SummaryRow,
   ExternalLink,
   LangSelect,
-  PageFooter,
-  FooterItem,
-  DateWarning,
+  MenuItem,
   ItineraryLegs,
   WalkLeg,
   WaitLeg,
@@ -154,7 +138,7 @@ const components = {
 };
 
 const fullscreenComponents = {
-  SelectMapLayersDialog,
+  MapLayersDialogContent,
   MainMenuContainer,
   OriginDestinationBar,
   IndexPage,
@@ -256,11 +240,6 @@ function getFonts() {
         B&quot;, Arial, Georgia, Serif
         <span className="code">@include font-medium</span>
       </p>
-      <p style={{ fontWeight: '700' }}>
-        Primary font: &quot;Gotham Rounded A&quot;,&quot; Gotham Rounded
-        B&quot;, Arial, Georgia, Serif
-        <span className="code">@include font-bold</span>
-      </p>
       <span className="code">$font-family-narrow</span>
       <p
         style={{
@@ -347,13 +326,6 @@ function getTextStyles() {
       <span className="code">
         <span />
       </span>
-      <p className="bold">
-        this text is bold (should be avoided, set the complete font with mixins
-        instead)
-        <span className="code">
-          .bold or <b />
-        </span>
-      </p>
     </section>
   );
 }
@@ -390,9 +362,6 @@ function getIcons() {
         ).map(symbol => getIcon(symbol.id))}
       </div>
       <div>
-        <Icon className="large-icon" img="icon-icon_subway-live" />
-        <span className="code">.large-icon</span>
-        <br />
         <Icon className="large-icon" img="icon-icon_user" />
         <span className="code">.large-icon</span>
         <br />
@@ -440,9 +409,6 @@ function getHelpers() {
       <br />
       <div className="cursor-pointer">
         some div<span className="code">.cursor-pointer</span>
-      </div>
-      <div className="bold">
-        some div<span className="code">.bold</span>
       </div>
       <div className="uppercase">
         some div<span className="code">.uppercase</span>

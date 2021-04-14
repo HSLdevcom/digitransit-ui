@@ -5,55 +5,25 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import moment from 'moment';
 import { save } from 'react-cookie';
 import ComponentUsageExample from './ComponentUsageExample';
-import { setLanguage } from '../action/userPreferencesActions';
 import { isBrowser } from '../util/browser';
-import { replaceQueryParams } from '../util/queryUtils';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-const selectLanguage = (executeAction, lang, router, match) => () => {
-  addAnalyticsEvent({
-    category: 'Navigation',
-    action: 'ChangeLanguage',
-    name: lang,
-  });
-  executeAction(setLanguage, lang);
-  // save cookie
-  save('lang', lang);
-  if (lang !== 'en') {
-    // eslint-disable-next-line global-require, import/no-dynamic-require
-    require(`moment/locale/${lang}`);
-  }
-  moment.locale(lang);
-  replaceQueryParams(router, match, { locale: lang });
-  window.location.reload();
-};
-
-const language = (lang, highlight, executeAction, router, match) => (
-  <button
+const language = (lang, highlight, match) => (
+  <a
     id={`lang-${lang}`}
     key={lang}
+    href={`/${lang}${match.location.pathname}${match.location.search}`}
     className={`${(highlight && 'selected') || ''} noborder lang`}
-    onClick={selectLanguage(executeAction, lang, router, match)}
   >
     {lang}
-  </button>
+  </a>
 );
 
-const LangSelect = (
-  { currentLanguage },
-  { executeAction, config, router, match },
-) => {
+const LangSelect = ({ currentLanguage }, { config, match }) => {
   if (isBrowser) {
     return (
       <div key="lang-select" id="lang-select">
         {config.availableLanguages.map(lang =>
-          language(
-            lang,
-            lang === currentLanguage,
-            executeAction,
-            router,
-            match,
-          ),
+          language(lang, lang === currentLanguage, match),
         )}
       </div>
     );
@@ -93,4 +63,4 @@ const connected = connectToStores(
   }),
 );
 
-export { connected as default, LangSelect as Component, selectLanguage };
+export { connected as default, LangSelect as Component };

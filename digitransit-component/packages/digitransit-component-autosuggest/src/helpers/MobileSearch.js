@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useCallback } from 'react';
-import hooks from '@hsl-fi/hooks';
 import cx from 'classnames';
 import ReactModal from 'react-modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
@@ -45,21 +44,17 @@ const MobileSearch = ({
   color,
   hoverColor,
   searchOpen,
+  fontWeights,
 }) => {
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
-  const { lock, unlock } = hooks.useScrollLock();
+
   const [isDialogOpen, setDialogOpen] = useState(false);
   const inputRef = React.useRef();
 
-  const onOpen = useCallback(() => {
-    lock();
-  }, []);
-
-  const handleClose = useCallback(() => {
-    unlock();
+  const onClose = useCallback(() => {
     closeHandle();
-  }, []);
+  });
 
   useEffect(() => {
     ReactModal.setAppElement(appElement);
@@ -68,7 +63,8 @@ const MobileSearch = ({
   const onSelect = (e, ref) => {
     if (ref.suggestion.type === 'clear-search-history') {
       setDialogOpen(true);
-    } else {
+    } else if (!ref.suggestion.properties.arrowClicked) {
+      // Select item if fill input button is not pressed (diagonal arrow in suggestion items)
       onSuggestionSelected(e, ref);
     }
   };
@@ -105,6 +101,7 @@ const MobileSearch = ({
         secondaryButtonOnClick={() => setDialogOpen(false)}
         color={color}
         hoverColor={hoverColor}
+        fontWeights={fontWeights}
       />
     );
   };
@@ -125,7 +122,7 @@ const MobileSearch = ({
   const renderContent = () => {
     return (
       <label className={styles['combobox-container']} htmlFor={inputId}>
-        <div className={styles['combobox-icon']} onClick={handleClose}>
+        <div className={styles['combobox-icon']} onClick={onClose}>
           <Icon img="arrow" />
         </div>
         <span className={styles['right-column']}>
@@ -139,7 +136,10 @@ const MobileSearch = ({
             onSuggestionsFetchRequested={fetchFunction}
             getSuggestionValue={getValue}
             renderSuggestion={renderItem}
-            focusInputOnSuggestionClick={false}
+            // focusInputOnSuggestionClick must be set to true.
+            // If set to false, input won't be focused when user clicks on
+            // Fill input button in suggestion list. (diagonal arrow in street name items)
+            focusInputOnSuggestionClick
             shouldRenderSuggestions={() => true}
             inputProps={{
               ...inputProps,
@@ -157,10 +157,6 @@ const MobileSearch = ({
                   id={id}
                   onKeyDown={onKeyDown}
                   {...p}
-                  style={{
-                    '--color': `${color}`,
-                    '--hover-color': `${hoverColor}`,
-                  }}
                 />
                 {value && clearButton()}
               </>
@@ -180,14 +176,19 @@ const MobileSearch = ({
   return (
     <ReactModal
       isOpen={searchOpen}
-      className={styles['mobile-modal-content']}
+      className={styles['mobile-modal']}
       overlayClassName={styles['mobile-modal-overlay']}
-      onRequestClose={closeHandle}
-      onAfterOpen={onOpen}
-      onAfterClose={handleClose}
+      onAfterClose={onClose}
       shouldCloseOnEsc
     >
-      <div>
+      <div
+        className={styles['mobile-modal-content']}
+        style={{
+          '--color': `${color}`,
+          '--hover-color': `${hoverColor}`,
+          '--font-weight-medium': fontWeights.medium,
+        }}
+      >
         {renderContent()}
         {renderDialogModal()}
       </div>
@@ -225,6 +226,9 @@ MobileSearch.propTypes = {
   color: PropTypes.string,
   hoverColor: PropTypes.string,
   searchOpen: PropTypes.bool.isRequired,
+  fontWeights: PropTypes.shape({
+    medium: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 export default MobileSearch;

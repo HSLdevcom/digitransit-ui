@@ -1,16 +1,66 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-
+import { matchShape } from 'found';
 import CardHeader from './CardHeader';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import ExternalLink from './ExternalLink';
-import FavouriteStopContainer from './FavouriteStopContainer';
+import { getJson } from '../util/xhrPromise';
+import { saveSearch } from '../action/SearchActions';
+import { isIOS } from '../util/browser';
+import LazilyLoad, { importLazy } from './LazilyLoad';
+
+const modules = {
+  FavouriteStopContainer: () => importLazy(import('./FavouriteStopContainer')),
+};
 
 class StopCardHeader extends React.Component {
+  componentDidMount() {
+    // update localStorage searches if necessary
+    const { stop, isPopUp } = this.props;
+    if (!isIOS || !stop || isPopUp || !this.context.match.location.query.save) {
+      return;
+    }
+    const layer = this.props.isTerminal ? 'station' : 'stop';
+    let id = `GTFS:${stop.gtfsId}`;
+    let { name } = stop;
+    if (stop.code) {
+      id = `${id}#${stop.code}`;
+      name = `${name} ${stop.code}`;
+    }
+
+    getJson(this.context.config.URL.PELIAS_REVERSE_GEOCODER, {
+      'point.lat': stop.lat,
+      'point.lon': stop.lon,
+      'boundary.circle.radius': 0.2,
+      size: 1,
+    }).then(data => {
+      if (data.features != null && data.features.length > 0) {
+        const match = data.features[0].properties;
+        const city = match.localadmin;
+
+        this.context.executeAction(saveSearch, {
+          item: {
+            geometry: { coordinates: [stop.lon, stop.lat] },
+            properties: {
+              name,
+              id,
+              gid: `gtfs:${layer}:${id}`,
+              layer,
+              label: `${stop.name}, ${city}`,
+              localadmin: city,
+            },
+            type: 'Feature',
+          },
+          type: 'endpoint',
+        });
+      }
+    });
+  }
+
   get headerConfig() {
     return this.context.config.stopCard.header;
   }
@@ -24,6 +74,10 @@ class StopCardHeader extends React.Component {
 
     if (this.headerConfig.showDistance && this.props.distance) {
       description += ` // ${Math.round(this.props.distance)} m`;
+    }
+
+    if (this.props.isTerminal && this.props.stop.stops) {
+      description = this.props.stop.stops[0].desc;
     }
 
     return description;
@@ -81,11 +135,15 @@ class StopCardHeader extends React.Component {
         externalLink={this.getExternalLink(stop.gtfsId, isPopUp)}
         icons={icons}
         showBackButton={breakpoint === 'large'}
-        backButtonColor={this.context.config.colors.primary}
         stop={stop}
         headerConfig={this.headerConfig}
+        isTerminal={isTerminal}
         favouriteContainer={
-          <FavouriteStopContainer stop={stop} isTerminal={isTerminal} />
+          <LazilyLoad modules={modules}>
+            {({ FavouriteStopContainer }) => (
+              <FavouriteStopContainer stop={stop} isTerminal={isTerminal} />
+            )}
+          </LazilyLoad>
         }
       />
     );
@@ -101,6 +159,11 @@ StopCardHeader.propTypes = {
     desc: PropTypes.string,
     isPopUp: PropTypes.bool,
     zoneId: PropTypes.string,
+    stops: PropTypes.arrayOf(
+      PropTypes.shape({
+        desc: PropTypes.string,
+      }),
+    ),
     alerts: PropTypes.arrayOf(
       PropTypes.shape({
         alertSeverityLevel: PropTypes.string,
@@ -138,6 +201,8 @@ StopCardHeader.contextTypes = {
     }).isRequired,
   }).isRequired,
   intl: intlShape.isRequired,
+  executeAction: PropTypes.func.isRequired,
+  match: matchShape.isRequired,
 };
 
 const exampleStop = {

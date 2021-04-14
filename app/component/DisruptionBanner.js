@@ -2,12 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import isEmpty from 'lodash/isEmpty';
 import {
   isAlertValid,
   getServiceAlertDescription,
   getServiceAlertMetadata,
+  getServiceAlertHeader,
 } from '../util/alertUtils';
-import Icon from './Icon';
+import DisruptionBannerAlert from './DisruptionBannerAlert';
 
 class DisruptionBanner extends React.Component {
   static propTypes = {
@@ -32,6 +34,7 @@ class DisruptionBanner extends React.Component {
       if (
         alert.route &&
         alert.route.mode === this.props.mode &&
+        !isEmpty(alert.alertDescriptionText) &&
         isAlertValid(currAlert, this.props.currentTime)
       ) {
         if (
@@ -52,30 +55,21 @@ class DisruptionBanner extends React.Component {
     return getServiceAlertDescription(alert, this.props.language);
   }
 
+  createAlertHeader(alert) {
+    return getServiceAlertHeader(alert, this.props.language);
+  }
+
   render() {
     const activeAlerts = this.getAlerts();
     if (activeAlerts.length > 0) {
-      return activeAlerts.map(alert => {
-        return (
-          <a
-            key={alert.id}
-            className="disruption-banner-container"
-            href={`${this.context.config.URL.ROOTLINK}/${
-              this.props.language === 'fi' ? '' : `${this.props.language}/`
-            }${this.context.config.trafficNowLink[this.props.language]}`}
-            onClick={e => {
-              e.stopPropagation();
-            }}
-          >
-            <div className="disruption-icon-container">
-              <Icon img="icon-icon_disruption-banner-alert" />
-            </div>
-            <div className="disruption-info-container">
-              {this.createAlertText(alert)}
-            </div>
-          </a>
-        );
-      });
+      return activeAlerts.map(alert => (
+        <DisruptionBannerAlert
+          key={alert.id}
+          header={this.createAlertHeader(alert)}
+          message={this.createAlertText(alert)}
+          language={this.props.language}
+        />
+      ));
     }
     return null;
   }
@@ -99,6 +93,10 @@ const containerComponent = createFragmentContainer(
         alertEffect
         alertCause
         alertDescriptionText
+        alertHeaderTextTranslations {
+          text
+          language
+        }
         alertDescriptionTextTranslations {
           text
           language

@@ -15,6 +15,9 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#0ab1c8',
+    iconColors: {
+      'mode-bus': '#724f9f',
+    },
   },
 
   socialMedia: {
@@ -102,6 +105,7 @@ export default configMerger(walttiConfig, {
 
   showAllBusses: true,
   showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
 
   cityBike: {
     showCityBikes: true,
@@ -130,12 +134,11 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  footer: {
+  menu: {
+    copyright: { label: `© Kuopio ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Kuopio ${walttiConfig.YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'https://palaute.kuopio.fi/fi#!/palautelomake/27050/27054',
         icon: 'icon-icon_speech-bubble',
@@ -209,7 +212,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/kuopio_zone_lines_20201119.geojson',
+        url: '/assets/geojson/kuopio_zone_lines_20210222.geojson',
       },
     ],
   },

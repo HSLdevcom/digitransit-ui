@@ -27,6 +27,7 @@ import updateShowCanceledLegsBannerState from '../action/CanceledLegsBarActions'
 import ComponentUsageExample from './ComponentUsageExample';
 import { exampleData, scooterData } from './data/ItineraryLegs.ExampleData';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import ItineraryProfile from './ItineraryProfile';
 
 class ItineraryLegs extends React.Component {
   static childContextTypes = {
@@ -281,6 +282,8 @@ class ItineraryLegs extends React.Component {
         to={compressedLegs[numberOfLegs - 1].to.name}
       />,
     );
+
+    legs.push(<ItineraryProfile itinerary={itinerary} />);
 
     return (
       <span className="itinerary-list-container" role="list">

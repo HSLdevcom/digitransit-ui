@@ -31,13 +31,25 @@ export const StreetModeSelectorButton = (
   let distance = 0;
   switch (name) {
     case 'WALK':
-      distance = displayDistance(itinerary.walkDistance, config);
+      distance = displayDistance(
+        itinerary.walkDistance,
+        config,
+        intl.formatNumber,
+      );
       break;
     case 'bikeAndVehicle':
-      distance = displayDistance(getTotalBikingDistance(itinerary), config);
+      distance = displayDistance(
+        getTotalBikingDistance(itinerary),
+        config,
+        intl.formatNumber,
+      );
       break;
     default:
-      distance = displayDistance(getTotalDistance(itinerary), config);
+      distance = displayDistance(
+        getTotalDistance(itinerary),
+        config,
+        intl.formatNumber,
+      );
       break;
   }
 
@@ -52,7 +64,7 @@ export const StreetModeSelectorButton = (
       const firstMode = publicModes[0].mode.toLowerCase();
       secondaryIcon = `icon-icon_${firstMode}`;
       if (firstMode === 'subway') {
-        metroColor = '#FF6319';
+        metroColor = '#CA4000';
       }
     }
   }

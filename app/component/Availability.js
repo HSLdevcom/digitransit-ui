@@ -12,7 +12,10 @@ function Availability({
   showStatusBar,
 }) {
   let availablepct = (available / total) * 100;
-
+  if (availablepct > 100) {
+    // overloading is possible
+    availablepct = 100;
+  }
   let availableClass;
 
   if (availablepct === 0) {

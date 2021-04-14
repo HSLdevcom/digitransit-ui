@@ -4,11 +4,15 @@ import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import AppBarSmall from './AppBarSmall';
-import AppBarLarge from './AppBarLarge';
-import { DesktopOrMobile } from '../util/withBreakpoint';
-import AppBarHsl from './AppBarHsl'; // DT-3376
-import MessageBar from './MessageBar';
+import withBreakpoint from '../util/withBreakpoint';
+
+import LazilyLoad, { importLazy } from './LazilyLoad';
+
+const modules = {
+  AppBar: () => importLazy(import('./AppBar')),
+  AppBarHsl: () => importLazy(import('./AppBarHsl')),
+  MessageBar: () => importLazy(import('./MessageBar')),
+};
 
 const titleClicked = (router, homeUrl, match) => {
   const mode = match.location.query.mapMode;
@@ -28,6 +32,7 @@ const AppBarContainer = ({
   user,
   style,
   lang,
+  breakpoint,
   ...args
 }) => {
   const [isClient, setClient] = useState(false);
@@ -42,40 +47,31 @@ const AppBarContainer = ({
       <a
         href="#mainContent"
         id="skip-to-content-link"
-        style={{ display: isClient ? 'block' : 'none' }}
+        style={{ display: isClient ? 'block sr-only' : 'none' }}
       >
         <FormattedMessage
           id="skip-to-content"
           defaultMessage="Skip to content"
         />
       </a>
-      <DesktopOrMobile
-        mobile={() => {
-          return style === 'hsl' ? (
-            <div style={{ display: isClient ? 'block' : 'none' }}>
+      <LazilyLoad modules={modules}>
+        {({ AppBar, AppBarHsl, MessageBar }) =>
+          style === 'hsl' ? (
+            <div
+              className="hsl-header-container"
+              style={{ display: isClient ? 'block' : 'none' }}
+            >
               <AppBarHsl user={user} lang={lang} />
-              <MessageBar mobile />{' '}
+              <MessageBar breakpoint={breakpoint} />{' '}
             </div>
           ) : (
-            <AppBarSmall
+            <AppBar
               {...args}
-              showLogo={match.location.pathname === homeUrl}
+              showLogo
               logo={logo}
               homeUrl={homeUrl}
               user={user}
-            />
-          );
-        }}
-        desktop={() => {
-          return style === 'hsl' ? (
-            <div style={{ display: isClient ? 'block' : 'none' }}>
-              <AppBarHsl user={user} lang={lang} />
-              <MessageBar />{' '}
-            </div>
-          ) : (
-            <AppBarLarge
-              {...args}
-              logo={logo}
+              breakpoint={breakpoint}
               titleClicked={() =>
                 router.push({
                   ...match.location,
@@ -90,11 +86,10 @@ const AppBarContainer = ({
                   },
                 })
               }
-              user={user}
             />
-          );
-        }}
-      />
+          )
+        }
+      </LazilyLoad>
     </>
   );
 };
@@ -107,13 +102,16 @@ AppBarContainer.propTypes = {
   user: PropTypes.object,
   style: PropTypes.string.isRequired, // DT-3375
   lang: PropTypes.string, // DT-3376
+  breakpoint: PropTypes.string.isRequired,
 };
+
+const AppBarContainerWithBreakpoint = withBreakpoint(AppBarContainer);
 
 const WithContext = connectToStores(
   getContext({
     match: matchShape.isRequired,
     router: routerShape.isRequired,
-  })(AppBarContainer),
+  })(AppBarContainerWithBreakpoint),
   ['UserStore', 'PreferencesStore'],
   context => ({
     user: context.getStore('UserStore').getUser(),

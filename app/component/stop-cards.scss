@@ -1,5 +1,5 @@
 .departure-list .date-row {
-  @include font-bold;
+  @include font-medium;
   font-size: 15pt;
   text-transform: capitalize;
   color: $gray;
@@ -88,7 +88,7 @@
 }
 
 .header-primary {
-  @include font-bold;
+  @include font-medium;
   font-size: $font-size-small;
   text-transform: uppercase;
   color: $link-color;

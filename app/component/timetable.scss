@@ -2,6 +2,9 @@
   .desktop-title {
     display: none;
   }
+  .back-button {
+    display: none !important;
+  }
 }
 
 .timetable {
@@ -21,7 +24,7 @@
     display: none;
     @media print {
       display: flex;
-      font-weight: 400;
+      font-weight: $font-weight-book;
       padding-top: 1em;
       padding-bottom: 0.5em;
       font-size: 10px;
@@ -31,11 +34,22 @@
       }
     }
   }
+  .timetable-note {
+    border-top: 1px solid $light-gray;
+    padding-top: $padding-large;
+    margin: 0.5em 4em 1em 4em;
+    @media print {
+      display: none;
+    }
+  }
   .timetable-row-printing {
     @media print {
       display: flex;
       flex: 50%;
     }
+  }
+  .timetable-content-container {
+    margin: 0.5em 3em 1em 4em;
   }
   .momentum-scroll {
     flex: 1 0 auto;
@@ -58,16 +72,14 @@
         font-family: $font-family-narrow;
         font-size: 16px;
         line-height: 1.07;
-        font-weight: 700;
+        font-weight: $font-weight-medium;
         padding-top: 0.6em;
         padding-bottom: 0.6em;
         vertical-align: top;
       }
     }
     background-color: $white;
-    border: 1px solid $light-gray;
-    border-top: none;
-    padding: $padding-medium $padding-large $padding-large $padding-large;
+    padding: $padding-medium 0em $padding-large 0em;
     .mobile h1.title {
       font-size: $font-size-large;
     }
@@ -107,7 +119,7 @@
       span {
         font-size: 12px;
         &.line-name {
-          font-weight: 400;
+          font-weight: $font-weight-book;
         }
       }
     }
@@ -123,4 +135,11 @@
 .mobile .timetable {
   flex-basis: 100%;
   overflow-y: visible;
+
+  .timetable-content-container {
+    margin: 0em 1em 1em 1em;
+  }
+  .timetable-note {
+    margin: 0em 1em 0.5em 1em;
+  }
 }

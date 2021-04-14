@@ -4,23 +4,19 @@ import React from 'react';
 import ErrorBoundary from './ErrorBoundary';
 import BackButton from './BackButton'; // DT-3358
 
-export default function DesktopView(
-  {
-    title,
-    header,
-    map,
-    content,
-    settingsDrawer,
+export default function DesktopView({
+  title,
+  header,
+  map,
+  content,
+  settingsDrawer,
     carpoolDrawer,
-    scrollable,
-    scrolled,
-    onScroll,
-    bckBtnColor,
-    bckBtnVisible,
-    bckBtnUrl,
-  },
-  { config },
-) {
+  scrollable,
+  scrolled,
+  onScroll,
+  bckBtnVisible,
+  bckBtnFallback,
+}) {
   return (
     <div className="desktop">
       <div className="main-content">
@@ -34,9 +30,8 @@ export default function DesktopView(
               <BackButton
                 title={title}
                 icon="icon-icon_arrow-collapse--left"
-                color={bckBtnColor}
                 iconClassName="arrow-icon"
-                urlToBack={bckBtnUrl || config.URL.ROOTLINK}
+                fallback={bckBtnFallback}
               />
             </div>
           </div>
@@ -70,19 +65,14 @@ DesktopView.propTypes = {
   scrollable: PropTypes.bool,
   scrolled: PropTypes.bool,
   onScroll: PropTypes.func,
-  bckBtnColor: PropTypes.string,
-  bckBtnVisible: PropTypes.bool, // DT-3471
-  bckBtnUrl: PropTypes.string,
+  bckBtnVisible: PropTypes.bool,
+  bckBtnFallback: PropTypes.string,
 };
 
 DesktopView.defaultProps = {
   scrollable: false,
   scrolled: false,
   onScroll: undefined,
-  bckBtnVisible: true, // DT-3471
-  bckBtnUrl: undefined,
-};
-
-DesktopView.contextTypes = {
-  config: PropTypes.object.isRequired,
+  bckBtnVisible: true,
+  bckBtnFallback: undefined,
 };

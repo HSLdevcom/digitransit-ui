@@ -43,6 +43,23 @@ import ModeFerry from './assets/mode_ferry.svg';
 import ModeCitybike from './assets/mode_citybike.svg';
 import FutureRoute from './assets/icon-route.svg';
 import Position from './assets/position.svg';
+import SearchStreetName from './assets/search-streetname.svg';
+import BusWaltti from './assets/bus-waltti.svg';
+import FerryWaltti from './assets/ferry-waltti.svg';
+import CitybikeWaltti from './assets/citybike-waltti.svg';
+import RailWaltti from './assets/rail-waltti.svg';
+import TramWaltti from './assets/tram-waltti.svg';
+import ZoneA from './assets/zone-a.svg';
+import ZoneB from './assets/zone-b.svg';
+import ZoneC from './assets/zone-c.svg';
+import ZoneD from './assets/zone-d.svg';
+import ZoneE from './assets/zone-e.svg';
+import ZoneF from './assets/zone-f.svg';
+import ZoneF1 from './assets/zone-f1.svg';
+import ZoneF2 from './assets/zone-f2.svg';
+import ZoneG from './assets/zone-g.svg';
+import ZoneH from './assets/zone-h.svg';
+import ZoneI from './assets/zone-i.svg';
 
 const IconMap = style => {
   return {
@@ -91,6 +108,23 @@ const IconMap = style => {
     'mode-citybike': <ModeCitybike style={style} />,
     'future-route': <FutureRoute style={style} />,
     position: <Position style={style} />,
+    'search-street-name': <SearchStreetName style={style} />,
+    'bus-waltti': <BusWaltti style={style} />,
+    'citybike-waltti': <CitybikeWaltti style={style} />,
+    'ferry-waltti': <FerryWaltti style={style} />,
+    'rail-waltti': <RailWaltti style={style} />,
+    'tram-waltti': <TramWaltti style={style} />,
+    'zone-a': <ZoneA style={style} />,
+    'zone-b': <ZoneB style={style} />,
+    'zone-c': <ZoneC style={style} />,
+    'zone-d': <ZoneD style={style} />,
+    'zone-e': <ZoneE style={style} />,
+    'zone-f': <ZoneF style={style} />,
+    'zone-f1': <ZoneF1 style={style} />,
+    'zone-f2': <ZoneF2 style={style} />,
+    'zone-g': <ZoneG style={style} />,
+    'zone-h': <ZoneH style={style} />,
+    'zone-i': <ZoneI style={style} />,
   };
 };
 

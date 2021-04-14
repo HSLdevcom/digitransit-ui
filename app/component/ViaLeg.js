@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -9,6 +9,7 @@ import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import { splitStringToAddressAndPlace } from '../util/otpStrings';
 
 const getDescription = (mode, distance, duration) => {
   if (mode === 'BICYCLE_WALK') {
@@ -40,12 +41,13 @@ const getDescription = (mode, distance, duration) => {
   );
 };
 
-function ViaLeg(props, context) {
+function ViaLeg(props, { config, intl }) {
   const distance = displayDistance(
     parseInt(props.leg.distance, 10),
-    context.config,
+    config,
+    intl.formatNumber,
   );
-  const [address, place] = props.leg.from.name.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
+  const [address, place] = splitStringToAddressAndPlace(props.leg.from.name);
   const duration = durationToString(props.leg.duration * 1000);
   const stayDuration = props.leg.startTime - props.arrivalTime;
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
@@ -103,7 +105,7 @@ function ViaLeg(props, context) {
             values={{ target: props.leg.from.name || '' }}
           />
         </span>
-        <div className="itinerary-leg-first-row via" aria-hidden="true">
+        <div className="itinerary-leg-first-row via">
           <div>
             <div className="address-container">
               <div className="address">{address}</div>
@@ -128,6 +130,10 @@ function ViaLeg(props, context) {
             }
             role="button"
             tabIndex="0"
+            aria-label={intl.formatMessage(
+              { id: 'itinerary-summary.show-on-map' },
+              { target: props.leg.from.name || '' },
+            )}
           >
             <Icon
               img="icon-icon_show-on-map"
@@ -135,7 +141,7 @@ function ViaLeg(props, context) {
             />
           </div>
         </div>
-        <div className="itinerary-leg-action" aria-hidden="true">
+        <div className="itinerary-leg-action">
           <div className="itinerary-leg-action-content">
             {getDescription(props.leg.mode, distance, duration)}
             <div
@@ -146,6 +152,10 @@ function ViaLeg(props, context) {
               }
               role="button"
               tabIndex="0"
+              aria-label={intl.formatMessage(
+                { id: 'itinerary-summary.show-on-map' },
+                { target: '' },
+              )}
             >
               <Icon
                 img="icon-icon_show-on-map"
@@ -211,6 +221,9 @@ ViaLeg.propTypes = {
   children: PropTypes.node,
 };
 
-ViaLeg.contextTypes = { config: PropTypes.object.isRequired };
+ViaLeg.contextTypes = {
+  config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
+};
 
 export default ViaLeg;

@@ -5,13 +5,9 @@ import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
-import isEmpty from 'lodash/isEmpty';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 import withSearchContext from './WithSearchContext';
-import SelectFromMapHeader from './SelectFromMapHeader';
-import SelectFromMapPageMap from './map/SelectFromMapPageMap';
-import DTModal from './DTModal';
 import {
   setIntermediatePlaces,
   updateItinerarySearch,
@@ -21,6 +17,7 @@ import { getIntermediatePlaces, locationToOTP } from '../util/otpStrings';
 import { dtLocationShape } from '../util/shapes';
 import { setViaPoints } from '../action/ViaPointActions';
 import { LightenDarkenColor } from '../util/colorUtils';
+import { getRefPoint } from '../util/apiUtils';
 
 const DTAutosuggestPanelWithSearchContext = withSearchContext(
   DTAutosuggestPanel,
@@ -29,12 +26,13 @@ const DTAutosuggestPanelWithSearchContext = withSearchContext(
 class OriginDestinationBar extends React.Component {
   static propTypes = {
     className: PropTypes.string,
-    origin: dtLocationShape,
-    destination: dtLocationShape,
+    origin: dtLocationShape.isRequired,
+    destination: dtLocationShape.isRequired,
     language: PropTypes.string,
     isMobile: PropTypes.bool,
     showFavourites: PropTypes.bool.isRequired,
     viaPoints: PropTypes.array,
+    locationState: dtLocationShape.isRequired,
   };
 
   static contextTypes = {
@@ -69,53 +67,13 @@ class OriginDestinationBar extends React.Component {
   }
 
   updateViaPoints = newViaPoints => {
-    this.context.executeAction(setViaPoints, newViaPoints);
-    const p = newViaPoints.filter(vp => !isEmpty(vp));
+    const p = newViaPoints.filter(vp => vp.lat && vp.address);
+    this.context.executeAction(setViaPoints, p);
     setIntermediatePlaces(
       this.context.router,
       this.context.match,
       p.map(locationToOTP),
     );
-  };
-
-  renderSelectFromMapModal = () => {
-    const titleId = 'select-from-map-viaPoint';
-    return (
-      <DTModal show={this.state.mapSelectionIndex !== undefined}>
-        <SelectFromMapHeader
-          titleId={titleId}
-          onBackBtnClick={() => this.setState({ mapSelectionIndex: undefined })}
-        />
-        <SelectFromMapPageMap
-          type="viaPoint"
-          onConfirm={this.confirmMapSelection}
-        />
-      </DTModal>
-    );
-  };
-
-  confirmMapSelection = (type, mapLocation) => {
-    const viaPoints = [...this.props.viaPoints];
-    viaPoints[this.state.mapSelectionIndex] = mapLocation;
-    this.updateViaPoints(viaPoints);
-    this.setState({ mapSelectionIndex: undefined });
-  };
-
-  handleViaPointLocationSelected = (viaPointLocation, i) => {
-    addAnalyticsEvent({
-      action: 'EditJourneyViaPoint',
-      category: 'ItinerarySettings',
-      name: viaPointLocation.type,
-    });
-    if (viaPointLocation.type !== 'SelectFromMap') {
-      const points = [...this.props.viaPoints];
-      points[i] = {
-        ...viaPointLocation,
-      };
-      this.updateViaPoints(points);
-    } else {
-      this.setState({ mapSelectionIndex: i });
-    }
   };
 
   swapEndpoints = () => {
@@ -133,16 +91,47 @@ class OriginDestinationBar extends React.Component {
     );
   };
 
-  onLocationSelect = (item, id) =>
-    onLocationPopup(
-      item,
-      id,
-      this.context.router,
-      this.context.match,
-      this.context.executeAction,
-    );
+  onLocationSelect = (item, id) => {
+    let action;
+    if (id === parseInt(id, 10)) {
+      // id = via point index
+      action = 'EditJourneyViaPoint';
+      const points = [...this.props.viaPoints];
+      points[id] = { ...item };
+      this.updateViaPoints(points);
+    } else {
+      action =
+        id === 'origin' ? 'EditJourneyStartPoint' : 'EditJourneyEndPoint';
+      onLocationPopup(
+        item,
+        id,
+        this.context.router,
+        this.context.match,
+        this.context.executeAction,
+      );
+    }
+    addAnalyticsEvent({
+      action,
+      category: 'ItinerarySettings',
+      name: item.type,
+    });
+  };
 
   render() {
+    const refPoint = getRefPoint(
+      this.props.origin,
+      this.props.destination,
+      this.props.locationState,
+    );
+    const desktopTargets = ['Locations', 'CurrentPosition', 'Stops'];
+    if (
+      this.context.config.cityBike &&
+      this.context.config.cityBike.showCityBikes
+    ) {
+      desktopTargets.push('BikeRentalStations');
+    }
+    const mobileTargets = [...desktopTargets, 'MapPosition'];
+
     return (
       <div
         className={cx(
@@ -155,13 +144,13 @@ class OriginDestinationBar extends React.Component {
           appElement="#app"
           origin={this.props.origin}
           destination={this.props.destination}
+          refPoint={refPoint}
           originPlaceHolder="search-origin-index"
           destinationPlaceHolder="search-destination-index"
           showMultiPointControls
           viaPoints={this.props.viaPoints}
-          handleViaPointLocationSelected={this.handleViaPointLocationSelected}
-          addAnalyticsEvent={addAnalyticsEvent}
           updateViaPoints={this.updateViaPoints}
+          addAnalyticsEvent={addAnalyticsEvent}
           swapOrder={this.swapEndpoints}
           selectHandler={this.onLocationSelect}
           sources={[
@@ -169,12 +158,7 @@ class OriginDestinationBar extends React.Component {
             'Datasource',
             this.props.showFavourites ? 'Favourite' : '',
           ]}
-          targets={[
-            'Locations',
-            'CurrentPosition',
-            this.props.isMobile ? 'MapPosition' : '',
-            'Stops',
-          ]}
+          targets={this.props.isMobile ? mobileTargets : desktopTargets}
           lang={this.props.language}
           disableAutoFocus={this.props.isMobile}
           isMobile={this.props.isMobile}
@@ -185,7 +169,6 @@ class OriginDestinationBar extends React.Component {
             LightenDarkenColor(this.context.config.colors.primary, -20)
           }
         />{' '}
-        {this.renderSelectFromMapModal()}
       </div>
     );
   }
@@ -225,11 +208,12 @@ OriginDestinationBar.description = (
 
 const connectedComponent = connectToStores(
   OriginDestinationBar,
-  ['PreferencesStore', 'FavouriteStore', 'ViaPointStore'],
+  ['PreferencesStore', 'FavouriteStore', 'ViaPointStore', 'PositionStore'],
   ({ getStore }) => ({
     language: getStore('PreferencesStore').getLanguage(),
     showFavourites: getStore('FavouriteStore').getStatus() === 'has-data',
     viaPoints: getStore('ViaPointStore').getViaPoints(),
+    locationState: getStore('PositionStore').getLocationState(),
   }),
 );
 

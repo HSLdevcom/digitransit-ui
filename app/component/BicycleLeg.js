@@ -24,6 +24,7 @@ import PlatformNumber from './PlatformNumber';
 import { getServiceAlertDescription } from '../util/alertUtils';
 import { AlertSeverityLevelType } from '../constants';
 import ServiceAlertIcon from './ServiceAlertIcon';
+import { splitStringToAddressAndPlace } from '../util/otpStrings';
 
 function showStopCode(stopCode) {
   return stopCode && <StopCode code={stopCode} />;
@@ -72,13 +73,17 @@ function BicycleLeg(
   { config, intl },
 ) {
   let stopsDescription;
-  const distance = displayDistance(parseInt(leg.distance, 10), config);
+  const distance = displayDistance(
+    parseInt(leg.distance, 10),
+    config,
+    intl.formatNumber,
+  );
   const duration = durationToString(leg.endTime - leg.startTime);
   let { mode } = leg;
   let legDescription = <span>{leg.from ? leg.from.name : ''}</span>;
   const firstLegClassName = index === 0 ? 'start' : '';
   let modeClassName = 'bicycle';
-  const [address, place] = leg.from.name.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
+  const [address, place] = splitStringToAddressAndPlace(leg.from.name);
   const networkConfig =
     leg.rentedBike &&
     leg.from.bikeRentalStation &&
@@ -184,10 +189,7 @@ function BicycleLeg(
           )}
         </span>
         {isFirstLeg(index) ? (
-          <div
-            className={cx('itinerary-leg-first-row', 'bicycle', 'first')}
-            aria-hidden="true"
-          >
+          <div className={cx('itinerary-leg-first-row', 'bicycle', 'first')}>
             <div className="address-container">
               <div className="address">
                 {address}
@@ -207,6 +209,10 @@ function BicycleLeg(
               onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
               role="button"
               tabIndex="0"
+              aria-label={intl.formatMessage(
+                { id: 'itinerary-summary.show-on-map' },
+                { target: leg.from.name || '' },
+              )}
             >
               <Icon
                 img="icon-icon_show-on-map"
@@ -217,7 +223,6 @@ function BicycleLeg(
         ) : (
           <div
             className={cx('itinerary-leg-first-row', { first: index === 0 })}
-            aria-hidden="true"
           >
             {renderLink(leg, legDescription)}
             <div
@@ -226,6 +231,10 @@ function BicycleLeg(
               onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
               role="button"
               tabIndex="0"
+              aria-label={intl.formatMessage(
+                { id: 'itinerary-summary.show-on-map' },
+                { target: leg.from.name || '' },
+              )}
             >
               <Icon
                 img="icon-icon_show-on-map"
@@ -255,7 +264,7 @@ function BicycleLeg(
             </button>
           </a>
         )}
-        <div className="itinerary-leg-action" aria-hidden="true">
+        <div className="itinerary-leg-action">
           <div className="itinerary-leg-action-content">
             {stopsDescription}
             <div
@@ -266,6 +275,9 @@ function BicycleLeg(
               }
               role="button"
               tabIndex="0"
+              aria-label={intl.formatMessage({
+                id: 'itinerary-summary-row.clickable-area-description',
+              })}
             >
               <Icon
                 img="icon-icon_show-on-map"

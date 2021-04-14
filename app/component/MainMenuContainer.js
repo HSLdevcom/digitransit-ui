@@ -21,6 +21,7 @@ class MainMenuContainer extends Component {
     homeUrl: PropTypes.string.isRequired,
     isOpen: PropTypes.bool,
     user: PropTypes.object,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -28,7 +29,7 @@ class MainMenuContainer extends Component {
   };
 
   mainMenuModules = {
-    Drawer: () => importLazy(import('material-ui/Drawer')),
+    MenuDrawer: () => importLazy(import('./MenuDrawer')),
     MainMenu: () => importLazy(import('./MainMenu')),
   };
 
@@ -73,15 +74,11 @@ class MainMenuContainer extends Component {
     return (
       <React.Fragment>
         <LazilyLoad modules={this.mainMenuModules}>
-          {({ Drawer, MainMenu }) => (
-            <Drawer
-              className="offcanvas"
-              disableSwipeToOpen
-              docked={false}
+          {({ MenuDrawer, MainMenu }) => (
+            <MenuDrawer
               open={isOpen}
-              openSecondary
-              onRequestChange={this.onRequestChange}
-              style={{ position: 'absolute' }}
+              onRequestChange={this.toggleOffcanvas}
+              breakpoint={this.props.breakpoint}
             >
               <MainMenu
                 toggleVisibility={this.toggleOffcanvas}
@@ -89,8 +86,9 @@ class MainMenuContainer extends Component {
                 visible={isOpen}
                 homeUrl={this.props.homeUrl}
                 user={this.props.user}
+                breakpoint={this.props.breakpoint}
               />
-            </Drawer>
+            </MenuDrawer>
           )}
         </LazilyLoad>
         {this.context.config.mainMenu.show ? (

@@ -35,7 +35,7 @@ export default {
     STOP_MAP: `${MAP_URL}/map/v1/finland-stop-map/`,
     CITYBIKE_MAP: `${MAP_URL}/map/v1/finland-citybike-map/`,
     FONT:
-      'https://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700',
+      'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700',
     PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
     PELIAS_REVERSE_GEOCODER: `${
       process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
@@ -49,7 +49,6 @@ export default {
     },
     STOP_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/stops/`,
-      tampere: 'https://www.tampere.fi/ekstrat/ptdata/pdf/',
     },
     WEATHER_DATA:
       'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::hirlam::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
@@ -149,7 +148,9 @@ export default {
   walkBoardCostHigh: 1200,
 
   maxWalkDistance: 10000,
-  suggestWalkMaxDistance: 5000,
+  suggestWalkMaxDistance: 10000,
+  suggestBikeMaxDistance: 30000,
+  suggestBikeAndPublicMaxDistance: 15000,
   // if you enable car suggestions but the linear distance between all points is less than this, then a car route will
   // not be computed
   suggestCarMinDistance: 2000,
@@ -173,6 +174,7 @@ export default {
     showDisruptions: true,
     showLoginCreateAccount: true,
     showOffCanvasList: true,
+    showFrontPageLink: true,
   },
 
   itinerary: {
@@ -190,10 +192,6 @@ export default {
     showZoneLimits: false,
     // Number of days to include to the service time range from the future (DT-3317)
     serviceTimeRange: 30,
-  },
-
-  nearestStopDistance: {
-    maxShownDistance: 5000,
   },
 
   map: {
@@ -263,6 +261,7 @@ export default {
   cityBike: {
     // Config for map features. NOTE: availability for routing is controlled by
     // transportModes.citybike.availableForSelection
+    showFullInfo: false,
     showStationId: true,
     cityBikeMinZoom: 14,
     cityBikeSmallIconZoom: 14,
@@ -292,7 +291,20 @@ export default {
   appBarStyle: 'default', // DT-3375
 
   colors: {
-    primary: '#00AFFF',
+    primary: '#000F94',
+    iconColors: {
+      'mode-airplane': '#0046ad',
+      'mode-bus': '#0088ce',
+      'mode-tram': '#6a8925',
+      'mode-metro': '#ed8c00',
+      'mode-rail': '#af8dbc',
+      'mode-ferry': '#35b5b3',
+      'mode-citybike': '#f2b62d',
+    },
+  },
+
+  fontWeights: {
+    medium: 700,
   },
 
   sprites: 'assets/svg-sprite.default.svg',
@@ -498,21 +510,18 @@ export default {
   // This reduces complexity in finding routes for the query.
   modePolygons: {},
 
-  footer: {
+  menu: {
+    copyright: { label: `© Digitransit ${YEAR}` },
     content: [
-      { label: `© HSL, Traficom ${YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'https://github.com/HSLdevcom/digitransit-ui/issues',
-        icon: 'icon-icon_speech-bubble',
       },
       {
         name: 'about-this-service',
         nameEn: 'About this service',
         route: '/tietoja-palvelusta',
-        icon: 'icon-icon_info',
       },
     ],
   },
@@ -622,7 +631,6 @@ export default {
     {
       id: '3',
       priority: -1,
-      shouldTrigger: true,
       content: {
         fi: [
           {
@@ -746,6 +754,8 @@ export default {
   displayNextDeparture: true,
 
   messageBarAlerts: false,
+
+  availableTickets: {},
   /* Option to disable TimeTableOptionsPanel component on Route panel */
   showTimeTableOptions: true,
 };

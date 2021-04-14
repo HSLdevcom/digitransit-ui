@@ -65,6 +65,9 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#7DC02D',
+    iconColors: {
+      'mode-bus': '#7DC02D',
+    },
   },
 
   socialMedia: {
@@ -90,13 +93,13 @@ export default configMerger(walttiConfig, {
 
   showAllBusses: true,
   showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
 
-  footer: {
+  menu: {
+    copyright: { label: `© Jyvaskyla ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Jyvaskyla ${walttiConfig.YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'https://s-asiointi.jkl.fi/eFeedback/fi/Feedback/38',
         icon: 'icon-icon_speech-bubble',
@@ -157,7 +160,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/jkl_zone_lines_20201118.geojson',
+        url: '/assets/geojson/jkl_zone_lines_20210222.geojson',
       },
     ],
   },

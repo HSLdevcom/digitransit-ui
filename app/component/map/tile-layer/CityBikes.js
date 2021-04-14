@@ -18,8 +18,10 @@ const timeOfLastFetch = {};
 const query = graphql`
   query CityBikesQuery($id: String!) {
     station: bikeRentalStation(id: $id) {
+      stationId
       bikesAvailable
       spacesAvailable
+      capacity
       networks
       state
     }
@@ -31,7 +33,7 @@ class CityBikes {
     this.tile = tile;
     this.config = config;
     this.relayEnvironment = relayEnvironment;
-
+    this.stopsNearYouMode = stopsNearYouMode;
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.citybikeImageSize =
       20 * this.scaleratio * getMapIconScale(this.tile.coords.z);
@@ -87,14 +89,22 @@ class CityBikes {
             this.config,
           ),
         );
-        drawCitybikeIcon(
-          this.tile,
-          geom,
-          result.state,
-          result.bikesAvailable,
-          iconName,
-          this.config.cityBike.capacity !== BIKEAVL_UNKNOWN,
-        );
+        if (
+          !this.stopsNearYouMode ||
+          this.stopsNearYouMode === 'CITYBIKE' ||
+          (this.stopsNearYouMode === 'FAVORITE' &&
+            this.tile.stopsToShow.includes(result.stationId))
+        ) {
+          drawCitybikeIcon(
+            this.tile,
+            geom,
+            result.state,
+            result.bikesAvailable,
+            iconName,
+            this.config.cityBike.capacity !== BIKEAVL_UNKNOWN,
+            this.config.colors.iconColors['mode-citybike'],
+          );
+        }
       }
       return this;
     };

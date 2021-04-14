@@ -4,7 +4,7 @@ import { QueryRenderer, graphql } from 'react-relay';
 import Link from 'found/Link';
 import cx from 'classnames';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
-import IconWithTail from './IconWithTail';
+import VehicleIcon from './VehicleIcon';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
@@ -12,11 +12,13 @@ function FuzzyTripLink({ vehicle }) {
   const { environment } = useContext(ReactRelayContext);
 
   const icon = (
-    <IconWithTail
+    <VehicleIcon
       className={cx(vehicle.mode, 'tail-icon')}
       mode={vehicle.mode}
       rotate={180}
       vehicleNumber={vehicle.shortName}
+      useLargeIcon
+      color={vehicle.color}
     />
   );
   return (
@@ -55,7 +57,7 @@ function FuzzyTripLink({ vehicle }) {
       }}
       environment={environment}
       render={({ props }) => {
-        if (!props) {
+        if (!props || props.trip === null) {
           return <span className="route-now-content">{icon}</span>;
         }
 
@@ -91,6 +93,7 @@ FuzzyTripLink.propTypes = {
     tripStartTime: PropTypes.string.isRequired,
     operatingDay: PropTypes.string.isRequired,
     shortName: PropTypes.string.isRequired,
+    color: PropTypes.string,
   }).isRequired,
 };
 

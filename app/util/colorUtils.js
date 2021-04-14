@@ -37,5 +37,8 @@ export function LightenDarkenColor(color, amt) {
     g = 0;
   }
 
-  return (usePound ? '#' : '') + (g | (b << 8) | (r << 16)).toString(16);
+  return (
+    (usePound ? '#' : '') +
+    String(`000000${(g | (b << 8) | (r << 16)).toString(16)}`).slice(-6)
+  );
 }

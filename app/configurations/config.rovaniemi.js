@@ -19,6 +19,9 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#34B233',
+    iconColors: {
+      'mode-bus': '#34B233',
+    },
   },
 
   socialMedia: {
@@ -76,10 +79,9 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  footer: {
+  menu: {
+    copyright: { label: `© Rovaniemi ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Rovaniemi ${walttiConfig.YEAR}` },
-      {},
       {
         name: 'about-this-service',
         nameEn: 'About this service',

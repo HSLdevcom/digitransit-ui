@@ -80,13 +80,18 @@ function extractRoute(routeIn) {
   let extractedRoute = routeIn;
   if (routeIn.properties) {
     const route = routeIn.properties;
+    const oLoc = route.origin.locality ? `, ${route.origin.locality}` : '';
+    const dLoc = route.destination.locality
+      ? `, ${route.destination.locality}`
+      : '';
+
     extractedRoute = {
       origin: {
-        address: `${route.origin.name}, ${route.origin.locality}`,
+        address: `${route.origin.name}${oLoc}`,
         coordinates: route.origin.coordinates,
       },
       destination: {
-        address: `${route.destination.name}, ${route.destination.locality}`,
+        address: `${route.destination.name}${dLoc}`,
         coordinates: route.destination.coordinates,
       },
       arriveBy: route.arriveBy ? route.arriveBy : false,

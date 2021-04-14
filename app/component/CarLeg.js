@@ -14,10 +14,14 @@ import { AlertSeverityLevelType } from '../constants';
 import { replaceQueryParams } from '../util/queryUtils';
 import { getServiceAlertDescription } from '../util/alertUtils';
 
-function CarLeg(props, context) {
+function CarLeg(props, { config, intl }) {
   const { leg } = props;
-  const distance = displayDistance(parseInt(leg.distance, 10), context.config);
-  const duration = durationToString(leg.duration * 1000);
+  const distance = displayDistance(
+    parseInt(props.leg.distance, 10),
+    config,
+    intl.formatNumber,
+  );
+  const duration = durationToString(props.leg.duration * 1000);
   const firstLegClassName = props.index === 0 ? 'start' : '';
   const modeClassName = 'car';
 

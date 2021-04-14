@@ -50,6 +50,7 @@ class GenericMarker extends React.Component {
     getIcon: PropTypes.func.isRequired,
     renderName: PropTypes.bool,
     name: PropTypes.string,
+    maxWidth: PropTypes.number,
     children: PropTypes.node,
     leaflet: PropTypes.shape({
       map: PropTypes.shape({
@@ -85,14 +86,18 @@ class GenericMarker extends React.Component {
       onClick={this.props.onClick}
       keyboard={false}
     >
-      <Popup
-        offset={this.context.config.map.genericMarker.popup.offset}
-        maxWidth={this.context.config.map.genericMarker.popup.maxWidth}
-        minWidth={this.context.config.map.genericMarker.popup.minWidth}
-        className="popup"
-      >
-        {this.props.children}
-      </Popup>
+      {this.props.children && (
+        <Popup
+          maxWidth={
+            this.props.maxWidth ||
+            this.context.config.map.genericMarker.popup.maxWidth
+          }
+          minWidth={this.context.config.map.genericMarker.popup.minWidth}
+          className="popup"
+        >
+          {this.props.children}
+        </Popup>
+      )}
     </Marker>
   );
 
@@ -104,7 +109,6 @@ class GenericMarker extends React.Component {
     ) {
       return false;
     }
-
     return (
       <Marker
         key={`${this.props.name}_text`}

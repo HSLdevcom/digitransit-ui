@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import unzip from 'lodash/unzip';
-import inside from 'point-in-polygon';
 
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { isImperial } from './browser';
@@ -66,9 +65,44 @@ export function displayImperialDistance(meters) {
   return `${Math.round(feet / 528) / 10} mi`; // tenth of a mile
 }
 
-export function displayDistance(meters, config) {
+/**
+ * Returns distance with locale format (fraction digits is 1)
+ * e.g. fi/sv - 20,1 km, en - 20.1 km
+ * @param {*} meters
+ * @param {*} formatNumber
+ */
+function displayDistanceWithLocale(meters, formatNumber) {
+  const opts = {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  };
+  if (meters < 100) {
+    return `${formatNumber((Math.round(meters / 10) * 10).toFixed(1))} m`; // Tens of meters
+  }
+  if (meters < 975) {
+    return `${formatNumber((Math.round(meters / 50) * 50).toFixed(1))} m`; // fifty meters
+  }
+  if (meters < 10000) {
+    return `${formatNumber(
+      ((Math.round(meters / 100) * 100) / 1000).toFixed(1),
+      opts,
+    )} km`; // hudreds of meters
+  }
+  if (meters < 100000) {
+    return `${formatNumber(Math.round(meters / 1000).toFixed(1), opts)} km`; // kilometers
+  }
+  return `${formatNumber(
+    (Math.round(meters / 10000) * 10).toFixed(1),
+    opts,
+  )} km`; // tens of kilometers
+}
+
+export function displayDistance(meters, config, formatNumber) {
   if (isImperial(config)) {
     return displayImperialDistance(meters);
+  }
+  if (formatNumber) {
+    return displayDistanceWithLocale(meters, formatNumber);
   }
   if (meters < 100) {
     return `${Math.round(meters / 10) * 10} m`; // Tens of meters
@@ -362,45 +396,6 @@ export function kkj2ToWgs84(coords) {
 }
 
 /**
- * Finds any features inside which the given point is located. This returns
- * the properties of each feature by default.
- *
- * @param {{lat: number, lon: number}} point the location to check.
- * @param {*} features the area features available in a geojson format.
- * @param {function} mapFn the feature data mapping function.
- */
-export const findFeatures = (
-  { lat, lon },
-  features,
-  mapFn = feature => feature.properties,
-) => {
-  if (
-    !Number.isFinite(lat) ||
-    !Number.isFinite(lon) ||
-    !Array.isArray(features) ||
-    features.length === 0
-  ) {
-    return [];
-  }
-  const matches = features
-    .filter(feature => {
-      const { coordinates, type } = feature.geometry;
-      const multiCoordinate = coordinates.length > 1;
-      return (
-        ['Polygon', 'MultiPolygon'].includes(type) &&
-        coordinates.some(areaBoundaries =>
-          inside(
-            [lon, lat],
-            multiCoordinate ? areaBoundaries[0] : areaBoundaries,
-          ),
-        )
-      );
-    })
-    .map(mapFn);
-  return matches;
-};
-
-/**
  * Checks if the given geometry exists and has type 'MultiPoint'.
  *
  * @param {{ type: string }} geometry the geometry object to check.
@@ -420,7 +415,7 @@ export const isPointTypeGeometry = geometry =>
  * Caluclates itinerary distance as the crow flies
  *
  */
-export function estimateItineraryDistance(from, to, viaPoints) {
+export function estimateItineraryDistance(from, to, viaPoints = []) {
   let dist = 0;
   const points = [...[from], ...viaPoints, ...[to]];
   const arrayLength = points.length;

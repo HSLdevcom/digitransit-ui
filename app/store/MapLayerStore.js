@@ -15,6 +15,7 @@ class MapLayerStore extends Store {
     },
     terminal: {
       bus: true,
+      ferry: true,
       rail: true,
       subway: true,
     },
@@ -34,9 +35,7 @@ class MapLayerStore extends Store {
     super(dispatcher);
 
     const { config } = dispatcher.getContext();
-    this.mapLayers.citybike =
-      config.transportModes.citybike &&
-      config.transportModes.citybike.availableForSelection;
+    this.mapLayers.citybike = config.cityBike?.showCityBikes;
 
     const storedMapLayers = getMapLayerSettings();
     if (Object.keys(storedMapLayers).length > 0) {

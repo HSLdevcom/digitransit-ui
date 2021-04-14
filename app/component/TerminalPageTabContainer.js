@@ -9,7 +9,7 @@ function TerminalPageTabContainer({ children, station }, { match }) {
     return null;
   }
   return (
-    <div className="stop-page-content-wrapper">
+    <div className="stop-page-content-wrapper" aria-live="polite">
       <StopPageTabs stop={station} />
       {children}
     </div>

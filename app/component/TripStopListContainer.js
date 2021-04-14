@@ -8,7 +8,6 @@ import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 
 import TripRouteStop from './TripRouteStop';
-import { getDistanceToNearestStop } from '../util/geo-utils';
 import withBreakpoint from '../util/withBreakpoint';
 
 class TripStopListContainer extends React.PureComponent {
@@ -16,10 +15,11 @@ class TripStopListContainer extends React.PureComponent {
     trip: PropTypes.object.isRequired,
     className: PropTypes.string,
     vehicles: PropTypes.object,
-    locationState: PropTypes.object.isRequired,
     currentTime: PropTypes.object.isRequired,
     tripStart: PropTypes.string.isRequired,
     breakpoint: PropTypes.string,
+    keepTracking: PropTypes.bool,
+    setHumanScrolling: PropTypes.func,
   };
 
   static defaultProps = {
@@ -30,32 +30,6 @@ class TripStopListContainer extends React.PureComponent {
     config: PropTypes.object.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = { hasScrolled: false };
-  }
-
-  componentDidMount() {
-    if (this.props.breakpoint === 'large') {
-      this.scrollToSelectedTailIcon();
-    }
-  }
-
-  componentDidUpdate() {
-    if (this.props.breakpoint === 'large' && !this.state.hasScrolled) {
-      this.scrollToSelectedTailIcon();
-    }
-  }
-
-  getNearestStopDistance = stops =>
-    this.props.locationState.hasLocation === true
-      ? getDistanceToNearestStop(
-          this.props.locationState.lat,
-          this.props.locationState.lon,
-          stops,
-        )
-      : null;
-
   getStops() {
     const {
       breakpoint,
@@ -64,9 +38,6 @@ class TripStopListContainer extends React.PureComponent {
       tripStart,
       vehicles: propVehicles,
     } = this.props;
-    const stops = trip.stoptimesForDate.map(stoptime => stoptime.stop);
-
-    const nearest = this.getNearestStopDistance(stops);
 
     const mode = trip.route.mode.toLowerCase();
 
@@ -121,14 +92,6 @@ class TripStopListContainer extends React.PureComponent {
           selectedVehicle={vehicle}
           stopPassed={stopPassed}
           realtime={stoptime.realtime}
-          distance={
-            nearest != null &&
-            nearest.stop != null &&
-            nearest.stop.gtfsId === stoptime.stop.gtfsId &&
-            nearest.distance <
-              this.context.config.nearestStopDistance.maxShownDistance &&
-            nearest.distance
-          }
           currentTime={currentTime.unix()}
           realtimeDeparture={stoptime.realtimeDeparture}
           pattern={trip.pattern.code}
@@ -136,26 +99,22 @@ class TripStopListContainer extends React.PureComponent {
           last={index === trip.stoptimesForDate.length - 1}
           first={index === 0}
           className={`bp-${breakpoint}`}
+          shortName={trip.route && trip.route.shortName}
+          keepTracking={this.props.keepTracking}
+          setHumanScrolling={this.props.setHumanScrolling}
         />
       );
     });
   }
 
-  scrollToSelectedTailIcon = () => {
-    const el = document.getElementsByClassName('selected-tail-icon')[0];
-    if (el) {
-      el.scrollIntoView();
-      this.setState({ hasScrolled: true });
-    }
-  };
-
   render() {
     return (
-      <div
-        className={cx('route-stop-list momentum-scroll', this.props.className)}
-      >
-        {this.getStops()}
-      </div>
+      <>
+        <div className={cx('route-stop-list', this.props.className)}>
+          {this.getStops()}
+        </div>
+        <div className="bottom-whitespace" />
+      </>
     );
   }
 }
@@ -166,7 +125,6 @@ const connectedComponent = createFragmentContainer(
     ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
     ({ getStore }) => ({
       vehicles: getStore('RealTimeInformationStore').vehicles,
-      locationState: getStore('PositionStore').getLocationState(),
       currentTime: getStore('TimeStore').getCurrentTime(),
     }),
   ),
@@ -177,6 +135,7 @@ const connectedComponent = createFragmentContainer(
           mode
           gtfsId
           color
+          shortName
         }
         pattern {
           code
@@ -196,6 +155,7 @@ const connectedComponent = createFragmentContainer(
               effectiveStartDate
             }
           }
+          realtimeArrival
           realtimeDeparture
           realtime
           scheduledDeparture

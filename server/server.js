@@ -229,21 +229,26 @@ function setUpAvailableRouteTimetables() {
 
 function processTicketTypeResult(result) {
   const resultData = result.data;
-  if (resultData && Array.isArray(resultData.ticketTypes)) {
-    config.availableTickets = {};
-    resultData.ticketTypes.forEach(ticket => {
-      const ticketFeed = ticket.fareId.split(':')[0];
-      if (config.availableTickets[ticketFeed] === undefined) {
-        config.availableTickets[ticketFeed] = {};
-      }
-      config.availableTickets[ticketFeed][ticket.fareId] = {
-        price: ticket.price,
-        zones: ticket.zones,
-      };
-    });
-    console.log('availableTickets loaded');
+  if (config.availableTickets) {
+    if (resultData && Array.isArray(resultData.ticketTypes)) {
+      resultData.ticketTypes.forEach(ticket => {
+        const ticketFeed = ticket.fareId.split(':')[0];
+        if (config.availableTickets[ticketFeed] === undefined) {
+          config.availableTickets[ticketFeed] = {};
+        }
+        config.availableTickets[ticketFeed][ticket.fareId] = {
+          price: ticket.price,
+          zones: ticket.zones,
+        };
+      });
+      console.log('availableTickets loaded');
+    } else {
+      console.log('could not load availableTickets, result was invalid');
+    }
   } else {
-    console.log('could not load availableTickets, result was invalid');
+    console.log(
+      'availableTickets not loaded, missing availableTickets object from config-file',
+    );
   }
 }
 

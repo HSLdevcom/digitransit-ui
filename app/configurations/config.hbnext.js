@@ -332,40 +332,64 @@ export default configMerger(walttiConfig, {
             availableForSelection: true,
             defaultValue: true,
             smallIconZoom: 16,
+            nearYouLabel: {
+                de: 'Bushaltestellen in der Nähe',
+            }
         },
 
         rail: {
             availableForSelection: true,
             defaultValue: true,
+            nearYouLabel: {
+                de: 'Bahnhaltestellen in der Nähe',
+            }
         },
 
         tram: {
             availableForSelection: false,
             defaultValue: false,
+            nearYouLabel: {
+                de: 'Tramhaltestellen in der Nähe',
+            }
         },
 
         subway: {
             availableForSelection: true,
             defaultValue: true,
+            nearYouLabel: {
+                de: 'U-Bahnhaltestellen in der Nähe',
+            }
         },
         airplane: {
             availableForSelection: false,
             defaultValue: false,
+            nearYouLabel: {
+                de: 'Flughäfen in der Nähe',
+            }
         },
 
         ferry: {
             availableForSelection: false,
             defaultValue: false,
+            nearYouLabel: {
+                de: 'Fähranleger in der Nähe',
+            }
         },
 
         carpool: {
             availableForSelection: true,
             defaultValue: false,
+            nearYouLabel: {
+                de: 'Mitfahrpunkte in der Nähe',
+            }
         },
 
         citybike: {
             availableForSelection: true,
             defaultValue: false,
+            nearYouLabel: {
+                de: 'Sharing-Angebote in der Nähe',
+            }
         },
     },
 

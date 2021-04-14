@@ -9,7 +9,7 @@ import Link from 'found/Link';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import ExternalLink from './ExternalLink';
-import IconWithBigCaution from './IconWithBigCaution';
+import Icon from './Icon';
 import RouteNumber from './RouteNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../constants';
@@ -95,6 +95,10 @@ export default function RouteAlertsRow(
   const checkedUrl =
     url && (url.match(/^[a-zA-Z]+:\/\//) ? url : `http://${url}`);
 
+  if (!description) {
+    return null;
+  }
+
   return (
     <div
       className={cx('route-alert-row', { expired })}
@@ -110,10 +114,14 @@ export default function RouteAlertsRow(
       )) ||
         (entityType === 'stop' && (
           <div className="route-number">
-            <IconWithBigCaution
-              alertSeverityLevel={severityLevel}
-              img="icon-icon_bus-stop"
-            />
+            {severityLevel === 'INFO' ? (
+              <Icon img="icon-icon_info" className="stop-disruption info" />
+            ) : (
+              <Icon
+                img="icon-icon_caution"
+                className="stop-disruption warning"
+              />
+            )}
           </div>
         )) || (
           <div className="route-number">

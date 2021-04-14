@@ -19,6 +19,9 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#e10069',
+    iconColors: {
+      'mode-bus': '#e10069',
+    },
   },
 
   socialMedia: {
@@ -114,12 +117,11 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  footer: {
+  menu: {
+    copyright: { label: `© Oulu ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Oulu ${walttiConfig.YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'http://www.oulunjoukkoliikenne.fi/palautteet',
         icon: 'icon-icon_speech-bubble',
@@ -141,6 +143,7 @@ export default configMerger(walttiConfig, {
 
   showAllBusses: true,
   showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
 
   aboutThisService: {
     fi: [

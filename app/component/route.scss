@@ -1,40 +1,12 @@
+@import '~@hsl-fi/sass/mixins/screen';
+
 @function drop_off_svg($color, $alpha: 0.9999999) {
   @return 'data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2713%27%20height%3D%2712%27%3E%3Cg%20stroke%3D%27none%27%20stroke-width%3D%271%27%20fill%3D%27none%27%20fill-rule%3D%27evenodd%27%3E%3Cpath%20fill%3D%27#{rgba($color, $alpha)}%27%20d%3D%27M6.06%2C0%20C9.38%2C0%2012.08%2C2.68%2012.08%2C6.02%20C12.08%2C9.34%209.38%2C12.02%206.06%2C12.02%20C2.74%2C12.02%200.04%2C9.34%200.04%2C6.02%20C0.04%2C2.68%202.74%2C0%206.06%2C0%20Z%20M7.2%2C9.2%20L7.2%2C5.94%20C7.2%2C5.3%206.78%2C4.8%206.14%2C4.8%20L5.04%2C4.8%20C4.5%2C4.8%204.18%2C5.16%204.18%2C5.62%20C4.18%2C6.02%204.44%2C6.44%205.28%2C6.44%20L5.28%2C9.2%20C5.28%2C9.84%205.62%2C10.34%206.24%2C10.34%20C6.88%2C10.34%207.2%2C9.84%207.2%2C9.2%20Z%20M7.36%2C2.78%20L7.36%2C2.68%20C7.36%2C2%206.8%2C1.56%206.06%2C1.56%20C5.32%2C1.56%204.76%2C2%204.76%2C2.68%20L4.76%2C2.78%20C4.76%2C3.46%205.32%2C3.92%206.06%2C3.92%20C6.8%2C3.92%207.36%2C3.46%207.36%2C2.78%20Z%27%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E';
 }
 
 $route-schedule-date-height: 36px;
 $margin-left-right-large: 3.75em;
-$margin-left-right: 1.25em;
-
-/* table headers */
-.route-list-header {
-  border-bottom: solid 1px #eef1f3;
-  border-top: solid 1px #eef1f3;
-  @include font-narrow-medium;
-  line-height: $line-height-normal;
-  flex-shrink: 0;
-  overflow: hidden;
-  div,
-  .columns.route-stop-time {
-    @include font-narrow-book;
-    color: $gray;
-    font-size: $font-size-small;
-  }
-  &.route-stop {
-    min-height: 0;
-  }
-
-  &.bp-large {
-    &.route-stop {
-      padding: 1em 0;
-    }
-
-    div,
-    .columns.route-stop-time {
-      font-size: 16px;
-    }
-  }
-}
+$margin-left-right: 1.333em;
 
 .error {
   div {
@@ -47,7 +19,7 @@ $margin-left-right: 1.25em;
 .route-warning-message {
   background-color: rgba(254, 209, 0, 0.3);
   .upper {
-    @include font-bold;
+    @include font-medium;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -75,10 +47,14 @@ $margin-left-right: 1.25em;
 
 .mobile {
   background-color: $white;
-  .route-page-container{
+  .route-page-container {
     padding-top: 0;
     background-color: transparent;
     position: relative;
+  }
+  .bottom-whitespace {
+    min-height: 300px;
+    display: block;
   }
 }
 .route-page-container {
@@ -87,20 +63,25 @@ $margin-left-right: 1.25em;
 }
 
 .route-page-content {
+  overflow-x: hidden;
+  overflow-y: auto;
   padding: 1.5em $margin-left-right 0;
   display: flex;
   position: relative;
   flex-direction: column;
-  max-height: 100%;
-  flex-grow: 1;
-  flex-basis: 100%;
+  padding-bottom: 1.5em;
+  flex: 1 0;
+  flex-basis: 0px;
+  max-height: 100vh;
   background: $white;
   transition: flex-grow 500ms cubic-bezier(0.215, 0.61, 0.355, 1),
     flex-basis 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
 
   &.bp-large {
     top: 0;
-    padding: 0 $margin-left-right-large;
+    padding-top: 0;
+    padding-left: 3.5em;
+    padding-right: 2.5em;
   }
   &:empty {
     flex-basis: 0;
@@ -111,42 +92,20 @@ $margin-left-right: 1.25em;
     flex-grow: 0;
     flex-basis: 110px;
   }
-  .route-list-header {
-    display: flex;
-    flex-direction: row;
-    .route-stop-now {
-      flex: 0 0 6em;
-      max-width: 5em;
-    }
-    .route-stop-name {
-      flex: 1 0 11em;
-    }
-    .route-stop-time {
-      text-align: left;
-      padding-right: 0.6em;
-      flex: 0 0 3.7em;
-    }
-  }
 }
 
 // stop list
 .route-stop-list {
   @include font-narrow-medium;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 1.5em;
-  overflow-x: hidden;
-  overflow-y: auto;
-  flex: 1 0;
-  flex-basis: 0px;
   background-color: $white;
+  margin-left: 2px;
   .route-stop:last-child .route-stop-row_content-container {
     border-bottom: none;
   }
 }
 
-.mobile .route-stop-list {
+.mobile .route-page-content {
+  padding-top: 0;
   overflow-y: visible;
   flex-basis: auto;
 }
@@ -168,32 +127,28 @@ $margin-left-right: 1.25em;
 }
 
 .map {
-  .icon.tail-icon {
+  .icon.large-vehicle-icon {
     margin-top: 0.57em;
     margin-left: 0.57em;
     transform: scale(3.5);
   }
-  .allVehicles {
-    width: 24px;
-    height: 24px;
-    color: $gray-blue;
-    position: absolute;
-    pointer-events: none;
-  }
-  .large-icon {
-    transform: scale(2.86);
+  .icon.small-vehicle-icon {
+    transform: scale(1);
   }
 }
 .route-details-upper-row {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  height: 18px;
   min-width: calc(100% - 13% - 15px);
+  margin-bottom: 5px;
   flex-direction: row;
+  font-family: $font-family;
 }
 
 .location-details_container {
   max-width: 100%;
-  height: 3.5em;
   display: flex;
   flex: 1 0 3.5em;
   &.passed {
@@ -209,22 +164,69 @@ $margin-left-right: 1.25em;
   }
   .route-stop-now {
     min-width: 13%;
-    position: relative;
+    position: absolute;
+    z-index: 4;
+    left: 12px;
+    @include min-width(tablet) {
+      left: 45px;
+    }
+    &.arriving {
+      > a > span {
+        svg {
+          top: -50px;
+          @include min-width(tablet) {
+            top: -55px;
+          }
+        }
+      }
+      div > a > span {
+        svg {
+          top: -50px;
+          @include min-width(tablet) {
+            top: -55px;
+          }
+        }
+      }
+    }
+    &.arrived {
+      > a > span {
+        svg {
+          top: -21px;
+        }
+      }
+      div > a > span {
+        svg {
+          top: -21px;
+        }
+      }
+    }
+    &.departed {
+      > a > span {
+        svg {
+          top: 10px;
+          @include min-width(tablet) {
+            top: 6px;
+          }
+        }
+      }
+      div > a > span {
+        svg {
+          top: 10px;
+          @include min-width(tablet) {
+            top: 6px;
+          }
+        }
+      }
+    }
   }
   .route-now-content {
     padding-top: 10px;
     & svg {
       position: absolute;
-      top: -0.3em;
       font-size: 5em;
     }
-    .tail-icon {
+    .large-vehicle-icon {
       font-size: 3.5em;
-      bottom: 0;
-      left: -10px;
-    }
-    .selected-tail-icon {
-      font-size: 5em;
       bottom: 0;
       left: -10px;
     }
@@ -233,12 +235,16 @@ $margin-left-right: 1.25em;
     position: relative;
     min-width: 15px;
     .route-stop-now_line {
-      width: 5px;
+      width: 8px;
       height: 100%;
       background-color: currentColor;
       position: absolute;
-      top: 1em;
+      border-radius: 4px;
+      top: 11px;
       left: 4px;
+      @include min-width(tablet) {
+        left: 4.25px;
+      }
     }
     svg {
       position: absolute;
@@ -247,60 +253,94 @@ $margin-left-right: 1.25em;
     }
   }
   .route-stop-row_content-container {
-    width: calc(100% - 13% - 15px - 1em);
-    margin-left: 1em;
+    width: 100%; //calc(100% - 13% - 15px - 1em);
+    margin-left: 15px;
     display: block;
     border-bottom: 1px solid #eef1f3;
-    margin-top: 0.3em;
     a {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      height: 100%;
+      padding: 10px 0;
       text-decoration: none;
       justify-content: space-between;
+      align-items: center;
       .route-details_container {
         flex-grow: 1;
         display: flex;
         min-width: 0;
         font-size: 0.9375rem;
         .route-stop-name {
+          font-size: 15px;
           min-width: 0;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
         }
-          span {
-            text-decoration: none;
-          }
-          .drop-off-container {
-            white-space: nowrap;
-            color: $gray;
-            font-size: $font-size-xsmall;
-            font-family: $font-family-narrow;
-            font-weight: 400;
+        span {
+          text-decoration: none;
+        }
+        .drop-off-container {
+          white-space: nowrap;
+          color: $gray;
+          font-size: $font-size-xsmall;
+          font-family: $font-family;
+          font-weight: $font-weight-book;
 
-            span {
-              vertical-align: middle;
+          span {
+            vertical-align: middle;
+          }
+        }
+        .drop-off-stop-icon {
+          margin-left: 0.5em;
+          margin-right: 0.3em;
+          display: inline-block;
+          width: 13px;
+          height: 12px;
+          background: url(drop_off_svg($gray));
+        }
+        .platform-number-container {
+          display: inherit;
+          align-items: center;
+          .platform-code {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f4f4f5;
+            color: #333333;
+            width: 24px;
+            height: 17px;
+            border-radius: 4px;
+            font-family: $font-family-narrow;
+            font-size: $font-size-xxsmall;
+            font-weight: $font-weight-medium;
+            margin-left: 7px;
+            line-height: 1.6;
+            white-space: nowrap;
+            &.empty {
+              background: none;
             }
           }
-          .drop-off-stop-icon {
-            margin-left: 0.5em;
-            margin-right: 0.3em;
-            display: inline-block;
-            width: 13px;
-            height: 12px;
-            background: url(drop_off_svg($gray));
         }
       }
       .route-details-bottom-row {
         display: flex;
+        align-items: center;
+        height: 16px;
         .itinerary-stop-code {
+          display: flex;
+          align-items: center;
           margin-left: 0;
-          display: block;
-          max-height: 18px;
+          max-height: 15px;
+          margin-right: 5px;
         }
         .route-stop-address {
-          font-family: $font-family-narrow;
-          font-weight: 400;
+          font-size: $font-size-xsmall;
+          font-family: $font-family;
+          font-weight: $font-weight-book;
           line-height: 1.25rem;
-          letter-spacing: 0;
+          letter-spacing: -0.03em;
           color: #666;
           display: block;
           word-break: keep-all;
@@ -312,24 +352,52 @@ $margin-left-right: 1.25em;
             black
           );
           height: 1.25rem;
-          overflow: hidden;
-          width: 100%;
+          margin-right: 5px;
+        }
+        .itinerary-zone-icon {
+          font-family: $font-family;
+          width: 14px;
+          height: 14px;
         }
     }
-      .departure-times-container {
+      .route-stop-time {
         display: flex;
-        color: $black;
+        position: absolute;
+        right: 0;
+        flex-direction: row;
+        color: #666;
         flex: 0 1 auto;
         font-size: $font-size-small;
-        .route-stop-time {
-          span {
+        margin-right: 0.9375em;
+        @include min-width(tablet) {
+          margin-right: 2.75em;
+        }
+        span {
+          margin: 0;
+          font-family: $font-family;
+          &.time {
+            display: flex;
+            flex: 1;
+            white-space: unset;
+            text-align: right;
+            font-size: 12px;
+            height: 14px;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0;
             margin: 0;
-            &.time {
-              white-space: unset;
-              display: block;
-              text-align: right;
-              font-size: 0.9375rem;
-            }
+            line-height: 14px;
+          }
+          &.first {
+            font-size: 15px;
+            font-family: $font-family-narrow;
+            height: 18px;
+            line-height: 18px;
+          }
+          &.next {
+            font-weight: $font-weight-book;
+            width: 100%;
+            letter-spacing: -0.03em;
           }
         }
       }
@@ -369,10 +437,10 @@ $margin-left-right: 1.25em;
   display: flex;
   //margin: 10px $margin-left-right;
   .route-number {
-    min-width: 53px;
+    min-width: 45px;
     .icon {
-      height: 40px;
-      width: 40px;
+      height: 35px;
+      width: 35px;
     }
   }
   .route-info {
@@ -380,8 +448,8 @@ $margin-left-right: 1.25em;
     min-width: 0;
     .route-short-name {
       font-family: $font-family-narrow;
-      font-size: 21px;
-      font-weight: 500;
+      font-size: 30px;
+      font-weight: $font-weight-medium;
       font-stretch: normal;
       font-style: normal;
       line-height: normal;
@@ -398,10 +466,6 @@ $margin-left-right: 1.25em;
   }
 }
 
-.vehicle-icon {
-  width: 100px;
-  height: 100px;
-}
 .route-page-header.favourite-icon {
   @media print {
     display: none;
@@ -409,7 +473,8 @@ $margin-left-right: 1.25em;
 }
 
 // Schedule or alert list
-.route-schedule-content-wrapper, .route-alerts-content-wrapper {
+.route-schedule-content-wrapper,
+.route-alerts-content-wrapper {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -418,10 +483,14 @@ $margin-left-right: 1.25em;
   @media print {
     display: block;
   }
+
+  .route-page-control-panel-container {
+    padding: 10px 1.25em 0;
+  }
 }
 
-.route-schedule-list-wrapper, .route-alerts-list-wrapper {
-
+.route-schedule-list-wrapper,
+.route-alerts-list-wrapper {
   &.bp-large {
     flex: 1;
     display: flex;
@@ -460,7 +529,7 @@ $margin-left-right: 1.25em;
     display: block;
     h1 {
       font-size: 26px;
-      font-weight: 500;
+      font-weight: $font-weight-medium;
       font-family: $font-family;
     }
   }
@@ -472,7 +541,7 @@ $margin-left-right: 1.25em;
     margin-top: 1em;
     display: flex;
     font-size: 24px;
-    font-weight: 700;
+    font-weight: $font-weight-medium;
     .printable-stop-header_from {
       margin-right: 1em;
       width: 8.4em;
@@ -513,7 +582,7 @@ $margin-left-right: 1.25em;
     color: #333;
     height: 30px;
     line-height: 24px;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     appearance: none;
   }
 
@@ -582,7 +651,7 @@ $margin-left-right: 1.25em;
   min-width: 3em;
   @media print {
     font-size: 21px;
-    font-weight: 400;
+    font-weight: $font-weight-book;
   }
 }
 
@@ -620,7 +689,7 @@ $margin-left-right: 1.25em;
     }
     .printable-date-content {
       font-size: 20px;
-      font-weight: 700;
+      font-weight: $font-weight-medium;
     }
   }
   .secondary-button.print {
@@ -635,15 +704,6 @@ $margin-left-right: 1.25em;
     background-color: $white;
     border-top: 1px solid $light-gray;
     border-bottom: 1px solid $light-gray;
-  }
-}
-
-.print-button-container {
-  display: flex;
-  button {
-    margin-right: 1em;
-    margin-left: auto;
-    margin-bottom: $padding-medium;
   }
 }
 
@@ -664,6 +724,7 @@ $margin-left-right: 1.25em;
     margin-right: 7px;
     width: 15px;
     height: 15px;
+    color: $primary-color;
   }
 
   select {
@@ -673,9 +734,8 @@ $margin-left-right: 1.25em;
     background-color: $white;
     color: $primary-color;
     border-bottom: none !important;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     padding: 0;
-    text-transform: uppercase;
     background-image: none;
     width: 7em;
     text-align: left;
@@ -694,8 +754,22 @@ $margin-left-right: 1.25em;
   background-color: white;
   padding: 5px 20px 0 20px;
   &.bp-large {
-    padding: 0 $margin-left-right-large 1.5em;
+    padding: 0 $margin-left-right-large 0;
     box-shadow: none;
+  }
+}
+
+.route-page-control-panel-container {
+  padding-bottom: 1.5em;
+  &.hairiot, &.aikataulu {
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+  }
+  &.bp-large {
+    &.hairiot, &.aikataulu {
+      padding-left: 3.5em;
+      padding-right: 3.5em;
+    }
   }
 }
 
@@ -707,20 +781,23 @@ $margin-left-right: 1.25em;
   height: 2.5em;
   display: flex;
   background-color: $light-gray;
-  margin: 1.25em 0 2em 0;
   border: 2px solid $light-gray;
-  border-radius: 5px;
+  border-radius: 8px;
+  margin: 0 2px;
   button {
     width: calc(100% / 3);
-    font-size: $font-size-small;
+    font-size: $font-size-normal;
     text-align: center;
     letter-spacing: -0.42px;
-    border-radius: 3px;
+    border-radius: 6px;
     color: #333;
     font-weight: normal;
     &.is-active {
-      font-weight: 500;
+      font-weight: $font-weight-medium;
       background-color: $white;
+    }
+    .no-alerts > span {
+      color: #b7b7b7;
     }
   }
 
@@ -751,111 +828,144 @@ $margin-left-right: 1.25em;
 }
 
 .route-pattern-select {
-  height: 2.5em;
-  position: relative;
-  .route-option {
+  margin: 14px 0 18px 0;
+
+  .route-pattern-toggle {
+    border: 1px solid #888888;
+    width: 100%;
+    min-height: 44px;
     background: $white;
-    font-size: $font-size-xsmall;
-    font-weight: normal;
-  }
-  #select-route-pattern {
-    cursor: pointer;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-image: none;
-  }
-
-  button.toggle-direction,
-  button.toggle-direction:hover {
-    background: $white;
-    padding: 0;
-    position: absolute;
-    top: 0.6em;
-    right: 0.9em;
-    display: block;
-    cursor: pointer;
-    pointer-events: all;
-    font-size: 1.15em;
-    .icon {
-      color: $link-color;
-      position: static;
-    }
-  }
-
-  button.toggle-direction:hover .icon {
-    color: #0062a1;
-  }
-
-  .route-option option {
-    margin-top: 0.4em;
-    font-weight: 500;
-    color: rgba(0, 0, 0, 0.75);
-    cursor: pointer;
-  }
-
-  .route-option-togglable {
-    margin-top: 0.4em;
-    overflow: hidden;
-    white-space: nowrap;
-    line-height: 1.2;
-    padding-top: 0.4em;
-  }
-
-  select,
-  .route-option {
-    padding: 0 35px 0 10px;
-    -webkit-padding-end: 35px;
-    -webkit-padding-start: 10px;
-    @include font-medium;
-    height: 2.5rem;
     border-radius: 5px;
-    border: 1px solid #888;
-    appearance: none;
-
-    option {
-      max-height: 1.4em;
-      overflow: hidden;
-    }
-
+    display: block;
+    font-size: 15px;
+    line-height: 18px;
+    letter-spacing: -0.03em;
+    padding: 13px 32px 13px 16px;
+    text-align: left;
+    color: #333;
     &:focus {
-      outline: -webkit-focus-ring-color auto 1px;
+      outline: none;
+      border-color: $primary-color;
     }
-    @media print {
-      border: 0;
-      padding-left: 0;
+
+    .toggle-icon {
+      color: $link-color;
+      position: absolute;
+      right: 16px;
+      transform: rotate(90deg);
     }
   }
+
   .icon {
-    color: $gray-blue;
+    color: $primary-color;
     position: absolute;
     right: 1rem;
-    top: 0.8rem;
+    top: 15px;
+    width: 16px;
     pointer-events: none;
     @media print {
       display: none;
     }
   }
 
-  &.bp-large {
-    @media print {
-      padding-left: 0;
+  .in-text-arrow {
+    position: relative;
+    float: none;
+    top: 3px;
+    right: 0;
+    width: 24px;
+  }
+
+  .react-autosuggest__container {
+    width: 100%;
+    min-height: 44px;
+    background: white;
+    border: 1px solid #888888;
+    border-radius: 4px;
+    position: relative;
+    &:focus-within {
+      border-color: $primary-color;
+      box-shadow: none;
+    }
+    .input-display {
+      position: relative;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 18px;
+      letter-spacing: -0.03em;
+      padding: 13px 32px 13px 16px;
+
+    }
+    .react-autosuggest__input {
+      height: 0;
+      margin: 0;
+      padding: 0;
+      font-size: 16px;
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
     }
 
-    .route-option option {
-      font-size: 18px;
-      margin-top: 0.5em;
+    &.react-autosuggest__container--open .dropdown-arrow {
+      transform: rotate(180deg);
     }
-
-    select,
-    .route-option {
-      font-size: $font-size-small;
-      font-weight: normal;
-      padding: 0 48px 0 20px;
-      -webkit-padding-end: 48px;
-      -webkit-padding-start: 20px;
-      @media print {
-        padding-left: 0;
+    .react-autosuggest__suggestions-container--open {
+      border: 1px solid #dddddd;
+      border-bottom: none;
+      box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.15);
+    }
+    .react-autosuggest__suggestions-container {
+      background: #f4f4f5;
+      z-index: index($zindex, 'autosuggest-suggestion-container');
+      position: absolute;
+      top: 52px;
+      left: 0;
+      right: 0;
+      border-radius: 4px;
+      .react-autosuggest__section-container {
+        &:not(:first-child) {
+          margin-top: 4px;
+          border-top: 1px solid #dddddd;
+        }
+        &:first-child {
+          border-radius: 4px 4px 0 0;
+        }
+        &:last-child {
+          border-radius: 0 0 4px 4px;
+        }
+        background: white;
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 18px;
+        letter-spacing: -0.03em;
+        .react-autosuggest__section-title {
+          font-weight: 500;
+          border-bottom: 1px solid #dddddd;
+          min-height: 44px;
+          padding: 13px 16px;
+        }
+        ul {
+          padding: 0;
+          margin: 0;
+          .react-autosuggest__suggestion {
+            border-bottom: 1px solid #dddddd;
+            list-style: none;
+            min-height: 44px;
+            padding: 13px 32px 13px 16px;
+            position: relative;
+            .icon.check, .icon.dropdown-arrow {
+              height: 20px;
+              width: 20px;
+              position: absolute;
+              top: 13px;
+              right: 16px;
+            }
+          }
+          .react-autosuggest__suggestion--highlighted {
+            background: #dfe5e8;
+          }
+        }
       }
     }
   }
@@ -877,9 +987,21 @@ $margin-left-right: 1.25em;
     display: flex;
     padding: 0.8em 0.8em 0.8em 0.8em;
     position: relative;
+
+    .icon.stop-disruption {
+      width: 2em;
+      color: #fff;
+      &.warning {
+        fill: $disruption-color;
+      }
+      &.info {
+        fill: $gray-blue;
+      }
+    }
+
     .route-alert-row-link {
-       padding-right: 1px;
-       padding-left: 1px;
+      padding-right: 1px;
+      padding-left: 1px;
     }
     + .route-alert-row {
       border-top: 1px solid $light-gray;
@@ -890,15 +1012,16 @@ $margin-left-right: 1.25em;
 
       .route-alert-top-row {
         display: flex;
-	.route-alert-entityid {
+        align-items: center;
+        .route-alert-entityid {
           font-family: $font-family-narrow;
-	  font-size: 21px;
-	  font-weight: bold;
-	  margin-right: 10px;
-	}
+          font-size: 21px;
+          font-weight: $font-weight-medium;
+          margin-right: 10px;
+        }
         .route-alert-time-period {
-	  font-size: 15px;
-	  padding-top: 7px;
+          font-size: 15px;
+          padding: 0 0 0 5px;
         }
       }
     }
@@ -912,7 +1035,8 @@ $margin-left-right: 1.25em;
         width: 2.5em;
         height: 2.5em;
         position: relative;
-        .subicon-info, .subicon-caution {
+        .subicon-info,
+        .subicon-caution {
           bottom: -5px;
           left: -5px;
           .icon {
@@ -1002,7 +1126,7 @@ nav.top-bar .title .route-number {
         max-width: calc(100% - 1em);
       }
       a {
-        font-weight: $font-weight-bold;
+        font-weight: $font-weight-medium;
         color: $link-color;
         max-width: 100%;
       }

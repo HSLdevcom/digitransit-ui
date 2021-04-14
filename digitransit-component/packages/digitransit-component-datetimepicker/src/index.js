@@ -49,6 +49,7 @@ function DatetimepickerStateContainer({
   lang,
   color,
   timeZone,
+  fontWeights,
 }) {
   moment.tz.setDefault(timeZone);
   const initialNow = realtime ? null : moment().valueOf();
@@ -167,6 +168,7 @@ function DatetimepickerStateContainer({
       color={color}
       timeZone={timeZone}
       onModalSubmit={onModalSubmit}
+      fontWeights={fontWeights}
     />
   );
 }
@@ -184,6 +186,9 @@ DatetimepickerStateContainer.propTypes = {
   lang: PropTypes.string,
   color: PropTypes.string,
   timeZone: PropTypes.string,
+  fontWeights: PropTypes.shape({
+    medium: PropTypes.number,
+  }),
 };
 
 DatetimepickerStateContainer.defaultProps = {
@@ -194,6 +199,9 @@ DatetimepickerStateContainer.defaultProps = {
   lang: 'en',
   color: '#007ac9',
   timeZone: 'Europe/Helsinki',
+  fontWeights: {
+    medium: 500,
+  },
 };
 
 export default DatetimepickerStateContainer;

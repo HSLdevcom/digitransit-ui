@@ -22,6 +22,9 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#52B9E9',
+    iconColors: {
+      'mode-bus': '#52B9E9',
+    },
   },
 
   socialMedia: {
@@ -79,10 +82,9 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  footer: {
+  menu: {
+    copyright: { label: `© Mikkeli ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Mikkeli ${walttiConfig.YEAR}` },
-      {},
       {
         name: 'about-this-service',
         nameEn: 'About this service',

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import IconWithTail from '../IconWithTail';
+import VehicleIcon from '../VehicleIcon';
 import IconMarker from './IconMarker';
 import { isBrowser } from '../../util/browser';
 
@@ -12,62 +12,26 @@ function getVehicleIcon(
   mode,
   heading,
   vehicleNumber,
-  useSmallIcon = false,
-  useLargeIcon = false,
+  color,
+  useLargeIcon = true,
 ) {
   if (!isBrowser) {
     return null;
   }
-  if (!mode) {
-    return useLargeIcon
-      ? {
-          element: (
-            <IconWithTail
-              img="icon-icon_all-vehicles-large"
-              rotate={heading}
-              allVehicles
-              vehicleNumber={vehicleNumber}
-              useLargeIcon={useLargeIcon}
-            />
-          ),
-          className: `vehicle-icon bus ${useSmallIcon ? 'small-map-icon' : ''}`,
-          iconSize: [20, 20],
-          iconAnchor: [10, 10],
-        }
-      : {
-          element: (
-            <IconWithTail
-              img="icon-icon_all-vehicles-small"
-              rotate={heading}
-              allVehicles
-            />
-          ),
-          className: `vehicle-icon bus ${useSmallIcon ? 'small-map-icon' : ''}`,
-          iconSize: [20, 20],
-          iconAnchor: [10, 10],
-        };
-  }
-  if (MODES_WITH_ICONS.indexOf(mode) !== -1) {
-    return {
-      element: (
-        <IconWithTail
-          img={`icon-icon_${mode}-live`}
-          rotate={heading}
-          mode={mode}
-          vehicleNumber={vehicleNumber}
-        />
-      ),
-      className: `vehicle-icon ${mode} ${useSmallIcon ? 'small-map-icon' : ''}`,
-      iconSize: [20, 20],
-      iconAnchor: [15, 15],
-    };
-  }
-
+  const modeOrDefault = MODES_WITH_ICONS.indexOf(mode) !== -1 ? mode : 'bus';
   return {
-    element: <IconWithTail img="icon-icon_bus-live" rotate={heading} />,
-    className: `vehicle-icon bus ${useSmallIcon ? 'small-map-icon' : ''}`,
+    element: (
+      <VehicleIcon
+        rotate={heading}
+        mode={modeOrDefault}
+        vehicleNumber={vehicleNumber}
+        useLargeIcon={useLargeIcon}
+        color={color}
+      />
+    ),
+    className: `vehicle-icon ${modeOrDefault}`,
     iconSize: [20, 20],
-    iconAnchor: [10, 10],
+    iconAnchor: useLargeIcon ? [15, 15] : [10, 10],
   };
 }
 
@@ -93,33 +57,37 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
 }
 
 function VehicleMarkerContainer(containerProps) {
-  return Object.entries(containerProps.vehicles)
-    .filter(([, message]) =>
-      shouldShowVehicle(
-        message,
-        containerProps.direction,
-        containerProps.tripStart,
-        containerProps.pattern,
-        containerProps.headsign,
-      ),
-    )
-    .map(([id, message]) => (
-      <IconMarker
-        key={id}
-        position={{
-          lat: message.lat,
-          lon: message.long,
-        }}
-        zIndexOffset={10000}
-        icon={getVehicleIcon(
-          containerProps.ignoreMode ? null : message.mode,
-          message.heading,
-          message.shortName ? message.shortName : message.route.split(':')[1],
-          false,
-          containerProps.useLargeIcon,
-        )}
-      />
-    ));
+  const visibleVehicles = Object.entries(
+    containerProps.vehicles,
+  ).filter(([, message]) =>
+    shouldShowVehicle(
+      message,
+      containerProps.direction,
+      containerProps.tripStart,
+      containerProps.pattern,
+      containerProps.headsign,
+    ),
+  );
+  const visibleVehicleIds = visibleVehicles.map(([id]) => id);
+  containerProps.setVisibleVehicles(visibleVehicleIds);
+
+  return visibleVehicles.map(([id, message]) => (
+    <IconMarker
+      key={id}
+      position={{
+        lat: message.lat,
+        lon: message.long,
+      }}
+      zIndexOffset={10000}
+      icon={getVehicleIcon(
+        containerProps.ignoreMode ? null : message.mode,
+        message.heading,
+        message.shortName ? message.shortName : message.route.split(':')[1],
+        message.color,
+        containerProps.useLargeIcon,
+      )}
+    />
+  ));
 }
 
 VehicleMarkerContainer.propTypes = {
@@ -149,10 +117,13 @@ const connectedComponent = connectToStores(
   VehicleMarkerContainer,
   ['RealTimeInformationStore'],
   (context, props) => {
-    const { vehicles } = context.getStore('RealTimeInformationStore');
+    const { vehicles, setVisibleVehicles } = context.getStore(
+      'RealTimeInformationStore',
+    );
     return {
       ...props,
       vehicles,
+      setVisibleVehicles,
     };
   },
 );

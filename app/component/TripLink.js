@@ -4,17 +4,20 @@ import { QueryRenderer, graphql } from 'react-relay';
 import Link from 'found/Link';
 import cx from 'classnames';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
-import IconWithTail from './IconWithTail';
+import VehicleIcon from './VehicleIcon';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-function TripLink({ vehicle }) {
+function TripLink({ vehicle, shortName }) {
   const { environment } = useContext(ReactRelayContext);
   const icon = (
-    <IconWithTail
+    <VehicleIcon
       className={cx(vehicle.mode, 'tail-icon')}
-      img={`icon-icon_${vehicle.mode}-live`}
+      mode={vehicle.mode}
       rotate={180}
+      vehicleNumber={vehicle.shortName || shortName}
+      useLargeIcon
+      color={vehicle.color}
     />
   );
 
@@ -38,7 +41,7 @@ function TripLink({ vehicle }) {
       }}
       environment={environment}
       render={({ props }) => {
-        if (!props) {
+        if (!props || props.trip === null) {
           return <span className="route-now-content">{icon}</span>;
         }
 
@@ -71,7 +74,10 @@ TripLink.propTypes = {
     mode: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     tripId: PropTypes.string.isRequired,
+    shortName: PropTypes.string.isRequired,
+    color: PropTypes.string,
   }).isRequired,
+  shortName: PropTypes.string,
 };
 
 export default TripLink;

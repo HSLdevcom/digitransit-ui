@@ -9,7 +9,7 @@ import WeatherDetailsPopup from './WeatherDetailsPopup';
 export const StreetModeSelectorWeatherLabel = ({ active, weatherData }) => {
   const [popupOpen, changeOpen] = useState(false);
   if (active && weatherData && weatherData.temperature) {
-    if (weatherData.temperature === 'NaN') {
+    if (weatherData.temperature === 'NaN' || weatherData.iconId === 'NaN') {
       return null;
     }
     const { temperature, iconId } = weatherData;

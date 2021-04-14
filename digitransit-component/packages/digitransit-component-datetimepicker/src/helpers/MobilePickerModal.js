@@ -33,6 +33,7 @@ function MobilePickerModal({
   dateSelectItemCount,
   getDateDisplay,
   validateTime,
+  fontWeights,
 }) {
   moment.tz.setDefault(timeZone);
   const translationSettings = { lng: lang };
@@ -74,15 +75,22 @@ function MobilePickerModal({
       className={styles['mobile-modal-content']}
       overlayClassName={styles['mobile-modal-overlay']}
     >
-      <div style={{ '--color': `${color}` }}>
+      <div
+        style={{
+          '--color': `${color}`,
+          '--font-weight-medium': fontWeights.medium,
+        }}
+      >
         <div className={styles['top-row']}>
-          <h3 className={styles['modal-title']}>Valitse aika</h3>
+          <h3 className={styles['modal-title']}>
+            {i18next.t('choose-time', translationSettings)}
+          </h3>
           <button
             type="button"
             className={styles['departure-now-button']}
             onClick={onNowClick}
           >
-            Lähtö nyt
+            {i18next.t('departure-now', translationSettings)}
           </button>
         </div>
         <div className={styles['tab-row']}>
@@ -178,14 +186,14 @@ function MobilePickerModal({
               onSubmit(displayTimestamp, departureOrArrivalCurrent)
             }
           >
-            Valmis
+            {i18next.t('ready', translationSettings)}
           </button>
           <button
             type="button"
             className={styles['cancel-button']}
             onClick={onCancel}
           >
-            Peruuta
+            {i18next.t('cancel', translationSettings)}
           </button>
         </div>
       </div>
@@ -206,6 +214,9 @@ MobilePickerModal.propTypes = {
   dateSelectItemCount: PropTypes.number.isRequired,
   getDateDisplay: PropTypes.func.isRequired,
   validateTime: PropTypes.func.isRequired,
+  fontWeights: PropTypes.shape({
+    medium: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 MobilePickerModal.defaultProps = {

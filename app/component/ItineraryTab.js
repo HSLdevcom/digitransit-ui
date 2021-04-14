@@ -4,22 +4,36 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import cx from 'classnames';
 import { matchShape, routerShape } from 'found';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import Icon from './Icon';
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
 import ItinerarySummary from './ItinerarySummary';
-import DateWarning from './DateWarning';
 import ItineraryLegs from './ItineraryLegs';
 import BackButton from './BackButton';
-import { getRoutes, getZones } from '../util/legUtils';
+import {
+  getRoutes,
+  getZones,
+  compressLegs,
+  getTotalBikingDistance,
+  getTotalBikingDuration,
+  getTotalWalkingDistance,
+  getTotalWalkingDuration,
+} from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 
 import exampleData from './data/ItineraryTab.exampleData.json';
 import { getFares, shouldShowFareInfo } from '../util/fareUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import {
+  isToday,
+  isTomorrow,
+  getFormattedTimeDate,
+  getCurrentMillis,
+} from '../util/timeUtils';
+
 /* eslint-disable prettier/prettier */
 class ItineraryTab extends React.Component {
   static propTypes = {
@@ -29,6 +43,8 @@ class ItineraryTab extends React.Component {
     itinerary: PropTypes.object.isRequired,
     focus: PropTypes.func.isRequired,
     setMapZoomToLeg: PropTypes.func.isRequired,
+    isMobile: PropTypes.bool.isRequired,
+    hideTitle: PropTypes.bool,
     toggleCarpoolDrawer: PropTypes.func,
   };
 
@@ -36,6 +52,7 @@ class ItineraryTab extends React.Component {
     config: PropTypes.object.isRequired,
     router: routerShape.isRequired,
     match: matchShape.isRequired,
+    intl: intlShape.isRequired,
   };
 
   state = {
@@ -57,9 +74,13 @@ class ItineraryTab extends React.Component {
     });
   };
 
-  shouldShowDisclaimer = (config) => {
-    return config.showDisclaimer && this.context.match.params.hash !== 'walk' && this.context.match.params.hash !== 'bike';
-  }
+  shouldShowDisclaimer = config => {
+    return (
+      config.showDisclaimer &&
+      this.context.match.params.hash !== 'walk' &&
+      this.context.match.params.hash !== 'bike'
+    );
+  };
 
   printItinerary = e => {
     e.stopPropagation();
@@ -78,43 +99,109 @@ class ItineraryTab extends React.Component {
     });
   };
 
+  getFutureText = startTime => {
+    const refTime = getCurrentMillis();
+    if (isToday(startTime, refTime)) {
+      return '';
+    }
+    if (isTomorrow(startTime, refTime)) {
+      return this.context.intl.formatMessage({
+        id: 'tomorrow',
+      });
+    }
+    return getFormattedTimeDate(startTime, 'dd D.M.');
+  };
+
+  setExtraProps = itinerary => {
+    const compressedItinerary = {
+      ...itinerary,
+      legs: compressLegs(itinerary.legs),
+    };
+    const walkingDistance = getTotalWalkingDistance(compressedItinerary);
+    const walkingDuration = getTotalWalkingDuration(compressedItinerary);
+    const bikingDistance = getTotalBikingDistance(compressedItinerary);
+    const bikingDuration = getTotalBikingDuration(compressedItinerary);
+    const futureText = this.getFutureText(itinerary.startTime);
+    const isMultiRow =
+      walkingDistance > 0 && bikingDistance > 0 && futureText !== '';
+    const extraProps = {
+      walking: {
+        duration: walkingDuration,
+        distance: walkingDistance,
+      },
+      biking: {
+        duration: bikingDuration,
+        distance: bikingDistance,
+      },
+      futureText,
+      isMultiRow,
+    };
+    return extraProps;
+  };
+
   render() {
-    const { itinerary, plan } = this.props;
+    const { itinerary } = this.props;
     const { config } = this.context;
 
-    if(!itinerary || !itinerary.legs[0]) {
+    if (!itinerary || !itinerary.legs[0]) {
       return null;
     }
 
     const fares = getFares(itinerary.fares, getRoutes(itinerary.legs), config);
+    const extraProps = this.setExtraProps(itinerary);
     return (
       <div className="itinerary-tab">
         <BreakpointConsumer>
           {breakpoint => [
             breakpoint !== 'large' ? (
-              <ItinerarySummary itinerary={itinerary} key="summary"/>
+              <ItinerarySummary
+                itinerary={itinerary}
+                key="summary"
+                walking={extraProps.walking}
+                biking={extraProps.biking}
+                futureText={extraProps.futureText}
+                isMultiRow={extraProps.isMultiRow}
+                isMobile={this.props.isMobile}
+              />
             ) : (
-              <div className="desktop-title" key="header">
-                <div className="title-container h2">
-                  <BackButton
-                    title={
-                      <FormattedMessage
-                        id="itinerary-page.title"
-                        defaultMessage="Itinerary suggestions"
+              <>
+                {!this.props.hideTitle && (
+                  <div className="desktop-title" key="header">
+                    <div className="title-container h2">
+                      <BackButton
+                        title={
+                          <FormattedMessage
+                            id="itinerary-page.title"
+                            defaultMessage="Itinerary suggestions"
+                          />
+                        }
+                        icon="icon-icon_arrow-collapse--left"
+                        iconClassName="arrow-icon"
+                        fallback="pop"
                       />
-                    }
-                    icon="icon-icon_arrow-collapse--left"
-                    color={config.colors.primary}
-                    iconClassName="arrow-icon"
+                    </div>
+                  </div>
+                )}
+                <div>
+                  <ItinerarySummary
+                    itinerary={itinerary}
+                    key="summary"
+                    walking={extraProps.walking}
+                    biking={extraProps.biking}
+                    futureText={extraProps.futureText}
+                    isMultiRow={extraProps.isMultiRow}
+                    isMobile={this.props.isMobile}
                   />
-                  <ItinerarySummary itinerary={itinerary} key="summary" />
+                  <div className="summary-divider" />
                 </div>
-              </div>
+              </>
             ),
-            <div className="momentum-scroll itinerary-tabs__scroll" key="legs">
-              <div className="itinerary-timeframe" key="timeframe"> 
-                <DateWarning date={itinerary.startTime} refTime={plan.date} />
-              </div>
+            <div
+              className={cx('momentum-scroll itinerary-tabs__scroll', {
+                multirow: extraProps.isMultiRow,
+              })}
+              key="legs"
+            >
               <div
                 className={cx('itinerary-main', {
                   'bp-large': breakpoint === 'large',
@@ -138,7 +225,7 @@ class ItineraryTab extends React.Component {
                         />
                       </div>
                     </div>
-                        )}
+                  )}
                 <ItineraryLegs
                   fares={fares}
                   itinerary={itinerary}
@@ -151,7 +238,7 @@ class ItineraryTab extends React.Component {
                     fares={fares}
                     zones={getZones(itinerary.legs)}
                     legs={itinerary.legs}
-                />
+                  />
                 )}
                 {config.showRouteInformation && <RouteInformation />}
               </div>
@@ -163,10 +250,11 @@ class ItineraryTab extends React.Component {
                   />
                 </div>
               )}
-            </div>
+              <div className="itinerary-empty-space" />
+            </div>,
           ]}
         </BreakpointConsumer>
-        </div>
+      </div>
     );
   }
 }
@@ -177,8 +265,9 @@ ItineraryTab.description = (
       <ItineraryTab
         focus={() => {}}
         itinerary={{ ...exampleData.itinerary }}
-        plan={{date: 1553845502000}}
+        plan={{ date: 1553845502000 }}
         setMapZoomToLeg={() => {}}
+        isMobile={false}
       />
     </div>
   </ComponentUsageExample>
@@ -196,8 +285,6 @@ const withRelay = createFragmentContainer(ItineraryTab, {
       duration
       startTime
       endTime
-      elevationGained
-      elevationLost
       fares {
         cents
         components {
@@ -328,26 +415,6 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             code
             platformCode
             zoneId
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-              trip {
-                pattern {
-                  code
-                }
-              }
-              alertHeaderText
-              alertHeaderTextTranslations {
-                text
-                language
-              }
-              alertUrl
-              alertUrlTranslations {
-                text
-                language
-              }
-            }
           }
         }
         realTime
