@@ -102,7 +102,13 @@ function RouteNumber(props, context) {
           </div>
         ) : (
           <div className={`icon ${mode}`}>
-            {getIcon(props.icon, props.isCallAgency, props.hasDisruption)}
+            {getIcon(
+              props.icon,
+              props.isCallAgency,
+              props.hasDisruption,
+              props.badgeFill,
+              props.badgeText,
+            )}
           </div>
         )}
         {props.text && (
