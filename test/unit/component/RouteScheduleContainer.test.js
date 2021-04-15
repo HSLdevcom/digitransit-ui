@@ -9,7 +9,7 @@ import { mockContext } from '../helpers/mock-context';
 import { mockMatch } from '../helpers/mock-router';
 
 describe('<RouteScheduleContainer />', () => {
-  it('should identify canceled departures from incoming data', () => {
+  it.skip('should identify canceled departures from incoming data', () => {
     const props = {
       pattern: {
         stops: [
@@ -42,11 +42,6 @@ describe('<RouteScheduleContainer />', () => {
         route: { gtfsId: '2550' },
       },
       firstDepartures: {},
-      relay: {
-        refetch: (variables, renderVariables, callback) => {
-          callback();
-        },
-      },
       serviceDay: '20190115',
       breakpoint: 'large',
     };
