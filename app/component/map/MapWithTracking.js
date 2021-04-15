@@ -407,6 +407,7 @@ class MapWithTrackingStateHandler extends React.Component {
             />
           </div>
         }
+        mapLayers={mapLayers}
       >
         {children}
       </Map>
