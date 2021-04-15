@@ -115,27 +115,6 @@ export default configMerger(walttiConfig, {
     lon: 23.7606972,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_city',
-      label: 'Keskustori, Tampere',
-      lat: 61.4980944,
-      lon: 23.7606972,
-    },
-    {
-      icon: 'icon-icon_rail',
-      label: 'Rautatieasema, Tampere',
-      lat: 61.4984374,
-      lon: 23.7730139,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Linja-autoasema, Tampere',
-      lat: 61.4937936,
-      lon: 23.7696505,
-    },
-  ],
-
   menu: {
     copyright: { label: `© Tampere ${walttiConfig.YEAR}` },
     content: [

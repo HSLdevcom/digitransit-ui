@@ -96,27 +96,6 @@ export default configMerger(walttiConfig, {
     walkBoardCost: 900,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Rotuaari, Oulu',
-      lat: 65.012338,
-      lon: 25.471333,
-    },
-    {
-      icon: 'icon-icon_rail',
-      label: 'Rautatieasema, Oulu',
-      lat: 65.01014,
-      lon: 25.483349,
-    },
-    {
-      icon: 'icon-icon_airplane',
-      label: 'Lentoasema, Oulu',
-      lat: 64.928808,
-      lon: 25.373296,
-    },
-  ],
-
   menu: {
     copyright: { label: `© Oulu ${walttiConfig.YEAR}` },
     content: [
