@@ -15,13 +15,13 @@ const IconBadge = ({ badgeFill, badgeText }) => {
         cx="20"
         cy="20"
         fill={badgeFill}
-        r="20"
+        r="18"
       />
       <text
         className={cx('badge-text', {
           long: isBadgeTextLong(badgeText),
         })}
-        dy="0.3em"
+        dy="0.35em"
         x="20"
         y="20"
       >
