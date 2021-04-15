@@ -50,7 +50,7 @@ function translateText(objectToTranslate) {
 export default function routePatternOptionText(language, pattern, isTogglable) {
   i18next.changeLanguage(language);
   // Starts with route info:  Kirkkonummi ➔ Helsinki
-  let destinationName = pattern.headsign; // DT-3422
+  let destinationName = pattern ? pattern.headsign : null; // DT-3422
   if (destinationName === null) {
     destinationName = pattern.stops[pattern.stops.length - 1].name;
   }

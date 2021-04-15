@@ -71,7 +71,7 @@ class RouteScheduleContainer extends Component {
     from: 0,
     to: this.props.pattern.stops.length - 1,
     serviceDay: this.props.serviceDay,
-    hasLoaded: true,
+    hasLoaded: false,
   };
 
   onFromSelectChange = selectFrom => {
@@ -103,8 +103,10 @@ class RouteScheduleContainer extends Component {
       this.props.pattern.tripsForDate,
       stops,
     );
-    if (trips == null) {
-      return <Loading />;
+    if (trips !== null && !this.state.hasLoaded) {
+      this.setState({
+        hasLoaded: true,
+      });
     }
     if (trips.length === 0) {
       return (
@@ -145,13 +147,13 @@ class RouteScheduleContainer extends Component {
       action: 'ChangeTimetableDay',
       name: null,
     });
-    const newState = {
+    const newPath = {
       ...this.context.match.location,
       query: {
         serviceDay: newServiceDay,
       },
     };
-    this.context.router.replace(newState);
+    this.context.router.replace(newPath);
   };
 
   dateForPrinting = () => {
@@ -455,6 +457,16 @@ class RouteScheduleContainer extends Component {
         this.props.pattern.route,
       );
 
+    const showTrips = this.getTrips(newFromTo[0], newFromTo[1]);
+
+    if (!this.state.hasLoaded) {
+      return (
+        <div className={cx('summary-list-spinner-container', 'route-schedule')}>
+          <Loading />
+        </div>
+      );
+    }
+
     return (
       <div
         className={cx('route-schedule-content-wrapper', {
@@ -498,11 +510,7 @@ class RouteScheduleContainer extends Component {
               role="list"
               aria-atomic="true"
             >
-              {this.state.hasLoaded ? (
-                this.getTrips(newFromTo[0], newFromTo[1])
-              ) : (
-                <Loading />
-              )}
+              {showTrips}
             </div>
           </div>
         )}
