@@ -319,12 +319,16 @@
   .swipe-header.disruption-banner {
     width: unset;
     .swipe-button-container {
-      .swipe-button .icon {
+      padding: 0 5px;
+      .swipe-button {
+        margin-top: 1px;
+        .icon {
         height: 0.8em;
         width: 0.8em;
         fill: $white;
-        &.disabled {
-          fill: rgb(245, 187, 208);
+          &.disabled {
+            fill: rgb(245, 187, 208);
+          }
         }
       }
     }

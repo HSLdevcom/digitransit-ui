@@ -37,13 +37,17 @@ const DisruptionBannerAlert = (
           <Icon img="icon-icon_disruption-banner-alert" />
         </div>
         <div className="disruption-info-container">
-          {useHeader && <h3 className="disruption-info-header">{header}</h3>}
           {(!config.URL.ROOTLINK || !config.trafficNowLink) && (
-            <TruncatedMessage
-              className="disruption-show-more"
-              lines={useHeader ? 2 : 3}
-              message={message}
-            />
+            <>
+              {useHeader && (
+                <h3 className="disruption-info-header">{header}</h3>
+              )}
+              <TruncatedMessage
+                className="disruption-show-more"
+                lines={useHeader ? 2 : 3}
+                message={message}
+              />
+            </>
           )}
           {config.URL.ROOTLINK && config.trafficNowLink && (
             <a
@@ -53,6 +57,9 @@ const DisruptionBannerAlert = (
                 language === 'fi' ? '' : `${language}/`
               }${config.trafficNowLink[language]}`}
             >
+              {useHeader && (
+                <h3 className="disruption-info-header">{header}</h3>
+              )}
               {message}
             </a>
           )}
