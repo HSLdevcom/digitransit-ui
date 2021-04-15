@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import RouteScheduleStopSelect from './RouteScheduleStopSelect';
 import ComponentUsageExample from './ComponentUsageExample';
 import { routeScheduleHeaderStops as exampleStops } from './ExampleData';
 import Icon from './Icon';
 import { isBrowser } from '../util/browser';
+import RouteScheduleDropdown from './RouteScheduleDropdown';
 
 function RouteScheduleHeader({
   stops,
@@ -15,7 +15,7 @@ function RouteScheduleHeader({
 }) {
   const options = stops.map((stop, index) => {
     const option = {
-      displayName: stop.name,
+      label: stop.name,
       value: index,
     };
     return option;
@@ -24,13 +24,13 @@ function RouteScheduleHeader({
   const maxOptions = Object.keys(options).length;
 
   const fromOptions = options.slice(0, to > maxOptions ? maxOptions : to);
+
   const toOptions = options.slice(from + 1);
 
-  const fromDisplayName = fromOptions.filter(o => o.value === from)[0]
-    .displayName;
+  const fromDisplayName = fromOptions.filter(o => o.value === from)[0].label;
   const toDisplayName = toOptions.filter(
     o => o.value === (to > maxOptions ? maxOptions : to),
-  )[0].displayName;
+  )[0].label;
 
   const headerLineStyle = {};
   if (isBrowser) {
@@ -59,18 +59,21 @@ function RouteScheduleHeader({
   return (
     <div className="route-schedule-header row padding-vertical-normal">
       {stopHeadersForPrinting}
-      <div className="columns small-6">
-        <RouteScheduleStopSelect
+      <div className="route-schedule-dropdowns">
+        <RouteScheduleDropdown
+          id="origin"
+          labelId="origin"
+          title={fromDisplayName}
+          list={fromOptions}
           onSelectChange={onFromSelectChange}
-          selected={from}
-          options={fromOptions}
         />
-      </div>
-      <div className="columns small-6">
-        <RouteScheduleStopSelect
+        <RouteScheduleDropdown
+          id="destination"
+          labelId="destination"
+          title={toDisplayName}
+          list={toOptions}
           onSelectChange={onToSelectChange}
-          selected={to}
-          options={toOptions}
+          alignRight
         />
       </div>
     </div>

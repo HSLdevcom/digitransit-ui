@@ -3,11 +3,8 @@ import React from 'react';
 import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
-import Link from 'found/Link';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
-import { PREFIX_STOPS } from '../util/path';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
@@ -18,52 +15,9 @@ import {
 } from '../util/citybikes';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import StopCode from './StopCode';
-import PlatformNumber from './PlatformNumber';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
+import CityBikeLeg from './CityBikeLeg';
 
-function showStopCode(stopCode) {
-  return stopCode && <StopCode code={stopCode} />;
-}
-
-function renderLink(leg, legDescription) {
-  if (leg && leg.from && leg.from.stop) {
-    return (
-      <div>
-        <Link
-          onClick={e => {
-            e.stopPropagation();
-            addAnalyticsEvent({
-              category: 'Itinerary',
-              action: 'OpenRouteFromItinerary',
-              name: leg.from.stop.vehicleMode,
-            });
-          }}
-          to={`/${PREFIX_STOPS}/${leg.from.stop.gtfsId}`}
-        >
-          {legDescription}
-          <Icon
-            img="icon-icon_arrow-collapse--right"
-            className="itinerary-arrow-icon"
-            color="#333"
-          />
-        </Link>
-        <div className="stop-code-container">
-          {showStopCode(leg.from.stop && leg.from.stop.code)}
-          <PlatformNumber
-            number={leg.from.stop.platformCode}
-            short
-            isRailOrSubway={
-              leg.from.stop.vehicleMode.toLowerCase() === 'rail' ||
-              leg.from.stop.vehicleMode.toLowerCase() === 'subway'
-            }
-          />
-        </div>
-      </div>
-    );
-  }
-  return legDescription;
-}
 function BicycleLeg(
   { focusAction, index, leg, setMapZoomToLeg },
   { config, intl },
@@ -119,8 +73,7 @@ function BicycleLeg(
     legDescription = (
       <FormattedMessage
         id={isScooter ? 'rent-scooter-at' : 'rent-cycle-at'}
-        values={{ station: leg.from ? leg.from.name : '' }}
-        defaultMessage="Rent a bike at {station} station"
+        defaultMessage="Fetch a bike"
       />
     );
 
@@ -205,29 +158,13 @@ function BicycleLeg(
             </div>
           </div>
         ) : (
-          <div
-            className={cx('itinerary-leg-first-row', { first: index === 0 })}
-          >
-            {renderLink(leg, legDescription)}
-            <div
-              className="itinerary-map-action"
-              onClick={focusAction}
-              onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-              role="button"
-              tabIndex="0"
-              aria-label={intl.formatMessage(
-                { id: 'itinerary-summary.show-on-map' },
-                { target: leg.from.name || '' },
-              )}
-            >
-              <Icon
-                img="icon-icon_show-on-map"
-                className="itinerary-search-icon"
-              />
-            </div>
-          </div>
+          <CityBikeLeg
+            stationName={leg.from.name}
+            isScooter={isScooter}
+            bikeRentalStation={leg.from.bikeRentalStation}
+          />
         )}
-        <div className="itinerary-leg-action">
+        <div className={cx('itinerary-leg-action', 'bike')}>
           <div className="itinerary-leg-action-content">
             {stopsDescription}
             <div

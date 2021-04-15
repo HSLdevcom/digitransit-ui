@@ -94,52 +94,6 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  staticMessages: [
-    {
-      id: '3',
-      priority: -1,
-      persistence: 'repeat',
-      content: {
-        fi: [
-          {
-            type: 'text',
-            content:
-              'Koronaepidemian vuoksi reittiopas ei ole ajan tasalla. Tarkista muutokset ennen matkaa ',
-          },
-          {
-            type: 'a',
-            content: 'www.lsl.fi',
-            href: 'http://www.lsl.fi',
-          },
-        ],
-        en: [
-          {
-            type: 'text',
-            content:
-              'Due to the coronary epidemic the route guide is out of date. Please check changes before traveling ',
-          },
-          {
-            type: 'a',
-            content: 'www.lsl.fi',
-            href: 'http://www.lsl.fi',
-          },
-        ],
-        sv: [
-          {
-            type: 'text',
-            content:
-              'På grund av coronaviruset är ruttguiden inaktuell. Kontrollera innan du reser ',
-          },
-          {
-            type: 'a',
-            content: 'www.lsl.fi',
-            href: 'http://www.lsl.fi',
-          },
-        ],
-      },
-    },
-  ],
-
   aboutThisService: {
     fi: [
       {
