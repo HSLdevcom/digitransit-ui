@@ -61,7 +61,7 @@ export default configMerger(walttiConfig, {
       ? fareId.substring(fareId.indexOf(':') + 1)
       : '';
   },
-
+  showTicketPrice: true,
   searchParams: {
     'boundary.rect.min_lat': 62.454915,
     'boundary.rect.max_lat': 63.469325,

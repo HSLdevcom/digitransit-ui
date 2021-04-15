@@ -1,36 +1,38 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { intlShape } from 'react-intl';
-import Truncate from 'react-truncate';
+import TruncateMarkup from 'react-truncate-markup';
 
 const TruncatedMessage = ({ lines, message, className }, { intl }) => {
   const [isTruncated, setTruncated] = useState(true);
-  return (
-    <Truncate
-      lines={isTruncated ? lines : -1}
-      trimWhitespace
-      ellipsis={
-        <span>
-          ...{' '}
-          <button
-            className={className}
-            type="button"
-            onClick={() => {
-              setTruncated(false);
-            }}
-          >
-            {intl.formatMessage({
-              id: 'show-more',
-              defaultMessage: 'Show more',
-            })}
-          </button>{' '}
-          &rsaquo;
-        </span>
-      }
-    >
-      {message}
-    </Truncate>
-  );
+  if (isTruncated) {
+    return (
+      <TruncateMarkup
+        lines={lines}
+        ellipsis={
+          <span>
+            ...{' '}
+            <button
+              className={className}
+              type="button"
+              onClick={() => {
+                setTruncated(false);
+              }}
+            >
+              {intl.formatMessage({
+                id: 'show-more',
+                defaultMessage: 'Show more',
+              })}
+            </button>{' '}
+            &rsaquo;
+          </span>
+        }
+      >
+        <div>{message}</div>
+      </TruncateMarkup>
+    );
+  }
+  return message;
 };
 
 TruncatedMessage.propTypes = {

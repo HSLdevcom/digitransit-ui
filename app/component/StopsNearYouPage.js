@@ -190,6 +190,7 @@ class StopsNearYouPage extends React.Component {
     let location;
     if (!mapElement) {
       if (distance(this.state.searchPosition, this.props.position) > 100) {
+        // user has pressed locate me after moving on the map via the search box
         return this.setState({
           centerOfMap: this.props.position,
           centerOfMapChanged: true,
@@ -217,9 +218,17 @@ class StopsNearYouPage extends React.Component {
       ]);
       location = { lat: point.lat, lon: point.lng };
     }
+    if (distance(location, this.state.searchPosition) > 100) {
+      // user has scrolled over 100 meters on the map
+      return this.setState({
+        centerOfMap: location,
+        centerOfMapChanged: true,
+        mapState: MAPSTATES.HUMANSCROLL,
+      });
+    }
     return this.setState({
       centerOfMap: location,
-      centerOfMapChanged: true,
+      centerOfMapChanged: false,
       mapState: MAPSTATES.HUMANSCROLL,
     });
   };
@@ -358,13 +367,14 @@ class StopsNearYouPage extends React.Component {
     const { centerOfMapChanged } = this.state;
     const { mode } = this.props.match.params;
     const renderDisruptionBanner = mode !== 'CITYBIKE';
-    const renderSearch = mode !== 'FERRY' && mode !== 'FAVORITE';
     const noFavorites = mode === 'FAVORITE' && this.noFavorites();
     const renderRefetchButton =
       (centerOfMapChanged || this.positionChanged()) && !noFavorites;
     const nearByStopModes = this.getNearByStopModes();
     const index = nearByStopModes.indexOf(mode);
     const tabs = nearByStopModes.map(nearByStopMode => {
+      const renderSearch =
+        nearByStopMode !== 'FERRY' && nearByStopMode !== 'FAVORITE';
       if (nearByStopMode === 'FAVORITE') {
         const noFavs = this.noFavorites();
         return (

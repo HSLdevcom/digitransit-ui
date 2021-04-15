@@ -190,6 +190,11 @@
     .vehicle-number {
       max-width: 100%;
     }
+    .empty {
+      &.return-citybike {
+        height: 13px;
+      }
+    }
   }
 }
 

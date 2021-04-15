@@ -1,5 +1,5 @@
 /**
- * Digitransit-util is a util library for digitransit-ui written in JavaScript. 
+ * Digitransit-util is a util library for digitransit-ui written in JavaScript.
  *
  * @module digitransit-util
  * @summary Util library for Digitransit-ui

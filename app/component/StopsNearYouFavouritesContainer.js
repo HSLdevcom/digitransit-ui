@@ -235,6 +235,8 @@ const refetchContainer = createRefetchContainer(
         spacesAvailable
         capacity
         networks
+        lat
+        lon
       }
     `,
   },

@@ -309,6 +309,9 @@
   z-index: 1;
   height: 100px;
   animation: fadeIn 0.4s;
+  &.route-schedule {
+    margin-top: 200px;
+  }
 }
 
 .desktop .summary-list-container {
