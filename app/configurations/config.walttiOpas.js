@@ -7,7 +7,7 @@ const APP_DESCRIPTION = 'Uusi Reittiopas - Waltti-opas';
 
 const walttiConfig = require('./config.waltti').default;
 
-const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
+const API_URL = process.env.API_URL || 'https://api.digitransit.fi';
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -20,6 +20,9 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#F16522',
+    iconColors: {
+      'mode-bus': '#F16522',
+    },
   },
 
   socialMedia: {
