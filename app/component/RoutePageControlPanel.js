@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -5,11 +6,11 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy'; // DT-3182
 import { matchShape, routerShape, RedirectException } from 'found';
-
+import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import CallAgencyWarning from './CallAgencyWarning';
 import RoutePatternSelect from './RoutePatternSelect';
 import RouteAgencyInfo from './RouteAgencyInfo';
-import { AlertSeverityLevelType } from '../constants';
+import { AlertSeverityLevelType, DATE_FORMAT } from '../constants';
 import {
   startRealTimeClient,
   stopRealTimeClient,
@@ -133,6 +134,38 @@ class RoutePageControlPanel extends React.Component {
       sorted => sorted.code === match.params.patternId,
     );
 
+    if (match.params.type === PREFIX_TIMETABLE) {
+      const enrichedPattern = enrichPatterns(
+        [selectedPattern],
+        false,
+        this.context.config.itinerary.serviceTimeRange,
+      );
+      const isSameWeek =
+        moment(enrichedPattern[0].minAndMaxDate[0])
+          .startOf('isoWeek')
+          .format(DATE_FORMAT) ===
+        moment().startOf('isoWeek').format(DATE_FORMAT);
+      if (
+        location.search.indexOf('serviceDay') === -1 ||
+        (location.query.serviceDay &&
+          Number(location.query.serviceDay) <
+            Number(enrichedPattern[0].minAndMaxDate[0]))
+      ) {
+        if (isSameWeek) {
+          router.replace(
+            `${decodeURIComponent(match.location.pathname)}?serviceDay=${
+              enrichedPattern[0].minAndMaxDate[0]
+            }`,
+          );
+        } else {
+          router.replace(
+            `${decodeURIComponent(match.location.pathname)}?serviceDay=${
+              enrichedPattern[0].activeDates[0]
+            }`,
+          );
+        }
+      }
+    }
     // DT-3182: call this only 1st time for changing URL to wanted route (most trips)
     // DT-3331: added reRouteAllowed
     if (
@@ -185,8 +218,17 @@ class RoutePageControlPanel extends React.Component {
     const { match, route } = this.props;
     const { config, executeAction, getStore, router } = this.context;
     const { client, topics } = getStore('RealTimeInformationStore');
+    const { type } = match.params;
 
-    const pattern = route.patterns.find(({ code }) => code === newPattern);
+    const pattern =
+      type === PREFIX_TIMETABLE
+        ? enrichPatterns(
+            route.patterns.filter(x => x.code === newPattern),
+            false,
+            this.context.config.itinerary.serviceTimeRange,
+          )
+        : route.patterns.filter(x => x.code === newPattern);
+
     const isActivePattern = isActiveDate(pattern);
 
     // if config contains mqtt feed and old client has not been removed
@@ -220,12 +262,14 @@ class RoutePageControlPanel extends React.Component {
       this.startClient(pattern);
     }
 
-    router.replace(
-      decodeURIComponent(match.location.pathname).replace(
-        new RegExp(`${match.params.patternId}(.*)`),
-        newPattern,
-      ),
+    let newPathname = decodeURIComponent(match.location.pathname).replace(
+      new RegExp(`${match.params.patternId}(.*)`),
+      newPattern,
     );
+    if (type === PREFIX_TIMETABLE && pattern[0].minAndMaxDate) {
+      newPathname += `?serviceDay=${pattern[0].minAndMaxDate[0]}`;
+    }
+    router.replace(newPathname);
   };
 
   startClient(pattern) {
@@ -370,6 +414,8 @@ class RoutePageControlPanel extends React.Component {
 
     const useCurrentTime = activeTab === Tab.Stops; // DT-3182
 
+    const countOfButtons = 3;
+
     return (
       <div
         className={cx('route-page-control-panel-container', activeTab, {
@@ -410,6 +456,9 @@ class RoutePageControlPanel extends React.Component {
               tabIndex={0}
               role="tab"
               aria-selected={activeTab === Tab.Stops}
+              style={{
+                '--totalCount': `${countOfButtons}`,
+              }}
             >
               <div>
                 <FormattedMessage id="stops" defaultMessage="Stops" />
@@ -424,6 +473,9 @@ class RoutePageControlPanel extends React.Component {
               tabIndex={0}
               role="tab"
               aria-selected={activeTab === Tab.Timetable}
+              style={{
+                '--totalCount': `${countOfButtons}`,
+              }}
             >
               <div>
                 <FormattedMessage id="timetable" defaultMessage="Timetable" />
@@ -441,6 +493,9 @@ class RoutePageControlPanel extends React.Component {
               tabIndex={0}
               role="tab"
               aria-selected={activeTab === Tab.Disruptions}
+              style={{
+                '--totalCount': `${countOfButtons}`,
+              }}
             >
               <div
                 className={`tab-route-disruption ${

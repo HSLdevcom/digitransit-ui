@@ -1187,6 +1187,7 @@ const translations = {
     'origin-outside-service':
       'No route suggestions were found because the origin is outside the service area.',
     'origin-placeholder': 'From? - address or stop',
+    'other-dates': 'Other dates',
     'own-position': 'Your current location',
     'page-not-found': 'The page cannot be found.',
     'park-and-ride': 'Park and Ride',
@@ -1251,10 +1252,10 @@ const translations = {
     'route-not-possible':
       'Unfortunately, your route is not available. Technical error: "{error}"',
     'route-page.description': 'Route {shortName} - {longName}',
+    'route-page.future-routes': 'Future routes',
     'route-page.pattern-chosen': 'Selected',
     'route-page.pattern-select-title': 'Select the route to be viewed',
-    'route-page.special-patterns-name':
-      'Services to/from depot and diversion routes',
+    'route-page.special-routes': 'Services to/from depot and diversion routes',
     'route-page.title': 'Route {shortName}',
     'route-page.title-short': 'Route',
     routes: 'Routes',
@@ -2122,6 +2123,7 @@ const translations = {
     'origin-outside-service':
       'Reittiehdotuksia ei löytynyt, koska lähtöpaikka sijaitsee palvelualueen ulkopuolella.',
     'origin-placeholder': 'Mistä? - osoite tai pysäkki',
+    'other-dates': 'Muut ajankohdat',
     'own-position': 'Nykyinen sijaintisi',
     'page-not-found': 'Etsimääsi sivua ei löytynyt.',
     'park-and-ride': 'Liityntäpysäköinti',
@@ -2186,9 +2188,10 @@ const translations = {
     'route-not-possible':
       'Valitettavasti reittisi ei ole mahdollinen. Tekninen virhe: "{error}"',
     'route-page.description': 'Linja {shortName}, {longName}',
+    'route-page.future-routes': 'Tulevat reitit',
     'route-page.pattern-chosen': 'Valittu',
     'route-page.pattern-select-title': 'Valitse tarkasteltava reitti',
-    'route-page.special-patterns-name': 'Hallivuorot ja poikkeusreitit',
+    'route-page.special-routes': 'Poikkeusreitit',
     'route-page.title': 'Linja {shortName}',
     'route-page.title-short': 'Linja',
     routes: 'Linjat',
@@ -3835,6 +3838,7 @@ const translations = {
     'origin-outside-service':
       'Kunde inte hitta ruttförslag eftersom avgångsplatsen ligger utanför vårt serviceområde.',
     'origin-placeholder': 'Från - adress eller hållplats',
+    'other-dates': 'Andra datum',
     'own-position': 'Min position',
     'page-not-found': 'Sidan kunde inte hittas.',
     'park-and-ride': 'Infartsparkering',
@@ -3899,9 +3903,10 @@ const translations = {
     'route-not-possible':
       'Tyvärr är din rutt inte möjlig. Tekniskt fel: "{error}"',
     'route-page.description': 'Linje {shortName} - {longName}',
+    'route-page.future-routes': 'Framtida rutter',
     'route-page.pattern-chosen': 'Vald',
     'route-page.pattern-select-title': 'Välj den rutt du vill se',
-    'route-page.special-patterns-name':
+    'route-page.special-routes':
       'Turer som kör till/från depån och avvikande rutter',
     'route-page.title': 'Linje {shortName}',
     'route-page.title-short': 'Linje',

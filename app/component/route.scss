@@ -479,6 +479,10 @@ $margin-left-right: 1.333em;
   flex-direction: column;
   flex: 1;
   background: $white;
+  padding: 0 20px 0 20px;
+  &.bp-large {
+    padding: 0 3.5rem 0 3.5rem;
+  }
 
   @media print {
     display: block;
@@ -491,6 +495,7 @@ $margin-left-right: 1.333em;
 
 .route-schedule-list-wrapper,
 .route-alerts-list-wrapper {
+  margin-top: 10px;
   &.bp-large {
     flex: 1;
     display: flex;
@@ -502,8 +507,6 @@ $margin-left-right: 1.333em;
   }
 
   .route-schedule-header {
-    min-height: 52px;
-
     @media print {
       margin-left: 0;
       margin-right: auto;
@@ -515,6 +518,7 @@ $margin-left-right: 1.333em;
   padding-bottom: 0.7em;
   flex: 1;
   flex-basis: 0;
+  overflow-x: hidden;
 
   @media print {
     .row {
@@ -572,11 +576,62 @@ $margin-left-right: 1.333em;
   }
 }
 
+/*.two_cols {
+  position: relative;
+  width: 50%;
+  display: inline-grid;
+
+  .stop-select-label {
+    position: relative;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 16px;
+    letter-spacing: -0.03em;
+    color: #666666;
+  }
+}
+
+.two_cols:last-child {
+  text-align: right;
+  //justify-items: end;
+
+  .stop-select-label {
+    left: 0px;
+  }
+}*/
+
+.route-schedule-dropdowns {
+  max-height: 50px;
+}
+
+.route-schedule-ranges {
+  display: flex;
+  max-height: 24px;
+  margin-bottom: 12px;
+
+  .current-range {
+    width: calc(50% + 30px);
+    white-space: nowrap;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: -0.03em;
+    color: #333333;
+  }
+
+  .other-ranges-dropdown {
+    display: contents;
+    width: calc(50% - 30px);
+  }
+}
+
 .route-schedule-stop-select {
+  position: relative;
+
   select {
-    border: 1px solid #888;
-    border-radius: 5px;
-    padding: 2px 33px 2px 10px;
+    position: relative;
     background-color: #fff;
     font-size: 9pt;
     color: #333;
@@ -584,40 +639,32 @@ $margin-left-right: 1.333em;
     line-height: 24px;
     font-weight: $font-weight-medium;
     appearance: none;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
   }
-
-  position: relative;
-
-  .icon {
-    width: 13px;
-    height: 16px;
-    color: $gray-blue;
+  svg {
     position: absolute;
-    right: 11px;
     top: 7px;
+    right: 0px;
+    height: 10px;
+    width: 10px;
+    fill: $primary-color;
     pointer-events: none;
   }
 
-  .caret {
-    margin: 0 auto;
-    width: 0;
-    height: 0;
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    border-top: 7px solid $link-color;
-  }
   @media print {
     display: none;
   }
 }
 
 .trip-column {
-  width: 60%;
-  margin: 0 auto;
-  line-height: 1.5;
+  margin: 0;
+  line-height: 30px;
   display: flex;
   @media print {
-    width: 69%;
     margin-left: 28px;
     margin-right: auto;
     font-size: 21px;
@@ -625,12 +672,19 @@ $margin-left-right: 1.333em;
 }
 
 .trip-separator {
-  width: 297px;
-  border-top: 2px dotted $black;
+  width: 100%;
+  border-top: 2px solid #888888;
   height: 1px;
-  margin-top: 0.8em;
-  margin-left: 1.5em;
-  margin-right: 1.5em;
+  margin-top: 14px;
+  margin-left: 19px;
+  margin-right: 19px;
+  svg {
+    position: relative;
+    height: 10px;
+    width: 10px;
+    left: calc(100% - 6px);
+    top: -16px;
+  }
 }
 /*
 .trip-separator:after {
@@ -655,18 +709,9 @@ $margin-left-right: 1.333em;
   }
 }
 
-.trip-from {
-  margin-right: 1em;
-  margin-left: 0.6em;
-}
-
-.trip-to {
-  margin-left: 1em;
-}
-
 .route-page-action-bar {
   display: flex;
-  justify-content: space-between;
+  justify-content: justify;
   flex-direction: row;
   padding: 10px 1.25em 0;
   background-color: $white;
@@ -760,7 +805,7 @@ $margin-left-right: 1.333em;
 }
 
 .route-page-control-panel-container {
-  padding-bottom: 1.5em;
+  padding-bottom: 1.75rem;
   &.hairiot, &.aikataulu {
     padding-left: 1.5em;
     padding-right: 1.5em;
@@ -783,10 +828,10 @@ $margin-left-right: 1.333em;
   background-color: $light-gray;
   border: 2px solid $light-gray;
   border-radius: 8px;
-  margin: 0 2px;
+  margin: 0;
   button {
-    width: calc(100% / 3);
-    font-size: $font-size-normal;
+    width: calc(100% / var(--totalCount));
+    font-size: $font-size-small;
     text-align: center;
     letter-spacing: -0.42px;
     border-radius: 6px;

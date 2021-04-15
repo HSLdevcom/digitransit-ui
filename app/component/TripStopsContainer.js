@@ -170,6 +170,7 @@ const containerComponent = createFragmentContainer(pureComponent, {
           }
         }
         activeDates: trips {
+          serviceId
           day: activeDates
         }
       }
