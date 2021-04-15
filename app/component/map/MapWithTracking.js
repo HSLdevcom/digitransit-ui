@@ -97,6 +97,7 @@ class MapWithTrackingStateHandler extends React.Component {
     fitBoundsWithSetCenter: PropTypes.bool,
     setCenterOfMap: PropTypes.func,
     showAllVehicles: PropTypes.bool,
+    showStops: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -109,6 +110,7 @@ class MapWithTrackingStateHandler extends React.Component {
     fitBounds: false,
     fitBoundsWithSetCenter: false,
     showAllVehicles: false,
+    showStops: false,
   };
 
   constructor(props) {
@@ -371,6 +373,7 @@ class MapWithTrackingStateHandler extends React.Component {
         fitBounds={useFitBounds}
         className="flex-grow"
         locationPopup={this.props.locationPopup}
+        showStops={this.props.showStops}
         onSelectLocation={this.props.onSelectLocation}
         leafletEvents={{
           onDragstart: () => {

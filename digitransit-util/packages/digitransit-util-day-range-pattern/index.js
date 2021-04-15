@@ -9,37 +9,43 @@
  * //='pe-la'
  */
 
+function getSinglePattern(str) {
+  let retValue = '-';
+  switch (str) {
+    case '1':
+      retValue = 'ma-ma';
+      break;
+    case '2':
+      retValue = 'ti-ti';
+      break;
+    case '3':
+      retValue = 'ke-ke';
+      break;
+    case '4':
+      retValue = 'to-to';
+      break;
+    case '5':
+      retValue = 'pe-pe';
+      break;
+    case '6':
+      retValue = 'la-la';
+      break;
+    case '7':
+      retValue = 'su-su';
+      break;
+    default:
+      break;
+  }
+  return retValue;
+}
+
 export default function dayRangePattern(arrayOfDayNumbers) {
   const sortedUniqueDayNumbers = Array.from(new Set(arrayOfDayNumbers.sort()));
   const joinedDayNumbers = sortedUniqueDayNumbers.join('');
   let retValue = '-';
   switch (sortedUniqueDayNumbers.length) {
     case 1:
-      switch (sortedUniqueDayNumbers[0]) {
-        case '1':
-          retValue = 'ma-ma';
-          break;
-        case '2':
-          retValue = 'ti-ti';
-          break;
-        case '3':
-          retValue = 'ke-ke';
-          break;
-        case '4':
-          retValue = 'to-to';
-          break;
-        case '5':
-          retValue = 'pe-pe';
-          break;
-        case '6':
-          retValue = 'la-la';
-          break;
-        case '7':
-          retValue = 'su-su';
-          break;
-        default:
-          break;
-      }
+      retValue = getSinglePattern(sortedUniqueDayNumbers[0]);
       break;
     case 2:
       if (joinedDayNumbers.indexOf('56') !== -1) {
@@ -53,6 +59,12 @@ export default function dayRangePattern(arrayOfDayNumbers) {
     case 3:
       if (joinedDayNumbers.indexOf('567') !== -1) {
         retValue = 'pe-su';
+        break;
+      }
+      break;
+    case 4:
+      if (joinedDayNumbers.indexOf('1234') !== -1) {
+        retValue = 'ma-to';
         break;
       }
       break;
@@ -82,6 +94,14 @@ export default function dayRangePattern(arrayOfDayNumbers) {
       break;
     default:
       break;
+  }
+
+  if (retValue === '-' && sortedUniqueDayNumbers.length > 1) {
+    retValue = `${getSinglePattern(
+      sortedUniqueDayNumbers[0],
+    )},${getSinglePattern(
+      sortedUniqueDayNumbers[sortedUniqueDayNumbers.length - 1],
+    )}`;
   }
   return retValue;
 }

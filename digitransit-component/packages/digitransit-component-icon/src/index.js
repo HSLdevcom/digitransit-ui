@@ -60,6 +60,7 @@ import ZoneF2 from './assets/zone-f2.svg';
 import ZoneG from './assets/zone-g.svg';
 import ZoneH from './assets/zone-h.svg';
 import ZoneI from './assets/zone-i.svg';
+import Check from './assets/check.svg';
 
 const IconMap = style => {
   return {
@@ -125,6 +126,7 @@ const IconMap = style => {
     'zone-g': <ZoneG style={style} />,
     'zone-h': <ZoneH style={style} />,
     'zone-i': <ZoneI style={style} />,
+    check: <Check style={style} />,
   };
 };
 

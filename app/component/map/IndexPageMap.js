@@ -132,9 +132,8 @@ function IndexPageMap(
           breakpoint={breakpoint}
           // TODO: Fix an issue where map doesn't center to right place when user is coming to indexPage with origin or destination set with url
           defaultMapCenter={config.defaultMapCenter || config.defaultEndpoint}
-          showStops
-          showScaleBar
           {...mwtProps}
+          mapLayers={mapLayers}
           initialZoom={initialZoom}
           leafletObjs={leafletObjs}
           locationPopup="origindestination"
@@ -150,8 +149,9 @@ function IndexPageMap(
                 )}
             </>
           )}
+          showStops
+          showScaleBar
           showAllVehicles
-          mapLayers={mapLayers}
         />
         <SettingsDrawer
           onToggleClick={() => {

@@ -1,15 +1,17 @@
 @import '../../base/waltti';
 
 /* main theme colors */
-$primary-color: #7AB92A;
-$secondary-color: #609020;
+$primary-color: #ea4097;
+$secondary-color: #3c974c;
 $hilight-color: $primary-color;
 $action-color: $primary-color;
 $bus-color: $primary-color;
 $viewpoint-marker-color: $primary-color;
 $current-location-color: $primary-color;
 
-$standalone-btn-color: $secondary-color;
+$standalone-btn-color: $primary-color;
+$standalone-btn-hover-color: $secondary-color;
+$standalone-btn-active-color: $secondary-color;
 $link-color: $primary-color;
 
 /*Component palette*/

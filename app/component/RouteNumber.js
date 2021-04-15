@@ -88,7 +88,7 @@ function RouteNumber(props, context) {
         role="img"
       >
         {!props.isTransitLeg && !props.renderModeIcons && (
-          <div className="empty" />
+          <div className={cx('empty', props.appendClass)} />
         )}
         {props.isTransitLeg === true ? (
           <div className={`special-icon ${mode}`}>
@@ -228,6 +228,7 @@ RouteNumber.propTypes = {
   isTransitLeg: PropTypes.bool,
   withBicycle: PropTypes.bool,
   card: PropTypes.bool,
+  appendClass: PropTypes.string,
 };
 
 RouteNumber.defaultProps = {
