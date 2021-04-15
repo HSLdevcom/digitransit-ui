@@ -42,27 +42,6 @@ export default configMerger(walttiConfig, {
     lon: 24.9690395,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Matkakeskus, Kouvola',
-      lat: 60.866251,
-      lon: 26.705328,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Kotkan kauppatori',
-      lat: 60.467348,
-      lon: 26.945758,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Salon linja-autoasema',
-      lat: 60.387506389,
-      lon: 23.120275278,
-    },
-  ],
-
   menu: {
     copyright: { label: `© TVV lippu- ja maksujärjestelmä Oy ${walttiConfig.YEAR}` },
     content: [

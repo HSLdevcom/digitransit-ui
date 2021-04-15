@@ -69,27 +69,6 @@ export default configMerger(walttiConfig, {
     lon: 25.656398,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Matkakeskus, Lahti',
-      lat: 60.97705,
-      lon: 25.658567,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Kauppatori, Lahti',
-      lat: 60.983595,
-      lon: 25.656391,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Päijät-Hämeen keskussairaala, Lahti',
-      lat: 60.991045,
-      lon: 25.567989,
-    },
-  ],
-
   menu: {
     copyright: { label: `© Lahti ${walttiConfig.YEAR}` },
     content: [

@@ -82,27 +82,6 @@ export default configMerger(walttiConfig, {
     lon: 27.678136,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Linja-autoasema, Kuopio',
-      lat: 62.898516,
-      lon: 27.679409,
-    },
-    {
-      icon: 'icon-icon_shopping',
-      label: 'Kuopion tori',
-      lat: 62.892511,
-      lon: 27.678136,
-    },
-    {
-      icon: 'icon-icon_school',
-      label: 'Itä-Suomen yliopisto, Kuopio',
-      lat: 62.89189166,
-      lon: 27.63598893,
-    },
-  ],
-
   showAllBusses: true,
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,

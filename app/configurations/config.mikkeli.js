@@ -61,27 +61,6 @@ export default configMerger(walttiConfig, {
     lon: 27.273215,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_city',
-      label: 'Hallitustori',
-      lat: 61.687904,
-      lon: 27.273215,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Matkakeskus Mikkeli',
-      lat: 61.686905,
-      lon: 27.276961,
-    },
-    {
-      icon: 'icon-icon_city',
-      label: 'Ristiina',
-      lat: 61.506483,
-      lon: 27.257635,
-    },
-  ],
-
   menu: {
     copyright: { label: `© Mikkeli ${walttiConfig.YEAR}` },
     content: [
