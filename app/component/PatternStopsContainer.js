@@ -147,6 +147,7 @@ export default createFragmentContainer(withBreakpoint(PatternStopsContainer), {
           }
         }
         activeDates: trips {
+          serviceId
           day: activeDates
         }
       }
