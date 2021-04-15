@@ -19,7 +19,7 @@ export default configMerger(walttiConfig, {
   appBarLink: { name: 'Waltti', href: 'https://waltti.fi/' },
 
   colors: {
-    primary: '#FFC439',
+    primary: '#F16522',
   },
 
   socialMedia: {
