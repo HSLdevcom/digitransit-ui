@@ -107,6 +107,11 @@ class RouteScheduleContainer extends Component {
       this.setState({
         hasLoaded: true,
       });
+      return (
+        <div className={cx('summary-list-spinner-container', 'route-schedule')}>
+          <Loading />
+        </div>
+      );
     }
     if (trips.length === 0) {
       return (
