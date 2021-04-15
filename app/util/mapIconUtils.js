@@ -598,23 +598,6 @@ export function drawCitybikeIcon(
     getMemoizedStopIcon('CITYBIKE', radius, iconColor).then(image => {
       tile.ctx.drawImage(image, x, y);
     });
-    /* if (isHilighted) {
-      const selectedCircleOffset = getSelectedIconCircleOffset(
-        zoom,
-        tile.ratio,
-      );
-      tile.ctx.beginPath();
-      // eslint-disable-next-line no-param-reassign
-      tile.ctx.lineWidth = 2;
-      tile.ctx.arc(
-        x + selectedCircleOffset,
-        y + selectedCircleOffset,
-        radius + 2,
-        0,
-        FULL_CIRCLE,
-      );
-      tile.ctx.stroke();
-    } */
     return;
   }
   let color = 'green';
