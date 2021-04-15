@@ -107,7 +107,7 @@ export default {
   },
 
   omitNonPickups: true,
-  maxNearbyStopAmount: 50,
+  maxNearbyStopAmount: 5,
   maxNearbyStopDistance: 2000,
 
   defaultSettings: {
