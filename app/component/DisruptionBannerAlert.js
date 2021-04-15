@@ -10,8 +10,12 @@ import {
   getServiceAlertDescription,
   getServiceAlertHeader,
 } from '../util/alertUtils';
+import withBreakpoint from '../util/withBreakpoint';
 
-const DisruptionBannerAlert = ({ language, alerts }, { intl, config }) => {
+const DisruptionBannerAlert = (
+  { language, alerts, breakpoint },
+  { intl, config },
+) => {
   const [isOpen, setOpen] = useState(true);
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -83,7 +87,7 @@ const DisruptionBannerAlert = ({ language, alerts }, { intl, config }) => {
             tabIndex={tabIndex}
             onSwipe={onSwipe}
             classname="disruption-banner"
-            hideArrows
+            hideArrows={breakpoint !== 'large'}
             navigationOnBottom
           />
         ) : (
@@ -95,6 +99,7 @@ const DisruptionBannerAlert = ({ language, alerts }, { intl, config }) => {
 };
 
 DisruptionBannerAlert.propTypes = {
+  breakpoint: PropTypes.string.isRequired,
   alerts: PropTypes.array.isRequired,
   language: PropTypes.string.isRequired,
 };
@@ -104,4 +109,8 @@ DisruptionBannerAlert.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-export default DisruptionBannerAlert;
+const DisruptionBannerAlertWithBreakpoint = withBreakpoint(
+  DisruptionBannerAlert,
+);
+
+export default DisruptionBannerAlertWithBreakpoint;

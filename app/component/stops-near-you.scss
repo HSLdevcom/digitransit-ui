@@ -309,6 +309,19 @@
   padding: 12px 0 5px 0;
   border-radius: 10px;
   margin-bottom: 15px;
+  .swipe-header.disruption-banner {
+    width: unset;
+    .swipe-button-container {
+      .swipe-button .icon {
+        height: 0.8em;
+        width: 0.8em;
+        fill: $white;
+        &.disabled {
+          fill: rgb(245, 187, 208);
+        }
+      }
+    }
+  }
   .swipe-tab-ball {
       border: none;
       background-color: rgba(255, 255, 255, 0.7);
