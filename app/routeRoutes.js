@@ -292,9 +292,7 @@ export default (
               }
             `}
             prepareVariables={prepareRouteScheduleParams}
-            render={({ Component, props, match }) =>
-              Component && props ? <Component {...props} match={match} /> : null
-            }
+            render={getComponentOrLoadingRenderer}
           />,
           <Route
             path={`${PREFIX_DISRUPTION}/:patternId`}
