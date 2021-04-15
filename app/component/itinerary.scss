@@ -1062,6 +1062,9 @@ $itinerary-tab-switch-height: 48px;
             top: 38px;
             left: 30px;
             border-radius: 50%;
+            .badge-text {
+              font-family: $font-family-narrow;
+            }
             .badge-circle {
               stroke-width: 14%;
             }
