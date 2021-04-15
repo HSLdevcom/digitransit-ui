@@ -25,28 +25,34 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 const DATE_FORMAT = 'YYYYMMDD';
 
 function patternOptionText(pattern) {
-  let destinationName = pattern.headsign;
-  if (destinationName === null) {
-    destinationName = pattern.stops[pattern.stops.length - 1].name;
+  if (pattern) {
+    let destinationName = pattern.headsign;
+    if (destinationName === null) {
+      destinationName = pattern.stops[pattern.stops.length - 1].name;
+    }
+    const text = `${pattern.stops[0].name} ➔ ${destinationName}`;
+    return text;
   }
-  const text = `${pattern.stops[0].name} ➔ ${destinationName}`;
-  return text;
+  return '';
 }
 
 function patternTextWithIcon(pattern) {
-  const text = patternOptionText(pattern);
-  const i = text.search(/➔/);
-  if (i === -1) {
-    return text;
+  if (pattern) {
+    const text = patternOptionText(pattern);
+    const i = text.search(/➔/);
+    if (i === -1) {
+      return text;
+    }
+    return (
+      <>
+        {text.slice(0, i)}
+        <Icon className="in-text-arrow" img="icon-icon_arrow-right-long" />
+        <span className="sr-only">➔</span>
+        {text.slice(i + 1)}
+      </>
+    );
   }
-  return (
-    <>
-      {text.slice(0, i)}
-      <Icon className="in-text-arrow" img="icon-icon_arrow-right-long" />
-      <span className="sr-only">➔</span>
-      {text.slice(i + 1)}
-    </>
-  );
+  return <></>;
 }
 
 class RoutePatternSelect extends Component {
