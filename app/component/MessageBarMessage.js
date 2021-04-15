@@ -3,7 +3,7 @@ import React from 'react';
 
 import TruncatedMessage from './TruncatedMessage';
 
-const MessageBarMessage = ({ content, textColor, breakpoint }) => {
+const MessageBarMessage = ({ content, textColor }) => {
   const heading = (e, color) => {
     if (e?.type === 'heading') {
       return <h2 style={{ color }}>{e.content}</h2>;
@@ -31,10 +31,6 @@ const MessageBarMessage = ({ content, textColor, breakpoint }) => {
       </>
     );
 
-    if (breakpoint === 'large') {
-      return bodyContent;
-    }
-
     return (
       <TruncatedMessage
         lines={2}
@@ -53,10 +49,12 @@ const MessageBarMessage = ({ content, textColor, breakpoint }) => {
       role="button"
       style={{ color: textColor }}
     >
-      {heading(
-        content.find(part => part.type === 'heading'),
-        textColor,
-      )}
+      <div className="message-heading">
+        {heading(
+          content.find(part => part.type === 'heading'),
+          textColor,
+        )}
+      </div>
       {body(
         content.find(part => part.type === 'text'),
         content.find(part => part.type === 'a'),
@@ -68,7 +66,6 @@ const MessageBarMessage = ({ content, textColor, breakpoint }) => {
 MessageBarMessage.propTypes = {
   content: PropTypes.array,
   textColor: PropTypes.string,
-  breakpoint: PropTypes.string.isRequired,
 };
 
 export default MessageBarMessage;
