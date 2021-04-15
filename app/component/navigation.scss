@@ -575,15 +575,18 @@ section.content {
 
       .react-swipe-container {
         height: auto;
-        width: 105%; // Hides the currently not visible swipe content
+        width: 100%;
         margin-bottom: 3px;
         .message-content {
+          .message-heading {
+            min-height: 11px;
+          }
           button {
             text-decoration: underline;
             font-weight: $font-weight-bold;
           }
           .message-bar-link {
-            word-break: break-word;
+            word-break: normal;
             color: $primary-color;
           }
         }
@@ -690,10 +693,10 @@ section.content {
 .message-bar .icon.message-icon {
   float: left;
   fill: $primary-color;
-  height: 35px;
-  width: 35px;
+  height: 24px;
+  width: 24px;
   margin: 11px;
-  margin-top: 25px;
+  margin-top: 20px;
 }
 
 .message-bar .icon.close {
