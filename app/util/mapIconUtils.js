@@ -578,9 +578,10 @@ export function drawCitybikeIcon(
   iconName,
   showAvailability,
   iconColor,
+  isHilighted,
 ) {
   const zoom = tile.coords.z - 1;
-  const styles = getStopIconStyles('citybike', zoom);
+  const styles = getStopIconStyles('citybike', zoom, isHilighted);
   const { style } = styles;
   let { width, height } = styles;
   width *= tile.scaleratio;
@@ -597,6 +598,23 @@ export function drawCitybikeIcon(
     getMemoizedStopIcon('CITYBIKE', radius, iconColor).then(image => {
       tile.ctx.drawImage(image, x, y);
     });
+    /* if (isHilighted) {
+      const selectedCircleOffset = getSelectedIconCircleOffset(
+        zoom,
+        tile.ratio,
+      );
+      tile.ctx.beginPath();
+      // eslint-disable-next-line no-param-reassign
+      tile.ctx.lineWidth = 2;
+      tile.ctx.arc(
+        x + selectedCircleOffset,
+        y + selectedCircleOffset,
+        radius + 2,
+        0,
+        FULL_CIRCLE,
+      );
+      tile.ctx.stroke();
+    } */
     return;
   }
   let color = 'green';
@@ -617,11 +635,32 @@ export function drawCitybikeIcon(
     getImageFromSpriteCache(icon, width, height).then(image => {
       tile.ctx.drawImage(image, x, y);
     });
+    if (isHilighted) {
+      const selectedCircleOffset = getSelectedIconCircleOffset(
+        zoom,
+        tile.ratio,
+      );
+      tile.ctx.beginPath();
+      // eslint-disable-next-line no-param-reassign
+      tile.ctx.lineWidth = 2;
+      tile.ctx.arc(
+        x + selectedCircleOffset,
+        y + selectedCircleOffset,
+        radius + 2,
+        0,
+        FULL_CIRCLE,
+      );
+      tile.ctx.stroke();
+    }
   }
   if (style === 'large') {
     const smallCircleRadius = 11 * tile.scaleratio;
     x = geom.x / tile.ratio - width + smallCircleRadius * 2;
     y = geom.y / tile.ratio - height;
+    const iconX = x;
+    const iconY = y;
+    const showAvailabilityBadge =
+      showAvailability && bikesAvailable && state === BIKESTATION_ON;
     let icon = `${iconName}_station_${color}_large`;
     if (state === BIKESTATION_CLOSED || state === BIKESTATION_OFF) {
       icon = `${iconName}_station_closed_large`;
@@ -630,7 +669,7 @@ export function drawCitybikeIcon(
       tile.ctx.drawImage(image, x, y);
       x = x + width - smallCircleRadius;
       y += smallCircleRadius;
-      if (showAvailability && bikesAvailable && state === BIKESTATION_ON) {
+      if (showAvailabilityBadge) {
         /* eslint-disable no-param-reassign */
         tile.ctx.font = `${
           10.8 * tile.scaleratio
@@ -640,6 +679,23 @@ export function drawCitybikeIcon(
         tile.ctx.textBaseline = 'middle';
         tile.ctx.fillText(bikesAvailable, x, y);
         /* eslint-enable no-param-reassign */
+      }
+      if (isHilighted) {
+        const selectedCircleOffset = getSelectedIconCircleOffset(
+          zoom,
+          tile.ratio,
+        );
+        tile.ctx.beginPath();
+        // eslint-disable-next-line no-param-reassign
+        tile.ctx.lineWidth = 2;
+        tile.ctx.arc(
+          iconX + selectedCircleOffset,
+          iconY + 1.85 * selectedCircleOffset,
+          radius - 2,
+          0,
+          showAvailabilityBadge ? FULL_CIRCLE * (3 / 4) : FULL_CIRCLE,
+        );
+        tile.ctx.stroke();
       }
     });
   }
