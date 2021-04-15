@@ -635,7 +635,7 @@ export function drawCitybikeIcon(
         tile.ctx.font = `${
           10.8 * tile.scaleratio
         }px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif`;
-        tile.ctx.fillStyle = '#fff';
+        tile.ctx.fillStyle = color === 'yellow' ? '#000' : '#fff';
         tile.ctx.textAlign = 'center';
         tile.ctx.textBaseline = 'middle';
         tile.ctx.fillText(bikesAvailable, x, y);
