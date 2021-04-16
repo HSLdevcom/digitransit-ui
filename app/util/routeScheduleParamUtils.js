@@ -6,7 +6,11 @@ const prepareRouteScheduleParams = (params, match) => {
 
   const startOfWeek = moment().startOf('isoWeek');
   const serviceDay =
-    query && query.serviceDay ? moment(query.serviceDay) : moment();
+    query &&
+    query.serviceDay &&
+    moment(query.serviceDay, 'YYYYMMDD', true).isValid()
+      ? moment(query.serviceDay)
+      : moment();
 
   const dayArray = [
     ['', '', '', '', '', '', ''],

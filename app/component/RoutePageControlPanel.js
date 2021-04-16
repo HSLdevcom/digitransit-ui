@@ -99,20 +99,6 @@ class RoutePageControlPanel extends React.Component {
       });
     }
 
-    const lengthPathName =
-      location !== undefined ? location.pathname.length : 0; // DT-3331
-    const lengthIndexOfPattern =
-      location !== undefined
-        ? location.pathname.indexOf(match.params.patternId) +
-          match.params.patternId.length
-        : 0; // DT-3331
-    const noSortFound =
-      location !== undefined
-        ? location.search.indexOf('sort=no') !== -1
-        : false; // DT-3331
-    const reRouteAllowed =
-      lengthPathName === lengthIndexOfPattern && !noSortFound; // DT-3331
-
     let sortedPatternsByCountOfTrips;
     const tripsExists = route.patterns ? 'trips' in route.patterns[0] : false;
 
@@ -130,7 +116,8 @@ class RoutePageControlPanel extends React.Component {
     if (!pattern) {
       return;
     }
-    let selectedPattern = sortedPatternsByCountOfTrips?.find(
+
+    const selectedPattern = sortedPatternsByCountOfTrips?.find(
       sorted => sorted.code === match.params.patternId,
     );
 
@@ -165,23 +152,6 @@ class RoutePageControlPanel extends React.Component {
           );
         }
       }
-    }
-    // DT-3182: call this only 1st time for changing URL to wanted route (most trips)
-    // DT-3331: added reRouteAllowed
-    if (
-      location !== undefined &&
-      location.action === 'PUSH' &&
-      match.params.patternId !== pattern.code &&
-      reRouteAllowed
-    ) {
-      // DT-4161: When user comes from first time, sortedPatterns aren't in sync with routePatternSelect
-      selectedPattern = pattern;
-      router.replace(
-        decodeURIComponent(location.pathname).replace(
-          new RegExp(`${match.params.patternId}(.*)`),
-          pattern.code,
-        ),
-      );
     }
 
     const { realTime } = config;

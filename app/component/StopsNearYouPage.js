@@ -36,6 +36,10 @@ import StopsNearYouFavorites from './StopsNearYouFavorites';
 import StopsNearYouMapContainer from './StopsNearYouMapContainer';
 import StopsNearYouFavoritesMapContainer from './StopsNearYouFavoritesMapContainer';
 import { mapLayerShape } from '../store/MapLayerStore';
+import {
+  getCityBikeNetworkConfig,
+  getCityBikeNetworkId,
+} from '../util/citybikes';
 
 // component initialization phases
 const PH_START = 'start';
@@ -438,7 +442,17 @@ class StopsNearYouPage extends React.Component {
             variables={this.getQueryVariables(nearByStopMode)}
             environment={this.props.relayEnvironment}
             render={({ props }) => {
-              const cityBikeBuyUrl = this.context.config.cityBike.buyUrl;
+              const { cityBike } = this.context.config;
+              // Use buy instructions if available
+              const cityBikeBuyUrl = cityBike.buyUrl;
+              let cityBikeNetworkUrl;
+              // Use general information about using city bike, if one network config is available
+              if (Object.keys(cityBike.networks).length === 1) {
+                cityBikeNetworkUrl = getCityBikeNetworkConfig(
+                  getCityBikeNetworkId(Object.keys(cityBike.networks)),
+                  this.context.config,
+                ).url;
+              }
               return (
                 <div className="stops-near-you-page">
                   {renderDisruptionBanner && (
@@ -456,7 +470,8 @@ class StopsNearYouPage extends React.Component {
                     />
                   )}
                   {this.state.showCityBikeTeaser &&
-                    nearByStopMode === 'CITYBIKE' && (
+                    nearByStopMode === 'CITYBIKE' &&
+                    (cityBikeBuyUrl || cityBikeNetworkUrl) && (
                       <div className="citybike-use-disclaimer">
                         <div className="disclaimer-header">
                           <FormattedMessage id="citybike-start-using" />
@@ -481,9 +496,18 @@ class StopsNearYouPage extends React.Component {
                             />
                           </div>
                         </div>
-                        {cityBikeBuyUrl && (
-                          <div className="disclaimer-content">
+                        <div className="disclaimer-content">
+                          {cityBikeBuyUrl ? (
                             <FormattedMessage id="citybike-buy-season" />
+                          ) : (
+                            <a
+                              className="external-link-citybike"
+                              href={cityBikeNetworkUrl[this.props.lang]}
+                            >
+                              <FormattedMessage id="citybike-start-using-info" />{' '}
+                            </a>
+                          )}
+                          {cityBikeBuyUrl && (
                             <a
                               href={cityBikeBuyUrl[this.props.lang]}
                               className="disclaimer-close-button-container"
@@ -506,8 +530,8 @@ class StopsNearYouPage extends React.Component {
                                 <FormattedMessage id="buy" />
                               </div>
                             </a>
-                          </div>
-                        )}
+                          )}
+                        </div>
                       </div>
                     )}
 
