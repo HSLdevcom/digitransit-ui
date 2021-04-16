@@ -16,7 +16,6 @@ class Stops {
     mapLayers,
     stopsNearYouMode,
     relayEnvironment,
-    getCurrentTime = () => new Date().getTime(),
     showStops,
   ) {
     this.tile = tile;
@@ -24,7 +23,6 @@ class Stops {
     this.mapLayers = mapLayers;
     this.stopsNearYouMode = stopsNearYouMode;
     this.promise = this.getPromise();
-    this.getCurrentTime = getCurrentTime;
     this.relayEnvironment = relayEnvironment;
     this.showStops = showStops;
   }
