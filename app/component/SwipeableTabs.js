@@ -57,6 +57,13 @@ export default class SwipeableTabs extends React.Component {
     this.setFocusables();
   }
 
+  componentWillUnmount() {
+    const desktopTitleEl = document.querySelector('.desktop-title');
+    if (this.props.classname === 'swipe-desktop-view' && desktopTitleEl) {
+      desktopTitleEl.style['margin-bottom'] = `0px`;
+    }
+  }
+
   setFocusables = () => {
     // Set inactive tab focusables to unfocusable and for active tab set previously made unfocusable elements to focusable
     const focusableTags =
