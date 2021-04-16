@@ -56,8 +56,8 @@ export default configMerger(walttiConfig, {
         type: 'citybike',
         url: {
           fi: 'https://kaakau.fi/lappeenranta/',
-          sv: 'https://kaakau.fi/lappeenranta/?lang=en',
-          en: 'https://kaakau.fi/lappeenranta/?lang=sv',
+          sv: 'https://kaakau.fi/lappeenranta/?lang=sv',
+          en: 'https://kaakau.fi/lappeenranta/?lang=en',
         },
       },
     },
