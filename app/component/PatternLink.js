@@ -45,10 +45,9 @@ function PatternLink({
     }
   });
 
-  // DT-3331: added query string sort=no to Link's to
   const icon = (
     <Link
-      to={`/${PREFIX_ROUTES}/${route}/${PREFIX_STOPS}/${pattern}?sort=no`}
+      to={`/${PREFIX_ROUTES}/${route}/${PREFIX_STOPS}/${pattern}`}
       className="route-now-content"
     >
       <VehicleIcon
