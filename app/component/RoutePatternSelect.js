@@ -142,13 +142,19 @@ class RoutePatternSelect extends Component {
       .slice(mainRoutes.length)
       .filter(o => o.inFuture);
 
-    const allRoutes = mainRoutes.concat(specialRoutes).concat(futureRoutes);
+    const noSpecialRoutes = !specialRoutes || specialRoutes.length === 0;
+    const noFutureRoutes = !futureRoutes || futureRoutes.length === 0;
 
     const renderButtonOnly =
-      allRoutes && allRoutes.length > 0 && allRoutes.length <= 2;
-    const directionSwap = allRoutes.length === 2;
+      mainRoutes &&
+      mainRoutes.length > 0 &&
+      mainRoutes.length <= 2 &&
+      noSpecialRoutes &&
+      noFutureRoutes;
+
+    const directionSwap = mainRoutes.length === 2;
     if (renderButtonOnly) {
-      const otherPattern = allRoutes.find(
+      const otherPattern = mainRoutes.find(
         o => o.code !== this.props.params.patternId,
       );
       return (
