@@ -142,9 +142,11 @@ class RoutePatternSelect extends Component {
       .slice(mainRoutes.length)
       .filter(o => o.inFuture);
 
-    const allRoutes = mainRoutes + specialRoutes + futureRoutes;
+    const allRoutes = mainRoutes.concat(specialRoutes).concat(futureRoutes);
 
-    const renderButtonOnly = allRoutes && allRoutes.length === 2;
+    const renderButtonOnly =
+      allRoutes && allRoutes.length > 0 && allRoutes.length <= 2;
+    const directionSwap = allRoutes.length === 2;
     if (renderButtonOnly) {
       const otherPattern = allRoutes.find(
         o => o.code !== this.props.params.patternId,
@@ -155,17 +157,25 @@ class RoutePatternSelect extends Component {
           aria-atomic="true"
         >
           <label htmlFor="route-pattern-toggle-button">
-            <span className="sr-only">
-              <FormattedMessage id="swap-order-button-label" />
-            </span>
+            {directionSwap && (
+              <span className="sr-only">
+                <FormattedMessage id="swap-order-button-label" />
+              </span>
+            )}
             <button
               id="route-pattern-toggle-button"
               className="route-pattern-toggle"
               type="button"
-              onClick={() => this.props.onSelectChange(otherPattern.code)}
+              onClick={() =>
+                directionSwap
+                  ? this.props.onSelectChange(otherPattern.code)
+                  : null
+              }
             >
               {patternTextWithIcon(currentPattern)}
-              <Icon className="toggle-icon" img="icon-icon_direction-c" />
+              {directionSwap && (
+                <Icon className="toggle-icon" img="icon-icon_direction-c" />
+              )}
             </button>
           </label>
         </div>
