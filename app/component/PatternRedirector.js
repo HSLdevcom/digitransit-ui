@@ -29,7 +29,7 @@ const PatternRedirector = ({ router, match, route }) => {
 
   const path = `/${PREFIX_ROUTES}/${match.params.routeId}/${
     match.params.type || PREFIX_STOPS
-  }/${pattern ? pattern.code : `${match.params.routeId}:0/01`}`;
+  }/${pattern ? pattern.code : `${match.params.routeId}:0:01`}`;
   if (isBrowser) {
     router.replace(path);
   } else {
