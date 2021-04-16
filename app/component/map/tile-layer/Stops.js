@@ -10,21 +10,13 @@ import {
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 
 class Stops {
-  constructor(
-    tile,
-    config,
-    mapLayers,
-    stopsNearYouMode,
-    relayEnvironment,
-    showStops,
-  ) {
+  constructor(tile, config, mapLayers, stopsNearYouMode, relayEnvironment) {
     this.tile = tile;
     this.config = config;
     this.mapLayers = mapLayers;
     this.stopsNearYouMode = stopsNearYouMode;
     this.promise = this.getPromise();
     this.relayEnvironment = relayEnvironment;
-    this.showStops = showStops;
   }
 
   static getName = () => 'stop';
@@ -126,12 +118,11 @@ class Stops {
 
                 if (
                   // if under zoom level limit, only draw highlighted stops on near you page
-                  (this.tile.coords.z < this.config.stopsMinZoom &&
-                    !(
-                      hasHilightedNearyouStops &&
-                      this.tile.hilightedStops.includes(f.properties.gtfsId)
-                    )) ||
-                  !this.showStops
+                  this.tile.coords.z < this.config.stopsMinZoom &&
+                  !(
+                    hasHilightedNearyouStops &&
+                    this.tile.hilightedStops.includes(f.properties.gtfsId)
+                  )
                 ) {
                   continue; // eslint-disable-line no-continue
                 }

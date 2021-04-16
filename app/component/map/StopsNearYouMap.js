@@ -458,7 +458,6 @@ function StopsNearYouMap(
         stopsToShow={Array.from(favouriteIds)}
         stopsNearYouMode={mode}
         showScaleBar
-        showStops
         fitBounds={useFitBounds}
         mapState={mapState}
         mapLayers={mapLayers}
@@ -485,7 +484,6 @@ function StopsNearYouMap(
           breakpoint={breakpoint}
           stopsToShow={Array.from(favouriteIds)}
           stopsNearYouMode={mode}
-          showStops
           fitBounds={useFitBounds}
           mapState={mapState}
           mapLayers={mapLayers}

@@ -17,7 +17,6 @@ class TileContainer {
     hilightedStops,
     vehicles,
     stopsToShow,
-    showStops,
   ) {
     const markersMinZoom = Math.min(
       config.cityBike.cityBikeMinZoom,
@@ -36,7 +35,6 @@ class TileContainer {
     this.hilightedStops = hilightedStops;
     this.vehicles = vehicles;
     this.stopsToShow = stopsToShow;
-    this.showStops = showStops;
 
     if (this.coords.z < markersMinZoom || !this.el.getContext) {
       setTimeout(() => done(null, this.el), 0);
@@ -87,7 +85,6 @@ class TileContainer {
             this.props.mapLayers,
             stopsNearYouMode,
             relayEnvironment,
-            showStops,
           ),
       );
 

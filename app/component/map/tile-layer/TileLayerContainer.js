@@ -59,7 +59,6 @@ class TileLayerContainer extends GridLayer {
     hilightedStops: PropTypes.arrayOf(PropTypes.string),
     stopsToShow: PropTypes.arrayOf(PropTypes.string),
     vehicles: PropTypes.object,
-    showStops: PropTypes.bool,
   };
 
   static contextTypes = {
@@ -166,7 +165,6 @@ class TileLayerContainer extends GridLayer {
       this.props.hilightedStops,
       this.props.vehicles,
       this.props.stopsToShow,
-      this.props.showStops,
     );
     tile.onSelectableTargetClicked = (
       selectableTargets,

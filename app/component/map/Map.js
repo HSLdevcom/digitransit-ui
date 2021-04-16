@@ -36,7 +36,6 @@ export default class Map extends React.Component {
     center: PropTypes.bool,
     fitBounds: PropTypes.bool,
     hilightedStops: PropTypes.array,
-    showStops: PropTypes.bool,
     stopsToShow: PropTypes.array,
     lang: PropTypes.string.isRequired,
     lat: PropTypes.number,
@@ -60,7 +59,6 @@ export default class Map extends React.Component {
   static defaultProps = {
     animate: true,
     showScaleBar: false,
-    showStops: false,
     mapRef: null,
     locationPopup: 'reversegeocoding',
     boundsOptions: {},
@@ -143,7 +141,6 @@ export default class Map extends React.Component {
         key="vectorTileLayerContainer"
         hilightedStops={this.props.hilightedStops}
         stopsNearYouMode={this.props.stopsNearYouMode}
-        showStops={this.props.showStops}
         stopsToShow={this.props.stopsToShow}
         locationPopup={locationPopup}
         onSelectLocation={onSelectLocation}

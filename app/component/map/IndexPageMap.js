@@ -149,7 +149,6 @@ function IndexPageMap(
                 )}
             </>
           )}
-          showStops
           showScaleBar
           showAllVehicles
         />
