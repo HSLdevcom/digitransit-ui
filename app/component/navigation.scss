@@ -57,7 +57,7 @@ $content-background-color: $background-color;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: $primary-color;
+  background: $top-bar-color;
   text-align: center;
   overflow: hidden; // Show drawer menu
   z-index: 1008;
@@ -110,7 +110,7 @@ $content-background-color: $background-color;
 .mobile.top-bar {
   height: 50px;
   min-height: 50px;
-  background: $primary-color;
+  background: $top-bar-color;
   .logo {
     min-height: 30px;
   }
