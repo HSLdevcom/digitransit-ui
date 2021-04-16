@@ -925,6 +925,7 @@ const translations = {
     'citybike-return-full-link':
       'How to return a bike when a bike station is full ›',
     'citybike-start-using': 'Start using city bikes',
+    'citybike-start-using-info': 'More information',
     'citybike-station': 'Bike station {stationId}',
     'citybike-station-no-id': 'Bike station',
     'clear-button-label': 'Clear',
@@ -1865,6 +1866,7 @@ const translations = {
     'citybike-return-full-link':
       'Näin palautat pyörän, kun pyöräasema on täynnä ›',
     'citybike-start-using': 'Ota kaupunkipyörät käyttöön',
+    'citybike-start-using-info': 'Lisätietoja',
     'citybike-station': 'Kaupunkipyöräasema {stationId}',
     'citybike-station-no-id': 'Kaupunkipyöräasema',
     'clear-button-label': 'Tyhjennä',
@@ -3575,6 +3577,7 @@ const translations = {
     'citybike-return-full-link':
       'Så här återlämnar du cykeln till en fullsatt cykelstation ›',
     'citybike-start-using': 'Ta stadscyklar i bruk',
+    'citybike-start-using-info': 'tilläggsinformation',
     'citybike-station': 'Stadscykelstation {stationId}',
     'citybike-station-no-id': 'Stadscykelstation',
     'clear-button-label': 'Töm',
