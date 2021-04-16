@@ -441,12 +441,16 @@ class StopsNearYouPage extends React.Component {
             environment={this.props.relayEnvironment}
             render={({ props }) => {
               const { cityBike } = this.context.config;
-              // Use buy instructions if available, otherwise use general instructions.
+              // Use buy instructions if available
               const cityBikeBuyUrl = cityBike.buyUrl;
-              const cityBikeNetworkUrl = getCityBikeNetworkConfig(
-                getCityBikeNetworkId(Object.keys(cityBike.networks)),
-                this.context.config,
-              ).url;
+              let cityBikeNetworkUrl;
+              // Use general information about using city bike, if one network config is available
+              if (Object.keys(cityBike.networks).length === 1) {
+                cityBikeNetworkUrl = getCityBikeNetworkConfig(
+                  getCityBikeNetworkId(Object.keys(cityBike.networks)),
+                  this.context.config,
+                ).url;
+              }
               return (
                 <div className="stops-near-you-page">
                   {renderDisruptionBanner && (
