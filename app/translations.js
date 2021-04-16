@@ -3577,7 +3577,7 @@ const translations = {
     'citybike-return-full-link':
       'Så här återlämnar du cykeln till en fullsatt cykelstation ›',
     'citybike-start-using': 'Ta stadscyklar i bruk',
-    'citybike-start-using-info': 'tilläggsinformation',
+    'citybike-start-using-info': 'Tilläggsinformation',
     'citybike-station': 'Stadscykelstation {stationId}',
     'citybike-station-no-id': 'Stadscykelstation',
     'clear-button-label': 'Töm',
