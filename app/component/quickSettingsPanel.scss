@@ -3,7 +3,7 @@
   background-color: $white;
   margin: 0 3.75em;
   .datetimepicker-container {
-    margin: 20px 9px 9px 0;
+    margin: 9px 9px 9px 0;
     .datetimepicker-top-row {
       @media (max-width: 500px) {
         margin: 0 0 0 7px;
@@ -168,6 +168,14 @@
     flex: 1 1 auto;
     overflow: hidden;
     max-width: 16em;
+  }
+}
+
+.open-embed-container{
+  display: flex;
+  width: 100%;
+  .open-embed {
+    margin: 12px 6px 8px auto;
   }
 }
 

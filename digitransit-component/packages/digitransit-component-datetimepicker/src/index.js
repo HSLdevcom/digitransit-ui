@@ -46,6 +46,7 @@ function DatetimepickerStateContainer({
   onDateChange,
   onNowClick,
   embedWhenClosed,
+  embedWhenOpen,
   lang,
   color,
   timeZone,
@@ -164,6 +165,7 @@ function DatetimepickerStateContainer({
       onDepartureClick={departureClicked}
       onArrivalClick={arrivalClicked}
       embedWhenClosed={embedWhenClosed}
+      embedWhenOpen={embedWhenOpen}
       lang={lang}
       color={color}
       timeZone={timeZone}
@@ -183,6 +185,7 @@ DatetimepickerStateContainer.propTypes = {
   onDateChange: PropTypes.func.isRequired,
   onNowClick: PropTypes.func.isRequired,
   embedWhenClosed: PropTypes.node,
+  embedWhenOpen: PropTypes.node,
   lang: PropTypes.string,
   color: PropTypes.string,
   timeZone: PropTypes.string,
@@ -196,6 +199,7 @@ DatetimepickerStateContainer.defaultProps = {
   initialArriveBy: undefined,
   initialTimestamp: undefined,
   embedWhenClosed: null,
+  embedWhenOpen: null,
   lang: 'en',
   color: '#007ac9',
   timeZone: 'Europe/Helsinki',

@@ -59,6 +59,7 @@ function Datetimepicker({
   onDepartureClick,
   onArrivalClick,
   embedWhenClosed,
+  embedWhenOpen,
   lang,
   color,
   timeZone,
@@ -256,163 +257,154 @@ function Datetimepicker({
     return (
       <>
         <div
-          className={
-            isOpen
-              ? `${styles['top-row-container']} datetimepicker-top-row`
-              : `${styles.hidden} datetimepicker-top-row`
-          }
+          className={`${styles['datetimepicker-open-container']} ${
+            !isOpen ? styles.hidden : ''
+          }`}
         >
-          {' '}
-          <span role="alert" className={styles['sr-only']}>
-            {ariaOpenPickerLabel}
-          </span>
-          <span />
-          {/* This empty span prevents a weird focus bug on chrome */}
-          <label
-            htmlFor={`${htmlId}-now`}
-            className={`${styles['radio-textbutton-label']} ${
-              styles['first-radio']
-            } ${
-              styles[
-                departureOrArrival === 'departure' && nowSelected
-                  ? 'active'
-                  : undefined
-              ]
-            }`}
+          <div
+            className={
+              isOpen
+                ? `${styles['top-row-container']} datetimepicker-top-row`
+                : `${styles.hidden} datetimepicker-top-row`
+            }
           >
-            <span className={styles['time-icon']}>
-              <Icon img="time" color={color} />
+            {' '}
+            <span role="alert" className={styles['sr-only']}>
+              {ariaOpenPickerLabel}
             </span>
-            <span className={styles['now-text']}>
-              {i18next.t('departure-now', translationSettings)}
-            </span>
-            <input
-              id={`${htmlId}-now`}
-              name="departureOrArrival"
-              type="radio"
-              value="now"
-              className={styles['radio-textbutton']}
-              onChange={() => onNowClick()}
-              checked={nowSelected && departureOrArrival === 'departure'}
-              ref={inputRef}
-            />
-          </label>
-          <label
-            htmlFor={`${htmlId}-departure`}
-            className={`${styles['radio-textbutton-label']}
+            <span />
+            {/* This empty span prevents a weird focus bug on chrome */}
+            <span className={styles['departure-or-arrival-container']}>
+              <label
+                htmlFor={`${htmlId}-departure`}
+                className={`${styles['radio-textbutton-label']}
                 ${
                   styles[
-                    departureOrArrival === 'departure' && !nowSelected
-                      ? 'active'
-                      : undefined
+                    departureOrArrival === 'departure' ? 'active' : undefined
                   ]
                 }`}
-          >
-            {i18next.t('departure', translationSettings)}
-            <input
-              id={`${htmlId}-departure`}
-              name="departureOrArrival"
-              type="radio"
-              value="departure"
-              className={styles['radio-textbutton']}
-              onChange={() => {
-                onDepartureClick();
-              }}
-              checked={!nowSelected && departureOrArrival === 'departure'}
-            />
-          </label>
-          <label
-            htmlFor={`${htmlId}-arrival`}
-            className={`${styles['radio-textbutton-label']}
+              >
+                {i18next.t('departure', translationSettings)}
+                <input
+                  id={`${htmlId}-departure`}
+                  name="departureOrArrival"
+                  type="radio"
+                  value="departure"
+                  className={styles['radio-textbutton']}
+                  onChange={() => {
+                    onDepartureClick();
+                  }}
+                  checked={!nowSelected && departureOrArrival === 'departure'}
+                />
+              </label>
+              <label
+                htmlFor={`${htmlId}-arrival`}
+                className={`${styles['radio-textbutton-label']}
                 ${
                   styles[
                     departureOrArrival === 'arrival' ? 'active' : undefined
                   ]
                 }`}
-          >
-            {i18next.t('arrival', translationSettings)}
-            <input
-              id={`${htmlId}-arrival`}
-              name="departureOrArrival"
-              type="radio"
-              value="arrival"
-              className={styles['radio-textbutton']}
-              onChange={() => {
-                onArrivalClick();
-              }}
-              checked={departureOrArrival === 'arrival'}
-            />
-          </label>
-          <span className={styles['right-edge']}>
+              >
+                {i18next.t('arrival', translationSettings)}
+                <input
+                  id={`${htmlId}-arrival`}
+                  name="departureOrArrival"
+                  type="radio"
+                  value="arrival"
+                  className={styles['radio-textbutton']}
+                  onChange={() => {
+                    onArrivalClick();
+                  }}
+                  checked={departureOrArrival === 'arrival'}
+                />
+              </label>
+            </span>
             <button
+              id={`${htmlId}-now`}
               type="button"
-              className={styles['close-button']}
-              aria-controls={`${htmlId}-root`}
-              aria-expanded="true"
-              onClick={() => changeOpen(false)}
+              className={styles['departure-now-button']}
+              onClick={() => {
+                changeOpen(false);
+                onNowClick();
+              }}
+              ref={inputRef}
             >
-              <span className={styles['close-icon']}>
-                <Icon img="plus" color={color} />
-              </span>
-              <span className={styles['sr-only']}>
-                {i18next.t('accessible-close', translationSettings)}
-              </span>
+              {i18next.t('departure-now', translationSettings)}
             </button>
-          </span>
-        </div>
-        <div
-          className={
-            isOpen
-              ? `${styles['picker-container']} datetimepicker-bottom-row-open`
-              : `${styles.hidden} datetimepicker-top-row`
-          }
-        >
-          <>
-            <span className={styles['combobox-left']}>
-              <DesktopDatetimepicker
-                value={displayTimestamp}
-                onChange={newValue => {
-                  onDateChange(newValue);
-                }}
-                getDisplay={getDateDisplay}
-                timeChoices={dateChoices}
-                validate={() => null}
-                icon={
-                  <span
-                    className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}
-                  >
-                    <Icon img="calendar" color={color} />
-                  </span>
-                }
-                id={`${htmlId}-date`}
-                label={i18next.t('date', translationSettings)}
-                disableTyping
-                timeZone={timeZone}
-              />
+            <span className={styles['right-edge']}>
+              <button
+                type="button"
+                className={styles['close-button']}
+                aria-controls={`${htmlId}-root`}
+                aria-expanded="true"
+                onClick={() => changeOpen(false)}
+              >
+                <span className={styles['close-icon']}>
+                  <Icon img="close" color={color} />
+                </span>
+                <span className={styles['sr-only']}>
+                  {i18next.t('accessible-close', translationSettings)}
+                </span>
+              </button>
             </span>
-            <span>
-              <DesktopDatetimepicker
-                value={displayTimestamp}
-                onChange={newValue => {
-                  onTimeChange(newValue);
-                }}
-                getDisplay={getTimeDisplay}
-                timeChoices={timeChoices}
-                validate={validateTime}
-                icon={
-                  <span
-                    className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
-                  >
-                    <Icon img="time" color={color} />
-                  </span>
-                }
-                id={`${htmlId}-time`}
-                label={i18next.t('time', translationSettings)}
-                timeZone={timeZone}
-              />
-            </span>
-          </>
+          </div>
+          <div
+            className={
+              isOpen
+                ? `${styles['picker-container']}`
+                : `${styles.hidden} datetimepicker-top-row`
+            }
+          >
+            <>
+              <span className={styles['combobox-left']}>
+                <DesktopDatetimepicker
+                  value={displayTimestamp}
+                  onChange={newValue => {
+                    onDateChange(newValue);
+                  }}
+                  getDisplay={getDateDisplay}
+                  timeChoices={dateChoices}
+                  validate={() => null}
+                  icon={
+                    <span
+                      className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}
+                    >
+                      <Icon img="calendar" color={color} />
+                    </span>
+                  }
+                  id={`${htmlId}-date`}
+                  label={i18next.t('date', translationSettings)}
+                  disableTyping
+                  timeZone={timeZone}
+                />
+              </span>
+              <span className={styles['combobox-right']}>
+                <DesktopDatetimepicker
+                  value={displayTimestamp}
+                  onChange={newValue => {
+                    onTimeChange(newValue);
+                  }}
+                  getDisplay={getTimeDisplay}
+                  timeChoices={timeChoices}
+                  validate={validateTime}
+                  icon={
+                    <span
+                      className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
+                    >
+                      <Icon img="time" color={color} />
+                    </span>
+                  }
+                  id={`${htmlId}-time`}
+                  label={i18next.t('time', translationSettings)}
+                  timeZone={timeZone}
+                />
+              </span>
+            </>
+          </div>
         </div>
+        <span className={isOpen ? '' : styles.hidden}>{embedWhenOpen}</span>
+        <div className={isOpen ? 'datetimepicker-bottom-row-open' : ''} />
       </>
     );
   }
@@ -433,7 +425,7 @@ function Datetimepicker({
         <div
           className={
             !isOpen
-              ? `${styles['top-row-container']} datetimepicker-top-row`
+              ? `${styles['top-row-container']} ${styles.closed} datetimepicker-top-row`
               : `${styles.hidden} datetimepicker-top-row`
           }
         >
@@ -499,6 +491,7 @@ Datetimepicker.propTypes = {
   onDepartureClick: PropTypes.func.isRequired,
   onArrivalClick: PropTypes.func.isRequired,
   embedWhenClosed: PropTypes.node,
+  embedWhenOpen: PropTypes.node,
   lang: PropTypes.string.isRequired,
   color: PropTypes.string,
   onModalSubmit: PropTypes.func.isRequired,
@@ -510,6 +503,7 @@ Datetimepicker.propTypes = {
 Datetimepicker.defaultProps = {
   timestamp: null,
   embedWhenClosed: null,
+  embedWhenOpen: null,
   color: '#007ac9',
   timeZone: 'Europe/Helsinki',
 };
