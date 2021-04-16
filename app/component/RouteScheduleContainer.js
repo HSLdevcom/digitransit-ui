@@ -441,7 +441,11 @@ class RouteScheduleContainer extends Component {
     const { intl } = this.context;
 
     const wantedDay =
-      query && query.serviceDay ? moment(query.serviceDay) : moment();
+      query &&
+      query.serviceDay &&
+      moment(query.serviceDay, 'YYYYMMDD', true).isValid()
+        ? moment(query.serviceDay)
+        : moment();
 
     const newFromTo = [this.state.from, this.state.to];
 
