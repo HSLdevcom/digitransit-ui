@@ -164,7 +164,7 @@ export default class Map extends React.Component {
           key =>
             mapLayers?.geoJson[key] !== false &&
             (mapLayers.geoJson[key] === true ||
-              geoJson[key].isOffByDefault !== true),
+              geoJson[key]?.isOffByDefault !== true),
         )
         .forEach((key, i) => {
           leafletObjs.push(

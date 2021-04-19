@@ -2098,6 +2098,7 @@ class SummaryPage extends React.Component {
               leafletEvents: {
                 onZoomend: this.endZoom,
               },
+              mapLayers: this.props.mapLayers,
             },
             this.context,
           )

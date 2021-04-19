@@ -13,6 +13,7 @@ import { onLocationPopup } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import BackButton from './BackButton';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer'; // DT-3473
+import { mapLayerShape } from '../store/MapLayerStore';
 
 let L;
 let prevCenter;
@@ -44,6 +45,7 @@ function ItineraryPageMap(
     bounds,
     leafletEvents,
     showVehicles,
+    mapLayers,
   },
   { match, router, executeAction },
 ) {
@@ -150,12 +152,12 @@ function ItineraryPageMap(
       fitBounds={useFitBound}
       boundsOptions={{ maxZoom: 16 }}
       showScaleBar={showScale}
-      hideOrigin
       locationPopup="all"
       leafletEvents={leafletEvents}
       geoJsonZoomLevel={zoomLevel}
       mapRef={setMapElementRef}
       onSelectLocation={onSelectLocation}
+      mapLayers={mapLayers}
     >
       {breakpoint !== 'large' && (
         <BackButton
@@ -177,6 +179,7 @@ ItineraryPageMap.propTypes = {
   fitBounds: PropTypes.bool,
   leafletEvents: PropTypes.object,
   showVehicles: PropTypes.bool,
+  mapLayers: mapLayerShape.isRequired,
 };
 
 ItineraryPageMap.contextTypes = {
