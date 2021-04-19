@@ -7,19 +7,19 @@ import { connectToStores } from 'fluxible-addons-react';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { graphql, fetchQuery } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
-import TimeStore from '../store/TimeStore';
-import PositionStore from '../store/PositionStore';
-import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
-import MapWithTracking from './map/MapWithTracking';
-import SelectedStopPopup from './map/popups/SelectedStopPopup';
-import SelectedStopPopupContent from './SelectedStopPopupContent';
-import { dtLocationShape } from '../util/shapes';
-import withBreakpoint from '../util/withBreakpoint';
-import VehicleMarkerContainer from './map/VehicleMarkerContainer';
-import BackButton from './BackButton';
-import { addressToItinerarySearch } from '../util/otpStrings';
-import ItineraryLine from './map/ItineraryLine';
-import Loading from './Loading';
+import TimeStore from '../../store/TimeStore';
+import PositionStore from '../../store/PositionStore';
+import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
+import MapWithTracking from './MapWithTracking';
+import SelectedStopPopup from './popups/SelectedStopPopup';
+import SelectedStopPopupContent from '../SelectedStopPopupContent';
+import { dtLocationShape } from '../../util/shapes';
+import withBreakpoint from '../../util/withBreakpoint';
+import VehicleMarkerContainer from './VehicleMarkerContainer';
+import BackButton from '../BackButton';
+import { addressToItinerarySearch } from '../../util/otpStrings';
+import ItineraryLine from './ItineraryLine';
+import Loading from '../Loading';
 
 const StopPageMap = (
   { stop, breakpoint, currentTime, locationState, mapLayers },
