@@ -45,7 +45,6 @@ export default class Map extends React.Component {
     leafletOptions: PropTypes.object,
     mergeStops: PropTypes.bool,
     zoom: PropTypes.number,
-    showScaleBar: PropTypes.bool,
     mapRef: PropTypes.func,
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
@@ -58,7 +57,6 @@ export default class Map extends React.Component {
 
   static defaultProps = {
     animate: true,
-    showScaleBar: false,
     mapRef: null,
     locationPopup: 'reversegeocoding',
     boundsOptions: {},
@@ -234,7 +232,7 @@ export default class Map extends React.Component {
               )
             }
           </BreakpointConsumer>
-          {this.props.showScaleBar && config.map.showScaleBar && (
+          {config.map.showScaleBar && (
             <ScaleControl
               imperial={false}
               position={config.map.controls.scale.position}

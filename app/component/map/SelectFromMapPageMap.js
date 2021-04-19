@@ -367,7 +367,6 @@ class SelectFromMapPageMap extends React.Component {
         bounds={bounds}
         fitBounds={Boolean(bounds)}
         locationPopup="none"
-        showScaleBar={!isDesktop}
         mapRef={this.setMapElementRef}
       />
     );

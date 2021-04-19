@@ -149,7 +149,6 @@ function IndexPageMap(
                 )}
             </>
           )}
-          showScaleBar
           showAllVehicles
         />
         <SettingsDrawer

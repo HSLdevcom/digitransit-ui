@@ -128,7 +128,6 @@ function ItineraryPageMap(
   const onSelectLocation = (item, id) =>
     onLocationPopup(item, id, router, match, executeAction);
 
-  const showScale = breakpoint === 'large';
   const validCenter = latlon && latlon.lat !== undefined;
   // eslint-disable-next-line no-nested-ternary
   const lat = validCenter ? latlon.lat : undefined;
@@ -151,7 +150,6 @@ function ItineraryPageMap(
       bounds={bounds}
       fitBounds={useFitBound}
       boundsOptions={{ maxZoom: 16 }}
-      showScaleBar={showScale}
       locationPopup="all"
       leafletEvents={leafletEvents}
       geoJsonZoomLevel={zoomLevel}

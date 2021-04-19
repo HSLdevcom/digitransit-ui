@@ -110,8 +110,6 @@ class RoutePageMap extends React.PureComponent {
       );
     }
 
-    const showScale = breakpoint === 'large';
-
     let filteredPoints;
     if (pattern.geometry) {
       filteredPoints = pattern.geometry.filter(
@@ -133,7 +131,6 @@ class RoutePageMap extends React.PureComponent {
             ? 15
             : config.map.minZoom
         }
-        showScaleBar={showScale}
         geoJsonZoomLevel={this.state.zoomLevel}
         mapZoomLevel={this.state.zoomLevel}
         leafletEvents={{

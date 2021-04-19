@@ -157,7 +157,6 @@ const StopPageMap = (
       initialZoom={!match.params.stopId || stop.platformCode ? 18 : 16}
       hilightedStops={[id]}
       leafletObjs={leafletObjs}
-      showScaleBar
       focusPoint={stop}
       bounds={bounds}
       fitBounds={bounds.length > 0}

@@ -31,7 +31,6 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'zoom',
   'mapTracking',
   'mapLayers',
-  'showScaleBar',
   'children',
   'leafletObjs',
 ]);

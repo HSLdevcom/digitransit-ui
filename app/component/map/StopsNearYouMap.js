@@ -455,7 +455,6 @@ function StopsNearYouMap(
     breakpoint,
     stopsToShow: mode === 'FAVORITE' ? Array.from(favouriteIds) : undefined,
     mergeStops: false,
-    showScaleBar: true,
     fitBounds: useFitBounds,
     mapState,
     mapLayers,
