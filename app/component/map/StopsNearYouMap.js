@@ -451,26 +451,26 @@ function StopsNearYouMap(
 
   const zoom = 16;
   let map;
+  const mapProps = {
+    breakpoint,
+    stopsToShow: mode === 'FAVORITE' ? Array.from(favouriteIds) : undefined,
+    mergeStops: false,
+    showScaleBar: true,
+    fitBounds: useFitBounds,
+    mapState,
+    mapLayers,
+    defaultMapCenter: defaultMapCenter || context.config.defaultEndpoint,
+    boundsOptions: { maxZoom: zoom },
+    bounds,
+    fitBoundsWithSetCenter: true,
+    mapTracking,
+    hilightedStops: hilightedStops(),
+    leafletObjs,
+    setCenterOfMap,
+  };
+
   if (breakpoint === 'large') {
-    map = (
-      <MapWithTracking
-        breakpoint={breakpoint}
-        stopsToShow={Array.from(favouriteIds)}
-        stopsNearYouMode={mode}
-        showScaleBar
-        fitBounds={useFitBounds}
-        mapState={mapState}
-        mapLayers={mapLayers}
-        defaultMapCenter={defaultMapCenter || context.config.defaultEndpoint}
-        boundsOptions={{ maxZoom: zoom }}
-        bounds={bounds}
-        fitBoundsWithSetCenter
-        mapTracking={mapTracking}
-        hilightedStops={hilightedStops()}
-        leafletObjs={leafletObjs}
-        setCenterOfMap={setCenterOfMap}
-      />
-    );
+    map = <MapWithTracking {...mapProps} />;
   } else {
     map = (
       <>
@@ -480,23 +480,7 @@ function StopsNearYouMap(
           color={context.config.colors.primary}
           fallback="back"
         />
-        <MapWithTracking
-          breakpoint={breakpoint}
-          stopsToShow={Array.from(favouriteIds)}
-          stopsNearYouMode={mode}
-          fitBounds={useFitBounds}
-          mapState={mapState}
-          mapLayers={mapLayers}
-          defaultMapCenter={defaultMapCenter || context.config.defaultEndpoint}
-          boundsOptions={{ maxZoom: zoom }}
-          bounds={bounds}
-          showScaleBar
-          fitBoundsWithSetCenter
-          mapTracking={mapTracking}
-          hilightedStops={hilightedStops()}
-          leafletObjs={leafletObjs}
-          setCenterOfMap={setCenterOfMap}
-        />
+        <MapWithTracking {...mapProps} />
       </>
     );
   }

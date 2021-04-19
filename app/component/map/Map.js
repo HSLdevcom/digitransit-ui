@@ -43,7 +43,7 @@ export default class Map extends React.Component {
     leafletEvents: PropTypes.object,
     leafletObjs: PropTypes.array,
     leafletOptions: PropTypes.object,
-    stopsNearYouMode: PropTypes.string,
+    mergeStops: PropTypes.bool,
     zoom: PropTypes.number,
     showScaleBar: PropTypes.bool,
     mapRef: PropTypes.func,
@@ -65,6 +65,7 @@ export default class Map extends React.Component {
     mapBottomPadding: 0,
     buttonBottomPadding: 0,
     bottomButtons: null,
+    mergeStops: true,
     mapLayers: { geoJson: {} },
   };
 
@@ -140,7 +141,7 @@ export default class Map extends React.Component {
       <VectorTileLayerContainer
         key="vectorTileLayerContainer"
         hilightedStops={this.props.hilightedStops}
-        stopsNearYouMode={this.props.stopsNearYouMode}
+        mergeStops={this.props.mergeStops}
         stopsToShow={this.props.stopsToShow}
         locationPopup={locationPopup}
         onSelectLocation={onSelectLocation}

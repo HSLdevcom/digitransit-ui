@@ -625,6 +625,15 @@ class StopsNearYouPage extends React.Component {
         />
       );
     }
+    const filteredMapLayers = {
+      ...this.props.mapLayers,
+      citybike: mode === 'CITYBIKE',
+      stop: {},
+    };
+    if (mode !== 'CITYBIKE') {
+      filteredMapLayers.stop[mode.toLowerCase()] = true;
+    }
+
     return (
       <QueryRenderer
         query={graphql`
@@ -663,7 +672,7 @@ class StopsNearYouPage extends React.Component {
                 centerOfMap={this.state.centerOfMap}
                 stopsNearYou={props.stops}
                 match={this.props.match}
-                mapLayers={this.props.mapLayers}
+                mapLayers={filteredMapLayers}
                 mapState={this.state.mapState}
                 setCenterOfMap={this.setCenterOfMap}
               />

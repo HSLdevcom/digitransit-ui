@@ -10,13 +10,13 @@ import {
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 
 class Stops {
-  constructor(tile, config, mapLayers, stopsNearYouMode, relayEnvironment) {
+  constructor(tile, config, mapLayers, relayEnvironment, mergeStops) {
     this.tile = tile;
     this.config = config;
     this.mapLayers = mapLayers;
-    this.stopsNearYouMode = stopsNearYouMode;
     this.promise = this.getPromise();
     this.relayEnvironment = relayEnvironment;
+    this.mergeStops = mergeStops;
   }
 
   static getName = () => 'stop';
@@ -25,14 +25,7 @@ class Stops {
     const isHilighted =
       this.tile.hilightedStops &&
       this.tile.hilightedStops.includes(feature.properties.gtfsId);
-    if (
-      !isFeatureLayerEnabled(
-        feature,
-        Stops.getName(),
-        this.mapLayers,
-        this.config,
-      )
-    ) {
+    if (!isFeatureLayerEnabled(feature, Stops.getName(), this.mapLayers)) {
       return;
     }
     if (isHybrid) {
@@ -61,14 +54,11 @@ class Stops {
     );
   }
 
-  stopsNearYouCheck(feature) {
-    if (!this.stopsNearYouMode) {
-      return true;
-    }
-    if (this.stopsNearYouMode === 'FAVORITE') {
+  stopsToShowCheck(feature) {
+    if (this.tile.stopsToShow) {
       return this.tile.stopsToShow.includes(feature.properties.gtfsId);
     }
-    return feature.properties.type === this.stopsNearYouMode;
+    return true;
   }
 
   getPromise() {
@@ -87,9 +77,8 @@ class Stops {
 
           this.features = [];
 
-          // draw highlighted stops on lower zoom levels on near you page
-          const hasHilightedNearyouStops = !!(
-            this.stopsNearYouMode &&
+          // draw highlighted stops on lower zoom levels
+          const hasHilightedStops = !!(
             this.tile.hilightedStops &&
             this.tile.hilightedStops.length &&
             this.tile.hilightedStops[0]
@@ -98,7 +87,7 @@ class Stops {
           if (
             vt.layers.stops != null &&
             (this.tile.coords.z >= this.config.stopsMinZoom ||
-              hasHilightedNearyouStops)
+              hasHilightedStops)
           ) {
             const featureByCode = {};
             const hybridGtfsIdByCode = {};
@@ -120,7 +109,7 @@ class Stops {
                   // if under zoom level limit, only draw highlighted stops on near you page
                   this.tile.coords.z < this.config.stopsMinZoom &&
                   !(
-                    hasHilightedNearyouStops &&
+                    hasHilightedStops &&
                     this.tile.hilightedStops.includes(f.properties.gtfsId)
                   )
                 ) {
@@ -128,8 +117,8 @@ class Stops {
                 }
                 if (
                   f.properties.code &&
-                  this.config.mergeStopsByCode &&
-                  !this.stopsNearYouMode
+                  this.mergeStops &&
+                  this.config.mergeStopsByCode
                 ) {
                   /* a stop may be represented multiple times in data, once for each transport mode
                      Latest stop erares underlying ones unless the stop marker size is adjusted accordingly.
@@ -158,7 +147,7 @@ class Stops {
                     }
                   }
                 }
-                if (this.stopsNearYouCheck(f)) {
+                if (this.stopsToShowCheck(f)) {
                   this.features.push(f);
                 }
               }
@@ -190,13 +179,8 @@ class Stops {
               const feature = vt.layers.stations.feature(i);
               if (
                 feature.properties.type &&
-                isFeatureLayerEnabled(
-                  feature,
-                  'terminal',
-                  this.mapLayers,
-                  this.config,
-                ) &&
-                this.stopsNearYouCheck(feature)
+                isFeatureLayerEnabled(feature, 'terminal', this.mapLayers) &&
+                this.stopsToShowCheck(feature)
               ) {
                 [[feature.geom]] = feature.loadGeometry();
                 const isHilighted =

@@ -12,7 +12,7 @@ class TileContainer {
     done,
     props,
     config,
-    stopsNearYouMode,
+    mergeStops,
     relayEnvironment,
     hilightedStops,
     vehicles,
@@ -24,7 +24,7 @@ class TileContainer {
       config.terminalStopsMinZoom,
     );
     this.coords = coords;
-    this.stopsNearYouMode = stopsNearYouMode;
+    this.mergeStops = mergeStops;
     this.props = props;
     this.extent = 4096;
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
@@ -64,15 +64,7 @@ class TileContainer {
           layerName === 'citybike' &&
           this.coords.z >= config.cityBike.cityBikeMinZoom
         ) {
-          if (!this.stopsNearYouMode) {
-            return isEnabled;
-          }
-          if (
-            this.stopsNearYouMode === 'CITYBIKE' ||
-            this.stopsNearYouMode === 'FAVORITE'
-          ) {
-            return true;
-          }
+          return isEnabled;
         }
         if (
           layerName === 'parkAndRide' &&
@@ -88,8 +80,8 @@ class TileContainer {
             this,
             config,
             this.props.mapLayers,
-            stopsNearYouMode,
             relayEnvironment,
+            mergeStops,
           ),
       );
 

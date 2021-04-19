@@ -25,7 +25,7 @@ export default function VectorTileLayerContainer(props, { config }) {
       pane="markerPane"
       layers={layers}
       mapLayers={props.mapLayers}
-      stopsNearYouMode={props.stopsNearYouMode}
+      mergeStops={props.mergeStops}
       hilightedStops={props.hilightedStops}
       stopsToShow={props.stopsToShow}
       tileSize={config.map.tileSize || 256}
@@ -42,7 +42,7 @@ VectorTileLayerContainer.propTypes = {
   hilightedStops: PropTypes.arrayOf(PropTypes.string),
   stopsToShow: PropTypes.arrayOf(PropTypes.string),
   disableMapTracking: PropTypes.func,
-  stopsNearYouMode: PropTypes.string,
+  mergeStops: PropTypes.bool,
   locationPopup: PropTypes.string,
   onSelectLocation: PropTypes.func,
 };
