@@ -158,19 +158,12 @@ export default class Map extends React.Component {
     }
 
     if (geoJson) {
-      // bounds are only used when geojson only contains point geometries
       Object.keys(geoJson)
-        .filter(
-          key =>
-            mapLayers?.geoJson[key] !== false &&
-            (mapLayers.geoJson[key] === true ||
-              geoJson[key]?.isOffByDefault !== true),
-        )
+        .filter(key => mapLayers.geoJson[key])
         .forEach((key, i) => {
           leafletObjs.push(
             <GeoJSON
               key={key.concat(i)}
-              bounds={null}
               data={geoJson[key].data}
               geoJsonZoomLevel={this.mapZoomLvl ? this.mapZoomLvl : 9}
               locationPopup={locationPopup}
