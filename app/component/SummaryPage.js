@@ -2552,7 +2552,9 @@ SummaryPageWithBreakpoint.description = (
 const SummaryPageWithStores = connectToStores(
   SummaryPageWithBreakpoint,
   ['MapLayerStore'],
-  ({ getStore }) => ({ mapLayers: getStore('MapLayerStore').getMapLayers() }),
+  ({ getStore }) => ({
+    mapLayers: getStore('MapLayerStore').getMapLayersWitoutStops(),
+  }),
 );
 
 const containerComponent = createRefetchContainer(

@@ -47,6 +47,17 @@ class MapLayerStore extends Store {
 
   getMapLayers = () => ({ ...this.mapLayers });
 
+  getMapLayersWithoutStops = () => ({
+    ...this.mapLayers,
+    stop: {
+      bus: false,
+      ferry: false,
+      rail: false,
+      subway: false,
+      tram: false,
+    },
+  });
+
   updateMapLayers = mapLayers => {
     this.mapLayers = {
       ...this.mapLayers,
