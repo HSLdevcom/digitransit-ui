@@ -111,15 +111,15 @@ export default (
               ).then(getDefault)
             }
             query={graphql`
-              query routeRoutes_RouteMapContainer_withTrip_Query(
+              query routeRoutes_RoutePageMap_withTrip_Query(
                 $patternId: String!
                 $tripId: String!
               ) {
                 pattern(id: $patternId) {
-                  ...RouteMapContainer_pattern
+                  ...RoutePageMap_pattern
                 }
                 trip(id: $tripId) {
-                  ...RouteMapContainer_trip
+                  ...RoutePageMap_trip
                 }
               }
             `}
@@ -133,9 +133,9 @@ export default (
               ).then(getDefault)
             }
             query={graphql`
-              query routeRoutes_RouteMapContainer_Query($patternId: String!) {
+              query routeRoutes_RoutePageMap_Query($patternId: String!) {
                 pattern(id: $patternId) {
-                  ...RouteMapContainer_pattern
+                  ...RoutePageMap_pattern
                 }
               }
             `}

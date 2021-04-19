@@ -14,7 +14,7 @@ import BackButton from '../BackButton';
 import { isActiveDate } from '../../util/patternUtils';
 import { mapLayerShape } from '../../store/MapLayerStore';
 
-class RouteMapContainer extends React.PureComponent {
+class RoutePageMap extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -155,8 +155,8 @@ class RouteMapContainer extends React.PureComponent {
   }
 }
 
-const RouteMapContainerWithVehicles = connectToStores(
-  withBreakpoint(RouteMapContainer),
+const RoutePageMapWithVehicles = connectToStores(
+  withBreakpoint(RoutePageMap),
   ['RealTimeInformationStore', 'MapLayerStore'],
   ({ getStore }, { trip }) => {
     const mapLayers = getStore('MapLayerStore').getMapLayersWithoutStops();
@@ -197,9 +197,9 @@ const RouteMapContainerWithVehicles = connectToStores(
   },
 );
 
-export default createFragmentContainer(RouteMapContainerWithVehicles, {
+export default createFragmentContainer(RoutePageMapWithVehicles, {
   pattern: graphql`
-    fragment RouteMapContainer_pattern on Pattern {
+    fragment RoutePageMap_pattern on Pattern {
       code
       directionId
       headsign
@@ -221,7 +221,7 @@ export default createFragmentContainer(RouteMapContainerWithVehicles, {
     }
   `,
   trip: graphql`
-    fragment RouteMapContainer_trip on Trip {
+    fragment RoutePageMap_trip on Trip {
       stoptimesForDate {
         scheduledDeparture
       }
