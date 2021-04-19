@@ -32,7 +32,7 @@ const DepartureRow = (
     );
   }
   return (
-    <div role="cell" className={cx('departure-row', mode)}>
+    <div role="cell" className={cx('departure-row', mode, props.className)}>
       <div className="route-number-container">
         <div
           className="route-number"
@@ -77,6 +77,7 @@ DepartureRow.propTypes = {
   currentTime: PropTypes.number.isRequired,
   showPlatformCode: PropTypes.bool,
   canceled: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 DepartureRow.contextTypes = {

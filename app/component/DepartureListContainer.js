@@ -214,25 +214,35 @@ class DepartureListContainer extends Component {
 
     let currentDate = moment.unix(currentTime).startOf('day').unix();
     let tomorrow = moment.unix(currentTime).add(1, 'day').startOf('day').unix();
-
+    const dayAfterTomorrow = moment
+      .unix(currentTime)
+      .add(2, 'day')
+      .startOf('day')
+      .unix();
     const departures = asDepartures(stoptimes)
       .filter(departure => !(isTerminal && departure.isArrival))
       .filter(departure => currentTime < departure.stoptime)
       .slice(0, limit);
 
-    departures.forEach(departure => {
+    departures.forEach((departure, index) => {
       if (departure.stoptime >= tomorrow) {
-        departureObjs.push(
-          <div
-            key={moment.unix(departure.stoptime).format('DDMMYYYY')}
-            className="date-row border-bottom"
-          >
-            {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
-          </div>,
-        );
+        if (departure.stoptime < dayAfterTomorrow && departureObjs.length > 0) {
+          departureObjs.push(<div className="departure-day-divider" />);
+        } else {
+          departureObjs.push(
+            <div
+              key={moment.unix(departure.stoptime).format('DDMMYYYY')}
+              className="date-row border-bottom"
+            >
+              {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
+            </div>,
+          );
+        }
 
         currentDate = tomorrow;
         tomorrow = moment.unix(currentDate).add(1, 'day').startOf('day').unix();
+      } else if (index > 0) {
+        departureObjs.push(<div className="departure-row-divider" />);
       }
       const id = `${departure.pattern.code}:${departure.stoptime}`;
       const row = {
@@ -250,6 +260,7 @@ class DepartureListContainer extends Component {
           currentTime={this.props.currentTime}
           showPlatformCode={isTerminal}
           canceled={departure.canceled}
+          className="no-border"
         />
       );
 
