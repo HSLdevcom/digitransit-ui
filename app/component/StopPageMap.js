@@ -9,6 +9,7 @@ import { graphql, fetchQuery } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import TimeStore from '../store/TimeStore';
 import PositionStore from '../store/PositionStore';
+import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 import MapWithTracking from './map/MapWithTracking';
 import SelectedStopPopup from './map/popups/SelectedStopPopup';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
@@ -21,7 +22,7 @@ import ItineraryLine from './map/ItineraryLine';
 import Loading from './Loading';
 
 const StopPageMap = (
-  { stop, breakpoint, currentTime, locationState },
+  { stop, breakpoint, currentTime, locationState, mapLayers },
   { config, match },
 ) => {
   if (!stop) {
@@ -154,13 +155,13 @@ const StopPageMap = (
       className="flex-grow"
       defaultMapCenter={stop}
       initialZoom={!match.params.stopId || stop.platformCode ? 18 : 16}
-      showStops
       hilightedStops={[id]}
       leafletObjs={leafletObjs}
       showScaleBar
       focusPoint={stop}
       bounds={bounds}
       fitBounds={bounds.length > 0}
+      mapLayers={mapLayers}
     >
       {children}
     </MapWithTracking>
@@ -183,6 +184,7 @@ StopPageMap.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   locationState: dtLocationShape,
   currentTime: PropTypes.number.isRequired,
+  mapLayers: mapLayerShape.isRequired,
 };
 
 StopPageMap.defaultProps = {
@@ -193,13 +195,15 @@ const componentWithBreakpoint = withBreakpoint(StopPageMap);
 
 const StopPageMapWithStores = connectToStores(
   componentWithBreakpoint,
-  [TimeStore, PositionStore],
+  [TimeStore, PositionStore, MapLayerStore],
   ({ getStore }) => {
     const currentTime = getStore(TimeStore).getCurrentTime().unix();
     const locationState = getStore(PositionStore).getLocationState();
+    const mapLayers = getStore(MapLayerStore).getMapLayers();
     return {
       locationState,
       currentTime,
+      mapLayers,
     };
   },
 );
