@@ -70,7 +70,7 @@ export default configMerger(walttiConfig, {
 
   textLogo: false,
 
-  showAllBusses: true,
+  showAllVehicles: true,
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
 

@@ -77,7 +77,6 @@ class MapWithTrackingStateHandler extends React.Component {
       defaultEndpoint: dtLocationShape.isRequired,
       realTime: PropTypes.object.isRequired,
       feedIds: PropTypes.array.isRequired,
-      showAllBusses: PropTypes.bool.isRequired,
       stopsMinZoom: PropTypes.number.isRequired,
       geoJson: PropTypes.shape({
         layers: PropTypes.array,
@@ -95,7 +94,6 @@ class MapWithTrackingStateHandler extends React.Component {
     defaultMapCenter: PropTypes.object.isRequired,
     fitBoundsWithSetCenter: PropTypes.bool,
     setCenterOfMap: PropTypes.func,
-    showAllVehicles: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -107,7 +105,6 @@ class MapWithTrackingStateHandler extends React.Component {
     onSelectLocation: () => null,
     fitBounds: false,
     fitBoundsWithSetCenter: false,
-    showAllVehicles: false,
   };
 
   constructor(props) {
@@ -128,7 +125,7 @@ class MapWithTrackingStateHandler extends React.Component {
       return;
     }
 
-    if (this.props.showAllVehicles && this.props.mapLayers.showAllBusses) {
+    if (this.props.mapLayers.showAllVehicles) {
       startClient(this.context);
     }
   }
@@ -156,14 +153,11 @@ class MapWithTrackingStateHandler extends React.Component {
     if (newProps.initialZoom !== this.state.initialZoom) {
       this.updateZoom(newProps.initialZoom);
     }
-    if (this.props.showAllVehicles && newProps.mapLayers.showAllBusses) {
-      if (!this.props.mapLayers.showAllBusses) {
+    if (newProps.mapLayers.showAllVehicles) {
+      if (!this.props.mapLayers.showAllVehicles) {
         startClient(this.context);
       }
-    } else if (
-      this.props.showAllVehicles &&
-      this.props.mapLayers.showAllBusses
-    ) {
+    } else if (this.props.mapLayers.showAllVehicles) {
       const { client } = this.context.getStore('RealTimeInformationStore');
       if (client) {
         this.context.executeAction(stopRealTimeClient, client);
@@ -268,7 +262,7 @@ class MapWithTrackingStateHandler extends React.Component {
     if (this.props.leafletObjs) {
       leafletObjs.push(...this.props.leafletObjs);
     }
-    if (this.props.showAllVehicles && this.props.mapLayers.showAllBusses) {
+    if (this.props.mapLayers.showAllVehicles) {
       const currentZoom =
         this.mapElement && this.mapElement.leafletElement
           ? this.mapElement.leafletElement._zoom // eslint-disable-line no-underscore-dangle

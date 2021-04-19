@@ -86,7 +86,7 @@ export default configMerger(walttiConfig, {
     lon: 29.7569847,
   },
 
-  showAllBusses: true,
+  showAllVehicles: true,
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
 

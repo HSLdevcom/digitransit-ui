@@ -690,7 +690,7 @@ export default {
   imperialEnabled: false,
   // this flag when true enables imperial measurements  'feet/miles system'
 
-  showAllBusses: false,
+  showAllVehicles: false,
   showVehiclesOnStopPage: false,
   // DT-3551: Link to traffic information page.
   trafficNowLink: '',

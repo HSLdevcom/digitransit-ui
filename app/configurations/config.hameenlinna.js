@@ -153,7 +153,7 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  showAllBusses: true,
+  showAllVehicles: true,
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
 });
