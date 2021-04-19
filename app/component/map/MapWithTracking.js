@@ -364,7 +364,6 @@ class MapWithTrackingStateHandler extends React.Component {
         lat={location ? location.lat : undefined}
         lon={location ? location.lon : undefined}
         zoom={this.state.initialZoom}
-        geoJsonZoomLevel={zoomLevel}
         mapZoomLevel={zoomLevel}
         mapTracking={this.state.mapTracking}
         fitBounds={useFitBounds}
