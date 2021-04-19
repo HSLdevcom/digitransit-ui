@@ -53,11 +53,6 @@ export default {
   showHSLTracking: false,
   allowLogin: true,
 
-  defaultMapCenter: {
-    lat: 60.1710688,
-    lon: 24.9414841,
-  },
-
   nearbyRoutes: {
     radius: 500,
     bucketSize: 100,

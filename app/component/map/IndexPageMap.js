@@ -57,7 +57,7 @@ function IndexPageMap(
   const useDefaultLocation =
     (!origin || !origin.lat) && (!destination || !destination.lat);
   if (useDefaultLocation) {
-    focusPoint = config.defaultMapCenter || config.defaultEndpoint;
+    focusPoint = config.defaultEndpoint;
     initialZoom = 12; // Show default area
   } else if (origin.lat) {
     focusPoint = origin;
@@ -131,7 +131,7 @@ function IndexPageMap(
         <MapWithTracking
           breakpoint={breakpoint}
           // TODO: Fix an issue where map doesn't center to right place when user is coming to indexPage with origin or destination set with url
-          defaultMapCenter={config.defaultMapCenter || config.defaultEndpoint}
+          defaultMapCenter={config.defaultEndpoint}
           {...mwtProps}
           mapLayers={mapLayers}
           initialZoom={initialZoom}

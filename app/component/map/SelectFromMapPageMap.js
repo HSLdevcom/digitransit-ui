@@ -265,7 +265,7 @@ class SelectFromMapPageMap extends React.Component {
 
     const { locationOfMapCenter, bounds } = this.state;
 
-    const defaultLocation = config.defaultMapCenter || config.defaultEndpoint;
+    const defaultLocation = config.defaultEndpoint;
     const isDesktop = this.props.breakpoint === DESKTOP_BREAKPOINT;
 
     const leafletObjs = [];
