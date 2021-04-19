@@ -241,7 +241,7 @@ export default config => {
                     path="/:hash/(.*)?"
                     getComponent={() =>
                       import(
-                        /* webpackChunkName: "itinerary" */ './component/ItineraryPageMap'
+                        /* webpackChunkName: "itinerary" */ './component/map/ItineraryPageMap'
                       ).then(getDefault)
                     }
                     render={getComponentOrNullRenderer}

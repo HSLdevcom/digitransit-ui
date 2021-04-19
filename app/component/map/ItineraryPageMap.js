@@ -3,17 +3,17 @@ import React from 'react';
 import { matchShape, routerShape } from 'found';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
-import LocationMarker from './map/LocationMarker';
-import ItineraryLine from './map/ItineraryLine';
-import MapContainer from './map/MapContainer';
-import { otpToLocation } from '../util/otpStrings';
-import { isBrowser } from '../util/browser';
-import { dtLocationShape } from '../util/shapes';
-import { onLocationPopup } from '../util/queryUtils';
-import withBreakpoint from '../util/withBreakpoint';
-import BackButton from './BackButton';
-import VehicleMarkerContainer from './map/VehicleMarkerContainer'; // DT-3473
-import { mapLayerShape } from '../store/MapLayerStore';
+import LocationMarker from './LocationMarker';
+import ItineraryLine from './ItineraryLine';
+import MapContainer from './MapContainer';
+import { otpToLocation } from '../../util/otpStrings';
+import { isBrowser } from '../../util/browser';
+import { dtLocationShape } from '../../util/shapes';
+import { onLocationPopup } from '../../util/queryUtils';
+import withBreakpoint from '../../util/withBreakpoint';
+import BackButton from '../BackButton';
+import VehicleMarkerContainer from './VehicleMarkerContainer'; // DT-3473
+import { mapLayerShape } from '../../store/MapLayerStore';
 
 let L;
 let prevCenter;
