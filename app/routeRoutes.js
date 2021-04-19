@@ -107,7 +107,7 @@ export default (
             path={`${PREFIX_STOPS}/:patternId/:tripId`}
             getComponent={() =>
               import(
-                /* webpackChunkName: "route" */ './component/RouteMapContainer'
+                /* webpackChunkName: "route" */ './component/map/RoutePageMap'
               ).then(getDefault)
             }
             query={graphql`
@@ -129,7 +129,7 @@ export default (
             path=":type/:patternId/(.*)?"
             getComponent={() =>
               import(
-                /* webpackChunkName: "route" */ './component/RouteMapContainer'
+                /* webpackChunkName: "route" */ './component/map/RoutePageMap'
               ).then(getDefault)
             }
             query={graphql`

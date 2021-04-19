@@ -5,14 +5,14 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import get from 'lodash/get';
-import MapContainer from './map/MapContainer';
-import RouteLine from './map/route/RouteLine';
-import VehicleMarkerContainer from './map/VehicleMarkerContainer';
-import { getStartTime } from '../util/timeUtils';
-import withBreakpoint from '../util/withBreakpoint';
-import BackButton from './BackButton';
-import { isActiveDate } from '../util/patternUtils';
-import { mapLayerShape } from '../store/MapLayerStore';
+import MapContainer from './MapContainer';
+import RouteLine from './route/RouteLine';
+import VehicleMarkerContainer from './VehicleMarkerContainer';
+import { getStartTime } from '../../util/timeUtils';
+import withBreakpoint from '../../util/withBreakpoint';
+import BackButton from '../BackButton';
+import { isActiveDate } from '../../util/patternUtils';
+import { mapLayerShape } from '../../store/MapLayerStore';
 
 class RouteMapContainer extends React.PureComponent {
   constructor(props) {
