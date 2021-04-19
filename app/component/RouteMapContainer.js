@@ -159,9 +159,9 @@ const RouteMapContainerWithVehicles = connectToStores(
   withBreakpoint(RouteMapContainer),
   ['RealTimeInformationStore', 'MapLayerStore'],
   ({ getStore }, { trip }) => {
+    const mapLayers = getStore('MapLayerStore').getMapLayersWithoutStops();
     if (trip) {
       const { vehicles } = getStore('RealTimeInformationStore');
-      const mapLayers = getStore('MapLayerStore').getMapLayersWithoutStops();
       const tripStart = getStartTime(
         trip.stoptimesForDate[0].scheduledDeparture,
       );
@@ -184,13 +184,16 @@ const RouteMapContainerWithVehicles = connectToStores(
 
       if (matchingVehicles.length !== 1) {
         // no matching vehicles or cant distinguish between vehicles
-        return null;
+        return { mapLayers };
       }
       const selectedVehicle = matchingVehicles[0];
-
-      return { lat: selectedVehicle.lat, lon: selectedVehicle.long, mapLayers };
+      return {
+        lat: selectedVehicle.lat,
+        lon: selectedVehicle.lon,
+        mapLayers,
+      };
     }
-    return null;
+    return { mapLayers };
   },
 );
 
