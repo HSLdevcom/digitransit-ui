@@ -56,6 +56,7 @@ class MapLayerStore extends Store {
       subway: false,
       tram: false,
     },
+    citybike: false, // considered as a stop like item
   });
 
   updateMapLayers = mapLayers => {

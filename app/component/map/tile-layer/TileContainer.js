@@ -46,7 +46,12 @@ class TileContainer {
     this.layers = this.props.layers
       .filter(Layer => {
         const layerName = Layer.getName();
-        const isEnabled = isLayerEnabled(layerName, this.props.mapLayers);
+
+        // stops and terminals are drawn on same layer
+        const isEnabled =
+          isLayerEnabled(layerName, this.props.mapLayers) ||
+          (layerName === 'stop' &&
+            isLayerEnabled('terminal', this.props.mapLayers));
 
         if (
           layerName === 'stop' &&
