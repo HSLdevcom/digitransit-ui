@@ -2553,7 +2553,7 @@ const SummaryPageWithStores = connectToStores(
   SummaryPageWithBreakpoint,
   ['MapLayerStore'],
   ({ getStore }) => ({
-    mapLayers: getStore('MapLayerStore').getMapLayersWitoutStops(),
+    mapLayers: getStore('MapLayerStore').getMapLayersWithoutStops(),
   }),
 );
 
