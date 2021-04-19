@@ -12,6 +12,7 @@ import { getStartTime } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import BackButton from './BackButton';
 import { isActiveDate } from '../util/patternUtils';
+import { mapLayerShape } from '../store/MapLayerStore';
 
 class RouteMapContainer extends React.PureComponent {
   constructor(props) {
@@ -28,6 +29,7 @@ class RouteMapContainer extends React.PureComponent {
     lat: PropTypes.number,
     lon: PropTypes.number,
     breakpoint: PropTypes.string.isRequired,
+    mapLayers: mapLayerShape.isRequired,
   };
 
   static contextTypes = {
@@ -68,7 +70,7 @@ class RouteMapContainer extends React.PureComponent {
   };
 
   render() {
-    const { pattern, lat, lon, match, breakpoint } = this.props;
+    const { pattern, lat, lon, match, breakpoint, mapLayers } = this.props;
     const { config } = this.context;
     let centerToMarker = false;
 
@@ -123,6 +125,7 @@ class RouteMapContainer extends React.PureComponent {
         lon={this.dispLon}
         className="full"
         leafletObjs={leafletObjs}
+        mapLayers={mapLayers}
         fitBounds={!(this.dispLat && this.dispLon && match.params.tripId)}
         bounds={(filteredPoints || pattern.stops).map(p => [p.lat, p.lon])}
         zoom={
@@ -154,10 +157,11 @@ class RouteMapContainer extends React.PureComponent {
 
 const RouteMapContainerWithVehicles = connectToStores(
   withBreakpoint(RouteMapContainer),
-  ['RealTimeInformationStore'],
+  ['RealTimeInformationStore', 'MapLayerStore'],
   ({ getStore }, { trip }) => {
     if (trip) {
       const { vehicles } = getStore('RealTimeInformationStore');
+      const mapLayers = getStore('MapLayerStore').getMapLayersWithoutStops();
       const tripStart = getStartTime(
         trip.stoptimesForDate[0].scheduledDeparture,
       );
@@ -184,7 +188,7 @@ const RouteMapContainerWithVehicles = connectToStores(
       }
       const selectedVehicle = matchingVehicles[0];
 
-      return { lat: selectedVehicle.lat, lon: selectedVehicle.long };
+      return { lat: selectedVehicle.lat, lon: selectedVehicle.long, mapLayers };
     }
     return null;
   },
