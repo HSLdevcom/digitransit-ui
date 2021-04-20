@@ -33,7 +33,6 @@ export default class Map extends React.Component {
     animate: PropTypes.bool,
     lat: PropTypes.number,
     lon: PropTypes.number,
-    center: PropTypes.bool,
     zoom: PropTypes.number,
     bounds: PropTypes.array,
     boundsOptions: PropTypes.object,
@@ -43,7 +42,6 @@ export default class Map extends React.Component {
     lang: PropTypes.string.isRequired,
     leafletEvents: PropTypes.object,
     leafletObjs: PropTypes.array,
-    leafletOptions: PropTypes.object,
     mergeStops: PropTypes.bool,
     mapRef: PropTypes.func,
     locationPopup: PropTypes.string,
@@ -200,7 +198,6 @@ export default class Map extends React.Component {
               : boundWithMinimumArea([center])
           }
           animate={this.props.animate}
-          {...this.props.leafletOptions}
           boundsOptions={boundsOptions}
           {...this.props.leafletEvents}
           onPopupopen={this.onPopupopen}

@@ -73,7 +73,6 @@ class MapWithTrackingStateHandler extends React.Component {
       lon: PropTypes.number.isRequired,
     }).isRequired,
     config: PropTypes.shape({
-      defaultMapCenter: dtLocationShape,
       defaultEndpoint: dtLocationShape.isRequired,
       realTime: PropTypes.object.isRequired,
       feedIds: PropTypes.array.isRequired,
