@@ -372,7 +372,6 @@ class StopsNearYouPage extends React.Component {
   renderContent = () => {
     const { centerOfMapChanged } = this.state;
     const { mode } = this.props.match.params;
-    const renderDisruptionBanner = mode !== 'CITYBIKE';
     const noFavorites = mode === 'FAVORITE' && this.noFavorites();
     const renderRefetchButton =
       (centerOfMapChanged || this.positionChanged()) && !noFavorites;
@@ -381,6 +380,7 @@ class StopsNearYouPage extends React.Component {
     const tabs = nearByStopModes.map(nearByStopMode => {
       const renderSearch =
         nearByStopMode !== 'FERRY' && nearByStopMode !== 'FAVORITE';
+      const renderDisruptionBanner = nearByStopMode !== 'CITYBIKE';
       if (nearByStopMode === 'FAVORITE') {
         const noFavs = this.noFavorites();
         return (
