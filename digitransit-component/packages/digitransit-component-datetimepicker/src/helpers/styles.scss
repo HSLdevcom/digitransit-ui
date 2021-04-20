@@ -310,6 +310,9 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
           padding: 0 0 0 12px;
           letter-spacing: -0.6px;
           color: #333333;
+          &--is-selected {
+            background: inherit;
+          }
           &--is-focused {
             background: #dfe5e8;
           }

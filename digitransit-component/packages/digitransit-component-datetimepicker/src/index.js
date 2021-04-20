@@ -20,6 +20,7 @@ import Datetimepicker from './helpers/Datetimepicker';
  * @param {function} props.onDepartureClick         Called with (time) when "departure" button is clicked. time is current input value in seconds
  * @param {function} props.onArrivalClick           Called with (time) when "arrival" button is clicked. time is current input value in seconds
  * @param {node} props.embedWhenClosed              JSX element to render in the corner when input is closed
+ * @param {node} props.embedWhenOpen                JSX element to render when input is open
  * @param {string} props.lang                       Language selection. Default 'en'
  *
  * @example

@@ -34,6 +34,7 @@ i18next.init({
  * @param {function} props.onDepartureClick   Called when "departure" button is clicked
  * @param {function} props.onArrivalClick     Called when "arrival" button is clicked
  * @param {node} props.embedWhenClosed        JSX element to render in the corner when input is closed
+ * @param {node} props.embedWhenOpen          JSX element to render when input is open
  * @param {string} props.lang                 Language selection
  *
  *
@@ -294,7 +295,7 @@ function Datetimepicker({
                   onChange={() => {
                     onDepartureClick();
                   }}
-                  checked={!nowSelected && departureOrArrival === 'departure'}
+                  checked={departureOrArrival === 'departure'}
                 />
               </label>
               <label
