@@ -676,9 +676,7 @@ export function drawCitybikeIcon(
           iconY + 1.85 * selectedCircleOffset,
           radius - 2,
           0,
-          showAvailabilityBadge || BIKESTATION_CLOSED || BIKESTATION_OFF
-            ? FULL_CIRCLE * (3 / 4)
-            : FULL_CIRCLE,
+          FULL_CIRCLE * (3 / 4),
         );
         tile.ctx.stroke();
       }
