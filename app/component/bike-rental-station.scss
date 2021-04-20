@@ -103,6 +103,11 @@
   }
 
   .bike-station-zone-icon {
+    .zone-icon-container .circle {
+    width: 16px;
+    height: 16px;
+    font-size: 13px;
+  }
     padding-top: 2px;
     position: absolute;
   }
@@ -113,7 +118,7 @@
     padding-top: 2px;
     span.itinerary-stop-code {
       margin-right: 8px;
-      margin-left: 4px;
+      margin-left: 8px;
     }
   }
   .citybike-content-container {
