@@ -266,6 +266,26 @@ $margin-left-right: 1.333em;
       text-decoration: none;
       justify-content: space-between;
       align-items: center;
+      .drop-off-container {
+        background-color: #E5F2FA;
+        height: 24px;
+        border-radius: 5px;
+        color: $black;
+        font-size: $font-size-xsmall;
+        font-family: $font-family;
+        font-weight: $font-weight-book;
+        span {
+          vertical-align: middle;
+        }
+      }
+      .drop-off-stop-icon {
+        margin-left: 0.5em;
+        margin-right: 0.3em;
+        display: inline-block;
+        width: 13px;
+        height: 12px;
+        background: url(drop_off_svg(#007AC9));
+      }
       .route-details_container {
         flex-grow: 1;
         display: flex;
@@ -280,25 +300,6 @@ $margin-left-right: 1.333em;
         }
         span {
           text-decoration: none;
-        }
-        .drop-off-container {
-          white-space: nowrap;
-          color: $gray;
-          font-size: $font-size-xsmall;
-          font-family: $font-family;
-          font-weight: $font-weight-book;
-
-          span {
-            vertical-align: middle;
-          }
-        }
-        .drop-off-stop-icon {
-          margin-left: 0.5em;
-          margin-right: 0.3em;
-          display: inline-block;
-          width: 13px;
-          height: 12px;
-          background: url(drop_off_svg($gray));
         }
         .platform-number-container {
           display: inherit;
@@ -344,13 +345,6 @@ $margin-left-right: 1.333em;
           color: #666;
           display: block;
           word-break: keep-all;
-          mask-image: linear-gradient(
-            to left,
-            transparent,
-            rgba(0, 0, 0, 0.2) 5px,
-            black 7px,
-            black
-          );
           height: 1.25rem;
           margin-right: 5px;
         }

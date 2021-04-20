@@ -236,17 +236,6 @@ const RouteStop = (
                     {stop.platformCode}
                   </div>
                 </div>
-                {patternExists &&
-                  stop.stopTimesForPattern[0].pickupType === 'NONE' &&
-                  !last && (
-                    <span className="drop-off-container">
-                      <span className="drop-off-stop-icon bus" />
-                      <FormattedMessage
-                        id="route-destination-arrives"
-                        defaultMessage="Drop-off only"
-                      />
-                    </span>
-                  )}
               </div>
               {patternExists && (
                 <div
@@ -276,6 +265,17 @@ const RouteStop = (
                 </div>
               )}
             </div>
+            {patternExists &&
+                  stop.stopTimesForPattern[0].pickupType === 'NONE' &&
+                  !last && (
+                    <div className="drop-off-container">
+                      <span className="drop-off-stop-icon bus" />
+                      <FormattedMessage
+                        id="route-destination-arrives"
+                        defaultMessage="Drop-off only"
+                      />
+                    </div>
+            )}
           </div>
         </Link>
       </div>
