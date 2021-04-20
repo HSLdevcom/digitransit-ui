@@ -198,7 +198,9 @@ const StopPageMapWithStores = connectToStores(
   ({ getStore }) => {
     const currentTime = getStore(TimeStore).getCurrentTime().unix();
     const locationState = getStore(PositionStore).getLocationState();
-    const mapLayers = getStore(MapLayerStore).getMapLayers();
+    const mapLayers = getStore(MapLayerStore).getMapLayers({
+      notThese: ['citybike', 'vehicles'],
+    });
     return {
       locationState,
       currentTime,

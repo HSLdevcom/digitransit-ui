@@ -156,7 +156,9 @@ const RoutePageMapWithVehicles = connectToStores(
   withBreakpoint(RoutePageMap),
   ['RealTimeInformationStore', 'MapLayerStore'],
   ({ getStore }, { trip }) => {
-    const mapLayers = getStore('MapLayerStore').getMapLayersWithoutStops();
+    const mapLayers = getStore('MapLayerStore').getMapLayers({
+      notThese: ['stop', 'citybike', 'vehicles'],
+    });
     if (trip) {
       const { vehicles } = getStore('RealTimeInformationStore');
       const tripStart = getStartTime(

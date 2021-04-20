@@ -2553,7 +2553,9 @@ const SummaryPageWithStores = connectToStores(
   SummaryPageWithBreakpoint,
   ['MapLayerStore'],
   ({ getStore }) => ({
-    mapLayers: getStore('MapLayerStore').getMapLayersWithoutStops(),
+    mapLayers: getStore('MapLayerStore').getMapLayers({
+      notThese: ['stop', 'citybike'],
+    }),
   }),
 );
 

@@ -896,7 +896,9 @@ const PositioningWrapper = connectToStores(
       ...props,
       position: context.getStore('PositionStore').getLocationState(),
       lang: context.getStore('PreferencesStore').getLanguage(),
-      mapLayers: context.getStore('MapLayerStore').getMapLayers(),
+      mapLayers: context
+        .getStore('MapLayerStore')
+        .getMapLayers({ notThese: ['vehicles'] }),
       favouriteStopIds,
       favouriteBikeStationIds,
       favouriteStationIds,

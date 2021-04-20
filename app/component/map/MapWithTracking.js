@@ -125,7 +125,7 @@ class MapWithTrackingStateHandler extends React.Component {
       return;
     }
 
-    if (this.props.mapLayers.showAllVehicles) {
+    if (this.props.mapLayers.vehicles) {
       startClient(this.context);
     }
   }
@@ -153,11 +153,11 @@ class MapWithTrackingStateHandler extends React.Component {
     if (newProps.initialZoom !== this.state.initialZoom) {
       this.updateZoom(newProps.initialZoom);
     }
-    if (newProps.mapLayers.showAllVehicles) {
-      if (!this.props.mapLayers.showAllVehicles) {
+    if (newProps.mapLayers.vehicles) {
+      if (!this.props.mapLayers.vehicles) {
         startClient(this.context);
       }
-    } else if (this.props.mapLayers.showAllVehicles) {
+    } else if (this.props.mapLayers.vehicles) {
       const { client } = this.context.getStore('RealTimeInformationStore');
       if (client) {
         this.context.executeAction(stopRealTimeClient, client);
@@ -262,7 +262,7 @@ class MapWithTrackingStateHandler extends React.Component {
     if (this.props.leafletObjs) {
       leafletObjs.push(...this.props.leafletObjs);
     }
-    if (this.props.mapLayers.showAllVehicles) {
+    if (this.props.mapLayers.vehicles) {
       const currentZoom =
         this.mapElement && this.mapElement.leafletElement
           ? this.mapElement.leafletElement._zoom // eslint-disable-line no-underscore-dangle

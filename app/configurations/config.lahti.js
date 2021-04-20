@@ -173,7 +173,7 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  showAllVehicles: true,
+  vehicles: true,
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
 });

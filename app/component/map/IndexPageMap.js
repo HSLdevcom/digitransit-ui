@@ -149,7 +149,7 @@ function IndexPageMap(
                 )}
             </>
           )}
-          showAllVehicles
+          vehicles
         />
         <SettingsDrawer
           onToggleClick={() => {

@@ -51,7 +51,7 @@ const mapLayersConfigShape = PropTypes.shape({
       sv: PropTypes.string,
     }),
   }),
-  showAllVehicles: PropTypes.bool,
+  vehicles: PropTypes.bool,
 });
 
 class MapLayersDialogContent extends React.Component {
@@ -131,7 +131,7 @@ class MapLayersDialogContent extends React.Component {
       stop,
       terminal,
       geoJson,
-      showAllVehicles,
+      vehicles,
     } = this.props.mapLayers;
     let arr;
     if (this.props.geoJson) {
@@ -161,15 +161,15 @@ class MapLayersDialogContent extends React.Component {
           })}
         </span>
         <div className="checkbox-grouping" />{' '}
-        {this.context.config.showAllVehicles && (
+        {this.context.config.vehicles && (
           <div className="checkbox-grouping">
             <Checkbox
               large
-              checked={showAllVehicles}
+              checked={vehicles}
               defaultMessage="Moving vehicles"
               labelId="map-layer-vehicles"
               onChange={e => {
-                this.updateSetting({ showAllVehicles: e.target.checked });
+                this.updateSetting({ vehicles: e.target.checked });
                 this.sendLayerChangeAnalytic('Vehicles', e.target.checked);
               }}
             />
