@@ -205,7 +205,13 @@ function StopsNearYouMap(
     if (mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION) {
       if (stopsAndStations.length > 0) {
         const firstStop = stopsAndStations[0];
-        if (!isEqual(firstStop, firstPlan.stop)) {
+        const shouldFetchWalkRoute = () => {
+          return (
+            (mode !== 'BUS' && mode !== 'TRAM') ||
+            favouriteIds.has(firstStop.gtfsId)
+          );
+        };
+        if (!isEqual(firstStop, firstPlan.stop) && shouldFetchWalkRoute()) {
           setFirstPlan({
             itinerary: firstPlan.itinerary,
             isFetching: true,
