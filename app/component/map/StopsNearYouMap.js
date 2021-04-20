@@ -148,11 +148,6 @@ function StopsNearYouMap(
   const [bounds, setBounds] = useState([]);
   const [useFitBounds, setUseFitBounds] = useState(false);
   const [clientOn, setClientOn] = useState(false);
-  const [secondPlan, setSecondPlan] = useState({
-    itinerary: [],
-    isFetching: false,
-    stop: null,
-  });
   const [firstPlan, setFirstPlan] = useState({
     itinerary: [],
     isFetching: false,
@@ -163,7 +158,7 @@ function StopsNearYouMap(
   const walkRoutingThreshold =
     mode === 'RAIL' || mode === 'SUBWAY' || mode === 'FERRY' ? 3000 : 1500;
   const { environment } = relay;
-  const fetchPlan = (stop, first) => {
+  const fetchPlan = stop => {
     const toPlace = {
       address: stop.name ? stop.name : 'stop',
       lon: stop.lon,
@@ -200,16 +195,10 @@ function StopsNearYouMap(
     `;
     if (stop.distance < walkRoutingThreshold) {
       fetchQuery(environment, query, variables).then(({ plan: result }) => {
-        if (first) {
-          setFirstPlan({ itinerary: result, isFetching: false, stop });
-        } else {
-          setSecondPlan({ itinerary: result, isFetching: false, stop });
-        }
+        setFirstPlan({ itinerary: result, isFetching: false, stop });
       });
-    } else if (first) {
-      setFirstPlan({ itinerary: [], isFetching: false, stop });
     } else {
-      setSecondPlan({ itinerary: [], isFetching: false, stop });
+      setFirstPlan({ itinerary: [], isFetching: false, stop });
     }
   };
   const handleWalkRoutes = stopsAndStations => {
@@ -222,27 +211,11 @@ function StopsNearYouMap(
             isFetching: true,
             stop: firstStop,
           });
-          fetchPlan(firstStop, true);
-        }
-      }
-      if (stopsAndStations.length > 1) {
-        const secondStop = stopsAndStations[1];
-        if (!isEqual(secondStop, secondPlan.stop)) {
-          setSecondPlan({
-            itinerary: secondPlan.itinerary,
-            isFetching: true,
-            stop: secondStop,
-          });
-          fetchPlan(secondStop, false);
+          fetchPlan(firstStop);
         }
       }
     } else {
       setFirstPlan({
-        itinerary: [],
-        isFetching: false,
-        stop: null,
-      });
-      setSecondPlan({
         itinerary: [],
         isFetching: false,
         stop: null,
@@ -391,26 +364,6 @@ function StopsNearYouMap(
           <ItineraryLine
             key="itinerary"
             hash={i}
-            legs={itinerary.legs}
-            passive={false}
-            showIntermediateStops={false}
-            streetMode="walk"
-          />
-        );
-      }),
-    );
-  }
-  if (
-    secondPlan.itinerary.itineraries &&
-    secondPlan.itinerary.itineraries.length > 0
-  ) {
-    leafletObjs.push(
-      secondPlan.itinerary.itineraries.map((itinerary, i) => {
-        return (
-          <ItineraryLine
-            key="itinerary"
-            hash={i}
-            flipBubble
             legs={itinerary.legs}
             passive={false}
             showIntermediateStops={false}
