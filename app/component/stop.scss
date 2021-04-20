@@ -290,14 +290,22 @@
 
 .stop-page.departure-list {
   padding: 0px 0px 15px 5px;
+  .departure-row-container {
+    border-bottom: 1px solid #dddddd;
   .departure-row {
       height: 50px;
       @include font-narrow-book;
       font-weight: normal;
       display: flex;
-      border-bottom: 1px solid #dddddd;
-      padding-top: 4px;
       align-items: center;
+      &.bottom {
+        height: 70px;
+        padding-top: 12px;
+        align-items: baseline;
+        .drop-off-container {
+          margin-top: 5px;
+        }
+      }
       .route-arrival {
           color: #333;
           @include font-medium;
@@ -316,16 +324,15 @@
           }
       }
       .route-number-container {
-        margin-top: 2px;
         background-color: currentColor;
         border-radius: 3px;
-        min-width: 2.25em;
-        height: 1.25em;
+        min-width: 2.5em;
+        height: 1.5em;
         padding: 0 4px;
         text-align: center;
         .route-number {
           color: $white;
-          line-height: 1.35;
+          line-height: 1.5;
           min-width: unset;
           display: block;
           white-space: nowrap;
@@ -370,12 +377,11 @@
           background: none;
         }
       }
-
+    }
   }
 }
 
 .mobile .stop-page.departure-list .departure-row {
-  padding-bottom: 2px;
   .route-arrival {
     padding-bottom: 0;
   }
