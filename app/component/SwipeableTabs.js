@@ -33,11 +33,35 @@ export default class SwipeableTabs extends React.Component {
 
   componentDidMount() {
     window.addEventListener('resize', this.setFocusables);
+    window.addEventListener('resize', this.setFixedElementNavigationStyle);
+    const momentumScrollEl = document.querySelector('.momentum-scroll');
+    if (momentumScrollEl) {
+      momentumScrollEl.addEventListener('scroll', e => {
+        const { scrollTop } = e.target;
+        const swipeDesktopViewEl = document.querySelector(
+          '.swipe-desktop-view',
+        );
+        if (swipeDesktopViewEl && scrollTop > 0) {
+          swipeDesktopViewEl.style['box-shadow'] =
+            '0 8px 6px -6px rgba(0, 0, 0, 0.2)';
+        } else {
+          swipeDesktopViewEl.style['box-shadow'] = 'none';
+        }
+      });
+    }
     this.setFocusables();
+    this.setFixedElementNavigationStyle();
   }
 
   componentDidUpdate() {
     this.setFocusables();
+  }
+
+  componentWillUnmount() {
+    const desktopTitleEl = document.querySelector('.desktop-title');
+    if (this.props.classname === 'swipe-desktop-view' && desktopTitleEl) {
+      desktopTitleEl.style['margin-bottom'] = `0px`;
+    }
   }
 
   setFocusables = () => {
@@ -178,6 +202,20 @@ export default class SwipeableTabs extends React.Component {
     }
   };
 
+  setFixedElementNavigationStyle = () => {
+    const desktopTitleEl = document.querySelector('.desktop-title');
+    if (
+      this.props.classname === 'swipe-desktop-view' &&
+      desktopTitleEl &&
+      !this.props.navigationOnBottom
+    ) {
+      const swipeHeaderEl = document.querySelector('.swipe-header-container');
+      const titleElementHeight = desktopTitleEl.offsetHeight;
+      desktopTitleEl.style['margin-bottom'] = `${swipeHeaderEl.offsetHeight}px`;
+      swipeHeaderEl.style.top = `${titleElementHeight}px`;
+    }
+  };
+
   render() {
     const { tabs, hideArrows, navigationOnBottom } = this.props;
     const tabBalls = this.tabBalls(tabs.length);
@@ -209,6 +247,9 @@ export default class SwipeableTabs extends React.Component {
           </ReactSwipe>
         )}
         <div className={`swipe-header-container ${this.props.classname}`}>
+          {this.props.classname === 'swipe-desktop-view' && (
+            <div className="desktop-view-divider" />
+          )}
           <div
             className={`swipe-header ${this.props.classname}`}
             role="row"

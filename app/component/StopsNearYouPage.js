@@ -35,6 +35,10 @@ import SwipeableTabs from './SwipeableTabs';
 import StopsNearYouFavorites from './StopsNearYouFavorites';
 import StopsNearYouMapContainer from './StopsNearYouMapContainer';
 import StopsNearYouFavoritesMapContainer from './StopsNearYouFavoritesMapContainer';
+import {
+  getCityBikeNetworkConfig,
+  getCityBikeNetworkId,
+} from '../util/citybikes';
 
 // component initialization phases
 const PH_START = 'start';
@@ -436,6 +440,17 @@ class StopsNearYouPage extends React.Component {
             variables={this.getQueryVariables(nearByStopMode)}
             environment={this.props.relayEnvironment}
             render={({ props }) => {
+              const { cityBike } = this.context.config;
+              // Use buy instructions if available
+              const cityBikeBuyUrl = cityBike.buyUrl;
+              let cityBikeNetworkUrl;
+              // Use general information about using city bike, if one network config is available
+              if (Object.keys(cityBike.networks).length === 1) {
+                cityBikeNetworkUrl = getCityBikeNetworkConfig(
+                  getCityBikeNetworkId(Object.keys(cityBike.networks)),
+                  this.context.config,
+                ).url;
+              }
               return (
                 <div className="stops-near-you-page">
                   {renderDisruptionBanner && (
@@ -453,7 +468,8 @@ class StopsNearYouPage extends React.Component {
                     />
                   )}
                   {this.state.showCityBikeTeaser &&
-                    nearByStopMode === 'CITYBIKE' && (
+                    nearByStopMode === 'CITYBIKE' &&
+                    (cityBikeBuyUrl || cityBikeNetworkUrl) && (
                       <div className="citybike-use-disclaimer">
                         <div className="disclaimer-header">
                           <FormattedMessage id="citybike-start-using" />
@@ -479,34 +495,40 @@ class StopsNearYouPage extends React.Component {
                           </div>
                         </div>
                         <div className="disclaimer-content">
-                          <FormattedMessage id="citybike-buy-season" />
-                          <a
-                            href={
-                              this.context.config.cityBike.buyUrl[
-                                this.props.lang
-                              ]
-                            }
-                            className="disclaimer-close-button-container"
-                            tabIndex="0"
-                            role="button"
-                            onKeyDown={e => {
-                              if (
-                                isKeyboardSelectionEvent(e) &&
-                                (e.keyCode === 13 || e.keyCode === 32)
-                              ) {
-                                window.location = this.context.config.cityBike.buyUrl[
-                                  this.props.lang
-                                ];
-                              }
-                            }}
-                          >
-                            <div
-                              aria-label="Siirry ostamaan kaupunkipyöräoikeutta."
-                              className="disclaimer-close-button"
+                          {cityBikeBuyUrl ? (
+                            <FormattedMessage id="citybike-buy-season" />
+                          ) : (
+                            <a
+                              className="external-link-citybike"
+                              href={cityBikeNetworkUrl[this.props.lang]}
                             >
-                              <FormattedMessage id="buy" />
-                            </div>
-                          </a>
+                              <FormattedMessage id="citybike-start-using-info" />{' '}
+                            </a>
+                          )}
+                          {cityBikeBuyUrl && (
+                            <a
+                              href={cityBikeBuyUrl[this.props.lang]}
+                              className="disclaimer-close-button-container"
+                              tabIndex="0"
+                              role="button"
+                              onKeyDown={e => {
+                                if (
+                                  isKeyboardSelectionEvent(e) &&
+                                  (e.keyCode === 13 || e.keyCode === 32)
+                                ) {
+                                  window.location =
+                                    cityBikeBuyUrl[this.props.lang];
+                                }
+                              }}
+                            >
+                              <div
+                                aria-label="Siirry ostamaan kaupunkipyöräoikeutta."
+                                className="disclaimer-close-button"
+                              >
+                                <FormattedMessage id="buy" />
+                              </div>
+                            </a>
+                          )}
                         </div>
                       </div>
                     )}

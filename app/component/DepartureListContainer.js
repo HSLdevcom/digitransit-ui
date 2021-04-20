@@ -253,11 +253,10 @@ class DepartureListContainer extends Component {
         />
       );
 
-      // DT-3331: added query string sort=no to Link's to
       if (this.props.routeLinks) {
         departureObjs.push(
           <Link
-            to={`/${PREFIX_ROUTES}/${departure.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.pattern.code}?sort=no`}
+            to={`/${PREFIX_ROUTES}/${departure.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.pattern.code}`}
             key={id}
             onClick={() => {
               addAnalyticsEvent({

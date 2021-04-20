@@ -20,11 +20,10 @@ export default function RouteHeader(props) {
 
   const routeLineText = ` ${props.route.shortName || ''}`;
 
-  // DT-3331: added query string sort=no to Link's to
   const routeLine =
     props.trip && props.pattern ? (
       <Link
-        to={`/${PREFIX_ROUTES}/${props.route.gtfsId}/${PREFIX_STOPS}/${props.pattern.code}?sort=no`}
+        to={`/${PREFIX_ROUTES}/${props.route.gtfsId}/${PREFIX_STOPS}/${props.pattern.code}`}
       >
         {routeLineText}
       </Link>

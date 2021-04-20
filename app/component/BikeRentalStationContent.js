@@ -38,7 +38,10 @@ const BikeRentalStationContent = (
     config,
   );
   const url = networkConfig.url[language];
-  const returnInstructionsUrl = networkConfig.returnInstructions[language];
+  let returnInstructionsUrl;
+  if (networkConfig.returnInstructions) {
+    returnInstructionsUrl = networkConfig.returnInstructions[language];
+  }
   return (
     <div className="bike-station-page-container">
       <BikeRentalStationHeader

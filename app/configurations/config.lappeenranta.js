@@ -56,8 +56,8 @@ export default configMerger(walttiConfig, {
         type: 'citybike',
         url: {
           fi: 'https://kaakau.fi/lappeenranta/',
-          sv: 'https://kaakau.fi/lappeenranta/?lang=en',
-          en: 'https://kaakau.fi/lappeenranta/?lang=sv',
+          sv: 'https://kaakau.fi/lappeenranta/?lang=sv',
+          en: 'https://kaakau.fi/lappeenranta/?lang=en',
         },
       },
     },
@@ -90,27 +90,6 @@ export default configMerger(walttiConfig, {
     lat: 61.059097,
     lon: 28.18572,
   },
-
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_city',
-      label: 'Oleksi/Koulukatu',
-      lat: 61.059097,
-      lon: 28.18572,
-    },
-    {
-      icon: 'icon-icon_rail',
-      label: 'Matkakeskus',
-      lat: 61.0483,
-      lon: 28.1945,
-    },
-    {
-      icon: 'icon-icon_school',
-      label: 'Lappeenrannan teknillinen yliopisto',
-      lat: 61.065,
-      lon: 28.0949,
-    },
-  ],
 
   showAllBusses: true,
   showVehiclesOnStopPage: true,

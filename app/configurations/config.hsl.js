@@ -271,27 +271,6 @@ export default {
     lon: 24.9414841,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_rail',
-      label: 'Rautatieasema, Helsinki',
-      lat: 60.1710688,
-      lon: 24.9414841,
-    },
-    {
-      icon: 'icon-icon_airplane',
-      label: 'Lentoasema, Vantaa',
-      lat: 60.317429,
-      lon: 24.9690395,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Kampin bussiterminaali, Helsinki',
-      lat: 60.16902,
-      lon: 24.931702,
-    },
-  ],
-
   redirectReittiopasParams: true,
   queryMaxAgeDays: 14, // to drop too old route request times from entry url
 

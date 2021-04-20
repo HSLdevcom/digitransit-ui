@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Route from 'found/Route';
-import Redirect from 'found/Redirect';
 import { graphql } from 'react-relay';
 
 import Error404 from './component/404';
@@ -23,21 +22,25 @@ import prepareRouteScheduleParams from './util/routeScheduleParamUtils';
 export default (
   <Route path={`/${PREFIX_ROUTES}`}>
     <Route Component={Error404} />
-    <Redirect
-      from=":routeId"
-      to={`:routeId/${PREFIX_STOPS}/:routeId%3A0%3A01`}
-    />
-    <Redirect
-      from={`:routeId/${PREFIX_STOPS}`}
-      to={`${PREFIX_STOPS}/:routeId%3A0%3A01`}
-    />
-    <Redirect
-      from={`:routeId/${PREFIX_TIMETABLE}`}
-      to={`${PREFIX_TIMETABLE}/:routeId%3A0%3A01`}
-    />
-    <Redirect
-      from={`:routeId/${PREFIX_DISRUPTION}`}
-      to={`${PREFIX_DISRUPTION}/:routeId%3A0%3A01`}
+    <Route
+      path=":routeId/:type?"
+      getComponent={() =>
+        import(
+          /* webpackChunkName: "route" */ './component/PatternRedirector'
+        ).then(getDefault)
+      }
+      query={graphql`
+        query routeRoutes_PatternRedirector_Query(
+          $routeId: String!
+          $date: String!
+        ) {
+          route(id: $routeId) {
+            ...PatternRedirector_route @arguments(date: $date)
+          }
+        }
+      `}
+      prepareVariables={prepareServiceDay}
+      render={getComponentOrLoadingRenderer}
     />
     <Route path=":routeId">
       {{

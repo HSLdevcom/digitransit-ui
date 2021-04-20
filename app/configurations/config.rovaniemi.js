@@ -58,27 +58,6 @@ export default configMerger(walttiConfig, {
     lon: 25.723734,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_city',
-      label: 'Ruokasenkatu Lyseonpuisto, Rovaniemi',
-      lat: 66.500855,
-      lon: 25.723734,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Linja-autoasema, Rovaniemi',
-      lat: 66.498714,
-      lon: 25.714948,
-    },
-    {
-      icon: 'icon-icon_rail',
-      label: 'Rautatieasema, Rovaniemi',
-      lat: 66.498427,
-      lon: 25.7040986,
-    },
-  ],
-
   menu: {
     copyright: { label: `© Rovaniemi ${walttiConfig.YEAR}` },
     content: [

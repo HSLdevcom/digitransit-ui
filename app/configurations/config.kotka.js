@@ -61,27 +61,6 @@ export default configMerger(walttiConfig, {
     lon: 26.945758,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Kotkan kauppatori',
-      lat: 60.467348,
-      lon: 26.945758,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Haminan linja-autoasema',
-      lat: 60.569196,
-      lon: 27.188172,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Karhulan linja-autoasema',
-      lat: 60.515502,
-      lon: 26.935416,
-    },
-  ],
-
   menu: {
     copyright: { label: `© Kotka ${walttiConfig.YEAR}` },
     content: [

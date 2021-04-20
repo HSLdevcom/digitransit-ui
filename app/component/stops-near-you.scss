@@ -57,7 +57,7 @@
   overflow: visible;
   display: flex;
   flex-direction: column;
-  padding: 0 3.75em;
+  padding: 5px 3.75em 0px 3.75em;
   .citybike-use-disclaimer {
     border-radius: 8px;
     border: solid 1px #dddddd;
@@ -130,7 +130,6 @@
     border-radius: 16px;
     font-size: 0.9375rem;
   }
-
   .nearest-stops-update-container {
     height: 80px;
     display: flex;

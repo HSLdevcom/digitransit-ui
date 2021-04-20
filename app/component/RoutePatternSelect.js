@@ -25,28 +25,34 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 const DATE_FORMAT = 'YYYYMMDD';
 
 function patternOptionText(pattern) {
-  let destinationName = pattern.headsign;
-  if (destinationName === null) {
-    destinationName = pattern.stops[pattern.stops.length - 1].name;
+  if (pattern) {
+    let destinationName = pattern.headsign;
+    if (destinationName === null) {
+      destinationName = pattern.stops[pattern.stops.length - 1].name;
+    }
+    const text = `${pattern.stops[0].name} ➔ ${destinationName}`;
+    return text;
   }
-  const text = `${pattern.stops[0].name} ➔ ${destinationName}`;
-  return text;
+  return '';
 }
 
 function patternTextWithIcon(pattern) {
-  const text = patternOptionText(pattern);
-  const i = text.search(/➔/);
-  if (i === -1) {
-    return text;
+  if (pattern) {
+    const text = patternOptionText(pattern);
+    const i = text.search(/➔/);
+    if (i === -1) {
+      return text;
+    }
+    return (
+      <>
+        {text.slice(0, i)}
+        <Icon className="in-text-arrow" img="icon-icon_arrow-right-long" />
+        <span className="sr-only">➔</span>
+        {text.slice(i + 1)}
+      </>
+    );
   }
-  return (
-    <>
-      {text.slice(0, i)}
-      <Icon className="in-text-arrow" img="icon-icon_arrow-right-long" />
-      <span className="sr-only">➔</span>
-      {text.slice(i + 1)}
-    </>
-  );
+  return <></>;
 }
 
 class RoutePatternSelect extends Component {
@@ -136,11 +142,19 @@ class RoutePatternSelect extends Component {
       .slice(mainRoutes.length)
       .filter(o => o.inFuture);
 
-    const allRoutes = mainRoutes + specialRoutes + futureRoutes;
+    const noSpecialRoutes = !specialRoutes || specialRoutes.length === 0;
+    const noFutureRoutes = !futureRoutes || futureRoutes.length === 0;
 
-    const renderButtonOnly = allRoutes && allRoutes.length === 2;
+    const renderButtonOnly =
+      mainRoutes &&
+      mainRoutes.length > 0 &&
+      mainRoutes.length <= 2 &&
+      noSpecialRoutes &&
+      noFutureRoutes;
+
+    const directionSwap = mainRoutes.length === 2;
     if (renderButtonOnly) {
-      const otherPattern = allRoutes.find(
+      const otherPattern = mainRoutes.find(
         o => o.code !== this.props.params.patternId,
       );
       return (
@@ -149,17 +163,25 @@ class RoutePatternSelect extends Component {
           aria-atomic="true"
         >
           <label htmlFor="route-pattern-toggle-button">
-            <span className="sr-only">
-              <FormattedMessage id="swap-order-button-label" />
-            </span>
+            {directionSwap && (
+              <span className="sr-only">
+                <FormattedMessage id="swap-order-button-label" />
+              </span>
+            )}
             <button
               id="route-pattern-toggle-button"
               className="route-pattern-toggle"
               type="button"
-              onClick={() => this.props.onSelectChange(otherPattern.code)}
+              onClick={() =>
+                directionSwap
+                  ? this.props.onSelectChange(otherPattern.code)
+                  : null
+              }
             >
               {patternTextWithIcon(currentPattern)}
-              <Icon className="toggle-icon" img="icon-icon_direction-c" />
+              {directionSwap && (
+                <Icon className="toggle-icon" img="icon-icon_direction-c" />
+              )}
             </button>
           </label>
         </div>

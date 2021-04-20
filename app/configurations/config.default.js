@@ -107,7 +107,7 @@ export default {
   },
 
   omitNonPickups: true,
-  maxNearbyStopAmount: 50,
+  maxNearbyStopAmount: 5,
   maxNearbyStopDistance: 2000,
 
   defaultSettings: {
@@ -517,26 +517,6 @@ export default {
     lat: 60.317429,
     lon: 24.9690395,
   },
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_airplane',
-      label: 'Helsinki-Vantaan lentoasema',
-      lat: 60.317429,
-      lon: 24.9690395,
-    },
-    {
-      icon: 'icon-icon_ferry',
-      label: 'Turun satama',
-      lat: 60.436363,
-      lon: 22.220002,
-    },
-    {
-      icon: 'icon-icon_airplane',
-      label: 'Rovaniemen lentoasema',
-      lat: 66.557326,
-      lon: 25.828135,
-    },
-  ],
 
   availableRouteTimetables: {},
 
@@ -694,7 +674,7 @@ export default {
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
     matka: 'matka',
-    salo: 'salo',
+    walttiOpas: 'waltti',
     rovaniemi: 'rovaniemi',
     kouvola: 'kouvola',
     tampere: 'tampere',
