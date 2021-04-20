@@ -32,42 +32,57 @@ const DepartureRow = (
     );
   }
   return (
-    <div role="cell" className={cx('departure-row', mode)}>
-      <div className="route-number-container">
-        <div
-          className="route-number"
-          style={{ backgroundColor: `#${departure.trip.route.color}` }}
-        >
-          {departure.trip.route.shortName}
+    <div role="cell" className="departure-row-container">
+      <div
+        className={cx(
+          'departure-row',
+          mode,
+          departure.bottomRow ? 'bottom' : '',
+        )}
+      >
+        <div className="route-number-container">
+          <div
+            className="route-number"
+            style={{ backgroundColor: `#${departure.trip.route.color}` }}
+          >
+            {departure.trip.route.shortName}
+          </div>
         </div>
-      </div>
-      <div className="route-headsign">{headsign}</div>
-      {shownTime && (
         <div
-          className={cx('route-arrival', {
+          className={cx('route-headsign', departure.bottomRow ? 'bottom' : '')}
+        >
+          {headsign} {departure.bottomRow && departure.bottomRow}
+        </div>
+        {shownTime && (
+          <div
+            className={cx('route-arrival', {
+              realtime: departure.realtime,
+              canceled,
+            })}
+          >
+            {shownTime}
+          </div>
+        )}
+        <div
+          className={cx('route-time', {
             realtime: departure.realtime,
             canceled,
           })}
         >
-          {shownTime}
+          <LocalTime time={departureTime} />
         </div>
-      )}
-      <div
-        className={cx('route-time', { realtime: departure.realtime, canceled })}
-      >
-        <LocalTime time={departureTime} />
+        {showPlatformCode && (
+          <div
+            className={
+              !departure.stop.platformCode
+                ? 'platform-code empty'
+                : 'platform-code'
+            }
+          >
+            {departure.stop.platformCode}
+          </div>
+        )}
       </div>
-      {showPlatformCode && (
-        <div
-          className={
-            !departure.stop.platformCode
-              ? 'platform-code empty'
-              : 'platform-code'
-          }
-        >
-          {departure.stop.platformCode}
-        </div>
-      )}
     </div>
   );
 };

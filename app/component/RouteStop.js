@@ -16,6 +16,7 @@ import { PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { getZoneLabel } from '../util/legUtils';
 import { estimateItineraryDistance } from '../util/geo-utils';
+import Icon from './Icon';
 
 const exampleStop = {
   stopTimesForPattern: [
@@ -266,16 +267,16 @@ const RouteStop = (
               )}
             </div>
             {patternExists &&
-                  stop.stopTimesForPattern[0].pickupType === 'NONE' &&
-                  !last && (
-                    <div className="drop-off-container">
-                      <span className="drop-off-stop-icon bus" />
-                      <FormattedMessage
-                        id="route-destination-arrives"
-                        defaultMessage="Drop-off only"
-                      />
-                    </div>
-            )}
+              stop.stopTimesForPattern[0].pickupType === 'NONE' &&
+              !last && (
+                <div className="drop-off-container">
+                  <Icon img="icon-icon_info" color={config.colors.primary} />
+                  <FormattedMessage
+                    id="route-destination-arrives"
+                    defaultMessage="Drop-off only"
+                  />
+                </div>
+              )}
           </div>
         </Link>
       </div>
