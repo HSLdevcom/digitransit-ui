@@ -6,7 +6,6 @@ import cx from 'classnames'; // DT-3470
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import getContext from 'recompose/getContext';
-import isEqual from 'lodash/isEqual';
 import { startLocationWatch } from '../../action/PositionActions';
 import ComponentUsageExample from '../ComponentUsageExample';
 import MapContainer from './MapContainer';
@@ -23,8 +22,6 @@ import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { MAPSTATES } from '../../util/stopsNearYouUtils';
 import { mapLayerShape } from '../../store/MapLayerStore';
 
-const DEFAULT_ZOOM = 12;
-const FOCUS_ZOOM = 16;
 const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'lat',
   'lon',
@@ -40,8 +37,6 @@ const Map = onlyUpdateCoordChanges(MapContainer);
 /* stop yet another eslint madness */
 /* eslint-disable react/sort-comp */
 
-let mapLoaded = false;
-let previousFocusPoint = null;
 const startClient = context => {
   const { realTime } = context.config;
   let agency;
@@ -63,7 +58,9 @@ const startClient = context => {
 
 class MapWithTrackingStateHandler extends React.Component {
   static propTypes = {
-    focusPoint: dtLocationShape,
+    lat: PropTypes.number,
+    lon: PropTypes.number,
+
     fitBounds: PropTypes.bool,
     position: PropTypes.shape({
       hasLocation: PropTypes.bool.isRequired,
@@ -73,7 +70,6 @@ class MapWithTrackingStateHandler extends React.Component {
       lon: PropTypes.number.isRequired,
     }).isRequired,
     config: PropTypes.shape({
-      defaultEndpoint: dtLocationShape.isRequired,
       realTime: PropTypes.object.isRequired,
       feedIds: PropTypes.array.isRequired,
       stopsMinZoom: PropTypes.number.isRequired,
@@ -90,13 +86,11 @@ class MapWithTrackingStateHandler extends React.Component {
     initialZoom: PropTypes.number,
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
-    defaultMapCenter: PropTypes.object.isRequired,
     fitBoundsWithSetCenter: PropTypes.bool,
     setCenterOfMap: PropTypes.func,
   };
 
   static defaultProps = {
-    focusPoint: undefined,
     renderCustomButtons: undefined,
     mapTracking: false,
     initialZoom: undefined,
@@ -108,13 +102,10 @@ class MapWithTrackingStateHandler extends React.Component {
 
   constructor(props) {
     super(props);
-    const defaultZoom = this.focusPoint ? DEFAULT_ZOOM : FOCUS_ZOOM;
     this.state = {
       locationingOn: false,
-      defaultMapCenter: props.defaultMapCenter,
       keepOnTracking: false,
-      initialZoom: props.initialZoom ? props.initialZoom : defaultZoom,
-      mapTracking: props.setInitialMapTracking,
+      mapTracking: props.mapTracking,
       humanIsScrolling: false,
     };
   }
@@ -165,7 +156,6 @@ class MapWithTrackingStateHandler extends React.Component {
   }
 
   componentWillUnmount() {
-    previousFocusPoint = null;
     this.isCancelled = true;
     const { client } = this.context.getStore('RealTimeInformationStore');
     if (client) {
@@ -253,9 +243,6 @@ class MapWithTrackingStateHandler extends React.Component {
     } = this.props;
     let useFitBounds = fitBounds;
     // Fitbounds should only be set when map is first loaded. If fitbounds is set to true after map is loaded, tracking functionality will break.
-    if (mapLoaded) {
-      useFitBounds = false;
-    }
     let location = {};
     const leafletObjs = [];
     if (this.props.leafletObjs) {
@@ -282,22 +269,13 @@ class MapWithTrackingStateHandler extends React.Component {
     }
     let positionSet = true;
     const useMapCoords = this.mapElement;
-    mapLoaded = useMapCoords;
     if (this.state.mapTracking && position.hasLocation) {
       location = position;
       positionSet = false;
     } else if (focusPoint) {
-      const validPoint =
-        focusPoint.lat &&
-        !focusPoint.type !== 'CurrentLocation' &&
-        mapLoaded &&
-        !isEqual(focusPoint, previousFocusPoint);
+      const validPoint = focusPoint.lat;
       if (validPoint) {
         location = focusPoint;
-        previousFocusPoint = focusPoint;
-        positionSet = false;
-      } else if (mapLoaded) {
-        location = {};
         positionSet = false;
       } else {
         // FocusPoint is valid, but map is not loaded. Set location to focusPoint so that the map renders.
@@ -309,12 +287,7 @@ class MapWithTrackingStateHandler extends React.Component {
         positionSet = true;
       }
     } else {
-      location =
-        position.hasLocation && !mapLoaded
-          ? position
-          : mapLoaded
-          ? {}
-          : this.state.defaultMapCenter;
+      location = position.hasLocation ? position : this.state.defaultMapCenter;
       positionSet = false;
     }
     if (positionSet && useMapCoords) {
@@ -343,9 +316,6 @@ class MapWithTrackingStateHandler extends React.Component {
         : 'icon-tracking-offline-v2'
       : 'icon-tracking-off-v2';
     const iconColor = this.state.mapTracking ? '#ff0000' : '#78909c';
-    const zoomLevel = !this.mapElement
-      ? this.state.initialZoom
-      : this.mapElement.leafletElement._zoom; // eslint-disable-line no-underscore-dangle
     if (
       mapState === MAPSTATES.FITBOUNDSTOSEARCHPOSITION ||
       mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION
@@ -357,8 +327,6 @@ class MapWithTrackingStateHandler extends React.Component {
         lat={location ? location.lat : undefined}
         lon={location ? location.lon : undefined}
         zoom={this.state.initialZoom}
-        mapZoomLevel={zoomLevel}
-        mapTracking={this.state.mapTracking}
         fitBounds={useFitBounds}
         className="flex-grow"
         locationPopup={this.props.locationPopup}
