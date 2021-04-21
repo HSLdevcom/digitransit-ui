@@ -212,8 +212,10 @@ class DepartureListContainer extends Component {
     const departureObjs = [];
     const { currentTime, limit, isTerminal, stoptimes } = this.props;
 
-    let currentDate = moment.unix(currentTime).startOf('day').unix();
-    let tomorrow = moment.unix(currentTime).add(1, 'day').startOf('day').unix();
+    let currentDate = moment
+      .unix(currentTime)
+      .startOf('day')
+      .format('DDMMYYYY');
     const dayAfterTomorrow = moment
       .unix(currentTime)
       .add(2, 'day')
@@ -224,11 +226,19 @@ class DepartureListContainer extends Component {
       .filter(departure => currentTime < departure.stoptime)
       .slice(0, limit);
 
-    departures.forEach((departure, index) => {
-      if (departure.stoptime >= tomorrow) {
-        if (departure.stoptime < dayAfterTomorrow && departureObjs.length > 0) {
-          departureObjs.push(<div className="departure-day-divider" />);
-        } else {
+    const departuresWithDayDividers = departures.map(departure => {
+      const departureDay = moment.unix(departure.stoptime).format('DDMMYYYY');
+      if (departureDay !== currentDate) {
+        // eslint-disable-next-line no-param-reassign
+        departure.addDayDivider = true;
+        currentDate = departureDay;
+      }
+      return departure;
+    });
+
+    departuresWithDayDividers.forEach((departure, index) => {
+      if (departure.addDayDivider) {
+        if (departure.stoptime >= dayAfterTomorrow) {
           departureObjs.push(
             <div
               key={moment.unix(departure.stoptime).format('DDMMYYYY')}
@@ -237,13 +247,11 @@ class DepartureListContainer extends Component {
               {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
             </div>,
           );
+        } else {
+          departureObjs.push(<div className="departure-day-divider" />);
         }
-
-        currentDate = tomorrow;
-        tomorrow = moment.unix(currentDate).add(1, 'day').startOf('day').unix();
-      } else if (index > 0) {
-        departureObjs.push(<div className="departure-row-divider" />);
       }
+
       const id = `${departure.pattern.code}:${departure.stoptime}`;
       const row = {
         headsign: this.getHeadsign(departure),
@@ -251,6 +259,8 @@ class DepartureListContainer extends Component {
         stop: departure.stop,
         realtime: departure.realtime,
       };
+
+      const nextDeparture = departuresWithDayDividers[index + 1];
 
       const departureObj = (
         <DepartureRow
@@ -260,7 +270,9 @@ class DepartureListContainer extends Component {
           currentTime={this.props.currentTime}
           showPlatformCode={isTerminal}
           canceled={departure.canceled}
-          className="no-border"
+          className={
+            nextDeparture && nextDeparture.addDayDivider ? 'no-border' : ''
+          }
         />
       );
 
