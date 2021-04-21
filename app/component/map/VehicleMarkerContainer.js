@@ -26,7 +26,6 @@ function getVehicleIcon(
         mode={modeOrDefault}
         vehicleNumber={vehicleNumber}
         useLargeIcon={useLargeIcon}
-        color={color}
       />
     ),
     className: `vehicle-icon ${modeOrDefault}`,

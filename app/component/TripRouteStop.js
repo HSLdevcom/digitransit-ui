@@ -72,7 +72,6 @@ const TripRouteStop = props => {
           selected={
             props.selectedVehicle && props.selectedVehicle.id === vehicle.id
           }
-          color={!stopPassed && vehicle.color}
           setHumanScrolling={setHumanScrolling}
           keepTracking={keepTracking}
         />

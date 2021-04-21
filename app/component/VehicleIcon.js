@@ -71,14 +71,13 @@ const VehicleIcon = ({
   scrollIntoView = false,
   vehicleNumber = '',
   useLargeIcon = false,
-  color,
 }) => (
   <span>
     {useLargeIcon ? (
       <svg
         id={id}
         viewBox="0 0 80 80"
-        style={{ color: color ? `#${color}` : null }}
+        // style={{ color: color ? `#${color}` : null }}
         className={cx('icon', 'large-vehicle-icon', className, mode)}
         ref={el => scrollIntoView && el && el.scrollIntoView()}
       >
@@ -128,7 +127,6 @@ VehicleIcon.propTypes = {
   scrollIntoView: PropTypes.bool,
   vehicleNumber: PropTypes.string,
   useLargeIcon: PropTypes.bool,
-  color: PropTypes.string,
 };
 
 export default VehicleIcon;

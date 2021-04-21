@@ -22,6 +22,7 @@ export default configMerger(walttiConfig, {
     primary: '#1c57cf',
     iconColors: {
       'mode-bus': '#1c57cf',
+      'mode-tram': '#da2128',
     },
   },
 

@@ -18,7 +18,6 @@ function FuzzyTripLink({ vehicle }) {
       rotate={180}
       vehicleNumber={vehicle.shortName}
       useLargeIcon
-      color={vehicle.color}
     />
   );
   return (

@@ -17,7 +17,6 @@ function TripLink({ vehicle, shortName }) {
       rotate={180}
       vehicleNumber={vehicle.shortName || shortName}
       useLargeIcon
-      color={vehicle.color}
     />
   );
 
