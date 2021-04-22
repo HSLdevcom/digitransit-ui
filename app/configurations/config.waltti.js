@@ -129,4 +129,5 @@ export default {
   nationalServiceLink: { name: 'matka.fi', href: 'https://opas.matka.fi/' },
 
   showNearYouButtons: true,
+  allowLogin: true,
 };
