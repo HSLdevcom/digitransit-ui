@@ -283,10 +283,9 @@ $heading-color: #858585;
   background-color: #fff;
   margin-top: 35px;
   .datetimepicker-container {
-    margin: 20px 0 9px 0;
+    margin: 9px 0 9px 0;
     .datetimepicker-bottom-row-open {
-      padding-bottom: 30px;
-      border-bottom: 1px solid rgb(221, 221, 221);
+      margin-bottom: 9px
     }
   }
 }

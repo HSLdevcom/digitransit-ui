@@ -23,8 +23,6 @@ const BikeRentalStationContent = (
     setClient(true);
   });
 
-  const { bikesAvailable, capacity } = bikeRentalStation;
-  const isFull = bikesAvailable >= capacity;
   if (!bikeRentalStation) {
     if (isBrowser) {
       router.replace(`/${PREFIX_BIKESTATIONS}`);
@@ -33,6 +31,9 @@ const BikeRentalStationContent = (
     }
     return null;
   }
+  const { bikesAvailable, capacity } = bikeRentalStation;
+  const isFull = bikesAvailable >= capacity;
+
   const networkConfig = getCityBikeNetworkConfig(
     bikeRentalStation.networks[0],
     config,

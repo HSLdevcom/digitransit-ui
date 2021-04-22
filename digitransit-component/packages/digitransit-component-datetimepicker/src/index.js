@@ -20,6 +20,7 @@ import Datetimepicker from './helpers/Datetimepicker';
  * @param {function} props.onDepartureClick         Called with (time) when "departure" button is clicked. time is current input value in seconds
  * @param {function} props.onArrivalClick           Called with (time) when "arrival" button is clicked. time is current input value in seconds
  * @param {node} props.embedWhenClosed              JSX element to render in the corner when input is closed
+ * @param {node} props.embedWhenOpen                JSX element to render when input is open
  * @param {string} props.lang                       Language selection. Default 'en'
  *
  * @example
@@ -46,6 +47,7 @@ function DatetimepickerStateContainer({
   onDateChange,
   onNowClick,
   embedWhenClosed,
+  embedWhenOpen,
   lang,
   color,
   timeZone,
@@ -164,6 +166,7 @@ function DatetimepickerStateContainer({
       onDepartureClick={departureClicked}
       onArrivalClick={arrivalClicked}
       embedWhenClosed={embedWhenClosed}
+      embedWhenOpen={embedWhenOpen}
       lang={lang}
       color={color}
       timeZone={timeZone}
@@ -183,6 +186,7 @@ DatetimepickerStateContainer.propTypes = {
   onDateChange: PropTypes.func.isRequired,
   onNowClick: PropTypes.func.isRequired,
   embedWhenClosed: PropTypes.node,
+  embedWhenOpen: PropTypes.node,
   lang: PropTypes.string,
   color: PropTypes.string,
   timeZone: PropTypes.string,
@@ -196,6 +200,7 @@ DatetimepickerStateContainer.defaultProps = {
   initialArriveBy: undefined,
   initialTimestamp: undefined,
   embedWhenClosed: null,
+  embedWhenOpen: null,
   lang: 'en',
   color: '#007ac9',
   timeZone: 'Europe/Helsinki',
