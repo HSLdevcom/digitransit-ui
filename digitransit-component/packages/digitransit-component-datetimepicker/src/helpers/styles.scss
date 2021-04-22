@@ -114,9 +114,6 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     &.active {
       color: var(--color);
     }
-    &:focus {
-      @include default-focus-outline;
-    }
   }
 
   .combobox-left {
@@ -134,6 +131,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     background-color: #dddddd;
     border-radius: 8px;
     display: flex;
+    width: 58%;
   }
   .radio-textbutton-label {
     color: #333333;
@@ -141,7 +139,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     background: none;
     border-radius: 6px;
     padding: 9px 0;
-    width: 102px;
+    width: 50%;
     cursor: pointer;
     height: 32px;
     text-align: center;
@@ -175,10 +173,12 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
   }
 
   .departure-now-button {
+    font-family: inherit;
+    letter-spacing: -0.02em;
     height: 34px;
     color: var(--color);
     padding: 8px 0;
-    width: 109px;
+    width: 29%;
     background: white;
     border: 1px solid #888888;
     border-radius: 30px;
@@ -188,6 +188,8 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
   .open-button {
     display: flex;
     margin-bottom: 0;
+    margin-top: -1px;
+    padding: 2px 0 2px 0;
   }
   button.close-button {
     width: 30px;
@@ -202,9 +204,6 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     color: var(--color);
     padding: 0;
     line-height: normal;
-    &:focus {
-      @include default-focus-outline;
-    }
     &:hover {
       transform: scale(1.2);
     }
@@ -281,8 +280,9 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
         font-stretch: normal;
         font-style: normal;
         line-height: 1.33;
-        letter-spacing: -0.6px;
+        letter-spacing: -0.5px;
         color: #333333;
+        font-family: inherit;
         font-size: 15px;
         font-weight: var(--font-weight-medium);
         &:focus {
