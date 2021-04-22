@@ -41,15 +41,6 @@ $offcanvas-link-text-font-size: 15px;
 /* Content */
 $content-background-color: $background-color;
 
-.top-bar-login {
-  display: flex;
-  flex-direction: row;
-  color: $white;
-  align-items: center;
-  text-align: center;
-  cursor: pointer;
-  white-space: nowrap;
-}
 .top-bar {
   height: 70px;
   min-height: 70px;
@@ -59,7 +50,6 @@ $content-background-color: $background-color;
   justify-content: space-between;
   background: $top-bar-color;
   text-align: center;
-  overflow: hidden; // Show drawer menu
   z-index: 1008;
 
   // Fixed navbar height for now, as dynamic height leads to Safari issues
@@ -164,9 +154,16 @@ $content-background-color: $background-color;
   border-right: 1px solid rgba(0, 0, 0, 0.15);
 }
 
-.login-icon {
+.login-button-container {
+  width: 100%;
+  > button {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-right: 0.7rem;
+  }
   .icon {
-    font-size: 2.75em;
+    font-size: 2em;
     color: $primary-color;
     fill: $top-navigation-icon-color;
     &.caution-topbar {
@@ -174,8 +171,6 @@ $content-background-color: $background-color;
       color: $caution-icon-font-color;
     }
   }
-  margin-top: 1.25rem;
-  width: 100%;
 }
 
 .navi-icons {
