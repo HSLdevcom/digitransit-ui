@@ -9,7 +9,7 @@ import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import LoginButton from './LoginButton';
-import UserInfo from './UserInfo';
+import UserMenu from './UserMenu';
 
 function MainMenu(props, { config, intl }) {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
@@ -21,7 +21,7 @@ function MainMenu(props, { config, intl }) {
           (!props.user.name ? (
             <LoginButton />
           ) : (
-            <UserInfo
+            <UserMenu
               user={props.user}
               list={[
                 {
