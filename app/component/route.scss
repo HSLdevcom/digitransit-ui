@@ -734,6 +734,11 @@ $margin-left-right: 1.333em;
       font-weight: $font-weight-medium;
     }
   }
+  .print-button-container {
+    @media print {
+      display: none;
+    }
+  }
   .secondary-button.print {
     @media print {
       display: none;
