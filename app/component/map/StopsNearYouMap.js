@@ -339,10 +339,6 @@ function StopsNearYouMap(
     }
   }, [stopsNearYou, favouriteIds]);
 
-  // useEffect(() => {
-  //   if (stopsNearYou && fa)
-  // }, [favouriteIds]);
-
   if (loading) {
     return <Loading />;
   }
