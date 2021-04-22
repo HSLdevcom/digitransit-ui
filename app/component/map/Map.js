@@ -36,7 +36,6 @@ export default class Map extends React.Component {
     zoom: PropTypes.number,
     bounds: PropTypes.array,
     boundsOptions: PropTypes.object,
-    fitBounds: PropTypes.bool,
     hilightedStops: PropTypes.array,
     stopsToShow: PropTypes.array,
     lang: PropTypes.string.isRequired,
@@ -71,9 +70,11 @@ export default class Map extends React.Component {
   };
 
   componentDidMount() {
-    this.erd = elementResizeDetectorMaker({ strategy: 'scroll' });
     /* eslint-disable no-underscore-dangle */
-    this.erd.listenTo(this.map.leafletElement._container, this.resizeMap);
+    if (this.map) {
+      this.erd = elementResizeDetectorMaker({ strategy: 'scroll' });
+      this.erd.listenTo(this.map.leafletElement._container, this.resizeMap);
+    }
   }
 
   componentDidUpdate() {
@@ -95,19 +96,21 @@ export default class Map extends React.Component {
   resizeMap = () => {
     if (this.map) {
       this.map.leafletElement.invalidateSize(false);
-      if (this.props.fitBounds) {
+      if (false && this.props.bounds) {
         this.map.leafletElement.fitBounds(
           boundWithMinimumArea(this.props.bounds),
           this.props.boundsOptions,
         );
       }
-      this.mapZoomLvl = this.map.leafletElement._zoom;
+      // this.mapZoomLvl = this.map.leafletElement._zoom;
     }
   };
 
   render() {
     const {
       zoom,
+      lat,
+      lon,
       boundsOptions,
       locationPopup,
       onSelectLocation,
@@ -116,14 +119,38 @@ export default class Map extends React.Component {
       mapLayers,
     } = this.props;
     const { config } = this.context;
-    const center =
-      (!this.props.fitBounds &&
-        this.props.lat &&
-        this.props.lon && [this.props.lat, this.props.lon]) ||
-      null;
-    if (center && zoom) {
-      boundsOptions.maxZoom = zoom;
+
+    const naviProps = {}; // these define map center and zoom
+    if (this.props.bounds) {
+      // bounds overrule center & zoom
+      naviProps.bounds = boundWithMinimumArea(this.props.bounds);
+    } else {
+      if (lat && lon) {
+        naviProps.center = [lat, lon];
+      }
+      if (zoom) {
+        naviProps.zoom = zoom;
+      }
     }
+
+    if (!this.erd && this.map) {
+      this.erd = elementResizeDetectorMaker({ strategy: 'scroll' });
+      /* eslint-disable no-underscore-dangle */
+      this.erd.listenTo(this.map.leafletElement._container, this.resizeMap);
+    }
+
+    if (naviProps.bounds || (naviProps.center && naviProps.zoom)) {
+      this.ready = true;
+    }
+
+    if (!this.ready) {
+      return null;
+    }
+    /* if (center && zoom) {
+      // !! prop is being changed here!!
+      boundsOptions.maxZoom = zoom;
+    } */
+
     if (this.props.mapBottomPadding) {
       boundsOptions.paddingBottomRight = [0, this.props.mapBottomPadding];
     }
@@ -150,9 +177,7 @@ export default class Map extends React.Component {
       attribution = false;
     }
 
-    if (this.map) {
-      this.mapZoomLvl = this.map.leafletElement._zoom;
-    }
+    const mapZoom = zoom || this.map?.leafletElement._zoom || 14;
 
     if (geoJson) {
       Object.keys(geoJson)
@@ -162,7 +187,7 @@ export default class Map extends React.Component {
             <GeoJSON
               key={key.concat(i)}
               data={geoJson[key].data}
-              geoJsonZoomLevel={this.mapZoomLvl ? this.mapZoomLvl : 9}
+              geoJsonZoomLevel={mapZoom}
               locationPopup={locationPopup}
               onSelectLocation={onSelectLocation}
             />,
@@ -180,7 +205,8 @@ export default class Map extends React.Component {
           {this.props.bottomButtons}
         </span>
         <LeafletMap
-          className={`z${this.mapZoomLvl ? this.mapZoomLvl : 9}`}
+          {...naviProps}
+          className={`z${mapZoom}`}
           keyboard={false}
           ref={el => {
             this.map = el;
@@ -192,11 +218,6 @@ export default class Map extends React.Component {
           maxZoom={config.map.maxZoom}
           zoomControl={false}
           attributionControl={false}
-          bounds={
-            this.props.fitBounds
-              ? boundWithMinimumArea(this.props.bounds)
-              : boundWithMinimumArea([center])
-          }
           animate={this.props.animate}
           boundsOptions={boundsOptions}
           {...this.props.leafletEvents}

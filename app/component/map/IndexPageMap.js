@@ -43,26 +43,27 @@ const locationMarkerModules = {
 };
 
 let focus1 = {};
+const mwtProps = {};
 
 function IndexPageMap(
-  { origin, destination, lang, mapLayers },
+  { match, origin, destination, lang, mapLayers },
   { config, executeAction, intl },
 ) {
   const [isSettingsOpen, setSettingsOpen] = useState(false);
-  let focus2;
+  let focus2 = {};
   let zoom = 16;
 
   if (origin.lat) {
     focus2 = origin;
   } else if (destination.lat) {
     focus2 = destination;
-  } else {
+  } else if (!match.params.from && !match.params.to) {
+    // do not use default location if page loading is under way
     focus2 = config.defaultEndpoint;
     zoom = 12;
   }
-  const mwtProps = {};
 
-  if (!sameLocations(focus1, focus2)) {
+  if (!sameLocations(focus1, focus2) && focus2.lat) {
     // feed in new props to map
     if (focus2.type === 'CurrentLocation') {
       mwtProps.mapTracking = true;
