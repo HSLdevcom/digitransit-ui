@@ -218,6 +218,12 @@ function StopsNearYouMap(
             stop: firstStop,
           });
           fetchPlan(firstStop);
+        } else if (!shouldFetchWalkRoute()) {
+          setFirstPlan({
+            itinerary: [],
+            isFetching: false,
+            stop: null,
+          });
         }
       }
     } else {
@@ -331,7 +337,11 @@ function StopsNearYouMap(
       setSortedStopEdges(stopsNearYou);
       setRoutes(stopsNearYou);
     }
-  }, [stopsNearYou]);
+  }, [stopsNearYou, favouriteIds]);
+
+  // useEffect(() => {
+  //   if (stopsNearYou && fa)
+  // }, [favouriteIds]);
 
   if (loading) {
     return <Loading />;
