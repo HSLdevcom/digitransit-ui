@@ -10,8 +10,8 @@ function PatternLink({
   route,
   vehicleNumber,
   selected = false,
-  color,
   setHumanScrolling,
+  color,
   keepTracking,
 }) {
   const trackedVehicleRef = useRef();
