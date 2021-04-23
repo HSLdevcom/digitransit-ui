@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import moment from 'moment-timezone';
-// import Autosuggest from 'react-autosuggest';
 import Select from 'react-select';
 import utils from './utils';
 import styles from './styles.scss';
@@ -64,6 +63,9 @@ function DesktopDatetimepicker({
   };
 
   const onInputChange = (newValue, { action }) => {
+    if (disableTyping) {
+      return;
+    }
     if (action === 'input-change') {
       const validated = utils.parseTypedTime(newValue);
       changeDisplayValue(validated);
@@ -82,11 +84,13 @@ function DesktopDatetimepicker({
     <>
       <label className={styles['combobox-container']} htmlFor={inputId}>
         <span className={styles['sr-only']} id={labelId}>
-          {label}
+          {label} {displayValue}
         </span>
         {icon}
         <Select
+          aria-labelledby={labelId}
           options={options}
+          inputId={inputId}
           onChange={time => {
             if (typing) {
               const validated = validate(displayValue, value);
