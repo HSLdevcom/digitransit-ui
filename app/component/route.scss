@@ -493,7 +493,8 @@ $margin-left-right: 1.333em;
   }
 
   @media print {
-    display: block;
+    display: block !important;
+    overflow: auto !important;
   }
 
   .route-schedule-header {
@@ -593,6 +594,9 @@ $margin-left-right: 1.333em;
 
 .route-schedule-dropdowns {
   max-height: 50px;
+  @media print {
+    display: none;
+  }
 }
 
 .route-schedule-ranges {
@@ -614,6 +618,9 @@ $margin-left-right: 1.333em;
   .other-ranges-dropdown {
     display: contents;
     width: calc(50% - 30px);
+    @media print {
+      display: none;
+    }
   }
 }
 
@@ -727,6 +734,11 @@ $margin-left-right: 1.333em;
       font-weight: $font-weight-medium;
     }
   }
+  .print-button-container {
+    @media print {
+      display: none;
+    }
+  }
   .secondary-button.print {
     @media print {
       display: none;
@@ -806,6 +818,12 @@ $margin-left-right: 1.333em;
       padding-right: 3.5em;
     }
   }
+
+  @media print {
+    .route-tabs {
+      display: none;
+    }
+  }
 }
 
 .navigation-tabs {
@@ -845,6 +863,12 @@ $margin-left-right: 1.333em;
       flex-grow: 1;
       display: flex;
       flex-direction: column;
+    }
+  }
+
+  @media print {
+    button.is-active {
+      text-decoration: underline;
     }
   }
 }
@@ -1003,6 +1027,9 @@ $margin-left-right: 1.333em;
         }
       }
     }
+  }
+  @media print {
+    display: none;
   }
 }
 
