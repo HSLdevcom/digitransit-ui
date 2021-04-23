@@ -478,7 +478,9 @@ class RouteScheduleContainer extends Component {
     }
     return (
       <div
-        className={cx('route-schedule-container', 'momentum-scroll')}
+        className={cx('route-schedule-container', 'momentum-scroll', {
+          mobile: this.props.breakpoint === 'small',
+        })}
         role="list"
       >
         <RoutePageControlPanel

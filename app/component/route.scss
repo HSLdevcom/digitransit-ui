@@ -486,8 +486,6 @@ $margin-left-right: 1.333em;
 .route-schedule-list-wrapper,
 .route-alerts-list-wrapper {
   margin-top: 10px;
-  padding-left: 3.5em;
-  padding-right: 3.5em;
   &.bp-large {
     flex: 1;
     display: flex;
@@ -604,14 +602,22 @@ $margin-left-right: 1.333em;
   flex: 1 0;
   flex-basis: 0px;
   margin-bottom: 50px;
+  padding-right: 3.5em;
+  padding-left: 3.5em;
+  .route-page-control-panel-container {
+    padding: 0px;
+  }
+  &.mobile {
+    padding: 0 20px;
+    margin-bottom: 0px;
+  }
 }
 
 .route-schedule-ranges {
   display: flex;
   max-height: 24px;
   margin-bottom: 12px;
-  padding-left: 3.5em;
-  padding-right: 3.5em;
+  margin-top: 12px;
 
   .current-range {
     width: calc(50% + 30px);
@@ -719,10 +725,9 @@ $margin-left-right: 1.333em;
   position: absolute;
   bottom: 0px;
   justify-content: center;
-  width: 505px;
+  width: 400px;
   display: flex;
   flex-direction: row;
-  padding: 10px 1.25em 0;
   background-color: $white;
 
   .printable-date-container {
@@ -820,14 +825,12 @@ $margin-left-right: 1.333em;
 
 .route-page-control-panel-container {
   padding-bottom: 1.75rem;
-  &.hairiot,
-  &.aikataulu {
+  &.hairiot {
     padding-left: 1.5em;
     padding-right: 1.5em;
   }
   &.bp-large {
-    &.hairiot,
-    &.aikataulu {
+    &.hairiot {
       padding-left: 3.5em;
       padding-right: 3.5em;
     }
@@ -851,11 +854,6 @@ $margin-left-right: 1.333em;
   border: 2px solid $light-gray;
   border-radius: 8px;
   margin: 0;
-
-  &.days {
-    margin-left: 3.5em;
-    margin-right: 3.5em;
-  }
 
   button {
     width: calc(100% / var(--totalCount));
