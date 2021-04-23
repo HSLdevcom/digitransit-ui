@@ -36,6 +36,11 @@
   .card-sub-header {
     margin-top: -0.7em;
     min-height: 2.75rem;
+
+    .card-name-container {
+      display: flex;
+    }
+
     .card-sub-header-address {
       font-size: 13px;
       color: #666666;
