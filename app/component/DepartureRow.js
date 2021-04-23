@@ -40,7 +40,10 @@ const DepartureRow = (
           departure.bottomRow ? 'bottom' : '',
         )}
       >
-        <div className="route-number-container">
+        <div
+          className="route-number-container"
+          style={{ backgroundColor: `#${departure.trip.route.color}` }}
+        >
           <div className="route-number">{departure.trip.route.shortName}</div>
         </div>
         <div

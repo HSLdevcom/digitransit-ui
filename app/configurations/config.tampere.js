@@ -21,8 +21,9 @@ export default configMerger(walttiConfig, {
   colors: {
     primary: '#1c57cf',
     iconColors: {
-      'mode-bus': '#1c57cf',
-      'mode-tram': '#da2128',
+      'mode-bus': '#1A4A8F',
+      'mode-rail': '#0E7F3C',
+      'mode-tram': '#DA2128',
     },
   },
 
@@ -247,6 +248,10 @@ export default configMerger(walttiConfig, {
   // enable train routing for Tampere
   transportModes: {
     rail: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+    tram: {
       availableForSelection: true,
       defaultValue: true,
     },

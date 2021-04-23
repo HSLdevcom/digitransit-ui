@@ -11,6 +11,7 @@ function PatternLink({
   vehicleNumber,
   selected = false,
   setHumanScrolling,
+  color,
   keepTracking,
 }) {
   const trackedVehicleRef = useRef();
@@ -54,6 +55,7 @@ function PatternLink({
         rotate={180}
         vehicleNumber={vehicleNumber}
         useLargeIcon
+        color={color}
       />
     </Link>
   );
@@ -73,6 +75,7 @@ PatternLink.propTypes = {
   route: PropTypes.string.isRequired,
   selected: PropTypes.bool,
   vehicleNumber: PropTypes.string,
+  color: PropTypes.string,
   setHumanScrolling: PropTypes.func,
   keepTracking: PropTypes.bool,
 };
