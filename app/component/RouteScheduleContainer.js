@@ -22,6 +22,7 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import hashCode from '../util/hashUtil';
 import RouteScheduleDropdown from './RouteScheduleDropdown';
+import RoutePageControlPanel from './RoutePageControlPanel';
 
 const DATE_FORMAT2 = 'D.M.YYYY';
 
@@ -316,7 +317,7 @@ class RouteScheduleContainer extends Component {
 
       if (dayTabs.length > 0) {
         return (
-          <div className="route-tabs" role="tablist">
+          <div className="route-tabs days" role="tablist">
             {tabs}
           </div>
         );
@@ -475,13 +476,16 @@ class RouteScheduleContainer extends Component {
         </div>
       );
     }
-
     return (
       <div
-        className={cx('route-schedule-content-wrapper', {
-          'bp-large': this.props.breakpoint === 'large',
-        })}
+        className={cx('route-schedule-container', 'momentum-scroll')}
+        role="list"
       >
+        <RoutePageControlPanel
+          match={this.props.match}
+          route={this.props.pattern.route}
+          breakpoint={this.props.breakpoint}
+        />
         <div className="route-schedule-ranges">
           <span className="current-range">{data[2][0]}</span>
           <div className="other-ranges-dropdown">
@@ -578,6 +582,32 @@ const containerComponent = createFragmentContainer(pureComponent, {
         url
         gtfsId
         shortName
+        shortName
+        longName
+        mode
+        type
+        patterns {
+          headsign
+          code
+          stops {
+            id
+            gtfsId
+            code
+            name
+          }
+          trips: tripsForDate(serviceDate: $date) {
+            stoptimes: stoptimesForDate(serviceDate: $date) {
+              realtimeState
+              scheduledArrival
+              scheduledDeparture
+              serviceDay
+            }
+          }
+          activeDates: trips {
+            serviceId
+            day: activeDates
+          }
+        }
       }
       tripsForDate(serviceDate: $serviceDay) {
         id

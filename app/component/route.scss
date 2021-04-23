@@ -145,7 +145,7 @@ $margin-left-right: 1.333em;
 
 .drop-off-container {
   margin-top: 7px;
-  background-color: #E5F2FA;
+  background-color: #e5f2fa;
   height: 24px;
   width: fit-content;
   border-radius: 5px;
@@ -349,7 +349,7 @@ $margin-left-right: 1.333em;
           width: 14px;
           height: 14px;
         }
-    }
+      }
       .route-stop-time {
         display: flex;
         position: absolute;
@@ -486,6 +486,8 @@ $margin-left-right: 1.333em;
 .route-schedule-list-wrapper,
 .route-alerts-list-wrapper {
   margin-top: 10px;
+  padding-left: 3.5em;
+  padding-right: 3.5em;
   &.bp-large {
     flex: 1;
     display: flex;
@@ -508,7 +510,6 @@ $margin-left-right: 1.333em;
 .route-schedule-list {
   padding-bottom: 0.7em;
   flex: 1;
-  flex-basis: 0;
   overflow-x: hidden;
 
   @media print {
@@ -599,10 +600,18 @@ $margin-left-right: 1.333em;
   }
 }
 
+.route-schedule-container {
+  flex: 1 0;
+  flex-basis: 0px;
+  margin-bottom: 50px;
+}
+
 .route-schedule-ranges {
   display: flex;
   max-height: 24px;
   margin-bottom: 12px;
+  padding-left: 3.5em;
+  padding-right: 3.5em;
 
   .current-range {
     width: calc(50% + 30px);
@@ -707,8 +716,11 @@ $margin-left-right: 1.333em;
 }
 
 .route-page-action-bar {
+  position: absolute;
+  bottom: 0px;
+  justify-content: center;
+  width: 505px;
   display: flex;
-  justify-content: justify;
   flex-direction: row;
   padding: 10px 1.25em 0;
   background-color: $white;
@@ -808,12 +820,14 @@ $margin-left-right: 1.333em;
 
 .route-page-control-panel-container {
   padding-bottom: 1.75rem;
-  &.hairiot, &.aikataulu {
+  &.hairiot,
+  &.aikataulu {
     padding-left: 1.5em;
     padding-right: 1.5em;
   }
   &.bp-large {
-    &.hairiot, &.aikataulu {
+    &.hairiot,
+    &.aikataulu {
       padding-left: 3.5em;
       padding-right: 3.5em;
     }
@@ -837,6 +851,12 @@ $margin-left-right: 1.333em;
   border: 2px solid $light-gray;
   border-radius: 8px;
   margin: 0;
+
+  &.days {
+    margin-left: 3.5em;
+    margin-right: 3.5em;
+  }
+
   button {
     width: calc(100% / var(--totalCount));
     font-size: $font-size-small;
@@ -953,7 +973,6 @@ $margin-left-right: 1.333em;
       line-height: 18px;
       letter-spacing: -0.03em;
       padding: 13px 32px 13px 16px;
-
     }
     .react-autosuggest__input {
       height: 0;
@@ -1013,7 +1032,8 @@ $margin-left-right: 1.333em;
             min-height: 44px;
             padding: 13px 32px 13px 16px;
             position: relative;
-            .icon.check, .icon.dropdown-arrow {
+            .icon.check,
+            .icon.dropdown-arrow {
               height: 20px;
               width: 20px;
               position: absolute;
