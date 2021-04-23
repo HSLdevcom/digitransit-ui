@@ -1352,6 +1352,8 @@ const translations = {
     'summary-page.row-label': 'Itinerary suggestion {number}',
     'summary-page.title': 'Itinerary suggestions',
     'swap-order-button-label': 'Reverse origin and destination',
+    'swipe-disruption-info': 'Disruption info  swipe result tabs',
+    'swipe-disruption-info-header': 'Disruption info swipe result tabs.',
     'swipe-message-bar': 'Message swipe result tabs',
     'swipe-message-bar-header': 'Message swipe result tabs.',
     'swipe-result-tab-left':
@@ -4022,6 +4024,8 @@ const translations = {
     'summary-page.row-label': 'Ruttförslag {number}',
     'summary-page.title': 'Ruttförslag',
     'swap-order-button-label': 'Sväng ruttens riktning till den motsatta',
+    'swipe-disruption-info': 'Navigeringsknapp för att kunna bläddra störning',
+    'swipe-disruption-info-header': 'Störning.',
     'swipe-message-bar': 'Navigeringsknapp för att kunna bläddra stäng banner',
     'swipe-message-bar-header': 'Stäng banner.',
     'swipe-result-tab-left':
