@@ -1,9 +1,5 @@
 @import '~@hsl-fi/sass/mixins/screen';
 
-@function drop_off_svg($color, $alpha: 0.9999999) {
-  @return 'data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2713%27%20height%3D%2712%27%3E%3Cg%20stroke%3D%27none%27%20stroke-width%3D%271%27%20fill%3D%27none%27%20fill-rule%3D%27evenodd%27%3E%3Cpath%20fill%3D%27#{rgba($color, $alpha)}%27%20d%3D%27M6.06%2C0%20C9.38%2C0%2012.08%2C2.68%2012.08%2C6.02%20C12.08%2C9.34%209.38%2C12.02%206.06%2C12.02%20C2.74%2C12.02%200.04%2C9.34%200.04%2C6.02%20C0.04%2C2.68%202.74%2C0%206.06%2C0%20Z%20M7.2%2C9.2%20L7.2%2C5.94%20C7.2%2C5.3%206.78%2C4.8%206.14%2C4.8%20L5.04%2C4.8%20C4.5%2C4.8%204.18%2C5.16%204.18%2C5.62%20C4.18%2C6.02%204.44%2C6.44%205.28%2C6.44%20L5.28%2C9.2%20C5.28%2C9.84%205.62%2C10.34%206.24%2C10.34%20C6.88%2C10.34%207.2%2C9.84%207.2%2C9.2%20Z%20M7.36%2C2.78%20L7.36%2C2.68%20C7.36%2C2%206.8%2C1.56%206.06%2C1.56%20C5.32%2C1.56%204.76%2C2%204.76%2C2.68%20L4.76%2C2.78%20C4.76%2C3.46%205.32%2C3.92%206.06%2C3.92%20C6.8%2C3.92%207.36%2C3.46%207.36%2C2.78%20Z%27%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E';
-}
-
 $route-schedule-date-height: 36px;
 $margin-left-right-large: 3.75em;
 $margin-left-right: 1.333em;
@@ -147,6 +143,26 @@ $margin-left-right: 1.333em;
   font-family: $font-family;
 }
 
+.drop-off-container {
+  margin-top: 7px;
+  background-color: #E5F2FA;
+  height: 24px;
+  width: fit-content;
+  border-radius: 5px;
+  color: $black;
+  font-size: 0.8125em;
+  font-family: $font-family;
+  font-weight: $font-weight-book;
+  span {
+    vertical-align: middle;
+    display: inline-block;
+    padding-right: 12px;
+  }
+  .icon-container {
+    padding: 4px 5px 0 9px;
+  }
+}
+
 .location-details_container {
   max-width: 100%;
   display: flex;
@@ -281,25 +297,6 @@ $margin-left-right: 1.333em;
         span {
           text-decoration: none;
         }
-        .drop-off-container {
-          white-space: nowrap;
-          color: $gray;
-          font-size: $font-size-xsmall;
-          font-family: $font-family;
-          font-weight: $font-weight-book;
-
-          span {
-            vertical-align: middle;
-          }
-        }
-        .drop-off-stop-icon {
-          margin-left: 0.5em;
-          margin-right: 0.3em;
-          display: inline-block;
-          width: 13px;
-          height: 12px;
-          background: url(drop_off_svg($gray));
-        }
         .platform-number-container {
           display: inherit;
           align-items: center;
@@ -344,13 +341,6 @@ $margin-left-right: 1.333em;
           color: #666;
           display: block;
           word-break: keep-all;
-          mask-image: linear-gradient(
-            to left,
-            transparent,
-            rgba(0, 0, 0, 0.2) 5px,
-            black 7px,
-            black
-          );
           height: 1.25rem;
           margin-right: 5px;
         }
@@ -503,7 +493,8 @@ $margin-left-right: 1.333em;
   }
 
   @media print {
-    display: block;
+    display: block !important;
+    overflow: auto !important;
   }
 
   .route-schedule-header {
@@ -603,6 +594,9 @@ $margin-left-right: 1.333em;
 
 .route-schedule-dropdowns {
   max-height: 50px;
+  @media print {
+    display: none;
+  }
 }
 
 .route-schedule-ranges {
@@ -624,6 +618,9 @@ $margin-left-right: 1.333em;
   .other-ranges-dropdown {
     display: contents;
     width: calc(50% - 30px);
+    @media print {
+      display: none;
+    }
   }
 }
 
@@ -737,6 +734,11 @@ $margin-left-right: 1.333em;
       font-weight: $font-weight-medium;
     }
   }
+  .print-button-container {
+    @media print {
+      display: none;
+    }
+  }
   .secondary-button.print {
     @media print {
       display: none;
@@ -816,6 +818,12 @@ $margin-left-right: 1.333em;
       padding-right: 3.5em;
     }
   }
+
+  @media print {
+    .route-tabs {
+      display: none;
+    }
+  }
 }
 
 .navigation-tabs {
@@ -855,6 +863,12 @@ $margin-left-right: 1.333em;
       flex-grow: 1;
       display: flex;
       flex-direction: column;
+    }
+  }
+
+  @media print {
+    button.is-active {
+      text-decoration: underline;
     }
   }
 }
@@ -1013,6 +1027,9 @@ $margin-left-right: 1.333em;
         }
       }
     }
+  }
+  @media print {
+    display: none;
   }
 }
 

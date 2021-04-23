@@ -40,6 +40,13 @@ class QuickSettingsPanel extends React.Component {
                 <RightOffcanvasToggle onToggleClick={toggleSettings} />
               </div>
             }
+            embedWhenOpen={
+              <div className="open-embed-container">
+                <div className="open-advanced-settings open-embed">
+                  <RightOffcanvasToggle onToggleClick={toggleSettings} />
+                </div>
+              </div>
+            }
             color={this.context.config.colors.primary}
           />
         </div>
