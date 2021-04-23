@@ -598,10 +598,20 @@ $margin-left-right: 1.333em;
   }
 }
 
+.route-schedule-wrapper {
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  padding-bottom: 1.5em;
+  flex: 1 0;
+  flex-basis: 0px;
+}
+
 .route-schedule-container {
   flex: 1 0;
   flex-basis: 0px;
-  margin-bottom: 50px;
   padding-right: 3.5em;
   padding-left: 3.5em;
   .route-page-control-panel-container {
@@ -722,13 +732,9 @@ $margin-left-right: 1.333em;
 }
 
 .route-page-action-bar {
-  position: absolute;
-  bottom: 0px;
   justify-content: center;
-  width: 400px;
   display: flex;
-  flex-direction: row;
-  background-color: $white;
+  background-color: #ffffff;
 
   .printable-date-container {
     display: none;

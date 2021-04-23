@@ -478,57 +478,63 @@ class RouteScheduleContainer extends Component {
     }
     return (
       <div
-        className={cx('route-schedule-container', 'momentum-scroll', {
-          mobile: this.props.breakpoint === 'small',
-        })}
-        role="list"
+        className={
+          this.props.breakpoint === 'small' ? '' : 'route-schedule-wrapper'
+        }
       >
-        <RoutePageControlPanel
-          match={this.props.match}
-          route={this.props.pattern.route}
-          breakpoint={this.props.breakpoint}
-        />
-        <div className="route-schedule-ranges">
-          <span className="current-range">{data[2][0]}</span>
-          <div className="other-ranges-dropdown">
-            {data[3].length > 0 && (
-              <RouteScheduleDropdown
-                id="other-dates"
-                title={intl.formatMessage({
-                  id: 'other-dates',
-                })}
-                list={data[3]}
-                alignRight
-                changeTitleOnChange={false}
-                onSelectChange={this.changeDate}
-              />
-            )}
-          </div>
-        </div>
-        {this.renderDayTabs(data)}
-        {this.props.pattern && (
-          <div
-            className={cx('route-schedule-list-wrapper', {
-              'bp-large': this.props.breakpoint === 'large',
-            })}
-            aria-live="polite"
-          >
-            <RouteScheduleHeader
-              stops={this.props.pattern.stops}
-              from={newFromTo[0]}
-              to={newFromTo[1]}
-              onFromSelectChange={this.onFromSelectChange}
-              onToSelectChange={this.onToSelectChange}
-            />
-            <div
-              className="route-schedule-list momentum-scroll"
-              role="list"
-              aria-atomic="true"
-            >
-              {showTrips}
+        <div
+          className={cx('route-schedule-container', 'momentum-scroll', {
+            mobile: this.props.breakpoint === 'small',
+          })}
+          role="list"
+        >
+          <RoutePageControlPanel
+            match={this.props.match}
+            route={this.props.pattern.route}
+            breakpoint={this.props.breakpoint}
+          />
+          <div className="route-schedule-ranges">
+            <span className="current-range">{data[2][0]}</span>
+            <div className="other-ranges-dropdown">
+              {data[3].length > 0 && (
+                <RouteScheduleDropdown
+                  id="other-dates"
+                  title={intl.formatMessage({
+                    id: 'other-dates',
+                  })}
+                  list={data[3]}
+                  alignRight
+                  changeTitleOnChange={false}
+                  onSelectChange={this.changeDate}
+                />
+              )}
             </div>
           </div>
-        )}
+          {this.renderDayTabs(data)}
+          {this.props.pattern && (
+            <div
+              className={cx('route-schedule-list-wrapper', {
+                'bp-large': this.props.breakpoint === 'large',
+              })}
+              aria-live="polite"
+            >
+              <RouteScheduleHeader
+                stops={this.props.pattern.stops}
+                from={newFromTo[0]}
+                to={newFromTo[1]}
+                onFromSelectChange={this.onFromSelectChange}
+                onToSelectChange={this.onToSelectChange}
+              />
+              <div
+                className="route-schedule-list momentum-scroll"
+                role="list"
+                aria-atomic="true"
+              >
+                {showTrips}
+              </div>
+            </div>
+          )}
+        </div>
         <div className="route-page-action-bar">
           <div className="print-button-container">
             {routeTimetableUrl && (
