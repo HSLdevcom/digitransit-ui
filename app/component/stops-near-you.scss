@@ -185,6 +185,15 @@
       .stop-near-you-info {
         display: flex;
         margin-bottom: 5px;
+
+        .route-stop-address-row {
+          color: #222;
+          font-weight: 400;
+        }
+        .card-code {
+          font-weight: 400;
+          margin: 0px;
+        }
         .platform-short {
           @include font-medium;
           font-weight: normal;
@@ -206,7 +215,6 @@
         }
         .zone-icon-container {
           margin-left: 4px;
-          padding-bottom: 2px;
           align-self: center;
         }
         .circle {
@@ -323,9 +331,9 @@
       .swipe-button {
         margin-top: 1px;
         .icon {
-        height: 0.8em;
-        width: 0.8em;
-        fill: $white;
+          height: 0.8em;
+          width: 0.8em;
+          fill: $white;
           &.disabled {
             fill: rgb(245, 187, 208);
           }
@@ -334,8 +342,8 @@
     }
   }
   .swipe-tab-ball {
-      border: none;
-      background-color: rgba(255, 255, 255, 0.7);
+    border: none;
+    background-color: rgba(255, 255, 255, 0.7);
     &.selected {
       border: none;
       background-color: $white;
@@ -355,34 +363,34 @@
       padding-left: 3px;
     }
   }
-    .disruption-info-container {
-      line-height: 1.2;
-      flex: 1;
-      .disruption-info-header {
-        color: inherit;
-        margin-bottom: 2px;
-      }
-      .disruption-info-content {
-        color: inherit;
-        text-decoration: none;
-        font-size: $font-size-normal;
-      }
-      .disruption-show-more {
-        font-weight: $font-weight-medium;
-      }
+  .disruption-info-container {
+    line-height: 1.2;
+    flex: 1;
+    .disruption-info-header {
+      color: inherit;
+      margin-bottom: 2px;
+    }
+    .disruption-info-content {
+      color: inherit;
+      text-decoration: none;
+      font-size: $font-size-normal;
     }
     .disruption-show-more {
       font-weight: $font-weight-medium;
     }
-    .disruption-close-button {
-      height: 100%;
-      margin-left: 5px;
-      svg {
-        width: 13.5px;
-        height: 13.5px;
-      }
+  }
+  .disruption-show-more {
+    font-weight: $font-weight-medium;
+  }
+  .disruption-close-button {
+    height: 100%;
+    margin-left: 5px;
+    svg {
+      width: 13.5px;
+      height: 13.5px;
     }
   }
+}
 
 .mobile {
   .stops-near-you-location-search {

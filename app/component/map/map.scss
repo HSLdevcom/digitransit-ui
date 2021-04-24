@@ -404,6 +404,18 @@ div.leaflet-marker-icon.vehicle-icon {
     .zone-icon-container {
       margin-left: 6px;
     }
+    .circle {
+      padding: 0px 3px 0px 2px;
+      &.A {
+        padding: 0px 3px 0px 3px;
+      }
+      &.B {
+        padding: 0px 3px 0px 2.5px;
+      }
+      &.D {
+        padding: 0px 3px 0px 3px;
+      }
+    }
   }
 }
 
