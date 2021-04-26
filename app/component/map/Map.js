@@ -96,13 +96,6 @@ export default class Map extends React.Component {
   resizeMap = () => {
     if (this.map) {
       this.map.leafletElement.invalidateSize(false);
-      if (false && this.props.bounds) {
-        this.map.leafletElement.fitBounds(
-          boundWithMinimumArea(this.props.bounds),
-          this.props.boundsOptions,
-        );
-      }
-      // this.mapZoomLvl = this.map.leafletElement._zoom;
     }
   };
 
@@ -146,10 +139,6 @@ export default class Map extends React.Component {
     if (!this.ready) {
       return null;
     }
-    /* if (center && zoom) {
-      // !! prop is being changed here!!
-      boundsOptions.maxZoom = zoom;
-    } */
 
     if (this.props.mapBottomPadding) {
       boundsOptions.paddingBottomRight = [0, this.props.mapBottomPadding];
@@ -177,11 +166,16 @@ export default class Map extends React.Component {
       attribution = false;
     }
 
-    const mapZoom = zoom || this.map?.leafletElement._zoom || 14;
+    const mapZoom = this.map?.leafletElement.getZoom() || zoom || 14;
 
     if (geoJson) {
       Object.keys(geoJson)
-        .filter(key => mapLayers.geoJson[key])
+        .filter(
+          key =>
+            mapLayers.geoJson[key] !== false &&
+            (mapLayers.geoJson[key] === true ||
+              geoJson[key].isOffByDefault !== true),
+        )
         .forEach((key, i) => {
           leafletObjs.push(
             <GeoJSON

@@ -132,7 +132,7 @@ const StopPageMap = (
   }
   const id = match.params.stopId || match.params.terminalId || match.params.id;
 
-  let bounds = [];
+  let bounds;
   if (
     locationState &&
     locationState.lat &&
@@ -152,13 +152,12 @@ const StopPageMap = (
   return (
     <MapWithTracking
       className="flex-grow"
-      defaultMapCenter={stop}
-      initialZoom={!match.params.stopId || stop.platformCode ? 18 : 16}
+      lat={stop.lat}
+      lon={stop.lon}
+      zoom={!match.params.stopId || stop.platformCode ? 18 : 16}
       hilightedStops={[id]}
       leafletObjs={leafletObjs}
-      focusPoint={stop}
       bounds={bounds}
-      fitBounds={bounds.length > 0}
       mapLayers={mapLayers}
     >
       {children}

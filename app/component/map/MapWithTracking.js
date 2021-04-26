@@ -75,7 +75,6 @@ class MapWithTrackingStateHandler extends React.Component {
     mapTracking: PropTypes.bool,
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
-    fitBoundsWithSetCenter: PropTypes.bool,
     setCenterOfMap: PropTypes.func,
   };
 

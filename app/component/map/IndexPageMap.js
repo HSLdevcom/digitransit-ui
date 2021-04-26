@@ -58,7 +58,7 @@ function IndexPageMap(
   } else if (destination.lat) {
     focus2 = destination;
   } else if (!match.params.from && !match.params.to) {
-    // do not use default location if page loading is under way
+    // use default location only if url does not include location
     focus2 = config.defaultEndpoint;
     zoom = 12;
   }
