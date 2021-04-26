@@ -6,6 +6,7 @@ import cx from 'classnames'; // DT-3470
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import getContext from 'recompose/getContext';
+import isEqual from 'lodash/isEqual';
 import { startLocationWatch } from '../../action/PositionActions';
 import ComponentUsageExample from '../ComponentUsageExample';
 import MapContainer from './MapContainer';
@@ -89,6 +90,7 @@ class MapWithTrackingStateHandler extends React.Component {
     this.state = {
       mapTracking: props.mapTracking,
     };
+    this.naviProps = {};
   }
 
   async componentDidMount() {
@@ -142,6 +144,7 @@ class MapWithTrackingStateHandler extends React.Component {
     if (!this.props.position.hasLocation) {
       this.context.executeAction(startLocationWatch);
     }
+    delete this.naviProps.bounds;
     this.setState({
       mapTracking: true,
     });
@@ -161,10 +164,11 @@ class MapWithTrackingStateHandler extends React.Component {
     });
   };
 
-  updateCurrentBounds = () => {
+  centerChanged = () => {
     if (this.props.setCenterOfMap) {
       this.props.setCenterOfMap(this.mapElement);
     }
+    this.navigated = true;
   };
 
   render() {
@@ -204,20 +208,30 @@ class MapWithTrackingStateHandler extends React.Component {
       btnClassName = cx(btnClassName, 'roomForZoomControl');
     }
 
-    const naviProps = {}; // these define map center and zoom
     if (this.state.mapTracking && position.hasLocation) {
-      naviProps.lat = position.lat;
-      naviProps.lon = position.lon;
+      this.naviProps.lat = position.lat;
+      this.naviProps.lon = position.lon;
       if (zoom) {
-        naviProps.zoom = zoom;
+        this.naviProps.zoom = zoom;
       }
-    } else if (this.props.bounds) {
-      naviProps.bounds = this.props.bounds;
-    } else if (lat && lon) {
-      naviProps.lat = lat;
-      naviProps.lon = lon;
+      if (this.navigated) {
+        // force map update by changing the coordinate slightly. looks crazy but is the easiest way
+        this.naviProps.lat += 0.000001 * Math.random();
+        this.navigated = false;
+      }
+    } else if (
+      this.props.bounds &&
+      !isEqual(this.oldBounds, this.props.bounds)
+    ) {
+      this.naviProps.bounds = this.props.bounds;
+      this.oldBounds = { ...this.props.bounds };
+    } else if (lat && lon && lat !== this.oldLat && lon !== this.oldLon) {
+      this.naviProps.lat = lat;
+      this.naviProps.lon = lon;
+      this.oldLat = lat;
+      this.oldLon = lon;
       if (zoom) {
-        naviProps.zoom = zoom;
+        this.naviProps.zoom = zoom;
       }
     }
 
@@ -237,10 +251,11 @@ class MapWithTrackingStateHandler extends React.Component {
         onSelectLocation={this.props.onSelectLocation}
         leafletEvents={{
           onDragstart: this.disableMapTracking,
-          onZoomend: this.updateCurrentBounds,
-          onDragend: this.updateCurrentBounds,
+          onZoomstart: this.disableMapTracking,
+          onZoomend: this.centerChanged,
+          onDragend: this.centerChanged,
         }}
-        {...naviProps}
+        {...this.naviProps}
         {...rest}
         leafletObjs={leafletObjs}
         mapRef={this.setMapElementRef}

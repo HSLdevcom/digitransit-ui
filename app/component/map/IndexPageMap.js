@@ -67,11 +67,15 @@ function IndexPageMap(
     // feed in new props to map
     if (focus2.type === 'CurrentLocation') {
       mwtProps.mapTracking = true;
+    } else {
+      mwtProps.mapTracking = false;
     }
     mwtProps.zoom = zoom;
     mwtProps.lat = focus2.lat;
     mwtProps.lon = focus2.lon;
     focus1 = { ...focus2 };
+  } else {
+    delete mwtProps.mapTracking;
   }
 
   const leafletObjs = [];
