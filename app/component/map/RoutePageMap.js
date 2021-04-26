@@ -4,8 +4,7 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import get from 'lodash/get';
-import MapContainer from './MapContainer';
+import MapWithTracking from './MapWithTracking';
 import RouteLine from './route/RouteLine';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import { getStartTime } from '../../util/timeUtils';
@@ -18,7 +17,6 @@ class RoutePageMap extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      zoomLevel: -1,
       trackVehicle: !!this.props.match.params.tripId,
     };
   }
@@ -42,36 +40,12 @@ class RoutePageMap extends React.PureComponent {
 
   dispLon = this.props.lon;
 
-  endZoom = element => {
-    if (
-      element &&
-      element.target &&
-      this.state.zoomLevel !== element.target._zoom
-    ) {
-      this.setState({
-        zoomLevel: element.target._zoom,
-      });
-    }
-  };
-
   stopTracking = () => {
     this.setState({ trackVehicle: false });
   };
 
-  setMapElementRef = element => {
-    if (!this.map) {
-      this.map = get(element, 'leafletElement', null);
-    }
-    if (this.map) {
-      this.setState({
-        zoomLevel: this.map._zoom,
-      });
-    }
-  };
-
   render() {
     const { pattern, lat, lon, match, breakpoint, mapLayers } = this.props;
-    const { config } = this.context;
     let centerToMarker = false;
 
     if (this.props.match.params.tripId !== this.tripId) {
@@ -96,7 +70,7 @@ class RoutePageMap extends React.PureComponent {
     }
 
     let tripStart;
-
+    // BUG ??  tripStar prop is never set
     const leafletObjs = [<RouteLine key="line" pattern={pattern} />];
     if (isActiveDate(pattern)) {
       leafletObjs.push(
@@ -110,34 +84,28 @@ class RoutePageMap extends React.PureComponent {
       );
     }
 
-    let filteredPoints;
-    if (pattern.geometry) {
-      filteredPoints = pattern.geometry.filter(
-        point => point.lat !== null && point.lon !== null,
-      );
+    let bounds;
+    if (!(this.dispLat && this.dispLon && match.params.tripId)) {
+      let filteredPoints;
+      if (pattern.geometry) {
+        filteredPoints = pattern.geometry.filter(
+          point => point.lat !== null && point.lon !== null,
+        );
+      }
+      bounds = (filteredPoints || pattern.stops).map(p => [p.lat, p.lon]);
     }
+
     /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
     return (
-      <MapContainer
+      <MapWithTracking
         lat={this.dispLat}
         lon={this.dispLon}
+        zoom={15}
+        bounds={bounds}
         className="full"
         leafletObjs={leafletObjs}
         mapLayers={mapLayers}
-        fitBounds={!(this.dispLat && this.dispLon && match.params.tripId)}
-        bounds={(filteredPoints || pattern.stops).map(p => [p.lat, p.lon])}
-        zoom={
-          this.dispLat && this.dispLon && match.params.tripId
-            ? 15
-            : config.map.minZoom
-        }
-        geoJsonZoomLevel={this.state.zoomLevel}
-        mapZoomLevel={this.state.zoomLevel}
-        leafletEvents={{
-          onZoomend: this.endZoom,
-          onDragstart: this.stopTracking,
-        }}
-        mapRef={this.setMapElementRef}
+        onStartNavigation={this.stopTracking}
       >
         {breakpoint !== 'large' && (
           <React.Fragment>
@@ -147,7 +115,7 @@ class RoutePageMap extends React.PureComponent {
             />
           </React.Fragment>
         )}
-      </MapContainer>
+      </MapWithTracking>
     );
   }
 }

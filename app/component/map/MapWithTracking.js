@@ -75,7 +75,8 @@ class MapWithTrackingStateHandler extends React.Component {
     mapTracking: PropTypes.bool,
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
-    setCenterOfMap: PropTypes.func,
+    onStartNavigation: PropTypes.func,
+    onEndNavigation: PropTypes.func,
   };
 
   static defaultProps = {
@@ -147,8 +148,8 @@ class MapWithTrackingStateHandler extends React.Component {
     this.setState({
       mapTracking: true,
     });
-    if (this.props.setCenterOfMap) {
-      this.props.setCenterOfMap(null);
+    if (this.props.onEndNavigation) {
+      this.props.onEndNavigation(null);
     }
     addAnalyticsEvent({
       category: 'Map',
@@ -163,9 +164,18 @@ class MapWithTrackingStateHandler extends React.Component {
     });
   };
 
-  centerChanged = () => {
-    if (this.props.setCenterOfMap) {
-      this.props.setCenterOfMap(this.mapElement);
+  startNavigation = () => {
+    if (this.props.onStartNavigation) {
+      this.props.onStartNavigation(this.mapElement);
+    }
+    if (this.state.mapTracking && !this.ignoreNavigation) {
+      this.disableMapTracking();
+    }
+  };
+
+  endNavigation = () => {
+    if (this.props.onEndNavigation) {
+      this.props.onEndNavigation(this.mapElement);
     }
     this.navigated = true;
   };
@@ -223,7 +233,7 @@ class MapWithTrackingStateHandler extends React.Component {
       !isEqual(this.oldBounds, this.props.bounds)
     ) {
       this.naviProps.bounds = this.props.bounds;
-      this.oldBounds = { ...this.props.bounds };
+      this.oldBounds = this.props.bounds;
     } else if (lat && lon && lat !== this.oldLat && lon !== this.oldLon) {
       this.naviProps.lat = lat;
       this.naviProps.lon = lon;
@@ -249,10 +259,10 @@ class MapWithTrackingStateHandler extends React.Component {
         locationPopup={this.props.locationPopup}
         onSelectLocation={this.props.onSelectLocation}
         leafletEvents={{
-          onDragstart: this.disableMapTracking,
-          onZoomstart: this.disableMapTracking,
-          onZoomend: this.centerChanged,
-          onDragend: this.centerChanged,
+          onDragstart: this.startNavigation,
+          onZoomstart: this.startNavigation,
+          onZoomend: this.endNavigation,
+          onDragend: this.endNavigation,
         }}
         {...this.naviProps}
         {...rest}
@@ -265,11 +275,19 @@ class MapWithTrackingStateHandler extends React.Component {
               key="toggleMapTracking"
               img={img}
               iconColor={iconColor}
-              handleClick={
-                this.state.mapTracking
-                  ? this.disableMapTracking
-                  : this.enableMapTracking
-              }
+              handleClick={() => {
+                if (this.state.mapTracking) {
+                  this.disableMapTracking();
+                } else {
+                  // enabling tracking will trigger same navigation events as user navigation
+                  // this hack will prevent those events from clearing tracking
+                  this.ignoreNavigation = true;
+                  setTimeout(() => {
+                    this.ignoreNavigation = false;
+                  }, 500);
+                  this.enableMapTracking();
+                }
+              }}
               className="icon-mapMarker-toggle-positioning"
             />
           </div>
