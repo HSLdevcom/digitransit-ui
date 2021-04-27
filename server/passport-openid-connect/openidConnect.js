@@ -11,8 +11,7 @@ const clearAllUserSessions = false; // set true if logout should erase all user'
 
 const debugLogging = process.env.DEBUGLOGGING;
 
-export default function setUpOIDC(app, port, indexPath) {
-  const hostname = process.env.HOSTNAME || `http://localhost:${port}`;
+export default function setUpOIDC(app, indexPath, hostname) {
   /* ********* Setup OpenID Connect ********* */
   const callbackPath = '/oid_callback'; // connect callback path
   // Use Passport with OpenId Connect strategy to authenticate users

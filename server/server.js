@@ -45,7 +45,13 @@ const config = require('../app/config').getConfiguration();
 /* ********* Global ********* */
 const port = config.PORT || 8080;
 const app = express();
-const { indexPath } = config;
+const { indexPath, devHostName, prodHostName } = config;
+
+const useLocalhost = process.env.NODE_ENV !== 'production';
+
+const hostname = useLocalhost
+  ? `http://localhost:${port}`
+  : (process.env.useProductionHost === 'true' && prodHostName) || devHostName;
 
 /* Setup functions */
 function setUpOpenId() {
@@ -61,7 +67,7 @@ function setUpOpenId() {
       expectCt: false,
     }),
   );
-  setUpOIDC(app, port, indexPath);
+  setUpOIDC(app, indexPath, hostname);
 }
 
 function setUpStaticFolders() {
