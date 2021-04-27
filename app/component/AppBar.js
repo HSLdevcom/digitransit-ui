@@ -61,11 +61,7 @@ const AppBar = (
               isMobile
             />
           ))}
-        <MainMenuContainer
-          homeUrl={homeUrl}
-          user={user}
-          breakpoint={breakpoint}
-        />
+        <MainMenuContainer homeUrl={homeUrl} breakpoint={breakpoint} />
       </section>
     </nav>
   </>
