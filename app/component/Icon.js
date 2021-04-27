@@ -87,7 +87,7 @@ function Icon({
         {backgroundShape === 'circle' && (
           <circle className="icon-circle" cx="20" cy="20" fill="white" r="20" />
         )}
-        {!dataURI && <use xlinkHref={`#${img}`} />}
+        {!dataURI && <use href={`#${img}`} />}
         {dataURI && (
           <image href={dataURI} x={0} y={0} width="100%" height="100%" />
         )}
@@ -148,7 +148,7 @@ Icon.asString = ({
           ? '<circle className="icon-circle" cx="20" cy="20" fill="white" r="20" />'
           : ''
       }
-      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#${img}"/>
+      <use xmlns="http://www.w3.org/1999/xlink" href="#${img}"/>
     </svg>
     ${IconBadge.asString(badgeFill, badgeText)}
   </span>

@@ -12,11 +12,7 @@ import GeoJsonStore from '../store/GeoJsonStore';
 import { updateMapLayers } from '../action/MapLayerActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withGeojsonObjects from './map/withGeojsonObjects';
-import {
-  replaceQueryParams,
-  clearQueryParams,
-  getMapMode,
-} from '../util/queryUtils';
+import { replaceQueryParams, clearQueryParams } from '../util/queryUtils';
 import { MapMode } from '../constants';
 import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 
@@ -157,7 +153,7 @@ class MapLayersDialogContent extends React.Component {
       showAllBusses,
       roadworks,
       dynamicParkingLots,
-        currentMapMode
+      currentMapMode,
     } = this.props.mapLayers;
     let arr;
     if (this.props.geoJson) {
@@ -268,6 +264,7 @@ class MapLayersDialogContent extends React.Component {
           )}
           {isTransportModeEnabled(transportModes.carpool) && (
             <Checkbox
+              large
               checked={terminal.carpool}
               defaultMessage="Carpool stops"
               labelId="map-layer-carpool"
@@ -304,6 +301,7 @@ class MapLayersDialogContent extends React.Component {
           {this.context.config.roadworks &&
             this.context.config.roadworks.showRoadworks && (
               <Checkbox
+                large
                 checked={roadworks}
                 defaultMessage="Roadworks"
                 labelId="map-layer-roadworks"
@@ -315,6 +313,7 @@ class MapLayersDialogContent extends React.Component {
           {this.context.config.dynamicParkingLots &&
             this.context.config.dynamicParkingLots.showDynamicParkingLots && (
               <Checkbox
+                large
                 checked={dynamicParkingLots}
                 defaultMessage="Parking"
                 labelId="map-layer-dynamic-parking-lots"
