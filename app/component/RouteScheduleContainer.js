@@ -492,6 +492,7 @@ class RouteScheduleContainer extends Component {
             match={this.props.match}
             route={this.props.pattern.route}
             breakpoint={this.props.breakpoint}
+            noInitialServiceDay
           />
           <div className="route-schedule-ranges">
             <span className="current-range">{data[2][0]}</span>
