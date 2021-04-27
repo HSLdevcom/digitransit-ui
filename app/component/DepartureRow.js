@@ -40,13 +40,11 @@ const DepartureRow = (
           departure.bottomRow ? 'bottom' : '',
         )}
       >
-        <div className="route-number-container">
-          <div
-            className="route-number"
-            style={{ backgroundColor: `#${departure.trip.route.color}` }}
-          >
-            {departure.trip.route.shortName}
-          </div>
+        <div
+          className="route-number-container"
+          style={{ backgroundColor: `#${departure.trip.route.color}` }}
+        >
+          <div className="route-number">{departure.trip.route.shortName}</div>
         </div>
         <div
           className={cx('route-headsign', departure.bottomRow ? 'bottom' : '')}
