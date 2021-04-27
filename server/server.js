@@ -51,7 +51,7 @@ const useLocalhost = process.env.NODE_ENV !== 'production';
 
 const hostname = useLocalhost
   ? `http://localhost:${port}`
-  : (process.env.useProductionHost === 'true' && prodHostName) || devHostName;
+  : (process.env.USE_PROD_HOST === 'true' && prodHostName) || devHostName;
 
 /* Setup functions */
 function setUpOpenId() {
