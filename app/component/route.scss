@@ -508,7 +508,7 @@ $margin-left-right: 1.333em;
 .route-schedule-list {
   padding-bottom: 0.7em;
   flex: 1;
-  overflow-x: hidden;
+  overflow: hidden;
 
   @media print {
     .row {
