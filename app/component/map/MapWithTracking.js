@@ -255,6 +255,7 @@ class MapWithTrackingStateHandler extends React.Component {
 
     return (
       <Map
+        className="flex-grow"
         locationPopup={this.props.locationPopup}
         onSelectLocation={this.props.onSelectLocation}
         leafletEvents={{
