@@ -15,6 +15,9 @@ const maxLon = 27.424811201273982;
 export default configMerger(walttiConfig, {
   CONFIG,
 
+  devHostName: 'https://next-dev-kouvola.digitransit.fi',
+  prodHostName: 'https://kouvola.digitransit.fi',
+
   appBarLink: { name: 'Kouvolan bussit', href: 'http://www.kouvolanbussit.fi' },
 
   colors: {

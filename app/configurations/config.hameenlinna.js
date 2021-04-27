@@ -10,6 +10,9 @@ const walttiConfig = require('./config.waltti').default;
 export default configMerger(walttiConfig, {
   CONFIG,
 
+  devHostName: 'https://next-dev-hameenlinna.digitransit.fi',
+  prodHostName: 'https://reittiopas.hameenlinna.fi',
+
   appBarLink: {
     name: 'Hämeenlinna',
     href: 'http://www.hameenlinna.fi/joukkoliikenne/',

@@ -12,6 +12,9 @@ const STATIC_MESSAGE_URL =
 
 export default {
   CONFIG,
+
+  prodHostName: 'https://opas.matka.fi',
+
   OTPTimeout: process.env.OTP_TIMEOUT || 30000,
 
   contactName: {

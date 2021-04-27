@@ -11,6 +11,9 @@ const walttiConfig = require('./config.waltti').default;
 export default configMerger(walttiConfig, {
   CONFIG,
 
+  devHostName: 'https://next-dev-lappeenranta.digitransit.fi',
+  prodHostName: 'https://lappeenranta.digitransit.fi',
+
   appBarLink: { name: 'Lappeenranta', href: 'http://www.lappeenranta.fi/' },
 
   colors: {

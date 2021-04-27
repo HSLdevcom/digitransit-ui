@@ -10,6 +10,9 @@ const walttiConfig = require('./config.waltti').default;
 export default configMerger(walttiConfig, {
   CONFIG,
 
+  devHostName: 'https://next-dev-oulu.digitransit.fi',
+  prodHostName: 'https://oulu.digitransit.fi',
+
   feedIds: ['OULU'],
 
   appBarLink: {

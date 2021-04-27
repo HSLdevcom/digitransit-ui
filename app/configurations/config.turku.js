@@ -11,6 +11,9 @@ const walttiConfig = require('./config.waltti').default;
 export default configMerger(walttiConfig, {
   CONFIG,
 
+  devHostName: 'https://next-dev-turku.digitransit.fi',
+  prodHostName: 'https://reittopas.foli.fi',
+
   feedIds: ['FOLI'],
 
   searchParams: {

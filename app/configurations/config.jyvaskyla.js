@@ -15,6 +15,9 @@ const maxLon = 26.358237;
 export default configMerger(walttiConfig, {
   CONFIG,
 
+  devHostName: 'https://next-dev-jyvaskyla.digitransit.fi',
+  prodHostName: 'https://jyvaskyla.digitransit.fi',
+
   feedIds: ['KeskiSuomenEly', 'LINKKI'],
 
   searchParams: {

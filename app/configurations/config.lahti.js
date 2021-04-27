@@ -15,6 +15,9 @@ const maxLon = 26.544819;
 export default configMerger(walttiConfig, {
   CONFIG,
 
+  devHostName: 'https://next-dev-lahti.digitransit.fi',
+  prodHostName: 'https://lahti.digitransit.fi',
+
   appBarLink: { name: 'LSL.fi', href: 'http://www.lsl.fi/' },
   colors: {
     primary: '#0066B3',

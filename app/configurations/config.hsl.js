@@ -19,6 +19,9 @@ const cityBikesEnabled = true;
 export default {
   CONFIG,
 
+  devHostName: 'https://next-dev.digitransit.fi',
+  prodHostName: 'https://reittopas.hsl.fi',
+
   URL: {
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/hsl/`,
     STOP_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-stop-map/`,

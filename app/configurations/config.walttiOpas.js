@@ -12,6 +12,9 @@ const API_URL = process.env.API_URL || 'https://api.digitransit.fi';
 export default configMerger(walttiConfig, {
   CONFIG,
 
+  devHostName: 'https://next-dev-opas.waltti.fi',
+  prodHostName: 'https://opas.waltti.fi',
+
   URL: {
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/next-waltti/`,
   },

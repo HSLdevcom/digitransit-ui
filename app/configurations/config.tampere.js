@@ -16,6 +16,9 @@ const maxLon = 24.9;
 export default configMerger(walttiConfig, {
   CONFIG,
 
+  devHostName: 'https://next-dev-tampere.digitransit.fi',
+  prodHostName: 'https://reittiopas.tampere.fi',
+
   appBarLink: { name: 'Nysse', href: 'https://www.nysse.fi/' },
 
   colors: {

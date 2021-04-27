@@ -11,6 +11,9 @@ const walttiConfig = require('./config.waltti').default;
 export default configMerger(walttiConfig, {
   CONFIG,
 
+  devHostName: 'https://next-dev-kuopio.digitransit.fi',
+  prodHostName: 'https://kuopio.digitransit.fi',
+
   appBarLink: { name: 'Kuopio', href: 'https://vilkku.kuopio.fi/' },
 
   colors: {

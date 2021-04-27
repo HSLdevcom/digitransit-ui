@@ -15,6 +15,9 @@ const maxLon = 27.739367;
 export default configMerger(walttiConfig, {
   CONFIG,
 
+  devHostName: 'https://next-dev-kotka.digitransit.fi',
+  prodHostName: 'https://kotka.digitransit.fi',
+
   appBarLink: {
     name: 'Kotkan seudun joukkoliikenne',
     href: 'http://www.kotka.fi/asukkaalle/kartat_ja_liikenne/joukkoliikenne',

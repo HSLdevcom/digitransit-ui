@@ -15,6 +15,9 @@ const maxLon = 27.384367;
 export default configMerger(walttiConfig, {
   CONFIG,
 
+  devHostName: 'https://next-dev-mikkeli.digitransit.fi',
+  prodHostName: 'https://mikkeli.digitransit.fi',
+
   appBarLink: {
     name: 'Mikkelin joukkoliikenne',
     href: 'https://mikkeli.kunta-api.fi/sisalto/palvelut/joukkoliikenne-2',

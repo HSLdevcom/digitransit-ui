@@ -15,6 +15,9 @@ const maxLon = 27.373531;
 export default configMerger(walttiConfig, {
   CONFIG,
 
+  devHostName: 'https://next-dev-rovaniemi.digitransit.fi',
+  prodHostName: 'https://rovaniemi.digitransit.fi',
+
   appBarLink: { name: 'Rovaniemi', href: 'http://www.rovaniemi.fi/' },
 
   colors: {
