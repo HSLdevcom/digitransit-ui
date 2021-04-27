@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment-timezone';
-import Autosuggest from 'react-autosuggest';
+import Select from 'react-select';
 import utils from './utils';
 import styles from './styles.scss';
 
@@ -44,23 +44,9 @@ function DesktopDatetimepicker({
 }) {
   moment.tz.setDefault(timeZone);
   const [displayValue, changeDisplayValue] = useState(getDisplay(value));
+  const [typing, setTyping] = useState(false);
 
   useEffect(() => changeDisplayValue(getDisplay(value)), [value]);
-
-  // keep track of dropdown state for scroll position management
-  const [open, changeOpen] = useState(false);
-  const scrollRef = useRef(null);
-  const minute = 1000 * 60;
-
-  const diffs = timeChoices.map(t => value - t);
-  const scrollIndex = diffs.findIndex(t => t < minute); // when time is now, the times might differ by less than one minute
-  const elementHeight = 50;
-  // scroll to selected time when dropdown is opened
-  useLayoutEffect(() => {
-    if (open && scrollRef.current) {
-      scrollRef.current.scrollTop = elementHeight * scrollIndex;
-    }
-  }, [value, open]);
 
   // newValue is string
   const handleTimestamp = newValue => {
@@ -76,106 +62,70 @@ function DesktopDatetimepicker({
     onChange(asNumber);
   };
 
-  // only enter or click will trigger actual change of value
-  // if user first types something in field and then selects an item from list, both 'inputenter' and 'enter' events will trigger, this needs to be handled.
-  const onInputChange = (_, { newValue, method }) => {
-    let validated;
-    switch (method) {
-      case 'type':
-        if (!disableTyping) {
-          const actualValue = utils.parseTypedTime(newValue);
-          changeDisplayValue(actualValue);
-        }
-        break;
-      case 'inputenter':
-        if (!disableTyping) {
-          validated = validate(newValue, value);
-          if (validated !== null) {
-            handleTimestamp(validated);
-          } else {
-            // TODO handle invalid input?
-          }
-        }
-        break;
-      case 'enter':
-      case 'click':
-        handleTimestamp(newValue);
-        break;
-      case 'escape':
-        changeDisplayValue(getDisplay(value));
-        break;
-      case 'up':
-      case 'down':
-      default:
-        break;
+  const onInputChange = (newValue, { action }) => {
+    if (disableTyping) {
+      return;
+    }
+    if (action === 'input-change') {
+      const validated = utils.parseTypedTime(newValue);
+      changeDisplayValue(validated);
+      setTyping(true);
     }
   };
+  const options = timeChoices.map(t => {
+    return { value: t.toString(), label: getDisplay(t) };
+  });
+  const closestOption = options.reduce((a, b) =>
+    Math.abs(value - a.value) < Math.abs(value - b.value) ? a : b,
+  );
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
   return (
     <>
       <label className={styles['combobox-container']} htmlFor={inputId}>
-        <span className={styles['left-column']}>
-          <span className={styles['combobox-label']} id={labelId}>
-            {label}
-          </span>
-          <Autosuggest
-            id={id}
-            suggestions={timeChoices}
-            getSuggestionValue={s => s.toString()}
-            renderSuggestion={s => getDisplay(s)}
-            onSuggestionsFetchRequested={() => null}
-            shouldRenderSuggestions={() => true}
-            inputProps={{
-              value: displayValue,
-              onChange: onInputChange,
-              onFocus: e => {
-                if (!disableTyping) {
-                  e.target.select();
-                }
-                changeOpen(true);
-              },
-              onBlur: () => {
-                changeOpen(false);
-                changeDisplayValue(getDisplay(value));
-              },
-              onKeyDown: e => {
-                if (e.keyCode === 13) {
-                  if (e.target.value !== getDisplay(value)) {
-                    // this means user probably typed something
-                    onInputChange(e, {
-                      newValue: e.target.value,
-                      method: 'inputenter',
-                    });
-                  }
-                }
-              },
-              id: inputId,
-              'aria-labelledby': labelId,
-              'aria-autocomplete': 'none',
-              readOnly: disableTyping,
-            }}
-            focusInputOnSuggestionClick={false}
-            onSuggestionsClearRequested={() => null}
-            renderSuggestionsContainer={({ containerProps, children }) => {
-              // set refs for autosuggest library and scrollbar positioning
-              const { ref, ...otherRefs } = containerProps;
-              const containerRef = elem => {
-                if (elem) {
-                  scrollRef.current = elem;
-                  ref(elem);
-                }
-              };
-              return (
-                <div tabIndex="-1" {...otherRefs} ref={containerRef}>
-                  {children}
-                </div>
-              );
-            }}
-            theme={styles}
-          />
+        <span className={styles['sr-only']} id={labelId}>
+          {label} {displayValue}
         </span>
         {icon}
+        <Select
+          aria-labelledby={labelId}
+          options={options}
+          inputId={inputId}
+          onChange={time => {
+            if (typing) {
+              const validated = validate(displayValue, value);
+              if (validated !== null) {
+                handleTimestamp(validated);
+                setTyping(false);
+              }
+              return;
+            }
+            handleTimestamp(time.value);
+          }}
+          components={{
+            IndicatorsContainer: () => null,
+          }}
+          className={styles['datetimepicker-select-container']}
+          classNamePrefix="datetimepicker-select"
+          onInputChange={onInputChange}
+          inputValue={!disableTyping && displayValue}
+          value={closestOption}
+          filterOption={() => true}
+          controlShouldRenderValue={disableTyping}
+          tabSelectsValue={false}
+          placeholder=""
+          onFocus={e => {
+            if (!disableTyping) {
+              e.target.select();
+            }
+          }}
+          onKeyDown={e => {
+            if (['ArrowDown', 'ArrowUp'].includes(e.key)) {
+              setTyping(false);
+            }
+          }}
+          isSearchable={!disableTyping}
+        />
       </label>
     </>
   );

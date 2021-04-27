@@ -10,7 +10,7 @@ import MessageBar from './MessageBar';
 import LogoSmall from './LogoSmall';
 import CanceledLegsBar from './CanceledLegsBar';
 import LoginButton from './LoginButton';
-import UserInfo from './UserInfo';
+import UserMenu from './UserMenu';
 
 const AppBar = (
   { showLogo, title, homeUrl, logo, user, breakpoint, titleClicked },
@@ -45,23 +45,23 @@ const AppBar = (
           (!user.name ? (
             <LoginButton />
           ) : (
-            <UserInfo
+            <UserMenu
               user={user}
-              list={[
+              menuItems={[
                 {
                   key: 'dropdown-item-1',
                   messageId: 'logout',
                   href: '/logout',
+                  onClick: event => {
+                    event.preventDefault();
+                    window.location.href = '/logout';
+                  },
                 },
               ]}
               isMobile
             />
           ))}
-        <MainMenuContainer
-          homeUrl={homeUrl}
-          user={user}
-          breakpoint={breakpoint}
-        />
+        <MainMenuContainer homeUrl={homeUrl} breakpoint={breakpoint} />
       </section>
     </nav>
   </>

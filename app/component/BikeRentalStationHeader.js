@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-// import Favourite from './Favourite';
-import Icon from '@digitransit-component/digitransit-component-icon';
 import StopCode from './StopCode';
 import BackButton from './BackButton';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { getJson } from '../util/xhrPromise';
 import getZoneId from '../util/zoneIconUtils';
+import ZoneIcon from './ZoneIcon';
 
 const modules = {
   FavouriteBikeRentalStationContainer: () =>
@@ -34,7 +33,6 @@ const BikeRentalStationHeader = (
       }
     });
   }, []);
-  const zone = zoneId ? `zone-${zoneId}` : '';
   return (
     <div className="bike-station-header">
       {breakpoint === 'large' && (
@@ -50,9 +48,9 @@ const BikeRentalStationHeader = (
           {bikeRentalStation.name !== bikeRentalStation.stationId && (
             <>
               <StopCode code={bikeRentalStation.stationId} />
-              {zone && (
+              {zoneId && (
                 <span className="bike-station-zone-icon">
-                  <Icon img={zone} color="#007AC9" height={1.25} width={1.25} />
+                  <ZoneIcon zoneId={zoneId.toUpperCase()} />
                 </span>
               )}
             </>

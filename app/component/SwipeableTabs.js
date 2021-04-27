@@ -228,6 +228,7 @@ export default class SwipeableTabs extends React.Component {
           <ReactSwipe
             swipeOptions={{
               startSlide: this.props.tabIndex,
+              stopPropagation: true,
               continuous: false,
               callback: i => {
                 // force transition after animation should be over because animation can randomly fail sometimes
