@@ -20,7 +20,7 @@ import isEmpty from 'lodash/isEmpty';
 import SunCalc from 'suncalc';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
-import MapContainer from './map/MapContainer';
+import MapWithTracking from './map/MapWithTracking';
 import SummaryPlanContainer from './SummaryPlanContainer';
 import SummaryNavigation from './SummaryNavigation';
 import ItineraryLine from './map/ItineraryLine';
@@ -71,7 +71,8 @@ import { saveSearch } from '../action/SearchActions';
 import CustomizeSearch from './CustomizeSearchNew';
 import { mapLayerShape } from '../store/MapLayerStore';
 
-const MAX_ZOOM = 16; // Maximum zoom available for the bounds.
+const POINT_FOCUS_ZOOM = 16; // used when focusing to a point
+
 /**
 /**
  * Returns the actively selected itinerary's index. Attempts to look for
@@ -245,7 +246,6 @@ class SummaryPage extends React.Component {
     breakpoint: PropTypes.string.isRequired,
     error: PropTypes.object,
     loading: PropTypes.bool,
-    loadingPosition: PropTypes.bool,
     relayEnvironment: PropTypes.object,
     relay: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
@@ -257,7 +257,6 @@ class SummaryPage extends React.Component {
     map: undefined,
     error: undefined,
     loading: false,
-    loadingPosition: false,
   };
 
   constructor(props, context) {
@@ -266,16 +265,9 @@ class SummaryPage extends React.Component {
     this.secondQuerySent = false;
     this.setParamsAndQuery();
     this.originalPlan = this.props.viewer && this.props.viewer.plan;
-    // *** TODO: Hotfix variables for temporary use only
-    this.justMounted = true;
-    this.useFitBounds = true;
     this.origin = undefined;
     this.destination = undefined;
-    this.mapCenterToggle = undefined;
-    // Terrible hack to get walking and cycling walks to respond correctly with bounds
-    this.fooAgain = undefined;
-    this.fooCount = 0;
-    // ****     ****
+
     if (props.error) {
       reportError(props.error);
     }
@@ -303,7 +295,6 @@ class SummaryPage extends React.Component {
       bikeParkPlan: undefined,
       scrolled: false,
       loadingMoreItineraries: undefined,
-      zoomLevel: -1,
       isFetchingWalkAndBike: true,
     };
     if (this.props.match.params.hash === 'walk') {
@@ -343,7 +334,6 @@ class SummaryPage extends React.Component {
   };
 
   setStreetModeAndSelect = newStreetMode => {
-    this.justMounted = true;
     this.useFitBounds = true;
     addAnalyticsEvent({
       category: 'Itinerary',
@@ -1164,7 +1154,6 @@ class SummaryPage extends React.Component {
     if (this.showVehicles()) {
       this.stopClient();
     }
-    this.justMounted = true;
     this.useFitBounds = true;
     //  alert screen reader when search results appear
     if (this.resultsUpdatedAlertRef.current) {
@@ -1178,9 +1167,7 @@ class SummaryPage extends React.Component {
       !this.props.match.params.hash &&
       !isEqual(this.props.match.params.hash, prevProps.match.params.hash)
     ) {
-      this.justMounted = true;
-      this.mapCenterToggle = undefined;
-      this.fooCount = 0;
+      this.expandMap = false;
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         center: undefined,
@@ -1317,12 +1304,11 @@ class SummaryPage extends React.Component {
     this.setState({ error });
   };
 
-  updateCenter = (lat, lon) => {
+  focusToPoint = (lat, lon) => {
     if (this.props.breakpoint !== 'large') {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-      this.setMapCenterToggle();
+      this.setExpandMap();
     }
-    this.justMounted = true;
     this.setState({ center: { lat, lon }, bounds: null });
   };
 
@@ -1455,13 +1441,11 @@ class SummaryPage extends React.Component {
     this.context.router.replace(newState);
   };
 
-  setMapZoomToLeg = leg => {
+  focusToLeg = leg => {
     if (this.props.breakpoint !== 'large') {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-      this.setMapCenterToggle();
+      this.setExpandMap();
     }
-    // this.justMounted = true;
-    // this.setState({ bounds: [] });
     const bounds = []
       .concat(
         [
@@ -1471,22 +1455,10 @@ class SummaryPage extends React.Component {
         polyline.decode(leg.legGeometry.points),
       )
       .filter(a => a[0] && a[1]);
-    this.useFitBounds = true;
     this.setState({
       bounds,
       center: undefined,
     });
-  };
-
-  endZoom = element => {
-    // eslint-disable-next-line no-underscore-dangle
-    const mapZoomLevel = element.target._zoom;
-    this.mapZoomLevel = mapZoomLevel;
-    if (this.state.zoomLevel !== this.mapZoomLevel) {
-      this.setState({
-        zoomLevel: mapZoomLevel,
-      });
-    }
   };
 
   selectLocation = (item, id) => {
@@ -1517,18 +1489,10 @@ class SummaryPage extends React.Component {
 
   renderMap() {
     const { match, breakpoint } = this.props;
-    this.justMounted = true;
-    this.useFitBounds = false;
     // don't render map on mobile
     if (breakpoint !== 'large') {
-      this.justMounted = true;
-      this.useFitBounds = true;
       return undefined;
     }
-    const {
-      config: { defaultEndpoint },
-    } = this.context;
-
     const combinedItineraries = this.getCombinedItineraries();
     let filteredItineraries;
     if (combinedItineraries && combinedItineraries.length > 0) {
@@ -1586,7 +1550,6 @@ class SummaryPage extends React.Component {
         />,
       );
     }
-
     if (to.lat && to.lon) {
       leafletObjs.push(
         <LocationMarker
@@ -1597,7 +1560,6 @@ class SummaryPage extends React.Component {
         />,
       );
     }
-
     getIntermediatePlaces(match.location.query).forEach(
       (intermediatePlace, i) => {
         leafletObjs.push(
@@ -1605,10 +1567,12 @@ class SummaryPage extends React.Component {
         );
       },
     );
+    if (this.showVehicles()) {
+      leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
+    }
 
     // Decode all legs of all itineraries into latlong arrays,
     // and concatenate into one big latlong array
-
     const bounds = []
       .concat(
         [
@@ -1626,8 +1590,8 @@ class SummaryPage extends React.Component {
       .filter(a => a[0] && a[1]);
 
     const centerPoint = {
-      lat: from.lat || to.lat || defaultEndpoint.lat,
-      lon: from.lon || to.lon || defaultEndpoint.lon,
+      lat: from.lat || to.lat,
+      lon: from.lon || to.lon,
     };
     const delta = 0.0269; // this is roughly equal to 3 km
     const defaultBounds = [
@@ -1635,30 +1599,16 @@ class SummaryPage extends React.Component {
       [centerPoint.lat + delta, centerPoint.lon + delta],
     ];
 
-    if (this.showVehicles()) {
-      leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
-    }
     const locationPopup = // max 5 viapoints
       getIntermediatePlaces(this.context.match.location.query).length < 5
         ? 'all'
         : 'origindestination';
 
-    const zoomLevel = this.getZoomLevel(
-      this.state.zoomLevel,
-      this.mapZoomLevel,
-      this.boundsZoom,
-    );
     return (
-      <MapContainer
-        className="summary-map"
+      <MapWithTracking
         leafletObjs={leafletObjs}
-        fitBounds
         bounds={bounds.length > 1 ? bounds : defaultBounds}
-        zoom={MAX_ZOOM}
-        leafletEvents={{
-          onZoomend: this.endZoom,
-        }}
-        geoJsonZoomLevel={zoomLevel}
+        zoom={POINT_FOCUS_ZOOM}
         locationPopup={locationPopup}
         onSelectLocation={this.selectLocation}
         mapLayers={this.props.mapLayers}
@@ -1804,22 +1754,8 @@ class SummaryPage extends React.Component {
     return itineraries.filter(x => x !== undefined);
   };
 
-  setMapCenterToggle = () => {
-    if (!this.mapCenterToggle) {
-      this.mapCenterToggle = true;
-    } else {
-      this.mapCenterToggle = !this.mapCenterToggle;
-    }
-  };
-
-  getZoomLevel = (stateZoom, mapZoom, boundsZoom) => {
-    if (stateZoom === -1) {
-      if (mapZoom === -1) {
-        return boundsZoom;
-      }
-      return mapZoom;
-    }
-    return stateZoom;
+  setExpandMap = () => {
+    this.expandMap = !this.expandMap;
   };
 
   render() {
@@ -2007,7 +1943,7 @@ class SummaryPage extends React.Component {
       return React.cloneElement(this.props.content, {
         itinerary:
           combinedItineraries[hash < combinedItineraries.length ? hash : 0],
-        focus: this.updateCenter,
+        focusToPoint: this.focusToPoint,
         from,
         to: otpToLocation(match.params.to),
       });
@@ -2024,7 +1960,7 @@ class SummaryPage extends React.Component {
       ) {
         sameOriginDestination = true;
       }
-      if (!sameOriginDestination || this.justMounted) {
+      if (!sameOriginDestination) {
         this.origin = origin;
         this.destination = destination;
         bounds = [
@@ -2057,13 +1993,12 @@ class SummaryPage extends React.Component {
             polyline.decode(leg.legGeometry.points),
           ),
         );
-        if (isEqual(this.fooAgain, bounds) && this.fooCount > 3) {
+        if (isEqual(this.fooAgain, bounds)) {
           this.useFitBounds = false;
         } else {
           this.useFitBounds = true;
           this.fooAgain = bounds;
           // eslint-disable-next-line no-plusplus
-          this.fooCount++;
         }
       }
     } else {
@@ -2090,9 +2025,7 @@ class SummaryPage extends React.Component {
               center,
               bounds,
               showVehicles: this.inRange,
-              forceCenter: this.justMounted,
               streetMode: this.state.streetMode,
-              fitBounds: this.useFitBounds,
               ...this.props,
               leafletEvents: {
                 onZoomend: this.endZoom,
@@ -2102,10 +2035,6 @@ class SummaryPage extends React.Component {
             this.context,
           )
         : this.renderMap();
-      if (this.props.map) {
-        this.justMounted = false;
-        this.useFitBounds = false;
-      }
     }
 
     let earliestStartTime;
@@ -2177,7 +2106,6 @@ class SummaryPage extends React.Component {
       let content;
       if (
         this.state.loading === false &&
-        this.props.loadingPosition === false &&
         (error || (combinedItineraries && this.props.loading === false))
       ) {
         const activeIndex =
@@ -2208,8 +2136,8 @@ class SummaryPage extends React.Component {
                   hideTitle
                   plan={currentTime}
                   itinerary={itinerary}
-                  focus={this.updateCenter}
-                  setMapZoomToLeg={this.setMapZoomToLeg}
+                  focusToPoint={this.focusToPoint}
+                  focusToLeg={this.focusToLeg}
                   isMobile={false}
                 />
               </div>
@@ -2271,15 +2199,13 @@ class SummaryPage extends React.Component {
               {this.props.content &&
                 React.cloneElement(this.props.content, {
                   itinerary: selectedItineraries?.length && selectedItinerary,
-                  focus: this.updateCenter,
+                  focusToPoint: this.focusToPoint,
                   plan: this.selectedPlan,
                 })}
             </SummaryPlanContainer>
           </>
         );
       } else {
-        this.justMounted = true;
-        this.useFitBounds = true;
         content = (
           <div style={{ position: 'relative', height: 200 }}>
             <Loading />
@@ -2385,11 +2311,8 @@ class SummaryPage extends React.Component {
 
     if (
       (!error && (!this.selectedPlan || this.props.loading === true)) ||
-      this.state.loading !== false ||
-      this.props.loadingPosition === true
+      this.state.loading !== false
     ) {
-      this.justMounted = true;
-      this.useFitBounds = true;
       isLoading = true;
       content = (
         <div style={{ position: 'relative', height: 200 }}>
@@ -2412,10 +2335,10 @@ class SummaryPage extends React.Component {
         <MobileItineraryWrapper
           itineraries={combinedItineraries}
           params={match.params}
-          focus={this.updateCenter}
+          focusToPoint={this.focusToPoint}
           plan={this.selectedPlan}
           serviceTimeRange={this.props.serviceTimeRange}
-          setMapZoomToLeg={this.setMapZoomToLeg}
+          focusToLeg={this.focusToLeg}
           onSwipe={this.changeHash}
         >
           {this.props.content &&
@@ -2529,7 +2452,7 @@ class SummaryPage extends React.Component {
             />
           </SettingsDrawer>
         }
-        mapCenterToggle={this.mapCenterToggle}
+        expandMap={this.expandMap}
       />
     );
   }

@@ -131,7 +131,7 @@ export default config => {
                   return props ? (
                     <Component {...props} match={match} error={error} />
                   ) : (
-                    <Component match={match} loadingPosition error={error} />
+                    <Component match={match} error={error} />
                   );
                 }
                 return undefined;

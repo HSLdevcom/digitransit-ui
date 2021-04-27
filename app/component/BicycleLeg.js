@@ -18,10 +18,7 @@ import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
 import CityBikeLeg from './CityBikeLeg';
 
-function BicycleLeg(
-  { focusAction, index, leg, setMapZoomToLeg },
-  { config, intl },
-) {
+function BicycleLeg({ focusAction, index, leg, focusToLeg }, { config, intl }) {
   let stopsDescription;
   const distance = displayDistance(
     parseInt(leg.distance, 10),
@@ -169,10 +166,8 @@ function BicycleLeg(
             {stopsDescription}
             <div
               className="itinerary-map-action"
-              onClick={setMapZoomToLeg}
-              onKeyPress={e =>
-                isKeyboardSelectionEvent(e) && setMapZoomToLeg(e)
-              }
+              onClick={focusToLeg}
+              onKeyPress={e => isKeyboardSelectionEvent(e) && focusToLeg(e)}
               role="button"
               tabIndex="0"
               aria-label={intl.formatMessage({
@@ -332,7 +327,7 @@ BicycleLeg.propTypes = {
   }).isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
-  setMapZoomToLeg: PropTypes.func.isRequired,
+  focusToLeg: PropTypes.func.isRequired,
 };
 
 BicycleLeg.contextTypes = {

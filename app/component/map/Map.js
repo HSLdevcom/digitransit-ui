@@ -116,7 +116,7 @@ export default class Map extends React.Component {
     const naviProps = {}; // these define map center and zoom
     if (this.props.bounds) {
       // bounds overrule center & zoom
-      naviProps.bounds = boundWithMinimumArea(this.props.bounds);
+      naviProps.bounds = boundWithMinimumArea(this.props.bounds); // validate
     } else {
       if (lat && lon) {
         naviProps.center = [lat, lon];
