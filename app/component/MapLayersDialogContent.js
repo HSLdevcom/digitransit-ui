@@ -157,7 +157,8 @@ class MapLayersDialogContent extends React.Component {
       showAllBusses,
       roadworks,
       dynamicParkingLots,
-        currentMapMode
+      weatherStations,
+      currentMapMode,
     } = this.props.mapLayers;
     let arr;
     if (this.props.geoJson) {
@@ -321,6 +322,21 @@ class MapLayersDialogContent extends React.Component {
                 onChange={e =>
                   this.updateSetting({ dynamicParkingLots: e.target.checked })
                 }
+              />
+            )}
+          {this.context.config.weatherStations &&
+            this.context.config.weatherStations.show && (
+              <Checkbox
+                checked={weatherStations}
+                defaultMessage="Road weather"
+                labelId="map-layer-weather-stations"
+                onChange={e => {
+                  this.updateSetting({ weatherStations: e.target.checked });
+                  this.sendLayerChangeAnalytic(
+                    'WeatherStations',
+                    e.target.checked,
+                  );
+                }}
               />
             )}
 

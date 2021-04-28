@@ -81,6 +81,12 @@ class TileContainer {
         ) {
           return isEnabled;
         }
+        if (
+          layerName === 'weatherStations' &&
+          this.coords.z >= config.weatherStations.minZoom
+        ) {
+          return isEnabled;
+        }
         return false;
       })
       .map(

@@ -28,6 +28,7 @@ import {
 } from '../../../util/path';
 import DynamicParkingLotsPopup from '../popups/DynamicParkingLotsPopup';
 import SelectVehicleContainer from './SelectVehicleContainer';
+import WeatherStationPopup from '../popups/WeatherStationPopup';
 
 const initialState = {
   selectableTargets: undefined,
@@ -345,6 +346,25 @@ class TileLayerContainer extends GridLayer {
             />
           );
         }
+        popup = (
+          <Popup
+            {...this.PopupOptions}
+            key={id}
+            position={this.state.coords}
+            className={`${this.PopupOptions.className} single-popup`}
+          >
+            {contents}
+          </Popup>
+        );
+      } else if (this.state.selectableTargets[0].layer === 'weatherStations') {
+        const { id } = this.state.selectableTargets[0].feature;
+        contents = (
+          <WeatherStationPopup
+            feature={this.state.selectableTargets[0].feature}
+            lat={this.state.coords.lat}
+            lon={this.state.coords.lng}
+          />
+        );
         popup = (
           <Popup
             {...this.PopupOptions}

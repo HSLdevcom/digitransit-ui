@@ -280,6 +280,14 @@ function drawIconImageBadge(
   );
 }
 
+export function drawWeatherStationIcon(tile, geom, imageSize) {
+  getImageFromSpriteCache('icon-icon_monitor', imageSize, imageSize).then(
+    image => {
+      drawIconImage(image, tile, geom, imageSize, imageSize);
+    },
+  );
+}
+
 /**
  * Draw a small circle icon used for far away zoom level.
  */
