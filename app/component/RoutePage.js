@@ -102,8 +102,7 @@ class RoutePage extends React.Component {
         </div>
         {route &&
           route.patterns &&
-          (this.props.match.params.type === 'aikataulu' ||
-            this.props.match.params.type === 'hairiot') && (
+          this.props.match.params.type === 'hairiot' && (
             <RoutePageControlPanel
               match={this.props.match}
               route={route}

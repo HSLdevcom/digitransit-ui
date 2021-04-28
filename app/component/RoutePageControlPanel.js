@@ -69,15 +69,20 @@ class RoutePageControlPanel extends React.Component {
     route: PropTypes.object.isRequired,
     match: matchShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
+    noInitialServiceDay: PropTypes.bool,
   };
 
   // gets called if pattern has not been visited before
   componentDidMount() {
-    const { match, route } = this.props;
+    const { match, route, noInitialServiceDay } = this.props;
     const { config, router } = this.context;
     const { location } = match;
 
     if (!route || !route.patterns) {
+      return;
+    }
+
+    if (noInitialServiceDay) {
       return;
     }
 
