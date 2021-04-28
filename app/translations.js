@@ -2305,7 +2305,7 @@ const translations = {
     'swipe-result-tab-left':
       'navigointipainike. Näytä edellinen välilehti painamalla enteriä tai välilyöntiä.',
     'swipe-result-tab-right':
-      'Näytä seuraava välilehti painamalla enteriä tai välilyöntiä.',
+      'navigointipainike. Näytä seuraava välilehti painamalla enteriä tai välilyöntiä.',
     'swipe-result-tabs': 'Selaa välilehtiä nuolinäppäimillä.',
     'swipe-stops-near-you': 'Lähipysäkkinäkymävälilehtien',
     'swipe-stops-near-you-header': 'Lähipysäkkinäkymävälilehdet.',
