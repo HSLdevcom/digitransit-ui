@@ -345,31 +345,22 @@ class TileLayerContainer extends GridLayer {
               lon={this.state.coords.lng}
             />
           );
+        } else if (
+          this.state.selectableTargets[0].layer === 'weatherStations'
+        ) {
+          contents = (
+            <WeatherStationPopup
+              feature={this.state.selectableTargets[0].feature}
+              lat={this.state.coords.lat}
+              lon={this.state.coords.lng}
+            />
+          );
         }
         popup = (
           <Popup
             {...this.PopupOptions}
             key={id}
             position={this.state.coords}
-            className={`${this.PopupOptions.className} single-popup`}
-          >
-            {contents}
-          </Popup>
-        );
-      } else if (this.state.selectableTargets[0].layer === 'weatherStations') {
-        const { id } = this.state.selectableTargets[0].feature;
-        contents = (
-          <WeatherStationPopup
-            feature={this.state.selectableTargets[0].feature}
-            lat={this.state.coords.lat}
-            lon={this.state.coords.lng}
-          />
-        );
-        popup = (
-          <Popup
-            {...this.PopupOptions}
-            key={id}
-            position={latlng}
             className={`${this.PopupOptions.className} single-popup`}
           >
             {contents}

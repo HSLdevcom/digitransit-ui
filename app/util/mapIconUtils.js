@@ -349,7 +349,7 @@ export function drawStopIcon(
   modeIconColors,
 ) {
   const mode = `mode-${type.toLowerCase()}`;
-  const color = modeIconColors[mode] || '#000';
+  const color = modeIconColors ? modeIconColors[mode] : '#000';
   if (type === 'SUBWAY') {
     return;
   }
