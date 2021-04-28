@@ -1,5 +1,3 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable react/prop-types */
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames'; // DT-3470
@@ -77,6 +75,7 @@ class MapWithTrackingStateHandler extends React.Component {
     onSelectLocation: PropTypes.func,
     onStartNavigation: PropTypes.func,
     onEndNavigation: PropTypes.func,
+    setMWTRef: PropTypes.func,
   };
 
   static defaultProps = {
@@ -101,20 +100,22 @@ class MapWithTrackingStateHandler extends React.Component {
     if (this.props.mapLayers.vehicles) {
       startClient(this.context);
     }
-  }
-
-  static getDerivedStateFromProps = nextProps => {
-    let newState = null;
-    if (nextProps.mapTracking) {
-      newState = { mapTracking: true };
-    } else if (nextProps.mapTracking === false) {
-      newState = { mapTracking: false };
+    if (this.props.setMWTRef) {
+      this.props.setMWTRef(this);
     }
-    return newState;
-  };
+  }
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(newProps) {
+    let newState = null;
+    if (newProps.mapTracking && !this.state.mapTracking) {
+      newState = { mapTracking: true };
+    } else if (newProps.mapTracking === false && this.state.mapTracking) {
+      newState = { mapTracking: false };
+    }
+    if (newState) {
+      this.setState(newState);
+    }
     if (newProps.mapLayers.vehicles) {
       if (!this.props.mapLayers.vehicles) {
         startClient(this.context);
@@ -144,7 +145,6 @@ class MapWithTrackingStateHandler extends React.Component {
     if (!this.props.position.hasLocation) {
       this.context.executeAction(startLocationWatch);
     }
-    delete this.naviProps.bounds;
     this.setState({
       mapTracking: true,
     });
@@ -162,6 +162,10 @@ class MapWithTrackingStateHandler extends React.Component {
     this.setState({
       mapTracking: false,
     });
+  };
+
+  forceRefresh = () => {
+    this.refresh = true;
   };
 
   startNavigation = () => {
@@ -190,7 +194,6 @@ class MapWithTrackingStateHandler extends React.Component {
       renderCustomButtons,
       mapLayers,
       bounds,
-      mapState,
       ...rest
     } = this.props;
     const { config } = this.context;
@@ -228,21 +231,35 @@ class MapWithTrackingStateHandler extends React.Component {
         this.naviProps.lat += 0.000001 * Math.random();
         this.navigated = false;
       }
+      delete this.naviProps.bounds;
     } else if (
       this.props.bounds &&
-      !isEqual(this.oldBounds, this.props.bounds)
+      (!isEqual(this.oldBounds, this.props.bounds) || this.refresh)
     ) {
-      this.naviProps.bounds = this.props.bounds;
+      this.naviProps.bounds = [...this.props.bounds];
+      if (this.refresh) {
+        // bounds is defined by [min, max] point pair. Substract min lat a bit
+        this.naviProps.bounds[0][0] -= 0.000001 * Math.random();
+      }
       this.oldBounds = this.props.bounds;
-    } else if (lat && lon && lat !== this.oldLat && lon !== this.oldLon) {
+    } else if (
+      lat &&
+      lon &&
+      ((lat !== this.oldLat && lon !== this.oldLon) || this.refresh)
+    ) {
       this.naviProps.lat = lat;
+      if (this.refresh) {
+        this.naviProps.lat += 0.000001 * Math.random();
+      }
       this.naviProps.lon = lon;
       this.oldLat = lat;
       this.oldLon = lon;
       if (zoom) {
         this.naviProps.zoom = zoom;
       }
+      delete this.naviProps.bounds;
     }
+    this.refresh = false;
 
     // eslint-disable-next-line no-nested-ternary
     const img = position.locationingFailed
@@ -280,7 +297,7 @@ class MapWithTrackingStateHandler extends React.Component {
                   this.disableMapTracking();
                 } else {
                   // enabling tracking will trigger same navigation events as user navigation
-                  // this hack will prevent those events from clearing tracking
+                  // this hack prevents those events from clearing tracking
                   this.ignoreNavigation = true;
                   setTimeout(() => {
                     this.ignoreNavigation = false;

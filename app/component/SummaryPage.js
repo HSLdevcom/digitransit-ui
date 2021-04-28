@@ -29,6 +29,7 @@ import MobileItineraryWrapper from './MobileItineraryWrapper';
 import { getWeatherData } from '../util/apiUtils';
 import Loading from './Loading';
 import { getSummaryPath } from '../util/path';
+import { boundWithMinimumArea } from '../util/geo-utils';
 import {
   validateServiceTimeRange,
   getStartTimeWithColon,
@@ -218,6 +219,29 @@ const getTopicOptions = (context, planitineraries, match) => {
   return itineraryTopics;
 };
 
+const getBounds = (itineraries, from, to, viaPoints) => {
+  // Decode all legs of all itineraries into latlong arrays,
+  // and concatenate into one big latlong array
+  const bounds = [
+    [from.lat, from.lon],
+    [to.lat, to.lon],
+  ];
+  viaPoints.forEach(p => bounds.push([p.lat, p.lon]));
+  return boundWithMinimumArea(
+    bounds
+      .concat(
+        ...itineraries.map(itinerary =>
+          [].concat(
+            ...itinerary.legs.map(leg =>
+              polyline.decode(leg.legGeometry.points),
+            ),
+          ),
+        ),
+      )
+      .filter(a => a[0] && a[1]),
+  );
+};
+
 class SummaryPage extends React.Component {
   static contextTypes = {
     config: PropTypes.object,
@@ -280,10 +304,8 @@ class SummaryPage extends React.Component {
 
     this.state = {
       weatherData: {},
-      center: null,
       loading: false,
       settingsOpen: false,
-      bounds: null,
       alternativePlan: undefined,
       earlierItineraries: [],
       laterItineraries: [],
@@ -334,7 +356,6 @@ class SummaryPage extends React.Component {
   };
 
   setStreetModeAndSelect = newStreetMode => {
-    this.useFitBounds = true;
     addAnalyticsEvent({
       category: 'Itinerary',
       action: 'OpenItineraryDetailsWithMode',
@@ -1154,7 +1175,6 @@ class SummaryPage extends React.Component {
     if (this.showVehicles()) {
       this.stopClient();
     }
-    this.useFitBounds = true;
     //  alert screen reader when search results appear
     if (this.resultsUpdatedAlertRef.current) {
       // eslint-disable-next-line no-self-assign
@@ -1168,12 +1188,8 @@ class SummaryPage extends React.Component {
       !isEqual(this.props.match.params.hash, prevProps.match.params.hash)
     ) {
       this.expandMap = false;
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        center: undefined,
-        bounds: undefined,
-      });
     }
+    const viaPoints = getIntermediatePlaces(this.props.match.location.query);
     if (
       this.props.match.params.hash &&
       (this.props.match.params.hash === 'walk' ||
@@ -1184,7 +1200,7 @@ class SummaryPage extends React.Component {
       if (
         !isEqual(
           getIntermediatePlaces(prevProps.match.location.query),
-          getIntermediatePlaces(this.props.match.location.query),
+          viaPoints,
         )
       ) {
         const newState = {
@@ -1248,7 +1264,7 @@ class SummaryPage extends React.Component {
           otpToLocation(this.context.match.params.from),
           otpToLocation(this.context.match.params.to),
         ) ||
-        getIntermediatePlaces(this.context.match.location.query).length > 0
+        viaPoints.length > 0
       ) {
         this.makeWalkAndBikeQueries();
       } else {
@@ -1273,7 +1289,6 @@ class SummaryPage extends React.Component {
     if (this.showVehicles()) {
       let combinedItineraries = this.getCombinedItineraries();
       if (
-        combinedItineraries &&
         combinedItineraries.length > 0 &&
         this.props.match.params.hash !== 'walk' &&
         this.props.match.params.hash !== 'bikeAndVehicle'
@@ -1304,12 +1319,52 @@ class SummaryPage extends React.Component {
     this.setState({ error });
   };
 
+  setMWTRef = ref => {
+    this.mwtRef = ref;
+  };
+
+  // make the map to obey external navigation
+  navigateMap = () => {
+    // map sticks to user location if tracking is on, so set it off
+    if (this.mwtRef?.disableMapTracking) {
+      this.mwtRef.disableMapTracking();
+    }
+    // map will not react to location props unless they change or update is forced
+    if (this.mwtRef?.forceRefresh) {
+      this.mwtRef.forceRefresh();
+    }
+  };
+
   focusToPoint = (lat, lon) => {
     if (this.props.breakpoint !== 'large') {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-      this.setExpandMap();
+      this.expandMap = true;
     }
+    this.navigateMap();
     this.setState({ center: { lat, lon }, bounds: null });
+  };
+
+  focusToLeg = leg => {
+    if (this.props.breakpoint !== 'large') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      this.expandMap = true;
+    }
+    this.navigateMap();
+    const bounds = boundWithMinimumArea(
+      []
+        .concat(
+          [
+            [leg.from.lat, leg.from.lon],
+            [leg.to.lat, leg.to.lon],
+          ],
+          polyline.decode(leg.legGeometry.points),
+        )
+        .filter(a => a[0] && a[1]),
+    );
+    this.setState({
+      bounds,
+      center: undefined,
+    });
   };
 
   // These are icons that contains sun
@@ -1413,8 +1468,13 @@ class SummaryPage extends React.Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.breakpoint === 'large' && this.state.center) {
-      this.setState({ center: null });
+    if (!isEqual(this.props.match.params.hash, nextProps.match.params.hash)) {
+      this.navigateMap();
+
+      this.setState({
+        center: undefined,
+        bounds: undefined,
+      });
     }
   }
 
@@ -1439,26 +1499,6 @@ class SummaryPage extends React.Component {
 
     newState.pathname = indexPath;
     this.context.router.replace(newState);
-  };
-
-  focusToLeg = leg => {
-    if (this.props.breakpoint !== 'large') {
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-      this.setExpandMap();
-    }
-    const bounds = []
-      .concat(
-        [
-          [leg.from.lat, leg.from.lon],
-          [leg.to.lat, leg.to.lon],
-        ],
-        polyline.decode(leg.legGeometry.points),
-      )
-      .filter(a => a[0] && a[1]);
-    this.setState({
-      bounds,
-      center: undefined,
-    });
   };
 
   selectLocation = (item, id) => {
@@ -1487,7 +1527,7 @@ class SummaryPage extends React.Component {
     );
   };
 
-  renderMap() {
+  renderMap(from, to, viaPoints) {
     const { match, breakpoint } = this.props;
     // don't render map on mobile
     if (breakpoint !== 'large') {
@@ -1495,7 +1535,7 @@ class SummaryPage extends React.Component {
     }
     const combinedItineraries = this.getCombinedItineraries();
     let filteredItineraries;
-    if (combinedItineraries && combinedItineraries.length > 0) {
+    if (combinedItineraries.length > 0) {
       filteredItineraries = combinedItineraries.filter(
         itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
       );
@@ -1507,8 +1547,6 @@ class SummaryPage extends React.Component {
       getHashNumber(
         match.params.secondHash ? match.params.secondHash : match.params.hash,
       ) || getActiveIndex(match.location, filteredItineraries);
-    const from = otpToLocation(match.params.from);
-    const to = otpToLocation(match.params.to);
 
     let leafletObjs = [];
 
@@ -1560,58 +1598,36 @@ class SummaryPage extends React.Component {
         />,
       );
     }
-    getIntermediatePlaces(match.location.query).forEach(
-      (intermediatePlace, i) => {
-        leafletObjs.push(
-          <LocationMarker key={`via_${i}`} position={intermediatePlace} />,
-        );
-      },
-    );
+    viaPoints.forEach((intermediatePlace, i) => {
+      leafletObjs.push(
+        <LocationMarker key={`via_${i}`} position={intermediatePlace} />,
+      );
+    });
     if (this.showVehicles()) {
       leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
     }
 
-    // Decode all legs of all itineraries into latlong arrays,
-    // and concatenate into one big latlong array
-    const bounds = []
-      .concat(
-        [
-          [from.lat, from.lon],
-          [to.lat, to.lon],
-        ],
-        ...filteredItineraries.map(itinerary =>
-          [].concat(
-            ...itinerary.legs.map(leg =>
-              polyline.decode(leg.legGeometry.points),
-            ),
-          ),
-        ),
-      )
-      .filter(a => a[0] && a[1]);
-
-    const centerPoint = {
-      lat: from.lat || to.lat,
-      lon: from.lon || to.lon,
-    };
-    const delta = 0.0269; // this is roughly equal to 3 km
-    const defaultBounds = [
-      [centerPoint.lat - delta, centerPoint.lon - delta],
-      [centerPoint.lat + delta, centerPoint.lon + delta],
-    ];
-
-    const locationPopup = // max 5 viapoints
-      getIntermediatePlaces(this.context.match.location.query).length < 5
-        ? 'all'
-        : 'origindestination';
+    const mwtProps = {};
+    if (this.state.bounds) {
+      mwtProps.bounds = this.state.bounds;
+    } else if (this.state.center) {
+      mwtProps.lat = this.state.center.lat;
+      mwtProps.lon = this.state.center.lon;
+    } else {
+      mwtProps.bounds = getBounds(filteredItineraries, from, to, viaPoints);
+    }
+    // max 5 viapoints
+    const locationPopup = viaPoints.length < 5 ? 'all' : 'origindestination';
 
     return (
       <MapWithTracking
-        leafletObjs={leafletObjs}
-        bounds={bounds.length > 1 ? bounds : defaultBounds}
+        {...mwtProps}
         zoom={POINT_FOCUS_ZOOM}
+        leafletObjs={leafletObjs}
         locationPopup={locationPopup}
         onSelectLocation={this.selectLocation}
         mapLayers={this.props.mapLayers}
+        setMWTRef={this.setMWTRef}
       />
     );
   }
@@ -1752,10 +1768,6 @@ class SummaryPage extends React.Component {
       ...(this.state.laterItineraries || []),
     ];
     return itineraries.filter(x => x !== undefined);
-  };
-
-  setExpandMap = () => {
-    this.expandMap = !this.expandMap;
   };
 
   render() {
@@ -1917,7 +1929,6 @@ class SummaryPage extends React.Component {
     let combinedItineraries = this.getCombinedItineraries();
 
     if (
-      combinedItineraries &&
       combinedItineraries.length > 0 &&
       this.props.match.params.hash !== 'walk' &&
       this.props.match.params.hash !== 'bikeAndVehicle'
@@ -1939,115 +1950,30 @@ class SummaryPage extends React.Component {
     );
 
     const from = otpToLocation(match.params.from);
+    const to = otpToLocation(match.params.to);
+    const viaPoints = getIntermediatePlaces(match.location.query);
+
     if (match.routes.some(route => route.printPage) && hasItineraries) {
       return React.cloneElement(this.props.content, {
         itinerary:
           combinedItineraries[hash < combinedItineraries.length ? hash : 0],
         focusToPoint: this.focusToPoint,
         from,
-        to: otpToLocation(match.params.to),
+        to,
       });
     }
-    let bounds;
-    let center;
-    let sameOriginDestination = false;
-    if (!this.state.bounds && !this.state.center) {
-      const origin = otpToLocation(match.params.from);
-      const destination = otpToLocation(match.params.to);
-      if (
-        isEqual(origin, this.origin) &&
-        isEqual(destination, this.destination)
-      ) {
-        sameOriginDestination = true;
-      }
-      if (!sameOriginDestination) {
-        this.origin = origin;
-        this.destination = destination;
-        bounds = [
-          [origin.lat, origin.lon],
-          [destination.lat, destination.lon],
-        ];
 
-        if (
-          hash !== undefined &&
-          (combinedItineraries[hash] || combinedItineraries[hash])
-        ) {
-          const legGeometry = [].concat(
-            ...combinedItineraries[hash].legs.map(leg =>
-              polyline.decode(leg.legGeometry.points),
-            ),
-          );
-          bounds = []
-            .concat(bounds)
-            .concat(legGeometry)
-            .filter(a => a[0] && a[1]);
-          this.useFitBounds = true;
-        }
-        center = { lat: origin.lat, lon: origin.lon };
-      } else if (
-        (hash !== undefined && this.props.match.params.hash === 'walk') ||
-        this.props.match.params.hash === 'bike'
-      ) {
-        bounds = [].concat(
-          ...combinedItineraries[hash].legs.map(leg =>
-            polyline.decode(leg.legGeometry.points),
-          ),
-        );
-        if (isEqual(this.fooAgain, bounds)) {
-          this.useFitBounds = false;
-        } else {
-          this.useFitBounds = true;
-          this.fooAgain = bounds;
-          // eslint-disable-next-line no-plusplus
-        }
-      }
-    } else {
-      center = this.state.bounds ? undefined : this.state.center;
-      bounds = this.state.center ? undefined : this.state.bounds;
-    }
-
-    // Call props.map directly in order to render to same map instance
-    let map;
-    if (
-      this.props.match.params.hash === 'bikeAndVehicle' &&
-      !routeSelected(
-        match.params.hash,
-        match.params.secondHash,
-        combinedItineraries,
-      )
-    ) {
-      map = this.renderMap();
-    } else {
-      map = this.props.map
-        ? this.props.map.type(
-            {
-              itinerary: combinedItineraries && combinedItineraries[hash],
-              center,
-              bounds,
-              showVehicles: this.inRange,
-              streetMode: this.state.streetMode,
-              ...this.props,
-              leafletEvents: {
-                onZoomend: this.endZoom,
-              },
-              mapLayers: this.props.mapLayers,
-            },
-            this.context,
-          )
-        : this.renderMap();
-    }
+    let map = this.renderMap(from, to, viaPoints);
 
     let earliestStartTime;
     let latestArrivalTime;
 
-    if (this.selectedPlan?.itineraries && combinedItineraries) {
+    if (this.selectedPlan?.itineraries) {
       earliestStartTime = Math.min(
         ...combinedItineraries.map(i => i.startTime),
       );
       latestArrivalTime = Math.max(...combinedItineraries.map(i => i.endTime));
     }
-
-    const intermediatePlaces = getIntermediatePlaces(match.location.query);
 
     const loadingStreeModeSelector =
       this.props.loading ||
@@ -2106,7 +2032,7 @@ class SummaryPage extends React.Component {
       let content;
       if (
         this.state.loading === false &&
-        (error || (combinedItineraries && this.props.loading === false))
+        (error || this.props.loading === false)
       ) {
         const activeIndex =
           hash || getActiveIndex(match.location, combinedItineraries);
@@ -2374,7 +2300,7 @@ class SummaryPage extends React.Component {
               error={error || this.state.error}
               from={match.params.from}
               to={match.params.to}
-              intermediatePlaces={intermediatePlaces}
+              intermediatePlaces={viaPoints}
               bikeAndPublicItinerariesToShow={
                 this.bikeAndPublicItinerariesToShow
               }
