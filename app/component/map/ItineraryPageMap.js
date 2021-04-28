@@ -18,8 +18,6 @@ import { mapLayerShape } from '../../store/MapLayerStore';
 let L;
 let prevCenter;
 let useCenter = true;
-let breakpointChanged = false;
-let prevBreakpoint;
 let zoomLevel = -1;
 
 if (isBrowser) {
@@ -40,7 +38,6 @@ function ItineraryPageMap(
     itinerary,
     center,
     breakpoint,
-    forceCenter,
     fitBounds,
     bounds,
     leafletEvents,
@@ -50,8 +47,6 @@ function ItineraryPageMap(
   { match, router, executeAction },
 ) {
   // DT-4011: When user changes orientation, i.e. with tablet, map would crash. This check prevents it.
-  breakpointChanged = !isEqual(breakpoint, prevBreakpoint);
-  prevBreakpoint = breakpoint;
   let latlon = prevCenter;
   const { from, to, hash } = match.params;
   if (prevCenter) {
@@ -60,9 +55,6 @@ function ItineraryPageMap(
   if (center && !isEqual(center, prevCenter)) {
     latlon = center;
     prevCenter = center;
-    useCenter = true;
-  }
-  if (forceCenter || breakpointChanged) {
     useCenter = true;
   }
   const leafletObjs = [
@@ -173,7 +165,6 @@ ItineraryPageMap.propTypes = {
   center: dtLocationShape,
   breakpoint: PropTypes.string.isRequired,
   bounds: PropTypes.array,
-  forceCenter: PropTypes.bool,
   fitBounds: PropTypes.bool,
   leafletEvents: PropTypes.object,
   showVehicles: PropTypes.bool,

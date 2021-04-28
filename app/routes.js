@@ -235,18 +235,6 @@ export default config => {
                     />
                   </Route>,
                 ],
-                map: [
-                  <Route path="" />,
-                  <Route
-                    path="/:hash/(.*)?"
-                    getComponent={() =>
-                      import(
-                        /* webpackChunkName: "itinerary" */ './component/map/ItineraryPageMap'
-                      ).then(getDefault)
-                    }
-                    render={getComponentOrNullRenderer}
-                  />,
-                ],
               }}
             </Route>
           ),

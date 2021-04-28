@@ -47,8 +47,6 @@ export default class MobileItineraryWrapper extends React.Component {
     });
   };
 
-  focusMap = (lat, lon) => this.props.focusToPoint(lat, lon);
-
   render() {
     const index = this.props.params.secondHash
       ? parseInt(this.props.params.secondHash, 10)
