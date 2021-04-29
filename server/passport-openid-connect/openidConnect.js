@@ -11,10 +11,10 @@ const clearAllUserSessions = false; // set true if logout should erase all user'
 
 const debugLogging = process.env.DEBUGLOGGING;
 
-export default function setUpOIDC(app, port, indexPath) {
-  const hostname = process.env.HOSTNAME || `http://localhost:${port}`;
+export default function setUpOIDC(app, port, indexPath, hostnames) {
   /* ********* Setup OpenID Connect ********* */
   const callbackPath = '/oid_callback'; // connect callback path
+  const logoutCallbackPath = '/logout/callback';
   // Use Passport with OpenId Connect strategy to authenticate users
   const OIDCHost = process.env.OIDCHOST || 'https://hslid-dev.t5.fi';
   const FavouriteHost =
@@ -29,14 +29,25 @@ export default function setUpOIDC(app, port, indexPath) {
         tls: { servername: RedisHost },
       })
     : redis.createClient(RedisPort, RedisHost);
+
+  const redirectUris = [hostnames.map(host => `${host}${callbackPath}`)];
+  const postLogoutRedirectUris = hostnames.map(
+    host => `${host}${logoutCallbackPath}`,
+  );
+  if (process.env.NODE_ENV === 'development') {
+    redirectUris.push(`http://localhost:${port}${callbackPath}`);
+    postLogoutRedirectUris.push(
+      `http://localhost:${port}${logoutCallbackPath}`,
+    );
+  }
+
   const oic = new LoginStrategy({
     issuerHost:
       process.env.OIDC_ISSUER || `${OIDCHost}/.well-known/openid-configuration`,
     client_id: process.env.OIDC_CLIENT_ID,
     client_secret: process.env.OIDC_CLIENT_SECRET,
-    redirect_uri:
-      process.env.OIDC_CLIENT_CALLBACK || `${hostname}${callbackPath}`,
-    post_logout_redirect_uris: [`${hostname}/logout/callback`],
+    redirect_uris: redirectUris,
+    post_logout_redirect_uris: postLogoutRedirectUris,
     scope: 'openid profile',
     sessionCallback(userId, sessionId) {
       // keep track of per-user sessions
@@ -165,9 +176,14 @@ export default function setUpOIDC(app, port, indexPath) {
 
   app.get('/logout', function (req, res) {
     const cookieLang = req.cookies.lang || 'fi';
-    const logoutUrl = `${oic.client.endSessionUrl()}&ui_locales=${cookieLang}&id_token_hint=${
-      req.user.token.id_token
-    }`;
+    const postLogoutRedirectUri = `${req.protocol}://${req.headers.host}${logoutCallbackPath}`;
+    const params = {
+      post_logout_redirect_uri: postLogoutRedirectUri,
+      id_token_hint: req.user.token.id_token,
+      ui_locales: cookieLang,
+    };
+    const logoutUrl = oic.client.endSessionUrl(params);
+
     req.session.userId = req.user.data.sub;
     if (debugLogging) {
       console.log(`logout for user ${req.user.data.name} to ${logoutUrl}`);
