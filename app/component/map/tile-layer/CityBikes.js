@@ -61,11 +61,7 @@ class CityBikes {
           const layer = vt.layers.citybikes;
 
           if (layer != null) {
-            for (
-              let i = 0, ref = layer.length - 1;
-              i <= ref;
-              i++
-            ) {
+            for (let i = 0, ref = layer.length - 1; i <= ref; i++) {
               const feature = layer.feature(i);
               [[feature.geom]] = feature.loadGeometry();
               this.features.push(pick(feature, ['geom', 'properties']));

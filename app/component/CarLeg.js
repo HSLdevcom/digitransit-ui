@@ -14,7 +14,7 @@ import { AlertSeverityLevelType } from '../constants';
 import { replaceQueryParams } from '../util/queryUtils';
 import { getServiceAlertDescription } from '../util/alertUtils';
 
-function CarLeg(props, { config, intl }) {
+function CarLeg(props, { config, intl, router, match, executeAction }) {
   const { leg } = props;
   const distance = displayDistance(
     parseInt(props.leg.distance, 10),
@@ -107,18 +107,18 @@ function CarLeg(props, { config, intl }) {
                 className="inline-icon"
                 severityLevel={AlertSeverityLevelType.Info}
               />
-              {getServiceAlertDescription(carParkAlert, context.intl.locale)}
+              {getServiceAlertDescription(carParkAlert, intl.locale)}
             </div>
             <button
               className="standalone-btn cursor-pointer carpool-offer-btn"
               onClick={() => {
                 replaceQueryParams(
-                  context.router,
-                  context.match,
+                  router,
+                  match,
                   {
                     useCarParkAvailabilityInformation: true,
                   },
-                  context.executeAction,
+                  executeAction,
                 );
               }}
             >

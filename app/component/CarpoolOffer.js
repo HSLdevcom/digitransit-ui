@@ -107,6 +107,7 @@ export default class CarpoolOffer extends React.Component {
     this.setState({ formState: 'sending' });
     fetch('/carpool-offers', {
       method: 'POST',
+      // eslint-disable-next-line compat/compat
       headers: new Headers({ 'content-type': 'application/json' }),
       body: JSON.stringify(carpoolOffer),
       // eslint-disable-next-line func-names

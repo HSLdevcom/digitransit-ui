@@ -14,6 +14,7 @@ const modules = {
   MessageBar: () => importLazy(import('./MessageBar')),
 };
 
+// eslint-disable-next-line no-unused-vars
 const titleClicked = (router, homeUrl, match) => {
   const mode = match.location.query.mapMode;
   if (mode) {

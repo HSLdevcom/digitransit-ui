@@ -19,7 +19,6 @@ const {
 
 const validator = new Validator({ allErrors: true });
 
-
 global.fetch = require('node-fetch');
 const proxy = require('express-http-proxy');
 

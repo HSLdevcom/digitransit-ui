@@ -107,7 +107,6 @@ class SummaryPlanContainer extends React.Component {
   }
 
   onSelectImmediately = index => {
-    const isbikeAndVehicle = this.props.params.hash === 'bikeAndVehicle';
     const momentumScroll = document.getElementsByClassName(
       'momentum-scroll',
     )[0];

@@ -19,7 +19,6 @@ import RoutingSettingsStore from './store/RoutingSettingsStore';
 import FutureRouteStore from './store/FutureRouteStore';
 import MapModeStore from './store/MapModeStore';
 
-
 export default config => {
   const app = new Fluxible({
     component: routes(config),
