@@ -20,6 +20,8 @@ export default class SwipeableTabs extends React.Component {
     hideArrows: PropTypes.bool,
     navigationOnBottom: PropTypes.bool,
     classname: PropTypes.string,
+    ariaFrom: PropTypes.string.isRequired,
+    ariaFromHeader: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -216,12 +218,56 @@ export default class SwipeableTabs extends React.Component {
     }
   };
 
+  constructAriaMessage = (from, position) => {
+    const fromMessage = this.context.intl
+      .formatMessage({
+        id: from,
+        defaultMessage: 'Swipe results tabs.',
+      })
+      .concat(' ');
+    switch (position) {
+      case 'header':
+        return fromMessage.concat(
+          this.context.intl.formatMessage({
+            id: 'swipe-result-tabs',
+            defaultMessage: 'Switch tabs using arrow keys.',
+          }),
+        );
+      case 'left':
+        return fromMessage.concat(
+          this.context.intl.formatMessage({
+            id: 'swipe-result-tab-left',
+            defaultMessage:
+              'Swipe result tabs left arrow. Press Enter or Space to show the previous tab.',
+          }),
+        );
+      case 'right':
+        return fromMessage.concat(
+          this.context.intl.formatMessage({
+            id: 'swipe-result-tab-right',
+            defaultMessage:
+              'Swipe result tabs right arrow. Press Enter or Space to show the next tab.',
+          }),
+        );
+      default:
+        return null;
+    }
+  };
+
   render() {
-    const { tabs, hideArrows, navigationOnBottom } = this.props;
+    const {
+      tabs,
+      hideArrows,
+      navigationOnBottom,
+      ariaFrom,
+      ariaFromHeader,
+    } = this.props;
     const tabBalls = this.tabBalls(tabs.length);
     const disabled = tabBalls.length < 2;
     let reactSwipeEl;
-
+    const ariaHeader = this.constructAriaMessage(ariaFromHeader, 'header');
+    const ariaLeft = this.constructAriaMessage(ariaFrom, 'left');
+    const ariaRight = this.constructAriaMessage(ariaFrom, 'right');
     return (
       <div>
         {navigationOnBottom && (
@@ -254,11 +300,7 @@ export default class SwipeableTabs extends React.Component {
             className={`swipe-header ${this.props.classname}`}
             role="row"
             onKeyDown={e => this.handleKeyPress(e, reactSwipeEl)}
-            aria-label={this.context.intl.formatMessage({
-              id: 'swipe-result-tabs',
-              defaultMessage:
-                'Swipe result tabs. Switch tabs using arrow keys.',
-            })}
+            aria-label={ariaHeader}
             tabIndex="0"
           >
             {!hideArrows && (
@@ -274,11 +316,7 @@ export default class SwipeableTabs extends React.Component {
                   }}
                   role="button"
                   tabIndex="0"
-                  aria-label={this.context.intl.formatMessage({
-                    id: 'swipe-result-tab-left',
-                    defaultMessage:
-                      'Swipe result tabs left arrow. Press Enter or Space to show the previous tab.',
-                  })}
+                  aria-label={ariaLeft}
                 >
                   <Icon
                     img="icon-icon_arrow-collapse--left"
@@ -305,11 +343,7 @@ export default class SwipeableTabs extends React.Component {
                   }}
                   role="button"
                   tabIndex="0"
-                  aria-label={this.context.intl.formatMessage({
-                    id: 'swipe-result-tab-right',
-                    defaultMessage:
-                      'Swipe result tabs right arrow. Press Enter or Space to show the next tab.',
-                  })}
+                  aria-label={ariaRight}
                 >
                   <Icon
                     img="icon-icon_arrow-collapse--right"
