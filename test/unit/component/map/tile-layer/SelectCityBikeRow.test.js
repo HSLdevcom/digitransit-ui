@@ -13,7 +13,7 @@ describe('<SelectCityBikeRow />', () => {
       id: '001',
     };
     const wrapper = shallowWithIntl(<SelectCityBikeRow {...props} />);
-    expect(wrapper.find(Icon).prop('img')).to.contain('citybike');
+    expect(wrapper.find(Icon).at(0).prop('img')).to.contain('citybike');
   });
 
   it('should use the configured icon for the network', () => {
@@ -30,6 +30,6 @@ describe('<SelectCityBikeRow />', () => {
         },
       },
     });
-    expect(wrapper.find(Icon).prop('img')).to.contain('scooter');
+    expect(wrapper.find(Icon).at(0).prop('img')).to.contain('scooter');
   });
 });

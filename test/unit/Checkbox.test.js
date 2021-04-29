@@ -26,12 +26,12 @@ describe('<Checkbox />', () => {
     expect(wrapper.length).to.equal(1);
     const label = wrapper.find(FormattedMessage);
     expect(label.length).to.equal(1);
-    expect(label.text()).to.equal('City bike');
+    expect(label.text()).to.equal('Sharing');
   });
 
   it('Should work also without labelId', () => {
     const props = {
-      defaultMessage: 'ei tarvitse kääntää',
+      defaultMessage: 'ei tarvitse kï¿½ï¿½ntï¿½ï¿½',
       onChange: () => {},
       showLabel: true,
     };
@@ -39,7 +39,7 @@ describe('<Checkbox />', () => {
     expect(wrapper.length).to.equal(1);
     const label = wrapper.find(Message);
     expect(label.length).to.equal(1);
-    expect(label.text()).to.have.string('ei tarvitse kääntää');
+    expect(label.text()).to.have.string('ei tarvitse kï¿½ï¿½ntï¿½ï¿½');
   });
 
   it('should invoke onChange', () => {
