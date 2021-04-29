@@ -30,11 +30,11 @@ export default configMerger(walttiConfig, {
             semiTransparent: SEMI_TRANSPARENT_MAP_URL,
             bicycle: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png',
         },
-        STOP_MAP: `${API_URL}/map/v1/stop-map/`,
+        STOP_MAP: `${API_URL}/routing/v1/router/vectorTiles/stops/`,
         DYNAMICPARKINGLOTS_MAP: `${API_URL}/map/v1/hb-parking-map/`,
         ROADWORKS_MAP: `${API_URL}/map/v1/roadworks-bw-map/`,
         COVID19_MAP: `https://tiles.caresteouvert.fr/public.poi_osm_light/{z}/{x}/{y}.pbf`,
-        CITYBIKE_MAP: `${API_URL}/map/v1/regiorad-map/`,
+        CITYBIKE_MAP: `${API_URL}/routing/v1/router/vectorTiles/citybikes/`,
         WEATHER_STATIONS_MAP: `${API_URL}/map/v1/weather-stations/`,
         PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
         PELIAS_REVERSE_GEOCODER: `${
