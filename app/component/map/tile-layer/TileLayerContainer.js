@@ -334,7 +334,9 @@ class TileLayerContainer extends GridLayer {
             };
           }
           this.PopupOptions.className = 'vehicle-popup';
-          contents = <SelectVehicleContainer vehicle={vehicle} />;
+          contents = (
+            <SelectVehicleContainer vehicle={vehicle} latlng={latlng} />
+          );
         } else if (
           this.state.selectableTargets[0].layer === 'dynamicParkingLots'
         ) {
@@ -350,9 +352,7 @@ class TileLayerContainer extends GridLayer {
         ) {
           contents = (
             <WeatherStationPopup
-              feature={this.state.selectableTargets[0].feature}
-              lat={this.state.coords.lat}
-              lon={this.state.coords.lng}
+              {...this.state.selectableTargets[0].feature.properties}
             />
           );
         }
