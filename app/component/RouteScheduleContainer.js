@@ -477,15 +477,11 @@ class RouteScheduleContainer extends Component {
       );
     }
     return (
-      <div
-        className={
-          this.props.breakpoint === 'small' ? '' : 'route-schedule-wrapper'
-        }
-      >
+      <>
         <div
-          className={cx('route-schedule-container', 'momentum-scroll', {
-            mobile: this.props.breakpoint === 'small',
-          })}
+          className={`route-schedule-container momentum-scroll ${
+            this.props.breakpoint !== 'large' ? 'mobile' : ''
+          }`}
           role="list"
         >
           <RoutePageControlPanel
@@ -570,7 +566,7 @@ class RouteScheduleContainer extends Component {
             />
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }
@@ -590,7 +586,6 @@ const containerComponent = createFragmentContainer(pureComponent, {
       route {
         url
         gtfsId
-        shortName
         shortName
         longName
         mode
