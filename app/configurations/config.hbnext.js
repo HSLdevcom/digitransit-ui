@@ -34,7 +34,7 @@ export default configMerger(walttiConfig, {
         DYNAMICPARKINGLOTS_MAP: `${API_URL}/map/v1/hb-parking-map/`,
         ROADWORKS_MAP: `${API_URL}/map/v1/roadworks-bw-map/`,
         COVID19_MAP: `https://tiles.caresteouvert.fr/public.poi_osm_light/{z}/{x}/{y}.pbf`,
-        CITYBIKE_MAP: `${API_URL}/map/v1/regiorad-map/`,
+        CITYBIKE_MAP: `${API_URL}/routing/v1/router/vectorTiles/citybikes/`,
         PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
         PELIAS_REVERSE_GEOCODER: `${
             process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
