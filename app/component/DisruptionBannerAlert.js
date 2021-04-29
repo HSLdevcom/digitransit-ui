@@ -4,7 +4,6 @@ import cx from 'classnames';
 import { intlShape } from 'react-intl';
 
 import Icon from './Icon';
-import SwipeableTabs from './SwipeableTabs';
 import TruncatedMessage from './TruncatedMessage';
 import {
   getServiceAlertDescription,
@@ -13,25 +12,18 @@ import {
 import withBreakpoint from '../util/withBreakpoint';
 
 const DisruptionBannerAlert = (
-  { language, alerts, breakpoint, unTruncate, truncate },
+  { language, alert, breakpoint, unTruncate, truncate },
   { intl, config },
 ) => {
   const [isOpen, setOpen] = useState(true);
-  const [tabIndex, setTabIndex] = useState(0);
 
-  const onSwipe = i => {
-    setTabIndex(i);
-  };
-  const createAlertText = alert => getServiceAlertDescription(alert, language);
+  const header = getServiceAlertHeader(alert, language);
+  const message = getServiceAlertDescription(alert, language);
+  const useHeader =
+    header && header.length <= 120 && !message.includes(header);
 
-  const createAlertHeader = alert => getServiceAlertHeader(alert, language);
-
-  const renderAlert = alert => {
-    const header = createAlertHeader(alert);
-    const message = createAlertText(alert);
-    const useHeader =
-      header && header.length <= 120 && !message.includes(header);
-    return (
+  return (
+    isOpen && (
       <div key={alert.id} className="disruption-container">
         <div className="disruption-icon-container">
           <Icon img="icon-icon_disruption-banner-alert" />
@@ -95,36 +87,13 @@ const DisruptionBannerAlert = (
           <Icon img="icon-icon_close" className="close" color="#fff" />
         </button>
       </div>
-    );
-  };
-
-  const tabs = alerts.map(alert => renderAlert(alert));
-
-  return (
-    isOpen && (
-      <div className="disruption-banner-container">
-        {tabs.length > 1 ? (
-          <SwipeableTabs
-            tabs={tabs}
-            tabIndex={tabIndex}
-            onSwipe={onSwipe}
-            classname="disruption-banner"
-            hideArrows={breakpoint !== 'large'}
-            navigationOnBottom
-            ariaFrom="swipe-disruption-info"
-            ariaFromHeader="swipe-disruption-info-header"
-          />
-        ) : (
-          renderAlert(alerts[0])
-        )}
-      </div>
     )
   );
 };
 
 DisruptionBannerAlert.propTypes = {
   breakpoint: PropTypes.string.isRequired,
-  alerts: PropTypes.array.isRequired,
+  alert: PropTypes.object.isRequired,
   language: PropTypes.string.isRequired,
   truncate: PropTypes.bool,
   unTruncate: PropTypes.func,

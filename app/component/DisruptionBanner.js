@@ -5,12 +5,15 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEmpty from 'lodash/isEmpty';
 import { isAlertValid, getServiceAlertMetadata } from '../util/alertUtils';
 import DisruptionBannerAlert from './DisruptionBannerAlert';
+import SwipeableTabs from './SwipeableTabs';
+import withBreakpoint from '../util/withBreakpoint';
 
 class DisruptionBanner extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       allAlertsOpen: false,
+      tabIndex: 0,
     };
   }
 
@@ -19,6 +22,7 @@ class DisruptionBanner extends React.Component {
     currentTime: PropTypes.number.isRequired,
     language: PropTypes.string.isRequired,
     mode: PropTypes.string.isRequired,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
@@ -27,6 +31,10 @@ class DisruptionBanner extends React.Component {
 
   unTruncate = () => {
     this.setState({ allAlertsOpen: true });
+  };
+
+  onSwipe = i => {
+    this.setState({tabIndex: i});
   };
 
   getAlerts() {
@@ -57,25 +65,47 @@ class DisruptionBanner extends React.Component {
     return activeAlerts;
   }
 
+  renderAlert = alert => {
+    console.log(alert)
+    return <DisruptionBannerAlert key={alert.id} language={this.props.language} alert={alert} truncate={!this.state.allAlertsOpen} unTruncate={this.unTruncate}/>
+  }
+
   render() {
     const activeAlerts = this.getAlerts();
-    if (activeAlerts.length > 0) {
-      return (
-        <DisruptionBannerAlert
-          unTruncate={this.unTruncate}
-          alerts={activeAlerts}
-          truncate={!this.state.allAlertsOpen}
-          language={this.props.language}
-        />
-      );
+    console.log(activeAlerts)
+    if (!activeAlerts.length) {
+      return null;
     }
-    return null;
+    const tabs = activeAlerts.map(alert => this.renderAlert(alert));
+
+
+    return (
+      <div className="disruption-banner-container">
+        {tabs.length > 1 ? (
+          <SwipeableTabs
+            tabs={tabs}
+            tabIndex={this.state.tabIndex}
+            onSwipe={this.onSwipe}
+            classname="disruption-banner"
+            hideArrows={this.props.breakpoint !== 'large'}
+            navigationOnBottom
+            ariaFrom="swipe-disruption-info"
+            ariaFromHeader="swipe-disruption-info-header"
+          />
+        ) : (
+          this.renderAlert(activeAlerts[0])
+        )}
+      </div>
+    );
   }
 }
+const DisruptionBannerWithBreakpoint = withBreakpoint(
+  DisruptionBanner,
+);
 
 const containerComponent = createFragmentContainer(
   connectToStores(
-    DisruptionBanner,
+    DisruptionBannerWithBreakpoint,
     ['TimeStore', 'PreferencesStore'],
     ({ getStore }) => ({
       currentTime: getStore('TimeStore').getCurrentTime().unix(),
@@ -110,4 +140,4 @@ const containerComponent = createFragmentContainer(
   },
 );
 
-export { containerComponent as default, DisruptionBanner as Component };
+export { containerComponent as default, DisruptionBannerWithBreakpoint as Component };

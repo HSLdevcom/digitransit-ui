@@ -17,6 +17,9 @@ const TruncatedMessage = (
     return (
       <TruncateMarkup
         lines={lines}
+        onTruncate={truncated => {
+          console.log(truncated)
+        }}
         ellipsis={
           <span>
             ...{' '}
