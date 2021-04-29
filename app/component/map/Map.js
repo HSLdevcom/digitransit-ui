@@ -190,7 +190,6 @@ class Map extends React.Component {
       leafletObjs.push(
         <VectorTileLayerContainer
           key={mapUrls.join('_')}
-          key="vectorTileLayerContainer"
           hilightedStops={this.props.hilightedStops}
           stopsNearYouMode={this.props.stopsNearYouMode}
           showStops={this.props.showStops}

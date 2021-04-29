@@ -53,7 +53,7 @@ const CardHeader = (
           <div className="card-header-wrapper">
             <span className={headingStyle || 'h4'}>
               {headerTitle !== description || headingStyle ? headerTitle : ''}
-            {name}
+              {name}
               {externalLink || null}
               {headerIcon}
               {unlinked ? null : <span className="link-arrow"> ›</span>}

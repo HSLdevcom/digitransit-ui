@@ -15,7 +15,6 @@ import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkId,
   CityBikeNetworkType,
-  getCityBikeUrl,
 } from '../util/citybikes';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -133,9 +132,7 @@ function BicycleLeg(
         defaultMessage="Rent a bike at {station} station"
       />
     );
-    rentalUri =
-      leg.from.bikeRentalStation.rentalUriWeb ||
-      getCityBikeUrl(leg.from.bikeRentalStation.networks, intl.locale, config);
+    rentalUri = leg.from.bikeRentalStation.rentalUriWeb;
 
     if (leg.mode === 'BICYCLE') {
       mode = 'CITYBIKE';

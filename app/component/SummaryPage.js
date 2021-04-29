@@ -875,8 +875,8 @@ class SummaryPage extends React.Component {
             bikePlan: result.bikePlan,
             bikeAndPublicPlan: result.bikeAndPublicPlan,
             bikeParkPlan: result.bikeParkPlan,
-          carPlan: result.carPlan,
-          parkRidePlan: result.parkRidePlan,
+            carPlan: result.carPlan,
+            parkRidePlan: result.parkRidePlan,
           },
           () => {
             this.makeWeatherQuery();
@@ -2435,7 +2435,7 @@ class SummaryPage extends React.Component {
                   focus={this.updateCenter}
                   setMapZoomToLeg={this.setMapZoomToLeg}
                   isMobile={false}
-                toggleCarpoolDrawer={this.toggleCarpoolDrawer}
+                  toggleCarpoolDrawer={this.toggleCarpoolDrawer}
                 />
               </div>
             );
