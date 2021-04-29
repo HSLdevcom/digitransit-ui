@@ -31,7 +31,7 @@ describe('<Checkbox />', () => {
 
   it('Should work also without labelId', () => {
     const props = {
-      defaultMessage: 'ei tarvitse k��nt��',
+      defaultMessage: 'ei tarvitse kääntää',
       onChange: () => {},
       showLabel: true,
     };
@@ -39,7 +39,7 @@ describe('<Checkbox />', () => {
     expect(wrapper.length).to.equal(1);
     const label = wrapper.find(Message);
     expect(label.length).to.equal(1);
-    expect(label.text()).to.have.string('ei tarvitse k��nt��');
+    expect(label.text()).to.have.string('ei tarvitse kääntää');
   });
 
   it('should invoke onChange', () => {
