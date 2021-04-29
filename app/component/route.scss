@@ -598,18 +598,14 @@ $margin-left-right: 1.333em;
   }
 }
 
-.route-schedule-wrapper {
+.route-schedule-container {
   overflow-x: hidden;
   overflow-y: auto;
   display: flex;
   position: relative;
   flex-direction: column;
+  max-height: 100vh;
   padding-bottom: 1.5em;
-  flex: 1 0;
-  flex-basis: 0px;
-}
-
-.route-schedule-container {
   flex: 1 0;
   flex-basis: 0px;
   padding-right: 3.5em;
@@ -855,6 +851,7 @@ $margin-left-right: 1.333em;
 // Tabs
 .route-tabs {
   height: 2.5em;
+  min-height: 2.5em;
   display: flex;
   background-color: $light-gray;
   border: 2px solid $light-gray;
