@@ -16,6 +16,11 @@ describe('<AppBar />', () => {
           config: {
             textLogo: false,
           },
+          match: {
+            location: {
+              pathname: '/',
+            },
+          },
         },
       },
     );
@@ -32,6 +37,11 @@ describe('<AppBar />', () => {
         context: {
           config: {
             textLogo: true,
+          },
+          match: {
+            location: {
+              pathname: '/',
+            },
           },
         },
       },

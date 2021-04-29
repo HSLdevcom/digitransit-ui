@@ -2078,6 +2078,8 @@ class SummaryPage extends React.Component {
                 tabIndex={activeIndex}
                 onSwipe={this.changeHash}
                 classname="swipe-desktop-view"
+                ariaFrom="swipe-summary-page"
+                ariaFromHeader="swipe-summary-page-header"
               />
             </div>
           );

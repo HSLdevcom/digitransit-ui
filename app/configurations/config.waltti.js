@@ -130,4 +130,37 @@ export default {
 
   showNearYouButtons: true,
   allowLogin: true,
+
+  hostnames: [
+    // DEV hostnames
+    'https://next-dev-hameenlinna.digitransit.fi',
+    'https://next-dev-joensuu.digitransit.fi',
+    'https://next-dev-jyvaskyla.digitransit.fi',
+    'https://next-dev-kotka.digitransit.fi',
+    'https://next-dev-kouvola.digitransit.fi',
+    'https://next-dev-kuopio.digitransit.fi',
+    'https://next-dev-lahti.digitransit.fi',
+    'https://next-dev-lappeenranta.digitransit.fi',
+    'https://next-dev-mikkeli.digitransit.fi',
+    'https://next-dev-oulu.digitransit.fi',
+    'https://next-dev-rovaniemi.digitransit.fi',
+    'https://next-dev-tampere.digitransit.fi',
+    'https://next-dev-opas.waltti.fi',
+    // PROD hostnames
+    'https://reittiopas.hameenlinna.fi',
+    'https://hameenlinna.digitransit.fi',
+    'https://joensuu.digitransit.fi',
+    'https://jyvaskyla.digitransit.fi',
+    'https://kotka.digitransit.fi',
+    'https://kouvola.digitransit.fi',
+    'https://kuopio.digitransit.fi',
+    'https://lahti.digitransit.fi',
+    'https://lappeenranta.digitransit.fi',
+    'https://mikkeli.digitransit.fi',
+    'https://oulu.digitransit.fi',
+    'https://rovaniemi.digitransit.fi',
+    'https://reittiopas.tampere.fi',
+    'https://tampere.digitransit.fi',
+    'https://opas.waltti.fi',
+  ],
 };
