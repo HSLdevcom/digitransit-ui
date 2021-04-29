@@ -170,11 +170,14 @@ $margin-left-right: 1.333em;
   &.passed {
     div {
       color: $gray;
+      .zone-icon-container .circle {
+        color: #fff;
+      }
     }
     span {
       color: $gray;
       svg {
-        color: #666;
+        color: #888;
       }
     }
   }
@@ -822,9 +825,10 @@ $margin-left-right: 1.333em;
 }
 .route-container {
   background-color: white;
-  padding: 5px 20px 0 20px;
+  margin: 5px 20px 0 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   &.bp-large {
-    padding: 0 $margin-left-right-large 0;
+    margin: 0 $margin-left-right-large 0;
     box-shadow: none;
   }
 }
