@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Icon from './Icon';
 
-const LoginButton = () => {
+const LoginButton = ({ loginUrl }) => {
   const loginClick = event => {
     event.preventDefault();
-    window.location.href = '/login';
+    window.location.href = loginUrl;
   };
 
   return (
@@ -14,6 +15,10 @@ const LoginButton = () => {
       </button>
     </div>
   );
+};
+
+LoginButton.propTypes = {
+  loginUrl: PropTypes.string.isRequired,
 };
 
 export default LoginButton;
