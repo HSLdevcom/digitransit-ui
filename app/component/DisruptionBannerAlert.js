@@ -111,6 +111,8 @@ const DisruptionBannerAlert = (
             classname="disruption-banner"
             hideArrows={breakpoint !== 'large'}
             navigationOnBottom
+            ariaFrom="swipe-disruption-info"
+            ariaFromHeader="swipe-disruption-info-header"
           />
         ) : (
           renderAlert(alerts[0])

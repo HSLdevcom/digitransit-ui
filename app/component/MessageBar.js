@@ -276,6 +276,8 @@ class MessageBar extends Component {
                       onSwipe={this.onSwipe}
                       hideArrows
                       navigationOnBottom
+                      ariaFrom="swipe-message-bar"
+                      ariaFromHeader="swipe-message-bar-header"
                     />
                   </div>
                 </div>

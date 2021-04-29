@@ -57,7 +57,8 @@
   overflow: visible;
   display: flex;
   flex-direction: column;
-  padding: 0px 3.75em 0px 3.75em;
+  padding: 0px 3.75em 10px 3.75em;
+  min-height: calc(50vh - 60px);
   .citybike-use-disclaimer {
     border-radius: 8px;
     border: solid 1px #dddddd;
