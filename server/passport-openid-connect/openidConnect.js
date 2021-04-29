@@ -30,7 +30,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       })
     : redis.createClient(RedisPort, RedisHost);
 
-  const redirectUris = [hostnames.map(host => `${host}${callbackPath}`)];
+  const redirectUris = hostnames.map(host => `${host}${callbackPath}`);
   const postLogoutRedirectUris = hostnames.map(
     host => `${host}${logoutCallbackPath}`,
   );
