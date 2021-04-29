@@ -296,6 +296,7 @@ $margin-left-right: 1.333em;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
+          letter-spacing: -0.03em;
         }
         span {
           text-decoration: none;
@@ -430,14 +431,15 @@ $margin-left-right: 1.333em;
   display: flex;
   //margin: 10px $margin-left-right;
   .route-number {
-    min-width: 45px;
+    min-width: 40px;
     .icon {
-      height: 35px;
-      width: 35px;
+      margin-top: 2px;
+      height: 30px;
+      width: 30px;
     }
   }
   .route-info {
-    flex: 1;
+    display: flex;
     min-width: 0;
     .route-short-name {
       font-family: $font-family-narrow;
@@ -455,6 +457,27 @@ $margin-left-right: 1.333em;
       line-height: 1.38;
       letter-spacing: -0.43px;
       color: #666666;
+    }
+  }
+  .favourite-icon {
+    margin-left: auto;
+  }
+  .trip-destination {
+    display: flex;
+    margin-left: 10px;
+    margin-top: 14px;
+    .icon-container {
+      color: $primary-color;
+      margin-right: 6px;
+      margin-top: 2px;
+      font-size: 11px;
+    }
+    .destination-headsign {
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 18px;
+      letter-spacing: -0.03em;
+      color: #333;
     }
   }
 }
@@ -826,6 +849,7 @@ $margin-left-right: 1.333em;
 .route-container {
   background-color: white;
   margin: 5px 20px 0 20px;
+  padding-bottom: 5px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   &.bp-large {
     margin: 0 $margin-left-right-large 0;
