@@ -264,6 +264,7 @@ class MapLayersDialogContent extends React.Component {
           )}
           {isTransportModeEnabled(transportModes.carpool) && (
             <Checkbox
+              large
               checked={terminal.carpool}
               defaultMessage="Carpool stops"
               labelId="map-layer-carpool"
@@ -300,6 +301,7 @@ class MapLayersDialogContent extends React.Component {
           {this.context.config.roadworks &&
             this.context.config.roadworks.showRoadworks && (
               <Checkbox
+                large
                 checked={roadworks}
                 defaultMessage="Roadworks"
                 labelId="map-layer-roadworks"
@@ -311,6 +313,7 @@ class MapLayersDialogContent extends React.Component {
           {this.context.config.dynamicParkingLots &&
             this.context.config.dynamicParkingLots.showDynamicParkingLots && (
               <Checkbox
+                large
                 checked={dynamicParkingLots}
                 defaultMessage="Parking"
                 labelId="map-layer-dynamic-parking-lots"
