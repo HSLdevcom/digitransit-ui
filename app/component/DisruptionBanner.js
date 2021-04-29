@@ -68,9 +68,8 @@ class DisruptionBanner extends React.Component {
 
   renderAlert = alert => {
     return (
-      <div>
+      <div key={alert.id}>
         <DisruptionBannerAlert
-          key={alert.id}
           language={this.props.language}
           alert={alert}
           truncate={!this.state.allAlertsOpen}
@@ -83,6 +82,7 @@ class DisruptionBanner extends React.Component {
 
   render() {
     const activeAlerts = this.getAlerts();
+
     if (!activeAlerts.length || !this.state.isOpen) {
       return null;
     }
