@@ -30,7 +30,7 @@ class DisruptionBanner extends React.Component {
     config: PropTypes.object.isRequired,
   };
 
-  unTruncate = () => {
+  openAllAlerts = () => {
     this.setState({ allAlertsOpen: true });
   };
 
@@ -74,7 +74,7 @@ class DisruptionBanner extends React.Component {
           language={this.props.language}
           alert={alert}
           truncate={!this.state.allAlertsOpen}
-          unTruncate={this.unTruncate}
+          openAllAlerts={this.openAllAlerts}
           onClose={() => this.setState({ isOpen: false })}
         />
       </div>

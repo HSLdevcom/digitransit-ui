@@ -11,7 +11,7 @@ import {
 } from '../util/alertUtils';
 
 const DisruptionBannerAlert = (
-  { language, alert, unTruncate, truncate, onClose },
+  { language, alert, openAllAlerts, truncate, onClose },
   { intl, config },
 ) => {
   const [renderLink, setRenderLink] = useState(false);
@@ -36,41 +36,40 @@ const DisruptionBannerAlert = (
                 lines={useHeader ? 2 : 3}
                 message={message}
                 truncate={truncate}
-                onShowMore={unTruncate}
+                onShowMore={openAllAlerts}
               />
             </>
           )}
           {config.URL.ROOTLINK &&
-          config.trafficNowLink &&
-          truncate &&
-          !renderLink ? (
-            <>
-              {useHeader && (
-                <h3 className="disruption-info-header">{header}</h3>
-              )}
-              <TruncatedMessage
-                className="disruption-show-more"
-                lines={useHeader ? 2 : 3}
-                message={message}
-                truncate={truncate}
-                onShowMore={unTruncate}
-                onTruncate={i => setRenderLink(i)}
-              />
-            </>
-          ) : (
-            <a
-              className="disruption-info-content"
-              onClick={e => e.stopPropagation()}
-              href={`${config.URL.ROOTLINK}/${
-                language === 'fi' ? '' : `${language}/`
-              }${config.trafficNowLink[language]}`}
-            >
-              {useHeader && (
-                <h3 className="disruption-info-header">{header}</h3>
-              )}
-              {message}
-            </a>
-          )}
+            config.trafficNowLink &&
+            (truncate && !renderLink ? (
+              <>
+                {useHeader && (
+                  <h3 className="disruption-info-header">{header}</h3>
+                )}
+                <TruncatedMessage
+                  className="disruption-show-more"
+                  lines={useHeader ? 2 : 3}
+                  message={message}
+                  truncate={truncate}
+                  onShowMore={openAllAlerts}
+                  onTruncate={i => setRenderLink(i)}
+                />
+              </>
+            ) : (
+              <a
+                className="disruption-info-content"
+                onClick={e => e.stopPropagation()}
+                href={`${config.URL.ROOTLINK}/${
+                  language === 'fi' ? '' : `${language}/`
+                }${config.trafficNowLink[language]}`}
+              >
+                {useHeader && (
+                  <h3 className="disruption-info-header">{header}</h3>
+                )}
+                {message}
+              </a>
+            ))}
         </div>
         <button
           title={intl.formatMessage({
@@ -96,7 +95,7 @@ DisruptionBannerAlert.propTypes = {
   alert: PropTypes.object.isRequired,
   language: PropTypes.string.isRequired,
   truncate: PropTypes.bool,
-  unTruncate: PropTypes.func,
+  openAllAlerts: PropTypes.func,
   onClose: PropTypes.func.isRequired,
 };
 
