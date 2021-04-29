@@ -42,7 +42,7 @@ LogoSmall.defaultProps = {
   logo: undefined,
   title: undefined,
   subTitle: undefined,
-  className: 'logo',
+  className: 'navi-logo',
 };
 
 LogoSmall.contextTypes = {
