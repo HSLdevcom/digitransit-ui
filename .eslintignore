@@ -4,3 +4,4 @@ gemini-report
 app/buildInfo.js
 digitransit-component/packages/**/lib
 digitransit-store/packages/**/lib
+app/translations.js

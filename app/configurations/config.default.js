@@ -148,14 +148,12 @@ export default {
   walkBoardCostHigh: 1200,
 
   maxWalkDistance: 10000,
-  suggestWalkMaxDistance: 10000,
   suggestBikeMaxDistance: 30000,
   suggestBikeAndPublicMaxDistance: 15000,
   // if you enable car suggestions but the linear distance between all points is less than this, then a car route will
   // not be computed
   suggestCarMinDistance: 2000,
   maxBikingDistance: 100000,
-  suggestBikeMaxDistance: 15000,
   itineraryFiltering: 1.5, // drops 66% worse routes
   useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
   minTransferTime: 120,
