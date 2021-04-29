@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import cx from 'classnames';
 import { intlShape } from 'react-intl';
 
@@ -14,10 +14,11 @@ const DisruptionBannerAlert = (
   { language, alert, unTruncate, truncate, onClose },
   { intl, config },
 ) => {
+  const [renderLink, setRenderLink] = useState(false);
+
   const header = getServiceAlertHeader(alert, language);
   const message = getServiceAlertDescription(alert, language);
   const useHeader = header && header.length <= 120 && !message.includes(header);
-
   return (
     <div>
       <div className="disruption-container">
@@ -39,7 +40,10 @@ const DisruptionBannerAlert = (
               />
             </>
           )}
-          {config.URL.ROOTLINK && config.trafficNowLink && truncate ? (
+          {config.URL.ROOTLINK &&
+          config.trafficNowLink &&
+          truncate &&
+          !renderLink ? (
             <>
               {useHeader && (
                 <h3 className="disruption-info-header">{header}</h3>
@@ -50,6 +54,7 @@ const DisruptionBannerAlert = (
                 message={message}
                 truncate={truncate}
                 onShowMore={unTruncate}
+                onTruncate={i => setRenderLink(i)}
               />
             </>
           ) : (

@@ -4,7 +4,7 @@ import { intlShape } from 'react-intl';
 import TruncateMarkup from 'react-truncate-markup';
 
 const TruncatedMessage = (
-  { lines, message, className, truncate, onShowMore },
+  { lines, message, className, truncate, onShowMore, onTruncate },
   { intl },
 ) => {
   const [isTruncated, setTruncated] = useState(true);
@@ -17,7 +17,7 @@ const TruncatedMessage = (
     return (
       <TruncateMarkup
         lines={lines}
-        onTruncate={() => {}}
+        onTruncate={didTruncate => onTruncate(!didTruncate)}
         ellipsis={
           <span>
             ...{' '}
