@@ -13,7 +13,7 @@ import {
 import withBreakpoint from '../util/withBreakpoint';
 
 const DisruptionBannerAlert = (
-  { language, alerts, breakpoint },
+  { language, alerts, breakpoint, unTruncate, truncate },
   { intl, config },
 ) => {
   const [isOpen, setOpen] = useState(true);
@@ -46,10 +46,25 @@ const DisruptionBannerAlert = (
                 className="disruption-show-more"
                 lines={useHeader ? 2 : 3}
                 message={message}
+                truncate={truncate}
+                onShowMore={unTruncate}
               />
             </>
           )}
-          {config.URL.ROOTLINK && config.trafficNowLink && (
+          {config.URL.ROOTLINK && config.trafficNowLink && truncate ? (
+            <>
+              {useHeader && (
+                <h3 className="disruption-info-header">{header}</h3>
+              )}
+              <TruncatedMessage
+                className="disruption-show-more"
+                lines={useHeader ? 2 : 3}
+                message={message}
+                truncate={truncate}
+                onShowMore={unTruncate}
+              />
+            </>
+          ) : (
             <a
               className="disruption-info-content"
               onClick={e => e.stopPropagation()}
@@ -109,6 +124,8 @@ DisruptionBannerAlert.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   alerts: PropTypes.array.isRequired,
   language: PropTypes.string.isRequired,
+  truncate: PropTypes.bool,
+  unTruncate: PropTypes.func,
 };
 
 DisruptionBannerAlert.contextTypes = {

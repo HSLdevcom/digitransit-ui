@@ -7,6 +7,13 @@ import { isAlertValid, getServiceAlertMetadata } from '../util/alertUtils';
 import DisruptionBannerAlert from './DisruptionBannerAlert';
 
 class DisruptionBanner extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      allAlertsOpen: false,
+    };
+  }
+
   static propTypes = {
     alerts: PropTypes.arrayOf(PropTypes.object),
     currentTime: PropTypes.number.isRequired,
@@ -16,6 +23,10 @@ class DisruptionBanner extends React.Component {
 
   static contextTypes = {
     config: PropTypes.object.isRequired,
+  };
+
+  unTruncate = () => {
+    this.setState({ allAlertsOpen: true });
   };
 
   getAlerts() {
@@ -51,7 +62,9 @@ class DisruptionBanner extends React.Component {
     if (activeAlerts.length > 0) {
       return (
         <DisruptionBannerAlert
+          unTruncate={this.unTruncate}
           alerts={activeAlerts}
+          truncate={!this.state.allAlertsOpen}
           language={this.props.language}
         />
       );
