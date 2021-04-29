@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import cx from 'classnames';
 import { intlShape } from 'react-intl';
 
@@ -9,22 +9,18 @@ import {
   getServiceAlertDescription,
   getServiceAlertHeader,
 } from '../util/alertUtils';
-import withBreakpoint from '../util/withBreakpoint';
 
 const DisruptionBannerAlert = (
-  { language, alert, breakpoint, unTruncate, truncate },
+  { language, alert, unTruncate, truncate, onClose },
   { intl, config },
 ) => {
-  const [isOpen, setOpen] = useState(true);
-
   const header = getServiceAlertHeader(alert, language);
   const message = getServiceAlertDescription(alert, language);
-  const useHeader =
-    header && header.length <= 120 && !message.includes(header);
+  const useHeader = header && header.length <= 120 && !message.includes(header);
 
   return (
-    isOpen && (
-      <div key={alert.id} className="disruption-container">
+    <div>
+      <div className="disruption-container">
         <div className="disruption-icon-container">
           <Icon img="icon-icon_disruption-banner-alert" />
         </div>
@@ -76,7 +72,7 @@ const DisruptionBannerAlert = (
             id: 'messagebar-label-close-message-bar',
             defaultMessage: 'Close banner',
           })}
-          onClick={() => setOpen(false)}
+          onClick={() => onClose()}
           className={cx(
             'noborder',
             'disruption-close-button',
@@ -87,16 +83,16 @@ const DisruptionBannerAlert = (
           <Icon img="icon-icon_close" className="close" color="#fff" />
         </button>
       </div>
-    )
+    </div>
   );
 };
 
 DisruptionBannerAlert.propTypes = {
-  breakpoint: PropTypes.string.isRequired,
   alert: PropTypes.object.isRequired,
   language: PropTypes.string.isRequired,
   truncate: PropTypes.bool,
   unTruncate: PropTypes.func,
+  onClose: PropTypes.func.isRequired,
 };
 
 DisruptionBannerAlert.contextTypes = {
@@ -104,8 +100,4 @@ DisruptionBannerAlert.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-const DisruptionBannerAlertWithBreakpoint = withBreakpoint(
-  DisruptionBannerAlert,
-);
-
-export default DisruptionBannerAlertWithBreakpoint;
+export default DisruptionBannerAlert;

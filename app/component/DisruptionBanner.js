@@ -14,6 +14,7 @@ class DisruptionBanner extends React.Component {
     this.state = {
       allAlertsOpen: false,
       tabIndex: 0,
+      isOpen: true,
     };
   }
 
@@ -34,7 +35,7 @@ class DisruptionBanner extends React.Component {
   };
 
   onSwipe = i => {
-    this.setState({tabIndex: i});
+    this.setState({ tabIndex: i });
   };
 
   getAlerts() {
@@ -66,18 +67,26 @@ class DisruptionBanner extends React.Component {
   }
 
   renderAlert = alert => {
-    console.log(alert)
-    return <DisruptionBannerAlert key={alert.id} language={this.props.language} alert={alert} truncate={!this.state.allAlertsOpen} unTruncate={this.unTruncate}/>
-  }
+    return (
+      <div>
+        <DisruptionBannerAlert
+          key={alert.id}
+          language={this.props.language}
+          alert={alert}
+          truncate={!this.state.allAlertsOpen}
+          unTruncate={this.unTruncate}
+          onClose={() => this.setState({ isOpen: false })}
+        />
+      </div>
+    );
+  };
 
   render() {
     const activeAlerts = this.getAlerts();
-    console.log(activeAlerts)
-    if (!activeAlerts.length) {
+    if (!activeAlerts.length || !this.state.isOpen) {
       return null;
     }
     const tabs = activeAlerts.map(alert => this.renderAlert(alert));
-
 
     return (
       <div className="disruption-banner-container">
@@ -99,9 +108,7 @@ class DisruptionBanner extends React.Component {
     );
   }
 }
-const DisruptionBannerWithBreakpoint = withBreakpoint(
-  DisruptionBanner,
-);
+const DisruptionBannerWithBreakpoint = withBreakpoint(DisruptionBanner);
 
 const containerComponent = createFragmentContainer(
   connectToStores(
@@ -140,4 +147,7 @@ const containerComponent = createFragmentContainer(
   },
 );
 
-export { containerComponent as default, DisruptionBannerWithBreakpoint as Component };
+export {
+  containerComponent as default,
+  DisruptionBannerWithBreakpoint as Component,
+};
