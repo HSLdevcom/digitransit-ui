@@ -128,5 +128,5 @@ MobileView.propTypes = {
   settingsDrawer: PropTypes.node,
   selectFromMapHeader: PropTypes.node,
   searchBox: PropTypes.node,
-  expandMap: PropTypes.bool,
+  expandMap: PropTypes.number,
 };

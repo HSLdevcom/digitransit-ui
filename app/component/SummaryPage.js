@@ -281,6 +281,7 @@ class SummaryPage extends React.Component {
     this.originalPlan = this.props.viewer && this.props.viewer.plan;
     this.origin = undefined;
     this.destination = undefined;
+    this.expandMap = 0;
 
     if (props.error) {
       reportError(props.error);
@@ -1173,12 +1174,6 @@ class SummaryPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      !this.props.match.params.hash &&
-      !isEqual(this.props.match.params.hash, prevProps.match.params.hash)
-    ) {
-      this.expandMap = false;
-    }
     const viaPoints = getIntermediatePlaces(this.props.match.location.query);
     if (
       this.props.match.params.hash &&
@@ -1328,7 +1323,7 @@ class SummaryPage extends React.Component {
   focusToPoint = (lat, lon) => {
     if (this.props.breakpoint !== 'large') {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-      this.expandMap = true;
+      this.expandMap += 1;
     }
     this.navigateMap();
     this.setState({ center: { lat, lon }, bounds: null });
@@ -1337,7 +1332,7 @@ class SummaryPage extends React.Component {
   focusToLeg = leg => {
     if (this.props.breakpoint !== 'large') {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-      this.expandMap = true;
+      this.expandMap += 1;
     }
     this.navigateMap();
     const bounds = boundWithMinimumArea(
@@ -1458,7 +1453,13 @@ class SummaryPage extends React.Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (!isEqual(this.props.match.params.hash, nextProps.match.params.hash)) {
+    if (
+      !isEqual(this.props.match.params.hash, nextProps.match.params.hash) ||
+      !isEqual(
+        this.props.match.params.secondHash,
+        nextProps.match.params.secondHash,
+      )
+    ) {
       this.navigateMap();
 
       this.setState({
@@ -1494,14 +1495,6 @@ class SummaryPage extends React.Component {
   renderMap(from, to, viaPoints) {
     const { match, breakpoint } = this.props;
     const combinedItineraries = this.getCombinedItineraries();
-    let filteredItineraries;
-    if (combinedItineraries.length > 0) {
-      filteredItineraries = combinedItineraries.filter(
-        itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-      );
-    } else {
-      filteredItineraries = [];
-    }
     // summary or detail view ?
     const detailView = routeSelected(
       match.params.hash,
@@ -1512,6 +1505,14 @@ class SummaryPage extends React.Component {
     if (!detailView && breakpoint !== 'large') {
       // no map on mobile summary view
       return null;
+    }
+    let filteredItineraries;
+    if (!detailView) {
+      filteredItineraries = combinedItineraries.filter(
+        itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+      );
+    } else {
+      filteredItineraries = combinedItineraries;
     }
 
     const activeIndex =
@@ -1542,6 +1543,7 @@ class SummaryPage extends React.Component {
         itineraries={filteredItineraries}
         active={activeIndex}
         showActive={detailView}
+        showVehicles={this.showVehicles()}
       />
     );
   }
