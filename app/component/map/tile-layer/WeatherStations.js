@@ -61,7 +61,7 @@ export default class WeatherStations {
             if (
               this.tile.coords.z <= this.config.weatherStations.smallIconZoom
             ) {
-              return drawStopIcon(this.tile, feature.geom, 'weather-station');
+              return drawStopIcon(this.tile, feature.geom, 'monitor');
             }
             return drawWeatherStationIcon(
               this.tile,

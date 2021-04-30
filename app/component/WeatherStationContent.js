@@ -62,8 +62,6 @@ const translateRoadCondition = num => {
       return `${prefix}-wet`;
     case 25:
       return `${prefix}-moist-salty`;
-    case 30:
-      return `${prefix}-wet-salty`;
     case 35:
       return `${prefix}-icy`;
     case 40:
@@ -98,7 +96,7 @@ const WeatherStationContent = ({
               </FormattedMessage>
             </td>
             <td>
-              {`${Math.round(airTemperatureSensor.sensorValue)}
+              {`${airTemperatureSensor.sensorValue}
               ${airTemperatureSensor.sensorUnit}`}
             </td>
           </tr>
@@ -114,7 +112,7 @@ const WeatherStationContent = ({
               </FormattedMessage>
             </td>
             <td>
-              {`${Math.round(roadTemperatureSensor.sensorValue)}
+              {`${roadTemperatureSensor.sensorValue}
               ${roadTemperatureSensor.sensorUnit}`}
             </td>
           </tr>
@@ -155,11 +153,10 @@ const WeatherStationContent = ({
         {updatedAt && (
           <tr>
             <td colSpan={2} className="last-updated">
-              <FormattedMessage
-                id="last-updated"
-                defaultMessage="Last updated"
-                values={{ time: moment(updatedAt).format('LT') || '' }}
-              />
+              <FormattedMessage id="last-updated" defaultMessage="Last updated">
+                {(...content) => `${content} `}
+              </FormattedMessage>
+              {moment(updatedAt).format('hh:mm A') || ''}
             </td>
           </tr>
         )}
