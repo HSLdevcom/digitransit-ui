@@ -1,76 +1,31 @@
+/* eslint-disable react/no-array-index-key */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
-import get from 'lodash/get';
-import isEqual from 'lodash/isEqual';
 import LocationMarker from './LocationMarker';
 import ItineraryLine from './ItineraryLine';
-import MapContainer from './MapContainer';
-import { otpToLocation } from '../../util/otpStrings';
-import { isBrowser } from '../../util/browser';
-import { dtLocationShape } from '../../util/shapes';
+import MapWithTracking from './MapWithTracking';
 import { onLocationPopup } from '../../util/queryUtils';
-import withBreakpoint from '../../util/withBreakpoint';
 import BackButton from '../BackButton';
 import VehicleMarkerContainer from './VehicleMarkerContainer'; // DT-3473
-import { mapLayerShape } from '../../store/MapLayerStore';
-
-let L;
-let prevCenter;
-let useCenter = true;
-let zoomLevel = -1;
-
-if (isBrowser) {
-  // eslint-disable-next-line
-  L = require('leaflet');
-}
-
-function setMapElementRef(element) {
-  const map = get(element, 'leafletElement', null);
-  if (map) {
-    // eslint-disable-next-line no-underscore-dangle
-    zoomLevel = map._zoom;
-  }
-}
 
 function ItineraryPageMap(
   {
-    itinerary,
-    center,
+    itineraries,
+    active,
+    showActive,
+    from,
+    to,
+    viaPoints,
     breakpoint,
-    fitBounds,
-    bounds,
-    leafletEvents,
     showVehicles,
-    mapLayers,
+    ...rest
   },
   { match, router, executeAction },
 ) {
-  // DT-4011: When user changes orientation, i.e. with tablet, map would crash. This check prevents it.
-  let latlon = prevCenter;
-  const { from, to, hash } = match.params;
-  if (prevCenter) {
-    useCenter = false;
-  }
-  if (center && !isEqual(center, prevCenter)) {
-    latlon = center;
-    prevCenter = center;
-    useCenter = true;
-  }
-  const leafletObjs = [
-    <LocationMarker
-      key="fromMarker"
-      position={otpToLocation(from)}
-      type="from"
-      streetMode={match.params.hash}
-    />,
-    <LocationMarker
-      key="toMarker"
-      position={otpToLocation(to)}
-      type="to"
-      streetMode={match.params.hash}
-    />,
-  ];
+  const { hash } = match.params;
+  const leafletObjs = [];
+
   if (
     hash !== undefined &&
     hash !== 'walk' &&
@@ -79,75 +34,68 @@ function ItineraryPageMap(
   ) {
     leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
   }
-  if (match.location.query && match.location.query.intermediatePlaces) {
-    if (Array.isArray(match.location.query.intermediatePlaces)) {
-      match.location.query.intermediatePlaces
-        .map(otpToLocation)
-        .forEach((markerLocation, i) => {
-          leafletObjs.push(
-            <LocationMarker
-              key={`via_${i}`} // eslint-disable-line react/no-array-index-key
-              position={markerLocation}
-            />,
-          );
-        });
-    } else {
-      leafletObjs.push(
-        <LocationMarker
-          key="via"
-          position={otpToLocation(match.location.query.intermediatePlaces)}
-        />,
-      );
-    }
+  if (!showActive) {
+    itineraries.forEach((itinerary, i) => {
+      if (i !== active) {
+        leafletObjs.push(
+          <ItineraryLine
+            key={`line_${i}`}
+            hash={i}
+            legs={itinerary.legs}
+            passive
+          />,
+        );
+      }
+    });
   }
-
-  if (itinerary) {
+  if (active < itineraries.length) {
     leafletObjs.push(
       <ItineraryLine
-        key="line"
-        legs={itinerary.legs}
-        showTransferLabels
+        key={`line_${active}`}
+        hash={active}
+        streetMode={hash}
+        legs={itineraries[active].legs}
+        showTransferLabels={showActive}
         showIntermediateStops
-        streetMode={match.params.hash}
       />,
     );
   }
 
-  if (!center && itinerary && !itinerary.legs[0].transitLeg) {
-    // bounds = polyline.decode(itinerary.legs[0].legGeometry.points);
+  if (from.lat && from.lon) {
+    leafletObjs.push(
+      <LocationMarker
+        key="fromMarker"
+        position={from}
+        type="from"
+        streetMode={hash}
+      />,
+    );
   }
+  if (to.lat && to.lon) {
+    leafletObjs.push(
+      <LocationMarker
+        key="toMarker"
+        position={to}
+        type="to"
+        streetMode={hash}
+      />,
+    );
+  }
+  viaPoints.forEach((via, i) => {
+    leafletObjs.push(<LocationMarker key={`via_${i}`} position={via} />);
+  });
 
+  // max 5 viapoints
+  const locationPopup = viaPoints.length < 5 ? 'all' : 'origindestination';
   const onSelectLocation = (item, id) =>
     onLocationPopup(item, id, router, match, executeAction);
 
-  const validCenter = latlon && latlon.lat !== undefined;
-  // eslint-disable-next-line no-nested-ternary
-  const lat = validCenter ? latlon.lat : undefined;
-  // eslint-disable-next-line no-nested-ternary
-  const lon = validCenter ? latlon.lon : undefined;
-  const send = useCenter;
-
-  let useFitBound = fitBounds;
-  if (bounds?.length === undefined) {
-    useFitBound = false;
-  }
-
   return (
-    <MapContainer
-      className="full itinerary"
+    <MapWithTracking
       leafletObjs={leafletObjs}
-      lat={send ? lat : undefined}
-      lon={send ? lon : undefined}
-      zoom={bounds ? undefined : 16}
-      bounds={bounds}
-      fitBounds={useFitBound}
-      boundsOptions={{ maxZoom: 16 }}
-      locationPopup="all"
-      leafletEvents={leafletEvents}
-      geoJsonZoomLevel={zoomLevel}
-      mapRef={setMapElementRef}
+      locationPopup={locationPopup}
       onSelectLocation={onSelectLocation}
-      mapLayers={mapLayers}
+      {...rest}
     >
       {breakpoint !== 'large' && (
         <BackButton
@@ -156,19 +104,19 @@ function ItineraryPageMap(
           fallback="pop"
         />
       )}
-    </MapContainer>
+    </MapWithTracking>
   );
 }
 
 ItineraryPageMap.propTypes = {
-  itinerary: PropTypes.object,
-  center: dtLocationShape,
+  itineraries: PropTypes.array.isRequired,
+  active: PropTypes.number.isRequired,
+  showActive: PropTypes.bool,
   breakpoint: PropTypes.string.isRequired,
-  bounds: PropTypes.array,
-  fitBounds: PropTypes.bool,
-  leafletEvents: PropTypes.object,
   showVehicles: PropTypes.bool,
-  mapLayers: mapLayerShape.isRequired,
+  from: PropTypes.object.isRequired,
+  to: PropTypes.object.isRequired,
+  viaPoints: PropTypes.array.isRequired,
 };
 
 ItineraryPageMap.contextTypes = {
@@ -178,4 +126,4 @@ ItineraryPageMap.contextTypes = {
   executeAction: PropTypes.func.isRequired,
 };
 
-export default withBreakpoint(ItineraryPageMap);
+export default ItineraryPageMap;

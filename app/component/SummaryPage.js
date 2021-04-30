@@ -20,11 +20,9 @@ import isEmpty from 'lodash/isEmpty';
 import SunCalc from 'suncalc';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
-import MapWithTracking from './map/MapWithTracking';
+import ItineraryPageMap from './map/ItineraryPageMap';
 import SummaryPlanContainer from './SummaryPlanContainer';
 import SummaryNavigation from './SummaryNavigation';
-import ItineraryLine from './map/ItineraryLine';
-import LocationMarker from './map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import { getWeatherData } from '../util/apiUtils';
 import Loading from './Loading';
@@ -34,12 +32,7 @@ import {
   validateServiceTimeRange,
   getStartTimeWithColon,
 } from '../util/timeUtils';
-import {
-  planQuery,
-  setIntermediatePlaces,
-  updateItinerarySearch,
-  moreItinerariesQuery,
-} from '../util/queryUtils';
+import { planQuery, moreItinerariesQuery } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
@@ -48,7 +41,6 @@ import { itineraryHasCancelation } from '../util/alertUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
   parseLatLon,
-  locationToOTP,
   otpToLocation,
   getIntermediatePlaces,
 } from '../util/otpStrings';
@@ -59,14 +51,12 @@ import {
   stopRealTimeClient,
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
-import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import ItineraryTab from './ItineraryTab';
 import { StreetModeSelector } from './StreetModeSelector';
 import SwipeableTabs from './SwipeableTabs';
 import { getCurrentSettings, preparePlanParams } from '../util/planParamUtil';
 import { getTotalBikingDistance } from '../util/legUtils';
 import { userHasChangedModes } from '../util/modeUtils';
-import { addViaPoint } from '../action/ViaPointActions';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { saveSearch } from '../action/SearchActions';
 import CustomizeSearch from './CustomizeSearchNew';
@@ -1501,38 +1491,8 @@ class SummaryPage extends React.Component {
     this.context.router.replace(newState);
   };
 
-  selectLocation = (item, id) => {
-    const { match } = this.context;
-    if (id === 'via') {
-      const viaPoints = getIntermediatePlaces(match.location.query)
-        .concat([item])
-        .map(locationToOTP);
-      this.context.executeAction(addViaPoint, item);
-      setIntermediatePlaces(this.context.router, match, viaPoints);
-      return;
-    }
-    let origin = otpToLocation(match.params.from);
-    let destination = otpToLocation(match.params.to);
-    if (id === 'origin') {
-      origin = item;
-    } else {
-      destination = item;
-    }
-    updateItinerarySearch(
-      origin,
-      destination,
-      this.context.router,
-      match.location,
-      this.context.executeAction,
-    );
-  };
-
   renderMap(from, to, viaPoints) {
     const { match, breakpoint } = this.props;
-    // don't render map on mobile
-    if (breakpoint !== 'large') {
-      return undefined;
-    }
     const combinedItineraries = this.getCombinedItineraries();
     let filteredItineraries;
     if (combinedItineraries.length > 0) {
@@ -1542,70 +1502,22 @@ class SummaryPage extends React.Component {
     } else {
       filteredItineraries = [];
     }
+    // summary or detail view ?
+    const detailView = routeSelected(
+      match.params.hash,
+      match.params.secondHash,
+      combinedItineraries,
+    );
+
+    if (!detailView && breakpoint !== 'large') {
+      // no map on mobile summary view
+      return null;
+    }
 
     const activeIndex =
       getHashNumber(
         match.params.secondHash ? match.params.secondHash : match.params.hash,
       ) || getActiveIndex(match.location, filteredItineraries);
-
-    let leafletObjs = [];
-
-    if (filteredItineraries && filteredItineraries.length > 0) {
-      const onlyActive =
-        activeIndex < filteredItineraries.length
-          ? filteredItineraries[activeIndex]
-          : filteredItineraries[0];
-      leafletObjs = filteredItineraries
-        .filter(itinerary => itinerary !== onlyActive)
-        .map((itinerary, i) => (
-          <ItineraryLine
-            key={i}
-            hash={i}
-            legs={itinerary.legs}
-            passive
-            showIntermediateStops={false}
-          />
-        ));
-      const nextId = leafletObjs.length + 1;
-      leafletObjs.push(
-        <ItineraryLine
-          key={nextId}
-          hash={nextId}
-          legs={onlyActive.legs}
-          passive={false}
-          showIntermediateStops
-        />,
-      );
-    }
-
-    if (from.lat && from.lon) {
-      leafletObjs.push(
-        <LocationMarker
-          key="fromMarker"
-          position={from}
-          type="from"
-          streetMode={this.props.match.params.hash}
-        />,
-      );
-    }
-    if (to.lat && to.lon) {
-      leafletObjs.push(
-        <LocationMarker
-          key="toMarker"
-          position={to}
-          type="to"
-          streetMode={this.props.match.params.hash}
-        />,
-      );
-    }
-    viaPoints.forEach((intermediatePlace, i) => {
-      leafletObjs.push(
-        <LocationMarker key={`via_${i}`} position={intermediatePlace} />,
-      );
-    });
-    if (this.showVehicles()) {
-      leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
-    }
 
     const mwtProps = {};
     if (this.state.bounds) {
@@ -1616,18 +1528,20 @@ class SummaryPage extends React.Component {
     } else {
       mwtProps.bounds = getBounds(filteredItineraries, from, to, viaPoints);
     }
-    // max 5 viapoints
-    const locationPopup = viaPoints.length < 5 ? 'all' : 'origindestination';
 
     return (
-      <MapWithTracking
+      <ItineraryPageMap
         {...mwtProps}
+        from={from}
+        to={to}
+        viaPoints={viaPoints}
         zoom={POINT_FOCUS_ZOOM}
-        leafletObjs={leafletObjs}
-        locationPopup={locationPopup}
-        onSelectLocation={this.selectLocation}
         mapLayers={this.props.mapLayers}
         setMWTRef={this.setMWTRef}
+        breakpoint={breakpoint}
+        itineraries={filteredItineraries}
+        active={activeIndex}
+        showActive={detailView}
       />
     );
   }
@@ -2023,7 +1937,6 @@ class SummaryPage extends React.Component {
       </>
     );
 
-    // added config.itinerary.serviceTimeRange parameter (DT-3175)
     const serviceTimeRange = validateServiceTimeRange(
       this.context.config.itinerary.serviceTimeRange,
       this.props.serviceTimeRange,

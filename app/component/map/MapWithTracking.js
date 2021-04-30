@@ -30,7 +30,7 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'leafletObjs',
 ]);
 
-const Map = onlyUpdateCoordChanges(MapContainer);
+const MapCont = onlyUpdateCoordChanges(MapContainer);
 
 /* stop yet another eslint madness */
 /* eslint-disable react/sort-comp */
@@ -271,7 +271,7 @@ class MapWithTrackingStateHandler extends React.Component {
     const iconColor = this.state.mapTracking ? '#ff0000' : '#78909c';
 
     return (
-      <Map
+      <MapCont
         className="flex-grow"
         locationPopup={this.props.locationPopup}
         onSelectLocation={this.props.onSelectLocation}
@@ -312,7 +312,7 @@ class MapWithTrackingStateHandler extends React.Component {
         mapLayers={mapLayers}
       >
         {children}
-      </Map>
+      </MapCont>
     );
   }
 }
