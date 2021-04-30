@@ -26,7 +26,11 @@ function getTopic(options, settings) {
   const direction = options.direction ? parseInt(options.direction, 10) : '+';
   const geoHash = options.geoHash ? options.geoHash : ['+', '+', '+', '+'];
   const tripId = options.tripId ? options.tripId : '+';
-  const headsign = options.headsign ? options.headsign : '+';
+  // headsigns with / cause problems
+  const headsign =
+    options.headsign && options.headsign.indexOf('/') === -1
+      ? options.headsign
+      : '+';
   const tripStartTime = options.tripStartTime ? options.tripStartTime : '+';
   const topic = settings.mqttTopicResolver(
     route,

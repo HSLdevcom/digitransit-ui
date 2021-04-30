@@ -79,6 +79,7 @@ class CityBikes {
     const currentTime = new Date().getTime();
 
     const callback = ({ station: result }) => {
+      const isHilighted = this.tile.hilightedStops?.includes(result.stationId);
       timeOfLastFetch[id] = new Date().getTime();
       if (result) {
         const iconName = getCityBikeNetworkIcon(
@@ -101,6 +102,7 @@ class CityBikes {
             iconName,
             this.config.cityBike.capacity !== BIKEAVL_UNKNOWN,
             this.config.colors.iconColors['mode-citybike'],
+            isHilighted,
           );
         }
       }

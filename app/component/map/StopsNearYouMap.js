@@ -148,11 +148,6 @@ function StopsNearYouMap(
   const [bounds, setBounds] = useState([]);
   const [useFitBounds, setUseFitBounds] = useState(false);
   const [clientOn, setClientOn] = useState(false);
-  const [secondPlan, setSecondPlan] = useState({
-    itinerary: [],
-    isFetching: false,
-    stop: null,
-  });
   const [firstPlan, setFirstPlan] = useState({
     itinerary: [],
     isFetching: false,
@@ -163,7 +158,7 @@ function StopsNearYouMap(
   const walkRoutingThreshold =
     mode === 'RAIL' || mode === 'SUBWAY' || mode === 'FERRY' ? 3000 : 1500;
   const { environment } = relay;
-  const fetchPlan = (stop, first) => {
+  const fetchPlan = stop => {
     const toPlace = {
       address: stop.name ? stop.name : 'stop',
       lon: stop.lon,
@@ -200,49 +195,39 @@ function StopsNearYouMap(
     `;
     if (stop.distance < walkRoutingThreshold) {
       fetchQuery(environment, query, variables).then(({ plan: result }) => {
-        if (first) {
-          setFirstPlan({ itinerary: result, isFetching: false, stop });
-        } else {
-          setSecondPlan({ itinerary: result, isFetching: false, stop });
-        }
+        setFirstPlan({ itinerary: result, isFetching: false, stop });
       });
-    } else if (first) {
-      setFirstPlan({ itinerary: [], isFetching: false, stop });
     } else {
-      setSecondPlan({ itinerary: [], isFetching: false, stop });
+      setFirstPlan({ itinerary: [], isFetching: false, stop });
     }
   };
   const handleWalkRoutes = stopsAndStations => {
     if (mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION) {
       if (stopsAndStations.length > 0) {
         const firstStop = stopsAndStations[0];
-        if (!isEqual(firstStop, firstPlan.stop)) {
+        const shouldFetchWalkRoute = () => {
+          return (
+            (mode !== 'BUS' && mode !== 'TRAM') ||
+            favouriteIds.has(firstStop.gtfsId)
+          );
+        };
+        if (!isEqual(firstStop, firstPlan.stop) && shouldFetchWalkRoute()) {
           setFirstPlan({
             itinerary: firstPlan.itinerary,
             isFetching: true,
             stop: firstStop,
           });
-          fetchPlan(firstStop, true);
-        }
-      }
-      if (stopsAndStations.length > 1) {
-        const secondStop = stopsAndStations[1];
-        if (!isEqual(secondStop, secondPlan.stop)) {
-          setSecondPlan({
-            itinerary: secondPlan.itinerary,
-            isFetching: true,
-            stop: secondStop,
+          fetchPlan(firstStop);
+        } else if (!shouldFetchWalkRoute()) {
+          setFirstPlan({
+            itinerary: [],
+            isFetching: false,
+            stop: null,
           });
-          fetchPlan(secondStop, false);
         }
       }
     } else {
       setFirstPlan({
-        itinerary: [],
-        isFetching: false,
-        stop: null,
-      });
-      setSecondPlan({
         itinerary: [],
         isFetching: false,
         stop: null,
@@ -352,7 +337,7 @@ function StopsNearYouMap(
       setSortedStopEdges(stopsNearYou);
       setRoutes(stopsNearYou);
     }
-  }, [stopsNearYou]);
+  }, [stopsNearYou, favouriteIds]);
 
   if (loading) {
     return <Loading />;
@@ -391,26 +376,6 @@ function StopsNearYouMap(
           <ItineraryLine
             key="itinerary"
             hash={i}
-            legs={itinerary.legs}
-            passive={false}
-            showIntermediateStops={false}
-            streetMode="walk"
-          />
-        );
-      }),
-    );
-  }
-  if (
-    secondPlan.itinerary.itineraries &&
-    secondPlan.itinerary.itineraries.length > 0
-  ) {
-    leafletObjs.push(
-      secondPlan.itinerary.itineraries.map((itinerary, i) => {
-        return (
-          <ItineraryLine
-            key="itinerary"
-            hash={i}
-            flipBubble
             legs={itinerary.legs}
             passive={false}
             showIntermediateStops={false}

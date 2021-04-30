@@ -20,6 +20,8 @@ export default class SwipeableTabs extends React.Component {
     hideArrows: PropTypes.bool,
     navigationOnBottom: PropTypes.bool,
     classname: PropTypes.string,
+    ariaFrom: PropTypes.string.isRequired,
+    ariaFromHeader: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -33,11 +35,35 @@ export default class SwipeableTabs extends React.Component {
 
   componentDidMount() {
     window.addEventListener('resize', this.setFocusables);
+    window.addEventListener('resize', this.setFixedElementNavigationStyle);
+    const momentumScrollEl = document.querySelector('.momentum-scroll');
+    if (momentumScrollEl) {
+      momentumScrollEl.addEventListener('scroll', e => {
+        const { scrollTop } = e.target;
+        const swipeDesktopViewEl = document.querySelector(
+          '.swipe-desktop-view',
+        );
+        if (swipeDesktopViewEl && scrollTop > 0) {
+          swipeDesktopViewEl.style['box-shadow'] =
+            '0 8px 6px -6px rgba(0, 0, 0, 0.2)';
+        } else {
+          swipeDesktopViewEl.style['box-shadow'] = 'none';
+        }
+      });
+    }
     this.setFocusables();
+    this.setFixedElementNavigationStyle();
   }
 
   componentDidUpdate() {
     this.setFocusables();
+  }
+
+  componentWillUnmount() {
+    const desktopTitleEl = document.querySelector('.desktop-title');
+    if (this.props.classname === 'swipe-desktop-view' && desktopTitleEl) {
+      desktopTitleEl.style['margin-bottom'] = `0px`;
+    }
   }
 
   setFocusables = () => {
@@ -178,18 +204,77 @@ export default class SwipeableTabs extends React.Component {
     }
   };
 
+  setFixedElementNavigationStyle = () => {
+    const desktopTitleEl = document.querySelector('.desktop-title');
+    if (
+      this.props.classname === 'swipe-desktop-view' &&
+      desktopTitleEl &&
+      !this.props.navigationOnBottom
+    ) {
+      const swipeHeaderEl = document.querySelector('.swipe-header-container');
+      const titleElementHeight = desktopTitleEl.offsetHeight;
+      desktopTitleEl.style['margin-bottom'] = `${swipeHeaderEl.offsetHeight}px`;
+      swipeHeaderEl.style.top = `${titleElementHeight}px`;
+    }
+  };
+
+  constructAriaMessage = (from, position) => {
+    const fromMessage = this.context.intl
+      .formatMessage({
+        id: from,
+        defaultMessage: 'Swipe results tabs.',
+      })
+      .concat(' ');
+    switch (position) {
+      case 'header':
+        return fromMessage.concat(
+          this.context.intl.formatMessage({
+            id: 'swipe-result-tabs',
+            defaultMessage: 'Switch tabs using arrow keys.',
+          }),
+        );
+      case 'left':
+        return fromMessage.concat(
+          this.context.intl.formatMessage({
+            id: 'swipe-result-tab-left',
+            defaultMessage:
+              'Swipe result tabs left arrow. Press Enter or Space to show the previous tab.',
+          }),
+        );
+      case 'right':
+        return fromMessage.concat(
+          this.context.intl.formatMessage({
+            id: 'swipe-result-tab-right',
+            defaultMessage:
+              'Swipe result tabs right arrow. Press Enter or Space to show the next tab.',
+          }),
+        );
+      default:
+        return null;
+    }
+  };
+
   render() {
-    const { tabs, hideArrows, navigationOnBottom } = this.props;
+    const {
+      tabs,
+      hideArrows,
+      navigationOnBottom,
+      ariaFrom,
+      ariaFromHeader,
+    } = this.props;
     const tabBalls = this.tabBalls(tabs.length);
     const disabled = tabBalls.length < 2;
     let reactSwipeEl;
-
+    const ariaHeader = this.constructAriaMessage(ariaFromHeader, 'header');
+    const ariaLeft = this.constructAriaMessage(ariaFrom, 'left');
+    const ariaRight = this.constructAriaMessage(ariaFrom, 'right');
     return (
       <div>
         {navigationOnBottom && (
           <ReactSwipe
             swipeOptions={{
               startSlide: this.props.tabIndex,
+              stopPropagation: true,
               continuous: false,
               callback: i => {
                 // force transition after animation should be over because animation can randomly fail sometimes
@@ -208,15 +293,14 @@ export default class SwipeableTabs extends React.Component {
           </ReactSwipe>
         )}
         <div className={`swipe-header-container ${this.props.classname}`}>
+          {this.props.classname === 'swipe-desktop-view' && (
+            <div className="desktop-view-divider" />
+          )}
           <div
             className={`swipe-header ${this.props.classname}`}
             role="row"
             onKeyDown={e => this.handleKeyPress(e, reactSwipeEl)}
-            aria-label={this.context.intl.formatMessage({
-              id: 'swipe-result-tabs',
-              defaultMessage:
-                'Swipe result tabs. Switch tabs using arrow keys.',
-            })}
+            aria-label={ariaHeader}
             tabIndex="0"
           >
             {!hideArrows && (
@@ -232,11 +316,7 @@ export default class SwipeableTabs extends React.Component {
                   }}
                   role="button"
                   tabIndex="0"
-                  aria-label={this.context.intl.formatMessage({
-                    id: 'swipe-result-tab-left',
-                    defaultMessage:
-                      'Swipe result tabs left arrow. Press Enter or Space to show the previous tab.',
-                  })}
+                  aria-label={ariaLeft}
                 >
                   <Icon
                     img="icon-icon_arrow-collapse--left"
@@ -263,11 +343,7 @@ export default class SwipeableTabs extends React.Component {
                   }}
                   role="button"
                   tabIndex="0"
-                  aria-label={this.context.intl.formatMessage({
-                    id: 'swipe-result-tab-right',
-                    defaultMessage:
-                      'Swipe result tabs right arrow. Press Enter or Space to show the next tab.',
-                  })}
+                  aria-label={ariaRight}
                 >
                   <Icon
                     img="icon-icon_arrow-collapse--right"

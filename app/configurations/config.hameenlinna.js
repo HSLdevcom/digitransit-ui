@@ -83,21 +83,6 @@ export default configMerger(walttiConfig, {
 
   minTransferTime: 60,
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Hämeenlinnan linja-autoasema',
-      lat: 60.9952717075545,
-      lon: 24.4662911533486,
-    },
-    {
-      icon: 'icon-icon_rail',
-      label: 'Hämeenlinnan rautatieasema',
-      lat: 61.002179,
-      lon: 24.478192,
-    },
-  ],
-
   menu: {
     copyright: { label: `© Hameenlinna ${walttiConfig.YEAR}` },
     content: [

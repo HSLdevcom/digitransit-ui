@@ -232,7 +232,7 @@ export const getTotalDistance = itinerary => sumDistances(itinerary.legs);
  * @param {*} config the configuration for the software installation
  */
 export const getCityBikeAvailabilityIndicatorColor = (bikesAvailable, config) =>
-  bikesAvailable > config.cityBike.fewAvailableCount ? '#64be14' : '#ff9000';
+  bikesAvailable > config.cityBike.fewAvailableCount ? '#3B7F00' : '#ff9000';
 
 /**
  * Attempts to retrieve any relevant information from the leg that could be shown

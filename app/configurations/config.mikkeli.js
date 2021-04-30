@@ -26,7 +26,17 @@ export default configMerger(walttiConfig, {
       'mode-bus': '#52B9E9',
     },
   },
-
+  transportModes: {
+    bus: {
+      availableForSelection: true,
+      defaultValue: true,
+      nearYouLabel: {
+        fi: 'Lähipysäkit kartalla',
+        sv: 'Hållplatser på kartan',
+        en: 'Nearby stops on map',
+      },
+    },
+  },
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
@@ -60,27 +70,6 @@ export default configMerger(walttiConfig, {
     lat: 61.687904,
     lon: 27.273215,
   },
-
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_city',
-      label: 'Hallitustori',
-      lat: 61.687904,
-      lon: 27.273215,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Matkakeskus Mikkeli',
-      lat: 61.686905,
-      lon: 27.276961,
-    },
-    {
-      icon: 'icon-icon_city',
-      label: 'Ristiina',
-      lat: 61.506483,
-      lon: 27.257635,
-    },
-  ],
 
   menu: {
     copyright: { label: `© Mikkeli ${walttiConfig.YEAR}` },

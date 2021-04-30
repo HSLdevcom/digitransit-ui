@@ -129,8 +129,7 @@ const StopPageMap = (
       )),
     );
   }
-
-  const id = match.params.stopId || match.params.terminalId;
+  const id = match.params.stopId || match.params.terminalId || match.params.id;
 
   let bounds = [];
   if (

@@ -8,31 +8,12 @@ import Icon from './Icon';
 import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import LoginButton from './LoginButton';
-import UserInfo from './UserInfo';
 
 function MainMenu(props, { config, intl }) {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div aria-hidden={!props.visible} className="main-menu no-select">
       <div className="main-menu-top-section">
-        {props.breakpoint === 'large' &&
-          config.allowLogin &&
-          (!props.user.name ? (
-            <LoginButton />
-          ) : (
-            <UserInfo
-              user={props.user}
-              list={[
-                {
-                  key: 'dropdown-item-1',
-                  messageId: 'logout',
-                  href: '/logout',
-                },
-              ]}
-              isMobile
-            />
-          ))}
         <button
           ref={input => input && input.focus()}
           onClick={props.toggleVisibility}
@@ -110,8 +91,6 @@ MainMenu.propTypes = {
   toggleVisibility: PropTypes.func.isRequired,
   visible: PropTypes.bool,
   homeUrl: PropTypes.string.isRequired,
-  user: PropTypes.object,
-  breakpoint: PropTypes.string.isRequired,
 };
 
 MainMenu.defaultProps = {

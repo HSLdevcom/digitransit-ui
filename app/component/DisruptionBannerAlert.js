@@ -4,28 +4,50 @@ import cx from 'classnames';
 import { intlShape } from 'react-intl';
 
 import Icon from './Icon';
+import SwipeableTabs from './SwipeableTabs';
 import TruncatedMessage from './TruncatedMessage';
+import {
+  getServiceAlertDescription,
+  getServiceAlertHeader,
+} from '../util/alertUtils';
+import withBreakpoint from '../util/withBreakpoint';
 
 const DisruptionBannerAlert = (
-  { message, header, language },
+  { language, alerts, breakpoint },
   { intl, config },
 ) => {
   const [isOpen, setOpen] = useState(true);
-  const useHeader = header && header.length <= 120 && !message.includes(header);
-  return (
-    isOpen && (
-      <div className="disruption-banner-container">
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const onSwipe = i => {
+    setTabIndex(i);
+  };
+  const createAlertText = alert => getServiceAlertDescription(alert, language);
+
+  const createAlertHeader = alert => getServiceAlertHeader(alert, language);
+
+  const renderAlert = alert => {
+    const header = createAlertHeader(alert);
+    const message = createAlertText(alert);
+    const useHeader =
+      header && header.length <= 120 && !message.includes(header);
+    return (
+      <div key={alert.id} className="disruption-container">
         <div className="disruption-icon-container">
           <Icon img="icon-icon_disruption-banner-alert" />
         </div>
         <div className="disruption-info-container">
-          {useHeader && <h3 className="disruption-info-header">{header}</h3>}
           {(!config.URL.ROOTLINK || !config.trafficNowLink) && (
-            <TruncatedMessage
-              className="disruption-show-more"
-              lines={useHeader ? 2 : 3}
-              message={message}
-            />
+            <>
+              {useHeader && (
+                <h3 className="disruption-info-header">{header}</h3>
+              )}
+              <TruncatedMessage
+                className="disruption-show-more"
+                lines={useHeader ? 2 : 3}
+                message={message}
+              />
+            </>
           )}
           {config.URL.ROOTLINK && config.trafficNowLink && (
             <a
@@ -35,6 +57,9 @@ const DisruptionBannerAlert = (
                 language === 'fi' ? '' : `${language}/`
               }${config.trafficNowLink[language]}`}
             >
+              {useHeader && (
+                <h3 className="disruption-info-header">{header}</h3>
+              )}
               {message}
             </a>
           )}
@@ -55,18 +80,37 @@ const DisruptionBannerAlert = (
           <Icon img="icon-icon_close" className="close" color="#fff" />
         </button>
       </div>
+    );
+  };
+
+  const tabs = alerts.map(alert => renderAlert(alert));
+
+  return (
+    isOpen && (
+      <div className="disruption-banner-container">
+        {tabs.length > 1 ? (
+          <SwipeableTabs
+            tabs={tabs}
+            tabIndex={tabIndex}
+            onSwipe={onSwipe}
+            classname="disruption-banner"
+            hideArrows={breakpoint !== 'large'}
+            navigationOnBottom
+            ariaFrom="swipe-disruption-info"
+            ariaFromHeader="swipe-disruption-info-header"
+          />
+        ) : (
+          renderAlert(alerts[0])
+        )}
+      </div>
     )
   );
 };
 
 DisruptionBannerAlert.propTypes = {
-  message: PropTypes.string.isRequired,
-  header: PropTypes.string,
+  breakpoint: PropTypes.string.isRequired,
+  alerts: PropTypes.array.isRequired,
   language: PropTypes.string.isRequired,
-};
-
-DisruptionBannerAlert.defaultProps = {
-  header: null,
 };
 
 DisruptionBannerAlert.contextTypes = {
@@ -74,4 +118,8 @@ DisruptionBannerAlert.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-export default DisruptionBannerAlert;
+const DisruptionBannerAlertWithBreakpoint = withBreakpoint(
+  DisruptionBannerAlert,
+);
+
+export default DisruptionBannerAlertWithBreakpoint;

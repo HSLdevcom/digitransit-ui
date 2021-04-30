@@ -309,6 +309,9 @@
   z-index: 1;
   height: 100px;
   animation: fadeIn 0.4s;
+  &.route-schedule {
+    margin-top: 200px;
+  }
 }
 
 .desktop .summary-list-container {
@@ -403,6 +406,10 @@
 
 .mobile .time-navigation-btn {
   padding-left: 28px;
+  &.extra-whitespace {
+    height: 120px;
+    padding-bottom: 60px;
+  }
 }
 
 .summary-list-separator {

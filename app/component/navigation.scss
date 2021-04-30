@@ -41,26 +41,6 @@ $offcanvas-link-text-font-size: 15px;
 /* Content */
 $content-background-color: $background-color;
 
-#mainContent .desktop {
-  // so that the layer selector bubble doesn't cause scroll bars
-  overflow: hidden;
-  height: 100%;
-  display: flex;
-  flex-basis: 0px;
-  flex-direction: row;
-  flex-grow: 1;
-  flex-shrink: 0;
-}
-
-.top-bar-login {
-  display: flex;
-  flex-direction: row;
-  color: $white;
-  align-items: center;
-  text-align: center;
-  cursor: pointer;
-  white-space: nowrap;
-}
 .top-bar {
   height: 70px;
   min-height: 70px;
@@ -68,9 +48,8 @@ $content-background-color: $background-color;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: $primary-color;
+  background: $top-bar-color;
   text-align: center;
-  overflow: hidden; // Show drawer menu
   z-index: 1008;
 
   // Fixed navbar height for now, as dynamic height leads to Safari issues
@@ -112,16 +91,6 @@ $content-background-color: $background-color;
     background-repeat: no-repeat;
     background-position: left center;
   }
-  .navi-logo {
-    margin-left: 32px;
-    width: $nav-logo-width;
-    height: $nav-logo-height;
-    min-width: 130px; //for ff
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: left center;
-    cursor: pointer;
-  }
 
   .controls {
     display: flex;
@@ -131,7 +100,7 @@ $content-background-color: $background-color;
 .mobile.top-bar {
   height: 50px;
   min-height: 50px;
-  background: $primary-color;
+  background: $top-bar-color;
   .logo {
     min-height: 30px;
   }
@@ -202,18 +171,118 @@ $content-background-color: $background-color;
   border-right: 1px solid rgba(0, 0, 0, 0.15);
 }
 
-.login-icon {
+.login-button-container {
+  width: 100%;
+  > button {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-right: 0.7rem;
+  }
   .icon {
-    font-size: 2.75em;
-    color: $primary-color;
-    fill: $top-navigation-icon-color;
+    font-size: 2em;
+    color: $top-navigation-icon-color;
     &.caution-topbar {
       fill: $caution-icon-color;
       color: $caution-icon-font-color;
     }
   }
-  margin-top: 1.25rem;
-  width: 100%;
+}
+
+.usermenu-wrapper {
+  user-select: none;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+}
+
+.usermenu-header {
+  display: flex;
+  flex-direction: row;
+  z-index: 1;
+  padding: 0.625rem 0;
+  cursor: pointer;
+  align-items: center;
+  text-align: center;
+  line-height: normal;
+}
+
+.usermenu-title {
+  display: flex;
+  flex-direction: row;
+}
+
+.usermenu-title-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 0.625rem;
+  padding-left: 0.5rem;
+  color: $top-navigation-icon-color;
+  max-width: 4.5rem;
+  font-size: 1rem;
+  @include min-width(tablet) {
+    font-size: $font-size-normal;
+  }
+}
+
+.usermenu-container {
+  z-index: 0;
+  opacity: 0;
+  position: absolute;
+  min-width: 200px;
+  background-color: $primary-color;
+  transition: opacity .1s linear;
+
+  &.open {
+    border-top: 1px solid rgba(0,0,0,0.2);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    box-shadow: none;//0 2px 0 0 rgba(0,0,0,.06);
+    top: 50px;
+    right: -25px;
+    opacity: 1;
+    @include min-width(tablet) {
+      right: 0;
+      top: 61px;
+    }
+  }
+}
+
+.usermenu-list {
+  list-style-type: none;
+  padding: 10px 0 15px;
+  margin: 0;
+  .usermenu-list-item {
+    flex-direction: row;
+    justify-content: flex-start;
+    display: flex;
+    width: 100%;
+    line-height: normal;
+    font-weight: $font-weight-medium;
+    border-top: 1px solid transparent;
+    font-size: $font-size-normal;
+    > a {
+      position: relative;
+      display: block;
+      width: 100%;
+      text-decoration: none;
+      color: $top-navigation-icon-color;
+      line-height: 2.4;
+      letter-spacing: -0.6px;
+      text-align: start;
+      margin: 0 15px;
+    }
+  }
+  .usermenu-list-item:not(:last-child) > a {
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    @include min-width(tablet) {
+      border-bottom: none;
+    }
+  }
+  .usermenu-list-item:hover {
+    background: darken($primary-color, 5%);
+  }
 }
 
 .navi-icons {
@@ -613,15 +682,18 @@ section.content {
 
       .react-swipe-container {
         height: auto;
-        width: 105%; // Hides the currently not visible swipe content
+        width: 100%;
         margin-bottom: 3px;
         .message-content {
+          .message-heading {
+            min-height: 11px;
+          }
           button {
             text-decoration: underline;
             font-weight: $font-weight-bold;
           }
           .message-bar-link {
-            word-break: break-word;
+            word-break: normal;
             color: $primary-color;
           }
         }
@@ -728,10 +800,10 @@ section.content {
 .message-bar .icon.message-icon {
   float: left;
   fill: $primary-color;
-  height: 35px;
-  width: 35px;
+  height: 24px;
+  width: 24px;
   margin: 11px;
-  margin-top: 25px;
+  margin-top: 20px;
 }
 
 .message-bar .icon.close {
