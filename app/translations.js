@@ -569,6 +569,7 @@ const translations = {
     'map-layer-terminal-rail': 'Bahnhöfe',
     'map-layer-terminal-subway': 'U-Bahnhöfe',
     'map-layer-vehicles': 'Fahrzeuge',
+    'map-layer-weather-stations': 'Straßenwetter',
     'menu-faq': 'FAQ',
     'menu-feedback': 'Feedback senden',
     'menu-link-to-privacy-policy': 'Datenschutz',

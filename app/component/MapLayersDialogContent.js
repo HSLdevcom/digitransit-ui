@@ -326,6 +326,7 @@ class MapLayersDialogContent extends React.Component {
           {this.context.config.weatherStations &&
             this.context.config.weatherStations.show && (
               <Checkbox
+                large
                 checked={weatherStations}
                 defaultMessage="Road weather"
                 labelId="map-layer-weather-stations"
