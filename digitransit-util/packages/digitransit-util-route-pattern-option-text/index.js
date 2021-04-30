@@ -50,7 +50,7 @@ function translateText(objectToTranslate) {
 export default function routePatternOptionText(language, pattern, isTogglable) {
   i18next.changeLanguage(language);
   // Starts with route info:  Kirkkonummi ➔ Helsinki
-  let destinationName = pattern.headsign; // DT-3422
+  let destinationName = pattern ? pattern.headsign : null; // DT-3422
   if (destinationName === null) {
     destinationName = pattern.stops[pattern.stops.length - 1].name;
   }
@@ -278,4 +278,21 @@ export default function routePatternOptionText(language, pattern, isTogglable) {
     return retValue;
   }
   return retValue;
+}
+
+export function getTranslatedDayString(language, dayString, clean) {
+  i18next.changeLanguage(language);
+  const splittedDayStr = dayString.split(',');
+  let text = translateText({
+    id: `route-pattern-select-range-${splittedDayStr[0]}`,
+  });
+  if (splittedDayStr.length > 1) {
+    text += ` - ${translateText({
+      id: `route-pattern-select-range-${splittedDayStr[1]}`,
+    })}`;
+  }
+  if (clean) {
+    text = text.replace(/\(|\)| /gi, '');
+  }
+  return text;
 }

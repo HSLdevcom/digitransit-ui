@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import Link from 'found/Link';
 import { intlShape, FormattedMessage } from 'react-intl';
-
+import Icon from './Icon';
 import DepartureRow from './DepartureRow';
 import { patternIdPredicate } from '../util/alertUtils';
 import { isBrowser } from '../util/browser';
@@ -185,10 +185,13 @@ class DepartureListContainer extends Component {
           defaultMessage: 'Arrives / Terminus',
         });
       }
-      return this.context.intl.formatMessage({
-        id: 'route-destination-arrives',
-        defaultMessage: 'Drop-off only',
-      });
+      return (
+        departure.trip?.tripHeadsign ||
+        this.context.intl.formatMessage({
+          id: 'route-destination-arrives',
+          defaultMessage: 'Drop-off only',
+        })
+      );
     }
     const headsign =
       departure.headsign ||
@@ -240,6 +243,19 @@ class DepartureListContainer extends Component {
         trip: { ...departure.trip, ...{ route: departure.trip.pattern.route } },
         stop: departure.stop,
         realtime: departure.realtime,
+        bottomRow:
+          departure.isArrival && !departure.isLastStop ? (
+            <div className="drop-off-container">
+              <Icon
+                img="icon-icon_info"
+                color={this.context.config.colors.primary}
+              />
+              <FormattedMessage
+                id="route-destination-arrives"
+                defaultMessage="Drop-off only"
+              />
+            </div>
+          ) : null,
       };
 
       const departureObj = (
@@ -253,11 +269,10 @@ class DepartureListContainer extends Component {
         />
       );
 
-      // DT-3331: added query string sort=no to Link's to
       if (this.props.routeLinks) {
         departureObjs.push(
           <Link
-            to={`/${PREFIX_ROUTES}/${departure.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.pattern.code}?sort=no`}
+            to={`/${PREFIX_ROUTES}/${departure.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.pattern.code}`}
             key={id}
             onClick={() => {
               addAnalyticsEvent({

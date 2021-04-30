@@ -123,7 +123,7 @@ describe('<RouteAlertsRow />', () => {
     };
     const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
     expect(wrapper.find('.route-alert-row-link').get(0).props.to).to.equal(
-      `/${PREFIX_ROUTES}/HSL:2097N/${PREFIX_STOPS}/HSL:2097N:0:01`,
+      `/${PREFIX_ROUTES}/HSL:2097N/${PREFIX_STOPS}`,
     );
   });
 

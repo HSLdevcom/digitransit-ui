@@ -101,6 +101,8 @@ export default class MobileItineraryWrapper extends React.Component {
         tabIndex={index}
         onSwipe={this.props.onSwipe}
         classname="swipe-mobile-divider"
+        ariaFrom="swipe-summary-page"
+        ariaFromHeader="swipe-summary-page-header"
       />
     );
     /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */

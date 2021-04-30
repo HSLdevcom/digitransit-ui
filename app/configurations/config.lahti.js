@@ -69,27 +69,6 @@ export default configMerger(walttiConfig, {
     lon: 25.656398,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Matkakeskus, Lahti',
-      lat: 60.97705,
-      lon: 25.658567,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Kauppatori, Lahti',
-      lat: 60.983595,
-      lon: 25.656391,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Päijät-Hämeen keskussairaala, Lahti',
-      lat: 60.991045,
-      lon: 25.567989,
-    },
-  ],
-
   menu: {
     copyright: { label: `© Lahti ${walttiConfig.YEAR}` },
     content: [
@@ -114,52 +93,6 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-
-  staticMessages: [
-    {
-      id: '3',
-      priority: -1,
-      persistence: 'repeat',
-      content: {
-        fi: [
-          {
-            type: 'text',
-            content:
-              'Koronaepidemian vuoksi reittiopas ei ole ajan tasalla. Tarkista muutokset ennen matkaa ',
-          },
-          {
-            type: 'a',
-            content: 'www.lsl.fi',
-            href: 'http://www.lsl.fi',
-          },
-        ],
-        en: [
-          {
-            type: 'text',
-            content:
-              'Due to the coronary epidemic the route guide is out of date. Please check changes before traveling ',
-          },
-          {
-            type: 'a',
-            content: 'www.lsl.fi',
-            href: 'http://www.lsl.fi',
-          },
-        ],
-        sv: [
-          {
-            type: 'text',
-            content:
-              'På grund av coronaviruset är ruttguiden inaktuell. Kontrollera innan du reser ',
-          },
-          {
-            type: 'a',
-            content: 'www.lsl.fi',
-            href: 'http://www.lsl.fi',
-          },
-        ],
-      },
-    },
-  ],
 
   aboutThisService: {
     fi: [

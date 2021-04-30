@@ -3,12 +3,7 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEmpty from 'lodash/isEmpty';
-import {
-  isAlertValid,
-  getServiceAlertDescription,
-  getServiceAlertMetadata,
-  getServiceAlertHeader,
-} from '../util/alertUtils';
+import { isAlertValid, getServiceAlertMetadata } from '../util/alertUtils';
 import DisruptionBannerAlert from './DisruptionBannerAlert';
 
 class DisruptionBanner extends React.Component {
@@ -51,25 +46,15 @@ class DisruptionBanner extends React.Component {
     return activeAlerts;
   }
 
-  createAlertText(alert) {
-    return getServiceAlertDescription(alert, this.props.language);
-  }
-
-  createAlertHeader(alert) {
-    return getServiceAlertHeader(alert, this.props.language);
-  }
-
   render() {
     const activeAlerts = this.getAlerts();
     if (activeAlerts.length > 0) {
-      return activeAlerts.map(alert => (
+      return (
         <DisruptionBannerAlert
-          key={alert.id}
-          header={this.createAlertHeader(alert)}
-          message={this.createAlertText(alert)}
+          alerts={activeAlerts}
           language={this.props.language}
         />
-      ));
+      );
     }
     return null;
   }

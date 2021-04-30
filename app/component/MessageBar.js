@@ -117,7 +117,6 @@ class MessageBar extends Component {
     messages: PropTypes.array.isRequired,
     relayEnvironment: PropTypes.object,
     duplicateMessageCounter: PropTypes.number.isRequired,
-    breakpoint: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -177,7 +176,6 @@ class MessageBar extends Component {
           key={el.id}
           content={el.content[this.props.lang] || el.content.fi}
           textColor={textColor}
-          breakpoint={this.props.breakpoint}
         />
       </div>
     ));
@@ -278,6 +276,8 @@ class MessageBar extends Component {
                       onSwipe={this.onSwipe}
                       hideArrows
                       navigationOnBottom
+                      ariaFrom="swipe-message-bar"
+                      ariaFromHeader="swipe-message-bar-header"
                     />
                   </div>
                 </div>

@@ -26,16 +26,16 @@ function StopsNearYouFavorites({
         <div className="no-favorites-content">
           <FormattedMessage id="nearest-favorites-no-favorites" />
         </div>
-        {breakpoint !== 'large' && (
-          <>
-            <img
-              className="instruction-image"
-              src="/img/ohjekuva.png"
-              alt="Käyttöohje"
-            />
-            <FormattedMessage id="nearest-favorites-browse-stops" />
-          </>
-        )}
+        <>
+          <img
+            className="instruction-image"
+            src={`/img/nearby-stop_${
+              breakpoint === 'large' ? 'desktop-' : ''
+            }animation.gif`}
+            alt="Käyttöohje"
+          />
+          <FormattedMessage id="nearest-favorites-browse-stops" />
+        </>
       </div>
     );
   }
