@@ -156,7 +156,7 @@ const WeatherStationContent = ({
               <FormattedMessage id="last-updated" defaultMessage="Last updated">
                 {(...content) => `${content} `}
               </FormattedMessage>
-              {moment(updatedAt).format('hh:mm A') || ''}
+              {moment(updatedAt).format('LT') || ''}
             </td>
           </tr>
         )}

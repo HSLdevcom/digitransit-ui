@@ -322,6 +322,7 @@ const translations = {
     address: 'Adresse',
     'address-or-stop': 'Adresse oder Haltestelle',
     agency: 'Betreiber',
+    'air-temperature': 'Lufttemperatur',
     airplane: 'Flug',
     'airplane-with-route-number': 'Flug {routeNumber}',
     'airport-check-in': 'Gepäck bei {agency} einchecken',
@@ -391,6 +392,7 @@ const translations = {
     'clear-button-label': 'Leeren',
     close: 'Schließen',
     'close-favourite-module': 'Favoriten-Modul schließen',
+    'condition': 'Straßenzustand',
     'contact-information': '{contactName} Kontaktinformationen',
     continue: 'Fortsetzen',
     'create-account': '{contactName}-Konto anlegen',
@@ -530,6 +532,7 @@ const translations = {
     'itinerary-walk.title': 'Gesamte Laufstrecke',
     'journeyplanner.title': 'HSL Reiseplaner',
     later: 'Später',
+    'last-updated': 'Daten von ',
     leaves: 'Abfahrt',
     'leaving-at': 'Abfahrt',
     'likely-to-recommend':
@@ -698,6 +701,8 @@ const translations = {
     'road-condition-unknown': 'unbekannt',
     'road-condition-wet': 'nass',
     'road-condition-wet-salty': 'nass mit Salz',
+    'road-temperature': 'Straßentemperatur',
+    'road-weather': 'Straßenwetter',
     route: 'Linie',
     'route-add-viapoint': 'Zwischenstopp',
     'route-custom-settings': 'Eigene Einstellungen',
@@ -927,6 +932,7 @@ const translations = {
     'add-via-duration-button-label-open':
       'Open stop duration selector at via point {index}',
     'add-work': 'Add work',
+    'air-temperature': 'Air temperature',
     'alert:bikerental:free-floating-drop-off':
       'Destination is not a designated drop-off area. Rental cannot be completed here. Please check terms & conditions for additional fees.',
     'aria-itinerary-summary':
@@ -1167,6 +1173,7 @@ const translations = {
     'itinerary-time.title': 'Duration',
     'itinerary-walk.title': 'Total walking distance',
     'journeyplanner.title': 'HSL Journey Planner',
+    'last-updated': 'Last updated ',
     later: 'Later departures',
     leaves: 'Leaves',
     'leaving-at': 'Leaving at',
@@ -1343,6 +1350,8 @@ const translations = {
     'road-condition-unknown': 'unknown',
     'road-condition-wet': 'wet',
     'road-condition-wet-salty': 'wet/salty',
+    'road-temperature': 'Road temperature',
+    'road-weather': 'road weather',
     route: 'Route',
     'route-add-viapoint': 'Via point',
     'route-custom-settings': 'Custom settings',
