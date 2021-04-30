@@ -42,7 +42,11 @@ export default class OSMOpeningHours extends React.Component {
               defaultMessage: day,
             })}
           </td>
-          <td>{hours.map(h => <span key={h}>{h}</span>)}</td>
+          <td>
+            {hours.map(h => (
+              <span key={h}>{h}</span>
+            ))}
+          </td>
         </tr>
       );
     };

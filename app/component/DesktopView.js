@@ -10,7 +10,7 @@ export default function DesktopView({
   map,
   content,
   settingsDrawer,
-    carpoolDrawer,
+  carpoolDrawer,
   scrollable,
   scrolled,
   onScroll,

@@ -33,7 +33,7 @@ function SelectStopRow({ gtfsId, type, name, code, terminal, desc }) {
       iconOptions.iconId = 'icon-icon_airplane';
       break;
     case 'CARPOOL':
-      iconId = 'icon-icon_carpool';
+      iconOptions.iconId = 'icon-icon_carpool';
       break;
     default:
       iconOptions.iconId = 'icon-icon_bus';

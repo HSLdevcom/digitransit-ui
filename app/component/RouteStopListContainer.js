@@ -45,7 +45,7 @@ class RouteStopListContainer extends React.PureComponent {
       const idx = i; // DT-3159: using in key of RouteStop component
 
       const prevStopPattern =
-          i > 0 ? stops[i - 1].stopTimesForPattern[0] : null;
+        i > 0 ? stops[i - 1].stopTimesForPattern[0] : null;
       return (
         <RouteStop
           color={

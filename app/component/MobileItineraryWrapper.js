@@ -89,7 +89,7 @@ export default class MobileItineraryWrapper extends React.Component {
             focus={this.props.focus}
             setMapZoomToLeg={this.props.setMapZoomToLeg}
             isMobile
-          toggleCarpoolDrawer={this.props.toggleCarpoolDrawer}
+            toggleCarpoolDrawer={this.props.toggleCarpoolDrawer}
           />
         </div>
       );

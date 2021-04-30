@@ -2,8 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import moment from 'moment';
-import { save } from 'react-cookie';
 import ComponentUsageExample from './ComponentUsageExample';
 import { isBrowser } from '../util/browser';
 

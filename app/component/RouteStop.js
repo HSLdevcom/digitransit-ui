@@ -194,7 +194,6 @@ const RouteStop = (
       role="listitem"
     >
       {getVehicleTripLink()}
-      {vehicleIcon}
       <div className={cx('route-stop-now_circleline', mode)} aria-hidden="true">
         <svg
           width="16"
