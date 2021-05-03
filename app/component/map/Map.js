@@ -88,7 +88,12 @@ export default class Map extends React.Component {
   }
 
   componentWillUnmount() {
-    this.erd.removeListener(this.map.leafletElement._container, this.resizeMap);
+    if (this.erd) {
+      this.erd.removeListener(
+        this.map.leafletElement._container,
+        this.resizeMap,
+      );
+    }
   }
 
   onPopupopen = () => events.emit('popupOpened');

@@ -80,39 +80,34 @@ const stopClient = context => {
 };
 
 const handleBounds = (location, edges, breakpoint) => {
-  if (Array.isArray(edges)) {
-    if (edges.length === 0) {
-      // No stops anywhere near
-      return [
-        [location.lat, location.lon],
-        [location.lat, location.lon],
-      ];
-    }
-
-    const nearestStop = edges[0].node.place;
-
-    const bounds =
-      breakpoint !== 'large'
-        ? [
-            [
-              nearestStop.lat + (nearestStop.lat - location.lat) * 0.5,
-              nearestStop.lon + (nearestStop.lon - location.lon) * 0.5,
-            ],
-            [
-              location.lat + (location.lat - nearestStop.lat) * 0.5,
-              location.lon + (location.lon - nearestStop.lon) * 0.5,
-            ],
-          ]
-        : [
-            [nearestStop.lat, nearestStop.lon],
-            [
-              location.lat + location.lat - nearestStop.lat,
-              location.lon + location.lon - nearestStop.lon,
-            ],
-          ];
-    return bounds;
+  if (edges.length === 0) {
+    // No stops anywhere near
+    return [
+      [location.lat, location.lon],
+      [location.lat, location.lon],
+    ];
   }
-  return [];
+  const nearestStop = edges[0].node.place;
+  const bounds =
+    breakpoint !== 'large'
+      ? [
+          [
+            nearestStop.lat + (nearestStop.lat - location.lat) * 0.5,
+            nearestStop.lon + (nearestStop.lon - location.lon) * 0.5,
+          ],
+          [
+            location.lat + (location.lat - nearestStop.lat) * 0.5,
+            location.lon + (location.lon - nearestStop.lon) * 0.5,
+          ],
+        ]
+      : [
+          [nearestStop.lat, nearestStop.lon],
+          [
+            location.lat + location.lat - nearestStop.lat,
+            location.lon + location.lon - nearestStop.lon,
+          ],
+        ];
+  return bounds;
 };
 
 const getLocationMarker = location => {
@@ -137,7 +132,6 @@ function StopsNearYouMap(
     position,
     centerOfMap,
     setCenterOfMap,
-    defaultMapCenter,
     mapState,
     mapLayers,
   },
@@ -147,7 +141,7 @@ function StopsNearYouMap(
   const [uniqueRealtimeTopics, setUniqueRealtimeTopics] = useState([]);
   const [routes, setRouteLines] = useState([]);
   const [bounds, setBounds] = useState([]);
-  const [useFitBounds, setUseFitBounds] = useState(false);
+  const [trackingSet, setTracking] = useState(false);
   const [clientOn, setClientOn] = useState(false);
   const [firstPlan, setFirstPlan] = useState({
     itinerary: [],
@@ -247,14 +241,13 @@ function StopsNearYouMap(
         mapState === MAPSTATES.FITBOUNDSTOSEARCHPOSITION ||
         mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION
       ) {
-        if (position && position.lat && position.lon) {
+        if (position.lat && position.lon) {
           newBounds = handleBounds(position, sortedStopEdges, breakpoint);
         }
       }
-      if (newBounds && newBounds.length > 0) {
-        setUseFitBounds(true);
+      if (newBounds.length > 0) {
+        setBounds(newBounds);
       }
-      setBounds(newBounds);
     } else {
       setBounds(handleBounds(position, sortedStopEdges, breakpoint));
     }
@@ -340,6 +333,12 @@ function StopsNearYouMap(
     }
   }, [stopsNearYou, favouriteIds]);
 
+  useEffect(() => {
+    if (!trackingSet && position.type === 'CurrentLocation' && position.lat) {
+      setTracking(true);
+    }
+  }, [position]);
+
   if (loading) {
     return <Loading />;
   }
@@ -403,34 +402,30 @@ function StopsNearYouMap(
     return [''];
   };
 
-  const mapTracking = !position || position.type !== 'CenterOfMap';
-
   // Marker for the search point.
   if (
-    position &&
     position.type !== 'CurrentLocation' &&
     mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION
   ) {
     leafletObjs.push(getLocationMarker(position));
   }
 
-  const zoom = 16;
+  const mapTracking =
+    !trackingSet && position.type === 'CurrentLocation' && position.lat
+      ? true
+      : undefined;
+
   let map;
   const mapProps = {
-    breakpoint,
     stopsToShow: mode === 'FAVORITE' ? Array.from(favouriteIds) : undefined,
-    mergeStops: false,
-    fitBounds: useFitBounds,
-    mapState,
-    mapLayers,
-    defaultMapCenter: defaultMapCenter || context.config.defaultEndpoint,
-    boundsOptions: { maxZoom: zoom },
-    bounds,
-    fitBoundsWithSetCenter: true,
-    mapTracking,
     hilightedStops: hilightedStops(),
+    mergeStops: false,
+    mapLayers,
+    bounds,
+    mapTracking,
     leafletObjs,
-    setCenterOfMap,
+    breakpoint,
+    onEndNavigation: setCenterOfMap,
   };
 
   if (breakpoint === 'large') {
@@ -462,10 +457,6 @@ StopsNearYouMap.propTypes = {
     loadMore: PropTypes.func,
   }).isRequired,
   setCenterOfMap: PropTypes.func.isRequired,
-  defaultMapCenter: PropTypes.shape({
-    lat: PropTypes.number,
-    lon: PropTypes.number,
-  }),
 };
 
 StopsNearYouMap.contextTypes = {

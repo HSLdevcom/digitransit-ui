@@ -88,6 +88,7 @@ class StopsNearYouPage extends React.Component {
       favouriteStationIds: props.favouriteStationIds,
       favouriteBikeStationIds: props.favouriteBikeStationIds,
       showCityBikeTeaser: true,
+      searchPosition: {},
     };
   }
 
@@ -241,7 +242,7 @@ class StopsNearYouPage extends React.Component {
 
   positionChanged = () => {
     const { searchPosition, centerOfMap } = this.state;
-    if (!searchPosition) {
+    if (!searchPosition.lat) {
       return false;
     }
     if (
@@ -253,23 +254,6 @@ class StopsNearYouPage extends React.Component {
     }
     const position = this.getPosition();
     return distance(searchPosition, position) > 100;
-  };
-
-  centerOfMapChanged = () => {
-    const position = this.getPosition();
-    const { centerOfMap, searchPosition } = this.state;
-    if (
-      centerOfMap &&
-      searchPosition &&
-      searchPosition.lat === centerOfMap.lat &&
-      searchPosition.lon === centerOfMap.lon
-    ) {
-      return false;
-    }
-    if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
-      return distance(centerOfMap, position) > 100;
-    }
-    return false;
   };
 
   updateLocation = () => {

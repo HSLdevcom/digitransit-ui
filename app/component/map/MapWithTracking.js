@@ -175,6 +175,7 @@ class MapWithTrackingStateHandler extends React.Component {
     if (this.state.mapTracking && !this.ignoreNavigation) {
       this.disableMapTracking();
     }
+    // delete this.naviProps.bounds;
   };
 
   endNavigation = () => {
@@ -197,7 +198,6 @@ class MapWithTrackingStateHandler extends React.Component {
       ...rest
     } = this.props;
     const { config } = this.context;
-
     const leafletObjs = [];
     if (this.props.leafletObjs) {
       leafletObjs.push(...this.props.leafletObjs);
@@ -225,6 +225,8 @@ class MapWithTrackingStateHandler extends React.Component {
       this.naviProps.lon = position.lon;
       if (zoom) {
         this.naviProps.zoom = zoom;
+      } else if (!this.naviProps.zoom) {
+        this.naviProps.zoom = 16;
       }
       if (this.navigated) {
         // force map update by changing the coordinate slightly. looks crazy but is the easiest way
