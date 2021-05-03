@@ -219,6 +219,10 @@ class DepartureListContainer extends Component {
       .unix(currentTime)
       .startOf('day')
       .format('DDMMYYYY');
+    const currentTimetableDate = moment
+      .unix(currentTime)
+      .startOf('day')
+      .add(4, 'hours');
     const dayAfterTomorrow = moment
       .unix(currentTime)
       .add(2, 'day')
@@ -228,10 +232,13 @@ class DepartureListContainer extends Component {
       .filter(departure => !(isTerminal && departure.isArrival))
       .filter(departure => currentTime < departure.stoptime)
       .slice(0, limit);
-
     const departuresWithDayDividers = departures.map(departure => {
       const departureDay = moment.unix(departure.stoptime).format('DDMMYYYY');
-      if (departureDay !== currentDate) {
+      const departureHours = moment.unix(departure.stoptime).hours();
+      if (
+        departureDay !== currentDate &&
+        departureHours >= currentTimetableDate.hours()
+      ) {
         // eslint-disable-next-line no-param-reassign
         departure.addDayDivider = true;
         currentDate = departureDay;
