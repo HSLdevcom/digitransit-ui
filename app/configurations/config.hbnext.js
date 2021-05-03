@@ -35,6 +35,7 @@ export default configMerger(walttiConfig, {
         ROADWORKS_MAP: `${API_URL}/map/v1/roadworks-bw-map/`,
         COVID19_MAP: `https://tiles.caresteouvert.fr/public.poi_osm_light/{z}/{x}/{y}.pbf`,
         CITYBIKE_MAP: `${API_URL}/routing/v1/router/vectorTiles/citybikes/`,
+        WEATHER_STATIONS_MAP: `${API_URL}/map/v1/weather-stations/`,
         PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
         PELIAS_REVERSE_GEOCODER: `${
             process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
@@ -117,6 +118,13 @@ export default configMerger(walttiConfig, {
 
     covid19: {
         show: false,
+        smallIconZoom: 17,
+        minZoom: 15
+    },
+
+
+    weatherStations: {
+        show: true,
         smallIconZoom: 17,
         minZoom: 15
     },

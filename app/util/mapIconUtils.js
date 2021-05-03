@@ -280,6 +280,14 @@ function drawIconImageBadge(
   );
 }
 
+export function drawWeatherStationIcon(tile, geom, imageSize) {
+  getImageFromSpriteCache('icon-icon_monitor', imageSize, imageSize).then(
+    image => {
+      drawIconImage(image, tile, geom, imageSize, imageSize);
+    },
+  );
+}
+
 /**
  * Draw a small circle icon used for far away zoom level.
  */
@@ -341,7 +349,7 @@ export function drawStopIcon(
   modeIconColors,
 ) {
   const mode = `mode-${type.toLowerCase()}`;
-  const color = modeIconColors[mode] || '#000';
+  const color = modeIconColors ? modeIconColors[mode] : '#000';
   if (type === 'SUBWAY') {
     return;
   }
