@@ -248,12 +248,13 @@ class DepartureListContainer extends Component {
     let firstDayDepartureCount = 0;
     departuresWithDayDividers.forEach((departure, index) => {
       const departureDate = moment.unix(departure.stoptime).format('DDMMYYYY');
-      const currentTimeDate = moment.unix(currentTime).format('DDMMYYYY');
-      if (departureDate === currentTimeDate) {
+      const nextDay = moment.unix(currentTime).add(1, 'day').unix();
+      if (departure.stoptime < nextDay) {
         firstDayDepartureCount += 1;
       }
 
-      if (departureDate !== currentTimeDate && firstDayDepartureCount >= 10) {
+      // If next 24h has more than 10 departures only show stops for the next 24h
+      if (departure.stoptime > nextDay && firstDayDepartureCount >= 10) {
         return;
       }
 
@@ -261,10 +262,7 @@ class DepartureListContainer extends Component {
         if (departure.stoptime >= dayAfterTomorrow) {
           departureObjs.push(
             <div key={departureDate} className="date-row border-bottom">
-              {moment
-                .unix(departure.stoptime)
-                .subtract(4, 'hour')
-                .format('dddd D.M.YYYY')}
+              {moment.unix(departure.serviceDay).format('dddd D.M.YYYY')}
             </div>,
           );
         } else {
