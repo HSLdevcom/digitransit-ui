@@ -138,7 +138,7 @@ function VehicleMarkerContainer(containerProps) {
           <div className="padding-normal">
             <CardHeader
               name="Bus"
-              description="Bus"
+              description=""
               descClass="padding-vertical-small"
               unlinked
               className="padding-medium"

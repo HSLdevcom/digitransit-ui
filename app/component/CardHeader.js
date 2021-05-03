@@ -28,6 +28,7 @@ const CardHeader = (
     headerConfig,
     favouriteContainer,
     isTerminal,
+    showHeaderTitle,
   },
   { config },
 ) => {
@@ -52,7 +53,7 @@ const CardHeader = (
           ) : null}
           <div className="card-header-wrapper">
             <span className={headingStyle || 'h4'}>
-              {(headerTitle !== description && !name) || headingStyle
+              {showHeaderTitle && (headerTitle !== description || headingStyle)
                 ? headerTitle
                 : ''}
               {name}
@@ -139,6 +140,7 @@ CardHeader.propTypes = {
   favouriteContainer: PropTypes.element,
   name: PropTypes.string,
   isTerminal: PropTypes.bool,
+  showHeaderTitle: PropTypes.bool,
 };
 
 CardHeader.defaultProps = {

@@ -1280,6 +1280,9 @@ const translations = {
       '{number, plural, =0 {0 minutes} one {1 minute} other {{number} minutes}}',
     'off-canvas-info':
       'Log in to the service to save your favorites and utilize them on other devices',
+    'occupancy-status-FEW_SEATS_AVAILABLE': 'medium',
+    'occupancy-status-MANY_SEATS_AVAILABLE': 'low',
+    'occupancy-status-STANDING_ROOM_ONLY': 'high',
     'option-default': 'Average',
     'option-least': 'Slow',
     'option-less': 'Calm',
