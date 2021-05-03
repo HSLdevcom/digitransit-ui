@@ -58,6 +58,7 @@ const asDepartures = stoptimes =>
           headsign: stoptime.headsign,
           trip: stoptime.trip,
           pickupType: stoptime.pickupType,
+          serviceDay: stoptime.serviceDay,
         };
       });
 
@@ -215,13 +216,7 @@ class DepartureListContainer extends Component {
     const departureObjs = [];
     const { currentTime, limit, isTerminal, stoptimes } = this.props;
 
-    let cutoffDate = moment
-      .unix(currentTime)
-      .startOf('day')
-      .add(1, 'day')
-      .add(4, 'hours')
-      .unix();
-
+    let cutoffDay = moment.unix(currentTime).startOf('day').unix();
     const dayAfterTomorrow = moment
       .unix(currentTime)
       .add(2, 'day')
@@ -231,26 +226,20 @@ class DepartureListContainer extends Component {
       .filter(departure => !(isTerminal && departure.isArrival))
       .filter(departure => currentTime < departure.stoptime)
       .slice(0, limit);
-    const departuresWithDayDividers = departures.map((departure, index) => {
-      const nextDeparture = departures[index + 1];
-      if (nextDeparture) {
-        const nextDepartureTime = moment.unix(departure.stoptime).unix();
-        if (nextDepartureTime > cutoffDate) {
-          const daysAdd =
-            moment.unix(nextDepartureTime).format('DDMMYYYY') ===
-            moment.unix(cutoffDate).format('DDMMYYYY')
-              ? 1
-              : 0;
 
-          // eslint-disable-next-line no-param-reassign
-          departure.addDayDivider = true;
-          cutoffDate = moment
-            .unix(nextDepartureTime)
-            .startOf('day')
-            .add(daysAdd, 'day')
-            .add(4, 'hours')
-            .unix();
-        }
+    const departuresWithDayDividers = departures.map(departure => {
+      const serviceDate = moment.unix(departure.serviceDay).format('DDMMYYYY');
+      const cutoffDate = moment.unix(cutoffDay).format('DDMMYYYY');
+
+      if (serviceDate !== cutoffDate && departure.serviceDay > cutoffDay) {
+        // eslint-disable-next-line no-param-reassign
+        departure.addDayDivider = true;
+        const daysAdd = serviceDate === cutoffDate ? 1 : 0;
+        cutoffDay = moment
+          .unix(departure.serviceDay)
+          .startOf('day')
+          .add(daysAdd, 'day')
+          .unix();
       }
 
       return departure;
@@ -272,7 +261,10 @@ class DepartureListContainer extends Component {
         if (departure.stoptime >= dayAfterTomorrow) {
           departureObjs.push(
             <div key={departureDate} className="date-row border-bottom">
-              {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
+              {moment
+                .unix(departure.stoptime)
+                .subtract(4, 'hour')
+                .format('dddd D.M.YYYY')}
             </div>,
           );
         } else {
