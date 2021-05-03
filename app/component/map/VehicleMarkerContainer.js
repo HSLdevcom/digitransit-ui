@@ -1,12 +1,28 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-
+import { FormattedMessage } from 'react-intl';
 import VehicleIcon from '../VehicleIcon';
 import IconMarker from './IconMarker';
 import { isBrowser } from '../../util/browser';
+import CardHeader from '../CardHeader';
+import Icon from '../Icon';
 
 const MODES_WITH_ICONS = ['bus', 'tram', 'rail', 'subway', 'ferry'];
+
+// eslint-disable-next-line no-unused-vars
+let Popup;
+
+const iconSuffix = occupancyStatus => {
+  switch (occupancyStatus) {
+    case 'STANDING_ROOM_ONLY':
+      return 'red';
+    case 'FEW_SEATS_AVAILABLE':
+      return 'orange';
+    default:
+      return 'green';
+  }
+};
 
 function getVehicleIcon(
   mode,
@@ -35,6 +51,12 @@ function getVehicleIcon(
   };
 }
 
+if (isBrowser) {
+  /* eslint-disable global-require */
+  Popup = require('react-leaflet/es/Popup').default;
+  /* eslint-enable global-require */
+}
+
 // if tripStartTime has been specified,
 // use only the updates for vehicles with matching startTime
 
@@ -55,6 +77,25 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
       message.tripStartTime === tripStart)
   );
 }
+
+const drawOccupancy = status => {
+  let suffix;
+  switch (status) {
+    case 'STANDING_ROOM_ONLY':
+      suffix = 'high';
+      break;
+    case 'FEW_SEATS_AVAILABLE':
+      suffix = 'medium';
+      break;
+    default:
+      suffix = 'low';
+      break;
+  }
+  return (
+    // eslint-disable-next-line react/no-array-index-key
+    <Icon img={`occupancy-${suffix}`} height={1.2} width={1.2} />
+  );
+};
 
 function VehicleMarkerContainer(containerProps) {
   const visibleVehicles = Object.entries(
@@ -86,7 +127,37 @@ function VehicleMarkerContainer(containerProps) {
         message.color,
         containerProps.useLargeIcon,
       )}
-    />
+    >
+      <Popup
+        offset={[106, 0]}
+        maxWidth={250}
+        minWidth={250}
+        className="vehicle-popup"
+      >
+        <div className="card occupancy-card">
+          <div className="padding-normal">
+            <CardHeader
+              name="Bus"
+              description="Bus"
+              descClass="padding-vertical-small"
+              unlinked
+              className="padding-medium"
+              icon={`icon-icon_bus-live-${iconSuffix(message.occupancyStatus)}`}
+              headingStyle="h2"
+            />
+            <div className="occupancy-icon">
+              {drawOccupancy(message.occupancyStatus)}
+            </div>
+            <div>
+              <FormattedMessage
+                id={`occupancy-status-${message.occupancyStatus}`}
+                defaultMessage={message.occupancyStatus}
+              />
+            </div>
+          </div>
+        </div>
+      </Popup>
+    </IconMarker>
   ));
 }
 

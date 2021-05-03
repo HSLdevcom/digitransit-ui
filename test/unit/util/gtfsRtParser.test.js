@@ -38,6 +38,7 @@ describe('gtfsRtParser', () => {
           geoHash: ['61;23', '47', '62', '47'],
           shortName: '8',
           color: '000000',
+          occupancyStatus: 'EMPTY',
         },
       ]);
     });
@@ -68,6 +69,7 @@ describe('gtfsRtParser', () => {
           geoHash: ['61;23', '47', '62', '47'],
           shortName: undefined,
           color: undefined,
+          occupancyStatus: 'EMPTY',
         },
       ]);
     });
