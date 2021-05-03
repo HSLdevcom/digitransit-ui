@@ -406,6 +406,10 @@
 
 .mobile .time-navigation-btn {
   padding-left: 28px;
+  &.extra-whitespace {
+    height: 120px;
+    padding-bottom: 60px;
+  }
 }
 
 .summary-list-separator {

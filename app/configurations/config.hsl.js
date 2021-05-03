@@ -526,4 +526,11 @@ export default {
   ],
 
   zoneIconsAsSvg: true,
+  hostnames: [
+    // DEV hostnames
+    'https://next-dev.digitransit.fi',
+    'https://dev.reittiopas.fi',
+    // PROD hostnames
+    'https://reittiopas.hsl.fi',
+  ],
 };

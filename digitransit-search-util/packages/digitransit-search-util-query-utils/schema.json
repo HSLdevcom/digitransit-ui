@@ -244,16 +244,6 @@
                                     "defaultValue": null
                                 },
                                 {
-                                    "name": "agency",
-                                    "description": "Deprecated, use argument `feeds` instead",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
                                     "name": "feeds",
                                     "description": "List of feed ids from which stops are returned",
                                     "type": {
@@ -327,16 +317,6 @@
                                             "name": "Int",
                                             "ofType": null
                                         }
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "agency",
-                                    "description": "Deprecated, use argument `feeds` instead",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
                                     },
                                     "defaultValue": null
                                 },
@@ -731,16 +711,6 @@
                                 {
                                     "name": "name",
                                     "description": "Query routes by this name",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "modes",
-                                    "description": "Deprecated, use argument `transportModes` instead.",
                                     "type": {
                                         "kind": "SCALAR",
                                         "name": "String",
@@ -1628,7 +1598,7 @@
                                 },
                                 {
                                     "name": "walkSpeed",
-                                    "description": "Max walk speed along streets, in meters per second. Default value: 1.22",
+                                    "description": "Max walk speed along streets, in meters per second. Default value: 1.33",
                                     "type": {
                                         "kind": "SCALAR",
                                         "name": "Float",
@@ -1776,16 +1746,6 @@
                                     "type": {
                                         "kind": "SCALAR",
                                         "name": "Boolean",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "modes",
-                                    "description": "Deprecated, use `transportModes` instead.  \n ~~The set of TraverseModes that a user is willing to use. Default value: WALK | TRANSIT.~~",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
                                         "ofType": null
                                     },
                                     "defaultValue": null
@@ -1947,16 +1907,6 @@
                                 {
                                     "name": "locale",
                                     "description": "Two-letter language code (ISO 639-1) used for returned text.  \n **Note:** only part of the data has translations available and names of stops and POIs are returned in their default language. Due to missing translations, it is sometimes possible that returned text uses a mixture of two languages.",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "ticketTypes",
-                                    "description": "**Deprecated:** Use `allowedTicketTypes` instead.  \nA comma-separated list of allowed ticket types.",
                                     "type": {
                                         "kind": "SCALAR",
                                         "name": "String",
@@ -2834,16 +2784,6 @@
                             "description": "Trips which run on this pattern on the specified date",
                             "args": [
                                 {
-                                    "name": "serviceDay",
-                                    "description": "Deprecated, please switch to serviceDate instead",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
                                     "name": "serviceDate",
                                     "description": "Return trips of the pattern active on this date. Format: YYYYMMDD",
                                     "type": {
@@ -3253,16 +3193,6 @@
                             "name": "stoptimesForDate",
                             "description": null,
                             "args": [
-                                {
-                                    "name": "serviceDay",
-                                    "description": "Deprecated, please switch to serviceDate instead",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
                                 {
                                     "name": "serviceDate",
                                     "description": "Date for which stoptimes are returned. Format: YYYYMMDD",
@@ -5022,18 +4952,6 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "stopHeadsign",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            },
-                            "isDeprecated": true,
-                            "deprecationReason": "Use headsign instead, will be removed in the future"
-                        },
-                        {
                             "name": "headsign",
                             "description": "Vehicle headsign of the trip on this stop. Trip headsigns can change during the trip (e.g. on routes which run on loops), so this value should be used instead of `tripHeadsign` to display the headsign relevant to the user. ",
                             "args": [],
@@ -5961,7 +5879,7 @@
                         },
                         {
                             "name": "bikesAvailable",
-                            "description": "Number of bikes currently available on the rental station. The total capacity of this bike rental station is the sum of fields `bikesAvailable` and `spacesAvailable`.",
+                            "description": "Number of bikes currently available on the rental station.",
                             "args": [],
                             "type": {
                                 "kind": "SCALAR",
@@ -5973,7 +5891,19 @@
                         },
                         {
                             "name": "spacesAvailable",
-                            "description": "Number of free spaces currently available on the rental station. The total capacity of this bike rental station is the sum of fields `bikesAvailable` and `spacesAvailable`.  \n Note that this value being 0 does not necessarily indicate that bikes cannot be returned to this station, as it might be possible to leave the bike in the vicinity of the rental station, even if the bike racks don't have any spaces available (see field `allowDropoff`).",
+                            "description": "Number of free spaces currently available on the rental station.  \n Note that this value being 0 does not necessarily indicate that bikes cannot be returned to this station, as it might be possible to leave the bike in the vicinity of the rental station, even if the bike racks don't have any spaces available (see field `allowDropoff`).",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "capacity",
+                            "description": "Nominal capacity (number of racks) of the rental station.",
                             "args": [],
                             "type": {
                                 "kind": "SCALAR",
@@ -6010,6 +5940,18 @@
                         {
                             "name": "allowDropoff",
                             "description": "If true, bikes can be returned to this station.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "allowOverloading",
+                            "description": "If true, bikes can be returned even if spacesAvailable is zero or bikes > capacity.",
                             "args": [],
                             "type": {
                                 "kind": "SCALAR",
@@ -7512,12 +7454,6 @@
                             "description": "**TRIANGLE** optimization type can be used to set relative preferences of optimization factors. See argument `triangle`.",
                             "isDeprecated": false,
                             "deprecationReason": null
-                        },
-                        {
-                            "name": "TRANSFERS",
-                            "description": "Deprecated, use argument `transferPenalty` to optimize for less transfers.",
-                            "isDeprecated": false,
-                            "deprecationReason": null
                         }
                     ],
                     "possibleTypes": null
@@ -8539,42 +8475,6 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
-                        },
-                        {
-                            "name": "onOperation",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            },
-                            "isDeprecated": true,
-                            "deprecationReason": "Use `locations`."
-                        },
-                        {
-                            "name": "onFragment",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            },
-                            "isDeprecated": true,
-                            "deprecationReason": "Use `locations`."
-                        },
-                        {
-                            "name": "onField",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            },
-                            "isDeprecated": true,
-                            "deprecationReason": "Use `locations`."
                         }
                     ],
                     "inputFields": null,

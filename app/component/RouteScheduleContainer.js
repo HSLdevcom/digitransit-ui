@@ -22,6 +22,7 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import hashCode from '../util/hashUtil';
 import RouteScheduleDropdown from './RouteScheduleDropdown';
+import RoutePageControlPanel from './RoutePageControlPanel';
 
 const DATE_FORMAT2 = 'D.M.YYYY';
 
@@ -316,7 +317,7 @@ class RouteScheduleContainer extends Component {
 
       if (dayTabs.length > 0) {
         return (
-          <div className="route-tabs" role="tablist">
+          <div className="route-tabs days" role="tablist">
             {tabs}
           </div>
         );
@@ -475,54 +476,62 @@ class RouteScheduleContainer extends Component {
         </div>
       );
     }
-
     return (
-      <div
-        className={cx('route-schedule-content-wrapper', {
-          'bp-large': this.props.breakpoint === 'large',
-        })}
-      >
-        <div className="route-schedule-ranges">
-          <span className="current-range">{data[2][0]}</span>
-          <div className="other-ranges-dropdown">
-            {data[3].length > 0 && (
-              <RouteScheduleDropdown
-                id="other-dates"
-                title={intl.formatMessage({
-                  id: 'other-dates',
-                })}
-                list={data[3]}
-                alignRight
-                changeTitleOnChange={false}
-                onSelectChange={this.changeDate}
-              />
-            )}
-          </div>
-        </div>
-        {this.renderDayTabs(data)}
-        {this.props.pattern && (
-          <div
-            className={cx('route-schedule-list-wrapper', {
-              'bp-large': this.props.breakpoint === 'large',
-            })}
-            aria-live="polite"
-          >
-            <RouteScheduleHeader
-              stops={this.props.pattern.stops}
-              from={newFromTo[0]}
-              to={newFromTo[1]}
-              onFromSelectChange={this.onFromSelectChange}
-              onToSelectChange={this.onToSelectChange}
-            />
-            <div
-              className="route-schedule-list momentum-scroll"
-              role="list"
-              aria-atomic="true"
-            >
-              {showTrips}
+      <>
+        <div
+          className={`route-schedule-container momentum-scroll ${
+            this.props.breakpoint !== 'large' ? 'mobile' : ''
+          }`}
+          role="list"
+        >
+          <RoutePageControlPanel
+            match={this.props.match}
+            route={this.props.pattern.route}
+            breakpoint={this.props.breakpoint}
+            noInitialServiceDay
+          />
+          <div className="route-schedule-ranges">
+            <span className="current-range">{data[2][0]}</span>
+            <div className="other-ranges-dropdown">
+              {data[3].length > 0 && (
+                <RouteScheduleDropdown
+                  id="other-dates"
+                  title={intl.formatMessage({
+                    id: 'other-dates',
+                  })}
+                  list={data[3]}
+                  alignRight
+                  changeTitleOnChange={false}
+                  onSelectChange={this.changeDate}
+                />
+              )}
             </div>
           </div>
-        )}
+          {this.renderDayTabs(data)}
+          {this.props.pattern && (
+            <div
+              className={cx('route-schedule-list-wrapper', {
+                'bp-large': this.props.breakpoint === 'large',
+              })}
+              aria-live="polite"
+            >
+              <RouteScheduleHeader
+                stops={this.props.pattern.stops}
+                from={newFromTo[0]}
+                to={newFromTo[1]}
+                onFromSelectChange={this.onFromSelectChange}
+                onToSelectChange={this.onToSelectChange}
+              />
+              <div
+                className="route-schedule-list momentum-scroll"
+                role="list"
+                aria-atomic="true"
+              >
+                {showTrips}
+              </div>
+            </div>
+          )}
+        </div>
         <div className="route-page-action-bar">
           <div className="print-button-container">
             {routeTimetableUrl && (
@@ -557,7 +566,7 @@ class RouteScheduleContainer extends Component {
             />
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }
@@ -578,6 +587,31 @@ const containerComponent = createFragmentContainer(pureComponent, {
         url
         gtfsId
         shortName
+        longName
+        mode
+        type
+        patterns {
+          headsign
+          code
+          stops {
+            id
+            gtfsId
+            code
+            name
+          }
+          trips: tripsForDate(serviceDate: $date) {
+            stoptimes: stoptimesForDate(serviceDate: $date) {
+              realtimeState
+              scheduledArrival
+              scheduledDeparture
+              serviceDay
+            }
+          }
+          activeDates: trips {
+            serviceId
+            day: activeDates
+          }
+        }
       }
       tripsForDate(serviceDate: $serviceDay) {
         id
