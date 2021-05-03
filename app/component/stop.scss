@@ -353,6 +353,17 @@
       &.canceled {
         color: $cancelation-red;
       }
+      .route-time {
+        font-size: $font-size-small;
+        font-weight: $font-weight-medium;
+        color: #333;
+        &.realtime {
+          color: $realtime-color;
+        }
+        &.canceled {
+          color: $cancelation-red;
+        }
+      }
     }
     .route-number-container {
       margin-top: 2px;
