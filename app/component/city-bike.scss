@@ -6,7 +6,15 @@ $citybike-not-available-color: $light-gray;
   border: 1px solid white;
   border-radius: $border-radius;
 }
-
+.icon-badge {
+  width: 18px;
+  height: 18px;
+  left: 15px;
+  .badge-circle {
+    stroke-width: 6%;
+    border-radius: 50%;
+  }
+}
 .availability-container {
 
   .availability-header {

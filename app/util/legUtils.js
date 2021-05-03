@@ -232,7 +232,15 @@ export const getTotalDistance = itinerary => sumDistances(itinerary.legs);
  * @param {*} config the configuration for the software installation
  */
 export const getCityBikeAvailabilityIndicatorColor = (bikesAvailable, config) =>
-  bikesAvailable > config.cityBike.fewAvailableCount ? '#3B7F00' : '#ff9000';
+  bikesAvailable > config.cityBike.fewAvailableCount ? '#3B7F00' : '#FCBC19';
+
+/* Gets the indicator text color if  few bikes are available
+ *
+ * @param {number} bikesAvailable the number of bikes currently available
+ * @param {*} config the configuration for the software installation/
+ */
+export const getCityBikeAvailabilityTextColor = (bikesAvailable, config) =>
+  bikesAvailable <= config.cityBike.fewAvailableCount ? '#333' : '#fff';
 
 /**
  * Attempts to retrieve any relevant information from the leg that could be shown
@@ -254,6 +262,7 @@ export const getLegBadgeProps = (leg, config) => {
   return {
     badgeFill: getCityBikeAvailabilityIndicatorColor(bikesAvailable, config),
     badgeText: `${bikesAvailable}`,
+    badgeTextFill: getCityBikeAvailabilityTextColor(bikesAvailable, config),
   };
 };
 

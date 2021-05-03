@@ -9,7 +9,10 @@ import {
 } from '../util/citybikes';
 import Icon from './Icon';
 import { PREFIX_BIKESTATIONS } from '../util/path';
-import { getCityBikeAvailabilityIndicatorColor } from '../util/legUtils';
+import {
+  getCityBikeAvailabilityIndicatorColor,
+  getCityBikeAvailabilityTextColor,
+} from '../util/legUtils';
 
 function CityBikeLeg(
   { stationName, isScooter, bikeRentalStation, returnBike = false },
@@ -41,6 +44,10 @@ function CityBikeLeg(
     bikeRentalStation.bikesAvailable,
     config,
   );
+  const availabilityTextColor = getCityBikeAvailabilityTextColor(
+    bikeRentalStation.bikesAvailable,
+    config,
+  );
   return (
     <>
       <div className="itinerary-leg-row-bike">{legDescription}</div>
@@ -53,6 +60,7 @@ function CityBikeLeg(
               height={2}
               badgeText={bikeRentalStation.bikesAvailable}
               badgeFill={availabilityIndicatorColor}
+              badgeTextFill={availabilityTextColor}
             />
           </span>
           <span className="headsign"> {stationName}</span>

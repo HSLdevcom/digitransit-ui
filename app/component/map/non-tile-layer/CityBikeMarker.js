@@ -6,7 +6,10 @@ import GenericMarker from '../GenericMarker';
 import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import { isBrowser } from '../../../util/browser';
-import { getCityBikeAvailabilityIndicatorColor } from '../../../util/legUtils';
+import {
+  getCityBikeAvailabilityIndicatorColor,
+  getCityBikeAvailabilityTextColor,
+} from '../../../util/legUtils';
 import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkIcon,
@@ -100,6 +103,10 @@ export default class CityBikeMarker extends React.Component {
                 img: iconName,
                 className: 'city-bike-medium-size',
                 badgeFill: getCityBikeAvailabilityIndicatorColor(
+                  station.bikesAvailable,
+                  config,
+                ),
+                badgeTextFill: getCityBikeAvailabilityTextColor(
                   station.bikesAvailable,
                   config,
                 ),
