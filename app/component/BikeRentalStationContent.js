@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
-import { routerShape, RedirectException } from 'found';
+import { RedirectException, routerShape } from 'found';
 
 import CityBikeStopContent from './CityBikeStopContent';
 import BikeRentalStationHeader from './BikeRentalStationHeader';
@@ -38,7 +38,7 @@ const BikeRentalStationContent = (
     bikeRentalStation.networks[0],
     config,
   );
-  const url = networkConfig.url[language];
+  const url = networkConfig?.url ? networkConfig.url[language] : '';
   let returnInstructionsUrl;
   if (networkConfig.returnInstructions) {
     returnInstructionsUrl = networkConfig.returnInstructions[language];

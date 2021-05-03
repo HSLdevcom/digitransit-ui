@@ -14,7 +14,7 @@ function SelectWeatherStationRow(props, { intl }) {
     <div className="no-margin">
       <div className="cursor-pointer select-row" onClick={props.selectRow}>
         <div className="padding-vertical-normal select-row-icon">
-          <Icon img="icon-icon_monitor" />
+          <Icon img="icon-icon_stop_monitor" />
         </div>
         <div className="padding-vertical-normal select-row-text">
           <span className="header-primary no-margin link-color">
