@@ -532,7 +532,7 @@ const translations = {
     'itinerary-walk.title': 'Gesamte Laufstrecke',
     'journeyplanner.title': 'HSL Reiseplaner',
     later: 'Später',
-    'last-updated': 'Daten von ',
+    'last-updated': 'Daten von {time} Uhr',
     leaves: 'Abfahrt',
     'leaving-at': 'Abfahrt',
     'likely-to-recommend':
@@ -1175,7 +1175,7 @@ const translations = {
     'itinerary-time.title': 'Duration',
     'itinerary-walk.title': 'Total walking distance',
     'journeyplanner.title': 'HSL Journey Planner',
-    'last-updated': 'Last updated ',
+    'last-updated': 'Last updated {time}',
     later: 'Later departures',
     leaves: 'Leaves',
     'leaving-at': 'Leaving at',
