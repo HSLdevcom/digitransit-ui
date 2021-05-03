@@ -215,14 +215,13 @@ class DepartureListContainer extends Component {
     const departureObjs = [];
     const { currentTime, limit, isTerminal, stoptimes } = this.props;
 
-    let currentDate = moment
+    let cutoffDate = moment
       .unix(currentTime)
       .startOf('day')
-      .format('DDMMYYYY');
-    const currentTimetableDate = moment
-      .unix(currentTime)
-      .startOf('day')
-      .add(4, 'hours');
+      .add(1, 'day')
+      .add(4, 'hours')
+      .unix();
+
     const dayAfterTomorrow = moment
       .unix(currentTime)
       .add(2, 'day')
@@ -232,28 +231,47 @@ class DepartureListContainer extends Component {
       .filter(departure => !(isTerminal && departure.isArrival))
       .filter(departure => currentTime < departure.stoptime)
       .slice(0, limit);
-    const departuresWithDayDividers = departures.map(departure => {
-      const departureDay = moment.unix(departure.stoptime).format('DDMMYYYY');
-      const departureHours = moment.unix(departure.stoptime).hours();
-      if (
-        departureDay !== currentDate &&
-        departureHours >= currentTimetableDate.hours()
-      ) {
-        // eslint-disable-next-line no-param-reassign
-        departure.addDayDivider = true;
-        currentDate = departureDay;
+    const departuresWithDayDividers = departures.map((departure, index) => {
+      const nextDeparture = departures[index + 1];
+      if (nextDeparture) {
+        const nextDepartureTime = moment.unix(departure.stoptime).unix();
+        if (nextDepartureTime > cutoffDate) {
+          const daysAdd =
+            moment.unix(nextDepartureTime).format('DDMMYYYY') ===
+            moment.unix(cutoffDate).format('DDMMYYYY')
+              ? 1
+              : 0;
+
+          // eslint-disable-next-line no-param-reassign
+          departure.addDayDivider = true;
+          cutoffDate = moment
+            .unix(nextDepartureTime)
+            .startOf('day')
+            .add(daysAdd, 'day')
+            .add(4, 'hours')
+            .unix();
+        }
       }
+
       return departure;
     });
 
+    let firstDayDepartureCount = 0;
     departuresWithDayDividers.forEach((departure, index) => {
+      const departureDate = moment.unix(departure.stoptime).format('DDMMYYYY');
+      const currentTimeDate = moment.unix(currentTime).format('DDMMYYYY');
+      if (departureDate === currentTimeDate) {
+        firstDayDepartureCount += 1;
+      }
+
+      if (departureDate !== currentTimeDate && firstDayDepartureCount >= 10) {
+        return;
+      }
+
       if (departure.addDayDivider) {
         if (departure.stoptime >= dayAfterTomorrow) {
           departureObjs.push(
-            <div
-              key={moment.unix(departure.stoptime).format('DDMMYYYY')}
-              className="date-row border-bottom"
-            >
+            <div key={departureDate} className="date-row border-bottom">
               {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
             </div>,
           );
