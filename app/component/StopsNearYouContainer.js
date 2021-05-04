@@ -223,7 +223,6 @@ class StopsNearYouContainer extends React.Component {
                   <StopNearYou
                     key={`${stop.gtfsId}`}
                     stop={stop}
-                    distance={node.distance}
                     currentTime={this.props.currentTime}
                   />
                 );
@@ -233,7 +232,6 @@ class StopsNearYouContainer extends React.Component {
                 <StopNearYou
                   key={`${stop.gtfsId}`}
                   stop={stop}
-                  distance={node.distance}
                   currentTime={this.props.currentTime}
                 />
               );
@@ -266,7 +264,7 @@ class StopsNearYouContainer extends React.Component {
         />
       </span>
     );
-    const stops = this.createNearbyStops();
+    const stops = this.createNearbyStops().filter(e => e);
     return (
       <>
         {!this.props.relay.hasMore() && !stops.length && (
