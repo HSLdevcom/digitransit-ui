@@ -347,11 +347,14 @@
           overflow: hidden;
         }
       }
-      &.realtime {
-        color: $realtime-color;
-      }
-      &.canceled {
-        color: $cancelation-red;
+      .route-headsign {
+        font-weight: normal;
+        color: #333;
+        flex: 1;
+        padding-left: $padding-medium;
+        overflow: hidden;
+        white-space: nowrap;
+        margin-bottom: -2px;
       }
       .route-time {
         font-size: $font-size-small;
@@ -362,6 +365,24 @@
         }
         &.canceled {
           color: $cancelation-red;
+        }
+      }
+      .platform-code {
+        background: #f4f4f5;
+        color: #333333;
+        width: 28px;
+        height: 24px;
+        border-radius: 4px;
+        font-size: $font-size-small;
+        font-weight: $font-weight-medium;
+        text-align: center;
+        margin-left: 1em;
+        margin-right: 0.3em;
+        line-height: 1.6;
+        white-space: nowrap;
+        margin-bottom: -2px;
+        &.empty {
+          background: none;
         }
       }
     }
