@@ -49,7 +49,7 @@ OICStrategy.prototype.init = function () {
 };
 
 OICStrategy.prototype.authenticate = function (req, opts) {
-  const redirectUri = `${req.protocol}://${req.headers.host}${callbackPath}`;
+  const redirectUri = this.createRedirectUrl(req);
   if (opts.callback) {
     if (debugLogging) {
       console.log('calling auth callback');
@@ -87,7 +87,7 @@ OICStrategy.prototype.callback = function (req, opts) {
   if (debugLogging) {
     console.log(`path=${req.path} query=${req.query}`);
   }
-  const redirectUri = `${req.protocol}://${req.headers.host}${callbackPath}`;
+  const redirectUri = this.createRedirectUrl(req);
   return this.client
     .callback(redirectUri, req.query, {
       state: req.query.state,
@@ -170,6 +170,14 @@ OICStrategy.prototype.createAuthUrl = function (redirectUri, lang, ssoToken) {
     });
   }
   return this.client.authorizationUrl(params);
+};
+
+OICStrategy.prototype.createRedirectUrl = function (req) {
+  const host = req.headers['x-forwarded-host'] || req.headers.host;
+  if (req.secure) {
+    return `https://${host}${callbackPath}`;
+  }
+  return `http://${host}${callbackPath}`;
 };
 
 OICStrategy.serializeUser = function (user, cb) {

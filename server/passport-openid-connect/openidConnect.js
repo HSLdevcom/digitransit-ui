@@ -176,7 +176,10 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
 
   app.get('/logout', function (req, res) {
     const cookieLang = req.cookies.lang || 'fi';
-    const postLogoutRedirectUri = `${req.protocol}://${req.headers.host}${logoutCallbackPath}`;
+    const host = req.headers['x-forwarded-host'] || req.headers.host;
+    const postLogoutRedirectUri = req.secure
+      ? `https://${host}${logoutCallbackPath}`
+      : `http://${host}${logoutCallbackPath}`;
     const params = {
       post_logout_redirect_uri: postLogoutRedirectUri,
       id_token_hint: req.user.token.id_token,
