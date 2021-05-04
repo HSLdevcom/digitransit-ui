@@ -302,7 +302,11 @@ class DepartureListContainer extends Component {
           showPlatformCode={isTerminal}
           canceled={departure.canceled}
           className={
-            nextDeparture && nextDeparture.addDayDivider ? 'no-border' : ''
+            nextDeparture &&
+            nextDeparture.addDayDivider &&
+            departure.stoptime <= dayAfterTomorrow
+              ? 'no-border'
+              : ''
           }
         />
       );
