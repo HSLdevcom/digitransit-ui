@@ -149,6 +149,7 @@ const connectedComponent = createFragmentContainer(
             code
             lat
             lon
+            zoneId
             alerts {
               alertSeverityLevel
               effectiveEndDate
