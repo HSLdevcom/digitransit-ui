@@ -169,13 +169,13 @@ $margin-left-right: 1.333em;
   flex: 1 0 3.5em;
   &.passed {
     div {
-      color: $gray;
+      color: #888;
       .zone-icon-container .circle {
         color: #fff;
       }
     }
     span {
-      color: $gray;
+      color: #888;
       svg {
         color: #888;
       }
@@ -192,17 +192,17 @@ $margin-left-right: 1.333em;
     &.arriving {
       > a > span {
         svg {
-          top: -50px;
+          top: -44px;
           @include min-width(tablet) {
-            top: -55px;
+            top: -49px;
           }
         }
       }
       div > a > span {
         svg {
-          top: -50px;
+          top: -44px;
           @include min-width(tablet) {
-            top: -55px;
+            top: -49px;
           }
         }
       }
@@ -210,29 +210,29 @@ $margin-left-right: 1.333em;
     &.arrived {
       > a > span {
         svg {
-          top: -21px;
+          top: -17px;
         }
       }
       div > a > span {
         svg {
-          top: -21px;
+          top: -17px;
         }
       }
     }
     &.departed {
       > a > span {
         svg {
-          top: 10px;
+          top: 16px;
           @include min-width(tablet) {
-            top: 6px;
+            top: 12px;
           }
         }
       }
       div > a > span {
         svg {
-          top: 10px;
+          top: 16px;
           @include min-width(tablet) {
-            top: 6px;
+            top: 12px;
           }
         }
       }
@@ -253,6 +253,7 @@ $margin-left-right: 1.333em;
   .route-stop-now_circleline {
     position: relative;
     min-width: 15px;
+    top: 6px;
     .route-stop-now_line {
       width: 8px;
       height: 100%;
