@@ -617,6 +617,9 @@ $margin-left-right: 1.333em;
     padding: 0 20px;
     margin-bottom: 0px;
   }
+  @media print {
+    max-height: none;
+  }
 }
 
 .route-schedule-ranges {
