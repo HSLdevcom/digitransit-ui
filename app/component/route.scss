@@ -617,16 +617,21 @@ $margin-left-right: 1.333em;
     padding: 0 20px;
     margin-bottom: 0px;
   }
+  @media print {
+    max-height: none;
+  }
 }
 
 .route-schedule-ranges {
   display: flex;
+  justify-content: space-between;
   max-height: 24px;
+  min-height: 24px;
   margin-bottom: 12px;
   margin-top: 12px;
 
   .current-range {
-    width: calc(50% + 30px);
+    flex: 1;
     white-space: nowrap;
     font-style: normal;
     font-weight: 500;
@@ -637,8 +642,7 @@ $margin-left-right: 1.333em;
   }
 
   .other-ranges-dropdown {
-    display: contents;
-    width: calc(50% - 30px);
+    flex: 1;
     @media print {
       display: none;
     }
