@@ -1133,6 +1133,8 @@ const translations = {
     'nearest-favorites-browse-stops': 'Browse and select stops',
     'nearest-favorites-no-favorites':
       'Timetables for the selected stops and vehicles on map',
+    'nearest-no-stops':
+      'Valitun liikennevälineen asemia tai pysäkkejä ei ole lähialueella.',
     'nearest-stops': 'The closest stops',
     'nearest-stops-bus': 'bus stops',
     'nearest-stops-citybike': 'bike stations',
@@ -2078,6 +2080,8 @@ const translations = {
     'nearest-favorites-browse-stops': 'Selaa ja valitse pysäkkejä',
     'nearest-favorites-no-favorites':
       'Valitsemiesi pysäkkien aikataulut ja ajoneuvot kartalla',
+    'nearest-no-stops':
+      'Valitun liikennevälineen asemia tai pysäkkejä ei ole lähialueella.',
     'nearest-stops': 'Lähimmät pysäkit',
     'nearest-stops-bus': 'bussipysäkit',
     'nearest-stops-citybike': 'pyöräasemat',
@@ -3801,6 +3805,8 @@ const translations = {
     'nearest-favorites-browse-stops': 'Bläddra och välj hållplatser',
     'nearest-favorites-no-favorites':
       'Tidtabeller och fordon vid de valda hållplatserna på kartan',
+    'nearest-no-stops':
+      'Valitun liikennevälineen asemia tai pysäkkejä ei ole lähialueella.',
     'nearest-stops': 'Närliggande hållplatser',
     'nearest-stops-bus': 'busshållplatser',
     'nearest-stops-citybike': 'cykelstationer',
