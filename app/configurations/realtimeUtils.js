@@ -261,7 +261,7 @@ export default {
       return '/gtfsrt/vp/#';
     },
 
-    mqtt: 'wss://api.staging.stadtnavi.eu:1884',
+    mqtt: 'wss://api.stadtnavi.de/mqtt',
 
     gtfsrt: true,
 
