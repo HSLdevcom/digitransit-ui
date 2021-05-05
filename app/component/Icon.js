@@ -5,7 +5,7 @@ import cx from 'classnames';
 const isBadgeTextLong = badgeText => badgeText.length > 1 || badgeText > 9;
 
 const IconBadge = ({ badgeFill, badgeText, textFill }) => {
-  if (!badgeFill || !badgeText) {
+  if (!badgeFill || (!badgeText && badgeText !== 0)) {
     return null;
   }
   return (
@@ -45,7 +45,7 @@ IconBadge.defaultProps = {
 };
 
 IconBadge.asString = (badgeFill, badgeText, badgeTextFill) => {
-  if (!badgeFill || !badgeText) {
+  if (!badgeFill || (!badgeText && badgeText !== 0)) {
     return '';
   }
   return `

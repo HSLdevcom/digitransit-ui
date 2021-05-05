@@ -232,7 +232,12 @@ export const getTotalDistance = itinerary => sumDistances(itinerary.legs);
  * @param {*} config the configuration for the software installation
  */
 export const getCityBikeAvailabilityIndicatorColor = (bikesAvailable, config) =>
-  bikesAvailable > config.cityBike.fewAvailableCount ? '#3B7F00' : '#FCBC19';
+  // eslint-disable-next-line no-nested-ternary
+  bikesAvailable === 0
+    ? '#DC0451'
+    : bikesAvailable > config.cityBike.fewAvailableCount
+    ? '#3B7F00'
+    : '#FCBC19';
 
 /* Gets the indicator text color if  few bikes are available
  *
@@ -240,7 +245,9 @@ export const getCityBikeAvailabilityIndicatorColor = (bikesAvailable, config) =>
  * @param {*} config the configuration for the software installation/
  */
 export const getCityBikeAvailabilityTextColor = (bikesAvailable, config) =>
-  bikesAvailable <= config.cityBike.fewAvailableCount ? '#333' : '#fff';
+  bikesAvailable <= config.cityBike.fewAvailableCount && bikesAvailable > 0
+    ? '#333'
+    : '#fff';
 
 /**
  * Attempts to retrieve any relevant information from the leg that could be shown
