@@ -36,7 +36,10 @@ const getTextOffSet = length => {
   }
 };
 
-const getDefaultSvgContent = (rotate, useLargeIcon, transform) => {
+const getDefaultSvgContent = (rotate, useLargeIcon) => {
+  const transform = useLargeIcon
+    ? 'translate(24 24) scale(1.3)'
+    : 'translate(10 10) scale(0.7)';
   return rotate ? (
     <g transform={`rotate(${(rotate || 0) + 180} 40 40)`}>
       <use
@@ -61,13 +64,10 @@ const getDefaultSvgContent = (rotate, useLargeIcon, transform) => {
 };
 
 const getSvgContent = (rotate, useLargeIcon, customIcon) => {
-  const transform = useLargeIcon
-    ? 'translate(24 24) scale(1.3)'
-    : 'translate(10 10) scale(0.7)';
   return customIcon ? (
     <use xlinkHref={customIcon} />
   ) : (
-    getDefaultSvgContent(rotate, useLargeIcon, transform)
+    getDefaultSvgContent(rotate, useLargeIcon)
   );
 };
 
