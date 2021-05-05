@@ -31,6 +31,7 @@ function getVehicleIcon(
   color,
   useLargeIcon = true,
   occupancyStatus,
+  useCustomIcon,
 ) {
   if (!isBrowser) {
     return null;
@@ -45,7 +46,7 @@ function getVehicleIcon(
         vehicleNumber={vehicleNumber}
         useLargeIcon={useLargeIcon}
         color={color}
-        customIcon={icon}
+        customIcon={useCustomIcon ? icon : undefined}
       />
     ),
     className: `vehicle-icon ${modeOrDefault}`,
@@ -130,6 +131,7 @@ function VehicleMarkerContainer(containerProps) {
         message.color,
         containerProps.useLargeIcon,
         message.occupancyStatus,
+        true,
       )}
     >
       <Popup
