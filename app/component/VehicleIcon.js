@@ -36,7 +36,7 @@ const getTextOffSet = length => {
   }
 };
 
-const getSvgContent = (rotate, useLargeIcon) => {
+const getDefaultSvgContent = (rotate, useLargeIcon) => {
   const transform = useLargeIcon
     ? 'translate(24 24) scale(1.3)'
     : 'translate(10 10) scale(0.7)';
@@ -63,6 +63,14 @@ const getSvgContent = (rotate, useLargeIcon) => {
   );
 };
 
+const getSvgContent = (rotate, useLargeIcon, customIcon) => {
+  return customIcon ? (
+    <use xlinkHref={customIcon} />
+  ) : (
+    getDefaultSvgContent(rotate, useLargeIcon)
+  );
+};
+
 const VehicleIcon = ({
   className,
   id,
@@ -72,6 +80,7 @@ const VehicleIcon = ({
   vehicleNumber = '',
   useLargeIcon = false,
   color,
+  customIcon,
 }) => (
   <span>
     {useLargeIcon ? (
@@ -82,7 +91,7 @@ const VehicleIcon = ({
         className={cx('icon', 'large-vehicle-icon', className, mode)}
         ref={el => scrollIntoView && el && el.scrollIntoView()}
       >
-        {getSvgContent(rotate, useLargeIcon)}
+        {getSvgContent(rotate, useLargeIcon, customIcon)}
         <text
           textAnchor="middle"
           fontSize={getFontSize(vehicleNumber.length)}
@@ -100,7 +109,7 @@ const VehicleIcon = ({
         className={cx('icon', 'small-vehicle-icon', className)}
         ref={el => scrollIntoView && el && el.scrollIntoView()}
       >
-        {getSvgContent(rotate, useLargeIcon)}
+        {getSvgContent(rotate, useLargeIcon, customIcon)}
       </svg>
     )}
   </span>
@@ -129,6 +138,7 @@ VehicleIcon.propTypes = {
   vehicleNumber: PropTypes.string,
   useLargeIcon: PropTypes.bool,
   color: PropTypes.string,
+  customIcon: PropTypes.string,
 };
 
 export default VehicleIcon;

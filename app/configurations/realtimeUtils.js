@@ -256,4 +256,17 @@ export default {
 
     active: true,
   },
+  hb: {
+    mqttTopicResolver: function mqttTopicResolver() {
+      return '/gtfsrt/vp/#';
+    },
+
+    mqtt: 'wss://api.stadtnavi.de/mqtt/',
+
+    gtfsrt: true,
+
+    routeSelector: defaultRouteSelector,
+
+    active: true,
+  },
 };
