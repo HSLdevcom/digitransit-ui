@@ -43,7 +43,7 @@ function getVehicleIcon(
         rotate={heading}
         mode={modeOrDefault}
         vehicleNumber={vehicleNumber}
-        useLargeIcon={useLargeIcon}
+        useLargeIcon={false}
         color={color}
         customIcon={icon}
       />

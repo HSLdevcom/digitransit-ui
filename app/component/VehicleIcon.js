@@ -61,12 +61,11 @@ const getDefaultSvgContent = (rotate, useLargeIcon, transform) => {
 };
 
 const getSvgContent = (rotate, useLargeIcon, customIcon) => {
-  const transform = useLargeIcon ? '' : 'translate(10 10) scale(0.7)';
+  const transform = useLargeIcon
+    ? 'translate(24 24) scale(1.3)'
+    : 'translate(10 10) scale(0.7)';
   return customIcon ? (
-    <use
-      xlinkHref={useLargeIcon ? customIcon : '#icon-icon_all-vehicles-small'}
-      transform={transform}
-    />
+    <use xlinkHref={customIcon} />
   ) : (
     getDefaultSvgContent(rotate, useLargeIcon, transform)
   );
@@ -110,7 +109,7 @@ const VehicleIcon = ({
         className={cx('icon', 'small-vehicle-icon', className)}
         ref={el => scrollIntoView && el && el.scrollIntoView()}
       >
-        {getSvgContent(rotate, useLargeIcon)}
+        {getSvgContent(rotate, useLargeIcon, customIcon)}
       </svg>
     )}
   </span>
