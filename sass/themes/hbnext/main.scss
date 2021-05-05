@@ -28,7 +28,7 @@
   margin-right: auto;
 }
 
-.card-sub-header{
+.card-sub-header {
   display: block !important;
 }
 
@@ -47,10 +47,12 @@
 
 .carpool-offer {
   white-space: initial;
+
   h2 {
     margin-left: 0px;
     color: black;
   }
+
   p {
     color: black;
   }
@@ -129,8 +131,9 @@ input[type='radio'] {
 }
 
 #phone, .phone-label {
-  display:inline-block;
+  display: inline-block;
 }
+
 .delivery-takeaway {
   font-size: $font-size-normal;
 }
@@ -154,6 +157,7 @@ input[type='radio'] {
   margin: $padding-medium 0;
   font-size: $font-size-small;
   color: $gray;
+
   td {
     vertical-align: top;
 
@@ -162,5 +166,26 @@ input[type='radio'] {
       padding-right: 10px;
       white-space: nowrap;
     }
+  }
+}
+
+.vehicle-popup {
+  .occupancy-icon {
+    float: left;
+    margin: 0 18px 0 5px;
+  }
+}
+
+.occupancy-card {
+  div {
+    font-size: 16px;
+  }
+}
+
+.map {
+  .icon.large-vehicle-icon {
+    margin-top: 0.57em;
+    margin-left: 0.57em;
+    transform: scale(1.5);
   }
 }

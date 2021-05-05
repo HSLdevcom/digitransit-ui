@@ -1,5 +1,27 @@
 import ceil from 'lodash/ceil';
 import Pbf from 'pbf';
+
+const parseOccupancyStatus = status => {
+  switch (status) {
+    case 0:
+      return 'EMPTY';
+    case 1:
+      return 'MANY_SEATS_AVAILABLE';
+    case 2:
+      return 'FEW_SEATS_AVAILABLE';
+    case 3:
+      return 'STANDING_ROOM_ONLY';
+    case 4:
+      return 'CRUSHED_STANDING_ROOM_ONLY';
+    case 5:
+      return 'FULL';
+    case 6:
+      return 'NOT_ACCEPTING_PASSENGERS';
+    default:
+      return 'EMPTY';
+  }
+};
+
 // eslint-disable-next-line import/prefer-default-export
 export const parseFeedMQTT = (feedParser, data, topic, agency) => {
   const pbf = new Pbf(data);
@@ -53,6 +75,7 @@ export const parseFeedMQTT = (feedParser, data, topic, agency) => {
           geoHash: [geoHashDeg1, geoHashDeg2, geoHashDeg3, geoHashDeg4],
           shortName: shortName === '' ? undefined : shortName,
           color: color === '' ? undefined : color,
+          occupancyStatus: parseOccupancyStatus(vehiclePos.occupancy_status),
         };
         messages.push(message);
       }

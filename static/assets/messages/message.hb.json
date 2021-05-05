@@ -1,0 +1,16 @@
+{"staticMessages": [{
+	"content": {
+		"en": [
+			{"content": "Public Beta", "type": "heading"},
+			{"content": "Mobil-in-Herrenberg currently is in public beta. You have suggestions or issues? Please give us feedback.", "type": "text"},
+			],
+		"de": [
+			{"content": "Probebetrieb", "type": "heading"},
+			{"content": "Mobil-in-Herrenberg befindet sich derzeit im öffentlichen Probebetrieb. Anregungen oder Probleme? Geben Sie uns gerne Feedback.", "type": "text"},
+			],
+		]}, 
+"type": "info", 
+"id": "130122020_2256_91", 
+"persistence": "repeat", 
+"icon": "info"}]
+}
