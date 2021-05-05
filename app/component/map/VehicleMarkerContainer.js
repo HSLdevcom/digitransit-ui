@@ -30,11 +30,13 @@ function getVehicleIcon(
   vehicleNumber,
   color,
   useLargeIcon = true,
+  occupancyStatus,
 ) {
   if (!isBrowser) {
     return null;
   }
   const modeOrDefault = MODES_WITH_ICONS.indexOf(mode) !== -1 ? mode : 'bus';
+  const icon = `#icon-icon_bus-live-${iconSuffix(occupancyStatus)}`;
   return {
     element: (
       <VehicleIcon
@@ -43,6 +45,7 @@ function getVehicleIcon(
         vehicleNumber={vehicleNumber}
         useLargeIcon={useLargeIcon}
         color={color}
+        customIcon={icon}
       />
     ),
     className: `vehicle-icon ${modeOrDefault}`,
@@ -126,6 +129,7 @@ function VehicleMarkerContainer(containerProps) {
         message.shortName ? message.shortName : message.route.split(':')[1],
         message.color,
         containerProps.useLargeIcon,
+        message.occupancyStatus,
       )}
     >
       <Popup
