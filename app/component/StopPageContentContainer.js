@@ -68,7 +68,7 @@ const connectedComponent = createRefetchContainer(
       fragment StopPageContentContainer_stop on Stop
       @argumentDefinitions(
         startTime: { type: "Long!", defaultValue: 0 }
-        timeRange: { type: "Int!", defaultValue: 43200 }
+        timeRange: { type: "Int!", defaultValue: 864000 }
         numberOfDepartures: { type: "Int!", defaultValue: 100 }
       ) {
         url
