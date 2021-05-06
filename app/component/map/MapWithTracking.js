@@ -202,9 +202,9 @@ class MapWithTrackingStateHandler extends React.Component {
     if (this.props.leafletObjs) {
       leafletObjs.push(...this.props.leafletObjs);
     }
+    // eslint-disable-next-line no-underscore-dangle
+    const currentZoom = this.mapElement?.leafletElement?._zoom || zoom || 16;
     if (this.props.mapLayers.vehicles) {
-      // eslint-disable-next-line no-underscore-dangle
-      const currentZoom = this.mapElement?.leafletElement?._zoom || zoom || 16;
       const useLargeIcon = currentZoom >= config.stopsMinZoom;
       leafletObjs.push(
         <VehicleMarkerContainer
@@ -226,7 +226,7 @@ class MapWithTrackingStateHandler extends React.Component {
       if (zoom) {
         this.naviProps.zoom = zoom;
       } else if (!this.naviProps.zoom) {
-        this.naviProps.zoom = 16;
+        this.naviProps.zoom = currentZoom;
       }
       if (this.navigated) {
         // force map update by changing the coordinate slightly. looks crazy but is the easiest way

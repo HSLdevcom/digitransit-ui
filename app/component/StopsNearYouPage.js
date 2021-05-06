@@ -591,10 +591,11 @@ class StopsNearYouPage extends React.Component {
               return (
                 <StopsNearYouFavoritesMapContainer
                   position={this.state.searchPosition}
-                  centerOfMap={this.state.centerOfMap}
                   match={this.props.match}
                   setCenterOfMap={this.setCenterOfMap}
-                  mapState={this.state.mapState}
+                  showWalkRoute={
+                    this.state.mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION
+                  }
                   stops={props.stops}
                   mapLayers={this.props.mapLayers}
                   stations={props.stations}
@@ -604,6 +605,7 @@ class StopsNearYouPage extends React.Component {
                     ...this.state.favouriteStationIds,
                     ...this.state.favouriteBikeStationIds,
                   ]}
+                  breakpoint={this.props.breakpoint}
                 />
               );
             }
@@ -656,12 +658,14 @@ class StopsNearYouPage extends React.Component {
             return (
               <StopsNearYouMapContainer
                 position={this.state.searchPosition}
-                centerOfMap={this.state.centerOfMap}
                 stopsNearYou={props.stops}
                 match={this.props.match}
                 mapLayers={filteredMapLayers}
-                mapState={this.state.mapState}
+                showWalkRoute={
+                  this.state.mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION
+                }
                 setCenterOfMap={this.setCenterOfMap}
+                breakpoint={this.props.breakpoint}
               />
             );
           }
