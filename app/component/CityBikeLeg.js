@@ -3,12 +3,13 @@ import Link from 'found/Link';
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-
 import {
+  BIKEAVL_UNKNOWN,
   getCityBikeNetworkConfig,
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
 } from '../util/citybikes';
+
 import withBreakpoint from '../util/withBreakpoint';
 import Icon from './Icon';
 import { PREFIX_BIKESTATIONS } from '../util/path';
@@ -62,7 +63,11 @@ function CityBikeLeg(
               img={citybikeicon}
               width={1.655}
               height={1.655}
-              badgeText={bikeRentalStation.bikesAvailable}
+              badgeText={
+                config.cityBike.capacity !== BIKEAVL_UNKNOWN
+                  ? bikeRentalStation.bikesAvailable
+                  : null
+              }
               badgeFill={availabilityIndicatorColor}
               badgeTextFill={availabilityTextColor}
             />
