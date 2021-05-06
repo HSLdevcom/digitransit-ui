@@ -268,8 +268,12 @@ export default configMerger(walttiConfig, {
       availableForSelection: true,
       defaultValue: true,
     },
+    tram: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
   },
 
   // boarding a long distance train with bicycle costs extra
-  modesWithNoBike: ['RAIL'],
+  modesWithNoBike: ['RAIL', 'TRAM'],
 });
