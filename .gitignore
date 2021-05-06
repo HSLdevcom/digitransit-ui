@@ -30,3 +30,10 @@ digitransit-store/packages/**/*.generated
 digitransit-store/packages/**/lib
 yarn-error.log
 dump.rdb
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
