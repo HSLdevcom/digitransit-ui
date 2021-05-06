@@ -1,11 +1,11 @@
 .departure-list .date-row {
   @include font-medium;
-  font-size: 15pt;
+  font-size: 12pt;
   text-transform: capitalize;
-  color: $gray;
+  color: $black;
   background-color: $white;
-  padding-left: 1em;
-  padding-top: 0.5em;
+  padding-left: 0.5em;
+  padding-top: 1.25em;
   padding-bottom: 0.5em;
 
   .missing-routes {

@@ -38,6 +38,7 @@ const DepartureRow = (
           'departure-row',
           mode,
           departure.bottomRow ? 'bottom' : '',
+          props.className,
         )}
       >
         <div
@@ -90,6 +91,7 @@ DepartureRow.propTypes = {
   currentTime: PropTypes.number.isRequired,
   showPlatformCode: PropTypes.bool,
   canceled: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 DepartureRow.contextTypes = {

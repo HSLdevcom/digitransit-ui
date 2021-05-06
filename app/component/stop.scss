@@ -219,7 +219,7 @@
     fill: rgb(183, 183, 183);
   }
   .active-disruption-alert.icon {
-    fill: $cancelation-red
+    fill: $cancelation-red;
   }
   .active-service-alert.icon {
     stroke: $primary-color;
@@ -290,14 +290,25 @@
 
 .stop-page.departure-list {
   padding: 0px 0px 15px 5px;
+  .departure-day-divider {
+    height: 15px;
+    width: 100%;
+    background-color: #f4f4f5;
+    border-radius: 5px;
+    border: 1px solid #eaeaea;
+  }
   .departure-row-container {
-    border-bottom: 1px solid #dddddd;
-  .departure-row {
+    .departure-row {
       height: 50px;
       @include font-narrow-book;
       font-weight: normal;
       display: flex;
       align-items: center;
+      border-bottom: 1px solid #dddddd;
+
+      &.no-border {
+        border: none;
+      }
       &.bottom {
         height: 70px;
         padding-top: 12px;
@@ -307,21 +318,21 @@
         }
       }
       .route-arrival {
-          color: #333;
-          @include font-medium;
-          font-size: 0.75rem;
-          padding-right: 8px;
-          padding-left: 8px;
-          padding-bottom: 2px;
-          span {
-              vertical-align: sub;
-          }
-          &.realtime {
-              color: $realtime-color;
-          }
-          &.canceled {
-            color: $cancelation-red;
-          }
+        color: #333;
+        @include font-medium;
+        font-size: 0.75rem;
+        padding-right: 8px;
+        padding-left: 8px;
+        padding-bottom: 2px;
+        span {
+          vertical-align: sub;
+        }
+        &.realtime {
+          color: $realtime-color;
+        }
+        &.canceled {
+          color: $cancelation-red;
+        }
       }
       .route-number-container {
         background-color: currentColor;
@@ -339,43 +350,67 @@
           overflow: hidden;
         }
       }
-      .route-headsign {
-          font-weight: normal;
-          color: #333;
-          flex: 1;
-          padding-left: $padding-medium;
-          overflow: hidden;
-          white-space: nowrap;
-          margin-bottom: -2px;
+      &.realtime {
+        color: $realtime-color;
       }
-      .route-time {
-          font-size: $font-size-small;
-          font-weight: $font-weight-medium;
-          color: #333;
-          &.realtime {
-            color: $realtime-color;
-          }
-          &.canceled {
-            color: $cancelation-red;
-          }
+      &.canceled {
+        color: $cancelation-red;
       }
-      .platform-code {
-        background: #f4f4f5;
-        color: #333333;
-        width: 28px;
-        height: 24px;
-        border-radius: 4px;
-        font-size: $font-size-small;
-        font-weight: $font-weight-medium;
-        text-align: center;
-        margin-left: 1em;
-        margin-right: 0.3em;
-        line-height: 1.6;
+    }
+    .route-number-container {
+      margin-top: 2px;
+      background-color: currentColor;
+      border-radius: 3px;
+      min-width: 2.25em;
+      height: 1.25em;
+      padding: 0 4px;
+      text-align: center;
+      .route-number {
+        color: $white;
+        line-height: 1.35;
+        min-width: unset;
+        display: block;
         white-space: nowrap;
-        margin-bottom: -2px;
-        &.empty {
-          background: none;
-        }
+        overflow: hidden;
+      }
+    }
+    .route-headsign {
+      font-family: 'Gotham XNarrow Book', 'Roboto', Arial, Georgia, serif;
+      font-weight: $font-weight-book;
+      color: #333;
+      flex: 1;
+      padding-left: $padding-medium;
+      overflow: hidden;
+      white-space: nowrap;
+      margin-bottom: -2px;
+    }
+    .route-time {
+      font-size: $font-size-small;
+      font-weight: $font-weight-medium;
+      color: #333;
+      &.realtime {
+        color: $realtime-color;
+      }
+      &.canceled {
+        color: $cancelation-red;
+      }
+    }
+    .platform-code {
+      background: #f4f4f5;
+      color: #333333;
+      width: 28px;
+      height: 24px;
+      border-radius: 4px;
+      font-size: $font-size-small;
+      font-weight: $font-weight-medium;
+      text-align: center;
+      margin-left: 1em;
+      margin-right: 0.3em;
+      line-height: 1.6;
+      white-space: nowrap;
+      margin-bottom: -2px;
+      &.empty {
+        background: none;
       }
     }
   }
@@ -430,7 +465,7 @@
   }
 }
 .external-stop-link {
-  float:right;
+  float: right;
   margin-right: 14px;
   margin-top: 14px;
 
@@ -486,7 +521,7 @@ hr.action-bar {
   width: 100%;
   top: 0;
   left: 0;
-  background-color: rgba(0,0,0,0.2);
+  background-color: rgba(0, 0, 0, 0.2);
   z-index: 1000; // Needs to be higher than the navbar
 }
 
@@ -557,7 +592,7 @@ hr.action-bar {
       position: absolute;
       top: -0.3em;
       left: 0;
-      & .checkbox-icon{
+      & .checkbox-icon {
         width: 2.3em;
         height: 2.3em;
       }
@@ -666,7 +701,6 @@ hr.action-bar {
 }
 
 .showroutes-icon {
-
   & svg,
   .showroutes-icon-svg {
     width: 24px;

@@ -530,6 +530,7 @@ class StopsNearYouPage extends React.Component {
                       match={this.props.match}
                       stopPatterns={props.stopPatterns}
                       position={this.state.searchPosition}
+                      withSeparator={!renderSearch}
                     />
                   )}
                 </div>
