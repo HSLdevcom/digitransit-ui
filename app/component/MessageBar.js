@@ -125,10 +125,15 @@ class MessageBar extends Component {
 
   state = {
     slideIndex: 0,
+    allAlertsOpen: false,
   };
 
   onSwipe = e => {
     this.setState({ slideIndex: e });
+  };
+
+  openAllAlerts = () => {
+    this.setState({ allAlertsOpen: true });
   };
 
   componentDidMount = async () => {
@@ -176,6 +181,8 @@ class MessageBar extends Component {
           key={el.id}
           content={el.content[this.props.lang] || el.content.fi}
           textColor={textColor}
+          truncate={!this.state.allAlertsOpen}
+          onShowMore={this.openAllAlerts}
         />
       </div>
     ));
