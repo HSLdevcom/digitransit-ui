@@ -258,7 +258,10 @@ export default configMerger(walttiConfig, {
         },
     ],
 
-    footer: {
+    menu: {
+        copyright: {
+            label: `© Stadt Herrenberg ${YEAR}`
+        },
         content: [
             {
                 name: 'about-this-service',
