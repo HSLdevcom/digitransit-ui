@@ -1,10 +1,11 @@
 import flatten from 'lodash/flatten';
 import omit from 'lodash/omit';
 import L from 'leaflet';
+import { some } from 'lodash';
 
 import { isBrowser } from '../../../util/browser';
 import { isLayerEnabled } from '../../../util/mapLayerUtils';
-import { getStopIconStyles } from '../../../util/mapIconUtils';
+// import { getStopIconStyles } from '../../../util/mapIconUtils';
 
 class TileContainer {
   constructor(
@@ -84,6 +85,12 @@ class TileContainer {
         if (
           layerName === 'weatherStations' &&
           this.coords.z >= config.weatherStations.minZoom
+        ) {
+          return isEnabled;
+        }
+        if (
+          layerName === 'roadworks' &&
+          this.coords.z >= config.roadworks.roadworksMinZoom
         ) {
           return isEnabled;
         }
@@ -182,14 +189,14 @@ class TileContainer {
       );
       features = projectedVehicles.concat(features);
 
-      nearest = features.filter((feature, index) => {
+      nearest = features.filter(feature => {
         if (!feature) {
           return false;
         }
-        const g = feature.feature.geom;
+        const g = feature.feature.polyline || [feature.feature.geom];
 
         // collision check for stops and citybike stations is different for different icons which depend on zoom level
-        const featureX = g.x / this.ratio;
+        /* const featureX = g.x / this.ratio;
         let featureY = g.y / this.ratio;
 
         let isCombo = false;
@@ -231,22 +238,16 @@ class TileContainer {
               secondY = featureY - width;
             }
           }
-        }
-        let dist = Math.sqrt(
-          (localPoint[0] - featureX) ** 2 + (localPoint[1] - featureY) ** 2,
-        );
-        if (isCombo) {
-          dist = Math.min(
-            dist,
-            Math.sqrt(
-              (localPoint[0] - featureX) ** 2 + (localPoint[1] - secondY) ** 2,
-            ),
+        } */
+
+        return some(g, p => {
+          const dist = Math.sqrt(
+            (localPoint[0] - p.x / this.ratio) ** 2 +
+              (localPoint[1] - p.y / this.ratio) ** 2,
           );
-        }
-        if (dist < 22 * this.scaleratio) {
-          return true;
-        }
-        return false;
+
+          return dist < 22 * this.scaleratio;
+        });
       });
 
       if (nearest.length === 0 && e.type === 'click') {
@@ -269,7 +270,10 @@ class TileContainer {
       if (nearest.length === 1) {
         L.DomEvent.stopPropagation(e);
         // open menu for single stop
-        const latLon = L.latLng(this.project(nearest[0].feature.geom));
+        let latLon = L.latLng(this.project(nearest[0].feature.geom));
+        if (nearest[0].feature.polyline) {
+          latLon = e.latlng;
+        }
         return this.onSelectableTargetClicked(nearest, latLon, true);
       }
       L.DomEvent.stopPropagation(e);
