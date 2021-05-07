@@ -22,6 +22,7 @@ const IncidentType = {
 
 const DirectionsType = {
   BothDirections: 'BOTH_DIRECTIONS',
+  OneDirection: 'ONE_DIRECTION',
 };
 
 class Roadworks {
