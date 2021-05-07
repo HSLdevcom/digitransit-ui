@@ -86,6 +86,10 @@ class Roadworks {
     const suffix = Roadworks.getIconSuffix(properties);
     const { ctx } = this.tile;
 
+    if (Date.parse(properties.starttime) > Date.now()) {
+      ctx.globalAlpha = 0.5;
+    }
+
     ctx.lineWidth = 6;
     ctx.strokeStyle = '#cc2808';
 
