@@ -279,7 +279,7 @@ const translations = {
     'parking-spaces-in-total': '{total} Stellplätze',
     'parking-spaces-available': '{free} von {total} Stellplätzen verfügbar',
     'map-layer-dynamic-parking-lots': 'Parken (& Reisen)',
-    'map-layer-roadworks': 'Straßenarbeiten',
+    'map-layer-roadworks': 'Bauarbeiten',
     'map-layer-sharing': 'Sharing-Angebote',
     open: 'Geöffnet',
     closed: 'Geschlossen',
@@ -899,6 +899,7 @@ const translations = {
   en: {
     imprint: 'Imprint',
     privacy: 'Privacy',
+    'map-layer-roadworks': 'Roadworks',
     'weekday-mo': 'Monday',
     'weekday-tu': 'Tuesday',
     'weekday-we': 'Wednesday',
