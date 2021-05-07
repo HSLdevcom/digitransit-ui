@@ -623,6 +623,9 @@ $margin-left-right: 1.333em;
   @media print {
     display: none;
   }
+  .dd-container {
+    width: 50%;
+  }
 }
 
 .route-schedule-container {
