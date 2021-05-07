@@ -76,8 +76,6 @@ class Roadworks {
       properties['location.direction'] === DirectionsType.BothDirections
     ) {
       suffix = '-full-closure';
-    } else if (properties.Halbseitige_Sperrung === 1) {
-      suffix = '-oneway-closure';
     }
     return suffix;
   };
