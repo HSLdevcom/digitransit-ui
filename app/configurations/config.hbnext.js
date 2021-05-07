@@ -84,6 +84,10 @@ export default configMerger(walttiConfig, {
 
     colors: {
         primary: '#9fc727',
+        iconColors: {
+            'mode-bus': '#ff0000',
+            'mode-car': '#007AC9',
+        },
     },
 
     sprites: 'assets/svg-sprite.hb.svg',

@@ -84,7 +84,15 @@ class DynamicParkingLots {
       this.tile.coords.z <=
       this.config.dynamicParkingLots.dynamicParkingLotsSmallIconZoom
     ) {
-      return drawStopIcon(this.tile, geom, 'car');
+      return drawStopIcon(
+        this.tile,
+        geom,
+        'car',
+        null,
+        null,
+        null,
+        this.config.colors.iconColors,
+      );
     }
 
     const icon = DynamicParkingLots.getIcon(properties.lot_type);
