@@ -29,6 +29,7 @@ import {
 import DynamicParkingLotsPopup from '../popups/DynamicParkingLotsPopup';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import WeatherStationPopup from '../popups/WeatherStationPopup';
+import RoadworksPopup from '../popups/RoadworksPopup';
 
 const initialState = {
   selectableTargets: undefined,
@@ -304,6 +305,14 @@ class TileLayerContainer extends GridLayer {
               context={this.context}
               onSelectLocation={this.props.onSelectLocation}
               locationPopup={this.props.locationPopup}
+            />
+          );
+        } else if (this.state.selectableTargets[0].layer === 'roadworks') {
+          contents = (
+            <RoadworksPopup
+              feature={this.state.selectableTargets[0].feature}
+              lat={this.state.coords.lat}
+              lon={this.state.coords.lng}
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {

@@ -1,6 +1,7 @@
 import flatten from 'lodash/flatten';
 import omit from 'lodash/omit';
 import L from 'leaflet';
+import { some } from 'lodash';
 
 import { isBrowser } from '../../../util/browser';
 import { isLayerEnabled } from '../../../util/mapLayerUtils';
@@ -84,6 +85,12 @@ class TileContainer {
         if (
           layerName === 'weatherStations' &&
           this.coords.z >= config.weatherStations.minZoom
+        ) {
+          return isEnabled;
+        }
+        if (
+          layerName === 'roadworks' &&
+          this.coords.z >= config.roadworks.roadworksMinZoom
         ) {
           return isEnabled;
         }
@@ -186,67 +193,81 @@ class TileContainer {
         if (!feature) {
           return false;
         }
-        const g = feature.feature.geom;
 
-        // collision check for stops and citybike stations is different for different icons which depend on zoom level
-        const featureX = g.x / this.ratio;
-        let featureY = g.y / this.ratio;
+        if (!feature.feature.polyline) {
+          const g = feature.feature.geom;
 
-        let isCombo = false;
-        let secondY;
-        if (
-          (feature.layer === 'stop' && !feature.feature.properties.stops) ||
-          feature.layer === 'citybike'
-        ) {
-          const zoom = this.coords.z;
-          // hitbox is same for stop and citybike
-          const iconStyles = getStopIconStyles('stop', zoom);
-          if (iconStyles) {
-            const { style } = iconStyles;
-            let { height, width } = iconStyles;
-            width *= this.scaleratio;
-            height *= this.scaleratio;
-            const circleRadius = width / 2;
-            if (style === 'large' || feature.layer === 'realTimeVehicle') {
-              featureY -= height - circleRadius;
-            }
-            // combo stops have a larger hitbox that is not circular
-            // use two points for collision detection, lower and upper center of icon
-            // features array is sorted by y coord so combo stops should be next to each other
-            if (
-              index > 0 &&
-              features[index - 1].feature.properties.code ===
-                feature.feature.properties.code
-            ) {
-              isCombo = true;
-            }
-            if (
-              index < features.length - 1 &&
-              features[index + 1].feature.properties.code ===
-                feature.feature.properties.code
-            ) {
-              isCombo = true;
-            }
-            if (isCombo && style === 'large') {
-              secondY = featureY - width;
+          // collision check for stops and citybike stations is different for different icons which depend on zoom level
+          const featureX = g.x / this.ratio;
+          let featureY = g.y / this.ratio;
+
+          let isCombo = false;
+          let secondY;
+          if (
+            (feature.layer === 'stop' && !feature.feature.properties.stops) ||
+            feature.layer === 'citybike'
+          ) {
+            const zoom = this.coords.z;
+            // hitbox is same for stop and citybike
+            const iconStyles = getStopIconStyles('stop', zoom);
+            if (iconStyles) {
+              const { style } = iconStyles;
+              let { height, width } = iconStyles;
+              width *= this.scaleratio;
+              height *= this.scaleratio;
+              const circleRadius = width / 2;
+              if (style === 'large' || feature.layer === 'realTimeVehicle') {
+                featureY -= height - circleRadius;
+              }
+              // combo stops have a larger hitbox that is not circular
+              // use two points for collision detection, lower and upper center of icon
+              // features array is sorted by y coord so combo stops should be next to each other
+              if (
+                index > 0 &&
+                features[index - 1].feature.properties.code ===
+                  feature.feature.properties.code
+              ) {
+                isCombo = true;
+              }
+              if (
+                index < features.length - 1 &&
+                features[index + 1].feature.properties.code ===
+                  feature.feature.properties.code
+              ) {
+                isCombo = true;
+              }
+              if (isCombo && style === 'large') {
+                secondY = featureY - width;
+              }
             }
           }
-        }
-        let dist = Math.sqrt(
-          (localPoint[0] - featureX) ** 2 + (localPoint[1] - featureY) ** 2,
-        );
-        if (isCombo) {
-          dist = Math.min(
-            dist,
-            Math.sqrt(
-              (localPoint[0] - featureX) ** 2 + (localPoint[1] - secondY) ** 2,
-            ),
+          let dist = Math.sqrt(
+            (localPoint[0] - featureX) ** 2 + (localPoint[1] - featureY) ** 2,
           );
+          if (isCombo) {
+            dist = Math.min(
+              dist,
+              Math.sqrt(
+                (localPoint[0] - featureX) ** 2 +
+                  (localPoint[1] - secondY) ** 2,
+              ),
+            );
+          }
+          if (dist < 22 * this.scaleratio) {
+            return true;
+          }
+          return false;
         }
-        if (dist < 22 * this.scaleratio) {
-          return true;
-        }
-        return false;
+
+        // collision check for polyline
+        return some(feature.feature.polyline, p => {
+          const dist = Math.sqrt(
+            (localPoint[0] - p.x / this.ratio) ** 2 +
+              (localPoint[1] - p.y / this.ratio) ** 2,
+          );
+
+          return dist < 22 * this.scaleratio;
+        });
       });
 
       if (nearest.length === 0 && e.type === 'click') {
@@ -269,7 +290,10 @@ class TileContainer {
       if (nearest.length === 1) {
         L.DomEvent.stopPropagation(e);
         // open menu for single stop
-        const latLon = L.latLng(this.project(nearest[0].feature.geom));
+        let latLon = L.latLng(this.project(nearest[0].feature.geom));
+        if (nearest[0].feature.polyline) {
+          latLon = e.latlng;
+        }
         return this.onSelectableTargetClicked(nearest, latLon, true);
       }
       L.DomEvent.stopPropagation(e);
