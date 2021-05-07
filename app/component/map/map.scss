@@ -349,7 +349,11 @@ div.leaflet-marker-icon.vehicle-icon {
   .card-header {
     border-radius: $border-radius;
   }
-
+  .card-text {
+    font-size: 1.2em;
+    font-family: Lato,Arial,Georgia,Serif;
+    margin: 3px 12px;
+  }
   .bottom {
     @include font-medium;
     font-size: $font-size-small;
@@ -445,6 +449,12 @@ div.leaflet-marker-icon.vehicle-icon {
   }
   .card-header {
     border-radius: $border-radius;
+  }
+
+  .card-text {
+    font-size: 1.2em;
+    font-family: Lato,Arial,Georgia,Serif;
+    margin: 3px 12px;
   }
 
   .bottom {
