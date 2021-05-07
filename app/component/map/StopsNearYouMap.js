@@ -139,7 +139,6 @@ function StopsNearYouMap(
   const [uniqueRealtimeTopics, setUniqueRealtimeTopics] = useState([]);
   const [routes, setRouteLines] = useState([]);
   const [bounds, setBounds] = useState([]);
-  const [trackingSet, setTracking] = useState(false);
   const [clientOn, setClientOn] = useState(false);
   const [firstPlan, setFirstPlan] = useState({
     itinerary: [],
@@ -316,12 +315,6 @@ function StopsNearYouMap(
     }
   }, [stopsNearYou, favouriteIds]);
 
-  useEffect(() => {
-    if (!trackingSet && position.type === 'CurrentLocation') {
-      setTracking(true);
-    }
-  }, [position]);
-
   if (loading) {
     return <Loading />;
   }
@@ -420,7 +413,6 @@ function StopsNearYouMap(
 StopsNearYouMap.propTypes = {
   currentTime: PropTypes.number.isRequired,
   stopsNearYou: PropTypes.object.isRequired,
-  loading: PropTypes.node.isRequired,
   favouriteIds: PropTypes.object.isRequired,
   mapLayers: PropTypes.object.isRequired,
   position: dtLocationShape.isRequired,
@@ -434,11 +426,13 @@ StopsNearYouMap.propTypes = {
     environment: PropTypes.object,
   }).isRequired,
   setCenterOfMap: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
   showWalkRoute: PropTypes.bool,
 };
 
 StopsNearYouMap.defaultProps = {
   showWalkRoute: false,
+  loading: false,
 };
 
 StopsNearYouMap.contextTypes = {
