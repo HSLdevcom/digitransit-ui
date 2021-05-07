@@ -5,7 +5,7 @@ import {
   addressToItinerarySearch,
 } from './otpStrings';
 
-export const TAB_NEARBY = 'inderhaehe';
+export const TAB_NEARBY = 'indernaehe';
 export const TAB_FAVOURITES = 'favouriten';
 export const PREFIX_ROUTES = 'routen';
 export const PREFIX_NEARYOU = TAB_NEARBY;
