@@ -845,6 +845,7 @@ const translations = {
     timetable: 'Fahrplan',
     today: 'Heute',
     tomorrow: 'Morgen',
+    'to-frontpage': 'Zurück zur Startseite',
     track: 'Gleis',
     'track-num': 'Gleis {platformCode}',
     'track-short': 'Gl. {platformCode}',
