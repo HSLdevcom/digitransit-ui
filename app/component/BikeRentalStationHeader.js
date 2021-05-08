@@ -47,7 +47,6 @@ const BikeRentalStationHeader = (
           <FormattedMessage id="citybike-station-no-id" />
           {bikeRentalStation.name !== bikeRentalStation.stationId && (
             <>
-              <StopCode code={bikeRentalStation.stationId} />
               {zoneId && (
                 <span className="bike-station-zone-icon">
                   <ZoneIcon zoneId={zoneId.toUpperCase()} />
