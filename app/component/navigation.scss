@@ -44,7 +44,8 @@ $content-background-color: $background-color;
 .top-bar {
   height: 70px;
   min-height: 70px;
-  position: relative;
+  width: 100%;
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: space-between;
