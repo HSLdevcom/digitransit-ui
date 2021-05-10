@@ -132,7 +132,7 @@ const StopPageMap = (
   }
   const id = match.params.stopId || match.params.terminalId || match.params.id;
 
-  let bounds;
+  const mwtProps = {};
   if (
     locationState &&
     locationState.lat &&
@@ -141,23 +141,24 @@ const StopPageMap = (
     stop.lon &&
     distance(locationState, stop) < maxShowRouteDistance
   ) {
-    bounds = [
+    mwtProps.bounds = [
       [locationState.lat, locationState.lon],
       [
         stop.lat + (stop.lat - locationState.lat),
         stop.lon + (stop.lon - locationState.lon),
       ],
     ];
+  } else {
+    mwtProps.lat = stop.lat;
+    mwtProps.lon = stop.lon;
+    mwtProps.zoom = !match.params.stopId || stop.platformCode ? 18 : 16;
   }
   return (
     <MapWithTracking
       className="flex-grow"
-      lat={stop.lat}
-      lon={stop.lon}
-      zoom={!match.params.stopId || stop.platformCode ? 18 : 16}
       hilightedStops={[id]}
       leafletObjs={leafletObjs}
-      bounds={bounds}
+      {...mwtProps}
       mapLayers={mapLayers}
     >
       {children}
