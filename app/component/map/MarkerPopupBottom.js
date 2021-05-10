@@ -16,12 +16,9 @@ class MarkerPopupBottom extends React.Component {
       }).isRequired,
     }).isRequired,
     onSelectLocation: PropTypes.func.isRequired,
-    locationPopup: PropTypes.string,
   };
 
-  static defaultProps = {
-    locationPopup: 'all', // show add via point by default
-  };
+  static defaultProps = {};
 
   routeFrom = () => {
     addAnalyticsEvent({
@@ -63,17 +60,7 @@ class MarkerPopupBottom extends React.Component {
             defaultMessage="Route from here"
           />
         </div>
-        {this.props.locationPopup === 'all' && (
-          <div
-            onClick={() => this.routeAddViaPoint()}
-            className="route cursor-pointer route-add-viapoint"
-          >
-            <FormattedMessage
-              id="route-add-viapoint"
-              defaultMessage="Via point"
-            />
-          </div>
-        )}
+
         <div onClick={() => this.routeTo()} className="route cursor-pointer">
           <FormattedMessage id="route-here" defaultMessage="Route here" />
         </div>
