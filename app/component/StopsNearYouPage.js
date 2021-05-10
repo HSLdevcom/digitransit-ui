@@ -592,7 +592,8 @@ class StopsNearYouPage extends React.Component {
                 <StopsNearYouFavoritesMapContainer
                   position={this.state.searchPosition}
                   match={this.props.match}
-                  setCenterOfMap={this.setCenterOfMap}
+                  onEndNavigation={this.setCenterOfMap}
+                  onMapTracking={this.setCenterOfMap}
                   showWalkRoute={
                     this.state.mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION
                   }
@@ -664,7 +665,8 @@ class StopsNearYouPage extends React.Component {
                 showWalkRoute={
                   this.state.mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION
                 }
-                setCenterOfMap={this.setCenterOfMap}
+                onEndNavigation={this.setCenterOfMap}
+                onMapTracking={this.setCenterOfMap}
                 breakpoint={this.props.breakpoint}
               />
             );

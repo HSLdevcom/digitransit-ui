@@ -18,7 +18,7 @@ class RoutePageMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      trackVehicle: !!this.props.match.params.tripId,
+      trackVehicle: !!this.props.match.params.tripId, // map follows vehicle
     };
   }
 
@@ -35,18 +35,32 @@ class RoutePageMap extends React.Component {
     config: PropTypes.object.isRequired,
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.match.params.tripId !== prevState.tripId) {
-      return {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.match.params.tripId !== this.tripId ||
+      nextProps.pattern.code !== this.code
+    ) {
+      this.setState({
         trackVehicle: !!nextProps.match.params.tripId,
-        tripId: nextProps.match.params.tripId,
-      };
+      });
+      if (this.mwtRef?.disableMapTracking) {
+        // clear tracking so that map can focus on desired things
+        this.mwtRef.disableMapTracking();
+      }
     }
-    return null;
   }
 
+  setMWTRef = ref => {
+    this.mwtRef = ref;
+  };
+
   stopTracking = () => {
-    this.setState({ trackVehicle: false });
+    // filter events which occur when map moves by changed props
+    if (this.tripId === this.props.match.params.tripId) {
+      // user wants to navigate, allow it
+      this.setState({ trackVehicle: false });
+    }
   };
 
   render() {
@@ -57,11 +71,17 @@ class RoutePageMap extends React.Component {
     const { tripId } = match.params;
     const mwtProps = {};
     if (tripId && lat && lon) {
+      // already getting vehicle pos
       if (this.state.trackVehicle) {
         mwtProps.lat = lat;
         mwtProps.lon = lon;
         this.lat = lat;
         this.lon = lon;
+        if (this.tripId !== tripId) {
+          setTimeout(() => {
+            this.tripId = tripId;
+          }, 500);
+        }
       } else {
         mwtProps.lat = this.lat;
         mwtProps.lon = this.lon;
@@ -79,6 +99,13 @@ class RoutePageMap extends React.Component {
           (filteredPoints || pattern.stops).map(p => [p.lat, p.lon]),
         );
         this.code = pattern.code;
+      }
+      if (this.tripId) {
+        // changed back to route view, force update
+        if (this.mwtRef?.forceRefresh) {
+          this.mwtRef.forceRefresh();
+        }
+        this.tripId = undefined;
       }
       mwtProps.bounds = this.bounds;
     }
@@ -106,6 +133,8 @@ class RoutePageMap extends React.Component {
         leafletObjs={leafletObjs}
         mapLayers={mapLayers}
         onStartNavigation={this.stopTracking}
+        onMapTracking={this.stopTracking}
+        setMWTRef={this.setMWTRef}
       >
         {breakpoint !== 'large' && (
           <React.Fragment>

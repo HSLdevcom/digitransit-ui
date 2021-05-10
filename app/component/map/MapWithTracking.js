@@ -76,6 +76,7 @@ class MapWithTrackingStateHandler extends React.Component {
     onSelectLocation: PropTypes.func,
     onStartNavigation: PropTypes.func,
     onEndNavigation: PropTypes.func,
+    onMapTracking: PropTypes.func,
     setMWTRef: PropTypes.func,
     mapRef: PropTypes.func,
     leafletEvents: PropTypes.object,
@@ -155,8 +156,8 @@ class MapWithTrackingStateHandler extends React.Component {
     this.setState({
       mapTracking: true,
     });
-    if (this.props.onEndNavigation) {
-      this.props.onEndNavigation(null);
+    if (this.props.onMapTracking) {
+      this.props.onMapTracking();
     }
     addAnalyticsEvent({
       category: 'Map',

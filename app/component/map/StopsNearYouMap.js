@@ -129,7 +129,8 @@ function StopsNearYouMap(
     favouriteIds,
     relay,
     position,
-    setCenterOfMap,
+    onEndNavigation,
+    onMapTracking,
     mapLayers,
     showWalkRoute,
   },
@@ -391,7 +392,8 @@ function StopsNearYouMap(
     bounds,
     leafletObjs,
     breakpoint,
-    onEndNavigation: setCenterOfMap,
+    onEndNavigation,
+    onMapTracking,
   };
 
   if (breakpoint === 'large') {
@@ -425,7 +427,8 @@ StopsNearYouMap.propTypes = {
     loadMore: PropTypes.func,
     environment: PropTypes.object,
   }).isRequired,
-  setCenterOfMap: PropTypes.func.isRequired,
+  onEndNavigation: PropTypes.func,
+  onMapTracking: PropTypes.func,
   loading: PropTypes.bool,
   showWalkRoute: PropTypes.bool,
 };
