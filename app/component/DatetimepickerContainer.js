@@ -81,6 +81,7 @@ function DatetimepickerContainer(
       lang={lang}
       color={color}
       timeZone={context.config.timezoneData.split('|')[0]}
+      serviceTimeRange={context.config.itinerary.serviceTimeRange}
     />
   );
 }

@@ -9,6 +9,7 @@ import withBreakpoint from '../util/withBreakpoint';
 import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';
 import CityBikeStopNearYou from './CityBikeStopNearYou';
 import Loading from './Loading';
+import Icon from './Icon';
 
 class StopsNearYouContainer extends React.Component {
   static propTypes = {
@@ -27,6 +28,7 @@ class StopsNearYouContainer extends React.Component {
       lat: PropTypes.number,
       lon: PropTypes.number,
     }).isRequired,
+    withSeparator: PropTypes.bool,
   };
 
   static contextTypes = {
@@ -221,7 +223,6 @@ class StopsNearYouContainer extends React.Component {
                   <StopNearYou
                     key={`${stop.gtfsId}`}
                     stop={stop}
-                    distance={node.distance}
                     currentTime={this.props.currentTime}
                   />
                 );
@@ -231,7 +232,6 @@ class StopsNearYouContainer extends React.Component {
                 <StopNearYou
                   key={`${stop.gtfsId}`}
                   stop={stop}
-                  distance={node.distance}
                   currentTime={this.props.currentTime}
                 />
               );
@@ -264,8 +264,21 @@ class StopsNearYouContainer extends React.Component {
         />
       </span>
     );
+    const stops = this.createNearbyStops().filter(e => e);
     return (
       <>
+        {!this.props.relay.hasMore() && !stops.length && (
+          <>
+            {this.props.withSeparator && <div className="separator" />}
+            <div className="stops-near-you-no-stops">
+              <Icon
+                img="icon-icon_info"
+                color={this.context.config.colors.primary}
+              />
+              <FormattedMessage id="nearest-no-stops" />
+            </div>
+          </>
+        )}
         {screenReaderUpdateAlert}
         {this.state.isUpdatingPosition && (
           <div className="stops-near-you-spinner-container">
@@ -273,7 +286,7 @@ class StopsNearYouContainer extends React.Component {
           </div>
         )}
         <div role="list" className="stops-near-you-container">
-          {this.createNearbyStops()}
+          {stops}
         </div>
         {this.state.isLoadingmoreStops && (
           <div className="stops-near-you-spinner-container">

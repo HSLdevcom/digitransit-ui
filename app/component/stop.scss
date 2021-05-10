@@ -294,14 +294,25 @@
 
 .stop-page.departure-list {
   padding: 0px 0px 15px 5px;
+  .departure-day-divider {
+    height: 15px;
+    width: 100%;
+    background-color: #f4f4f5;
+    border-radius: 5px;
+    border: 1px solid #eaeaea;
+  }
   .departure-row-container {
-    border-bottom: 1px solid #dddddd;
     .departure-row {
       height: 50px;
       @include font-narrow-book;
       font-weight: normal;
       display: flex;
       align-items: center;
+      border-bottom: 1px solid #dddddd;
+
+      &.no-border {
+        border: none;
+      }
       &.bottom {
         height: 70px;
         padding-top: 12px;
@@ -343,44 +354,50 @@
           overflow: hidden;
         }
       }
-      .route-headsign {
-        font-family: 'Gotham XNarrow Book', 'Roboto', Arial, Georgia, serif;
-        font-weight: $font-weight-book;
-        color: #333;
-        flex: 1;
-        padding-left: $padding-medium;
-        overflow: hidden;
-        white-space: nowrap;
-        margin-bottom: -2px;
+      &.realtime {
+        color: $realtime-color;
       }
-      .route-time {
-        font-size: $font-size-small;
-        font-weight: $font-weight-medium;
-        color: #333;
-        &.realtime {
-          color: $realtime-color;
-        }
-        &.canceled {
-          color: $cancelation-red;
-        }
+      &.canceled {
+        color: $cancelation-red;
       }
-      .platform-code {
-        background: #f4f4f5;
-        color: #333333;
-        width: 28px;
-        height: 24px;
-        border-radius: 4px;
-        font-size: $font-size-small;
-        font-weight: $font-weight-medium;
-        text-align: center;
-        margin-left: 1em;
-        margin-right: 0.3em;
-        line-height: 1.6;
-        white-space: nowrap;
-        margin-bottom: -2px;
-        &.empty {
-          background: none;
-        }
+    }
+    .route-headsign {
+      font-family: 'Gotham XNarrow Book', 'Roboto', Arial, Georgia, serif;
+      font-weight: $font-weight-book;
+      color: #333;
+      flex: 1;
+      padding-left: $padding-medium;
+      overflow: hidden;
+      white-space: nowrap;
+      margin-bottom: -2px;
+    }
+    .route-time {
+      font-size: $font-size-small;
+      font-weight: $font-weight-medium;
+      color: #333;
+      &.realtime {
+        color: $realtime-color;
+      }
+      &.canceled {
+        color: $cancelation-red;
+      }
+    }
+    .platform-code {
+      background: #f4f4f5;
+      color: #333333;
+      width: 28px;
+      height: 24px;
+      border-radius: 4px;
+      font-size: $font-size-small;
+      font-weight: $font-weight-medium;
+      text-align: center;
+      margin-left: 1em;
+      margin-right: 0.3em;
+      line-height: 1.6;
+      white-space: nowrap;
+      margin-bottom: -2px;
+      &.empty {
+        background: none;
       }
     }
     .route-number-container {
