@@ -23,6 +23,6 @@ describe('<MarkerPopupBottom />', () => {
       {},
     );
 
-    expect(wrapper.find('.route-add-viapoint').length).to.equal(1);
+    expect(wrapper.find('.route-add-viapoint').length).to.equal(0);
   });
 });
