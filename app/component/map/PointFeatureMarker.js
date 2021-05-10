@@ -50,7 +50,7 @@ const isCustomIconVisible = zoom => zoom >= CUSTOM_ICON_MIN_ZOOM;
  *
  * @param {number} zoom the current zoom level.
  */
-export const getRoundIcon = zoom => {
+export const getRoundIcon = (zoom, iconId) => {
   const radius = getCaseRadius(zoom);
   const stopRadius = getStopRadius(zoom);
   const hubRadius = getHubRadius(zoom);
@@ -58,11 +58,17 @@ export const getRoundIcon = zoom => {
   const inner = (stopRadius + hubRadius) / 2;
   const stroke = stopRadius - hubRadius;
 
+  let className = 'stop';
+
+  if (iconId === 'bikeParkOpIcon' || iconId === 'bikeParkCovIcon') {
+    className = 'bike-parking-dot-marker';
+  }
+
   return L.divIcon({
     html: `
       <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
         <circle class="stop-halo" cx="${radius}" cy="${radius}" r="${radius}"/>
-        <circle class="stop" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"/>
+        <circle class="${className}" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"/>
       </svg>
     `,
     iconSize: [radius * 2, radius * 2],
@@ -157,7 +163,7 @@ const PointFeatureMarker = ({
       getIcon={zoom =>
         hasCustomIcon && isCustomIconVisible(zoom)
           ? getCustomIcon(zoom, icons[icon.id])
-          : getRoundIcon(zoom)
+          : getRoundIcon(zoom, icon.id)
       }
       maxWidth={locationPopup === 'all' ? 320 : 250}
       position={{
