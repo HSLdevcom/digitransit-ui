@@ -27,6 +27,7 @@ import {
   PREFIX_TERMINALS,
 } from '../../../util/path';
 import DynamicParkingLotsPopup from '../popups/DynamicParkingLotsPopup';
+import BikeParkPopup from '../popups/BikeParkPopup';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import WeatherStationPopup from '../popups/WeatherStationPopup';
 
@@ -342,6 +343,14 @@ class TileLayerContainer extends GridLayer {
         ) {
           contents = (
             <DynamicParkingLotsPopup
+              feature={this.state.selectableTargets[0].feature}
+              lat={this.state.coords.lat}
+              lon={this.state.coords.lng}
+            />
+          );
+        } else if (this.state.selectableTargets[0].layer === 'bikeParks') {
+          contents = (
+            <BikeParkPopup
               feature={this.state.selectableTargets[0].feature}
               lat={this.state.coords.lat}
               lon={this.state.coords.lng}

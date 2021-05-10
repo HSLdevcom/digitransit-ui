@@ -151,6 +151,7 @@ class MapLayersDialogContent extends React.Component {
       terminal,
       geoJson,
       showAllBusses,
+      bikeParks,
       roadworks,
       dynamicParkingLots,
       weatherStations,
@@ -311,6 +312,18 @@ class MapLayersDialogContent extends React.Component {
                 }
               />
             )}
+          {this.context.config.bikeParks && this.context.config.bikeParks.show && (
+            <Checkbox
+              large
+              checked={bikeParks}
+              defaultMessage="Bike parks"
+              labelId="map-layer-bike-parks"
+              onChange={e => {
+                this.updateSetting({ bikeParks: e.target.checked });
+                this.sendLayerChangeAnalytic('BikeParks', e.target.checked);
+              }}
+            />
+          )}
           {this.context.config.dynamicParkingLots &&
             this.context.config.dynamicParkingLots.showDynamicParkingLots && (
               <Checkbox

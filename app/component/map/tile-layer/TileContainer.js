@@ -87,6 +87,12 @@ class TileContainer {
         ) {
           return isEnabled;
         }
+        if (
+          layerName === 'bikeParks' &&
+          this.coords.z >= config.bikeParks.minZoom
+        ) {
+          return isEnabled;
+        }
         return false;
       })
       .map(
