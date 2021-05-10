@@ -279,7 +279,7 @@ const translations = {
     'parking-spaces-in-total': '{total} Stellplätze',
     'parking-spaces-available': '{free} von {total} Stellplätzen verfügbar',
     'map-layer-dynamic-parking-lots': 'Parken (& Reisen)',
-    'map-layer-roadworks': 'Bauarbeiten',
+    'map-layer-roadworks': 'Baustellen',
     'map-layer-sharing': 'Sharing-Angebote',
     open: 'Geöffnet',
     closed: 'Geschlossen',
