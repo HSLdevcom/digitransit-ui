@@ -87,6 +87,7 @@ export default configMerger(walttiConfig, {
         iconColors: {
             'mode-bus': '#ff0000',
             'mode-car': '#007AC9',
+            'mode-rail': '#008000',
         },
     },
 
