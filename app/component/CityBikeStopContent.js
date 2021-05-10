@@ -58,7 +58,7 @@ CityBikeStopContent.propTypes = {
     spacesAvailable: PropTypes.number.isRequired,
     capacity: PropTypes.number.isRequired,
     networks: PropTypes.arrayOf(PropTypes.string),
-    state: PropTypes.string.isRequired,
+    state: PropTypes.string || BIKESTATION_CLOSED,
   }),
 };
 export default CityBikeStopContent;
