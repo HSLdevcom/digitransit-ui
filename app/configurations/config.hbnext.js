@@ -397,6 +397,7 @@ export default configMerger(walttiConfig, {
             defaultValue: false,
             nearYouLabel: {
                 de: 'Mitfahrpunkte in der Nähe',
+                en: 'Nearby carpool stops on the map',
             }
         },
 
