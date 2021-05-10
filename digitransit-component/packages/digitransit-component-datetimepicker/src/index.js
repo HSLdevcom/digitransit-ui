@@ -22,6 +22,7 @@ import Datetimepicker from './helpers/Datetimepicker';
  * @param {node} props.embedWhenClosed              JSX element to render in the corner when input is closed
  * @param {node} props.embedWhenOpen                JSX element to render when input is open
  * @param {string} props.lang                       Language selection. Default 'en'
+ * @param {number} props.serviceTimeRange           Determine number of days shown in timepicker. Optional. default is 30.
  *
  * @example
  * <Datetimepicker
@@ -35,6 +36,7 @@ import Datetimepicker from './helpers/Datetimepicker';
  *   onArrivalClick={(time) => changeUrl(time, undefined)}
  *   embedWhenClosed={<button />}
  *   lang={'en'}
+ *   serviceTimeRange={15}
  * />
  */
 function DatetimepickerStateContainer({
@@ -52,6 +54,7 @@ function DatetimepickerStateContainer({
   color,
   timeZone,
   fontWeights,
+  serviceTimeRange,
 }) {
   moment.tz.setDefault(timeZone);
   const initialNow = realtime ? null : moment().valueOf();
@@ -172,6 +175,7 @@ function DatetimepickerStateContainer({
       timeZone={timeZone}
       onModalSubmit={onModalSubmit}
       fontWeights={fontWeights}
+      serviceTimeRange={serviceTimeRange}
     />
   );
 }
@@ -193,6 +197,7 @@ DatetimepickerStateContainer.propTypes = {
   fontWeights: PropTypes.shape({
     medium: PropTypes.number,
   }),
+  serviceTimeRange: PropTypes.number,
 };
 
 DatetimepickerStateContainer.defaultProps = {
