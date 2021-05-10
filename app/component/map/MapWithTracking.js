@@ -5,6 +5,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import getContext from 'recompose/getContext';
 import isEqual from 'lodash/isEqual';
+import cloneDeep from 'lodash/cloneDeep';
 import { startLocationWatch } from '../../action/PositionActions';
 import ComponentUsageExample from '../ComponentUsageExample';
 import MapContainer from './MapContainer';
@@ -244,12 +245,12 @@ class MapWithTrackingStateHandler extends React.Component {
       this.props.bounds &&
       (!isEqual(this.oldBounds, this.props.bounds) || this.refresh)
     ) {
-      this.naviProps.bounds = [...this.props.bounds];
+      this.naviProps.bounds = cloneDeep(this.props.bounds);
       if (this.refresh) {
         // bounds is defined by [min, max] point pair. Substract min lat a bit
         this.naviProps.bounds[0][0] -= 0.000001 * Math.random();
       }
-      this.oldBounds = this.props.bounds;
+      this.oldBounds = cloneDeep(this.props.bounds);
     } else if (
       lat &&
       lon &&
