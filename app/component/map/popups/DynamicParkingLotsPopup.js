@@ -6,6 +6,7 @@ import Card from '../../Card';
 import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import OSMOpeningHours from './OSMOpeningHours';
+import Icon from '../../Icon';
 
 class DynamicParkingLotsPopup extends React.Component {
   static contextTypes = {
@@ -32,6 +33,7 @@ class DynamicParkingLotsPopup extends React.Component {
     feature: PropTypes.object.isRequired,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
+    icon: PropTypes.string,
   };
 
   getCapacity() {
@@ -97,7 +99,12 @@ class DynamicParkingLotsPopup extends React.Component {
     return (
       <div className="card dynamic-parking-lot-popup">
         <Card className="card-padding">
-          <h2 className="">{this.props.feature.properties.name}</h2>
+          {this.props.icon ? (
+            <div className="left card-icon">
+              <Icon img={this.props.icon} />
+            </div>
+          ) : null}
+          <h2 style={{ marginTop: 3 }}>{this.props.feature.properties.name}</h2>
           {this.getCapacity()}
           <div>
             {this.renderOpeningHours()}

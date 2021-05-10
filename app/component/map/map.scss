@@ -352,7 +352,7 @@ div.leaflet-marker-icon.vehicle-icon {
   .card-text {
     font-size: 1.2em;
     font-family: Lato,Arial,Georgia,Serif;
-    margin: 3px 12px;
+    margin: 3px 14px;
   }
   .bottom {
     @include font-medium;
@@ -454,7 +454,13 @@ div.leaflet-marker-icon.vehicle-icon {
   .card-text {
     font-size: 1.2em;
     font-family: Lato,Arial,Georgia,Serif;
-    margin: 3px 12px;
+    margin: 3px 14px;
+  }
+
+  .card-icon {
+    font-size: 32px;
+    padding-right: 10px;
+    height: 32px;
   }
 
   .bottom {
