@@ -97,7 +97,7 @@ class StopsNearYouPage extends React.Component {
     const showCityBikeTeaser = !readMessageIds.includes('citybike_teaser');
     this.setState({ showCityBikeTeaser });
     checkPositioningPermission().then(permission => {
-      const { origin } = this.props.match.params;
+      const { origin, place } = this.props.match.params;
       const savedPermission = getGeolocationState();
       const { state } = permission;
       const newState = {};
@@ -135,6 +135,10 @@ class StopsNearYouPage extends React.Component {
       } else {
         // Geolocationing is known to be denied. Provide search modal
         newState.phase = PH_SEARCH;
+      }
+      if (place !== 'POS') {
+        newState.searchPosition = otpToLocation(place);
+        newState.phase = PH_USEDEFAULTPOS;
       }
       this.setState(newState);
     });
@@ -258,12 +262,26 @@ class StopsNearYouPage extends React.Component {
 
   updateLocation = () => {
     const { centerOfMap } = this.state;
+    const { mode } = this.props.match.params;
     if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
       let mapState = MAPSTATES.FITBOUNDSTOSEARCHPOSITION;
       let type = 'CenterOfMap';
       if (centerOfMap.type === 'CurrentLocation') {
         mapState = MAPSTATES.FITBOUNDSTOSTARTLOCATION;
         type = centerOfMap.type;
+        const path = `/${PREFIX_NEARYOU}/${mode}/POS`;
+        this.context.router.replace({
+          ...this.props.match.location,
+          pathname: path,
+        });
+      } else {
+        const path = `/${PREFIX_NEARYOU}/${mode}/${addressToItinerarySearch(
+          centerOfMap,
+        )}`;
+        this.context.router.replace({
+          ...this.props.match.location,
+          pathname: path,
+        });
       }
       return this.setState({
         searchPosition: { ...centerOfMap, type },
@@ -688,9 +706,7 @@ class StopsNearYouPage extends React.Component {
 
   selectHandler = item => {
     const { mode } = this.props.match.params;
-    const path = `/${PREFIX_NEARYOU}/${mode}/POS/${addressToItinerarySearch(
-      item,
-    )}`;
+    const path = `/${PREFIX_NEARYOU}/${mode}/${addressToItinerarySearch(item)}`;
     this.context.router.replace({
       ...this.props.match.location,
       pathname: path,
