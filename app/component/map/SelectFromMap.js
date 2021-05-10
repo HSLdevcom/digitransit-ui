@@ -51,7 +51,6 @@ class SelectFromMapPageMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.zoomLevel = 12;
   }
 
   setMapElementRef = element => {
@@ -130,6 +129,9 @@ class SelectFromMapPageMap extends React.Component {
   };
 
   setMapLocation = () => {
+    if (!this.map) {
+      return;
+    }
     const centerOfMap = this.map.getCenter();
 
     if (
@@ -217,9 +219,7 @@ class SelectFromMapPageMap extends React.Component {
   render() {
     const { config, match } = this.context;
     const { type } = this.props;
-
     const { mapCenter } = this.state;
-
     const defaultLocation = config.defaultEndpoint;
     const isDesktop = this.props.breakpoint === DESKTOP_BREAKPOINT;
 
@@ -300,16 +300,16 @@ class SelectFromMapPageMap extends React.Component {
         onClick: this.onClick,
       };
     } else {
-      eventHooks.onEndNavigation = this.setMapCenter;
+      eventHooks.onEndNavigation = this.setMapLocation;
     }
 
     return (
       <MapWithTracking
-        className="select-from-map"
+        className="select-from-map full"
         leafletObjs={leafletObjs}
-        lat={positionSelectingFromMap.lat} // {center ? center.lat : from.lat}
-        lon={positionSelectingFromMap.lon} // {center ? center.lon : from.lon}
-        zoom={this.zoomLevel}
+        lat={defaultLocation.lat}
+        lon={defaultLocation.lon}
+        zoom={12}
         mapLayers={this.props.mapLayers}
         locationPopup="none"
         mapRef={this.setMapElementRef}

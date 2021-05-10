@@ -76,12 +76,15 @@ class MapWithTrackingStateHandler extends React.Component {
     onStartNavigation: PropTypes.func,
     onEndNavigation: PropTypes.func,
     setMWTRef: PropTypes.func,
+    mapRef: PropTypes.func,
+    leafletEvents: PropTypes.object,
   };
 
   static defaultProps = {
     renderCustomButtons: undefined,
     locationPopup: 'reversegeocoding',
     onSelectLocation: () => null,
+    leafletEvents: {},
   };
 
   constructor(props) {
@@ -138,6 +141,9 @@ class MapWithTrackingStateHandler extends React.Component {
   setMapElementRef = element => {
     if (element && this.mapElement !== element) {
       this.mapElement = element;
+      if (this.props.mapRef) {
+        this.props.mapRef(element);
+      }
     }
   };
 
@@ -194,6 +200,7 @@ class MapWithTrackingStateHandler extends React.Component {
       renderCustomButtons,
       mapLayers,
       bounds,
+      leafletEvents,
       ...rest
     } = this.props;
     const { config } = this.context;
@@ -270,13 +277,13 @@ class MapWithTrackingStateHandler extends React.Component {
       : 'icon-tracking-offline-v2';
 
     const iconColor = this.state.mapTracking ? '#ff0000' : '#78909c';
-
     return (
       <MapCont
         className="flex-grow"
         locationPopup={this.props.locationPopup}
         onSelectLocation={this.props.onSelectLocation}
         leafletEvents={{
+          ...this.props.leafletEvents,
           onDragstart: this.startNavigation,
           onZoomstart: this.startNavigation,
           onZoomend: this.endNavigation,

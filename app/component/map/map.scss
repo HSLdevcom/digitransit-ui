@@ -236,10 +236,6 @@ div.leaflet-marker-icon.vehicle-icon {
   }
 }
 
-.bp-large .map-with-tracking-buttons {
-  bottom: 32px;
-}
-
 .map-with-tracking-buttons {
   z-index: 401;
   bottom: 192px;
@@ -818,13 +814,6 @@ div.leaflet-control-scale.leaflet-control {
   cursor: grab;
 }
 
-.bp-large .leaflet-control-scale.leaflet-control {
-  //front page desktop
-  right: calc(100px + 28vw);
-  bottom: 24px;
-  cursor: grab;
-}
-
 .map.full .leaflet-control-scale.leaflet-control {
   //stop & ininerary page mobile
   margin-right: 60px;
@@ -887,7 +876,7 @@ div.leaflet-control-scale-line {
   position: absolute;
   z-index: 3000;
   height: 50px;
-  width: calc(100% - 40px);
+  width: 60%;
   border-radius: 25px;
   bottom: 15%;
   background-color: var(--color);
