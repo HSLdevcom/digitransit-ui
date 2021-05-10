@@ -175,7 +175,6 @@ class MapWithTrackingStateHandler extends React.Component {
     if (this.state.mapTracking && !this.ignoreNavigation) {
       this.disableMapTracking();
     }
-    // delete this.naviProps.bounds;
   };
 
   endNavigation = () => {
