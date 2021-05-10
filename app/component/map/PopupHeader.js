@@ -2,14 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 
-const PopupHeader = ({ header, subHeader, children }, { intl }) => {
+const PopupHeader = ({ header, subHeader, children }) => {
   return (
     <div className="location-popup-wrapper">
       <div className="location-address">{header}</div>
       <div className="location-place">
-        {!subHeader
-          ? intl.formatMessage({ id: 'zone', defaultMessage: 'Zone' })
-          : subHeader}
+        {subHeader}
         {children}
       </div>
     </div>
