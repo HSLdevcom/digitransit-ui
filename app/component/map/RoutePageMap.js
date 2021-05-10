@@ -12,8 +12,9 @@ import withBreakpoint from '../../util/withBreakpoint';
 import BackButton from '../BackButton';
 import { isActiveDate } from '../../util/patternUtils';
 import { mapLayerShape } from '../../store/MapLayerStore';
+import { boundWithMinimumArea } from '../../util/geo-utils';
 
-class RoutePageMap extends React.PureComponent {
+class RoutePageMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,11 +35,15 @@ class RoutePageMap extends React.PureComponent {
     config: PropTypes.object.isRequired,
   };
 
-  tripId = this.props.match.params.tripId;
-
-  dispLat = this.props.lat;
-
-  dispLon = this.props.lon;
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.match.params.tripId !== prevState.tripId) {
+      return {
+        trackVehicle: !!nextProps.match.params.tripId,
+        tripId: nextProps.match.params.tripId,
+      };
+    }
+    return null;
+  }
 
   stopTracking = () => {
     this.setState({ trackVehicle: false });
@@ -46,27 +51,36 @@ class RoutePageMap extends React.PureComponent {
 
   render() {
     const { pattern, lat, lon, match, breakpoint, mapLayers } = this.props;
-    let centerToMarker = false;
-
-    if (this.props.match.params.tripId !== this.tripId) {
-      this.setState({ trackVehicle: true });
-      this.tripId = this.props.match.params.tripId;
-      centerToMarker = true;
-    }
-
-    [this.dispLat, this.dispLon] =
-      (centerToMarker ||
-        !this.dispLat ||
-        !this.dispLon ||
-        this.state.trackVehicle) &&
-      (match.params.tripId || breakpoint !== 'large') &&
-      lat &&
-      lon
-        ? [lat, lon]
-        : [this.dispLat, this.dispLon];
-
     if (!pattern) {
       return false;
+    }
+    const { tripId } = match.params;
+    const mwtProps = {};
+    if (tripId && lat && lon) {
+      if (this.state.trackVehicle) {
+        mwtProps.lat = lat;
+        mwtProps.lon = lon;
+        this.lat = lat;
+        this.lon = lon;
+      } else {
+        mwtProps.lat = this.lat;
+        mwtProps.lon = this.lon;
+      }
+      mwtProps.zoom = 16;
+    } else {
+      if (this.code !== pattern.code || !this.bounds) {
+        let filteredPoints;
+        if (pattern.geometry) {
+          filteredPoints = pattern.geometry.filter(
+            point => point.lat !== null && point.lon !== null,
+          );
+        }
+        this.bounds = boundWithMinimumArea(
+          (filteredPoints || pattern.stops).map(p => [p.lat, p.lon]),
+        );
+        this.code = pattern.code;
+      }
+      mwtProps.bounds = this.bounds;
     }
 
     let tripStart;
@@ -84,24 +98,10 @@ class RoutePageMap extends React.PureComponent {
       );
     }
 
-    let bounds;
-    if (!(this.dispLat && this.dispLon && match.params.tripId)) {
-      let filteredPoints;
-      if (pattern.geometry) {
-        filteredPoints = pattern.geometry.filter(
-          point => point.lat !== null && point.lon !== null,
-        );
-      }
-      bounds = (filteredPoints || pattern.stops).map(p => [p.lat, p.lon]);
-    }
-
     /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
     return (
       <MapWithTracking
-        lat={this.dispLat}
-        lon={this.dispLon}
-        zoom={15}
-        bounds={bounds}
+        {...mwtProps}
         className="full"
         leafletObjs={leafletObjs}
         mapLayers={mapLayers}
@@ -156,7 +156,7 @@ const RoutePageMapWithVehicles = connectToStores(
       const selectedVehicle = matchingVehicles[0];
       return {
         lat: selectedVehicle.lat,
-        lon: selectedVehicle.lon,
+        lon: selectedVehicle.long,
         mapLayers,
       };
     }
