@@ -681,6 +681,13 @@ section.content {
           }
         }
       }
+
+      .swipe-header {
+        justify-content: center;
+      }
+      .swipe-tab-indicator {
+        flex-grow: 0;
+      }
     }
 
     &.banner-disruption {

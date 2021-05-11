@@ -117,6 +117,7 @@ class MessageBar extends Component {
     messages: PropTypes.array.isRequired,
     relayEnvironment: PropTypes.object,
     duplicateMessageCounter: PropTypes.number.isRequired,
+    breakpoint: PropTypes.string,
   };
 
   static defaultProps = {
@@ -284,7 +285,7 @@ class MessageBar extends Component {
                       tabIndex={index}
                       tabs={this.getTabContent(textColor, slideIndex)}
                       onSwipe={this.onSwipe}
-                      hideArrows
+                      hideArrows={this.props.breakpoint !== 'large'}
                       navigationOnBottom
                       ariaFrom="swipe-message-bar"
                       ariaFromHeader="swipe-message-bar-header"
