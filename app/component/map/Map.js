@@ -122,12 +122,15 @@ export default class Map extends React.Component {
     if (this.props.bounds) {
       // bounds overrule center & zoom
       naviProps.bounds = boundWithMinimumArea(this.props.bounds); // validate
-    } else {
-      if (lat && lon) {
+    } else if (lat && lon) {
+      if (this.props.mapBottomPadding && this.props.mapBottomPadding > 0) {
+        // bounds fitting can take account the wanted padding, so convert to bounds
+        naviProps.bounds = boundWithMinimumArea([[lat, lon]], zoom);
+      } else {
         naviProps.center = [lat, lon];
-      }
-      if (zoom) {
-        naviProps.zoom = zoom;
+        if (zoom) {
+          naviProps.zoom = zoom;
+        }
       }
     }
 
