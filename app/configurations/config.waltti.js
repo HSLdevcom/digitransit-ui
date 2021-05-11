@@ -130,7 +130,6 @@ export default {
 
   showNearYouButtons: true,
   allowLogin: true,
-  allowFavouritesFromLocalstorage: true,
 
   messageBarAlerts: true,
 
