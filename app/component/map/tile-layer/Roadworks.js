@@ -108,12 +108,13 @@ class Roadworks {
       polyline[0],
       this.iconSize,
     ).then(
-      drawIcon(
-        `icon-icon_roadworks${suffix}`,
-        this.tile,
-        last(polyline),
-        this.iconSize,
-      ),
+      properties['location.direction'] === DirectionsType.BothDirections &&
+        drawIcon(
+          `icon-icon_roadworks${suffix}`,
+          this.tile,
+          last(polyline),
+          this.iconSize,
+        ),
     );
   };
 
