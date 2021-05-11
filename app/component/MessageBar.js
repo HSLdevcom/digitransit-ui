@@ -174,9 +174,12 @@ class MessageBar extends Component {
     );
   };
 
-  getTabContent = textColor =>
-    this.validMessages().map(el => (
-      <div key={el.id}>
+  getTabContent = (textColor, slideIndex) =>
+    this.validMessages().map((el, index) => (
+      <div
+        key={el.id}
+        className={`swipeable-tab ${slideIndex !== index && 'inactive'}`}
+      >
         <MessageBarMessage
           key={el.id}
           content={el.content[this.props.lang] || el.content.fi}
@@ -279,7 +282,7 @@ class MessageBar extends Component {
                   >
                     <SwipeableTabs
                       tabIndex={index}
-                      tabs={this.getTabContent(textColor)}
+                      tabs={this.getTabContent(textColor, slideIndex)}
                       onSwipe={this.onSwipe}
                       hideArrows
                       navigationOnBottom
