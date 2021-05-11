@@ -10,6 +10,7 @@ import ComponentUsageExample from '../../ComponentUsageExample';
 import { options } from '../../ExampleData';
 import SelectCarpoolRow from './SelectCarpoolRow';
 import SelectDynamicParkingLotsRow from './SelectDynamicParkingLotsRow';
+import RoadworksRow from './RoadworksRow';
 
 function MarkerSelectPopup(props) {
   const hasStop = () =>
@@ -94,6 +95,15 @@ function MarkerSelectPopup(props) {
         <SelectDynamicParkingLotsRow
           {...option.feature}
           key={option.feature.properties.name}
+          selectRow={() => props.selectRow(option)}
+        />
+      );
+    }
+    if (option.layer === 'roadworks') {
+      return (
+        <RoadworksRow
+          {...option.feature}
+          key={option.feature.properties.id}
           selectRow={() => props.selectRow(option)}
         />
       );

@@ -32,7 +32,7 @@ export default configMerger(walttiConfig, {
         },
         STOP_MAP: `${API_URL}/routing/v1/router/vectorTiles/stops/`,
         DYNAMICPARKINGLOTS_MAP: `${API_URL}/map/v1/hb-parking-map/`,
-        ROADWORKS_MAP: `${API_URL}/map/v1/roadworks-bw-map/`,
+        ROADWORKS_MAP: `${API_URL}/map/v1/cifs/`,
         COVID19_MAP: `https://tiles.caresteouvert.fr/public.poi_osm_light/{z}/{x}/{y}.pbf`,
         CITYBIKE_MAP: `${API_URL}/routing/v1/router/vectorTiles/citybikes/`,
         BIKE_PARKS_MAP: `${API_URL}/map/v1/bike-parks/`,
@@ -85,6 +85,11 @@ export default configMerger(walttiConfig, {
 
     colors: {
         primary: '#9fc727',
+        iconColors: {
+            'mode-bus': '#ff0000',
+            'mode-car': '#007AC9',
+            'mode-rail': '#008000',
+        },
     },
 
     sprites: 'assets/svg-sprite.hb.svg',
@@ -118,7 +123,7 @@ export default configMerger(walttiConfig, {
     },
 
     roadworks: {
-        showRoadworks: false,
+        showRoadworks: true,
         roadworksSmallIconZoom: 16,
         roadworksMinZoom: 10
     },
@@ -399,6 +404,7 @@ export default configMerger(walttiConfig, {
             defaultValue: false,
             nearYouLabel: {
                 de: 'Mitfahrpunkte in der Nähe',
+                en: 'Nearby carpool stops on the map',
             }
         },
 

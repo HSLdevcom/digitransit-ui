@@ -41,6 +41,16 @@ $offcanvas-link-text-font-size: 15px;
 /* Content */
 $content-background-color: $background-color;
 
+#mainContent .desktop {
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-basis: 0px;
+  flex-direction: row;
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
 .top-bar {
   height: 70px;
   min-height: 70px;

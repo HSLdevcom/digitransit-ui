@@ -129,39 +129,6 @@
         </g>
       </g>
     </symbol>
-    <symbol id="icon-icon_roadworks-oneway-closure" viewBox="0 0 600.99628 600.99628" height="600.99628" width="600.99628">
-      <g transform="matrix(1.25,0,0,-1.25,0,600.99628)" id="g4563">
-        <g id="g4565">
-          <path id="path4567" style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 480.398,240.399 c 0,-132.551 -107.449,-240 -240,-240 -132.55,0 -240,107.449 -240,240 0,132.55 107.45,240 240,240 132.551,0 240,-107.45 240,-240 z"/>
-          <path id="path4569" style="fill:#c1121c;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 240.402,472.402 c -127.75,0 -232,-104.25 -232,-232 0,-127.75 104.25,-232 232,-232 127.746,0 232,104.25 232,232 0,127.75 -104.254,232 -232,232 z m -208,-196 416,0 0,-72 -416,0 0,72 z"/>
-          <path id="path4571" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="M 240.398,480.797 C 107.633,480.797 0,373.164 0,240.399 0,107.633 107.633,0 240.398,0 c 132.766,0 240.399,107.633 240.399,240.399 0,132.765 -107.633,240.398 -240.399,240.398 z m 0,-0.398 c 132.551,0 240,-107.45 240,-240 0,-132.551 -107.449,-240 -240,-240 -132.55,0 -240,107.449 -240,240 0,132.55 107.45,240 240,240 z"/>
-          <path id="path4573" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.832,456.512 0,-0.024 -0.023,0 0.023,0.024 z"/>
-          <path id="path4575" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.809,456.512 0.023,0 0,-0.023 -0.023,0 0,0.023 z"/>
-          <path id="path4577" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.809,456.488 0,0.024 0.023,-0.024 -0.023,0 z m 0.023,0 -0.023,0.024 0,-0.024 0.023,0 z"/>
-          <path id="path4579" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.859,456.488 -0.05,0 0.023,0 0,0.024 0.027,-0.024 z"/>
-          <path id="path4581" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.809,456.488 0,0.024 0,-0.024 0.023,0.024 -0.023,-0.024 z"/>
-          <path id="path4583" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.809,456.512 0.023,0 0,-0.023 -0.023,0 0,0.023 z"/>
-          <path id="path4585" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.859,456.512 0,-0.047 -0.05,0 0.05,0.047 z"/>
-          <path id="path4587" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.809,456.512 0.051,0 0,-0.047 -0.051,0 0,0.047 z"/>
-          <path id="path4589" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.809,456.465 0,0.047 0.05,-0.047 -0.05,0 z m 0.05,0 -0.05,0.047 0,-0.047 0.05,0 z"/>
-          <path id="path4591" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.859,456.465 -0.05,0 0.023,0 0,0.047 0.027,-0.047 z"/>
-          <path id="path4593" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.809,456.465 0,0.047 0,-0.047 0.05,0.047 -0.05,-0.047 z"/>
-          <path id="path4595" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.809,456.512 0.051,0 0,-0.047 -0.051,0 0,0.047 z"/>
-          <path id="path4597" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.859,456.512 0,-0.047 -0.05,0 0.05,0.047 z"/>
-          <path id="path4599" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.809,456.512 0.051,0 0,-0.047 -0.051,0 0,0.047 z"/>
-          <path id="path4601" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.809,456.465 0,0.047 0.05,-0.047 -0.05,0 z m 0.05,0 -0.05,0.047 0,-0.047 0.05,0 z"/>
-          <path id="path4603" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.859,456.465 -0.05,0 0.023,0 0,0.047 0.027,-0.047 z"/>
-          <path id="path4605" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.809,456.465 0,0.047 0,-0.047 0.05,0.047 -0.05,-0.047 z"/>
-          <path id="path4607" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.809,456.512 0.051,0 0,-0.047 -0.051,0 0,0.047 z"/>
-          <path id="path4609" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.859,456.512 0,-0.047 -0.05,0 0.05,0.047 z"/>
-          <path id="path4611" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.809,456.512 0.051,0 0,-0.047 -0.051,0 0,0.047 z"/>
-          <path id="path4613" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.809,456.465 0,0.047 0.05,-0.047 -0.05,0 z m 0.05,0 -0.05,0.047 0,-0.047 0.05,0 z"/>
-          <path id="path4615" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.859,456.465 -0.05,0 0.023,0 0,0.047 0.027,-0.047 z"/>
-          <path id="path4617" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.809,456.465 0,0.047 0,-0.047 0.05,0.047 -0.05,-0.047 z"/>
-          <path id="path4619" style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 23.809,456.512 0.051,0 0,-0.047 -0.051,0 0,0.047 z"/>
-        </g>
-      </g>
-    </symbol>
     <symbol id="mifaz_icon-without-text" viewBox="0 0 1400 1500">
       <g id="g4712" transform="matrix(4.6939272,0,0,4.6939272,-429.82507,-194.98171)">
         <path enable-background="new    " d="m 224.138,172.23 c 1.125,-4.777 1.789,-9.743 1.789,-14.877 0,-34.564 -27.08,-62.685 -60.366,-62.685 -33.291,0 -60.374,28.121 -60.374,62.685 0,34.567 27.083,62.691 60.374,62.691 5.662,0 11.12,-0.873 16.319,-2.392 8.281,-19.674 23.349,-35.773 42.258,-45.422 z" id="path4682" inkscape:connector-curvature="0" style="fill:#ffffff"/>

@@ -30,6 +30,8 @@ import DynamicParkingLotsPopup from '../popups/DynamicParkingLotsPopup';
 import BikeParkPopup from '../popups/BikeParkPopup';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import WeatherStationPopup from '../popups/WeatherStationPopup';
+import RoadworksPopup from '../popups/RoadworksPopup';
+import DynamicParkingLots from './DynamicParkingLots';
 
 const initialState = {
   selectableTargets: undefined,
@@ -307,6 +309,14 @@ class TileLayerContainer extends GridLayer {
               locationPopup={this.props.locationPopup}
             />
           );
+        } else if (this.state.selectableTargets[0].layer === 'roadworks') {
+          contents = (
+            <RoadworksPopup
+              feature={this.state.selectableTargets[0].feature}
+              lat={this.state.coords.lat}
+              lon={this.state.coords.lng}
+            />
+          );
         } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {
           ({ id } = this.state.selectableTargets[0].feature);
           contents = (
@@ -346,6 +356,9 @@ class TileLayerContainer extends GridLayer {
               feature={this.state.selectableTargets[0].feature}
               lat={this.state.coords.lat}
               lon={this.state.coords.lng}
+              icon={`icon-icon_${DynamicParkingLots.getIcon(
+                this.state.selectableTargets[0].feature.properties.lot_type,
+              )}`}
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'bikeParks') {

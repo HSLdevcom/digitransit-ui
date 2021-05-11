@@ -44,11 +44,10 @@ const CityBikeAvailability = mapProps(
             defaultMessage="Bikes available at the station right now"
           />
           {'\u00a0'}
-          <span className="available-bikes">{available}</span>
-          {useSpacesAvailable && <React.Fragment>/{total}</React.Fragment>}
+          <span className="available-bikes">{`(${available})`}</span>
         </p>
       ),
-      showStatusBar: useSpacesAvailable,
+      showStatusBar: false,
     };
   },
 )(Availability);

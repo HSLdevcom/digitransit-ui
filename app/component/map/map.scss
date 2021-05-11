@@ -349,7 +349,11 @@ div.leaflet-marker-icon.vehicle-icon {
   .card-header {
     border-radius: $border-radius;
   }
-
+  .card-text {
+    font-size: 1.2em;
+    font-family: Lato,Arial,Georgia,Serif;
+    margin: 3px 14px;
+  }
   .bottom {
     @include font-medium;
     font-size: $font-size-small;
@@ -445,6 +449,18 @@ div.leaflet-marker-icon.vehicle-icon {
   }
   .card-header {
     border-radius: $border-radius;
+  }
+
+  .card-text {
+    font-size: 1.2em;
+    font-family: Lato,Arial,Georgia,Serif;
+    margin: 3px 14px;
+  }
+
+  .card-icon {
+    font-size: 32px;
+    padding-right: 10px;
+    height: 32px;
   }
 
   .bottom {
@@ -607,6 +623,10 @@ div.origin-popup {
   stroke-opacity: 1;
   fill: #fff;
   fill-opacity: 1;
+}
+
+.map .bike-parking-dot-marker {
+  stroke: #007ac9;
 }
 
 .map .icon.stop-marker {
