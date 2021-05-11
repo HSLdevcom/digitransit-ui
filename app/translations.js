@@ -1358,10 +1358,8 @@ const translations = {
     'swipe-disruption-info-header': 'Disruption info swipe result tabs.',
     'swipe-message-bar': 'Message swipe result tabs',
     'swipe-message-bar-header': 'Message swipe result tabs.',
-    'swipe-result-tab-left':
-      'Press Enter or Space to show the previous tab.',
-    'swipe-result-tab-right':
-      'Press Enter or Space to show the next tab.',
+    'swipe-result-tab-left': 'Press Enter or Space to show the previous tab.',
+    'swipe-result-tab-right': 'Press Enter or Space to show the next tab.',
     'swipe-result-tabs': 'Switch tabs using arrow keys.',
     'swipe-stops-near-you': 'Stops near you swipe result tabs.',
     'swipe-stops-near-you-header': 'Stops near you swipe result tabs',
