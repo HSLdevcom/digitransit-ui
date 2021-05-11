@@ -38,15 +38,14 @@ const DepartureRow = (
           'departure-row',
           mode,
           departure.bottomRow ? 'bottom' : '',
+          props.className,
         )}
       >
-        <div className="route-number-container">
-          <div
-            className="route-number"
-            style={{ backgroundColor: `#${departure.trip.route.color}` }}
-          >
-            {departure.trip.route.shortName}
-          </div>
+        <div
+          className="route-number-container"
+          style={{ backgroundColor: `#${departure.trip.route.color}` }}
+        >
+          <div className="route-number">{departure.trip.route.shortName}</div>
         </div>
         <div
           className={cx('route-headsign', departure.bottomRow ? 'bottom' : '')}
@@ -92,6 +91,7 @@ DepartureRow.propTypes = {
   currentTime: PropTypes.number.isRequired,
   showPlatformCode: PropTypes.bool,
   canceled: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 DepartureRow.contextTypes = {

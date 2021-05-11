@@ -1039,35 +1039,44 @@ $itinerary-tab-switch-height: 48px;
         padding: 7px;
         height: 50px;
         .headsign {
-          font-weight: 800;
+          font-weight:  $font-weight-medium;
           position: absolute;
           font-size: 15px;
-          padding-left: 5px;
+          padding: 2px 0 0 6px;
         }
         span.itinerary-stop-code {
           margin-left: 5px;
+          padding: 0px 6px;
+          border-radius: 10%;
         }
         .citybike-station-text {
-          padding-left: 5px;
+          padding-left: 6px;
           font-size: 13px;
           font-weight: 400;
           color: #666666;
+          bottom: 76px;
+          position: absolute;
         }
         .citybike-icon {
+          &.small {
+            .icon-badge {
+              top: 35px;
+              left: 25px;
+            }
+          }
           padding-right: 2px;
           .icon-badge {
-            display: inline-block;
-            height: 1.25em;
-            width: 1.25em;
-            top: 38px;
-            left: 30px;
+            height: 1.34em;
+            width: 1.34em;
+            top: 34px;
+            left: 26px;
             border-radius: 50%;
             .badge-text {
               font-family: $font-family-narrow;
               font-size: 22px;
             }
             .badge-circle {
-              stroke-width: 14%;
+              stroke-width: 6%;
             }
           }
         }

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
+import { matchShape } from 'found';
 
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import DisruptionInfo from './DisruptionInfo';
@@ -10,62 +11,68 @@ import MessageBar from './MessageBar';
 import LogoSmall from './LogoSmall';
 import CanceledLegsBar from './CanceledLegsBar';
 import LoginButton from './LoginButton';
-import UserInfo from './UserInfo';
+import UserMenu from './UserMenu';
 
 const AppBar = (
   { showLogo, title, homeUrl, logo, user, breakpoint, titleClicked },
-  { config, intl },
-) => (
-  <>
-    <DisruptionInfo />
-    <MessageBar />
-    <CanceledLegsBar />
-    <nav className={`top-bar ${breakpoint !== 'large' ? 'mobile' : ''}`}>
-      <section className="title">
-        <button
-          aria-label={intl.formatMessage({
-            id: 'to-frontpage',
-            defaultMessage: 'To frontpage',
-          })}
-          type="button"
-          onClick={e => {
-            titleClicked(e);
-            addAnalyticsEvent({
-              category: 'Navigation',
-              action: 'Home',
-              name: null,
-            });
-          }}
-        >
-          <LogoSmall showLogo={showLogo} logo={logo} title={title} />
-        </button>
-      </section>
-      <section className="controls">
-        {config.allowLogin &&
-          (!user.name ? (
-            <LoginButton />
-          ) : (
-            <UserInfo
-              user={user}
-              list={[
-                {
-                  key: 'dropdown-item-1',
-                  messageId: 'logout',
-                  href: '/logout',
-                },
-              ]}
-              isMobile
-            />
-          ))}
-        <MainMenuContainer
-          homeUrl={homeUrl}
-          user={user}
-          breakpoint={breakpoint}
-        />
-      </section>
-    </nav>
-  </>
-);
+  { config, intl, match },
+) => {
+  const { location } = match;
+  const url = encodeURI(`${window.location?.origin || ''}${location.pathname}`);
+  const params = location.search && location.search.substring(1);
+
+  return (
+    <>
+      <DisruptionInfo />
+      <MessageBar />
+      <CanceledLegsBar />
+      <nav className={`top-bar ${breakpoint !== 'large' ? 'mobile' : ''}`}>
+        <section className="title">
+          <button
+            aria-label={intl.formatMessage({
+              id: 'to-frontpage',
+              defaultMessage: 'To frontpage',
+            })}
+            type="button"
+            onClick={e => {
+              titleClicked(e);
+              addAnalyticsEvent({
+                category: 'Navigation',
+                action: 'Home',
+                name: null,
+              });
+            }}
+          >
+            <LogoSmall showLogo={showLogo} logo={logo} title={title} />
+          </button>
+        </section>
+        <section className="controls">
+          {config.allowLogin &&
+            (!user.name ? (
+              <LoginButton loginUrl={`/login?url=${url}&${params}`} />
+            ) : (
+              <UserMenu
+                user={user}
+                menuItems={[
+                  {
+                    key: 'dropdown-item-1',
+                    messageId: 'logout',
+                    href: '/logout',
+                    onClick: event => {
+                      event.preventDefault();
+                      window.location.href = '/logout';
+                    },
+                  },
+                ]}
+                isMobile
+              />
+            ))}
+          <MainMenuContainer homeUrl={homeUrl} breakpoint={breakpoint} />
+        </section>
+      </nav>
+    </>
+  );
+};
 
 AppBar.displayName = 'AppBar';
 
@@ -95,6 +102,7 @@ AppBar.contextTypes = {
   getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
+  match: matchShape.isRequired,
 };
 
 export default AppBar;

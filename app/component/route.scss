@@ -169,12 +169,15 @@ $margin-left-right: 1.333em;
   flex: 1 0 3.5em;
   &.passed {
     div {
-      color: $gray;
+      color: #888;
+      .zone-icon-container .circle {
+        color: #fff;
+      }
     }
     span {
-      color: $gray;
+      color: #888;
       svg {
-        color: #666;
+        color: #888;
       }
     }
   }
@@ -189,17 +192,17 @@ $margin-left-right: 1.333em;
     &.arriving {
       > a > span {
         svg {
-          top: -50px;
+          top: -44px;
           @include min-width(tablet) {
-            top: -55px;
+            top: -49px;
           }
         }
       }
       div > a > span {
         svg {
-          top: -50px;
+          top: -44px;
           @include min-width(tablet) {
-            top: -55px;
+            top: -49px;
           }
         }
       }
@@ -207,29 +210,29 @@ $margin-left-right: 1.333em;
     &.arrived {
       > a > span {
         svg {
-          top: -21px;
+          top: -17px;
         }
       }
       div > a > span {
         svg {
-          top: -21px;
+          top: -17px;
         }
       }
     }
     &.departed {
       > a > span {
         svg {
-          top: 10px;
+          top: 16px;
           @include min-width(tablet) {
-            top: 6px;
+            top: 12px;
           }
         }
       }
       div > a > span {
         svg {
-          top: 10px;
+          top: 16px;
           @include min-width(tablet) {
-            top: 6px;
+            top: 12px;
           }
         }
       }
@@ -250,6 +253,7 @@ $margin-left-right: 1.333em;
   .route-stop-now_circleline {
     position: relative;
     min-width: 15px;
+    top: 6px;
     .route-stop-now_line {
       width: 8px;
       height: 100%;
@@ -293,6 +297,7 @@ $margin-left-right: 1.333em;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
+          letter-spacing: -0.03em;
         }
         span {
           text-decoration: none;
@@ -427,14 +432,15 @@ $margin-left-right: 1.333em;
   display: flex;
   //margin: 10px $margin-left-right;
   .route-number {
-    min-width: 45px;
+    min-width: 40px;
     .icon {
-      height: 35px;
-      width: 35px;
+      margin-top: 2px;
+      height: 30px;
+      width: 30px;
     }
   }
   .route-info {
-    flex: 1;
+    display: flex;
     min-width: 0;
     .route-short-name {
       font-family: $font-family-narrow;
@@ -452,6 +458,27 @@ $margin-left-right: 1.333em;
       line-height: 1.38;
       letter-spacing: -0.43px;
       color: #666666;
+    }
+  }
+  .favourite-icon {
+    margin-left: auto;
+  }
+  .trip-destination {
+    display: flex;
+    margin-left: 10px;
+    margin-top: 14px;
+    .icon-container {
+      color: $primary-color;
+      margin-right: 6px;
+      margin-top: 2px;
+      font-size: 11px;
+    }
+    .destination-headsign {
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 18px;
+      letter-spacing: -0.03em;
+      color: #333;
     }
   }
 }
@@ -508,8 +535,7 @@ $margin-left-right: 1.333em;
 .route-schedule-list {
   padding-bottom: 0.7em;
   flex: 1;
-  flex-basis: 0;
-  overflow-x: hidden;
+  overflow: hidden;
 
   @media print {
     .row {
@@ -597,15 +623,45 @@ $margin-left-right: 1.333em;
   @media print {
     display: none;
   }
+  .dd-container {
+    width: 50%;
+  }
+}
+
+.route-schedule-container {
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  max-height: 100vh;
+  padding-bottom: 1.5em;
+  flex: 1 0;
+  flex-basis: 0px;
+  padding-right: 3.5em;
+  padding-left: 3.5em;
+  .route-page-control-panel-container {
+    padding: 0px;
+  }
+  &.mobile {
+    padding: 0 20px;
+    margin-bottom: 0px;
+  }
+  @media print {
+    max-height: none;
+  }
 }
 
 .route-schedule-ranges {
   display: flex;
+  justify-content: space-between;
   max-height: 24px;
+  min-height: 24px;
   margin-bottom: 12px;
+  margin-top: 12px;
 
   .current-range {
-    width: calc(50% + 30px);
+    flex: 1;
     white-space: nowrap;
     font-style: normal;
     font-weight: 500;
@@ -616,8 +672,7 @@ $margin-left-right: 1.333em;
   }
 
   .other-ranges-dropdown {
-    display: contents;
-    width: calc(50% - 30px);
+    flex: 1;
     @media print {
       display: none;
     }
@@ -707,11 +762,9 @@ $margin-left-right: 1.333em;
 }
 
 .route-page-action-bar {
+  justify-content: center;
   display: flex;
-  justify-content: justify;
-  flex-direction: row;
-  padding: 10px 1.25em 0;
-  background-color: $white;
+  background-color: #ffffff;
 
   .printable-date-container {
     display: none;
@@ -799,23 +852,23 @@ $margin-left-right: 1.333em;
 }
 .route-container {
   background-color: white;
-  padding: 5px 20px 0 20px;
+  margin: 5px 20px 0 20px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   &.bp-large {
-    padding: 0 $margin-left-right-large 0;
+    margin: 0 $margin-left-right-large 0;
     box-shadow: none;
   }
 }
 
 .route-page-control-panel-container {
   padding-bottom: 1.75rem;
-  &.hairiot,
-  &.aikataulu {
+  &.hairiot {
     padding-left: 1.5em;
     padding-right: 1.5em;
   }
   &.bp-large {
-    &.hairiot,
-    &.aikataulu {
+    &.hairiot {
       padding-left: 3.5em;
       padding-right: 3.5em;
     }
@@ -834,11 +887,13 @@ $margin-left-right: 1.333em;
 // Tabs
 .route-tabs {
   height: 2.5em;
+  min-height: 2.5em;
   display: flex;
   background-color: $light-gray;
   border: 2px solid $light-gray;
   border-radius: 8px;
   margin: 0;
+
   button {
     width: calc(100% / var(--totalCount));
     font-size: $font-size-small;

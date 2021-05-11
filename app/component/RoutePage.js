@@ -4,6 +4,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import { matchShape, routerShape, RedirectException } from 'found';
+import Icon from './Icon';
 
 import CallAgencyWarning from './CallAgencyWarning';
 import RouteAgencyInfo from './RouteAgencyInfo';
@@ -40,6 +41,7 @@ class RoutePage extends React.Component {
   render() {
     const { breakpoint, router, route } = this.props;
     const { config } = this.context;
+    const tripId = this.props.match.params?.tripId;
 
     if (route == null) {
       /* In this case there is little we can do
@@ -88,22 +90,31 @@ class RoutePage extends React.Component {
               >
                 {route.shortName}
               </div>
-            </div>
-            <LazilyLoad modules={modules}>
-              {({ FavouriteRouteContainer }) => (
-                <FavouriteRouteContainer
-                  className="route-page-header"
-                  gtfsId={route.gtfsId}
-                />
+              {tripId && (
+                <div className="trip-destination">
+                  <Icon className="in-text-arrow" img="icon-icon_arrow-right" />
+                  <div className="destination-headsign">
+                    {route.patterns[1].headsign}
+                  </div>
+                </div>
               )}
-            </LazilyLoad>
+            </div>
+            {!tripId && (
+              <LazilyLoad modules={modules}>
+                {({ FavouriteRouteContainer }) => (
+                  <FavouriteRouteContainer
+                    className="route-page-header"
+                    gtfsId={route.gtfsId}
+                  />
+                )}
+              </LazilyLoad>
+            )}
           </div>
           <RouteAgencyInfo route={route} />
         </div>
         {route &&
           route.patterns &&
-          (this.props.match.params.type === 'aikataulu' ||
-            this.props.match.params.type === 'hairiot') && (
+          this.props.match.params.type === 'hairiot' && (
             <RoutePageControlPanel
               match={this.props.match}
               route={route}

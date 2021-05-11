@@ -58,6 +58,7 @@ const asDepartures = stoptimes =>
           headsign: stoptime.headsign,
           trip: stoptime.trip,
           pickupType: stoptime.pickupType,
+          serviceDay: stoptime.serviceDay,
         };
       });
 
@@ -215,28 +216,68 @@ class DepartureListContainer extends Component {
     const departureObjs = [];
     const { currentTime, limit, isTerminal, stoptimes } = this.props;
 
-    let currentDate = moment.unix(currentTime).startOf('day').unix();
-    let tomorrow = moment.unix(currentTime).add(1, 'day').startOf('day').unix();
-
+    let serviceDayCutoff = moment.unix(currentTime).startOf('day').unix();
+    let dayCutoff = moment.unix(currentTime).startOf('day').unix();
     const departures = asDepartures(stoptimes)
       .filter(departure => !(isTerminal && departure.isArrival))
       .filter(departure => currentTime < departure.stoptime)
       .slice(0, limit);
 
-    departures.forEach(departure => {
-      if (departure.stoptime >= tomorrow) {
+    // Add day dividers when day changes and add service day divider after service day changes.
+    // If day divider and service day dividers are added with same departure only show day divider.
+    const departuresWithDayDividers = departures.map(departure => {
+      const serviceDate = moment.unix(departure.serviceDay).format('DDMMYYYY');
+      const dayCutoffDate = moment.unix(dayCutoff).format('DDMMYYYY');
+      const stoptimeDate = moment.unix(departure.stoptime).format('DDMMYYYY');
+      const serviceDayCutoffDate = moment
+        .unix(serviceDayCutoff)
+        .format('DDMMYYYY');
+
+      if (stoptimeDate !== dayCutoffDate && departure.stoptime > dayCutoff) {
+        dayCutoff = moment.unix(departure.stoptime).startOf('day').unix();
+        // eslint-disable-next-line no-param-reassign
+        departure.addDayDivider = true;
+      }
+
+      if (
+        serviceDate !== serviceDayCutoffDate &&
+        departure.serviceDay > serviceDayCutoff
+      ) {
+        // eslint-disable-next-line no-param-reassign
+        departure.addServiceDayDivider = true;
+        const daysAdd = serviceDate === serviceDayCutoffDate ? 1 : 0;
+        serviceDayCutoff = moment
+          .unix(departure.serviceDay)
+          .startOf('day')
+          .add(daysAdd, 'day')
+          .unix();
+      }
+      return departure;
+    });
+
+    let firstDayDepartureCount = 0;
+    departuresWithDayDividers.forEach((departure, index) => {
+      const departureDate = moment.unix(departure.stoptime).format('DDMMYYYY');
+      const nextDay = moment.unix(currentTime).add(1, 'day').unix();
+      if (departure.stoptime < nextDay) {
+        firstDayDepartureCount += 1;
+      }
+
+      // If next 24h has more than 10 departures only show stops for the next 24h
+      if (departure.stoptime > nextDay && firstDayDepartureCount >= 10) {
+        return;
+      }
+
+      if (departure.addDayDivider) {
         departureObjs.push(
-          <div
-            key={moment.unix(departure.stoptime).format('DDMMYYYY')}
-            className="date-row border-bottom"
-          >
+          <div key={departureDate} className="date-row border-bottom">
             {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
           </div>,
         );
-
-        currentDate = tomorrow;
-        tomorrow = moment.unix(currentDate).add(1, 'day').startOf('day').unix();
+      } else if (departure.addServiceDayDivider) {
+        departureObjs.push(<div className="departure-day-divider" />);
       }
+
       const id = `${departure.pattern.code}:${departure.stoptime}`;
       const row = {
         headsign: this.getHeadsign(departure),
@@ -258,6 +299,8 @@ class DepartureListContainer extends Component {
           ) : null,
       };
 
+      const nextDeparture = departuresWithDayDividers[index + 1];
+
       const departureObj = (
         <DepartureRow
           key={id}
@@ -266,6 +309,13 @@ class DepartureListContainer extends Component {
           currentTime={this.props.currentTime}
           showPlatformCode={isTerminal}
           canceled={departure.canceled}
+          className={
+            nextDeparture &&
+            nextDeparture.addServiceDayDivider &&
+            !nextDeparture.addDayDivider
+              ? 'no-border'
+              : ''
+          }
         />
       );
 

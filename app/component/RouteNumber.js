@@ -22,7 +22,14 @@ function RouteNumber(props, context) {
     props.text.length > 3;
   const getColor = () => color || (props.isTransitLeg ? 'currentColor' : null);
 
-  const getIcon = (icon, isCallAgency, hasDisruption, badgeFill, badgeText) => {
+  const getIcon = (
+    icon,
+    isCallAgency,
+    hasDisruption,
+    badgeFill,
+    badgeText,
+    badgeTextFill,
+  ) => {
     if (isCallAgency) {
       return (
         <IconWithIcon
@@ -52,12 +59,12 @@ function RouteNumber(props, context) {
         </React.Fragment>
       );
     }
-
     return (
       <React.Fragment>
         <IconWithIcon
           badgeFill={badgeFill}
           badgeText={badgeText}
+          badgeTextFill={badgeTextFill}
           color={color}
           className={mode}
           img={icon || `icon-icon_${mode}`}
@@ -98,6 +105,7 @@ function RouteNumber(props, context) {
               props.hasDisruption,
               props.badgeFill,
               props.badgeText,
+              props.badgeTextFill,
             )}
           </div>
         ) : (
@@ -108,6 +116,7 @@ function RouteNumber(props, context) {
               props.hasDisruption,
               props.badgeFill,
               props.badgeText,
+              props.badgeTextFill,
             )}
           </div>
         )}
@@ -228,6 +237,7 @@ RouteNumber.propTypes = {
   isCallAgency: PropTypes.bool,
   badgeFill: PropTypes.string,
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  badgeTextFill: PropTypes.string,
   icon: PropTypes.string,
   renderModeIcons: PropTypes.bool,
   duration: PropTypes.number,
@@ -241,6 +251,7 @@ RouteNumber.defaultProps = {
   alertSeverityLevel: undefined,
   badgeFill: undefined,
   badgeText: undefined,
+  badgeTextFill: undefined,
   className: '',
   vertical: false,
   card: false,

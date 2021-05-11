@@ -19,12 +19,14 @@ import {
 } from './ExampleData';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import { estimateItineraryDistance } from '../util/geo-utils';
+import ZoneIcon from './ZoneIcon';
+import { getZoneLabel } from '../util/legUtils';
 
 const VEHICLE_ARRIVING = 'arriving';
 const VEHICLE_ARRIVED = 'arrived';
 const VEHICLE_DEPARTED = 'departed';
 
-const TripRouteStop = props => {
+const TripRouteStop = (props, context) => {
   const {
     className,
     color,
@@ -37,6 +39,8 @@ const TripRouteStop = props => {
     setHumanScrolling,
     keepTracking,
   } = props;
+
+  const { config } = context;
 
   const getVehiclePatternLink = vehicle => {
     const maxDistance = vehicle.mode === 'rail' ? 100 : 50;
@@ -140,8 +144,12 @@ const TripRouteStop = props => {
               </div>
             </div>
             <div className="route-details-bottom-row">
-              {stop.code && <StopCode code={stop.code} />}
               <span className="route-stop-address">{stop.desc}</span>
+              {stop.code && <StopCode code={stop.code} />}
+              <ZoneIcon
+                zoneId={getZoneLabel(stop.zoneId, config)}
+                showUnknown={false}
+              />
             </div>
           </div>
         </Link>
@@ -168,6 +176,10 @@ TripRouteStop.propTypes = {
   shortName: PropTypes.string,
   setHumanScrolling: PropTypes.func,
   keepTracking: PropTypes.bool,
+};
+
+TripRouteStop.contextTypes = {
+  config: PropTypes.object.isRequired,
 };
 
 TripRouteStop.displayName = 'TripRouteStop';

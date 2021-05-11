@@ -403,7 +403,7 @@ function StopsNearYouMap(
   };
 
   const useInitialMapTracking = () => {
-    if (position && position.type === 'CenterOfMap') {
+    if (position && position.type !== 'CurrentLocation') {
       return false;
     }
     return true;
@@ -413,7 +413,8 @@ function StopsNearYouMap(
   if (
     position &&
     position.type !== 'CurrentLocation' &&
-    mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION
+    mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION &&
+    position.address
   ) {
     leafletObjs.push(getLocationMarker(position));
   }

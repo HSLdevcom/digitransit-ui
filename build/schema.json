@@ -244,16 +244,6 @@
                                     "defaultValue": null
                                 },
                                 {
-                                    "name": "agency",
-                                    "description": "Deprecated, use argument `feeds` instead",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
                                     "name": "feeds",
                                     "description": "List of feed ids from which stops are returned",
                                     "type": {
@@ -327,16 +317,6 @@
                                             "name": "Int",
                                             "ofType": null
                                         }
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "agency",
-                                    "description": "Deprecated, use argument `feeds` instead",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
                                     },
                                     "defaultValue": null
                                 },
@@ -731,16 +711,6 @@
                                 {
                                     "name": "name",
                                     "description": "Query routes by this name",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "modes",
-                                    "description": "Deprecated, use argument `transportModes` instead.",
                                     "type": {
                                         "kind": "SCALAR",
                                         "name": "String",
@@ -1781,16 +1751,6 @@
                                     "defaultValue": null
                                 },
                                 {
-                                    "name": "modes",
-                                    "description": "Deprecated, use `transportModes` instead.  \n ~~The set of TraverseModes that a user is willing to use. Default value: WALK | TRANSIT.~~",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
                                     "name": "transportModes",
                                     "description": "List of transportation modes that the user is willing to use. Default: `[\"WALK\",\"TRANSIT\"]`",
                                     "type": {
@@ -1947,16 +1907,6 @@
                                 {
                                     "name": "locale",
                                     "description": "Two-letter language code (ISO 639-1) used for returned text.  \n **Note:** only part of the data has translations available and names of stops and POIs are returned in their default language. Due to missing translations, it is sometimes possible that returned text uses a mixture of two languages.",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "ticketTypes",
-                                    "description": "**Deprecated:** Use `allowedTicketTypes` instead.  \nA comma-separated list of allowed ticket types.",
                                     "type": {
                                         "kind": "SCALAR",
                                         "name": "String",
@@ -2834,16 +2784,6 @@
                             "description": "Trips which run on this pattern on the specified date",
                             "args": [
                                 {
-                                    "name": "serviceDay",
-                                    "description": "Deprecated, please switch to serviceDate instead",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
                                     "name": "serviceDate",
                                     "description": "Return trips of the pattern active on this date. Format: YYYYMMDD",
                                     "type": {
@@ -3253,16 +3193,6 @@
                             "name": "stoptimesForDate",
                             "description": null,
                             "args": [
-                                {
-                                    "name": "serviceDay",
-                                    "description": "Deprecated, please switch to serviceDate instead",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
                                 {
                                     "name": "serviceDate",
                                     "description": "Date for which stoptimes are returned. Format: YYYYMMDD",
@@ -5020,18 +4950,6 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
-                        },
-                        {
-                            "name": "stopHeadsign",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            },
-                            "isDeprecated": true,
-                            "deprecationReason": "Use headsign instead, will be removed in the future"
                         },
                         {
                             "name": "headsign",
@@ -7536,12 +7454,6 @@
                             "description": "**TRIANGLE** optimization type can be used to set relative preferences of optimization factors. See argument `triangle`.",
                             "isDeprecated": false,
                             "deprecationReason": null
-                        },
-                        {
-                            "name": "TRANSFERS",
-                            "description": "Deprecated, use argument `transferPenalty` to optimize for less transfers.",
-                            "isDeprecated": false,
-                            "deprecationReason": null
                         }
                     ],
                     "possibleTypes": null
@@ -8563,42 +8475,6 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
-                        },
-                        {
-                            "name": "onOperation",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            },
-                            "isDeprecated": true,
-                            "deprecationReason": "Use `locations`."
-                        },
-                        {
-                            "name": "onFragment",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            },
-                            "isDeprecated": true,
-                            "deprecationReason": "Use `locations`."
-                        },
-                        {
-                            "name": "onField",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            },
-                            "isDeprecated": true,
-                            "deprecationReason": "Use `locations`."
                         }
                     ],
                     "inputFields": null,

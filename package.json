@@ -16,13 +16,13 @@
     "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
     "win-static": "xcopy static\\* _static /e /s /y /i& if not exist _static\\js mkdir _static\\js& if not exist _static\\css mkdir _static\\css",
     "prebuild": "yarn run static && yarn run relay",
-    "predev": "yarn run static && yarn run relay-watch &",
+    "predev": "yarn run static",
     "predev-win-hsl": "yarn run win-static",
     "predev-win-national": "yarn run win-static",
-    "dev": "PID=$$; trap 'pkill -QUIT -P $PID > /dev/null' EXIT; NODE_ENV=development nodemon -e js,css,scss,html --watch ./server/ --watch ./app/ server/server.js & NODE_ENV=development webpack-dev-server",
-    "dev-win-hsl": "cd win-launch-scripts&& hsl-win-launch-script.bat",
-    "dev-win-national": "cd win-launch-scripts&& set CONFIG=&& national-win-launch-script.bat",
-    "dev-nowatch": "NODE_ENV=development node server/server.js & NODE_ENV=development webpack-dev-server",
+    "dev": "bash -c \"trap 'pkill -QUIT -P $$ > /dev/null' EXIT; yarn run predev && yarn run relay-watch & NODE_ENV=development yarn nodemon -e js,css,scss,html --watch ./server/ --watch ./app/ server/server.js & NODE_ENV=development yarn webpack-dev-server\"",
+    "dev-win-hsl": "yarn predev-win-hsl && cd win-launch-scripts&& hsl-win-launch-script.bat",
+    "dev-win-national": "yarn predev-win-hsl && cd win-launch-scripts&& set CONFIG=&& national-win-launch-script.bat",
+    "dev-nowatch": "bash -c 'NODE_ENV=development node server/server.js & NODE_ENV=development webpack-dev-server'",
     "test-local": "./test/flow/script/run-ui-tests.sh local",
     "test-browserstack": "./test/flow/script/run-ui-tests.sh browserstack",
     "test-coverage": "NODE_ENV=test nyc yarn run test-unit",
@@ -36,7 +36,7 @@
     "es-lint": "eslint .",
     "lint": "yarn run es-lint && yarn run stylelint",
     "stylelint": "stylelint sass/**/*.scss app/**/*.scss --syntax scss",
-    "build": "NODE_ENV=production node --max_old_space_size=4096 node_modules/.bin/webpack --progress --color --display-error-details",
+    "build": "NODE_ENV=production yarn prebuild && node --max_old_space_size=4096 node_modules/.bin/webpack --progress --color --display-error-details",
     "win-build": "set NODE_ENV=production&& webpack --progress --color",
     "start": "NODE_ENV=production node $NODE_OPTS server/server",
     "win-start": "set NODE_ENV=production&& set CONFIG=hsl&& node server/server.js",
@@ -54,13 +54,13 @@
     "digitransit-component-docs": "node -r esm ./digitransit-component/scripts/generate-readmes",
     "digitransit-component-new-module": "node -r esm ./digitransit-component/scripts/create-new-module $1",
     "digitransit-component-tests": "lerna run test --scope '@digitransit-component/*'",
-    "digitransit-watch-components": "NODE_ENV=development SCOPE=@digitransit-component/* rollup -w -c ./config/rollup.config.js",
-    "digitransit-build-components": "lerna run clean --scope '@digitransit-component/*' && NODE_ENV=production SCOPE=@digitransit-component/* rollup -c ./config/rollup.config.js",
+    "digitransit-watch-components": "NODE_ENV=development SCOPE='@digitransit-component/*' rollup -w -c ./config/rollup.config.js",
+    "digitransit-build-components": "lerna run clean --scope '@digitransit-component/*' && NODE_ENV=production SCOPE='@digitransit-component/*' rollup -c ./config/rollup.config.js",
     "build-search-utils": "cd digitransit-search-util && find . -type dir -name node_modules | xargs rm -rf && cd .. && lerna run build:index --scope '@digitransit-search-util/digitransit-search-util-query-utils'",
     "digitransit-store-docs": "node -r esm ./digitransit-store/scripts/generate-readmes",
     "digitransit-store-new-module": "node -r esm ./digitransit-store/scripts/create-new-module $1",
     "digitransit-store-tests": "lerna run build:test --scope '@digitransit-store/*' && lerna run test --scope '@digitransit-store/*'",
-    "digitransit-store-build": "lerna run clean --scope '@digitransit-store/*' && NODE_ENV=production SCOPE=@digitransit-store/* rollup -c ./config/rollup.config.js"
+    "digitransit-store-build": "lerna run clean --scope '@digitransit-store/*' && NODE_ENV=production SCOPE='@digitransit-store/*' rollup -c ./config/rollup.config.js"
   },
   "main": "server.js",
   "repository": {
@@ -72,7 +72,7 @@
   },
   "engineStrict": true,
   "engines": {
-    "node": ">=8.11.2",
+    "node": ">=10.19.0",
     "npm": ">=3.0"
   },
   "browserslist": [
