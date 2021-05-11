@@ -122,11 +122,12 @@ export function displayDistance(meters, config, formatNumber) {
 /* eslint-enable yoda */
 
 // Return the bounding box of a latlon array of length > 0
-// If the box is smaller than the given distance, add padding
-export function boundWithMinimumArea(points, dist = 0.008) {
+export function boundWithMinimumArea(points, maxZoom = 18) {
   if (!points || !points[0]) {
     return null;
   }
+  const e = Math.max(0, 18 - maxZoom);
+  const dist = 0.002 * 2 ** e;
   const [lats, lons] = unzip(
     points.filter(([lat, lon]) => !Number.isNaN(lat) && !Number.isNaN(lon)),
   );
