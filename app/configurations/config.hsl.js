@@ -52,6 +52,7 @@ export default {
 
   showHSLTracking: false,
   allowLogin: true,
+  allowFavouritesFromLocalstorage: false,
 
   defaultMapCenter: {
     lat: 60.1710688,
