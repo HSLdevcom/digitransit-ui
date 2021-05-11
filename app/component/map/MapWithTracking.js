@@ -376,13 +376,21 @@ class MapWithTrackingStateHandler extends React.Component {
         onSelectLocation={this.props.onSelectLocation}
         leafletEvents={{
           onDragstart: () => {
-            this.disableMapTracking();
-            this.setState({ humanIsScrolling: true });
+            if (this.isCanceled) {
+              this.disableMapTracking();
+              this.setState({ humanIsScrolling: true });
+            }
           },
-          onMoveend: () => this.setState({ keepOnTracking: false }),
+          onMoveend: () => {
+            if (this.isCanceled) {
+              this.setState({ keepOnTracking: false });
+            }
+          },
           onDragend: () => {
-            this.updateCurrentBounds();
-            this.setState({ humanIsScrolling: false });
+            if (this.isCanceled) {
+              this.updateCurrentBounds();
+              this.setState({ humanIsScrolling: false });
+            }
           },
           onZoomend: this.updateCurrentBounds,
           onZoomstart: this.disableMapTrackingForZoomControl,
