@@ -5,6 +5,7 @@ import findIndex from 'lodash/findIndex';
 import isEqual from 'lodash/isEqual';
 import sortBy from 'lodash/sortBy';
 import uniqBy from 'lodash/uniqBy';
+import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
@@ -46,11 +47,20 @@ export default class FavouriteStore extends Store {
     if (this.config.allowLogin) {
       getFavourites()
         .then(res => {
-          this.favourites = res;
-          this.fetchComplete();
+          if (this.config.allowFavouritesFromLocalstorage) {
+            this.mergeWithLocalstorage(res);
+          } else {
+            this.favourites = res;
+            this.fetchComplete();
+          }
         })
         .catch(() => {
-          this.fetchFailed();
+          if (this.config.allowFavouritesFromLocalstorage) {
+            this.favourites = getFavouriteStorage();
+            this.fetchComplete();
+          } else {
+            this.fetchFailed();
+          }
         });
     } else {
       this.favourites = getFavouriteStorage();
@@ -163,11 +173,17 @@ export default class FavouriteStore extends Store {
   }
 
   /**
-   * Merges array of favourites with favourites in localstorage and stores them there.
+   * Merges array of favourites with favourites from localstorage and returns uniques by favouriteId and gtfsId.
+   * If there are duplicates by favouriteId or gtfsId, newer one is saved (by lastUpdated field)
    * @param {array} arrayOfFavourites array of favourites
    */
-  mergeToLocalstorage(arrayOfFavourites) {
+  mergeWithLocalstorage(arrayOfFavourites) {
     const storage = getFavouriteStorage();
+    if (isEmpty(storage)) {
+      this.favourites = arrayOfFavourites;
+      this.fetchComplete();
+      return;
+    }
     const merged = sortBy(
       arrayOfFavourites.concat(storage),
       'lastUpdated',
@@ -180,8 +196,16 @@ export default class FavouriteStore extends Store {
       }
     });
 
-    this.storeFavourites();
-    this.emitChange();
+    updateFavourites(uniqs)
+      .then(() => {
+        this.favourites = uniqs;
+        clearFavouriteStorage();
+        this.fetchComplete();
+      })
+      .catch(() => {
+        this.favourites = arrayOfFavourites;
+        this.fetchComplete();
+      });
   }
 
   /**
@@ -226,6 +250,10 @@ export default class FavouriteStore extends Store {
         })
         .catch(() => {
           onFail();
+          if (this.config.allowFavouritesFromLocalstorage) {
+            this.favourites = newFavourites;
+            this.storeFavourites();
+          }
           this.fetchComplete();
         });
     } else {
@@ -259,6 +287,10 @@ export default class FavouriteStore extends Store {
         })
         .catch(() => {
           onFail();
+          if (this.config.allowFavouritesFromLocalstorage) {
+            this.favourites = newFavourites;
+            this.storeFavourites();
+          }
           this.fetchComplete();
         });
     } else {
@@ -293,6 +325,10 @@ export default class FavouriteStore extends Store {
         })
         .catch(() => {
           onFail();
+          if (this.config.allowFavouritesFromLocalstorage) {
+            this.favourites = newFavourites;
+            this.storeFavourites();
+          }
           this.fetchComplete();
         });
     } else {
@@ -368,6 +404,5 @@ export default class FavouriteStore extends Store {
     SaveFavourite: 'saveFavourite',
     UpdateFavourites: 'updateFavourites',
     DeleteFavourite: 'deleteFavourite',
-    MergeToLocalstorage: 'mergeToLocalstorage',
   };
 }
