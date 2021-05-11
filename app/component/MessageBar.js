@@ -281,15 +281,21 @@ class MessageBar extends Component {
                       background: isDisruption ? 'inherit' : backgroundColor,
                     }}
                   >
-                    <SwipeableTabs
-                      tabIndex={index}
-                      tabs={this.getTabContent(textColor, slideIndex)}
-                      onSwipe={this.onSwipe}
-                      hideArrows={this.props.breakpoint !== 'large'}
-                      navigationOnBottom
-                      ariaFrom="swipe-message-bar"
-                      ariaFromHeader="swipe-message-bar-header"
-                    />
+                    {this.validMessages().length > 1 ? (
+                      <SwipeableTabs
+                        tabIndex={index}
+                        tabs={this.getTabContent(textColor, slideIndex)}
+                        onSwipe={this.onSwipe}
+                        hideArrows={this.props.breakpoint !== 'large'}
+                        navigationOnBottom
+                        ariaFrom="swipe-message-bar"
+                        ariaFromHeader="swipe-message-bar-header"
+                      />
+                    ) : (
+                      <div className="single-alert">
+                        {this.getTabContent(textColor, slideIndex)}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
