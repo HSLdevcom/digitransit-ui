@@ -33,35 +33,22 @@ export default class SwipeableTabs extends React.Component {
 
   componentDidMount() {
     window.addEventListener('resize', this.setFocusables);
-    window.addEventListener('resize', this.setFixedElementNavigationStyle);
-    const momentumScrollEl = document.querySelector('.momentum-scroll');
+    this.setFocusables();
+    const momentumScrollEl = document.querySelector('.swipe-scroll-container');
     if (momentumScrollEl) {
       momentumScrollEl.addEventListener('scroll', e => {
         const { scrollTop } = e.target;
-        const swipeDesktopViewEl = document.querySelector(
-          '.swipe-desktop-view',
-        );
-        if (swipeDesktopViewEl && scrollTop > 0) {
-          swipeDesktopViewEl.style['box-shadow'] =
-            '0 8px 6px -6px rgba(0, 0, 0, 0.2)';
+        if (scrollTop > 0) {
+          this.setState({ scrolled: true });
         } else {
-          swipeDesktopViewEl.style['box-shadow'] = 'none';
+          this.setState({ scrolled: false });
         }
       });
     }
-    this.setFocusables();
-    this.setFixedElementNavigationStyle();
   }
 
   componentDidUpdate() {
     this.setFocusables();
-  }
-
-  componentWillUnmount() {
-    const desktopTitleEl = document.querySelector('.desktop-title');
-    if (this.props.classname === 'swipe-desktop-view' && desktopTitleEl) {
-      desktopTitleEl.style['margin-bottom'] = `0px`;
-    }
   }
 
   setFocusables = () => {
@@ -202,51 +189,48 @@ export default class SwipeableTabs extends React.Component {
     }
   };
 
-  setFixedElementNavigationStyle = () => {
-    const desktopTitleEl = document.querySelector('.desktop-title');
-    if (
-      this.props.classname === 'swipe-desktop-view' &&
-      desktopTitleEl &&
-      !this.props.navigationOnBottom
-    ) {
-      const swipeHeaderEl = document.querySelector('.swipe-header-container');
-      const titleElementHeight = desktopTitleEl.offsetHeight;
-      desktopTitleEl.style['margin-bottom'] = `${swipeHeaderEl.offsetHeight}px`;
-      swipeHeaderEl.style.top = `${titleElementHeight}px`;
-    }
-  };
-
   render() {
     const { tabs, hideArrows, navigationOnBottom } = this.props;
     const tabBalls = this.tabBalls(tabs.length);
     const disabled = tabBalls.length < 2;
     let reactSwipeEl;
-
     return (
-      <div>
+      <div
+        className={
+          this.props.classname === 'swipe-desktop-view'
+            ? 'swipe-scroll-wrapper'
+            : ''
+        }
+      >
         {navigationOnBottom && (
-          <ReactSwipe
-            swipeOptions={{
-              startSlide: this.props.tabIndex,
-              stopPropagation: true,
-              continuous: false,
-              callback: i => {
-                // force transition after animation should be over because animation can randomly fail sometimes
-                setTimeout(() => {
-                  this.setState({ tabIndex: i });
-                  this.props.onSwipe(i);
-                }, 300);
-              },
-            }}
-            childCount={tabs.length}
-            ref={el => {
-              reactSwipeEl = el;
-            }}
-          >
-            {tabs}
-          </ReactSwipe>
+          <div className="swipe-scroll-container momentum-scroll">
+            <ReactSwipe
+              swipeOptions={{
+                startSlide: this.props.tabIndex,
+                stopPropagation: true,
+                continuous: false,
+                callback: i => {
+                  // force transition after animation should be over because animation can randomly fail sometimes
+                  setTimeout(() => {
+                    this.setState({ tabIndex: i });
+                    this.props.onSwipe(i);
+                  }, 300);
+                },
+              }}
+              childCount={tabs.length}
+              ref={el => {
+                reactSwipeEl = el;
+              }}
+            >
+              {tabs}
+            </ReactSwipe>
+          </div>
         )}
-        <div className={`swipe-header-container ${this.props.classname}`}>
+        <div
+          className={`swipe-header-container ${this.props.classname} ${
+            this.state.scrolled && !navigationOnBottom ? 'scrolled' : ''
+          }`}
+        >
           {this.props.classname === 'swipe-desktop-view' && (
             <div className="desktop-view-divider" />
           )}
@@ -325,25 +309,27 @@ export default class SwipeableTabs extends React.Component {
           </div>
         </div>
         {!navigationOnBottom && (
-          <ReactSwipe
-            swipeOptions={{
-              startSlide: this.props.tabIndex,
-              continuous: false,
-              callback: i => {
-                // force transition after animation should be over because animation can randomly fail sometimes
-                setTimeout(() => {
-                  this.setState({ tabIndex: i });
-                  this.props.onSwipe(i);
-                }, 300);
-              },
-            }}
-            childCount={tabs.length}
-            ref={el => {
-              reactSwipeEl = el;
-            }}
-          >
-            {tabs}
-          </ReactSwipe>
+          <div className="swipe-scroll-container momentum-scroll">
+            <ReactSwipe
+              swipeOptions={{
+                startSlide: this.props.tabIndex,
+                continuous: false,
+                callback: i => {
+                  // force transition after animation should be over because animation can randomly fail sometimes
+                  setTimeout(() => {
+                    this.setState({ tabIndex: i });
+                    this.props.onSwipe(i);
+                  }, 300);
+                },
+              }}
+              childCount={tabs.length}
+              ref={el => {
+                reactSwipeEl = el;
+              }}
+            >
+              {tabs}
+            </ReactSwipe>
+          </div>
         )}
       </div>
     );
