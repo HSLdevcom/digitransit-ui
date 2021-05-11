@@ -2185,18 +2185,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-icon@latest":
-  version: 0.1.6
-  resolution: "@digitransit-component/digitransit-component-icon@npm:0.1.6"
-  peerDependencies:
-    i18next: ^19.3.3
-    prop-types: ^15.7.2
-    react: ^16.13.0
-  checksum: 06a2e48e6c8477665d6d2c137b15b98b673e44ec412ad3a847f90fb2b0d1453b9a5d3e58f281cb2ecededb2cc5bcbbaa9438f886a2975725fff6dc2b57d568b0
-  languageName: node
-  linkType: hard
-
-"@digitransit-component/digitransit-component-icon@workspace:digitransit-component/packages/digitransit-component-icon":
+"@digitransit-component/digitransit-component-icon@^0.1.9, @digitransit-component/digitransit-component-icon@workspace:digitransit-component/packages/digitransit-component-icon":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-icon@workspace:digitransit-component/packages/digitransit-component-icon"
   peerDependencies:
@@ -2284,7 +2273,7 @@ __metadata:
     "@digitransit-component/digitransit-component-favourite-bar": latest
     "@digitransit-component/digitransit-component-favourite-editing-modal": latest
     "@digitransit-component/digitransit-component-favourite-modal": latest
-    "@digitransit-component/digitransit-component-icon": latest
+    "@digitransit-component/digitransit-component-icon": ^0.1.9
     "@digitransit-component/digitransit-component-suggestion-item": latest
     "@digitransit-component/digitransit-component-with-breakpoint": latest
   languageName: unknown
