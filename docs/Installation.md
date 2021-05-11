@@ -4,8 +4,8 @@
 ## Install requirements
 You need Node, yarn (or npm3) and watchman.
 
-- `node -v` should be >= 8
-- `yarn --version` should be >= 0.18.0 (or `npm -v` should be >= 3)
+- `node -v` should be >= 10.19. There might be problems it is 12 or above
+- `yarn --version` should be >= 1.22.0. The project will then use yarn 2 from the included file. (or `npm -v` should be >= 3)
 
 You also need a C compiler:
 - Linux: GCC 4.6 or later
@@ -23,7 +23,7 @@ sudo make install
 ```
 
 ## Installation
-- `yarn setup`
+- `yarn install && yarn setup`
 
 ## Start development version
 
@@ -41,7 +41,7 @@ The same applies to other npm run commands below.
 ## Modifying sub-modules and components
 
 After you have changed the files in `digitransit-components` you have to re-run `yarn setup` to build those modules
-and apply the changes. 
+and apply the changes.
 
 ## Analyse webpack bundle
 - run: `webpack -p --json > digitransit.json`
