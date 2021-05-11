@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
 import { station as exampleStation } from '../../ExampleData';
@@ -37,30 +37,68 @@ class DynamicParkingLotsPopup extends React.Component {
   };
 
   getCapacity() {
+    return (
+      <div className="capacity">
+        {this.getCarCapacity()}
+        {this.getClosed()}
+        <br />
+        {this.getWheelchairCapacity()}
+      </div>
+    );
+  }
+
+  getCarCapacity() {
     const { intl } = this.context;
-    let text;
-    if (
-      this.props.feature.properties &&
-      typeof this.props.feature.properties.free === 'number'
-    ) {
-      text = intl.formatMessage(
+    const props = this.props.feature.properties;
+
+    if (props && typeof props.free === 'number') {
+      return intl.formatMessage(
         {
           id: 'parking-spaces-available',
           defaultMessage: '{free} of {total} parking spaces available',
         },
-        this.props.feature.properties,
+        props,
       );
-    } else {
-      text = intl.formatMessage(
+    }
+
+    if (props && typeof props.total === 'number') {
+      return intl.formatMessage(
         {
           id: 'parking-spaces-in-total',
           defaultMessage: 'Capacity: {total} parking spaces',
         },
-        this.props.feature.properties,
+        props,
       );
     }
+    return null;
+  }
 
-    return <span className="inline-block padding-vertical-small">{text}</span>;
+  getClosed() {
+    const { properties } = this.props.feature;
+    if (properties.state === 'closed') {
+      return (
+        <span>
+          {' '}
+          (<FormattedMessage id="closed" defaultMessage="closed" />)
+        </span>
+      );
+    }
+    return null;
+  }
+
+  getWheelchairCapacity() {
+    const { properties } = this.props.feature;
+    return properties['free:disabled'] !== undefined &&
+      properties['total:disabled'] !== undefined
+      ? this.context.intl.formatMessage(
+          {
+            id: 'disabled-parking-spaces-available',
+            defaultMessage:
+              '{free:disabled} of {total:disabled} wheelchair-accessible parking spaces available',
+          },
+          properties,
+        )
+      : null;
   }
 
   getUrl() {
