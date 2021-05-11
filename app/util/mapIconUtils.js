@@ -350,9 +350,6 @@ export function drawStopIcon(
 ) {
   const mode = `mode-${type.toLowerCase()}`;
   const color = modeIconColors ? modeIconColors[mode] : '#000';
-  if (type === 'SUBWAY') {
-    return;
-  }
   const zoom = tile.coords.z - 1;
   const drawNumber = zoom >= 16;
   const styles = getStopIconStyles('stop', zoom, isHilighted);
