@@ -4,6 +4,7 @@ import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import isEqual from 'lodash/isEqual';
 import sortBy from 'lodash/sortBy';
+import uniqBy from 'lodash/uniqBy';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
@@ -159,6 +160,28 @@ export default class FavouriteStore extends Store {
     return this.favourites.filter(
       favourite => favourite.type === 'bikeStation',
     );
+  }
+
+  /**
+   * Merges array of favourites with favourites in localstorage and stores them there.
+   * @param {array} arrayOfFavourites array of favourites
+   */
+  mergeToLocalstorage(arrayOfFavourites) {
+    const storage = getFavouriteStorage();
+    const merged = sortBy(
+      arrayOfFavourites.concat(storage),
+      'lastUpdated',
+    ).reverse();
+    const uniqsByFavId = uniqBy(merged, 'favouriteId');
+    const uniqs = [];
+    uniqsByFavId.forEach(u => {
+      if (!u.gtfsId || uniqs.every(item => item?.gtfsId !== u?.gtfsId)) {
+        uniqs.push(u);
+      }
+    });
+
+    this.storeFavourites();
+    this.emitChange();
   }
 
   /**
@@ -345,5 +368,6 @@ export default class FavouriteStore extends Store {
     SaveFavourite: 'saveFavourite',
     UpdateFavourites: 'updateFavourites',
     DeleteFavourite: 'deleteFavourite',
+    MergeToLocalstorage: 'mergeToLocalstorage',
   };
 }
