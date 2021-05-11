@@ -4,7 +4,7 @@ import pick from 'lodash/pick';
 
 import range from 'lodash-es/range';
 import { isBrowser } from '../../../util/browser';
-import { drawIcon } from '../../../util/mapIconUtils';
+import { drawIcon, drawStopIcon } from '../../../util/mapIconUtils';
 import glfun from '../../../util/glfun';
 
 const getScale = glfun({
@@ -67,7 +67,16 @@ class BikeParks {
 
   drawStatus = ({ geom, properties }) => {
     if (this.tile.coords.z <= this.config.bikeParks.smallIconZoom) {
-      return drawIcon(this.tile, geom, 'bike-park');
+      const color = { 'mode-bike-park': '#005ab4' };
+      return drawStopIcon(
+        this.tile,
+        geom,
+        'bike-park',
+        null,
+        null,
+        null,
+        color,
+      );
     }
 
     const icon = BikeParks.getIcon(properties);

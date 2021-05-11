@@ -349,11 +349,12 @@ class TileLayerContainer extends GridLayer {
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'bikeParks') {
+          const props = this.state.selectableTargets[0].feature.properties;
           contents = (
             <BikeParkPopup
-              feature={this.state.selectableTargets[0].feature}
               lat={this.state.coords.lat}
               lon={this.state.coords.lng}
+              {...props}
             />
           );
         } else if (

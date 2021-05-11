@@ -19,6 +19,11 @@ class BikeParkPopup extends React.Component {
     lon: PropTypes.number.isRequired,
   };
 
+  static defaultProps = {
+    maxCapacity: 0,
+    name: '',
+  };
+
   getCapacity() {
     const { maxCapacity } = this.props;
     if (maxCapacity > 0) {
@@ -55,15 +60,17 @@ class BikeParkPopup extends React.Component {
         <div className="padding-normal">
           <CardHeader
             name={name}
-            description={this.getCapacity()}
+            description=""
             descClass="padding-vertical-small"
             unlinked
             className="padding-medium"
             headingStyle="h2"
           />
+          {this.getCapacity()}
           <div />
         </div>
         <MarkerPopupBottom
+          onselectlocation=""
           location={{
             address: name,
             lat: this.props.lat,

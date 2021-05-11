@@ -7,6 +7,7 @@ import DynamicParkingLots from './DynamicParkingLots';
 import WeatherStations from './WeatherStations';
 import Stops from './Stops';
 import ParkAndRide from './ParkAndRide';
+import BikeParks from './BikeParks';
 
 export default function VectorTileLayerContainer(props, { config }) {
   const layers = [];
@@ -29,6 +30,9 @@ export default function VectorTileLayerContainer(props, { config }) {
       config.dynamicParkingLots.showDynamicParkingLots
     ) {
       layers.push(DynamicParkingLots);
+    }
+    if (config.bikeParks && config.bikeParks.show) {
+      layers.push(BikeParks);
     }
 
     if (config.weatherStations && config.weatherStations.show) {
