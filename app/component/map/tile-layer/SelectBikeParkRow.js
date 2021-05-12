@@ -2,13 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../../Icon';
 import BikeParks from './BikeParks';
-import BikeParkPopup from '../popups/BikeParkPopup';
 
-export default function SelectBikeParkRow(props, context) {
+export default function SelectBikeParkRow(props) {
   const { selectRow, properties } = props;
   const icon = BikeParks.getIcon(properties);
-  const { intl } = context;
-  const cleanedName = BikeParkPopup.getName(properties.name, intl);
   return (
     <div className="no-margin">
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events */}
@@ -18,7 +15,7 @@ export default function SelectBikeParkRow(props, context) {
         </div>
         <div className="padding-vertical-normal select-row-text">
           <span className="header-primary no-margin link-color">
-            {cleanedName}
+            {properties.name}
           </span>
         </div>
         <div className="clear" />
