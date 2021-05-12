@@ -42,7 +42,7 @@ const locationMarkerModules = {
     importLazy(import(/* webpackChunkName: "map" */ './LocationMarker')),
 };
 
-let focus1 = {};
+let focus = {};
 const mwtProps = {};
 
 function IndexPageMap(
@@ -50,30 +50,30 @@ function IndexPageMap(
   { config, executeAction, intl },
 ) {
   const [isSettingsOpen, setSettingsOpen] = useState(false);
-  let focus2 = {};
+  let newFocus = {};
   let zoom = 16;
 
   if (origin.lat) {
-    focus2 = origin;
+    newFocus = origin;
   } else if (destination.lat) {
-    focus2 = destination;
+    newFocus = destination;
   } else if (!match.params.from && !match.params.to) {
     // use default location only if url does not include location
-    focus2 = config.defaultEndpoint;
+    newFocus = config.defaultEndpoint;
     zoom = 12;
   }
 
-  if (!sameLocations(focus1, focus2) && focus2.lat) {
+  if (!sameLocations(focus, newFocus) && newFocus.lat) {
     // feed in new props to map
-    if (focus2.type === 'CurrentLocation') {
+    if (newFocus.type === 'CurrentLocation') {
       mwtProps.mapTracking = true;
     } else {
       mwtProps.mapTracking = false;
     }
     mwtProps.zoom = zoom;
-    mwtProps.lat = focus2.lat;
-    mwtProps.lon = focus2.lon;
-    focus1 = { ...focus2 };
+    mwtProps.lat = newFocus.lat;
+    mwtProps.lon = newFocus.lon;
+    focus = { ...newFocus };
   } else {
     delete mwtProps.mapTracking;
   }
