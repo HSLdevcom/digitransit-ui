@@ -348,6 +348,10 @@
           display: block;
           white-space: nowrap;
           overflow: hidden;
+          .icon-container {
+            font-size: 1.5em;
+            line-height: 1;
+          }
         }
       }
       &.realtime {
