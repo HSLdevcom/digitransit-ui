@@ -21,14 +21,8 @@ export default function VectorTileLayerContainer(props, { config }) {
         layersToAdd.push(CityBikes);
       }
 
-      if (
-        config.dynamicParkingLots &&
-        config.dynamicParkingLots.showDynamicParkingLots
-      ) {
-        layers.push(DynamicParkingLots);
-      }
       if (config.bikeParks && config.bikeParks.show) {
-        layers.push(BikeParks);
+        layersToAdd.push(BikeParks);
       }
       if (
         config.parkAndRide &&
