@@ -37,13 +37,15 @@ class RoutePageMap extends React.Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.match.params.tripId !== this.tripId) {
+      this.setState({
+        trackVehicle: !!nextProps.match.params.tripId,
+      });
+    }
     if (
       nextProps.match.params.tripId !== this.tripId ||
       nextProps.pattern.code !== this.code
     ) {
-      this.setState({
-        trackVehicle: !!nextProps.match.params.tripId,
-      });
       if (this.mwtRef?.disableMapTracking) {
         // clear tracking so that map can focus on desired things
         this.mwtRef.disableMapTracking();
