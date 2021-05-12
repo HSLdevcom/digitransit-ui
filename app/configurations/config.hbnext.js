@@ -418,6 +418,7 @@ export default configMerger(walttiConfig, {
             defaultValue: false,
             nearYouLabel: {
                 de: 'Sharing-Angebote in der Nähe',
+                en: 'Shared mobility near you'
             }
         },
     },
