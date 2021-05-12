@@ -337,17 +337,18 @@
       .route-number-container {
         background-color: currentColor;
         border-radius: 3px;
-        min-width: 3em;
+        width: 3em;
         height: 1.5em;
-        padding: 0 4px;
         text-align: center;
         .route-number {
+          height: 1.51em;
           color: $white;
           line-height: 1.5;
           min-width: unset;
           display: block;
           white-space: nowrap;
           overflow: hidden;
+          font-weight: 700;
           .icon-container {
             font-size: 1.5em;
             line-height: 1;
@@ -359,23 +360,6 @@
       }
       &.canceled {
         color: $cancelation-red;
-      }
-    }
-    .route-number-container {
-      margin-top: 2px;
-      background-color: currentColor;
-      border-radius: 3px;
-      min-width: 2.25em;
-      height: 1.25em;
-      padding: 0 4px;
-      text-align: center;
-      .route-number {
-        color: $white;
-        line-height: 1.35;
-        min-width: unset;
-        display: block;
-        white-space: nowrap;
-        overflow: hidden;
       }
     }
     .route-headsign {
