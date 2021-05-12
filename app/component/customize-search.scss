@@ -273,9 +273,6 @@
     display: flex;
     cursor: pointer;
 
-    span {
-      color: #000;
-    }
     .icon {
       font-size: 2.5em;
       margin-top: 0.2em;
@@ -297,6 +294,7 @@
       margin-top: 1.2em;
       width:100%;
       span {
+        color: #000;
         line-height: 1.1em;
       }
       .span-bike-not-allowed {
