@@ -65,26 +65,28 @@ const BikeRentalStationContent = (
           </a>
         </div>
       )}
-      <div className="citybike-use-disclaimer">
-        <div className="disclaimer-header">
-          <FormattedMessage id="citybike-start-using" />
+      {url && (
+        <div className="citybike-use-disclaimer">
+          <div className="disclaimer-header">
+            <FormattedMessage id="citybike-start-using" />
+          </div>
+          <div className="disclaimer-content">
+            <FormattedMessage id="citybike-buy-season" />
+          </div>
+          {isClient && (
+            <a
+              onClick={e => {
+                e.stopPropagation();
+              }}
+              className="external-link"
+              href={url}
+            >
+              <FormattedMessage id="citybike-purchase-link" />
+              <Icon img="icon-icon_external-link-box" />
+            </a>
+          )}
         </div>
-        <div className="disclaimer-content">
-          <FormattedMessage id="citybike-buy-season" />
-        </div>
-        {isClient && (
-          <a
-            onClick={e => {
-              e.stopPropagation();
-            }}
-            className="external-link"
-            href={url}
-          >
-            <FormattedMessage id="citybike-purchase-link" />
-            <Icon img="icon-icon_external-link-box" />
-          </a>
-        )}
-      </div>
+      )}
     </div>
   );
 };
