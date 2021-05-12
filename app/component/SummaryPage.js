@@ -1986,7 +1986,7 @@ class SummaryPage extends React.Component {
           });
 
           content = (
-            <div>
+            <div className="swipe-scroll-wrapper">
               {screenReaderAlert}
               <SwipeableTabs
                 tabs={itineraryTabs}
@@ -2008,7 +2008,6 @@ class SummaryPage extends React.Component {
               }
               content={content}
               map={map}
-              scrollable
               bckBtnVisible
               bckBtnFallback="pop"
             />
@@ -2142,7 +2141,6 @@ class SummaryPage extends React.Component {
             </SettingsDrawer>
           }
           map={map}
-          scrollable
           scrolled={this.state.scrolled}
           onScroll={this.handleScroll}
         />

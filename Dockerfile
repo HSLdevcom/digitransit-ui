@@ -28,6 +28,7 @@ WORKDIR ${WORK}
 ADD . ${WORK}
 
 RUN \
+  yarn && \
   yarn setup && \
   yarn build && \
   rm -rf static docs test /tmp/* && \
