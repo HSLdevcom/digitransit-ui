@@ -9,6 +9,7 @@ import SelectVehicleContainer from './SelectVehicleContainer';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import { options } from '../../ExampleData';
 import SelectCarpoolRow from './SelectCarpoolRow';
+import SelectBikeParkRow from './SelectBikeParkRow';
 import SelectDynamicParkingLotsRow from './SelectDynamicParkingLotsRow';
 import RoadworksRow from './RoadworksRow';
 
@@ -95,6 +96,15 @@ function MarkerSelectPopup(props) {
         <SelectDynamicParkingLotsRow
           {...option.feature}
           key={option.feature.properties.name}
+          selectRow={() => props.selectRow(option)}
+        />
+      );
+    }
+    if (option.layer === 'bikeParks') {
+      return (
+        <SelectBikeParkRow
+          {...option.feature}
+          key={option.feature.properties.id}
           selectRow={() => props.selectRow(option)}
         />
       );

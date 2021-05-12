@@ -7,6 +7,7 @@ import DynamicParkingLots from './DynamicParkingLots';
 import WeatherStations from './WeatherStations';
 import Stops from './Stops';
 import ParkAndRide from './ParkAndRide';
+import BikeParks from './BikeParks';
 import Roadworks from './Roadworks';
 
 export default function VectorTileLayerContainer(props, { config }) {
@@ -20,6 +21,9 @@ export default function VectorTileLayerContainer(props, { config }) {
         layersToAdd.push(CityBikes);
       }
 
+      if (config.bikeParks && config.bikeParks.show) {
+        layersToAdd.push(BikeParks);
+      }
       if (
         config.parkAndRide &&
         config.parkAndRide.showParkAndRide &&
