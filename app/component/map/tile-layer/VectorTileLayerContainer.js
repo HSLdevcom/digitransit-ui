@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import TileLayerContainer from './TileLayerContainer';
 import CityBikes from './CityBikes';
@@ -10,36 +10,41 @@ import ParkAndRide from './ParkAndRide';
 import Roadworks from './Roadworks';
 
 export default function VectorTileLayerContainer(props, { config }) {
-  const layers = [];
-  if (props.showStops) {
-    layers.push(Stops);
-    if (config.cityBike && config.cityBike.showCityBikes) {
-      layers.push(CityBikes);
-    }
+  const [layers, setLayers] = useState([]);
 
-    if (
-      config.parkAndRide &&
-      config.parkAndRide.showParkAndRide &&
-      !props.disableParkAndRide
-    ) {
-      layers.push(ParkAndRide);
-    }
+  useEffect(() => {
+    const layersToAdd = [];
+    if (props.showStops) {
+      layersToAdd.push(Stops);
+      if (config.cityBike && config.cityBike.showCityBikes) {
+        layersToAdd.push(CityBikes);
+      }
 
-    if (
-      config.dynamicParkingLots &&
-      config.dynamicParkingLots.showDynamicParkingLots
-    ) {
-      layers.push(DynamicParkingLots);
-    }
+      if (
+        config.parkAndRide &&
+        config.parkAndRide.showParkAndRide &&
+        !props.disableParkAndRide
+      ) {
+        layersToAdd.push(ParkAndRide);
+      }
 
-    if (config.weatherStations && config.weatherStations.show) {
-      layers.push(WeatherStations);
-    }
+      if (
+        config.dynamicParkingLots &&
+        config.dynamicParkingLots.showDynamicParkingLots
+      ) {
+        layersToAdd.push(DynamicParkingLots);
+      }
 
-    if (config.constructor && config.roadworks.showRoadworks) {
-      layers.push(Roadworks);
+      if (config.weatherStations && config.weatherStations.show) {
+        layersToAdd.push(WeatherStations);
+      }
+
+      if (config.constructor && config.roadworks.showRoadworks) {
+        layersToAdd.push(Roadworks);
+      }
+      setLayers(layersToAdd);
     }
-  }
+  }, [props, config]);
 
   return (
     <TileLayerContainer
