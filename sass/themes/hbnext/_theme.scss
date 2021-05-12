@@ -34,6 +34,10 @@ $bike-color: #005ab4;
   height: 62px;
 }
 
+.top-bar .icon {
+  color: $white !important;
+}
+
 @media screen and (max-width: 400px) {
   .top-bar section .logo {
     height: 43px;

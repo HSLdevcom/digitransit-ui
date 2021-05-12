@@ -279,6 +279,7 @@ const translations = {
     'parking-spaces-in-total': '{total} Stellplätze',
     'parking-spaces-available': '{free} von {total} Stellplätzen verfügbar',
     'map-layer-dynamic-parking-lots': 'Parken (& Reisen)',
+    'map-layer-roadworks': 'Baustellen',
     'map-layer-sharing': 'Sharing-Angebote',
     open: 'Geöffnet',
     closed: 'Geschlossen',
@@ -847,6 +848,7 @@ const translations = {
     timetable: 'Fahrplan',
     today: 'Heute',
     tomorrow: 'Morgen',
+    'to-frontpage': 'Zurück zur Startseite',
     track: 'Gleis',
     'track-num': 'Gleis {platformCode}',
     'track-short': 'Gl. {platformCode}',
@@ -901,6 +903,7 @@ const translations = {
   en: {
     imprint: 'Imprint',
     privacy: 'Privacy',
+    'map-layer-roadworks': 'Roadworks',
     'weekday-mo': 'Monday',
     'weekday-tu': 'Tuesday',
     'weekday-we': 'Wednesday',

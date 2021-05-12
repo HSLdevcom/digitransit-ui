@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import StopCode from './StopCode';
 import BackButton from './BackButton';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { getJson } from '../util/xhrPromise';
@@ -29,7 +28,7 @@ const BikeRentalStationHeader = (
       if (data.features != null && data.features.length > 0) {
         const match = data.features[0].properties;
         const id = getZoneId(config, match.zones, data.zones);
-        setZoneId(id.toString().toLowerCase());
+        setZoneId(id?.toString().toLowerCase());
       }
     });
   }, []);
@@ -47,7 +46,6 @@ const BikeRentalStationHeader = (
           <FormattedMessage id="citybike-station-no-id" />
           {bikeRentalStation.name !== bikeRentalStation.stationId && (
             <>
-              <StopCode code={bikeRentalStation.stationId} />
               {zoneId && (
                 <span className="bike-station-zone-icon">
                   <ZoneIcon zoneId={zoneId.toUpperCase()} />

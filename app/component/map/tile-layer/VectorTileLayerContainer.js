@@ -8,6 +8,7 @@ import WeatherStations from './WeatherStations';
 import Stops from './Stops';
 import ParkAndRide from './ParkAndRide';
 import BikeParks from './BikeParks';
+import Roadworks from './Roadworks';
 
 export default function VectorTileLayerContainer(props, { config }) {
   const layers = [];
@@ -37,6 +38,10 @@ export default function VectorTileLayerContainer(props, { config }) {
 
     if (config.weatherStations && config.weatherStations.show) {
       layers.push(WeatherStations);
+    }
+
+    if (config.constructor && config.roadworks.showRoadworks) {
+      layers.push(Roadworks);
     }
   }
 
