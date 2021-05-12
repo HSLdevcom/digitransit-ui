@@ -122,6 +122,20 @@ class DynamicParkingLotsPopup extends React.Component {
     return null;
   }
 
+  getNotes() {
+    const currentLanguage = this.context.intl.locale;
+    const { properties } = this.props.feature;
+    if (properties.notes) {
+      const notes = JSON.parse(properties.notes);
+      return (
+        <div className="large-text padding-vertical-small">
+          {notes[currentLanguage] || null}
+        </div>
+      );
+    }
+    return null;
+  }
+
   renderOpeningHours() {
     const {
       feature: { properties },
@@ -144,6 +158,7 @@ class DynamicParkingLotsPopup extends React.Component {
           ) : null}
           <h2 style={{ marginTop: 3 }}>{this.props.feature.properties.name}</h2>
           {this.getCapacity()}
+          {this.getNotes()}
           <div>
             {this.renderOpeningHours()}
             {this.getUrl()}
