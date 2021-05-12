@@ -104,6 +104,11 @@ class MapWithTrackingStateHandler extends React.Component {
 
     if (this.props.mapLayers.vehicles) {
       startClient(this.context);
+      const currentZoom = // eslint-disable-next-line no-underscore-dangle
+        this.mapElement?.leafletElement?._zoom || this.props.zoom || 16;
+      if (currentZoom !== this.state.vehicleZoom) {
+        this.setState({ vehicleZoom: currentZoom });
+      }
     }
     if (this.props.setMWTRef) {
       this.props.setMWTRef(this);
@@ -112,11 +117,19 @@ class MapWithTrackingStateHandler extends React.Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(newProps) {
-    let newState = null;
+    let newState;
     if (newProps.mapTracking && !this.state.mapTracking) {
       newState = { mapTracking: true };
     } else if (newProps.mapTracking === false && this.state.mapTracking) {
       newState = { mapTracking: false };
+    }
+    if (newProps.mapLayers.vehicles) {
+      const currentZoom = // eslint-disable-next-line no-underscore-dangle
+        this.mapElement?.leafletElement?._zoom || newProps.zoom || 16;
+      if (currentZoom !== this.state.vehicleZoom) {
+        newState = newState || {};
+        newState.vehicleZoom = currentZoom;
+      }
     }
     if (newState) {
       this.setState(newState);
@@ -190,6 +203,11 @@ class MapWithTrackingStateHandler extends React.Component {
       this.props.onEndNavigation(this.mapElement);
     }
     this.navigated = true;
+    // eslint-disable-next-line no-underscore-dangle
+    const zoom = this.mapElement?.leafletElement?._zoom;
+    if (this.props.mapLayers.vehicles && zoom !== this.state.vehicleZoom) {
+      this.setState({ vehicleZoom: zoom });
+    }
   };
 
   render() {
@@ -210,10 +228,8 @@ class MapWithTrackingStateHandler extends React.Component {
     if (this.props.leafletObjs) {
       leafletObjs.push(...this.props.leafletObjs);
     }
-    // eslint-disable-next-line no-underscore-dangle
-    const currentZoom = this.mapElement?.leafletElement?._zoom || zoom || 16;
     if (this.props.mapLayers.vehicles) {
-      const useLargeIcon = currentZoom >= config.stopsMinZoom;
+      const useLargeIcon = this.state.vehicleZoom >= config.stopsMinZoom;
       leafletObjs.push(
         <VehicleMarkerContainer
           key="vehicles"
@@ -227,6 +243,8 @@ class MapWithTrackingStateHandler extends React.Component {
     if (config.map.showZoomControl) {
       btnClassName = cx(btnClassName, 'roomForZoomControl');
     }
+    // eslint-disable-next-line no-underscore-dangle
+    const currentZoom = this.mapElement?.leafletElement?._zoom || zoom || 16;
 
     if (this.state.mapTracking && position.hasLocation) {
       this.naviProps.lat = position.lat;
