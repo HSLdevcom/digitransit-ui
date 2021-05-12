@@ -46,10 +46,8 @@ class RoutePageMap extends React.Component {
       nextProps.match.params.tripId !== this.tripId ||
       nextProps.pattern.code !== this.code
     ) {
-      if (this.mwtRef?.disableMapTracking) {
-        // clear tracking so that map can focus on desired things
-        this.mwtRef.disableMapTracking();
-      }
+      // clear tracking so that map can focus on desired things
+      this.mwtRef?.disableMapTracking();
     }
   }
 
@@ -104,9 +102,7 @@ class RoutePageMap extends React.Component {
       }
       if (this.tripId) {
         // changed back to route view, force update
-        if (this.mwtRef?.forceRefresh) {
-          this.mwtRef.forceRefresh();
-        }
+        this.mwtRef?.forceRefresh();
         this.tripId = undefined;
       }
       mwtProps.bounds = this.bounds;
