@@ -23,6 +23,8 @@ import withBreakpoint from '../util/withBreakpoint';
 import hashCode from '../util/hashUtil';
 import RouteScheduleDropdown from './RouteScheduleDropdown';
 import RoutePageControlPanel from './RoutePageControlPanel';
+import { PREFIX_ROUTES, PREFIX_TIMETABLE } from '../util/path';
+import { isBrowser } from '../util/browser';
 
 const DATE_FORMAT2 = 'D.M.YYYY';
 
@@ -70,7 +72,7 @@ class RouteScheduleContainer extends Component {
 
   state = {
     from: 0,
-    to: this.props.pattern.stops.length - 1,
+    to: this.props.pattern?.stops.length - 1 || undefined,
     serviceDay: this.props.serviceDay,
     hasLoaded: false,
   };
@@ -440,6 +442,20 @@ class RouteScheduleContainer extends Component {
   render() {
     const { query } = this.props.match.location;
     const { intl } = this.context;
+
+    if (!this.props.pattern) {
+      if (isBrowser) {
+        if (this.props.match.params.routeId) {
+          // Redirect back to routes default pattern
+          // eslint-disable-next-line react/prop-types
+          this.props.router.replace(
+            `/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_TIMETABLE}`,
+          );
+        }
+        return false;
+      }
+      return false;
+    }
 
     const wantedDay =
       query &&
