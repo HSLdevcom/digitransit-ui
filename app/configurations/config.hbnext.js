@@ -344,6 +344,11 @@ export default configMerger(walttiConfig, {
     },
 
     transportModes: {
+
+        nearYouTitle: {
+            de: 'Fahrpläne und Routen',
+        },
+
         bus: {
             availableForSelection: true,
             defaultValue: true,
