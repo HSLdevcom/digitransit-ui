@@ -15,7 +15,6 @@ import MobileView from './MobileView';
 import withBreakpoint, { DesktopOrMobile } from '../util/withBreakpoint';
 import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
 import { isKeyboardSelectionEvent } from '../util/browser';
-import { MAPSTATES } from '../util/stopsNearYouUtils';
 import Loading from './Loading';
 import {
   checkPositioningPermission,
@@ -48,9 +47,10 @@ const PH_SEARCH_GEOLOCATION = 'search+geolocation';
 const PH_GEOLOCATIONING = 'geolocationing';
 const PH_USEDEFAULTPOS = 'usedefaultpos';
 const PH_USEGEOLOCATION = 'usegeolocation';
+const PH_USEMAPCENTER = 'usemapcenter';
 
 const PH_SHOWSEARCH = [PH_SEARCH, PH_SEARCH_GEOLOCATION]; // show modal
-const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION]; // render the actual page
+const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION, PH_USEMAPCENTER]; // render the actual page
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 
@@ -83,7 +83,6 @@ class StopsNearYouPage extends React.Component {
       phase: PH_START,
       centerOfMap: null,
       centerOfMapChanged: false,
-      mapState: MAPSTATES.FITBOUNDSTOSTARTLOCATION,
       favouriteStopIds: props.favouriteStopIds,
       favouriteStationIds: props.favouriteStationIds,
       favouriteBikeStationIds: props.favouriteBikeStationIds,
@@ -205,13 +204,11 @@ class StopsNearYouPage extends React.Component {
         return this.setState({
           centerOfMap: this.props.position,
           centerOfMapChanged: true,
-          mapState: MAPSTATES.FITBOUNDSTOCENTER,
         });
       }
       return this.setState({
         centerOfMap: this.props.position,
         centerOfMapChanged: false,
-        mapState: MAPSTATES.FITBOUNDSTOCENTER,
       });
     }
     if (this.props.breakpoint === 'large') {
@@ -234,13 +231,11 @@ class StopsNearYouPage extends React.Component {
       return this.setState({
         centerOfMap: location,
         centerOfMapChanged: true,
-        mapState: MAPSTATES.HUMANSCROLL,
       });
     }
     return this.setState({
       centerOfMap: location,
       centerOfMapChanged: false,
-      mapState: MAPSTATES.HUMANSCROLL,
     });
   };
 
@@ -264,10 +259,10 @@ class StopsNearYouPage extends React.Component {
     const { centerOfMap } = this.state;
     const { mode } = this.props.match.params;
     if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
-      let mapState = MAPSTATES.FITBOUNDSTOSEARCHPOSITION;
+      let phase = PH_USEMAPCENTER;
       let type = 'CenterOfMap';
       if (centerOfMap.type === 'CurrentLocation') {
-        mapState = MAPSTATES.FITBOUNDSTOSTARTLOCATION;
+        phase = PH_USEGEOLOCATION;
         type = centerOfMap.type;
         const path = `/${PREFIX_NEARYOU}/${mode}/POS`;
         this.context.router.replace({
@@ -286,7 +281,7 @@ class StopsNearYouPage extends React.Component {
       return this.setState({
         searchPosition: { ...centerOfMap, type },
         centerOfMapChanged: false,
-        mapState,
+        phase,
       });
     }
     return this.setState({ searchPosition: this.getPosition() });
@@ -613,7 +608,8 @@ class StopsNearYouPage extends React.Component {
                   onEndNavigation={this.setCenterOfMap}
                   onMapTracking={this.setCenterOfMap}
                   showWalkRoute={
-                    this.state.mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION
+                    this.state.phase === PH_USEGEOLOCATION ||
+                    this.state.phase === PH_USEDEFAULTPOS
                   }
                   stops={props.stops}
                   mapLayers={this.props.mapLayers}
@@ -681,7 +677,8 @@ class StopsNearYouPage extends React.Component {
                 match={this.props.match}
                 mapLayers={filteredMapLayers}
                 showWalkRoute={
-                  this.state.mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION
+                  this.state.phase === PH_USEGEOLOCATION ||
+                  this.state.phase === PH_USEDEFAULTPOS
                 }
                 onEndNavigation={this.setCenterOfMap}
                 onMapTracking={this.setCenterOfMap}
@@ -716,7 +713,6 @@ class StopsNearYouPage extends React.Component {
       searchPosition: item,
       centerOfMap: null,
       centerOfMapChanged: false,
-      mapState: MAPSTATES.FITBOUNDSTOSTARTLOCATION,
     });
   };
 
