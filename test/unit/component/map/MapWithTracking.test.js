@@ -8,35 +8,16 @@ import { Component as MapWithTracking } from '../../../../app/component/map/MapW
 const defaultProps = {
   getGeoJsonConfig: () => {},
   getGeoJsonData: () => {},
-  origin: {},
-  destination: {},
   position: {
     hasLocation: false,
     isLocationingInProgress: false,
     lat: 60,
     lon: 25,
   },
-  defaultMapCenter: {
-    lat: 60,
-    lon: 25,
-  },
-  config: {
-    defaultEndpoint: {},
-    realTime: {},
-    feedIds: [],
-    stopsMinZoom: 0,
-    showAllBusses: false,
-    map: {
-      // DT-3470
-      showZoomControl: true,
-    },
-  },
-  mapLayers: {
-    geoJson: {},
-    stop: {},
-    terminal: {},
-    showAllBusses: false,
-  },
+  lat: 60,
+  lon: 25,
+  zoom: 12,
+  mapLayers: { stop: {}, terminal: {} },
 };
 
 const defaultContext = {
@@ -49,11 +30,13 @@ const defaultContext = {
         active: false,
       },
     },
-    showAllBusses: false,
+    vehicles: false,
+    feedIds: [],
     map: {
       // DT-3470
       showZoomControl: true,
     },
+    stopsMinZoom: 12,
   },
   executeAction: sinon.stub(),
 };
@@ -64,47 +47,5 @@ describe('<MapWithTracking />', () => {
       context: { ...defaultContext },
     });
     expect(wrapper.isEmptyRender()).to.equal(false);
-  });
-
-  it('should update the current bounds', () => {
-    const bounds = [1, 2];
-
-    const wrapper = shallowWithIntl(<MapWithTracking {...defaultProps} />, {
-      context: { ...defaultContext },
-    });
-    const instance = wrapper.instance();
-    instance.mapElement = {
-      leafletElement: {
-        getBounds: () => bounds,
-      },
-    };
-    instance.updateCurrentBounds();
-
-    expect(wrapper.state().bounds).to.equal(bounds);
-  });
-
-  it('should not update the current bounds if they are equal', () => {
-    const initialBounds = {
-      value: 'foobar',
-      equals: () => true,
-    };
-    const newBounds = {
-      value: 'foobar',
-    };
-
-    const wrapper = shallowWithIntl(<MapWithTracking {...defaultProps} />, {
-      context: { ...defaultContext },
-    });
-    wrapper.setState({ bounds: initialBounds });
-
-    const instance = wrapper.instance();
-    instance.mapElement = {
-      leafletElement: {
-        getBounds: () => newBounds,
-      },
-    };
-    instance.updateCurrentBounds();
-
-    expect(wrapper.state().bounds).to.equal(initialBounds);
   });
 });

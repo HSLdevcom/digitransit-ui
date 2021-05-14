@@ -11,12 +11,12 @@ describe('<ItineraryTab />', () => {
   it('should render the container div', () => {
     const props = {
       itinerary: dt2831,
-      focus: () => {},
+      focusToPoint: () => {},
+      focusToLeg: () => {},
       showCanceledLegsBanner: false,
       plan: {
         date: 19700101,
       },
-      setMapZoomToLeg: () => {},
       isMobile: false,
     };
     const wrapper = shallowWithIntl(<ItineraryTab {...props} />, {

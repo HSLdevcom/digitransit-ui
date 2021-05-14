@@ -117,6 +117,7 @@ class MessageBar extends Component {
     messages: PropTypes.array.isRequired,
     relayEnvironment: PropTypes.object,
     duplicateMessageCounter: PropTypes.number.isRequired,
+    breakpoint: PropTypes.string,
   };
 
   static defaultProps = {
@@ -125,10 +126,15 @@ class MessageBar extends Component {
 
   state = {
     slideIndex: 0,
+    allAlertsOpen: false,
   };
 
   onSwipe = e => {
     this.setState({ slideIndex: e });
+  };
+
+  openAllAlerts = () => {
+    this.setState({ allAlertsOpen: true });
   };
 
   componentDidMount = async () => {
@@ -169,13 +175,18 @@ class MessageBar extends Component {
     );
   };
 
-  getTabContent = textColor =>
-    this.validMessages().map(el => (
-      <div key={el.id}>
+  getTabContent = (textColor, slideIndex) =>
+    this.validMessages().map((el, index) => (
+      <div
+        key={el.id}
+        className={`swipeable-tab ${slideIndex !== index && 'inactive'}`}
+      >
         <MessageBarMessage
           key={el.id}
           content={el.content[this.props.lang] || el.content.fi}
           textColor={textColor}
+          truncate={!this.state.allAlertsOpen}
+          onShowMore={this.openAllAlerts}
         />
       </div>
     ));
@@ -270,15 +281,21 @@ class MessageBar extends Component {
                       background: isDisruption ? 'inherit' : backgroundColor,
                     }}
                   >
-                    <SwipeableTabs
-                      tabIndex={index}
-                      tabs={this.getTabContent(textColor)}
-                      onSwipe={this.onSwipe}
-                      hideArrows
-                      navigationOnBottom
-                      ariaFrom="swipe-message-bar"
-                      ariaFromHeader="swipe-message-bar-header"
-                    />
+                    {this.validMessages().length > 1 ? (
+                      <SwipeableTabs
+                        tabIndex={index}
+                        tabs={this.getTabContent(textColor, slideIndex)}
+                        onSwipe={this.onSwipe}
+                        hideArrows={this.props.breakpoint !== 'large'}
+                        navigationOnBottom
+                        ariaFrom="swipe-message-bar"
+                        ariaFromHeader="swipe-message-bar-header"
+                      />
+                    ) : (
+                      <div className="single-alert">
+                        {this.getTabContent(textColor, slideIndex)}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

@@ -22,6 +22,7 @@ describe('<TileLayerContainer />', () => {
     const props = {
       tileSize: 512,
       zoomOffset: -1,
+      mapLayers: { stop: {}, terminal: {} },
     };
     const wrapper = mountWithIntl(
       <LeafletProvider

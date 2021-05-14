@@ -28,14 +28,8 @@ export const isLayerEnabled = (layerName, mapLayers) => {
  * @param {*} feature The feature received from OTP / another source.
  * @param {*} layerName The name of the layer.
  * @param {*} mapLayers The map layer configuration.
- * @param {*} config The configuration for this software installation.
  */
-export const isFeatureLayerEnabled = (
-  feature,
-  layerName,
-  mapLayers,
-  config = undefined,
-) => {
+export const isFeatureLayerEnabled = (feature, layerName, mapLayers) => {
   if (!feature || !layerName || !mapLayers) {
     return false;
   }
@@ -45,7 +39,7 @@ export const isFeatureLayerEnabled = (
   const featureType = (feature.properties.type || '').toLocaleLowerCase();
   if (featureType) {
     if (layerName === 'stop' && feature.properties.stops) {
-      return isFeatureLayerEnabled(feature, 'terminal', mapLayers, config);
+      return isFeatureLayerEnabled(feature, 'terminal', mapLayers);
     }
     return Boolean(mapLayers[layerName][featureType]);
   }

@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import getContext from 'recompose/getContext';
-import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
 import GeoJsonStore from '../../store/GeoJsonStore';
 import { isBrowser } from '../../util/browser';
 
@@ -13,7 +12,6 @@ import { isBrowser } from '../../util/browser';
  */
 function withGeojsonObjects(Component) {
   function GeojsonWrapper({
-    mapLayers,
     getGeoJsonConfig,
     getGeoJsonData,
     leafletObjs,
@@ -54,14 +52,7 @@ function withGeojsonObjects(Component) {
       fetch();
     }, []);
     // adding geoJson to leafletObj moved to map
-    return (
-      <Component
-        leafletObjs={leafletObjs}
-        {...props}
-        geoJson={geoJson}
-        mapLayers={mapLayers}
-      />
-    );
+    return <Component leafletObjs={leafletObjs} {...props} geoJson={geoJson} />;
   }
   const configShape = PropTypes.shape({
     geoJson: PropTypes.shape({
@@ -71,7 +62,6 @@ function withGeojsonObjects(Component) {
   });
 
   GeojsonWrapper.propTypes = {
-    mapLayers: mapLayerShape.isRequired,
     getGeoJsonConfig: PropTypes.func.isRequired,
     getGeoJsonData: PropTypes.func.isRequired,
     leafletObjs: PropTypes.array,
@@ -89,11 +79,10 @@ function withGeojsonObjects(Component) {
 
   const WithStores = connectToStores(
     WithContext,
-    [MapLayerStore, GeoJsonStore],
+    [GeoJsonStore],
     ({ getStore }) => {
-      const mapLayers = getStore(MapLayerStore).getMapLayers();
       const { getGeoJsonConfig, getGeoJsonData } = getStore(GeoJsonStore);
-      return { mapLayers, getGeoJsonConfig, getGeoJsonData };
+      return { getGeoJsonConfig, getGeoJsonData };
     },
   );
   return WithStores;

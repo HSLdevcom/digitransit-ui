@@ -15,7 +15,6 @@ import MobileView from './MobileView';
 import withBreakpoint, { DesktopOrMobile } from '../util/withBreakpoint';
 import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
 import { isKeyboardSelectionEvent } from '../util/browser';
-import { MAPSTATES } from '../util/stopsNearYouUtils';
 import Loading from './Loading';
 import {
   checkPositioningPermission,
@@ -35,6 +34,7 @@ import SwipeableTabs from './SwipeableTabs';
 import StopsNearYouFavorites from './StopsNearYouFavorites';
 import StopsNearYouMapContainer from './StopsNearYouMapContainer';
 import StopsNearYouFavoritesMapContainer from './StopsNearYouFavoritesMapContainer';
+import { mapLayerShape } from '../store/MapLayerStore';
 import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkId,
@@ -47,9 +47,10 @@ const PH_SEARCH_GEOLOCATION = 'search+geolocation';
 const PH_GEOLOCATIONING = 'geolocationing';
 const PH_USEDEFAULTPOS = 'usedefaultpos';
 const PH_USEGEOLOCATION = 'usegeolocation';
+const PH_USEMAPCENTER = 'usemapcenter';
 
 const PH_SHOWSEARCH = [PH_SEARCH, PH_SEARCH_GEOLOCATION]; // show modal
-const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION]; // render the actual page
+const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION, PH_USEMAPCENTER]; // render the actual page
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 
@@ -73,6 +74,7 @@ class StopsNearYouPage extends React.Component {
     favouriteStopIds: PropTypes.array.isRequired,
     favouriteStationIds: PropTypes.array.isRequired,
     favouriteBikeStationIds: PropTypes.array.isRequired,
+    mapLayers: mapLayerShape.isRequired,
   };
 
   constructor(props) {
@@ -81,11 +83,11 @@ class StopsNearYouPage extends React.Component {
       phase: PH_START,
       centerOfMap: null,
       centerOfMapChanged: false,
-      mapState: MAPSTATES.FITBOUNDSTOSTARTLOCATION,
       favouriteStopIds: props.favouriteStopIds,
       favouriteStationIds: props.favouriteStationIds,
       favouriteBikeStationIds: props.favouriteBikeStationIds,
       showCityBikeTeaser: true,
+      searchPosition: {},
     };
   }
 
@@ -202,13 +204,11 @@ class StopsNearYouPage extends React.Component {
         return this.setState({
           centerOfMap: this.props.position,
           centerOfMapChanged: true,
-          mapState: MAPSTATES.FITBOUNDSTOCENTER,
         });
       }
       return this.setState({
         centerOfMap: this.props.position,
         centerOfMapChanged: false,
-        mapState: MAPSTATES.FITBOUNDSTOCENTER,
       });
     }
     if (this.props.breakpoint === 'large') {
@@ -231,19 +231,17 @@ class StopsNearYouPage extends React.Component {
       return this.setState({
         centerOfMap: location,
         centerOfMapChanged: true,
-        mapState: MAPSTATES.HUMANSCROLL,
       });
     }
     return this.setState({
       centerOfMap: location,
       centerOfMapChanged: false,
-      mapState: MAPSTATES.HUMANSCROLL,
     });
   };
 
   positionChanged = () => {
     const { searchPosition, centerOfMap } = this.state;
-    if (!searchPosition) {
+    if (!searchPosition.lat) {
       return false;
     }
     if (
@@ -257,31 +255,14 @@ class StopsNearYouPage extends React.Component {
     return distance(searchPosition, position) > 100;
   };
 
-  centerOfMapChanged = () => {
-    const position = this.getPosition();
-    const { centerOfMap, searchPosition } = this.state;
-    if (
-      centerOfMap &&
-      searchPosition &&
-      searchPosition.lat === centerOfMap.lat &&
-      searchPosition.lon === centerOfMap.lon
-    ) {
-      return false;
-    }
-    if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
-      return distance(centerOfMap, position) > 100;
-    }
-    return false;
-  };
-
   updateLocation = () => {
     const { centerOfMap } = this.state;
     const { mode } = this.props.match.params;
     if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
-      let mapState = MAPSTATES.FITBOUNDSTOSEARCHPOSITION;
+      let phase = PH_USEMAPCENTER;
       let type = 'CenterOfMap';
       if (centerOfMap.type === 'CurrentLocation') {
-        mapState = MAPSTATES.FITBOUNDSTOSTARTLOCATION;
+        phase = PH_USEGEOLOCATION;
         type = centerOfMap.type;
         const path = `/${PREFIX_NEARYOU}/${mode}/POS`;
         this.context.router.replace({
@@ -300,7 +281,7 @@ class StopsNearYouPage extends React.Component {
       return this.setState({
         searchPosition: { ...centerOfMap, type },
         centerOfMapChanged: false,
-        mapState,
+        phase,
       });
     }
     return this.setState({ searchPosition: this.getPosition() });
@@ -623,11 +604,15 @@ class StopsNearYouPage extends React.Component {
               return (
                 <StopsNearYouFavoritesMapContainer
                   position={this.state.searchPosition}
-                  centerOfMap={this.state.centerOfMap}
                   match={this.props.match}
-                  setCenterOfMap={this.setCenterOfMap}
-                  mapState={this.state.mapState}
+                  onEndNavigation={this.setCenterOfMap}
+                  onMapTracking={this.setCenterOfMap}
+                  showWalkRoute={
+                    this.state.phase === PH_USEGEOLOCATION ||
+                    this.state.phase === PH_USEDEFAULTPOS
+                  }
                   stops={props.stops}
+                  mapLayers={this.props.mapLayers}
                   stations={props.stations}
                   bikeStations={props.bikeStations}
                   favouriteIds={[
@@ -635,6 +620,7 @@ class StopsNearYouPage extends React.Component {
                     ...this.state.favouriteStationIds,
                     ...this.state.favouriteBikeStationIds,
                   ]}
+                  breakpoint={this.props.breakpoint}
                 />
               );
             }
@@ -643,6 +629,15 @@ class StopsNearYouPage extends React.Component {
         />
       );
     }
+    const filteredMapLayers = {
+      ...this.props.mapLayers,
+      citybike: mode === 'CITYBIKE',
+      stop: {},
+    };
+    if (mode !== 'CITYBIKE') {
+      filteredMapLayers.stop[mode.toLowerCase()] = true;
+    }
+
     return (
       <QueryRenderer
         query={graphql`
@@ -678,11 +673,16 @@ class StopsNearYouPage extends React.Component {
             return (
               <StopsNearYouMapContainer
                 position={this.state.searchPosition}
-                centerOfMap={this.state.centerOfMap}
                 stopsNearYou={props.stops}
                 match={this.props.match}
-                mapState={this.state.mapState}
-                setCenterOfMap={this.setCenterOfMap}
+                mapLayers={filteredMapLayers}
+                showWalkRoute={
+                  this.state.phase === PH_USEGEOLOCATION ||
+                  this.state.phase === PH_USEDEFAULTPOS
+                }
+                onEndNavigation={this.setCenterOfMap}
+                onMapTracking={this.setCenterOfMap}
+                breakpoint={this.props.breakpoint}
               />
             );
           }
@@ -713,7 +713,6 @@ class StopsNearYouPage extends React.Component {
       searchPosition: item,
       centerOfMap: null,
       centerOfMapChanged: false,
-      mapState: MAPSTATES.FITBOUNDSTOSTARTLOCATION,
     });
   };
 
@@ -879,7 +878,7 @@ const StopsNearYouPageWithBreakpoint = withBreakpoint(props => (
 
 const PositioningWrapper = connectToStores(
   StopsNearYouPageWithBreakpoint,
-  ['PositionStore', 'PreferencesStore', 'FavouriteStore'],
+  ['PositionStore', 'PreferencesStore', 'FavouriteStore', 'MapLayerStore'],
   (context, props) => {
     const favouriteStopIds = context
       .getStore('FavouriteStore')
@@ -902,6 +901,9 @@ const PositioningWrapper = connectToStores(
       ...props,
       position: context.getStore('PositionStore').getLocationState(),
       lang: context.getStore('PreferencesStore').getLanguage(),
+      mapLayers: context
+        .getStore('MapLayerStore')
+        .getMapLayers({ notThese: ['vehicles'] }),
       favouriteStopIds,
       favouriteBikeStationIds,
       favouriteStationIds,

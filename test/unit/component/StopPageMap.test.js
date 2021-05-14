@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import { Component as StopPageMap } from '../../../app/component/StopPageMap';
+import { Component as StopPageMap } from '../../../app/component/map/StopPageMap';
 
 describe('<StopPageMap />', () => {
   it('should render empty if stop information is missing', () => {
