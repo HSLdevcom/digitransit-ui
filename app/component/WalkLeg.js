@@ -24,7 +24,7 @@ import { splitStringToAddressAndPlace } from '../util/otpStrings';
 import CityBikeLeg from './CityBikeLeg';
 
 function WalkLeg(
-  { children, focusAction, setMapZoomToLeg, index, leg, previousLeg },
+  { children, focusAction, focusToLeg, index, leg, previousLeg },
   { config, intl },
 ) {
   const distance = displayDistance(
@@ -232,10 +232,8 @@ function WalkLeg(
             />
             <div
               className="itinerary-map-action"
-              onClick={setMapZoomToLeg}
-              onKeyPress={e =>
-                isKeyboardSelectionEvent(e) && setMapZoomToLeg(e)
-              }
+              onClick={focusToLeg}
+              onKeyPress={e => isKeyboardSelectionEvent(e) && focusToLeg(e)}
               role="button"
               tabIndex="0"
               aria-label={intl.formatMessage({
@@ -307,7 +305,7 @@ WalkLeg.propTypes = {
   index: PropTypes.number.isRequired,
   leg: walkLegShape.isRequired,
   previousLeg: walkLegShape,
-  setMapZoomToLeg: PropTypes.func.isRequired,
+  focusToLeg: PropTypes.func.isRequired,
 };
 
 WalkLeg.defaultProps = {

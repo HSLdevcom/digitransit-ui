@@ -50,7 +50,7 @@ describe('<MapLayersDialogContent />', () => {
     };
     const context = {
       config: {
-        showAllBusses: true,
+        vehicles: true,
       },
     };
     const wrapper = mountWithIntl(
@@ -65,7 +65,7 @@ describe('<MapLayersDialogContent />', () => {
       .at(0)
       .simulate('change', { target: { checked: true } });
 
-    expect(mapLayers.showAllBusses).to.equal(true);
+    expect(mapLayers.vehicles).to.equal(true);
   });
 
   it('should update the bus stop layer', () => {

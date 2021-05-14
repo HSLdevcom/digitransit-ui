@@ -14,7 +14,7 @@ const modules = {
   SummaryPage: () => importLazy(import('./SummaryPage')),
 };
 
-const SummaryPageContainer = ({ content, map, match }, { config }) => {
+const SummaryPageContainer = ({ content, match }, { config }) => {
   const { environment } = useContext(ReactRelayContext);
   const [isClient, setClient] = useState(false);
 
@@ -34,7 +34,6 @@ const SummaryPageContainer = ({ content, map, match }, { config }) => {
               <SummaryPage
                 {...innerProps}
                 content={content}
-                map={map}
                 match={match}
                 error={error}
                 loading={false}
@@ -42,7 +41,6 @@ const SummaryPageContainer = ({ content, map, match }, { config }) => {
             ) : (
               <SummaryPage
                 content={content}
-                map={map}
                 match={match}
                 viewer={{ plan: {} }}
                 serviceTimeRange={validateServiceTimeRange()}
@@ -65,7 +63,6 @@ SummaryPageContainer.contextTypes = {
 
 SummaryPageContainer.propTypes = {
   content: PropTypes.node,
-  map: PropTypes.node,
   match: matchShape.isRequired,
 };
 

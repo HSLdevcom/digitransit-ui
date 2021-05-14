@@ -146,9 +146,9 @@ function ViaLeg(props, { config, intl }) {
             {getDescription(props.leg.mode, distance, duration)}
             <div
               className="itinerary-map-action"
-              onClick={props.setMapZoomToLeg}
+              onClick={props.focusToLeg}
               onKeyPress={e =>
-                isKeyboardSelectionEvent(e) && props.setMapZoomToLeg(e)
+                isKeyboardSelectionEvent(e) && props.focusToLeg(e)
               }
               role="button"
               tabIndex="0"
@@ -217,7 +217,7 @@ ViaLeg.propTypes = {
   }).isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
-  setMapZoomToLeg: PropTypes.func.isRequired,
+  focusToLeg: PropTypes.func.isRequired,
   children: PropTypes.node,
 };
 

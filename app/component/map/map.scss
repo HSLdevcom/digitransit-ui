@@ -43,28 +43,6 @@ div.map {
   overflow: auto;
 }
 
-.summary-map {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 100px;
-  position: relative;
-
-  .summary-map-buttons {
-    bottom: 36px;
-    display: flex;
-    left: 20px;
-    max-height: 36px;
-    position: absolute;
-    z-index: index($zindex, map-buttons);
-
-    & [role='button'] {
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
-      max-height: 36px;
-      max-width: 36px;
-    }
-  }
-}
 .mobile {
   .map {
     div.leaflet-control-scale.leaflet-control {
@@ -256,10 +234,6 @@ div.leaflet-marker-icon.vehicle-icon {
     width: 1.5em;
     height: 1.5em;
   }
-}
-
-.bp-large .map-with-tracking-buttons {
-  bottom: 32px;
 }
 
 .map-with-tracking-buttons {
@@ -840,13 +814,6 @@ div.leaflet-control-scale.leaflet-control {
   cursor: grab;
 }
 
-.bp-large .leaflet-control-scale.leaflet-control {
-  //front page desktop
-  right: calc(100px + 28vw);
-  bottom: 24px;
-  cursor: grab;
-}
-
 .map.full .leaflet-control-scale.leaflet-control {
   //stop & ininerary page mobile
   margin-right: 60px;
@@ -909,7 +876,7 @@ div.leaflet-control-scale-line {
   position: absolute;
   z-index: 3000;
   height: 50px;
-  width: calc(100% - 40px);
+  width: 60%;
   border-radius: 25px;
   bottom: 15%;
   background-color: var(--color);
