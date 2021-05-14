@@ -65,6 +65,51 @@ OriginToDestination.defaultProps = {
   language: 'fi',
 };
 
+function BubbleDialog({ title, content, closeDialog }) {
+  return (
+    <div className={styles['nearby-stops-bubble-dialog']}>
+      <div className={styles['nearby-stops-bubble-dialog-container']}>
+        <div>
+          <div className={styles['nearby-stops-bubble-dialog-header']}>
+            {title}
+          </div>
+          <div className={styles['nearby-stops-bubble-dialog-content']}>
+            {content}
+          </div>
+          <button
+            className={styles['nearby-stops-bubble-dialog-close']}
+            onClick={event => {
+              event.preventDefault();
+              closeDialog();
+            }}
+            onKeyDown={event => {
+              event.preventDefault();
+              const space = [13, ' ', 'Spacebar'];
+              const enter = [32, 'Enter'];
+              const key = event && event.key;
+              if (key && space.concat(enter).includes(key)) {
+                closeDialog();
+              }
+            }}
+            type="button"
+          >
+            <Icon img="close" />
+          </button>
+        </div>
+        <div className={styles['nearby-stops-bubble-dialog-tip-container']}>
+          <div className={styles['nearby-stops-bubble-dialog-tip']} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+BubbleDialog.propTypes = {
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  closeDialog: PropTypes.func.isRequired,
+};
+
 /**
  * Show button links to near you page for different travel modes
  *
@@ -111,6 +156,7 @@ function NearStopsAndRoutes({
   modeIconColors,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
+  const [bubbleDialogOpen, setDialogOpen] = useState(false);
   useEffect(() => {
     Object.keys(translations).forEach(lang => {
       i18next.addResourceBundle(lang, 'translation', translations[lang]);
@@ -122,6 +168,7 @@ function NearStopsAndRoutes({
           setModesWithAlerts(res);
         });
     }
+    setDialogOpen(true);
   }, []);
 
   let urlStart;
@@ -227,6 +274,13 @@ function NearStopsAndRoutes({
             : title[language]}
         </h2>
       )}
+      {bubbleDialogOpen && (
+        <BubbleDialog
+          title={i18next.t('nearby-stops-teaser-header', { lng: language })}
+          content={i18next.t('nearby-stops-teaser-content', { lng: language })}
+          closeDialog={() => setDialogOpen(false)}
+        />
+      )}
       <div
         className={
           !modes
@@ -300,6 +354,8 @@ class CtrlPanel extends React.Component {
   static OriginToDestination = OriginToDestination;
 
   static SeparatorLine = SeparatorLine;
+
+  static BubbleDialog = BubbleDialog;
 
   static propTypes = {
     children: PropTypes.node,

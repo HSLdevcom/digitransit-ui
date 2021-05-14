@@ -242,3 +242,52 @@
     }
   }
 }
+
+.nearby-stops-bubble-dialog-container {
+  position: absolute;
+  display: flex;
+  height: 80px;
+  width: 300px;
+  border-radius: 5px;
+  background: #FFEFE8;
+  z-index: 23;
+  top: 313px;
+  right: -60px;
+
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: -0.03em;
+
+  .nearby-stops-bubble-dialog-header {
+    padding: 12px 44px 3px 20px;
+  }
+
+  .nearby-stops-bubble-dialog-content {
+    padding: 0 57px 11px 20px;
+    font-weight: 400;
+  }
+
+  .nearby-stops-bubble-dialog-close {
+    display: flex;
+    position: absolute;
+    top: 16px;
+    right: 15px;
+    svg {
+      fill: #333;
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .nearby-stops-bubble-dialog-tip-container {
+    position: absolute;
+    height: 42px;
+    overflow: hidden;
+    width: 42px;
+    background-color: #FFEFE8;
+    transform: rotate(45deg);
+    z-index: -1;
+    left: 18px;
+    top: 38px;
+  }
+}
