@@ -24,7 +24,7 @@ const AppBar = (
   return (
     <>
       <DisruptionInfo />
-      <MessageBar />
+      <MessageBar breakpoint={breakpoint} />
       <CanceledLegsBar />
       <nav className={`top-bar ${breakpoint !== 'large' ? 'mobile' : ''}`}>
         <section className="title">
