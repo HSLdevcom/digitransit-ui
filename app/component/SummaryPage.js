@@ -1511,6 +1511,9 @@ class SummaryPage extends React.Component {
       filteredItineraries = combinedItineraries.filter(
         itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
       );
+      if (!filteredItineraries.length) {
+        filteredItineraries = combinedItineraries;
+      }
     } else {
       filteredItineraries = combinedItineraries;
     }
