@@ -18,7 +18,7 @@ const RouteInformation = props => (
     <span className="route-stop-address-row">{props.desc}</span>
     {props.code && <StopCode code={props.code} />}
     {props.isTerminal && (
-      <p className="card-code">
+      <p className="card-code terminal">
         <FormattedMessage id="station" />
       </p>
     )}

@@ -65,7 +65,7 @@
   }
   .stops-near-you-no-stops {
     width: 100%;
-    background-color: #E5F2FA;
+    background-color: #e5f2fa;
     font-weight: normal;
     font-size: 0.9375rem;
     line-height: 1.2;
@@ -218,6 +218,9 @@
         .card-code {
           font-weight: 400;
           margin: 0px;
+          &.terminal {
+            margin-right: 3px;
+          }
         }
         .platform-short {
           @include font-medium;
