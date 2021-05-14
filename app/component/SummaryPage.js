@@ -2146,6 +2146,7 @@ class SummaryPage extends React.Component {
           map={map}
           scrolled={this.state.scrolled}
           onScroll={this.handleScroll}
+          scrollable
         />
       );
     }
