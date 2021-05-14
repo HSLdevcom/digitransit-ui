@@ -280,6 +280,12 @@ jobs:
 
   docker-push:
     if: github.ref == 'refs/heads/next'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Publish to Dockerhub
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
           name: stadtnavi/digitransit-ui
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_AUTH}}
