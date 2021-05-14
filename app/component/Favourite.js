@@ -16,7 +16,7 @@ const Favourite = (
     favourite,
     isFetching = false,
     className,
-    allowLogin,
+    requireLoggedIn,
     isLoggedIn,
     language,
   },
@@ -89,7 +89,7 @@ const Favourite = (
   };
 
   const onClick = () => {
-    if (!allowLogin || isLoggedIn) {
+    if (!requireLoggedIn || isLoggedIn) {
       if (!disable) {
         handleDisable(true);
         if (favourite) {
@@ -109,7 +109,7 @@ const Favourite = (
       className={cx('cursor-pointer favourite-icon', className)}
       onClick={onClick}
       aria-label={
-        favourite && (!allowLogin || isLoggedIn)
+        favourite && (!requireLoggedIn || isLoggedIn)
           ? context.intl.formatMessage({
               id: 'remove-favourite',
               defautlMessage: 'Remove favourite selection',
@@ -122,10 +122,10 @@ const Favourite = (
     >
       <Icon
         className={cx('favourite', {
-          selected: favourite && (!allowLogin || isLoggedIn),
+          selected: favourite && (!requireLoggedIn || isLoggedIn),
         })}
         img={
-          favourite && (!allowLogin || isLoggedIn)
+          favourite && (!requireLoggedIn || isLoggedIn)
             ? 'icon-icon_star-with-circle'
             : 'icon-icon_star-unselected'
         }
@@ -146,7 +146,7 @@ Favourite.propTypes = {
   favourite: PropTypes.bool,
   isFetching: PropTypes.bool,
   className: PropTypes.string,
-  allowLogin: PropTypes.bool.isRequired,
+  requireLoggedIn: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool,
   language: PropTypes.string,
 };
