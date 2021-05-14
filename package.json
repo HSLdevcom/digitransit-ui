@@ -36,7 +36,7 @@
     "es-lint": "eslint .",
     "lint": "yarn run es-lint && yarn run stylelint",
     "stylelint": "stylelint sass/**/*.scss app/**/*.scss --syntax scss",
-    "build": "NODE_ENV=production yarn prebuild && node --max_old_space_size=4096 node_modules/.bin/webpack --progress --color --display-error-details",
+    "build": "NODE_ENV=production && yarn prebuild && node --max_old_space_size=4096 node_modules/.bin/webpack --progress --color --display-error-details",
     "build-workspaces": "yarn digitransit-build-components && yarn build-search-utils && yarn digitransit-store-build",
     "win-build": "set NODE_ENV=production&& webpack --progress --color",
     "start": "NODE_ENV=production node $NODE_OPTS server/server",
