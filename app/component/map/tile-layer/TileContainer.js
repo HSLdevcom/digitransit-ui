@@ -13,7 +13,7 @@ class TileContainer {
     done,
     props,
     config,
-    stopsNearYouMode,
+    mergeStops,
     relayEnvironment,
     hilightedStops,
     vehicles,
@@ -25,7 +25,7 @@ class TileContainer {
       config.terminalStopsMinZoom,
     );
     this.coords = coords;
-    this.stopsNearYouMode = stopsNearYouMode;
+    this.mergeStops = mergeStops;
     this.props = props;
     this.extent = 4096;
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
@@ -47,7 +47,12 @@ class TileContainer {
     this.layers = this.props.layers
       .filter(Layer => {
         const layerName = Layer.getName();
-        const isEnabled = isLayerEnabled(layerName, this.props.mapLayers);
+
+        // stops and terminals are drawn on same layer
+        const isEnabled =
+          isLayerEnabled(layerName, this.props.mapLayers) ||
+          (layerName === 'stop' &&
+            isLayerEnabled('terminal', this.props.mapLayers));
 
         if (
           layerName === 'stop' &&
@@ -60,18 +65,11 @@ class TileContainer {
           layerName === 'citybike' &&
           this.coords.z >= config.cityBike.cityBikeMinZoom
         ) {
-          if (!this.stopsNearYouMode) {
-            return isEnabled;
-          }
-          if (
-            this.stopsNearYouMode === 'CITYBIKE' ||
-            this.stopsNearYouMode === 'FAVORITE'
-          ) {
-            return true;
-          }
+          return isEnabled;
         }
         if (
           layerName === 'parkAndRide' &&
+          config.parkAndRide &&
           this.coords.z >= config.parkAndRide.parkAndRideMinZoom
         ) {
           return isEnabled;
@@ -108,8 +106,8 @@ class TileContainer {
             this,
             config,
             this.props.mapLayers,
-            stopsNearYouMode,
             relayEnvironment,
+            mergeStops,
           ),
       );
 

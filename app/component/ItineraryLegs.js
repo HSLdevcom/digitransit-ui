@@ -35,12 +35,12 @@ class ItineraryLegs extends React.Component {
   };
 
   static propTypes = {
-    focusMap: PropTypes.func,
+    focusToPoint: PropTypes.func,
     itinerary: PropTypes.object,
     fares: PropTypes.array,
     toggleCanceledLegsBanner: PropTypes.func.isRequired,
     waitThreshold: PropTypes.number.isRequired,
-    setMapZoomToLeg: PropTypes.func,
+    focusToLeg: PropTypes.func,
     toggleCarpoolDrawer: PropTypes.func,
   };
 
@@ -66,7 +66,7 @@ class ItineraryLegs extends React.Component {
 
   focus = position => e => {
     e.stopPropagation();
-    this.props.focusMap(position.lat, position.lon);
+    this.props.focusToPoint(position.lat, position.lon);
     addAnalyticsEvent({
       category: 'Itinerary',
       action: 'ZoomMapToStopLocation',
@@ -78,9 +78,9 @@ class ItineraryLegs extends React.Component {
     return leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
   };
 
-  setMapZoomToLeg = leg => e => {
+  focusToLeg = leg => e => {
     e.stopPropagation();
-    this.props.setMapZoomToLeg(leg);
+    this.props.focusToLeg(leg);
   };
 
   stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
@@ -134,7 +134,7 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             arrivalTime={startTime}
             focusAction={this.focus(leg.from)}
-            setMapZoomToLeg={this.setMapZoomToLeg(leg)}
+            focusToLeg={this.focusToLeg(leg)}
           />,
         );
       } else if (this.isLegOnFoot(leg)) {
@@ -144,7 +144,7 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             previousLeg={previousLeg}
             focusAction={this.focus(leg.from)}
-            setMapZoomToLeg={this.setMapZoomToLeg(leg)}
+            focusToLeg={this.focusToLeg(leg)}
           >
             {this.stopCode(leg.from.stop)}
           </WalkLeg>,
@@ -232,7 +232,7 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             focusAction={this.focus(leg.from)}
-            setMapZoomToLeg={this.setMapZoomToLeg(leg)}
+            focusToLeg={this.focusToLeg(leg)}
           />,
         );
       } else if (leg.mode === 'CAR') {
@@ -323,7 +323,7 @@ ItineraryLegs.description = () => (
     <p>Legs shown for the itinerary</p>
     <ComponentUsageExample description="Shows the legs of the itinerary">
       <ItineraryLegs
-        focusMap={() => {}}
+        focusToPoint={() => {}}
         itinerary={exampleData}
         toggleCanceledLegsBanner={() => {}}
         waitThreshold={180}
@@ -331,7 +331,7 @@ ItineraryLegs.description = () => (
     </ComponentUsageExample>
     <ComponentUsageExample description="Itinerary with a kick scooter leg">
       <ItineraryLegs
-        focusMap={() => {}}
+        focusToPoint={() => {}}
         itinerary={scooterData}
         toggleCanceledLegsBanner={() => {}}
         waitThreshold={180}

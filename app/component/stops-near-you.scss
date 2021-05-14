@@ -59,6 +59,31 @@
   flex-direction: column;
   padding: 0px 3.75em 10px 3.75em;
   min-height: calc(50vh - 60px);
+  .separator {
+    border-top: 1px solid #ddd;
+    padding-bottom: 22px;
+  }
+  .stops-near-you-no-stops {
+    width: 100%;
+    background-color: #E5F2FA;
+    font-weight: normal;
+    font-size: 0.9375rem;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    padding: 17px 17px 17px 0;
+    border-radius: 5px;
+    margin-top: 23px;
+    .icon-container {
+      min-width: 60px;
+      justify-content: center;
+      display: flex;
+      .icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
   .citybike-use-disclaimer {
     border-radius: 8px;
     border: solid 1px #dddddd;

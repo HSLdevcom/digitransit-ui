@@ -4,8 +4,8 @@ import cx from 'classnames';
 
 const isBadgeTextLong = badgeText => badgeText.length > 1 || badgeText > 9;
 
-const IconBadge = ({ badgeFill, badgeText }) => {
-  if (!badgeFill || !badgeText) {
+const IconBadge = ({ badgeFill, badgeText, textFill }) => {
+  if (!badgeFill || (!badgeText && badgeText !== 0)) {
     return null;
   }
   return (
@@ -24,6 +24,7 @@ const IconBadge = ({ badgeFill, badgeText }) => {
         dy="0.35em"
         x="20"
         y="20"
+        style={textFill ? { fill: textFill } : {}}
       >
         {badgeText}
       </text>
@@ -34,15 +35,17 @@ const IconBadge = ({ badgeFill, badgeText }) => {
 IconBadge.propTypes = {
   badgeFill: PropTypes.string,
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  textFill: PropTypes.string,
 };
 
 IconBadge.defaultProps = {
   badgeFill: undefined,
   badgeText: undefined,
+  textFill: '#fff',
 };
 
-IconBadge.asString = (badgeFill, badgeText) => {
-  if (!badgeFill || !badgeText) {
+IconBadge.asString = (badgeFill, badgeText, badgeTextFill) => {
+  if (!badgeFill || (!badgeText && badgeText !== 0)) {
     return '';
   }
   return `
@@ -50,7 +53,7 @@ IconBadge.asString = (badgeFill, badgeText) => {
     <circle class="badge-circle" cx="20" cy="20" fill="${badgeFill}" r="20"/>
     <text class="${cx('badge-text', {
       long: isBadgeTextLong(badgeText),
-    })}" dy="0.3em" x="20" y="20">${badgeText}</text>
+    })}" dy="0.3em" x="20" y="20" fill=${badgeTextFill}>${badgeText}</text>
   </svg>`;
 };
 
@@ -58,6 +61,7 @@ function Icon({
   backgroundShape,
   badgeFill,
   badgeText,
+  badgeTextFill,
   className,
   color,
   height,
@@ -92,7 +96,11 @@ function Icon({
           <image href={dataURI} x={0} y={0} width="100%" height="100%" />
         )}
       </svg>
-      <IconBadge badgeFill={badgeFill} badgeText={badgeText} />
+      <IconBadge
+        badgeFill={badgeFill}
+        badgeText={badgeText}
+        textFill={badgeTextFill}
+      />
     </span>
   );
 }
@@ -101,6 +109,7 @@ Icon.propTypes = {
   backgroundShape: PropTypes.oneOf(['circle']),
   badgeFill: PropTypes.string,
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  badgeTextFill: PropTypes.string,
   className: PropTypes.string,
   color: PropTypes.string,
   height: PropTypes.number,
@@ -117,6 +126,7 @@ Icon.defaultProps = {
   backgroundShape: undefined,
   badgeFill: undefined,
   badgeText: undefined,
+  badgeTextFill: undefined,
   className: undefined,
   color: undefined,
   height: undefined,
@@ -133,6 +143,7 @@ Icon.asString = ({
   id,
   badgeFill = undefined,
   badgeText = undefined,
+  badgeTextFill = undefined,
   backgroundShape = undefined,
   color,
 }) => `
@@ -150,7 +161,7 @@ Icon.asString = ({
       }
       <use xmlns="http://www.w3.org/1999/xlink" href="#${img}"/>
     </svg>
-    ${IconBadge.asString(badgeFill, badgeText)}
+    ${IconBadge.asString(badgeFill, badgeText, badgeTextFill)}
   </span>
 `;
 

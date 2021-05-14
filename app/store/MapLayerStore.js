@@ -5,7 +5,7 @@ import { setMapLayerSettings, getMapLayerSettings } from './localStorage';
 class MapLayerStore extends Store {
   static defaultLayers = {
     dynamicParkingLots: true,
-    parkAndRide: true,
+    parkAndRide: false,
     stop: {
       bus: true,
       ferry: true,
@@ -19,7 +19,7 @@ class MapLayerStore extends Store {
       rail: true,
       subway: true,
     },
-    showAllBusses: false,
+    vehicles: false,
     geoJson: {},
   };
 
@@ -46,7 +46,23 @@ class MapLayerStore extends Store {
     }
   }
 
-  getMapLayers = () => ({ ...this.mapLayers });
+  getMapLayers = skip => {
+    if (!skip || !skip.notThese) {
+      return this.mapLayers;
+    }
+    const layers = { ...this.mapLayers };
+    skip.notThese.forEach(key => {
+      if (typeof layers[key] === 'object') {
+        layers[key] = {};
+        Object.keys(this.mapLayers[key]).forEach(subKey => {
+          layers[key][subKey] = false;
+        });
+      } else {
+        layers[key] = false;
+      }
+    });
+    return layers;
+  };
 
   updateMapLayers = mapLayers => {
     this.mapLayers = {
@@ -74,7 +90,7 @@ export const mapLayerShape = PropTypes.shape({
     rail: PropTypes.bool,
     subway: PropTypes.bool,
   }).isRequired,
-  showAllBusses: PropTypes.bool,
+  vehicles: PropTypes.bool,
   geoJson: PropTypes.object,
 });
 

@@ -8,7 +8,6 @@ import compact from 'lodash/compact';
 import indexOf from 'lodash/indexOf';
 import isEqual from 'lodash/isEqual';
 import polyline from 'polyline-encoded';
-import withBreakpoint from '../../util/withBreakpoint';
 import BackButton from '../BackButton';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import Line from './Line';
@@ -23,9 +22,9 @@ import {
   sortNearbyStops,
 } from '../../util/sortUtils';
 import ItineraryLine from './ItineraryLine';
+import { dtLocationShape } from '../../util/shapes';
 import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
-import { MAPSTATES } from '../../util/stopsNearYouUtils';
 
 const locationMarkerModules = {
   LocationMarker: () =>
@@ -80,39 +79,34 @@ const stopClient = context => {
 };
 
 const handleBounds = (location, edges, breakpoint) => {
-  if (Array.isArray(edges)) {
-    if (edges.length === 0) {
-      // No stops anywhere near
-      return [
-        [location.lat, location.lon],
-        [location.lat, location.lon],
-      ];
-    }
-
-    const nearestStop = edges[0].node.place;
-
-    const bounds =
-      breakpoint !== 'large'
-        ? [
-            [
-              nearestStop.lat + (nearestStop.lat - location.lat) * 0.5,
-              nearestStop.lon + (nearestStop.lon - location.lon) * 0.5,
-            ],
-            [
-              location.lat + (location.lat - nearestStop.lat) * 0.5,
-              location.lon + (location.lon - nearestStop.lon) * 0.5,
-            ],
-          ]
-        : [
-            [nearestStop.lat, nearestStop.lon],
-            [
-              location.lat + location.lat - nearestStop.lat,
-              location.lon + location.lon - nearestStop.lon,
-            ],
-          ];
-    return bounds;
+  if (edges.length === 0) {
+    // No stops anywhere near
+    return [
+      [location.lat, location.lon],
+      [location.lat, location.lon],
+    ];
   }
-  return [];
+  const nearestStop = edges[0].node.place;
+  const bounds =
+    breakpoint !== 'large'
+      ? [
+          [
+            nearestStop.lat + (nearestStop.lat - location.lat) * 0.5,
+            nearestStop.lon + (nearestStop.lon - location.lon) * 0.5,
+          ],
+          [
+            location.lat + (location.lat - nearestStop.lat) * 0.5,
+            location.lon + (location.lon - nearestStop.lon) * 0.5,
+          ],
+        ]
+      : [
+          [nearestStop.lat, nearestStop.lon],
+          [
+            location.lat + location.lat - nearestStop.lat,
+            location.lon + location.lon - nearestStop.lon,
+          ],
+        ];
+  return bounds;
 };
 
 const getLocationMarker = location => {
@@ -135,10 +129,10 @@ function StopsNearYouMap(
     favouriteIds,
     relay,
     position,
-    centerOfMap,
-    setCenterOfMap,
-    defaultMapCenter,
-    mapState,
+    onEndNavigation,
+    onMapTracking,
+    mapLayers,
+    showWalkRoute,
   },
   { ...context },
 ) {
@@ -146,7 +140,6 @@ function StopsNearYouMap(
   const [uniqueRealtimeTopics, setUniqueRealtimeTopics] = useState([]);
   const [routes, setRouteLines] = useState([]);
   const [bounds, setBounds] = useState([]);
-  const [useFitBounds, setUseFitBounds] = useState(false);
   const [clientOn, setClientOn] = useState(false);
   const [firstPlan, setFirstPlan] = useState({
     itinerary: [],
@@ -201,8 +194,9 @@ function StopsNearYouMap(
       setFirstPlan({ itinerary: [], isFetching: false, stop });
     }
   };
+
   const handleWalkRoutes = stopsAndStations => {
-    if (mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION) {
+    if (showWalkRoute) {
       if (stopsAndStations.length > 0) {
         const firstStop = stopsAndStations[0];
         const shouldFetchWalkRoute = () => {
@@ -236,28 +230,11 @@ function StopsNearYouMap(
   };
 
   useEffect(() => {
-    let newBounds = [];
-    if (sortedStopEdges.length > 0) {
-      if (mapState === MAPSTATES.FITBOUNDSTOCENTER) {
-        if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
-          newBounds = handleBounds(centerOfMap, sortedStopEdges, breakpoint);
-        }
-      } else if (
-        mapState === MAPSTATES.FITBOUNDSTOSEARCHPOSITION ||
-        mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION
-      ) {
-        if (position && position.lat && position.lon) {
-          newBounds = handleBounds(position, sortedStopEdges, breakpoint);
-        }
-      }
-      if (newBounds && newBounds.length > 0) {
-        setUseFitBounds(true);
-      }
+    const newBounds = handleBounds(position, sortedStopEdges, breakpoint);
+    if (newBounds.length > 0) {
       setBounds(newBounds);
-    } else {
-      setBounds(handleBounds(position, sortedStopEdges, breakpoint));
     }
-  }, [mapState, sortedStopEdges]);
+  }, [position, sortedStopEdges]);
 
   const setRoutes = sortedRoutes => {
     const routeLines = [];
@@ -402,79 +379,45 @@ function StopsNearYouMap(
     return [''];
   };
 
-  const useInitialMapTracking = () => {
-    if (position && position.type === 'CenterOfMap') {
-      return false;
-    }
-    return true;
-  };
-
   // Marker for the search point.
-  if (
-    position &&
-    position.type !== 'CurrentLocation' &&
-    mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION
-  ) {
+  if (position.type !== 'CurrentLocation' && showWalkRoute) {
     leafletObjs.push(getLocationMarker(position));
   }
 
-  const zoom = 16;
-  let map;
-  if (breakpoint === 'large') {
-    map = (
-      <MapWithTracking
-        breakpoint={breakpoint}
-        showStops
-        stopsToShow={Array.from(favouriteIds)}
-        stopsNearYouMode={mode}
-        showScaleBar
-        fitBounds={useFitBounds}
-        mapState={mapState}
-        defaultMapCenter={defaultMapCenter || context.config.defaultEndpoint}
-        disableParkAndRide
-        boundsOptions={{ maxZoom: zoom }}
-        bounds={bounds}
-        fitBoundsWithSetCenter
-        setInitialMapTracking={useInitialMapTracking()}
-        hilightedStops={hilightedStops()}
-        leafletObjs={leafletObjs}
-        setCenterOfMap={setCenterOfMap}
-      />
-    );
-  } else {
-    map = (
-      <>
-        <BackButton
-          icon="icon-icon_arrow-collapse--left"
-          iconClassName="arrow-icon"
-          color={context.config.colors.primary}
-          fallback="back"
-        />
-        <MapWithTracking
-          breakpoint={breakpoint}
-          showStops
-          stopsToShow={Array.from(favouriteIds)}
-          stopsNearYouMode={mode}
-          fitBounds={useFitBounds}
-          mapState={mapState}
-          defaultMapCenter={defaultMapCenter || context.config.defaultEndpoint}
-          boundsOptions={{ maxZoom: zoom }}
-          bounds={bounds}
-          showScaleBar
-          fitBoundsWithSetCenter
-          setInitialMapTracking={useInitialMapTracking()}
-          hilightedStops={hilightedStops()}
-          leafletObjs={leafletObjs}
-          setCenterOfMap={setCenterOfMap}
-        />
-      </>
-    );
-  }
+  const mapProps = {
+    stopsToShow: mode === 'FAVORITE' ? Array.from(favouriteIds) : undefined,
+    hilightedStops: hilightedStops(),
+    mergeStops: false,
+    mapLayers,
+    bounds,
+    leafletObjs,
+    breakpoint,
+    onEndNavigation,
+    onMapTracking,
+  };
 
-  return map;
+  if (breakpoint === 'large') {
+    return <MapWithTracking {...mapProps} />;
+  }
+  return (
+    <>
+      <BackButton
+        icon="icon-icon_arrow-collapse--left"
+        iconClassName="arrow-icon"
+        color={context.config.colors.primary}
+        fallback="back"
+      />
+      <MapWithTracking {...mapProps} />
+    </>
+  );
 }
 
 StopsNearYouMap.propTypes = {
+  currentTime: PropTypes.number.isRequired,
+  stopsNearYou: PropTypes.object.isRequired,
+  favouriteIds: PropTypes.object.isRequired,
+  mapLayers: PropTypes.object.isRequired,
+  position: dtLocationShape.isRequired,
   match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
@@ -482,12 +425,17 @@ StopsNearYouMap.propTypes = {
     refetchConnection: PropTypes.func,
     hasMore: PropTypes.func,
     loadMore: PropTypes.func,
+    environment: PropTypes.object,
   }).isRequired,
-  setCenterOfMap: PropTypes.func.isRequired,
-  defaultMapCenter: PropTypes.shape({
-    lat: PropTypes.number,
-    lon: PropTypes.number,
-  }),
+  onEndNavigation: PropTypes.func,
+  onMapTracking: PropTypes.func,
+  loading: PropTypes.bool,
+  showWalkRoute: PropTypes.bool,
+};
+
+StopsNearYouMap.defaultProps = {
+  showWalkRoute: false,
+  loading: false,
 };
 
 StopsNearYouMap.contextTypes = {
@@ -496,6 +444,4 @@ StopsNearYouMap.contextTypes = {
   getStore: PropTypes.func,
 };
 
-const StopsNearYouMapWithBreakpoint = withBreakpoint(StopsNearYouMap);
-
-export default StopsNearYouMapWithBreakpoint;
+export default StopsNearYouMap;

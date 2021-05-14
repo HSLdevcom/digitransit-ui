@@ -2,17 +2,24 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
 import React from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import {
+  BIKEAVL_UNKNOWN,
   getCityBikeNetworkConfig,
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
 } from '../util/citybikes';
+
+import withBreakpoint from '../util/withBreakpoint';
 import Icon from './Icon';
 import { PREFIX_BIKESTATIONS } from '../util/path';
-import { getCityBikeAvailabilityIndicatorColor } from '../util/legUtils';
+import {
+  getCityBikeAvailabilityIndicatorColor,
+  getCityBikeAvailabilityTextColor,
+} from '../util/legUtils';
 
 function CityBikeLeg(
-  { stationName, isScooter, bikeRentalStation, returnBike = false },
+  { stationName, isScooter, bikeRentalStation, returnBike = false, breakpoint },
   { config, intl },
 ) {
   if (!bikeRentalStation) {
@@ -41,18 +48,28 @@ function CityBikeLeg(
     bikeRentalStation.bikesAvailable,
     config,
   );
+  const availabilityTextColor = getCityBikeAvailabilityTextColor(
+    bikeRentalStation.bikesAvailable,
+    config,
+  );
+  const mobileReturn = breakpoint === 'small' && returnBike;
   return (
     <>
       <div className="itinerary-leg-row-bike">{legDescription}</div>
       <div className="itinerary-transit-leg-route-bike">
         <div className="citybike-itinerary">
-          <span className="citybike-icon">
+          <span className={cx('citybike-icon', { small: mobileReturn })}>
             <Icon
               img={citybikeicon}
-              width={2}
-              height={2}
-              badgeText={bikeRentalStation.bikesAvailable}
+              width={1.655}
+              height={1.655}
+              badgeText={
+                config.cityBike.capacity !== BIKEAVL_UNKNOWN
+                  ? bikeRentalStation.bikesAvailable
+                  : null
+              }
               badgeFill={availabilityIndicatorColor}
+              badgeTextFill={availabilityTextColor}
             />
           </span>
           <span className="headsign"> {stationName}</span>
@@ -85,10 +102,11 @@ CityBikeLeg.propTypes = {
   stationName: PropTypes.string,
   isScooter: PropTypes.bool,
   returnBike: PropTypes.bool,
+  breakpoint: PropTypes.string,
 };
 CityBikeLeg.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 };
-
-export default CityBikeLeg;
+const connectedComponent = withBreakpoint(CityBikeLeg);
+export { connectedComponent as default, CityBikeLeg as Component };

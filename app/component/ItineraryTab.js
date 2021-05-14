@@ -41,8 +41,8 @@ class ItineraryTab extends React.Component {
       date: PropTypes.number.isRequired,
     }).isRequired,
     itinerary: PropTypes.object.isRequired,
-    focus: PropTypes.func.isRequired,
-    setMapZoomToLeg: PropTypes.func.isRequired,
+    focusToPoint: PropTypes.func.isRequired,
+    focusToLeg: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
     hideTitle: PropTypes.bool,
     toggleCarpoolDrawer: PropTypes.func,
@@ -55,23 +55,8 @@ class ItineraryTab extends React.Component {
     intl: intlShape.isRequired,
   };
 
-  state = {
-    lat: undefined,
-    lon: undefined,
-  };
-
-  getState = () => ({
-    lat: this.state.lat || this.props.itinerary.legs[0].from.lat,
-    lon: this.state.lon || this.props.itinerary.legs[0].from.lon,
-  });
-
   handleFocus = (lat, lon) => {
-    this.props.focus(lat, lon);
-
-    return this.setState({
-      lat,
-      lon,
-    });
+    this.props.focusToPoint(lat, lon);
   };
 
   shouldShowDisclaimer = config => {
@@ -229,8 +214,8 @@ class ItineraryTab extends React.Component {
                 <ItineraryLegs
                   fares={fares}
                   itinerary={itinerary}
-                  focusMap={this.handleFocus}
-                  setMapZoomToLeg={this.props.setMapZoomToLeg}
+                  focusToPoint={this.handleFocus}
+                  focusToLeg={this.props.focusToLeg}
                   toggleCarpoolDrawer={this.props.toggleCarpoolDrawer}
                 />
                 {shouldShowFareInfo(config) && (
@@ -263,10 +248,10 @@ ItineraryTab.description = (
   <ComponentUsageExample description="with disruption">
     <div style={{ maxWidth: '528px' }}>
       <ItineraryTab
-        focus={() => {}}
+        focusToPoint={() => {}}
         itinerary={{ ...exampleData.itinerary }}
         plan={{ date: 1553845502000 }}
-        setMapZoomToLeg={() => {}}
+        focusToLeg={() => {}}
         isMobile={false}
       />
     </div>

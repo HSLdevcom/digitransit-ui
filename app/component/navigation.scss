@@ -690,6 +690,23 @@ section.content {
       overflow: hidden;
       padding: 10px 10px 0px 10px;
 
+      .single-alert {
+        margin-bottom: 15px;
+        .message-content {
+          .message-heading {
+            min-height: 11px;
+          }
+          button {
+            text-decoration: underline;
+            font-weight: $font-weight-bold;
+          }
+          .message-bar-link {
+            word-break: normal;
+            color: $primary-color;
+          }
+        }
+      }
+
       .react-swipe-container {
         height: auto;
         width: 100%;
@@ -707,6 +724,16 @@ section.content {
             color: $primary-color;
           }
         }
+      }
+
+      .swipe-header {
+        justify-content: center;
+      }
+      .swipe-tab-indicator {
+        flex-grow: 0;
+      }
+      .swipe-button .icon.disabled {
+       fill: #ccc;
       }
     }
 
@@ -737,7 +764,7 @@ section.content {
         color: white;
       }
       .message-bar-container {
-        .react-swipe-container {
+        .react-swipe-container, .single-alert {
           .message-content {
             .message-bar-link {
               color: $white;

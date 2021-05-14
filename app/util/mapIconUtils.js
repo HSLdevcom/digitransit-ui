@@ -652,7 +652,9 @@ export function drawCitybikeIcon(
     const iconX = x;
     const iconY = y;
     const showAvailabilityBadge =
-      showAvailability && bikesAvailable && state === BIKESTATION_ON;
+      showAvailability &&
+      (bikesAvailable || bikesAvailable === 0) &&
+      state === BIKESTATION_ON;
     let icon = `${iconName}_station_${color}_large`;
     if (state === BIKESTATION_CLOSED || state === BIKESTATION_OFF) {
       icon = `${iconName}_station_closed_large`;

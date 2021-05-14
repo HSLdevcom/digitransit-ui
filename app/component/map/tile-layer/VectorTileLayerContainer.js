@@ -9,45 +9,41 @@ import Stops from './Stops';
 import ParkAndRide from './ParkAndRide';
 import BikeParks from './BikeParks';
 import Roadworks from './Roadworks';
+import { mapLayerShape } from '../../../store/MapLayerStore';
 
 export default function VectorTileLayerContainer(props, { config }) {
   const [layers, setLayers] = useState([]);
 
   useEffect(() => {
     const layersToAdd = [];
-    if (props.showStops) {
-      layersToAdd.push(Stops);
-      if (config.cityBike && config.cityBike.showCityBikes) {
-        layersToAdd.push(CityBikes);
-      }
 
-      if (config.bikeParks && config.bikeParks.show) {
-        layersToAdd.push(BikeParks);
-      }
-      if (
-        config.parkAndRide &&
-        config.parkAndRide.showParkAndRide &&
-        !props.disableParkAndRide
-      ) {
-        layersToAdd.push(ParkAndRide);
-      }
-
-      if (
-        config.dynamicParkingLots &&
-        config.dynamicParkingLots.showDynamicParkingLots
-      ) {
-        layersToAdd.push(DynamicParkingLots);
-      }
-
-      if (config.weatherStations && config.weatherStations.show) {
-        layersToAdd.push(WeatherStations);
-      }
-
-      if (config.constructor && config.roadworks.showRoadworks) {
-        layersToAdd.push(Roadworks);
-      }
-      setLayers(layersToAdd);
+    layersToAdd.push(Stops);
+    if (props.mapLayers.citybike) {
+      layersToAdd.push(CityBikes);
     }
+
+    if (config.bikeParks && config.bikeParks.show) {
+      layersToAdd.push(BikeParks);
+    }
+    if (props.mapLayers.parkAndRide) {
+      layersToAdd.push(ParkAndRide);
+    }
+
+    if (
+      config.dynamicParkingLots &&
+      config.dynamicParkingLots.showDynamicParkingLots
+    ) {
+      layersToAdd.push(DynamicParkingLots);
+    }
+
+    if (config.weatherStations && config.weatherStations.show) {
+      layersToAdd.push(WeatherStations);
+    }
+
+    if (config.constructor && config.roadworks.showRoadworks) {
+      layersToAdd.push(Roadworks);
+    }
+    setLayers(layersToAdd);
   }, [props, config]);
 
   return (
@@ -55,7 +51,8 @@ export default function VectorTileLayerContainer(props, { config }) {
       key="tileLayer"
       pane="markerPane"
       layers={layers}
-      stopsNearYouMode={props.stopsNearYouMode}
+      mapLayers={props.mapLayers}
+      mergeStops={props.mergeStops}
       hilightedStops={props.hilightedStops}
       stopsToShow={props.stopsToShow}
       tileSize={config.map.tileSize || 256}
@@ -68,14 +65,13 @@ export default function VectorTileLayerContainer(props, { config }) {
 }
 
 VectorTileLayerContainer.propTypes = {
+  mapLayers: mapLayerShape.isRequired,
   hilightedStops: PropTypes.arrayOf(PropTypes.string),
   stopsToShow: PropTypes.arrayOf(PropTypes.string),
   disableMapTracking: PropTypes.func,
-  showStops: PropTypes.bool,
-  stopsNearYouMode: PropTypes.string,
+  mergeStops: PropTypes.bool,
   locationPopup: PropTypes.string,
   onSelectLocation: PropTypes.func,
-  disableParkAndRide: PropTypes.bool,
 };
 
 VectorTileLayerContainer.contextTypes = {

@@ -10,14 +10,13 @@ import isEqual from 'lodash/isEqual';
 import Popup from 'react-leaflet/es/Popup';
 import { withLeaflet } from 'react-leaflet/es/context';
 import { matchShape, routerShape } from 'found';
-
+import { mapLayerShape } from '../../../store/MapLayerStore';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopupContainer';
 import ParkAndRideFacilityPopup from '../popups/ParkAndRideFacilityPopupContainer';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
-import MapLayerStore, { mapLayerShape } from '../../../store/MapLayerStore';
 import RealTimeInformationStore from '../../../store/RealTimeInformationStore';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { getClientBreakpoint } from '../../../util/withBreakpoint';
@@ -48,7 +47,7 @@ class TileLayerContainer extends GridLayer {
     zoomOffset: PropTypes.number.isRequired,
     locationPopup: PropTypes.string, // all, none, reversegeocoding, origindestination
     onSelectLocation: PropTypes.func,
-    stopsNearYouMode: PropTypes.string,
+    mergeStops: PropTypes.bool,
     mapLayers: mapLayerShape.isRequired,
     leaflet: PropTypes.shape({
       map: PropTypes.shape({
@@ -166,7 +165,7 @@ class TileLayerContainer extends GridLayer {
       done,
       this.props,
       this.context.config,
-      this.props.stopsNearYouMode,
+      this.props.mergeStops,
       this.props.relayEnvironment,
       this.props.hilightedStops,
       this.props.vehicles,
@@ -457,9 +456,8 @@ const connectedComponent = withLeaflet(
         )}
       </ReactRelayContext.Consumer>
     ),
-    [MapLayerStore, RealTimeInformationStore],
+    [RealTimeInformationStore],
     context => ({
-      mapLayers: context.getStore(MapLayerStore).getMapLayers(),
       vehicles: context.getStore(RealTimeInformationStore).vehicles,
     }),
   ),

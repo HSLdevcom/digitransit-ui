@@ -929,8 +929,8 @@ $itinerary-tab-switch-height: 48px;
       .citybike-leg-header {
         font-size: 15px;
         font-weight: 400;
-       max-height: 33px;
-       }
+        max-height: 33px;
+      }
     }
     .itinerary-leg-first-row-return-bike {
       .itinerary-leg-row {
@@ -1039,35 +1039,44 @@ $itinerary-tab-switch-height: 48px;
         padding: 7px;
         height: 50px;
         .headsign {
-          font-weight: 800;
+          font-weight:  $font-weight-medium;
           position: absolute;
           font-size: 15px;
-          padding-left: 5px;
+          padding: 2px 0 0 6px;
         }
         span.itinerary-stop-code {
           margin-left: 5px;
+          padding: 0px 6px;
+          border-radius: 10%;
         }
         .citybike-station-text {
-          padding-left: 5px;
+          padding-left: 6px;
           font-size: 13px;
           font-weight: 400;
           color: #666666;
+          bottom: 76px;
+          position: absolute;
         }
         .citybike-icon {
+          &.small {
+            .icon-badge {
+              top: 35px;
+              left: 25px;
+            }
+          }
           padding-right: 2px;
           .icon-badge {
-            display: inline-block;
-            height: 1.25em;
-            width: 1.25em;
-            top: 38px;
-            left: 30px;
+            height: 1.34em;
+            width: 1.34em;
+            top: 34px;
+            left: 26px;
             border-radius: 50%;
             .badge-text {
               font-family: $font-family-narrow;
               font-size: 22px;
             }
             .badge-circle {
-              stroke-width: 14%;
+              stroke-width: 6%;
             }
           }
         }
@@ -1431,6 +1440,8 @@ div.itinerary-container-content {
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  box-shadow: none;
+  z-index: 10;
 
   .desktop-view-divider {
     border-top: 1px solid #dddddd;
@@ -1444,14 +1455,11 @@ div.itinerary-container-content {
   }
 
   &.swipe-desktop-view {
-    z-index: 5;
-    transition: 0.3s;
-    position: absolute;
-    background-color: #fff;
-    box-shadow: none;
-    width: 520px;
-    border-bottom: none;
     font-size: 12px;
+
+    &.scrolled {
+      box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.2);
+    }
 
     .icon-container {
       display: flex;
@@ -1509,6 +1517,22 @@ div.itinerary-container-content {
   }
 }
 
+.swipe-container {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 200px;
+  padding-bottom: 0.7em;
+  overflow-x: hidden;
+}
+
+.swipe-scroll-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background-color: white;
+}
+
 .swipe-button-container {
   display: flex;
   justify-content: center;
@@ -1525,6 +1549,12 @@ div.itinerary-container-content {
   &.disabled {
     fill: $medium-gray;
   }
+}
+
+.swipe-scroll-container {
+  flex-basis: 0px;
+  flex-grow: 1;
+  overflow-x: hidden;
 }
 
 .itinerary-tab {

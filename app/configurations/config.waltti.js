@@ -131,6 +131,8 @@ export default {
   showNearYouButtons: true,
   allowLogin: true,
 
+  messageBarAlerts: true,
+
   hostnames: [
     // DEV hostnames
     'https://next-dev-hameenlinna.digitransit.fi',

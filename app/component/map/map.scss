@@ -39,28 +39,6 @@ div.map {
   overflow: auto;
 }
 
-.summary-map {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 100px;
-  position: relative;
-
-  .summary-map-buttons {
-    bottom: 36px;
-    display: flex;
-    left: 20px;
-    max-height: 36px;
-    position: absolute;
-    z-index: index($zindex, map-buttons);
-
-    & [role='button'] {
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
-      max-height: 36px;
-      max-width: 36px;
-    }
-  }
-}
 .mobile {
 
   .leaflet-container .leaflet-control-attribution {
@@ -256,10 +234,6 @@ div.leaflet-marker-icon.vehicle-icon {
     width: 1.5em;
     height: 1.5em;
   }
-}
-
-.bp-large .map-with-tracking-buttons {
-  bottom: 32px;
 }
 
 .map-with-tracking-buttons {
@@ -834,8 +808,9 @@ div.origin-popup {
 
   &.icon-badge {
     transform: translate(-0.5em, -2.5em);
+    border-radius: 50%;
     > .badge-circle {
-      stroke-width: 2;
+      stroke-width: 14%;
     }
   }
 }
@@ -856,13 +831,6 @@ div.leaflet-control-scale.leaflet-control {
   //front page
   margin-right: 30px;
   margin-bottom: 20px;
-  cursor: grab;
-}
-
-.bp-large .leaflet-control-scale.leaflet-control {
-  //front page desktop
-  right: calc(100px + 28vw);
-  bottom: 24px;
   cursor: grab;
 }
 
@@ -928,7 +896,7 @@ div.leaflet-control-scale-line {
   position: absolute;
   z-index: 3000;
   height: 50px;
-  width: calc(100% - 40px);
+  width: 60%;
   border-radius: 25px;
   bottom: 15%;
   background-color: var(--color);

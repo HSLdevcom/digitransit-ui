@@ -36,6 +36,7 @@ i18next.init({
  * @param {node} props.embedWhenClosed        JSX element to render in the corner when input is closed
  * @param {node} props.embedWhenOpen          JSX element to render when input is open
  * @param {string} props.lang                 Language selection
+ * @param {number} props.serviceTimeRange           Determine number of days shown in timepicker. Optional. default is 30.
  *
  *
  * @example
@@ -49,6 +50,7 @@ i18next.init({
  *   onArrivalClick={() => arrivalClicked()}
  *   embedWhenClosed={<button />}
  *   lang={'en'}
+ *   serviceTimeRange={15}
  * />
  */
 function Datetimepicker({
@@ -66,6 +68,7 @@ function Datetimepicker({
   timeZone,
   onModalSubmit,
   fontWeights,
+  serviceTimeRange,
 }) {
   moment.tz.setDefault(timeZone);
   const [isOpen, changeOpen] = useState(false);
@@ -210,13 +213,12 @@ function Datetimepicker({
     timeChoices = Array.from(new Set(timeChoices)); // remove duplicates
   }
 
-  const dateSelectItemCount = 30;
   const dateSelectStartTime = moment()
     .startOf('day')
     .hour(selectedMoment.hour())
     .minute(selectedMoment.minute())
     .valueOf();
-  const dateChoices = Array(dateSelectItemCount)
+  const dateChoices = Array(serviceTimeRange)
     .fill()
     .map((_, i) => moment(dateSelectStartTime).add(i, 'day').valueOf());
 
@@ -246,7 +248,7 @@ function Datetimepicker({
             getTimeDisplay={getTimeDisplay}
             timestamp={displayTimestamp}
             getDateDisplay={getDateDisplay}
-            dateSelectItemCount={dateSelectItemCount}
+            dateSelectItemCount={serviceTimeRange}
             getDisplay={getTimeDisplay}
             validateTime={validateTime}
             fontWeights={fontWeights}
@@ -499,6 +501,7 @@ Datetimepicker.propTypes = {
   fontWeights: PropTypes.shape({
     medium: PropTypes.number.isRequired,
   }).isRequired,
+  serviceTimeRange: PropTypes.number,
 };
 
 Datetimepicker.defaultProps = {
@@ -507,6 +510,7 @@ Datetimepicker.defaultProps = {
   embedWhenOpen: null,
   color: '#007ac9',
   timeZone: 'Europe/Helsinki',
+  serviceTimeRange: 30,
 };
 
 export default Datetimepicker;
