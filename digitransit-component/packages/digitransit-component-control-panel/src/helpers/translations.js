@@ -30,6 +30,9 @@ const translations = {
     'title-route-stop-station': 'Nearby stops and routes',
     'title-origin-to-destination': 'Where to?',
     'use-own-position': 'Use current location',
+    'nearby-stops-teaser-header': 'Kokeile uusia lähipysäkkinäkymiä',
+    'nearby-stops-teaser-content':
+      'Reaaliaikaiset lähipysäkkiesi aikataulut ja ajoneuvot kartalla.',
   },
   fi: {
     'pick-mode': 'Valitse joukkoliikennevälineistä',
@@ -46,6 +49,9 @@ const translations = {
     'title-route-stop-station': 'Lähipysäkit ja linjat',
     'title-origin-to-destination': 'Minne mennään?',
     'use-own-position': 'Käytä nykyistä sijaintia',
+    'nearby-stops-teaser-header': 'Kokeile uusia lähipysäkkinäkymiä',
+    'nearby-stops-teaser-content':
+      'Reaaliaikaiset lähipysäkkiesi aikataulut ja ajoneuvot kartalla.',
   },
   sv: {
     'pick-mode': 'Välj ett transportläge',
@@ -62,6 +68,9 @@ const translations = {
     'title-route-stop-station': 'Hållplatser och linjer nära dig',
     'title-origin-to-destination': 'Var till?',
     'use-own-position': 'Använd min position',
+    'nearby-stops-teaser-header': 'Kokeile uusia lähipysäkkinäkymiä',
+    'nearby-stops-teaser-content':
+      'Reaaliaikaiset lähipysäkkiesi aikataulut ja ajoneuvot kartalla.',
   },
 };
 
