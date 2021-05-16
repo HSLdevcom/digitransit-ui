@@ -1,7 +1,7 @@
 import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
 import pick from 'lodash/pick';
-
+import { isNumber } from 'lodash';
 import SimpleOpeningHours from 'simple-opening-hours';
 import { isBrowser } from '../../../util/browser';
 import {
@@ -109,24 +109,47 @@ class DynamicParkingLots {
       geom,
       this.parkingLotImageSize,
     ).then(() => {
-      if (properties.free !== undefined) {
-        let avail;
-        if (properties.free === 0 || !isOpenNow) {
+      const { state, free, total } = properties;
+
+      let avail = 'good';
+      if (free !== undefined) {
+        if (free === 0 || !isOpenNow || state === 'closed') {
           avail = 'no';
-        } else if (properties.free / properties.total < 0.1) {
+        } else if (free / total < 0.1) {
           avail = 'poor';
         } else {
           avail = 'good';
         }
-        drawAvailabilityBadge(
-          avail,
-          this.tile,
-          geom,
-          this.parkingLotImageSize,
-          this.availabilityImageSize,
-          this.scaleratio,
-        );
+      } else {
+        const freeDisabled = properties['free:disabled'];
+        const totalDisabled = properties['total:disabled'];
+        const hasOnlyRegular = isNumber(free) && !isNumber(freeDisabled);
+        const hasOnlyDisabled = !isNumber(free) && isNumber(freeDisabled);
+        const percentFreeDisabled = freeDisabled / totalDisabled;
+
+        const percentFreeBadgeThreshold = 0.1;
+
+        if (
+          (hasOnlyRegular && free === 0) ||
+          (hasOnlyDisabled && freeDisabled === 0) ||
+          !isOpenNow ||
+          state === 'closed'
+        ) {
+          avail = 'no';
+        } else if (percentFreeDisabled < percentFreeBadgeThreshold) {
+          avail = 'poor';
+        } else if (percentFreeDisabled > percentFreeBadgeThreshold) {
+          avail = 'good';
+        }
       }
+      drawAvailabilityBadge(
+        avail,
+        this.tile,
+        geom,
+        this.parkingLotImageSize,
+        this.availabilityImageSize,
+        this.scaleratio,
+      );
     });
   };
 
