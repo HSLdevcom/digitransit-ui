@@ -45,6 +45,7 @@ $margin-left-right: 1.333em;
   background-color: $white;
   .route-page-container {
     padding-top: 0;
+    padding-right: 1em;
     background-color: transparent;
     position: relative;
   }
@@ -56,6 +57,18 @@ $margin-left-right: 1.333em;
 .route-page-container {
   background-color: $white;
   padding-top: 3em;
+}
+
+.route-page-dynamic-divider-content {
+  position: relative;
+  left: 20px;
+  width: calc(100% - 3em);
+  height: 1px;
+  background: white;
+  &.bp-large {
+    left: 3.5em;
+    width: calc(100% - 7em);
+  }
 }
 
 .route-page-content {
@@ -887,7 +900,6 @@ $margin-left-right: 1.333em;
   background-color: white;
   margin: 5px 20px 0 20px;
   padding-bottom: 5px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   &.bp-large {
     margin: 0 $margin-left-right-large 0;
     box-shadow: none;
@@ -967,7 +979,7 @@ $margin-left-right: 1.333em;
 }
 
 .route-pattern-select {
-  margin: 14px 0 18px 0;
+  margin: 1px 0 18px 0;
 
   .route-pattern-toggle {
     border: 1px solid #888888;
