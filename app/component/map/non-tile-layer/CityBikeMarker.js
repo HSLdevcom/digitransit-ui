@@ -96,7 +96,6 @@ export default class CityBikeMarker extends React.Component {
     return !transit && zoom <= config.stopsSmallMaxZoom
       ? L.divIcon({
           html: smallIconSvg,
-          iconAnchor: [5, 5],
           iconSize: [8, 8],
           className: 'citybike cursor-pointer',
         })
