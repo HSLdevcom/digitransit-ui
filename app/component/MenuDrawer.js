@@ -2,9 +2,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Modal from 'react-modal';
 
-function MenuDrawer({ open, children, onRequestChange, breakpoint }) {
+function MenuDrawer({
+  open,
+  children,
+  onRequestChange,
+  breakpoint,
+  className,
+}) {
   const classNames = {
-    base: `${breakpoint !== 'large' ? 'mobile' : ''} menu-content`,
+    base: `${className} ${breakpoint !== 'large' ? 'mobile' : ''} menu-content`,
     afterOpen: 'menu-content-open',
     beforeClose: 'menu-content-close',
   };
@@ -30,6 +36,7 @@ MenuDrawer.propTypes = {
   children: PropTypes.node,
   onRequestChange: PropTypes.func,
   breakpoint: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 
 export default MenuDrawer;
