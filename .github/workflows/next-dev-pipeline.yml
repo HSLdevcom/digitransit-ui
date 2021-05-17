@@ -283,6 +283,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: echo -e "export const COMMIT_ID = \"${GITHUB_SHA}\";\nexport const BUILD_TIME = \""`date -Iminutes -u`"\";" > app/buildInfo.js
       - name: Publish to Dockerhub
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
