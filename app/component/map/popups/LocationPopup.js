@@ -121,6 +121,21 @@ class LocationPopup extends React.Component {
     const [address, place] = splitStringToAddressAndPlace(
       this.state.location.address,
     );
+
+    const { lat, lon } = this.props;
+
+    const reporterUrl =
+      (/^(localhost:8080|herrenberg.staging.stadtnavi.eu)$/.test(
+        window.location.host,
+      ) &&
+        `https://maengelmelder.service-bw.de/?lat=${lat}&lng=${lon}`) ||
+      null;
+    // In DT1 has this additional condition, DT2 doesn't use postal code.
+    // TODO: This code needs to be addressed or removed.
+    // postalcode === ''
+    //   ? `https://www.herrenberg.de/tools/mvs/?lat=${lat}&lng=${lon}#mvPagePictures`
+    //   : null;
+
     return (
       <Card>
         <PopupHeader header={address} subHeader={place}>
@@ -132,6 +147,7 @@ class LocationPopup extends React.Component {
             location={this.state.location}
             locationPopup={this.props.locationPopup}
             onSelectLocation={this.props.onSelectLocation}
+            reporterUrl={reporterUrl}
           />
         )}
       </Card>

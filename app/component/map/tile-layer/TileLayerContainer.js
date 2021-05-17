@@ -427,7 +427,8 @@ class TileLayerContainer extends GridLayer {
             maxWidth="auto"
             position={this.state.coords}
             className={`${this.PopupOptions.className} ${
-              this.props.locationPopup === 'all'
+              this.props.locationPopup === 'all' ||
+              this.props.locationPopup === 'origindestination'
                 ? 'single-popup'
                 : 'narrow-popup'
             }`}
