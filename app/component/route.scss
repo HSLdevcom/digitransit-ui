@@ -62,10 +62,9 @@ $margin-left-right: 1.333em;
 .route-page-dynamic-divider-content {
   position: relative;
   left: 20px;
-  width: calc(100% - 55px);
+  width: calc(100% - 3em);
   height: 1px;
   background: white;
-  margin-bottom: 1em;
   &.bp-large {
     left: 3.5em;
     width: calc(100% - 7em);
