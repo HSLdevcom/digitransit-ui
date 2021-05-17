@@ -65,7 +65,7 @@
   }
   .stops-near-you-no-stops {
     width: 100%;
-    background-color: #E5F2FA;
+    background-color: #e5f2fa;
     font-weight: normal;
     font-size: 0.9375rem;
     line-height: 1.2;
@@ -210,6 +210,18 @@
       .stop-near-you-info {
         display: flex;
         margin-bottom: 5px;
+
+        .route-stop-address-row {
+          color: #666;
+          font-weight: 400;
+        }
+        .card-code {
+          font-weight: 400;
+          margin: 0px;
+          &.terminal {
+            margin-right: 3px;
+          }
+        }
         .platform-short {
           @include font-medium;
           font-weight: normal;
@@ -230,8 +242,6 @@
           margin-bottom: 2px;
         }
         .zone-icon-container {
-          margin-left: 4px;
-          padding-bottom: 2px;
           align-self: center;
         }
         .circle {
@@ -249,10 +259,10 @@
     }
     .stop-near-you-more-departures {
       margin: 0 0 19px 20px;
-      padding: 9px 20px 8px;
+      padding: 5px 20px 5px;
       border-radius: 25px;
-      border: solid 1px #dddddd;
-      font-size: 13px;
+      border: solid 1px #a6a6a6;
+      font-size: 16px;
       font-weight: $font-weight-medium;
       color: $primary-color;
     }
@@ -299,7 +309,8 @@
         }
       }
       .route-headsign {
-        font-weight: normal;
+        font-family: 'Gotham XNarrow Book', 'Roboto', Arial, Georgia, serif;
+        font-weight: $font-weight-book;
         color: #333;
         flex: 1;
       }
@@ -348,9 +359,9 @@
       .swipe-button {
         margin-top: 1px;
         .icon {
-        height: 0.8em;
-        width: 0.8em;
-        fill: $white;
+          height: 0.8em;
+          width: 0.8em;
+          fill: $white;
           &.disabled {
             fill: rgb(245, 187, 208);
           }
@@ -359,8 +370,8 @@
     }
   }
   .swipe-tab-ball {
-      border: none;
-      background-color: rgba(255, 255, 255, 0.7);
+    border: none;
+    background-color: rgba(255, 255, 255, 0.7);
     &.selected {
       border: none;
       background-color: $white;
@@ -380,34 +391,34 @@
       padding-left: 3px;
     }
   }
-    .disruption-info-container {
-      line-height: 1.2;
-      flex: 1;
-      .disruption-info-header {
-        color: inherit;
-        margin-bottom: 2px;
-      }
-      .disruption-info-content {
-        color: inherit;
-        text-decoration: none;
-        font-size: $font-size-normal;
-      }
-      .disruption-show-more {
-        font-weight: $font-weight-medium;
-      }
+  .disruption-info-container {
+    line-height: 1.2;
+    flex: 1;
+    .disruption-info-header {
+      color: inherit;
+      margin-bottom: 2px;
+    }
+    .disruption-info-content {
+      color: inherit;
+      text-decoration: none;
+      font-size: $font-size-normal;
     }
     .disruption-show-more {
       font-weight: $font-weight-medium;
     }
-    .disruption-close-button {
-      height: 100%;
-      margin-left: 5px;
-      svg {
-        width: 13.5px;
-        height: 13.5px;
-      }
+  }
+  .disruption-show-more {
+    font-weight: $font-weight-medium;
+  }
+  .disruption-close-button {
+    height: 100%;
+    margin-left: 5px;
+    svg {
+      width: 13.5px;
+      height: 13.5px;
     }
   }
+}
 
 .mobile {
   .stops-near-you-location-search {

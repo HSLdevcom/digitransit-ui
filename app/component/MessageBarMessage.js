@@ -3,7 +3,7 @@ import React from 'react';
 
 import TruncatedMessage from './TruncatedMessage';
 
-const MessageBarMessage = ({ content, textColor }) => {
+const MessageBarMessage = ({ content, textColor, truncate, onShowMore }) => {
   const heading = (e, color) => {
     if (e?.type === 'heading') {
       return <h2 style={{ color }}>{e.content}</h2>;
@@ -36,6 +36,8 @@ const MessageBarMessage = ({ content, textColor }) => {
         lines={2}
         message={bodyContent}
         className="message-bar-text"
+        truncate={truncate}
+        onShowMore={onShowMore}
       />
     );
   };
@@ -66,6 +68,8 @@ const MessageBarMessage = ({ content, textColor }) => {
 MessageBarMessage.propTypes = {
   content: PropTypes.array,
   textColor: PropTypes.string,
+  truncate: PropTypes.bool,
+  onShowMore: PropTypes.func,
 };
 
 export default MessageBarMessage;

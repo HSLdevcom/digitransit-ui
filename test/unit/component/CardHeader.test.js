@@ -3,6 +3,7 @@ import React from 'react';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import CardHeader from '../../../app/component/CardHeader';
 import ExternalLink from '../../../app/component/ExternalLink';
+import AddressRow from '../../../app/component/AddressRow';
 
 describe('<CardHeader />', () => {
   it('should render the header icon', () => {
@@ -23,7 +24,8 @@ describe('<CardHeader />', () => {
       network: 'citybike',
     };
     const wrapper = shallowWithIntl(<CardHeader {...props} />);
-    expect(wrapper.find('.card-code').text()).to.equal('7528');
+    const addressRow = wrapper.find(AddressRow);
+    expect(addressRow.length).to.equal(1);
   });
   it('should  render the virtual monitor if so configured', () => {
     const props = {

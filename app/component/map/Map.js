@@ -157,7 +157,7 @@ export default class Map extends React.Component {
     if (mapUrl !== null && typeof mapUrl === 'object') {
       mapUrl = mapUrl[this.props.lang] || config.URL.MAP.default;
     }
-    leafletObjs.push(
+    const leafletObjNew = leafletObjs.concat([
       <VectorTileLayerContainer
         key="vectorTileLayerContainer"
         hilightedStops={this.props.hilightedStops}
@@ -167,7 +167,7 @@ export default class Map extends React.Component {
         onSelectLocation={onSelectLocation}
         mapLayers={this.props.mapLayers}
       />,
-    );
+    ]);
 
     let attribution = get(config, 'map.attribution');
     if (!isString(attribution) || isEmpty(attribution)) {
@@ -185,7 +185,7 @@ export default class Map extends React.Component {
               geoJson[key].isOffByDefault !== true),
         )
         .forEach((key, i) => {
-          leafletObjs.push(
+          leafletObjNew.push(
             <GeoJSON
               key={key.concat(i)}
               data={geoJson[key].data}
@@ -270,7 +270,7 @@ export default class Map extends React.Component {
               )
             }
           </BreakpointConsumer>
-          {leafletObjs}
+          {leafletObjNew}
           <PositionMarker key="position" />
         </LeafletMap>
       </div>
