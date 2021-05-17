@@ -96,8 +96,11 @@ export function getStopIconStyles(type, zoom, isHilighted) {
     // use bigger icon for hilighted stops always
     return styles[type][15];
   }
-  if (zoom < 13) {
+  if (zoom < 13 && type !== 'citybike') {
     return null;
+  }
+  if (zoom < 13) {
+    return styles[type][13];
   }
   if (zoom > 16) {
     return styles[type][16];

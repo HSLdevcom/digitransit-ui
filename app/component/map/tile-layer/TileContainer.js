@@ -6,6 +6,8 @@ import { isBrowser } from '../../../util/browser';
 import { isLayerEnabled } from '../../../util/mapLayerUtils';
 import { getStopIconStyles } from '../../../util/mapIconUtils';
 
+import { getCityBikeMinZoomOnStopsNearYou } from '../../../util/citybikes';
+
 class TileContainer {
   constructor(
     coords,
@@ -19,7 +21,10 @@ class TileContainer {
     stopsToShow,
   ) {
     const markersMinZoom = Math.min(
-      config.cityBike.cityBikeMinZoom,
+      getCityBikeMinZoomOnStopsNearYou(
+        config,
+        props.mapLayers.citybikeOverrideMinZoom,
+      ),
       config.stopsMinZoom,
       config.terminalStopsMinZoom,
     );
@@ -62,7 +67,11 @@ class TileContainer {
         }
         if (
           layerName === 'citybike' &&
-          this.coords.z >= config.cityBike.cityBikeMinZoom
+          this.coords.z >=
+            getCityBikeMinZoomOnStopsNearYou(
+              config,
+              props.mapLayers.citybikeOverrideMinZoom,
+            )
         ) {
           return isEnabled;
         }
