@@ -1,7 +1,7 @@
 import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
 import pick from 'lodash/pick';
-
+import { isNumber } from 'lodash';
 import SimpleOpeningHours from 'simple-opening-hours';
 import { isBrowser } from '../../../util/browser';
 import {
@@ -76,6 +76,9 @@ class DynamicParkingLots {
     if (type === 'Wohnmobilparkplatz') {
       return 'caravan';
     }
+    if (type === 'Barrierefreier-Parkplatz') {
+      return 'barrierefrei';
+    }
     return 'open_carpark';
   };
 
@@ -109,15 +112,41 @@ class DynamicParkingLots {
       geom,
       this.parkingLotImageSize,
     ).then(() => {
-      if (properties.free !== undefined) {
-        let avail;
-        if (properties.free === 0 || !isOpenNow) {
-          avail = 'no';
-        } else if (properties.free / properties.total < 0.1) {
-          avail = 'poor';
-        } else {
-          avail = 'good';
-        }
+      const { state, free, total } = properties;
+      const freeDisabled = properties['free:disabled'];
+      const totalDisabled = properties['total:disabled'];
+      const hasBothDisabledAndRegular =
+        isNumber(free) && isNumber(freeDisabled);
+      const hasOnlyRegular = isNumber(free) && !isNumber(freeDisabled);
+      const hasOnlyDisabled = !isNumber(free) && isNumber(freeDisabled);
+      const percentFree = free / total;
+      const percentFreeDisabled = freeDisabled / totalDisabled;
+
+      // what percentage needs to be free in order to get a green icon
+      const percentFreeBadgeThreshold = 0.1;
+
+      let avail;
+      if (
+        (hasOnlyRegular && free === 0) ||
+        (hasOnlyDisabled && freeDisabled === 0) ||
+        !isOpenNow ||
+        state === 'closed'
+      ) {
+        avail = 'no';
+      } else if (
+        (hasBothDisabledAndRegular || hasOnlyRegular) &&
+        percentFree < percentFreeBadgeThreshold
+      ) {
+        avail = 'poor';
+      } else if (percentFreeDisabled < percentFreeBadgeThreshold) {
+        avail = 'poor';
+      } else if (
+        percentFree > percentFreeBadgeThreshold ||
+        percentFreeDisabled > percentFreeBadgeThreshold
+      ) {
+        avail = 'good';
+      }
+      if (avail) {
         drawAvailabilityBadge(
           avail,
           this.tile,
