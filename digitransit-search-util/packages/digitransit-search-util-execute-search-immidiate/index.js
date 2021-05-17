@@ -420,7 +420,25 @@ export function getSearchResults(
           ),
         );
       } else {
-        searchComponents.push(getOldSearches(stopHistory, input, dropLayers));
+        const oldSearches = [];
+        stopHistory.forEach(search => {
+          const { shortName } = search.properties;
+          if (search.type === 'Route' && shortName) {
+            searchComponents.push(
+              getRoutesQuery(
+                shortName,
+                feedIDs,
+                transportMode,
+                pathOpts,
+              ).then(result =>
+                filterResults ? filterResults(result, mode, 'Routes') : result,
+              ),
+            );
+          } else {
+            oldSearches.push(search);
+          }
+        });
+        searchComponents.push(getOldSearches(oldSearches, input, dropLayers));
       }
     }
   }
