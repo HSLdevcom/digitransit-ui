@@ -76,6 +76,9 @@ class DynamicParkingLots {
     if (type === 'Wohnmobilparkplatz') {
       return 'caravan';
     }
+    if (type === 'Barrierefreier-Parkplatz') {
+      return 'barrierefrei';
+    }
     return 'open_carpark';
   };
 
@@ -110,46 +113,49 @@ class DynamicParkingLots {
       this.parkingLotImageSize,
     ).then(() => {
       const { state, free, total } = properties;
+      const freeDisabled = properties['free:disabled'];
+      const totalDisabled = properties['total:disabled'];
+      const hasBothDisabledAndRegular =
+        isNumber(free) && isNumber(freeDisabled);
+      const hasOnlyRegular = isNumber(free) && !isNumber(freeDisabled);
+      const hasOnlyDisabled = !isNumber(free) && isNumber(freeDisabled);
+      const percentFree = free / total;
+      const percentFreeDisabled = freeDisabled / totalDisabled;
 
-      let avail = 'good';
-      if (free !== undefined) {
-        if (free === 0 || !isOpenNow || state === 'closed') {
-          avail = 'no';
-        } else if (free / total < 0.1) {
-          avail = 'poor';
-        } else {
-          avail = 'good';
-        }
-      } else {
-        const freeDisabled = properties['free:disabled'];
-        const totalDisabled = properties['total:disabled'];
-        const hasOnlyRegular = isNumber(free) && !isNumber(freeDisabled);
-        const hasOnlyDisabled = !isNumber(free) && isNumber(freeDisabled);
-        const percentFreeDisabled = freeDisabled / totalDisabled;
+      // what percentage needs to be free in order to get a green icon
+      const percentFreeBadgeThreshold = 0.1;
 
-        const percentFreeBadgeThreshold = 0.1;
-
-        if (
-          (hasOnlyRegular && free === 0) ||
-          (hasOnlyDisabled && freeDisabled === 0) ||
-          !isOpenNow ||
-          state === 'closed'
-        ) {
-          avail = 'no';
-        } else if (percentFreeDisabled < percentFreeBadgeThreshold) {
-          avail = 'poor';
-        } else if (percentFreeDisabled > percentFreeBadgeThreshold) {
-          avail = 'good';
-        }
+      let avail;
+      if (
+        (hasOnlyRegular && free === 0) ||
+        (hasOnlyDisabled && freeDisabled === 0) ||
+        !isOpenNow ||
+        state === 'closed'
+      ) {
+        avail = 'no';
+      } else if (
+        (hasBothDisabledAndRegular || hasOnlyRegular) &&
+        percentFree < percentFreeBadgeThreshold
+      ) {
+        avail = 'poor';
+      } else if (percentFreeDisabled < percentFreeBadgeThreshold) {
+        avail = 'poor';
+      } else if (
+        percentFree > percentFreeBadgeThreshold ||
+        percentFreeDisabled > percentFreeBadgeThreshold
+      ) {
+        avail = 'good';
       }
-      drawAvailabilityBadge(
-        avail,
-        this.tile,
-        geom,
-        this.parkingLotImageSize,
-        this.availabilityImageSize,
-        this.scaleratio,
-      );
+      if (avail) {
+        drawAvailabilityBadge(
+          avail,
+          this.tile,
+          geom,
+          this.parkingLotImageSize,
+          this.availabilityImageSize,
+          this.scaleratio,
+        );
+      }
     });
   };
 
