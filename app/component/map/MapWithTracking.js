@@ -374,15 +374,9 @@ class MapWithTrackingStateHandler extends React.Component {
         </MapCont>
         {config.map.showLayerSelector && (
           <MenuDrawer
-            onToggleClick={() => {
-              return null;
-            }}
             open={this.state.settingsOpen}
-            settingsType="MapLayer"
-            setOpen={this.setSettingsOpen}
-            className={`offcanvas-layers ${
-              this.props.breakpoint !== 'large' ? 'fullscreen' : ''
-            }`}
+            onRequestChange={() => this.setSettingsOpen(false)}
+            className="offcanvas-layers"
             breakpoint={this.props.breakpoint}
           >
             <MapLayersDialogContent
