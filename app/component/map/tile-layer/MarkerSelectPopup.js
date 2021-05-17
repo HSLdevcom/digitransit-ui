@@ -12,6 +12,7 @@ import SelectCarpoolRow from './SelectCarpoolRow';
 import SelectBikeParkRow from './SelectBikeParkRow';
 import SelectDynamicParkingLotsRow from './SelectDynamicParkingLotsRow';
 import RoadworksRow from './RoadworksRow';
+import SelectChargingStationRow from './SelectChargingStationRow';
 
 function MarkerSelectPopup(props) {
   const hasStop = () =>
@@ -112,6 +113,16 @@ function MarkerSelectPopup(props) {
     if (option.layer === 'roadworks') {
       return (
         <RoadworksRow
+          {...option.feature}
+          key={option.feature.properties.id}
+          selectRow={() => props.selectRow(option)}
+        />
+      );
+    }
+
+    if (option.layer === 'chargingStations') {
+      return (
+        <SelectChargingStationRow
           {...option.feature}
           key={option.feature.properties.id}
           selectRow={() => props.selectRow(option)}

@@ -9,6 +9,7 @@ import Stops from './Stops';
 import ParkAndRide from './ParkAndRide';
 import BikeParks from './BikeParks';
 import Roadworks from './Roadworks';
+import ChargingStations from './ChargingStations';
 import { mapLayerShape } from '../../../store/MapLayerStore';
 
 export default function VectorTileLayerContainer(props, { config }) {
@@ -38,6 +39,10 @@ export default function VectorTileLayerContainer(props, { config }) {
 
     if (config.weatherStations && config.weatherStations.show) {
       layersToAdd.push(WeatherStations);
+    }
+
+    if (config.chargingStations && config.chargingStations.show) {
+      layersToAdd.push(ChargingStations);
     }
 
     if (config.constructor && config.roadworks.showRoadworks) {

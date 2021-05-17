@@ -27,6 +27,18 @@ export default class OSMOpeningHours extends React.Component {
       defaultMessage: 'Closed',
     });
 
+    const isAlwaysOpen = this.props.openingHours.trim() === '24/7';
+    if (isAlwaysOpen) {
+      return (
+        <div>
+          {intl.formatMessage({
+            id: 'open-24-7',
+            defaultMessage: 'Open 24/7',
+          })}
+        </div>
+      );
+    }
+
     const makeRow = day => {
       let hours;
       if (openingTable[day].length === 0) {

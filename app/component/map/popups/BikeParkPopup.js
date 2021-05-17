@@ -70,7 +70,7 @@ class BikeParkPopup extends React.Component {
           <div />
         </div>
         <MarkerPopupBottom
-          onselectlocation=""
+          onSelectLocation={() => {}}
           location={{
             address: name,
             lat: this.props.lat,
