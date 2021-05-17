@@ -290,13 +290,13 @@
         background-color: currentColor;
         margin-right: 10px;
         border-radius: 3px;
-        min-width: 3em;
+        width: 3em;
         height: 1.25em;
         padding: 0 4px;
         text-align: center;
         .route-number {
           color: $white;
-          line-height: 1.25;
+          line-height: 1.24;
           min-width: unset;
           display: block;
           white-space: nowrap;

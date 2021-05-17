@@ -35,7 +35,10 @@ const DepartureRow = (
   let { shortName } = departure.trip.route;
   if (shortName?.length > 6 || !shortName?.length) {
     shortName = (
-      <Icon img={`icon-icon_${departure.trip.route.mode.toLowerCase()}`} />
+      <Icon
+        className={departure.trip.route.mode.toLowerCase()}
+        img={`icon-icon_${departure.trip.route.mode.toLowerCase()}`}
+      />
     );
   }
   return (
