@@ -157,6 +157,7 @@ class MapLayersDialogContent extends React.Component {
       roadworks,
       dynamicParkingLots,
       weatherStations,
+      chargingStations,
     } = this.props.mapLayers;
     const { currentMapMode } = this.props;
     let arr;
@@ -365,6 +366,23 @@ class MapLayersDialogContent extends React.Component {
                 onChange={e => {
                   this.updateSetting({ parkAndRide: e.target.checked });
                   this.sendLayerChangeAnalytic('ParkAndRide', e.target.checked);
+                }}
+              />
+            )}
+
+          {this.context.config.chargingStations &&
+            this.context.config.chargingStations.show && (
+              <Checkbox
+                large
+                checked={chargingStations}
+                defaultMessage="Charging stations"
+                labelId="map-layer-charging-staions"
+                onChange={e => {
+                  this.updateSetting({ chargingStations: e.target.checked });
+                  this.sendLayerChangeAnalytic(
+                    'ChargingStations',
+                    e.target.checked,
+                  );
                 }}
               />
             )}
