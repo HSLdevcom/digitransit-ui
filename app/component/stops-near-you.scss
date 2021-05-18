@@ -59,6 +59,11 @@
   flex-direction: column;
   padding: 0px 3.75em 10px 3.75em;
   min-height: calc(50vh - 60px);
+  .route-number {
+    .icon-container {
+      font-size: 20px;
+    }
+  }
   .separator {
     border-top: 1px solid #ddd;
     padding-bottom: 22px;
@@ -295,13 +300,13 @@
         background-color: currentColor;
         margin-right: 10px;
         border-radius: 3px;
-        min-width: 2.25em;
+        width: 3em;
         height: 1.25em;
         padding: 0 4px;
         text-align: center;
         .route-number {
           color: $white;
-          line-height: 1.25;
+          line-height: 1.24;
           min-width: unset;
           display: block;
           white-space: nowrap;
@@ -441,6 +446,11 @@
     }
     .disruption-banner-container {
       margin: 0 5px 15px;
+    }
+  }
+  .route-number {
+    .icon-container {
+      font-size: 1.25em;
     }
   }
   .no-favorites-container {
