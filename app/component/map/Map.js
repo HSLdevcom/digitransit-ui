@@ -146,7 +146,7 @@ export default class Map extends React.Component {
   onPopupopen = () => events.emit('popupOpened');
 
   zoomEnd = () => {
-    this.props.leafletEvents?.onZoomEnd?.(); // pass event to parent
+    this.props.leafletEvents?.onZoomend?.(); // pass event to parent
     this.updateZoom();
   };
 
