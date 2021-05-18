@@ -1037,10 +1037,12 @@ $itinerary-tab-switch-height: 48px;
       }
       .citybike-itinerary {
         padding: 7px;
-        height: 50px;
+        .citybike-itinerary-text-container {
+          display: flow-root;
+        }
         .headsign {
           font-weight:  $font-weight-medium;
-          position: absolute;
+          display: block;
           font-size: 15px;
           padding: 2px 0 0 6px;
         }
@@ -1055,9 +1057,9 @@ $itinerary-tab-switch-height: 48px;
           font-weight: 400;
           color: #666666;
           bottom: 76px;
-          position: absolute;
         }
         .citybike-icon {
+          float: left;
           &.small {
             .icon-badge {
               top: 35px;
