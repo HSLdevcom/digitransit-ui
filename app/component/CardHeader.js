@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
+import AddressRow from './AddressRow';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import ZoneIcon from './ZoneIcon';
@@ -58,15 +58,13 @@ const CardHeader = (
               {unlinked ? null : <span className="link-arrow"> ›</span>}
             </span>
             <div className="card-sub-header">
-              {description && description !== 'null' && (
-                <p className="card-sub-header-address">{description}</p>
-              )}
-              {code != null ? <p className="card-code">{code}</p> : null}
-              {isTerminal && (
-                <p className="card-code">
-                  <FormattedMessage id="station" />
-                </p>
-              )}
+              <div className="card-name-container">
+                <AddressRow
+                  desc={description}
+                  code={code}
+                  isTerminal={isTerminal}
+                />
+              </div>
               {headerConfig &&
                 headerConfig.showZone &&
                 stop.zoneId &&

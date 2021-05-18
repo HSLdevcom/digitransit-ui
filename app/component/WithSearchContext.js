@@ -13,7 +13,7 @@ import {
 import searchContext from '../util/searchContext';
 import intializeSearchContext from '../util/DTSearchContextInitializer';
 import SelectFromMapHeader from './SelectFromMapHeader';
-import SelectFromMapPageMap from './map/SelectFromMapPageMap';
+import SelectFromMap from './map/SelectFromMap';
 import DTModal from './DTModal';
 import FromMapModal from './FromMapModal';
 
@@ -216,10 +216,7 @@ export default function withSearchContext(WrappedComponent) {
             onClose={() => this.setState({ fromMap: undefined })}
             titleId={titleId}
           >
-            <SelectFromMapPageMap
-              type={id}
-              onConfirm={this.confirmMapSelection}
-            />
+            <SelectFromMap type={id} onConfirm={this.confirmMapSelection} />
           </FromMapModal>
         );
       }
@@ -231,10 +228,7 @@ export default function withSearchContext(WrappedComponent) {
             onBackBtnClick={() => this.setState({ fromMap: undefined })}
             hideCloseBtn
           />
-          <SelectFromMapPageMap
-            type={id}
-            onConfirm={this.confirmMapSelection}
-          />
+          <SelectFromMap type={id} onConfirm={this.confirmMapSelection} />
         </DTModal>
       );
     };

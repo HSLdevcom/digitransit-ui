@@ -1,8 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import elementResizeDetectorMaker from 'element-resize-detector';
-
 import LeafletMap from 'react-leaflet/es/Map';
 import TileLayer from 'react-leaflet/es/TileLayer';
 import AttributionControl from 'react-leaflet/es/AttributionControl';
@@ -14,7 +11,11 @@ import isString from 'lodash/isString';
 import isEmpty from 'lodash/isEmpty';
 // Webpack handles this by bundling it with the other css files
 import 'leaflet/dist/leaflet.css';
-
+import VehicleMarkerContainer from './VehicleMarkerContainer';
+import {
+  startRealTimeClient,
+  stopRealTimeClient,
+} from '../../action/realTimeClientAction';
 import PositionMarker from './PositionMarker';
 import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
 import { boundWithMinimumArea } from '../../util/geo-utils';
@@ -25,68 +26,104 @@ import events from '../../util/events';
 import GeoJSON from './GeoJSON';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
-
 const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_plus"/></svg>`;
+
+/* foo-eslint-disable react/sort-comp */
+
+const startClient = context => {
+  const { realTime } = context.config;
+  let agency;
+  /* handle multiple feedid case */
+  context.config.feedIds.forEach(ag => {
+    if (!agency && realTime[ag]) {
+      agency = ag;
+    }
+  });
+  const source = agency && realTime[agency];
+  if (source && source.active) {
+    const config = {
+      ...source,
+      agency,
+    };
+    context.executeAction(startRealTimeClient, config);
+  }
+};
 
 export default class Map extends React.Component {
   static propTypes = {
     animate: PropTypes.bool,
+    lat: PropTypes.number,
+    lon: PropTypes.number,
+    zoom: PropTypes.number,
     bounds: PropTypes.array,
     boundsOptions: PropTypes.object,
-    center: PropTypes.bool,
-    disableMapTracking: PropTypes.func,
-    fitBounds: PropTypes.bool,
     hilightedStops: PropTypes.array,
     stopsToShow: PropTypes.array,
     lang: PropTypes.string.isRequired,
-    lat: PropTypes.number,
-    lon: PropTypes.number,
     leafletEvents: PropTypes.object,
     leafletObjs: PropTypes.array,
-    leafletOptions: PropTypes.object,
-    padding: PropTypes.array,
-    showStops: PropTypes.bool,
-    stopsNearYouMode: PropTypes.string,
-    zoom: PropTypes.number,
-    showScaleBar: PropTypes.bool,
-    loaded: PropTypes.func,
-    disableZoom: PropTypes.bool,
+    mergeStops: PropTypes.bool,
     mapRef: PropTypes.func,
-    originFromMap: PropTypes.bool,
-    destinationFromMap: PropTypes.bool,
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
     mapBottomPadding: PropTypes.number,
     buttonBottomPadding: PropTypes.number,
     bottomButtons: PropTypes.node,
-    mapReady: PropTypes.func,
-    itineraryMapReady: PropTypes.func,
-    disableParkAndRide: PropTypes.bool,
     geoJson: PropTypes.object,
     mapLayers: PropTypes.object,
   };
 
   static defaultProps = {
     animate: true,
-    loaded: () => {},
-    showScaleBar: false,
     mapRef: null,
     locationPopup: 'reversegeocoding',
     boundsOptions: {},
     mapBottomPadding: 0,
     buttonBottomPadding: 0,
     bottomButtons: null,
+    mergeStops: true,
+    mapLayers: { geoJson: {} },
   };
 
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
+    getStore: PropTypes.func,
     config: PropTypes.object.isRequired,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = { zoom: 14 };
+  }
+
+  updateZoom = () => {
+    // eslint-disable-next-line no-underscore-dangle
+    const zoom = this.map?.leafletElement?._zoom || this.props.zoom || 16;
+    if (zoom !== this.state.zoom) {
+      this.setState({ zoom });
+    }
+  };
+
   componentDidMount() {
-    this.erd = elementResizeDetectorMaker({ strategy: 'scroll' });
-    /* eslint-disable no-underscore-dangle */
-    this.erd.listenTo(this.map.leafletElement._container, this.resizeMap);
+    if (this.props.mapLayers.vehicles) {
+      startClient(this.context);
+    }
+    this.updateZoom();
+  }
+
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(newProps) {
+    this.updateZoom();
+    if (newProps.mapLayers.vehicles) {
+      if (!this.props.mapLayers.vehicles) {
+        startClient(this.context);
+      }
+    } else if (this.props.mapLayers.vehicles) {
+      const { client } = this.context.getStore('RealTimeInformationStore');
+      if (client) {
+        this.context.executeAction(stopRealTimeClient, client);
+      }
+    }
   }
 
   componentDidUpdate() {
@@ -100,56 +137,57 @@ export default class Map extends React.Component {
   }
 
   componentWillUnmount() {
-    this.erd.removeListener(this.map.leafletElement._container, this.resizeMap);
+    const { client } = this.context.getStore('RealTimeInformationStore');
+    if (client) {
+      this.context.executeAction(stopRealTimeClient, client);
+    }
   }
 
   onPopupopen = () => events.emit('popupOpened');
 
-  setLoaded = () => {
-    this.props.loaded();
-  };
-
-  resizeMap = () => {
-    if (this.map) {
-      this.map.leafletElement.invalidateSize(false);
-      if (this.props.fitBounds) {
-        this.map.leafletElement.fitBounds(
-          boundWithMinimumArea(this.props.bounds),
-          this.props.boundsOptions,
-        );
-      }
-      this.mapZoomLvl = this.map.leafletElement._zoom;
-    }
+  zoomEnd = () => {
+    this.props.leafletEvents?.onZoomend?.(); // pass event to parent
+    this.updateZoom();
   };
 
   render() {
     const {
       zoom,
+      lat,
+      lon,
       boundsOptions,
       locationPopup,
       onSelectLocation,
       leafletObjs,
-      mapReady,
-      itineraryMapReady,
-      disableParkAndRide,
       geoJson,
       mapLayers,
     } = this.props;
     const { config } = this.context;
-    if (itineraryMapReady) {
-      itineraryMapReady(mapReady);
+
+    const naviProps = {}; // these define map center and zoom
+    if (this.props.bounds) {
+      // bounds overrule center & zoom
+      naviProps.bounds = boundWithMinimumArea(this.props.bounds); // validate
+    } else if (lat && lon) {
+      if (this.props.mapBottomPadding && this.props.mapBottomPadding > 0) {
+        // bounds fitting can take account the wanted padding, so convert to bounds
+        naviProps.bounds = boundWithMinimumArea([[lat, lon]], zoom);
+      } else {
+        naviProps.center = [lat, lon];
+        if (zoom) {
+          naviProps.zoom = zoom;
+        }
+      }
     }
-    const center =
-      (!this.props.fitBounds &&
-        this.props.lat &&
-        this.props.lon && [this.props.lat, this.props.lon]) ||
-      null;
-    if (this.props.padding) {
-      boundsOptions.paddingTopLeft = this.props.padding;
+
+    if (naviProps.bounds || (naviProps.center && naviProps.zoom)) {
+      this.ready = true;
     }
-    if (center && zoom) {
-      boundsOptions.maxZoom = zoom;
+
+    if (!this.ready) {
+      return null;
     }
+
     if (this.props.mapBottomPadding) {
       boundsOptions.paddingBottomRight = [0, this.props.mapBottomPadding];
     }
@@ -159,18 +197,25 @@ export default class Map extends React.Component {
     if (mapUrl !== null && typeof mapUrl === 'object') {
       mapUrl = mapUrl[this.props.lang] || config.URL.MAP.default;
     }
-    if (!this.props.originFromMap && !this.props.destinationFromMap) {
-      leafletObjs.push(
-        <VectorTileLayerContainer
-          key="vectorTileLayerContainer"
-          hilightedStops={this.props.hilightedStops}
-          stopsNearYouMode={this.props.stopsNearYouMode}
-          showStops={this.props.showStops}
-          stopsToShow={this.props.stopsToShow}
-          disableMapTracking={this.props.disableMapTracking}
-          locationPopup={locationPopup}
-          onSelectLocation={onSelectLocation}
-          disableParkAndRide={disableParkAndRide}
+    const leafletObjNew = leafletObjs.concat([
+      <VectorTileLayerContainer
+        key="vectorTileLayerContainer"
+        hilightedStops={this.props.hilightedStops}
+        mergeStops={this.props.mergeStops}
+        stopsToShow={this.props.stopsToShow}
+        locationPopup={locationPopup}
+        onSelectLocation={onSelectLocation}
+        mapLayers={this.props.mapLayers}
+      />,
+    ]);
+
+    if (this.props.mapLayers.vehicles) {
+      const useLargeIcon = this.state.zoom >= config.stopsMinZoom;
+      leafletObjNew.push(
+        <VehicleMarkerContainer
+          key="vehicles"
+          useLargeIcon={useLargeIcon}
+          ignoreMode
         />,
       );
     }
@@ -180,12 +225,7 @@ export default class Map extends React.Component {
       attribution = false;
     }
 
-    if (this.map) {
-      this.mapZoomLvl = this.map.leafletElement._zoom;
-    }
-
     if (geoJson) {
-      // bounds are only used when geojson only contains point geometries
       Object.keys(geoJson)
         .filter(
           key =>
@@ -194,18 +234,23 @@ export default class Map extends React.Component {
               geoJson[key].isOffByDefault !== true),
         )
         .forEach((key, i) => {
-          leafletObjs.push(
+          leafletObjNew.push(
             <GeoJSON
               key={key.concat(i)}
-              bounds={null}
               data={geoJson[key].data}
-              geoJsonZoomLevel={this.mapZoomLvl ? this.mapZoomLvl : 9}
+              geoJsonZoomLevel={this.state.zoom}
               locationPopup={locationPopup}
               onSelectLocation={onSelectLocation}
             />,
           );
         });
     }
+
+    const leafletEvents = {
+      ...this.props.leafletEvents,
+      onZoomend: this.zoomEnd,
+    };
+
     return (
       <div aria-hidden="true">
         <span
@@ -217,7 +262,8 @@ export default class Map extends React.Component {
           {this.props.bottomButtons}
         </span>
         <LeafletMap
-          className={`z${this.mapZoomLvl ? this.mapZoomLvl : 9}`}
+          {...naviProps}
+          className={`z${this.state.zoom}`}
           keyboard={false}
           ref={el => {
             this.map = el;
@@ -229,24 +275,13 @@ export default class Map extends React.Component {
           maxZoom={config.map.maxZoom}
           zoomControl={false}
           attributionControl={false}
-          bounds={
-            this.props.fitBounds
-              ? boundWithMinimumArea(this.props.bounds)
-              : boundWithMinimumArea([center])
-          }
           animate={this.props.animate}
-          {...this.props.leafletOptions}
           boundsOptions={boundsOptions}
-          {...this.props.leafletEvents}
-          onPopupopen={
-            !this.props.originFromMap && !this.props.destinationFromMap
-              ? this.onPopupopen
-              : null
-          }
+          {...leafletEvents}
+          onPopupopen={this.onPopupopen}
           closePopupOnClick={false}
         >
           <TileLayer
-            onLoad={this.setLoaded}
             url={`${mapUrl}{z}/{x}/{y}{size}.png`}
             tileSize={config.map.tileSize || 256}
             zoomOffset={config.map.zoomOffset || 0}
@@ -272,7 +307,7 @@ export default class Map extends React.Component {
               )
             }
           </BreakpointConsumer>
-          {this.props.showScaleBar && config.map.showScaleBar && (
+          {config.map.showScaleBar && (
             <ScaleControl
               imperial={false}
               position={config.map.controls.scale.position}
@@ -281,7 +316,6 @@ export default class Map extends React.Component {
           <BreakpointConsumer>
             {breakpoint =>
               breakpoint === 'large' &&
-              !this.props.disableZoom &&
               config.map.showZoomControl && (
                 <ZoomControl
                   position={config.map.controls.zoom.position}
@@ -291,11 +325,8 @@ export default class Map extends React.Component {
               )
             }
           </BreakpointConsumer>
-          {leafletObjs}
-
-          {!this.props.originFromMap && !this.props.destinationFromMap && (
-            <PositionMarker key="position" />
-          )}
+          {leafletObjNew}
+          <PositionMarker key="position" />
         </LeafletMap>
       </div>
     );

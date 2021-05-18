@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import LocalTime from './LocalTime';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
+import Icon from './Icon';
 
 const DepartureRow = (
   { departure, departureTime, showPlatformCode, canceled, ...props },
@@ -31,6 +32,15 @@ const DepartureRow = (
       />
     );
   }
+  let { shortName } = departure.trip.route;
+  if (shortName?.length > 6 || !shortName?.length) {
+    shortName = (
+      <Icon
+        className={departure.trip.route.mode.toLowerCase()}
+        img={`icon-icon_${departure.trip.route.mode.toLowerCase()}`}
+      />
+    );
+  }
   return (
     <div role="cell" className="departure-row-container">
       <div
@@ -45,7 +55,7 @@ const DepartureRow = (
           className="route-number-container"
           style={{ backgroundColor: `#${departure.trip.route.color}` }}
         >
-          <div className="route-number">{departure.trip.route.shortName}</div>
+          <div className="route-number">{shortName}</div>
         </div>
         <div
           className={cx('route-headsign', departure.bottomRow ? 'bottom' : '')}
