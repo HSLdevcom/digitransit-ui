@@ -341,9 +341,8 @@
       .route-number-container {
         background-color: currentColor;
         border-radius: 3px;
-        min-width: 2.5em;
+        width: 3em;
         height: 1.5em;
-        padding: 0 4px;
         text-align: center;
         .route-number {
           color: $white;
@@ -352,6 +351,11 @@
           display: block;
           white-space: nowrap;
           overflow: hidden;
+          font-weight: 700;
+          .icon-container {
+            font-size: 1.5em;
+            line-height: 1;
+          }
         }
       }
       &.realtime {
