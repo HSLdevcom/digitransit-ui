@@ -375,9 +375,11 @@ class TileLayerContainer extends GridLayer {
         ) {
           contents = (
             <ChargingStationPopup
+              id={this.state.selectableTargets[0].feature.properties.id}
               lat={this.state.selectableTargets[0].feature.geom.x}
               lon={this.state.selectableTargets[0].feature.geom.y}
-              {...this.state.selectableTargets[0].feature.properties}
+              capacity={this.state.selectableTargets[0].feature.properties.c}
+              available={this.state.selectableTargets[0].feature.properties.ca}
             />
           );
         } else if (
