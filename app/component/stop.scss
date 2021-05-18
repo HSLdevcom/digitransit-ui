@@ -84,19 +84,23 @@
     margin-right: 5px;
     padding: 0px 2px 0px 2px;
   }
-
   .circle {
     padding: 0px 3px 0px 2px;
+    &.A {
+      padding: 0px 3px 0px 3px;
+    }
+    &.B {
+      padding: 0px 3px 0px 2.5px;
+    }
+    &.D {
+      padding: 0px 3px 0px 3px;
+    }
   }
 }
 
 .mobile .stop-page.header {
   .card-code {
     margin-right: 2px;
-  }
-
-  .zone-icon-container {
-    margin-bottom: 4px;
   }
 }
 
@@ -337,9 +341,8 @@
       .route-number-container {
         background-color: currentColor;
         border-radius: 3px;
-        min-width: 2.5em;
+        width: 3em;
         height: 1.5em;
-        padding: 0 4px;
         text-align: center;
         .route-number {
           color: $white;
@@ -348,6 +351,11 @@
           display: block;
           white-space: nowrap;
           overflow: hidden;
+          font-weight: 700;
+          .icon-container {
+            font-size: 1.5em;
+            line-height: 1;
+          }
         }
       }
       &.realtime {
@@ -355,23 +363,6 @@
       }
       &.canceled {
         color: $cancelation-red;
-      }
-    }
-    .route-number-container {
-      margin-top: 2px;
-      background-color: currentColor;
-      border-radius: 3px;
-      min-width: 2.25em;
-      height: 1.25em;
-      padding: 0 4px;
-      text-align: center;
-      .route-number {
-        color: $white;
-        line-height: 1.35;
-        min-width: unset;
-        display: block;
-        white-space: nowrap;
-        overflow: hidden;
       }
     }
     .route-headsign {
@@ -413,6 +404,23 @@
         background: none;
       }
     }
+    .route-number-container {
+      margin-top: 2px;
+      background-color: currentColor;
+      border-radius: 3px;
+      min-width: 2.25em;
+      height: 1.25em;
+      padding: 0 4px;
+      text-align: center;
+      .route-number {
+        color: $white;
+        line-height: 1.35;
+        min-width: unset;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
   }
 }
 
@@ -426,6 +434,12 @@
   .departure-row {
     .route-headsign {
       padding-left: $padding-medium;
+      font-weight: 400;
+      color: #333;
+      flex: 1;
+      overflow: hidden;
+      white-space: nowrap;
+      margin-bottom: -2px;
     }
   }
 }

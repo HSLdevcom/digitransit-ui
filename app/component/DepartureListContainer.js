@@ -200,6 +200,9 @@ class DepartureListContainer extends Component {
       (departure.trip && departure.trip.tripHeadsign) ||
       getHeadsignFromRouteLongName(departure.pattern.route);
 
+    if (headsign.endsWith(' via')) {
+      return headsign.substring(0, headsign.indexOf(' via'));
+    }
     return headsign;
   };
 

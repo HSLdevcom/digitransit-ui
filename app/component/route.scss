@@ -45,6 +45,7 @@ $margin-left-right: 1.333em;
   background-color: $white;
   .route-page-container {
     padding-top: 0;
+    padding-right: 1em;
     background-color: transparent;
     position: relative;
   }
@@ -56,6 +57,18 @@ $margin-left-right: 1.333em;
 .route-page-container {
   background-color: $white;
   padding-top: 3em;
+}
+
+.route-page-dynamic-divider-content {
+  position: relative;
+  left: 20px;
+  width: calc(100% - 3em);
+  height: 1px;
+  background: white;
+  &.bp-large {
+    left: 3.5em;
+    width: calc(100% - 7em);
+  }
 }
 
 .route-page-content {
@@ -330,6 +343,10 @@ $margin-left-right: 1.333em;
         display: flex;
         align-items: center;
         height: 16px;
+        .route-address-container {
+          display: flex;
+          align-items: center;
+        }
         .itinerary-stop-code {
           display: flex;
           align-items: center;
@@ -351,8 +368,6 @@ $margin-left-right: 1.333em;
         }
         .itinerary-zone-icon {
           font-family: $font-family;
-          width: 14px;
-          height: 14px;
         }
       }
       .route-stop-time {
@@ -399,6 +414,37 @@ $margin-left-right: 1.333em;
     }
   }
 }
+.route-address-row-container {
+  display: flex;
+  align-items: center;
+  .route-stop-address-row {
+    font-size: $font-size-xsmall;
+    font-family: $font-family;
+    font-weight: $font-weight-book;
+    line-height: 1.25rem;
+    letter-spacing: -0.03em;
+    color: #666;
+    display: flex;
+    word-break: keep-all;
+    height: 1.25rem;
+    margin-right: 5px;
+  }
+  .itinerary-stop-code {
+    padding: 0 2px;
+  }
+  .card-code {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 11px;
+    color: #666666;
+    margin-right: 3px;
+    margin-left: 4px;
+    padding: 0px 5px 0px 5px;
+    letter-spacing: -0.37px;
+    height: 16px;
+  }
+}
+
 // To hide the line element in the last itinerary leg
 .route-stop-list
   > div:last-child
@@ -854,7 +900,6 @@ $margin-left-right: 1.333em;
   background-color: white;
   margin: 5px 20px 0 20px;
   padding-bottom: 5px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   &.bp-large {
     margin: 0 $margin-left-right-large 0;
     box-shadow: none;
@@ -863,16 +908,6 @@ $margin-left-right: 1.333em;
 
 .route-page-control-panel-container {
   padding-bottom: 1.75rem;
-  &.hairiot {
-    padding-left: 1.5em;
-    padding-right: 1.5em;
-  }
-  &.bp-large {
-    &.hairiot {
-      padding-left: 3.5em;
-      padding-right: 3.5em;
-    }
-  }
 
   @media print {
     .route-tabs {
@@ -944,7 +979,7 @@ $margin-left-right: 1.333em;
 }
 
 .route-pattern-select {
-  margin: 14px 0 18px 0;
+  margin: 1px 0 18px 0;
 
   .route-pattern-toggle {
     border: 1px solid #888888;

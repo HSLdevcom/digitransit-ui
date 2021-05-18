@@ -2,16 +2,15 @@ $citybike-available-color: $citybike-color;
 $citybike-not-available-color: $light-gray;
 
 .city-bike-medium-size {
-  font-size: 20px;
-  border: 1px solid white;
-  border-radius: $border-radius;
+  font-size: 42px;
 }
 .icon-badge {
   width: 18px;
   height: 18px;
-  left: 15px;
+  top: -15px;
+  left: 19px;
   .badge-circle {
-    stroke-width: 6%;
+    stroke-width: 1px;
     border-radius: 50%;
   }
 }
