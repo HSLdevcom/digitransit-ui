@@ -3,10 +3,10 @@ import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
+import AddressRow from './AddressRow';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
 import ServiceAlertIcon from './ServiceAlertIcon';
-import StopCode from './StopCode';
 import { fromStopTime } from './DepartureTime';
 import ZoneIcon from './ZoneIcon';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -263,8 +263,7 @@ const RouteStop = (
               )}
             </div>
             <div className="route-details-bottom-row">
-              <span className="route-stop-address">{stop.desc}</span>
-              {stop.code && <StopCode code={stop.code} />}
+              <AddressRow desc={stop.desc} code={stop.code} />
               {stop.zoneId && (
                 <ZoneIcon
                   className="itinerary-zone-icon"
