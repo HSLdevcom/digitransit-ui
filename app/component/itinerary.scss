@@ -1044,7 +1044,7 @@ $itinerary-tab-switch-height: 48px;
           font-weight:  $font-weight-medium;
           display: block;
           font-size: 15px;
-          padding: 2px 0 0 6px;
+          padding: 2px 0 3px 6px;
         }
         span.itinerary-stop-code {
           margin-left: 5px;
@@ -1056,7 +1056,6 @@ $itinerary-tab-switch-height: 48px;
           font-size: 13px;
           font-weight: 400;
           color: #666666;
-          bottom: 76px;
         }
         .citybike-icon {
           float: left;
