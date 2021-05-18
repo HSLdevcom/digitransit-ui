@@ -23,6 +23,7 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'mapLayers',
   'children',
   'leafletObjs',
+  'bottomButtons',
 ]);
 
 const MapCont = onlyUpdateCoordChanges(MapContainer);
