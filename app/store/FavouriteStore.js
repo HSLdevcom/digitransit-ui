@@ -4,7 +4,6 @@ import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import isEqual from 'lodash/isEqual';
 import sortBy from 'lodash/sortBy';
-import uniqBy from 'lodash/uniqBy';
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
@@ -184,22 +183,10 @@ export default class FavouriteStore extends Store {
       this.fetchComplete();
       return;
     }
-    const merged = sortBy(
-      arrayOfFavourites.concat(storage),
-      'lastUpdated',
-    ).reverse();
-    const uniqsByFavId = uniqBy(merged, 'favouriteId');
-    const uniqs = [];
-    uniqsByFavId.forEach(u => {
-      if (!u.gtfsId || uniqs.every(item => item?.gtfsId !== u?.gtfsId)) {
-        uniqs.push(u);
-      }
-    });
 
-    updateFavourites(uniqs)
-      .then(() => {
-        this.favourites = uniqs;
-        clearFavouriteStorage();
+    updateFavourites(storage)
+      .then(res => {
+        this.favourites = res;
         this.fetchComplete();
       })
       .catch(() => {
@@ -244,8 +231,8 @@ export default class FavouriteStore extends Store {
     if (this.config.allowLogin) {
       // Update favourites to backend service
       updateFavourites(newFavourites)
-        .then(() => {
-          this.favourites = newFavourites;
+        .then(res => {
+          this.favourites = res;
           this.fetchComplete();
         })
         .catch(() => {
@@ -281,8 +268,8 @@ export default class FavouriteStore extends Store {
     if (this.config.allowLogin) {
       // Update favourites to backend service
       updateFavourites(newFavourites)
-        .then(() => {
-          this.favourites = newFavourites;
+        .then(res => {
+          this.favourites = res;
           this.fetchComplete();
         })
         .catch(() => {
@@ -319,8 +306,8 @@ export default class FavouriteStore extends Store {
     if (this.config.allowLogin) {
       // Delete favourite from backend service
       deleteFavourites([data.favouriteId])
-        .then(() => {
-          this.favourites = newFavourites;
+        .then(res => {
+          this.favourites = res;
           this.fetchComplete();
         })
         .catch(() => {
