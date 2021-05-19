@@ -258,6 +258,7 @@ const translations = {
   de: {
     imprint: 'Impressum',
     privacy: 'Datenschutz',
+    'report-defect': 'Mangel melden',
     'alert:bikerental:free-floating-drop-off':
       'Ziel ist keine Rückgabestation. Ausleihe kann hier nicht abgeschlossen werden. Anbieterabhängig fallen weiter Gebühren bis zur Rückgabe an einer Station an.',
     monday: 'Montag',
@@ -921,6 +922,7 @@ const translations = {
   en: {
     imprint: 'Imprint',
     privacy: 'Privacy',
+    'report-defect': 'Report defect',
     'map-layer-roadworks': 'Roadworks',
     'weekday-mo': 'Monday',
     'weekday-tu': 'Tuesday',
