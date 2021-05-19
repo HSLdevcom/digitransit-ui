@@ -10,7 +10,7 @@ const BusLeg = ({
   leg,
   focusAction,
   index,
-  isNextLegInterlining,
+  nextInterliningLeg,
   interliningWait,
 }) => (
   <TransitLeg
@@ -19,7 +19,7 @@ const BusLeg = ({
     focusAction={focusAction}
     index={index}
     interliningWait={interliningWait}
-    isNextLegInterlining={isNextLegInterlining}
+    nextInterliningLeg={nextInterliningLeg}
   >
     <FormattedMessage
       id="bus-with-route-number"
@@ -90,7 +90,7 @@ BusLeg.propTypes = {
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   interliningWait: PropTypes.number,
-  isNextLegInterlining: PropTypes.bool,
+  nextInterliningLeg: PropTypes.any,
 };
 
 export default BusLeg;

@@ -2016,7 +2016,8 @@ const translations = {
     'itinerary-summary.bikeAndPublic-subway-title':
       'Ota pyöräsi mukaan metroon',
     'itinerary-summary.bikePark-title': 'Jätä pyöräsi liityntäpysäköintiin',
-    'itinerary-summary.interline-wait': 'Odota vaihtoa kulkuneuvossa ({time})',
+    'itinerary-summary.interline-wait':
+      'Linjan määränpää vaihtuu pysäkillä {stop}. Matka jatkuu {time} odotuksen jälkeen. Odota kulkuneuvossa.',
     'itinerary-summary.show-on-map': 'Näytä kartalla {target}',
     'itinerary-ticket.title': 'Tarvittava lippu',
     'itinerary-tickets.title': 'Tarvittavat liput',

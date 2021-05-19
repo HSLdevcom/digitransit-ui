@@ -110,8 +110,8 @@ class ItineraryLegs extends React.Component {
       const startTime = (previousLeg && previousLeg.endTime) || leg.startTime;
 
       const interliningWait = () => {
-        if (leg.interlineWithPreviousLeg) {
-          return leg.startTime - previousLeg.endTime;
+        if (nextLeg?.interlineWithPreviousLeg) {
+          return nextLeg.startTime - leg.endTime;
         }
         return undefined;
       };
@@ -154,7 +154,7 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            isNextLegInterlining={isNextLegInterlining}
+            nextInterliningLeg={isNextLegInterlining && nextLeg}
             focusAction={this.focus(leg.from)}
           />,
         );

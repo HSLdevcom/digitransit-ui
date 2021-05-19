@@ -344,6 +344,7 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             code
             platformCode
             zoneId
+            name
             alerts {
               alertSeverityLevel
               effectiveEndDate

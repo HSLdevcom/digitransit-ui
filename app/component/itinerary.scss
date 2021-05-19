@@ -634,7 +634,6 @@ $itinerary-tab-switch-height: 48px;
       height: 50%;
       border: 4px solid;
       border-radius: 4px;
-
       &.bottom {
         height: 18%;
         top: 85%;
@@ -856,6 +855,26 @@ $itinerary-tab-switch-height: 48px;
     padding-left: 0.5em;
     min-height: 4.15em;
     padding-right: 0;
+    .divider{
+      border-top: 1px solid #dddddd;
+    }
+    .interline-info-container {
+      margin-top: 12px;
+      border: 1px solid #dddddd;
+      border-radius: 5px;
+      display: flex;
+      padding: 7px 13px 11px 0;
+      color: #333333;
+      .bold {
+        font-weight: 700;
+      }
+      .icon-container {
+        margin-top: 5px;
+        min-width: 42px;
+        font-size: 18px;
+        text-align: center;
+      }
+    }
     &.intermediate {
       a {
         text-decoration: none;
@@ -940,9 +959,6 @@ $itinerary-tab-switch-height: 48px;
         text-decoration: none;
         color: #333;
       }
-      &.interlining {
-        height: 76px;
-      }
       &.via {
         height: 78px;
       }
@@ -950,10 +966,6 @@ $itinerary-tab-switch-height: 48px;
         a {
           text-decoration: none;
           color: #333;
-        }
-        .interline-info-container {
-          font-size: 0.813rem;
-          padding-top: 5px;
         }
       }
       &.first {
@@ -1233,7 +1245,6 @@ $itinerary-tab-switch-height: 48px;
 
     .intermediate-stops-clickable {
       height: 60px;
-      border-top: 1px solid #ddd;
       > * {
         display: flex;
         align-items: center;
