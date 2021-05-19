@@ -284,7 +284,7 @@ jobs:
         shell: bash
         id: publish
       - name: Parse publish logs
-        run: echo ::set-output name=published-packages::$(echo "${{ steps.publish.outputs.publish-logs }}" | grep -o -P '(?=Successfully published:).*(?=Done)')
+        run: echo ::set-output name=published-packages::$(echo "${{ steps.publish.outputs.publish-logs }}" | grep -o -P '(Successfully published:).*')
         shell: bash
         id: log-parse
       - name: Send published packages to slack
