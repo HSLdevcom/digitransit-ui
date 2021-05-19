@@ -275,12 +275,9 @@ jobs:
         run: yarn setup
       - name: build relay queries
         run: yarn relay
-      - name: Authenticate with registry
-        run: "echo npmAuthToken: ${NODE_AUTH_TOKEN} > .yarnrc.yml"
+        run: echo //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN} > .npmrc
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-      - name: disregard changed .yarnrc.yml
-        run: git update-index --assume-unchanged .yarnrc.yml
       - name: Publish shared components to npm
         run: echo ::set-output name=publish-logs::$(yarn digitransit-npm-autopublish)
         shell: bash
