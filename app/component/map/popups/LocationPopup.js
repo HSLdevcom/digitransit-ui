@@ -64,6 +64,7 @@ class LocationPopup extends React.Component {
               address: getLabel(match),
               zoneId: getZoneId(config, match.zones, data.zones),
             },
+            feature: match,
           }));
           pointName = 'FreeAddress';
         } else {
@@ -123,18 +124,25 @@ class LocationPopup extends React.Component {
     );
 
     const { lat, lon } = this.props;
+    const {
+      feature: { postalcode },
+    } = this.state;
 
-    const reporterUrl =
-      (/^(localhost:8080|herrenberg.staging.stadtnavi.eu)$/.test(
-        window.location.host,
-      ) &&
-        `https://maengelmelder.service-bw.de/?lat=${lat}&lng=${lon}`) ||
-      null;
-    // In DT1 has this additional condition, DT2 doesn't use postal code.
-    // TODO: This code needs to be addressed or removed.
-    // postalcode === ''
-    //   ? `https://www.herrenberg.de/tools/mvs/?lat=${lat}&lng=${lon}#mvPagePictures`
-    //   : null;
+    let reporterUrl = null;
+    // when the BW-wide Mängelmelder is up we can use its URL, too
+    if (
+      [
+        'localhost:8080',
+        'herrenberg.staging.stadtnavi.eu',
+        'dev.stadtnavi.eu',
+        'herrenberg.qa.stadtnavi.eu',
+      ].includes(window.location.host)
+    ) {
+      reporterUrl = `https://maengelmelder.service-bw.de/?lat=${lat}&lng=${lon}`;
+    }
+    if (postalcode === '71083') {
+      reporterUrl = `https://www.herrenberg.de/tools/mvs/?lat=${lat}&lng=${lon}#mvPagePictures`;
+    }
 
     return (
       <Card>
