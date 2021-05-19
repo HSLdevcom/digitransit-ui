@@ -164,7 +164,7 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            isNextLegInterlining={isNextLegInterlining}
+            nextInterliningLeg={isNextLegInterlining && nextLeg}
             focusAction={this.focus(leg.from)}
           />,
         );
@@ -174,7 +174,7 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            isNextLegInterlining={isNextLegInterlining}
+            nextInterliningLeg={isNextLegInterlining && nextLeg}
             focusAction={this.focus(leg.from)}
           />,
         );
@@ -184,7 +184,7 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            isNextLegInterlining={isNextLegInterlining}
+            nextInterliningLeg={isNextLegInterlining && nextLeg}
             focusAction={this.focus(leg.from)}
           />,
         );
@@ -194,7 +194,7 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            isNextLegInterlining={isNextLegInterlining}
+            nextInterliningLeg={isNextLegInterlining && nextLeg}
             focusAction={this.focus(leg.from)}
           />,
         );
