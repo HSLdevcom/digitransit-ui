@@ -53,6 +53,37 @@ const ChargingStationPopup = (props, context) => {
     return null;
   };
 
+  const getPayment = paymentResources => {
+    return <a href={paymentResources[0].url}>Payment details</a>;
+  };
+
+  const getEvses = () => {
+    const { evses } = details;
+    const { intl } = context;
+    if (evses) {
+      return (
+        <div>
+          {evses.map(evse => (
+            <div key={evse.evse_id}>
+              <h4>{evse.evse_id}</h4>
+              <div>{`Status: ${evse.status}`}</div>
+              {evse.opening_times.twentyfourseven && (
+                <div>
+                  {intl.formatMessage({
+                    id: 'open-24-7',
+                    defaultMessage: 'Open 24/7',
+                  })}
+                </div>
+              )}
+              {evse.related_resource && getPayment(evse.related_resource)}
+            </div>
+          ))}
+        </div>
+      );
+    }
+    return <div />;
+  };
+
   return !loading ? (
     <Card>
       <div className="padding-normal charging-station-popup">
@@ -67,6 +98,7 @@ const ChargingStationPopup = (props, context) => {
         />
         <div className="content">
           <div>{getCapacity()}</div>
+          {getEvses()}
         </div>
       </div>
       <MarkerPopupBottom
