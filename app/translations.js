@@ -258,6 +258,8 @@ const translations = {
   de: {
     imprint: 'Impressum',
     privacy: 'Datenschutz',
+    'regiorad-availability': 'Leihräder verfübar',
+    'taxi-availability': 'Taxis verfübar',
     'report-defect': 'Mangel melden',
     'alert:bikerental:free-floating-drop-off':
       'Ziel ist keine Rückgabestation. Ausleihe kann hier nicht abgeschlossen werden. Anbieterabhängig fallen weiter Gebühren bis zur Rückgabe an einer Station an.',
@@ -406,6 +408,9 @@ const translations = {
     'citybike-start-using': 'Beginne Leihrad-Nutzung',
     'citybike-station': 'Leihrad-Station {stationId}',
     'citybike-station-no-id': 'Leihrad-Station',
+    'regiorad-station-no-id': 'Leihrad-Station',
+    'taxi-station-no-id': 'Taxistand',
+    'car-sharing-station-no-id': 'Car-Sharing-Station',
     'clear-button-label': 'Leeren',
     close: 'Schließen',
     'close-favourite-module': 'Favoriten-Modul schließen',
@@ -922,6 +927,9 @@ const translations = {
   en: {
     imprint: 'Imprint',
     privacy: 'Privacy',
+    'regiorad-station-no-id': 'Bike rental station',
+    'taxi-station-no-id': 'Taxi rank',
+    'car-sharing-station-no-id': 'Car sharing station',
     'report-defect': 'Report defect',
     'map-layer-roadworks': 'Roadworks',
     'weekday-mo': 'Monday',
@@ -1013,7 +1021,8 @@ const translations = {
     bicycle_walk: 'Walking a bike',
     "bicycle-parking": "Bicyle parking",
     "bicycle-parking-covered": "covered",
-    'bike-availability': 'Bikes available at the station right now',
+    'regiorad-availability': 'Bikes available at the station right now',
+    'taxi-availability': 'Taxis available at the station right now',
     'bike-not-allowed-bus': 'Bikes are not allowed on the bus',
     'bike-not-allowed-tram': 'Bikes are not allowed on the tram',
     'bike-station-disabled': 'Bike station is closed.',

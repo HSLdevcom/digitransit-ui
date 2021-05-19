@@ -44,6 +44,7 @@ const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
         fewAvailableCount={fewAvailableCount}
         fewerAvailableCount={fewerAvailableCount}
         useSpacesAvailable={config.cityBike.capacity === BIKEAVL_WITHMAX}
+        networks={bikeRentalStation.networks}
       />
     </div>
   );

@@ -32,6 +32,8 @@ const BikeRentalStationHeader = (
       }
     });
   }, []);
+
+  const network = bikeRentalStation.networks[0];
   return (
     <div className="bike-station-header">
       {breakpoint === 'large' && (
@@ -43,7 +45,7 @@ const BikeRentalStationHeader = (
       <div className="header">
         <h3>{bikeRentalStation.name}</h3>
         <div className="bike-station-sub-header">
-          <FormattedMessage id="citybike-station-no-id" />
+          <FormattedMessage id={`${network}-station-no-id`} />
           {bikeRentalStation.name !== bikeRentalStation.stationId && (
             <>
               {zoneId && (
@@ -73,6 +75,7 @@ BikeRentalStationHeader.propTypes = {
     stationId: PropTypes.string.isRequired,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
+    networks: PropTypes.array.isRequired,
   }),
 };
 

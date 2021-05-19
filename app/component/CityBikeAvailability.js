@@ -6,6 +6,22 @@ import { FormattedMessage } from 'react-intl';
 import Availability from './Availability';
 import ComponentUsageExample from './ComponentUsageExample';
 
+function getText(network, available) {
+  if (available > -1) {
+    return (
+      <p className="sub-header-h4 availability-header">
+        <FormattedMessage
+          id={`${network}-availability`}
+          defaultMessage="Bikes available at the station right now"
+        />
+        {'\u00a0'}
+        <span className="available-bikes">{`(${available})`}</span>
+      </p>
+    );
+  }
+  return null;
+}
+
 const CityBikeAvailability = mapProps(
   ({
     disabled,
@@ -13,8 +29,8 @@ const CityBikeAvailability = mapProps(
     totalSpaces,
     fewAvailableCount,
     fewerAvailableCount,
-    type,
     useSpacesAvailable,
+    networks,
   }) => {
     const total = Number.isNaN(totalSpaces) ? 0 : totalSpaces;
     const available = Number.isNaN(bikesAvailable) ? 0 : bikesAvailable;
@@ -30,23 +46,13 @@ const CityBikeAvailability = mapProps(
         showStatusBar: useSpacesAvailable,
       };
     }
+    const network = networks[0];
     return {
       available,
       total,
       fewAvailableCount,
       fewerAvailableCount,
-      text: (
-        <p className="sub-header-h4 availability-header">
-          <FormattedMessage
-            id={
-              type === 'scooter' ? 'scooter-availability' : 'bike-availability'
-            }
-            defaultMessage="Bikes available at the station right now"
-          />
-          {'\u00a0'}
-          <span className="available-bikes">{`(${available})`}</span>
-        </p>
-      ),
+      text: getText(network, available),
       showStatusBar: false,
     };
   },
@@ -73,7 +79,7 @@ CityBikeAvailability.propTypes = {
   bikesAvailable: PropTypes.number.isRequired,
   totalSpaces: PropTypes.number.isRequired,
   fewAvailableCount: PropTypes.number.isRequired,
-  type: PropTypes.string,
+  networks: PropTypes.array,
   useSpacesAvailable: PropTypes.bool.isRequired,
 };
 CityBikeAvailability.defaultProps = {
