@@ -542,7 +542,7 @@ TransitLeg.propTypes = {
       tripHeadsign: PropTypes.string.isRequired,
     }).isRequired,
     startTime: PropTypes.number.isRequired,
-    endTime: PropTypes.number.isRequired,
+    endTime: PropTypes.number,
     departureDelay: PropTypes.number,
     intermediatePlaces: PropTypes.arrayOf(
       PropTypes.shape({
