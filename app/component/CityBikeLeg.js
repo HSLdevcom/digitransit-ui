@@ -79,9 +79,6 @@ function CityBikeLeg(
                 id: 'citybike-station-no-id',
                 defaultMessage: 'Bike station',
               })}
-              <span className="itinerary-stop-code">
-                {bikeRentalStation.stationId}
-              </span>
             </span>
           </div>
         </div>

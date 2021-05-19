@@ -46,7 +46,8 @@ const CityBikeAvailability = mapProps(
         showStatusBar: useSpacesAvailable,
       };
     }
-    const network = networks[0];
+    const n = networks || [];
+    const network = n[0] || 'citybike';
     return {
       available,
       total,

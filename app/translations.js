@@ -258,6 +258,7 @@ const translations = {
   de: {
     imprint: 'Impressum',
     privacy: 'Datenschutz',
+    'rent-cycle-at': 'Leirad ausleihen:',
     'regiorad-availability': 'Leihräder verfübar',
     'taxi-availability': 'Taxis verfübar',
     'report-defect': 'Mangel melden',
@@ -719,7 +720,6 @@ const translations = {
     'realtime-matching': 'Echtzeit-Matching',
     releases: 'Veröffentlichungen',
     'remove-via-button-label': 'Zwischenstopp {index} entfernen',
-    'rent-cycle-at': 'Fahrrad bei {station} mieten',
     'rent-scooter-at': 'Scooter bei {station} ausleihen',
     'required-ticket': 'Benötigtes Ticket',
     'return-cycle-to': 'Fahrrad bei {station} zurückgeben',
@@ -926,6 +926,7 @@ const translations = {
 
   en: {
     imprint: 'Imprint',
+    'bike-availability': "Bikes available",
     privacy: 'Privacy',
     'regiorad-station-no-id': 'Bike rental station',
     'taxi-station-no-id': 'Taxi rank',
@@ -1393,7 +1394,7 @@ const translations = {
     releases: 'Releases',
     'remove-favourite': 'Remove from favorites',
     'remove-via-button-label': 'Remove via point {index}',
-    'rent-cycle-at': 'Fetch a city bike:',
+    'rent-cycle-at': 'Fetch a rental bike:',
     'rent-scooter-at': 'Rent a kick scooter at {station} station',
     'required-ticket': 'Ticket required for the journey',
     'return-cycle-to': 'Return the bike:',
