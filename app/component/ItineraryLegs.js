@@ -158,7 +158,7 @@ class ItineraryLegs extends React.Component {
             focusAction={this.focus(leg.from)}
           />,
         );
-      } else if (leg.mode === 'TRAM') {
+      } else if (leg.mode === 'TRAM' && !leg.interlineWithPreviousLeg) {
         legs.push(
           <TramLeg
             index={j}
@@ -168,7 +168,7 @@ class ItineraryLegs extends React.Component {
             focusAction={this.focus(leg.from)}
           />,
         );
-      } else if (leg.mode === 'FERRY') {
+      } else if (leg.mode === 'FERRY' && !leg.interlineWithPreviousLeg) {
         legs.push(
           <FerryLeg
             index={j}
@@ -178,7 +178,7 @@ class ItineraryLegs extends React.Component {
             focusAction={this.focus(leg.from)}
           />,
         );
-      } else if (leg.mode === 'RAIL') {
+      } else if (leg.mode === 'RAIL' && !leg.interlineWithPreviousLeg) {
         legs.push(
           <RailLeg
             index={j}
@@ -188,7 +188,7 @@ class ItineraryLegs extends React.Component {
             focusAction={this.focus(leg.from)}
           />,
         );
-      } else if (leg.mode === 'SUBWAY') {
+      } else if (leg.mode === 'SUBWAY' && !leg.interlineWithPreviousLeg) {
         legs.push(
           <SubwayLeg
             index={j}
