@@ -45,7 +45,7 @@ export default function VectorTileLayerContainer(props, { config }) {
       layersToAdd.push(ChargingStations);
     }
 
-    if (config.constructor && config.roadworks.showRoadworks) {
+    if (config.roadworks && config.roadworks.showRoadworks) {
       layersToAdd.push(Roadworks);
     }
     setLayers(layersToAdd);
