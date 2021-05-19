@@ -197,10 +197,9 @@ const StopPageMapWithStores = connectToStores(
   ({ config, getStore }) => {
     const currentTime = getStore(TimeStore).getCurrentTime().unix();
     const locationState = getStore(PositionStore).getLocationState();
-    const wo = config.showVehiclesOnStopPage
-      ? { notThese: ['vehicles'] }
-      : null;
-    const mapLayers = getStore(MapLayerStore).getMapLayers(wo);
+    const ml = config.showVehiclesOnStopPage ? { notThese: ['vehicles'] } : {};
+    ml.force = ['stop', 'citybike', 'terminal']; // show always
+    const mapLayers = getStore(MapLayerStore).getMapLayers(ml);
     return {
       locationState,
       currentTime,
