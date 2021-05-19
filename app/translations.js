@@ -1069,7 +1069,7 @@ const translations = {
     'citybike-return-full': 'Returning a city bike?',
     'citybike-return-full-link':
       'How to return a bike when a bike station is full ›',
-    'citybike-start-using': 'Start using city bikes',
+    'citybike-start-using': 'Start using rental bikes',
     'citybike-start-using-info': 'More information',
     'citybike-station': 'Bike station {stationId}',
     'citybike-station-no-id': 'Bike station',
