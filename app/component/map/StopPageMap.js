@@ -194,17 +194,21 @@ const componentWithBreakpoint = withBreakpoint(StopPageMap);
 const StopPageMapWithStores = connectToStores(
   componentWithBreakpoint,
   [TimeStore, PositionStore, MapLayerStore],
-  ({ getStore }) => {
+  ({ config, getStore }) => {
     const currentTime = getStore(TimeStore).getCurrentTime().unix();
     const locationState = getStore(PositionStore).getLocationState();
-    const mapLayers = getStore(MapLayerStore).getMapLayers({
-      notThese: ['vehicles'],
-    });
+    const wo = config.showVehiclesOnStopPage
+      ? { notThese: ['vehicles'] }
+      : null;
+    const mapLayers = getStore(MapLayerStore).getMapLayers(wo);
     return {
       locationState,
       currentTime,
       mapLayers,
     };
+  },
+  {
+    config: PropTypes.object,
   },
 );
 

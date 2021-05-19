@@ -2322,7 +2322,7 @@ const SummaryPageWithStores = connectToStores(
   ['MapLayerStore'],
   ({ getStore }) => ({
     mapLayers: getStore('MapLayerStore').getMapLayers({
-      notThese: ['stop', 'citybike'],
+      notThese: ['stop', 'citybike', 'vehicles'],
     }),
   }),
 );
