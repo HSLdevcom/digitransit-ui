@@ -310,16 +310,40 @@ class IndexPage extends React.Component {
           />
         </>
       ) : (
-        <div className="stops-near-you-text">
-          <h2>
-            {' '}
-            {intl.formatMessage({
-              id: 'stop-near-you-title',
-              defaultMessage: 'Stops and lines near you',
-            })}
-          </h2>
-        </div>
+        <></>
       );
+    };
+
+    const stopRouteSearch = isMobile => {
+      if (config.showRouteSearch) {
+        const title = !config.showNearYouButtons ? (
+          <div className="stops-near-you-text">
+            <h2>
+              {' '}
+              {intl.formatMessage({
+                id: 'stop-near-you-title',
+                defaultMessage: 'Stops and lines near you',
+              })}
+            </h2>
+          </div>
+        ) : (
+          <></>
+        );
+        return isMobile ? (
+          <>
+            {title}
+            <StopRouteSearch {...stopRouteSearchProps} />
+          </>
+        ) : (
+          <>
+            {title}
+            <div className="stop-route-search-container">
+              <StopRouteSearch isMobile {...stopRouteSearchProps} />
+            </div>
+          </>
+        );
+      }
+      return <></>;
     };
 
     return (
@@ -362,7 +386,7 @@ class IndexPage extends React.Component {
                   />
                   <CtrlPanel.SeparatorLine usePaddingBottom20 />
                   <>{NearStops(CtrlPanel)}</>
-                  <StopRouteSearch {...stopRouteSearchProps} />
+                  {stopRouteSearch(false)}
                   <CtrlPanel.SeparatorLine />
 
                   {!trafficNowLink ||
@@ -411,9 +435,7 @@ class IndexPage extends React.Component {
                   />
                   <CtrlPanel.SeparatorLine />
                   <>{NearStops(CtrlPanel)}</>
-                  <div className="stop-route-search-container">
-                    <StopRouteSearch isMobile {...stopRouteSearchProps} />
-                  </div>
+                  {stopRouteSearch(false)}
                   <CtrlPanel.SeparatorLine usePaddingBottom20 />
                   {!trafficNowLink ||
                     (trafficNowLink[lang] !== '' && (

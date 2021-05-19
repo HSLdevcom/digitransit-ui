@@ -724,6 +724,7 @@ export default {
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
 
+  showRouteSearch: true,
   showNearYouButtons: false,
   nearYouModes: [],
   showStopAndRouteSearch: true,

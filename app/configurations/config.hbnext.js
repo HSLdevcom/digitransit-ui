@@ -476,6 +476,7 @@ export default configMerger(walttiConfig, {
 
     showAllBusses: true,
 
+    showRouteSearch: false,
     showNearYouButtons: false,
 
     // adding assets/geoJson/hb-layers layers
