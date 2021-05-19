@@ -669,6 +669,7 @@ const translations = {
     'origin-outside-service':
       'Leider konnte keine Route von diesem Startort gefunden werden. Der Startort befindet sich außerhalb des abgedeckten Gebietes. Bitte ändern Sie den Startort.',
     'origin-placeholder': 'Start',
+    'other-dates': 'Anderer Zeitraum',
     'own-position': 'Aktueller Standort',
     'occupancy-status-FEW_SEATS_AVAILABLE': 'Mittlere Auslastung',
     'occupancy-status-MANY_SEATS_AVAILABLE': 'Niedrige Auslastung',
