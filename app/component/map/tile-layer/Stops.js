@@ -168,8 +168,7 @@ class Stops {
           if (
             vt.layers.stations != null &&
             this.config.terminalStopsMaxZoom >
-              this.tile.coords.z + (this.tile.props.zoomOffset || 0) &&
-            this.tile.coords.z >= this.config.terminalStopsMinZoom
+              this.tile.coords.z + (this.tile.props.zoomOffset || 0)
           ) {
             for (
               let i = 0, ref = vt.layers.stations.length - 1;
@@ -187,12 +186,17 @@ class Stops {
                   this.tile.hilightedStops &&
                   this.tile.hilightedStops.includes(feature.properties.gtfsId);
                 this.features.unshift(pick(feature, ['geom', 'properties']));
-                drawTerminalIcon(
-                  this.tile,
-                  feature.geom,
-                  feature.properties.type,
-                  isHilighted,
-                );
+                if (
+                  isHilighted ||
+                  this.tile.coords.z >= this.config.terminalStopsMinZoom
+                ) {
+                  drawTerminalIcon(
+                    this.tile,
+                    feature.geom,
+                    feature.properties.type,
+                    isHilighted,
+                  );
+                }
               }
             }
           }

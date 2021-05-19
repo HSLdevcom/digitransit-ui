@@ -41,7 +41,20 @@ class TileContainer {
     this.vehicles = vehicles;
     this.stopsToShow = stopsToShow;
 
-    if (this.coords.z < markersMinZoom || !this.el.getContext) {
+    let ignoreMinZoomLevel =
+      hilightedStops &&
+      hilightedStops.length > 0 &&
+      !hilightedStops.every(stop => stop === '');
+    if (vehicles && vehicles.length > 0) {
+      ignoreMinZoomLevel = vehicles.every(
+        v => v.mode === 'ferry' && v.mode === 'rail' && v.mode === 'subway',
+      );
+    }
+
+    if (
+      (!ignoreMinZoomLevel && this.coords.z < markersMinZoom) ||
+      !this.el.getContext
+    ) {
       setTimeout(() => done(null, this.el), 0);
       return;
     }
@@ -60,7 +73,8 @@ class TileContainer {
 
         if (
           layerName === 'stop' &&
-          (this.coords.z >= config.stopsMinZoom ||
+          (ignoreMinZoomLevel ||
+            this.coords.z >= config.stopsMinZoom ||
             this.coords.z >= config.terminalStopsMinZoom)
         ) {
           return isEnabled;
