@@ -242,7 +242,7 @@ jobs:
   #         BS_ACCESS_KEY: ${{ secrets.BS_ACCESS_KEY }}
   #         BS_USERNAME: ${{ secrets.BS_USERNAME }}
   publish-npm:
-    if: github.ref == 'refs/heads/nonexisting'
+    # if: github.ref == 'refs/heads/next'
     needs:
       - install
       - lint
@@ -301,7 +301,7 @@ jobs:
     if: github.ref == 'refs/heads/next'
     needs:
       - lint
-      #- publish-npm
+      - publish-npm
       # - flow-test
       - unit-test
       # - visual-test-chrome
