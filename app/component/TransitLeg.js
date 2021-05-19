@@ -311,18 +311,6 @@ class TransitLeg extends React.Component {
     const headsign =
       leg.trip.tripHeadsign || getHeadsignFromRouteLongName(leg.route);
 
-    const interLining = () => {
-      if (leg.interlineWithPreviousLeg && this.props.isNextLegInterlining) {
-        return 'interline-both';
-      }
-      if (this.props.isNextLegInterlining) {
-        return 'interline-bottom';
-      }
-      if (leg.interlineWithPreviousLeg) {
-        return 'interline-top';
-      }
-      return '';
-    };
     return (
       <div key={index} className="row itinerary-row">
         <span className="sr-only">{textVersionBeforeLink}</span>
@@ -346,7 +334,6 @@ class TransitLeg extends React.Component {
           modeClassName={modeClassName}
           color={leg.route ? `#${leg.route.color}` : 'currentColor'}
           renderBottomMarker={!this.state.showIntermediateStops}
-          isInterlining={interLining()}
         />
         <div
           style={{

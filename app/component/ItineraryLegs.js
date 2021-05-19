@@ -148,7 +148,7 @@ class ItineraryLegs extends React.Component {
             {this.stopCode(leg.from.stop)}
           </WalkLeg>,
         );
-      } else if (leg.mode === 'BUS') {
+      } else if (leg.mode === 'BUS' && !leg.interlineWithPreviousLeg) {
         legs.push(
           <BusLeg
             index={j}
@@ -250,7 +250,8 @@ class ItineraryLegs extends React.Component {
           waitTime > waitThresholdInMs &&
           (nextLeg != null ? nextLeg.mode : null) !== 'AIRPLANE' &&
           leg.mode !== 'AIRPLANE' &&
-          !nextLeg.intermediatePlace
+          !nextLeg.intermediatePlace &&
+          !isNextLegInterlining
         ) {
           legs.push(
             <WaitLeg

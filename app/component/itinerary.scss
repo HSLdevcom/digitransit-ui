@@ -630,23 +630,6 @@ $itinerary-tab-switch-height: 48px;
     position: absolute;
     left: 7px;
     border-left: 8px solid;
-    &.interline-top {
-      border: 4px solid currentColor;
-      border-radius: 4px;
-      height: 92%;
-      top: 2em;
-    }
-    &.interline-bottom {
-      border: 4px solid currentColor;
-      border-radius: 4px;
-      height: 96%;
-    }
-    &.interline-both {
-      border: 4px solid currentColor;
-      border-radius: 4px;
-      height: 86%;
-      top: 2em;
-    }
     &.wait {
       height: 50%;
       border: 4px solid;
