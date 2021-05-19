@@ -114,7 +114,7 @@ FuzzyTripLink.propTypes = {
     shortName: PropTypes.string.isRequired,
     color: PropTypes.string,
   }).isRequired,
-  stopName: PropTypes.string.isRequired,
+  stopName: PropTypes.string,
   nextStopName: PropTypes.string,
 };
 
