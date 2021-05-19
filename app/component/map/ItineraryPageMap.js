@@ -26,12 +26,7 @@ function ItineraryPageMap(
   const { hash } = match.params;
   const leafletObjs = [];
 
-  if (
-    hash !== undefined &&
-    hash !== 'walk' &&
-    hash !== 'bike' &&
-    showVehicles
-  ) {
+  if (showVehicles) {
     leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
   }
   if (!showActive) {
