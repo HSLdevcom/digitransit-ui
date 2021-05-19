@@ -78,8 +78,6 @@ export default {
   realTime: realtime,
   realTimePatch: REALTIME_PATCH,
 
-  showNewMqtt: !process.env.DISABLE_NEW_MQTT_FEATURES,
-
   // Google Tag Manager id
   GTMid: process.env.GTM_ID || null,
 

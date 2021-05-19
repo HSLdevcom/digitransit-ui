@@ -1667,7 +1667,6 @@ class SummaryPage extends React.Component {
 
     return !!(
       this.inRange &&
-      this.context.config.showNewMqtt &&
       this.context.config.showVehiclesOnSummaryPage &&
       hash !== 'walk' &&
       hash !== 'bike' &&
