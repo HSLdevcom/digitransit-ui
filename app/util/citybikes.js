@@ -153,3 +153,10 @@ export const updateCitybikeNetworks = (
   }
   return chosenNetworks;
 };
+
+export const getCityBikeMinZoomOnStopsNearYou = (config, override) => {
+  if (override && config.cityBike.minZoomStopsNearYou) {
+    return config.cityBike.minZoomStopsNearYou;
+  }
+  return config.cityBike.cityBikeMinZoom;
+};
