@@ -64,22 +64,27 @@ function FuzzyTripLink({ vehicle, stopName, nextStopName }, context) {
         const route = props.trip.route.gtfsId;
         const pattern = props.trip.pattern.code;
         const trip = props.trip.gtfsId;
-
+        const { mode } = vehicle;
+        const { shortName } = vehicle;
+        const localizedMode = context.intl.formatMessage({
+          id: `${mode}`,
+          defaultMessage: `${mode}`,
+        });
         const ariaMessage = nextStopName
           ? context.intl.formatMessage(
               {
                 id: 'route-page-vehicle-position-between',
                 defaultMessage:
-                  'The vehicle is between {stopName} and {nextStopName}',
+                  '{mode} {shortName} is between {stopName} and {nextStopName}',
               },
-              { stopName, nextStopName },
+              { stopName, nextStopName, mode: localizedMode, shortName },
             )
           : context.intl.formatMessage(
               {
                 id: 'route-page-vehicle-position',
-                defaultMessage: 'The vehicle is at {stopName}',
+                defaultMessage: '{mode} {shortName} is at {stopName}',
               },
-              { stopName },
+              { stopName, mode: localizedMode, shortName },
             );
 
         return (
