@@ -243,7 +243,7 @@ jobs:
   #         BS_USERNAME: ${{ secrets.BS_USERNAME }}
 
   publish-npm:
-    if: github.ref == 'refs/heads/next'
+    if: github.ref == 'refs/heads/nonexisting'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -291,7 +291,7 @@ jobs:
           tags: "next,${{ github.sha }}"
     needs:
       - lint
-      - publish-npm
+      #- publish-npm
       # - flow-test
       - unit-test
       # - visual-test-chrome
