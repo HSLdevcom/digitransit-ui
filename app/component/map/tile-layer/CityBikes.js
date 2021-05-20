@@ -87,6 +87,11 @@ class CityBikes {
             this.config,
           ),
         );
+        const iconColor =
+          iconName.includes('secondary') &&
+          this.config.colors.iconColors['mode-citybike-secondary']
+            ? this.config.colors.iconColors['mode-citybike-secondary']
+            : this.config.colors.iconColors['mode-citybike'];
         if (
           !this.tile.stopsToShow ||
           this.tile.stopsToShow.includes(result.stationId)
@@ -98,7 +103,7 @@ class CityBikes {
             result.bikesAvailable,
             iconName,
             this.config.cityBike.capacity !== BIKEAVL_UNKNOWN,
-            this.config.colors.iconColors['mode-citybike'],
+            iconColor,
             isHilighted,
           );
         }

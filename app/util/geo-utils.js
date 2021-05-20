@@ -426,3 +426,38 @@ export function estimateItineraryDistance(from, to, viaPoints = []) {
 
   return dist;
 }
+
+/**
+ * Dot product
+ *
+ */
+function dot(a, b) {
+  return a[0] * b[0] + a[1] * b[1];
+}
+
+/**
+ * Calculate the point between points a and b that is closest to point c
+ *
+ * @param {{lat: number, lon: number}} a
+ * @param {{lat: number, lon: number}} b
+ * @param {{lat: number, lon: number}} c
+ *
+ * @return {{lat: number, lon: number}}
+ */
+export function getClosestPoint(a, b, c) {
+  // calculate orthogonal projection into line ab first
+  const v1 = [b.lon - a.lon, b.lat - a.lat];
+  const v2 = [c.lon - a.lon, c.lat - a.lat];
+  const res1 = dot(v2, v1) / dot(v1, v1);
+  const res2 = [res1 * v1[0], res1 * v1[1]];
+  const result = { lon: res2[0] + a.lon, lat: res2[1] + a.lat };
+
+  // If projected point is not between a and b, return a or b whichever is closest
+  const epsilon = 1;
+  const distA = distance(a, result);
+  const distB = distance(b, result);
+  if (distA + distB < distance(a, b) + epsilon) {
+    return result;
+  }
+  return distA < distB ? a : b;
+}

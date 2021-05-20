@@ -37,5 +37,6 @@ dump.rdb
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+.npmrc
 
 venv

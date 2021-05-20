@@ -351,7 +351,6 @@
           display: block;
           white-space: nowrap;
           overflow: hidden;
-          font-weight: 700;
           .icon-container {
             font-size: 1.5em;
             line-height: 1;
@@ -366,7 +365,7 @@
       }
     }
     .route-headsign {
-      font-family: 'Gotham XNarrow Book', 'Roboto', Arial, Georgia, serif;
+      font-family: $font-family-narrow;
       font-weight: $font-weight-book;
       color: #333;
       flex: 1;
