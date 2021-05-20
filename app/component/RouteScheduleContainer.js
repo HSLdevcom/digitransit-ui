@@ -77,6 +77,8 @@ class RouteScheduleContainer extends Component {
     hasLoaded: false,
   };
 
+  hasMergedData = false;
+
   onFromSelectChange = selectFrom => {
     const from = Number(selectFrom);
     this.setState(prevState => {
@@ -152,7 +154,11 @@ class RouteScheduleContainer extends Component {
   changeDate = newServiceDay => {
     // Don't set past dates because we have no data from them
     if (moment(newServiceDay).isBefore(moment())) {
-      newServiceDay = moment().format(DATE_FORMAT);
+      if (this.hasMergedData) {
+        newServiceDay = moment(newServiceDay).add(7, 'd').format(DATE_FORMAT);
+      } else {
+        newServiceDay = moment().format(DATE_FORMAT);
+      }
     }
     addAnalyticsEvent({
       category: 'Route',
@@ -447,6 +453,7 @@ class RouteScheduleContainer extends Component {
   render() {
     const { query } = this.props.match.location;
     const { intl } = this.context;
+    this.hasMergedData = false;
 
     if (!this.props.pattern) {
       if (isBrowser) {
@@ -490,6 +497,7 @@ class RouteScheduleContainer extends Component {
       if (thisWeekHashes.every(hash => nextWeekHashes.includes(hash))) {
         // eslint-disable-next-line prefer-destructuring
         firstDepartures[0] = firstDepartures[1];
+        this.hasMergedData = true;
       }
     }
 
