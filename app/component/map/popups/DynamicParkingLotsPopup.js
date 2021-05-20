@@ -34,6 +34,7 @@ class DynamicParkingLotsPopup extends React.Component {
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
     icon: PropTypes.string,
+    onSelectLocation: PropTypes.func.isRequired,
   };
 
   getCapacity() {
@@ -165,6 +166,7 @@ class DynamicParkingLotsPopup extends React.Component {
           </div>
         </Card>
         <MarkerPopupBottom
+          onSelectLocation={this.props.onSelectLocation}
           location={{
             address: this.props.feature.properties.name,
             lat: this.props.lat,
