@@ -21,37 +21,45 @@ class Stops {
 
   static getName = () => 'stop';
 
-  drawStop(feature, isHybrid) {
+  drawStop(feature, isHybrid, zoom, minZoom) {
     const isHilighted =
       this.tile.hilightedStops &&
       this.tile.hilightedStops.includes(feature.properties.gtfsId);
     if (!isFeatureLayerEnabled(feature, Stops.getName(), this.mapLayers)) {
       return;
     }
-    if (isHybrid) {
-      drawHybridStopIcon(
+
+    const ignoreMinZoomLevel =
+      feature.properties.type === 'FERRY' ||
+      feature.properties.type === 'RAIL' ||
+      feature.properties.type === 'SUBWAY';
+
+    if (ignoreMinZoomLevel || zoom >= minZoom) {
+      if (isHybrid) {
+        drawHybridStopIcon(
+          this.tile,
+          feature.geom,
+          isHilighted,
+          this.config.colors.iconColors,
+        );
+        return;
+      }
+
+      drawStopIcon(
         this.tile,
         feature.geom,
+        feature.properties.type,
+        feature.properties.platform !== 'null'
+          ? feature.properties.platform
+          : false,
         isHilighted,
+        !!(
+          feature.properties.type === 'FERRY' &&
+          feature.properties.code !== 'null'
+        ),
         this.config.colors.iconColors,
       );
-      return;
     }
-
-    drawStopIcon(
-      this.tile,
-      feature.geom,
-      feature.properties.type,
-      feature.properties.platform !== 'null'
-        ? feature.properties.platform
-        : false,
-      isHilighted,
-      !!(
-        feature.properties.type === 'FERRY' &&
-        feature.properties.code !== 'null'
-      ),
-      this.config.colors.iconColors,
-    );
   }
 
   stopsToShowCheck(feature) {
@@ -161,7 +169,12 @@ class Stops {
                 const hybridId = hybridGtfsIdByCode[f.properties.code];
                 const draw = !hybridId || hybridId === f.properties.gtfsId;
                 if (draw) {
-                  this.drawStop(f, !!hybridId);
+                  this.drawStop(
+                    f,
+                    !!hybridId,
+                    this.tile.coords.z,
+                    this.config.stopsMinZoom,
+                  );
                 }
               });
           }
