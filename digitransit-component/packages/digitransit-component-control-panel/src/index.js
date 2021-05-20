@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React, { Fragment, useEffect, useState } from 'react';
 import i18next from 'i18next';
+import { useCookies } from 'react-cookie';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
@@ -154,9 +155,12 @@ function NearStopsAndRoutes({
   title,
   modes,
   modeIconColors,
+  fontWeights,
+  showTeaser,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
-  const [bubbleDialogOpen, setDialogOpen] = useState(false);
+  const [cookies, setCookie] = useCookies(['nearbyTeaserShown']);
+
   useEffect(() => {
     Object.keys(translations).forEach(lang => {
       i18next.addResourceBundle(lang, 'translation', translations[lang]);
@@ -168,8 +172,13 @@ function NearStopsAndRoutes({
           setModesWithAlerts(res);
         });
     }
-    setDialogOpen(true);
   }, []);
+
+  const closeBubbleDialog = () =>
+    setCookie('nearbyTeaserShown', true, {
+      path: '/',
+      maxAge: 10 * 365 * 24 * 60 * 60,
+    });
 
   let urlStart;
   if (omitLanguageUrl) {
@@ -266,7 +275,10 @@ function NearStopsAndRoutes({
   });
 
   return (
-    <div className={styles['near-you-container']}>
+    <div
+      className={styles['near-you-container']}
+      style={{ '--font-weight-medium': fontWeights.medium }}
+    >
       {showTitle && (
         <h2 className={styles['near-you-title']}>
           {!modes
@@ -274,11 +286,11 @@ function NearStopsAndRoutes({
             : title[language]}
         </h2>
       )}
-      {bubbleDialogOpen && (
+      {showTeaser && !cookies?.nearbyTeaserShown && (
         <BubbleDialog
           title={i18next.t('nearby-stops-teaser-header', { lng: language })}
           content={i18next.t('nearby-stops-teaser-content', { lng: language })}
-          closeDialog={() => setDialogOpen(false)}
+          closeDialog={closeBubbleDialog}
         />
       )}
       <div
@@ -312,6 +324,10 @@ NearStopsAndRoutes.propTypes = {
   title: PropTypes.object,
   modes: PropTypes.object,
   modeIconColors: PropTypes.object,
+  fontWeights: PropTypes.shape({
+    medium: PropTypes.number,
+  }),
+  showTeaser: PropTypes.bool,
 };
 
 NearStopsAndRoutes.defaultProps = {
@@ -331,6 +347,10 @@ NearStopsAndRoutes.defaultProps = {
     'mode-ferry': '#007A97',
     'mode-citybike': '#F2B62D',
   },
+  fontWeights: {
+    medium: 500,
+  },
+  showTeaser: false,
 };
 
 /**
