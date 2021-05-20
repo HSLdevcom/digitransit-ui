@@ -1679,14 +1679,11 @@ class SummaryPage extends React.Component {
       return null;
     }
     let filteredItineraries;
-    if (!detailView) {
-      filteredItineraries = combinedItineraries.filter(
-        itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-      );
-      if (!filteredItineraries.length) {
-        filteredItineraries = combinedItineraries;
-      }
-    } else {
+
+    filteredItineraries = combinedItineraries.filter(
+      itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+    );
+    if (!filteredItineraries.length) {
       filteredItineraries = combinedItineraries;
     }
 
@@ -1716,7 +1713,7 @@ class SummaryPage extends React.Component {
         setMWTRef={this.setMWTRef}
         breakpoint={breakpoint}
         itineraries={filteredItineraries}
-        active={activeIndex}
+        activeIndex={activeIndex}
         showActive={detailView}
         showVehicles={this.showVehicles()}
       />
