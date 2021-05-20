@@ -524,6 +524,8 @@ export default configMerger(walttiConfig, {
     },
     staticMessagesUrl: STATIC_MESSAGE_URL,
 
+    suggestCarMinDistance: 200,
+
     showVehiclesOnSummaryPage: true,
     showBikeAndPublicItineraries: true,
     showBikeAndParkItineraries: true,
