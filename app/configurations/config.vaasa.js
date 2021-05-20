@@ -33,7 +33,7 @@ export default configMerger(walttiConfig, {
 
   textLogo: false,
 
-  logo: 'vaasa/vaasa_vasa_rgb_v01.jpg',
+  logo: 'vaasa/LOGO_NEGA_RGB.png',
 
   feedIds: ['Vaasa'],
 
