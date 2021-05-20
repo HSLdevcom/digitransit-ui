@@ -312,7 +312,11 @@ class RouteScheduleContainer extends Component {
               '--totalCount': `${count}`,
             }}
           >
-            {getTranslatedDayString('fi', dayRangePattern(tab.split('')), true)}
+            {getTranslatedDayString(
+              this.context.intl.locale,
+              dayRangePattern(tab.split('')),
+              true,
+            )}
           </button>
         );
       });
