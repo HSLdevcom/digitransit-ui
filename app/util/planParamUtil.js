@@ -1,6 +1,6 @@
 import omitBy from 'lodash/omitBy';
 import moment from 'moment';
-import cookie from 'react-cookie';
+import Cookies from 'universal-cookie';
 
 import {
   filterModes,
@@ -211,6 +211,8 @@ export const preparePlanParams = (config, useDefaultModes) => (
     settings.includeBikeSuggestions !== undefined
       ? settings.includeBikeSuggestions
       : defaultSettings.includeBikeSuggestions;
+
+  const cookies = new Cookies();
   return {
     ...defaultSettings,
     ...omitBy(
@@ -240,7 +242,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
         disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
           modesOrDefault,
         ),
-        locale: locale || cookie.load('lang') || 'fi',
+        locale: locale || cookies.get('lang') || 'fi',
       },
       nullOrUndefined,
     ),
