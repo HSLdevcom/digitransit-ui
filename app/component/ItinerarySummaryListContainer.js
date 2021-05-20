@@ -355,6 +355,7 @@ const containerComponent = createFragmentContainer(
           distance
           duration
           rentedBike
+          interlineWithPreviousLeg
           intermediatePlace
           intermediatePlaces {
             stop {
