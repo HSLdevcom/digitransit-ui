@@ -167,7 +167,7 @@ TripRouteStop.propTypes = {
   color: PropTypes.string,
   stopPassed: PropTypes.bool,
   stop: PropTypes.object.isRequired,
-  nextStop: PropTypes.object.isRequired,
+  nextStop: PropTypes.object,
   stoptime: PropTypes.object.isRequired,
   currentTime: PropTypes.number.isRequired,
   pattern: PropTypes.string.isRequired,
