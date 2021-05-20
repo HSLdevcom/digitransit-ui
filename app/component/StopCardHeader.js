@@ -11,11 +11,11 @@ import ExternalLink from './ExternalLink';
 import { getJson } from '../util/xhrPromise';
 import { saveSearch } from '../action/SearchActions';
 import { isIOS } from '../util/browser';
-import LazilyLoad, { importLazy } from './LazilyLoad';
+/* import LazilyLoad, { importLazy } from './LazilyLoad';
 
 const modules = {
   FavouriteStopContainer: () => importLazy(import('./FavouriteStopContainer')),
-};
+}; */
 
 class StopCardHeader extends React.Component {
   componentDidMount() {
@@ -138,13 +138,15 @@ class StopCardHeader extends React.Component {
         stop={stop}
         headerConfig={this.headerConfig}
         isTerminal={isTerminal}
-        favouriteContainer={
+        // TODO: Fix places geocoder api request to reimplement favorite button.
+        // https://github.com/stadtnavi/digitransit-ui/issues/481
+        /** favouriteContainer={
           <LazilyLoad modules={modules}>
             {({ FavouriteStopContainer }) => (
               <FavouriteStopContainer stop={stop} isTerminal={isTerminal} />
             )}
           </LazilyLoad>
-        }
+        } */
       />
     );
   }
