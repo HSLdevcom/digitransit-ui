@@ -2160,6 +2160,7 @@ __metadata:
     i18next: ^19.3.3
     prop-types: ^15.7.2
     react: ^16.13.0
+    react-cookie: ^4.0.3
   languageName: unknown
   linkType: soft
 
@@ -4513,6 +4514,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/cookie@npm:^0.3.3":
+  version: 0.3.3
+  resolution: "@types/cookie@npm:0.3.3"
+  checksum: 35d603d5e620ed8a0c4dedcf6b6e19e4981a4c44d40402de39e53f041ce74bf66b40272a355db37271b9557709fd3e6dfc8fe6ea4031f59b8b16cf0606ea3797
+  languageName: node
+  linkType: hard
+
 "@types/estree@npm:*":
   version: 0.0.47
   resolution: "@types/estree@npm:0.0.47"
@@ -4537,7 +4545,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/hoist-non-react-statics@npm:^3.3.0":
+"@types/hoist-non-react-statics@npm:^3.0.1, @types/hoist-non-react-statics@npm:^3.3.0":
   version: 3.3.1
   resolution: "@types/hoist-non-react-statics@npm:3.3.1"
   dependencies:
@@ -6093,13 +6101,6 @@ __metadata:
   dependencies:
     safe-buffer: 5.1.2
   checksum: 8ba373742caf9ef8e680ff77cf3f38208a6709d54c41a59148784d3c9cdb14167338e10ec6f9e5cc97a5096dd347813432a9afed6d5306d67e2cfdd85530976e
-  languageName: node
-  linkType: hard
-
-"batch-processor@npm:1.0.0":
-  version: 1.0.0
-  resolution: "batch-processor@npm:1.0.0"
-  checksum: 97fcc0f58629354eb4b690094e3fa6db4c46517c3cd8466a2dea0c6eb400edb97803613821f8f3b75e9b7b46f126a2162a7b59c4933b689f95e0674b9ffe6d9e
   languageName: node
   linkType: hard
 
@@ -8017,7 +8018,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie@npm:0.3.1, cookie@npm:^0.3.1":
+"cookie@npm:0.3.1":
   version: 0.3.1
   resolution: "cookie@npm:0.3.1"
   checksum: 5fb6caf84d4e1f5684abae2a29d019466166a452539ef43562eaba5bf2f5d40a5cf0d0b4e46614fb8e6b408fd0c718885ba6696ce976e2c53d07216152ec7091
@@ -8028,6 +8029,13 @@ __metadata:
   version: 0.4.0
   resolution: "cookie@npm:0.4.0"
   checksum: 7aaef4b642c533600fdd001d963a507dfcd814267503374e51d9743475d024feeff8b0b4ddd0777a25791a2efbdfd8bc4a0fe0696104efa195e8f8584807d410
+  languageName: node
+  linkType: hard
+
+"cookie@npm:^0.4.0":
+  version: 0.4.1
+  resolution: "cookie@npm:0.4.1"
+  checksum: b8e0928e3e7aba013087974b33a6eec730b0a68b7ec00fc3c089a56ba2883bcf671252fc2ed64775aa1ca64796b6e1f6fdddba25a66808aef77614d235fd3e06
   languageName: node
   linkType: hard
 
@@ -9122,7 +9130,6 @@ __metadata:
     css-loader: 3.6.0
     debug: 4.1.1
     documentation: 13.0.2
-    element-resize-detector: 1.2.0
     enzyme: 3.11.0
     enzyme-adapter-react-16: 1.15.4
     enzyme-wait: 1.0.9
@@ -9200,7 +9207,7 @@ __metadata:
     react-autosuggest: 10.0.3
     react-autowhatever: 10.2.1
     react-click-outside: 3.0.1
-    react-cookie: 1.0.5
+    react-cookie: 4.0.3
     react-dom: 16.13.0
     react-helmet: 6.1.0
     react-intl: 2.8.0
@@ -9237,6 +9244,7 @@ __metadata:
     swipe-js-iso: 2.1.5
     terser-webpack-plugin: 4.1.0
     trim-right: 1.0.1
+    universal-cookie: ^4.0.4
     url-loader: 3.0.0
     uuid: 8.3.0
     webpack: 4.44.1
@@ -9672,15 +9680,6 @@ __metadata:
   version: 1.3.708
   resolution: "electron-to-chromium@npm:1.3.708"
   checksum: e54f7833a65818d97e44b56a8ead9f805dcc8604bdd10907f97784882f5a37754fe38a588549ea9d328b16a27ab4dbec0d88cc5fddbfe59e3a4e74169d9d7eaa
-  languageName: node
-  linkType: hard
-
-"element-resize-detector@npm:1.2.0":
-  version: 1.2.0
-  resolution: "element-resize-detector@npm:1.2.0"
-  dependencies:
-    batch-processor: 1.0.0
-  checksum: 0501ee8e4c4e3ab4ed17b320b7aecb7834dde51430c9d8fa1e6dcb5f8621bc554443442f5f3bb70711e6bd366dfc9abccdc0bed402aa7b9ef099a5eb7b9f152e
   languageName: node
   linkType: hard
 
@@ -12819,7 +12818,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"hoist-non-react-statics@npm:^3.0.1, hoist-non-react-statics@npm:^3.3.0, hoist-non-react-statics@npm:^3.3.1, hoist-non-react-statics@npm:^3.3.2":
+"hoist-non-react-statics@npm:^3.0.0, hoist-non-react-statics@npm:^3.0.1, hoist-non-react-statics@npm:^3.3.0, hoist-non-react-statics@npm:^3.3.1, hoist-non-react-statics@npm:^3.3.2":
   version: 3.3.2
   resolution: "hoist-non-react-statics@npm:3.3.2"
   dependencies:
@@ -14097,13 +14096,6 @@ fsevents@~2.3.1:
   version: 2.0.1
   resolution: "is-negative-zero@npm:2.0.1"
   checksum: e2160af9a6fad7027bbd513e1efe9a99c780bb6af688e61e6b71084b5893f976241ca081e1ed8c18222d391ea3c1c0771cd23ab322be107150b66faf03d6ecbd
-  languageName: node
-  linkType: hard
-
-"is-node@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "is-node@npm:1.0.2"
-  checksum: ac8759994bfa9c562dd9c22022e0bfe152c1f061f81387ab75bfa3f80ed02771bee1dd62624326d6d7c0ab31057c16dc67c8927ae7eb3bb8ae3917c6e19e8153
   languageName: node
   linkType: hard
 
@@ -20387,14 +20379,16 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"react-cookie@npm:1.0.5":
-  version: 1.0.5
-  resolution: "react-cookie@npm:1.0.5"
+"react-cookie@npm:4.0.3":
+  version: 4.0.3
+  resolution: "react-cookie@npm:4.0.3"
   dependencies:
-    cookie: ^0.3.1
-    is-node: ^1.0.2
-    object-assign: ^4.1.0
-  checksum: 61dc8a9f952d56f7ff744e3770b2884ae309027a17376a02cdb856402bb8823b0f7ecfe0aa36d0aa4617da6f9aa76b84f13dacf81a45984903ce27cb01cf280a
+    "@types/hoist-non-react-statics": ^3.0.1
+    hoist-non-react-statics: ^3.0.0
+    universal-cookie: ^4.0.0
+  peerDependencies:
+    react: ">= 16.3.0"
+  checksum: 9b2086b7916b2c92980ef31ed4b5f70e1112d3f8de27bf839aa61f81b42270e028a91cb2237683566f4a77f6da42099cf7166fe650c74106958ae9a29bb7acf1
   languageName: node
   linkType: hard
 
@@ -24832,6 +24826,16 @@ resolve@1.1.7:
   dependencies:
     unist-util-visit-parents: ^2.0.0
   checksum: 6c62b50495b03528ee38a88c52de7d8488f0e3b34f505201cb6ad099c520d9756787d2999ef46a4c9c761c0e19347ded28d139b68efb69c5dcb8b26d5382dc7a
+  languageName: node
+  linkType: hard
+
+"universal-cookie@npm:^4.0.0, universal-cookie@npm:^4.0.4":
+  version: 4.0.4
+  resolution: "universal-cookie@npm:4.0.4"
+  dependencies:
+    "@types/cookie": ^0.3.3
+    cookie: ^0.4.0
+  checksum: 182b97a2dd6a368f1940f8dd2d0ec3908f1add6f651a6bd30dac1a8083dd7f64c35e0a7fd4b3c923004f4fe85e838d2996bcd0057061a2f494782f65c2a105fc
   languageName: node
   linkType: hard
 
