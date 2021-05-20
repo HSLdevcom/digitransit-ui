@@ -245,40 +245,48 @@
 
 .nearby-stops-bubble-dialog {
   position: relative;
-  height: 90px;
   width: 100%;
   z-index: 23;
   margin-bottom: 10px;
 
   @include min-width(tablet) {
     position: absolute;
-    height: 80px;
-    width: 300px;
-    top: 313px;
-    right: -60px;
+    width: 0;
+    height: 0;
+    margin: 0;
   }
 
   .nearby-stops-bubble-dialog-container {
     display: flex;
+    position: relative;
     border-radius: 5px;
     background: #FFEFE8;
     font-size: 15px;
     line-height: 18px;
     letter-spacing: -0.03em;
-
+    padding: 15px 0 17px 0;
+    @include min-width(tablet) {
+      position: absolute;
+      padding: 12px 0 11px 0;
+      width: 300px;
+      height: 80px;
+      top: -85px;
+      left: 230px;
+    }
     .nearby-stops-bubble-dialog-header {
-      padding: 15px 79px 4px 20px;
+      font-weight: var(--font-weight-medium);
+      padding: 0 79px 4px 20px;
       @include min-width(tablet) {
-        padding: 12px 44px 3px 20px;
+        padding: 0 44px 3px 20px;
       }
     }
 
     .nearby-stops-bubble-dialog-content {
-      padding: 0 76px 17px 20px;
-      @include min-width(tablet) {
-        padding: 0 57px 11px 20px;
-      }
       font-weight: 400;
+      padding: 0 76px 0 20px;
+      @include min-width(tablet) {
+        padding: 0 57px 0 20px;
+      }
     }
 
     .nearby-stops-bubble-dialog-close {
@@ -286,6 +294,10 @@
       position: absolute;
       right: 15px;
       top: 14px;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      border: none;
       @include min-width(tablet) {
         top: 16px;
       }
@@ -304,8 +316,8 @@
       background-color: #FFEFE8;
       transform: rotate(45deg);
       z-index: -1;
-      top: 53px;
-      left: 49.5px;
+      bottom: -4px;
+      left: 52px;
       @include min-width(tablet) {
         left: 18px;
         top: 38px;
