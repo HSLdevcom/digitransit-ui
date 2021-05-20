@@ -77,6 +77,8 @@ class RouteScheduleContainer extends Component {
     hasLoaded: false,
   };
 
+  hasMergedData = false;
+
   onFromSelectChange = selectFrom => {
     const from = Number(selectFrom);
     this.setState(prevState => {
@@ -150,6 +152,14 @@ class RouteScheduleContainer extends Component {
   formatTime = timestamp => moment(timestamp * 1000).format('HH:mm');
 
   changeDate = newServiceDay => {
+    // Don't set past dates because we have no data from them
+    if (moment(newServiceDay).isBefore(moment())) {
+      if (this.hasMergedData) {
+        newServiceDay = moment(newServiceDay).add(7, 'd').format(DATE_FORMAT);
+      } else {
+        newServiceDay = moment().format(DATE_FORMAT);
+      }
+    }
     addAnalyticsEvent({
       category: 'Route',
       action: 'ChangeTimetableDay',
@@ -334,11 +344,12 @@ class RouteScheduleContainer extends Component {
 
   populateData = (wantedDay, departures) => {
     const startOfWeek = moment().startOf('isoWeek');
-    const weekStarts = [];
-    const weekEnds = [];
-    const days = [];
+    const today = moment();
+    const weekStarts = [today.format(DATE_FORMAT)];
+    const weekEnds = [startOfWeek.clone().endOf('isoWeek').format(DATE_FORMAT)];
+    const days = [[]];
     const indexToRemove = [];
-    for (let x = 0; x < 5; x++) {
+    for (let x = 1; x < 5; x++) {
       weekStarts.push(startOfWeek.clone().add(x, 'w').format(DATE_FORMAT));
       weekEnds.push(
         startOfWeek.clone().endOf('isoWeek').add(x, 'w').format(DATE_FORMAT),
@@ -446,6 +457,7 @@ class RouteScheduleContainer extends Component {
   render() {
     const { query } = this.props.match.location;
     const { intl } = this.context;
+    this.hasMergedData = false;
 
     if (!this.props.pattern) {
       if (isBrowser) {
@@ -472,6 +484,27 @@ class RouteScheduleContainer extends Component {
 
     const routeIdSplitted = this.props.pattern.route.gtfsId.split(':');
     const firstDepartures = this.modifyDepartures(this.props.firstDepartures);
+
+    // If we are missing data from the start of the week, see if we can merge it with next week
+    if (this.props.firstDepartures.wk1mon.length === 0) {
+      const [thisWeekData, nextWeekData] = firstDepartures;
+      const thisWeekHashes = [];
+      const nextWeekHashes = [];
+      for (let i = 0; i < thisWeekData.length; i++) {
+        thisWeekHashes.push(thisWeekData[i][1]);
+      }
+      for (let i = 0; i < nextWeekData.length; i++) {
+        nextWeekHashes.push(nextWeekData[i][1]);
+      }
+
+      // If this weeks data is a subset of next weeks data, merge them
+      if (thisWeekHashes.every(hash => nextWeekHashes.includes(hash))) {
+        // eslint-disable-next-line prefer-destructuring
+        firstDepartures[0] = firstDepartures[1];
+        this.hasMergedData = true;
+      }
+    }
+
     const data = this.populateData(wantedDay, firstDepartures);
 
     const routeTimetableHandler = routeIdSplitted
