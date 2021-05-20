@@ -140,9 +140,13 @@ class StopCardHeader extends React.Component {
         isTerminal={isTerminal}
         favouriteContainer={
           <LazilyLoad modules={modules}>
-            {({ FavouriteStopContainer }) => (
+            {
+              // TODO: Fix places geocoder api request to reimplement favorite button.
+              // https://github.com/stadtnavi/digitransit-ui/issues/481
+              /* {({ FavouriteStopContainer }) => (
               <FavouriteStopContainer stop={stop} isTerminal={isTerminal} />
-            )}
+            )} */
+            }
           </LazilyLoad>
         }
       />
