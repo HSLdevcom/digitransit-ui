@@ -214,7 +214,7 @@ const RouteStop = (
           }}
           aria-label={getText()}
         >
-          <div>
+          <div className="route-stop-container">
             <div className="route-details-upper-row">
               <div className={` route-details_container ${mode}`}>
                 <div className="route-stop-name">
