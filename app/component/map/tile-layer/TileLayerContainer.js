@@ -31,7 +31,6 @@ import SelectVehicleContainer from './SelectVehicleContainer';
 import WeatherStationPopup from '../popups/WeatherStationPopup';
 import RoadworksPopup from '../popups/RoadworksPopup';
 import DynamicParkingLots from './DynamicParkingLots';
-import ChargingStationPopup from '../popups/ChargingStationPopup';
 
 const initialState = {
   selectableTargets: undefined,
@@ -356,6 +355,7 @@ class TileLayerContainer extends GridLayer {
               feature={this.state.selectableTargets[0].feature}
               lat={this.state.coords.lat}
               lon={this.state.coords.lng}
+              onSelectLocation={this.props.onSelectLocation}
               icon={`icon-icon_${DynamicParkingLots.getIcon(
                 this.state.selectableTargets[0].feature.properties.lot_type,
               )}`}
@@ -365,19 +365,10 @@ class TileLayerContainer extends GridLayer {
           const props = this.state.selectableTargets[0].feature.properties;
           contents = (
             <BikeParkPopup
+              onSelectLocation={this.props.onSelectLocation}
               lat={this.state.coords.lat}
               lon={this.state.coords.lng}
               {...props}
-            />
-          );
-        } else if (
-          this.state.selectableTargets[0].layer === 'chargingStations'
-        ) {
-          contents = (
-            <ChargingStationPopup
-              lat={this.state.selectableTargets[0].feature.geom.x}
-              lon={this.state.selectableTargets[0].feature.geom.y}
-              {...this.state.selectableTargets[0].feature.properties}
             />
           );
         } else if (
@@ -438,7 +429,8 @@ class TileLayerContainer extends GridLayer {
             maxWidth="auto"
             position={this.state.coords}
             className={`${this.PopupOptions.className} ${
-              this.props.locationPopup === 'all'
+              this.props.locationPopup === 'all' ||
+              this.props.locationPopup === 'origindestination'
                 ? 'single-popup'
                 : 'narrow-popup'
             }`}

@@ -39,6 +39,7 @@ class ChargingStationPopup extends React.Component {
     fee: PropTypes.bool,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
+    onSelectLocation: PropTypes.func.isRequired,
   };
 
   getCapacity() {
@@ -130,7 +131,7 @@ class ChargingStationPopup extends React.Component {
           <div>{this.getOpeningHours()}</div>
         </div>
         <MarkerPopupBottom
-          onSelectLocation={() => {}}
+          onSelectLocation={this.props.onSelectLocation}
           location={{
             address: normalizedName,
             lat,

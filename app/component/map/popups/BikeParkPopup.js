@@ -17,6 +17,7 @@ class BikeParkPopup extends React.Component {
     name: PropTypes.string,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
+    onSelectLocation: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -70,7 +71,7 @@ class BikeParkPopup extends React.Component {
           <div />
         </div>
         <MarkerPopupBottom
-          onSelectLocation={() => {}}
+          onSelectLocation={this.props.onSelectLocation}
           location={{
             address: name,
             lat: this.props.lat,
