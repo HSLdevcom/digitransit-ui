@@ -31,6 +31,7 @@ import SelectVehicleContainer from './SelectVehicleContainer';
 import WeatherStationPopup from '../popups/WeatherStationPopup';
 import RoadworksPopup from '../popups/RoadworksPopup';
 import DynamicParkingLots from './DynamicParkingLots';
+import ChargingStationPopup from '../popups/ChargingStationPopup';
 
 const initialState = {
   selectableTargets: undefined,
@@ -369,6 +370,16 @@ class TileLayerContainer extends GridLayer {
               lat={this.state.coords.lat}
               lon={this.state.coords.lng}
               {...props}
+            />
+          );
+        } else if (
+          this.state.selectableTargets[0].layer === 'chargingStations'
+        ) {
+          contents = (
+            <ChargingStationPopup
+              lat={this.state.selectableTargets[0].feature.geom.x}
+              lon={this.state.selectableTargets[0].feature.geom.y}
+              {...this.state.selectableTargets[0].feature.properties}
             />
           );
         } else if (
