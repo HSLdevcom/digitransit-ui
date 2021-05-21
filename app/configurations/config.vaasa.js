@@ -27,13 +27,17 @@ export default configMerger(walttiConfig, {
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+
+    twitter: {
+      site: '@vaasavasa',
+    },
   },
 
   title: APP_TITLE,
 
   textLogo: false,
 
-  logo: 'vaasa/LOGO_NEGA_RGB.png',
+  logo: 'vaasa/vaasa_vasa_rgb_nega_v01.png',
 
   feedIds: ['Vaasa'],
 
@@ -60,6 +64,12 @@ export default configMerger(walttiConfig, {
   menu: {
     copyright: { label: `© Vaasa ${walttiConfig.YEAR}` },
     content: [
+      {
+        name: 'menu-feedback',
+        nameEn: 'Submit feedback',
+        href: 'https://kartta.vaasa.fi/eFeedback',
+        icon: 'icon-icon_speech-bubble',
+      },
       {
         name: 'about-this-service',
         nameEn: 'About this service',
