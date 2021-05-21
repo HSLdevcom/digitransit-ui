@@ -233,6 +233,9 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             focusAction={this.focus(leg.from)}
             focusToLeg={this.focusToLeg(leg)}
+            arrivedAtDestinationWithRentedBicycle={
+              itinerary.arrivedAtDestinationWithRentedBicycle
+            }
           />,
         );
       } else if (leg.mode === 'CAR') {
