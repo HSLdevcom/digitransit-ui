@@ -149,6 +149,7 @@ export default configMerger(walttiConfig, {
     },
 
     cityBike: {
+        minZoomStopsNearYou: 10,
         showStationId: false,
         useSpacesAvailable: false,
         showCityBikes: true,

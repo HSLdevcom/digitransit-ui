@@ -19,7 +19,7 @@ function getText(network, available) {
       </p>
     );
   }
-  return null;
+  return '';
 }
 
 const CityBikeAvailability = mapProps(
