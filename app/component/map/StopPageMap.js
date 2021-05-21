@@ -194,11 +194,15 @@ const componentWithBreakpoint = withBreakpoint(StopPageMap);
 const StopPageMapWithStores = connectToStores(
   componentWithBreakpoint,
   [TimeStore, PositionStore, MapLayerStore],
-  ({ config, getStore }) => {
+  ({ config, getStore }, props) => {
     const currentTime = getStore(TimeStore).getCurrentTime().unix();
     const locationState = getStore(PositionStore).getLocationState();
     const ml = config.showVehiclesOnStopPage ? { notThese: ['vehicles'] } : {};
-    ml.force = ['stop', 'citybike', 'terminal']; // show always
+    if (props.citybike) {
+      ml.force = ['citybike']; // show always
+    } else {
+      ml.force = ['stop', 'terminal'];
+    }
     const mapLayers = getStore(MapLayerStore).getMapLayers(ml);
     return {
       locationState,
