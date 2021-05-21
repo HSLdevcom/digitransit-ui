@@ -26,7 +26,7 @@ export default configMerger(walttiConfig, {
         OTP: process.env.OTP_URL || `${API_URL}/routing/v1/router/`,
         MAP: {
             default: MAP_URL,
-            satellite: `${API_URL}/tiles/orthophoto/{z}/{x}/{y}.jpg`,
+            satellite: 'https://tiles.stadtnavi.eu/orthophoto/{z}/{x}/{y}.jpg',
             semiTransparent: SEMI_TRANSPARENT_MAP_URL,
             bicycle: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png',
         },
