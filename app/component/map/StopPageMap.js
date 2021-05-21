@@ -20,6 +20,7 @@ import BackButton from '../BackButton';
 import { addressToItinerarySearch } from '../../util/otpStrings';
 import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
+import { PREFIX_BIKESTATIONS } from '../../util/path';
 
 const StopPageMap = (
   { stop, breakpoint, currentTime, locationState, mapLayers },
@@ -194,11 +195,15 @@ const componentWithBreakpoint = withBreakpoint(StopPageMap);
 const StopPageMapWithStores = connectToStores(
   componentWithBreakpoint,
   [TimeStore, PositionStore, MapLayerStore],
-  ({ config, getStore }) => {
+  ({ config, getStore, match }) => {
     const currentTime = getStore(TimeStore).getCurrentTime().unix();
     const locationState = getStore(PositionStore).getLocationState();
     const ml = config.showVehiclesOnStopPage ? { notThese: ['vehicles'] } : {};
-    ml.force = ['stop', 'citybike', 'terminal']; // show always
+    if (match.location.pathname.includes(PREFIX_BIKESTATIONS)) {
+      ml.force = ['citybike']; // show always
+    } else {
+      ml.force = ['stop', 'terminal'];
+    }
     const mapLayers = getStore(MapLayerStore).getMapLayers(ml);
     return {
       locationState,
@@ -208,6 +213,7 @@ const StopPageMapWithStores = connectToStores(
   },
   {
     config: PropTypes.object,
+    match: PropTypes.object,
   },
 );
 
