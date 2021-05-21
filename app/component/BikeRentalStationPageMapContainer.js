@@ -7,7 +7,7 @@ const BikeRentalStationPageMapContainer = ({ bikeRentalStation }) => {
   if (!bikeRentalStation) {
     return false;
   }
-  return <StopPageMap stop={bikeRentalStation} />;
+  return <StopPageMap stop={bikeRentalStation} citybike />;
 };
 
 BikeRentalStationPageMapContainer.contextTypes = {
