@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable no-param-reassign */
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import moment from 'moment';
@@ -11,7 +11,6 @@ import sortBy from 'lodash/sortBy';
 import cx from 'classnames';
 import { dayRangePattern } from '@digitransit-util/digitransit-util';
 import { getTranslatedDayString } from '@digitransit-util/digitransit-util-route-pattern-option-text';
-import pure from 'recompose/pure';
 import RouteScheduleHeader from './RouteScheduleHeader';
 import RouteScheduleTripRow from './RouteScheduleTripRow';
 import SecondaryButton from './SecondaryButton';
@@ -34,7 +33,7 @@ const isTripCanceled = trip =>
     .map(key => trip.stoptimes[key])
     .every(st => st.realtimeState === RealtimeStateType.Canceled);
 
-class RouteScheduleContainer extends Component {
+class RouteScheduleContainer extends PureComponent {
   static transformTrips(trips, stops) {
     if (trips == null) {
       return null;
@@ -52,11 +51,13 @@ class RouteScheduleContainer extends Component {
   }
 
   static propTypes = {
-    pattern: PropTypes.object.isRequired,
     serviceDay: PropTypes.string,
+    firstDepartures: PropTypes.object.isRequired,
+    pattern: PropTypes.object.isRequired,
     match: matchShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
-    firstDepartures: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
+    route: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -72,7 +73,7 @@ class RouteScheduleContainer extends Component {
 
   state = {
     from: 0,
-    to: this.props.pattern?.stops.length - 1 || undefined,
+    to: this.props.pattern.stops.length - 1 || undefined,
     serviceDay: this.props.serviceDay,
     hasLoaded: false,
   };
@@ -102,10 +103,10 @@ class RouteScheduleContainer extends Component {
     });
   };
 
-  getTrips = (from, to) => {
-    const { stops } = this.props.pattern;
+  getTrips = (currentPattern, from, to) => {
+    const { stops } = currentPattern;
     const trips = RouteScheduleContainer.transformTrips(
-      this.props.pattern.tripsForDate,
+      currentPattern.trips,
       stops,
     );
     if (trips !== null && !this.state.hasLoaded) {
@@ -140,7 +141,7 @@ class RouteScheduleContainer extends Component {
 
       return (
         <RouteScheduleTripRow
-          key={trip.id}
+          key={`${trip.id}-${departureTime}`}
           departureTime={departureTime}
           arrivalTime={arrivalTime}
           isCanceled={isTripCanceled(trip)}
@@ -482,7 +483,10 @@ class RouteScheduleContainer extends Component {
 
     const newFromTo = [this.state.from, this.state.to];
 
-    const routeIdSplitted = this.props.pattern.route.gtfsId.split(':');
+    const currentPattern = this.props.route.patterns.filter(
+      p => p.code === this.props.pattern.code,
+    );
+
     const firstDepartures = this.modifyDepartures(this.props.firstDepartures);
 
     // If we are missing data from the start of the week, see if we can merge it with next week
@@ -507,6 +511,7 @@ class RouteScheduleContainer extends Component {
 
     const data = this.populateData(wantedDay, firstDepartures);
 
+    const routeIdSplitted = this.props.match.params.routeId.split(':');
     const routeTimetableHandler = routeIdSplitted
       ? this.context.config.timetables &&
         this.context.config.timetables[routeIdSplitted[0]]
@@ -517,10 +522,14 @@ class RouteScheduleContainer extends Component {
       this.context.config.URL.ROUTE_TIMETABLES[routeIdSplitted[0]] &&
       routeTimetableHandler.timetableUrlResolver(
         this.context.config.URL.ROUTE_TIMETABLES[routeIdSplitted[0]],
-        this.props.pattern.route,
+        this.props.match.params.routeId,
       );
 
-    const showTrips = this.getTrips(newFromTo[0], newFromTo[1]);
+    const showTrips = this.getTrips(
+      currentPattern[0],
+      newFromTo[0],
+      newFromTo[1],
+    );
 
     if (!this.state.hasLoaded) {
       return (
@@ -537,12 +546,14 @@ class RouteScheduleContainer extends Component {
           }`}
           role="list"
         >
-          <RoutePageControlPanel
-            match={this.props.match}
-            route={this.props.pattern.route}
-            breakpoint={this.props.breakpoint}
-            noInitialServiceDay
-          />
+          {this.props.route && this.props.route.patterns && (
+            <RoutePageControlPanel
+              match={this.props.match}
+              route={this.props.route}
+              breakpoint={this.props.breakpoint}
+              noInitialServiceDay
+            />
+          )}
           <div className="route-schedule-ranges">
             <span className="current-range">{data[2][0]}</span>
             <div className="other-ranges-dropdown">
@@ -624,25 +635,43 @@ class RouteScheduleContainer extends Component {
   }
 }
 
-const pureComponent = pure(withBreakpoint(RouteScheduleContainer));
-const containerComponent = createFragmentContainer(pureComponent, {
-  pattern: graphql`
-    fragment RouteScheduleContainer_pattern on Pattern
-    @argumentDefinitions(
-      serviceDay: { type: "String!", defaultValue: "19700101" }
-    ) {
-      code
-      stops {
+const containerComponent = createFragmentContainer(
+  withBreakpoint(RouteScheduleContainer),
+  {
+    pattern: graphql`
+      fragment RouteScheduleContainer_pattern on Pattern {
         id
-        name
+        code
+        stops {
+          id
+          name
+        }
       }
-      route {
-        url
+    `,
+    route: graphql`
+      fragment RouteScheduleContainer_route on Route
+      @argumentDefinitions(date: { type: "String" }) {
         gtfsId
+        color
         shortName
         longName
         mode
         type
+        ...RouteAgencyInfo_route
+        ...RoutePatternSelect_route @arguments(date: $date)
+        alerts {
+          alertSeverityLevel
+          effectiveEndDate
+          effectiveStartDate
+          trip {
+            pattern {
+              code
+            }
+          }
+        }
+        agency {
+          phone
+        }
         patterns {
           headsign
           code
@@ -650,10 +679,34 @@ const containerComponent = createFragmentContainer(pureComponent, {
             id
             gtfsId
             code
-            name
+            alerts {
+              id
+              alertDescriptionText
+              alertHash
+              alertHeaderText
+              alertSeverityLevel
+              alertUrl
+              effectiveEndDate
+              effectiveStartDate
+              alertDescriptionTextTranslations {
+                language
+                text
+              }
+              alertHeaderTextTranslations {
+                language
+                text
+              }
+              alertUrlTranslations {
+                language
+                text
+              }
+            }
           }
           trips: tripsForDate(serviceDate: $date) {
             stoptimes: stoptimesForDate(serviceDate: $date) {
+              stop {
+                id
+              }
               realtimeState
               scheduledArrival
               scheduledDeparture
@@ -666,236 +719,224 @@ const containerComponent = createFragmentContainer(pureComponent, {
           }
         }
       }
-      tripsForDate(serviceDate: $serviceDay) {
-        id
-        stoptimes: stoptimesForDate(serviceDate: $serviceDay) {
-          realtimeState
-          scheduledArrival
-          scheduledDeparture
-          serviceDay
-          stop {
-            id
+    `,
+    firstDepartures: graphql`
+      fragment RouteScheduleContainer_firstDepartures on Pattern
+      @argumentDefinitions(
+        wk1day1: { type: "String!", defaultValue: "19700101" }
+        wk1day2: { type: "String!", defaultValue: "19700101" }
+        wk1day3: { type: "String!", defaultValue: "19700101" }
+        wk1day4: { type: "String!", defaultValue: "19700101" }
+        wk1day5: { type: "String!", defaultValue: "19700101" }
+        wk1day6: { type: "String!", defaultValue: "19700101" }
+        wk1day7: { type: "String!", defaultValue: "19700101" }
+        wk2day1: { type: "String!", defaultValue: "19700101" }
+        wk2day2: { type: "String!", defaultValue: "19700101" }
+        wk2day3: { type: "String!", defaultValue: "19700101" }
+        wk2day4: { type: "String!", defaultValue: "19700101" }
+        wk2day5: { type: "String!", defaultValue: "19700101" }
+        wk2day6: { type: "String!", defaultValue: "19700101" }
+        wk2day7: { type: "String!", defaultValue: "19700101" }
+        wk3day1: { type: "String!", defaultValue: "19700101" }
+        wk3day2: { type: "String!", defaultValue: "19700101" }
+        wk3day3: { type: "String!", defaultValue: "19700101" }
+        wk3day4: { type: "String!", defaultValue: "19700101" }
+        wk3day5: { type: "String!", defaultValue: "19700101" }
+        wk3day6: { type: "String!", defaultValue: "19700101" }
+        wk3day7: { type: "String!", defaultValue: "19700101" }
+        wk4day1: { type: "String!", defaultValue: "19700101" }
+        wk4day2: { type: "String!", defaultValue: "19700101" }
+        wk4day3: { type: "String!", defaultValue: "19700101" }
+        wk4day4: { type: "String!", defaultValue: "19700101" }
+        wk4day5: { type: "String!", defaultValue: "19700101" }
+        wk4day6: { type: "String!", defaultValue: "19700101" }
+        wk4day7: { type: "String!", defaultValue: "19700101" }
+        wk5day1: { type: "String!", defaultValue: "19700101" }
+        wk5day2: { type: "String!", defaultValue: "19700101" }
+        wk5day3: { type: "String!", defaultValue: "19700101" }
+        wk5day4: { type: "String!", defaultValue: "19700101" }
+        wk5day5: { type: "String!", defaultValue: "19700101" }
+        wk5day6: { type: "String!", defaultValue: "19700101" }
+        wk5day7: { type: "String!", defaultValue: "19700101" }
+      ) {
+        wk1mon: tripsForDate(serviceDate: $wk1day1) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk2mon: tripsForDate(serviceDate: $wk2day1) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk3mon: tripsForDate(serviceDate: $wk3day1) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk4mon: tripsForDate(serviceDate: $wk4day1) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk5mon: tripsForDate(serviceDate: $wk5day1) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk1tue: tripsForDate(serviceDate: $wk1day2) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk2tue: tripsForDate(serviceDate: $wk2day2) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk3tue: tripsForDate(serviceDate: $wk3day2) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk4tue: tripsForDate(serviceDate: $wk4day2) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk5tue: tripsForDate(serviceDate: $wk5day2) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk1wed: tripsForDate(serviceDate: $wk1day3) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk2wed: tripsForDate(serviceDate: $wk2day3) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk3wed: tripsForDate(serviceDate: $wk3day3) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk4wed: tripsForDate(serviceDate: $wk4day3) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk5wed: tripsForDate(serviceDate: $wk5day3) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk1thu: tripsForDate(serviceDate: $wk1day4) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk2thu: tripsForDate(serviceDate: $wk2day4) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk3thu: tripsForDate(serviceDate: $wk3day4) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk4thu: tripsForDate(serviceDate: $wk4day4) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk5thu: tripsForDate(serviceDate: $wk5day4) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk1fri: tripsForDate(serviceDate: $wk1day5) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk2fri: tripsForDate(serviceDate: $wk2day5) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk3fri: tripsForDate(serviceDate: $wk3day5) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk4fri: tripsForDate(serviceDate: $wk4day5) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk5fri: tripsForDate(serviceDate: $wk5day5) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk1sat: tripsForDate(serviceDate: $wk1day6) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk2sat: tripsForDate(serviceDate: $wk2day6) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk3sat: tripsForDate(serviceDate: $wk3day6) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk4sat: tripsForDate(serviceDate: $wk4day6) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk5sat: tripsForDate(serviceDate: $wk5day6) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk1sun: tripsForDate(serviceDate: $wk1day7) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk2sun: tripsForDate(serviceDate: $wk2day7) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk3sun: tripsForDate(serviceDate: $wk3day7) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk4sun: tripsForDate(serviceDate: $wk4day7) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk5sun: tripsForDate(serviceDate: $wk5day7) {
+          departureStoptime {
+            scheduledDeparture
           }
         }
       }
-    }
-  `,
-  firstDepartures: graphql`
-    fragment RouteScheduleContainer_firstDepartures on Pattern
-    @argumentDefinitions(
-      wk1day1: { type: "String!", defaultValue: "19700101" }
-      wk1day2: { type: "String!", defaultValue: "19700101" }
-      wk1day3: { type: "String!", defaultValue: "19700101" }
-      wk1day4: { type: "String!", defaultValue: "19700101" }
-      wk1day5: { type: "String!", defaultValue: "19700101" }
-      wk1day6: { type: "String!", defaultValue: "19700101" }
-      wk1day7: { type: "String!", defaultValue: "19700101" }
-      wk2day1: { type: "String!", defaultValue: "19700101" }
-      wk2day2: { type: "String!", defaultValue: "19700101" }
-      wk2day3: { type: "String!", defaultValue: "19700101" }
-      wk2day4: { type: "String!", defaultValue: "19700101" }
-      wk2day5: { type: "String!", defaultValue: "19700101" }
-      wk2day6: { type: "String!", defaultValue: "19700101" }
-      wk2day7: { type: "String!", defaultValue: "19700101" }
-      wk3day1: { type: "String!", defaultValue: "19700101" }
-      wk3day2: { type: "String!", defaultValue: "19700101" }
-      wk3day3: { type: "String!", defaultValue: "19700101" }
-      wk3day4: { type: "String!", defaultValue: "19700101" }
-      wk3day5: { type: "String!", defaultValue: "19700101" }
-      wk3day6: { type: "String!", defaultValue: "19700101" }
-      wk3day7: { type: "String!", defaultValue: "19700101" }
-      wk4day1: { type: "String!", defaultValue: "19700101" }
-      wk4day2: { type: "String!", defaultValue: "19700101" }
-      wk4day3: { type: "String!", defaultValue: "19700101" }
-      wk4day4: { type: "String!", defaultValue: "19700101" }
-      wk4day5: { type: "String!", defaultValue: "19700101" }
-      wk4day6: { type: "String!", defaultValue: "19700101" }
-      wk4day7: { type: "String!", defaultValue: "19700101" }
-      wk5day1: { type: "String!", defaultValue: "19700101" }
-      wk5day2: { type: "String!", defaultValue: "19700101" }
-      wk5day3: { type: "String!", defaultValue: "19700101" }
-      wk5day4: { type: "String!", defaultValue: "19700101" }
-      wk5day5: { type: "String!", defaultValue: "19700101" }
-      wk5day6: { type: "String!", defaultValue: "19700101" }
-      wk5day7: { type: "String!", defaultValue: "19700101" }
-    ) {
-      wk1mon: tripsForDate(serviceDate: $wk1day1) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk2mon: tripsForDate(serviceDate: $wk2day1) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk3mon: tripsForDate(serviceDate: $wk3day1) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk4mon: tripsForDate(serviceDate: $wk4day1) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk5mon: tripsForDate(serviceDate: $wk5day1) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk1tue: tripsForDate(serviceDate: $wk1day2) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk2tue: tripsForDate(serviceDate: $wk2day2) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk3tue: tripsForDate(serviceDate: $wk3day2) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk4tue: tripsForDate(serviceDate: $wk4day2) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk5tue: tripsForDate(serviceDate: $wk5day2) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk1wed: tripsForDate(serviceDate: $wk1day3) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk2wed: tripsForDate(serviceDate: $wk2day3) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk3wed: tripsForDate(serviceDate: $wk3day3) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk4wed: tripsForDate(serviceDate: $wk4day3) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk5wed: tripsForDate(serviceDate: $wk5day3) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk1thu: tripsForDate(serviceDate: $wk1day4) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk2thu: tripsForDate(serviceDate: $wk2day4) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk3thu: tripsForDate(serviceDate: $wk3day4) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk4thu: tripsForDate(serviceDate: $wk4day4) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk5thu: tripsForDate(serviceDate: $wk5day4) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk1fri: tripsForDate(serviceDate: $wk1day5) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk2fri: tripsForDate(serviceDate: $wk2day5) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk3fri: tripsForDate(serviceDate: $wk3day5) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk4fri: tripsForDate(serviceDate: $wk4day5) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk5fri: tripsForDate(serviceDate: $wk5day5) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk1sat: tripsForDate(serviceDate: $wk1day6) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk2sat: tripsForDate(serviceDate: $wk2day6) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk3sat: tripsForDate(serviceDate: $wk3day6) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk4sat: tripsForDate(serviceDate: $wk4day6) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk5sat: tripsForDate(serviceDate: $wk5day6) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk1sun: tripsForDate(serviceDate: $wk1day7) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk2sun: tripsForDate(serviceDate: $wk2day7) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk3sun: tripsForDate(serviceDate: $wk3day7) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk4sun: tripsForDate(serviceDate: $wk4day7) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk5sun: tripsForDate(serviceDate: $wk5day7) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-    }
-  `,
-});
+    `,
+  },
+);
 
 export { containerComponent as default, RouteScheduleContainer as Component };

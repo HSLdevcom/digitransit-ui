@@ -9,8 +9,8 @@ export default {
     // contains the timetable pdf for the current route (it can be stored under different route)
     // if there is no available timetable for the route, return null so that the weekly
     // timetable button will not be rendered in UI
-    timetableUrlResolver: function timetableUrlResolver(baseURL, route) {
-      const routeIdSplitted = route.gtfsId.split(':');
+    timetableUrlResolver: function timetableUrlResolver(baseURL, routeIdIn) {
+      const routeIdSplitted = routeIdIn.split(':');
       const routeId = routeIdSplitted[1];
       const routePDFUrlName = this.availableRouteTimetables[routeId];
       if (routePDFUrlName === undefined) {
