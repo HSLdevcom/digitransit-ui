@@ -14,6 +14,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@axe-core/react@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "@axe-core/react@npm:4.2.0"
+  dependencies:
+    axe-core: ^4.2.0
+    requestidlecallback: ^0.3.0
+  checksum: 70f7b3b7d4299c5feeca0fc50805e984bb50f2f6c86f37b21bf5b8ce7827a5a057cf4fe9f7ab08b69da446a414e7f3306f1707a43f451f0401cf2d813a157043
+  languageName: node
+  linkType: hard
+
 "@babel/cli@npm:7.11.5":
   version: 7.11.5
   resolution: "@babel/cli@npm:7.11.5"
@@ -5798,6 +5808,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axe-core@npm:^4.2.0, axe-core@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "axe-core@npm:4.2.1"
+  checksum: 6a3f1a9f2d4c8a27aafd044acb2d02d52008ef392aeced4859fcfa85a559347e267eeb9db1f7d5807eda30d895354cdbfeb3437b018b45904e3cc609bf461906
+  languageName: node
+  linkType: hard
+
 "axios@npm:0.20.0":
   version: 0.20.0
   resolution: "axios@npm:0.20.0"
@@ -9064,6 +9081,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "digitransit-ui@workspace:."
   dependencies:
+    "@axe-core/react": ^4.2.0
     "@babel/cli": 7.11.5
     "@babel/core": 7.11.5
     "@babel/plugin-proposal-class-properties": 7.12.1
@@ -9094,6 +9112,7 @@ __metadata:
     "@rollup/plugin-json": 4.1.0
     "@rollup/plugin-node-resolve": 11.0.1
     autoprefixer: 9.8.6
+    axe-core: ^4.2.1
     babel-core: 7.0.0-bridge.0
     babel-eslint: 10.1.0
     babel-loader: 8.1.0
@@ -21488,6 +21507,13 @@ fsevents@~2.3.1:
     tunnel-agent: ^0.6.0
     uuid: ^3.3.2
   checksum: 7a74841f3024cac21d8c3cca7f7f2e4243fbd62464d2f291fddb94008a9d010e20c4a1488f4224b03412a4438a699db2a3de11019e486c8e656f86b0b79bf022
+  languageName: node
+  linkType: hard
+
+"requestidlecallback@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "requestidlecallback@npm:0.3.0"
+  checksum: 7a979514ad6913954e73edf1fd193484177fa0e603c85a6f5e210c944c032d6f0c9e79164ecdd1603cf9d2204597804a92f7674d5f3fb34aa8a0d09aadd983c2
   languageName: node
   linkType: hard
 

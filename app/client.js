@@ -108,6 +108,9 @@ async function init() {
   initAnalyticsClientSide();
 
   if (process.env.NODE_ENV === 'development') {
+    // eslint-disable-next-line global-require
+    const axe = require('@axe-core/react');
+    axe(React, ReactDOM, 1000);
     try {
       // eslint-disable-next-line global-require, import/no-dynamic-require
       require(`../sass/themes/${config.CONFIG}/main.scss`);
