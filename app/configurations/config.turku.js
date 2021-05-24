@@ -192,4 +192,7 @@ export default configMerger(walttiConfig, {
 
   showNearYouButtons: true,
   allowLogin: false,
+  zones: {
+    routes: false,
+  },
 });
