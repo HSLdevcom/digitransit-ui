@@ -150,14 +150,14 @@ export default configMerger(walttiConfig, {
     3: 'C',
     4: 'D',
   },
-  itinerary: {
-    showZoneLimits: true,
-  },
 
   stopCard: {
     header: {
-      showZone: true,
       virtualMonitorBaseUrl: 'https://pysakit.jyvaskyla.fi/stop/',
     },
+  },
+  zones: {
+    stops: true,
+    itinerary: true,
   },
 });

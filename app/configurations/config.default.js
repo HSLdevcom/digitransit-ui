@@ -181,8 +181,6 @@ export default {
     timeNavigation: {
       enableButtonArrows: false,
     },
-
-    showZoneLimits: false,
     // Number of days to include to the service time range from the future (DT-3317)
     serviceTimeRange: 30,
   },
@@ -242,7 +240,6 @@ export default {
       showDescription: true,
       showStopCode: true,
       showDistance: true,
-      showZone: false,
     },
   },
 
@@ -709,12 +706,14 @@ export default {
   showNearYouButtons: false,
   nearYouModes: [],
 
-  zoneIconsAsSvg: false,
-
   /* Option to disable the "next" column of the Route panel as it can be confusing sometimes: https://github.com/mfdz/digitransit-ui/issues/167 */
   displayNextDeparture: true,
 
   messageBarAlerts: false,
 
   availableTickets: {},
+  zones: {
+    stops: false,
+    itinerary: false,
+  },
 };

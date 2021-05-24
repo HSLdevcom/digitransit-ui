@@ -147,13 +147,11 @@ export default configMerger(walttiConfig, {
     8: 'H',
     9: 'I',
   },
-  stopCard: {
-    header: {
-      showZone: true,
-    },
-  },
 
   vehicles: true,
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
+  zones: {
+    stops: true,
+  },
 });
