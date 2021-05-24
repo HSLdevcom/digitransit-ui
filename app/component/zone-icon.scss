@@ -14,7 +14,7 @@
     font-weight: $font-weight-medium;
     &.multi-letter {
       border-radius: 10px;
-      width: auto;
+      width: max-content;
     }
   }
   .unknown {
