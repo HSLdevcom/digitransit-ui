@@ -22,6 +22,7 @@ describe('<StopCardHeader />', () => {
       context: {
         ...mockContext,
         config: {
+          stopCard: { header: {} },
           zones: {
             stops: true,
           },
@@ -88,6 +89,7 @@ describe('<StopCardHeader />', () => {
       context: {
         ...mockContext,
         config: {
+          stopCard: { header: {} },
           zones: {
             stops: false,
           },
