@@ -52,7 +52,7 @@ export default {
 
   showHSLTracking: false,
   allowLogin: true,
-  allowFavouritesFromLocalstorage: false,
+  allowFavouritesFromLocalstorage: true,
 
   nearbyRoutes: {
     radius: 500,
