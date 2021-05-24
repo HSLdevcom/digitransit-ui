@@ -67,7 +67,7 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config: {
-          itinerary: { showZoneLimits: true },
+          zones: { itinerary: true },
           colors: { primary: 'ffffff' },
           feedIds: ['HSL'],
         },
@@ -136,7 +136,7 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config: {
-          itinerary: { showZoneLimits: true },
+          zones: { itinerary: true },
           colors: { primary: 'ffffff' },
           feedIds: ['HSL'],
         },
@@ -204,7 +204,7 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config: {
-          itinerary: { showZoneLimits: true },
+          zones: { itinerary: true },
           colors: { primary: 'ffffff' },
           feedIds: ['HSL'],
         },
@@ -267,7 +267,7 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config: {
-          itinerary: { showZoneLimits: false },
+          zones: { itinerary: false },
           colors: { primary: 'ffffff' },
           feedIds: ['HSL'],
         },
@@ -324,7 +324,7 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config: {
-          itinerary: { showZoneLimits: true },
+          zones: { itinerary: true },
           colors: { primary: 'ffffff' },
         },
         focusFunction: () => () => {},
