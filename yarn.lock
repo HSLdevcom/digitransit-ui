@@ -24,6 +24,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@axe-core/webdriverjs@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "@axe-core/webdriverjs@npm:4.2.0"
+  dependencies:
+    axe-core: ^4.2.0
+  peerDependencies:
+    selenium-webdriver: ">= 2.53.1"
+  checksum: c915c7200b049653f90e75e1f6604b72e4249eba2b39c80ba8fb9c32e3d6922cdb60d5bb74dda2789066356cc397c1b2a17368908b10a60ddeaa623040491f8b
+  languageName: node
+  linkType: hard
+
 "@babel/cli@npm:7.11.5":
   version: 7.11.5
   resolution: "@babel/cli@npm:7.11.5"
@@ -9082,6 +9093,7 @@ __metadata:
   resolution: "digitransit-ui@workspace:."
   dependencies:
     "@axe-core/react": ^4.2.0
+    "@axe-core/webdriverjs": ^4.2.0
     "@babel/cli": 7.11.5
     "@babel/core": 7.11.5
     "@babel/plugin-proposal-class-properties": 7.12.1
