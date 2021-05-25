@@ -9145,6 +9145,7 @@ __metadata:
     react: 16.13.0
     react-autosuggest: 10.0.3
     react-autowhatever: 10.2.1
+    react-charging-station-connector-icons: ^0.2.1
     react-click-outside: 3.0.1
     react-cookie: 1.0.5
     react-dom: 16.13.0
@@ -20325,6 +20326,13 @@ fsevents@~2.3.1:
   peerDependencies:
     react: ">=0.14.7"
   checksum: d060a144ebbad9c9bfcdc18da8c22b46e3bf05839723d68da59bf9551f26c5139fbe66608bd6be135a1500720ee25dc9346042a6e346d38e97c488e9633fe46d
+  languageName: node
+  linkType: hard
+
+"react-charging-station-connector-icons@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "react-charging-station-connector-icons@npm:0.2.1"
+  checksum: d36da84165ce920973bad3c4075a091901e8b7b1240597ba0bcdf2a3beec880ad18002634e9886d3ccd67b74e6e5a0935b825c4df87ac2d8c6d62f08ed216619
   languageName: node
   linkType: hard
 

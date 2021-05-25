@@ -1,6 +1,17 @@
+/* eslint-disable camelcase */
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { intlShape } from 'react-intl';
+import {
+  Chademo,
+  DomesticF,
+  IEC603092Single,
+  IEC603092SThree,
+  IEC62196T1,
+  IEC62196T2,
+  IEC62196T2Combo,
+  TeslaS,
+} from 'react-charging-station-connector-icons';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
@@ -8,6 +19,32 @@ import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import ChargingStations from '../tile-layer/ChargingStations';
 import Loading from '../../Loading';
+
+const CONNECTOR_ICONS_MAP = {
+  CHADEMO: <Chademo variant="solid" subtitle="false" />,
+  DOMESTIC_F: <DomesticF variant="solid" subtitle="false" />,
+  IEC_60309_2_single_16: <IEC603092Single variant="solid" subtitle="false" />,
+  IEC_60309_2_three_16: <IEC603092SThree variant="solid" subtitle="false" />,
+  IEC_60309_2_three_32: <IEC603092SThree variant="solid" subtitle="false" />,
+  IEC_60309_2_three_64: <IEC603092SThree variant="solid" subtitle="false" />,
+  IEC_62196_T1: <IEC62196T1 variant="solid" subtitle="false" />,
+  IEC_62196_T2: <IEC62196T2 variant="solid" subtitle="false" />,
+  IEC_62196_T2_COMBO: <IEC62196T2Combo variant="solid" subtitle="false" />,
+  TESLA_S: <TeslaS variant="solid" subtitle="false" />,
+};
+
+const CONNECTOR_TYPES_MAP = {
+  CHADEMO: 'CHAdeMO',
+  DOMESTIC_F: 'Type F',
+  IEC_60309_2_single_16: 'Single phase',
+  IEC_60309_2_three_16: 'Three phase',
+  IEC_60309_2_three_32: 'Three phase',
+  IEC_60309_2_three_64: 'Three phase',
+  IEC_62196_T1: 'Type 1',
+  IEC_62196_T2: 'Type 2',
+  IEC_62196_T2_COMBO: 'Type 2 combo',
+  TESLA_S: 'Tesla S',
+};
 
 const ChargingStationPopup = (props, context) => {
   const CHARGING_STATION_DETAILS_API =
@@ -53,35 +90,134 @@ const ChargingStationPopup = (props, context) => {
     return null;
   };
 
-  const getPayment = paymentResources => {
-    return <a href={paymentResources[0].url}>Payment details</a>;
+  const getDirectDeepLink = () => {
+    const { intl } = context;
+    const link = details?.evses
+      ? details.evses[0]?.related_resource[0]?.url
+      : undefined;
+    return (
+      link && (
+        <a href={link}>
+          {intl.formatMessage({
+            id: 'charging-direct-deep-link',
+            defaultMessage: 'Start charging',
+          })}
+        </a>
+      )
+    );
   };
 
-  const getEvses = () => {
-    const { evses } = details;
+  const getOpeningTimes = () => {
     const { intl } = context;
-    if (evses) {
-      return (
+    const openingTimes =
+      details?.opening_times || details?.evses
+        ? details.evses[0].opening_times
+        : undefined;
+    return (
+      openingTimes?.twentyfourseven && (
         <div>
-          {evses.map(evse => (
-            <div key={evse.evse_id}>
-              <h4>{evse.evse_id}</h4>
-              <div>{`Status: ${evse.status}`}</div>
-              {evse.opening_times.twentyfourseven && (
-                <div>
-                  {intl.formatMessage({
-                    id: 'open-24-7',
-                    defaultMessage: 'Open 24/7',
-                  })}
-                </div>
-              )}
-              {evse.related_resource && getPayment(evse.related_resource)}
-            </div>
-          ))}
+          {intl.formatMessage({
+            id: 'open-24-7',
+            defaultMessage: 'Open 24/7',
+          })}
         </div>
-      );
-    }
-    return <div />;
+      )
+    );
+  };
+
+  const getAddress = () => {
+    const { address, city, postal_code } = details;
+
+    return (
+      address &&
+      city &&
+      postal_code && <div>{`${address}, ${postal_code}, ${city}`}</div>
+    );
+  };
+
+  const getPhoneNumber = () => {
+    const { evses } = details;
+    const phone = evses ? evses[0].phone : undefined;
+
+    return phone && <div>{phone}</div>;
+  };
+
+  const getPaymentTypes = () => {
+    const { intl } = context;
+
+    const capabilities = details?.evses
+      ? details.evses[0].capabilities
+      : undefined;
+    const supportsRfid = capabilities?.includes('RFID_READER');
+    const rfidMessage = intl.formatMessage({
+      id: 'charging-payment-rfid',
+      defaultMessage: 'RFID',
+    });
+    const supportsCreditCard = capabilities?.includes('CREDIT_CARD_PAYABLE');
+    const creditCardMessage = intl.formatMessage({
+      id: 'charging-payment-credit',
+      defaultMessage: 'Credit Card',
+    });
+    const supportsDebitCard = capabilities?.includes('DEBIT_CARD_PAYABLE');
+    const debitCardMessage = intl.formatMessage({
+      id: 'charging-payment-debit',
+      defaultMessage: 'Debit Card',
+    });
+    const supportsContactless = capabilities?.includes(
+      'CONTACTLESS_CARD_SUPPORT',
+    );
+    const contactlessMessage = intl.formatMessage({
+      id: 'charging-payment-contactless',
+      defaultMessage: 'Contactless',
+    });
+
+    return (
+      capabilities && (
+        <div>
+          {supportsRfid && <p>{`${rfidMessage}`}</p>}
+          {supportsCreditCard && <p>{`, ${creditCardMessage}`}</p>}
+          {supportsDebitCard && <p>{`, ${debitCardMessage}`}</p>}
+          {supportsContactless && <p>{`, ${contactlessMessage}`}</p>}
+        </div>
+      )
+    );
+  };
+
+  const getConnectors = () => {
+    const { evses } = details;
+    const connectors = evses?.reduce(
+      (previous, evse) => [
+        ...previous,
+        ...evse.connectors.map(connector => {
+          return {
+            standard: connector.standard,
+            maxAmperage: connector.max_amperage,
+          };
+        }),
+      ],
+      [],
+    );
+
+    const uniqueConnectors = [
+      ...new Map(connectors?.map(item => [item.standard, item])).values(),
+    ];
+
+    const fields = uniqueConnectors?.map(connector => (
+      <div key={connector.standard}>
+        {CONNECTOR_ICONS_MAP[connector.standard]}
+        <p>{`${CONNECTOR_TYPES_MAP[connector.standard]} - ${
+          connector.maxAmperage
+        }`}</p>
+      </div>
+    ));
+
+    return (
+      evses && (
+        <div>
+          <div>{fields}</div>
+        </div>
+      )
+    );
   };
 
   return !loading ? (
@@ -98,7 +234,12 @@ const ChargingStationPopup = (props, context) => {
         />
         <div className="content">
           <div>{getCapacity()}</div>
-          {getEvses()}
+          <div>{getOpeningTimes()}</div>
+          <div>{getConnectors()}</div>
+          <div>{getPaymentTypes()}</div>
+          <div>{getAddress()}</div>
+          <div>{getPhoneNumber()}</div>
+          <div>{getDirectDeepLink()}</div>
         </div>
       </div>
       <MarkerPopupBottom
