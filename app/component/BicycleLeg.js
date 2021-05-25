@@ -15,13 +15,21 @@ import {
 } from '../util/citybikes';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { getServiceAlertDescription } from '../util/alertUtils';
 import { AlertSeverityLevelType } from '../constants';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
 import CityBikeLeg from './CityBikeLeg';
 
-function BicycleLeg({ focusAction, index, leg, focusToLeg }, { config, intl }) {
+function BicycleLeg(
+  {
+    focusAction,
+    index,
+    leg,
+    focusToLeg,
+    arrivedAtDestinationWithRentedBicycle,
+  },
+  { config, intl },
+) {
   let stopsDescription;
   const distance = displayDistance(
     parseInt(leg.distance, 10),
@@ -44,7 +52,6 @@ function BicycleLeg({ focusAction, index, leg, focusToLeg }, { config, intl }) {
   const isFirstLeg = i => i === 0;
   const isScooter =
     networkConfig && networkConfig.type === CityBikeNetworkType.Scooter;
-  let freeFloatAlert = null;
   let rentalUri;
 
   if (leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') {
@@ -71,10 +78,6 @@ function BicycleLeg({ focusAction, index, leg, focusToLeg }, { config, intl }) {
   }
 
   if (leg.rentedBike === true) {
-    const alerts = leg.alerts || [];
-    [freeFloatAlert] = alerts.filter(
-      a => a.alertId === 'bike_rental_free_floating_drop_off',
-    );
     modeClassName = 'citybike';
     legDescription = (
       <FormattedMessage
@@ -131,7 +134,7 @@ function BicycleLeg({ focusAction, index, leg, focusToLeg }, { config, intl }) {
             id="itinerary-summary.show-on-map"
             values={{ target: leg.from.name || '' }}
           />
-          {!!freeFloatAlert && (
+          {!!arrivedAtDestinationWithRentedBicycle && (
             <FormattedMessage id="itinerary-details.route-has-info-alert" />
           )}
         </span>
@@ -174,13 +177,15 @@ function BicycleLeg({ focusAction, index, leg, focusToLeg }, { config, intl }) {
             bikeRentalStation={leg.from.bikeRentalStation}
           />
         )}
-        {freeFloatAlert && (
+        {arrivedAtDestinationWithRentedBicycle && (
           <div className={`itinerary-alert-info ${mode.toLowerCase()}`}>
             <ServiceAlertIcon
               className="inline-icon"
               severityLevel={AlertSeverityLevelType.Info}
             />
-            {getServiceAlertDescription(freeFloatAlert, intl.locale)}
+            <div>
+              <FormattedMessage id="alert:bikerental:free-floating-drop-off" />
+            </div>
           </div>
         )}
         {rentalUri && (
@@ -364,6 +369,11 @@ BicycleLeg.propTypes = {
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,
+  arrivedAtDestinationWithRentedBicycle: PropTypes.bool,
+};
+
+BicycleLeg.defaultProps = {
+  arrivedAtDestinationWithRentedBicycle: false,
 };
 
 BicycleLeg.contextTypes = {

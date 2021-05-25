@@ -258,7 +258,7 @@ const translations = {
   de: {
     imprint: 'Impressum',
     privacy: 'Datenschutz',
-    'rent-cycle-at': 'Leirad ausleihen:',
+    'rent-cycle-at': 'Leihrad ausleihen:',
     'regiorad-availability': 'Leihräder verfübar',
     'taxi-availability': 'Taxis verfübar',
     'report-defect': 'Mangel melden',
