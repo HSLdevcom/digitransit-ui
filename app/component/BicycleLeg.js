@@ -183,7 +183,9 @@ function BicycleLeg(
               className="inline-icon"
               severityLevel={AlertSeverityLevelType.Info}
             />
-            <FormattedMessage id="alert:bikerental:free-floating-drop-off" />
+            <div>
+              <FormattedMessage id="alert:bikerental:free-floating-drop-off" />
+            </div>
           </div>
         )}
         {rentalUri && (
