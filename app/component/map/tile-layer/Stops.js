@@ -21,37 +21,45 @@ class Stops {
 
   static getName = () => 'stop';
 
-  drawStop(feature, isHybrid) {
+  drawStop(feature, isHybrid, zoom, minZoom) {
     const isHilighted = false;
     /* this.tile.hilightedStops &&
       this.tile.hilightedStops.includes(feature.properties.gtfsId); */
     if (!isFeatureLayerEnabled(feature, Stops.getName(), this.mapLayers)) {
       return;
     }
-    if (isHybrid) {
-      drawHybridStopIcon(
+
+    const ignoreMinZoomLevel =
+      feature.properties.type === 'FERRY' ||
+      feature.properties.type === 'RAIL' ||
+      feature.properties.type === 'SUBWAY';
+
+    if (ignoreMinZoomLevel || zoom >= minZoom) {
+      if (isHybrid) {
+        drawHybridStopIcon(
+          this.tile,
+          feature.geom,
+          isHilighted,
+          this.config.colors.iconColors,
+        );
+        return;
+      }
+
+      drawStopIcon(
         this.tile,
         feature.geom,
+        feature.properties.type,
+        feature.properties.platform !== 'null'
+          ? feature.properties.platform
+          : false,
         isHilighted,
+        !!(
+          feature.properties.type === 'FERRY' &&
+          feature.properties.code !== 'null'
+        ),
         this.config.colors.iconColors,
       );
-      return;
     }
-
-    drawStopIcon(
-      this.tile,
-      feature.geom,
-      feature.properties.type,
-      feature.properties.platform !== 'null'
-        ? feature.properties.platform
-        : false,
-      isHilighted,
-      !!(
-        feature.properties.type === 'FERRY' &&
-        feature.properties.code !== 'null'
-      ),
-      this.config.colors.iconColors,
-    );
   }
 
   stopsToShowCheck(feature) {
@@ -174,15 +182,19 @@ class Stops {
                   f,
                 );
                 if (isNotAHybridStop && isNotAnExcludedCarpoolStop) {
-                  this.drawStop(f, !!hybridId);
+                  this.drawStop(
+                    f,
+                    !!hybridId,
+                    this.tile.coords.z,
+                    this.config.stopsMinZoom,
+                  );
                 }
               });
           }
           if (
             vt.layers.stations != null &&
             this.config.terminalStopsMaxZoom >
-              this.tile.coords.z + (this.tile.props.zoomOffset || 0) &&
-            this.tile.coords.z >= this.config.terminalStopsMinZoom
+              this.tile.coords.z + (this.tile.props.zoomOffset || 0)
           ) {
             for (
               let i = 0, ref = vt.layers.stations.length - 1;
@@ -200,12 +212,17 @@ class Stops {
                   this.tile.hilightedStops &&
                   this.tile.hilightedStops.includes(feature.properties.gtfsId);
                 this.features.unshift(pick(feature, ['geom', 'properties']));
-                drawTerminalIcon(
-                  this.tile,
-                  feature.geom,
-                  feature.properties.type,
-                  isHilighted,
-                );
+                if (
+                  isHilighted ||
+                  this.tile.coords.z >= this.config.terminalStopsMinZoom
+                ) {
+                  drawTerminalIcon(
+                    this.tile,
+                    feature.geom,
+                    feature.properties.type,
+                    isHilighted,
+                  );
+                }
               }
             }
           }

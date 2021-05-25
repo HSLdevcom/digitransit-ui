@@ -78,8 +78,6 @@ export default {
   realTime: realtime,
   realTimePatch: REALTIME_PATCH,
 
-  showNewMqtt: !process.env.DISABLE_NEW_MQTT_FEATURES,
-
   // Google Tag Manager id
   GTMid: process.env.GTM_ID || null,
 
@@ -166,6 +164,8 @@ export default {
     'Europe/Helsinki|EET EEST|-20 -30|0101010101010101010101010101010101010|22k10 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00|12e5',
 
   allowLogin: false,
+  allowFavouritesFromLocalstorage: true,
+
   mainMenu: {
     // Whether to show the left menu toggle button at all
     show: true,
@@ -722,6 +722,7 @@ export default {
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
 
+  showRouteSearch: true,
   showNearYouButtons: false,
   nearYouModes: [],
   showStopAndRouteSearch: true,

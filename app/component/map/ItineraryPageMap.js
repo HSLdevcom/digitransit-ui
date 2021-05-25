@@ -12,7 +12,7 @@ import VehicleMarkerContainer from './VehicleMarkerContainer'; // DT-3473
 function ItineraryPageMap(
   {
     itineraries,
-    active,
+    activeIndex,
     showActive,
     from,
     to,
@@ -26,17 +26,12 @@ function ItineraryPageMap(
   const { hash } = match.params;
   const leafletObjs = [];
 
-  if (
-    hash !== undefined &&
-    hash !== 'walk' &&
-    hash !== 'bike' &&
-    showVehicles
-  ) {
+  if (showVehicles) {
     leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
   }
   if (!showActive) {
     itineraries.forEach((itinerary, i) => {
-      if (i !== active) {
+      if (i !== activeIndex) {
         leafletObjs.push(
           <ItineraryLine
             key={`line_${i}`}
@@ -48,13 +43,13 @@ function ItineraryPageMap(
       }
     });
   }
-  if (active < itineraries.length) {
+  if (activeIndex < itineraries.length) {
     leafletObjs.push(
       <ItineraryLine
-        key={`line_${active}`}
-        hash={active}
+        key={`line_${activeIndex}`}
+        hash={activeIndex}
         streetMode={hash}
-        legs={itineraries[active].legs}
+        legs={itineraries[activeIndex].legs}
         showTransferLabels={showActive}
         showIntermediateStops
       />,
@@ -110,7 +105,7 @@ function ItineraryPageMap(
 
 ItineraryPageMap.propTypes = {
   itineraries: PropTypes.array.isRequired,
-  active: PropTypes.number.isRequired,
+  activeIndex: PropTypes.number.isRequired,
   showActive: PropTypes.bool,
   breakpoint: PropTypes.string.isRequired,
   showVehicles: PropTypes.bool,

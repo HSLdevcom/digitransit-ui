@@ -4,7 +4,7 @@ import { Link } from 'found';
 import AddressRow from './AddressRow';
 import ZoneIcon from './ZoneIcon';
 import PlatformNumber from './PlatformNumber';
-import FavouriteStopContainer from './FavouriteStopContainer';
+// import FavouriteStopContainer from './FavouriteStopContainer';
 import { getZoneLabel } from '../util/legUtils';
 
 const StopNearYouHeader = (
@@ -39,11 +39,15 @@ const StopNearYouHeader = (
             )}
         </div>
       </div>
-      <FavouriteStopContainer
+      {
+        // TODO: Fix places geocoder api request to reimplement favorite button.
+        // https://github.com/stadtnavi/digitransit-ui/issues/481
+        /* <FavouriteStopContainer
         className="stop-favourite-container"
         stop={stop}
         isTerminal={isStation}
-      />
+      /> */
+      }
     </div>
   );
 };

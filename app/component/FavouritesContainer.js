@@ -49,7 +49,7 @@ class FavouritesContainer extends React.Component {
     isMobile: PropTypes.bool,
     favouriteStatus: PropTypes.string,
     favouriteModalAction: PropTypes.string,
-    allowLogin: PropTypes.bool,
+    requireLoggedIn: PropTypes.bool,
     isLoggedIn: PropTypes.bool,
     color: PropTypes.string,
     hoverColor: PropTypes.string,
@@ -59,7 +59,7 @@ class FavouritesContainer extends React.Component {
     favourites: [],
     isMobile: false,
     favouriteStatus: FavouriteStore.STATUS_FETCHING,
-    allowLogin: false,
+    requireLoggedIn: false,
     isLoggedIn: false,
   };
 
@@ -76,7 +76,7 @@ class FavouritesContainer extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (
-      this.context.config.allowLogin &&
+      this.context.config.requireLoggedIn &&
       this.props.isLoggedIn &&
       !prevProps.isLoggedIn
     ) {
@@ -316,7 +316,7 @@ class FavouritesContainer extends React.Component {
   render() {
     const isLoading =
       this.props.favouriteStatus === FavouriteStore.STATUS_FETCHING_OR_UPDATING;
-    const { allowLogin, isLoggedIn } = this.props;
+    const { requireLoggedIn, isLoggedIn } = this.props;
     const targets = ['Locations', 'CurrentPosition'];
     const { fontWeights } = this.context.config;
     if (
@@ -331,22 +331,22 @@ class FavouritesContainer extends React.Component {
           favourites={this.props.favourites}
           onClickFavourite={this.props.onClickFavourite}
           onAddPlace={() =>
-            !allowLogin || isLoggedIn
+            !requireLoggedIn || isLoggedIn
               ? this.setState({ addModalOpen: true })
               : this.setState({ loginModalOpen: true, modalAction: 'AddPlace' })
           }
           onEdit={() =>
-            !allowLogin || isLoggedIn
+            !requireLoggedIn || isLoggedIn
               ? this.setState({ editModalOpen: true })
               : this.setState({ loginModalOpen: true, modalAction: 'Edit' })
           }
           onAddHome={() =>
-            !allowLogin || isLoggedIn
+            !requireLoggedIn || isLoggedIn
               ? this.addHome()
               : this.setState({ loginModalOpen: true, modalAction: 'AddHome' })
           }
           onAddWork={() =>
-            !allowLogin || isLoggedIn
+            !requireLoggedIn || isLoggedIn
               ? this.addWork()
               : this.setState({ loginModalOpen: true, modalAction: 'AddWork' })
           }
@@ -415,6 +415,7 @@ const connectedComponent = connectToStores(
   context => ({
     favourites:
       !context.config.allowLogin ||
+      context.config.allowFavouritesFromLocalstorage ||
       context.getStore('UserStore').getUser().sub !== undefined
         ? context
             .getStore('FavouriteStore')
@@ -422,7 +423,7 @@ const connectedComponent = connectToStores(
             .filter(item => item.type === 'place')
         : [],
     favouriteStatus: context.getStore('FavouriteStore').getStatus(),
-    allowLogin: context.config.allowLogin,
+    requireLoggedIn: !context.config.allowFavouritesFromLocalstorage,
     isLoggedIn:
       context.config.allowLogin &&
       context.getStore('UserStore').getUser().sub !== undefined,

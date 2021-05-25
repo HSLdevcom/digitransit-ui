@@ -1,8 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import elementResizeDetectorMaker from 'element-resize-detector';
-
 import LeafletMap from 'react-leaflet/es/Map';
 import TileLayer from 'react-leaflet/es/TileLayer';
 import AttributionControl from 'react-leaflet/es/AttributionControl';
@@ -14,8 +11,13 @@ import isString from 'lodash/isString';
 import isEmpty from 'lodash/isEmpty';
 // Webpack handles this by bundling it with the other css files
 import 'leaflet/dist/leaflet.css';
-
 import { withRouter, routerShape, matchShape } from 'found';
+import VehicleMarkerContainer from './VehicleMarkerContainer';
+import {
+  startRealTimeClient,
+  stopRealTimeClient,
+} from '../../action/realTimeClientAction';
+
 import PositionMarker from './PositionMarker';
 import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
 import { boundWithMinimumArea } from '../../util/geo-utils';
@@ -28,8 +30,28 @@ import { getMapMode } from '../../util/queryUtils';
 import GeoJSON from './GeoJSON';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
-
 const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_plus"/></svg>`;
+
+/* foo-eslint-disable react/sort-comp */
+
+const startClient = context => {
+  const { realTime } = context.config;
+  let agency;
+  /* handle multiple feedid case */
+  context.config.feedIds.forEach(ag => {
+    if (!agency && realTime[ag]) {
+      agency = ag;
+    }
+  });
+  const source = agency && realTime[agency];
+  if (source && source.active) {
+    const config = {
+      ...source,
+      agency,
+    };
+    context.executeAction(startRealTimeClient, config);
+  }
+};
 
 class Map extends React.Component {
   static propTypes = {
@@ -69,16 +91,44 @@ class Map extends React.Component {
 
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
+    getStore: PropTypes.func,
     config: PropTypes.object.isRequired,
     router: routerShape,
     match: matchShape,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = { zoom: 14 };
+  }
+
+  updateZoom = () => {
+    // eslint-disable-next-line no-underscore-dangle
+    const zoom = this.map?.leafletElement?._zoom || this.props.zoom || 16;
+    if (zoom !== this.state.zoom) {
+      this.setState({ zoom });
+    }
+  };
+
   componentDidMount() {
-    /* eslint-disable no-underscore-dangle */
-    if (this.map) {
-      this.erd = elementResizeDetectorMaker({ strategy: 'scroll' });
-      this.erd.listenTo(this.map.leafletElement._container, this.resizeMap);
+    if (this.props.mapLayers.vehicles) {
+      startClient(this.context);
+    }
+    this.updateZoom();
+  }
+
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(newProps) {
+    this.updateZoom();
+    if (newProps.mapLayers.vehicles) {
+      if (!this.props.mapLayers.vehicles) {
+        startClient(this.context);
+      }
+    } else if (this.props.mapLayers.vehicles) {
+      const { client } = this.context.getStore('RealTimeInformationStore');
+      if (client) {
+        this.context.executeAction(stopRealTimeClient, client);
+      }
     }
   }
 
@@ -93,20 +143,17 @@ class Map extends React.Component {
   }
 
   componentWillUnmount() {
-    if (this.erd) {
-      this.erd.removeListener(
-        this.map.leafletElement._container,
-        this.resizeMap,
-      );
+    const { client } = this.context.getStore('RealTimeInformationStore');
+    if (client) {
+      this.context.executeAction(stopRealTimeClient, client);
     }
   }
 
   onPopupopen = () => events.emit('popupOpened');
 
-  resizeMap = () => {
-    if (this.map) {
-      this.map.leafletElement.invalidateSize(false);
-    }
+  zoomEnd = () => {
+    this.props.leafletEvents?.onZoomend?.(); // pass event to parent
+    this.updateZoom();
   };
 
   loadMapLayer(mapUrl, attribution, index) {
@@ -164,12 +211,6 @@ class Map extends React.Component {
       }
     }
 
-    if (!this.erd && this.map) {
-      this.erd = elementResizeDetectorMaker({ strategy: 'scroll' });
-      /* eslint-disable no-underscore-dangle */
-      this.erd.listenTo(this.map.leafletElement._container, this.resizeMap);
-    }
-
     if (naviProps.bounds || (naviProps.center && naviProps.zoom)) {
       this.ready = true;
     }
@@ -196,12 +237,21 @@ class Map extends React.Component {
       />,
     ]);
 
+    if (this.props.mapLayers.vehicles) {
+      const useLargeIcon = this.state.zoom >= config.stopsMinZoom;
+      leafletObjNew.push(
+        <VehicleMarkerContainer
+          key="vehicles"
+          useLargeIcon={useLargeIcon}
+          ignoreMode
+        />,
+      );
+    }
+
     let attribution = get(config, 'map.attribution.default');
     if (!isString(attribution) || isEmpty(attribution)) {
       attribution = false;
     }
-
-    const mapZoom = this.map?.leafletElement.getZoom() || zoom || 14;
 
     if (geoJson) {
       Object.keys(geoJson)
@@ -216,13 +266,19 @@ class Map extends React.Component {
             <GeoJSON
               key={key.concat(i)}
               data={geoJson[key].data}
-              geoJsonZoomLevel={mapZoom}
+              geoJsonZoomLevel={this.state.zoom}
               locationPopup={locationPopup}
               onSelectLocation={onSelectLocation}
             />,
           );
         });
     }
+
+    const leafletEvents = {
+      ...this.props.leafletEvents,
+      onZoomend: this.zoomEnd,
+    };
+
     return (
       <div aria-hidden="true">
         <span
@@ -235,7 +291,7 @@ class Map extends React.Component {
         </span>
         <LeafletMap
           {...naviProps}
-          className={`z${mapZoom}`}
+          className={`z${this.state.zoom}`}
           keyboard={false}
           ref={el => {
             this.map = el;
@@ -249,7 +305,7 @@ class Map extends React.Component {
           attributionControl={false}
           animate={this.props.animate}
           boundsOptions={boundsOptions}
-          {...this.props.leafletEvents}
+          {...leafletEvents}
           onPopupopen={this.onPopupopen}
           closePopupOnClick={false}
         >

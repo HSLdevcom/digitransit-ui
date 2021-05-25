@@ -8,7 +8,6 @@ import isEqual from 'lodash/isEqual';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
-import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import moment from 'moment';
 import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
@@ -163,7 +162,7 @@ class IndexPage extends React.Component {
   onSelectLocation = (item, id) => {
     const { router, executeAction } = this.context;
     if (item.type === 'FutureRoute') {
-      router.push(createUrl(item));
+      router.push(item.properties.url);
     } else if (id === 'origin') {
       executeAction(storeOrigin, item);
     } else {
@@ -310,16 +309,40 @@ class IndexPage extends React.Component {
           />
         </>
       ) : (
-        <div className="stops-near-you-text">
-          <h2>
-            {' '}
-            {intl.formatMessage({
-              id: 'stop-near-you-title',
-              defaultMessage: 'Stops and lines near you',
-            })}
-          </h2>
-        </div>
+        <></>
       );
+    };
+
+    const stopRouteSearch = isMobile => {
+      if (config.showRouteSearch) {
+        const title = !config.showNearYouButtons ? (
+          <div className="stops-near-you-text">
+            <h2>
+              {' '}
+              {intl.formatMessage({
+                id: 'stop-near-you-title',
+                defaultMessage: 'Stops and lines near you',
+              })}
+            </h2>
+          </div>
+        ) : (
+          <></>
+        );
+        return isMobile ? (
+          <>
+            {title}
+            <StopRouteSearch {...stopRouteSearchProps} />
+          </>
+        ) : (
+          <>
+            {title}
+            <div className="stop-route-search-container">
+              <StopRouteSearch isMobile {...stopRouteSearchProps} />
+            </div>
+          </>
+        );
+      }
+      return <></>;
     };
 
     return (
@@ -362,7 +385,7 @@ class IndexPage extends React.Component {
                   />
                   <CtrlPanel.SeparatorLine usePaddingBottom20 />
                   <>{NearStops(CtrlPanel)}</>
-                  <StopRouteSearch {...stopRouteSearchProps} />
+                  {stopRouteSearch(false)}
                   <CtrlPanel.SeparatorLine />
 
                   {!trafficNowLink ||
@@ -411,9 +434,7 @@ class IndexPage extends React.Component {
                   />
                   <CtrlPanel.SeparatorLine />
                   <>{NearStops(CtrlPanel)}</>
-                  <div className="stop-route-search-container">
-                    <StopRouteSearch isMobile {...stopRouteSearchProps} />
-                  </div>
+                  {stopRouteSearch(false)}
                   <CtrlPanel.SeparatorLine usePaddingBottom20 />
                   {!trafficNowLink ||
                     (trafficNowLink[lang] !== '' && (

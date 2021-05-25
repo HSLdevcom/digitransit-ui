@@ -52,6 +52,7 @@ export default {
 
   showHSLTracking: false,
   allowLogin: true,
+  allowFavouritesFromLocalstorage: false,
 
   nearbyRoutes: {
     radius: 500,
@@ -83,6 +84,7 @@ export default {
       'mode-ferry': '#007A97',
       'mode-metro': '#CA4000',
       'mode-citybike': '#f2b62d',
+      'mode-citybike-secondary': '#333333',
     },
   },
 
@@ -444,6 +446,7 @@ export default {
   localStorageTarget: rootLink,
 
   cityBike: {
+    minZoomStopsNearYou: 10,
     showCityBikes: cityBikesEnabled,
     capacity: BIKEAVL_WITHMAX,
     showFullInfo: true,

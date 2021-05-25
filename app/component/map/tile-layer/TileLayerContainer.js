@@ -356,6 +356,7 @@ class TileLayerContainer extends GridLayer {
               feature={this.state.selectableTargets[0].feature}
               lat={this.state.coords.lat}
               lon={this.state.coords.lng}
+              onSelectLocation={this.props.onSelectLocation}
               icon={`icon-icon_${DynamicParkingLots.getIcon(
                 this.state.selectableTargets[0].feature.properties.lot_type,
               )}`}
@@ -365,6 +366,7 @@ class TileLayerContainer extends GridLayer {
           const props = this.state.selectableTargets[0].feature.properties;
           contents = (
             <BikeParkPopup
+              onSelectLocation={this.props.onSelectLocation}
               lat={this.state.coords.lat}
               lon={this.state.coords.lng}
               {...props}
@@ -376,10 +378,11 @@ class TileLayerContainer extends GridLayer {
           contents = (
             <ChargingStationPopup
               id={this.state.selectableTargets[0].feature.properties.id}
-              lat={this.state.selectableTargets[0].feature.geom.x}
-              lon={this.state.selectableTargets[0].feature.geom.y}
+              lat={this.state.coords.lat}
+              lon={this.state.coords.lng}
               capacity={this.state.selectableTargets[0].feature.properties.c}
               available={this.state.selectableTargets[0].feature.properties.ca}
+              onSelectLocation={this.props.onSelectLocation}
             />
           );
         } else if (
@@ -440,7 +443,8 @@ class TileLayerContainer extends GridLayer {
             maxWidth="auto"
             position={this.state.coords}
             className={`${this.PopupOptions.className} ${
-              this.props.locationPopup === 'all'
+              this.props.locationPopup === 'all' ||
+              this.props.locationPopup === 'origindestination'
                 ? 'single-popup'
                 : 'narrow-popup'
             }`}

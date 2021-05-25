@@ -377,8 +377,9 @@ export const getServiceAlertsForTerminalStops = (
   stop,
   locale = 'en',
 ) => {
+  const s = stop.stops || [];
   const alerts = isTerminal
-    ? stop.stops
+    ? s
         .map(terminalStop => getServiceAlertsForStop(terminalStop, locale))
         .filter(arr => arr.length > 0)
     : [];

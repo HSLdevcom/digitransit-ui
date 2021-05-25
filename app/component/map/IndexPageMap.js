@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connectToStores } from 'fluxible-addons-react';
 import { matchShape } from 'found';
@@ -13,29 +13,7 @@ import { dtLocationShape } from '../../util/shapes';
 import storeOrigin from '../../action/originActions';
 import storeDestination from '../../action/destinationActions';
 // eslint-disable-next-line import/no-named-as-default
-import SettingsDrawer from '../SettingsDrawer';
-import BubbleDialog from '../BubbleDialog';
-import MapLayersDialogContent from '../MapLayersDialogContent';
 import { mapLayerShape } from '../../store/MapLayerStore';
-
-const renderMapLayerSelector = (isOpen, setOpen, config, lang) => {
-  const tooltip =
-    config.mapLayers &&
-    config.mapLayers.tooltip &&
-    config.mapLayers.tooltip[lang];
-  return (
-    <BubbleDialog
-      contentClassName="select-map-layers-dialog-content"
-      header="select-map-layers-header"
-      icon="map-layers"
-      id="mapLayerSelectorV2"
-      isFullscreenOnMobile
-      isOpen={isOpen}
-      tooltip={tooltip}
-      setOpen={setOpen}
-    />
-  );
-};
 
 const locationMarkerModules = {
   LocationMarker: () =>
@@ -46,10 +24,9 @@ let focus = {};
 const mwtProps = {};
 
 function IndexPageMap(
-  { match, origin, destination, lang, mapLayers },
-  { config, executeAction, intl },
+  { match, origin, destination, mapLayers },
+  { config, executeAction },
 ) {
-  const [isSettingsOpen, setSettingsOpen] = useState(false);
   let newFocus = {};
   let zoom = 16;
 
@@ -116,39 +93,8 @@ function IndexPageMap(
         leafletObjs={leafletObjs}
         locationPopup="origindestination"
         onSelectLocation={selectLocation}
-        renderCustomButtons={() => (
-          <>
-            {config.map.showLayerSelector &&
-              renderMapLayerSelector(
-                isSettingsOpen,
-                setSettingsOpen,
-                config,
-                lang,
-              )}
-          </>
-        )}
         vehicles
       />
-      <SettingsDrawer
-        onToggleClick={() => {
-          return null;
-        }}
-        open={isSettingsOpen}
-        settingsType="MapLayer"
-        setOpen={setSettingsOpen}
-        className="offcanvas-layers"
-      >
-        <MapLayersDialogContent
-          open={isSettingsOpen}
-          setOpen={setSettingsOpen}
-        />
-        <button
-          className="desktop-button"
-          onClick={() => setSettingsOpen(false)}
-        >
-          {intl.formatMessage({ id: 'close', defaultMessage: 'Close' })}
-        </button>
-      </SettingsDrawer>
     </>
   );
 }

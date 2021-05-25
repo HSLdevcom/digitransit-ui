@@ -16,9 +16,12 @@ class MarkerPopupBottom extends React.Component {
       }).isRequired,
     }).isRequired,
     onSelectLocation: PropTypes.func.isRequired,
+    reporterUrl: PropTypes.string,
   };
 
-  static defaultProps = {};
+  static defaultProps = {
+    reporterUrl: null,
+  };
 
   routeFrom = () => {
     addAnalyticsEvent({
@@ -50,8 +53,20 @@ class MarkerPopupBottom extends React.Component {
     this.props.leaflet.map.closePopup();
   };
 
+  reportDefect = () => {
+    if (this.props.reporterUrl) {
+      window.open(this.props.reporterUrl);
+    }
+  };
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
+    const reportButton = this.props.reporterUrl ? (
+      <div onClick={() => this.reportDefect()} className="route cursor-pointer">
+        <FormattedMessage id="report-defect" defaultMessage="Report defect" />
+      </div>
+    ) : null;
+
     return (
       <div className="bottom location">
         <div onClick={() => this.routeFrom()} className="route cursor-pointer">
@@ -60,6 +75,8 @@ class MarkerPopupBottom extends React.Component {
             defaultMessage="Route from here"
           />
         </div>
+
+        {reportButton}
 
         <div onClick={() => this.routeTo()} className="route cursor-pointer">
           <FormattedMessage id="route-here" defaultMessage="Route here" />

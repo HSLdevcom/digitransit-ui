@@ -64,6 +64,7 @@ class LocationPopup extends React.Component {
               address: getLabel(match),
               zoneId: getZoneId(config, match.zones, data.zones),
             },
+            feature: match,
           }));
           pointName = 'FreeAddress';
         } else {
@@ -121,6 +122,28 @@ class LocationPopup extends React.Component {
     const [address, place] = splitStringToAddressAndPlace(
       this.state.location.address,
     );
+
+    const { lat, lon } = this.props;
+    const {
+      feature: { postalcode },
+    } = this.state;
+
+    let reporterUrl = null;
+    // when the BW-wide Mängelmelder is up we can use its URL, too
+    if (
+      [
+        'localhost:8080',
+        'herrenberg.staging.stadtnavi.eu',
+        'dev.stadtnavi.eu',
+        'herrenberg.qa.stadtnavi.eu',
+      ].includes(window.location.host)
+    ) {
+      reporterUrl = `https://maengelmelder.service-bw.de/?lat=${lat}&lng=${lon}`;
+    }
+    if (postalcode === '71083') {
+      reporterUrl = `https://www.herrenberg.de/tools/mvs/?lat=${lat}&lng=${lon}#mvPagePictures`;
+    }
+
     return (
       <Card>
         <PopupHeader header={address} subHeader={place}>
@@ -132,6 +155,7 @@ class LocationPopup extends React.Component {
             location={this.state.location}
             locationPopup={this.props.locationPopup}
             onSelectLocation={this.props.onSelectLocation}
+            reporterUrl={reporterUrl}
           />
         )}
       </Card>

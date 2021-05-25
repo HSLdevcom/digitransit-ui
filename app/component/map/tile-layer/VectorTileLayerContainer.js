@@ -11,6 +11,7 @@ import BikeParks from './BikeParks';
 import Roadworks from './Roadworks';
 import ChargingStations from './ChargingStations';
 import { mapLayerShape } from '../../../store/MapLayerStore';
+import Loading from '../../Loading';
 
 export default function VectorTileLayerContainer(props, { config }) {
   const [layers, setLayers] = useState([]);
@@ -45,13 +46,13 @@ export default function VectorTileLayerContainer(props, { config }) {
       layersToAdd.push(ChargingStations);
     }
 
-    if (config.constructor && config.roadworks.showRoadworks) {
+    if (config.roadworks && config.roadworks.showRoadworks) {
       layersToAdd.push(Roadworks);
     }
     setLayers(layersToAdd);
   }, [props, config]);
 
-  return (
+  return layers.length !== 0 ? (
     <TileLayerContainer
       key="tileLayer"
       pane="markerPane"
@@ -66,6 +67,8 @@ export default function VectorTileLayerContainer(props, { config }) {
       locationPopup={props.locationPopup}
       onSelectLocation={props.onSelectLocation}
     />
+  ) : (
+    <Loading />
   );
 }
 

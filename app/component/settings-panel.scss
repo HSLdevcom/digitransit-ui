@@ -5,6 +5,8 @@
   flex-direction: column;
   overflow-y: auto;
   padding: 1em;
+  background-color: white;
+
   .map-layer-header {
     font-size: 18px;
     font-weight: $font-weight-bold;
@@ -17,6 +19,7 @@
     position: relative;
     width: 100%;
     height: 50px;
+    min-height: 50px;
     font-size: 18px;
     font-family: $font-family;
     font-weight: $font-weight-medium;

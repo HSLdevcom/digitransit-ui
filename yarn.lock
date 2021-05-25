@@ -6049,13 +6049,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"batch-processor@npm:1.0.0":
-  version: 1.0.0
-  resolution: "batch-processor@npm:1.0.0"
-  checksum: 97fcc0f58629354eb4b690094e3fa6db4c46517c3cd8466a2dea0c6eb400edb97803613821f8f3b75e9b7b46f126a2162a7b59c4933b689f95e0674b9ffe6d9e
-  languageName: node
-  linkType: hard
-
 "batch@npm:0.6.1":
   version: 0.6.1
   resolution: "batch@npm:0.6.1"
@@ -9075,7 +9068,6 @@ __metadata:
     css-loader: 3.6.0
     debug: 4.1.1
     documentation: 13.0.2
-    element-resize-detector: 1.2.0
     enzyme: 3.11.0
     enzyme-adapter-react-16: 1.15.4
     enzyme-wait: 1.0.9
@@ -9627,15 +9619,6 @@ __metadata:
   version: 1.3.708
   resolution: "electron-to-chromium@npm:1.3.708"
   checksum: e54f7833a65818d97e44b56a8ead9f805dcc8604bdd10907f97784882f5a37754fe38a588549ea9d328b16a27ab4dbec0d88cc5fddbfe59e3a4e74169d9d7eaa
-  languageName: node
-  linkType: hard
-
-"element-resize-detector@npm:1.2.0":
-  version: 1.2.0
-  resolution: "element-resize-detector@npm:1.2.0"
-  dependencies:
-    batch-processor: 1.0.0
-  checksum: 0501ee8e4c4e3ab4ed17b320b7aecb7834dde51430c9d8fa1e6dcb5f8621bc554443442f5f3bb70711e6bd366dfc9abccdc0bed402aa7b9ef099a5eb7b9f152e
   languageName: node
   linkType: hard
 

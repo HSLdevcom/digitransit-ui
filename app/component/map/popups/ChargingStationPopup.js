@@ -102,7 +102,7 @@ const ChargingStationPopup = (props, context) => {
         </div>
       </div>
       <MarkerPopupBottom
-        onSelectLocation={() => {}}
+        onSelectLocation={props.onSelectLocation}
         location={{
           address: details.address,
           lat,
@@ -135,6 +135,7 @@ ChargingStationPopup.propTypes = {
   available: PropTypes.number.isRequired,
   lat: PropTypes.number.isRequired,
   lon: PropTypes.number.isRequired,
+  onSelectLocation: PropTypes.func.isRequired,
 };
 
 ChargingStationPopup.description = (
