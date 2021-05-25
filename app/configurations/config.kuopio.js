@@ -15,6 +15,9 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#0ab1c8',
+    iconColors: {
+      'mode-bus': '#724f9f',
+    },
   },
 
   socialMedia: {
@@ -58,7 +61,7 @@ export default configMerger(walttiConfig, {
       ? fareId.substring(fareId.indexOf(':') + 1)
       : '';
   },
-
+  showTicketPrice: true,
   searchParams: {
     'boundary.rect.min_lat': 62.454915,
     'boundary.rect.max_lat': 63.469325,
@@ -79,28 +82,7 @@ export default configMerger(walttiConfig, {
     lon: 27.678136,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Linja-autoasema, Kuopio',
-      lat: 62.898516,
-      lon: 27.679409,
-    },
-    {
-      icon: 'icon-icon_shopping',
-      label: 'Kuopion tori',
-      lat: 62.892511,
-      lon: 27.678136,
-    },
-    {
-      icon: 'icon-icon_school',
-      label: 'Itä-Suomen yliopisto, Kuopio',
-      lat: 62.89189166,
-      lon: 27.63598893,
-    },
-  ],
-
-  showAllBusses: true,
+  vehicles: true,
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
 

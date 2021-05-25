@@ -28,6 +28,10 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#5c4696',
+    iconColors: {
+      'mode-bus': '#009fe3',
+      'mode-rail': '#64be14',
+    },
   },
 
   socialMedia: {
@@ -81,28 +85,8 @@ export default configMerger(walttiConfig, {
     lat: 62.6024263,
     lon: 29.7569847,
   },
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Keskusta, Joensuu',
-      lat: 62.6024263,
-      lon: 29.7569847,
-    },
-    {
-      icon: 'icon-icon_rail',
-      label: 'Rautatieasema, Joensuu',
-      lat: 62.5998886,
-      lon: 29.77629661560059,
-    },
-    {
-      icon: 'icon-icon_airplane',
-      label: 'Lentoasema, Joensuu',
-      lat: 62.65764959350609,
-      lon: 29.61371183395386,
-    },
-  ],
 
-  showAllBusses: true,
+  vehicles: true,
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
 

@@ -50,12 +50,13 @@ $viewpoint-marker-color: $livi-blue;
 $link-color: $primary-color;
 $from-color: #4ea700;
 $to-color: #ec5188;
-$slider-severe-color: #ff6319;
+$slider-severe-color: #CA4000;
 $slider-warning-color: #fbb800;
 $slider-ok-color: #4ea700;
 $selected-lang-background: rgba(0, 0, 0, 0.15);
 $caution-icon-color: $white;
 $caution-icon-font-color: none;
+$top-bar-color: $primary-color;
 
 /* Vehicle palette */
 $airplane-color: $livi-airplane-blue;
@@ -108,9 +109,5 @@ $padding-xlarge: 2em;
 $border-radius-small: 2px;
 $border-radius: 3px;
 $border-radius-bigger: 8px;
-
-/* Navbar logo dimensions */
-$nav-logo-width: 170px;
-$nav-logo-height: 1.8em;
 
 $spinner-image: url('../default/default-spinner.png');

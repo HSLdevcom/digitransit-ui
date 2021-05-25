@@ -37,27 +37,6 @@ export default configMerger(walttiConfig, {
     lon: 25.7485345616,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Paikallisliikenneterminaali, Jyväskylä',
-      lat: 62.2410157,
-      lon: 25.7485346,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Kauppatori, Jyväskylä',
-      lat: 62.244958,
-      lon: 25.746471,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Keski-Suomen keskussairaala, Jyväskylä',
-      lat: 62.229935,
-      lon: 25.710604,
-    },
-  ],
-
   appBarLink: {
     name: 'Jyväskylän seudun joukkoliikenne',
     href: 'http://linkki.jyvaskyla.fi/',
@@ -65,6 +44,9 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#7DC02D',
+    iconColors: {
+      'mode-bus': '#7DC02D',
+    },
   },
 
   socialMedia: {
@@ -88,7 +70,7 @@ export default configMerger(walttiConfig, {
 
   textLogo: false,
 
-  showAllBusses: true,
+  vehicles: true,
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
 

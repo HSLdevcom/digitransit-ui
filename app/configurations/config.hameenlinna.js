@@ -17,6 +17,9 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#F76013',
+    iconColors: {
+      'mode-bus': '#F76013',
+    },
   },
 
   socialMedia: {
@@ -79,21 +82,6 @@ export default configMerger(walttiConfig, {
   },
 
   minTransferTime: 60,
-
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Hämeenlinnan linja-autoasema',
-      lat: 60.9952717075545,
-      lon: 24.4662911533486,
-    },
-    {
-      icon: 'icon-icon_rail',
-      label: 'Hämeenlinnan rautatieasema',
-      lat: 61.002179,
-      lon: 24.478192,
-    },
-  ],
 
   menu: {
     copyright: { label: `© Hameenlinna ${walttiConfig.YEAR}` },
@@ -165,7 +153,7 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  showAllBusses: true,
+  vehicles: true,
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
 });

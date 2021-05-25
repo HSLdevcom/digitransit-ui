@@ -16,9 +16,8 @@ describe('gtfsRtParser', () => {
       const result = parseFeedMQTT(
         bindings.FeedMessage.read,
         arrayBuffer,
-        '/gtfsrt/vp/tampere////8/1/Atala/5645934646/123456/14:35/130210/61;23/47/62/47/8/000000/',
+        '/gtfsrt/vp/tampere///TRAM/8/1/Atala/5645934646/123456/14:35/130210/61;23/47/62/47/8/000000/',
         'tampere',
-        'bus',
       );
 
       expect(result).to.deep.equal([
@@ -28,7 +27,7 @@ describe('gtfsRtParser', () => {
           direction: 1,
           tripStartTime: '1435',
           operatingDay: '20190326',
-          mode: 'bus',
+          mode: 'tram',
           next_stop: 'tampere:123456',
           timestamp: 1553604421,
           lat: 61.50812,
@@ -43,44 +42,12 @@ describe('gtfsRtParser', () => {
       ]);
     });
 
-    it('GTFS RT vehicle position data for a tram route should be parsed correctly', () => {
-      const result = parseFeedMQTT(
-        bindings.FeedMessage.read,
-        arrayBuffer,
-        '/gtfsrt/vp/tampere////15/0/Petsamo/5660364646/123456/14:30/TKL_23/61;23/47/62/47/15//',
-        'tampere',
-        'tram',
-      );
-
-      expect(result).to.deep.equal([
-        {
-          id: 'tampere:TKL_23',
-          route: 'tampere:15',
-          direction: 0,
-          tripStartTime: '1430',
-          operatingDay: '20190326',
-          mode: 'tram',
-          next_stop: 'tampere:123456',
-          timestamp: 1553604421,
-          lat: 61.50812,
-          long: 23.66348,
-          heading: 55,
-          headsign: 'Petsamo',
-          tripId: 'tampere:5660364646',
-          geoHash: ['61;23', '47', '62', '47'],
-          shortName: '15',
-          color: undefined,
-        },
-      ]);
-    });
-
     it('GTFS RT vehicle position data for a topic with no directionId, startime, stopId, headsign or shortName', () => {
       const result = parseFeedMQTT(
         bindings.FeedMessage.read,
         arrayBuffer,
         '/gtfsrt/vp/tampere////15//////TKL_23/61;23/47/62/47//',
         'tampere',
-        'bus',
       );
 
       expect(result).to.deep.equal([

@@ -23,8 +23,6 @@ const BikeRentalStationContent = (
     setClient(true);
   });
 
-  const { bikesAvailable, capacity } = bikeRentalStation;
-  const isFull = bikesAvailable >= capacity;
   if (!bikeRentalStation) {
     if (isBrowser) {
       router.replace(`/${PREFIX_BIKESTATIONS}`);
@@ -33,12 +31,18 @@ const BikeRentalStationContent = (
     }
     return null;
   }
+  const { bikesAvailable, capacity } = bikeRentalStation;
+  const isFull = bikesAvailable >= capacity;
+
   const networkConfig = getCityBikeNetworkConfig(
     bikeRentalStation.networks[0],
     config,
   );
   const url = networkConfig.url[language];
-  const returnInstructionsUrl = networkConfig.returnInstructions[language];
+  let returnInstructionsUrl;
+  if (networkConfig.returnInstructions) {
+    returnInstructionsUrl = networkConfig.returnInstructions[language];
+  }
   return (
     <div className="bike-station-page-container">
       <BikeParkOrStationHeader
@@ -116,6 +120,7 @@ const containerComponent = createFragmentContainer(connectedComponent, {
       capacity
       networks
       stationId
+      state
     }
   `,
 });

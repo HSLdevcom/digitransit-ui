@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Icon from './Icon';
+import Icon from '@digitransit-component/digitransit-component-icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { routeScheduleStopSelectOptions as exampleOptions } from './ExampleData';
 
@@ -13,11 +13,10 @@ function RouteScheduleStopSelect(props) {
 
   return (
     <div className="route-schedule-stop-select">
-      <Icon img="icon-icon_arrow-dropdown" />
       <select onChange={props.onSelectChange} value={props.selected}>
         {options}
       </select>
-      <div className="caret" />
+      <Icon img="arrow-dropdown" />
     </div>
   );
 }

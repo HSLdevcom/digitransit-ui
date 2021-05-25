@@ -22,8 +22,21 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#118ddd',
+    iconColors: {
+      'mode-bus': '#118ddd',
+    },
   },
-
+  transportModes: {
+    bus: {
+      availableForSelection: true,
+      defaultValue: true,
+      nearYouLabel: {
+        fi: 'Lähipysäkit kartalla',
+        sv: 'Hållplatser på kartan',
+        en: 'Nearby stops on map',
+      },
+    },
+  },
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
@@ -57,27 +70,6 @@ export default configMerger(walttiConfig, {
     lat: 60.467348,
     lon: 26.945758,
   },
-
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Kotkan kauppatori',
-      lat: 60.467348,
-      lon: 26.945758,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Haminan linja-autoasema',
-      lat: 60.569196,
-      lon: 27.188172,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Karhulan linja-autoasema',
-      lat: 60.515502,
-      lon: 26.935416,
-    },
-  ],
 
   menu: {
     copyright: { label: `© Kotka ${walttiConfig.YEAR}` },

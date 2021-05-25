@@ -8,8 +8,8 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 export default class MobileItineraryWrapper extends React.Component {
   static propTypes = {
-    focus: PropTypes.func.isRequired,
-    setMapZoomToLeg: PropTypes.func,
+    focusToPoint: PropTypes.func.isRequired,
+    focusToLeg: PropTypes.func,
     children: PropTypes.arrayOf(PropTypes.node.isRequired).isRequired,
     params: PropTypes.shape({
       from: PropTypes.string.isRequired,
@@ -47,8 +47,6 @@ export default class MobileItineraryWrapper extends React.Component {
     });
   };
 
-  focusMap = (lat, lon) => this.props.focus(lat, lon);
-
   render() {
     const index = this.props.params.secondHash
       ? parseInt(this.props.params.secondHash, 10)
@@ -85,8 +83,8 @@ export default class MobileItineraryWrapper extends React.Component {
             serviceTimeRange={this.props.serviceTimeRange}
             itinerary={child.props.itinerary}
             params={this.context.match.params}
-            focus={this.props.focus}
-            setMapZoomToLeg={this.props.setMapZoomToLeg}
+            focusToPoint={this.props.focusToPoint}
+            focusToLeg={this.props.focusToLeg}
             isMobile
           />
         </div>
@@ -99,6 +97,8 @@ export default class MobileItineraryWrapper extends React.Component {
         tabIndex={index}
         onSwipe={this.props.onSwipe}
         classname="swipe-mobile-divider"
+        ariaFrom="swipe-summary-page"
+        ariaFromHeader="swipe-summary-page-header"
       />
     );
     /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */

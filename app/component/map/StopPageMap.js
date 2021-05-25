@@ -7,21 +7,22 @@ import { connectToStores } from 'fluxible-addons-react';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { graphql, fetchQuery } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
-import TimeStore from '../store/TimeStore';
-import PositionStore from '../store/PositionStore';
-import MapWithTracking from './map/MapWithTracking';
-import SelectedStopPopup from './map/popups/SelectedStopPopup';
-import SelectedStopPopupContent from './SelectedStopPopupContent';
-import { dtLocationShape } from '../util/shapes';
-import withBreakpoint from '../util/withBreakpoint';
-import VehicleMarkerContainer from './map/VehicleMarkerContainer';
-import BackButton from './BackButton';
-import { addressToItinerarySearch } from '../util/otpStrings';
-import ItineraryLine from './map/ItineraryLine';
-import Loading from './Loading';
+import TimeStore from '../../store/TimeStore';
+import PositionStore from '../../store/PositionStore';
+import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
+import MapWithTracking from './MapWithTracking';
+import SelectedStopPopup from './popups/SelectedStopPopup';
+import SelectedStopPopupContent from '../SelectedStopPopupContent';
+import { dtLocationShape } from '../../util/shapes';
+import withBreakpoint from '../../util/withBreakpoint';
+import VehicleMarkerContainer from './VehicleMarkerContainer';
+import BackButton from '../BackButton';
+import { addressToItinerarySearch } from '../../util/otpStrings';
+import ItineraryLine from './ItineraryLine';
+import Loading from '../Loading';
 
 const StopPageMap = (
-  { stop, breakpoint, currentTime, locationState },
+  { stop, breakpoint, currentTime, locationState, mapLayers },
   { config, match },
 ) => {
   if (!stop) {
@@ -94,9 +95,7 @@ const StopPageMap = (
   const leafletObjs = [];
   const children = [];
   if (config.showVehiclesOnStopPage) {
-    leafletObjs.push(
-      <VehicleMarkerContainer key="vehicles" useLargeIcon ignoreMode />,
-    );
+    leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
   }
 
   if (breakpoint === 'large') {
@@ -129,10 +128,9 @@ const StopPageMap = (
       )),
     );
   }
+  const id = match.params.stopId || match.params.terminalId || match.params.id;
 
-  const id = match.params.stopId || match.params.terminalId;
-
-  let bounds = [];
+  const mwtProps = {};
   if (
     locationState &&
     locationState.lat &&
@@ -141,26 +139,25 @@ const StopPageMap = (
     stop.lon &&
     distance(locationState, stop) < maxShowRouteDistance
   ) {
-    bounds = [
+    mwtProps.bounds = [
       [locationState.lat, locationState.lon],
       [
         stop.lat + (stop.lat - locationState.lat),
         stop.lon + (stop.lon - locationState.lon),
       ],
     ];
+  } else {
+    mwtProps.lat = stop.lat;
+    mwtProps.lon = stop.lon;
+    mwtProps.zoom = !match.params.stopId || stop.platformCode ? 18 : 16;
   }
   return (
     <MapWithTracking
       className="flex-grow"
-      defaultMapCenter={stop}
-      initialZoom={!match.params.stopId || stop.platformCode ? 18 : 16}
-      showStops
       hilightedStops={[id]}
       leafletObjs={leafletObjs}
-      showScaleBar
-      focusPoint={stop}
-      bounds={bounds}
-      fitBounds={bounds.length > 0}
+      {...mwtProps}
+      mapLayers={mapLayers}
     >
       {children}
     </MapWithTracking>
@@ -183,6 +180,7 @@ StopPageMap.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   locationState: dtLocationShape,
   currentTime: PropTypes.number.isRequired,
+  mapLayers: mapLayerShape.isRequired,
 };
 
 StopPageMap.defaultProps = {
@@ -193,14 +191,25 @@ const componentWithBreakpoint = withBreakpoint(StopPageMap);
 
 const StopPageMapWithStores = connectToStores(
   componentWithBreakpoint,
-  [TimeStore, PositionStore],
-  ({ getStore }) => {
+  [TimeStore, PositionStore, MapLayerStore],
+  ({ config, getStore }, props) => {
     const currentTime = getStore(TimeStore).getCurrentTime().unix();
     const locationState = getStore(PositionStore).getLocationState();
+    const ml = config.showVehiclesOnStopPage ? { notThese: ['vehicles'] } : {};
+    if (props.citybike) {
+      ml.force = ['citybike']; // show always
+    } else {
+      ml.force = ['stop', 'terminal'];
+    }
+    const mapLayers = getStore(MapLayerStore).getMapLayers(ml);
     return {
       locationState,
       currentTime,
+      mapLayers,
     };
+  },
+  {
+    config: PropTypes.object,
   },
 );
 

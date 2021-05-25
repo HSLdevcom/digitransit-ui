@@ -49,7 +49,6 @@ export default {
     },
     STOP_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/stops/`,
-      tampere: 'https://www.tampere.fi/ekstrat/ptdata/pdf/',
     },
     WEATHER_DATA:
       'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::hirlam::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
@@ -79,8 +78,6 @@ export default {
   realTime: realtime,
   realTimePatch: REALTIME_PATCH,
 
-  showNewMqtt: !process.env.DISABLE_NEW_MQTT_FEATURES,
-
   // Google Tag Manager id
   GTMid: process.env.GTM_ID || null,
 
@@ -108,7 +105,7 @@ export default {
   },
 
   omitNonPickups: true,
-  maxNearbyStopAmount: 50,
+  maxNearbyStopAmount: 5,
   maxNearbyStopDistance: 2000,
 
   defaultSettings: {
@@ -162,6 +159,8 @@ export default {
     'Europe/Helsinki|EET EEST|-20 -30|0101010101010101010101010101010101010|22k10 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00|12e5',
 
   allowLogin: false,
+  allowFavouritesFromLocalstorage: true,
+
   mainMenu: {
     // Whether to show the left menu toggle button at all
     show: true,
@@ -186,10 +185,6 @@ export default {
     showZoneLimits: false,
     // Number of days to include to the service time range from the future (DT-3317)
     serviceTimeRange: 30,
-  },
-
-  nearestStopDistance: {
-    maxShownDistance: 5000,
   },
 
   map: {
@@ -290,6 +285,15 @@ export default {
 
   colors: {
     primary: '#000F94',
+    iconColors: {
+      'mode-airplane': '#0046ad',
+      'mode-bus': '#0088ce',
+      'mode-tram': '#6a8925',
+      'mode-metro': '#ed8c00',
+      'mode-rail': '#af8dbc',
+      'mode-ferry': '#35b5b3',
+      'mode-citybike': '#f2b62d',
+    },
   },
 
   fontWeights: {
@@ -513,26 +517,6 @@ export default {
     lat: 60.317429,
     lon: 24.9690395,
   },
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_airplane',
-      label: 'Helsinki-Vantaan lentoasema',
-      lat: 60.317429,
-      lon: 24.9690395,
-    },
-    {
-      icon: 'icon-icon_ferry',
-      label: 'Turun satama',
-      lat: 60.436363,
-      lon: 22.220002,
-    },
-    {
-      icon: 'icon-icon_airplane',
-      label: 'Rovaniemen lentoasema',
-      lat: 66.557326,
-      lon: 25.828135,
-    },
-  ],
 
   availableRouteTimetables: {},
 
@@ -690,7 +674,7 @@ export default {
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
     matka: 'matka',
-    salo: 'salo',
+    walttiOpas: 'waltti',
     rovaniemi: 'rovaniemi',
     kouvola: 'kouvola',
     tampere: 'tampere',
@@ -706,7 +690,7 @@ export default {
   imperialEnabled: false,
   // this flag when true enables imperial measurements  'feet/miles system'
 
-  showAllBusses: false,
+  vehicles: false,
   showVehiclesOnStopPage: false,
   // DT-3551: Link to traffic information page.
   trafficNowLink: '',

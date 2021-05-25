@@ -6,6 +6,9 @@ import cx from 'classnames';
 import RouteStopListContainer from './RouteStopListContainer';
 import withBreakpoint from '../util/withBreakpoint';
 import RoutePageControlPanel from './RoutePageControlPanel';
+import { isBrowser } from '../util/browser';
+import { PREFIX_ROUTES } from '../util/path';
+import Error404 from './404';
 
 class PatternStopsContainer extends React.PureComponent {
   static propTypes = {
@@ -36,8 +39,29 @@ class PatternStopsContainer extends React.PureComponent {
     });
   };
 
+  handleScroll = e => {
+    const { target } = e;
+    const className = cx('route-page-dynamic-divider-content', {
+      'bp-large': this.props.breakpoint === 'large',
+    });
+    const element = document.getElementsByClassName(className)[0];
+    element.style.background = `${
+      target.scrollTop <= 0 ? 'white' : 'rgba(0, 0, 0, 0.15)'
+    }`;
+  };
+
   render() {
     if (!this.props.pattern) {
+      if (isBrowser) {
+        if (this.props.route.gtfsId) {
+          // Redirect back to routes default pattern
+          this.props.router.replace(
+            `/${PREFIX_ROUTES}/${this.props.route.gtfsId}`,
+          );
+        } else {
+          return <Error404 />;
+        }
+      }
       return false;
     }
     if (
@@ -45,29 +69,42 @@ class PatternStopsContainer extends React.PureComponent {
       this.props.match.location.state.fullscreenMap &&
       this.props.breakpoint !== 'large'
     ) {
-      return <div className="route-page-content" />;
+      return (
+        <>
+          <div className="route-page-dynamic-divider-content" />
+          <div className="route-page-content" />
+        </>
+      );
     }
 
     return (
-      <div
-        className={cx('route-page-content', 'momentum-scroll', {
-          'bp-large': this.props.breakpoint === 'large',
-        })}
-        role="list"
-      >
-        {this.props.route && this.props.route.patterns && (
-          <RoutePageControlPanel
-            match={this.props.match}
-            route={this.props.route}
-            breakpoint={this.props.breakpoint}
-          />
-        )}
-        <RouteStopListContainer
-          key="list"
-          pattern={this.props.pattern}
-          patternId={this.props.pattern.code}
+      <>
+        <div
+          className={cx('route-page-dynamic-divider-content', {
+            'bp-large': this.props.breakpoint === 'large',
+          })}
         />
-      </div>
+        <div
+          className={cx('route-page-content', 'momentum-scroll', {
+            'bp-large': this.props.breakpoint === 'large',
+          })}
+          role="list"
+          onScroll={this.handleScroll}
+        >
+          {this.props.route && this.props.route.patterns && (
+            <RoutePageControlPanel
+              match={this.props.match}
+              route={this.props.route}
+              breakpoint={this.props.breakpoint}
+            />
+          )}
+          <RouteStopListContainer
+            key="list"
+            pattern={this.props.pattern}
+            patternId={this.props.pattern.code}
+          />
+        </div>
+      </>
     );
   }
 }
@@ -147,6 +184,7 @@ export default createFragmentContainer(withBreakpoint(PatternStopsContainer), {
           }
         }
         activeDates: trips {
+          serviceId
           day: activeDates
         }
       }

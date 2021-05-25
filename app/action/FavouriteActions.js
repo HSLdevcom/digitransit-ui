@@ -9,10 +9,13 @@ export function saveFavourite(actionContext, data) {
   actionContext.dispatch('SaveFavourite', {
     ...data,
     onFail: () => {
-      actionContext.executeAction(
-        addMessage,
-        failedFavouriteMessage(favouriteType, true),
-      );
+      // This if statement should be removed when backend service is added for waltti
+      if (!actionContext.config.allowFavouritesFromLocalstorage) {
+        actionContext.executeAction(
+          addMessage,
+          failedFavouriteMessage(favouriteType, true),
+        );
+      }
     },
   });
 }
@@ -28,10 +31,13 @@ export function updateFavourites(actionContext, data) {
   actionContext.dispatch('UpdateFavourites', {
     newFavourites: data,
     onFail: () => {
-      actionContext.executeAction(
-        addMessage,
-        failedFavouriteMessage(favouriteType, true),
-      );
+      // This if statement should be removed when backend service is added for waltti
+      if (!actionContext.config.allowFavouritesFromLocalstorage) {
+        actionContext.executeAction(
+          addMessage,
+          failedFavouriteMessage(favouriteType, true),
+        );
+      }
     },
   });
 }
@@ -44,10 +50,13 @@ export function deleteFavourite(actionContext, data) {
   actionContext.dispatch('DeleteFavourite', {
     ...data,
     onFail: () => {
-      actionContext.executeAction(
-        addMessage,
-        failedFavouriteMessage(favouriteType, false),
-      );
+      // This if statement should be removed when backend service is added for waltti
+      if (!actionContext.config.allowFavouritesFromLocalstorage) {
+        actionContext.executeAction(
+          addMessage,
+          failedFavouriteMessage(favouriteType, false),
+        );
+      }
     },
   });
 }

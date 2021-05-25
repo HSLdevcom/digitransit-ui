@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import LocalTime from './LocalTime';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
+import Icon from './Icon';
 
 const DepartureRow = (
   { departure, departureTime, showPlatformCode, canceled, ...props },
@@ -31,43 +32,66 @@ const DepartureRow = (
       />
     );
   }
+  let { shortName } = departure.trip.route;
+  if (shortName?.length > 6 || !shortName?.length) {
+    shortName = (
+      <Icon
+        className={departure.trip.route.mode.toLowerCase()}
+        img={`icon-icon_${departure.trip.route.mode.toLowerCase()}`}
+      />
+    );
+  }
   return (
-    <div role="cell" className={cx('departure-row', mode)}>
-      <div className="route-number-container">
+    <div role="cell" className="departure-row-container">
+      <div
+        className={cx(
+          'departure-row',
+          mode,
+          departure.bottomRow ? 'bottom' : '',
+          props.className,
+        )}
+      >
         <div
-          className="route-number"
+          className="route-number-container"
           style={{ backgroundColor: `#${departure.trip.route.color}` }}
         >
-          {departure.trip.route.shortName}
+          <div className="route-number">{shortName}</div>
         </div>
-      </div>
-      <div className="route-headsign">{headsign}</div>
-      {shownTime && (
         <div
-          className={cx('route-arrival', {
+          className={cx('route-headsign', departure.bottomRow ? 'bottom' : '')}
+        >
+          {headsign} {departure.bottomRow && departure.bottomRow}
+        </div>
+        {shownTime && (
+          <div
+            className={cx('route-arrival', {
+              realtime: departure.realtime,
+              canceled,
+            })}
+          >
+            {shownTime}
+          </div>
+        )}
+        <div
+          className={cx('route-time', {
             realtime: departure.realtime,
             canceled,
           })}
         >
-          {shownTime}
+          <LocalTime time={departureTime} />
         </div>
-      )}
-      <div
-        className={cx('route-time', { realtime: departure.realtime, canceled })}
-      >
-        <LocalTime time={departureTime} />
+        {showPlatformCode && (
+          <div
+            className={
+              !departure.stop.platformCode
+                ? 'platform-code empty'
+                : 'platform-code'
+            }
+          >
+            {departure.stop.platformCode}
+          </div>
+        )}
       </div>
-      {showPlatformCode && (
-        <div
-          className={
-            !departure.stop.platformCode
-              ? 'platform-code empty'
-              : 'platform-code'
-          }
-        >
-          {departure.stop.platformCode}
-        </div>
-      )}
     </div>
   );
 };
@@ -77,6 +101,7 @@ DepartureRow.propTypes = {
   currentTime: PropTypes.number.isRequired,
   showPlatformCode: PropTypes.bool,
   canceled: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 DepartureRow.contextTypes = {

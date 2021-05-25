@@ -9,10 +9,7 @@ import sortBy from 'lodash/sortBy';
 import { routerShape, RedirectException } from 'found';
 import Autosuggest from 'react-autosuggest';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import {
-  enrichPatterns,
-  routePatternOptionText,
-} from '@digitransit-util/digitransit-util';
+import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -27,20 +24,35 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const DATE_FORMAT = 'YYYYMMDD';
 
-function patternTextWithIcon(lang, pattern, isTogglable) {
-  const text = routePatternOptionText(lang, pattern, isTogglable);
-  const i = text.search(/➔/);
-  if (i === -1) {
+function patternOptionText(pattern) {
+  if (pattern) {
+    let destinationName = pattern.headsign;
+    if (destinationName === null) {
+      destinationName = pattern.stops[pattern.stops.length - 1].name;
+    }
+    const text = `${pattern.stops[0].name} ➔ ${destinationName}`;
     return text;
   }
-  return (
-    <>
-      {text.slice(0, i)}
-      <Icon className="in-text-arrow" img="icon-icon_arrow-right-long" />
-      <span className="sr-only">➔</span>
-      {text.slice(i + 1)}
-    </>
-  );
+  return '';
+}
+
+function patternTextWithIcon(pattern) {
+  if (pattern) {
+    const text = patternOptionText(pattern);
+    const i = text.search(/➔/);
+    if (i === -1) {
+      return text;
+    }
+    return (
+      <>
+        {text.slice(0, i)}
+        <Icon className="in-text-arrow" img="icon-icon_arrow-right-long" />
+        <span className="sr-only">➔</span>
+        {text.slice(i + 1)}
+      </>
+    );
+  }
+  return <></>;
 }
 
 class RoutePatternSelect extends Component {
@@ -70,22 +82,8 @@ class RoutePatternSelect extends Component {
     intl: intlShape.isRequired,
   };
 
-  state = {
-    loading: true,
-  };
-
-  componentDidMount = () => {
-    this.props.relay.refetch(
-      {
-        date: this.props.serviceDay,
-      },
-      null,
-      () => this.setState({ loading: false }),
-    );
-  };
-
   getOptions = () => {
-    const { gtfsId, params, route, useCurrentTime } = this.props; // DT-3182: added useCurrentTime, DT-3347: added lang
+    const { gtfsId, params, route } = this.props;
     const { router } = this.context;
     const { patterns } = route;
 
@@ -95,7 +93,7 @@ class RoutePatternSelect extends Component {
 
     const futureTrips = enrichPatterns(
       patterns,
-      useCurrentTime,
+      false,
       this.context.config.itinerary.serviceTimeRange,
     );
 
@@ -103,16 +101,10 @@ class RoutePatternSelect extends Component {
       return null;
     }
 
-    // DT-3182: added sortBy 'tripsForDate.length' (reverse() = descending)
-    // DT-2531: added sortBy 'activeDates.length'
     const options = sortBy(
-      sortBy(
-        sortBy(sortBy(futureTrips, 'code').reverse(), 'activeDates.length'),
-        'activeDates[0]',
-      ).reverse(),
-      'tripsForDate.length',
+      sortBy(futureTrips, 'inFuture').reverse(),
+      'countTripsForDate',
     ).reverse();
-
     if (options.every(o => o.code !== params.patternId)) {
       if (isBrowser) {
         router.replace(
@@ -128,23 +120,41 @@ class RoutePatternSelect extends Component {
   };
 
   render() {
-    if (this.state.loading === true) {
-      return (
-        <div
-          className={cx('route-pattern-select', this.props.className)}
-          aria-atomic="true"
-        />
-      );
-    }
-
     const { intl } = this.context;
     const options = this.getOptions();
     const currentPattern = options.find(
       o => o.code === this.props.params.patternId,
     );
-    const renderButtonOnly = options && options.length === 2;
+
+    const possibleMainRoutes = options.slice(0, 2).filter(o => !o.inFuture);
+    let mainRoutes = options.slice(0, 2).filter(o => !o.inFuture);
+    if (
+      possibleMainRoutes.every(o => o.directionId === 0) ||
+      possibleMainRoutes.every(o => o.directionId === 1)
+    ) {
+      mainRoutes = possibleMainRoutes.slice(0, 1);
+    }
+
+    const specialRoutes = options
+      .slice(mainRoutes.length)
+      .filter(o => !o.inFuture);
+    const futureRoutes = options
+      .slice(mainRoutes.length)
+      .filter(o => o.inFuture);
+
+    const noSpecialRoutes = !specialRoutes || specialRoutes.length === 0;
+    const noFutureRoutes = !futureRoutes || futureRoutes.length === 0;
+
+    const renderButtonOnly =
+      mainRoutes &&
+      mainRoutes.length > 0 &&
+      mainRoutes.length <= 2 &&
+      noSpecialRoutes &&
+      noFutureRoutes;
+
+    const directionSwap = mainRoutes.length === 2;
     if (renderButtonOnly) {
-      const otherPattern = options.find(
+      const otherPattern = mainRoutes.find(
         o => o.code !== this.props.params.patternId,
       );
       return (
@@ -153,21 +163,50 @@ class RoutePatternSelect extends Component {
           aria-atomic="true"
         >
           <label htmlFor="route-pattern-toggle-button">
-            <span className="sr-only">
-              <FormattedMessage id="swap-order-button-label" />
-            </span>
+            {directionSwap && (
+              <span className="sr-only">
+                <FormattedMessage id="swap-order-button-label" />
+              </span>
+            )}
             <button
               id="route-pattern-toggle-button"
               className="route-pattern-toggle"
               type="button"
-              onClick={() => this.props.onSelectChange(otherPattern.code)}
+              onClick={() =>
+                directionSwap
+                  ? this.props.onSelectChange(otherPattern.code)
+                  : null
+              }
             >
-              {patternTextWithIcon(this.props.lang, currentPattern, true)}
-              <Icon className="toggle-icon" img="icon-icon_direction-c" />
+              {patternTextWithIcon(currentPattern)}
+              {directionSwap && (
+                <Icon className="toggle-icon" img="icon-icon_direction-c" />
+              )}
             </button>
           </label>
         </div>
       );
+    }
+
+    const optionArray = [];
+    if (mainRoutes.length > 0) {
+      optionArray.push({ options: mainRoutes, name: '' });
+    }
+    if (specialRoutes.length > 0) {
+      optionArray.push({
+        options: specialRoutes,
+        name: intl.formatMessage({
+          id: 'route-page.special-routes',
+        }),
+      });
+    }
+    if (futureRoutes.length > 0) {
+      optionArray.push({
+        options: futureRoutes,
+        name: intl.formatMessage({
+          id: 'route-page.future-routes',
+        }),
+      });
     }
 
     return (
@@ -182,15 +221,7 @@ class RoutePatternSelect extends Component {
           </span>
           <Autosuggest
             id="select-route-pattern"
-            suggestions={[
-              { options: options.slice(0, 2), name: '' },
-              {
-                options: options.slice(2),
-                name: intl.formatMessage({
-                  id: 'route-page.special-patterns-name',
-                }),
-              },
-            ]}
+            suggestions={optionArray}
             multiSection
             renderSectionTitle={s => {
               return s.name || null;
@@ -201,7 +232,7 @@ class RoutePatternSelect extends Component {
             getSuggestionValue={s => s.code}
             renderSuggestion={s => (
               <>
-                {patternTextWithIcon(this.props.lang, s, false)}
+                {patternTextWithIcon(s)}
                 {s.code === currentPattern.code && (
                   <>
                     <Icon className="check" img="icon-icon_check" />
@@ -215,9 +246,7 @@ class RoutePatternSelect extends Component {
             onSuggestionsFetchRequested={() => null}
             shouldRenderSuggestions={() => true}
             inputProps={{
-              value:
-                this.props.params &&
-                routePatternOptionText(this.props.lang, currentPattern, false),
+              value: this.props.params && patternOptionText(currentPattern),
               onChange: (_, { newValue, method }) => {
                 if (['click', 'enter'].includes(method)) {
                   this.props.onSelectChange(newValue);
@@ -239,11 +268,7 @@ class RoutePatternSelect extends Component {
               return (
                 <>
                   <div className="input-display" aria-hidden="true">
-                    {patternTextWithIcon(
-                      this.props.lang,
-                      currentPattern,
-                      false,
-                    )}
+                    {patternTextWithIcon(currentPattern)}
                     <Icon
                       className="dropdown-arrow"
                       img="icon-icon_arrow-collapse"
@@ -316,23 +341,20 @@ const withStore = createRefetchContainer(
       @argumentDefinitions(date: { type: "String" }) {
         patterns {
           code
+          directionId
           headsign
           stops {
             name
           }
-          tripsForDate(serviceDate: $date) {
-            id
+          activeDates: trips {
+            serviceId
+            day: activeDates
+          }
+          tripsForDate: tripsForDate(serviceDate: $date) {
             stoptimes: stoptimesForDate(serviceDate: $date) {
-              scheduledArrival
               scheduledDeparture
               serviceDay
-              stop {
-                id
-              }
             }
-          }
-          activeDates: trips {
-            day: activeDates
           }
         }
       }

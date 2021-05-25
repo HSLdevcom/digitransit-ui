@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import StopPageMap from './StopPageMap';
+import StopPageMap from './map/StopPageMap';
 
 const BikeRentalStationPageMapContainer = ({ bikeRentalStation }) => {
   if (!bikeRentalStation) {
     return false;
   }
-  return <StopPageMap stop={bikeRentalStation} />;
+  return <StopPageMap stop={bikeRentalStation} citybike />;
 };
 
 BikeRentalStationPageMapContainer.contextTypes = {

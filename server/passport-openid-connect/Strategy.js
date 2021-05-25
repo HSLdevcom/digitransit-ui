@@ -9,6 +9,7 @@ const process = require('process');
 const User = require('./User').User;
 
 const debugLogging = process.env.DEBUGLOGGING;
+const callbackPath = '/oid_callback';
 
 const OICStrategy = function (config) {
   this.name = 'passport-openid-connect';
@@ -48,6 +49,7 @@ OICStrategy.prototype.init = function () {
 };
 
 OICStrategy.prototype.authenticate = function (req, opts) {
+  const redirectUri = this.createRedirectUrl(req);
   if (opts.callback) {
     if (debugLogging) {
       console.log('calling auth callback');
@@ -61,8 +63,8 @@ OICStrategy.prototype.authenticate = function (req, opts) {
   const { ssoValidTo, ssoToken } = req.session;
   const authurl =
     ssoValidTo && ssoValidTo > moment().unix()
-      ? this.createAuthUrl(cookieLang, ssoToken)
-      : this.createAuthUrl(cookieLang);
+      ? this.createAuthUrl(redirectUri, cookieLang, ssoToken)
+      : this.createAuthUrl(redirectUri, cookieLang);
   if (debugLogging) {
     console.log(`ssoToken: ${ssoToken} authUrl: ${authurl}`);
   }
@@ -85,8 +87,9 @@ OICStrategy.prototype.callback = function (req, opts) {
   if (debugLogging) {
     console.log(`path=${req.path} query=${req.query}`);
   }
+  const redirectUri = this.createRedirectUrl(req);
   return this.client
-    .callback(this.config.redirect_uri, req.query, {
+    .callback(redirectUri, req.query, {
       state: req.query.state,
     })
     .then(tokenSet => {
@@ -147,14 +150,14 @@ OICStrategy.prototype.refresh = function (req) {
       this.fail(err);
     });
 };
-OICStrategy.prototype.createAuthUrl = function (lang, ssoToken) {
+OICStrategy.prototype.createAuthUrl = function (redirectUri, lang, ssoToken) {
   if (debugLogging) {
     console.log(`createAuthUrl, ssotoken=${JSON.stringify(ssoToken)}`);
   }
   const params = {
     response_type: 'code',
     client_id: this.config.client_id,
-    redirect_uri: this.config.redirect_uri,
+    redirect_uri: redirectUri,
     scope: this.config.scope,
     state: process.hrtime()[1],
     ui_locales: lang,
@@ -167,6 +170,14 @@ OICStrategy.prototype.createAuthUrl = function (lang, ssoToken) {
     });
   }
   return this.client.authorizationUrl(params);
+};
+
+OICStrategy.prototype.createRedirectUrl = function (req) {
+  const host = req.headers['x-forwarded-host'] || req.headers.host;
+  if (req.secure) {
+    return `https://${host}${callbackPath}`;
+  }
+  return `http://${host}${callbackPath}`;
 };
 
 OICStrategy.serializeUser = function (user, cb) {

@@ -21,9 +21,10 @@ import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
+import CityBikeLeg from './CityBikeLeg';
 
 function WalkLeg(
-  { children, focusAction, setMapZoomToLeg, index, leg, previousLeg },
+  { children, focusAction, focusToLeg, index, leg, previousLeg },
   { config, intl },
 ) {
   const distance = displayDistance(
@@ -59,7 +60,11 @@ function WalkLeg(
         defaultMessage="Return the bike to {station} station"
       />
     ) : null;
-
+  let appendClass;
+  const isScooter = networkType === CityBikeNetworkType.Scooter;
+  if (returnNotice) {
+    appendClass = 'return-citybike';
+  }
   return (
     <div key={index} className="row itinerary-row">
       <span className="sr-only">
@@ -81,6 +86,7 @@ function WalkLeg(
         </div>
       </div>
       <ItineraryCircleLineWithIcon
+        appendClass={appendClass}
         index={index}
         modeClassName={modeClassName}
       />
@@ -126,7 +132,13 @@ function WalkLeg(
             </div>
           </div>
         ) : (
-          <div className="itinerary-leg-first-row">
+          <div
+            className={
+              returnNotice
+                ? 'itinerary-leg-first-row-return-bike'
+                : 'itinerary-leg-first-row'
+            }
+          >
             <div className="itinerary-leg-row">
               {leg.from.stop ? (
                 <Link
@@ -152,8 +164,17 @@ function WalkLeg(
                   />
                 </Link>
               ) : (
-                <>
-                  {returnNotice || leg.from.name}
+                <div>
+                  {returnNotice ? (
+                    <CityBikeLeg
+                      isScooter={isScooter}
+                      stationName={leg.from.name}
+                      bikeRentalStation={leg.from.bikeRentalStation}
+                      returnBike
+                    />
+                  ) : (
+                    leg.from.name
+                  )}
                   {leg.from.stop && (
                     <Icon
                       img="icon-icon_arrow-collapse--right"
@@ -168,7 +189,7 @@ function WalkLeg(
                       leg.startTime / 1000,
                     )}
                   />
-                </>
+                </div>
               )}
               <div className="stop-code-container">
                 {children}
@@ -183,7 +204,7 @@ function WalkLeg(
                 )}
               </div>
             </div>
-            <div
+            {/*           <div
               className="itinerary-map-action"
               onClick={focusAction}
               onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
@@ -198,7 +219,7 @@ function WalkLeg(
                 img="icon-icon_show-on-map"
                 className="itinerary-search-icon"
               />
-            </div>
+            </div> */}
           </div>
         )}
 
@@ -211,10 +232,8 @@ function WalkLeg(
             />
             <div
               className="itinerary-map-action"
-              onClick={setMapZoomToLeg}
-              onKeyPress={e =>
-                isKeyboardSelectionEvent(e) && setMapZoomToLeg(e)
-              }
+              onClick={focusToLeg}
+              onKeyPress={e => isKeyboardSelectionEvent(e) && focusToLeg(e)}
               role="button"
               tabIndex="0"
               aria-label={intl.formatMessage({
@@ -286,7 +305,7 @@ WalkLeg.propTypes = {
   index: PropTypes.number.isRequired,
   leg: walkLegShape.isRequired,
   previousLeg: walkLegShape,
-  setMapZoomToLeg: PropTypes.func.isRequired,
+  focusToLeg: PropTypes.func.isRequired,
 };
 
 WalkLeg.defaultProps = {

@@ -20,7 +20,9 @@ import Datetimepicker from './helpers/Datetimepicker';
  * @param {function} props.onDepartureClick         Called with (time) when "departure" button is clicked. time is current input value in seconds
  * @param {function} props.onArrivalClick           Called with (time) when "arrival" button is clicked. time is current input value in seconds
  * @param {node} props.embedWhenClosed              JSX element to render in the corner when input is closed
+ * @param {node} props.embedWhenOpen                JSX element to render when input is open
  * @param {string} props.lang                       Language selection. Default 'en'
+ * @param {number} props.serviceTimeRange           Determine number of days shown in timepicker. Optional. default is 30.
  *
  * @example
  * <Datetimepicker
@@ -34,6 +36,7 @@ import Datetimepicker from './helpers/Datetimepicker';
  *   onArrivalClick={(time) => changeUrl(time, undefined)}
  *   embedWhenClosed={<button />}
  *   lang={'en'}
+ *   serviceTimeRange={15}
  * />
  */
 function DatetimepickerStateContainer({
@@ -46,10 +49,12 @@ function DatetimepickerStateContainer({
   onDateChange,
   onNowClick,
   embedWhenClosed,
+  embedWhenOpen,
   lang,
   color,
   timeZone,
   fontWeights,
+  serviceTimeRange,
 }) {
   moment.tz.setDefault(timeZone);
   const initialNow = realtime ? null : moment().valueOf();
@@ -164,11 +169,13 @@ function DatetimepickerStateContainer({
       onDepartureClick={departureClicked}
       onArrivalClick={arrivalClicked}
       embedWhenClosed={embedWhenClosed}
+      embedWhenOpen={embedWhenOpen}
       lang={lang}
       color={color}
       timeZone={timeZone}
       onModalSubmit={onModalSubmit}
       fontWeights={fontWeights}
+      serviceTimeRange={serviceTimeRange}
     />
   );
 }
@@ -183,12 +190,14 @@ DatetimepickerStateContainer.propTypes = {
   onDateChange: PropTypes.func.isRequired,
   onNowClick: PropTypes.func.isRequired,
   embedWhenClosed: PropTypes.node,
+  embedWhenOpen: PropTypes.node,
   lang: PropTypes.string,
   color: PropTypes.string,
   timeZone: PropTypes.string,
   fontWeights: PropTypes.shape({
     medium: PropTypes.number,
   }),
+  serviceTimeRange: PropTypes.number,
 };
 
 DatetimepickerStateContainer.defaultProps = {
@@ -196,6 +205,7 @@ DatetimepickerStateContainer.defaultProps = {
   initialArriveBy: undefined,
   initialTimestamp: undefined,
   embedWhenClosed: null,
+  embedWhenOpen: null,
   lang: 'en',
   color: '#007ac9',
   timeZone: 'Europe/Helsinki',

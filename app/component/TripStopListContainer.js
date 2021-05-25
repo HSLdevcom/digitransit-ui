@@ -8,7 +8,6 @@ import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 
 import TripRouteStop from './TripRouteStop';
-import { getDistanceToNearestStop } from '../util/geo-utils';
 import withBreakpoint from '../util/withBreakpoint';
 
 class TripStopListContainer extends React.PureComponent {
@@ -16,7 +15,6 @@ class TripStopListContainer extends React.PureComponent {
     trip: PropTypes.object.isRequired,
     className: PropTypes.string,
     vehicles: PropTypes.object,
-    locationState: PropTypes.object.isRequired,
     currentTime: PropTypes.object.isRequired,
     tripStart: PropTypes.string.isRequired,
     breakpoint: PropTypes.string,
@@ -32,15 +30,6 @@ class TripStopListContainer extends React.PureComponent {
     config: PropTypes.object.isRequired,
   };
 
-  getNearestStopDistance = stops =>
-    this.props.locationState.hasLocation === true
-      ? getDistanceToNearestStop(
-          this.props.locationState.lat,
-          this.props.locationState.lon,
-          stops,
-        )
-      : null;
-
   getStops() {
     const {
       breakpoint,
@@ -49,9 +38,6 @@ class TripStopListContainer extends React.PureComponent {
       tripStart,
       vehicles: propVehicles,
     } = this.props;
-    const stops = trip.stoptimesForDate.map(stoptime => stoptime.stop);
-
-    const nearest = this.getNearestStopDistance(stops);
 
     const mode = trip.route.mode.toLowerCase();
 
@@ -82,7 +68,6 @@ class TripStopListContainer extends React.PureComponent {
     // selected vehicle
     const vehicle = matchingVehicles.length > 0 && matchingVehicles[0];
     const nextStop = vehicle && vehicle.next_stop;
-
     let stopPassed = true;
 
     return trip.stoptimesForDate.map((stoptime, index) => {
@@ -94,26 +79,20 @@ class TripStopListContainer extends React.PureComponent {
       ) {
         stopPassed = false;
       }
+      const nextStoptimeForDate = trip.stoptimesForDate[index + 1];
 
       return (
         <TripRouteStop
           key={stoptime.stop.gtfsId}
           stoptime={stoptime}
           stop={stoptime.stop}
+          nextStop={nextStoptimeForDate ? nextStoptimeForDate.stop : null}
           mode={mode}
           color={trip.route && trip.route.color ? `#${trip.route.color}` : null}
           vehicles={vehicles[stoptime.stop.gtfsId]}
           selectedVehicle={vehicle}
           stopPassed={stopPassed}
           realtime={stoptime.realtime}
-          distance={
-            nearest != null &&
-            nearest.stop != null &&
-            nearest.stop.gtfsId === stoptime.stop.gtfsId &&
-            nearest.distance <
-              this.context.config.nearestStopDistance.maxShownDistance &&
-            nearest.distance
-          }
           currentTime={currentTime.unix()}
           realtimeDeparture={stoptime.realtimeDeparture}
           pattern={trip.pattern.code}
@@ -147,7 +126,6 @@ const connectedComponent = createFragmentContainer(
     ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
     ({ getStore }) => ({
       vehicles: getStore('RealTimeInformationStore').vehicles,
-      locationState: getStore('PositionStore').getLocationState(),
       currentTime: getStore('TimeStore').getCurrentTime(),
     }),
   ),
@@ -172,6 +150,7 @@ const connectedComponent = createFragmentContainer(
             code
             lat
             lon
+            zoneId
             alerts {
               alertSeverityLevel
               effectiveEndDate

@@ -3,14 +3,12 @@ import React from 'react';
 import { matchShape, routerShape } from 'found';
 import debounce from 'lodash/debounce';
 import { connectToStores } from 'fluxible-addons-react';
-// TODO use this again once AB testing is done
-// import Datetimepicker from '@digitransit-component/digitransit-component-datetimepicker';
-import { MobileDatetimepickerTest } from '@digitransit-component/digitransit-component-abtesting';
+import Datetimepicker from '@digitransit-component/digitransit-component-datetimepicker';
 import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 function DatetimepickerContainer(
-  { realtime, embedWhenClosed, lang, color },
+  { realtime, embedWhenClosed, embedWhenOpen, lang, color },
   context,
 ) {
   const { router, match } = context;
@@ -68,10 +66,8 @@ function DatetimepickerContainer(
       name: 'SelectArriving',
     });
   };
-  const forceTestVariant = match.location.query.dtVariant;
   return (
-    <MobileDatetimepickerTest
-      forceVariant={forceTestVariant}
+    <Datetimepicker
       realtime={realtime}
       initialTimestamp={match.location.query.time}
       initialArriveBy={match.location.query.arriveBy === 'true'}
@@ -81,9 +77,11 @@ function DatetimepickerContainer(
       onDepartureClick={onDepartureClick}
       onArrivalClick={onArrivalClick}
       embedWhenClosed={embedWhenClosed}
+      embedWhenOpen={embedWhenOpen}
       lang={lang}
       color={color}
       timeZone={context.config.timezoneData.split('|')[0]}
+      serviceTimeRange={context.config.itinerary.serviceTimeRange}
     />
   );
 }
@@ -91,12 +89,14 @@ function DatetimepickerContainer(
 DatetimepickerContainer.propTypes = {
   realtime: PropTypes.bool.isRequired,
   embedWhenClosed: PropTypes.node,
+  embedWhenOpen: PropTypes.node,
   lang: PropTypes.string,
   color: PropTypes.string,
 };
 
 DatetimepickerContainer.defaultProps = {
   embedWhenClosed: null,
+  embedWhenOpen: null,
   lang: 'en',
   color: '#007ac9',
 };

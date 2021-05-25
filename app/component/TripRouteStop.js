@@ -5,7 +5,6 @@ import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 
 import ComponentUsageExample from './ComponentUsageExample';
-// import WalkDistance from './WalkDistance';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import StopCode from './StopCode';
 import PatternLink from './PatternLink';
@@ -20,25 +19,29 @@ import {
 } from './ExampleData';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import { estimateItineraryDistance } from '../util/geo-utils';
+import ZoneIcon from './ZoneIcon';
+import { getZoneLabel } from '../util/legUtils';
 
 const VEHICLE_ARRIVING = 'arriving';
 const VEHICLE_ARRIVED = 'arrived';
 const VEHICLE_DEPARTED = 'departed';
 
-const TripRouteStop = props => {
+const TripRouteStop = (props, context) => {
   const {
     className,
     color,
     currentTime,
-    // distance,
     mode,
     stop,
+    nextStop,
     stopPassed,
     stoptime,
     shortName,
     setHumanScrolling,
     keepTracking,
   } = props;
+
+  const { config } = context;
 
   const getVehiclePatternLink = vehicle => {
     const maxDistance = vehicle.mode === 'rail' ? 100 : 50;
@@ -66,6 +69,8 @@ const TripRouteStop = props => {
     return (
       <div className={cx('route-stop-now', vehicleState)}>
         <PatternLink
+          stopName={stop.name}
+          nextStopName={nextStop ? nextStop.name : null}
           key={vehicle.id}
           mode={vehicle.mode}
           pattern={props.pattern}
@@ -142,16 +147,12 @@ const TripRouteStop = props => {
               </div>
             </div>
             <div className="route-details-bottom-row">
-              {stop.code && <StopCode code={stop.code} />}
               <span className="route-stop-address">{stop.desc}</span>
-              {'\u2002'}
-              {/* temporarily remove TODO {distance && (
-                <WalkDistance
-                  className="nearest-route-stop"
-                  icon="icon_location-with-user"
-                  walkDistance={distance}
-                />
-              )} */}
+              {stop.code && <StopCode code={stop.code} />}
+              <ZoneIcon
+                zoneId={getZoneLabel(stop.zoneId, config)}
+                showUnknown={false}
+              />
             </div>
           </div>
         </Link>
@@ -166,8 +167,7 @@ TripRouteStop.propTypes = {
   color: PropTypes.string,
   stopPassed: PropTypes.bool,
   stop: PropTypes.object.isRequired,
-  // distance: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([false])])
-  // .isRequired,
+  nextStop: PropTypes.object,
   stoptime: PropTypes.object.isRequired,
   currentTime: PropTypes.number.isRequired,
   pattern: PropTypes.string.isRequired,
@@ -180,6 +180,10 @@ TripRouteStop.propTypes = {
   shortName: PropTypes.string,
   setHumanScrolling: PropTypes.func,
   keepTracking: PropTypes.bool,
+};
+
+TripRouteStop.contextTypes = {
+  config: PropTypes.object.isRequired,
 };
 
 TripRouteStop.displayName = 'TripRouteStop';

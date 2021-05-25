@@ -23,6 +23,11 @@ export default configMerger(walttiConfig, {
   colors: {
     primary: '#e8aa27',
     hover: '#a07415',
+    iconColors: {
+      'mode-bus': '#e8aa27',
+      'mode-rail': '#8c4799',
+      'mode-ferry': '#35b5b3',
+    },
   },
 
   appBarLink: { name: 'Föli', href: 'http://www.foli.fi/fi' },
@@ -129,28 +134,7 @@ export default configMerger(walttiConfig, {
     lon: 22.267633,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Kauppatori, Turku',
-      lat: 60.451159,
-      lon: 22.267633,
-    },
-    {
-      icon: 'icon-icon_rail',
-      label: 'Rautatieasema, Turku',
-      lat: 60.453537,
-      lon: 22.253379,
-    },
-    {
-      icon: 'icon-icon_airplane',
-      label: 'Lentoasema, Turku',
-      lat: 60.511092,
-      lon: 22.274211,
-    },
-  ],
-
-  showAllBusses: true,
+  vehicles: true,
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
 
@@ -207,4 +191,5 @@ export default configMerger(walttiConfig, {
   },
 
   showNearYouButtons: true,
+  allowLogin: false,
 });

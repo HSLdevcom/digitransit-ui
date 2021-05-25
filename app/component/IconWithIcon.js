@@ -9,6 +9,7 @@ const IconWithIcon = (
   {
     badgeFill,
     badgeText,
+    badgeTextFill,
     className,
     color,
     id,
@@ -24,6 +25,7 @@ const IconWithIcon = (
       <Icon
         badgeFill={badgeFill}
         badgeText={badgeText}
+        badgeTextFill={badgeTextFill}
         color={color}
         img={img}
       />
@@ -89,6 +91,7 @@ IconWithIcon.displayName = 'IconWithIcon';
 IconWithIcon.propTypes = {
   badgeFill: PropTypes.string,
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  badgeTextFill: PropTypes.string,
   className: PropTypes.string,
   color: PropTypes.string,
   id: PropTypes.string,
@@ -105,6 +108,7 @@ IconWithIcon.contextTypes = {
 IconWithIcon.defaultProps = {
   badgeFill: undefined,
   badgeText: undefined,
+  badgeTextFill: undefined,
   className: '',
   id: '',
   subIcon: '',

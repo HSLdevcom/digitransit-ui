@@ -3,11 +3,10 @@ import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
+import AddressRow from './AddressRow';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
-// import WalkDistance from './WalkDistance';
 import ServiceAlertIcon from './ServiceAlertIcon';
-import StopCode from './StopCode';
 import { fromStopTime } from './DepartureTime';
 import ZoneIcon from './ZoneIcon';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -17,6 +16,7 @@ import { PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { getZoneLabel } from '../util/legUtils';
 import { estimateItineraryDistance } from '../util/geo-utils';
+import Icon from './Icon';
 
 const exampleStop = {
   stopTimesForPattern: [
@@ -52,11 +52,11 @@ const RouteStop = (
     className,
     color,
     currentTime,
-    // distance,
     first,
     last,
     mode,
     stop,
+    nextStop,
     vehicle,
     displayNextDeparture,
     shortName,
@@ -165,7 +165,12 @@ const RouteStop = (
       vehicleTripLink = vehicle.tripId ? (
         <TripLink key={vehicle.id} vehicle={vehicle} shortName={shortName} />
       ) : (
-        <FuzzyTripLink key={vehicle.id} vehicle={vehicle} />
+        <FuzzyTripLink
+          stopName={stop.name}
+          nextStopName={nextStop ? nextStop.name : null}
+          key={vehicle.id}
+          vehicle={vehicle}
+        />
       );
     }
     return (
@@ -174,7 +179,6 @@ const RouteStop = (
       </div>
     );
   };
-
   return (
     <div
       className={cx('route-stop location-details_container ', className)}
@@ -215,7 +219,7 @@ const RouteStop = (
           }}
           aria-label={getText()}
         >
-          <div>
+          <div className="route-stop-container">
             <div className="route-details-upper-row">
               <div className={` route-details_container ${mode}`}>
                 <div className="route-stop-name">
@@ -238,17 +242,6 @@ const RouteStop = (
                     {stop.platformCode}
                   </div>
                 </div>
-                {patternExists &&
-                  stop.stopTimesForPattern[0].pickupType === 'NONE' &&
-                  !last && (
-                    <span className="drop-off-container">
-                      <span className="drop-off-stop-icon bus" />
-                      <FormattedMessage
-                        id="route-destination-arrives"
-                        defaultMessage="Drop-off only"
-                      />
-                    </span>
-                  )}
               </div>
               {patternExists && (
                 <div
@@ -260,8 +253,7 @@ const RouteStop = (
               )}
             </div>
             <div className="route-details-bottom-row">
-              <span className="route-stop-address">{stop.desc}</span>
-              {stop.code && <StopCode code={stop.code} />}
+              <AddressRow desc={stop.desc} code={stop.code} />
               {stop.zoneId && (
                 <ZoneIcon
                   className="itinerary-zone-icon"
@@ -277,15 +269,18 @@ const RouteStop = (
                   {fromStopTime(nextDeparture, currentTime, true, true)}
                 </div>
               )}
-              {'\u2002'}
-              {/* temporarily remove TODO {distance && (
-                <WalkDistance
-                  className="nearest-route-stop"
-                  icon="icon_location-with-user"
-                  walkDistance={distance}
-                />
-              )} */}
             </div>
+            {patternExists &&
+              stop.stopTimesForPattern[0].pickupType === 'NONE' &&
+              !last && (
+                <div className="drop-off-container">
+                  <Icon img="icon-icon_info" color={config.colors.primary} />
+                  <FormattedMessage
+                    id="route-destination-arrives"
+                    defaultMessage="Drop-off only"
+                  />
+                </div>
+              )}
           </div>
         </Link>
       </div>
@@ -297,9 +292,9 @@ RouteStop.propTypes = {
   color: PropTypes.string,
   vehicle: PropTypes.object,
   stop: PropTypes.object,
+  nextStop: PropTypes.object,
   mode: PropTypes.string,
   className: PropTypes.string,
-  // distance: PropTypes.number,
   currentTime: PropTypes.number.isRequired,
   first: PropTypes.bool,
   last: PropTypes.bool,

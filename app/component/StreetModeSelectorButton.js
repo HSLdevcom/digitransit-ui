@@ -64,7 +64,7 @@ export const StreetModeSelectorButton = (
       const firstMode = publicModes[0].mode.toLowerCase();
       secondaryIcon = `icon-icon_${firstMode}`;
       if (firstMode === 'subway') {
-        metroColor = '#FF6319';
+        metroColor = '#CA4000';
       }
     }
   }

@@ -3,6 +3,7 @@ import React from 'react';
 import ReactSwipe from 'react-swipe';
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 export default class SwipeableTabs extends React.Component {
   constructor(props) {
@@ -16,7 +17,16 @@ export default class SwipeableTabs extends React.Component {
     tabIndex: PropTypes.number,
     tabs: PropTypes.array.isRequired,
     onSwipe: PropTypes.func,
+    hideArrows: PropTypes.bool,
+    navigationOnBottom: PropTypes.bool,
     classname: PropTypes.string,
+    ariaFrom: PropTypes.string.isRequired,
+    ariaFromHeader: PropTypes.string.isRequired,
+  };
+
+  static defaultProps = {
+    hideArrows: false,
+    navigationOnBottom: false,
   };
 
   static contextTypes = {
@@ -25,6 +35,18 @@ export default class SwipeableTabs extends React.Component {
 
   componentDidMount() {
     window.addEventListener('resize', this.setFocusables);
+    this.setFocusables();
+    const momentumScrollEl = document.querySelector('.swipe-scroll-container');
+    if (momentumScrollEl) {
+      momentumScrollEl.addEventListener('scroll', e => {
+        const { scrollTop } = e.target;
+        if (scrollTop > 0) {
+          this.setState({ scrolled: true });
+        } else {
+          this.setState({ scrolled: false });
+        }
+      });
+    }
   }
 
   componentDidUpdate() {
@@ -123,11 +145,32 @@ export default class SwipeableTabs extends React.Component {
       return (
         <div
           key={key}
+          role="button"
+          aria-label={this.context.intl.formatMessage(
+            {
+              id: 'move-to-tab',
+              defaultMessage: 'Move to tab {number}',
+            },
+            {
+              number: index + 1,
+            },
+          )}
+          tabIndex={0}
           className={`swipe-tab-ball ${
             index === this.state.tabIndex ? 'selected' : ''
           } ${ball.smaller ? 'decreasing-small' : ''} ${
             ball.small ? 'decreasing' : ''
           } ${ball.hidden ? 'hidden' : ''}`}
+          onClick={() => {
+            this.setState({ tabIndex: index });
+            this.props.onSwipe(index);
+          }}
+          onKeyDown={e => {
+            if (isKeyboardSelectionEvent(e)) {
+              this.setState({ tabIndex: index });
+              this.props.onSwipe(index);
+            }
+          }}
         />
       );
     });
@@ -148,104 +191,181 @@ export default class SwipeableTabs extends React.Component {
     }
   };
 
+  constructAriaMessage = (from, position) => {
+    const fromMessage = this.context.intl
+      .formatMessage({
+        id: from,
+        defaultMessage: 'Swipe results tabs.',
+      })
+      .concat(' ');
+    switch (position) {
+      case 'header':
+        return fromMessage.concat(
+          this.context.intl.formatMessage({
+            id: 'swipe-result-tabs',
+            defaultMessage: 'Switch tabs using arrow keys.',
+          }),
+        );
+      case 'left':
+        return fromMessage.concat(
+          this.context.intl.formatMessage({
+            id: 'swipe-result-tab-left',
+            defaultMessage:
+              'Swipe result tabs left arrow. Press Enter or Space to show the previous tab.',
+          }),
+        );
+      case 'right':
+        return fromMessage.concat(
+          this.context.intl.formatMessage({
+            id: 'swipe-result-tab-right',
+            defaultMessage:
+              'Swipe result tabs right arrow. Press Enter or Space to show the next tab.',
+          }),
+        );
+      default:
+        return null;
+    }
+  };
+
   render() {
-    const { tabs } = this.props;
+    const {
+      tabs,
+      hideArrows,
+      navigationOnBottom,
+      ariaFrom,
+      ariaFromHeader,
+    } = this.props;
     const tabBalls = this.tabBalls(tabs.length);
     const disabled = tabBalls.length < 2;
     let reactSwipeEl;
-
+    const ariaHeader = this.constructAriaMessage(ariaFromHeader, 'header');
+    const ariaLeft = this.constructAriaMessage(ariaFrom, 'left');
+    const ariaRight = this.constructAriaMessage(ariaFrom, 'right');
     return (
-      <div>
-        <div className={`swipe-header-container ${this.props.classname}`}>
+      <div
+        className={
+          this.props.classname === 'swipe-desktop-view'
+            ? 'swipe-scroll-wrapper'
+            : ''
+        }
+      >
+        {navigationOnBottom && (
+          <div className="swipe-scroll-container momentum-scroll">
+            <ReactSwipe
+              swipeOptions={{
+                startSlide: this.props.tabIndex,
+                stopPropagation: true,
+                continuous: false,
+                callback: i => {
+                  // force transition after animation should be over because animation can randomly fail sometimes
+                  setTimeout(() => {
+                    this.setState({ tabIndex: i });
+                    this.props.onSwipe(i);
+                  }, 300);
+                },
+              }}
+              childCount={tabs.length}
+              ref={el => {
+                reactSwipeEl = el;
+              }}
+            >
+              {tabs}
+            </ReactSwipe>
+          </div>
+        )}
+        <div
+          className={`swipe-header-container ${this.props.classname} ${
+            this.state.scrolled && !navigationOnBottom ? 'scrolled' : ''
+          }`}
+        >
+          {this.props.classname === 'swipe-desktop-view' && (
+            <div className="desktop-view-divider" />
+          )}
           <div
             className={`swipe-header ${this.props.classname}`}
             role="row"
             onKeyDown={e => this.handleKeyPress(e, reactSwipeEl)}
-            aria-label={this.context.intl.formatMessage({
-              id: 'swipe-result-tabs',
-              defaultMessage:
-                'Swipe result tabs. Switch tabs using arrow keys.',
-            })}
+            aria-label={ariaHeader}
             tabIndex="0"
           >
-            <div className="swipe-button-container">
-              <div
-                className="swipe-button"
-                onClick={() => reactSwipeEl.prev()}
-                onKeyDown={e => {
-                  if (e.keyCode === 13 || e.keyCode === 32) {
-                    e.preventDefault();
-                    reactSwipeEl.prev();
-                  }
-                }}
-                role="button"
-                tabIndex="0"
-                aria-label={this.context.intl.formatMessage({
-                  id: 'swipe-result-tab-left',
-                  defaultMessage:
-                    'Swipe result tabs left arrow. Press Enter or Space to show the previous tab.',
-                })}
-              >
-                <Icon
-                  img="icon-icon_arrow-collapse--left"
-                  className={`itinerary-arrow-icon ${
-                    disabled || this.state.tabIndex <= 0 ? 'disabled' : ''
-                  }`}
-                />
+            {!hideArrows && (
+              <div className="swipe-button-container">
+                <div
+                  className="swipe-button"
+                  onClick={() => reactSwipeEl.prev()}
+                  onKeyDown={e => {
+                    if (e.keyCode === 13 || e.keyCode === 32) {
+                      e.preventDefault();
+                      reactSwipeEl.prev();
+                    }
+                  }}
+                  role="button"
+                  tabIndex="0"
+                  aria-label={ariaLeft}
+                >
+                  <Icon
+                    img="icon-icon_arrow-collapse--left"
+                    className={`itinerary-arrow-icon ${
+                      disabled || this.state.tabIndex <= 0 ? 'disabled' : ''
+                    }`}
+                  />
+                </div>
               </div>
-            </div>
+            )}
             <div className="swipe-tab-indicator">
               {disabled ? null : tabBalls}
             </div>
-            <div className="swipe-button-container">
-              <div
-                className="swipe-button"
-                onClick={() => reactSwipeEl.next()}
-                onKeyDown={e => {
-                  if (e.keyCode === 13 || e.keyCode === 32) {
-                    e.preventDefault();
-                    reactSwipeEl.next();
-                  }
-                }}
-                role="button"
-                tabIndex="0"
-                aria-label={this.context.intl.formatMessage({
-                  id: 'swipe-result-tab-right',
-                  defaultMessage:
-                    'Swipe result tabs right arrow. Press Enter or Space to show the next tab.',
-                })}
-              >
-                <Icon
-                  img="icon-icon_arrow-collapse--right"
-                  className={`itinerary-arrow-icon ${
-                    disabled || this.state.tabIndex >= tabs.length - 1
-                      ? 'disabled'
-                      : ''
-                  }`}
-                />
+            {!hideArrows && (
+              <div className="swipe-button-container">
+                <div
+                  className="swipe-button"
+                  onClick={() => reactSwipeEl.next()}
+                  onKeyDown={e => {
+                    if (e.keyCode === 13 || e.keyCode === 32) {
+                      e.preventDefault();
+                      reactSwipeEl.next();
+                    }
+                  }}
+                  role="button"
+                  tabIndex="0"
+                  aria-label={ariaRight}
+                >
+                  <Icon
+                    img="icon-icon_arrow-collapse--right"
+                    className={`itinerary-arrow-icon ${
+                      disabled || this.state.tabIndex >= tabs.length - 1
+                        ? 'disabled'
+                        : ''
+                    }`}
+                  />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
-        <ReactSwipe
-          swipeOptions={{
-            startSlide: this.props.tabIndex,
-            continuous: false,
-            callback: i => {
-              // force transition after animation should be over because animation can randomly fail sometimes
-              setTimeout(() => {
-                this.setState({ tabIndex: i });
-                this.props.onSwipe(i);
-              }, 300);
-            },
-          }}
-          childCount={tabs.length}
-          ref={el => {
-            reactSwipeEl = el;
-          }}
-        >
-          {tabs}
-        </ReactSwipe>
+        {!navigationOnBottom && (
+          <div className="swipe-scroll-container momentum-scroll">
+            <ReactSwipe
+              swipeOptions={{
+                startSlide: this.props.tabIndex,
+                continuous: false,
+                callback: i => {
+                  // force transition after animation should be over because animation can randomly fail sometimes
+                  setTimeout(() => {
+                    this.setState({ tabIndex: i });
+                    this.props.onSwipe(i);
+                  }, 300);
+                },
+              }}
+              childCount={tabs.length}
+              ref={el => {
+                reactSwipeEl = el;
+              }}
+            >
+              {tabs}
+            </ReactSwipe>
+          </div>
+        )}
       </div>
     );
   }

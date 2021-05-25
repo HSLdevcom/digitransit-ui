@@ -19,8 +19,21 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#000000',
+    iconColors: {
+      'mode-bus': '#000000',
+    },
   },
-
+  transportModes: {
+    bus: {
+      availableForSelection: true,
+      defaultValue: true,
+      nearYouLabel: {
+        fi: 'Lähipysäkit kartalla',
+        sv: 'Hållplatser på kartan',
+        en: 'Nearby stops on map',
+      },
+    },
+  },
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
@@ -59,15 +72,6 @@ export default configMerger(walttiConfig, {
     lat: 60.86625189966643,
     lon: 26.705328946745546,
   },
-
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Matkakeskus, Kouvola',
-      lat: 60.86625189966643,
-      lon: 26.705328946745546,
-    },
-  ],
 
   menu: {
     copyright: { label: `© Kouvola ${walttiConfig.YEAR}` },

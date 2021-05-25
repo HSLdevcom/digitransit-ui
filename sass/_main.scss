@@ -22,7 +22,7 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/front-page';
 @import '../app/component/navigation';
 @import '../app/component/itinerary';
-@import '../app/component/bike-rental-station';
+@import '../app/component/bike-park-rental-station';
 @import '../app/component/itinerary-feedback';
 @import '../app/component/route';
 @import '../app/component/customize-search';
@@ -61,6 +61,7 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/zone-icon';
 @import '../app/component/dateselect';
 @import '../app/component/settings-panel';
+@import '../app/component/routeScheduleDropdown.scss';
 
 @import 'base/button';
 

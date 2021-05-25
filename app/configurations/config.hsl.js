@@ -52,11 +52,7 @@ export default {
 
   showHSLTracking: false,
   allowLogin: true,
-
-  defaultMapCenter: {
-    lat: 60.1710688,
-    lon: 24.9414841,
-  },
+  allowFavouritesFromLocalstorage: false,
 
   nearbyRoutes: {
     radius: 500,
@@ -81,6 +77,15 @@ export default {
   colors: {
     primary: '#007ac9',
     hover: '#0062a1',
+    iconColors: {
+      'mode-bus': '#007ac9',
+      'mode-rail': '#8c4799',
+      'mode-tram': '#008151',
+      'mode-ferry': '#007A97',
+      'mode-metro': '#CA4000',
+      'mode-citybike': '#f2b62d',
+      'mode-citybike-secondary': '#333333',
+    },
   },
 
   fontWeights: {
@@ -263,27 +268,6 @@ export default {
     lon: 24.9414841,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_rail',
-      label: 'Rautatieasema, Helsinki',
-      lat: 60.1710688,
-      lon: 24.9414841,
-    },
-    {
-      icon: 'icon-icon_airplane',
-      label: 'Lentoasema, Vantaa',
-      lat: 60.317429,
-      lon: 24.9690395,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Kampin bussiterminaali, Helsinki',
-      lat: 60.16902,
-      lon: 24.931702,
-    },
-  ],
-
   redirectReittiopasParams: true,
   queryMaxAgeDays: 14, // to drop too old route request times from entry url
 
@@ -462,6 +446,7 @@ export default {
   localStorageTarget: rootLink,
 
   cityBike: {
+    minZoomStopsNearYou: 10,
     showCityBikes: cityBikesEnabled,
     capacity: BIKEAVL_WITHMAX,
     showFullInfo: true,
@@ -475,9 +460,12 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki',
-          sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors',
-          en: 'https://www.hsl.fi/en/citybikes/helsinki',
+          fi:
+            'https://www.hsl.fi/kaupunkipyorat/osta?area=helsinki-espoo&utm_campaign=kaupunkipyorat-omat-hkiespoo&utm_source=reittiopas&utm_medium=referral',
+          sv:
+            'https://www.hsl.fi/sv/stadscyklar/kop?area=helsinki-espoo&utm_campaign=kaupunkipyorat-omat-hkiespoo&utm_source=reittiopas&utm_medium=referral',
+          en:
+            'https://www.hsl.fi/en/citybikes/buy?area=helsinki-espoo&utm_campaign=kaupunkipyorat-omat-hkiespoo&utm_source=reittiopas&utm_medium=referral',
         },
         returnInstructions: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#palauta',
@@ -495,9 +483,12 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa',
-          sv: 'https://www.hsl.fi/sv/stadscyklar/vanda',
-          en: 'https://www.hsl.fi/en/citybikes/vantaa',
+          fi:
+            'https://www.hsl.fi/kaupunkipyorat/osta?area=vantaa&utm_campaign=kaupunkipyorat-omat-vantaa&utm_source=reittiopas&utm_medium=referral',
+          sv:
+            'https://www.hsl.fi/sv/stadscyklar/kop?area=vantaa&utm_campaign=kaupunkipyorat-omat-vantaa&utm_source=reittiopas&utm_medium=referral',
+          en:
+            'https://www.hsl.fi/en/citybikes/buy?area=vantaa&utm_campaign=kaupunkipyorat-omat-vantaa&utm_source=reittiopas&utm_medium=referral',
         },
         returnInstructions: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa/kayttoohje#palauta',
@@ -505,6 +496,14 @@ export default {
           en: 'https://www.hsl.fi/en/citybikes/vantaa/instructions#return',
         },
       },
+    },
+    buyUrl: {
+      fi:
+        'https://www.hsl.fi/kaupunkipyorat/osta?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral',
+      sv:
+        'https://www.hsl.fi/sv/stadscyklar/kop?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral',
+      en:
+        'https://www.hsl.fi/en/citybikes/buy?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral',
     },
   },
 
@@ -515,7 +514,7 @@ export default {
 
   showNearYouButtons: true,
   nearYouModes: [
-    // 'favorite',
+    'favorite',
     'bus',
     'tram',
     'subway',
@@ -525,4 +524,11 @@ export default {
   ],
 
   zoneIconsAsSvg: true,
+  hostnames: [
+    // DEV hostnames
+    'https://next-dev.digitransit.fi',
+    'https://dev.reittiopas.fi',
+    // PROD hostnames
+    'https://reittiopas.hsl.fi',
+  ],
 };

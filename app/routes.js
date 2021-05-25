@@ -65,7 +65,6 @@ export default config => {
     ),
     map: (
       <Route
-        // TODO: Must be decided how we will handle selecting from map!
         disableMapOnMobile
         getComponent={() =>
           import(
@@ -172,7 +171,7 @@ export default config => {
                   return props ? (
                     <Component {...props} match={match} error={error} />
                   ) : (
-                    <Component match={match} loadingPosition error={error} />
+                    <Component match={match} error={error} />
                   );
                 }
                 return undefined;
@@ -275,18 +274,6 @@ export default config => {
                       render={getComponentOrLoadingRenderer}
                     />
                   </Route>,
-                ],
-                map: [
-                  <Route path="" />,
-                  <Route
-                    path="/:hash/(.*)?"
-                    getComponent={() =>
-                      import(
-                        /* webpackChunkName: "itinerary" */ './component/ItineraryPageMap'
-                      ).then(getDefault)
-                    }
-                    render={getComponentOrNullRenderer}
-                  />,
                 ],
               }}
             </Route>

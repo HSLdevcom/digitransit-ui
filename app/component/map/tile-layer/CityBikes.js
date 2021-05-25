@@ -29,11 +29,10 @@ const query = graphql`
 `;
 
 class CityBikes {
-  constructor(tile, config, mapLayers, stopsNearYouMode, relayEnvironment) {
+  constructor(tile, config, mapLayers, relayEnvironment) {
     this.tile = tile;
     this.config = config;
     this.relayEnvironment = relayEnvironment;
-    this.stopsNearYouMode = stopsNearYouMode;
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.citybikeImageSize =
       20 * this.scaleratio * getMapIconScale(this.tile.coords.z);
@@ -81,6 +80,7 @@ class CityBikes {
     const currentTime = new Date().getTime();
 
     const callback = ({ station: result }) => {
+      const isHilighted = this.tile.hilightedStops?.includes(result.stationId);
       timeOfLastFetch[id] = new Date().getTime();
       if (result) {
         const iconName = getCityBikeNetworkIcon(
@@ -89,11 +89,14 @@ class CityBikes {
             this.config,
           ),
         );
+        const iconColor =
+          iconName.includes('secondary') &&
+          this.config.colors.iconColors['mode-citybike-secondary']
+            ? this.config.colors.iconColors['mode-citybike-secondary']
+            : this.config.colors.iconColors['mode-citybike'];
         if (
-          !this.stopsNearYouMode ||
-          this.stopsNearYouMode === 'CITYBIKE' ||
-          (this.stopsNearYouMode === 'FAVORITE' &&
-            this.tile.stopsToShow.includes(result.stationId))
+          !this.tile.stopsToShow ||
+          this.tile.stopsToShow.includes(result.stationId)
         ) {
           drawCitybikeIcon(
             this.tile,
@@ -102,6 +105,8 @@ class CityBikes {
             result.bikesAvailable,
             iconName,
             this.config.cityBike.capacity !== BIKEAVL_UNKNOWN,
+            iconColor,
+            isHilighted,
           );
         }
       }

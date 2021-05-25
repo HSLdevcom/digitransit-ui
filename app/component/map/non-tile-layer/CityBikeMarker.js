@@ -5,13 +5,18 @@ import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
 import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
-import { isBrowser } from '../../../util/browser';
-import { getCityBikeAvailabilityIndicatorColor } from '../../../util/legUtils';
 import {
+  BIKEAVL_UNKNOWN,
   getCityBikeNetworkConfig,
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
 } from '../../../util/citybikes';
+import { isBrowser } from '../../../util/browser';
+import {
+  getCityBikeAvailabilityIndicatorColor,
+  getCityBikeAvailabilityTextColor,
+} from '../../../util/legUtils';
+
 import { PREFIX_BIKESTATIONS } from '../../../util/path';
 
 let L;
@@ -84,9 +89,9 @@ export default class CityBikeMarker extends React.Component {
     const { showBikeAvailability, station, transit } = this.props;
     const { config } = this.context;
 
-    const iconName = getCityBikeNetworkIcon(
+    const iconName = `${getCityBikeNetworkIcon(
       getCityBikeNetworkConfig(getCityBikeNetworkId(station.networks), config),
-    );
+    )}-lollipop`;
 
     return !transit && zoom <= config.stopsSmallMaxZoom
       ? L.divIcon({
@@ -95,6 +100,7 @@ export default class CityBikeMarker extends React.Component {
           className: 'citybike cursor-pointer',
         })
       : L.divIcon({
+          iconAnchor: [15, 40],
           html: showBikeAvailability
             ? Icon.asString({
                 img: iconName,
@@ -103,7 +109,14 @@ export default class CityBikeMarker extends React.Component {
                   station.bikesAvailable,
                   config,
                 ),
-                badgeText: station.bikesAvailable,
+                badgeTextFill: getCityBikeAvailabilityTextColor(
+                  station.bikesAvailable,
+                  config,
+                ),
+                badgeText:
+                  this.context.config.cityBike.capacity !== BIKEAVL_UNKNOWN
+                    ? station.bikesAvailable
+                    : null,
               })
             : Icon.asString({
                 img: iconName,

@@ -52,15 +52,6 @@ export default configMerger(walttiConfig, {
     lon: 0.5 * (minLon + maxLon),
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Linja-autoasema, __Theme__',
-      lat: 63,
-      lon: 27,
-    },
-  ],
-
   menu: {
     content: [
       { label: `© __Theme__ ${walttiConfig.YEAR}` },

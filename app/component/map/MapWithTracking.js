@@ -1,5 +1,3 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable react/prop-types */
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames'; // DT-3470
@@ -7,409 +5,311 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import getContext from 'recompose/getContext';
 import isEqual from 'lodash/isEqual';
+import cloneDeep from 'lodash/cloneDeep';
+import { intlShape } from 'react-intl';
 import { startLocationWatch } from '../../action/PositionActions';
 import ComponentUsageExample from '../ComponentUsageExample';
 import MapContainer from './MapContainer';
 import ToggleMapTracking from '../ToggleMapTracking';
-import { dtLocationShape } from '../../util/shapes';
 import { isBrowser } from '../../util/browser';
-import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
 import PositionStore from '../../store/PositionStore';
-import MessageStore from '../../store/MessageStore';
-import VehicleMarkerContainer from './VehicleMarkerContainer';
-import {
-  startRealTimeClient,
-  stopRealTimeClient,
-} from '../../action/realTimeClientAction';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { MAPSTATES } from '../../util/stopsNearYouUtils';
+import { mapLayerShape } from '../../store/MapLayerStore';
+import BubbleDialog from '../BubbleDialog';
+// eslint-disable-next-line import/no-named-as-default
+import PreferencesStore from '../../store/PreferencesStore';
+import MapLayersDialogContent from '../MapLayersDialogContent';
+import MenuDrawer from '../MenuDrawer';
+import withBreakpoint from '../../util/withBreakpoint';
 
-const DEFAULT_ZOOM = 12;
-const FOCUS_ZOOM = 16;
 const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'lat',
   'lon',
   'zoom',
+  'bounds',
   'mapTracking',
-  'showStops',
-  'showScaleBar',
+  'mapLayers',
   'children',
   'leafletObjs',
+  'bottomButtons',
 ]);
 
-const Component = onlyUpdateCoordChanges(MapContainer);
-
-/* stop yet another eslint madness */
-/* eslint-disable react/sort-comp */
-
-let mapLoaded = false;
-let previousFocusPoint = null;
-const startClient = context => {
-  const { realTime } = context.config;
-  let agency;
-  /* handle multiple feedid case */
-  context.config.feedIds.forEach(ag => {
-    if (!agency && realTime[ag]) {
-      agency = ag;
-    }
-  });
-  const source = agency && realTime[agency];
-  if (source && source.active) {
-    const config = {
-      ...source,
-      agency,
-    };
-    context.executeAction(startRealTimeClient, config);
-  }
-};
+const MapCont = onlyUpdateCoordChanges(MapContainer);
 
 class MapWithTrackingStateHandler extends React.Component {
   static propTypes = {
-    focusPoint: dtLocationShape,
-    fitBounds: PropTypes.bool,
+    lat: PropTypes.number,
+    lon: PropTypes.number,
+    zoom: PropTypes.number,
     position: PropTypes.shape({
       hasLocation: PropTypes.bool.isRequired,
-      isLocationingInProgress: PropTypes.bool.isRequired,
-      status: PropTypes.string,
+      locationingFailed: PropTypes.bool,
       lat: PropTypes.number.isRequired,
       lon: PropTypes.number.isRequired,
     }).isRequired,
-    config: PropTypes.shape({
-      defaultMapCenter: dtLocationShape,
-      defaultEndpoint: dtLocationShape.isRequired,
-      realTime: PropTypes.object.isRequired,
-      feedIds: PropTypes.array.isRequired,
-      showAllBusses: PropTypes.bool.isRequired,
-      stopsMinZoom: PropTypes.number.isRequired,
-      geoJson: PropTypes.shape({
-        layers: PropTypes.array,
-        layerConfigUrl: PropTypes.string,
-      }),
-    }).isRequired,
+    bounds: PropTypes.array,
     children: PropTypes.array,
     leafletObjs: PropTypes.array,
     renderCustomButtons: PropTypes.func,
     mapLayers: mapLayerShape.isRequired,
-    messages: PropTypes.array,
-    setInitialMapTracking: PropTypes.bool,
-    initialZoom: PropTypes.number,
+    mapTracking: PropTypes.bool,
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
-    defaultMapCenter: PropTypes.object.isRequired,
-    fitBoundsWithSetCenter: PropTypes.bool,
-    setCenterOfMap: PropTypes.func,
-    showAllVehicles: PropTypes.bool,
+    onStartNavigation: PropTypes.func,
+    onEndNavigation: PropTypes.func,
+    onMapTracking: PropTypes.func,
+    setMWTRef: PropTypes.func,
+    mapRef: PropTypes.func,
+    leafletEvents: PropTypes.object,
+    breakpoint: PropTypes.string,
+    lang: PropTypes.string,
   };
 
   static defaultProps = {
-    focusPoint: undefined,
     renderCustomButtons: undefined,
-    setInitialMapTracking: false,
-    initialZoom: undefined,
     locationPopup: 'reversegeocoding',
     onSelectLocation: () => null,
-    fitBounds: false,
-    fitBoundsWithSetCenter: false,
-    showAllVehicles: false,
+    leafletEvents: {},
   };
 
   constructor(props) {
     super(props);
-    const defaultZoom = this.focusPoint ? DEFAULT_ZOOM : FOCUS_ZOOM;
     this.state = {
-      locationingOn: false,
-      defaultMapCenter: props.defaultMapCenter,
-      keepOnTracking: false,
-      initialZoom: props.initialZoom ? props.initialZoom : defaultZoom,
-      mapTracking: props.setInitialMapTracking,
-      humanIsScrolling: false,
+      mapTracking: props.mapTracking,
+      settingsOpen: false,
     };
+    this.naviProps = {};
   }
 
   async componentDidMount() {
     if (!isBrowser) {
       return;
     }
-
-    if (this.props.showAllVehicles && this.props.mapLayers.showAllBusses) {
-      startClient(this.context);
+    if (this.props.setMWTRef) {
+      this.props.setMWTRef(this);
     }
   }
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(newProps) {
-    if (
-      newProps.position.hasLocation ||
-      newProps.position.isLocationingInProgress
-    ) {
-      this.setState({
-        locationingOn: true,
-      });
+    let newState;
+    if (newProps.mapTracking && !this.state.mapTracking) {
+      newState = { mapTracking: true };
+    } else if (newProps.mapTracking === false && this.state.mapTracking) {
+      newState = { mapTracking: false };
     }
-    if (newProps.mapTracking || newProps.initialMapWithTracking) {
-      this.setState({
-        mapTracking: true,
-      });
-    } else if (newProps.mapTracking === false) {
-      // Set this if and only if parent component spesifies that mapTracking is no longer wanted
-      this.setState({
-        mapTracking: false,
-      });
-    }
-    if (newProps.initialZoom !== this.state.initialZoom) {
-      this.updateZoom(newProps.initialZoom);
-    }
-    if (this.props.showAllVehicles && newProps.mapLayers.showAllBusses) {
-      if (!this.props.mapLayers.showAllBusses) {
-        startClient(this.context);
-      }
-    } else if (
-      this.props.showAllVehicles &&
-      this.props.mapLayers.showAllBusses
-    ) {
-      const { client } = this.context.getStore('RealTimeInformationStore');
-      if (client) {
-        this.context.executeAction(stopRealTimeClient, client);
-      }
-    }
-  }
-
-  componentWillUnmount() {
-    previousFocusPoint = null;
-    this.isCancelled = true;
-    const { client } = this.context.getStore('RealTimeInformationStore');
-    if (client) {
-      this.context.executeAction(stopRealTimeClient, client);
+    if (newState) {
+      this.setState(newState);
     }
   }
 
   setMapElementRef = element => {
     if (element && this.mapElement !== element) {
       this.mapElement = element;
+      if (this.props.mapRef) {
+        this.props.mapRef(element);
+      }
     }
   };
 
   enableMapTracking = () => {
-    if (!this.state.locationingOn) {
+    if (!this.props.position.hasLocation) {
       this.context.executeAction(startLocationWatch);
     }
     this.setState({
       mapTracking: true,
-      keepOnTracking: true,
-      locationingOn: true,
-      initialZoom: 16,
     });
-    if (this.props.setCenterOfMap) {
-      this.props.setCenterOfMap(null);
-    }
-    addAnalyticsEvent({
-      category: 'Map',
-      action: 'ReCenterToMyGeolocation',
-      name: null,
-    });
-  };
-
-  disableMapTrackingForZoomControl = () => {
-    if (!this.state.keepOnTracking) {
-      this.setState({
-        mapTracking: false,
-        keepOnTracking: false,
-      });
-    } else {
-      this.setState({
-        keepOnTracking: false,
-      });
+    if (this.props.onMapTracking) {
+      this.props.onMapTracking();
     }
   };
 
   disableMapTracking = () => {
     this.setState({
       mapTracking: false,
-      keepOnTracking: false,
     });
   };
 
-  updateCurrentBounds = () => {
-    const newBounds = this.mapElement.leafletElement.getBounds();
-    const { bounds } = this.state;
-    if (bounds && bounds.equals(newBounds)) {
-      return;
+  forceRefresh = () => {
+    this.refresh = true;
+  };
+
+  startNavigation = () => {
+    if (this.props.onStartNavigation) {
+      this.props.onStartNavigation(this.mapElement);
     }
-    this.setState({
-      bounds: newBounds,
-    });
-    if (this.props.setCenterOfMap && this.state.humanIsScrolling) {
-      this.props.setCenterOfMap(this.mapElement);
+    if (this.state.mapTracking && !this.ignoreNavigation) {
+      this.disableMapTracking();
     }
   };
 
-  updateZoom(zoom) {
-    this.setState({
-      initialZoom: zoom,
-    });
-  }
+  endNavigation = () => {
+    if (this.props.onEndNavigation) {
+      this.props.onEndNavigation(this.mapElement);
+    }
+    this.navigated = true;
+  };
+
+  setSettingsOpen = value => {
+    this.setState({ settingsOpen: value });
+  };
 
   render() {
     const {
+      lat,
+      lon,
+      zoom,
       position,
-      config,
       children,
       renderCustomButtons,
       mapLayers,
-      fitBounds,
-      focusPoint,
-      mapState,
+      bounds,
+      leafletEvents,
       ...rest
     } = this.props;
-    let useFitBounds = fitBounds;
-    // Fitbounds should only be set when map is first loaded. If fitbounds is set to true after map is loaded, tracking functionality will break.
-    if (mapLoaded) {
-      useFitBounds = false;
-    }
-    let location = {};
-    const leafletObjs = [];
-    if (this.props.leafletObjs) {
-      leafletObjs.push(...this.props.leafletObjs);
-    }
-    if (this.props.showAllVehicles && this.props.mapLayers.showAllBusses) {
-      const currentZoom =
-        this.mapElement && this.mapElement.leafletElement
-          ? this.mapElement.leafletElement._zoom // eslint-disable-line no-underscore-dangle
-          : this.state.initialZoom;
-      const useLargeIcon = currentZoom >= this.props.config.stopsMinZoom;
-      leafletObjs.push(
-        <VehicleMarkerContainer
-          key="vehicles"
-          useLargeIcon={useLargeIcon}
-          ignoreMode
-        />,
-      );
-    }
+    const { config } = this.context;
 
     let btnClassName = 'map-with-tracking-buttons'; // DT-3470
-    if (this.context.config.map.showZoomControl) {
+    if (config.map.showZoomControl) {
       btnClassName = cx(btnClassName, 'roomForZoomControl');
     }
-    let positionSet = true;
-    const useMapCoords = this.mapElement;
-    mapLoaded = useMapCoords;
+    // eslint-disable-next-line no-underscore-dangle
+    const currentZoom = this.mapElement?.leafletElement?._zoom || zoom || 16;
+
     if (this.state.mapTracking && position.hasLocation) {
-      location = position;
-      positionSet = false;
-    } else if (focusPoint) {
-      const validPoint =
-        focusPoint.lat &&
-        !focusPoint.type !== 'CurrentLocation' &&
-        mapLoaded &&
-        !isEqual(focusPoint, previousFocusPoint);
-      if (validPoint) {
-        location = focusPoint;
-        previousFocusPoint = focusPoint;
-        positionSet = false;
-      } else if (mapLoaded) {
-        location = {};
-        positionSet = false;
-      } else {
-        // FocusPoint is valid, but map is not loaded. Set location to focusPoint so that the map renders.
-        location = focusPoint.lat
-          ? focusPoint
-          : position.hasLocation
-          ? position
-          : {};
-        positionSet = true;
+      this.naviProps.lat = position.lat;
+      this.naviProps.lon = position.lon;
+      if (zoom) {
+        this.naviProps.zoom = zoom;
+      } else if (!this.naviProps.zoom) {
+        this.naviProps.zoom = currentZoom;
       }
-    } else {
-      location =
-        position.hasLocation && !mapLoaded
-          ? position
-          : mapLoaded
-          ? {}
-          : this.state.defaultMapCenter;
-      positionSet = false;
-    }
-    if (positionSet && useMapCoords) {
-      // Map has to be loaded first, so we need correct coordinates at start. But after that (leafletElement exists)
-      // we don't need correct coordinates. In fact trying to inject coordinates will mess up zooming and tracking.
-      // This will also prevent situation when mapTracking is set to false, focus goes back to focusPoint.
-      location = {};
-    }
-
-    if (
-      this.props.fitBoundsWithSetCenter &&
-      this.state.mapTracking &&
-      this.props.bounds.length
+      if (this.navigated) {
+        // force map update by changing the coordinate slightly. looks crazy but is the easiest way
+        this.naviProps.lat += 0.000001 * Math.random();
+        this.navigated = false;
+      }
+      delete this.naviProps.bounds;
+    } else if (
+      this.props.bounds &&
+      (!isEqual(this.oldBounds, this.props.bounds) || this.refresh)
     ) {
-      useFitBounds = true;
-      location = {};
+      this.naviProps.bounds = cloneDeep(this.props.bounds);
+      if (this.refresh) {
+        // bounds is defined by [min, max] point pair. Substract min lat a bit
+        this.naviProps.bounds[0][0] -= 0.000001 * Math.random();
+      }
+      this.oldBounds = cloneDeep(this.props.bounds);
+    } else if (
+      lat &&
+      lon &&
+      ((lat !== this.oldLat && lon !== this.oldLon) || this.refresh)
+    ) {
+      this.naviProps.lat = lat;
+      if (this.refresh) {
+        this.naviProps.lat += 0.000001 * Math.random();
+      }
+      this.naviProps.lon = lon;
+      this.oldLat = lat;
+      this.oldLon = lon;
+      if (zoom) {
+        this.naviProps.zoom = zoom;
+      }
+      delete this.naviProps.bounds;
     }
+    this.refresh = false;
 
-    const positionAllowed =
-      this.state.locationingOn &&
-      ['found-location', 'found-address'].includes(position.status);
     // eslint-disable-next-line no-nested-ternary
-    const img = positionAllowed
-      ? this.state.mapTracking
-        ? 'icon-tracking-on-v2'
-        : 'icon-tracking-offline-v2'
-      : 'icon-tracking-off-v2';
+    const img = position.locationingFailed
+      ? 'icon-tracking-off-v2'
+      : this.state.mapTracking
+      ? 'icon-tracking-on-v2'
+      : 'icon-tracking-offline-v2';
+
     const iconColor = this.state.mapTracking ? '#ff0000' : '#78909c';
-    const zoomLevel = !this.mapElement
-      ? this.state.initialZoom
-      : this.mapElement.leafletElement._zoom; // eslint-disable-line no-underscore-dangle
-    if (
-      mapState === MAPSTATES.FITBOUNDSTOSEARCHPOSITION ||
-      mapState === MAPSTATES.FITBOUNDSTOSTARTLOCATION
-    ) {
-      useFitBounds = true;
-    }
     return (
-      <Component
-        lat={location ? location.lat : undefined}
-        lon={location ? location.lon : undefined}
-        zoom={this.state.initialZoom}
-        geoJsonZoomLevel={zoomLevel}
-        mapZoomLevel={zoomLevel}
-        mapTracking={this.state.mapTracking}
-        fitBounds={useFitBounds}
-        className="flex-grow"
-        locationPopup={this.props.locationPopup}
-        onSelectLocation={this.props.onSelectLocation}
-        leafletEvents={{
-          onDragstart: () => {
-            this.disableMapTracking();
-            this.setState({ humanIsScrolling: true });
-          },
-          onMoveend: () => this.setState({ keepOnTracking: false }),
-          onDragend: () => {
-            this.updateCurrentBounds();
-            this.setState({ humanIsScrolling: false });
-          },
-          onZoomend: this.updateCurrentBounds,
-          onZoomstart: this.disableMapTrackingForZoomControl,
-        }}
-        disableMapTracking={this.disableMapTracking}
-        {...rest}
-        leafletObjs={leafletObjs}
-        mapRef={this.setMapElementRef}
-        bottomButtons={
-          <div className={btnClassName}>
-            {renderCustomButtons && renderCustomButtons()}
-            <ToggleMapTracking
-              key="toggleMapTracking"
-              img={img}
-              iconColor={iconColor}
-              handleClick={
-                this.state.mapTracking
-                  ? this.disableMapTracking
-                  : this.enableMapTracking
-              }
-              className="icon-mapMarker-toggle-positioning"
+      <>
+        <MapCont
+          className="flex-grow"
+          locationPopup={this.props.locationPopup}
+          onSelectLocation={this.props.onSelectLocation}
+          leafletEvents={{
+            ...this.props.leafletEvents,
+            onDragstart: this.startNavigation,
+            onZoomstart: this.startNavigation,
+            onZoomend: this.endNavigation,
+            onDragend: this.endNavigation,
+          }}
+          {...this.naviProps}
+          {...rest}
+          mapRef={this.setMapElementRef}
+          bottomButtons={
+            <div className={btnClassName}>
+              {config.map.showLayerSelector && (
+                <BubbleDialog
+                  contentClassName="select-map-layers-dialog-content"
+                  header="select-map-layers-header"
+                  icon="map-layers"
+                  id="mapLayerSelectorV2"
+                  isFullscreenOnMobile
+                  isOpen={this.state.settingsOpen}
+                  tooltip={
+                    config.mapLayers &&
+                    config.mapLayers.tooltip &&
+                    config.mapLayers.tooltip[this.props.lang]
+                  }
+                  setOpen={this.setSettingsOpen}
+                />
+              )}
+              {renderCustomButtons && renderCustomButtons()}
+              <ToggleMapTracking
+                key="toggleMapTracking"
+                img={img}
+                iconColor={iconColor}
+                handleClick={() => {
+                  if (this.state.mapTracking) {
+                    this.disableMapTracking();
+                  } else {
+                    // enabling tracking will trigger same navigation events as user navigation
+                    // this hack prevents those events from clearing tracking
+                    this.ignoreNavigation = true;
+                    setTimeout(() => {
+                      this.ignoreNavigation = false;
+                    }, 500);
+                    this.enableMapTracking();
+                  }
+                }}
+                className="icon-mapMarker-toggle-positioning"
+              />
+            </div>
+          }
+          mapLayers={mapLayers}
+        >
+          {children}
+        </MapCont>
+        {config.map.showLayerSelector && (
+          <MenuDrawer
+            open={this.state.settingsOpen}
+            onRequestChange={() => this.setSettingsOpen(false)}
+            className="offcanvas-layers"
+            breakpoint={this.props.breakpoint}
+          >
+            <MapLayersDialogContent
+              open={this.state.settingsOpen}
+              setOpen={this.setSettingsOpen}
             />
-          </div>
-        }
-      >
-        {children}
-      </Component>
+            <button
+              type="button"
+              className="desktop-button"
+              onClick={() => this.setSettingsOpen(false)}
+            >
+              {this.context.intl.formatMessage({
+                id: 'close',
+                defaultMessage: 'Close',
+              })}
+            </button>
+          </MenuDrawer>
+        )}
+      </>
     );
   }
 }
@@ -417,23 +317,23 @@ class MapWithTrackingStateHandler extends React.Component {
 MapWithTrackingStateHandler.contextTypes = {
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
-  config: PropTypes.object,
+  intl: intlShape.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
-const MapWithTracking = connectToStores(
-  getContext({
-    config: PropTypes.shape({
-      defaultMapCenter: dtLocationShape,
-    }),
-  })(MapWithTrackingStateHandler),
-  [PositionStore, MapLayerStore, MessageStore],
-  ({ getStore }) => {
-    const position = getStore(PositionStore).getLocationState();
-    const mapLayers = getStore(MapLayerStore).getMapLayers();
-    const messages = getStore(MessageStore).getMessages();
+const MapWithTrackingStateHandlerapWithBreakpoint = withBreakpoint(
+  MapWithTrackingStateHandler,
+);
 
-    return { position, mapLayers, messages };
-  },
+const MapWithTracking = connectToStores(
+  getContext({ config: PropTypes.object })(
+    MapWithTrackingStateHandlerapWithBreakpoint,
+  ),
+  [PositionStore, PreferencesStore],
+  ({ getStore }) => ({
+    position: getStore(PositionStore).getLocationState(),
+    lang: getStore(PreferencesStore).getLanguage(),
+  }),
 );
 
 MapWithTracking.description = (

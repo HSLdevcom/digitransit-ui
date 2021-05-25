@@ -9,6 +9,7 @@ const FavouriteRouteContainer = connectToStores(
   ['FavouriteStore', 'UserStore', 'PreferencesStore'],
   (context, { gtfsId }) => ({
     favourite: context.getStore('FavouriteStore').isFavourite(gtfsId, 'route'),
+    isFetching: context.getStore('FavouriteStore').getStatus() === 'fetching',
     addFavourite: () => {
       context.executeAction(saveFavourite, { type: 'route', gtfsId });
       addAnalyticsEvent({
@@ -28,7 +29,7 @@ const FavouriteRouteContainer = connectToStores(
         name: !context.getStore('FavouriteStore').isFavourite(gtfsId, 'route'),
       });
     },
-    allowLogin: context.config.allowLogin,
+    requireLoggedIn: !context.config.allowFavouritesFromLocalstorage,
     isLoggedIn:
       context.config.allowLogin &&
       context.getStore('UserStore').getUser().sub !== undefined,

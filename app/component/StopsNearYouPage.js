@@ -14,7 +14,7 @@ import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import withBreakpoint, { DesktopOrMobile } from '../util/withBreakpoint';
 import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
-import { MAPSTATES } from '../util/stopsNearYouUtils';
+import { isKeyboardSelectionEvent } from '../util/browser';
 import Loading from './Loading';
 import {
   checkPositioningPermission,
@@ -22,7 +22,11 @@ import {
 } from '../action/PositionActions';
 import DisruptionBanner from './DisruptionBanner';
 import StopsNearYouSearch from './StopsNearYouSearch';
-import { getGeolocationState } from '../store/localStorage';
+import {
+  getGeolocationState,
+  getReadMessageIds,
+  setReadMessageIds,
+} from '../store/localStorage';
 import withSearchContext from './WithSearchContext';
 import { PREFIX_NEARYOU } from '../util/path';
 import StopsNearYouContainer from './StopsNearYouContainer';
@@ -30,6 +34,11 @@ import SwipeableTabs from './SwipeableTabs';
 import StopsNearYouFavorites from './StopsNearYouFavorites';
 import StopsNearYouMapContainer from './StopsNearYouMapContainer';
 import StopsNearYouFavoritesMapContainer from './StopsNearYouFavoritesMapContainer';
+import { mapLayerShape } from '../store/MapLayerStore';
+import {
+  getCityBikeNetworkConfig,
+  getCityBikeNetworkId,
+} from '../util/citybikes';
 
 // component initialization phases
 const PH_START = 'start';
@@ -38,9 +47,10 @@ const PH_SEARCH_GEOLOCATION = 'search+geolocation';
 const PH_GEOLOCATIONING = 'geolocationing';
 const PH_USEDEFAULTPOS = 'usedefaultpos';
 const PH_USEGEOLOCATION = 'usegeolocation';
+const PH_USEMAPCENTER = 'usemapcenter';
 
 const PH_SHOWSEARCH = [PH_SEARCH, PH_SEARCH_GEOLOCATION]; // show modal
-const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION]; // render the actual page
+const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION, PH_USEMAPCENTER]; // render the actual page
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 
@@ -64,6 +74,7 @@ class StopsNearYouPage extends React.Component {
     favouriteStopIds: PropTypes.array.isRequired,
     favouriteStationIds: PropTypes.array.isRequired,
     favouriteBikeStationIds: PropTypes.array.isRequired,
+    mapLayers: mapLayerShape.isRequired,
   };
 
   constructor(props) {
@@ -72,16 +83,20 @@ class StopsNearYouPage extends React.Component {
       phase: PH_START,
       centerOfMap: null,
       centerOfMapChanged: false,
-      mapState: MAPSTATES.FITBOUNDSTOSTARTLOCATION,
       favouriteStopIds: props.favouriteStopIds,
       favouriteStationIds: props.favouriteStationIds,
       favouriteBikeStationIds: props.favouriteBikeStationIds,
+      showCityBikeTeaser: true,
+      searchPosition: {},
     };
   }
 
   componentDidMount() {
+    const readMessageIds = getReadMessageIds();
+    const showCityBikeTeaser = !readMessageIds.includes('citybike_teaser');
+    this.setState({ showCityBikeTeaser });
     checkPositioningPermission().then(permission => {
-      const { origin } = this.props.match.params;
+      const { origin, place } = this.props.match.params;
       const savedPermission = getGeolocationState();
       const { state } = permission;
       const newState = {};
@@ -119,6 +134,10 @@ class StopsNearYouPage extends React.Component {
       } else {
         // Geolocationing is known to be denied. Provide search modal
         newState.phase = PH_SEARCH;
+      }
+      if (place !== 'POS') {
+        newState.searchPosition = otpToLocation(place);
+        newState.phase = PH_USEDEFAULTPOS;
       }
       this.setState(newState);
     });
@@ -181,16 +200,15 @@ class StopsNearYouPage extends React.Component {
     let location;
     if (!mapElement) {
       if (distance(this.state.searchPosition, this.props.position) > 100) {
+        // user has pressed locate me after moving on the map via the search box
         return this.setState({
           centerOfMap: this.props.position,
           centerOfMapChanged: true,
-          mapState: MAPSTATES.FITBOUNDSTOCENTER,
         });
       }
       return this.setState({
         centerOfMap: this.props.position,
         centerOfMapChanged: false,
-        mapState: MAPSTATES.FITBOUNDSTOCENTER,
       });
     }
     if (this.props.breakpoint === 'large') {
@@ -208,16 +226,22 @@ class StopsNearYouPage extends React.Component {
       ]);
       location = { lat: point.lat, lon: point.lng };
     }
+    if (distance(location, this.state.searchPosition) > 100) {
+      // user has scrolled over 100 meters on the map
+      return this.setState({
+        centerOfMap: location,
+        centerOfMapChanged: true,
+      });
+    }
     return this.setState({
       centerOfMap: location,
-      centerOfMapChanged: true,
-      mapState: MAPSTATES.HUMANSCROLL,
+      centerOfMapChanged: false,
     });
   };
 
   positionChanged = () => {
     const { searchPosition, centerOfMap } = this.state;
-    if (!searchPosition) {
+    if (!searchPosition.lat) {
       return false;
     }
     if (
@@ -231,36 +255,33 @@ class StopsNearYouPage extends React.Component {
     return distance(searchPosition, position) > 100;
   };
 
-  centerOfMapChanged = () => {
-    const position = this.getPosition();
-    const { centerOfMap, searchPosition } = this.state;
-    if (
-      centerOfMap &&
-      searchPosition &&
-      searchPosition.lat === centerOfMap.lat &&
-      searchPosition.lon === centerOfMap.lon
-    ) {
-      return false;
-    }
-    if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
-      return distance(centerOfMap, position) > 100;
-    }
-    return false;
-  };
-
   updateLocation = () => {
     const { centerOfMap } = this.state;
+    const { mode } = this.props.match.params;
     if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
-      let mapState = MAPSTATES.FITBOUNDSTOSEARCHPOSITION;
+      let phase = PH_USEMAPCENTER;
       let type = 'CenterOfMap';
       if (centerOfMap.type === 'CurrentLocation') {
-        mapState = MAPSTATES.FITBOUNDSTOSTARTLOCATION;
+        phase = PH_USEGEOLOCATION;
         type = centerOfMap.type;
+        const path = `/${PREFIX_NEARYOU}/${mode}/POS`;
+        this.context.router.replace({
+          ...this.props.match.location,
+          pathname: path,
+        });
+      } else {
+        const path = `/${PREFIX_NEARYOU}/${mode}/${addressToItinerarySearch(
+          centerOfMap,
+        )}`;
+        this.context.router.replace({
+          ...this.props.match.location,
+          pathname: path,
+        });
       }
       return this.setState({
         searchPosition: { ...centerOfMap, type },
         centerOfMapChanged: false,
-        mapState,
+        phase,
       });
     }
     return this.setState({ searchPosition: this.getPosition() });
@@ -338,17 +359,25 @@ class StopsNearYouPage extends React.Component {
     );
   };
 
+  handleCityBikeTeaserClose = () => {
+    const readMessageIds = getReadMessageIds() || [];
+    readMessageIds.push('citybike_teaser');
+    setReadMessageIds(readMessageIds);
+    this.setState({ showCityBikeTeaser: false });
+  };
+
   renderContent = () => {
     const { centerOfMapChanged } = this.state;
     const { mode } = this.props.match.params;
-    const renderDisruptionBanner = mode !== 'CITYBIKE';
-    const renderSearch = mode !== 'FERRY' && mode !== 'FAVORITE';
     const noFavorites = mode === 'FAVORITE' && this.noFavorites();
     const renderRefetchButton =
       (centerOfMapChanged || this.positionChanged()) && !noFavorites;
     const nearByStopModes = this.getNearByStopModes();
     const index = nearByStopModes.indexOf(mode);
     const tabs = nearByStopModes.map(nearByStopMode => {
+      const renderSearch =
+        nearByStopMode !== 'FERRY' && nearByStopMode !== 'FAVORITE';
+      const renderDisruptionBanner = nearByStopMode !== 'CITYBIKE';
       if (nearByStopMode === 'FAVORITE') {
         const noFavs = this.noFavorites();
         return (
@@ -370,6 +399,7 @@ class StopsNearYouPage extends React.Component {
           </div>
         );
       }
+
       return (
         <div
           className={`swipeable-tab ${nearByStopMode !== mode && 'inactive'}`}
@@ -409,6 +439,17 @@ class StopsNearYouPage extends React.Component {
             variables={this.getQueryVariables(nearByStopMode)}
             environment={this.props.relayEnvironment}
             render={({ props }) => {
+              const { cityBike } = this.context.config;
+              // Use buy instructions if available
+              const cityBikeBuyUrl = cityBike.buyUrl;
+              let cityBikeNetworkUrl;
+              // Use general information about using city bike, if one network config is available
+              if (Object.keys(cityBike.networks).length === 1) {
+                cityBikeNetworkUrl = getCityBikeNetworkConfig(
+                  getCityBikeNetworkId(Object.keys(cityBike.networks)),
+                  this.context.config,
+                ).url;
+              }
               return (
                 <div className="stops-near-you-page">
                   {renderDisruptionBanner && (
@@ -425,6 +466,72 @@ class StopsNearYouPage extends React.Component {
                       lang={this.props.lang}
                     />
                   )}
+                  {this.state.showCityBikeTeaser &&
+                    nearByStopMode === 'CITYBIKE' &&
+                    (cityBikeBuyUrl || cityBikeNetworkUrl) && (
+                      <div className="citybike-use-disclaimer">
+                        <div className="disclaimer-header">
+                          <FormattedMessage id="citybike-start-using" />
+                          <div
+                            className="disclaimer-close"
+                            aria-label="Sulje kaupunkipyöräoikeuden ostaminen"
+                            tabIndex="0"
+                            onKeyDown={e => {
+                              if (
+                                isKeyboardSelectionEvent(e) &&
+                                (e.keyCode === 13 || e.keyCode === 32)
+                              ) {
+                                this.handleCityBikeTeaserClose();
+                              }
+                            }}
+                            onClick={this.handleCityBikeTeaserClose}
+                            role="button"
+                          >
+                            <Icon
+                              color={this.context.config.colors.primary}
+                              img="icon-icon_close"
+                            />
+                          </div>
+                        </div>
+                        <div className="disclaimer-content">
+                          {cityBikeBuyUrl ? (
+                            <FormattedMessage id="citybike-buy-season" />
+                          ) : (
+                            <a
+                              className="external-link-citybike"
+                              href={cityBikeNetworkUrl[this.props.lang]}
+                            >
+                              <FormattedMessage id="citybike-start-using-info" />{' '}
+                            </a>
+                          )}
+                          {cityBikeBuyUrl && (
+                            <a
+                              href={cityBikeBuyUrl[this.props.lang]}
+                              className="disclaimer-close-button-container"
+                              tabIndex="0"
+                              role="button"
+                              onKeyDown={e => {
+                                if (
+                                  isKeyboardSelectionEvent(e) &&
+                                  (e.keyCode === 13 || e.keyCode === 32)
+                                ) {
+                                  window.location =
+                                    cityBikeBuyUrl[this.props.lang];
+                                }
+                              }}
+                            >
+                              <div
+                                aria-label="Siirry ostamaan kaupunkipyöräoikeutta."
+                                className="disclaimer-close-button"
+                              >
+                                <FormattedMessage id="buy" />
+                              </div>
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
                   {renderRefetchButton && this.refetchButton(nearByStopMode)}
                   {!props && (
                     <div className="stops-near-you-spinner-container">
@@ -436,6 +543,7 @@ class StopsNearYouPage extends React.Component {
                       match={this.props.match}
                       stopPatterns={props.stopPatterns}
                       position={this.state.searchPosition}
+                      withSeparator={!renderSearch}
                     />
                   )}
                 </div>
@@ -455,6 +563,8 @@ class StopsNearYouPage extends React.Component {
           classname={
             this.props.breakpoint === 'large' ? 'swipe-desktop-view' : ''
           }
+          ariaFrom="swipe-stops-near-you"
+          ariaFromHeader="swipe-stops-near-you-header"
         />
       );
     }
@@ -494,11 +604,15 @@ class StopsNearYouPage extends React.Component {
               return (
                 <StopsNearYouFavoritesMapContainer
                   position={this.state.searchPosition}
-                  centerOfMap={this.state.centerOfMap}
                   match={this.props.match}
-                  setCenterOfMap={this.setCenterOfMap}
-                  mapState={this.state.mapState}
+                  onEndNavigation={this.setCenterOfMap}
+                  onMapTracking={this.setCenterOfMap}
+                  showWalkRoute={
+                    this.state.phase === PH_USEGEOLOCATION ||
+                    this.state.phase === PH_USEDEFAULTPOS
+                  }
                   stops={props.stops}
+                  mapLayers={this.props.mapLayers}
                   stations={props.stations}
                   bikeStations={props.bikeStations}
                   favouriteIds={[
@@ -506,6 +620,7 @@ class StopsNearYouPage extends React.Component {
                     ...this.state.favouriteStationIds,
                     ...this.state.favouriteBikeStationIds,
                   ]}
+                  breakpoint={this.props.breakpoint}
                 />
               );
             }
@@ -514,6 +629,16 @@ class StopsNearYouPage extends React.Component {
         />
       );
     }
+    const filteredMapLayers = {
+      ...this.props.mapLayers,
+      citybike: mode === 'CITYBIKE',
+      citybikeOverrideMinZoom: mode === 'CITYBIKE',
+      stop: {},
+    };
+    if (mode !== 'CITYBIKE') {
+      filteredMapLayers.stop[mode.toLowerCase()] = true;
+    }
+
     return (
       <QueryRenderer
         query={graphql`
@@ -549,11 +674,16 @@ class StopsNearYouPage extends React.Component {
             return (
               <StopsNearYouMapContainer
                 position={this.state.searchPosition}
-                centerOfMap={this.state.centerOfMap}
                 stopsNearYou={props.stops}
                 match={this.props.match}
-                mapState={this.state.mapState}
-                setCenterOfMap={this.setCenterOfMap}
+                mapLayers={filteredMapLayers}
+                showWalkRoute={
+                  this.state.phase === PH_USEGEOLOCATION ||
+                  this.state.phase === PH_USEDEFAULTPOS
+                }
+                onEndNavigation={this.setCenterOfMap}
+                onMapTracking={this.setCenterOfMap}
+                breakpoint={this.props.breakpoint}
               />
             );
           }
@@ -574,9 +704,7 @@ class StopsNearYouPage extends React.Component {
 
   selectHandler = item => {
     const { mode } = this.props.match.params;
-    const path = `/${PREFIX_NEARYOU}/${mode}/POS/${addressToItinerarySearch(
-      item,
-    )}`;
+    const path = `/${PREFIX_NEARYOU}/${mode}/${addressToItinerarySearch(item)}`;
     this.context.router.replace({
       ...this.props.match.location,
       pathname: path,
@@ -586,7 +714,6 @@ class StopsNearYouPage extends React.Component {
       searchPosition: item,
       centerOfMap: null,
       centerOfMapChanged: false,
-      mapState: MAPSTATES.FITBOUNDSTOSTARTLOCATION,
     });
   };
 
@@ -752,7 +879,7 @@ const StopsNearYouPageWithBreakpoint = withBreakpoint(props => (
 
 const PositioningWrapper = connectToStores(
   StopsNearYouPageWithBreakpoint,
-  ['PositionStore', 'PreferencesStore', 'FavouriteStore'],
+  ['PositionStore', 'PreferencesStore', 'FavouriteStore', 'MapLayerStore'],
   (context, props) => {
     const favouriteStopIds = context
       .getStore('FavouriteStore')
@@ -775,6 +902,9 @@ const PositioningWrapper = connectToStores(
       ...props,
       position: context.getStore('PositionStore').getLocationState(),
       lang: context.getStore('PreferencesStore').getLanguage(),
+      mapLayers: context
+        .getStore('MapLayerStore')
+        .getMapLayers({ notThese: ['vehicles'] }),
       favouriteStopIds,
       favouriteBikeStationIds,
       favouriteStationIds,

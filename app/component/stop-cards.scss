@@ -1,11 +1,11 @@
 .departure-list .date-row {
   @include font-medium;
-  font-size: 15pt;
+  font-size: 12pt;
   text-transform: capitalize;
-  color: $gray;
+  color: $black;
   background-color: $white;
-  padding-left: 1em;
-  padding-top: 0.5em;
+  padding-left: 0.5em;
+  padding-top: 1.25em;
   padding-bottom: 0.5em;
 
   .missing-routes {
@@ -36,6 +36,11 @@
   .card-sub-header {
     margin-top: -0.7em;
     min-height: 2.75rem;
+
+    .card-name-container {
+      display: flex;
+    }
+
     .card-sub-header-address {
       font-size: 13px;
       color: #666666;
@@ -71,17 +76,12 @@
       font-size: 18px;
     }
     .card-sub-header {
-      margin-top: -0.4em;
       min-height: 2.5rem;
       .card-sub-header-address {
         margin-top: 0.5em;
       }
       .card-code {
         margin-top: 0.6875em;
-      }
-      .zone-icon-container {
-        margin-top: -0.2em;
-        margin-left: 2px;
       }
     }
   }
