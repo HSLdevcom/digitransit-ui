@@ -54,11 +54,19 @@ class MarkerPopupBottom extends React.Component {
   };
 
   reportDefect = () => {
-    window.open(this.props.reporterUrl);
+    if (this.props.reporterUrl) {
+      window.open(this.props.reporterUrl);
+    }
   };
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
+    const reportButton = this.props.reporterUrl ? (
+      <div onClick={() => this.reportDefect()} className="route cursor-pointer">
+        <FormattedMessage id="report-defect" defaultMessage="Report defect" />
+      </div>
+    ) : null;
+
     return (
       <div className="bottom location">
         <div onClick={() => this.routeFrom()} className="route cursor-pointer">
@@ -68,12 +76,7 @@ class MarkerPopupBottom extends React.Component {
           />
         </div>
 
-        <div
-          onClick={() => this.reportDefect()}
-          className="route cursor-pointer"
-        >
-          <FormattedMessage id="report-defect" defaultMessage="Report defect" />
-        </div>
+        {reportButton}
 
         <div onClick={() => this.routeTo()} className="route cursor-pointer">
           <FormattedMessage id="route-here" defaultMessage="Route here" />
