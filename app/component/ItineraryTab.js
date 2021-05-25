@@ -270,6 +270,7 @@ const withRelay = createFragmentContainer(ItineraryTab, {
       duration
       startTime
       endTime
+      arrivedAtDestinationWithRentedBicycle
       fares {
         cents
         components {
