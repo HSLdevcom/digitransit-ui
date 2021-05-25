@@ -197,6 +197,10 @@ export default configMerger(walttiConfig, {
 
     modeToOTP: {
         carpool: 'CARPOOL',
+        // in OTP2 we don't want any WALK modes at all because TRANSIT, CAR and BICYLE all have a default fallback
+        // for WALK. specifically adding WALK is problematic as then the order is important and one street mode
+        // may override another: https://github.com/opentripplanner/OpenTripPlanner/blob/9e24b43d2000099c8618a73a96e32e5c0b54603d/src/main/java/org/opentripplanner/api/parameter/QualifiedModeSet.java#L76-L82
+        walk: null
     },
 
     logo: 'hbnext/stadtnavi-herrenberg-logo.svg',
