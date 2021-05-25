@@ -30,7 +30,7 @@ class ChargingStations {
     fetch(
       `${this.config.URL.CHARGING_STATIONS_MAP}` +
         `${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}/` +
-        `${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
+        `${this.tile.coords.x}/${this.tile.coords.y}.mvt`,
     ).then(res => {
       if (res.status !== 200) {
         return undefined;
@@ -42,7 +42,7 @@ class ChargingStations {
 
           this.features = [];
 
-          const layerData = vt.layers.chargingstations || { length: 0 };
+          const layerData = vt.layers.chargepoints || { length: 0 };
           const { length } = layerData;
 
           this.features = range(length).map(index => {
@@ -59,7 +59,7 @@ class ChargingStations {
     });
 
   static getIcon = properties => {
-    return `icon-icon_stop_${properties.vehicleType}_charging_station`;
+    return `icon-icon_stop_${properties.vehicleType || 'car'}_charging_station`;
   };
 
   drawStatus = ({ geom, properties }) => {
