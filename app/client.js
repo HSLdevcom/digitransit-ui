@@ -109,9 +109,12 @@ async function init() {
 
   if (process.env.NODE_ENV === 'development') {
     if (!config.NO_AXE) {
+      const axeConfig = {
+        resultTypes: ['violations'],
+      };
       // eslint-disable-next-line global-require
       const axe = require('@axe-core/react');
-      axe(React, ReactDOM, 1000);
+      axe(React, ReactDOM, 1000, axeConfig);
     }
     try {
       // eslint-disable-next-line global-require, import/no-dynamic-require
