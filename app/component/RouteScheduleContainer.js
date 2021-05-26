@@ -526,7 +526,7 @@ class RouteScheduleContainer extends PureComponent {
       this.context.config.URL.ROUTE_TIMETABLES[routeIdSplitted[0]] &&
       routeTimetableHandler.timetableUrlResolver(
         this.context.config.URL.ROUTE_TIMETABLES[routeIdSplitted[0]],
-        this.props.match.params.routeId,
+        this.props.route,
       );
 
     const showTrips = this.getTrips(
