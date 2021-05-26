@@ -79,8 +79,8 @@ function Icon({
         id={id}
         style={{
           fill: color || null,
-          height: height || null,
-          width: width || null,
+          height: height ? `${height}em` : null,
+          width: width ? `${width}em` : null,
           outline: 0,
         }}
         viewBox={!omitViewBox ? viewBox : null}
