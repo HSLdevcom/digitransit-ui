@@ -122,7 +122,7 @@ class TileContainer {
 
   onVehiclesChange = vehicles => {
     if (!isEqual(this.vehicles, vehicles)) {
-      this.vehicles = vehicles;
+      this.vehicles = Object.assign(vehicles);
     }
   };
 
@@ -171,16 +171,13 @@ class TileContainer {
 
     const vehicleKeys = Object.keys(this.vehicles);
 
-    const projectedVehicles = [];
-    vehicleKeys.forEach(key => {
+    const projectedVehicles = vehicleKeys.map(key => {
       const vehicle = this.vehicles[key];
       const pointGeom = this.latLngToPoint(vehicle.lat, vehicle.long);
-      if (vehicle.visible) {
-        projectedVehicles.push({
-          layer: 'realTimeVehicle',
-          feature: { geom: pointGeom, vehicle, properties: {} },
-        });
-      }
+      return {
+        layer: 'realTimeVehicle',
+        feature: { geom: pointGeom, vehicle, properties: {} },
+      };
     });
 
     if (this.layers) {
