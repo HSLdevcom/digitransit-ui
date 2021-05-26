@@ -61,7 +61,6 @@ class PatternStopsContainer extends React.PureComponent {
     ) {
       return (
         <>
-          <div className="route-page-dynamic-divider-content" />
           <div className="route-page-content" />
         </>
       );
@@ -69,11 +68,6 @@ class PatternStopsContainer extends React.PureComponent {
 
     return (
       <>
-        <div
-          className={cx('route-page-dynamic-divider-content', {
-            'bp-large': this.props.breakpoint === 'large',
-          })}
-        />
         <ScrollableWrapper
           className={cx('route-page-content', {
             'bp-large': this.props.breakpoint === 'large',

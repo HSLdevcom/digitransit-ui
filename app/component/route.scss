@@ -61,17 +61,6 @@ $margin-left-right: 1.333em;
   padding-top: 3em;
 }
 
-.route-page-dynamic-divider-content {
-  position: relative;
-  left: 20px;
-  width: calc(100% - 3em);
-  background: white;
-  &.bp-large {
-    left: 3.5em;
-    width: calc(100% - 7em);
-  }
-}
-
 .route-page-content {
   overflow-x: hidden;
   overflow-y: auto;

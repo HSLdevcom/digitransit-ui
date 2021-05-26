@@ -43,11 +43,6 @@ function TripStopsContainer({ breakpoint, match, trip, route }) {
 
   return (
     <>
-      <div
-        className={cx('route-page-dynamic-divider-content', {
-          'bp-large': breakpoint === 'large',
-        })}
-      />
       <ScrollableWrapper
         className={cx(
           'route-page-content',
