@@ -19,18 +19,19 @@ import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import ChargingStations from '../tile-layer/ChargingStations';
 import Loading from '../../Loading';
+import Icon from '../../Icon';
 
 const CONNECTOR_ICONS_MAP = {
-  CHADEMO: <Chademo variant="solid" subtitle="false" />,
-  DOMESTIC_F: <DomesticF variant="solid" subtitle="false" />,
-  IEC_60309_2_single_16: <IEC603092Single variant="solid" subtitle="false" />,
-  IEC_60309_2_three_16: <IEC603092SThree variant="solid" subtitle="false" />,
-  IEC_60309_2_three_32: <IEC603092SThree variant="solid" subtitle="false" />,
-  IEC_60309_2_three_64: <IEC603092SThree variant="solid" subtitle="false" />,
-  IEC_62196_T1: <IEC62196T1 variant="solid" subtitle="false" />,
-  IEC_62196_T2: <IEC62196T2 variant="solid" subtitle="false" />,
-  IEC_62196_T2_COMBO: <IEC62196T2Combo variant="solid" subtitle="false" />,
-  TESLA_S: <TeslaS variant="solid" subtitle="false" />,
+  CHADEMO: <Chademo variant="light" subtitle="false" />,
+  DOMESTIC_F: <DomesticF variant="light" subtitle="false" />,
+  IEC_60309_2_single_16: <IEC603092Single variant="light" subtitle="false" />,
+  IEC_60309_2_three_16: <IEC603092SThree variant="light" subtitle="false" />,
+  IEC_60309_2_three_32: <IEC603092SThree variant="light" subtitle="false" />,
+  IEC_60309_2_three_64: <IEC603092SThree variant="light" subtitle="false" />,
+  IEC_62196_T1: <IEC62196T1 variant="light" subtitle="false" />,
+  IEC_62196_T2: <IEC62196T2 variant="light" subtitle="false" />,
+  IEC_62196_T2_COMBO: <IEC62196T2Combo variant="light" subtitle="false" />,
+  TESLA_S: <TeslaS variant="light" subtitle="false" />,
 };
 
 const CONNECTOR_TYPES_MAP = {
@@ -46,11 +47,38 @@ const CONNECTOR_TYPES_MAP = {
   TESLA_S: 'Tesla S',
 };
 
+const getConnectors = evses => {
+  const connectors = evses?.reduce(
+    (previous, evse) => [
+      ...previous,
+      ...evse.connectors.map(connector => {
+        return {
+          standard: connector.standard,
+          maxAmperage: connector.max_amperage,
+        };
+      }),
+    ],
+    [],
+  );
+
+  const uniqueConnectors = [
+    ...new Map(connectors?.map(item => [item.standard, item])).values(),
+  ];
+
+  return uniqueConnectors?.map(connector => ({
+    icon: CONNECTOR_ICONS_MAP[connector.standard],
+    text: `${CONNECTOR_TYPES_MAP[connector.standard] || connector.standard} - ${
+      connector.maxAmperage
+    } kW`,
+  }));
+};
+
 const ChargingStationPopup = (props, context) => {
   const CHARGING_STATION_DETAILS_API =
     'https://ochp.next-site.de/api/ocpi/2.2/location/';
   const { lat, lon } = props;
   const [details, setDetails] = useState({});
+  const [connectors, setConnectors] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -59,6 +87,7 @@ const ChargingStationPopup = (props, context) => {
     fetch(`${CHARGING_STATION_DETAILS_API}${props.id}`)
       .then(res => res.json())
       .then(data => {
+        setConnectors(getConnectors(data.evses));
         setLoading(false);
         setDetails(data);
       });
@@ -138,8 +167,7 @@ const ChargingStationPopup = (props, context) => {
   const getPhoneNumber = () => {
     const { evses } = details;
     const phone = evses ? evses[0].phone : undefined;
-
-    return phone && <div>{phone}</div>;
+    return phone && <div>{phone.replace('00', '+')}</div>;
   };
 
   const getPaymentTypes = () => {
@@ -174,54 +202,17 @@ const ChargingStationPopup = (props, context) => {
     return (
       capabilities && (
         <div>
-          {supportsRfid && <p>{`${rfidMessage}`}</p>}
-          {supportsCreditCard && <p>{`, ${creditCardMessage}`}</p>}
-          {supportsDebitCard && <p>{`, ${debitCardMessage}`}</p>}
-          {supportsContactless && <p>{`, ${contactlessMessage}`}</p>}
-        </div>
-      )
-    );
-  };
-
-  const getConnectors = () => {
-    const { evses } = details;
-    const connectors = evses?.reduce(
-      (previous, evse) => [
-        ...previous,
-        ...evse.connectors.map(connector => {
-          return {
-            standard: connector.standard,
-            maxAmperage: connector.max_amperage,
-          };
-        }),
-      ],
-      [],
-    );
-
-    const uniqueConnectors = [
-      ...new Map(connectors?.map(item => [item.standard, item])).values(),
-    ];
-
-    const fields = uniqueConnectors?.map(connector => (
-      <div key={connector.standard}>
-        {CONNECTOR_ICONS_MAP[connector.standard]}
-        <p>{`${CONNECTOR_TYPES_MAP[connector.standard]} - ${
-          connector.maxAmperage
-        }`}</p>
-      </div>
-    ));
-
-    return (
-      evses && (
-        <div>
-          <div>{fields}</div>
+          {supportsRfid && <span>{`${rfidMessage}`}</span>}
+          {supportsCreditCard && <span>{`, ${creditCardMessage}`}</span>}
+          {supportsDebitCard && <span>{`, ${debitCardMessage}`}</span>}
+          {supportsContactless && <span>{`, ${contactlessMessage}`}</span>}
         </div>
       )
     );
   };
 
   return !loading ? (
-    <Card>
+    <Card className="charging-station-card">
       <div className="padding-normal charging-station-popup">
         <CardHeader
           name={details.name}
@@ -231,14 +222,60 @@ const ChargingStationPopup = (props, context) => {
           className="padding-medium"
           headingStyle="h2"
           description=""
+          showCardSubHeader={false}
         />
         <div className="content">
-          <div>{getCapacity()}</div>
-          <div>{getOpeningTimes()}</div>
-          <div>{getConnectors()}</div>
-          <div>{getPaymentTypes()}</div>
-          <div>{getAddress()}</div>
-          <div>{getPhoneNumber()}</div>
+          <div className="text-light">
+            <Icon
+              img="icon-icon_schedule"
+              color="#939393"
+              width="16px"
+              height="16px"
+            />
+            <span className="text-alignment">{getOpeningTimes()}</span>
+          </div>
+          <div className="charging-station-divider" />
+          <div className="charging-info-container">
+            <div className="connector-container">
+              {connectors.map(connector => (
+                <div key={connector.text}>
+                  <span className="connector-icon">{connector.icon}</span>
+                  <span className="text-alignment">{connector.text}</span>
+                </div>
+              ))}
+            </div>
+            <div className="text-light text-alignment">|</div>
+            <div className="text-light text-alignment">{getCapacity()}</div>
+          </div>
+          <div className="charging-station-divider" />
+          <div className="text-light">
+            <Icon
+              img="icon-icon_payment"
+              color="#939393"
+              width="16px"
+              height="16px"
+            />
+            <span className="text-alignment">{getPaymentTypes()}</span>
+          </div>
+          <div className="text-light">
+            <Icon
+              img="icon-icon_place"
+              color="#939393"
+              width="16px"
+              height="16px"
+            />
+            <span className="text-alignment">{getAddress()}</span>
+          </div>
+          <div className="text-light">
+            <Icon
+              img="icon-icon_call"
+              color="#939393"
+              width="16px"
+              height="16px"
+            />
+            <span className="text-alignment">{getPhoneNumber()}</span>
+          </div>
+          <div className="charging-station-divider" />
           <div>{getDirectDeepLink()}</div>
         </div>
       </div>
