@@ -23,7 +23,7 @@
     "dev-win-hsl": "yarn predev-win-hsl && cd win-launch-scripts&& hsl-win-launch-script.bat",
     "dev-win-national": "yarn predev-win-hsl && cd win-launch-scripts&& set CONFIG=&& national-win-launch-script.bat",
     "dev-nowatch": "bash -c 'NODE_ENV=development node server/server.js & NODE_ENV=development webpack-dev-server'",
-    "test-accessibility": "",
+    "test-accessibility": "./test/accessibility.sh",
     "test-local": "./test/flow/script/run-ui-tests.sh local",
     "test-browserstack": "./test/flow/script/run-ui-tests.sh browserstack",
     "test-coverage": "NODE_ENV=test nyc yarn run test-unit",

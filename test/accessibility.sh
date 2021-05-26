@@ -1,11 +1,20 @@
 #/bin/bash
 
-CONFIG=hsl NO_AXE=true yarn run dev &
-sleep 10 # Sleep so that server starts in time for tests
+# TODO: check that firefox etc. is installed
 
-wget -N https://github.com/mozilla/geckodriver/releases/download/v0.29.1/geckodriver-v0.29.1-linux64.tar.gz
-tar -xvzf geckodriver*
-chmod +x geckodriver
+# Silence output and send to background
+CONFIG=hsl NO_AXE=true yarn run dev >/dev/null 2>&1 &
+
+echo "Waiting for the Digitransit UI to start..."
+# Wait until server is accepting connections
+while ! echo exit | nc localhost 8080; do sleep 3; done
+
+# Fetch required webrivers
+mkdir -p binaries
+wget -NP binaries https://github.com/mozilla/geckodriver/releases/download/v0.29.1/geckodriver-v0.29.1-linux64.tar.gz 
+tar -xvzf binaries/geckodriver* -C binaries
+chmod +x binaries/geckodriver
+export PATH=$PATH:$PWD/binaries
 
 # Enable when chrome testing works
 #wget -N http://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip
@@ -15,4 +24,4 @@ chmod +x geckodriver
 echo "Starting tests..."
 node ./accessibility/run-test.js
 
-#TOdO kill UI process afterwards?
+#TODO kill UI process afterwards?
