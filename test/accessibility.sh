@@ -1,5 +1,7 @@
 #/bin/bash
 
+GECKODRIVER_URL="https://github.com/mozilla/geckodriver/releases/download/v0.29.1/geckodriver-v0.29.1-linux64.tar.gz " 
+
 if ! command -v firefox &> /dev/null
 then
     echo "Error: Firefox could not be found in path. This script requires firefox"
@@ -17,7 +19,7 @@ while ! echo exit | nc localhost 8080; do sleep 3; done
 
 # Fetch required webrivers
 mkdir -p binaries
-wget -NP binaries https://github.com/mozilla/geckodriver/releases/download/v0.29.1/geckodriver-v0.29.1-linux64.tar.gz 
+wget -NP binaries $GECKODRIVER_URL
 tar -xvzf binaries/geckodriver* -C binaries
 chmod +x binaries/geckodriver
 export PATH=$PATH:$PWD/binaries
@@ -30,4 +32,16 @@ export PATH=$PATH:$PWD/binaries
 echo "Starting tests..."
 node ./accessibility/run-test.js
 
-#TODO kill UI process afterwards?
+list_descendants ()
+{
+  local children=$(ps -o pid= --ppid "$1")
+
+  for pid in $children
+  do
+    list_descendants "$pid"
+  done
+
+  echo "$children"
+}
+
+kill $(list_descendants $$)
