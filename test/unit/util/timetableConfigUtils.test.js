@@ -11,7 +11,7 @@ describe('timetableConfigUtils', () => {
       const route = { gtfsId: 'HSL:2550' };
       const url = timetableHandler.timetableUrlResolver(
         baseTimetableURL,
-        route.gtfsId,
+        route,
       );
       expect(url).to.equal(`${baseTimetableURL}2550.pdf`);
     });
