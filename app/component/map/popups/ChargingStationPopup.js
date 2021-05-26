@@ -276,7 +276,15 @@ const ChargingStationPopup = (props, context) => {
             <span className="text-alignment">{getPhoneNumber()}</span>
           </div>
           <div className="charging-station-divider" />
-          <div>{getDirectDeepLink()}</div>
+          <div>
+            <Icon
+              img="icon-icon_power"
+              color="#939393"
+              width="16px"
+              height="16px"
+            />
+            <span className="text-alignment">{getDirectDeepLink()}</span>
+          </div>
         </div>
       </div>
       <MarkerPopupBottom
