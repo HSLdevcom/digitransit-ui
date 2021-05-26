@@ -343,7 +343,9 @@ class RouteScheduleContainer extends PureComponent {
     return '';
   };
 
-  populateData = (wantedDay, departures) => {
+  populateData = (wantedDayIn, departures) => {
+    const departureCount = departures.filter(d => d.length > 0).length;
+    const wantedDay = wantedDayIn || moment();
     const startOfWeek = moment().startOf('isoWeek');
     const today = moment();
     const weekStarts = [today.format(DATE_FORMAT)];
@@ -413,14 +415,16 @@ class RouteScheduleContainer extends PureComponent {
         startOfWeek.format(DATE_FORMAT) ===
         moment(w).startOf('isoWeek').format(DATE_FORMAT);
       const timeRangeStart =
-        moment(w).format('E') <= firstServiceDay[0] && (isSameWeek || idx === 0)
+        moment(w).format('E') <= firstServiceDay[0] &&
+        departureCount === 1 &&
+        (isSameWeek || idx === 0)
           ? moment(w)
               .clone()
               .add(firstServiceDay[0] - 1, 'd')
               .format(DATE_FORMAT2)
           : moment(w).format(DATE_FORMAT2);
       const timeRange =
-        days.length === 1 && days[idx].length === 1
+        days.length === 1 && days[idx][0].length === 1 && wantedDayIn
           ? wantedDay.format(DATE_FORMAT2)
           : `${timeRangeStart} - ${moment(weekEnds[idx]).format(DATE_FORMAT2)}`;
       if (
@@ -479,7 +483,7 @@ class RouteScheduleContainer extends PureComponent {
       query.serviceDay &&
       moment(query.serviceDay, 'YYYYMMDD', true).isValid()
         ? moment(query.serviceDay)
-        : moment();
+        : undefined;
 
     const newFromTo = [this.state.from, this.state.to];
 
@@ -522,7 +526,7 @@ class RouteScheduleContainer extends PureComponent {
       this.context.config.URL.ROUTE_TIMETABLES[routeIdSplitted[0]] &&
       routeTimetableHandler.timetableUrlResolver(
         this.context.config.URL.ROUTE_TIMETABLES[routeIdSplitted[0]],
-        this.props.match.params.routeId,
+        this.props.route,
       );
 
     const showTrips = this.getTrips(
@@ -650,7 +654,10 @@ const containerComponent = createFragmentContainer(
     `,
     route: graphql`
       fragment RouteScheduleContainer_route on Route
-      @argumentDefinitions(date: { type: "String" }) {
+      @argumentDefinitions(
+        date: { type: "String" }
+        serviceDate: { type: "String" }
+      ) {
         gtfsId
         color
         shortName
@@ -702,8 +709,8 @@ const containerComponent = createFragmentContainer(
               }
             }
           }
-          trips: tripsForDate(serviceDate: $date) {
-            stoptimes: stoptimesForDate(serviceDate: $date) {
+          trips: tripsForDate(serviceDate: $serviceDate) {
+            stoptimes: stoptimesForDate(serviceDate: $serviceDate) {
               stop {
                 id
               }
