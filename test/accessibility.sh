@@ -1,6 +1,12 @@
 #/bin/bash
 
-# TODO: check that firefox etc. is installed
+if ! command -v firefox &> /dev/null
+then
+    echo "Error: Firefox could not be found in path. This script requires firefox"
+    echo "To install firefox run: sudo apt install firefox or sudo apt install firefox-esr or brew install firefox depending on your OS/distribution"
+    echo "If firefox is installed, try adding it to the path"
+    exit
+fi
 
 # Silence output and send to background
 CONFIG=hsl NO_AXE=true yarn run dev >/dev/null 2>&1 &
