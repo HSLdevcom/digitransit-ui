@@ -25,9 +25,6 @@ class Stops {
     const isHilighted =
       this.tile.hilightedStops &&
       this.tile.hilightedStops.includes(feature.properties.gtfsId);
-    if (!isFeatureLayerEnabled(feature, Stops.getName(), this.mapLayers)) {
-      return;
-    }
 
     const ignoreMinZoomLevel =
       feature.properties.type === 'FERRY' ||
@@ -104,6 +101,9 @@ class Stops {
             const drawRailPlatforms = this.config.railPlatformsMinZoom <= zoom;
             for (let i = 0, ref = vt.layers.stops.length - 1; i <= ref; i++) {
               const feature = vt.layers.stops.feature(i);
+              if (!isFeatureLayerEnabled(feature, 'stop', this.mapLayers)) {
+                break;
+              }
               if (
                 feature.properties.type &&
                 (feature.properties.parentStation === 'null' ||
