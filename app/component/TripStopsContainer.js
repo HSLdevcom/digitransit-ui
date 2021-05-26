@@ -10,6 +10,7 @@ import RoutePageControlPanel from './RoutePageControlPanel';
 import { getStartTime } from '../util/timeUtils';
 import TripStopListContainer from './TripStopListContainer';
 import withBreakpoint from '../util/withBreakpoint';
+import ScrollableWrapper from './ScrollableWrapper';
 
 function TripStopsContainer({ breakpoint, match, trip, route }) {
   const [keepTracking, setTracking] = useState(true);
@@ -34,15 +35,7 @@ function TripStopsContainer({ breakpoint, match, trip, route }) {
     return <div className="route-page-content" />;
   }
 
-  const handleScroll = e => {
-    const { target } = e;
-    const className = cx('route-page-dynamic-divider-content', {
-      'bp-large': breakpoint === 'large',
-    });
-    const element = document.getElementsByClassName(className)[0];
-    element.style.background = `${
-      target.scrollTop <= 1 ? 'white' : 'rgba(0, 0, 0, 0.15)'
-    }`;
+  const handleScroll = () => {
     if (humanScrolling.current && keepTracking) {
       setTracking(false);
     }
@@ -55,10 +48,9 @@ function TripStopsContainer({ breakpoint, match, trip, route }) {
           'bp-large': breakpoint === 'large',
         })}
       />
-      <div
+      <ScrollableWrapper
         className={cx(
           'route-page-content',
-          'momentum-scroll',
           {
             'fullscreen-map': fullscreen && breakpoint !== 'large',
           },
@@ -66,25 +58,28 @@ function TripStopsContainer({ breakpoint, match, trip, route }) {
             'bp-large': breakpoint === 'large',
           },
         )}
-        id="trip-route-page-content"
-        onScroll={debounce(handleScroll, 40, { leading: true })}
       >
-        {route && route.patterns && (
-          <RoutePageControlPanel
-            match={match}
-            route={route}
-            breakpoint={breakpoint}
+        <div
+          id="trip-route-page-content"
+          onScroll={debounce(handleScroll, 40, { leading: true })}
+        >
+          {route && route.patterns && (
+            <RoutePageControlPanel
+              match={match}
+              route={route}
+              breakpoint={breakpoint}
+            />
+          )}
+          <TripStopListContainer
+            key="list"
+            trip={trip}
+            tripStart={tripStartTime}
+            fullscreenMap={fullscreen}
+            keepTracking={keepTracking}
+            setHumanScrolling={setHumanScrolling}
           />
-        )}
-        <TripStopListContainer
-          key="list"
-          trip={trip}
-          tripStart={tripStartTime}
-          fullscreenMap={fullscreen}
-          keepTracking={keepTracking}
-          setHumanScrolling={setHumanScrolling}
-        />
-      </div>
+        </div>
+      </ScrollableWrapper>
     </>
   );
 }

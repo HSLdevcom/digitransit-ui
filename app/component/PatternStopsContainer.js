@@ -9,6 +9,7 @@ import RoutePageControlPanel from './RoutePageControlPanel';
 import { isBrowser } from '../util/browser';
 import { PREFIX_ROUTES } from '../util/path';
 import Error404 from './404';
+import ScrollableWrapper from './ScrollableWrapper';
 
 class PatternStopsContainer extends React.PureComponent {
   static propTypes = {
@@ -37,17 +38,6 @@ class PatternStopsContainer extends React.PureComponent {
       ...this.props.match.location,
       state: { ...this.props.match.location.state, fullscreenMap: true },
     });
-  };
-
-  handleScroll = e => {
-    const { target } = e;
-    const className = cx('route-page-dynamic-divider-content', {
-      'bp-large': this.props.breakpoint === 'large',
-    });
-    const element = document.getElementsByClassName(className)[0];
-    element.style.background = `${
-      target.scrollTop <= 0 ? 'white' : 'rgba(0, 0, 0, 0.15)'
-    }`;
   };
 
   render() {
@@ -84,12 +74,10 @@ class PatternStopsContainer extends React.PureComponent {
             'bp-large': this.props.breakpoint === 'large',
           })}
         />
-        <div
-          className={cx('route-page-content', 'momentum-scroll', {
+        <ScrollableWrapper
+          className={cx('route-page-content', {
             'bp-large': this.props.breakpoint === 'large',
           })}
-          role="list"
-          onScroll={this.handleScroll}
         >
           {this.props.route && this.props.route.patterns && (
             <RoutePageControlPanel
@@ -103,7 +91,7 @@ class PatternStopsContainer extends React.PureComponent {
             pattern={this.props.pattern}
             patternId={this.props.pattern.code}
           />
-        </div>
+        </ScrollableWrapper>
       </>
     );
   }

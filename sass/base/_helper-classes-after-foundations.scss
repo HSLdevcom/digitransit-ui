@@ -62,3 +62,14 @@ button.noborder {
     color: inherit;
   }
 }
+
+.before-scrollable-area {
+  position: relative;
+  z-index: index($zindex, 'before-scrollable-area');
+  height: 16px;
+  &.scrolled {
+    box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.2);
+  }
+  background-color: rgba(0,0,0,0);
+  margin-top: -16px;
+}

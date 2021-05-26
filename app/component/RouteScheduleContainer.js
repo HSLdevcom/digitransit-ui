@@ -24,6 +24,7 @@ import RouteScheduleDropdown from './RouteScheduleDropdown';
 import RoutePageControlPanel from './RoutePageControlPanel';
 import { PREFIX_ROUTES, PREFIX_TIMETABLE } from '../util/path';
 import { isBrowser } from '../util/browser';
+import ScrollableWrapper from './ScrollableWrapper';
 
 const DATE_FORMAT2 = 'D.M.YYYY';
 
@@ -544,11 +545,10 @@ class RouteScheduleContainer extends PureComponent {
     }
     return (
       <>
-        <div
-          className={`route-schedule-container momentum-scroll ${
+        <ScrollableWrapper
+          className={`route-schedule-container ${
             this.props.breakpoint !== 'large' ? 'mobile' : ''
           }`}
-          role="list"
         >
           {this.props.route && this.props.route.patterns && (
             <RoutePageControlPanel
@@ -599,7 +599,7 @@ class RouteScheduleContainer extends PureComponent {
               </div>
             </div>
           )}
-        </div>
+        </ScrollableWrapper>
         <div className="route-page-action-bar">
           <div className="print-button-container">
             {routeTimetableUrl && (
