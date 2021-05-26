@@ -1,4 +1,5 @@
 import Store from 'fluxible/addons/BaseStore';
+import events from '../util/events';
 
 class RealTimeInformationStore extends Store {
   static storeName = 'RealTimeInformationStore';
@@ -81,6 +82,7 @@ class RealTimeInformationStore extends Store {
       vehicle.visible = visibleVehicleKeys.includes(key);
       this.vehicles[key] = vehicle;
     });
+    events.emit('vehiclesChanged', this.vehicles);
   }
 
   static handlers = {

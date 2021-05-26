@@ -2,11 +2,13 @@ import flatten from 'lodash/flatten';
 import omit from 'lodash/omit';
 import L from 'leaflet';
 
+import { isEqual } from 'lodash';
 import { isBrowser } from '../../../util/browser';
 import { isLayerEnabled } from '../../../util/mapLayerUtils';
 import { getStopIconStyles } from '../../../util/mapIconUtils';
 
 import { getCityBikeMinZoomOnStopsNearYou } from '../../../util/citybikes';
+import events from '../../../util/events';
 
 class TileContainer {
   constructor(
@@ -40,6 +42,8 @@ class TileContainer {
     this.hilightedStops = hilightedStops;
     this.vehicles = vehicles;
     this.stopsToShow = stopsToShow;
+
+    events.on('vehiclesChanged', this.onVehiclesChange);
 
     let ignoreMinZoomLevel =
       hilightedStops &&
@@ -115,6 +119,12 @@ class TileContainer {
       done(null, this.el),
     );
   }
+
+  onVehiclesChange = vehicles => {
+    if (!isEqual(this.vehicles, vehicles)) {
+      this.vehicles = vehicles;
+    }
+  };
 
   project = point => {
     const size =
