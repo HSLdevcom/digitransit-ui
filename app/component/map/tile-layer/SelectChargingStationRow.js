@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../../Icon';
 import ChargingStations from './ChargingStations';
-import ChargingStationPopup from '../popups/ChargingStationPopup';
 
-export default function SelectChargingStationsRow(props, { intl }) {
+export default function SelectChargingStationsRow(props) {
   const { selectRow, properties } = props;
   return (
     <div className="no-margin">
@@ -18,11 +17,7 @@ export default function SelectChargingStationsRow(props, { intl }) {
         </div>
         <div className="padding-vertical-normal select-row-text">
           <span className="header-primary no-margin link-color">
-            {ChargingStationPopup.getName(
-              properties.name,
-              properties.vehicleType,
-              intl,
-            )}
+            {properties.name}
           </span>
         </div>
         <div className="clear" />
