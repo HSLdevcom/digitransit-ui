@@ -153,5 +153,6 @@ export default configMerger(walttiConfig, {
   showVehiclesOnSummaryPage: true,
   zones: {
     stops: true,
+    itinerary: true,
   },
 });
