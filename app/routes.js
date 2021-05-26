@@ -78,6 +78,29 @@ export default config => {
       {getStopRoutes()}
       {getStopRoutes(true) /* terminals */}
       {routeRoutes}
+      <Route path="/roadworks">
+        {{
+          content: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "about" */ './component/map/sidebar/RoadworksContent'
+                ).then(getDefault)
+              }
+            />
+          ),
+          map: (
+            <Route
+              disableMapOnMobile={false}
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/map/IndexPageMap.js'
+                ).then(getDefault)
+              }
+            />
+          ),
+        }}
+      </Route>
       <Route path={`/${PREFIX_BIKESTATIONS}/:id`}>
         {{
           content: (

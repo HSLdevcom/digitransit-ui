@@ -29,7 +29,6 @@ import DynamicParkingLotsPopup from '../popups/DynamicParkingLotsPopup';
 import BikeParkPopup from '../popups/BikeParkPopup';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import WeatherStationPopup from '../popups/WeatherStationPopup';
-import RoadworksPopup from '../popups/RoadworksPopup';
 import DynamicParkingLots from './DynamicParkingLots';
 import ChargingStationPopup from '../popups/ChargingStationPopup';
 
@@ -310,13 +309,33 @@ class TileLayerContainer extends GridLayer {
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'roadworks') {
-          contents = (
-            <RoadworksPopup
-              feature={this.state.selectableTargets[0].feature}
-              lat={this.state.coords.lat}
-              lon={this.state.coords.lng}
-            />
+          this.setState({ selectableTargets: undefined });
+          const {
+            starttime,
+            endtime,
+            // eslint-disable-next-line camelcase
+            details_url,
+            description,
+          } = this.state.selectableTargets[0].feature.properties;
+          const locationDescription =
+            this.state.selectableTargets[0].feature[
+              'location.location_description'
+            ] || '';
+          const locationStreet =
+            this.state.selectableTargets[0].feature.properties[
+              'location.street'
+            ] || '';
+          this.context.router.push(
+            `/roadworks?${new URLSearchParams({
+              starttime,
+              endtime,
+              details_url,
+              description,
+              locationDescription,
+              locationStreet,
+            }).toString()}`,
           );
+          showPopup = false;
         } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {
           ({ id } = this.state.selectableTargets[0].feature);
           contents = (
