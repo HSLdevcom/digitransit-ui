@@ -179,7 +179,11 @@ const PointFeatureMarker = ({
           header={useDescriptionAsHeader ? description : header}
           subHeader={useDescriptionAsHeader ? '' : description}
         />
-        {popupContent && <div className="card-text">{popupContent}</div>}
+        {popupContent && (
+          <div className="location-popup-wrapper">
+            <div className="card-text opening-hours">{popupContent}</div>
+          </div>
+        )}
         {(locationPopup === 'all' || locationPopup === 'origindestination') && (
           <MarkerPopupBottom
             location={{
