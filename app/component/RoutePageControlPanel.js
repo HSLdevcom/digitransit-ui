@@ -241,8 +241,16 @@ class RoutePageControlPanel extends React.Component {
       new RegExp(`${match.params.patternId}(.*)`),
       newPattern,
     );
-    if (type === PREFIX_TIMETABLE && pattern[0].minAndMaxDate) {
-      newPathname += `?serviceDay=${pattern[0].minAndMaxDate[0]}`;
+    if (type === PREFIX_TIMETABLE) {
+      if (
+        pattern[0].minAndMaxDate &&
+        moment().isBefore(pattern[0].minAndMaxDate[0])
+      ) {
+        newPathname += `?serviceDay=${pattern[0].minAndMaxDate[0]}`;
+      }
+      if (match.query && match.query.serviceDay) {
+        newPathname += `?serviceDay=${match.query.serviceDay}`;
+      }
     }
     router.replace(newPathname);
   };
