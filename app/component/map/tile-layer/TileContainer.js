@@ -122,7 +122,7 @@ class TileContainer {
 
   onVehiclesChange = vehicles => {
     if (!isEqual(this.vehicles, vehicles)) {
-      this.vehicles = Object.assign(vehicles);
+      this.vehicles = { ...vehicles };
     }
   };
 

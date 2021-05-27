@@ -80,11 +80,11 @@ class RealTimeInformationStore extends Store {
     const projectedVehicles = [];
     vehicleKeys.forEach(key => {
       const vehicle = this.vehicles[key];
-      if (visibleVehicleKeys.includes(key)) {
-        vehicle.visible = true;
+      const hasKey = visibleVehicleKeys.includes(key);
+      vehicle.visible = hasKey;
+      if (hasKey) {
         projectedVehicles.push(vehicle);
       }
-      vehicle.visible = visibleVehicleKeys.includes(key);
       this.vehicles[key] = vehicle;
     });
     events.emit('vehiclesChanged', projectedVehicles);
