@@ -12,15 +12,12 @@ const modules = {
   FavouriteBikeRentalStationContainer: () =>
     importLazy(import('./FavouriteBikeRentalStationContainer')),
 };
-const BikeParkOrStationHeader = (
-  { bikeParkOrStation, breakpoint },
-  { config },
-) => {
+const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
   const [zoneId, setZoneId] = useState(undefined);
   useEffect(() => {
     getJson(config.URL.PELIAS_REVERSE_GEOCODER, {
-      'point.lat': bikeParkOrStation.lat,
-      'point.lon': bikeParkOrStation.lon,
+      'point.lat': parkOrStation.lat,
+      'point.lon': parkOrStation.lon,
       'boundary.circle.radius': 0.2,
       layers: 'address',
       size: 1,
@@ -34,7 +31,8 @@ const BikeParkOrStationHeader = (
     });
   }, []);
 
-  const { name, bikeParkId, stationId } = bikeParkOrStation;
+  const { name, bikeParkId, stationId } = parkOrStation;
+  const parkHeaderId = bikeParkId ? 'bike-park' : 'car_park';
   return (
     <div className="bike-station-header">
       {breakpoint === 'large' && (
@@ -47,7 +45,7 @@ const BikeParkOrStationHeader = (
         <h3>{name}</h3>
         <div className="bike-station-sub-header">
           <FormattedMessage
-            id={bikeParkId ? 'bike-park' : 'citybike-station-no-id'}
+            id={stationId ? 'citybike-station-no-id' : parkHeaderId}
           />
           {stationId && name !== stationId && <StopCode code={stationId} />}
           {zoneId && (
@@ -60,7 +58,7 @@ const BikeParkOrStationHeader = (
       <LazilyLoad modules={modules}>
         {({ FavouriteBikeRentalStationContainer }) => (
           <FavouriteBikeRentalStationContainer
-            bikeRentalStation={bikeParkOrStation}
+            bikeRentalStation={parkOrStation}
           />
         )}
       </LazilyLoad>
@@ -68,23 +66,25 @@ const BikeParkOrStationHeader = (
   );
 };
 
-BikeParkOrStationHeader.propTypes = {
+ParkOrBikeStationHeader.propTypes = {
   breakpoint: PropTypes.string.isRequired,
-  bikeParkOrStation: PropTypes.shape({
+  parkOrStation: PropTypes.shape({
     name: PropTypes.string.isRequired,
     bikeParkId: PropTypes.string,
+    carParkId: PropTypes.string,
     stationId: PropTypes.string,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
   }),
 };
 
-BikeParkOrStationHeader.contextTypes = {
+ParkOrBikeStationHeader.contextTypes = {
   config: PropTypes.object.isRequired,
-  bikeParkOrStation: {
+  parkOrStation: {
     stationId: null,
     bikeParkId: null,
+    carParkId: null,
   },
 };
 
-export default BikeParkOrStationHeader;
+export default ParkOrBikeStationHeader;
