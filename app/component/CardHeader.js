@@ -29,6 +29,7 @@ const CardHeader = (
     favouriteContainer,
     isTerminal,
     showHeaderTitle,
+    showCardSubHeader = true,
   },
   { config },
 ) => {
@@ -61,25 +62,27 @@ const CardHeader = (
               {headerIcon}
               {unlinked ? null : <span className="link-arrow"> ›</span>}
             </span>
-            <div className="card-sub-header">
-              <div className="card-name-container">
-                <AddressRow
-                  desc={description}
-                  code={code}
-                  isTerminal={isTerminal}
-                />
-              </div>
-              {headerConfig &&
-                headerConfig.showZone &&
-                stop.zoneId &&
-                stop.gtfsId &&
-                config.feedIds.includes(stop.gtfsId.split(':')[0]) && (
-                  <ZoneIcon
-                    zoneId={getZoneLabel(stop.zoneId, config)}
-                    showUnknown={false}
+            {showCardSubHeader && (
+              <div className="card-sub-header">
+                <div className="card-name-container">
+                  <AddressRow
+                    desc={description}
+                    code={code}
+                    isTerminal={isTerminal}
                   />
-                )}
-            </div>
+                </div>
+                {headerConfig &&
+                  headerConfig.showZone &&
+                  stop.zoneId &&
+                  stop.gtfsId &&
+                  config.feedIds.includes(stop.gtfsId.split(':')[0]) && (
+                    <ZoneIcon
+                      zoneId={getZoneLabel(stop.zoneId, config)}
+                      showUnknown={false}
+                    />
+                  )}
+              </div>
+            )}
           </div>
           {icons && icons.length ? <SplitBars>{icons}</SplitBars> : null}
           {favouriteContainer}
@@ -139,6 +142,7 @@ CardHeader.propTypes = {
   name: PropTypes.string,
   isTerminal: PropTypes.bool,
   showHeaderTitle: PropTypes.bool,
+  showCardSubHeader: PropTypes.bool,
 };
 
 CardHeader.defaultProps = {

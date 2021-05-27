@@ -277,6 +277,7 @@
     "postcss-flexbugs-fixes": "4.2.1",
     "postcss-loader": "4.0.1",
     "prettier": "2.1.1",
+    "react-charging-station-connector-icons": "^0.2.1",
     "relay-compiler": "10.0.1",
     "rollup": "2.35.1",
     "rollup-plugin-babel": "4.4.0",
