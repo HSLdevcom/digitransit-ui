@@ -396,9 +396,11 @@ class TileLayerContainer extends GridLayer {
         ) {
           contents = (
             <ChargingStationPopup
+              id={this.state.selectableTargets[0].feature.properties.id}
               lat={this.state.coords.lat}
               lon={this.state.coords.lng}
-              {...this.state.selectableTargets[0].feature.properties}
+              capacity={this.state.selectableTargets[0].feature.properties.c}
+              available={this.state.selectableTargets[0].feature.properties.ca}
               onSelectLocation={this.props.onSelectLocation}
             />
           );

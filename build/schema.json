@@ -6629,6 +6629,18 @@
                     "description": null,
                     "fields": [
                         {
+                            "name": "arrivedAtDestinationWithRentedBicycle",
+                            "description": "Whether arrival at destination with rented bike.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
                             "name": "startTime",
                             "description": "Time when the user leaves from the origin. Format: Unix timestamp in milliseconds.",
                             "args": [],
