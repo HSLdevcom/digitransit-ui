@@ -14,6 +14,7 @@ import {
   PREFIX_ITINERARY_SUMMARY,
   PREFIX_NEARYOU,
   PREFIX_BIKESTATIONS,
+  PREFIX_ROADWORKS,
   LOCAL_STORAGE_EMITTER_PATH,
   createReturnPath,
   TAB_NEARBY,
@@ -78,6 +79,29 @@ export default config => {
       {getStopRoutes()}
       {getStopRoutes(true) /* terminals */}
       {routeRoutes}
+      <Route path={`/${PREFIX_ROADWORKS}`}>
+        {{
+          content: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "roadworks" */ './component/map/sidebar/RoadworksContent'
+                ).then(getDefault)
+              }
+            />
+          ),
+          map: (
+            <Route
+              disableMapOnMobile={false}
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "map" */ './component/map/SidebarMap.js'
+                ).then(getDefault)
+              }
+            />
+          ),
+        }}
+      </Route>
       <Route path={`/${PREFIX_BIKESTATIONS}/:id`}>
         {{
           content: (

@@ -2,32 +2,34 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
-import Card from '../../Card';
+import cx from 'classnames';
 import CardHeader from '../../CardHeader';
 import ComponentUsageExample from '../../ComponentUsageExample';
+import withBreakpoint from '../../../util/withBreakpoint';
 
-class RoadworksPopup extends React.Component {
+class RoadworksContent extends React.Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
   };
 
   static propTypes = {
-    feature: PropTypes.object,
+    breakpoint: PropTypes.string.isRequired,
+    match: PropTypes.object,
   };
 
   static description = (
     <div>
       <p>Renders a roadworks popup.</p>
       <ComponentUsageExample description="">
-        <RoadworksPopup context="context object here">
+        <RoadworksContent context="context object here">
           Im content of a roadworks card
-        </RoadworksPopup>
+        </RoadworksContent>
       </ComponentUsageExample>
     </div>
   );
 
-  static displayName = 'RoadworksPopup';
+  static displayName = 'RoadworksContent';
 
   static formatDate(date) {
     return date.format('ll');
@@ -40,41 +42,51 @@ class RoadworksPopup extends React.Component {
   static formatDateTime(start, end) {
     const startM = moment(start);
     const endM = moment(end);
-    return `${RoadworksPopup.formatDate(startM)} - ${RoadworksPopup.formatDate(
-      endM,
-    )}`;
+    return `${RoadworksContent.formatDate(
+      startM,
+    )} - ${RoadworksContent.formatDate(endM)}`;
   }
 
   render() {
     const {
       props: {
-        feature: { properties },
+        match: {
+          location: { query: properties },
+        },
+        breakpoint,
       },
       context: { intl },
     } = this;
+
     const duration = (
       <span className="inline-block padding-vertical-small">
-        {RoadworksPopup.formatDateTime(
-          properties.starttime,
-          properties.endtime,
+        {RoadworksContent.formatDateTime(
+          properties.startTime,
+          properties.endTime,
         )}
       </span>
     );
 
-    const locationDescription = properties['location.location_description'];
+    const isMobile = breakpoint !== 'large';
     const url = properties.details_url;
     return (
-      <Card>
-        <div className="padding-normal">
+      <div className={cx('card', 'card-padding')} style={{ border: 'none' }}>
+        <div
+          className={cx(
+            isMobile ? 'padding-horizontal' : 'padding-horizontal-xlarge',
+          )}
+        >
           <CardHeader
-            name={properties['location.street']}
+            name={properties.locationStreet}
             description={duration}
             unlinked
-            className="padding-medium"
-            headingStyle="h2"
+            showBackButton={!isMobile}
+            headingStyle="h1"
           />
           <div>
-            {locationDescription && <p>{locationDescription}</p>}
+            {properties.locationDescription && (
+              <p>{properties.locationDescription}</p>
+            )}
             <p>{properties.description}</p>
             {url && (
               <p>
@@ -89,9 +101,9 @@ class RoadworksPopup extends React.Component {
             )}
           </div>
         </div>
-      </Card>
+      </div>
     );
   }
 }
 
-export default RoadworksPopup;
+export default withBreakpoint(RoadworksContent);

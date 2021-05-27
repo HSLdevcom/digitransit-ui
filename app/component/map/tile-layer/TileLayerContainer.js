@@ -10,6 +10,7 @@ import isEqual from 'lodash/isEqual';
 import Popup from 'react-leaflet/es/Popup';
 import { withLeaflet } from 'react-leaflet/es/context';
 import { matchShape, routerShape } from 'found';
+import pickBy from 'lodash/pickBy';
 import { mapLayerShape } from '../../../store/MapLayerStore';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopupContainer';
@@ -24,12 +25,12 @@ import {
   PREFIX_BIKESTATIONS,
   PREFIX_STOPS,
   PREFIX_TERMINALS,
+  PREFIX_ROADWORKS,
 } from '../../../util/path';
 import DynamicParkingLotsPopup from '../popups/DynamicParkingLotsPopup';
 import BikeParkPopup from '../popups/BikeParkPopup';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import WeatherStationPopup from '../popups/WeatherStationPopup';
-import RoadworksPopup from '../popups/RoadworksPopup';
 import DynamicParkingLots from './DynamicParkingLots';
 import ChargingStationPopup from '../popups/ChargingStationPopup';
 
@@ -310,13 +311,33 @@ class TileLayerContainer extends GridLayer {
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'roadworks') {
-          contents = (
-            <RoadworksPopup
-              feature={this.state.selectableTargets[0].feature}
-              lat={this.state.coords.lat}
-              lon={this.state.coords.lng}
-            />
+          const {
+            starttime,
+            endtime,
+            details_url: detailsUrl,
+            'location.location_description': locationDescription,
+            'location.street': locationStreet,
+            description,
+          } = this.state.selectableTargets[0].feature.properties;
+          const { lat, lng } = this.state.coords;
+          const params = pickBy(
+            {
+              lat,
+              lng,
+              starttime,
+              endtime,
+              detailsUrl,
+              description,
+              locationDescription,
+              locationStreet,
+            },
+            v => v !== undefined,
           );
+          this.setState({ selectableTargets: undefined });
+          this.context.router.replace(
+            `/${PREFIX_ROADWORKS}?${new URLSearchParams(params).toString()}`,
+          );
+          showPopup = false;
         } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {
           ({ id } = this.state.selectableTargets[0].feature);
           contents = (
