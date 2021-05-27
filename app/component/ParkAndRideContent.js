@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import BikeParkOrStationHeader from './BikeParkOrStationHeader';
+import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 
 const ParkAndRideContent = ({ bikePark, carPark }, { intl }) => {
@@ -26,7 +26,7 @@ const ParkAndRideContent = ({ bikePark, carPark }, { intl }) => {
 
   return (
     <div className="bike-station-page-container">
-      <BikeParkOrStationHeader parkOrStation={park} />
+      <ParkOrStationHeader parkOrStation={park} />
       <div className="bikepark-content-container">
         <Icon img="icon-icon_bikepark" height={2.4} width={2.4} />
         <div className="bikepark-details">
