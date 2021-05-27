@@ -2,11 +2,13 @@ import flatten from 'lodash/flatten';
 import omit from 'lodash/omit';
 import L from 'leaflet';
 
+import { isEqual } from 'lodash';
 import { isBrowser } from '../../../util/browser';
 import { isLayerEnabled } from '../../../util/mapLayerUtils';
 import { getStopIconStyles } from '../../../util/mapIconUtils';
 
 import { getCityBikeMinZoomOnStopsNearYou } from '../../../util/citybikes';
+import events from '../../../util/events';
 
 class TileContainer {
   constructor(
@@ -40,6 +42,8 @@ class TileContainer {
     this.hilightedStops = hilightedStops;
     this.vehicles = vehicles;
     this.stopsToShow = stopsToShow;
+
+    events.on('vehiclesChanged', this.onVehiclesChange);
 
     let ignoreMinZoomLevel =
       hilightedStops &&
@@ -116,6 +120,12 @@ class TileContainer {
     );
   }
 
+  onVehiclesChange = vehicles => {
+    if (!isEqual(this.vehicles, vehicles)) {
+      this.vehicles = { ...vehicles };
+    }
+  };
+
   project = point => {
     const size =
       this.extent * 2 ** (this.coords.z + (this.props.zoomOffset || 0));
@@ -161,16 +171,13 @@ class TileContainer {
 
     const vehicleKeys = Object.keys(this.vehicles);
 
-    const projectedVehicles = [];
-    vehicleKeys.forEach(key => {
+    const projectedVehicles = vehicleKeys.map(key => {
       const vehicle = this.vehicles[key];
       const pointGeom = this.latLngToPoint(vehicle.lat, vehicle.long);
-      if (vehicle.visible) {
-        projectedVehicles.push({
-          layer: 'realTimeVehicle',
-          feature: { geom: pointGeom, vehicle, properties: {} },
-        });
-      }
+      return {
+        layer: 'realTimeVehicle',
+        feature: { geom: pointGeom, vehicle, properties: {} },
+      };
     });
 
     if (this.layers) {
