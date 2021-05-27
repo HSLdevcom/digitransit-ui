@@ -254,12 +254,14 @@ const RouteStop = (
             </div>
             <div className="route-details-bottom-row">
               <AddressRow desc={stop.desc} code={stop.code} />
-              {stop.zoneId && (
+              {config.zones.stops && stop.zoneId ? (
                 <ZoneIcon
                   className="itinerary-zone-icon"
                   zoneId={getZoneLabel(stop.zoneId, config)}
                   showUnknown={false}
                 />
+              ) : (
+                <div className="itinerary-zone-icon" />
               )}
               {nextDeparture && displayNextDeparture && (
                 <div

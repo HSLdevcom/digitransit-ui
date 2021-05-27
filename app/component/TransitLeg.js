@@ -65,7 +65,7 @@ class TransitLeg extends React.Component {
     if (
       startZone !== endZone &&
       !this.state.showIntermediateStops &&
-      this.context.config.itinerary.showZoneLimits &&
+      this.context.config.zones.itinerary &&
       leg.from.stop.gtfsId &&
       this.context.config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0])
     ) {
@@ -83,7 +83,12 @@ class TransitLeg extends React.Component {
         </div>
       );
     }
-    if (startZone === endZone && this.context.config.itinerary.showZoneLimits) {
+    if (
+      startZone === endZone &&
+      this.context.config.zones.itinerary &&
+      leg.from.stop.gtfsId &&
+      this.context.config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0])
+    ) {
       return (
         <div className="time-column-zone-icons-container single">
           <ZoneIcon
@@ -139,7 +144,7 @@ class TransitLeg extends React.Component {
               lat: place.stop.lat,
               lon: place.stop.lon,
             })}
-            showZoneLimits={this.context.config.itinerary.showZoneLimits}
+            showZoneLimits={this.context.config.zones.itinerary}
             showCurrentZoneDelimiter={previousZoneIdDiffers}
             previousZoneId={
               (isFirstPlace &&
@@ -584,7 +589,6 @@ TransitLeg.contextTypes = {
   config: PropTypes.shape({
     itinerary: PropTypes.shape({
       delayThreshold: PropTypes.number,
-      showZoneLimits: PropTypes.bool,
     }).isRequired,
     showTicketInformation: PropTypes.bool,
   }).isRequired,

@@ -147,13 +147,9 @@ export default configMerger(walttiConfig, {
     3: 'C',
     4: 'D',
   },
-  itinerary: {
-    showZoneLimits: true,
-  },
-  stopCard: {
-    header: {
-      showZone: true,
-    },
+  zones: {
+    stops: true,
+    itinerary: true,
   },
   geoJson: {
     layers: [
