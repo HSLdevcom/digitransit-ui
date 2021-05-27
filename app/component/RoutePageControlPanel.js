@@ -9,7 +9,6 @@ import { matchShape, routerShape, RedirectException } from 'found';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import CallAgencyWarning from './CallAgencyWarning';
 import RoutePatternSelect from './RoutePatternSelect';
-import RouteAgencyInfo from './RouteAgencyInfo';
 import { AlertSeverityLevelType, DATE_FORMAT } from '../constants';
 import {
   startRealTimeClient,
@@ -492,7 +491,6 @@ class RoutePageControlPanel extends React.Component {
               </div>
             </button>
           </div>
-          <RouteAgencyInfo route={route} />
         </div>
       </div>
     );
