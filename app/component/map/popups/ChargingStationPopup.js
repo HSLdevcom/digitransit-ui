@@ -226,11 +226,7 @@ const ChargingStationPopup = (props, context) => {
         />
         <div className="content">
           <div className="text-light">
-            <Icon
-              className="charging-station-icon"
-              img="icon-icon_schedule"
-              color="#939393"
-            />
+            <Icon className="charging-station-icon" img="icon-icon_schedule" />
             <span className="text-alignment">{getOpeningTimes()}</span>
           </div>
           <div className="charging-station-divider" />
@@ -248,36 +244,20 @@ const ChargingStationPopup = (props, context) => {
           </div>
           <div className="charging-station-divider" />
           <div className="text-light">
-            <Icon
-              className="charging-station-icon"
-              img="icon-icon_payment"
-              color="#939393"
-            />
+            <Icon className="charging-station-icon" img="icon-icon_payment" />
             <span className="text-alignment">{getPaymentTypes()}</span>
           </div>
           <div className="text-light">
-            <Icon
-              className="charging-station-icon"
-              img="icon-icon_place"
-              color="#939393"
-            />
+            <Icon className="charging-station-icon" img="icon-icon_place" />
             <span className="text-alignment">{getAddress()}</span>
           </div>
           <div className="text-light">
-            <Icon
-              className="charging-station-icon"
-              img="icon-icon_call"
-              color="#939393"
-            />
+            <Icon className="charging-station-icon" img="icon-icon_call" />
             <span className="text-alignment">{getPhoneNumber()}</span>
           </div>
           <div className="charging-station-divider" />
           <div>
-            <Icon
-              className="charging-station-icon"
-              img="icon-icon_power"
-              color="#939393"
-            />
+            <Icon className="charging-station-icon" img="icon-icon_power" />
             <span className="text-alignment">{getDirectDeepLink()}</span>
           </div>
         </div>
