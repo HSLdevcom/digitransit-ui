@@ -52,9 +52,6 @@ const handleStopsAndStations = edges => {
 const startClient = (context, routes) => {
   const { realTime } = context.config;
   let agency;
-  if (!context.config.showNewMqtt) {
-    return;
-  }
   /* handle multiple feedid case */
   context.config.feedIds.forEach(ag => {
     if (!agency && realTime[ag]) {

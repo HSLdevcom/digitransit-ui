@@ -49,7 +49,7 @@ class FavouritesContainer extends React.Component {
     isMobile: PropTypes.bool,
     favouriteStatus: PropTypes.string,
     favouriteModalAction: PropTypes.string,
-    allowLogin: PropTypes.bool,
+    requireLoggedIn: PropTypes.bool,
     isLoggedIn: PropTypes.bool,
     color: PropTypes.string,
     hoverColor: PropTypes.string,
@@ -59,7 +59,7 @@ class FavouritesContainer extends React.Component {
     favourites: [],
     isMobile: false,
     favouriteStatus: FavouriteStore.STATUS_FETCHING,
-    allowLogin: false,
+    requireLoggedIn: false,
     isLoggedIn: false,
   };
 
@@ -76,7 +76,7 @@ class FavouritesContainer extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (
-      this.context.config.allowLogin &&
+      this.context.config.requireLoggedIn &&
       this.props.isLoggedIn &&
       !prevProps.isLoggedIn
     ) {
@@ -171,7 +171,12 @@ class FavouritesContainer extends React.Component {
       action: 'UpdateFavourite',
       name: null,
     });
-    this.context.executeAction(updateFavourites, favourites);
+    // Backend service requires all favourites for reordering to work
+    const reordered = [
+      ...favourites,
+      ...this.props.favourites.filter(item => item.type !== 'place'),
+    ];
+    this.context.executeAction(updateFavourites, reordered);
   };
 
   editFavourite = currentFavourite => {
@@ -316,9 +321,12 @@ class FavouritesContainer extends React.Component {
   render() {
     const isLoading =
       this.props.favouriteStatus === FavouriteStore.STATUS_FETCHING_OR_UPDATING;
-    const { allowLogin, isLoggedIn } = this.props;
+    const { requireLoggedIn, isLoggedIn } = this.props;
     const targets = ['Locations', 'CurrentPosition'];
     const { fontWeights } = this.context.config;
+    const favouritePlaces = this.props.favourites.filter(
+      item => item.type === 'place',
+    );
     if (
       this.context.config.cityBike &&
       this.context.config.cityBike.showCityBikes
@@ -328,25 +336,25 @@ class FavouritesContainer extends React.Component {
     return (
       <React.Fragment>
         <FavouriteBar
-          favourites={this.props.favourites}
+          favourites={favouritePlaces}
           onClickFavourite={this.props.onClickFavourite}
           onAddPlace={() =>
-            !allowLogin || isLoggedIn
+            !requireLoggedIn || isLoggedIn
               ? this.setState({ addModalOpen: true })
               : this.setState({ loginModalOpen: true, modalAction: 'AddPlace' })
           }
           onEdit={() =>
-            !allowLogin || isLoggedIn
+            !requireLoggedIn || isLoggedIn
               ? this.setState({ editModalOpen: true })
               : this.setState({ loginModalOpen: true, modalAction: 'Edit' })
           }
           onAddHome={() =>
-            !allowLogin || isLoggedIn
+            !requireLoggedIn || isLoggedIn
               ? this.addHome()
               : this.setState({ loginModalOpen: true, modalAction: 'AddHome' })
           }
           onAddWork={() =>
-            !allowLogin || isLoggedIn
+            !requireLoggedIn || isLoggedIn
               ? this.addWork()
               : this.setState({ loginModalOpen: true, modalAction: 'AddWork' })
           }
@@ -390,7 +398,7 @@ class FavouritesContainer extends React.Component {
         <FavouriteEditModal
           appElement="#app"
           isModalOpen={this.state.editModalOpen}
-          favourites={this.props.favourites}
+          favourites={favouritePlaces}
           updateFavourites={this.updateFavourites}
           handleClose={() => this.closeModal(false)}
           saveFavourite={this.saveFavourite}
@@ -415,14 +423,12 @@ const connectedComponent = connectToStores(
   context => ({
     favourites:
       !context.config.allowLogin ||
+      context.config.allowFavouritesFromLocalstorage ||
       context.getStore('UserStore').getUser().sub !== undefined
-        ? context
-            .getStore('FavouriteStore')
-            .getFavourites()
-            .filter(item => item.type === 'place')
+        ? context.getStore('FavouriteStore').getFavourites()
         : [],
     favouriteStatus: context.getStore('FavouriteStore').getStatus(),
-    allowLogin: context.config.allowLogin,
+    requireLoggedIn: !context.config.allowFavouritesFromLocalstorage,
     isLoggedIn:
       context.config.allowLogin &&
       context.getStore('UserStore').getUser().sub !== undefined,

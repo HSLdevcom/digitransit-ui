@@ -16,9 +16,18 @@ const DisruptionBannerAlert = (
 ) => {
   const [renderLink, setRenderLink] = useState(false);
 
-  const header = getServiceAlertHeader(alert, language);
-  const message = getServiceAlertDescription(alert, language);
+  let header = getServiceAlertHeader(alert, language);
+  let message = getServiceAlertDescription(alert, language);
   const useHeader = header && header.length <= 120 && !message.includes(header);
+  if (useHeader) {
+    header = <h3 className="disruption-info-header">{header}</h3>;
+    message = (
+      <>
+        {header}
+        {message}
+      </>
+    );
+  }
   return (
     <div>
       <div className="disruption-container">
@@ -28,12 +37,9 @@ const DisruptionBannerAlert = (
         <div className="disruption-info-container">
           {(!config.URL.ROOTLINK || !config.trafficNowLink) && (
             <>
-              {useHeader && (
-                <h3 className="disruption-info-header">{header}</h3>
-              )}
               <TruncatedMessage
                 className="disruption-show-more"
-                lines={useHeader ? 2 : 3}
+                lines={3}
                 message={message}
                 truncate={truncate}
                 onShowMore={openAllAlerts}
@@ -44,12 +50,9 @@ const DisruptionBannerAlert = (
             config.trafficNowLink &&
             (truncate && !renderLink ? (
               <>
-                {useHeader && (
-                  <h3 className="disruption-info-header">{header}</h3>
-                )}
                 <TruncatedMessage
                   className="disruption-show-more"
-                  lines={useHeader ? 2 : 3}
+                  lines={3}
                   message={message}
                   truncate={truncate}
                   onShowMore={openAllAlerts}
@@ -64,9 +67,6 @@ const DisruptionBannerAlert = (
                   language === 'fi' ? '' : `${language}/`
                 }${config.trafficNowLink[language]}`}
               >
-                {useHeader && (
-                  <h3 className="disruption-info-header">{header}</h3>
-                )}
                 {message}
               </a>
             ))}

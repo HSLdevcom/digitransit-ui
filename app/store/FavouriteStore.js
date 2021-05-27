@@ -4,6 +4,7 @@ import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import isEqual from 'lodash/isEqual';
 import sortBy from 'lodash/sortBy';
+import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
@@ -45,11 +46,20 @@ export default class FavouriteStore extends Store {
     if (this.config.allowLogin) {
       getFavourites()
         .then(res => {
-          this.favourites = res;
-          this.fetchComplete();
+          if (this.config.allowFavouritesFromLocalstorage) {
+            this.mergeWithLocalstorage(res);
+          } else {
+            this.favourites = res;
+            this.fetchComplete();
+          }
         })
         .catch(() => {
-          this.fetchFailed();
+          if (this.config.allowFavouritesFromLocalstorage) {
+            this.favourites = getFavouriteStorage();
+            this.fetchComplete();
+          } else {
+            this.fetchFailed();
+          }
         });
     } else {
       this.favourites = getFavouriteStorage();
@@ -162,6 +172,31 @@ export default class FavouriteStore extends Store {
   }
 
   /**
+   * Merges array of favourites with favourites from localstorage and returns uniques by favouriteId and gtfsId.
+   * If there are duplicates by favouriteId or gtfsId, newer one is saved (by lastUpdated field)
+   * @param {array} arrayOfFavourites array of favourites
+   */
+  mergeWithLocalstorage(arrayOfFavourites) {
+    const storage = getFavouriteStorage();
+    if (isEmpty(storage)) {
+      this.favourites = arrayOfFavourites;
+      this.fetchComplete();
+      return;
+    }
+
+    updateFavourites(storage)
+      .then(res => {
+        this.favourites = res;
+        clearFavouriteStorage();
+        this.fetchComplete();
+      })
+      .catch(() => {
+        this.favourites = arrayOfFavourites;
+        this.fetchComplete();
+      });
+  }
+
+  /**
    * Saves (or updates) favourite.
    * Triggers onFail callback function when storing favourite fails.
    * Generates or updates lastUpdated epoch and for new favourites,
@@ -197,12 +232,16 @@ export default class FavouriteStore extends Store {
     if (this.config.allowLogin) {
       // Update favourites to backend service
       updateFavourites(newFavourites)
-        .then(() => {
-          this.favourites = newFavourites;
+        .then(res => {
+          this.favourites = res;
           this.fetchComplete();
         })
         .catch(() => {
           onFail();
+          if (this.config.allowFavouritesFromLocalstorage) {
+            this.favourites = newFavourites;
+            this.storeFavourites();
+          }
           this.fetchComplete();
         });
     } else {
@@ -230,12 +269,16 @@ export default class FavouriteStore extends Store {
     if (this.config.allowLogin) {
       // Update favourites to backend service
       updateFavourites(newFavourites)
-        .then(() => {
-          this.favourites = newFavourites;
+        .then(res => {
+          this.favourites = res;
           this.fetchComplete();
         })
         .catch(() => {
           onFail();
+          if (this.config.allowFavouritesFromLocalstorage) {
+            this.favourites = newFavourites;
+            this.storeFavourites();
+          }
           this.fetchComplete();
         });
     } else {
@@ -264,12 +307,16 @@ export default class FavouriteStore extends Store {
     if (this.config.allowLogin) {
       // Delete favourite from backend service
       deleteFavourites([data.favouriteId])
-        .then(() => {
-          this.favourites = newFavourites;
+        .then(res => {
+          this.favourites = res;
           this.fetchComplete();
         })
         .catch(() => {
           onFail();
+          if (this.config.allowFavouritesFromLocalstorage) {
+            this.favourites = newFavourites;
+            this.storeFavourites();
+          }
           this.fetchComplete();
         });
     } else {

@@ -97,7 +97,7 @@ const FavouriteStopContainer = connectToStores(
           .isFavourite(stop.gtfsId, isTerminal ? 'station' : 'stop'),
       });
     },
-    allowLogin: context.config.allowLogin,
+    requireLoggedIn: !context.config.allowFavouritesFromLocalstorage,
     isLoggedIn:
       context.config.allowLogin &&
       context.getStore('UserStore').getUser().sub !== undefined,

@@ -2,9 +2,13 @@ import flatten from 'lodash/flatten';
 import omit from 'lodash/omit';
 import L from 'leaflet';
 
+import { isEqual } from 'lodash';
 import { isBrowser } from '../../../util/browser';
 import { isLayerEnabled } from '../../../util/mapLayerUtils';
 import { getStopIconStyles } from '../../../util/mapIconUtils';
+
+import { getCityBikeMinZoomOnStopsNearYou } from '../../../util/citybikes';
+import events from '../../../util/events';
 
 class TileContainer {
   constructor(
@@ -19,7 +23,10 @@ class TileContainer {
     stopsToShow,
   ) {
     const markersMinZoom = Math.min(
-      config.cityBike.cityBikeMinZoom,
+      getCityBikeMinZoomOnStopsNearYou(
+        config,
+        props.mapLayers.citybikeOverrideMinZoom,
+      ),
       config.stopsMinZoom,
       config.terminalStopsMinZoom,
     );
@@ -36,7 +43,22 @@ class TileContainer {
     this.vehicles = vehicles;
     this.stopsToShow = stopsToShow;
 
-    if (this.coords.z < markersMinZoom || !this.el.getContext) {
+    events.on('vehiclesChanged', this.onVehiclesChange);
+
+    let ignoreMinZoomLevel =
+      hilightedStops &&
+      hilightedStops.length > 0 &&
+      !hilightedStops.every(stop => stop === '');
+    if (vehicles && vehicles.length > 0) {
+      ignoreMinZoomLevel = vehicles.every(
+        v => v.mode === 'ferry' && v.mode === 'rail' && v.mode === 'subway',
+      );
+    }
+
+    if (
+      (!ignoreMinZoomLevel && this.coords.z < markersMinZoom) ||
+      !this.el.getContext
+    ) {
       setTimeout(() => done(null, this.el), 0);
       return;
     }
@@ -55,14 +77,19 @@ class TileContainer {
 
         if (
           layerName === 'stop' &&
-          (this.coords.z >= config.stopsMinZoom ||
+          (ignoreMinZoomLevel ||
+            this.coords.z >= config.stopsMinZoom ||
             this.coords.z >= config.terminalStopsMinZoom)
         ) {
           return isEnabled;
         }
         if (
           layerName === 'citybike' &&
-          this.coords.z >= config.cityBike.cityBikeMinZoom
+          this.coords.z >=
+            getCityBikeMinZoomOnStopsNearYou(
+              config,
+              props.mapLayers.citybikeOverrideMinZoom,
+            )
         ) {
           return isEnabled;
         }
@@ -92,6 +119,12 @@ class TileContainer {
       done(null, this.el),
     );
   }
+
+  onVehiclesChange = vehicles => {
+    if (!isEqual(this.vehicles, vehicles)) {
+      this.vehicles = { ...vehicles };
+    }
+  };
 
   project = point => {
     const size =
@@ -138,16 +171,13 @@ class TileContainer {
 
     const vehicleKeys = Object.keys(this.vehicles);
 
-    const projectedVehicles = [];
-    vehicleKeys.forEach(key => {
+    const projectedVehicles = vehicleKeys.map(key => {
       const vehicle = this.vehicles[key];
       const pointGeom = this.latLngToPoint(vehicle.lat, vehicle.long);
-      if (vehicle.visible) {
-        projectedVehicles.push({
-          layer: 'realTimeVehicle',
-          feature: { geom: pointGeom, vehicle, properties: {} },
-        });
-      }
+      return {
+        layer: 'realTimeVehicle',
+        feature: { geom: pointGeom, vehicle, properties: {} },
+      };
     });
 
     if (this.layers) {

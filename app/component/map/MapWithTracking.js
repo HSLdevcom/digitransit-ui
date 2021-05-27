@@ -6,6 +6,7 @@ import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import getContext from 'recompose/getContext';
 import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
+import { intlShape } from 'react-intl';
 import { startLocationWatch } from '../../action/PositionActions';
 import ComponentUsageExample from '../ComponentUsageExample';
 import MapContainer from './MapContainer';
@@ -13,6 +14,12 @@ import ToggleMapTracking from '../ToggleMapTracking';
 import { isBrowser } from '../../util/browser';
 import PositionStore from '../../store/PositionStore';
 import { mapLayerShape } from '../../store/MapLayerStore';
+import BubbleDialog from '../BubbleDialog';
+// eslint-disable-next-line import/no-named-as-default
+import PreferencesStore from '../../store/PreferencesStore';
+import MapLayersDialogContent from '../MapLayersDialogContent';
+import MenuDrawer from '../MenuDrawer';
+import withBreakpoint from '../../util/withBreakpoint';
 
 const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'lat',
@@ -53,6 +60,8 @@ class MapWithTrackingStateHandler extends React.Component {
     setMWTRef: PropTypes.func,
     mapRef: PropTypes.func,
     leafletEvents: PropTypes.object,
+    breakpoint: PropTypes.string,
+    lang: PropTypes.string,
   };
 
   static defaultProps = {
@@ -66,6 +75,7 @@ class MapWithTrackingStateHandler extends React.Component {
     super(props);
     this.state = {
       mapTracking: props.mapTracking,
+      settingsOpen: false,
     };
     this.naviProps = {};
   }
@@ -137,6 +147,10 @@ class MapWithTrackingStateHandler extends React.Component {
       this.props.onEndNavigation(this.mapElement);
     }
     this.navigated = true;
+  };
+
+  setSettingsOpen = value => {
+    this.setState({ settingsOpen: value });
   };
 
   render() {
@@ -213,48 +227,89 @@ class MapWithTrackingStateHandler extends React.Component {
 
     const iconColor = this.state.mapTracking ? '#ff0000' : '#78909c';
     return (
-      <MapCont
-        className="flex-grow"
-        locationPopup={this.props.locationPopup}
-        onSelectLocation={this.props.onSelectLocation}
-        leafletEvents={{
-          ...this.props.leafletEvents,
-          onDragstart: this.startNavigation,
-          onZoomstart: this.startNavigation,
-          onZoomend: this.endNavigation,
-          onDragend: this.endNavigation,
-        }}
-        {...this.naviProps}
-        {...rest}
-        mapRef={this.setMapElementRef}
-        bottomButtons={
-          <div className={btnClassName}>
-            {renderCustomButtons && renderCustomButtons()}
-            <ToggleMapTracking
-              key="toggleMapTracking"
-              img={img}
-              iconColor={iconColor}
-              handleClick={() => {
-                if (this.state.mapTracking) {
-                  this.disableMapTracking();
-                } else {
-                  // enabling tracking will trigger same navigation events as user navigation
-                  // this hack prevents those events from clearing tracking
-                  this.ignoreNavigation = true;
-                  setTimeout(() => {
-                    this.ignoreNavigation = false;
-                  }, 500);
-                  this.enableMapTracking();
-                }
-              }}
-              className="icon-mapMarker-toggle-positioning"
+      <>
+        <MapCont
+          className="flex-grow"
+          locationPopup={this.props.locationPopup}
+          onSelectLocation={this.props.onSelectLocation}
+          leafletEvents={{
+            ...this.props.leafletEvents,
+            onDragstart: this.startNavigation,
+            onZoomstart: this.startNavigation,
+            onZoomend: this.endNavigation,
+            onDragend: this.endNavigation,
+          }}
+          {...this.naviProps}
+          {...rest}
+          mapRef={this.setMapElementRef}
+          bottomButtons={
+            <div className={btnClassName}>
+              {config.map.showLayerSelector && (
+                <BubbleDialog
+                  contentClassName="select-map-layers-dialog-content"
+                  header="select-map-layers-header"
+                  icon="map-layers"
+                  id="mapLayerSelectorV2"
+                  isFullscreenOnMobile
+                  isOpen={this.state.settingsOpen}
+                  tooltip={
+                    config.mapLayers &&
+                    config.mapLayers.tooltip &&
+                    config.mapLayers.tooltip[this.props.lang]
+                  }
+                  setOpen={this.setSettingsOpen}
+                />
+              )}
+              {renderCustomButtons && renderCustomButtons()}
+              <ToggleMapTracking
+                key="toggleMapTracking"
+                img={img}
+                iconColor={iconColor}
+                handleClick={() => {
+                  if (this.state.mapTracking) {
+                    this.disableMapTracking();
+                  } else {
+                    // enabling tracking will trigger same navigation events as user navigation
+                    // this hack prevents those events from clearing tracking
+                    this.ignoreNavigation = true;
+                    setTimeout(() => {
+                      this.ignoreNavigation = false;
+                    }, 500);
+                    this.enableMapTracking();
+                  }
+                }}
+                className="icon-mapMarker-toggle-positioning"
+              />
+            </div>
+          }
+          mapLayers={mapLayers}
+        >
+          {children}
+        </MapCont>
+        {config.map.showLayerSelector && (
+          <MenuDrawer
+            open={this.state.settingsOpen}
+            onRequestChange={() => this.setSettingsOpen(false)}
+            className="offcanvas-layers"
+            breakpoint={this.props.breakpoint}
+          >
+            <MapLayersDialogContent
+              open={this.state.settingsOpen}
+              setOpen={this.setSettingsOpen}
             />
-          </div>
-        }
-        mapLayers={mapLayers}
-      >
-        {children}
-      </MapCont>
+            <button
+              type="button"
+              className="desktop-button"
+              onClick={() => this.setSettingsOpen(false)}
+            >
+              {this.context.intl.formatMessage({
+                id: 'close',
+                defaultMessage: 'Close',
+              })}
+            </button>
+          </MenuDrawer>
+        )}
+      </>
     );
   }
 }
@@ -262,14 +317,22 @@ class MapWithTrackingStateHandler extends React.Component {
 MapWithTrackingStateHandler.contextTypes = {
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
+  intl: intlShape.isRequired,
   config: PropTypes.object.isRequired,
 };
 
+const MapWithTrackingStateHandlerapWithBreakpoint = withBreakpoint(
+  MapWithTrackingStateHandler,
+);
+
 const MapWithTracking = connectToStores(
-  getContext({ config: PropTypes.object })(MapWithTrackingStateHandler),
-  [PositionStore],
+  getContext({ config: PropTypes.object })(
+    MapWithTrackingStateHandlerapWithBreakpoint,
+  ),
+  [PositionStore, PreferencesStore],
   ({ getStore }) => ({
     position: getStore(PositionStore).getLocationState(),
+    lang: getStore(PreferencesStore).getLanguage(),
   }),
 );
 

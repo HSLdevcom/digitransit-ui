@@ -1,22 +1,27 @@
 import PropTypes from 'prop-types';
 import React, { useRef, useEffect } from 'react';
 import Link from 'found/Link';
+import { intlShape } from 'react-intl';
 import VehicleIcon from './VehicleIcon';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
-function PatternLink({
-  mode,
-  pattern,
-  route,
-  vehicleNumber,
-  selected = false,
-  setHumanScrolling,
-  color,
-  keepTracking,
-}) {
+function PatternLink(
+  {
+    mode,
+    pattern,
+    route,
+    vehicleNumber,
+    selected = false,
+    setHumanScrolling,
+    color,
+    keepTracking,
+    stopName,
+    nextStopName,
+  },
+  context,
+) {
   const trackedVehicleRef = useRef();
   const shouldUpdate = useRef(true);
-
   useEffect(() => {
     if (selected && keepTracking && shouldUpdate.current) {
       setHumanScrolling(false);
@@ -45,10 +50,37 @@ function PatternLink({
     }
   });
 
+  const localizedMode = context.intl.formatMessage({
+    id: `${mode}`,
+    defaultMessage: `${mode}`,
+  });
+  const ariaMessage = nextStopName
+    ? context.intl.formatMessage(
+        {
+          id: 'route-page-vehicle-position-between',
+          defaultMessage:
+            '{mode} {shortName} is between {stopName} and {nextStopName}',
+        },
+        {
+          stopName,
+          nextStopName,
+          mode: localizedMode,
+          shortName: vehicleNumber,
+        },
+      )
+    : context.intl.formatMessage(
+        {
+          id: 'route-page-vehicle-position',
+          defaultMessage: '{mode} {shortName} is at {stopName}',
+        },
+        { stopName, mode: localizedMode, shortName: vehicleNumber },
+      );
+
   const icon = (
     <Link
       to={`/${PREFIX_ROUTES}/${route}/${PREFIX_STOPS}/${pattern}`}
       className="route-now-content"
+      aria-label={ariaMessage}
     >
       <VehicleIcon
         mode={mode}
@@ -78,6 +110,12 @@ PatternLink.propTypes = {
   color: PropTypes.string,
   setHumanScrolling: PropTypes.func,
   keepTracking: PropTypes.bool,
+  stopName: PropTypes.string,
+  nextStopName: PropTypes.string,
+};
+
+PatternLink.contextTypes = {
+  intl: intlShape.isRequired,
 };
 
 export default PatternLink;

@@ -5,21 +5,8 @@ import moment from 'moment';
 import TransitLeg from './TransitLeg';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const SubwayLeg = ({
-  leg,
-  focusAction,
-  index,
-  isNextLegInterlining,
-  interliningWait,
-}) => (
-  <TransitLeg
-    mode="SUBWAY"
-    leg={leg}
-    focusAction={focusAction}
-    index={index}
-    interliningWait={interliningWait}
-    isNextLegInterlining={isNextLegInterlining}
-  >
+const SubwayLeg = ({ leg, ...props }) => (
+  <TransitLeg mode="SUBWAY" leg={leg} {...props}>
     <FormattedMessage
       id="subway-with-route-number"
       values={{

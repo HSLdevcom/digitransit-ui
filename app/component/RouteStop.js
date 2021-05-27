@@ -56,6 +56,7 @@ const RouteStop = (
     last,
     mode,
     stop,
+    nextStop,
     vehicle,
     displayNextDeparture,
     shortName,
@@ -164,7 +165,12 @@ const RouteStop = (
       vehicleTripLink = vehicle.tripId ? (
         <TripLink key={vehicle.id} vehicle={vehicle} shortName={shortName} />
       ) : (
-        <FuzzyTripLink key={vehicle.id} vehicle={vehicle} />
+        <FuzzyTripLink
+          stopName={stop.name}
+          nextStopName={nextStop ? nextStop.name : null}
+          key={vehicle.id}
+          vehicle={vehicle}
+        />
       );
     }
     return (
@@ -173,7 +179,6 @@ const RouteStop = (
       </div>
     );
   };
-
   return (
     <div
       className={cx('route-stop location-details_container ', className)}
@@ -214,7 +219,7 @@ const RouteStop = (
           }}
           aria-label={getText()}
         >
-          <div>
+          <div className="route-stop-container">
             <div className="route-details-upper-row">
               <div className={` route-details_container ${mode}`}>
                 <div className="route-stop-name">
@@ -287,6 +292,7 @@ RouteStop.propTypes = {
   color: PropTypes.string,
   vehicle: PropTypes.object,
   stop: PropTypes.object,
+  nextStop: PropTypes.object,
   mode: PropTypes.string,
   className: PropTypes.string,
   currentTime: PropTypes.number.isRequired,

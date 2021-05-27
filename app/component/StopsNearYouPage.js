@@ -632,6 +632,7 @@ class StopsNearYouPage extends React.Component {
     const filteredMapLayers = {
       ...this.props.mapLayers,
       citybike: mode === 'CITYBIKE',
+      citybikeOverrideMinZoom: mode === 'CITYBIKE',
       stop: {},
     };
     if (mode !== 'CITYBIKE') {
@@ -843,7 +844,6 @@ class StopsNearYouPage extends React.Component {
                   />
                 )
               }
-              scrollable
               bckBtnFallback="back"
               content={this.renderContent()}
               map={
