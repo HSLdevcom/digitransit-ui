@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { intlShape } from 'react-intl';
+import cx from 'classnames';
 import {
   Chademo,
   DomesticF,
@@ -12,7 +13,6 @@ import {
   IEC62196T2Combo,
   TeslaS,
 } from 'react-charging-station-connector-icons';
-import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import { station as exampleStation } from '../../ExampleData';
@@ -20,6 +20,7 @@ import ComponentUsageExample from '../../ComponentUsageExample';
 import ChargingStations from '../tile-layer/ChargingStations';
 import Loading from '../../Loading';
 import Icon from '../../Icon';
+import withBreakpoint from '../../../util/withBreakpoint';
 
 const CONNECTOR_ICONS_MAP = {
   CHADEMO: <Chademo variant="light" subtitle="false" />,
@@ -73,29 +74,29 @@ const getConnectors = evses => {
   }));
 };
 
-const ChargingStationPopup = (props, context) => {
+const ChargingStationContent = ({ match, breakpoint }, context) => {
   const CHARGING_STATION_DETAILS_API =
     'https://ochp.next-site.de/api/ocpi/2.2/location/';
-  const { lat, lon } = props;
   const [details, setDetails] = useState({});
   const [connectors, setConnectors] = useState([]);
   const [loading, setLoading] = useState(true);
+  const isMobile = breakpoint !== 'large';
 
   useEffect(() => {
     setLoading(true);
     setDetails({});
-    fetch(`${CHARGING_STATION_DETAILS_API}${props.id}`)
+    fetch(`${CHARGING_STATION_DETAILS_API}${match.location.query.stationId}`)
       .then(res => res.json())
       .then(data => {
         setConnectors(getConnectors(data.evses));
         setLoading(false);
         setDetails(data);
       });
-  }, [props]);
+  }, [match.location.query]);
 
   const getCapacity = () => {
     const { intl } = context;
-    const { capacity, available } = props;
+    const { capacity, available } = match.location.query;
 
     if (typeof available === 'number') {
       return intl.formatMessage(
@@ -113,7 +114,7 @@ const ChargingStationPopup = (props, context) => {
           id: 'charging-spaces-in-total',
           defaultMessage: 'Capacity: {capacity} parking spaces',
         },
-        props,
+        match.location.query,
       );
     }
     return null;
@@ -223,16 +224,22 @@ const ChargingStationPopup = (props, context) => {
 
   return !loading ? (
     <Card className="charging-station-card">
-      <div className="padding-normal charging-station-popup">
+      <div
+        className={cx(
+          'padding-normal',
+          'charging-station-popup',
+          isMobile ? 'padding-horizontal-large' : 'padding-horizontal-xlarge',
+        )}
+      >
         <CardHeader
           name={details.name}
           descClass="padding-vertical-small"
           unlinked
-          icon={ChargingStations.getIcon(props)}
-          className="padding-medium"
-          headingStyle="h2"
+          icon={ChargingStations.getIcon(match.location.query)}
+          headingStyle="h1"
           description=""
           showCardSubHeader={false}
+          showBackButton={!isMobile}
         />
         <div className="content">
           <div className="text-light">
@@ -269,14 +276,6 @@ const ChargingStationPopup = (props, context) => {
           {getDirectDeepLink()}
         </div>
       </div>
-      <MarkerPopupBottom
-        onSelectLocation={props.onSelectLocation}
-        location={{
-          address: details.address,
-          lat,
-          lon,
-        }}
-      />
     </Card>
   ) : (
     <Card>
@@ -297,20 +296,16 @@ const ChargingStationPopup = (props, context) => {
   );
 };
 
-ChargingStationPopup.propTypes = {
-  id: PropTypes.number.isRequired,
-  capacity: PropTypes.number.isRequired,
-  available: PropTypes.number.isRequired,
-  lat: PropTypes.number.isRequired,
-  lon: PropTypes.number.isRequired,
-  onSelectLocation: PropTypes.func.isRequired,
+ChargingStationContent.propTypes = {
+  match: PropTypes.object,
+  breakpoint: PropTypes.string.isRequired,
 };
 
-ChargingStationPopup.description = (
+ChargingStationContent.description = (
   <div>
     <p>Renders a citybike popup.</p>
     <ComponentUsageExample description="">
-      <ChargingStationPopup
+      <ChargingStationContent
         id={123}
         capacity={1}
         available={1}
@@ -320,13 +315,13 @@ ChargingStationPopup.description = (
         station={exampleStation}
       >
         Im content of a citybike card
-      </ChargingStationPopup>
+      </ChargingStationContent>
     </ComponentUsageExample>
   </div>
 );
 
-ChargingStationPopup.contextTypes = {
+ChargingStationContent.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-export default ChargingStationPopup;
+export default withBreakpoint(ChargingStationContent);

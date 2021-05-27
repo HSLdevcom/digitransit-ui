@@ -15,6 +15,7 @@ import {
   PREFIX_NEARYOU,
   PREFIX_BIKESTATIONS,
   PREFIX_ROADWORKS,
+  PREFIX_CHARGING_STATIONS,
   LOCAL_STORAGE_EMITTER_PATH,
   createReturnPath,
   TAB_NEARBY,
@@ -79,6 +80,28 @@ export default config => {
       {getStopRoutes()}
       {getStopRoutes(true) /* terminals */}
       {routeRoutes}
+      <Route path={`/${PREFIX_CHARGING_STATIONS}`}>
+        {{
+          content: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "charging stations" */ './component/map/sidebar/ChargingStationContent'
+                ).then(getDefault)
+              }
+            />
+          ),
+          map: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "map" */ './component/map/SidebarMap.js'
+                ).then(getDefault)
+              }
+            />
+          ),
+        }}
+      </Route>
       <Route path={`/${PREFIX_ROADWORKS}`}>
         {{
           content: (
@@ -92,7 +115,6 @@ export default config => {
           ),
           map: (
             <Route
-              disableMapOnMobile={false}
               getComponent={() =>
                 import(
                   /* webpackChunkName: "map" */ './component/map/SidebarMap.js'

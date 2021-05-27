@@ -70,10 +70,10 @@ class RoadworksContent extends React.Component {
     const isMobile = breakpoint !== 'large';
     const url = properties.details_url;
     return (
-      <div className={cx('card', 'card-padding')} style={{ border: 'none' }}>
+      <div className="card" style={{ border: 'none', paddingTop: '2.6em' }}>
         <div
           className={cx(
-            isMobile ? 'padding-horizontal' : 'padding-horizontal-xlarge',
+            isMobile ? 'padding-horizontal-large' : 'padding-horizontal-xlarge',
           )}
         >
           <CardHeader
