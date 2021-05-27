@@ -5,7 +5,6 @@ import { intlShape } from 'react-intl';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import ComponentUsageExample from '../../ComponentUsageExample';
-import BackButton from '../../BackButton';
 
 class RoadworksContent extends React.Component {
   static contextTypes = {
@@ -67,37 +66,31 @@ class RoadworksContent extends React.Component {
 
     const url = properties.details_url;
     return (
-      <Card>
-        <div style={{ padding: '30px' }}>
-          <BackButton
-            icon="icon-icon_arrow-collapse--left"
-            iconClassName="arrow-icon"
+      <Card className="card-padding">
+        <div className="padding-horizontal-xlarge">
+          <CardHeader
+            name={properties.locationStreet}
+            description={duration}
+            unlinked
+            showBackButton
+            headingStyle="h1"
           />
-          <div className="padding-horizontal-large">
-            <CardHeader
-              name={properties.locationStreet}
-              description={duration}
-              unlinked
-              className="padding-medium"
-              headingStyle="h2"
-            />
-            <div>
-              {properties.locationDescription && (
-                <p>{properties.locationDescription}</p>
-              )}
-              <p>{properties.description}</p>
-              {url && (
-                <p>
-                  {/* eslint-disable-next-line react/jsx-no-target-blank */}
-                  <a href={url} target="_blank">
-                    {intl.formatMessage({
-                      id: 'extra-info',
-                      defaultMessage: 'More information',
-                    })}
-                  </a>
-                </p>
-              )}
-            </div>
+          <div>
+            {properties.locationDescription && (
+              <p>{properties.locationDescription}</p>
+            )}
+            <p>{properties.description}</p>
+            {url && (
+              <p>
+                {/* eslint-disable-next-line react/jsx-no-target-blank */}
+                <a href={url} target="_blank">
+                  {intl.formatMessage({
+                    id: 'extra-info',
+                    defaultMessage: 'More information',
+                  })}
+                </a>
+              </p>
+            )}
           </div>
         </div>
       </Card>

@@ -325,7 +325,7 @@ class TileLayerContainer extends GridLayer {
             this.state.selectableTargets[0].feature.properties[
               'location.street'
             ] || '';
-          this.context.router.push(
+          this.context.router.replace(
             `/roadworks?${new URLSearchParams({
               starttime,
               endtime,
