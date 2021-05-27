@@ -279,6 +279,13 @@ function drawIconImageBadge(
   );
 }
 
+function getSelectedIconCircleOffset(zoom, ratio) {
+  if (zoom > 15) {
+    return 94 / ratio;
+  }
+  return 78 / ratio;
+}
+
 function drawSelectionCircle(
   tile,
   x,
@@ -345,13 +352,6 @@ const getMemoizedStopIcon = memoize(
   (type, radius, color, isHilighted) =>
     `${type}_${radius}_${color}_${isHilighted}`,
 );
-
-function getSelectedIconCircleOffset(zoom, ratio) {
-  if (zoom > 15) {
-    return 94 / ratio;
-  }
-  return 78 / ratio;
-}
 
 /**
  * Draw stop icon based on type.

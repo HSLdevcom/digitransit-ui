@@ -56,7 +56,6 @@ class Timetable extends React.Component {
 
   constructor(props) {
     super(props);
-    this.setRouteVisibilityState = this.setRouteVisibilityState.bind(this);
     this.state = {
       showRoutes: [],
       showFilterModal: false,
