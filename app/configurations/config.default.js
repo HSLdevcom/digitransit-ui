@@ -713,7 +713,6 @@ export default {
 
   availableTickets: {},
   zones: {
-    routes: true,
     stops: false,
     itinerary: false,
   },
