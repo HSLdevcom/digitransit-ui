@@ -11,7 +11,7 @@ then
 fi
 
 # Silence output and send to background
-CONFIG=hsl NO_AXE=true yarn run dev >/dev/null 2>&1 &
+CONFIG=hsl yarn run dev >/dev/null 2>&1 &
 
 echo "Waiting for the Digitransit UI to start..."
 # Wait until server is accepting connections
