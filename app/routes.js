@@ -84,7 +84,7 @@ export default config => {
             <Route
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "about" */ './component/map/sidebar/RoadworksContent'
+                  /* webpackChunkName: "roadworks" */ './component/map/sidebar/RoadworksContent'
                 ).then(getDefault)
               }
             />
@@ -94,7 +94,7 @@ export default config => {
               disableMapOnMobile={false}
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/map/IndexPageMap.js'
+                  /* webpackChunkName: "map" */ './component/map/SidebarMap.js'
                 ).then(getDefault)
               }
             />

@@ -2,9 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
-import Card from '../../Card';
+import cx from 'classnames';
 import CardHeader from '../../CardHeader';
 import ComponentUsageExample from '../../ComponentUsageExample';
+import withBreakpoint from '../../../util/withBreakpoint';
 
 class RoadworksContent extends React.Component {
   static contextTypes = {
@@ -13,6 +14,7 @@ class RoadworksContent extends React.Component {
   };
 
   static propTypes = {
+    breakpoint: PropTypes.string.isRequired,
     match: PropTypes.object,
   };
 
@@ -51,6 +53,7 @@ class RoadworksContent extends React.Component {
         match: {
           location: { query: properties },
         },
+        breakpoint,
       },
       context: { intl },
     } = this;
@@ -64,15 +67,20 @@ class RoadworksContent extends React.Component {
       </span>
     );
 
+    const isMobile = breakpoint !== 'large';
     const url = properties.details_url;
     return (
-      <Card className="card-padding">
-        <div className="padding-horizontal-xlarge">
+      <div className={cx('card', 'card-padding')} style={{ border: 'none' }}>
+        <div
+          className={cx(
+            isMobile ? 'padding-horizontal' : 'padding-horizontal-xlarge',
+          )}
+        >
           <CardHeader
             name={properties.locationStreet}
             description={duration}
             unlinked
-            showBackButton
+            showBackButton={!isMobile}
             headingStyle="h1"
           />
           <div>
@@ -93,9 +101,9 @@ class RoadworksContent extends React.Component {
             )}
           </div>
         </div>
-      </Card>
+      </div>
     );
   }
 }
 
-export default RoadworksContent;
+export default withBreakpoint(RoadworksContent);

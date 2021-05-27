@@ -10,6 +10,7 @@ import isEqual from 'lodash/isEqual';
 import Popup from 'react-leaflet/es/Popup';
 import { withLeaflet } from 'react-leaflet/es/context';
 import { matchShape, routerShape } from 'found';
+import pickBy from 'lodash/pickBy';
 import { mapLayerShape } from '../../../store/MapLayerStore';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopupContainer';
@@ -309,31 +310,31 @@ class TileLayerContainer extends GridLayer {
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'roadworks') {
-          this.setState({ selectableTargets: undefined });
           const {
             starttime,
             endtime,
-            // eslint-disable-next-line camelcase
-            details_url,
+            details_url: detailsUrl,
+            'location.location_description': locationDescription,
+            'location.street': locationStreet,
             description,
           } = this.state.selectableTargets[0].feature.properties;
-          const locationDescription =
-            this.state.selectableTargets[0].feature[
-              'location.location_description'
-            ] || '';
-          const locationStreet =
-            this.state.selectableTargets[0].feature.properties[
-              'location.street'
-            ] || '';
-          this.context.router.replace(
-            `/roadworks?${new URLSearchParams({
+          const { lat, lng } = this.state.coords;
+          const params = pickBy(
+            {
+              lat,
+              lng,
               starttime,
               endtime,
-              details_url,
+              detailsUrl,
               description,
               locationDescription,
               locationStreet,
-            }).toString()}`,
+            },
+            v => v !== undefined,
+          );
+          this.setState({ selectableTargets: undefined });
+          this.context.router.replace(
+            `/roadworks?${new URLSearchParams(params).toString()}`,
           );
           showPopup = false;
         } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {
