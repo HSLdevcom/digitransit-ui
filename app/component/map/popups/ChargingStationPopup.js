@@ -121,28 +121,37 @@ const ChargingStationPopup = (props, context) => {
 
   const getDirectDeepLink = () => {
     const { intl } = context;
-    const link = details?.evses
-      ? details.evses[0]?.related_resource[0]?.url
-      : undefined;
+    let link;
+
+    if (
+      details &&
+      details.evses &&
+      details.evses[0] &&
+      details.evses[0].related_resource
+    ) {
+      link = details.evses[0]?.related_resource[0]?.url;
+    }
     return (
       link && (
-        // eslint-disable-next-line react/jsx-no-target-blank
-        <a href={link} target="_blank">
-          {intl.formatMessage({
-            id: 'charging-direct-deep-link',
-            defaultMessage: 'Start charging',
-          })}
-        </a>
+        <div>
+          <Icon className="charging-station-icon" img="icon-icon_power" />
+          <span className="text-alignment">
+            {/* eslint-disable-next-line react/jsx-no-target-blank */}
+            <a href={link} target="_blank">
+              {intl.formatMessage({
+                id: 'charging-direct-deep-link',
+                defaultMessage: 'Start charging',
+              })}
+            </a>
+          </span>
+        </div>
       )
     );
   };
 
   const getOpeningTimes = () => {
     const { intl } = context;
-    const openingTimes =
-      details?.opening_times || details?.evses
-        ? details.evses[0].opening_times
-        : undefined;
+    const openingTimes = details?.opening_times;
     return (
       openingTimes?.twentyfourseven && (
         <div>
@@ -257,10 +266,7 @@ const ChargingStationPopup = (props, context) => {
             <span className="text-alignment">{getPhoneNumber()}</span>
           </div>
           <div className="charging-station-divider" />
-          <div>
-            <Icon className="charging-station-icon" img="icon-icon_power" />
-            <span className="text-alignment">{getDirectDeepLink()}</span>
-          </div>
+          {getDirectDeepLink()}
         </div>
       </div>
       <MarkerPopupBottom
