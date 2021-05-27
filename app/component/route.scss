@@ -1093,7 +1093,7 @@ $margin-left-right: 1.333em;
         line-height: 18px;
         letter-spacing: -0.03em;
         .react-autosuggest__section-title {
-          font-weight: 500;
+          font-weight: var(--sectionTitleFontWeight);
           border-bottom: 1px solid #dddddd;
           min-height: 44px;
           padding: 13px 16px;

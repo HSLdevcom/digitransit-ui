@@ -30,8 +30,8 @@ const prepareRouteScheduleParams = (params, match) => {
 
   return {
     ...params,
-    serviceDay: serviceDay.format(DATE_FORMAT),
-    date: serviceDay.format(DATE_FORMAT),
+    serviceDate: serviceDay.format(DATE_FORMAT),
+    date: moment().format(DATE_FORMAT),
     wk1day1: dayArray[0][0],
     wk1day2: dayArray[0][1],
     wk1day3: dayArray[0][2],

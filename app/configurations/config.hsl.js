@@ -52,7 +52,7 @@ export default {
 
   showHSLTracking: false,
   allowLogin: true,
-  allowFavouritesFromLocalstorage: true,
+  allowFavouritesFromLocalstorage: !process.env.OIDC_CLIENT_ID,
 
   nearbyRoutes: {
     radius: 500,

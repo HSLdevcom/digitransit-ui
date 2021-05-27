@@ -210,7 +210,9 @@ export default (
             }
             query={graphql`
               query routeRoutes_RouteScheduleContainer_Query(
+                $routeId: String!
                 $patternId: String!
+                $serviceDate: String!
                 $date: String!
                 $wk1day1: String!
                 $wk1day2: String!
@@ -250,7 +252,10 @@ export default (
               ) {
                 pattern(id: $patternId) {
                   ...RouteScheduleContainer_pattern
-                  @arguments(serviceDay: $date)
+                }
+                route(id: $routeId) {
+                  ...RouteScheduleContainer_route
+                  @arguments(date: $date, serviceDate: $serviceDate)
                 }
                 firstDepartures: pattern(id: $patternId) {
                   ...RouteScheduleContainer_firstDepartures
