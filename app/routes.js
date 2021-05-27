@@ -14,6 +14,7 @@ import {
   PREFIX_ITINERARY_SUMMARY,
   PREFIX_NEARYOU,
   PREFIX_BIKESTATIONS,
+  PREFIX_ROADWORKS,
   LOCAL_STORAGE_EMITTER_PATH,
   createReturnPath,
   TAB_NEARBY,
@@ -78,7 +79,7 @@ export default config => {
       {getStopRoutes()}
       {getStopRoutes(true) /* terminals */}
       {routeRoutes}
-      <Route path="/roadworks">
+      <Route path={`/${PREFIX_ROADWORKS}`}>
         {{
           content: (
             <Route

@@ -25,6 +25,7 @@ import {
   PREFIX_BIKESTATIONS,
   PREFIX_STOPS,
   PREFIX_TERMINALS,
+  PREFIX_ROADWORKS,
 } from '../../../util/path';
 import DynamicParkingLotsPopup from '../popups/DynamicParkingLotsPopup';
 import BikeParkPopup from '../popups/BikeParkPopup';
@@ -334,7 +335,7 @@ class TileLayerContainer extends GridLayer {
           );
           this.setState({ selectableTargets: undefined });
           this.context.router.replace(
-            `/roadworks?${new URLSearchParams(params).toString()}`,
+            `/${PREFIX_ROADWORKS}?${new URLSearchParams(params).toString()}`,
           );
           showPopup = false;
         } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {

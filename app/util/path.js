@@ -15,6 +15,7 @@ export const PREFIX_TERMINALS = 'busbahnhoefe';
 export const PREFIX_ITINERARY_SUMMARY = 'reiseplan';
 export const PREFIX_DISRUPTION = 'stoerungen';
 export const PREFIX_TIMETABLE = 'fahrplan';
+export const PREFIX_ROADWORKS = 'baustellen';
 export const stopUrl = id => id;
 export const LOCAL_STORAGE_EMITTER_PATH = '/local-storage-emitter';
 
