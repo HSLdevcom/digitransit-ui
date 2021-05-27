@@ -90,7 +90,9 @@ export default configMerger(walttiConfig, {
       {
         header: 'Tietoja palvelusta',
         paragraphs: [
-          'Tämän palvelun tarjoaa Vaasa reittisuunnittelua varten Vaasa alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit-palvelualustaan.',
+          'Reittiopas-palvelu perustuu Digitransit-palvelualustaan ja tarjoaa Vaasan kaupungin joukkoliikenteen reittisuunnittelun. Palvelu paikantaa sijaintisi ja kertoo lähimmät linjat, pysäkit ja reitit reaaliaikaisesti. Palvelusta löydät paikallisen ja muutaman seudullisen joukkoliikenteen reitit ja aikataulut.',
+          'Reittiopas näyttää Vaasan joukkoliikenteen linja-autojen gps-seurantaan perustuvia, reaaliaikaisia aikatauluarvioita sekä aikataulusuunnitelman mukaisia aikataulutietoja. Reaaliaikaisena tieto näkyy silloin, kun vuoro on liikkeellä ja lähettää palveluun seurantatietoa. Reaaliaikaisen tiedon tunnistaa saapumisajan ohessa vilkkuvasta reaaliaikasymbolista.',
+          'Huom. Ole ajoissa pysäkillä, sillä välipysäkeille ei jäädä odottamaan arvion mukaista lähtöaikaa, vaan auton matka jatkuu välittömästi.',
         ],
       },
     ],
@@ -99,7 +101,9 @@ export default configMerger(walttiConfig, {
       {
         header: 'Om tjänsten',
         paragraphs: [
-          'Den här tjänsten erbjuds av Vaasa för reseplanering inom Vaasa region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
+          'Tjänsten Reseplaneraren grundar sig på plattformen Digitransit och erbjuder ruttsökning i Vasa stads kollektivtrafik. Tjänstens lokaliserar var du är och berättar var de närmaste linjerna, hållplatserna och rutterna finns i realtid. I tjänsten hittar du rutter och tidtabeller till de lokala bussarna och även några regionala bussar i kollektivtrafiken.',
+          'Reseplaneraren visar tidtabellsuppskattningar i realtid, vilka grundar sig på gps-uppföljning av bussarna i Vasas kollektivtrafik samt tidtabellsuppgifter enligt tidtabellsplanen. Informationen kan ses i realtid, då en buss är i rörelse och sänder uppgifter om sin färd till tjänsten. Uppgiften i realtid identifieras utöver av ankomsttiden också av en blinkande realtidssymbol.',
+          'Obs! Var i tid på hållplatsen, eftersom bussen inte stannar och väntar på den angivna avgångstiden vid mellanhållplatserna, utan den fortsätter omedelbart sin färd när passagerarna har stigit av och på.',
         ],
       },
     ],
@@ -108,7 +112,9 @@ export default configMerger(walttiConfig, {
       {
         header: 'About this service',
         paragraphs: [
-          'This service is provided by Vaasa for route planning in Vaasa region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
+          'The journey planner service is based on the Digitransit service platform and shows the City of Vaasa’s public transport route planning. The service finds your location and tells you the nearest routes and stops in real time. In the service you will find routes and timetables for both local and a few regional public transport networks.',
+          'The journey planner provides real-time timetable estimates based on GPS monitoring of Vaasa public transport buses as well as timetable information. In real time, the information is displayed when the transport is on the move and sends tracking information to the service. Real-time information is identified by a flashing real-time symbol next to the arrival time.',
+          'Note. Be on time at a stop, as there is no waiting time at the intermediate stops according to the estimated departure time. Instead, the vehicle’s journey continues immediately.',
         ],
       },
     ],
