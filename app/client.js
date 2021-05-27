@@ -108,7 +108,7 @@ async function init() {
   initAnalyticsClientSide();
 
   if (process.env.NODE_ENV === 'development') {
-    if (!config.NO_AXE) {
+    if (config.AXE) {
       const axeConfig = {
         resultTypes: ['violations'],
       };
