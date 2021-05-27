@@ -90,7 +90,7 @@ class RoutePage extends React.Component {
               >
                 {route.shortName}
               </div>
-              {tripId && (
+              {tripId && route.patterns[1]?.headsign && (
                 <div className="trip-destination">
                   <Icon className="in-text-arrow" img="icon-icon_arrow-right" />
                   <div className="destination-headsign">
