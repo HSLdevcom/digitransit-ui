@@ -126,7 +126,8 @@ const ChargingStationPopup = (props, context) => {
       : undefined;
     return (
       link && (
-        <a href={link}>
+        // eslint-disable-next-line react/jsx-no-target-blank
+        <a href={link} target="_blank">
           {intl.formatMessage({
             id: 'charging-direct-deep-link',
             defaultMessage: 'Start charging',
