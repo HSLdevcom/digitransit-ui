@@ -210,6 +210,7 @@ export default (
             }
             query={graphql`
               query routeRoutes_RouteScheduleContainer_Query(
+                $showAdditionalWeeks: Boolean!
                 $routeId: String!
                 $patternId: String!
                 $serviceDate: String!
@@ -249,6 +250,41 @@ export default (
                 $wk5day5: String!
                 $wk5day6: String!
                 $wk5day7: String!
+                $wk6day1: String
+                $wk6day2: String
+                $wk6day3: String
+                $wk6day4: String
+                $wk6day5: String
+                $wk6day6: String
+                $wk6day7: String
+                $wk7day1: String
+                $wk7day2: String
+                $wk7day3: String
+                $wk7day4: String
+                $wk7day5: String
+                $wk7day6: String
+                $wk7day7: String
+                $wk8day1: String
+                $wk8day2: String
+                $wk8day3: String
+                $wk8day4: String
+                $wk8day5: String
+                $wk8day6: String
+                $wk8day7: String
+                $wk9day1: String
+                $wk9day2: String
+                $wk9day3: String
+                $wk9day4: String
+                $wk9day5: String
+                $wk9day6: String
+                $wk9day7: String
+                $wk10day1: String
+                $wk10day2: String
+                $wk10day3: String
+                $wk10day4: String
+                $wk10day5: String
+                $wk10day6: String
+                $wk10day7: String
               ) {
                 pattern(id: $patternId) {
                   ...RouteScheduleContainer_pattern
@@ -260,6 +296,7 @@ export default (
                 firstDepartures: pattern(id: $patternId) {
                   ...RouteScheduleContainer_firstDepartures
                   @arguments(
+                    showAdditionalWeeks: $showAdditionalWeeks
                     wk1day1: $wk1day1
                     wk1day2: $wk1day2
                     wk1day3: $wk1day3
@@ -295,6 +332,41 @@ export default (
                     wk5day5: $wk5day5
                     wk5day6: $wk5day6
                     wk5day7: $wk5day7
+                    wk6day1: $wk6day1
+                    wk6day2: $wk6day2
+                    wk6day3: $wk6day3
+                    wk6day4: $wk6day4
+                    wk6day5: $wk6day5
+                    wk6day6: $wk6day6
+                    wk6day7: $wk6day7
+                    wk7day1: $wk7day1
+                    wk7day2: $wk7day2
+                    wk7day3: $wk7day3
+                    wk7day4: $wk7day4
+                    wk7day5: $wk7day5
+                    wk7day6: $wk7day6
+                    wk7day7: $wk7day7
+                    wk8day1: $wk8day1
+                    wk8day2: $wk8day2
+                    wk8day3: $wk8day3
+                    wk8day4: $wk8day4
+                    wk8day5: $wk8day5
+                    wk8day6: $wk8day6
+                    wk8day7: $wk8day7
+                    wk9day1: $wk9day1
+                    wk9day2: $wk9day2
+                    wk9day3: $wk9day3
+                    wk9day4: $wk9day4
+                    wk9day5: $wk9day5
+                    wk9day6: $wk9day6
+                    wk9day7: $wk9day7
+                    wk10day1: $wk10day1
+                    wk10day2: $wk10day2
+                    wk10day3: $wk10day3
+                    wk10day4: $wk10day4
+                    wk10day5: $wk10day5
+                    wk10day6: $wk10day6
+                    wk10day7: $wk10day7
                   )
                 }
               }
