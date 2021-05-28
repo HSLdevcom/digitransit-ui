@@ -42,7 +42,7 @@ function addMetaData(config) {
           e.content = config.colors.primary;
         } else if (e.name === 'apple-mobile-web-app-status-bar-style') {
           // eslint-disable-next-line no-param-reassign
-          e.content = config.colors.primary;
+          e.content = 'default';
         }
       });
       data.link.forEach(e => {
