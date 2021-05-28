@@ -2,14 +2,24 @@ $citybike-available-color: $citybike-color;
 $citybike-not-available-color: $light-gray;
 
 .city-bike-medium-size {
-  font-size: 20px;
-  border: 1px solid white;
-  border-radius: $border-radius;
+  font-size: 42px;
 }
-
+.icon-badge {
+  width: 18px;
+  height: 18px;
+  top: -15px;
+  left: 19px;
+  .badge-circle {
+    stroke-width: 1px;
+    border-radius: 50%;
+  }
+}
 .availability-container {
 
   .availability-header {
+    .available-bikes {
+      font-weight: 500;
+    }
     margin-top: 5px !important;
     margin-bottom: 6px !important;
   }

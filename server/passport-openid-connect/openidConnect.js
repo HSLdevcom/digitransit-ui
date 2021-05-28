@@ -11,10 +11,10 @@ const clearAllUserSessions = false; // set true if logout should erase all user'
 
 const debugLogging = process.env.DEBUGLOGGING;
 
-export default function setUpOIDC(app, port, indexPath) {
-  const hostname = process.env.HOSTNAME || `http://localhost:${port}`;
+export default function setUpOIDC(app, port, indexPath, hostnames) {
   /* ********* Setup OpenID Connect ********* */
   const callbackPath = '/oid_callback'; // connect callback path
+  const logoutCallbackPath = '/logout/callback';
   // Use Passport with OpenId Connect strategy to authenticate users
   const OIDCHost = process.env.OIDCHOST || 'https://hslid-dev.t5.fi';
   const FavouriteHost =
@@ -29,14 +29,25 @@ export default function setUpOIDC(app, port, indexPath) {
         tls: { servername: RedisHost },
       })
     : redis.createClient(RedisPort, RedisHost);
+
+  const redirectUris = hostnames.map(host => `${host}${callbackPath}`);
+  const postLogoutRedirectUris = hostnames.map(
+    host => `${host}${logoutCallbackPath}`,
+  );
+  if (process.env.NODE_ENV === 'development') {
+    redirectUris.push(`http://localhost:${port}${callbackPath}`);
+    postLogoutRedirectUris.push(
+      `http://localhost:${port}${logoutCallbackPath}`,
+    );
+  }
+
   const oic = new LoginStrategy({
     issuerHost:
       process.env.OIDC_ISSUER || `${OIDCHost}/.well-known/openid-configuration`,
     client_id: process.env.OIDC_CLIENT_ID,
     client_secret: process.env.OIDC_CLIENT_SECRET,
-    redirect_uri:
-      process.env.OIDC_CLIENT_CALLBACK || `${hostname}${callbackPath}`,
-    post_logout_redirect_uris: [`${hostname}/logout/callback`],
+    redirect_uris: redirectUris,
+    post_logout_redirect_uris: postLogoutRedirectUris,
     scope: 'openid profile',
     sessionCallback(userId, sessionId) {
       // keep track of per-user sessions
@@ -73,42 +84,19 @@ export default function setUpOIDC(app, port, indexPath) {
       ssoValidTo &&
       ssoValidTo > moment().unix()
     ) {
+      const params = Object.keys(req.query)
+        .map(k => `${k}=${req.query[k]}`)
+        .join('&');
       if (debugLogging) {
         console.log(
           'redirecting to login with sso token ',
           JSON.stringify(ssoToken),
         );
       }
-      res.redirect('/login');
+      res.redirect(`/login?${params}&url=${req.path}`);
     } else {
       next();
     }
-  };
-
-  const setReturnTo = function (req, res, next) {
-    const paths = [
-      '/fi/',
-      '/en/',
-      '/sv/',
-      '/reitti/',
-      '/pysakit/',
-      '/linjat/',
-      '/terminaalit/',
-      '/pyoraasemat/',
-      '/lahellasi/',
-    ];
-    if (
-      (req.path === `/${indexPath}` ||
-        paths.some(path => req.path.includes(path))) &&
-      !req.isAuthenticated() &&
-      !req.path.includes('time-a')
-    ) {
-      const params = Object.keys(req.query)
-        .map(k => `${k}=${req.query[k]}`)
-        .join('&');
-      req.session.returnTo = `${req.path}?${params}`;
-    }
-    next();
   };
 
   const refreshTokens = function (req, res, next) {
@@ -134,14 +122,14 @@ export default function setUpOIDC(app, port, indexPath) {
         host: RedisHost,
         port: RedisPort,
         client: RedisClient,
-        ttl: 1000 * 60 * 60 * 24 * 365 * 10,
+        ttl: 60 * 60 * 24 * 60,
       }),
       resave: false,
       saveUninitialized: false,
       cookie: {
         secure: process.env.NODE_ENV === 'production',
         httpOnly: process.env.NODE_ENV === 'production',
-        maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
+        maxAge: 1000 * 60 * 60 * 24 * 60,
         sameSite: 'none',
       },
     }),
@@ -153,22 +141,22 @@ export default function setUpOIDC(app, port, indexPath) {
   passport.use('passport-openid-connect', oic);
   passport.serializeUser(LoginStrategy.serializeUser);
   passport.deserializeUser(LoginStrategy.deserializeUser);
-  app.use(setReturnTo);
+
   app.use(redirectToLogin);
   app.use(refreshTokens);
   // Initiates an authentication request
   // users will be redirected to hsl.id and once authenticated
   // they will be returned to the callback handler below
   app.get('/login', function (req, res) {
-    const favAction = req.query.favouriteModalAction;
-    const { url } = req.query;
-    if (favAction) {
-      req.session.returnTo = `${
-        req.session.returnTo || `/${indexPath}?`
-      }&favouriteModalAction=${favAction}`;
+    const { url, favouriteModalAction, ...rest } = req.query;
+    if (favouriteModalAction) {
+      req.session.returnTo = `/${indexPath}?favouriteModalAction=${favouriteModalAction}`;
     }
     if (url) {
-      req.session.returnTo = `${url}`;
+      const restParams = Object.keys(rest)
+        .map(k => `${k}=${rest[k]}`)
+        .join('&');
+      req.session.returnTo = `${url}?${restParams}`;
     }
     passport.authenticate('passport-openid-connect', {
       scope: 'profile',
@@ -188,9 +176,17 @@ export default function setUpOIDC(app, port, indexPath) {
 
   app.get('/logout', function (req, res) {
     const cookieLang = req.cookies.lang || 'fi';
-    const logoutUrl = `${oic.client.endSessionUrl()}&ui_locales=${cookieLang}&id_token_hint=${
-      req.user.token.id_token
-    }`;
+    const host = req.headers['x-forwarded-host'] || req.headers.host;
+    const postLogoutRedirectUri = req.secure
+      ? `https://${host}${logoutCallbackPath}`
+      : `http://${host}${logoutCallbackPath}`;
+    const params = {
+      post_logout_redirect_uri: postLogoutRedirectUri,
+      id_token_hint: req.user.token.id_token,
+      ui_locales: cookieLang,
+    };
+    const logoutUrl = oic.client.endSessionUrl(params);
+
     req.session.userId = req.user.data.sub;
     if (debugLogging) {
       console.log(`logout for user ${req.user.data.name} to ${logoutUrl}`);

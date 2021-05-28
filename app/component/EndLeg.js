@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function EndLeg(props) {
+function EndLeg(props, context) {
   const [address, place] = props.to.split(/, (.+)/); // Splits the string to two parts from the first occurance of ', '
   const modeClassName = 'end';
   return (
@@ -43,7 +43,7 @@ function EndLeg(props) {
             values={{ target: props.to || '' }}
           />
         </span>
-        <div className="itinerary-leg-first-row" aria-hidden="true">
+        <div className="itinerary-leg-first-row">
           <div className="address-container">
             <div className="address">{address}</div>
             <div className="place">{place}</div>
@@ -56,6 +56,10 @@ function EndLeg(props) {
             }
             role="button"
             tabIndex="0"
+            aria-label={context.intl.formatMessage(
+              { id: 'itinerary-summary.show-on-map' },
+              { target: props.to },
+            )}
           >
             <Icon
               img="icon-icon_show-on-map"
@@ -90,6 +94,9 @@ EndLeg.propTypes = {
   to: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
+};
+EndLeg.contextTypes = {
+  intl: intlShape.isRequired,
 };
 
 export default EndLeg;

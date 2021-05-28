@@ -18,8 +18,10 @@ const timeOfLastFetch = {};
 const query = graphql`
   query CityBikesQuery($id: String!) {
     station: bikeRentalStation(id: $id) {
+      stationId
       bikesAvailable
       spacesAvailable
+      capacity
       networks
       state
     }
@@ -27,11 +29,10 @@ const query = graphql`
 `;
 
 class CityBikes {
-  constructor(tile, config, mapLayers, stopsNearYouMode, relayEnvironment) {
+  constructor(tile, config, mapLayers, relayEnvironment) {
     this.tile = tile;
     this.config = config;
     this.relayEnvironment = relayEnvironment;
-
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.citybikeImageSize =
       20 * this.scaleratio * getMapIconScale(this.tile.coords.z);
@@ -79,6 +80,7 @@ class CityBikes {
     const currentTime = new Date().getTime();
 
     const callback = ({ station: result }) => {
+      const isHilighted = this.tile.hilightedStops?.includes(result.stationId);
       timeOfLastFetch[id] = new Date().getTime();
       if (result) {
         const iconName = getCityBikeNetworkIcon(
@@ -87,14 +89,26 @@ class CityBikes {
             this.config,
           ),
         );
-        drawCitybikeIcon(
-          this.tile,
-          geom,
-          result.state,
-          result.bikesAvailable,
-          iconName,
-          this.config.cityBike.capacity !== BIKEAVL_UNKNOWN,
-        );
+        const iconColor =
+          iconName.includes('secondary') &&
+          this.config.colors.iconColors['mode-citybike-secondary']
+            ? this.config.colors.iconColors['mode-citybike-secondary']
+            : this.config.colors.iconColors['mode-citybike'];
+        if (
+          !this.tile.stopsToShow ||
+          this.tile.stopsToShow.includes(result.stationId)
+        ) {
+          drawCitybikeIcon(
+            this.tile,
+            geom,
+            result.state,
+            result.bikesAvailable,
+            iconName,
+            this.config.cityBike.capacity !== BIKEAVL_UNKNOWN,
+            iconColor,
+            isHilighted,
+          );
+        }
       }
       return this;
     };

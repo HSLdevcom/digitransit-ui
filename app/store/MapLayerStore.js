@@ -4,7 +4,7 @@ import { setMapLayerSettings, getMapLayerSettings } from './localStorage';
 
 class MapLayerStore extends Store {
   static defaultLayers = {
-    parkAndRide: true,
+    parkAndRide: false,
     stop: {
       bus: true,
       ferry: true,
@@ -14,10 +14,11 @@ class MapLayerStore extends Store {
     },
     terminal: {
       bus: true,
+      ferry: true,
       rail: true,
       subway: true,
     },
-    showAllBusses: false,
+    vehicles: false,
     geoJson: {},
   };
 
@@ -33,9 +34,7 @@ class MapLayerStore extends Store {
     super(dispatcher);
 
     const { config } = dispatcher.getContext();
-    this.mapLayers.citybike =
-      config.transportModes.citybike &&
-      config.transportModes.citybike.availableForSelection;
+    this.mapLayers.citybike = config.cityBike?.showCityBikes;
 
     const storedMapLayers = getMapLayerSettings();
     if (Object.keys(storedMapLayers).length > 0) {
@@ -46,7 +45,37 @@ class MapLayerStore extends Store {
     }
   }
 
-  getMapLayers = () => ({ ...this.mapLayers });
+  getMapLayers = skip => {
+    if (!skip?.notThese && !skip?.force) {
+      return this.mapLayers;
+    }
+    const layers = { ...this.mapLayers };
+    if (skip.notThese) {
+      skip.notThese.forEach(key => {
+        if (typeof layers[key] === 'object') {
+          layers[key] = {};
+          Object.keys(this.mapLayers[key]).forEach(subKey => {
+            layers[key][subKey] = false;
+          });
+        } else {
+          layers[key] = false;
+        }
+      });
+    }
+    if (skip.force) {
+      skip.force.forEach(key => {
+        if (typeof layers[key] === 'object') {
+          layers[key] = {};
+          Object.keys(this.mapLayers[key]).forEach(subKey => {
+            layers[key][subKey] = true;
+          });
+        } else {
+          layers[key] = true;
+        }
+      });
+    }
+    return layers;
+  };
 
   updateMapLayers = mapLayers => {
     this.mapLayers = {
@@ -73,7 +102,7 @@ export const mapLayerShape = PropTypes.shape({
     rail: PropTypes.bool,
     subway: PropTypes.bool,
   }).isRequired,
-  showAllBusses: PropTypes.bool,
+  vehicles: PropTypes.bool,
   geoJson: PropTypes.object,
 });
 

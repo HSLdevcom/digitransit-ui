@@ -37,27 +37,6 @@ export default configMerger(walttiConfig, {
     lon: 25.7485345616,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Paikallisliikenneterminaali, Jyväskylä',
-      lat: 62.2410157,
-      lon: 25.7485346,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Kauppatori, Jyväskylä',
-      lat: 62.244958,
-      lon: 25.746471,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Keski-Suomen keskussairaala, Jyväskylä',
-      lat: 62.229935,
-      lon: 25.710604,
-    },
-  ],
-
   appBarLink: {
     name: 'Jyväskylän seudun joukkoliikenne',
     href: 'http://linkki.jyvaskyla.fi/',
@@ -65,6 +44,9 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#7DC02D',
+    iconColors: {
+      'mode-bus': '#7DC02D',
+    },
   },
 
   socialMedia: {
@@ -77,26 +59,17 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'jyvaskyla/favicon.png',
 
-  mapLayers: {
-    tooltip: {
-      fi: 'Uutta! Saat nyt lähellä olevat bussit kartalle asetuksista.',
-      en: 'New! You can now get nearby busses on the map from the settings.',
-      sv:
-        'Nytt! I inställningarna kan du nu välja att se närliggande bussar på kartan.',
-    },
-  },
-
   textLogo: false,
 
-  showAllBusses: true,
+  vehicles: true,
   showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
 
-  footer: {
+  menu: {
+    copyright: { label: `© Jyvaskyla ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Jyvaskyla ${walttiConfig.YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'https://s-asiointi.jkl.fi/eFeedback/fi/Feedback/38',
         icon: 'icon-icon_speech-bubble',
@@ -157,7 +130,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/jkl_zone_lines_20201118.geojson',
+        url: '/assets/geojson/jkl_zone_lines_20210222.geojson',
       },
     ],
   },
@@ -168,14 +141,14 @@ export default configMerger(walttiConfig, {
     3: 'C',
     4: 'D',
   },
-  itinerary: {
-    showZoneLimits: true,
-  },
 
   stopCard: {
     header: {
-      showZone: true,
       virtualMonitorBaseUrl: 'https://pysakit.jyvaskyla.fi/stop/',
     },
+  },
+  zones: {
+    stops: true,
+    itinerary: true,
   },
 });

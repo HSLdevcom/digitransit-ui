@@ -22,7 +22,7 @@
   justify-content: space-between;
   .weather-title {
     font-size: 18px;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     line-height: 1.17;
     letter-spacing: -0.6px;
     color: #333333;
@@ -38,7 +38,7 @@
     }
     .weather-temperature {
       font-size: 24px;
-      font-weight: 500;
+      font-weight: $font-weight-medium;
       letter-spacing: -0.8px;
       text-align: center;
       margin: 5px 3px 0 25px;

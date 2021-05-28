@@ -20,6 +20,11 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#1c57cf',
+    iconColors: {
+      'mode-bus': '#1A4A8F',
+      'mode-rail': '#0E7F3C',
+      'mode-tram': '#DA2128',
+    },
   },
 
   socialMedia: {
@@ -46,34 +51,25 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/tre_zone_lines_20191028.geojson',
+        url: '/assets/geojson/tre_zone_lines_20210222.geojson',
         isOffByDefault: true,
       },
     ],
   },
 
-  mapLayers: {
-    tooltip: {
-      fi:
-        'Uutta! Saat nyt vyöhykkeet ja lähellä olevat bussit kartalle asetuksista.',
-      en:
-        'New! You can now get zones and nearby busses on the map from the settings.',
-      sv:
-        'Nytt! I inställningarna kan du nu välja att se zoner och närliggande bussar på kartan.',
-    },
-  },
-
   itinerary: {
-    showZoneLimits: true,
     // Number of days to include to the service time range from the future (DT-3175)
     serviceTimeRange: 60,
   },
 
   stopCard: {
     header: {
-      showZone: true,
       virtualMonitorBaseUrl: 'https://tremonitori.digitransit.fi/stop/',
     },
+  },
+  zones: {
+    stops: true,
+    itinerary: true,
   },
   showTicketInformation: true,
 
@@ -112,33 +108,11 @@ export default configMerger(walttiConfig, {
     lon: 23.7606972,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_city',
-      label: 'Keskustori, Tampere',
-      lat: 61.4980944,
-      lon: 23.7606972,
-    },
-    {
-      icon: 'icon-icon_rail',
-      label: 'Rautatieasema, Tampere',
-      lat: 61.4984374,
-      lon: 23.7730139,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Linja-autoasema, Tampere',
-      lat: 61.4937936,
-      lon: 23.7696505,
-    },
-  ],
-
-  footer: {
+  menu: {
+    copyright: { label: `© Tampere ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Tampere ${walttiConfig.YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'https://www.nysse.fi/palaute.html',
         icon: 'icon-icon_speech-bubble',
@@ -160,45 +134,30 @@ export default configMerger(walttiConfig, {
 
   staticMessages: [
     {
-      id: '3',
+      id: '4',
       priority: -1,
-      shouldTrigger: true,
       persistence: 'repeat',
       content: {
         fi: [
           {
-            type: 'text',
-            content:
-              'Vuoroja voi peruuntua virusepidemian aikana. Tarkista matkasi tiedot ennakkoon. Perutut bussivuorot näkyvät yliviivattuna punaisella eivätkä ne tule reittiehdotuksiin. Perutut junavuorot voi tarkistaa ',
-          },
-          {
             type: 'a',
-            content: 'VR:n palveluista',
-            href: 'https://www.vr.fi/cs/vr/fi/liikennetilanne',
+            content:
+              'Tutustu turvallisen matkustamisen ohjeisiin koronaviruksen aikana tästä linkistä',
+            href: 'https://www.nysse.fi/korona.html',
           },
         ],
         en: [
           {
-            type: 'text',
-            content:
-              'Trips may be canceled during the virus epidemic. Check our travel information in advance. Cancelled bus trips appear in red and do not appear in route suggestions. Please check cancelled train trips at ',
-          },
-          {
             type: 'a',
-            content: "VR's services",
-            href: 'https://www.vr.fi/cs/vr/en/traffic_info',
+            content: 'Please check instructions for safe travelling here',
+            href: 'https://www.nysse.fi/en/service-changes/coronavirus.html',
           },
         ],
         sv: [
           {
-            type: 'text',
-            content:
-              'Trips may be canceled during the virus epidemic. Check our travel information in advance. Cancelled bus trips appear in red and do not appear in route suggestions. Please check cancelled train trips at ',
-          },
-          {
             type: 'a',
-            content: "VR's services",
-            href: 'https://www.vr.fi/cs/vr/sv/trafikinfo',
+            content: 'Please check instructions for safe travelling here',
+            href: 'https://www.nysse.fi/en/service-changes/coronavirus.html',
           },
         ],
       },
@@ -270,8 +229,9 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-  showAllBusses: true,
+  vehicles: true,
   showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
   timetables: {
     tampere: tampereTimetables,
   },
@@ -279,6 +239,10 @@ export default configMerger(walttiConfig, {
   // enable train routing for Tampere
   transportModes: {
     rail: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+    tram: {
       availableForSelection: true,
       defaultValue: true,
     },

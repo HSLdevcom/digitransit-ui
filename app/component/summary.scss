@@ -62,7 +62,7 @@
     border-radius: $border-radius;
     appearance: none;
     @include font-book;
-    font-weight: 700;
+    font-weight: $font-weight-medium;
     height: 2.6em;
 
     &:hover {
@@ -243,7 +243,7 @@
     padding-right: 0.8em;
     outline: none;
     span {
-      font-weight: 700;
+      font-weight: $font-weight-medium;
       font-size: $font-size-xxsmall;
     }
     &.settings .icon {
@@ -288,7 +288,7 @@
 
 .summary-list-items {
   position: relative;
-  z-index: 10;
+  z-index: 9;
 
   @keyframes loadingTopAnimation {
     from {
@@ -309,6 +309,9 @@
   z-index: 1;
   height: 100px;
   animation: fadeIn 0.4s;
+  &.route-schedule {
+    margin-top: 200px;
+  }
 }
 
 .desktop .summary-list-container {
@@ -378,7 +381,7 @@
   background-color: $white;
   text-align: left;
   padding-left: 81px;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
   font-size: 13px;
   letter-spacing: -0.36px;
 
@@ -403,6 +406,10 @@
 
 .mobile .time-navigation-btn {
   padding-left: 28px;
+  &.extra-whitespace {
+    height: 120px;
+    padding-bottom: 60px;
+  }
 }
 
 .summary-list-separator {

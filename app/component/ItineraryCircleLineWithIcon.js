@@ -16,6 +16,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
     modeClassName: PropTypes.string.isRequired,
     isVia: PropTypes.bool,
     color: PropTypes.string,
+    appendClass: PropTypes.string,
   };
 
   state = {
@@ -99,12 +100,25 @@ class ItineraryCircleLineWithIcon extends React.Component {
 
         <div
           style={legBeforeLineStyle}
-          className={`leg-before-line ${this.props.modeClassName}`}
+          className={cx(
+            'leg-before-line',
+            this.props.modeClassName,
+            this.props.appendClass,
+          )}
         />
-        <RouteNumber mode={this.props.modeClassName} vertical />
+        <RouteNumber
+          appendClass={this.props.appendClass}
+          mode={this.props.modeClassName}
+          vertical
+        />
         <div
           style={legBeforeLineStyle}
-          className={`leg-before-line ${this.props.modeClassName} bottom`}
+          className={cx(
+            'leg-before-line',
+            this.props.modeClassName,
+            'bottom',
+            this.props.appendClass,
+          )}
         />
       </div>
     );

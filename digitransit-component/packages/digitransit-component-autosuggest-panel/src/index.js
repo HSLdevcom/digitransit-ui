@@ -124,7 +124,6 @@ ItinerarySearchControl.propTypes = {
  *    destination={destination} // Selected destination point
  *    originPlaceHolder={'Give origin'} // Optional Give string shown initially inside origin search field
  *    destinationPlaceHolder={'Give destination'} // Optional Give string shown initally inside destination search field
- *    breakpoint={'large'} // Required. available options are 'small' or 'large'. Large shows panel styles etc. meant for desktop and small shows panel styles etc meant for mobile.
  *    showMultiPointControls={false} // Optional. If true, controls for via points and reversing is being shown.
  *    initialViaPoints={[]} // Optional.  If showMultiPointControls is set to true, pass initial via points to the panel. Currently no default implementation is given.
  *    updateViaPoints={() => return []} // Optional. If showMultiPointControls is set to true, define how to update your via point list with this function. Currenlty no default implementation is given.
@@ -151,7 +150,6 @@ class DTAutosuggestPanel extends React.Component {
     viaPoints: PropTypes.arrayOf(PropTypes.object),
     updateViaPoints: PropTypes.func,
     handleViaPointLocationSelected: PropTypes.func,
-    breakpoint: PropTypes.string.isRequired,
     swapOrder: PropTypes.func,
     searchPanelText: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
@@ -167,6 +165,10 @@ class DTAutosuggestPanel extends React.Component {
     hoverColor: PropTypes.string,
     originMobileLabel: PropTypes.string,
     destinationMobileLabel: PropTypes.string,
+    refPoint: PropTypes.object,
+    fontWeights: PropTypes.shape({
+      medium: PropTypes.number,
+    }),
   };
 
   static defaultProps = {
@@ -187,6 +189,9 @@ class DTAutosuggestPanel extends React.Component {
     hoverColor: '#0062a1',
     originMobileLabel: null,
     destinationMobileLabel: null,
+    fontWeights: {
+      medium: 500,
+    },
   };
 
   constructor(props) {
@@ -205,8 +210,8 @@ class DTAutosuggestPanel extends React.Component {
     i18next.changeLanguage(this.props.lang);
   };
 
-  componentDidUpdate = prevProps => {
-    if (prevProps.lang !== this.props.lang) {
+  componentDidUpdate = () => {
+    if (i18next.language !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
     }
   };
@@ -335,7 +340,7 @@ class DTAutosuggestPanel extends React.Component {
       this.props.addAnalyticsEvent({
         action: 'AddJourneyViaPoint',
         category: 'ItinerarySettings',
-        name: 'Qu}ickSettingsButton',
+        name: 'QuickSettingsButton',
       });
     }
     const { viaPoints } = this.props;
@@ -364,7 +369,6 @@ class DTAutosuggestPanel extends React.Component {
 
   render = () => {
     const {
-      breakpoint,
       showMultiPointControls,
       origin,
       searchPanelText,
@@ -373,6 +377,7 @@ class DTAutosuggestPanel extends React.Component {
       viaPoints,
       originMobileLabel,
       destinationMobileLabel,
+      fontWeights,
     } = this.props;
     const { activeSlackInputs } = this.state;
     const slackTime = this.getSlackTimeOptions();
@@ -388,10 +393,14 @@ class DTAutosuggestPanel extends React.Component {
         className={cx([
           styles['autosuggest-panel'],
           {
-            small: breakpoint !== 'large',
+            small: this.props.isMobile,
             showMultiPointControls,
           },
         ])}
+        style={{
+          '--color': `${this.props.color}`,
+          '--font-weight-medium': fontWeights.medium,
+        }}
       >
         {' '}
         {searchPanelText ? (
@@ -410,9 +419,10 @@ class DTAutosuggestPanel extends React.Component {
             autoFocus={
               disableAutoFocus === true
                 ? false
-                : breakpoint === 'large' && !origin.ready
+                : !this.props.isMobile && !origin.lat
             }
             storeRef={this.storeReference}
+            refPoint={this.props.refPoint}
             className={this.class(origin)}
             placeholder={this.props.originPlaceHolder}
             value={this.value(origin)}
@@ -427,6 +437,7 @@ class DTAutosuggestPanel extends React.Component {
             color={this.props.color}
             hoverColor={this.props.hoverColor}
             mobileLabel={originMobileLabel}
+            fontWeights={this.props.fontWeights}
           />
           <ItinerarySearchControl
             className={styles.opposite}
@@ -483,13 +494,12 @@ class DTAutosuggestPanel extends React.Component {
                       id="via-point"
                       ariaLabel={i18next.t('via-point-index', { index: i + 1 })}
                       autoFocus={
-                        disableAutoFocus === true
-                          ? false
-                          : breakpoint === 'large'
+                        disableAutoFocus === true ? false : !this.props.isMobile
                       }
                       placeholder="via-point"
                       className="viapoint"
                       searchContext={searchContext}
+                      refPoint={this.props.refPoint}
                       value={(o && o.address) || ''}
                       onSelect={this.props.onSelect}
                       handleViaPoints={item =>
@@ -502,6 +512,7 @@ class DTAutosuggestPanel extends React.Component {
                       isMobile={this.props.isMobile}
                       color={this.props.color}
                       hoverColor={this.props.hoverColor}
+                      fontWeights={this.props.fontWeights}
                     />
                   </div>
                   <ItinerarySearchControl
@@ -549,9 +560,6 @@ class DTAutosuggestPanel extends React.Component {
                       icon={
                         <span
                           className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
-                          style={{
-                            '--color': `${this.props.color}`,
-                          }}
                         >
                           <Icon img="time" color={this.props.color} />
                         </span>
@@ -586,13 +594,14 @@ class DTAutosuggestPanel extends React.Component {
             autoFocus={
               disableAutoFocus === true
                 ? false
-                : breakpoint === 'large' && origin.ready
+                : !this.props.isMobile && !Number.isNaN(origin.lat)
             }
             storeRef={this.storeReference}
             placeholder={this.props.destinationPlaceHolder}
             className={this.class(this.props.destination)}
             searchContext={searchContext}
             onSelect={this.props.onSelect}
+            refPoint={this.props.refPoint}
             value={this.value(this.props.destination)}
             lang={this.props.lang}
             sources={this.props.sources}
@@ -602,6 +611,7 @@ class DTAutosuggestPanel extends React.Component {
             color={this.props.color}
             hoverColor={this.props.hoverColor}
             mobileLabel={destinationMobileLabel}
+            fontWeights={this.props.fontWeights}
           />
           <ItinerarySearchControl
             className={cx(styles['add-via-point'], styles.more, {

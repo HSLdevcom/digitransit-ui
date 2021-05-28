@@ -11,7 +11,7 @@ $gray-blue: #78909c;
 $gray-blue-light: rgb(182, 193, 199);
 
 /* Operator palette */
-$livi-blue: #00afff;
+$livi-blue: #000F94;
 $livi-gold: rgb(233, 171, 0);
 $livi-bus-blue: rgb(0, 136, 206);
 $livi-airplane-blue: rgb(0, 70, 173);
@@ -47,15 +47,16 @@ $standalone-btn-color: $action-color;
 $standalone-btn-hover-color: $gray-blue-light;
 $standalone-btn-active-color: $gray-blue-light;
 $viewpoint-marker-color: $livi-blue;
-$link-color: $action-color;
+$link-color: $primary-color;
 $from-color: #4ea700;
 $to-color: #ec5188;
-$slider-severe-color: #ff6319;
+$slider-severe-color: #CA4000;
 $slider-warning-color: #fbb800;
-$slider-ok-color: #64be14;
+$slider-ok-color: #4ea700;
 $selected-lang-background: rgba(0, 0, 0, 0.15);
 $caution-icon-color: $white;
 $caution-icon-font-color: none;
+$top-bar-color: $primary-color;
 
 /* Vehicle palette */
 $airplane-color: $livi-airplane-blue;
@@ -72,17 +73,16 @@ $bicycle-color: #666;
 $car-color: #333;
 
 /* Fonts */
-$font-family: Lato, Arial, Georgia, Serif;
+$font-family: 'Roboto', Arial, Georgia, Serif;
 $font-weight-book: 400;
-$font-weight-medium: 500;
-$font-weight-bold: 700;
+$font-weight-medium: 700;
 $font-weight-map-container: $font-weight-book;
 $letter-spacing: 0;
 $letter-spacing-front-page: -0.67px;
 
-$font-family-narrow: 'PT Sans Narrow', 'Arial Condensed', Arial, Georgia, Serif;
+$font-family-narrow:  'Roboto Condensed', 'Arial Condensed', Arial, Georgia, Serif;
 $font-narrow-weight-book: 400;
-$font-narrow-weight-medium: 500;
+$font-narrow-weight-medium: 700;
 $narrow-letter-spacing: 0;
 
 $line-height-normal: 1.2;
@@ -109,9 +109,5 @@ $padding-xlarge: 2em;
 $border-radius-small: 2px;
 $border-radius: 3px;
 $border-radius-bigger: 8px;
-
-/* Navbar logo dimensions */
-$nav-logo-width: 170px;
-$nav-logo-height: 1.8em;
 
 $spinner-image: url('../default/default-spinner.png');

@@ -140,7 +140,7 @@ export const onLocationPopup = (item, id, router, match, executeAction) => {
       .concat([item])
       .map(locationToOTP);
     executeAction(addViaPoint, item);
-    setIntermediatePlaces(this.context.router, match, viaPoints);
+    setIntermediatePlaces(router, match, viaPoints);
     return;
   }
   let origin = otpToLocation(match.params.from);

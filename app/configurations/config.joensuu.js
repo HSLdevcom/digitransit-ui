@@ -28,20 +28,15 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#5c4696',
+    iconColors: {
+      'mode-bus': '#009fe3',
+      'mode-rail': '#64be14',
+    },
   },
 
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
-  },
-
-  mapLayers: {
-    tooltip: {
-      fi: 'Uutta! Saat nyt lähellä olevat bussit kartalle asetuksista.',
-      en: 'New! You can now get nearby busses on the map from the settings.',
-      sv:
-        'Nytt! I inställningarna kan du nu välja att se närliggande bussar på kartan.',
-    },
   },
 
   transportModes: {
@@ -58,10 +53,9 @@ export default configMerger(walttiConfig, {
     [31.0931, 62.2692],
   ],
 
-  footer: {
+  menu: {
+    copyright: { label: `© Joensuun kaupunki ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Joensuun kaupunki ${walttiConfig.YEAR}` },
-      {},
       {
         name: 'about-this-service',
         nameEn: 'About this service',
@@ -82,29 +76,10 @@ export default configMerger(walttiConfig, {
     lat: 62.6024263,
     lon: 29.7569847,
   },
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Keskusta, Joensuu',
-      lat: 62.6024263,
-      lon: 29.7569847,
-    },
-    {
-      icon: 'icon-icon_rail',
-      label: 'Rautatieasema, Joensuu',
-      lat: 62.5998886,
-      lon: 29.77629661560059,
-    },
-    {
-      icon: 'icon-icon_airplane',
-      label: 'Lentoasema, Joensuu',
-      lat: 62.65764959350609,
-      lon: 29.61371183395386,
-    },
-  ],
 
-  showAllBusses: true,
+  vehicles: true,
   showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
 
   aboutThisService: {
     fi: [
@@ -139,12 +114,8 @@ export default configMerger(walttiConfig, {
     2: 'B',
     3: 'C',
   },
-  itinerary: {
-    showZoneLimits: true,
-  },
-  stopCard: {
-    header: {
-      showZone: true,
-    },
+  zones: {
+    stops: true,
+    itinerary: true,
   },
 });

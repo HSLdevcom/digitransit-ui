@@ -21,6 +21,7 @@ import { getSummaryPath } from '../util/path';
 import { replaceQueryParams } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { isIOS, isSafari } from '../util/browser';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
@@ -108,6 +109,13 @@ class SummaryPlanContainer extends React.Component {
 
   onSelectImmediately = index => {
     const subpath = this.getSubPath('/');
+    const momentumScroll = document.getElementsByClassName(
+      'momentum-scroll',
+    )[0];
+    if (momentumScroll) {
+      momentumScroll.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'Itinerary',
@@ -158,7 +166,7 @@ class SummaryPlanContainer extends React.Component {
           })}
           className={`time-navigation-btn ${
             reversed ? 'top-btn' : 'bottom-btn'
-          }`}
+          } ${!reversed && isIOS && isSafari ? 'extra-whitespace' : ''} `}
           onClick={() => this.props.onLater(this.props.itineraries, reversed)}
         >
           <Icon
@@ -186,7 +194,7 @@ class SummaryPlanContainer extends React.Component {
           })}
           className={`time-navigation-btn ${
             reversed ? 'bottom-btn' : 'top-btn'
-          }`}
+          } ${reversed && isIOS && isSafari ? 'extra-whitespace' : ''}`}
           onClick={() => this.props.onEarlier(this.props.itineraries, reversed)}
         >
           <Icon

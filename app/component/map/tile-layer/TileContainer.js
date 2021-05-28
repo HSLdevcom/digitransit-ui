@@ -2,9 +2,13 @@ import flatten from 'lodash/flatten';
 import omit from 'lodash/omit';
 import L from 'leaflet';
 
+import { isEqual } from 'lodash';
 import { isBrowser } from '../../../util/browser';
 import { isLayerEnabled } from '../../../util/mapLayerUtils';
 import { getStopIconStyles } from '../../../util/mapIconUtils';
+
+import { getCityBikeMinZoomOnStopsNearYou } from '../../../util/citybikes';
+import events from '../../../util/events';
 
 class TileContainer {
   constructor(
@@ -12,19 +16,22 @@ class TileContainer {
     done,
     props,
     config,
-    stopsNearYouMode,
+    mergeStops,
     relayEnvironment,
     hilightedStops,
     vehicles,
+    stopsToShow,
   ) {
     const markersMinZoom = Math.min(
-      config.cityBike.cityBikeMinZoom,
+      getCityBikeMinZoomOnStopsNearYou(
+        config,
+        props.mapLayers.citybikeOverrideMinZoom,
+      ),
       config.stopsMinZoom,
       config.terminalStopsMinZoom,
     );
-
     this.coords = coords;
-    this.stopsNearYouMode = stopsNearYouMode;
+    this.mergeStops = mergeStops;
     this.props = props;
     this.extent = 4096;
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
@@ -34,8 +41,24 @@ class TileContainer {
     this.clickCount = 0;
     this.hilightedStops = hilightedStops;
     this.vehicles = vehicles;
+    this.stopsToShow = stopsToShow;
 
-    if (this.coords.z < markersMinZoom || !this.el.getContext) {
+    events.on('vehiclesChanged', this.onVehiclesChange);
+
+    let ignoreMinZoomLevel =
+      hilightedStops &&
+      hilightedStops.length > 0 &&
+      !hilightedStops.every(stop => stop === '');
+    if (vehicles && vehicles.length > 0) {
+      ignoreMinZoomLevel = vehicles.every(
+        v => v.mode === 'ferry' && v.mode === 'rail' && v.mode === 'subway',
+      );
+    }
+
+    if (
+      (!ignoreMinZoomLevel && this.coords.z < markersMinZoom) ||
+      !this.el.getContext
+    ) {
       setTimeout(() => done(null, this.el), 0);
       return;
     }
@@ -45,28 +68,34 @@ class TileContainer {
     this.layers = this.props.layers
       .filter(Layer => {
         const layerName = Layer.getName();
-        const isEnabled = isLayerEnabled(layerName, this.props.mapLayers);
+
+        // stops and terminals are drawn on same layer
+        const isEnabled =
+          isLayerEnabled(layerName, this.props.mapLayers) ||
+          (layerName === 'stop' &&
+            isLayerEnabled('terminal', this.props.mapLayers));
 
         if (
           layerName === 'stop' &&
-          (this.coords.z >= config.stopsMinZoom ||
+          (ignoreMinZoomLevel ||
+            this.coords.z >= config.stopsMinZoom ||
             this.coords.z >= config.terminalStopsMinZoom)
         ) {
           return isEnabled;
         }
         if (
           layerName === 'citybike' &&
-          this.coords.z >= config.cityBike.cityBikeMinZoom
+          this.coords.z >=
+            getCityBikeMinZoomOnStopsNearYou(
+              config,
+              props.mapLayers.citybikeOverrideMinZoom,
+            )
         ) {
-          if (!this.stopsNearYouMode) {
-            return isEnabled;
-          }
-          if (this.stopsNearYouMode === 'CITYBIKE') {
-            return true;
-          }
+          return isEnabled;
         }
         if (
           layerName === 'parkAndRide' &&
+          config.parkAndRide &&
           this.coords.z >= config.parkAndRide.parkAndRideMinZoom
         ) {
           return isEnabled;
@@ -79,8 +108,8 @@ class TileContainer {
             this,
             config,
             this.props.mapLayers,
-            stopsNearYouMode,
             relayEnvironment,
+            mergeStops,
           ),
       );
 
@@ -90,6 +119,12 @@ class TileContainer {
       done(null, this.el),
     );
   }
+
+  onVehiclesChange = vehicles => {
+    if (!isEqual(this.vehicles, vehicles)) {
+      this.vehicles = { ...vehicles };
+    }
+  };
 
   project = point => {
     const size =
@@ -135,6 +170,7 @@ class TileContainer {
     let localPoint;
 
     const vehicleKeys = Object.keys(this.vehicles);
+
     const projectedVehicles = vehicleKeys.map(key => {
       const vehicle = this.vehicles[key];
       const pointGeom = this.latLngToPoint(vehicle.lat, vehicle.long);

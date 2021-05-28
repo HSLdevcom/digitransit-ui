@@ -18,6 +18,9 @@ export default configMerger(walttiConfig, {
   appBarLink: { name: 'LSL.fi', href: 'http://www.lsl.fi/' },
   colors: {
     primary: '#0066B3',
+    iconColors: {
+      'mode-bus': '#0066B3',
+    },
   },
 
   socialMedia: {
@@ -36,15 +39,6 @@ export default configMerger(walttiConfig, {
   textLogo: false, // title text instead of logo img
 
   feedIds: ['Lahti'],
-
-  mapLayers: {
-    tooltip: {
-      fi: 'Uutta! Saat nyt lähellä olevat bussit kartalle asetuksista.',
-      en: 'New! You can now get nearby busses on the map from the settings.',
-      sv:
-        'Nytt! I inställningarna kan du nu välja att se närliggande bussar på kartan.',
-    },
-  },
 
   searchParams: {
     'boundary.rect.min_lat': minLat,
@@ -66,33 +60,11 @@ export default configMerger(walttiConfig, {
     lon: 25.656398,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Matkakeskus, Lahti',
-      lat: 60.97705,
-      lon: 25.658567,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Kauppatori, Lahti',
-      lat: 60.983595,
-      lon: 25.656391,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Päijät-Hämeen keskussairaala, Lahti',
-      lat: 60.991045,
-      lon: 25.567989,
-    },
-  ],
-
-  footer: {
+  menu: {
+    copyright: { label: `© Lahti ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Lahti ${walttiConfig.YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href:
           'https://e-asiointi.lahti.fi/eFeedback/fi/Feedback/29-Joukkoliikenne',
@@ -112,53 +84,6 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-
-  staticMessages: [
-    {
-      id: '3',
-      priority: -1,
-      shouldTrigger: true,
-      persistence: 'repeat',
-      content: {
-        fi: [
-          {
-            type: 'text',
-            content:
-              'Koronaepidemian vuoksi reittiopas ei ole ajan tasalla. Tarkista muutokset ennen matkaa ',
-          },
-          {
-            type: 'a',
-            content: 'www.lsl.fi',
-            href: 'http://www.lsl.fi',
-          },
-        ],
-        en: [
-          {
-            type: 'text',
-            content:
-              'Due to the coronary epidemic the route guide is out of date. Please check changes before traveling ',
-          },
-          {
-            type: 'a',
-            content: 'www.lsl.fi',
-            href: 'http://www.lsl.fi',
-          },
-        ],
-        sv: [
-          {
-            type: 'text',
-            content:
-              'På grund av coronaviruset är ruttguiden inaktuell. Kontrollera innan du reser ',
-          },
-          {
-            type: 'a',
-            content: 'www.lsl.fi',
-            href: 'http://www.lsl.fi',
-          },
-        ],
-      },
-    },
-  ],
 
   aboutThisService: {
     fi: [
@@ -214,7 +139,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/lahti_zone_lines_20201118.geojson',
+        url: '/assets/geojson/lahti_zone_lines_20210222.geojson',
       },
     ],
   },
@@ -230,15 +155,12 @@ export default configMerger(walttiConfig, {
     9: 'H',
     10: 'I',
   },
-  itinerary: {
-    showZoneLimits: true,
-  },
-  stopCard: {
-    header: {
-      showZone: true,
-    },
+  zones: {
+    stops: true,
+    itinerary: true,
   },
 
-  showAllBusses: true,
+  vehicles: true,
   showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
 });

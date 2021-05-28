@@ -1,4 +1,4 @@
-import { isBrowser, isWindowsPhone, isIOSApp } from '../util/browser';
+import { isBrowser } from '../util/browser';
 
 function handleSecurityError(error, logMessage) {
   if (error.name === 'SecurityError') {
@@ -193,16 +193,12 @@ export function setSearchSettingsStorage(data) {
   setItem('customizedSettings', data);
 }
 
-export function setPositioningHasSucceeded(state) {
-  setItem('positioningSuccesful', { state });
+export function setGeolocationState(state) {
+  setItem('geolocationPermission', { state });
 }
 
-export function getPositioningHasSucceeded(shouldCheckBrowser) {
-  // Hack for Windows phone and iOS fullscreen apps
-  if (shouldCheckBrowser && !(isWindowsPhone || isIOSApp)) {
-    return false;
-  }
-  return getItemAsJson('positioningSuccesful', '{ "state": false }').state;
+export function getGeolocationState() {
+  return getItemAsJson('geolocationPermission', '{ "state": "unknown" }').state;
 }
 
 export const setMapLayerSettings = settings => {

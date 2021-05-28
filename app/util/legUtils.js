@@ -232,7 +232,22 @@ export const getTotalDistance = itinerary => sumDistances(itinerary.legs);
  * @param {*} config the configuration for the software installation
  */
 export const getCityBikeAvailabilityIndicatorColor = (bikesAvailable, config) =>
-  bikesAvailable > config.cityBike.fewAvailableCount ? '#64be14' : '#ff9000';
+  // eslint-disable-next-line no-nested-ternary
+  bikesAvailable === 0
+    ? '#DC0451'
+    : bikesAvailable > config.cityBike.fewAvailableCount
+    ? '#3B7F00'
+    : '#FCBC19';
+
+/* Gets the indicator text color if  few bikes are available
+ *
+ * @param {number} bikesAvailable the number of bikes currently available
+ * @param {*} config the configuration for the software installation/
+ */
+export const getCityBikeAvailabilityTextColor = (bikesAvailable, config) =>
+  bikesAvailable <= config.cityBike.fewAvailableCount && bikesAvailable > 0
+    ? '#333'
+    : '#fff';
 
 /**
  * Attempts to retrieve any relevant information from the leg that could be shown
@@ -254,6 +269,7 @@ export const getLegBadgeProps = (leg, config) => {
   return {
     badgeFill: getCityBikeAvailabilityIndicatorColor(bikesAvailable, config),
     badgeText: `${bikesAvailable}`,
+    badgeTextFill: getCityBikeAvailabilityTextColor(bikesAvailable, config),
   };
 };
 
@@ -359,3 +375,43 @@ export const getRoutes = legs => {
   });
   return Object.keys(routes).map(key => ({ ...routes[key] }));
 };
+
+export const getHeadsignFromRouteLongName = route => {
+  const { longName, shortName } = route;
+  let headsign = longName;
+  if (
+    longName &&
+    shortName &&
+    longName.substring(0, shortName.length) === shortName &&
+    longName.length > shortName.length
+  ) {
+    headsign = longName.substring(shortName.length);
+  }
+  return headsign;
+};
+
+/**
+ * Calculates and returns the total duration undertaken in legs.
+ *
+ * @param {*} legs the legs to extract the total duration from
+ */
+const sumDurations = legs =>
+  legs.map(l => l.duration).reduce((x, y) => (x || 0) + (y || 0), 0);
+
+/**
+ * Calculates and returns the total walking duration undertaken in an itinerary.
+ * This could be used as a fallback if the backend returns an invalid value.
+ *
+ * @param {*} itinerary the itinerary to extract the total walking duration from
+ */
+export const getTotalWalkingDuration = itinerary =>
+  // TODO: could be itinerary.walkDuration, but that is invalid for CITYBIKE legs
+  sumDurations(itinerary.legs.filter(isWalkingLeg));
+
+/**
+ * Calculates and returns the total biking duration undertaken in an itinerary.
+ *
+ * @param {*} itinerary the itinerary to extract the total biking duration from
+ */
+export const getTotalBikingDuration = itinerary =>
+  sumDurations(itinerary.legs.filter(isBikingLeg));

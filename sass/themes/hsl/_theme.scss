@@ -8,10 +8,10 @@ $hsl-blue: #007ac9;
 $hsl-dark-blue: #0062a1;
 $hsl-pink: #f092cd;
 $hsl-alert: #dc0451;
-$hsl-tram-green: #00985f;
-$hsl-metro-orange: #ff6319;
+$hsl-tram-green: #008151;
+$hsl-metro-orange: #CA4000;
 $hsl-rail-red: #8c4799;
-$hsl-ferry-blue: #00b9e4;
+$hsl-ferry-blue: #007A97;
 
 /* Application palette */
 $primary-color: $hsl-blue;
@@ -29,6 +29,7 @@ $viewpoint-marker-color: $hsl-blue;
 $link-color: $primary-color;
 $desktop-title-color: #007ac9;
 $desktop-title-arrow-icon-color: $secondary-color;
+$top-bar-color: $primary-color;
 
 /* Vehicle palette */
 $airplane-color: #0046ad;
@@ -42,6 +43,7 @@ $wait-color: #aaaaaa;
 /* Fonts */
 $font-family: "Gotham Rounded A","Gotham Rounded B", Arial, Georgia, Serif;
 $font-weight-medium: 500;
+$font-narrow-weight-medium: 500;
 $letter-spacing: -0.025em;
 $font-size-medium-large: 1rem;
 

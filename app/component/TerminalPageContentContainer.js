@@ -3,16 +3,17 @@ import React from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
-
 import DepartureListContainer from './DepartureListContainer';
 import Error404 from './404';
 import Icon from './Icon';
+import ScrollableWrapper from './ScrollableWrapper';
 
 class TerminalPageContent extends React.Component {
   static propTypes = {
     station: PropTypes.shape({
       stoptimes: PropTypes.array,
       stops: PropTypes.array,
+      gtfsId: PropTypes.string,
     }).isRequired,
     relay: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
@@ -48,36 +49,38 @@ class TerminalPageContent extends React.Component {
     }
 
     return (
-      <div className="stop-page-departure-wrapper stop-scroll-container momentum-scroll">
-        <div className="departure-list-header row padding-vertical-normal">
-          <span className="route-number-header">
-            <FormattedMessage id="route" defaultMessage="Route" />
-          </span>
-          <span className="route-destination-header">
-            <FormattedMessage id="destination" defaultMessage="Destination" />
-          </span>
-          <span className="time-header">
-            <FormattedMessage id="leaving-at" defaultMessage="Leaves" />
-          </span>
-          <span className="track-header">
-            <FormattedMessage
-              id={mode === 'BUS' ? 'platform' : 'track'}
-              defaultMessage={mode === 'BUS' ? 'Platform' : 'Track'}
-            />
-          </span>
+      <ScrollableWrapper>
+        <div className="stop-page-departure-wrapper stop-scroll-container">
+          <div className="departure-list-header row padding-vertical-normal">
+            <span className="route-number-header">
+              <FormattedMessage id="route" defaultMessage="Route" />
+            </span>
+            <span className="route-destination-header">
+              <FormattedMessage id="destination" defaultMessage="Destination" />
+            </span>
+            <span className="time-header">
+              <FormattedMessage id="leaving-at" defaultMessage="Leaves" />
+            </span>
+            <span className="track-header">
+              <FormattedMessage
+                id={mode === 'BUS' ? 'platform' : 'track'}
+                defaultMessage={mode === 'BUS' ? 'Platform' : 'Track'}
+              />
+            </span>
+          </div>
+          <DepartureListContainer
+            stoptimes={stoptimes}
+            key="departures"
+            className="stop-page"
+            routeLinks
+            infiniteScroll
+            isTerminal
+            currentTime={this.props.currentTime}
+            showPlatformCodes
+            isTerminalPage
+          />
         </div>
-        <DepartureListContainer
-          stoptimes={stoptimes}
-          key="departures"
-          className="stop-page"
-          routeLinks
-          infiniteScroll
-          isTerminal
-          currentTime={this.props.currentTime}
-          showPlatformCodes
-          isTerminalPage
-        />
-      </div>
+      </ScrollableWrapper>
     );
   }
 }

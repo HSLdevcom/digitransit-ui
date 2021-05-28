@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import unzip from 'lodash/unzip';
-import inside from 'point-in-polygon';
 
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { isImperial } from './browser';
@@ -66,9 +65,44 @@ export function displayImperialDistance(meters) {
   return `${Math.round(feet / 528) / 10} mi`; // tenth of a mile
 }
 
-export function displayDistance(meters, config) {
+/**
+ * Returns distance with locale format (fraction digits is 1)
+ * e.g. fi/sv - 20,1 km, en - 20.1 km
+ * @param {*} meters
+ * @param {*} formatNumber
+ */
+function displayDistanceWithLocale(meters, formatNumber) {
+  const opts = {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  };
+  if (meters < 100) {
+    return `${formatNumber((Math.round(meters / 10) * 10).toFixed(1))} m`; // Tens of meters
+  }
+  if (meters < 975) {
+    return `${formatNumber((Math.round(meters / 50) * 50).toFixed(1))} m`; // fifty meters
+  }
+  if (meters < 10000) {
+    return `${formatNumber(
+      ((Math.round(meters / 100) * 100) / 1000).toFixed(1),
+      opts,
+    )} km`; // hudreds of meters
+  }
+  if (meters < 100000) {
+    return `${formatNumber(Math.round(meters / 1000).toFixed(1), opts)} km`; // kilometers
+  }
+  return `${formatNumber(
+    (Math.round(meters / 10000) * 10).toFixed(1),
+    opts,
+  )} km`; // tens of kilometers
+}
+
+export function displayDistance(meters, config, formatNumber) {
   if (isImperial(config)) {
     return displayImperialDistance(meters);
+  }
+  if (formatNumber) {
+    return displayDistanceWithLocale(meters, formatNumber);
   }
   if (meters < 100) {
     return `${Math.round(meters / 10) * 10} m`; // Tens of meters
@@ -88,11 +122,12 @@ export function displayDistance(meters, config) {
 /* eslint-enable yoda */
 
 // Return the bounding box of a latlon array of length > 0
-// If the box is smaller than 0.002x0.002, add padding
-export function boundWithMinimumArea(points) {
+export function boundWithMinimumArea(points, maxZoom = 18) {
   if (!points || !points[0]) {
     return null;
   }
+  const e = Math.max(0, 18 - maxZoom);
+  const dist = 0.002 * 2 ** e;
   const [lats, lons] = unzip(
     points.filter(([lat, lon]) => !Number.isNaN(lat) && !Number.isNaN(lon)),
   );
@@ -100,8 +135,8 @@ export function boundWithMinimumArea(points) {
   const minlon = Math.min(...lons);
   const maxlat = Math.max(...lats);
   const maxlon = Math.max(...lons);
-  const missingHeight = Math.max(0, 0.002 - (maxlat - minlat));
-  const missingWidth = Math.max(0, 0.002 - (maxlon - minlon));
+  const missingHeight = Math.max(0, dist - (maxlat - minlat));
+  const missingWidth = Math.max(0, dist - (maxlon - minlon));
   return [
     [minlat - missingHeight / 2, minlon - missingWidth / 2],
     [maxlat + missingHeight / 2, maxlon + missingWidth / 2],
@@ -362,45 +397,6 @@ export function kkj2ToWgs84(coords) {
 }
 
 /**
- * Finds any features inside which the given point is located. This returns
- * the properties of each feature by default.
- *
- * @param {{lat: number, lon: number}} point the location to check.
- * @param {*} features the area features available in a geojson format.
- * @param {function} mapFn the feature data mapping function.
- */
-export const findFeatures = (
-  { lat, lon },
-  features,
-  mapFn = feature => feature.properties,
-) => {
-  if (
-    !Number.isFinite(lat) ||
-    !Number.isFinite(lon) ||
-    !Array.isArray(features) ||
-    features.length === 0
-  ) {
-    return [];
-  }
-  const matches = features
-    .filter(feature => {
-      const { coordinates, type } = feature.geometry;
-      const multiCoordinate = coordinates.length > 1;
-      return (
-        ['Polygon', 'MultiPolygon'].includes(type) &&
-        coordinates.some(areaBoundaries =>
-          inside(
-            [lon, lat],
-            multiCoordinate ? areaBoundaries[0] : areaBoundaries,
-          ),
-        )
-      );
-    })
-    .map(mapFn);
-  return matches;
-};
-
-/**
  * Checks if the given geometry exists and has type 'MultiPoint'.
  *
  * @param {{ type: string }} geometry the geometry object to check.
@@ -420,7 +416,7 @@ export const isPointTypeGeometry = geometry =>
  * Caluclates itinerary distance as the crow flies
  *
  */
-export function estimateItineraryDistance(from, to, viaPoints) {
+export function estimateItineraryDistance(from, to, viaPoints = []) {
   let dist = 0;
   const points = [...[from], ...viaPoints, ...[to]];
   const arrayLength = points.length;
@@ -429,4 +425,39 @@ export function estimateItineraryDistance(from, to, viaPoints) {
   }
 
   return dist;
+}
+
+/**
+ * Dot product
+ *
+ */
+function dot(a, b) {
+  return a[0] * b[0] + a[1] * b[1];
+}
+
+/**
+ * Calculate the point between points a and b that is closest to point c
+ *
+ * @param {{lat: number, lon: number}} a
+ * @param {{lat: number, lon: number}} b
+ * @param {{lat: number, lon: number}} c
+ *
+ * @return {{lat: number, lon: number}}
+ */
+export function getClosestPoint(a, b, c) {
+  // calculate orthogonal projection into line ab first
+  const v1 = [b.lon - a.lon, b.lat - a.lat];
+  const v2 = [c.lon - a.lon, c.lat - a.lat];
+  const res1 = dot(v2, v1) / dot(v1, v1);
+  const res2 = [res1 * v1[0], res1 * v1[1]];
+  const result = { lon: res2[0] + a.lon, lat: res2[1] + a.lat };
+
+  // If projected point is not between a and b, return a or b whichever is closest
+  const epsilon = 1;
+  const distA = distance(a, result);
+  const distB = distance(b, result);
+  if (distA + distB < distance(a, b) + epsilon) {
+    return result;
+  }
+  return distA < distB ? a : b;
 }

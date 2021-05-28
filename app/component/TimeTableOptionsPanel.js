@@ -31,23 +31,29 @@ class TimeTableOptionsPanel extends React.Component {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const routeNames = this.getRouteNames(this.props.showRoutes);
-    const showRoutesDiv = routeNames.map(o => (
-      <div key={o.id} className="showroute-number">
-        {o.shortName ? o.shortName : o.agencyName}
-      </div>
-    ));
+    const showRoutesDiv = routeNames.map(
+      (o, i) =>
+        `${o.shortName ? o.shortName : o.agencyName}${
+          i === routeNames.length - 1 ? '' : ', '
+        }`,
+    );
     const stopVehicle = this.props.stop.stoptimesForServiceDate[0].pattern.route.mode.toLowerCase();
     return (
-      <div className="timetable-options-panel">
-        <div className="timetable-showroutes">
-          <div className={`showroutes-icon ${stopVehicle}`}>
-            <Icon
-              img={`icon-icon_${stopVehicle}`}
-              className="showroutes-icon-svg"
+      <label
+        className="timetable-showroutes combobox-container"
+        htmlFor="timetable-showroutes-button"
+      >
+        <span className="left-column">
+          <span className="combobox-label">
+            <FormattedMessage
+              id="selected-routes"
+              defaultMessage="Selected lines"
             />
-          </div>
-          <div
-            className="showroutes-header"
+          </span>
+          <button
+            type="button"
+            id="timetable-showroutes-button"
+            className="combobox-selected-value"
             onClick={() => {
               this.props.showFilterModal(true);
               addAnalyticsEvent({
@@ -57,16 +63,21 @@ class TimeTableOptionsPanel extends React.Component {
               });
             }}
           >
-            <FormattedMessage id="show-routes" defaultMessage="Show Lines" />
-          </div>
-          <div className="showroutes-list">
-            {showRoutesDiv.length > 0 && showRoutesDiv}
-            {showRoutesDiv.length === 0 && (
-              <FormattedMessage id="all-routes" defaultMessage="All Lines" />
-            )}
-          </div>
+            <span className="showroutes-list">
+              {showRoutesDiv.length > 0 && showRoutesDiv}
+              {showRoutesDiv.length === 0 && (
+                <FormattedMessage id="all-routes" defaultMessage="All Lines" />
+              )}
+            </span>
+          </button>
+        </span>
+        <div className={`showroutes-icon ${stopVehicle}`}>
+          <Icon
+            img={`icon-icon_${stopVehicle}`}
+            className="showroutes-icon-svg"
+          />
         </div>
-      </div>
+      </label>
     );
   }
 }

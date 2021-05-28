@@ -4,6 +4,7 @@ import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import isEqual from 'lodash/isEqual';
 import sortBy from 'lodash/sortBy';
+import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
@@ -45,11 +46,20 @@ export default class FavouriteStore extends Store {
     if (this.config.allowLogin) {
       getFavourites()
         .then(res => {
-          this.favourites = res;
-          this.fetchComplete();
+          if (this.config.allowFavouritesFromLocalstorage) {
+            this.mergeWithLocalstorage(res);
+          } else {
+            this.favourites = res;
+            this.fetchComplete();
+          }
         })
         .catch(() => {
-          this.fetchFailed();
+          if (this.config.allowFavouritesFromLocalstorage) {
+            this.favourites = getFavouriteStorage();
+            this.fetchComplete();
+          } else {
+            this.fetchFailed();
+          }
         });
     } else {
       this.favourites = getFavouriteStorage();
@@ -161,12 +171,48 @@ export default class FavouriteStore extends Store {
     );
   }
 
-  saveFavourite(data) {
+  /**
+   * Merges array of favourites with favourites from localstorage and returns uniques by favouriteId and gtfsId.
+   * If there are duplicates by favouriteId or gtfsId, newer one is saved (by lastUpdated field)
+   * @param {array} arrayOfFavourites array of favourites
+   */
+  mergeWithLocalstorage(arrayOfFavourites) {
+    const storage = getFavouriteStorage();
+    if (isEmpty(storage)) {
+      this.favourites = arrayOfFavourites;
+      this.fetchComplete();
+      return;
+    }
+
+    updateFavourites(storage)
+      .then(res => {
+        this.favourites = res;
+        clearFavouriteStorage();
+        this.fetchComplete();
+      })
+      .catch(() => {
+        this.favourites = arrayOfFavourites;
+        this.fetchComplete();
+      });
+  }
+
+  /**
+   * Saves (or updates) favourite.
+   * Triggers onFail callback function when storing favourite fails.
+   * Generates or updates lastUpdated epoch and for new favourites,
+   * it also generates favouriteId.
+   *
+   * @param {*} actionData object containing favourite data
+   * and on fail callback function under onFail key
+   */
+  saveFavourite(actionData) {
+    const { onFail, ...data } = actionData;
     if (typeof data !== 'object') {
+      onFail();
       throw new Error(`New favourite is not a object:${JSON.stringify(data)}`);
     }
     this.fetchingOrUpdating();
-    const newFavourites = this.favourites;
+    const newFavourites = this.favourites.slice();
     const editIndex = findIndex(
       this.favourites,
       item => data.favouriteId === item.favouriteId,
@@ -186,13 +232,16 @@ export default class FavouriteStore extends Store {
     if (this.config.allowLogin) {
       // Update favourites to backend service
       updateFavourites(newFavourites)
-        .then(() => {
-          this.favourites = newFavourites;
+        .then(res => {
+          this.favourites = res;
           this.fetchComplete();
         })
         .catch(() => {
-          this.favourites = newFavourites;
-          this.storeFavourites();
+          onFail();
+          if (this.config.allowFavouritesFromLocalstorage) {
+            this.favourites = newFavourites;
+            this.storeFavourites();
+          }
           this.fetchComplete();
         });
     } else {
@@ -202,8 +251,16 @@ export default class FavouriteStore extends Store {
     }
   }
 
-  updateFavourites(newFavourites) {
+  /**
+   * Replaces existing array of favourites with an updated array of favourites.
+   *
+   * @param {*} actionData object containing array of new favourites
+   * and on fail callback function under onFail key
+   */
+  updateFavourites(actionData) {
+    const { onFail, newFavourites } = actionData;
     if (!Array.isArray(newFavourites)) {
+      onFail();
       throw new Error(
         `New favourites is not an array:${JSON.stringify(newFavourites)}`,
       );
@@ -212,13 +269,16 @@ export default class FavouriteStore extends Store {
     if (this.config.allowLogin) {
       // Update favourites to backend service
       updateFavourites(newFavourites)
-        .then(() => {
-          this.favourites = newFavourites;
+        .then(res => {
+          this.favourites = res;
           this.fetchComplete();
         })
         .catch(() => {
-          this.favourites = newFavourites;
-          this.storeFavourites();
+          onFail();
+          if (this.config.allowFavouritesFromLocalstorage) {
+            this.favourites = newFavourites;
+            this.storeFavourites();
+          }
           this.fetchComplete();
         });
     } else {
@@ -228,8 +288,16 @@ export default class FavouriteStore extends Store {
     }
   }
 
-  deleteFavourite(data) {
+  /**
+   * Deletes given favourite if one exists in store.
+   *
+   * @param {*} actionData object containing data for favourite to be deleted
+   * and on fail callback function under onFail key
+   */
+  deleteFavourite(actionData) {
+    const { onFail, ...data } = actionData;
     if (typeof data !== 'object') {
+      onFail();
       throw new Error(`Favourite is not an object:${JSON.stringify(data)}`);
     }
     this.fetchingOrUpdating();
@@ -239,12 +307,16 @@ export default class FavouriteStore extends Store {
     if (this.config.allowLogin) {
       // Delete favourite from backend service
       deleteFavourites([data.favouriteId])
-        .then(() => {
-          this.favourites = newFavourites;
+        .then(res => {
+          this.favourites = res;
           this.fetchComplete();
         })
         .catch(() => {
-          this.favourites = newFavourites;
+          onFail();
+          if (this.config.allowFavouritesFromLocalstorage) {
+            this.favourites = newFavourites;
+            this.storeFavourites();
+          }
           this.fetchComplete();
         });
     } else {
@@ -257,7 +329,7 @@ export default class FavouriteStore extends Store {
   migrateRoutes() {
     const routes = getFavouriteRoutesStorage();
     routes.forEach(route => {
-      this.saveFavourite({ type: 'route', gtfsId: route });
+      this.saveFavourite({ type: 'route', gtfsId: route, onFail: () => {} });
     });
     removeItem('favouriteRoutes');
   }
@@ -275,7 +347,7 @@ export default class FavouriteStore extends Store {
         layer: stop.layer,
         selectedIconId: stop.selectedIconId,
       };
-      this.saveFavourite(newStop);
+      this.saveFavourite({ ...newStop, onFail: () => {} });
     });
     removeItem('favouriteStops');
   }
@@ -309,7 +381,7 @@ export default class FavouriteStore extends Store {
             layer: data.properties.layer,
             selectedIconId: location.selectedIconId,
           };
-          this.saveFavourite(newLocation);
+          this.saveFavourite({ ...newLocation, onFail: () => {} });
         }
       });
     });

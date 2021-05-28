@@ -2,14 +2,8 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import getContext from 'recompose/getContext';
-import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
 import GeoJsonStore from '../../store/GeoJsonStore';
-import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { isBrowser } from '../../util/browser';
-
-const jsonModules = {
-  GeoJSON: () => importLazy(import(/* webpackChunkName: "map" */ './GeoJSON')),
-};
 
 /**
  * Adds geojson map layers to the leafletObjs props of the given component. The component should be a component that renders the leaflet map.
@@ -18,7 +12,6 @@ const jsonModules = {
  */
 function withGeojsonObjects(Component) {
   function GeojsonWrapper({
-    mapLayers,
     getGeoJsonConfig,
     getGeoJsonData,
     leafletObjs,
@@ -58,35 +51,8 @@ function withGeojsonObjects(Component) {
       }
       fetch();
     }, []);
-
-    const objs = leafletObjs;
-    if (geoJson) {
-      // bounds are only used when geojson only contains point geometries? TODO copy this from mapWithTracking if this causes problems
-      const bounds = null;
-      Object.keys(geoJson)
-        .filter(
-          key =>
-            mapLayers.geoJson[key] !== false &&
-            (mapLayers.geoJson[key] === true ||
-              geoJson[key].isOffByDefault !== true),
-        )
-        .forEach(key => {
-          objs.push(
-            <LazilyLoad modules={jsonModules} key={key}>
-              {({ GeoJSON }) => (
-                <GeoJSON
-                  bounds={bounds}
-                  data={geoJson[key].data}
-                  locationPopup={props.locationPopup}
-                  onSelectLocation={props.onSelectLocation}
-                />
-              )}
-            </LazilyLoad>,
-          );
-        });
-    }
-
-    return <Component leafletObjs={objs} {...props} />;
+    // adding geoJson to leafletObj moved to map
+    return <Component leafletObjs={leafletObjs} {...props} geoJson={geoJson} />;
   }
   const configShape = PropTypes.shape({
     geoJson: PropTypes.shape({
@@ -96,7 +62,6 @@ function withGeojsonObjects(Component) {
   });
 
   GeojsonWrapper.propTypes = {
-    mapLayers: mapLayerShape.isRequired,
     getGeoJsonConfig: PropTypes.func.isRequired,
     getGeoJsonData: PropTypes.func.isRequired,
     leafletObjs: PropTypes.array,
@@ -114,11 +79,10 @@ function withGeojsonObjects(Component) {
 
   const WithStores = connectToStores(
     WithContext,
-    [MapLayerStore, GeoJsonStore],
+    [GeoJsonStore],
     ({ getStore }) => {
-      const mapLayers = getStore(MapLayerStore).getMapLayers();
       const { getGeoJsonConfig, getGeoJsonData } = getStore(GeoJsonStore);
-      return { mapLayers, getGeoJsonConfig, getGeoJsonData };
+      return { getGeoJsonConfig, getGeoJsonData };
     },
   );
   return WithStores;

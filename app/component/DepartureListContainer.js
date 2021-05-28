@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import Link from 'found/Link';
-import { intlShape } from 'react-intl';
-
+import { intlShape, FormattedMessage } from 'react-intl';
+import Icon from './Icon';
 import DepartureRow from './DepartureRow';
 import { patternIdPredicate } from '../util/alertUtils';
 import { isBrowser } from '../util/browser';
@@ -17,6 +17,7 @@ import {
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { getHeadsignFromRouteLongName } from '../util/legUtils';
 
 const asDepartures = stoptimes =>
   !stoptimes
@@ -57,6 +58,7 @@ const asDepartures = stoptimes =>
           headsign: stoptime.headsign,
           trip: stoptime.trip,
           pickupType: stoptime.pickupType,
+          serviceDay: stoptime.serviceDay,
         };
       });
 
@@ -74,11 +76,14 @@ class DepartureListContainer extends Component {
 
   constructor(props) {
     super(props);
-    this.startClient = this.startClient.bind(this);
-    this.updateClient = this.updateClient.bind(this);
+    this.pageLoadedAlertRef = React.createRef();
   }
 
   componentDidMount() {
+    if (this.pageLoadedAlertRef.current) {
+      // eslint-disable-next-line no-self-assign
+      this.pageLoadedAlertRef.current.innerHTML = this.pageLoadedAlertRef.current.innerHTML;
+    }
     if (this.context.config.showVehiclesOnStopPage && this.props.isStopPage) {
       const departures = asDepartures(this.props.stoptimes)
         .filter(departure => !(this.props.isTerminal && departure.isArrival))
@@ -179,52 +184,123 @@ class DepartureListContainer extends Component {
           defaultMessage: 'Arrives / Terminus',
         });
       }
-      return this.context.intl.formatMessage({
-        id: 'route-destination-arrives',
-        defaultMessage: 'Drop-off only',
-      });
+      return (
+        departure.trip?.tripHeadsign ||
+        this.context.intl.formatMessage({
+          id: 'route-destination-arrives',
+          defaultMessage: 'Drop-off only',
+        })
+      );
     }
-    return (
+    const headsign =
       departure.headsign ||
       departure.pattern.headsign ||
       (departure.trip && departure.trip.tripHeadsign) ||
-      departure.pattern.route.longName
-    );
+      getHeadsignFromRouteLongName(departure.pattern.route);
+
+    if (headsign.endsWith(' via')) {
+      return headsign.substring(0, headsign.indexOf(' via'));
+    }
+    return headsign;
   };
 
   render() {
+    const screenReaderAlert = (
+      <span className="sr-only" role="alert" ref={this.pageLoadedAlertRef}>
+        <FormattedMessage
+          id="stop-page.right-now.loaded"
+          defaultMessage="Right now stop page loaded"
+        />
+      </span>
+    );
+
     const departureObjs = [];
     const { currentTime, limit, isTerminal, stoptimes } = this.props;
 
-    let currentDate = moment.unix(currentTime).startOf('day').unix();
-    let tomorrow = moment.unix(currentTime).add(1, 'day').startOf('day').unix();
-
+    let serviceDayCutoff = moment.unix(currentTime).startOf('day').unix();
+    let dayCutoff = moment.unix(currentTime).startOf('day').unix();
     const departures = asDepartures(stoptimes)
       .filter(departure => !(isTerminal && departure.isArrival))
       .filter(departure => currentTime < departure.stoptime)
       .slice(0, limit);
 
-    departures.forEach(departure => {
-      if (departure.stoptime >= tomorrow) {
+    // Add day dividers when day changes and add service day divider after service day changes.
+    // If day divider and service day dividers are added with same departure only show day divider.
+    const departuresWithDayDividers = departures.map(departure => {
+      const serviceDate = moment.unix(departure.serviceDay).format('DDMMYYYY');
+      const dayCutoffDate = moment.unix(dayCutoff).format('DDMMYYYY');
+      const stoptimeDate = moment.unix(departure.stoptime).format('DDMMYYYY');
+      const serviceDayCutoffDate = moment
+        .unix(serviceDayCutoff)
+        .format('DDMMYYYY');
+
+      if (stoptimeDate !== dayCutoffDate && departure.stoptime > dayCutoff) {
+        dayCutoff = moment.unix(departure.stoptime).startOf('day').unix();
+        // eslint-disable-next-line no-param-reassign
+        departure.addDayDivider = true;
+      }
+
+      if (
+        serviceDate !== serviceDayCutoffDate &&
+        departure.serviceDay > serviceDayCutoff
+      ) {
+        // eslint-disable-next-line no-param-reassign
+        departure.addServiceDayDivider = true;
+        const daysAdd = serviceDate === serviceDayCutoffDate ? 1 : 0;
+        serviceDayCutoff = moment
+          .unix(departure.serviceDay)
+          .startOf('day')
+          .add(daysAdd, 'day')
+          .unix();
+      }
+      return departure;
+    });
+
+    let firstDayDepartureCount = 0;
+    departuresWithDayDividers.forEach((departure, index) => {
+      const departureDate = moment.unix(departure.stoptime).format('DDMMYYYY');
+      const nextDay = moment.unix(currentTime).add(1, 'day').unix();
+      if (departure.stoptime < nextDay) {
+        firstDayDepartureCount += 1;
+      }
+
+      // If next 24h has more than 10 departures only show stops for the next 24h
+      if (departure.stoptime > nextDay && firstDayDepartureCount >= 10) {
+        return;
+      }
+
+      if (departure.addDayDivider) {
         departureObjs.push(
-          <div
-            key={moment.unix(departure.stoptime).format('DDMMYYYY')}
-            className="date-row border-bottom"
-          >
+          <div key={departureDate} className="date-row border-bottom">
             {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
           </div>,
         );
-
-        currentDate = tomorrow;
-        tomorrow = moment.unix(currentDate).add(1, 'day').startOf('day').unix();
+      } else if (departure.addServiceDayDivider) {
+        departureObjs.push(<div className="departure-day-divider" />);
       }
+
       const id = `${departure.pattern.code}:${departure.stoptime}`;
       const row = {
         headsign: this.getHeadsign(departure),
         trip: { ...departure.trip, ...{ route: departure.trip.pattern.route } },
         stop: departure.stop,
         realtime: departure.realtime,
+        bottomRow:
+          departure.isArrival && !departure.isLastStop ? (
+            <div className="drop-off-container">
+              <Icon
+                img="icon-icon_info"
+                color={this.context.config.colors.primary}
+              />
+              <FormattedMessage
+                id="route-destination-arrives"
+                defaultMessage="Drop-off only"
+              />
+            </div>
+          ) : null,
       };
+
+      const nextDeparture = departuresWithDayDividers[index + 1];
 
       const departureObj = (
         <DepartureRow
@@ -234,14 +310,20 @@ class DepartureListContainer extends Component {
           currentTime={this.props.currentTime}
           showPlatformCode={isTerminal}
           canceled={departure.canceled}
+          className={
+            nextDeparture &&
+            nextDeparture.addServiceDayDivider &&
+            !nextDeparture.addDayDivider
+              ? 'no-border'
+              : ''
+          }
         />
       );
 
-      // DT-3331: added query string sort=no to Link's to
       if (this.props.routeLinks) {
         departureObjs.push(
           <Link
-            to={`/${PREFIX_ROUTES}/${departure.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.pattern.code}?sort=no`}
+            to={`/${PREFIX_ROUTES}/${departure.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.pattern.code}`}
             key={id}
             onClick={() => {
               addAnalyticsEvent({
@@ -261,13 +343,16 @@ class DepartureListContainer extends Component {
     });
 
     return (
-      <div
-        className={cx('departure-list', this.props.className)}
-        onScroll={this.onScroll()}
-        role="table"
-      >
-        {departureObjs}
-      </div>
+      <>
+        {screenReaderAlert}
+        <div
+          className={cx('departure-list', this.props.className)}
+          onScroll={this.onScroll()}
+          role="table"
+        >
+          {departureObjs}
+        </div>
+      </>
     );
   }
 }

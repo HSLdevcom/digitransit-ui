@@ -22,8 +22,21 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#52B9E9',
+    iconColors: {
+      'mode-bus': '#52B9E9',
+    },
   },
-
+  transportModes: {
+    bus: {
+      availableForSelection: true,
+      defaultValue: true,
+      nearYouLabel: {
+        fi: 'Lähipysäkit kartalla',
+        sv: 'Hållplatser på kartan',
+        en: 'Nearby stops on map',
+      },
+    },
+  },
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
@@ -58,31 +71,9 @@ export default configMerger(walttiConfig, {
     lon: 27.273215,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_city',
-      label: 'Hallitustori',
-      lat: 61.687904,
-      lon: 27.273215,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Matkakeskus Mikkeli',
-      lat: 61.686905,
-      lon: 27.276961,
-    },
-    {
-      icon: 'icon-icon_city',
-      label: 'Ristiina',
-      lat: 61.506483,
-      lon: 27.257635,
-    },
-  ],
-
-  footer: {
+  menu: {
+    copyright: { label: `© Mikkeli ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Mikkeli ${walttiConfig.YEAR}` },
-      {},
       {
         name: 'about-this-service',
         nameEn: 'About this service',
@@ -133,12 +124,8 @@ export default configMerger(walttiConfig, {
     4: 'D',
     5: 'E',
   },
-  itinerary: {
-    showZoneLimits: true,
-  },
-  stopCard: {
-    header: {
-      showZone: true,
-    },
+  zones: {
+    stops: true,
+    itinerary: true,
   },
 });

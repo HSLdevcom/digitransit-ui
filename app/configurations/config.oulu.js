@@ -19,6 +19,9 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#e10069',
+    iconColors: {
+      'mode-bus': '#e10069',
+    },
   },
 
   socialMedia: {
@@ -33,15 +36,6 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'oulu/oulu-logo.png',
-
-  mapLayers: {
-    tooltip: {
-      fi: 'Uutta! Saat nyt lähellä olevat bussit kartalle asetuksista.',
-      en: 'New! You can now get nearby busses on the map from the settings.',
-      sv:
-        'Nytt! I inställningarna kan du nu välja att se närliggande bussar på kartan.',
-    },
-  },
 
   cityBike: {
     showCityBikes: false,
@@ -93,33 +87,11 @@ export default configMerger(walttiConfig, {
     walkBoardCost: 900,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Rotuaari, Oulu',
-      lat: 65.012338,
-      lon: 25.471333,
-    },
-    {
-      icon: 'icon-icon_rail',
-      label: 'Rautatieasema, Oulu',
-      lat: 65.01014,
-      lon: 25.483349,
-    },
-    {
-      icon: 'icon-icon_airplane',
-      label: 'Lentoasema, Oulu',
-      lat: 64.928808,
-      lon: 25.373296,
-    },
-  ],
-
-  footer: {
+  menu: {
+    copyright: { label: `© Oulu ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Oulu ${walttiConfig.YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'http://www.oulunjoukkoliikenne.fi/palautteet',
         icon: 'icon-icon_speech-bubble',
@@ -139,8 +111,9 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  showAllBusses: true,
+  vehicles: true,
   showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
 
   aboutThisService: {
     fi: [
@@ -177,12 +150,8 @@ export default configMerger(walttiConfig, {
     4: 'C',
     5: 'D',
   },
-  itinerary: {
-    showZoneLimits: true,
-  },
-  stopCard: {
-    header: {
-      showZone: true,
-    },
+  zones: {
+    stops: true,
+    itinerary: true,
   },
 });

@@ -66,9 +66,7 @@ function ItinerarySummaryListContainer(
         isCancelled={itineraryHasCancelation(itinerary)}
         showCancelled={showCancelled}
         zones={
-          config.stopCard.header.showZone && itinerary.legs
-            ? getZones(itinerary.legs)
-            : []
+          config.zones.stops && itinerary.legs ? getZones(itinerary.legs) : []
         }
       />
     ));
@@ -355,6 +353,7 @@ const containerComponent = createFragmentContainer(
           distance
           duration
           rentedBike
+          interlineWithPreviousLeg
           intermediatePlace
           intermediatePlaces {
             stop {
@@ -399,6 +398,11 @@ const containerComponent = createFragmentContainer(
               gtfsId
               zoneId
               platformCode
+              alerts {
+                alertSeverityLevel
+                effectiveEndDate
+                effectiveStartDate
+              }
             }
             bikeRentalStation {
               bikesAvailable
@@ -409,6 +413,11 @@ const containerComponent = createFragmentContainer(
             stop {
               gtfsId
               zoneId
+              alerts {
+                alertSeverityLevel
+                effectiveEndDate
+                effectiveStartDate
+              }
             }
             bikePark {
               bikeParkId

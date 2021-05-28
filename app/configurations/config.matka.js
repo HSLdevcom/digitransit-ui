@@ -72,12 +72,11 @@ export default {
     //  HSL: HSLRouteTimetable,
   },
 
-  footer: {
+  menu: {
+    copyright: { label: `© Traficom ${YEAR}` },
     content: [
-      { label: `© Traficom ${YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas',
         icon: 'icon-icon_speech-bubble',
@@ -98,6 +97,7 @@ export default {
   },
 
   redirectReittiopasParams: true,
+  map: { minZoom: 5 },
 
   cityBike: {
     showCityBikes: true,
@@ -111,9 +111,9 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: 'https://kaupunkipyorat.hsl.fi',
-          sv: 'https://kaupunkipyorat.hsl.fi/sv',
-          en: 'https://kaupunkipyorat.hsl.fi/en',
+          fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors',
+          en: 'https://www.hsl.fi/en/citybikes/helsinki',
         },
       },
       vantaa: {
@@ -125,9 +125,9 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: 'https://kaupunkipyorat.hsl.fi',
-          sv: 'https://kaupunkipyorat.hsl.fi/sv',
-          en: 'https://kaupunkipyorat.hsl.fi/en',
+          fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/vantaa',
+          en: 'https://www.hsl.fi/en/citybikes/vantaa',
         },
       },
       turku: {

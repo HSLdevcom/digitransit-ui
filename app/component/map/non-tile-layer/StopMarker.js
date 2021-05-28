@@ -32,6 +32,7 @@ class StopMarker extends React.Component {
     renderName: PropTypes.bool,
     disableModeIcons: PropTypes.bool,
     selected: PropTypes.bool,
+    colorOverride: PropTypes.string,
   };
 
   static contextTypes = {
@@ -105,12 +106,14 @@ class StopMarker extends React.Component {
     // see app/util/mapIconUtils.js for the canvas version
     let iconSvg = `
       <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
-        <circle class="stop" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"/>
+        <circle class="stop" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}" color="${
+      this.props.colorOverride
+    }" />
         ${
           inner > 7 && this.props.stop.platformCode
             ? `<text x="${radius}" y="${radius}" text-anchor="middle" dominant-baseline="central"
             fill="#333" font-size="${1.2 * inner}px"
-            font-family="Gotham XNarrow A, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif"
+            font-family="Gotham XNarrow A, Gotham Rounded A, Gotham Rounded B, Roboto Condensed, Roboto, Arial, sans-serif"
             >${this.props.stop.platformCode}</text>`
             : ''
         }

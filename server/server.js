@@ -45,12 +45,14 @@ const config = require('../app/config').getConfiguration();
 /* ********* Global ********* */
 const port = config.PORT || 8080;
 const app = express();
-const { indexPath } = config;
+const { indexPath, hostnames } = config;
 
 /* Setup functions */
 function setUpOpenId() {
   const setUpOIDC = require('./passport-openid-connect/openidConnect').default;
-  app.use(logger('dev'));
+  if (process.env.DEBUGLOGGING) {
+    app.use(logger('dev'));
+  }
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
@@ -61,7 +63,7 @@ function setUpOpenId() {
       expectCt: false,
     }),
   );
-  setUpOIDC(app, port, indexPath);
+  setUpOIDC(app, port, indexPath, hostnames);
 }
 
 function setUpStaticFolders() {
@@ -201,21 +203,26 @@ function setUpAvailableRouteTimetables() {
 
 function processTicketTypeResult(result) {
   const resultData = result.data;
-  if (resultData && Array.isArray(resultData.ticketTypes)) {
-    config.availableTickets = {};
-    resultData.ticketTypes.forEach(ticket => {
-      const ticketFeed = ticket.fareId.split(':')[0];
-      if (config.availableTickets[ticketFeed] === undefined) {
-        config.availableTickets[ticketFeed] = {};
-      }
-      config.availableTickets[ticketFeed][ticket.fareId] = {
-        price: ticket.price,
-        zones: ticket.zones,
-      };
-    });
-    console.log('availableTickets loaded');
+  if (config.availableTickets) {
+    if (resultData && Array.isArray(resultData.ticketTypes)) {
+      resultData.ticketTypes.forEach(ticket => {
+        const ticketFeed = ticket.fareId.split(':')[0];
+        if (config.availableTickets[ticketFeed] === undefined) {
+          config.availableTickets[ticketFeed] = {};
+        }
+        config.availableTickets[ticketFeed][ticket.fareId] = {
+          price: ticket.price,
+          zones: ticket.zones,
+        };
+      });
+      console.log('availableTickets loaded');
+    } else {
+      console.log('could not load availableTickets, result was invalid');
+    }
   } else {
-    console.log('could not load availableTickets, result was invalid');
+    console.log(
+      'availableTickets not loaded, missing availableTickets object from config-file',
+    );
   }
 }
 

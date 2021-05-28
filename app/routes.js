@@ -64,7 +64,6 @@ export default config => {
     ),
     map: (
       <Route
-        // TODO: Must be decided how we will handle selecting from map!
         disableMapOnMobile
         getComponent={() =>
           import(
@@ -118,29 +117,40 @@ export default config => {
           ),
         }}
       </Route>
-      <Route
-        path={`/${PREFIX_NEARYOU}/:mode/:place/:origin?`}
-        getComponent={() =>
-          import(
-            /* webpackChunkName: "nearyou" */ './component/StopsNearYouPage'
-          ).then(getDefault)
-        }
-        render={({ Component, props, error, match }) => {
-          if (Component) {
-            return props ? (
-              <Component
-                {...props}
-                match={match}
-                error={error}
-                loadingPosition={false}
-              />
-            ) : (
-              <Component match={match} loadingPosition error={error} />
-            );
-          }
-          return undefined;
+      <Route path={`/${PREFIX_NEARYOU}/:mode/:place/:origin?`}>
+        {{
+          content: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "nearyou" */ './component/StopsNearYouPage'
+                ).then(getDefault)
+              }
+              render={({ Component, props, error, match }) => {
+                if (Component) {
+                  return props ? (
+                    <Component {...props} match={match} error={error} />
+                  ) : (
+                    <Component match={match} error={error} />
+                  );
+                }
+                return undefined;
+              }}
+            />
+          ),
+          meta: (
+            <Route
+              path="(.*)?"
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/StopsNearYouPageMeta'
+                ).then(getDefault)
+              }
+            />
+          ),
         }}
-      />
+      </Route>
+
       <Redirect
         from={`/${PREFIX_ITINERARY_SUMMARY}/:from`}
         to={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/:from`}
@@ -224,18 +234,6 @@ export default config => {
                       render={getComponentOrLoadingRenderer}
                     />
                   </Route>,
-                ],
-                map: [
-                  <Route path="" />,
-                  <Route
-                    path="/:hash/(.*)?"
-                    getComponent={() =>
-                      import(
-                        /* webpackChunkName: "itinerary" */ './component/ItineraryPageMap'
-                      ).then(getDefault)
-                    }
-                    render={getComponentOrNullRenderer}
-                  />,
                 ],
               }}
             </Route>

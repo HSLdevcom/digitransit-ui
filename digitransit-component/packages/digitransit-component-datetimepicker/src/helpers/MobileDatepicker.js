@@ -23,10 +23,9 @@ function MobileDatepicker({
 
   const [open, changeOpen] = useState(false);
   const scrollRef = useRef(null);
-  const day = 1000 * 60 * 60 * 24;
   const dateChoices = Array(itemCount)
     .fill()
-    .map((_, i) => startTime + i * day);
+    .map((_, i) => moment(startTime).add(i, 'day').valueOf());
   const minute = 1000 * 60;
   const diffs = dateChoices.map(t => value - t);
   const scrollIndex = diffs.findIndex(t => t < minute); // when time is now, the times might differ by less than one minute
@@ -37,10 +36,6 @@ function MobileDatepicker({
       scrollRef.current.scrollTop = elementHeight * scrollIndex;
     }
   }, [value, open]);
-  const startFormatted = moment(startTime).format('YYYY-MM-DD');
-  const endFormatted = moment(startTime)
-    .add(itemCount, 'day')
-    .format('YYYY-MM-DD');
   const nativeInput = !isAndroid();
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
@@ -53,31 +48,19 @@ function MobileDatepicker({
         </span>
         {nativeInput ? (
           <>
-            <span className={styles['mobile-input-display']}>
-              {getDisplay(value)}
-            </span>
-            <input
-              id={inputId}
-              type="date"
-              className={styles['mobile-input-hidden']}
-              value={moment(value).format('YYYY-MM-DD')}
-              min={startFormatted}
-              max={endFormatted}
-              onChange={event => {
-                const newValue = event.target.value;
-                if (!newValue) {
-                  // don't allow setting input to empty
-                  return;
-                }
-                const oldDate = moment(value);
-                const newDate = moment(newValue);
-                const combined = oldDate
-                  .year(newDate.year())
-                  .month(newDate.month())
-                  .date(newDate.date());
-                onChange(combined.valueOf());
-              }}
-            />
+            <select
+              className={styles['mobile-input-display']}
+              onChange={e => onChange(Number(e.target.value))}
+              value={value}
+            >
+              {dateChoices.map(date => {
+                return (
+                  <option key={date} value={date}>
+                    {getDisplay(date)}
+                  </option>
+                );
+              })}
+            </select>
           </>
         ) : (
           <Autosuggest

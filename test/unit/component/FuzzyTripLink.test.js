@@ -3,7 +3,7 @@ import React from 'react';
 import { ReactRelayContext } from 'react-relay';
 
 import FuzzyTripLink from '../../../app/component/FuzzyTripLink';
-import IconWithTail from '../../../app/component/IconWithTail';
+import VehicleIcon from '../../../app/component/VehicleIcon';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 
 describe('<FuzzyTripLink />', () => {
@@ -37,6 +37,6 @@ describe('<FuzzyTripLink />', () => {
       </ReactRelayContext.Provider>,
     );
     expect(wrapper.find('.route-now-content')).to.have.lengthOf(1);
-    expect(wrapper.find(IconWithTail)).to.have.lengthOf(1);
+    expect(wrapper.find(VehicleIcon)).to.have.lengthOf(1);
   });
 });

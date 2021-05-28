@@ -15,7 +15,7 @@ import carParkQuery from './carPark';
 const showFacilities = 17;
 
 export default class ParkAndRide {
-  constructor(tile, config, mapLayers, stopsNearYouMode, relayEnvironment) {
+  constructor(tile, config, mapLayers, relayEnvironment) {
     this.tile = tile;
     this.config = config;
     this.relayEnvironment = relayEnvironment;

@@ -35,7 +35,7 @@ export default {
     STOP_MAP: `${MAP_URL}/map/v1/finland-stop-map/`,
     CITYBIKE_MAP: `${MAP_URL}/map/v1/finland-citybike-map/`,
     FONT:
-      'https://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700',
+      'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700',
     PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
     PELIAS_REVERSE_GEOCODER: `${
       process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
@@ -49,7 +49,6 @@ export default {
     },
     STOP_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/stops/`,
-      tampere: 'https://www.tampere.fi/ekstrat/ptdata/pdf/',
     },
     WEATHER_DATA:
       'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::hirlam::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
@@ -79,8 +78,6 @@ export default {
   realTime: realtime,
   realTimePatch: REALTIME_PATCH,
 
-  showNewMqtt: !process.env.DISABLE_NEW_MQTT_FEATURES,
-
   // Google Tag Manager id
   GTMid: process.env.GTM_ID || null,
 
@@ -108,7 +105,7 @@ export default {
   },
 
   omitNonPickups: true,
-  maxNearbyStopAmount: 50,
+  maxNearbyStopAmount: 5,
   maxNearbyStopDistance: 2000,
 
   defaultSettings: {
@@ -149,12 +146,12 @@ export default {
   walkBoardCostHigh: 1200,
 
   maxWalkDistance: 10000,
+  suggestBikeAndPublicMaxDistance: 15000,
   suggestWalkMaxDistance: 5000,
   // if you enable car suggestions but the linear distance between all points is less than this, then a car route will
   // not be computed
   suggestCarMinDistance: 2000,
   maxBikingDistance: 100000,
-  suggestBikeMaxDistance: 15000,
   itineraryFiltering: 1.5, // drops 66% worse routes
   useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
   minTransferTime: 120,
@@ -167,12 +164,15 @@ export default {
     'Europe/Helsinki|EET EEST|-20 -30|0101010101010101010101010101010101010|22k10 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00|12e5',
 
   allowLogin: false,
+  allowFavouritesFromLocalstorage: true,
+
   mainMenu: {
     // Whether to show the left menu toggle button at all
     show: true,
     showDisruptions: true,
     showLoginCreateAccount: true,
     showOffCanvasList: true,
+    showFrontPageLink: true,
   },
 
   itinerary: {
@@ -186,14 +186,8 @@ export default {
     timeNavigation: {
       enableButtonArrows: false,
     },
-
-    showZoneLimits: false,
     // Number of days to include to the service time range from the future (DT-3317)
     serviceTimeRange: 30,
-  },
-
-  nearestStopDistance: {
-    maxShownDistance: 5000,
   },
 
   map: {
@@ -251,7 +245,6 @@ export default {
       showDescription: true,
       showStopCode: true,
       showDistance: true,
-      showZone: false,
     },
   },
 
@@ -263,6 +256,7 @@ export default {
   cityBike: {
     // Config for map features. NOTE: availability for routing is controlled by
     // transportModes.citybike.availableForSelection
+    showFullInfo: false,
     showStationId: true,
     cityBikeMinZoom: 14,
     cityBikeSmallIconZoom: 14,
@@ -292,7 +286,20 @@ export default {
   appBarStyle: 'default', // DT-3375
 
   colors: {
-    primary: '#00AFFF',
+    primary: '#000F94',
+    iconColors: {
+      'mode-airplane': '#0046ad',
+      'mode-bus': '#0088ce',
+      'mode-tram': '#6a8925',
+      'mode-metro': '#ed8c00',
+      'mode-rail': '#af8dbc',
+      'mode-ferry': '#35b5b3',
+      'mode-citybike': '#f2b62d',
+    },
+  },
+
+  fontWeights: {
+    medium: 700,
   },
 
   sprites: 'assets/svg-sprite.default.svg',
@@ -490,21 +497,18 @@ export default {
   // This reduces complexity in finding routes for the query.
   modePolygons: {},
 
-  footer: {
+  menu: {
+    copyright: { label: `© Digitransit ${YEAR}` },
     content: [
-      { label: `© HSL, Traficom ${YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'https://github.com/HSLdevcom/digitransit-ui/issues',
-        icon: 'icon-icon_speech-bubble',
       },
       {
         name: 'about-this-service',
         nameEn: 'About this service',
         route: '/tietoja-palvelusta',
-        icon: 'icon-icon_info',
       },
     ],
   },
@@ -515,26 +519,6 @@ export default {
     lat: 60.317429,
     lon: 24.9690395,
   },
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_airplane',
-      label: 'Helsinki-Vantaan lentoasema',
-      lat: 60.317429,
-      lon: 24.9690395,
-    },
-    {
-      icon: 'icon-icon_ferry',
-      label: 'Turun satama',
-      lat: 60.436363,
-      lon: 22.220002,
-    },
-    {
-      icon: 'icon-icon_airplane',
-      label: 'Rovaniemen lentoasema',
-      lat: 66.557326,
-      lon: 25.828135,
-    },
-  ],
 
   availableRouteTimetables: {},
 
@@ -614,7 +598,6 @@ export default {
     {
       id: '3',
       priority: -1,
-      shouldTrigger: true,
       content: {
         fi: [
           {
@@ -693,7 +676,8 @@ export default {
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
     matka: 'matka',
-    salo: 'salo',
+    vaasa: 'vaasa',
+    walttiOpas: 'waltti',
     rovaniemi: 'rovaniemi',
     kouvola: 'kouvola',
     tampere: 'tampere',
@@ -709,7 +693,7 @@ export default {
   imperialEnabled: false,
   // this flag when true enables imperial measurements  'feet/miles system'
 
-  showAllBusses: false,
+  vehicles: false,
   showVehiclesOnStopPage: false,
   // DT-3551: Link to traffic information page.
   trafficNowLink: '',
@@ -730,10 +714,14 @@ export default {
   showNearYouButtons: false,
   nearYouModes: [],
 
-  zoneIconsAsSvg: false,
-
   /* Option to disable the "next" column of the Route panel as it can be confusing sometimes: https://github.com/mfdz/digitransit-ui/issues/167 */
   displayNextDeparture: true,
 
   messageBarAlerts: false,
+
+  availableTickets: {},
+  zones: {
+    stops: false,
+    itinerary: false,
+  },
 };

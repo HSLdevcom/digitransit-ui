@@ -3,26 +3,27 @@ import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
+import { convertTo24HourFormat } from '../util/timeUtils';
 import RouteNumber from './RouteNumber';
 
 export default function RouteHeader(props) {
   const mode = props.route.mode.toLowerCase();
 
-  const trip = props.trip ? (
-    <span className="route-header-trip">
-      {props.trip.substring(0, 2)}:{props.trip.substring(2, 4)} →
-    </span>
-  ) : (
-    ''
-  );
+  let trip;
+  if (props.trip && props.trip.length > 3) {
+    // change to 24h format
+    const startTime = convertTo24HourFormat(props.trip);
+    trip = <span className="route-header-trip">{startTime} →</span>;
+  } else {
+    trip = '';
+  }
 
   const routeLineText = ` ${props.route.shortName || ''}`;
 
-  // DT-3331: added query string sort=no to Link's to
   const routeLine =
     props.trip && props.pattern ? (
       <Link
-        to={`/${PREFIX_ROUTES}/${props.route.gtfsId}/${PREFIX_STOPS}/${props.pattern.code}?sort=no`}
+        to={`/${PREFIX_ROUTES}/${props.route.gtfsId}/${PREFIX_STOPS}/${props.pattern.code}`}
       >
         {routeLineText}
       </Link>

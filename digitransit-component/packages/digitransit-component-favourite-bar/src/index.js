@@ -13,7 +13,6 @@ import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 
 i18next.init({
-  lng: 'fi',
   fallbackLng: 'fi',
   defaultNS: 'translation',
   interpolation: {
@@ -129,6 +128,11 @@ class FavouriteBar extends React.Component {
     isLoading: PropTypes.bool,
     /** Optional. Default value is '#007ac9'. */
     color: PropTypes.string,
+    /** Optional. */
+    fontWeights: PropTypes.shape({
+      /** Default value is 500. */
+      medium: PropTypes.number,
+    }),
   };
 
   static defaultProps = {
@@ -140,6 +144,9 @@ class FavouriteBar extends React.Component {
     lang: 'fi',
     isLoading: false,
     color: '#007ac9',
+    fontWeights: {
+      medium: 500,
+    },
   };
 
   static FavouriteIconIdToNameMap = {
@@ -153,13 +160,13 @@ class FavouriteBar extends React.Component {
 
   constructor(props) {
     super(props);
-    i18next.changeLanguage(props.lang);
     this.state = {
       listOpen: false,
       highlightedIndex: 0,
       firstFavourite: props.favourites[0] || null,
       secondFavourite: props.favourites[1] || null,
       favourites: props.favourites.slice(2, props.favourites.length),
+      timestamp: 0,
     };
     this.expandListRef = React.createRef();
     this.suggestionListRef = React.createRef();
@@ -169,7 +176,6 @@ class FavouriteBar extends React.Component {
   }
 
   componentDidMount() {
-    i18next.changeLanguage(this.props.lang);
     document.addEventListener('mousedown', this.handleClickOutside);
   }
 
@@ -191,21 +197,22 @@ class FavouriteBar extends React.Component {
     return null;
   }
 
-  componentDidUpdate = prevProps => {
-    if (prevProps.lang !== this.props.lang) {
-      i18next.changeLanguage(this.props.lang);
-    }
-  };
-
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClickOutside);
   }
 
   toggleList = () => {
-    this.setState(prevState => ({
-      listOpen: !prevState.listOpen,
-      highlightedIndex: 0,
-    }));
+    const eventDiff = new Date().getTime() - this.state.timestamp;
+    if (i18next.language !== this.props.lang) {
+      i18next.changeLanguage(this.props.lang);
+    }
+    if (eventDiff > 200) {
+      this.setState(prevState => ({
+        listOpen: !prevState.listOpen,
+        highlightedIndex: 0,
+        timestamp: new Date().getTime(),
+      }));
+    }
   };
 
   highlightSuggestion = index => {
@@ -246,6 +253,10 @@ class FavouriteBar extends React.Component {
       } else {
         this.suggestionSelected();
       }
+    } else if (key === 'Escape' || key === 27) {
+      if (listOpen) {
+        this.toggleList();
+      }
     } else if (key === 'ArrowUp' || key === 38) {
       const next =
         highlightedIndex === 0 ? favourites.length + 1 : highlightedIndex - 1;
@@ -282,6 +293,7 @@ class FavouriteBar extends React.Component {
           item={item}
           iconColor={this.props.color}
           className={className}
+          fontWeights={this.props.fontWeights}
         />
       </li>
     );
@@ -311,7 +323,7 @@ class FavouriteBar extends React.Component {
   };
 
   render() {
-    const { onClickFavourite, isLoading } = this.props;
+    const { onClickFavourite, isLoading, fontWeights } = this.props;
     const {
       listOpen,
       favourites,
@@ -320,8 +332,13 @@ class FavouriteBar extends React.Component {
       secondFavourite,
     } = this.state;
     const expandIcon = this.props.favourites.length === 0 ? 'plus' : 'arrow';
+
+    if (i18next.language !== this.props.lang) {
+      i18next.changeLanguage(this.props.lang);
+    }
+
     return (
-      <React.Fragment>
+      <div style={{ '--font-weight-medium': fontWeights.medium }}>
         <div className={styles['favourite-container']}>
           <FavouriteLocation
             text={
@@ -380,6 +397,7 @@ class FavouriteBar extends React.Component {
             id="favourite-expand-button"
             onFocus={() => this.toggleList()}
             onKeyDown={e => this.handleKeyDown(e)}
+            onClick={() => this.toggleList()}
             tabIndex="0"
             role="listbox"
             aria-label={i18next.t('open-favourites')}
@@ -430,7 +448,7 @@ class FavouriteBar extends React.Component {
             </ul>
           )}
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

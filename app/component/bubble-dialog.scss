@@ -4,6 +4,8 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
 .bubble-dialog-component-container {
   position: relative;
   z-index: auto;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  margin: 0 0 8px 8px;
 
   .bubble-dialog-container {
     bottom: 2.5em;
@@ -20,6 +22,9 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
     }
 
     .bubble-dialog {
+      position: relative;
+      right: 190px;
+      min-width: 240px;
       background-color: $white;
       border-radius: $border-radius-bigger;
       box-shadow: $bubble-dialog-box-shadow;
@@ -44,7 +49,8 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
       &.bubble-dialog--tooltip {
         display: flex;
         flex-direction: row;
-        width: 23em;
+	right: 16em;
+        width: 19em;
         max-width: calc(100vw - 5.5em);
       }
 
@@ -78,13 +84,13 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
         .bubble-dialog-header {
           color: $black;
           font-size: 1rem;
-          font-weight: 700;
+          font-weight: $font-weight-medium;
           text-transform: uppercase;
           user-select: none;
 
           &.bubble-dialog-header--fullscreen {
             font-size: $bubble-dialog-font-size--fullscreen;
-            font-weight: 500;
+            font-weight: $font-weight-medium;
             text-transform: none;
           }
         }
@@ -121,7 +127,6 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
 
     .bubble-dialog-tip-container {
       height: 1rem;
-      margin-left: 0.25rem;
       overflow: hidden;
       width: 2rem;
 

@@ -86,6 +86,11 @@ class FavouriteEditingModal extends React.Component {
     isLoading: PropTypes.bool.isRequired,
     color: PropTypes.string,
     hoverColor: PropTypes.string,
+    /** Optional. */
+    fontWeights: PropTypes.shape({
+      /** Default value is 500. */
+      medium: PropTypes.number,
+    }),
   };
 
   static defaultProps = {
@@ -93,6 +98,9 @@ class FavouriteEditingModal extends React.Component {
     isMobile: false,
     color: '#007ac9',
     hoverColor: '#0062a1',
+    fontWeights: {
+      medium: 500,
+    },
   };
 
   constructor(props) {
@@ -126,8 +134,8 @@ class FavouriteEditingModal extends React.Component {
     return null;
   };
 
-  componentDidUpdate = prevProps => {
-    if (prevProps.lang !== this.props.lang) {
+  componentDidUpdate = () => {
+    if (i18next.language !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
     }
   };
@@ -214,15 +222,11 @@ class FavouriteEditingModal extends React.Component {
     );
   };
 
-  renderFavouriteList = (favourites, isLoading, color, hoverColor) => {
+  renderFavouriteList = () => {
+    const { isLoading } = this.props;
+    const { favourites } = this.state;
     return (
-      <div
-        className={styles['favourite-edit-list-container']}
-        style={{
-          '--color': `${color}`,
-          '--hover-color': `${hoverColor}`,
-        }}
-      >
+      <div className={styles['favourite-edit-list-container']}>
         <ContainerSpinner visible={isLoading}>
           <ReactSortable
             className={styles['favourite-edit-list']}
@@ -273,6 +277,7 @@ class FavouriteEditingModal extends React.Component {
         }
         color={this.props.color}
         hoverColor={this.props.hoverColor}
+        fontWeights={this.props.fontWeights}
       />
     );
   };
@@ -287,22 +292,31 @@ class FavouriteEditingModal extends React.Component {
     }
   };
 
-  render() {
-    const { isLoading } = this.props;
-    const { favourites, showDeletePlaceModal, selectedFavourite } = this.state;
+  renderModalContent = () => {
+    const { color, hoverColor, fontWeights } = this.props;
     const modalProps = {
       headerText: i18next.t('edit-places'),
-      renderList: () =>
-        this.renderFavouriteList(
-          favourites,
-          isLoading,
-          this.props.color,
-          this.props.hoverColor,
-        ),
+      renderList: () => this.renderFavouriteList(),
     };
     return (
+      <div
+        style={{
+          '--color': `${color}`,
+          '--hover-color': `${hoverColor}`,
+          '--font-weight-medium': fontWeights.medium,
+        }}
+      >
+        <ModalContent {...modalProps} />
+      </div>
+    );
+  };
+
+  render() {
+    const { isMobile } = this.props;
+    const { showDeletePlaceModal, selectedFavourite } = this.state;
+    return (
       <div>
-        {this.props.isMobile && (
+        {isMobile && (
           <Modal
             appElement={this.props.appElement}
             contentLabel={i18next.t('edit-modal-on-open')}
@@ -312,10 +326,10 @@ class FavouriteEditingModal extends React.Component {
             onCrossClick={this.closeModal}
           >
             {this.renderDeleteFavouriteModal(selectedFavourite)}
-            <ModalContent {...modalProps} />
+            {this.renderModalContent()}
           </Modal>
         )}
-        {!this.props.isMobile && (
+        {!isMobile && (
           <Fragment>
             <Modal
               appElement={this.props.appElement}
@@ -325,7 +339,7 @@ class FavouriteEditingModal extends React.Component {
               isOpen={this.props.isModalOpen && !showDeletePlaceModal}
               onCrossClick={this.closeModal}
             >
-              <ModalContent {...modalProps} />
+              {this.renderModalContent()}
             </Modal>
             {this.renderDeleteFavouriteModal(selectedFavourite)}
           </Fragment>

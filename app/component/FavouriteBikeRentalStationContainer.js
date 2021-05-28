@@ -14,6 +14,7 @@ const FavouriteBikeRentalStationContainer = connectToStores(
         bikeRentalStation.stationId,
         bikeRentalStation.networks,
       ),
+    isFetching: context.getStore('FavouriteStore').getStatus() === 'fetching',
     addFavourite: () => {
       context.executeAction(saveFavourite, {
         lat: bikeRentalStation.lat,
@@ -53,7 +54,7 @@ const FavouriteBikeRentalStationContainer = connectToStores(
           ),
       });
     },
-    allowLogin: context.config.allowLogin,
+    requireLoggedIn: !context.config.allowFavouritesFromLocalstorage,
     isLoggedIn:
       context.config.allowLogin &&
       context.getStore('UserStore').getUser().sub !== undefined,

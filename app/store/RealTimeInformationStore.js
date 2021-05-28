@@ -1,4 +1,5 @@
 import Store from 'fluxible/addons/BaseStore';
+import events from '../util/events';
 
 class RealTimeInformationStore extends Store {
   static storeName = 'RealTimeInformationStore';
@@ -73,6 +74,21 @@ class RealTimeInformationStore extends Store {
   }
 
   getVehicle = id => this.vehicles[id];
+
+  setVisibleVehicles(visibleVehicleKeys) {
+    const vehicleKeys = Object.keys(this.vehicles);
+    const projectedVehicles = [];
+    vehicleKeys.forEach(key => {
+      const vehicle = this.vehicles[key];
+      const hasKey = visibleVehicleKeys.includes(key);
+      vehicle.visible = hasKey;
+      if (hasKey) {
+        projectedVehicles.push(vehicle);
+      }
+      this.vehicles[key] = vehicle;
+    });
+    events.emit('vehiclesChanged', projectedVehicles);
+  }
 
   static handlers = {
     RealTimeClientStarted: 'storeClient',

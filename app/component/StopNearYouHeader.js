@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'found';
-import { FormattedMessage } from 'react-intl';
-import StopCode from './StopCode';
+import AddressRow from './AddressRow';
 import ZoneIcon from './ZoneIcon';
 import PlatformNumber from './PlatformNumber';
-import { isKeyboardSelectionEvent } from '../util/browser';
 import FavouriteStopContainer from './FavouriteStopContainer';
 import { getZoneLabel } from '../util/legUtils';
 
@@ -20,11 +18,6 @@ const StopNearYouHeader = (
           onClick={e => {
             e.stopPropagation();
           }}
-          onKeyPress={e => {
-            if (isKeyboardSelectionEvent(e)) {
-              e.stopPropagation();
-            }
-          }}
           to={linkAddress}
         >
           <h3 className="stop-near-you-name">
@@ -35,16 +28,9 @@ const StopNearYouHeader = (
           </h3>
         </Link>
         <div className="stop-near-you-info">
-          {desc && <span className="stop-near-you-desc">{desc}</span>}
-          {isStation ? (
-            <span className="itinerary-stop-code">
-              <FormattedMessage id="station" />
-            </span>
-          ) : (
-            <StopCode code={stop.code} />
-          )}
+          <AddressRow desc={desc} code={stop.code} isTerminal={isStation} />
           <PlatformNumber number={stop.platformCode} short />
-          {config.stopCard.header.showZone &&
+          {config.zones.stops &&
             config.feedIds.includes(stop.gtfsId.split(':')[0]) && (
               <ZoneIcon
                 zoneId={getZoneLabel(stop.zoneId, config)}

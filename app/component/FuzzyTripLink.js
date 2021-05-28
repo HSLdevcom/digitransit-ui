@@ -4,19 +4,21 @@ import { QueryRenderer, graphql } from 'react-relay';
 import Link from 'found/Link';
 import cx from 'classnames';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
-import IconWithTail from './IconWithTail';
+import { intlShape } from 'react-intl';
+import VehicleIcon from './VehicleIcon';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-function FuzzyTripLink({ vehicle }) {
+function FuzzyTripLink({ vehicle, stopName, nextStopName }, context) {
   const { environment } = useContext(ReactRelayContext);
-
   const icon = (
-    <IconWithTail
+    <VehicleIcon
       className={cx(vehicle.mode, 'tail-icon')}
       mode={vehicle.mode}
       rotate={180}
       vehicleNumber={vehicle.shortName}
+      useLargeIcon
+      color={vehicle.color}
     />
   );
   return (
@@ -55,13 +57,36 @@ function FuzzyTripLink({ vehicle }) {
       }}
       environment={environment}
       render={({ props }) => {
-        if (!props) {
+        if (!props || props.trip === null) {
           return <span className="route-now-content">{icon}</span>;
         }
 
         const route = props.trip.route.gtfsId;
         const pattern = props.trip.pattern.code;
         const trip = props.trip.gtfsId;
+        const { mode } = vehicle;
+        const { shortName } = vehicle;
+        const localizedMode = context.intl.formatMessage({
+          id: `${mode}`,
+          defaultMessage: `${mode}`,
+        });
+        const ariaMessage = nextStopName
+          ? context.intl.formatMessage(
+              {
+                id: 'route-page-vehicle-position-between',
+                defaultMessage:
+                  '{mode} {shortName} is between {stopName} and {nextStopName}',
+              },
+              { stopName, nextStopName, mode: localizedMode, shortName },
+            )
+          : context.intl.formatMessage(
+              {
+                id: 'route-page-vehicle-position',
+                defaultMessage: '{mode} {shortName} is at {stopName}',
+              },
+              { stopName, mode: localizedMode, shortName },
+            );
+
         return (
           <Link
             to={`/${PREFIX_ROUTES}/${route}/${PREFIX_STOPS}/${pattern}/${trip}`}
@@ -73,6 +98,7 @@ function FuzzyTripLink({ vehicle }) {
                 name: vehicle.mode.toUpperCase(),
               });
             }}
+            aria-label={ariaMessage}
           >
             {icon}
           </Link>
@@ -91,7 +117,14 @@ FuzzyTripLink.propTypes = {
     tripStartTime: PropTypes.string.isRequired,
     operatingDay: PropTypes.string.isRequired,
     shortName: PropTypes.string.isRequired,
+    color: PropTypes.string,
   }).isRequired,
+  stopName: PropTypes.string,
+  nextStopName: PropTypes.string,
+};
+
+FuzzyTripLink.contextTypes = {
+  intl: intlShape.isRequired,
 };
 
 export default FuzzyTripLink;

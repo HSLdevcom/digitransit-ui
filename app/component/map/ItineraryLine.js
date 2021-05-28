@@ -17,7 +17,6 @@ import { isCallAgencyPickupType } from '../../util/legUtils';
 import IconMarker from './IconMarker';
 import SpeechBubble from './SpeechBubble';
 import { durationToString } from '../../util/timeUtils';
-import { BIKEAVL_UNKNOWN } from '../../util/citybikes';
 
 const getLegText = (leg, config) => {
   if (!leg.route) {
@@ -45,6 +44,7 @@ class ItineraryLine extends React.Component {
     showTransferLabels: PropTypes.bool,
     showIntermediateStops: PropTypes.bool,
     streetMode: PropTypes.string,
+    flipBubble: PropTypes.bool,
   };
 
   checkStreetMode(leg) {
@@ -90,11 +90,12 @@ class ItineraryLine extends React.Component {
         />,
       );
 
-      if (this.checkStreetMode(leg)) {
+      if (this.checkStreetMode(leg) && leg.distance > 100) {
         const duration = durationToString(leg.endTime - leg.startTime);
         objs.push(
           <SpeechBubble
             key={`speech_${this.props.hash}_${i}_${mode}`}
+            flip={this.props.flipBubble}
             position={middle}
             text={duration}
           />,
@@ -125,10 +126,7 @@ class ItineraryLine extends React.Component {
           objs.push(
             <CityBikeMarker
               key={leg.from.bikeRentalStation.stationId}
-              showBikeAvailability={
-                leg.rentedBike &&
-                this.context.config.cityBike.capacity !== BIKEAVL_UNKNOWN
-              }
+              showBikeAvailability
               station={leg.from.bikeRentalStation}
               transit
             />,
@@ -221,6 +219,7 @@ export default createFragmentContainer(ItineraryLine, {
       rentedBike
       startTime
       endTime
+      distance
       legGeometry {
         points
       }

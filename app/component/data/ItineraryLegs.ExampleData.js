@@ -3,8 +3,6 @@ export const exampleData = {
   duration: 835,
   startTime: 1549613561000,
   endTime: 1549614396000,
-  elevationGained: 7.209999999999997,
-  elevationLost: 10.409999999999993,
   fares: [
     {
       type: 'regular',
@@ -228,8 +226,6 @@ export const exampleData = {
 export const scooterData = {
   duration: 1938,
   endTime: 1557473349000,
-  elevationGained: 46.00000000000002,
-  elevationLost: 68.36000000000001,
   startTime: 1557471411000,
   walkDistance: 6264.68343332049,
   legs: [

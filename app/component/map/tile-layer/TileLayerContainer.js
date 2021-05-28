@@ -10,19 +10,21 @@ import isEqual from 'lodash/isEqual';
 import Popup from 'react-leaflet/es/Popup';
 import { withLeaflet } from 'react-leaflet/es/context';
 import { matchShape, routerShape } from 'found';
-
+import { mapLayerShape } from '../../../store/MapLayerStore';
 import MarkerSelectPopup from './MarkerSelectPopup';
-import CityBikePopup from '../popups/CityBikePopupContainer';
 import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopupContainer';
 import ParkAndRideFacilityPopup from '../popups/ParkAndRideFacilityPopupContainer';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
-import MapLayerStore, { mapLayerShape } from '../../../store/MapLayerStore';
 import RealTimeInformationStore from '../../../store/RealTimeInformationStore';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { getClientBreakpoint } from '../../../util/withBreakpoint';
-import { PREFIX_STOPS, PREFIX_TERMINALS } from '../../../util/path';
+import {
+  PREFIX_BIKESTATIONS,
+  PREFIX_STOPS,
+  PREFIX_TERMINALS,
+} from '../../../util/path';
 import SelectVehicleContainer from './SelectVehicleContainer';
 
 const initialState = {
@@ -40,7 +42,7 @@ class TileLayerContainer extends GridLayer {
     zoomOffset: PropTypes.number.isRequired,
     locationPopup: PropTypes.string, // all, none, reversegeocoding, origindestination
     onSelectLocation: PropTypes.func,
-    stopsNearYouMode: PropTypes.string,
+    mergeStops: PropTypes.bool,
     mapLayers: mapLayerShape.isRequired,
     leaflet: PropTypes.shape({
       map: PropTypes.shape({
@@ -55,6 +57,7 @@ class TileLayerContainer extends GridLayer {
     }).isRequired,
     relayEnvironment: PropTypes.object.isRequired,
     hilightedStops: PropTypes.arrayOf(PropTypes.string),
+    stopsToShow: PropTypes.arrayOf(PropTypes.string),
     vehicles: PropTypes.object,
   };
 
@@ -157,12 +160,12 @@ class TileLayerContainer extends GridLayer {
       done,
       this.props,
       this.context.config,
-      this.props.stopsNearYouMode,
+      this.props.mergeStops,
       this.props.relayEnvironment,
       this.props.hilightedStops,
       this.props.vehicles,
+      this.props.stopsToShow,
     );
-
     tile.onSelectableTargetClicked = (
       selectableTargets,
       coords,
@@ -174,7 +177,19 @@ class TileLayerContainer extends GridLayer {
       } = this.props;
       const { coords: prevCoords } = this.state;
       const popup = map._popup; // eslint-disable-line no-underscore-dangle
-      // navigate to stop page if single stop is clicked
+      // navigate to citybike stop page if single stop is clicked
+      if (
+        selectableTargets.length === 1 &&
+        selectableTargets[0].layer === 'citybike'
+      ) {
+        this.context.router.push(
+          `/${PREFIX_BIKESTATIONS}/${encodeURIComponent(
+            selectableTargets[0].feature.properties.id,
+          )}`,
+        );
+        return;
+      }
+      // ... Or to stop page
       if (
         selectableTargets.length === 1 &&
         selectableTargets[0].layer === 'stop'
@@ -263,24 +278,13 @@ class TileLayerContainer extends GridLayer {
     let popup = null;
     let latlng = this.state.coords;
     let contents;
-
     const breakpoint = getClientBreakpoint(); // DT-3470
     let showPopup = true; // DT-3470
 
     if (typeof this.state.selectableTargets !== 'undefined') {
       if (this.state.selectableTargets.length === 1) {
         let id;
-        if (this.state.selectableTargets[0].layer === 'citybike') {
-          ({ id } = this.state.selectableTargets[0].feature.properties);
-          contents = (
-            <CityBikePopup
-              stationId={id}
-              context={this.context}
-              onSelectLocation={this.props.onSelectLocation}
-              locationPopup={this.props.locationPopup}
-            />
-          );
-        } else if (
+        if (
           this.state.selectableTargets[0].layer === 'parkAndRide' &&
           this.state.selectableTargets[0].feature.properties.facilityIds
         ) {
@@ -375,8 +379,13 @@ class TileLayerContainer extends GridLayer {
             key={this.state.coords.toString()}
             {...this.PopupOptions}
             maxHeight={220}
+            maxWidth="auto"
             position={this.state.coords}
-            className={`${this.PopupOptions.className} single-popup`}
+            className={`${this.PopupOptions.className} ${
+              this.props.locationPopup === 'all'
+                ? 'single-popup'
+                : 'narrow-popup'
+            }`}
           >
             <LocationPopup
               lat={this.state.coords.lat}
@@ -402,9 +411,8 @@ const connectedComponent = withLeaflet(
         )}
       </ReactRelayContext.Consumer>
     ),
-    [MapLayerStore, RealTimeInformationStore],
+    [RealTimeInformationStore],
     context => ({
-      mapLayers: context.getStore(MapLayerStore).getMapLayers(),
       vehicles: context.getStore(RealTimeInformationStore).vehicles,
     }),
   ),

@@ -17,6 +17,9 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#F76013',
+    iconColors: {
+      'mode-bus': '#F76013',
+    },
   },
 
   socialMedia: {
@@ -36,13 +39,17 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['Hameenlinna', 'HameenlinnaEly'],
 
-  mapLayers: {
-    tooltip: {
-      fi: 'Uutta! Saat nyt lähellä olevat bussit kartalle asetuksista.',
-      en: 'New! You can now get nearby busses on the map from the settings.',
-      sv:
-        'Nytt! I inställningarna kan du nu välja att se närliggande bussar på kartan.',
-    },
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/hml_zone_lines_20210222.geojson',
+      },
+    ],
   },
 
   searchParams: {
@@ -67,27 +74,11 @@ export default configMerger(walttiConfig, {
 
   minTransferTime: 60,
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Hämeenlinnan linja-autoasema',
-      lat: 60.9952717075545,
-      lon: 24.4662911533486,
-    },
-    {
-      icon: 'icon-icon_rail',
-      label: 'Hämeenlinnan rautatieasema',
-      lat: 61.002179,
-      lon: 24.478192,
-    },
-  ],
-
-  footer: {
+  menu: {
+    copyright: { label: `© Hameenlinna ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Hameenlinna ${walttiConfig.YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href:
           'http://kartta.hameenlinna.fi/eFeedback/fi/Feedback/35-Joukkoliikenne',
@@ -147,12 +138,12 @@ export default configMerger(walttiConfig, {
     8: 'H',
     9: 'I',
   },
-  stopCard: {
-    header: {
-      showZone: true,
-    },
-  },
 
-  showAllBusses: true,
+  vehicles: true,
   showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
+  zones: {
+    stops: true,
+    itinerary: true,
+  },
 });

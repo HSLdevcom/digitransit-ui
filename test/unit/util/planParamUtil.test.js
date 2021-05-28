@@ -295,6 +295,29 @@ describe('planParamUtil', () => {
       expect(disableRemainingWeightHeuristic).to.equal(false);
     });
 
+    it('should not include CITYBIKE in bikepark modes', () => {
+      setCustomizedSettings({
+        modes: ['CITYBIKE', 'BUS'],
+      });
+      const params = utils.preparePlanParams(defaultConfig, false)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {},
+          },
+        },
+      );
+      const { bikeParkModes } = params;
+      expect(bikeParkModes).to.deep.equal([
+        { mode: 'BICYCLE', qualifier: 'PARK' },
+        { mode: 'BUS' },
+        { mode: 'WALK' },
+      ]);
+    });
+
     it('should have disableRemainingWeightHeuristic as true when CITYBIKE is selected', () => {
       setCustomizedSettings({
         modes: ['CITYBIKE', 'BUS', 'TRAM', 'FERRY', 'SUBWAY', 'RAIL'],
@@ -314,6 +337,48 @@ describe('planParamUtil', () => {
       expect(disableRemainingWeightHeuristic).to.equal(
         defaultConfig.transportModes.citybike.availableForSelection,
       );
+    });
+
+    it('should use same letter case for citybike networks from custom settings as in default settings', () => {
+      setCustomizedSettings({
+        allowedBikeRentalNetworks: ['FOO'],
+      });
+      const configWithCitybikes = {
+        ...defaultConfig,
+        cityBike: {
+          showCityBikes: true,
+          capacity: 'Bikes on station',
+          networks: {
+            foo: {
+              icon: 'citybike',
+              name: {
+                en: 'Foo bikes',
+              },
+              type: 'citybike',
+            },
+            bar: {
+              icon: 'citybike',
+              name: {
+                en: 'Bar bikes',
+              },
+              type: 'citybike',
+            },
+          },
+        },
+      };
+      const params = utils.preparePlanParams(configWithCitybikes, false)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {},
+          },
+        },
+      );
+      const { allowedBikeRentalNetworks } = params;
+      expect(allowedBikeRentalNetworks).to.deep.equal(['foo']);
     });
   });
 

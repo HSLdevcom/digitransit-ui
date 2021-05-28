@@ -8,8 +8,6 @@ import makeRouteConfig from 'found/makeRouteConfig';
 import getStoreRenderArgs from 'found/getStoreRenderArgs';
 import { Resolver } from 'found-relay';
 import provideContext from 'fluxible-addons-react/provideContext';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import debug from 'debug';
 import {
   RelayNetworkLayer,
@@ -32,7 +30,6 @@ import { historyMiddlewares, render } from './routes';
 import Raven from './util/Raven';
 import configureMoment from './util/configure-moment';
 import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
-import MUITheme from './MuiTheme';
 import appCreator from './app';
 import translations from './translations';
 import { BUILD_TIME } from './buildInfo';
@@ -237,23 +234,17 @@ async function init() {
       >
         <ReactRelayContext.Provider value={{ environment }}>
           <ErrorBoundary>
-            <MuiThemeProvider
-              muiTheme={getMuiTheme(MUITheme(config), {
-                userAgent: navigator.userAgent,
-              })}
-            >
-              <React.Fragment>
-                <Helmet
-                  {...meta(
-                    context.getStore('PreferencesStore').getLanguage(),
-                    window.location.host,
-                    window.location.href,
-                    config,
-                  )}
-                />
-                <Router resolver={resolver} />
-              </React.Fragment>
-            </MuiThemeProvider>
+            <React.Fragment>
+              <Helmet
+                {...meta(
+                  context.getStore('PreferencesStore').getLanguage(),
+                  window.location.host,
+                  window.location.href,
+                  config,
+                )}
+              />
+              <Router resolver={resolver} />
+            </React.Fragment>
           </ErrorBoundary>
         </ReactRelayContext.Provider>
       </ContextProvider>

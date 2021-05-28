@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
+import isEmpty from 'lodash/isEmpty';
 
 import ComponentUsageExample from './ComponentUsageExample';
-import WalkDistance from './WalkDistance';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import StopCode from './StopCode';
 import PatternLink from './PatternLink';
@@ -18,36 +18,80 @@ import {
   vehicle as exampleVehicle,
 } from './ExampleData';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
+import { estimateItineraryDistance } from '../util/geo-utils';
+import ZoneIcon from './ZoneIcon';
+import { getZoneLabel } from '../util/legUtils';
 
-const TripRouteStop = props => {
+const VEHICLE_ARRIVING = 'arriving';
+const VEHICLE_ARRIVED = 'arrived';
+const VEHICLE_DEPARTED = 'departed';
+
+const TripRouteStop = (props, context) => {
   const {
     className,
     color,
     currentTime,
-    distance,
     mode,
     stop,
+    nextStop,
     stopPassed,
     stoptime,
+    shortName,
+    setHumanScrolling,
+    keepTracking,
   } = props;
+
+  const { config } = context;
+
+  const getVehiclePatternLink = vehicle => {
+    const maxDistance = vehicle.mode === 'rail' ? 100 : 50;
+    const { realtimeDeparture, realtimeArrival, serviceDay } = stoptime;
+    const arrivalTimeToStop = (serviceDay + realtimeArrival) * 1000;
+    const departureTimeFromStop = (serviceDay + realtimeDeparture) * 1000;
+    const vehicleTime = vehicle.timestamp * 1000;
+    const distanceToStop = estimateItineraryDistance(stop, {
+      lat: vehicle.lat,
+      lon: vehicle.long,
+    });
+
+    let vehicleState = '';
+    if (distanceToStop > maxDistance && vehicleTime < arrivalTimeToStop) {
+      vehicleState = VEHICLE_ARRIVING;
+    } else if (
+      (vehicleTime >= arrivalTimeToStop &&
+        vehicleTime < departureTimeFromStop) ||
+      distanceToStop <= maxDistance
+    ) {
+      vehicleState = VEHICLE_ARRIVED;
+    } else if (vehicleTime >= departureTimeFromStop) {
+      vehicleState = VEHICLE_DEPARTED;
+    }
+    return (
+      <div className={cx('route-stop-now', vehicleState)}>
+        <PatternLink
+          stopName={stop.name}
+          nextStopName={nextStop ? nextStop.name : null}
+          key={vehicle.id}
+          mode={vehicle.mode}
+          pattern={props.pattern}
+          route={props.route}
+          vehicleNumber={vehicle.shortName || shortName}
+          selected={
+            props.selectedVehicle && props.selectedVehicle.id === vehicle.id
+          }
+          color={!stopPassed && vehicle.color}
+          setHumanScrolling={setHumanScrolling}
+          keepTracking={keepTracking}
+        />
+      </div>
+    );
+  };
   const vehicles =
     props.vehicles &&
     props.vehicles.map(
       vehicle =>
-        vehicle.route === props.route && (
-          <PatternLink
-            key={vehicle.id}
-            mode={vehicle.mode}
-            pattern={props.pattern}
-            route={props.route}
-            vehicleNumber={vehicle.shortName}
-            selected={
-              props.selectedVehicle && props.selectedVehicle.id === vehicle.id
-            }
-          />
-        ),
+        vehicle.route === props.route && getVehiclePatternLink(vehicle),
     );
-
   return (
     <div
       className={cx(
@@ -56,60 +100,60 @@ const TripRouteStop = props => {
         className,
       )}
     >
-      <div className=" route-stop-now">{vehicles}</div>
+      {vehicles}
       <div className={cx('route-stop-now_circleline', mode)}>
         <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          width={15}
-          height={30}
-          style={{ fill: color, stroke: color }}
+          style={{ fill: !stopPassed && color, stroke: !stopPassed && color }}
         >
           <circle
-            strokeWidth="2"
-            stroke={color || 'currentColor'}
+            cx="8"
+            cy="8"
+            r="6"
             fill="white"
-            cx="6"
-            cy="13"
-            r="5"
+            stroke={(!stopPassed && color) || 'currentColor'}
+            strokeWidth="4"
           />
         </svg>
         <div
           className={cx('route-stop-now_line', mode)}
-          style={{ backgroundColor: color }}
+          style={{ backgroundColor: !stopPassed && color }}
         />
       </div>
       <div className="route-stop-row_content-container">
         <Link to={`/${PREFIX_STOPS}/${encodeURIComponent(stop.gtfsId)}`}>
-          <div className="route-details-upper-row">
-            <div className={`route-details_container ${mode}`}>
-              <div className="route-stop-name">
-                <span>{stop.name}</span>
-                <ServiceAlertIcon
-                  className="inline-icon"
-                  severityLevel={getActiveAlertSeverityLevel(
-                    stop.alerts,
-                    currentTime,
-                  )}
-                />
+          <div>
+            <div className="route-details-upper-row">
+              <div className={`route-details_container ${mode}`}>
+                <div className="route-stop-name">
+                  <span>{stop.name}</span>
+                  <ServiceAlertIcon
+                    className="inline-icon"
+                    severityLevel={getActiveAlertSeverityLevel(
+                      stop.alerts,
+                      currentTime,
+                    )}
+                  />
+                </div>
+              </div>
+              <div className="departure-times-container">
+                <div className="route-stop-time">
+                  {!isEmpty(stoptime) && fromStopTime(stoptime, currentTime)}
+                </div>
               </div>
             </div>
-            <div className="departure-times-container">
-              <div className="route-stop-time">
-                {stoptime && fromStopTime(stoptime, currentTime)}
-              </div>
-            </div>
-          </div>
-          <div className="route-details-bottom-row">
-            {stop.code && <StopCode code={stop.code} />}
-            <span className="route-stop-address">{stop.desc}</span>
-            {'\u2002'}
-            {distance && (
-              <WalkDistance
-                className="nearest-route-stop"
-                icon="icon_location-with-user"
-                walkDistance={distance}
+            <div className="route-details-bottom-row">
+              <span className="route-stop-address">{stop.desc}</span>
+              {stop.code && <StopCode code={stop.code} />}
+              <ZoneIcon
+                zoneId={getZoneLabel(stop.zoneId, config)}
+                showUnknown={false}
               />
-            )}
+            </div>
           </div>
         </Link>
       </div>
@@ -123,8 +167,7 @@ TripRouteStop.propTypes = {
   color: PropTypes.string,
   stopPassed: PropTypes.bool,
   stop: PropTypes.object.isRequired,
-  distance: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([false])])
-    .isRequired,
+  nextStop: PropTypes.object,
   stoptime: PropTypes.object.isRequired,
   currentTime: PropTypes.number.isRequired,
   pattern: PropTypes.string.isRequired,
@@ -134,6 +177,13 @@ TripRouteStop.propTypes = {
     PropTypes.object,
     PropTypes.oneOf([false]),
   ]).isRequired,
+  shortName: PropTypes.string,
+  setHumanScrolling: PropTypes.func,
+  keepTracking: PropTypes.bool,
+};
+
+TripRouteStop.contextTypes = {
+  config: PropTypes.object.isRequired,
 };
 
 TripRouteStop.displayName = 'TripRouteStop';

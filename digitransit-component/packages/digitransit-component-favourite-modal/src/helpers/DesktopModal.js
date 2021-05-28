@@ -23,9 +23,17 @@ const DesktopModal = ({
   savePlaceText,
   cantSaveText,
   requiredText,
+  fontWeights,
 }) => {
   return (
-    <div className={styles['favourite-modal-desktop-container']}>
+    <div
+      className={styles['favourite-modal-desktop-container']}
+      style={{
+        '--color': `${color}`,
+        '--hover-color': `${hoverColor}`,
+        '--font-weight-medium': fontWeights.medium,
+      }}
+    >
       <div className={styles['favourite-modal-desktop-top']}>
         <div className={styles['favourite-modal-desktop-header']}>
           {headerText}
@@ -42,10 +50,6 @@ const DesktopModal = ({
             value={name}
             placeholder={inputPlaceholder}
             onChange={specifyName}
-            style={{
-              '--color': `${color}`,
-              '--hover-color': `${hoverColor}`,
-            }}
           />
         </div>
       </div>
@@ -64,10 +68,6 @@ const DesktopModal = ({
               canSave() ? '' : styles.disabled
             }`,
           )}
-          style={{
-            '--color': `${color}`,
-            '--hover-color': `${hoverColor}`,
-          }}
           onClick={saveFavourite}
           aria-label={`${canSave() ? savePlaceText : cantSaveText}`}
         >
@@ -81,10 +81,6 @@ const DesktopModal = ({
                 canSave() ? '' : styles.disabled
               }`,
             )}
-            style={{
-              '--color': `${color}`,
-              '--hover-color': `${hoverColor}`,
-            }}
             onClick={cancelSelected}
           >
             {cancelText}
@@ -114,6 +110,9 @@ DesktopModal.propTypes = {
   savePlaceText: PropTypes.string.isRequired,
   cantSaveText: PropTypes.string.isRequired,
   requiredText: PropTypes.string.isRequired,
+  fontWeights: PropTypes.shape({
+    medium: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 DesktopModal.defaultProps = {

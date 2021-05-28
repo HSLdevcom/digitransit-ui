@@ -109,5 +109,17 @@ describe('mqttClient', () => {
       const message = parseMessage(metroTopic, seqOneMessage, 'HSL');
       expect(message).to.equal(undefined);
     });
+
+    it('should remove : from tripStartTime', () => {
+      const message = parseMessage(testTopic, testMessage, 'HSL');
+      expect(message.tripStartTime).to.equal('1612');
+    });
+
+    it('should convert times after midnight to 29 hour system', () => {
+      const topic =
+        '/hfp/v2/journey/ongoing/vp/metro/0018/00296/1064/1/Itä-Pakila/00:12/1250101/5/60;24/29/04/85';
+      const message = parseMessage(topic, testMessage, 'HSL');
+      expect(message.tripStartTime).to.equal('2412');
+    });
   });
 });

@@ -3,12 +3,13 @@ import React from 'react';
 import { matchShape, routerShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
 import ItineraryTab from './ItineraryTab';
+import SwipeableTabs from './SwipeableTabs';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 export default class MobileItineraryWrapper extends React.Component {
   static propTypes = {
-    focus: PropTypes.func.isRequired,
-    setMapZoomToLeg: PropTypes.func,
+    focusToPoint: PropTypes.func.isRequired,
+    focusToLeg: PropTypes.func,
     children: PropTypes.arrayOf(PropTypes.node.isRequired).isRequired,
     params: PropTypes.shape({
       from: PropTypes.string.isRequired,
@@ -18,6 +19,7 @@ export default class MobileItineraryWrapper extends React.Component {
     }).isRequired,
     plan: PropTypes.object,
     serviceTimeRange: PropTypes.object.isRequired,
+    onSwipe: PropTypes.func,
   };
 
   static contextTypes = {
@@ -45,8 +47,6 @@ export default class MobileItineraryWrapper extends React.Component {
     });
   };
 
-  focusMap = (lat, lon) => this.props.focus(lat, lon);
-
   render() {
     const index = this.props.params.secondHash
       ? parseInt(this.props.params.secondHash, 10)
@@ -69,19 +69,37 @@ export default class MobileItineraryWrapper extends React.Component {
     const fullscreenMap =
       this.context.match.location.state &&
       this.context.match.location.state.fullscreenMap === true;
+
+    const itineraryTabs = this.props.children.map((child, i) => {
+      return (
+        <div
+          className={`swipeable-tab ${index !== i && 'inactive'}`}
+          key={child.key}
+        >
+          <ItineraryTab
+            key={child.key}
+            activeIndex={index + i}
+            plan={this.props.plan}
+            serviceTimeRange={this.props.serviceTimeRange}
+            itinerary={child.props.itinerary}
+            params={this.context.match.params}
+            focusToPoint={this.props.focusToPoint}
+            focusToLeg={this.props.focusToLeg}
+            isMobile
+          />
+        </div>
+      );
+    });
+
     const itinerary = fullscreenMap ? undefined : (
-      <div>
-        <ItineraryTab
-          key={index.toString()}
-          activeIndex={index}
-          plan={this.props.plan}
-          serviceTimeRange={this.props.serviceTimeRange}
-          itinerary={this.props.children[index].props.itinerary}
-          params={this.context.match.params}
-          focus={this.props.focus}
-          setMapZoomToLeg={this.props.setMapZoomToLeg}
-        />
-      </div>
+      <SwipeableTabs
+        tabs={itineraryTabs}
+        tabIndex={index}
+        onSwipe={this.props.onSwipe}
+        classname="swipe-mobile-divider"
+        ariaFrom="swipe-summary-page"
+        ariaFromHeader="swipe-summary-page-header"
+      />
     );
     /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
     return <>{itinerary}</>;

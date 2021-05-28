@@ -22,7 +22,14 @@ function RouteNumber(props, context) {
     props.text.length > 3;
   const getColor = () => color || (props.isTransitLeg ? 'currentColor' : null);
 
-  const getIcon = (icon, isCallAgency, hasDisruption, badgeFill, badgeText) => {
+  const getIcon = (
+    icon,
+    isCallAgency,
+    hasDisruption,
+    badgeFill,
+    badgeText,
+    badgeTextFill,
+  ) => {
     if (isCallAgency) {
       return (
         <IconWithIcon
@@ -52,12 +59,12 @@ function RouteNumber(props, context) {
         </React.Fragment>
       );
     }
-
     return (
       <React.Fragment>
         <IconWithIcon
           badgeFill={badgeFill}
           badgeText={badgeText}
+          badgeTextFill={badgeTextFill}
           color={color}
           className={mode}
           img={icon || `icon-icon_${mode}`}
@@ -88,7 +95,7 @@ function RouteNumber(props, context) {
         role="img"
       >
         {!props.isTransitLeg && !props.renderModeIcons && (
-          <div className="empty" />
+          <div className={cx('empty', props.appendClass)} />
         )}
         {props.isTransitLeg === true ? (
           <div className={`special-icon ${mode}`}>
@@ -98,11 +105,19 @@ function RouteNumber(props, context) {
               props.hasDisruption,
               props.badgeFill,
               props.badgeText,
+              props.badgeTextFill,
             )}
           </div>
         ) : (
           <div className={`icon ${mode}`}>
-            {getIcon(props.icon, props.isCallAgency, props.hasDisruption)}
+            {getIcon(
+              props.icon,
+              props.isCallAgency,
+              props.hasDisruption,
+              props.badgeFill,
+              props.badgeText,
+              props.badgeTextFill,
+            )}
           </div>
         )}
         {props.text && (
@@ -222,18 +237,21 @@ RouteNumber.propTypes = {
   isCallAgency: PropTypes.bool,
   badgeFill: PropTypes.string,
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  badgeTextFill: PropTypes.string,
   icon: PropTypes.string,
   renderModeIcons: PropTypes.bool,
   duration: PropTypes.number,
   isTransitLeg: PropTypes.bool,
   withBicycle: PropTypes.bool,
   card: PropTypes.bool,
+  appendClass: PropTypes.string,
 };
 
 RouteNumber.defaultProps = {
   alertSeverityLevel: undefined,
   badgeFill: undefined,
   badgeText: undefined,
+  badgeTextFill: undefined,
   className: '',
   vertical: false,
   card: false,

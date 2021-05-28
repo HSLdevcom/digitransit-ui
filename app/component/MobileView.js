@@ -40,7 +40,8 @@ export default function MobileView({
   content,
   settingsDrawer,
   selectFromMapHeader,
-  mapCenterToggle,
+  expandMap,
+  searchBox,
 }) {
   if (settingsDrawer && settingsDrawer.props.open) {
     return <div className="mobile">{settingsDrawer}</div>;
@@ -67,7 +68,7 @@ export default function MobileView({
   }, [header]);
 
   useLayoutEffect(() => {
-    if (map && mapCenterToggle !== undefined) {
+    if (map && expandMap) {
       const newSheetPosition = 0;
       slowlyScrollTo(scrollRef.current);
       changeBottomsheetState({
@@ -77,20 +78,23 @@ export default function MobileView({
         },
       });
     }
-  }, [mapCenterToggle]);
+  }, [expandMap]);
 
   const onScroll = e => {
     if (map) {
-      const scroll = e.target.scrollTop;
-      changeBottomsheetState({
-        context: { ...bottomsheetState.context, buttonBottomPadding: scroll },
-      });
+      if (e.target.className === 'drawer-container') {
+        const scroll = e.target.scrollTop;
+        changeBottomsheetState({
+          context: { ...bottomsheetState.context, buttonBottomPadding: scroll },
+        });
+      }
     }
   };
 
   return (
     <div className="mobile">
       {selectFromMapHeader}
+      {searchBox && <span>{searchBox}</span>}
       {map ? (
         <>
           <MapBottomsheetContext.Provider value={bottomsheetState.context}>
@@ -123,5 +127,6 @@ MobileView.propTypes = {
   content: PropTypes.node,
   settingsDrawer: PropTypes.node,
   selectFromMapHeader: PropTypes.node,
-  mapCenterToggle: PropTypes.bool,
+  searchBox: PropTypes.node,
+  expandMap: PropTypes.number,
 };

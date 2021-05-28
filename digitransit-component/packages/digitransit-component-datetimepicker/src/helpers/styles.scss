@@ -2,7 +2,6 @@
 @import '~@hsl-fi/sass/mixins/screen';
 @import '~@hsl-fi/sass/mixins/text';
 
-$font-weight-medium: 500;
 @mixin default-focus-outline {
   /* First apply outline that is used in Edge and Firefox */
   outline: 1px dotted #212121;
@@ -10,7 +9,7 @@ $font-weight-medium: 500;
   outline: 5px auto -webkit-focus-ring-color; /* stylelint-disable-line declaration-block-no-duplicate-properties */
 }
 
-$zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
+$zindex: base, map-container, map-gradient, map-fullscreen-toggle,
   map-buttons, context-panel, search-panel, search-overlay, stop-route-station-input, destination-input,
   viapoint-input-5, viapoint-input-4, viapoint-input-3, viapoint-input-2,
   viapoint-input-1, origin-input, search-input-focus, search-input-icon, autosuggest-suggestion-container, front;
@@ -30,7 +29,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   padding: 0;
   margin: 0;
   font-size: 15px;
-  font-weight: $font-weight-medium;
+  font-weight: var(--font-weight-medium);
 
   button, label {
     font-size: 1em;
@@ -39,17 +38,25 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 
   label button {
     cursor: pointer;
-    font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+    font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
   }
 
   .hidden {
     display: none;
   }
 
+  .datetimepicker-open-container {
+    background-color: #f4f4f5;
+    border-radius: 5px;
+    padding: 15px;
+  }
+
   .top-row-container {
-    margin: 0 0 0 18px;
     display: flex;
-    height: 28px;
+
+    &.closed {
+      margin: 11px 0 6px 18px;
+    }
 
     @include max-width(mobile-small) {
       margin-left: 14px;
@@ -72,9 +79,8 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     }
     .close-icon {
       svg {
-        width: 11px;
-        height: 11px;
-        transform: rotate(45deg);
+        width: 12px;
+        height: 12px;
         border-radius: 1px;
         path {
           stroke-width: 30;
@@ -108,35 +114,42 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     &.active {
       color: var(--color);
     }
-    &:focus {
-      @include default-focus-outline;
-    }
   }
 
   .combobox-left {
-    margin-right: 3px;
-    @include min-width(tablet)  {
-      margin-right: 4px;
-    }
+    margin-right: 4px;
+    width: 63%;
   }
 
   .combobox-right {
-    margin-left: 3px;
-    @include min-width(tablet)  {
-      margin-right: 4px;
-    }
+    margin-left: 4px;
+    width: 37%;
   }
 
+  .departure-or-arrival-container {
+    height: 36px;
+    background-color: #dddddd;
+    border-radius: 8px;
+    display: flex;
+    width: 58%;
+  }
   .radio-textbutton-label {
-    margin: 2px 0 0 13px;
+    color: #333333;
+    margin: 2px;
     background: none;
-    border: none;
-    color: #666666;
-    padding: 0;
+    border-radius: 6px;
+    padding: 9px 0;
+    width: 50%;
     cursor: pointer;
-    height: min-content;
+    height: 32px;
+    text-align: center;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    letter-spacing: -0.03em;
     &.active {
-      color: var(--color);
+      font-weight: 500;
+      background: white;
     }
     &:focus-within {
       @include default-focus-outline;
@@ -145,9 +158,6 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       margin: 0;
       display: flex;
       align-items: flex-start;
-      .now-text {
-        margin: 2px 0 0 14px;
-      }
 
     }
   }
@@ -161,26 +171,39 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     white-space: nowrap;
     width: 1px;
   }
+
+  .departure-now-button {
+    font-family: inherit;
+    letter-spacing: -0.02em;
+    height: 34px;
+    color: var(--color);
+    padding: 8px 0;
+    width: 29%;
+    background: white;
+    border: 1px solid #888888;
+    border-radius: 30px;
+    margin-left: 11px;
+  }
+
   .open-button {
     display: flex;
     margin-bottom: 0;
+    margin-top: -1px;
+    padding: 2px 0 2px 0;
   }
   button.close-button {
-    width: 44px;
+    width: 30px;
     height: 30px;
     transition: transform 0.2s;
     position: relative;
-    top: -2px;
+    top: -8px;
+    right: -8px;
     border: 0;
     font-weight: normal;
-    margin: -2px 0 0 0;
     background: none;
     color: var(--color);
     padding: 0;
     line-height: normal;
-    &:focus {
-      @include default-focus-outline;
-    }
     &:hover {
       transform: scale(1.2);
     }
@@ -195,40 +218,15 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 
   .combobox-container {
     cursor: pointer;
-    font-family: 'Gotham Rounded A', 'Gotham Rounded B',Arial, Georgia, Serif;
-    border: solid #888888 1px;
-    display: flex;
-    align-items: center;
-    border-radius: 5px;
-    height: 50px;
-    flex-grow: 1;
-    &:focus-within {
-      border-color: var(--color);
-    }
-    .left-column {
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-    input, span {
-      cursor: pointer;
-    }
-  }
-
-  .combobox-label {
-    font-weight: 300;
-    font-size: 12px;
-    line-height: 1.67;
-    letter-spacing: -0.48px;
-    margin: 2px auto 0 11px;
-    color: #666666;
-    width: 60px;
+    position: relative;
   }
 
   .combobox-icon {
     color: var(--color);
-    border-left: solid #888888 1px;
-    height: 35px;
+    height: 40px;
+    position: absolute;
+    z-index: index($zindex, 'search-panel');
+    pointer-events: none;
 
     &.date-input-icon {
       display: flex;
@@ -236,7 +234,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       justify-content: center;
       padding: 0;
       flex-shrink: 0;
-      width: 43px;
+      margin-left: 14px;
       svg {
         width: 20px;
         height: 18px;
@@ -249,78 +247,82 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       justify-content: center;
       padding: 0;
       flex-shrink: 0;
-      width: 43px;
-        svg {
-        width: 18px;
-        height: 19px;
+      margin-left: 8px;
+      svg {
+        margin-top: 1px;
+        width: 22px;
+        height: 22px;
       }
     }
   }
-
-  .container  {
+  .datetimepicker-select-container {
     position: relative;
-
-    .suggestion {
-      line-height: 49px;
-      height: 50px;
-      border-top: 1px solid #dddddd;
-      padding: 0 0 0 12px;
-      letter-spacing: -0.6px;
-      color: #333333;
+    height: 40px;
+    // use global scope because react-select is not quite compatible with csss module local scoping
+    :global .datetimepicker-select__control {
+      cursor: inherit;
+      height: 40px;
+      border: 1px solid #888888;
     }
-    .suggestionHighlighted {
-      background: #dfe5e8;
+    :global .datetimepicker-select__value-container {
+      padding: 0;
     }
-
-    .suggestionsContainerOpen {
-      position: absolute;
-      background: #fff;
+    :global .datetimepicker-select__single-value {
+      margin: 0 0 0 47px;
+    }
+    :global .datetimepicker-select__input {
+      background: inherit;
+      position: relative;
+      margin-left: 40px;
+      input {
+        opacity: 1 !important; // TODO
+        background: inherit;
+        box-shadow: none;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.33;
+        letter-spacing: -0.5px;
+        color: #333333;
+        font-family: inherit;
+        font-size: 15px;
+        font-weight: var(--font-weight-medium);
+        &:focus {
+          box-shadow: none;
+          outline: none;
+          border: none;
+        }
+      }
+    }
+    :global .datetimepicker-select__menu {
       z-index: index($zindex, 'autosuggest-suggestion-container');
+      padding: 0;
+      background: #fff;
       max-height: 250px;
-      overflow-x: hidden;
-      overflow-y: scroll;
       border-radius: 5px;
       box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.06);
       border: 1px rgba(0,0,0,0.1) solid;
-      top: 35px;
-      width: calc(100% + 43px); // 43px == width of icon next to input
-      ul {
+      :global .datetimepicker-select__menu-list {
+        max-height: 250px;
         padding: 0;
-        margin: 0;
+        :global .datetimepicker-select__option {
+          line-height: 49px;
+          height: 50px;
+          border-top: 1px solid #dddddd;
+          padding: 0 0 0 12px;
+          letter-spacing: -0.6px;
+          color: #333333;
+          &--is-selected {
+            background: inherit;
+          }
+          &--is-focused {
+            background: #dfe5e8;
+          }
+        }
       }
-    }
-    .input {
-      font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
-      width: 100%;
-      padding-left: 12px;
-      padding-right: 0;
-      border: none;
-      height: 26px;
-      &:focus {
-        outline: none;
-        border: none;
-        background: none;
-      }
-      background: inherit;
-      box-shadow: none;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 1.33;
-      letter-spacing: -0.6px;
-      color: #333333;
-      font-size: 15px;
-      font-weight: 500;
-      margin: -6px 0 0 -1px;
-      position: relative;
-    }
-
-    &[aria-expanded=true] input:not([readonly]) {
-      cursor: text;
     }
   }
-
   .picker-container {
-    margin: 11px 0 0 0;
+    margin: 14px 0 0 0;
     display: flex;
   }
 
@@ -339,6 +341,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   z-index: 1000;
 }
 .mobile-modal-content {
+  font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
   background: white;
   width: 89%;
   position: absolute;
@@ -351,7 +354,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     justify-content: space-between;
     margin-bottom: 21px;
     .modal-title {
-      font-weight: 500;
+      font-weight: var(--font-weight-medium);
       font-size: 20px;
       line-height: 18px;
       letter-spacing: -0.5px;
@@ -359,10 +362,12 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       padding: 6px 0 0 8px;
     }
     .departure-now-button {
+      background-color: white;
+      font-family: inherit;
       padding: 5px 15px;
       border: 1px solid #888888;
       border-radius: 50px;
-      font-weight: 500;
+      font-weight: var(--font-weight-medium);
       font-size: 15px;
       line-height: 18px;
       letter-spacing: -0.02em;
@@ -386,7 +391,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       text-align: center;
       color: #333333;
       &.active {
-        font-weight: 500;
+        font-weight: var(--font-weight-medium);
         background-color: #ffffff;
       }
     }
@@ -417,6 +422,9 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       display: flex;
       align-items: center;
       height: 40px;
+      line-height: 1.5;
+      font-size: 100%;
+
       &:focus-within {
         background: rgba(0, 122, 201, 0.06);
         border: 2px solid var(--color);
@@ -424,6 +432,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 
       .combobox-icon {
         height: 18px;
+        font-size: 18px;
         padding: 0 0 0 10px;
         border: none;
         position: relative;
@@ -433,16 +442,19 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
         }
       }
       .time-input-mobile {
+        font-family: inherit;
         box-shadow: none;
         font-size: 18px;
         letter-spacing: -0.5px;
         line-height: 20px;
-        font-weight: 500;
+        font-weight: var(--font-weight-medium);
         border: none;
         outline: none;
         background: none;
         width: 50px;
         margin-left: 10px;
+        color: #333333;
+        height: 1.5265rem;
       }
       .mobile-input-display {
         position: relative;
@@ -451,13 +463,15 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
         &:focus {
           outline: none;
           box-shadow: none;
+          background: none;
         }
         background: inherit;
         box-shadow: none;
-        font-weight: 500;
+        font-family: inherit;
+        font-weight: var(--font-weight-medium);
         font-stretch: normal;
         font-style: normal;
-        font-size: 15px;
+        font-size: 16px;
         line-height: 1.33;
         letter-spacing: -0.5px;
         color: #333333;
@@ -481,13 +495,17 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       .container  {
         position: absolute;
         width: calc((100% - 50px) * 0.6);
+        height: 25px;
+        font-size: 15px;
 
         .suggestion {
+          list-style: none;
           font-size: 16px;
           font-style: normal;
           font-weight: normal;
           line-height: 49px;
           height: 50px;
+          margin: 0;
           padding: 0 0 0 16px;
           // letter-spacing: -0.6px;
           color: rgba(0,0, 0, 0.87);
@@ -522,8 +540,11 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
           box-shadow: none;
           border: none;
           background: none;
-          font-size: 15px;
-          font-weight: 500;
+          font-size: 16px;
+          font-weight: var(--font-weight-medium);
+          height: 25px;
+          display: inline-block;
+          font-family: inherit;
           line-height: 1.33;
           color: #333333;
           padding-left: 46px;
@@ -540,8 +561,13 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     display:flex;
     flex-direction: column;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     button {
+      background-color: white;
+      font-family: inherit;
+      font-weight: var(--font-weight-medium);
+      font-size: 16px;
+      letter-spacing: -0.02em;
       width: 100%;
       border-radius: 50px;
       height: 40px;

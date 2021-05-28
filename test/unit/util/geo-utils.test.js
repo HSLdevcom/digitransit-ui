@@ -2,112 +2,12 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
 import {
-  findFeatures,
+  getClosestPoint,
   isMultiPointTypeGeometry,
   isPointTypeGeometry,
 } from '../../../app/util/geo-utils';
 
-const defaultPoint = { lat: 60.1699, lon: 24.9384 };
-const polygonFeature = {
-  geometry: {
-    type: 'Polygon',
-    coordinates: [
-      [
-        [24, 60],
-        [24, 61],
-        [25, 61],
-        [25, 60],
-      ],
-    ],
-  },
-  properties: {
-    name: 'polygonFeature',
-  },
-};
-const multipolygonFeature = {
-  geometry: {
-    type: 'MultiPolygon',
-    coordinates: [
-      [
-        [
-          [10, 20],
-          [20, 20],
-          [10, 10],
-          [20, 10],
-        ],
-      ],
-      [
-        [
-          [24, 60],
-          [24, 61],
-          [25, 61],
-          [25, 60],
-        ],
-      ],
-      [
-        [
-          [30, 40],
-          [40, 40],
-          [30, 30],
-          [40, 30],
-        ],
-      ],
-    ],
-  },
-  properties: {
-    name: 'multiPolygonFeature',
-  },
-};
-const defaultFeatures = [{ ...polygonFeature }, { ...multipolygonFeature }];
-
 describe('geo-utils', () => {
-  describe('findFeatures', () => {
-    it('should return an empty array if the parameters are not valid', () => {
-      expect(
-        findFeatures({ ...defaultPoint, lat: NaN }, defaultFeatures),
-      ).to.deep.equal([]);
-      expect(
-        findFeatures({ ...defaultPoint, lon: NaN }, defaultFeatures),
-      ).to.deep.equal([]);
-      expect(findFeatures({ ...defaultPoint }, undefined)).to.deep.equal([]);
-      expect(findFeatures({ ...defaultPoint }, [])).to.deep.equal([]);
-    });
-
-    it('should find the point in a Polygon', () => {
-      expect(
-        findFeatures({ ...defaultPoint }, [{ ...polygonFeature }]),
-      ).to.deep.equal([{ name: 'polygonFeature' }]);
-    });
-
-    it('should find the point in a MultiPolygon', () => {
-      expect(
-        findFeatures({ ...defaultPoint }, [{ ...multipolygonFeature }]),
-      ).to.deep.equal([{ name: 'multiPolygonFeature' }]);
-    });
-
-    it('should find the point in multiple features', () => {
-      expect(findFeatures({ ...defaultPoint }, defaultFeatures)).to.deep.equal([
-        { name: 'polygonFeature' },
-        { name: 'multiPolygonFeature' },
-      ]);
-    });
-
-    it('should not find the point', () => {
-      expect(findFeatures({ lat: 5, lon: 25 }, defaultFeatures)).to.deep.equal(
-        [],
-      );
-    });
-
-    it('should use a custom mapping function', () => {
-      expect(
-        findFeatures({ ...defaultPoint }, [{ ...polygonFeature }], feature => ({
-          foo: 'bar',
-          baz: feature.properties.name,
-        })),
-      ).to.deep.equal([{ foo: 'bar', baz: 'polygonFeature' }]);
-    });
-  });
-
   describe('isMultiPointTypeGeometry', () => {
     it('should return false if geometry is falsey', () => {
       expect(isMultiPointTypeGeometry(undefined)).to.equal(false);
@@ -133,6 +33,29 @@ describe('geo-utils', () => {
 
     it('should return true if the geometry type matches', () => {
       expect(isPointTypeGeometry({ type: 'Point' })).to.equal(true);
+    });
+  });
+
+  describe('getClosestPoint', () => {
+    const a = { lon: 4, lat: 1 };
+    const b = { lon: 1, lat: 5 };
+    it('should return a if that is closest', () => {
+      const c = { lon: 8, lat: 3 };
+      const result = getClosestPoint(a, b, c);
+      expect(result.lon).to.equal(a.lon);
+      expect(result.lat).to.equal(a.lat);
+    });
+    it('should return b if that is closest', () => {
+      const c = { lon: 2, lat: 7 };
+      const result = getClosestPoint(a, b, c);
+      expect(result.lon).to.equal(b.lon);
+      expect(result.lat).to.equal(b.lat);
+    });
+    it('should return a point between a and b if that is closest', () => {
+      const c = { lon: 1, lat: 1 };
+      const result = getClosestPoint(a, b, c);
+      expect(Math.round(10 * result.lon)).to.equal(29);
+      expect(Math.round(10 * result.lat)).to.equal(24);
     });
   });
 });

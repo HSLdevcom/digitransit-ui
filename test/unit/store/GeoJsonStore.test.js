@@ -271,10 +271,12 @@ describe('GeoJsonStore', () => {
       );
       expect(output.features[0].style).to.deep.equal({
         color: 'black',
+        type: 'line',
         weight: 1,
       });
       expect(output.features[1].style).to.deep.equal({
         color: 'gray',
+        type: 'halo',
         weight: 5,
       });
       expect(output.features[0]).to.not.equal(output.features[1]);

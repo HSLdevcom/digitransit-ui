@@ -6,21 +6,8 @@ import moment from 'moment';
 import TransitLeg from './TransitLeg';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const RailLeg = ({
-  leg,
-  focusAction,
-  index,
-  isNextLegInterlining,
-  interliningWait,
-}) => (
-  <TransitLeg
-    mode="RAIL"
-    leg={leg}
-    focusAction={focusAction}
-    index={index}
-    interliningWait={interliningWait}
-    isNextLegInterlining={isNextLegInterlining}
-  >
+const RailLeg = ({ leg, ...props }) => (
+  <TransitLeg mode="RAIL" leg={leg} {...props}>
     <FormattedMessage
       id="rail-with-route-number"
       values={{

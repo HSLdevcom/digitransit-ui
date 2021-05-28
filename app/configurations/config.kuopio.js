@@ -15,6 +15,9 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#0ab1c8',
+    iconColors: {
+      'mode-bus': '#724f9f',
+    },
   },
 
   socialMedia: {
@@ -30,15 +33,6 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'kuopio/logo.png',
-
-  mapLayers: {
-    tooltip: {
-      fi: 'Uutta! Saat nyt lähellä olevat bussit kartalle asetuksista.',
-      en: 'New! You can now get nearby busses on the map from the settings.',
-      sv:
-        'Nytt! I inställningarna kan du nu välja att se närliggande bussar på kartan.',
-    },
-  },
 
   feedIds: ['Kuopio', 'KuopioEly'],
 
@@ -58,7 +52,7 @@ export default configMerger(walttiConfig, {
       ? fareId.substring(fareId.indexOf(':') + 1)
       : '';
   },
-
+  showTicketPrice: true,
   searchParams: {
     'boundary.rect.min_lat': 62.454915,
     'boundary.rect.max_lat': 63.469325,
@@ -79,29 +73,9 @@ export default configMerger(walttiConfig, {
     lon: 27.678136,
   },
 
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_bus',
-      label: 'Linja-autoasema, Kuopio',
-      lat: 62.898516,
-      lon: 27.679409,
-    },
-    {
-      icon: 'icon-icon_shopping',
-      label: 'Kuopion tori',
-      lat: 62.892511,
-      lon: 27.678136,
-    },
-    {
-      icon: 'icon-icon_school',
-      label: 'Itä-Suomen yliopisto, Kuopio',
-      lat: 62.89189166,
-      lon: 27.63598893,
-    },
-  ],
-
-  showAllBusses: true,
+  vehicles: true,
   showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
 
   cityBike: {
     showCityBikes: true,
@@ -130,12 +104,11 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  footer: {
+  menu: {
+    copyright: { label: `© Kuopio ${walttiConfig.YEAR}` },
     content: [
-      { label: `© Kuopio ${walttiConfig.YEAR}` },
-      {},
       {
-        name: 'footer-feedback',
+        name: 'menu-feedback',
         nameEn: 'Submit feedback',
         href: 'https://palaute.kuopio.fi/fi#!/palautelomake/27050/27054',
         icon: 'icon-icon_speech-bubble',
@@ -209,7 +182,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/kuopio_zone_lines_20201119.geojson',
+        url: '/assets/geojson/kuopio_zone_lines_20210222.geojson',
       },
     ],
   },
@@ -221,12 +194,8 @@ export default configMerger(walttiConfig, {
     5: 'E',
     6: 'F',
   },
-  itinerary: {
-    showZoneLimits: true,
-  },
-  stopCard: {
-    header: {
-      showZone: true,
-    },
+  zones: {
+    stops: true,
+    itinerary: true,
   },
 });

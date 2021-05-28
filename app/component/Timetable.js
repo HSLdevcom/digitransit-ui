@@ -7,12 +7,15 @@ import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
-import StopPageActionBar from './StopPageActionBar';
 import FilterTimeTableModal from './FilterTimeTableModal';
 import TimeTableOptionsPanel from './TimeTableOptionsPanel';
 import TimetableRow from './TimetableRow';
 import ComponentUsageExample from './ComponentUsageExample';
 import { RealtimeStateType } from '../constants';
+import SecondaryButton from './SecondaryButton';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
+import DateSelect from './DateSelect';
+import ScrollableWrapper from './ScrollableWrapper';
 
 class Timetable extends React.Component {
   static propTypes = {
@@ -41,7 +44,7 @@ class Timetable extends React.Component {
         }),
       ).isRequired,
     }).isRequired,
-    propsForStopPageActionBar: PropTypes.shape({
+    propsForDateSelect: PropTypes.shape({
       startDate: PropTypes.string,
       selectedDate: PropTypes.string,
       onDateChange: PropTypes.func,
@@ -54,7 +57,6 @@ class Timetable extends React.Component {
 
   constructor(props) {
     super(props);
-    this.setRouteVisibilityState = this.setRouteVisibilityState.bind(this);
     this.state = {
       showRoutes: [],
       showFilterModal: false,
@@ -122,6 +124,7 @@ class Timetable extends React.Component {
             headsign: stoptime.pattern.headsign,
             longName: stoptime.pattern.route.longName,
             isCanceled: st.realtimeState === RealtimeStateType.Canceled,
+            mode: stoptime.pattern.route.mode,
           })),
       )
       .reduce((acc, val) => acc.concat(val), []);
@@ -132,9 +135,7 @@ class Timetable extends React.Component {
     );
 
   dateForPrinting = () => {
-    const selectedDate = moment(
-      this.props.propsForStopPageActionBar.selectedDate,
-    );
+    const selectedDate = moment(this.props.propsForDateSelect.selectedDate);
     return (
       <div className="printable-date-container">
         <div className="printable-date-icon">
@@ -150,6 +151,16 @@ class Timetable extends React.Component {
         </div>
       </div>
     );
+  };
+
+  printStop = e => {
+    e.stopPropagation();
+    window.print();
+  };
+
+  printStopPDF = (e, stopPDFURL) => {
+    e.stopPropagation();
+    window.open(stopPDFURL);
   };
 
   formTimeRow = (timetableMap, hour) => {
@@ -234,7 +245,6 @@ class Timetable extends React.Component {
       obj.duplicate = getDuplicate ? getDuplicate.duplicate : false;
       return obj;
     });
-
     const timetableMap = this.groupArrayByHour(routesWithDetails);
 
     const stopIdSplitted = this.props.stop.gtfsId.split(':');
@@ -251,71 +261,120 @@ class Timetable extends React.Component {
           )
         : null;
     return (
-      <div className="timetable">
-        {this.state.showFilterModal === true ? (
-          <FilterTimeTableModal
-            stop={this.props.stop}
-            setRoutes={this.setRouteVisibilityState}
-            showFilterModal={this.showModal}
-            showRoutesList={this.state.showRoutes}
-          />
-        ) : null}
-        <div className="timetable-topbar">
-          <TimeTableOptionsPanel
-            showRoutes={this.state.showRoutes}
-            showFilterModal={this.showModal}
-            stop={this.props.stop}
-          />
-          <StopPageActionBar
-            startDate={this.props.propsForStopPageActionBar.startDate}
-            selectedDate={this.props.propsForStopPageActionBar.selectedDate}
-            onDateChange={this.props.propsForStopPageActionBar.onDateChange}
-            stopPDFURL={stopPDFURL}
-          />
-        </div>
-        <div className="timetable-for-printing-header">
-          <h1>
-            <FormattedMessage id="timetable" defaultMessage="Timetable" />
-          </h1>
-        </div>
-        <div className="timetable-for-printing">{this.dateForPrinting()}</div>
-        <div className="momentum-scroll">
-          <div className="timetable-time-headers">
-            <div className="hour">
-              <FormattedMessage id="hour" defaultMessage="Hour" />
-            </div>
-            <div className="minutes-per-route">
-              <FormattedMessage
-                id="minutes-or-route"
-                defaultMessage="Min/Route"
-              />
-            </div>
+      <ScrollableWrapper>
+        <div className="timetable">
+          {this.state.showFilterModal === true ? (
+            <FilterTimeTableModal
+              stop={this.props.stop}
+              setRoutes={this.setRouteVisibilityState}
+              showFilterModal={this.showModal}
+              showRoutesList={this.state.showRoutes}
+            />
+          ) : null}
+          <div className="timetable-topbar">
+            <DateSelect
+              startDate={this.props.propsForDateSelect.startDate}
+              selectedDate={this.props.propsForDateSelect.selectedDate}
+              onDateChange={e => {
+                this.props.propsForDateSelect.onDateChange(e);
+                addAnalyticsEvent({
+                  category: 'Stop',
+                  action: 'ChangeTimetableDay',
+                  name: null,
+                });
+              }}
+              dateFormat="YYYYMMDD"
+            />
+            <TimeTableOptionsPanel
+              showRoutes={this.state.showRoutes}
+              showFilterModal={this.showModal}
+              stop={this.props.stop}
+            />
           </div>
-          {this.createTimeTableRows(timetableMap)}
-          <div
-            className="route-remarks"
-            style={{
-              display:
-                variantsWithMarks.filter(o => o.duplicate).length > 0
-                  ? 'block'
-                  : 'none',
-            }}
-          >
+          <div className="timetable-for-printing-header">
             <h1>
-              <FormattedMessage
-                id="explanations"
-                defaultMessage="Explanations"
-              />
-              :
+              <FormattedMessage id="timetable" defaultMessage="Timetable" />
             </h1>
-            {variantsWithMarks.map(o => (
-              <div className="remark-row" key={`${o.id}-${o.headsign}`}>
-                <span>{`${o.name}${o.duplicate} = ${o.headsign}`}</span>
+          </div>
+          <div className="timetable-for-printing">{this.dateForPrinting()}</div>
+          <div className="timetable-note">
+            <div>
+              <FormattedMessage
+                id="departures-by-hour"
+                defaultMessage="Departures by hour (minutes/route)"
+              />
+            </div>
+            <div className="print-button-container">
+              {stopPDFURL && (
+                <SecondaryButton
+                  ariaLabel="print-timetable"
+                  buttonName="print-timetable"
+                  buttonClickAction={e => {
+                    this.printStopPDF(e, stopPDFURL);
+                    addAnalyticsEvent({
+                      category: 'Stop',
+                      action: 'PrintWeeklyTimetable',
+                      name: null,
+                    });
+                  }}
+                  buttonIcon="icon-icon_print"
+                  smallSize
+                />
+              )}
+              <SecondaryButton
+                ariaLabel="print"
+                buttonName="print"
+                buttonClickAction={e => {
+                  this.printStop(e);
+                  addAnalyticsEvent({
+                    category: 'Stop',
+                    action: 'PrintTimetable',
+                    name: null,
+                  });
+                }}
+                buttonIcon="icon-icon_print"
+                smallSize
+              />
+            </div>
+          </div>
+          <div className="momentum-scroll timetable-content-container">
+            <div className="timetable-time-headers">
+              <div className="hour">
+                <FormattedMessage id="hour" defaultMessage="Hour" />
               </div>
-            ))}
+              <div className="minutes-per-route">
+                <FormattedMessage
+                  id="minutes-or-route"
+                  defaultMessage="Min/Route"
+                />
+              </div>
+            </div>
+            {this.createTimeTableRows(timetableMap)}
+            <div
+              className="route-remarks"
+              style={{
+                display:
+                  variantsWithMarks.filter(o => o.duplicate).length > 0
+                    ? 'block'
+                    : 'none',
+              }}
+            >
+              <h1>
+                <FormattedMessage
+                  id="explanations"
+                  defaultMessage="Explanations"
+                />
+                :
+              </h1>
+              {variantsWithMarks.map(o => (
+                <div className="remark-row" key={`${o.id}-${o.headsign}`}>
+                  <span>{`${o.name}${o.duplicate} = ${o.headsign}`}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      </ScrollableWrapper>
     );
   }
 }
@@ -377,7 +436,7 @@ Timetable.description = () => (
     <ComponentUsageExample description="">
       <Timetable
         stop={exampleStop}
-        propsForStopPageActionBar={{
+        propsForDateSelect={{
           startDate: '20190110',
           selectedDate: '20190110',
           onDateChange: () => {},

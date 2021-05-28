@@ -23,19 +23,21 @@ const getMode = mode => {
 // Input: options - route, direction, tripStartTime are used to generate the topic
 function getTopic(options, settings) {
   const route = options.route ? options.route : '+';
-  const direction = options.direction
-    ? parseInt(options.direction, 10) + 1
-    : '+';
+  const direction = options.direction ? parseInt(options.direction, 10) : '+';
   const geoHash = options.geoHash ? options.geoHash : ['+', '+', '+', '+'];
   const tripId = options.tripId ? options.tripId : '+';
-  const headsign = options.headsign ? options.headsign : '+';
+  // headsigns with / cause problems
+  const headsign =
+    options.headsign && options.headsign.indexOf('/') === -1
+      ? options.headsign
+      : '+';
   const tripStartTime = options.tripStartTime ? options.tripStartTime : '+';
   const topic = settings.mqttTopicResolver(
     route,
     direction,
     tripStartTime,
     headsign,
-    settings.agency,
+    settings.topicFeedId || settings.agency, // TODO topicFeedId can be removed once testing with alternative tampere trams is done
     tripId,
     geoHash,
   );
@@ -73,11 +75,20 @@ export function parseMessage(topic, message, agency) {
     parsedMessage.long &&
     (parsedMessage.seq === undefined || parsedMessage.seq === 1) // seq is used for hsl metro carriage sequence
   ) {
+    // change times from 24 hour system to 29 hour system, and removes ':'
+    const tripStartTime =
+      startTime &&
+      startTime.length > 4 &&
+      parseInt(startTime.substring(0, 2), 10) < 5
+        ? `${parseInt(startTime.substring(0, 2), 10) + 24}${startTime.substring(
+            3,
+          )}`
+        : startTime.replace(/:/g, '');
     return {
       id: vehid,
       route: `${agency}:${line}`,
       direction: parseInt(dir, 10) - 1,
-      tripStartTime: startTime.replace(/:/g, ''),
+      tripStartTime,
       operatingDay:
         parsedMessage.oday && parsedMessage.oday !== 'XXX'
           ? parsedMessage.oday
@@ -110,7 +121,6 @@ export function changeTopics(settings, actionContext) {
 export function startMqttClient(settings, actionContext) {
   const options = settings.options || [{}];
   const topics = options.map(option => getTopic(option, settings));
-  const mode = options.length && options[0].mode ? options[0].mode : 'bus';
 
   return import(/* webpackChunkName: "mqtt" */ 'mqtt').then(mqtt => {
     if (settings.gtfsrt) {
@@ -127,7 +137,6 @@ export function startMqttClient(settings, actionContext) {
               messages,
               topic,
               settings.agency,
-              mode,
             );
             parsedMessages.forEach(message => {
               actionContext.dispatch('RealTimeClientMessage', message);

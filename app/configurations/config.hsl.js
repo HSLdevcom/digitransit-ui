@@ -1,5 +1,5 @@
 /* eslint-disable prefer-template */
-import { BIKEAVL_BIKES } from '../util/citybikes';
+import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
@@ -11,6 +11,10 @@ const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
 
 const rootLink = process.env.ROOTLINK || 'https://dev.hslfi.hsldev.com';
+const BANNER_URL = 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
+// 'https://test-api.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
+
+const cityBikesEnabled = true;
 
 export default {
   CONFIG,
@@ -22,6 +26,7 @@ export default {
     FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
     CITYBIKE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-citybike-map/`,
     ROOTLINK: rootLink,
+    BANNERS: BANNER_URL,
   },
 
   indexPath: 'etusivu',
@@ -47,11 +52,7 @@ export default {
 
   showHSLTracking: false,
   allowLogin: true,
-
-  defaultMapCenter: {
-    lat: 60.1710688,
-    lon: 24.9414841,
-  },
+  allowFavouritesFromLocalstorage: !process.env.OIDC_CLIENT_ID,
 
   nearbyRoutes: {
     radius: 500,
@@ -76,6 +77,19 @@ export default {
   colors: {
     primary: '#007ac9',
     hover: '#0062a1',
+    iconColors: {
+      'mode-bus': '#007ac9',
+      'mode-rail': '#8c4799',
+      'mode-tram': '#008151',
+      'mode-ferry': '#007A97',
+      'mode-metro': '#CA4000',
+      'mode-citybike': '#f2b62d',
+      'mode-citybike-secondary': '#333333',
+    },
+  },
+
+  fontWeights: {
+    medium: 500,
   },
 
   sprites: 'assets/svg-sprite.hsl.svg',
@@ -109,6 +123,9 @@ export default {
   },
 
   transportModes: {
+    citybike: {
+      availableForSelection: cityBikesEnabled,
+    },
     airplane: {
       availableForSelection: false,
       defaultValue: false,
@@ -243,34 +260,13 @@ export default {
       ],
     ],
   },
-  footer: {},
+  menu: {},
 
   defaultEndpoint: {
     address: 'Rautatieasema, Helsinki',
     lat: 60.1710688,
     lon: 24.9414841,
   },
-
-  defaultOrigins: [
-    {
-      icon: 'icon-icon_rail',
-      label: 'Rautatieasema, Helsinki',
-      lat: 60.1710688,
-      lon: 24.9414841,
-    },
-    {
-      icon: 'icon-icon_airplane',
-      label: 'Lentoasema, Vantaa',
-      lat: 60.317429,
-      lon: 24.9690395,
-    },
-    {
-      icon: 'icon-icon_bus',
-      label: 'Kampin bussiterminaali, Helsinki',
-      lat: 60.16902,
-      lon: 24.931702,
-    },
-  ],
 
   redirectReittiopasParams: true,
   queryMaxAgeDays: 14, // to drop too old route request times from entry url
@@ -340,7 +336,6 @@ export default {
     // {
     //   id: '2',
     //   priority: -1,
-    //   shouldTrigger: true,
     //   content: {
     //     fi: [
     //       {
@@ -421,10 +416,6 @@ export default {
 
   showTicketPrice: true,
 
-  itinerary: {
-    showZoneLimits: true,
-  },
-
   map: {
     showZoomControl: true, // DT-3470, DT-3397
     showLayerSelector: false, // DT-3470
@@ -432,12 +423,6 @@ export default {
     showScaleBar: true, // DT-3470, DT-3397
     attribution:
       '<a tabindex="-1" href="http://osm.org/copyright">© OpenStreetMap</a>', // DT-3470, DT-3397
-  },
-
-  stopCard: {
-    header: {
-      showZone: true,
-    },
   },
 
   useTicketIcons: true,
@@ -451,8 +436,10 @@ export default {
   localStorageTarget: rootLink,
 
   cityBike: {
-    showCityBikes: false,
-    capacity: BIKEAVL_BIKES,
+    minZoomStopsNearYou: 10,
+    showCityBikes: cityBikesEnabled,
+    capacity: BIKEAVL_WITHMAX,
+    showFullInfo: true,
     networks: {
       smoove: {
         icon: 'citybike',
@@ -463,9 +450,18 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: 'https://kaupunkipyorat.hsl.fi/fi',
-          sv: 'https://kaupunkipyorat.hsl.fi/sv',
-          en: 'https://kaupunkipyorat.hsl.fi/en',
+          fi:
+            'https://www.hsl.fi/kaupunkipyorat/osta?area=helsinki-espoo&utm_campaign=kaupunkipyorat-omat-hkiespoo&utm_source=reittiopas&utm_medium=referral',
+          sv:
+            'https://www.hsl.fi/sv/stadscyklar/kop?area=helsinki-espoo&utm_campaign=kaupunkipyorat-omat-hkiespoo&utm_source=reittiopas&utm_medium=referral',
+          en:
+            'https://www.hsl.fi/en/citybikes/buy?area=helsinki-espoo&utm_campaign=kaupunkipyorat-omat-hkiespoo&utm_source=reittiopas&utm_medium=referral',
+        },
+        returnInstructions: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#palauta',
+          sv:
+            'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#aterlamna',
+          en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#return',
         },
       },
       vantaa: {
@@ -477,11 +473,27 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: 'https://kaupunkipyorat.hsl.fi/fi',
-          sv: 'https://kaupunkipyorat.hsl.fi/sv',
-          en: 'https://kaupunkipyorat.hsl.fi/en',
+          fi:
+            'https://www.hsl.fi/kaupunkipyorat/osta?area=vantaa&utm_campaign=kaupunkipyorat-omat-vantaa&utm_source=reittiopas&utm_medium=referral',
+          sv:
+            'https://www.hsl.fi/sv/stadscyklar/kop?area=vantaa&utm_campaign=kaupunkipyorat-omat-vantaa&utm_source=reittiopas&utm_medium=referral',
+          en:
+            'https://www.hsl.fi/en/citybikes/buy?area=vantaa&utm_campaign=kaupunkipyorat-omat-vantaa&utm_source=reittiopas&utm_medium=referral',
+        },
+        returnInstructions: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa/kayttoohje#palauta',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/vanda/anvisningar#aterlamna',
+          en: 'https://www.hsl.fi/en/citybikes/vantaa/instructions#return',
         },
       },
+    },
+    buyUrl: {
+      fi:
+        'https://www.hsl.fi/kaupunkipyorat/osta?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral',
+      sv:
+        'https://www.hsl.fi/sv/stadscyklar/kop?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral',
+      en:
+        'https://www.hsl.fi/en/citybikes/buy?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral',
     },
   },
 
@@ -494,7 +506,25 @@ export default {
   includeParkAndRideSuggestions: true,
 
   showNearYouButtons: true,
-  nearYouModes: ['bus', 'tram', 'subway', 'rail', 'ferry' /* , 'citybike' */],
+  nearYouModes: [
+    'favorite',
+    'bus',
+    'tram',
+    'subway',
+    'rail',
+    'ferry',
+    cityBikesEnabled && 'citybike',
+  ],
 
-  zoneIconsAsSvg: true,
+  hostnames: [
+    // DEV hostnames
+    'https://next-dev.digitransit.fi',
+    'https://dev.reittiopas.fi',
+    // PROD hostnames
+    'https://reittiopas.hsl.fi',
+  ],
+  zones: {
+    stops: true,
+    itinerary: true,
+  },
 };

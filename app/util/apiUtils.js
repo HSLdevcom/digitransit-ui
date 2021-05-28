@@ -1,5 +1,6 @@
 import moment from 'moment';
 import xmlParser from 'fast-xml-parser';
+import isEmpty from 'lodash/isEmpty';
 import { retryFetch } from './fetchUtils';
 
 export function getUser() {
@@ -21,7 +22,9 @@ export function updateFavourites(data) {
     },
     body: JSON.stringify(data),
   };
-  return retryFetch('/api/user/favourites', options, 0, 0);
+  return retryFetch('/api/user/favourites', options, 0, 0).then(res =>
+    res.json(),
+  );
 }
 
 export function deleteFavourites(data) {
@@ -32,7 +35,9 @@ export function deleteFavourites(data) {
     },
     body: JSON.stringify(data),
   };
-  return retryFetch('/api/user/favourites', options, 0, 0);
+  return retryFetch('/api/user/favourites', options, 0, 0).then(res =>
+    res.json(),
+  );
 }
 
 export function getWeatherData(baseURL, time, lat, lon) {
@@ -65,4 +70,17 @@ export function getWeatherData(baseURL, time, lat, lon) {
     .catch(err => {
       throw new Error(`Error fetching weather data: ${err}`);
     });
+}
+
+export function getRefPoint(origin, destination, location) {
+  if (!isEmpty(origin)) {
+    return origin;
+  }
+  if (!isEmpty(destination)) {
+    return destination;
+  }
+  if (location && location.hasLocation) {
+    return location;
+  }
+  return null;
 }

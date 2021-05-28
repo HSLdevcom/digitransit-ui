@@ -19,57 +19,68 @@ export default class BackButton extends React.Component {
     title: PropTypes.node,
     titleClassName: PropTypes.string, // DT-3472
     titleCustomStyle: PropTypes.object,
-    urlToBack: PropTypes.string,
     className: PropTypes.string, // DT-3614
     onBackBtnClick: PropTypes.func,
+    fallback: PropTypes.string,
   };
 
   static defaultProps = {
     icon: 'icon-icon_arrow-left',
-    color: 'white',
+    color: undefined,
     iconClassName: '',
     title: undefined,
     titleClassName: undefined, // DT-3472
     titleCustomStyle: undefined,
-    urlToBack: undefined,
     className: 'back-button', // DT-3614
+    fallback: undefined,
   };
 
-  goBack = urlToGo => {
+  goBack = url => {
+    const { router, match } = this.context;
+    const { location } = match;
+
     if (
-      this.context.match.location.index > 0 ||
-      (this.context.match.params && this.context.match.params.hash)
+      location.index > 0 ||
+      // eslint-disable-next-line no-restricted-globals
+      (history.length > 1 && this.props.fallback === 'back')
     ) {
-      this.context.router.go(-1);
-    } else if (urlToGo) {
-      const { config, intl } = this.context;
-      if (
-        config.passLanguageToRootLink &&
-        urlToGo.indexOf(config.URL.ROOTLINK) !== -1 &&
-        intl.locale !== 'fi'
-      ) {
-        window.location.href = `${urlToGo}/${intl.locale}`;
-      } else {
-        window.location.href = urlToGo;
-      }
+      router.go(-1);
+    } else if (
+      this.props.fallback === 'pop' &&
+      location.pathname.split('/').length > 1
+    ) {
+      const parts = location.pathname.split('/');
+      parts.pop();
+      const newLoc = {
+        ...location,
+        pathname: parts.join('/'),
+      };
+      router.replace(newLoc);
+    } else if (url) {
+      window.location.href = url;
     } else {
-      this.context.router.push('/');
+      router.push('/');
     }
   };
 
-  onClick = () => {
-    this.props.onBackBtnClick();
-  };
-
   render() {
+    let url;
+    if (!this.props.onBackBtnClick) {
+      const { config, intl } = this.context;
+      if (config.passLanguageToRootLink && intl.locale !== 'fi') {
+        url = `${config.URL.ROOTLINK}/${intl.locale}`;
+      } else {
+        url = config.URL.ROOTLINK;
+      }
+    }
     return (
       <div className={this.props.className} style={{ display: 'flex' }}>
         <button
           className="icon-holder noborder cursor-pointer"
           onClick={
             this.props.onBackBtnClick
-              ? this.onClick
-              : () => this.goBack(this.props.urlToBack)
+              ? this.props.onBackBtnClick
+              : () => this.goBack(url)
           }
           aria-label={this.context.intl.formatMessage({
             id: 'back-button-title',
@@ -79,7 +90,7 @@ export default class BackButton extends React.Component {
         >
           <Icon
             img={this.props.icon}
-            color={this.props.color}
+            color={this.props.color || this.context.config.colors.primary}
             className={`${this.props.iconClassName} cursor-pointer`}
           />
         </button>

@@ -211,9 +211,26 @@ export const preparePlanParams = (config, useDefaultModes) => (
         intermediatePlaceLocations,
       );
   const defaultSettings = { ...getDefaultSettings(config) };
-  const allowedBikeRentalNetworksMapped =
-    settings.allowedBikeRentalNetworks ||
-    defaultSettings.allowedBikeRentalNetworks;
+  // legacy settings used to set network name in uppercase in localstorage
+  const allowedBikeRentalNetworksMapped = Array.isArray(
+    settings.allowedBikeRentalNetworks,
+  )
+    ? settings.allowedBikeRentalNetworks
+        .filter(
+          network =>
+            defaultSettings.allowedBikeRentalNetworks.includes(network) ||
+            defaultSettings.allowedBikeRentalNetworks.includes(
+              network.toLowerCase(),
+            ),
+        )
+        .map(network =>
+          defaultSettings.allowedBikeRentalNetworks.includes(
+            network.toLowerCase(),
+          )
+            ? network.toLowerCase()
+            : network,
+        )
+    : defaultSettings.allowedBikeRentalNetworks;
   const formattedModes = modesAsOTPModes(modesOrDefault);
   const wheelchair =
     getNumberValueOrDefault(settings.accessibilityOption, defaultSettings) ===
@@ -297,7 +314,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
       config.showBikeAndParkItineraries &&
       modesOrDefault.length > 1 &&
       includeBikeSuggestions,
-    bikeAndPublicMaxWalkDistance: config.suggestBikeMaxDistance,
+    bikeAndPublicMaxWalkDistance: config.suggestBikeAndPublicMaxDistance,
     bikeandPublicDisableRemainingWeightHeuristic:
       Array.isArray(intermediatePlaceLocations) &&
       intermediatePlaceLocations.length > 0,
@@ -305,6 +322,9 @@ export const preparePlanParams = (config, useDefaultModes) => (
       { mode: 'BICYCLE' },
       ...modesAsOTPModes(getBicycleCompatibleModes(config, modesOrDefault)),
     ],
-    bikeParkModes: [{ mode: 'BICYCLE', qualifier: 'PARK' }, ...formattedModes],
+    bikeParkModes: [
+      { mode: 'BICYCLE', qualifier: 'PARK' },
+      ...formattedModes,
+    ].filter(mode => mode.qualifier !== 'RENT'), // BICYCLE_RENT can't be used together with BICYCLE_PARK
   };
 };

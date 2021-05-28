@@ -1,3 +1,15 @@
+
+@function navbar-icon-color($color) {
+  $background-color-brightness: (red($color)*299)+(green($color)*587)+(blue($color)*114)/1000;
+  $light-color-lightness: round((red(#ffffff)*299)+(green(#ffffff)*587)+(blue(#ffffff)*114)/1000);
+  @if abs($background-color-brightness) < ($light-color-lightness / 3) {
+    @return #ffffff;
+  }
+  @else {
+    @return #333333;
+  }
+}
+
 /* foundation override */
 $menu-slide: 'transform 200ms ease';
 $offcanvas-background: #333333;
@@ -7,12 +19,12 @@ $offcanvas-background-active: scale-color($gray, $lightness: -30%);
 /* top bar */
 $topbar-height: 40px;
 
-$top-navigation-icon-color: $primary-font-color;
-$top-navigation-title-color: $title-color;
+$top-navigation-icon-color: navbar-icon-color($primary-color);
+$top-navigation-title-color: navbar-icon-color($primary-color);
 
 /* offcanvas */
 $offcanvas-profile-icon-size: 60px;
-$offcanvas-profile-icon-color: $white;
+$offcanvas-profile-icon-color: $primary-color;
 $offcanvas-lead-text-color: $gray;
 $offcanvas-lead-text-font-family: $font-family;
 $offcanvas-lead-text-font-weight: $font-weight-book;
@@ -23,30 +35,21 @@ $offcanvas-login-text-font-weight: $font-weight-book;
 $offcanvas-login-text-letter-spacing: $letter-spacing;
 $offcanvas-login-text-font-size: $font-size-small;
 $offcanvas-login-arrow-icon-size: 14px;
-$offcanvas-link-color: $white;
+$offcanvas-link-color: $primary-color;
 $offcanvas-link-text-font-size: 15px;
 
 /* Content */
 $content-background-color: $background-color;
 
-.top-bar-login {
-  display: flex;
-  flex-direction: row;
-  color: $white;
-  padding-right: 1.25rem;
-  align-items: center;
-  text-align: center;
-  cursor: pointer;
-  white-space: nowrap;
-}
 .top-bar {
+  height: 70px;
+  min-height: 70px;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: $primary-color;
+  background: $top-bar-color;
   text-align: center;
-  overflow: visible; // Show drawer menu
   z-index: 1008;
 
   // Fixed navbar height for now, as dynamic height leads to Safari issues
@@ -65,7 +68,7 @@ $content-background-color: $background-color;
   }
 
   .icon-holder {
-    padding: $padding-medium;
+    margin: $padding-medium;
     align-self: stretch;
   }
   .icon {
@@ -83,20 +86,24 @@ $content-background-color: $background-color;
   .logo {
     height: 100%;
     min-height: 40px;
-    min-width: 8em;
+    min-width: 13em;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: left center;
   }
-  .navi-logo {
-    margin-left: 32px;
-    width: $nav-logo-width;
-    height: $nav-logo-height;
-    min-width: 130px; //for ff
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: left center;
-    cursor: pointer;
+
+  .controls {
+    display: flex;
+  }
+}
+
+.mobile.top-bar {
+  height: 50px;
+  min-height: 50px;
+  z-index: 1000;
+  background: $top-bar-color;
+  .logo {
+    min-height: 30px;
   }
 }
 
@@ -114,20 +121,22 @@ $content-background-color: $background-color;
 }
 
 #lang-select {
-  color: white;
-  border-bottom: 1px solid #262626;
-  padding: 0px 5px;
+  margin-top: 45px;
+  padding-bottom: 10px;
   .lang {
+    text-decoration: none;
+    line-height: normal;
+    color: $primary-color;
     @include font-medium;
-    font-size: $font-size-small;
+    font-size: $font-size-large;
     display: inline-block;
     text-transform: uppercase;
     cursor: pointer;
-    padding: 2px 8px;
+    padding: 8px 13px;
     margin: 0px 2px;
     &.selected {
-      border-radius: 3px;
-      background-color: hsla(0, 0%, 100%, 0.15);
+      color: $white;
+      background-color: #333333;
     }
   }
 }
@@ -146,18 +155,118 @@ $content-background-color: $background-color;
   border-right: 1px solid rgba(0, 0, 0, 0.15);
 }
 
-.login-icon {
+.login-button-container {
+  width: 100%;
+  > button {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-right: 0.7rem;
+  }
   .icon {
-    font-size: 1.8em;
-    color: $primary-color;
-    fill: $top-navigation-icon-color;
+    font-size: 2em;
+    color: $top-navigation-icon-color;
     &.caution-topbar {
       fill: $caution-icon-color;
       color: $caution-icon-font-color;
     }
   }
-  margin-right: 0.5rem;
-  width: 100%;
+}
+
+.usermenu-wrapper {
+  user-select: none;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+}
+
+.usermenu-header {
+  display: flex;
+  flex-direction: row;
+  z-index: 1;
+  padding: 0.625rem 0;
+  cursor: pointer;
+  align-items: center;
+  text-align: center;
+  line-height: normal;
+}
+
+.usermenu-title {
+  display: flex;
+  flex-direction: row;
+}
+
+.usermenu-title-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 0.625rem;
+  padding-left: 0.5rem;
+  color: $top-navigation-icon-color;
+  max-width: 4.5rem;
+  font-size: 1rem;
+  @include min-width(tablet) {
+    font-size: $font-size-normal;
+  }
+}
+
+.usermenu-container {
+  z-index: 0;
+  opacity: 0;
+  position: absolute;
+  min-width: 200px;
+  background-color: $primary-color;
+  transition: opacity .1s linear;
+
+  &.open {
+    border-top: 1px solid rgba(0,0,0,0.2);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    box-shadow: none;//0 2px 0 0 rgba(0,0,0,.06);
+    top: 50px;
+    right: -25px;
+    opacity: 1;
+    @include min-width(tablet) {
+      right: 0;
+      top: 61px;
+    }
+  }
+}
+
+.usermenu-list {
+  list-style-type: none;
+  padding: 10px 0 15px;
+  margin: 0;
+  .usermenu-list-item {
+    flex-direction: row;
+    justify-content: flex-start;
+    display: flex;
+    width: 100%;
+    line-height: normal;
+    font-weight: $font-weight-medium;
+    border-top: 1px solid transparent;
+    font-size: $font-size-normal;
+    > a {
+      position: relative;
+      display: block;
+      width: 100%;
+      text-decoration: none;
+      color: $top-navigation-icon-color;
+      line-height: 2.4;
+      letter-spacing: -0.6px;
+      text-align: start;
+      margin: 0 15px;
+    }
+  }
+  .usermenu-list-item:not(:last-child) > a {
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    @include min-width(tablet) {
+      border-bottom: none;
+    }
+  }
+  .usermenu-list-item:hover {
+    background: darken($primary-color, 5%);
+  }
 }
 
 .navi-icons {
@@ -174,7 +283,7 @@ $content-background-color: $background-color;
 }
 .main-menu-toggle {
   .icon {
-    font-size: $font-size-large;
+    font-size: 1.75em;
   }
 
   align-items: center;
@@ -196,7 +305,10 @@ $content-background-color: $background-color;
   .h2 {
     font-size: 1.2em;
     margin: 0 0 0 2.5em;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
+    &::first-letter {
+      text-transform: capitalize;
+    }
   }
 }
 
@@ -210,7 +322,7 @@ $content-background-color: $background-color;
 .select-from-map-nav-title {
   flex-grow: 1;
   font-size: 18px;
-  font-weight: 500px;
+  font-weight: $font-weight-medium;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
@@ -231,8 +343,12 @@ $content-background-color: $background-color;
 }
 
 .main-menu {
+  outline: none;
+  width: 400px;
   padding: 0;
-  background: $black;
+  padding-left: 20px;
+  padding-right: 20px;
+  background: $white;
   color: $offcanvas-link-color;
   height: 100%;
   overflow-y: auto;
@@ -266,11 +382,7 @@ $content-background-color: $background-color;
     }
   }
   .close-button {
-    &.mobile-bar-close {
-      width: 15px;
-      margin: 2px -10px 0px 0px;
-    }
-    padding: 5px 20px;
+    padding: 15px 0px;
     float: right;
     background: none;
   }
@@ -278,12 +390,86 @@ $content-background-color: $background-color;
   button.noborder {
     @include font-medium;
   }
+
+  .menu-section {
+    border-bottom: 1px solid #DDDDDD;
+    padding-bottom: 15px;
+    padding-top: 15px;
+  }
+  .menu-section.main-links {
+    .offcanvas-section {
+      button {
+        font-weight: $font-weight-medium;
+      }
+    }
+    font-weight: $font-weight-medium !important;
+  }
+  .copyright {
+    color: black;
+    margin-top: 30px;
+  }
+
+  .main-menu-top-section {
+    display: flex;
+    float: right;
+    margin-top: 1em;
+
+    .noborder {
+      margin-right: 10px;
+    }
+  }
+}
+
+.menu-background {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0px;
+  opacity: 0;
+  z-index: 1200;
+  transition: left 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms,
+    opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+}
+
+.menu-background-close {
+  opacity: 0 !important;
+}
+.menu-background-open {
+  opacity: 1;
+}
+
+.menu-content {
+  background-color: #333;
+  position: fixed;
+  left: auto;
+  right: 0px;
+  height: 100%;
+  z-index: 1300;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px;
+  transition: transform 450ms cubic-bezier(0.23, 1, 0.32, 1);
+  transform: translate(100%, 0);
+}
+.menu-content-close {
+  transform: translate(100%, 0) !important;
+}
+.menu-content-open {
+  transform: translate(0, 0);
+}
+
+.mobile {
+  .main-menu {
+    width: 100%;
+  }
+  .menu-content {
+    width: 100%;
+  }
 }
 
 .offcanvas-section {
   line-height: 35px;
-  padding: 0.5em $padding-large;
-  .footer-item {
+  padding: 0.5em 0;
+  .menu-item {
     margin: 0px;
     display: inline-block;
     font-size: $font-size-normal;
@@ -293,6 +479,13 @@ $content-background-color: $background-color;
     .icon {
       display: none;
     }
+  }
+  .disruption-info .icon.disruption-info {
+    padding-left: 0;
+    margin-left: 10px;
+    width: 24px;
+    fill: #dc0451;
+    height: 21px;
   }
 }
 
@@ -324,7 +517,6 @@ section.content {
     .desktop-title {
       background: #ffffff; // DT-3358: was $desktop-title-color
       &-bordered {
-        position: relative;
         &:after {
           content: '';
           display: block;
@@ -438,26 +630,28 @@ section.content {
   @media print {
     display: none;
   }
+
+  @keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  animation: fadein 1s;
   position: relative;
   z-index: 802;
   width: 100%;
-  height: 70px;
   display: block;
   @include font-book;
   font-size: 15px;
-  line-height: 19px;
+  line-height: 21px;
   letter-spacing: -0.42px;
   color: $black;
   text-align: left;
   cursor: pointer;
-  &.mobile-bar {
-    height: 110px;
-    -webkit-line-clamp: 2; /* number of lines to show */
-    -webkit-box-orient: vertical;
-  }
+
   .banner-container {
+    height: auto;
     display: flex;
-    max-height: 100%;
+    overflow: hidden;
 
     .message-bar-content {
       flex-basis: auto;
@@ -465,12 +659,76 @@ section.content {
       width: 60%;
     }
 
+    .message-bar-container {
+      overflow: hidden;
+      padding: 10px 10px 0px 10px;
+
+      .single-alert {
+        margin-bottom: 15px;
+        .message-content {
+          .message-heading {
+            min-height: 11px;
+          }
+          button {
+            text-decoration: underline;
+            font-weight: $font-weight-bold;
+          }
+          .message-bar-link {
+            word-break: normal;
+            color: $primary-color;
+          }
+        }
+      }
+
+      .react-swipe-container {
+        height: auto;
+        width: 100%;
+        margin-bottom: 3px;
+        .message-content {
+          .message-heading {
+            min-height: 11px;
+          }
+          button {
+            text-decoration: underline;
+            font-weight: $font-weight-bold;
+          }
+          .message-bar-link {
+            word-break: normal;
+            color: $primary-color;
+          }
+        }
+      }
+
+      .swipe-header {
+        justify-content: center;
+      }
+      .swipe-tab-indicator {
+        flex-grow: 0;
+      }
+      .swipe-button .icon.disabled {
+       fill: #ccc;
+      }
+    }
+
     &.banner-disruption {
       background: $disruption-color;
+
+      .swipe-tab-ball {
+        &.selected {
+          border: solid 2px $white;
+          background-color: $white;
+        }
+      }
 
       .icon {
         color: $disruption-color;
         fill: white;
+      }
+      #close-message-bar {
+        display: inline-block;
+        .icon {
+          fill: white !important;
+        }
       }
 
       .message-bar-content,
@@ -478,18 +736,45 @@ section.content {
       h2 {
         color: white;
       }
+      .message-bar-container {
+        .react-swipe-container, .single-alert {
+          .message-content {
+            .message-bar-link {
+              color: $white;
+            }
+          }
+        }
+      }
     }
   }
 
-  span {
-    width: 45px;
+  .message-bar-container {
+    max-height: 100%;
+
+    .react-swipe-container {
+      height: auto;
+      width: 105%; // Hides the currently not visible swipe content
+      margin-bottom: 5px;
+
+      .message-content {
+        a {
+          font-weight: $font-weight-bold;
+          color: $white;
+        }
+      }
+    }
+    &.message-bar-disruption {
+      a {
+        color: white;
+      }
+    }
   }
 
   h2 {
     font-size: 15px;
     letter-spacing: -0.42px;
     margin-top: 12px;
-    line-height: 9px;
+    line-height: 15px;
     margin-bottom: 6px;
   }
 
@@ -516,9 +801,7 @@ section.content {
     margin: -3px -5px 0px 0px;
   }
 }
-.message-bar-fade {
-  mask-image: linear-gradient(rgba(0, 0, 0, 1) 80px, rgba(0, 0, 0, 0));
-}
+
 // Need more specific selector to override
 .message-bar .icon {
   margin: 17px;
@@ -527,9 +810,10 @@ section.content {
 .message-bar .icon.message-icon {
   float: left;
   fill: $primary-color;
-  height: 35px;
-  width: 35px;
-  padding-right: 10px;
+  height: 24px;
+  width: 24px;
+  margin: 11px;
+  margin-top: 20px;
 }
 
 .message-bar .icon.close {
@@ -572,4 +856,11 @@ section.content {
     font-size: $font-size-xxsmall;
     text-decoration: none;
   }
+}
+
+.hsl-header-container {
+    p {
+	margin-block-start: 0;
+	margin-block-end: 0;
+    }
 }

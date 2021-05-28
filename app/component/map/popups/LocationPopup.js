@@ -6,12 +6,14 @@ import { intlShape } from 'react-intl';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
-import CardHeader from '../../CardHeader';
 import Loading from '../../Loading';
 import ZoneIcon from '../../ZoneIcon';
 import PreferencesStore from '../../../store/PreferencesStore';
 import { getJson } from '../../../util/xhrPromise';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
+import { splitStringToAddressAndPlace } from '../../../util/otpStrings';
+import getZoneId from '../../../util/zoneIconUtils';
+import PopupHeader from '../PopupHeader';
 
 class LocationPopup extends React.Component {
   static contextTypes = {
@@ -42,16 +44,6 @@ class LocationPopup extends React.Component {
     const { lat, lon } = this.props;
     const { config } = this.context;
 
-    function parseZoneName(fullZoneName) {
-      if (fullZoneName) {
-        const [feedId, zoneId] = fullZoneName.split(':');
-        if (config.feedIds.includes(feedId)) {
-          return zoneId;
-        }
-      }
-      return undefined;
-    }
-
     getJson(config.URL.PELIAS_REVERSE_GEOCODER, {
       'point.lat': lat,
       'point.lon': lon,
@@ -70,14 +62,7 @@ class LocationPopup extends React.Component {
             location: {
               ...prevState.location,
               address: getLabel(match),
-              zoneId: parseZoneName(
-                // eslint-disable-next-line no-nested-ternary
-                match.zones
-                  ? match.zones[0]
-                  : data.zones
-                  ? data.zones[0]
-                  : undefined,
-              ),
+              zoneId: getZoneId(config, match.zones, data.zones),
             },
           }));
           pointName = 'FreeAddress';
@@ -90,7 +75,7 @@ class LocationPopup extends React.Component {
                 id: 'location-from-map',
                 defaultMessage: 'Selected location',
               }),
-              zoneId: parseZoneName(data.zones ? data.zones[0] : undefined),
+              zoneId: getZoneId(config, data.zones),
             },
           }));
           pointName = 'NoAddress';
@@ -133,18 +118,14 @@ class LocationPopup extends React.Component {
       );
     }
     const { zoneId } = this.state.location;
+    const [address, place] = splitStringToAddressAndPlace(
+      this.state.location.address,
+    );
     return (
       <Card>
-        <div className="card-padding location-popup-wrapper">
-          <CardHeader
-            name={this.state.location.address}
-            description={this.state.location.address}
-            unlinked
-            className="padding-small"
-          >
-            <ZoneIcon zoneId={zoneId} showUnknown={false} />
-          </CardHeader>
-        </div>
+        <PopupHeader header={address} subHeader={place}>
+          {zoneId && <ZoneIcon zoneId={zoneId} showUnknown={false} />}
+        </PopupHeader>
         {(this.props.locationPopup === 'all' ||
           this.props.locationPopup === 'origindestination') && (
           <MarkerPopupBottom
