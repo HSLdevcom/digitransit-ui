@@ -479,7 +479,8 @@ export default configMerger(walttiConfig, {
         },
     },
 
-    showAllBusses: true,
+    // live bus locations
+    vehicles: true,
 
     showRouteSearch: false,
     showNearYouButtons: false,
