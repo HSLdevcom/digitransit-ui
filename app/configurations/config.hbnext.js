@@ -186,6 +186,14 @@ export default configMerger(walttiConfig, {
                     en: 'https://stuttgart.stadtmobil.de/privatkunden/',
                 },
             },
+            "cargo-bike": {
+                icon: 'regiorad',
+                name: {
+                    de: 'Lastenrad Herrenberg',
+                    en: 'Cargo bike Herrenberg',
+                },
+                type: 'cargo-bike'
+            },
         }
     },
 
