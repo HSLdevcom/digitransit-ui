@@ -181,6 +181,10 @@ export default configMerger(walttiConfig, {
                     en: 'Car sharing',
                 },
                 type: 'car-sharing',
+                url: {
+                    de: 'https://stuttgart.stadtmobil.de/privatkunden/',
+                    en: 'https://stuttgart.stadtmobil.de/privatkunden/',
+                },
             },
         }
     },
