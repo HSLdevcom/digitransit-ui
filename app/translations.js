@@ -408,7 +408,7 @@ const translations = {
     'citybike-buy-season': 'Ticket für Tag, Monat oder Jahr kaufen',
     'citybike-distance-duration': 'Leihrad {duration} ({distance})',
     'citybike-network-headers': 'Leihräder und Scooter',
-    'citybike-purchase-link': 'Kaufen',
+    'citybike-purchase-link': 'Buchen',
     'citybike-register-required': 'Anmeldung für Leihräder benötigt',
     'citybike-start-using': 'Beginne Leihrad-Nutzung',
     'citybike-station': 'Leihrad-Station {stationId}',
@@ -675,6 +675,8 @@ const translations = {
     'origin-placeholder': 'Start',
     'other-dates': 'Anderer Zeitraum',
     'route-page.special-routes': 'Geänderte Routenführung',
+    'car-sharing-start-using': 'Buchen Sie ein Car-Sharing-Auto',
+    'regiorad-start-using': 'Buchen Sie ein Leihrad',
     'own-position': 'Aktueller Standort',
     'occupancy-status-FEW_SEATS_AVAILABLE': 'Mittlere Auslastung',
     'occupancy-status-MANY_SEATS_AVAILABLE': 'Niedrige Auslastung',
@@ -932,6 +934,8 @@ const translations = {
 
   en: {
     imprint: 'Imprint',
+    'car-sharing-start-using': 'Book a shared car',
+    'regiorad-start-using': 'Book a rental bike',
     'bike-availability': "Bikes available",
     privacy: 'Privacy',
     'regiorad-station-no-id': 'Bike rental station',
@@ -1070,7 +1074,7 @@ const translations = {
     'citybike-buy-season': 'Buy a daily, weekly or season pass',
     'citybike-distance-duration': 'Bike {duration} ({distance})',
     'citybike-network-headers': 'Citybikes',
-    'citybike-purchase-link': 'Buy',
+    'citybike-purchase-link': 'Book',
     'citybike-register-required': 'To use city bikes, you need to register',
     'citybike-return-full': 'Returning a city bike?',
     'citybike-return-full-link':

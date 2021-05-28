@@ -68,10 +68,9 @@ const BikeRentalStationContent = (
       {url && (
         <div className="citybike-use-disclaimer">
           <div className="disclaimer-header">
-            <FormattedMessage id="citybike-start-using" />
-          </div>
-          <div className="disclaimer-content">
-            <FormattedMessage id="citybike-buy-season" />
+            <FormattedMessage
+              id={`${bikeRentalStation.networks[0]}-start-using`}
+            />
           </div>
           {isClient && (
             <a
