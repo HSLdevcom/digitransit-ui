@@ -7,6 +7,7 @@ import withBreakpoint from '../../../util/withBreakpoint';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import storeOrigin from '../../../action/originActions';
 import storeDestination from '../../../action/destinationActions';
+import { dtLocationShape } from '../../../util/shapes';
 
 const SidebarContainer = (
   { location, name, description, icon, breakpoint, children, className },
@@ -41,15 +42,17 @@ const SidebarContainer = (
           icon={icon}
           headingStyle="h1"
           description={description}
-          showCardSubHeader={false}
+          showCardSubHeader={Boolean(description)}
           showBackButton={!isMobile}
         />
         {children}
         {location && (
-          <MarkerPopupBottom
-            onSelectLocation={onSelectLocation}
-            location={location}
-          />
+          <div className="padding-vertical-normal">
+            <MarkerPopupBottom
+              onSelectLocation={onSelectLocation}
+              location={location}
+            />
+          </div>
         )}
       </div>
     </div>
@@ -57,9 +60,9 @@ const SidebarContainer = (
 };
 
 SidebarContainer.propTypes = {
-  location: PropTypes.object,
+  location: dtLocationShape,
   name: PropTypes.string,
-  description: PropTypes.string,
+  description: PropTypes.string || PropTypes.node,
   icon: PropTypes.string,
   breakpoint: PropTypes.string.isRequired,
   children: PropTypes.node,

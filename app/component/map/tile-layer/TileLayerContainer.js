@@ -27,9 +27,9 @@ import {
   PREFIX_TERMINALS,
   PREFIX_ROADWORKS,
   PREFIX_CHARGING_STATIONS,
+  PREFIX_BIKE_PARKS,
 } from '../../../util/path';
 import DynamicParkingLotsPopup from '../popups/DynamicParkingLotsPopup';
-import BikeParkPopup from '../popups/BikeParkPopup';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import WeatherStationPopup from '../popups/WeatherStationPopup';
 import DynamicParkingLots from './DynamicParkingLots';
@@ -331,7 +331,7 @@ class TileLayerContainer extends GridLayer {
               locationDescription,
               locationStreet,
             },
-            v => v !== undefined,
+            value => value !== undefined,
           );
           this.setState({ selectableTargets: undefined });
           this.context.router.push(
@@ -384,20 +384,33 @@ class TileLayerContainer extends GridLayer {
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'bikeParks') {
-          const props = this.state.selectableTargets[0].feature.properties;
-          contents = (
-            <BikeParkPopup
-              onSelectLocation={this.props.onSelectLocation}
-              lat={this.state.coords.lat}
-              lon={this.state.coords.lng}
-              {...props}
-            />
+          const {
+            maxCapacity,
+            name,
+          } = this.state.selectableTargets[0].feature.properties;
+          const { lat, lng } = this.state.coords;
+          const params = pickBy(
+            {
+              lat,
+              lng,
+              name,
+              maxCapacity,
+            },
+            value => value !== undefined,
           );
+          this.setState({ selectableTargets: undefined });
+          this.context.router.push(
+            `/${PREFIX_BIKE_PARKS}?${new URLSearchParams(params).toString()}`,
+          );
+          showPopup = false;
         } else if (
           this.state.selectableTargets[0].layer === 'chargingStations'
         ) {
-          const { properties } = this.state.selectableTargets[0].feature;
-          const { id: stationId, c: capacity, ca: available } = properties;
+          const {
+            id: stationId,
+            c: capacity,
+            ca: available,
+          } = this.state.selectableTargets[0].feature.properties;
           const { lat, lng } = this.state.coords;
           const params = pickBy(
             {
@@ -407,7 +420,7 @@ class TileLayerContainer extends GridLayer {
               capacity,
               available,
             },
-            v => v !== undefined,
+            value => value !== undefined,
           );
           this.setState({ selectableTargets: undefined });
           this.context.router.push(
