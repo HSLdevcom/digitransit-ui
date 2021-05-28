@@ -37,15 +37,6 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'oulu/oulu-logo.png',
 
-  mapLayers: {
-    tooltip: {
-      fi: 'Uutta! Saat nyt lähellä olevat bussit kartalle asetuksista.',
-      en: 'New! You can now get nearby busses on the map from the settings.',
-      sv:
-        'Nytt! I inställningarna kan du nu välja att se närliggande bussar på kartan.',
-    },
-  },
-
   cityBike: {
     showCityBikes: false,
     networks: {

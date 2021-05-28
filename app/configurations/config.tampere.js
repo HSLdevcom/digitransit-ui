@@ -57,17 +57,6 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  mapLayers: {
-    tooltip: {
-      fi:
-        'Uutta! Saat nyt vyöhykkeet ja lähellä olevat bussit kartalle asetuksista.',
-      en:
-        'New! You can now get zones and nearby busses on the map from the settings.',
-      sv:
-        'Nytt! I inställningarna kan du nu välja att se zoner och närliggande bussar på kartan.',
-    },
-  },
-
   itinerary: {
     // Number of days to include to the service time range from the future (DT-3175)
     serviceTimeRange: 60,
