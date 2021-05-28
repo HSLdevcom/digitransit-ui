@@ -21,8 +21,8 @@ const SidebarMap = ({ mapLayers, match, breakpoint }) => {
 
   return (
     <MapWithTracking
-      lat={match.location.query.lat}
-      lon={match.location.query.lng}
+      lat={Number(match.location.query.lat)}
+      lon={Number(match.location.query.lng)}
       mapLayers={mapLayers}
       zoom={16}
       className="flex-grow"

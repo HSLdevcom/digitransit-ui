@@ -6,6 +6,7 @@ import range from 'lodash-es/range';
 import { isBrowser } from '../../../util/browser';
 import { drawIcon, drawStopIcon } from '../../../util/mapIconUtils';
 import glfun from '../../../util/glfun';
+import { getIcon } from '../sidebar/ChargingStationContent';
 
 const getScale = glfun({
   base: 1,
@@ -58,16 +59,12 @@ class ChargingStations {
       );
     });
 
-  static getIcon = properties => {
-    return `icon-icon_stop_${properties.vehicleType || 'car'}_charging_station`;
-  };
-
   drawStatus = ({ geom, properties }) => {
     if (this.tile.coords.z <= this.config.chargingStations.smallIconZoom) {
       return drawStopIcon(this.tile, geom, 'charging-station');
     }
 
-    const icon = ChargingStations.getIcon(properties);
+    const icon = getIcon(properties);
     return drawIcon(icon, this.tile, geom, this.iconSize);
   };
 

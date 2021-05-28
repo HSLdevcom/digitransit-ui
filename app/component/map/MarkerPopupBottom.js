@@ -12,15 +12,16 @@ class MarkerPopupBottom extends React.Component {
     location: dtLocationShape.isRequired,
     leaflet: PropTypes.shape({
       map: PropTypes.shape({
-        closePopup: PropTypes.func.isRequired,
-      }).isRequired,
-    }).isRequired,
+        closePopup: PropTypes.func,
+      }),
+    }),
     onSelectLocation: PropTypes.func.isRequired,
     reporterUrl: PropTypes.string,
   };
 
   static defaultProps = {
     reporterUrl: null,
+    leaflet: null,
   };
 
   routeFrom = () => {
@@ -30,7 +31,7 @@ class MarkerPopupBottom extends React.Component {
       name: 'MapPopup',
     });
     this.props.onSelectLocation(this.props.location, 'origin');
-    this.props.leaflet.map.closePopup();
+    this.props.leaflet?.map?.closePopup();
   };
 
   routeTo = () => {
@@ -40,7 +41,7 @@ class MarkerPopupBottom extends React.Component {
       name: 'MapPopup',
     });
     this.props.onSelectLocation(this.props.location, 'destination');
-    this.props.leaflet.map.closePopup();
+    this.props.leaflet?.map?.closePopup();
   };
 
   routeAddViaPoint = () => {
@@ -50,7 +51,7 @@ class MarkerPopupBottom extends React.Component {
       name: 'MapPopup',
     });
     this.props.onSelectLocation(this.props.location, 'via');
-    this.props.leaflet.map.closePopup();
+    this.props.leaflet?.map?.closePopup();
   };
 
   reportDefect = () => {

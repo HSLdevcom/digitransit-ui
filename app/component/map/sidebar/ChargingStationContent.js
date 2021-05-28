@@ -2,7 +2,6 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { intlShape } from 'react-intl';
-import cx from 'classnames';
 import {
   Chademo,
   DomesticF,
@@ -13,14 +12,16 @@ import {
   IEC62196T2Combo,
   TeslaS,
 } from 'react-charging-station-connector-icons';
-import Card from '../../Card';
-import CardHeader from '../../CardHeader';
 import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
-import ChargingStations from '../tile-layer/ChargingStations';
 import Loading from '../../Loading';
 import Icon from '../../Icon';
 import withBreakpoint from '../../../util/withBreakpoint';
+import SidebarContainer from './SidebarContainer';
+
+export const getIcon = properties => {
+  return `icon-icon_stop_${properties.vehicleType || 'car'}_charging_station`;
+};
 
 const CONNECTOR_ICONS_MAP = {
   CHADEMO: <Chademo variant="light" subtitle="false" />,
@@ -74,13 +75,13 @@ const getConnectors = evses => {
   }));
 };
 
-const ChargingStationContent = ({ match, breakpoint }, context) => {
+const ChargingStationContent = ({ match }, { intl }) => {
   const CHARGING_STATION_DETAILS_API =
     'https://ochp.next-site.de/api/ocpi/2.2/location/';
+  const { lat, lng } = match.location.query;
   const [details, setDetails] = useState({});
   const [connectors, setConnectors] = useState([]);
   const [loading, setLoading] = useState(true);
-  const isMobile = breakpoint !== 'large';
 
   useEffect(() => {
     setLoading(true);
@@ -95,7 +96,6 @@ const ChargingStationContent = ({ match, breakpoint }, context) => {
   }, [match.location.query]);
 
   const getCapacity = () => {
-    const { intl } = context;
     const { capacity, available } = match.location.query;
 
     if (typeof available === 'number') {
@@ -121,7 +121,6 @@ const ChargingStationContent = ({ match, breakpoint }, context) => {
   };
 
   const getDirectDeepLink = () => {
-    const { intl } = context;
     let link;
 
     if (
@@ -151,7 +150,6 @@ const ChargingStationContent = ({ match, breakpoint }, context) => {
   };
 
   const getOpeningTimes = () => {
-    const { intl } = context;
     const openingTimes = details?.opening_times;
     return (
       openingTimes?.twentyfourseven && (
@@ -182,8 +180,6 @@ const ChargingStationContent = ({ match, breakpoint }, context) => {
   };
 
   const getPaymentTypes = () => {
-    const { intl } = context;
-
     const capabilities = details?.evses
       ? details.evses[0].capabilities
       : undefined;
@@ -223,82 +219,64 @@ const ChargingStationContent = ({ match, breakpoint }, context) => {
   };
 
   return !loading ? (
-    <Card className="charging-station-card">
-      <div
-        className={cx(
-          'padding-normal',
-          'charging-station-popup',
-          isMobile ? 'padding-horizontal-large' : 'padding-horizontal-xlarge',
-        )}
-      >
-        <CardHeader
-          name={details.name}
-          descClass="padding-vertical-small"
-          unlinked
-          icon={ChargingStations.getIcon(match.location.query)}
-          headingStyle="h1"
-          description=""
-          showCardSubHeader={false}
-          showBackButton={!isMobile}
-        />
-        <div className="content">
-          <div className="text-light">
-            <Icon className="charging-station-icon" img="icon-icon_schedule" />
-            <span className="text-alignment">{getOpeningTimes()}</span>
-          </div>
-          <div className="charging-station-divider" />
-          <div className="charging-info-container">
-            <div className="connector-container">
-              {connectors.map(connector => (
-                <div key={connector.text}>
-                  <span className="connector-icon">{connector.icon}</span>
-                  <span className="text-alignment">{connector.text}</span>
-                </div>
-              ))}
-            </div>
-            <div className="text-light text-alignment">|</div>
-            <div className="text-light text-alignment">{getCapacity()}</div>
-          </div>
-          <div className="charging-station-divider" />
-          <div className="text-light">
-            <Icon className="charging-station-icon" img="icon-icon_payment" />
-            <span className="text-alignment">{getPaymentTypes()}</span>
-          </div>
-          <div className="text-light">
-            <Icon className="charging-station-icon" img="icon-icon_place" />
-            <span className="text-alignment">{getAddress()}</span>
-          </div>
-          <div className="text-light">
-            <Icon className="charging-station-icon" img="icon-icon_call" />
-            <span className="text-alignment">{getPhoneNumber()}</span>
-          </div>
-          <div className="charging-station-divider" />
-          {getDirectDeepLink()}
+    <SidebarContainer
+      className="charging-station-card"
+      location={{
+        address: details.address,
+        lat: Number(lat),
+        lng: Number(lng),
+      }}
+      name={details.name}
+      icon={getIcon(match.location.query)}
+    >
+      <div className="content">
+        <div className="text-light">
+          <Icon className="charging-station-icon" img="icon-icon_schedule" />
+          <span className="text-alignment">{getOpeningTimes()}</span>
         </div>
+        <div className="charging-station-divider" />
+        <div className="charging-info-container">
+          <div className="connector-container">
+            {connectors.map(connector => (
+              <div key={connector.text}>
+                <span className="connector-icon">{connector.icon}</span>
+                <span className="text-alignment">{connector.text}</span>
+              </div>
+            ))}
+          </div>
+          <div className="text-light text-alignment">|</div>
+          <div className="text-light text-alignment">{getCapacity()}</div>
+        </div>
+        <div className="charging-station-divider" />
+        <div className="text-light">
+          <Icon className="charging-station-icon" img="icon-icon_payment" />
+          <span className="text-alignment">{getPaymentTypes()}</span>
+        </div>
+        <div className="text-light">
+          <Icon className="charging-station-icon" img="icon-icon_place" />
+          <span className="text-alignment">{getAddress()}</span>
+        </div>
+        <div className="text-light">
+          <Icon className="charging-station-icon" img="icon-icon_call" />
+          <span className="text-alignment">{getPhoneNumber()}</span>
+        </div>
+        <div className="charging-station-divider" />
+        {getDirectDeepLink()}
       </div>
-    </Card>
+    </SidebarContainer>
   ) : (
-    <Card>
-      <CardHeader
-        name=""
-        descClass="padding-vertical-small"
-        unlinked
-        className="padding-medium"
-        headingStyle="h2"
-        description=""
-      />
+    <SidebarContainer>
       <div className="padding-normal charging-station-popup">
         <div className="content">
           <Loading />
         </div>
       </div>
-    </Card>
+    </SidebarContainer>
   );
 };
 
 ChargingStationContent.propTypes = {
   match: PropTypes.object,
-  breakpoint: PropTypes.string.isRequired,
 };
 
 ChargingStationContent.description = (
