@@ -224,7 +224,7 @@ const ChargingStationContent = ({ match }, { intl }) => {
       location={{
         address: details.address,
         lat: Number(lat),
-        lng: Number(lng),
+        lon: Number(lng),
       }}
       name={details.name}
       icon={getIcon(match.location.query)}
