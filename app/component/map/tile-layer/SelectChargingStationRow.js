@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../../Icon';
-import ChargingStations from './ChargingStations';
+import { getIcon } from '../sidebar/ChargingStationContent';
 
 export default function SelectChargingStationsRow(props) {
   const { selectRow, properties } = props;
@@ -10,10 +10,7 @@ export default function SelectChargingStationsRow(props) {
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events */}
       <div className="cursor-pointer select-row" onClick={selectRow}>
         <div className="padding-vertical-normal select-row-icon">
-          <Icon
-            img={ChargingStations.getIcon(properties)}
-            viewBox="0 0 18 18"
-          />
+          <Icon img={getIcon(properties)} viewBox="0 0 18 18" />
         </div>
         <div className="padding-vertical-normal select-row-text">
           <span className="header-primary no-margin link-color">
