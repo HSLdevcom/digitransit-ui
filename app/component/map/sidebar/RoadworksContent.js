@@ -2,10 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
-import cx from 'classnames';
-import CardHeader from '../../CardHeader';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import withBreakpoint from '../../../util/withBreakpoint';
+import SidebarContainer from './SidebarContainer';
 
 class RoadworksContent extends React.Component {
   static contextTypes = {
@@ -14,7 +13,6 @@ class RoadworksContent extends React.Component {
   };
 
   static propTypes = {
-    breakpoint: PropTypes.string.isRequired,
     match: PropTypes.object,
   };
 
@@ -53,7 +51,6 @@ class RoadworksContent extends React.Component {
         match: {
           location: { query: properties },
         },
-        breakpoint,
       },
       context: { intl },
     } = this;
@@ -67,41 +64,27 @@ class RoadworksContent extends React.Component {
       </span>
     );
 
-    const isMobile = breakpoint !== 'large';
     const url = properties.details_url;
     return (
-      <div className={cx('card', 'card-padding')} style={{ border: 'none' }}>
-        <div
-          className={cx(
-            isMobile ? 'padding-horizontal' : 'padding-horizontal-xlarge',
+      <SidebarContainer name={properties.locationStreet} description={duration}>
+        <div>
+          {properties.locationDescription && (
+            <p>{properties.locationDescription}</p>
           )}
-        >
-          <CardHeader
-            name={properties.locationStreet}
-            description={duration}
-            unlinked
-            showBackButton={!isMobile}
-            headingStyle="h1"
-          />
-          <div>
-            {properties.locationDescription && (
-              <p>{properties.locationDescription}</p>
-            )}
-            <p>{properties.description}</p>
-            {url && (
-              <p>
-                {/* eslint-disable-next-line react/jsx-no-target-blank */}
-                <a href={url} target="_blank">
-                  {intl.formatMessage({
-                    id: 'extra-info',
-                    defaultMessage: 'More information',
-                  })}
-                </a>
-              </p>
-            )}
-          </div>
+          <p>{properties.description}</p>
+          {url && (
+            <p>
+              {/* eslint-disable-next-line react/jsx-no-target-blank */}
+              <a href={url} target="_blank">
+                {intl.formatMessage({
+                  id: 'extra-info',
+                  defaultMessage: 'More information',
+                })}
+              </a>
+            </p>
+          )}
         </div>
-      </div>
+      </SidebarContainer>
     );
   }
 }

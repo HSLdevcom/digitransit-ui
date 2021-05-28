@@ -26,13 +26,13 @@ import {
   PREFIX_STOPS,
   PREFIX_TERMINALS,
   PREFIX_ROADWORKS,
+  PREFIX_CHARGING_STATIONS,
 } from '../../../util/path';
 import DynamicParkingLotsPopup from '../popups/DynamicParkingLotsPopup';
 import BikeParkPopup from '../popups/BikeParkPopup';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import WeatherStationPopup from '../popups/WeatherStationPopup';
 import DynamicParkingLots from './DynamicParkingLots';
-import ChargingStationPopup from '../popups/ChargingStationPopup';
 
 const initialState = {
   selectableTargets: undefined,
@@ -334,7 +334,7 @@ class TileLayerContainer extends GridLayer {
             v => v !== undefined,
           );
           this.setState({ selectableTargets: undefined });
-          this.context.router.replace(
+          this.context.router.push(
             `/${PREFIX_ROADWORKS}?${new URLSearchParams(params).toString()}`,
           );
           showPopup = false;
@@ -396,16 +396,26 @@ class TileLayerContainer extends GridLayer {
         } else if (
           this.state.selectableTargets[0].layer === 'chargingStations'
         ) {
-          contents = (
-            <ChargingStationPopup
-              id={this.state.selectableTargets[0].feature.properties.id}
-              lat={this.state.coords.lat}
-              lon={this.state.coords.lng}
-              capacity={this.state.selectableTargets[0].feature.properties.c}
-              available={this.state.selectableTargets[0].feature.properties.ca}
-              onSelectLocation={this.props.onSelectLocation}
-            />
+          const { properties } = this.state.selectableTargets[0].feature;
+          const { id: stationId, c: capacity, ca: available } = properties;
+          const { lat, lng } = this.state.coords;
+          const params = pickBy(
+            {
+              lat,
+              lng,
+              stationId,
+              capacity,
+              available,
+            },
+            v => v !== undefined,
           );
+          this.setState({ selectableTargets: undefined });
+          this.context.router.push(
+            `/${PREFIX_CHARGING_STATIONS}?${new URLSearchParams(
+              params,
+            ).toString()}`,
+          );
+          showPopup = false;
         } else if (
           this.state.selectableTargets[0].layer === 'weatherStations'
         ) {

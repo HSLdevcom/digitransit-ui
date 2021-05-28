@@ -12,14 +12,16 @@ import {
   IEC62196T2Combo,
   TeslaS,
 } from 'react-charging-station-connector-icons';
-import MarkerPopupBottom from '../MarkerPopupBottom';
-import Card from '../../Card';
-import CardHeader from '../../CardHeader';
 import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
-import ChargingStations from '../tile-layer/ChargingStations';
 import Loading from '../../Loading';
 import Icon from '../../Icon';
+import withBreakpoint from '../../../util/withBreakpoint';
+import SidebarContainer from './SidebarContainer';
+
+export const getIcon = properties => {
+  return `icon-icon_stop_${properties.vehicleType || 'car'}_charging_station`;
+};
 
 const CONNECTOR_ICONS_MAP = {
   CHADEMO: <Chademo variant="light" subtitle="false" />,
@@ -73,10 +75,10 @@ const getConnectors = evses => {
   }));
 };
 
-const ChargingStationPopup = (props, context) => {
+const ChargingStationContent = ({ match }, { intl }) => {
   const CHARGING_STATION_DETAILS_API =
     'https://ochp.next-site.de/api/ocpi/2.2/location/';
-  const { lat, lon } = props;
+  const { lat, lng } = match.location.query;
   const [details, setDetails] = useState({});
   const [connectors, setConnectors] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -84,18 +86,17 @@ const ChargingStationPopup = (props, context) => {
   useEffect(() => {
     setLoading(true);
     setDetails({});
-    fetch(`${CHARGING_STATION_DETAILS_API}${props.id}`)
+    fetch(`${CHARGING_STATION_DETAILS_API}${match.location.query.stationId}`)
       .then(res => res.json())
       .then(data => {
         setConnectors(getConnectors(data.evses));
         setLoading(false);
         setDetails(data);
       });
-  }, [props]);
+  }, [match.location.query]);
 
   const getCapacity = () => {
-    const { intl } = context;
-    const { capacity, available } = props;
+    const { capacity, available } = match.location.query;
 
     if (typeof available === 'number') {
       return intl.formatMessage(
@@ -113,14 +114,13 @@ const ChargingStationPopup = (props, context) => {
           id: 'charging-spaces-in-total',
           defaultMessage: 'Capacity: {capacity} parking spaces',
         },
-        props,
+        match.location.query,
       );
     }
     return null;
   };
 
   const getDirectDeepLink = () => {
-    const { intl } = context;
     let link;
 
     if (
@@ -150,7 +150,6 @@ const ChargingStationPopup = (props, context) => {
   };
 
   const getOpeningTimes = () => {
-    const { intl } = context;
     const openingTimes = details?.opening_times;
     return (
       openingTimes?.twentyfourseven && (
@@ -181,8 +180,6 @@ const ChargingStationPopup = (props, context) => {
   };
 
   const getPaymentTypes = () => {
-    const { intl } = context;
-
     const capabilities = details?.evses
       ? details.evses[0].capabilities
       : undefined;
@@ -222,95 +219,71 @@ const ChargingStationPopup = (props, context) => {
   };
 
   return !loading ? (
-    <Card className="charging-station-card">
-      <div className="padding-normal charging-station-popup">
-        <CardHeader
-          name={details.name}
-          descClass="padding-vertical-small"
-          unlinked
-          icon={ChargingStations.getIcon(props)}
-          className="padding-medium"
-          headingStyle="h2"
-          description=""
-          showCardSubHeader={false}
-        />
-        <div className="content">
-          <div className="text-light">
-            <Icon className="charging-station-icon" img="icon-icon_schedule" />
-            <span className="text-alignment">{getOpeningTimes()}</span>
-          </div>
-          <div className="charging-station-divider" />
-          <div className="charging-info-container">
-            <div className="connector-container">
-              {connectors.map(connector => (
-                <div key={connector.text}>
-                  <span className="connector-icon">{connector.icon}</span>
-                  <span className="text-alignment">{connector.text}</span>
-                </div>
-              ))}
-            </div>
-            <div className="text-light text-alignment">|</div>
-            <div className="text-light text-alignment">{getCapacity()}</div>
-          </div>
-          <div className="charging-station-divider" />
-          <div className="text-light">
-            <Icon className="charging-station-icon" img="icon-icon_payment" />
-            <span className="text-alignment">{getPaymentTypes()}</span>
-          </div>
-          <div className="text-light">
-            <Icon className="charging-station-icon" img="icon-icon_place" />
-            <span className="text-alignment">{getAddress()}</span>
-          </div>
-          <div className="text-light">
-            <Icon className="charging-station-icon" img="icon-icon_call" />
-            <span className="text-alignment">{getPhoneNumber()}</span>
-          </div>
-          <div className="charging-station-divider" />
-          {getDirectDeepLink()}
+    <SidebarContainer
+      className="charging-station-card"
+      location={{
+        address: details.address,
+        lat: Number(lat),
+        lng: Number(lng),
+      }}
+      name={details.name}
+      icon={getIcon(match.location.query)}
+    >
+      <div className="content">
+        <div className="text-light">
+          <Icon className="charging-station-icon" img="icon-icon_schedule" />
+          <span className="text-alignment">{getOpeningTimes()}</span>
         </div>
+        <div className="charging-station-divider" />
+        <div className="charging-info-container">
+          <div className="connector-container">
+            {connectors.map(connector => (
+              <div key={connector.text}>
+                <span className="connector-icon">{connector.icon}</span>
+                <span className="text-alignment">{connector.text}</span>
+              </div>
+            ))}
+          </div>
+          <div className="text-light text-alignment">|</div>
+          <div className="text-light text-alignment">{getCapacity()}</div>
+        </div>
+        <div className="charging-station-divider" />
+        <div className="text-light">
+          <Icon className="charging-station-icon" img="icon-icon_payment" />
+          <span className="text-alignment">{getPaymentTypes()}</span>
+        </div>
+        <div className="text-light">
+          <Icon className="charging-station-icon" img="icon-icon_place" />
+          <span className="text-alignment">{getAddress()}</span>
+        </div>
+        <div className="text-light">
+          <Icon className="charging-station-icon" img="icon-icon_call" />
+          <span className="text-alignment">{getPhoneNumber()}</span>
+        </div>
+        <div className="charging-station-divider" />
+        {getDirectDeepLink()}
       </div>
-      <MarkerPopupBottom
-        onSelectLocation={props.onSelectLocation}
-        location={{
-          address: details.address,
-          lat,
-          lon,
-        }}
-      />
-    </Card>
+    </SidebarContainer>
   ) : (
-    <Card>
-      <CardHeader
-        name=""
-        descClass="padding-vertical-small"
-        unlinked
-        className="padding-medium"
-        headingStyle="h2"
-        description=""
-      />
+    <SidebarContainer>
       <div className="padding-normal charging-station-popup">
         <div className="content">
           <Loading />
         </div>
       </div>
-    </Card>
+    </SidebarContainer>
   );
 };
 
-ChargingStationPopup.propTypes = {
-  id: PropTypes.number.isRequired,
-  capacity: PropTypes.number.isRequired,
-  available: PropTypes.number.isRequired,
-  lat: PropTypes.number.isRequired,
-  lon: PropTypes.number.isRequired,
-  onSelectLocation: PropTypes.func.isRequired,
+ChargingStationContent.propTypes = {
+  match: PropTypes.object,
 };
 
-ChargingStationPopup.description = (
+ChargingStationContent.description = (
   <div>
     <p>Renders a citybike popup.</p>
     <ComponentUsageExample description="">
-      <ChargingStationPopup
+      <ChargingStationContent
         id={123}
         capacity={1}
         available={1}
@@ -320,13 +293,13 @@ ChargingStationPopup.description = (
         station={exampleStation}
       >
         Im content of a citybike card
-      </ChargingStationPopup>
+      </ChargingStationContent>
     </ComponentUsageExample>
   </div>
 );
 
-ChargingStationPopup.contextTypes = {
+ChargingStationContent.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-export default ChargingStationPopup;
+export default withBreakpoint(ChargingStationContent);
