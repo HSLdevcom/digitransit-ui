@@ -17,6 +17,7 @@ import {
   PREFIX_ROADWORKS,
   PREFIX_CHARGING_STATIONS,
   PREFIX_BIKE_PARKS,
+  PREFIX_DYNAMIC_PARKING_LOTS,
   LOCAL_STORAGE_EMITTER_PATH,
   createReturnPath,
   TAB_NEARBY,
@@ -81,6 +82,28 @@ export default config => {
       {getStopRoutes()}
       {getStopRoutes(true) /* terminals */}
       {routeRoutes}
+      <Route path={`/${PREFIX_DYNAMIC_PARKING_LOTS}`}>
+        {{
+          content: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "bike park" */ './component/map/sidebar/DynamicParkingLotsContent'
+                ).then(getDefault)
+              }
+            />
+          ),
+          map: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "map" */ './component/map/SidebarMap.js'
+                ).then(getDefault)
+              }
+            />
+          ),
+        }}
+      </Route>
       <Route path={`/${PREFIX_BIKE_PARKS}`}>
         {{
           content: (

@@ -1,14 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-import MarkerPopupBottom from '../MarkerPopupBottom';
-import Card from '../../Card';
 import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
-import OSMOpeningHours from './OSMOpeningHours';
-import Icon from '../../Icon';
+import OSMOpeningHours from '../popups/OSMOpeningHours';
+import SidebarContainer from './SidebarContainer';
+import DynamicParkingLots from '../tile-layer/DynamicParkingLots';
 
-class DynamicParkingLotsPopup extends React.Component {
+class DynamicParkingLotsContent extends React.Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
   };
@@ -17,12 +16,12 @@ class DynamicParkingLotsPopup extends React.Component {
     <div>
       <p>Renders a citybike popup.</p>
       <ComponentUsageExample description="">
-        <DynamicParkingLotsPopup
+        <DynamicParkingLotsContent
           context="context object here"
           station={exampleStation}
         >
           Im content of a citybike card
-        </DynamicParkingLotsPopup>
+        </DynamicParkingLotsContent>
       </ComponentUsageExample>
     </div>
   );
@@ -30,11 +29,7 @@ class DynamicParkingLotsPopup extends React.Component {
   static displayName = 'ParkingLotPopup';
 
   static propTypes = {
-    feature: PropTypes.object.isRequired,
-    lat: PropTypes.number.isRequired,
-    lon: PropTypes.number.isRequired,
-    icon: PropTypes.string,
-    onSelectLocation: PropTypes.func.isRequired,
+    match: PropTypes.object,
   };
 
   getCapacity() {
@@ -50,33 +45,33 @@ class DynamicParkingLotsPopup extends React.Component {
 
   getCarCapacity() {
     const { intl } = this.context;
-    const props = this.props.feature.properties;
+    const { free, total } = this.props.match.location.query;
 
-    if (props && typeof props.free === 'number') {
+    if (Number(free)) {
       return intl.formatMessage(
         {
           id: 'parking-spaces-available',
           defaultMessage: '{free} of {total} parking spaces available',
         },
-        props,
+        { free, total },
       );
     }
 
-    if (props && typeof props.total === 'number') {
+    if (Number(total)) {
       return intl.formatMessage(
         {
           id: 'parking-spaces-in-total',
           defaultMessage: 'Capacity: {total} parking spaces',
         },
-        props,
+        { total },
       );
     }
     return null;
   }
 
   getClosed() {
-    const { properties } = this.props.feature;
-    if (properties.state === 'closed') {
+    const { state } = this.props.match.location.query;
+    if (state === 'closed') {
       return (
         <span>
           {' '}
@@ -88,30 +83,26 @@ class DynamicParkingLotsPopup extends React.Component {
   }
 
   getWheelchairCapacity() {
-    const { properties } = this.props.feature;
-    return properties['free:disabled'] !== undefined &&
-      properties['total:disabled'] !== undefined
+    const { freeDisabled, totalDisabled } = this.props.match.location.query;
+    return freeDisabled !== undefined && totalDisabled !== undefined
       ? this.context.intl.formatMessage(
           {
             id: 'disabled-parking-spaces-available',
             defaultMessage:
-              '{free:disabled} of {total:disabled} wheelchair-accessible parking spaces available',
+              '{freeDisabled} of {totalDisabled} wheelchair-accessible parking spaces available',
           },
-          properties,
+          { freeDisabled, totalDisabled },
         )
       : null;
   }
 
   getUrl() {
     const { intl } = this.context;
-    if (this.props.feature.properties && this.props.feature.properties.url) {
+    const { url } = this.props.match.location.query;
+    if (url) {
       return (
         <div className="padding-vertical-small">
-          <a
-            href={this.props.feature.properties.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={url} target="_blank" rel="noopener noreferrer">
             {intl.formatMessage({
               id: 'extra-info',
               defaultMessage: 'More information',
@@ -125,12 +116,12 @@ class DynamicParkingLotsPopup extends React.Component {
 
   getNotes() {
     const currentLanguage = this.context.intl.locale;
-    const { properties } = this.props.feature;
-    if (properties.notes) {
-      const notes = JSON.parse(properties.notes);
+    const { notes } = this.props.match.location.query;
+    if (notes) {
+      const parsedNotes = JSON.parse(notes);
       return (
         <div className="large-text padding-vertical-small">
-          {notes[currentLanguage] || null}
+          {parsedNotes[currentLanguage] || null}
         </div>
       );
     }
@@ -138,10 +129,7 @@ class DynamicParkingLotsPopup extends React.Component {
   }
 
   renderOpeningHours() {
-    const {
-      feature: { properties },
-    } = this.props;
-    const openingHours = properties.opening_hours;
+    const { openingHours } = this.props.match.location.query;
     if (openingHours) {
       return <OSMOpeningHours openingHours={openingHours} displayStatus />;
     }
@@ -149,37 +137,32 @@ class DynamicParkingLotsPopup extends React.Component {
   }
 
   render() {
+    const { lat, lng, name, lotType } = this.props.match.location.query;
     return (
-      <div className="card dynamic-parking-lot-popup">
-        <Card className="card-padding">
-          {this.props.icon ? (
-            <div className="left card-icon">
-              <Icon img={this.props.icon} />
-            </div>
-          ) : null}
-          <h2 style={{ marginTop: 3 }}>{this.props.feature.properties.name}</h2>
+      <SidebarContainer
+        icon={`icon-icon_${DynamicParkingLots.getIcon(lotType)}`}
+        name={name}
+        location={{
+          address: name,
+          lat: Number(lat),
+          lon: Number(lng),
+        }}
+      >
+        <div className="card dynamic-parking-lot-popup">
           {this.getCapacity()}
           {this.getNotes()}
           <div>
             {this.renderOpeningHours()}
             {this.getUrl()}
           </div>
-        </Card>
-        <MarkerPopupBottom
-          onSelectLocation={this.props.onSelectLocation}
-          location={{
-            address: this.props.feature.properties.name,
-            lat: this.props.lat,
-            lon: this.props.lon,
-          }}
-        />
-      </div>
+        </div>
+      </SidebarContainer>
     );
   }
 }
 
-DynamicParkingLotsPopup.contextTypes = {
+DynamicParkingLotsContent.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-export default DynamicParkingLotsPopup;
+export default DynamicParkingLotsContent;

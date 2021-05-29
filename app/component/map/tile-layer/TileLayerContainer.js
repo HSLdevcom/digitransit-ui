@@ -28,11 +28,10 @@ import {
   PREFIX_ROADWORKS,
   PREFIX_CHARGING_STATIONS,
   PREFIX_BIKE_PARKS,
+  PREFIX_DYNAMIC_PARKING_LOTS,
 } from '../../../util/path';
-import DynamicParkingLotsPopup from '../popups/DynamicParkingLotsPopup';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import WeatherStationPopup from '../popups/WeatherStationPopup';
-import DynamicParkingLots from './DynamicParkingLots';
 
 const initialState = {
   selectableTargets: undefined,
@@ -372,17 +371,43 @@ class TileLayerContainer extends GridLayer {
         } else if (
           this.state.selectableTargets[0].layer === 'dynamicParkingLots'
         ) {
-          contents = (
-            <DynamicParkingLotsPopup
-              feature={this.state.selectableTargets[0].feature}
-              lat={this.state.coords.lat}
-              lon={this.state.coords.lng}
-              onSelectLocation={this.props.onSelectLocation}
-              icon={`icon-icon_${DynamicParkingLots.getIcon(
-                this.state.selectableTargets[0].feature.properties.lot_type,
-              )}`}
-            />
+          const {
+            free,
+            total,
+            state,
+            'free:disabled': freeDisabled,
+            'total:disabled': totalDisabled,
+            url,
+            notes,
+            opening_hours: openingHours,
+            name,
+            lot_type: lotType,
+          } = this.state.selectableTargets[0].feature.properties;
+          const { lat, lng } = this.state.coords;
+          const params = pickBy(
+            {
+              lat,
+              lng,
+              free,
+              total,
+              state,
+              freeDisabled,
+              totalDisabled,
+              url,
+              notes,
+              openingHours,
+              name,
+              lotType,
+            },
+            value => value !== undefined,
           );
+          this.setState({ selectableTargets: undefined });
+          this.context.router.push(
+            `/${PREFIX_DYNAMIC_PARKING_LOTS}?${new URLSearchParams(
+              params,
+            ).toString()}`,
+          );
+          showPopup = false;
         } else if (this.state.selectableTargets[0].layer === 'bikeParks') {
           const {
             maxCapacity,

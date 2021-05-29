@@ -28,7 +28,10 @@ const SidebarContainer = (
   };
 
   return (
-    <div className="card popup" style={{ border: 'none', paddingTop: '2.6em' }}>
+    <div
+      className="card popup"
+      style={{ border: 'none', paddingTop: '2.6em', fontWeight: 'initial' }}
+    >
       <div
         className={cx(
           isMobile ? 'padding-horizontal-large' : 'padding-horizontal-xlarge',
