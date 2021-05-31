@@ -225,19 +225,20 @@ class RouteScheduleContainer extends PureComponent {
 
   modifyDepartures = departures => {
     if (departures) {
+      const departuresCount = Object.entries(departures).length;
       const modifiedDepartures = [];
-      for (let z = 1; z <= 5; z++) {
+      for (let z = 1; z <= departuresCount / 7; z++) {
         let sortedData = [];
         // eslint-disable-next-line no-restricted-syntax
         for (const [key, value] of Object.entries(departures)) {
-          if (key.indexOf(`wk${z}`) !== -1) {
+          const lengthToCheck = `${z}`.length + 5;
+          if (key.length === lengthToCheck && key.indexOf(`wk${z}`) !== -1) {
             sortedData = {
               ...sortedData,
               [key]: sortBy(value, 'departureStoptime.scheduledDeparture'),
             };
           }
         }
-
         const obj = Object.values(sortedData);
         const result = Object.values(
           obj.reduce((c, v, i) => {
@@ -361,7 +362,7 @@ class RouteScheduleContainer extends PureComponent {
     const weekEnds = [startOfWeek.clone().endOf('isoWeek').format(DATE_FORMAT)];
     const days = [[]];
     const indexToRemove = [];
-    for (let x = 1; x < 5; x++) {
+    for (let x = 1; x < departures.length; x++) {
       weekStarts.push(startOfWeek.clone().add(x, 'w').format(DATE_FORMAT));
       weekEnds.push(
         startOfWeek.clone().endOf('isoWeek').add(x, 'w').format(DATE_FORMAT),
@@ -523,7 +524,6 @@ class RouteScheduleContainer extends PureComponent {
     }
 
     const data = this.populateData(wantedDay, firstDepartures);
-
     const routeIdSplitted = this.props.match.params.routeId.split(':');
     const routeTimetableHandler = routeIdSplitted
       ? this.context.config.timetables &&
@@ -738,6 +738,7 @@ const containerComponent = createFragmentContainer(
     firstDepartures: graphql`
       fragment RouteScheduleContainer_firstDepartures on Pattern
       @argumentDefinitions(
+        showAdditionalWeeks: { type: "Boolean!", defaultValue: false }
         wk1day1: { type: "String!", defaultValue: "19700101" }
         wk1day2: { type: "String!", defaultValue: "19700101" }
         wk1day3: { type: "String!", defaultValue: "19700101" }
@@ -773,6 +774,41 @@ const containerComponent = createFragmentContainer(
         wk5day5: { type: "String!", defaultValue: "19700101" }
         wk5day6: { type: "String!", defaultValue: "19700101" }
         wk5day7: { type: "String!", defaultValue: "19700101" }
+        wk6day1: { type: "String" }
+        wk6day2: { type: "String" }
+        wk6day3: { type: "String" }
+        wk6day4: { type: "String" }
+        wk6day5: { type: "String" }
+        wk6day6: { type: "String" }
+        wk6day7: { type: "String" }
+        wk7day1: { type: "String" }
+        wk7day2: { type: "String" }
+        wk7day3: { type: "String" }
+        wk7day4: { type: "String" }
+        wk7day5: { type: "String" }
+        wk7day6: { type: "String" }
+        wk7day7: { type: "String" }
+        wk8day1: { type: "String" }
+        wk8day2: { type: "String" }
+        wk8day3: { type: "String" }
+        wk8day4: { type: "String" }
+        wk8day5: { type: "String" }
+        wk8day6: { type: "String" }
+        wk8day7: { type: "String" }
+        wk9day1: { type: "String" }
+        wk9day2: { type: "String" }
+        wk9day3: { type: "String" }
+        wk9day4: { type: "String" }
+        wk9day5: { type: "String" }
+        wk9day6: { type: "String" }
+        wk9day7: { type: "String" }
+        wk10day1: { type: "String" }
+        wk10day2: { type: "String" }
+        wk10day3: { type: "String" }
+        wk10day4: { type: "String" }
+        wk10day5: { type: "String" }
+        wk10day6: { type: "String" }
+        wk10day7: { type: "String" }
       ) {
         wk1mon: tripsForDate(serviceDate: $wk1day1) {
           departureStoptime {
@@ -795,6 +831,36 @@ const containerComponent = createFragmentContainer(
           }
         }
         wk5mon: tripsForDate(serviceDate: $wk5day1) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk6mon: tripsForDate(serviceDate: $wk6day1)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk7mon: tripsForDate(serviceDate: $wk7day1)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk8mon: tripsForDate(serviceDate: $wk8day1)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk9mon: tripsForDate(serviceDate: $wk9day1)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk10mon: tripsForDate(serviceDate: $wk10day1)
+        @include(if: $showAdditionalWeeks) {
           departureStoptime {
             scheduledDeparture
           }
@@ -824,6 +890,36 @@ const containerComponent = createFragmentContainer(
             scheduledDeparture
           }
         }
+        wk6tue: tripsForDate(serviceDate: $wk6day2)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk7tue: tripsForDate(serviceDate: $wk7day2)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk8tue: tripsForDate(serviceDate: $wk8day2)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk9tue: tripsForDate(serviceDate: $wk9day2)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk10tue: tripsForDate(serviceDate: $wk10day2)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
         wk1wed: tripsForDate(serviceDate: $wk1day3) {
           departureStoptime {
             scheduledDeparture
@@ -845,6 +941,36 @@ const containerComponent = createFragmentContainer(
           }
         }
         wk5wed: tripsForDate(serviceDate: $wk5day3) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk6wed: tripsForDate(serviceDate: $wk6day3)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk7wed: tripsForDate(serviceDate: $wk7day3)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk8wed: tripsForDate(serviceDate: $wk8day3)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk9wed: tripsForDate(serviceDate: $wk9day3)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk10wed: tripsForDate(serviceDate: $wk10day3)
+        @include(if: $showAdditionalWeeks) {
           departureStoptime {
             scheduledDeparture
           }
@@ -874,6 +1000,36 @@ const containerComponent = createFragmentContainer(
             scheduledDeparture
           }
         }
+        wk6thu: tripsForDate(serviceDate: $wk6day4)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk7thu: tripsForDate(serviceDate: $wk7day4)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk8thu: tripsForDate(serviceDate: $wk8day4)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk9thu: tripsForDate(serviceDate: $wk9day4)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk10thu: tripsForDate(serviceDate: $wk10day4)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
         wk1fri: tripsForDate(serviceDate: $wk1day5) {
           departureStoptime {
             scheduledDeparture
@@ -895,6 +1051,36 @@ const containerComponent = createFragmentContainer(
           }
         }
         wk5fri: tripsForDate(serviceDate: $wk5day5) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk6fri: tripsForDate(serviceDate: $wk6day5)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk7fri: tripsForDate(serviceDate: $wk7day5)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk8fri: tripsForDate(serviceDate: $wk8day5)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk9fri: tripsForDate(serviceDate: $wk9day5)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk10fri: tripsForDate(serviceDate: $wk10day5)
+        @include(if: $showAdditionalWeeks) {
           departureStoptime {
             scheduledDeparture
           }
@@ -924,6 +1110,36 @@ const containerComponent = createFragmentContainer(
             scheduledDeparture
           }
         }
+        wk6sat: tripsForDate(serviceDate: $wk6day6)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk7sat: tripsForDate(serviceDate: $wk7day6)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk8sat: tripsForDate(serviceDate: $wk8day6)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk9sat: tripsForDate(serviceDate: $wk9day6)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk10sat: tripsForDate(serviceDate: $wk10day6)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
         wk1sun: tripsForDate(serviceDate: $wk1day7) {
           departureStoptime {
             scheduledDeparture
@@ -945,6 +1161,36 @@ const containerComponent = createFragmentContainer(
           }
         }
         wk5sun: tripsForDate(serviceDate: $wk5day7) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk6sun: tripsForDate(serviceDate: $wk6day7)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk7sun: tripsForDate(serviceDate: $wk7day7)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk8sun: tripsForDate(serviceDate: $wk8day7)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk9sun: tripsForDate(serviceDate: $wk9day7)
+        @include(if: $showAdditionalWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk10sun: tripsForDate(serviceDate: $wk10day7)
+        @include(if: $showAdditionalWeeks) {
           departureStoptime {
             scheduledDeparture
           }
