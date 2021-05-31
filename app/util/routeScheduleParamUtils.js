@@ -3,12 +3,10 @@ import { DATE_FORMAT } from '../constants';
 
 const prepareRouteScheduleParams = (params, match) => {
   const { query } = match.location;
-
   const startOfWeek = moment().startOf('isoWeek');
+  const date = moment(query.serviceDay, 'YYYYMMDD', true);
   const serviceDay =
-    query &&
-    query.serviceDay &&
-    moment(query.serviceDay, 'YYYYMMDD', true).isValid()
+    query && query.serviceDay && date.isValid() && date.isAfter(moment())
       ? moment(query.serviceDay)
       : moment();
 
