@@ -94,7 +94,7 @@ function nullOrUndefined(val) {
 function getDisableRemainingWeightHeuristic(modes) {
   let disableRemainingWeightHeuristic;
   if (Array.isArray(modes) && modes.includes('BICYCLE_RENT')) {
-    disableRemainingWeightHeuristic = true;
+    disableRemainingWeightHeuristic = false;
   } else {
     disableRemainingWeightHeuristic = false;
   }
