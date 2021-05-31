@@ -60,7 +60,7 @@ export default configMerger(walttiConfig, {
     displayNextDeparture: false,
     maxWalkDistance: 15000,
 
-    optimize: "QUICK",
+    optimize: "TRIANGLE",
 
     defaultSettings: {
         optimize: "TRIANGLE",
