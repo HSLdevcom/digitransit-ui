@@ -81,6 +81,14 @@ class RouteScheduleContainer extends PureComponent {
 
   hasMergedData = false;
 
+  componentDidMount = () => {
+    const { match } = this.props;
+    const date = moment(match.location.query.serviceDay, 'YYYYMMDD', true);
+    if (date.isBefore(moment())) {
+      match.router.replace(decodeURIComponent(match.location.pathname));
+    }
+  };
+
   onFromSelectChange = selectFrom => {
     const from = Number(selectFrom);
     this.setState(prevState => {
