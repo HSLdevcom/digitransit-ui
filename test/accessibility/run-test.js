@@ -1,11 +1,17 @@
 /* eslint-disable no-console */
+const parallel = require('async/parallel');
 const AxeBuilder = require('@axe-core/webdriverjs');
 const WebDriver = require('selenium-webdriver');
 
-const driver = new WebDriver.Builder().forBrowser('firefox').build();
-const builder = new AxeBuilder(driver);
+const driver1 = new WebDriver.Builder().forBrowser('firefox').build();
+const driver2 = new WebDriver.Builder().forBrowser('firefox').build();
+
+const builder1 = new AxeBuilder(driver1);
+const builder2 = new AxeBuilder(driver2);
 
 const LOCAL = 'http://127.0.0.1:8080';
+const BENCHMARK = 'https://next-dev.digitransit.fi';
+
 const URLS_TO_TEST = [
   '/etusivu', // front page
   '/linjat/HSL:3002P', // P train route page
@@ -13,12 +19,19 @@ const URLS_TO_TEST = [
   '/reitti/Otakaari%2024%2C%20Espoo%3A%3A60.1850004462205%2C24.832384918447488/L%C3%B6nnrotinkatu%2029%2C%20Helsinki%3A%3A60.164182342362864%2C24.932237237563104/0', // Itinerary page
 ];
 
-const totalResults = {
+const localResults = {
   violations: [],
   passes: [],
   incomplete: [],
   inapplicable: [],
 };
+const benchmarkResults = {
+  violations: [],
+  passes: [],
+  incomplete: [],
+  inapplicable: [],
+};
+
 const color = {
   critical: '\x1b[1m\x1b[31m',
   serious: '\x1b[31m',
@@ -26,22 +39,13 @@ const color = {
   minor: '\x1b[33m',
 };
 
-const wrapup = () => {
-  console.timeEnd('Execution time');
-  console.log('=== ACCESSIBILITY TESTS DONE ===');
-  console.log(
-    `violations: ${totalResults.violations.length}, passes: ${totalResults.passes.length}, incomplete: ${totalResults.incomplete.length}, inapplicable: ${totalResults.inapplicable.length}`,
-  );
-  driver.quit();
-};
-
 // Loop through URLs recursively
-const analyzePages = i => {
+const analyzeLocal = (callback, i) => {
   if (i < URLS_TO_TEST.length) {
     const url = `${LOCAL}${URLS_TO_TEST[i]}`;
-    driver.get(url).then(() => {
+    driver1.get(url).then(() => {
       console.log(`${url} loaded...`);
-      builder.analyze((err, results) => {
+      builder1.analyze((err, results) => {
         console.log(`RESULTS for ${url}: `);
         if (err) {
           // TODO Handle error somehow
@@ -49,11 +53,11 @@ const analyzePages = i => {
         }
 
         const { violations, passes, incomplete, inapplicable } = results;
-        totalResults.violations = [...totalResults.violations, ...violations];
-        totalResults.passes = [...totalResults.passes, ...passes];
-        totalResults.incomplete = [...totalResults.incomplete, ...incomplete];
-        totalResults.inapplicable = [
-          ...totalResults.inapplicable,
+        localResults.violations = [...localResults.violations, ...violations];
+        localResults.passes = [...localResults.passes, ...passes];
+        localResults.incomplete = [...localResults.incomplete, ...incomplete];
+        localResults.inapplicable = [
+          ...localResults.inapplicable,
           ...inapplicable,
         ];
 
@@ -68,13 +72,94 @@ const analyzePages = i => {
             '\x1b[0m',
           );
         }
-        analyzePages(i + 1);
+        analyzeLocal(callback, i + 1);
       });
     });
   } else {
-    wrapup();
+    callback(null);
   }
 };
 
+const analyzeBenchmark = (callback, i) => {
+  if (i < URLS_TO_TEST.length) {
+    const url = `${BENCHMARK}${URLS_TO_TEST[i]}`;
+    driver2.get(url).then(() => {
+      builder2.analyze((err, results) => {
+        if (err) {
+          // TODO Handle error somehow
+          console.log(err);
+        }
+
+        const { violations, passes, incomplete, inapplicable } = results;
+        benchmarkResults.violations = [
+          ...benchmarkResults.violations,
+          ...violations,
+        ];
+        benchmarkResults.passes = [...benchmarkResults.passes, ...passes];
+        benchmarkResults.incomplete = [
+          ...benchmarkResults.incomplete,
+          ...incomplete,
+        ];
+        benchmarkResults.inapplicable = [
+          ...benchmarkResults.inapplicable,
+          ...inapplicable,
+        ];
+
+        analyzeBenchmark(callback, i + 1);
+      });
+    });
+  } else {
+    callback(null);
+  }
+};
+
+const wrapup = () => {
+  console.timeEnd('Execution time');
+  console.log('=== ACCESSIBILITY TESTS DONE ===');
+  console.log(
+    `violations in BENCHMARK: ${benchmarkResults.violations.length}, passes: ${benchmarkResults.passes.length}, incomplete: ${benchmarkResults.incomplete.length}, inapplicable: ${benchmarkResults.inapplicable.length}`,
+  );
+  console.log(
+    `violations in LOCAL: ${localResults.violations.length}, passes: ${localResults.passes.length}, incomplete: ${localResults.incomplete.length}, inapplicable: ${localResults.inapplicable.length}`,
+  );
+
+  const newViolations = localResults.violations.filter(
+    violation => !benchmarkResults.violations.includes(violation),
+  );
+
+  if (newViolations.length > 0) {
+    console.log('New Errors introduced: ');
+    for (let j = 0; j < newViolations.length; j++) {
+      const v = newViolations[j];
+      const firstTargetElement =
+        v.nodes.length > 0 ? `- on element: ${v.nodes[0].target[0]}` : '';
+      console.log(
+        color[v.impact],
+        `${v.impact} - ${v.id}: ${v.help} ${firstTargetElement}`,
+        '\x1b[0m',
+      );
+    }
+  } else {
+    console.log('No new erros');
+  }
+  driver1.quit();
+  driver2.quit();
+};
+
 console.time('Execution time');
-analyzePages(0);
+parallel(
+  [
+    function (callback) {
+      analyzeLocal(callback, 0);
+    },
+    function (callback) {
+      analyzeBenchmark(callback, 0);
+    },
+  ],
+  function (err) {
+    if (err) {
+      console.error(err);
+    }
+    wrapup();
+  },
+);

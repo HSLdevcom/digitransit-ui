@@ -227,6 +227,7 @@
     "@rollup/plugin-babel": "5.2.2",
     "@rollup/plugin-json": "4.1.0",
     "@rollup/plugin-node-resolve": "11.0.1",
+    "async": "^3.2.0",
     "autoprefixer": "9.8.6",
     "axe-core": "^4.2.1",
     "babel-core": "7.0.0-bridge.0",
