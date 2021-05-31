@@ -58,8 +58,8 @@ class RoadworksContent extends React.Component {
     const duration = (
       <span className="inline-block padding-vertical-small">
         {RoadworksContent.formatDateTime(
-          properties.startTime,
-          properties.endTime,
+          properties.starttime,
+          properties.endtime,
         )}
       </span>
     );
