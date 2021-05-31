@@ -552,7 +552,7 @@ const translations = {
       'Nehmen Sie Ihr Rad mit in den Zug',
     'itinerary-summary.bikeAndPublic-subway-title':
       'Nehmen Sie Ihr Rad mit in die Bahn',
-    'itinerary-summary.bikePark-title': 'Parken und Reisen',
+    'itinerary-summary.bikePark-title': 'Fahrrad abstellen und weiterfahren',
     'itinerary-summary.interline-wait':
       'Warte auf den Umstieg in Fahrzeug ({time})',
     'itinerary-summary.show-on-map': 'Auf Karte zeigen {target}',
