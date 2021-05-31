@@ -5,11 +5,12 @@ const WebDriver = require('selenium-webdriver');
 const driver = new WebDriver.Builder().forBrowser('firefox').build();
 const builder = new AxeBuilder(driver);
 
+const LOCAL = 'http://127.0.0.1:8080';
 const URLS_TO_TEST = [
-  'http://127.0.0.1:8080/etusivu', // front page
-  'http://127.0.0.1:8080/linjat/HSL:3002P', // P train route page
-  'http://127.0.0.1:8080/reitti/Otakaari%2024%2C%20Espoo%3A%3A60.1850004462205%2C24.832384918447488/L%C3%B6nnrotinkatu%2029%2C%20Helsinki%3A%3A60.164182342362864%2C24.932237237563104', // ititnerary suggestions
-  'http://127.0.0.1:8080/reitti/Otakaari%2024%2C%20Espoo%3A%3A60.1850004462205%2C24.832384918447488/L%C3%B6nnrotinkatu%2029%2C%20Helsinki%3A%3A60.164182342362864%2C24.932237237563104/0', // Itinerary page
+  '/etusivu', // front page
+  '/linjat/HSL:3002P', // P train route page
+  '/reitti/Otakaari%2024%2C%20Espoo%3A%3A60.1850004462205%2C24.832384918447488/L%C3%B6nnrotinkatu%2029%2C%20Helsinki%3A%3A60.164182342362864%2C24.932237237563104', // ititnerary suggestions
+  '/reitti/Otakaari%2024%2C%20Espoo%3A%3A60.1850004462205%2C24.832384918447488/L%C3%B6nnrotinkatu%2029%2C%20Helsinki%3A%3A60.164182342362864%2C24.932237237563104/0', // Itinerary page
 ];
 
 const totalResults = {
@@ -37,7 +38,7 @@ const wrapup = () => {
 // Loop through URLs recursively
 const analyzePages = i => {
   if (i < URLS_TO_TEST.length) {
-    const url = URLS_TO_TEST[i];
+    const url = `${LOCAL}${URLS_TO_TEST[i]}`;
     driver.get(url).then(() => {
       console.log(`${url} loaded...`);
       builder.analyze((err, results) => {
