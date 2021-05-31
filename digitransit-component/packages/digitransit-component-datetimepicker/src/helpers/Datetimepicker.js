@@ -246,6 +246,7 @@ function Datetimepicker({
               changeOpen(false);
             }}
             getTimeDisplay={getTimeDisplay}
+            timeZone={timeZone}
             timestamp={displayTimestamp}
             getDateDisplay={getDateDisplay}
             dateSelectItemCount={serviceTimeRange}
