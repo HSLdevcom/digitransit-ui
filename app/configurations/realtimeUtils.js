@@ -256,6 +256,19 @@ export default {
 
     active: true,
   },
+  Vaasa: {
+    mqttTopicResolver: walttiTopicResolver,
+
+    mqtt: 'wss://mqtt.waltti.fi/mqtt',
+
+    credentials: { username: 'user', password: 'userpass' },
+
+    gtfsrt: true,
+
+    routeSelector: defaultRouteSelector,
+
+    active: true,
+  },
   hb: {
     mqttTopicResolver: function mqttTopicResolver() {
       return '/gtfsrt/vp/#';

@@ -30,7 +30,7 @@ const StopNearYouHeader = (
         <div className="stop-near-you-info">
           <AddressRow desc={desc} code={stop.code} isTerminal={isStation} />
           <PlatformNumber number={stop.platformCode} short />
-          {config.stopCard.header.showZone &&
+          {config.zones.stops &&
             config.feedIds.includes(stop.gtfsId.split(':')[0]) && (
               <ZoneIcon
                 zoneId={getZoneLabel(stop.zoneId, config)}

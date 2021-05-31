@@ -97,6 +97,7 @@ export default {
   },
 
   redirectReittiopasParams: true,
+  map: { minZoom: 5 },
 
   cityBike: {
     showCityBikes: true,

@@ -76,8 +76,6 @@ class DepartureListContainer extends Component {
 
   constructor(props) {
     super(props);
-    this.startClient = this.startClient.bind(this);
-    this.updateClient = this.updateClient.bind(this);
     this.pageLoadedAlertRef = React.createRef();
   }
 

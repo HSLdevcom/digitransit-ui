@@ -34,15 +34,6 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'kuopio/logo.png',
 
-  mapLayers: {
-    tooltip: {
-      fi: 'Uutta! Saat nyt lähellä olevat bussit kartalle asetuksista.',
-      en: 'New! You can now get nearby busses on the map from the settings.',
-      sv:
-        'Nytt! I inställningarna kan du nu välja att se närliggande bussar på kartan.',
-    },
-  },
-
   feedIds: ['Kuopio', 'KuopioEly'],
 
   showTicketInformation: true,
@@ -203,12 +194,8 @@ export default configMerger(walttiConfig, {
     5: 'E',
     6: 'F',
   },
-  itinerary: {
-    showZoneLimits: true,
-  },
-  stopCard: {
-    header: {
-      showZone: true,
-    },
+  zones: {
+    stops: true,
+    itinerary: true,
   },
 });

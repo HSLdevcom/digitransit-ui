@@ -274,6 +274,7 @@ const SummaryRow = (
     const nextLeg = compressedLegs[i + 1];
     let legLength =
       ((leg.endTime - leg.startTime) / durationWithoutSlack) * 100; // length of the current leg in %
+
     const longName =
       leg.route && leg.route.shortName && leg.route.shortName.length > 5;
 
@@ -289,6 +290,10 @@ const SummaryRow = (
           ((leg.endTime - leg.startTime + waitTime) / durationWithoutSlack) *
           100; // otherwise add the waiting to the current legs length
       }
+    }
+    if (nextLeg?.interlineWithPreviousLeg) {
+      legLength =
+        ((nextLeg.endTime - leg.startTime) / durationWithoutSlack) * 100;
     }
     legLength += addition;
     addition = 0;
@@ -426,19 +431,21 @@ const SummaryRow = (
         legLength > renderRouteNumberThreshold &&
         !longName &&
         transitLegCount < 7;
-      legs.push(
-        <RouteLeg
-          key={`${leg.mode}_${leg.startTime}`}
-          leg={leg}
-          fitRouteNumber={
-            (fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg
-          }
-          intl={intl}
-          legLength={legLength}
-          large={breakpoint === 'large'}
-          withBicycle={withBicycle}
-        />,
-      );
+      if (!leg.interlineWithPreviousLeg) {
+        legs.push(
+          <RouteLeg
+            key={`${leg.mode}_${leg.startTime}`}
+            leg={leg}
+            fitRouteNumber={
+              (fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg
+            }
+            intl={intl}
+            legLength={legLength}
+            large={breakpoint === 'large'}
+            withBicycle={withBicycle}
+          />,
+        );
+      }
       vehicleNames.push(
         formatMessage(
           {
@@ -453,7 +460,7 @@ const SummaryRow = (
       stopNames.push(leg.from.name);
     }
 
-    if (waiting) {
+    if (waiting && !nextLeg?.interlineWithPreviousLeg) {
       const waitingTimeinMin = Math.floor(waitTime / 1000 / 60);
       legs.push(
         <ModeLeg

@@ -312,7 +312,6 @@ class SummaryPage extends React.Component {
       bikeParkPlan: undefined,
       carPlan: undefined,
       parkRidePlan: undefined,
-      scrolled: false,
       loadingMoreItineraries: undefined,
       isFetchingWalkAndBike: true,
     };
@@ -1850,14 +1849,6 @@ class SummaryPage extends React.Component {
     );
   };
 
-  handleScroll = event => {
-    const { scrollTop } = event.target;
-    const scrolled = scrollTop > 0;
-    if (scrolled !== this.state.scrolled) {
-      this.setState({ scrolled });
-    }
-  };
-
   getCombinedItineraries = () => {
     const itineraries = [
       ...(this.state.earlierItineraries || []),
@@ -2365,8 +2356,6 @@ class SummaryPage extends React.Component {
             </SettingsDrawer>
           }
           map={map}
-          scrolled={this.state.scrolled}
-          onScroll={this.handleScroll}
           scrollable
         />
       );

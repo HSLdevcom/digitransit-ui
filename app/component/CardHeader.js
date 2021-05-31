@@ -72,7 +72,7 @@ const CardHeader = (
                   />
                 </div>
                 {headerConfig &&
-                  headerConfig.showZone &&
+                  config.zones.stops &&
                   stop.zoneId &&
                   stop.gtfsId &&
                   config.feedIds.includes(stop.gtfsId.split(':')[0]) && (

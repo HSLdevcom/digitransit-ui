@@ -4,6 +4,7 @@ import ReactSwipe from 'react-swipe';
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import ScrollableWrapper from './ScrollableWrapper';
 
 export default class SwipeableTabs extends React.Component {
   constructor(props) {
@@ -36,17 +37,6 @@ export default class SwipeableTabs extends React.Component {
   componentDidMount() {
     window.addEventListener('resize', this.setFocusables);
     this.setFocusables();
-    const momentumScrollEl = document.querySelector('.swipe-scroll-container');
-    if (momentumScrollEl) {
-      momentumScrollEl.addEventListener('scroll', e => {
-        const { scrollTop } = e.target;
-        if (scrollTop > 0) {
-          this.setState({ scrolled: true });
-        } else {
-          this.setState({ scrolled: false });
-        }
-      });
-    }
   }
 
   componentDidUpdate() {
@@ -250,28 +240,30 @@ export default class SwipeableTabs extends React.Component {
         }
       >
         {navigationOnBottom && (
-          <div className="swipe-scroll-container momentum-scroll">
-            <ReactSwipe
-              swipeOptions={{
-                startSlide: this.props.tabIndex,
-                stopPropagation: true,
-                continuous: false,
-                callback: i => {
-                  // force transition after animation should be over because animation can randomly fail sometimes
-                  setTimeout(() => {
-                    this.setState({ tabIndex: i });
-                    this.props.onSwipe(i);
-                  }, 300);
-                },
-              }}
-              childCount={tabs.length}
-              ref={el => {
-                reactSwipeEl = el;
-              }}
-            >
-              {tabs}
-            </ReactSwipe>
-          </div>
+          <ScrollableWrapper>
+            <div className="swipe-scroll-container">
+              <ReactSwipe
+                swipeOptions={{
+                  startSlide: this.props.tabIndex,
+                  stopPropagation: true,
+                  continuous: false,
+                  callback: i => {
+                    // force transition after animation should be over because animation can randomly fail sometimes
+                    setTimeout(() => {
+                      this.setState({ tabIndex: i });
+                      this.props.onSwipe(i);
+                    }, 300);
+                  },
+                }}
+                childCount={tabs.length}
+                ref={el => {
+                  reactSwipeEl = el;
+                }}
+              >
+                {tabs}
+              </ReactSwipe>
+            </div>
+          </ScrollableWrapper>
         )}
         <div
           className={`swipe-header-container ${this.props.classname} ${
@@ -344,27 +336,29 @@ export default class SwipeableTabs extends React.Component {
           </div>
         </div>
         {!navigationOnBottom && (
-          <div className="swipe-scroll-container momentum-scroll">
-            <ReactSwipe
-              swipeOptions={{
-                startSlide: this.props.tabIndex,
-                continuous: false,
-                callback: i => {
-                  // force transition after animation should be over because animation can randomly fail sometimes
-                  setTimeout(() => {
-                    this.setState({ tabIndex: i });
-                    this.props.onSwipe(i);
-                  }, 300);
-                },
-              }}
-              childCount={tabs.length}
-              ref={el => {
-                reactSwipeEl = el;
-              }}
-            >
-              {tabs}
-            </ReactSwipe>
-          </div>
+          <ScrollableWrapper>
+            <div className="swipe-scroll-container">
+              <ReactSwipe
+                swipeOptions={{
+                  startSlide: this.props.tabIndex,
+                  continuous: false,
+                  callback: i => {
+                    // force transition after animation should be over because animation can randomly fail sometimes
+                    setTimeout(() => {
+                      this.setState({ tabIndex: i });
+                      this.props.onSwipe(i);
+                    }, 300);
+                  },
+                }}
+                childCount={tabs.length}
+                ref={el => {
+                  reactSwipeEl = el;
+                }}
+              >
+                {tabs}
+              </ReactSwipe>
+            </div>
+          </ScrollableWrapper>
         )}
       </div>
     );
