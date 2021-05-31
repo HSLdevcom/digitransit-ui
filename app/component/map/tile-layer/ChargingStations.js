@@ -61,7 +61,15 @@ class ChargingStations {
 
   drawStatus = ({ geom, properties }) => {
     if (this.tile.coords.z <= this.config.chargingStations.smallIconZoom) {
-      return drawStopIcon(this.tile, geom, 'charging-station');
+      return drawStopIcon(
+        this.tile,
+        geom,
+        'charging-station',
+        null,
+        null,
+        null,
+        { 'mode-charging-station': '#00b096' },
+      );
     }
 
     const icon = getIcon(properties);
