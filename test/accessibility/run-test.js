@@ -64,6 +64,7 @@ const analyzeLocal = (callback, i) => {
         console.log('Violations: ');
         for (let j = 0; j < results.violations.length; j++) {
           const v = violations[j];
+          v.url = URLS_TO_TEST[i];
           const firstTargetElement =
             v.nodes.length > 0 ? `- on element: ${v.nodes[0].target[0]}` : '';
           console.log(
@@ -72,6 +73,7 @@ const analyzeLocal = (callback, i) => {
             '\x1b[0m',
           );
         }
+
         analyzeLocal(callback, i + 1);
       });
     });
@@ -105,12 +107,21 @@ const analyzeBenchmark = (callback, i) => {
           ...inapplicable,
         ];
 
+        for (let j = 0; j < results.violations.length; j++) {
+          const v = violations[j];
+          v.url = URLS_TO_TEST[i];
+        }
+
         analyzeBenchmark(callback, i + 1);
       });
     });
   } else {
     callback(null);
   }
+};
+
+const violationsAreEqual = (v1, v2) => {
+  return v1.url === v2.url && v1.id === v2.id;
 };
 
 const wrapup = () => {
@@ -123,9 +134,11 @@ const wrapup = () => {
     `violations in LOCAL: ${localResults.violations.length}, passes: ${localResults.passes.length}, incomplete: ${localResults.incomplete.length}, inapplicable: ${localResults.inapplicable.length}`,
   );
 
-  const newViolations = localResults.violations.filter(
-    violation => !benchmarkResults.violations.includes(violation),
-  );
+  const newViolations = localResults.violations.filter(v1 => {
+    return !benchmarkResults.violations.some(v2 => {
+      return violationsAreEqual(v1, v2);
+    });
+  });
 
   if (newViolations.length > 0) {
     console.log('New Errors introduced: ');
