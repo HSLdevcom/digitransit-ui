@@ -1,9 +1,7 @@
 import flatten from 'lodash/flatten';
 import omit from 'lodash/omit';
 import L from 'leaflet';
-import { some } from 'lodash';
-
-import { isEqual } from 'lodash';
+import { isEqual, some } from 'lodash';
 import { isBrowser } from '../../../util/browser';
 import { isLayerEnabled } from '../../../util/mapLayerUtils';
 import { getStopIconStyles } from '../../../util/mapIconUtils';
