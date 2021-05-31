@@ -1718,6 +1718,7 @@ class SummaryPage extends React.Component {
       />
     );
   }
+
   toggleCarpoolDrawer = leg => {
     const { carpoolOpen } = this.state;
     this.setState({ carpoolOpen: !carpoolOpen });

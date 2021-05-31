@@ -285,13 +285,13 @@ class Timetable extends React.Component {
               }}
               dateFormat="YYYYMMDD"
             />
-          {this.context.config.showTimeTableOptions && (
-            <TimeTableOptionsPanel
-              showRoutes={this.state.showRoutes}
-              showFilterModal={this.showModal}
-              stop={this.props.stop}
-            />
-          )}
+            {this.context.config.showTimeTableOptions && (
+              <TimeTableOptionsPanel
+                showRoutes={this.state.showRoutes}
+                showFilterModal={this.showModal}
+                stop={this.props.stop}
+              />
+            )}
           </div>
           <div className="timetable-for-printing-header">
             <h1>
