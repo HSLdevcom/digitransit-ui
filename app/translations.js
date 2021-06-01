@@ -553,6 +553,7 @@ const translations = {
     'itinerary-summary.interline-wait':
       'Warte auf den Umstieg in Fahrzeug ({time})',
     'itinerary-summary.show-on-map': 'Auf Karte zeigen {target}',
+    'disabled-parking-spaces-available':'{freeDisabled} von {totalDisabled} barrierefreien Stellplätzen verfügbar',
     'itinerary-ticket.title': 'Benötigte Fahrkarte',
     'itinerary-tickets.title': 'Benötigte Fahrkarten',
     'itinerary-time.title': 'Dauer',

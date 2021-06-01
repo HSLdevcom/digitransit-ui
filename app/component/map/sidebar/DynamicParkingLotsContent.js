@@ -47,7 +47,7 @@ class DynamicParkingLotsContent extends React.Component {
     const { intl } = this.context;
     const { free, total } = this.props.match.location.query;
 
-    if (Number(free)) {
+    if (Number(free) || Number(free) === 0) {
       return intl.formatMessage(
         {
           id: 'parking-spaces-available',
