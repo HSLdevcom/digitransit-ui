@@ -29,9 +29,11 @@ import {
   PREFIX_CHARGING_STATIONS,
   PREFIX_BIKE_PARKS,
   PREFIX_DYNAMIC_PARKING_LOTS,
+  PREFIX_ROAD_WEATHER,
 } from '../../../util/path';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import WeatherStationPopup from '../popups/WeatherStationPopup';
+import DynamicParkingLots from './DynamicParkingLots';
 
 const initialState = {
   selectableTargets: undefined,
@@ -457,11 +459,33 @@ class TileLayerContainer extends GridLayer {
         } else if (
           this.state.selectableTargets[0].layer === 'weatherStations'
         ) {
-          contents = (
-            <WeatherStationPopup
-              {...this.state.selectableTargets[0].feature.properties}
-            />
+          const {
+            airTemperatureC,
+            precipitationType,
+            roadCondition,
+            roadTemperatureC,
+            updatedAt,
+            address,
+          } = this.state.selectableTargets[0].feature.properties;
+          const { lat, lng } = this.state.coords;
+          const params = pickBy(
+            {
+              lat,
+              lng,
+              airTemperatureC,
+              precipitationType,
+              roadCondition,
+              roadTemperatureC,
+              updatedAt,
+              address,
+            },
+            value => value !== undefined,
           );
+          this.setState({ selectableTargets: undefined });
+          this.context.router.push(
+            `/${PREFIX_ROAD_WEATHER}?${new URLSearchParams(params).toString()}`,
+          );
+          showPopup = false;
         }
         popup = (
           <Popup

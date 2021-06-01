@@ -28,10 +28,7 @@ const SidebarContainer = (
   };
 
   return (
-    <div
-      className="card popup"
-      style={{ border: 'none', paddingTop: '2.6em', fontWeight: 'initial' }}
-    >
+    <div className="card sidebar-card popup">
       <div
         className={cx(
           isMobile ? 'padding-horizontal-large' : 'padding-horizontal-xlarge',
@@ -42,6 +39,7 @@ const SidebarContainer = (
           name={name}
           descClass="padding-vertical-small"
           unlinked
+          className="sidebar-card-header"
           icon={icon}
           headingStyle="h1"
           description={description}

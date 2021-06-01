@@ -18,6 +18,7 @@ import {
   PREFIX_CHARGING_STATIONS,
   PREFIX_BIKE_PARKS,
   PREFIX_DYNAMIC_PARKING_LOTS,
+  PREFIX_ROAD_WEATHER,
   LOCAL_STORAGE_EMITTER_PATH,
   createReturnPath,
   TAB_NEARBY,
@@ -88,7 +89,29 @@ export default config => {
             <Route
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "bike park" */ './component/map/sidebar/DynamicParkingLotsContent'
+                  /* webpackChunkName: "parking lots" */ './component/map/sidebar/DynamicParkingLotsContent'
+                ).then(getDefault)
+              }
+            />
+          ),
+          map: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "map" */ './component/map/SidebarMap.js'
+                ).then(getDefault)
+              }
+            />
+          ),
+        }}
+      </Route>
+      <Route path={`/${PREFIX_ROAD_WEATHER}`}>
+        {{
+          content: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "road weather" */ './component/map/sidebar/WeatherStationContent'
                 ).then(getDefault)
               }
             />

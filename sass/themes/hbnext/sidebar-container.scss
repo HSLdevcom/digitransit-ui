@@ -1,0 +1,14 @@
+.sidebar-card {
+  border: none;
+  padding-top: 2.6em;
+  font-weight: initial;
+}
+
+.sidebar-card-header {
+  .card-header-content {
+    align-items: initial;
+    div:last-child {
+      align-self: center;
+    }
+  }
+}
