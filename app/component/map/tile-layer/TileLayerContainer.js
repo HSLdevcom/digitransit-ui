@@ -32,8 +32,6 @@ import {
   PREFIX_ROAD_WEATHER,
 } from '../../../util/path';
 import SelectVehicleContainer from './SelectVehicleContainer';
-import WeatherStationPopup from '../popups/WeatherStationPopup';
-import DynamicParkingLots from './DynamicParkingLots';
 
 const initialState = {
   selectableTargets: undefined,
