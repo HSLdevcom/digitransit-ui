@@ -987,6 +987,9 @@ $margin-left-right: 1.333em;
     &:focus {
       outline: none;
       border-color: $primary-color;
+      background: #fff;
+      border: solid 1px $primary-color;
+      box-shadow: 0px 0px 2px 1px $secondary-color;
     }
 
     .toggle-icon {
@@ -1025,8 +1028,11 @@ $margin-left-right: 1.333em;
     border-radius: 4px;
     position: relative;
     &:focus-within {
+      outline: none;
       border-color: $primary-color;
-      box-shadow: none;
+      background: #fff;
+      border: solid 1px $primary-color;
+      box-shadow: 0px 0px 2px 1px $secondary-color;
     }
     .input-display {
       position: relative;
