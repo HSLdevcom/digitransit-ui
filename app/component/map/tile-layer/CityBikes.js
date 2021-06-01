@@ -66,7 +66,12 @@ class CityBikes {
             for (let i = 0, ref = layer.length - 1; i <= ref; i++) {
               const feature = layer.feature(i);
               [[feature.geom]] = feature.loadGeometry();
-              this.features.push(pick(feature, ['geom', 'properties']));
+              if (
+                feature.properties.networks !== 'cargo-bike' ||
+                this.config.cityBike.networks['cargo-bike']
+              ) {
+                this.features.push(pick(feature, ['geom', 'properties']));
+              }
             }
           }
 
