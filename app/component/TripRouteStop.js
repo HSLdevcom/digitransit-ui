@@ -5,8 +5,8 @@ import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 
 import ComponentUsageExample from './ComponentUsageExample';
+import AddressRow from './AddressRow';
 import ServiceAlertIcon from './ServiceAlertIcon';
-import StopCode from './StopCode';
 import PatternLink from './PatternLink';
 import { fromStopTime } from './DepartureTime';
 import { RealtimeStateType, AlertSeverityLevelType } from '../constants';
@@ -147,12 +147,16 @@ const TripRouteStop = (props, context) => {
               </div>
             </div>
             <div className="route-details-bottom-row">
-              <span className="route-stop-address">{stop.desc}</span>
-              {stop.code && <StopCode code={stop.code} />}
-              <ZoneIcon
-                zoneId={getZoneLabel(stop.zoneId, config)}
-                showUnknown={false}
-              />
+              <AddressRow desc={stop.desc} code={stop.code} />
+              {config.zones.stops && stop.zoneId ? (
+                <ZoneIcon
+                  className="itinerary-zone-icon"
+                  zoneId={getZoneLabel(stop.zoneId, config)}
+                  showUnknown={false}
+                />
+              ) : (
+                <div className="itinerary-zone-icon" />
+              )}
             </div>
           </div>
         </Link>
