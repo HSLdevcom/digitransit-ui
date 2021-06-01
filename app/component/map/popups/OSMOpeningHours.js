@@ -2,8 +2,14 @@ import SimpleOpeningHours from 'simple-opening-hours';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
+import Icon from '../../Icon';
 
 export default class OSMOpeningHours extends React.Component {
+  constructor() {
+    super();
+    this.state = { dropDownIsOpen: false };
+  }
+
   static contextTypes = {
     config: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -47,7 +53,7 @@ export default class OSMOpeningHours extends React.Component {
         hours = openingTable[day];
       }
       return (
-        <tr key={day}>
+        <tr key={day} className="opening-hours-row">
           <td>
             {intl.formatMessage({
               id: `weekday-${day}`,
@@ -70,6 +76,29 @@ export default class OSMOpeningHours extends React.Component {
     );
   };
 
+  getDropDownButton = () => {
+    const onClick = () => {
+      const newState = { dropDownIsOpen: !this.state.dropDownIsOpen };
+      this.setState(newState);
+    };
+
+    return (
+      <button onClick={onClick}>
+        {!this.state.dropDownIsOpen ? (
+          <Icon
+            className="opening-hours-dropdown-icon"
+            img="icon-icon_drop_down"
+          />
+        ) : (
+          <Icon
+            className="opening-hours-dropdown-icon"
+            img="icon-icon_drop_up"
+          />
+        )}
+      </button>
+    );
+  };
+
   render() {
     const opening = new SimpleOpeningHours(this.props.openingHours);
     const { displayStatus } = this.props;
@@ -77,29 +106,35 @@ export default class OSMOpeningHours extends React.Component {
 
     return (
       <div className="opening-hours">
-        {displayStatus ? (
-          <div className="currently-open">
-            <FormattedMessage id="now" defaultMessage="Now" />{' '}
-            <strong>
-              {isOpenNow ? (
-                <FormattedMessage id="open" defaultMessage="open" />
-              ) : (
-                <FormattedMessage id="closed" defaultMessage="closed" />
-              )}
-            </strong>
-          </div>
-        ) : (
-          ''
-        )}
-        <div>
-          <h4>
-            <FormattedMessage
-              id="opening-hours"
-              defaultMessage="Opening hours"
-            />
-          </h4>
-          {this.getOpeningHours(opening)}
+        <div className="opening-hours-header">
+          <Icon
+            className="opening-hours-schedule-icon"
+            img="icon-icon_schedule"
+          />
+          {displayStatus ? (
+            <span className="currently-open">
+              <FormattedMessage id="now" defaultMessage="Now" />{' '}
+              <strong>
+                {isOpenNow ? (
+                  <FormattedMessage id="open" defaultMessage="open" />
+                ) : (
+                  <FormattedMessage id="closed" defaultMessage="closed" />
+                )}
+              </strong>
+            </span>
+          ) : (
+            <h4>
+              <FormattedMessage
+                id="opening-hours"
+                defaultMessage="Opening hours"
+              />
+            </h4>
+          )}
+          {this.getDropDownButton()}
         </div>
+        {this.state.dropDownIsOpen && (
+          <div>{this.getOpeningHours(opening)}</div>
+        )}
       </div>
     );
   }
