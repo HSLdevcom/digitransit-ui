@@ -24,6 +24,9 @@ const query = graphql`
       capacity
       networks
       state
+      rentalUris {
+        web
+      }
     }
   }
 `;

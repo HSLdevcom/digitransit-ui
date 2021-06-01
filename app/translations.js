@@ -172,6 +172,9 @@ const translations = {
     'route-here': 'Find rute hertil',
     'route-not-possible':
       'Desværre kan vi ikke finde et rejseforslag til dig. Teknisk feil: "{error}"',
+    'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
+    'route-page-vehicle-position-between':
+      '{mode} {shortName} is between {stopName} and {nextStopName}',
     'route-page.description': 'Rute {shortName}, {longName}',
     'route-page.title': 'Rute {shortName}',
     'route-page.title-short': 'Rute',
@@ -549,7 +552,7 @@ const translations = {
       'Nehmen Sie Ihr Rad mit in den Zug',
     'itinerary-summary.bikeAndPublic-subway-title':
       'Nehmen Sie Ihr Rad mit in die Bahn',
-    'itinerary-summary.bikePark-title': 'Parken und Reisen',
+    'itinerary-summary.bikePark-title': 'Fahrrad abstellen und weiterfahren',
     'itinerary-summary.interline-wait':
       'Warte auf den Umstieg in Fahrzeug ({time})',
     'itinerary-summary.show-on-map': 'Auf Karte zeigen {target}',
@@ -760,6 +763,9 @@ const translations = {
     'route-least-walking': 'Wenig zu Fuß',
     'route-not-possible':
       'Leider konnte keine Route berechnet werden. Technischer Fehler: "{error}"',
+    'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
+    'route-page-vehicle-position-between':
+      '{mode} {shortName} is between {stopName} and {nextStopName}',
     'route-page.description': 'Linie {shortName}, {longName}',
     'route-page.title': 'Route {shortName}',
     'route-page.title-short': 'Linie',
@@ -1226,7 +1232,7 @@ const translations = {
     'itinerary-summary.bikeAndPublic-subway-title': 'Take your bike to metro',
     'itinerary-summary.bikePark-title': 'Leave your bike at a Park & Ride',
     'itinerary-summary.interline-wait':
-      'Wait for the transfer onboard ({time})',
+      'Linjan määränpää vaihtuu pysäkillä {stop}. Matka jatkuu {time} odotuksen jälkeen. Odota kulkuneuvossa.',
     'itinerary-summary.show-on-map': 'Show on map {target}',
     'itinerary-ticket.title': 'Required ticket',
     'itinerary-tickets.title': 'Required tickets',
@@ -1437,6 +1443,9 @@ const translations = {
     'route-least-walking': 'Avoid walking',
     'route-not-possible':
       'Unfortunately, your route is not available. Technical error: "{error}"',
+    'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
+    'route-page-vehicle-position-between':
+      '{mode} {shortName} is between {stopName} and {nextStopName}',
     'route-page.description': 'Route {shortName} - {longName}',
     'route-page.future-routes': 'Future routes',
     'route-page.pattern-chosen': 'Selected',
@@ -1855,6 +1864,9 @@ const translations = {
     'route-least-walking': 'Evitar andar',
     'route-not-possible':
       'Desafortunadamente, su ruta no está disponible. Error: "{error}"',
+    'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
+    'route-page-vehicle-position-between':
+      '{mode} {shortName} is between {stopName} and {nextStopName}',
     'route-page.description': 'Ruta {shortName} - {longName}',
     'route-page.title': 'Ruta {shortName}',
     'route-page.title-short': 'Ruta',
@@ -2199,7 +2211,8 @@ const translations = {
     'itinerary-summary.bikeAndPublic-subway-title':
       'Ota pyöräsi mukaan metroon',
     'itinerary-summary.bikePark-title': 'Jätä pyöräsi liityntäpysäköintiin',
-    'itinerary-summary.interline-wait': 'Odota vaihtoa kulkuneuvossa ({time})',
+    'itinerary-summary.interline-wait':
+      'Linjan määränpää vaihtuu pysäkillä {stop}. Matka jatkuu {time} odotuksen jälkeen. Odota kulkuneuvossa.',
     'itinerary-summary.show-on-map': 'Näytä kartalla {target}',
     'itinerary-ticket.title': 'Tarvittava lippu',
     'itinerary-tickets.title': 'Tarvittavat liput',
@@ -2383,6 +2396,9 @@ const translations = {
     'route-least-walking': 'Vältä kävelyä',
     'route-not-possible':
       'Valitettavasti reittisi ei ole mahdollinen. Tekninen virhe: "{error}"',
+    'route-page-vehicle-position': '{mode} {shortName} on pysäkillä {stopName}',
+    'route-page-vehicle-position-between':
+      '{mode} {shortName} on pysäkin {stopName} ja pysäkin {nextStopName} välissä.',
     'route-page.description': 'Linja {shortName}, {longName}',
     'route-page.future-routes': 'Tulevat reitit',
     'route-page.pattern-chosen': 'Valittu',
@@ -2833,6 +2849,9 @@ const translations = {
     'route-least-walking': 'Éviter la marche',
     'route-not-possible':
       'Impossible de calculer un itinéraire. Information technique : "{error}"',
+    'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
+    'route-page-vehicle-position-between':
+      '{mode} {shortName} is between {stopName} and {nextStopName}',
     'route-page.description': 'Ligne {shortName}, {longName}',
     'route-page.title': 'Ligne {shortName}',
     'route-page.title-short': 'Ligne',
@@ -3106,6 +3125,9 @@ const translations = {
     'route-here': 'Finn rute hit',
     'route-not-possible':
       'Dessverre kan vi ikke finne et reiseforslag til deg. Teknisk feil: "{error}"',
+    'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
+    'route-page-vehicle-position-between':
+      '{mode} {shortName} is between {stopName} and {nextStopName}',
     'route-page.description': 'Rute {shortName}, {longName}',
     'route-page.title': 'Rute {shortName}',
     'route-page.title-short': 'Rute',
@@ -3536,6 +3558,9 @@ const translations = {
     'route-least-transfers': 'Evitați schimbările de vehicul',
     'route-least-walking': 'Evitați mersul pe jos',
     'route-not-possible': 'Rută indisponibiă. Cod eroare: "{error}"',
+    'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
+    'route-page-vehicle-position-between':
+      '{mode} {shortName} is between {stopName} and {nextStopName}',
     'route-page.description': 'Ruta {shortName} - {longName}',
     'route-page.title': 'Ruta {shortName}',
     'route-page.title-short': 'Ruta',
@@ -3924,7 +3949,8 @@ const translations = {
     'itinerary-summary.bikeAndPublic-subway-title': 'Ta cykeln med på metron',
     'itinerary-summary.bikePark-title':
       'Lämna din cykel till anslutningsparkeringen',
-    'itinerary-summary.interline-wait': 'Vänta byte i fordonet ({time})',
+    'itinerary-summary.interline-wait':
+      'Linjan määränpää vaihtuu pysäkillä {stop}. Matka jatkuu {time} odotuksen jälkeen. Odota kulkuneuvossa.',
     'itinerary-summary.show-on-map': 'Visa på kartan {target}',
     'itinerary-ticket.title': 'Biljett som behövs',
     'itinerary-tickets.title': 'Biljetter som behövs',
@@ -4109,6 +4135,9 @@ const translations = {
     'route-least-walking': 'Minsta gången',
     'route-not-possible':
       'Tyvärr är din rutt inte möjlig. Tekniskt fel: "{error}"',
+    'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
+    'route-page-vehicle-position-between':
+      '{mode} {shortName} is between {stopName} and {nextStopName}',
     'route-page.description': 'Linje {shortName} - {longName}',
     'route-page.future-routes': 'Framtida rutter',
     'route-page.pattern-chosen': 'Vald',

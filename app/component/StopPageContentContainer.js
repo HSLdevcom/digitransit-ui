@@ -7,6 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import DepartureListContainer from './DepartureListContainer';
 import Error404 from './404';
 import Icon from './Icon';
+import ScrollableWrapper from './ScrollableWrapper';
 
 class StopPageContent extends React.Component {
   static propTypes = {
@@ -44,17 +45,19 @@ class StopPageContent extends React.Component {
       );
     }
     return (
-      <div className="stop-page-departure-wrapper stop-scroll-container momentum-scroll">
-        <DepartureListContainer
-          stoptimes={stoptimes}
-          key="departures"
-          className="stop-page momentum-scroll"
-          routeLinks
-          infiniteScroll
-          currentTime={this.props.currentTime}
-          isStopPage
-        />
-      </div>
+      <ScrollableWrapper>
+        <div className="stop-page-departure-wrapper stop-scroll-container">
+          <DepartureListContainer
+            stoptimes={stoptimes}
+            key="departures"
+            className="stop-page momentum-scroll"
+            routeLinks
+            infiniteScroll
+            currentTime={this.props.currentTime}
+            isStopPage
+          />
+        </div>
+      </ScrollableWrapper>
     );
   }
 }

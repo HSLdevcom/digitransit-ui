@@ -248,6 +248,10 @@ div.leaflet-marker-icon.vehicle-icon {
   [role='button'] {
     max-height: 36px;
     max-width: 36px;
+    cursor: pointer;
+    &:hover {
+      background: #f4f4f4;
+    }
   }
 
   & > * {

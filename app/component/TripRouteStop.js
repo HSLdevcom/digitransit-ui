@@ -33,6 +33,7 @@ const TripRouteStop = (props, context) => {
     currentTime,
     mode,
     stop,
+    nextStop,
     stopPassed,
     stoptime,
     shortName,
@@ -68,6 +69,8 @@ const TripRouteStop = (props, context) => {
     return (
       <div className={cx('route-stop-now', vehicleState)}>
         <PatternLink
+          stopName={stop.name}
+          nextStopName={nextStop ? nextStop.name : null}
           key={vehicle.id}
           mode={vehicle.mode}
           pattern={props.pattern}
@@ -164,6 +167,7 @@ TripRouteStop.propTypes = {
   color: PropTypes.string,
   stopPassed: PropTypes.bool,
   stop: PropTypes.object.isRequired,
+  nextStop: PropTypes.object,
   stoptime: PropTypes.object.isRequired,
   currentTime: PropTypes.number.isRequired,
   pattern: PropTypes.string.isRequired,

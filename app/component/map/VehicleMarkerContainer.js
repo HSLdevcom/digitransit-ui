@@ -125,7 +125,7 @@ function VehicleMarkerContainer(containerProps) {
       }}
       zIndexOffset={10000}
       icon={getVehicleIcon(
-        containerProps.ignoreMode ? null : message.mode,
+        message.mode,
         message.heading,
         message.shortName ? message.shortName : message.route.split(':')[1],
         message.color,
@@ -171,7 +171,6 @@ VehicleMarkerContainer.propTypes = {
   tripStart: PropTypes.string,
   headsign: PropTypes.string,
   direction: PropTypes.number,
-  ignoreMode: PropTypes.bool,
   vehicles: PropTypes.objectOf(
     PropTypes.shape({
       direction: PropTypes.number,

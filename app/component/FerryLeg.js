@@ -6,21 +6,8 @@ import moment from 'moment';
 import TransitLeg from './TransitLeg';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const FerryLeg = ({
-  leg,
-  focusAction,
-  index,
-  isNextLegInterlining,
-  interliningWait,
-}) => (
-  <TransitLeg
-    mode="FERRY"
-    leg={leg}
-    focusAction={focusAction}
-    index={index}
-    interliningWait={interliningWait}
-    isNextLegInterlining={isNextLegInterlining}
-  >
+const FerryLeg = ({ leg, ...props }) => (
+  <TransitLeg mode="FERRY" leg={leg} {...props}>
     <FormattedMessage
       id="ferry-with-route-number"
       values={{

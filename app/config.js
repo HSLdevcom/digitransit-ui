@@ -14,7 +14,6 @@ if (defaultConfig.themeMap) {
 
 function addMetaData(config) {
   let stats;
-
   try {
     // eslint-disable-next-line global-require, import/no-dynamic-require
     stats = require(`../_static/assets/iconstats-${config.CONFIG}`);
@@ -40,10 +39,10 @@ function addMetaData(config) {
           e.content = `${appPathPrefix}${stats.outputFilePrefix}${e.content}`; // fix path bug
         } else if (e.name === 'theme-color') {
           // eslint-disable-next-line no-param-reassign
-          e.content = '#fff';
+          e.content = config.colors.primary;
         } else if (e.name === 'apple-mobile-web-app-status-bar-style') {
           // eslint-disable-next-line no-param-reassign
-          e.content = 'white';
+          e.content = 'default';
         }
       });
       data.link.forEach(e => {

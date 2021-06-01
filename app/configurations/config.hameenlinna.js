@@ -52,15 +52,6 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  mapLayers: {
-    tooltip: {
-      fi: 'Uutta! Saat nyt lähellä olevat bussit kartalle asetuksista.',
-      en: 'New! You can now get nearby busses on the map from the settings.',
-      sv:
-        'Nytt! I inställningarna kan du nu välja att se närliggande bussar på kartan.',
-    },
-  },
-
   searchParams: {
     'boundary.rect.min_lat': 60.75705,
     'boundary.rect.max_lat': 61.30156,
@@ -147,13 +138,12 @@ export default configMerger(walttiConfig, {
     8: 'H',
     9: 'I',
   },
-  stopCard: {
-    header: {
-      showZone: true,
-    },
-  },
 
   vehicles: true,
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
+  zones: {
+    stops: true,
+    itinerary: true,
+  },
 });
