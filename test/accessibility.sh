@@ -1,5 +1,8 @@
 #/bin/bash
 
+trap "exit" INT TERM
+trap "kill 0" EXIT
+
 GECKODRIVER_URL="https://github.com/mozilla/geckodriver/releases/download/v0.29.1/geckodriver-v0.29.1-linux64.tar.gz " 
 
 # Silence output and send to background
@@ -23,17 +26,3 @@ export PATH=$PATH:./test/binaries
 
 echo "Starting tests..."
 node ./test/accessibility/run-test.js
-
-list_descendants ()
-{
-  local children=$(ps -o pid= --ppid "$1")
-
-  for pid in $children
-  do
-    list_descendants "$pid"
-  done
-
-  echo "$children"
-}
-
-kill $(list_descendants $$)

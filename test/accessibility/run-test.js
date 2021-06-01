@@ -162,14 +162,14 @@ const wrapup = () => {
 console.time('Execution time');
 parallel(
   [
-    function (callback) {
+    callback => {
       analyzeLocal(callback, 0);
     },
-    function (callback) {
+    callback => {
       analyzeBenchmark(callback, 0);
     },
   ],
-  function (err) {
+  err => {
     if (err) {
       console.error(err);
     }
