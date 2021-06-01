@@ -149,10 +149,14 @@ const TripRouteStop = (props, context) => {
             <div className="route-details-bottom-row">
               <span className="route-stop-address">{stop.desc}</span>
               {stop.code && <StopCode code={stop.code} />}
-              <ZoneIcon
-                zoneId={getZoneLabel(stop.zoneId, config)}
-                showUnknown={false}
-              />
+              {config.zones.stops && stop.zoneId ? (
+                <ZoneIcon
+                  zoneId={getZoneLabel(stop.zoneId, config)}
+                  showUnknown={false}
+                />
+              ) : (
+                <div className="itinerary-zone-icon" />
+              )}
             </div>
           </div>
         </Link>
