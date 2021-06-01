@@ -209,10 +209,16 @@ class RoutePatternSelect extends Component {
       });
     }
 
+    const sectionTitleFontWeight =
+      this.context.config.appBarStyle === 'hsl' ? 500 : 600;
+
     return (
       <div
         className={cx('route-pattern-select', this.props.className)}
         aria-atomic="true"
+        style={{
+          '--sectionTitleFontWeight': `${sectionTitleFontWeight}`,
+        }}
       >
         {/* eslint-disable-next-line  jsx-a11y/label-has-associated-control */}
         <label htmlFor="select-route-pattern-input">

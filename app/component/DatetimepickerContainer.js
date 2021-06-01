@@ -11,7 +11,7 @@ function DatetimepickerContainer(
   { realtime, embedWhenClosed, embedWhenOpen, lang, color },
   context,
 ) {
-  const { router, match } = context;
+  const { router, match, config } = context;
 
   const setParams = debounce((time, arriveBy) => {
     replaceQueryParams(router, match, {
@@ -80,8 +80,9 @@ function DatetimepickerContainer(
       embedWhenOpen={embedWhenOpen}
       lang={lang}
       color={color}
-      timeZone={context.config.timezoneData.split('|')[0]}
+      timeZone={config.timezoneData.split('|')[0]}
       serviceTimeRange={context.config.itinerary.serviceTimeRange}
+      fontWeights={config.fontWeights}
     />
   );
 }

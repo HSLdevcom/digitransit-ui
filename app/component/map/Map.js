@@ -212,11 +212,7 @@ export default class Map extends React.Component {
     if (this.props.mapLayers.vehicles) {
       const useLargeIcon = this.state.zoom >= config.stopsMinZoom;
       leafletObjNew.push(
-        <VehicleMarkerContainer
-          key="vehicles"
-          useLargeIcon={useLargeIcon}
-          ignoreMode
-        />,
+        <VehicleMarkerContainer key="vehicles" useLargeIcon={useLargeIcon} />,
       );
     }
 

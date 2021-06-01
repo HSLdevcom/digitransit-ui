@@ -38,11 +38,6 @@ const smallIconSvg = `
 `;
 
 export default class CityBikeMarker extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
   static description = (
     <div>
       <p>Renders a citybike marker</p>

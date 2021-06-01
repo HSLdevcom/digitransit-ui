@@ -61,17 +61,6 @@ $margin-left-right: 1.333em;
   padding-top: 3em;
 }
 
-.route-page-dynamic-divider-content {
-  position: relative;
-  left: 20px;
-  width: calc(100% - 3em);
-  background: white;
-  &.bp-large {
-    left: 3.5em;
-    width: calc(100% - 7em);
-  }
-}
-
 .route-page-content {
   overflow-x: hidden;
   overflow-y: auto;
@@ -82,7 +71,6 @@ $margin-left-right: 1.333em;
   padding-bottom: 1.5em;
   flex: 1 0;
   flex-basis: 0px;
-  max-height: 100vh;
   background: $white;
   transition: flex-grow 500ms cubic-bezier(0.215, 0.61, 0.355, 1),
     flex-basis 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
@@ -416,7 +404,6 @@ $margin-left-right: 1.333em;
 .route-address-row-container {
   display: flex;
   align-items: center;
-  flex: 0;
   .route-stop-address-row {
     font-size: $font-size-xsmall;
     font-family: $font-family;
@@ -1093,7 +1080,7 @@ $margin-left-right: 1.333em;
         line-height: 18px;
         letter-spacing: -0.03em;
         .react-autosuggest__section-title {
-          font-weight: 500;
+          font-weight: var(--sectionTitleFontWeight);
           border-bottom: 1px solid #dddddd;
           min-height: 44px;
           padding: 13px 16px;

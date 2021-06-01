@@ -100,6 +100,7 @@ $content-background-color: $background-color;
 .mobile.top-bar {
   height: 50px;
   min-height: 50px;
+  z-index: 1000;
   background: $top-bar-color;
   .logo {
     min-height: 30px;
@@ -650,7 +651,6 @@ section.content {
   .banner-container {
     height: auto;
     display: flex;
-    max-height: 100%;
     overflow: hidden;
 
     .message-bar-content {

@@ -274,10 +274,7 @@ const SummaryRow = (
     const nextLeg = compressedLegs[i + 1];
     let legLength =
       ((leg.endTime - leg.startTime) / durationWithoutSlack) * 100; // length of the current leg in %
-    if (nextLeg?.interlineWithPreviousLeg) {
-      legLength =
-        ((nextLeg.endTime - leg.startTime) / durationWithoutSlack) * 100;
-    }
+
     const longName =
       leg.route && leg.route.shortName && leg.route.shortName.length > 5;
 
@@ -293,6 +290,10 @@ const SummaryRow = (
           ((leg.endTime - leg.startTime + waitTime) / durationWithoutSlack) *
           100; // otherwise add the waiting to the current legs length
       }
+    }
+    if (nextLeg?.interlineWithPreviousLeg) {
+      legLength =
+        ((nextLeg.endTime - leg.startTime) / durationWithoutSlack) * 100;
     }
     legLength += addition;
     addition = 0;

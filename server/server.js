@@ -50,7 +50,9 @@ const { indexPath, hostnames } = config;
 /* Setup functions */
 function setUpOpenId() {
   const setUpOIDC = require('./passport-openid-connect/openidConnect').default;
-  app.use(logger('dev'));
+  if (process.env.DEBUGLOGGING) {
+    app.use(logger('dev'));
+  }
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());

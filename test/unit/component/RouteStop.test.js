@@ -16,6 +16,7 @@ describe('<RouteStop />', () => {
     const context = {
       config: {
         minutesToDepartureLimit: 0,
+        zones: { stops: true },
       },
     };
     const wrapper = mountWithIntl(<RouteStop {...props} />, { context });
@@ -36,6 +37,7 @@ describe('<RouteStop />', () => {
     const context = {
       config: {
         minutesToDepartureLimit: 0,
+        zones: { stops: true },
       },
     };
     const wrapper = mountWithIntl(<RouteStop {...props} />, { context });
@@ -57,6 +59,7 @@ describe('<RouteStop />', () => {
     const context = {
       config: {
         minutesToDepartureLimit: 0,
+        zones: { stops: true },
       },
     };
     const wrapper = mountWithIntl(<RouteStop {...props} />, { context });

@@ -95,9 +95,7 @@ const StopPageMap = (
   const leafletObjs = [];
   const children = [];
   if (config.showVehiclesOnStopPage) {
-    leafletObjs.push(
-      <VehicleMarkerContainer key="vehicles" useLargeIcon ignoreMode />,
-    );
+    leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
   }
 
   if (breakpoint === 'large') {
