@@ -38,7 +38,10 @@ const BikeRentalStationContent = (
     bikeRentalStation.networks[0],
     config,
   );
-  const url = networkConfig?.url ? networkConfig.url[language] : '';
+  let url = networkConfig?.url ? networkConfig.url[language] : '';
+  if (bikeRentalStation.rentalUris && bikeRentalStation.rentalUris.web) {
+    url = bikeRentalStation.rentalUris.web;
+  }
   let returnInstructionsUrl;
   if (networkConfig.returnInstructions) {
     returnInstructionsUrl = networkConfig.returnInstructions[language];
@@ -122,6 +125,9 @@ const containerComponent = createFragmentContainer(connectedComponent, {
       networks
       stationId
       state
+      rentalUris {
+        web
+      }
     }
   `,
 });
