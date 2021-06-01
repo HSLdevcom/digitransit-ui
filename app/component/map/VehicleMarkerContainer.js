@@ -119,9 +119,12 @@ const connectedComponent = connectToStores(
     const { vehicles, setVisibleVehicles } = context.getStore(
       'RealTimeInformationStore',
     );
+    const vehiclesFiltered = Object.entries(vehicles).filter(
+      ([, message]) => message.mode.toLowerCase() === props.mode.toLowerCase(),
+    );
     return {
       ...props,
-      vehicles,
+      vehicles: Object.fromEntries(vehiclesFiltered),
       setVisibleVehicles,
     };
   },
