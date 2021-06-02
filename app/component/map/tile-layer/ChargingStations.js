@@ -68,7 +68,7 @@ class ChargingStations {
         null,
         null,
         null,
-        { 'mode-charging-station': '#00b096' },
+        this.config.colors.iconColors,
       );
     }
 
