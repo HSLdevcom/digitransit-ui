@@ -3,11 +3,19 @@ const parallel = require('async/parallel');
 const AxeBuilder = require('@axe-core/webdriverjs');
 const WebDriver = require('selenium-webdriver');
 
-const driver1 = new WebDriver.Builder().forBrowser('firefox').build();
-const driver2 = new WebDriver.Builder().forBrowser('firefox').build();
+const args = process.argv.slice(2);
+const onlyTestLocal = args.includes('local');
+console.log(`Testing against benchmark: ${!onlyTestLocal}`);
 
+const driver1 = new WebDriver.Builder().forBrowser('firefox').build();
 const builder1 = new AxeBuilder(driver1);
-const builder2 = new AxeBuilder(driver2);
+
+let driver2;
+let builder2;
+if (!onlyTestLocal) {
+  driver2 = new WebDriver.Builder().forBrowser('firefox').build();
+  builder2 = new AxeBuilder(driver2);
+}
 
 const LOCAL = 'http://127.0.0.1:8080';
 const BENCHMARK = 'https://next-dev.digitransit.fi';
@@ -128,35 +136,38 @@ const wrapup = () => {
   console.timeEnd('Execution time');
   console.log('=== ACCESSIBILITY TESTS DONE ===');
   console.log(
-    `violations in BENCHMARK: ${benchmarkResults.violations.length}, passes: ${benchmarkResults.passes.length}, incomplete: ${benchmarkResults.incomplete.length}, inapplicable: ${benchmarkResults.inapplicable.length}`,
-  );
-  console.log(
     `violations in LOCAL: ${localResults.violations.length}, passes: ${localResults.passes.length}, incomplete: ${localResults.incomplete.length}, inapplicable: ${localResults.inapplicable.length}`,
   );
 
-  const newViolations = localResults.violations.filter(v1 => {
-    return !benchmarkResults.violations.some(v2 => {
-      return violationsAreEqual(v1, v2);
+  if (!onlyTestLocal) {
+    console.log(
+      `violations in BENCHMARK: ${benchmarkResults.violations.length}, passes: ${benchmarkResults.passes.length}, incomplete: ${benchmarkResults.incomplete.length}, inapplicable: ${benchmarkResults.inapplicable.length}`,
+    );
+    const newViolations = localResults.violations.filter(v1 => {
+      return !benchmarkResults.violations.some(v2 => {
+        return violationsAreEqual(v1, v2);
+      });
     });
-  });
 
-  if (newViolations.length > 0) {
-    console.log('New Errors introduced: ');
-    for (let j = 0; j < newViolations.length; j++) {
-      const v = newViolations[j];
-      const firstTargetElement =
-        v.nodes.length > 0 ? `- on element: ${v.nodes[0].target[0]}` : '';
-      console.log(
-        color[v.impact],
-        `${v.impact} - ${v.id}: ${v.help} ${firstTargetElement}`,
-        '\x1b[0m',
-      );
+    if (newViolations.length > 0) {
+      console.log('New Errors introduced: ');
+      for (let j = 0; j < newViolations.length; j++) {
+        const v = newViolations[j];
+        const firstTargetElement =
+          v.nodes.length > 0 ? `- on element: ${v.nodes[0].target[0]}` : '';
+        console.log(
+          color[v.impact],
+          `${v.impact} - ${v.id}: ${v.help} ${firstTargetElement}`,
+          '\x1b[0m',
+        );
+      }
+    } else {
+      console.log('No new erros');
     }
-  } else {
-    console.log('No new erros');
+    driver2.quit();
   }
+
   driver1.quit();
-  driver2.quit();
 };
 
 console.time('Execution time');
@@ -166,7 +177,11 @@ parallel(
       analyzeLocal(callback, 0);
     },
     callback => {
-      analyzeBenchmark(callback, 0);
+      if (!onlyTestLocal) {
+        analyzeBenchmark(callback, 0);
+      } else {
+        callback(null);
+      }
     },
   ],
   err => {

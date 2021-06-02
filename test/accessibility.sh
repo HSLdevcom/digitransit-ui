@@ -25,4 +25,4 @@ export PATH=$PATH:./test/binaries
 #CHROMEDRIVER=./chromedriver
 
 echo "Starting tests..."
-node ./test/accessibility/run-test.js
+node ./test/accessibility/run-test.js "$@"
