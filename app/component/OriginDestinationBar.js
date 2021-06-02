@@ -62,14 +62,9 @@ class OriginDestinationBar extends React.Component {
     this.mounted = true;
   }
 
-  componentWillUnmount() {
-    // fixes the bug that DTPanel starts excecuting updateViaPoints before this component is even mounted
-    // this.context.executeAction(setViaPoints, []);
-    this.mounted = false;
-  }
-
   updateViaPoints = newViaPoints => {
-    if (this.mounted && !this.pendingViaPoints) {
+    // fixes the bug that DTPanel starts excecuting updateViaPoints before this component is even mounted
+    if (this.mounted) {
       const p = newViaPoints.filter(vp => vp.lat && vp.address);
       this.context.executeAction(setViaPoints, p);
       setIntermediatePlaces(
@@ -103,7 +98,6 @@ class OriginDestinationBar extends React.Component {
       const points = [...this.props.viaPoints];
       points[id] = { ...item };
       this.updateViaPoints(points);
-      this.pendingViaPoints = points;
     } else {
       action =
         id === 'origin' ? 'EditJourneyStartPoint' : 'EditJourneyEndPoint';
@@ -123,23 +117,6 @@ class OriginDestinationBar extends React.Component {
   };
 
   render() {
-    if (this.pendingViaPoints) {
-      if (!this.props.viaPoints) {
-        return null;
-      }
-      let isUpdated = true;
-      this.pendingViaPoints.forEach((p, i) => {
-        const p2 = this.props.viaPoints[i];
-        if (!p2 || p2.lat !== p.lat || p2.lon !== p.lon) {
-          isUpdated = false;
-        }
-      });
-      if (!isUpdated) {
-        return null;
-      } else {
-        this.pendingViaPoints = undefined;
-      }
-    }
     const refPoint = getRefPoint(
       this.props.origin,
       this.props.destination,
