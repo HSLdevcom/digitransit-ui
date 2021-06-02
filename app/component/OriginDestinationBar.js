@@ -63,17 +63,19 @@ class OriginDestinationBar extends React.Component {
 
   componentWillUnmount() {
     // fixes the bug that DTPanel starts excecuting updateViaPoints before this component is even mounted
-    this.context.executeAction(setViaPoints, []);
+    // this.context.executeAction(setViaPoints, []);
   }
 
   updateViaPoints = newViaPoints => {
-    const p = newViaPoints.filter(vp => vp.lat && vp.address);
-    this.context.executeAction(setViaPoints, p);
-    setIntermediatePlaces(
-      this.context.router,
-      this.context.match,
-      p.map(locationToOTP),
-    );
+    if (!this.pendingViaPoints) {
+      const p = newViaPoints.filter(vp => vp.lat && vp.address);
+      this.context.executeAction(setViaPoints, p);
+      setIntermediatePlaces(
+        this.context.router,
+        this.context.match,
+        p.map(locationToOTP),
+      );
+    }
   };
 
   swapEndpoints = () => {
@@ -99,6 +101,7 @@ class OriginDestinationBar extends React.Component {
       const points = [...this.props.viaPoints];
       points[id] = { ...item };
       this.updateViaPoints(points);
+      this.pendingViaPoints = points;
     } else {
       action =
         id === 'origin' ? 'EditJourneyStartPoint' : 'EditJourneyEndPoint';
@@ -118,6 +121,23 @@ class OriginDestinationBar extends React.Component {
   };
 
   render() {
+    if (this.pendingViaPoints) {
+      if (!this.props.viaPoints) {
+        return null;
+      }
+      let isUpdated = true;
+      this.pendingViaPoints.forEach((p, i) => {
+        const p2 = this.props.viaPoints[i];
+        if (!p2 || p2.lat !== p.lat || p2.lon !== p.lon) {
+          isUpdated = false;
+        }
+      });
+      if (!isUpdated) {
+        return null;
+      } else {
+        this.pendingViaPoints = undefined;
+      }
+    }
     const refPoint = getRefPoint(
       this.props.origin,
       this.props.destination,
