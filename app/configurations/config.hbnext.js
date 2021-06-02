@@ -16,10 +16,10 @@ const CARGO_BIKES_ENABLED = process.env.CARGO_BIKES_ENABLED === 'true';
 
 const walttiConfig = require('./config.waltti.js').default;
 
-const minLat = 48.55525;
-const maxLat = 48.64040;
-const minLon = 8.78597;
-const maxLon = 8.98613;
+const minLat = 47.6020;
+const maxLat = 49.0050;
+const minLon = 8.4087;
+const maxLon = 9.9014;
 
 export default configMerger(walttiConfig, {
     CONFIG,
