@@ -297,31 +297,28 @@ function drawSelectionCircle(
   width,
   height,
   _radius,
+  // eslint-disable-next-line no-unused-vars
   showAvailabilityBadge = false,
 ) {
+  // Change arbitrary offsets and calculate from image dimensions instead
   // const zoom = tile.coords.z - 1;
   // const selectedCircleOffset = getSelectedIconCircleOffset(zoom, tile.ratio);
+  // const radius = _radius - 2;
+  // const hPos = x + selectedCircleOffset;
+  // const vPos = y + 1.85 * selectedCircleOffset;
+  /*
+    tile.ctx.beginPath();
+    // eslint-disable-next-line no-param-reassign
+    tile.ctx.lineWidth = 2;
 
-  const radius = width / 2;
-  const vPos = height / 2;
-  tile.ctx.beginPath();
-  // eslint-disable-next-line no-param-reassign
-  tile.ctx.lineWidth = 2;
-  tile.ctx.arc(
-    x + radius / 2,
-    y + vPos,
-    radius / 1.3,
-    0,
-    FULL_CIRCLE * (showAvailabilityBadge ? 0.75 : 1),
-  );
-  // tile.ctx.arc(
-  //   x + selectedCircleOffset,
-  //   y + 1.85 * selectedCircleOffset,
-  //   radius - 2,
-  //   0,
-  //   arc,
-  // );
-  tile.ctx.stroke();
+    // Deduce radius and offset from image dimensions
+    const radius = width / 2;
+    const hPos = x + radius / 2;
+    const vPos = y + height / 2;
+    const arc = FULL_CIRCLE * (showAvailabilityBadge ? 0.75 : 1);
+    tile.ctx.arc(hPos, vPos, radius, 0, arc);
+    tile.ctx.stroke();
+  */
 }
 
 export function drawWeatherStationIcon(tile, geom, imageSize) {
