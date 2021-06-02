@@ -2,12 +2,14 @@ import SimpleOpeningHours from 'simple-opening-hours';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
+import moment from 'moment';
 import Icon from '../../Icon';
 
 export default class OSMOpeningHours extends React.Component {
   constructor() {
     super();
     this.state = { dropDownIsOpen: false };
+    this.weekdays = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su', 'ph'];
   }
 
   static contextTypes = {
@@ -24,9 +26,13 @@ export default class OSMOpeningHours extends React.Component {
     displayStatus: false,
   };
 
+  isToday = day => {
+    const index = this.weekdays.findIndex(weekday => weekday === day);
+    return moment().isoWeekday() === index + 1;
+  };
+
   getOpeningHours = opening => {
     const { intl } = this.context;
-    const weekdays = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su', 'ph'];
     const openingTable = opening.getTable();
     const closed = intl.formatMessage({
       id: 'closed',
@@ -53,7 +59,10 @@ export default class OSMOpeningHours extends React.Component {
         hours = openingTable[day];
       }
       return (
-        <tr key={day} className="opening-hours-row">
+        <tr
+          key={day}
+          className={this.isToday(day) ? 'opening-hours-bold' : null}
+        >
           <td>
             {intl.formatMessage({
               id: `weekday-${day}`,
@@ -71,7 +80,7 @@ export default class OSMOpeningHours extends React.Component {
 
     return (
       <table>
-        <tbody>{weekdays.map(makeRow)}</tbody>
+        <tbody>{this.weekdays.map(makeRow)}</tbody>
       </table>
     );
   };
