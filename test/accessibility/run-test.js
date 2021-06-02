@@ -2,18 +2,25 @@
 const parallel = require('async/parallel');
 const AxeBuilder = require('@axe-core/webdriverjs');
 const WebDriver = require('selenium-webdriver');
+const firefox = require('selenium-webdriver/firefox');
 
 const args = process.argv.slice(2);
 const onlyTestLocal = args.includes('local');
 console.log(`Testing against benchmark: ${!onlyTestLocal}`);
 
-const driver1 = new WebDriver.Builder().forBrowser('firefox').build();
+const driver1 = new WebDriver.Builder()
+  .forBrowser('firefox')
+  .setFirefoxOptions(new firefox.Options().headless())
+  .build();
 const builder1 = new AxeBuilder(driver1);
 
 let driver2;
 let builder2;
 if (!onlyTestLocal) {
-  driver2 = new WebDriver.Builder().forBrowser('firefox').build();
+  driver2 = new WebDriver.Builder()
+    .forBrowser('firefox')
+    .setFirefoxOptions(new firefox.Options().headless())
+    .build();
   builder2 = new AxeBuilder(driver2);
 }
 
