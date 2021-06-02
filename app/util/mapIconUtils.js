@@ -294,27 +294,33 @@ function drawSelectionCircle(
   tile,
   x,
   y,
-  radius,
+  width,
+  height,
+  _radius,
   showAvailabilityBadge = false,
 ) {
-  const zoom = tile.coords.z - 1;
-  const selectedCircleOffset = getSelectedIconCircleOffset(zoom, tile.ratio);
+  // const zoom = tile.coords.z - 1;
+  // const selectedCircleOffset = getSelectedIconCircleOffset(zoom, tile.ratio);
 
-  let arc = FULL_CIRCLE;
-  if (showAvailabilityBadge) {
-    arc *= 3 / 4;
-  }
-
+  const radius = width / 2;
+  const vPos = height / 2;
   tile.ctx.beginPath();
   // eslint-disable-next-line no-param-reassign
   tile.ctx.lineWidth = 2;
   tile.ctx.arc(
-    x + selectedCircleOffset,
-    y + 1.85 * selectedCircleOffset,
-    radius - 2,
+    x + radius / 2,
+    y + vPos,
+    radius / 1.3,
     0,
-    arc,
+    FULL_CIRCLE * (showAvailabilityBadge ? 0.75 : 1),
   );
+  // tile.ctx.arc(
+  //   x + selectedCircleOffset,
+  //   y + 1.85 * selectedCircleOffset,
+  //   radius - 2,
+  //   0,
+  //   arc,
+  // );
   tile.ctx.stroke();
 }
 
@@ -658,7 +664,7 @@ export function drawCitybikeIcon(
     getImageFromSpriteCache(icon, width, height).then(image => {
       tile.ctx.drawImage(image, x, y);
       if (isHilighted) {
-        drawSelectionCircle(tile, x, y, radius, false);
+        drawSelectionCircle(tile, x, y, width, height, radius, false);
       }
     });
   }
@@ -692,7 +698,15 @@ export function drawCitybikeIcon(
         /* eslint-enable no-param-reassign */
       }
       if (isHilighted) {
-        drawSelectionCircle(tile, iconX, iconY, radius, showAvailabilityBadge);
+        drawSelectionCircle(
+          tile,
+          iconX,
+          iconY,
+          width,
+          height,
+          radius,
+          showAvailabilityBadge,
+        );
       }
     });
   }
