@@ -80,7 +80,7 @@ const postCarpoolOffer = options => {
   };
   const bodyContent = JSON.stringify(body);
 
-  return fetch('https://service.live.ride2go.com/trip', {
+  return fetch('https://harveydent.api.pendlernetz.de/trip', {
     method: 'post',
     body: bodyContent,
     headers,
