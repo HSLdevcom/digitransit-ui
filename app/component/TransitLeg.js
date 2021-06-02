@@ -174,7 +174,15 @@ class TransitLeg extends React.Component {
   }
 
   renderMain = () => {
-    const { children, focusAction, index, leg, mode, lang } = this.props;
+    const {
+      children,
+      focusAction,
+      index,
+      leg,
+      mode,
+      lang,
+      nextInterliningLeg,
+    } = this.props;
     const { config, intl } = this.context;
     const originalTime = leg.realTime &&
       leg.departureDelay &&
@@ -432,13 +440,24 @@ class TransitLeg extends React.Component {
               </div>
             </div>
           )}
-          {this.props.nextInterliningLeg ? (
+          {nextInterliningLeg ? (
             <div className="interline-info-container">
               <Icon img="icon-icon_wait" />
               <FormattedMessage
                 id="itinerary-summary.interline-wait"
                 values={{
-                  stop: <span className="bold">{leg.to.name}</span>,
+                  shortName: (
+                    <span className="bold">
+                      {nextInterliningLeg.route.shortName}
+                    </span>
+                  ),
+                  destination: (
+                    <span className="bold">
+                      {nextInterliningLeg.trip.tripHeadsign ||
+                        getHeadsignFromRouteLongName(nextInterliningLeg.route)}
+                    </span>
+                  ),
+                  stop: leg.to.name,
                   time: (
                     <span className="bold">
                       {durationToString(this.props.interliningWait)}
@@ -574,6 +593,12 @@ TransitLeg.propTypes = {
         }).isRequired,
       }),
     ).isRequired,
+    route: PropTypes.shape({
+      shortName: PropTypes.string,
+    }).isRequired,
+    trip: PropTypes.shape({
+      tripHeadsign: PropTypes.string.isRequired,
+    }).isRequired,
     endTime: PropTypes.number.isRequired,
   }),
   index: PropTypes.number.isRequired,

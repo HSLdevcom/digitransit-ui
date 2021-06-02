@@ -25,6 +25,7 @@ class LegMarker extends React.Component {
       }).isRequired,
     }).isRequired,
     zIndexOffset: PropTypes.number,
+    wide: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -46,6 +47,7 @@ class LegMarker extends React.Component {
 
   getLegMarker() {
     const color = this.props.color ? this.props.color : 'currentColor';
+    const className = this.props.wide ? 'wide' : '';
     return (
       <Marker
         key={`${this.props.leg.name}_text`}
@@ -56,7 +58,7 @@ class LegMarker extends React.Component {
         interactive={false}
         icon={L.divIcon({
           html: `
-            <div style="background-color: ${color}">
+            <div class="${className}" style="background-color: ${color}">
             ${Icon.asString({
               img: `icon-icon_${this.props.mode}`,
               className: 'map-route-icon',
