@@ -357,6 +357,9 @@
   padding: 12px 0 5px 0;
   border-radius: 10px;
   margin-bottom: 15px;
+  .swipe-scroll-container {
+    flex-basis: unset;
+  }
   .swipe-header.disruption-banner {
     width: unset;
     .swipe-button-container {
