@@ -67,7 +67,6 @@ class BikeParks {
 
   drawStatus = ({ geom, properties }) => {
     if (this.tile.coords.z <= this.config.bikeParks.smallIconZoom) {
-      const color = { 'mode-bike-park': '#005ab4' };
       return drawStopIcon(
         this.tile,
         geom,
@@ -75,7 +74,7 @@ class BikeParks {
         null,
         null,
         null,
-        color,
+        this.config.colors.iconColors,
       );
     }
 

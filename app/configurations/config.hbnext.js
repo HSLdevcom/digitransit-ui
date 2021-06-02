@@ -12,13 +12,14 @@ const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL =
     process.env.STATIC_MESSAGE_URL ||
     '/assets/messages/message.hb.json';
+const CARGO_BIKES_ENABLED = process.env.CARGO_BIKES_ENABLED === 'true';
 
 const walttiConfig = require('./config.waltti.js').default;
 
-const minLat = 48.55525;
-const maxLat = 48.64040;
-const minLon = 8.78597;
-const maxLon = 8.98613;
+const minLat = 47.6020;
+const maxLat = 49.0050;
+const minLon = 8.4087;
+const maxLon = 9.9014;
 
 export default configMerger(walttiConfig, {
     CONFIG,
@@ -90,6 +91,8 @@ export default configMerger(walttiConfig, {
             'mode-bus': '#ff0000',
             'mode-car': '#007AC9',
             'mode-rail': '#008000',
+            'mode-charging-station': '#00b096',
+            'mode-bike-park': '#005ab4',
         },
     },
 
@@ -185,16 +188,15 @@ export default configMerger(walttiConfig, {
                     de: 'https://stuttgart.stadtmobil.de/privatkunden/',
                     en: 'https://stuttgart.stadtmobil.de/privatkunden/',
                 },
-            }
-            /*
-            "cargo-bike": {
+            },
+            "cargo-bike": CARGO_BIKES_ENABLED ? {
                 icon: 'regiorad',
                 name: {
                     de: 'Lastenrad Herrenberg',
                     en: 'Cargo bike Herrenberg',
                 },
                 type: 'cargo-bike'
-            },*/
+            }: undefined,
         }
     },
 
@@ -540,6 +542,7 @@ export default configMerger(walttiConfig, {
     staticMessagesUrl: STATIC_MESSAGE_URL,
 
     suggestCarMinDistance: 200,
+    suggestWalkMaxDistance: 3000,
 
     showVehiclesOnSummaryPage: true,
     showBikeAndPublicItineraries: true,
