@@ -59,15 +59,17 @@ class OriginDestinationBar extends React.Component {
   componentDidMount() {
     const viaPoints = getIntermediatePlaces(this.context.match.location.query);
     this.context.executeAction(setViaPoints, viaPoints);
+    this.mounted = true;
   }
 
   componentWillUnmount() {
     // fixes the bug that DTPanel starts excecuting updateViaPoints before this component is even mounted
     // this.context.executeAction(setViaPoints, []);
+    this.mounted = false;
   }
 
   updateViaPoints = newViaPoints => {
-    if (!this.pendingViaPoints) {
+    if (this.mounted && !this.pendingViaPoints) {
       const p = newViaPoints.filter(vp => vp.lat && vp.address);
       this.context.executeAction(setViaPoints, p);
       setIntermediatePlaces(
