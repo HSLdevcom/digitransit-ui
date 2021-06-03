@@ -145,9 +145,6 @@
   border-radius: 5px;
   margin: 0.5em 4em 1em 4em;
   position: relative;
-  > button {
-    outline: 0;
-  }
   @media print {
     display: none;
   }

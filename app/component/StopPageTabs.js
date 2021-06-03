@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { matchShape } from 'found';
 import { AlertSeverityLevelType } from '../constants';
@@ -56,6 +56,13 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
     return null;
   }
   const activeTab = getActiveTab(match.location.pathname);
+
+  const [focusedTab, changeFocusedTab] = useState(activeTab);
+  const rightNowTabRef = useRef();
+  const timetableTabRef = useRef();
+  const disruptionTabRef = useRef();
+  const tabRefs = [rightNowTabRef, timetableTabRef, disruptionTabRef];
+
   const isTerminal = match.params.terminalId != null;
   const urlBase = `/${
     isTerminal ? PREFIX_TERMINALS : PREFIX_STOPS
@@ -125,8 +132,34 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
 
   return (
     <div>
-      <div className="stop-tab-container" role="tablist">
+      {/* eslint-disable jsx-a11y/interactive-supports-focus */}
+      <div
+        className="stop-tab-container"
+        role="tablist"
+        onKeyDown={e => {
+          const tabs = [Tab.RightNow, Tab.Timetable, Tab.Disruptions];
+          const tabCount = tabs.length;
+          const activeIndex = tabs.indexOf(focusedTab);
+          let index;
+          switch (e.nativeEvent.code) {
+            case 'ArrowLeft':
+              index = (activeIndex - 1 + tabCount) % tabCount;
+              tabRefs[index].current.focus();
+              changeFocusedTab(tabs[index]);
+              break;
+            case 'ArrowRight':
+              index = (activeIndex + 1) % tabCount;
+              tabRefs[index].current.focus();
+              changeFocusedTab(tabs[index]);
+              break;
+            default:
+              break;
+          }
+        }}
+      >
+        {/* eslint-enable jsx-a11y/interactive-supports-focus */}
         <button
+          type="button"
           className={cx('stop-tab-singletab', {
             active: activeTab === Tab.RightNow,
           })}
@@ -139,7 +172,8 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
             });
           }}
           role="tab"
-          tabIndex={0}
+          ref={rightNowTabRef}
+          tabIndex={focusedTab === Tab.RightNow ? 0 : -1}
           aria-selected={activeTab === Tab.RightNow}
         >
           <div className="stop-tab-singletab-container">
@@ -149,6 +183,7 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
           </div>
         </button>
         <button
+          type="button"
           className={cx('stop-tab-singletab', {
             active: activeTab === Tab.Timetable,
           })}
@@ -161,7 +196,8 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
             });
           }}
           role="tab"
-          tabIndex={0}
+          ref={timetableTabRef}
+          tabIndex={focusedTab === Tab.Timetable ? 0 : -1}
           aria-selected={activeTab === Tab.Timetable}
         >
           <div className="stop-tab-singletab-container">
@@ -171,6 +207,7 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
           </div>
         </button>
         <button
+          type="button"
           className={cx('stop-tab-singletab', {
             active: activeTab === Tab.Disruptions,
             'alert-active': hasActiveAlert || stopRoutesWithAlerts.length > 0,
@@ -186,7 +223,8 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
             });
           }}
           role="tab"
-          tabIndex={0}
+          ref={disruptionTabRef}
+          tabIndex={focusedTab === Tab.Disruptions ? 0 : -1}
           aria-selected={activeTab === Tab.Disruptions}
         >
           <div className="stop-tab-singletab-container">
