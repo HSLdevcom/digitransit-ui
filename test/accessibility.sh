@@ -1,5 +1,5 @@
 #/bin/bash
-
+set -e
 trap "exit" INT TERM
 trap "kill 0" EXIT
 
@@ -15,7 +15,7 @@ while ! echo exit | nc localhost 8080; do sleep 3; done
 # Fetch required webrivers
 mkdir -p ./test/binaries
 wget -NP ./test/binaries $GECKODRIVER_URL
-tar -xvzf ./test/binaries/geckodriver* -C $DIR/binaries
+tar --skip-old-files -xzf ./test/binaries/geckodriver-* -C ./test/binaries
 chmod +x ./test/binaries/geckodriver
 export PATH=$PATH:./test/binaries
 
@@ -26,3 +26,4 @@ export PATH=$PATH:./test/binaries
 
 echo "Starting tests..."
 node ./test/accessibility/run-test.js "$@"
+set +e
