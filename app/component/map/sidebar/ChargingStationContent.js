@@ -98,7 +98,7 @@ const ChargingStationContent = ({ match }, { intl }) => {
   const getCapacity = () => {
     const { capacity, available } = match.location.query;
 
-    if (typeof available === 'number') {
+    if (available && capacity) {
       return intl.formatMessage(
         {
           id: 'charging-spaces-available',
@@ -108,7 +108,7 @@ const ChargingStationContent = ({ match }, { intl }) => {
       );
     }
 
-    if (typeof capacity === 'number') {
+    if (capacity && !available) {
       return intl.formatMessage(
         {
           id: 'charging-spaces-in-total',
@@ -117,7 +117,13 @@ const ChargingStationContent = ({ match }, { intl }) => {
         match.location.query,
       );
     }
-    return null;
+    return intl.formatMessage(
+      {
+        id: 'charging-spaces-no-data',
+        defaultMessage: 'No capacity data available',
+      },
+      match.location.query,
+    );
   };
 
   const getDirectDeepLink = () => {
