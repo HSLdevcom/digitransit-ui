@@ -10,6 +10,7 @@ import {
   ReactRelayContext,
 } from 'react-relay';
 import { connectToStores } from 'fluxible-addons-react';
+import { v4 as uuid } from 'uuid';
 import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
 import polyline from 'polyline-encoded';
@@ -1967,7 +1968,7 @@ class SummaryPage extends React.Component {
             return (
               <div
                 className={`swipeable-tab ${activeIndex !== i && 'inactive'}`}
-                key={itinerary.key}
+                key={uuid()}
               >
                 <ItineraryTab
                   hideTitle
