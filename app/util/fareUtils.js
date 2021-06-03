@@ -27,6 +27,19 @@ export function mapFares(fares, config) {
   }));
 }
 
+export function fetchFares(itinerary, url) {
+  return fetch(url, {
+    method: 'POST',
+    // eslint-disable-next-line compat/compat
+    headers: new Headers({ 'content-type': 'application/json' }),
+    body: JSON.stringify(itinerary),
+  })
+    .then(response => response.json())
+    .then(data => {
+      return data;
+    });
+}
+
 export const getFares = (fares, routes, config) => {
   const knownFares = mapFares(fares, config) || [];
 

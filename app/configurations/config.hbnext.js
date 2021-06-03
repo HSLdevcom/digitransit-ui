@@ -45,6 +45,7 @@ export default configMerger(walttiConfig, {
         PELIAS_PLACE: `${
             process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
         }/place`,
+        FARES: `${API_URL}/fares`
     },
 
     mainMenu: {
@@ -532,4 +533,11 @@ export default configMerger(walttiConfig, {
     showBikeAndParkItineraries: true,
     showStopAndRouteSearch: false,
     showTimeTableOptions: false,
+
+    showTicketInformation: true,
+    showTicketPrice: true,
+    availableTickets: {'hb' : {}},
+    fareMapping: function mapHbFareId(fareId) {
+        return fareId;
+    }
 });

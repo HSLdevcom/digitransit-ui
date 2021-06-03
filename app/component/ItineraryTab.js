@@ -25,7 +25,7 @@ import { BreakpointConsumer } from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 
 import exampleData from './data/ItineraryTab.exampleData.json';
-import { getFares, shouldShowFareInfo } from '../util/fareUtils';
+import { fetchFares, getFares, shouldShowFareInfo } from '../util/fareUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
   isToday,
@@ -130,6 +130,15 @@ class ItineraryTab extends React.Component {
 
     if (!itinerary || !itinerary.legs[0]) {
       return null;
+    }
+
+    if (itinerary.fares === null && config.URL.FARES) {
+      fetchFares(itinerary, config.URL.fares)
+        .then(data => {
+          itinerary.fares = data;
+        })
+        // eslint-disable-next-line no-console
+        .catch(err => console.log(err));
     }
 
     const fares = getFares(itinerary.fares, getRoutes(itinerary.legs), config);
