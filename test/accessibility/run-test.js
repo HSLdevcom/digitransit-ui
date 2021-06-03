@@ -12,7 +12,9 @@ const driver1 = new WebDriver.Builder()
   .forBrowser('firefox')
   .setFirefoxOptions(new firefox.Options().headless())
   .build();
-const builder1 = new AxeBuilder(driver1);
+const builder1 = new AxeBuilder(driver1)
+  .exclude('.map')
+  .disableRules('color-contrast');
 
 let driver2;
 let builder2;
@@ -21,7 +23,9 @@ if (!onlyTestLocal) {
     .forBrowser('firefox')
     .setFirefoxOptions(new firefox.Options().headless())
     .build();
-  builder2 = new AxeBuilder(driver2);
+  builder2 = new AxeBuilder(driver2)
+    .exclude('.map')
+    .disableRules('color-contrast');
 }
 
 const LOCAL = 'http://127.0.0.1:8080';
