@@ -1,5 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 import forEach from 'lodash/forEach';
+import get from 'lodash/get';
 import { BIKEAVL_UNKNOWN } from './citybikes';
 
 function filterLegStops(leg, filter) {
@@ -103,6 +104,20 @@ const continueWithBicycle = (leg1, leg2) => {
   const isBicycle2 =
     leg2.mode === LegMode.Bicycle || leg2.mode === LegMode.Walk;
   return isBicycle1 && isBicycle2 && !leg1.to.bikePark;
+};
+
+export const getLegText = (route, config, interliningWithRoute) => {
+  const showAgency = get(config, 'agency.show', false);
+  if (interliningWithRoute && interliningWithRoute !== route.shortName) {
+    return `${route.shortName} / ${interliningWithRoute}`;
+  }
+  if (route.shortName) {
+    return route.shortName;
+  }
+  if (showAgency && route.agency) {
+    return route.agency.name;
+  }
+  return '';
 };
 
 const bikingEnded = leg1 => {
