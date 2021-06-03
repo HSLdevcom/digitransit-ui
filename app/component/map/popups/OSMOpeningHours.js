@@ -85,6 +85,12 @@ export default class OSMOpeningHours extends React.Component {
     );
   };
 
+  getCurrentOpeningTime = opening => {
+    const openingTable = opening.getTable();
+    const currentDay = this.weekdays[moment().isoWeekday() - 1];
+    return openingTable[currentDay];
+  };
+
   getDropDownButton = () => {
     const onClick = () => {
       const newState = { dropDownIsOpen: !this.state.dropDownIsOpen };
@@ -125,7 +131,10 @@ export default class OSMOpeningHours extends React.Component {
               <FormattedMessage id="now" defaultMessage="Now" />{' '}
               <strong>
                 {isOpenNow ? (
-                  <FormattedMessage id="open" defaultMessage="open" />
+                  <span className="opening-status">
+                    <FormattedMessage id="open" defaultMessage="open" /> :{' '}
+                    <span>{this.getCurrentOpeningTime(opening)}</span>
+                  </span>
                 ) : (
                   <FormattedMessage id="closed" defaultMessage="closed" />
                 )}
