@@ -59,9 +59,9 @@ class TransitLeg extends React.Component {
   };
 
   getZoneChange() {
-    const { leg } = this.props;
+    const { leg, nextInterliningLeg } = this.props;
     const startZone = leg.from.stop.zoneId;
-    const endZone = leg.to.stop.zoneId;
+    const endZone = nextInterliningLeg?.to?.stop.zoneId || leg.to.stop.zoneId;
     if (
       startZone !== endZone &&
       !this.state.showIntermediateStops &&
@@ -102,7 +102,7 @@ class TransitLeg extends React.Component {
   }
 
   renderIntermediate() {
-    const { leg, mode } = this.props;
+    const { leg, mode, nextInterliningLeg } = this.props;
     if (
       leg.intermediatePlaces.length > 0 &&
       this.state.showIntermediateStops === true
@@ -125,7 +125,8 @@ class TransitLeg extends React.Component {
         const currentZoneId = place.stop.zoneId;
         const nextZoneId =
           (array[i + 1] && array[i + 1].stop.zoneId) ||
-          (isLastPlace && leg.to.stop.zoneId);
+          (isLastPlace && nextInterliningLeg?.to?.stop.zoneId) ||
+          leg.to.stop.zoneId;
         const previousZoneIdDiffers =
           previousZoneId && previousZoneId !== currentZoneId;
         const nextZoneIdDiffers = nextZoneId && nextZoneId !== currentZoneId;
@@ -600,6 +601,11 @@ TransitLeg.propTypes = {
       tripHeadsign: PropTypes.string.isRequired,
     }).isRequired,
     endTime: PropTypes.number.isRequired,
+    to: PropTypes.shape({
+      stop: PropTypes.shape({
+        zoneId: PropTypes.string,
+      }).isRequired,
+    }).isRequired,
   }),
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
