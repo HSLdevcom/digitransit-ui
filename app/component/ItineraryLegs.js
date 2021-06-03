@@ -118,6 +118,7 @@ class ItineraryLegs extends React.Component {
       const isNextLegInterlining = nextLeg
         ? nextLeg.interlineWithPreviousLeg
         : false;
+      const nextInterliningLeg = isNextLegInterlining ? nextLeg : undefined;
       if (leg.mode !== 'WALK' && isCallAgencyPickupType(leg)) {
         legs.push(
           <CallAgencyLeg
@@ -154,7 +155,7 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            nextInterliningLeg={isNextLegInterlining && nextLeg}
+            nextInterliningLeg={nextInterliningLeg}
             focusAction={this.focus(leg.from)}
           />,
         );
@@ -164,7 +165,7 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            nextInterliningLeg={isNextLegInterlining && nextLeg}
+            nextInterliningLeg={nextInterliningLeg}
             focusAction={this.focus(leg.from)}
           />,
         );
@@ -174,7 +175,7 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            nextInterliningLeg={isNextLegInterlining && nextLeg}
+            nextInterliningLeg={nextInterliningLeg}
             focusAction={this.focus(leg.from)}
           />,
         );
@@ -184,7 +185,7 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            nextInterliningLeg={isNextLegInterlining && nextLeg}
+            nextInterliningLeg={nextInterliningLeg}
             focusAction={this.focus(leg.from)}
           />,
         );
@@ -194,7 +195,7 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            nextInterliningLeg={isNextLegInterlining && nextLeg}
+            nextInterliningLeg={nextInterliningLeg}
             focusAction={this.focus(leg.from)}
           />,
         );
