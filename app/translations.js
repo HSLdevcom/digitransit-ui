@@ -1072,7 +1072,7 @@ const translations = {
     'bicycle-charging-station': 'Bicycle charging station',
     'bicycle-distance-duration': 'Bike {duration} ({distance})',
     bicycle_walk: 'Walking a bike',
-    "bicycle-parking": "Bicyle parking",
+    "bicycle-parking": "Bicycle parking",
     "bicycle-parking-covered": "covered",
     'regiorad-availability': 'Bikes available at the station right now',
     'cargo-bike-availability': 'Cargo bikes available at the station right now',
