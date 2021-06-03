@@ -8,23 +8,23 @@
             "type": "heading"
           },
           {
-            "content": "Mobil-in-Herrenberg currently is in public beta. You have suggestions or issues? Please give us feedback.",
+            "content": "The new stadtnavi version currently is in public beta. You have suggestions or issues? Please give us feedback.",
             "type": "text"
           }
         ],
         "de": [
           {
-            "content": "Probebetrieb",
+            "content": "Beta-Version",
             "type": "heading"
           },
           {
-            "content": "Mobil-in-Herrenberg befindet sich derzeit im öffentlichen Probebetrieb. Anregungen oder Probleme? Geben Sie uns gerne Feedback.",
+            "content": "Die neue stadtnavi-Version befindet sich derzeit im öffentlichen Probebetrieb. Anregungen oder Probleme? Geben Sie uns gerne Feedback.",
             "type": "text"
           }
         ]
       },
       "type": "info",
-      "id": "130122020_2256_91",
+      "id": "202106030758",
       "persistence": "repeat",
       "icon": "info"
     }
