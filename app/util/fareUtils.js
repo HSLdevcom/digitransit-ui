@@ -28,11 +28,21 @@ export function mapFares(fares, config) {
 }
 
 export function fetchFares(itinerary, url) {
+  const it = {
+    startTime: itinerary.startTime,
+    endTime: itinerary.endTime,
+    walkDistance: itinerary.walkDistance,
+    duration: itinerary.duration,
+    legs: itinerary.legs.map(
+      ({ __id, __fragmentOwner, __fragments, ...item }) => item,
+    ),
+  };
+
   return fetch(url, {
     method: 'POST',
     // eslint-disable-next-line compat/compat
     headers: new Headers({ 'content-type': 'application/json' }),
-    body: JSON.stringify(itinerary),
+    body: JSON.stringify(it),
   }).then(response => {
     return response.ok ? response.json() : null;
   });
