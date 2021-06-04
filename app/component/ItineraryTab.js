@@ -126,22 +126,23 @@ class ItineraryTab extends React.Component {
 
   render() {
     const { itinerary } = this.props;
+    let { fares } = itinerary;
     const { config } = this.context;
 
     if (!itinerary || !itinerary.legs[0]) {
       return null;
     }
 
-    if (itinerary.fares === null && config.URL.FARES) {
+    if (fares === null && config.URL.FARES) {
       fetchFares(itinerary, config.URL.FARES)
         .then(data => {
-          itinerary.fares = data;
+          fares = data;
         })
         // eslint-disable-next-line no-console
         .catch(err => console.log(err));
     }
 
-    const fares = getFares(itinerary.fares, getRoutes(itinerary.legs), config);
+    fares = getFares(fares, getRoutes(itinerary.legs), config);
     const extraProps = this.setExtraProps(itinerary);
     return (
       <div className="itinerary-tab">
