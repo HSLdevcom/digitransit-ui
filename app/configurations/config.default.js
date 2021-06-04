@@ -717,4 +717,6 @@ export default {
     stops: false,
     itinerary: false,
   },
+
+  viaPointsEnabled: true,
 };
