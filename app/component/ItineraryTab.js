@@ -201,7 +201,7 @@ class ItineraryTab extends React.Component {
                   'bp-large': breakpoint === 'large',
                 })}
               >
-                {shouldShowFareInfo(config) &&
+                {shouldShowFareInfo(config) && config.displayFareInfoTop &&
                   fares.some(fare => fare.isUnknown) && (
                     <div className="disclaimer-container unknown-fare-disclaimer__top">
                       <div className="icon-container">

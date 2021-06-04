@@ -539,5 +539,6 @@ export default configMerger(walttiConfig, {
     availableTickets: {'hb' : {}},
     fareMapping: function mapHbFareId(fareId) {
         return fareId;
-    }
+    },
+    displayFareInfoTop: false,
 });
