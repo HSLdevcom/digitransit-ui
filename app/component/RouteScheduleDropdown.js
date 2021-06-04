@@ -15,6 +15,13 @@ export default function RouteScheduleDropdown(props, context) {
   const onMenuOpen = () => setIsMenuOpen(true);
   const onMenuClose = () => setIsMenuOpen(false);
 
+  const onFocus = ({ focused }) => focused.fullLabel;
+
+  const onChange = ({ value }) =>
+    `${intl.formatMessage({ id: 'route-page.pattern-chosen' })} ${
+      value.fullLabel
+    }`;
+
   const handleChange = selectedOption => {
     if (!id) {
       setSelectedValue(title);
@@ -39,6 +46,7 @@ export default function RouteScheduleDropdown(props, context) {
             : `${option.label.substring(0, 15)}...`;
         return {
           value: option.value,
+          fullLabel: option.label,
           label: (
             <>
               <span>{option.label}</span>
@@ -65,17 +73,26 @@ export default function RouteScheduleDropdown(props, context) {
       )}
     >
       {labelId && (
-        <span
+        <label
           className={cx('dd-header-title', alignRight ? 'alignRight' : '')}
           id={`aria-label-${id}`}
           htmlFor={`aria-input-${id}`}
         >
           {intl.formatMessage({ id: labelId })}
-        </span>
+        </label>
       )}
-
+      {!labelId && (
+        <label
+          style={{ display: 'none' }}
+          id={`aria-label-${id}`}
+          htmlFor={`aria-input-${id}`}
+        >
+          {title}
+        </label>
+      )}
       <Select
         aria-labelledby={`aria-label-${id}`}
+        ariaLiveMessages={{ onFocus, onChange }}
         className="dd-select"
         classNamePrefix={classNamePrefix}
         components={{
@@ -105,7 +122,6 @@ export default function RouteScheduleDropdown(props, context) {
             </>
           )
         }
-        tabIndex="0"
         value={
           !title && (
             <>
