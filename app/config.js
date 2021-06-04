@@ -39,7 +39,7 @@ function addMetaData(config) {
           e.content = `${appPathPrefix}${stats.outputFilePrefix}${e.content}`; // fix path bug
         } else if (e.name === 'theme-color') {
           // eslint-disable-next-line no-param-reassign
-          e.content = config.colors.primary;
+          e.content = config.colors.topBarColor || config.colors.primary;
         } else if (e.name === 'apple-mobile-web-app-status-bar-style') {
           // eslint-disable-next-line no-param-reassign
           e.content = 'default';
