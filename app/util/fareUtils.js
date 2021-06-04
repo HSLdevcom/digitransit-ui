@@ -33,11 +33,9 @@ export function fetchFares(itinerary, url) {
     // eslint-disable-next-line compat/compat
     headers: new Headers({ 'content-type': 'application/json' }),
     body: JSON.stringify(itinerary),
-  })
-    .then(response => response.json())
-    .then(data => {
-      return data;
-    });
+  }).then(response => {
+    return response.ok ? response.json() : null;
+  });
 }
 
 export const getFares = (fares, routes, config) => {
