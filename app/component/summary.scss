@@ -382,7 +382,7 @@
   text-align: left;
   padding-left: 81px;
   font-weight: $font-weight-medium;
-  font-size: 13px;
+  font-size: $font-size-normal;
   letter-spacing: -0.36px;
 
   .icon-container {
@@ -394,12 +394,8 @@
     transform: rotate(180deg);
   }
 
-  &.top-btn {
-    font-size: 13px;
-  }
   &.bottom-btn {
     border-top: 1px solid #ddd;
-    font-size: $font-size-normal;
     height: 50px;
   }
 }

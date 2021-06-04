@@ -466,7 +466,7 @@ function Datetimepicker({
                     {` ${
                       moment().isSame(moment(displayTimestamp), 'day')
                         ? ''
-                        : getDateDisplay(displayTimestamp).toLowerCase()
+                        : getDateDisplay(displayTimestamp)
                     } ${getTimeDisplay(displayTimestamp)}`}
                   </>
                 )}
