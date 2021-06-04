@@ -792,7 +792,7 @@ const translations = {
     'select-position': 'Standort aus vorherigen Suchen wählen',
     send: 'Senden',
     'separate-ticket-required':
-      'Für einen Teil der Route ist ein seperates Ticket erforderlich.',
+      'Für einen Teil der Route ist ein separates Ticket erforderlich.',
     'separate-ticket-required-disclaimer':
       'Die Route umfasst einen oder mehrere Abschnitte, für die {agencyName} keine Tickets verkauft.',
     'set-specific-settings': 'Setze spezifischere Einstellungen',
