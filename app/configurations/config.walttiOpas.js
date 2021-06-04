@@ -140,4 +140,6 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
+
+  viaPointsEnabled: false,
 });
