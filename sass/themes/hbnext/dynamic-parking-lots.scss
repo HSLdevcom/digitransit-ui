@@ -12,30 +12,4 @@
   .icon-container{
     font-size: 32px;
   }
-
-  .opening-hours {
-    .currently-open {
-      margin-bottom: 19px;
-    }
-
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin-bottom: $padding-medium;
-      font-size: 15px;
-      tr {
-        td {
-          vertical-align: top;
-        }
-        td:last-child {
-          text-align: right;
-        }
-        span {
-          margin: 3px 0 3px 0;
-          font-size: 15px;
-          display: block;
-        }
-      }
-    }
-  }
 }
