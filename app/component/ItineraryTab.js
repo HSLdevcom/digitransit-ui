@@ -133,7 +133,7 @@ class ItineraryTab extends React.Component {
     }
 
     if (itinerary.fares === null && config.URL.FARES) {
-      fetchFares(itinerary, config.URL.fares)
+      fetchFares(itinerary, config.URL.FARES)
         .then(data => {
           itinerary.fares = data;
         })
