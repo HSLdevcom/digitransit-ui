@@ -601,7 +601,7 @@ class RouteScheduleContainer extends PureComponent {
               <div
                 className="route-schedule-list momentum-scroll"
                 role="list"
-                aria-atomic="true"
+                aria-live="off"
               >
                 {showTrips}
               </div>
