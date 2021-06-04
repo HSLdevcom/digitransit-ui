@@ -1,5 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
+import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = 'tampere';
 const APP_TITLE = 'Nyssen reittiopas';
@@ -234,6 +235,27 @@ export default configMerger(walttiConfig, {
   showVehiclesOnSummaryPage: true,
   timetables: {
     tampere: tampereTimetables,
+  },
+
+  cityBike: {
+    showCityBikes: true,
+    capacity: BIKEAVL_WITHMAX,
+    networks: {
+      tampere: {
+        icon: 'citybike',
+        name: {
+          fi: 'Tampere',
+          sv: 'Tammerfors',
+          en: 'Tampere',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://www.nysse.fi/kaupunkipyorat',
+          sv: 'https://www.nysse.fi/en/city-bikes.html',
+          en: 'https://www.nysse.fi/en/city-bikes.html',
+        },
+      },
+    },
   },
 
   // enable train routing for Tampere
