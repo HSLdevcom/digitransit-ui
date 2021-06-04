@@ -21,7 +21,7 @@ function ItineraryPageMap(
     showVehicles,
     ...rest
   },
-  { match, router, executeAction },
+  { match, router, executeAction, config },
 ) {
   const { hash } = match.params;
   const leafletObjs = [];
@@ -81,7 +81,10 @@ function ItineraryPageMap(
   });
 
   // max 5 viapoints
-  const locationPopup = viaPoints.length < 5 ? 'all' : 'origindestination';
+  const locationPopup =
+    config.viaPointsEnabled && viaPoints.length < 5
+      ? 'all'
+      : 'origindestination';
   const onSelectLocation = (item, id) =>
     onLocationPopup(item, id, router, match, executeAction);
 
