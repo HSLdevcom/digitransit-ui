@@ -278,13 +278,16 @@ $btn-heigth: 17px;
   background-color: $standalone-btn-color;
   padding: $padding-small $padding-medium;
   border-radius: 20px;
+  color: $white;
+
   .icon-holder {
     padding: 0;
     margin: 0;
     margin-bottom: -4px;
   }
   &:hover {
-    background-color: $standalone-btn-hover-color;
+    background-color: $standalone-btn-color;
+    color: $white;
   }
 }
 
