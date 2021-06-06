@@ -95,10 +95,11 @@ input[type='radio'] {
     position: relative;
     top: -3px;
   }
+
   display: flex;
   align-items: center;
 
-  input[type="radio"]  {
+  input[type="radio"] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -126,11 +127,6 @@ input[type='radio'] {
   margin-bottom: 20px;
 }
 
-#phone {
-  width: 30%;
-  margin-left: 10px;
-}
-
 .carpool-checkbox {
   margin-top: 10px;
 }
@@ -140,10 +136,25 @@ input[type='radio'] {
   top: -8px;
 }
 
-.gdpr-checkbox span {
-  margin-left: 30px;
-  position: relative;
-  top: -8px;
+#phone {
+  width: 60%;
+  height: 30px;
+  border-radius: 5px;
+  border: solid 1px #888888;
+  background-color: #ffffff;
+}
+
+.gdpr-checkbox {
+  & span {
+    font-weight: bold;
+    position: relative;
+  }
+  & .icon-container {
+    top: -8px;
+  }
+  & label {
+    top: 8px;
+  }
 }
 
 #phone, .phone-label {

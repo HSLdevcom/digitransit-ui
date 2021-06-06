@@ -37,13 +37,22 @@ const Checkbox = (
         tabIndex={disabled ? -1 : 0}
       >
         <label className={cx({ checked, disabled })} htmlFor={id}>
-          {checked && (
+          {checked && large && (
             <Icon
-              className="checkmark"
+              className="checkmark large"
               img="icon-icon_check-digitransit"
               viewBox="0 0 15 11"
               width={1.875}
               height={1.75}
+            />
+          )}
+          {checked && !large && (
+            <Icon
+              className="checkmark small"
+              img="icon-icon_check-digitransit"
+              viewBox="0 0 15 11"
+              width={1.375}
+              height={1.25}
             />
           )}
           <input

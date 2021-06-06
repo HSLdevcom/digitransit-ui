@@ -1719,12 +1719,9 @@ class SummaryPage extends React.Component {
     );
   }
 
-  toggleCarpoolDrawer = leg => {
+  toggleCarpoolDrawer = () => {
     const { carpoolOpen } = this.state;
     this.setState({ carpoolOpen: !carpoolOpen });
-    if (leg) {
-      this.setMapZoomToLeg(leg);
-    }
   };
 
   getOffcanvasState = () => this.state.settingsOpen;
