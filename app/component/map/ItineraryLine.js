@@ -158,7 +158,7 @@ class ItineraryLine extends React.Component {
                 renderName
                 icon={
                   leg.route.shortName?.startsWith('RT')
-                    ? 'icon-icon_on-demand-taxi'
+                    ? 'icon-icon_on-demand-taxi-white'
                     : null
                 }
                 color={

@@ -395,7 +395,7 @@ class TransitLeg extends React.Component {
                   realtime={false}
                   icon={
                     leg.route.shortName?.startsWith('RT')
-                      ? 'icon-icon_on-demand-taxi'
+                      ? 'icon-icon_on-demand-taxi-white'
                       : null
                   }
                   withBar

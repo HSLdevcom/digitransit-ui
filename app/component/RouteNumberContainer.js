@@ -27,7 +27,9 @@ const RouteNumberContainer = (
       color={route.color ? `#${route.color}` : null}
       mode={route.mode}
       icon={
-        route.shortName?.startsWith('RT') ? 'icon-icon_on-demand-taxi' : null
+        route.shortName?.startsWith('RT')
+          ? 'icon-icon_on-demand-taxi-white'
+          : null
       }
       text={getText(route, config)}
       withBicycle={withBicycle}
