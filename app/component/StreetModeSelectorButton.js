@@ -57,7 +57,7 @@ export const StreetModeSelectorButton = (
   let secondaryIcon;
   let metroColor;
 
-  if (name === 'bikeAndVehicle' || name === 'parkAndRide') {
+  if (name === 'bikeAndVehicle') {
     const publicModes = plan.itineraries[0].legs.filter(
       obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE',
     );
