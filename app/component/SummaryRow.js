@@ -72,6 +72,7 @@ export const RouteLeg = ({
   isTransitLeg,
   fitRouteNumber,
   withBicycle,
+  subIcon,
 }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
@@ -89,6 +90,7 @@ export const RouteLeg = ({
         vertical
         withBar
         isTransitLeg={isTransitLeg}
+        subIcon={subIcon}
       />
     );
   } else {
@@ -102,6 +104,7 @@ export const RouteLeg = ({
         withBar
         isTransitLeg={isTransitLeg}
         withBicycle={withBicycle}
+        subIcon={subIcon}
       />
     );
   }
@@ -124,14 +127,16 @@ RouteLeg.propTypes = {
   fitRouteNumber: PropTypes.bool.isRequired,
   isTransitLeg: PropTypes.bool,
   withBicycle: PropTypes.bool.isRequired,
+  subIcon: PropTypes.string,
 };
 
 RouteLeg.defaultProps = {
   isTransitLeg: true,
+  subIcon: undefined,
 };
 
 export const ModeLeg = (
-  { leg, mode, large, legLength, duration, renderModeIcons },
+  { leg, mode, large, legLength, duration, renderModeIcons, icon, subIcon },
   { config },
 ) => {
   let networkIcon;
@@ -154,7 +159,8 @@ export const ModeLeg = (
       renderModeIcons={renderModeIcons}
       vertical
       withBar
-      icon={networkIcon}
+      icon={networkIcon || icon}
+      subIcon={subIcon}
       {...getLegBadgeProps(leg, config)}
     />
   );
@@ -176,6 +182,8 @@ ModeLeg.propTypes = {
   legLength: PropTypes.number.isRequired,
   renderModeIcons: PropTypes.bool,
   duration: PropTypes.number,
+  icon: PropTypes.string,
+  subIcon: PropTypes.string,
 };
 
 ModeLeg.contextTypes = {
@@ -358,15 +366,23 @@ const SummaryRow = (
         />,
       );
     } else if (leg.mode === 'CAR') {
-      const drivingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
+      let subIcon;
+
+      if (leg.to.carPark) {
+        subIcon = 'icon-icon_car';
+      } else if (leg.to.bikePark) {
+        subIcon = 'icon-icon_bike';
+      }
+
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
           leg={leg}
-          duration={drivingTime}
           mode="CAR"
           legLength={legLength}
           large={breakpoint === 'large'}
+          subIcon={subIcon}
+          icon="icon-icon_car-withoutBox"
         />,
       );
       if (leg.to.carPark) {

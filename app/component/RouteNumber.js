@@ -12,7 +12,7 @@ const LONG_ROUTE_NUMBER_LENGTH = 6;
 
 function RouteNumber(props, context) {
   const mode = props.mode.toLowerCase();
-  const { alertSeverityLevel, color, withBicycle } = props;
+  const { alertSeverityLevel, color, withBicycle, subIcon } = props;
   const longText = props.text && props.text.length >= LONG_ROUTE_NUMBER_LENGTH;
   // Checks if route only has letters without identifying numbers and
   // length doesn't fit in the tab view
@@ -56,6 +56,9 @@ function RouteNumber(props, context) {
               className="itinerary-icon_with-bicycle"
             />
           )}
+          {subIcon && (
+            <Icon img={subIcon} className="itinerary-icon_with-bicycle" />
+          )}
         </React.Fragment>
       );
     }
@@ -65,7 +68,7 @@ function RouteNumber(props, context) {
           badgeFill={badgeFill}
           badgeText={badgeText}
           badgeTextFill={badgeTextFill}
-          color={color}
+          color={subIcon ? 'white' : color}
           className={mode}
           img={icon || `icon-icon_${mode}`}
           subIcon=""
@@ -75,6 +78,9 @@ function RouteNumber(props, context) {
             img="icon-icon_bicycle_walk"
             className="itinerary-icon_with-bicycle"
           />
+        )}
+        {subIcon && (
+          <Icon img={subIcon} className="itinerary-icon_with-bicycle" />
         )}
       </React.Fragment>
     );
@@ -109,7 +115,7 @@ function RouteNumber(props, context) {
             )}
           </div>
         ) : (
-          <div className={`icon ${mode}`}>
+          <div className={`icon ${mode}`} style={subIcon && { width: '2em' }}>
             {getIcon(
               props.icon,
               props.isCallAgency,
@@ -239,6 +245,7 @@ RouteNumber.propTypes = {
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   badgeTextFill: PropTypes.string,
   icon: PropTypes.string,
+  subIcon: PropTypes.string,
   renderModeIcons: PropTypes.bool,
   duration: PropTypes.number,
   isTransitLeg: PropTypes.bool,
@@ -260,6 +267,7 @@ RouteNumber.defaultProps = {
   withBar: false,
   isCallAgency: false,
   icon: undefined,
+  subIcon: undefined,
   isTransitLeg: false,
   renderModeIcons: false,
   withBicycle: false,
