@@ -1227,6 +1227,10 @@ $itinerary-tab-switch-height: 48px;
       &.carpool {
         border-color: $carpool-color;
       }
+      &.bus {
+        margin-top: 6px;
+        border-color: rgb(0, 47, 235);
+      }
       .icon-container {
         margin-right: 3px;
         margin-left: -22px;

@@ -99,7 +99,7 @@ class SummaryPlanContainer extends React.Component {
   };
 
   getSubPath(fallback) {
-    const modesWithSubpath = ['bikeAndVehicle', 'parkAndRide'];
+    const modesWithSubpath = ['bikeAndVehicle', 'parkAndRide', 'onDemandTaxi'];
     const { hash } = this.props.params;
     if (modesWithSubpath.includes(hash)) {
       return `/${hash}/`;

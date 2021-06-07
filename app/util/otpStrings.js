@@ -105,5 +105,5 @@ export const getIntermediatePlaces = query => {
  * @param {*} string String to split, e.g 'Ristolantie 15, Helsinki'
  */
 export const splitStringToAddressAndPlace = string => {
-  return string.split(/, (.+)/);
+  return string?.split(/, (.+)/) || [];
 };

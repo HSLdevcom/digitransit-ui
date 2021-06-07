@@ -11,6 +11,7 @@ export const StreetModeSelector = ({
   showBikeAndPublicOptionButton,
   showCarOptionButton,
   showParkRideOptionButton,
+  showOnDemandTaxiOptionButton,
   toggleStreetMode,
   setStreetModeAndSelect,
   weatherData,
@@ -20,6 +21,7 @@ export const StreetModeSelector = ({
   bikeParkPlan,
   carPlan,
   parkRidePlan,
+  onDemandTaxiPlan,
   loading,
 }) => {
   const bikeAndVehicle = !loading
@@ -84,6 +86,14 @@ export const StreetModeSelector = ({
               onClick={setStreetModeAndSelect}
             />
           )}
+          {showOnDemandTaxiOptionButton && (
+            <StreetModeSelectorButton
+              icon="icon-icon_on-demand-taxi"
+              name="onDemandTaxi"
+              plan={onDemandTaxiPlan}
+              onClick={setStreetModeAndSelect}
+            />
+          )}
         </div>
       )}
     </div>
@@ -96,6 +106,7 @@ StreetModeSelector.propTypes = {
   showBikeAndPublicOptionButton: PropTypes.bool.isRequired,
   showCarOptionButton: PropTypes.bool.isRequired,
   showParkRideOptionButton: PropTypes.bool.isRequired,
+  showOnDemandTaxiOptionButton: PropTypes.bool.isRequired,
   toggleStreetMode: PropTypes.func.isRequired,
   setStreetModeAndSelect: PropTypes.func.isRequired,
   walkPlan: PropTypes.object,
@@ -103,6 +114,7 @@ StreetModeSelector.propTypes = {
   bikeAndPublicPlan: PropTypes.object,
   bikeParkPlan: PropTypes.object,
   parkRidePlan: PropTypes.object,
+  onDemandTaxiPlan: PropTypes.object,
   // eslint-disable-next-line react/require-default-props
   weatherData: PropTypes.shape({
     temperature: PropTypes.number,
