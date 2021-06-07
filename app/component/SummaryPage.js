@@ -61,6 +61,8 @@ import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { saveSearch } from '../action/SearchActions';
 import CustomizeSearch from './CustomizeSearchNew';
 import { mapLayerShape } from '../store/MapLayerStore';
+import { getMapLayerOptions } from '../util/mapLayerUtils';
+import { mapLayerOptionsShape } from '../util/shapes';
 
 const POINT_FOCUS_ZOOM = 16; // used when focusing to a point
 
@@ -265,6 +267,7 @@ class SummaryPage extends React.Component {
       refetch: PropTypes.func.isRequired,
     }).isRequired,
     mapLayers: mapLayerShape.isRequired,
+    mapLayerOptions: mapLayerOptionsShape.isRequired,
   };
 
   static defaultProps = {
@@ -1540,6 +1543,7 @@ class SummaryPage extends React.Component {
         viaPoints={viaPoints}
         zoom={POINT_FOCUS_ZOOM}
         mapLayers={this.props.mapLayers}
+        mapLayerOptions={this.props.mapLayerOptions}
         setMWTRef={this.setMWTRef}
         breakpoint={breakpoint}
         itineraries={filteredItineraries}
@@ -2314,6 +2318,10 @@ const SummaryPageWithStores = connectToStores(
   ({ getStore }) => ({
     mapLayers: getStore('MapLayerStore').getMapLayers({
       notThese: ['stop', 'citybike', 'vehicles'],
+    }),
+    mapLayerOptions: getMapLayerOptions({
+      lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+      selectedMapLayers: ['vehicles'],
     }),
   }),
 );

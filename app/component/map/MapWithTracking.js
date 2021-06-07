@@ -20,6 +20,7 @@ import PreferencesStore from '../../store/PreferencesStore';
 import MapLayersDialogContent from '../MapLayersDialogContent';
 import MenuDrawer from '../MenuDrawer';
 import withBreakpoint from '../../util/withBreakpoint';
+import { mapLayerOptionsShape } from '../../util/shapes';
 
 const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'lat',
@@ -51,6 +52,7 @@ class MapWithTrackingStateHandler extends React.Component {
     leafletObjs: PropTypes.array,
     renderCustomButtons: PropTypes.func,
     mapLayers: mapLayerShape.isRequired,
+    mapLayerOptions: mapLayerOptionsShape,
     mapTracking: PropTypes.bool,
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
@@ -69,6 +71,7 @@ class MapWithTrackingStateHandler extends React.Component {
     locationPopup: 'reversegeocoding',
     onSelectLocation: () => null,
     leafletEvents: {},
+    mapLayerOptions: null,
   };
 
   constructor(props) {
@@ -296,6 +299,7 @@ class MapWithTrackingStateHandler extends React.Component {
             <MapLayersDialogContent
               open={this.state.settingsOpen}
               setOpen={this.setSettingsOpen}
+              mapLayerOptions={this.props.mapLayerOptions}
             />
             <button
               type="button"
