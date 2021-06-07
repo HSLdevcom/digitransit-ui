@@ -71,21 +71,23 @@ class MapLayersDialogContent extends React.Component {
   };
 
   componentDidMount = () => {
-    const newSetting = {};
     const { mapLayerOptions } = this.props;
-    Object.keys(mapLayerOptions).forEach(key => {
-      if (key === 'stop' || key === 'terminal') {
-        newSetting[key] = this.props.mapLayers[key];
-        Object.keys(mapLayerOptions[key]).forEach(subKey => {
-          if (mapLayerOptions[key][subKey].isLocked) {
-            newSetting[key][subKey] = mapLayerOptions[key][subKey].isSelected;
-          }
-        });
-      } else if (mapLayerOptions[key].isLocked) {
-        newSetting[key] = mapLayerOptions[key].isSelected;
-      }
-    });
-    this.updateSetting(newSetting);
+    if (mapLayerOptions) {
+      const newSetting = {};
+      Object.keys(mapLayerOptions).forEach(key => {
+        if (key === 'stop' || key === 'terminal') {
+          newSetting[key] = this.props.mapLayers[key];
+          Object.keys(mapLayerOptions[key]).forEach(subKey => {
+            if (mapLayerOptions[key][subKey].isLocked) {
+              newSetting[key][subKey] = mapLayerOptions[key][subKey].isSelected;
+            }
+          });
+        } else if (mapLayerOptions[key].isLocked) {
+          newSetting[key] = mapLayerOptions[key].isSelected;
+        }
+      });
+      this.updateSetting(newSetting);
+    }
   };
 
   sendLayerChangeAnalytic = (name, enable) => {
@@ -190,7 +192,7 @@ class MapLayersDialogContent extends React.Component {
             <Checkbox
               large
               checked={vehicles}
-              disabled={this.props.mapLayerOptions.vehicles.isLocked}
+              disabled={!!this.props.mapLayerOptions?.vehicles?.isLocked}
               defaultMessage="Moving vehicles"
               labelId="map-layer-vehicles"
               onChange={e => {
@@ -206,7 +208,7 @@ class MapLayersDialogContent extends React.Component {
               <Checkbox
                 large
                 checked={stop.bus}
-                disabled={this.props.mapLayerOptions.stop.bus.isLocked}
+                disabled={!!this.props.mapLayerOptions?.stop?.bus?.isLocked}
                 defaultMessage="Bus stop"
                 labelId="map-layer-stop-bus"
                 onChange={e => {
@@ -217,7 +219,7 @@ class MapLayersDialogContent extends React.Component {
               <Checkbox
                 large
                 checked={terminal.bus}
-                disabled={this.props.mapLayerOptions.terminal.bus.isLocked}
+                disabled={!!this.props.mapLayerOptions?.terminal?.bus?.isLocked}
                 defaultMessage="Bus terminal"
                 labelId="map-layer-terminal-bus"
                 onChange={e => {
@@ -231,7 +233,7 @@ class MapLayersDialogContent extends React.Component {
             <Checkbox
               large
               checked={stop.tram}
-              disabled={this.props.mapLayerOptions.stop.tram.isLocked}
+              disabled={!!this.props.mapLayerOptions?.stop?.tram?.isLocked}
               defaultMessage="Tram stop"
               labelId="map-layer-stop-tram"
               onChange={e => {
@@ -244,7 +246,7 @@ class MapLayersDialogContent extends React.Component {
             <Checkbox
               large
               checked={terminal.rail}
-              disabled={this.props.mapLayerOptions.terminal.rail.isLocked}
+              disabled={!!this.props.mapLayerOptions?.terminal?.rail?.isLocked}
               defaultMessage="Railway station"
               labelId="map-layer-terminal-rail"
               onChange={e => {
@@ -257,7 +259,9 @@ class MapLayersDialogContent extends React.Component {
             <Checkbox
               large
               checked={terminal.subway}
-              disabled={this.props.mapLayerOptions.terminal.subway.isLocked}
+              disabled={
+                !!this.props.mapLayerOptions?.terminal?.subway?.isLocked
+              }
               defaultMessage="Subway station"
               labelId="map-layer-terminal-subway"
               onChange={e => {
@@ -273,7 +277,7 @@ class MapLayersDialogContent extends React.Component {
             <Checkbox
               large
               checked={stop.ferry}
-              disabled={this.props.mapLayerOptions.stop.ferry.isLocked}
+              disabled={!!this.props.mapLayerOptions?.stop?.ferry?.isLocked}
               defaultMessage="Ferry"
               labelId="map-layer-stop-ferry"
               onChange={e => {
@@ -287,7 +291,7 @@ class MapLayersDialogContent extends React.Component {
               <Checkbox
                 large
                 checked={citybike}
-                disabled={this.props.mapLayerOptions.citybike.isLocked}
+                disabled={!!this.props.mapLayerOptions?.citybike?.isLocked}
                 defaultMessage="Citybike station"
                 labelId="map-layer-citybike"
                 onChange={e => {
@@ -301,7 +305,7 @@ class MapLayersDialogContent extends React.Component {
               <Checkbox
                 large
                 checked={parkAndRide}
-                disabled={this.props.mapLayerOptions.parkAndRide.isLocked}
+                disabled={!!this.props.mapLayerOptions?.parkAndRide?.isLocked}
                 defaultMessage="Park &amp; ride"
                 labelId="map-layer-park-and-ride"
                 onChange={e => {
