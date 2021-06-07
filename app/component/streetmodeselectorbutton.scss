@@ -61,6 +61,7 @@
         .street-mode-selector-button-icon {
             padding-right: 8px;
             padding-top: 8px;
+            z-index: 1;
             .icon-container {
 		        .icon {
                     width: 30px;
@@ -71,7 +72,8 @@
                 margin-bottom: 20px;
                 margin-left: -18px;
                 padding-top: 0px;
-                .icon-container {
+                z-index: 0;
+            .icon-container {
                     .icon {
                         width: 12px;
                         height: 12px;

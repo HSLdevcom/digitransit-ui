@@ -38,7 +38,6 @@ export const StreetModeSelectorButton = (
       );
       break;
     case 'bikeAndVehicle':
-    case 'parkAndRide':
       distance = displayDistance(
         getTotalBikingDistance(itinerary),
         config,
