@@ -14,7 +14,7 @@ const driver1 = new WebDriver.Builder()
   .build();
 const builder1 = new AxeBuilder(driver1)
   .exclude('.map')
-  .disableRules('color-contrast');
+  .disableRules('color-contrast', 'best-practice', 'section508', 'ACT');
 
 let driver2;
 let builder2;
@@ -25,7 +25,7 @@ if (!onlyTestLocal) {
     .build();
   builder2 = new AxeBuilder(driver2)
     .exclude('.map')
-    .disableRules('color-contrast');
+    .disableRules('color-contrast', 'best-practice', 'section508', 'ACT');
 }
 
 const LOCAL = 'http://127.0.0.1:8080';
