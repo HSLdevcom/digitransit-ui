@@ -45,3 +45,92 @@ export const isFeatureLayerEnabled = (feature, layerName, mapLayers) => {
   }
   return isLayerEnabled(layerName, mapLayers);
 };
+
+const defaultOptions = {
+  parkAndRide: {
+    isLocked: false,
+    isSelected: false,
+  },
+  stop: {
+    bus: {
+      isLocked: false,
+      isSelected: false,
+    },
+    ferry: {
+      isLocked: false,
+      isSelected: false,
+    },
+    rail: {
+      isLocked: false,
+      isSelected: false,
+    },
+    subway: {
+      isLocked: false,
+      isSelected: false,
+    },
+    tram: {
+      isLocked: false,
+      isSelected: false,
+    },
+  },
+  terminal: {
+    bus: {
+      isLocked: false,
+      isSelected: false,
+    },
+    ferry: {
+      isLocked: false,
+      isSelected: false,
+    },
+    rail: {
+      isLocked: false,
+      isSelected: false,
+    },
+    subway: {
+      isLocked: false,
+      isSelected: false,
+    },
+  },
+  vehicles: {
+    isLocked: false,
+    isSelected: false,
+  },
+  citybike: {
+    isLocked: false,
+    isSelected: false,
+  },
+};
+
+export const getMapLayerOptions = (options = {}) => {
+  const layerOptions = { ...defaultOptions };
+
+  const { lockedMapLayers, selectedMapLayers, modes } = {
+    lockedMapLayers: [],
+    selectedMapLayers: [],
+    modes: [],
+    ...options,
+  };
+  lockedMapLayers.forEach(key => {
+    if (key === 'stop' || key === 'terminal') {
+      if (modes.length === 0) {
+        Object.keys(layerOptions[key]).forEach(subKey => {
+          layerOptions[key][subKey].isLocked = true;
+          layerOptions[key][subKey].isSelected = selectedMapLayers.includes(
+            key,
+          );
+        });
+      } else {
+        modes.forEach(subKey => {
+          layerOptions[key][subKey].isLocked = true;
+          layerOptions[key][subKey].isSelected = selectedMapLayers.includes(
+            key,
+          );
+        });
+      }
+    } else {
+      layerOptions[key].isLocked = true;
+      layerOptions[key].isSelected = selectedMapLayers.includes(key);
+    }
+  });
+  return layerOptions;
+};
