@@ -304,12 +304,12 @@ export const getServiceAlertMetadata = (alert = {}) => ({
 });
 
 const getServiceAlerts = (
-  { alerts } = {},
+  stop = {},
   { color, mode, shortName, routeGtfsId, stopGtfsId } = {},
   locale = 'en',
 ) =>
-  Array.isArray(alerts)
-    ? alerts.map(alert => ({
+  alert && Array.isArray(stop?.alerts)
+    ? stop?.alerts.map(alert => ({
         ...getServiceAlertMetadata(alert),
         description: getServiceAlertDescription(alert, locale),
         hash: alert.alertHash,

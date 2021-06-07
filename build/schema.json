@@ -2637,6 +2637,12 @@
                             "description": "WALK",
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "FLEX",
+                            "description": "FLEX",
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "possibleTypes": null
@@ -7134,6 +7140,18 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "pickupBookingInfo",
+                            "description": "Information about the booking for this itinerary",
+                            "args": [],
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "bookingInfo",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "inputFields": null,
@@ -7407,6 +7425,89 @@
                             "isDeprecated": false,
                             "deprecationReason": null
                         }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "contactInfo",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "phoneNumber",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "infoUrl",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "bookingUrl",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                        
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "bookingInfo",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "message",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "contactInfo",
+                            "description": "Information about the contacts for booking",
+                            "args": [],
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "contactInfo",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        } 
                     ],
                     "inputFields": null,
                     "interfaces": [],
@@ -7900,6 +8001,18 @@
                         },
                         {
                             "name": "PICKUP",
+                            "description": "The user can be picked up by someone else riding a vehicle",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "EGRESS",
+                            "description": "The user can be picked up by someone else riding a vehicle",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "DIRECT",
                             "description": "The user can be picked up by someone else riding a vehicle",
                             "isDeprecated": false,
                             "deprecationReason": null

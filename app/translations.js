@@ -863,6 +863,7 @@ const translations = {
     'street-mode-public_transport': 'ÖPNV',
     'street-mode-walk': 'Zu Fuß',
     'street-mode-walk-aria': 'Zeige Fußweg. Dauer {duration}, Strecke {length}',
+    'street-mode-ondemandtaxi-aria': 'Zeige Ruftaxi. Dauer {duration}, Strecke {length}',
     subway: 'U-Bahn',
     'subway-with-route-number': 'U-Bahn {routeNumber} {headSign}',
     'summary-page.description': '{from} - {to}',
@@ -970,6 +971,7 @@ const translations = {
     yesterday: 'Gestern',
     zone: 'Tarifzone',
     zones: 'Tarifzonen',
+    'book-on-demand-taxi': 'Fahrt buchen'
   },
 
   en: {
@@ -1574,6 +1576,8 @@ const translations = {
     'street-mode-walk': 'Walking',
     'street-mode-walk-aria':
       'Show walking route. Duration {duration}, distance {length}',
+    'street-mode-ondemandtaxi-aria':
+      'Show on demand taxi route. Duration {duration}, distance {length}',
     // eslint-disable-next-line sort-keys
     street: 'Street',
     subway: 'Metro',
@@ -3732,6 +3736,7 @@ const translations = {
     yesterday: 'Ieri',
     zone: 'Zone',
     zones: 'Zone tarifare',
+    'book-on-demand-taxi': 'Book a ride'
   },
 
   sv: {

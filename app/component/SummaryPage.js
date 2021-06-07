@@ -126,7 +126,11 @@ export const getHashNumber = hash => {
 };
 
 export const routeSelected = (hash, secondHash, itineraries) => {
-  if (hash === 'bikeAndVehicle' || hash === 'parkAndRide') {
+  if (
+    hash === 'bikeAndVehicle' ||
+    hash === 'parkAndRide' ||
+    hash === 'onDemandTaxi'
+  ) {
     if (secondHash && secondHash < itineraries.length) {
       return true;
     }
@@ -535,6 +539,7 @@ class SummaryPage extends React.Component {
         $shouldMakeBikeQuery: Boolean!
         $shouldMakeCarQuery: Boolean!
         $shouldMakeParkRideQuery: Boolean!
+        $shouldMakeOnDemandTaxiQuery: Boolean!
         $showBikeAndPublicItineraries: Boolean!
         $showBikeAndParkItineraries: Boolean!
         $bikeAndPublicModes: [TransportMode!]
@@ -658,6 +663,68 @@ class SummaryPage extends React.Component {
                 }
               }
               distance
+            }
+          }
+        }
+
+        onDemandTaxiPlan: plan(
+          fromPlace: $fromPlace
+          toPlace: $toPlace
+          intermediatePlaces: $intermediatePlaces
+          numItineraries: 6
+          transportModes: [
+            { mode: RAIL }
+            { mode: FLEX, qualifier: EGRESS }
+            { mode: FLEX, qualifier: DIRECT }
+            { mode: WALK }
+          ]
+          date: $date
+          time: $time
+          walkReluctance: $walkReluctance
+          walkBoardCost: $walkBoardCost
+          minTransferTime: $minTransferTime
+          walkSpeed: $walkSpeed
+          maxWalkDistance: $bikeAndPublicMaxWalkDistance
+          allowedTicketTypes: $ticketTypes
+          disableRemainingWeightHeuristic: $bikeandPublicDisableRemainingWeightHeuristic
+          arriveBy: $arriveBy
+          transferPenalty: $transferPenalty
+          bikeSpeed: $bikeSpeed
+          optimize: $optimize
+          triangle: $triangle
+          itineraryFiltering: $itineraryFiltering
+          unpreferred: $unpreferred
+          locale: $locale
+        ) @include(if: $shouldMakeOnDemandTaxiQuery) {
+          ...SummaryPlanContainer_plan
+          ...ItineraryTab_plan
+          itineraries {
+            ...ItinerarySummaryListContainer_itineraries
+            duration
+            startTime
+            endTime
+            ...ItineraryTab_itinerary
+            ...SummaryPlanContainer_itineraries
+            legs {
+              mode
+              ...ItineraryLine_legs
+              transitLeg
+              rentedBike
+              distance
+              startTime
+              endTime
+              route {
+                url
+                mode
+                shortName
+              }
+              legGeometry {
+                points
+              }
+              trip {
+                gtfsId
+                tripShortName
+              }
             }
           }
         }
@@ -873,6 +940,7 @@ class SummaryPage extends React.Component {
             bikeParkPlan: result.bikeParkPlan,
             carPlan: result.carPlan,
             parkRidePlan: result.parkRidePlan,
+            onDemandTaxiPlan: result.onDemandTaxiPlan,
           },
           () => {
             this.makeWeatherQuery();
@@ -1398,6 +1466,7 @@ class SummaryPage extends React.Component {
         bikeParkPlan: undefined,
         carPlan: undefined,
         parkRidePlan: undefined,
+        onDemandTaxiPlan: undefined,
         earlierItineraries: [],
         laterItineraries: [],
         weatherData: {},
@@ -1861,7 +1930,13 @@ class SummaryPage extends React.Component {
 
   render() {
     const { match, error } = this.props;
-    const { walkPlan, bikePlan, carPlan, parkRidePlan } = this.state;
+    const {
+      walkPlan,
+      bikePlan,
+      carPlan,
+      parkRidePlan,
+      onDemandTaxiPlan,
+    } = this.state;
 
     let carLeg = null;
     const plan = this.props.viewer && this.props.viewer.plan;
@@ -1906,6 +1981,13 @@ class SummaryPage extends React.Component {
         return <Loading />;
       }
       this.selectedPlan = bikePlan;
+    } else if (this.props.match.params.hash === 'onDemandTaxi') {
+      this.stopClient();
+      if (!onDemandTaxiPlan) {
+        return <Loading />;
+      }
+
+      this.selectedPlan = onDemandTaxiPlan;
     } else if (this.props.match.params.hash === 'bikeAndVehicle') {
       if (
         !bikeAndPublicPlan ||
@@ -2020,12 +2102,16 @@ class SummaryPage extends React.Component {
       currentSettings.includeParkAndRideSuggestions &&
       hasParkAndRideItineraries;
 
+    const showOnDemandTaxiOptionButton = !isEmpty(
+      get(onDemandTaxiPlan, 'itineraries'),
+    );
     const showStreetModeSelector =
       (showWalkOptionButton ||
         showBikeOptionButton ||
         showBikeAndPublicOptionButton ||
         showCarOptionButton ||
-        showParkRideOptionButton) &&
+        showParkRideOptionButton ||
+        showOnDemandTaxiOptionButton) &&
       this.props.match.params.hash !== 'bikeAndVehicle';
 
     const hasItineraries =
@@ -2326,6 +2412,7 @@ class SummaryPage extends React.Component {
                   showBikeAndPublicOptionButton={showBikeAndPublicOptionButton}
                   showCarOptionButton={showCarOptionButton}
                   showParkRideOptionButton={showParkRideOptionButton}
+                  showOnDemandTaxiOptionButton={showOnDemandTaxiOptionButton}
                   toggleStreetMode={this.toggleStreetMode}
                   setStreetModeAndSelect={this.setStreetModeAndSelect}
                   weatherData={this.state.weatherData}
@@ -2335,6 +2422,7 @@ class SummaryPage extends React.Component {
                   bikeParkPlan={bikeParkPlan}
                   carPlan={carPlan}
                   parkRidePlan={parkRidePlan}
+                  onDemandTaxiPlan={onDemandTaxiPlan}
                   loading={
                     this.props.loading ||
                     this.state.isFetchingWalkAndBike ||

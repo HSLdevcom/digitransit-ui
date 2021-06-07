@@ -384,8 +384,16 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             name
           }
           carPark {
-            carParkId 
+            carParkId
             name
+          }
+        }
+        pickupBookingInfo {
+          message
+          contactInfo {
+            phoneNumber
+            infoUrl
+            bookingUrl
           }
         }
         legGeometry {

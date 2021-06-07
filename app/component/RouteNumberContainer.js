@@ -26,6 +26,9 @@ const RouteNumberContainer = (
       isCallAgency={isCallAgency || route.type === 715}
       color={route.color ? `#${route.color}` : null}
       mode={route.mode}
+      icon={
+        route.shortName?.startsWith('RT') ? 'icon-icon_on-demand-taxi' : null
+      }
       text={getText(route, config)}
       withBicycle={withBicycle}
       {...props}

@@ -2627,6 +2627,12 @@
                             "description": "WALK",
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "FLEX",
+                            "description": "FLEX",
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "possibleTypes": null
@@ -7806,6 +7812,16 @@
                         },
                         {
                             "name": "AIRPLANE",
+                            "description": "The weight of AIRPLANE traverse mode. Values over 1 add cost to airplane travel and values under 1 decrease cost",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Float",
+                                "ofType": null
+                            },
+                            "defaultValue": null
+                        },
+                        {
+                            "name": "FLEX",
                             "description": "The weight of AIRPLANE traverse mode. Values over 1 add cost to airplane travel and values under 1 decrease cost",
                             "type": {
                                 "kind": "SCALAR",

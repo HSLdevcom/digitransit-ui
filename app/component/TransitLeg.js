@@ -60,8 +60,8 @@ class TransitLeg extends React.Component {
 
   getZoneChange() {
     const { leg } = this.props;
-    const startZone = leg.from.stop.zoneId;
-    const endZone = leg.to.stop.zoneId;
+    const startZone = leg.from.stop?.zoneId;
+    const endZone = leg.to.stop?.zoneId;
     if (
       startZone !== endZone &&
       !this.state.showIntermediateStops &&
@@ -186,7 +186,7 @@ class TransitLeg extends React.Component {
             .format('HH:mm')}
         </span>,
       ];
-    const LegRouteName = leg.from.name.concat(' - ').concat(leg.to.name);
+    const LegRouteName = leg.from.name?.concat(' - ').concat(leg.to.name);
     const modeClassName = mode.toLowerCase();
 
     const textVersionBeforeLink = (
@@ -205,17 +205,17 @@ class TransitLeg extends React.Component {
           startStop: leg.from.name,
           startZoneInfo: intl.formatMessage(
             { id: 'zone-info' },
-            { zone: leg.from.stop.zoneId },
+            { zone: leg.from.stop?.zoneId },
           ),
           endZoneInfo: intl.formatMessage(
             { id: 'zone-info' },
-            { zone: leg.to.stop.zoneId },
+            { zone: leg.to.stop?.zoneId },
           ),
           endStop: leg.to.name,
           duration: durationToString(leg.duration * 1000),
           trackInfo: (
             <PlatformNumber
-              number={leg.from.stop.platformCode}
+              number={leg.from.stop?.platformCode}
               short={false}
               isRailOrSubway={
                 modeClassName === 'rail' || modeClassName === 'subway'
@@ -324,7 +324,7 @@ class TransitLeg extends React.Component {
                     name: mode,
                   });
                 }}
-                to={`/${PREFIX_STOPS}/${leg.from.stop.gtfsId}`}
+                to={`/${PREFIX_STOPS}/${leg.from.stop?.gtfsId}`}
               >
                 {leg.from.name}
                 <Icon
@@ -343,7 +343,7 @@ class TransitLeg extends React.Component {
               <div className="stop-code-container">
                 {this.stopCode(leg.from.stop && leg.from.stop.code)}
                 <PlatformNumber
-                  number={leg.from.stop.platformCode}
+                  number={leg.from.stop?.platformCode}
                   short
                   isRailOrSubway={
                     modeClassName === 'rail' || modeClassName === 'subway'
@@ -378,7 +378,7 @@ class TransitLeg extends React.Component {
                 e.stopPropagation();
               }}
               to={
-                `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${leg.trip.pattern.code}/${leg.trip.gtfsId}`
+                `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${leg.trip.pattern?.code}/${leg.trip.gtfsId}`
                 // TODO: Create a helper function for generationg links
               }
               aria-label={`${intl.formatMessage({
@@ -393,6 +393,11 @@ class TransitLeg extends React.Component {
                   color={leg.route ? `#${leg.route.color}` : 'currentColor'}
                   text={leg.route && leg.route.shortName}
                   realtime={false}
+                  icon={
+                    leg.route.shortName?.startsWith('RT')
+                      ? 'icon-icon_on-demand-taxi'
+                      : null
+                  }
                   withBar
                   fadeLong
                 />
@@ -400,6 +405,55 @@ class TransitLeg extends React.Component {
             </Link>
             <div className="headsign">{headsign}</div>
           </div>
+          {leg.pickupBookingInfo && (
+            <div>
+              <div className={`itinerary-alert-info ${mode.toLowerCase()}`}>
+                <ServiceAlertIcon
+                  className="inline-icon"
+                  severityLevel={AlertSeverityLevelType.Info}
+                />
+                <div>{leg.pickupBookingInfo.message}</div>
+                <div>
+                  <a
+                    href={leg.pickupBookingInfo.contactInfo.infoUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FormattedMessage
+                      id="extra-info"
+                      defaultMessage="More information"
+                    />
+                  </a>
+                </div>
+              </div>
+              {leg.pickupBookingInfo.contactInfo.phoneNumber && (
+                <div className="call-button">
+                  <a
+                    href={`tel:${leg.pickupBookingInfo.contactInfo.phoneNumber}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FormattedMessage id="call" defaultMessage="Call" />{' '}
+                    {leg.pickupBookingInfo.contactInfo.phoneNumber}
+                  </a>
+                </div>
+              )}
+              {leg.pickupBookingInfo.contactInfo.bookingUrl && (
+                <div className="call-button">
+                  <a
+                    href={leg.pickupBookingInfo.contactInfo.bookingUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FormattedMessage
+                      id="book-on-demand-taxi"
+                      defaultMessage="book a ride"
+                    />
+                  </a>
+                </div>
+              )}
+            </div>
+          )}
           {(alertSeverityLevel === AlertSeverityLevelType.Warning ||
             alertSeverityLevel === AlertSeverityLevelType.Severe ||
             alertSeverityLevel === AlertSeverityLevelType.Unknown) && (
@@ -515,6 +569,14 @@ TransitLeg.propTypes = {
       agency: PropTypes.shape({
         name: PropTypes.string,
         fareUrl: PropTypes.string,
+      }),
+    }),
+    pickupBookingInfo: PropTypes.shape({
+      message: PropTypes.string,
+      contactInfo: PropTypes.shape({
+        phoneNumber: PropTypes.string,
+        infoUrl: PropTypes.string,
+        bookingUrl: PropTypes.string,
       }),
     }),
     from: PropTypes.shape({

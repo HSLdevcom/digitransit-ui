@@ -190,6 +190,13 @@ const getShouldMakeCarQuery = (
   );
 };
 
+const getShouldMakeOnDemandTaxiQuery = time => {
+  const date = new Date(time * 1000);
+  return (
+    date.getHours() > 22 || (date.getHours() === 22 && date.getMinutes() > 0)
+  );
+};
+
 export const preparePlanParams = (config, useDefaultModes) => (
   { from, to },
   {
@@ -321,6 +328,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
       settings,
       defaultSettings,
     ),
+    shouldMakeOnDemandTaxiQuery: getShouldMakeOnDemandTaxiQuery(time),
     showBikeAndPublicItineraries:
       !wheelchair &&
       config.showBikeAndPublicItineraries &&
@@ -338,6 +346,12 @@ export const preparePlanParams = (config, useDefaultModes) => (
     bikeAndPublicModes: [
       { mode: 'BICYCLE' },
       ...modesAsOTPModes(getBicycleCompatibleModes(config, modesOrDefault)),
+    ],
+    onDemandTaxiModes: [
+      { mode: 'RAIL' },
+      { mode: 'FLEX', qualifier: 'EGRESS' },
+      { mode: 'FLEX', qualifier: 'DIRECT' },
+      { mode: 'WALK' },
     ],
     bikeParkModes: [
       { mode: 'BICYCLE', qualifier: 'PARK' },
