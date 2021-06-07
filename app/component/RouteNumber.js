@@ -68,7 +68,7 @@ function RouteNumber(props, context) {
           badgeFill={badgeFill}
           badgeText={badgeText}
           badgeTextFill={badgeTextFill}
-          color={subIcon ? 'white' : color}
+          color={mode === 'car' ? 'white' : ''}
           className={mode}
           img={icon || `icon-icon_${mode}`}
           subIcon=""
@@ -115,7 +115,7 @@ function RouteNumber(props, context) {
             )}
           </div>
         ) : (
-          <div className={`icon ${mode}`} style={subIcon && { width: '2em' }}>
+          <div className={`icon ${mode}`} style={{ width: '1em' }}>
             {getIcon(
               props.icon,
               props.isCallAgency,

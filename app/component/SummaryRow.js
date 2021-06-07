@@ -136,7 +136,7 @@ RouteLeg.defaultProps = {
 };
 
 export const ModeLeg = (
-  { leg, mode, large, legLength, duration, renderModeIcons, icon, subIcon },
+  { leg, mode, large, legLength, duration, renderModeIcons, icon },
   { config },
 ) => {
   let networkIcon;
@@ -160,7 +160,6 @@ export const ModeLeg = (
       vertical
       withBar
       icon={networkIcon || icon}
-      subIcon={subIcon}
       {...getLegBadgeProps(leg, config)}
     />
   );
@@ -366,14 +365,6 @@ const SummaryRow = (
         />,
       );
     } else if (leg.mode === 'CAR') {
-      let subIcon;
-
-      if (leg.to.carPark) {
-        subIcon = 'icon-icon_car';
-      } else if (leg.to.bikePark) {
-        subIcon = 'icon-icon_bike';
-      }
-
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
@@ -381,7 +372,6 @@ const SummaryRow = (
           mode="CAR"
           legLength={legLength}
           large={breakpoint === 'large'}
-          subIcon={subIcon}
           icon="icon-icon_car-withoutBox"
         />,
       );

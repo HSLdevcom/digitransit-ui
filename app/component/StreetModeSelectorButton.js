@@ -68,6 +68,18 @@ export const StreetModeSelectorButton = (
         metroColor = '#CA4000';
       }
     }
+  } else if (name === 'parkAndRide') {
+    const publicModes = plan.itineraries[0].legs.filter(
+      obj =>
+        obj.mode !== 'WALK' && obj.mode !== 'BICYCLE' && obj.mode !== 'CAR',
+    );
+    if (publicModes.length > 0) {
+      const firstMode = publicModes[0].mode.toLowerCase();
+      secondaryIcon = `icon-icon_${firstMode}`;
+      if (firstMode === 'subway') {
+        metroColor = '#CA4000';
+      }
+    }
   }
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events
