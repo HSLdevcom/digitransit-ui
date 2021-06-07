@@ -19,20 +19,17 @@ function SelectCityBikeRow({ selectRow, name, networks, id }, { config }) {
     <Link
       className="stop-popup-choose-row"
       to={`/${PREFIX_BIKESTATIONS}/${encodeURIComponent(id)}`}
+      onClick={selectRow}
     >
-      <div className="no-margin">
-        <div className="cursor-pointer select-row" onClick={selectRow}>
-          <div className="padding-vertical-normal select-row-icon">
-            <Icon img={img} />
-          </div>
-          <span className="choose-row-center-column">
-            <h5 className="choose-row-header">{name}</h5>
-          </span>
-          <span className="choose-row-right-column">
-            <Icon img="icon-icon_arrow-collapse--right" />
-          </span>
-        </div>
+      <div className="padding-vertical-normal select-row-icon">
+        <Icon img={img} />
       </div>
+      <span className="choose-row-center-column">
+        <h5 className="choose-row-header">{name || `Station - ${id}`}</h5>
+      </span>
+      <span className="choose-row-right-column">
+        <Icon img="icon-icon_arrow-collapse--right" />
+      </span>
     </Link>
   );
 }
