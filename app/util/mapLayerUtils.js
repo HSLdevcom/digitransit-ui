@@ -114,17 +114,21 @@ export const getMapLayerOptions = (options = {}) => {
     if (key === 'stop' || key === 'terminal') {
       if (modes.length === 0) {
         Object.keys(layerOptions[key]).forEach(subKey => {
-          layerOptions[key][subKey].isLocked = true;
-          layerOptions[key][subKey].isSelected = selectedMapLayers.includes(
-            key,
-          );
+          if (layerOptions[key][subKey]) {
+            layerOptions[key][subKey].isLocked = true;
+            layerOptions[key][subKey].isSelected = selectedMapLayers.includes(
+              key,
+            );
+          }
         });
       } else {
         modes.forEach(subKey => {
-          layerOptions[key][subKey].isLocked = true;
-          layerOptions[key][subKey].isSelected = selectedMapLayers.includes(
-            key,
-          );
+          if (layerOptions[key][subKey]) {
+            layerOptions[key][subKey].isLocked = true;
+            layerOptions[key][subKey].isSelected = selectedMapLayers.includes(
+              key,
+            );
+          }
         });
       }
     } else {
