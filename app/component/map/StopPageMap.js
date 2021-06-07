@@ -95,9 +95,7 @@ const StopPageMap = (
   const leafletObjs = [];
   const children = [];
   if (config.showVehiclesOnStopPage) {
-    leafletObjs.push(
-      <VehicleMarkerContainer key="vehicles" useLargeIcon ignoreMode />,
-    );
+    leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
   }
 
   if (breakpoint === 'large') {
@@ -194,17 +192,24 @@ const componentWithBreakpoint = withBreakpoint(StopPageMap);
 const StopPageMapWithStores = connectToStores(
   componentWithBreakpoint,
   [TimeStore, PositionStore, MapLayerStore],
-  ({ getStore }) => {
+  ({ config, getStore }, props) => {
     const currentTime = getStore(TimeStore).getCurrentTime().unix();
     const locationState = getStore(PositionStore).getLocationState();
-    const mapLayers = getStore(MapLayerStore).getMapLayers({
-      notThese: ['citybike', 'vehicles'],
-    });
+    const ml = config.showVehiclesOnStopPage ? { notThese: ['vehicles'] } : {};
+    if (props.citybike) {
+      ml.force = ['citybike']; // show always
+    } else {
+      ml.force = ['stop', 'terminal'];
+    }
+    const mapLayers = getStore(MapLayerStore).getMapLayers(ml);
     return {
       locationState,
       currentTime,
       mapLayers,
     };
+  },
+  {
+    config: PropTypes.object,
   },
 );
 

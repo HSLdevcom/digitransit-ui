@@ -195,7 +195,6 @@ StopCardHeader.contextTypes = {
         showDescription: PropTypes.bool,
         showDistance: PropTypes.bool,
         showStopCode: PropTypes.bool,
-        showZone: PropTypes.bool,
         virtualMonitorBaseUrl: PropTypes.string,
       }).isRequired,
     }).isRequired,

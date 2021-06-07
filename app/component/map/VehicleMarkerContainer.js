@@ -80,7 +80,7 @@ function VehicleMarkerContainer(containerProps) {
       }}
       zIndexOffset={10000}
       icon={getVehicleIcon(
-        containerProps.ignoreMode ? null : message.mode,
+        message.mode,
         message.heading,
         message.shortName ? message.shortName : message.route.split(':')[1],
         message.color,
@@ -94,7 +94,6 @@ VehicleMarkerContainer.propTypes = {
   tripStart: PropTypes.string,
   headsign: PropTypes.string,
   direction: PropTypes.number,
-  ignoreMode: PropTypes.bool,
   vehicles: PropTypes.objectOf(
     PropTypes.shape({
       direction: PropTypes.number,
@@ -120,9 +119,17 @@ const connectedComponent = connectToStores(
     const { vehicles, setVisibleVehicles } = context.getStore(
       'RealTimeInformationStore',
     );
+    let vehiclesFiltered = vehicles;
+    if (props.mode) {
+      const filtered = Object.entries(vehicles).filter(
+        ([, message]) =>
+          message.mode.toLowerCase() === props.mode.toLowerCase(),
+      );
+      vehiclesFiltered = Object.fromEntries(filtered);
+    }
     return {
       ...props,
-      vehicles,
+      vehicles: vehiclesFiltered,
       setVisibleVehicles,
     };
   },

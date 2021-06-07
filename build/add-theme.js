@@ -44,6 +44,7 @@ $link-color: $primary-color;
 /* Component palette */
 $desktop-title-color: $primary-color;
 $desktop-title-arrow-icon-color: $secondary-color;
+$top-bar-color: $primary-color;
 `;
 
 let textLogo;

@@ -29,6 +29,11 @@ class RoutePageMap extends React.Component {
     lon: PropTypes.number,
     breakpoint: PropTypes.string.isRequired,
     mapLayers: mapLayerShape.isRequired,
+    trip: PropTypes.shape({ gtfsId: PropTypes.string }),
+  };
+
+  static defaultProps = {
+    trip: null,
   };
 
   static contextTypes = {
@@ -107,10 +112,17 @@ class RoutePageMap extends React.Component {
       }
       mwtProps.bounds = this.bounds;
     }
-
+    const tripSelected =
+      this.props.trip && this.props.trip.gtfsId && isActiveDate(pattern);
     let tripStart;
     // BUG ??  tripStar prop is never set
-    const leafletObjs = [<RouteLine key="line" pattern={pattern} />];
+    const leafletObjs = [
+      <RouteLine
+        key="line"
+        pattern={pattern}
+        vehiclePosition={tripSelected ? { lat, lon } : null}
+      />,
+    ];
     if (isActiveDate(pattern)) {
       leafletObjs.push(
         <VehicleMarkerContainer

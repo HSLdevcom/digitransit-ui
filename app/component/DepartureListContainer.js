@@ -76,8 +76,6 @@ class DepartureListContainer extends Component {
 
   constructor(props) {
     super(props);
-    this.startClient = this.startClient.bind(this);
-    this.updateClient = this.updateClient.bind(this);
     this.pageLoadedAlertRef = React.createRef();
   }
 
@@ -200,6 +198,9 @@ class DepartureListContainer extends Component {
       (departure.trip && departure.trip.tripHeadsign) ||
       getHeadsignFromRouteLongName(departure.pattern.route);
 
+    if (headsign.endsWith(' via')) {
+      return headsign.substring(0, headsign.indexOf(' via'));
+    }
     return headsign;
   };
 

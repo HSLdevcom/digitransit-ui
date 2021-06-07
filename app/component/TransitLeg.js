@@ -31,6 +31,7 @@ import { isKeyboardSelectionEvent } from '../util/browser';
 import { shouldShowFareInfo } from '../util/fareUtils';
 import { AlertSeverityLevelType } from '../constants';
 import ZoneIcon from './ZoneIcon';
+import StopInfo from './StopInfo';
 
 class TransitLeg extends React.Component {
   constructor(props) {
@@ -58,13 +59,13 @@ class TransitLeg extends React.Component {
   };
 
   getZoneChange() {
-    const { leg } = this.props;
+    const { leg, nextInterliningLeg } = this.props;
     const startZone = leg.from.stop.zoneId;
-    const endZone = leg.to.stop.zoneId;
+    const endZone = nextInterliningLeg?.to?.stop.zoneId || leg.to.stop.zoneId;
     if (
       startZone !== endZone &&
       !this.state.showIntermediateStops &&
-      this.context.config.itinerary.showZoneLimits &&
+      this.context.config.zones.itinerary &&
       leg.from.stop.gtfsId &&
       this.context.config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0])
     ) {
@@ -82,7 +83,12 @@ class TransitLeg extends React.Component {
         </div>
       );
     }
-    if (startZone === endZone && this.context.config.itinerary.showZoneLimits) {
+    if (
+      startZone === endZone &&
+      this.context.config.zones.itinerary &&
+      leg.from.stop.gtfsId &&
+      this.context.config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0])
+    ) {
       return (
         <div className="time-column-zone-icons-container single">
           <ZoneIcon
@@ -96,12 +102,19 @@ class TransitLeg extends React.Component {
   }
 
   renderIntermediate() {
-    const { leg, mode } = this.props;
+    const { leg, mode, nextInterliningLeg } = this.props;
     if (
       leg.intermediatePlaces.length > 0 &&
       this.state.showIntermediateStops === true
     ) {
-      const stopList = leg.intermediatePlaces.map((place, i, array) => {
+      const places = leg.intermediatePlaces.slice();
+      if (this.props.nextInterliningLeg) {
+        places.push(
+          { ...leg.to, arrivalTime: leg.endTime },
+          ...this.props.nextInterliningLeg.intermediatePlaces,
+        );
+      }
+      const stopList = places.map((place, i, array) => {
         const isFirstPlace = i === 0;
         const isLastPlace = i === array.length - 1;
         const isCanceled = tripHasCancelationForStop(leg.trip, place.stop);
@@ -112,7 +125,8 @@ class TransitLeg extends React.Component {
         const currentZoneId = place.stop.zoneId;
         const nextZoneId =
           (array[i + 1] && array[i + 1].stop.zoneId) ||
-          (isLastPlace && leg.to.stop.zoneId);
+          (isLastPlace && nextInterliningLeg?.to?.stop.zoneId) ||
+          leg.to.stop.zoneId;
         const previousZoneIdDiffers =
           previousZoneId && previousZoneId !== currentZoneId;
         const nextZoneIdDiffers = nextZoneId && nextZoneId !== currentZoneId;
@@ -131,7 +145,7 @@ class TransitLeg extends React.Component {
               lat: place.stop.lat,
               lon: place.stop.lon,
             })}
-            showZoneLimits={this.context.config.itinerary.showZoneLimits}
+            showZoneLimits={this.context.config.zones.itinerary}
             showCurrentZoneDelimiter={previousZoneIdDiffers}
             previousZoneId={
               (isFirstPlace &&
@@ -161,7 +175,15 @@ class TransitLeg extends React.Component {
   }
 
   renderMain = () => {
-    const { children, focusAction, index, leg, mode, lang } = this.props;
+    const {
+      children,
+      focusAction,
+      index,
+      leg,
+      mode,
+      lang,
+      nextInterliningLeg,
+    } = this.props;
     const { config, intl } = this.context;
     const originalTime = leg.realTime &&
       leg.departureDelay &&
@@ -175,67 +197,6 @@ class TransitLeg extends React.Component {
       ];
     const LegRouteName = leg.from.name.concat(' - ').concat(leg.to.name);
     const modeClassName = mode.toLowerCase();
-    const StopInfo = ({ stops, leg: stopLeg, toggleFunction }) => {
-      const stopCount = (stops && stops.length) || 0;
-      const message = (this.state.showIntermediateStops && (
-        <FormattedMessage
-          id="itinerary-hide-stops"
-          defaultMessage="Hide stops"
-        />
-      )) || (
-        <FormattedMessage
-          id="number-of-intermediate-stops"
-          values={{
-            number: (stops && stops.length) || 0,
-          }}
-          defaultMessage="{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }"
-        />
-      );
-
-      return (
-        <div
-          role="button"
-          tabIndex="0"
-          className={cx('intermediate-stops-clickable', {
-            'cursor-pointer': stopCount > 0,
-          })}
-          onClick={e => {
-            e.stopPropagation();
-            if (stopCount > 0) {
-              toggleFunction();
-            }
-          }}
-          onKeyPress={e => {
-            if (isKeyboardSelectionEvent(e)) {
-              e.stopPropagation();
-              toggleFunction();
-            }
-          }}
-        >
-          <div
-            className={cx('intermediate-stop-info-container', {
-              open: this.state.showIntermediateStops,
-            })}
-          >
-            {stopCount === 0 ? (
-              <span className="intermediate-stop-no-stops">{message}</span>
-            ) : (
-              <span className="intermediate-stops-amount">{message}</span>
-            )}{' '}
-            <span className="intermediate-stops-duration" aria-hidden="true">
-              ({durationToString(stopLeg.duration * 1000)})
-            </span>
-            {stopCount !== 0 && (
-              <Icon
-                img="icon-icon_arrow-collapse--right"
-                className="itinerary-search-icon"
-                color={config.colors.primary}
-              />
-            )}
-          </div>
-        </div>
-      );
-    };
 
     const textVersionBeforeLink = (
       <FormattedMessage
@@ -311,18 +272,12 @@ class TransitLeg extends React.Component {
     const headsign =
       leg.trip.tripHeadsign || getHeadsignFromRouteLongName(leg.route);
 
-    const interLining = () => {
-      if (leg.interlineWithPreviousLeg && this.props.isNextLegInterlining) {
-        return 'interline-both';
-      }
-      if (this.props.isNextLegInterlining) {
-        return 'interline-bottom';
-      }
-      if (leg.interlineWithPreviousLeg) {
-        return 'interline-top';
-      }
-      return '';
-    };
+    let intermediateStopCount = leg.intermediatePlaces.length;
+    if (this.props.nextInterliningLeg) {
+      intermediateStopCount +=
+        this.props.nextInterliningLeg.intermediatePlaces.length + 1;
+    }
+
     return (
       <div key={index} className="row itinerary-row">
         <span className="sr-only">{textVersionBeforeLink}</span>
@@ -346,7 +301,6 @@ class TransitLeg extends React.Component {
           modeClassName={modeClassName}
           color={leg.route ? `#${leg.route.color}` : 'currentColor'}
           renderBottomMarker={!this.state.showIntermediateStops}
-          isInterlining={interLining()}
         />
         <div
           style={{
@@ -367,7 +321,6 @@ class TransitLeg extends React.Component {
           <div
             className={cx('itinerary-leg-first-row', 'transit', {
               first: index === 0,
-              interlining: leg.interlineWithPreviousLeg,
             })}
           >
             <div className="itinerary-leg-row">
@@ -406,16 +359,6 @@ class TransitLeg extends React.Component {
                   }
                 />
               </div>
-              {leg.interlineWithPreviousLeg && (
-                <div className="interline-info-container">
-                  <FormattedMessage
-                    id="itinerary-summary.interline-wait"
-                    values={{
-                      time: durationToString(this.props.interliningWait),
-                    }}
-                  />
-                </div>
-              )}
             </div>
             <div
               className="itinerary-map-action"
@@ -498,12 +441,47 @@ class TransitLeg extends React.Component {
               </div>
             </div>
           )}
+          {nextInterliningLeg ? (
+            <div className="interline-info-container">
+              <Icon img="icon-icon_wait" />
+              <FormattedMessage
+                id="itinerary-summary.interline-wait"
+                values={{
+                  shortName: (
+                    <span className="bold">
+                      {nextInterliningLeg.route.shortName}
+                    </span>
+                  ),
+                  destination: (
+                    <span className="bold">
+                      {nextInterliningLeg.trip.tripHeadsign ||
+                        getHeadsignFromRouteLongName(nextInterliningLeg.route)}
+                    </span>
+                  ),
+                  stop: leg.to.name,
+                  time: (
+                    <span className="bold">
+                      {durationToString(this.props.interliningWait)}
+                    </span>
+                  ),
+                }}
+              />
+            </div>
+          ) : (
+            <div className="divider" />
+          )}
           <LegAgencyInfo leg={leg} />
           <div>
             <StopInfo
               toggleFunction={this.toggleShowIntermediateStops}
               leg={leg}
-              stops={leg.intermediatePlaces}
+              intermediateStopCount={intermediateStopCount}
+              duration={
+                this.props.nextInterliningLeg
+                  ? this.props.nextInterliningLeg.endTime - leg.startTime
+                  : leg.duration * 1000
+              }
+              showIntermediateStops={this.state.showIntermediateStops}
             />
           </div>
           {leg.fare && leg.fare.isUnknown && shouldShowFareInfo(config) && (
@@ -589,6 +567,7 @@ TransitLeg.propTypes = {
       tripHeadsign: PropTypes.string.isRequired,
     }).isRequired,
     startTime: PropTypes.number.isRequired,
+    endTime: PropTypes.number,
     departureDelay: PropTypes.number,
     intermediatePlaces: PropTypes.arrayOf(
       PropTypes.shape({
@@ -603,9 +582,33 @@ TransitLeg.propTypes = {
     ).isRequired,
     interlineWithPreviousLeg: PropTypes.bool.isRequired,
   }).isRequired,
+  nextInterliningLeg: PropTypes.shape({
+    intermediatePlaces: PropTypes.arrayOf(
+      PropTypes.shape({
+        arrivalTime: PropTypes.number.isRequired,
+        stop: PropTypes.shape({
+          gtfsId: PropTypes.string.isRequired,
+          code: PropTypes.string,
+          platformCode: PropTypes.string,
+          zoneId: PropTypes.string,
+        }).isRequired,
+      }),
+    ).isRequired,
+    route: PropTypes.shape({
+      shortName: PropTypes.string,
+    }).isRequired,
+    trip: PropTypes.shape({
+      tripHeadsign: PropTypes.string.isRequired,
+    }).isRequired,
+    endTime: PropTypes.number.isRequired,
+    to: PropTypes.shape({
+      stop: PropTypes.shape({
+        zoneId: PropTypes.string,
+      }).isRequired,
+    }).isRequired,
+  }),
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
-  isNextLegInterlining: PropTypes.bool,
   interliningWait: PropTypes.number,
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
@@ -617,7 +620,6 @@ TransitLeg.contextTypes = {
   config: PropTypes.shape({
     itinerary: PropTypes.shape({
       delayThreshold: PropTypes.number,
-      showZoneLimits: PropTypes.bool,
     }).isRequired,
     showTicketInformation: PropTypes.bool,
   }).isRequired,

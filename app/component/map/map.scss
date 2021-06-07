@@ -248,6 +248,10 @@ div.leaflet-marker-icon.vehicle-icon {
   [role='button'] {
     max-height: 36px;
     max-width: 36px;
+    cursor: pointer;
+    &:hover {
+      background: #f4f4f4;
+    }
   }
 
   & > * {
@@ -377,6 +381,18 @@ div.leaflet-marker-icon.vehicle-icon {
     flex-direction: row;
     .zone-icon-container {
       margin-left: 6px;
+    }
+    .circle {
+      padding: 0px 3px 0px 2px;
+      &.A {
+        padding: 0px 3px 0px 3px;
+      }
+      &.B {
+        padding: 0px 3px 0px 2.5px;
+      }
+      &.D {
+        padding: 0px 3px 0px 3px;
+      }
     }
   }
 }
@@ -640,8 +656,11 @@ div.origin-popup {
 .map .legmarker {
   display: flex;
   align-items: center;
-  min-width: 40px;
+  min-width: 50px;
   height: 18px;
+  .wide {
+    min-width: 64px;
+  }
   &.speech-bubble.normal {
     background-color: transparent;
     div {

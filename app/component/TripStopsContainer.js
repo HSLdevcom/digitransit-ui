@@ -10,6 +10,7 @@ import RoutePageControlPanel from './RoutePageControlPanel';
 import { getStartTime } from '../util/timeUtils';
 import TripStopListContainer from './TripStopListContainer';
 import withBreakpoint from '../util/withBreakpoint';
+import ScrollableWrapper from './ScrollableWrapper';
 
 function TripStopsContainer({ breakpoint, match, trip, route }) {
   const [keepTracking, setTracking] = useState(true);
@@ -41,36 +42,40 @@ function TripStopsContainer({ breakpoint, match, trip, route }) {
   };
 
   return (
-    <div
-      className={cx(
-        'route-page-content',
-        'momentum-scroll',
-        {
-          'fullscreen-map': fullscreen && breakpoint !== 'large',
-        },
-        {
-          'bp-large': breakpoint === 'large',
-        },
-      )}
-      id="trip-route-page-content"
-      onScroll={debounce(handleScroll, 100, { leading: true })}
-    >
-      {route && route.patterns && (
-        <RoutePageControlPanel
-          match={match}
-          route={route}
-          breakpoint={breakpoint}
-        />
-      )}
-      <TripStopListContainer
-        key="list"
-        trip={trip}
-        tripStart={tripStartTime}
-        fullscreenMap={fullscreen}
-        keepTracking={keepTracking}
-        setHumanScrolling={setHumanScrolling}
-      />
-    </div>
+    <>
+      <ScrollableWrapper
+        className={cx(
+          'route-page-content',
+          {
+            'fullscreen-map': fullscreen && breakpoint !== 'large',
+          },
+          {
+            'bp-large': breakpoint === 'large',
+          },
+        )}
+      >
+        <div
+          id="trip-route-page-content"
+          onScroll={debounce(handleScroll, 40, { leading: true })}
+        >
+          {route && route.patterns && (
+            <RoutePageControlPanel
+              match={match}
+              route={route}
+              breakpoint={breakpoint}
+            />
+          )}
+          <TripStopListContainer
+            key="list"
+            trip={trip}
+            tripStart={tripStartTime}
+            fullscreenMap={fullscreen}
+            keepTracking={keepTracking}
+            setHumanScrolling={setHumanScrolling}
+          />
+        </div>
+      </ScrollableWrapper>
+    </>
   );
 }
 

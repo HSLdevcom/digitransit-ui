@@ -57,28 +57,19 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  mapLayers: {
-    tooltip: {
-      fi:
-        'Uutta! Saat nyt vyöhykkeet ja lähellä olevat bussit kartalle asetuksista.',
-      en:
-        'New! You can now get zones and nearby busses on the map from the settings.',
-      sv:
-        'Nytt! I inställningarna kan du nu välja att se zoner och närliggande bussar på kartan.',
-    },
-  },
-
   itinerary: {
-    showZoneLimits: true,
     // Number of days to include to the service time range from the future (DT-3175)
     serviceTimeRange: 60,
   },
 
   stopCard: {
     header: {
-      showZone: true,
       virtualMonitorBaseUrl: 'https://tremonitori.digitransit.fi/stop/',
     },
+  },
+  zones: {
+    stops: true,
+    itinerary: true,
   },
   showTicketInformation: true,
 
@@ -260,4 +251,6 @@ export default configMerger(walttiConfig, {
   // modes that should not coexist with BICYCLE mode
   // boarding a long distance train with bicycle costs extra
   modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'RAIL'],
+
+  showTenWeeksOnRouteSchedule: true,
 });

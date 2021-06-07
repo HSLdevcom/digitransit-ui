@@ -38,11 +38,6 @@ const smallIconSvg = `
 `;
 
 export default class CityBikeMarker extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
   static description = (
     <div>
       <p>Renders a citybike marker</p>
@@ -89,9 +84,9 @@ export default class CityBikeMarker extends React.Component {
     const { showBikeAvailability, station, transit } = this.props;
     const { config } = this.context;
 
-    const iconName = getCityBikeNetworkIcon(
+    const iconName = `${getCityBikeNetworkIcon(
       getCityBikeNetworkConfig(getCityBikeNetworkId(station.networks), config),
-    );
+    )}-lollipop`;
 
     return !transit && zoom <= config.stopsSmallMaxZoom
       ? L.divIcon({
@@ -100,6 +95,7 @@ export default class CityBikeMarker extends React.Component {
           className: 'citybike cursor-pointer',
         })
       : L.divIcon({
+          iconAnchor: [15, 40],
           html: showBikeAvailability
             ? Icon.asString({
                 img: iconName,

@@ -306,7 +306,6 @@ class SummaryPage extends React.Component {
       bikePlan: undefined,
       bikeAndPublicPlan: undefined,
       bikeParkPlan: undefined,
-      scrolled: false,
       loadingMoreItineraries: undefined,
       isFetchingWalkAndBike: true,
     };
@@ -1657,6 +1656,7 @@ class SummaryPage extends React.Component {
     const now = moment();
     const startTime = moment.unix(this.props.match.location.query.time);
     const diff = now.diff(startTime, 'minutes');
+    const { hash } = this.props.match.params;
 
     // Vehicles are typically not shown if they are not in transit. But for some quirk in mqtt, if you
     // search for a route for example tomorrow, real time vehicle would be shown.
@@ -1664,20 +1664,13 @@ class SummaryPage extends React.Component {
       (diff <= this.show_vehicles_threshold_minutes && diff >= 0) ||
       (diff >= -1 * this.show_vehicles_threshold_minutes && diff <= 0);
 
-    return (
+    return !!(
       this.inRange &&
-      this.context.config.showNewMqtt &&
       this.context.config.showVehiclesOnSummaryPage &&
-      (this.props.breakpoint === 'large' || this.props.match.params.hash)
+      hash !== 'walk' &&
+      hash !== 'bike' &&
+      (this.props.breakpoint === 'large' || hash)
     );
-  };
-
-  handleScroll = event => {
-    const { scrollTop } = event.target;
-    const scrolled = scrollTop > 0;
-    if (scrolled !== this.state.scrolled) {
-      this.setState({ scrolled });
-    }
   };
 
   getCombinedItineraries = () => {
@@ -2144,8 +2137,6 @@ class SummaryPage extends React.Component {
             </SettingsDrawer>
           }
           map={map}
-          scrolled={this.state.scrolled}
-          onScroll={this.handleScroll}
           scrollable
         />
       );
@@ -2322,7 +2313,7 @@ const SummaryPageWithStores = connectToStores(
   ['MapLayerStore'],
   ({ getStore }) => ({
     mapLayers: getStore('MapLayerStore').getMapLayers({
-      notThese: ['stop', 'citybike'],
+      notThese: ['stop', 'citybike', 'vehicles'],
     }),
   }),
 );

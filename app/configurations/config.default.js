@@ -78,8 +78,6 @@ export default {
   realTime: realtime,
   realTimePatch: REALTIME_PATCH,
 
-  showNewMqtt: !process.env.DISABLE_NEW_MQTT_FEATURES,
-
   // Google Tag Manager id
   GTMid: process.env.GTM_ID || null,
 
@@ -161,6 +159,8 @@ export default {
     'Europe/Helsinki|EET EEST|-20 -30|0101010101010101010101010101010101010|22k10 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00|12e5',
 
   allowLogin: false,
+  allowFavouritesFromLocalstorage: true,
+
   mainMenu: {
     // Whether to show the left menu toggle button at all
     show: true,
@@ -181,8 +181,6 @@ export default {
     timeNavigation: {
       enableButtonArrows: false,
     },
-
-    showZoneLimits: false,
     // Number of days to include to the service time range from the future (DT-3317)
     serviceTimeRange: 30,
   },
@@ -242,7 +240,6 @@ export default {
       showDescription: true,
       showStopCode: true,
       showDistance: true,
-      showZone: false,
     },
   },
 
@@ -674,6 +671,7 @@ export default {
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
     matka: 'matka',
+    vaasa: 'vaasa',
     walttiOpas: 'waltti',
     rovaniemi: 'rovaniemi',
     kouvola: 'kouvola',
@@ -709,12 +707,16 @@ export default {
   showNearYouButtons: false,
   nearYouModes: [],
 
-  zoneIconsAsSvg: false,
-
   /* Option to disable the "next" column of the Route panel as it can be confusing sometimes: https://github.com/mfdz/digitransit-ui/issues/167 */
   displayNextDeparture: true,
 
   messageBarAlerts: false,
 
   availableTickets: {},
+  zones: {
+    stops: false,
+    itinerary: false,
+  },
+
+  viaPointsEnabled: true,
 };

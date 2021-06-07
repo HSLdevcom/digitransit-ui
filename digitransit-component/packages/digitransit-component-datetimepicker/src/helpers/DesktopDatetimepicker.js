@@ -97,6 +97,10 @@ function DesktopDatetimepicker({
               if (validated !== null) {
                 handleTimestamp(validated);
                 setTyping(false);
+              } else {
+                // reset value
+                changeDisplayValue(getDisplay(value));
+                setTyping(false);
               }
               return;
             }
@@ -117,6 +121,19 @@ function DesktopDatetimepicker({
           onFocus={e => {
             if (!disableTyping) {
               e.target.select();
+            }
+          }}
+          onBlur={() => {
+            // removing focus also locks in value
+            if (typing) {
+              const validated = validate(displayValue, value);
+              if (validated !== null) {
+                handleTimestamp(validated);
+                setTyping(false);
+              } else {
+                changeDisplayValue(getDisplay(value));
+                setTyping(false);
+              }
             }
           }}
           onKeyDown={e => {

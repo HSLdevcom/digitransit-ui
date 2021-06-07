@@ -9,6 +9,7 @@ import RoutePageControlPanel from './RoutePageControlPanel';
 import { isBrowser } from '../util/browser';
 import { PREFIX_ROUTES } from '../util/path';
 import Error404 from './404';
+import ScrollableWrapper from './ScrollableWrapper';
 
 class PatternStopsContainer extends React.PureComponent {
   static propTypes = {
@@ -58,29 +59,34 @@ class PatternStopsContainer extends React.PureComponent {
       this.props.match.location.state.fullscreenMap &&
       this.props.breakpoint !== 'large'
     ) {
-      return <div className="route-page-content" />;
+      return (
+        <>
+          <div className="route-page-content" />
+        </>
+      );
     }
 
     return (
-      <div
-        className={cx('route-page-content', 'momentum-scroll', {
-          'bp-large': this.props.breakpoint === 'large',
-        })}
-        role="list"
-      >
-        {this.props.route && this.props.route.patterns && (
-          <RoutePageControlPanel
-            match={this.props.match}
-            route={this.props.route}
-            breakpoint={this.props.breakpoint}
+      <>
+        <ScrollableWrapper
+          className={cx('route-page-content', {
+            'bp-large': this.props.breakpoint === 'large',
+          })}
+        >
+          {this.props.route && this.props.route.patterns && (
+            <RoutePageControlPanel
+              match={this.props.match}
+              route={this.props.route}
+              breakpoint={this.props.breakpoint}
+            />
+          )}
+          <RouteStopListContainer
+            key="list"
+            pattern={this.props.pattern}
+            patternId={this.props.pattern.code}
           />
-        )}
-        <RouteStopListContainer
-          key="list"
-          pattern={this.props.pattern}
-          patternId={this.props.pattern.code}
-        />
-      </div>
+        </ScrollableWrapper>
+      </>
     );
   }
 }

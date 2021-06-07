@@ -7,19 +7,22 @@ const APP_DESCRIPTION = 'Uusi Reittiopas - Waltti-opas';
 
 const walttiConfig = require('./config.waltti').default;
 
-const API_URL = process.env.API_URL || 'https://api.digitransit.fi';
+const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
+const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v1/routers/next-waltti/`
 
 export default configMerger(walttiConfig, {
   CONFIG,
 
   URL: {
-    OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/next-waltti/`,
+    OTP: OTP_URL,
+    STOP_MAP: `${OTP_URL}vectorTiles/stops,stations/`,
   },
 
   appBarLink: { name: 'Waltti', href: 'https://waltti.fi/' },
 
   colors: {
     primary: '#F16522',
+    topBarColor: '#FFC439',
     iconColors: {
       'mode-bus': '#F16522',
     },
@@ -137,4 +140,6 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
+
+  viaPointsEnabled: false,
 });

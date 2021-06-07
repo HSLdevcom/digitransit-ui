@@ -52,9 +52,6 @@ const handleStopsAndStations = edges => {
 const startClient = (context, routes) => {
   const { realTime } = context.config;
   let agency;
-  if (!context.config.showNewMqtt) {
-    return;
-  }
   /* handle multiple feedid case */
   context.config.feedIds.forEach(ag => {
     if (!agency && realTime[ag]) {
@@ -341,7 +338,9 @@ function StopsNearYouMap(
   }
 
   if (uniqueRealtimeTopics.length > 0) {
-    leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
+    leafletObjs.push(
+      <VehicleMarkerContainer key="vehicles" useLargeIcon mode={mode} />,
+    );
   }
   if (
     firstPlan.itinerary.itineraries &&

@@ -58,7 +58,7 @@ function CityBikeLeg(
       <div className="itinerary-leg-row-bike">{legDescription}</div>
       <div className="itinerary-transit-leg-route-bike">
         <div className="citybike-itinerary">
-          <span className={cx('citybike-icon', { small: mobileReturn })}>
+          <div className={cx('citybike-icon', { small: mobileReturn })}>
             <Icon
               img={citybikeicon}
               width={1.655}
@@ -71,19 +71,21 @@ function CityBikeLeg(
               badgeFill={availabilityIndicatorColor}
               badgeTextFill={availabilityTextColor}
             />
-          </span>
-          <span className="headsign"> {stationName}</span>
-          <span className="citybike-station-text">
-            {intl.formatMessage({
-              id: 'citybike-station-no-id',
-              defaultMessage: 'Bike station',
-            })}
-            <span className="itinerary-stop-code">
-              {bikeRentalStation.stationId}
+          </div>
+          <div className="citybike-itinerary-text-container">
+            <span className="headsign"> {stationName}</span>
+            <span className="citybike-station-text">
+              {intl.formatMessage({
+                id: 'citybike-station-no-id',
+                defaultMessage: 'Bike station',
+              })}
+              <span className="itinerary-stop-code">
+                {bikeRentalStation.stationId}
+              </span>
             </span>
-          </span>
+          </div>
         </div>
-        <span className="link-to-stop">
+        <div className="link-to-stop">
           <Link to={`/${PREFIX_BIKESTATIONS}/${bikeRentalStation.stationId}`}>
             <Icon
               img="icon-icon_arrow-collapse--right"
@@ -92,7 +94,7 @@ function CityBikeLeg(
               width={1.3}
             />
           </Link>
-        </span>
+        </div>
       </div>
     </>
   );

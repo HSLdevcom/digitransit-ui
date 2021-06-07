@@ -165,12 +165,8 @@ export default configMerger(walttiConfig, {
     1: 'A',
     2: 'B',
   },
-  itinerary: {
-    showZoneLimits: true,
-  },
-  stopCard: {
-    header: {
-      showZone: true,
-    },
+  zones: {
+    stops: true,
+    itinerary: true,
   },
 });

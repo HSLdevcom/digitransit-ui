@@ -110,14 +110,15 @@ class ItineraryLegs extends React.Component {
       const startTime = (previousLeg && previousLeg.endTime) || leg.startTime;
 
       const interliningWait = () => {
-        if (leg.interlineWithPreviousLeg) {
-          return leg.startTime - previousLeg.endTime;
+        if (nextLeg?.interlineWithPreviousLeg) {
+          return nextLeg.startTime - leg.endTime;
         }
         return undefined;
       };
       const isNextLegInterlining = nextLeg
         ? nextLeg.interlineWithPreviousLeg
         : false;
+      const nextInterliningLeg = isNextLegInterlining ? nextLeg : undefined;
       if (leg.mode !== 'WALK' && isCallAgencyPickupType(leg)) {
         legs.push(
           <CallAgencyLeg
@@ -148,53 +149,53 @@ class ItineraryLegs extends React.Component {
             {this.stopCode(leg.from.stop)}
           </WalkLeg>,
         );
-      } else if (leg.mode === 'BUS') {
+      } else if (leg.mode === 'BUS' && !leg.interlineWithPreviousLeg) {
         legs.push(
           <BusLeg
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            isNextLegInterlining={isNextLegInterlining}
+            nextInterliningLeg={nextInterliningLeg}
             focusAction={this.focus(leg.from)}
           />,
         );
-      } else if (leg.mode === 'TRAM') {
+      } else if (leg.mode === 'TRAM' && !leg.interlineWithPreviousLeg) {
         legs.push(
           <TramLeg
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            isNextLegInterlining={isNextLegInterlining}
+            nextInterliningLeg={nextInterliningLeg}
             focusAction={this.focus(leg.from)}
           />,
         );
-      } else if (leg.mode === 'FERRY') {
+      } else if (leg.mode === 'FERRY' && !leg.interlineWithPreviousLeg) {
         legs.push(
           <FerryLeg
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            isNextLegInterlining={isNextLegInterlining}
+            nextInterliningLeg={nextInterliningLeg}
             focusAction={this.focus(leg.from)}
           />,
         );
-      } else if (leg.mode === 'RAIL') {
+      } else if (leg.mode === 'RAIL' && !leg.interlineWithPreviousLeg) {
         legs.push(
           <RailLeg
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            isNextLegInterlining={isNextLegInterlining}
+            nextInterliningLeg={nextInterliningLeg}
             focusAction={this.focus(leg.from)}
           />,
         );
-      } else if (leg.mode === 'SUBWAY') {
+      } else if (leg.mode === 'SUBWAY' && !leg.interlineWithPreviousLeg) {
         legs.push(
           <SubwayLeg
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            isNextLegInterlining={isNextLegInterlining}
+            nextInterliningLeg={nextInterliningLeg}
             focusAction={this.focus(leg.from)}
           />,
         );
@@ -250,7 +251,8 @@ class ItineraryLegs extends React.Component {
           waitTime > waitThresholdInMs &&
           (nextLeg != null ? nextLeg.mode : null) !== 'AIRPLANE' &&
           leg.mode !== 'AIRPLANE' &&
-          !nextLeg.intermediatePlace
+          !nextLeg.intermediatePlace &&
+          !isNextLegInterlining
         ) {
           legs.push(
             <WaitLeg

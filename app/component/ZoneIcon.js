@@ -41,7 +41,11 @@ const ZoneIcon = ({ className, zoneId, showUnknown }, { config, intl }) => {
       {!zoneUnknown && (
         <div
           aria-hidden
-          className={cx('circle', { 'multi-letter': zoneId.length > 1 })}
+          className={cx(
+            'circle',
+            { 'multi-letter': zoneId.length > 1 },
+            zoneId,
+          )}
         >
           {zoneId}
         </div>

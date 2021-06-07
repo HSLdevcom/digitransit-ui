@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable no-param-reassign */
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import moment from 'moment';
@@ -11,7 +11,6 @@ import sortBy from 'lodash/sortBy';
 import cx from 'classnames';
 import { dayRangePattern } from '@digitransit-util/digitransit-util';
 import { getTranslatedDayString } from '@digitransit-util/digitransit-util-route-pattern-option-text';
-import pure from 'recompose/pure';
 import RouteScheduleHeader from './RouteScheduleHeader';
 import RouteScheduleTripRow from './RouteScheduleTripRow';
 import SecondaryButton from './SecondaryButton';
@@ -25,6 +24,7 @@ import RouteScheduleDropdown from './RouteScheduleDropdown';
 import RoutePageControlPanel from './RoutePageControlPanel';
 import { PREFIX_ROUTES, PREFIX_TIMETABLE } from '../util/path';
 import { isBrowser } from '../util/browser';
+import ScrollableWrapper from './ScrollableWrapper';
 
 const DATE_FORMAT2 = 'D.M.YYYY';
 
@@ -34,7 +34,7 @@ const isTripCanceled = trip =>
     .map(key => trip.stoptimes[key])
     .every(st => st.realtimeState === RealtimeStateType.Canceled);
 
-class RouteScheduleContainer extends Component {
+class RouteScheduleContainer extends PureComponent {
   static transformTrips(trips, stops) {
     if (trips == null) {
       return null;
@@ -52,11 +52,13 @@ class RouteScheduleContainer extends Component {
   }
 
   static propTypes = {
-    pattern: PropTypes.object.isRequired,
     serviceDay: PropTypes.string,
+    firstDepartures: PropTypes.object.isRequired,
+    pattern: PropTypes.object.isRequired,
     match: matchShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
-    firstDepartures: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
+    route: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -72,9 +74,19 @@ class RouteScheduleContainer extends Component {
 
   state = {
     from: 0,
-    to: this.props.pattern?.stops.length - 1 || undefined,
+    to: this.props.pattern.stops.length - 1 || undefined,
     serviceDay: this.props.serviceDay,
     hasLoaded: false,
+  };
+
+  hasMergedData = false;
+
+  componentDidMount = () => {
+    const { match } = this.props;
+    const date = moment(match.location.query.serviceDay, 'YYYYMMDD', true);
+    if (date.isBefore(moment())) {
+      match.router.replace(decodeURIComponent(match.location.pathname));
+    }
   };
 
   onFromSelectChange = selectFrom => {
@@ -100,10 +112,10 @@ class RouteScheduleContainer extends Component {
     });
   };
 
-  getTrips = (from, to) => {
-    const { stops } = this.props.pattern;
+  getTrips = (currentPattern, from, to) => {
+    const { stops } = currentPattern;
     const trips = RouteScheduleContainer.transformTrips(
-      this.props.pattern.tripsForDate,
+      currentPattern.trips,
       stops,
     );
     if (trips !== null && !this.state.hasLoaded) {
@@ -138,7 +150,7 @@ class RouteScheduleContainer extends Component {
 
       return (
         <RouteScheduleTripRow
-          key={trip.id}
+          key={`${trip.id}-${departureTime}`}
           departureTime={departureTime}
           arrivalTime={arrivalTime}
           isCanceled={isTripCanceled(trip)}
@@ -150,6 +162,14 @@ class RouteScheduleContainer extends Component {
   formatTime = timestamp => moment(timestamp * 1000).format('HH:mm');
 
   changeDate = newServiceDay => {
+    // Don't set past dates because we have no data from them
+    if (moment(newServiceDay).isBefore(moment())) {
+      if (this.hasMergedData) {
+        newServiceDay = moment(newServiceDay).add(7, 'd').format(DATE_FORMAT);
+      } else {
+        newServiceDay = moment().format(DATE_FORMAT);
+      }
+    }
     addAnalyticsEvent({
       category: 'Route',
       action: 'ChangeTimetableDay',
@@ -205,19 +225,20 @@ class RouteScheduleContainer extends Component {
 
   modifyDepartures = departures => {
     if (departures) {
+      const departuresCount = Object.entries(departures).length;
       const modifiedDepartures = [];
-      for (let z = 1; z <= 5; z++) {
+      for (let z = 1; z <= departuresCount / 7; z++) {
         let sortedData = [];
         // eslint-disable-next-line no-restricted-syntax
         for (const [key, value] of Object.entries(departures)) {
-          if (key.indexOf(`wk${z}`) !== -1) {
+          const lengthToCheck = `${z}`.length + 5;
+          if (key.length === lengthToCheck && key.indexOf(`wk${z}`) !== -1) {
             sortedData = {
               ...sortedData,
               [key]: sortBy(value, 'departureStoptime.scheduledDeparture'),
             };
           }
         }
-
         const obj = Object.values(sortedData);
         const result = Object.values(
           obj.reduce((c, v, i) => {
@@ -312,7 +333,11 @@ class RouteScheduleContainer extends Component {
               '--totalCount': `${count}`,
             }}
           >
-            {getTranslatedDayString('fi', dayRangePattern(tab.split('')), true)}
+            {getTranslatedDayString(
+              this.context.intl.locale,
+              dayRangePattern(tab.split('')),
+              true,
+            )}
           </button>
         );
       });
@@ -328,13 +353,16 @@ class RouteScheduleContainer extends Component {
     return '';
   };
 
-  populateData = (wantedDay, departures) => {
+  populateData = (wantedDayIn, departures) => {
+    const departureCount = departures.filter(d => d.length > 0).length;
+    const wantedDay = wantedDayIn || moment();
     const startOfWeek = moment().startOf('isoWeek');
-    const weekStarts = [];
-    const weekEnds = [];
-    const days = [];
+    const today = moment();
+    const weekStarts = [today.format(DATE_FORMAT)];
+    const weekEnds = [startOfWeek.clone().endOf('isoWeek').format(DATE_FORMAT)];
+    const days = [[]];
     const indexToRemove = [];
-    for (let x = 0; x < 5; x++) {
+    for (let x = 1; x < departures.length; x++) {
       weekStarts.push(startOfWeek.clone().add(x, 'w').format(DATE_FORMAT));
       weekEnds.push(
         startOfWeek.clone().endOf('isoWeek').add(x, 'w').format(DATE_FORMAT),
@@ -397,14 +425,16 @@ class RouteScheduleContainer extends Component {
         startOfWeek.format(DATE_FORMAT) ===
         moment(w).startOf('isoWeek').format(DATE_FORMAT);
       const timeRangeStart =
-        moment(w).format('E') <= firstServiceDay[0] && (isSameWeek || idx === 0)
+        moment(w).format('E') <= firstServiceDay[0] &&
+        departureCount === 1 &&
+        (isSameWeek || idx === 0)
           ? moment(w)
               .clone()
               .add(firstServiceDay[0] - 1, 'd')
               .format(DATE_FORMAT2)
           : moment(w).format(DATE_FORMAT2);
       const timeRange =
-        days.length === 1 && days[idx].length === 1
+        days.length === 1 && days[idx][0].length === 1 && wantedDayIn
           ? wantedDay.format(DATE_FORMAT2)
           : `${timeRangeStart} - ${moment(weekEnds[idx]).format(DATE_FORMAT2)}`;
       if (
@@ -442,6 +472,7 @@ class RouteScheduleContainer extends Component {
   render() {
     const { query } = this.props.match.location;
     const { intl } = this.context;
+    this.hasMergedData = false;
 
     if (!this.props.pattern) {
       if (isBrowser) {
@@ -462,14 +493,38 @@ class RouteScheduleContainer extends Component {
       query.serviceDay &&
       moment(query.serviceDay, 'YYYYMMDD', true).isValid()
         ? moment(query.serviceDay)
-        : moment();
+        : undefined;
 
     const newFromTo = [this.state.from, this.state.to];
 
-    const routeIdSplitted = this.props.pattern.route.gtfsId.split(':');
-    const firstDepartures = this.modifyDepartures(this.props.firstDepartures);
-    const data = this.populateData(wantedDay, firstDepartures);
+    const currentPattern = this.props.route.patterns.filter(
+      p => p.code === this.props.pattern.code,
+    );
 
+    const firstDepartures = this.modifyDepartures(this.props.firstDepartures);
+
+    // If we are missing data from the start of the week, see if we can merge it with next week
+    if (this.props.firstDepartures.wk1mon.length === 0) {
+      const [thisWeekData, nextWeekData] = firstDepartures;
+      const thisWeekHashes = [];
+      const nextWeekHashes = [];
+      for (let i = 0; i < thisWeekData.length; i++) {
+        thisWeekHashes.push(thisWeekData[i][1]);
+      }
+      for (let i = 0; i < nextWeekData.length; i++) {
+        nextWeekHashes.push(nextWeekData[i][1]);
+      }
+
+      // If this weeks data is a subset of next weeks data, merge them
+      if (thisWeekHashes.every(hash => nextWeekHashes.includes(hash))) {
+        // eslint-disable-next-line prefer-destructuring
+        firstDepartures[0] = firstDepartures[1];
+        this.hasMergedData = true;
+      }
+    }
+
+    const data = this.populateData(wantedDay, firstDepartures);
+    const routeIdSplitted = this.props.match.params.routeId.split(':');
     const routeTimetableHandler = routeIdSplitted
       ? this.context.config.timetables &&
         this.context.config.timetables[routeIdSplitted[0]]
@@ -480,10 +535,14 @@ class RouteScheduleContainer extends Component {
       this.context.config.URL.ROUTE_TIMETABLES[routeIdSplitted[0]] &&
       routeTimetableHandler.timetableUrlResolver(
         this.context.config.URL.ROUTE_TIMETABLES[routeIdSplitted[0]],
-        this.props.pattern.route,
+        this.props.route,
       );
 
-    const showTrips = this.getTrips(newFromTo[0], newFromTo[1]);
+    const showTrips = this.getTrips(
+      currentPattern[0],
+      newFromTo[0],
+      newFromTo[1],
+    );
 
     if (!this.state.hasLoaded) {
       return (
@@ -494,18 +553,19 @@ class RouteScheduleContainer extends Component {
     }
     return (
       <>
-        <div
-          className={`route-schedule-container momentum-scroll ${
+        <ScrollableWrapper
+          className={`route-schedule-container ${
             this.props.breakpoint !== 'large' ? 'mobile' : ''
           }`}
-          role="list"
         >
-          <RoutePageControlPanel
-            match={this.props.match}
-            route={this.props.pattern.route}
-            breakpoint={this.props.breakpoint}
-            noInitialServiceDay
-          />
+          {this.props.route && this.props.route.patterns && (
+            <RoutePageControlPanel
+              match={this.props.match}
+              route={this.props.route}
+              breakpoint={this.props.breakpoint}
+              noInitialServiceDay
+            />
+          )}
           <div className="route-schedule-ranges">
             <span className="current-range">{data[2][0]}</span>
             <div className="other-ranges-dropdown">
@@ -547,7 +607,7 @@ class RouteScheduleContainer extends Component {
               </div>
             </div>
           )}
-        </div>
+        </ScrollableWrapper>
         <div className="route-page-action-bar">
           <div className="print-button-container">
             {routeTimetableUrl && (
@@ -587,25 +647,46 @@ class RouteScheduleContainer extends Component {
   }
 }
 
-const pureComponent = pure(withBreakpoint(RouteScheduleContainer));
-const containerComponent = createFragmentContainer(pureComponent, {
-  pattern: graphql`
-    fragment RouteScheduleContainer_pattern on Pattern
-    @argumentDefinitions(
-      serviceDay: { type: "String!", defaultValue: "19700101" }
-    ) {
-      code
-      stops {
+const containerComponent = createFragmentContainer(
+  withBreakpoint(RouteScheduleContainer),
+  {
+    pattern: graphql`
+      fragment RouteScheduleContainer_pattern on Pattern {
         id
-        name
+        code
+        stops {
+          id
+          name
+        }
       }
-      route {
-        url
+    `,
+    route: graphql`
+      fragment RouteScheduleContainer_route on Route
+      @argumentDefinitions(
+        date: { type: "String" }
+        serviceDate: { type: "String" }
+      ) {
         gtfsId
+        color
         shortName
         longName
         mode
         type
+        ...RouteAgencyInfo_route
+        ...RoutePatternSelect_route @arguments(date: $date)
+        alerts {
+          alertSeverityLevel
+          effectiveEndDate
+          effectiveStartDate
+          trip {
+            pattern {
+              code
+            }
+          }
+        }
+        agency {
+          phone
+        }
         patterns {
           headsign
           code
@@ -613,10 +694,34 @@ const containerComponent = createFragmentContainer(pureComponent, {
             id
             gtfsId
             code
-            name
+            alerts {
+              id
+              alertDescriptionText
+              alertHash
+              alertHeaderText
+              alertSeverityLevel
+              alertUrl
+              effectiveEndDate
+              effectiveStartDate
+              alertDescriptionTextTranslations {
+                language
+                text
+              }
+              alertHeaderTextTranslations {
+                language
+                text
+              }
+              alertUrlTranslations {
+                language
+                text
+              }
+            }
           }
-          trips: tripsForDate(serviceDate: $date) {
-            stoptimes: stoptimesForDate(serviceDate: $date) {
+          trips: tripsForDate(serviceDate: $serviceDate) {
+            stoptimes: stoptimesForDate(serviceDate: $serviceDate) {
+              stop {
+                id
+              }
               realtimeState
               scheduledArrival
               scheduledDeparture
@@ -629,236 +734,470 @@ const containerComponent = createFragmentContainer(pureComponent, {
           }
         }
       }
-      tripsForDate(serviceDate: $serviceDay) {
-        id
-        stoptimes: stoptimesForDate(serviceDate: $serviceDay) {
-          realtimeState
-          scheduledArrival
-          scheduledDeparture
-          serviceDay
-          stop {
-            id
+    `,
+    firstDepartures: graphql`
+      fragment RouteScheduleContainer_firstDepartures on Pattern
+      @argumentDefinitions(
+        showTenWeeks: { type: "Boolean!", defaultValue: false }
+        wk1day1: { type: "String!", defaultValue: "19700101" }
+        wk1day2: { type: "String!", defaultValue: "19700101" }
+        wk1day3: { type: "String!", defaultValue: "19700101" }
+        wk1day4: { type: "String!", defaultValue: "19700101" }
+        wk1day5: { type: "String!", defaultValue: "19700101" }
+        wk1day6: { type: "String!", defaultValue: "19700101" }
+        wk1day7: { type: "String!", defaultValue: "19700101" }
+        wk2day1: { type: "String!", defaultValue: "19700101" }
+        wk2day2: { type: "String!", defaultValue: "19700101" }
+        wk2day3: { type: "String!", defaultValue: "19700101" }
+        wk2day4: { type: "String!", defaultValue: "19700101" }
+        wk2day5: { type: "String!", defaultValue: "19700101" }
+        wk2day6: { type: "String!", defaultValue: "19700101" }
+        wk2day7: { type: "String!", defaultValue: "19700101" }
+        wk3day1: { type: "String!", defaultValue: "19700101" }
+        wk3day2: { type: "String!", defaultValue: "19700101" }
+        wk3day3: { type: "String!", defaultValue: "19700101" }
+        wk3day4: { type: "String!", defaultValue: "19700101" }
+        wk3day5: { type: "String!", defaultValue: "19700101" }
+        wk3day6: { type: "String!", defaultValue: "19700101" }
+        wk3day7: { type: "String!", defaultValue: "19700101" }
+        wk4day1: { type: "String!", defaultValue: "19700101" }
+        wk4day2: { type: "String!", defaultValue: "19700101" }
+        wk4day3: { type: "String!", defaultValue: "19700101" }
+        wk4day4: { type: "String!", defaultValue: "19700101" }
+        wk4day5: { type: "String!", defaultValue: "19700101" }
+        wk4day6: { type: "String!", defaultValue: "19700101" }
+        wk4day7: { type: "String!", defaultValue: "19700101" }
+        wk5day1: { type: "String!", defaultValue: "19700101" }
+        wk5day2: { type: "String!", defaultValue: "19700101" }
+        wk5day3: { type: "String!", defaultValue: "19700101" }
+        wk5day4: { type: "String!", defaultValue: "19700101" }
+        wk5day5: { type: "String!", defaultValue: "19700101" }
+        wk5day6: { type: "String!", defaultValue: "19700101" }
+        wk5day7: { type: "String!", defaultValue: "19700101" }
+        wk6day1: { type: "String" }
+        wk6day2: { type: "String" }
+        wk6day3: { type: "String" }
+        wk6day4: { type: "String" }
+        wk6day5: { type: "String" }
+        wk6day6: { type: "String" }
+        wk6day7: { type: "String" }
+        wk7day1: { type: "String" }
+        wk7day2: { type: "String" }
+        wk7day3: { type: "String" }
+        wk7day4: { type: "String" }
+        wk7day5: { type: "String" }
+        wk7day6: { type: "String" }
+        wk7day7: { type: "String" }
+        wk8day1: { type: "String" }
+        wk8day2: { type: "String" }
+        wk8day3: { type: "String" }
+        wk8day4: { type: "String" }
+        wk8day5: { type: "String" }
+        wk8day6: { type: "String" }
+        wk8day7: { type: "String" }
+        wk9day1: { type: "String" }
+        wk9day2: { type: "String" }
+        wk9day3: { type: "String" }
+        wk9day4: { type: "String" }
+        wk9day5: { type: "String" }
+        wk9day6: { type: "String" }
+        wk9day7: { type: "String" }
+        wk10day1: { type: "String" }
+        wk10day2: { type: "String" }
+        wk10day3: { type: "String" }
+        wk10day4: { type: "String" }
+        wk10day5: { type: "String" }
+        wk10day6: { type: "String" }
+        wk10day7: { type: "String" }
+      ) {
+        wk1mon: tripsForDate(serviceDate: $wk1day1) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk2mon: tripsForDate(serviceDate: $wk2day1) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk3mon: tripsForDate(serviceDate: $wk3day1) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk4mon: tripsForDate(serviceDate: $wk4day1) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk5mon: tripsForDate(serviceDate: $wk5day1) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk6mon: tripsForDate(serviceDate: $wk6day1)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk7mon: tripsForDate(serviceDate: $wk7day1)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk8mon: tripsForDate(serviceDate: $wk8day1)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk9mon: tripsForDate(serviceDate: $wk9day1)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk10mon: tripsForDate(serviceDate: $wk10day1)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk1tue: tripsForDate(serviceDate: $wk1day2) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk2tue: tripsForDate(serviceDate: $wk2day2) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk3tue: tripsForDate(serviceDate: $wk3day2) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk4tue: tripsForDate(serviceDate: $wk4day2) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk5tue: tripsForDate(serviceDate: $wk5day2) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk6tue: tripsForDate(serviceDate: $wk6day2)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk7tue: tripsForDate(serviceDate: $wk7day2)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk8tue: tripsForDate(serviceDate: $wk8day2)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk9tue: tripsForDate(serviceDate: $wk9day2)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk10tue: tripsForDate(serviceDate: $wk10day2)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk1wed: tripsForDate(serviceDate: $wk1day3) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk2wed: tripsForDate(serviceDate: $wk2day3) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk3wed: tripsForDate(serviceDate: $wk3day3) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk4wed: tripsForDate(serviceDate: $wk4day3) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk5wed: tripsForDate(serviceDate: $wk5day3) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk6wed: tripsForDate(serviceDate: $wk6day3)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk7wed: tripsForDate(serviceDate: $wk7day3)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk8wed: tripsForDate(serviceDate: $wk8day3)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk9wed: tripsForDate(serviceDate: $wk9day3)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk10wed: tripsForDate(serviceDate: $wk10day3)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk1thu: tripsForDate(serviceDate: $wk1day4) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk2thu: tripsForDate(serviceDate: $wk2day4) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk3thu: tripsForDate(serviceDate: $wk3day4) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk4thu: tripsForDate(serviceDate: $wk4day4) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk5thu: tripsForDate(serviceDate: $wk5day4) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk6thu: tripsForDate(serviceDate: $wk6day4)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk7thu: tripsForDate(serviceDate: $wk7day4)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk8thu: tripsForDate(serviceDate: $wk8day4)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk9thu: tripsForDate(serviceDate: $wk9day4)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk10thu: tripsForDate(serviceDate: $wk10day4)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk1fri: tripsForDate(serviceDate: $wk1day5) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk2fri: tripsForDate(serviceDate: $wk2day5) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk3fri: tripsForDate(serviceDate: $wk3day5) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk4fri: tripsForDate(serviceDate: $wk4day5) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk5fri: tripsForDate(serviceDate: $wk5day5) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk6fri: tripsForDate(serviceDate: $wk6day5)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk7fri: tripsForDate(serviceDate: $wk7day5)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk8fri: tripsForDate(serviceDate: $wk8day5)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk9fri: tripsForDate(serviceDate: $wk9day5)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk10fri: tripsForDate(serviceDate: $wk10day5)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk1sat: tripsForDate(serviceDate: $wk1day6) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk2sat: tripsForDate(serviceDate: $wk2day6) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk3sat: tripsForDate(serviceDate: $wk3day6) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk4sat: tripsForDate(serviceDate: $wk4day6) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk5sat: tripsForDate(serviceDate: $wk5day6) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk6sat: tripsForDate(serviceDate: $wk6day6)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk7sat: tripsForDate(serviceDate: $wk7day6)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk8sat: tripsForDate(serviceDate: $wk8day6)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk9sat: tripsForDate(serviceDate: $wk9day6)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk10sat: tripsForDate(serviceDate: $wk10day6)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk1sun: tripsForDate(serviceDate: $wk1day7) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk2sun: tripsForDate(serviceDate: $wk2day7) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk3sun: tripsForDate(serviceDate: $wk3day7) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk4sun: tripsForDate(serviceDate: $wk4day7) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk5sun: tripsForDate(serviceDate: $wk5day7) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk6sun: tripsForDate(serviceDate: $wk6day7)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk7sun: tripsForDate(serviceDate: $wk7day7)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk8sun: tripsForDate(serviceDate: $wk8day7)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk9sun: tripsForDate(serviceDate: $wk9day7)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
+          }
+        }
+        wk10sun: tripsForDate(serviceDate: $wk10day7)
+        @include(if: $showTenWeeks) {
+          departureStoptime {
+            scheduledDeparture
           }
         }
       }
-    }
-  `,
-  firstDepartures: graphql`
-    fragment RouteScheduleContainer_firstDepartures on Pattern
-    @argumentDefinitions(
-      wk1day1: { type: "String!", defaultValue: "19700101" }
-      wk1day2: { type: "String!", defaultValue: "19700101" }
-      wk1day3: { type: "String!", defaultValue: "19700101" }
-      wk1day4: { type: "String!", defaultValue: "19700101" }
-      wk1day5: { type: "String!", defaultValue: "19700101" }
-      wk1day6: { type: "String!", defaultValue: "19700101" }
-      wk1day7: { type: "String!", defaultValue: "19700101" }
-      wk2day1: { type: "String!", defaultValue: "19700101" }
-      wk2day2: { type: "String!", defaultValue: "19700101" }
-      wk2day3: { type: "String!", defaultValue: "19700101" }
-      wk2day4: { type: "String!", defaultValue: "19700101" }
-      wk2day5: { type: "String!", defaultValue: "19700101" }
-      wk2day6: { type: "String!", defaultValue: "19700101" }
-      wk2day7: { type: "String!", defaultValue: "19700101" }
-      wk3day1: { type: "String!", defaultValue: "19700101" }
-      wk3day2: { type: "String!", defaultValue: "19700101" }
-      wk3day3: { type: "String!", defaultValue: "19700101" }
-      wk3day4: { type: "String!", defaultValue: "19700101" }
-      wk3day5: { type: "String!", defaultValue: "19700101" }
-      wk3day6: { type: "String!", defaultValue: "19700101" }
-      wk3day7: { type: "String!", defaultValue: "19700101" }
-      wk4day1: { type: "String!", defaultValue: "19700101" }
-      wk4day2: { type: "String!", defaultValue: "19700101" }
-      wk4day3: { type: "String!", defaultValue: "19700101" }
-      wk4day4: { type: "String!", defaultValue: "19700101" }
-      wk4day5: { type: "String!", defaultValue: "19700101" }
-      wk4day6: { type: "String!", defaultValue: "19700101" }
-      wk4day7: { type: "String!", defaultValue: "19700101" }
-      wk5day1: { type: "String!", defaultValue: "19700101" }
-      wk5day2: { type: "String!", defaultValue: "19700101" }
-      wk5day3: { type: "String!", defaultValue: "19700101" }
-      wk5day4: { type: "String!", defaultValue: "19700101" }
-      wk5day5: { type: "String!", defaultValue: "19700101" }
-      wk5day6: { type: "String!", defaultValue: "19700101" }
-      wk5day7: { type: "String!", defaultValue: "19700101" }
-    ) {
-      wk1mon: tripsForDate(serviceDate: $wk1day1) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk2mon: tripsForDate(serviceDate: $wk2day1) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk3mon: tripsForDate(serviceDate: $wk3day1) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk4mon: tripsForDate(serviceDate: $wk4day1) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk5mon: tripsForDate(serviceDate: $wk5day1) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk1tue: tripsForDate(serviceDate: $wk1day2) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk2tue: tripsForDate(serviceDate: $wk2day2) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk3tue: tripsForDate(serviceDate: $wk3day2) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk4tue: tripsForDate(serviceDate: $wk4day2) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk5tue: tripsForDate(serviceDate: $wk5day2) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk1wed: tripsForDate(serviceDate: $wk1day3) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk2wed: tripsForDate(serviceDate: $wk2day3) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk3wed: tripsForDate(serviceDate: $wk3day3) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk4wed: tripsForDate(serviceDate: $wk4day3) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk5wed: tripsForDate(serviceDate: $wk5day3) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk1thu: tripsForDate(serviceDate: $wk1day4) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk2thu: tripsForDate(serviceDate: $wk2day4) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk3thu: tripsForDate(serviceDate: $wk3day4) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk4thu: tripsForDate(serviceDate: $wk4day4) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk5thu: tripsForDate(serviceDate: $wk5day4) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk1fri: tripsForDate(serviceDate: $wk1day5) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk2fri: tripsForDate(serviceDate: $wk2day5) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk3fri: tripsForDate(serviceDate: $wk3day5) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk4fri: tripsForDate(serviceDate: $wk4day5) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk5fri: tripsForDate(serviceDate: $wk5day5) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk1sat: tripsForDate(serviceDate: $wk1day6) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk2sat: tripsForDate(serviceDate: $wk2day6) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk3sat: tripsForDate(serviceDate: $wk3day6) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk4sat: tripsForDate(serviceDate: $wk4day6) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk5sat: tripsForDate(serviceDate: $wk5day6) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk1sun: tripsForDate(serviceDate: $wk1day7) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk2sun: tripsForDate(serviceDate: $wk2day7) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk3sun: tripsForDate(serviceDate: $wk3day7) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk4sun: tripsForDate(serviceDate: $wk4day7) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-      wk5sun: tripsForDate(serviceDate: $wk5day7) {
-        departureStoptime {
-          scheduledDeparture
-        }
-      }
-    }
-  `,
-});
+    `,
+  },
+);
 
 export { containerComponent as default, RouteScheduleContainer as Component };

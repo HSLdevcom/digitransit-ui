@@ -59,21 +59,20 @@ class OriginDestinationBar extends React.Component {
   componentDidMount() {
     const viaPoints = getIntermediatePlaces(this.context.match.location.query);
     this.context.executeAction(setViaPoints, viaPoints);
-  }
-
-  componentWillUnmount() {
-    // fixes the bug that DTPanel starts excecuting updateViaPoints before this component is even mounted
-    this.context.executeAction(setViaPoints, []);
+    this.mounted = true;
   }
 
   updateViaPoints = newViaPoints => {
-    const p = newViaPoints.filter(vp => vp.lat && vp.address);
-    this.context.executeAction(setViaPoints, p);
-    setIntermediatePlaces(
-      this.context.router,
-      this.context.match,
-      p.map(locationToOTP),
-    );
+    // fixes the bug that DTPanel starts excecuting updateViaPoints before this component is even mounted
+    if (this.mounted) {
+      const p = newViaPoints.filter(vp => vp.lat && vp.address);
+      this.context.executeAction(setViaPoints, p);
+      setIntermediatePlaces(
+        this.context.router,
+        this.context.match,
+        p.map(locationToOTP),
+      );
+    }
   };
 
   swapEndpoints = () => {
@@ -147,7 +146,7 @@ class OriginDestinationBar extends React.Component {
           refPoint={refPoint}
           originPlaceHolder="search-origin-index"
           destinationPlaceHolder="search-destination-index"
-          showMultiPointControls
+          showMultiPointControls={this.context.config.viaPointsEnabled}
           viaPoints={this.props.viaPoints}
           updateViaPoints={this.updateViaPoints}
           addAnalyticsEvent={addAnalyticsEvent}
