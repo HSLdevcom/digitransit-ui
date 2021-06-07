@@ -282,6 +282,7 @@ export default class CarpoolOffer extends React.Component {
           />
           <input
             type="tel"
+            max="30"
             id="phone"
             name="phone"
             placeholder="07032 111111"
@@ -301,11 +302,13 @@ export default class CarpoolOffer extends React.Component {
             onChange={() => {
               this.setState({ GDPR: !GDPR });
             }}
-          />
-          <FormattedHTMLMessage
-            id="accept-carpool-policy"
-            values={{ policyUrl, termsUrl }}
-            defaultMessage=""
+            labelId={
+              <FormattedHTMLMessage
+                id="accept-carpool-policy"
+                values={{ policyUrl, termsUrl }}
+                defaultMessage=""
+              />
+            }
           />
         </div>
         <button disabled={!GDPR} className="standalone-btn" type="submit">
