@@ -826,6 +826,7 @@ const translations = {
 
   en: {
     'about-this-service': 'About the service',
+    access_with: 'access with',
     accessibility: 'Accessibility',
     'accessibility-limited': 'Wheelchair',
     'accessibility-nolimit': 'No limits',
@@ -891,10 +892,16 @@ const translations = {
     'back-to-front-page': 'Back to the front page',
     bicycle: 'Bike',
     'bicycle-distance-duration': 'Bike {duration} ({distance})',
+    bicycle_frame_lock: 'Frame locking',
     bicycle_walk: 'Walking a bike',
     'bike-availability': 'Bikes available at the station right now',
     'bike-not-allowed-bus': 'Bikes are not allowed on the bus',
     'bike-not-allowed-tram': 'Bikes are not allowed on the tram',
+    'bike-park': 'Park & Ride for bikes',
+    'bike-park-disclaimer':
+      'You can conveniently combine cycling and public transport: leave your bike at a Park & Ride and continue by train, bus, metro or tram. Bike parking is free of charge and there are no time limits.',
+    'bike-park-disclaimer-header': 'Park your bike',
+    'bike-park-disclaimer-link': 'Read more about Park & Ride for bikes',
     'bike-station-disabled': 'Bike station is closed.',
     'bikes-available': '{amount} bikes at the station ',
     'biketransport-citybike': "I'm using a citybike",
@@ -940,6 +947,7 @@ const translations = {
     'close-settings': 'Close window and save settings',
     'contact-information': '{contactName} contact details',
     continue: 'Continue',
+    covered: 'Sheltered',
     'create-account': 'Create {contactName} account',
     'cycle-distance-duration': 'Cycle {duration} ({distance})',
     'cyclewalk-distance-duration': 'Walk your bike {duration} ({distance})',
@@ -990,6 +998,7 @@ const translations = {
     ferry: 'Ferry',
     'ferry-with-route-number': 'Ferry {routeNumber} {headSign}',
     'fetch-new-route': 'Fetch a new route',
+    'free-of-charge': 'Free',
     'from-station': 'from station',
     'from-stop': 'from stop',
     frontpage: 'Frontpage',
@@ -1015,9 +1024,12 @@ const translations = {
     hour: 'Hour',
     'hour-short': 'h',
     'how-to-rate-service': 'How would you rate the service?',
+    hsl_mobile_ticket: 'HSL mobile ticket',
+    hsl_travel_card: 'HSL card',
     'in-addition': 'In addition',
     inquiry: 'How did you find the new Journey Planner? Please tell us!',
     instructions: 'Instructions',
+    'is-open': 'Open:',
     'itinerary-details.biking-leg':
       'At {time} cycle {distance} from {origin} to {destination}. Estimated time {duration}',
     'itinerary-details.car-leg':
@@ -1086,6 +1098,7 @@ const translations = {
     later: 'Later departures',
     leaves: 'Leaves',
     'leaving-at': 'Leaving at',
+    lighting: 'Lighting',
     'likely-to-recommend':
       'How likely are you to recommend our service to your friends or colleagues?',
     'likely-to-use':
@@ -1184,6 +1197,7 @@ const translations = {
       '{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }',
     'number-of-minutes':
       '{number, plural, =0 {0 minutes} one {1 minute} other {{number} minutes}}',
+    'number-of-spaces': 'Number of spaces:',
     'off-canvas-info':
       'Log in to the service to save your favorites and utilize them on other devices',
     'option-default': 'Average',
@@ -1199,6 +1213,7 @@ const translations = {
     'other-dates': 'Other dates',
     'own-position': 'Your current location',
     'page-not-found': 'The page cannot be found.',
+    paid: 'Paid',
     'park-and-ride': 'Park and Ride',
     'park-and-ride-availability': 'Spaces available',
     'pay-attention': 'N.B.',
@@ -1362,6 +1377,7 @@ const translations = {
     'summary-page.description': '{from} - {to}',
     'summary-page.row-label': 'Itinerary suggestion {number}',
     'summary-page.title': 'Itinerary suggestions',
+    surveillance_cameras: 'Camera surveillance',
     'swap-order-button-label': 'Reverse origin and destination',
     'swipe-disruption-info': 'Disruption info  swipe result tabs',
     'swipe-disruption-info-header': 'Disruption info swipe result tabs.',
@@ -1423,6 +1439,7 @@ const translations = {
     'view-route': 'View Route',
     // eslint-disable-next-line sort-keys
     venue: 'Venue',
+    vr_ticket: 'VR ticket',
     wait: 'Wait',
     'wait-amount-of-time': 'Wait {duration}',
     walk: 'walking',
@@ -1776,6 +1793,7 @@ const translations = {
 
   fi: {
     'about-this-service': 'Tietoja palvelusta',
+    access_with: 'pääsy',
     accessibility: 'Esteettömyys',
     'accessibility-limited': 'Pyörätuoli',
     'accessibility-nolimit': 'Ei rajoitusta',
@@ -1845,10 +1863,16 @@ const translations = {
     'back-to-front-page': 'Siirry etusivulle ›',
     bicycle: 'Polkupyörä',
     'bicycle-distance-duration': 'Pyöräile {duration} ({distance})',
+    bicycle_frame_lock: 'Runkolukitus',
     bicycle_walk: 'Polkupyörän talutus',
     'bike-availability': 'Pyöriä asemalla juuri nyt',
     'bike-not-allowed-bus': 'Pyörää ei voi kuljettaa bussissa',
     'bike-not-allowed-tram': 'Pyörää ei voi kuljettaa raitiovaunussa',
+    'bike-park': 'Liityntäpyöräparkki',
+    'bike-park-disclaimer':
+      'Voit yhdistää kätevästi joukkoliikenteen ja pyöräilyn, kun jätät pyöräsi liityntäpysäköintiin ja jatkat matkaasi junalla, bussilla, metrolla tai ratikalla. Pyörän pysäköinti on maksutonta eikä siinä ole aikarajaa.',
+    'bike-park-disclaimer-header': 'Jätä pyörä parkkiin',
+    'bike-park-disclaimer-link': 'Lue lisää liityntäpyöräpysäköinnistä',
     'bike-station-disabled': 'Pyöräasema ei ole käytössä.',
     'bikes-available': 'Pyöriä asemalla {amount}',
     'biketransport-citybike': 'Käytän kaupunkipyörää',
@@ -1896,6 +1920,7 @@ const translations = {
     'close-settings': 'Sulje ikkuna ja tallenna asetukset',
     'contact-information': '{contactName}:n yhteystiedot',
     continue: 'Jatka',
+    covered: 'Katettu',
     'create-account': 'Luo {contactName} tunnus',
     'cycle-distance-duration': 'Pyöräile {duration} ({distance})',
     'cyclewalk-distance-duration': 'Taluta pyörää {duration} ({distance})',
@@ -1949,6 +1974,7 @@ const translations = {
     ferry: 'Lautta',
     'ferry-with-route-number': 'Lautta {routeNumber} {headSign}',
     'fetch-new-route': 'Hae uusi reitti',
+    'free-of-charge': 'Maksuton',
     'from-station': 'asemalta',
     'from-stop': 'pysäkiltä',
     frontpage: 'Etusivu',
@@ -1971,9 +1997,12 @@ const translations = {
     hour: 'Tunti',
     'hour-short': 'h',
     'how-to-rate-service': 'Kuinka arvioisit palvelua?',
+    hsl_mobile_ticket: 'HSL-mobiililipulla',
+    hsl_travel_card: 'HSL-kortilla',
     'in-addition': 'Lisäksi',
     inquiry: 'Mitä pidät uudesta Reittioppaasta? Kerro se meille! ',
     instructions: 'Ohjeet',
+    'is-open': 'Avoinna:',
     'itinerary-details.biking-leg':
       '{time} pyöräile kohteesta {origin} {distance} kohteeseen {destination}. Matka-aika {duration}',
     'itinerary-details.car-leg':
@@ -2039,6 +2068,7 @@ const translations = {
     later: 'Myöhempiä lähtöjä',
     leaves: 'Lähtee',
     'leaving-at': 'Lähtöaika',
+    lighting: 'Valaistus',
     'likely-to-recommend':
       'Kuinka todennäköistä on, että suosittelisit palveluamme ystävälle tai kollegallesi?',
     'likely-to-use':
@@ -2136,6 +2166,7 @@ const translations = {
       '{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other {{number} pysäkkiä} }',
     'number-of-minutes':
       '{number, plural, =0 {0 minuuttia} one {1 minuutti} other {{number} minuuttia}}',
+    'number-of-spaces': 'Paikkojen määrä:',
     'off-canvas-info':
       'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
     'option-default': 'Keskimääräinen',
@@ -2152,6 +2183,7 @@ const translations = {
     'other-dates': 'Muut ajankohdat',
     'own-position': 'Nykyinen sijaintisi',
     'page-not-found': 'Etsimääsi sivua ei löytynyt.',
+    paid: 'Maksullinen',
     'park-and-ride': 'Liityntäpysäköinti',
     'park-and-ride-availability': 'Pysäköintipaikkoja vapaana',
     'pay-attention': 'Huom!',
@@ -2316,6 +2348,7 @@ const translations = {
     'summary-page.description': '{from} - {to}',
     'summary-page.row-label': 'Reittiehdotus {number}',
     'summary-page.title': 'Reittiehdotukset',
+    surveillance_cameras: 'Kameravalvonta',
     'swap-order-button-label': 'Käännä reitin suunta vastakkaiseksi',
     'swipe-disruption-info': 'Poikkeustietovälilehtien',
     'swipe-disruption-info-header': 'Poikkeustietovälilehdet.',
@@ -2379,6 +2412,7 @@ const translations = {
     'view-route': 'Linjan tiedot',
     // eslint-disable-next-line sort-keys
     venue: 'Paikka',
+    vr_ticket: 'VR-lipulla',
     wait: 'Odota',
     'wait-amount-of-time': 'Odota {duration}',
     walk: 'kävelyn',
@@ -3517,6 +3551,7 @@ const translations = {
 
   sv: {
     'about-this-service': 'Om tjänsten',
+    access_with: 'åtgång med',
     accessibility: 'Tillgänglighet',
     'accessibility-limited': 'Med rullstolen',
     'accessibility-nolimit': 'Ingen begränsning',
@@ -3579,10 +3614,16 @@ const translations = {
     'back-to-front-page': 'Tillbaka till framsidan ›',
     bicycle: 'cyckel',
     'bicycle-distance-duration': 'Cykla {duration} ({distance})',
+    bicycle_frame_lock: 'Ramlås',
     bicycle_walk: 'Leder en cykel',
     'bike-availability': 'Antal cyklar just nu',
     'bike-not-allowed-bus': 'Cyklar är inte tillåtna på bussen',
     'bike-not-allowed-tram': 'Cyklar är inte tillåtna på spårvagnen',
+    'bike-park': 'Anslutningsparkering för cyklar',
+    'bike-park-disclaimer':
+      'Du kan enkelt kombinera kollektivtrafiken med cykling, när du lämnar din cykel i anslutningsparkering och fortsätter din resa med tåg, buss, metro eller spårvagn. Cykelparkeringen är gratis och den har inte en begränsad parkeringstid.',
+    'bike-park-disclaimer-header': 'Lämna din cykel i parkeringen',
+    'bike-park-disclaimer-link': 'Lämna din cykel i parkeringen',
     'bike-station-disabled': 'Stängd',
     'bikes-available': '{amount} cyklar vid stationen',
     'biketransport-citybike': 'Jag använder en stadscykel',
@@ -3630,6 +3671,7 @@ const translations = {
     'close-settings': 'Stäng fönstret och spara inställningar',
     'contact-information': '{contactName} Kontaktuppgifter',
     continue: 'Fortsätt',
+    covered: 'Tak',
     'create-account': 'Skapa {contactName} konto',
     'cycle-distance-duration': 'Cykla {duration} ({distance})',
     'cyclewalk-distance-duration': 'Led cykeln {duration} ({distance})',
@@ -3682,6 +3724,7 @@ const translations = {
     ferry: 'Färja',
     'ferry-with-route-number': 'Färja {routeNumber} {headSign}',
     'fetch-new-route': 'Sök en ny rutt',
+    'free-of-charge': 'Kostnadsfri',
     'from-station': 'från stationen',
     'from-stop': 'från hållplats',
     frontpage: 'Framsidan',
@@ -3705,9 +3748,12 @@ const translations = {
     hour: 'Timme',
     'hour-short': 'h',
     'how-to-rate-service': 'Hur skulle du utvärdera tjänsten?',
+    hsl_mobile_ticket: 'HRT-mobilbiljetten',
+    hsl_travel_card: 'HRT-kortet',
     'in-addition': 'Även',
     inquiry: 'Vad tycker du om den nya Reseplaneraren. Berätta för oss!',
     instructions: 'Anvisningar',
+    'is-open': 'Öppet:',
     'itinerary-details.biking-leg':
       '{time} cykla {distance} från {origin} till destinationen {destination}. Restid {duration}',
     'itinerary-details.car-leg':
@@ -3777,6 +3823,7 @@ const translations = {
     later: 'Senare avgångar',
     leaves: 'Avgår',
     'leaving-at': 'Avgångstid',
+    lighting: 'Belysning',
     'likely-to-recommend':
       'Hur sannolikt är det att du skulle rekommendera den här tjänsten åt en vän eller kollega?',
     'likely-to-use':
@@ -3875,6 +3922,7 @@ const translations = {
       '{number, plural, =0 {Inga hållplatser} one {1 hållplats} other {{number} hållplatser} }',
     'number-of-minutes':
       '{number, plural, =0 {0 minuter} one {1 minut} other {{number} minuter}}',
+    'number-of-spaces': 'Antalet platser:',
     'off-canvas-info':
       'Genom att logga in kan du spara dina favoriter och använda dem med dina andra enheter.',
     'option-default': 'Standard',
@@ -3891,6 +3939,7 @@ const translations = {
     'other-dates': 'Andra datum',
     'own-position': 'Min position',
     'page-not-found': 'Sidan kunde inte hittas.',
+    paid: 'Avgiftsbelagd',
     'park-and-ride': 'Infartsparkering',
     'park-and-ride-availability': 'Lediga parkeringsplatser',
     'pay-attention': 'Obs!',
@@ -4058,6 +4107,7 @@ const translations = {
     'summary-page.description': '{from} - {to}',
     'summary-page.row-label': 'Ruttförslag {number}',
     'summary-page.title': 'Ruttförslag',
+    surveillance_cameras: 'Kameraövervakning',
     'swap-order-button-label': 'Sväng ruttens riktning till den motsatta',
     'swipe-disruption-info': 'Navigeringsknapp för att kunna bläddra störning',
     'swipe-disruption-info-header': 'Störning.',
@@ -4123,6 +4173,7 @@ const translations = {
     'view-route': 'Visa linje',
     // eslint-disable-next-line sort-keys
     venue: 'Mötesplats',
+    vr_ticket: 'VR-biljetten',
     wait: 'Vänta',
     'wait-amount-of-time': 'Vänta {duration}',
     walk: 'gång',

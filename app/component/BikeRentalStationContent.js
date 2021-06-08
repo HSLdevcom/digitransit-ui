@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import { routerShape, RedirectException } from 'found';
 
 import CityBikeStopContent from './CityBikeStopContent';
-import BikeRentalStationHeader from './BikeRentalStationHeader';
+import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
 import { getCityBikeNetworkConfig } from '../util/citybikes';
@@ -45,8 +45,8 @@ const BikeRentalStationContent = (
   }
   return (
     <div className="bike-station-page-container">
-      <BikeRentalStationHeader
-        bikeRentalStation={bikeRentalStation}
+      <ParkOrStationHeader
+        parkOrStation={bikeRentalStation}
         breakpoint={breakpoint}
       />
       <CityBikeStopContent bikeRentalStation={bikeRentalStation} />
