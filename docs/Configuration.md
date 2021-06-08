@@ -1,7 +1,7 @@
 Digitransit-ui is configured using several configuration files or command line interface (CLI) options.
 
 # Config.*.js file
-These files are located in the `app/configurations' directory.
+These files are located in the `app/configurations` directory.
 A default file called `config.default.js` and many deployment specific versions like `config.oulu.js` or `config.waltti.js` are present.
 You can create this file manually or by using an existing script like `yarn run add-theme <new_theme>`.
 Please refer to the [Themes](https://github.com/HSLdevcom/digitransit-ui/blob/master/docs/Themes.md) documentation page for details
