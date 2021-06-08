@@ -262,7 +262,7 @@ class Timetable extends React.Component {
         : null;
     return (
       <ScrollableWrapper>
-        <div className="timetable">
+        <div className="timetable scroll-target">
           {this.state.showFilterModal === true ? (
             <FilterTimeTableModal
               stop={this.props.stop}

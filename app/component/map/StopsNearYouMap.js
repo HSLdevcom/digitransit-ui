@@ -338,7 +338,9 @@ function StopsNearYouMap(
   }
 
   if (uniqueRealtimeTopics.length > 0) {
-    leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
+    leafletObjs.push(
+      <VehicleMarkerContainer key="vehicles" useLargeIcon mode={mode} />,
+    );
   }
   if (
     firstPlan.itinerary.itineraries &&

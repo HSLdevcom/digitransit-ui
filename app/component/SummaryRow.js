@@ -70,6 +70,7 @@ export const RouteLeg = ({
   intl,
   legLength,
   isTransitLeg,
+  interliningWithRoute,
   fitRouteNumber,
   withBicycle,
 }) => {
@@ -97,6 +98,7 @@ export const RouteLeg = ({
         alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
         route={leg.route}
         className={cx('line', leg.mode.toLowerCase())}
+        interliningWithRoute={interliningWithRoute}
         mode={leg.mode}
         vertical
         withBar
@@ -122,6 +124,7 @@ RouteLeg.propTypes = {
   large: PropTypes.bool.isRequired,
   legLength: PropTypes.number.isRequired,
   fitRouteNumber: PropTypes.bool.isRequired,
+  interliningWithRoute: PropTypes.number,
   isTransitLeg: PropTypes.bool,
   withBicycle: PropTypes.bool.isRequired,
 };
@@ -263,6 +266,7 @@ const SummaryRow = (
   const renderModeIcons = compressedLegs.length < 10;
 
   compressedLegs.forEach((leg, i) => {
+    let interliningWithRoute;
     let renderBar = true;
     let waiting = false;
     let waitTime;
@@ -292,6 +296,7 @@ const SummaryRow = (
       }
     }
     if (nextLeg?.interlineWithPreviousLeg) {
+      interliningWithRoute = nextLeg.route.shortName;
       legLength =
         ((nextLeg.endTime - leg.startTime) / durationWithoutSlack) * 100;
     }
@@ -423,6 +428,7 @@ const SummaryRow = (
             fitRouteNumber={
               (fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg
             }
+            interliningWithRoute={interliningWithRoute}
             intl={intl}
             legLength={legLength}
             large={breakpoint === 'large'}

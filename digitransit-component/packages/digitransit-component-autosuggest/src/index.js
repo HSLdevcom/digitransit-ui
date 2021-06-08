@@ -16,6 +16,7 @@ import Icon from '@digitransit-component/digitransit-component-icon';
 import moment from 'moment-timezone';
 import 'moment/locale/fi';
 import 'moment/locale/sv';
+import 'moment/locale/de';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import translations from './helpers/translations';

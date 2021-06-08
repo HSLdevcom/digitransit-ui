@@ -6,30 +6,33 @@ import React, { useState } from 'react';
  * Handle styling for when element is scrolled
  */
 export default function ScrollableWrapper({ scrollable, children, className }) {
-  if (!scrollable) {
-    return (
-      <div className={cx('scrollable-content-wrapper', className)}>
-        {children}
-      </div>
-    );
-  }
   const [scrolledState, changeScroll] = useState(false);
   function handleScroll(e) {
+    if (!e.target.className.includes('scroll-target')) {
+      return;
+    }
     const isScrolled = e.target.scrollTop !== 0;
     changeScroll(isScrolled);
   }
   return (
     <>
+      {scrollable && (
+        <div
+          className={cx('before-scrollable-area', {
+            scrolled: scrollable && scrolledState,
+          })}
+        />
+      )}
       <div
-        className={cx('before-scrollable-area', {
-          scrolled: scrollable && scrolledState,
-        })}
-      />
-      <div
-        className={cx('scrollable-content-wrapper', className, {
-          'momentum-scroll': scrollable,
-        })}
-        onScroll={handleScroll}
+        className={cx(
+          'scrollable-content-wrapper',
+          'scroll-target',
+          className,
+          {
+            'momentum-scroll': scrollable,
+          },
+        )}
+        onScroll={scrollable ? handleScroll : () => {}}
       >
         {children}
       </div>
