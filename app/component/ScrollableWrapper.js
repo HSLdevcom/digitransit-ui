@@ -8,6 +8,9 @@ import React, { useState } from 'react';
 export default function ScrollableWrapper({ scrollable, children, className }) {
   const [scrolledState, changeScroll] = useState(false);
   function handleScroll(e) {
+    if (!e.target.className.includes('scroll-target')) {
+      return;
+    }
     const isScrolled = e.target.scrollTop !== 0;
     changeScroll(isScrolled);
   }
@@ -21,9 +24,14 @@ export default function ScrollableWrapper({ scrollable, children, className }) {
         />
       )}
       <div
-        className={cx('scrollable-content-wrapper', className, {
-          'momentum-scroll': scrollable,
-        })}
+        className={cx(
+          'scrollable-content-wrapper',
+          'scroll-target',
+          className,
+          {
+            'momentum-scroll': scrollable,
+          },
+        )}
         onScroll={scrollable ? handleScroll : () => {}}
       >
         {children}
