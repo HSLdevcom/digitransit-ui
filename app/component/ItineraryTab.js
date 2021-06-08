@@ -55,6 +55,10 @@ class ItineraryTab extends React.Component {
     intl: intlShape.isRequired,
   };
 
+  state = {
+    fares: []
+  }
+
   handleFocus = (lat, lon) => {
     this.props.focusToPoint(lat, lon);
   };
@@ -124,25 +128,35 @@ class ItineraryTab extends React.Component {
     return extraProps;
   };
 
+  componentDidMount() {
+    const { itinerary } = this.props;
+    const { config } = this.context;
+
+    if (itinerary.fares === null && config.URL.FARES) {
+      fetchFares(itinerary, config.URL.FARES)
+        .then(data => {
+          this.setState({
+            fares: getFares(data, getRoutes(itinerary.legs), config)
+          });
+        })
+        // eslint-disable-next-line no-console
+        .catch(err => console.log(err));
+    } else {
+      this.setState({
+        fares: itinerary.fares
+      });
+    }
+  }
+
   render() {
     const { itinerary } = this.props;
-    let { fares } = itinerary;
+    const { fares } = this.state;
     const { config } = this.context;
 
     if (!itinerary || !itinerary.legs[0]) {
       return null;
     }
 
-    if (fares === null && config.URL.FARES) {
-      fetchFares(itinerary, config.URL.FARES)
-        .then(data => {
-          fares = data;
-        })
-        // eslint-disable-next-line no-console
-        .catch(err => console.log(err));
-    }
-
-    fares = getFares(fares, getRoutes(itinerary.legs), config);
     const extraProps = this.setExtraProps(itinerary);
     return (
       <div className="itinerary-tab">
@@ -203,24 +217,24 @@ class ItineraryTab extends React.Component {
                 })}
               >
                 {shouldShowFareInfo(config) && config.displayFareInfoTop &&
-                  fares.some(fare => fare.isUnknown) && (
-                    <div className="disclaimer-container unknown-fare-disclaimer__top">
-                      <div className="icon-container">
-                        <Icon className="info" img="icon-icon_info" />
-                      </div>
-                      <div className="description-container">
-                        <FormattedMessage
-                          id="separate-ticket-required-disclaimer"
-                          values={{
-                            agencyName: get(
-                              config,
-                              'ticketInformation.primaryAgencyName',
-                            ),
-                          }}
-                        />
-                      </div>
+                fares.some(fare => fare.isUnknown) && (
+                  <div className="disclaimer-container unknown-fare-disclaimer__top">
+                    <div className="icon-container">
+                      <Icon className="info" img="icon-icon_info" />
                     </div>
-                  )}
+                    <div className="description-container">
+                      <FormattedMessage
+                        id="separate-ticket-required-disclaimer"
+                        values={{
+                          agencyName: get(
+                            config,
+                            'ticketInformation.primaryAgencyName',
+                          ),
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
                 <ItineraryLegs
                   fares={fares}
                   itinerary={itinerary}
