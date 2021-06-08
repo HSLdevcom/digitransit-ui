@@ -85,7 +85,6 @@ const defaultOptions = {
 
 export const getMapLayerOptions = (options = {}) => {
   const layerOptions = { ...defaultOptions };
-
   const { lockedMapLayers, selectedMapLayers, modes } = {
     lockedMapLayers: [],
     selectedMapLayers: [],
@@ -93,7 +92,7 @@ export const getMapLayerOptions = (options = {}) => {
     ...options,
   };
   lockedMapLayers.forEach(key => {
-    if (key === 'stop' || key === 'terminal') {
+    if (key === 'stop') {
       if (!modes || modes.length === 0) {
         Object.keys(layerOptions[key]).forEach(subKey => {
           if (layerOptions[key][subKey]) {
@@ -104,12 +103,11 @@ export const getMapLayerOptions = (options = {}) => {
           }
         });
       } else {
-        modes.forEach(subKey => {
+        layerOptions[key] = { ...defaultOptions[key] };
+        Object.keys(layerOptions[key]).forEach(subKey => {
           if (layerOptions[key][subKey]) {
-            layerOptions[key][subKey].isLocked = true;
-            layerOptions[key][subKey].isSelected = selectedMapLayers.includes(
-              key,
-            );
+            layerOptions[key][subKey].isLocked = modes.includes(subKey);
+            layerOptions[key][subKey].isSelected = modes.includes(subKey);
           }
         });
       }
