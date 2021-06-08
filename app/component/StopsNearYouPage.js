@@ -846,6 +846,7 @@ class StopsNearYouPage extends React.Component {
               }
               bckBtnFallback="back"
               content={this.renderContent()}
+              scrollable
               map={
                 <>
                   {this.renderSearchBox()}
