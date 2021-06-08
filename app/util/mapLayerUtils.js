@@ -94,7 +94,7 @@ export const getMapLayerOptions = (options = {}) => {
   };
   lockedMapLayers.forEach(key => {
     if (key === 'stop' || key === 'terminal') {
-      if (modes.length === 0) {
+      if (!modes || modes.length === 0) {
         Object.keys(layerOptions[key]).forEach(subKey => {
           if (layerOptions[key][subKey]) {
             layerOptions[key][subKey].isLocked = true;
