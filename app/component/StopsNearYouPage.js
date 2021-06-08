@@ -39,6 +39,7 @@ import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkId,
 } from '../util/citybikes';
+import { getMapLayerOptions } from '../util/mapLayerUtils';
 
 // component initialization phases
 const PH_START = 'start';
@@ -88,13 +89,19 @@ class StopsNearYouPage extends React.Component {
       favouriteBikeStationIds: props.favouriteBikeStationIds,
       showCityBikeTeaser: true,
       searchPosition: {},
+      mapLayerOptions: null,
     };
   }
 
   componentDidMount() {
     const readMessageIds = getReadMessageIds();
     const showCityBikeTeaser = !readMessageIds.includes('citybike_teaser');
-    this.setState({ showCityBikeTeaser });
+    const mapLayerOptions = getMapLayerOptions({
+      lockedMapLayers: ['vehicles', 'stop', 'citybike'],
+      selectedMapLayers: ['vehicles', 'stop', 'citybike'],
+      modes: [this.props.match.params.mode.toLowerCase()],
+    });
+    this.setState({ showCityBikeTeaser, mapLayerOptions });
     checkPositioningPermission().then(permission => {
       const { origin, place } = this.props.match.params;
       const savedPermission = getGeolocationState();
@@ -677,6 +684,7 @@ class StopsNearYouPage extends React.Component {
                 stopsNearYou={props.stops}
                 match={this.props.match}
                 mapLayers={filteredMapLayers}
+                mapLayerOptions={this.state.mapLayerOptions}
                 showWalkRoute={
                   this.state.phase === PH_USEGEOLOCATION ||
                   this.state.phase === PH_USEDEFAULTPOS
