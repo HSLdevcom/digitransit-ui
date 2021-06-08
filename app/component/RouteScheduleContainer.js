@@ -77,7 +77,10 @@ class RouteScheduleContainer extends PureComponent {
     to: this.props.pattern.stops.length - 1 || undefined,
     serviceDay: this.props.serviceDay,
     hasLoaded: false,
+    focusedTab: null,
   };
+
+  tabRefs = {};
 
   hasMergedData = false;
 
@@ -300,18 +303,27 @@ class RouteScheduleContainer extends PureComponent {
         weekStartDate.format(DATE_FORMAT) ===
         moment().startOf('isoWeek').format(DATE_FORMAT);
       const firstDay = dayTabs[0][0];
+      let { focusedTab } = this.state;
       const tabs = dayTabs.map((tab, id) => {
+        const selected =
+          tab.indexOf(data[2][2]) !== -1 ||
+          (tab.indexOf(firstDay) !== -1 &&
+            !isSameWeek &&
+            dayTabs.indexOf(data[2][2]) === id) ||
+          count === 1;
+        // create refs and set focused tab needed for accessibilty here, not ideal but works
+        if (!this.tabRefs[tab]) {
+          this.tabRefs[tab] = React.createRef();
+        }
+        if (!focusedTab && selected) {
+          focusedTab = tab;
+        }
         return (
           <button
             type="button"
             key={tab}
             className={cx({
-              'is-active':
-                tab.indexOf(data[2][2]) !== -1 ||
-                (tab.indexOf(firstDay) !== -1 &&
-                  !isSameWeek &&
-                  dayTabs.indexOf(data[2][2]) === id) ||
-                count === 1,
+              'is-active': selected,
             })}
             onClick={() => {
               this.changeDate(
@@ -326,9 +338,10 @@ class RouteScheduleContainer extends PureComponent {
                   .format(DATE_FORMAT),
               );
             }}
-            tabIndex={0}
+            ref={this.tabRefs[tab]}
+            tabIndex={selected ? 0 : -1}
             role="tab"
-            aria-selected
+            aria-selected={selected}
             style={{
               '--totalCount': `${count}`,
             }}
@@ -343,11 +356,35 @@ class RouteScheduleContainer extends PureComponent {
       });
 
       if (dayTabs.length > 0) {
+        /* eslint-disable jsx-a11y/interactive-supports-focus */
         return (
-          <div className="route-tabs days" role="tablist">
+          <div
+            className="route-tabs days"
+            role="tablist"
+            onKeyDown={e => {
+              const tabCount = count;
+              const activeIndex = dayTabs.indexOf(focusedTab);
+              let index;
+              switch (e.nativeEvent.code) {
+                case 'ArrowLeft':
+                  index = (activeIndex - 1 + tabCount) % tabCount;
+                  this.tabRefs[dayTabs[index]].current.focus();
+                  this.setState({ focusedTab: dayTabs[index] });
+                  break;
+                case 'ArrowRight':
+                  index = (activeIndex + 1) % tabCount;
+                  this.tabRefs[dayTabs[index]].current.focus();
+                  this.setState({ focusedTab: dayTabs[index] });
+                  break;
+                default:
+                  break;
+              }
+            }}
+          >
             {tabs}
           </div>
         );
+        /* eslint-enable jsx-a11y/interactive-supports-focus */
       }
     }
     return '';
