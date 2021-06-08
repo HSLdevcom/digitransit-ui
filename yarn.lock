@@ -14,14 +14,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@axe-core/webdriverjs@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "@axe-core/webdriverjs@npm:4.2.0"
+"@axe-core/webdriverjs@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "@axe-core/webdriverjs@npm:4.2.1"
   dependencies:
-    axe-core: ^4.2.0
+    axe-core: ^4.2.1
   peerDependencies:
-    selenium-webdriver: ">= 2.53.1"
-  checksum: c915c7200b049653f90e75e1f6604b72e4249eba2b39c80ba8fb9c32e3d6922cdb60d5bb74dda2789066356cc397c1b2a17368908b10a60ddeaa623040491f8b
+    selenium-webdriver: ">3.0.0-beta  || >=2.53.1 || >4.0.0-alpha"
+  checksum: 53aa6872920f766b1c1928a00dd4897db49ffa1bf0db4ed811997707e8fef0b43eb882cf53e5479120f83945f989184dfb3b7f544ecdee967901956bdf03732f
   languageName: node
   linkType: hard
 
@@ -5816,7 +5816,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axe-core@npm:^4.2.0, axe-core@npm:^4.2.1":
+"axe-core@npm:^4.2.1":
   version: 4.2.1
   resolution: "axe-core@npm:4.2.1"
   checksum: 6a3f1a9f2d4c8a27aafd044acb2d02d52008ef392aeced4859fcfa85a559347e267eeb9db1f7d5807eda30d895354cdbfeb3437b018b45904e3cc609bf461906
@@ -9089,7 +9089,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "digitransit-ui@workspace:."
   dependencies:
-    "@axe-core/webdriverjs": ^4.2.0
+    "@axe-core/webdriverjs": ^4.2.1
     "@babel/cli": 7.11.5
     "@babel/core": 7.11.5
     "@babel/plugin-proposal-class-properties": 7.12.1

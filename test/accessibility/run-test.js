@@ -14,7 +14,7 @@ const driver1 = new WebDriver.Builder()
   .build();
 const builder1 = new AxeBuilder(driver1)
   .exclude('.map')
-  .disableRules('color-contrast', 'best-practice', 'section508', 'ACT');
+  .disableRules('color-contrast'); // Color-contrast checks seem inconsistent, can be possibly enabled in newer axe versions
 
 let driver2;
 let builder2;
@@ -25,19 +25,21 @@ if (!onlyTestLocal) {
     .build();
   builder2 = new AxeBuilder(driver2)
     .exclude('.map')
-    .disableRules('color-contrast', 'best-practice', 'section508', 'ACT');
+    .disableRules('color-contrast');
 }
 
 const LOCAL = 'http://127.0.0.1:8080';
 const BENCHMARK = 'https://next-dev.digitransit.fi';
+const RERUN_COUNT = 1;
 
-const URLS_TO_TEST = [
+let CURRENT_RUN = 0;
+let URLS_TO_TEST = [
   '/etusivu', // front page
   '/linjat/HSL:3002P', // P train route page
   '/linjat/HSL:3002P/aikataulu/HSL:3002P:0:01', // P train timetable view
   '/lahellasi/BUS/Rautatientori%2C%20Helsinki::60.170384,24.939846', // Stops near you
   '/reitti/Otakaari%2024%2C%20Espoo%3A%3A60.1850004462205%2C24.832384918447488/L%C3%B6nnrotinkatu%2029%2C%20Helsinki%3A%3A60.164182342362864%2C24.932237237563104', // ititnerary suggestions
-  // '/reitti/Otakaari%2024%2C%20Espoo%3A%3A60.1850004462205%2C24.832384918447488/L%C3%B6nnrotinkatu%2029%2C%20Helsinki%3A%3A60.164182342362864%2C24.932237237563104/0', // Itinerary page
+  '/reitti/Otakaari%2024%2C%20Espoo%3A%3A60.1850004462205%2C24.832384918447488/L%C3%B6nnrotinkatu%2029%2C%20Helsinki%3A%3A60.164182342362864%2C24.932237237563104/0', // Itinerary page
 ];
 
 const localResults = {
@@ -61,13 +63,12 @@ const color = {
 };
 
 // Loop through URLs recursively
-const analyzeLocal = (callback, i) => {
+const analyzeLocal = (callback, i, printResults) => {
   if (i < URLS_TO_TEST.length) {
     const url = `${LOCAL}${URLS_TO_TEST[i]}`;
     driver1.get(url).then(() => {
       console.log(`${url} loaded...`);
       builder1.analyze((err, results) => {
-        console.log(`RESULTS for ${url}: `);
         if (err) {
           // TODO Handle error somehow
           console.log(err);
@@ -82,20 +83,25 @@ const analyzeLocal = (callback, i) => {
           ...inapplicable,
         ];
 
-        console.log('Violations: ');
+        if (printResults) {
+          console.log(`RESULTS for ${url}: `);
+          console.log('Violations: ');
+        }
         for (let j = 0; j < results.violations.length; j++) {
           const v = violations[j];
           v.url = URLS_TO_TEST[i];
           const firstTargetElement =
             v.nodes.length > 0 ? `- on element: ${v.nodes[0].target[0]}` : '';
-          console.log(
-            color[v.impact],
-            `${v.impact} - ${v.id}: ${v.help} ${firstTargetElement}`,
-            '\x1b[0m',
-          );
+          if (printResults) {
+            console.log(
+              color[v.impact],
+              `${v.impact} - ${v.id}: ${v.help} ${firstTargetElement}`,
+              '\x1b[0m',
+            );
+          }
         }
 
-        analyzeLocal(callback, i + 1);
+        analyzeLocal(callback, i + 1, printResults);
       });
     });
   } else {
@@ -145,13 +151,28 @@ const violationsAreEqual = (v1, v2) => {
   return v1.url === v2.url && v1.id === v2.id;
 };
 
+const resetErrorsRelatedtoURL = urls => {
+  localResults.violations = localResults.violations.filter(
+    v => !urls.has(v.url),
+  );
+  localResults.passes = localResults.passes.filter(v => !urls.has(v.url));
+
+  benchmarkResults.violations = benchmarkResults.violations.filter(
+    v => !urls.has(v.url),
+  );
+  benchmarkResults.passes = benchmarkResults.passes.filter(
+    v => !urls.has(v.url),
+  );
+};
+
 const wrapup = () => {
   console.timeEnd('Execution time');
-  console.log('=== ACCESSIBILITY TESTS DONE ===');
+  if (CURRENT_RUN === 0) {
+    console.log('=== ACCESSIBILITY TESTS DONE ===');
+  }
   console.log(
     `violations in LOCAL: ${localResults.violations.length}, passes: ${localResults.passes.length}, incomplete: ${localResults.incomplete.length}, inapplicable: ${localResults.inapplicable.length}`,
   );
-
   if (!onlyTestLocal) {
     console.log(
       `violations in BENCHMARK: ${benchmarkResults.violations.length}, passes: ${benchmarkResults.passes.length}, incomplete: ${benchmarkResults.incomplete.length}, inapplicable: ${benchmarkResults.inapplicable.length}`,
@@ -163,6 +184,18 @@ const wrapup = () => {
     });
 
     if (newViolations.length > 0) {
+      if (CURRENT_RUN < RERUN_COUNT) {
+        console.log('Found new violation, re-running the test to verify...');
+        CURRENT_RUN += 1;
+        const urlsWithErrors = new Set();
+        newViolations.forEach(v => urlsWithErrors.add(v.url));
+        resetErrorsRelatedtoURL(urlsWithErrors);
+        URLS_TO_TEST = Array.from(urlsWithErrors);
+
+        // eslint-disable-next-line no-use-before-define
+        runTests(false);
+        return;
+      }
       console.log('New Errors introduced: ');
       for (let j = 0; j < newViolations.length; j++) {
         const v = newViolations[j];
@@ -183,24 +216,28 @@ const wrapup = () => {
   driver1.quit();
 };
 
-console.time('Execution time');
-parallel(
-  [
-    callback => {
-      analyzeLocal(callback, 0);
-    },
-    callback => {
-      if (!onlyTestLocal) {
-        analyzeBenchmark(callback, 0);
-      } else {
-        callback(null);
+const runTests = printResults => {
+  console.time('Execution time');
+  parallel(
+    [
+      callback => {
+        analyzeLocal(callback, 0, printResults);
+      },
+      callback => {
+        if (!onlyTestLocal) {
+          analyzeBenchmark(callback, 0);
+        } else {
+          callback(null);
+        }
+      },
+    ],
+    err => {
+      if (err) {
+        console.error(err);
       }
+      wrapup();
     },
-  ],
-  err => {
-    if (err) {
-      console.error(err);
-    }
-    wrapup();
-  },
-);
+  );
+};
+
+runTests(true);
