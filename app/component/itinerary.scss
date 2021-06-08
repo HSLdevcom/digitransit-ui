@@ -72,6 +72,25 @@ $itinerary-tab-switch-height: 48px;
   position: relative;
   top: 5px;
 
+  .info-container {
+    border: 1px solid $primary-color;
+    border-radius: 3px;
+    display: flex;
+    font-size: $font-size-xsmall;
+    padding: $padding-medium;
+    white-space: normal;
+
+    .icon-container {
+      flex: 0;
+      font-size: 20px;
+      margin-right: 5px;
+
+      .icon {
+        color: $primary-color;
+      }
+    }
+  }
+
   .disclaimer-container {
     background-color: rgba(254, 209, 0, 0.1);
     border: 1px solid #fed100;

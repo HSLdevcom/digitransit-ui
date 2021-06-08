@@ -9,6 +9,7 @@ import ExternalLink from './ExternalLink';
 import { renderZoneTicket } from './ZoneTicket';
 import { getAlternativeFares } from '../util/fareUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import Icon from './Icon';
 
 const getUnknownFareRoute = (fares, route) => {
   for (let i = 0; i < fares.length; i++) {
@@ -30,6 +31,14 @@ export default function TicketInformation(
     zones,
     fares.filter(fare => !fare.isUnknown),
     config.availableTickets,
+  );
+
+  const hasBikeLeg = legs.some(
+    leg =>
+      leg.rentedBike || leg.mode === 'BICYCLE' || leg.mode === 'BICYCLE_WALK',
+  );
+  const onlyVvs = fares.every(
+    fare => fare.agency && fare.agency.name && fare.agency.name === 'VVS',
   );
 
   // DT-3314 If Fare is unknown show Correct leg's route name instead of whole trip that fare.routeName() returns.
@@ -142,7 +151,43 @@ export default function TicketInformation(
 
   return (
     <div className="row itinerary-ticket-information">
-      <div className="itinerary-ticket-type">{faresInfo}</div>
+      {fares.some(fare => fare.isUnknown) ? (
+        <div className="itinerary-ticket-type">
+          <div className="info-container">
+            <div className="icon-container">
+              <Icon className="info" img="icon-icon_info" />
+            </div>
+            <div className="description-container">
+              <FormattedMessage
+                id="missing-price-info-disclaimer"
+                defaultMessage="No price information"
+              />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="itinerary-ticket-type">
+          {faresInfo}
+          {hasBikeLeg && (
+            <div className="info-container">
+              <div className="icon-container">
+                <Icon className="info" img="icon-icon_info" />
+              </div>
+              <div className="description-container">
+                <FormattedMessage
+                  id="only-public-transport-disclaimer"
+                  defaultMessage="Price only valid for public transport part of the journey"
+                />
+              </div>
+            </div>
+          )}
+          {onlyVvs && (
+            <ExternalLink className="itinerary-ticket-external-link" href="">
+              {intl.formatMessage({ id: 'buy-ticket' })}
+            </ExternalLink>
+          )}
+        </div>
+      )}
     </div>
   );
 }
