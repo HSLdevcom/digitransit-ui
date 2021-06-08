@@ -1,18 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SidebarContainer from './SidebarContainer';
-
-export const getPropertyValueOrDefault = (
-  properties,
-  propertyName,
-  language,
-  defaultValue = undefined,
-) =>
-  (properties &&
-    propertyName &&
-    ((language && properties[`${propertyName}_${language}`]) ||
-      properties[propertyName])) ||
-  defaultValue;
+import { getPropertyValueOrDefault } from '../PointFeatureMarker';
 
 const GeoJsonContent = ({ match }) => {
   const { language, lat, lng } = match.location.query;

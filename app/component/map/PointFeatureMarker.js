@@ -101,6 +101,17 @@ export const getCustomIcon = (zoom, iconUrl) => {
  * @param {*} language the language.
  * @param {*} defaultValue the default fallback value, defaults to undefined.
  */
+export const getPropertyValueOrDefault = (
+  properties,
+  propertyName,
+  language,
+  defaultValue = undefined,
+) =>
+  (properties &&
+    propertyName &&
+    ((language && properties[`${propertyName}_${language}`]) ||
+      properties[propertyName])) ||
+  defaultValue;
 
 const PointFeatureMarker = (
   { feature, icons, language, locationPopup },

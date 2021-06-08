@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { shallowWithIntl } from '../../helpers/mock-intl-enzyme';
-import PopupHeader from '../../../../app/component/map/PopupHeader';
 import {
   Component as PointFeatureMarker,
   CUSTOM_ICON_MIN_ZOOM,
@@ -47,61 +46,6 @@ describe('<PointFeatureMarker />', () => {
     };
     const wrapper = shallowWithIntl(<PointFeatureMarker {...props} />);
     expect(wrapper.isEmptyRender()).to.equal(true);
-  });
-
-  it('should use the name property as header', () => {
-    const props = {
-      feature: {
-        geometry: {
-          coordinates: [60, 25],
-          type: 'Point',
-        },
-        properties: {
-          address: 'baz',
-          name: 'foobar',
-        },
-      },
-      language: 'fi',
-    };
-    const wrapper = shallowWithIntl(<PointFeatureMarker {...props} />);
-    expect(wrapper.find(PopupHeader).props().header).to.equal('foobar');
-  });
-
-  it('should use the address and city properties as header', () => {
-    const props = {
-      feature: {
-        geometry: {
-          coordinates: [60, 25],
-          type: 'Point',
-        },
-        properties: {
-          address: 'foo',
-          city: 'bar',
-        },
-      },
-      language: 'fi',
-    };
-    const wrapper = shallowWithIntl(<PointFeatureMarker {...props} />);
-    expect(wrapper.find(PopupHeader).props().header).to.equal('foo, bar');
-  });
-
-  it('should use the address and city properties as description', () => {
-    const props = {
-      feature: {
-        geometry: {
-          coordinates: [60, 25],
-          type: 'Point',
-        },
-        properties: {
-          address: 'foo',
-          city: 'bar',
-          name: 'baz',
-        },
-      },
-      language: 'fi',
-    };
-    const wrapper = shallowWithIntl(<PointFeatureMarker {...props} />);
-    expect(wrapper.find(PopupHeader).props().subHeader).to.equal('foo, bar');
   });
 
   describe('getPropertyValueOrDefault', () => {
