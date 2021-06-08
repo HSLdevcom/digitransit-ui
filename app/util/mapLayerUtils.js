@@ -73,24 +73,6 @@ const defaultOptions = {
       isSelected: false,
     },
   },
-  terminal: {
-    bus: {
-      isLocked: false,
-      isSelected: false,
-    },
-    ferry: {
-      isLocked: false,
-      isSelected: false,
-    },
-    rail: {
-      isLocked: false,
-      isSelected: false,
-    },
-    subway: {
-      isLocked: false,
-      isSelected: false,
-    },
-  },
   vehicles: {
     isLocked: false,
     isSelected: false,

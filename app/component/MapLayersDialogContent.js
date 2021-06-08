@@ -75,9 +75,10 @@ class MapLayersDialogContent extends React.Component {
     if (mapLayerOptions) {
       const newSetting = {};
       Object.keys(mapLayerOptions).forEach(key => {
-        if (key === 'stop' || key === 'terminal') {
+        if (key === 'stop') {
           newSetting[key] = this.props.mapLayers[key];
           Object.keys(mapLayerOptions[key]).forEach(subKey => {
+            // Only set setting selected if it is also locked
             if (mapLayerOptions[key][subKey].isLocked) {
               newSetting[key][subKey] = mapLayerOptions[key][subKey].isSelected;
             }
@@ -113,33 +114,12 @@ class MapLayersDialogContent extends React.Component {
     });
   };
 
-  updateStopAndTerminalSetting = newSetting => {
-    const { mapLayers } = this.props;
-    const stop = {
-      ...mapLayers.stop,
-      ...newSetting,
-    };
-    const terminal = {
-      ...mapLayers.terminal,
-      ...newSetting,
-    };
-    this.updateSetting({ stop, terminal });
-  };
-
   updateStopSetting = newSetting => {
     const stop = {
       ...this.props.mapLayers.stop,
       ...newSetting,
     };
     this.updateSetting({ stop });
-  };
-
-  updateTerminalSetting = newSetting => {
-    const terminal = {
-      ...this.props.mapLayers.terminal,
-      ...newSetting,
-    };
-    this.updateSetting({ terminal });
   };
 
   updateGeoJsonSetting = newSetting => {
@@ -155,7 +135,6 @@ class MapLayersDialogContent extends React.Component {
       citybike,
       parkAndRide,
       stop,
-      terminal,
       geoJson,
       vehicles,
     } = this.props.mapLayers;
@@ -216,17 +195,6 @@ class MapLayersDialogContent extends React.Component {
                   this.sendLayerChangeAnalytic('BusStop', e.target.checked);
                 }}
               />
-              <Checkbox
-                large
-                checked={terminal.bus}
-                disabled={!!this.props.mapLayerOptions?.terminal?.bus?.isLocked}
-                defaultMessage="Bus terminal"
-                labelId="map-layer-terminal-bus"
-                onChange={e => {
-                  this.updateTerminalSetting({ bus: e.target.checked });
-                  this.sendLayerChangeAnalytic('BusTerminal', e.target.checked);
-                }}
-              />
             </Fragment>
           )}
           {isTransportModeEnabled(transportModes.tram) && (
@@ -239,37 +207,6 @@ class MapLayersDialogContent extends React.Component {
               onChange={e => {
                 this.updateStopSetting({ tram: e.target.checked });
                 this.sendLayerChangeAnalytic('TramStop', e.target.checked);
-              }}
-            />
-          )}
-          {isTransportModeEnabled(transportModes.rail) && (
-            <Checkbox
-              large
-              checked={terminal.rail}
-              disabled={!!this.props.mapLayerOptions?.terminal?.rail?.isLocked}
-              defaultMessage="Railway station"
-              labelId="map-layer-terminal-rail"
-              onChange={e => {
-                this.updateStopAndTerminalSetting({ rail: e.target.checked });
-                this.sendLayerChangeAnalytic('RailTerminal', e.target.checked);
-              }}
-            />
-          )}
-          {isTransportModeEnabled(transportModes.subway) && (
-            <Checkbox
-              large
-              checked={terminal.subway}
-              disabled={
-                !!this.props.mapLayerOptions?.terminal?.subway?.isLocked
-              }
-              defaultMessage="Subway station"
-              labelId="map-layer-terminal-subway"
-              onChange={e => {
-                this.updateStopAndTerminalSetting({ subway: e.target.checked });
-                this.sendLayerChangeAnalytic(
-                  'SubwayTerminal',
-                  e.target.checked,
-                );
               }}
             />
           )}

@@ -207,8 +207,8 @@ const StopPageMapWithStores = connectToStores(
     }
     const mapLayers = getStore(MapLayerStore).getMapLayers(ml);
     const mapLayerOptions = getMapLayerOptions({
-      lockedMapLayers: ['vehicles', 'stop', 'terminal'],
-      selectedMapLayers: ['vehicles', 'stop', 'terminal'],
+      lockedMapLayers: ['vehicles', 'stop'],
+      selectedMapLayers: ['vehicles', 'stop'],
       modes: [props.stop.vehicleMode.toLowerCase()],
     });
     return {
