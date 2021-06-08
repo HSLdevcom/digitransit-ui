@@ -11,3 +11,4 @@ The following list, though it might be incomprehensive, descripes availabe optio
 * APP_TITLE: Name the location (e.g. city, municipality, state, aso.) to be served.
 * CONFIG: Define the configuration file to be loaded for the Digitransit-ui instance if it should be different from `config.default.js`.
 For instance, if you are about to run a Digitransit instance for the `Oulu` area, you will define `CONFIG=oulu` to get `config.oulu.js`.
+* MAP_URL: Define the address ot the tile server serving map tiles for the background map. You can host your own tiles, buy them from a commercial provider or use free tiles.
