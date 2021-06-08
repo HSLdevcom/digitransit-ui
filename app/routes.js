@@ -19,6 +19,7 @@ import {
   PREFIX_BIKE_PARKS,
   PREFIX_DYNAMIC_PARKING_LOTS,
   PREFIX_ROAD_WEATHER,
+  PREFIX_GEOJSON,
   LOCAL_STORAGE_EMITTER_PATH,
   createReturnPath,
   TAB_NEARBY,
@@ -83,6 +84,28 @@ export default config => {
       {getStopRoutes()}
       {getStopRoutes(true) /* terminals */}
       {routeRoutes}
+      <Route path={`/${PREFIX_GEOJSON}`}>
+        {{
+          content: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "parking lots" */ './component/map/sidebar/GeoJsonContent'
+                ).then(getDefault)
+              }
+            />
+          ),
+          map: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "map" */ './component/map/SidebarMap.js'
+                ).then(getDefault)
+              }
+            />
+          ),
+        }}
+      </Route>
       <Route path={`/${PREFIX_DYNAMIC_PARKING_LOTS}`}>
         {{
           content: (
