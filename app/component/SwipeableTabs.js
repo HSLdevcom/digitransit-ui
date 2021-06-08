@@ -241,7 +241,7 @@ export default class SwipeableTabs extends React.Component {
       >
         {navigationOnBottom && (
           <ScrollableWrapper>
-            <div className="swipe-scroll-container">
+            <div className="swipe-scroll-container scroll-target">
               <ReactSwipe
                 swipeOptions={{
                   startSlide: this.props.tabIndex,
@@ -337,7 +337,7 @@ export default class SwipeableTabs extends React.Component {
         </div>
         {!navigationOnBottom && (
           <ScrollableWrapper>
-            <div className="swipe-scroll-container">
+            <div className="swipe-scroll-container scroll-target">
               <ReactSwipe
                 swipeOptions={{
                   startSlide: this.props.tabIndex,
