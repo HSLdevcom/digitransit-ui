@@ -492,14 +492,14 @@ const SummaryRow = (
         firstDepartureStopType = 'from-stop';
       }
       let firstDeparturePlatform;
-      if (firstDeparture.from.stop.platformCode) {
+      if (firstDeparture.from.stop?.platformCode) {
         const comma = ', ';
         firstDeparturePlatform = (
           <span className="platform-or-track">
             {comma}
             <FormattedMessage
               id={firstDeparture.mode === 'RAIL' ? 'track-num' : 'platform-num'}
-              values={{ platformCode: firstDeparture.from.stop.platformCode }}
+              values={{ platformCode: firstDeparture.from.stop?.platformCode }}
             />
           </span>
         );
