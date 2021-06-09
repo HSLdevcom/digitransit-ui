@@ -9,10 +9,6 @@ GECKODRIVER_FILENAME=$(echo $GECKODRIVER_URL | awk -F/ '{print $NF}')
 # Silence output and send to background
 CONFIG=hsl yarn run dev >/dev/null 2>&1 &
 
-echo "Waiting for the Digitransit UI to start..."
-# Wait until server is accepting connections
-while ! echo exit | nc localhost 8080; do sleep 3; done
-
 # Fetch required webrivers
 if [ ! -f ./test/binaries/$GECKODRIVER_FILENAME ]
 then
@@ -22,6 +18,10 @@ then
     chmod +x ./test/binaries/geckodriver
 fi
 export PATH=$PATH:./test/binaries
+
+echo "Waiting for the Digitransit UI to start..."
+# Wait until server is accepting connections
+while ! echo exit | nc localhost 8080; do sleep 3; done
 
 # Enable when chrome testing works
 #wget -N http://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip

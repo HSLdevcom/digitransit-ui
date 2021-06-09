@@ -197,8 +197,13 @@ const wrapup = () => {
         return;
       }
       console.log('New Errors introduced: ');
+      let lastUrl = '';
       for (let j = 0; j < newViolations.length; j++) {
         const v = newViolations[j];
+        if (lastUrl !== v.url) {
+          lastUrl = v.url;
+          console.log(`On url: ${LOCAL}${v.url}`);
+        }
         const firstTargetElement =
           v.nodes.length > 0 ? `- on element: ${v.nodes[0].target[0]}` : '';
         console.log(
