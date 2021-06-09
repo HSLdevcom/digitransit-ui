@@ -10,6 +10,8 @@ The following list, though it might be incomprehensive, descripes availabe optio
 
 * APP_TITLE: Define the location (e.g. city, municipality, state, aso.) to be served by the UI.
 This location is used for instance as browser title or for social media content.
+* APP_DESCRIPTION: This option is not used by the UI itself.
+The assumed purpose is to describe the configuration file.
 * CONFIG: Define the configuration file to be loaded by the UI if it should be different from `config.default.js`.
 For instance, if you are about to run an UI for the `Oulu` area, you will define `CONFIG=oulu` to get `config.oulu.js`.
 * MAP_URL: Define the address of the tile server serving map tiles for the background map. You can host your own tiles, buy them from a commercial provider or use free tiles.
