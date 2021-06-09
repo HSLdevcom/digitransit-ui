@@ -290,6 +290,7 @@ function getSelectedIconCircleOffset(zoom, ratio) {
   return 78 / ratio;
 }
 
+// eslint-disable-next-line no-unused-vars
 function drawSelectionCircle(
   tile,
   x,
@@ -297,7 +298,6 @@ function drawSelectionCircle(
   width,
   height,
   _radius,
-  // eslint-disable-next-line no-unused-vars
   showAvailabilityBadge = false,
 ) {
   // Change arbitrary offsets and calculate from image dimensions instead
@@ -306,19 +306,17 @@ function drawSelectionCircle(
   // const radius = _radius - 2;
   // const hPos = x + selectedCircleOffset;
   // const vPos = y + 1.85 * selectedCircleOffset;
-  /*
-    tile.ctx.beginPath();
-    // eslint-disable-next-line no-param-reassign
-    tile.ctx.lineWidth = 2;
+  tile.ctx.beginPath();
+  // eslint-disable-next-line no-param-reassign
+  tile.ctx.lineWidth = 2;
 
-    // Deduce radius and offset from image dimensions
-    const radius = width / 2;
-    const hPos = x + radius / 2;
-    const vPos = y + height / 2;
-    const arc = FULL_CIRCLE * (showAvailabilityBadge ? 0.75 : 1);
-    tile.ctx.arc(hPos, vPos, radius, 0, arc);
-    tile.ctx.stroke();
-  */
+  // Deduce radius and offset from image dimensions
+  const radius = width / 2;
+  const hPos = x + radius / 2;
+  const vPos = y + height / 2;
+  const arc = FULL_CIRCLE * (showAvailabilityBadge ? 0.75 : 1);
+  tile.ctx.arc(hPos, vPos, radius, 0, arc);
+  tile.ctx.stroke();
 }
 
 export function drawWeatherStationIcon(tile, geom, imageSize) {
@@ -660,17 +658,15 @@ export function drawCitybikeIcon(
     }
     getImageFromSpriteCache(icon, width, height).then(image => {
       tile.ctx.drawImage(image, x, y);
-      if (isHilighted) {
-        drawSelectionCircle(tile, x, y, width, height, radius, false);
-      }
+      // if (isHilighted) {
+      //   drawSelectionCircle(tile, x, y, width, height, radius, false);
+      // }
     });
   }
   if (style === 'large') {
     const smallCircleRadius = 11 * tile.scaleratio;
     x = geom.x / tile.ratio - width + smallCircleRadius * 2;
     y = geom.y / tile.ratio - height;
-    const iconX = x;
-    const iconY = y;
     const showAvailabilityBadge =
       showAvailability &&
       (bikesAvailable || bikesAvailable === 0) &&
@@ -694,17 +690,17 @@ export function drawCitybikeIcon(
         tile.ctx.fillText(bikesAvailable, x, y);
         /* eslint-enable no-param-reassign */
       }
-      if (isHilighted) {
-        drawSelectionCircle(
-          tile,
-          iconX,
-          iconY,
-          width,
-          height,
-          radius,
-          showAvailabilityBadge,
-        );
-      }
+      // if (isHilighted) {
+      //   drawSelectionCircle(
+      //     tile,
+      //     x,
+      //     y,
+      //     width,
+      //     height,
+      //     radius,
+      //     showAvailabilityBadge,
+      //   );
+      // }
     });
   }
 }
