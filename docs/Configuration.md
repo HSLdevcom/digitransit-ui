@@ -8,11 +8,19 @@ Please refer to the [Themes](https://github.com/HSLdevcom/digitransit-ui/blob/ma
 about how to create a configuration file for a customized theme.
 The following list, though it might be incomprehensive, descripes availabe options for this config file.
 
+* APP_CONTEXT: ?
 * APP_TITLE: Define the location (e.g. city, municipality, state, aso.) to be served by the UI.
 This location is used for instance as browser title or for social media content.
 * APP_DESCRIPTION: This option is not used by the UI itself.
 The assumed purpose is to describe the configuration file.
+* APP_PATH: ?
 * CONFIG: Define the configuration file to be loaded by the UI if it should be different from `config.default.js`.
 For instance, if you are about to run an UI for the `Oulu` area, you will define `CONFIG=oulu` to get `config.oulu.js`.
+* ASSET_URL: ?
+* API_URL: ?
 * MAP_URL: Define the address of the tile server serving map tiles for the background map. You can host your own tiles, buy them from a commercial provider or use free tiles.
+* OTP_URL: ?
+* OTP_TIMEOUT: ?
+* GEOCODING_BASE_URL: ?
 * PORT: Define the port number to access the UI service.
+* REALTIME_PATCH: ?
