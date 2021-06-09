@@ -192,6 +192,9 @@
           }
         }
       }
+      &.car_park {
+        background-color: #007ac9;
+      }
       &.walk, &.wait {
         min-width: 1px;
         &.render-icon {
