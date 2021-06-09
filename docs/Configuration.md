@@ -22,5 +22,6 @@ For instance, if you are about to run an UI for the `Oulu` area, you will define
 * OTP_URL: ?
 * OTP_TIMEOUT: ?
 * GEOCODING_BASE_URL: ?
-* PORT: Define the port number to access the UI service.
+* PORT: Define the port number the web server is using to access the UI service.
 * REALTIME_PATCH: ?
+* STATIC_MESSAGE_URL: Define the URL for the catalogue of static messages loaded by the UI.
