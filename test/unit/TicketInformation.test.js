@@ -324,7 +324,7 @@ describe('<TicketInformation />', () => {
     expect(wrapper.find(ExternalLink).prop('href')).to.equal('foobar');
   });
 
-  it('should include unknown fares to the listing', () => {
+  it('should not include unknown fares to the listing', () => {
     const props = {
       legs: [
         {
@@ -384,15 +384,6 @@ describe('<TicketInformation />', () => {
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
       context: { config: defaultConfig },
     });
-    expect(wrapper.find('.ticket-identifier')).to.have.lengthOf(2);
-
-    const ticketWrapper = wrapper.find('.ticket-type-zone').at(1);
-    expect(ticketWrapper.find('.ticket-identifier').text()).to.equal(
-      'Merisataman lautta',
-    );
-    expect(ticketWrapper.find('.ticket-description').text()).to.equal(
-      'Merisataman lauttaliikenne',
-    );
-    expect(wrapper.find(ExternalLink).prop('href')).to.equal('foobaz');
+    expect(wrapper.find('.ticket-identifier')).to.have.lengthOf(0);
   });
 });
