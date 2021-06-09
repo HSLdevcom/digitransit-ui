@@ -66,7 +66,7 @@ class RoadworksContent extends React.Component {
 
     const url = properties.details_url;
     return (
-      <SidebarContainer name={properties.locationStreet} description={duration}>
+      <SidebarContainer name={properties.name} description={duration}>
         <div>
           {properties.locationDescription && (
             <p>{properties.locationDescription}</p>
