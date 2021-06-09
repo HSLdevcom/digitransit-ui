@@ -90,7 +90,7 @@ export default config => {
             <Route
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "parking lots" */ './component/map/sidebar/GeoJsonContent'
+                  /* webpackChunkName: "parking lots" */ './component/map/sidebar/GeojsonContent'
                 ).then(getDefault)
               }
             />
