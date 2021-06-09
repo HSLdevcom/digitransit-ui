@@ -3,6 +3,7 @@ const parallel = require('async/parallel');
 const AxeBuilder = require('@axe-core/webdriverjs');
 const WebDriver = require('selenium-webdriver');
 const firefox = require('selenium-webdriver/firefox');
+const { expect } = require('chai');
 
 const args = process.argv.slice(2);
 const onlyTestLocal = args.includes('local');
@@ -72,36 +73,36 @@ const analyzeLocal = (callback, i, printResults) => {
         if (err) {
           // TODO Handle error somehow
           console.log(err);
-        }
+        } else {
+          const { violations, passes, incomplete, inapplicable } = results;
+          localResults.violations = [...localResults.violations, ...violations];
+          localResults.passes = [...localResults.passes, ...passes];
+          localResults.incomplete = [...localResults.incomplete, ...incomplete];
+          localResults.inapplicable = [
+            ...localResults.inapplicable,
+            ...inapplicable,
+          ];
 
-        const { violations, passes, incomplete, inapplicable } = results;
-        localResults.violations = [...localResults.violations, ...violations];
-        localResults.passes = [...localResults.passes, ...passes];
-        localResults.incomplete = [...localResults.incomplete, ...incomplete];
-        localResults.inapplicable = [
-          ...localResults.inapplicable,
-          ...inapplicable,
-        ];
-
-        if (printResults) {
-          console.log(`RESULTS for ${url}: `);
-          console.log('Violations: ');
-        }
-        for (let j = 0; j < results.violations.length; j++) {
-          const v = violations[j];
-          v.url = URLS_TO_TEST[i];
-          const firstTargetElement =
-            v.nodes.length > 0 ? `- on element: ${v.nodes[0].target[0]}` : '';
           if (printResults) {
-            console.log(
-              color[v.impact],
-              `${v.impact} - ${v.id}: ${v.help} ${firstTargetElement}`,
-              '\x1b[0m',
-            );
+            console.log(`RESULTS for ${url}: `);
+            console.log('Violations: ');
           }
-        }
+          for (let j = 0; j < results.violations.length; j++) {
+            const v = violations[j];
+            v.url = URLS_TO_TEST[i];
+            const firstTargetElement =
+              v.nodes.length > 0 ? `- on element: ${v.nodes[0].target[0]}` : '';
+            if (printResults) {
+              console.log(
+                color[v.impact],
+                `${v.impact} - ${v.id}: ${v.help} ${firstTargetElement}`,
+                '\x1b[0m',
+              );
+            }
+          }
 
-        analyzeLocal(callback, i + 1, printResults);
+          analyzeLocal(callback, i + 1, printResults);
+        }
       });
     });
   } else {
@@ -117,29 +118,29 @@ const analyzeBenchmark = (callback, i) => {
         if (err) {
           // TODO Handle error somehow
           console.log(err);
+        } else {
+          const { violations, passes, incomplete, inapplicable } = results;
+          benchmarkResults.violations = [
+            ...benchmarkResults.violations,
+            ...violations,
+          ];
+          benchmarkResults.passes = [...benchmarkResults.passes, ...passes];
+          benchmarkResults.incomplete = [
+            ...benchmarkResults.incomplete,
+            ...incomplete,
+          ];
+          benchmarkResults.inapplicable = [
+            ...benchmarkResults.inapplicable,
+            ...inapplicable,
+          ];
+
+          for (let j = 0; j < results.violations.length; j++) {
+            const v = violations[j];
+            v.url = URLS_TO_TEST[i];
+          }
+
+          analyzeBenchmark(callback, i + 1);
         }
-
-        const { violations, passes, incomplete, inapplicable } = results;
-        benchmarkResults.violations = [
-          ...benchmarkResults.violations,
-          ...violations,
-        ];
-        benchmarkResults.passes = [...benchmarkResults.passes, ...passes];
-        benchmarkResults.incomplete = [
-          ...benchmarkResults.incomplete,
-          ...incomplete,
-        ];
-        benchmarkResults.inapplicable = [
-          ...benchmarkResults.inapplicable,
-          ...inapplicable,
-        ];
-
-        for (let j = 0; j < results.violations.length; j++) {
-          const v = violations[j];
-          v.url = URLS_TO_TEST[i];
-        }
-
-        analyzeBenchmark(callback, i + 1);
       });
     });
   } else {
@@ -212,6 +213,7 @@ const wrapup = () => {
           '\x1b[0m',
         );
       }
+      expect(newViolations.length).to.equal(0);
     } else {
       console.log('No new erros');
     }

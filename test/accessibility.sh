@@ -9,6 +9,13 @@ GECKODRIVER_FILENAME=$(echo $GECKODRIVER_URL | awk -F/ '{print $NF}')
 # Silence output and send to background
 CONFIG=hsl yarn run dev >/dev/null 2>&1 &
 
+# Install firefox if needed
+if ! [ -x "$(command -v firefox)" ]
+then
+    echo "Firefox could not be found, trying to install..."
+    sudo apt install firefox
+fi
+
 # Fetch required webrivers
 if [ ! -f ./test/binaries/$GECKODRIVER_FILENAME ]
 then
