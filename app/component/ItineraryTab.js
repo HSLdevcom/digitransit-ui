@@ -136,7 +136,7 @@ class ItineraryTab extends React.Component {
       fetchFares(itinerary, config.URL.FARES)
         .then(data => {
           this.setState({
-            fares: getFares(data, getRoutes(itinerary.legs), config)
+            fares: data
           });
         })
         // eslint-disable-next-line no-console
@@ -150,13 +150,13 @@ class ItineraryTab extends React.Component {
 
   render() {
     const { itinerary } = this.props;
-    const { fares } = this.state;
     const { config } = this.context;
 
     if (!itinerary || !itinerary.legs[0]) {
       return null;
     }
 
+    const fares = getFares(this.state.fares, getRoutes(itinerary.legs), config)
     const extraProps = this.setExtraProps(itinerary);
     return (
       <div className="itinerary-tab">
