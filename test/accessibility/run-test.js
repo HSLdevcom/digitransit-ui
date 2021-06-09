@@ -3,7 +3,6 @@ const parallel = require('async/parallel');
 const AxeBuilder = require('@axe-core/webdriverjs');
 const WebDriver = require('selenium-webdriver');
 const firefox = require('selenium-webdriver/firefox');
-const { expect } = require('chai');
 
 const args = process.argv.slice(2);
 const onlyTestLocal = args.includes('local');
@@ -213,7 +212,7 @@ const wrapup = () => {
           '\x1b[0m',
         );
       }
-      expect(newViolations.length).to.equal(0);
+      process.exitCode = 1;
     } else {
       console.log('No new erros');
     }

@@ -1,7 +1,13 @@
 #/bin/bash
 set -e
-trap "exit" INT TERM
-trap "kill 0" EXIT
+
+cleanup() {
+    lsof -t -i tcp:8080 | xargs kill -9
+    lsof -t -i tcp:9000 | xargs kill -9
+}
+
+trap "exit $TESTSTATUS" INT TERM
+trap cleanup EXIT
 
 GECKODRIVER_URL="https://github.com/mozilla/geckodriver/releases/download/v0.29.1/geckodriver-v0.29.1-linux64.tar.gz"
 GECKODRIVER_FILENAME=$(echo $GECKODRIVER_URL | awk -F/ '{print $NF}')
@@ -37,4 +43,6 @@ while ! echo exit | nc localhost 8080; do sleep 3; done
 
 echo "Starting tests..."
 node ./test/accessibility/run-test.js "$@"
+TESTSTATUS=$?
+
 set +e
