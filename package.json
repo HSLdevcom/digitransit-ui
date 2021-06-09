@@ -23,6 +23,7 @@
     "dev-win-hsl": "yarn predev-win-hsl && cd win-launch-scripts&& hsl-win-launch-script.bat",
     "dev-win-national": "yarn predev-win-hsl && cd win-launch-scripts&& set CONFIG=&& national-win-launch-script.bat",
     "dev-nowatch": "bash -c 'NODE_ENV=development node server/server.js & NODE_ENV=development webpack-dev-server'",
+    "test-accessibility": "./test/accessibility.sh",
     "test-local": "./test/flow/script/run-ui-tests.sh local",
     "test-browserstack": "./test/flow/script/run-ui-tests.sh browserstack",
     "test-coverage": "NODE_ENV=test nyc yarn run test-unit",
@@ -214,6 +215,7 @@
   },
   "devDependencies": {
     "@axe-core/react": "^4.2.0",
+    "@axe-core/webdriverjs": "^4.2.1",
     "@babel/cli": "7.11.5",
     "@babel/plugin-proposal-object-rest-spread": "7.12.1",
     "@babel/plugin-transform-runtime": "7.11.5",
@@ -226,6 +228,7 @@
     "@rollup/plugin-babel": "5.2.2",
     "@rollup/plugin-json": "4.1.0",
     "@rollup/plugin-node-resolve": "11.0.1",
+    "async": "^3.2.0",
     "autoprefixer": "9.8.6",
     "axe-core": "^4.2.1",
     "babel-core": "7.0.0-bridge.0",
