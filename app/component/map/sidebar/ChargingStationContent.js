@@ -97,32 +97,29 @@ const ChargingStationContent = ({ match }, { intl }) => {
 
   const getCapacity = () => {
     const { capacity, available } = match.location.query;
+    const body = {
+      id: 'charging-spaces-no-data',
+      defaultMessage: 'No capacity data available',
+    };
 
-    if (available && capacity) {
-      return intl.formatMessage(
-        {
-          id: 'charging-spaces-available',
-          defaultMessage: '{available} of {capacity} parking spaces available',
-        },
-        { capacity, available },
-      );
+    if (capacity) {
+      if (available) {
+        body.id = 'charging-spaces-available';
+        body.defaultMessage =
+          '{available} of {capacity} parking spaces available';
+      } else {
+        body.id = 'charging-spaces-in-total';
+        body.defaultMessage = 'Capacity: {capacity} parking spaces';
+      }
     }
 
-    if (capacity && !available) {
-      return intl.formatMessage(
-        {
-          id: 'charging-spaces-in-total',
-          defaultMessage: 'Capacity: {capacity} parking spaces',
-        },
-        match.location.query,
-      );
-    }
-    return intl.formatMessage(
-      {
-        id: 'charging-spaces-no-data',
-        defaultMessage: 'No capacity data available',
-      },
-      match.location.query,
+    return (
+      <>
+        <div className="text-light text-alignment">|</div>
+        <div className="text-light text-alignment">
+          {intl.formatMessage(body, match.location.query)}
+        </div>
+      </>
     );
   };
 
@@ -250,8 +247,7 @@ const ChargingStationContent = ({ match }, { intl }) => {
               </div>
             ))}
           </div>
-          <div className="text-light text-alignment">|</div>
-          <div className="text-light text-alignment">{getCapacity()}</div>
+          {getCapacity()}
         </div>
         <div className="charging-station-divider" />
         <div className="text-light">
