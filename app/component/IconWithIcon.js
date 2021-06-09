@@ -20,11 +20,7 @@ const IconWithIcon = (
   },
   { intl },
 ) => (
-  <span
-    id={id}
-    className={className}
-    style={subIcon ? undefined : { color: 'white' }}
-  >
+  <span id={id} className={className}>
     <span>
       <Icon
         badgeFill={badgeFill}

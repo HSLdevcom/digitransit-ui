@@ -553,22 +553,6 @@
   }
 }
 
-.itinerary-legs {
-  .composedIcon {
-    display: inline-flex;
-    flex-direction: row;
-  }
-  .primary-icon {
-    font-size: 1em;
-    padding-right: 8px;
-    padding-top: 8px;
-  }
-  .secondary-icon {
-    font-size: .8em;
-    margin-left: -1em;
-  }
-}
-
 @media print {
   .itinerary-summary-row.bp-large.open {
     height: auto;

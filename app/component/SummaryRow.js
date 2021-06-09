@@ -72,7 +72,6 @@ export const RouteLeg = ({
   isTransitLeg,
   fitRouteNumber,
   withBicycle,
-  subIcon,
 }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
@@ -90,7 +89,6 @@ export const RouteLeg = ({
         vertical
         withBar
         isTransitLeg={isTransitLeg}
-        subIcon={subIcon}
       />
     );
   } else {
@@ -104,7 +102,6 @@ export const RouteLeg = ({
         withBar
         isTransitLeg={isTransitLeg}
         withBicycle={withBicycle}
-        subIcon={subIcon}
       />
     );
   }
@@ -127,12 +124,10 @@ RouteLeg.propTypes = {
   fitRouteNumber: PropTypes.bool.isRequired,
   isTransitLeg: PropTypes.bool,
   withBicycle: PropTypes.bool.isRequired,
-  subIcon: PropTypes.string,
 };
 
 RouteLeg.defaultProps = {
   isTransitLeg: true,
-  subIcon: undefined,
 };
 
 export const ModeLeg = (
@@ -182,7 +177,6 @@ ModeLeg.propTypes = {
   renderModeIcons: PropTypes.bool,
   duration: PropTypes.number,
   icon: PropTypes.string,
-  subIcon: PropTypes.string,
 };
 
 ModeLeg.contextTypes = {
@@ -365,10 +359,12 @@ const SummaryRow = (
         />,
       );
     } else if (leg.mode === 'CAR') {
+      const drivingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
           leg={leg}
+          duration={drivingTime}
           mode="CAR"
           legLength={legLength}
           large={breakpoint === 'large'}
