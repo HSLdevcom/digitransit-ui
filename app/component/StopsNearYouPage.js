@@ -818,6 +818,7 @@ class StopsNearYouPage extends React.Component {
   render() {
     const { mode } = this.props.match.params;
     const { phase } = this.state;
+    const nearByStopModes = this.getNearByStopModes();
 
     if (PH_SHOWSEARCH.includes(phase)) {
       return <div>{this.renderDialogModal()}</div>;
@@ -846,6 +847,7 @@ class StopsNearYouPage extends React.Component {
               }
               bckBtnFallback="back"
               content={this.renderContent()}
+              scrollable={nearByStopModes.length === 1}
               map={
                 <>
                   {this.renderSearchBox()}
