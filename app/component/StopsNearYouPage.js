@@ -100,7 +100,6 @@ class StopsNearYouPage extends React.Component {
       const mapLayerOptions = getMapLayerOptions({
         lockedMapLayers: ['vehicles', 'stop', 'citybike'],
         selectedMapLayers: ['vehicles', 'stop', 'citybike'],
-        modes: [this.props.match.params.mode.toLowerCase()],
       });
       this.setState({ showCityBikeTeaser, mapLayerOptions });
     } else {
@@ -154,16 +153,6 @@ class StopsNearYouPage extends React.Component {
     });
   }
 
-  componentDidUpdate = prevProps => {
-    if (this.context.config.map.showLayerSelector) {
-      const { mode } = this.props.match.params;
-      const { mode: prevMode } = prevProps.match.params;
-      if (mode !== prevMode) {
-        this.setMapLayerOptions();
-      }
-    }
-  };
-
   static getDerivedStateFromProps = (nextProps, prevState) => {
     let newState = null;
     if (
@@ -193,16 +182,6 @@ class StopsNearYouPage extends React.Component {
       return newState;
     }
     return newState;
-  };
-
-  setMapLayerOptions = () => {
-    const { mode } = this.props.match.params;
-    const mapLayerOptions = getMapLayerOptions({
-      lockedMapLayers: ['vehicles', 'stop', 'citybike'],
-      selectedMapLayers: ['vehicles', 'stop', 'citybike'],
-      modes: [mode.toLowerCase()],
-    });
-    this.setState({ mapLayerOptions });
   };
 
   getQueryVariables = nearByMode => {
