@@ -1,4 +1,4 @@
-Digitransit-ui is configured using several configuration files or command line interface (CLI) options.
+Digitransit-ui, where ui stands for user interface (UI), is configured using several configuration files or command line interface (CLI) options.
 
 # Config.*.js file
 These files are located in the `app/configurations` directory.
@@ -8,7 +8,8 @@ Please refer to the [Themes](https://github.com/HSLdevcom/digitransit-ui/blob/ma
 about how to create a configuration file for a customized theme.
 The following list, though it might be incomprehensive, descripes availabe options for this config file.
 
-* APP_TITLE: Name the location (e.g. city, municipality, state, aso.) to be served.
-* CONFIG: Define the configuration file to be loaded for the Digitransit-ui instance if it should be different from `config.default.js`.
-For instance, if you are about to run a Digitransit instance for the `Oulu` area, you will define `CONFIG=oulu` to get `config.oulu.js`.
-* MAP_URL: Define the address ot the tile server serving map tiles for the background map. You can host your own tiles, buy them from a commercial provider or use free tiles.
+* APP_TITLE: Name the location (e.g. city, municipality, state, aso.) to be served by the UI.
+* CONFIG: Define the configuration file to be loaded by the UI if it should be different from `config.default.js`.
+For instance, if you are about to run an UI for the `Oulu` area, you will define `CONFIG=oulu` to get `config.oulu.js`.
+* MAP_URL: Define the address of the tile server serving map tiles for the background map. You can host your own tiles, buy them from a commercial provider or use free tiles.
+* PORT: Define the port number to access the UI service.
