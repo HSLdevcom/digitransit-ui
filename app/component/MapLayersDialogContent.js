@@ -148,7 +148,12 @@ class MapLayersDialogContent extends React.Component {
           <div className="checkbox-grouping">
             <Checkbox
               large
-              checked={vehicles}
+              checked={
+                !this.props.mapLayerOptions
+                  ? vehicles
+                  : !!this.props.mapLayerOptions?.vehicles?.isLocked &&
+                    !!this.props.mapLayerOptions?.vehicles?.isSelected
+              }
               disabled={!!this.props.mapLayerOptions?.vehicles?.isLocked}
               defaultMessage="Moving vehicles"
               labelId="map-layer-vehicles"
