@@ -11,6 +11,36 @@ import { getAlternativeFares } from '../util/fareUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import Icon from './Icon';
 
+const getBuyTicketHref = legs => {
+  const uri = 'https://www3.vvs.de/mng/#!/XSLT_TRIP_REQUEST2@result';
+
+  const { startTime } = legs[0];
+  const date = new Date(startTime * 1000);
+
+  const deeplink = {
+    dateTime: {
+      date: `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`,
+      time: `${date.getHours()}:${date.getMinutes()}`,
+      useRealTime: true,
+      isDeparture: true,
+    },
+    via: {
+      optionsList: [],
+      optionsListItem: {
+        type: 'any',
+        dwellTime: '0',
+        enabled: true,
+      },
+    },
+    odvs: {
+      orig: 'coord:3504160:784636:NBWT:Tübingen, Hauptbahnhof:0',
+      dest: 'de:08235:10070',
+    },
+  };
+
+  return `${uri}?deeplink=${JSON.stringify(deeplink)}`;
+};
+
 const getUnknownFareRoute = (fares, route) => {
   for (let i = 0; i < fares.length; i++) {
     if (fares[i].routeGtfsId === route.gtfsId) {
@@ -40,6 +70,7 @@ export default function TicketInformation(
   const onlyVvs = fares.every(
     fare => fare.agency && fare.agency.name && fare.agency.name === 'VVS',
   );
+  const externalHref = onlyVvs ? getBuyTicketHref(legs) : null;
 
   // DT-3314 If Fare is unknown show Correct leg's route name instead of whole trip that fare.routeName() returns.
   const unknownFares = fares.filter(fare => fare.isUnknown);
@@ -182,7 +213,10 @@ export default function TicketInformation(
             </div>
           )}
           {onlyVvs && (
-            <ExternalLink className="itinerary-ticket-external-link" href="">
+            <ExternalLink
+              className="itinerary-ticket-external-link"
+              href={externalHref}
+            >
               {intl.formatMessage({ id: 'buy-ticket' })}
             </ExternalLink>
           )}
