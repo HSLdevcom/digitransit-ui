@@ -263,6 +263,12 @@
                 justify-content: center;
                 max-width: 100%;
               }
+              &.car {
+                width: 1em;
+                .car {
+                  color: $white;
+                }
+              }
             }
             .leg-duration-container {
               float: left;
