@@ -203,7 +203,7 @@ const StopPageMapWithStores = connectToStores(
     if (props.citybike) {
       ml.force = ['citybike']; // show always
     } else {
-      ml.force = ['stop', 'terminal'];
+      ml.force = ['terminal'];
     }
     const mapLayers = getStore(MapLayerStore).getMapLayers(ml);
     const mapLayerOptions = getMapLayerOptions({
