@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Select from 'react-select';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import { intlShape } from 'react-intl';
+import isEmpty from 'lodash/isEmpty';
 
 export default function RouteScheduleDropdown(props, context) {
   const { alignRight, id, labelId, list, onSelectChange, title } = props;
@@ -100,6 +101,16 @@ export default function RouteScheduleDropdown(props, context) {
           IndicatorSeparator: () => null,
         }}
         inputId={`aria-input-${id}`}
+        aria-label={
+          (isEmpty(selectedValue) &&
+            `${
+              labelId &&
+              intl.formatMessage({
+                id: 'route-page.pattern-chosen',
+              })
+            } ${title}`) ||
+          ''
+        }
         isSearchable={false}
         name={id}
         menuIsOpen={isMenuOpen}
