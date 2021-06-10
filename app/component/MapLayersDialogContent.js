@@ -70,27 +70,6 @@ class MapLayersDialogContent extends React.Component {
     mapLayerOptions: null,
   };
 
-  componentDidMount = () => {
-    const { mapLayerOptions } = this.props;
-    if (mapLayerOptions) {
-      const newSetting = {};
-      Object.keys(mapLayerOptions).forEach(key => {
-        if (key === 'stop') {
-          newSetting[key] = this.props.mapLayers[key];
-          Object.keys(mapLayerOptions[key]).forEach(subKey => {
-            // Only set setting selected if it is also locked
-            if (mapLayerOptions[key][subKey].isLocked) {
-              newSetting[key][subKey] = mapLayerOptions[key][subKey].isSelected;
-            }
-          });
-        } else if (mapLayerOptions[key].isLocked) {
-          newSetting[key] = mapLayerOptions[key].isSelected;
-        }
-      });
-      this.updateSetting(newSetting);
-    }
-  };
-
   sendLayerChangeAnalytic = (name, enable) => {
     const action = enable ? 'ShowMapLayer' : 'HideMapLayer';
     addAnalyticsEvent({
@@ -109,7 +88,6 @@ class MapLayersDialogContent extends React.Component {
 
   updateSetting = newSetting => {
     this.props.updateMapLayers({
-      ...this.props.mapLayers,
       ...newSetting,
     });
   };
@@ -317,7 +295,6 @@ const connectedComponent = connectToStores(
         layers: getGeoJsonLayersOrDefault(config, getStore(GeoJsonStore)),
       },
     },
-    mapLayers: getStore(MapLayerStore).getMapLayers(),
     updateMapLayers: mapLayers =>
       executeAction(updateMapLayers, { ...mapLayers }),
     lang: getStore('PreferencesStore').getLanguage(),
