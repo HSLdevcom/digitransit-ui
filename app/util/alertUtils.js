@@ -377,11 +377,12 @@ export const getServiceAlertsForTerminalStops = (
   stop,
   locale = 'en',
 ) => {
-  const alerts = isTerminal
-    ? stop.stops
-        .map(terminalStop => getServiceAlertsForStop(terminalStop, locale))
-        .filter(arr => arr.length > 0)
-    : [];
+  const alerts =
+    isTerminal && stop.stops
+      ? stop.stops
+          .map(terminalStop => getServiceAlertsForStop(terminalStop, locale))
+          .filter(arr => arr.length > 0)
+      : [];
   return alerts.reduce((a, b) => a.concat(b), []);
 };
 
