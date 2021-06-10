@@ -82,12 +82,12 @@ class RoutePage extends React.Component {
               text=""
             />
             <div className="route-info">
-              <div
+              <h1
                 className={cx('route-short-name', route.mode.toLowerCase())}
                 style={{ color: route.color ? `#${route.color}` : null }}
               >
                 {route.shortName}
-              </div>
+              </h1>
               {tripId && route.patterns[1]?.headsign && (
                 <div className="trip-destination">
                   <Icon className="in-text-arrow" img="icon-icon_arrow-right" />

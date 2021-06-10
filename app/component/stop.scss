@@ -64,7 +64,7 @@
 }
 
 .desktop .stop-page.header {
-  .h3 {
+  h1 {
     height: 24px;
     margin: 1px 19px 1px 0;
     font-family: $font-family;
@@ -145,9 +145,6 @@
   border-radius: 5px;
   margin: 0.5em 4em 1em 4em;
   position: relative;
-  > button {
-    outline: 0;
-  }
   @media print {
     display: none;
   }

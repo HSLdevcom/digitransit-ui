@@ -42,7 +42,7 @@ const BikeRentalStationHeader = (
         />
       )}
       <div className="header">
-        <h3>{bikeRentalStation.name}</h3>
+        <h1>{bikeRentalStation.name}</h1>
         <div className="bike-station-sub-header">
           <FormattedMessage id="citybike-station-no-id" />
           {bikeRentalStation.name !== bikeRentalStation.stationId && (

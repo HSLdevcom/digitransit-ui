@@ -71,6 +71,21 @@ class RoutePageControlPanel extends React.Component {
     noInitialServiceDay: PropTypes.bool,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      focusedTab: getActiveTab(props.match.location.pathname),
+    };
+    this.stopTabRef = React.createRef();
+    this.timetableTabRef = React.createRef();
+    this.disruptionTabRef = React.createRef();
+    this.tabRefs = [
+      this.stopTabRef,
+      this.timetableTabRef,
+      this.disruptionTabRef,
+    ];
+  }
+
   // gets called if pattern has not been visited before
   componentDidMount() {
     const { match, route, noInitialServiceDay } = this.props;
@@ -428,15 +443,41 @@ class RoutePageControlPanel extends React.Component {
               useCurrentTime={useCurrentTime}
             />
           )}
-          <div className="route-tabs" role="tablist">
+          {/* eslint-disable jsx-a11y/interactive-supports-focus */}
+          <div
+            className="route-tabs"
+            role="tablist"
+            onKeyDown={e => {
+              const tabs = [Tab.Stops, Tab.Timetable, Tab.Disruptions];
+              const tabCount = tabs.length;
+              const activeIndex = tabs.indexOf(this.state.focusedTab);
+              let index;
+              switch (e.nativeEvent.code) {
+                case 'ArrowLeft':
+                  index = (activeIndex - 1 + tabCount) % tabCount;
+                  this.tabRefs[index].current.focus();
+                  this.setState({ focusedTab: tabs[index] });
+                  break;
+                case 'ArrowRight':
+                  index = (activeIndex + 1) % tabCount;
+                  this.tabRefs[index].current.focus();
+                  this.setState({ focusedTab: tabs[index] });
+                  break;
+                default:
+                  break;
+              }
+            }}
+          >
+            {/* eslint-enable jsx-a11y/interactive-supports-focus */}
             <button
               type="button"
               className={cx({ 'is-active': activeTab === Tab.Stops })}
               onClick={() => {
                 this.changeTab(Tab.Stops);
               }}
-              tabIndex={0}
+              tabIndex={activeTab === Tab.Stops ? 0 : -1}
               role="tab"
+              ref={this.stopTabRef}
               aria-selected={activeTab === Tab.Stops}
               style={{
                 '--totalCount': `${countOfButtons}`,
@@ -452,8 +493,9 @@ class RoutePageControlPanel extends React.Component {
               onClick={() => {
                 this.changeTab(Tab.Timetable);
               }}
-              tabIndex={0}
+              tabIndex={activeTab === Tab.Timetable ? 0 : -1}
               role="tab"
+              ref={this.timetableTabRef}
               aria-selected={activeTab === Tab.Timetable}
               style={{
                 '--totalCount': `${countOfButtons}`,
@@ -472,8 +514,9 @@ class RoutePageControlPanel extends React.Component {
               onClick={() => {
                 this.changeTab(Tab.Disruptions);
               }}
-              tabIndex={0}
+              tabIndex={activeTab === Tab.Disruptions ? 0 : -1}
               role="tab"
+              ref={this.disruptionTabRef}
               aria-selected={activeTab === Tab.Disruptions}
               style={{
                 '--totalCount': `${countOfButtons}`,

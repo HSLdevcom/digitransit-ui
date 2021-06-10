@@ -1508,15 +1508,10 @@ class SummaryPage extends React.Component {
       // no map on mobile summary view
       return null;
     }
-    let filteredItineraries;
-    if (!detailView) {
-      filteredItineraries = combinedItineraries.filter(
-        itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-      );
-      if (!filteredItineraries.length) {
-        filteredItineraries = combinedItineraries;
-      }
-    } else {
+    let filteredItineraries = combinedItineraries.filter(
+      itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+    );
+    if (!filteredItineraries.length) {
       filteredItineraries = combinedItineraries;
     }
 

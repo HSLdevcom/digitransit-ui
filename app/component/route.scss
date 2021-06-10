@@ -472,6 +472,7 @@ $margin-left-right: 1.333em;
     display: flex;
     min-width: 0;
     .route-short-name {
+      margin: 0;
       font-family: $font-family-narrow;
       font-size: 30px;
       font-weight: $font-weight-medium;

@@ -113,6 +113,34 @@ jobs:
         run: yarn run test-coverage
       - name: Send test coverage report
         run: yarn run test-report
+  accessibility-test:
+    needs: install
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        node-version: [10.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: "Set time zone to Europe/Helsinki"
+        uses: zcong1993/setup-timezone@master
+        with:
+          timezone: "Europe/Helsinki"
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies and build shared components
+        run: yarn setup
+      - name: build relay queries
+        run: yarn relay
+      - name: Run accessibility tests
+        run: yarn test-accessibility
   # visual-test-chrome:
   #   needs: install
   #   runs-on: ubuntu-18.04
@@ -248,6 +276,7 @@ jobs:
       - lint
       # - flow-test
       - unit-test
+      - accessibility-test
       # - visual-test-chrome
       # - visual-test-firefox
       # - visual-test-safari
@@ -302,6 +331,7 @@ jobs:
       - publish-npm
       # - flow-test
       - unit-test
+      - accessibility-test
       # - visual-test-chrome
       # - visual-test-firefox
       # - visual-test-safari
