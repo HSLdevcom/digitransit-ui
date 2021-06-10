@@ -190,7 +190,7 @@ export default configMerger(walttiConfig, {
                 },
             },
             "cargo-bike": CARGO_BIKES_ENABLED ? {
-                icon: 'regiorad',
+                icon: 'cargobike',
                 name: {
                     de: 'Lastenrad Herrenberg',
                     en: 'Cargo bike Herrenberg',
