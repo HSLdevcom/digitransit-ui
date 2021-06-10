@@ -538,7 +538,10 @@ export default configMerger(walttiConfig, {
     showTicketPrice: true,
     availableTickets: {'hb' : {}},
     fareMapping: function mapHbFareId(fareId) {
-        return fareId;
+        return {
+            en: "Adult",
+            de: "Regulär",
+        };
     },
     displayFareInfoTop: false,
 });

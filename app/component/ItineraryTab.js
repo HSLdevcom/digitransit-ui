@@ -53,10 +53,12 @@ class ItineraryTab extends React.Component {
     router: routerShape.isRequired,
     match: matchShape.isRequired,
     intl: intlShape.isRequired,
+    getStore: PropTypes.func,
   };
 
   state = {
-    fares: []
+    fares: [],
+    lang: ''
   }
 
   handleFocus = (lat, lon) => {
@@ -146,6 +148,10 @@ class ItineraryTab extends React.Component {
         fares: itinerary.fares
       });
     }
+
+    this.setState({
+      lang: this.context.getStore('PreferencesStore').getLanguage()
+    });
   }
 
   render() {
@@ -156,7 +162,7 @@ class ItineraryTab extends React.Component {
       return null;
     }
 
-    const fares = getFares(this.state.fares, getRoutes(itinerary.legs), config)
+    const fares = getFares(this.state.fares, getRoutes(itinerary.legs), config, this.state.lang)
     const extraProps = this.setExtraProps(itinerary);
     return (
       <div className="itinerary-tab">
