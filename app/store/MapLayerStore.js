@@ -81,6 +81,10 @@ class MapLayerStore extends Store {
     this.mapLayers = {
       ...this.mapLayers,
       ...mapLayers,
+      stop: {
+        ...this.mapLayers.stop,
+        ...mapLayers.stop,
+      },
     };
     setMapLayerSettings({ ...this.mapLayers });
     this.emitChange();

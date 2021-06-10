@@ -97,9 +97,10 @@ class StopsNearYouPage extends React.Component {
     const readMessageIds = getReadMessageIds();
     const showCityBikeTeaser = !readMessageIds.includes('citybike_teaser');
     if (this.context.config.map.showLayerSelector) {
+      const { mode } = this.props.match.params;
       const mapLayerOptions = getMapLayerOptions({
-        lockedMapLayers: ['vehicles', 'stop', 'citybike'],
-        selectedMapLayers: ['vehicles', 'stop', 'citybike'],
+        lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+        selectedMapLayers: ['vehicles', 'citybike', mode.toLowerCase()],
       });
       this.setState({ showCityBikeTeaser, mapLayerOptions });
     } else {
@@ -153,6 +154,16 @@ class StopsNearYouPage extends React.Component {
     });
   }
 
+  componentDidUpdate = prevProps => {
+    if (this.context.config.map.showLayerSelector) {
+      const { mode } = this.props.match.params;
+      const { mode: prevMode } = prevProps.match.params;
+      if (mode !== prevMode) {
+        this.setMapLayerOptions();
+      }
+    }
+  };
+
   static getDerivedStateFromProps = (nextProps, prevState) => {
     let newState = null;
     if (
@@ -182,6 +193,15 @@ class StopsNearYouPage extends React.Component {
       return newState;
     }
     return newState;
+  };
+
+  setMapLayerOptions = () => {
+    const { mode } = this.props.match.params;
+    const mapLayerOptions = getMapLayerOptions({
+      lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+      selectedMapLayers: ['vehicles', 'citybike', mode.toLowerCase()],
+    });
+    this.setState({ mapLayerOptions });
   };
 
   getQueryVariables = nearByMode => {
@@ -643,11 +663,7 @@ class StopsNearYouPage extends React.Component {
       ...this.props.mapLayers,
       citybike: mode === 'CITYBIKE',
       citybikeOverrideMinZoom: mode === 'CITYBIKE',
-      stop: {},
     };
-    if (mode !== 'CITYBIKE') {
-      filteredMapLayers.stop[mode.toLowerCase()] = true;
-    }
 
     return (
       <QueryRenderer

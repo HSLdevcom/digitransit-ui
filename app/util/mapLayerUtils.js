@@ -85,33 +85,27 @@ const defaultOptions = {
 
 export const getMapLayerOptions = (options = {}) => {
   const layerOptions = { ...defaultOptions };
-  const { lockedMapLayers, selectedMapLayers, modes } = {
+  const allModes = ['bus', 'tram', 'rail', 'subway', 'ferry'];
+  const { lockedMapLayers, selectedMapLayers } = {
     lockedMapLayers: [],
     selectedMapLayers: [],
-    modes: [],
     ...options,
   };
   lockedMapLayers.forEach(key => {
+    // Stop keyword locks every mode
     if (key === 'stop') {
-      if (!modes || modes.length === 0) {
-        Object.keys(layerOptions[key]).forEach(subKey => {
-          if (layerOptions[key][subKey]) {
-            layerOptions[key][subKey].isLocked = true;
-            layerOptions[key][subKey].isSelected = selectedMapLayers.includes(
-              key,
-            );
-          }
-        });
-      } else {
-        layerOptions[key] = { ...defaultOptions[key] };
-        Object.keys(layerOptions[key]).forEach(subKey => {
-          if (layerOptions[key][subKey]) {
-            layerOptions[key][subKey].isLocked = modes.includes(subKey);
-            layerOptions[key][subKey].isSelected = modes.includes(subKey);
-          }
-        });
-      }
-    } else {
+      Object.keys(layerOptions[key]).forEach(subKey => {
+        if (layerOptions[key][subKey]) {
+          layerOptions[key][subKey].isLocked = true;
+          layerOptions[key][subKey].isSelected =
+            selectedMapLayers.includes(subKey) ||
+            selectedMapLayers.includes(key);
+        }
+      });
+    } else if (layerOptions.stop[key] && allModes.includes(key)) {
+      layerOptions.stop[key].isLocked = lockedMapLayers.includes(key);
+      layerOptions.stop[key].isSelected = selectedMapLayers.includes(key);
+    } else if (layerOptions[key]) {
       layerOptions[key].isLocked = true;
       layerOptions[key].isSelected = selectedMapLayers.includes(key);
     }

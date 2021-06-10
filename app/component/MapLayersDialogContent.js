@@ -94,7 +94,6 @@ class MapLayersDialogContent extends React.Component {
 
   updateStopSetting = newSetting => {
     const stop = {
-      ...this.props.mapLayers.stop,
       ...newSetting,
     };
     this.updateSetting({ stop });
