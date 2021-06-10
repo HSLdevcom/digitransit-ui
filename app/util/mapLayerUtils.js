@@ -46,45 +46,43 @@ export const isFeatureLayerEnabled = (feature, layerName, mapLayers) => {
   return isLayerEnabled(layerName, mapLayers);
 };
 
-const defaultOptions = {
-  parkAndRide: {
-    isLocked: false,
-    isSelected: false,
-  },
-  stop: {
-    bus: {
-      isLocked: false,
-      isSelected: false,
-    },
-    ferry: {
-      isLocked: false,
-      isSelected: false,
-    },
-    rail: {
-      isLocked: false,
-      isSelected: false,
-    },
-    subway: {
-      isLocked: false,
-      isSelected: false,
-    },
-    tram: {
-      isLocked: false,
-      isSelected: false,
-    },
-  },
-  vehicles: {
-    isLocked: false,
-    isSelected: false,
-  },
-  citybike: {
-    isLocked: false,
-    isSelected: false,
-  },
-};
-
 export const getMapLayerOptions = (options = {}) => {
-  const layerOptions = { ...defaultOptions };
+  const layerOptions = {
+    parkAndRide: {
+      isLocked: false,
+      isSelected: false,
+    },
+    stop: {
+      bus: {
+        isLocked: false,
+        isSelected: false,
+      },
+      ferry: {
+        isLocked: false,
+        isSelected: false,
+      },
+      rail: {
+        isLocked: false,
+        isSelected: false,
+      },
+      subway: {
+        isLocked: false,
+        isSelected: false,
+      },
+      tram: {
+        isLocked: false,
+        isSelected: false,
+      },
+    },
+    vehicles: {
+      isLocked: false,
+      isSelected: false,
+    },
+    citybike: {
+      isLocked: false,
+      isSelected: false,
+    },
+  };
   const allModes = ['bus', 'tram', 'rail', 'subway', 'ferry'];
   const { lockedMapLayers, selectedMapLayers } = {
     lockedMapLayers: [],

@@ -208,11 +208,12 @@ const StopPageMapWithStores = connectToStores(
     const mapLayers = getStore(MapLayerStore).getMapLayers(ml);
     const mode = props.stop.vehicleMode
       ? props.stop.vehicleMode.toLowerCase()
-      : '';
+      : 'stop';
     const mapLayerOptions = getMapLayerOptions({
       lockedMapLayers: ['vehicles', mode],
       selectedMapLayers: ['vehicles', mode],
     });
+
     return {
       locationState,
       currentTime,
