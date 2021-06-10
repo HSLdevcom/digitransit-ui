@@ -503,8 +503,8 @@ export default configMerger(walttiConfig, {
             {
                 name: {
                     fi: '',
-                    en: 'Bicycle infrastructure',
-                    de: "Rund um's Fahrrad",
+                    en: 'Service stations and stores',
+                    de: "Service Stationen und Läden",
                 },
                 url: '/assets/geojson/hb-layers/bicycleinfrastructure.geojson',
             },

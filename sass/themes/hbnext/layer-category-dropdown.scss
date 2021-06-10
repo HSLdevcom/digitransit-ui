@@ -1,0 +1,18 @@
+.layer-category-dropdown-container {
+  padding: 10px;
+}
+
+.layer-category-dropdown-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.layer-category-dropdown-button {
+  .inverted {
+    transform: rotate(180deg);
+  }
+}
+
+.layer-category-dropdown-option {
+  padding: 10px 0;
+}
