@@ -104,14 +104,16 @@ class MapWithTrackingStateHandler extends React.Component {
       Object.keys(mapLayerOptions).forEach(key => {
         const layer = mapLayerOptions[key];
         if (layer?.isLocked === undefined) {
-          forcedLayers[key] = {};
           Object.keys(layer).forEach(subKey => {
             if (layer[subKey].isLocked) {
+              if (!forcedLayers[key]) {
+                forcedLayers[key] = {};
+              }
               forcedLayers[key][subKey] = layer[subKey].isSelected;
             }
           });
-        } else {
-          forcedLayers[key] = layer.isLocked && layer.isSelected;
+        } else if (layer?.isLocked) {
+          forcedLayers[key] = layer.isSelected;
         }
       });
       newState = { forcedLayers };
