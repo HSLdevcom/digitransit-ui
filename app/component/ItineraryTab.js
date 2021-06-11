@@ -428,6 +428,7 @@ const withRelay = createFragmentContainer(ItineraryTab, {
           color
           gtfsId
           longName
+          url
           desc
           agency {
             gtfsId

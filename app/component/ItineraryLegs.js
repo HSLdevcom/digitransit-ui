@@ -19,6 +19,7 @@ import TramLeg from './TramLeg';
 import RailLeg from './RailLeg';
 import FerryLeg from './FerryLeg';
 import CarLeg from './CarLeg';
+import CarpoolLeg from './CarpoolLeg';
 import ViaLeg from './ViaLeg';
 import CallAgencyLeg from './CallAgencyLeg';
 import { itineraryHasCancelation } from '../util/alertUtils';
@@ -248,6 +249,12 @@ class ItineraryLegs extends React.Component {
           >
             {this.stopCode(leg.from.stop)}
           </CarLeg>,
+        );
+      } else if (leg.mode === 'CARPOOL') {
+        legs.push(
+          <CarpoolLeg index={j} leg={leg} focusAction={this.focus(leg.from)}>
+            {this.stopCode(leg.from.stop)}
+          </CarpoolLeg>,
         );
       }
 
