@@ -1,7 +1,13 @@
 #/bin/bash
 set -e
-trap "exit" INT TERM
-trap "kill 0" EXIT
+
+cleanup() {
+    lsof -t -i tcp:8080 | xargs kill -9
+    lsof -t -i tcp:9000 | xargs kill -9
+}
+
+trap "exit $TESTSTATUS" INT TERM
+trap cleanup EXIT
 
 GECKODRIVER_URL="https://github.com/mozilla/geckodriver/releases/download/v0.29.1/geckodriver-v0.29.1-linux64.tar.gz"
 GECKODRIVER_FILENAME=$(echo $GECKODRIVER_URL | awk -F/ '{print $NF}')
@@ -9,9 +15,12 @@ GECKODRIVER_FILENAME=$(echo $GECKODRIVER_URL | awk -F/ '{print $NF}')
 # Silence output and send to background
 CONFIG=hsl yarn run dev >/dev/null 2>&1 &
 
-echo "Waiting for the Digitransit UI to start..."
-# Wait until server is accepting connections
-while ! echo exit | nc localhost 8080; do sleep 3; done
+# Install firefox if needed
+if ! [ -x "$(command -v firefox)" ]
+then
+    echo "Firefox could not be found, trying to install..."
+    sudo apt install firefox
+fi
 
 # Fetch required webrivers
 if [ ! -f ./test/binaries/$GECKODRIVER_FILENAME ]
@@ -23,6 +32,10 @@ then
 fi
 export PATH=$PATH:./test/binaries
 
+echo "Waiting for the Digitransit UI to start..."
+# Wait until server is accepting connections
+while ! echo exit | nc localhost 8080; do sleep 3; done
+
 # Enable when chrome testing works
 #wget -N http://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip
 #unzip -n chromedriver_linux64.zip
@@ -30,4 +43,6 @@ export PATH=$PATH:./test/binaries
 
 echo "Starting tests..."
 node ./test/accessibility/run-test.js "$@"
+TESTSTATUS=$?
+
 set +e

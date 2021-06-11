@@ -51,12 +51,12 @@ const CardHeader = (
             </div>
           ) : null}
           <div className="card-header-wrapper">
-            <span className={headingStyle || 'h4'}>
+            <h1 className={headingStyle}>
               {headerTitle !== description || headingStyle ? headerTitle : ''}
               {externalLink || null}
               {headerIcon}
               {unlinked ? null : <span className="link-arrow"> ›</span>}
-            </span>
+            </h1>
             <div className="card-sub-header">
               <div className="card-name-container">
                 <AddressRow
