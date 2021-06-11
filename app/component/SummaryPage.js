@@ -880,6 +880,7 @@ class SummaryPage extends React.Component {
           triangle: $triangle
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
+          carReluctance: 10
           locale: $locale
         ) @include(if: $shouldMakeParkRideQuery) {
           ...SummaryPlanContainer_plan
