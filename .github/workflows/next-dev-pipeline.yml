@@ -141,7 +141,7 @@ jobs:
         run: yarn relay
       - name: Run accessibility tests
         run: yarn test-accessibility
-  visual-test:
+  e2e-test:
     needs: install
     runs-on: ubuntu-18.04
     strategy:
@@ -170,10 +170,6 @@ jobs:
       - uses: microsoft/playwright-github-action@v1
       - name: Run e2e tests with hsl config
         run: CONFIG=hsl yarn test:e2e
-      - name: Run e2e tests with tampere config
-        run: CONFIG=tampere yarn test:e2e
-      - name: Run e2e tests with matka config
-        run: CONFIG=matka yarn test:e2e
   # visual-test-chrome:
   #   needs: install
   #   runs-on: ubuntu-18.04
@@ -365,7 +361,7 @@ jobs:
       # - flow-test
       - unit-test
       - accessibility-test
-      - visual-test
+      - e2e-test
       # - visual-test-chrome
       # - visual-test-firefox
       # - visual-test-safari
