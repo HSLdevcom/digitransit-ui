@@ -12,7 +12,6 @@ const Checkbox = (
   {
     large,
     checked,
-    checkedPartly,
     disabled,
     onChange,
     labelId,
@@ -20,6 +19,8 @@ const Checkbox = (
     showLabel,
     title,
     name,
+    className,
+    icon,
   },
   { intl },
 ) => {
@@ -37,31 +38,22 @@ const Checkbox = (
         role="checkbox"
         tabIndex={disabled ? -1 : 0}
       >
-        <label className={cx({ checked, disabled })} htmlFor={id}>
-          {checked && !checkedPartly && large && (
+        <label className={cx({ checked, disabled }, className)} htmlFor={id}>
+          {checked && large && (
             <Icon
               className="checkmark large"
-              img="icon-icon_check-digitransit"
+              img={icon || 'icon-icon_check-digitransit'}
               viewBox="0 0 15 11"
               width={1.875}
               height={1.75}
             />
           )}
-          {checked && !checkedPartly && !large && (
+          {checked && !large && (
             <Icon
               className="checkmark"
-              img="icon-icon_check-digitransit"
+              img={icon || 'icon-icon_check-digitransit'}
               viewBox="0 0 15 11"
               width={1.375}
-              height={1.25}
-            />
-          )}
-          {checkedPartly && !large && (
-            <Icon
-              className="checkmark minus"
-              img="icon-icon_minus"
-              viewBox="0 0 15 11"
-              width={1}
               height={1.25}
             />
           )}
@@ -92,7 +84,6 @@ const Checkbox = (
 
 Checkbox.propTypes = {
   checked: PropTypes.bool,
-  checkedPartly: PropTypes.bool,
   defaultMessage: PropTypes.string,
   disabled: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
@@ -101,17 +92,20 @@ Checkbox.propTypes = {
   title: PropTypes.string,
   name: PropTypes.string,
   large: PropTypes.bool,
+  className: PropTypes.string,
+  icon: PropTypes.string,
 };
 
 Checkbox.defaultProps = {
   checked: false,
-  checkedPartly: false,
   defaultMessage: '',
   disabled: false,
   labelId: undefined,
   showLabel: true,
   title: undefined,
   large: false,
+  className: null,
+  icon: null,
 };
 
 Checkbox.contextTypes = {

@@ -5,8 +5,12 @@ import { intlShape } from 'react-intl';
 import merge from 'lodash/merge';
 import Checkbox from './Checkbox';
 import Icon from './Icon';
+import Message from './Message';
 
-const LayerCategoryDropdown = ({ title, options, onChange }, { intl }) => {
+const LayerCategoryDropdown = (
+  { title, icon, options, onChange },
+  { intl },
+) => {
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState();
   const [checkedPartly, setCheckedPartly] = useState();
@@ -63,13 +67,25 @@ const LayerCategoryDropdown = ({ title, options, onChange }, { intl }) => {
   return (
     <div className="layer-category-dropdown-container">
       <div className="layer-category-dropdown-header">
-        <Checkbox
-          checked={checked}
-          checkedPartly={checkedPartly}
-          defaultMessage={title}
-          labelId=""
-          onChange={e => handleCheckAll(e.target.checked)}
-        />
+        <div className="layer-category-dropdown-header-content">
+          <Checkbox
+            checked={checked}
+            className="layer-category-dropdown-checkbox"
+            icon={
+              !checkedPartly ? 'icon-icon_check-white' : 'icon-icon_minus-white'
+            }
+            showLabel={false}
+            onChange={e => handleCheckAll(e.target.checked)}
+          />
+          <Icon
+            className="layer-category-dropdown-header-icon"
+            img={icon}
+            viewBox="0 0 15 11"
+            width={1.875}
+            height={1.25}
+          />
+          {title}
+        </div>
         <button
           className="layer-category-dropdown-button"
           type="button"
@@ -84,12 +100,13 @@ const LayerCategoryDropdown = ({ title, options, onChange }, { intl }) => {
           </span>
           <Icon
             className={cx(open && 'inverted')}
+            color="#707070"
             img="icon-icon_arrow-dropdown"
           />
         </button>
       </div>
       {open && (
-        <ul role="radiogroup">
+        <div className="layer-category-dropdown-content">
           {options
             .filter(option => option)
             .map(option => (
@@ -99,15 +116,27 @@ const LayerCategoryDropdown = ({ title, options, onChange }, { intl }) => {
               >
                 <Checkbox
                   checked={option.checked}
-                  defaultMessage={option.defaultMessage}
-                  labelId={option.labelId}
+                  className="layer-category-dropdown-checkbox"
+                  icon="icon-icon_check-white"
+                  showLabel={false}
                   onChange={e => {
                     onChange(updateSettings(option.settings, e.target.checked));
                   }}
                 />
+                <Icon
+                  className="layer-category-dropdown-header-icon"
+                  img={option.icon}
+                  viewBox="0 0 15 11"
+                  width={1.875}
+                  height={1.25}
+                />
+                <Message
+                  labelId={option.labelId}
+                  defaultMessage={option.defaultMessage}
+                />
               </div>
             ))}
-        </ul>
+        </div>
       )}
     </div>
   );
@@ -115,6 +144,7 @@ const LayerCategoryDropdown = ({ title, options, onChange }, { intl }) => {
 
 LayerCategoryDropdown.propTypes = {
   title: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
 };
