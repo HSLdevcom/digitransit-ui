@@ -100,7 +100,7 @@ class StopsNearYouPage extends React.Component {
       const { mode } = this.props.match.params;
       const mapLayerOptions = getMapLayerOptions({
         lockedMapLayers: ['vehicles', 'citybike', 'stop'],
-        selectedMapLayers: ['vehicles', 'citybike', mode.toLowerCase()],
+        selectedMapLayers: ['vehicles', mode.toLowerCase()],
       });
       this.setState({ showCityBikeTeaser, mapLayerOptions });
     } else {
@@ -199,7 +199,7 @@ class StopsNearYouPage extends React.Component {
     const { mode } = this.props.match.params;
     const mapLayerOptions = getMapLayerOptions({
       lockedMapLayers: ['vehicles', 'citybike', 'stop'],
-      selectedMapLayers: ['vehicles', 'citybike', mode.toLowerCase()],
+      selectedMapLayers: ['vehicles', mode.toLowerCase()],
     });
     this.setState({ mapLayerOptions });
   };
