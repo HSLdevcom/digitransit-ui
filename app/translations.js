@@ -1039,7 +1039,7 @@ const translations = {
     bus: 'Bus',
     'bus-with-route-number': 'Bus {routeNumber} {headSign}',
     buy: 'Buy',
-    'buy-ticket': 'Buy ticket',
+    'buy-ticket': 'How to buy a ticket',
     call: 'Call',
     cancel: 'Cancel',
     canceled: 'Canceled',
