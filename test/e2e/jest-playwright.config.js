@@ -1,6 +1,6 @@
 module.exports = {
   serverOptions: {
-    command: `CONFIG=hsl yarn dev-nowatch`,
+    command: `CONFIG=${process.env.CONFIG || 'hsl'} yarn dev-nowatch`,
     port: 8080,
     launchTimeout: 200000,
     debug: true,
