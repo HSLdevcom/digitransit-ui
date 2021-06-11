@@ -400,7 +400,7 @@ const translations = {
     'car-park-full': 'Volle Parkplätze ausschließen',
     car_park: 'Park & Ride',
     carpool: 'Fahrgemeinschaft',
-    'carpool-distance-duration': 'Mitfahren {duration} ({distance})',
+    'carpool-distance-duration': '{duration} ({distance}) mitfahren',
     cause: 'Grund',
     'char-left': 'Zeichen',
     'charging-direct-deep-link': 'Ladevorgang starten',
