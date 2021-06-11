@@ -37,9 +37,6 @@ export default function TicketInformation(
     leg =>
       leg.rentedBike || leg.mode === 'BICYCLE' || leg.mode === 'BICYCLE_WALK',
   );
-  const onlyVvs = fares.every(
-    fare => fare.agency && fare.agency.name && fare.agency.name === 'VVS',
-  );
 
   // DT-3314 If Fare is unknown show Correct leg's route name instead of whole trip that fare.routeName() returns.
   const unknownFares = fares.filter(fare => fare.isUnknown);
@@ -77,6 +74,17 @@ export default function TicketInformation(
         </div>
       );
     }
+
+    const ticketUrl = () => {
+      if (fare.agency && fare.agency.fareUrl) {
+        return fare.agency.fareUrl;
+      }
+      if (fare.url) {
+        return fare.url;
+      }
+      return null;
+    };
+
     return (
       <div key={uuid()} className="ticket-container">
         <div className="ticket-info-container">
@@ -110,23 +118,16 @@ export default function TicketInformation(
             )}
           </div>
         </div>
-        {fare.agency && fare.agency.fareUrl && (
+        {ticketUrl() && (
           <div
             className="ticket-type-agency-link"
             key={i} // eslint-disable-line react/no-array-index-key
           >
             <ExternalLink
               className="itinerary-ticket-external-link"
-              href={fare.agency.fareUrl}
-              onClick={() => {
-                addAnalyticsEvent({
-                  category: 'Itinerary',
-                  action: 'OpenHowToBuyTicket',
-                  name: null,
-                });
-              }}
+              href={ticketUrl()}
             >
-              {intl.formatMessage({ id: 'extra-info' })}
+              {intl.formatMessage({ id: 'buy-ticket' })}
             </ExternalLink>
           </div>
         )}
@@ -180,11 +181,6 @@ export default function TicketInformation(
                 />
               </div>
             </div>
-          )}
-          {onlyVvs && (
-            <ExternalLink className="itinerary-ticket-external-link" href="">
-              {intl.formatMessage({ id: 'buy-ticket' })}
-            </ExternalLink>
           )}
         </div>
       )}
