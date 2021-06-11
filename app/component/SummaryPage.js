@@ -894,6 +894,7 @@ class SummaryPage extends React.Component {
               mode
               ...ItineraryLine_legs
               transitLeg
+              startTime
               legGeometry {
                 points
               }
@@ -915,6 +916,9 @@ class SummaryPage extends React.Component {
                   carParkId
                   name
                 }
+                name
+              }
+              from {
                 name
               }
               distance
@@ -2032,6 +2036,7 @@ class SummaryPage extends React.Component {
         return <Loading />;
       }
       this.selectedPlan = parkRidePlan;
+      [carLeg] = parkRidePlan.itineraries[0].legs;
     } else if (planHasNoItineraries && hasAlternativeItineraries) {
       this.selectedPlan = this.state.alternativePlan;
     } else {
