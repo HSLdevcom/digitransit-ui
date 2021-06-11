@@ -169,7 +169,7 @@ jobs:
         run: yarn relay
       - uses: microsoft/playwright-github-action@v1
       - name: Run e2e tests with hsl config
-        run: CONFIG=hsl yarn test:e2e
+        run: yarn test:e2e-hsl
   # visual-test-chrome:
   #   needs: install
   #   runs-on: ubuntu-18.04
