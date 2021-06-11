@@ -167,7 +167,8 @@ jobs:
         run: yarn setup
       - name: build relay queries
         run: yarn relay
-      - uses: microsoft/playwright-github-action@v1
+      - name: Install playwright deps
+        run: yarn playwright install-deps
       - name: Run visual tests
         run: yarn test:e2e
   # visual-test-chrome:
