@@ -8,10 +8,11 @@ import { isKeyboardSelectionEvent } from '../util/browser';
 import Icon from './Icon';
 import Checkbox from './Checkbox';
 import GeoJsonStore from '../store/GeoJsonStore';
-import MapLayerStore from '../store/MapLayerStore';
+import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 import { updateMapLayers } from '../action/MapLayerActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withGeojsonObjects from './map/withGeojsonObjects';
+import { mapLayerOptionsShape } from '../util/shapes';
 
 const transportModeConfigShape = PropTypes.shape({
   availableForSelection: PropTypes.bool,
@@ -56,12 +57,17 @@ const mapLayersConfigShape = PropTypes.shape({
 
 class MapLayersDialogContent extends React.Component {
   static propTypes = {
-    mapLayers: PropTypes.object,
+    mapLayers: mapLayerShape.isRequired,
+    mapLayerOptions: mapLayerOptionsShape,
     setOpen: PropTypes.func.isRequired,
     updateMapLayers: PropTypes.func,
     lang: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
     geoJson: PropTypes.object,
+  };
+
+  static defaultProps = {
+    mapLayerOptions: null,
   };
 
   sendLayerChangeAnalytic = (name, enable) => {
@@ -82,38 +88,15 @@ class MapLayersDialogContent extends React.Component {
 
   updateSetting = newSetting => {
     this.props.updateMapLayers({
-      ...this.props.mapLayers,
       ...newSetting,
     });
   };
 
-  updateStopAndTerminalSetting = newSetting => {
-    const { mapLayers } = this.props;
-    const stop = {
-      ...mapLayers.stop,
-      ...newSetting,
-    };
-    const terminal = {
-      ...mapLayers.terminal,
-      ...newSetting,
-    };
-    this.updateSetting({ stop, terminal });
-  };
-
   updateStopSetting = newSetting => {
     const stop = {
-      ...this.props.mapLayers.stop,
       ...newSetting,
     };
     this.updateSetting({ stop });
-  };
-
-  updateTerminalSetting = newSetting => {
-    const terminal = {
-      ...this.props.mapLayers.terminal,
-      ...newSetting,
-    };
-    this.updateSetting({ terminal });
   };
 
   updateGeoJsonSetting = newSetting => {
@@ -129,7 +112,6 @@ class MapLayersDialogContent extends React.Component {
       citybike,
       parkAndRide,
       stop,
-      terminal,
       geoJson,
       vehicles,
     } = this.props.mapLayers;
@@ -165,7 +147,13 @@ class MapLayersDialogContent extends React.Component {
           <div className="checkbox-grouping">
             <Checkbox
               large
-              checked={vehicles}
+              checked={
+                !this.props.mapLayerOptions
+                  ? vehicles
+                  : !!this.props.mapLayerOptions?.vehicles?.isLocked &&
+                    !!this.props.mapLayerOptions?.vehicles?.isSelected
+              }
+              disabled={!!this.props.mapLayerOptions?.vehicles?.isLocked}
               defaultMessage="Moving vehicles"
               labelId="map-layer-vehicles"
               onChange={e => {
@@ -181,21 +169,12 @@ class MapLayersDialogContent extends React.Component {
               <Checkbox
                 large
                 checked={stop.bus}
+                disabled={!!this.props.mapLayerOptions?.stop?.bus?.isLocked}
                 defaultMessage="Bus stop"
                 labelId="map-layer-stop-bus"
                 onChange={e => {
                   this.updateStopSetting({ bus: e.target.checked });
                   this.sendLayerChangeAnalytic('BusStop', e.target.checked);
-                }}
-              />
-              <Checkbox
-                large
-                checked={terminal.bus}
-                defaultMessage="Bus terminal"
-                labelId="map-layer-terminal-bus"
-                onChange={e => {
-                  this.updateTerminalSetting({ bus: e.target.checked });
-                  this.sendLayerChangeAnalytic('BusTerminal', e.target.checked);
                 }}
               />
             </Fragment>
@@ -204,6 +183,7 @@ class MapLayersDialogContent extends React.Component {
             <Checkbox
               large
               checked={stop.tram}
+              disabled={!!this.props.mapLayerOptions?.stop?.tram?.isLocked}
               defaultMessage="Tram stop"
               labelId="map-layer-stop-tram"
               onChange={e => {
@@ -212,37 +192,11 @@ class MapLayersDialogContent extends React.Component {
               }}
             />
           )}
-          {isTransportModeEnabled(transportModes.rail) && (
-            <Checkbox
-              large
-              checked={terminal.rail}
-              defaultMessage="Railway station"
-              labelId="map-layer-terminal-rail"
-              onChange={e => {
-                this.updateStopAndTerminalSetting({ rail: e.target.checked });
-                this.sendLayerChangeAnalytic('RailTerminal', e.target.checked);
-              }}
-            />
-          )}
-          {isTransportModeEnabled(transportModes.subway) && (
-            <Checkbox
-              large
-              checked={terminal.subway}
-              defaultMessage="Subway station"
-              labelId="map-layer-terminal-subway"
-              onChange={e => {
-                this.updateStopAndTerminalSetting({ subway: e.target.checked });
-                this.sendLayerChangeAnalytic(
-                  'SubwayTerminal',
-                  e.target.checked,
-                );
-              }}
-            />
-          )}
           {isTransportModeEnabled(transportModes.ferry) && (
             <Checkbox
               large
               checked={stop.ferry}
+              disabled={!!this.props.mapLayerOptions?.stop?.ferry?.isLocked}
               defaultMessage="Ferry"
               labelId="map-layer-stop-ferry"
               onChange={e => {
@@ -256,6 +210,7 @@ class MapLayersDialogContent extends React.Component {
               <Checkbox
                 large
                 checked={citybike}
+                disabled={!!this.props.mapLayerOptions?.citybike?.isLocked}
                 defaultMessage="Citybike station"
                 labelId="map-layer-citybike"
                 onChange={e => {
@@ -269,6 +224,7 @@ class MapLayersDialogContent extends React.Component {
               <Checkbox
                 large
                 checked={parkAndRide}
+                disabled={!!this.props.mapLayerOptions?.parkAndRide?.isLocked}
                 defaultMessage="Park &amp; ride"
                 labelId="map-layer-park-and-ride"
                 onChange={e => {
@@ -343,7 +299,6 @@ const connectedComponent = connectToStores(
         layers: getGeoJsonLayersOrDefault(config, getStore(GeoJsonStore)),
       },
     },
-    mapLayers: getStore(MapLayerStore).getMapLayers(),
     updateMapLayers: mapLayers =>
       executeAction(updateMapLayers, { ...mapLayers }),
     lang: getStore('PreferencesStore').getLanguage(),
