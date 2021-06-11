@@ -168,8 +168,12 @@ jobs:
       - name: build relay queries
         run: yarn relay
       - uses: microsoft/playwright-github-action@v1
-      - name: Run visual tests
-        run: yarn test:e2e
+      - name: Run e2e tests with hsl config
+        run: CONFIG=hsl yarn test:e2e
+      - name: Run e2e tests with tampere config
+        run: CONFIG=tampere yarn test:e2e
+      - name: Run e2e tests with matka config
+        run: CONFIG=matka yarn test:e2e
   # visual-test-chrome:
   #   needs: install
   #   runs-on: ubuntu-18.04
