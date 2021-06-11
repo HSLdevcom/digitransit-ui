@@ -664,7 +664,12 @@ class StopsNearYouPage extends React.Component {
       citybike: mode === 'CITYBIKE',
       citybikeOverrideMinZoom: mode === 'CITYBIKE',
     };
-
+    if (!this.context.config.map.showLayerSelector) {
+      filteredMapLayers.stop = {};
+      if (mode !== 'CITYBIKE') {
+        filteredMapLayers.stop[mode.toLowerCase()] = true;
+      }
+    }
     return (
       <QueryRenderer
         query={graphql`
