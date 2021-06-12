@@ -10,7 +10,16 @@ import storeDestination from '../../../action/destinationActions';
 import { dtLocationShape } from '../../../util/shapes';
 
 const SidebarContainer = (
-  { location, name, description, icon, breakpoint, children, className },
+  {
+    location,
+    name,
+    description,
+    photoUrl,
+    icon,
+    breakpoint,
+    children,
+    className,
+  },
   { router, executeAction },
 ) => {
   const isMobile = breakpoint !== 'large';
@@ -41,6 +50,7 @@ const SidebarContainer = (
           unlinked
           className="sidebar-card-header"
           icon={icon}
+          headerPictureUrl={photoUrl}
           headingStyle="h1"
           description={description}
           showCardSubHeader={Boolean(description)}
@@ -65,6 +75,7 @@ SidebarContainer.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string || PropTypes.node,
   icon: PropTypes.string,
+  photoUrl: PropTypes.string,
   breakpoint: PropTypes.string.isRequired,
   children: PropTypes.node,
   className: PropTypes.string,
@@ -77,6 +88,7 @@ SidebarContainer.defaultProps = {
   className: null,
   name: '',
   description: '',
+  photoUrl: '',
 };
 
 SidebarContainer.contextTypes = {

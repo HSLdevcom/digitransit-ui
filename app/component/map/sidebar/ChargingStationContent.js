@@ -240,7 +240,7 @@ const ChargingStationContent = ({ match }, { intl }) => {
           <Icon className="charging-station-icon" img="icon-icon_schedule" />
           <span className="text-alignment">{getOpeningTimes()}</span>
         </div>
-        <div className="charging-station-divider" />
+        <div className="divider" />
         <div className="charging-info-container">
           <div className="connector-container">
             {connectors.map(connector => (
@@ -253,7 +253,7 @@ const ChargingStationContent = ({ match }, { intl }) => {
           <div className="text-light text-alignment">|</div>
           <div className="text-light text-alignment">{getCapacity()}</div>
         </div>
-        <div className="charging-station-divider" />
+        <div className="divider" />
         <div className="text-light">
           <Icon className="charging-station-icon" img="icon-icon_payment" />
           <span className="text-alignment">{getPaymentTypes()}</span>
@@ -266,7 +266,7 @@ const ChargingStationContent = ({ match }, { intl }) => {
           <Icon className="charging-station-icon" img="icon-icon_call" />
           <span className="text-alignment">{getPhoneNumber()}</span>
         </div>
-        <div className="charging-station-divider" />
+        <div className="divider" />
         {getDirectDeepLink()}
       </div>
     </SidebarContainer>

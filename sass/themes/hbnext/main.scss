@@ -2,6 +2,7 @@
 @import '../../main';
 @import 'dynamic-parking-lots';
 @import 'charging-station-content';
+@import "cargo-bike-content";
 @import 'sidebar-container';
 @import "opening-hours";
 
@@ -149,9 +150,11 @@ input[type='radio'] {
     font-weight: bold;
     position: relative;
   }
+
   & .icon-container {
     top: -8px;
   }
+
   & label {
     top: 8px;
   }
@@ -221,3 +224,45 @@ input[type='radio'] {
   font-size: 16px;
   margin: 10px 0;
 }
+
+
+.charging-info-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.charging-station-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.card-header-back-to-results {
+  display: flex;
+  flex-direction: row;
+  padding: 16px;
+  margin-bottom: 20px;
+
+  .card-header-back-to-results-text {
+    padding-left: 40px;
+    font-size: 16px;
+    color: #666666;
+  }
+}
+
+.card-header-image {
+  height: 200px;
+  width: 100%;
+  overflow: hidden;
+  background-position: center center;
+  background-repeat: no-repeat;
+  margin-bottom: 10px;
+  border-top: 2px solid #ccc;
+  border-bottom: 2px solid #ccc;
+}
+
+.divider {
+  width: 100%;
+  border-top: 1px solid #ccc;
+  margin: 10px 0 10px 0;
+}
+
