@@ -7151,7 +7151,7 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "pickupBookingInfo",
+                            "name": "dropOffBookingInfo",
                             "description": "Information about the booking for this itinerary",
                             "args": [],
                             "type": {
@@ -7495,6 +7495,18 @@
                     "fields": [
                         {
                             "name": "message",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "dropOffMessage",
                             "description": null,
                             "args": [],
                             "type": {

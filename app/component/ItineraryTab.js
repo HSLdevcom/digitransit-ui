@@ -388,8 +388,9 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             name
           }
         }
-        pickupBookingInfo {
+        dropOffBookingInfo {
           message
+          dropOffMessage
           contactInfo {
             phoneNumber
             infoUrl
@@ -429,6 +430,7 @@ const withRelay = createFragmentContainer(ItineraryTab, {
           gtfsId
           longName
           url
+          type
           desc
           agency {
             gtfsId
