@@ -118,7 +118,6 @@ describe('<TicketInformation />', () => {
 
     expect(wrapper.find('.ticket-type-zone')).to.have.lengthOf(0);
     expect(wrapper.find('.ticket-type-title')).to.have.lengthOf(0);
-    expect(wrapper.find('.itinerary-ticket-type')).to.have.lengthOf(0);
   });
 
   it('should convert and show the total fare when showTicketPrice is true', () => {

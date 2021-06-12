@@ -23,9 +23,12 @@ export default function TicketInformation(
   { fares, zones, legs },
   { config, intl },
 ) {
-  if (fares.length === 0) {
+  // Only show ticket information if there's at least one transit leg.
+  if (legs.length !== 0 && !legs.some(leg => leg.transitLeg)) {
     return null;
   }
+
+  const areUnknown = fares.length === 0 || fares.some(fare => fare.isUnknown);
   const isMultiComponent = fares.length > 1;
   const alternativeFares = getAlternativeFares(
     zones,
@@ -152,7 +155,7 @@ export default function TicketInformation(
 
   return (
     <div className="row itinerary-ticket-information">
-      {fares.some(fare => fare.isUnknown) ? (
+      {areUnknown ? (
         <div className="itinerary-ticket-type">
           <div className="info-container">
             <div className="icon-container">
