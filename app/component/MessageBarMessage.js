@@ -11,8 +11,25 @@ const MessageBarMessage = ({ content, textColor, truncate, onShowMore }) => {
     return null;
   };
 
-  const body = (text, link) => {
+  const body = bodyContent => {
+    return (
+      <TruncatedMessage
+        key={Math.random()}
+        lines={2}
+        message={bodyContent}
+        className="message-bar-text"
+        truncate={truncate}
+        onShowMore={onShowMore}
+      />
+    );
+  };
+
+  const getTextElement = text => {
     const textPart = text && text.content;
+    return <>{textPart}</>;
+  };
+
+  const getLinkElement = link => {
     const linkPart = link && link.href && (
       <span>
         <a
@@ -24,22 +41,7 @@ const MessageBarMessage = ({ content, textColor, truncate, onShowMore }) => {
         </a>
       </span>
     );
-    const bodyContent = (
-      <>
-        {textPart}
-        {linkPart}
-      </>
-    );
-
-    return (
-      <TruncatedMessage
-        lines={2}
-        message={bodyContent}
-        className="message-bar-text"
-        truncate={truncate}
-        onShowMore={onShowMore}
-      />
-    );
+    return <>{linkPart}</>;
   };
 
   // eslint-disable-next-line jsx-a11y/click-events-have-key-events
@@ -49,7 +51,7 @@ const MessageBarMessage = ({ content, textColor, truncate, onShowMore }) => {
       tabIndex={0}
       aria-hidden="true"
       role="button"
-      style={{ color: textColor }}
+      style={{ color: textColor, 'white-space': 'pre' }}
     >
       <div className="message-heading">
         {heading(
@@ -58,8 +60,15 @@ const MessageBarMessage = ({ content, textColor, truncate, onShowMore }) => {
         )}
       </div>
       {body(
-        content.find(part => part.type === 'text'),
-        content.find(part => part.type === 'a'),
+        content.reduce((previous, contentElement) => {
+          if (contentElement.type === 'text') {
+            return [...previous, getTextElement(contentElement)];
+          }
+          if (contentElement.type === 'a') {
+            return [...previous, getLinkElement(contentElement)];
+          }
+          return [...previous];
+        }, []),
       )}
     </div>
   );
