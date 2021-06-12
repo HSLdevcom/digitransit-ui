@@ -394,7 +394,7 @@ class TransitLeg extends React.Component {
                   text={leg.route && leg.route.shortName}
                   realtime={false}
                   icon={
-                    leg.route.shortName?.startsWith('RT')
+                    leg.route.type === 715
                       ? 'icon-icon_on-demand-taxi-white'
                       : null
                   }
@@ -405,17 +405,20 @@ class TransitLeg extends React.Component {
             </Link>
             <div className="headsign">{headsign}</div>
           </div>
-          {leg.pickupBookingInfo && (
+          {leg.dropOffBookingInfo && (
             <div>
               <div className={`itinerary-alert-info ${mode.toLowerCase()}`}>
                 <ServiceAlertIcon
                   className="inline-icon"
                   severityLevel={AlertSeverityLevelType.Info}
                 />
-                <div>{leg.pickupBookingInfo.message}</div>
+                <div>
+                  {leg.dropOffBookingInfo.message}{' '}
+                  {leg.dropOffBookingInfo.dropOffMessage}
+                </div>
                 <div>
                   <a
-                    href={leg.pickupBookingInfo.contactInfo.infoUrl}
+                    href={leg.dropOffBookingInfo.contactInfo.infoUrl}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -426,22 +429,22 @@ class TransitLeg extends React.Component {
                   </a>
                 </div>
               </div>
-              {leg.pickupBookingInfo.contactInfo.phoneNumber && (
+              {leg.dropOffBookingInfo.contactInfo.phoneNumber && (
                 <div className="call-button">
                   <a
-                    href={`tel:${leg.pickupBookingInfo.contactInfo.phoneNumber}`}
+                    href={`tel:${leg.dropOffBookingInfo.contactInfo.phoneNumber}`}
                     target="_blank"
                     rel="noreferrer"
                   >
                     <FormattedMessage id="call" defaultMessage="Call" />{' '}
-                    {leg.pickupBookingInfo.contactInfo.phoneNumber}
+                    {leg.dropOffBookingInfo.contactInfo.phoneNumber}
                   </a>
                 </div>
               )}
-              {leg.pickupBookingInfo.contactInfo.bookingUrl && (
+              {leg.dropOffBookingInfo.contactInfo.bookingUrl && (
                 <div className="call-button">
                   <a
-                    href={leg.pickupBookingInfo.contactInfo.bookingUrl}
+                    href={leg.dropOffBookingInfo.contactInfo.bookingUrl}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -571,8 +574,9 @@ TransitLeg.propTypes = {
         fareUrl: PropTypes.string,
       }),
     }),
-    pickupBookingInfo: PropTypes.shape({
+    dropOffBookingInfo: PropTypes.shape({
       message: PropTypes.string,
+      dropOffMessage: PropTypes.string,
       contactInfo: PropTypes.shape({
         phoneNumber: PropTypes.string,
         infoUrl: PropTypes.string,
@@ -594,6 +598,7 @@ TransitLeg.propTypes = {
       gtfsId: PropTypes.string.isRequired,
       shortName: PropTypes.string,
       color: PropTypes.string,
+      type: PropTypes.number,
     }).isRequired,
     to: PropTypes.shape({
       stop: PropTypes.shape({
