@@ -11,19 +11,6 @@ const MessageBarMessage = ({ content, textColor, truncate, onShowMore }) => {
     return null;
   };
 
-  const body = bodyContent => {
-    return (
-      <TruncatedMessage
-        key={Math.random()}
-        lines={2}
-        message={bodyContent}
-        className="message-bar-text"
-        truncate={truncate}
-        onShowMore={onShowMore}
-      />
-    );
-  };
-
   const getTextElement = text => {
     const textPart = text && text.content;
     return <>{textPart}</>;
@@ -41,7 +28,34 @@ const MessageBarMessage = ({ content, textColor, truncate, onShowMore }) => {
         </a>
       </span>
     );
-    return <>{linkPart}</>;
+    return linkPart ? <>{linkPart}</> : undefined;
+  };
+
+  const body = bodyContent => {
+    const message = bodyContent
+      .reduce((previous, contentElement) => {
+        if (contentElement.type === 'text') {
+          return [...previous, getTextElement(contentElement)];
+        }
+        if (contentElement.type === 'a') {
+          return [...previous, getLinkElement(contentElement)];
+        }
+        return [...previous];
+      }, [])
+      .filter(element => element !== undefined);
+
+    return (
+      message.length > 0 && (
+        <TruncatedMessage
+          key={Math.random()}
+          lines={2}
+          message={message}
+          className="message-bar-text"
+          truncate={truncate}
+          onShowMore={onShowMore}
+        />
+      )
+    );
   };
 
   // eslint-disable-next-line jsx-a11y/click-events-have-key-events
@@ -59,17 +73,7 @@ const MessageBarMessage = ({ content, textColor, truncate, onShowMore }) => {
           textColor,
         )}
       </div>
-      {body(
-        content.reduce((previous, contentElement) => {
-          if (contentElement.type === 'text') {
-            return [...previous, getTextElement(contentElement)];
-          }
-          if (contentElement.type === 'a') {
-            return [...previous, getLinkElement(contentElement)];
-          }
-          return [...previous];
-        }, []),
-      )}
+      {body(content)}
     </div>
   );
 };
