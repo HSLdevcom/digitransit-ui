@@ -15,9 +15,16 @@ describe(`Front page with ${config} config`, () => {
     const response = await page.goto('http://localhost:8080');
     expect(response.status()).toBe(200);
 
-    await page.waitForSelector('.main-content');
+    await page.waitForSelector('.main-content', {
+      waitUntil: 'load',
+      timeout: 60000,
+    });
     const mainContent = await page.$('.main-content');
-    const image = await mainContent.screenshot({ fullPage: true });
+    const image = await mainContent.screenshot({
+      fullPage: true,
+      waitUntil: 'load',
+      timeout: 60000,
+    });
 
     const snapshotConfig = getConfig(
       snapshotName,
@@ -40,7 +47,11 @@ describe(`Front page with ${config} config`, () => {
     if (messageBarCloseButton) {
       await messageBarCloseButton.click();
     }
-    const image = await page.screenshot({ fullPage: true });
+    const image = await page.screenshot({
+      fullPage: true,
+      waitUntil: 'load',
+      timeout: 60000,
+    });
 
     const snapshotConfig = getConfig(
       snapshotName,
