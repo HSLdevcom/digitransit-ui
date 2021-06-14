@@ -147,7 +147,7 @@ jobs:
     strategy:
       matrix:
         node-version: [10.x]
-        browser: [chromium, firefox, webkit]
+        config: [hsl, tampere, matka]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -166,16 +166,14 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies and build shared components
         run: yarn setup
-      - name: build relay queries
-        run: yarn relay
       - name: Build UI
         run: yarn build
       - uses: microsoft/playwright-github-action@v1.4.4
       - name: Run End to End tests
         id: 'test_e2e'
         env:
-          BROWSERS: ${{matrix.browser}}
-        run: "CONFIG=hsl yarn test:e2e"
+          CONFIG: ${{matrix.config}}
+        run: yarn test:e2e
   # visual-test-chrome:
   #   needs: install
   #   runs-on: ubuntu-18.04

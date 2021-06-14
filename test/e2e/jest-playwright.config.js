@@ -1,5 +1,3 @@
-const browsers = (process.env.BROWSERS || 'chromium').split(',');
-
 module.exports = {
   serverOptions: {
     command: `CONFIG=${
@@ -14,5 +12,5 @@ module.exports = {
   launchOptions: {
     headless: true,
   },
-  browsers,
+  browsers: ['chromium', 'firefox', 'webkit'],
 };
