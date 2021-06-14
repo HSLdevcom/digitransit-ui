@@ -105,6 +105,11 @@ const CargoBikeContent = ({ slug }, { intl }) => {
     <SidebarContainer
       name={details.name}
       description={description}
+      location={{
+        address: details.address,
+        lat: details.lat,
+        lon: details.lon,
+      }}
       icon="icon-icon_cargo_bike_sharing"
       photoUrl={details?.photo?.url}
     >
