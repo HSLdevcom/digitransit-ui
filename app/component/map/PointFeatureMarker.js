@@ -3,9 +3,9 @@ import L from 'leaflet';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Card from '../Card';
+import { routerShape } from 'found';
+import pickBy from 'lodash/pickBy';
 import GenericMarker from './GenericMarker';
-import MarkerPopupBottom from './MarkerPopupBottom';
 import PreferencesStore from '../../store/PreferencesStore';
 import { isPointTypeGeometry } from '../../util/geo-utils';
 import {
@@ -14,7 +14,7 @@ import {
   getHubRadius,
   getMapIconScale,
 } from '../../util/mapIconUtils';
-import PopupHeader from './PopupHeader';
+import { PREFIX_GEOJSON } from '../../util/path';
 
 /**
  * The minimum radius at which the default round icon is visible.
@@ -113,47 +113,16 @@ export const getPropertyValueOrDefault = (
       properties[propertyName])) ||
   defaultValue;
 
-const PointFeatureMarker = ({
-  feature,
-  icons,
-  language,
-  locationPopup,
-  onSelectLocation,
-}) => {
+const PointFeatureMarker = (
+  { feature, icons, language, locationPopup },
+  { router },
+) => {
   const { geometry, properties } = feature;
   if (!isPointTypeGeometry(geometry)) {
     return null;
   }
 
   const { icon } = properties;
-  const header = getPropertyValueOrDefault(properties, 'name', language);
-
-  const popupContent = getPropertyValueOrDefault(
-    properties,
-    'popupContent',
-    language,
-  );
-  // use header as fallback, so address won't be undefined
-  const address = getPropertyValueOrDefault(
-    properties,
-    'address',
-    language,
-    header,
-  );
-
-  const city = getPropertyValueOrDefault(properties, 'city', language);
-
-  let description = null;
-  // Only display address field as description if it is a real address + add city if exists.
-  if (address !== header && city) {
-    description = `${address}, ${city}`;
-  } else if (address !== header) {
-    description = address;
-  } else if (city) {
-    description = city;
-  }
-
-  const useDescriptionAsHeader = !header;
 
   const hasCustomIcon = icon && icon.id && icons[icon.id];
   const [lon, lat] = geometry.coordinates;
@@ -173,30 +142,25 @@ const PointFeatureMarker = ({
       shouldRender={zoom =>
         isCustomIconVisible(zoom) || isRoundIconVisible(zoom)
       }
-    >
-      <Card>
-        <PopupHeader
-          header={useDescriptionAsHeader ? description : header}
-          subHeader={useDescriptionAsHeader ? '' : description}
-        />
-        {popupContent && (
-          <div className="location-popup-wrapper">
-            <div className="card-text opening-hours">{popupContent}</div>
-          </div>
-        )}
-        {(locationPopup === 'all' || locationPopup === 'origindestination') && (
-          <MarkerPopupBottom
-            location={{
-              address,
-              lat,
-              lon,
-            }}
-            locationPopup={locationPopup}
-            onSelectLocation={onSelectLocation}
-          />
-        )}
-      </Card>
-    </GenericMarker>
+      onClick={() => {
+        const { name, popupContent: content, address, city } = properties;
+        const params = pickBy(
+          {
+            lat,
+            lng: lon,
+            name,
+            language,
+            content,
+            address,
+            city,
+          },
+          value => value !== undefined,
+        );
+        router.push(
+          `/${PREFIX_GEOJSON}?${new URLSearchParams(params).toString()}`,
+        );
+      }}
+    />
   );
 };
 
@@ -213,12 +177,16 @@ PointFeatureMarker.propTypes = {
         id: PropTypes.string.isRequired,
       }),
       name: PropTypes.string,
+      popupContent: PropTypes.string,
     }).isRequired,
   }).isRequired,
   icons: PropTypes.object,
   language: PropTypes.string.isRequired,
   locationPopup: PropTypes.string,
-  onSelectLocation: PropTypes.func,
+};
+
+PointFeatureMarker.contextTypes = {
+  router: routerShape.isRequired,
 };
 
 PointFeatureMarker.defaultProps = {

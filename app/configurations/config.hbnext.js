@@ -4,7 +4,7 @@ import configMerger from '../util/configMerger';
 const CONFIG = 'hbnext';
 const APP_TITLE = 'stadtnavi Herrenberg';
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
-const API_URL = process.env.API_URL || 'https://api.stadtnavi.de';
+const API_URL = process.env.API_URL || 'https://api.dev.stadtnavi.eu';
 const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{x}/{y}{r}.png';
 const SEMI_TRANSPARENT_MAP_URL = process.env.SEMITRANSPARENT_MAP_URL || "https://tiles.stadtnavi.eu/satellite-overlay/{z}/{x}/{y}{r}.png";
 const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || "https://photon.stadtnavi.eu/pelias/v1";
@@ -190,7 +190,7 @@ export default configMerger(walttiConfig, {
                 },
             },
             "cargo-bike": CARGO_BIKES_ENABLED ? {
-                icon: 'regiorad',
+                icon: 'cargobike',
                 name: {
                     de: 'Lastenrad Herrenberg',
                     en: 'Cargo bike Herrenberg',
@@ -503,8 +503,8 @@ export default configMerger(walttiConfig, {
             {
                 name: {
                     fi: '',
-                    en: 'Bicycle infrastructure',
-                    de: "Rund um's Fahrrad",
+                    en: 'Service stations and stores',
+                    de: "Service Stationen und Läden",
                 },
                 url: '/assets/geojson/hb-layers/bicycleinfrastructure.geojson',
             },

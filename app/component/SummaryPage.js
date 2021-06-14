@@ -864,7 +864,12 @@ class SummaryPage extends React.Component {
           toPlace: $toPlace
           intermediatePlaces: $intermediatePlaces
           numItineraries: 6
-          transportModes: [{ mode: CAR, qualifier: PARK }, { mode: TRANSIT }]
+          transportModes: [
+            { mode: CAR, qualifier: PARK }
+            { mode: BUS }
+            { mode: RAIL }
+            { mode: SUBWAY }
+          ]
           date: $date
           time: $time
           walkReluctance: $walkReluctance
@@ -880,6 +885,7 @@ class SummaryPage extends React.Component {
           triangle: $triangle
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
+          carReluctance: 10
           locale: $locale
         ) @include(if: $shouldMakeParkRideQuery) {
           ...SummaryPlanContainer_plan
@@ -894,6 +900,7 @@ class SummaryPage extends React.Component {
               mode
               ...ItineraryLine_legs
               transitLeg
+              startTime
               legGeometry {
                 points
               }
@@ -915,6 +922,9 @@ class SummaryPage extends React.Component {
                   carParkId
                   name
                 }
+                name
+              }
+              from {
                 name
               }
               distance
@@ -2032,6 +2042,7 @@ class SummaryPage extends React.Component {
         return <Loading />;
       }
       this.selectedPlan = parkRidePlan;
+      [carLeg] = parkRidePlan.itineraries[0].legs;
     } else if (planHasNoItineraries && hasAlternativeItineraries) {
       this.selectedPlan = this.state.alternativePlan;
     } else {

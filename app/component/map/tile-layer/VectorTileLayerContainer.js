@@ -15,6 +15,7 @@ import Loading from '../../Loading';
 
 export default function VectorTileLayerContainer(props, { config }) {
   const [layers, setLayers] = useState([]);
+  const [mapLayers, setMapLayers] = useState([]);
 
   useEffect(() => {
     const layersToAdd = [];
@@ -49,7 +50,9 @@ export default function VectorTileLayerContainer(props, { config }) {
     if (config.roadworks && config.roadworks.showRoadworks) {
       layersToAdd.push(Roadworks);
     }
+
     setLayers(layersToAdd);
+    setMapLayers(JSON.parse(JSON.stringify(props.mapLayers)));
   }, [props, config]);
 
   return layers.length !== 0 ? (
@@ -57,7 +60,7 @@ export default function VectorTileLayerContainer(props, { config }) {
       key="tileLayer"
       pane="markerPane"
       layers={layers}
-      mapLayers={props.mapLayers}
+      mapLayers={mapLayers}
       mergeStops={props.mergeStops}
       hilightedStops={props.hilightedStops}
       stopsToShow={props.stopsToShow}
