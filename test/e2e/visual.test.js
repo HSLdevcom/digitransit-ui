@@ -10,19 +10,16 @@ describe(`Front page with ${config} config`, () => {
     context = await browser.newContext({
       viewport: { width: 1360, height: 768 },
     });
+    const path = config === 'hsl' ? '/etusivu' : '/';
     page = await context.newPage();
     const snapshotName = 'front-page-desktop';
-    const response = await page.goto('http://localhost:8080');
+    const response = await page.goto(`http://localhost:8080${path}`);
     expect(response.status()).toBe(200);
 
-    await page.waitForSelector('.main-content', {
-      waitUntil: 'load',
-      timeout: 60000,
-    });
     const mainContent = await page.$('.main-content');
     const image = await mainContent.screenshot({
       fullPage: true,
-      waitUntil: 'load',
+      visible: true,
       timeout: 60000,
     });
 
@@ -39,8 +36,9 @@ describe(`Front page with ${config} config`, () => {
       viewport: { width: 414, height: 715 }, // iPhone 11 viewport sizes
     });
     page = await context.newPage();
+    const path = config === 'hsl' ? '/etusivu' : '/';
     const snapshotName = `front-page-mobile`;
-    const response = await page.goto('http://localhost:8080');
+    const response = await page.goto(`http://localhost:8080${path}`);
     expect(response.status()).toBe(200);
 
     const messageBarCloseButton = await page.$('#close-message-bar');
@@ -49,7 +47,7 @@ describe(`Front page with ${config} config`, () => {
     }
     const image = await page.screenshot({
       fullPage: true,
-      waitUntil: 'load',
+      visible: true,
       timeout: 60000,
     });
 
