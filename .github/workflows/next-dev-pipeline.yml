@@ -142,18 +142,13 @@ jobs:
       - name: Run accessibility tests
         run: yarn test-accessibility
   e2e-test:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-18.04
     strategy:
       # we want to run the full build on all os: don't cancel running jobs even if one fails
       fail-fast: false
       node-version: [10.x]
       matrix:
-        os: [ubuntu-18.04, macos-10.15]
-        browser: [chromium, firefox]
-        include:
-          # only test webkit on macos
-          - os: macos-10.15
-            browser: webkit
+        browser: [chromium, firefox, webkit]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
