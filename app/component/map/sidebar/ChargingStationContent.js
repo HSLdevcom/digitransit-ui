@@ -103,7 +103,7 @@ const ChargingStationContent = ({ match }, { intl }) => {
     };
 
     if (capacity) {
-      if (available) {
+      if (available && available > 0) {
         body.id = 'charging-spaces-available';
         body.defaultMessage =
           '{available} of {capacity} parking spaces available';
@@ -117,7 +117,7 @@ const ChargingStationContent = ({ match }, { intl }) => {
       <>
         <div className="text-light text-alignment">|</div>
         <div className="text-light text-alignment">
-          {intl.formatMessage(body, match.location.query)}
+          {intl.formatMessage(body, { capacity, available })}
         </div>
       </>
     );

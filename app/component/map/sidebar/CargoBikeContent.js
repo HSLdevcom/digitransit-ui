@@ -72,7 +72,34 @@ const CargoBikeContent = ({ slug }, { intl }) => {
     );
   };
 
-  const getCapacity = () => {};
+  const getCapacity = () => {
+    const { resource } = details;
+    const body = {
+      id: 'cargo-bikes-capacity-no-data',
+      defaultMessage: 'No capacity data available',
+    };
+    const capacity = resource?.length;
+    const available = resource?.filter(res => res.status === 'free')?.length;
+
+    if (capacity) {
+      if (available && available > 0) {
+        body.id = 'cargo-bikes-capacity-available';
+        body.defaultMessage = '{available} of {capacity} available';
+      } else {
+        body.id = 'cargo-bikes-capacity-in-total';
+        body.defaultMessage = 'Capacity: {capacity} cargo bike/ cargo bikes';
+      }
+    }
+
+    return (
+      <>
+        <div className="text-light text-alignment">|</div>
+        <div className="text-light text-alignment">
+          {intl.formatMessage(body, { capacity, available })}
+        </div>
+      </>
+    );
+  };
 
   return !loading ? (
     <SidebarContainer
@@ -98,8 +125,7 @@ const CargoBikeContent = ({ slug }, { intl }) => {
               defaultMessage: 'Cargo bike',
             })}
           </div>
-          <div className="text-light text-alignment">|</div>
-          <div className="text-light text-alignment">Unknown capacity</div>
+          {getCapacity()}
         </div>
         <div className="divider" />
         <div className="text-light">
