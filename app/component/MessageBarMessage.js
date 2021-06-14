@@ -11,8 +11,12 @@ const MessageBarMessage = ({ content, textColor, truncate, onShowMore }) => {
     return null;
   };
 
-  const body = (text, link) => {
+  const getTextElement = text => {
     const textPart = text && text.content;
+    return <>{textPart}</>;
+  };
+
+  const getLinkElement = link => {
     const linkPart = link && link.href && (
       <span>
         <a
@@ -24,21 +28,33 @@ const MessageBarMessage = ({ content, textColor, truncate, onShowMore }) => {
         </a>
       </span>
     );
-    const bodyContent = (
-      <>
-        {textPart}
-        {linkPart}
-      </>
-    );
+    return linkPart ? <>{linkPart}</> : undefined;
+  };
+
+  const body = bodyContent => {
+    const message = bodyContent
+      .reduce((previous, contentElement) => {
+        if (contentElement.type === 'text') {
+          return [...previous, getTextElement(contentElement)];
+        }
+        if (contentElement.type === 'a') {
+          return [...previous, getLinkElement(contentElement)];
+        }
+        return [...previous];
+      }, [])
+      .filter(element => element !== undefined);
 
     return (
-      <TruncatedMessage
-        lines={2}
-        message={bodyContent}
-        className="message-bar-text"
-        truncate={truncate}
-        onShowMore={onShowMore}
-      />
+      message.length > 0 && (
+        <TruncatedMessage
+          key={Math.random()}
+          lines={2}
+          message={message}
+          className="message-bar-text"
+          truncate={truncate}
+          onShowMore={onShowMore}
+        />
+      )
     );
   };
 
@@ -49,7 +65,7 @@ const MessageBarMessage = ({ content, textColor, truncate, onShowMore }) => {
       tabIndex={0}
       aria-hidden="true"
       role="button"
-      style={{ color: textColor }}
+      style={{ color: textColor, 'white-space': 'pre' }}
     >
       <div className="message-heading">
         {heading(
@@ -57,10 +73,7 @@ const MessageBarMessage = ({ content, textColor, truncate, onShowMore }) => {
           textColor,
         )}
       </div>
-      {body(
-        content.find(part => part.type === 'text'),
-        content.find(part => part.type === 'a'),
-      )}
+      {body(content)}
     </div>
   );
 };
