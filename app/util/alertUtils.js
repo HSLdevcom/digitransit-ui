@@ -308,7 +308,7 @@ const getServiceAlerts = (
   { color, mode, shortName, routeGtfsId, stopGtfsId } = {},
   locale = 'en',
 ) =>
-  alert && Array.isArray(stop?.alerts)
+  Array.isArray(stop?.alerts)
     ? stop?.alerts.map(alert => ({
         ...getServiceAlertMetadata(alert),
         description: getServiceAlertDescription(alert, locale),
