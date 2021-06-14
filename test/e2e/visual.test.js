@@ -5,6 +5,8 @@ const config = process.env.CONFIG || 'hsl';
 const customSnapshotsDir = `test/e2e/__image_snapshots__`;
 const customDiffDir = `test/e2e/__image_snapshots__/__diff_output__`;
 
+const timeout = 200000;
+
 describe(`Front page with ${config} config`, () => {
   test(`on desktop`, async () => {
     context = await browser.newContext({
@@ -20,7 +22,7 @@ describe(`Front page with ${config} config`, () => {
     const image = await mainContent.screenshot({
       fullPage: true,
       visible: true,
-      timeout: 60000,
+      timeout,
     });
 
     const snapshotConfig = getConfig(
@@ -48,7 +50,7 @@ describe(`Front page with ${config} config`, () => {
     const image = await page.screenshot({
       fullPage: true,
       visible: true,
-      timeout: 60000,
+      timeout,
     });
 
     const snapshotConfig = getConfig(

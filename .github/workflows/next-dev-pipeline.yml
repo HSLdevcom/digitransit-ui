@@ -52,37 +52,37 @@ jobs:
         run: yarn setup
       - name: Run linters
         run: yarn lint
-  flow-test:
-    needs: install
-    runs-on: ubuntu-18.04
-    strategy:
-      matrix:
-        node-version: [10.x]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: "Set time zone to Europe/Helsinki"
-        uses: zcong1993/setup-timezone@master
-        with:
-          timezone: "Europe/Helsinki"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Install dependencies
-        run: yarn
-      - name: Run flow tests
-        run: ./test/flow.sh
-        env:
-          encrypted_59b1a6418079_key: ${{ secrets.encrypted_59b1a6418079_key }}
-          encrypted_59b1a6418079_iv: ${{ secrets.encrypted_59b1a6418079_iv }}
-          BS_ACCESS_KEY: ${{ secrets.BS_ACCESS_KEY }}
-          BS_USERNAME: ${{ secrets.BS_USERNAME }}
+  # flow-test:
+  #   needs: install
+  #   runs-on: ubuntu-18.04
+  #   strategy:
+  #     matrix:
+  #       node-version: [10.x]
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: "Set time zone to Europe/Helsinki"
+  #       uses: zcong1993/setup-timezone@master
+  #       with:
+  #         timezone: "Europe/Helsinki"
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #     - name: Cache node modules
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: '**/node_modules'
+  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+  #     - name: Install dependencies
+  #       run: yarn
+  #     - name: Run flow tests
+  #       run: ./test/flow.sh
+  #       env:
+  #         encrypted_59b1a6418079_key: ${{ secrets.encrypted_59b1a6418079_key }}
+  #         encrypted_59b1a6418079_iv: ${{ secrets.encrypted_59b1a6418079_iv }}
+  #         BS_ACCESS_KEY: ${{ secrets.BS_ACCESS_KEY }}
+  #         BS_USERNAME: ${{ secrets.BS_USERNAME }}
   unit-test:
     needs: install
     runs-on: ubuntu-18.04
