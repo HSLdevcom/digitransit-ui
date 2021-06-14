@@ -142,11 +142,18 @@ jobs:
       - name: Run accessibility tests
         run: yarn test-accessibility
   e2e-test:
-    needs: install
-    runs-on: ubuntu-18.04
+    runs-on: ${{ matrix.os }}
     strategy:
+      # we want to run the full build on all os: don't cancel running jobs even if one fails
+      fail-fast: false
+      node-version: [10.x]
       matrix:
-        node-version: [10.x]
+        os: [ubuntu-18.04, macos-10.15]
+        browser: [chromium, firefox]
+        include:
+          # only test webkit on macos
+          - os: macos-10.15
+            browser: webkit
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -167,8 +174,13 @@ jobs:
         run: yarn setup
       - name: build relay queries
         run: yarn relay
+      - name: Build UI
+        run: yarn build
       - uses: microsoft/playwright-github-action@v1.4.4
-      - name: Run e2e tests with hsl config
+      - name: Run End to End tests
+        id: 'test_e2e'
+        env:
+          BROWSERS: ${{matrix.browser}}
         run: "CONFIG=hsl yarn test:e2e"
   # visual-test-chrome:
   #   needs: install
