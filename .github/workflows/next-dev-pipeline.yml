@@ -145,10 +145,8 @@ jobs:
     needs: install
     runs-on: ubuntu-18.04
     strategy:
-      # we want to run the full build on all os: don't cancel running jobs even if one fails
-      fail-fast: false
-      node-version: [10.x]
       matrix:
+        node-version: [10.x]
         browser: [chromium, firefox, webkit]
     steps:
       - name: Checkout
