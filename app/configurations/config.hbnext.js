@@ -36,7 +36,7 @@ export default configMerger(walttiConfig, {
         ROADWORKS_MAP: `${API_URL}/map/v1/cifs/`,
         COVID19_MAP: `https://tiles.caresteouvert.fr/public.poi_osm_light/{z}/{x}/{y}.pbf`,
         CITYBIKE_MAP: `${API_URL}/routing/v1/router/vectorTiles/citybikes/`,
-        BIKE_PARKS_MAP: `${API_URL}/map/v1/bike-parks/`,
+        BIKE_PARKS_MAP: `${API_URL}/routing/v1/router/vectorTiles/parking/`,
         WEATHER_STATIONS_MAP: `${API_URL}/map/v1/weather-stations/`,
         CHARGING_STATIONS_MAP: `https://ochp.next-site.de/tiles/`,
         PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
