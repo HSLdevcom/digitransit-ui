@@ -1,8 +1,14 @@
+.layer-category-dropdown-container {
+  border-top: 1px solid #e0e0e0;
+  &:last-child {
+    border-bottom: 1px solid #e0e0e0;
+  }
+}
+
 .layer-category-dropdown-header {
   display: flex;
   justify-content: space-between;
   padding: 20px 30px;
-  border-top: 1px solid #e0e0e0;
 }
 
 .layer-category-dropdown-header-content {
