@@ -7,6 +7,12 @@ const customDiffDir = `test/e2e/__image_snapshots__/__diff_output__`;
 
 const timeout = 200000;
 
+const pageTitles = {
+  hsl: 'Reittiopas',
+  tampere: 'Nyssen Reittiopas',
+  matka: 'Matka.fi',
+};
+
 describe(`Front page with ${config} config`, () => {
   test(`on desktop`, async () => {
     context = await browser.newContext({
@@ -16,7 +22,9 @@ describe(`Front page with ${config} config`, () => {
     page = await context.newPage();
     const snapshotName = 'front-page-desktop';
     const response = await page.goto(`http://localhost:8080${path}`);
+
     expect(response.status()).toBe(200);
+    await expect(page.title()).resolves.toMatch(pageTitles[config]);
 
     const mainContent = await page.$('.main-content');
     const image = await mainContent.screenshot({
@@ -41,7 +49,9 @@ describe(`Front page with ${config} config`, () => {
     const path = config === 'hsl' ? '/etusivu' : '/';
     const snapshotName = `front-page-mobile`;
     const response = await page.goto(`http://localhost:8080${path}`);
+
     expect(response.status()).toBe(200);
+    await expect(page.title()).resolves.toMatch(pageTitles[config]);
 
     const messageBarCloseButton = await page.$('#close-message-bar');
     if (messageBarCloseButton) {

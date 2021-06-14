@@ -1,9 +1,12 @@
+const browsers = (process.env.BROWSERS || 'chromium').split(',');
+
 module.exports = {
   serverOptions: {
     command: `CONFIG=${
       process.env.CONFIG || 'hsl'
-    } CHOKIDAR_USEPOLLING=1 yarn dev-nowatch`,
+    } NODE_OPTS=--max_old_space_size=1000 yarn start`,
     port: 8080,
+    protocol: 'http',
     launchTimeout: 200000,
     debug: true,
     usedPortAction: 'ignore',
@@ -11,5 +14,5 @@ module.exports = {
   launchOptions: {
     headless: true,
   },
-  browsers: ['chromium', 'firefox', 'webkit'],
+  browsers,
 };
