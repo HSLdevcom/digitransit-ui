@@ -365,11 +365,7 @@ function StopsNearYouMap(
 
   const hilightedStops = () => {
     const stopsAndStations = handleStopsAndStations(sortedStopEdges);
-    if (
-      Array.isArray(stopsAndStations) &&
-      stopsAndStations.length > 0 &&
-      mode !== 'CITYBIKE'
-    ) {
+    if (Array.isArray(stopsAndStations) && stopsAndStations.length > 0) {
       return [
         stopsAndStations[0]?.gtfsId ||
           stopsAndStations[0]?.stationId ||
