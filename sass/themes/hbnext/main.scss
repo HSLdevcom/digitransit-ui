@@ -256,6 +256,7 @@ input[type='radio'] {
 }
 
 .card-header-image {
+  position: relative;
   height: 200px;
   width: 100%;
   overflow: hidden;
@@ -264,6 +265,16 @@ input[type='radio'] {
   margin-bottom: 10px;
   border-top: 2px solid #ccc;
   border-bottom: 2px solid #ccc;
+  img {
+    position: absolute;
+    left: -1000%;
+    right: -1000%;
+    top: -1000%;
+    bottom: -1000%;
+    margin: auto;
+    min-height: 100%;
+    min-width: 100%;
+  }
 }
 
 .divider {
