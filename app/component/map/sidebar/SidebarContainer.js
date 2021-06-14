@@ -19,6 +19,7 @@ const SidebarContainer = (
     breakpoint,
     children,
     className,
+    newLayout = false,
   },
   { router, executeAction },
 ) => {
@@ -35,6 +36,12 @@ const SidebarContainer = (
       executeAction(storeDestination, item);
     }
   };
+  const applyLayout = () => {
+    if (newLayout) {
+      return '';
+    }
+    return isMobile ? 'padding-horizontal-large' : 'padding-horizontal-xlarge';
+  };
 
   return (
     <div
@@ -45,17 +52,15 @@ const SidebarContainer = (
         'popup',
       )}
     >
-      <div
-        className={cx(
-          isMobile ? 'padding-horizontal-large' : 'padding-horizontal-xlarge',
-          className,
-        )}
-      >
+      <div className={`${applyLayout()} ${className}`}>
         <CardHeader
           name={name}
           descClass="padding-vertical-small"
           unlinked
-          className="sidebar-card-header"
+          className={cx(
+            'sidebar-card-header',
+            newLayout ? 'padding-new-layout' : '',
+          )}
           icon={icon}
           headerPictureUrl={photoUrl}
           headingStyle="h1"
@@ -86,6 +91,7 @@ SidebarContainer.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   children: PropTypes.node,
   className: PropTypes.string,
+  newLayout: PropTypes.bool,
 };
 
 SidebarContainer.defaultProps = {

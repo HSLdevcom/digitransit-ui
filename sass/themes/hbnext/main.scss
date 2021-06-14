@@ -228,6 +228,7 @@ input[type='radio'] {
 
 
 .sidebar-info-container {
+  padding: 0 26px 0 26px;
   display: flex;
   flex-direction: row;
   .icon-container {
@@ -292,5 +293,9 @@ input[type='radio'] {
 .text-alignment {
   align-self: center;
   padding-left: 10px;
+}
+
+.opening-times-container {
+  padding-left: 58px;
 }
 

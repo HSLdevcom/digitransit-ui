@@ -112,6 +112,7 @@ const CargoBikeContent = ({ slug }, { intl }) => {
       }}
       icon="icon-icon_cargo_bike_sharing"
       photoUrl={details?.photo?.url}
+      newLayout
     >
       <div className="content">
         <div className="text-light opening-times-container">
@@ -133,7 +134,7 @@ const CargoBikeContent = ({ slug }, { intl }) => {
           {getCapacity()}
         </div>
         <div className="divider" />
-        <div className="text-light">
+        <div className="text-light sidebar-info-container">
           <Icon className="sidebar-info-icon" img="icon-icon_place" />
           <span className="text-alignment">{getAddress()}</span>
         </div>

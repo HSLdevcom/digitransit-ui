@@ -231,9 +231,10 @@ const ChargingStationContent = ({ match }, { intl }) => {
       }}
       name={details.name}
       icon={getIcon(match.location.query)}
+      newLayout
     >
       <div className="content">
-        <div className="text-light">
+        <div className="text-light opening-times-container">
           <Icon className="sidebar-info-icon" img="icon-icon_schedule" />
           <span className="text-alignment">{getOpeningTimes()}</span>
         </div>
@@ -250,15 +251,15 @@ const ChargingStationContent = ({ match }, { intl }) => {
           {getCapacity()}
         </div>
         <div className="divider" />
-        <div className="text-light">
+        <div className="text-light sidebar-info-container">
           <Icon className="sidebar-info-icon" img="icon-icon_payment" />
           <span className="text-alignment">{getPaymentTypes()}</span>
         </div>
-        <div className="text-light">
+        <div className="text-light sidebar-info-container">
           <Icon className="sidebar-info-icon" img="icon-icon_place" />
           <span className="text-alignment">{getAddress()}</span>
         </div>
-        <div className="text-light">
+        <div className="text-light sidebar-info-container">
           <Icon className="sidebar-info-icon" img="icon-icon_call" />
           <span className="text-alignment">{getPhoneNumber()}</span>
         </div>
