@@ -15,6 +15,7 @@ describe(`Front page with ${config} config`, () => {
     const response = await page.goto('http://localhost:8080');
     expect(response.status()).toBe(200);
 
+    await page.waitForSelector('.main-content');
     const mainContent = await page.$('.main-content');
     const image = await mainContent.screenshot({ fullPage: true });
 
