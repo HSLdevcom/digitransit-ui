@@ -8,7 +8,6 @@ import merge from 'lodash/merge';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import Icon from './Icon';
 
-import Checkbox from './Checkbox';
 import GeoJsonStore from '../store/GeoJsonStore';
 import { updateMapLayers } from '../action/MapLayerActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -164,22 +163,6 @@ class MapLayersDialogContent extends React.Component {
             defaultMessage: 'Bubble Dialog Header',
           })}
         </span>
-        <div className="checkbox-grouping" />
-        {this.context.config.vehicles && (
-          <div className="checkbox-grouping">
-            <div style={{ padding: '20px 30px' }}>
-              <Checkbox
-                checked={vehicles}
-                defaultMessage="Moving vehicles"
-                labelId="map-layer-vehicles"
-                onChange={e => {
-                  this.updateSetting({ vehicles: e.target.checked });
-                  this.sendLayerChangeAnalytic('Vehicles', e.target.checked);
-                }}
-              />
-            </div>
-          </div>
-        )}
 
         <LayerCategoryDropdown
           title={this.context.intl.formatMessage({
@@ -225,6 +208,13 @@ class MapLayersDialogContent extends React.Component {
               labelId: 'map-layer-stop-ferry',
               icon: 'icon-icon_stop_ferry',
               settings: { stop: 'ferry' },
+            },
+            this.context.config.vehicles && {
+              checked: vehicles,
+              defaultMessage: 'Moving vehicles',
+              labelId: 'map-layer-vehicles',
+              icon: 'icon-icon_moving_bus',
+              settings: 'vehicles',
             },
           ]}
         />
@@ -304,7 +294,7 @@ class MapLayersDialogContent extends React.Component {
                 checked: dynamicParkingLots,
                 defaultMessage: 'Parking',
                 labelId: 'map-layer-dynamic-parking-lots',
-                icon: 'icon-icon_car_park-withoutBox',
+                icon: 'icon-icon_open_carpark',
                 settings: 'dynamicParkingLots',
               },
             this.context.config.parkAndRide &&
