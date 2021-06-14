@@ -227,12 +227,16 @@ input[type='radio'] {
 }
 
 
-.charging-info-container {
+.sidebar-info-container {
   display: flex;
   flex-direction: row;
+  .icon-container {
+    display: flex;
+    align-self: center;
+  }
 }
 
-.charging-station-icon {
+.sidebar-info-icon {
   width: 16px;
   height: 16px;
 }
@@ -265,5 +269,28 @@ input[type='radio'] {
   width: 100%;
   border-top: 1px solid #ccc;
   margin: 10px 0 10px 0;
+}
+
+.text-light {
+  div {
+    font-size: 13px;
+  }
+
+  .icon-container {
+    display: flex;
+    align-self: center;
+  }
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  font-size: 13px;
+  color: #666666;
+  margin: 5px 0 5px 0;
+}
+
+.text-alignment {
+  align-self: center;
+  padding-left: 10px;
 }
 

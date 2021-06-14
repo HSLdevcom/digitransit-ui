@@ -1,26 +1,14 @@
-.text-light {
-  div {
-    font-size: 13px;
-  }
-
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  font-size: 13px;
-  color: #666666;
-  margin: 5px 0 5px 0;
-}
-
-.text-alignment {
-  align-self: center;
-  padding-left: 10px;
-}
-
-.cargo-bike-content-icon {
-  width: 16px;
-  height: 16px;
-  margin-top: 1px;
-}
 .opening-times-container {
   padding-left: 40px;
+}
+
+.booking-link{
+  display: flex;
+  flex-direction: row;
+  padding: 10px 0 10px 0;
+
+  .icon-container{
+    display: flex;
+    align-self: center;
+  }
 }

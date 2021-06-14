@@ -42,6 +42,38 @@ const CargoBikeContent = ({ slug }, { intl }) => {
     );
   };
 
+  const getAddress = () => {
+    const { address, locality, postalcode } = details;
+
+    return (
+      address &&
+      locality &&
+      postalcode && <div>{`${address}, ${postalcode}, ${locality}`}</div>
+    );
+  };
+
+  const getBookingLink = () => {
+    const { booking_url } = details;
+    return (
+      booking_url && (
+        <div className="booking-link">
+          <Icon className="sidebar-info-icon" img="icon-icon_booking" />
+          <span className="text-alignment">
+            {/* eslint-disable-next-line react/jsx-no-target-blank */}
+            <a href={booking_url} target="_blank">
+              {intl.formatMessage({
+                id: 'cargo-bike-booking-link',
+                defaultMessage: 'Book now',
+              })}
+            </a>
+          </span>
+        </div>
+      )
+    );
+  };
+
+  const getCapacity = () => {};
+
   return !loading ? (
     <SidebarContainer
       name={details.name}
@@ -51,32 +83,31 @@ const CargoBikeContent = ({ slug }, { intl }) => {
     >
       <div className="content">
         <div className="text-light opening-times-container">
-          <Icon className="cargo-bike-content-icon" img="icon-icon_schedule" />
+          <Icon className="sidebar-info-icon" img="icon-icon_schedule" />
           <span className="text-alignment">{getOpeningTimes()}</span>
         </div>
         <div className="divider" />
-        <div className="charging-info-container">
+        <div className="sidebar-info-container">
           <Icon
-            className="cargo-bike-content-icon"
-            img="icon-icon_cargo_bike"
+            className="sidebar-info-icon"
+            img="icon-icon_cargo_bike_sharing"
           />
+          <div className="text-light text-alignment">
+            {intl.formatMessage({
+              id: 'cargo-bike',
+              defaultMessage: 'Cargo bike',
+            })}
+          </div>
           <div className="text-light text-alignment">|</div>
-          <div className="text-light text-alignment">{2}</div>
+          <div className="text-light text-alignment">Unknown capacity</div>
         </div>
         <div className="divider" />
         <div className="text-light">
-          <Icon className="cargo-bike-content-icon" img="icon-icon_payment" />
-          <span className="text-alignment">RFID</span>
-        </div>
-        <div className="text-light">
-          <Icon className="cargo-bike-content-icon" img="icon-icon_place" />
-          <span className="text-alignment">ladiada</span>
-        </div>
-        <div className="text-light">
-          <Icon className="cargo-bike-content-icon" img="icon-icon_call" />
-          <span className="text-alignment">{12312313}</span>
+          <Icon className="sidebar-info-icon" img="icon-icon_place" />
+          <span className="text-alignment">{getAddress()}</span>
         </div>
         <div className="divider" />
+        {getBookingLink()}
       </div>
     </SidebarContainer>
   ) : (

@@ -136,8 +136,8 @@ const ChargingStationContent = ({ match }, { intl }) => {
     }
     return (
       link && (
-        <div>
-          <Icon className="charging-station-icon" img="icon-icon_power" />
+        <div className="direct-deep-link">
+          <Icon className="sidebar-info-icon" img="icon-icon_power" />
           <span className="text-alignment">
             {/* eslint-disable-next-line react/jsx-no-target-blank */}
             <a href={link} target="_blank">
@@ -234,11 +234,11 @@ const ChargingStationContent = ({ match }, { intl }) => {
     >
       <div className="content">
         <div className="text-light">
-          <Icon className="charging-station-icon" img="icon-icon_schedule" />
+          <Icon className="sidebar-info-icon" img="icon-icon_schedule" />
           <span className="text-alignment">{getOpeningTimes()}</span>
         </div>
         <div className="divider" />
-        <div className="charging-info-container">
+        <div className="sidebar-info-container">
           <div className="connector-container">
             {connectors.map(connector => (
               <div key={connector.text}>
@@ -251,15 +251,15 @@ const ChargingStationContent = ({ match }, { intl }) => {
         </div>
         <div className="divider" />
         <div className="text-light">
-          <Icon className="charging-station-icon" img="icon-icon_payment" />
+          <Icon className="sidebar-info-icon" img="icon-icon_payment" />
           <span className="text-alignment">{getPaymentTypes()}</span>
         </div>
         <div className="text-light">
-          <Icon className="charging-station-icon" img="icon-icon_place" />
+          <Icon className="sidebar-info-icon" img="icon-icon_place" />
           <span className="text-alignment">{getAddress()}</span>
         </div>
         <div className="text-light">
-          <Icon className="charging-station-icon" img="icon-icon_call" />
+          <Icon className="sidebar-info-icon" img="icon-icon_call" />
           <span className="text-alignment">{getPhoneNumber()}</span>
         </div>
         <div className="divider" />

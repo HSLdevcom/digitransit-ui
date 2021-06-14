@@ -263,7 +263,9 @@ const translations = {
     privacy: 'Datenschutz',
     'rent-cycle-at': 'Leihrad ausleihen:',
     'regiorad-availability': 'Leihräder verfügbar',
+    'cargo-bike': 'Lastenfahrrad',
     'cargo-bike-availability': 'Lastenräder verfügbar',
+    'cargo-bike-booking-link' : 'Jetzt buchen',
     'taxi-availability': 'Taxis verfügbar',
     'report-defect': 'Mangel melden',
     'alert:bikerental:free-floating-drop-off':
@@ -989,6 +991,8 @@ const translations = {
     imprint: 'Imprint',
     'car-sharing-start-using': 'Book a shared car',
     'regiorad-start-using': 'Book a rental bike',
+    'cargo-bike': 'Cargo bike',
+    'cargo-bike-booking-link' : 'Book now',
     'cargo-bike-content-description' : 'Cargo bike station',
     'cargo-bike-start-using': 'Book a cargo bike',
     'cargo-bike-station-no-id': 'Cargo bike rental station',

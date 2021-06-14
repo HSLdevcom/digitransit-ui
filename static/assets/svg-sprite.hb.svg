@@ -2,6 +2,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="https://inkscape.org/namespaces/inkscape/" aria-hidden="true" style="position: absolute; width: 0; height: 0;" width="0" height="0" version="1.1">
   <defs>
     <!-- custom modes -->
+    <symbol id="icon-icon_booking" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#747474"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></symbol>
     <symbol id="icon-icon_cargo_bike_sharing" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
             viewBox="0 0 34.923 34.924" enable-background="new 0 0 34.923 34.924" xml:space="preserve">
       <path fill="#ff834a" d="M34.923,17.462c0,9.643-7.818,17.462-17.462,17.462S0,27.105,0,17.462C0,7.818,7.817,0,17.461,0
