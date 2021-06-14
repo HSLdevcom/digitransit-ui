@@ -142,6 +142,7 @@ jobs:
       - name: Run accessibility tests
         run: yarn test-accessibility
   e2e-test:
+    needs: install
     runs-on: ubuntu-18.04
     strategy:
       # we want to run the full build on all os: don't cancel running jobs even if one fails
