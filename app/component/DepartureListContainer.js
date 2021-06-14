@@ -22,45 +22,48 @@ import { getHeadsignFromRouteLongName } from '../util/legUtils';
 const asDepartures = stoptimes =>
   !stoptimes
     ? []
-    : stoptimes.map(stoptime => {
-        const isArrival = stoptime.pickupType === 'NONE';
-        let isLastStop = false;
-        if (stoptime.trip && stoptime.trip.stops) {
-          const lastStop = stoptime.trip.stops.slice(-1).pop();
-          isLastStop = stoptime.stop.id === lastStop.id;
-        }
-        /* OTP returns either scheduled time or realtime prediction in
-         * 'realtimeDeparture' and 'realtimeArrival' fields.
-         * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
-        const canceled = stoptime.realtimeState === 'CANCELED';
-        const arrivalTime =
-          stoptime.serviceDay +
-          (!canceled ? stoptime.realtimeArrival : stoptime.scheduledArrival);
-        const departureTime =
-          stoptime.serviceDay +
-          (!canceled
-            ? stoptime.realtimeDeparture
-            : stoptime.scheduledDeparture);
-        const stoptimeTime = isArrival ? arrivalTime : departureTime;
+    : stoptimes
+        // it seems that OTP2 GTFS-RT handling sometimes adds weird zero stop trips, we filter them out
+        .filter(s => s.trip.stops.length > 0)
+        .map(stoptime => {
+          const isArrival = stoptime.pickupType === 'NONE';
+          let isLastStop = false;
+          if (stoptime.trip && stoptime.trip.stops) {
+            const lastStop = stoptime.trip.stops.slice(-1).pop();
+            isLastStop = stoptime.stop.id === lastStop.id;
+          }
+          /* OTP returns either scheduled time or realtime prediction in
+           * 'realtimeDeparture' and 'realtimeArrival' fields.
+           * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
+          const canceled = stoptime.realtimeState === 'CANCELED';
+          const arrivalTime =
+            stoptime.serviceDay +
+            (!canceled ? stoptime.realtimeArrival : stoptime.scheduledArrival);
+          const departureTime =
+            stoptime.serviceDay +
+            (!canceled
+              ? stoptime.realtimeDeparture
+              : stoptime.scheduledDeparture);
+          const stoptimeTime = isArrival ? arrivalTime : departureTime;
 
-        const { pattern } = stoptime.trip;
-        return {
-          alerts: get(pattern, 'route.alerts', []).filter(alert =>
-            patternIdPredicate(alert, get(pattern, 'code', undefined)),
-          ),
-          canceled,
-          isArrival,
-          isLastStop,
-          stoptime: stoptimeTime,
-          stop: stoptime.stop,
-          realtime: stoptime.realtime,
-          pattern,
-          headsign: stoptime.headsign,
-          trip: stoptime.trip,
-          pickupType: stoptime.pickupType,
-          serviceDay: stoptime.serviceDay,
-        };
-      });
+          const { pattern } = stoptime.trip;
+          return {
+            alerts: get(pattern, 'route.alerts', []).filter(alert =>
+              patternIdPredicate(alert, get(pattern, 'code', undefined)),
+            ),
+            canceled,
+            isArrival,
+            isLastStop,
+            stoptime: stoptimeTime,
+            stop: stoptime.stop,
+            realtime: stoptime.realtime,
+            pattern,
+            headsign: stoptime.headsign,
+            trip: stoptime.trip,
+            pickupType: stoptime.pickupType,
+            serviceDay: stoptime.serviceDay,
+          };
+        });
 
 class DepartureListContainer extends Component {
   static propTypes = {

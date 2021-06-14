@@ -297,16 +297,18 @@ class MapWithTrackingStateHandler extends React.Component {
               open={this.state.settingsOpen}
               setOpen={this.setSettingsOpen}
             />
-            <button
-              type="button"
-              className="desktop-button"
-              onClick={() => this.setSettingsOpen(false)}
-            >
-              {this.context.intl.formatMessage({
-                id: 'close',
-                defaultMessage: 'Close',
-              })}
-            </button>
+            <div style={{ padding: '20px' }}>
+              <button
+                type="button"
+                className="desktop-button"
+                onClick={() => this.setSettingsOpen(false)}
+              >
+                {this.context.intl.formatMessage({
+                  id: 'close',
+                  defaultMessage: 'Close',
+                })}
+              </button>
+            </div>
           </MenuDrawer>
         )}
       </>

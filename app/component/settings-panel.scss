@@ -4,13 +4,13 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  padding: 1em;
   background-color: white;
 
   .map-layer-header {
     font-size: 18px;
     font-weight: $font-weight-bold;
     line-height: 88px;
+    padding: 0 1em;
   }
   .desktop-button {
     display: flex;
