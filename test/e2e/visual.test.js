@@ -9,7 +9,7 @@ const timeout = 200000;
 
 const pageTitles = {
   hsl: 'Reittiopas',
-  tampere: 'Nyssen Reittiopas',
+  tampere: 'Nyssen reittiopas',
   matka: 'Matka.fi',
 };
 
@@ -29,7 +29,6 @@ describe(`Front page with ${config} config`, () => {
     const mainContent = await page.$('.main-content');
     const image = await mainContent.screenshot({
       fullPage: true,
-      visible: true,
       timeout,
     });
 
@@ -59,7 +58,6 @@ describe(`Front page with ${config} config`, () => {
     }
     const image = await page.screenshot({
       fullPage: true,
-      visible: true,
       timeout,
     });
 
