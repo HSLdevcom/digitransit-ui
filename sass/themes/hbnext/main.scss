@@ -226,11 +226,11 @@ input[type='radio'] {
   margin: 10px 0;
 }
 
-
 .sidebar-info-container {
   padding: 0 26px 0 26px;
   display: flex;
   flex-direction: row;
+
   .icon-container {
     display: flex;
     align-self: center;
@@ -266,6 +266,7 @@ input[type='radio'] {
   margin-bottom: 10px;
   border-top: 2px solid #ccc;
   border-bottom: 2px solid #ccc;
+
   img {
     position: absolute;
     left: -1000%;
@@ -310,4 +311,3 @@ input[type='radio'] {
 .opening-times-container {
   padding-left: 58px;
 }
-
