@@ -145,6 +145,8 @@ jobs:
     needs: install
     runs-on: ubuntu-18.04
     strategy:
+      # don't cancel running jobs even if one fails
+      fail-fast: false
       matrix:
         node-version: [10.x]
         config: [hsl, tampere, matka]
