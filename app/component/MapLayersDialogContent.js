@@ -276,7 +276,7 @@ class MapLayersDialogContent extends React.Component {
                 checked: citybike,
                 defaultMessage: 'Sharing',
                 labelId: 'map-layer-sharing',
-                icon: 'icon-icon_bike_sharing',
+                icon: 'icon-icon_citybike',
                 settings: 'citybike',
               },
             isTransportModeEnabled(transportModes.carpool) && {
