@@ -54,11 +54,10 @@ describe(`Front page with ${config} config`, () => {
     expect(response.status()).toBe(200);
     await expect(page.title()).resolves.toMatch(pageTitles[config]);
 
-    const messageBarCloseButton = await page.$('#close-message-bar');
-    if (messageBarCloseButton) {
-      await messageBarCloseButton.click();
-    }
-    const image = await page.screenshot({
+    await page.waitForSelector('#mainContent', { timeout: 5000 });
+    const mainContent = await page.$('#mainContent');
+
+    const image = await mainContent.screenshot({
       fullPage: true,
       timeout,
     });
