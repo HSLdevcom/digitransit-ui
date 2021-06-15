@@ -17,31 +17,21 @@ const roundToOneDecimal = number => {
  *
  * @param {*} options The options to select from.
  */
-export const getFiveStepOptions = options => [
+export const getThreeStepOptions = options => [
   {
     title: 'option-least',
     value: options.least || options[0],
     kmhValue: `${roundToOneDecimal(options[0] * 3.6)} km/h`,
   },
   {
-    title: 'option-less',
-    value: options.less || options[1],
+    title: 'option-default',
+    value: options[1],
     kmhValue: `${roundToOneDecimal(options[1] * 3.6)} km/h`,
   },
   {
-    title: 'option-default',
-    value: options[2],
-    kmhValue: `${roundToOneDecimal(options[2] * 3.6)} km/h`,
-  },
-  {
-    title: 'option-more',
-    value: options.more || options[3],
-    kmhValue: `${roundToOneDecimal(options[3] * 3.6)} km/h`,
-  },
-  {
     title: 'option-most',
-    value: options.most || options[4],
-    kmhValue: `${roundToOneDecimal(options[4] * 3.6)} km/h`,
+    value: options.most || options[2],
+    kmhValue: `${roundToOneDecimal(options[2] * 3.6)} km/h`,
   },
 ];
 

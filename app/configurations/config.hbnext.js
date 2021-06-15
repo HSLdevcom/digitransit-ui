@@ -70,6 +70,10 @@ export default configMerger(walttiConfig, {
         timeFactor: 0.3,
     },
 
+    defaultOptions: {
+        walkSpeed: [0.83, 1.38, 1.94],
+    },
+
     itinerary: {
         delayThreshold: 60,
     },
