@@ -173,7 +173,7 @@ jobs:
         with:
           path: |
             '**/_static'
-            'manifest.json'
+            '/manifest.json'
           key: ${{ runner.os }}-build-${{ github.run_id }}
   e2e-test:
     needs: build
@@ -206,7 +206,7 @@ jobs:
         with:
           path: |
             '**/_static'
-            'manifest.json'
+            '/manifest.json'
           key: ${{ runner.os }}-build-${{ github.run_id }}
       - name: Build UI if there is no cache hit
         if: steps.cache-build.outputs.cache-hit != 'true'
