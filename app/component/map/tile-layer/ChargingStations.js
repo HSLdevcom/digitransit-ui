@@ -82,7 +82,10 @@ class ChargingStations {
 
     const icon = getIcon(properties);
     return drawIcon(icon, this.tile, geom, this.iconSize).then(() => {
-      const { ca } = properties;
+      const { ca, cu } = properties;
+      if (cu) {
+        return;
+      }
       const availableStatus = this.getAvailabilityStatus(ca);
       if (availableStatus) {
         drawAvailabilityBadge(
