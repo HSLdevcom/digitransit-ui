@@ -1,5 +1,6 @@
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import React, { Fragment } from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -366,52 +367,71 @@ class MapLayersDialogContent extends React.Component {
           />
         </div>
 
-        <div style={{ padding: '20px 20px' }} className="checkbox-grouping">
-          <h4>
-            <FormattedMessage
-              id="map-background"
-              defaultMessage="Map background"
-            />
-          </h4>
-          <label className="radio-label" htmlFor="street">
-            <input
-              type="radio"
-              id="street"
-              value="street"
-              name="mapMode"
-              onChange={() => {
-                this.switchMapLayers(MapMode.Default);
-              }}
-              checked={currentMapMode === MapMode.Default}
+        <p className="panel-maptype-title">
+          <FormattedMessage id="map-type" defaultMessage="Map type" />
+        </p>
+
+        <div className="panel-maptype-container">
+          <button
+            type="button"
+            className={cx(
+              'panel-maptype-button',
+              currentMapMode === MapMode.Default && 'checked',
+            )}
+            onClick={() => {
+              this.switchMapLayers(MapMode.Default);
+            }}
+          >
+            <img
+              alt="street"
+              className={cx(
+                'panel-maptype-image',
+                currentMapMode === MapMode.Default && 'checked',
+              )}
+              src="/img/maptype-streets.png"
             />
             <FormattedMessage id="streets" defaultMessage="Streets" />
-          </label>
-          <label className="radio-label" htmlFor="satellite">
-            <input
-              type="radio"
-              id="satellite"
-              value="satellite"
-              name="mapMode"
-              onChange={() => {
-                this.switchMapLayers(MapMode.Satellite);
-              }}
-              checked={currentMapMode === MapMode.Satellite}
+          </button>
+          <button
+            type="button"
+            className={cx(
+              'panel-maptype-button',
+              currentMapMode === MapMode.Satellite && 'checked',
+            )}
+            onClick={() => {
+              this.switchMapLayers(MapMode.Satellite);
+            }}
+          >
+            <img
+              alt="satellite"
+              className={cx(
+                'panel-maptype-image',
+                currentMapMode === MapMode.Satellite && 'checked',
+              )}
+              src="/img/maptype-satellite.png"
             />
             <FormattedMessage id="satellite" defaultMessage="Satellite" />
-          </label>
-          <label className="radio-label" htmlFor="bicycle">
-            <input
-              type="radio"
-              id="bicycle"
-              value="bicycle"
-              name="mapMode"
-              onChange={() => {
-                this.switchMapLayers(MapMode.Bicycle);
-              }}
-              checked={currentMapMode === MapMode.Bicycle}
+          </button>
+          <button
+            type="button"
+            className={cx(
+              'panel-maptype-button',
+              currentMapMode === MapMode.Bicycle && 'checked',
+            )}
+            onClick={() => {
+              this.switchMapLayers(MapMode.Bicycle);
+            }}
+          >
+            <img
+              alt="bicycle"
+              className={cx(
+                'panel-maptype-image',
+                currentMapMode === MapMode.Bicycle && 'checked',
+              )}
+              src="/img/maptype-terrain.png"
             />
             <FormattedMessage id="bicycle" defaultMessage="Bicycle" />
-          </label>
+          </button>
         </div>
       </Fragment>
     );

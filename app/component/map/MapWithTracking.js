@@ -297,7 +297,7 @@ class MapWithTrackingStateHandler extends React.Component {
               open={this.state.settingsOpen}
               setOpen={this.setSettingsOpen}
             />
-            <div style={{ padding: '20px' }}>
+            <div style={{ padding: '1.25em' }}>
               <button
                 type="button"
                 className="desktop-button"

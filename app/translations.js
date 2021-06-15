@@ -320,7 +320,7 @@ const translations = {
     'accessibility-limited': 'Rollstuhlgerecht',
     'accessibility-nolimit': 'Keine Einschränkungen',
     'accessibility-statement': 'Erklärung zur Barrierefreiheit',
-    'map-background': 'Kartenhintergrund',
+    'map-type': 'Kartenarten',
     streets: 'Straßen',
     satellite: 'Satellit',
     'add-favourite-bikeStation-failed-heading':
