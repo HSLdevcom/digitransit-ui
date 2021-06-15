@@ -4,7 +4,11 @@ import pick from 'lodash/pick';
 
 import range from 'lodash-es/range';
 import { isBrowser } from '../../../util/browser';
-import { drawIcon, drawStopIcon } from '../../../util/mapIconUtils';
+import {
+  drawIcon,
+  drawStopIcon,
+  drawAvailabilityBadge,
+} from '../../../util/mapIconUtils';
 import glfun from '../../../util/glfun';
 import { getIcon } from '../sidebar/ChargingStationContent';
 
@@ -22,6 +26,10 @@ class ChargingStations {
     this.config = config;
 
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
+    this.chargingStationImageSize =
+      20 * this.scaleratio * getScale(this.tile.coords.z);
+    this.availabilityImageSize =
+      14 * this.scaleratio * getScale(this.tile.coords.z);
     this.iconSize = 20 * this.scaleratio * getScale(this.tile.coords.z);
 
     this.promise = this.fetchWithAction(this.drawStatus);
@@ -73,13 +81,37 @@ class ChargingStations {
     }
 
     const icon = getIcon(properties);
-    return drawIcon(icon, this.tile, geom, this.iconSize);
+    return drawIcon(icon, this.tile, geom, this.iconSize).then(() => {
+      const { ca } = properties;
+      const availableStatus = this.getAvailabilityStatus(ca);
+      if (availableStatus) {
+        drawAvailabilityBadge(
+          availableStatus,
+          this.tile,
+          geom,
+          this.chargingStationImageSize,
+          this.availabilityImageSize,
+          this.scaleratio,
+        );
+      }
+    });
   };
 
   onTimeChange = () => {
     if (this.tile.coords.z > this.config.chargingStations.minZoom) {
       this.fetchWithAction(this.drawStatus);
     }
+  };
+
+  getAvailabilityStatus = available => {
+    if (available > 1) {
+      return 'good';
+    }
+    if (available === 1) {
+      return 'poor';
+    }
+
+    return 'no';
   };
 
   static getName = () => 'chargingStations';
