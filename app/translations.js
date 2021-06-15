@@ -268,6 +268,7 @@ const translations = {
     'report-defect': 'Mangel melden',
     'alert:bikerental:free-floating-drop-off':
       'Ziel ist keine Rückgabestation. Ausleihe kann hier nicht abgeschlossen werden. Anbieterabhängig fallen weiter Gebühren bis zur Rückgabe an einer Station an.',
+    day: 'Tag',
     monday: 'Montag',
     tuesday: 'Dienstag',
     wednesday: 'Mittwoch',
