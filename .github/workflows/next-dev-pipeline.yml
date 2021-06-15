@@ -207,6 +207,8 @@ jobs:
       - name: Build UI if there is no cache hit
         if: steps.cache-build.outputs.cache-hit != 'true'
         run: yarn build
+      - name: Build relay queries
+        run: yarn relay
       - uses: microsoft/playwright-github-action@v1.4.4
       - name: Run End to End tests
         id: 'test_e2e'
