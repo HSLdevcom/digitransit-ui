@@ -1500,7 +1500,7 @@ div.itinerary-container-content {
   fill: $primary-color;
   height: 1.3em;
   width: 1.3em;
-
+  margin: 0;
   &.disabled {
     fill: $medium-gray;
   }
