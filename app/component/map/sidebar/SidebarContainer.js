@@ -44,7 +44,14 @@ const SidebarContainer = (
   };
 
   return (
-    <div className={cx('card', 'sidebar-card', 'popup')}>
+    <div
+      className={cx(
+        'card',
+        !isMobile && !newLayout && 'sidebar-card-desktop',
+        'sidebar-card',
+        'popup',
+      )}
+    >
       <div className={`${applyLayout()} ${className}`}>
         <CardHeader
           name={name}
