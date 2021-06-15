@@ -756,6 +756,10 @@ export function drawAvailabilityBadge(
   badgeSize,
   scaleratio,
 ) {
+  if (availability === null) {
+    return;
+  }
+
   if (
     availability !== 'good' &&
     availability !== 'poor' &&
