@@ -20,6 +20,7 @@ const proxyFares = (fares, routes = [], config = defaultConfig) =>
 describe('<TicketInformation />', () => {
   it('should show multiple ticket components (DT-2639)', () => {
     const props = {
+      loaded: true,
       legs: [],
       fares: proxyFares([
         {
@@ -49,6 +50,7 @@ describe('<TicketInformation />', () => {
 
   it('should show a "multiple tickets required" title when there are multiple components', () => {
     const props = {
+      loaded: true,
       legs: [],
       fares: proxyFares([
         {
@@ -78,6 +80,7 @@ describe('<TicketInformation />', () => {
 
   it('should not show a multiple tickets required title when there is only a single component', () => {
     const props = {
+      loaded: true,
       legs: [],
       fares: [
         {
@@ -122,6 +125,7 @@ describe('<TicketInformation />', () => {
 
   it('should convert and show the total fare when showTicketPrice is true', () => {
     const props = {
+      loaded: true,
       legs: [],
       fares: [
         {
@@ -168,6 +172,7 @@ describe('<TicketInformation />', () => {
 
   it('should use a zone ticket icon if configured', () => {
     const props = {
+      loaded: true,
       legs: [],
       fares: proxyFares([
         {
@@ -200,6 +205,7 @@ describe('<TicketInformation />', () => {
       fareMapping: fareId => `foo_${fareId}_bar`,
     };
     const props = {
+      loaded: true,
       legs: [],
       fares: proxyFares(
         [
@@ -229,6 +235,7 @@ describe('<TicketInformation />', () => {
 
   it('should use a zone ticket icon if configured', () => {
     const props = {
+      loaded: true,
       legs: [],
       fares: proxyFares([
         {
@@ -257,6 +264,7 @@ describe('<TicketInformation />', () => {
 
   it('should show AB and BC tickets for a trip within B zone', () => {
     const props = {
+      loaded: true,
       legs: [],
       fares: proxyFares([
         {
@@ -294,6 +302,7 @@ describe('<TicketInformation />', () => {
 
   it('should show a fare url link for the agency', () => {
     const props = {
+      loaded: true,
       legs: [],
       fares: proxyFares([
         {

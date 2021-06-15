@@ -58,7 +58,8 @@ class ItineraryTab extends React.Component {
 
   state = {
     fares: [],
-    lang: ''
+    lang: '',
+    fetchedFares: false,
   }
 
   handleFocus = (lat, lon) => {
@@ -150,7 +151,8 @@ class ItineraryTab extends React.Component {
     }
 
     this.setState({
-      lang: this.context.getStore('PreferencesStore').getLanguage()
+      lang: this.context.getStore('PreferencesStore').getLanguage(),
+      fetchedFares: true,
     });
   }
 
@@ -253,6 +255,7 @@ class ItineraryTab extends React.Component {
                     fares={fares}
                     zones={getZones(itinerary.legs)}
                     legs={itinerary.legs}
+                    loaded={this.state.fetchedFares}
                   />
                 )}
                 {config.showRouteInformation && <RouteInformation />}

@@ -20,11 +20,11 @@ const getUnknownFareRoute = (fares, route) => {
   return false;
 };
 export default function TicketInformation(
-  { fares, zones, legs },
+  { fares, zones, legs, loaded },
   { config, intl },
 ) {
-  // Only show ticket information if there's at least one transit leg.
-  if (legs.length !== 0 && !legs.some(leg => leg.transitLeg)) {
+  // Only show ticket information if fares data is loaded and there's at least one transit leg.
+  if (!loaded || (legs.length !== 0 && !legs.some(leg => leg.transitLeg))) {
     return null;
   }
 
@@ -207,12 +207,14 @@ TicketInformation.propTypes = {
     }),
   ),
   zones: PropTypes.arrayOf(PropTypes.string),
+  loaded: PropTypes.bool,
 };
 
 TicketInformation.defaultProps = {
   fares: [],
   zones: [],
   legs: [],
+  loaded: false,
 };
 
 TicketInformation.contextTypes = {
