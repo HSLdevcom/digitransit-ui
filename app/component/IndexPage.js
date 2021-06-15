@@ -81,25 +81,23 @@ class IndexPage extends React.Component {
 
   componentDidMount() {
     const { from, to } = this.context.match.params;
-    /* initialize stores from URL params */
-    const origin = parseLocation(from);
-    const destination = parseLocation(to);
 
     // synchronizing page init using fluxible is - hard -
     // see navigation conditions in componentDidUpdate below
-    if (
-      Object.keys(origin).length &&
-      !sameLocations(this.props.origin, origin)
-    ) {
-      this.pendingOrigin = origin;
-      this.context.executeAction(storeOrigin, origin);
+    if (from) {
+      const origin = parseLocation(from);
+      if (!sameLocations(this.props.origin, origin)) {
+        this.pendingOrigin = origin;
+        this.context.executeAction(storeOrigin, origin);
+      }
     }
-    if (
-      Object.keys(destination).length &&
-      !sameLocations(this.props.destination, destination)
-    ) {
-      this.pendingDestination = destination;
-      this.context.executeAction(storeDestination, destination);
+
+    if (to) {
+      const destination = parseLocation(to);
+      if (!sameLocations(this.props.destination, destination)) {
+        this.pendingDestination = destination;
+        this.context.executeAction(storeDestination, destination);
+      }
     }
 
     scrollTop();
