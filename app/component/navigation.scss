@@ -683,7 +683,7 @@ section.content {
       .react-swipe-container {
         height: auto;
         width: 100%;
-        margin-bottom: 3px;
+        margin-bottom: 0;
         .message-content {
           .message-heading {
             min-height: 11px;
@@ -705,8 +705,12 @@ section.content {
       .swipe-tab-indicator {
         flex-grow: 0;
       }
-      .swipe-button .icon.disabled {
-       fill: #ccc;
+      .swipe-button .icon {
+        height: 14px;
+        width: 14px;
+        &.disabled {
+          fill: $medium-gray;
+        }
       }
     }
 
@@ -812,8 +816,7 @@ section.content {
   fill: $primary-color;
   height: 24px;
   width: 24px;
-  margin: 11px;
-  margin-top: 20px;
+  margin: 18px;
 }
 
 .message-bar .icon.close {
