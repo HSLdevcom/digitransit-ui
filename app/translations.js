@@ -856,6 +856,7 @@ const translations = {
     'stop-near-you-title': 'Suche nach Haltestellen oder Linien',
     'stop-number': 'Haltestellennummer',
     'stop-page.description': 'Haltestelle - {name} {code}, {desc}',
+    'stop-page.right-now.loaded': 'Haltestellenseite geladen',
     'stop-page.title': 'Haltestelle - {name} {code}',
     'stop-page.title-short': 'Haltestelle',
     'stop-virtual-monitor': 'Virtueller Monitor',
