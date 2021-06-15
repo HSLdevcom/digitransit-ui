@@ -291,6 +291,7 @@ function drawSelectionCircle(
   x,
   y,
   radius,
+  largeStyle,
   showAvailabilityBadge = false,
 ) {
   const zoom = tile.coords.z - 1;
@@ -304,13 +305,24 @@ function drawSelectionCircle(
   tile.ctx.beginPath();
   // eslint-disable-next-line no-param-reassign
   tile.ctx.lineWidth = 2;
-  tile.ctx.arc(
-    x + selectedCircleOffset,
-    y + 1.85 * selectedCircleOffset,
-    radius - 2,
-    0,
-    arc,
-  );
+  if (largeStyle) {
+    tile.ctx.arc(
+      x + selectedCircleOffset,
+      y + 1.85 * selectedCircleOffset,
+      radius - 2,
+      0,
+      arc,
+    );
+  } else {
+    tile.ctx.arc(
+      x + selectedCircleOffset,
+      y + selectedCircleOffset,
+      radius + 2,
+      0,
+      arc,
+    );
+  }
+
   tile.ctx.stroke();
 }
 
@@ -649,7 +661,7 @@ export function drawCitybikeIcon(
     getImageFromSpriteCache(icon, width, height).then(image => {
       tile.ctx.drawImage(image, x, y);
       if (isHilighted) {
-        drawSelectionCircle(tile, x, y, radius, false);
+        drawSelectionCircle(tile, x, y, radius, false, false);
       }
     });
   }
@@ -683,7 +695,14 @@ export function drawCitybikeIcon(
         /* eslint-enable no-param-reassign */
       }
       if (isHilighted) {
-        drawSelectionCircle(tile, iconX, iconY, radius, showAvailabilityBadge);
+        drawSelectionCircle(
+          tile,
+          iconX,
+          iconY,
+          radius,
+          true,
+          showAvailabilityBadge,
+        );
       }
     });
   }
