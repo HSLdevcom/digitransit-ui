@@ -171,7 +171,9 @@ jobs:
         id: cache-build
         uses: actions/cache@v2
         with:
-          path: '**/_static'
+          path: |
+            '**/_static'
+            '**/manifest.json'
           key: ${{ runner.os }}-build-${{ github.run_id }}
   e2e-test:
     needs: build
@@ -202,7 +204,9 @@ jobs:
         id: cache-build
         uses: actions/cache@v2
         with:
-          path: '**/_static'
+          path: |
+            '**/_static'
+            '**/manifest.json'
           key: ${{ runner.os }}-build-${{ github.run_id }}
       - name: Build UI if there is no cache hit
         if: steps.cache-build.outputs.cache-hit != 'true'
