@@ -353,6 +353,7 @@ jobs:
       # - flow-test
       - unit-test
       - accessibility-test
+      - e2e-test
       # - visual-test-chrome
       # - visual-test-firefox
       # - visual-test-safari
