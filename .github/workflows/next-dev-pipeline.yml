@@ -141,42 +141,42 @@ jobs:
         run: yarn relay
       - name: Run accessibility tests
         run: yarn test-accessibility
-  build:
-    needs: install
-    runs-on: ubuntu-18.04
-    strategy:
-      matrix:
-        node-version: [10.x]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: "Set time zone to Europe/Helsinki"
-        uses: zcong1993/setup-timezone@master
-        with:
-          timezone: "Europe/Helsinki"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Install dependencies and build shared components
-        run: yarn setup
-      - name: Build UI
-        run: yarn build
-      - name: Cache build
-        id: cache-build
-        uses: actions/cache@v2
-        with:
-          path: |
-            '**/_static'
-            '/manifest.json'
-          key: ${{ runner.os }}-build-${{ github.run_id }}
+  # build:
+  #   needs: install
+  #   runs-on: ubuntu-18.04
+  #   strategy:
+  #     matrix:
+  #       node-version: [10.x]
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: "Set time zone to Europe/Helsinki"
+  #       uses: zcong1993/setup-timezone@master
+  #       with:
+  #         timezone: "Europe/Helsinki"
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #     - name: Cache node modules
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: '**/node_modules'
+  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+  #     - name: Install dependencies and build shared components
+  #       run: yarn setup
+  #     - name: Build UI
+  #       run: yarn build
+  #     - name: Cache build
+  #       id: cache-build
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: |
+  #           '**/_static'
+  #           '/manifest.json'
+  #         key: ${{ runner.os }}-build-${{ github.run_id }}
   e2e-test:
-    needs: build
+    needs: install
     runs-on: ubuntu-18.04
     strategy:
       # don't cancel running jobs even if one fails
@@ -200,21 +200,12 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Cache build
-        id: cache-build
-        uses: actions/cache@v2
-        with:
-          path: |
-            '**/_static'
-            '/manifest.json'
-          key: ${{ runner.os }}-build-${{ github.run_id }}
-      - name: Build UI if there is no cache hit
-        if: steps.cache-build.outputs.cache-hit != 'true'
-        run: yarn build
       - name: Install dependencies and build shared components
         run: yarn setup
       - name: Build relay queries
         run: yarn relay
+      - name: Build UI
+        run: yarn build
       - uses: microsoft/playwright-github-action@v1.4.4
       - name: Run End to End tests
         id: 'test_e2e'
