@@ -57,6 +57,9 @@ class Timetable extends React.Component {
 
   constructor(props) {
     super(props);
+    if (!this.props.stop) {
+      throw new Error('Empty stop');
+    }
     this.state = {
       showRoutes: [],
       showFilterModal: false,
