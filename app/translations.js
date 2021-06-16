@@ -1326,6 +1326,8 @@ const translations = {
     'splash-you-can-also': 'or',
     station: 'Station',
     stop: 'Stop',
+    'stop-departure-time-future': 'Departure time is in {minutes} minutes',
+    'stop-departure-time-past': 'Departure time was',
     'stop-near-you': 'Search stops and routes near you',
     'stop-near-you-modal-grant-permission': 'or enable location services',
     'stop-near-you-modal-grant-permission-info':
@@ -2279,6 +2281,8 @@ const translations = {
     'splash-you-can-also': 'tai',
     station: 'Asema',
     stop: 'Pysäkki',
+    'stop-departure-time-future': 'Lähtöaika {minutes} min päästä',
+    'stop-departure-time-past': 'Lähtöaika oli',
     'stop-near-you': 'Linja, pysäkki tai asema',
     'stop-near-you-modal-grant-permission': 'tai salli paikannus',
     'stop-near-you-modal-grant-permission-info':
@@ -4022,6 +4026,8 @@ const translations = {
     'splash-you-can-also': 'alternativt',
     station: 'Station',
     stop: 'Hållplats',
+    'stop-departure-time-future': 'Avgångstid är i {minutes} minuter',
+    'stop-departure-time-past': 'Avgångstid var klockan',
     'stop-near-you': 'Sök hållplatser eller linjer nära dig',
     'stop-near-you-modal-grant-permission': 'eller aktivera positionering',
     'stop-near-you-modal-grant-permission-info':
