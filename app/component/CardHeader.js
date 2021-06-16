@@ -94,6 +94,7 @@ const exampleIcons = [
     addFavourite={emptyFunction}
     deleteFavourite={emptyFunction}
     allowLogin={false}
+    requireLoggedIn={false}
   />,
 ];
 
