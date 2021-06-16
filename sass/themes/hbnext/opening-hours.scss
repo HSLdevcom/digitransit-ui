@@ -1,0 +1,51 @@
+.opening-hours-header {
+  display: flex;
+  .currently-open {
+    align-self: center;
+  }
+}
+
+.opening-hours-dropdown-icon {
+  align-self: center;
+  width: 24px;
+  height: 24px;
+}
+
+.opening-hours-schedule-icon {
+  margin-right: 10px;
+  margin-bottom: 4px;
+  align-self: center;
+  width: 16px;
+  height: 16px;
+}
+
+.opening-hours-bold {
+  font-weight: bold;
+}
+
+.opening-status {
+  font-weight: 400;
+}
+
+.opening-hours {
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: $padding-medium;
+    font-size: 13px;
+    tr {
+      td {
+        vertical-align: top;
+      }
+      td:last-child {
+        text-align: right;
+      }
+      span {
+        margin: 3px 0 3px 0;
+        font-size: 13px;
+        display: block;
+      }
+    }
+  }
+}

@@ -246,6 +246,7 @@ function Datetimepicker({
               changeOpen(false);
             }}
             getTimeDisplay={getTimeDisplay}
+            timeZone={timeZone}
             timestamp={displayTimestamp}
             getDateDisplay={getDateDisplay}
             dateSelectItemCount={serviceTimeRange}
@@ -465,7 +466,7 @@ function Datetimepicker({
                     {` ${
                       moment().isSame(moment(displayTimestamp), 'day')
                         ? ''
-                        : getDateDisplay(displayTimestamp).toLowerCase()
+                        : getDateDisplay(displayTimestamp)
                     } ${getTimeDisplay(displayTimestamp)}`}
                   </>
                 )}

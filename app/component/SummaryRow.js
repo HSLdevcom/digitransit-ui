@@ -131,7 +131,7 @@ RouteLeg.defaultProps = {
 };
 
 export const ModeLeg = (
-  { leg, mode, large, legLength, duration, renderModeIcons },
+  { leg, mode, large, legLength, duration, renderModeIcons, icon },
   { config },
 ) => {
   let networkIcon;
@@ -154,7 +154,7 @@ export const ModeLeg = (
       renderModeIcons={renderModeIcons}
       vertical
       withBar
-      icon={networkIcon}
+      icon={networkIcon || icon}
       {...getLegBadgeProps(leg, config)}
     />
   );
@@ -176,6 +176,7 @@ ModeLeg.propTypes = {
   legLength: PropTypes.number.isRequired,
   renderModeIcons: PropTypes.bool,
   duration: PropTypes.number,
+  icon: PropTypes.string,
 };
 
 ModeLeg.contextTypes = {
@@ -274,6 +275,7 @@ const SummaryRow = (
     const nextLeg = compressedLegs[i + 1];
     let legLength =
       ((leg.endTime - leg.startTime) / durationWithoutSlack) * 100; // length of the current leg in %
+
     const longName =
       leg.route && leg.route.shortName && leg.route.shortName.length > 5;
 
@@ -289,6 +291,10 @@ const SummaryRow = (
           ((leg.endTime - leg.startTime + waitTime) / durationWithoutSlack) *
           100; // otherwise add the waiting to the current legs length
       }
+    }
+    if (nextLeg?.interlineWithPreviousLeg) {
+      legLength =
+        ((nextLeg.endTime - leg.startTime) / durationWithoutSlack) * 100;
     }
     legLength += addition;
     addition = 0;
@@ -362,6 +368,7 @@ const SummaryRow = (
           mode="CAR"
           legLength={legLength}
           large={breakpoint === 'large'}
+          icon="icon-icon_car-withoutBox"
         />,
       );
       if (leg.to.carPark) {
@@ -426,19 +433,21 @@ const SummaryRow = (
         legLength > renderRouteNumberThreshold &&
         !longName &&
         transitLegCount < 7;
-      legs.push(
-        <RouteLeg
-          key={`${leg.mode}_${leg.startTime}`}
-          leg={leg}
-          fitRouteNumber={
-            (fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg
-          }
-          intl={intl}
-          legLength={legLength}
-          large={breakpoint === 'large'}
-          withBicycle={withBicycle}
-        />,
-      );
+      if (!leg.interlineWithPreviousLeg) {
+        legs.push(
+          <RouteLeg
+            key={`${leg.mode}_${leg.startTime}`}
+            leg={leg}
+            fitRouteNumber={
+              (fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg
+            }
+            intl={intl}
+            legLength={legLength}
+            large={breakpoint === 'large'}
+            withBicycle={withBicycle}
+          />,
+        );
+      }
       vehicleNames.push(
         formatMessage(
           {
@@ -453,7 +462,7 @@ const SummaryRow = (
       stopNames.push(leg.from.name);
     }
 
-    if (waiting) {
+    if (waiting && !nextLeg?.interlineWithPreviousLeg) {
       const waitingTimeinMin = Math.floor(waitTime / 1000 / 60);
       legs.push(
         <ModeLeg
@@ -485,14 +494,14 @@ const SummaryRow = (
         firstDepartureStopType = 'from-stop';
       }
       let firstDeparturePlatform;
-      if (firstDeparture.from.stop.platformCode) {
+      if (firstDeparture.from.stop?.platformCode) {
         const comma = ', ';
         firstDeparturePlatform = (
           <span className="platform-or-track">
             {comma}
             <FormattedMessage
               id={firstDeparture.mode === 'RAIL' ? 'track-num' : 'platform-num'}
-              values={{ platformCode: firstDeparture.from.stop.platformCode }}
+              values={{ platformCode: firstDeparture.from.stop?.platformCode }}
             />
           </span>
         );

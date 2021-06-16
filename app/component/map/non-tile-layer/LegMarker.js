@@ -16,6 +16,7 @@ class LegMarker extends React.Component {
   static propTypes = {
     leg: PropTypes.object.isRequired,
     mode: PropTypes.string.isRequired,
+    icon: PropTypes.string,
     color: PropTypes.string,
     leaflet: PropTypes.shape({
       map: PropTypes.shape({
@@ -46,6 +47,7 @@ class LegMarker extends React.Component {
 
   getLegMarker() {
     const color = this.props.color ? this.props.color : 'currentColor';
+    const icon = this.props.icon || `icon-icon_${this.props.mode}`;
     return (
       <Marker
         key={`${this.props.leg.name}_text`}
@@ -58,7 +60,7 @@ class LegMarker extends React.Component {
           html: `
             <div style="background-color: ${color}">
             ${Icon.asString({
-              img: `icon-icon_${this.props.mode}`,
+              img: `${icon}`,
               className: 'map-route-icon',
               color,
             })}

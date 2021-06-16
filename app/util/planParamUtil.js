@@ -94,7 +94,7 @@ function nullOrUndefined(val) {
 function getDisableRemainingWeightHeuristic(modes) {
   let disableRemainingWeightHeuristic;
   if (Array.isArray(modes) && modes.includes('BICYCLE_RENT')) {
-    disableRemainingWeightHeuristic = true;
+    disableRemainingWeightHeuristic = false;
   } else {
     disableRemainingWeightHeuristic = false;
   }
@@ -190,6 +190,16 @@ const getShouldMakeCarQuery = (
   );
 };
 
+const getShouldMakeOnDemandTaxiQuery = time => {
+  const date = new Date(time * 1000);
+  return (
+    date.getHours() > 21 ||
+    (date.getHours() === 21 && date.getMinutes() === 0) ||
+    date.getHours() < 5 ||
+    (date.getHours() === 5 && date.getMinutes() === 0)
+  );
+};
+
 export const preparePlanParams = (config, useDefaultModes) => (
   { from, to },
   {
@@ -263,7 +273,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
         from: fromLocation,
         to: toLocation,
         intermediatePlaces: intermediatePlaceLocations,
-        numItineraries: 5,
+        numItineraries: 25,
         date: (time ? moment(time * 1000) : moment()).format('YYYY-MM-DD'),
         time: (time ? moment(time * 1000) : moment()).format('HH:mm:ss'),
         walkReluctance: settings.walkReluctance,
@@ -321,6 +331,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
       settings,
       defaultSettings,
     ),
+    shouldMakeOnDemandTaxiQuery: getShouldMakeOnDemandTaxiQuery(time),
     showBikeAndPublicItineraries:
       !wheelchair &&
       config.showBikeAndPublicItineraries &&
@@ -338,6 +349,12 @@ export const preparePlanParams = (config, useDefaultModes) => (
     bikeAndPublicModes: [
       { mode: 'BICYCLE' },
       ...modesAsOTPModes(getBicycleCompatibleModes(config, modesOrDefault)),
+    ],
+    onDemandTaxiModes: [
+      { mode: 'RAIL' },
+      { mode: 'FLEX', qualifier: 'EGRESS' },
+      { mode: 'FLEX', qualifier: 'DIRECT' },
+      { mode: 'WALK' },
     ],
     bikeParkModes: [
       { mode: 'BICYCLE', qualifier: 'PARK' },

@@ -38,7 +38,10 @@ const BikeRentalStationContent = (
     bikeRentalStation.networks[0],
     config,
   );
-  const url = networkConfig?.url ? networkConfig.url[language] : '';
+  let url = networkConfig?.url ? networkConfig.url[language] : '';
+  if (bikeRentalStation.rentalUris && bikeRentalStation.rentalUris.web) {
+    url = bikeRentalStation.rentalUris.web;
+  }
   let returnInstructionsUrl;
   if (networkConfig.returnInstructions) {
     returnInstructionsUrl = networkConfig.returnInstructions[language];
@@ -68,10 +71,9 @@ const BikeRentalStationContent = (
       {url && (
         <div className="citybike-use-disclaimer">
           <div className="disclaimer-header">
-            <FormattedMessage id="citybike-start-using" />
-          </div>
-          <div className="disclaimer-content">
-            <FormattedMessage id="citybike-buy-season" />
+            <FormattedMessage
+              id={`${bikeRentalStation.networks[0]}-start-using`}
+            />
           </div>
           {isClient && (
             <a
@@ -123,6 +125,9 @@ const containerComponent = createFragmentContainer(connectedComponent, {
       networks
       stationId
       state
+      rentalUris {
+        web
+      }
     }
   `,
 });

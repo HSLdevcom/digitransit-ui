@@ -15,6 +15,12 @@ export const PREFIX_TERMINALS = 'busbahnhoefe';
 export const PREFIX_ITINERARY_SUMMARY = 'reiseplan';
 export const PREFIX_DISRUPTION = 'stoerungen';
 export const PREFIX_TIMETABLE = 'fahrplan';
+export const PREFIX_ROADWORKS = 'baustellen';
+export const PREFIX_BIKE_PARKS = 'fahrradparkplaetze';
+export const PREFIX_CHARGING_STATIONS = 'ladestationen';
+export const PREFIX_DYNAMIC_PARKING_LOTS = 'parkplaetze';
+export const PREFIX_ROAD_WEATHER = 'strassenwetter';
+export const PREFIX_GEOJSON = 'geojson';
 export const stopUrl = id => id;
 export const LOCAL_STORAGE_EMITTER_PATH = '/local-storage-emitter';
 

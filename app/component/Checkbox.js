@@ -19,6 +19,8 @@ const Checkbox = (
     showLabel,
     title,
     name,
+    className,
+    icon,
   },
   { intl },
 ) => {
@@ -36,14 +38,23 @@ const Checkbox = (
         role="checkbox"
         tabIndex={disabled ? -1 : 0}
       >
-        <label className={cx({ checked, disabled })} htmlFor={id}>
-          {checked && (
+        <label className={cx({ checked, disabled }, className)} htmlFor={id}>
+          {checked && large && (
             <Icon
-              className="checkmark"
-              img="icon-icon_check-digitransit"
+              className="checkmark large"
+              img={icon || 'icon-icon_check-digitransit'}
               viewBox="0 0 15 11"
               width={1.875}
               height={1.75}
+            />
+          )}
+          {checked && !large && (
+            <Icon
+              className="checkmark"
+              img={icon || 'icon-icon_check-digitransit'}
+              viewBox="0 0 15 11"
+              width={1.375}
+              height={1.25}
             />
           )}
           <input
@@ -81,6 +92,8 @@ Checkbox.propTypes = {
   title: PropTypes.string,
   name: PropTypes.string,
   large: PropTypes.bool,
+  className: PropTypes.string,
+  icon: PropTypes.string,
 };
 
 Checkbox.defaultProps = {
@@ -91,6 +104,8 @@ Checkbox.defaultProps = {
   showLabel: true,
   title: undefined,
   large: false,
+  className: null,
+  icon: null,
 };
 
 Checkbox.contextTypes = {

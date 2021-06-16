@@ -42,14 +42,22 @@ class BikeParks {
 
           this.features = [];
 
-          const layerData = vt.layers.bikeparks || { length: 0 };
+          const layerData = vt.layers.parking || { length: 0 };
           const { length } = layerData;
 
-          this.features = range(length).map(index => {
-            const feature = layerData.feature(index);
-            [[feature.geom]] = feature.loadGeometry();
-            return pick(feature, ['geom', 'properties']);
-          });
+          this.features = range(length)
+            .map(index => {
+              const feature = layerData.feature(index);
+              [[feature.geom]] = feature.loadGeometry();
+              return pick(feature, ['geom', 'properties']);
+            })
+            .map(i => {
+              const ret = i;
+              ret.properties.maxCapacity =
+                i.properties['capacity.bicyclePlaces'];
+              return ret;
+            })
+            .filter(i => i.properties.bicyclePlaces);
 
           this.features.forEach(actionFn);
         },
@@ -58,7 +66,8 @@ class BikeParks {
       );
     });
 
-  static getIcon = ({ covered }) => {
+  static getIcon = ({ tags }) => {
+    const covered = tags.split(',').includes('osm:covered');
     if (covered) {
       return `icon-bike-park-covered`;
     }
@@ -67,7 +76,6 @@ class BikeParks {
 
   drawStatus = ({ geom, properties }) => {
     if (this.tile.coords.z <= this.config.bikeParks.smallIconZoom) {
-      const color = { 'mode-bike-park': '#005ab4' };
       return drawStopIcon(
         this.tile,
         geom,
@@ -75,7 +83,7 @@ class BikeParks {
         null,
         null,
         null,
-        color,
+        this.config.colors.iconColors,
       );
     }
 

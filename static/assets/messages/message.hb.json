@@ -1,16 +1,75 @@
-{"staticMessages": [{
-	"content": {
-		"en": [
-			{"content": "Public Beta", "type": "heading"},
-			{"content": "Mobil-in-Herrenberg currently is in public beta. You have suggestions or issues? Please give us feedback.", "type": "text"},
-			],
-		"de": [
-			{"content": "Probebetrieb", "type": "heading"},
-			{"content": "Mobil-in-Herrenberg befindet sich derzeit im öffentlichen Probebetrieb. Anregungen oder Probleme? Geben Sie uns gerne Feedback.", "type": "text"},
-			],
-		]}, 
-"type": "info", 
-"id": "130122020_2256_91", 
-"persistence": "repeat", 
-"icon": "info"}]
+{
+  "staticMessages": [
+    {
+      "content": {
+        "en": [
+          {
+            "content": "Public Beta",
+            "type": "heading"
+          },
+          {
+            "content": "The new stadtnavi version currently is in public beta. You have suggestions or issues? Please give us feedback.\n",
+            "type": "text"
+          },
+          {
+            "content": "stadtnavi will soon be available as a native app for your mobile phone. Test the",
+            "type": "text"
+          },
+          {
+            "type": "a",
+            "content": "iOS",
+            "href": "https://testflight.apple.com/join/QaC8z0fo"
+          },
+          {
+            "content": "or",
+            "type": "text"
+          },
+          {
+            "type": "a",
+            "content": "Android",
+            "href": "https://play.google.com/apps/testing/com.test.stadtnaviApp"
+          },
+          {
+            "content": "beta version of the app today and share your feedback with us.",
+            "type": "text"
+          }
+        ],
+        "de": [
+          {
+            "content": "Beta-Version",
+            "type": "heading"
+          },
+          {
+            "content": "Die neue stadtnavi-Version befindet sich derzeit im öffentlichen Probebetrieb. Anregungen oder Probleme? Geben Sie uns gerne Feedback.\n",
+            "type": "text"
+          },
+          {
+            "content": "stadtnavi gibt es demnächst auch als native App für Ihr Mobiltelefon. Testen Sie bereits heute die",
+            "type": "text"
+          },
+          {
+            "type": "a",
+            "content": "iOS",
+            "href": "https://testflight.apple.com/join/QaC8z0fo"
+          },
+          {
+            "content": "oder",
+            "type": "text"
+          },
+          {
+            "type": "a",
+            "content": "Android",
+            "href": "https://play.google.com/apps/testing/com.test.stadtnaviApp"
+          },
+          {
+            "content": "Beta-Version der App und teilen Sie uns Ihr Feedback mit.",
+            "type": "text"
+          }]
+      },
+      "type": "info",
+      "id": "202106030758",
+      "persistence": "repeat",
+      "icon": "info"
+    }
+  ]
 }

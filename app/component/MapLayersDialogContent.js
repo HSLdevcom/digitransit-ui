@@ -1,13 +1,14 @@
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import cx from 'classnames';
+import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape, routerShape, withRouter } from 'found';
+import merge from 'lodash/merge';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import Icon from './Icon';
 
-import Checkbox from './Checkbox';
 import GeoJsonStore from '../store/GeoJsonStore';
 import { updateMapLayers } from '../action/MapLayerActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -16,6 +17,7 @@ import { replaceQueryParams, clearQueryParams } from '../util/queryUtils';
 import { MapMode } from '../constants';
 import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 import { setMapMode } from '../action/MapModeActions';
+import LayerCategoryDropdown from './LayerCategoryDropdown';
 
 const transportModeConfigShape = PropTypes.shape({
   availableForSelection: PropTypes.bool,
@@ -90,49 +92,12 @@ class MapLayersDialogContent extends React.Component {
     });
   };
 
-  updateStopAndTerminalSetting = newSetting => {
-    const { mapLayers } = this.props;
-    const stop = {
-      ...mapLayers.stop,
-      ...newSetting,
-    };
-    const terminal = {
-      ...mapLayers.terminal,
-      ...newSetting,
-    };
-    this.updateSetting({ stop, terminal });
-  };
-
-  updateStopSetting = newSetting => {
-    const stop = {
-      ...this.props.mapLayers.stop,
-      ...newSetting,
-    };
-    this.updateSetting({ stop });
-  };
-
-  updateTerminalSetting = newSetting => {
-    const terminal = {
-      ...this.props.mapLayers.terminal,
-      ...newSetting,
-    };
-    this.updateSetting({ terminal });
-  };
-
   updateTicketSalesSetting = newSetting => {
     const ticketSales = {
       ...this.props.mapLayers.ticketSales,
       ...newSetting,
     };
     this.updateSetting({ ticketSales });
-  };
-
-  updateGeoJsonSetting = newSetting => {
-    const geoJson = {
-      ...this.props.mapLayers.geoJson,
-      ...newSetting,
-    };
-    this.updateSetting({ geoJson });
   };
 
   switchMapLayers = mode => {
@@ -160,9 +125,9 @@ class MapLayersDialogContent extends React.Component {
       chargingStations,
     } = this.props.mapLayers;
     const { currentMapMode } = this.props;
-    let arr;
+    let geoJsonLayers;
     if (this.props.geoJson) {
-      arr = Object.entries(this.props.geoJson)?.map(([k, v]) => {
+      geoJsonLayers = Object.entries(this.props.geoJson)?.map(([k, v]) => {
         return { url: k, ...v };
       });
     }
@@ -170,8 +135,19 @@ class MapLayersDialogContent extends React.Component {
     const isTransportModeEnabled = transportMode =>
       transportMode && transportMode.availableForSelection;
     const transportModes = this.context.config.transportModes || {};
+
+    const bikeServiceLayer = geoJsonLayers?.find(
+      layer => layer.name.en === 'Service stations and stores',
+    );
+    const publicToiletsLayer = geoJsonLayers?.find(
+      layer => layer.name.en === 'Public Toilets',
+    );
+    const gatewaysLayer = geoJsonLayers?.find(
+      layer => layer.name.en === 'LoRaWAN Gateways',
+    );
+
     return (
-      <Fragment>
+      <>
         <button
           className="panel-close"
           onClick={() => this.handlePanelState(false)}
@@ -188,274 +164,278 @@ class MapLayersDialogContent extends React.Component {
             defaultMessage: 'Bubble Dialog Header',
           })}
         </span>
-        <div className="checkbox-grouping" />{' '}
-        {this.context.config.vehicles && (
-          <div className="checkbox-grouping">
-            <Checkbox
-              large
-              checked={vehicles}
-              defaultMessage="Moving vehicles"
-              labelId="map-layer-vehicles"
-              onChange={e => {
-                this.updateSetting({ vehicles: e.target.checked });
-                this.sendLayerChangeAnalytic('Vehicles', e.target.checked);
-              }}
-            />
-          </div>
-        )}
-        <div className="checkbox-grouping">
-          {isTransportModeEnabled(transportModes.bus) && (
-            <Fragment>
-              <Checkbox
-                large
-                checked={stop.bus}
-                defaultMessage="Bus stop"
-                labelId="map-layer-stop-bus"
-                onChange={e => {
-                  this.updateStopSetting({ bus: e.target.checked });
-                  this.sendLayerChangeAnalytic('BusStop', e.target.checked);
-                }}
-              />
-              <Checkbox
-                large
-                checked={terminal.bus}
-                defaultMessage="Bus terminal"
-                labelId="map-layer-terminal-bus"
-                onChange={e => {
-                  this.updateTerminalSetting({ bus: e.target.checked });
-                  this.sendLayerChangeAnalytic('BusTerminal', e.target.checked);
-                }}
-              />
-            </Fragment>
-          )}
-          {isTransportModeEnabled(transportModes.tram) && (
-            <Checkbox
-              large
-              checked={stop.tram}
-              defaultMessage="Tram stop"
-              labelId="map-layer-stop-tram"
-              onChange={e => {
-                this.updateStopSetting({ tram: e.target.checked });
-                this.sendLayerChangeAnalytic('TramStop', e.target.checked);
-              }}
-            />
-          )}
-          {isTransportModeEnabled(transportModes.rail) && (
-            <Checkbox
-              large
-              checked={terminal.rail}
-              defaultMessage="Railway station"
-              labelId="map-layer-terminal-rail"
-              onChange={e => {
-                this.updateStopAndTerminalSetting({ rail: e.target.checked });
-                this.sendLayerChangeAnalytic('RailTerminal', e.target.checked);
-              }}
-            />
-          )}
-          {isTransportModeEnabled(transportModes.subway) && (
-            <Checkbox
-              large
-              checked={terminal.subway}
-              defaultMessage="Subway station"
-              labelId="map-layer-terminal-subway"
-              onChange={e => {
-                this.updateStopAndTerminalSetting({ subway: e.target.checked });
-                this.sendLayerChangeAnalytic(
-                  'SubwayTerminal',
-                  e.target.checked,
-                );
-              }}
-            />
-          )}
-          {isTransportModeEnabled(transportModes.carpool) && (
-            <Checkbox
-              large
-              checked={terminal.carpool}
-              defaultMessage="Carpool stops"
-              labelId="map-layer-carpool"
-              onChange={e =>
-                this.updateStopAndTerminalSetting({ carpool: e.target.checked })
+
+        <div className="map-layers-content">
+          <div>
+            <LayerCategoryDropdown
+              title={this.context.intl.formatMessage({
+                id: 'map-layer-category-public-transit',
+                defaultMessage: 'Public Transit',
+              })}
+              icon="icon-icon_material_rail"
+              onChange={newSettings =>
+                this.updateSetting(merge(this.props.mapLayers, newSettings))
               }
+              options={[
+                isTransportModeEnabled(transportModes.bus) && {
+                  checked: stop.bus,
+                  defaultMessage: 'Bus stop',
+                  labelId: 'map-layer-stop-bus',
+                  icon: 'icon-icon_stop_bus',
+                  settings: { stop: 'bus' },
+                },
+                isTransportModeEnabled(transportModes.subway) && {
+                  checked: terminal.subway,
+                  defaultMessage: 'Subway station',
+                  labelId: 'map-layer-terminal-subway',
+                  icon: 'icon-icon_stop_subway',
+                  settings: { stop: 'subway', terminal: 'subway' },
+                },
+                isTransportModeEnabled(transportModes.rail) && {
+                  checked: terminal.rail,
+                  defaultMessage: 'Railway station',
+                  labelId: 'map-layer-terminal-rail',
+                  icon: 'icon-icon_stop_rail',
+                  settings: { stop: 'rail', terminal: 'rail' },
+                },
+                isTransportModeEnabled(transportModes.tram) && {
+                  checked: stop.tram,
+                  defaultMessage: 'Tram stop',
+                  labelId: 'map-layer-stop-tram',
+                  icon: 'icon-icon_stop_tram',
+                  settings: { stop: 'tram' },
+                },
+                isTransportModeEnabled(transportModes.ferry) && {
+                  checked: stop.ferry,
+                  defaultMessage: 'Ferry',
+                  labelId: 'map-layer-stop-ferry',
+                  icon: 'icon-icon_stop_ferry',
+                  settings: { stop: 'ferry' },
+                },
+                this.context.config.vehicles && {
+                  checked: vehicles,
+                  defaultMessage: 'Moving vehicles',
+                  labelId: 'map-layer-vehicles',
+                  icon: 'icon-icon_moving_bus',
+                  settings: 'vehicles',
+                },
+              ]}
             />
-          )}
-          {isTransportModeEnabled(transportModes.ferry) && (
-            <Checkbox
-              large
-              checked={stop.ferry}
-              defaultMessage="Ferry"
-              labelId="map-layer-stop-ferry"
-              onChange={e => {
-                this.updateStopSetting({ ferry: e.target.checked });
-                this.sendLayerChangeAnalytic('FerryStop', e.target.checked);
-              }}
+            <LayerCategoryDropdown
+              title={this.context.intl.formatMessage({
+                id: 'map-layer-category-bicycle',
+                defaultMessage: 'Bicycle',
+              })}
+              icon="icon-icon_material_bike"
+              onChange={newSettings =>
+                this.updateSetting(merge(this.props.mapLayers, newSettings))
+              }
+              options={[
+                this.context.config.bikeParks &&
+                  this.context.config.bikeParks.show && {
+                    checked: bikeParks,
+                    defaultMessage: 'Bike parks',
+                    labelId: 'map-layer-bike-parks',
+                    icon: 'icon-bike-park',
+                    settings: 'bikeParks',
+                  },
+                bikeServiceLayer && {
+                  checked:
+                    (bikeServiceLayer.isOffByDefault &&
+                      geoJson[bikeServiceLayer.url] === true) ||
+                    (!bikeServiceLayer.isOffByDefault &&
+                      geoJson[bikeServiceLayer.url] !== false),
+                  defaultMessage: bikeServiceLayer.name[this.props.lang],
+                  icon: 'icon-icon_bike_repair',
+                  key: bikeServiceLayer.url,
+                  settings: { geoJson: bikeServiceLayer.url },
+                },
+              ]}
             />
-          )}
-          {this.context.config.cityBike &&
-            this.context.config.cityBike.showCityBikes && (
-              <Checkbox
-                large
-                checked={citybike}
-                defaultMessage="Sharing"
-                labelId="map-layer-sharing"
-                onChange={e => {
-                  this.updateSetting({ citybike: e.target.checked });
-                  this.sendLayerChangeAnalytic('Citybike', e.target.checked);
-                }}
-              />
-            )}
-          {this.context.config.roadworks &&
-            this.context.config.roadworks.showRoadworks && (
-              <Checkbox
-                large
-                checked={roadworks}
-                defaultMessage="Roadworks"
-                labelId="map-layer-roadworks"
-                onChange={e =>
-                  this.updateSetting({ roadworks: e.target.checked })
-                }
-              />
-            )}
-          {this.context.config.bikeParks && this.context.config.bikeParks.show && (
-            <Checkbox
-              large
-              checked={bikeParks}
-              defaultMessage="Bike parks"
-              labelId="map-layer-bike-parks"
-              onChange={e => {
-                this.updateSetting({ bikeParks: e.target.checked });
-                this.sendLayerChangeAnalytic('BikeParks', e.target.checked);
-              }}
+            <LayerCategoryDropdown
+              title={this.context.intl.formatMessage({
+                id: 'map-layer-category-sharing',
+                defaultMessage: 'Sharing',
+              })}
+              icon="icon-icon_material_bike_scooter"
+              onChange={newSettings =>
+                this.updateSetting(merge(this.props.mapLayers, newSettings))
+              }
+              options={[
+                this.context.config.cityBike &&
+                  this.context.config.cityBike.showCityBikes && {
+                    checked: citybike,
+                    defaultMessage: 'Sharing',
+                    labelId: 'map-layer-sharing',
+                    icon: 'icon-icon_citybike',
+                    settings: 'citybike',
+                  },
+                isTransportModeEnabled(transportModes.carpool) && {
+                  checked: terminal.carpool,
+                  defaultMessage: 'Carpool stops',
+                  labelId: 'map-layer-carpool',
+                  icon: 'icon-icon_carpool',
+                  settings: { stop: 'carpool', terminal: 'carpool' },
+                },
+              ]}
             />
-          )}
-          {this.context.config.dynamicParkingLots &&
-            this.context.config.dynamicParkingLots.showDynamicParkingLots && (
-              <Checkbox
-                large
-                checked={dynamicParkingLots}
-                defaultMessage="Parking"
-                labelId="map-layer-dynamic-parking-lots"
-                onChange={e =>
-                  this.updateSetting({ dynamicParkingLots: e.target.checked })
-                }
-              />
-            )}
-          {this.context.config.weatherStations &&
-            this.context.config.weatherStations.show && (
-              <Checkbox
-                large
-                checked={weatherStations}
-                defaultMessage="Road weather"
-                labelId="map-layer-weather-stations"
-                onChange={e => {
-                  this.updateSetting({ weatherStations: e.target.checked });
-                  this.sendLayerChangeAnalytic(
-                    'WeatherStations',
-                    e.target.checked,
-                  );
-                }}
-              />
-            )}
-
-          {this.context.config.parkAndRide &&
-            this.context.config.parkAndRide.showParkAndRide && (
-              <Checkbox
-                large
-                checked={parkAndRide}
-                defaultMessage="Park &amp; ride"
-                labelId="map-layer-park-and-ride"
-                onChange={e => {
-                  this.updateSetting({ parkAndRide: e.target.checked });
-                  this.sendLayerChangeAnalytic('ParkAndRide', e.target.checked);
-                }}
-              />
-            )}
-
-          {this.context.config.chargingStations &&
-            this.context.config.chargingStations.show && (
-              <Checkbox
-                large
-                checked={chargingStations}
-                defaultMessage="Charging stations"
-                labelId="map-layer-charging-staions"
-                onChange={e => {
-                  this.updateSetting({ chargingStations: e.target.checked });
-                  this.sendLayerChangeAnalytic(
-                    'ChargingStations',
-                    e.target.checked,
-                  );
-                }}
-              />
-            )}
-        </div>
-        {arr && Array.isArray(arr) && (
-          <div className="checkbox-grouping">
-            {arr.map(gj => (
-              <Checkbox
-                large
-                checked={
-                  (gj.isOffByDefault && geoJson[gj.url] === true) ||
-                  (!gj.isOffByDefault && geoJson[gj.url] !== false)
-                }
-                defaultMessage={gj.name[this.props.lang]}
-                key={gj.url}
-                onChange={e => {
-                  const newSetting = {};
-                  newSetting[gj.url] = e.target.checked;
-                  this.updateGeoJsonSetting(newSetting);
-                  this.sendLayerChangeAnalytic('Zones', e.target.checked);
-                }}
-              />
-            ))}
+            <LayerCategoryDropdown
+              title={this.context.intl.formatMessage({
+                id: 'map-layer-category-car',
+                defaultMessage: 'Car',
+              })}
+              icon="icon-icon_material_car"
+              onChange={newSettings =>
+                this.updateSetting(merge(this.props.mapLayers, newSettings))
+              }
+              options={[
+                this.context.config.dynamicParkingLots &&
+                  this.context.config.dynamicParkingLots
+                    .showDynamicParkingLots && {
+                    checked: dynamicParkingLots,
+                    defaultMessage: 'Parking',
+                    labelId: 'map-layer-dynamic-parking-lots',
+                    icon: 'icon-icon_open_carpark',
+                    settings: 'dynamicParkingLots',
+                  },
+                this.context.config.parkAndRide &&
+                  this.context.config.parkAndRide.showParkAndRide && {
+                    checked: parkAndRide,
+                    defaultMessage: 'Park &amp; ride',
+                    labelId: 'map-layer-park-and-ride',
+                    icon: 'icon-icon_park-and-ride',
+                    settings: 'parkAndRide',
+                  },
+                this.context.config.chargingStations &&
+                  this.context.config.chargingStations.show && {
+                    checked: chargingStations,
+                    defaultMessage: 'Charging stations',
+                    labelId: 'map-layer-charging-staions',
+                    icon: 'icon-icon_stop_car_charging_station',
+                    settings: 'chargingStations',
+                  },
+              ]}
+            />
+            <LayerCategoryDropdown
+              title={this.context.intl.formatMessage({
+                id: 'map-layer-category-others',
+                defaultMessage: 'Others',
+              })}
+              icon="icon-icon_material_map"
+              onChange={newSettings =>
+                this.updateSetting(merge(this.props.mapLayers, newSettings))
+              }
+              options={[
+                publicToiletsLayer && {
+                  checked:
+                    (publicToiletsLayer.isOffByDefault &&
+                      geoJson[publicToiletsLayer.url] === true) ||
+                    (!publicToiletsLayer.isOffByDefault &&
+                      geoJson[publicToiletsLayer.url] !== false),
+                  defaultMessage: publicToiletsLayer.name[this.props.lang],
+                  key: publicToiletsLayer.url,
+                  icon: 'icon-icon_public_toilets',
+                  settings: { geoJson: publicToiletsLayer.url },
+                },
+                this.context.config.roadworks &&
+                  this.context.config.roadworks.showRoadworks && {
+                    checked: roadworks,
+                    defaultMessage: 'Roadworks',
+                    labelId: 'map-layer-roadworks',
+                    icon: 'icon-icon_roadworks',
+                    settings: 'roadworks',
+                  },
+                this.context.config.weatherStations &&
+                  this.context.config.weatherStations.show && {
+                    checked: weatherStations,
+                    defaultMessage: 'Road weather',
+                    labelId: 'map-layer-weather-stations',
+                    icon: 'icon-icon_stop_monitor',
+                    settings: 'weatherStations',
+                  },
+                gatewaysLayer && {
+                  checked:
+                    (gatewaysLayer.isOffByDefault &&
+                      geoJson[gatewaysLayer.url] === true) ||
+                    (!gatewaysLayer.isOffByDefault &&
+                      geoJson[gatewaysLayer.url] !== false),
+                  defaultMessage: gatewaysLayer.name[this.props.lang],
+                  key: gatewaysLayer.url,
+                  icon: 'icon-icon_gateways',
+                  settings: { geoJson: gatewaysLayer.url },
+                },
+              ]}
+            />
           </div>
-        )}
-        <div className="checkbox-grouping">
-          <h4>
-            <FormattedMessage
-              id="map-background"
-              defaultMessage="Map background"
-            />
-          </h4>
-          <label className="radio-label" htmlFor="street">
-            <input
-              type="radio"
-              id="street"
-              value="street"
-              name="mapMode"
-              onChange={() => {
+
+          <p className="panel-maptype-title">
+            <FormattedMessage id="map-type" defaultMessage="Map type" />
+          </p>
+
+          <div className="panel-maptype-container">
+            <button
+              type="button"
+              className={cx(
+                'panel-maptype-button',
+                currentMapMode === MapMode.Default && 'checked',
+              )}
+              onClick={() => {
                 this.switchMapLayers(MapMode.Default);
               }}
-              checked={currentMapMode === MapMode.Default}
-            />
-            <FormattedMessage id="streets" defaultMessage="Streets" />
-          </label>
-          <label className="radio-label" htmlFor="satellite">
-            <input
-              type="radio"
-              id="satellite"
-              value="satellite"
-              name="mapMode"
-              onChange={() => {
+            >
+              <img
+                alt="street"
+                className={cx(
+                  'panel-maptype-image',
+                  currentMapMode === MapMode.Default && 'checked',
+                )}
+                src="/img/maptype-streets.png"
+              />
+              <FormattedMessage id="streets" defaultMessage="Streets" />
+            </button>
+            <button
+              type="button"
+              className={cx(
+                'panel-maptype-button',
+                currentMapMode === MapMode.Satellite && 'checked',
+              )}
+              onClick={() => {
                 this.switchMapLayers(MapMode.Satellite);
               }}
-              checked={currentMapMode === MapMode.Satellite}
-            />
-            <FormattedMessage id="satellite" defaultMessage="Satellite" />
-          </label>
-          <label className="radio-label" htmlFor="bicycle">
-            <input
-              type="radio"
-              id="bicycle"
-              value="bicycle"
-              name="mapMode"
-              onChange={() => {
+            >
+              <img
+                alt="satellite"
+                className={cx(
+                  'panel-maptype-image',
+                  currentMapMode === MapMode.Satellite && 'checked',
+                )}
+                src="/img/maptype-satellite.png"
+              />
+              <FormattedMessage id="satellite" defaultMessage="Satellite" />
+            </button>
+            <button
+              type="button"
+              className={cx(
+                'panel-maptype-button',
+                currentMapMode === MapMode.Bicycle && 'checked',
+              )}
+              onClick={() => {
                 this.switchMapLayers(MapMode.Bicycle);
               }}
-              checked={currentMapMode === MapMode.Bicycle}
-            />
-            <FormattedMessage id="bicycle" defaultMessage="Bicycle" />
-          </label>
+            >
+              <img
+                alt="bicycle"
+                className={cx(
+                  'panel-maptype-image',
+                  currentMapMode === MapMode.Bicycle && 'checked',
+                )}
+                src="/img/maptype-terrain.png"
+              />
+              <FormattedMessage id="bicycle" defaultMessage="Bicycle" />
+            </button>
+          </div>
         </div>
-      </Fragment>
+      </>
     );
   }
 }

@@ -4,7 +4,7 @@ import configMerger from '../util/configMerger';
 const CONFIG = 'hbnext';
 const APP_TITLE = 'stadtnavi Herrenberg';
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
-const API_URL = process.env.API_URL || 'https://api.stadtnavi.de';
+const API_URL = process.env.API_URL || 'https://api.dev.stadtnavi.eu';
 const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{x}/{y}{r}.png';
 const SEMI_TRANSPARENT_MAP_URL = process.env.SEMITRANSPARENT_MAP_URL || "https://tiles.stadtnavi.eu/satellite-overlay/{z}/{x}/{y}{r}.png";
 const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || "https://photon.stadtnavi.eu/pelias/v1";
@@ -13,13 +13,14 @@ const STATIC_MESSAGE_URL =
     process.env.STATIC_MESSAGE_URL ||
     '/assets/messages/message.hb.json';
 const SHOW_TICKETS = process.env.SHOW_TICKETS || false;
+const CARGO_BIKES_ENABLED = process.env.CARGO_BIKES_ENABLED === 'true';
 
 const walttiConfig = require('./config.waltti.js').default;
 
-const minLat = 48.55525;
-const maxLat = 48.64040;
-const minLon = 8.78597;
-const maxLon = 8.98613;
+const minLat = 47.6020;
+const maxLat = 49.0050;
+const minLon = 8.4087;
+const maxLon = 9.9014;
 
 export default configMerger(walttiConfig, {
     CONFIG,
@@ -36,7 +37,7 @@ export default configMerger(walttiConfig, {
         ROADWORKS_MAP: `${API_URL}/map/v1/cifs/`,
         COVID19_MAP: `https://tiles.caresteouvert.fr/public.poi_osm_light/{z}/{x}/{y}.pbf`,
         CITYBIKE_MAP: `${API_URL}/routing/v1/router/vectorTiles/citybikes/`,
-        BIKE_PARKS_MAP: `${API_URL}/map/v1/bike-parks/`,
+        BIKE_PARKS_MAP: `${API_URL}/routing/v1/router/vectorTiles/parking/`,
         WEATHER_STATIONS_MAP: `${API_URL}/map/v1/weather-stations/`,
         CHARGING_STATIONS_MAP: `https://ochp.next-site.de/tiles/`,
         PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
@@ -62,7 +63,7 @@ export default configMerger(walttiConfig, {
     displayNextDeparture: false,
     maxWalkDistance: 15000,
 
-    optimize: "QUICK",
+    optimize: "TRIANGLE",
 
     defaultSettings: {
         optimize: "TRIANGLE",
@@ -92,6 +93,8 @@ export default configMerger(walttiConfig, {
             'mode-bus': '#ff0000',
             'mode-car': '#007AC9',
             'mode-rail': '#008000',
+            'mode-charging-station': '#00b096',
+            'mode-bike-park': '#005ab4',
         },
     },
 
@@ -183,7 +186,19 @@ export default configMerger(walttiConfig, {
                     en: 'Car sharing',
                 },
                 type: 'car-sharing',
+                url: {
+                    de: 'https://stuttgart.stadtmobil.de/privatkunden/',
+                    en: 'https://stuttgart.stadtmobil.de/privatkunden/',
+                },
             },
+            "cargo-bike": CARGO_BIKES_ENABLED ? {
+                icon: 'cargobike',
+                name: {
+                    de: 'Lastenrad Herrenberg',
+                    en: 'Cargo bike Herrenberg',
+                },
+                type: 'cargo-bike'
+            }: undefined,
         }
     },
 
@@ -318,7 +333,9 @@ export default configMerger(walttiConfig, {
             {
                 header: 'Digitransit Plattform',
                 paragraphs: [
-                    'Dieser Dienst basiert auf der Digitransit Platform und dem Backend-Dienst OpenTripPlanner. Alle Software ist unter einer offenen Lizenzen verfügbar. Vielen Dank an alle Beteiligten.',        ],
+                    'Dieser Dienst basiert auf der Digitransit Platform und dem Backend-Dienst OpenTripPlanner. Alle Software ist unter einer offenen Lizenzen verfügbar. Vielen Dank an alle Beteiligten.',
+                    'Der gesamte Quellcode der Plattform, die aus vielen verschiedenen Komponenten besteht, ist auf <a href="https://github.com/stadtnavi/">Github</a> verfügbar.'
+                ],
             },
             {
                 header: 'Datenquellen',
@@ -477,7 +494,8 @@ export default configMerger(walttiConfig, {
         },
     },
 
-    showAllBusses: true,
+    // live bus locations
+    vehicles: true,
 
     showRouteSearch: false,
     showNearYouButtons: false,
@@ -489,8 +507,8 @@ export default configMerger(walttiConfig, {
             {
                 name: {
                     fi: '',
-                    en: 'Bicycle infrastructure',
-                    de: "Rund um's Fahrrad",
+                    en: 'Service stations and stores',
+                    de: "Service Stationen und Läden",
                 },
                 url: '/assets/geojson/hb-layers/bicycleinfrastructure.geojson',
             },
@@ -528,6 +546,7 @@ export default configMerger(walttiConfig, {
     staticMessagesUrl: STATIC_MESSAGE_URL,
 
     suggestCarMinDistance: 200,
+    suggestWalkMaxDistance: 3000,
 
     showVehiclesOnSummaryPage: true,
     showBikeAndPublicItineraries: true,

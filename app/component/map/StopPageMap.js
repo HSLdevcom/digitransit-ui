@@ -95,9 +95,7 @@ const StopPageMap = (
   const leafletObjs = [];
   const children = [];
   if (config.showVehiclesOnStopPage) {
-    leafletObjs.push(
-      <VehicleMarkerContainer key="vehicles" useLargeIcon ignoreMode />,
-    );
+    leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
   }
 
   if (breakpoint === 'large') {
@@ -198,7 +196,6 @@ const StopPageMapWithStores = connectToStores(
     const currentTime = getStore(TimeStore).getCurrentTime().unix();
     const locationState = getStore(PositionStore).getLocationState();
     const ml = config.showVehiclesOnStopPage ? { notThese: ['vehicles'] } : {};
-    ml.force = ['stop', 'citybike', 'terminal']; // show always
     const mapLayers = getStore(MapLayerStore).getMapLayers(ml);
     return {
       locationState,

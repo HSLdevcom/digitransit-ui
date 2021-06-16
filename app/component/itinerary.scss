@@ -48,6 +48,9 @@ $itinerary-tab-switch-height: 48px;
   &.car {
     @include getCircleSvg($car-color, $fill);
   }
+  &.carpool {
+    @include getCircleSvg($carpool-color, $fill);
+  }
   &.via {
     @include getCircleSvg($walk-color, $fill);
   }
@@ -62,6 +65,18 @@ $itinerary-tab-switch-height: 48px;
   background: $white;
   padding: 0 3.125em;
   position: relative;
+}
+
+.carpool-agency-logo {
+  margin-left: 3px;
+  width: 1.1em;
+  height: 1.1em;
+}
+
+.carpool-itinerary {
+  width: 2em;
+  height: 2em;
+  margin: 0.4em;
 }
 
 .itinerary-main {
@@ -547,6 +562,9 @@ $itinerary-tab-switch-height: 48px;
     &.car {
       @include setModeCircles($car-color);
     }
+    &.carpool {
+      @include setModeCircles($carpool-color);
+    }
     &.via {
       @include setModeCircles($walk-color);
     }
@@ -649,28 +667,10 @@ $itinerary-tab-switch-height: 48px;
     position: absolute;
     left: 7px;
     border-left: 8px solid;
-    &.interline-top {
-      border: 4px solid currentColor;
-      border-radius: 4px;
-      height: 92%;
-      top: 2em;
-    }
-    &.interline-bottom {
-      border: 4px solid currentColor;
-      border-radius: 4px;
-      height: 96%;
-    }
-    &.interline-both {
-      border: 4px solid currentColor;
-      border-radius: 4px;
-      height: 86%;
-      top: 2em;
-    }
     &.wait {
       height: 50%;
       border: 4px solid;
       border-radius: 4px;
-
       &.bottom {
         height: 18%;
         top: 85%;
@@ -892,6 +892,26 @@ $itinerary-tab-switch-height: 48px;
     padding-left: 0.5em;
     min-height: 4.15em;
     padding-right: 0;
+    .divider{
+      border-top: 1px solid #dddddd;
+    }
+    .interline-info-container {
+      margin-top: 12px;
+      border: 1px solid #dddddd;
+      border-radius: 5px;
+      display: flex;
+      padding: 7px 13px 11px 0;
+      color: #333333;
+      .bold {
+        font-weight: 700;
+      }
+      .icon-container {
+        margin-top: 5px;
+        min-width: 42px;
+        font-size: 18px;
+        text-align: center;
+      }
+    }
     &.intermediate {
       a {
         text-decoration: none;
@@ -976,9 +996,6 @@ $itinerary-tab-switch-height: 48px;
         text-decoration: none;
         color: #333;
       }
-      &.interlining {
-        height: 76px;
-      }
       &.via {
         height: 78px;
       }
@@ -986,10 +1003,6 @@ $itinerary-tab-switch-height: 48px;
         a {
           text-decoration: none;
           color: #333;
-        }
-        .interline-info-container {
-          font-size: 0.813rem;
-          padding-top: 5px;
         }
       }
       &.first {
@@ -1146,9 +1159,9 @@ $itinerary-tab-switch-height: 48px;
           .vehicle-number {
             color: $white;
             left: 1.5em;
-            width: 2.25em;
+            min-width: 2.25em;
             text-align: center;
-            padding: 4px 0 0 0;
+            padding: 4px 4px 0 0;
             &.long {
               left: 1.7em;
               width: 100%;
@@ -1251,6 +1264,10 @@ $itinerary-tab-switch-height: 48px;
       &.carpool {
         border-color: $carpool-color;
       }
+      &.bus {
+        margin-top: 6px;
+        border-color: rgb(0, 47, 235);
+      }
       .icon-container {
         margin-right: 3px;
         margin-left: -22px;
@@ -1310,7 +1327,6 @@ $itinerary-tab-switch-height: 48px;
 
     .intermediate-stops-clickable {
       height: 60px;
-      border-top: 1px solid #ddd;
       > * {
         display: flex;
         align-items: center;

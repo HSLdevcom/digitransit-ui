@@ -26,6 +26,7 @@ class PreferencesStore extends Store {
     } else {
       this.language = language;
     }
+    this.settingsOpen = null;
   }
 
   getLanguage() {
@@ -46,8 +47,21 @@ class PreferencesStore extends Store {
     this.emitChange();
   }
 
+  getSettingsOpen() {
+    return this.settingsOpen;
+  }
+
+  setSettingsOpen(open) {
+    this.settingsOpen = open;
+    this.emitChange();
+  }
+
   static handlers = {
     SetLanguage: 'setLanguage',
+  };
+
+  static handlers = {
+    SetSettingsOpen: 'setSettingsOpen',
   };
 }
 

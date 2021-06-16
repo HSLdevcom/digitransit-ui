@@ -45,9 +45,11 @@ $margin-left-right: 1.333em;
   background-color: $white;
   .route-page-container {
     padding-top: 0;
-    padding-right: 1em;
     background-color: transparent;
     position: relative;
+    .route-page-control-panel-container {
+      margin: 0 1.333em;
+    }
   }
   .bottom-whitespace {
     min-height: 300px;
@@ -57,18 +59,6 @@ $margin-left-right: 1.333em;
 .route-page-container {
   background-color: $white;
   padding-top: 3em;
-}
-
-.route-page-dynamic-divider-content {
-  position: relative;
-  left: 20px;
-  width: calc(100% - 3em);
-  height: 1px;
-  background: white;
-  &.bp-large {
-    left: 3.5em;
-    width: calc(100% - 7em);
-  }
 }
 
 .route-page-content {
@@ -81,7 +71,6 @@ $margin-left-right: 1.333em;
   padding-bottom: 1.5em;
   flex: 1 0;
   flex-basis: 0px;
-  max-height: 100vh;
   background: $white;
   transition: flex-grow 500ms cubic-bezier(0.215, 0.61, 0.355, 1),
     flex-basis 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
@@ -90,7 +79,7 @@ $margin-left-right: 1.333em;
     top: 0;
     padding-top: 0;
     padding-left: 3.5em;
-    padding-right: 2.5em;
+    padding-right: 3.5em;
   }
   &:empty {
     flex-basis: 0;
@@ -144,6 +133,9 @@ $margin-left-right: 1.333em;
   .icon.small-vehicle-icon {
     transform: scale(1);
   }
+}
+.route-stop-container {
+  width: 100%;
 }
 .route-details-upper-row {
   display: flex;
@@ -367,21 +359,16 @@ $margin-left-right: 1.333em;
           margin-right: 5px;
         }
         .itinerary-zone-icon {
+          flex: 1;
           font-family: $font-family;
         }
       }
       .route-stop-time {
         display: flex;
-        position: absolute;
-        right: 0;
         flex-direction: row;
         color: #666;
         flex: 0 1 auto;
         font-size: $font-size-small;
-        margin-right: 0.9375em;
-        @include min-width(tablet) {
-          margin-right: 2.75em;
-        }
         span {
           margin: 0;
           font-family: $font-family;
@@ -901,13 +888,16 @@ $margin-left-right: 1.333em;
   margin: 5px 20px 0 20px;
   padding-bottom: 5px;
   &.bp-large {
-    margin: 0 $margin-left-right-large 0;
+    margin: 0 4.5em 0 $margin-left-right-large;
     box-shadow: none;
   }
 }
 
 .route-page-control-panel-container {
   padding-bottom: 1.75rem;
+  &.hairiot {
+    margin: 0 3.5em;
+  }
 
   @media print {
     .route-tabs {
@@ -1090,7 +1080,7 @@ $margin-left-right: 1.333em;
         line-height: 18px;
         letter-spacing: -0.03em;
         .react-autosuggest__section-title {
-          font-weight: 500;
+          font-weight: var(--sectionTitleFontWeight);
           border-bottom: 1px solid #dddddd;
           min-height: 44px;
           padding: 13px 16px;

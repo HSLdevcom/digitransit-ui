@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
+import cx from 'classnames';
 import some from 'lodash/some';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape, routerShape } from 'found';
+import getContext from 'recompose/getContext';
 import {
   getHomeUrl,
   PREFIX_STOPS,
@@ -15,10 +17,13 @@ import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
 import ErrorBoundary from './ErrorBoundary';
-import { DesktopOrMobile } from '../util/withBreakpoint';
+import withBreakpoint, { DesktopOrMobile } from '../util/withBreakpoint';
 import { getUser } from '../util/apiUtils';
 import setUser from '../action/userActions';
+import { setSettingsOpen } from '../action/userPreferencesActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import MapLayersDialogContent from './MapLayersDialogContent';
+import PreferencesStore from '../store/PreferencesStore';
 
 class TopLevel extends React.Component {
   static propTypes = {
@@ -31,8 +36,10 @@ class TopLevel extends React.Component {
     match: matchShape.isRequired,
     origin: dtLocationShape,
     user: PropTypes.object,
+    settingsOpen: PropTypes.bool,
     router: routerShape,
     selectFromMapHeader: PropTypes.node,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
@@ -55,6 +62,24 @@ class TopLevel extends React.Component {
       match: this.props.match,
       router: this.props.router,
     };
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  MapLayersDialogContainer({ children, breakpoint, settingsOpen }) {
+    const isMobile = breakpoint !== 'large';
+
+    return (
+      <div
+        className={cx(
+          'offcanvas-layers',
+          isMobile && 'mobile',
+          'menu-content',
+          settingsOpen ? 'menu-content-open' : 'menu-content-close',
+        )}
+      >
+        {children}
+      </div>
+    );
   }
 
   constructor(props, context) {
@@ -204,6 +229,20 @@ class TopLevel extends React.Component {
                 : 0
             }
           >
+            {this.context.config.map.showLayerSelector &&
+              this.props.settingsOpen !== null && (
+                <this.MapLayersDialogContainer
+                  settingsOpen={this.props.settingsOpen}
+                  breakpoint={this.props.breakpoint}
+                >
+                  <MapLayersDialogContent
+                    open={this.props.settingsOpen}
+                    setOpen={open =>
+                      this.context.executeAction(setSettingsOpen, open)
+                    }
+                  />
+                </this.MapLayersDialogContainer>
+              )}
             {content}
           </ErrorBoundary>
         </section>
@@ -212,11 +251,14 @@ class TopLevel extends React.Component {
   }
 }
 
-export default connectToStores(
-  TopLevel,
-  ['OriginStore', 'UserStore'],
-  ({ getStore }) => ({
-    origin: getStore('OriginStore').getOrigin(),
-    user: getStore('UserStore').getUser(),
-  }),
+export default withBreakpoint(
+  connectToStores(
+    getContext({ config: PropTypes.object })(TopLevel),
+    ['OriginStore', 'UserStore', PreferencesStore],
+    ({ getStore }) => ({
+      origin: getStore('OriginStore').getOrigin(),
+      user: getStore('UserStore').getUser(),
+      settingsOpen: getStore(PreferencesStore).getSettingsOpen(),
+    }),
+  ),
 );

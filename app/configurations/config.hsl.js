@@ -52,7 +52,7 @@ export default {
 
   showHSLTracking: false,
   allowLogin: true,
-  allowFavouritesFromLocalstorage: false,
+  allowFavouritesFromLocalstorage: !process.env.OIDC_CLIENT_ID,
 
   nearbyRoutes: {
     radius: 500,
@@ -416,10 +416,6 @@ export default {
 
   showTicketPrice: true,
 
-  itinerary: {
-    showZoneLimits: true,
-  },
-
   map: {
     showZoomControl: true, // DT-3470, DT-3397
     showLayerSelector: false, // DT-3470
@@ -427,12 +423,6 @@ export default {
     showScaleBar: true, // DT-3470, DT-3397
     attribution:
       '<a tabindex="-1" href="http://osm.org/copyright">© OpenStreetMap</a>', // DT-3470, DT-3397
-  },
-
-  stopCard: {
-    header: {
-      showZone: true,
-    },
   },
 
   useTicketIcons: true,
@@ -526,7 +516,6 @@ export default {
     cityBikesEnabled && 'citybike',
   ],
 
-  zoneIconsAsSvg: true,
   hostnames: [
     // DEV hostnames
     'https://next-dev.digitransit.fi',
@@ -534,4 +523,8 @@ export default {
     // PROD hostnames
     'https://reittiopas.hsl.fi',
   ],
+  zones: {
+    stops: true,
+    itinerary: true,
+  },
 };

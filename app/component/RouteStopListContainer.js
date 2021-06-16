@@ -43,6 +43,7 @@ class RouteStopListContainer extends React.PureComponent {
 
     return stops.map((stop, i) => {
       const idx = i; // DT-3159: using in key of RouteStop component
+      const nextStop = stops[i + 1];
 
       const prevStopPattern =
         i > 0 ? stops[i - 1].stopTimesForPattern[0] : null;
@@ -55,6 +56,7 @@ class RouteStopListContainer extends React.PureComponent {
           }
           key={`${stop.gtfsId}-${this.props.pattern}-${idx}`} // DT-3159: added -${idx}
           stop={stop}
+          nextStop={nextStop}
           mode={mode}
           vehicle={vehicles[stop.gtfsId] ? vehicles[stop.gtfsId][0] : null}
           currentTime={this.props.currentTime.unix()}

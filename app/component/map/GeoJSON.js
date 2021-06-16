@@ -106,7 +106,6 @@ class GeoJSON extends React.Component {
     }).isRequired,
     geoJsonZoomLevel: PropTypes.number,
     locationPopup: PropTypes.string,
-    onSelectLocation: PropTypes.func,
   };
 
   static defaultProps = {
@@ -282,7 +281,6 @@ class GeoJSON extends React.Component {
               icons={this.icons}
               key={feature.id}
               locationPopup={this.props.locationPopup}
-              onSelectLocation={this.props.onSelectLocation}
             />
           ))}
       </React.Fragment>

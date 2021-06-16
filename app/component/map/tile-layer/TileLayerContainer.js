@@ -10,6 +10,7 @@ import isEqual from 'lodash/isEqual';
 import Popup from 'react-leaflet/es/Popup';
 import { withLeaflet } from 'react-leaflet/es/context';
 import { matchShape, routerShape } from 'found';
+import pickBy from 'lodash/pickBy';
 import { mapLayerShape } from '../../../store/MapLayerStore';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopupContainer';
@@ -24,14 +25,13 @@ import {
   PREFIX_BIKESTATIONS,
   PREFIX_STOPS,
   PREFIX_TERMINALS,
+  PREFIX_ROADWORKS,
+  PREFIX_CHARGING_STATIONS,
+  PREFIX_BIKE_PARKS,
+  PREFIX_DYNAMIC_PARKING_LOTS,
+  PREFIX_ROAD_WEATHER,
 } from '../../../util/path';
-import DynamicParkingLotsPopup from '../popups/DynamicParkingLotsPopup';
-import BikeParkPopup from '../popups/BikeParkPopup';
 import SelectVehicleContainer from './SelectVehicleContainer';
-import WeatherStationPopup from '../popups/WeatherStationPopup';
-import RoadworksPopup from '../popups/RoadworksPopup';
-import DynamicParkingLots from './DynamicParkingLots';
-import ChargingStationPopup from '../popups/ChargingStationPopup';
 
 const initialState = {
   selectableTargets: undefined,
@@ -310,13 +310,33 @@ class TileLayerContainer extends GridLayer {
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'roadworks') {
-          contents = (
-            <RoadworksPopup
-              feature={this.state.selectableTargets[0].feature}
-              lat={this.state.coords.lat}
-              lon={this.state.coords.lng}
-            />
+          const {
+            starttime,
+            endtime,
+            details_url: detailsUrl,
+            'location.location_description': locationDescription,
+            'location.street': name,
+            description,
+          } = this.state.selectableTargets[0].feature.properties;
+          const { lat, lng } = this.state.coords;
+          const params = pickBy(
+            {
+              lat,
+              lng,
+              starttime,
+              endtime,
+              detailsUrl,
+              description,
+              locationDescription,
+              name,
+            },
+            value => value !== undefined,
           );
+          this.setState({ selectableTargets: undefined });
+          this.context.router.push(
+            `/${PREFIX_ROADWORKS}?${new URLSearchParams(params).toString()}`,
+          );
+          showPopup = false;
         } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {
           ({ id } = this.state.selectableTargets[0].feature);
           contents = (
@@ -351,48 +371,121 @@ class TileLayerContainer extends GridLayer {
         } else if (
           this.state.selectableTargets[0].layer === 'dynamicParkingLots'
         ) {
-          contents = (
-            <DynamicParkingLotsPopup
-              feature={this.state.selectableTargets[0].feature}
-              lat={this.state.coords.lat}
-              lon={this.state.coords.lng}
-              onSelectLocation={this.props.onSelectLocation}
-              icon={`icon-icon_${DynamicParkingLots.getIcon(
-                this.state.selectableTargets[0].feature.properties.lot_type,
-              )}`}
-            />
+          const {
+            free,
+            total,
+            state,
+            'free:disabled': freeDisabled,
+            'total:disabled': totalDisabled,
+            url,
+            notes,
+            opening_hours: openingHours,
+            name,
+            lot_type: lotType,
+          } = this.state.selectableTargets[0].feature.properties;
+          const { lat, lng } = this.state.coords;
+          const params = pickBy(
+            {
+              lat,
+              lng,
+              free,
+              total,
+              state,
+              freeDisabled,
+              totalDisabled,
+              url,
+              notes,
+              openingHours,
+              name,
+              lotType,
+            },
+            value => value !== undefined,
           );
+          this.setState({ selectableTargets: undefined });
+          this.context.router.push(
+            `/${PREFIX_DYNAMIC_PARKING_LOTS}?${new URLSearchParams(
+              params,
+            ).toString()}`,
+          );
+          showPopup = false;
         } else if (this.state.selectableTargets[0].layer === 'bikeParks') {
-          const props = this.state.selectableTargets[0].feature.properties;
-          contents = (
-            <BikeParkPopup
-              onSelectLocation={this.props.onSelectLocation}
-              lat={this.state.coords.lat}
-              lon={this.state.coords.lng}
-              {...props}
-            />
+          const {
+            maxCapacity,
+            name,
+          } = this.state.selectableTargets[0].feature.properties;
+          const { lat, lng } = this.state.coords;
+          const params = pickBy(
+            {
+              lat,
+              lng,
+              name,
+              maxCapacity,
+            },
+            value => value !== undefined,
           );
+          this.setState({ selectableTargets: undefined });
+          this.context.router.push(
+            `/${PREFIX_BIKE_PARKS}?${new URLSearchParams(params).toString()}`,
+          );
+          showPopup = false;
         } else if (
           this.state.selectableTargets[0].layer === 'chargingStations'
         ) {
-          contents = (
-            <ChargingStationPopup
-              id={this.state.selectableTargets[0].feature.properties.id}
-              lat={this.state.coords.lat}
-              lon={this.state.coords.lng}
-              capacity={this.state.selectableTargets[0].feature.properties.c}
-              available={this.state.selectableTargets[0].feature.properties.ca}
-              onSelectLocation={this.props.onSelectLocation}
-            />
+          const {
+            id: stationId,
+            c: capacity,
+            ca: available,
+            name,
+          } = this.state.selectableTargets[0].feature.properties;
+          const { lat, lng } = this.state.coords;
+          const params = pickBy(
+            {
+              lat,
+              lng,
+              name,
+              stationId,
+              capacity,
+              available,
+            },
+            value => value !== undefined,
           );
+          this.setState({ selectableTargets: undefined });
+          this.context.router.push(
+            `/${PREFIX_CHARGING_STATIONS}?${new URLSearchParams(
+              params,
+            ).toString()}`,
+          );
+          showPopup = false;
         } else if (
           this.state.selectableTargets[0].layer === 'weatherStations'
         ) {
-          contents = (
-            <WeatherStationPopup
-              {...this.state.selectableTargets[0].feature.properties}
-            />
+          const {
+            airTemperatureC,
+            precipitationType,
+            roadCondition,
+            roadTemperatureC,
+            updatedAt,
+            address,
+          } = this.state.selectableTargets[0].feature.properties;
+          const { lat, lng } = this.state.coords;
+          const params = pickBy(
+            {
+              lat,
+              lng,
+              airTemperatureC,
+              precipitationType,
+              roadCondition,
+              roadTemperatureC,
+              updatedAt,
+              address,
+            },
+            value => value !== undefined,
           );
+          this.setState({ selectableTargets: undefined });
+          this.context.router.push(
+            `/${PREFIX_ROAD_WEATHER}?${new URLSearchParams(params).toString()}`,
+          );
+          showPopup = false;
         }
         popup = (
           <Popup

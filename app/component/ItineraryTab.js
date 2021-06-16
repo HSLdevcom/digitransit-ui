@@ -387,6 +387,7 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             code
             platformCode
             zoneId
+            name
             alerts {
               alertSeverityLevel
               effectiveEndDate
@@ -416,8 +417,17 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             name
           }
           carPark {
-            carParkId 
+            carParkId
             name
+          }
+        }
+        dropOffBookingInfo {
+          message
+          dropOffMessage
+          contactInfo {
+            phoneNumber
+            infoUrl
+            bookingUrl
           }
         }
         legGeometry {
@@ -452,6 +462,8 @@ const withRelay = createFragmentContainer(ItineraryTab, {
           color
           gtfsId
           longName
+          url
+          type
           desc
           agency {
             gtfsId

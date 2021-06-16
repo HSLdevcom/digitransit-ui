@@ -9,7 +9,7 @@ import { isKeyboardSelectionEvent } from '../util/browser';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function EndLeg(props, context) {
-  const [address, place] = props.to.split(/, (.+)/); // Splits the string to two parts from the first occurance of ', '
+  const [address, place] = props.to?.split(/, (.+)/) || []; // Splits the string to two parts from the first occurance of ', '
   const modeClassName = 'end';
   return (
     <div key={props.index} className="row itinerary-row">

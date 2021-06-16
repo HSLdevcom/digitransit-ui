@@ -48,7 +48,7 @@ const TruncatedMessage = (
 
 TruncatedMessage.propTypes = {
   lines: PropTypes.number.isRequired,
-  message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+  message: PropTypes.arrayOf(PropTypes.object).isRequired,
   className: PropTypes.string,
   truncate: PropTypes.bool,
   unTruncate: PropTypes.func,

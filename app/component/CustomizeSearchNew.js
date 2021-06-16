@@ -12,6 +12,7 @@ import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSec
 import { getDefaultSettings } from '../util/planParamUtil';
 import TransferOptionsSection from './customizesearch/TransferOptionsSection';
 import { showModeSettings } from '../util/modeUtils';
+import ScrollableWrapper from './ScrollableWrapper';
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
@@ -86,7 +87,7 @@ class CustomizeSearch extends React.Component {
             })}
           </h2>
         </div>
-        <div className="scrollable-content-wrapper momentum-scroll">
+        <ScrollableWrapper>
           <div className="settings-section compact-settings-section">
             <WalkingOptionsSection
               walkSpeedOptions={config.defaultOptions.walkSpeed}
@@ -130,7 +131,7 @@ class CustomizeSearch extends React.Component {
               />
             </div>
           )}
-        </div>
+        </ScrollableWrapper>
       </form>
     );
   }

@@ -187,6 +187,7 @@ export default class FavouriteStore extends Store {
     updateFavourites(storage)
       .then(res => {
         this.favourites = res;
+        clearFavouriteStorage();
         this.fetchComplete();
       })
       .catch(() => {

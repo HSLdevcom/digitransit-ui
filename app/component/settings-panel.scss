@@ -1,56 +1,30 @@
 .offcanvas-layers {
   width: 400px;
-  height: 100%;
+  height: initial;
+  max-height: calc(100% - 70px);
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  padding: 1em;
   background-color: white;
+  z-index: 1200 !important;
+
+  &.mobile {
+    position: absolute !important;
+    max-height: initial;
+    height: 100%;
+    width: 100%;
+  }
 
   .map-layer-header {
     font-size: 18px;
     font-weight: $font-weight-bold;
     line-height: 88px;
+    padding: 0 1em;
   }
-  .desktop-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    width: 100%;
-    height: 50px;
-    min-height: 50px;
-    font-size: 18px;
-    font-family: $font-family;
-    font-weight: $font-weight-medium;
-    letter-spacing: -0.5px;
-    background: $primary-color;
-    color: #fff;
-    line-height: 4;
-    text-align: center;
-    padding: 0;
-    margin-top: 50px;
-    border-width: 0;
-    transition: background-color 300ms ease-out;
-    border-radius: 25px;
-    cursor: pointer;
 
-    &.save {
-      &:active, &:focus, &:hover {
-        border-color: var(--hover-color);
-        background: var(--hover-color);
-        color: #fff;
-      }
-
-      &.disabled {
-        background: #bbb;
-
-        &:active {
-          background: #bbb;
-        }
-      }
-    }
+  .map-layers-content {
+    overflow-y: auto;
   }
+
   .panel-close {
     align-self: start;
     background-color: transparent;
@@ -72,6 +46,32 @@
       margin-top: -1.92em;
       display: block;
       position: relative;
+    }
+  }
+
+  .panel-maptype-title {
+    padding: 0 1.875em;
+  }
+
+  .panel-maptype-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1.875em 1.25em 1.875em;
+  }
+
+  .panel-maptype-button {
+    display: flex;
+    flex-direction: column;
+    &.checked {
+      color: #9fc727;
+    }
+  }
+
+  .panel-maptype-image {
+    width: 100px;
+    margin-bottom: 5px;
+    &.checked {
+      border: 3px solid #9fc727;
     }
   }
 }

@@ -1507,6 +1507,15 @@
                                     "defaultValue": "3"
                                 },
                                 {
+                                    "name": "carReluctance",
+                                    "description": "How bad is driving compared to other modes",
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "Int",
+                                        "ofType": null
+                                    }
+                                },
+                                {
                                     "name": "maxWalkDistance",
                                     "description": "The maximum distance (in meters) the user is willing to walk per walking section. If the only transport mode allowed is `WALK`, then the value of this argument is ignored.  \n Default: 2000m  \n Maximum value: 15000m  \n **Note:** If this argument has a relatively small value and only some transport modes are allowed (e.g. `WALK` and `RAIL`), it is possible to get an itinerary which has (useless) back and forth public transport legs to avoid walking too long distances.",
                                     "type": {
@@ -2635,6 +2644,12 @@
                         {
                             "name": "WALK",
                             "description": "WALK",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "FLEX",
+                            "description": "FLEX",
                             "isDeprecated": false,
                             "deprecationReason": null
                         }
@@ -6034,6 +6049,18 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "rentalUris",
+                            "description": "Rental URIs for bike rental",
+                            "args": [],
+                            "type": {
+                                "kind": "Object",
+                                "name": "RentalUris",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "inputFields": null,
@@ -6048,6 +6075,34 @@
                             "name": "PlaceInterface",
                             "ofType": null
                         }
+                    ],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "RentalUris",
+                    "description": "Rental URI",
+                    "fields": [
+                        {
+                            "name": "web",
+                            "description": "Global object ID provided by Relay. This value can be used to refetch this object using **node** query.",
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [
                     ],
                     "enumValues": null,
                     "possibleTypes": null
@@ -7094,6 +7149,18 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "dropOffBookingInfo",
+                            "description": "Information about the booking for this itinerary",
+                            "args": [],
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "bookingInfo",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "inputFields": null,
@@ -7367,6 +7434,101 @@
                             "isDeprecated": false,
                             "deprecationReason": null
                         }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "contactInfo",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "phoneNumber",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "infoUrl",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "bookingUrl",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                        
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "bookingInfo",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "message",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "dropOffMessage",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "contactInfo",
+                            "description": "Information about the contacts for booking",
+                            "args": [],
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "contactInfo",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        } 
                     ],
                     "inputFields": null,
                     "interfaces": [],
@@ -7860,6 +8022,18 @@
                         },
                         {
                             "name": "PICKUP",
+                            "description": "The user can be picked up by someone else riding a vehicle",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "EGRESS",
+                            "description": "The user can be picked up by someone else riding a vehicle",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "DIRECT",
                             "description": "The user can be picked up by someone else riding a vehicle",
                             "isDeprecated": false,
                             "deprecationReason": null
