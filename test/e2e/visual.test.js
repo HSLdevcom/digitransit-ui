@@ -54,8 +54,8 @@ describe(`Front page with ${config} config`, () => {
     expect(response.status()).toBe(200);
     await expect(page.title()).resolves.toMatch(pageTitles[config]);
 
-    await page.waitForSelector('#mainContent', { timeout: 5000 });
-    const mainContent = await page.$('#mainContent');
+    await page.waitForSelector('.mobile', { timeout: 5000 });
+    const mainContent = await page.$('.mobile');
 
     const image = await mainContent.screenshot({
       fullPage: true,
