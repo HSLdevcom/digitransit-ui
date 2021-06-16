@@ -88,18 +88,6 @@ describe('<RouteAlertsRow />', () => {
     expect(wrapper.find('.route-alert-time-period').text()).to.contain('at');
   });
 
-  it('should not show the time period', () => {
-    const props = {
-      severityLevel: AlertSeverityLevelType.Info,
-      currentTime: 15,
-      startTime: 20,
-      endTime: 30,
-      description: 'Lorem ipsum',
-    };
-    const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
-    expect(wrapper.find('.route-alert-time-period')).to.have.lengthOf(0);
-  });
-
   it('should render the identifier', () => {
     const props = {
       entityType: 'route',

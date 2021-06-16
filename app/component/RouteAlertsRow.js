@@ -12,7 +12,6 @@ import ExternalLink from './ExternalLink';
 import Icon from './Icon';
 import RouteNumber from './RouteNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
-import { AlertSeverityLevelType } from '../constants';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
 export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
@@ -55,12 +54,7 @@ export default function RouteAlertsRow(
   },
   { intl },
 ) {
-  const showTime =
-    severityLevel &&
-    severityLevel !== AlertSeverityLevelType.Info &&
-    startTime &&
-    endTime &&
-    currentTime;
+  const showTime = startTime && endTime && currentTime;
   const gtfsIdList = gtfsIds ? gtfsIds.split(',') : [];
 
   const routeLinks =
