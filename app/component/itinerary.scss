@@ -1140,9 +1140,9 @@ $itinerary-tab-switch-height: 48px;
           .vehicle-number {
             color: $white;
             left: 1.5em;
-            width: 2.25em;
+            min-width: 2.25em;
             text-align: center;
-            padding: 4px 0 0 0;
+            padding: 4px 4px 0 0;
             &.long {
               left: 1.7em;
               width: 100%;
