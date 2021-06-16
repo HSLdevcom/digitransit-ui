@@ -138,6 +138,8 @@ class StopCardHeader extends React.Component {
         stop={stop}
         headerConfig={this.headerConfig}
         isTerminal={isTerminal}
+        showHeaderTitle
+        showCardSubHeader
         // TODO: Fix places geocoder api request to reimplement favorite button.
         // https://github.com/stadtnavi/digitransit-ui/issues/481
         /** favouriteContainer={
