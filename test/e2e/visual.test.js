@@ -26,11 +26,12 @@ describe(`Front page with ${config} config`, () => {
     expect(response.status()).toBe(200);
     await expect(page.title()).resolves.toMatch(pageTitles[config]);
 
-    await page.waitForSelector('.main-content', { timeout: 5000 });
+    await page.waitForSelector('#mainContent > .desktop > .main-content', {
+      timeout: 5000,
+    });
 
-    const mainContent = await page.$('.main-content');
+    const mainContent = await page.$('#mainContent > .desktop > .main-content');
     const image = await mainContent.screenshot({
-      fullPage: true,
       timeout,
     });
 
@@ -54,11 +55,10 @@ describe(`Front page with ${config} config`, () => {
     expect(response.status()).toBe(200);
     await expect(page.title()).resolves.toMatch(pageTitles[config]);
 
-    await page.waitForSelector('.mobile', { timeout: 5000 });
-    const mainContent = await page.$('.mobile');
+    await page.waitForSelector('#mainContent > .mobile', { timeout: 5000 });
+    const mainContent = await page.$('#mainContent > .mobile');
 
     const image = await mainContent.screenshot({
-      fullPage: true,
       timeout,
     });
 
