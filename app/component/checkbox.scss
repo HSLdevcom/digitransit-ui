@@ -23,8 +23,9 @@
        &.checked {
          border: #007ac9 1px solid;
 
-         &.disabled:before {
+         &.disabled {
            color: $gray;
+           border: #78909c 1px solid;
          }
        }
      }
@@ -62,11 +63,17 @@
         }
       }
 
+      span > svg {
+        color: $primary-color;
+      }
+
       &.disabled {
         background: $light-gray;
-        border-color: currentColor;
         cursor: not-allowed;
         pointer-events: none;
+        span > svg {
+          color: #888;
+        }
       }
     }
 
