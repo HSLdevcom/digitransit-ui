@@ -396,7 +396,7 @@ const translations = {
     'canceled-legs': 'Ausgefallene Abfahrten auf der Route',
     car: 'Auto',
     'car-charging-station': 'Elektroauto-Ladestation',
-    'car-distance-duration': 'Auto {duration} ({distance})',
+    'car-distance-duration': 'Fahren {duration} ({distance})',
     'car-park-full': 'Volle Parkplätze ausschließen',
     car_park: 'Park & Ride',
     carpool: 'Fahrgemeinschaft',
