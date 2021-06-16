@@ -74,7 +74,8 @@ class RouteScheduleContainer extends PureComponent {
 
   state = {
     from: 0,
-    to: this.props.pattern.stops.length - 1 || undefined,
+    to:
+      (this.props.pattern && this.props.pattern.stops.length - 1) || undefined,
     serviceDay: this.props.serviceDay,
     hasLoaded: false,
     focusedTab: null,
