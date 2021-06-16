@@ -928,6 +928,18 @@ $margin-left-right: 1.333em;
       font-weight: $font-weight-medium;
       background-color: $white;
     }
+    &:disabled {
+      color: #333;
+      font-weight: $font-weight-medium;
+      background-color: $white;
+      cursor: default;
+      opacity: 1;
+      box-shadow: none;
+      &:focus, &:hover {
+        color: inherit;
+        background: $white;
+      }
+    }
     .no-alerts > span {
       color: #b7b7b7;
     }
