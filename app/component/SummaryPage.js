@@ -358,6 +358,8 @@ class SummaryPage extends React.Component {
     newState.pathname = indexPath;
     if (newStreetMode.includes('bike')) {
       newState.query.mapMode = MapMode.Bicycle;
+    } else if (this.context.match.location.query.mapMode === MapMode.Bicycle) {
+      newState.query.mapMode = MapMode.Default;
     }
     this.context.router.push(newState);
   };
@@ -391,6 +393,8 @@ class SummaryPage extends React.Component {
     newState.pathname = indexPath;
     if (newStreetMode.includes('bike')) {
       newState.query.mapMode = MapMode.Bicycle;
+    } else if (this.context.match.location.query.mapMode === MapMode.Bicycle) {
+      newState.query.mapMode = MapMode.Default;
     }
     this.context.router.push(newState);
   };
