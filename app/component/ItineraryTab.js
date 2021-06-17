@@ -139,21 +139,20 @@ class ItineraryTab extends React.Component {
       fetchFares(itinerary, config.URL.FARES)
         .then(data => {
           this.setState({
-            fares: data
+            fares: data,
+            lang: this.context.getStore('PreferencesStore').getLanguage(),
+            fetchedFares: true
           });
         })
         // eslint-disable-next-line no-console
         .catch(err => console.log(err));
     } else {
       this.setState({
-        fares: itinerary.fares
+        fares: itinerary.fares,
+        lang: this.context.getStore('PreferencesStore').getLanguage(),
+        fetchedFares: true
       });
     }
-
-    this.setState({
-      lang: this.context.getStore('PreferencesStore').getLanguage(),
-      fetchedFares: true,
-    });
   }
 
   render() {
