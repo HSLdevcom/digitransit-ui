@@ -96,9 +96,13 @@ $margin-left-right: 1.333em;
 .route-stop-list {
   @include font-narrow-medium;
   background-color: $white;
-  margin-left: 2px;
+  margin: 0 0 0 2px;
+  padding: 0;
   .route-stop:last-child .route-stop-row_content-container {
     border-bottom: none;
+  }
+  & > li {
+    list-style: none;
   }
 }
 

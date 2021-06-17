@@ -180,10 +180,7 @@ const RouteStop = (
     );
   };
   return (
-    <div
-      className={cx('route-stop location-details_container ', className)}
-      role="listitem"
-    >
+    <div className={cx('route-stop location-details_container ', className)}>
       {getVehicleTripLink()}
       <div className={cx('route-stop-now_circleline', mode)} aria-hidden="true">
         <svg
