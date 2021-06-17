@@ -140,6 +140,7 @@ const containerComponent = createFragmentContainer(RouteAlertsContainer, {
           id
           gtfsId
           code
+          name
           alerts {
             id
             alertDescriptionText

@@ -60,7 +60,7 @@ const AlertList = ({
                 header,
                 route: { color, mode, shortName, routeGtfsId } = {},
                 severityLevel,
-                stop: { code, vehicleMode, stopGtfsId } = {},
+                stop: { code, vehicleMode, stopGtfsId, nameAndCode } = {},
                 url,
                 validityPeriod: { startTime, endTime },
               },
@@ -71,7 +71,7 @@ const AlertList = ({
                 currentTime={currentTime}
                 description={description}
                 endTime={endTime}
-                entityIdentifier={shortName || code}
+                entityIdentifier={shortName || nameAndCode || code}
                 entityMode={
                   (mode && mode.toLowerCase()) ||
                   (vehicleMode && vehicleMode.toLowerCase())

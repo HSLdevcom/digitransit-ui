@@ -1170,8 +1170,8 @@ $margin-left-right: 1.333em;
       vertical-align: bottom;
 
       .route-alert-top-row {
-        display: flex;
-        align-items: center;
+        display: block;
+        font-size: 15px;
         .route-alert-entityid {
           font-family: $font-family-narrow;
           font-size: 21px;

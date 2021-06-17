@@ -79,6 +79,7 @@ const StopAlerts = ({ stop }, { intl }) => {
 
 StopAlerts.propTypes = {
   stop: PropTypes.shape({
+    name: PropTypes.string,
     code: PropTypes.string,
     routes: PropTypes.array,
     alerts: PropTypes.arrayOf(otpServiceAlertShape).isRequired,
