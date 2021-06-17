@@ -219,7 +219,7 @@ class ItineraryLegs extends React.Component {
         legs.push(
           <AirportCollectLuggageLeg
             leg={leg}
-            focusAction={this.focus(leg.from)}
+            focusAction={this.focus(leg.to)}
           />,
         );
       } else if (
