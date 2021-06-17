@@ -4,12 +4,8 @@
       "content": {
         "en": [
           {
-            "content": "Public Beta",
+            "content": "Available as native App soon!",
             "type": "heading"
-          },
-          {
-            "content": "The new stadtnavi version currently is in public beta. You have suggestions or issues? Please give us feedback.\n",
-            "type": "text"
           },
           {
             "content": "stadtnavi will soon be available as a native app for your mobile phone. Test the",
@@ -36,12 +32,8 @@
         ],
         "de": [
           {
-            "content": "Beta-Version",
+            "content": "Demnächst als App für Ihr Mobiltelefon verfügbar",
             "type": "heading"
-          },
-          {
-            "content": "Die neue stadtnavi-Version befindet sich derzeit im öffentlichen Probebetrieb. Anregungen oder Probleme? Geben Sie uns gerne Feedback.\n",
-            "type": "text"
           },
           {
             "content": "stadtnavi gibt es demnächst auch als native App für Ihr Mobiltelefon. Testen Sie bereits heute die",
@@ -67,7 +59,7 @@
           }]
       },
       "type": "info",
-      "id": "202106030758",
+      "id": "202106171743",
       "persistence": "repeat",
       "icon": "info"
     }
