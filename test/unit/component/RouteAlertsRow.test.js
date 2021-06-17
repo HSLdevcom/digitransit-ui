@@ -84,8 +84,7 @@ describe('<RouteAlertsRow />', () => {
       description: 'Lorem ipsum',
     };
     const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
-    expect(wrapper.find('.route-alert-time-period')).to.have.lengthOf(1);
-    expect(wrapper.find('.route-alert-time-period').text()).to.contain('at');
+    expect(wrapper.find('.route-alert-top-row').text()).to.contain('at');
   });
 
   it('should not show the time period', () => {
@@ -97,7 +96,7 @@ describe('<RouteAlertsRow />', () => {
       description: 'Lorem ipsum',
     };
     const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
-    expect(wrapper.find('.route-alert-time-period')).to.have.lengthOf(0);
+    expect(wrapper.find('.route-alert-top-row')).to.have.lengthOf(0);
   });
 
   it('should render the identifier', () => {
