@@ -24,6 +24,7 @@ import {
   PREFIX_TERMINALS,
   PREFIX_TIMETABLE,
 } from '../util/path';
+import Icon from './Icon';
 
 const Tab = {
   Disruptions: PREFIX_DISRUPTION,
@@ -129,6 +130,19 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
           alert.alertSeverityLevel === AlertSeverityLevelType.Warning,
       )) &&
       'active-service-alert');
+  let disruptionIcon;
+  if (disruptionClassName === 'active-disruption-alert') {
+    disruptionIcon = (
+      <Icon
+        className="disrution-icon"
+        img="icon-icon_caution-no-excl-no-stroke"
+      />
+    );
+  } else if (disruptionClassName === 'active-service-alert') {
+    disruptionIcon = (
+      <Icon className="service-alert-icon" img="icon-icon_info" />
+    );
+  }
 
   return (
     <div>
@@ -229,6 +243,7 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
         >
           <div className="stop-tab-singletab-container">
             <div className={`${disruptionClassName || `no-alerts`}`}>
+              {disruptionIcon}
               <FormattedMessage id="disruptions" />
             </div>
           </div>
