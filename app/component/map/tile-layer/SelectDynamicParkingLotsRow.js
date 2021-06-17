@@ -14,7 +14,7 @@ export default function SelectDynamicParkingLotsRow(props) {
       >
         <span className="choose-row-left-column" aria-hidden="true">
           <Icon
-            img={`icon-icon_${DynamicParkingLots.getIcon(properties.lot_type)}`}
+            img={`icon-icon_${DynamicParkingLots.getIcon(properties.lotType)}`}
             viewBox="0 0 600.995 600.995"
           />
         </span>

@@ -71,7 +71,7 @@ class DynamicParkingLotsContent extends React.Component {
 
   getClosed() {
     const { state } = this.props.match.location.query;
-    if (state === 'closed') {
+    if (state === 'TEMPORARILY_CLOSED' || state === 'CLOSED') {
       return (
         <span>
           {' '}
@@ -98,30 +98,16 @@ class DynamicParkingLotsContent extends React.Component {
 
   getUrl() {
     const { intl } = this.context;
-    const { url } = this.props.match.location.query;
-    if (url) {
+    const { detailsUrl } = this.props.match.location.query;
+    if (detailsUrl) {
       return (
         <div className="padding-vertical-small">
-          <a href={url} target="_blank" rel="noopener noreferrer">
+          <a href={detailsUrl} target="_blank" rel="noopener noreferrer">
             {intl.formatMessage({
               id: 'extra-info',
               defaultMessage: 'More information',
             })}
           </a>
-        </div>
-      );
-    }
-    return null;
-  }
-
-  getNotes() {
-    const currentLanguage = this.context.intl.locale;
-    const { notes } = this.props.match.location.query;
-    if (notes) {
-      const parsedNotes = JSON.parse(notes);
-      return (
-        <div className="large-text padding-vertical-small">
-          {parsedNotes[currentLanguage] || null}
         </div>
       );
     }
@@ -137,7 +123,7 @@ class DynamicParkingLotsContent extends React.Component {
   }
 
   render() {
-    const { lat, lng, name, lotType } = this.props.match.location.query;
+    const { lat, lng, name, lotType, note } = this.props.match.location.query;
     return (
       <SidebarContainer
         icon={`icon-icon_${DynamicParkingLots.getIcon(lotType)}`}
@@ -150,7 +136,9 @@ class DynamicParkingLotsContent extends React.Component {
       >
         <div className="card dynamic-parking-lot-popup">
           {this.getCapacity()}
-          {this.getNotes()}
+          {note && (
+            <div className="large-text padding-vertical-small">{note}</div>
+          )}
           <div>
             {this.renderOpeningHours()}
             {this.getUrl()}
