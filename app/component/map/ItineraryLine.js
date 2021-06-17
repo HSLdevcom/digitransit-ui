@@ -178,22 +178,22 @@ class ItineraryLine extends React.Component {
               />,
             );
 
-            if (!leg.route.shortName?.startsWith('RT')) {
-              objs.push(
-                <StopMarker
-                  key={`${i},${leg.mode}marker,from`}
-                  disableModeIcons
-                  stop={{
-                    ...leg.from,
-                    gtfsId: leg.from?.stop?.gtfsId,
-                    code: leg.from?.stop?.code,
-                    platformCode: leg.from?.stop?.platformCode,
-                    transfer: true,
-                  }}
-                  mode={mode.toLowerCase()}
-                  renderText={leg.transitLeg && this.props.showTransferLabels}
-                />,
-              );
+            objs.push(
+              <StopMarker
+                key={`${i},${leg.mode}marker,from`}
+                disableModeIcons
+                stop={{
+                  ...leg.from,
+                  gtfsId: leg.from?.stop?.gtfsId,
+                  code: leg.from?.stop?.code,
+                  platformCode: leg.from?.stop?.platformCode,
+                  transfer: true,
+                }}
+                mode={mode.toLowerCase()}
+                renderText={leg.transitLeg && this.props.showTransferLabels}
+              />,
+            );
+            if (!leg.trip?.gtfsId?.endsWith('-flex')) {
               objs.push(
                 <StopMarker
                   key={`${i},${leg.mode}marker,to`}
@@ -275,6 +275,7 @@ export default createFragmentContainer(ItineraryLine, {
         }
       }
       trip {
+        gtfsId
         stoptimes {
           stop {
             gtfsId

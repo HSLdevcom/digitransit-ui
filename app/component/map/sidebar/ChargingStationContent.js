@@ -12,6 +12,7 @@ import {
   IEC62196T2Combo,
   TeslaS,
 } from 'react-charging-station-connector-icons';
+import isNumber from 'lodash/isNumber';
 import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import Loading from '../../Loading';
@@ -96,14 +97,17 @@ const ChargingStationContent = ({ match }, { intl }) => {
   }, [match.location.query]);
 
   const getCapacity = () => {
-    const { capacity, available } = match.location.query;
+    const { capacity, capacityUnknown, available } = match.location.query;
     const body = {
       id: 'charging-spaces-no-data',
       defaultMessage: 'No capacity data available',
     };
 
     if (capacity) {
-      if (available && available > 0) {
+      if (
+        isNumber(parseInt(available, 10)) &&
+        parseInt(capacityUnknown, 10) === 0
+      ) {
         body.id = 'charging-spaces-available';
         body.defaultMessage =
           '{available} of {capacity} parking spaces available';

@@ -16,6 +16,8 @@ const ExternalLink = ({ name, children, href, className, onClick }) =>
           }}
           className="external-link"
           href={href}
+          target="_blank"
+          rel="noreferrer"
         >
           {name || children}
         </a>

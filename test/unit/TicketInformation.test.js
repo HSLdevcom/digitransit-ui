@@ -20,6 +20,7 @@ const proxyFares = (fares, routes = [], config = defaultConfig) =>
 describe('<TicketInformation />', () => {
   it('should show multiple ticket components (DT-2639)', () => {
     const props = {
+      loaded: true,
       legs: [],
       fares: proxyFares([
         {
@@ -49,6 +50,7 @@ describe('<TicketInformation />', () => {
 
   it('should show a "multiple tickets required" title when there are multiple components', () => {
     const props = {
+      loaded: true,
       legs: [],
       fares: proxyFares([
         {
@@ -78,6 +80,7 @@ describe('<TicketInformation />', () => {
 
   it('should not show a multiple tickets required title when there is only a single component', () => {
     const props = {
+      loaded: true,
       legs: [],
       fares: [
         {
@@ -118,11 +121,11 @@ describe('<TicketInformation />', () => {
 
     expect(wrapper.find('.ticket-type-zone')).to.have.lengthOf(0);
     expect(wrapper.find('.ticket-type-title')).to.have.lengthOf(0);
-    expect(wrapper.find('.itinerary-ticket-type')).to.have.lengthOf(0);
   });
 
   it('should convert and show the total fare when showTicketPrice is true', () => {
     const props = {
+      loaded: true,
       legs: [],
       fares: [
         {
@@ -169,6 +172,7 @@ describe('<TicketInformation />', () => {
 
   it('should use a zone ticket icon if configured', () => {
     const props = {
+      loaded: true,
       legs: [],
       fares: proxyFares([
         {
@@ -201,6 +205,7 @@ describe('<TicketInformation />', () => {
       fareMapping: fareId => `foo_${fareId}_bar`,
     };
     const props = {
+      loaded: true,
       legs: [],
       fares: proxyFares(
         [
@@ -230,6 +235,7 @@ describe('<TicketInformation />', () => {
 
   it('should use a zone ticket icon if configured', () => {
     const props = {
+      loaded: true,
       legs: [],
       fares: proxyFares([
         {
@@ -258,6 +264,7 @@ describe('<TicketInformation />', () => {
 
   it('should show AB and BC tickets for a trip within B zone', () => {
     const props = {
+      loaded: true,
       legs: [],
       fares: proxyFares([
         {
@@ -295,6 +302,7 @@ describe('<TicketInformation />', () => {
 
   it('should show a fare url link for the agency', () => {
     const props = {
+      loaded: true,
       legs: [],
       fares: proxyFares([
         {
@@ -324,7 +332,7 @@ describe('<TicketInformation />', () => {
     expect(wrapper.find(ExternalLink).prop('href')).to.equal('foobar');
   });
 
-  it('should include unknown fares to the listing', () => {
+  it('should not include unknown fares to the listing', () => {
     const props = {
       legs: [
         {
@@ -384,15 +392,6 @@ describe('<TicketInformation />', () => {
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
       context: { config: defaultConfig },
     });
-    expect(wrapper.find('.ticket-identifier')).to.have.lengthOf(2);
-
-    const ticketWrapper = wrapper.find('.ticket-type-zone').at(1);
-    expect(ticketWrapper.find('.ticket-identifier').text()).to.equal(
-      'Merisataman lautta',
-    );
-    expect(ticketWrapper.find('.ticket-description').text()).to.equal(
-      'Merisataman lauttaliikenne',
-    );
-    expect(wrapper.find(ExternalLink).prop('href')).to.equal('foobaz');
+    expect(wrapper.find('.ticket-identifier')).to.have.lengthOf(0);
   });
 });
