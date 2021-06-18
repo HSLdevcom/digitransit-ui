@@ -128,18 +128,7 @@ class LocationPopup extends React.Component {
       feature: { postalcode },
     } = this.state;
 
-    let reporterUrl = null;
-    // when the BW-wide Mängelmelder is up we can use its URL, too
-    if (
-      [
-        'localhost:8080',
-        'herrenberg.staging.stadtnavi.eu',
-        'dev.stadtnavi.eu',
-        'herrenberg.qa.stadtnavi.eu',
-      ].includes(window.location.host)
-    ) {
-      reporterUrl = `https://maengelmelder.service-bw.de/?lat=${lat}&lng=${lon}`;
-    }
+    let reporterUrl = `https://maengelmelder.service-bw.de/?lat=${lat}&lng=${lon}`;
     if (postalcode === '71083') {
       reporterUrl = `https://www.herrenberg.de/tools/mvs/?lat=${lat}&lng=${lon}#mvPagePictures`;
     }

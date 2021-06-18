@@ -25,7 +25,7 @@ import { BreakpointConsumer } from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 
 import exampleData from './data/ItineraryTab.exampleData.json';
-import { getFares, shouldShowFareInfo } from '../util/fareUtils';
+import { fetchFares, getFares, shouldShowFareInfo } from '../util/fareUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
   isToday,
@@ -53,7 +53,14 @@ class ItineraryTab extends React.Component {
     router: routerShape.isRequired,
     match: matchShape.isRequired,
     intl: intlShape.isRequired,
+    getStore: PropTypes.func,
   };
+
+  state = {
+    fares: [],
+    lang: '',
+    fetchedFares: false,
+  }
 
   handleFocus = (lat, lon) => {
     this.props.focusToPoint(lat, lon);
@@ -124,6 +131,31 @@ class ItineraryTab extends React.Component {
     return extraProps;
   };
 
+  componentDidMount() {
+    const { itinerary } = this.props;
+    const { config } = this.context;
+
+    if (itinerary.fares === null && config.URL.FARES) {
+      fetchFares(itinerary, config.URL.FARES)
+        .then(data => {
+          this.setState({
+            fares: data
+          });
+        })
+        // eslint-disable-next-line no-console
+        .catch(err => console.log(err));
+    } else {
+      this.setState({
+        fares: itinerary.fares
+      });
+    }
+
+    this.setState({
+      lang: this.context.getStore('PreferencesStore').getLanguage(),
+      fetchedFares: true,
+    });
+  }
+
   render() {
     const { itinerary } = this.props;
     const { config } = this.context;
@@ -132,7 +164,7 @@ class ItineraryTab extends React.Component {
       return null;
     }
 
-    const fares = getFares(itinerary.fares, getRoutes(itinerary.legs), config);
+    const fares = getFares(this.state.fares, getRoutes(itinerary.legs), config, this.state.lang)
     const extraProps = this.setExtraProps(itinerary);
     return (
       <div className="itinerary-tab">
@@ -192,25 +224,25 @@ class ItineraryTab extends React.Component {
                   'bp-large': breakpoint === 'large',
                 })}
               >
-                {shouldShowFareInfo(config) &&
-                  fares.some(fare => fare.isUnknown) && (
-                    <div className="disclaimer-container unknown-fare-disclaimer__top">
-                      <div className="icon-container">
-                        <Icon className="info" img="icon-icon_info" />
-                      </div>
-                      <div className="description-container">
-                        <FormattedMessage
-                          id="separate-ticket-required-disclaimer"
-                          values={{
-                            agencyName: get(
-                              config,
-                              'ticketInformation.primaryAgencyName',
-                            ),
-                          }}
-                        />
-                      </div>
+                {shouldShowFareInfo(config) && config.displayFareInfoTop &&
+                fares.some(fare => fare.isUnknown) && (
+                  <div className="disclaimer-container unknown-fare-disclaimer__top">
+                    <div className="icon-container">
+                      <Icon className="info" img="icon-icon_info" />
                     </div>
-                  )}
+                    <div className="description-container">
+                      <FormattedMessage
+                        id="separate-ticket-required-disclaimer"
+                        values={{
+                          agencyName: get(
+                            config,
+                            'ticketInformation.primaryAgencyName',
+                          ),
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
                 <ItineraryLegs
                   fares={fares}
                   itinerary={itinerary}
@@ -223,6 +255,7 @@ class ItineraryTab extends React.Component {
                     fares={fares}
                     zones={getZones(itinerary.legs)}
                     legs={itinerary.legs}
+                    loaded={this.state.fetchedFares}
                   />
                 )}
                 {config.showRouteInformation && <RouteInformation />}

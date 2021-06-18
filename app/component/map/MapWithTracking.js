@@ -8,6 +8,7 @@ import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
 import { intlShape } from 'react-intl';
 import { startLocationWatch } from '../../action/PositionActions';
+import { setSettingsOpen } from '../../action/userPreferencesActions';
 import ComponentUsageExample from '../ComponentUsageExample';
 import MapContainer from './MapContainer';
 import ToggleMapTracking from '../ToggleMapTracking';
@@ -17,8 +18,6 @@ import { mapLayerShape } from '../../store/MapLayerStore';
 import BubbleDialog from '../BubbleDialog';
 // eslint-disable-next-line import/no-named-as-default
 import PreferencesStore from '../../store/PreferencesStore';
-import MapLayersDialogContent from '../MapLayersDialogContent';
-import MenuDrawer from '../MenuDrawer';
 import withBreakpoint from '../../util/withBreakpoint';
 
 const onlyUpdateCoordChanges = onlyUpdateForKeys([
@@ -31,6 +30,7 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'children',
   'leafletObjs',
   'bottomButtons',
+  'settingsOpen',
 ]);
 
 const MapCont = onlyUpdateCoordChanges(MapContainer);
@@ -62,6 +62,7 @@ class MapWithTrackingStateHandler extends React.Component {
     leafletEvents: PropTypes.object,
     breakpoint: PropTypes.string,
     lang: PropTypes.string,
+    settingsOpen: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -75,7 +76,6 @@ class MapWithTrackingStateHandler extends React.Component {
     super(props);
     this.state = {
       mapTracking: props.mapTracking,
-      settingsOpen: false,
     };
     this.naviProps = {};
   }
@@ -147,10 +147,6 @@ class MapWithTrackingStateHandler extends React.Component {
       this.props.onEndNavigation(this.mapElement);
     }
     this.navigated = true;
-  };
-
-  setSettingsOpen = value => {
-    this.setState({ settingsOpen: value });
   };
 
   render() {
@@ -226,6 +222,7 @@ class MapWithTrackingStateHandler extends React.Component {
       : 'icon-tracking-offline-v2';
 
     const iconColor = this.state.mapTracking ? '#ff0000' : '#78909c';
+
     return (
       <>
         <MapCont
@@ -251,13 +248,15 @@ class MapWithTrackingStateHandler extends React.Component {
                   icon="map-layers"
                   id="mapLayerSelectorV2"
                   isFullscreenOnMobile
-                  isOpen={this.state.settingsOpen}
+                  isOpen={this.props.settingsOpen}
                   tooltip={
                     config.mapLayers &&
                     config.mapLayers.tooltip &&
                     config.mapLayers.tooltip[this.props.lang]
                   }
-                  setOpen={this.setSettingsOpen}
+                  setOpen={open =>
+                    this.context.executeAction(setSettingsOpen, open)
+                  }
                 />
               )}
               {renderCustomButtons && renderCustomButtons()}
@@ -286,31 +285,6 @@ class MapWithTrackingStateHandler extends React.Component {
         >
           {children}
         </MapCont>
-        {config.map.showLayerSelector && (
-          <MenuDrawer
-            open={this.state.settingsOpen}
-            onRequestChange={() => this.setSettingsOpen(false)}
-            className="offcanvas-layers"
-            breakpoint={this.props.breakpoint}
-          >
-            <MapLayersDialogContent
-              open={this.state.settingsOpen}
-              setOpen={this.setSettingsOpen}
-            />
-            <div style={{ padding: '20px' }}>
-              <button
-                type="button"
-                className="desktop-button"
-                onClick={() => this.setSettingsOpen(false)}
-              >
-                {this.context.intl.formatMessage({
-                  id: 'close',
-                  defaultMessage: 'Close',
-                })}
-              </button>
-            </div>
-          </MenuDrawer>
-        )}
       </>
     );
   }
@@ -335,6 +309,7 @@ const MapWithTracking = connectToStores(
   ({ getStore }) => ({
     position: getStore(PositionStore).getLocationState(),
     lang: getStore(PreferencesStore).getLanguage(),
+    settingsOpen: getStore(PreferencesStore).getSettingsOpen(),
   }),
 );
 

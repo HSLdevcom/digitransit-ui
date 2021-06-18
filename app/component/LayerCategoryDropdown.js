@@ -24,7 +24,7 @@ const LayerCategoryDropdown = (
         setChecked(true);
         setCheckedPartly(false);
       } else if (allChecked.includes(true)) {
-        setChecked(true);
+        setChecked(false);
         setCheckedPartly(true);
       } else {
         setChecked(false);
@@ -69,7 +69,7 @@ const LayerCategoryDropdown = (
       <div className="layer-category-dropdown-header">
         <div className="layer-category-dropdown-header-content">
           <Checkbox
-            checked={checked}
+            checked={checked || checkedPartly}
             className="layer-category-dropdown-checkbox"
             icon={
               !checkedPartly ? 'icon-icon_check-white' : 'icon-icon_minus-white'

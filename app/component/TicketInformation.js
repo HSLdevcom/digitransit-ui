@@ -9,6 +9,7 @@ import ExternalLink from './ExternalLink';
 import { renderZoneTicket } from './ZoneTicket';
 import { getAlternativeFares } from '../util/fareUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import Icon from './Icon';
 
 const getUnknownFareRoute = (fares, route) => {
   for (let i = 0; i < fares.length; i++) {
@@ -19,17 +20,25 @@ const getUnknownFareRoute = (fares, route) => {
   return false;
 };
 export default function TicketInformation(
-  { fares, zones, legs },
+  { fares, zones, legs, loaded },
   { config, intl },
 ) {
-  if (fares.length === 0) {
+  // Only show ticket information if fares data is loaded and there's at least one transit leg.
+  if (!loaded || (legs.length !== 0 && !legs.some(leg => leg.transitLeg))) {
     return null;
   }
+
+  const areUnknown = fares.length === 0 || fares.some(fare => fare.isUnknown);
   const isMultiComponent = fares.length > 1;
   const alternativeFares = getAlternativeFares(
     zones,
     fares.filter(fare => !fare.isUnknown),
     config.availableTickets,
+  );
+
+  const hasBikeLeg = legs.some(
+    leg =>
+      leg.rentedBike || leg.mode === 'BICYCLE' || leg.mode === 'BICYCLE_WALK',
   );
 
   // DT-3314 If Fare is unknown show Correct leg's route name instead of whole trip that fare.routeName() returns.
@@ -68,6 +77,17 @@ export default function TicketInformation(
         </div>
       );
     }
+
+    const ticketUrl = () => {
+      if (fare.agency && fare.agency.fareUrl) {
+        return fare.agency.fareUrl;
+      }
+      if (fare.url) {
+        return fare.url;
+      }
+      return null;
+    };
+
     return (
       <div key={uuid()} className="ticket-container">
         <div className="ticket-info-container">
@@ -101,23 +121,16 @@ export default function TicketInformation(
             )}
           </div>
         </div>
-        {fare.agency && fare.agency.fareUrl && (
+        {ticketUrl() && (
           <div
             className="ticket-type-agency-link"
             key={i} // eslint-disable-line react/no-array-index-key
           >
             <ExternalLink
               className="itinerary-ticket-external-link"
-              href={fare.agency.fareUrl}
-              onClick={() => {
-                addAnalyticsEvent({
-                  category: 'Itinerary',
-                  action: 'OpenHowToBuyTicket',
-                  name: null,
-                });
-              }}
+              href={ticketUrl()}
             >
-              {intl.formatMessage({ id: 'extra-info' })}
+              {intl.formatMessage({ id: 'buy-ticket' })}
             </ExternalLink>
           </div>
         )}
@@ -142,7 +155,38 @@ export default function TicketInformation(
 
   return (
     <div className="row itinerary-ticket-information">
-      <div className="itinerary-ticket-type">{faresInfo}</div>
+      {areUnknown ? (
+        <div className="itinerary-ticket-type">
+          <div className="info-container">
+            <div className="icon-container">
+              <Icon className="info" img="icon-icon_info" />
+            </div>
+            <div className="description-container">
+              <FormattedMessage
+                id="missing-price-info-disclaimer"
+                defaultMessage="No price information"
+              />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="itinerary-ticket-type">
+          {faresInfo}
+          {hasBikeLeg && (
+            <div className="info-container">
+              <div className="icon-container">
+                <Icon className="info" img="icon-icon_info" />
+              </div>
+              <div className="description-container">
+                <FormattedMessage
+                  id="only-public-transport-disclaimer"
+                  defaultMessage="Price only valid for public transport part of the journey"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -163,12 +207,14 @@ TicketInformation.propTypes = {
     }),
   ),
   zones: PropTypes.arrayOf(PropTypes.string),
+  loaded: PropTypes.bool,
 };
 
 TicketInformation.defaultProps = {
   fares: [],
   zones: [],
   legs: [],
+  loaded: false,
 };
 
 TicketInformation.contextTypes = {
