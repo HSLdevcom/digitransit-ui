@@ -395,8 +395,8 @@ class RoutePageControlPanel extends React.Component {
         'active-service-alert');
 
     const useCurrentTime = activeTab === Tab.Stops; // DT-3182
-
     const countOfButtons = 3;
+    const isOnDemandTaxi = route.type === 715;
 
     return (
       <div
@@ -411,7 +411,7 @@ class RoutePageControlPanel extends React.Component {
             <FormattedMessage id="route-guide" defaultMessage="Route guide" />
           </h1>
         </div>
-        {route.type === 715 && <CallAgencyWarning route={route} />}
+        {isOnDemandTaxi && <CallAgencyWarning route={route} />}
         <div
           className={cx('route-control-panel', {
             'bp-large': breakpoint === 'large',

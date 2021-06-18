@@ -151,16 +151,13 @@ class ItineraryLine extends React.Component {
               />,
             );
           } else {
+            const isOnDemandTaxi = leg.route.type === 715;
             objs.push(
               <LegMarker
                 key={`${i},${leg.mode}legmarker`}
                 disableModeIcons
                 renderName
-                icon={
-                  leg.route.shortName?.startsWith('RT')
-                    ? 'icon-icon_on-demand-taxi-white'
-                    : null
-                }
+                icon={isOnDemandTaxi ? 'icon-icon_on-demand-taxi-white' : null}
                 color={
                   leg.route && leg.route.color ? `#${leg.route.color}` : null
                 }
