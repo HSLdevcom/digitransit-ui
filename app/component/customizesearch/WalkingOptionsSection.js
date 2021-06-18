@@ -5,7 +5,7 @@ import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import SearchSettingsDropdown, {
-  getFiveStepOptions,
+  getThreeStepOptions,
 } from '../SearchSettingsDropdown';
 import Toggle from '../Toggle';
 import { findNearestOption } from '../../util/planParamUtil';
@@ -13,7 +13,7 @@ import { findNearestOption } from '../../util/planParamUtil';
 const WalkingOptionsSection = (
   { currentSettings, defaultSettings, walkSpeedOptions, walkReluctanceOptions },
   { intl, executeAction },
-  options = getFiveStepOptions(walkSpeedOptions),
+  options = getThreeStepOptions(walkSpeedOptions),
   currentSelection = options.find(
     option => option.value === currentSettings.walkSpeed,
   ) ||
