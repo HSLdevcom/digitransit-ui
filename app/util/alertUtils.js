@@ -746,7 +746,10 @@ export const createUniqueAlertList = (
             .map(a => {
               const stopName = getStopName(a);
               const stopCode = getCode(a);
-              return stopName && stopCode && `${stopName} (${stopCode})`;
+              return (
+                (stopName && stopCode && `${stopName} (${stopCode})`) ||
+                stopName
+              );
             })
             .join(', '),
         }) ||
