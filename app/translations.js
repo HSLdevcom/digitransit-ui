@@ -875,7 +875,8 @@ const translations = {
     agency: 'Operator',
     airplane: 'Flight',
     'airplane-with-route-number': 'Flight {routeNumber}',
-    'airport-check-in': 'Check-in at the {agency} desk',
+    'airport-check-in':
+      "Check in on arrival, if you haven't done so in advance",
     'airport-collect-luggage': 'Collect your luggage',
     'airport-security-check-go-to-gate':
       'Proceed to your gate through security check',
@@ -1829,7 +1830,8 @@ const translations = {
     agency: 'Liikennöitsijä',
     airplane: 'Lentokone',
     'airplane-with-route-number': 'Lento {routeNumber}',
-    'airport-check-in': 'Tee lähtöselvitys lentoyhtiön {agency} tiskillä',
+    'airport-check-in':
+      'Tee lähtöselvitys heti saavuttuasi, jos et ole tehnyt sitä jo etukäteen',
     'airport-collect-luggage': 'Nouda matkatavarat',
     'airport-security-check-go-to-gate':
       'Kävele turvatarkastuksen läpi lähtöportille',

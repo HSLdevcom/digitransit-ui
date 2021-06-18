@@ -183,6 +183,7 @@ class TransitLeg extends React.Component {
       mode,
       lang,
       nextInterliningLeg,
+      omitDivider,
     } = this.props;
     const { config, intl } = this.context;
     const originalTime = leg.realTime &&
@@ -468,7 +469,7 @@ class TransitLeg extends React.Component {
               />
             </div>
           ) : (
-            <div className="divider" />
+            !omitDivider && <div className="divider" />
           )}
           <LegAgencyInfo leg={leg} />
           <div>
@@ -613,6 +614,11 @@ TransitLeg.propTypes = {
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
   lang: PropTypes.string.isRequired,
+  omitDivider: PropTypes.bool,
+};
+
+TransitLeg.defaultProps = {
+  omitDivider: false,
 };
 
 TransitLeg.contextTypes = {
