@@ -1,8 +1,14 @@
+.layer-category-dropdown-container {
+  border-top: 1px solid #e0e0e0;
+  &:last-child {
+    border-bottom: 1px solid #e0e0e0;
+  }
+}
+
 .layer-category-dropdown-header {
   display: flex;
   justify-content: space-between;
-  padding: 20px 30px;
-  border-top: 1px solid #e0e0e0;
+  padding: 1.25em 1.875em;
 }
 
 .layer-category-dropdown-header-content {
@@ -12,7 +18,7 @@
 
 .layer-category-dropdown-header-icon {
   fill: #707070;
-  margin-right: 10px;
+  margin-right: 0.625em;
 }
 
 .layer-category-dropdown-button {
@@ -23,19 +29,22 @@
 }
 
 .layer-category-dropdown-content {
-  padding: 20px;
+  padding: 1.25em;
   background: #f5f5f5;
   border-top: 1px solid #e0e0e0;
 }
 
 .layer-category-dropdown-checkbox {
-  background: #9fc727 !important;
+  background: transparent !important;
   border: 1px solid #a0a0a0 !important;
   border-radius: 0 !important;
+  &.checked {
+    background: #9fc727 !important;
+  }
 }
 
 .layer-category-dropdown-option {
-  padding: 10px;
+  padding: 0.625em;
   display: flex;
   font-weight: 400;
 }

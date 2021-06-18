@@ -345,6 +345,9 @@ export default {
     */
   },
 
+  // Show ticket disclaimer when some of the fares are unknown.
+  displayFareInfoTop: true,
+
   useTicketIcons: false,
   showRouteInformation: false,
 

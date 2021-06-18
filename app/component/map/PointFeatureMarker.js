@@ -143,14 +143,14 @@ const PointFeatureMarker = (
         isCustomIconVisible(zoom) || isRoundIconVisible(zoom)
       }
       onClick={() => {
-        const { name, popupContent: content, address, city } = properties;
+        const { name, popupContent, address, city } = properties;
         const params = pickBy(
           {
             lat,
             lng: lon,
-            name,
             language,
-            content,
+            name: properties[`name_${language}`] || name,
+            content: properties[`popupContent_${language}`] || popupContent,
             address,
             city,
           },

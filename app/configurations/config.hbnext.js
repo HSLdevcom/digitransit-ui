@@ -12,7 +12,7 @@ const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL =
     process.env.STATIC_MESSAGE_URL ||
     '/assets/messages/message.hb.json';
-const CARGO_BIKES_ENABLED = process.env.CARGO_BIKES_ENABLED === 'true';
+const SHOW_TICKETS = process.env.SHOW_TICKETS === "true";
 
 const walttiConfig = require('./config.waltti.js').default;
 
@@ -46,6 +46,7 @@ export default configMerger(walttiConfig, {
         PELIAS_PLACE: `${
             process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
         }/place`,
+        FARES: `${API_URL}/fares`
     },
 
     mainMenu: {
@@ -193,14 +194,14 @@ export default configMerger(walttiConfig, {
                     en: 'https://stuttgart.stadtmobil.de/privatkunden/',
                 },
             },
-            "cargo-bike": CARGO_BIKES_ENABLED ? {
+            "cargo-bike": {
                 icon: 'cargobike',
                 name: {
                     de: 'Lastenrad Herrenberg',
                     en: 'Cargo bike Herrenberg',
                 },
                 type: 'cargo-bike'
-            }: undefined,
+            },
         }
     },
 
@@ -555,4 +556,15 @@ export default configMerger(walttiConfig, {
     showBikeAndParkItineraries: true,
     showStopAndRouteSearch: false,
     showTimeTableOptions: false,
+
+    showTicketInformation: SHOW_TICKETS,
+    showTicketPrice: true,
+    availableTickets: {'hb' : {}},
+    fareMapping: function mapHbFareId(fareId) {
+        return {
+            en: "Adult",
+            de: "Regulär",
+        };
+    },
+    displayFareInfoTop: false,
 });

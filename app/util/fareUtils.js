@@ -1,7 +1,12 @@
 import uniq from 'lodash/uniq';
 
+function getFareId(config, fareId, lang) {
+  const tmp = config.fareMapping(fareId);
+  return typeof tmp === 'string' ? tmp : tmp[lang];
+}
+
 // returns null or non-empty array of ticket names
-export function mapFares(fares, config) {
+export function mapFares(fares, config, lang) {
   if (!Array.isArray(fares) || !config.showTicketInformation) {
     return null;
   }
@@ -23,12 +28,33 @@ export function mapFares(fares, config) {
         fare.routes.length > 0 &&
         fare.routes[0].agency) ||
       undefined,
-    ticketName: config.fareMapping(fare.fareId),
+    ticketName: getFareId(config, fare.fareId, lang),
   }));
 }
 
-export const getFares = (fares, routes, config) => {
-  const knownFares = mapFares(fares, config) || [];
+export function fetchFares(itinerary, url) {
+  const it = {
+    startTime: itinerary.startTime,
+    endTime: itinerary.endTime,
+    walkDistance: itinerary.walkDistance,
+    duration: itinerary.duration,
+    legs: itinerary.legs.map(
+      ({ __id, __fragmentOwner, __fragments, ...item }) => item,
+    ),
+  };
+
+  return fetch(url, {
+    method: 'POST',
+    // eslint-disable-next-line compat/compat
+    headers: new Headers({ 'content-type': 'application/json' }),
+    body: JSON.stringify(it),
+  }).then(response => {
+    return response.ok ? response.json() : null;
+  });
+}
+
+export const getFares = (fares, routes, config, lang) => {
+  const knownFares = mapFares(fares, config, lang) || [];
 
   const routesWithFares = uniq(
     knownFares
