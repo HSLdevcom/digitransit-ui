@@ -46,14 +46,9 @@ const getActiveTab = pathname => {
   return Tab.RightNow;
 };
 
-function StopPageTabs({ breakpoint, stop }, { intl, match }) {
+function StopPageTabs({ stop }, { intl, match }) {
   const { router } = match;
-  if (
-    !stop ||
-    (match.location.state &&
-      match.location.state.fullscreenMap === true &&
-      breakpoint !== 'large')
-  ) {
+  if (!stop) {
     return null;
   }
   const activeTab = getActiveTab(match.location.pathname);
@@ -258,7 +253,6 @@ const alertArrayShape = PropTypes.arrayOf(
 );
 
 StopPageTabs.propTypes = {
-  breakpoint: PropTypes.string.isRequired,
   stop: PropTypes.shape({
     routes: PropTypes.array,
     alerts: alertArrayShape,
