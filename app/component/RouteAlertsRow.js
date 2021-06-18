@@ -130,10 +130,11 @@ export default function RouteAlertsRow(
                 showRouteNameLink &&
                 routeLinks.length > 0 && <>{routeLinks} </>) ||
                 (!showRouteNameLink && (
-                  <div className="route-alert-entityid">
-                    <div className={entityMode} style={{ color }}>
-                      {entityIdentifier}{' '}
-                    </div>
+                  <div
+                    className={cx('route-alert-entityid', entityMode)}
+                    style={{ color }}
+                  >
+                    {entityIdentifier}{' '}
                   </div>
                 )) ||
                 (entityType === 'stop' &&
