@@ -1412,6 +1412,8 @@ const translations = {
     'open-24-7': 'Open 24/7',
     'option-default': 'Average',
     'option-least': 'Slow',
+    'option-less': 'Calm',
+    'option-more': 'Prompt',
     'option-most': 'Fast',
     or: 'or',
     origin: 'Origin',
