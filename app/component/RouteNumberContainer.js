@@ -18,24 +18,25 @@ const getText = (route, config) => {
 const RouteNumberContainer = (
   { alertSeverityLevel, className, route, isCallAgency, withBicycle, ...props },
   { config },
-) =>
-  route && (
-    <RouteNumber
-      alertSeverityLevel={alertSeverityLevel}
-      className={className}
-      isCallAgency={isCallAgency || route.type === 715}
-      color={route.color ? `#${route.color}` : null}
-      mode={route.mode}
-      icon={
-        route.shortName?.startsWith('RT')
-          ? 'icon-icon_on-demand-taxi-white'
-          : null
-      }
-      text={getText(route, config)}
-      withBicycle={withBicycle}
-      {...props}
-    />
+) => {
+  const isOnDemandTaxi = route.type === 715;
+
+  return (
+    route && (
+      <RouteNumber
+        alertSeverityLevel={alertSeverityLevel}
+        className={className}
+        isCallAgency={isCallAgency || isOnDemandTaxi}
+        color={route.color ? `#${route.color}` : null}
+        mode={route.mode}
+        icon={isOnDemandTaxi ? 'icon-icon_on-demand-taxi-white' : null}
+        text={getText(route, config)}
+        withBicycle={withBicycle}
+        {...props}
+      />
+    )
   );
+};
 
 RouteNumberContainer.propTypes = {
   alertSeverityLevel: PropTypes.string,

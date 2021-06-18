@@ -268,6 +268,7 @@ class TransitLeg extends React.Component {
       intermediateStopCount +=
         this.props.nextInterliningLeg.intermediatePlaces.length + 1;
     }
+    const isOnDemandTaxi = leg.route.type === 715;
 
     return (
       <div key={index} className="row itinerary-row">
@@ -394,9 +395,7 @@ class TransitLeg extends React.Component {
                   text={leg.route && leg.route.shortName}
                   realtime={false}
                   icon={
-                    leg.route.type === 715
-                      ? 'icon-icon_on-demand-taxi-white'
-                      : null
+                    isOnDemandTaxi ? 'icon-icon_on-demand-taxi-white' : null
                   }
                   withBar
                   fadeLong
