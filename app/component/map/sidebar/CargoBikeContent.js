@@ -9,7 +9,7 @@ import SidebarContainer from './SidebarContainer';
 import Icon from '../../Icon';
 
 const CargoBikeContent = ({ slug }, { intl }) => {
-  const CARGO_BIKE_DETAILS_API = `https://backend.openbikebox.next-site.de/api/v1/location?slug=${slug}&format=object`;
+  const CARGO_BIKE_DETAILS_API = `https://backend.open-booking.eu/api/v1/location?slug=${slug}`;
   const [details, setDetails] = useState({});
   const [loading, setLoading] = useState(true);
   const description = intl.formatMessage({

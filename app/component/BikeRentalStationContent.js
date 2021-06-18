@@ -48,7 +48,10 @@ const BikeRentalStationContent = (
     returnInstructionsUrl = networkConfig.returnInstructions[language];
   }
 
-  if (bikeRentalStation.networks[0] === 'cargo-bike') {
+  if (
+    bikeRentalStation.networks[0] === 'cargo-bike' &&
+    bikeRentalStation.stationId === 'cargobike-herrenberg'
+  ) {
     return <CargoBikeContent slug={bikeRentalStation.stationId} />;
   }
 
