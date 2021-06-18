@@ -10,7 +10,17 @@ import storeDestination from '../../../action/destinationActions';
 import { dtLocationShape } from '../../../util/shapes';
 
 const SidebarContainer = (
-  { location, name, description, icon, breakpoint, children, className },
+  {
+    location,
+    name,
+    description,
+    photoUrl,
+    icon,
+    breakpoint,
+    children,
+    className,
+    newLayout = false,
+  },
   { router, executeAction },
 ) => {
   const isMobile = breakpoint !== 'large';
@@ -26,28 +36,33 @@ const SidebarContainer = (
       executeAction(storeDestination, item);
     }
   };
+  const applyLayout = () => {
+    if (newLayout) {
+      return '';
+    }
+    return isMobile ? 'padding-horizontal-large' : 'padding-horizontal-xlarge';
+  };
 
   return (
     <div
       className={cx(
         'card',
+        !isMobile && !newLayout && 'sidebar-card-desktop',
         'sidebar-card',
-        !isMobile && 'sidebar-card-desktop',
         'popup',
       )}
     >
-      <div
-        className={cx(
-          isMobile ? 'padding-horizontal-large' : 'padding-horizontal-xlarge',
-          className,
-        )}
-      >
+      <div className={`${applyLayout()} ${className}`}>
         <CardHeader
           name={name}
           descClass="padding-vertical-small"
           unlinked
-          className="sidebar-card-header"
+          className={cx(
+            'sidebar-card-header',
+            newLayout ? 'padding-new-layout' : '',
+          )}
           icon={icon}
+          headerPictureUrl={photoUrl}
           headingStyle="h1"
           description={description}
           showCardSubHeader={Boolean(description)}
@@ -72,9 +87,11 @@ SidebarContainer.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string || PropTypes.node,
   icon: PropTypes.string,
+  photoUrl: PropTypes.string,
   breakpoint: PropTypes.string.isRequired,
   children: PropTypes.node,
   className: PropTypes.string,
+  newLayout: PropTypes.bool,
 };
 
 SidebarContainer.defaultProps = {
@@ -84,6 +101,7 @@ SidebarContainer.defaultProps = {
   className: null,
   name: '',
   description: '',
+  photoUrl: '',
 };
 
 SidebarContainer.contextTypes = {

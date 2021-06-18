@@ -2,6 +2,7 @@
 @import '../../main';
 @import 'dynamic-parking-lots';
 @import 'charging-station-content';
+@import "cargo-bike-content";
 @import 'sidebar-container';
 @import 'opening-hours';
 @import 'layer-category-dropdown';
@@ -149,9 +150,11 @@ input[type='radio'] {
     font-weight: bold;
     position: relative;
   }
+
   & .icon-container {
     top: -8px;
   }
+
   & label {
     top: 8px;
   }
@@ -220,4 +223,90 @@ input[type='radio'] {
 .charging-station-popup .content {
   font-size: 16px;
   margin: 10px 0;
+}
+
+.sidebar-info-container {
+  padding: 0 26px 0 26px;
+  display: flex;
+  flex-direction: row;
+
+  .icon-container {
+    display: flex;
+    align-self: center;
+  }
+}
+
+.sidebar-info-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.card-header-back-to-results {
+  display: flex;
+  flex-direction: row;
+  padding: 16px;
+  margin-bottom: 20px;
+
+  .card-header-back-to-results-text {
+    padding-left: 40px;
+    padding-top: 4px;
+    font-size: 16px;
+    color: #666666;
+  }
+}
+
+.card-header-image {
+  position: relative;
+  height: 200px;
+  width: 100%;
+  overflow: hidden;
+  background-position: center center;
+  background-repeat: no-repeat;
+  margin-bottom: 10px;
+  border-top: 2px solid #ccc;
+  border-bottom: 2px solid #ccc;
+
+  img {
+    position: absolute;
+    left: -1000%;
+    right: -1000%;
+    top: -1000%;
+    bottom: -1000%;
+    margin: auto;
+    min-height: 100%;
+    min-width: 100%;
+  }
+}
+
+.divider {
+  width: 100%;
+  border-top: 1px solid #ccc;
+  margin: 10px 0 10px 0;
+}
+
+.text-light {
+  div {
+    font-size: 13px;
+  }
+
+  .icon-container {
+    display: flex;
+    align-self: center;
+  }
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  font-size: 13px;
+  color: #666666;
+  margin: 5px 0 5px 0;
+}
+
+.text-alignment {
+  align-self: center;
+  padding-left: 10px;
+}
+
+.opening-times-container {
+  padding-left: 58px;
 }

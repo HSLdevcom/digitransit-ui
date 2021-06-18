@@ -121,7 +121,7 @@ const ChargingStationContent = ({ match }, { intl }) => {
       <>
         <div className="text-light text-alignment">|</div>
         <div className="text-light text-alignment">
-          {intl.formatMessage(body, match.location.query)}
+          {intl.formatMessage(body, { capacity, available })}
         </div>
       </>
     );
@@ -140,8 +140,8 @@ const ChargingStationContent = ({ match }, { intl }) => {
     }
     return (
       link && (
-        <div>
-          <Icon className="charging-station-icon" img="icon-icon_power" />
+        <div className="direct-deep-link">
+          <Icon className="sidebar-info-icon" img="icon-icon_power" />
           <span className="text-alignment">
             {/* eslint-disable-next-line react/jsx-no-target-blank */}
             <a href={link} target="_blank">
@@ -235,14 +235,15 @@ const ChargingStationContent = ({ match }, { intl }) => {
       }}
       name={details.name}
       icon={getIcon(match.location.query)}
+      newLayout
     >
       <div className="content">
-        <div className="text-light">
-          <Icon className="charging-station-icon" img="icon-icon_schedule" />
+        <div className="text-light opening-times-container">
+          <Icon className="sidebar-info-icon" img="icon-icon_schedule" />
           <span className="text-alignment">{getOpeningTimes()}</span>
         </div>
-        <div className="charging-station-divider" />
-        <div className="charging-info-container">
+        <div className="divider" />
+        <div className="sidebar-info-container">
           <div className="connector-container">
             {connectors.map(connector => (
               <div key={connector.text}>
@@ -253,20 +254,20 @@ const ChargingStationContent = ({ match }, { intl }) => {
           </div>
           {getCapacity()}
         </div>
-        <div className="charging-station-divider" />
-        <div className="text-light">
-          <Icon className="charging-station-icon" img="icon-icon_payment" />
+        <div className="divider" />
+        <div className="text-light sidebar-info-container">
+          <Icon className="sidebar-info-icon" img="icon-icon_payment" />
           <span className="text-alignment">{getPaymentTypes()}</span>
         </div>
-        <div className="text-light">
-          <Icon className="charging-station-icon" img="icon-icon_place" />
+        <div className="text-light sidebar-info-container">
+          <Icon className="sidebar-info-icon" img="icon-icon_place" />
           <span className="text-alignment">{getAddress()}</span>
         </div>
-        <div className="text-light">
-          <Icon className="charging-station-icon" img="icon-icon_call" />
+        <div className="text-light sidebar-info-container">
+          <Icon className="sidebar-info-icon" img="icon-icon_call" />
           <span className="text-alignment">{getPhoneNumber()}</span>
         </div>
-        <div className="charging-station-divider" />
+        <div className="divider" />
         {getDirectDeepLink()}
       </div>
     </SidebarContainer>

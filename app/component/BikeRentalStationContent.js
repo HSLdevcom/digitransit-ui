@@ -12,6 +12,7 @@ import withBreakpoint from '../util/withBreakpoint';
 import { getCityBikeNetworkConfig } from '../util/citybikes';
 import { isBrowser } from '../util/browser';
 import { PREFIX_BIKESTATIONS } from '../util/path';
+import CargoBikeContent from './map/sidebar/CargoBikeContent';
 
 const BikeRentalStationContent = (
   { bikeRentalStation, breakpoint, language, router },
@@ -46,6 +47,14 @@ const BikeRentalStationContent = (
   if (networkConfig.returnInstructions) {
     returnInstructionsUrl = networkConfig.returnInstructions[language];
   }
+
+  if (
+    bikeRentalStation.networks[0] === 'cargo-bike' &&
+    bikeRentalStation.stationId === 'cargobike-herrenberg'
+  ) {
+    return <CargoBikeContent slug={bikeRentalStation.stationId} />;
+  }
+
   return (
     <div className="bike-station-page-container">
       <BikeRentalStationHeader

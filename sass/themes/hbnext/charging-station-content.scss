@@ -1,25 +1,3 @@
-.charging-station-divider {
-  border-top: 1px solid #ccc;
-  margin: 10px 0 10px 0;
-}
-
-.charging-station-card {
-  min-width: 400px;
-}
-
-.text-light {
-  div {
-    font-size: 13px;
-  }
-
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  font-size: 13px;
-  color: #666666;
-  margin: 5px 0 5px 0;
-}
-
 .connector-container {
   div {
     font-size: 13px;
@@ -29,11 +7,6 @@
   }
 }
 
-.text-alignment {
-  align-self: center;
-  padding-left: 10px;
-}
-
 .connector-icon {
   svg {
     width: 32px;
@@ -41,12 +14,13 @@
   }
 }
 
-.charging-info-container {
+.direct-deep-link {
   display: flex;
   flex-direction: row;
-}
+  padding: 10px 26px 10px 26px;
 
-.charging-station-icon {
-  width: 16px;
-  height: 16px;
+  .icon-container {
+    display: flex;
+    align-self: center;
+  }
 }

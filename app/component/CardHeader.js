@@ -29,20 +29,40 @@ const CardHeader = (
     favouriteContainer,
     isTerminal,
     showHeaderTitle,
+    headerPictureUrl,
     showCardSubHeader = true,
   },
-  { config },
+  { config, intl },
 ) => {
   const headerTitle = stop.name ? stop.name : name;
   return (
     <Fragment>
+      {showBackButton && (
+        <Fragment>
+          <div className="card-header-back-to-results">
+            <div>
+              <BackButton
+                title={intl.formatMessage({
+                  id: 'card-header-back-to-result-list',
+                  defaultMessage: 'Go back to results',
+                })}
+                titleClassName="card-header-back-to-results-text"
+                icon="icon-icon_arrow-collapse--left"
+                iconClassName="arrow-icon"
+              />
+            </div>
+          </div>
+          {!headerPictureUrl && <div className="divider" />}
+        </Fragment>
+      )}
+      {headerPictureUrl && (
+        <div>
+          <div className="card-header-image">
+            <img src={headerPictureUrl} alt="" />
+          </div>
+        </div>
+      )}
       <div className={cx('card-header', className)}>
-        {showBackButton && (
-          <BackButton
-            icon="icon-icon_arrow-collapse--left"
-            iconClassName="arrow-icon"
-          />
-        )}
         <div className="card-header-content">
           {icon ? (
             <div
@@ -140,6 +160,7 @@ CardHeader.propTypes = {
   headerConfig: PropTypes.object,
   favouriteContainer: PropTypes.element,
   name: PropTypes.string,
+  headerPictureUrl: PropTypes.string,
   isTerminal: PropTypes.bool,
   showHeaderTitle: PropTypes.bool,
   showCardSubHeader: PropTypes.bool,
@@ -154,6 +175,7 @@ CardHeader.defaultProps = {
 
 CardHeader.contextTypes = {
   config: PropTypes.object.isRequired,
+  intl: PropTypes.object.isRequired,
 };
 
 export default CardHeader;
