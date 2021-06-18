@@ -52,6 +52,7 @@ export default function VectorTileLayerContainer(props, { config }) {
     }
 
     setLayers(layersToAdd);
+    // For some reason this is needed, to release deep object references and update map layers properly.
     setMapLayers(JSON.parse(JSON.stringify(props.mapLayers)));
   }, [props, config]);
 

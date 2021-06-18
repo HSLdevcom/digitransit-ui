@@ -3,6 +3,8 @@ import Protobuf from 'pbf';
 import pick from 'lodash/pick';
 import { isNumber } from 'lodash';
 import SimpleOpeningHours from 'simple-opening-hours';
+import range from 'lodash-es/range';
+import omit from 'lodash/omit';
 import { isBrowser } from '../../../util/browser';
 import {
   drawIcon,
@@ -49,13 +51,35 @@ class DynamicParkingLots {
 
           this.features = [];
 
-          if (vt.layers.parking != null) {
-            for (let i = 0, ref = vt.layers.parking.length - 1; i <= ref; i++) {
-              const feature = vt.layers.parking.feature(i);
+          const layerData = vt.layers.parking || { length: 0 };
+          const { length } = layerData;
+
+          this.features = range(length)
+            .map(index => {
+              const feature = layerData.feature(index);
               [[feature.geom]] = feature.loadGeometry();
-              this.features.push(pick(feature, ['geom', 'properties']));
-            }
-          }
+              return pick(feature, ['geom', 'properties']);
+            })
+            .filter(i => i.properties.anyCarPlaces)
+            .map(i => {
+              return {
+                ...i,
+                properties: {
+                  ...omit(i.properties, [
+                    'availability.wheelchairAccessibleCarPlaces',
+                    'capacity.wheelchairAccessibleCarPlaces',
+                    'availability.carPlaces',
+                    'capacity.carPlaces',
+                  ]),
+                  freeDisabled:
+                    i.properties['availability.wheelchairAccessibleCarPlaces'],
+                  totalDisabled:
+                    i.properties['capacity.wheelchairAccessibleCarPlaces'],
+                  free: i.properties['availability.carPlaces'],
+                  total: i.properties['capacity.carPlaces'],
+                },
+              };
+            });
 
           this.features.forEach(actionFn);
         },
@@ -98,7 +122,11 @@ class DynamicParkingLots {
       );
     }
 
-    const icon = DynamicParkingLots.getIcon(properties.lot_type);
+    const tags = properties.tags.split(',').reduce((newTags, tag) => {
+      return { ...newTags, [tag.split(':')[0]]: tag.split(':')[1] };
+    }, {});
+
+    const icon = DynamicParkingLots.getIcon(tags.lot_type);
 
     let isOpenNow = true;
     if (properties.opening_hours) {
@@ -112,9 +140,7 @@ class DynamicParkingLots {
       geom,
       this.parkingLotImageSize,
     ).then(() => {
-      const { state, free, total } = properties;
-      const freeDisabled = properties['free:disabled'];
-      const totalDisabled = properties['total:disabled'];
+      const { state, free, total, freeDisabled, totalDisabled } = properties;
       const hasBothDisabledAndRegular =
         isNumber(free) && isNumber(freeDisabled);
       const hasOnlyRegular = isNumber(free) && !isNumber(freeDisabled);
