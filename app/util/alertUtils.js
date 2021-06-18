@@ -686,6 +686,7 @@ export const createUniqueAlertList = (
   const getVehicleMode = alert => getStop(alert).vehicleMode;
   const getCode = alert => getStop(alert).code;
   const getStopGtfsId = alert => getStop(alert).gtfsId;
+  const getStopName = alert => getStop(alert).name;
 
   const getGroupKey = alert =>
     `${alert.severityLevel}${
@@ -740,6 +741,17 @@ export const createUniqueAlertList = (
           stopGtfsId: alerts.sort(alertCompare).map(getStopGtfsId).join(','),
           code: alerts.sort(alertCompare).map(getCode).join(', '),
           vehicleMode: getVehicleMode(alert),
+          nameAndCode: alerts
+            .sort(alertCompare)
+            .map(a => {
+              const stopName = getStopName(a);
+              const stopCode = getCode(a);
+              return (
+                (stopName && stopCode && `${stopName} (${stopCode})`) ||
+                stopName
+              );
+            })
+            .join(', '),
         }) ||
         undefined,
     };

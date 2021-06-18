@@ -1172,6 +1172,7 @@ $margin-left-right: 1.333em;
     }
 
     .route-alert-row-link {
+      display: contents;
       padding-right: 1px;
       padding-left: 1px;
     }
@@ -1183,17 +1184,14 @@ $margin-left-right: 1.333em;
       vertical-align: bottom;
 
       .route-alert-top-row {
-        display: flex;
+        display: inline-flex;
         align-items: center;
+        font-size: 15px;
         .route-alert-entityid {
           font-family: $font-family-narrow;
           font-size: 21px;
           font-weight: $font-weight-medium;
-          margin-right: 10px;
-        }
-        .route-alert-time-period {
-          font-size: 15px;
-          padding: 0 0 0 5px;
+          margin-right: 15px;
         }
       }
     }
