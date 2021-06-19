@@ -21,7 +21,6 @@ describe('<MapLayersDialogContent />', () => {
         terminal: {},
       },
       updateMapLayers: () => {},
-      currentMapMode: 'default',
       setMapMode: () => {},
     };
     const wrapper = mountWithIntl(
@@ -49,7 +48,6 @@ describe('<MapLayersDialogContent />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
-      currentMapMode: 'default',
       setMapMode: () => {},
     };
     const context = {
@@ -87,7 +85,6 @@ describe('<MapLayersDialogContent />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
-      currentMapMode: 'default',
       setMapMode: () => {},
     };
     const context = {
@@ -130,7 +127,6 @@ describe('<MapLayersDialogContent />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
-      currentMapMode: 'default',
       setMapMode: () => {},
     };
     const context = {
@@ -175,7 +171,6 @@ describe('<MapLayersDialogContent />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
-      currentMapMode: 'default',
       setMapMode: () => {},
     };
     const context = {
@@ -221,7 +216,6 @@ describe('<MapLayersDialogContent />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
-      currentMapMode: 'default',
       setMapMode: () => {},
     };
     const context = {
@@ -265,7 +259,6 @@ describe('<MapLayersDialogContent />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
-      currentMapMode: 'default',
       setMapMode: () => {},
     };
     const context = {
@@ -307,7 +300,6 @@ describe('<MapLayersDialogContent />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
-      currentMapMode: 'default',
       setMapMode: () => {},
     };
     const context = {
@@ -352,7 +344,6 @@ describe('<MapLayersDialogContent />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
-      currentMapMode: 'default',
       setMapMode: () => {},
     };
     const context = {
@@ -396,7 +387,6 @@ describe('<MapLayersDialogContent />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
-      currentMapMode: 'default',
       setMapMode: () => {},
       geoJson: {
         somejson: {

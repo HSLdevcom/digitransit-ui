@@ -124,7 +124,7 @@ class MapLayersDialogContent extends React.Component {
       weatherStations,
       chargingStations,
     } = this.props.mapLayers;
-    const { currentMapMode } = this.props;
+    const currentMapMode = this.context.match.location.query.mapMode;
     let geoJsonLayers;
     if (this.props.geoJson) {
       geoJsonLayers = Object.entries(this.props.geoJson)?.map(([k, v]) => {
@@ -444,7 +444,6 @@ MapLayersDialogContent.propTypes = {
   mapLayers: mapLayerShape.isRequired,
   updateMapLayers: PropTypes.func.isRequired,
   lang: PropTypes.string,
-  currentMapMode: PropTypes.string.isRequired,
   setMapMode: PropTypes.func.isRequired,
 };
 
@@ -493,7 +492,6 @@ const connectedComponent = connectToStores(
     updateMapLayers: mapLayers =>
       executeAction(updateMapLayers, { ...mapLayers }),
     lang: getStore('PreferencesStore').getLanguage(),
-    currentMapMode: getStore('MapModeStore').getMapMode(),
     setMapMode: mapMode => executeAction(setMapMode, mapMode),
   }),
   {
