@@ -171,6 +171,7 @@ export default configMerger(walttiConfig, {
                     de: 'https://www.regioradstuttgart.de/de',
                     en: 'https://www.regioradstuttgart.de/',
                 },
+                visibleInSettingsUi: true,
             },
             taxi: {
                 icon: 'taxi',
@@ -179,6 +180,7 @@ export default configMerger(walttiConfig, {
                     en: 'Taxi',
                 },
                 type: 'taxi',
+                visibleInSettingsUi: false,
             },
             "car-sharing": {
                 icon: 'car-sharing',
@@ -191,6 +193,7 @@ export default configMerger(walttiConfig, {
                     de: 'https://stuttgart.stadtmobil.de/privatkunden/',
                     en: 'https://stuttgart.stadtmobil.de/privatkunden/',
                 },
+                visibleInSettingsUi: false,
             },
             "cargo-bike": {
                 icon: 'cargobike',
@@ -198,7 +201,8 @@ export default configMerger(walttiConfig, {
                     de: 'Lastenrad Herrenberg',
                     en: 'Cargo bike Herrenberg',
                 },
-                type: 'cargo-bike'
+                type: 'cargo-bike',
+                visibleInSettingsUi: false,
             },
         }
     },
