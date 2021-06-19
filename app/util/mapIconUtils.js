@@ -669,7 +669,7 @@ export function drawCitybikeIcon(
     y = geom.y / tile.ratio - height;
     const showAvailabilityBadge =
       showAvailability &&
-      (Number.isSafeInteger(bikesAvailable) || bikesAvailable > -1) &&
+      (Number.isSafeInteger(bikesAvailable) && bikesAvailable > -1) &&
       (state === BIKESTATION_ON || state === null);
     let icon = `${iconName}_station_${color}_large`;
     if (state === BIKESTATION_CLOSED || state === BIKESTATION_OFF) {
