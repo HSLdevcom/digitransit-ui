@@ -66,10 +66,12 @@ const StreetModeSelectorPanel = (
             <div className="mode-option-container">
               <div className="mode-option-block">
                 <div className="mode-icon">
-                  <Icon
-                    className="park-ride-icon-icon"
-                    img="icon-icon_park-and-ride"
-                  />
+                  <div className="has-subicon primary-icon">
+                    <Icon img="icon-icon_park-and-ride" />
+                  </div>
+                  <div className="has-subicon secondary-icon">
+                    <Icon img="icon-icon_rail" />
+                  </div>
                 </div>
                 <div className="mode-name">
                   <FormattedMessage

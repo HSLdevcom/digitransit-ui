@@ -272,6 +272,7 @@
     margin-bottom: 0.1em;
     display: flex;
     cursor: pointer;
+    position: relative;
 
     .icon {
       font-size: 2.5em;
@@ -281,11 +282,26 @@
     .mode-icon {
       margin-left: 1em;
       margin-right: 1em;
+      display: flex;
       .subicon-caution .icon {
         width: 16px;
         height: 16px;
         margin-left: 0.1em;
         margin-top: -0.8em;
+      }
+      .has-subicon {
+          z-index: 1;
+        &.secondary-icon {
+          margin-top: -0.3em;
+          margin-left: -0.9em;
+          z-index: 0;
+          .icon-container {
+            .icon {
+              width: 16px;
+              height: 16px;
+            }
+          }
+        }
       }
     }
     .mode-name {
