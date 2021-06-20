@@ -105,7 +105,7 @@ class MapLayersDialogContent extends React.Component {
     const { router, match } = this.context;
     replaceQueryParams(router, match, { mapMode });
     if (mapMode === MapMode.Default) {
-      clearQueryParams(router, match, Object.keys(match.location.query));
+      clearQueryParams(router, match, ['mapMode']);
     }
     this.props.setMapMode(mapMode);
   };
@@ -124,7 +124,8 @@ class MapLayersDialogContent extends React.Component {
       weatherStations,
       chargingStations,
     } = this.props.mapLayers;
-    const currentMapMode = this.context.match.location.query.mapMode;
+    const currentMapMode =
+      this.context.match.location.query.mapMode || MapMode.Default;
     let geoJsonLayers;
     if (this.props.geoJson) {
       geoJsonLayers = Object.entries(this.props.geoJson)?.map(([k, v]) => {
