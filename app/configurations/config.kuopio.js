@@ -34,7 +34,7 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'kuopio/logo.png',
 
-  feedIds: ['Kuopio', 'KuopioEly'],
+  feedIds: ['Kuopio'],
 
   showTicketInformation: true,
 

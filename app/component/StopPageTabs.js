@@ -24,6 +24,7 @@ import {
   PREFIX_TERMINALS,
   PREFIX_TIMETABLE,
 } from '../util/path';
+import Icon from './Icon';
 
 const Tab = {
   Disruptions: PREFIX_DISRUPTION,
@@ -45,14 +46,9 @@ const getActiveTab = pathname => {
   return Tab.RightNow;
 };
 
-function StopPageTabs({ breakpoint, stop }, { intl, match }) {
+function StopPageTabs({ stop }, { intl, match }) {
   const { router } = match;
-  if (
-    !stop ||
-    (match.location.state &&
-      match.location.state.fullscreenMap === true &&
-      breakpoint !== 'large')
-  ) {
+  if (!stop) {
     return null;
   }
   const activeTab = getActiveTab(match.location.pathname);
@@ -129,6 +125,19 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
           alert.alertSeverityLevel === AlertSeverityLevelType.Warning,
       )) &&
       'active-service-alert');
+  let disruptionIcon;
+  if (disruptionClassName === 'active-disruption-alert') {
+    disruptionIcon = (
+      <Icon
+        className="disrution-icon"
+        img="icon-icon_caution-no-excl-no-stroke"
+      />
+    );
+  } else if (disruptionClassName === 'active-service-alert') {
+    disruptionIcon = (
+      <Icon className="service-alert-icon" img="icon-icon_info" />
+    );
+  }
 
   return (
     <div>
@@ -229,6 +238,7 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
         >
           <div className="stop-tab-singletab-container">
             <div className={`${disruptionClassName || `no-alerts`}`}>
+              {disruptionIcon}
               <FormattedMessage id="disruptions" />
             </div>
           </div>
@@ -243,7 +253,6 @@ const alertArrayShape = PropTypes.arrayOf(
 );
 
 StopPageTabs.propTypes = {
-  breakpoint: PropTypes.string.isRequired,
   stop: PropTypes.shape({
     routes: PropTypes.array,
     alerts: alertArrayShape,

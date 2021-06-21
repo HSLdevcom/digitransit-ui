@@ -65,7 +65,6 @@
 
 .desktop .stop-page.header {
   h1 {
-    height: 24px;
     margin: 1px 19px 1px 0;
     font-family: $font-family;
     font-size: 24px;
@@ -178,53 +177,34 @@
     border-left: 1px solid $light-gray;
   }
 
-  svg {
-    stroke: $primary-color;
-    fill: $primary-color;
-  }
-
   &.active,
   &.active:hover {
     background-color: $white;
-    color: $black;
     font-weight: $font-weight-medium;
-    svg {
-      stroke: $black;
-      fill: $black;
-    }
-    .no-alerts span {
-      color: $black;
-    }
-    .no-alerts.icon {
-      fill: $black;
-    }
-    .active-disruption-alert.icon {
-      fill: $black;
-    }
-    .active-service-alert.icon {
-      stroke: $black;
-      fill: $black;
-    }
   }
 
-  &.alert-active {
-    .icon {
-      fill: $cancelation-red;
+  .active-disruption-alert {
+    .icon-container {
+      vertical-align: middle;
+      margin-right: 5px;
+      .icon {
+        width: 0.85em;
+        height: 0.95em;
+      }
+    }
+  }
+  .active-service-alert {
+    .icon-container {
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+    .service-alert-icon {
+      fill: rgba(136, 136, 136, 1);
     }
   }
 
   .no-alerts span {
     color: rgb(183, 183, 183);
-  }
-  .no-alerts.icon {
-    fill: rgb(183, 183, 183);
-  }
-  .active-disruption-alert.icon {
-    fill: $cancelation-red;
-  }
-  .active-service-alert.icon {
-    stroke: $primary-color;
-    fill: $primary-color;
   }
 
   @media print {

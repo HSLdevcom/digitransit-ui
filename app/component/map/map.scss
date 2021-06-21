@@ -289,6 +289,9 @@ div.leaflet-marker-icon.vehicle-icon {
     h1 {
       display: flex;
       padding: 0.5em;
+      margin: 0;
+      font-family: $font-family-narrow;
+      font-size: $font-size-xlarge;
     }
   }
 

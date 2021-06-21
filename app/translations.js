@@ -875,7 +875,8 @@ const translations = {
     agency: 'Operator',
     airplane: 'Flight',
     'airplane-with-route-number': 'Flight {routeNumber}',
-    'airport-check-in': 'Check-in at the {agency} desk',
+    'airport-check-in':
+      "Check in on arrival, if you haven't done so in advance",
     'airport-collect-luggage': 'Collect your luggage',
     'airport-security-check-go-to-gate':
       'Proceed to your gate through security check',
@@ -1267,7 +1268,7 @@ const translations = {
     'route-page.future-routes': 'Future routes',
     'route-page.pattern-chosen': 'Selected',
     'route-page.pattern-select-title': 'Select the route to be viewed',
-    'route-page.special-routes': 'Services to/from depot and diversion routes',
+    'route-page.special-routes': 'Other routes',
     'route-page.title': 'Route {shortName}',
     'route-page.title-short': 'Route',
     routes: 'Routes',
@@ -1326,6 +1327,8 @@ const translations = {
     'splash-you-can-also': 'or',
     station: 'Station',
     stop: 'Stop',
+    'stop-departure-time-future': 'Departure time is in {minutes} minutes',
+    'stop-departure-time-past': 'Departure time was',
     'stop-near-you': 'Search stops and routes near you',
     'stop-near-you-modal-grant-permission': 'or enable location services',
     'stop-near-you-modal-grant-permission-info':
@@ -1829,7 +1832,8 @@ const translations = {
     agency: 'Liikennöitsijä',
     airplane: 'Lentokone',
     'airplane-with-route-number': 'Lento {routeNumber}',
-    'airport-check-in': 'Tee lähtöselvitys lentoyhtiön {agency} tiskillä',
+    'airport-check-in':
+      'Tee lähtöselvitys heti saavuttuasi, jos et ole tehnyt sitä jo etukäteen',
     'airport-collect-luggage': 'Nouda matkatavarat',
     'airport-security-check-go-to-gate':
       'Kävele turvatarkastuksen läpi lähtöportille',
@@ -2220,7 +2224,7 @@ const translations = {
     'route-page.future-routes': 'Tulevat reitit',
     'route-page.pattern-chosen': 'Valittu',
     'route-page.pattern-select-title': 'Valitse tarkasteltava reitti',
-    'route-page.special-routes': 'Poikkeusreitit',
+    'route-page.special-routes': 'Muut reitit',
     'route-page.title': 'Linja {shortName}',
     'route-page.title-short': 'Linja',
     routes: 'Linjat',
@@ -2279,6 +2283,8 @@ const translations = {
     'splash-you-can-also': 'tai',
     station: 'Asema',
     stop: 'Pysäkki',
+    'stop-departure-time-future': 'Lähtöaika {minutes} min päästä',
+    'stop-departure-time-past': 'Lähtöaika oli',
     'stop-near-you': 'Linja, pysäkki tai asema',
     'stop-near-you-modal-grant-permission': 'tai salli paikannus',
     'stop-near-you-modal-grant-permission-info':
@@ -3959,8 +3965,7 @@ const translations = {
     'route-page.future-routes': 'Framtida rutter',
     'route-page.pattern-chosen': 'Vald',
     'route-page.pattern-select-title': 'Välj den rutt du vill se',
-    'route-page.special-routes':
-      'Turer som kör till/från depån och avvikande rutter',
+    'route-page.special-routes': 'Andra rutter',
     'route-page.title': 'Linje {shortName}',
     'route-page.title-short': 'Linje',
     routes: 'Linjer',
@@ -4023,6 +4028,8 @@ const translations = {
     'splash-you-can-also': 'alternativt',
     station: 'Station',
     stop: 'Hållplats',
+    'stop-departure-time-future': 'Avgångstid är i {minutes} minuter',
+    'stop-departure-time-past': 'Avgångstid var klockan',
     'stop-near-you': 'Sök hållplatser eller linjer nära dig',
     'stop-near-you-modal-grant-permission': 'eller aktivera positionering',
     'stop-near-you-modal-grant-permission-info':

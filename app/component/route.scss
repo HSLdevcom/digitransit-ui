@@ -928,11 +928,36 @@ $margin-left-right: 1.333em;
       font-weight: $font-weight-medium;
       background-color: $white;
     }
+    &:disabled {
+      color: #333;
+      font-weight: $font-weight-medium;
+      background-color: $white;
+      cursor: default;
+      opacity: 1;
+      box-shadow: none;
+      &:focus, &:hover {
+        color: inherit;
+        background: $white;
+      }
+    }
     .no-alerts > span {
       color: #b7b7b7;
     }
   }
 
+  .tab-route-disruption {
+    .icon-container {
+      margin-right: 5px;
+      vertical-align: middle;
+      .disruption-icon {
+        width: 0.85em;
+        height: 0.95em;
+      }
+      .service-alert-icon {
+        fill: rgba(136, 136, 136, 1);
+      }
+    }
+  }
   .tab-panel {
     flex-grow: 1;
     display: flex;
@@ -1147,6 +1172,7 @@ $margin-left-right: 1.333em;
     }
 
     .route-alert-row-link {
+      display: contents;
       padding-right: 1px;
       padding-left: 1px;
     }
@@ -1158,17 +1184,14 @@ $margin-left-right: 1.333em;
       vertical-align: bottom;
 
       .route-alert-top-row {
-        display: flex;
+        display: inline-flex;
         align-items: center;
+        font-size: 15px;
         .route-alert-entityid {
           font-family: $font-family-narrow;
           font-size: 21px;
           font-weight: $font-weight-medium;
-          margin-right: 10px;
-        }
-        .route-alert-time-period {
-          font-size: 15px;
-          padding: 0 0 0 5px;
+          margin-right: 15px;
         }
       }
     }

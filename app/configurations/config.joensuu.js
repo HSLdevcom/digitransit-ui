@@ -10,7 +10,7 @@ const walttiConfig = require('./config.waltti').default;
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  feedIds: ['Joensuu', 'JoensuuEly'],
+  feedIds: ['Joensuu'],
 
   searchParams: {
     'boundary.rect.min_lat': 61.6,

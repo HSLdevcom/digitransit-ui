@@ -74,7 +74,8 @@ class RouteScheduleContainer extends PureComponent {
 
   state = {
     from: 0,
-    to: this.props.pattern.stops.length - 1 || undefined,
+    to:
+      (this.props.pattern && this.props.pattern.stops.length - 1) || undefined,
     serviceDay: this.props.serviceDay,
     hasLoaded: false,
     focusedTab: null,
@@ -264,6 +265,9 @@ class RouteScheduleContainer extends PureComponent {
 
   renderDayTabs = data => {
     const dayArray = data[2][3];
+    if (!dayArray || (dayArray.length === 1 && dayArray[0] === '1234567')) {
+      return null;
+    }
     if (dayArray.length > 0) {
       const singleDays = dayArray.filter(s => s.length === 1);
       const multiDays = dayArray.filter(s => s.length !== 1);
@@ -321,6 +325,7 @@ class RouteScheduleContainer extends PureComponent {
         return (
           <button
             type="button"
+            disabled={dayArray.length === 1}
             key={tab}
             className={cx({
               'is-active': selected,
@@ -581,6 +586,8 @@ class RouteScheduleContainer extends PureComponent {
       newFromTo[1],
     );
 
+    const tabs = this.renderDayTabs(data);
+
     if (!this.state.hasLoaded) {
       return (
         <div className={cx('summary-list-spinner-container', 'route-schedule')}>
@@ -620,7 +627,7 @@ class RouteScheduleContainer extends PureComponent {
               )}
             </div>
           </div>
-          {this.renderDayTabs(data)}
+          {tabs}
           {this.props.pattern && (
             <div
               className={cx('route-schedule-list-wrapper', {
@@ -638,7 +645,7 @@ class RouteScheduleContainer extends PureComponent {
               <div
                 className="route-schedule-list momentum-scroll"
                 role="list"
-                aria-atomic="true"
+                aria-live="off"
               >
                 {showTrips}
               </div>

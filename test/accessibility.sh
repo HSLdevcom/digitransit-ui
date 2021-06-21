@@ -2,8 +2,7 @@
 set -e
 
 cleanup() {
-    lsof -t -i tcp:8080 | xargs kill -9
-    lsof -t -i tcp:9000 | xargs kill -9
+    kill -- -"$NODE_PID"
 }
 
 trap "exit $TESTSTATUS" INT TERM
@@ -13,7 +12,9 @@ GECKODRIVER_URL="https://github.com/mozilla/geckodriver/releases/download/v0.29.
 GECKODRIVER_FILENAME=$(echo $GECKODRIVER_URL | awk -F/ '{print $NF}')
 
 # Silence output and send to background
-CONFIG=hsl yarn run dev >/dev/null 2>&1 &
+set -m; (
+    CONFIG=hsl yarn run dev >/dev/null 2>&1 &
+) & set +m; NODE_PID=$!
 
 # Install firefox if needed
 if ! [ -x "$(command -v firefox)" ]
