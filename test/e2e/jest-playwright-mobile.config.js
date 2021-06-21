@@ -12,5 +12,13 @@ module.exports = {
   launchOptions: {
     headless: true,
   },
-  browsers: ['chromium', 'firefox', 'webkit'],
+  contextOptions: {
+    viewport: {
+      width: 414,
+      height: 715,
+    },
+  },
+  isMobile: true,
+  devices: ['iPhone 11'],
+  browsers: ['chromium', 'webkit'],
 };
