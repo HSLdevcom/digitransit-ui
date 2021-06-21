@@ -62,6 +62,27 @@ const color = {
   minor: '\x1b[33m',
 };
 
+const printTestResults = (results, printResults, url, i) => {
+  const { violations } = results;
+  if (printResults) {
+    console.log(`RESULTS for ${url}: `);
+    console.log('Violations: ');
+  }
+  for (let j = 0; j < results.violations.length; j++) {
+    const v = violations[j];
+    v.url = URLS_TO_TEST[i];
+    const firstTargetElement =
+      v.nodes.length > 0 ? `- on element: ${v.nodes[0].target[0]}` : '';
+    if (printResults) {
+      console.log(
+        color[v.impact],
+        `${v.impact} - ${v.id}: ${v.help} ${firstTargetElement}`,
+        '\x1b[0m',
+      );
+    }
+  }
+};
+
 // Loop through URLs recursively
 const analyzeLocal = (callback, i, printResults) => {
   if (i < URLS_TO_TEST.length) {
@@ -82,24 +103,7 @@ const analyzeLocal = (callback, i, printResults) => {
             ...inapplicable,
           ];
 
-          if (printResults) {
-            console.log(`RESULTS for ${url}: `);
-            console.log('Violations: ');
-          }
-          for (let j = 0; j < results.violations.length; j++) {
-            const v = violations[j];
-            v.url = URLS_TO_TEST[i];
-            const firstTargetElement =
-              v.nodes.length > 0 ? `- on element: ${v.nodes[0].target[0]}` : '';
-            if (printResults) {
-              console.log(
-                color[v.impact],
-                `${v.impact} - ${v.id}: ${v.help} ${firstTargetElement}`,
-                '\x1b[0m',
-              );
-            }
-          }
-
+          printTestResults(results, printResults, url, i);
           analyzeLocal(callback, i + 1, printResults);
         }
       });
@@ -133,11 +137,7 @@ const analyzeBenchmark = (callback, i) => {
             ...inapplicable,
           ];
 
-          for (let j = 0; j < results.violations.length; j++) {
-            const v = violations[j];
-            v.url = URLS_TO_TEST[i];
-          }
-
+          printTestResults(results, false, url, i);
           analyzeBenchmark(callback, i + 1);
         }
       });
