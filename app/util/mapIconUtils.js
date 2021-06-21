@@ -643,7 +643,7 @@ export function drawCitybikeIcon(
   }
   let color = 'green';
   if (showAvailability) {
-    if (!bikesAvailable) {
+    if (!bikesAvailable || bikesAvailable < 1) {
       color = 'red';
     } else if (bikesAvailable <= 3) {
       color = 'yellow';
@@ -669,8 +669,8 @@ export function drawCitybikeIcon(
     y = geom.y / tile.ratio - height;
     const showAvailabilityBadge =
       showAvailability &&
-      (bikesAvailable || bikesAvailable === 0) &&
-      state === BIKESTATION_ON;
+      (Number.isSafeInteger(bikesAvailable) && bikesAvailable > -1) &&
+      (state === BIKESTATION_ON || state === null);
     let icon = `${iconName}_station_${color}_large`;
     if (state === BIKESTATION_CLOSED || state === BIKESTATION_OFF) {
       icon = `${iconName}_station_closed_large`;
