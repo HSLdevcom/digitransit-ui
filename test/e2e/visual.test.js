@@ -13,50 +13,24 @@ const pageTitles = {
   matka: 'Matka.fi',
 };
 
+const platform = (process.env.MOBILE === 'true' && 'mobile') || 'desktop';
+const isMobile = platform === 'mobile';
+
 describe(`Front page with ${config} config`, () => {
-  test(`on desktop`, async () => {
-    context = await browser.newContext({
-      viewport: { width: 1360, height: 768 },
-    });
-    const path = config === 'hsl' ? '/etusivu' : '/';
-    page = await context.newPage();
-    const snapshotName = 'front-page-desktop';
+  const path = config === 'hsl' ? '/etusivu' : '/';
+  test(`on ${platform}`, async () => {
+    const snapshotName = `front-page-${platform}`;
     const response = await page.goto(`http://localhost:8080${path}`);
 
     expect(response.status()).toBe(200);
     await expect(page.title()).resolves.toMatch(pageTitles[config]);
 
-    await page.waitForSelector('#mainContent > .desktop > .main-content', {
-      timeout: 5000,
-    });
-
-    const mainContent = await page.$('#mainContent > .desktop > .main-content');
-    const image = await mainContent.screenshot({
-      timeout,
-    });
-
-    const snapshotConfig = getConfig(
-      snapshotName,
-      `${customSnapshotsDir}/${browserName}/${config}/`,
-      `${customDiffDir}/${browserName}/${config}/`,
-    );
-    expect(image).toMatchImageSnapshot(snapshotConfig);
-  });
-
-  test('on mobile', async () => {
-    context = await browser.newContext({
-      viewport: { width: 414, height: 715 }, // iPhone 11 viewport sizes
-    });
-    page = await context.newPage();
-    const path = config === 'hsl' ? '/etusivu' : '/';
-    const snapshotName = `front-page-mobile`;
-    const response = await page.goto(`http://localhost:8080${path}`);
-
-    expect(response.status()).toBe(200);
-    await expect(page.title()).resolves.toMatch(pageTitles[config]);
-
-    await page.waitForSelector('#mainContent > .mobile', { timeout: 5000 });
-    const mainContent = await page.$('#mainContent > .mobile');
+    let mainContent;
+    if (!isMobile) {
+      mainContent = await page.$('#mainContent > .desktop > .main-content');
+    } else {
+      mainContent = await page.$('#mainContent > .mobile');
+    }
 
     const image = await mainContent.screenshot({
       timeout,
