@@ -3,7 +3,7 @@
 /* eslint-disable no-console */
 const parallel = require('async/parallel');
 const AxeBuilder = require('@axe-core/webdriverjs');
-const WebDriver = require('selenium-webdriver');
+const { Builder, By, Key } = require('selenium-webdriver');
 const firefox = require('selenium-webdriver/firefox');
 
 const args = process.argv.slice(2);
@@ -37,7 +37,7 @@ const color = {
 };
 
 const createDriver = () => {
-  return new WebDriver.Builder()
+  return new Builder()
     .forBrowser('firefox')
     .setFirefoxOptions(new firefox.Options().headless())
     .build();
@@ -118,6 +118,23 @@ async function routePageTimetableTest(rootUrl, printResults, benchmark, path) {
   driver.quit();
 }
 
+async function terminalPageTimetableTest(
+  rootUrl,
+  printResults,
+  benchmark,
+  path,
+) {
+  const [driver, builder] = createTestEnv();
+  const url = `${rootUrl}${path}`;
+  await driver.get(url);
+  // Open route select menu
+  await driver
+    .findElement(By.id('timetable-showroutes-button'))
+    .sendKeys(Key.RETURN);
+  await analyzeWithAxe(builder, printResults, benchmark, path);
+  driver.quit();
+}
+
 async function stopsNearYouTest(rootUrl, printResults, benchmark, path) {
   const [driver, builder] = createTestEnv();
   const url = `${rootUrl}${path}`;
@@ -130,6 +147,10 @@ async function ItineraryTest(rootUrl, printResults, benchmark, path) {
   const [driver, builder] = createTestEnv();
   const url = `${rootUrl}${path}`;
   await driver.get(url);
+  // Open settings menu
+  await driver
+    .findElement(By.className('open-advanced-settings-window-button'))
+    .sendKeys(Key.RETURN);
   await analyzeWithAxe(builder, printResults, benchmark, path);
   driver.quit();
 }
@@ -138,6 +159,7 @@ const TEST_CASES = {
   '/etusivu': frontPageTest,
   '/linjat/HSL:3002P': routePageTest,
   '/linjat/HSL:3002P/aikataulu/HSL:3002P:0:01': routePageTimetableTest,
+  '/terminaalit/HSL%3A2000102/aikataulu': terminalPageTimetableTest,
   '/lahellasi/BUS/Rautatientori%2C%20Helsinki::60.170384,24.939846': stopsNearYouTest,
   '/reitti/Otakaari%2024%2C%20Espoo%3A%3A60.1850004462205%2C24.832384918447488/L%C3%B6nnrotinkatu%2029%2C%20Helsinki%3A%3A60.164182342362864%2C24.932237237563104': ItineraryTest,
 };
