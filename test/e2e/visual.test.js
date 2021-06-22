@@ -25,16 +25,17 @@ describe(`Front page with ${config} config`, () => {
     expect(response.status()).toBe(200);
     await expect(page.title()).resolves.toMatch(pageTitles[config]);
 
-    let mainContent;
+    let image;
     if (!isMobile) {
-      mainContent = await page.$('#mainContent > .desktop > .main-content');
+      const mainContent = await page.$(
+        '#mainContent > .desktop > .main-content',
+      );
+      image = await mainContent.screenshot({
+        timeout,
+      });
     } else {
-      mainContent = await page.$('#mainContent > .mobile');
+      image = await page.screenshot({ fullPage: true });
     }
-
-    const image = await mainContent.screenshot({
-      timeout,
-    });
 
     const snapshotConfig = getConfig(
       snapshotName,
