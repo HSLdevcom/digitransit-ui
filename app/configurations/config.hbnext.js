@@ -47,7 +47,8 @@ export default configMerger(walttiConfig, {
         PELIAS_PLACE: `${
             process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
         }/place`,
-        FARES: `${API_URL}/fares`
+        FARES: `${API_URL}/fares`,
+        FONT: '' // Do not use Google fonts.
     },
 
     mainMenu: {
