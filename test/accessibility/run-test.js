@@ -8,39 +8,11 @@ const args = process.argv.slice(2);
 const onlyTestLocal = args.includes('local');
 console.log(`Testing against benchmark: ${!onlyTestLocal}`);
 
-const driver1 = new WebDriver.Builder()
-  .forBrowser('firefox')
-  .setFirefoxOptions(new firefox.Options().headless())
-  .build();
-const builder1 = new AxeBuilder(driver1)
-  .exclude('.map')
-  .disableRules('color-contrast'); // Color-contrast checks seem inconsistent, can be possibly enabled in newer axe versions
-
-let driver2;
-let builder2;
-if (!onlyTestLocal) {
-  driver2 = new WebDriver.Builder()
-    .forBrowser('firefox')
-    .setFirefoxOptions(new firefox.Options().headless())
-    .build();
-  builder2 = new AxeBuilder(driver2)
-    .exclude('.map')
-    .disableRules('color-contrast');
-}
-
 const LOCAL = 'http://127.0.0.1:8080';
 const BENCHMARK = 'https://next-dev.digitransit.fi';
 const RERUN_COUNT = 1;
 
 let CURRENT_RUN = 0;
-let URLS_TO_TEST = [
-  '/etusivu', // front page
-  '/linjat/HSL:3002P', // P train route page
-  '/linjat/HSL:3002P/aikataulu/HSL:3002P:0:01', // P train timetable view
-  '/lahellasi/BUS/Rautatientori%2C%20Helsinki::60.170384,24.939846', // Stops near you
-  '/reitti/Otakaari%2024%2C%20Espoo%3A%3A60.1850004462205%2C24.832384918447488/L%C3%B6nnrotinkatu%2029%2C%20Helsinki%3A%3A60.164182342362864%2C24.932237237563104', // ititnerary suggestions
-  // '/reitti/Otakaari%2024%2C%20Espoo%3A%3A60.1850004462205%2C24.832384918447488/L%C3%B6nnrotinkatu%2029%2C%20Helsinki%3A%3A60.164182342362864%2C24.932237237563104/0', // Itinerary page
-];
 
 const localResults = {
   violations: [],
@@ -62,7 +34,33 @@ const color = {
   minor: '\x1b[33m',
 };
 
-const printTestResults = (results, printResults, url, i) => {
+const createDriver = () => {
+  return new WebDriver.Builder()
+    .forBrowser('firefox')
+    .setFirefoxOptions(new firefox.Options().headless())
+    .build();
+};
+
+const createBuilder = driver => {
+  return new AxeBuilder(driver).exclude('.map').disableRules('color-contrast'); // Color-contrast checks seem inconsistent, can be possibly enabled in newer axe versions
+};
+
+const createTestEnv = () => {
+  const driver = createDriver();
+  const builder = createBuilder(driver);
+  return [driver, builder];
+};
+
+const saveTestResults = (results, benchmark) => {
+  const location = benchmark ? benchmarkResults : localResults;
+  const { violations, passes, incomplete, inapplicable } = results;
+  location.violations = [...location.violations, ...violations];
+  location.passes = [...location.passes, ...passes];
+  location.incomplete = [...location.incomplete, ...incomplete];
+  location.inapplicable = [...location.inapplicable, ...inapplicable];
+};
+
+const printTestResults = (results, printResults, url) => {
   const { violations } = results;
   if (printResults) {
     console.log(`RESULTS for ${url}: `);
@@ -70,7 +68,7 @@ const printTestResults = (results, printResults, url, i) => {
   }
   for (let j = 0; j < results.violations.length; j++) {
     const v = violations[j];
-    v.url = URLS_TO_TEST[i];
+    v.url = url;
     const firstTargetElement =
       v.nodes.length > 0 ? `- on element: ${v.nodes[0].target[0]}` : '';
     if (printResults) {
@@ -83,69 +81,81 @@ const printTestResults = (results, printResults, url, i) => {
   }
 };
 
-// Loop through URLs recursively
-const analyzeLocal = (callback, i, printResults) => {
-  if (i < URLS_TO_TEST.length) {
-    const url = `${LOCAL}${URLS_TO_TEST[i]}`;
-    driver1.get(url).then(() => {
-      console.log(`${url} loaded...`);
-      builder1.analyze((err, results) => {
-        if (err) {
-          // TODO Handle error somehow
-          console.log(err);
-        } else {
-          const { violations, passes, incomplete, inapplicable } = results;
-          localResults.violations = [...localResults.violations, ...violations];
-          localResults.passes = [...localResults.passes, ...passes];
-          localResults.incomplete = [...localResults.incomplete, ...incomplete];
-          localResults.inapplicable = [
-            ...localResults.inapplicable,
-            ...inapplicable,
-          ];
+async function analyzeWithAxe(builder, printResults, benchmark, viewUrl) {
+  return builder.analyze((err, results) => {
+    if (err) {
+      console.log(err);
+    } else {
+      saveTestResults(results, benchmark);
+      printTestResults(results, printResults, viewUrl);
+    }
+  });
+}
 
-          printTestResults(results, printResults, url, i);
-          analyzeLocal(callback, i + 1, printResults);
-        }
-      });
-    });
-  } else {
-    callback(null);
-  }
-};
+async function frontPageTest(rootUrl, printResults, benchmark) {
+  const [driver, builder] = createTestEnv();
+  const viewUrl = '/etusivu';
+  const url = `${rootUrl}${viewUrl}`;
+  await driver.get(url);
+  await analyzeWithAxe(builder, printResults, benchmark, viewUrl);
+  driver.quit();
+}
 
-const analyzeBenchmark = (callback, i) => {
-  if (i < URLS_TO_TEST.length) {
-    const url = `${BENCHMARK}${URLS_TO_TEST[i]}`;
-    driver2.get(url).then(() => {
-      builder2.analyze((err, results) => {
-        if (err) {
-          // TODO Handle error somehow
-          console.log(err);
-        } else {
-          const { violations, passes, incomplete, inapplicable } = results;
-          benchmarkResults.violations = [
-            ...benchmarkResults.violations,
-            ...violations,
-          ];
-          benchmarkResults.passes = [...benchmarkResults.passes, ...passes];
-          benchmarkResults.incomplete = [
-            ...benchmarkResults.incomplete,
-            ...incomplete,
-          ];
-          benchmarkResults.inapplicable = [
-            ...benchmarkResults.inapplicable,
-            ...inapplicable,
-          ];
+async function routePageTest(rootUrl, printResults, benchmark) {
+  const [driver, builder] = createTestEnv();
+  const viewUrl = '/linjat/HSL:3002P';
+  const url = `${rootUrl}${viewUrl}`;
+  await driver.get(url);
+  await analyzeWithAxe(builder, printResults, benchmark, viewUrl);
+  driver.quit();
+}
 
-          printTestResults(results, false, url, i);
-          analyzeBenchmark(callback, i + 1);
-        }
-      });
-    });
-  } else {
-    callback(null);
-  }
-};
+async function routePageTimetableTest(rootUrl, printResults, benchmark) {
+  const [driver, builder] = createTestEnv();
+  const viewUrl = '/linjat/HSL:3002P/aikataulu/HSL:3002P:0:01';
+  const url = `${rootUrl}${viewUrl}`;
+  await driver.get(url);
+  await analyzeWithAxe(builder, printResults, benchmark, viewUrl);
+  driver.quit();
+}
+
+async function stopsNearYouTest(rootUrl, printResults, benchmark) {
+  const [driver, builder] = createTestEnv();
+  const viewUrl =
+    '/lahellasi/BUS/Rautatientori%2C%20Helsinki::60.170384,24.939846';
+  const url = `${rootUrl}${viewUrl}`;
+  await driver.get(url);
+  await analyzeWithAxe(builder, printResults, benchmark, viewUrl);
+  driver.quit();
+}
+
+async function ItineraryTest(rootUrl, printResults, benchmark) {
+  const [driver, builder] = createTestEnv();
+  const viewUrl =
+    '/reitti/Otakaari%2024%2C%20Espoo%3A%3A60.1850004462205%2C24.832384918447488/L%C3%B6nnrotinkatu%2029%2C%20Helsinki%3A%3A60.164182342362864%2C24.932237237563104';
+  const url = `${rootUrl}${viewUrl}`;
+  await driver.get(url);
+  await analyzeWithAxe(builder, printResults, benchmark, viewUrl);
+  driver.quit();
+}
+
+async function TEST_CASES(params) {
+  await frontPageTest(...params);
+  await routePageTest(...params);
+  await routePageTimetableTest(...params);
+  await stopsNearYouTest(...params);
+  await ItineraryTest(...params);
+}
+
+async function analyzeLocal(callback, printResults) {
+  await TEST_CASES([LOCAL, printResults, false]);
+  callback(null);
+}
+
+async function analyzeBenchmark(callback, printResults) {
+  await TEST_CASES([BENCHMARK, printResults, true]);
+  callback(null);
+}
 
 const violationsAreEqual = (v1, v2) => {
   return v1.url === v2.url && v1.id === v2.id;
@@ -190,7 +200,8 @@ const wrapup = () => {
         const urlsWithErrors = new Set();
         newViolations.forEach(v => urlsWithErrors.add(v.url));
         resetErrorsRelatedtoURL(urlsWithErrors);
-        URLS_TO_TEST = Array.from(urlsWithErrors);
+        // TODO: Only rerun failed test cases
+        // URLS_TO_TEST = Array.from(urlsWithErrors);
 
         // eslint-disable-next-line no-use-before-define
         runTests(false);
@@ -216,10 +227,7 @@ const wrapup = () => {
     } else {
       console.log('No new erros');
     }
-    driver2.quit();
   }
-
-  driver1.quit();
 };
 
 const runTests = printResults => {
@@ -227,11 +235,11 @@ const runTests = printResults => {
   parallel(
     [
       callback => {
-        analyzeLocal(callback, 0, printResults);
+        analyzeLocal(callback, printResults);
       },
       callback => {
         if (!onlyTestLocal) {
-          analyzeBenchmark(callback, 0);
+          analyzeBenchmark(callback, false);
         } else {
           callback(null);
         }
