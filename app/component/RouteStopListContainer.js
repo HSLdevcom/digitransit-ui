@@ -45,27 +45,26 @@ class RouteStopListContainer extends React.PureComponent {
       const nextStop = stops[i + 1];
 
       return (
-        <li key={`${stop.gtfsId}-${this.props.pattern}-${idx}`}>
-          <RouteStop
-            color={
-              this.props.pattern.route && this.props.pattern.route.color
-                ? `#${this.props.pattern.route.color}`
-                : null
-            }
-            stop={stop}
-            nextStop={nextStop}
-            mode={mode}
-            vehicle={vehicles[stop.gtfsId] ? vehicles[stop.gtfsId][0] : null}
-            currentTime={this.props.currentTime.unix()}
-            last={i === stops.length - 1}
-            first={i === 0}
-            className={rowClassName}
-            displayNextDeparture={this.context.config.displayNextDeparture}
-            shortName={
-              this.props.pattern.route && this.props.pattern.route.shortName
-            }
-          />
-        </li>
+        <RouteStop
+          color={
+            this.props.pattern.route && this.props.pattern.route.color
+              ? `#${this.props.pattern.route.color}`
+              : null
+          }
+          key={`${stop.gtfsId}-${this.props.pattern}-${idx}`}
+          stop={stop}
+          nextStop={nextStop}
+          mode={mode}
+          vehicle={vehicles[stop.gtfsId] ? vehicles[stop.gtfsId][0] : null}
+          currentTime={this.props.currentTime.unix()}
+          last={i === stops.length - 1}
+          first={i === 0}
+          className={rowClassName}
+          displayNextDeparture={this.context.config.displayNextDeparture}
+          shortName={
+            this.props.pattern.route && this.props.pattern.route.shortName
+          }
+        />
       );
     });
   }
