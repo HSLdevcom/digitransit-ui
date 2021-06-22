@@ -81,8 +81,18 @@ export const stoptimeHasCancelation = stoptime => {
  * @param {*} stop the stop object to look a cancelation for.
  */
 export const tripHasCancelationForStop = (trip, stop) => {
-  if (!trip || !Array.isArray(trip.stoptimes) || !stop || !stop.gtfsId) {
+  if (
+    !trip ||
+    (!Array.isArray(trip.stoptimes) && !Array.isArray(trip.stoptimesForDate)) ||
+    !stop ||
+    !stop.gtfsId
+  ) {
     return false;
+  }
+  if (Array.isArray(trip.stoptimesForDate)) {
+    return trip.stoptimesForDate
+      .filter(stoptimeHasCancelation)
+      .some(st => st.stop && st.stop.gtfsId === stop.gtfsId);
   }
   return trip.stoptimes
     .filter(stoptimeHasCancelation)
@@ -95,8 +105,14 @@ export const tripHasCancelationForStop = (trip, stop) => {
  * @param {*} trip the trip object to check.
  */
 export const tripHasCancelation = trip => {
-  if (!trip || !Array.isArray(trip.stoptimes)) {
+  if (
+    !trip ||
+    (!Array.isArray(trip.stoptimes) && !Array.isArray(trip.stoptimesForDate))
+  ) {
     return false;
+  }
+  if (Array.isArray(trip.stoptimesForDate)) {
+    return trip.stoptimesForDate.every(stoptimeHasCancelation);
   }
   return trip.stoptimes.every(stoptimeHasCancelation);
 };
