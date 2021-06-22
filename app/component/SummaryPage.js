@@ -695,7 +695,7 @@ class SummaryPage extends React.Component {
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
           locale: $locale
-          searchWindow: 6000
+          searchWindow: 10800
         ) @include(if: $shouldMakeOnDemandTaxiQuery) {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
