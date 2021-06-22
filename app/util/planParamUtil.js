@@ -193,8 +193,7 @@ const getShouldMakeCarQuery = (
 const getShouldMakeOnDemandTaxiQuery = time => {
   const date = new Date(time * 1000);
   return (
-    date.getHours() > 21 ||
-    (date.getHours() === 21 && date.getMinutes() === 0) ||
+    date.getHours() > 20 || // starting at 9pm
     date.getHours() < 5 ||
     (date.getHours() === 5 && date.getMinutes() === 0)
   );
