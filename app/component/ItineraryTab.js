@@ -440,7 +440,7 @@ const withRelay = createFragmentContainer(ItineraryTab, {
           pattern {
             code
           }
-          stoptimes {
+          stoptimesForDate {
             pickupType
             realtimeState
             stop {

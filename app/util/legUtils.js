@@ -6,6 +6,11 @@ import { BIKEAVL_UNKNOWN } from './citybikes';
 function filterLegStops(leg, filter) {
   if (leg.from.stop && leg.to.stop && leg.trip) {
     const stops = [leg.from.stop.gtfsId, leg.to.stop.gtfsId];
+    if (leg.trip.stoptimesForDate) {
+      return leg.trip.stoptimesForDate
+        .filter(stoptime => stops.indexOf(stoptime.stop.gtfsId) !== -1)
+        .filter(filter);
+    }
     return leg.trip.stoptimes
       .filter(stoptime => stops.indexOf(stoptime.stop.gtfsId) !== -1)
       .filter(filter);
