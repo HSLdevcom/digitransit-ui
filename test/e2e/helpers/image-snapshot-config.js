@@ -5,7 +5,7 @@ const getConfig = (
 ) => {
   return {
     diffDirection: 'vertical',
-    dumpDiffToConsole: false,
+    dumpDiffToConsole: true,
     comparisonMethod: 'pixelmatch',
     failureThreshold: 0.01,
     failureThresholdType: 'percent',

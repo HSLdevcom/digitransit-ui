@@ -42,6 +42,7 @@
     "build-workspaces": "yarn digitransit-build-components && yarn build-search-utils && yarn digitransit-store-build",
     "win-build": "set NODE_ENV=production&& webpack --progress --color",
     "start": "NODE_ENV=production node $NODE_OPTS server/server",
+    "start-test": "NODE_ENV=test node $NODE_OPTS server/server",
     "win-start": "set NODE_ENV=production&& set CONFIG=hsl&& node server/server.js",
     "add-theme": "node build/add-theme",
     "relay": "relay-compiler --src ./. --schema ./build/schema.json",

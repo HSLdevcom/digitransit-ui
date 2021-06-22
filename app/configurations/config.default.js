@@ -9,7 +9,7 @@ const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || 'next-'; // TODO maybe use regular endpoint again at some point
 const APP_PATH = process.env.APP_CONTEXT || '';
-const { SENTRY_DSN, AXE } = process.env;
+const { SENTRY_DSN, AXE, NODE_ENV } = process.env;
 const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
 const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 12000;
@@ -23,6 +23,7 @@ export default {
   PORT,
   AXE,
   CONFIG,
+  NODE_ENV,
   OTPTimeout: OTP_TIMEOUT,
   URL: {
     API_URL,
