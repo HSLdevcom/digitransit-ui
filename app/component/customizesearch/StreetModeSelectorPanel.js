@@ -68,7 +68,7 @@ const StreetModeSelectorPanel = (
                 <div className="mode-icon">
                   <Icon
                     className="park-ride-icon-icon"
-                    img="icon-icon_park-and-ride"
+                    img="icon-icon_park-and-ride-subicon"
                   />
                 </div>
                 <div className="mode-name">
