@@ -92,7 +92,7 @@ export default function MobileView({
   };
 
   return (
-    <div className="mobile">
+    <div className="mobile" role="main">
       {selectFromMapHeader}
       {searchBox && <span>{searchBox}</span>}
       {map ? (
