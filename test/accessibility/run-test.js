@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-console */
 const parallel = require('async/parallel');
 const AxeBuilder = require('@axe-core/webdriverjs');
@@ -81,79 +83,81 @@ const printTestResults = (results, printResults, url) => {
   }
 };
 
-async function analyzeWithAxe(builder, printResults, benchmark, viewUrl) {
+async function analyzeWithAxe(builder, printResults, benchmark, path) {
   return builder.analyze((err, results) => {
     if (err) {
       console.log(err);
     } else {
       saveTestResults(results, benchmark);
-      printTestResults(results, printResults, viewUrl);
+      printTestResults(results, printResults, path);
     }
   });
 }
 
-async function frontPageTest(rootUrl, printResults, benchmark) {
+async function frontPageTest(rootUrl, printResults, benchmark, path) {
   const [driver, builder] = createTestEnv();
-  const viewUrl = '/etusivu';
-  const url = `${rootUrl}${viewUrl}`;
+  const url = `${rootUrl}${path}`;
   await driver.get(url);
-  await analyzeWithAxe(builder, printResults, benchmark, viewUrl);
+  await analyzeWithAxe(builder, printResults, benchmark, path);
   driver.quit();
 }
 
-async function routePageTest(rootUrl, printResults, benchmark) {
+async function routePageTest(rootUrl, printResults, benchmark, path) {
   const [driver, builder] = createTestEnv();
-  const viewUrl = '/linjat/HSL:3002P';
-  const url = `${rootUrl}${viewUrl}`;
+  const url = `${rootUrl}${path}`;
   await driver.get(url);
-  await analyzeWithAxe(builder, printResults, benchmark, viewUrl);
+  await analyzeWithAxe(builder, printResults, benchmark, path);
   driver.quit();
 }
 
-async function routePageTimetableTest(rootUrl, printResults, benchmark) {
+async function routePageTimetableTest(rootUrl, printResults, benchmark, path) {
   const [driver, builder] = createTestEnv();
-  const viewUrl = '/linjat/HSL:3002P/aikataulu/HSL:3002P:0:01';
-  const url = `${rootUrl}${viewUrl}`;
+  const url = `${rootUrl}${path}`;
   await driver.get(url);
-  await analyzeWithAxe(builder, printResults, benchmark, viewUrl);
+  await analyzeWithAxe(builder, printResults, benchmark, path);
   driver.quit();
 }
 
-async function stopsNearYouTest(rootUrl, printResults, benchmark) {
+async function stopsNearYouTest(rootUrl, printResults, benchmark, path) {
   const [driver, builder] = createTestEnv();
-  const viewUrl =
-    '/lahellasi/BUS/Rautatientori%2C%20Helsinki::60.170384,24.939846';
-  const url = `${rootUrl}${viewUrl}`;
+  const url = `${rootUrl}${path}`;
   await driver.get(url);
-  await analyzeWithAxe(builder, printResults, benchmark, viewUrl);
+  await analyzeWithAxe(builder, printResults, benchmark, path);
   driver.quit();
 }
 
-async function ItineraryTest(rootUrl, printResults, benchmark) {
+async function ItineraryTest(rootUrl, printResults, benchmark, path) {
   const [driver, builder] = createTestEnv();
-  const viewUrl =
-    '/reitti/Otakaari%2024%2C%20Espoo%3A%3A60.1850004462205%2C24.832384918447488/L%C3%B6nnrotinkatu%2029%2C%20Helsinki%3A%3A60.164182342362864%2C24.932237237563104';
-  const url = `${rootUrl}${viewUrl}`;
+  const url = `${rootUrl}${path}`;
   await driver.get(url);
-  await analyzeWithAxe(builder, printResults, benchmark, viewUrl);
+  await analyzeWithAxe(builder, printResults, benchmark, path);
   driver.quit();
 }
 
-async function TEST_CASES(params) {
-  await frontPageTest(...params);
-  await routePageTest(...params);
-  await routePageTimetableTest(...params);
-  await stopsNearYouTest(...params);
-  await ItineraryTest(...params);
-}
+const TEST_CASES = {
+  '/etusivu': frontPageTest,
+  '/linjat/HSL:3002P': routePageTest,
+  '/linjat/HSL:3002P/aikataulu/HSL:3002P:0:01': routePageTimetableTest,
+  '/lahellasi/BUS/Rautatientori%2C%20Helsinki::60.170384,24.939846': stopsNearYouTest,
+  '/reitti/Otakaari%2024%2C%20Espoo%3A%3A60.1850004462205%2C24.832384918447488/L%C3%B6nnrotinkatu%2029%2C%20Helsinki%3A%3A60.164182342362864%2C24.932237237563104': ItineraryTest,
+};
 
-async function analyzeLocal(callback, printResults) {
-  await TEST_CASES([LOCAL, printResults, false]);
-  callback(null);
-}
-
-async function analyzeBenchmark(callback, printResults) {
-  await TEST_CASES([BENCHMARK, printResults, true]);
+async function runTestCases(
+  rootUrl,
+  isBenchmark,
+  callback,
+  printResults,
+  pathsToTest = undefined,
+) {
+  for (const [path, test] of Object.entries(TEST_CASES)) {
+    if (pathsToTest) {
+      if (pathsToTest.includes(path)) {
+        await test(rootUrl, printResults, isBenchmark, path);
+      }
+    } else {
+      await test(rootUrl, printResults, isBenchmark, path);
+    }
+  }
   callback(null);
 }
 
@@ -200,11 +204,9 @@ const wrapup = () => {
         const urlsWithErrors = new Set();
         newViolations.forEach(v => urlsWithErrors.add(v.url));
         resetErrorsRelatedtoURL(urlsWithErrors);
-        // TODO: Only rerun failed test cases
-        // URLS_TO_TEST = Array.from(urlsWithErrors);
 
         // eslint-disable-next-line no-use-before-define
-        runTests(false);
+        runTests(false, Array.from(urlsWithErrors));
         return;
       }
       console.log('New Errors introduced: ');
@@ -230,16 +232,16 @@ const wrapup = () => {
   }
 };
 
-const runTests = printResults => {
+const runTests = (printResults, pathsToTest = undefined) => {
   console.time('Execution time');
   parallel(
     [
       callback => {
-        analyzeLocal(callback, printResults);
+        runTestCases(LOCAL, false, callback, printResults, pathsToTest);
       },
       callback => {
         if (!onlyTestLocal) {
-          analyzeBenchmark(callback, false);
+          runTestCases(BENCHMARK, true, callback, false, pathsToTest);
         } else {
           callback(null);
         }
