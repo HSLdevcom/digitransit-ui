@@ -117,11 +117,13 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
   }
 
   .combobox-left {
+    position: relative;
     margin-right: 4px;
     width: 63%;
   }
 
   .combobox-right {
+    position: relative;
     margin-left: 4px;
     width: 37%;
   }
