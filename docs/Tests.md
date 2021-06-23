@@ -85,6 +85,9 @@ window.mock.geolocation.demo();
 # E2E-tests
 
 E2E-tests are run with hsl, tampere and matka configs on github actions. Desktop and mobile have individual tests. 
+
+- First build the UI: `yarn build`
+
 - Running tests for desktop: `CONFIG=hsl yarn test:e2e`
 - Running tests for mobile: `MOBILE=TRUE CONFIG=hsl yarn test:e2e`
 
