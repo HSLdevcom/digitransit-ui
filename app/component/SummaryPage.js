@@ -674,6 +674,7 @@ class SummaryPage extends React.Component {
           numItineraries: 6
           transportModes: [
             { mode: RAIL }
+            { mode: BUS }
             { mode: FLEX, qualifier: EGRESS }
             { mode: FLEX, qualifier: DIRECT }
             { mode: WALK }
