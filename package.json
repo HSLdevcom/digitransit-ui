@@ -35,6 +35,7 @@
     "test-visual": "gemini --reporter flat test test/visual/",
     "test-visual-update": "gemini update test/visual/",
     "test:e2e": "jest --runInBand --detectOpenHandles --config=./test/e2e/jest.config.js",
+    "test:update-snapshots": "jest --runInBand --detectOpenHandles --updateSnapshot --config=./test/e2e/jest.config.js",
     "es-lint": "eslint .",
     "lint": "yarn run es-lint && yarn run stylelint",
     "stylelint": "stylelint sass/**/*.scss app/**/*.scss --syntax scss",
