@@ -82,18 +82,14 @@ window.mock.geolocation.move(0.001, 0);
 window.mock.geolocation.demo();
 ```
 
-# Visual tests
+# E2E-tests
 
-- first run: `CONFIG=hsl npm run dev`
-- then run: `BS_USERNAME=user BS_ACCESS_KEY=key npm run test-visual`
+E2E-tests are run with hsl, tampere and matka configs on github actions. Desktop and mobile have individual tests. 
+- Running tests for desktop: `CONFIG=hsl yarn test:e2e`
+- Running tests for mobile: `MOBILE=TRUE CONFIG=hsl yarn test:e2e`
 
-To run just subset of tests on ie11:
-- Run: `BS_USERNAME=user BS_ACCESS_KEY=key npm run test-visual -- --grep Departure --browser ie11`
-
-If things change, you need to update the images
-
-- run: `BS_USERNAME=user BS_ACCESS_KEY=key npm run test-visual-update`
-- then verify that changed test images are OK and commit the changes
+- Updating desktop snapshots: `CONFIG=hsl yarn test:update-snapshots`
+- Updating mobile snapshots: `MOBILE=TRUE CONFIG=hsl yarn test:update-snapshots`
 
 
 # Smoke tests
