@@ -65,6 +65,7 @@ const asDepartures = stoptimes =>
 class DepartureListContainer extends Component {
   static propTypes = {
     stoptimes: PropTypes.array.isRequired,
+    mode: PropTypes.string.isRequired,
     currentTime: PropTypes.number.isRequired,
     limit: PropTypes.number,
     infiniteScroll: PropTypes.bool,
@@ -345,13 +346,36 @@ class DepartureListContainer extends Component {
     return (
       <>
         {screenReaderAlert}
-        <div
+        <table
           className={cx('departure-list', this.props.className)}
           onScroll={this.onScroll()}
-          role="table"
         >
-          {departureObjs}
-        </div>
+          <thead className="sr-only">
+            <tr>
+              <th>
+                <FormattedMessage id="route" defaultMessage="Route" />
+              </th>
+              <th>
+                <FormattedMessage
+                  id="destination"
+                  defaultMessage="Destination"
+                />
+              </th>
+              <th>
+                <FormattedMessage id="leaving-at" defaultMessage="Leaves" />
+              </th>
+              <th>
+                <FormattedMessage
+                  id={this.props.mode === 'BUS' ? 'platform' : 'track'}
+                  defaultMessage={
+                    this.props.mode === 'BUS' ? 'Platform' : 'Track'
+                  }
+                />
+              </th>
+            </tr>
+          </thead>
+          <tbody>{departureObjs}</tbody>
+        </table>
       </>
     );
   }

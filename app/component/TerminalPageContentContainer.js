@@ -51,7 +51,10 @@ class TerminalPageContent extends React.Component {
     return (
       <ScrollableWrapper>
         <div className="stop-page-departure-wrapper stop-scroll-container">
-          <div className="departure-list-header row padding-vertical-normal">
+          <div
+            className="departure-list-header row padding-vertical-normal"
+            aria-hidden="true"
+          >
             <span className="route-number-header">
               <FormattedMessage id="route" defaultMessage="Route" />
             </span>
@@ -70,6 +73,7 @@ class TerminalPageContent extends React.Component {
           </div>
           <DepartureListContainer
             stoptimes={stoptimes}
+            mode={mode}
             key="departures"
             className="stop-page"
             routeLinks
