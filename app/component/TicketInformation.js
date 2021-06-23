@@ -89,66 +89,76 @@ export default function TicketInformation(
     };
 
     return (
-      <div key={uuid()} className="ticket-container">
-        <div className="ticket-info-container">
-          <div className="ticket-type-title">{header}</div>
-          <div
-            className={cx('ticket-type-zone', {
-              'multi-component': isMultiComponent,
-            })}
-            key={i} // eslint-disable-line react/no-array-index-key
-          >
-            {fare.isUnknown ? (
-              <div className="unknown-fare-container">
-                <div className="ticket-identifier">{unknownFareRouteName}</div>
-                {fare.agency && (
-                  <div className="ticket-description">{fare.agency.name}</div>
-                )}
-              </div>
-            ) : (
-              <div>
-                <div className="ticket-identifier">
-                  {config.useTicketIcons
-                    ? renderZoneTicket(fare.ticketName, alternativeFares)
-                    : fare.ticketName}
-                </div>
-                {config.showTicketPrice && (
-                  <div className="ticket-description">
-                    {`${(fare.cents / 100).toFixed(2)} €`}
+      <div key={uuid()}>
+        <div key={uuid()} className="ticket-container">
+          <div className="ticket-info-container">
+            <div className="ticket-type-title">{header}</div>
+            <div
+              className={cx('ticket-type-zone', {
+                'multi-component': isMultiComponent,
+              })}
+              key={i} // eslint-disable-line react/no-array-index-key
+            >
+              {fare.isUnknown ? (
+                <div className="unknown-fare-container">
+                  <div className="ticket-identifier">
+                    {unknownFareRouteName}
                   </div>
-                )}
-              </div>
-            )}
+                  {fare.agency && (
+                    <div className="ticket-description">{fare.agency.name}</div>
+                  )}
+                </div>
+              ) : (
+                <div>
+                  <div className="ticket-identifier">
+                    {config.useTicketIcons
+                      ? renderZoneTicket(fare.ticketName, alternativeFares)
+                      : fare.ticketName}
+                  </div>
+                  {config.showTicketPrice && (
+                    <div className="ticket-description">
+                      {`${(fare.cents / 100).toFixed(2)} €`}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-        {ticketUrl() && (
-          <div
-            className="ticket-type-agency-link"
-            key={i} // eslint-disable-line react/no-array-index-key
-          >
+          {ticketUrl() && (
+            <div
+              className="ticket-type-agency-link"
+              key={i} // eslint-disable-line react/no-array-index-key
+            >
+              <ExternalLink
+                className="itinerary-ticket-external-link"
+                href={ticketUrl()}
+              >
+                {intl.formatMessage({ id: 'buy-ticket' })}
+              </ExternalLink>
+            </div>
+          )}
+          {config.ticketLink && (
             <ExternalLink
               className="itinerary-ticket-external-link"
-              href={ticketUrl()}
+              href={config.ticketLink}
+              onClick={() => {
+                addAnalyticsEvent({
+                  category: 'Itinerary',
+                  action: 'OpenHowToBuyTicket',
+                  name: null,
+                });
+              }}
             >
               {intl.formatMessage({ id: 'buy-ticket' })}
             </ExternalLink>
+          )}
+        </div>
+
+        <div key={uuid()} className="ticket-container">
+          <div className="ticket-info-container small">
+            <FormattedMessage id="fares-disclaimer" />
           </div>
-        )}
-        {config.ticketLink && (
-          <ExternalLink
-            className="itinerary-ticket-external-link"
-            href={config.ticketLink}
-            onClick={() => {
-              addAnalyticsEvent({
-                category: 'Itinerary',
-                action: 'OpenHowToBuyTicket',
-                name: null,
-              });
-            }}
-          >
-            {intl.formatMessage({ id: 'buy-ticket' })}
-          </ExternalLink>
-        )}
+        </div>
       </div>
     );
   });
@@ -172,6 +182,7 @@ export default function TicketInformation(
       ) : (
         <div className="itinerary-ticket-type">
           {faresInfo}
+
           {hasBikeLeg && (
             <div className="info-container">
               <div className="icon-container">
