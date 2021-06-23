@@ -25,6 +25,7 @@ const StopNearYou = ({ stop, desc, stopIsStation, ...props }) => {
           linkAddress={linkAddress}
         />
         <StopNearYouDepartureRowContainer
+          mode={stop.vehicleMode}
           stopTimes={stopOrStation.stoptimesWithoutPatterns}
           currentTime={props.currentTime}
           isStation={isStation && stop.vehicleMode !== 'SUBWAY'}
