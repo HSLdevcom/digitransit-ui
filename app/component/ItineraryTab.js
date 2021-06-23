@@ -20,6 +20,7 @@ import {
   getTotalBikingDuration,
   getTotalWalkingDistance,
   getTotalWalkingDuration,
+  legContainsRentalBike,
 } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -33,6 +34,7 @@ import {
   getFormattedTimeDate,
   getCurrentMillis,
 } from '../util/timeUtils';
+import CityBikeDurationInfo from './CityBikeDurationInfo';
 
 /* eslint-disable prettier/prettier */
 class ItineraryTab extends React.Component {
@@ -133,6 +135,15 @@ class ItineraryTab extends React.Component {
 
     const fares = getFares(itinerary.fares, getRoutes(itinerary.legs), config);
     const extraProps = this.setExtraProps(itinerary);
+    const legsWithRentalBike = itinerary.legs.filter(leg => legContainsRentalBike(leg));
+    const rentalBikeNetworks = [];
+    let showRentalBikeDurationWarning = false;
+    if (legsWithRentalBike.length > 0 && config?.cityBike?.showDurationWarning) {
+      legsWithRentalBike.forEach(leg => leg?.from?.bikeRentalStation?.networks.forEach(network => rentalBikeNetworks.push(network)));
+      const rentDurationOverSurchargeLimit = legsWithRentalBike[0].duration > config.cityBike.networks[rentalBikeNetworks[0]].timeBeforeSurcharge;
+      showRentalBikeDurationWarning = legsWithRentalBike && config?.cityBike?.showDurationWarning && rentDurationOverSurchargeLimit;
+    }
+
     return (
       <div className="itinerary-tab">
         <BreakpointConsumer>
@@ -180,6 +191,7 @@ class ItineraryTab extends React.Component {
                 </div>
               </>
             ),
+            showRentalBikeDurationWarning && <CityBikeDurationInfo networks={rentalBikeNetworks} config={config} />,
             <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
                 multirow: extraProps.isMultiRow,

@@ -221,6 +221,15 @@ export const onlyBiking = itinerary =>
 export const containsBiking = itinerary => itinerary.legs.some(isBikingLeg);
 
 /**
+ * Checks if any of the legs in the given itinerary contains biking with rental bike.
+ *
+ * @param {*} leg
+ */
+export const legContainsRentalBike = leg =>
+  (getLegMode(leg) === LegMode.CityBike ||
+    getLegMode(leg) === LegMode.Bicycle) &&
+  leg.rentedBike;
+/**
  * Calculates and returns the total walking distance undertaken in an itinerary.
  * This could be used as a fallback if the backend returns an invalid value.
  *
