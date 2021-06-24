@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
+import { createFragmentContainer, graphql } from 'react-relay';
 import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import OSMOpeningHours from '../popups/OSMOpeningHours';
@@ -29,7 +30,7 @@ class DynamicParkingLotsContent extends React.Component {
   static displayName = 'ParkingLotPopup';
 
   static propTypes = {
-    match: PropTypes.object,
+    dynamicParkingLot: PropTypes.any,
   };
 
   getCapacity() {
@@ -45,7 +46,8 @@ class DynamicParkingLotsContent extends React.Component {
 
   getCarCapacity() {
     const { intl } = this.context;
-    const { free, total } = this.props.match.location.query;
+    const free = this.props.dynamicParkingLot.availability.carSpaces;
+    const total = this.props.dynamicParkingLot.capacity.carSpaces;
 
     if (Number(free) || Number(free) === 0) {
       return intl.formatMessage(
@@ -70,7 +72,7 @@ class DynamicParkingLotsContent extends React.Component {
   }
 
   getClosed() {
-    const { state } = this.props.match.location.query;
+    const { state } = this.props.dynamicParkingLot.tags;
     if (state === 'TEMPORARILY_CLOSED' || state === 'CLOSED') {
       return (
         <span>
@@ -83,7 +85,10 @@ class DynamicParkingLotsContent extends React.Component {
   }
 
   getWheelchairCapacity() {
-    const { freeDisabled, totalDisabled } = this.props.match.location.query;
+    const freeDisabled = this.props.dynamicParkingLot.availability
+      .wheelchairAccessibleCarSpaces;
+    const totalDisabled = this.props.dynamicParkingLot.capacity
+      .wheelchairAccessibleCarSpaces;
     return freeDisabled !== undefined && totalDisabled !== undefined
       ? this.context.intl.formatMessage(
           {
@@ -98,7 +103,7 @@ class DynamicParkingLotsContent extends React.Component {
 
   getUrl() {
     const { intl } = this.context;
-    const { detailsUrl } = this.props.match.location.query;
+    const { detailsUrl } = this.props.dynamicParkingLot;
     if (detailsUrl) {
       return (
         <div className="padding-vertical-small">
@@ -115,7 +120,7 @@ class DynamicParkingLotsContent extends React.Component {
   }
 
   renderOpeningHours() {
-    const { openingHours } = this.props.match.location.query;
+    const { openingHours } = this.props.dynamicParkingLot;
     if (openingHours) {
       return <OSMOpeningHours openingHours={openingHours} displayStatus />;
     }
@@ -123,7 +128,8 @@ class DynamicParkingLotsContent extends React.Component {
   }
 
   render() {
-    const { lat, lng, name, lotType, note } = this.props.match.location.query;
+    const { lat, lon, name, note } = this.props.dynamicParkingLot;
+    const { lotType } = this.props.dynamicParkingLot.tags;
     return (
       <SidebarContainer
         icon={`icon-icon_${DynamicParkingLots.getIcon(lotType)}`}
@@ -131,7 +137,7 @@ class DynamicParkingLotsContent extends React.Component {
         location={{
           address: name,
           lat: Number(lat),
-          lon: Number(lng),
+          lon: Number(lon),
         }}
       >
         <div className="card dynamic-parking-lot-popup">
@@ -153,4 +159,31 @@ DynamicParkingLotsContent.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-export default DynamicParkingLotsContent;
+const containerComponent = createFragmentContainer(DynamicParkingLotsContent, {
+  // TODO
+  dynamicParkingLot: graphql`
+    fragment DynamicParkingLotsContent_dynamicParkingLot on DynamicParkingLot {
+      vehicleParkingId
+      name
+      lon
+      lat
+      capacity {
+        carSpaces
+        wheelchairAccessibleCarSpaces
+      }
+      availability {
+        carSpaces
+        wheelchairAccessibleCarSpaces
+      }
+      tags
+      note
+      detailsUrl
+      openingHours
+    }
+  `,
+});
+
+export {
+  containerComponent as default,
+  DynamicParkingLotsContent as Component,
+};
