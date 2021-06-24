@@ -4381,6 +4381,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@turf/boolean-point-in-polygon@npm:6.4.0":
+  version: 6.4.0
+  resolution: "@turf/boolean-point-in-polygon@npm:6.4.0"
+  dependencies:
+    "@turf/helpers": ^6.4.0
+    "@turf/invariant": ^6.4.0
+  checksum: 75985281ad479f564061ce8623c3f07398e2f7bd56b67a251958ccb67805f342e3771280b630570a6484d51877b25ccc2c8a941cba65a2151550a17593d32506
+  languageName: node
+  linkType: hard
+
+"@turf/helpers@npm:^6.4.0":
+  version: 6.4.0
+  resolution: "@turf/helpers@npm:6.4.0"
+  checksum: 3a78b0e665571443245ce08256ef985e779a75460f8df780b39c83b4e6529cd6987413314406ea566a9fe45c67113402a192e1e2bb3a7551632beff85f64566b
+  languageName: node
+  linkType: hard
+
+"@turf/invariant@npm:^6.4.0":
+  version: 6.4.0
+  resolution: "@turf/invariant@npm:6.4.0"
+  dependencies:
+    "@turf/helpers": ^6.4.0
+  checksum: 71431b4abae92311b3f5cdc6c16879fe882c454b3d798ef0d593a84552c8956b852b4309af2f36a4f14ae066c2ce77b30e87046b35ec1e5fbd7aba5d23905568
+  languageName: node
+  linkType: hard
+
 "@types/body-parser@npm:*":
   version: 1.19.0
   resolution: "@types/body-parser@npm:1.19.0"
@@ -9046,6 +9072,7 @@ __metadata:
     "@rollup/plugin-babel": 5.2.2
     "@rollup/plugin-json": 4.1.0
     "@rollup/plugin-node-resolve": 11.0.1
+    "@turf/boolean-point-in-polygon": 6.4.0
     autoprefixer: 9.8.6
     babel-core: 7.0.0-bridge.0
     babel-eslint: 10.1.0
@@ -9185,6 +9212,8 @@ __metadata:
     swipe-js-iso: 2.1.5
     terser-webpack-plugin: 4.1.0
     trim-right: 1.0.1
+    turf-point: 2.0.1
+    turf-polygon: 1.0.3
     url-loader: 3.0.0
     uuid: 8.3.0
     webpack: 4.44.1
@@ -24351,6 +24380,24 @@ resolve@1.1.7:
   dependencies:
     safe-buffer: ^5.0.1
   checksum: 03db75a4f994fee610d3485c492e95105ed265a9fecd49d14c98e9982f973ecc0220d0c1bc264e37802e423a1274bb63788a873e4e07009408ae3ac517347fd7
+  languageName: node
+  linkType: hard
+
+"turf-point@npm:2.0.1":
+  version: 2.0.1
+  resolution: "turf-point@npm:2.0.1"
+  dependencies:
+    minimist: ^1.1.0
+  bin:
+    turf-point: bin/point.js
+  checksum: 6f71bdd26daa90a6e4bd174692651ae55066f6662c82a16eecd8dea491ceacd6869b1735129334af22548873f230a296a53c10c75aef364466268fbe6a2756ef
+  languageName: node
+  linkType: hard
+
+"turf-polygon@npm:1.0.3":
+  version: 1.0.3
+  resolution: "turf-polygon@npm:1.0.3"
+  checksum: 70d83e0e49564c990b036c8ed27a7deee8d2b45d24a8ca13567894f82ee2b5c5de0c2f1a07f79c1698e4f5259d29278624a5be89f8223e3aa05fec04fc895fe5
   languageName: node
   linkType: hard
 

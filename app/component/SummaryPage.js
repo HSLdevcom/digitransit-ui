@@ -544,6 +544,7 @@ class SummaryPage extends React.Component {
         $showBikeAndParkItineraries: Boolean!
         $bikeAndPublicModes: [TransportMode!]
         $bikeParkModes: [TransportMode!]
+        $carParkModes: [TransportMode!]
         $bannedVehicleParkingTags: [String]
         $useVehicleParkingAvailabilityInformation: Boolean
       ) {
@@ -801,7 +802,7 @@ class SummaryPage extends React.Component {
           toPlace: $toPlace
           intermediatePlaces: $intermediatePlaces
           numItineraries: 6
-          transportModes: [{ mode: CAR }]
+          transportModes: $carParkModes
           date: $date
           time: $time
           walkReluctance: $walkReluctance
