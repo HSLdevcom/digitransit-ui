@@ -1,6 +1,10 @@
 import omitBy from 'lodash/omitBy';
 import moment from 'moment';
 import cookie from 'react-cookie';
+import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
+import point from 'turf-point';
+import polygon from 'turf-polygon';
+import herrenbergOldTownGeojson from '../../static/assets/geojson/herrenberg-old-town.json';
 
 import {
   filterModes,
@@ -199,6 +203,13 @@ const getShouldMakeOnDemandTaxiQuery = time => {
   );
 };
 
+const isDestinationOldTownOfHerrenberg = destination => {
+  return booleanPointInPolygon(
+    point([destination.lon, destination.lat]),
+    polygon(herrenbergOldTownGeojson.features[0].geometry.coordinates),
+  );
+};
+
 export const preparePlanParams = (config, useDefaultModes) => (
   { from, to },
   {
@@ -359,5 +370,10 @@ export const preparePlanParams = (config, useDefaultModes) => (
       { mode: 'BICYCLE', qualifier: 'PARK' },
       ...formattedModes,
     ].filter(mode => mode.qualifier !== 'RENT'), // BICYCLE_RENT can't be used together with BICYCLE_PARK
+    carParkModes: [
+      isDestinationOldTownOfHerrenberg(toLocation)
+        ? { mode: 'CAR', qualifier: 'PARK' }
+        : { mode: 'CAR' },
+    ],
   };
 };
