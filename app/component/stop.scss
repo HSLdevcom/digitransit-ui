@@ -662,6 +662,10 @@ hr.action-bar {
   button {
     margin: 11px 10px 11px 0;
   }
+
+  @media print {
+    display: none;
+  }
 }
 
 .timetable-for-printing {

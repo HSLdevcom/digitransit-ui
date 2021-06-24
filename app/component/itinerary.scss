@@ -400,6 +400,9 @@ $itinerary-tab-switch-height: 48px;
         cursor: pointer;
       }
     }
+    @media print {
+      display: none;
+    }
   }
 
   .itinerary-ticket-type {
@@ -914,6 +917,11 @@ $itinerary-tab-switch-height: 48px;
       margin-left: -24px;
     }
     .intermediate-stop-info-container {
+      @media print {
+        span > svg {
+          display: none;
+        }
+      }
       font-size: 0.9375rem;
       .itinerary-search-icon {
         font-size: 18px;
@@ -1276,6 +1284,9 @@ $itinerary-tab-switch-height: 48px;
         line-height: 1.2;
         border-bottom: none;
         padding-right: 4px;
+        @media print {
+          display: none;
+        }
       }
       .intermediate-stops-duration {
         color: $gray;
@@ -1322,6 +1333,9 @@ $itinerary-tab-switch-height: 48px;
     .icon {
       font-size: 24px;
     }
+  }
+  @media print {
+    display: none;
   }
 }
 
@@ -1460,6 +1474,9 @@ div.itinerary-container-content {
     .icon-container {
       display: flex;
     }
+  }
+  @media print {
+    display: none;
   }
 }
 

@@ -22,4 +22,7 @@
     display: inline-block;
     margin-left: 0.25rem;
   }
+  @media print {
+    margin-bottom: 16px;
+  }
 }

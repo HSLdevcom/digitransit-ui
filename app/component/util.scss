@@ -318,6 +318,9 @@ $btn-heigth: 17px;
     height: 28px;
     padding: 5px 15px;
   }
+  @media print {
+    display: none;
+  }
 }
 
 .mobile {
