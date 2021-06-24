@@ -567,6 +567,8 @@ export default configMerger(walttiConfig, {
 
     suggestCarMinDistance: 200,
     suggestWalkMaxDistance: 3000,
+    suggestBikeAndPublicMinDistance: 3000,
+    suggestBikeAndParkMinDistance: 3000,
 
     showVehiclesOnSummaryPage: true,
     showBikeAndPublicItineraries: true,

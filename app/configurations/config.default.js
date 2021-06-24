@@ -147,7 +147,12 @@ export default {
 
   maxWalkDistance: 10000,
   suggestBikeMaxDistance: 30000,
+  // max walking distance in bike and public transport
   suggestBikeAndPublicMaxDistance: 15000,
+  // minimum linear distance in bike and take onto train (otherwise just cycle)
+  suggestBikeAndPublicMinDistance: 3000,
+  // minimum linear distance in bike and park / public transport (otherwise just cycle)
+  suggestBikeAndParkMinDistance: 3000,
   // if you enable car suggestions but the linear distance between all points is less than this, then a car route will
   // not be computed
   suggestCarMinDistance: 2000,
