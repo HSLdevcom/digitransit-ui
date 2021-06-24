@@ -84,6 +84,11 @@ class ItineraryLegs extends React.Component {
 
   stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 
+  printItinerary = e => {
+    e.stopPropagation();
+    window.print();
+  };
+
   render() {
     const { itinerary, fares, waitThreshold } = this.props;
     const compressedLegs = compressLegs(itinerary.legs).map(leg => ({
@@ -278,7 +283,12 @@ class ItineraryLegs extends React.Component {
       />,
     );
 
-    legs.push(<ItineraryProfile itinerary={itinerary} />);
+    legs.push(
+      <ItineraryProfile
+        itinerary={itinerary}
+        printItinerary={this.printItinerary}
+      />,
+    );
 
     return (
       <span className="itinerary-list-container" role="list">
