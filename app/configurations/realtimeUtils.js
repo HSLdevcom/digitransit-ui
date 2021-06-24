@@ -269,12 +269,12 @@ export default {
 
     active: true,
   },
-  hbg: {
+  hb: {
     mqttTopicResolver: function mqttTopicResolver() {
       return '/gtfsrt/vp/#';
     },
 
-    mqtt: 'wss://api.dev.stadtnavi.eu/mqtt/',
+    mqtt: 'wss://api.stadtnavi.de/mqtt/',
 
     gtfsrt: true,
 

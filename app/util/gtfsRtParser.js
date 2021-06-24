@@ -69,10 +69,7 @@ export const parseFeedMQTT = (feedParser, data, topic, agency) => {
           timestamp: vehiclePos.timestamp || feed.header.timestamp,
           lat: ceil(position.latitude, 5),
           long: ceil(position.longitude, 5),
-          heading:
-            typeof position.bearing === 'number'
-              ? Math.floor(position.bearing)
-              : undefined,
+          heading: position.bearing ? Math.floor(position.bearing) : undefined,
           headsign: headsign === '' ? undefined : headsign,
           tripId: tripId === '' ? undefined : `${agency}:${tripId}`,
           geoHash: [geoHashDeg1, geoHashDeg2, geoHashDeg3, geoHashDeg4],

@@ -256,7 +256,7 @@ export default configMerger(walttiConfig, {
         },
     },
 
-    feedIds: ['hbg'],
+    feedIds: ['hb'],
     searchSources: ['oa', 'osm'],
 
     searchParams: {

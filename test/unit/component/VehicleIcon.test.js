@@ -39,7 +39,7 @@ describe('<VehicleIcon />', () => {
       const wrapper = shallowWithIntl(<VehicleIcon {...props} />);
 
       expect(wrapper.find('use').prop('xlinkHref')).to.equal(
-        '#icon-icon_vehicle-live-marker',
+        '#icon-icon_all-vehicles-small',
       );
     });
   });
