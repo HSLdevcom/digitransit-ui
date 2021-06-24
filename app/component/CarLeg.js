@@ -110,6 +110,7 @@ function CarLeg(props, { config, intl, router, match, executeAction }) {
               {getServiceAlertDescription(carParkAlert, intl.locale)}
             </div>
             <button
+              type="button"
               className="standalone-btn cursor-pointer carpool-offer-btn"
               onClick={() => {
                 replaceQueryParams(
@@ -128,12 +129,42 @@ function CarLeg(props, { config, intl, router, match, executeAction }) {
         )}
         <div className="itinerary-leg-action" aria-hidden="true">
           <button
+            type="button"
             className="standalone-btn cursor-pointer carpool-offer-btn"
             onClick={props.toggleCarpoolDrawer}
           >
             <FormattedMessage id="offer-ride" defaultMessage="Offer carpool" />
           </button>
         </div>
+        {leg.to.vehicleParkingWithEntrance.vehicleParking.tags.includes(
+          'state:few',
+        ) && (
+          <div>
+            <div className="itinerary-alert-info carpool">
+              <ServiceAlertIcon
+                className="inline-icon"
+                severityLevel={AlertSeverityLevelType.Info}
+              />
+              <FormattedMessage id="car-park-capacity-alert" />
+            </div>
+            <div className="carparks-exclude-container">
+              <button
+                type="button"
+                className="standalone-btn cursor-pointer carparks-exclude-btn"
+                onClick={() => {
+                  replaceQueryParams(router, match, {
+                    bannedVehicleParkingTags: 'state:few',
+                  });
+                }}
+              >
+                <FormattedMessage
+                  id="exclude-full-carparks"
+                  defaultMessage="Exclude full car parks"
+                />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -172,6 +203,11 @@ CarLeg.propTypes = {
     }).isRequired,
     to: PropTypes.shape({
       name: PropTypes.string.isRequired,
+      vehicleParkingWithEntrance: PropTypes.shape({
+        vehicleParking: PropTypes.shape({
+          tags: PropTypes.array,
+        }),
+      }),
     }),
     mode: PropTypes.string.isRequired,
     alerts: PropTypes.array,
