@@ -210,6 +210,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
         time,
         locale,
         useCarParkAvailabilityInformation,
+        bannedVehicleParkingTags,
       },
     },
   },
@@ -263,6 +264,15 @@ export const preparePlanParams = (config, useDefaultModes) => (
     toLocation,
     intermediatePlaceLocations,
   );
+  const isDepartureTimeWithin15Minutes = parsedTime => {
+    const timeFromNowInMin = parsedTime.diff(new Date(), 'minutes');
+    return (
+      parsedTime.isSame(new Date(), 'day') &&
+      timeFromNowInMin >= -15 &&
+      timeFromNowInMin <= 15
+    );
+  };
+  const parsedTime = time ? moment(time * 1000) : moment();
 
   return {
     ...defaultSettings,
@@ -274,8 +284,8 @@ export const preparePlanParams = (config, useDefaultModes) => (
         to: toLocation,
         intermediatePlaces: intermediatePlaceLocations,
         numItineraries: 25,
-        date: (time ? moment(time * 1000) : moment()).format('YYYY-MM-DD'),
-        time: (time ? moment(time * 1000) : moment()).format('HH:mm:ss'),
+        date: parsedTime.format('YYYY-MM-DD'),
+        time: parsedTime.format('HH:mm:ss'),
         walkReluctance: settings.walkReluctance,
         walkBoardCost: settings.walkBoardCost,
         minTransferTime: config.minTransferTime,
@@ -302,6 +312,13 @@ export const preparePlanParams = (config, useDefaultModes) => (
         ),
         locale: locale || cookie.load('lang') || 'fi',
         useCarParkAvailabilityInformation,
+        useVehicleParkingAvailabilityInformation: isDepartureTimeWithin15Minutes(
+          parsedTime,
+        ),
+
+        bannedVehicleParkingTags: bannedVehicleParkingTags
+          ? [bannedVehicleParkingTags]
+          : [],
       },
       nullOrUndefined,
     ),

@@ -61,6 +61,16 @@
   }
 }
 
+.carparks-exclude-container {
+  display: flex;
+  justify-content: center;
+
+  .carparks-exclude-btn {
+    margin: 10px 0;
+    font-size: 0.9375rem;
+  }
+}
+
 .sidePanelText {
   font-family: $font-family;
   margin: 30px;
