@@ -930,9 +930,13 @@ class SummaryPage extends React.Component {
                   name
                 }
                 name
+                lat
+                lon
               }
               from {
                 name
+                lat
+                lon
               }
               distance
             }
