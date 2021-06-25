@@ -4,7 +4,7 @@ import cookie from 'react-cookie';
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import point from 'turf-point';
 import polygon from 'turf-polygon';
-import herrenbergOldTownGeojson from '../../static/assets/geojson/herrenberg-old-town.json';
+import herrenbergOldTownGeojson from './geojson/herrenberg-old-town.json';
 
 import {
   filterModes,
