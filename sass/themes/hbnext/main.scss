@@ -139,12 +139,16 @@ input[type='radio'] {
 }
 
 .carpool-checkbox {
-  margin-top: 10px;
-}
-
-.carpool-checkbox span {
-  position: relative;
-  top: -8px;
+  margin: 10px 0;
+  div {
+    .option-checkbox-container {
+      .option-checkbox {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+  }
 }
 
 #phone {
@@ -161,16 +165,13 @@ input[type='radio'] {
     position: relative;
   }
 
-  & .icon-container {
-    top: -8px;
-  }
-
   & label {
     top: 8px;
   }
 }
 
-#phone, .phone-label {
+#phone,
+.phone-label {
   display: inline-block;
 }
 
