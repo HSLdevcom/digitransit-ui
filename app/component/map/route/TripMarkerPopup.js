@@ -9,6 +9,26 @@ import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../util/path';
 import RouteHeader from '../../RouteHeader';
 
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
+import Icon from '../../Icon';
+
+const drawOccupancy = status => {
+  let suffix;
+  switch (status) {
+    case 'STANDING_ROOM_ONLY':
+      suffix = 'high';
+      break;
+    case 'FEW_SEATS_AVAILABLE':
+      suffix = 'medium';
+      break;
+    default:
+      suffix = 'low';
+      break;
+  }
+  return (
+    // eslint-disable-next-line react/no-array-index-key
+    <Icon img={`occupancy-${suffix}`} height={1.2} width={1.2} />
+  );
+};
 
 function TripMarkerPopup(props) {
   if (!props.trip) {
@@ -30,6 +50,17 @@ function TripMarkerPopup(props) {
         pattern={props.trip && props.trip.pattern}
         trip={props.message.tripStartTime}
       />
+      <div className="occupancy">
+        <div className="occupancy-icon">
+          {drawOccupancy(props.message.occupancyStatus)}
+        </div>
+        <div>
+          <FormattedMessage
+            id={`occupancy-status-${props.message.occupancyStatus}`}
+            defaultMessage={props.message.occupancyStatus}
+          />
+        </div>
+      </div>
       <div className="bottom location">
         <Link
           to={tripPath}
@@ -71,6 +102,7 @@ TripMarkerPopup.propTypes = {
   message: PropTypes.shape({
     mode: PropTypes.string.isRequired,
     tripStartTime: PropTypes.string,
+    occupancyStatus: PropTypes.string,
   }).isRequired,
 };
 
