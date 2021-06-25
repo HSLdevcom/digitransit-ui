@@ -213,24 +213,12 @@ input[type='radio'] {
 .vehicle-popup {
   .occupancy {
     padding: 0.5em;
-    margin: -20px 0 10px 0;
-    font-size: 12px;
+    margin: -4px 0 10px 0;
+    font-size: 14px;
   }
   .occupancy-icon {
     float: left;
-    margin: 0 18px 0 10px;
-  }
-}
-
-.occupancy-card {
-  div {
-    font-size: 16px;
-  }
-}
-
-.map {
-  .icon.large-vehicle-icon {
-    transform: scale(2.4);
+    margin: 0 26px 0 10px;
   }
 }
 
