@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - next
+      - bus-capacity
   pull_request:
     branches:
       - next
@@ -288,7 +289,7 @@ jobs:
           name: stadtnavi/digitransit-ui
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_AUTH}}
-          tags: "next,${{ github.sha }}"
+          tags: "next-bus-positions,${{ github.sha }}"
     needs:
       - lint
       #- publish-npm
