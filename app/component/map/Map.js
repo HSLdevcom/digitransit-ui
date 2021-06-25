@@ -99,7 +99,7 @@ class Map extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { zoom: 14 };
+    this.state = { zoom: 14, vehicles: false };
   }
 
   updateZoom = () => {
@@ -113,6 +113,9 @@ class Map extends React.Component {
   componentDidMount() {
     if (this.props.mapLayers.vehicles) {
       startClient(this.context);
+      this.setState(prevState => {
+        return { ...prevState, vehicles: true };
+      });
     }
     this.updateZoom();
   }
@@ -120,15 +123,19 @@ class Map extends React.Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(newProps) {
     this.updateZoom();
-    if (newProps.mapLayers.vehicles) {
-      if (!this.props.mapLayers.vehicles) {
-        startClient(this.context);
-      }
-    } else if (this.props.mapLayers.vehicles) {
+    if (newProps.mapLayers.vehicles && !this.state.vehicles) {
+      startClient(this.context);
+      this.setState(prevState => {
+        return { ...prevState, vehicles: true };
+      });
+    } else if (!newProps.mapLayers.vehicles && this.state.vehicles) {
       const { client } = this.context.getStore('RealTimeInformationStore');
       if (client) {
         this.context.executeAction(stopRealTimeClient, client);
       }
+      this.setState(prevState => {
+        return { ...prevState, vehicles: false };
+      });
     }
   }
 
