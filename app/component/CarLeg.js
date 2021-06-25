@@ -136,7 +136,7 @@ function CarLeg(props, { config, intl, router, match, executeAction }) {
             <FormattedMessage id="offer-ride" defaultMessage="Offer carpool" />
           </button>
         </div>
-        {leg.to.vehicleParkingWithEntrance.vehicleParking.tags.includes(
+        {leg.to.vehicleParkingWithEntrance?.vehicleParking.tags.includes(
           'state:few',
         ) && (
           <div>
