@@ -50,17 +50,19 @@ function TripMarkerPopup(props) {
         pattern={props.trip && props.trip.pattern}
         trip={props.message.tripStartTime}
       />
-      <div className="occupancy">
-        <div className="occupancy-icon">
-          {drawOccupancy(props.message.occupancyStatus)}
+      {props.message.occupancyStatus && (
+        <div className="occupancy">
+          <div className="occupancy-icon">
+            {drawOccupancy(props.message.occupancyStatus)}
+          </div>
+          <div>
+            <FormattedMessage
+              id={`occupancy-status-${props.message.occupancyStatus}`}
+              defaultMessage={props.message.occupancyStatus}
+            />
+          </div>
         </div>
-        <div>
-          <FormattedMessage
-            id={`occupancy-status-${props.message.occupancyStatus}`}
-            defaultMessage={props.message.occupancyStatus}
-          />
-        </div>
-      </div>
+      )}
       <div className="bottom location">
         <Link
           to={tripPath}

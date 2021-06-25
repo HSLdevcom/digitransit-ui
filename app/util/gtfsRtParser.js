@@ -18,7 +18,7 @@ const parseOccupancyStatus = status => {
     case 6:
       return 'NOT_ACCEPTING_PASSENGERS';
     default:
-      return 'EMPTY';
+      return undefined;
   }
 };
 
