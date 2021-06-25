@@ -40,7 +40,7 @@ const getSvgContent = (rotate, useLargeIcon) => {
   const transform = useLargeIcon
     ? 'translate(24 24) scale(1.3)'
     : 'translate(10 10) scale(0.7)';
-  return rotate ? (
+  return typeof rotate === 'number' ? (
     <g transform={`rotate(${(rotate || 0) + 180} 40 40)`}>
       <use
         xlinkHref={
