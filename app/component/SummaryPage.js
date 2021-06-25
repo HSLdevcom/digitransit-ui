@@ -544,6 +544,9 @@ class SummaryPage extends React.Component {
         $showBikeAndParkItineraries: Boolean!
         $bikeAndPublicModes: [TransportMode!]
         $bikeParkModes: [TransportMode!]
+        $carParkModes: [TransportMode!]
+        $bannedVehicleParkingTags: [String]
+        $useVehicleParkingAvailabilityInformation: Boolean
       ) {
         walkPlan: plan(
           fromPlace: $fromPlace
@@ -674,6 +677,7 @@ class SummaryPage extends React.Component {
           numItineraries: 6
           transportModes: [
             { mode: RAIL }
+            { mode: BUS }
             { mode: FLEX, qualifier: EGRESS }
             { mode: FLEX, qualifier: DIRECT }
             { mode: WALK }
@@ -798,7 +802,7 @@ class SummaryPage extends React.Component {
           toPlace: $toPlace
           intermediatePlaces: $intermediatePlaces
           numItineraries: 6
-          transportModes: [{ mode: CAR }]
+          transportModes: $carParkModes
           date: $date
           time: $time
           walkReluctance: $walkReluctance
@@ -888,6 +892,8 @@ class SummaryPage extends React.Component {
           unpreferred: $unpreferred
           carReluctance: 10
           locale: $locale
+          useVehicleParkingAvailabilityInformation: $useVehicleParkingAvailabilityInformation
+          bannedVehicleParkingTags: $bannedVehicleParkingTags
         ) @include(if: $shouldMakeParkRideQuery) {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
@@ -2679,6 +2685,7 @@ const containerComponent = createRefetchContainer(
         allowedBikeRentalNetworks: { type: "[String]" }
         locale: { type: "String" }
         useCarParkAvailabilityInformation: { type: "Boolean" }
+        useVehicleParkingAvailabilityInformation: { type: "Boolean" }
       ) {
         plan(
           fromPlace: $fromPlace

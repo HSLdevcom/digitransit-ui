@@ -7,3 +7,7 @@
 3. the modifications should appear formatted in the `svg-sprite.hb.svg` file
 4. run project with `yarn run dev` to test the icons
 5. don't forget to re-run the application if any static file changes
+
+## Why is this neccessary?
+
+This is because when upstream and icon, the build process makes sure that it automatically ends up in our sprite file. Otherwise you would have to check for new icons every time you do an upstream merge.

@@ -2015,6 +2015,30 @@
                                         "ofType": null
                                     },
                                     "defaultValue": null
+                                },
+                                {
+                                    "name": "useVehicleParkingAvailabilityInformation",
+                                    "description": "",
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "Boolean",
+                                        "ofType": null
+                                    },
+                                    "defaultValue": null
+                                },
+                                {
+                                    "name": "bannedVehicleParkingTags",
+                                    "description": "",
+                                    "type": {
+                                        "kind": "LIST",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "SCALAR",
+                                            "name": "String",
+                                            "ofType": null
+                                        }
+                                    },
+                                    "defaultValue": null
                                 }
                             ],
                             "type": {
@@ -6127,18 +6151,15 @@
                 {
                     "kind": "OBJECT",
                     "name": "VehicleParkingCapacity",
+                    "description": null,
                     "fields": [
                         {
                             "name": "carSpaces",
                             "args": [],
                             "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "Int",
-                                    "ofType": null
-                                }
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
@@ -6295,8 +6316,7 @@
                             "name": "tags",
                             "args": [],
                             "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
+                                "kind": "LIST",
                                 "ofType": {
                                     "kind": "SCALAR",
                                     "name": "String",
@@ -6362,6 +6382,28 @@
                                     "name": "String",
                                     "ofType": null
                                 }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "VehicleParkingWithEntrance",
+                    "description": "Vehicle parking information",
+                    "fields": [
+                        {
+                            "name": "vehicleParking",
+                            "args": [],
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "VehicleParking",
+                                "ofType": null
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
@@ -6930,6 +6972,18 @@
                             "type": {
                                 "kind": "OBJECT",
                                 "name": "VehicleParking",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "vehicleParkingWithEntrance",
+                            "description": "Get vehicle parking information",
+                            "args": [],
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "VehicleParkingWithEntrance",
                                 "ofType": null
                             },
                             "isDeprecated": false,

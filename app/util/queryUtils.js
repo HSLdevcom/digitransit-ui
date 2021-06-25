@@ -27,7 +27,7 @@ export const resetSelectedItineraryIndex = loc => {
 
   if (location.pathname) {
     const pathArray = location.pathname.split('/');
-    if (pathArray.length === 5) {
+    if (!Number.isNaN(Number(pathArray[pathArray.length - 1]))) {
       pathArray.pop();
       location.pathname = pathArray.join('/');
     }

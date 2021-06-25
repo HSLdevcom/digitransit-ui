@@ -1,6 +1,10 @@
 import omitBy from 'lodash/omitBy';
 import moment from 'moment';
 import cookie from 'react-cookie';
+import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
+import point from 'turf-point';
+import polygon from 'turf-polygon';
+import herrenbergOldTownGeojson from './geojson/herrenberg-old-town.json';
 
 import {
   filterModes,
@@ -193,10 +197,16 @@ const getShouldMakeCarQuery = (
 const getShouldMakeOnDemandTaxiQuery = time => {
   const date = new Date(time * 1000);
   return (
-    date.getHours() > 21 ||
-    (date.getHours() === 21 && date.getMinutes() === 0) ||
+    date.getHours() > 20 || // starting at 9pm
     date.getHours() < 5 ||
     (date.getHours() === 5 && date.getMinutes() === 0)
+  );
+};
+
+const isDestinationOldTownOfHerrenberg = destination => {
+  return booleanPointInPolygon(
+    point([destination.lon, destination.lat]),
+    polygon(herrenbergOldTownGeojson.features[0].geometry.coordinates),
   );
 };
 
@@ -210,6 +220,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
         time,
         locale,
         useCarParkAvailabilityInformation,
+        bannedVehicleParkingTags,
       },
     },
   },
@@ -263,6 +274,15 @@ export const preparePlanParams = (config, useDefaultModes) => (
     toLocation,
     intermediatePlaceLocations,
   );
+  const isDepartureTimeWithin15Minutes = parsedTime => {
+    const timeFromNowInMin = parsedTime.diff(new Date(), 'minutes');
+    return (
+      parsedTime.isSame(new Date(), 'day') &&
+      timeFromNowInMin >= -15 &&
+      timeFromNowInMin <= 15
+    );
+  };
+  const parsedTime = time ? moment(time * 1000) : moment();
 
   return {
     ...defaultSettings,
@@ -274,8 +294,8 @@ export const preparePlanParams = (config, useDefaultModes) => (
         to: toLocation,
         intermediatePlaces: intermediatePlaceLocations,
         numItineraries: 25,
-        date: (time ? moment(time * 1000) : moment()).format('YYYY-MM-DD'),
-        time: (time ? moment(time * 1000) : moment()).format('HH:mm:ss'),
+        date: parsedTime.format('YYYY-MM-DD'),
+        time: parsedTime.format('HH:mm:ss'),
         walkReluctance: settings.walkReluctance,
         walkBoardCost: settings.walkBoardCost,
         minTransferTime: config.minTransferTime,
@@ -302,6 +322,13 @@ export const preparePlanParams = (config, useDefaultModes) => (
         ),
         locale: locale || cookie.load('lang') || 'fi',
         useCarParkAvailabilityInformation,
+        useVehicleParkingAvailabilityInformation: isDepartureTimeWithin15Minutes(
+          parsedTime,
+        ),
+
+        bannedVehicleParkingTags: bannedVehicleParkingTags
+          ? [bannedVehicleParkingTags]
+          : [],
       },
       nullOrUndefined,
     ),
@@ -360,5 +387,10 @@ export const preparePlanParams = (config, useDefaultModes) => (
       { mode: 'BICYCLE', qualifier: 'PARK' },
       ...formattedModes,
     ].filter(mode => mode.qualifier !== 'RENT'), // BICYCLE_RENT can't be used together with BICYCLE_PARK
+    carParkModes: [
+      isDestinationOldTownOfHerrenberg(toLocation)
+        ? { mode: 'CAR', qualifier: 'PARK' }
+        : { mode: 'CAR' },
+    ],
   };
 };

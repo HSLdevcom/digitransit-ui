@@ -259,6 +259,7 @@ const translations = {
   },
 
   de: {
+    'fares-disclaimer': 'Tarifauskünfte werden durch die Nahverkehrsgesellschaft Baden-Württemberg mbH (NVBW) zur Verfügung gestellt. Alle Angaben ohne Gewähr.',
     imprint: 'Impressum',
     privacy: 'Datenschutz',
     'rent-cycle-at': 'Leihrad ausleihen:',
@@ -305,6 +306,8 @@ const translations = {
     'about-this-service': 'Über diesen Service',
     'offer-ride': 'Fahrgemeinschaft anbieten',
     'thank-you': 'Vielen Dank!',
+    'car-park-capacity-alert': 'Es sind kaum noch freie Parkplätze vorhanden. Bitte prüfen Sie eine Route zu einem späteren Zeitpunkt.',
+    'exclude-full-carparks': 'Belegte Parkplätze ausschließen',
     'chosen-times-recurring':
       'Sie haben für folgende Zeit und Tage inseriert: ',
     'chosen-times-once':
@@ -994,6 +997,7 @@ const translations = {
   },
 
   en: {
+    'fares-disclaimer': 'Fare information provided by Nahverkehrsgesellschaft Baden-Württemberg mbH (NVBW). No liability for the correctness of the information.',
     imprint: 'Imprint',
     'car-sharing-start-using': 'Book a shared car',
     'regiorad-start-using': 'Book a rental bike',
@@ -1032,6 +1036,8 @@ const translations = {
     'map-layer-category-car': 'Car',
     'map-layer-category-others': 'Others',
     'about-this-service': 'About the service',
+    'car-park-capacity-alert': 'This car park is close to capacity. Please allow additional time for your journey',
+    'exclude-full-carparks': 'Exclude full car parks',
     'accept-carpool-policy':
       'I have read and agreed to the <a href="{policyUrl}" target="_blank">privacy policy</a> and <a href="{termsUrl}" target="_blank">terms of use</a>.',
     accessibility: 'Accessibility',
