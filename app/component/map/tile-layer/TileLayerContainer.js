@@ -371,10 +371,23 @@ class TileLayerContainer extends GridLayer {
         } else if (
           this.state.selectableTargets[0].layer === 'dynamicParkingLots'
         ) {
+          const { lat, lng } = this.state.coords;
+          const {
+            id: vehicleParkingId,
+            name,
+          } = this.state.selectableTargets[0].feature.properties;
+          const params = pickBy(
+            {
+              lat,
+              lng,
+              name,
+            },
+            value => value !== undefined,
+          );
           this.context.router.push(
-            `/${PREFIX_DYNAMIC_PARKING_LOTS}?${encodeURIComponent(
-              this.state.selectableTargets[0].feature.properties.id,
-            )}`,
+            `/${PREFIX_DYNAMIC_PARKING_LOTS}/${encodeURIComponent(
+              vehicleParkingId,
+            )}?${new URLSearchParams(params).toString()}`,
           );
           this.setState({ selectableTargets: undefined });
           showPopup = false;

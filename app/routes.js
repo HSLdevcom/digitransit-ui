@@ -116,7 +116,13 @@ export default config => {
                 ).then(getDefault)
               }
               // TODO
-              query={graphql``}
+              query={graphql`
+                query routes_DynamicParkingLot_Query($id: String!) {
+                  vehicleParking(id: $id) {
+                    ...DynamicParkingLotsContent_vehicleParking
+                  }
+                }
+              `}
             />
           ),
           map: (

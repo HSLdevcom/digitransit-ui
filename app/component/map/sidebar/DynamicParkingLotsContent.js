@@ -30,7 +30,7 @@ class DynamicParkingLotsContent extends React.Component {
   static displayName = 'ParkingLotPopup';
 
   static propTypes = {
-    dynamicParkingLot: PropTypes.any,
+    vehicleParking: PropTypes.any,
   };
 
   getCapacity() {
@@ -46,8 +46,8 @@ class DynamicParkingLotsContent extends React.Component {
 
   getCarCapacity() {
     const { intl } = this.context;
-    const free = this.props.dynamicParkingLot.availability.carSpaces;
-    const total = this.props.dynamicParkingLot.capacity.carSpaces;
+    const free = this.props.vehicleParking.availability?.carSpaces;
+    const total = this.props.vehicleParking.capacity?.carSpaces;
 
     if (Number(free) || Number(free) === 0) {
       return intl.formatMessage(
@@ -72,7 +72,7 @@ class DynamicParkingLotsContent extends React.Component {
   }
 
   getClosed() {
-    const { state } = this.props.dynamicParkingLot.tags;
+    const { state } = this.props.vehicleParking.tags;
     if (state === 'TEMPORARILY_CLOSED' || state === 'CLOSED') {
       return (
         <span>
@@ -85,10 +85,10 @@ class DynamicParkingLotsContent extends React.Component {
   }
 
   getWheelchairCapacity() {
-    const freeDisabled = this.props.dynamicParkingLot.availability
-      .wheelchairAccessibleCarSpaces;
-    const totalDisabled = this.props.dynamicParkingLot.capacity
-      .wheelchairAccessibleCarSpaces;
+    const freeDisabled = this.props.vehicleParking.availability
+      ?.wheelchairAccessibleCarSpaces;
+    const totalDisabled = this.props.vehicleParking.capacity
+      ?.wheelchairAccessibleCarSpaces;
     return freeDisabled !== undefined && totalDisabled !== undefined
       ? this.context.intl.formatMessage(
           {
@@ -103,7 +103,7 @@ class DynamicParkingLotsContent extends React.Component {
 
   getUrl() {
     const { intl } = this.context;
-    const { detailsUrl } = this.props.dynamicParkingLot;
+    const { detailsUrl } = this.props.vehicleParking;
     if (detailsUrl) {
       return (
         <div className="padding-vertical-small">
@@ -120,7 +120,7 @@ class DynamicParkingLotsContent extends React.Component {
   }
 
   renderOpeningHours() {
-    const { openingHours } = this.props.dynamicParkingLot;
+    const { openingHours } = this.props.vehicleParking;
     if (openingHours) {
       return <OSMOpeningHours openingHours={openingHours} displayStatus />;
     }
@@ -128,8 +128,8 @@ class DynamicParkingLotsContent extends React.Component {
   }
 
   render() {
-    const { lat, lon, name, note } = this.props.dynamicParkingLot;
-    const { lotType } = this.props.dynamicParkingLot.tags;
+    const { lat, lon, name, note } = this.props.vehicleParking;
+    const { lotType } = this.props.vehicleParking.tags;
     return (
       <SidebarContainer
         icon={`icon-icon_${DynamicParkingLots.getIcon(lotType)}`}
@@ -160,9 +160,8 @@ DynamicParkingLotsContent.contextTypes = {
 };
 
 const containerComponent = createFragmentContainer(DynamicParkingLotsContent, {
-  // TODO
-  dynamicParkingLot: graphql`
-    fragment DynamicParkingLotsContent_dynamicParkingLot on DynamicParkingLot {
+  vehicleParking: graphql`
+    fragment DynamicParkingLotsContent_vehicleParking on VehicleParking {
       vehicleParkingId
       name
       lon
