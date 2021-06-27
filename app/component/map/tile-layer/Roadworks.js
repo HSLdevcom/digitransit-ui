@@ -95,7 +95,17 @@ class Roadworks {
     const first = polyline[0];
     ctx.moveTo(first.x / this.tile.ratio, first.y / this.tile.ratio);
     ctx.beginPath();
-    ctx.setLineDash([]);
+    ctx.setLineDash([16, 16]);
+
+    polyline.forEach(point => {
+      ctx.lineTo(point.x / this.tile.ratio, point.y / this.tile.ratio);
+    });
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.lineDashOffset = 16;
+    ctx.setLineDash([16, 16]);
 
     polyline.forEach(point => {
       ctx.lineTo(point.x / this.tile.ratio, point.y / this.tile.ratio);
