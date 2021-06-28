@@ -12,7 +12,6 @@ const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL =
     process.env.STATIC_MESSAGE_URL ||
     '/assets/messages/message.hb.json';
-const SHOW_TICKETS = process.env.SHOW_TICKETS === "true";
 
 const walttiConfig = require('./config.waltti.js').default;
 
@@ -503,7 +502,7 @@ export default configMerger(walttiConfig, {
         },
     },
 
-    showTicketInformation: SHOW_TICKETS,
+    showTicketInformation: true,
     showTicketPrice: true,
     availableTickets: {'hb' : {}},
     fareMapping: function mapHbFareId(fareId) {
