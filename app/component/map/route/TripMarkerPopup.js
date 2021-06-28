@@ -69,10 +69,16 @@ function TripMarkerPopup(props) {
         </div>
       )}
       <div className="position-disclaimer">
-        <FormattedMessage
-          id="position-disclaimer"
-          values={{ time: moment.unix(props.message.lastUpdate).format('LTS') }}
-        />
+        {props.message.lastUpdate ? (
+          <FormattedMessage
+            id="position-disclaimer"
+            values={{
+              time: moment.unix(props.message.lastUpdate).format('LTS'),
+            }}
+          />
+        ) : (
+          <FormattedMessage id="position-estimated" />
+        )}
       </div>
       <div className="bottom location">
         <Link
