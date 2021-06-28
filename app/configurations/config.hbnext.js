@@ -531,8 +531,6 @@ export default configMerger(walttiConfig, {
     },
     displayFareInfoTop: false,
 
-    // live bus locations
-    vehicles: true,
 
     showRouteSearch: false,
     showNearYouButtons: false,
@@ -585,7 +583,11 @@ export default configMerger(walttiConfig, {
     suggestCarMinDistance: 800,
     suggestWalkMaxDistance: 3000,
 
+    // live bus locations
+    vehicles: true,
     showVehiclesOnSummaryPage: true,
+    showVehiclesOnStopPage: true,
+
     showBikeAndPublicItineraries: true,
     showBikeAndParkItineraries: true,
     showStopAndRouteSearch: false,
