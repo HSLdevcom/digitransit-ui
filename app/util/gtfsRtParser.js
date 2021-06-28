@@ -18,7 +18,7 @@ const parseOccupancyStatus = status => {
     case 6:
       return 'NOT_ACCEPTING_PASSENGERS';
     default:
-      return 'EMPTY';
+      return undefined;
   }
 };
 
@@ -66,10 +66,14 @@ export const parseFeedMQTT = (feedParser, data, topic, agency) => {
           operatingDay: trip.start_date,
           mode: mode === '' ? 'bus' : mode.toLowerCase(),
           next_stop: stopId === '' ? undefined : `${agency}:${stopId}`,
-          timestamp: vehiclePos.timestamp || feed.header.timestamp,
+          timestamp: vehiclePos.timestamp,
+          lastUpdate: feed.header.timestamp,
           lat: ceil(position.latitude, 5),
           long: ceil(position.longitude, 5),
-          heading: position.bearing ? Math.floor(position.bearing) : undefined,
+          heading:
+            typeof position.bearing === 'number'
+              ? Math.floor(position.bearing)
+              : undefined,
           headsign: headsign === '' ? undefined : headsign,
           tripId: tripId === '' ? undefined : `${agency}:${tripId}`,
           geoHash: [geoHashDeg1, geoHashDeg2, geoHashDeg3, geoHashDeg4],

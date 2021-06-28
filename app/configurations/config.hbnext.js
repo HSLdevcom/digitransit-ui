@@ -15,6 +15,9 @@ const STATIC_MESSAGE_URL =
 
 const walttiConfig = require('./config.waltti.js').default;
 
+const realtimeHbg = require('./realtimeUtils').default.hbg;
+const hostname = new URL(API_URL);
+realtimeHbg.mqtt = `wss://${hostname.host}/mqtt/`;
 
 const minLat = 47.6020;
 const maxLat = 49.0050;
@@ -255,7 +258,10 @@ export default configMerger(walttiConfig, {
         },
     },
 
-    feedIds: ['hb'],
+    feedIds: ['hbg'],
+
+    realtime: { hbg: realtimeHbg },
+
     searchSources: ['oa', 'osm'],
 
     searchParams: {
@@ -504,7 +510,7 @@ export default configMerger(walttiConfig, {
 
     showTicketInformation: true,
     showTicketPrice: true,
-    availableTickets: {'hb' : {}},
+    availableTickets: { 'hbg' : {}},
     fareMapping: function mapHbFareId(fareId) {
         return {
             en: "Adult",
