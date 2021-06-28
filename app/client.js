@@ -15,7 +15,7 @@ import {
   retryMiddleware,
   batchMiddleware,
   errorMiddleware,
-  cacheMiddleware,
+  // cacheMiddleware,
 } from 'react-relay-network-modern';
 import RelayClientSSR from 'react-relay-network-modern-ssr/lib/client';
 import OfflinePlugin from 'offline-plugin/runtime';
@@ -124,10 +124,12 @@ async function init() {
 
   const network = new RelayNetworkLayer([
     relaySSRMiddleware.getMiddleware(),
-    cacheMiddleware({
+    // Cache middleware currently causes previuosly requested routes to be not shown to the user again.
+    // TODO: Reimplement cacheMiddleware when https://github.com/HSLdevcom/digitransit-ui/issues/4270 got fixed.
+    /* cacheMiddleware({
       size: 200,
       ttl: 60 * 60 * 1000,
-    }),
+    }), */
     urlMiddleware({
       url: () => Promise.resolve(`${config.URL.OTP}index/graphql`),
     }),
