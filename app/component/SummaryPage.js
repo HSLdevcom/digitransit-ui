@@ -32,7 +32,11 @@ import {
   validateServiceTimeRange,
   getStartTimeWithColon,
 } from '../util/timeUtils';
-import { planQuery, moreItinerariesQuery } from '../util/queryUtils';
+import {
+  planQuery,
+  moreItinerariesQuery,
+  clearQueryParams,
+} from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
@@ -358,6 +362,8 @@ class SummaryPage extends React.Component {
     newState.pathname = indexPath;
     if (newStreetMode.includes('bike')) {
       newState.query.mapMode = MapMode.Bicycle;
+    } else if (this.context.match.location.query.mapMode === MapMode.Bicycle) {
+      newState.query.mapMode = MapMode.Default;
     }
     this.context.router.push(newState);
   };
@@ -391,6 +397,8 @@ class SummaryPage extends React.Component {
     newState.pathname = indexPath;
     if (newStreetMode.includes('bike')) {
       newState.query.mapMode = MapMode.Bicycle;
+    } else if (this.context.match.location.query.mapMode === MapMode.Bicycle) {
+      newState.query.mapMode = MapMode.Default;
     }
     this.context.router.push(newState);
   };
@@ -1476,6 +1484,11 @@ class SummaryPage extends React.Component {
       this.secondQuerySent &&
       !this.state.isFetchingWalkAndBike
     ) {
+      // Reset mapMode
+      if (this.context.match.location.query.mapMode === MapMode.Bicycle) {
+        clearQueryParams(this.context.router, this.context.match, ['mapMode']);
+      }
+
       this.setParamsAndQuery();
       this.secondQuerySent = false;
       // eslint-disable-next-line react/no-did-update-set-state
