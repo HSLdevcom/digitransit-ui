@@ -433,6 +433,25 @@ class SummaryPage extends React.Component {
       itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
     ).length === 0;
 
+  findLongestDuration = itineraries => {
+    return Math.max(...itineraries?.map(o => o.duration));
+  };
+
+  findShortestDuration = itineraries => {
+    return Math.min(...itineraries?.map(o => o.duration));
+  };
+
+  findLongestPublicItinerary = () => {
+    if (
+      this.props.viewer &&
+      this.props.viewer.plan &&
+      this.props.viewer.plan.itineraries
+    ) {
+      return this.findLongestDuration(this.props.viewer.plan.itineraries);
+    }
+    return 0;
+  };
+
   configClient = itineraryTopics => {
     const { config } = this.context;
     const { realTime } = config;
@@ -975,6 +994,23 @@ class SummaryPage extends React.Component {
             this.makeWeatherQuery();
           },
         );
+        // Remove bikeAndPublicPlan and bikeParkPlan itineraries if all public transport itineraries would last less.
+        if (
+          this.findLongestPublicItinerary() <
+          this.findShortestDuration(this.state.bikeAndPublicPlan?.itineraries)
+        ) {
+          this.setState({
+            bikeAndPublicPlan: undefined,
+          });
+        }
+        if (
+          this.findLongestPublicItinerary() <
+          this.findShortestDuration(this.state.bikeParkPlan?.itineraries)
+        ) {
+          this.setState({
+            bikeParkPlan: undefined,
+          });
+        }
       })
       .catch(() => {
         this.setState({ isFetchingWalkAndBike: false });
@@ -2736,6 +2772,7 @@ const containerComponent = createRefetchContainer(
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
           itineraries {
+            duration
             startTime
             endTime
             ...ItineraryTab_itinerary
