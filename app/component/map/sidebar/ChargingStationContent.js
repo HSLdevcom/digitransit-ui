@@ -97,17 +97,19 @@ const ChargingStationContent = ({ match }, { intl }) => {
   }, [match.location.query]);
 
   const getCapacity = () => {
-    const { capacity, capacityUnknown, available } = match.location.query;
+    const available = details.evses?.filter(evse => evse.status === 'AVAILABLE')
+      .length;
+    const capacityUnknown = details.evses?.filter(
+      evse => evse.status === 'UNKNOWN',
+    ).length;
+    const capacity = details.evses?.length;
     const body = {
       id: 'charging-spaces-no-data',
       defaultMessage: 'No capacity data available',
     };
 
     if (capacity) {
-      if (
-        isNumber(parseInt(available, 10)) &&
-        parseInt(capacityUnknown, 10) === 0
-      ) {
+      if (isNumber(available) && capacityUnknown === 0) {
         body.id = 'charging-spaces-available';
         body.defaultMessage =
           '{available} of {capacity} parking spaces available';
@@ -292,8 +294,6 @@ ChargingStationContent.description = (
     <ComponentUsageExample description="">
       <ChargingStationContent
         id={123}
-        capacity={1}
-        available={1}
         lat={123}
         lon={123}
         context="context object here"

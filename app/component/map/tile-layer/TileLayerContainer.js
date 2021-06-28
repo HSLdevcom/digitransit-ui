@@ -433,12 +433,8 @@ class TileLayerContainer extends GridLayer {
         ) {
           const {
             id: stationId,
-            c: capacity,
-            ca: available,
-            cu: capacityUnknown,
             name,
           } = this.state.selectableTargets[0].feature.properties;
-
           const { lat, lng } = this.state.coords;
           const params = pickBy(
             {
@@ -446,9 +442,6 @@ class TileLayerContainer extends GridLayer {
               lng,
               name,
               stationId,
-              capacity,
-              capacityUnknown,
-              available,
             },
             value => value !== undefined,
           );
