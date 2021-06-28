@@ -106,7 +106,7 @@ export default config => {
           ),
         }}
       </Route>
-      <Route path={`/${PREFIX_DYNAMIC_PARKING_LOTS}`}>
+      <Route path={`/${PREFIX_DYNAMIC_PARKING_LOTS}/:id`}>
         {{
           content: (
             <Route
@@ -115,6 +115,14 @@ export default config => {
                   /* webpackChunkName: "parking lots" */ './component/map/sidebar/DynamicParkingLotsContent'
                 ).then(getDefault)
               }
+              // TODO
+              query={graphql`
+                query routes_DynamicParkingLot_Query($id: String!) {
+                  vehicleParking(id: $id) {
+                    ...DynamicParkingLotsContent_vehicleParking
+                  }
+                }
+              `}
             />
           ),
           map: (

@@ -6,6 +6,7 @@ import SimpleOpeningHours from 'simple-opening-hours';
 import range from 'lodash-es/range';
 import omit from 'lodash/omit';
 import { isBrowser } from '../../../util/browser';
+import { getIcon } from '../sidebar/DynamicParkingLotsContent';
 import {
   drawIcon,
   drawAvailabilityBadge,
@@ -87,25 +88,6 @@ class DynamicParkingLots {
       );
     });
 
-  static getIcon = type => {
-    if (type === 'Parkhaus' || type === 'Tiefgarage') {
-      return 'covered_carpark';
-    }
-    if (type === 'Park-Ride') {
-      return 'p+r';
-    }
-    if (type === 'Park-Carpool') {
-      return 'carpark_carpool';
-    }
-    if (type === 'Wohnmobilparkplatz') {
-      return 'caravan';
-    }
-    if (type === 'Barrierefreier-Parkplatz') {
-      return 'barrierefrei';
-    }
-    return 'open_carpark';
-  };
-
   fetchAndDrawStatus = ({ geom, properties }) => {
     if (
       this.tile.coords.z <=
@@ -126,7 +108,7 @@ class DynamicParkingLots {
       return { ...newTags, [tag.split(':')[0]]: tag.split(':')[1] };
     }, {});
 
-    const icon = DynamicParkingLots.getIcon(tags.lot_type);
+    const icon = getIcon(tags.lot_type);
 
     let isOpenNow = true;
     if (properties.opening_hours) {
