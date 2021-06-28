@@ -277,7 +277,7 @@ jobs:
         shell: bash
 
   docker-push:
-    if: github.ref == 'refs/heads/bus-capacity'
+    if: github.ref == 'refs/heads/next'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
