@@ -64,10 +64,12 @@ class TopLevel extends React.Component {
     };
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  MapLayersDialogContainer({ children, breakpoint, settingsOpen }) {
-    const isMobile = breakpoint !== 'large';
+  isMobile() {
+    return this.props.breakpoint !== 'large';
+  }
 
+  // eslint-disable-next-line class-methods-use-this
+  MapLayersDialogContainer({ children, settingsOpen, isMobile }) {
     return (
       <div
         className={cx(
@@ -218,7 +220,10 @@ class TopLevel extends React.Component {
             style={this.context.config.appBarStyle}
           />
         )}
-        <section id="mainContent" className="content">
+        <section
+          id="mainContent"
+          className={cx('content', this.isMobile() && 'mobile')}
+        >
           {this.props.meta}
           <noscript>This page requires JavaScript to run.</noscript>
           <ErrorBoundary
@@ -233,7 +238,7 @@ class TopLevel extends React.Component {
               this.props.settingsOpen !== null && (
                 <this.MapLayersDialogContainer
                   settingsOpen={this.props.settingsOpen}
-                  breakpoint={this.props.breakpoint}
+                  isMobile={this.isMobile()}
                 >
                   <MapLayersDialogContent
                     open={this.props.settingsOpen}

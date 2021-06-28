@@ -523,6 +523,10 @@ section.content {
   flex-direction: column;
   flex: 0 1 100%;
 
+  &.mobile {
+    overflow-x: hidden;
+  }
+
   .mobile {
     display: flex;
     flex-direction: column;
