@@ -6,7 +6,25 @@ import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import OSMOpeningHours from '../popups/OSMOpeningHours';
 import SidebarContainer from './SidebarContainer';
-import DynamicParkingLots from '../tile-layer/DynamicParkingLots';
+
+export const getIcon = type => {
+  if (type === 'Parkhaus' || type === 'Tiefgarage') {
+    return 'covered_carpark';
+  }
+  if (type === 'Park-Ride') {
+    return 'p+r';
+  }
+  if (type === 'Park-Carpool') {
+    return 'carpark_carpool';
+  }
+  if (type === 'Wohnmobilparkplatz') {
+    return 'caravan';
+  }
+  if (type === 'Barrierefreier-Parkplatz') {
+    return 'barrierefrei';
+  }
+  return 'open_carpark';
+};
 
 class DynamicParkingLotsContent extends React.Component {
   static contextTypes = {
@@ -132,7 +150,7 @@ class DynamicParkingLotsContent extends React.Component {
     const { lotType } = this.props.vehicleParking.tags;
     return (
       <SidebarContainer
-        icon={`icon-icon_${DynamicParkingLots.getIcon(lotType)}`}
+        icon={`icon-icon_${getIcon(lotType)}`}
         name={name}
         location={{
           address: name,

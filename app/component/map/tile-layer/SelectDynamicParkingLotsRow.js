@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../../Icon';
-import DynamicParkingLots from './DynamicParkingLots';
+import { getIcon } from '../sidebar/DynamicParkingLotsContent';
 
 export default function SelectDynamicParkingLotsRow(props) {
   const { selectRow, properties } = props;
@@ -14,7 +14,7 @@ export default function SelectDynamicParkingLotsRow(props) {
       >
         <span className="choose-row-left-column" aria-hidden="true">
           <Icon
-            img={`icon-icon_${DynamicParkingLots.getIcon(properties.lotType)}`}
+            img={`icon-icon_${getIcon(properties.lotType)}`}
             viewBox="0 0 600.995 600.995"
           />
         </span>
