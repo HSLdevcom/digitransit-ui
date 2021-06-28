@@ -66,7 +66,8 @@ export const parseFeedMQTT = (feedParser, data, topic, agency) => {
           operatingDay: trip.start_date,
           mode: mode === '' ? 'bus' : mode.toLowerCase(),
           next_stop: stopId === '' ? undefined : `${agency}:${stopId}`,
-          timestamp: vehiclePos.timestamp || feed.header.timestamp,
+          timestamp: vehiclePos.timestamp,
+          lastUpdate: feed.header.timestamp,
           lat: ceil(position.latitude, 5),
           long: ceil(position.longitude, 5),
           heading:

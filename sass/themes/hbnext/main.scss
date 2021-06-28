@@ -211,6 +211,9 @@ input[type='radio'] {
 }
 
 .vehicle-popup {
+  .direction {
+    margin: -15px 0.5em 20px 5em;
+  }
   .occupancy {
     padding: 0.5em;
     margin: -4px 0 10px 0;
@@ -219,6 +222,10 @@ input[type='radio'] {
   .occupancy-icon {
     float: left;
     margin: 0 26px 0 10px;
+  }
+
+  .position-disclaimer {
+    padding: 0.3em 1.3em 0.5em 1.3em;
   }
 }
 

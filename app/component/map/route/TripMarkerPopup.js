@@ -4,6 +4,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
+import moment from 'moment';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../util/path';
 
 import RouteHeader from '../../RouteHeader';
@@ -50,6 +51,10 @@ function TripMarkerPopup(props) {
         pattern={props.trip && props.trip.pattern}
         trip={props.message.tripStartTime}
       />
+      <div className="direction">
+        <FormattedMessage id="direction" />
+        {props.trip.pattern.headsign}
+      </div>
       {props.message.occupancyStatus && (
         <div className="occupancy">
           <div className="occupancy-icon">
@@ -63,6 +68,12 @@ function TripMarkerPopup(props) {
           </div>
         </div>
       )}
+      <div className="position-disclaimer">
+        <FormattedMessage
+          id="position-disclaimer"
+          values={{ time: moment.unix(props.message.lastUpdate).format('LTS') }}
+        />
+      </div>
       <div className="bottom location">
         <Link
           to={tripPath}
@@ -93,6 +104,7 @@ TripMarkerPopup.propTypes = {
     gtfsId: PropTypes.string,
     pattern: PropTypes.shape({
       code: PropTypes.string.isRequired,
+      headsign: PropTypes.string,
     }),
     route: PropTypes.shape({
       gtfsId: PropTypes.string.isRequired,
@@ -105,6 +117,7 @@ TripMarkerPopup.propTypes = {
     mode: PropTypes.string.isRequired,
     tripStartTime: PropTypes.string,
     occupancyStatus: PropTypes.string,
+    lastUpdate: PropTypes.number,
   }).isRequired,
 };
 
