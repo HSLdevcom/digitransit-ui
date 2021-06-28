@@ -3,8 +3,6 @@ import Pbf from 'pbf';
 
 const parseOccupancyStatus = status => {
   switch (status) {
-    case 0:
-      return 'EMPTY';
     case 1:
       return 'MANY_SEATS_AVAILABLE';
     case 2:
