@@ -1731,7 +1731,9 @@ class SummaryPage extends React.Component {
   }
 
   changeHash = index => {
-    const isbikeAndVehicle = this.props.match.params.hash === 'bikeAndVehicle';
+    const isModeSelected =
+      this.props.match.params.hash === 'bikeAndVehicle' ||
+      this.props.match.params.hash === 'parkAndRide';
 
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
@@ -1747,7 +1749,7 @@ class SummaryPage extends React.Component {
     const indexPath = `${getSummaryPath(
       this.props.match.params.from,
       this.props.match.params.to,
-    )}${isbikeAndVehicle ? '/bikeAndVehicle/' : '/'}${index}`;
+    )}${isModeSelected ? `/${this.props.match.params.hash}/` : '/'}${index}`;
 
     newState.pathname = indexPath;
     this.context.router.replace(newState);
