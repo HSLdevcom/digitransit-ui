@@ -338,11 +338,17 @@ export default configMerger(walttiConfig, {
             {
                 header: 'Über diesen Dienst',
                 paragraphs: [
-                    'Stadtnavi ist eine Reiseplannungs-Anwendung für die Region Herrenberg. Dieser Dienst umfasst ÖPNV, Fußwege, Radverkehr, PKW-Routing (inklusive Park & Ride) und Fahrgemeinschaften.',
+                    'stadtnavi ist eine Reiseplanungs-Anwendung für die Stadt Herrenberg und Umgebung. Dieser Dienst umfasst ÖPNV, Fußwege, Radverkehr, Straßen- und Parkplatzinformationen, Ladeinfrastruktur und Sharing-Angebote. Mobilitätsangebote werden durch intermodales Routing miteinander vernetzt.',
                     'Gefördert durch <br>',
                     '<a href="https://www.herrenberg.de/stadtluft"><img src="https://www.herrenberg.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
 
                 ],
+            },
+            {
+                header: 'Mitmachen',
+                paragraphs: [
+                    'Die Stadt Herrenberg hat diese App im Rahmen der Modellstadt, gefördert durch das Bundesministerium für Verkehr und digitale Infrastruktur (BMVI) entwickelt. stadtnavi Anwendung ist eine Open Source Lösung und kann von anderen Kommunen und Akteuren unter ihrem Namen und Erscheinungsbild verwendet und an individuelle Bedürfnisse angepasst und weiterentwickelt werden (White Label Lösung). Mitmachen ist gewünscht!',
+                ]
             },
             {
                 header: 'Digitransit Plattform',
@@ -364,9 +370,15 @@ export default configMerger(walttiConfig, {
             {
                 header: 'About this service',
                 paragraphs: [
-                    'Stadtnavi is provided by the city of Herrenberg for route planning in Herrenberg region. The service covers public transport, walking, cycling, private car use and carpooling. Service is built on Digitransit platform and OpenTripPlanner.',
+                    'stadtnavi is a travel planning application for the city of Herrenberg and its surroundings. This service includes public transport, footpaths, cycling, street and parking information, charging infrastructure and sharing offerings. The mobility offerings are connected through intermodal routing.',
                     '<a href="https://www.herrenberg.de/stadtluft"><img src="https://www.herrenberg.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
                 ],
+            },
+            {
+                header: 'Contribute',
+                paragraphs: [
+                    'The city of Herrenberg has developed this app, funded by the Federal Ministry of Transport and Digital Infrastructure (BMVI), as model city. The stadtnavi app is an open source solution and can be used, customized and further developed by other municipalities to meet individual needs (white lable solution). Participation is welcome!',
+                ]
             },
             {
                 header: 'Digitransit platform',
