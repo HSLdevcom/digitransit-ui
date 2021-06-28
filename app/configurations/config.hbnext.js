@@ -565,7 +565,7 @@ export default configMerger(walttiConfig, {
     },
     staticMessagesUrl: STATIC_MESSAGE_URL,
 
-    suggestCarMinDistance: 200,
+    suggestCarMinDistance: 800,
     suggestWalkMaxDistance: 3000,
 
     showVehiclesOnSummaryPage: true,
