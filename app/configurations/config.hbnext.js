@@ -573,4 +573,6 @@ export default configMerger(walttiConfig, {
     showBikeAndParkItineraries: true,
     showStopAndRouteSearch: false,
     showTimeTableOptions: false,
+
+    viaPointsEnabled: false,
 });
