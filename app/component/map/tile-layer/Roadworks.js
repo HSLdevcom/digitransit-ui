@@ -89,8 +89,8 @@ class Roadworks {
       ctx.globalAlpha = 0.5;
     }
 
-    ctx.lineWidth = 12;
-    ctx.setLineDash([0.1, 24]);
+    ctx.lineWidth = 6;
+    ctx.setLineDash([0.1, 12]);
     ctx.lineCap = 'round';
     ctx.strokeStyle = '#cc2808';
 
