@@ -13,7 +13,7 @@ import { connectToStores } from 'fluxible-addons-react';
 import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
 import polyline from 'polyline-encoded';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
@@ -242,6 +242,7 @@ class SummaryPage extends React.Component {
     getStore: PropTypes.func,
     router: routerShape.isRequired, // DT-3358
     match: matchShape.isRequired,
+    intl: intlShape.isRequired,
   };
 
   static propTypes = {
@@ -289,9 +290,8 @@ class SummaryPage extends React.Component {
     if (props.error) {
       reportError(props.error);
     }
-    this.resultsUpdatedAlertRef = React.createRef();
-    this.itinerariesLoadingAlertRef = React.createRef();
-    this.itinerariesLoadedAlertRef = React.createRef();
+    this.alertRef = React.createRef();
+    this.tabHeaderRef = React.createRef(null);
 
     // DT-4161: Threshold to determine should vehicles be shown if search is made in the future
     this.show_vehicles_threshold_minutes = 720;
@@ -853,9 +853,14 @@ class SummaryPage extends React.Component {
       name: null,
     });
     this.setState({ loadingMoreItineraries: reversed ? 'top' : 'bottom' });
-    if (this.itinerariesLoadingAlertRef.current) {
-      // eslint-disable-next-line no-self-assign
-      this.itinerariesLoadingAlertRef.current.innerHTML = this.itinerariesLoadingAlertRef.current.innerHTML;
+    if (this.alertRef.current) {
+      this.alertRef.current.innerHTML = this.context.intl.formatMessage({
+        id: 'itinerary-page.loading-itineraries',
+        defaultMessage: 'Loading for more itineraries',
+      });
+      setTimeout(() => {
+        this.alertRef.current.innerHTML = null;
+      }, 100);
     }
 
     const end = moment.unix(this.props.serviceTimeRange.end);
@@ -902,9 +907,14 @@ class SummaryPage extends React.Component {
       moreItinerariesQuery,
       tunedParams,
     ).then(({ plan: result }) => {
-      if (this.itinerariesLoadedAlertRef.current) {
-        // eslint-disable-next-line no-self-assign
-        this.itinerariesLoadedAlertRef.current.innerHTML = this.itinerariesLoadedAlertRef.current.innerHTML;
+      if (this.alertRef.current) {
+        this.alertRef.current.innerHTML = this.context.intl.formatMessage({
+          id: 'itinerary-page.itineraries-loaded',
+          defaultMessage: 'More itineraries loaded',
+        });
+        setTimeout(() => {
+          this.alertRef.current.innerHTML = null;
+        }, 100);
       }
       if (reversed) {
         const reversedItineraries = result.itineraries
@@ -970,9 +980,14 @@ class SummaryPage extends React.Component {
       name: null,
     });
     this.setState({ loadingMoreItineraries: reversed ? 'bottom' : 'top' });
-    if (this.itinerariesLoadingAlertRef.current) {
-      // eslint-disable-next-line no-self-assign
-      this.itinerariesLoadingAlertRef.current.innerHTML = this.itinerariesLoadingAlertRef.current.innerHTML;
+    if (this.alertRef.current) {
+      this.alertRef.current.innerHTML = this.context.intl.formatMessage({
+        id: 'itinerary-page.loading-itineraries',
+        defaultMessage: 'Loading for more itineraries',
+      });
+      setTimeout(() => {
+        this.alertRef.current.innerHTML = null;
+      }, 100);
     }
 
     const start = moment.unix(this.props.serviceTimeRange.start);
@@ -1021,9 +1036,14 @@ class SummaryPage extends React.Component {
         // --> cannot calculate earlier start time
         this.setError('no-route-start-date-too-early');
       }
-      if (this.itinerariesLoadedAlertRef.current) {
-        // eslint-disable-next-line no-self-assign
-        this.itinerariesLoadedAlertRef.current.innerHTML = this.itinerariesLoadedAlertRef.current.innerHTML;
+      if (this.alertRef.current) {
+        this.alertRef.current.innerHTML = this.context.intl.formatMessage({
+          id: 'itinerary-page.itineraries-loaded',
+          defaultMessage: 'More itineraries loaded',
+        });
+        setTimeout(() => {
+          this.alertRef.current.innerHTML = null;
+        }, 100);
       }
       if (reversed) {
         this.setState(prevState => {
@@ -1168,11 +1188,6 @@ class SummaryPage extends React.Component {
     if (this.showVehicles()) {
       this.stopClient();
     }
-    //  alert screen reader when search results appear
-    if (this.resultsUpdatedAlertRef.current) {
-      // eslint-disable-next-line no-self-assign
-      this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
-    }
   }
 
   componentDidUpdate(prevProps) {
@@ -1260,16 +1275,6 @@ class SummaryPage extends React.Component {
       }
     }
 
-    if (
-      this.resultsUpdatedAlertRef.current &&
-      this.selectedPlan.itineraries &&
-      JSON.stringify(prevProps.match.location) !==
-        JSON.stringify(this.props.match.location)
-    ) {
-      // refresh content to trigger the alert
-      // eslint-disable-next-line no-self-assign
-      this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
-    }
     if (this.props.error) {
       reportError(this.props.error);
     }
@@ -1681,6 +1686,14 @@ class SummaryPage extends React.Component {
     return itineraries.filter(x => x !== undefined);
   };
 
+  onDetailsTabFocused = () => {
+    setTimeout(() => {
+      if (this.tabHeaderRef.current) {
+        this.tabHeaderRef.current.focus();
+      }
+    }, 500);
+  };
+
   render() {
     const { match, error } = this.props;
     const { walkPlan, bikePlan } = this.state;
@@ -1901,36 +1914,7 @@ class SummaryPage extends React.Component {
     );
     const screenReaderAlert = (
       <>
-        <span
-          className="sr-only"
-          role="alert"
-          ref={this.itinerariesLoadedAlertRef}
-        >
-          <FormattedMessage
-            id="itinerary-page.itineraries-loaded"
-            defaultMessage="More itineraries loaded"
-          />
-        </span>
-        <span
-          className="sr-only"
-          role="alert"
-          ref={this.itinerariesLoadingAlertRef}
-        >
-          <FormattedMessage
-            id="itinerary-page.loading-itineraries"
-            defaultMessage="Loading for more itineraries"
-          />
-        </span>
-        <span
-          className="sr-only"
-          role="alert"
-          ref={this.resultsUpdatedAlertRef}
-        >
-          <FormattedMessage
-            id="itinerary-page.update-alert"
-            defaultMessage="Search results updated"
-          />
-        </span>
+        <span className="sr-only" role="alert" ref={this.alertRef} />
       </>
     );
 
@@ -1967,6 +1951,7 @@ class SummaryPage extends React.Component {
               <div
                 className={`swipeable-tab ${activeIndex !== i && 'inactive'}`}
                 key={itinerary.key}
+                aria-hidden={activeIndex !== i}
               >
                 <ItineraryTab
                   hideTitle
@@ -1996,10 +1981,12 @@ class SummaryPage extends React.Component {
           return (
             <DesktopView
               title={
-                <FormattedMessage
-                  id="itinerary-page.title"
-                  defaultMessage="Itinerary suggestions"
-                />
+                <span ref={this.tabHeaderRef} tabIndex={-1}>
+                  <FormattedMessage
+                    id="itinerary-page.title"
+                    defaultMessage="Itinerary suggestions"
+                  />
+                </span>
               }
               content={content}
               map={map}
@@ -2031,6 +2018,9 @@ class SummaryPage extends React.Component {
               loading={this.state.isFetchingWalkAndBike && !error}
               onLater={this.onLater}
               onEarlier={this.onEarlier}
+              onDetailsTabFocused={() => {
+                this.onDetailsTabFocused();
+              }}
               loadingMoreItineraries={this.state.loadingMoreItineraries}
             >
               {this.props.content &&
@@ -2223,6 +2213,9 @@ class SummaryPage extends React.Component {
               loading={this.state.isFetchingWalkAndBike && !error}
               onLater={this.onLater}
               onEarlier={this.onEarlier}
+              onDetailsTabFocused={() => {
+                this.onDetailsTabFocused();
+              }}
               loadingMoreItineraries={this.state.loadingMoreItineraries}
             />
             {screenReaderAlert}
