@@ -1191,6 +1191,24 @@ class SummaryPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    // screen reader alert when new itineraries are fetched
+    if (
+      this.props.match.params.hash === undefined &&
+      this.props.viewer &&
+      this.props.viewer.plan &&
+      this.props.viewer.plan.itineraries &&
+      !this.secondQuerySent &&
+      this.alertRef.current
+    ) {
+      this.alertRef.current.innerHTML = this.context.intl.formatMessage({
+        id: 'itinerary-page.itineraries-loaded',
+        defaultMessage: 'More itineraries loaded',
+      });
+      setTimeout(() => {
+        this.alertRef.current.innerHTML = null;
+      }, 100);
+    }
+
     const viaPoints = getIntermediatePlaces(this.props.match.location.query);
     if (
       this.props.match.params.hash &&
