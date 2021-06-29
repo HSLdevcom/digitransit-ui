@@ -675,7 +675,7 @@ const translations = {
     'no-route-origin-same-as-destination':
       'Keine Reisevorschläge gefunden, da Abfahrts- und Zielort übereinstimmen.',
     'no-route-showing-alternative-options':
-      'Keine Routenvorschläge mit Ihren Einstelllungen gefunden. Stattdessen haben wird die folgenden Reiseoptionen gefunden:',
+      'Es wurden keine Routen mit öffentlichen Verkehrsmitteln mit Ihren Einstelllungen gefunden. Prüfen Sie, ob die folgenden Reiseoptionen für Sie passend sind:',
     'no-route-start-date-too-early':
       'Der aktuelle Fahrplan enthält keine früheren Abfahrten.',
     'no-route-start-end': 'Bitte Start und Ziel auswählen.',
@@ -955,6 +955,7 @@ const translations = {
     'walk-bike-itinerary-1': 'Ihre Suche ergab nur Fußweg-Routen.',
     'walk-bike-itinerary-2': 'Ihre Suche ergab nur Fahrrad-Routen.',
     'walk-bike-itinerary-3': 'Ihre Suche ergab nur Fußweg- und Fahrrad-Routen.',
+    'car-park-ride-itinerary': 'Es wurde keine Route gefunden, die ausschließlich öffentliche Verkehrsmittel nutzt.',
     'walk-distance-duration': 'Gehen {duration} ({distance})',
     walking: 'Gehen',
     'walking-speed': 'Laufgeschwindigkeit',
@@ -1420,7 +1421,7 @@ const translations = {
     'no-route-origin-same-as-destination':
       'No route suggestions were found because the origin and destination are the same.',
     'no-route-showing-alternative-options':
-      'No route suggestions were found with the your settings. However, we found the following route options:',
+      'Only routes without public transport were found with your settings. However, we suggest you consider the following route options:',
     'no-route-start-date-too-early': 'There are no earlier departures.',
     'no-route-start-end': 'Please select origin and destination.',
     'no-transfers-margin': '1 min',
@@ -1705,6 +1706,7 @@ const translations = {
     'walk-bike-itinerary-2': 'Your search returned only cycling routes.',
     'walk-bike-itinerary-3':
       'Your search returned only walking and cycling routes.',
+    'car-park-ride-itinerary': 'No route using public transport only found.',
     'walk-distance-duration': 'Walk {duration} ({distance})',
     walking: 'Amount of walking',
     'walking-speed': 'Walking speed',

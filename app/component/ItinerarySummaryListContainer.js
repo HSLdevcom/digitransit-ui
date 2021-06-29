@@ -34,6 +34,8 @@ function ItinerarySummaryListContainer(
     to,
     bikeAndPublicItinerariesToShow,
     bikeAndParkItinerariesToShow,
+    parkAndRide,
+    car,
     walking,
     biking,
     showAlternativePlan,
@@ -224,6 +226,10 @@ function ItinerarySummaryListContainer(
     } else {
       msgId = 'no-route-origin-near-destination';
     }
+  } else if (parkAndRide || car) {
+    iconType = 'info';
+    iconImg = 'icon-icon_info';
+    msgId = 'car-park-ride-itinerary';
   } else if (walking || biking) {
     iconType = 'info';
     iconImg = 'icon-icon_info';
@@ -310,6 +316,8 @@ ItinerarySummaryListContainer.propTypes = {
   to: locationShape.isRequired,
   bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
   bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
+  parkAndRide: PropTypes.bool,
+  car: PropTypes.bool,
   walking: PropTypes.bool,
   biking: PropTypes.bool,
   showAlternativePlan: PropTypes.bool,
