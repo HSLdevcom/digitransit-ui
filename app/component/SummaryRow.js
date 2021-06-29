@@ -356,7 +356,7 @@ const SummaryRow = (
     } else if (leg.rentedBike) {
       const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       if (
-        config.cityBike?.showDurationWarning &&
+        config.cityBike.showDurationWarning &&
         !showRentalBikeDurationWarning
       ) {
         // eslint-disable-next-line prefer-destructuring
@@ -365,8 +365,7 @@ const SummaryRow = (
           leg.duration >
           config.cityBike?.networks[bikeNetwork].timeBeforeSurcharge;
         showRentalBikeDurationWarning =
-          config.cityBike?.showDurationWarning &&
-          rentDurationOverSurchargeLimit;
+          config.cityBike.showDurationWarning && rentDurationOverSurchargeLimit;
         citybikeicon = getCityBikeNetworkIcon(
           getCityBikeNetworkConfig(getCityBikeNetworkId(bikeNetwork), config),
         );

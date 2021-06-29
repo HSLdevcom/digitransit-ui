@@ -139,7 +139,7 @@ class ItineraryTab extends React.Component {
     const legsWithRentalBike = itinerary.legs.filter(leg => legContainsRentalBike(leg));
     const rentalBikeNetworks = [];
     let showRentalBikeDurationWarning = false;
-    if (legsWithRentalBike.length > 0 && config?.cityBike?.showDurationWarning) {
+    if (legsWithRentalBike.length > 0 && config.cityBike.showDurationWarning) {
       for (let i=0; i < legsWithRentalBike.length; i++) {
         const leg = legsWithRentalBike[i];
         const network = getCityBikeNetworkId(leg.from.bikeRentalStation?.networks);
@@ -150,7 +150,6 @@ class ItineraryTab extends React.Component {
         }
       }
     }
-
     return (
       <div className="itinerary-tab">
         <BreakpointConsumer>
