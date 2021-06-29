@@ -25,4 +25,10 @@
   @media print {
     margin-bottom: 16px;
   }
+  button {
+    display: none;
+    @include min-width(tablet) {
+      display: flex;
+    }
+  }
 }

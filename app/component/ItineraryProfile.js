@@ -6,10 +6,9 @@ import { intlShape } from 'react-intl';
 import { displayDistance } from '../util/geo-utils';
 import { getTotalDistance } from '../util/legUtils';
 import SecondaryButton from './SecondaryButton';
-import withBreakpoint from '../util/withBreakpoint';
 
 const ItineraryProfile = (
-  { itinerary, small, printItinerary, breakpoint },
+  { itinerary, small, printItinerary },
   { config, intl },
 ) => {
   return (
@@ -29,18 +28,11 @@ const ItineraryProfile = (
           )}
         </div>
       </div>
-      {breakpoint === 'large' && printItinerary && (
+      {printItinerary && (
         <SecondaryButton
           ariaLabel="print"
           buttonName="print"
-          buttonClickAction={e => {
-            printItinerary(e);
-            // addAnalyticsEvent({
-            // category: 'Stop',
-            // action: 'PrintTimetable',
-            // name: null,
-            // });
-          }}
+          buttonClickAction={printItinerary}
           buttonIcon="icon-icon_print"
           smallSize
         />
@@ -50,7 +42,6 @@ const ItineraryProfile = (
 };
 
 ItineraryProfile.propTypes = {
-  breakpoint: PropTypes.string.isRequired,
   itinerary: PropTypes.shape({
     legs: PropTypes.arrayOf(
       PropTypes.shape({
@@ -72,6 +63,4 @@ ItineraryProfile.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-const componentWithBreakpoint = withBreakpoint(ItineraryProfile);
-
-export default componentWithBreakpoint;
+export default ItineraryProfile;
