@@ -190,13 +190,13 @@ const getTopicOptions = (context, planitineraries, match) => {
         : itineraries[0];
     activeItinerary.legs.forEach(leg => {
       if (leg.transitLeg && leg.trip) {
-        const feedId = leg.trip.gtfsId.split(':')[0];
+        const feedId = leg.trip.gtfsId?.split(':')[0];
         let topic;
         if (realTime && feedIds.includes(feedId)) {
           if (realTime[feedId] && realTime[feedId].useFuzzyTripMatching) {
             topic = {
               feedId,
-              route: leg.route.gtfsId.split(':')[1],
+              route: leg.route.gtfsId?.split(':')[1],
               mode: leg.mode.toLowerCase(),
               direction: Number(leg.trip.directionId),
               tripStartTime: getStartTimeWithColon(
@@ -206,8 +206,8 @@ const getTopicOptions = (context, planitineraries, match) => {
           } else if (realTime[feedId]) {
             topic = {
               feedId,
-              route: leg.route.gtfsId.split(':')[1],
-              tripId: leg.trip.gtfsId.split(':')[1],
+              route: leg.route.gtfsId?.split(':')[1],
+              tripId: leg.trip.gtfsId?.split(':')[1],
             };
           }
         }
