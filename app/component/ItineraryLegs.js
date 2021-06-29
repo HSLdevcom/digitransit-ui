@@ -86,6 +86,12 @@ class ItineraryLegs extends React.Component {
 
   printItinerary = e => {
     e.stopPropagation();
+    addAnalyticsEvent({
+      event: 'sendMatomoEvent',
+      category: 'Itinerary',
+      action: 'Print',
+      name: null,
+    });
     window.print();
   };
 
