@@ -1453,6 +1453,19 @@ class SummaryPage extends React.Component {
           .catch(err => {
             this.pendingWeatherHash = undefined;
             this.setState({ isFetchingWeather: false, weatherData: { err } });
+          })
+          .finally(() => {
+            if (this.alertRef.current) {
+              this.alertRef.current.innerHTML = this.context.intl.formatMessage(
+                {
+                  id: 'itinerary-summary-page-street-mode.update-alert',
+                  defaultMessage: 'Walking and biking results updated',
+                },
+              );
+              setTimeout(() => {
+                this.alertRef.current.innerHTML = null;
+              }, 100);
+            }
           });
       }
     }
@@ -1899,19 +1912,6 @@ class SummaryPage extends React.Component {
       latestArrivalTime = Math.max(...combinedItineraries.map(i => i.endTime));
     }
 
-    const loadingStreeModeSelector =
-      this.props.loading ||
-      this.state.isFetchingWalkAndBike ||
-      (!this.state.weatherData.temperature && !this.state.weatherData.err);
-
-    const screenReaderWalkAndBikeUpdateAlert = (
-      <span className="sr-only" role="alert">
-        <FormattedMessage
-          id="itinerary-summary-page-street-mode.update-alert"
-          defaultMessage="Walking and biking results updated"
-        />
-      </span>
-    );
     const screenReaderAlert = (
       <>
         <span className="sr-only" role="alert" ref={this.alertRef} />
@@ -2111,7 +2111,6 @@ class SummaryPage extends React.Component {
                   }
                 />
               )}
-              {!loadingStreeModeSelector && screenReaderWalkAndBikeUpdateAlert}
             </React.Fragment>
           }
           content={content}
@@ -2261,7 +2260,6 @@ class SummaryPage extends React.Component {
                   }
                 />
               )}
-              {!loadingStreeModeSelector && screenReaderWalkAndBikeUpdateAlert}
             </React.Fragment>
           ) : (
             false
