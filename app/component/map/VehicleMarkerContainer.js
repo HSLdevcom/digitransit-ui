@@ -47,9 +47,10 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
     (headsign === undefined ||
       message.headsign === undefined ||
       headsign === message.headsign) &&
-    (direction === undefined ||
+    /* delay-prediction service doesn't send the correct direction_id
+     (direction === undefined ||
       message.direction === undefined ||
-      message.direction === direction) &&
+      message.direction === direction) && */
     (tripStart === undefined ||
       message.tripStartTime === undefined ||
       message.tripStartTime === tripStart)

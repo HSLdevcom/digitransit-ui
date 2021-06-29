@@ -156,7 +156,7 @@ describe('<VehicleMarkerContainer />', () => {
         'tampere:2:0:02',
         'Pyynikintori',
       );
-      expect(shouldShow).to.equal(false);
+      expect(shouldShow).to.equal(true);
     });
 
     it('should return false when tripStartTime does not match', () => {

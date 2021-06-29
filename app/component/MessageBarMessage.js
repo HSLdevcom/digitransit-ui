@@ -65,7 +65,7 @@ const MessageBarMessage = ({ content, textColor, truncate, onShowMore }) => {
       tabIndex={0}
       aria-hidden="true"
       role="button"
-      style={{ color: textColor, 'white-space': 'pre' }}
+      style={{ color: textColor, whiteSpace: 'pre' }}
     >
       <div className="message-heading">
         {heading(
