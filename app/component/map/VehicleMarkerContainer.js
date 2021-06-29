@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
+import moment from 'moment';
 import VehicleIcon from '../VehicleIcon';
 import IconMarker from './IconMarker';
 import { isBrowser } from '../../util/browser';
@@ -128,9 +129,17 @@ const connectedComponent = connectToStores(
       );
       vehiclesFiltered = Object.fromEntries(filtered);
     }
+    // if you keep the UI open for a long time then trips that have finsished accumulated on the screen
+    // this removes anything that hasn't had an update in 3 minutes
+    const vehiclesWithRecentUpdates = Object.entries(vehiclesFiltered).filter(
+      ([, message]) => {
+        const threeMinutesAgo = moment().subtract(180, 'seconds');
+        return moment.unix(message.timestamp).isAfter(threeMinutesAgo);
+      },
+    );
     return {
       ...props,
-      vehicles: vehiclesFiltered,
+      vehicles: Object.fromEntries(vehiclesWithRecentUpdates),
       setVisibleVehicles,
     };
   },
