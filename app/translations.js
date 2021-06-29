@@ -427,7 +427,7 @@ const translations = {
     'choose-stop-or-vehicle': 'Fahrzeug oder Haltestelle auswählen',
     'choose-vehicle': 'Fahrzeug auswählen',
     'direction': 'Ri. ',
-    'position-estimated': 'Position geschätzt.',
+    'position-estimated': 'Position geschätzt. Keine aktuellen Positionsinformationen verfügbar.',
     citybike: 'Sharing-Angebote',
     'citybike-buy-season': 'Ticket für Tag, Monat oder Jahr kaufen',
     'citybike-distance-duration': 'Leihrad {duration} ({distance})',
@@ -1003,7 +1003,7 @@ const translations = {
   en: {
     'fares-disclaimer': 'Fare information provided by Nahverkehrsgesellschaft Baden-Württemberg mbH (NVBW). No liability for the correctness of the information.',
     imprint: 'Imprint',
-    'position-estimated': 'Position estimated.',
+    'position-estimated': 'Position estimated. No current position information is available.',
     'position-disclaimer': 'Position is estimated. Last known location at {time}.',
     'direction': 'To ',
     'car-sharing-start-using': 'Book a shared car',
