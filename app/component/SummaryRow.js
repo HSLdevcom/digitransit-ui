@@ -23,6 +23,7 @@ import {
   BIKEAVL_UNKNOWN,
   getCityBikeNetworkIcon,
   getCityBikeNetworkConfig,
+  getCityBikeNetworkId,
 } from '../util/citybikes';
 import ComponentUsageExample from './ComponentUsageExample';
 import {
@@ -212,7 +213,7 @@ const bikeWasParked = legs => {
 
 const SummaryRow = (
   { data, breakpoint, intermediatePlaces, zones, ...props },
-  { intl, intl: { formatMessage }, context },
+  { intl, intl: { formatMessage }, config, context },
 ) => {
   const isTransitLeg = leg => leg.transitLeg;
   const isLegOnFoot = leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
@@ -264,6 +265,10 @@ const SummaryRow = (
     ? bikeWasParked(compressedLegs)
     : undefined;
   const renderModeIcons = compressedLegs.length < 10;
+  let bikeNetwork;
+  let showRentalBikeDurationWarning = false;
+  let citybikeicon;
+  let rentDurationOverSurchargeLimit;
 
   compressedLegs.forEach((leg, i) => {
     let interliningWithRoute;
@@ -350,6 +355,22 @@ const SummaryRow = (
       }
     } else if (leg.rentedBike) {
       const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
+      if (
+        config.cityBike?.showDurationWarning &&
+        !showRentalBikeDurationWarning
+      ) {
+        // eslint-disable-next-line prefer-destructuring
+        bikeNetwork = getCityBikeNetworkId(leg.from.bikeRentalStation.networks);
+        rentDurationOverSurchargeLimit =
+          leg.duration >
+          config.cityBike?.networks[bikeNetwork].timeBeforeSurcharge;
+        showRentalBikeDurationWarning =
+          config.cityBike?.showDurationWarning &&
+          rentDurationOverSurchargeLimit;
+        citybikeicon = getCityBikeNetworkIcon(
+          getCityBikeNetworkConfig(getCityBikeNetworkId(bikeNetwork), config),
+        );
+      }
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
@@ -727,6 +748,20 @@ const SummaryRow = (
               >
                 {firstLegStartTime}
               </div>
+              {showRentalBikeDurationWarning && (
+                <div className="citybike-duration-info-short">
+                  <Icon img={citybikeicon} height={1.2} width={1.2} />
+                  <FormattedMessage
+                    id="citybike-duration-info-short"
+                    values={{
+                      duration:
+                        config.cityBike?.networks[bikeNetwork]
+                          .timeBeforeSurcharge / 60,
+                    }}
+                    defaultMessage=""
+                  />
+                </div>
+              )}
             </div>
             {mobile(breakpoint) !== true && (
               <div

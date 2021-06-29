@@ -35,6 +35,7 @@ import {
   getCurrentMillis,
 } from '../util/timeUtils';
 import CityBikeDurationInfo from './CityBikeDurationInfo';
+import { getCityBikeNetworkId } from '../util/citybikes';
 
 /* eslint-disable prettier/prettier */
 class ItineraryTab extends React.Component {
@@ -139,9 +140,15 @@ class ItineraryTab extends React.Component {
     const rentalBikeNetworks = [];
     let showRentalBikeDurationWarning = false;
     if (legsWithRentalBike.length > 0 && config?.cityBike?.showDurationWarning) {
-      legsWithRentalBike.forEach(leg => leg?.from?.bikeRentalStation?.networks.forEach(network => rentalBikeNetworks.push(network)));
-      const rentDurationOverSurchargeLimit = legsWithRentalBike[0].duration > config.cityBike.networks[rentalBikeNetworks[0]].timeBeforeSurcharge;
-      showRentalBikeDurationWarning = legsWithRentalBike && config?.cityBike?.showDurationWarning && rentDurationOverSurchargeLimit;
+      for (let i=0; i < legsWithRentalBike.length; i++) {
+        const leg = legsWithRentalBike[i];
+        const network = getCityBikeNetworkId(leg.from.bikeRentalStation?.networks);
+        const rentDurationOverSurchargeLimit = leg.duration > config.cityBike.networks[network]?.timeBeforeSurcharge;
+        if (rentDurationOverSurchargeLimit) {
+          rentalBikeNetworks.push(network);
+          showRentalBikeDurationWarning = rentDurationOverSurchargeLimit || showRentalBikeDurationWarning;
+        }
+      }
     }
 
     return (

@@ -12,14 +12,14 @@ import {
 
 function CityBikeDurationInfo(props) {
   const { networks, lang, config } = props;
+  const cityBikeNetwork = getCityBikeNetworkId(networks);
   const citybikeicon = getCityBikeNetworkIcon(
-    getCityBikeNetworkConfig(getCityBikeNetworkId(networks), config),
+    getCityBikeNetworkConfig(cityBikeNetwork, config),
   );
-  const firstNetwork = networks[0];
   const cityBikeNetworkDurationInfoLink =
-    config.cityBike.networks[firstNetwork].durationInstructions[lang];
+    config.cityBike.networks[cityBikeNetwork].durationInstructions[lang];
   const duration =
-    config.cityBike.networks[firstNetwork].timeBeforeSurcharge / 60;
+    config.cityBike.networks[cityBikeNetwork].timeBeforeSurcharge / 60;
 
   return (
     <div className="citybike-duration-infobox">
