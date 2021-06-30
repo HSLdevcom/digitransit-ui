@@ -90,6 +90,8 @@ const BikeRentalStationContent = (
                 e.stopPropagation();
               }}
               className="external-link"
+              target="_blank"
+              rel="noreferrer"
               href={url}
             >
               <FormattedMessage id="citybike-purchase-link" />
