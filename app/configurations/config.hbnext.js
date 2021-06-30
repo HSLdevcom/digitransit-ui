@@ -587,7 +587,7 @@ export default configMerger(walttiConfig, {
 
     // live bus locations
     vehicles: true,
-    showVehiclesOnSummaryPage: true,
+    showVehiclesOnSummaryPage: false,
     showVehiclesOnStopPage: true,
 
     showBikeAndPublicItineraries: true,
