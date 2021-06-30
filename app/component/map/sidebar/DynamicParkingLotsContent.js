@@ -23,7 +23,10 @@ export const getIcon = type => {
   if (type === 'Barrierefreier-Parkplatz') {
     return 'barrierefrei';
   }
-  return 'open_carpark';
+  if (type === 'Parkplatz') {
+    return 'open_carpark';
+  }
+  return 'p+r';
 };
 
 class DynamicParkingLotsContent extends React.Component {
