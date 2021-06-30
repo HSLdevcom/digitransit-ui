@@ -850,6 +850,10 @@ div.leaflet-control-scale.leaflet-control {
   cursor: grab;
 }
 
+.desktop .map {
+  border-left: 1px solid rgba(0, 0, 0, .1);
+}
+
 div.leaflet-control-scale-line {
   text-align: right;
   margin-bottom: -4px;
