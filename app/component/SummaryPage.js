@@ -2397,6 +2397,7 @@ class SummaryPage extends React.Component {
               bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
               car={showCarOptionButton}
               parkAndRide={showParkRideOptionButton}
+              onDemandTaxi={showOnDemandTaxiOptionButton}
               walking={showWalkOptionButton}
               biking={showBikeOptionButton}
               showAlternativePlan={
@@ -2598,6 +2599,7 @@ class SummaryPage extends React.Component {
               bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
               car={showCarOptionButton}
               parkAndRide={showParkRideOptionButton}
+              onDemandTaxi={showOnDemandTaxiOptionButton}
               walking={showWalkOptionButton}
               biking={showBikeOptionButton}
               showAlternativePlan={

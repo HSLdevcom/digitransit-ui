@@ -955,6 +955,7 @@ const translations = {
     'walk-bike-itinerary-1': 'Ihre Suche ergab nur Fußweg-Routen.',
     'walk-bike-itinerary-2': 'Ihre Suche ergab nur Fahrrad-Routen.',
     'walk-bike-itinerary-3': 'Ihre Suche ergab nur Fußweg- und Fahrrad-Routen.',
+    'on-demand-taxi-itinerary': 'Nur Routen mit Ruftaxi-Anteil gefunden.',
     'car-park-ride-itinerary': 'Es wurde keine Route gefunden, die ausschließlich öffentliche Verkehrsmittel nutzt.',
     'walk-distance-duration': 'Gehen {duration} ({distance})',
     walking: 'Gehen',
@@ -1706,6 +1707,7 @@ const translations = {
     'walk-bike-itinerary-2': 'Your search returned only cycling routes.',
     'walk-bike-itinerary-3':
       'Your search returned only walking and cycling routes.',
+    'on-demand-taxi-itinerary': 'Only routes involving on-demand taxis found.',
     'car-park-ride-itinerary': 'No route using public transport only found.',
     'walk-distance-duration': 'Walk {duration} ({distance})',
     walking: 'Amount of walking',
