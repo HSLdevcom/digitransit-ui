@@ -547,6 +547,13 @@ class RoutePageControlPanel extends React.Component {
                   id="disruptions"
                   defaultMessage="Disruptions"
                 />
+                <span className="sr-only">
+                  {disruptionClassName ? (
+                    <FormattedMessage id="disruptions-tab.sr-disruptions" />
+                  ) : (
+                    <FormattedMessage id="disruptions-tab.sr-no-disruptions" />
+                  )}
+                </span>
               </div>
             </button>
           </div>

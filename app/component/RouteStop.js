@@ -107,6 +107,13 @@ const RouteStop = (
     text += ` ${stop.name},`;
     text += `${stop.code},`;
     text += `${stop.desc},`;
+
+    if (getActiveAlertSeverityLevel(stop.alerts, currentTime)) {
+      text += `${intl.formatMessage({
+        id: 'disruptions-tab.sr-disruptions',
+      })},`;
+    }
+
     if (patternExists) {
       text += `${intl.formatMessage({ id: 'leaves' })},`;
       text += `${getDepartureTime(stop.stopTimesForPattern[0])},`;
