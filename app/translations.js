@@ -675,7 +675,7 @@ const translations = {
     'no-route-origin-same-as-destination':
       'Keine Reisevorschläge gefunden, da Abfahrts- und Zielort übereinstimmen.',
     'no-route-showing-alternative-options':
-      'Es wurden keine Routen mit öffentlichen Verkehrsmitteln mit Ihren Einstelllungen gefunden. Prüfen Sie, ob die folgenden Reiseoptionen für Sie passend sind:',
+      'Es wurden keine Routen mit öffentlichen Verkehrsmitteln und Ihren Einstellungen gefunden. Prüfen Sie, ob die folgenden Reiseoptionen für Sie passend sind:',
     'no-route-start-date-too-early':
       'Der aktuelle Fahrplan enthält keine früheren Abfahrten.',
     'no-route-start-end': 'Bitte Start und Ziel auswählen.',
