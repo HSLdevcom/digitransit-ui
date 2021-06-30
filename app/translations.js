@@ -463,6 +463,7 @@ const translations = {
     'departure-is-canceled-tram': 'Tram {shortName}',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Abfahrten',
+    'departures-by-hour': 'Abfahrten pro Stunde (Minuten/Route)',
     description:
       'Finde Verkehrsverbindungen zu allen Orten. Egal ob Nah oder Fern.',
     destination: 'Zielort',
