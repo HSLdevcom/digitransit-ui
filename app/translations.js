@@ -1373,6 +1373,7 @@ const translations = {
     'swipe-result-tab-left': 'Press Enter or Space to show the previous tab.',
     'swipe-result-tab-right': 'Press Enter or Space to show the next tab.',
     'swipe-result-tabs': 'Switch tabs using arrow keys.',
+    'swipe-sr-new-tab-opened': 'Tab {number} opened.',
     'swipe-stops-near-you': 'Stops near you swipe result tabs.',
     'swipe-stops-near-you-header': 'Stops near you swipe result tabs',
     'swipe-summary-page': 'Itinerary swipe result tabs',
@@ -2332,6 +2333,7 @@ const translations = {
     'swipe-result-tab-right':
       'Navigointipainike. Näytä seuraava välilehti painamalla enteriä tai välilyöntiä.',
     'swipe-result-tabs': 'Selaa välilehtiä nuolinäppäimillä.',
+    'swipe-sr-new-tab-opened': 'Välilehti {number} avattu.',
     'swipe-stops-near-you': 'Lähipysäkkinäkymävälilehtien',
     'swipe-stops-near-you-header': 'Lähipysäkkinäkymävälilehdet.',
     'swipe-summary-page': 'Reittiehdotusvälilehtien',
@@ -4075,6 +4077,7 @@ const translations = {
     'swipe-result-tab-right':
       'Gå till följande blad genom att trycka på enter eller mellanslag.',
     'swipe-result-tabs': 'Bläddra mellan blad med pilknapparna.',
+    'swipe-sr-new-tab-opened': 'Blad {number} öppnad.',
     'swipe-stops-near-you':
       'Navigeringsknapp för att kunna bläddra hållplatser nära mig.',
     'swipe-stops-near-you-header': 'Hållplatser nära mig.',
