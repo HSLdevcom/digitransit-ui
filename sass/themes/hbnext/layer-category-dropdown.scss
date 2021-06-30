@@ -41,6 +41,14 @@
   &.checked {
     background: #9fc727 !important;
   }
+  &.mobile {
+    .icon-container {
+      .checkmark {
+        top: 0.03rem;
+        left: 0.03rem;
+      }
+    }
+  }
 }
 
 .layer-category-dropdown-option {
