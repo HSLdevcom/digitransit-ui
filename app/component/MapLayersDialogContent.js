@@ -110,6 +110,28 @@ class MapLayersDialogContent extends React.Component {
     this.props.setMapMode(mapMode);
   };
 
+  sendLayerChangedAnalyticsEvents = settings => {
+    function capitalize(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    Object.keys(settings).forEach(settingType => {
+      if (typeof settings[settingType] !== 'object') {
+        this.sendLayerChangeAnalytic(
+          capitalize(settingType),
+          settings[settingType],
+        );
+      } else {
+        Object.keys(settings[settingType]).forEach(settingSubType => {
+          this.sendLayerChangeAnalytic(
+            capitalize(settingSubType) + capitalize(settingType),
+            settings[settingType][settingSubType],
+          );
+        });
+      }
+    });
+  };
+
   render() {
     const {
       citybike,
@@ -174,9 +196,10 @@ class MapLayersDialogContent extends React.Component {
                 defaultMessage: 'Public Transit',
               })}
               icon="icon-icon_material_rail"
-              onChange={newSettings =>
-                this.updateSetting(merge(this.props.mapLayers, newSettings))
-              }
+              onChange={newSettings => {
+                this.updateSetting(merge(this.props.mapLayers, newSettings));
+                this.sendLayerChangedAnalyticsEvents(newSettings);
+              }}
               options={[
                 isTransportModeEnabled(transportModes.bus) && {
                   checked: stop.bus,
@@ -228,9 +251,10 @@ class MapLayersDialogContent extends React.Component {
                 defaultMessage: 'Bicycle',
               })}
               icon="icon-icon_material_bike"
-              onChange={newSettings =>
-                this.updateSetting(merge(this.props.mapLayers, newSettings))
-              }
+              onChange={newSettings => {
+                this.updateSetting(merge(this.props.mapLayers, newSettings));
+                this.sendLayerChangedAnalyticsEvents(newSettings);
+              }}
               options={[
                 this.context.config.bikeParks &&
                   this.context.config.bikeParks.show && {
@@ -259,9 +283,10 @@ class MapLayersDialogContent extends React.Component {
                 defaultMessage: 'Sharing',
               })}
               icon="icon-icon_material_bike_scooter"
-              onChange={newSettings =>
-                this.updateSetting(merge(this.props.mapLayers, newSettings))
-              }
+              onChange={newSettings => {
+                this.updateSetting(merge(this.props.mapLayers, newSettings));
+                this.sendLayerChangedAnalyticsEvents(newSettings);
+              }}
               options={[
                 this.context.config.cityBike &&
                   this.context.config.cityBike.showCityBikes && {
@@ -286,9 +311,10 @@ class MapLayersDialogContent extends React.Component {
                 defaultMessage: 'Car',
               })}
               icon="icon-icon_material_car"
-              onChange={newSettings =>
-                this.updateSetting(merge(this.props.mapLayers, newSettings))
-              }
+              onChange={newSettings => {
+                this.updateSetting(merge(this.props.mapLayers, newSettings));
+                this.sendLayerChangedAnalyticsEvents(newSettings);
+              }}
               options={[
                 this.context.config.dynamicParkingLots &&
                   this.context.config.dynamicParkingLots
@@ -323,9 +349,10 @@ class MapLayersDialogContent extends React.Component {
                 defaultMessage: 'Others',
               })}
               icon="icon-icon_material_map"
-              onChange={newSettings =>
-                this.updateSetting(merge(this.props.mapLayers, newSettings))
-              }
+              onChange={newSettings => {
+                this.updateSetting(merge(this.props.mapLayers, newSettings));
+                this.sendLayerChangedAnalyticsEvents(newSettings);
+              }}
               options={[
                 publicToiletsLayer && {
                   checked:
