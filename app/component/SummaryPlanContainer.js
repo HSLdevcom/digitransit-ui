@@ -56,6 +56,7 @@ class SummaryPlanContainer extends React.Component {
     loading: PropTypes.bool.isRequired,
     onLater: PropTypes.func.isRequired,
     onEarlier: PropTypes.func.isRequired,
+    onDetailsTabFocused: PropTypes.func.isRequired,
     loadingMoreItineraries: PropTypes.string,
   };
 
@@ -130,6 +131,7 @@ class SummaryPlanContainer extends React.Component {
     this.context.router.replace(newState);
     newState.pathname = indexPath;
     this.context.router.push(newState);
+    this.props.onDetailsTabFocused();
   };
 
   onNow = () => {
