@@ -75,6 +75,10 @@ class DepartureListContainer extends Component {
     isStopPage: PropTypes.bool,
   };
 
+  static contextTypes = {
+    intl: intlShape.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.pageLoadedAlertRef = React.createRef();
@@ -82,8 +86,15 @@ class DepartureListContainer extends Component {
 
   componentDidMount() {
     if (this.pageLoadedAlertRef.current) {
-      // eslint-disable-next-line no-self-assign
-      this.pageLoadedAlertRef.current.innerHTML = this.pageLoadedAlertRef.current.innerHTML;
+      this.pageLoadedAlertRef.current.innerHTML = this.context.intl.formatMessage(
+        {
+          id: 'stop-page.right-now.loaded',
+          defaultMessage: 'Right now stop page loaded',
+        },
+      );
+      setTimeout(() => {
+        this.pageLoadedAlertRef.current.innerHTML = null;
+      }, 100);
     }
     if (this.context.config.showVehiclesOnStopPage && this.props.isStopPage) {
       const departures = asDepartures(this.props.stoptimes)
@@ -207,12 +218,7 @@ class DepartureListContainer extends Component {
 
   render() {
     const screenReaderAlert = (
-      <span className="sr-only" role="alert" ref={this.pageLoadedAlertRef}>
-        <FormattedMessage
-          id="stop-page.right-now.loaded"
-          defaultMessage="Right now stop page loaded"
-        />
-      </span>
+      <span className="sr-only" role="alert" ref={this.pageLoadedAlertRef} />
     );
 
     const departureObjs = [];
