@@ -117,7 +117,10 @@ export default function TicketInformation(
                   </div>
                   {config.showTicketPrice && (
                     <div className="ticket-description">
-                      {`${(fare.cents / 100).toFixed(2)} €`}
+                      {`${(fare.cents / 100).toLocaleString(intl.locale, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })} €`}
                     </div>
                   )}
                 </div>
