@@ -4,19 +4,16 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import Link from 'found/Link';
 import { intlShape, FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import DepartureRow from './DepartureRow';
 import { patternIdPredicate } from '../util/alertUtils';
 import { isBrowser } from '../util/browser';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import {
   stopRealTimeClient,
   startRealTimeClient,
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
 
 const asDepartures = stoptimes =>
@@ -313,6 +310,7 @@ class DepartureListContainer extends Component {
         <DepartureRow
           key={id}
           departure={row}
+          showLink={this.props.routeLinks}
           departureTime={departure.stoptime}
           currentTime={this.props.currentTime}
           showPlatformCode={isTerminal}
@@ -327,26 +325,7 @@ class DepartureListContainer extends Component {
         />
       );
 
-      if (this.props.routeLinks) {
-        departureObjs.push(
-          <Link
-            to={`/${PREFIX_ROUTES}/${departure.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.pattern.code}`}
-            key={id}
-            onClick={() => {
-              addAnalyticsEvent({
-                category: 'Stop',
-                action: 'OpenRouteViewFromStop',
-                name: 'RightNowTab',
-              });
-            }}
-            role="row"
-          >
-            {departureObj}
-          </Link>,
-        );
-      } else {
-        departureObjs.push(departureObj);
-      }
+      departureObjs.push(departureObj);
     });
 
     return (
