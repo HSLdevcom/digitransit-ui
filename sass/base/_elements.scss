@@ -353,9 +353,6 @@ svg.realtime-icon {
   &.inactive {
     // just an arbitrary small value
       max-height: 1px;
-      @media print {
-        display: none;
-      }
   }
 }
 

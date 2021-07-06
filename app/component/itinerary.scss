@@ -214,15 +214,18 @@ $itinerary-tab-switch-height: 48px;
 
 .summary-divider {
   height: 1px;
-  width: 400px;
   margin-left: 60px;
   border-bottom: 1px solid #dddddd;
   box-sizing: border-box;
+
+}
+
+.itinerary-summary-container {
+  padding: 0 65px;
 }
 
 .itinerary-summary {
   position: relative;
-  margin-left: 65px;
 
   .divider-top,
   .divider-bottom {
@@ -233,6 +236,9 @@ $itinerary-tab-switch-height: 48px;
     top: 0px;
     border-top: 1px solid #dddddd;
     box-sizing: border-box;
+    @media print {
+      border: none;
+    }
   }
 
   .divider-bottom {
@@ -1094,6 +1100,9 @@ $itinerary-tab-switch-height: 48px;
             .badge-circle {
               stroke-width: 6%;
             }
+            @media print {
+              left: 155px;
+            }
           }
         }
         .citybike-info {
@@ -1456,6 +1465,9 @@ div.itinerary-container-content {
   .desktop-view-divider {
     border-top: 1px solid #dddddd;
     width: 400px;
+    @media print {
+      border: none;
+    }
   }
 
   &.swipe-mobile-divider {
@@ -1586,9 +1598,23 @@ div.itinerary-container-content {
 }
 
 @media print {
-  .itinerary-tab {
-    display: block;
-    height: auto;
+  .swipeable-tab {
+    &.inactive > .itinerary-tab {
+      > .itinerary-tabs__scroll {
+        display: none;
+      }
+      > .itinerary-summary-container > .itinerary-summary {
+        display: none;
+      }
+    }
+    &.false > .itinerary-tab {
+      > .itinerary-tabs__scroll {
+        width: 100vw;
+      }
+      > .itinerary-summary-container {
+      width: 100vw;
+      }
+    }
   }
 }
 
@@ -2090,6 +2116,9 @@ $font-print-decrease: 0.7;
       width: calc(100% - 20px);
       &.multirow {
         top: 76px;
+      }
+      @media print {
+        border: none;
       }
     }
   }
