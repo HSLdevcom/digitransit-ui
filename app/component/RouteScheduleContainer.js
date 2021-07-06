@@ -652,6 +652,9 @@ class RouteScheduleContainer extends PureComponent {
             </div>
           )}
         </ScrollableWrapper>
+        {this.props.breakpoint === 'large' && (
+          <div className="after-scrollable-area" />
+        )}
         <div className="route-page-action-bar">
           <div className="print-button-container">
             {routeTimetableUrl && (
