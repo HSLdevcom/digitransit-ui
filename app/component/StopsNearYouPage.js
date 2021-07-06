@@ -416,6 +416,7 @@ class StopsNearYouPage extends React.Component {
             className={`stops-near-you-page swipeable-tab ${
               nearByStopMode !== mode && 'inactive'
             }`}
+            aria-hidden={nearByStopMode !== mode}
           >
             {renderRefetchButton && this.refetchButton()}
             <StopsNearYouFavorites
@@ -434,6 +435,7 @@ class StopsNearYouPage extends React.Component {
         <div
           className={`swipeable-tab ${nearByStopMode !== mode && 'inactive'}`}
           key={nearByStopMode}
+          aria-hidden={nearByStopMode !== mode}
         >
           <QueryRenderer
             query={graphql`

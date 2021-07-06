@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
@@ -341,6 +341,12 @@ class IndexPage extends React.Component {
                 style={{ display: 'block' }}
                 className="scrollable-content-wrapper momentum-scroll"
               >
+                <h1 className="sr-only">
+                  <FormattedMessage
+                    id="index.title"
+                    default="Journey Planner"
+                  />
+                </h1>
                 <CtrlPanel
                   instance="hsl"
                   language={lang}

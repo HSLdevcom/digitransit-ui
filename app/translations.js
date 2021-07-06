@@ -1019,6 +1019,7 @@ const translations = {
     'hour-short': 'h',
     'how-to-rate-service': 'How would you rate the service?',
     'in-addition': 'In addition',
+    'index.title': 'Journey Planner',
     inquiry: 'How did you find the new Journey Planner? Please tell us!',
     instructions: 'Instructions',
     'itinerary-details.biking-leg':
@@ -1982,6 +1983,7 @@ const translations = {
     'hour-short': 'h',
     'how-to-rate-service': 'Kuinka arvioisit palvelua?',
     'in-addition': 'Lisäksi',
+    'index.title': 'Reittiopas',
     inquiry: 'Mitä pidät uudesta Reittioppaasta? Kerro se meille! ',
     instructions: 'Ohjeet',
     'itinerary-details.biking-leg':
@@ -3722,6 +3724,7 @@ const translations = {
     'hour-short': 'h',
     'how-to-rate-service': 'Hur skulle du utvärdera tjänsten?',
     'in-addition': 'Även',
+    'index.title': 'Reseplaneraren',
     inquiry: 'Vad tycker du om den nya Reseplaneraren. Berätta för oss!',
     instructions: 'Anvisningar',
     'itinerary-details.biking-leg':
