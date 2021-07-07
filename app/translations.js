@@ -876,7 +876,7 @@ const translations = {
     airplane: 'Flight',
     'airplane-with-route-number': 'Flight {routeNumber}',
     'airport-check-in':
-      "Check in on arrival, if you haven't done so in advance",
+      'Check-in immediately upon arrival if you have not completed check-in in advance',
     'airport-collect-luggage': 'Collect your luggage',
     'airport-security-check-go-to-gate':
       'Proceed to your gate through security check',
@@ -896,7 +896,7 @@ const translations = {
     'bike-availability': 'Bikes available at the station right now',
     'bike-not-allowed-bus': 'Bikes are not allowed on the bus',
     'bike-not-allowed-tram': 'Bikes are not allowed on the tram',
-    'bike-station-disabled': 'Bike station is closed.',
+    'bike-station-disabled': 'The bike station is out of service.',
     'bikes-available': '{amount} bikes at the station ',
     'biketransport-citybike': "I'm using a citybike",
     'biketransport-only-bike': "I'm travelling only by bike",
@@ -977,7 +977,7 @@ const translations = {
       'No known disruptions or diversions to the route.',
     disruptions: 'Disruptions',
     'disruptions-and-diversions': 'Disruptions and diversions',
-    'disruptions-tab.sr-disruptions': 'One or more disruptions active',
+    'disruptions-tab.sr-disruptions': 'One or more known disruptions',
     'disruptions-tab.sr-no-disruptions': 'No known disruptions',
     'distance-between': 'Distance {distance1} m — {distance2} m',
     'distance-total': 'Total distance',
@@ -1079,7 +1079,7 @@ const translations = {
     'itinerary-summary.bikeAndPublic-subway-title': 'Take your bike to metro',
     'itinerary-summary.bikePark-title': 'Leave your bike at a Park & Ride',
     'itinerary-summary.interline-wait':
-      'Linjatunnus ({shortName}) ja määränpää ({destination}) vaihtuvat pysäkillä {stop}. Matka jatkuu {time} odotuksen jälkeen. Odota kulkuneuvossa.',
+      'The route number ({shortName}) and destination ({destination}) will change at the {stop} stop. Waiting time at the stop is {time}. Please wait onboard.',
     'itinerary-summary.show-on-map': 'Show on map {target}',
     'itinerary-ticket.title': 'Required ticket',
     'itinerary-tickets.title': 'Required tickets',
@@ -1143,7 +1143,7 @@ const translations = {
     'nearest-favorites-no-favorites':
       'Timetables for the selected stops and vehicles on map',
     'nearest-no-stops':
-      'Valitun liikennevälineen asemia tai pysäkkejä ei ole lähialueella.',
+      'There are no stops or stations for the selected mode of transport nearby.',
     'nearest-stops': 'The closest stops',
     'nearest-stops-bus': 'bus stops',
     'nearest-stops-citybike': 'bike stations',
@@ -1263,9 +1263,10 @@ const translations = {
     'route-least-walking': 'Avoid walking',
     'route-not-possible':
       'Unfortunately, your route is not available. Technical error: "{error}"',
-    'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
+    'route-page-vehicle-position':
+      '{mode} {shortName} is at the {stopName} stop',
     'route-page-vehicle-position-between':
-      '{mode} {shortName} is between {stopName} and {nextStopName}',
+      '{mode} {shortName} is between the {stopName} stop and the {nextStopName} stop.',
     'route-page.description': 'Route {shortName} - {longName}',
     'route-page.future-routes': 'Future routes',
     'route-page.pattern-chosen': 'Selected',
@@ -3575,7 +3576,8 @@ const translations = {
     agency: 'Trafikidkare',
     airplane: 'Flyg',
     'airplane-with-route-number': 'Flyg {routeNumber}',
-    'airport-check-in': 'Bagage kan checkas in på {agency}',
+    'airport-check-in':
+      'Checka in strax du anlänt, om du inte redan har gjort det i förväg',
     'airport-collect-luggage': 'Plocka upp ditt bagage',
     'airport-security-check-go-to-gate':
       'Gå igenom säkerhetskontrollen till gate',
@@ -3595,7 +3597,7 @@ const translations = {
     'bike-availability': 'Antal cyklar just nu',
     'bike-not-allowed-bus': 'Cyklar är inte tillåtna på bussen',
     'bike-not-allowed-tram': 'Cyklar är inte tillåtna på spårvagnen',
-    'bike-station-disabled': 'Stängd',
+    'bike-station-disabled': 'Stadscykelstationen är ur bruk.',
     'bikes-available': '{amount} cyklar vid stationen',
     'biketransport-citybike': 'Jag använder en stadscykel',
     'biketransport-only-bike': 'Jag reser bara med cykel',
@@ -3680,7 +3682,7 @@ const translations = {
       'Linjen har för tillfället inga kända störningar eller avvikelser.',
     disruptions: 'Störningar',
     'disruptions-and-diversions': 'Störningar och avvikelser',
-    'disruptions-tab.sr-disruptions': 'En eller flera störningar kända',
+    'disruptions-tab.sr-disruptions': 'En eller flera kända störningar',
     'disruptions-tab.sr-no-disruptions': 'Inga kända störningar',
     'distance-between': 'Avstånd {distance1} m — {distance2} m',
     'distance-total': 'Resans längd',
@@ -3781,7 +3783,7 @@ const translations = {
     'itinerary-summary.bikePark-title':
       'Lämna din cykel till anslutningsparkeringen',
     'itinerary-summary.interline-wait':
-      'Linjatunnus ({shortName}) ja määränpää ({destination}) vaihtuvat pysäkillä {stop}. Matka jatkuu {time} odotuksen jälkeen. Odota kulkuneuvossa.',
+      'Linjenumret ({shortName}) och destinationen ({destination}) ändras vid hållplats {stop}. Resan fortsätter om {time}. Vänta ombord på bussen.',
     'itinerary-summary.show-on-map': 'Visa på kartan {target}',
     'itinerary-ticket.title': 'Biljett som behövs',
     'itinerary-tickets.title': 'Biljetter som behövs',
@@ -3844,7 +3846,7 @@ const translations = {
     'nearest-favorites-no-favorites':
       'Tidtabeller och fordon vid de valda hållplatserna på kartan',
     'nearest-no-stops':
-      'Valitun liikennevälineen asemia tai pysäkkejä ei ole lähialueella.',
+      'Inga stationer eller hållplatser för det valda trafikfordonet i närheten.',
     'nearest-stops': 'Närliggande hållplatser',
     'nearest-stops-bus': 'busshållplatser',
     'nearest-stops-citybike': 'cykelstationer',
@@ -3966,9 +3968,10 @@ const translations = {
     'route-least-walking': 'Minsta gången',
     'route-not-possible':
       'Tyvärr är din rutt inte möjlig. Tekniskt fel: "{error}"',
-    'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
+    'route-page-vehicle-position':
+      '{mode} {shortName} är vid hållplatsen {stopName}',
     'route-page-vehicle-position-between':
-      '{mode} {shortName} is between {stopName} and {nextStopName}',
+      '{mode} {shortName} är mellan hållplats {stopName} och hållplats {nextStopName}.',
     'route-page.description': 'Linje {shortName} - {longName}',
     'route-page.future-routes': 'Framtida rutter',
     'route-page.pattern-chosen': 'Vald',
