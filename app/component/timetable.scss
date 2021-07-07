@@ -36,8 +36,12 @@
   }
   .timetable-note {
     border-top: 1px solid $light-gray;
-    padding-top: $padding-large;
+    padding-top: 19px;
     margin: 0.5em 4em 1em 4em;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-normal;
+    line-height: 18px;
+    letter-spacing: -0.03em;
     @media print {
       display: none;
     }

@@ -650,13 +650,17 @@ hr.action-bar {
 }
 
 .print-button-container {
-  margin-top: 0.5em;
   display: flex;
-  float: left;
+  height: 50px;
+  align-items: center;
+  z-index: 22;
+
   button {
-    margin-right: 1em;
-    margin-left: auto;
-    margin-bottom: $padding-medium;
+    margin: 11px 10px 11px 0;
+  }
+
+  @media print {
+    display: none;
   }
 }
 

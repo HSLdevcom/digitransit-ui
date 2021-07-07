@@ -684,6 +684,12 @@ section.content {
         height: auto;
         width: 100%;
         margin-bottom: 0;
+
+        @media print {
+          display: block;
+          height: auto;
+        }
+
         .message-content {
           .message-heading {
             min-height: 11px;
