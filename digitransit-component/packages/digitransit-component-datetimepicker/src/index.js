@@ -56,6 +56,7 @@ function DatetimepickerStateContainer({
   fontWeights,
   serviceTimeRange,
 }) {
+  moment.locale(lang);
   moment.tz.setDefault(timeZone);
   const initialNow = realtime ? null : moment().valueOf();
   const [timestamp, changeTimestampState] = useState(
