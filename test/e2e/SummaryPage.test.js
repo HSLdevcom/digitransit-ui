@@ -1,3 +1,4 @@
+/* eslint-disable compat/compat */
 /* eslint-disable no-undef */
 import fs from 'fs';
 import getConfig from './helpers/image-snapshot-config';
@@ -37,7 +38,7 @@ const mockRoutes = async page => {
     }
   });
 
-  await page.route('**/wfs', async route => {
+  await page.route('https://opendata.fmi.fi/*', async route => {
     const xml = await fs.readFileSync('test/e2e/mock-data/weatherMock.xml');
     await route.fulfill({
       headers: { 'access-control-allow-origin': '*' },
@@ -53,31 +54,35 @@ describe(`Summary page with ${config} config`, () => {
     await mockRoutes(page);
   });
   const path =
-    '/reitti/Rautatientori%2C%20Helsinki%3A%3A60.170384%2C24.939846/Mannerheimintie%2089%2C%20Helsinki%3A%3A60.194445473775644%2C24.904975891113285?locale=fi&time=1624975569/';
+    '/reitti/Rautatientori%2C%20Helsinki%3A%3A60.170384%2C24.939846/Mannerheimintie%2089%2C%20Helsinki%3A%3A60.194445473775644%2C24.904975891113285';
   test(`itinerary suggestions on ${platform}`, async () => {
-    const snapshotName = `summary-page-${platform}`;
+    const snapshotName = `itinerary-suggestions-${platform}`;
     const response = await page.goto(`http://localhost:8080${path}`);
-    await Promise.all([
-      page.waitForSelector('.summary-list-container'),
-      page.waitForSelector('.street-mode-button-row'),
-      new Promise(res => setTimeout(res, 2000)),
-    ]);
 
     expect(response.status()).toBe(200);
     await expect(page.title()).resolves.toMatch('Reittiehdotukset');
 
+    await Promise.all([
+      page.waitForSelector('.summary-list-container'),
+      page.waitForSelector('.street-mode-button-row'),
+      page.waitForSelector('.street-mode-selector-weather-container'),
+      new Promise(res => setTimeout(res, 2000)),
+    ]);
+
     let image;
     if (!isMobile) {
       const mainContent = await page.$(
-        '#mainContent > .desktop > .main-content',
+        '#app > #mainContent > .desktop > .main-content',
       );
       image = await mainContent.screenshot({
         fullPage: true,
       });
     } else {
+      await page.waitForSelector(
+        '#app > #mainContent > .mobile > [role="main"] > .summary > .summary-list-container',
+      );
       image = await page.screenshot({ fullPage: true });
     }
-
     const snapshotConfig = getConfig(
       snapshotName,
       `${customSnapshotsDir}/${browserName}/${config}/`,
@@ -85,4 +90,37 @@ describe(`Summary page with ${config} config`, () => {
     );
     expect(image).toMatchImageSnapshot(snapshotConfig);
   });
+
+  // test(`itinerary details on ${platform}`, async () => {
+  //   const snapshotName = `itinerary-details-${platform}`;
+  //   const response = await page.goto(`http://localhost:8080${path}/2`);
+
+  //   expect(response.status()).toBe(200);
+  //   await expect(page.title()).resolves.toMatch('Reittiehdotukset');
+
+  //   let mainContent;
+  //   if (!isMobile) {
+  //     await page.waitForSelector(
+  //       '#mainContent > .desktop > .main-content > .scrollable-content-wrapper',
+  //     );
+  //     mainContent = await page.$('#mainContent > .desktop > .main-content');
+  //   } else {
+  //     await page.waitForSelector(
+  //       '#app > #mainContent > .mobile > .drawer-container > .drawer-content',
+  //     );
+  //     mainContent = await page.$(
+  //       '#app > #mainContent > .mobile > .drawer-container > .drawer-content',
+  //     );
+  //   }
+  //   const image = await mainContent.screenshot({
+  //     fullPage: true,
+  //   });
+  //   // await new Promise(res => setTimeout(res, 200000));
+  //   const snapshotConfig = getConfig(
+  //     snapshotName,
+  //     `${customSnapshotsDir}/${browserName}/${config}/`,
+  //     `${customDiffDir}/${browserName}/${config}/`,
+  //   );
+  //   expect(image).toMatchImageSnapshot(snapshotConfig);
+  // });
 });
