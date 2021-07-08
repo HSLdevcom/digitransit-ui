@@ -70,6 +70,7 @@ export const RouteLeg = ({
   intl,
   legLength,
   isTransitLeg,
+  interliningWithRoute,
   fitRouteNumber,
   withBicycle,
 }) => {
@@ -97,6 +98,7 @@ export const RouteLeg = ({
         alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
         route={leg.route}
         className={cx('line', leg.mode.toLowerCase())}
+        interliningWithRoute={interliningWithRoute}
         mode={leg.mode}
         vertical
         withBar
@@ -122,6 +124,7 @@ RouteLeg.propTypes = {
   large: PropTypes.bool.isRequired,
   legLength: PropTypes.number.isRequired,
   fitRouteNumber: PropTypes.bool.isRequired,
+  interliningWithRoute: PropTypes.number,
   isTransitLeg: PropTypes.bool,
   withBicycle: PropTypes.bool.isRequired,
 };
@@ -263,6 +266,7 @@ const SummaryRow = (
   const renderModeIcons = compressedLegs.length < 10;
 
   compressedLegs.forEach((leg, i) => {
+    let interliningWithRoute;
     let renderBar = true;
     let waiting = false;
     let waitTime;
@@ -274,6 +278,7 @@ const SummaryRow = (
     const nextLeg = compressedLegs[i + 1];
     let legLength =
       ((leg.endTime - leg.startTime) / durationWithoutSlack) * 100; // length of the current leg in %
+
     const longName =
       leg.route && leg.route.shortName && leg.route.shortName.length > 5;
 
@@ -289,6 +294,11 @@ const SummaryRow = (
           ((leg.endTime - leg.startTime + waitTime) / durationWithoutSlack) *
           100; // otherwise add the waiting to the current legs length
       }
+    }
+    if (nextLeg?.interlineWithPreviousLeg) {
+      interliningWithRoute = nextLeg.route.shortName;
+      legLength =
+        ((nextLeg.endTime - leg.startTime) / durationWithoutSlack) * 100;
     }
     legLength += addition;
     addition = 0;
@@ -410,19 +420,22 @@ const SummaryRow = (
         legLength > renderRouteNumberThreshold &&
         !longName &&
         transitLegCount < 7;
-      legs.push(
-        <RouteLeg
-          key={`${leg.mode}_${leg.startTime}`}
-          leg={leg}
-          fitRouteNumber={
-            (fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg
-          }
-          intl={intl}
-          legLength={legLength}
-          large={breakpoint === 'large'}
-          withBicycle={withBicycle}
-        />,
-      );
+      if (!leg.interlineWithPreviousLeg) {
+        legs.push(
+          <RouteLeg
+            key={`${leg.mode}_${leg.startTime}`}
+            leg={leg}
+            fitRouteNumber={
+              (fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg
+            }
+            interliningWithRoute={interliningWithRoute}
+            intl={intl}
+            legLength={legLength}
+            large={breakpoint === 'large'}
+            withBicycle={withBicycle}
+          />,
+        );
+      }
       vehicleNames.push(
         formatMessage(
           {
@@ -437,7 +450,7 @@ const SummaryRow = (
       stopNames.push(leg.from.name);
     }
 
-    if (waiting) {
+    if (waiting && !nextLeg?.interlineWithPreviousLeg) {
       const waitingTimeinMin = Math.floor(waitTime / 1000 / 60);
       legs.push(
         <ModeLeg

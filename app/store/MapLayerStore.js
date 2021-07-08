@@ -46,20 +46,34 @@ class MapLayerStore extends Store {
   }
 
   getMapLayers = skip => {
-    if (!skip || !skip.notThese) {
+    if (!skip?.notThese && !skip?.force) {
       return this.mapLayers;
     }
     const layers = { ...this.mapLayers };
-    skip.notThese.forEach(key => {
-      if (typeof layers[key] === 'object') {
-        layers[key] = {};
-        Object.keys(this.mapLayers[key]).forEach(subKey => {
-          layers[key][subKey] = false;
-        });
-      } else {
-        layers[key] = false;
-      }
-    });
+    if (skip.notThese) {
+      skip.notThese.forEach(key => {
+        if (typeof layers[key] === 'object') {
+          layers[key] = {};
+          Object.keys(this.mapLayers[key]).forEach(subKey => {
+            layers[key][subKey] = false;
+          });
+        } else {
+          layers[key] = false;
+        }
+      });
+    }
+    if (skip.force) {
+      skip.force.forEach(key => {
+        if (typeof layers[key] === 'object') {
+          layers[key] = {};
+          Object.keys(this.mapLayers[key]).forEach(subKey => {
+            layers[key][subKey] = true;
+          });
+        } else {
+          layers[key] = true;
+        }
+      });
+    }
     return layers;
   };
 
@@ -67,6 +81,10 @@ class MapLayerStore extends Store {
     this.mapLayers = {
       ...this.mapLayers,
       ...mapLayers,
+      stop: {
+        ...this.mapLayers.stop,
+        ...mapLayers.stop,
+      },
     };
     setMapLayerSettings({ ...this.mapLayers });
     this.emitChange();

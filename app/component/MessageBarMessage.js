@@ -42,21 +42,16 @@ const MessageBarMessage = ({ content, textColor, truncate, onShowMore }) => {
     );
   };
 
+  const headingContent = heading(
+    content.find(part => part.type === 'heading'),
+    textColor,
+  );
   // eslint-disable-next-line jsx-a11y/click-events-have-key-events
   return (
-    <div
-      className="message-content"
-      tabIndex={0}
-      aria-hidden="true"
-      role="button"
-      style={{ color: textColor }}
-    >
-      <div className="message-heading">
-        {heading(
-          content.find(part => part.type === 'heading'),
-          textColor,
-        )}
-      </div>
+    <div className="message-content" style={{ color: textColor }}>
+      {headingContent && (
+        <div className="message-heading">{headingContent}</div>
+      )}
       {body(
         content.find(part => part.type === 'text'),
         content.find(part => part.type === 'a'),

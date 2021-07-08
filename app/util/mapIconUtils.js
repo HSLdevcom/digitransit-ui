@@ -96,8 +96,11 @@ export function getStopIconStyles(type, zoom, isHilighted) {
     // use bigger icon for hilighted stops always
     return styles[type][15];
   }
-  if (zoom < 13) {
+  if (zoom < 13 && type !== 'citybike') {
     return null;
+  }
+  if (zoom < 13) {
+    return styles[type][13];
   }
   if (zoom > 16) {
     return styles[type][16];
@@ -276,6 +279,53 @@ function drawIconImageBadge(
   );
 }
 
+function getSelectedIconCircleOffset(zoom, ratio) {
+  if (zoom > 15) {
+    return 94 / ratio;
+  }
+  return 78 / ratio;
+}
+
+function drawSelectionCircle(
+  tile,
+  x,
+  y,
+  radius,
+  largeStyle,
+  showAvailabilityBadge = false,
+) {
+  const zoom = tile.coords.z - 1;
+  const selectedCircleOffset = getSelectedIconCircleOffset(zoom, tile.ratio);
+
+  let arc = FULL_CIRCLE;
+  if (showAvailabilityBadge) {
+    arc *= 3 / 4;
+  }
+
+  tile.ctx.beginPath();
+  // eslint-disable-next-line no-param-reassign
+  tile.ctx.lineWidth = 2;
+  if (largeStyle) {
+    tile.ctx.arc(
+      x + selectedCircleOffset,
+      y + 1.85 * selectedCircleOffset,
+      radius - 2,
+      0,
+      arc,
+    );
+  } else {
+    tile.ctx.arc(
+      x + selectedCircleOffset,
+      y + selectedCircleOffset,
+      radius + 2,
+      0,
+      arc,
+    );
+  }
+
+  tile.ctx.stroke();
+}
+
 /**
  * Draw a small circle icon used for far away zoom level.
  */
@@ -314,13 +364,6 @@ const getMemoizedStopIcon = memoize(
   (type, radius, color, isHilighted) =>
     `${type}_${radius}_${color}_${isHilighted}`,
 );
-
-function getSelectedIconCircleOffset(zoom, ratio) {
-  if (zoom > 15) {
-    return 94 / ratio;
-  }
-  return 78 / ratio;
-}
 
 /**
  * Draw stop icon based on type.
@@ -617,24 +660,10 @@ export function drawCitybikeIcon(
     }
     getImageFromSpriteCache(icon, width, height).then(image => {
       tile.ctx.drawImage(image, x, y);
+      if (isHilighted) {
+        drawSelectionCircle(tile, x, y, radius, false, false);
+      }
     });
-    if (isHilighted) {
-      const selectedCircleOffset = getSelectedIconCircleOffset(
-        zoom,
-        tile.ratio,
-      );
-      tile.ctx.beginPath();
-      // eslint-disable-next-line no-param-reassign
-      tile.ctx.lineWidth = 2;
-      tile.ctx.arc(
-        x + selectedCircleOffset,
-        y + selectedCircleOffset,
-        radius + 2,
-        0,
-        FULL_CIRCLE,
-      );
-      tile.ctx.stroke();
-    }
   }
   if (style === 'large') {
     const smallCircleRadius = 11 * tile.scaleratio;
@@ -666,21 +695,14 @@ export function drawCitybikeIcon(
         /* eslint-enable no-param-reassign */
       }
       if (isHilighted) {
-        const selectedCircleOffset = getSelectedIconCircleOffset(
-          zoom,
-          tile.ratio,
+        drawSelectionCircle(
+          tile,
+          iconX,
+          iconY,
+          radius,
+          true,
+          showAvailabilityBadge,
         );
-        tile.ctx.beginPath();
-        // eslint-disable-next-line no-param-reassign
-        tile.ctx.lineWidth = 2;
-        tile.ctx.arc(
-          iconX + selectedCircleOffset,
-          iconY + 1.85 * selectedCircleOffset,
-          radius - 2,
-          0,
-          FULL_CIRCLE * (3 / 4),
-        );
-        tile.ctx.stroke();
       }
     });
   }

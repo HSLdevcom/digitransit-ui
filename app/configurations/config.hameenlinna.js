@@ -37,7 +37,7 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'hameenlinna/logo.png',
 
-  feedIds: ['Hameenlinna', 'HameenlinnaEly'],
+  feedIds: ['Hameenlinna'],
 
   geoJson: {
     layers: [
@@ -50,15 +50,6 @@ export default configMerger(walttiConfig, {
         url: '/assets/geojson/hml_zone_lines_20210222.geojson',
       },
     ],
-  },
-
-  mapLayers: {
-    tooltip: {
-      fi: 'Uutta! Saat nyt lähellä olevat bussit kartalle asetuksista.',
-      en: 'New! You can now get nearby busses on the map from the settings.',
-      sv:
-        'Nytt! I inställningarna kan du nu välja att se närliggande bussar på kartan.',
-    },
   },
 
   searchParams: {
@@ -147,13 +138,12 @@ export default configMerger(walttiConfig, {
     8: 'H',
     9: 'I',
   },
-  stopCard: {
-    header: {
-      showZone: true,
-    },
-  },
 
   vehicles: true,
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
+  zones: {
+    stops: true,
+    itinerary: true,
+  },
 });

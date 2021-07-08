@@ -42,6 +42,7 @@ class RouteStopListContainer extends React.PureComponent {
 
     return stops.map((stop, i) => {
       const idx = i; // DT-3159: using in key of RouteStop component
+      const nextStop = stops[i + 1];
 
       return (
         <RouteStop
@@ -50,8 +51,9 @@ class RouteStopListContainer extends React.PureComponent {
               ? `#${this.props.pattern.route.color}`
               : null
           }
-          key={`${stop.gtfsId}-${this.props.pattern}-${idx}`} // DT-3159: added -${idx}
+          key={`${stop.gtfsId}-${this.props.pattern}-${idx}`}
           stop={stop}
+          nextStop={nextStop}
           mode={mode}
           vehicle={vehicles[stop.gtfsId] ? vehicles[stop.gtfsId][0] : null}
           currentTime={this.props.currentTime.unix()}
@@ -84,9 +86,9 @@ class RouteStopListContainer extends React.PureComponent {
 
   render() {
     return (
-      <div className={cx('route-stop-list', this.props.className)}>
+      <ul className={cx('route-stop-list', this.props.className)}>
         {this.getStops()}
-      </div>
+      </ul>
     );
   }
 }

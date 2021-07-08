@@ -13,6 +13,8 @@ import BackButton from '../BackButton';
 import { isActiveDate } from '../../util/patternUtils';
 import { mapLayerShape } from '../../store/MapLayerStore';
 import { boundWithMinimumArea } from '../../util/geo-utils';
+import { getMapLayerOptions } from '../../util/mapLayerUtils';
+import { mapLayerOptionsShape } from '../../util/shapes';
 
 class RoutePageMap extends React.Component {
   constructor(props) {
@@ -29,6 +31,12 @@ class RoutePageMap extends React.Component {
     lon: PropTypes.number,
     breakpoint: PropTypes.string.isRequired,
     mapLayers: mapLayerShape.isRequired,
+    mapLayerOptions: mapLayerOptionsShape.isRequired,
+    trip: PropTypes.shape({ gtfsId: PropTypes.string }),
+  };
+
+  static defaultProps = {
+    trip: null,
   };
 
   static contextTypes = {
@@ -64,7 +72,15 @@ class RoutePageMap extends React.Component {
   };
 
   render() {
-    const { pattern, lat, lon, match, breakpoint, mapLayers } = this.props;
+    const {
+      pattern,
+      lat,
+      lon,
+      match,
+      breakpoint,
+      mapLayers,
+      mapLayerOptions,
+    } = this.props;
     if (!pattern) {
       return false;
     }
@@ -107,10 +123,17 @@ class RoutePageMap extends React.Component {
       }
       mwtProps.bounds = this.bounds;
     }
-
+    const tripSelected =
+      this.props.trip && this.props.trip.gtfsId && isActiveDate(pattern);
     let tripStart;
     // BUG ??  tripStar prop is never set
-    const leafletObjs = [<RouteLine key="line" pattern={pattern} />];
+    const leafletObjs = [
+      <RouteLine
+        key="line"
+        pattern={pattern}
+        vehiclePosition={tripSelected ? { lat, lon } : null}
+      />,
+    ];
     if (isActiveDate(pattern)) {
       leafletObjs.push(
         <VehicleMarkerContainer
@@ -130,6 +153,7 @@ class RoutePageMap extends React.Component {
         className="full"
         leafletObjs={leafletObjs}
         mapLayers={mapLayers}
+        mapLayerOptions={mapLayerOptions}
         onStartNavigation={this.stopTracking}
         onMapTracking={this.stopTracking}
         setMWTRef={this.setMWTRef}
@@ -153,6 +177,10 @@ const RoutePageMapWithVehicles = connectToStores(
   ({ getStore }, { trip }) => {
     const mapLayers = getStore('MapLayerStore').getMapLayers({
       notThese: ['stop', 'citybike', 'vehicles'],
+    });
+    const mapLayerOptions = getMapLayerOptions({
+      lockedMapLayers: ['vehicles', 'stop', 'citybike'],
+      selectedMapLayers: ['vehicles'],
     });
     if (trip) {
       const { vehicles } = getStore('RealTimeInformationStore');
@@ -178,16 +206,17 @@ const RoutePageMapWithVehicles = connectToStores(
 
       if (matchingVehicles.length !== 1) {
         // no matching vehicles or cant distinguish between vehicles
-        return { mapLayers };
+        return { mapLayers, mapLayerOptions };
       }
       const selectedVehicle = matchingVehicles[0];
       return {
         lat: selectedVehicle.lat,
         lon: selectedVehicle.long,
         mapLayers,
+        mapLayerOptions,
       };
     }
-    return { mapLayers };
+    return { mapLayers, mapLayerOptions };
   },
 );
 

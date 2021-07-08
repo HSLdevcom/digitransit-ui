@@ -9,7 +9,7 @@ const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || 'next-'; // TODO maybe use regular endpoint again at some point
 const APP_PATH = process.env.APP_CONTEXT || '';
-const { SENTRY_DSN } = process.env;
+const { SENTRY_DSN, AXE, NODE_ENV } = process.env;
 const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
 const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 12000;
@@ -21,7 +21,9 @@ const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
 export default {
   SENTRY_DSN,
   PORT,
+  AXE,
   CONFIG,
+  NODE_ENV,
   OTPTimeout: OTP_TIMEOUT,
   URL: {
     API_URL,
@@ -45,7 +47,7 @@ export default {
     }/place`,
     ROUTE_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/routes/`,
-      tampere: 'http://nysse.fi/media/aikataulut/',
+      tampere: 'https://www.nysse.fi/aikataulut-ja-reitit/linjat/',
     },
     STOP_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/stops/`,
@@ -77,8 +79,6 @@ export default {
 
   realTime: realtime,
   realTimePatch: REALTIME_PATCH,
-
-  showNewMqtt: !process.env.DISABLE_NEW_MQTT_FEATURES,
 
   // Google Tag Manager id
   GTMid: process.env.GTM_ID || null,
@@ -161,6 +161,8 @@ export default {
     'Europe/Helsinki|EET EEST|-20 -30|0101010101010101010101010101010101010|22k10 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00|12e5',
 
   allowLogin: false,
+  allowFavouritesFromLocalstorage: true,
+
   mainMenu: {
     // Whether to show the left menu toggle button at all
     show: true,
@@ -181,8 +183,6 @@ export default {
     timeNavigation: {
       enableButtonArrows: false,
     },
-
-    showZoneLimits: false,
     // Number of days to include to the service time range from the future (DT-3317)
     serviceTimeRange: 30,
   },
@@ -242,7 +242,6 @@ export default {
       showDescription: true,
       showStopCode: true,
       showDistance: true,
-      showZone: false,
     },
   },
 
@@ -674,6 +673,7 @@ export default {
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
     matka: 'matka',
+    vaasa: 'vaasa',
     walttiOpas: 'waltti',
     rovaniemi: 'rovaniemi',
     kouvola: 'kouvola',
@@ -709,12 +709,16 @@ export default {
   showNearYouButtons: false,
   nearYouModes: [],
 
-  zoneIconsAsSvg: false,
-
   /* Option to disable the "next" column of the Route panel as it can be confusing sometimes: https://github.com/mfdz/digitransit-ui/issues/167 */
   displayNextDeparture: true,
 
   messageBarAlerts: false,
 
   availableTickets: {},
+  zones: {
+    stops: false,
+    itinerary: false,
+  },
+
+  viaPointsEnabled: true,
 };

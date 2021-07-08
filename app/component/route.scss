@@ -45,9 +45,11 @@ $margin-left-right: 1.333em;
   background-color: $white;
   .route-page-container {
     padding-top: 0;
-    padding-right: 1em;
     background-color: transparent;
     position: relative;
+    .route-page-control-panel-container {
+      margin: 0 1.333em;
+    }
   }
   .bottom-whitespace {
     min-height: 300px;
@@ -57,18 +59,6 @@ $margin-left-right: 1.333em;
 .route-page-container {
   background-color: $white;
   padding-top: 3em;
-}
-
-.route-page-dynamic-divider-content {
-  position: relative;
-  left: 20px;
-  width: calc(100% - 3em);
-  height: 1px;
-  background: white;
-  &.bp-large {
-    left: 3.5em;
-    width: calc(100% - 7em);
-  }
 }
 
 .route-page-content {
@@ -81,7 +71,6 @@ $margin-left-right: 1.333em;
   padding-bottom: 1.5em;
   flex: 1 0;
   flex-basis: 0px;
-  max-height: 100vh;
   background: $white;
   transition: flex-grow 500ms cubic-bezier(0.215, 0.61, 0.355, 1),
     flex-basis 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
@@ -90,7 +79,7 @@ $margin-left-right: 1.333em;
     top: 0;
     padding-top: 0;
     padding-left: 3.5em;
-    padding-right: 2.5em;
+    padding-right: 3.5em;
   }
   &:empty {
     flex-basis: 0;
@@ -107,9 +96,13 @@ $margin-left-right: 1.333em;
 .route-stop-list {
   @include font-narrow-medium;
   background-color: $white;
-  margin-left: 2px;
+  margin: 0 0 0 2px;
+  padding: 0;
   .route-stop:last-child .route-stop-row_content-container {
     border-bottom: none;
+  }
+  & > li {
+    list-style: none;
   }
 }
 
@@ -144,6 +137,9 @@ $margin-left-right: 1.333em;
   .icon.small-vehicle-icon {
     transform: scale(1);
   }
+}
+.route-stop-container {
+  width: 100%;
 }
 .route-details-upper-row {
   display: flex;
@@ -288,17 +284,13 @@ $margin-left-right: 1.333em;
   .route-stop-row_content-container {
     width: 100%; //calc(100% - 13% - 15px - 1em);
     margin-left: 15px;
-    display: block;
+    display: flex;
     border-bottom: 1px solid #eef1f3;
     a {
-      display: flex;
-      flex-direction: row;
       width: 100%;
       height: 100%;
       padding: 10px 0;
       text-decoration: none;
-      justify-content: space-between;
-      align-items: center;
       .route-details_container {
         flex-grow: 1;
         display: flex;
@@ -367,21 +359,16 @@ $margin-left-right: 1.333em;
           margin-right: 5px;
         }
         .itinerary-zone-icon {
+          flex: 1;
           font-family: $font-family;
         }
       }
       .route-stop-time {
         display: flex;
-        position: absolute;
-        right: 0;
         flex-direction: row;
         color: #666;
         flex: 0 1 auto;
         font-size: $font-size-small;
-        margin-right: 0.9375em;
-        @include min-width(tablet) {
-          margin-right: 2.75em;
-        }
         span {
           margin: 0;
           font-family: $font-family;
@@ -489,6 +476,7 @@ $margin-left-right: 1.333em;
     display: flex;
     min-width: 0;
     .route-short-name {
+      margin: 0;
       font-family: $font-family-narrow;
       font-size: 30px;
       font-weight: $font-weight-medium;
@@ -807,8 +795,19 @@ $margin-left-right: 1.333em;
   }
 }
 
+.after-scrollable-area {
+  position: absolute;
+  z-index: 22;
+  height: 16px;
+  width: 520px;
+  background-color: rgba(0, 0, 0, 0);
+  bottom: 34px;
+  box-shadow: 0 -8px 6px -6px rgba(0, 0, 0, 0.2);
+}
+
 .route-page-action-bar {
-  justify-content: center;
+  justify-content: flex-start;
+  padding-left: 60px;
   display: flex;
   background-color: #ffffff;
 
@@ -901,13 +900,16 @@ $margin-left-right: 1.333em;
   margin: 5px 20px 0 20px;
   padding-bottom: 5px;
   &.bp-large {
-    margin: 0 $margin-left-right-large 0;
+    margin: 0 4.5em 0 $margin-left-right-large;
     box-shadow: none;
   }
 }
 
 .route-page-control-panel-container {
   padding-bottom: 1.75rem;
+  &.hairiot {
+    margin: 0 3.5em;
+  }
 
   @media print {
     .route-tabs {
@@ -941,11 +943,36 @@ $margin-left-right: 1.333em;
       font-weight: $font-weight-medium;
       background-color: $white;
     }
+    &:disabled {
+      color: #333;
+      font-weight: $font-weight-medium;
+      background-color: $white;
+      cursor: default;
+      opacity: 1;
+      box-shadow: none;
+      &:focus, &:hover {
+        color: inherit;
+        background: $white;
+      }
+    }
     .no-alerts > span {
       color: #b7b7b7;
     }
   }
 
+  .tab-route-disruption {
+    .icon-container {
+      margin-right: 5px;
+      vertical-align: middle;
+      .disruption-icon {
+        width: 0.85em;
+        height: 0.95em;
+      }
+      .service-alert-icon {
+        fill: rgba(136, 136, 136, 1);
+      }
+    }
+  }
   .tab-panel {
     flex-grow: 1;
     display: flex;
@@ -997,6 +1024,9 @@ $margin-left-right: 1.333em;
     &:focus {
       outline: none;
       border-color: $primary-color;
+      background: #fff;
+      border: solid 1px $primary-color;
+      box-shadow: 0px 0px 2px 1px $secondary-color;
     }
 
     .toggle-icon {
@@ -1035,8 +1065,11 @@ $margin-left-right: 1.333em;
     border-radius: 4px;
     position: relative;
     &:focus-within {
+      outline: none;
       border-color: $primary-color;
-      box-shadow: none;
+      background: #fff;
+      border: solid 1px $primary-color;
+      box-shadow: 0px 0px 2px 1px $secondary-color;
     }
     .input-display {
       position: relative;
@@ -1090,7 +1123,7 @@ $margin-left-right: 1.333em;
         line-height: 18px;
         letter-spacing: -0.03em;
         .react-autosuggest__section-title {
-          font-weight: 500;
+          font-weight: var(--sectionTitleFontWeight);
           border-bottom: 1px solid #dddddd;
           min-height: 44px;
           padding: 13px 16px;
@@ -1154,6 +1187,7 @@ $margin-left-right: 1.333em;
     }
 
     .route-alert-row-link {
+      display: contents;
       padding-right: 1px;
       padding-left: 1px;
     }
@@ -1165,17 +1199,14 @@ $margin-left-right: 1.333em;
       vertical-align: bottom;
 
       .route-alert-top-row {
-        display: flex;
+        display: inline-flex;
         align-items: center;
+        font-size: 15px;
         .route-alert-entityid {
           font-family: $font-family-narrow;
           font-size: 21px;
           font-weight: $font-weight-medium;
-          margin-right: 10px;
-        }
-        .route-alert-time-period {
-          font-size: 15px;
-          padding: 0 0 0 5px;
+          margin-right: 15px;
         }
       }
     }

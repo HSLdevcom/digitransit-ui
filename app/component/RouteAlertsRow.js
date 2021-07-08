@@ -12,7 +12,6 @@ import ExternalLink from './ExternalLink';
 import Icon from './Icon';
 import RouteNumber from './RouteNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
-import { AlertSeverityLevelType } from '../constants';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
 export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
@@ -55,12 +54,7 @@ export default function RouteAlertsRow(
   },
   { intl },
 ) {
-  const showTime =
-    severityLevel &&
-    severityLevel !== AlertSeverityLevelType.Info &&
-    startTime &&
-    endTime &&
-    currentTime;
+  const showTime = startTime && endTime && currentTime;
   const gtfsIdList = gtfsIds ? gtfsIds.split(',') : [];
 
   const routeLinks =
@@ -69,11 +63,11 @@ export default function RouteAlertsRow(
           <Link
             key={gtfsIdList[i]}
             to={`/${PREFIX_ROUTES}/${gtfsIdList[i]}/${PREFIX_STOPS}`}
-            className="route-alert-row-link"
+            className={cx('route-alert-row-link', entityMode)}
             style={{ color }}
           >
             {' '}
-            {identifier}{' '}
+            {identifier}
           </Link>
         ))
       : [];
@@ -84,10 +78,10 @@ export default function RouteAlertsRow(
           <Link
             key={gtfsIdList[i]}
             to={`/${PREFIX_STOPS}/${gtfsIdList[i]}`}
-            className="route-alert-row-link"
+            className={cx('route-alert-row-link', entityMode)}
           >
             {' '}
-            {identifier}{' '}
+            {identifier}
           </Link>
         ))
       : [];
@@ -134,33 +128,30 @@ export default function RouteAlertsRow(
             {entityIdentifier &&
               ((entityType === 'route' &&
                 showRouteNameLink &&
-                routeLinks.length > 0 && (
-                  <div className={entityMode}>{routeLinks}</div>
-                )) ||
+                routeLinks.length > 0 && <>{routeLinks} </>) ||
                 (!showRouteNameLink && (
-                  <div className="route-alert-entityid">
-                    <div className={entityMode} style={{ color }}>
-                      {entityIdentifier}{' '}
-                    </div>
+                  <div
+                    className={cx('route-alert-entityid', entityMode)}
+                    style={{ color }}
+                  >
+                    {entityIdentifier}{' '}
                   </div>
                 )) ||
                 (entityType === 'stop' &&
                   showRouteNameLink &&
-                  stopLinks.length > 0 && (
-                    <div className={entityMode}>{stopLinks}</div>
-                  )) ||
+                  stopLinks.length > 0 && <>{stopLinks} </>) ||
                 (!showRouteNameLink && (
                   <div className={entityMode}>{entityIdentifier}</div>
                 )))}
             {showTime && (
-              <div className="route-alert-time-period">
+              <>
                 {getTimePeriod({
                   currentTime: moment.unix(currentTime),
                   startTime: moment.unix(startTime),
                   endTime: moment.unix(endTime),
                   intl,
                 })}
-              </div>
+              </>
             )}
           </div>
         )}

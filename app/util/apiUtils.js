@@ -22,7 +22,9 @@ export function updateFavourites(data) {
     },
     body: JSON.stringify(data),
   };
-  return retryFetch('/api/user/favourites', options, 0, 0);
+  return retryFetch('/api/user/favourites', options, 0, 0).then(res =>
+    res.json(),
+  );
 }
 
 export function deleteFavourites(data) {
@@ -33,7 +35,9 @@ export function deleteFavourites(data) {
     },
     body: JSON.stringify(data),
   };
-  return retryFetch('/api/user/favourites', options, 0, 0);
+  return retryFetch('/api/user/favourites', options, 0, 0).then(res =>
+    res.json(),
+  );
 }
 
 export function getWeatherData(baseURL, time, lat, lon) {

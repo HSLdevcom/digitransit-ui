@@ -299,6 +299,7 @@ $btn-heigth: 17px;
   font-size: $font-size-normal;
   padding: 0.92em $padding-large;
   display: flex;
+  align-items: center;
   flex-direction: row;
 
   &:hover,
@@ -314,7 +315,11 @@ $btn-heigth: 17px;
   }
 
   &.small {
-    padding: 0.7em $padding-medium;
+    height: 28px;
+    padding: 5px 15px;
+  }
+  @media print {
+    display: none;
   }
 }
 

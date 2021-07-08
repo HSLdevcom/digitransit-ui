@@ -204,7 +204,7 @@ function WalkLeg(
                 )}
               </div>
             </div>
-            {/*           <div
+            <div
               className="itinerary-map-action"
               onClick={focusAction}
               onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
@@ -219,7 +219,7 @@ function WalkLeg(
                 img="icon-icon_show-on-map"
                 className="itinerary-search-icon"
               />
-            </div> */}
+            </div>
           </div>
         )}
 

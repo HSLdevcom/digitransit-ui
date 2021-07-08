@@ -17,7 +17,7 @@ import {
   getServiceAlertHeader,
   getServiceAlertUrl,
 } from '../util/alertUtils';
-import { isIe } from '../util/browser';
+import { isIe, isKeyboardSelectionEvent } from '../util/browser';
 import hashCode from '../util/hashUtil';
 
 /* Small version has constant height,
@@ -258,7 +258,6 @@ class MessageBar extends Component {
           key={this.props.duplicateMessageCounter}
           id="messageBar"
           role="banner"
-          aria-hidden="true"
           className="message-bar flex-horizontal"
           style={{ background: backgroundColor }}
         >
@@ -308,6 +307,11 @@ class MessageBar extends Component {
                   defaultMessage: 'Close banner',
                 })}
                 onClick={this.handleClose}
+                onKeyDown={e => {
+                  if (isKeyboardSelectionEvent(e)) {
+                    this.handleClose();
+                  }
+                }}
                 className="noborder close-button  cursor-pointer"
                 type="button"
               >

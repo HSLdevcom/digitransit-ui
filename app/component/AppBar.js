@@ -15,7 +15,7 @@ import UserMenu from './UserMenu';
 
 const AppBar = (
   { showLogo, title, homeUrl, logo, user, breakpoint, titleClicked },
-  { config, intl, match },
+  { config, intl, match, getStore },
 ) => {
   const { location } = match;
   const url = encodeURI(`${window.location?.origin || ''}${location.pathname}`);
@@ -24,7 +24,7 @@ const AppBar = (
   return (
     <>
       <DisruptionInfo />
-      <MessageBar breakpoint={breakpoint} />
+      {config.NODE_ENV !== 'test' && <MessageBar breakpoint={breakpoint} />}
       <CanceledLegsBar />
       <nav className={`top-bar ${breakpoint !== 'large' ? 'mobile' : ''}`}>
         <section className="title">
@@ -60,6 +60,7 @@ const AppBar = (
                     href: '/logout',
                     onClick: event => {
                       event.preventDefault();
+                      getStore('FavouriteStore').storeFavourites();
                       window.location.href = '/logout';
                     },
                   },

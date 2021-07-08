@@ -6,6 +6,9 @@ import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { isBrowser } from '../util/browser';
 
 const PatternRedirector = ({ router, match, route }) => {
+  if (!route) {
+    throw Error('Empty route');
+  }
   let sortedPatternsByCountOfTrips;
   const tripsExists = route.patterns ? 'trips' in route.patterns[0] : false;
   if (tripsExists) {

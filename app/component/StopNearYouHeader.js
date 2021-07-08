@@ -20,17 +20,17 @@ const StopNearYouHeader = (
           }}
           to={linkAddress}
         >
-          <h3 className="stop-near-you-name">
+          <h2 className="stop-near-you-name">
             {stop.name}
             <span className="sr-only">
               <PlatformNumber number={stop.platformCode} short={false} />
             </span>
-          </h3>
+          </h2>
         </Link>
         <div className="stop-near-you-info">
           <AddressRow desc={desc} code={stop.code} isTerminal={isStation} />
           <PlatformNumber number={stop.platformCode} short />
-          {config.stopCard.header.showZone &&
+          {config.zones.stops &&
             config.feedIds.includes(stop.gtfsId.split(':')[0]) && (
               <ZoneIcon
                 zoneId={getZoneLabel(stop.zoneId, config)}

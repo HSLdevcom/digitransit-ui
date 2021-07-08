@@ -248,6 +248,10 @@ div.leaflet-marker-icon.vehicle-icon {
   [role='button'] {
     max-height: 36px;
     max-width: 36px;
+    cursor: pointer;
+    &:hover {
+      background: #f4f4f4;
+    }
   }
 
   & > * {
@@ -285,6 +289,9 @@ div.leaflet-marker-icon.vehicle-icon {
     h1 {
       display: flex;
       padding: 0.5em;
+      margin: 0;
+      font-family: $font-family-narrow;
+      font-size: $font-size-xlarge;
     }
   }
 
@@ -652,8 +659,11 @@ div.origin-popup {
 .map .legmarker {
   display: flex;
   align-items: center;
-  min-width: 40px;
+  min-width: 50px;
   height: 18px;
+  .wide {
+    min-width: 64px;
+  }
   &.speech-bubble.normal {
     background-color: transparent;
     div {
@@ -838,6 +848,10 @@ div.leaflet-control-scale.leaflet-control {
   margin-right: 20px;
   margin-bottom: 20px;
   cursor: grab;
+}
+
+.desktop .map {
+  border-left: 1px solid rgba(0, 0, 0, .1);
 }
 
 div.leaflet-control-scale-line {

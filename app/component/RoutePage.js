@@ -6,7 +6,6 @@ import cx from 'classnames';
 import { matchShape, routerShape, RedirectException } from 'found';
 import Icon from './Icon';
 
-import CallAgencyWarning from './CallAgencyWarning';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from './RouteNumber';
 import RoutePageControlPanel from './RoutePageControlPanel';
@@ -64,7 +63,6 @@ class RoutePage extends React.Component {
             <FormattedMessage id="route-guide" defaultMessage="Route guide" />
           </h1>
         </div>
-        {route.type === 715 && <CallAgencyWarning route={route} />}
         <div
           className={cx('route-container', {
             'bp-large': breakpoint === 'large',
@@ -78,19 +76,26 @@ class RoutePage extends React.Component {
             />
           )}
           <div className="route-header">
-            <RouteNumber
-              color={route.color ? `#${route.color}` : null}
-              mode={route.mode}
-              text=""
-            />
+            <div aria-hidden="true">
+              <RouteNumber
+                color={route.color ? `#${route.color}` : null}
+                mode={route.mode}
+                text=""
+              />
+            </div>
             <div className="route-info">
-              <div
+              <h1
                 className={cx('route-short-name', route.mode.toLowerCase())}
                 style={{ color: route.color ? `#${route.color}` : null }}
               >
+                <span className="sr-only" style={{ whiteSpace: 'pre' }}>
+                  {this.context.intl.formatMessage({
+                    id: route.mode.toLowerCase(),
+                  })}{' '}
+                </span>
                 {route.shortName}
-              </div>
-              {tripId && (
+              </h1>
+              {tripId && route.patterns[1]?.headsign && (
                 <div className="trip-destination">
                   <Icon className="in-text-arrow" img="icon-icon_arrow-right" />
                   <div className="destination-headsign">

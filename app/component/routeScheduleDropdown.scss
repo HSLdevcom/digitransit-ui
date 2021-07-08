@@ -41,17 +41,18 @@
     border-style: none;
     max-height: 24px;
     min-height: 24px;
-    &:focus, &:hover {
-      border-style: none;
-    }
     box-shadow: none;
+
+    &:focus-within {
+      outline: 2px auto #333 !important;
+    }
   }
+
   .dd-timerange__control {
     top: -1px;
   }
 
   .dd__control--menu-is-open, .dd-right__control--menu-is-open, .dd-timerange__control--menu-is-open {
-    outline: none;
     border-style: none;
     svg {
       transform: rotate(-180deg);
@@ -131,7 +132,7 @@
       background-color: #f4f4f5;
     }
     &--is-selected, &--is-focused {
-      background-color: white;
+      background-color: #F4F4F5;
     }
     margin-right: 5px;
     svg {

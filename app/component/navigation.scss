@@ -19,8 +19,8 @@ $offcanvas-background-active: scale-color($gray, $lightness: -30%);
 /* top bar */
 $topbar-height: 40px;
 
-$top-navigation-icon-color: navbar-icon-color($primary-color);
-$top-navigation-title-color: navbar-icon-color($primary-color);
+$top-navigation-icon-color: navbar-icon-color($top-bar-color);
+$top-navigation-title-color: navbar-icon-color($top-bar-color);
 
 /* offcanvas */
 $offcanvas-profile-icon-size: 60px;
@@ -100,6 +100,7 @@ $content-background-color: $background-color;
 .mobile.top-bar {
   height: 50px;
   min-height: 50px;
+  z-index: 1000;
   background: $top-bar-color;
   .logo {
     min-height: 30px;
@@ -301,7 +302,7 @@ $content-background-color: $background-color;
       width: 1.3em;
     }
   }
-  .h2 {
+  h1 {
     font-size: 1.2em;
     margin: 0 0 0 2.5em;
     font-weight: $font-weight-medium;
@@ -650,7 +651,6 @@ section.content {
   .banner-container {
     height: auto;
     display: flex;
-    max-height: 100%;
     overflow: hidden;
 
     .message-bar-content {
@@ -683,7 +683,13 @@ section.content {
       .react-swipe-container {
         height: auto;
         width: 100%;
-        margin-bottom: 3px;
+        margin-bottom: 0;
+
+        @media print {
+          display: block;
+          height: auto;
+        }
+
         .message-content {
           .message-heading {
             min-height: 11px;
@@ -705,8 +711,12 @@ section.content {
       .swipe-tab-indicator {
         flex-grow: 0;
       }
-      .swipe-button .icon.disabled {
-       fill: #ccc;
+      .swipe-button .icon {
+        height: 14px;
+        width: 14px;
+        &.disabled {
+          fill: $medium-gray;
+        }
       }
     }
 
@@ -812,8 +822,7 @@ section.content {
   fill: $primary-color;
   height: 24px;
   width: 24px;
-  margin: 11px;
-  margin-top: 20px;
+  margin: 18px;
 }
 
 .message-bar .icon.close {

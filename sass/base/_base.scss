@@ -82,11 +82,12 @@ a {
 /* HEADINGS */
 h1,
 .h1 {
-  @include font-narrow-medium;
-  font-size: $font-size-xlarge;
-  padding: 0.4em 0 0.2em;
-  margin: 0;
+  font-family: $font-family;
+  font-size: $font-size-large;
+  font-weight: $font-weight-medium;
+  letter-spacing: $letter-spacing-front-page;
   color: $black;
+  text-transform: none;
 }
 h2,
 .h2 {

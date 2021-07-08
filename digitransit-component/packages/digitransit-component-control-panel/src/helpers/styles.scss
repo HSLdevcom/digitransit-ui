@@ -199,6 +199,7 @@
       min-width: 100%;
       height: 48px;
       .transport-mode-icon-with-icon {
+        cursor: pointer;
         display: flex;
         position: relative;
         left: 17px;
@@ -224,6 +225,7 @@
         }
       }
       .transport-mode-title {
+        cursor: pointer;
         position: relative;
         font-style: normal;
         font-weight: var(--font-weight-medium);

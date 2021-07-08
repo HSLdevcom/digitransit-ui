@@ -199,7 +199,10 @@
     .stop-near-you-header-container {
       display: flex;
       .stop-near-you-name {
+        font-size: 1rem;
         line-height: 24px;
+        letter-spacing: -0.4px;
+        margin: 0;
       }
       .stop-header-content {
         a {
@@ -274,7 +277,18 @@
   }
   .near-departures-container {
     padding: 2px 15px 15px 15px;
+    border-spacing: 0;
+    margin: 0;
+    width: 100%;
+    tr, td {
+      margin: 0;
+      padding: 0;
+      border-spacing: 0;
+    }
     .departure-row {
+      .platform-cell {
+        display: flex;
+      }
       .platform-code {
         height: 20px;
         width: 26px;
@@ -289,9 +303,8 @@
         @include font-medium;
         font-size: 0.75rem;
         padding-right: 8px;
-        span {
-          vertical-align: sub;
-        }
+        position: relative;
+        top: -1px;
         &.realtime {
           color: $realtime-color;
         }
@@ -314,7 +327,7 @@
         }
       }
       .route-headsign {
-        font-family: 'Gotham XNarrow Book', 'Roboto', Arial, Georgia, serif;
+        font-family: $font-family-narrow;
         font-weight: $font-weight-book;
         color: #333;
         flex: 1;
@@ -357,6 +370,9 @@
   padding: 12px 0 5px 0;
   border-radius: 10px;
   margin-bottom: 15px;
+  .swipe-scroll-container {
+    flex-basis: unset;
+  }
   .swipe-header.disruption-banner {
     width: unset;
     .swipe-button-container {
@@ -447,10 +463,10 @@
     .disruption-banner-container {
       margin: 0 5px 15px;
     }
-  }
-  .route-number {
-    .icon-container {
-      font-size: 1.25em;
+    .route-number {
+      .icon-container {
+        font-size: 1.25em;
+      }
     }
   }
   .no-favorites-container {

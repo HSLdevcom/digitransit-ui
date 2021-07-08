@@ -56,6 +56,7 @@ const RouteStop = (
     last,
     mode,
     stop,
+    nextStop,
     vehicle,
     displayNextDeparture,
     shortName,
@@ -106,6 +107,13 @@ const RouteStop = (
     text += ` ${stop.name},`;
     text += `${stop.code},`;
     text += `${stop.desc},`;
+
+    if (getActiveAlertSeverityLevel(stop.alerts, currentTime)) {
+      text += `${intl.formatMessage({
+        id: 'disruptions-tab.sr-disruptions',
+      })},`;
+    }
+
     if (patternExists) {
       text += `${intl.formatMessage({ id: 'leaves' })},`;
       text += `${getDepartureTime(stop.stopTimesForPattern[0])},`;
@@ -164,7 +172,12 @@ const RouteStop = (
       vehicleTripLink = vehicle.tripId ? (
         <TripLink key={vehicle.id} vehicle={vehicle} shortName={shortName} />
       ) : (
-        <FuzzyTripLink key={vehicle.id} vehicle={vehicle} />
+        <FuzzyTripLink
+          stopName={stop.name}
+          nextStopName={nextStop ? nextStop.name : null}
+          key={vehicle.id}
+          vehicle={vehicle}
+        />
       );
     }
     return (
@@ -173,12 +186,8 @@ const RouteStop = (
       </div>
     );
   };
-
   return (
-    <div
-      className={cx('route-stop location-details_container ', className)}
-      role="listitem"
-    >
+    <li className={cx('route-stop location-details_container ', className)}>
       {getVehicleTripLink()}
       <div className={cx('route-stop-now_circleline', mode)} aria-hidden="true">
         <svg
@@ -214,7 +223,7 @@ const RouteStop = (
           }}
           aria-label={getText()}
         >
-          <div>
+          <div className="route-stop-container">
             <div className="route-details-upper-row">
               <div className={` route-details_container ${mode}`}>
                 <div className="route-stop-name">
@@ -249,12 +258,14 @@ const RouteStop = (
             </div>
             <div className="route-details-bottom-row">
               <AddressRow desc={stop.desc} code={stop.code} />
-              {stop.zoneId && (
+              {config.zones.stops && stop.zoneId ? (
                 <ZoneIcon
                   className="itinerary-zone-icon"
                   zoneId={getZoneLabel(stop.zoneId, config)}
                   showUnknown={false}
                 />
+              ) : (
+                <div className="itinerary-zone-icon" />
               )}
               {nextDeparture && displayNextDeparture && (
                 <div
@@ -279,7 +290,7 @@ const RouteStop = (
           </div>
         </Link>
       </div>
-    </div>
+    </li>
   );
 };
 
@@ -287,6 +298,7 @@ RouteStop.propTypes = {
   color: PropTypes.string,
   vehicle: PropTypes.object,
   stop: PropTypes.object,
+  nextStop: PropTypes.object,
   mode: PropTypes.string,
   className: PropTypes.string,
   currentTime: PropTypes.number.isRequired,
