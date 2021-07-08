@@ -4,19 +4,16 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import Link from 'found/Link';
 import { intlShape, FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import DepartureRow from './DepartureRow';
 import { patternIdPredicate } from '../util/alertUtils';
 import { isBrowser } from '../util/browser';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import {
   stopRealTimeClient,
   startRealTimeClient,
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
 
 const asDepartures = stoptimes =>
@@ -65,6 +62,7 @@ const asDepartures = stoptimes =>
 class DepartureListContainer extends Component {
   static propTypes = {
     stoptimes: PropTypes.array.isRequired,
+    mode: PropTypes.string.isRequired,
     currentTime: PropTypes.number.isRequired,
     limit: PropTypes.number,
     infiniteScroll: PropTypes.bool,
@@ -74,6 +72,10 @@ class DepartureListContainer extends Component {
     isStopPage: PropTypes.bool,
   };
 
+  static contextTypes = {
+    intl: intlShape.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.pageLoadedAlertRef = React.createRef();
@@ -81,8 +83,15 @@ class DepartureListContainer extends Component {
 
   componentDidMount() {
     if (this.pageLoadedAlertRef.current) {
-      // eslint-disable-next-line no-self-assign
-      this.pageLoadedAlertRef.current.innerHTML = this.pageLoadedAlertRef.current.innerHTML;
+      this.pageLoadedAlertRef.current.innerHTML = this.context.intl.formatMessage(
+        {
+          id: 'stop-page.right-now.loaded',
+          defaultMessage: 'Right now stop page loaded',
+        },
+      );
+      setTimeout(() => {
+        this.pageLoadedAlertRef.current.innerHTML = null;
+      }, 100);
     }
     if (this.context.config.showVehiclesOnStopPage && this.props.isStopPage) {
       const departures = asDepartures(this.props.stoptimes)
@@ -206,12 +215,7 @@ class DepartureListContainer extends Component {
 
   render() {
     const screenReaderAlert = (
-      <span className="sr-only" role="alert" ref={this.pageLoadedAlertRef}>
-        <FormattedMessage
-          id="stop-page.right-now.loaded"
-          defaultMessage="Right now stop page loaded"
-        />
-      </span>
+      <span className="sr-only" role="alert" ref={this.pageLoadedAlertRef} />
     );
 
     const departureObjs = [];
@@ -306,6 +310,7 @@ class DepartureListContainer extends Component {
         <DepartureRow
           key={id}
           departure={row}
+          showLink={this.props.routeLinks}
           departureTime={departure.stoptime}
           currentTime={this.props.currentTime}
           showPlatformCode={isTerminal}
@@ -320,38 +325,42 @@ class DepartureListContainer extends Component {
         />
       );
 
-      if (this.props.routeLinks) {
-        departureObjs.push(
-          <Link
-            to={`/${PREFIX_ROUTES}/${departure.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.pattern.code}`}
-            key={id}
-            onClick={() => {
-              addAnalyticsEvent({
-                category: 'Stop',
-                action: 'OpenRouteViewFromStop',
-                name: 'RightNowTab',
-              });
-            }}
-            role="row"
-          >
-            {departureObj}
-          </Link>,
-        );
-      } else {
-        departureObjs.push(departureObj);
-      }
+      departureObjs.push(departureObj);
     });
 
     return (
       <>
         {screenReaderAlert}
-        <div
+        <table
           className={cx('departure-list', this.props.className)}
           onScroll={this.onScroll()}
-          role="table"
         >
-          {departureObjs}
-        </div>
+          <thead className="sr-only">
+            <tr>
+              <th>
+                <FormattedMessage id="route" defaultMessage="Route" />
+              </th>
+              <th>
+                <FormattedMessage
+                  id="destination"
+                  defaultMessage="Destination"
+                />
+              </th>
+              <th>
+                <FormattedMessage id="leaving-at" defaultMessage="Leaves" />
+              </th>
+              <th>
+                <FormattedMessage
+                  id={this.props.mode === 'BUS' ? 'platform' : 'track'}
+                  defaultMessage={
+                    this.props.mode === 'BUS' ? 'Platform' : 'Track'
+                  }
+                />
+              </th>
+            </tr>
+          </thead>
+          <tbody>{departureObjs}</tbody>
+        </table>
       </>
     );
   }

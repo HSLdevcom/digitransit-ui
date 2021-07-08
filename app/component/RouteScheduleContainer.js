@@ -74,10 +74,14 @@ class RouteScheduleContainer extends PureComponent {
 
   state = {
     from: 0,
-    to: this.props.pattern.stops.length - 1 || undefined,
+    to:
+      (this.props.pattern && this.props.pattern.stops.length - 1) || undefined,
     serviceDay: this.props.serviceDay,
     hasLoaded: false,
+    focusedTab: null,
   };
+
+  tabRefs = {};
 
   hasMergedData = false;
 
@@ -261,6 +265,9 @@ class RouteScheduleContainer extends PureComponent {
 
   renderDayTabs = data => {
     const dayArray = data[2][3];
+    if (!dayArray || (dayArray.length === 1 && dayArray[0] === '1234567')) {
+      return null;
+    }
     if (dayArray.length > 0) {
       const singleDays = dayArray.filter(s => s.length === 1);
       const multiDays = dayArray.filter(s => s.length !== 1);
@@ -300,18 +307,28 @@ class RouteScheduleContainer extends PureComponent {
         weekStartDate.format(DATE_FORMAT) ===
         moment().startOf('isoWeek').format(DATE_FORMAT);
       const firstDay = dayTabs[0][0];
+      let { focusedTab } = this.state;
       const tabs = dayTabs.map((tab, id) => {
+        const selected =
+          tab.indexOf(data[2][2]) !== -1 ||
+          (tab.indexOf(firstDay) !== -1 &&
+            !isSameWeek &&
+            dayTabs.indexOf(data[2][2]) === id) ||
+          count === 1;
+        // create refs and set focused tab needed for accessibilty here, not ideal but works
+        if (!this.tabRefs[tab]) {
+          this.tabRefs[tab] = React.createRef();
+        }
+        if (!focusedTab && selected) {
+          focusedTab = tab;
+        }
         return (
           <button
             type="button"
+            disabled={dayArray.length === 1}
             key={tab}
             className={cx({
-              'is-active':
-                tab.indexOf(data[2][2]) !== -1 ||
-                (tab.indexOf(firstDay) !== -1 &&
-                  !isSameWeek &&
-                  dayTabs.indexOf(data[2][2]) === id) ||
-                count === 1,
+              'is-active': selected,
             })}
             onClick={() => {
               this.changeDate(
@@ -326,9 +343,10 @@ class RouteScheduleContainer extends PureComponent {
                   .format(DATE_FORMAT),
               );
             }}
-            tabIndex={0}
+            ref={this.tabRefs[tab]}
+            tabIndex={selected ? 0 : -1}
             role="tab"
-            aria-selected
+            aria-selected={selected}
             style={{
               '--totalCount': `${count}`,
             }}
@@ -343,11 +361,35 @@ class RouteScheduleContainer extends PureComponent {
       });
 
       if (dayTabs.length > 0) {
+        /* eslint-disable jsx-a11y/interactive-supports-focus */
         return (
-          <div className="route-tabs days" role="tablist">
+          <div
+            className="route-tabs days"
+            role="tablist"
+            onKeyDown={e => {
+              const tabCount = count;
+              const activeIndex = dayTabs.indexOf(focusedTab);
+              let index;
+              switch (e.nativeEvent.code) {
+                case 'ArrowLeft':
+                  index = (activeIndex - 1 + tabCount) % tabCount;
+                  this.tabRefs[dayTabs[index]].current.focus();
+                  this.setState({ focusedTab: dayTabs[index] });
+                  break;
+                case 'ArrowRight':
+                  index = (activeIndex + 1) % tabCount;
+                  this.tabRefs[dayTabs[index]].current.focus();
+                  this.setState({ focusedTab: dayTabs[index] });
+                  break;
+                default:
+                  break;
+              }
+            }}
+          >
             {tabs}
           </div>
         );
+        /* eslint-enable jsx-a11y/interactive-supports-focus */
       }
     }
     return '';
@@ -544,6 +586,8 @@ class RouteScheduleContainer extends PureComponent {
       newFromTo[1],
     );
 
+    const tabs = this.renderDayTabs(data);
+
     if (!this.state.hasLoaded) {
       return (
         <div className={cx('summary-list-spinner-container', 'route-schedule')}>
@@ -583,7 +627,7 @@ class RouteScheduleContainer extends PureComponent {
               )}
             </div>
           </div>
-          {this.renderDayTabs(data)}
+          {tabs}
           {this.props.pattern && (
             <div
               className={cx('route-schedule-list-wrapper', {
@@ -601,13 +645,16 @@ class RouteScheduleContainer extends PureComponent {
               <div
                 className="route-schedule-list momentum-scroll"
                 role="list"
-                aria-atomic="true"
+                aria-live="off"
               >
                 {showTrips}
               </div>
             </div>
           )}
         </ScrollableWrapper>
+        {this.props.breakpoint === 'large' && (
+          <div className="after-scrollable-area" />
+        )}
         <div className="route-page-action-bar">
           <div className="print-button-container">
             {routeTimetableUrl && (

@@ -26,20 +26,6 @@ class PatternStopsContainer extends React.PureComponent {
     config: PropTypes.object.isRequired,
   };
 
-  toggleFullscreenMap = () => {
-    if (
-      this.props.match.location.state &&
-      this.props.match.location.state.fullscreenMap === true
-    ) {
-      this.props.router.go(-1);
-      return;
-    }
-    this.props.router.push({
-      ...this.props.match.location,
-      state: { ...this.props.match.location.state, fullscreenMap: true },
-    });
-  };
-
   render() {
     if (!this.props.pattern) {
       if (isBrowser) {
@@ -54,18 +40,6 @@ class PatternStopsContainer extends React.PureComponent {
       }
       return false;
     }
-    if (
-      this.props.match.location.state &&
-      this.props.match.location.state.fullscreenMap &&
-      this.props.breakpoint !== 'large'
-    ) {
-      return (
-        <>
-          <div className="route-page-content" />
-        </>
-      );
-    }
-
     return (
       <>
         <ScrollableWrapper

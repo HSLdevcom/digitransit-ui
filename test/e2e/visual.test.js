@@ -1,47 +1,47 @@
 /* eslint-disable no-undef */
 import getConfig from './helpers/image-snapshot-config';
 
+const config = process.env.CONFIG || 'hsl';
 const customSnapshotsDir = `test/e2e/__image_snapshots__`;
 const customDiffDir = `test/e2e/__image_snapshots__/__diff_output__`;
 
-describe('Front page', () => {
-  test(`on desktop`, async () => {
-    context = await browser.newContext({
-      viewport: { width: 1360, height: 768 },
-    });
-    page = await context.newPage();
-    const snapshotName = 'front-page-desktop';
-    const response = await page.goto('http://localhost:8080/etusivu');
+const timeout = 200000;
+
+const pageTitles = {
+  hsl: 'Reittiopas',
+  tampere: 'Nyssen reittiopas',
+  matka: 'Matka.fi',
+};
+
+const platform = (process.env.MOBILE === 'true' && 'mobile') || 'desktop';
+const isMobile = platform === 'mobile';
+
+describe(`Front page with ${config} config`, () => {
+  const path = config === 'hsl' ? '/etusivu' : '/';
+  test(`on ${platform}`, async () => {
+    const snapshotName = `front-page-${platform}`;
+    const response = await page.goto(`http://localhost:8080${path}`);
+
     expect(response.status()).toBe(200);
+    await expect(page.title()).resolves.toMatch(pageTitles[config]);
 
-    await expect(page.title()).resolves.toMatch('Reittiopas');
+    let image;
+    if (!isMobile) {
+      const mainContent = await page.$(
+        '#mainContent > .desktop > .main-content',
+      );
+      image = await mainContent.screenshot({
+        timeout,
+      });
+    } else {
+      image = await page.screenshot({ fullPage: true });
+    }
 
-    const mainContent = await page.$('.main-content');
-    const image = await mainContent.screenshot({ fullPage: true });
-
-    const config = getConfig(
+    const snapshotConfig = getConfig(
       snapshotName,
-      `${customSnapshotsDir}/${browserName}/`,
-      `${customDiffDir}/${browserName}/`,
+      `${customSnapshotsDir}/${browserName}/${config}/`,
+      `${customDiffDir}/${browserName}/${config}/`,
     );
-    expect(image).toMatchImageSnapshot(config);
-  });
-
-  test('on mobile', async () => {
-    context = await browser.newContext({
-      viewport: { width: 414, height: 715 }, // iPhone 11 viewport sizes
-    });
-    page = await context.newPage();
-    const snapshotName = `front-page-mobile`;
-    const response = await page.goto('http://localhost:8080/etusivu');
-    expect(response.status()).toBe(200);
-    await expect(page.title()).resolves.toMatch('Reittiopas');
-    const image = await page.screenshot({ fullPage: true });
-    const config = getConfig(
-      snapshotName,
-      `${customSnapshotsDir}/${browserName}/`,
-      `${customDiffDir}/${browserName}/`,
-    );
-    expect(image).toMatchImageSnapshot(config);
+    expect(image).toMatchImageSnapshot(snapshotConfig);
   });
 });

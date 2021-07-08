@@ -166,7 +166,7 @@ class ItineraryTab extends React.Component {
                     </div>
                   </div>
                 )}
-                <div>
+                <div className="itinerary-summary-container">
                   <ItinerarySummary
                     itinerary={itinerary}
                     key="summary"
@@ -445,7 +445,7 @@ const withRelay = createFragmentContainer(ItineraryTab, {
           pattern {
             code
           }
-          stoptimes {
+          stoptimesForDate {
             pickupType
             realtimeState
             stop {

@@ -302,7 +302,7 @@ $content-background-color: $background-color;
       width: 1.3em;
     }
   }
-  .h2 {
+  h1 {
     font-size: 1.2em;
     margin: 0 0 0 2.5em;
     font-weight: $font-weight-medium;
@@ -683,7 +683,13 @@ section.content {
       .react-swipe-container {
         height: auto;
         width: 100%;
-        margin-bottom: 3px;
+        margin-bottom: 0;
+
+        @media print {
+          display: block;
+          height: auto;
+        }
+
         .message-content {
           .message-heading {
             min-height: 11px;
@@ -705,8 +711,12 @@ section.content {
       .swipe-tab-indicator {
         flex-grow: 0;
       }
-      .swipe-button .icon.disabled {
-       fill: #ccc;
+      .swipe-button .icon {
+        height: 14px;
+        width: 14px;
+        &.disabled {
+          fill: $medium-gray;
+        }
       }
     }
 
@@ -812,8 +822,7 @@ section.content {
   fill: $primary-color;
   height: 24px;
   width: 24px;
-  margin: 11px;
-  margin-top: 20px;
+  margin: 18px;
 }
 
 .message-bar .icon.close {

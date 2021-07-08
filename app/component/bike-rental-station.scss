@@ -26,8 +26,10 @@
       padding: 0;
       border: none;
       .header {
-        h3 {
+        h1 {
           font-size: 1.25rem;
+          line-height: 1.2;
+          margin: 0;
         }
         .bike-station-sub-header {
           font-size: 0.88rem;
@@ -62,7 +64,6 @@
     text-decoration: none;
   }
   .citybike-use-disclaimer {
-    height: 120px;
     border-radius: 8px;
     border: solid 1px #dddddd;
     background-color: #f4f4f5;
@@ -70,9 +71,11 @@
     width: 100%;
     margin-top: 24px;
     .disclaimer-header {
+      display: flex;
       font-size: 1.125rem;
     }
     .disclaimer-content {
+      display: flex;
       font-weight: normal;
       font-size: 0.9375rem;
     }
@@ -95,9 +98,11 @@
     display: flex;
     .header {
       flex: 1;
-      h3 {
+      h1 {
         color: #333;
         font-size: 1.5rem;
+        line-height: 1.2;
+        margin: 0;
       }
     }
   }

@@ -289,6 +289,9 @@ div.leaflet-marker-icon.vehicle-icon {
     h1 {
       display: flex;
       padding: 0.5em;
+      margin: 0;
+      font-family: $font-family-narrow;
+      font-size: $font-size-xlarge;
     }
   }
 
@@ -845,6 +848,10 @@ div.leaflet-control-scale.leaflet-control {
   margin-right: 20px;
   margin-bottom: 20px;
   cursor: grab;
+}
+
+.desktop .map {
+  border-left: 1px solid rgba(0, 0, 0, .1);
 }
 
 div.leaflet-control-scale-line {

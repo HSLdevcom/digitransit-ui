@@ -96,9 +96,13 @@ $margin-left-right: 1.333em;
 .route-stop-list {
   @include font-narrow-medium;
   background-color: $white;
-  margin-left: 2px;
+  margin: 0 0 0 2px;
+  padding: 0;
   .route-stop:last-child .route-stop-row_content-container {
     border-bottom: none;
+  }
+  & > li {
+    list-style: none;
   }
 }
 
@@ -472,6 +476,7 @@ $margin-left-right: 1.333em;
     display: flex;
     min-width: 0;
     .route-short-name {
+      margin: 0;
       font-family: $font-family-narrow;
       font-size: 30px;
       font-weight: $font-weight-medium;
@@ -790,8 +795,19 @@ $margin-left-right: 1.333em;
   }
 }
 
+.after-scrollable-area {
+  position: absolute;
+  z-index: 22;
+  height: 16px;
+  width: 520px;
+  background-color: rgba(0, 0, 0, 0);
+  bottom: 34px;
+  box-shadow: 0 -8px 6px -6px rgba(0, 0, 0, 0.2);
+}
+
 .route-page-action-bar {
-  justify-content: center;
+  justify-content: flex-start;
+  padding-left: 60px;
   display: flex;
   background-color: #ffffff;
 
@@ -927,11 +943,36 @@ $margin-left-right: 1.333em;
       font-weight: $font-weight-medium;
       background-color: $white;
     }
+    &:disabled {
+      color: #333;
+      font-weight: $font-weight-medium;
+      background-color: $white;
+      cursor: default;
+      opacity: 1;
+      box-shadow: none;
+      &:focus, &:hover {
+        color: inherit;
+        background: $white;
+      }
+    }
     .no-alerts > span {
       color: #b7b7b7;
     }
   }
 
+  .tab-route-disruption {
+    .icon-container {
+      margin-right: 5px;
+      vertical-align: middle;
+      .disruption-icon {
+        width: 0.85em;
+        height: 0.95em;
+      }
+      .service-alert-icon {
+        fill: rgba(136, 136, 136, 1);
+      }
+    }
+  }
   .tab-panel {
     flex-grow: 1;
     display: flex;
@@ -1146,6 +1187,7 @@ $margin-left-right: 1.333em;
     }
 
     .route-alert-row-link {
+      display: contents;
       padding-right: 1px;
       padding-left: 1px;
     }
@@ -1157,17 +1199,14 @@ $margin-left-right: 1.333em;
       vertical-align: bottom;
 
       .route-alert-top-row {
-        display: flex;
+        display: inline-flex;
         align-items: center;
+        font-size: 15px;
         .route-alert-entityid {
           font-family: $font-family-narrow;
           font-size: 21px;
           font-weight: $font-weight-medium;
-          margin-right: 10px;
-        }
-        .route-alert-time-period {
-          font-size: 15px;
-          padding: 0 0 0 5px;
+          margin-right: 15px;
         }
       }
     }

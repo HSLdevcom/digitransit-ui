@@ -107,6 +107,13 @@ const RouteStop = (
     text += ` ${stop.name},`;
     text += `${stop.code},`;
     text += `${stop.desc},`;
+
+    if (getActiveAlertSeverityLevel(stop.alerts, currentTime)) {
+      text += `${intl.formatMessage({
+        id: 'disruptions-tab.sr-disruptions',
+      })},`;
+    }
+
     if (patternExists) {
       text += `${intl.formatMessage({ id: 'leaves' })},`;
       text += `${getDepartureTime(stop.stopTimesForPattern[0])},`;
@@ -180,10 +187,7 @@ const RouteStop = (
     );
   };
   return (
-    <div
-      className={cx('route-stop location-details_container ', className)}
-      role="listitem"
-    >
+    <li className={cx('route-stop location-details_container ', className)}>
       {getVehicleTripLink()}
       <div className={cx('route-stop-now_circleline', mode)} aria-hidden="true">
         <svg
@@ -286,7 +290,7 @@ const RouteStop = (
           </div>
         </Link>
       </div>
-    </div>
+    </li>
   );
 };
 

@@ -51,7 +51,7 @@ class RouteStopListContainer extends React.PureComponent {
               ? `#${this.props.pattern.route.color}`
               : null
           }
-          key={`${stop.gtfsId}-${this.props.pattern}-${idx}`} // DT-3159: added -${idx}
+          key={`${stop.gtfsId}-${this.props.pattern}-${idx}`}
           stop={stop}
           nextStop={nextStop}
           mode={mode}
@@ -86,9 +86,9 @@ class RouteStopListContainer extends React.PureComponent {
 
   render() {
     return (
-      <div className={cx('route-stop-list', this.props.className)}>
+      <ul className={cx('route-stop-list', this.props.className)}>
         {this.getStops()}
-      </div>
+      </ul>
     );
   }
 }

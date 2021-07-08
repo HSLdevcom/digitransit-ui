@@ -117,11 +117,13 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
   }
 
   .combobox-left {
+    position: relative;
     margin-right: 4px;
     width: 63%;
   }
 
   .combobox-right {
+    position: relative;
     margin-left: 4px;
     width: 37%;
   }
@@ -218,7 +220,6 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
 
   .combobox-container {
     cursor: pointer;
-    position: relative;
   }
 
   .combobox-icon {
@@ -231,9 +232,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     &.date-input-icon {
       display: flex;
       align-items: center;
-      justify-content: center;
       padding: 0;
-      flex-shrink: 0;
       margin-left: 14px;
       svg {
         width: 20px;
@@ -244,9 +243,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     &.time-input-icon {
       display: flex;
       align-items: center;
-      justify-content: center;
       padding: 0;
-      flex-shrink: 0;
       margin-left: 8px;
       svg {
         margin-top: 1px;
