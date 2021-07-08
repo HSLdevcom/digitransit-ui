@@ -89,6 +89,23 @@ function DesktopDatetimepicker({
         {icon}
         <Select
           aria-labelledby={labelId}
+          ariaLiveMessages={{
+            guidance: () => {
+              return '.'; // this can't be empty for some reason
+            },
+            onChange: () => {
+              return '';
+            },
+            onFilter: () => {
+              return '';
+            },
+            onFocus: ({ context, label: itemLabel }) => {
+              if (context === 'menu') {
+                return itemLabel;
+              }
+              return '';
+            },
+          }}
           options={options}
           inputId={inputId}
           onChange={time => {
