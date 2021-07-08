@@ -649,6 +649,13 @@ hr.action-bar {
   }
 }
 
+.stop-page-action-bar {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 60px;
+  background: #fff;
+}
+
 .print-button-container {
   display: flex;
   height: 50px;

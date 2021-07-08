@@ -16,6 +16,7 @@ import SecondaryButton from './SecondaryButton';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import DateSelect from './DateSelect';
 import ScrollableWrapper from './ScrollableWrapper';
+import withBreakpoint from '../util/withBreakpoint';
 
 class Timetable extends React.Component {
   static propTypes = {
@@ -49,6 +50,7 @@ class Timetable extends React.Component {
       selectedDate: PropTypes.string,
       onDateChange: PropTypes.func,
     }).isRequired,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
@@ -349,37 +351,42 @@ class Timetable extends React.Component {
             </div>
           </div>
         </ScrollableWrapper>
-        <div className="print-button-container">
-          <SecondaryButton
-            ariaLabel="print"
-            buttonName="print"
-            buttonClickAction={e => {
-              this.printStop(e);
-              addAnalyticsEvent({
-                category: 'Stop',
-                action: 'PrintTimetable',
-                name: null,
-              });
-            }}
-            buttonIcon="icon-icon_print"
-            smallSize
-          />
-          {stopPDFURL && (
+        {this.props.breakpoint === 'large' && (
+          <div className="after-scrollable-area" />
+        )}
+        <div className="stop-page-action-bar">
+          <div className="print-button-container">
             <SecondaryButton
-              ariaLabel="print-timetable"
-              buttonName="print-timetable"
+              ariaLabel="print"
+              buttonName="print"
               buttonClickAction={e => {
-                this.printStopPDF(e, stopPDFURL);
+                this.printStop(e);
                 addAnalyticsEvent({
                   category: 'Stop',
-                  action: 'PrintWeeklyTimetable',
+                  action: 'PrintTimetable',
                   name: null,
                 });
               }}
               buttonIcon="icon-icon_print"
               smallSize
             />
-          )}
+            {stopPDFURL && (
+              <SecondaryButton
+                ariaLabel="print-timetable"
+                buttonName="print-timetable"
+                buttonClickAction={e => {
+                  this.printStopPDF(e, stopPDFURL);
+                  addAnalyticsEvent({
+                    category: 'Stop',
+                    action: 'PrintWeeklyTimetable',
+                    name: null,
+                  });
+                }}
+                buttonIcon="icon-icon_print"
+                smallSize
+              />
+            )}
+          </div>
         </div>
       </>
     );
@@ -453,4 +460,6 @@ Timetable.description = () => (
   </div>
 );
 
-export default Timetable;
+const TimetableWithBreakpoint = withBreakpoint(Timetable);
+
+export default TimetableWithBreakpoint;
