@@ -892,8 +892,10 @@ const translations = {
     'back-to-front-page': 'Back to the front page',
     bicycle: 'Bike',
     'bicycle-distance-duration': 'Bike {duration} ({distance})',
-    'bicycle-walk-from-transit': '',
-    'bicycle-walk-to-transit': '',
+    'bicycle-walk-from-transit':
+      'Take your bike off the {transportMode} and walk it for {distance} ({duration})',
+    'bicycle-walk-to-transit':
+      'Walk your bike for {distance} ({duration}) and take it on the {transportMode}',
     bicycle_walk: 'Walking a bike',
     'bike-availability': 'Bikes available at the station right now',
     'bike-not-allowed-bus': 'Bikes are not allowed on the bus',
@@ -3607,8 +3609,10 @@ const translations = {
     'back-to-front-page': 'Tillbaka till framsidan ›',
     bicycle: 'cyckel',
     'bicycle-distance-duration': 'Cykla {duration} ({distance})',
-    'bicycle-walk-from-transit': '',
-    'bicycle-walk-to-transit': '',
+    'bicycle-walk-from-transit':
+      'Ta cykeln från {transportMode} och led cykeln {distance} ({duration})',
+    'bicycle-walk-to-transit':
+      'Led cykeln {distance} ({duration}) och ta cykeln med på {transportMode}',
     bicycle_walk: 'Leder en cykel',
     'bike-availability': 'Antal cyklar just nu',
     'bike-not-allowed-bus': 'Cyklar är inte tillåtna på bussen',
