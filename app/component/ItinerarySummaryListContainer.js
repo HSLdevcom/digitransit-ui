@@ -423,6 +423,10 @@ const containerComponent = createFragmentContainer(
               bikeParkId
               name
             }
+            carPark {
+              carParkId
+              name
+            }
           }
         }
       }
