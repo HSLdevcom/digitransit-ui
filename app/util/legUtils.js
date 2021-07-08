@@ -1,5 +1,4 @@
 import cloneDeep from 'lodash/cloneDeep';
-import forEach from 'lodash/forEach';
 import get from 'lodash/get';
 import { BIKEAVL_UNKNOWN } from './citybikes';
 
@@ -134,14 +133,19 @@ const bikingEnded = leg1 => {
  * one after the other.
  *
  * @param {*} originalLegs an array of legs
+ * @param {boolean} keepBicycleWalk whether to keep bicycle walk legs before and after a public transport leg
  */
-export const compressLegs = originalLegs => {
+export const compressLegs = (originalLegs, keepBicycleWalk = false) => {
   const usingOwnBicycle = originalLegs.some(
     leg => getLegMode(leg) === LegMode.Bicycle && leg.rentedBike === false,
   );
   const compressedLegs = [];
   let compressedLeg;
-  forEach(originalLegs, currentLeg => {
+  let bikeParked = false;
+  originalLegs.forEach((currentLeg, i) => {
+    if (currentLeg.to?.bikePark) {
+      bikeParked = true;
+    }
     if (!compressedLeg) {
       compressedLeg = cloneDeep(currentLeg);
       return;
@@ -152,6 +156,21 @@ export const compressLegs = originalLegs => {
       return;
     }
 
+    if (keepBicycleWalk && usingOwnBicycle) {
+      if (originalLegs[i + 1]?.transitLeg && currentLeg.mode !== 'BICYCLE') {
+        compressedLegs.push(compressedLeg);
+        compressedLeg = cloneDeep(currentLeg);
+        return;
+      }
+      if (
+        compressedLegs[compressedLegs.length - 1]?.transitLeg &&
+        compressedLeg.mode !== 'BICYCLE'
+      ) {
+        compressedLegs.push(compressedLeg);
+        compressedLeg = cloneDeep(currentLeg);
+        return;
+      }
+    }
     if (usingOwnBicycle && continueWithBicycle(compressedLeg, currentLeg)) {
       // eslint-disable-next-line no-nested-ternary
       const newBikePark = compressedLeg.to.bikePark
@@ -180,14 +199,22 @@ export const compressLegs = originalLegs => {
       return;
     }
 
-    if (usingOwnBicycle && getLegMode(compressedLeg) === LegMode.Walk) {
+    if (
+      usingOwnBicycle &&
+      !bikeParked &&
+      getLegMode(compressedLeg) === LegMode.Walk
+    ) {
       compressedLeg.mode = LegMode.BicycleWalk;
     }
 
     compressedLegs.push(compressedLeg);
     compressedLeg = cloneDeep(currentLeg);
 
-    if (usingOwnBicycle && getLegMode(currentLeg) === LegMode.Walk) {
+    if (
+      usingOwnBicycle &&
+      !bikeParked &&
+      getLegMode(currentLeg) === LegMode.Walk
+    ) {
       compressedLeg.mode = LegMode.BicycleWalk;
     }
   });

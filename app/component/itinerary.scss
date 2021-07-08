@@ -298,6 +298,15 @@ $itinerary-tab-switch-height: 48px;
   &.start {
     top: 12px;
   }
+  &.bike-park {
+    width: 18px;
+    height: 18px;
+    top: 8px;
+    .icon {
+      width: 18px;
+      height: 18px;
+    }
+  }
 }
 
 .itinerary-icon {
@@ -566,7 +575,49 @@ $itinerary-tab-switch-height: 48px;
     min-width: 25px;
     max-width: 25px;
     position: relative;
-    &.bicycle {
+    &.first-leg {
+      .leg-before-line.bicycle:not(.bottom) {
+        top: 38px;
+        height: 25%;
+      }
+    }
+    &.long.first {
+      .leg-before-line {
+        &.top {
+          height: 16%;
+          top: 22%;
+        }
+      }
+    }
+    &.long {
+      .leg-before-line {
+        background-position-y: 0;
+        height: 20%;
+        &.top {
+          height: 22%;
+          top: 16%;
+        }
+        &.middle {
+          top: 59%;
+          height: 13%;
+        }
+        &.bottom {
+          top: 92%;
+          height: 10%;
+        }
+      }
+    }
+      .itinerary-route-number {
+        position: absolute;
+        &.first {
+          top: 42%;
+        }
+        &.second {
+          top: 76%;
+        }
+      }
+    &.bicycle,
+    &.bicycle_walk {
       .route-number {
         .icon {
           color: #333;
@@ -663,15 +714,22 @@ $itinerary-tab-switch-height: 48px;
         }
       }
     }
-    &.walk,
     &.bicycle {
+      border-left: 6px solid #ccc;
+      border-radius: 3px;
+      top: 30px;
+      height: 32%;
+      &.bottom {
+        height: 15%;
+        top: 88%;
+      }
+    }
+    &.walk {
       height: 48%;
-      background-position-y: 6px;
       &.bottom {
         background-position-y: 5px;
         height: 19%;
         top: 85%;
-
         &.return-citybike {
           margin-top: 6px;
           height: 30%;
@@ -683,10 +741,9 @@ $itinerary-tab-switch-height: 48px;
     }
 
     &.walk,
-    &.bicycle_walk,
-    &.bicycle {
+    &.bicycle_walk {
       background-size: 100% auto;
-      background-position-y: 5px;
+      background-position-y: 8px;
       background-position-x: 0px;
       background-repeat: no-repeat repeat;
       border: none;

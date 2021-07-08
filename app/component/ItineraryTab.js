@@ -292,6 +292,10 @@ const withRelay = createFragmentContainer(ItineraryTab, {
           lon
           name
           vertexType
+          bikePark {
+            bikeParkId
+            name
+          }
           bikeRentalStation {
             networks
             bikesAvailable
@@ -345,6 +349,7 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             platformCode
             zoneId
             name
+            vehicleMode
             alerts {
               alertSeverityLevel
               effectiveEndDate
