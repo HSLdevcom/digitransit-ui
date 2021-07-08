@@ -135,6 +135,14 @@ class ItineraryTab extends React.Component {
     const extraProps = this.setExtraProps(itinerary);
     return (
       <div className="itinerary-tab">
+        <h2 className="sr-only">
+          <FormattedMessage
+            id="summary-page.row-label"
+            values={{
+              number: Number(this.context.match.params.hash) + 1,
+            }}
+          />
+        </h2>
         <BreakpointConsumer>
           {breakpoint => [
             breakpoint !== 'large' ? (

@@ -304,12 +304,12 @@ class Timetable extends React.Component {
               {this.dateForPrinting()}
             </div>
             <div className="timetable-note">
-              <div>
+              <h2>
                 <FormattedMessage
                   id="departures-by-hour"
                   defaultMessage="Departures by hour (minutes/route)"
                 />
-              </div>
+              </h2>
             </div>
             <div className="momentum-scroll timetable-content-container">
               <div className="timetable-time-headers">
