@@ -309,7 +309,11 @@ class Timetable extends React.Component {
               <h2>
                 <FormattedMessage
                   id="departures-by-hour"
-                  defaultMessage="Departures by hour (minutes/route)"
+                  defaultMessage="Departures by hour"
+                />{' '}
+                <FormattedMessage
+                  id="departures-by-hour-minutes-route"
+                  defaultMessage="(minutes/route)"
                 />
               </h2>
             </div>

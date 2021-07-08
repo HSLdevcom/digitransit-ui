@@ -37,7 +37,7 @@
   .timetable-note {
     border-top: 1px solid $light-gray;
     padding-top: 19px;
-    margin: 0.5em 4em 1em 4em;
+    margin: 0.5em 4em 0 4em;
     font-weight: $font-weight-medium;
     font-size: $font-size-normal;
     line-height: 18px;
@@ -49,6 +49,14 @@
       letter-spacing: -0.4px;
       font-size: 16px;
       margin: 0;
+      span {
+        &:nth-child(1) {
+          font-weight: $font-weight-medium;
+        }
+        &:nth-child(2) {
+          font-weight: $font-weight-normal;
+        }
+      }
     }
   }
   .timetable-row-printing {
@@ -58,7 +66,7 @@
     }
   }
   .timetable-content-container {
-    margin: 0.5em 3em 1em 4em;
+    margin: 0 3em 1em 4em;
   }
   .momentum-scroll {
     flex: 1 0 auto;
@@ -88,13 +96,24 @@
       }
     }
     background-color: $white;
-    padding: $padding-medium 0em $padding-large 0em;
+    &:nth-child(2) {
+      margin-top: 18px;
+      @media print {
+        margin-top: 0;
+      }
+    }
+    &:not(:nth-child(2)) {
+      margin-top: 16px;
+      @media print {
+        margin-top: 0;
+      }
+    }
     .mobile .title {
       font-size: $font-size-large;
     }
     .title {
       font-size: $font-size-xlarge;
-      margin: 0.83em 0 0.83em 0;
+      margin-bottom: 3px;
       line-height: 36px;
       letter-spacing: -0.67px;
       @media print {
@@ -103,6 +122,7 @@
     }
     .line-name {
       white-space: nowrap;
+      font-weight: $font-weight-normal;
     }
     .timetable-rowcontainer {
       display: table-cell;
@@ -126,7 +146,8 @@
       width: 100%;
       display: block;
       .timetablerow-linetime {
-        margin-right: 0.3em;
+        margin-right: 20px;
+        margin-bottom: 4px;
       }
       span {
         font-size: 12px;
