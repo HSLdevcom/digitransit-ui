@@ -14,11 +14,11 @@ module.exports = {
   },
   contextOptions: {
     viewport: {
-      width: 414,
-      height: 715,
+      width: 390,
+      height: 844,
     },
   },
   isMobile: true,
-  devices: ['iPhone 11'],
+  devices: ['iPhone 12'],
   browsers: ['chromium', 'webkit'],
 };
