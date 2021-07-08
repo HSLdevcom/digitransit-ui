@@ -20,6 +20,7 @@ import {
   getTotalBikingDuration,
   getTotalWalkingDistance,
   getTotalWalkingDuration,
+  legContainsRentalBike,
 } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -33,6 +34,8 @@ import {
   getFormattedTimeDate,
   getCurrentMillis,
 } from '../util/timeUtils';
+import CityBikeDurationInfo from './CityBikeDurationInfo';
+import { getCityBikeNetworkId } from '../util/citybikes';
 
 /* eslint-disable prettier/prettier */
 class ItineraryTab extends React.Component {
@@ -133,6 +136,20 @@ class ItineraryTab extends React.Component {
 
     const fares = getFares(itinerary.fares, getRoutes(itinerary.legs), config);
     const extraProps = this.setExtraProps(itinerary);
+    const legsWithRentalBike = itinerary.legs.filter(leg => legContainsRentalBike(leg));
+    const rentalBikeNetworks = [];
+    let showRentalBikeDurationWarning = false;
+    if (legsWithRentalBike.length > 0 && config.cityBike.showDurationWarning) {
+      for (let i=0; i < legsWithRentalBike.length; i++) {
+        const leg = legsWithRentalBike[i];
+        const network = getCityBikeNetworkId(leg.from.bikeRentalStation?.networks);
+        const rentDurationOverSurchargeLimit = leg.duration > config.cityBike.networks[network]?.timeBeforeSurcharge;
+        if (rentDurationOverSurchargeLimit) {
+          rentalBikeNetworks.push(network);
+          showRentalBikeDurationWarning = rentDurationOverSurchargeLimit || showRentalBikeDurationWarning;
+        }
+      }
+    }
     return (
       <div className="itinerary-tab">
         <h2 className="sr-only">
@@ -188,6 +205,7 @@ class ItineraryTab extends React.Component {
                 </div>
               </>
             ),
+            showRentalBikeDurationWarning && <CityBikeDurationInfo networks={rentalBikeNetworks} config={config} />,
             <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
                 multirow: extraProps.isMultiRow,
