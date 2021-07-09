@@ -796,6 +796,10 @@ $margin-left-right: 1.333em;
 }
 
 .after-scrollable-area {
+  display: none;
+  @include min-width(tablet) {
+    display: block;
+  }
   position: absolute;
   z-index: 22;
   height: 16px;

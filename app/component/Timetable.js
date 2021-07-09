@@ -16,7 +16,6 @@ import SecondaryButton from './SecondaryButton';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import DateSelect from './DateSelect';
 import ScrollableWrapper from './ScrollableWrapper';
-import withBreakpoint from '../util/withBreakpoint';
 
 class Timetable extends React.Component {
   static propTypes = {
@@ -50,7 +49,6 @@ class Timetable extends React.Component {
       selectedDate: PropTypes.string,
       onDateChange: PropTypes.func,
     }).isRequired,
-    breakpoint: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
@@ -355,9 +353,7 @@ class Timetable extends React.Component {
             </div>
           </div>
         </ScrollableWrapper>
-        {this.props.breakpoint === 'large' && (
-          <div className="after-scrollable-area" />
-        )}
+        <div className="after-scrollable-area" />
         <div className="stop-page-action-bar">
           <div className="print-button-container">
             <SecondaryButton
@@ -464,6 +460,4 @@ Timetable.description = () => (
   </div>
 );
 
-const TimetableWithBreakpoint = withBreakpoint(Timetable);
-
-export default TimetableWithBreakpoint;
+export default Timetable;
