@@ -177,7 +177,7 @@ class TransitLeg extends React.Component {
     const { children, focusAction, index, leg, mode, lang } = this.props;
     const { config, intl } = this.context;
     const originalTime = leg.realTime &&
-      leg.departureDelay &&
+      leg.departureDelay !== undefined &&
       leg.departureDelay >= config.itinerary.delayThreshold && [
         <br key="br" />,
         <span key="time" className="original-time">
