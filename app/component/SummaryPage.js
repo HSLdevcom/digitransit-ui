@@ -853,15 +853,7 @@ class SummaryPage extends React.Component {
       name: null,
     });
     this.setState({ loadingMoreItineraries: reversed ? 'top' : 'bottom' });
-    if (this.alertRef.current) {
-      this.alertRef.current.innerHTML = this.context.intl.formatMessage({
-        id: 'itinerary-page.loading-itineraries',
-        defaultMessage: 'Loading for more itineraries',
-      });
-      setTimeout(() => {
-        this.alertRef.current.innerHTML = null;
-      }, 100);
-    }
+    this.showScreenreaderLoadingAlert();
 
     const end = moment.unix(this.props.serviceTimeRange.end);
     const latestDepartureTime = itineraries.reduce((previous, current) => {
@@ -907,15 +899,7 @@ class SummaryPage extends React.Component {
       moreItinerariesQuery,
       tunedParams,
     ).then(({ plan: result }) => {
-      if (this.alertRef.current) {
-        this.alertRef.current.innerHTML = this.context.intl.formatMessage({
-          id: 'itinerary-page.itineraries-loaded',
-          defaultMessage: 'More itineraries loaded',
-        });
-        setTimeout(() => {
-          this.alertRef.current.innerHTML = null;
-        }, 100);
-      }
+      this.showScreenreaderLoadedAlert();
       if (reversed) {
         const reversedItineraries = result.itineraries
           .slice() // Need to copy because result is readonly
@@ -980,15 +964,7 @@ class SummaryPage extends React.Component {
       name: null,
     });
     this.setState({ loadingMoreItineraries: reversed ? 'bottom' : 'top' });
-    if (this.alertRef.current) {
-      this.alertRef.current.innerHTML = this.context.intl.formatMessage({
-        id: 'itinerary-page.loading-itineraries',
-        defaultMessage: 'Loading for more itineraries',
-      });
-      setTimeout(() => {
-        this.alertRef.current.innerHTML = null;
-      }, 100);
-    }
+    this.showScreenreaderLoadingAlert();
 
     const start = moment.unix(this.props.serviceTimeRange.start);
     const earliestArrivalTime = itineraries.reduce((previous, current) => {
@@ -1036,15 +1012,7 @@ class SummaryPage extends React.Component {
         // --> cannot calculate earlier start time
         this.setError('no-route-start-date-too-early');
       }
-      if (this.alertRef.current) {
-        this.alertRef.current.innerHTML = this.context.intl.formatMessage({
-          id: 'itinerary-page.itineraries-loaded',
-          defaultMessage: 'More itineraries loaded',
-        });
-        setTimeout(() => {
-          this.alertRef.current.innerHTML = null;
-        }, 100);
-      }
+      this.showScreenreaderLoadedAlert();
       if (reversed) {
         this.setState(prevState => {
           return {
@@ -1197,16 +1165,9 @@ class SummaryPage extends React.Component {
       this.props.viewer &&
       this.props.viewer.plan &&
       this.props.viewer.plan.itineraries &&
-      !this.secondQuerySent &&
-      this.alertRef.current
+      !this.secondQuerySent
     ) {
-      this.alertRef.current.innerHTML = this.context.intl.formatMessage({
-        id: 'itinerary-page.itineraries-loaded',
-        defaultMessage: 'More itineraries loaded',
-      });
-      setTimeout(() => {
-        this.alertRef.current.innerHTML = null;
-      }, 100);
+      this.showScreenreaderLoadedAlert();
     }
 
     const viaPoints = getIntermediatePlaces(this.props.match.location.query);
@@ -1507,6 +1468,33 @@ class SummaryPage extends React.Component {
     }
   }
 
+  showScreenreaderLoadedAlert() {
+    if (this.alertRef.current) {
+      if (this.alertRef.current.innerHTML) {
+        this.alertRef.current.innerHTML = null;
+      }
+      this.alertRef.current.innerHTML = this.context.intl.formatMessage({
+        id: 'itinerary-page.itineraries-loaded',
+        defaultMessage: 'More itineraries loaded',
+      });
+      setTimeout(() => {
+        this.alertRef.current.innerHTML = null;
+      }, 100);
+    }
+  }
+
+  showScreenreaderLoadingAlert() {
+    if (this.alertRef.current && !this.alertRef.current.innerHTML) {
+      this.alertRef.current.innerHTML = this.context.intl.formatMessage({
+        id: 'itinerary-page.loading-itineraries',
+        defaultMessage: 'Loading for more itineraries',
+      });
+      setTimeout(() => {
+        this.alertRef.current.innerHTML = null;
+      }, 100);
+    }
+  }
+
   changeHash = index => {
     const isbikeAndVehicle = this.props.match.params.hash === 'bikeAndVehicle';
 
@@ -1625,6 +1613,7 @@ class SummaryPage extends React.Component {
             getCurrentSettings(this.context.config, ''),
           )
         ) {
+          this.showScreenreaderLoadedAlert();
           if (
             !isEqual(
               otpToLocation(this.context.match.params.from),
@@ -1647,6 +1636,7 @@ class SummaryPage extends React.Component {
           getCurrentSettings(this.context.config, ''),
         )
       ) {
+        this.showScreenreaderLoadedAlert();
         if (
           !isEqual(
             otpToLocation(this.context.match.params.from),
@@ -1757,18 +1747,34 @@ class SummaryPage extends React.Component {
       this.state.alternativePlan.itineraries &&
       this.state.alternativePlan.itineraries.length > 0;
 
+    const screenReaderAlert = (
+      <>
+        <span className="sr-only" role="alert" ref={this.alertRef} />
+      </>
+    );
+
     this.bikeAndPublicItinerariesToShow = 0;
     this.bikeAndParkItinerariesToShow = 0;
     if (this.props.match.params.hash === 'walk') {
       this.stopClient();
       if (!walkPlan) {
-        return <Loading />;
+        return (
+          <>
+            {screenReaderAlert}
+            <Loading />
+          </>
+        );
       }
       this.selectedPlan = walkPlan;
     } else if (this.props.match.params.hash === 'bike') {
       this.stopClient();
       if (!bikePlan) {
-        return <Loading />;
+        return (
+          <>
+            {screenReaderAlert}
+            <Loading />
+          </>
+        );
       }
       this.selectedPlan = bikePlan;
     } else if (this.props.match.params.hash === 'bikeAndVehicle') {
@@ -1778,7 +1784,12 @@ class SummaryPage extends React.Component {
         !bikeParkPlan ||
         !Array.isArray(bikeParkPlan.itineraries)
       ) {
-        return <Loading />;
+        return (
+          <>
+            {screenReaderAlert}
+            <Loading />
+          </>
+        );
       }
       if (
         this.hasItinerariesContainingPublicTransit(bikeAndPublicPlan) &&
@@ -1930,12 +1941,6 @@ class SummaryPage extends React.Component {
       latestArrivalTime = Math.max(...combinedItineraries.map(i => i.endTime));
     }
 
-    const screenReaderAlert = (
-      <>
-        <span className="sr-only" role="alert" ref={this.alertRef} />
-      </>
-    );
-
     const serviceTimeRange = validateServiceTimeRange(
       this.context.config.itinerary.serviceTimeRange,
       this.props.serviceTimeRange,
@@ -2053,6 +2058,7 @@ class SummaryPage extends React.Component {
       } else {
         content = (
           <div style={{ position: 'relative', height: 200 }}>
+            {screenReaderAlert}
             <Loading />
           </div>
         );
@@ -2158,6 +2164,7 @@ class SummaryPage extends React.Component {
       isLoading = true;
       content = (
         <div style={{ position: 'relative', height: 200 }}>
+          {screenReaderAlert}
           <Loading />
         </div>
       );
@@ -2199,6 +2206,7 @@ class SummaryPage extends React.Component {
       if (isLoading) {
         content = (
           <div style={{ position: 'relative', height: 200 }}>
+            {screenReaderAlert}
             <Loading />
           </div>
         );

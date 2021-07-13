@@ -1300,6 +1300,8 @@ const translations = {
     'search-destination-index': 'Enter destination',
     'search-destination-results-but-no-search':
       'View results in the adjacent “Destination” tab',
+    'search-fields.sr-instructions':
+      'The search is triggered automatically when origin and destination are set. Changing any search parameters triggers a new search',
     'search-no-results': 'No location',
     'search-origin': 'Search origin, route or stop',
     'search-origin-index': 'Enter origin',
@@ -2268,6 +2270,8 @@ const translations = {
     'search-destination-index': 'Syötä määränpää',
     'search-destination-results-but-no-search':
       'Katso tulokset viereiseltä Määränpää-välilehdeltä',
+    'search-fields.sr-instructions':
+      'Reittihaku tehdään automaattisesti kun lähtöpaikka ja määränpää on asetettu. Haun parametrien muuttaminen laukaisee uuden reittihaun',
     'search-no-results': 'Ei tuloksia',
     'search-origin': 'Hae lähtöpaikkaa, linjaa tai pysäkkiä',
     'search-origin-index': 'Syötä lähtöpaikka',
@@ -4022,6 +4026,7 @@ const translations = {
     'search-destination-index': 'Skriv destination',
     'search-destination-results-but-no-search':
       'Se resultaten under fliken Destination',
+    'search-fields.sr-instructions': 'TODO',
     'search-no-results': 'Inga sökresultat',
     'search-origin': 'Sök avfärdsplats, linje eller hållplats',
     'search-origin-index': 'Skriv avfärdsplats',
