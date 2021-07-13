@@ -4026,7 +4026,7 @@ const translations = {
     'search-destination-index': 'Skriv destination',
     'search-destination-results-but-no-search':
       'Se resultaten under fliken Destination',
-    'search-fields.sr-instructions': 'TODO',
+    'search-fields.sr-instructions': '', // TODO
     'search-no-results': 'Inga sökresultat',
     'search-origin': 'Sök avfärdsplats, linje eller hållplats',
     'search-origin-index': 'Skriv avfärdsplats',
