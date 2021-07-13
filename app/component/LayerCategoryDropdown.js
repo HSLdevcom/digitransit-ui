@@ -6,9 +6,10 @@ import merge from 'lodash/merge';
 import Checkbox from './Checkbox';
 import Icon from './Icon';
 import Message from './Message';
+import withBreakpoint from '../util/withBreakpoint';
 
 const LayerCategoryDropdown = (
-  { title, icon, options, onChange },
+  { title, icon, options, onChange, breakpoint },
   { intl },
 ) => {
   const [open, setOpen] = useState(false);
@@ -64,18 +65,29 @@ const LayerCategoryDropdown = (
     );
   };
 
+  const isMobile = breakpoint !== 'large';
+
   return (
     <div className="layer-category-dropdown-container">
       <div className="layer-category-dropdown-header">
         <div className="layer-category-dropdown-header-content">
           <Checkbox
             checked={checked || checkedPartly}
-            className="layer-category-dropdown-checkbox"
+            className={cx(
+              'layer-category-dropdown-checkbox',
+              isMobile && 'mobile',
+            )}
             icon={
               !checkedPartly ? 'icon-icon_check-white' : 'icon-icon_minus-white'
             }
             showLabel={false}
-            onChange={e => handleCheckAll(e.target.checked)}
+            onChange={e => {
+              if (checkedPartly) {
+                handleCheckAll(true);
+              } else {
+                handleCheckAll(e.target.checked);
+              }
+            }}
           />
           <Icon
             className="layer-category-dropdown-header-icon"
@@ -147,10 +159,11 @@ LayerCategoryDropdown.propTypes = {
   icon: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
+  breakpoint: PropTypes.string.isRequired,
 };
 
 LayerCategoryDropdown.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-export default LayerCategoryDropdown;
+export default withBreakpoint(LayerCategoryDropdown);
