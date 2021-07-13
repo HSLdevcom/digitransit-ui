@@ -8,8 +8,10 @@ import Icon from './Icon';
 import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import storeOrigin from '../action/originActions';
+import storeDestination from '../action/destinationActions';
 
-function MainMenu(props, { config, intl }) {
+function MainMenu(props, { config, intl, executeAction }) {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div aria-hidden={!props.visible} className="main-menu no-select">
@@ -37,6 +39,8 @@ function MainMenu(props, { config, intl }) {
                 id="frontpage"
                 to={props.homeUrl}
                 onClick={() => {
+                  executeAction(storeOrigin, {});
+                  executeAction(storeDestination, {});
                   addAnalyticsEvent({
                     category: 'Navigation',
                     action: 'Home',
@@ -101,6 +105,7 @@ MainMenu.contextTypes = {
   getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
+  executeAction: PropTypes.func,
 };
 
 export default MainMenu;

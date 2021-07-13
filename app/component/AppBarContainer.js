@@ -5,6 +5,8 @@ import { FormattedMessage } from 'react-intl';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import withBreakpoint from '../util/withBreakpoint';
+import storeOrigin from '../action/originActions';
+import storeDestination from '../action/destinationActions';
 
 import LazilyLoad, { importLazy } from './LazilyLoad';
 
@@ -28,6 +30,7 @@ const titleClicked = (router, homeUrl, match) => {
 const AppBarContainer = ({
   router,
   match,
+  executeAction,
   homeUrl,
   logo,
   user,
@@ -73,20 +76,11 @@ const AppBarContainer = ({
               homeUrl={homeUrl}
               user={user}
               breakpoint={breakpoint}
-              titleClicked={() =>
-                router.push({
-                  ...match.location,
-                  pathname: homeUrl,
-                  state: {
-                    ...match.location.state,
-                    errorBoundaryKey:
-                      match.location.state &&
-                      match.location.state.errorBoundaryKey
-                        ? match.location.state.errorBoundaryKey + 1
-                        : 1,
-                  },
-                })
-              }
+              titleClicked={() => {
+                executeAction(storeOrigin, {});
+                executeAction(storeDestination, {});
+                router.push(homeUrl);
+              }}
             />
           )
         }
@@ -98,6 +92,7 @@ const AppBarContainer = ({
 AppBarContainer.propTypes = {
   match: matchShape.isRequired,
   router: routerShape.isRequired,
+  executeAction: PropTypes.func,
   homeUrl: PropTypes.string.isRequired,
   logo: PropTypes.string,
   user: PropTypes.object,
@@ -112,6 +107,7 @@ const WithContext = connectToStores(
   getContext({
     match: matchShape.isRequired,
     router: routerShape.isRequired,
+    executeAction: PropTypes.func,
   })(AppBarContainerWithBreakpoint),
   ['UserStore', 'PreferencesStore'],
   context => ({
