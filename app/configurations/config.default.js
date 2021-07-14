@@ -145,6 +145,8 @@ export default {
   walkBoardCost: 600,
   walkBoardCostHigh: 1200,
 
+  parkAndRideBannedVehicleParkingTags: [],
+
   maxWalkDistance: 10000,
   suggestBikeMaxDistance: 30000,
   // max walking distance in bike and public transport

@@ -580,6 +580,12 @@ export default configMerger(walttiConfig, {
     },
     staticMessagesUrl: STATIC_MESSAGE_URL,
 
+    parkAndRideBannedVehicleParkingTags: [
+        'lot_type:Parkplatz',
+        'lot_type:Tiefgarage',
+        'lot_type:Parkhaus'
+    ],
+
     suggestCarMinDistance: 800,
     suggestWalkMaxDistance: 3000,
     suggestBikeAndPublicMinDistance: 3000,

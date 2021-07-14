@@ -327,8 +327,10 @@ export const preparePlanParams = (config, useDefaultModes) => (
         ),
 
         bannedVehicleParkingTags: bannedVehicleParkingTags
-          ? [bannedVehicleParkingTags]
-          : [],
+          ? [bannedVehicleParkingTags].concat(
+              config.parkAndRideBannedVehicleParkingTags,
+            )
+          : config.parkAndRideBannedVehicleParkingTags,
       },
       nullOrUndefined,
     ),
