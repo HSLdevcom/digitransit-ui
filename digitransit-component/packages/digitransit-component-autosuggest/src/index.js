@@ -695,20 +695,22 @@ class DTAutosuggest extends React.Component {
   // DT-3263 starts
   // eslint-disable-next-line consistent-return
   keyDown = event => {
-    const keyCode = event.keyCode || event.which;
-
+    const keyCode = event.code;
     if (this.state.editing) {
-      if (keyCode === 13) {
+      if (keyCode === 'Enter') {
         this.fetchFunction({ value: this.state.value });
       }
       return this.inputClicked();
     }
 
-    if ((keyCode === 13 || keyCode === 40) && this.state.value === '') {
+    if (
+      (keyCode === 'Enter' || keyCode === 'ArrowDown') &&
+      this.state.value === ''
+    ) {
       return this.clearInput();
     }
 
-    if (keyCode === 40 && this.state.value !== '') {
+    if (keyCode === 'ArrowDown' && this.state.value !== '') {
       const newState = {
         editing: true,
         value: this.state.value,
@@ -722,7 +724,7 @@ class DTAutosuggest extends React.Component {
       this.setState({ editing: true });
     }
 
-    if (keyCode === 9) {
+    if (keyCode === 'Tab') {
       return this.onBlur();
     }
   };
