@@ -307,7 +307,11 @@ class Timetable extends React.Component {
               <h2>
                 <FormattedMessage
                   id="departures-by-hour"
-                  defaultMessage="Departures by hour (minutes/route)"
+                  defaultMessage="Departures by hour"
+                />{' '}
+                <FormattedMessage
+                  id="departures-by-hour-minutes-route"
+                  defaultMessage="(minutes/route)"
                 />
               </h2>
             </div>
@@ -349,37 +353,40 @@ class Timetable extends React.Component {
             </div>
           </div>
         </ScrollableWrapper>
-        <div className="print-button-container">
-          <SecondaryButton
-            ariaLabel="print"
-            buttonName="print"
-            buttonClickAction={e => {
-              this.printStop(e);
-              addAnalyticsEvent({
-                category: 'Stop',
-                action: 'PrintTimetable',
-                name: null,
-              });
-            }}
-            buttonIcon="icon-icon_print"
-            smallSize
-          />
-          {stopPDFURL && (
+        <div className="after-scrollable-area" />
+        <div className="stop-page-action-bar">
+          <div className="print-button-container">
             <SecondaryButton
-              ariaLabel="print-timetable"
-              buttonName="print-timetable"
+              ariaLabel="print"
+              buttonName="print"
               buttonClickAction={e => {
-                this.printStopPDF(e, stopPDFURL);
+                this.printStop(e);
                 addAnalyticsEvent({
                   category: 'Stop',
-                  action: 'PrintWeeklyTimetable',
+                  action: 'PrintTimetable',
                   name: null,
                 });
               }}
               buttonIcon="icon-icon_print"
               smallSize
             />
-          )}
+            {stopPDFURL && (
+              <SecondaryButton
+                ariaLabel="print-timetable"
+                buttonName="print-timetable"
+                buttonClickAction={e => {
+                  this.printStopPDF(e, stopPDFURL);
+                  addAnalyticsEvent({
+                    category: 'Stop',
+                    action: 'PrintWeeklyTimetable',
+                    name: null,
+                  });
+                }}
+                buttonIcon="icon-icon_print"
+                smallSize
+              />
+            )}
+          </div>
         </div>
       </>
     );

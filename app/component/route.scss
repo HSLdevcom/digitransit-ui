@@ -796,6 +796,10 @@ $margin-left-right: 1.333em;
 }
 
 .after-scrollable-area {
+  display: none;
+  @include min-width(tablet) {
+    display: block;
+  }
   position: absolute;
   z-index: 22;
   height: 16px;
@@ -803,6 +807,9 @@ $margin-left-right: 1.333em;
   background-color: rgba(0, 0, 0, 0);
   bottom: 34px;
   box-shadow: 0 -8px 6px -6px rgba(0, 0, 0, 0.2);
+  @media print {
+    display: none;
+  }
 }
 
 .route-page-action-bar {
