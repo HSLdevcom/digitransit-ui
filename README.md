@@ -31,7 +31,7 @@ More information about [testing](docs/Tests.md).
 * [Positioning](docs/Position.md)
 * [Locations](docs/Location.md)
 * [Run in Docker](docs/Docker.md)
-* [Style guide](http://beta.digitransit.fi/styleguide)
+* [Style guide](https://tyyliopas.hsl.fi/)
 * [Installation](docs/Installation.md)
 * [Tests](docs/Tests.md)
 * [Z-Index Index](docs/ZIndex.md)
