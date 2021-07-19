@@ -71,6 +71,7 @@ function ItinerarySummaryListContainer(
         zones={
           config.zones.stops && itinerary.legs ? getZones(itinerary.legs) : []
         }
+        delayThreshold={config.itinerary.delayThreshold}
       />
     ));
     if (
@@ -362,6 +363,7 @@ const containerComponent = createFragmentContainer(
             alertId
           }
           realTime
+          departureDelay
           realtimeState
           transitLeg
           startTime
