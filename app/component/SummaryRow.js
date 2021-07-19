@@ -790,7 +790,7 @@ SummaryRow.propTypes = {
   isCancelled: PropTypes.bool,
   showCancelled: PropTypes.bool,
   zones: PropTypes.arrayOf(PropTypes.string),
-  delayThreshold: PropTypes.number.isRequired,
+  delayThreshold: PropTypes.number,
 };
 
 SummaryRow.defaultProps = {
