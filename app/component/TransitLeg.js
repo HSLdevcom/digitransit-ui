@@ -176,9 +176,12 @@ class TransitLeg extends React.Component {
   renderMain = () => {
     const { children, focusAction, index, leg, mode, lang } = this.props;
     const { config, intl } = this.context;
-    const originalTime = leg.realTime &&
+    const isLate =
       leg.departureDelay !== undefined &&
-      leg.departureDelay >= config.itinerary.delayThreshold && [
+      leg.departureDelay >= config.itinerary.delayThreshold;
+    const tooEarly = leg.departureDelay !== undefined && leg.departureDelay < 0;
+    const originalTime = leg.realTime &&
+      (isLate || tooEarly) && [
         <br key="br" />,
         <span key="time" className="original-time">
           {moment(leg.startTime)
@@ -277,7 +280,7 @@ class TransitLeg extends React.Component {
           <span className="sr-only">{children}</span>
           <span aria-hidden="true">
             <div className="itinerary-time-column-time">
-              <span className={cx({ realtime: leg.realTime })}>
+              <span className={cx({ realtime: leg.realTime, late: isLate })}>
                 <span className={cx({ canceled: legHasCancelation(leg) })}>
                   {moment(leg.startTime).format('HH:mm')}
                 </span>
