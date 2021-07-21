@@ -292,6 +292,8 @@ class SummaryPage extends React.Component {
     }
     this.alertRef = React.createRef();
     this.tabHeaderRef = React.createRef(null);
+    this.headerRef = React.createRef();
+    this.contentRef = React.createRef();
 
     // DT-4161: Threshold to determine should vehicles be shown if search is made in the future
     this.show_vehicles_threshold_minutes = 720;
@@ -1596,6 +1598,35 @@ class SummaryPage extends React.Component {
   };
 
   internalSetOffcanvas = newState => {
+    if (this.headerRef.current && this.contentRef.current) {
+      setTimeout(() => {
+        let inputs = Array.from(
+          this.headerRef.current.querySelectorAll(
+            'input, button, *[role="button"]',
+          ),
+        );
+        inputs = inputs.concat(
+          Array.from(
+            this.contentRef.current.querySelectorAll(
+              'input, button, *[role="button"]',
+            ),
+          ),
+        );
+        /* eslint-disable no-param-reassign */
+        if (newState) {
+          // hide inputs from screen reader
+          inputs.forEach(elem => {
+            elem.tabIndex = '-1';
+          });
+        } else {
+          // show inputs
+          inputs.forEach(elem => {
+            elem.tabIndex = '0';
+          });
+        }
+        /* eslint-enable no-param-reassign */
+      }, 100);
+    }
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
@@ -2100,7 +2131,7 @@ class SummaryPage extends React.Component {
             match.params.hash === 'bikeAndVehicle' ? 'pop' : undefined
           }
           header={
-            <React.Fragment>
+            <span aria-hidden={this.getOffcanvasState()} ref={this.headerRef}>
               <SummaryNavigation
                 params={match.params}
                 serviceTimeRange={serviceTimeRange}
@@ -2129,9 +2160,13 @@ class SummaryPage extends React.Component {
                   }
                 />
               )}
-            </React.Fragment>
+            </span>
           }
-          content={content}
+          content={
+            <span aria-hidden={this.getOffcanvasState()} ref={this.contentRef}>
+              {content}
+            </span>
+          }
           settingsDrawer={
             <SettingsDrawer
               open={this.getOffcanvasState()}
@@ -2249,7 +2284,7 @@ class SummaryPage extends React.Component {
             match.params.secondHash,
             combinedItineraries,
           ) ? (
-            <React.Fragment>
+            <span aria-hidden={this.getOffcanvasState()} ref={this.headerRef}>
               <SummaryNavigation
                 params={match.params}
                 serviceTimeRange={serviceTimeRange}
@@ -2278,12 +2313,16 @@ class SummaryPage extends React.Component {
                   }
                 />
               )}
-            </React.Fragment>
+            </span>
           ) : (
             false
           )
         }
-        content={content}
+        content={
+          <span aria-hidden={this.getOffcanvasState()} ref={this.contentRef}>
+            {content}
+          </span>
+        }
         map={map}
         settingsDrawer={
           <SettingsDrawer
