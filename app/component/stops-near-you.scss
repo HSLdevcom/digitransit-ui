@@ -57,7 +57,7 @@
   overflow: visible;
   display: flex;
   flex-direction: column;
-  padding: 0px 3.75em 10px 3.75em;
+  padding: 0px 60px 10px 60px;
   min-height: calc(50vh - 60px);
   .route-number {
     .icon-container {
@@ -162,7 +162,7 @@
     font-size: 0.9375rem;
   }
   .nearest-stops-update-container {
-    height: 80px;
+    min-height: 80px;
     display: flex;
     flex-direction: column;
     margin: 0 auto;
@@ -280,6 +280,7 @@
     border-spacing: 0;
     margin: 0;
     width: 100%;
+    table-layout: fixed;
     tr, td {
       margin: 0;
       padding: 0;
