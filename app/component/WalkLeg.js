@@ -48,6 +48,14 @@ function WalkLeg(
     config,
   ).type;
 
+  const isBikeBox = previousLeg?.to?.bikePark?.bikeParkId?.startsWith(
+    'open-bike-box',
+  );
+  let extraHeightForButton = {};
+  if (isBikeBox) {
+    extraHeightForButton = { height: '82px' };
+  }
+
   const returnNotice =
     previousLeg && previousLeg.rentedBike ? (
       <FormattedMessage
@@ -138,6 +146,7 @@ function WalkLeg(
                 ? 'itinerary-leg-first-row-return-bike'
                 : 'itinerary-leg-first-row'
             }
+            style={extraHeightForButton}
           >
             <div className="itinerary-leg-row">
               {leg.from.stop ? (
@@ -203,6 +212,22 @@ function WalkLeg(
                   />
                 )}
               </div>
+              {isBikeBox && (
+                <div style={{ padding: '15px 0px' }}>
+                  <a
+                    style={{ textDecoration: 'none', color: 'white' }}
+                    // eslint-disable-next-line react/jsx-no-target-blank
+                    target="_blank"
+                    className="standalone-btn"
+                    href="https://openbikebox.de/"
+                  >
+                    <FormattedMessage
+                      id="book-locker"
+                      defaultMessage="Book locker"
+                    />
+                  </a>
+                </div>
+              )}
             </div>
             {/*           <div
               className="itinerary-map-action"
@@ -287,6 +312,7 @@ const walkLegShape = PropTypes.shape({
       platformCode: PropTypes.string,
       vehicleMode: PropTypes.string,
     }),
+
     bikeRentalStation: PropTypes.shape({
       networks: PropTypes.array,
     }),
@@ -296,6 +322,9 @@ const walkLegShape = PropTypes.shape({
   startTime: PropTypes.number.isRequired,
   to: PropTypes.shape({
     name: PropTypes.string.isRequired,
+    bikePark: PropTypes.shape({
+      bikeParkId: PropTypes.string,
+    }),
   }).isRequired,
 });
 

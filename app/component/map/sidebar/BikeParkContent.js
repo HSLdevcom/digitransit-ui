@@ -4,7 +4,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import SidebarContainer from './SidebarContainer';
 
 const BikeParkContent = ({ match }, { intl }) => {
-  const { lat, lng } = match.location.query;
+  const { lat, lng, id } = match.location.query;
 
   const getCapacity = () => {
     const { maxCapacity } = match.location.query;
@@ -36,6 +36,25 @@ const BikeParkContent = ({ match }, { intl }) => {
 
   const name = getName();
 
+  const getBookingButton = () => {
+    if (id?.startsWith('open-bike-box')) {
+      return (
+        <div style={{ padding: '15px 0px' }}>
+          <a
+            style={{ textDecoration: 'none' }}
+            // eslint-disable-next-line react/jsx-no-target-blank
+            target="_blank"
+            className="standalone-btn"
+            href="https://openbikebox.de/"
+          >
+            <FormattedMessage id="book-locker" defaultMessage="Book locker" />
+          </a>
+        </div>
+      );
+    }
+    return [];
+  };
+
   return (
     <SidebarContainer
       name={name}
@@ -46,6 +65,7 @@ const BikeParkContent = ({ match }, { intl }) => {
       }}
     >
       {getCapacity()}
+      {getBookingButton()}
     </SidebarContainer>
   );
 };

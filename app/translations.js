@@ -259,6 +259,7 @@ const translations = {
   },
 
   de: {
+    'zone-info': 'Zoneninformation',
     'fares-disclaimer': 'Tarifauskünfte werden durch die Nahverkehrsgesellschaft Baden-Württemberg mbH (NVBW) zur Verfügung gestellt. Alle Angaben ohne Gewähr.',
     imprint: 'Impressum',
     privacy: 'Datenschutz',
@@ -670,7 +671,7 @@ const translations = {
       'Wir konnten leider keine Reisevorschläge für diese Strecke finden. Bitte versuchen Sie den Abfahrts- oder Zielort zu ändern.',
     'no-route-msg-with-changes':
       'Leider wurden keine Reiseoptionen zu Ihrer Anfrage gefunden. Passen Sie Ihre Einstellungen, Abfahrt- oder Zielort an.',
-
+    'book-locker': 'Schließfach buchen',
     'no-route-origin-near-destination':
       'Die Entfernung zwischen Start und Ziel ist sehr gering. Bitte ändern Sie einen dieser Orte.',
     'no-route-origin-same-as-destination':
@@ -1004,6 +1005,7 @@ const translations = {
   },
 
   en: {
+    'book-locker': 'Book locker',
     'fares-disclaimer': 'Fare information provided by Nahverkehrsgesellschaft Baden-Württemberg mbH (NVBW). No liability for the correctness of the information.',
     imprint: 'Imprint',
     'position-estimated': 'Position estimated. No current position information is available.',
