@@ -17,7 +17,6 @@ import ServiceAlertIcon from './ServiceAlertIcon';
 import StopCode from './StopCode';
 import {
   getActiveAlertSeverityLevel,
-  legHasCancelation,
   tripHasCancelationForStop,
   getActiveLegAlerts,
   alertSeverityCompare,
@@ -32,6 +31,7 @@ import { shouldShowFareInfo } from '../util/fareUtils';
 import { AlertSeverityLevelType } from '../constants';
 import ZoneIcon from './ZoneIcon';
 import StopInfo from './StopInfo';
+import DelayedTime from './DelayedTime';
 
 class TransitLeg extends React.Component {
   constructor(props) {
@@ -176,19 +176,7 @@ class TransitLeg extends React.Component {
   renderMain = () => {
     const { children, focusAction, index, leg, mode, lang } = this.props;
     const { config, intl } = this.context;
-    const isLate =
-      leg.departureDelay !== undefined &&
-      leg.departureDelay >= config.itinerary.delayThreshold;
-    const tooEarly = leg.departureDelay !== undefined && leg.departureDelay < 0;
-    const originalTime = leg.realTime &&
-      (isLate || tooEarly) && [
-        <br key="br" />,
-        <span key="time" className="original-time">
-          {moment(leg.startTime)
-            .subtract(leg.departureDelay, 's')
-            .format('HH:mm')}
-        </span>,
-      ];
+
     const LegRouteName = leg.from.name?.concat(' - ').concat(leg.to.name);
     const modeClassName = mode.toLowerCase();
 
@@ -280,12 +268,11 @@ class TransitLeg extends React.Component {
           <span className="sr-only">{children}</span>
           <span aria-hidden="true">
             <div className="itinerary-time-column-time">
-              <span className={cx({ realtime: leg.realTime, late: isLate })}>
-                <span className={cx({ canceled: legHasCancelation(leg) })}>
-                  {moment(leg.startTime).format('HH:mm')}
-                </span>
-              </span>
-              {originalTime}
+              <DelayedTime
+                leg={leg}
+                delay={leg.departureDelay}
+                startTime={leg.startTime}
+              />
             </div>
             {zoneIcons}
           </span>

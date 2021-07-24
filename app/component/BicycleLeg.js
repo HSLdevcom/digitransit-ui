@@ -19,6 +19,7 @@ import { AlertSeverityLevelType } from '../constants';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
 import CityBikeLeg from './CityBikeLeg';
+import DelayedTime from './DelayedTime';
 
 function BicycleLeg(
   {
@@ -27,6 +28,8 @@ function BicycleLeg(
     leg,
     focusToLeg,
     arrivedAtDestinationWithRentedBicycle,
+    startTime,
+    previousLeg,
   },
   { config, intl },
 ) {
@@ -114,7 +117,11 @@ function BicycleLeg(
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {moment(leg.startTime).format('HH:mm')}
+          <DelayedTime
+            leg={previousLeg}
+            delay={previousLeg && previousLeg.arrivalDelay}
+            startTime={startTime}
+          />
         </div>
       </div>
       {mode === 'BICYCLE' ? (
@@ -370,6 +377,10 @@ BicycleLeg.propTypes = {
   focusAction: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,
   arrivedAtDestinationWithRentedBicycle: PropTypes.bool,
+  startTime: PropTypes.number.isRequired,
+  previousLeg: PropTypes.shape({
+    arrivalDelay: PropTypes.number,
+  }),
 };
 
 BicycleLeg.defaultProps = {

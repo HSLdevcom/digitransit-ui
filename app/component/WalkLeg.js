@@ -22,9 +22,10 @@ import { durationToString } from '../util/timeUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
 import CityBikeLeg from './CityBikeLeg';
+import DelayedTime from './DelayedTime';
 
 function WalkLeg(
-  { children, focusAction, focusToLeg, index, leg, previousLeg },
+  { children, focusAction, focusToLeg, index, leg, previousLeg, startTime },
   { config, intl },
 ) {
   const distance = displayDistance(
@@ -82,7 +83,11 @@ function WalkLeg(
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {moment(leg.startTime).format('HH:mm')}
+          <DelayedTime
+            leg={previousLeg}
+            delay={previousLeg && previousLeg.arrivalDelay}
+            startTime={startTime}
+          />
         </div>
       </div>
       <ItineraryCircleLineWithIcon
@@ -297,6 +302,7 @@ const walkLegShape = PropTypes.shape({
   to: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
+  arrivalDelay: PropTypes.number,
 });
 
 WalkLeg.propTypes = {
@@ -306,6 +312,7 @@ WalkLeg.propTypes = {
   leg: walkLegShape.isRequired,
   previousLeg: walkLegShape,
   focusToLeg: PropTypes.func.isRequired,
+  startTime: PropTypes.number.isRequired,
 };
 
 WalkLeg.defaultProps = {

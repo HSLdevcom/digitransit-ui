@@ -29,6 +29,7 @@ describe('<BicycleLeg />', () => {
           name: 'Testipaikka',
         },
       },
+      startTime: 0,
     };
     const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
       context: {
@@ -67,6 +68,7 @@ describe('<BicycleLeg />', () => {
           name: 'Testipaikka',
         },
       },
+      startTime: 0,
     };
     const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
       context: {
@@ -105,6 +107,7 @@ describe('<BicycleLeg />', () => {
           name: 'Testipaikka',
         },
       },
+      startTime: 0,
     };
     const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
       context: {
@@ -146,6 +149,7 @@ describe('<BicycleLeg />', () => {
           name: 'Testipaikka',
         },
       },
+      startTime: 0,
     };
     const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
       context: {
@@ -187,6 +191,7 @@ describe('<BicycleLeg />', () => {
           name: 'Testipaikka',
         },
       },
+      startTime: 0,
     };
     const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
       context: {
@@ -225,6 +230,7 @@ describe('<BicycleLeg />', () => {
           name: 'Testipaikka',
         },
       },
+      startTime: 0,
     };
     const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
       context: {

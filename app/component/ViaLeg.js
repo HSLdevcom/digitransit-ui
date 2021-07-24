@@ -10,6 +10,7 @@ import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
+import DelayedTime from './DelayedTime';
 
 const getDescription = (mode, distance, duration) => {
   if (mode === 'BICYCLE_WALK') {
@@ -84,7 +85,11 @@ function ViaLeg(props, { config, intl }) {
         aria-hidden="true"
       >
         <div className="itinerary-time-column-time via-arrival-time">
-          {moment(props.arrivalTime).format('HH:mm')}
+          <DelayedTime
+            leg={props.previousLeg}
+            delay={props.previousLeg && props.previousLeg.arrivalDelay}
+            startTime={props.arrivalTime}
+          />
         </div>
         <div className="itinerary-time-column-time via-divider">
           <div className="via-divider-line" />
@@ -219,6 +224,9 @@ ViaLeg.propTypes = {
   focusAction: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,
   children: PropTypes.node,
+  previousLeg: PropTypes.shape({
+    arrivalDelay: PropTypes.number,
+  }),
 };
 
 ViaLeg.contextTypes = {

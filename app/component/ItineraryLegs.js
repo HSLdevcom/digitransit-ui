@@ -134,6 +134,7 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             arrivalTime={startTime}
+            previousLeg={previousLeg}
             focusAction={this.focus(leg.from)}
             focusToLeg={this.focusToLeg(leg)}
           />,
@@ -146,6 +147,7 @@ class ItineraryLegs extends React.Component {
             previousLeg={previousLeg}
             focusAction={this.focus(leg.from)}
             focusToLeg={this.focusToLeg(leg)}
+            startTime={startTime}
           >
             {this.stopCode(leg.from.stop)}
           </WalkLeg>,
@@ -237,6 +239,8 @@ class ItineraryLegs extends React.Component {
             arrivedAtDestinationWithRentedBicycle={
               itinerary.arrivedAtDestinationWithRentedBicycle
             }
+            startTime={startTime}
+            previousLeg={previousLeg}
           />,
         );
       } else if (leg.mode === 'CAR') {
@@ -246,6 +250,8 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             focusAction={this.focus(leg.from)}
             toggleCarpoolDrawer={toggleCarpoolDrawer}
+            startTime={startTime}
+            previousLeg={previousLeg}
           >
             {this.stopCode(leg.from.stop)}
           </CarLeg>,
@@ -275,6 +281,7 @@ class ItineraryLegs extends React.Component {
               index={j}
               leg={leg}
               startTime={leg.endTime}
+              previousLeg={previousLeg}
               waitTime={waitTime}
               focusAction={this.focus(leg.to)}
             >
