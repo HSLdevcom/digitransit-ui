@@ -177,7 +177,7 @@ function BicycleLeg(
             bikeRentalStation={leg.from.bikeRentalStation}
           />
         )}
-        {arrivedAtDestinationWithRentedBicycle && (
+        {leg.rentedBike && arrivedAtDestinationWithRentedBicycle && (
           <div className={`itinerary-alert-info ${mode.toLowerCase()}`}>
             <ServiceAlertIcon
               className="inline-icon"

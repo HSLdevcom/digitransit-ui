@@ -387,10 +387,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
       { mode: 'FLEX', qualifier: 'DIRECT' },
       { mode: 'WALK' },
     ],
-    bikeParkModes: [
-      { mode: 'BICYCLE', qualifier: 'PARK' },
-      ...formattedModes,
-    ].filter(mode => mode.qualifier !== 'RENT'), // BICYCLE_RENT can't be used together with BICYCLE_PARK
+    bikeParkModes: [{ mode: 'BICYCLE', qualifier: 'PARK' }, ...formattedModes],
     carParkModes: [
       isDestinationOldTownOfHerrenberg(toLocation)
         ? { mode: 'CAR', qualifier: 'PARK' }
