@@ -45,7 +45,7 @@ const BikeParkContent = ({ match }, { intl }) => {
             // eslint-disable-next-line react/jsx-no-target-blank
             target="_blank"
             className="standalone-btn"
-            href="https://openbikebox.de/"
+            href="https://openbikebox.next-site.de/location/bahnhof-herrenberg/"
           >
             <FormattedMessage id="book-locker" defaultMessage="Book locker" />
           </a>
