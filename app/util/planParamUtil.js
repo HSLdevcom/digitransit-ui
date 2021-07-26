@@ -161,6 +161,8 @@ export const getSettings = config => {
       ),
     allowedBikeRentalNetworks: custSettings.allowedBikeRentalNetworks,
     includeBikeSuggestions: custSettings.includeBikeSuggestions,
+    includeCarSuggestions: custSettings.includeCarSuggestions,
+    includeParkAndRideSuggestions: custSettings.includeParkAndRideSuggestions,
     useCarParkAvailabilityInformation:
       custSettings.useCarParkAvailabilityInformation,
   };
@@ -174,7 +176,7 @@ const getShouldMakeParkRideQuery = (
 ) => {
   return (
     linearDistance > config.suggestCarMinDistance &&
-    (settings.includeParkAndRideSuggestions
+    (settings.includeParkAndRideSuggestions !== undefined
       ? settings.includeParkAndRideSuggestions
       : defaultSettings.includeParkAndRideSuggestions)
   );
@@ -188,7 +190,7 @@ const getShouldMakeCarQuery = (
 ) => {
   return (
     linearDistance > config.suggestCarMinDistance &&
-    (settings.includeCarSuggestions
+    (settings.includeCarSuggestions !== undefined
       ? settings.includeCarSuggestions
       : defaultSettings.includeCarSuggestions)
   );
