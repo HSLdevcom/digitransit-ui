@@ -90,6 +90,7 @@ class StopsNearYouPage extends React.Component {
       showCityBikeTeaser: true,
       searchPosition: {},
       mapLayerOptions: null,
+      resultsLoaded: false,
     };
   }
 
@@ -193,6 +194,11 @@ class StopsNearYouPage extends React.Component {
       return newState;
     }
     return newState;
+  };
+
+  setLoadState = () => {
+    // trigger a state update in this component to force a rerender when stop data is received for the first time.
+    this.setState({ resultsLoaded: true });
   };
 
   setMapLayerOptions = () => {
@@ -572,6 +578,7 @@ class StopsNearYouPage extends React.Component {
                   )}
                   {props && (
                     <StopsNearYouContainer
+                      setLoadState={this.setLoadState}
                       match={this.props.match}
                       stopPatterns={props.stopPatterns}
                       position={this.state.searchPosition}
@@ -589,6 +596,7 @@ class StopsNearYouPage extends React.Component {
     if (tabs.length > 1) {
       return (
         <SwipeableTabs
+          loaded={this.state.resultsLoaded}
           tabIndex={index}
           onSwipe={this.onSwipe}
           tabs={tabs}

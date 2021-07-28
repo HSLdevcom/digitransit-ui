@@ -14,6 +14,7 @@ import Icon from './Icon';
 class StopsNearYouContainer extends React.Component {
   static propTypes = {
     stopPatterns: PropTypes.any,
+    setLoadState: PropTypes.func,
     currentTime: PropTypes.number.isRequired,
     relay: PropTypes.shape({
       refetchConnection: PropTypes.func.isRequired,
@@ -145,6 +146,7 @@ class StopsNearYouContainer extends React.Component {
   }
 
   componentDidMount() {
+    this.props.setLoadState();
     if (this.state.fetchMoreStops) {
       this.showMore();
     }
