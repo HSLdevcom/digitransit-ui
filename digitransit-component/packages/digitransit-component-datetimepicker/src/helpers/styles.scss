@@ -53,6 +53,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
 
   .top-row-container {
     display: flex;
+    flex-wrap: wrap;
 
     &.closed {
       margin: 11px 0 6px 18px;
@@ -129,11 +130,11 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
   }
 
   .departure-or-arrival-container {
-    height: 36px;
+    height: calc(1rem + 20px);
     background-color: #dddddd;
     border-radius: 8px;
     display: flex;
-    width: 58%;
+    width: 13.375rem;
   }
   .radio-textbutton-label {
     color: #333333;
@@ -143,7 +144,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     padding: 9px 0;
     width: 50%;
     cursor: pointer;
-    height: 32px;
+    height: calc(1rem + 16px);
     text-align: center;
     font-weight: 400;
     font-size: 15px;
@@ -177,10 +178,10 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
   .departure-now-button {
     font-family: inherit;
     letter-spacing: -0.02em;
-    height: 34px;
+    height: calc(1rem + 18px);
     color: var(--color);
     padding: 8px 0;
-    width: 29%;
+    width: 6.6875rem;
     background: white;
     border: 1px solid #888888;
     border-radius: 30px;
@@ -302,10 +303,9 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
         max-height: 250px;
         padding: 0;
         :global .datetimepicker-select__option {
-          line-height: 49px;
           height: 50px;
           border-top: 1px solid #dddddd;
-          padding: 0 0 0 12px;
+          padding: 13px 0 0 12px;
           letter-spacing: -0.6px;
           color: #333333;
           &--is-selected {
