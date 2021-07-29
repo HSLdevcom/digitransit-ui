@@ -1,8 +1,8 @@
 @import '~@hsl-fi/sass/mixins/screen';
 
 $route-schedule-date-height: 36px;
-$margin-left-right-large: 3.75em;
-$margin-left-right: 1.333em;
+$margin-left-right-large: 60px;
+$margin-left-right: 21.3px;
 
 .error {
   div {
@@ -58,7 +58,7 @@ $margin-left-right: 1.333em;
 }
 .route-page-container {
   background-color: $white;
-  padding-top: 3em;
+  padding-top: 48px;
 }
 
 .route-page-content {
@@ -78,8 +78,8 @@ $margin-left-right: 1.333em;
   &.bp-large {
     top: 0;
     padding-top: 0;
-    padding-left: 3.5em;
-    padding-right: 3.5em;
+    padding-left: 56px;
+    padding-right: 56px;
   }
   &:empty {
     flex-basis: 0;
@@ -559,6 +559,7 @@ $margin-left-right: 1.333em;
   }
 
   .route-schedule-header {
+    padding: 9.6px 0 19px 0;
     @media print {
       margin-left: 0;
       margin-right: auto;
@@ -653,12 +654,11 @@ $margin-left-right: 1.333em;
 }*/
 
 .route-schedule-dropdowns {
-  max-height: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   @media print {
     display: none;
-  }
-  .dd-container {
-    width: 50%;
   }
 }
 
@@ -672,8 +672,8 @@ $margin-left-right: 1.333em;
   padding-bottom: 1.5em;
   flex: 1 0;
   flex-basis: 0px;
-  padding-right: 3.5em;
-  padding-left: 3.5em;
+  padding-right: 56px;
+  padding-left: 56px;
   .route-page-control-panel-container {
     padding: 0px;
   }
@@ -689,10 +689,9 @@ $margin-left-right: 1.333em;
 .route-schedule-ranges {
   display: flex;
   justify-content: space-between;
-  max-height: 24px;
-  min-height: 24px;
   margin-bottom: 12px;
   margin-top: 12px;
+  flex-wrap: wrap;
 
   .current-range {
     flex: 1;
@@ -706,7 +705,7 @@ $margin-left-right: 1.333em;
   }
 
   .other-ranges-dropdown {
-    flex: 1;
+    flex: 1 0 6rem;
     @media print {
       display: none;
     }

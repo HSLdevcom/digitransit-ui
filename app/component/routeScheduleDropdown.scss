@@ -1,14 +1,6 @@
 .dd-container {
-  &.alignRight {
-    position: relative;
-    right: 3px;
-    &.withLabel {
-      position: relative;
-      top: -46px;
-      left: calc(50% - 3px);
-      text-align: right;
-    }
-  }
+  flex-grow: 1;
+  flex-basis: 10rem;
 }
 
 .dd-header {
@@ -91,7 +83,7 @@
   }
 
   .dd__menu, .dd-right__menu, .dd-timerange__menu {
-    width: calc(100% + 85px);
+    width: calc(100% + 85px + 32px - 2rem);
     max-height: 44vh;
     border-radius: 4px;
     box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.15);
