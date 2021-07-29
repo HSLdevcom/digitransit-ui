@@ -90,6 +90,7 @@ class StopsNearYouPage extends React.Component {
       showCityBikeTeaser: true,
       searchPosition: {},
       mapLayerOptions: null,
+      // eslint-disable-next-line react/no-unused-state
       resultsLoaded: false,
     };
   }
@@ -198,6 +199,9 @@ class StopsNearYouPage extends React.Component {
 
   setLoadState = () => {
     // trigger a state update in this component to force a rerender when stop data is received for the first time.
+    // this fixes a bug where swipeable tabs were not keeping focusable elements up to date after receving stop data
+    // and keyboard focus could be lost to hidden elements.
+    // eslint-disable-next-line react/no-unused-state
     this.setState({ resultsLoaded: true });
   };
 
@@ -596,7 +600,6 @@ class StopsNearYouPage extends React.Component {
     if (tabs.length > 1) {
       return (
         <SwipeableTabs
-          loaded={this.state.resultsLoaded}
           tabIndex={index}
           onSwipe={this.onSwipe}
           tabs={tabs}
