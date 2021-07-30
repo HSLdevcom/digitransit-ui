@@ -456,6 +456,8 @@ const withRelay = createFragmentContainer(ItineraryTab, {
         rentedBike
         startTime
         endTime
+        departureDelay
+        arrivalDelay
         mode
         interlineWithPreviousLeg
         distance

@@ -9,10 +9,11 @@ import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { PREFIX_STOPS } from '../util/path';
+import DelayedTime from './DelayedTime';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function WaitLeg(
-  { children, leg, startTime, waitTime, focusAction, index },
+  { children, leg, startTime, waitTime, focusAction, index, previousLeg },
   { config, intl },
 ) {
   const modeClassName = 'wait';
@@ -28,7 +29,11 @@ function WaitLeg(
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {moment(startTime).format('HH:mm')}
+          <DelayedTime
+            leg={previousLeg}
+            delay={previousLeg && previousLeg.arrivalDelay}
+            startTime={startTime}
+          />
         </div>
       </div>
       <ItineraryCircleLineWithIcon
@@ -153,6 +158,10 @@ WaitLeg.propTypes = {
       }),
     }).isRequired,
   }).isRequired,
+  previousLeg: PropTypes.shape({
+    realTime: PropTypes.bool.isRequired,
+    arrivalDelay: PropTypes.number,
+  }),
 };
 
 WaitLeg.contextTypes = {

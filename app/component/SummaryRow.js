@@ -223,6 +223,10 @@ const SummaryRow = (
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
   const duration = endTime.diff(startTime);
+  const isLate = leg =>
+    leg.realTime &&
+    leg.departureDelay !== undefined &&
+    leg.departureDelay >= props.delayThreshold;
 
   const mobile = bp => !(bp === 'large');
   const legs = [];
@@ -549,6 +553,7 @@ const SummaryRow = (
                 <span
                   className={cx('start-time', {
                     realtime: firstDeparture.realTime,
+                    late: isLate(firstDeparture),
                   })}
                 >
                   <LocalTime time={firstDeparture.startTime} />
@@ -785,6 +790,7 @@ SummaryRow.propTypes = {
   isCancelled: PropTypes.bool,
   showCancelled: PropTypes.bool,
   zones: PropTypes.arrayOf(PropTypes.string),
+  delayThreshold: PropTypes.number,
 };
 
 SummaryRow.defaultProps = {

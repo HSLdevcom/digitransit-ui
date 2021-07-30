@@ -28,6 +28,7 @@ describe('<WalkLeg />', () => {
         rentedBike: false,
         startTime: 1529589709000,
       },
+      startTime: 1529589709000,
     };
 
     const wrapper = shallowWithIntl(<WalkLeg {...props} />, {
@@ -60,6 +61,7 @@ describe('<WalkLeg />', () => {
         startTime: 1529589709000,
       },
       previousLeg: {
+        realTime: false,
         distance: 3297.017000000001,
         duration: 904,
         from: {
@@ -74,6 +76,7 @@ describe('<WalkLeg />', () => {
           stop: null,
         },
       },
+      startTime: 1529589709000,
     };
 
     const wrapper = shallowWithIntl(<WalkLeg {...props} />, {
@@ -108,6 +111,7 @@ describe('<WalkLeg />', () => {
         startTime: 1529589709000,
       },
       previousLeg: {
+        realTime: false,
         distance: 3297.017000000001,
         duration: 904,
         from: {
@@ -125,6 +129,7 @@ describe('<WalkLeg />', () => {
         rentedBike: true,
         startTime: 1529588805000,
       },
+      startTime: 1529589709000,
     };
 
     const wrapper = shallowWithIntl(<WalkLeg {...props} />, {
@@ -172,6 +177,7 @@ describe('<WalkLeg />', () => {
         rentedBike: false,
         startTime,
       },
+      startTime,
     };
 
     const wrapper = shallowWithIntl(<WalkLeg {...props} />, {

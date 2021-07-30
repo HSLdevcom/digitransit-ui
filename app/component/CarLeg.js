@@ -13,6 +13,7 @@ import ServiceAlertIcon from './ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../constants';
 import { replaceQueryParams } from '../util/queryUtils';
 import { getServiceAlertDescription } from '../util/alertUtils';
+import DelayedTime from './DelayedTime';
 
 function CarLeg(props, { config, intl, router, match, executeAction }) {
   const { leg } = props;
@@ -47,7 +48,11 @@ function CarLeg(props, { config, intl, router, match, executeAction }) {
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {moment(leg.startTime).format('HH:mm')}
+          <DelayedTime
+            leg={props.previousLeg}
+            delay={props.previousLeg && props.previousLeg.arrivalDelay}
+            startTime={props.startTime}
+          />
         </div>
       </div>
       <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
@@ -216,6 +221,10 @@ CarLeg.propTypes = {
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node,
   toggleCarpoolDrawer: PropTypes.func,
+  startTime: PropTypes.number.isRequired,
+  previousLeg: PropTypes.shape({
+    arrivalDelay: PropTypes.number,
+  }),
 };
 
 CarLeg.contextTypes = {

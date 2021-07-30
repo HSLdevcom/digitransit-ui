@@ -334,6 +334,9 @@
         &.realtime {
           color: $realtime-color;
         }
+        &.late {
+          color: $late-color;
+        }
         &.canceled {
           color: $cancelation-red;
         }
@@ -360,6 +363,9 @@
       &.realtime {
         color: $realtime-color;
       }
+      &.late {
+        color: $late-color;
+      }
       &.canceled {
         color: $cancelation-red;
       }
@@ -380,6 +386,9 @@
       color: #333;
       &.realtime {
         color: $realtime-color;
+      }
+      &.late {
+        color: $late-color;
       }
       &.canceled {
         color: $cancelation-red;
