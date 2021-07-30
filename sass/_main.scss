@@ -72,3 +72,10 @@ $body-font-weight: $font-weight-medium;
 
 // And these application specific styles use Foundation variables,
 // so they have to be loaded afterwards
+
+@import 'stadtnavi-extensions/dynamic-parking-lots';
+@import 'stadtnavi-extensions/charging-station-content';
+@import "stadtnavi-extensions/cargo-bike-content";
+@import 'stadtnavi-extensions/sidebar-container';
+@import 'stadtnavi-extensions/opening-hours';
+@import 'stadtnavi-extensions/layer-category-dropdown';
