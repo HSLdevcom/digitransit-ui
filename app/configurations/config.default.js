@@ -29,8 +29,8 @@ export default {
     MAP_URL,
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/finland/`,
     MAP: {
-      default: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-map/`,
-      sv: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-map-sv/`,
+      default: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-map/{z}/{x}/{y}{r}.png`,
+      sv: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-map-sv/{z}/{x}/{y}{r}.png`,
     },
     STOP_MAP: `${MAP_URL}/map/v1/finland-stop-map/`,
     CITYBIKE_MAP: `${MAP_URL}/map/v1/finland-citybike-map/`,
