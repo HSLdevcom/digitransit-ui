@@ -925,9 +925,12 @@ const translations = {
     citybike: 'City bike',
     'citybike-buy-season': 'Buy a daily, weekly or season pass',
     'citybike-distance-duration': 'Bike {duration} ({distance})',
-    'citybike-duration-info': '',
-    'citybike-duration-info-header': '',
-    'citybike-duration-info-short': '',
+    'citybike-duration-info':
+      'You can ride a city bike for up to {duration} minutes at a time, after which you will be charged extra.',
+    'citybike-duration-info-header':
+      'The section of route to be completed by a city bike takes more than {duration} minutes.',
+    'citybike-duration-info-short':
+      'Citybike section over {duration} min. Includes an additional fee.',
     'citybike-network-headers': 'Citybikes',
     'citybike-purchase-link': 'Buy',
     'citybike-register-required': 'To use city bikes, you need to register',
@@ -3628,9 +3631,12 @@ const translations = {
     'citybike-buy-season':
       'Köp ett abonnemang för en dag, en vecka eller för en hel säsong',
     'citybike-distance-duration': 'Cykla {duration} ({distance})',
-    'citybike-duration-info': '',
-    'citybike-duration-info-header': '',
-    'citybike-duration-info-short': '',
+    'citybike-duration-info':
+      'Du kan använda stadscykeln {duration} minuter åt gången, efter det debiteras en tilläggsavgift.',
+    'citybike-duration-info-header':
+      'Sträckan med stadscykel tar över {duration} min.',
+    'citybike-duration-info-short':
+      'Stadscyckel sträckan tar över {duration} min. Debiteras en tilläggsavgift.',
     'citybike-network-headers': 'Stadscyklarna',
     'citybike-purchase-link': 'Gå till köp',
     'citybike-register-required':
