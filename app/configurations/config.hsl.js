@@ -440,7 +440,6 @@ export default {
     showCityBikes: cityBikesEnabled,
     capacity: BIKEAVL_WITHMAX,
     showFullInfo: true,
-    showDurationWarning: true,
     networks: {
       smoove: {
         icon: 'citybike',

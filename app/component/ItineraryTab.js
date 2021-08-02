@@ -139,14 +139,16 @@ class ItineraryTab extends React.Component {
     const legsWithRentalBike = itinerary.legs.filter(leg => legContainsRentalBike(leg));
     const rentalBikeNetworks = [];
     let showRentalBikeDurationWarning = false;
-    if (legsWithRentalBike.length > 0 && config.cityBike.showDurationWarning) {
+    if (legsWithRentalBike.length > 0) {
       for (let i=0; i < legsWithRentalBike.length; i++) {
         const leg = legsWithRentalBike[i];
         const network = getCityBikeNetworkId(leg.from.bikeRentalStation?.networks);
-        const rentDurationOverSurchargeLimit = leg.duration > config.cityBike.networks[network]?.timeBeforeSurcharge;
-        if (rentDurationOverSurchargeLimit) {
-          rentalBikeNetworks.push(network);
-          showRentalBikeDurationWarning = rentDurationOverSurchargeLimit || showRentalBikeDurationWarning;
+        if (config.cityBike.networks[network]?.timeBeforeSurcharge && config.cityBike.networks[network]?.durationInstructions) {
+          const rentDurationOverSurchargeLimit = leg.duration > config.cityBike.networks[network].timeBeforeSurcharge;
+          if (rentDurationOverSurchargeLimit) {
+            rentalBikeNetworks.push(network);
+            showRentalBikeDurationWarning = rentDurationOverSurchargeLimit || showRentalBikeDurationWarning;
+          }
         }
       }
     }

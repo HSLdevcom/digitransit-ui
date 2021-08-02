@@ -355,17 +355,17 @@ const SummaryRow = (
       }
     } else if (leg.rentedBike) {
       const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
+      // eslint-disable-next-line prefer-destructuring
+      bikeNetwork = getCityBikeNetworkId(leg.from.bikeRentalStation.networks);
       if (
-        config.cityBike.showDurationWarning &&
+        config.cityBike.networks[bikeNetwork]?.timeBeforeSurcharge &&
+        config.cityBike.networks[bikeNetwork]?.durationInstructions &&
         !showRentalBikeDurationWarning
       ) {
-        // eslint-disable-next-line prefer-destructuring
-        bikeNetwork = getCityBikeNetworkId(leg.from.bikeRentalStation.networks);
         rentDurationOverSurchargeLimit =
           leg.duration >
           config.cityBike?.networks[bikeNetwork].timeBeforeSurcharge;
-        showRentalBikeDurationWarning =
-          config.cityBike.showDurationWarning && rentDurationOverSurchargeLimit;
+        showRentalBikeDurationWarning = rentDurationOverSurchargeLimit;
         citybikeicon = getCityBikeNetworkIcon(
           getCityBikeNetworkConfig(getCityBikeNetworkId(bikeNetwork), config),
         );

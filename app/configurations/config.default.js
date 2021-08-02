@@ -261,7 +261,6 @@ export default {
     fewAvailableCount: 3,
     networks: {},
     capacity: BIKEAVL_WITHMAX,
-    showDurationWarning: false,
   },
 
   // Lowest level for stops and terminals are rendered
