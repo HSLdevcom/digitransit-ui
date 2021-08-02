@@ -56,11 +56,6 @@ CityBikeDurationInfo.propTypes = {
   config: PropTypes.object.isRequired,
 };
 
-CityBikeDurationInfo.contexTypes = {
-  // config: PropTypes.object.isRequired,
-  // getStore: PropTypes.func.isRequired,
-};
-
 const connectedComponent = connectToStores(
   CityBikeDurationInfo,
   ['UserStore', 'PreferencesStore'],
