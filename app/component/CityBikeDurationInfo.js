@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import React from 'react';
-import { Link } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Icon from './Icon';
 import {
@@ -41,9 +40,9 @@ function CityBikeDurationInfo(props) {
             defaultMessage=""
           />
           &nbsp;
-          <Link to={cityBikeNetworkDurationInfoLink}>
+          <a href={cityBikeNetworkDurationInfoLink}>
             <FormattedMessage id="read-more" defaultMessage="Read more" /> ›
-          </Link>
+          </a>
         </p>
       </div>
     </div>
