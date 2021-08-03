@@ -149,7 +149,7 @@
   display: flex;
   background-color: #dddddd;
   border-radius: 5px;
-  margin: 0.5em 4em 1em 4em;
+  margin: 8px 64px 16px 64px;
   position: relative;
   @media print {
     display: none;
@@ -622,7 +622,7 @@ hr.action-bar {
 .timetablerow-linetime {
   display: inline-flex;
   justify-content: flex-start;
-  width: 65px;
+  min-width: 4.0625rem;
   margin-bottom: 4px;
 }
 
@@ -630,7 +630,7 @@ hr.action-bar {
   display: flex;
   justify-content: center;
   background: $white;
-  margin: 0.5em 3em 1em 4em;
+  margin: 8px 48px 16px 64px;
   .secondary-button.print {
     @media print {
       display: none;
@@ -739,12 +739,12 @@ hr.action-bar {
   }
 
   .timetable-topbar {
-    margin: 0em 1em 1em 1em;
+    margin: 0em 16px 16px 16px;
   }
 
   .stop-tab-container {
     border-bottom: none;
-    margin: 0em 1em 1em 1em;
+    margin: 0em 16px 16px 16px;
   }
   .stop-tabs-fillerline {
     height: 5px;
