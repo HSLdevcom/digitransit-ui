@@ -546,7 +546,10 @@ class RouteScheduleContainer extends PureComponent {
     const firstDepartures = this.modifyDepartures(this.props.firstDepartures);
 
     // If we are missing data from the start of the week, see if we can merge it with next week
-    if (this.props.firstDepartures.wk1mon.length === 0) {
+    if (
+      firstDepartures[0].length !== 0 &&
+      this.props.firstDepartures.wk1mon.length === 0
+    ) {
       const [thisWeekData, nextWeekData] = firstDepartures;
       const thisWeekHashes = [];
       const nextWeekHashes = [];
