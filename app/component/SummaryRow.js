@@ -267,8 +267,8 @@ const SummaryRow = (
   const renderModeIcons = compressedLegs.length < 10;
   let bikeNetwork;
   let showRentalBikeDurationWarning = false;
+  const citybikeNetworks = new Set();
   let citybikeicon;
-  let rentDurationOverSurchargeLimit;
 
   compressedLegs.forEach((leg, i) => {
     let interliningWithRoute;
@@ -358,17 +358,23 @@ const SummaryRow = (
       // eslint-disable-next-line prefer-destructuring
       bikeNetwork = getCityBikeNetworkId(leg.from.bikeRentalStation.networks);
       if (
+        config.cityBike.networks &&
         config.cityBike.networks[bikeNetwork]?.timeBeforeSurcharge &&
-        config.cityBike.networks[bikeNetwork]?.durationInstructions &&
-        !showRentalBikeDurationWarning
+        config.cityBike.networks[bikeNetwork]?.durationInstructions
       ) {
-        rentDurationOverSurchargeLimit =
+        const rentDurationOverSurchargeLimit =
           leg.duration >
           config.cityBike?.networks[bikeNetwork].timeBeforeSurcharge;
-        showRentalBikeDurationWarning = rentDurationOverSurchargeLimit;
-        citybikeicon = getCityBikeNetworkIcon(
-          getCityBikeNetworkConfig(getCityBikeNetworkId(bikeNetwork), config),
-        );
+        if (rentDurationOverSurchargeLimit) {
+          citybikeNetworks.add(bikeNetwork);
+        }
+        showRentalBikeDurationWarning =
+          showRentalBikeDurationWarning || rentDurationOverSurchargeLimit;
+        if (!citybikeicon) {
+          citybikeicon = getCityBikeNetworkIcon(
+            getCityBikeNetworkConfig(getCityBikeNetworkId(bikeNetwork), config),
+          );
+        }
       }
       legs.push(
         <ModeLeg
@@ -747,20 +753,29 @@ const SummaryRow = (
               >
                 {firstLegStartTime}
               </div>
-              {showRentalBikeDurationWarning && (
-                <div className="citybike-duration-info-short">
-                  <Icon img={citybikeicon} height={1.2} width={1.2} />
-                  <FormattedMessage
-                    id="citybike-duration-info-short"
-                    values={{
-                      duration:
-                        config.cityBike?.networks[bikeNetwork]
-                          .timeBeforeSurcharge / 60,
-                    }}
-                    defaultMessage=""
-                  />
-                </div>
-              )}
+              {showRentalBikeDurationWarning &&
+                (citybikeNetworks.size === 1 ? (
+                  <div className="citybike-duration-info-short">
+                    <Icon img={citybikeicon} height={1.2} width={1.2} />
+                    <FormattedMessage
+                      id="citybike-duration-info-short"
+                      values={{
+                        duration:
+                          config.cityBike?.networks[bikeNetwork]
+                            .timeBeforeSurcharge / 60,
+                      }}
+                      defaultMessage=""
+                    />
+                  </div>
+                ) : (
+                  <div className="citybike-duration-info-short">
+                    <Icon img={citybikeicon} height={1.2} width={1.2} />
+                    <FormattedMessage
+                      id="citybike-duration-general-short"
+                      defaultMessage=""
+                    />
+                  </div>
+                ))}
             </div>
             {mobile(breakpoint) !== true && (
               <div

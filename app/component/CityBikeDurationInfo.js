@@ -11,14 +11,52 @@ import {
 
 function CityBikeDurationInfo(props) {
   const { networks, lang, config } = props;
-  const cityBikeNetwork = getCityBikeNetworkId(networks);
+  if (networks.length === 1) {
+    const cityBikeNetwork = getCityBikeNetworkId(networks);
+    const citybikeicon = getCityBikeNetworkIcon(
+      getCityBikeNetworkConfig(cityBikeNetwork, config),
+    );
+    const cityBikeNetworkDurationInfoLink =
+      config.cityBike.networks[cityBikeNetwork].durationInstructions[lang];
+    const duration =
+      config.cityBike.networks[cityBikeNetwork].timeBeforeSurcharge / 60;
+
+    return (
+      <div className="citybike-duration-infobox">
+        <div className="left-column">
+          <Icon img={citybikeicon} width={2.2} height={2.2} />
+        </div>
+        <div className="right-column">
+          <span>
+            <FormattedMessage
+              id="citybike-duration-info-header"
+              values={{ duration }}
+              defaultMessage=""
+            />
+          </span>
+          <p>
+            <FormattedMessage
+              id="citybike-duration-info"
+              values={{ duration }}
+              defaultMessage=""
+            />
+            &nbsp;
+            <a href={cityBikeNetworkDurationInfoLink}>
+              <FormattedMessage id="read-more" defaultMessage="Read more" /> ›
+            </a>
+          </p>
+        </div>
+      </div>
+    );
+  }
   const citybikeicon = getCityBikeNetworkIcon(
-    getCityBikeNetworkConfig(cityBikeNetwork, config),
+    getCityBikeNetworkConfig(networks[0], config),
   );
-  const cityBikeNetworkDurationInfoLink =
-    config.cityBike.networks[cityBikeNetwork].durationInstructions[lang];
-  const duration =
-    config.cityBike.networks[cityBikeNetwork].timeBeforeSurcharge / 60;
+  const durationInfoLinks = {};
+  for (let i = 0; i < networks.length; i++) {
+    durationInfoLinks[networks[i]] =
+      config.cityBike.networks[networks[i]].durationInstructions[lang];
+  }
 
   return (
     <div className="citybike-duration-infobox">
@@ -28,21 +66,32 @@ function CityBikeDurationInfo(props) {
       <div className="right-column">
         <span>
           <FormattedMessage
-            id="citybike-duration-info-header"
-            values={{ duration }}
+            id="citybike-duration-general-header"
             defaultMessage=""
           />
         </span>
         <p>
-          <FormattedMessage
-            id="citybike-duration-info"
-            values={{ duration }}
-            defaultMessage=""
-          />
-          &nbsp;
-          <a href={cityBikeNetworkDurationInfoLink}>
-            <FormattedMessage id="read-more" defaultMessage="Read more" /> ›
-          </a>
+          {networks.map(value => {
+            return (
+              <>
+                <a
+                  href={
+                    config.cityBike.networks[value].durationInstructions[lang]
+                  }
+                  key={value}
+                >
+                  {config.cityBike.networks[value].name[lang]}
+                  {' - '}
+                  <FormattedMessage
+                    id="read-more"
+                    defaultMessage="Read more"
+                  />{' '}
+                  ›
+                </a>
+                <br />
+              </>
+            );
+          })}
         </p>
       </div>
     </div>

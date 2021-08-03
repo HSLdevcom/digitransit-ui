@@ -925,6 +925,7 @@ const translations = {
     citybike: 'City bike',
     'citybike-buy-season': 'Buy a daily, weekly or season pass',
     'citybike-distance-duration': 'Bike {duration} ({distance})',
+    'citybike-duration-general-header': '',
     'citybike-duration-info':
       'You can ride a city bike for up to {duration} minutes at a time, after which you will be charged extra.',
     'citybike-duration-info-header':
@@ -1889,6 +1890,8 @@ const translations = {
     'citybike-buy-season':
       'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi',
     'citybike-distance-duration': 'Pyöräile {duration} ({distance})',
+    'citybike-duration-general-header':
+      'Useampi reitin kaupunkipyöräosuuksista sisältää lisämaksuja',
     'citybike-duration-info':
       'Kaupunkipyörää voi käyttää yhtäjaksoisesti {duration} min, jonka jälkeen peritään lisämaksu.',
     'citybike-duration-info-header':
@@ -3631,6 +3634,7 @@ const translations = {
     'citybike-buy-season':
       'Köp ett abonnemang för en dag, en vecka eller för en hel säsong',
     'citybike-distance-duration': 'Cykla {duration} ({distance})',
+    'citybike-duration-general-header': '',
     'citybike-duration-info':
       'Du kan använda stadscykeln {duration} minuter åt gången, efter det debiteras en tilläggsavgift.',
     'citybike-duration-info-header':

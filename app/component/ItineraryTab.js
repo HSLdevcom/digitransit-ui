@@ -137,7 +137,7 @@ class ItineraryTab extends React.Component {
     const fares = getFares(itinerary.fares, getRoutes(itinerary.legs), config);
     const extraProps = this.setExtraProps(itinerary);
     const legsWithRentalBike = itinerary.legs.filter(leg => legContainsRentalBike(leg));
-    const rentalBikeNetworks = [];
+    const rentalBikeNetworks = new Set();
     let showRentalBikeDurationWarning = false;
     if (legsWithRentalBike.length > 0) {
       for (let i=0; i < legsWithRentalBike.length; i++) {
@@ -146,7 +146,7 @@ class ItineraryTab extends React.Component {
         if (config.cityBike.networks[network]?.timeBeforeSurcharge && config.cityBike.networks[network]?.durationInstructions) {
           const rentDurationOverSurchargeLimit = leg.duration > config.cityBike.networks[network].timeBeforeSurcharge;
           if (rentDurationOverSurchargeLimit) {
-            rentalBikeNetworks.push(network);
+            rentalBikeNetworks.add(network);
             showRentalBikeDurationWarning = rentDurationOverSurchargeLimit || showRentalBikeDurationWarning;
           }
         }
@@ -199,7 +199,7 @@ class ItineraryTab extends React.Component {
                 </div>
               </>
             ),
-            showRentalBikeDurationWarning && <CityBikeDurationInfo networks={rentalBikeNetworks} config={config} />,
+            showRentalBikeDurationWarning && <CityBikeDurationInfo networks={Array.from(rentalBikeNetworks)} config={config} />,
             <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
                 multirow: extraProps.isMultiRow,
