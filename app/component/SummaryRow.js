@@ -771,7 +771,7 @@ const SummaryRow = (
                   <div className="citybike-duration-info-short">
                     <Icon img={citybikeicon} height={1.2} width={1.2} />
                     <FormattedMessage
-                      id="citybike-duration-general-short"
+                      id="citybike-duration-general-header"
                       defaultMessage=""
                     />
                   </div>

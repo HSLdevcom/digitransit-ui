@@ -305,11 +305,15 @@ $itinerary-tab-switch-height: 48px;
     p {
       margin: 0;
     }
+    a {
+      font-weight: 500;
+      text-decoration: none;
+    }
   }
 }
 
 .desktop .citybike-duration-infobox {
-  margin: 15px 3.125em;
+  margin: 15px 3.125em 15px 4.125em;
 }
 
 .itinerary-icon-container {
