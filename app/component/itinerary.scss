@@ -60,7 +60,7 @@ $itinerary-tab-switch-height: 48px;
 }
 .itinerary-tabs__scroll {
   background: $white;
-  padding: 0 3.125em;
+  padding: 0 50px;
   position: relative;
 }
 
@@ -208,8 +208,8 @@ $itinerary-tab-switch-height: 48px;
 .distance--itinerary-summary {
   display: inline-flex;
   position: relative;
-  top: 12px;
-  padding-bottom: 22px;
+  top: 11px;
+  padding-bottom: 20px;
 }
 
 .summary-divider {
@@ -229,11 +229,10 @@ $itinerary-tab-switch-height: 48px;
 
   .divider-top,
   .divider-bottom {
-    position: absolute;
+    position: relative;
     width: 400px;
     height: 1px;
     left: -5px;
-    top: 0px;
     border-top: 1px solid #dddddd;
     box-sizing: border-box;
     @media print {
@@ -242,7 +241,6 @@ $itinerary-tab-switch-height: 48px;
   }
 
   .divider-bottom {
-    top: 58px;
     &.multirow {
       top: 76px;
     }
@@ -293,7 +291,7 @@ $itinerary-tab-switch-height: 48px;
   position: absolute;
   width: 17px;
   height: 17px;
-  left: 2px;
+  left: calc(-6px + 0.5rem);
   z-index: 10;
   &.start {
     top: 12px;
@@ -838,6 +836,7 @@ $itinerary-tab-switch-height: 48px;
     }
     .itinerary-time-column-time {
       margin-bottom: 0.3em;
+      margin-left: calc(16px - 1rem);
       color: $black;
       text-decoration: none;
       font-size: 0.9375rem;
@@ -1029,7 +1028,7 @@ $itinerary-tab-switch-height: 48px;
       font-size: 0.9375rem;
     }
     .itinerary-leg-first-row {
-      height: 60px;
+      min-height: 60px;
       display: flex;
       flex-direction: row;
       white-space: normal;
@@ -2171,9 +2170,6 @@ $font-print-decrease: 0.7;
       left: 10px;
       right: 10px;
       width: calc(100% - 20px);
-      &.multirow {
-        top: 76px;
-      }
       @media print {
         border: none;
       }
