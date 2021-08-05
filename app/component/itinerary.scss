@@ -771,9 +771,9 @@ $itinerary-tab-switch-height: 48px;
     }
     .time-column-zone-icons-container {
       position: relative;
-      top: 2.5em;
+      top: 37.5px;
       &.single {
-        top: 3.5em;
+        top: 52.5px;
       }
       &.intermediate-leg {
         position: relative;
@@ -813,14 +813,14 @@ $itinerary-tab-switch-height: 48px;
           margin-left: 5px;
           line-height: 20px;
           padding: 0 3px 0 3px;
-          height: 20px;
+          height: 1.25rem;
 
           &.multi-letter {
             margin-left: 2px;
           }
         }
         .circle:not(.multi-letter) {
-          width: 20px;
+          width: 1.25rem;
         }
         .unknown {
           margin-right: 0px;
