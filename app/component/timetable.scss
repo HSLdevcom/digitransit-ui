@@ -37,7 +37,7 @@
   .timetable-note {
     border-top: 1px solid $light-gray;
     padding-top: 19px;
-    margin: 0.5em 4em 0 4em;
+    margin: 8px 64px 0 64px;
     font-weight: $font-weight-medium;
     font-size: $font-size-normal;
     line-height: 18px;
@@ -66,7 +66,7 @@
     }
   }
   .timetable-content-container {
-    margin: 0 3em 1em 4em;
+    margin: 0 48px 16px 64px;
   }
   .momentum-scroll {
     flex: 1 0 auto;
@@ -170,9 +170,9 @@
   overflow-y: visible;
 
   .timetable-content-container {
-    margin: 0em 1em 1em 1em;
+    margin: 0em 16px 16px 16px;
   }
   .timetable-note {
-    margin: 0em 1em 0.5em 1em;
+    margin: 0em 16px 8px;
   }
 }
