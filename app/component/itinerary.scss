@@ -2092,13 +2092,17 @@ $font-print-decrease: 0.7;
     margin-left: 0;
     margin-bottom: 0;
     height: 60px;
+    white-space: nowrap;
     .duration,
     .walk-distance {
       align-self: unset;
       margin-right: 9px;
     }
     .duration--itinerary-summary {
-      left: 22px;
+      margin-left: 10px;
+    }
+    .distance--itinerary-summary {
+      padding-left: 10px;
     }
     .divider-bottom {
       left: 10px;
