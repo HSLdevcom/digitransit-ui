@@ -91,36 +91,36 @@ describe(`Summary page with ${config} config`, () => {
     expect(image).toMatchImageSnapshot(snapshotConfig);
   });
 
-  // test(`itinerary details on ${platform}`, async () => {
-  //   const snapshotName = `itinerary-details-${platform}`;
-  //   const response = await page.goto(`http://localhost:8080${path}/2`);
+  test(`itinerary details on ${platform}`, async () => {
+    const snapshotName = `itinerary-details-${platform}`;
+    const response = await page.goto(`http://localhost:8080${path}/2`);
 
-  //   expect(response.status()).toBe(200);
-  //   await expect(page.title()).resolves.toMatch('Reittiehdotukset');
+    expect(response.status()).toBe(200);
+    await expect(page.title()).resolves.toMatch('Reittiehdotukset');
 
-  //   let mainContent;
-  //   if (!isMobile) {
-  //     await page.waitForSelector(
-  //       '#mainContent > .desktop > .main-content > .scrollable-content-wrapper',
-  //     );
-  //     mainContent = await page.$('#mainContent > .desktop > .main-content');
-  //   } else {
-  //     await page.waitForSelector(
-  //       '#app > #mainContent > .mobile > .drawer-container > .drawer-content',
-  //     );
-  //     mainContent = await page.$(
-  //       '#app > #mainContent > .mobile > .drawer-container > .drawer-content',
-  //     );
-  //   }
-  //   const image = await mainContent.screenshot({
-  //     fullPage: true,
-  //   });
-  //   // await new Promise(res => setTimeout(res, 200000));
-  //   const snapshotConfig = getConfig(
-  //     snapshotName,
-  //     `${customSnapshotsDir}/${browserName}/${config}/`,
-  //     `${customDiffDir}/${browserName}/${config}/`,
-  //   );
-  //   expect(image).toMatchImageSnapshot(snapshotConfig);
-  // });
+    let mainContent;
+    if (!isMobile) {
+      await page.waitForSelector(
+        '#mainContent > .desktop > .main-content > .scrollable-content-wrapper',
+      );
+      mainContent = await page.$('#mainContent > .desktop > .main-content');
+    } else {
+      await page.waitForSelector(
+        '#app > #mainContent > .mobile > .drawer-container > .drawer-content',
+      );
+      mainContent = await page.$(
+        '#app > #mainContent > .mobile > .drawer-container > .drawer-content',
+      );
+    }
+    const image = await mainContent.screenshot({
+      fullPage: true,
+    });
+
+    const snapshotConfig = getConfig(
+      snapshotName,
+      `${customSnapshotsDir}/${browserName}/${config}/`,
+      `${customDiffDir}/${browserName}/${config}/`,
+    );
+    expect(image).toMatchImageSnapshot(snapshotConfig);
+  });
 });
