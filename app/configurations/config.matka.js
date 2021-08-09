@@ -37,10 +37,22 @@ export default {
   title: APP_TITLE,
 
   // Navbar logo
-  logo: 'matka/matka-logo.png',
+  logo: 'matka/matka-logo.svg',
 
-  favicon: './app/configurations/images/hsl/icon_favicon-matkafi.svg',
+  favicon: './app/configurations/images/matka/favicon.svg',
 
+  colors: {
+    primary: '#026273',
+    iconColors: {
+      'mode-airplane': '#0046AD',
+      'mode-bus': '#007ac9',
+      'mode-tram': '#5E7921',
+      'mode-metro': '#CA4000',
+      'mode-rail': '#8E5EA0',
+      'mode-ferry': '#247C7B',
+      'mode-citybike': '#FCBC19',
+    },
+  },
   feedIds: [
     'MATKA',
     'HSL',
