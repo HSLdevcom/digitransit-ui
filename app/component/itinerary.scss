@@ -306,7 +306,7 @@ $itinerary-tab-switch-height: 48px;
       margin: 0;
     }
     a {
-      font-weight: 500;
+      font-weight: $font-weight-medium;
       text-decoration: none;
     }
   }
@@ -975,7 +975,7 @@ $itinerary-tab-switch-height: 48px;
       border-top: 1px solid #ddd;
       .citybike-leg-header {
         font-size: 15px;
-        font-weight: 400;
+        font-weight: $font-weight-book;
         max-height: 33px;
       }
     }
@@ -1031,7 +1031,7 @@ $itinerary-tab-switch-height: 48px;
         border-radius: 5px;
         margin: 0px 3px 0px 3px;
         background-color: #f4f4f5;
-        font-weight: 500;
+        font-weight: $font-weight-medium;
       }
       .stop-code-container {
         padding-top: 5px;
@@ -1094,7 +1094,7 @@ $itinerary-tab-switch-height: 48px;
         .citybike-station-text {
           padding-left: 6px;
           font-size: 13px;
-          font-weight: 400;
+          font-weight: $font-weight-book;
           color: #666666;
         }
         .citybike-icon {

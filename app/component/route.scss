@@ -508,7 +508,7 @@ $margin-left-right: 1.333em;
       font-size: 11px;
     }
     .destination-headsign {
-      font-weight: 400;
+      font-weight: $font-weight-book;
       font-size: 15px;
       line-height: 18px;
       letter-spacing: -0.03em;
@@ -698,7 +698,7 @@ $margin-left-right: 1.333em;
     flex: 1;
     white-space: nowrap;
     font-style: normal;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     font-size: 18px;
     line-height: 22px;
     letter-spacing: -0.03em;
@@ -1062,7 +1062,7 @@ $margin-left-right: 1.333em;
     }
     .input-display {
       position: relative;
-      font-weight: 400;
+      font-weight: $font-weight-book;
       font-size: 15px;
       line-height: 18px;
       letter-spacing: -0.03em;
@@ -1107,7 +1107,7 @@ $margin-left-right: 1.333em;
           border-radius: 0 0 4px 4px;
         }
         background: white;
-        font-weight: 400;
+        font-weight: $font-weight-book;
         font-size: 15px;
         line-height: 18px;
         letter-spacing: -0.03em;

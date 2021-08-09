@@ -73,7 +73,7 @@
 
   .dd__placeholder, .dd-right__placeholder, .dd-timerange__placeholder, .dd__value-container--has-value, .dd-right__value-container--has-value, .dd-timerange__value-container--has-value, .dd__single-value, .dd-right__single-value, .dd-timerange__single-value {
     font-style: normal;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     font-size: 15px;
     line-height: 18px;
     letter-spacing: -0.03em;
@@ -119,7 +119,7 @@
 
   .dd__option, .dd-right__option, .dd-timerange__option {
     font-style: normal;
-    font-weight: 400;
+    font-weight: $font-weight-book;
     font-size: 15px;
     line-height: 18px;
     letter-spacing: -0.03em;
