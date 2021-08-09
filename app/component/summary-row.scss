@@ -115,6 +115,25 @@
     width: 100%;
   }
 
+  .citybike-duration-info-short {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-top: 4px;
+    padding: 6px 10px 2px 4px;
+    background: #E5F2FA;
+    border-radius: 5px;
+    font-weight: normal;
+    font-size: 13px;
+    color: #333333;
+    line-height: 16px;
+    white-space: normal;
+
+    .icon-container {
+      padding: 0 4px 4px 2px;
+    }
+  }
+
   .itinerary-first-leg-start-time-container {
     top: 3.77em;
     left: 2.3em;
