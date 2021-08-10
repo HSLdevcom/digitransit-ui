@@ -5,35 +5,40 @@
   .settings-dropdown {
     list-style-type: none;
     display: inline-block;
-    padding: 0px 1em 0 1em;
+    padding: 0px 16px 0 16px;
     width: 100%;
 
     .settings-dropdown-choice {
       font-size: 15px;
       font-weight: $font-weight-medium;
       cursor: pointer;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
       color: $primary-color;
       margin-bottom: 5px;
       border-radius: 5px;
       background-color: #f4f4f5;
-      padding: 0.25em 0.25em 0.25em 1em;
+      padding: 3.75px 3.75px 3.75px 15px;
       line-height: 30px;
       &:focus-within {
         @include default-focus-outline;
       }
       input {
         opacity: 0;
+        width: 0;
+      }
+      .right-side {
+        display: flex;
       }
       &.selected {
         border: 1px solid #888888;
         background-color: #ffffff;
         .selected-checkmark {
           color: $primary-color;
-          float: right;
-          margin: 0.6em 1em 0px 0px;
+          margin: 9px 15px 0px 0px;
         }
         .icon-container {
-          float: right;
           margin: -2px;
         }
       }
@@ -51,10 +56,12 @@
   }
 
   .settings-dropdown-label {
-      height: 48px;
+      min-height: 48px;
       cursor: pointer;
       display: flex;
-      padding: 0px 0px 0px 1em;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 0px 0px 0px 16px;
       margin: 0;
       background: unset;
       border: none;
@@ -63,19 +70,24 @@
       letter-spacing: inherit;
       line-height: 16px;
 
+      .settings-dropdown-text-container {
+        display: flex;
+      }
+
       .settings-dropdown-label-text {
         font-size: $font-size-normal;
         color: $gray;
         float: left;
-        width: 60%;
         text-align: start;
+        margin: 16px 0;
       }
       .settings-dropdown-label-value {
         font-size: $font-size-small;
         float: right;
         color: $primary-color;
         width: 100%;
-        padding-right: 1em;
+        padding-right: 14.72px;
+        margin: 14.72px 0;
         font-weight: $font-weight-medium;
         text-align: end;
       }

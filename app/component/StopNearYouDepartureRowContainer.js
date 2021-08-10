@@ -14,14 +14,13 @@ const StopNearYouDepartureRowContainer = ({ stopTimes, mode, ...props }) => {
   const departures = sortedStopTimes.map(row => {
     const departureTime = row.serviceDay + row.realtimeArrival;
     return (
-      <tr key={uuid()}>
-        <DepartureRow
-          departure={row}
-          departureTime={departureTime}
-          currentTime={props.currentTime}
-          showPlatformCode={props.isStation}
-        />
-      </tr>
+      <DepartureRow
+        key={uuid()}
+        departure={row}
+        departureTime={departureTime}
+        currentTime={props.currentTime}
+        showPlatformCode={props.isStation}
+      />
     );
   });
   return (

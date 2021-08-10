@@ -78,9 +78,6 @@ describe(`Summary page with ${config} config`, () => {
         fullPage: true,
       });
     } else {
-      await page.waitForSelector(
-        '#app > #mainContent > .mobile > [role="main"] > .summary > .summary-list-container',
-      );
       image = await page.screenshot({ fullPage: true });
     }
     const snapshotConfig = getConfig(

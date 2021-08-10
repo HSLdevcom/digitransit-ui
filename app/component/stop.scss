@@ -149,7 +149,7 @@
   display: flex;
   background-color: #dddddd;
   border-radius: 5px;
-  margin: 0.5em 4em 1em 4em;
+  margin: 8px 64px 16px 64px;
   position: relative;
   @media print {
     display: none;
@@ -229,7 +229,7 @@
 }
 
 .stop-page-departure-wrapper {
-  padding: 0em 3.75em 0em 3.75em;
+  padding: 0em 60px 0em 60px;
 }
 
 .stop-page-tab_icon {
@@ -257,7 +257,7 @@
     width: 4em;
   }
   .route-destination-header {
-    flex: 1 0 11em;
+    flex: 1 0 176px;
   }
   .time-header {
     font-weight: inherit;
@@ -285,10 +285,9 @@
     border-radius: 5px;
     border: 1px solid #eaeaea;
   }
-  .departure-row-container {
     .departure-row {
       width: 100%;
-      height: 50px;
+      min-height: 50px;
       @include font-narrow-book;
       font-weight: normal;
       display: flex;
@@ -343,6 +342,11 @@
           }
         }
       }
+      .time-cell {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 100px;
+      }
       &.realtime {
         color: $realtime-color;
       }
@@ -356,8 +360,8 @@
       color: #333;
       flex: 1;
       padding-left: $padding-medium;
-      overflow: hidden;
-      white-space: nowrap;
+      overflow: clip;
+      white-space: normal;
       margin-bottom: -2px;
     }
     .route-time {
@@ -380,7 +384,7 @@
       font-size: $font-size-small;
       font-weight: $font-weight-medium;
       text-align: center;
-      margin-left: 1em;
+      margin-left: 13px;
       margin-right: 0.3em;
       line-height: 1.6;
       white-space: nowrap;
@@ -406,7 +410,6 @@
         overflow: hidden;
       }
     }
-  }
 }
 
 .mobile .stop-page.departure-list .departure-row {
@@ -419,11 +422,11 @@
   .departure-row {
     .route-headsign {
       padding-left: $padding-medium;
-      font-weight: 400;
+      font-weight: $font-weight-book;
       color: #333;
       flex: 1;
-      overflow: hidden;
-      white-space: nowrap;
+      overflow: clip;
+      white-space: normal;
       margin-bottom: -2px;
     }
   }
@@ -622,16 +625,17 @@ hr.action-bar {
 }
 
 .timetablerow-linetime {
-  display: inline-block;
-  margin-right: 1.2em;
-  min-width: 4.1em;
+  display: inline-flex;
+  justify-content: flex-start;
+  min-width: 4.0625rem;
+  margin-bottom: 4px;
 }
 
 .timetable-topbar {
   display: flex;
   justify-content: center;
   background: $white;
-  margin: 0.5em 3em 1em 4em;
+  margin: 8px 48px 16px 64px;
   .secondary-button.print {
     @media print {
       display: none;
@@ -651,14 +655,25 @@ hr.action-bar {
   }
 }
 
-.print-button-container {
-  margin-top: 0.5em;
+.stop-page-action-bar {
   display: flex;
-  float: left;
+  justify-content: flex-start;
+  padding-left: 60px;
+  background: #fff;
+}
+
+.print-button-container {
+  display: flex;
+  height: 50px;
+  align-items: center;
+  z-index: 22;
+
   button {
-    margin-right: 1em;
-    margin-left: auto;
-    margin-bottom: $padding-medium;
+    margin: 11px 10px 11px 0;
+  }
+
+  @media print {
+    display: none;
   }
 }
 
@@ -729,18 +744,18 @@ hr.action-bar {
   }
 
   .timetable-topbar {
-    margin: 0em 1em 1em 1em;
+    margin: 0em 16px 16px 16px;
   }
 
   .stop-tab-container {
     border-bottom: none;
-    margin: 0em 1em 1em 1em;
+    margin: 0em 16px 16px 16px;
   }
   .stop-tabs-fillerline {
     height: 5px;
   }
   .stop-page-departure-wrapper {
-    padding: 0em 1em 0em 1em;
+    padding: 0em 16px 0em 16px;
   }
 
   .filter-stop-modal-overlay {

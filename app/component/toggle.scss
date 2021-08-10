@@ -6,7 +6,7 @@
     cursor: pointer;
     position: absolute;
     left: 0;
-    top: 0.75em;
+    top: 3px;
 
     &.checked {
       border: $primary-color 1px solid;
@@ -37,7 +37,6 @@
     display: inline-block;
     width: 51px;
     height: 31px;
-    float: right;
   }
 
   /* Hide default HTML checkbox */

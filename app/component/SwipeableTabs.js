@@ -225,6 +225,7 @@ export default class SwipeableTabs extends React.Component {
       ariaFrom,
       ariaFromHeader,
     } = this.props;
+    const { intl } = this.context;
     const tabBalls = this.tabBalls(tabs.length);
     const disabled = tabBalls.length < 2;
     let reactSwipeEl;
@@ -305,6 +306,15 @@ export default class SwipeableTabs extends React.Component {
               </div>
             )}
             <div className="swipe-tab-indicator">
+              <span className="sr-only" aria-live="polite">
+                {intl.formatMessage(
+                  {
+                    id: 'swipe-sr-new-tab-opened',
+                    defaultMessage: 'Tab {number} opened.',
+                  },
+                  { number: this.props.tabIndex + 1 },
+                )}
+              </span>
               {disabled ? null : tabBalls}
             </div>
             {!hideArrows && (
