@@ -331,6 +331,12 @@ class DepartureListContainer extends Component {
     return (
       <>
         {screenReaderAlert}
+        <span className="sr-only">
+          <FormattedMessage
+            id="departure-list-update.sr-instructions"
+            default="The departure list and estimated departure times will update in real time."
+          />
+        </span>
         <table
           className={cx('departure-list', this.props.className)}
           onScroll={this.onScroll()}
