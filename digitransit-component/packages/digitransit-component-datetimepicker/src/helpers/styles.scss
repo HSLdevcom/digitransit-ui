@@ -53,7 +53,6 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
 
   .top-row-container {
     display: flex;
-    flex-wrap: wrap;
 
     &.closed {
       margin: 11px 0 6px 18px;
@@ -134,7 +133,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     background-color: #dddddd;
     border-radius: 8px;
     display: flex;
-    width: 13.375rem;
+    width: 58%;
   }
   .radio-textbutton-label {
     color: #333333;
