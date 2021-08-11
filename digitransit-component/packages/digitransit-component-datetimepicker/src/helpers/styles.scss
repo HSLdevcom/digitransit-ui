@@ -133,7 +133,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     background-color: #dddddd;
     border-radius: 8px;
     display: flex;
-    width: 58%;
+    width: calc(5px + 13em);
   }
   .radio-textbutton-label {
     color: #333333;
