@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+/* eslint-disable compat/compat */
 import getConfig from './helpers/image-snapshot-config';
 
 const config = process.env.CONFIG || 'hsl';
@@ -24,6 +25,7 @@ describe(`Front page with ${config} config`, () => {
 
     expect(response.status()).toBe(200);
     await expect(page.title()).resolves.toMatch(pageTitles[config]);
+    await new Promise(res => setTimeout(res, 2000));
 
     let image;
     if (!isMobile) {
