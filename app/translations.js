@@ -930,6 +930,13 @@ const translations = {
     citybike: 'City bike',
     'citybike-buy-season': 'Buy a daily, weekly or season pass',
     'citybike-distance-duration': 'Bike {duration} ({distance})',
+    'citybike-duration-general-header': '',
+    'citybike-duration-info':
+      'You can ride a city bike for up to {duration} minutes at a time, after which you will be charged extra.',
+    'citybike-duration-info-header':
+      'The section of route to be completed by a city bike takes more than {duration} minutes.',
+    'citybike-duration-info-short':
+      'Citybike section over {duration} min. Includes an additional fee.',
     'citybike-network-headers': 'Citybikes',
     'citybike-purchase-link': 'Buy',
     'citybike-register-required': 'To use city bikes, you need to register',
@@ -963,6 +970,8 @@ const translations = {
     'departure-is-canceled-rail': '{shortName} train',
     'departure-is-canceled-subway': 'Metro service {shortName}',
     'departure-is-canceled-tram': 'Tram {shortName}',
+    'departure-list-update.sr-instructions':
+      'The list of upcoming departures and departure times will update in real time.',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Departures',
     'departures-by-hour': 'Departures by hour (minutes/route)',
@@ -1342,6 +1351,8 @@ const translations = {
     stop: 'Stop',
     'stop-departure-time-future': 'Departure time is in {minutes} minutes',
     'stop-departure-time-past': 'Departure time was',
+    'stop-list-update.sr-instructions':
+      'Departure times for each stop will update in real time.',
     'stop-near-you': 'Search stops and routes near you',
     'stop-near-you-modal-grant-permission': 'or enable location services',
     'stop-near-you-modal-grant-permission-info':
@@ -1902,6 +1913,14 @@ const translations = {
     'citybike-buy-season':
       'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi',
     'citybike-distance-duration': 'Pyöräile {duration} ({distance})',
+    'citybike-duration-general-header':
+      'Useampi reitin kaupunkipyöräosuuksista sisältää lisämaksuja',
+    'citybike-duration-info':
+      'Kaupunkipyörää voi käyttää yhtäjaksoisesti {duration} min, jonka jälkeen peritään lisämaksu.',
+    'citybike-duration-info-header':
+      'Reitin kaupunkipyöräosuus kestää yli {duration} min.',
+    'citybike-duration-info-short':
+      'Osuus yli {duration} min. Sisältää lisämaksun.',
     'citybike-network-headers': 'Kaupunkipyörät',
     'citybike-purchase-link': 'Siirry ostamaan',
     'citybike-register-required':
@@ -1937,6 +1956,8 @@ const translations = {
     'departure-is-canceled-rail': '{shortName}-junan',
     'departure-is-canceled-subway': 'Metron {shortName}',
     'departure-is-canceled-tram': 'Raitiolinjan {shortName}',
+    'departure-list-update.sr-instructions':
+      'Tulevian lähtöjen lista ja lähtöajat päivittyvät reaaliajassa.',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Lähdöt',
     'departures-by-hour': 'Lähdöt tunneittain',
@@ -2311,6 +2332,8 @@ const translations = {
     stop: 'Pysäkki',
     'stop-departure-time-future': 'Lähtöaika {minutes} min päästä',
     'stop-departure-time-past': 'Lähtöaika oli',
+    'stop-list-update.sr-instructions':
+      'Pysäkkien lähtöajat päivittyvät reaaliajassa.',
     'stop-near-you': 'Linja, pysäkki tai asema',
     'stop-near-you-modal-grant-permission': 'tai salli paikannus',
     'stop-near-you-modal-grant-permission-info':
@@ -3652,6 +3675,13 @@ const translations = {
     'citybike-buy-season':
       'Köp ett abonnemang för en dag, en vecka eller för en hel säsong',
     'citybike-distance-duration': 'Cykla {duration} ({distance})',
+    'citybike-duration-general-header': '',
+    'citybike-duration-info':
+      'Du kan använda stadscykeln {duration} minuter åt gången, efter det debiteras en tilläggsavgift.',
+    'citybike-duration-info-header':
+      'Sträckan med stadscykel tar över {duration} min.',
+    'citybike-duration-info-short':
+      'Stadscyckel sträckan tar över {duration} min. Debiteras en tilläggsavgift.',
     'citybike-network-headers': 'Stadscyklarna',
     'citybike-purchase-link': 'Gå till köp',
     'citybike-register-required':
@@ -3687,6 +3717,8 @@ const translations = {
     'departure-is-canceled-rail': '{shortName}-tåget',
     'departure-is-canceled-subway': 'metro {shortName}',
     'departure-is-canceled-tram': 'spårvagnslinje {shortName}',
+    'departure-list-update.sr-instructions':
+      'Listan på avgångar och avgångstider uppdateras i realtid.',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Avgångar',
     'departures-by-hour': 'Avgångar per timme (minuter/rad)',
@@ -4071,6 +4103,8 @@ const translations = {
     stop: 'Hållplats',
     'stop-departure-time-future': 'Avgångstid är i {minutes} minuter',
     'stop-departure-time-past': 'Avgångstid var klockan',
+    'stop-list-update.sr-instructions':
+      'Avgångstider uppdateras i realtid för varje hållplats.',
     'stop-near-you': 'Sök hållplatser eller linjer nära dig',
     'stop-near-you-modal-grant-permission': 'eller aktivera positionering',
     'stop-near-you-modal-grant-permission-info':

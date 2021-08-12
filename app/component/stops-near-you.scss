@@ -120,7 +120,7 @@
     }
 
     .disclaimer-close-button {
-      font-weight: 500;
+      font-weight: $font-weight-medium;
     }
 
     .disclaimer-close {
@@ -221,10 +221,10 @@
 
         .route-stop-address-row {
           color: #666;
-          font-weight: 400;
+          font-weight: $font-weight-book;
         }
         .card-code {
-          font-weight: 400;
+          font-weight: $font-weight-book;
           margin: 0px;
           &.terminal {
             margin-right: 3px;

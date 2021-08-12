@@ -21,10 +21,7 @@ import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import { estimateItineraryDistance } from '../util/geo-utils';
 import ZoneIcon from './ZoneIcon';
 import { getZoneLabel } from '../util/legUtils';
-
-const VEHICLE_ARRIVING = 'arriving';
-const VEHICLE_ARRIVED = 'arrived';
-const VEHICLE_DEPARTED = 'departed';
+import getVehicleState from '../util/vehicleStateUtils';
 
 const TripRouteStop = (props, context) => {
   const {
@@ -39,6 +36,8 @@ const TripRouteStop = (props, context) => {
     shortName,
     setHumanScrolling,
     keepTracking,
+    first,
+    last,
   } = props;
 
   const { config } = context;
@@ -54,18 +53,15 @@ const TripRouteStop = (props, context) => {
       lon: vehicle.long,
     });
 
-    let vehicleState = '';
-    if (distanceToStop > maxDistance && vehicleTime < arrivalTimeToStop) {
-      vehicleState = VEHICLE_ARRIVING;
-    } else if (
-      (vehicleTime >= arrivalTimeToStop &&
-        vehicleTime < departureTimeFromStop) ||
-      distanceToStop <= maxDistance
-    ) {
-      vehicleState = VEHICLE_ARRIVED;
-    } else if (vehicleTime >= departureTimeFromStop) {
-      vehicleState = VEHICLE_DEPARTED;
-    }
+    const vehicleState = getVehicleState(
+      distanceToStop,
+      maxDistance,
+      vehicleTime,
+      arrivalTimeToStop,
+      departureTimeFromStop,
+      first,
+      last,
+    );
     return (
       <div className={cx('route-stop-now', vehicleState)}>
         <PatternLink
@@ -184,6 +180,8 @@ TripRouteStop.propTypes = {
   shortName: PropTypes.string,
   setHumanScrolling: PropTypes.func,
   keepTracking: PropTypes.bool,
+  first: PropTypes.bool,
+  last: PropTypes.bool,
 };
 
 TripRouteStop.contextTypes = {
