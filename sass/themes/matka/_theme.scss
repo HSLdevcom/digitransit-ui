@@ -2,3 +2,33 @@
 
 /* Base theme */
 @import '../default/theme';
+
+$primary-color: #026273;
+$hilight-color: $primary-color;
+$action-color: $primary-color;
+$bus-color: $primary-color;
+$viewpoint-marker-color: $primary-color;
+$current-location-color: $primary-color;
+
+$standalone-btn-color: $primary-color;
+$link-color: $primary-color;
+$link-text-color: $primary-color;
+
+$top-bar-color: white;
+$top-navigation-icon-color: $primary-color;
+
+$font-family: 'Roboto', Arial, Georgia, sans-serif;
+$heading-font-family: 'Montserrat', Arial, Georgia, sans-serif;
+$button-font-family: 'Montserrat', Arial, Georgia, sans-serif;
+
+$bus-color: #007ac9;
+$airplane-color: #0046ad;
+$tram-color: #5E7921;
+$metro-color: #CA4000;
+$rail-color: #8c4799;
+$ferry-color: #007A97;
+$wait-color: #aaaaaa;
+
+.message-bar {
+    border-bottom: 1px solid #DDDDDD;
+}
