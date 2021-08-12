@@ -58,10 +58,16 @@
     font-weight: var(--font-weight-medium);
     letter-spacing: -0.53px;
     color: #333333;
-    margin-bottom: 11px;
+    margin: 0 0 11px 0;
+    padding: 0;
   }
   .favourite-modal-desktop-icons {
     margin-bottom: 30px;
+  }
+  .icons-container {
+    border: none;
+    margin: 0;
+    padding: 0;
   }
 
   .favourite-modal-desktop-buttons {

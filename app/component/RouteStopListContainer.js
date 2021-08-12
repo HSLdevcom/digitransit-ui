@@ -6,6 +6,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 import cx from 'classnames';
+import { FormattedMessage } from 'react-intl';
 
 import RouteStop from './RouteStop';
 import withBreakpoint from '../util/withBreakpoint';
@@ -86,9 +87,17 @@ class RouteStopListContainer extends React.PureComponent {
 
   render() {
     return (
-      <ul className={cx('route-stop-list', this.props.className)}>
-        {this.getStops()}
-      </ul>
+      <>
+        <span className="sr-only">
+          <FormattedMessage
+            id="stop-list-update.sr-instructions"
+            default="Departure times for each stop update in real time."
+          />
+        </span>
+        <ul className={cx('route-stop-list', this.props.className)}>
+          {this.getStops()}
+        </ul>
+      </>
     );
   }
 }

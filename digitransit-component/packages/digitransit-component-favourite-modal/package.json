@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-favourite-modal",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "description": "digitransit-component favourite-modal module",
   "main": "lib/index.js",
   "files": [
