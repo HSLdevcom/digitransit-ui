@@ -1301,7 +1301,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'View results in the adjacent “Destination” tab',
     'search-fields.sr-instructions':
-      'The search is triggered automatically when origin and destination are set. Changing any search parameters triggers a new search',
+      'Route search will take place automatically when you enter origin and destination. Changing search parameters will trigger a new search.',
     'search-no-results': 'No location',
     'search-origin': 'Search origin, route or stop',
     'search-origin-index': 'Enter origin',
@@ -4026,7 +4026,8 @@ const translations = {
     'search-destination-index': 'Skriv destination',
     'search-destination-results-but-no-search':
       'Se resultaten under fliken Destination',
-    'search-fields.sr-instructions': '', // TODO
+    'search-fields.sr-instructions':
+      'Ruttsökning görs automatiskt när du skriver in avgångsplats och destination. Om du ändrar sökvillkoren, startas en ny ruttsökning automatiskt.',
     'search-no-results': 'Inga sökresultat',
     'search-origin': 'Sök avfärdsplats, linje eller hållplats',
     'search-origin-index': 'Skriv avfärdsplats',
