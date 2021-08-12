@@ -354,6 +354,12 @@ class IndexPage extends React.Component {
                   position="left"
                   fontWeights={fontWeights}
                 >
+                  <span className="sr-only">
+                    <FormattedMessage
+                      id="search-fields.sr-instructions"
+                      defaultMessage="The search is triggered automatically when origin and destination are set. Changing any search parameters triggers a new search"
+                    />
+                  </span>
                   <LocationSearch
                     targets={locationSearchTargets}
                     {...locationSearchProps}
