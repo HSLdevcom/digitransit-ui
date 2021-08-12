@@ -89,7 +89,7 @@ export default {
   },
 
   menu: {
-    copyright: { label: `© Traficom ${YEAR}` },
+    copyright: { label: `© Matka.fi ${YEAR}` },
     content: [
       {
         name: 'menu-feedback',
