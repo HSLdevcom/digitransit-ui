@@ -19,7 +19,8 @@ $offcanvas-background-active: scale-color($gray, $lightness: -30%);
 /* top bar */
 $topbar-height: 40px;
 
-$top-navigation-icon-color: navbar-icon-color($top-bar-color);
+$top-navigation-icon-color: navbar-icon-color($top-bar-color) !default;
+//$top-navigation-icon-color: $top-menu-navigation-icon-color;
 $top-navigation-title-color: navbar-icon-color($top-bar-color);
 
 /* offcanvas */
@@ -306,6 +307,7 @@ $content-background-color: $background-color;
     font-size: 1.2em;
     margin: 0 0 0 2.5em;
     font-weight: $font-weight-medium;
+    font-family: $heading-font-family;
     &::first-letter {
       text-transform: capitalize;
     }
@@ -398,6 +400,7 @@ $content-background-color: $background-color;
   }
   .menu-section.main-links {
     .offcanvas-section {
+      font-family: $heading-font-family;
       button {
         font-weight: $font-weight-medium;
       }
@@ -546,6 +549,7 @@ section.content {
       }
       h1 {
         @include font-medium;
+        font-family: $heading-font-family;
         color: #333333; // DT-3358: was $primary-font-color
         // line-height: 1;
         display: inline;
@@ -672,6 +676,7 @@ section.content {
           button {
             text-decoration: underline;
             font-weight: $font-weight-bold;
+            font-family: $font-family;
           }
           .message-bar-link {
             word-break: normal;

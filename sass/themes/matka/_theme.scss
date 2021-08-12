@@ -2,7 +2,6 @@
 
 /* Base theme */
 @import '../default/theme';
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
 
 $primary-color: #026273;
 $hilight-color: $primary-color;
@@ -16,7 +15,11 @@ $link-color: $primary-color;
 $link-text-color: $primary-color;
 
 $top-bar-color: white;
-$font-family: 'Montserrat', Arial, Georgia, sans-serif;
+$top-navigation-icon-color: $primary-color;
+
+$font-family: 'Roboto', Arial, Georgia, sans-serif;
+$heading-font-family: 'Montserrat', Arial, Georgia, sans-serif;
+$button-font-family: 'Montserrat', Arial, Georgia, sans-serif;
 
 $bus-color: #007ac9;
 $airplane-color: #0046ad;

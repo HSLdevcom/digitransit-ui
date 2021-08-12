@@ -212,7 +212,7 @@
     font-size: $font-size-xlarge;
     letter-spacing: -0.6pt;
     font-weight: $font-weight-medium;
-    font-family: $font-family;
+    font-family: $heading-font-family;
     padding: 1.5em 0.5em 0.5em 0.5em;
     margin: 0;
   }
@@ -232,7 +232,7 @@
     letter-spacing: -0.6pt;
     font-size: $font-size-normal;
     font-weight: $font-weight-medium;
-    font-family: $font-family;
+    font-family: $heading-font-family;
   }
 }
 
@@ -317,7 +317,7 @@
     font-size: $font-size-normal;
     letter-spacing: -0.6pt;
     font-weight: $font-weight-medium;
-    font-family: $font-family;
+    font-family: $heading-font-family;
   }
   h4 {
     display: none;

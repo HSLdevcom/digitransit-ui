@@ -13,6 +13,10 @@ const STATIC_MESSAGE_URL =
 export default {
   CONFIG,
   OTPTimeout: process.env.OTP_TIMEOUT || 30000,
+  URL: {
+    FONT:
+      'https://digitransit-prod-cdn-origin.azureedge.net/matka-fonts/roboto/roboto+montserrat.css',
+  },
 
   contactName: {
     sv: 'Livin',
