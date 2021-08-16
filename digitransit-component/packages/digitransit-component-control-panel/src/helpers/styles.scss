@@ -270,10 +270,12 @@
     @include min-width(tablet) {
       position: absolute;
       padding: 12px 0 11px 0;
+      min-height: 80px;
       width: 300px;
-      height: 80px;
-      top: -85px;
       left: 230px;
+
+      transform: translateY(-100%);
+      top: -6px;
     }
     .nearby-stops-bubble-dialog-header {
       font-weight: var(--font-weight-medium);
@@ -322,7 +324,6 @@
       left: 52px;
       @include min-width(tablet) {
         left: 18px;
-        top: 38px;
       }
     }
   }

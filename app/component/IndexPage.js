@@ -307,6 +307,7 @@ class IndexPage extends React.Component {
             }
             modes={btnWithoutLabel ? undefined : modeTitles}
             modeIconColors={config.colors.iconColors}
+            fontWeights={fontWeights}
           />
         </>
       ) : (

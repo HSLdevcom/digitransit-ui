@@ -69,7 +69,10 @@ OriginToDestination.defaultProps = {
 function BubbleDialog({ title, content, closeDialog }) {
   return (
     <div className={styles['nearby-stops-bubble-dialog']}>
-      <div className={styles['nearby-stops-bubble-dialog-container']}>
+      <div
+        id="nearby-stops-bubble-dialog-container"
+        className={styles['nearby-stops-bubble-dialog-container']}
+      >
         <div>
           <div className={styles['nearby-stops-bubble-dialog-header']}>
             {title}
