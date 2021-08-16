@@ -273,15 +273,9 @@
       min-height: 80px;
       width: 300px;
       left: 230px;
-      &.fi {
-        top: -85px;
-      }
-      &.sv {
-        top: -120px;
-      }
-      &.en {
-        top: -102px;
-      }
+
+      transform: translateY(-100%);
+      top: -6px;
     }
     .nearby-stops-bubble-dialog-header {
       font-weight: var(--font-weight-medium);
@@ -330,15 +324,6 @@
       left: 52px;
       @include min-width(tablet) {
         left: 18px;
-        &.fi {
-          top: 38px;
-        }
-        &.en {
-          top: 55px;
-        }
-        &.sv {
-          top: 73px;
-        }
       }
     }
   }

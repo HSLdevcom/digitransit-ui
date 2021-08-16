@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React, { Fragment, useEffect, useState } from 'react';
 import i18next from 'i18next';
-import cx from 'classnames';
 import { useCookies } from 'react-cookie';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
@@ -67,14 +66,12 @@ OriginToDestination.defaultProps = {
   language: 'fi',
 };
 
-function BubbleDialog({ title, content, closeDialog, lang }) {
+function BubbleDialog({ title, content, closeDialog }) {
   return (
     <div className={styles['nearby-stops-bubble-dialog']}>
       <div
-        className={cx(
-          styles['nearby-stops-bubble-dialog-container'],
-          styles[lang],
-        )}
+        id="nearby-stops-bubble-dialog-container"
+        className={styles['nearby-stops-bubble-dialog-container']}
       >
         <div>
           <div className={styles['nearby-stops-bubble-dialog-header']}>
@@ -103,12 +100,7 @@ function BubbleDialog({ title, content, closeDialog, lang }) {
             <Icon img="close" />
           </button>
         </div>
-        <div
-          className={cx(
-            styles['nearby-stops-bubble-dialog-tip-container'],
-            styles[lang],
-          )}
-        >
+        <div className={styles['nearby-stops-bubble-dialog-tip-container']}>
           <div className={styles['nearby-stops-bubble-dialog-tip']} />
         </div>
       </div>
@@ -120,7 +112,6 @@ BubbleDialog.propTypes = {
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   closeDialog: PropTypes.func.isRequired,
-  lang: PropTypes.string.isRequired,
 };
 
 /**
@@ -303,7 +294,6 @@ function NearStopsAndRoutes({
           title={i18next.t('nearby-stops-teaser-header', { lng: language })}
           content={i18next.t('nearby-stops-teaser-content', { lng: language })}
           closeDialog={closeBubbleDialog}
-          lang={language}
         />
       )}
       <div
