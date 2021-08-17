@@ -10,9 +10,11 @@ export default function ScrollableWrapper({
   children,
   className,
   id,
+  onScroll,
 }) {
   const [scrolledState, changeScroll] = useState(false);
   function handleScroll(e) {
+    onScroll();
     if (!e.target.className.includes('scroll-target')) {
       return;
     }
@@ -51,6 +53,7 @@ ScrollableWrapper.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   id: PropTypes.string,
+  onScroll: PropTypes.func,
 };
 
 ScrollableWrapper.defaultProps = {
@@ -58,4 +61,5 @@ ScrollableWrapper.defaultProps = {
   children: null,
   className: '',
   id: '',
+  onScroll: () => {},
 };

@@ -41,7 +41,7 @@ function TripStopsContainer({ breakpoint, match, trip, route }) {
           'bp-large': breakpoint === 'large',
         })}
         id="trip-route-page-content"
-        onScroll={debounce(handleScroll, 40, { leading: true })}
+        onScroll={debounce(handleScroll, 100, { leading: true })}
       >
         {route && route.patterns && (
           <RoutePageControlPanel
