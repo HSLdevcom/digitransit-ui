@@ -72,7 +72,7 @@ function MainMenu(props, { config, intl }) {
           </div>
         )}
       </section>
-      <section className="menu-section">
+      <section className="menu-section secondary-links">
         <MainMenuLinks
           content={((config.menu && config.menu.content) || []).filter(
             item => item.href || item.route,
