@@ -5,7 +5,12 @@ import React, { useState } from 'react';
 /**
  * Handle styling for when element is scrolled
  */
-export default function ScrollableWrapper({ scrollable, children, className }) {
+export default function ScrollableWrapper({
+  scrollable,
+  children,
+  className,
+  id,
+}) {
   const [scrolledState, changeScroll] = useState(false);
   function handleScroll(e) {
     if (!e.target.className.includes('scroll-target')) {
@@ -32,6 +37,7 @@ export default function ScrollableWrapper({ scrollable, children, className }) {
             'momentum-scroll': scrollable,
           },
         )}
+        id={id}
         onScroll={scrollable ? handleScroll : () => {}}
       >
         {children}
@@ -44,10 +50,12 @@ ScrollableWrapper.propTypes = {
   scrollable: PropTypes.bool,
   children: PropTypes.node,
   className: PropTypes.string,
+  id: PropTypes.string,
 };
 
 ScrollableWrapper.defaultProps = {
   scrollable: true,
   children: null,
   className: '',
+  id: '',
 };

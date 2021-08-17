@@ -40,26 +40,23 @@ function TripStopsContainer({ breakpoint, match, trip, route }) {
         className={cx('route-page-content', {
           'bp-large': breakpoint === 'large',
         })}
+        id="trip-route-page-content"
+        onScroll={debounce(handleScroll, 40, { leading: true })}
       >
-        <div
-          id="trip-route-page-content"
-          onScroll={debounce(handleScroll, 40, { leading: true })}
-        >
-          {route && route.patterns && (
-            <RoutePageControlPanel
-              match={match}
-              route={route}
-              breakpoint={breakpoint}
-            />
-          )}
-          <TripStopListContainer
-            key="list"
-            trip={trip}
-            tripStart={tripStartTime}
-            keepTracking={keepTracking}
-            setHumanScrolling={setHumanScrolling}
+        {route && route.patterns && (
+          <RoutePageControlPanel
+            match={match}
+            route={route}
+            breakpoint={breakpoint}
           />
-        </div>
+        )}
+        <TripStopListContainer
+          key="list"
+          trip={trip}
+          tripStart={tripStartTime}
+          keepTracking={keepTracking}
+          setHumanScrolling={setHumanScrolling}
+        />
       </ScrollableWrapper>
     </>
   );
