@@ -432,7 +432,11 @@ class TransitLeg extends React.Component {
                       severityLevel={alertSeverityLevel}
                     />
                   </div>
-                  <div className="description">{alert.header}</div>
+                  {config.showAlertHeader ? (
+                    <div className="description">{alert.header}</div>
+                  ) : (
+                    <div className="description">{alert.description}</div>
+                  )}
                   <Icon
                     img="icon-icon_arrow-collapse--right"
                     className="disruption-link-arrow"

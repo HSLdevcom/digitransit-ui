@@ -187,6 +187,7 @@ class MessageBar extends Component {
           textColor={textColor}
           truncate={!this.state.allAlertsOpen}
           onShowMore={this.openAllAlerts}
+          config={this.context.config}
         />
       </div>
     ));
