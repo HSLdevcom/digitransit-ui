@@ -67,6 +67,17 @@ OriginToDestination.defaultProps = {
 };
 
 function BubbleDialog({ title, content, closeDialog }) {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setShow(true);
+    }, 500);
+  }, [show]);
+
+  if (!show) {
+    return null;
+  }
+
   return (
     <div className={styles['nearby-stops-bubble-dialog']}>
       <div
@@ -289,13 +300,18 @@ function NearStopsAndRoutes({
             : title[language]}
         </h2>
       )}
-      {showTeaser && !cookies?.nearbyTeaserShown && (
-        <BubbleDialog
-          title={i18next.t('nearby-stops-teaser-header', { lng: language })}
-          content={i18next.t('nearby-stops-teaser-content', { lng: language })}
-          closeDialog={closeBubbleDialog}
-        />
-      )}
+      {showTeaser &&
+        !cookies?.nearbyTeaserShown &&
+        i18next.t('nearby-stops-teaser-header', { lng: language }) !==
+          'nearby-stops-teaser-header' && (
+          <BubbleDialog
+            title={i18next.t('nearby-stops-teaser-header', { lng: language })}
+            content={i18next.t('nearby-stops-teaser-content', {
+              lng: language,
+            })}
+            closeDialog={closeBubbleDialog}
+          />
+        )}
       <div
         className={
           !modes
