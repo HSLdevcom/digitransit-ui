@@ -55,6 +55,13 @@ $margin-left-right: 21.3px;
     min-height: 300px;
     display: block;
   }
+  .location-details_container {
+    .route-now-content {
+      .large-vehicle-icon {
+        left: calc(-2rem + 20px);
+      }
+    }
+  }
 }
 .route-page-container {
   background-color: $white;
@@ -408,6 +415,7 @@ $margin-left-right: 21.3px;
     }
   }
 }
+
 .route-address-row-container {
   display: flex;
   align-items: center;
