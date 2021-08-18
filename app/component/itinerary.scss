@@ -602,6 +602,10 @@ $itinerary-tab-switch-height: 48px;
   width: 100%;
   max-width: 100%;
   display: flex;
+
+  &.padding-top {
+    padding-top: 20px;
+  }
   .leg-before {
     min-width: 25px;
     max-width: 25px;

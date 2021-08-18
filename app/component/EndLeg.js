@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
+import cx from 'classnames';
 
 import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from './Icon';
@@ -12,7 +13,12 @@ function EndLeg(props, context) {
   const [address, place] = props.to.split(/, (.+)/); // Splits the string to two parts from the first occurance of ', '
   const modeClassName = 'end';
   return (
-    <div key={props.index} className="row itinerary-row">
+    <div
+      key={props.index}
+      className={cx('row', 'itinerary-row', {
+        'padding-top': props.previousMode !== 'WALK',
+      })}
+    >
       <span className="sr-only">
         <FormattedMessage
           id="itinerary-details.end-leg"
@@ -94,7 +100,13 @@ EndLeg.propTypes = {
   to: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
+  previousMode: PropTypes.string,
 };
+
+EndLeg.defaultProps = {
+  previousMode: '',
+};
+
 EndLeg.contextTypes = {
   intl: intlShape.isRequired,
 };
