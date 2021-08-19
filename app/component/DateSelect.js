@@ -31,8 +31,8 @@ function DateSelect(props, context) {
 
   for (let i = 0; i < 28; i++) {
     dates.push({
-      label: date.format('dd D.M.'),
       value: date.add(1, 'd').format(props.dateFormat),
+      label: date.format('dd D.M.'),
     });
   }
   const dateList = dates.map(option => {
