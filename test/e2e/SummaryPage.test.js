@@ -60,7 +60,6 @@ describe(`Summary page with ${config} config`, () => {
     const response = await page.goto(`http://localhost:8080${path}`);
 
     expect(response.status()).toBe(200);
-    await expect(page.title()).resolves.toMatch('Reittiehdotukset');
 
     await Promise.all([
       page.waitForSelector('.summary-list-container'),
@@ -93,7 +92,6 @@ describe(`Summary page with ${config} config`, () => {
     const response = await page.goto(`http://localhost:8080${path}/2`);
 
     expect(response.status()).toBe(200);
-    await expect(page.title()).resolves.toMatch('Reittiehdotukset');
 
     let mainContent;
     if (!isMobile) {
