@@ -7,7 +7,7 @@ const getConfig = (
     diffDirection: 'vertical',
     dumpDiffToConsole: true,
     comparisonMethod: 'pixelmatch',
-    failureThreshold: 0.01,
+    failureThreshold: 0.025,
     failureThresholdType: 'percent',
     customSnapshotsDir,
     customDiffDir,
