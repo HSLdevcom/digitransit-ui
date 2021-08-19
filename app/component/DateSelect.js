@@ -1,64 +1,106 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
 
+import Select from 'react-select';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
 function DateSelect(props, context) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const onMenuOpen = () => setIsMenuOpen(true);
+  const onMenuClose = () => setIsMenuOpen(false);
+
   const dates = [];
   const date = moment(props.startDate, props.dateFormat);
 
-  dates.push(
-    <option
-      value={date.format(props.dateFormat)}
-      key={date.format(props.dateFormat)}
-    >
-      {context.intl.formatMessage({ id: 'today', defaultMessage: 'Today' })}
-    </option>,
-  );
+  dates.push({
+    label: context.intl.formatMessage({ id: 'today', defaultMessage: 'Today' }),
+    value: date.format(props.dateFormat),
+  });
 
-  dates.push(
-    <option
-      value={date.add(1, 'd').format(props.dateFormat)}
-      key={date.format(props.dateFormat)}
-    >
-      {context.intl.formatMessage({
-        id: 'tomorrow',
-        defaultMessage: 'Tomorrow',
-      })}
-    </option>,
-  );
+  dates.push({
+    label: context.intl.formatMessage({
+      id: 'tomorrow',
+      defaultMessage: 'Tomorrow',
+    }),
+    value: date.add(1, 'd').format(props.dateFormat),
+  });
 
   for (let i = 0; i < 28; i++) {
-    dates.push(
-      <option
-        value={date.add(1, 'd').format(props.dateFormat)}
-        key={date.format(props.dateFormat)}
-      >
-        {date.format('dd D.M.')}
-      </option>,
-    );
+    dates.push({
+      label: date.format('dd D.M.'),
+      value: date.add(1, 'd').format(props.dateFormat),
+    });
   }
+  const dateList = dates.map(option => {
+    return {
+      value: option.value,
+      textLabel: option.label,
+      label: (
+        <>
+          <span>{option.label}</span>
+          {option.value === props.selectedDate && (
+            <Icon img="check" height={1.1525} width={0.904375} />
+          )}
+        </>
+      ),
+    };
+  });
+  const selectedDate = dateList.find(d => d.value === props.selectedDate);
+  const id = 'route-schedule-datepicker';
+  const classNamePrefix = 'dd';
 
   return (
     <label
       className="route-schedule-date combobox-container"
-      htmlFor="route-schedule-date-select"
+      htmlFor={`aria-input-${id}`}
+      id={`aria-label-${id}`}
     >
       <span className="left-column">
         <span className="combobox-label">
           {context.intl.formatMessage({ id: 'day', defaultMessage: 'day' })}
         </span>
-        <select
-          className="combobox-selected-value"
-          value={props.selectedDate}
-          onChange={props.onDateChange}
-          id="route-schedule-date-select"
-        >
-          {dates}
-        </select>
+        <Select
+          aria-labelledby={`aria-label-${id}`}
+          ariaLiveMessages={{
+            guidance: () => '.', // this can't be empty for some reason
+            onChange: ({ value }) =>
+              `${context.intl.formatMessage({
+                id: 'route-page.pattern-chosen',
+              })} ${value.textLabel}`,
+            onFilter: () => '',
+            onFocus: ({ context: itemContext, focused }) => {
+              if (itemContext === 'menu') {
+                return focused.textLabel;
+              }
+              return '';
+            },
+          }}
+          className="dd-select"
+          classNamePrefix={classNamePrefix}
+          components={{
+            DropdownIndicator: () => null,
+            IndicatorSeparator: () => null,
+          }}
+          inputId={`aria-input-${id}`}
+          aria-label={selectedDate.textLabel}
+          isSearchable={false}
+          name={id}
+          menuIsOpen={isMenuOpen}
+          onChange={e => {
+            props.onDateChange(e.value);
+          }}
+          openMenuOnFocus
+          closeMenuOnSelect
+          onMenuOpen={onMenuOpen}
+          onMenuClose={onMenuClose}
+          options={dateList}
+          placeholder={selectedDate.textLabel}
+          value={selectedDate.value}
+        />
       </span>
       <div>
         <Icon id="route-schedule-date-icon" img="icon-icon_calendar" />

@@ -46,9 +46,19 @@
     flex-direction: column;
     border-right: 1px solid $gray;
 
+    .dd-select {
+      .dd__control {
+        min-height: auto;
+        .dd__placeholder {
+          color: $black;
+          font-size: $font-size-small;
+        }
+      }
+    }
+
     .combobox-selected-value {
       color: $black;
-      font-size: $font-size-normal;
+      font-size: $font-size-small;
       font-weight: $font-weight-medium;
       text-align: left;
       overflow: hidden;
