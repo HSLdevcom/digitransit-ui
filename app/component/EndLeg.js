@@ -12,10 +12,12 @@ import { parseLocation } from '../util/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function EndLeg(props, context) {
-  const { to } = context.match.params;
-  const [addressFromUrl, placeFromUrl] = parseLocation(to).address.split(
-    /, (.+)/,
-  );
+  const parsedAddress = parseLocation(context.match.params.to).address;
+  const [address, place] = props.to.name.split(/, (.+)/);
+  // Below check is needed for unit tests
+  const [addressFromUrl, placeFromUrl] = !parsedAddress
+    ? [address, place]
+    : parsedAddress.split(/, (.+)/);
   const { stop } = props?.to;
   const modeClassName = 'end';
   return (
@@ -57,8 +59,8 @@ function EndLeg(props, context) {
         </span>
         <div className="itinerary-leg-first-row">
           <div className="address-container">
-            <div className="address">{addressFromUrl}</div>
-            <div className="place">{placeFromUrl}</div>
+            <div className="address">{!stop ? address : addressFromUrl}</div>
+            <div className="place">{place || placeFromUrl}</div>
           </div>
           <div
             className="itinerary-map-action"
