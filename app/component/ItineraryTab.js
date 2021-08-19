@@ -400,6 +400,11 @@ const withRelay = createFragmentContainer(ItineraryTab, {
                 text
                 language
               }
+              alertDescriptionText
+              alertDescriptionTextTranslations {
+                text
+                language
+              }
               alertUrl
               alertUrlTranslations {
                 text
@@ -462,6 +467,11 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             }
             alertHeaderText
             alertHeaderTextTranslations {
+              text
+              language
+            }
+            alertDescriptionText
+            alertDescriptionTextTranslations {
               text
               language
             }

@@ -557,10 +557,12 @@ TransitLeg.propTypes = {
       gtfsId: PropTypes.string.isRequired,
       shortName: PropTypes.string,
       color: PropTypes.string,
+      alerts: PropTypes.array,
     }).isRequired,
     to: PropTypes.shape({
       stop: PropTypes.shape({
         zoneId: PropTypes.string,
+        alerts: PropTypes.array,
       }).isRequired,
       name: PropTypes.string.isRequired,
     }).isRequired,
