@@ -776,6 +776,7 @@ hr.action-bar {
     z-index: 99999;
     height: 100%;
     width: 100%;
+    overflow: scroll;
     min-height: 100%;
     max-width: 100%;
     position: fixed;
