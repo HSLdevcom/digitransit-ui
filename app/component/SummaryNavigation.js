@@ -91,6 +91,12 @@ class SummaryNavigation extends React.Component {
             }
           />
         )}
+        <span className="sr-only">
+          <FormattedMessage
+            id="search-fields.sr-instructions"
+            defaultMessage="The search is triggered automatically when origin and destination are set. Changing any search parameters triggers a new search"
+          />
+        </span>
         <OriginDestinationBar
           className={className}
           origin={parseLocation(this.props.params.from)}

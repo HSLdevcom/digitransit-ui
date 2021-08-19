@@ -15,6 +15,10 @@ const cityBikesEnabled = true;
 export default {
   CONFIG,
   OTPTimeout: process.env.OTP_TIMEOUT || 30000,
+  URL: {
+    FONT:
+      'https://digitransit-prod-cdn-origin.azureedge.net/matka-fonts/roboto/roboto+montserrat.css',
+  },
 
   contactName: {
     sv: 'Livin',
@@ -39,10 +43,22 @@ export default {
   title: APP_TITLE,
 
   // Navbar logo
-  logo: 'matka/matka-logo.png',
+  logo: 'matka/matka-logo.svg',
 
-  favicon: './app/configurations/images/hsl/icon_favicon-matkafi.svg',
+  favicon: './app/configurations/images/matka/favicon.svg',
 
+  colors: {
+    primary: '#026273',
+    iconColors: {
+      'mode-airplane': '#0046AD',
+      'mode-bus': '#007ac9',
+      'mode-tram': '#5E7921',
+      'mode-metro': '#CA4000',
+      'mode-rail': '#8E5EA0',
+      'mode-ferry': '#247C7B',
+      'mode-citybike': '#FCBC19',
+    },
+  },
   feedIds: [
     'MATKA',
     'HSL',
@@ -75,7 +91,7 @@ export default {
   },
 
   menu: {
-    copyright: { label: `© Traficom ${YEAR}` },
+    copyright: { label: `© Matka.fi ${YEAR}` },
     content: [
       {
         name: 'menu-feedback',

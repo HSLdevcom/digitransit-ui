@@ -8,12 +8,6 @@ const customDiffDir = `test/e2e/__image_snapshots__/__diff_output__`;
 
 const timeout = 200000;
 
-const pageTitles = {
-  hsl: 'Reittiopas',
-  tampere: 'Nyssen reittiopas',
-  matka: 'Matka.fi',
-};
-
 const platform = (process.env.MOBILE === 'true' && 'mobile') || 'desktop';
 const isMobile = platform === 'mobile';
 
@@ -24,8 +18,6 @@ describe(`Front page with ${config} config`, () => {
     const response = await page.goto(`http://localhost:8080${path}`);
 
     expect(response.status()).toBe(200);
-    await expect(page.title()).resolves.toMatch(pageTitles[config]);
-    await new Promise(res => setTimeout(res, 2000));
 
     let image;
     if (!isMobile) {

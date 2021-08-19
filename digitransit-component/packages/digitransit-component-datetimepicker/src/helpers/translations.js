@@ -62,7 +62,8 @@ const translations = {
     'accessible-open': 'Öppna väljaren',
     'accessible-opened': 'Väljaren öppnade',
     'accessible-title': 'Tid- och datumväljaren',
-    'accessible-update-instructions': '',
+    'accessible-update-instructions':
+      'Om du ändrar tiderna, startas en ny sökning automatiskt.',
     arrival: 'Anländer',
     date: 'Datum',
     departure: 'Avgångstid',

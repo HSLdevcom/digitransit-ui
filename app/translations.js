@@ -930,13 +930,14 @@ const translations = {
     citybike: 'City bike',
     'citybike-buy-season': 'Buy a daily, weekly or season pass',
     'citybike-distance-duration': 'Bike {duration} ({distance})',
-    'citybike-duration-general-header': '',
+    'citybike-duration-general-header':
+      'Extra charge applies to several sections of route to be completed by a city bike.',
     'citybike-duration-info':
       'You can ride a city bike for up to {duration} minutes at a time, after which you will be charged extra.',
     'citybike-duration-info-header':
       'The section of route to be completed by a city bike takes more than {duration} minutes.',
     'citybike-duration-info-short':
-      'Citybike section over {duration} min. Includes an additional fee.',
+      'Section of route takes more than {duration} min. Extra charge applies.',
     'citybike-network-headers': 'Citybikes',
     'citybike-purchase-link': 'Buy',
     'citybike-register-required': 'To use city bikes, you need to register',
@@ -970,6 +971,8 @@ const translations = {
     'departure-is-canceled-rail': '{shortName} train',
     'departure-is-canceled-subway': 'Metro service {shortName}',
     'departure-is-canceled-tram': 'Tram {shortName}',
+    'departure-list-update.sr-instructions':
+      'The list of upcoming departures and departure times will update in real time.',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Departures',
     'departures-by-hour': 'Departures by hour (minutes/route)',
@@ -1309,6 +1312,8 @@ const translations = {
     'search-destination-index': 'Enter destination',
     'search-destination-results-but-no-search':
       'View results in the adjacent “Destination” tab',
+    'search-fields.sr-instructions':
+      'Route search will take place automatically when you enter origin and destination. Changing search parameters will trigger a new search.',
     'search-no-results': 'No location',
     'search-origin': 'Search origin, route or stop',
     'search-origin-index': 'Enter origin',
@@ -1350,6 +1355,8 @@ const translations = {
     stop: 'Stop',
     'stop-departure-time-future': 'Departure time is in {minutes} minutes',
     'stop-departure-time-past': 'Departure time was',
+    'stop-list-update.sr-instructions':
+      'Departure times for each stop will update in real time.',
     'stop-near-you': 'Search stops and routes near you',
     'stop-near-you-modal-grant-permission': 'or enable location services',
     'stop-near-you-modal-grant-permission-info':
@@ -1911,7 +1918,7 @@ const translations = {
       'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi',
     'citybike-distance-duration': 'Pyöräile {duration} ({distance})',
     'citybike-duration-general-header':
-      'Useampi reitin kaupunkipyöräosuuksista sisältää lisämaksuja',
+      'Useampi reitin kaupunkipyöräosuuksista sisältää lisämaksuja.',
     'citybike-duration-info':
       'Kaupunkipyörää voi käyttää yhtäjaksoisesti {duration} min, jonka jälkeen peritään lisämaksu.',
     'citybike-duration-info-header':
@@ -1953,6 +1960,8 @@ const translations = {
     'departure-is-canceled-rail': '{shortName}-junan',
     'departure-is-canceled-subway': 'Metron {shortName}',
     'departure-is-canceled-tram': 'Raitiolinjan {shortName}',
+    'departure-list-update.sr-instructions':
+      'Tulevian lähtöjen lista ja lähtöajat päivittyvät reaaliajassa.',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Lähdöt',
     'departures-by-hour': 'Lähdöt tunneittain',
@@ -2287,6 +2296,8 @@ const translations = {
     'search-destination-index': 'Syötä määränpää',
     'search-destination-results-but-no-search':
       'Katso tulokset viereiseltä Määränpää-välilehdeltä',
+    'search-fields.sr-instructions':
+      'Reittihaku tehdään automaattisesti kun lähtöpaikka ja määränpää on asetettu. Haun parametrien muuttaminen laukaisee uuden reittihaun',
     'search-no-results': 'Ei tuloksia',
     'search-origin': 'Hae lähtöpaikkaa, linjaa tai pysäkkiä',
     'search-origin-index': 'Syötä lähtöpaikka',
@@ -2328,6 +2339,8 @@ const translations = {
     stop: 'Pysäkki',
     'stop-departure-time-future': 'Lähtöaika {minutes} min päästä',
     'stop-departure-time-past': 'Lähtöaika oli',
+    'stop-list-update.sr-instructions':
+      'Pysäkkien lähtöajat päivittyvät reaaliajassa.',
     'stop-near-you': 'Linja, pysäkki tai asema',
     'stop-near-you-modal-grant-permission': 'tai salli paikannus',
     'stop-near-you-modal-grant-permission-info':
@@ -3669,13 +3682,14 @@ const translations = {
     'citybike-buy-season':
       'Köp ett abonnemang för en dag, en vecka eller för en hel säsong',
     'citybike-distance-duration': 'Cykla {duration} ({distance})',
-    'citybike-duration-general-header': '',
+    'citybike-duration-general-header':
+      'Rutten har flera sträckor med stadscykel som inkluderar tilläggsavgifter.',
     'citybike-duration-info':
       'Du kan använda stadscykeln {duration} minuter åt gången, efter det debiteras en tilläggsavgift.',
     'citybike-duration-info-header':
       'Sträckan med stadscykel tar över {duration} min.',
     'citybike-duration-info-short':
-      'Stadscyckel sträckan tar över {duration} min. Debiteras en tilläggsavgift.',
+      'Sträckan tar över {duration} min. En tilläggsavgift ska debiteras.',
     'citybike-network-headers': 'Stadscyklarna',
     'citybike-purchase-link': 'Gå till köp',
     'citybike-register-required':
@@ -3711,6 +3725,8 @@ const translations = {
     'departure-is-canceled-rail': '{shortName}-tåget',
     'departure-is-canceled-subway': 'metro {shortName}',
     'departure-is-canceled-tram': 'spårvagnslinje {shortName}',
+    'departure-list-update.sr-instructions':
+      'Listan på avgångar och avgångstider uppdateras i realtid.',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Avgångar',
     'departures-by-hour': 'Avgångar per timme (minuter/rad)',
@@ -4050,6 +4066,8 @@ const translations = {
     'search-destination-index': 'Skriv destination',
     'search-destination-results-but-no-search':
       'Se resultaten under fliken Destination',
+    'search-fields.sr-instructions':
+      'Ruttsökning görs automatiskt när du skriver in avgångsplats och destination. Om du ändrar sökvillkoren, startas en ny ruttsökning automatiskt.',
     'search-no-results': 'Inga sökresultat',
     'search-origin': 'Sök avfärdsplats, linje eller hållplats',
     'search-origin-index': 'Skriv avfärdsplats',
@@ -4096,6 +4114,8 @@ const translations = {
     stop: 'Hållplats',
     'stop-departure-time-future': 'Avgångstid är i {minutes} minuter',
     'stop-departure-time-past': 'Avgångstid var klockan',
+    'stop-list-update.sr-instructions':
+      'Avgångstider uppdateras i realtid för varje hållplats.',
     'stop-near-you': 'Sök hållplatser eller linjer nära dig',
     'stop-near-you-modal-grant-permission': 'eller aktivera positionering',
     'stop-near-you-modal-grant-permission-info':
