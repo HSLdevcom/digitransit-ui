@@ -2,21 +2,27 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import cx from 'classnames';
+import { matchShape } from 'found';
 
 import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import { parseLocation } from '../util/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function EndLeg(props, context) {
-  const [address, place] = props.to.split(/, (.+)/); // Splits the string to two parts from the first occurance of ', '
+  const { to } = context.match.params;
+  const [addressFromUrl, placeFromUrl] = parseLocation(to).address.split(
+    /, (.+)/,
+  );
+  const { stop } = props?.to;
   const modeClassName = 'end';
   return (
     <div
       key={props.index}
       className={cx('row', 'itinerary-row', {
-        'padding-top': props.previousMode !== 'WALK',
+        'padding-top': stop !== null,
       })}
     >
       <span className="sr-only">
@@ -51,8 +57,8 @@ function EndLeg(props, context) {
         </span>
         <div className="itinerary-leg-first-row">
           <div className="address-container">
-            <div className="address">{address}</div>
-            <div className="place">{place}</div>
+            <div className="address">{addressFromUrl}</div>
+            <div className="place">{placeFromUrl}</div>
           </div>
           <div
             className="itinerary-map-action"
@@ -97,18 +103,14 @@ EndLeg.description = () => {
 
 EndLeg.propTypes = {
   endTime: PropTypes.number.isRequired,
-  to: PropTypes.string.isRequired,
+  to: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
-  previousMode: PropTypes.string,
-};
-
-EndLeg.defaultProps = {
-  previousMode: '',
 };
 
 EndLeg.contextTypes = {
   intl: intlShape.isRequired,
+  match: matchShape.isRequired,
 };
 
 export default EndLeg;
