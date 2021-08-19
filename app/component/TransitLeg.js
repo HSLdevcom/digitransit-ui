@@ -432,7 +432,11 @@ class TransitLeg extends React.Component {
                       severityLevel={alertSeverityLevel}
                     />
                   </div>
-                  <div className="description">{alert.header}</div>
+                  {config.showAlertHeader ? (
+                    <div className="description">{alert.header}</div>
+                  ) : (
+                    <div className="description">{alert.description}</div>
+                  )}
                   <Icon
                     img="icon-icon_arrow-collapse--right"
                     className="disruption-link-arrow"
@@ -553,10 +557,12 @@ TransitLeg.propTypes = {
       gtfsId: PropTypes.string.isRequired,
       shortName: PropTypes.string,
       color: PropTypes.string,
+      alerts: PropTypes.array,
     }).isRequired,
     to: PropTypes.shape({
       stop: PropTypes.shape({
         zoneId: PropTypes.string,
+        alerts: PropTypes.array,
       }).isRequired,
       name: PropTypes.string.isRequired,
     }).isRequired,

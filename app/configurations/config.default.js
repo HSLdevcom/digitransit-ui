@@ -721,4 +721,7 @@ export default {
   },
 
   viaPointsEnabled: true,
+
+  // DT-4802 Toggling this off shows the alert bodytext instead of the header
+  showAlertHeader: true,
 };
