@@ -43,7 +43,7 @@ function DateSelect(props, context) {
         <>
           <span>{option.label}</span>
           {option.value === props.selectedDate && (
-            <Icon img="check" height={1.1525} width={0.904375} />
+            <Icon img="icon-icon_check" height={1.1525} width={0.904375} />
           )}
         </>
       ),

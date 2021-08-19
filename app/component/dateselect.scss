@@ -54,6 +54,13 @@
           font-size: $font-size-small;
         }
       }
+      .dd__option {
+        display: flex;
+        justify-content: space-between;
+        svg {
+          position: relative;
+        }
+      }
     }
 
     .combobox-selected-value {
