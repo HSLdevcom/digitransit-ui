@@ -10,8 +10,6 @@ const STATIC_MESSAGE_URL =
 // route timetable data needs to be up-to-date before this is enabled
 // const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
 
-const cityBikesEnabled = true;
-
 export default {
   CONFIG,
   OTPTimeout: process.env.OTP_TIMEOUT || 30000,
@@ -237,7 +235,7 @@ export default {
     'subway',
     'rail',
     'ferry',
-    cityBikesEnabled && 'citybike',
+    'citybike',
     'airplane',
   ],
 };
