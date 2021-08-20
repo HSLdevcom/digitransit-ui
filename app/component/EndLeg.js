@@ -21,12 +21,7 @@ function EndLeg(props, context) {
   const { stop } = props?.to;
   const modeClassName = 'end';
   return (
-    <div
-      key={props.index}
-      className={cx('row', 'itinerary-row', {
-        'padding-top': stop !== null,
-      })}
-    >
+    <div key={props.index} className={cx('row', 'itinerary-row')}>
       <span className="sr-only">
         <FormattedMessage
           id="itinerary-details.end-leg"
