@@ -1165,6 +1165,7 @@ const translations = {
     'nearest-no-stops':
       'There are no stops or stations for the selected mode of transport nearby.',
     'nearest-stops': 'The closest stops',
+    'nearest-stops-airplane': 'airports',
     'nearest-stops-bus': 'bus stops',
     'nearest-stops-citybike': 'bike stations',
     'nearest-stops-favorite': 'stops nearby me',
@@ -2148,6 +2149,7 @@ const translations = {
     'nearest-no-stops':
       'Valitun liikennevälineen asemia tai pysäkkejä ei ole lähialueella.',
     'nearest-stops': 'Lähimmät pysäkit',
+    'nearest-stops-airplane': 'lentoasemat',
     'nearest-stops-bus': 'bussipysäkit',
     'nearest-stops-citybike': 'pyöräasemat',
     'nearest-stops-favorite': 'omat lähipysäkit',
@@ -3916,6 +3918,7 @@ const translations = {
     'nearest-no-stops':
       'Inga stationer eller hållplatser för det valda trafikfordonet i närheten.',
     'nearest-stops': 'Närliggande hållplatser',
+    'nearest-stops-airplane': 'flygplatser',
     'nearest-stops-bus': 'busshållplatser',
     'nearest-stops-citybike': 'cykelstationer',
     'nearest-stops-favorite': 'hållplatser nära mig',

@@ -227,4 +227,15 @@ export default {
     ],
   },
   staticMessagesUrl: STATIC_MESSAGE_URL,
+
+  showNearYouButtons: true,
+  nearYouModes: [
+    'bus',
+    'tram',
+    'subway',
+    'rail',
+    'ferry',
+    'citybike',
+    'airplane',
+  ],
 };

@@ -2037,8 +2037,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel"
   peerDependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^1.7.11
-    "@digitransit-component/digitransit-component-icon": ^0.1.10
+    "@digitransit-component/digitransit-component-autosuggest": ^1.7.13
+    "@digitransit-component/digitransit-component-icon": ^0.1.12
     "@hsl-fi/sass": ^0.1.1
     classnames: 2.2.6
     i18next: ^19.3.3
@@ -2089,8 +2089,8 @@ __metadata:
     "@hsl-fi/hooks": ^0.2.0
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": ^0.3.2
-    "@digitransit-component/digitransit-component-icon": ^0.1.10
-    "@digitransit-component/digitransit-component-suggestion-item": ^0.2.11
+    "@digitransit-component/digitransit-component-icon": ^0.1.12
+    "@digitransit-component/digitransit-component-suggestion-item": ^0.2.12
     "@hsl-fi/sass": ^0.1.1
     classnames: 2.2.6
     i18next: ^19.3.3
@@ -2122,7 +2122,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-control-panel@workspace:digitransit-component/packages/digitransit-component-control-panel"
   peerDependencies:
-    "@digitransit-component/digitransit-component-icon": ^0.1.10
+    "@digitransit-component/digitransit-component-icon": ^0.1.12
     "@hsl-fi/sass": ~0.1.1
     i18next: ^19.3.3
     prop-types: ^15.7.2
@@ -2135,7 +2135,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-datetimepicker@workspace:digitransit-component/packages/digitransit-component-datetimepicker"
   peerDependencies:
-    "@digitransit-component/digitransit-component-icon": ^0.1.10
+    "@digitransit-component/digitransit-component-icon": ^0.1.12
     i18next: ^19.3.3
     lodash: 4.17.21
     lodash-es: 4.17.21
@@ -2185,8 +2185,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar"
   peerDependencies:
-    "@digitransit-component/digitransit-component-icon": ^0.1.10
-    "@digitransit-component/digitransit-component-suggestion-item": ^0.2.11
+    "@digitransit-component/digitransit-component-icon": ^0.1.12
+    "@digitransit-component/digitransit-component-suggestion-item": ^0.2.12
     "@hsl-fi/sass": ^0.1.1
     "@hsl-fi/shimmer": 0.1.0
     classnames: 2.2.6
@@ -2220,7 +2220,7 @@ __metadata:
   resolution: "@digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal"
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": ^0.3.2
-    "@digitransit-component/digitransit-component-icon": ^0.1.10
+    "@digitransit-component/digitransit-component-icon": ^0.1.12
     "@hsl-fi/container-spinner": 0.2.0
     "@hsl-fi/modal": ^0.1.8
     "@hsl-fi/sass": ^0.1.1
@@ -2252,7 +2252,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-modal@workspace:digitransit-component/packages/digitransit-component-favourite-modal"
   peerDependencies:
-    "@digitransit-component/digitransit-component-icon": ^0.1.10
+    "@digitransit-component/digitransit-component-icon": ^0.1.12
     "@hsl-fi/modal": ^0.1.8
     "@hsl-fi/sass": ^0.1.1
     classnames: 2.2.6
@@ -2264,7 +2264,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-icon@^0.1.10, @digitransit-component/digitransit-component-icon@workspace:digitransit-component/packages/digitransit-component-icon":
+"@digitransit-component/digitransit-component-icon@^0.1.12, @digitransit-component/digitransit-component-icon@workspace:digitransit-component/packages/digitransit-component-icon":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-icon@workspace:digitransit-component/packages/digitransit-component-icon"
   peerDependencies:
@@ -2296,7 +2296,7 @@ __metadata:
   dependencies:
     recompose: 0.30.0
   peerDependencies:
-    "@digitransit-component/digitransit-component-icon": ^0.1.10
+    "@digitransit-component/digitransit-component-icon": ^0.1.12
     "@hsl-fi/sass": " ^0.1.1"
     classnames: 2.2.6
     i18next: ^19.3.3
@@ -2309,7 +2309,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-traffic-now-link@workspace:digitransit-component/packages/digitransit-component-traffic-now-link"
   peerDependencies:
-    "@digitransit-component/digitransit-component-icon": ^0.1.10
+    "@digitransit-component/digitransit-component-icon": ^0.1.12
     "@hsl-fi/sass": ^0.1.1
     i18next: ^19.3.3
     prop-types: ^15.7.2
@@ -2352,7 +2352,7 @@ __metadata:
     "@digitransit-component/digitransit-component-favourite-bar": latest
     "@digitransit-component/digitransit-component-favourite-editing-modal": latest
     "@digitransit-component/digitransit-component-favourite-modal": latest
-    "@digitransit-component/digitransit-component-icon": ^0.1.10
+    "@digitransit-component/digitransit-component-icon": ^0.1.12
     "@digitransit-component/digitransit-component-suggestion-item": latest
     "@digitransit-component/digitransit-component-with-breakpoint": latest
   languageName: unknown

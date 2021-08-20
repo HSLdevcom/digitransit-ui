@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+/* eslint-disable compat/compat */
 import getConfig from './helpers/image-snapshot-config';
 
 const config = process.env.CONFIG || 'hsl';

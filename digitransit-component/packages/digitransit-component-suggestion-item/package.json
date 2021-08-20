@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-suggestion-item",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "digitransit-component suggestion-item module",
   "main": "lib/index.js",
   "files": [
@@ -31,7 +31,7 @@
     "recompose": "0.30.0"
   },
   "peerDependencies": {
-    "@digitransit-component/digitransit-component-icon": "^0.1.10",
+    "@digitransit-component/digitransit-component-icon": "^0.1.12",
     "@hsl-fi/sass": " ^0.1.1",
     "classnames": "2.2.6",
     "i18next": "^19.3.3",
