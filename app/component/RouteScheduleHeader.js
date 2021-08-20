@@ -57,7 +57,7 @@ function RouteScheduleHeader({
   );
 
   return (
-    <div className="route-schedule-header row padding-vertical-normal">
+    <div className="route-schedule-header row">
       {stopHeadersForPrinting}
       <div className="route-schedule-dropdowns">
         <RouteScheduleDropdown

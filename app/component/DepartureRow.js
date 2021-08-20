@@ -2,12 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
+import { v4 as uuid } from 'uuid';
+import { Link } from 'found';
 import LocalTime from './LocalTime';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
 import Icon from './Icon';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
 const DepartureRow = (
-  { departure, departureTime, showPlatformCode, canceled, ...props },
+  { departure, departureTime, showPlatformCode, canceled, showLink, ...props },
   { config },
 ) => {
   const mode = departure.trip.route.mode.toLowerCase();
@@ -42,44 +46,62 @@ const DepartureRow = (
     );
   }
   return (
-    <div role="cell" className="departure-row-container">
-      <div
-        className={cx(
-          'departure-row',
-          mode,
-          departure.bottomRow ? 'bottom' : '',
-          props.className,
-        )}
+    <tr
+      className={cx(
+        'departure-row',
+        mode,
+        departure.bottomRow ? 'bottom' : '',
+        props.className,
+      )}
+      key={uuid()}
+    >
+      <td
+        className="route-number-container"
+        style={{ backgroundColor: `#${departure.trip.route.color}` }}
       >
-        <div
-          className="route-number-container"
-          style={{ backgroundColor: `#${departure.trip.route.color}` }}
-        >
-          <div className="route-number">{shortName}</div>
-        </div>
-        <div
-          className={cx('route-headsign', departure.bottomRow ? 'bottom' : '')}
-        >
-          {headsign} {departure.bottomRow && departure.bottomRow}
-        </div>
+        <div className="route-number">{shortName}</div>
+      </td>
+      <td className={cx('route-headsign', departure.bottomRow ? 'bottom' : '')}>
+        {showLink ? (
+          <Link
+            to={`/${PREFIX_ROUTES}/${departure.trip.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.trip.pattern.code}`}
+            onClick={() => {
+              addAnalyticsEvent({
+                category: 'Stop',
+                action: 'OpenRouteViewFromStop',
+                name: 'RightNowTab',
+              });
+            }}
+          >
+            {headsign} {departure.bottomRow && departure.bottomRow}
+          </Link>
+        ) : (
+          <>
+            {headsign} {departure.bottomRow && departure.bottomRow}
+          </>
+        )}
+      </td>
+      <td className="time-cell">
         {shownTime && (
-          <div
+          <span
             className={cx('route-arrival', {
               realtime: departure.realtime,
               canceled,
             })}
           >
             {shownTime}
-          </div>
+          </span>
         )}
-        <div
+        <span
           className={cx('route-time', {
             realtime: departure.realtime,
             canceled,
           })}
         >
           <LocalTime time={departureTime} />
-        </div>
+        </span>
+      </td>
+      <td className="platform-cell">
         {showPlatformCode && (
           <div
             className={
@@ -91,8 +113,8 @@ const DepartureRow = (
             {departure.stop.platformCode}
           </div>
         )}
-      </div>
-    </div>
+      </td>
+    </tr>
   );
 };
 DepartureRow.propTypes = {
@@ -102,6 +124,7 @@ DepartureRow.propTypes = {
   showPlatformCode: PropTypes.bool,
   canceled: PropTypes.bool,
   className: PropTypes.string,
+  showLink: PropTypes.bool,
 };
 
 DepartureRow.contextTypes = {

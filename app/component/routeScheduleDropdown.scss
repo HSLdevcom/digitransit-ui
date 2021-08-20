@@ -1,14 +1,6 @@
 .dd-container {
-  &.alignRight {
-    position: relative;
-    right: 3px;
-    &.withLabel {
-      position: relative;
-      top: -46px;
-      left: calc(50% - 3px);
-      text-align: right;
-    }
-  }
+  flex-grow: 1;
+  flex-basis: 10rem;
 }
 
 .dd-header {
@@ -41,17 +33,18 @@
     border-style: none;
     max-height: 24px;
     min-height: 24px;
-    &:focus, &:hover {
-      border-style: none;
-    }
     box-shadow: none;
+
+    &:focus-within {
+      outline: 2px auto #333 !important;
+    }
   }
+
   .dd-timerange__control {
     top: -1px;
   }
 
   .dd__control--menu-is-open, .dd-right__control--menu-is-open, .dd-timerange__control--menu-is-open {
-    outline: none;
     border-style: none;
     svg {
       transform: rotate(-180deg);
@@ -72,7 +65,7 @@
 
   .dd__placeholder, .dd-right__placeholder, .dd-timerange__placeholder, .dd__value-container--has-value, .dd-right__value-container--has-value, .dd-timerange__value-container--has-value, .dd__single-value, .dd-right__single-value, .dd-timerange__single-value {
     font-style: normal;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     font-size: 15px;
     line-height: 18px;
     letter-spacing: -0.03em;
@@ -90,7 +83,7 @@
   }
 
   .dd__menu, .dd-right__menu, .dd-timerange__menu {
-    width: calc(100% + 85px);
+    width: calc(100% + 85px + 32px - 2rem);
     max-height: 44vh;
     border-radius: 4px;
     box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.15);
@@ -118,7 +111,7 @@
 
   .dd__option, .dd-right__option, .dd-timerange__option {
     font-style: normal;
-    font-weight: 400;
+    font-weight: $font-weight-book;
     font-size: 15px;
     line-height: 18px;
     letter-spacing: -0.03em;
@@ -131,7 +124,7 @@
       background-color: #f4f4f5;
     }
     &--is-selected, &--is-focused {
-      background-color: white;
+      background-color: #F4F4F5;
     }
     margin-right: 5px;
     svg {

@@ -7,7 +7,13 @@ import TransitLeg from './TransitLeg';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const AirplaneLeg = ({ leg, focusAction, index }) => (
-  <TransitLeg mode="AIRPLANE" leg={leg} focusAction={focusAction} index={index}>
+  <TransitLeg
+    mode="AIRPLANE"
+    leg={leg}
+    focusAction={focusAction}
+    index={index}
+    omitDivider
+  >
     <FormattedMessage
       id="airplane-with-route-number"
       values={{

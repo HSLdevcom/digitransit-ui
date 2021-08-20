@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Select from 'react-select';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import { intlShape } from 'react-intl';
+import isEmpty from 'lodash/isEmpty';
 
 export default function RouteScheduleDropdown(props, context) {
   const { alignRight, id, labelId, list, onSelectChange, title } = props;
@@ -39,6 +40,7 @@ export default function RouteScheduleDropdown(props, context) {
             : `${option.label.substring(0, 15)}...`;
         return {
           value: option.value,
+          fullLabel: option.label,
           label: (
             <>
               <span>{option.label}</span>
@@ -58,24 +60,43 @@ export default function RouteScheduleDropdown(props, context) {
 
   return (
     <div
-      className={cx(
-        'dd-container',
-        alignRight ? 'alignRight' : '',
-        labelId ? 'withLabel' : '',
-      )}
+      className={cx('dd-container', labelId ? 'withLabel' : '')}
+      aria-live="off"
     >
       {labelId && (
-        <span
+        <label
           className={cx('dd-header-title', alignRight ? 'alignRight' : '')}
           id={`aria-label-${id}`}
           htmlFor={`aria-input-${id}`}
         >
           {intl.formatMessage({ id: labelId })}
-        </span>
+        </label>
       )}
-
+      {!labelId && (
+        <label
+          style={{ display: 'none' }}
+          id={`aria-label-${id}`}
+          htmlFor={`aria-input-${id}`}
+        >
+          {title}
+        </label>
+      )}
       <Select
         aria-labelledby={`aria-label-${id}`}
+        ariaLiveMessages={{
+          guidance: () => '.', // this can't be empty for some reason
+          onChange: ({ value }) =>
+            `${intl.formatMessage({ id: 'route-page.pattern-chosen' })} ${
+              value.fullLabel
+            }`,
+          onFilter: () => '',
+          onFocus: ({ context: itemContext, focused }) => {
+            if (itemContext === 'menu') {
+              return focused.fullLabel;
+            }
+            return '';
+          },
+        }}
         className="dd-select"
         classNamePrefix={classNamePrefix}
         components={{
@@ -83,6 +104,16 @@ export default function RouteScheduleDropdown(props, context) {
           IndicatorSeparator: () => null,
         }}
         inputId={`aria-input-${id}`}
+        aria-label={
+          (isEmpty(selectedValue) &&
+            `${
+              labelId &&
+              intl.formatMessage({
+                id: 'route-page.pattern-chosen',
+              })
+            } ${title}`) ||
+          ''
+        }
         isSearchable={false}
         name={id}
         menuIsOpen={isMenuOpen}
@@ -105,7 +136,6 @@ export default function RouteScheduleDropdown(props, context) {
             </>
           )
         }
-        tabIndex="0"
         value={
           !title && (
             <>

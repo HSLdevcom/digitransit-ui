@@ -16,6 +16,7 @@ import { PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { getZoneLabel } from '../util/legUtils';
 import { estimateItineraryDistance } from '../util/geo-utils';
+import getVehicleState from '../util/vehicleStateUtils';
 import Icon from './Icon';
 
 const exampleStop = {
@@ -42,10 +43,6 @@ const exampleStop = {
   desc: 'Ratamestarinkatu',
   code: '0663',
 };
-
-const VEHICLE_ARRIVING = 'arriving';
-const VEHICLE_ARRIVED = 'arrived';
-const VEHICLE_DEPARTED = 'departed';
 
 const RouteStop = (
   {
@@ -107,6 +104,13 @@ const RouteStop = (
     text += ` ${stop.name},`;
     text += `${stop.code},`;
     text += `${stop.desc},`;
+
+    if (getActiveAlertSeverityLevel(stop.alerts, currentTime)) {
+      text += `${intl.formatMessage({
+        id: 'disruptions-tab.sr-disruptions',
+      })},`;
+    }
+
     if (patternExists) {
       text += `${intl.formatMessage({ id: 'leaves' })},`;
       text += `${getDepartureTime(stop.stopTimesForPattern[0])},`;
@@ -145,23 +149,15 @@ const RouteStop = (
         lat: vehicle.lat,
         lon: vehicle.long,
       });
-      if (
-        distanceToStop > maxDistance &&
-        vehicleTime < arrivalTimeToStop &&
-        !first
-      ) {
-        vehicleState = VEHICLE_ARRIVING;
-      } else if (
-        (vehicleTime >= arrivalTimeToStop &&
-          vehicleTime < departureTimeFromStop) ||
-        (first && vehicleTime < arrivalTimeToStop) ||
-        (last && vehicleTime >= departureTimeFromStop) ||
-        distanceToStop <= maxDistance
-      ) {
-        vehicleState = VEHICLE_ARRIVED;
-      } else if (vehicleTime >= departureTimeFromStop && !last) {
-        vehicleState = VEHICLE_DEPARTED;
-      }
+      vehicleState = getVehicleState(
+        distanceToStop,
+        maxDistance,
+        vehicleTime,
+        arrivalTimeToStop,
+        departureTimeFromStop,
+        first,
+        last,
+      );
       vehicleTripLink = vehicle.tripId ? (
         <TripLink key={vehicle.id} vehicle={vehicle} shortName={shortName} />
       ) : (
@@ -180,10 +176,7 @@ const RouteStop = (
     );
   };
   return (
-    <div
-      className={cx('route-stop location-details_container ', className)}
-      role="listitem"
-    >
+    <li className={cx('route-stop location-details_container ', className)}>
       {getVehicleTripLink()}
       <div className={cx('route-stop-now_circleline', mode)} aria-hidden="true">
         <svg
@@ -286,7 +279,7 @@ const RouteStop = (
           </div>
         </Link>
       </div>
-    </div>
+    </li>
   );
 };
 

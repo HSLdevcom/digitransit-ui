@@ -51,7 +51,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/tre_zone_lines_20210222.geojson',
+        url: '/assets/geojson/tre_zone_lines_20210622.geojson',
         isOffByDefault: true,
       },
     ],
@@ -251,4 +251,6 @@ export default configMerger(walttiConfig, {
   // modes that should not coexist with BICYCLE mode
   // boarding a long distance train with bicycle costs extra
   modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'RAIL'],
+
+  showTenWeeksOnRouteSchedule: true,
 });

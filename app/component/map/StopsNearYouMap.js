@@ -22,7 +22,7 @@ import {
   sortNearbyStops,
 } from '../../util/sortUtils';
 import ItineraryLine from './ItineraryLine';
-import { dtLocationShape } from '../../util/shapes';
+import { dtLocationShape, mapLayerOptionsShape } from '../../util/shapes';
 import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 
@@ -129,6 +129,7 @@ function StopsNearYouMap(
     onEndNavigation,
     onMapTracking,
     mapLayers,
+    mapLayerOptions,
     showWalkRoute,
   },
   { ...context },
@@ -338,7 +339,9 @@ function StopsNearYouMap(
   }
 
   if (uniqueRealtimeTopics.length > 0) {
-    leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
+    leafletObjs.push(
+      <VehicleMarkerContainer key="vehicles" useLargeIcon mode={mode} />,
+    );
   }
   if (
     firstPlan.itinerary.itineraries &&
@@ -362,11 +365,7 @@ function StopsNearYouMap(
 
   const hilightedStops = () => {
     const stopsAndStations = handleStopsAndStations(sortedStopEdges);
-    if (
-      Array.isArray(stopsAndStations) &&
-      stopsAndStations.length > 0 &&
-      mode !== 'CITYBIKE'
-    ) {
+    if (Array.isArray(stopsAndStations) && stopsAndStations.length > 0) {
       return [
         stopsAndStations[0]?.gtfsId ||
           stopsAndStations[0]?.stationId ||
@@ -386,6 +385,7 @@ function StopsNearYouMap(
     hilightedStops: hilightedStops(),
     mergeStops: false,
     mapLayers,
+    mapLayerOptions,
     bounds,
     leafletObjs,
     breakpoint,
@@ -414,6 +414,7 @@ StopsNearYouMap.propTypes = {
   stopsNearYou: PropTypes.object.isRequired,
   favouriteIds: PropTypes.object.isRequired,
   mapLayers: PropTypes.object.isRequired,
+  mapLayerOptions: mapLayerOptionsShape.isRequired,
   position: dtLocationShape.isRequired,
   match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,

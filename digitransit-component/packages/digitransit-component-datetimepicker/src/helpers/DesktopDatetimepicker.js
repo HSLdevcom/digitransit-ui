@@ -89,6 +89,23 @@ function DesktopDatetimepicker({
         {icon}
         <Select
           aria-labelledby={labelId}
+          ariaLiveMessages={{
+            guidance: () => {
+              return '.'; // this can't be empty for some reason
+            },
+            onChange: () => {
+              return '';
+            },
+            onFilter: () => {
+              return '';
+            },
+            onFocus: ({ context, label: itemLabel }) => {
+              if (context === 'menu') {
+                return itemLabel;
+              }
+              return '';
+            },
+          }}
           options={options}
           inputId={inputId}
           onChange={time => {
@@ -96,6 +113,10 @@ function DesktopDatetimepicker({
               const validated = validate(displayValue, value);
               if (validated !== null) {
                 handleTimestamp(validated);
+                setTyping(false);
+              } else {
+                // reset value
+                changeDisplayValue(getDisplay(value));
                 setTyping(false);
               }
               return;
@@ -117,6 +138,19 @@ function DesktopDatetimepicker({
           onFocus={e => {
             if (!disableTyping) {
               e.target.select();
+            }
+          }}
+          onBlur={() => {
+            // removing focus also locks in value
+            if (typing) {
+              const validated = validate(displayValue, value);
+              if (validated !== null) {
+                handleTimestamp(validated);
+                setTyping(false);
+              } else {
+                changeDisplayValue(getDisplay(value));
+                setTyping(false);
+              }
             }
           }}
           onKeyDown={e => {

@@ -463,6 +463,13 @@ export default {
             'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#aterlamna',
           en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#return',
         },
+        // Shown if citybike leg duration exceeds minutesBeforeSurcharge
+        durationInstructions: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#aja',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#cykla',
+          en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#ride',
+        },
+        timeBeforeSurcharge: 30 * 60,
       },
       vantaa: {
         icon: 'citybike-secondary',
@@ -485,6 +492,12 @@ export default {
           sv: 'https://www.hsl.fi/sv/stadscyklar/vanda/anvisningar#aterlamna',
           en: 'https://www.hsl.fi/en/citybikes/vantaa/instructions#return',
         },
+        durationInstructions: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa/kayttoohje#aja',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/vanda/anvisningar#cykla',
+          en: 'https://www.hsl.fi/en/citybikes/vantaa/instructions#ride',
+        },
+        timeBeforeSurcharge: 60 * 60,
       },
     },
     buyUrl: {

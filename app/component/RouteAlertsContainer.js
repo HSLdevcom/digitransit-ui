@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { intlShape } from 'react-intl';
+import { matchShape } from 'found';
 
 import AlertList from './AlertList';
 import DepartureCancelationInfo from './DepartureCancelationInfo';
@@ -12,8 +13,9 @@ import {
   tripHasCancelation,
 } from '../util/alertUtils';
 
-function RouteAlertsContainer({ route, patternId }, { intl }) {
+function RouteAlertsContainer({ route }, { intl, match }) {
   const { color, mode, shortName } = route;
+  const { patternId } = match.params;
 
   const cancelations = route.patterns
     .filter(pattern => pattern.code === patternId)
@@ -59,7 +61,6 @@ function RouteAlertsContainer({ route, patternId }, { intl }) {
 }
 
 RouteAlertsContainer.propTypes = {
-  patternId: PropTypes.string,
   route: PropTypes.shape({
     alerts: PropTypes.arrayOf(otpServiceAlertShape).isRequired,
     color: PropTypes.string,
@@ -94,12 +95,9 @@ RouteAlertsContainer.propTypes = {
   }).isRequired,
 };
 
-RouteAlertsContainer.defaultProps = {
-  patternId: undefined,
-};
-
 RouteAlertsContainer.contextTypes = {
   intl: intlShape,
+  match: matchShape,
 };
 
 const containerComponent = createFragmentContainer(RouteAlertsContainer, {
@@ -142,6 +140,7 @@ const containerComponent = createFragmentContainer(RouteAlertsContainer, {
           id
           gtfsId
           code
+          name
           alerts {
             id
             alertDescriptionText

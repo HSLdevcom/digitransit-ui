@@ -20,11 +20,12 @@ class MainMenuContainer extends Component {
   static propTypes = {
     homeUrl: PropTypes.string.isRequired,
     isOpen: PropTypes.bool,
-    breakpoint: PropTypes.string.isRequired,
+    breakpoint: PropTypes.string,
   };
 
   static defaultProps = {
     isOpen: false,
+    breakpoint: 'small',
   };
 
   mainMenuModules = {

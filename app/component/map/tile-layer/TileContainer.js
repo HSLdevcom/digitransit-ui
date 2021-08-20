@@ -43,7 +43,9 @@ class TileContainer {
     this.vehicles = vehicles;
     this.stopsToShow = stopsToShow;
 
-    events.on('vehiclesChanged', this.onVehiclesChange);
+    if (events.listenerCount('vehiclesChanged') === 0) {
+      events.on('vehiclesChanged', this.onVehiclesChange);
+    }
 
     let ignoreMinZoomLevel =
       hilightedStops &&
