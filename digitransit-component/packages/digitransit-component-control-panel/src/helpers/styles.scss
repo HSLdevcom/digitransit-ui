@@ -251,6 +251,18 @@
   z-index: 1000;
   margin-bottom: 10px;
 
+  @keyframes appear {
+    0% {
+      opacity: 0;
+      transform: translateY(-15px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  animation: appear 0.5s;
+
   @include min-width(tablet) {
     position: absolute;
     width: 0;
