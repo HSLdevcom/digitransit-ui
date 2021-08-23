@@ -562,7 +562,7 @@ $margin-left-right: 21.3px;
 
 .route-schedule-list-wrapper,
 .route-alerts-list-wrapper {
-  margin-top: 10px;
+  margin-top: 14px;
   &.bp-large {
     flex: 1;
     display: flex;
@@ -575,7 +575,7 @@ $margin-left-right: 21.3px;
   }
 
   .route-schedule-header {
-    padding: 9.6px 0 19px 0;
+    padding: 9.6px 0 2px 0;
     @media print {
       margin-left: 0;
       margin-right: auto;
@@ -705,8 +705,8 @@ $margin-left-right: 21.3px;
 .route-schedule-ranges {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
-  margin-top: 12px;
+  margin-bottom: 13px;
+  margin-top: 25px;
   flex-wrap: wrap;
 
   .current-range {
