@@ -51,61 +51,59 @@ function DateSelect(props, context) {
   });
   const selectedDate = dateList.find(d => d.value === props.selectedDate);
   const id = 'route-schedule-datepicker';
-  const classNamePrefix = 'dd';
+  const classNamePrefix = 'route-schedule';
 
   return (
-    <label
-      className="route-schedule-date combobox-container"
-      htmlFor={`aria-input-${id}`}
-      id={`aria-label-${id}`}
-    >
-      <span className="left-column">
-        <span className="combobox-label">
-          {context.intl.formatMessage({ id: 'day', defaultMessage: 'day' })}
-        </span>
-        <Select
-          aria-labelledby={`aria-label-${id}`}
-          ariaLiveMessages={{
-            guidance: () => '.', // this can't be empty for some reason
-            onChange: ({ value }) =>
-              `${context.intl.formatMessage({
-                id: 'route-page.pattern-chosen',
-              })} ${value.textLabel}`,
-            onFilter: () => '',
-            onFocus: ({ context: itemContext, focused }) => {
-              if (itemContext === 'menu') {
-                return focused.textLabel;
-              }
-              return '';
-            },
-          }}
-          className="dd-select"
-          classNamePrefix={classNamePrefix}
-          components={{
-            DropdownIndicator: () => null,
-            IndicatorSeparator: () => null,
-          }}
-          inputId={`aria-input-${id}`}
-          aria-label={selectedDate.textLabel}
-          isSearchable={false}
-          name={id}
-          menuIsOpen={isMenuOpen}
-          onChange={e => {
-            props.onDateChange(e.value);
-          }}
-          openMenuOnFocus
-          closeMenuOnSelect
-          onMenuOpen={onMenuOpen}
-          onMenuClose={onMenuClose}
-          options={dateList}
-          placeholder={selectedDate.textLabel}
-          value={selectedDate.value}
-        />
-      </span>
-      <div>
-        <Icon id="route-schedule-date-icon" img="icon-icon_calendar" />
-      </div>
-    </label>
+    <Select
+      aria-labelledby={`aria-label-${id}`}
+      ariaLiveMessages={{
+        guidance: () => '.', // this can't be empty for some reason
+        onChange: ({ value }) =>
+          `${context.intl.formatMessage({
+            id: 'route-page.pattern-chosen',
+          })} ${value.textLabel}`,
+        onFilter: () => '',
+        onFocus: ({ context: itemContext, focused }) => {
+          if (itemContext === 'menu') {
+            return focused.textLabel;
+          }
+          return '';
+        },
+      }}
+      className="date-select"
+      classNamePrefix={classNamePrefix}
+      components={{
+        DropdownIndicator: () => null,
+        IndicatorSeparator: () => null,
+      }}
+      inputId={`aria-input-${id}`}
+      aria-label={selectedDate.textLabel}
+      isSearchable={false}
+      name={id}
+      menuIsOpen={isMenuOpen}
+      onChange={e => {
+        props.onDateChange(e.value);
+        onMenuClose();
+      }}
+      closeMenuOnSelect
+      onMenuOpen={onMenuOpen}
+      onMenuClose={onMenuClose}
+      options={dateList}
+      placeholder={
+        <>
+          <span className="left-column">
+            <span className="combobox-label">
+              {context.intl.formatMessage({ id: 'day', defaultMessage: 'day' })}
+            </span>
+            <span className="selected-value">{selectedDate.textLabel}</span>
+          </span>
+          <div>
+            <Icon id="route-schedule-date-icon" img="icon-icon_calendar" />
+          </div>
+        </>
+      }
+      value={selectedDate.value}
+    />
   );
 }
 DateSelect.propTypes = {
