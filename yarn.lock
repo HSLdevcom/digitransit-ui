@@ -2105,16 +2105,16 @@ __metadata:
   linkType: soft
 
 "@digitransit-component/digitransit-component-control-panel@npm:latest":
-  version: 0.3.15
-  resolution: "@digitransit-component/digitransit-component-control-panel@npm:0.3.15"
+  version: 0.3.18
+  resolution: "@digitransit-component/digitransit-component-control-panel@npm:0.3.18"
   peerDependencies:
-    "@digitransit-component/digitransit-component-icon": ^0.1.10
+    "@digitransit-component/digitransit-component-icon": ^0.1.12
     "@hsl-fi/sass": ~0.1.1
     i18next: ^19.3.3
     prop-types: ^15.7.2
     react: ^16.13.0
     react-cookie: ^4.0.3
-  checksum: af5fb4ed2b6198c91c805b8987aa444d325341af32fa7ceec57904d70dccd938e4ad10b6b386956852f8b80b2be130aee8d2491b6db42bf430ed5f867c9097ac
+  checksum: e82d81ca85c63b0dc85dc391f4513f300b30f92760724079db8c97957e0972bb06b781d76e4c836592073de864859abf3d810c438cd5b719888e8f543d220168
   languageName: node
   linkType: hard
 
@@ -2124,6 +2124,7 @@ __metadata:
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": ^0.1.12
     "@hsl-fi/sass": ~0.1.1
+    classnames: 2.2.6
     i18next: ^19.3.3
     prop-types: ^15.7.2
     react: ^16.13.0
