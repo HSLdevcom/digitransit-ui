@@ -118,6 +118,8 @@ export default {
     walkReluctance: 2,
     walkSpeed: 1.2,
     includeBikeSuggestions: true,
+    includeParkAndRideSuggestions: true,
+    includeCarSuggestions: true,
   },
 
   /**
@@ -146,9 +148,12 @@ export default {
   walkBoardCostHigh: 1200,
 
   maxWalkDistance: 10000,
+  suggestBikeAndPublicMaxDistance: 15000,
   suggestWalkMaxDistance: 10000,
   suggestBikeMaxDistance: 30000,
-  suggestBikeAndPublicMaxDistance: 15000,
+  // if you enable car suggestions but the linear distance between all points is less than this, then a car route will
+  // not be computed
+  suggestCarMinDistance: 2000,
   itineraryFiltering: 1.5, // drops 66% worse routes
   useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
   minTransferTime: 120,
@@ -705,6 +710,8 @@ export default {
   showBikeAndParkItineraries: false,
 
   includeBikeSuggestions: true,
+  includeCarSuggestions: true,
+  includeParkAndRideSuggestions: true,
 
   showNearYouButtons: false,
   nearYouModes: [],

@@ -159,6 +159,34 @@ export const getSettings = config => {
   };
 };
 
+const getShouldMakeParkRideQuery = (
+  linearDistance,
+  config,
+  settings,
+  defaultSettings,
+) => {
+  return (
+    linearDistance > config.suggestCarMinDistance &&
+    (settings.includeParkAndRideSuggestions
+      ? settings.includeParkAndRideSuggestions
+      : defaultSettings.includeParkAndRideSuggestions)
+  );
+};
+
+const getShouldMakeCarQuery = (
+  linearDistance,
+  config,
+  settings,
+  defaultSettings,
+) => {
+  return (
+    linearDistance > config.suggestCarMinDistance &&
+    (settings.includeCarSuggestions
+      ? settings.includeCarSuggestions
+      : defaultSettings.includeCarSuggestions)
+  );
+};
+
 export const preparePlanParams = (config, useDefaultModes) => (
   { from, to },
   {
@@ -211,6 +239,11 @@ export const preparePlanParams = (config, useDefaultModes) => (
     settings.includeBikeSuggestions !== undefined
       ? settings.includeBikeSuggestions
       : defaultSettings.includeBikeSuggestions;
+  const linearDistance = estimateItineraryDistance(
+    fromLocation,
+    toLocation,
+    intermediatePlaceLocations,
+  );
 
   const cookies = new Cookies();
   return {
@@ -253,20 +286,25 @@ export const preparePlanParams = (config, useDefaultModes) => (
     ),
     allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
     shouldMakeWalkQuery:
-      !wheelchair &&
-      estimateItineraryDistance(
-        fromLocation,
-        toLocation,
-        intermediatePlaceLocations,
-      ) < config.suggestWalkMaxDistance,
+      !wheelchair && linearDistance < config.suggestWalkMaxDistance,
     shouldMakeBikeQuery:
       !wheelchair &&
-      estimateItineraryDistance(
-        fromLocation,
-        toLocation,
-        intermediatePlaceLocations,
-      ) < config.suggestBikeMaxDistance &&
-      includeBikeSuggestions,
+      linearDistance < config.suggestBikeMaxDistance &&
+      (settings.includeBikeSuggestions
+        ? settings.includeBikeSuggestions
+        : defaultSettings.includeBikeSuggestions),
+    shouldMakeCarQuery: getShouldMakeCarQuery(
+      linearDistance,
+      config,
+      settings,
+      defaultSettings,
+    ),
+    shouldMakeParkRideQuery: getShouldMakeParkRideQuery(
+      linearDistance,
+      config,
+      settings,
+      defaultSettings,
+    ),
     showBikeAndPublicItineraries:
       !wheelchair &&
       config.showBikeAndPublicItineraries &&

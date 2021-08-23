@@ -389,15 +389,31 @@ const SummaryRow = (
         />,
       );
     } else if (leg.mode === 'CAR') {
+      const drivingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
           leg={leg}
+          duration={drivingTime}
           mode="CAR"
           legLength={legLength}
           large={breakpoint === 'large'}
         />,
       );
+      if (leg.to.carPark) {
+        onlyIconLegs += 1;
+        legs.push(
+          <div
+            className="leg car_park"
+            key={`${leg.mode}_${leg.startTime}_car_park_indicator`}
+          >
+            <Icon
+              img="icon-icon_car_park-withoutBox"
+              className="itinerary-icon car_park"
+            />
+          </div>,
+        );
+      }
     } else if (leg.mode === 'BICYCLE' && renderBar) {
       const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       legs.push(
