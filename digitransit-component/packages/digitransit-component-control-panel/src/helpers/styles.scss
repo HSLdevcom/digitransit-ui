@@ -248,7 +248,7 @@
 .nearby-stops-bubble-dialog {
   position: relative;
   width: 100%;
-  z-index: 1000;
+  z-index: 23;
   margin-bottom: 10px;
 
   @keyframes appear {
@@ -261,7 +261,11 @@
       transform: translateY(0);
     }
   }
-  animation: appear 0.5s;
+  opacity: 0;
+  &.visible {
+    opacity: 1;
+    animation: appear 0.5s;
+  }
 
   @include min-width(tablet) {
     position: absolute;
@@ -291,7 +295,13 @@
     }
     .nearby-stops-bubble-dialog-header {
       font-weight: var(--font-weight-medium);
-      padding: 0 79px 4px 20px;
+      padding: 0 49px 4px 20px;
+      &.fi {
+        min-height: 19.2px;
+      }
+      &.sv, &.en {
+        min-height: 39.2px;
+      }
       @include min-width(tablet) {
         padding: 0 44px 3px 20px;
       }
@@ -299,7 +309,9 @@
 
     .nearby-stops-bubble-dialog-content {
       font-weight: 400;
-      padding: 0 76px 0 20px;
+      padding: 0 49px 0 20px;
+      min-height: 35.2px;
+
       @include min-width(tablet) {
         padding: 0 57px 0 20px;
       }

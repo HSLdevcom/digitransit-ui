@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React, { Fragment, useEffect, useState } from 'react';
 import i18next from 'i18next';
 import { useCookies } from 'react-cookie';
+import cx from 'classnames';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
@@ -66,7 +67,7 @@ OriginToDestination.defaultProps = {
   language: 'fi',
 };
 
-function BubbleDialog({ title, content, closeDialog }) {
+function BubbleDialog({ title, content, closeDialog, shouldRender, lang }) {
   const [show, setShow] = useState(false);
   useEffect(() => {
     setTimeout(() => {
@@ -74,18 +75,23 @@ function BubbleDialog({ title, content, closeDialog }) {
     }, 500);
   }, [show]);
 
-  if (!show) {
-    return null;
-  }
-
   return (
-    <div className={styles['nearby-stops-bubble-dialog']}>
+    <div
+      className={cx(styles['nearby-stops-bubble-dialog'], {
+        [styles['visible']]: shouldRender && show,
+      })}
+    >
       <div
         id="nearby-stops-bubble-dialog-container"
         className={styles['nearby-stops-bubble-dialog-container']}
       >
         <div>
-          <div className={styles['nearby-stops-bubble-dialog-header']}>
+          <div
+            className={cx(
+              styles['nearby-stops-bubble-dialog-header'],
+              styles[lang],
+            )}
+          >
             {title}
           </div>
           <div className={styles['nearby-stops-bubble-dialog-content']}>
@@ -123,6 +129,8 @@ BubbleDialog.propTypes = {
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   closeDialog: PropTypes.func.isRequired,
+  shouldRender: PropTypes.bool.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 /**
@@ -300,18 +308,20 @@ function NearStopsAndRoutes({
             : title[language]}
         </h2>
       )}
-      {showTeaser &&
-        !cookies?.nearbyTeaserShown &&
-        i18next.t('nearby-stops-teaser-header', { lng: language }) !==
-          'nearby-stops-teaser-header' && (
-          <BubbleDialog
-            title={i18next.t('nearby-stops-teaser-header', { lng: language })}
-            content={i18next.t('nearby-stops-teaser-content', {
-              lng: language,
-            })}
-            closeDialog={closeBubbleDialog}
-          />
-        )}
+      {showTeaser && !cookies?.nearbyTeaserShown && (
+        <BubbleDialog
+          title={i18next.t('nearby-stops-teaser-header', { lng: language })}
+          content={i18next.t('nearby-stops-teaser-content', {
+            lng: language,
+          })}
+          closeDialog={closeBubbleDialog}
+          shouldRender={
+            i18next.t('nearby-stops-teaser-header', { lng: language }) !==
+            'nearby-stops-teaser-header'
+          }
+          lang={language}
+        />
+      )}
       <div
         className={
           !modes
