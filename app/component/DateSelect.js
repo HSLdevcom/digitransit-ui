@@ -77,7 +77,14 @@ function DateSelect(props, context) {
         IndicatorSeparator: () => null,
       }}
       inputId={`aria-input-${id}`}
-      aria-label={selectedDate.textLabel}
+      aria-label={`
+            ${context.intl.formatMessage({
+              id: 'select-date',
+              defaultMessage: 'Select date',
+            })}.
+            ${context.intl.formatMessage({
+              id: 'route-page.pattern-chosen',
+            })} ${selectedDate.textLabel}`}
       isSearchable={false}
       name={id}
       menuIsOpen={isMenuOpen}

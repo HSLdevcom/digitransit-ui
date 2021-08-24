@@ -110,14 +110,12 @@
   border-radius: 5px;
   height: 3.125rem;
   justify-content: space-between;
-  padding-top: 3px;
-  padding-bottom: 5px;
   max-width: 200px;
   flex-basis: 200px;
 
   .route-schedule__control {
-    width: 98%;
-    left: -4px;
+    width: 100%;
+    height: 100%;
     background: none;
     border: none;
     margin: none;
@@ -129,22 +127,20 @@
         width: 100%;
         display: flex;
         margin: 0px;
-        padding: none;
+        padding: 0 3px 0 0;
 
         .left-column {
           color: #333;
           font-size: 0.92rem;
           font-weight: 500;
           text-align: left;
-          overflow: hidden;
+          overflow: visible;
           text-overflow: ellipsis;
           white-space: nowrap;
           background-color: none;
           width: calc(100% - 46px);
-          padding-left: 6px;
+          padding-left: 4px;
           padding-right: 4px;
-          margin-top: 1px;
-          margin-bottom: 1px;
           display: flex;
           flex-direction: column;
           border-right: 1px solid $gray;
@@ -157,7 +153,8 @@
           }
 
           .selected-value {
-            height: 1.2em;
+            line-height: normal;
+            letter-spacing: normal;
           }
 
           & select {
