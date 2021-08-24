@@ -2308,7 +2308,7 @@ const translations = {
     'select-all-routes': 'Valitse kaikki reitit',
     'select-map-layers-header': 'Näytä kartalla',
     'select-position': 'Valitse sijaintisi edellisistä hauistasi',
-    'select-route': 'Valitse {mode} linja {shortName} kohti {headsign}',
+    'select-route': 'Valitse {mode}linja {shortName} kohti {headsign}',
     'selected-routes': 'Valitut linjat',
     send: 'Lähetä',
     'separate-ticket-required':
