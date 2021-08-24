@@ -1961,7 +1961,7 @@ const translations = {
     'departure-is-canceled-subway': 'Metron {shortName}',
     'departure-is-canceled-tram': 'Raitiolinjan {shortName}',
     'departure-list-update.sr-instructions':
-      'Tulevian lähtöjen lista ja lähtöajat päivittyvät reaaliajassa.',
+      'Tulevien lähtöjen lista ja lähtöajat päivittyvät reaaliajassa.',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Lähdöt',
     'departures-by-hour': 'Lähdöt tunneittain',
