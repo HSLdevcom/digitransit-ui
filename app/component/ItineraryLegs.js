@@ -281,7 +281,8 @@ class ItineraryLegs extends React.Component {
           leg.mode !== 'AIRPLANE' &&
           leg.mode !== 'CAR' &&
           !nextLeg.intermediatePlace &&
-          !isNextLegInterlining
+          !isNextLegInterlining &&
+          leg.to.stop
         ) {
           legs.push(
             <WaitLeg
