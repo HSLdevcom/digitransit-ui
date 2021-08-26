@@ -290,18 +290,15 @@ const SummaryRow = (
     const longName =
       leg.route && leg.route.shortName && leg.route.shortName.length > 5;
 
-    if (nextLeg) {
+    if (
+      nextLeg &&
+      !nextLeg.intermediatePlace &&
+      !connectsFromViaPoint(nextLeg, intermediatePlaces)
+    ) {
+      // don't show waiting in intermediate places
       waitTime = nextLeg.startTime - leg.endTime;
       waitLength = (waitTime / durationWithoutSlack) * 100;
-      // don't show waiting in intermediate places
-      const viaNext =
-        nextLeg.intermediatePlace ||
-        connectsFromViaPoint(nextLeg, intermediatePlaces);
-      if (
-        !viaNext &&
-        waitTime > waitThreshold &&
-        waitLength > renderBarThreshold
-      ) {
+      if (waitTime > waitThreshold && waitLength > renderBarThreshold) {
         // if waittime is long enough, render a waiting bar
         waiting = true;
       } else {
