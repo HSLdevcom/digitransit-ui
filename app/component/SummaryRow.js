@@ -243,7 +243,10 @@ const SummaryRow = (
       noTransitLegs = false;
       transitLegCount += 1;
     }
-    if (leg.intermediatePlace) {
+    if (
+      leg.intermediatePlace ||
+      connectsFromViaPoint(leg, intermediatePlaces)
+    ) {
       intermediateSlack += leg.startTime - compressedLegs[i - 1].endTime; // calculate time spent at each intermediate place
     }
   });
@@ -307,6 +310,7 @@ const SummaryRow = (
           100; // otherwise add the waiting to the current legs length
       }
     }
+
     if (nextLeg?.interlineWithPreviousLeg) {
       interliningWithRoute = nextLeg.route.shortName;
       legLength =
