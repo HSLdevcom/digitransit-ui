@@ -328,8 +328,15 @@ export default {
   },
 
   maxNearbyStopAmount: 5,
-  maxNearbyStopDistance: 100000,
-
+  maxNearbyStopDistance: {
+    favorite: 100000,
+    bus: 100000,
+    tram: 100000,
+    subway: 100000,
+    rail: 100000,
+    ferry: 100000,
+    citybike: 100000,
+  },
   showTicketSelector: true,
 
   staticMessages: [

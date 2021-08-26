@@ -228,7 +228,9 @@ class StopsNearYouPage extends React.Component {
       lon: searchPosition.lon,
       maxResults: 2000,
       first: this.context.config.maxNearbyStopAmount,
-      maxDistance: this.context.config.maxNearbyStopDistance,
+      maxDistance: this.context.config.maxNearbyStopDistance[
+        mode.toLowerCase()
+      ],
       filterByModes: modes,
       filterByPlaceTypes: placeTypes,
       omitNonPickups: this.context.config.omitNonPickups,

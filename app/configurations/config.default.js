@@ -108,7 +108,16 @@ export default {
 
   omitNonPickups: true,
   maxNearbyStopAmount: 5,
-  maxNearbyStopDistance: 2000,
+  maxNearbyStopDistance: {
+    favorite: 100000,
+    bus: 100000,
+    tram: 100000,
+    subway: 100000,
+    rail: 300000,
+    ferry: 100000,
+    citybike: 100000,
+    airplane: 300000,
+  },
 
   defaultSettings: {
     accessibilityOption: 0,
