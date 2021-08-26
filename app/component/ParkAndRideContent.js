@@ -3,11 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { intlShape } from 'react-intl';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
+import Error404 from './404';
 
 const ParkAndRideContent = ({ bikePark, carPark }, { intl }) => {
   const park = bikePark || carPark;
   if (!park) {
-    return null;
+    return <Error404 />;
   }
   const prePostFix = bikePark ? 'bike-park' : 'car-park';
   const [authenticationMethods, setAuthenticationMethods] = useState([]);

@@ -119,83 +119,93 @@ export default config => {
           ),
         }}
       </Route>
-      <Route path={`${PREFIX_BIKEPARK}/:id`}>
-        {{
-          content: (
-            <Route
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "itinerary" */ './component/BikeParkContent'
-                ).then(getDefault)
-              }
-              query={graphql`
-                query routes_BikePark_Query($id: String!) {
-                  bikePark(id: $id) {
-                    ...BikeParkContent_bikePark
-                  }
+      <Route path={`/${PREFIX_BIKEPARK}`}>
+        <Route Component={Error404} />
+        <Route path=":id">
+          {{
+            content: (
+              <Route
+                getComponent={() =>
+                  import(
+                    /* webpackChunkName: "bikepark" */ './component/BikeParkContent'
+                  )
+                    .then(getDefault)
+                    .catch(errorLoading)
                 }
-              `}
-              render={getComponentOrNullRenderer}
-            />
-          ),
-          map: (
-            <Route
-              path="(.*)?"
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "itinerary" */ './component/BikeParkMapContainer'
-                ).then(getDefault)
-              }
-              query={graphql`
-                query routes_BikeParkMap_Query($id: String!) {
-                  bikePark(id: $id) {
-                    ...BikeParkMapContainer_bikePark
+                query={graphql`
+                  query routes_BikePark_Query($id: String!) {
+                    bikePark(id: $id) {
+                      ...BikeParkContent_bikePark
+                    }
                   }
+                `}
+                render={getComponentOrLoadingRenderer}
+              />
+            ),
+            map: (
+              <Route
+                path="(.*)?"
+                getComponent={() =>
+                  import(
+                    /* webpackChunkName: "bikepark" */ './component/BikeParkMapContainer'
+                  ).then(getDefault)
                 }
-              `}
-              render={getComponentOrNullRenderer}
-            />
-          ),
-        }}
+                query={graphql`
+                  query routes_BikeParkMap_Query($id: String!) {
+                    bikePark(id: $id) {
+                      ...BikeParkMapContainer_bikePark
+                    }
+                  }
+                `}
+                render={getComponentOrNullRenderer}
+              />
+            ),
+          }}
+        </Route>
       </Route>
-      <Route path={`${PREFIX_CARPARK}/:id`}>
-        {{
-          content: (
-            <Route
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "itinerary" */ './component/CarParkContent'
-                ).then(getDefault)
-              }
-              query={graphql`
-                query routes_CarPark_Query($id: String!) {
-                  carPark(id: $id) {
-                    ...CarParkContent_carPark
-                  }
+      <Route path={`/${PREFIX_CARPARK}`}>
+        <Route Component={Error404} />
+        <Route path=":id">
+          {{
+            content: (
+              <Route
+                getComponent={() =>
+                  import(
+                    /* webpackChunkName: "carpark" */ './component/CarParkContent'
+                  )
+                    .then(getDefault)
+                    .catch(errorLoading)
                 }
-              `}
-              render={getComponentOrNullRenderer}
-            />
-          ),
-          map: (
-            <Route
-              path="(.*)?"
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "itinerary" */ './component/CarParkMapContainer'
-                ).then(getDefault)
-              }
-              query={graphql`
-                query routes_CarParkMap_Query($id: String!) {
-                  carPark(id: $id) {
-                    ...CarParkMapContainer_carPark
+                query={graphql`
+                  query routes_CarPark_Query($id: String!) {
+                    carPark(id: $id) {
+                      ...CarParkContent_carPark
+                    }
                   }
+                `}
+                render={getComponentOrLoadingRenderer}
+              />
+            ),
+            map: (
+              <Route
+                path="(.*)?"
+                getComponent={() =>
+                  import(
+                    /* webpackChunkName: "carpark" */ './component/CarParkMapContainer'
+                  ).then(getDefault)
                 }
-              `}
-              render={getComponentOrNullRenderer}
-            />
-          ),
-        }}
+                query={graphql`
+                  query routes_CarParkMap_Query($id: String!) {
+                    carPark(id: $id) {
+                      ...CarParkMapContainer_carPark
+                    }
+                  }
+                `}
+                render={getComponentOrNullRenderer}
+              />
+            ),
+          }}
+        </Route>
       </Route>
       <Route path={`/${PREFIX_NEARYOU}/:mode/:place/:origin?`}>
         {{
