@@ -45,76 +45,84 @@ const DepartureRow = (
       />
     );
   }
-  return (
-    <tr
-      className={cx(
-        'departure-row',
-        mode,
-        departure.bottomRow ? 'bottom' : '',
-        props.className,
-      )}
-      key={uuid()}
-    >
-      <td
-        className="route-number-container"
-        style={{ backgroundColor: `#${departure.trip.route.color}` }}
-      >
-        <div className="route-number">{shortName}</div>
-      </td>
-      <td className={cx('route-headsign', departure.bottomRow ? 'bottom' : '')}>
-        {showLink ? (
-          <Link
-            to={`/${PREFIX_ROUTES}/${departure.trip.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.trip.pattern.code}`}
-            onClick={() => {
-              addAnalyticsEvent({
-                category: 'Stop',
-                action: 'OpenRouteViewFromStop',
-                name: 'RightNowTab',
-              });
-            }}
-          >
-            {headsign} {departure.bottomRow && departure.bottomRow}
-          </Link>
-        ) : (
-          <>
-            {headsign} {departure.bottomRow && departure.bottomRow}
-          </>
+
+  const row = () => {
+    return (
+      <tr
+        className={cx(
+          'departure-row',
+          mode,
+          departure.bottomRow ? 'bottom' : '',
+          props.className,
         )}
-      </td>
-      <td className="time-cell">
-        {shownTime && (
+        key={uuid()}
+      >
+        <td
+          className="route-number-container"
+          style={{ backgroundColor: `#${departure.trip.route.color}` }}
+        >
+          <div className="route-number">{shortName}</div>
+        </td>
+        <td
+          className={cx('route-headsign', departure.bottomRow ? 'bottom' : '')}
+        >
+          {headsign} {departure.bottomRow && departure.bottomRow}
+        </td>
+        <td className="time-cell">
+          {shownTime && (
+            <span
+              className={cx('route-arrival', {
+                realtime: departure.realtime,
+                canceled,
+              })}
+            >
+              {shownTime}
+            </span>
+          )}
           <span
-            className={cx('route-arrival', {
+            className={cx('route-time', {
               realtime: departure.realtime,
               canceled,
             })}
           >
-            {shownTime}
+            <LocalTime time={departureTime} />
           </span>
-        )}
-        <span
-          className={cx('route-time', {
-            realtime: departure.realtime,
-            canceled,
-          })}
+        </td>
+        <td className="platform-cell">
+          {showPlatformCode && (
+            <div
+              className={
+                !departure.stop.platformCode
+                  ? 'platform-code empty'
+                  : 'platform-code'
+              }
+            >
+              {departure.stop.platformCode}
+            </div>
+          )}
+        </td>
+      </tr>
+    );
+  };
+
+  return (
+    <>
+      {showLink && (
+        <Link
+          to={`/${PREFIX_ROUTES}/${departure.trip.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.trip.pattern.code}`}
+          onClick={() => {
+            addAnalyticsEvent({
+              category: 'Stop',
+              action: 'OpenRouteViewFromStop',
+              name: 'RightNowTab',
+            });
+          }}
         >
-          <LocalTime time={departureTime} />
-        </span>
-      </td>
-      <td className="platform-cell">
-        {showPlatformCode && (
-          <div
-            className={
-              !departure.stop.platformCode
-                ? 'platform-code empty'
-                : 'platform-code'
-            }
-          >
-            {departure.stop.platformCode}
-          </div>
-        )}
-      </td>
-    </tr>
+          {row()}
+        </Link>
+      )}
+      {!showLink && <>{row()}</>}
+    </>
   );
 };
 DepartureRow.propTypes = {
