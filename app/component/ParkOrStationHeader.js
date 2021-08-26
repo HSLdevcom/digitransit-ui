@@ -55,13 +55,15 @@ const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
           )}
         </div>
       </div>
-      <LazilyLoad modules={modules}>
-        {({ FavouriteBikeRentalStationContainer }) => (
-          <FavouriteBikeRentalStationContainer
-            bikeRentalStation={parkOrStation}
-          />
-        )}
-      </LazilyLoad>
+      {stationId && (
+        <LazilyLoad modules={modules}>
+          {({ FavouriteBikeRentalStationContainer }) => (
+            <FavouriteBikeRentalStationContainer
+              bikeRentalStation={parkOrStation}
+            />
+          )}
+        </LazilyLoad>
+      )}
     </div>
   );
 };
