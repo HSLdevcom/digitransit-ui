@@ -6,8 +6,11 @@ import Icon from './Icon';
 
 const ParkAndRideContent = ({ bikePark, carPark }, { intl }) => {
   const park = bikePark || carPark;
+  if (!park) {
+    return null;
+  }
   const { spacesAvailable, tags } = park;
-
+  const prePostFix = bikePark ? 'bike-park' : 'car-park';
   const authenticationMethods = tags
     .filter(tag => tag.includes('AUTHENTICATION_METHOD'))
     .map(tag => tag.replace('AUTHENTICATION_METHOD_', '').toLowerCase());
@@ -27,9 +30,9 @@ const ParkAndRideContent = ({ bikePark, carPark }, { intl }) => {
   return (
     <div className="bike-station-page-container">
       <ParkOrStationHeader parkOrStation={park} />
-      <div className="bikepark-content-container">
-        <Icon img="icon-icon_bikepark" height={2.4} width={2.4} />
-        <div className="bikepark-details">
+      <div className="park-content-container">
+        <Icon img={`icon-icon_${prePostFix}`} height={2.4} width={2.4} />
+        <div className="park-details">
           {isOpen24h && (
             <span>
               {intl.formatMessage({ id: 'is-open' })} &#160;
@@ -68,10 +71,10 @@ const ParkAndRideContent = ({ bikePark, carPark }, { intl }) => {
       </div>
       <div className="citybike-use-disclaimer">
         <div className="disclaimer-header">
-          {intl.formatMessage({ id: 'bike-park-disclaimer-header' })}
+          {intl.formatMessage({ id: `${prePostFix}-disclaimer-header` })}
         </div>
         <div className="disclaimer-content">
-          {intl.formatMessage({ id: 'bike-park-disclaimer' })}
+          {intl.formatMessage({ id: `${prePostFix}-disclaimer` })}
         </div>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a
@@ -81,7 +84,7 @@ const ParkAndRideContent = ({ bikePark, carPark }, { intl }) => {
           className="external-link"
           href="#"
         >
-          {intl.formatMessage({ id: 'bike-park-disclaimer-link' })} &rsaquo;
+          {intl.formatMessage({ id: `${prePostFix}-disclaimer-link` })} &rsaquo;
         </a>
       </div>
     </div>

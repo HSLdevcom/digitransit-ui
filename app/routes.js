@@ -15,6 +15,7 @@ import {
   PREFIX_NEARYOU,
   PREFIX_BIKESTATIONS,
   PREFIX_BIKEPARK,
+  PREFIX_CARPARK,
   LOCAL_STORAGE_EMITTER_PATH,
   createReturnPath,
   TAB_NEARBY,
@@ -149,6 +150,45 @@ export default config => {
                 query routes_BikeParkMap_Query($id: String!) {
                   bikePark(id: $id) {
                     ...BikeParkMapContainer_bikePark
+                  }
+                }
+              `}
+              render={getComponentOrNullRenderer}
+            />
+          ),
+        }}
+      </Route>
+      <Route path={`${PREFIX_CARPARK}/:id`}>
+        {{
+          content: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/CarParkContent'
+                ).then(getDefault)
+              }
+              query={graphql`
+                query routes_CarPark_Query($id: String!) {
+                  carPark(id: $id) {
+                    ...CarParkContent_carPark
+                  }
+                }
+              `}
+              render={getComponentOrNullRenderer}
+            />
+          ),
+          map: (
+            <Route
+              path="(.*)?"
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/CarParkMapContainer'
+                ).then(getDefault)
+              }
+              query={graphql`
+                query routes_CarParkMap_Query($id: String!) {
+                  carPark(id: $id) {
+                    ...CarParkMapContainer_carPark
                   }
                 }
               `}

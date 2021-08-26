@@ -49,14 +49,14 @@
         }
       }
     }
-    .bikepark-content-container {
+    .park-content-container {
       display: flex;
       flex-direction: row;
       margin-top: 23px;
       font-weight: $font-weight-book;
       font-size: $font-size-normal;
       letter-spacing: -0.03em;
-      .bikepark-details {
+      .park-details {
         display: flex;
         flex-direction: column;
         margin-left: 15px;
@@ -174,14 +174,14 @@
     }
   }
 
-  .bikepark-content-container {
+  .park-content-container {
     display: flex;
     flex-direction: row;
     margin-top: 23px;
     font-weight: $font-weight-book;
     font-size: $font-size-normal;
     letter-spacing: -0.03em;
-    .bikepark-details {
+    .park-details {
       display: flex;
       flex-direction: column;
       margin-left: 15px;
