@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { intlShape } from 'react-intl';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
@@ -9,19 +9,33 @@ const ParkAndRideContent = ({ bikePark, carPark }, { intl }) => {
   if (!park) {
     return null;
   }
-  const { spacesAvailable, tags } = park;
   const prePostFix = bikePark ? 'bike-park' : 'car-park';
-  const authenticationMethods = tags
-    .filter(tag => tag.includes('AUTHENTICATION_METHOD'))
-    .map(tag => tag.replace('AUTHENTICATION_METHOD_', '').toLowerCase());
+  const [authenticationMethods, setAuthenticationMethods] = useState([]);
+  const [pricingMethods, setPricingMethods] = useState([]);
+  const [services, setServices] = useState([]);
+  const { spacesAvailable, tags } = park;
 
-  const pricingMethods = tags
-    .filter(tag => tag.includes('PRICING_METHOD'))
-    .map(tag => tag.replace('PRICING_METHOD_', '').toLowerCase());
+  useEffect(() => {
+    if (Array.isArray(tags)) {
+      setAuthenticationMethods(
+        tags
+          .filter(tag => tag.includes('AUTHENTICATION_METHOD'))
+          .map(tag => tag.replace('AUTHENTICATION_METHOD_', '').toLowerCase()),
+      );
 
-  const services = tags
-    .filter(tag => tag.includes('SERVICE'))
-    .map(tag => tag.replace('SERVICE_', '').toLowerCase());
+      setPricingMethods(
+        tags
+          .filter(tag => tag.includes('PRICING_METHOD'))
+          .map(tag => tag.replace('PRICING_METHOD_', '').toLowerCase()),
+      );
+
+      setServices(
+        tags
+          .filter(tag => tag.includes('SERVICE'))
+          .map(tag => tag.replace('SERVICE_', '').toLowerCase()),
+      );
+    }
+  }, []);
 
   const isFree = pricingMethods.some(method => method.includes('free'));
   const isPaid = pricingMethods.some(method => method.includes('paid'));
