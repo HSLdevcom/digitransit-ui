@@ -67,7 +67,8 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config: {
-          itinerary: { showZoneLimits: true },
+          itinerary: {},
+          zones: { itinerary: true },
           colors: { primary: 'ffffff' },
           feedIds: ['HSL'],
         },
@@ -136,7 +137,8 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config: {
-          itinerary: { showZoneLimits: true },
+          itinerary: {},
+          zones: { itinerary: true },
           colors: { primary: 'ffffff' },
           feedIds: ['HSL'],
         },
@@ -204,7 +206,8 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config: {
-          itinerary: { showZoneLimits: true },
+          itinerary: {},
+          zones: { itinerary: true },
           colors: { primary: 'ffffff' },
           feedIds: ['HSL'],
         },
@@ -267,7 +270,8 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config: {
-          itinerary: { showZoneLimits: false },
+          itinerary: {},
+          zones: { itinerary: false },
           colors: { primary: 'ffffff' },
           feedIds: ['HSL'],
         },
@@ -324,7 +328,8 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config: {
-          itinerary: { showZoneLimits: true },
+          itinerary: {},
+          zones: { itinerary: true },
           colors: { primary: 'ffffff' },
         },
         focusFunction: () => () => {},
@@ -385,7 +390,11 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
         ...mockContext,
-        config: { itinerary: {}, colors: { primary: 'ffffff' } },
+        config: {
+          itinerary: {},
+          zones: { itinerary: true },
+          colors: { primary: 'ffffff' },
+        },
         focusFunction: () => () => {},
       },
     });
@@ -431,7 +440,11 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
         ...mockContext,
-        config: { itinerary: {}, colors: { primary: 'ffffff' } },
+        config: {
+          itinerary: {},
+          zones: { itinerary: true },
+          colors: { primary: 'ffffff' },
+        },
         focusFunction: () => () => {},
       },
     });
@@ -483,7 +496,11 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
         ...mockContext,
-        config: { itinerary: {}, colors: { primary: 'ffffff' } },
+        config: {
+          itinerary: {},
+          zones: { itinerary: true },
+          colors: { primary: 'ffffff' },
+        },
         focusFunction: () => () => {},
       },
     });
@@ -531,7 +548,11 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
         ...mockContext,
-        config: { itinerary: {}, colors: { primary: 'ffffff' } },
+        config: {
+          itinerary: {},
+          zones: { itinerary: true },
+          colors: { primary: 'ffffff' },
+        },
         focusFunction: () => () => {},
       },
     });
@@ -579,7 +600,11 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
         ...mockContext,
-        config: { itinerary: {}, colors: { primary: 'ffffff' } },
+        config: {
+          itinerary: {},
+          zones: { itinerary: true },
+          colors: { primary: 'ffffff' },
+        },
         focusFunction: () => () => {},
       },
     });
@@ -633,7 +658,11 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
         ...mockContext,
-        config: { itinerary: {}, colors: { primary: 'ffffff' } },
+        config: {
+          itinerary: {},
+          zones: { itinerary: true },
+          colors: { primary: 'ffffff' },
+        },
         focusFunction: () => () => {},
       },
     });
@@ -684,6 +713,7 @@ describe('<TransitLeg />', () => {
         ...mockContext,
         config: {
           itinerary: {},
+          zones: { itinerary: true },
           showTicketInformation: true,
           availableTickets: { HSL: { 'HSL:A': { price: 5.5, zones: ['A'] } } },
           feedIds: ['HSL', 'HSLlautta'],
@@ -738,6 +768,7 @@ describe('<TransitLeg />', () => {
         ...mockContext,
         config: {
           itinerary: {},
+          zones: { itinerary: true },
           showTicketInformation: true,
           availableTickets: { HSL: { 'foo:A': { price: 5.5, zones: ['A'] } } },
           feedIds: ['HSL', 'HSLlautta'],
@@ -792,7 +823,11 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
         ...mockContext,
-        config: { itinerary: {}, colors: { primary: '#007ac9' } },
+        config: {
+          itinerary: {},
+          zones: { itinerary: true },
+          colors: { primary: '#007ac9' },
+        },
         focusFunction: () => () => {},
       },
     });
@@ -855,7 +890,12 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
         ...mockContext,
-        config: { itinerary: {}, colors: { primary: '#007ac9' } },
+        config: {
+          itinerary: {},
+          zones: { itinerary: true },
+          colors: { primary: '#007ac9' },
+          showAlertHeader: true,
+        },
         focusFunction: () => () => {},
       },
     });
@@ -904,7 +944,12 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
         ...mockContext,
-        config: { itinerary: {}, colors: { primary: '#007ac9' } },
+        config: {
+          itinerary: {},
+          zones: { itinerary: true },
+          colors: { primary: '#007ac9' },
+          showAlertHeader: true,
+        },
         focusFunction: () => () => {},
       },
     });

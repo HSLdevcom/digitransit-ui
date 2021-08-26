@@ -1,8 +1,8 @@
-import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ErrorBoundary from './ErrorBoundary';
 import BackButton from './BackButton'; // DT-3358
+import ScrollableWrapper from './ScrollableWrapper';
 
 export default function DesktopView({
   title,
@@ -11,20 +11,14 @@ export default function DesktopView({
   content,
   settingsDrawer,
   scrollable,
-  scrolled,
-  onScroll,
   bckBtnVisible,
   bckBtnFallback,
 }) {
   return (
     <div className="desktop">
-      <div className="main-content">
+      <div className="main-content" role="main">
         {bckBtnVisible && (
-          <div
-            className={cx('desktop-title', {
-              'desktop-title-bordered': scrolled,
-            })}
-          >
+          <div className="desktop-title">
             <div className="title-container h2">
               <BackButton
                 title={title}
@@ -35,15 +29,10 @@ export default function DesktopView({
             </div>
           </div>
         )}
-        <div
-          className={cx('scrollable-content-wrapper', {
-            'momentum-scroll': scrollable,
-          })}
-          onScroll={onScroll}
-        >
+        <ScrollableWrapper scrollable={scrollable}>
           {header}
           <ErrorBoundary>{content}</ErrorBoundary>
-        </div>
+        </ScrollableWrapper>
       </div>
       <div className="map-content">
         {settingsDrawer}
@@ -60,16 +49,12 @@ DesktopView.propTypes = {
   content: PropTypes.node,
   settingsDrawer: PropTypes.node,
   scrollable: PropTypes.bool,
-  scrolled: PropTypes.bool,
-  onScroll: PropTypes.func,
   bckBtnVisible: PropTypes.bool,
   bckBtnFallback: PropTypes.string,
 };
 
 DesktopView.defaultProps = {
   scrollable: false,
-  scrolled: false,
-  onScroll: undefined,
   bckBtnVisible: true,
   bckBtnFallback: undefined,
 };

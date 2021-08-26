@@ -23,6 +23,7 @@ import {
   BIKEAVL_UNKNOWN,
   getCityBikeNetworkIcon,
   getCityBikeNetworkConfig,
+  getCityBikeNetworkId,
 } from '../util/citybikes';
 import ComponentUsageExample from './ComponentUsageExample';
 import {
@@ -70,6 +71,7 @@ export const RouteLeg = ({
   intl,
   legLength,
   isTransitLeg,
+  interliningWithRoute,
   fitRouteNumber,
   withBicycle,
 }) => {
@@ -97,6 +99,7 @@ export const RouteLeg = ({
         alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
         route={leg.route}
         className={cx('line', leg.mode.toLowerCase())}
+        interliningWithRoute={interliningWithRoute}
         mode={leg.mode}
         vertical
         withBar
@@ -122,6 +125,7 @@ RouteLeg.propTypes = {
   large: PropTypes.bool.isRequired,
   legLength: PropTypes.number.isRequired,
   fitRouteNumber: PropTypes.bool.isRequired,
+  interliningWithRoute: PropTypes.number,
   isTransitLeg: PropTypes.bool,
   withBicycle: PropTypes.bool.isRequired,
 };
@@ -209,7 +213,7 @@ const bikeWasParked = legs => {
 
 const SummaryRow = (
   { data, breakpoint, intermediatePlaces, zones, ...props },
-  { intl, intl: { formatMessage }, context },
+  { intl, intl: { formatMessage }, config, context },
 ) => {
   const isTransitLeg = leg => leg.transitLeg;
   const isLegOnFoot = leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
@@ -261,8 +265,13 @@ const SummaryRow = (
     ? bikeWasParked(compressedLegs)
     : undefined;
   const renderModeIcons = compressedLegs.length < 10;
+  let bikeNetwork;
+  let showRentalBikeDurationWarning = false;
+  const citybikeNetworks = new Set();
+  let citybikeicon;
 
   compressedLegs.forEach((leg, i) => {
+    let interliningWithRoute;
     let renderBar = true;
     let waiting = false;
     let waitTime;
@@ -274,10 +283,7 @@ const SummaryRow = (
     const nextLeg = compressedLegs[i + 1];
     let legLength =
       ((leg.endTime - leg.startTime) / durationWithoutSlack) * 100; // length of the current leg in %
-    if (nextLeg?.interlineWithPreviousLeg) {
-      legLength =
-        ((nextLeg.endTime - leg.startTime) / durationWithoutSlack) * 100;
-    }
+
     const longName =
       leg.route && leg.route.shortName && leg.route.shortName.length > 5;
 
@@ -293,6 +299,11 @@ const SummaryRow = (
           ((leg.endTime - leg.startTime + waitTime) / durationWithoutSlack) *
           100; // otherwise add the waiting to the current legs length
       }
+    }
+    if (nextLeg?.interlineWithPreviousLeg) {
+      interliningWithRoute = nextLeg.route.shortName;
+      legLength =
+        ((nextLeg.endTime - leg.startTime) / durationWithoutSlack) * 100;
     }
     legLength += addition;
     addition = 0;
@@ -344,6 +355,27 @@ const SummaryRow = (
       }
     } else if (leg.rentedBike) {
       const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
+      // eslint-disable-next-line prefer-destructuring
+      bikeNetwork = getCityBikeNetworkId(leg.from.bikeRentalStation.networks);
+      if (
+        config.cityBike.networks &&
+        config.cityBike.networks[bikeNetwork]?.timeBeforeSurcharge &&
+        config.cityBike.networks[bikeNetwork]?.durationInstructions
+      ) {
+        const rentDurationOverSurchargeLimit =
+          leg.duration >
+          config.cityBike?.networks[bikeNetwork].timeBeforeSurcharge;
+        if (rentDurationOverSurchargeLimit) {
+          citybikeNetworks.add(bikeNetwork);
+        }
+        showRentalBikeDurationWarning =
+          showRentalBikeDurationWarning || rentDurationOverSurchargeLimit;
+        if (!citybikeicon) {
+          citybikeicon = getCityBikeNetworkIcon(
+            getCityBikeNetworkConfig(getCityBikeNetworkId(bikeNetwork), config),
+          );
+        }
+      }
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
@@ -357,15 +389,31 @@ const SummaryRow = (
         />,
       );
     } else if (leg.mode === 'CAR') {
+      const drivingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
           leg={leg}
+          duration={drivingTime}
           mode="CAR"
           legLength={legLength}
           large={breakpoint === 'large'}
         />,
       );
+      if (leg.to.carPark) {
+        onlyIconLegs += 1;
+        legs.push(
+          <div
+            className="leg car_park"
+            key={`${leg.mode}_${leg.startTime}_car_park_indicator`}
+          >
+            <Icon
+              img="icon-icon_car_park-withoutBox"
+              className="itinerary-icon car_park"
+            />
+          </div>,
+        );
+      }
     } else if (leg.mode === 'BICYCLE' && renderBar) {
       const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       legs.push(
@@ -422,6 +470,7 @@ const SummaryRow = (
             fitRouteNumber={
               (fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg
             }
+            interliningWithRoute={interliningWithRoute}
             intl={intl}
             legLength={legLength}
             large={breakpoint === 'large'}
@@ -720,6 +769,29 @@ const SummaryRow = (
               >
                 {firstLegStartTime}
               </div>
+              {showRentalBikeDurationWarning &&
+                (citybikeNetworks.size === 1 ? (
+                  <div className="citybike-duration-info-short">
+                    <Icon img={citybikeicon} height={1.2} width={1.2} />
+                    <FormattedMessage
+                      id="citybike-duration-info-short"
+                      values={{
+                        duration:
+                          config.cityBike?.networks[bikeNetwork]
+                            .timeBeforeSurcharge / 60,
+                      }}
+                      defaultMessage=""
+                    />
+                  </div>
+                ) : (
+                  <div className="citybike-duration-info-short">
+                    <Icon img={citybikeicon} height={1.2} width={1.2} />
+                    <FormattedMessage
+                      id="citybike-duration-general-header"
+                      defaultMessage=""
+                    />
+                  </div>
+                ))}
             </div>
             {mobile(breakpoint) !== true && (
               <div

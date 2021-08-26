@@ -9,7 +9,7 @@ const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || 'next-'; // TODO maybe use regular endpoint again at some point
 const APP_PATH = process.env.APP_CONTEXT || '';
-const { SENTRY_DSN } = process.env;
+const { SENTRY_DSN, AXE, NODE_ENV } = process.env;
 const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
 const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 12000;
@@ -21,7 +21,9 @@ const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
 export default {
   SENTRY_DSN,
   PORT,
+  AXE,
   CONFIG,
+  NODE_ENV,
   OTPTimeout: OTP_TIMEOUT,
   URL: {
     API_URL,
@@ -45,7 +47,7 @@ export default {
     }/place`,
     ROUTE_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/routes/`,
-      tampere: 'http://nysse.fi/media/aikataulut/',
+      tampere: 'https://www.nysse.fi/aikataulut-ja-reitit/linjat/',
     },
     STOP_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/stops/`,
@@ -116,6 +118,8 @@ export default {
     walkReluctance: 2,
     walkSpeed: 1.2,
     includeBikeSuggestions: true,
+    includeParkAndRideSuggestions: true,
+    includeCarSuggestions: true,
   },
 
   /**
@@ -144,9 +148,12 @@ export default {
   walkBoardCostHigh: 1200,
 
   maxWalkDistance: 10000,
+  suggestBikeAndPublicMaxDistance: 15000,
   suggestWalkMaxDistance: 10000,
   suggestBikeMaxDistance: 30000,
-  suggestBikeAndPublicMaxDistance: 15000,
+  // if you enable car suggestions but the linear distance between all points is less than this, then a car route will
+  // not be computed
+  suggestCarMinDistance: 2000,
   itineraryFiltering: 1.5, // drops 66% worse routes
   useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
   minTransferTime: 120,
@@ -181,8 +188,6 @@ export default {
     timeNavigation: {
       enableButtonArrows: false,
     },
-
-    showZoneLimits: false,
     // Number of days to include to the service time range from the future (DT-3317)
     serviceTimeRange: 30,
   },
@@ -242,7 +247,6 @@ export default {
       showDescription: true,
       showStopCode: true,
       showDistance: true,
-      showZone: false,
     },
   },
 
@@ -674,6 +678,7 @@ export default {
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
     matka: 'matka',
+    vaasa: 'vaasa',
     walttiOpas: 'waltti',
     rovaniemi: 'rovaniemi',
     kouvola: 'kouvola',
@@ -705,11 +710,11 @@ export default {
   showBikeAndParkItineraries: false,
 
   includeBikeSuggestions: true,
+  includeCarSuggestions: true,
+  includeParkAndRideSuggestions: true,
 
   showNearYouButtons: false,
   nearYouModes: [],
-
-  zoneIconsAsSvg: false,
 
   /* Option to disable the "next" column of the Route panel as it can be confusing sometimes: https://github.com/mfdz/digitransit-ui/issues/167 */
   displayNextDeparture: true,
@@ -717,4 +722,13 @@ export default {
   messageBarAlerts: false,
 
   availableTickets: {},
+  zones: {
+    stops: false,
+    itinerary: false,
+  },
+
+  viaPointsEnabled: true,
+
+  // DT-4802 Toggling this off shows the alert bodytext instead of the header
+  showAlertHeader: true,
 };

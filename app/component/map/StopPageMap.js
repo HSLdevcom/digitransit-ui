@@ -13,16 +13,17 @@ import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
 import MapWithTracking from './MapWithTracking';
 import SelectedStopPopup from './popups/SelectedStopPopup';
 import SelectedStopPopupContent from '../SelectedStopPopupContent';
-import { dtLocationShape } from '../../util/shapes';
+import { dtLocationShape, mapLayerOptionsShape } from '../../util/shapes';
 import withBreakpoint from '../../util/withBreakpoint';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import BackButton from '../BackButton';
 import { addressToItinerarySearch } from '../../util/otpStrings';
 import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
+import { getMapLayerOptions } from '../../util/mapLayerUtils';
 
 const StopPageMap = (
-  { stop, breakpoint, currentTime, locationState, mapLayers },
+  { stop, breakpoint, currentTime, locationState, mapLayers, mapLayerOptions },
   { config, match },
 ) => {
   if (!stop) {
@@ -151,6 +152,7 @@ const StopPageMap = (
     mwtProps.lon = stop.lon;
     mwtProps.zoom = !match.params.stopId || stop.platformCode ? 18 : 16;
   }
+
   return (
     <MapWithTracking
       className="flex-grow"
@@ -158,6 +160,7 @@ const StopPageMap = (
       leafletObjs={leafletObjs}
       {...mwtProps}
       mapLayers={mapLayers}
+      mapLayerOptions={mapLayerOptions}
     >
       {children}
     </MapWithTracking>
@@ -181,6 +184,7 @@ StopPageMap.propTypes = {
   locationState: dtLocationShape,
   currentTime: PropTypes.number.isRequired,
   mapLayers: mapLayerShape.isRequired,
+  mapLayerOptions: mapLayerOptionsShape.isRequired,
 };
 
 StopPageMap.defaultProps = {
@@ -199,13 +203,22 @@ const StopPageMapWithStores = connectToStores(
     if (props.citybike) {
       ml.force = ['citybike']; // show always
     } else {
-      ml.force = ['stop', 'terminal'];
+      ml.force = ['terminal'];
     }
     const mapLayers = getStore(MapLayerStore).getMapLayers(ml);
+    const mode = props.citybike
+      ? 'citybike'
+      : (props.stop.vehicleMode && props.stop.vehicleMode.toLowerCase()) ||
+        'stop';
+    const mapLayerOptions = getMapLayerOptions({
+      lockedMapLayers: ['vehicles', mode],
+      selectedMapLayers: ['vehicles', mode],
+    });
     return {
       locationState,
       currentTime,
       mapLayers,
+      mapLayerOptions,
     };
   },
   {

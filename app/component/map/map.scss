@@ -289,6 +289,9 @@ div.leaflet-marker-icon.vehicle-icon {
     h1 {
       display: flex;
       padding: 0.5em;
+      margin: 0;
+      font-family: $font-family-narrow;
+      font-size: $font-size-xlarge;
     }
   }
 
@@ -656,8 +659,11 @@ div.origin-popup {
 .map .legmarker {
   display: flex;
   align-items: center;
-  min-width: 40px;
+  min-width: 50px;
   height: 18px;
+  .wide {
+    min-width: 64px;
+  }
   &.speech-bubble.normal {
     background-color: transparent;
     div {
@@ -844,6 +850,10 @@ div.leaflet-control-scale.leaflet-control {
   cursor: grab;
 }
 
+.desktop .map {
+  border-left: 1px solid rgba(0, 0, 0, .1);
+}
+
 div.leaflet-control-scale-line {
   text-align: right;
   margin-bottom: -4px;
@@ -896,7 +906,7 @@ div.leaflet-control-scale-line {
   border-radius: 25px;
   bottom: 15%;
   background-color: var(--color);
-  font-family: $font-family;
+  font-family: $button-font-family;
   font-size: 18px;
   font-weight: $font-weight-medium;
   font-stretch: normal;

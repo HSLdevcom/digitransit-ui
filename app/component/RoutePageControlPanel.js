@@ -9,7 +9,6 @@ import { matchShape, routerShape, RedirectException } from 'found';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import CallAgencyWarning from './CallAgencyWarning';
 import RoutePatternSelect from './RoutePatternSelect';
-import RouteAgencyInfo from './RouteAgencyInfo';
 import { AlertSeverityLevelType, DATE_FORMAT } from '../constants';
 import {
   startRealTimeClient,
@@ -36,6 +35,7 @@ import {
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { isBrowser, isIOS } from '../util/browser';
 import { saveSearch } from '../action/SearchActions';
+import Icon from './Icon';
 
 const Tab = {
   Disruptions: PREFIX_DISRUPTION,
@@ -71,6 +71,21 @@ class RoutePageControlPanel extends React.Component {
     breakpoint: PropTypes.string.isRequired,
     noInitialServiceDay: PropTypes.bool,
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      focusedTab: getActiveTab(props.match.location.pathname),
+    };
+    this.stopTabRef = React.createRef();
+    this.timetableTabRef = React.createRef();
+    this.disruptionTabRef = React.createRef();
+    this.tabRefs = [
+      this.stopTabRef,
+      this.timetableTabRef,
+      this.disruptionTabRef,
+    ];
+  }
 
   // gets called if pattern has not been visited before
   componentDidMount() {
@@ -241,8 +256,16 @@ class RoutePageControlPanel extends React.Component {
       new RegExp(`${match.params.patternId}(.*)`),
       newPattern,
     );
-    if (type === PREFIX_TIMETABLE && pattern[0].minAndMaxDate) {
-      newPathname += `?serviceDay=${pattern[0].minAndMaxDate[0]}`;
+    if (type === PREFIX_TIMETABLE) {
+      if (
+        pattern[0].minAndMaxDate &&
+        moment().isBefore(pattern[0].minAndMaxDate[0])
+      ) {
+        newPathname += `?serviceDay=${pattern[0].minAndMaxDate[0]}`;
+      }
+      if (match.query && match.query.serviceDay) {
+        newPathname += `?serviceDay=${match.query.serviceDay}`;
+      }
     }
     router.replace(newPathname);
   };
@@ -391,6 +414,20 @@ class RoutePageControlPanel extends React.Component {
 
     const countOfButtons = 3;
 
+    let disruptionIcon;
+    if (disruptionClassName === 'active-disruption-alert') {
+      disruptionIcon = (
+        <Icon
+          className="disrution-icon"
+          img="icon-icon_caution-no-excl-no-stroke"
+        />
+      );
+    } else if (disruptionClassName === 'active-service-alert') {
+      disruptionIcon = (
+        <Icon className="service-alert-icon" img="icon-icon_info" />
+      );
+    }
+
     return (
       <div
         className={cx('route-page-control-panel-container', activeTab, {
@@ -421,15 +458,41 @@ class RoutePageControlPanel extends React.Component {
               useCurrentTime={useCurrentTime}
             />
           )}
-          <div className="route-tabs" role="tablist">
+          {/* eslint-disable jsx-a11y/interactive-supports-focus */}
+          <div
+            className="route-tabs"
+            role="tablist"
+            onKeyDown={e => {
+              const tabs = [Tab.Stops, Tab.Timetable, Tab.Disruptions];
+              const tabCount = tabs.length;
+              const activeIndex = tabs.indexOf(this.state.focusedTab);
+              let index;
+              switch (e.nativeEvent.code) {
+                case 'ArrowLeft':
+                  index = (activeIndex - 1 + tabCount) % tabCount;
+                  this.tabRefs[index].current.focus();
+                  this.setState({ focusedTab: tabs[index] });
+                  break;
+                case 'ArrowRight':
+                  index = (activeIndex + 1) % tabCount;
+                  this.tabRefs[index].current.focus();
+                  this.setState({ focusedTab: tabs[index] });
+                  break;
+                default:
+                  break;
+              }
+            }}
+          >
+            {/* eslint-enable jsx-a11y/interactive-supports-focus */}
             <button
               type="button"
               className={cx({ 'is-active': activeTab === Tab.Stops })}
               onClick={() => {
                 this.changeTab(Tab.Stops);
               }}
-              tabIndex={0}
+              tabIndex={activeTab === Tab.Stops ? 0 : -1}
               role="tab"
+              ref={this.stopTabRef}
               aria-selected={activeTab === Tab.Stops}
               style={{
                 '--totalCount': `${countOfButtons}`,
@@ -445,8 +508,9 @@ class RoutePageControlPanel extends React.Component {
               onClick={() => {
                 this.changeTab(Tab.Timetable);
               }}
-              tabIndex={0}
+              tabIndex={activeTab === Tab.Timetable ? 0 : -1}
               role="tab"
+              ref={this.timetableTabRef}
               aria-selected={activeTab === Tab.Timetable}
               style={{
                 '--totalCount': `${countOfButtons}`,
@@ -465,8 +529,9 @@ class RoutePageControlPanel extends React.Component {
               onClick={() => {
                 this.changeTab(Tab.Disruptions);
               }}
-              tabIndex={0}
+              tabIndex={activeTab === Tab.Disruptions ? 0 : -1}
               role="tab"
+              ref={this.disruptionTabRef}
               aria-selected={activeTab === Tab.Disruptions}
               style={{
                 '--totalCount': `${countOfButtons}`,
@@ -477,14 +542,21 @@ class RoutePageControlPanel extends React.Component {
                   disruptionClassName || `no-alerts`
                 }`}
               >
+                {disruptionIcon}
                 <FormattedMessage
                   id="disruptions"
                   defaultMessage="Disruptions"
                 />
+                <span className="sr-only">
+                  {disruptionClassName ? (
+                    <FormattedMessage id="disruptions-tab.sr-disruptions" />
+                  ) : (
+                    <FormattedMessage id="disruptions-tab.sr-no-disruptions" />
+                  )}
+                </span>
               </div>
             </button>
           </div>
-          <RouteAgencyInfo route={route} />
         </div>
       </div>
     );

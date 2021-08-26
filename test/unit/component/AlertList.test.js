@@ -309,6 +309,7 @@ describe('<AlertList />', () => {
           header: 'bar',
           stop: {
             code: '2020',
+            name: 'Foo',
             vehicleMode: 'BUS',
           },
           validityPeriod: {
@@ -321,6 +322,7 @@ describe('<AlertList />', () => {
           header: 'bar',
           stop: {
             code: '2222',
+            name: 'Bar',
             vehicleMode: 'BUS',
           },
           validityPeriod: {
@@ -349,7 +351,7 @@ describe('<AlertList />', () => {
     ).to.equal('1010');
     expect(
       wrapper.find(RouteAlertsRow).at(1).props().entityIdentifier,
-    ).to.equal('2020, 2222');
+    ).to.equal('Foo (2020), Bar (2222)');
   });
 
   it('should mark cancelations with severity level "WARNING"', () => {

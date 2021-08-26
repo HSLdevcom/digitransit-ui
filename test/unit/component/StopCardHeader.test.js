@@ -22,10 +22,9 @@ describe('<StopCardHeader />', () => {
       context: {
         ...mockContext,
         config: {
-          stopCard: {
-            header: {
-              showZone: true,
-            },
+          stopCard: { header: {} },
+          zones: {
+            stops: true,
           },
           colors: {
             primary: '#000000',
@@ -56,9 +55,11 @@ describe('<StopCardHeader />', () => {
         config: {
           stopCard: {
             header: {
-              showZone: false,
               virtualMonitorBaseUrl: '',
             },
+          },
+          zones: {
+            stops: false,
           },
           colors: {
             primary: '#000000',
@@ -88,10 +89,9 @@ describe('<StopCardHeader />', () => {
       context: {
         ...mockContext,
         config: {
-          stopCard: {
-            header: {
-              showZone: false,
-            },
+          stopCard: { header: {} },
+          zones: {
+            stops: false,
           },
           colors: {
             primary: '#000000',

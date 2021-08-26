@@ -8,6 +8,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
+import ItineraryCircleLineLong from './ItineraryCircleLineLong';
 import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkId,
@@ -17,9 +18,15 @@ import { isKeyboardSelectionEvent } from '../util/browser';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
 import CityBikeLeg from './CityBikeLeg';
+import StopCode from './StopCode';
+import PlatformNumber from './PlatformNumber';
 
-function BicycleLeg({ focusAction, index, leg, focusToLeg }, { config, intl }) {
+function BicycleLeg(
+  { focusAction, index, leg, focusToLeg, bicycleWalkLeg },
+  { config, intl },
+) {
   let stopsDescription;
+  let circleLine;
   const distance = displayDistance(
     parseInt(leg.distance, 10),
     config,
@@ -82,6 +89,26 @@ function BicycleLeg({ focusAction, index, leg, focusToLeg }, { config, intl }) {
       mode = 'CITYBIKE_WALK';
     }
   }
+  if (bicycleWalkLeg) {
+    const modeClassNames = bicycleWalkLeg.to?.stop
+      ? [modeClassName, bicycleWalkLeg.mode.toLowerCase()]
+      : [bicycleWalkLeg.mode.toLowerCase(), modeClassName];
+    circleLine = (
+      <ItineraryCircleLineLong index={index} modeClassNames={modeClassNames} />
+    );
+  } else if (mode === 'BICYCLE') {
+    circleLine = (
+      <ItineraryCircleLineWithIcon
+        index={index}
+        modeClassName={modeClassName}
+      />
+    );
+  } else {
+    circleLine = (
+      <ItineraryCircleLine index={index} modeClassName={modeClassName} />
+    );
+  }
+  const fromStop = () => leg?.from.stop || bicycleWalkLeg?.from.stop;
   return (
     <div key={index} className="row itinerary-row">
       <span className="sr-only">
@@ -104,14 +131,7 @@ function BicycleLeg({ focusAction, index, leg, focusToLeg }, { config, intl }) {
           {moment(leg.startTime).format('HH:mm')}
         </div>
       </div>
-      {mode === 'BICYCLE' ? (
-        <ItineraryCircleLineWithIcon
-          index={index}
-          modeClassName={modeClassName}
-        />
-      ) : (
-        <ItineraryCircleLine index={index} modeClassName={modeClassName} />
-      )}
+      {circleLine}
 
       <div
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
@@ -122,12 +142,12 @@ function BicycleLeg({ focusAction, index, leg, focusToLeg }, { config, intl }) {
             values={{ target: leg.from.name || '' }}
           />
         </span>
-        {isFirstLeg(index) ? (
+        {isFirstLeg(index) || bicycleWalkLeg?.from.stop || true ? (
           <div className={cx('itinerary-leg-first-row', 'bicycle', 'first')}>
             <div className="address-container">
               <div className="address">
-                {address}
-                {leg.from.stop && (
+                {bicycleWalkLeg?.from.stop ? bicycleWalkLeg.from.name : address}
+                {fromStop() && (
                   <Icon
                     img="icon-icon_arrow-collapse--right"
                     className="itinerary-arrow-icon"
@@ -135,6 +155,16 @@ function BicycleLeg({ focusAction, index, leg, focusToLeg }, { config, intl }) {
                   />
                 )}
               </div>
+              {bicycleWalkLeg?.from.stop?.code && (
+                <>
+                  <StopCode code={bicycleWalkLeg.from.stop.code} />
+                  <PlatformNumber
+                    number={bicycleWalkLeg.from.stop.platformCode}
+                    short
+                    isRailOrSubway
+                  />
+                </>
+              )}
               <div className="place">{place}</div>
             </div>
             <div
@@ -161,6 +191,46 @@ function BicycleLeg({ focusAction, index, leg, focusToLeg }, { config, intl }) {
             bikeRentalStation={leg.from.bikeRentalStation}
           />
         )}
+        {bicycleWalkLeg?.from.stop && (
+          <div className={cx('itinerary-leg-action', 'bicycle')}>
+            <div className="itinerary-leg-action-content">
+              <FormattedMessage
+                id="bicycle-walk-from-transit"
+                values={{
+                  transportMode: (
+                    <FormattedMessage
+                      id={`from-${bicycleWalkLeg.from.stop.vehicleMode.toLowerCase()}`}
+                    />
+                  ),
+                  duration: durationToString(
+                    bicycleWalkLeg.endTime - bicycleWalkLeg.startTime,
+                  ),
+                  distance: displayDistance(
+                    parseInt(bicycleWalkLeg.distance, 10),
+                    config,
+                    intl.formatNumber,
+                  ),
+                }}
+              />
+              <div
+                className="itinerary-map-action"
+                onClick={focusAction}
+                onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+                role="button"
+                tabIndex="0"
+                aria-label={intl.formatMessage(
+                  { id: 'itinerary-summary.show-on-map' },
+                  { target: leg.from.name || '' },
+                )}
+              >
+                <Icon
+                  img="icon-icon_show-on-map"
+                  className="itinerary-search-icon"
+                />
+              </div>
+            </div>
+          </div>
+        )}
         <div className={cx('itinerary-leg-action', 'bike')}>
           <div className="itinerary-leg-action-content">
             {stopsDescription}
@@ -181,6 +251,46 @@ function BicycleLeg({ focusAction, index, leg, focusToLeg }, { config, intl }) {
             </div>
           </div>
         </div>
+        {bicycleWalkLeg && !bicycleWalkLeg?.from.stop && (
+          <div className={cx('itinerary-leg-action', 'bicycle')}>
+            <div className="itinerary-leg-action-content">
+              <FormattedMessage
+                id="bicycle-walk-to-transit"
+                values={{
+                  transportMode: (
+                    <FormattedMessage
+                      id={`from-${bicycleWalkLeg.to.stop.vehicleMode.toLowerCase()}`}
+                    />
+                  ),
+                  duration: durationToString(
+                    bicycleWalkLeg.endTime - bicycleWalkLeg.startTime,
+                  ),
+                  distance: displayDistance(
+                    parseInt(bicycleWalkLeg.distance, 10),
+                    config,
+                    intl.formatNumber,
+                  ),
+                }}
+              />
+              <div
+                className="itinerary-map-action"
+                onClick={focusAction}
+                onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+                role="button"
+                tabIndex="0"
+                aria-label={intl.formatMessage(
+                  { id: 'itinerary-summary.show-on-map' },
+                  { target: leg.from.name || '' },
+                )}
+              >
+                <Icon
+                  img="icon-icon_show-on-map"
+                  className="itinerary-search-icon"
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -325,6 +435,26 @@ BicycleLeg.propTypes = {
     mode: PropTypes.string.isRequired,
     rentedBike: PropTypes.bool.isRequired,
   }).isRequired,
+  bicycleWalkLeg: PropTypes.shape({
+    endTime: PropTypes.number.isRequired,
+    duration: PropTypes.number.isRequired,
+    distance: PropTypes.number.isRequired,
+    startTime: PropTypes.number.isRequired,
+    from: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      bikeRentalStation: PropTypes.shape({
+        bikesAvailable: PropTypes.number.isRequired,
+        networks: PropTypes.array.isRequired,
+      }),
+      stop: PropTypes.object,
+    }).isRequired,
+    to: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      stop: PropTypes.object,
+    }).isRequired,
+    mode: PropTypes.string.isRequired,
+    rentedBike: PropTypes.bool.isRequired,
+  }),
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,

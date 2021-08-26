@@ -42,7 +42,7 @@ const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
         />
       )}
       <div className="header">
-        <h3>{name}</h3>
+        <h1>{name}</h1>
         <div className="bike-station-sub-header">
           <FormattedMessage
             id={stationId ? 'citybike-station-no-id' : parkHeaderId}

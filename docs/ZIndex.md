@@ -29,3 +29,4 @@ Selector | Component | Z-Index | Comment
 `.origin-destination-bar { .field-link { span:first-child { &::before` | Summary search bar from/to marker letters | 1 | Could be removed through new icon components
 `.itinerary-summary-row { .itinerary-legs { .line` | Summary result row leg lines | 1 |
 `.itinerary-summary-row { .itinerary-legs { .line { :after` | Hides the Summary result row leg lines behind the mode icon. | -1 |
+`.mobile.top-bar  | Mobile top bar | 1000 |

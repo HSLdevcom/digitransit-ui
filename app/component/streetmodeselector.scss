@@ -5,8 +5,8 @@
   min-height: 76px;
   display: flex;
   flex-direction: column;
-  padding-left: 3.7em;
-  overflow-x: hidden;
+  padding-left: 59.2px;
+  overflow-x: auto;
   overflow-y: hidden;
   position: relative;
 
@@ -15,6 +15,26 @@
       flex-direction: row;
       margin-top: auto;
       margin-bottom: auto;
+      overflow-y: auto;
+      scrollbar-width: thin; // Firefox
+  }
+
+  // make the scrollbar thinner on Webkit/Blink based browsers
+  .street-mode-button-row::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .street-mode-button-row::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  .street-mode-button-row::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+  }
+
+  .street-mode-button-row::-webkit-scrollbar-thumb:hover {
+    background: #555;
   }
 }
 

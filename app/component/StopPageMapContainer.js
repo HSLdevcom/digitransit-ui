@@ -36,6 +36,7 @@ const containerComponent = createFragmentContainer(StopPageMapContainer, {
       name
       code
       desc
+      vehicleMode
     }
   `,
 });

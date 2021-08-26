@@ -37,15 +37,6 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'oulu/oulu-logo.png',
 
-  mapLayers: {
-    tooltip: {
-      fi: 'Uutta! Saat nyt lähellä olevat bussit kartalle asetuksista.',
-      en: 'New! You can now get nearby busses on the map from the settings.',
-      sv:
-        'Nytt! I inställningarna kan du nu välja att se närliggande bussar på kartan.',
-    },
-  },
-
   cityBike: {
     showCityBikes: false,
     networks: {
@@ -159,12 +150,11 @@ export default configMerger(walttiConfig, {
     4: 'C',
     5: 'D',
   },
-  itinerary: {
-    showZoneLimits: true,
+  zones: {
+    stops: true,
+    itinerary: true,
   },
-  stopCard: {
-    header: {
-      showZone: true,
-    },
-  },
+
+  // DT-4802 Toggling this off shows the alert bodytext instead of the header
+  showAlertHeader: false,
 });

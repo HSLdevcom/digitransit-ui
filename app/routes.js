@@ -78,7 +78,7 @@ export default config => {
     <Route Component={TopLevel}>
       {getStopRoutes()}
       {getStopRoutes(true) /* terminals */}
-      {routeRoutes}
+      {routeRoutes(config)}
       <Route path={`/${PREFIX_BIKESTATIONS}/:id`}>
         {{
           content: (

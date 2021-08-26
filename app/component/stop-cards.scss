@@ -24,7 +24,7 @@
   overflow-y: auto;
   &.card-header {
     //display: flex;
-    padding: 3em 3.75em 0em 3.75em;
+    padding: 48px 60px 0em 60px;
     position: relative;
     flex: 0 0 auto;
     overflow: hidden;
@@ -34,7 +34,7 @@
     }
   }
   .card-sub-header {
-    margin-top: -0.7em;
+    margin-top: -7px;
     min-height: 2.75rem;
 
     .card-name-container {
@@ -66,14 +66,19 @@
   }
   .stop-page {
     &.card-header {
-      padding: 0 1em 0em 1em;
+      padding: 0 16px 0em 16px;
       z-index: 2;
       position: relative;
     }
   }
   .card-header-wrapper {
-    .h3 {
+    h1 {
+      font-family: $heading-font-family;
+      margin: 0;
+      padding: 0;
       font-size: 18px;
+      line-height: 22px;
+      letter-spacing: -0.03em;
     }
     .card-sub-header {
       min-height: 2.5rem;

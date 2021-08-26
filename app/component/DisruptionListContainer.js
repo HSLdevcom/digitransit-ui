@@ -246,6 +246,7 @@ const containerComponent = createFragmentContainer(
             gtfsId
           }
           stop {
+            name
             code
             vehicleMode
             gtfsId

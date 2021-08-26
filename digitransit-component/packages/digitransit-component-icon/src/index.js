@@ -41,6 +41,7 @@ import ModeRail from './assets/mode_rail.svg';
 import ModeTram from './assets/mode_tram.svg';
 import ModeFerry from './assets/mode_ferry.svg';
 import ModeCitybike from './assets/mode_citybike.svg';
+import ModeAirplane from './assets/mode_airplane.svg';
 import FutureRoute from './assets/icon-route.svg';
 import Position from './assets/position.svg';
 import SearchStreetName from './assets/search-streetname.svg';
@@ -96,6 +97,7 @@ const IconMap = style => {
     'mode-subway': <Subway style={style} />,
     'mode-ferry': <ModeFerry style={style} />,
     'mode-citybike': <ModeCitybike style={style} />,
+    'mode-airplane': <ModeAirplane style={style} />,
     'future-route': <FutureRoute style={style} />,
     position: <Position style={style} />,
     'search-street-name': <SearchStreetName style={style} />,

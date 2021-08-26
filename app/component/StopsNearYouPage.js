@@ -39,6 +39,7 @@ import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkId,
 } from '../util/citybikes';
+import { getMapLayerOptions } from '../util/mapLayerUtils';
 
 // component initialization phases
 const PH_START = 'start';
@@ -88,13 +89,25 @@ class StopsNearYouPage extends React.Component {
       favouriteBikeStationIds: props.favouriteBikeStationIds,
       showCityBikeTeaser: true,
       searchPosition: {},
+      mapLayerOptions: null,
+      // eslint-disable-next-line react/no-unused-state
+      resultsLoaded: false,
     };
   }
 
   componentDidMount() {
     const readMessageIds = getReadMessageIds();
     const showCityBikeTeaser = !readMessageIds.includes('citybike_teaser');
-    this.setState({ showCityBikeTeaser });
+    if (this.context.config.map.showLayerSelector) {
+      const { mode } = this.props.match.params;
+      const mapLayerOptions = getMapLayerOptions({
+        lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+        selectedMapLayers: ['vehicles', mode.toLowerCase()],
+      });
+      this.setState({ showCityBikeTeaser, mapLayerOptions });
+    } else {
+      this.setState({ showCityBikeTeaser });
+    }
     checkPositioningPermission().then(permission => {
       const { origin, place } = this.props.match.params;
       const savedPermission = getGeolocationState();
@@ -143,6 +156,16 @@ class StopsNearYouPage extends React.Component {
     });
   }
 
+  componentDidUpdate = prevProps => {
+    if (this.context.config.map.showLayerSelector) {
+      const { mode } = this.props.match.params;
+      const { mode: prevMode } = prevProps.match.params;
+      if (mode !== prevMode) {
+        this.setMapLayerOptions();
+      }
+    }
+  };
+
   static getDerivedStateFromProps = (nextProps, prevState) => {
     let newState = null;
     if (
@@ -172,6 +195,23 @@ class StopsNearYouPage extends React.Component {
       return newState;
     }
     return newState;
+  };
+
+  setLoadState = () => {
+    // trigger a state update in this component to force a rerender when stop data is received for the first time.
+    // this fixes a bug where swipeable tabs were not keeping focusable elements up to date after receving stop data
+    // and keyboard focus could be lost to hidden elements.
+    // eslint-disable-next-line react/no-unused-state
+    this.setState({ resultsLoaded: true });
+  };
+
+  setMapLayerOptions = () => {
+    const { mode } = this.props.match.params;
+    const mapLayerOptions = getMapLayerOptions({
+      lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+      selectedMapLayers: ['vehicles', mode.toLowerCase()],
+    });
+    this.setState({ mapLayerOptions });
   };
 
   getQueryVariables = nearByMode => {
@@ -386,6 +426,7 @@ class StopsNearYouPage extends React.Component {
             className={`stops-near-you-page swipeable-tab ${
               nearByStopMode !== mode && 'inactive'
             }`}
+            aria-hidden={nearByStopMode !== mode}
           >
             {renderRefetchButton && this.refetchButton()}
             <StopsNearYouFavorites
@@ -404,6 +445,7 @@ class StopsNearYouPage extends React.Component {
         <div
           className={`swipeable-tab ${nearByStopMode !== mode && 'inactive'}`}
           key={nearByStopMode}
+          aria-hidden={nearByStopMode !== mode}
         >
           <QueryRenderer
             query={graphql`
@@ -540,6 +582,7 @@ class StopsNearYouPage extends React.Component {
                   )}
                   {props && (
                     <StopsNearYouContainer
+                      setLoadState={this.setLoadState}
                       match={this.props.match}
                       stopPatterns={props.stopPatterns}
                       position={this.state.searchPosition}
@@ -633,12 +676,13 @@ class StopsNearYouPage extends React.Component {
       ...this.props.mapLayers,
       citybike: mode === 'CITYBIKE',
       citybikeOverrideMinZoom: mode === 'CITYBIKE',
-      stop: {},
     };
-    if (mode !== 'CITYBIKE') {
-      filteredMapLayers.stop[mode.toLowerCase()] = true;
+    if (!this.context.config.map.showLayerSelector) {
+      filteredMapLayers.stop = {};
+      if (mode !== 'CITYBIKE') {
+        filteredMapLayers.stop[mode.toLowerCase()] = true;
+      }
     }
-
     return (
       <QueryRenderer
         query={graphql`
@@ -677,6 +721,7 @@ class StopsNearYouPage extends React.Component {
                 stopsNearYou={props.stops}
                 match={this.props.match}
                 mapLayers={filteredMapLayers}
+                mapLayerOptions={this.state.mapLayerOptions}
                 showWalkRoute={
                   this.state.phase === PH_USEGEOLOCATION ||
                   this.state.phase === PH_USEDEFAULTPOS
@@ -818,6 +863,7 @@ class StopsNearYouPage extends React.Component {
   render() {
     const { mode } = this.props.match.params;
     const { phase } = this.state;
+    const nearByStopModes = this.getNearByStopModes();
 
     if (PH_SHOWSEARCH.includes(phase)) {
       return <div>{this.renderDialogModal()}</div>;
@@ -844,9 +890,9 @@ class StopsNearYouPage extends React.Component {
                   />
                 )
               }
-              scrollable
               bckBtnFallback="back"
               content={this.renderContent()}
+              scrollable={nearByStopModes.length === 1}
               map={
                 <>
                   {this.renderSearchBox()}

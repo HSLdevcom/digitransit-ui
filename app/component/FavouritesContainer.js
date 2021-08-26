@@ -171,7 +171,12 @@ class FavouritesContainer extends React.Component {
       action: 'UpdateFavourite',
       name: null,
     });
-    this.context.executeAction(updateFavourites, favourites);
+    // Backend service requires all favourites for reordering to work
+    const reordered = [
+      ...favourites,
+      ...this.props.favourites.filter(item => item.type !== 'place'),
+    ];
+    this.context.executeAction(updateFavourites, reordered);
   };
 
   editFavourite = currentFavourite => {
@@ -319,6 +324,9 @@ class FavouritesContainer extends React.Component {
     const { requireLoggedIn, isLoggedIn } = this.props;
     const targets = ['Locations', 'CurrentPosition'];
     const { fontWeights } = this.context.config;
+    const favouritePlaces = this.props.favourites.filter(
+      item => item.type === 'place',
+    );
     if (
       this.context.config.cityBike &&
       this.context.config.cityBike.showCityBikes
@@ -328,7 +336,7 @@ class FavouritesContainer extends React.Component {
     return (
       <React.Fragment>
         <FavouriteBar
-          favourites={this.props.favourites}
+          favourites={favouritePlaces}
           onClickFavourite={this.props.onClickFavourite}
           onAddPlace={() =>
             !requireLoggedIn || isLoggedIn
@@ -390,7 +398,7 @@ class FavouritesContainer extends React.Component {
         <FavouriteEditModal
           appElement="#app"
           isModalOpen={this.state.editModalOpen}
-          favourites={this.props.favourites}
+          favourites={favouritePlaces}
           updateFavourites={this.updateFavourites}
           handleClose={() => this.closeModal(false)}
           saveFavourite={this.saveFavourite}
@@ -417,10 +425,7 @@ const connectedComponent = connectToStores(
       !context.config.allowLogin ||
       context.config.allowFavouritesFromLocalstorage ||
       context.getStore('UserStore').getUser().sub !== undefined
-        ? context
-            .getStore('FavouriteStore')
-            .getFavourites()
-            .filter(item => item.type === 'place')
+        ? context.getStore('FavouriteStore').getFavourites()
         : [],
     favouriteStatus: context.getStore('FavouriteStore').getStatus(),
     requireLoggedIn: !context.config.allowFavouritesFromLocalstorage,

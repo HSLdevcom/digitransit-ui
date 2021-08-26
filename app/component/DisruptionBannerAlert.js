@@ -18,7 +18,11 @@ const DisruptionBannerAlert = (
 
   let header = getServiceAlertHeader(alert, language);
   let message = getServiceAlertDescription(alert, language);
-  const useHeader = header && header.length <= 120 && !message.includes(header);
+  const useHeader =
+    config.showAlertHeader &&
+    header &&
+    header.length <= 120 &&
+    !message.includes(header);
   if (useHeader) {
     header = <h3 className="disruption-info-header">{header}</h3>;
     message = (

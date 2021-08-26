@@ -405,10 +405,10 @@ class DTAutosuggestPanel extends React.Component {
         {' '}
         {searchPanelText ? (
           <div>
-            <h2 className={styles['autosuggest-searchpanel-text']}>
+            <h1 className={styles['autosuggest-searchpanel-text']}>
               {' '}
               {searchPanelText}
-            </h2>
+            </h1>
           </div>
         ) : null}
         <div className={styles['origin-input-container']}>
@@ -594,7 +594,7 @@ class DTAutosuggestPanel extends React.Component {
             autoFocus={
               disableAutoFocus === true
                 ? false
-                : !this.props.isMobile && origin.lat
+                : !this.props.isMobile && !Number.isNaN(origin.lat)
             }
             storeRef={this.storeReference}
             placeholder={this.props.destinationPlaceHolder}

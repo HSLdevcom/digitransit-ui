@@ -59,13 +59,13 @@ class TransitLeg extends React.Component {
   };
 
   getZoneChange() {
-    const { leg } = this.props;
+    const { leg, nextInterliningLeg } = this.props;
     const startZone = leg.from.stop.zoneId;
-    const endZone = leg.to.stop.zoneId;
+    const endZone = nextInterliningLeg?.to?.stop.zoneId || leg.to.stop.zoneId;
     if (
       startZone !== endZone &&
       !this.state.showIntermediateStops &&
-      this.context.config.itinerary.showZoneLimits &&
+      this.context.config.zones.itinerary &&
       leg.from.stop.gtfsId &&
       this.context.config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0])
     ) {
@@ -83,7 +83,12 @@ class TransitLeg extends React.Component {
         </div>
       );
     }
-    if (startZone === endZone && this.context.config.itinerary.showZoneLimits) {
+    if (
+      startZone === endZone &&
+      this.context.config.zones.itinerary &&
+      leg.from.stop.gtfsId &&
+      this.context.config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0])
+    ) {
       return (
         <div className="time-column-zone-icons-container single">
           <ZoneIcon
@@ -97,7 +102,7 @@ class TransitLeg extends React.Component {
   }
 
   renderIntermediate() {
-    const { leg, mode } = this.props;
+    const { leg, mode, nextInterliningLeg } = this.props;
     if (
       leg.intermediatePlaces.length > 0 &&
       this.state.showIntermediateStops === true
@@ -120,7 +125,8 @@ class TransitLeg extends React.Component {
         const currentZoneId = place.stop.zoneId;
         const nextZoneId =
           (array[i + 1] && array[i + 1].stop.zoneId) ||
-          (isLastPlace && leg.to.stop.zoneId);
+          (isLastPlace && nextInterliningLeg?.to?.stop.zoneId) ||
+          leg.to.stop.zoneId;
         const previousZoneIdDiffers =
           previousZoneId && previousZoneId !== currentZoneId;
         const nextZoneIdDiffers = nextZoneId && nextZoneId !== currentZoneId;
@@ -139,7 +145,7 @@ class TransitLeg extends React.Component {
               lat: place.stop.lat,
               lon: place.stop.lon,
             })}
-            showZoneLimits={this.context.config.itinerary.showZoneLimits}
+            showZoneLimits={this.context.config.zones.itinerary}
             showCurrentZoneDelimiter={previousZoneIdDiffers}
             previousZoneId={
               (isFirstPlace &&
@@ -169,7 +175,16 @@ class TransitLeg extends React.Component {
   }
 
   renderMain = () => {
-    const { children, focusAction, index, leg, mode, lang } = this.props;
+    const {
+      children,
+      focusAction,
+      index,
+      leg,
+      mode,
+      lang,
+      nextInterliningLeg,
+      omitDivider,
+    } = this.props;
     const { config, intl } = this.context;
     const originalTime = leg.realTime &&
       leg.departureDelay &&
@@ -417,7 +432,11 @@ class TransitLeg extends React.Component {
                       severityLevel={alertSeverityLevel}
                     />
                   </div>
-                  <div className="description">{alert.header}</div>
+                  {config.showAlertHeader ? (
+                    <div className="description">{alert.header}</div>
+                  ) : (
+                    <div className="description">{alert.description}</div>
+                  )}
                   <Icon
                     img="icon-icon_arrow-collapse--right"
                     className="disruption-link-arrow"
@@ -427,13 +446,24 @@ class TransitLeg extends React.Component {
               </div>
             </div>
           )}
-          {this.props.nextInterliningLeg ? (
+          {nextInterliningLeg ? (
             <div className="interline-info-container">
               <Icon img="icon-icon_wait" />
               <FormattedMessage
                 id="itinerary-summary.interline-wait"
                 values={{
-                  stop: <span className="bold">{leg.to.name}</span>,
+                  shortName: (
+                    <span className="bold">
+                      {nextInterliningLeg.route.shortName}
+                    </span>
+                  ),
+                  destination: (
+                    <span className="bold">
+                      {nextInterliningLeg.trip.tripHeadsign ||
+                        getHeadsignFromRouteLongName(nextInterliningLeg.route)}
+                    </span>
+                  ),
+                  stop: leg.to.name,
                   time: (
                     <span className="bold">
                       {durationToString(this.props.interliningWait)}
@@ -443,7 +473,7 @@ class TransitLeg extends React.Component {
               />
             </div>
           ) : (
-            <div className="divider" />
+            !omitDivider && <div className="divider" />
           )}
           <LegAgencyInfo leg={leg} />
           <div>
@@ -527,10 +557,12 @@ TransitLeg.propTypes = {
       gtfsId: PropTypes.string.isRequired,
       shortName: PropTypes.string,
       color: PropTypes.string,
+      alerts: PropTypes.array,
     }).isRequired,
     to: PropTypes.shape({
       stop: PropTypes.shape({
         zoneId: PropTypes.string,
+        alerts: PropTypes.array,
       }).isRequired,
       name: PropTypes.string.isRequired,
     }).isRequired,
@@ -569,7 +601,18 @@ TransitLeg.propTypes = {
         }).isRequired,
       }),
     ).isRequired,
+    route: PropTypes.shape({
+      shortName: PropTypes.string,
+    }).isRequired,
+    trip: PropTypes.shape({
+      tripHeadsign: PropTypes.string.isRequired,
+    }).isRequired,
     endTime: PropTypes.number.isRequired,
+    to: PropTypes.shape({
+      stop: PropTypes.shape({
+        zoneId: PropTypes.string,
+      }).isRequired,
+    }).isRequired,
   }),
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
@@ -577,6 +620,11 @@ TransitLeg.propTypes = {
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
   lang: PropTypes.string.isRequired,
+  omitDivider: PropTypes.bool,
+};
+
+TransitLeg.defaultProps = {
+  omitDivider: false,
 };
 
 TransitLeg.contextTypes = {
@@ -584,7 +632,6 @@ TransitLeg.contextTypes = {
   config: PropTypes.shape({
     itinerary: PropTypes.shape({
       delayThreshold: PropTypes.number,
-      showZoneLimits: PropTypes.bool,
     }).isRequired,
     showTicketInformation: PropTypes.bool,
   }).isRequired,

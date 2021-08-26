@@ -2,8 +2,9 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
 import moment from 'moment-timezone';
+import Select from 'react-select';
 
-import { mountWithIntl } from '../helpers/mock-intl-enzyme';
+import { mountWithIntl, shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import configureMoment from '../../../app/util/configure-moment';
 import DateSelect from '../../../app/component/DateSelect';
 
@@ -21,18 +22,18 @@ describe('<DateSelect />', () => {
   });
 
   it('should render 30 options', () => {
-    const wrapper = mountWithIntl(<DateSelect {...defaultProps} />);
-    expect(wrapper.find('option')).to.have.lengthOf(30);
+    const wrapper = shallowWithIntl(<DateSelect {...defaultProps} />);
+    expect(wrapper.find(Select).props().options).to.have.lengthOf(30);
   });
 
   it('should render today and tomorrow as text, others as weekday abbreviation with date', () => {
     const wrapper = mountWithIntl(<DateSelect {...defaultProps} />);
-    const options = wrapper.find('option');
+    const { options } = wrapper.find(Select).props();
 
-    expect(options.at(0).text()).to.equal('Today');
-    expect(options.at(1).text()).to.equal('Tomorrow');
-    expect(options.at(2).text()).to.equal('Th 3.1.');
-    expect(options.at(29).text()).to.equal('We 30.1.');
+    expect(options[0].textLabel).to.equal('Today');
+    expect(options[1].textLabel).to.equal('Tomorrow');
+    expect(options[2].textLabel).to.equal('Th 3.1.');
+    expect(options[29].textLabel).to.equal('We 30.1.');
   });
 
   it('should use moment locale for weekday abbreviation', () => {
@@ -53,14 +54,14 @@ describe('<DateSelect />', () => {
     configureMoment('fi', configWithMoment);
 
     const wrapper = mountWithIntl(<DateSelect {...defaultProps} />);
-    const options = wrapper.find('option');
+    const { options } = wrapper.find(Select).props();
 
-    expect(options.at(2).text()).to.equal('to 3.1.');
+    expect(options[2].textLabel).to.equal('to 3.1.');
   });
 
   it('should have selectedDate selected', () => {
     const wrapper = mountWithIntl(<DateSelect {...defaultProps} />);
-    const selectValue = wrapper.find('select').at(0).props().value;
+    const selectValue = wrapper.find(Select).props().value;
 
     expect(selectValue).to.equal('20190102');
   });

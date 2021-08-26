@@ -1,15 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { matchShape } from 'found';
 import StopPageTabs from './StopPageTabs';
 
-function TerminalPageTabContainer({ children, station }, { match }) {
-  if (match.location.state && match.location.state.fullscreenMap === true) {
-    return null;
-  }
+function TerminalPageTabContainer({ children, station }) {
   return (
-    <div className="stop-page-content-wrapper" aria-live="polite">
+    <div className="stop-page-content-wrapper">
       <StopPageTabs stop={station} />
       {children}
     </div>
@@ -48,10 +44,6 @@ TerminalPageTabContainer.propTypes = {
 
 TerminalPageTabContainer.defaultProps = {
   station: undefined,
-};
-
-TerminalPageTabContainer.contextTypes = {
-  match: matchShape,
 };
 
 const containerComponent = createFragmentContainer(TerminalPageTabContainer, {

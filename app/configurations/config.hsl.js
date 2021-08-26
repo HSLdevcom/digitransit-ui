@@ -52,7 +52,7 @@ export default {
 
   showHSLTracking: false,
   allowLogin: true,
-  allowFavouritesFromLocalstorage: false,
+  allowFavouritesFromLocalstorage: !process.env.OIDC_CLIENT_ID,
 
   nearbyRoutes: {
     radius: 500,
@@ -416,10 +416,6 @@ export default {
 
   showTicketPrice: true,
 
-  itinerary: {
-    showZoneLimits: true,
-  },
-
   map: {
     showZoomControl: true, // DT-3470, DT-3397
     showLayerSelector: false, // DT-3470
@@ -427,12 +423,6 @@ export default {
     showScaleBar: true, // DT-3470, DT-3397
     attribution:
       '<a tabindex="-1" href="http://osm.org/copyright">© OpenStreetMap</a>', // DT-3470, DT-3397
-  },
-
-  stopCard: {
-    header: {
-      showZone: true,
-    },
   },
 
   useTicketIcons: true,
@@ -473,6 +463,13 @@ export default {
             'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#aterlamna',
           en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#return',
         },
+        // Shown if citybike leg duration exceeds minutesBeforeSurcharge
+        durationInstructions: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#aja',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#cykla',
+          en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#ride',
+        },
+        timeBeforeSurcharge: 30 * 60,
       },
       vantaa: {
         icon: 'citybike-secondary',
@@ -495,6 +492,12 @@ export default {
           sv: 'https://www.hsl.fi/sv/stadscyklar/vanda/anvisningar#aterlamna',
           en: 'https://www.hsl.fi/en/citybikes/vantaa/instructions#return',
         },
+        durationInstructions: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa/kayttoohje#aja',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/vanda/anvisningar#cykla',
+          en: 'https://www.hsl.fi/en/citybikes/vantaa/instructions#ride',
+        },
+        timeBeforeSurcharge: 60 * 60,
       },
     },
     buyUrl: {
@@ -512,6 +515,9 @@ export default {
   showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
 
+  includeCarSuggestions: true,
+  includeParkAndRideSuggestions: true,
+
   showNearYouButtons: true,
   nearYouModes: [
     'favorite',
@@ -523,7 +529,6 @@ export default {
     cityBikesEnabled && 'citybike',
   ],
 
-  zoneIconsAsSvg: true,
   hostnames: [
     // DEV hostnames
     'https://next-dev.digitransit.fi',
@@ -531,4 +536,8 @@ export default {
     // PROD hostnames
     'https://reittiopas.hsl.fi',
   ],
+  zones: {
+    stops: true,
+    itinerary: true,
+  },
 };

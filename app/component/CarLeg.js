@@ -20,6 +20,8 @@ function CarLeg(props, { config, intl }) {
   const firstLegClassName = props.index === 0 ? 'start' : '';
   const modeClassName = 'car';
 
+  const [address, place] = props.leg.from.name.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={props.index} className="row itinerary-row">
@@ -51,10 +53,20 @@ function CarLeg(props, { config, intl }) {
           />
         </span>
         <div className="itinerary-leg-first-row" aria-hidden="true">
-          <div>
-            {props.leg.from.name}
-            {props.children}
+          <div className="address-container">
+            <div className="address">
+              {address}
+              {props.leg.from.stop && (
+                <Icon
+                  img="icon-icon_arrow-collapse--right"
+                  className="itinerary-arrow-icon"
+                  color="#333"
+                />
+              )}
+            </div>
+            <div className="place">{place}</div>
           </div>
+          <div>{props.children}</div>
           <div
             className="itinerary-map-action"
             onClick={props.focusAction}
