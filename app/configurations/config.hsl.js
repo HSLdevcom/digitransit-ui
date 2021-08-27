@@ -330,10 +330,10 @@ export default {
   maxNearbyStopAmount: 5,
   maxNearbyStopDistance: {
     favorite: 100000,
-    bus: 100000,
+    bus: 30000,
     tram: 100000,
     subway: 100000,
-    rail: 100000,
+    rail: 50000,
     ferry: 100000,
     citybike: 100000,
   },
