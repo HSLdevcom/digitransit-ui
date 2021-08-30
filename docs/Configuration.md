@@ -17,7 +17,7 @@ The assumed purpose is to describe the configuration file.
 * CONFIG: Define the configuration file to be loaded by the UI if it should be different from `config.default.js`.
 For instance, if you are about to run an UI for the `Oulu` area, you will define `CONFIG=oulu` to get `config.oulu.js`.
 * ASSET_URL: ?
-* API_URL: ?
+* API_URL: Define the address of the [Open Trip Planner (OTP)](https://github.com/opentripplanner/OpenTripPlanner) server.
 * MAP_URL: Define the address of the tile server serving map tiles for the background map. You can host your own tiles, buy them from a commercial provider or use free tiles.
 * OTP_URL: ?
 * OTP_TIMEOUT: ?
