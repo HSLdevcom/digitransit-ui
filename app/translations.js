@@ -1338,7 +1338,7 @@ const translations = {
     'separate-ticket-required-disclaimer':
       'This itinerary contains one or more legs for which {agencyName} does not sell tickets.',
     'set-specific-settings': 'Set more specific settings',
-    'set-stop-as-routes': 'Set the stop as routes',
+    'set-stop-as-routes': "Set the stop as route's",
     settings: 'Settings',
     'settings-dropdown-close-label': 'Close options',
     'settings-dropdown-open-label': 'Open options',
