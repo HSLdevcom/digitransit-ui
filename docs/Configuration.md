@@ -21,7 +21,7 @@ For instance, if you are about to run an UI for the `Oulu` area, you will define
 * MAP_URL: Define the address of the tile server serving map tiles for the background map. You can host your own tiles, buy them from a commercial provider or use free tiles.
 * OTP_URL: ?
 * OTP_TIMEOUT: ?
-* GEOCODING_BASE_URL: ?
+* GEOCODING_BASE_URL: Define the address of the service for name and address search also known as geocoding service or geocoder. An open source example is [photo](https://github.com/komoot/photon).
 * PORT: Define the port number the web server is using to access the UI service.
 * REALTIME_PATCH: ?
 * STATIC_MESSAGE_URL: Define the URL for the catalogue of static messages loaded by the UI.
