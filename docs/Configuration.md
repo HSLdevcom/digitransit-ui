@@ -21,10 +21,10 @@ For instance, if you are about to run an UI for the `Oulu` area, you will define
 * MAP_URL: Define the address of the tile server serving map tiles for the background map. You can host your own tiles, buy them from a commercial provider or use free tiles.
 * OTP_URL: ?
 * OTP_TIMEOUT: ?
-* GEOCODING_BASE_URL: Define the address of the service for name and address search also known as geocoding service or geocoder. An open source example is [photo](https://github.com/komoot/photon).
+* GEOCODING_BASE_URL: Define the address of the service for name and address search also known as geocoding service or geocoder. An open source example is [photon](https://github.com/komoot/photon).
 * PORT: Define the port number the web server is using to access the UI service.
 * REALTIME_PATCH: ?
 * STATIC_MESSAGE_URL: Define the URL for the catalogue of static messages loaded by the UI.
 * searchParams: This object is used by geocoding queries.
-* areaPolygon: This object defines the area this UI instance is expected to return results for, if origin/destination are inside this area. If either origin or destination are outside this area, an [error message](app/component/ItinerarySummaryListContainer.js) is displayed to the user.
+* areaPolygon: This object defines the area this UI instance is expected to return results for, if origin/destination are inside this area. If either origin or destination are outside this area, an [error message](https://github.com/HSLdevcom/digitransit-ui/blob/master/app/component/ItinerarySummaryListContainer.js) is displayed to the user.
 * defaultEndpoint: This object defines the default map center the map is zoomed to when not specified otherwise.
