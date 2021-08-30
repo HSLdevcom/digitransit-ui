@@ -26,3 +26,4 @@ For instance, if you are about to run an UI for the `Oulu` area, you will define
 * REALTIME_PATCH: ?
 * STATIC_MESSAGE_URL: Define the URL for the catalogue of static messages loaded by the UI.
 * searchParams: This object is used by geocoding queries.
+* areaPolygon: This object defines the area this UI instance is expected to return results for, if origin/destination are inside this area. If either origin or destination are outside this area, an [error message](app/component/ItinerarySummaryListContainer.js) is displayed to the user.
