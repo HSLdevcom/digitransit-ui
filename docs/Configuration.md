@@ -1,12 +1,12 @@
 Digitransit-ui, where ui stands for user interface (UI), is configured using several configuration files or command line interface (CLI) options.
 
 # Config.*.js file
-These files are located in the `app/configurations` directory.
+The `config.*.js` files are located in the `app/configurations` directory.
 A default file called `config.default.js` and many deployment specific versions like `config.oulu.js` or `config.waltti.js` are present.
-You can create this file manually or by using an existing script like `yarn run add-theme <new_theme>`.
+You can create a user specific version of this file manually or by using an existing script like `yarn run add-theme <new_theme>`.
 Please refer to the [Themes](https://github.com/HSLdevcom/digitransit-ui/blob/master/docs/Themes.md) documentation page for details
-about how to create a configuration file for a customized theme.
-The following list, though it might be incomprehensive, descripes availabe options for this config file.
+about how to create this configuration file for a customized theme.
+The following list, though it might be incomprehensive, descripes common definitions in the config file.
 
 * APP_CONTEXT: ?
 * APP_TITLE: Define the location (e.g. city, municipality, state, aso.) to be served by the UI.
