@@ -25,3 +25,4 @@ For instance, if you are about to run an UI for the `Oulu` area, you will define
 * PORT: Define the port number the web server is using to access the UI service.
 * REALTIME_PATCH: ?
 * STATIC_MESSAGE_URL: Define the URL for the catalogue of static messages loaded by the UI.
+* searchParams: This object is used by geocoding queries.
