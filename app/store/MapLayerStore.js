@@ -17,6 +17,7 @@ class MapLayerStore extends Store {
       ferry: true,
       rail: true,
       subway: true,
+      tram: true,
     },
     vehicles: false,
     geoJson: {},

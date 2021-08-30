@@ -29,7 +29,12 @@ export const isLayerEnabled = (layerName, mapLayers) => {
  * @param {*} layerName The name of the layer.
  * @param {*} mapLayers The map layer configuration.
  */
-export const isFeatureLayerEnabled = (feature, layerName, mapLayers) => {
+export const isFeatureLayerEnabled = (
+  feature,
+  layerName,
+  mapLayers,
+  isHybridStation = false,
+) => {
   if (!feature || !layerName || !mapLayers) {
     return false;
   }
@@ -37,6 +42,12 @@ export const isFeatureLayerEnabled = (feature, layerName, mapLayers) => {
     return false;
   }
   const featureType = (feature.properties.type || '').toLocaleLowerCase();
+  if (isHybridStation) {
+    const featureTypes = feature.properties.type.split(',');
+    return featureTypes.some(type =>
+      Boolean(mapLayers[layerName][type.toLocaleLowerCase()]),
+    );
+  }
   if (featureType) {
     if (layerName === 'stop' && feature.properties.stops) {
       return isFeatureLayerEnabled(feature, 'terminal', mapLayers);
