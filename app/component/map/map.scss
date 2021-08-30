@@ -282,7 +282,7 @@ div.leaflet-marker-icon.vehicle-icon {
   padding: 7px 10px 5px 10px;
 
   position: absolute;
-  width: 10.375em;
+  min-width: 10.375em;
   height: 2.125em;
   right: 15px;
   top: 25px;

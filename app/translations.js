@@ -1191,6 +1191,7 @@ const translations = {
     'no-position-no-stops':
       'Your location is not available. We are unable to show the closest stops.',
     'no-route-already-at-destination': 'You are already at your destination.',
+    'no-route-end': 'Please select destination',
     'no-route-end-date-not-in-range':
       'The timetable does not include later departures.',
     'no-route-msg': 'Unfortunately, no route suggestions were found.',
@@ -1202,8 +1203,9 @@ const translations = {
       'No route suggestions were found because the origin and destination are the same.',
     'no-route-showing-alternative-options':
       'No route suggestions were found with the your settings. However, we found the following route options:',
+    'no-route-start': 'Please select origin',
     'no-route-start-date-too-early': 'There are no earlier departures.',
-    'no-route-start-end': 'Please select origin and destination.',
+    'no-route-start-end': 'Please select origin and destination',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'No journeys found for the selected date.',
     now: 'Now',
@@ -2180,6 +2182,7 @@ const translations = {
     'no-position-no-stops':
       'Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.',
     'no-route-already-at-destination': 'Olet jo perillä.',
+    'no-route-end': 'Syötä vielä määränpää',
     'no-route-end-date-not-in-range':
       'Aikataulu ei sisällä myöhäisempiä reittejä.',
     'no-route-msg': 'Reittiehdotuksia ei valitettavasti löytynyt.',
@@ -2191,8 +2194,9 @@ const translations = {
       'Reittiehdotuksia ei löytynyt, koska lähtöpaikka on sama kuin määränpää.',
     'no-route-showing-alternative-options':
       'Asettamillasi asetuksilla ei löytynyt yhtään reittiehdotusta. Löysimme kuitenkin seuraavia reittivaihtoehtoja:',
+    'no-route-start': 'Syötä vielä lähtöpaikka',
     'no-route-start-date-too-early': 'Aikataulu ei sisällä aiempia reittejä.',
-    'no-route-start-end': 'Valitse lähtöpaikka ja määränpää.',
+    'no-route-start-end': 'Syötä lähtöpaikka ja määränpää',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Valitulle päivälle ei löydy matkoja.',
     now: 'Nyt',
@@ -3954,6 +3958,7 @@ const translations = {
     'no-position-no-stops':
       'De närmaste hållplatserna kan inte visas, eftersom din position inte är känd.',
     'no-route-already-at-destination': 'Du är redan vid din destination.',
+    'no-route-end': 'Välj destination',
     'no-route-end-date-not-in-range':
       'Tidtabellen har inga resor som avgår senare.',
     'no-route-msg': 'Kunde tyvärr inte hitta ruttförslag',
@@ -3965,9 +3970,10 @@ const translations = {
       'Kunde inte hitta ruttförslag eftersom avgångsplatsen är densamma som destinationen.',
     'no-route-showing-alternative-options':
       'Kunde inte hitta några ruttförslag med dina val. Vi hittade dock följande ruttalternativ:',
+    'no-route-start': 'Välj avfärdsplats',
     'no-route-start-date-too-early':
       'I tidtabellen ingår inte tidigare rutter.',
-    'no-route-start-end': 'Välj avfärdsplats och destination.',
+    'no-route-start-end': 'Välj avfärdsplats och destination',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Inga resor på den valda dagen.',
     now: 'Nu',
