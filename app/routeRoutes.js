@@ -133,7 +133,12 @@ export default function routeRoutes(config) {
                   }
                 }
               `}
-              render={getComponentOrNullRenderer}
+              render={({ Component, props, error }) => {
+                if (Component && (props || error)) {
+                  return <Component {...props} error={error} />;
+                }
+                return null;
+              }}
             />,
             <Route
               path=":type/:patternId/(.*)?"
@@ -149,9 +154,12 @@ export default function routeRoutes(config) {
                   }
                 }
               `}
-              render={({ Component, props }) =>
-                Component && props ? <Component {...props} trip={null} /> : null
-              }
+              render={({ Component, props, error }) => {
+                if (Component && (props || error)) {
+                  return <Component {...props} error={error} trip={null} />;
+                }
+                return null;
+              }}
             />,
             <Route path="(.?)*" />,
           ],
