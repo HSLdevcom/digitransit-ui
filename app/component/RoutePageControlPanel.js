@@ -5,7 +5,7 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy'; // DT-3182
-import { matchShape, routerShape, RedirectException } from 'found';
+import { matchShape, routerShape } from 'found';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import CallAgencyWarning from './CallAgencyWarning';
 import RoutePatternSelect from './RoutePatternSelect';
@@ -33,7 +33,7 @@ import {
   PREFIX_TIMETABLE,
 } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { isBrowser, isIOS } from '../util/browser';
+import { isIOS } from '../util/browser';
 import { saveSearch } from '../action/SearchActions';
 import Icon from './Icon';
 
@@ -342,22 +342,9 @@ class RoutePageControlPanel extends React.Component {
   render() {
     const { breakpoint, match, route } = this.props;
     const { patternId } = match.params;
-    const { config, router } = this.context;
-
-    if (route == null) {
-      /* In this case there is little we can do
-       * There is no point continuing rendering as it can only
-       * confuse user. Therefore redirect to Routes page */
-      if (isBrowser) {
-        router.replace(`/${PREFIX_ROUTES}`);
-      } else {
-        throw new RedirectException(`/${PREFIX_ROUTES}`);
-      }
-      return null;
-    }
+    const { config } = this.context;
 
     const activeTab = getActiveTab(match.location.pathname);
-
     const currentTime = moment().unix();
     const hasActiveAlert = isAlertActive(
       getCancelationsForRoute(route, patternId),
