@@ -3,6 +3,7 @@ import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
+import NetworkError from './NetworkError';
 
 export default class ErrorBoundary extends React.Component {
   static propTypes = { children: PropTypes.node.isRequired };
@@ -15,6 +16,12 @@ export default class ErrorBoundary extends React.Component {
 
   state = { error: null, hasRetried: false };
 
+  isRelayNetworkError = error =>
+    typeof error === 'string' &&
+    (error ===
+      'Server does not return response for request at index 0.\nResponse should have an array with 1 item(s).' ||
+      error.includes('Reached request timeout'));
+
   resetState = () => this.setState({ error: null, hasRetried: true });
 
   componentDidCatch(error, errorInfo) {
@@ -24,13 +31,16 @@ export default class ErrorBoundary extends React.Component {
       return;
     }
     this.setState({ error });
-    if (this.context.raven) {
+    if (this.context.raven && !this.isRelayNetworkError(error)) {
       this.context.raven.captureException(error, { extra: errorInfo });
     }
   }
 
   render() {
     if (this.state.error) {
+      if (this.isRelayNetworkError(this.state.error)) {
+        return <NetworkError retry={this.resetState} />;
+      }
       return (
         <div className="page-not-found">
           <Icon img="icon-icon_error_page_not_found" />
