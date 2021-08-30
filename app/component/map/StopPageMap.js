@@ -21,6 +21,7 @@ import { addressToItinerarySearch } from '../../util/otpStrings';
 import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
 import { getMapLayerOptions } from '../../util/mapLayerUtils';
+import MapRoutingButton from '../mapRoutingButton';
 
 const StopPageMap = (
   { stop, breakpoint, currentTime, locationState, mapLayers, mapLayerOptions },
@@ -161,6 +162,7 @@ const StopPageMap = (
       {...mwtProps}
       mapLayers={mapLayers}
       mapLayerOptions={mapLayerOptions}
+      topButtons={<MapRoutingButton stop={stop} />}
     >
       {children}
     </MapWithTracking>

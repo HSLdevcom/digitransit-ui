@@ -854,6 +854,9 @@ const translations = {
     'aria-itinerary-summary-walk-distance':
       'Total walking {duration}, {distance} ',
     'arrive-leave': 'Arrive or leave at selected time',
+    'as-destination': 'Destination',
+    'as-origin': 'Origin',
+    'as-viapoint': 'Viapoint',
     'search-autosuggest-label':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
     'search-autosuggest-len':
@@ -1295,6 +1298,7 @@ const translations = {
     'route-page.special-routes': 'Other routes',
     'route-page.title': 'Route {shortName}',
     'route-page.title-short': 'Route',
+    'route-to-stop': 'Route to the stop',
     routes: 'Routes',
     'routes-platforms': 'Routes and platforms',
     'routes-tracks': 'Routes and tracks',
@@ -1332,6 +1336,7 @@ const translations = {
     'separate-ticket-required-disclaimer':
       'This itinerary contains one or more legs for which {agencyName} does not sell tickets.',
     'set-specific-settings': 'Set more specific settings',
+    'set-stop-as-routes': 'Set the stop as routes',
     settings: 'Settings',
     'settings-dropdown-close-label': 'Close options',
     'settings-dropdown-open-label': 'Open options',
@@ -1833,6 +1838,9 @@ const translations = {
     'aria-itinerary-summary-walk-distance':
       'kävelyä yhteensä {duration}, {distance} ',
     'arrive-leave': 'Saavu tai lähde valittuna aikana',
+    'as-destination': 'Määränpääksi',
+    'as-origin': 'Lähtöpaikaksi',
+    'as-viapoint': 'Välipisteeksi',
     'search-autosuggest-label':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
     'search-autosuggest-len':
@@ -2279,6 +2287,7 @@ const translations = {
     'route-page.special-routes': 'Muut reitit',
     'route-page.title': 'Linja {shortName}',
     'route-page.title-short': 'Linja',
+    'route-to-stop': 'Reitti pysäkille',
     routes: 'Linjat',
     'routes-platforms': 'Linjat ja laiturit',
     'routes-tracks': 'Linjat ja raiteet',
@@ -2316,6 +2325,7 @@ const translations = {
     'separate-ticket-required-disclaimer':
       'Matka sisältää yhden tai useamman osuuden, jonka lippujen myynnistä {agencyName} ei vastaa.',
     'set-specific-settings': 'Aseta tarkemmat asetukset',
+    'set-stop-as-routes': 'Aseta pysäkki reitin',
     settings: 'Asetukset',
     'settings-dropdown-close-label': 'Sulje vaihtoehdot',
     'settings-dropdown-open-label': 'Avaa vaihtoehdot',
@@ -3610,6 +3620,9 @@ const translations = {
     'aria-itinerary-summary-walk-distance':
       'promenad sammanlagt {duration}, {distance}',
     'arrive-leave': 'Anländer eller lämnar vid vald tid',
+    'as-destination': 'Destination',
+    'as-origin': 'Avfärdsplats',
+    'as-viapoint': 'Via punkt',
     'search-autosuggest-label':
       'Plats, linje och hållplatssökning. Navigera listan med piltangenterna och välj med Enter-tangeten',
     'search-autosuggest-len': 'Hittade {len} förslag',
@@ -4050,6 +4063,7 @@ const translations = {
     'route-page.special-routes': 'Andra rutter',
     'route-page.title': 'Linje {shortName}',
     'route-page.title-short': 'Linje',
+    'route-to-stop': 'Rutt till hållplatsen',
     routes: 'Linjer',
     'routes-platforms': 'Linjer och plattformer',
     'routes-tracks': 'Linjer och spår',
@@ -4090,6 +4104,7 @@ const translations = {
     'separate-ticket-required-disclaimer':
       'Resan består av en eller fleta etapper vilka kräver biljetter som inte säljs av {agencyName}.',
     'set-specific-settings': 'Ställa avancerade inställningar',
+    'set-stop-as-routes': 'Ställa hållplats som rutter',
     settings: 'Anpassa',
     'settings-dropdown-close-label': 'Stäng alternativen',
     'settings-dropdown-open-label': 'Öppna alternativen',

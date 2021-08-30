@@ -33,6 +33,7 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'children',
   'leafletObjs',
   'bottomButtons',
+  'topButtons',
 ]);
 
 const MapCont = onlyUpdateCoordChanges(MapContainer);
@@ -65,6 +66,7 @@ class MapWithTrackingStateHandler extends React.Component {
     leafletEvents: PropTypes.object,
     breakpoint: PropTypes.string,
     lang: PropTypes.string,
+    topButtons: PropTypes.node,
   };
 
   static defaultProps = {
@@ -73,6 +75,7 @@ class MapWithTrackingStateHandler extends React.Component {
     onSelectLocation: () => null,
     leafletEvents: {},
     mapLayerOptions: null,
+    topButtons: null,
   };
 
   constructor(props) {
@@ -214,6 +217,7 @@ class MapWithTrackingStateHandler extends React.Component {
       mapLayerOptions,
       bounds,
       leafletEvents,
+      topButtons,
       ...rest
     } = this.props;
     const { config } = this.context;
@@ -334,6 +338,7 @@ class MapWithTrackingStateHandler extends React.Component {
               />
             </div>
           }
+          topButtons={topButtons}
           mapLayers={mergedMapLayers}
         >
           {children}
