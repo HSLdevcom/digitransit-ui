@@ -113,10 +113,10 @@ export default {
     bus: 100000,
     tram: 100000,
     subway: 100000,
-    rail: 300000,
+    rail: 100000,
     ferry: 100000,
     citybike: 100000,
-    airplane: 300000,
+    airplane: 200000,
   },
 
   defaultSettings: {

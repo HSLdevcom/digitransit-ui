@@ -201,6 +201,9 @@ const getViaPointIndex = (leg, intermediatePlaces) => {
   );
 };
 
+const connectsFromViaPoint = (currLeg, intermediatePlaces) =>
+  getViaPointIndex(currLeg, intermediatePlaces) > -1;
+
 const bikeWasParked = legs => {
   const legsLength = legs.length;
   for (let i = 0; i < legsLength; i++) {
@@ -240,7 +243,10 @@ const SummaryRow = (
       noTransitLegs = false;
       transitLegCount += 1;
     }
-    if (leg.intermediatePlace) {
+    if (
+      leg.intermediatePlace ||
+      connectsFromViaPoint(leg, intermediatePlaces)
+    ) {
       intermediateSlack += leg.startTime - compressedLegs[i - 1].endTime; // calculate time spent at each intermediate place
     }
   });
@@ -287,7 +293,11 @@ const SummaryRow = (
     const longName =
       leg.route && leg.route.shortName && leg.route.shortName.length > 5;
 
-    if (nextLeg && !nextLeg.intermediatePlace) {
+    if (
+      nextLeg &&
+      !nextLeg.intermediatePlace &&
+      !connectsFromViaPoint(nextLeg, intermediatePlaces)
+    ) {
       // don't show waiting in intermediate places
       waitTime = nextLeg.startTime - leg.endTime;
       waitLength = (waitTime / durationWithoutSlack) * 100;
@@ -300,6 +310,7 @@ const SummaryRow = (
           100; // otherwise add the waiting to the current legs length
       }
     }
+
     if (nextLeg?.interlineWithPreviousLeg) {
       interliningWithRoute = nextLeg.route.shortName;
       legLength =
@@ -444,9 +455,6 @@ const SummaryRow = (
       }
     }
 
-    const connectsFromViaPoint = () =>
-      getViaPointIndex(leg, intermediatePlaces) > -1;
-
     if (leg.route) {
       const withBicycle =
         usingOwnBicycleWholeTrip &&
@@ -454,7 +462,7 @@ const SummaryRow = (
       if (
         previousLeg &&
         !previousLeg.intermediatePlace &&
-        connectsFromViaPoint()
+        connectsFromViaPoint(leg, intermediatePlaces)
       ) {
         legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
       }

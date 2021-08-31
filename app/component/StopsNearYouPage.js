@@ -169,13 +169,11 @@ class StopsNearYouPage extends React.Component {
   static getDerivedStateFromProps = (nextProps, prevState) => {
     let newState = null;
     if (
-      nextProps.match.params.mode !== 'FAVORITE' &&
-      (prevState.favouriteStopIds.length !==
-        nextProps.favouriteStopIds.length ||
-        prevState.favouriteStationIds.length !==
-          nextProps.favouriteStationIds.length ||
-        prevState.favouriteBikeStationIds.length !==
-          nextProps.favouriteBikeStationIds.length)
+      prevState.favouriteStopIds.length !== nextProps.favouriteStopIds.length ||
+      prevState.favouriteStationIds.length !==
+        nextProps.favouriteStationIds.length ||
+      prevState.favouriteBikeStationIds.length !==
+        nextProps.favouriteBikeStationIds.length
     ) {
       newState = {
         favouriteStopIds: nextProps.favouriteStopIds,
