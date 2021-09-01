@@ -116,12 +116,17 @@ class RouteScheduleContainer extends PureComponent {
     });
   };
 
-  getTrips = (currentPattern, from, to) => {
+  getTrips = (currentPattern, from, to, newServiceDay) => {
     const { stops } = currentPattern;
     const trips = RouteScheduleContainer.transformTrips(
       currentPattern.trips,
       stops,
     );
+
+    if (trips.length === 0 && newServiceDay) {
+      return `URL:/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_TIMETABLE}/${currentPattern.code}?serviceDay=${newServiceDay}`;
+    }
+
     if (trips !== null && !this.state.hasLoaded) {
       this.setState({
         hasLoaded: true,
@@ -395,7 +400,7 @@ class RouteScheduleContainer extends PureComponent {
     return '';
   };
 
-  populateData = (wantedDayIn, departures) => {
+  populateData = (wantedDayIn, departures, mergedData) => {
     const departureCount = departures.filter(d => d.length > 0).length;
     const wantedDay = wantedDayIn || moment();
     const startOfWeek = moment().startOf('isoWeek');
@@ -446,11 +451,10 @@ class RouteScheduleContainer extends PureComponent {
 
     indexToRemove.sort((a, b) => b - a);
 
-    indexToRemove.map(i => {
+    indexToRemove.forEach(i => {
       days.splice(i, 1);
       weekStarts.splice(i, 1);
       weekEnds.splice(i - 1, 1);
-      return undefined;
     });
 
     let range = [
@@ -476,7 +480,10 @@ class RouteScheduleContainer extends PureComponent {
               .format(DATE_FORMAT2)
           : moment(w).format(DATE_FORMAT2);
       const timeRange =
-        days.length === 1 && days[idx][0].length === 1 && wantedDayIn
+        days.length === 1 &&
+        days[idx][0].length === 1 &&
+        wantedDayIn &&
+        !mergedData
           ? wantedDay.format(DATE_FORMAT2)
           : `${timeRangeStart} - ${moment(weekEnds[idx]).format(DATE_FORMAT2)}`;
       if (
@@ -512,6 +519,9 @@ class RouteScheduleContainer extends PureComponent {
   };
 
   render() {
+    if (!isBrowser) {
+      return false;
+    }
     const { query } = this.props.match.location;
     const { intl } = this.context;
     this.hasMergedData = false;
@@ -529,13 +539,6 @@ class RouteScheduleContainer extends PureComponent {
       }
       return false;
     }
-
-    const wantedDay =
-      query &&
-      query.serviceDay &&
-      moment(query.serviceDay, 'YYYYMMDD', true).isValid()
-        ? moment(query.serviceDay)
-        : undefined;
 
     const newFromTo = [this.state.from, this.state.to];
 
@@ -568,7 +571,27 @@ class RouteScheduleContainer extends PureComponent {
       }
     }
 
-    const data = this.populateData(wantedDay, firstDepartures);
+    const wantedDay =
+      query &&
+      query.serviceDay &&
+      moment(query.serviceDay, 'YYYYMMDD', true).isValid()
+        ? moment(query.serviceDay)
+        : undefined;
+
+    const data = this.populateData(
+      wantedDay,
+      firstDepartures,
+      this.hasMergedData,
+    );
+
+    let newServiceDay;
+    if (!wantedDay && data[2][3].indexOf(data[2][2]) !== 1) {
+      newServiceDay = moment()
+        .startOf('isoWeek')
+        .add(Number(data[2][3][0].charAt(0)) - 1, 'd')
+        .format(DATE_FORMAT);
+    }
+
     const routeIdSplitted = this.props.match.params.routeId.split(':');
     const routeTimetableHandler = routeIdSplitted
       ? this.context.config.timetables &&
@@ -587,9 +610,19 @@ class RouteScheduleContainer extends PureComponent {
       currentPattern[0],
       newFromTo[0],
       newFromTo[1],
+      newServiceDay,
     );
 
     const tabs = this.renderDayTabs(data);
+
+    if (
+      showTrips &&
+      typeof showTrips === 'string' &&
+      showTrips.substring(0, 4) === 'URL:'
+    ) {
+      this.props.match.router.replace(showTrips.substring(4));
+      return false;
+    }
 
     if (!this.state.hasLoaded) {
       return (
