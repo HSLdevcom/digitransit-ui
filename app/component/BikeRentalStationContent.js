@@ -17,7 +17,7 @@ import { isBrowser } from '../util/browser';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 
 const BikeRentalStationContent = (
-  { bikeRentalStation, breakpoint, language, router },
+  { bikeRentalStation, breakpoint, language, router, error },
   { config },
 ) => {
   const [isClient, setClient] = useState(false);
@@ -26,7 +26,12 @@ const BikeRentalStationContent = (
     setClient(true);
   });
 
-  if (!bikeRentalStation) {
+  // throw error in client side relay query fails
+  if (isClient && error) {
+    throw error.message;
+  }
+
+  if (!bikeRentalStation && !error) {
     if (isBrowser) {
       router.replace(`/${PREFIX_BIKESTATIONS}`);
     } else {
@@ -117,6 +122,7 @@ BikeRentalStationContent.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
   router: routerShape.isRequired,
+  error: PropTypes.object,
 };
 BikeRentalStationContent.contextTypes = {
   config: PropTypes.object.isRequired,

@@ -104,7 +104,12 @@ export default function routeRoutes(config) {
                 }
               `}
               prepareVariables={prepareServiceDay}
-              render={getComponentOrNullRenderer}
+              render={({ Component, props, error, match }) => {
+                if (Component && (props || error)) {
+                  return <Component {...props} match={match} error={error} />;
+                }
+                return null;
+              }}
             />
           ),
           map: [
@@ -128,7 +133,12 @@ export default function routeRoutes(config) {
                   }
                 }
               `}
-              render={getComponentOrNullRenderer}
+              render={({ Component, props, error, match }) => {
+                if (Component && (props || error)) {
+                  return <Component {...props} match={match} error={error} />;
+                }
+                return null;
+              }}
             />,
             <Route
               path=":type/:patternId/(.*)?"
@@ -144,9 +154,19 @@ export default function routeRoutes(config) {
                   }
                 }
               `}
-              render={({ Component, props }) =>
-                Component && props ? <Component {...props} trip={null} /> : null
-              }
+              render={({ Component, props, error, match }) => {
+                if (Component && (props || error)) {
+                  return (
+                    <Component
+                      {...props}
+                      match={match}
+                      error={error}
+                      trip={null}
+                    />
+                  );
+                }
+                return null;
+              }}
             />,
             <Route path="(.?)*" />,
           ],
