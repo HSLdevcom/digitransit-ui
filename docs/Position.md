@@ -13,5 +13,5 @@ Note that in this context "Position" is not same thing as "Location". User's pos
 |**Tracking position with bad accuracy**|User's position is found and is being tracked by application. However, tracking accuracy is not very good|
 |**Positioning timeout**|ERROR: For some reason we didn't find user's position within 10 seconds|
 |**Positioning aborted**|ERROR: User aborted positioning|
-|**Positioning not supported**|ERROR: Browser does not support HTMl5 positioning or it's not available on device|
+|**Positioning not supported**|ERROR: Browser does not support HTML5 positioning or it's not available on device|
 |**Positioning denied**|ERROR: User has denied positioning on this page|
