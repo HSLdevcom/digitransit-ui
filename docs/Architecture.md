@@ -33,7 +33,7 @@ Digitransit-ui is a React based web application. The following bullet points des
     - "Traditional" containers
       - Containers are components that do complex transformations of props data in order to show one or more views or containers
       - Containers should only contain only other containers and views
-        - i.e. no dom components
+        - i.e. no DOM components
       - Continers must include Container in their name
     - StoreConnectors
       - Data from stores should be loaded using fluxible connectToStores
