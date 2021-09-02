@@ -337,6 +337,11 @@ export default {
     ferry: 100000,
     citybike: 100000,
   },
+
+  prioritizedStopsNearYou: {
+    ferry: ['HSL:1030701'],
+  },
+
   showTicketSelector: true,
 
   staticMessages: [

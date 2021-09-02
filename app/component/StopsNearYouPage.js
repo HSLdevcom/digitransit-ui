@@ -16,6 +16,7 @@ import withBreakpoint, { DesktopOrMobile } from '../util/withBreakpoint';
 import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import Loading from './Loading';
+import PrioritizedStopsNearYou from './PrioritizedStopsNearYou';
 import {
   checkPositioningPermission,
   startLocationWatch,
@@ -492,6 +493,8 @@ class StopsNearYouPage extends React.Component {
                   this.context.config,
                 ).url;
               }
+              const prioritizedStops = this.context.config
+                .prioritizedStopsNearYou[nearByStopMode.toLowerCase()];
               return (
                 <div className="stops-near-you-page">
                   {renderDisruptionBanner && (
@@ -580,8 +583,34 @@ class StopsNearYouPage extends React.Component {
                       <Loading />
                     </div>
                   )}
+                  {prioritizedStops?.length && (
+                    <QueryRenderer
+                      query={graphql`
+                        query StopsNearYouPagePrioritizedStopsQuery(
+                          $stopIds: [String!]!
+                        ) {
+                          stops: stops(ids: $stopIds) {
+                            ...PrioritizedStopsNearYou_stops
+                          }
+                        }
+                      `}
+                      variables={{
+                        stopIds: prioritizedStops,
+                      }}
+                      environment={this.props.relayEnvironment}
+                      render={res => {
+                        if (res.props) {
+                          return (
+                            <PrioritizedStopsNearYou stops={res.props.stops} />
+                          );
+                        }
+                        return null;
+                      }}
+                    />
+                  )}
                   {props && (
                     <StopsNearYouContainer
+                      prioritizedStops={prioritizedStops}
                       setLoadState={this.setLoadState}
                       match={this.props.match}
                       stopPatterns={props.stopPatterns}
