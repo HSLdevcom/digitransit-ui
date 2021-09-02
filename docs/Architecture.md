@@ -24,7 +24,7 @@ Digitransit-ui is a React based web application. The following bullet points des
     - Visual regression testing using gemini
       - all use cases should be provided by the style guide
   - RelayConnector
-    - Data from server should be fetched by adding a relay fragment and wrapping it with Relay.createContainer
+    - Data from server should be fetched by adding a relay fragment and wrapping it with `Relay.createContainer`
     - The file should have the pure view as default export and the <View>RelayConnector as named export
       - Alternatively both components can be placed in separate files
     - The view should use RelayContainers in its render method if props.relay is defined. If props.relay is not defined, then the pure view should be used instead.
