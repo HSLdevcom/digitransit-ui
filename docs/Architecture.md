@@ -16,7 +16,7 @@ Digitransit-ui is a React based web application. The following bullet points des
   - Views
     - Simple views that transform props to JSX
     - Views must contain only DOM elements and other Views
-      - i.e. no no references to containers
+      - i.e. no references to containers
     - Views should preferably be created using stateless functional components
     - Views mustn't hold any state
       - If state is needed you should either store it using fluxible or in a container
