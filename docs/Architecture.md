@@ -1,9 +1,9 @@
-Digitransit-ui is a React based web application. The following bullet point describe the architecture on a overview level and provide guidelines on how the code should be.
+Digitransit-ui is a React based web application. The following bullet points describe the architecture on a overview level and provide guidelines on how the code should be.
 
 # Logic (i.e. HTML + JS in traditional web)
  - Front-end is written using modern JavaScript (ES2015)
  - Use Babel to transpile it into ES5
-  - We could provide a different bundle for modern browsers using widely-supported ES6 syntax
+ - We could provide a different bundle for modern browsers using widely-supported ES6 syntax
  - Use polyfills for older browsers by polyfill-service
  - React + JSX
  - Airbnb styleguide for ES6 and React
@@ -15,7 +15,7 @@ Digitransit-ui is a React based web application. The following bullet point desc
   - Three types of components
   - Views
     - Simple views that transform props to JSX
-    - Views must contain only dom elements and other Views
+    - Views must contain only DOM elements and other Views
       - i.e. no no references to containers
     - Views should preferably be created using stateless functional components
     - Views mustn't hold any state
