@@ -547,4 +547,6 @@ export default {
     stops: true,
     itinerary: true,
   },
+
+  showSimilarRoutesOnRouteDropDown: true,
 };
