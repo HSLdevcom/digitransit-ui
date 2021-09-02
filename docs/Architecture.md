@@ -27,7 +27,7 @@ Digitransit-ui is a React based web application. The following bullet points des
     - Data from server should be fetched by adding a relay fragment and wrapping it with `Relay.createContainer`
     - The file should have the pure view as default export and the <View>RelayConnector as named export
       - Alternatively both components can be placed in separate files
-    - The view should use RelayContainers in its render method if props.relay is defined. If props.relay is not defined, then the pure view should be used instead.
+    - The view should use RelayContainers in its render method if `props.relay` is defined. If `props.relay` is not defined, then the pure view should be used instead.
   - Containers
     - Two types of containers
     - "Traditional" containers
