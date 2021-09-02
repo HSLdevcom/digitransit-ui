@@ -1,6 +1,6 @@
-Position is user's current position that is queried through HTML geolocation interface. Position is used to show marker on map and to initialize routing start location.
+"Position" is user's current position that is queried through HTML geolocation interface. Position is used to show marker on map and to initialize routing start location.
 
-Note that in this context "Position" is not same thing as "Location". User's position will change during a trip but start and stop locations remain the same.
+Note that in this context "Position" is not same thing as "Location". User's position will change during a trip but start and stop locations remain the same. Please refer to the [terms](Terms.md) for a detailed definition.
 
 ![Position](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/docs/images/position.png)
 
