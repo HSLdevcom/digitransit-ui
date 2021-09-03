@@ -124,7 +124,7 @@ class RouteScheduleContainer extends PureComponent {
     );
 
     if (trips.length === 0 && newServiceDay) {
-      return `URL:/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_TIMETABLE}/${currentPattern.code}?serviceDay=${newServiceDay}`;
+      return `/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_TIMETABLE}/${currentPattern.code}?serviceDay=${newServiceDay}`;
     }
 
     if (trips !== null && !this.state.hasLoaded) {
@@ -585,7 +585,14 @@ class RouteScheduleContainer extends PureComponent {
     );
 
     let newServiceDay;
-    if (!wantedDay && data[2][3].indexOf(data[2][2]) !== 1) {
+
+    if (
+      !wantedDay &&
+      data &&
+      data.length >= 3 &&
+      data[2].length >= 4 &&
+      data[2][2] !== data[2][3][0].charAt(0)
+    ) {
       newServiceDay = moment()
         .startOf('isoWeek')
         .add(Number(data[2][3][0].charAt(0)) - 1, 'd')
@@ -615,12 +622,8 @@ class RouteScheduleContainer extends PureComponent {
 
     const tabs = this.renderDayTabs(data);
 
-    if (
-      showTrips &&
-      typeof showTrips === 'string' &&
-      showTrips.substring(0, 4) === 'URL:'
-    ) {
-      this.props.match.router.replace(showTrips.substring(4));
+    if (showTrips && typeof showTrips === 'string') {
+      this.props.match.router.replace(showTrips);
       return false;
     }
 
