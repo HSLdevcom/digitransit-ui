@@ -344,6 +344,7 @@ $margin-left-right: 21.3px;
         display: flex;
         align-items: center;
         height: 1em;
+        justify-content: space-between;
         .route-address-container {
           display: flex;
           align-items: center;
@@ -383,7 +384,7 @@ $margin-left-right: 21.3px;
           font-family: $font-family;
           &.time {
             display: flex;
-            flex: 1;
+            flex: 1 1 auto;
             white-space: unset;
             text-align: right;
             font-size: 12px;
@@ -393,8 +394,7 @@ $margin-left-right: 21.3px;
             padding: 0;
             margin: 0;
             line-height: 14px;
-            min-width: unset;
-            width: 2.35rem;
+            min-width: 2.35rem;
             &.first {
               font-size: 15px;
               font-family: $font-family-narrow;
