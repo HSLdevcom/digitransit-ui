@@ -3,7 +3,7 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { matchShape, routerShape } from 'found';
+import { matchShape, routerShape, RedirectException } from 'found';
 import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
 import keyBy from 'lodash/keyBy';
@@ -11,6 +11,7 @@ import sortBy from 'lodash/sortBy';
 import cx from 'classnames';
 import { dayRangePattern } from '@digitransit-util/digitransit-util';
 import { getTranslatedDayString } from '@digitransit-util/digitransit-util-route-pattern-option-text';
+import isEqual from 'lodash/isEqual';
 import RouteScheduleHeader from './RouteScheduleHeader';
 import RouteScheduleTripRow from './RouteScheduleTripRow';
 import SecondaryButton from './SecondaryButton';
@@ -269,7 +270,7 @@ class RouteScheduleContainer extends PureComponent {
   };
 
   renderDayTabs = data => {
-    const dayArray = data[2][3];
+    const dayArray = data ? data[2][3] : undefined;
     if (!dayArray || (dayArray.length === 1 && dayArray[0] === '1234567')) {
       return null;
     }
@@ -327,6 +328,22 @@ class RouteScheduleContainer extends PureComponent {
         if (!focusedTab && selected) {
           focusedTab = tab;
         }
+
+        let tabDate = moment(data[2][1]);
+        if (tab.indexOf(data[2][2]) !== -1) {
+          tabDate = moment(data[0][0])
+            .clone()
+            .add(data[2][2] - 1, 'd');
+        } else {
+          tabDate = moment(data[0][0])
+            .clone()
+            .add(tab[0] - 1, 'd');
+          if (data[4] && tab[0] - 1 < data[2][2] && isSameWeek) {
+            tabDate = moment(data[0][0])
+              .clone()
+              .add(tab[0] - 1 + 7, 'd');
+          }
+        }
         return (
           <button
             type="button"
@@ -336,17 +353,7 @@ class RouteScheduleContainer extends PureComponent {
               'is-active': selected,
             })}
             onClick={() => {
-              this.changeDate(
-                weekStartDate
-                  .clone()
-                  .add(
-                    tab.indexOf(data[2][2]) !== -1
-                      ? data[2][2] - 1
-                      : tab[0] - 1,
-                    'd',
-                  )
-                  .format(DATE_FORMAT),
-              );
+              this.changeDate(tabDate.format(DATE_FORMAT));
             }}
             ref={this.tabRefs[tab]}
             tabIndex={selected ? 0 : -1}
@@ -400,12 +407,18 @@ class RouteScheduleContainer extends PureComponent {
     return '';
   };
 
-  populateData = (wantedDayIn, departures, mergedData) => {
+  populateData = (wantedDayIn, departures, isMerged) => {
     const departureCount = departures.filter(d => d.length > 0).length;
     const wantedDay = wantedDayIn || moment();
     const startOfWeek = moment().startOf('isoWeek');
     const today = moment();
-    const weekStarts = [today.format(DATE_FORMAT)];
+    const currentAndNextWeekAreSame =
+      departureCount >= 2 && isEqual(departures[0], departures[1]);
+    const weekStarts = [
+      currentAndNextWeekAreSame
+        ? startOfWeek.format(DATE_FORMAT)
+        : today.format(DATE_FORMAT),
+    ];
     const weekEnds = [startOfWeek.clone().endOf('isoWeek').format(DATE_FORMAT)];
     const days = [[]];
     const indexToRemove = [];
@@ -483,7 +496,7 @@ class RouteScheduleContainer extends PureComponent {
         days.length === 1 &&
         days[idx][0].length === 1 &&
         wantedDayIn &&
-        !mergedData
+        !isMerged
           ? wantedDay.format(DATE_FORMAT2)
           : `${timeRangeStart} - ${moment(weekEnds[idx]).format(DATE_FORMAT2)}`;
       if (
@@ -515,27 +528,33 @@ class RouteScheduleContainer extends PureComponent {
       ];
       return undefined;
     });
-    return [weekStarts, days, range, options.filter(o => o)];
+    return [
+      weekStarts,
+      days,
+      range,
+      options.filter(o => o),
+      currentAndNextWeekAreSame,
+    ];
   };
 
   render() {
-    if (!isBrowser) {
-      return false;
-    }
     const { query } = this.props.match.location;
     const { intl } = this.context;
     this.hasMergedData = false;
 
     if (!this.props.pattern) {
-      if (isBrowser) {
-        if (this.props.match.params.routeId) {
+      if (this.props.match.params.routeId) {
+        if (isBrowser) {
           // Redirect back to routes default pattern
           // eslint-disable-next-line react/prop-types
           this.props.router.replace(
             `/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_TIMETABLE}`,
           );
+        } else {
+          throw new RedirectException(
+            `/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_TIMETABLE}`,
+          );
         }
-        return false;
       }
       return false;
     }
@@ -623,7 +642,11 @@ class RouteScheduleContainer extends PureComponent {
     const tabs = this.renderDayTabs(data);
 
     if (showTrips && typeof showTrips === 'string') {
-      this.props.match.router.replace(showTrips);
+      if (isBrowser) {
+        this.props.match.router.replace(showTrips);
+      } else {
+        throw new RedirectException(showTrips);
+      }
       return false;
     }
 
