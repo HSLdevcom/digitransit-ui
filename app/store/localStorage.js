@@ -125,8 +125,8 @@ export function setCustomizedSettings(data) {
       oldSettings.useCarParkAvailabilityInformation,
     ),
     includeCarSuggestions: getValueOrDefault(
-      data.includeBikeSuggestions,
-      oldSettings.includeBikeSuggestions,
+      data.includeCarSuggestions,
+      oldSettings.includeCarSuggestions,
     ),
     includeParkAndRideSuggestions: getValueOrDefault(
       data.includeParkAndRideSuggestions,
