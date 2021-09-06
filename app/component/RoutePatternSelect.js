@@ -70,7 +70,7 @@ function filterSimilarRoutes(routes, currentRoute) {
   const onlyRelatedRoutes = withoutCurrent.filter(r =>
     Number.isNaN(Number(r.shortName.replace(routeBasename, '')[0])),
   );
-  return onlyRelatedRoutes;
+  return sortBy(onlyRelatedRoutes, 'shortName');
 }
 
 function renderPatternSelectSuggestion(item, currentPattern) {
