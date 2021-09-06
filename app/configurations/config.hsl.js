@@ -508,12 +508,9 @@ export default {
       },
     },
     buyUrl: {
-      fi:
-        'https://www.hsl.fi/kaupunkipyorat/osta?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral',
-      sv:
-        'https://www.hsl.fi/sv/stadscyklar/kop?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral',
-      en:
-        'https://www.hsl.fi/en/citybikes/buy?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral',
+      fi: 'https://www.hsl.fi/kaupunkipyorat#block-28474',
+      sv: 'https://www.hsl.fi/sv/stadscyklar#block-28474',
+      en: 'https://www.hsl.fi/en/citybikes#block-28474',
     },
   },
 
