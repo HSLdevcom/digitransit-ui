@@ -694,6 +694,8 @@ export default {
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
     matka: 'matka',
+    landstadtmobil: 'landstadtmobil',
+    engstingen: 'engstingen',
     muensingen: 'muensingen',
     vaasa: 'vaasa',
     walttiOpas: 'waltti',

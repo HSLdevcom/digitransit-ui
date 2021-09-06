@@ -1,8 +1,8 @@
 /* eslint-disable */
 import configMerger from '../util/configMerger';
 
-const CONFIG = 'muensingen';
-  const APP_TITLE = 'landstadtmobil Münsingen';
+const CONFIG = 'landstadtmobil';
+  const APP_TITLE = 'landstadtmobil Kreis Reutlingen';
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
 const API_URL = process.env.API_URL || 'https://api.stadtnavi.de';
 const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{x}/{y}{r}.png';
@@ -11,7 +11,7 @@ const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || "https://photon.sta
 const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL =
     process.env.STATIC_MESSAGE_URL ||
-    '/assets/messages/message.muensingen.json';
+    '/assets/messages/message.kreis_reutlingen.json';
 
 const walttiConfig = require('./config.waltti.js').default;
 
@@ -94,8 +94,7 @@ export default configMerger(walttiConfig, {
     },
 
     colors: {
-        primary: '#bcce17',
-        secondary: '#00792d',
+        primary: '#888c98',
         iconColors: {
             'mode-bus': '#ff0000',
             'mode-car': '#007AC9',
@@ -182,7 +181,7 @@ export default configMerger(walttiConfig, {
 
     title: APP_TITLE,
 
-    favicon: './app/configurations/images/muensingen/favicon.png',
+    favicon: './app/configurations/images/landstadtmobil/favicon.png',
 
     meta: {
         description: APP_DESCRIPTION,
@@ -192,7 +191,7 @@ export default configMerger(walttiConfig, {
         carpool: 'CARPOOL',
     },
 
-    logo: 'muensingen/landstadtmobil-muensingen-logo.svg',
+    logo: 'landstadtmobil/landstadtmobil-logo.svg',
 
     GTMid: '',
 
@@ -232,8 +231,8 @@ export default configMerger(walttiConfig, {
         'boundary.rect.max_lat': 48.97661,
         'boundary.rect.min_lon': 9.95635,
         'boundary.rect.max_lon': 8.530883,
-        'focus.point.lat': 48.4128,
-        'focus.point.lon': 9.4947
+        'focus.point.lat': 48.4008,
+        'focus.point.lon': 9.3762
     },
 
     areaPolygon: [
@@ -246,13 +245,13 @@ export default configMerger(walttiConfig, {
     nationalServiceLink: { name: 'Fahrplanauskunft efa-bw', href: 'https://www.efa-bw.de' },
 
     defaultEndpoint: {
-        lat: 48.4128,
-        lon: 9.4947,
+        lat: 48.4008,
+        lon: 9.3762,
     },  
 
     menu: {
         copyright: {
-            label: `© Münsingen ${YEAR}`
+            label: `© Kreis Reutlingen ${YEAR}`
         },
         content: [
             {
@@ -339,10 +338,6 @@ export default configMerger(walttiConfig, {
     },
 
     redirectReittiopasParams: true,
-
-    themeMap: {
-        hbnext: 'hbnext'
-    },
 
     transportModes: {
 
