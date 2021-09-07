@@ -114,6 +114,7 @@ export default {
 
   redirectReittiopasParams: true,
   map: { minZoom: 5 },
+  suggestBikeMaxDistance: 2000000,
 
   cityBike: {
     showCityBikes: true,
