@@ -85,9 +85,9 @@ const BikeRentalStationContent = (
       )}
       {(cityBikeBuyUrl || cityBikeNetworkUrl) && (
         <div className="citybike-use-disclaimer">
-          <div className="disclaimer-header">
+          <h2 className="disclaimer-header">
             <FormattedMessage id="citybike-start-using" />
-          </div>
+          </h2>
           <div className="disclaimer-content">
             {cityBikeBuyUrl ? (
               <FormattedMessage id="citybike-buy-season" />

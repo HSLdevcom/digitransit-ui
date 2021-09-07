@@ -111,9 +111,9 @@ const ParkAndRideContent = (
         </div>
       </div>
       <div className="citybike-use-disclaimer">
-        <div className="disclaimer-header">
+        <h2 className="disclaimer-header">
           {intl.formatMessage({ id: `${prePostFix}-disclaimer-header` })}
-        </div>
+        </h2>
         <div className="disclaimer-content">
           {intl.formatMessage({ id: `${prePostFix}-disclaimer` })}
         </div>
