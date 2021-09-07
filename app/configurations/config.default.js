@@ -714,6 +714,7 @@ export default {
     landstadtmobil: 'landstadtmobil',
     engstingen: 'engstingen',
     muensingen: 'muensingen',
+    bb_angermuende: 'bb_angermuende',
     vaasa: 'vaasa',
     walttiOpas: 'waltti',
     rovaniemi: 'rovaniemi',
