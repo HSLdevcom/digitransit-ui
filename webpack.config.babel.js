@@ -227,6 +227,7 @@ module.exports = {
       },
     ],
   },
+  devtool: isProduction ? 'source-map' : 'eval',
   plugins: [
     new webpack.ContextReplacementPlugin(momentExpression, languageExp),
     new webpack.ContextReplacementPlugin(reactIntlExpression, languageExp),
@@ -236,7 +237,14 @@ module.exports = {
       : productionPlugins),
   ],
   optimization: {
-    minimizer: [new OptimizeCSSAssetsPlugin({})],
+    minimizer: [
+      new TerserJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true, // set to true if you want JS source maps
+      }),
+      new OptimizeCSSAssetsPlugin({}),
+    ],
     moduleIds: 'named',
     chunkIds: 'named',
     splitChunks: {

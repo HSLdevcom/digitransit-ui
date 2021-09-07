@@ -15,8 +15,10 @@ ENV \
   MAP_URL='' \
   OTP_URL='' \
   GEOCODING_BASE_URL='' \
+  GTFS_URL=https://www.openvvs.de/dataset/e66f03e4-79f2-41d0-90f1-166ca609e491/resource/bfbb59c7-767c-4bca-bbb2-d8d32a3e0378/download/google_transit.zip \
+  OSM_URL=https://download.geofabrik.de/europe/germany/brandenburg-latest.osm.pbf \
   APP_PATH='' \
-  CONFIG='' \
+  CONFIG=bb_angermuende \
   NODE_ENV='' \
   # setting a non-empty default value for NODE_OPTS
   # if you don't do this then yarn/node seem to think that you want to
@@ -31,12 +33,13 @@ ENV \
   STATIC_MESSAGE_URL=''
 
 WORKDIR ${WORK}
-ADD . ${WORK}
+COPY . ${WORK}
 
+RUN rm yarn.lock
 RUN yarn
 RUN yarn setup
 RUN yarn build
-RUN rm -rf static docs test /tmp/*
+# RUN rm -rf static docs test /tmp/*
 RUN yarn cache clean --all
 
 CMD yarn run start
