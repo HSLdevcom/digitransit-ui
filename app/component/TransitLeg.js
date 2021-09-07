@@ -499,7 +499,7 @@ class TransitLeg extends React.Component {
               </div>
               <div className="ticket-info">
                 <div className="accent">{LegRouteName}</div>
-                {leg.fare.agency && !config.hideExternalOperator && (
+                {leg.fare.agency && !config.hideExternalOperator[mode] && (
                   <React.Fragment>
                     <div>{leg.fare.agency.name}</div>
                     {leg.fare.agency.fareUrl && (

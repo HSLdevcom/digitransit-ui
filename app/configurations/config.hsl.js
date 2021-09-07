@@ -322,7 +322,12 @@ export default {
     ],
   },
 
-  hideExternalOperator: true,
+  hideExternalOperator: {
+    BUS: true,
+    RAIL: true,
+    TRAM: true,
+    SUBWAY: true,
+  },
   showTicketInformation: true,
   ticketInformation: {
     primaryAgencyName: 'HSL',

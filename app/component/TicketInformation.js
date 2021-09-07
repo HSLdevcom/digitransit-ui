@@ -81,9 +81,10 @@ export default function TicketInformation(
             {fare.isUnknown ? (
               <div className="unknown-fare-container">
                 <div className="ticket-identifier">{unknownFareRouteName}</div>
-                {fare.agency && !config.hideExternalOperator && (
-                  <div className="ticket-description">{fare.agency.name}</div>
-                )}
+                {fare.agency &&
+                  !config.hideExternalOperator[fare.agency.mode] && (
+                    <div className="ticket-description">{fare.agency.name}</div>
+                  )}
               </div>
             ) : (
               <div>
@@ -101,26 +102,28 @@ export default function TicketInformation(
             )}
           </div>
         </div>
-        {fare.agency && fare.agency.fareUrl && !config.hideExternalOperator && (
-          <div
-            className="ticket-type-agency-link"
-            key={i} // eslint-disable-line react/no-array-index-key
-          >
-            <ExternalLink
-              className="itinerary-ticket-external-link"
-              href={fare.agency.fareUrl}
-              onClick={() => {
-                addAnalyticsEvent({
-                  category: 'Itinerary',
-                  action: 'OpenHowToBuyTicket',
-                  name: null,
-                });
-              }}
+        {fare.agency &&
+          fare.agency.fareUrl &&
+          !config.hideExternalOperator[fare.agency.mode] && (
+            <div
+              className="ticket-type-agency-link"
+              key={i} // eslint-disable-line react/no-array-index-key
             >
-              {intl.formatMessage({ id: 'extra-info' })}
-            </ExternalLink>
-          </div>
-        )}
+              <ExternalLink
+                className="itinerary-ticket-external-link"
+                href={fare.agency.fareUrl}
+                onClick={() => {
+                  addAnalyticsEvent({
+                    category: 'Itinerary',
+                    action: 'OpenHowToBuyTicket',
+                    name: null,
+                  });
+                }}
+              >
+                {intl.formatMessage({ id: 'extra-info' })}
+              </ExternalLink>
+            </div>
+          )}
         {config.ticketLink && (
           <ExternalLink
             className="itinerary-ticket-external-link"
