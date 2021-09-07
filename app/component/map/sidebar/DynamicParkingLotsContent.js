@@ -150,7 +150,12 @@ class DynamicParkingLotsContent extends React.Component {
 
   render() {
     const { lat, lon, name, note } = this.props.vehicleParking;
-    const { lotType } = this.props.vehicleParking.tags;
+
+    const tags = this.props.vehicleParking.tags.reduce((newTags, tag) => {
+      return { ...newTags, [tag.split(':')[0]]: tag.split(':')[1] };
+    }, {});
+    const lotType = tags.lot_type;
+
     return (
       <SidebarContainer
         icon={`icon-icon_${getIcon(lotType)}`}
