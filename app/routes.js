@@ -144,7 +144,12 @@ export default config => {
                     }
                   }
                 `}
-                render={getComponentOrLoadingRenderer}
+                render={({ Component, props, error, match }) => {
+                  if (Component && (props || error)) {
+                    return <Component {...props} match={match} error={error} />;
+                  }
+                  return null;
+                }}
               />
             ),
             map: (
@@ -188,7 +193,12 @@ export default config => {
                     }
                   }
                 `}
-                render={getComponentOrLoadingRenderer}
+                render={({ Component, props, error, match }) => {
+                  if (Component && (props || error)) {
+                    return <Component {...props} match={match} error={error} />;
+                  }
+                  return null;
+                }}
               />
             ),
             map: (

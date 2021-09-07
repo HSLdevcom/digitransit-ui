@@ -1,15 +1,41 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
+import { matchShape, routerShape, RedirectException } from 'found';
 import { intlShape } from 'react-intl';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
-import Error404 from './404';
+import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../util/path';
+import { isBrowser } from '../util/browser';
 
-const ParkAndRideContent = ({ bikePark, carPark }, { intl }) => {
+const ParkAndRideContent = (
+  { bikePark, carPark, router, match, error },
+  { intl },
+) => {
   const park = bikePark || carPark;
-  if (!park) {
-    return <Error404 />;
+
+  const [isClient, setClient] = useState(false);
+  useEffect(() => {
+    // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
+    setClient(true);
+  });
+
+  // throw error in client side relay query fails
+  if (isClient && error) {
+    throw error.message;
   }
+
+  if (!park && !error) {
+    const path = match.location.pathname.includes(PREFIX_BIKEPARK)
+      ? PREFIX_BIKEPARK
+      : PREFIX_CARPARK;
+    if (isBrowser) {
+      router.replace(`/${path}`);
+    } else {
+      throw new RedirectException(`/${path}`);
+    }
+    return null;
+  }
+
   const prePostFix = bikePark ? 'bike-park' : 'car-park';
   const [authenticationMethods, setAuthenticationMethods] = useState([]);
   const [pricingMethods, setPricingMethods] = useState([]);
@@ -123,6 +149,14 @@ ParkAndRideContent.propTypes = {
     lon: PropTypes.number,
     tags: PropTypes.arrayOf(PropTypes.string),
   }),
+  router: routerShape.isRequired,
+  match: matchShape.isRequired,
+  error: PropTypes.object,
+};
+
+ParkAndRideContent.defaultProps = {
+  bikePark: null,
+  carPark: null,
 };
 
 ParkAndRideContent.contextTypes = {
