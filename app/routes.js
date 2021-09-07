@@ -96,11 +96,16 @@ export default config => {
                   }
                 }
               `}
-              render={({ Component, props, error, match }) => {
+              render={({ Component, props, error, match, retry }) => {
                 if (Component && (props || error)) {
                   return <Component {...props} match={match} error={error} />;
                 }
-                return null;
+                return getComponentOrLoadingRenderer({
+                  Component,
+                  props,
+                  error,
+                  retry,
+                });
               }}
             />
           ),
@@ -144,11 +149,16 @@ export default config => {
                     }
                   }
                 `}
-                render={({ Component, props, error, match }) => {
+                render={({ Component, props, error, match, retry }) => {
                   if (Component && (props || error)) {
                     return <Component {...props} match={match} error={error} />;
                   }
-                  return null;
+                  return getComponentOrLoadingRenderer({
+                    Component,
+                    props,
+                    error,
+                    retry,
+                  });
                 }}
               />
             ),
@@ -193,11 +203,16 @@ export default config => {
                     }
                   }
                 `}
-                render={({ Component, props, error, match }) => {
+                render={({ Component, props, error, match, retry }) => {
                   if (Component && (props || error)) {
                     return <Component {...props} match={match} error={error} />;
                   }
-                  return null;
+                  return getComponentOrLoadingRenderer({
+                    Component,
+                    props,
+                    error,
+                    retry,
+                  });
                 }}
               />
             ),
