@@ -309,4 +309,18 @@ export default {
 
     active: true,
   },
+  bb_angermuende: {
+    mqttTopicResolver: function mqttTopicResolver() {
+      return '/gtfsrt/vp/#';
+    },
+
+    // this value is overridden in config.bb_angermuende.js
+    mqtt: 'wss://api.dev.stadtnavi.eu/mqtt/',
+
+    gtfsrt: true,
+
+    routeSelector: defaultRouteSelector,
+
+    active: true,
+  },
 };
