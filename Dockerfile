@@ -1,5 +1,4 @@
 FROM node:10
-MAINTAINER Reittiopas version: 0.1
 
 EXPOSE 8080
 
@@ -34,11 +33,10 @@ ENV \
 WORKDIR ${WORK}
 ADD . ${WORK}
 
-RUN \
-  yarn && \
-  yarn setup && \
-  yarn build && \
-  rm -rf static docs test /tmp/* .cache && \
-  yarn cache clean --all
+RUN yarn
+RUN yarn setup
+RUN yarn build
+RUN rm -rf static docs test /tmp/*
+RUN yarn cache clean --all
 
 CMD yarn run start
