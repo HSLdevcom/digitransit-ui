@@ -27,6 +27,7 @@ export default {
     CITYBIKE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-citybike-map/`,
     ROOTLINK: rootLink,
     BANNERS: BANNER_URL,
+    HSL_FI_SUGGESTIONS: 'https://content.hsl.fi/api/v1/search/suggestions',
   },
 
   indexPath: 'etusivu',
