@@ -344,6 +344,7 @@ $margin-left-right: 21.3px;
         display: flex;
         align-items: center;
         height: 1em;
+        justify-content: space-between;
         .route-address-container {
           display: flex;
           align-items: center;
@@ -383,7 +384,7 @@ $margin-left-right: 21.3px;
           font-family: $font-family;
           &.time {
             display: flex;
-            flex: 1;
+            flex: 1 1 auto;
             white-space: unset;
             text-align: right;
             font-size: 12px;
@@ -393,8 +394,7 @@ $margin-left-right: 21.3px;
             padding: 0;
             margin: 0;
             line-height: 14px;
-            min-width: unset;
-            width: 2.35rem;
+            min-width: 2.35rem;
             &.first {
               font-size: 15px;
               font-family: $font-family-narrow;
@@ -1158,7 +1158,7 @@ $margin-left-right: 21.3px;
             border-bottom: 1px solid #dddddd;
             list-style: none;
             min-height: 44px;
-            padding: 13px 32px 13px 16px;
+            padding: 13px 10px 13px 16px;
             position: relative;
             .icon.check,
             .icon.dropdown-arrow {
@@ -1173,6 +1173,69 @@ $margin-left-right: 21.3px;
             background: #dfe5e8;
           }
         }
+
+  a {
+    text-decoration: none;
+  }
+
+  .similar-route {
+    display: flex;
+    justify-content: space-between;
+    .icon-container {
+      position: relative;
+      width: auto;
+      height: auto;
+      right: auto;
+      top: auto;
+      margin-top: 3px;
+      margin-right: 10px;
+      flex-shrink: 0;
+      .icon {
+        position: relative;
+        width: 2em;
+        height: 2em;
+        right: auto;
+        top: auto;
+      }
+    }
+
+    .similar-route-arrow-container {
+      margin-top: 5px;
+      .icon-container {
+        margin-right: 0px;
+        .similar-route-arrow {
+          width: 1.35em;
+          height:1.35em;
+        }
+      }
+    }
+
+    .similar-route-text {
+      flex-grow: 1;
+      overflow: auto;
+      font-family: $font-family;
+      display: flex;
+      flex-direction: column;
+      white-space: nowrap;
+
+      .similar-route-name {
+        color: #333333;
+        font-style: normal;
+        font-weight: $font-weight-medium;
+        font-size: 15px;
+        line-height: 20px;
+      }
+      .similar-route-longname {
+        color: #666666;
+        font-size: 13px;
+        line-height: 20px;
+        text-decoration-color: white;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        letter-spacing: -0.48px;
+      }
+    }
+  }
       }
     }
   }

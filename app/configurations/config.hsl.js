@@ -5,7 +5,7 @@ const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || 'next-'; // TODO maybe use regular endpoint again at some point
+const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
@@ -328,8 +328,15 @@ export default {
   },
 
   maxNearbyStopAmount: 5,
-  maxNearbyStopDistance: 100000,
-
+  maxNearbyStopDistance: {
+    favorite: 100000,
+    bus: 30000,
+    tram: 100000,
+    subway: 100000,
+    rail: 50000,
+    ferry: 100000,
+    citybike: 100000,
+  },
   showTicketSelector: true,
 
   staticMessages: [
@@ -515,8 +522,8 @@ export default {
   showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
 
-  includeCarSuggestions: true,
-  includeParkAndRideSuggestions: true,
+  includeCarSuggestions: false,
+  includeParkAndRideSuggestions: false,
 
   showNearYouButtons: true,
   nearYouModes: [
@@ -540,4 +547,6 @@ export default {
     stops: true,
     itinerary: true,
   },
+
+  showSimilarRoutesOnRouteDropDown: true,
 };

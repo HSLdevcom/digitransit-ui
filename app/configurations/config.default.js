@@ -7,7 +7,7 @@ const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const GEOCODING_BASE_URL = `${API_URL}/geocoding/v1`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || 'next-'; // TODO maybe use regular endpoint again at some point
+const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
 const APP_PATH = process.env.APP_CONTEXT || '';
 const { SENTRY_DSN, AXE, NODE_ENV } = process.env;
 const PORT = process.env.PORT || 8080;
@@ -108,7 +108,16 @@ export default {
 
   omitNonPickups: true,
   maxNearbyStopAmount: 5,
-  maxNearbyStopDistance: 2000,
+  maxNearbyStopDistance: {
+    favorite: 100000,
+    bus: 100000,
+    tram: 100000,
+    subway: 100000,
+    rail: 100000,
+    ferry: 100000,
+    citybike: 100000,
+    airplane: 200000,
+  },
 
   defaultSettings: {
     accessibilityOption: 0,
@@ -118,8 +127,8 @@ export default {
     walkReluctance: 2,
     walkSpeed: 1.2,
     includeBikeSuggestions: true,
-    includeParkAndRideSuggestions: true,
-    includeCarSuggestions: true,
+    includeParkAndRideSuggestions: false,
+    includeCarSuggestions: false,
   },
 
   /**
@@ -710,8 +719,8 @@ export default {
   showBikeAndParkItineraries: false,
 
   includeBikeSuggestions: true,
-  includeCarSuggestions: true,
-  includeParkAndRideSuggestions: true,
+  includeCarSuggestions: false,
+  includeParkAndRideSuggestions: false,
 
   showNearYouButtons: false,
   nearYouModes: [],
@@ -731,4 +740,6 @@ export default {
 
   // DT-4802 Toggling this off shows the alert bodytext instead of the header
   showAlertHeader: true,
+
+  showSimilarRoutesOnRouteDropDown: false,
 };

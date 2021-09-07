@@ -855,6 +855,9 @@ const translations = {
     'aria-itinerary-summary-walk-distance':
       'Total walking {duration}, {distance} ',
     'arrive-leave': 'Arrive or leave at selected time',
+    'as-destination': 'Destination',
+    'as-origin': 'Origin',
+    'as-viapoint': 'Viapoint',
     'search-autosuggest-label':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
     'search-autosuggest-len':
@@ -1028,6 +1031,7 @@ const translations = {
     'from-stop': 'from stop',
     'from-subway': 'subway',
     frontpage: 'Frontpage',
+    'generic-cancelation': '{mode} {route} {headsign} at {time} is cancelled.',
     'generic-error': 'There was an error',
     'geolocate-yourself': 'Detect your location',
     'geolocation-denied-heading': 'Geolocation denied',
@@ -1206,6 +1210,7 @@ const translations = {
     'no-position-no-stops':
       'Your location is not available. We are unable to show the closest stops.',
     'no-route-already-at-destination': 'You are already at your destination.',
+    'no-route-end': 'Please select destination',
     'no-route-end-date-not-in-range':
       'The timetable does not include later departures.',
     'no-route-msg': 'Unfortunately, no route suggestions were found.',
@@ -1217,8 +1222,9 @@ const translations = {
       'No route suggestions were found because the origin and destination are the same.',
     'no-route-showing-alternative-options':
       'No route suggestions were found with the your settings. However, we found the following route options:',
+    'no-route-start': 'Please select origin',
     'no-route-start-date-too-early': 'There are no earlier departures.',
-    'no-route-start-end': 'Please select origin and destination.',
+    'no-route-start-end': 'Please select origin and destination',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'No journeys found for the selected date.',
     now: 'Now',
@@ -1313,9 +1319,11 @@ const translations = {
     'route-page.future-routes': 'Future routes',
     'route-page.pattern-chosen': 'Selected',
     'route-page.pattern-select-title': 'Select the route to be viewed',
+    'route-page.similar-routes': 'You might also be interested in',
     'route-page.special-routes': 'Other routes',
     'route-page.title': 'Route {shortName}',
     'route-page.title-short': 'Route',
+    'route-to-stop': 'Route to the stop',
     routes: 'Routes',
     'routes-platforms': 'Routes and platforms',
     'routes-tracks': 'Routes and tracks',
@@ -1353,6 +1361,7 @@ const translations = {
     'separate-ticket-required-disclaimer':
       'This itinerary contains one or more legs for which {agencyName} does not sell tickets.',
     'set-specific-settings': 'Set more specific settings',
+    'set-stop-as-routes': "Set the stop as route's",
     settings: 'Settings',
     'settings-dropdown-close-label': 'Close options',
     'settings-dropdown-open-label': 'Open options',
@@ -1857,6 +1866,9 @@ const translations = {
     'aria-itinerary-summary-walk-distance':
       'kävelyä yhteensä {duration}, {distance} ',
     'arrive-leave': 'Saavu tai lähde valittuna aikana',
+    'as-destination': 'Määränpääksi',
+    'as-origin': 'Lähtöpaikaksi',
+    'as-viapoint': 'Välipisteeksi',
     'search-autosuggest-label':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
     'search-autosuggest-len':
@@ -2042,6 +2054,7 @@ const translations = {
     'from-stop': 'pysäkiltä',
     'from-subway': 'metrosta',
     frontpage: 'Etusivu',
+    'generic-cancelation': '{mode} {route} {headsign} kello {time} on peruttu.',
     'generic-error': 'Tapahtui virhe',
     'geolocate-yourself': 'Paikanna',
     'geolocation-denied-heading': 'Paikannus on estetty',
@@ -2213,6 +2226,7 @@ const translations = {
     'no-position-no-stops':
       'Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.',
     'no-route-already-at-destination': 'Olet jo perillä.',
+    'no-route-end': 'Syötä vielä määränpää',
     'no-route-end-date-not-in-range':
       'Aikataulu ei sisällä myöhäisempiä reittejä.',
     'no-route-msg': 'Reittiehdotuksia ei valitettavasti löytynyt.',
@@ -2224,8 +2238,9 @@ const translations = {
       'Reittiehdotuksia ei löytynyt, koska lähtöpaikka on sama kuin määränpää.',
     'no-route-showing-alternative-options':
       'Asettamillasi asetuksilla ei löytynyt yhtään reittiehdotusta. Löysimme kuitenkin seuraavia reittivaihtoehtoja:',
+    'no-route-start': 'Syötä vielä lähtöpaikka',
     'no-route-start-date-too-early': 'Aikataulu ei sisällä aiempia reittejä.',
-    'no-route-start-end': 'Valitse lähtöpaikka ja määränpää.',
+    'no-route-start-end': 'Syötä lähtöpaikka ja määränpää',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Valitulle päivälle ei löydy matkoja.',
     now: 'Nyt',
@@ -2320,9 +2335,11 @@ const translations = {
     'route-page.future-routes': 'Tulevat reitit',
     'route-page.pattern-chosen': 'Valittu',
     'route-page.pattern-select-title': 'Valitse tarkasteltava reitti',
+    'route-page.similar-routes': 'Sinua saattaisi kiinnostaa myös',
     'route-page.special-routes': 'Muut reitit',
     'route-page.title': 'Linja {shortName}',
     'route-page.title-short': 'Linja',
+    'route-to-stop': 'Reitti pysäkille',
     routes: 'Linjat',
     'routes-platforms': 'Linjat ja laiturit',
     'routes-tracks': 'Linjat ja raiteet',
@@ -2360,6 +2377,7 @@ const translations = {
     'separate-ticket-required-disclaimer':
       'Matka sisältää yhden tai useamman osuuden, jonka lippujen myynnistä {agencyName} ei vastaa.',
     'set-specific-settings': 'Aseta tarkemmat asetukset',
+    'set-stop-as-routes': 'Aseta pysäkki reitin',
     settings: 'Asetukset',
     'settings-dropdown-close-label': 'Sulje vaihtoehdot',
     'settings-dropdown-open-label': 'Avaa vaihtoehdot',
@@ -3657,6 +3675,9 @@ const translations = {
     'aria-itinerary-summary-walk-distance':
       'promenad sammanlagt {duration}, {distance}',
     'arrive-leave': 'Anländer eller lämnar vid vald tid',
+    'as-destination': 'Destination',
+    'as-origin': 'Avfärdsplats',
+    'as-viapoint': 'Via punkt',
     'search-autosuggest-label':
       'Plats, linje och hållplatssökning. Navigera listan med piltangenterna och välj med Enter-tangeten',
     'search-autosuggest-len': 'Hittade {len} förslag',
@@ -3829,6 +3850,7 @@ const translations = {
     'from-stop': 'från hållplats',
     'from-subway': 'metrosta',
     frontpage: 'Framsidan',
+    'generic-cancelation': '{mode} {route} {headsign} kl. {time} ställs in.',
     'generic-error': 'Det hände ett fel',
     'geolocate-yourself': 'Sök position',
     'geolocation-denied-heading': 'Delning av platsinformation är förbjudet',
@@ -4005,6 +4027,7 @@ const translations = {
     'no-position-no-stops':
       'De närmaste hållplatserna kan inte visas, eftersom din position inte är känd.',
     'no-route-already-at-destination': 'Du är redan vid din destination.',
+    'no-route-end': 'Välj destination',
     'no-route-end-date-not-in-range':
       'Tidtabellen har inga resor som avgår senare.',
     'no-route-msg': 'Kunde tyvärr inte hitta ruttförslag',
@@ -4016,9 +4039,10 @@ const translations = {
       'Kunde inte hitta ruttförslag eftersom avgångsplatsen är densamma som destinationen.',
     'no-route-showing-alternative-options':
       'Kunde inte hitta några ruttförslag med dina val. Vi hittade dock följande ruttalternativ:',
+    'no-route-start': 'Välj avfärdsplats',
     'no-route-start-date-too-early':
       'I tidtabellen ingår inte tidigare rutter.',
-    'no-route-start-end': 'Välj avfärdsplats och destination.',
+    'no-route-start-end': 'Välj avfärdsplats och destination',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Inga resor på den valda dagen.',
     now: 'Nu',
@@ -4114,9 +4138,11 @@ const translations = {
     'route-page.future-routes': 'Framtida rutter',
     'route-page.pattern-chosen': 'Vald',
     'route-page.pattern-select-title': 'Välj den rutt du vill se',
+    'route-page.similar-routes': 'Du kanske också är intresserad av',
     'route-page.special-routes': 'Andra rutter',
     'route-page.title': 'Linje {shortName}',
     'route-page.title-short': 'Linje',
+    'route-to-stop': 'Rutt till hållplatsen',
     routes: 'Linjer',
     'routes-platforms': 'Linjer och plattformer',
     'routes-tracks': 'Linjer och spår',
@@ -4157,6 +4183,7 @@ const translations = {
     'separate-ticket-required-disclaimer':
       'Resan består av en eller fleta etapper vilka kräver biljetter som inte säljs av {agencyName}.',
     'set-specific-settings': 'Ställa avancerade inställningar',
+    'set-stop-as-routes': 'Ställa hållplats som rutter',
     settings: 'Anpassa',
     'settings-dropdown-close-label': 'Stäng alternativen',
     'settings-dropdown-open-label': 'Öppna alternativen',

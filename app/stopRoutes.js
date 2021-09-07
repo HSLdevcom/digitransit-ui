@@ -3,6 +3,7 @@ import Route from 'found/Route';
 import { graphql } from 'react-relay';
 
 import Error404 from './component/404';
+import Loading from './component/LoadingPage';
 import {
   PREFIX_STOPS,
   PREFIX_TERMINALS,
@@ -206,7 +207,12 @@ export default function getStopRoutes(isTerminal = false) {
                         .catch(errorLoading);
                 }}
                 query={queryMap.pageContent}
-                render={getComponentOrLoadingRenderer}
+                render={({ Component, props, error }) => {
+                  if (Component && (props || error)) {
+                    return <Component {...props} error={error} />;
+                  }
+                  return <Loading />;
+                }}
               />
               <Route
                 path={PREFIX_TIMETABLE}

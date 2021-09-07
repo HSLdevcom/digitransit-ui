@@ -19,7 +19,7 @@ export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
     id: 'at-time',
   });
   const defaultFormat = `D.M.YYYY [${at}] HH:mm`;
-  return `${capitalize(
+  const start = capitalize(
     startTime.calendar(currentTime, {
       lastDay: `[${intl.formatMessage({ id: 'yesterday' })} ${at}] HH:mm`,
       sameDay: `[${intl.formatMessage({ id: 'today' })} ${at}] HH:mm`,
@@ -28,12 +28,17 @@ export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
       nextWeek: defaultFormat,
       sameElse: defaultFormat,
     }),
-  )} - ${endTime.calendar(startTime, {
+  );
+  if (!endTime) {
+    return start;
+  }
+  const end = endTime.calendar(startTime, {
     sameDay: 'HH:mm',
     nextDay: defaultFormat,
     nextWeek: defaultFormat,
     sameElse: defaultFormat,
-  })}`;
+  });
+  return `${start} - ${end}`;
 };
 
 export default function RouteAlertsRow(
@@ -51,6 +56,7 @@ export default function RouteAlertsRow(
     url,
     gtfsIds,
     showRouteNameLink,
+    header,
   },
   { intl },
 ) {
@@ -89,10 +95,29 @@ export default function RouteAlertsRow(
   const checkedUrl =
     url && (url.match(/^[a-zA-Z]+:\/\//) ? url : `http://${url}`);
 
-  if (!description) {
+  if (!description && !header) {
     return null;
   }
 
+  let genericCancellation;
+  if (!description && header) {
+    const {
+      headsign,
+      routeMode,
+      shortName,
+      scheduledDepartureTime,
+    } = header.props;
+    const mode = intl.formatMessage({ id: routeMode.toLowerCase() });
+    genericCancellation = intl.formatMessage(
+      { id: 'generic-cancelation' },
+      {
+        mode,
+        route: shortName,
+        headsign,
+        time: moment.unix(scheduledDepartureTime).format('HH:mm'),
+      },
+    );
+  }
   return (
     <div
       className={cx('route-alert-row', { expired })}
@@ -148,16 +173,16 @@ export default function RouteAlertsRow(
                 {getTimePeriod({
                   currentTime: moment.unix(currentTime),
                   startTime: moment.unix(startTime),
-                  endTime: moment.unix(endTime),
+                  endTime: description ? moment.unix(endTime) : undefined,
                   intl,
                 })}
               </>
             )}
           </div>
         )}
-        {description && (
+        {(description || genericCancellation) && (
           <div className="route-alert-body">
-            {description}
+            {description || genericCancellation}
             {url && (
               <ExternalLink className="route-alert-url" href={checkedUrl}>
                 {intl.formatMessage({ id: 'extra-info' })}
@@ -184,6 +209,7 @@ RouteAlertsRow.propTypes = {
   url: PropTypes.string,
   gtfsIds: PropTypes.string,
   showRouteNameLink: PropTypes.bool,
+  header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
 };
 
 RouteAlertsRow.contextTypes = {
@@ -199,6 +225,7 @@ RouteAlertsRow.defaultProps = {
   entityType: 'route',
   severityLevel: undefined,
   startTime: undefined,
+  header: undefined,
 };
 
 RouteAlertsRow.description = () => (

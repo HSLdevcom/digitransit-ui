@@ -96,7 +96,12 @@ export default config => {
                   }
                 }
               `}
-              render={getComponentOrNullRenderer}
+              render={({ Component, props, error, match }) => {
+                if (Component && (props || error)) {
+                  return <Component {...props} match={match} error={error} />;
+                }
+                return null;
+              }}
             />
           ),
           map: (

@@ -24,15 +24,6 @@ describe('timetableConfigUtils', () => {
       );
       expect(url).to.equal(`${baseTimetableURL}11.html`);
     });
-    it('should resolve URL for tram lines correctly for tampere instance', () => {
-      const timetableHandler = timetables.default.tampere;
-      const route = { shortName: '1X', mode: 'TRAM' };
-      const url = timetableHandler.timetableUrlResolver(
-        baseTimetableURL,
-        route,
-      );
-      expect(url).to.equal(`${baseTimetableURL}1-ratikka.html`);
-    });
   });
   describe('stopPdfUrlResolver', () => {
     it('should resolve correctly for HSL instance', () => {

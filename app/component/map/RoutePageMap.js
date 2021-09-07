@@ -33,6 +33,7 @@ class RoutePageMap extends React.Component {
     mapLayers: mapLayerShape.isRequired,
     mapLayerOptions: mapLayerOptionsShape.isRequired,
     trip: PropTypes.shape({ gtfsId: PropTypes.string }),
+    error: PropTypes.object,
   };
 
   static defaultProps = {
@@ -70,6 +71,13 @@ class RoutePageMap extends React.Component {
       this.setState({ trackVehicle: false });
     }
   };
+
+  componentDidMount() {
+    // Throw error in client side if relay fails to fetch data
+    if (this.props.error) {
+      throw this.props.error.message;
+    }
+  }
 
   render() {
     const {
