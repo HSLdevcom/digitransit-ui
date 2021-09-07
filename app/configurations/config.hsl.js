@@ -322,6 +322,7 @@ export default {
     ],
   },
 
+  hideExternalOperator: true,
   showTicketInformation: true,
   ticketInformation: {
     primaryAgencyName: 'HSL',
