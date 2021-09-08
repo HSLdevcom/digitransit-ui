@@ -199,6 +199,7 @@ describe('fareUtils', () => {
             fareUrl: 'foobaz',
             gtfsId: 'FOO:BAR',
             name: 'Merisataman lauttaliikenne',
+            mode: 'FERRY',
           },
           gtfsId: 'FOO:1234',
           longName: 'Merisataman lautta',
@@ -214,6 +215,7 @@ describe('fareUtils', () => {
         fareUrl: 'foobaz',
         gtfsId: 'FOO:BAR',
         name: 'Merisataman lauttaliikenne',
+        mode: 'FERRY',
       });
       expect(unknown.routeGtfsId).to.equal('FOO:1234');
       expect(unknown.routeName).to.equal('Merisataman lautta');
@@ -223,6 +225,7 @@ describe('fareUtils', () => {
         {
           agency: {
             gtfsId: 'HSL:HSL',
+            mode: 'TRAM',
           },
           gtfsId: 'HSL:1003',
           longName: 'Olympiaterminaali - Eira - Kallio - Meilahti',
@@ -247,6 +250,7 @@ describe('fareUtils', () => {
         fareUrl: undefined,
         gtfsId: 'HSL:HSL',
         name: undefined,
+        mode: 'TRAM',
       });
       expect(unknown.routeGtfsId).to.equal('HSL:1003');
       expect(unknown.routeName).to.equal(
