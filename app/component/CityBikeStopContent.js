@@ -12,14 +12,17 @@ import {
 } from '../util/citybikes';
 
 const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
-  if (config.cityBike.capacity === BIKEAVL_UNKNOWN) {
+  const citybikeCapacity =
+    config.cityBike?.networks[bikeRentalStation?.networks[0]]?.capacity ||
+    config.cityBike.capacity; // If capacity is not defined in networks, use default value
+  if (citybikeCapacity === BIKEAVL_UNKNOWN) {
     return null;
   }
   let totalSpaces;
   let fewAvailableCount;
   let fewerAvailableCount;
 
-  if (config.cityBike.capacity === BIKEAVL_WITHMAX) {
+  if (citybikeCapacity === BIKEAVL_WITHMAX) {
     totalSpaces =
       bikeRentalStation.capacity ||
       bikeRentalStation.bikesAvailable + bikeRentalStation.spacesAvailable;
@@ -43,7 +46,7 @@ const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
         totalSpaces={totalSpaces}
         fewAvailableCount={fewAvailableCount}
         fewerAvailableCount={fewerAvailableCount}
-        useSpacesAvailable={config.cityBike.capacity === BIKEAVL_WITHMAX}
+        useSpacesAvailable={citybikeCapacity === BIKEAVL_WITHMAX}
       />
     </div>
   );

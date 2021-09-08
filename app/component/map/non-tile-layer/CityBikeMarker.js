@@ -83,7 +83,9 @@ export default class CityBikeMarker extends React.Component {
   getIcon = zoom => {
     const { showBikeAvailability, station, transit } = this.props;
     const { config } = this.context;
-
+    const citybikeCapacity =
+      config.cityBike?.networks[station?.networks[0]]?.capacity ||
+      config.cityBike.capacity; // If capacity is not defined in network, use default config's value
     const iconName = `${getCityBikeNetworkIcon(
       getCityBikeNetworkConfig(getCityBikeNetworkId(station.networks), config),
     )}-lollipop`;
@@ -109,7 +111,7 @@ export default class CityBikeMarker extends React.Component {
                   config,
                 ),
                 badgeText:
-                  this.context.config.cityBike.capacity !== BIKEAVL_UNKNOWN
+                  citybikeCapacity !== BIKEAVL_UNKNOWN
                     ? station.bikesAvailable
                     : null,
               })

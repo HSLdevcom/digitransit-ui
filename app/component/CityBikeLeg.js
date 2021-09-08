@@ -53,6 +53,9 @@ function CityBikeLeg(
     config,
   );
   const mobileReturn = breakpoint === 'small' && returnBike;
+  const citybikeCapacity =
+    config.cityBike?.networks[bikeRentalStation?.networks[0]]?.capacity ||
+    config.cityBike.capacity; // If capacity is not defined in network, use default config's value
   return (
     <>
       <div className="itinerary-leg-row-bike">{legDescription}</div>
@@ -64,7 +67,7 @@ function CityBikeLeg(
               width={1.655}
               height={1.655}
               badgeText={
-                config.cityBike.capacity !== BIKEAVL_UNKNOWN
+                citybikeCapacity !== BIKEAVL_UNKNOWN
                   ? bikeRentalStation.bikesAvailable
                   : null
               }
