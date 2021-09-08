@@ -173,7 +173,18 @@ export default configMerger(walttiConfig, {
                     en: 'https://www.tier.app/',
                 },
                 visibleInSettingsUi: true,
-            }
+            },
+            "car-sharing": {
+                icon: 'car-sharing',
+                name: {
+                    de: 'Carsharing',
+                    en: 'Car sharing',
+                },
+                type: 'car-sharing',
+                url: {
+                },
+                visibleInSettingsUi: false,
+            },
         }
     },
 
