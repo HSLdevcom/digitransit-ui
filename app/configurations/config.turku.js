@@ -1,6 +1,7 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
 import { isCitybikeSeasonActive } from '../util/modeUtils';
+import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = 'turku';
 const APP_TITLE = 'Fölin reittiopas';
@@ -63,6 +64,7 @@ export default configMerger(walttiConfig, {
     showCityBikes,
     networks: {
       turku: {
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
           fi: 'Turku',

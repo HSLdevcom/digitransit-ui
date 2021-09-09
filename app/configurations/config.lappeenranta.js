@@ -47,6 +47,7 @@ export default configMerger(walttiConfig, {
     capacity: BIKEAVL_UNKNOWN,
     networks: {
       lappeenranta: {
+        capacity: BIKEAVL_UNKNOWN,
         icon: 'citybike',
         name: {
           fi: 'Lappeenranta',

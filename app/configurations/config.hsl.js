@@ -458,6 +458,7 @@ export default {
     showFullInfo: true,
     networks: {
       smoove: {
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
           fi: 'Helsinki ja Espoo',
@@ -488,6 +489,7 @@ export default {
         timeBeforeSurcharge: 30 * 60,
       },
       vantaa: {
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike-secondary',
         name: {
           fi: 'Vantaa',

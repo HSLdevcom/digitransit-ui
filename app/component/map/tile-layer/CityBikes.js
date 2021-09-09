@@ -10,6 +10,7 @@ import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
+  getCitybikeCapacity,
   BIKEAVL_UNKNOWN,
 } from '../../../util/citybikes';
 
@@ -75,7 +76,7 @@ class CityBikes {
       );
     });
 
-  fetchAndDrawStatus = ({ geom, properties: { id } }) => {
+  fetchAndDrawStatus = ({ geom, properties: { id, networks } }) => {
     const lastFetch = timeOfLastFetch[id];
     const currentTime = new Date().getTime();
 
@@ -98,13 +99,14 @@ class CityBikes {
           !this.tile.stopsToShow ||
           this.tile.stopsToShow.includes(result.stationId)
         ) {
+          const citybikeCapacity = getCitybikeCapacity(this.config, networks);
           drawCitybikeIcon(
             this.tile,
             geom,
             result.state,
             result.bikesAvailable,
             iconName,
-            this.config.cityBike.capacity !== BIKEAVL_UNKNOWN,
+            citybikeCapacity !== BIKEAVL_UNKNOWN,
             iconColor,
             isHilighted,
           );
