@@ -202,7 +202,7 @@ export default configMerger(walttiConfig, {
         carpool: 'CARPOOL',
     },
 
-    logo: 'landstadtmobil/landstadtmobil-logo.svg',
+    logo: 'landstadtmobil/landstadtmobil-reutlingen-logo.svg',
 
     GTMid: '',
 
@@ -266,45 +266,45 @@ export default configMerger(walttiConfig, {
         },
         content: [
             {
-                name: 'about-this-service',
-                nameEn: 'About this service',
+                name: 'privacy',
+                nameEn: 'Privacy',
                 route: '/dieser-dienst',
                 icon: 'icon-icon_info',
             },
             {
                 name: 'imprint',
                 nameEn: 'Imprint',
-                href: 'https://www.herrenberg.de/impressum',
-            },
-            {
-                name: 'privacy',
-                nameEn: 'Privacy',
-                href: 'https://www.herrenberg.de/datenschutz',
-            },
+                href: 'https://www.kreis-reutlingen.de/de/impressum',
+            }
         ],
     },
 
     aboutThisService: {
         de: [
             {
-                header: 'Über diesen Dienst',
+                header: 'Datenschutzhinweise zur Routingplatform LandStadtMobil',
                 paragraphs: [
-                    'landstadtmobil ist eine Reiseplanungs-Anwendung für den Kreis Reutlingen und die Pilotgemeinden Münsingen und Engstingen. Dieser Dienst umfasst ÖPNV, Fußwege, Radverkehr, Straßen- und Parkplatzinformationen, Ladeinfrastruktur und Sharing-Angebote. Mobilitätsangebote werden durch intermodales Routing miteinander vernetzt.',
-                    'Gefördert durch <br>',
-                    '<a href="https://www.herrenberg.de/stadtluft"><img src="https://www.herrenberg.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
-
+                    'Es gelten die Datenschutzhinweise des Landkreises Reutlingen. Diese sind unter <a href="https://www.kreis-reutlingen.de/datenschutz">https://www.kreis-reutlingen.de/datenschutz</a> einsehbar.',
+                    'Die Anwendung LandStadtMobil bietet intermodale Mobilitätsauskünfte. Neben den Datenschutzhinweisen des Landkreises (in der Allgemeinen Datenschutzerklärung) zu Server-Logs und Cookies werden zur Optimierung der Anwendung die genutz-ten Funktionen erhoben. Hierzu nutzt die Anwendung LandStadtMobil die Anwendung Matomo und speichert hierzu Cookies. Die Speicherung dieser Cookies erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. ',
+                    'Explizit nicht gespeichert werden Start-/Ziel Suchen.'
                 ],
             },
             {
-                header: 'Mitmachen',
+                header: 'Fahrgemeinschaft.de',
                 paragraphs: [
-                    'Die Stadt Herrenberg hat diese App im Rahmen der Modellstadt, gefördert durch das Bundesministerium für Verkehr und digitale Infrastruktur (BMVI) entwickelt. stadtnavi Anwendung ist eine Open Source Lösung und kann von anderen Kommunen und Akteuren unter ihrem Namen und Erscheinungsbild verwendet und an individuelle Bedürfnisse angepasst und weiterentwickelt werden (White Label Lösung). Mitmachen ist gewünscht!',
+                    'LandStadtMobil nutzt zum Inserieren von Fahrgemeinschaftsangeboten die Dienste der Fahrgemeinschaft.de GmbH, Erlenstr. 7, D-71297 Mönsheim.',
+                    'Beim Inserieren von Mitfahrangeboten werden die folgenden Daten vom Nutzer erhoben und an Fahrgemeinschaft.de übermittelt: ',
+                    'Fahrtdaten (Start, Ziel, Datum/Wochentage und Uhrzeit), Kontaktdaten (Telefonnummer)',
+                    'Die personenbezogenen Daten werden für die Einstellung eines Fahrgemein-schafts-Inserats in LandStadtMobil erhoben und als Kontaktmöglichkeit für die Nut-zer zur Kontaktaufnahme verwendet. Die angegebenen Daten werden durch Fahr-gemeinschaft.de und angeschlossene Partner-Portale veröffentlicht und damit wei-tergegeben. Die Nutzung und Eingabe von Daten in diese Online-Anwendung er-folgt freiwillig.',
+                    'Einmalige Fahrgemeinschaftsangebote werden nach dem Datum der Fahrt ge-löscht. Regelmäßige Fahrgemeinschaftsangebote werden spätestens drei Monate nach Aufgabe des Inserats gelöscht.',
+                    'Mehr Informationen zum Umgang mit Nutzerdaten finden Sie in der Datenschutzer-klärung von Fahrgemeinschaft.de: www.fahrgemeinschaft.de/datenschutz.php',
+                    'LandStadtMobil speichert keine Kontaktdaten.'
                 ]
             },
             {
-                header: 'Digitransit Plattform',
+                header: 'stadtnavi / Digitransit Plattform',
                 paragraphs: [
-                    'Dieser Dienst basiert auf der Digitransit Platform und dem Backend-Dienst OpenTripPlanner. Alle Software ist unter einer offenen Lizenzen verfügbar. Vielen Dank an alle Beteiligten.',
+                    'Dieser Dienst basiert auf dem Dienst stadtnavi, welche auf der Digitransit Platform und dem Backend-Dienst OpenTripPlanner basiert. Alle Software ist unter einer offenen Lizenzen verfügbar. Vielen Dank an alle Beteiligten.',
                     'Der gesamte Quellcode der Plattform, die aus vielen verschiedenen Komponenten besteht, ist auf <a href="https://github.com/stadtnavi/">Github</a> verfügbar.'
                 ],
             },
@@ -313,36 +313,48 @@ export default configMerger(walttiConfig, {
                 paragraphs: [
                     'Kartendaten: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap Mitwirkende</a>',
                     'ÖPNV-Daten: Datensätze der <a target=new href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>NVBW GmbH</a> und der <a target=new href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) jeweils angereichert mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende',
+                    'CarSharing-Standorte: Datensätze der <a target=new href=https://www.teilauto-neckar-alb.de/>teilAuto Neckar-Alb eG</a>.',
+                    'BikeSharing-Standorte: <a target=new href=https://www.tier.app/>TIER Mobility GmbH</a>.',
                     'Alle Angaben ohne Gewähr.'
                 ],
             },
         ],
         en: [
             {
-                header: 'About this service',
+                header: 'Datenschutzhinweise zur Routingplatform LandStadtMobil',
                 paragraphs: [
-                    'stadtnavi is a travel planning application for the city of Herrenberg and its surroundings. This service includes public transport, footpaths, cycling, street and parking information, charging infrastructure and sharing offerings. The mobility offerings are connected through intermodal routing.',
-                    '<a href="https://www.herrenberg.de/stadtluft"><img src="https://www.herrenberg.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
+                    'Es gelten die Datenschutzhinweise des Landkreises Reutlingen. Diese sind unter <a href="https://www.kreis-reutlingen.de/datenschutz">https://www.kreis-reutlingen.de/datenschutz</a> einsehbar.',
+                    'Die Anwendung LandStadtMobil bietet intermodale Mobilitätsauskünfte. Neben den Datenschutzhinweisen des Landkreises (in der Allgemeinen Datenschutzerklärung) zu Server-Logs und Cookies werden zur Optimierung der Anwendung die genutz-ten Funktionen erhoben. Hierzu nutzt die Anwendung LandStadtMobil die Anwendung Matomo und speichert hierzu Cookies. Die Speicherung dieser Cookies erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. ',
+                    'Explizit nicht gespeichert werden Start-/Ziel Suchen.'
                 ],
             },
             {
-                header: 'Contribute',
+                header: 'Fahrgemeinschaft.de',
                 paragraphs: [
-                    'The city of Herrenberg has developed this app, funded by the Federal Ministry of Transport and Digital Infrastructure (BMVI), as model city. The stadtnavi app is an open source solution and can be used, customized and further developed by other municipalities to meet individual needs (white lable solution). Participation is welcome!',
+                    'LandStadtMobil nutzt zum Inserieren von Fahrgemeinschaftsangeboten die Dienste der Fahrgemeinschaft.de GmbH, Erlenstr. 7, D-71297 Mönsheim.',
+                    'Beim Inserieren von Mitfahrangeboten werden die folgenden Daten vom Nutzer erhoben und an Fahrgemeinschaft.de übermittelt: ',
+                    'Fahrtdaten (Start, Ziel, Datum/Wochentage und Uhrzeit), Kontaktdaten (Telefonnummer)',
+                    'Die personenbezogenen Daten werden für die Einstellung eines Fahrgemein-schafts-Inserats in LandStadtMobil erhoben und als Kontaktmöglichkeit für die Nut-zer zur Kontaktaufnahme verwendet. Die angegebenen Daten werden durch Fahr-gemeinschaft.de und angeschlossene Partner-Portale veröffentlicht und damit wei-tergegeben. Die Nutzung und Eingabe von Daten in diese Online-Anwendung er-folgt freiwillig.',
+                    'Einmalige Fahrgemeinschaftsangebote werden nach dem Datum der Fahrt ge-löscht. Regelmäßige Fahrgemeinschaftsangebote werden spätestens drei Monate nach Aufgabe des Inserats gelöscht.',
+                    'Mehr Informationen zum Umgang mit Nutzerdaten finden Sie in der Datenschutzer-klärung von Fahrgemeinschaft.de: www.fahrgemeinschaft.de/datenschutz.php',
+                    'LandStadtMobil speichert keine Kontaktdaten.'
                 ]
             },
             {
-                header: 'Digitransit platform',
+                header: 'stadtnavi / Digitransit Plattform',
                 paragraphs: [
-                    'The Digitransit service platform is an open source routing platform developed by HSL and Traficom. It builds on OpenTripPlanner by Conveyal. Enhancements by Transportkollektiv and MITFAHR|DE|ZENTRALE. All software is open source. Thanks to everybody working on this!',
+                    'Dieser Dienst basiert auf dem Dienst stadtnavi, welche auf der Digitransit Platform und dem Backend-Dienst OpenTripPlanner basiert. Alle Software ist unter einer offenen Lizenzen verfügbar. Vielen Dank an alle Beteiligten.',
+                    'Der gesamte Quellcode der Plattform, die aus vielen verschiedenen Komponenten besteht, ist auf <a href="https://github.com/stadtnavi/">Github</a> verfügbar.'
                 ],
             },
             {
-                header: 'Data sources',
+                header: 'Datenquellen',
                 paragraphs: [
-                    'Map data: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap contributors</a>',
-                    'Public transit data: Datasets by <a target=new href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>NVBW GmbH</a> and <a target=new href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) enhanced with OpenStreetMap data © OpenStreetMap contributors',
-                    'No responsibility is accepted for the accuracy of this information.'
+                    'Kartendaten: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap Mitwirkende</a>',
+                    'ÖPNV-Daten: Datensätze der <a target=new href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>NVBW GmbH</a> und der <a target=new href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) jeweils angereichert mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende',
+                    'CarSharing-Standorte: Datensätze der <a target=new href=https://www.teilauto-neckar-alb.de/>teilAuto Neckar-Alb eG</a>.',
+                    'BikeSharing-Standorte: <a target=new href=https://www.tier.app/>TIER Mobility GmbH</a>.',
+                    'Alle Angaben ohne Gewähr.'
                 ],
             },
         ],

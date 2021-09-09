@@ -708,7 +708,6 @@ export default {
     lahti: 'lahti',
     kuopio: 'kuopio',
     hbnext: 'hbnext',
-    ludwigsburg: 'hbnext',
   },
 
   minutesToDepartureLimit: 9,
