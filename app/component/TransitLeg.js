@@ -499,19 +499,20 @@ class TransitLeg extends React.Component {
               </div>
               <div className="ticket-info">
                 <div className="accent">{LegRouteName}</div>
-                {leg.fare.agency && !config.hideExternalOperator && (
-                  <React.Fragment>
-                    <div>{leg.fare.agency.name}</div>
-                    {leg.fare.agency.fareUrl && (
-                      <ExternalLink
-                        className="agency-link"
-                        href={leg.fare.agency.fareUrl}
-                      >
-                        {intl.formatMessage({ id: 'extra-info' })}
-                      </ExternalLink>
-                    )}
-                  </React.Fragment>
-                )}
+                {leg.fare.agency &&
+                  !config.hideExternalOperator(leg.fare.agency) && (
+                    <React.Fragment>
+                      <div>{leg.fare.agency.name}</div>
+                      {leg.fare.agency.fareUrl && (
+                        <ExternalLink
+                          className="agency-link"
+                          href={leg.fare.agency.fareUrl}
+                        >
+                          {intl.formatMessage({ id: 'extra-info' })}
+                        </ExternalLink>
+                      )}
+                    </React.Fragment>
+                  )}
               </div>
             </div>
           )}
