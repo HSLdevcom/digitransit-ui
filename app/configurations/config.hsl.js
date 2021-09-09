@@ -447,10 +447,10 @@ export default {
   cityBike: {
     minZoomStopsNearYou: 10,
     showCityBikes: cityBikesEnabled,
-    capacity: BIKEAVL_WITHMAX,
     showFullInfo: true,
     networks: {
       smoove: {
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
           fi: 'Helsinki ja Espoo',
@@ -481,6 +481,7 @@ export default {
         timeBeforeSurcharge: 30 * 60,
       },
       vantaa: {
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike-secondary',
         name: {
           fi: 'Vantaa',

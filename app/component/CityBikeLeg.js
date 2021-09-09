@@ -8,6 +8,7 @@ import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
+  getCitybikeCapacity,
 } from '../util/citybikes';
 
 import withBreakpoint from '../util/withBreakpoint';
@@ -53,6 +54,10 @@ function CityBikeLeg(
     config,
   );
   const mobileReturn = breakpoint === 'small' && returnBike;
+  const citybikeCapacity = getCitybikeCapacity(
+    config,
+    bikeRentalStation?.networks[0],
+  );
   return (
     <>
       <div className="itinerary-leg-row-bike">{legDescription}</div>
@@ -64,7 +69,7 @@ function CityBikeLeg(
               width={1.655}
               height={1.655}
               badgeText={
-                config.cityBike.capacity !== BIKEAVL_UNKNOWN
+                citybikeCapacity !== BIKEAVL_UNKNOWN
                   ? bikeRentalStation.bikesAvailable
                   : null
               }
