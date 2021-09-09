@@ -54,8 +54,8 @@ export default configMerger(walttiConfig, {
   cityBike: {
     showCityBikes: true,
     networks: {
-      capacity: BIKEAVL_WITHMAX,
       turku: {
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
           fi: 'Turku',
