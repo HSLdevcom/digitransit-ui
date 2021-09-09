@@ -345,15 +345,7 @@ export default {
     keywords: 'digitransit',
   },
 
-  hideExternalOperator: {
-    BUS: false,
-    TRAM: false,
-    RAIL: false,
-    FERRY: false,
-    AIRPLANE: false,
-    SUBWAY: false,
-    CITYBIKE: false,
-  },
+  hideExternalOperator: () => false,
   // Ticket information feature toggle
   showTicketInformation: false,
   ticketInformation: {

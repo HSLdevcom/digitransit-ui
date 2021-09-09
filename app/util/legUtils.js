@@ -423,7 +423,6 @@ export const getRoutes = legs => {
           fareUrl: agency.fareUrl,
           gtfsId: agency.gtfsId,
           name: agency.name,
-          mode: leg.mode,
         },
         gtfsId: route.gtfsId,
         longName: route.longName,

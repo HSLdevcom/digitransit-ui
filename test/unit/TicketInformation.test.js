@@ -12,7 +12,7 @@ const defaultConfig = {
   showTicketInformation: true,
   showTicketPrice: true,
   fareMapping: fareId => fareId.replace('HSL:', ''),
-  hideExternalOperator: { FERRY: false, BUS: false },
+  hideExternalOperator: () => false,
 };
 
 const proxyFares = (fares, routes = [], config = defaultConfig) =>
@@ -309,9 +309,7 @@ describe('<TicketInformation />', () => {
                   agency: {
                     fareUrl: 'foobar',
                     gtfsId: 'HSL:HSL',
-                    mode: 'BUS',
                   },
-                  mode: 'BUS',
                   gtfsId: 'HSL:1003',
                 },
               ],
@@ -368,7 +366,6 @@ describe('<TicketInformation />', () => {
           {
             agency: {
               gtfsId: 'HSL:HSL',
-              mode: 'BUS',
             },
             gtfsId: 'HSL:1003',
             longName: 'Olympiaterminaali - Eira - Kallio - Meilahti',
@@ -378,7 +375,6 @@ describe('<TicketInformation />', () => {
               fareUrl: 'foobaz',
               gtfsId: 'FOO:BAR',
               name: 'Merisataman lauttaliikenne',
-              mode: 'FERRY',
             },
             gtfsId: 'FOO:1234',
             longName: 'Merisataman lautta',

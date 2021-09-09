@@ -81,10 +81,9 @@ export default function TicketInformation(
             {fare.isUnknown ? (
               <div className="unknown-fare-container">
                 <div className="ticket-identifier">{unknownFareRouteName}</div>
-                {fare.agency &&
-                  !config.hideExternalOperator[fare.agency.mode] && (
-                    <div className="ticket-description">{fare.agency.name}</div>
-                  )}
+                {fare.agency && !config.hideExternalOperator(fare.agency) && (
+                  <div className="ticket-description">{fare.agency.name}</div>
+                )}
               </div>
             ) : (
               <div>
@@ -104,7 +103,7 @@ export default function TicketInformation(
         </div>
         {fare.agency &&
           fare.agency.fareUrl &&
-          !config.hideExternalOperator[fare.agency.mode] && (
+          !config.hideExternalOperator(fare.agency) && (
             <div
               className="ticket-type-agency-link"
               key={i} // eslint-disable-line react/no-array-index-key

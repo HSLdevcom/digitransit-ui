@@ -55,7 +55,6 @@ export const getFares = (fares, routes, config) => {
         fareUrl: route.agency.fareUrl,
         gtfsId: route.agency.gtfsId,
         name: route.agency.name,
-        mode: route.agency.mode,
       },
       isUnknown: true,
       routeGtfsId: route.gtfsId,

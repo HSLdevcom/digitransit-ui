@@ -322,12 +322,7 @@ export default {
     ],
   },
 
-  hideExternalOperator: {
-    BUS: true,
-    RAIL: true,
-    TRAM: true,
-    SUBWAY: true,
-  },
+  hideExternalOperator: agency => agency.name === 'Helsingin seudun liikenne',
   showTicketInformation: true,
   ticketInformation: {
     primaryAgencyName: 'HSL',
