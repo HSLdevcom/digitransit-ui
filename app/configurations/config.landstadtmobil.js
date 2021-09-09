@@ -274,7 +274,7 @@ export default configMerger(walttiConfig, {
             {
                 name: 'imprint',
                 nameEn: 'Imprint',
-                href: 'https://www.herrenberg.de/impressum',
+                href: 'https://www.kreis-reutlingen.de/de/impressum',
             },
             {
                 name: 'privacy',
