@@ -88,8 +88,14 @@ class RouteScheduleContainer extends PureComponent {
 
   componentDidMount = () => {
     const { match } = this.props;
-    const date = moment(match.location.query.serviceDay, 'YYYYMMDD', true);
-    if (date.isBefore(moment())) {
+    const date = moment(match.location.query.serviceDay, DATE_FORMAT, true);
+    // Don't allow past dates (before current week) because we might have no data from them
+    if (
+      date &&
+      moment(date.clone().startOf('isoWeek').format(DATE_FORMAT)).isBefore(
+        moment(moment().startOf('isoWeek').format(DATE_FORMAT)),
+      )
+    ) {
       match.router.replace(decodeURIComponent(match.location.pathname));
     }
   };
@@ -172,14 +178,6 @@ class RouteScheduleContainer extends PureComponent {
   formatTime = timestamp => moment(timestamp * 1000).format('HH:mm');
 
   changeDate = newServiceDay => {
-    // Don't set past dates because we have no data from them
-    if (moment(newServiceDay).isBefore(moment())) {
-      if (this.hasMergedData) {
-        newServiceDay = moment(newServiceDay).add(7, 'd').format(DATE_FORMAT);
-      } else {
-        newServiceDay = moment().format(DATE_FORMAT);
-      }
-    }
     addAnalyticsEvent({
       category: 'Route',
       action: 'ChangeTimetableDay',
@@ -270,10 +268,12 @@ class RouteScheduleContainer extends PureComponent {
   };
 
   renderDayTabs = data => {
-    const dayArray = data ? data[2][3] : undefined;
+    const dayArray =
+      data && data.length >= 3 && data[2].length >= 4 ? data[2][3] : undefined;
     if (!dayArray || (dayArray.length === 1 && dayArray[0] === '1234567')) {
       return null;
     }
+
     if (dayArray.length > 0) {
       const singleDays = dayArray.filter(s => s.length === 1);
       const multiDays = dayArray.filter(s => s.length !== 1);
@@ -329,21 +329,31 @@ class RouteScheduleContainer extends PureComponent {
           focusedTab = tab;
         }
 
-        let tabDate = moment(data[2][1]);
-        if (tab.indexOf(data[2][2]) !== -1) {
-          tabDate = moment(data[0][0])
-            .clone()
-            .add(data[2][2] - 1, 'd');
-        } else {
-          tabDate = moment(data[0][0])
-            .clone()
-            .add(tab[0] - 1, 'd');
-          if (data[4] && tab[0] - 1 < data[2][2] && isSameWeek) {
-            tabDate = moment(data[0][0])
-              .clone()
-              .add(tab[0] - 1 + 7, 'd');
+        let tabDate = moment(data[2][4]);
+        if (
+          data[4] &&
+          data[5] &&
+          !isEqual(
+            tabDate.clone().format(DATE_FORMAT),
+            moment(data[5]).format(DATE_FORMAT),
+          )
+        ) {
+          if (
+            moment(data[5]).isAfter(
+              tabDate
+                .clone()
+                .add(Number(tab[0]) - 1, 'd')
+                .format(DATE_FORMAT),
+            )
+          ) {
+            tabDate = tabDate.clone().add(Number(tab[0]) + 6, 'd');
+          } else {
+            tabDate = tabDate.clone().add(Number(tab[0]) - 1, 'd');
           }
+        } else {
+          tabDate = tabDate.clone().add(Number(tab[0]) - 1, 'd');
         }
+
         return (
           <button
             type="button"
@@ -412,13 +422,31 @@ class RouteScheduleContainer extends PureComponent {
     const wantedDay = wantedDayIn || moment();
     const startOfWeek = moment().startOf('isoWeek');
     const today = moment();
+
     const currentAndNextWeekAreSame =
       departureCount >= 2 && isEqual(departures[0], departures[1]);
+
     const weekStarts = [
       currentAndNextWeekAreSame
         ? startOfWeek.format(DATE_FORMAT)
         : today.format(DATE_FORMAT),
     ];
+
+    let pastDate;
+    if (
+      !currentAndNextWeekAreSame &&
+      departures &&
+      departures.length > 0 &&
+      departures[0].length > 0
+    ) {
+      const minDayNo = Math.min(...departures[0][0][0].split('').map(Number));
+      pastDate = startOfWeek
+        .clone()
+        .add(minDayNo - 1)
+        .format(DATE_FORMAT);
+      weekStarts[0] = pastDate;
+    }
+
     const weekEnds = [startOfWeek.clone().endOf('isoWeek').format(DATE_FORMAT)];
     const days = [[]];
     const indexToRemove = [];
@@ -534,6 +562,7 @@ class RouteScheduleContainer extends PureComponent {
       range,
       options.filter(o => o),
       currentAndNextWeekAreSame,
+      pastDate,
     ];
   };
 
