@@ -1,12 +1,21 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
 import { BIKEAVL_UNKNOWN } from '../util/citybikes';
+import { isCitybikeSeasonActive } from '../util/modeUtils';
 
 const CONFIG = 'lappeenranta';
 const APP_TITLE = 'reittiopas.lappeenranta.fi';
 const APP_DESCRIPTION = '';
 
 const walttiConfig = require('./config.waltti').default;
+
+const cityBikesEnabled = true;
+const citybikeSeason = {
+  start: new Date(new Date().getFullYear(), 3, 1),
+  end: new Date(new Date().getFullYear(), 11, 1),
+};
+const showCityBikes =
+  cityBikesEnabled && isCitybikeSeasonActive(citybikeSeason);
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -34,7 +43,7 @@ export default configMerger(walttiConfig, {
   favicon: './app/configurations/images/lappeenranta/bussi_fin.jpeg',
 
   cityBike: {
-    showCityBikes: true,
+    showCityBikes,
     capacity: BIKEAVL_UNKNOWN,
     networks: {
       lappeenranta: {
@@ -56,7 +65,7 @@ export default configMerger(walttiConfig, {
 
   transportModes: {
     citybike: {
-      availableForSelection: true,
+      availableForSelection: showCityBikes,
     },
   },
 

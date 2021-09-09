@@ -1,5 +1,6 @@
 /* eslint-disable prefer-template */
 import { BIKEAVL_WITHMAX } from '../util/citybikes';
+import { isCitybikeSeasonActive } from '../util/modeUtils';
 
 const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
@@ -15,6 +16,12 @@ const BANNER_URL = 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
 // 'https://test-api.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
 
 const cityBikesEnabled = true;
+const citybikeSeason = {
+  start: new Date(new Date().getFullYear(), 3, 1),
+  end: new Date(new Date().getFullYear(), 10, 1),
+};
+const showCityBikes =
+  cityBikesEnabled && isCitybikeSeasonActive(citybikeSeason);
 
 export default {
   CONFIG,
@@ -125,7 +132,7 @@ export default {
 
   transportModes: {
     citybike: {
-      availableForSelection: cityBikesEnabled,
+      availableForSelection: showCityBikes,
     },
     airplane: {
       availableForSelection: false,
@@ -446,7 +453,7 @@ export default {
 
   cityBike: {
     minZoomStopsNearYou: 10,
-    showCityBikes: cityBikesEnabled,
+    showCityBikes,
     capacity: BIKEAVL_WITHMAX,
     showFullInfo: true,
     networks: {
@@ -535,7 +542,7 @@ export default {
     'subway',
     'rail',
     'ferry',
-    cityBikesEnabled && 'citybike',
+    ...(showCityBikes ? ['citybike'] : []),
   ],
 
   hostnames: [

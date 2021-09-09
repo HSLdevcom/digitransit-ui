@@ -229,3 +229,18 @@ export const modesAsOTPModes = modes =>
         ? { mode: modeAndQualifier[0], qualifier: modeAndQualifier[1] }
         : { mode: modeAndQualifier[0] },
     );
+
+export const isCitybikeSeasonActive = season => {
+  if (!season) {
+    return true;
+  }
+  const currentDate = new Date();
+
+  if (
+    currentDate.getTime() <= season.end.getTime() &&
+    currentDate.getTime() >= season.start.getTime()
+  ) {
+    return true;
+  }
+  return false;
+};
