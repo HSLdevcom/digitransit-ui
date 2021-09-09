@@ -202,7 +202,7 @@ export default configMerger(walttiConfig, {
         carpool: 'CARPOOL',
     },
 
-    logo: 'landstadtmobil/landstadtmobil-logo.svg',
+    logo: 'landstadtmobil/landstadtmobil-reutlingen-logo.svg',
 
     GTMid: '',
 
