@@ -10,6 +10,7 @@ import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
+  getCitybikeCapacity,
   BIKEAVL_UNKNOWN,
 } from '../../../util/citybikes';
 
@@ -98,9 +99,7 @@ class CityBikes {
           !this.tile.stopsToShow ||
           this.tile.stopsToShow.includes(result.stationId)
         ) {
-          const citybikeCapacity =
-            this.config.cityBike.networks[networks].capacity ||
-            this.config.cityBike.capacity;
+          const citybikeCapacity = getCitybikeCapacity(this.config, networks);
           drawCitybikeIcon(
             this.tile,
             geom,

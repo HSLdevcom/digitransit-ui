@@ -81,6 +81,11 @@ export const mapDefaultNetworkProperties = config => {
   return mappedNetworks;
 };
 
+export const getCitybikeCapacity = (config, network = undefined) => {
+  return (
+    config.cityBike?.networks[network]?.capacity || config.cityBike.capacity
+  );
+};
 /**
  * Retrieves all chosen citybike networks from the
  * localstorage or default configuration.

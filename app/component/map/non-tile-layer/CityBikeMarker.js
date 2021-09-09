@@ -10,6 +10,7 @@ import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
+  getCitybikeCapacity,
 } from '../../../util/citybikes';
 import { isBrowser } from '../../../util/browser';
 import {
@@ -83,9 +84,7 @@ export default class CityBikeMarker extends React.Component {
   getIcon = zoom => {
     const { showBikeAvailability, station, transit } = this.props;
     const { config } = this.context;
-    const citybikeCapacity =
-      config.cityBike?.networks[station?.networks[0]]?.capacity ||
-      config.cityBike.capacity; // If capacity is not defined in network, use default config's value
+    const citybikeCapacity = getCitybikeCapacity(config, station.networks[0]);
     const iconName = `${getCityBikeNetworkIcon(
       getCityBikeNetworkConfig(getCityBikeNetworkId(station.networks), config),
     )}-lollipop`;

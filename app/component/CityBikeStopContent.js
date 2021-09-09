@@ -5,6 +5,7 @@ import Icon from './Icon';
 import {
   getCityBikeNetworkIcon,
   getCityBikeNetworkConfig,
+  getCitybikeCapacity,
   BIKEAVL_UNKNOWN,
   BIKEAVL_WITHMAX,
   BIKESTATION_OFF,
@@ -12,9 +13,10 @@ import {
 } from '../util/citybikes';
 
 const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
-  const citybikeCapacity =
-    config.cityBike?.networks[bikeRentalStation?.networks[0]]?.capacity ||
-    config.cityBike.capacity; // If capacity is not defined in networks, use default value
+  const citybikeCapacity = getCitybikeCapacity(
+    config,
+    bikeRentalStation.networks[0],
+  );
   if (citybikeCapacity === BIKEAVL_UNKNOWN) {
     return null;
   }
