@@ -15,14 +15,14 @@ describe('timetableConfigUtils', () => {
       );
       expect(url).to.equal(`${baseTimetableURL}2550.pdf`);
     });
-    it('should resolve URL correctly for tampere instance', () => {
+    it('should resolve URL for bus lines correctly for tampere instance', () => {
       const timetableHandler = timetables.default.tampere;
-      const route = { gtfsId: 'tampere:11C' };
+      const route = { shortName: '11C', mode: 'BUS' };
       const url = timetableHandler.timetableUrlResolver(
         baseTimetableURL,
         route,
       );
-      expect(url).to.equal(`${baseTimetableURL}linja11.pdf`);
+      expect(url).to.equal(`${baseTimetableURL}11.html`);
     });
   });
   describe('stopPdfUrlResolver', () => {

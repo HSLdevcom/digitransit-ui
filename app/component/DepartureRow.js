@@ -2,12 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
+import { v4 as uuid } from 'uuid';
+import { Link } from 'found';
 import LocalTime from './LocalTime';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
 import Icon from './Icon';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
 const DepartureRow = (
-  { departure, departureTime, showPlatformCode, canceled, ...props },
+  { departure, departureTime, showPlatformCode, canceled, showLink, ...props },
   { config },
 ) => {
   const mode = departure.trip.route.mode.toLowerCase();
@@ -41,58 +45,84 @@ const DepartureRow = (
       />
     );
   }
-  return (
-    <div role="cell" className="departure-row-container">
-      <div
+
+  const row = () => {
+    return (
+      <tr
         className={cx(
           'departure-row',
           mode,
           departure.bottomRow ? 'bottom' : '',
           props.className,
         )}
+        key={uuid()}
       >
-        <div
+        <td
           className="route-number-container"
           style={{ backgroundColor: `#${departure.trip.route.color}` }}
         >
           <div className="route-number">{shortName}</div>
-        </div>
-        <div
+        </td>
+        <td
           className={cx('route-headsign', departure.bottomRow ? 'bottom' : '')}
         >
           {headsign} {departure.bottomRow && departure.bottomRow}
-        </div>
-        {shownTime && (
-          <div
-            className={cx('route-arrival', {
+        </td>
+        <td className="time-cell">
+          {shownTime && (
+            <span
+              className={cx('route-arrival', {
+                realtime: departure.realtime,
+                canceled,
+              })}
+            >
+              {shownTime}
+            </span>
+          )}
+          <span
+            className={cx('route-time', {
               realtime: departure.realtime,
               canceled,
             })}
           >
-            {shownTime}
-          </div>
-        )}
-        <div
-          className={cx('route-time', {
-            realtime: departure.realtime,
-            canceled,
-          })}
+            <LocalTime time={departureTime} />
+          </span>
+        </td>
+        <td className="platform-cell">
+          {showPlatformCode && (
+            <div
+              className={
+                !departure.stop.platformCode
+                  ? 'platform-code empty'
+                  : 'platform-code'
+              }
+            >
+              {departure.stop.platformCode}
+            </div>
+          )}
+        </td>
+      </tr>
+    );
+  };
+
+  return (
+    <>
+      {showLink && (
+        <Link
+          to={`/${PREFIX_ROUTES}/${departure.trip.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.trip.pattern.code}`}
+          onClick={() => {
+            addAnalyticsEvent({
+              category: 'Stop',
+              action: 'OpenRouteViewFromStop',
+              name: 'RightNowTab',
+            });
+          }}
         >
-          <LocalTime time={departureTime} />
-        </div>
-        {showPlatformCode && (
-          <div
-            className={
-              !departure.stop.platformCode
-                ? 'platform-code empty'
-                : 'platform-code'
-            }
-          >
-            {departure.stop.platformCode}
-          </div>
-        )}
-      </div>
-    </div>
+          {row()}
+        </Link>
+      )}
+      {!showLink && <>{row()}</>}
+    </>
   );
 };
 DepartureRow.propTypes = {
@@ -102,6 +132,7 @@ DepartureRow.propTypes = {
   showPlatformCode: PropTypes.bool,
   canceled: PropTypes.bool,
   className: PropTypes.string,
+  showLink: PropTypes.bool,
 };
 
 DepartureRow.contextTypes = {

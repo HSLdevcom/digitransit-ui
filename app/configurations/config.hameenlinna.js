@@ -37,7 +37,7 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'hameenlinna/logo.png',
 
-  feedIds: ['Hameenlinna', 'HameenlinnaEly'],
+  feedIds: ['Hameenlinna'],
 
   geoJson: {
     layers: [

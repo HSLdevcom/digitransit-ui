@@ -9,12 +9,15 @@ import CityBikeStopContent from './CityBikeStopContent';
 import BikeRentalStationHeader from './BikeRentalStationHeader';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
-import { getCityBikeNetworkConfig } from '../util/citybikes';
+import {
+  getCityBikeNetworkConfig,
+  getCityBikeNetworkId,
+} from '../util/citybikes';
 import { isBrowser } from '../util/browser';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 
 const BikeRentalStationContent = (
-  { bikeRentalStation, breakpoint, language, router },
+  { bikeRentalStation, breakpoint, language, router, error },
   { config },
 ) => {
   const [isClient, setClient] = useState(false);
@@ -23,7 +26,12 @@ const BikeRentalStationContent = (
     setClient(true);
   });
 
-  if (!bikeRentalStation) {
+  // throw error in client side relay query fails
+  if (isClient && error) {
+    throw error.message;
+  }
+
+  if (!bikeRentalStation && !error) {
     if (isBrowser) {
       router.replace(`/${PREFIX_BIKESTATIONS}`);
     } else {
@@ -42,6 +50,16 @@ const BikeRentalStationContent = (
   let returnInstructionsUrl;
   if (networkConfig.returnInstructions) {
     returnInstructionsUrl = networkConfig.returnInstructions[language];
+  }
+  const { cityBike } = config;
+  const cityBikeBuyUrl = cityBike.buyUrl;
+  let cityBikeNetworkUrl;
+  // Use general information about using city bike, if one network config is available
+  if (Object.keys(cityBike.networks).length === 1) {
+    cityBikeNetworkUrl = getCityBikeNetworkConfig(
+      getCityBikeNetworkId(Object.keys(cityBike.networks)),
+      config,
+    ).url;
   }
   return (
     <div className="bike-station-page-container">
@@ -65,26 +83,37 @@ const BikeRentalStationContent = (
           </a>
         </div>
       )}
-      <div className="citybike-use-disclaimer">
-        <div className="disclaimer-header">
-          <FormattedMessage id="citybike-start-using" />
+      {(cityBikeBuyUrl || cityBikeNetworkUrl) && (
+        <div className="citybike-use-disclaimer">
+          <div className="disclaimer-header">
+            <FormattedMessage id="citybike-start-using" />
+          </div>
+          <div className="disclaimer-content">
+            {cityBikeBuyUrl ? (
+              <FormattedMessage id="citybike-buy-season" />
+            ) : (
+              <a
+                className="external-link-citybike"
+                href={cityBikeNetworkUrl[language]}
+              >
+                <FormattedMessage id="citybike-start-using-info" />{' '}
+              </a>
+            )}
+          </div>
+          {isClient && cityBikeBuyUrl && (
+            <a
+              onClick={e => {
+                e.stopPropagation();
+              }}
+              className="external-link"
+              href={url}
+            >
+              <FormattedMessage id="citybike-purchase-link" />
+              <Icon img="icon-icon_external-link-box" />
+            </a>
+          )}
         </div>
-        <div className="disclaimer-content">
-          <FormattedMessage id="citybike-buy-season" />
-        </div>
-        {isClient && (
-          <a
-            onClick={e => {
-              e.stopPropagation();
-            }}
-            className="external-link"
-            href={url}
-          >
-            <FormattedMessage id="citybike-purchase-link" />
-            <Icon img="icon-icon_external-link-box" />
-          </a>
-        )}
-      </div>
+      )}
     </div>
   );
 };
@@ -93,6 +122,7 @@ BikeRentalStationContent.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
   router: routerShape.isRequired,
+  error: PropTypes.object,
 };
 BikeRentalStationContent.contextTypes = {
   config: PropTypes.object.isRequired,

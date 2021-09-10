@@ -199,6 +199,7 @@
       min-width: 100%;
       height: 48px;
       .transport-mode-icon-with-icon {
+        cursor: pointer;
         display: flex;
         position: relative;
         left: 17px;
@@ -224,6 +225,7 @@
         }
       }
       .transport-mode-title {
+        cursor: pointer;
         position: relative;
         font-style: normal;
         font-weight: var(--font-weight-medium);
@@ -238,6 +240,115 @@
       }
       &:hover {
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+}
+
+.nearby-stops-bubble-dialog {
+  position: relative;
+  width: 100%;
+  z-index: 23;
+  margin-bottom: 10px;
+
+  @keyframes appear {
+    0% {
+      opacity: 0;
+      transform: translateY(-15px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  opacity: 0;
+  &.visible {
+    opacity: 1;
+    animation: appear 0.5s;
+  }
+
+  @include min-width(tablet) {
+    position: absolute;
+    width: 0;
+    height: 0;
+    margin: 0;
+  }
+
+  .nearby-stops-bubble-dialog-container {
+    display: flex;
+    position: relative;
+    border-radius: 5px;
+    background: #FFEFE8;
+    font-size: 15px;
+    line-height: 18px;
+    letter-spacing: -0.03em;
+    padding: 15px 0 17px 0;
+    @include min-width(tablet) {
+      position: absolute;
+      padding: 12px 0 11px 0;
+      min-height: 80px;
+      width: 300px;
+      left: 230px;
+
+      transform: translateY(-100%);
+      top: -6px;
+    }
+    .nearby-stops-bubble-dialog-header {
+      font-weight: var(--font-weight-medium);
+      padding: 0 49px 4px 20px;
+      &.fi {
+        min-height: 19.2px;
+      }
+      &.sv, &.en {
+        min-height: 39.2px;
+      }
+      @include min-width(tablet) {
+        padding: 0 44px 3px 20px;
+      }
+    }
+
+    .nearby-stops-bubble-dialog-content {
+      font-weight: 400;
+      padding: 0 49px 0 20px;
+      min-height: 35.2px;
+
+      @include min-width(tablet) {
+        padding: 0 57px 0 20px;
+      }
+    }
+
+    .nearby-stops-bubble-dialog-close {
+      display: flex;
+      position: absolute;
+      right: 15px;
+      top: 14px;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      @include min-width(tablet) {
+        top: 16px;
+      }
+      svg {
+        fill: #333;
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    .nearby-stops-bubble-dialog-tip-container {
+      position: absolute;
+      height: 42px;
+      overflow: hidden;
+      width: 42px;
+      background-color: #FFEFE8;
+      transform: rotate(45deg);
+      z-index: -1;
+      bottom: -4px;
+      left: 52px;
+      @include min-width(tablet) {
+        left: 18px;
       }
     }
   }

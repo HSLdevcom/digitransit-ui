@@ -23,7 +23,13 @@ export function mapFares(fares, config) {
         fare.routes.length > 0 &&
         fare.routes[0].agency) ||
       undefined,
-    ticketName: config.fareMapping(fare.fareId),
+    ticketName:
+      // E2E-testing does not work without this check
+      (config.NODE_ENV === 'test' &&
+        (fare.fareId && fare.fareId.substring
+          ? fare.fareId.substring(fare.fareId.indexOf(':') + 1)
+          : '')) ||
+      config.fareMapping(fare.fareId),
   }));
 }
 

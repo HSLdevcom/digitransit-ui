@@ -41,7 +41,7 @@ module.exports = {
     'jsx-a11y/label-has-for': 'off', // deprecated in 6.1.0, does not support select tags
 
     // compat
-    'compat/compat': 'error',
+    'compat/compat': 'warn',
 
     // graphql
     'graphql/template-strings': [

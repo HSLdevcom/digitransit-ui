@@ -23,7 +23,16 @@ describe('<ItineraryLegs />', () => {
       waitThreshold: 180,
     };
     const wrapper = mountWithIntl(<ItineraryLegs {...props} />, {
-      context: mockContext,
+      context: {
+        ...mockContext,
+        match: {
+          ...mockContext.match,
+          location: {
+            ...mockContext.match.location,
+            state: {},
+          },
+        },
+      },
       childContextTypes: mockChildContextTypes,
     });
 

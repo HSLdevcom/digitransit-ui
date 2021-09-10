@@ -1,10 +1,15 @@
 import cloneDeep from 'lodash/cloneDeep';
-import forEach from 'lodash/forEach';
+import get from 'lodash/get';
 import { BIKEAVL_UNKNOWN } from './citybikes';
 
 function filterLegStops(leg, filter) {
   if (leg.from.stop && leg.to.stop && leg.trip) {
     const stops = [leg.from.stop.gtfsId, leg.to.stop.gtfsId];
+    if (leg.trip.stoptimesForDate) {
+      return leg.trip.stoptimesForDate
+        .filter(stoptime => stops.indexOf(stoptime.stop.gtfsId) !== -1)
+        .filter(filter);
+    }
     return leg.trip.stoptimes
       .filter(stoptime => stops.indexOf(stoptime.stop.gtfsId) !== -1)
       .filter(filter);
@@ -105,6 +110,20 @@ const continueWithBicycle = (leg1, leg2) => {
   return isBicycle1 && isBicycle2 && !leg1.to.bikePark;
 };
 
+export const getLegText = (route, config, interliningWithRoute) => {
+  const showAgency = get(config, 'agency.show', false);
+  if (interliningWithRoute && interliningWithRoute !== route.shortName) {
+    return `${route.shortName} / ${interliningWithRoute}`;
+  }
+  if (route.shortName) {
+    return route.shortName;
+  }
+  if (showAgency && route.agency) {
+    return route.agency.name;
+  }
+  return '';
+};
+
 const bikingEnded = leg1 => {
   return leg1.from.bikeRentalStation && leg1.mode === 'WALK';
 };
@@ -114,14 +133,19 @@ const bikingEnded = leg1 => {
  * one after the other.
  *
  * @param {*} originalLegs an array of legs
+ * @param {boolean} keepBicycleWalk whether to keep bicycle walk legs before and after a public transport leg
  */
-export const compressLegs = originalLegs => {
+export const compressLegs = (originalLegs, keepBicycleWalk = false) => {
   const usingOwnBicycle = originalLegs.some(
     leg => getLegMode(leg) === LegMode.Bicycle && leg.rentedBike === false,
   );
   const compressedLegs = [];
   let compressedLeg;
-  forEach(originalLegs, currentLeg => {
+  let bikeParked = false;
+  originalLegs.forEach((currentLeg, i) => {
+    if (currentLeg.to?.bikePark) {
+      bikeParked = true;
+    }
     if (!compressedLeg) {
       compressedLeg = cloneDeep(currentLeg);
       return;
@@ -132,6 +156,21 @@ export const compressLegs = originalLegs => {
       return;
     }
 
+    if (keepBicycleWalk && usingOwnBicycle) {
+      if (originalLegs[i + 1]?.transitLeg && currentLeg.mode !== 'BICYCLE') {
+        compressedLegs.push(compressedLeg);
+        compressedLeg = cloneDeep(currentLeg);
+        return;
+      }
+      if (
+        compressedLegs[compressedLegs.length - 1]?.transitLeg &&
+        compressedLeg.mode !== 'BICYCLE'
+      ) {
+        compressedLegs.push(compressedLeg);
+        compressedLeg = cloneDeep(currentLeg);
+        return;
+      }
+    }
     if (usingOwnBicycle && continueWithBicycle(compressedLeg, currentLeg)) {
       // eslint-disable-next-line no-nested-ternary
       const newBikePark = compressedLeg.to.bikePark
@@ -160,14 +199,22 @@ export const compressLegs = originalLegs => {
       return;
     }
 
-    if (usingOwnBicycle && getLegMode(compressedLeg) === LegMode.Walk) {
+    if (
+      usingOwnBicycle &&
+      !bikeParked &&
+      getLegMode(compressedLeg) === LegMode.Walk
+    ) {
       compressedLeg.mode = LegMode.BicycleWalk;
     }
 
     compressedLegs.push(compressedLeg);
     compressedLeg = cloneDeep(currentLeg);
 
-    if (usingOwnBicycle && getLegMode(currentLeg) === LegMode.Walk) {
+    if (
+      usingOwnBicycle &&
+      !bikeParked &&
+      getLegMode(currentLeg) === LegMode.Walk
+    ) {
       compressedLeg.mode = LegMode.BicycleWalk;
     }
   });
@@ -200,6 +247,15 @@ export const onlyBiking = itinerary =>
  */
 export const containsBiking = itinerary => itinerary.legs.some(isBikingLeg);
 
+/**
+ * Checks if any of the legs in the given itinerary contains biking with rental bike.
+ *
+ * @param {*} leg
+ */
+export const legContainsRentalBike = leg =>
+  (getLegMode(leg) === LegMode.CityBike ||
+    getLegMode(leg) === LegMode.Bicycle) &&
+  leg.rentedBike;
 /**
  * Calculates and returns the total walking distance undertaken in an itinerary.
  * This could be used as a fallback if the backend returns an invalid value.

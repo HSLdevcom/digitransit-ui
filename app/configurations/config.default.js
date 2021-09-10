@@ -7,9 +7,9 @@ const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const GEOCODING_BASE_URL = `${API_URL}/geocoding/v1`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || 'next-'; // TODO maybe use regular endpoint again at some point
+const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
 const APP_PATH = process.env.APP_CONTEXT || '';
-const { SENTRY_DSN } = process.env;
+const { SENTRY_DSN, AXE, NODE_ENV } = process.env;
 const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
 const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 12000;
@@ -21,7 +21,9 @@ const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
 export default {
   SENTRY_DSN,
   PORT,
+  AXE,
   CONFIG,
+  NODE_ENV,
   OTPTimeout: OTP_TIMEOUT,
   URL: {
     API_URL,
@@ -45,7 +47,7 @@ export default {
     }/place`,
     ROUTE_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/routes/`,
-      tampere: 'http://nysse.fi/media/aikataulut/',
+      tampere: 'https://www.nysse.fi/aikataulut-ja-reitit/linjat/',
     },
     STOP_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/stops/`,
@@ -106,7 +108,16 @@ export default {
 
   omitNonPickups: true,
   maxNearbyStopAmount: 5,
-  maxNearbyStopDistance: 2000,
+  maxNearbyStopDistance: {
+    favorite: 100000,
+    bus: 100000,
+    tram: 100000,
+    subway: 100000,
+    rail: 100000,
+    ferry: 100000,
+    citybike: 100000,
+    airplane: 200000,
+  },
 
   defaultSettings: {
     accessibilityOption: 0,
@@ -116,6 +127,8 @@ export default {
     walkReluctance: 2,
     walkSpeed: 1.2,
     includeBikeSuggestions: true,
+    includeParkAndRideSuggestions: false,
+    includeCarSuggestions: false,
   },
 
   /**
@@ -144,9 +157,12 @@ export default {
   walkBoardCostHigh: 1200,
 
   maxWalkDistance: 10000,
+  suggestBikeAndPublicMaxDistance: 15000,
   suggestWalkMaxDistance: 10000,
   suggestBikeMaxDistance: 30000,
-  suggestBikeAndPublicMaxDistance: 15000,
+  // if you enable car suggestions but the linear distance between all points is less than this, then a car route will
+  // not be computed
+  suggestCarMinDistance: 2000,
   itineraryFiltering: 1.5, // drops 66% worse routes
   useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
   minTransferTime: 120,
@@ -329,6 +345,7 @@ export default {
     keywords: 'digitransit',
   },
 
+  hideExternalOperator: () => false,
   // Ticket information feature toggle
   showTicketInformation: false,
   ticketInformation: {
@@ -703,6 +720,8 @@ export default {
   showBikeAndParkItineraries: false,
 
   includeBikeSuggestions: true,
+  includeCarSuggestions: false,
+  includeParkAndRideSuggestions: false,
 
   showNearYouButtons: false,
   nearYouModes: [],
@@ -717,4 +736,11 @@ export default {
     stops: false,
     itinerary: false,
   },
+
+  viaPointsEnabled: true,
+
+  // DT-4802 Toggling this off shows the alert bodytext instead of the header
+  showAlertHeader: true,
+
+  showSimilarRoutesOnRouteDropDown: false,
 };

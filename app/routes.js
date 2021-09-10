@@ -77,7 +77,7 @@ export default config => {
     <Route Component={TopLevel}>
       {getStopRoutes()}
       {getStopRoutes(true) /* terminals */}
-      {routeRoutes}
+      {routeRoutes(config)}
       <Route path={`/${PREFIX_BIKESTATIONS}/:id`}>
         {{
           content: (
@@ -94,7 +94,12 @@ export default config => {
                   }
                 }
               `}
-              render={getComponentOrNullRenderer}
+              render={({ Component, props, error, match }) => {
+                if (Component && (props || error)) {
+                  return <Component {...props} match={match} error={error} />;
+                }
+                return null;
+              }}
             />
           ),
           map: (

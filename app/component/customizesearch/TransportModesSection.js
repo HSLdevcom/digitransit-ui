@@ -75,7 +75,7 @@ const TransportModesSection = (
             style={{
               display: 'inline-block',
               width: '100%',
-              padding: '10px 0px 10px 4.5em',
+              padding: '10px 0px 10px 66.24px',
             }}
           >
             <legend className="settings-header settings-header-citybike">

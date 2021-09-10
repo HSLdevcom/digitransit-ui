@@ -7,7 +7,7 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class TimeTableOptionsPanel extends React.Component {
   static propTypes = {
-    stop: PropTypes.object,
+    stop: PropTypes.object.isRequired,
     showRoutes: PropTypes.array,
     showFilterModal: PropTypes.func,
   };
@@ -30,6 +30,9 @@ class TimeTableOptionsPanel extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
+    if (!this.props.stop) {
+      throw Error('Empty stop');
+    }
     const routeNames = this.getRouteNames(this.props.showRoutes);
     const showRoutesDiv = routeNames.map(
       (o, i) =>

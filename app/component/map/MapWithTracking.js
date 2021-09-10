@@ -6,6 +6,7 @@ import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import getContext from 'recompose/getContext';
 import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
+import isEmpty from 'lodash/isEmpty';
 import { intlShape } from 'react-intl';
 import { startLocationWatch } from '../../action/PositionActions';
 import ComponentUsageExample from '../ComponentUsageExample';
@@ -20,6 +21,7 @@ import PreferencesStore from '../../store/PreferencesStore';
 import MapLayersDialogContent from '../MapLayersDialogContent';
 import MenuDrawer from '../MenuDrawer';
 import withBreakpoint from '../../util/withBreakpoint';
+import { mapLayerOptionsShape } from '../../util/shapes';
 
 const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'lat',
@@ -31,6 +33,7 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'children',
   'leafletObjs',
   'bottomButtons',
+  'topButtons',
 ]);
 
 const MapCont = onlyUpdateCoordChanges(MapContainer);
@@ -51,6 +54,7 @@ class MapWithTrackingStateHandler extends React.Component {
     leafletObjs: PropTypes.array,
     renderCustomButtons: PropTypes.func,
     mapLayers: mapLayerShape.isRequired,
+    mapLayerOptions: mapLayerOptionsShape,
     mapTracking: PropTypes.bool,
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
@@ -62,6 +66,7 @@ class MapWithTrackingStateHandler extends React.Component {
     leafletEvents: PropTypes.object,
     breakpoint: PropTypes.string,
     lang: PropTypes.string,
+    topButtons: PropTypes.node,
   };
 
   static defaultProps = {
@@ -69,6 +74,8 @@ class MapWithTrackingStateHandler extends React.Component {
     locationPopup: 'reversegeocoding',
     onSelectLocation: () => null,
     leafletEvents: {},
+    mapLayerOptions: null,
+    topButtons: null,
   };
 
   constructor(props) {
@@ -76,6 +83,7 @@ class MapWithTrackingStateHandler extends React.Component {
     this.state = {
       mapTracking: props.mapTracking,
       settingsOpen: false,
+      forcedLayers: {},
     };
     this.naviProps = {};
   }
@@ -92,10 +100,32 @@ class MapWithTrackingStateHandler extends React.Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(newProps) {
     let newState;
+
+    const { mapLayerOptions } = newProps;
+    if (mapLayerOptions && isEmpty(this.state.forcedLayers)) {
+      const forcedLayers = {};
+      Object.keys(mapLayerOptions).forEach(key => {
+        const layer = mapLayerOptions[key];
+        if (layer?.isLocked === undefined) {
+          Object.keys(layer).forEach(subKey => {
+            if (layer[subKey].isLocked) {
+              if (!forcedLayers[key]) {
+                forcedLayers[key] = {};
+              }
+              forcedLayers[key][subKey] = layer[subKey].isSelected;
+            }
+          });
+        } else if (layer?.isLocked) {
+          forcedLayers[key] = layer.isSelected;
+        }
+      });
+      newState = { forcedLayers };
+    }
+
     if (newProps.mapTracking && !this.state.mapTracking) {
-      newState = { mapTracking: true };
+      newState = { ...newState, mapTracking: true };
     } else if (newProps.mapTracking === false && this.state.mapTracking) {
-      newState = { mapTracking: false };
+      newState = { ...newState, mapTracking: false };
     }
     if (newState) {
       this.setState(newState);
@@ -153,6 +183,29 @@ class MapWithTrackingStateHandler extends React.Component {
     this.setState({ settingsOpen: value });
   };
 
+  getMapLayers = () => {
+    if (!isEmpty(this.state.forcedLayers)) {
+      const merged = {
+        ...this.props.mapLayers,
+        ...this.state.forcedLayers,
+        vehicles: !this.props.mapLayerOptions
+          ? this.props.mapLayers.vehicles
+          : false,
+      };
+      if (!isEmpty(this.state.forcedLayers.stop)) {
+        return {
+          ...merged,
+          stop: {
+            ...this.props.mapLayers.stop,
+            ...this.state.forcedLayers.stop,
+          },
+        };
+      }
+      return merged;
+    }
+    return this.props.mapLayers;
+  };
+
   render() {
     const {
       lat,
@@ -161,9 +214,10 @@ class MapWithTrackingStateHandler extends React.Component {
       position,
       children,
       renderCustomButtons,
-      mapLayers,
+      mapLayerOptions,
       bounds,
       leafletEvents,
+      topButtons,
       ...rest
     } = this.props;
     const { config } = this.context;
@@ -226,6 +280,8 @@ class MapWithTrackingStateHandler extends React.Component {
       : 'icon-tracking-offline-v2';
 
     const iconColor = this.state.mapTracking ? '#ff0000' : '#78909c';
+
+    const mergedMapLayers = this.getMapLayers();
     return (
       <>
         <MapCont
@@ -282,7 +338,8 @@ class MapWithTrackingStateHandler extends React.Component {
               />
             </div>
           }
-          mapLayers={mapLayers}
+          topButtons={topButtons}
+          mapLayers={mergedMapLayers}
         >
           {children}
         </MapCont>
@@ -296,6 +353,8 @@ class MapWithTrackingStateHandler extends React.Component {
             <MapLayersDialogContent
               open={this.state.settingsOpen}
               setOpen={this.setSettingsOpen}
+              mapLayerOptions={mapLayerOptions}
+              mapLayers={mergedMapLayers}
             />
             <button
               type="button"

@@ -12,7 +12,6 @@ import ExternalLink from './ExternalLink';
 import Icon from './Icon';
 import RouteNumber from './RouteNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
-import { AlertSeverityLevelType } from '../constants';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
 export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
@@ -20,7 +19,7 @@ export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
     id: 'at-time',
   });
   const defaultFormat = `D.M.YYYY [${at}] HH:mm`;
-  return `${capitalize(
+  const start = capitalize(
     startTime.calendar(currentTime, {
       lastDay: `[${intl.formatMessage({ id: 'yesterday' })} ${at}] HH:mm`,
       sameDay: `[${intl.formatMessage({ id: 'today' })} ${at}] HH:mm`,
@@ -29,12 +28,17 @@ export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
       nextWeek: defaultFormat,
       sameElse: defaultFormat,
     }),
-  )} - ${endTime.calendar(startTime, {
+  );
+  if (!endTime) {
+    return start;
+  }
+  const end = endTime.calendar(startTime, {
     sameDay: 'HH:mm',
     nextDay: defaultFormat,
     nextWeek: defaultFormat,
     sameElse: defaultFormat,
-  })}`;
+  });
+  return `${start} - ${end}`;
 };
 
 export default function RouteAlertsRow(
@@ -52,15 +56,11 @@ export default function RouteAlertsRow(
     url,
     gtfsIds,
     showRouteNameLink,
+    header,
   },
   { intl },
 ) {
-  const showTime =
-    severityLevel &&
-    severityLevel !== AlertSeverityLevelType.Info &&
-    startTime &&
-    endTime &&
-    currentTime;
+  const showTime = startTime && endTime && currentTime;
   const gtfsIdList = gtfsIds ? gtfsIds.split(',') : [];
 
   const routeLinks =
@@ -69,11 +69,11 @@ export default function RouteAlertsRow(
           <Link
             key={gtfsIdList[i]}
             to={`/${PREFIX_ROUTES}/${gtfsIdList[i]}/${PREFIX_STOPS}`}
-            className="route-alert-row-link"
+            className={cx('route-alert-row-link', entityMode)}
             style={{ color }}
           >
             {' '}
-            {identifier}{' '}
+            {identifier}
           </Link>
         ))
       : [];
@@ -84,10 +84,10 @@ export default function RouteAlertsRow(
           <Link
             key={gtfsIdList[i]}
             to={`/${PREFIX_STOPS}/${gtfsIdList[i]}`}
-            className="route-alert-row-link"
+            className={cx('route-alert-row-link', entityMode)}
           >
             {' '}
-            {identifier}{' '}
+            {identifier}
           </Link>
         ))
       : [];
@@ -95,10 +95,29 @@ export default function RouteAlertsRow(
   const checkedUrl =
     url && (url.match(/^[a-zA-Z]+:\/\//) ? url : `http://${url}`);
 
-  if (!description) {
+  if (!description && !header) {
     return null;
   }
 
+  let genericCancellation;
+  if (!description && header) {
+    const {
+      headsign,
+      routeMode,
+      shortName,
+      scheduledDepartureTime,
+    } = header.props;
+    const mode = intl.formatMessage({ id: routeMode.toLowerCase() });
+    genericCancellation = intl.formatMessage(
+      { id: 'generic-cancelation' },
+      {
+        mode,
+        route: shortName,
+        headsign,
+        time: moment.unix(scheduledDepartureTime).format('HH:mm'),
+      },
+    );
+  }
   return (
     <div
       className={cx('route-alert-row', { expired })}
@@ -134,39 +153,36 @@ export default function RouteAlertsRow(
             {entityIdentifier &&
               ((entityType === 'route' &&
                 showRouteNameLink &&
-                routeLinks.length > 0 && (
-                  <div className={entityMode}>{routeLinks}</div>
-                )) ||
+                routeLinks.length > 0 && <>{routeLinks} </>) ||
                 (!showRouteNameLink && (
-                  <div className="route-alert-entityid">
-                    <div className={entityMode} style={{ color }}>
-                      {entityIdentifier}{' '}
-                    </div>
+                  <div
+                    className={cx('route-alert-entityid', entityMode)}
+                    style={{ color }}
+                  >
+                    {entityIdentifier}{' '}
                   </div>
                 )) ||
                 (entityType === 'stop' &&
                   showRouteNameLink &&
-                  stopLinks.length > 0 && (
-                    <div className={entityMode}>{stopLinks}</div>
-                  )) ||
+                  stopLinks.length > 0 && <>{stopLinks} </>) ||
                 (!showRouteNameLink && (
                   <div className={entityMode}>{entityIdentifier}</div>
                 )))}
             {showTime && (
-              <div className="route-alert-time-period">
+              <>
                 {getTimePeriod({
                   currentTime: moment.unix(currentTime),
                   startTime: moment.unix(startTime),
-                  endTime: moment.unix(endTime),
+                  endTime: description ? moment.unix(endTime) : undefined,
                   intl,
                 })}
-              </div>
+              </>
             )}
           </div>
         )}
-        {description && (
+        {(description || genericCancellation) && (
           <div className="route-alert-body">
-            {description}
+            {description || genericCancellation}
             {url && (
               <ExternalLink className="route-alert-url" href={checkedUrl}>
                 {intl.formatMessage({ id: 'extra-info' })}
@@ -193,6 +209,7 @@ RouteAlertsRow.propTypes = {
   url: PropTypes.string,
   gtfsIds: PropTypes.string,
   showRouteNameLink: PropTypes.bool,
+  header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
 };
 
 RouteAlertsRow.contextTypes = {
@@ -208,6 +225,7 @@ RouteAlertsRow.defaultProps = {
   entityType: 'route',
   severityLevel: undefined,
   startTime: undefined,
+  header: undefined,
 };
 
 RouteAlertsRow.description = () => (

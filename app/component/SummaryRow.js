@@ -23,6 +23,7 @@ import {
   BIKEAVL_UNKNOWN,
   getCityBikeNetworkIcon,
   getCityBikeNetworkConfig,
+  getCityBikeNetworkId,
 } from '../util/citybikes';
 import ComponentUsageExample from './ComponentUsageExample';
 import {
@@ -70,6 +71,7 @@ export const RouteLeg = ({
   intl,
   legLength,
   isTransitLeg,
+  interliningWithRoute,
   fitRouteNumber,
   withBicycle,
 }) => {
@@ -97,6 +99,7 @@ export const RouteLeg = ({
         alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
         route={leg.route}
         className={cx('line', leg.mode.toLowerCase())}
+        interliningWithRoute={interliningWithRoute}
         mode={leg.mode}
         vertical
         withBar
@@ -122,6 +125,7 @@ RouteLeg.propTypes = {
   large: PropTypes.bool.isRequired,
   legLength: PropTypes.number.isRequired,
   fitRouteNumber: PropTypes.bool.isRequired,
+  interliningWithRoute: PropTypes.number,
   isTransitLeg: PropTypes.bool,
   withBicycle: PropTypes.bool.isRequired,
 };
@@ -197,6 +201,9 @@ const getViaPointIndex = (leg, intermediatePlaces) => {
   );
 };
 
+const connectsFromViaPoint = (currLeg, intermediatePlaces) =>
+  getViaPointIndex(currLeg, intermediatePlaces) > -1;
+
 const bikeWasParked = legs => {
   const legsLength = legs.length;
   for (let i = 0; i < legsLength; i++) {
@@ -209,7 +216,7 @@ const bikeWasParked = legs => {
 
 const SummaryRow = (
   { data, breakpoint, intermediatePlaces, zones, ...props },
-  { intl, intl: { formatMessage }, context },
+  { intl, intl: { formatMessage }, config, context },
 ) => {
   const isTransitLeg = leg => leg.transitLeg;
   const isLegOnFoot = leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
@@ -236,7 +243,10 @@ const SummaryRow = (
       noTransitLegs = false;
       transitLegCount += 1;
     }
-    if (leg.intermediatePlace) {
+    if (
+      leg.intermediatePlace ||
+      connectsFromViaPoint(leg, intermediatePlaces)
+    ) {
       intermediateSlack += leg.startTime - compressedLegs[i - 1].endTime; // calculate time spent at each intermediate place
     }
   });
@@ -261,8 +271,13 @@ const SummaryRow = (
     ? bikeWasParked(compressedLegs)
     : undefined;
   const renderModeIcons = compressedLegs.length < 10;
+  let bikeNetwork;
+  let showRentalBikeDurationWarning = false;
+  const citybikeNetworks = new Set();
+  let citybikeicon;
 
   compressedLegs.forEach((leg, i) => {
+    let interliningWithRoute;
     let renderBar = true;
     let waiting = false;
     let waitTime;
@@ -278,7 +293,11 @@ const SummaryRow = (
     const longName =
       leg.route && leg.route.shortName && leg.route.shortName.length > 5;
 
-    if (nextLeg && !nextLeg.intermediatePlace) {
+    if (
+      nextLeg &&
+      !nextLeg.intermediatePlace &&
+      !connectsFromViaPoint(nextLeg, intermediatePlaces)
+    ) {
       // don't show waiting in intermediate places
       waitTime = nextLeg.startTime - leg.endTime;
       waitLength = (waitTime / durationWithoutSlack) * 100;
@@ -291,7 +310,9 @@ const SummaryRow = (
           100; // otherwise add the waiting to the current legs length
       }
     }
+
     if (nextLeg?.interlineWithPreviousLeg) {
+      interliningWithRoute = nextLeg.route.shortName;
       legLength =
         ((nextLeg.endTime - leg.startTime) / durationWithoutSlack) * 100;
     }
@@ -345,6 +366,27 @@ const SummaryRow = (
       }
     } else if (leg.rentedBike) {
       const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
+      // eslint-disable-next-line prefer-destructuring
+      bikeNetwork = getCityBikeNetworkId(leg.from.bikeRentalStation.networks);
+      if (
+        config.cityBike.networks &&
+        config.cityBike.networks[bikeNetwork]?.timeBeforeSurcharge &&
+        config.cityBike.networks[bikeNetwork]?.durationInstructions
+      ) {
+        const rentDurationOverSurchargeLimit =
+          leg.duration >
+          config.cityBike?.networks[bikeNetwork].timeBeforeSurcharge;
+        if (rentDurationOverSurchargeLimit) {
+          citybikeNetworks.add(bikeNetwork);
+        }
+        showRentalBikeDurationWarning =
+          showRentalBikeDurationWarning || rentDurationOverSurchargeLimit;
+        if (!citybikeicon) {
+          citybikeicon = getCityBikeNetworkIcon(
+            getCityBikeNetworkConfig(getCityBikeNetworkId(bikeNetwork), config),
+          );
+        }
+      }
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
@@ -358,15 +400,31 @@ const SummaryRow = (
         />,
       );
     } else if (leg.mode === 'CAR') {
+      const drivingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
           leg={leg}
+          duration={drivingTime}
           mode="CAR"
           legLength={legLength}
           large={breakpoint === 'large'}
         />,
       );
+      if (leg.to.carPark) {
+        onlyIconLegs += 1;
+        legs.push(
+          <div
+            className="leg car_park"
+            key={`${leg.mode}_${leg.startTime}_car_park_indicator`}
+          >
+            <Icon
+              img="icon-icon_car_park-withoutBox"
+              className="itinerary-icon car_park"
+            />
+          </div>,
+        );
+      }
     } else if (leg.mode === 'BICYCLE' && renderBar) {
       const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       legs.push(
@@ -397,9 +455,6 @@ const SummaryRow = (
       }
     }
 
-    const connectsFromViaPoint = () =>
-      getViaPointIndex(leg, intermediatePlaces) > -1;
-
     if (leg.route) {
       const withBicycle =
         usingOwnBicycleWholeTrip &&
@@ -407,7 +462,7 @@ const SummaryRow = (
       if (
         previousLeg &&
         !previousLeg.intermediatePlace &&
-        connectsFromViaPoint()
+        connectsFromViaPoint(leg, intermediatePlaces)
       ) {
         legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
       }
@@ -423,6 +478,7 @@ const SummaryRow = (
             fitRouteNumber={
               (fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg
             }
+            interliningWithRoute={interliningWithRoute}
             intl={intl}
             legLength={legLength}
             large={breakpoint === 'large'}
@@ -721,6 +777,29 @@ const SummaryRow = (
               >
                 {firstLegStartTime}
               </div>
+              {showRentalBikeDurationWarning &&
+                (citybikeNetworks.size === 1 ? (
+                  <div className="citybike-duration-info-short">
+                    <Icon img={citybikeicon} height={1.2} width={1.2} />
+                    <FormattedMessage
+                      id="citybike-duration-info-short"
+                      values={{
+                        duration:
+                          config.cityBike?.networks[bikeNetwork]
+                            .timeBeforeSurcharge / 60,
+                      }}
+                      defaultMessage=""
+                    />
+                  </div>
+                ) : (
+                  <div className="citybike-duration-info-short">
+                    <Icon img={citybikeicon} height={1.2} width={1.2} />
+                    <FormattedMessage
+                      id="citybike-duration-general-header"
+                      defaultMessage=""
+                    />
+                  </div>
+                ))}
             </div>
             {mobile(breakpoint) !== true && (
               <div

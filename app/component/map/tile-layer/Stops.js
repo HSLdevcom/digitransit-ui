@@ -6,6 +6,7 @@ import {
   drawTerminalIcon,
   drawStopIcon,
   drawHybridStopIcon,
+  drawHybridStationIcon,
 } from '../../../util/mapIconUtils';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 
@@ -101,10 +102,8 @@ class Stops {
             const drawRailPlatforms = this.config.railPlatformsMinZoom <= zoom;
             for (let i = 0, ref = vt.layers.stops.length - 1; i <= ref; i++) {
               const feature = vt.layers.stops.feature(i);
-              if (!isFeatureLayerEnabled(feature, 'stop', this.mapLayers)) {
-                break;
-              }
               if (
+                isFeatureLayerEnabled(feature, 'stop', this.mapLayers) &&
                 feature.properties.type &&
                 (feature.properties.parentStation === 'null' ||
                   drawPlatforms ||
@@ -189,9 +188,16 @@ class Stops {
               i++
             ) {
               const feature = vt.layers.stations.feature(i);
+              const featureTypes = feature.properties.type.split(',');
+              const isHybridStation = featureTypes.length > 1;
               if (
                 feature.properties.type &&
-                isFeatureLayerEnabled(feature, 'terminal', this.mapLayers) &&
+                isFeatureLayerEnabled(
+                  feature,
+                  'terminal',
+                  this.mapLayers,
+                  isHybridStation,
+                ) &&
                 this.stopsToShowCheck(feature)
               ) {
                 [[feature.geom]] = feature.loadGeometry();
@@ -200,8 +206,21 @@ class Stops {
                   this.tile.hilightedStops.includes(feature.properties.gtfsId);
                 this.features.unshift(pick(feature, ['geom', 'properties']));
                 if (
-                  isHilighted ||
-                  this.tile.coords.z >= this.config.terminalStopsMinZoom
+                  isHybridStation &&
+                  (isHilighted ||
+                    this.tile.coords.z >= this.config.terminalStopsMinZoom)
+                ) {
+                  drawHybridStationIcon(
+                    this.tile,
+                    feature.geom,
+                    isHilighted,
+                    this.config.colors.iconColors,
+                  );
+                }
+                if (
+                  !isHybridStation &&
+                  (isHilighted ||
+                    this.tile.coords.z >= this.config.terminalStopsMinZoom)
                 ) {
                   drawTerminalIcon(
                     this.tile,

@@ -17,6 +17,7 @@ class MapLayerStore extends Store {
       ferry: true,
       rail: true,
       subway: true,
+      tram: true,
     },
     vehicles: false,
     geoJson: {},
@@ -81,6 +82,10 @@ class MapLayerStore extends Store {
     this.mapLayers = {
       ...this.mapLayers,
       ...mapLayers,
+      stop: {
+        ...this.mapLayers.stop,
+        ...mapLayers.stop,
+      },
     };
     setMapLayerSettings({ ...this.mapLayers });
     this.emitChange();

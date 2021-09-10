@@ -56,6 +56,7 @@ class SummaryPlanContainer extends React.Component {
     loading: PropTypes.bool.isRequired,
     onLater: PropTypes.func.isRequired,
     onEarlier: PropTypes.func.isRequired,
+    onDetailsTabFocused: PropTypes.func.isRequired,
     loadingMoreItineraries: PropTypes.string,
   };
 
@@ -77,7 +78,7 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onSelectActive = index => {
-    const isbikeAndVehicle = this.props.params.hash === 'bikeAndVehicle';
+    const subpath = this.getSubPath('');
     if (this.props.activeIndex === index) {
       this.onSelectImmediately(index);
     } else {
@@ -87,7 +88,7 @@ class SummaryPlanContainer extends React.Component {
         pathname: `${getSummaryPath(
           this.props.params.from,
           this.props.params.to,
-        )}${isbikeAndVehicle ? '/bikeAndVehicle' : ''}`,
+        )}${subpath}`,
       });
 
       addAnalyticsEvent({
@@ -98,8 +99,17 @@ class SummaryPlanContainer extends React.Component {
     }
   };
 
+  getSubPath(fallback) {
+    const modesWithSubpath = ['bikeAndVehicle', 'parkAndRide'];
+    const { hash } = this.props.params;
+    if (modesWithSubpath.includes(hash)) {
+      return `/${hash}/`;
+    }
+    return fallback;
+  }
+
   onSelectImmediately = index => {
-    const isbikeAndVehicle = this.props.params.hash === 'bikeAndVehicle';
+    const subpath = this.getSubPath('/');
     const momentumScroll = document.getElementsByClassName(
       'momentum-scroll',
     )[0];
@@ -120,16 +130,17 @@ class SummaryPlanContainer extends React.Component {
     const basePath = `${getSummaryPath(
       this.props.params.from,
       this.props.params.to,
-    )}${isbikeAndVehicle ? '/bikeAndVehicle' : '/'}`;
+    )}${subpath}`;
     const indexPath = `${getSummaryPath(
       this.props.params.from,
       this.props.params.to,
-    )}${isbikeAndVehicle ? '/bikeAndVehicle/' : '/'}${index}`;
+    )}${subpath}${index}`;
 
     newState.pathname = basePath;
     this.context.router.replace(newState);
     newState.pathname = indexPath;
     this.context.router.push(newState);
+    this.props.onDetailsTabFocused();
   };
 
   onNow = () => {

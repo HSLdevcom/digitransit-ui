@@ -14,6 +14,7 @@ import Icon from './Icon';
 class StopsNearYouContainer extends React.Component {
   static propTypes = {
     stopPatterns: PropTypes.any,
+    setLoadState: PropTypes.func,
     currentTime: PropTypes.number.isRequired,
     relay: PropTypes.shape({
       refetchConnection: PropTypes.func.isRequired,
@@ -105,14 +106,9 @@ class StopsNearYouContainer extends React.Component {
     return newState;
   };
 
-  componentDidUpdate(prevProps) {
-    const {
-      relay,
-      currentTime,
-      position,
-      stopPatterns: prevStopPatterns,
-    } = prevProps;
-    const { currentTime: currUnix, stopPatterns } = this.props;
+  componentDidUpdate(prevProps, prevState) {
+    const { relay, currentTime, position } = prevProps;
+    const { currentTime: currUnix } = this.props;
     if (currUnix !== currentTime) {
       const variables = {
         startTime: currentTime,
@@ -133,22 +129,24 @@ class StopsNearYouContainer extends React.Component {
       this.showMore();
     }
     if (
-      (this.resultsUpdatedAlertRef.current &&
-        stopPatterns &&
-        stopPatterns.nearest &&
-        prevStopPatterns &&
-        prevStopPatterns.nearest &&
-        prevStopPatterns.nearest.edges.length <
-          stopPatterns.nearest.edges.length) ||
-      (this.state.currentPosition.lat === this.props.position.lat &&
-        prevProps.position.lat !== this.state.currentPosition.lat)
+      this.resultsUpdatedAlertRef.current &&
+      prevState.isLoadingmoreStops &&
+      !this.state.isLoadingmoreStops
     ) {
-      // eslint-disable-next-line no-self-assign
-      this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
+      this.resultsUpdatedAlertRef.current.innerHTML = this.context.intl.formatMessage(
+        {
+          id: 'stop-near-you-update-alert',
+          defaultMessage: 'Search results updated',
+        },
+      );
+      setTimeout(() => {
+        this.resultsUpdatedAlertRef.current.innerHTML = null;
+      }, 100);
     }
   }
 
   componentDidMount() {
+    this.props.setLoadState();
     if (this.state.fetchMoreStops) {
       this.showMore();
     }
@@ -257,12 +255,11 @@ class StopsNearYouContainer extends React.Component {
 
   render() {
     const screenReaderUpdateAlert = (
-      <span className="sr-only" role="alert" ref={this.resultsUpdatedAlertRef}>
-        <FormattedMessage
-          id="stop-near-you-update-alert"
-          defaultMessage="Search results updated"
-        />
-      </span>
+      <span
+        className="sr-only"
+        role="alert"
+        ref={this.resultsUpdatedAlertRef}
+      />
     );
     const stops = this.createNearbyStops().filter(e => e);
     return (

@@ -291,6 +291,7 @@ function drawSelectionCircle(
   x,
   y,
   radius,
+  largeStyle,
   showAvailabilityBadge = false,
 ) {
   const zoom = tile.coords.z - 1;
@@ -304,13 +305,24 @@ function drawSelectionCircle(
   tile.ctx.beginPath();
   // eslint-disable-next-line no-param-reassign
   tile.ctx.lineWidth = 2;
-  tile.ctx.arc(
-    x + selectedCircleOffset,
-    y + 1.85 * selectedCircleOffset,
-    radius - 2,
-    0,
-    arc,
-  );
+  if (largeStyle) {
+    tile.ctx.arc(
+      x + selectedCircleOffset,
+      y + 1.85 * selectedCircleOffset,
+      radius - 2,
+      0,
+      arc,
+    );
+  } else {
+    tile.ctx.arc(
+      x + selectedCircleOffset,
+      y + selectedCircleOffset,
+      radius + 2,
+      0,
+      arc,
+    );
+  }
+
   tile.ctx.stroke();
 }
 
@@ -649,7 +661,7 @@ export function drawCitybikeIcon(
     getImageFromSpriteCache(icon, width, height).then(image => {
       tile.ctx.drawImage(image, x, y);
       if (isHilighted) {
-        drawSelectionCircle(tile, x, y, radius, false);
+        drawSelectionCircle(tile, x, y, radius, false, false);
       }
     });
   }
@@ -683,7 +695,14 @@ export function drawCitybikeIcon(
         /* eslint-enable no-param-reassign */
       }
       if (isHilighted) {
-        drawSelectionCircle(tile, iconX, iconY, radius, showAvailabilityBadge);
+        drawSelectionCircle(
+          tile,
+          iconX,
+          iconY,
+          radius,
+          true,
+          showAvailabilityBadge,
+        );
       }
     });
   }
@@ -721,6 +740,45 @@ export function drawTerminalIcon(tile, geom, type, isHilighted) {
         );
       },
     );
+  }
+}
+
+/**
+ * Draw icon for hybrid stations, meaning BUS and TRAM station in the same place.
+ */
+export function drawHybridStationIcon(tile, geom, isHilighted) {
+  const zoom = tile.coords.z - 1;
+  const styles = getTerminalIconStyles(zoom);
+  if (!styles) {
+    return;
+  }
+  let { width, height } = styles;
+  width *= tile.scaleratio * 1.5;
+  height *= tile.scaleratio * 1.5;
+  // only bus/tram hybrid exist
+  getImageFromSpriteCache('icon-icon_map_hybrid_station', width, height).then(
+    image => {
+      tile.ctx.drawImage(
+        image,
+        geom.x / tile.ratio - width / 2,
+        geom.y / tile.ratio - height / 2,
+      );
+    },
+  );
+  if (isHilighted) {
+    getImageFromSpriteCache(
+      'icon-icon_hybrid_station_highlight',
+      width,
+      height,
+    ).then(image => {
+      tile.ctx.drawImage(
+        image,
+        geom.x / tile.ratio - width / 2 - 4 / tile.scaleratio,
+        geom.y / tile.ratio - height / 2 - 4 / tile.scaleratio,
+        width + 8 / tile.scaleratio,
+        height + 8 / tile.scaleratio,
+      );
+    });
   }
 }
 

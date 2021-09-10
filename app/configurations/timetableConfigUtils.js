@@ -31,9 +31,8 @@ export default {
   },
   tampere: {
     timetableUrlResolver: function timetableUrlResolver(baseURL, route) {
-      const routeIdSplitted = route.gtfsId.split(':');
-      const routeId = routeIdSplitted[1].replace(/[^\d]/g, '');
-      return baseURL + 'linja' + routeId + '.pdf';
+      const routeNumber = route.shortName.replace(/\D/g, '');
+      return `${baseURL}${routeNumber}.html`;
     },
     stopPdfUrlResolver: function stopPdfUrlResolver(baseURL, stop) {
       const stopIdSplitted = stop.gtfsId.split(':');

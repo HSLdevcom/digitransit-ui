@@ -6,6 +6,7 @@ import cx from 'classnames';
 import { matchShape, routerShape, RedirectException } from 'found';
 import Icon from './Icon';
 
+import Loading from './Loading';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from './RouteNumber';
 import RoutePageControlPanel from './RoutePageControlPanel';
@@ -34,15 +35,28 @@ class RoutePage extends React.Component {
     match: matchShape.isRequired,
     router: routerShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
+    error: PropTypes.object,
   };
+
+  componentDidMount() {
+    // Throw error in client side if relay fails to fetch data
+    if (this.props.error) {
+      throw this.props.error.message;
+    }
+  }
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/anchor-is-valid */
   render() {
-    const { breakpoint, router, route } = this.props;
+    const { breakpoint, router, route, error } = this.props;
     const { config } = this.context;
     const tripId = this.props.match.params?.tripId;
 
-    if (route == null) {
+    // Render something in client side to clear SSR
+    if (isBrowser && error) {
+      return <Loading />;
+    }
+
+    if (route == null && !error) {
       /* In this case there is little we can do
        * There is no point continuing rendering as it can only
        * confuse user. Therefore redirect to Routes page */
@@ -76,18 +90,25 @@ class RoutePage extends React.Component {
             />
           )}
           <div className="route-header">
-            <RouteNumber
-              color={route.color ? `#${route.color}` : null}
-              mode={route.mode}
-              text=""
-            />
+            <div aria-hidden="true">
+              <RouteNumber
+                color={route.color ? `#${route.color}` : null}
+                mode={route.mode}
+                text=""
+              />
+            </div>
             <div className="route-info">
-              <div
+              <h1
                 className={cx('route-short-name', route.mode.toLowerCase())}
                 style={{ color: route.color ? `#${route.color}` : null }}
               >
+                <span className="sr-only" style={{ whiteSpace: 'pre' }}>
+                  {this.context.intl.formatMessage({
+                    id: route.mode.toLowerCase(),
+                  })}{' '}
+                </span>
                 {route.shortName}
-              </div>
+              </h1>
               {tripId && route.patterns[1]?.headsign && (
                 <div className="trip-destination">
                   <Icon className="in-text-arrow" img="icon-icon_arrow-right" />

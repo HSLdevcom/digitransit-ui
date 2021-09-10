@@ -34,7 +34,7 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'kuopio/logo.png',
 
-  feedIds: ['Kuopio', 'KuopioEly'],
+  feedIds: ['Kuopio'],
 
   showTicketInformation: true,
 
@@ -79,9 +79,9 @@ export default configMerger(walttiConfig, {
 
   cityBike: {
     showCityBikes: true,
-    capacity: BIKEAVL_BIKES,
     networks: {
       vilkku: {
+        capacity: BIKEAVL_BIKES,
         icon: 'citybike',
         name: {
           fi: 'Vilkku',
