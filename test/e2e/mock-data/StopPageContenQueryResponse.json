@@ -1,0 +1,2827 @@
+{
+  "data": {
+    "stop": {
+      "url": "http://aikataulut.hsl.fi/pysakit/fi/6304004.html",
+      "stoptimes": [
+        {
+          "realtimeState": "SCHEDULED",
+          "realtimeDeparture": 52200,
+          "scheduledDeparture": 52200,
+          "realtimeArrival": 52200,
+          "scheduledArrival": 52200,
+          "realtime": false,
+          "serviceDay": 1631221200,
+          "pickupType": "SCHEDULED",
+          "headsign": "Siuntio",
+          "stop": {
+            "id": "U3RvcDpIU0w6NjMwNDAwNA==",
+            "code": "So3115",
+            "platformCode": null
+          },
+          "trip": {
+            "gtfsId": "HSL:6181_20210908_Pe_1_1405",
+            "directionId": "0",
+            "tripHeadsign": "Siuntio",
+            "stops": [
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI5NQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDI1MA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNzAwNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNzAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwMw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwMA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+              }
+            ],
+            "pattern": {
+              "route": {
+                "gtfsId": "HSL:6181",
+                "shortName": "181",
+                "longName": "Kirkkonummi-Siuntio",
+                "mode": "BUS",
+                "color": null,
+                "agency": {
+                  "name": "Helsingin seudun liikenne",
+                  "id": "QWdlbmN5OkhTTDpIU0w="
+                },
+                "alerts": [],
+                "id": "Um91dGU6SFNMOjYxODE="
+              },
+              "code": "HSL:6181:0:01",
+              "stops": [
+                {
+                  "gtfsId": "HSL:6040295",
+                  "code": "Ki0495",
+                  "id": "U3RvcDpIU0w6NjA0MDI5NQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050250",
+                  "code": "Ki0550",
+                  "id": "U3RvcDpIU0w6NjA1MDI1MA=="
+                },
+                {
+                  "gtfsId": "HSL:6040275",
+                  "code": "Ki0475",
+                  "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040277",
+                  "code": "Ki0477",
+                  "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+                },
+                {
+                  "gtfsId": "HSL:6040238",
+                  "code": "Ki0438",
+                  "id": "U3RvcDpIU0w6NjA0MDIzOA=="
+                },
+                {
+                  "gtfsId": "HSL:6040237",
+                  "code": "Ki0437",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNw=="
+                },
+                {
+                  "gtfsId": "HSL:6040234",
+                  "code": "Ki0434",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNA=="
+                },
+                {
+                  "gtfsId": "HSL:6050219",
+                  "code": "Ki0519",
+                  "id": "U3RvcDpIU0w6NjA1MDIxOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050215",
+                  "code": "Ki0515",
+                  "id": "U3RvcDpIU0w6NjA1MDIxNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050214",
+                  "code": "Ki0514",
+                  "id": "U3RvcDpIU0w6NjA1MDIxNA=="
+                },
+                {
+                  "gtfsId": "HSL:6050212",
+                  "code": "Ki0512",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMg=="
+                },
+                {
+                  "gtfsId": "HSL:6050210",
+                  "code": "Ki0510",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMA=="
+                },
+                {
+                  "gtfsId": "HSL:6050217",
+                  "code": "Ki0517",
+                  "id": "U3RvcDpIU0w6NjA1MDIxNw=="
+                },
+                {
+                  "gtfsId": "HSL:6306001",
+                  "code": "So3122",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMQ=="
+                },
+                {
+                  "gtfsId": "HSL:6306002",
+                  "code": "So3123",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMg=="
+                },
+                {
+                  "gtfsId": "HSL:6306004",
+                  "code": "So3125",
+                  "id": "U3RvcDpIU0w6NjMwNjAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6307006",
+                  "code": "So3133",
+                  "id": "U3RvcDpIU0w6NjMwNzAwNg=="
+                },
+                {
+                  "gtfsId": "HSL:6307005",
+                  "code": "So3132",
+                  "id": "U3RvcDpIU0w6NjMwNzAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304004",
+                  "code": "So3115",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6304005",
+                  "code": "So3116",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304003",
+                  "code": "So3114",
+                  "id": "U3RvcDpIU0w6NjMwNDAwMw=="
+                },
+                {
+                  "gtfsId": "HSL:6304009",
+                  "code": "So3120",
+                  "id": "U3RvcDpIU0w6NjMwNDAwOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304008",
+                  "code": "So3119",
+                  "id": "U3RvcDpIU0w6NjMwNDAwOA=="
+                },
+                {
+                  "gtfsId": "HSL:6302018",
+                  "code": "So3100",
+                  "id": "U3RvcDpIU0w6NjMwMjAxOA=="
+                },
+                {
+                  "gtfsId": "HSL:6302005",
+                  "code": "So3087",
+                  "id": "U3RvcDpIU0w6NjMwMjAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6302008",
+                  "code": "So3090",
+                  "id": "U3RvcDpIU0w6NjMwMjAwOA=="
+                },
+                {
+                  "gtfsId": "HSL:6302000",
+                  "code": "So3082",
+                  "id": "U3RvcDpIU0w6NjMwMjAwMA=="
+                },
+                {
+                  "gtfsId": "HSL:6302017",
+                  "code": "So3099",
+                  "id": "U3RvcDpIU0w6NjMwMjAxNw=="
+                },
+                {
+                  "gtfsId": "HSL:6302012",
+                  "code": "So3094",
+                  "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+                }
+              ],
+              "id": "UGF0dGVybjpIU0w6NjE4MTowOjAx"
+            },
+            "id": "VHJpcDpIU0w6NjE4MV8yMDIxMDkwOF9QZV8xXzE0MDU="
+          }
+        },
+        {
+          "realtimeState": "SCHEDULED",
+          "realtimeDeparture": 53700,
+          "scheduledDeparture": 53700,
+          "realtimeArrival": 53700,
+          "scheduledArrival": 53700,
+          "realtime": false,
+          "serviceDay": 1631221200,
+          "pickupType": "SCHEDULED",
+          "headsign": "Kirkkonummi",
+          "stop": {
+            "id": "U3RvcDpIU0w6NjMwNDAwNA==",
+            "code": "So3115",
+            "platformCode": null
+          },
+          "trip": {
+            "gtfsId": "HSL:6181K_20210908_Pe_2_1445",
+            "directionId": "1",
+            "tripHeadsign": "Kirkkonummi",
+            "stops": [
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwMQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIwOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzMQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzMw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDI1MQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI5MQ=="
+              }
+            ],
+            "pattern": {
+              "route": {
+                "gtfsId": "HSL:6181K",
+                "shortName": "181K",
+                "longName": "Kirkkonummi-Siuntio",
+                "mode": "BUS",
+                "color": null,
+                "agency": {
+                  "name": "Helsingin seudun liikenne",
+                  "id": "QWdlbmN5OkhTTDpIU0w="
+                },
+                "alerts": [],
+                "id": "Um91dGU6SFNMOjYxODFL"
+              },
+              "code": "HSL:6181K:1:01",
+              "stops": [
+                {
+                  "gtfsId": "HSL:6302012",
+                  "code": "So3094",
+                  "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+                },
+                {
+                  "gtfsId": "HSL:6302016",
+                  "code": "So3098",
+                  "id": "U3RvcDpIU0w6NjMwMjAxNg=="
+                },
+                {
+                  "gtfsId": "HSL:6302001",
+                  "code": "So3083",
+                  "id": "U3RvcDpIU0w6NjMwMjAwMQ=="
+                },
+                {
+                  "gtfsId": "HSL:6302009",
+                  "code": "So3091",
+                  "id": "U3RvcDpIU0w6NjMwMjAwOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6302004",
+                  "code": "So3086",
+                  "id": "U3RvcDpIU0w6NjMwMjAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6302019",
+                  "code": "So3101",
+                  "id": "U3RvcDpIU0w6NjMwMjAxOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304007",
+                  "code": "So3118",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNw=="
+                },
+                {
+                  "gtfsId": "HSL:6304002",
+                  "code": "So3113",
+                  "id": "U3RvcDpIU0w6NjMwNDAwMg=="
+                },
+                {
+                  "gtfsId": "HSL:6304004",
+                  "code": "So3115",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6304006",
+                  "code": "So3117",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNg=="
+                },
+                {
+                  "gtfsId": "HSL:6306005",
+                  "code": "So3126",
+                  "id": "U3RvcDpIU0w6NjMwNjAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6306003",
+                  "code": "So3124",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMw=="
+                },
+                {
+                  "gtfsId": "HSL:6306006",
+                  "code": "So3160",
+                  "id": "U3RvcDpIU0w6NjMwNjAwNg=="
+                },
+                {
+                  "gtfsId": "HSL:6306000",
+                  "code": "So3121",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMA=="
+                },
+                {
+                  "gtfsId": "HSL:6050209",
+                  "code": "Ki0509",
+                  "id": "U3RvcDpIU0w6NjA1MDIwOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050211",
+                  "code": "Ki0511",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050213",
+                  "code": "Ki0513",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMw=="
+                },
+                {
+                  "gtfsId": "HSL:6040235",
+                  "code": "Ki0435",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040231",
+                  "code": "Ki0431",
+                  "id": "U3RvcDpIU0w6NjA0MDIzMQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040233",
+                  "code": "Ki0433",
+                  "id": "U3RvcDpIU0w6NjA0MDIzMw=="
+                },
+                {
+                  "gtfsId": "HSL:6040236",
+                  "code": "Ki0436",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNg=="
+                },
+                {
+                  "gtfsId": "HSL:6040239",
+                  "code": "Ki0439",
+                  "id": "U3RvcDpIU0w6NjA0MDIzOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040275",
+                  "code": "Ki0475",
+                  "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040277",
+                  "code": "Ki0477",
+                  "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+                },
+                {
+                  "gtfsId": "HSL:6050251",
+                  "code": "Ki0551",
+                  "id": "U3RvcDpIU0w6NjA1MDI1MQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040291",
+                  "code": "Ki0491",
+                  "id": "U3RvcDpIU0w6NjA0MDI5MQ=="
+                }
+              ],
+              "id": "UGF0dGVybjpIU0w6NjE4MUs6MTowMQ=="
+            },
+            "id": "VHJpcDpIU0w6NjE4MUtfMjAyMTA5MDhfUGVfMl8xNDQ1"
+          }
+        },
+        {
+          "realtimeState": "SCHEDULED",
+          "realtimeDeparture": 57300,
+          "scheduledDeparture": 57300,
+          "realtimeArrival": 57300,
+          "scheduledArrival": 57300,
+          "realtime": false,
+          "serviceDay": 1631221200,
+          "pickupType": "SCHEDULED",
+          "headsign": "Siuntio",
+          "stop": {
+            "id": "U3RvcDpIU0w6NjMwNDAwNA==",
+            "code": "So3115",
+            "platformCode": null
+          },
+          "trip": {
+            "gtfsId": "HSL:6181_20210908_Pe_1_1530",
+            "directionId": "0",
+            "tripHeadsign": "Siuntio",
+            "stops": [
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI5NQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDI1MA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNzAwNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNzAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwMw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwMA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+              }
+            ],
+            "pattern": {
+              "route": {
+                "gtfsId": "HSL:6181",
+                "shortName": "181",
+                "longName": "Kirkkonummi-Siuntio",
+                "mode": "BUS",
+                "color": null,
+                "agency": {
+                  "name": "Helsingin seudun liikenne",
+                  "id": "QWdlbmN5OkhTTDpIU0w="
+                },
+                "alerts": [],
+                "id": "Um91dGU6SFNMOjYxODE="
+              },
+              "code": "HSL:6181:0:01",
+              "stops": [
+                {
+                  "gtfsId": "HSL:6040295",
+                  "code": "Ki0495",
+                  "id": "U3RvcDpIU0w6NjA0MDI5NQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050250",
+                  "code": "Ki0550",
+                  "id": "U3RvcDpIU0w6NjA1MDI1MA=="
+                },
+                {
+                  "gtfsId": "HSL:6040275",
+                  "code": "Ki0475",
+                  "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040277",
+                  "code": "Ki0477",
+                  "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+                },
+                {
+                  "gtfsId": "HSL:6040238",
+                  "code": "Ki0438",
+                  "id": "U3RvcDpIU0w6NjA0MDIzOA=="
+                },
+                {
+                  "gtfsId": "HSL:6040237",
+                  "code": "Ki0437",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNw=="
+                },
+                {
+                  "gtfsId": "HSL:6040234",
+                  "code": "Ki0434",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNA=="
+                },
+                {
+                  "gtfsId": "HSL:6050219",
+                  "code": "Ki0519",
+                  "id": "U3RvcDpIU0w6NjA1MDIxOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050215",
+                  "code": "Ki0515",
+                  "id": "U3RvcDpIU0w6NjA1MDIxNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050214",
+                  "code": "Ki0514",
+                  "id": "U3RvcDpIU0w6NjA1MDIxNA=="
+                },
+                {
+                  "gtfsId": "HSL:6050212",
+                  "code": "Ki0512",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMg=="
+                },
+                {
+                  "gtfsId": "HSL:6050210",
+                  "code": "Ki0510",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMA=="
+                },
+                {
+                  "gtfsId": "HSL:6050217",
+                  "code": "Ki0517",
+                  "id": "U3RvcDpIU0w6NjA1MDIxNw=="
+                },
+                {
+                  "gtfsId": "HSL:6306001",
+                  "code": "So3122",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMQ=="
+                },
+                {
+                  "gtfsId": "HSL:6306002",
+                  "code": "So3123",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMg=="
+                },
+                {
+                  "gtfsId": "HSL:6306004",
+                  "code": "So3125",
+                  "id": "U3RvcDpIU0w6NjMwNjAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6307006",
+                  "code": "So3133",
+                  "id": "U3RvcDpIU0w6NjMwNzAwNg=="
+                },
+                {
+                  "gtfsId": "HSL:6307005",
+                  "code": "So3132",
+                  "id": "U3RvcDpIU0w6NjMwNzAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304004",
+                  "code": "So3115",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6304005",
+                  "code": "So3116",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304003",
+                  "code": "So3114",
+                  "id": "U3RvcDpIU0w6NjMwNDAwMw=="
+                },
+                {
+                  "gtfsId": "HSL:6304009",
+                  "code": "So3120",
+                  "id": "U3RvcDpIU0w6NjMwNDAwOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304008",
+                  "code": "So3119",
+                  "id": "U3RvcDpIU0w6NjMwNDAwOA=="
+                },
+                {
+                  "gtfsId": "HSL:6302018",
+                  "code": "So3100",
+                  "id": "U3RvcDpIU0w6NjMwMjAxOA=="
+                },
+                {
+                  "gtfsId": "HSL:6302005",
+                  "code": "So3087",
+                  "id": "U3RvcDpIU0w6NjMwMjAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6302008",
+                  "code": "So3090",
+                  "id": "U3RvcDpIU0w6NjMwMjAwOA=="
+                },
+                {
+                  "gtfsId": "HSL:6302000",
+                  "code": "So3082",
+                  "id": "U3RvcDpIU0w6NjMwMjAwMA=="
+                },
+                {
+                  "gtfsId": "HSL:6302017",
+                  "code": "So3099",
+                  "id": "U3RvcDpIU0w6NjMwMjAxNw=="
+                },
+                {
+                  "gtfsId": "HSL:6302012",
+                  "code": "So3094",
+                  "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+                }
+              ],
+              "id": "UGF0dGVybjpIU0w6NjE4MTowOjAx"
+            },
+            "id": "VHJpcDpIU0w6NjE4MV8yMDIxMDkwOF9QZV8xXzE1MzA="
+          }
+        },
+        {
+          "realtimeState": "SCHEDULED",
+          "realtimeDeparture": 26400,
+          "scheduledDeparture": 26400,
+          "realtimeArrival": 26400,
+          "scheduledArrival": 26400,
+          "realtime": false,
+          "serviceDay": 1631480400,
+          "pickupType": "SCHEDULED",
+          "headsign": "Kirkkonummi",
+          "stop": {
+            "id": "U3RvcDpIU0w6NjMwNDAwNA==",
+            "code": "So3115",
+            "platformCode": null
+          },
+          "trip": {
+            "gtfsId": "HSL:6181_20210908_Ma_2_0710",
+            "directionId": "1",
+            "tripHeadsign": "Kirkkonummi",
+            "stops": [
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwMQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIwOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzMQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzMw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDI1MQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI5MQ=="
+              }
+            ],
+            "pattern": {
+              "route": {
+                "gtfsId": "HSL:6181",
+                "shortName": "181",
+                "longName": "Kirkkonummi-Siuntio",
+                "mode": "BUS",
+                "color": null,
+                "agency": {
+                  "name": "Helsingin seudun liikenne",
+                  "id": "QWdlbmN5OkhTTDpIU0w="
+                },
+                "alerts": [],
+                "id": "Um91dGU6SFNMOjYxODE="
+              },
+              "code": "HSL:6181:1:01",
+              "stops": [
+                {
+                  "gtfsId": "HSL:6302012",
+                  "code": "So3094",
+                  "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+                },
+                {
+                  "gtfsId": "HSL:6302016",
+                  "code": "So3098",
+                  "id": "U3RvcDpIU0w6NjMwMjAxNg=="
+                },
+                {
+                  "gtfsId": "HSL:6302001",
+                  "code": "So3083",
+                  "id": "U3RvcDpIU0w6NjMwMjAwMQ=="
+                },
+                {
+                  "gtfsId": "HSL:6302009",
+                  "code": "So3091",
+                  "id": "U3RvcDpIU0w6NjMwMjAwOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6302004",
+                  "code": "So3086",
+                  "id": "U3RvcDpIU0w6NjMwMjAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6302019",
+                  "code": "So3101",
+                  "id": "U3RvcDpIU0w6NjMwMjAxOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304007",
+                  "code": "So3118",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNw=="
+                },
+                {
+                  "gtfsId": "HSL:6304002",
+                  "code": "So3113",
+                  "id": "U3RvcDpIU0w6NjMwNDAwMg=="
+                },
+                {
+                  "gtfsId": "HSL:6304004",
+                  "code": "So3115",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6304006",
+                  "code": "So3117",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNg=="
+                },
+                {
+                  "gtfsId": "HSL:6306005",
+                  "code": "So3126",
+                  "id": "U3RvcDpIU0w6NjMwNjAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6306003",
+                  "code": "So3124",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMw=="
+                },
+                {
+                  "gtfsId": "HSL:6306000",
+                  "code": "So3121",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMA=="
+                },
+                {
+                  "gtfsId": "HSL:6050209",
+                  "code": "Ki0509",
+                  "id": "U3RvcDpIU0w6NjA1MDIwOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050211",
+                  "code": "Ki0511",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050213",
+                  "code": "Ki0513",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMw=="
+                },
+                {
+                  "gtfsId": "HSL:6040235",
+                  "code": "Ki0435",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040231",
+                  "code": "Ki0431",
+                  "id": "U3RvcDpIU0w6NjA0MDIzMQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040233",
+                  "code": "Ki0433",
+                  "id": "U3RvcDpIU0w6NjA0MDIzMw=="
+                },
+                {
+                  "gtfsId": "HSL:6040236",
+                  "code": "Ki0436",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNg=="
+                },
+                {
+                  "gtfsId": "HSL:6040239",
+                  "code": "Ki0439",
+                  "id": "U3RvcDpIU0w6NjA0MDIzOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040275",
+                  "code": "Ki0475",
+                  "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040277",
+                  "code": "Ki0477",
+                  "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+                },
+                {
+                  "gtfsId": "HSL:6050251",
+                  "code": "Ki0551",
+                  "id": "U3RvcDpIU0w6NjA1MDI1MQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040291",
+                  "code": "Ki0491",
+                  "id": "U3RvcDpIU0w6NjA0MDI5MQ=="
+                }
+              ],
+              "id": "UGF0dGVybjpIU0w6NjE4MToxOjAx"
+            },
+            "id": "VHJpcDpIU0w6NjE4MV8yMDIxMDkwOF9NYV8yXzA3MTA="
+          }
+        },
+        {
+          "realtimeState": "SCHEDULED",
+          "realtimeDeparture": 27900,
+          "scheduledDeparture": 27900,
+          "realtimeArrival": 27900,
+          "scheduledArrival": 27900,
+          "realtime": false,
+          "serviceDay": 1631480400,
+          "pickupType": "SCHEDULED",
+          "headsign": "Siuntio",
+          "stop": {
+            "id": "U3RvcDpIU0w6NjMwNDAwNA==",
+            "code": "So3115",
+            "platformCode": null
+          },
+          "trip": {
+            "gtfsId": "HSL:6181K_20210908_Ma_1_0720",
+            "directionId": "0",
+            "tripHeadsign": "Siuntio",
+            "stops": [
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI5NQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDI1MA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNzAwNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNzAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwMw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwMA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+              }
+            ],
+            "pattern": {
+              "route": {
+                "gtfsId": "HSL:6181K",
+                "shortName": "181K",
+                "longName": "Kirkkonummi-Siuntio",
+                "mode": "BUS",
+                "color": null,
+                "agency": {
+                  "name": "Helsingin seudun liikenne",
+                  "id": "QWdlbmN5OkhTTDpIU0w="
+                },
+                "alerts": [],
+                "id": "Um91dGU6SFNMOjYxODFL"
+              },
+              "code": "HSL:6181K:0:01",
+              "stops": [
+                {
+                  "gtfsId": "HSL:6040295",
+                  "code": "Ki0495",
+                  "id": "U3RvcDpIU0w6NjA0MDI5NQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050250",
+                  "code": "Ki0550",
+                  "id": "U3RvcDpIU0w6NjA1MDI1MA=="
+                },
+                {
+                  "gtfsId": "HSL:6040275",
+                  "code": "Ki0475",
+                  "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040277",
+                  "code": "Ki0477",
+                  "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+                },
+                {
+                  "gtfsId": "HSL:6040238",
+                  "code": "Ki0438",
+                  "id": "U3RvcDpIU0w6NjA0MDIzOA=="
+                },
+                {
+                  "gtfsId": "HSL:6040237",
+                  "code": "Ki0437",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNw=="
+                },
+                {
+                  "gtfsId": "HSL:6040234",
+                  "code": "Ki0434",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNA=="
+                },
+                {
+                  "gtfsId": "HSL:6050219",
+                  "code": "Ki0519",
+                  "id": "U3RvcDpIU0w6NjA1MDIxOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050215",
+                  "code": "Ki0515",
+                  "id": "U3RvcDpIU0w6NjA1MDIxNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050214",
+                  "code": "Ki0514",
+                  "id": "U3RvcDpIU0w6NjA1MDIxNA=="
+                },
+                {
+                  "gtfsId": "HSL:6050212",
+                  "code": "Ki0512",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMg=="
+                },
+                {
+                  "gtfsId": "HSL:6050210",
+                  "code": "Ki0510",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMA=="
+                },
+                {
+                  "gtfsId": "HSL:6050217",
+                  "code": "Ki0517",
+                  "id": "U3RvcDpIU0w6NjA1MDIxNw=="
+                },
+                {
+                  "gtfsId": "HSL:6306001",
+                  "code": "So3122",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMQ=="
+                },
+                {
+                  "gtfsId": "HSL:6306006",
+                  "code": "So3160",
+                  "id": "U3RvcDpIU0w6NjMwNjAwNg=="
+                },
+                {
+                  "gtfsId": "HSL:6306002",
+                  "code": "So3123",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMg=="
+                },
+                {
+                  "gtfsId": "HSL:6306004",
+                  "code": "So3125",
+                  "id": "U3RvcDpIU0w6NjMwNjAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6307006",
+                  "code": "So3133",
+                  "id": "U3RvcDpIU0w6NjMwNzAwNg=="
+                },
+                {
+                  "gtfsId": "HSL:6307005",
+                  "code": "So3132",
+                  "id": "U3RvcDpIU0w6NjMwNzAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304004",
+                  "code": "So3115",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6304005",
+                  "code": "So3116",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304003",
+                  "code": "So3114",
+                  "id": "U3RvcDpIU0w6NjMwNDAwMw=="
+                },
+                {
+                  "gtfsId": "HSL:6304009",
+                  "code": "So3120",
+                  "id": "U3RvcDpIU0w6NjMwNDAwOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304008",
+                  "code": "So3119",
+                  "id": "U3RvcDpIU0w6NjMwNDAwOA=="
+                },
+                {
+                  "gtfsId": "HSL:6302018",
+                  "code": "So3100",
+                  "id": "U3RvcDpIU0w6NjMwMjAxOA=="
+                },
+                {
+                  "gtfsId": "HSL:6302005",
+                  "code": "So3087",
+                  "id": "U3RvcDpIU0w6NjMwMjAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6302008",
+                  "code": "So3090",
+                  "id": "U3RvcDpIU0w6NjMwMjAwOA=="
+                },
+                {
+                  "gtfsId": "HSL:6302000",
+                  "code": "So3082",
+                  "id": "U3RvcDpIU0w6NjMwMjAwMA=="
+                },
+                {
+                  "gtfsId": "HSL:6302017",
+                  "code": "So3099",
+                  "id": "U3RvcDpIU0w6NjMwMjAxNw=="
+                },
+                {
+                  "gtfsId": "HSL:6302012",
+                  "code": "So3094",
+                  "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+                }
+              ],
+              "id": "UGF0dGVybjpIU0w6NjE4MUs6MDowMQ=="
+            },
+            "id": "VHJpcDpIU0w6NjE4MUtfMjAyMTA5MDhfTWFfMV8wNzIw"
+          }
+        },
+        {
+          "realtimeState": "SCHEDULED",
+          "realtimeDeparture": 29700,
+          "scheduledDeparture": 29700,
+          "realtimeArrival": 29700,
+          "scheduledArrival": 29700,
+          "realtime": false,
+          "serviceDay": 1631480400,
+          "pickupType": "SCHEDULED",
+          "headsign": "Kirkkonummi",
+          "stop": {
+            "id": "U3RvcDpIU0w6NjMwNDAwNA==",
+            "code": "So3115",
+            "platformCode": null
+          },
+          "trip": {
+            "gtfsId": "HSL:6181_20210908_Ma_2_0805",
+            "directionId": "1",
+            "tripHeadsign": "Kirkkonummi",
+            "stops": [
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwMQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIwOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzMQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzMw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDI1MQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI5MQ=="
+              }
+            ],
+            "pattern": {
+              "route": {
+                "gtfsId": "HSL:6181",
+                "shortName": "181",
+                "longName": "Kirkkonummi-Siuntio",
+                "mode": "BUS",
+                "color": null,
+                "agency": {
+                  "name": "Helsingin seudun liikenne",
+                  "id": "QWdlbmN5OkhTTDpIU0w="
+                },
+                "alerts": [],
+                "id": "Um91dGU6SFNMOjYxODE="
+              },
+              "code": "HSL:6181:1:01",
+              "stops": [
+                {
+                  "gtfsId": "HSL:6302012",
+                  "code": "So3094",
+                  "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+                },
+                {
+                  "gtfsId": "HSL:6302016",
+                  "code": "So3098",
+                  "id": "U3RvcDpIU0w6NjMwMjAxNg=="
+                },
+                {
+                  "gtfsId": "HSL:6302001",
+                  "code": "So3083",
+                  "id": "U3RvcDpIU0w6NjMwMjAwMQ=="
+                },
+                {
+                  "gtfsId": "HSL:6302009",
+                  "code": "So3091",
+                  "id": "U3RvcDpIU0w6NjMwMjAwOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6302004",
+                  "code": "So3086",
+                  "id": "U3RvcDpIU0w6NjMwMjAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6302019",
+                  "code": "So3101",
+                  "id": "U3RvcDpIU0w6NjMwMjAxOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304007",
+                  "code": "So3118",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNw=="
+                },
+                {
+                  "gtfsId": "HSL:6304002",
+                  "code": "So3113",
+                  "id": "U3RvcDpIU0w6NjMwNDAwMg=="
+                },
+                {
+                  "gtfsId": "HSL:6304004",
+                  "code": "So3115",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6304006",
+                  "code": "So3117",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNg=="
+                },
+                {
+                  "gtfsId": "HSL:6306005",
+                  "code": "So3126",
+                  "id": "U3RvcDpIU0w6NjMwNjAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6306003",
+                  "code": "So3124",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMw=="
+                },
+                {
+                  "gtfsId": "HSL:6306000",
+                  "code": "So3121",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMA=="
+                },
+                {
+                  "gtfsId": "HSL:6050209",
+                  "code": "Ki0509",
+                  "id": "U3RvcDpIU0w6NjA1MDIwOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050211",
+                  "code": "Ki0511",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050213",
+                  "code": "Ki0513",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMw=="
+                },
+                {
+                  "gtfsId": "HSL:6040235",
+                  "code": "Ki0435",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040231",
+                  "code": "Ki0431",
+                  "id": "U3RvcDpIU0w6NjA0MDIzMQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040233",
+                  "code": "Ki0433",
+                  "id": "U3RvcDpIU0w6NjA0MDIzMw=="
+                },
+                {
+                  "gtfsId": "HSL:6040236",
+                  "code": "Ki0436",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNg=="
+                },
+                {
+                  "gtfsId": "HSL:6040239",
+                  "code": "Ki0439",
+                  "id": "U3RvcDpIU0w6NjA0MDIzOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040275",
+                  "code": "Ki0475",
+                  "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040277",
+                  "code": "Ki0477",
+                  "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+                },
+                {
+                  "gtfsId": "HSL:6050251",
+                  "code": "Ki0551",
+                  "id": "U3RvcDpIU0w6NjA1MDI1MQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040291",
+                  "code": "Ki0491",
+                  "id": "U3RvcDpIU0w6NjA0MDI5MQ=="
+                }
+              ],
+              "id": "UGF0dGVybjpIU0w6NjE4MToxOjAx"
+            },
+            "id": "VHJpcDpIU0w6NjE4MV8yMDIxMDkwOF9NYV8yXzA4MDU="
+          }
+        },
+        {
+          "realtimeState": "SCHEDULED",
+          "realtimeDeparture": 31500,
+          "scheduledDeparture": 31500,
+          "realtimeArrival": 31500,
+          "scheduledArrival": 31500,
+          "realtime": false,
+          "serviceDay": 1631480400,
+          "pickupType": "SCHEDULED",
+          "headsign": "Siuntio",
+          "stop": {
+            "id": "U3RvcDpIU0w6NjMwNDAwNA==",
+            "code": "So3115",
+            "platformCode": null
+          },
+          "trip": {
+            "gtfsId": "HSL:6181K_20210908_Ma_1_0820",
+            "directionId": "0",
+            "tripHeadsign": "Siuntio",
+            "stops": [
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI5NQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDI1MA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNzAwNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNzAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwMw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwMA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+              }
+            ],
+            "pattern": {
+              "route": {
+                "gtfsId": "HSL:6181K",
+                "shortName": "181K",
+                "longName": "Kirkkonummi-Siuntio",
+                "mode": "BUS",
+                "color": null,
+                "agency": {
+                  "name": "Helsingin seudun liikenne",
+                  "id": "QWdlbmN5OkhTTDpIU0w="
+                },
+                "alerts": [],
+                "id": "Um91dGU6SFNMOjYxODFL"
+              },
+              "code": "HSL:6181K:0:01",
+              "stops": [
+                {
+                  "gtfsId": "HSL:6040295",
+                  "code": "Ki0495",
+                  "id": "U3RvcDpIU0w6NjA0MDI5NQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050250",
+                  "code": "Ki0550",
+                  "id": "U3RvcDpIU0w6NjA1MDI1MA=="
+                },
+                {
+                  "gtfsId": "HSL:6040275",
+                  "code": "Ki0475",
+                  "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040277",
+                  "code": "Ki0477",
+                  "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+                },
+                {
+                  "gtfsId": "HSL:6040238",
+                  "code": "Ki0438",
+                  "id": "U3RvcDpIU0w6NjA0MDIzOA=="
+                },
+                {
+                  "gtfsId": "HSL:6040237",
+                  "code": "Ki0437",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNw=="
+                },
+                {
+                  "gtfsId": "HSL:6040234",
+                  "code": "Ki0434",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNA=="
+                },
+                {
+                  "gtfsId": "HSL:6050219",
+                  "code": "Ki0519",
+                  "id": "U3RvcDpIU0w6NjA1MDIxOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050215",
+                  "code": "Ki0515",
+                  "id": "U3RvcDpIU0w6NjA1MDIxNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050214",
+                  "code": "Ki0514",
+                  "id": "U3RvcDpIU0w6NjA1MDIxNA=="
+                },
+                {
+                  "gtfsId": "HSL:6050212",
+                  "code": "Ki0512",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMg=="
+                },
+                {
+                  "gtfsId": "HSL:6050210",
+                  "code": "Ki0510",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMA=="
+                },
+                {
+                  "gtfsId": "HSL:6050217",
+                  "code": "Ki0517",
+                  "id": "U3RvcDpIU0w6NjA1MDIxNw=="
+                },
+                {
+                  "gtfsId": "HSL:6306001",
+                  "code": "So3122",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMQ=="
+                },
+                {
+                  "gtfsId": "HSL:6306006",
+                  "code": "So3160",
+                  "id": "U3RvcDpIU0w6NjMwNjAwNg=="
+                },
+                {
+                  "gtfsId": "HSL:6306002",
+                  "code": "So3123",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMg=="
+                },
+                {
+                  "gtfsId": "HSL:6306004",
+                  "code": "So3125",
+                  "id": "U3RvcDpIU0w6NjMwNjAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6307006",
+                  "code": "So3133",
+                  "id": "U3RvcDpIU0w6NjMwNzAwNg=="
+                },
+                {
+                  "gtfsId": "HSL:6307005",
+                  "code": "So3132",
+                  "id": "U3RvcDpIU0w6NjMwNzAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304004",
+                  "code": "So3115",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6304005",
+                  "code": "So3116",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304003",
+                  "code": "So3114",
+                  "id": "U3RvcDpIU0w6NjMwNDAwMw=="
+                },
+                {
+                  "gtfsId": "HSL:6304009",
+                  "code": "So3120",
+                  "id": "U3RvcDpIU0w6NjMwNDAwOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304008",
+                  "code": "So3119",
+                  "id": "U3RvcDpIU0w6NjMwNDAwOA=="
+                },
+                {
+                  "gtfsId": "HSL:6302018",
+                  "code": "So3100",
+                  "id": "U3RvcDpIU0w6NjMwMjAxOA=="
+                },
+                {
+                  "gtfsId": "HSL:6302005",
+                  "code": "So3087",
+                  "id": "U3RvcDpIU0w6NjMwMjAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6302008",
+                  "code": "So3090",
+                  "id": "U3RvcDpIU0w6NjMwMjAwOA=="
+                },
+                {
+                  "gtfsId": "HSL:6302000",
+                  "code": "So3082",
+                  "id": "U3RvcDpIU0w6NjMwMjAwMA=="
+                },
+                {
+                  "gtfsId": "HSL:6302017",
+                  "code": "So3099",
+                  "id": "U3RvcDpIU0w6NjMwMjAxNw=="
+                },
+                {
+                  "gtfsId": "HSL:6302012",
+                  "code": "So3094",
+                  "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+                }
+              ],
+              "id": "UGF0dGVybjpIU0w6NjE4MUs6MDowMQ=="
+            },
+            "id": "VHJpcDpIU0w6NjE4MUtfMjAyMTA5MDhfTWFfMV8wODIw"
+          }
+        },
+        {
+          "realtimeState": "SCHEDULED",
+          "realtimeDeparture": 48900,
+          "scheduledDeparture": 48900,
+          "realtimeArrival": 48900,
+          "scheduledArrival": 48900,
+          "realtime": false,
+          "serviceDay": 1631480400,
+          "pickupType": "SCHEDULED",
+          "headsign": "Pikkala",
+          "stop": {
+            "id": "U3RvcDpIU0w6NjMwNDAwNA==",
+            "code": "So3115",
+            "platformCode": null
+          },
+          "trip": {
+            "gtfsId": "HSL:6912K_20210908_Ma_1_1325",
+            "directionId": "0",
+            "tripHeadsign": "Pikkala",
+            "stops": [
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxMw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAyMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwMQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNzAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNzAwOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA3MDIzMA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA3MDIzMg=="
+              }
+            ],
+            "pattern": {
+              "route": {
+                "gtfsId": "HSL:6912K",
+                "shortName": "912K",
+                "longName": "Kuntakeskus-Störsvik-Pikkala",
+                "mode": "BUS",
+                "color": null,
+                "agency": {
+                  "name": "Helsingin seudun liikenne",
+                  "id": "QWdlbmN5OkhTTDpIU0w="
+                },
+                "alerts": [],
+                "id": "Um91dGU6SFNMOjY5MTJL"
+              },
+              "code": "HSL:6912K:0:01",
+              "stops": [
+                {
+                  "gtfsId": "HSL:6302013",
+                  "code": "So3095",
+                  "id": "U3RvcDpIU0w6NjMwMjAxMw=="
+                },
+                {
+                  "gtfsId": "HSL:6302022",
+                  "code": "So3136",
+                  "id": "U3RvcDpIU0w6NjMwMjAyMg=="
+                },
+                {
+                  "gtfsId": "HSL:6302016",
+                  "code": "So3098",
+                  "id": "U3RvcDpIU0w6NjMwMjAxNg=="
+                },
+                {
+                  "gtfsId": "HSL:6302001",
+                  "code": "So3083",
+                  "id": "U3RvcDpIU0w6NjMwMjAwMQ=="
+                },
+                {
+                  "gtfsId": "HSL:6302009",
+                  "code": "So3091",
+                  "id": "U3RvcDpIU0w6NjMwMjAwOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6302004",
+                  "code": "So3086",
+                  "id": "U3RvcDpIU0w6NjMwMjAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6302019",
+                  "code": "So3101",
+                  "id": "U3RvcDpIU0w6NjMwMjAxOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304007",
+                  "code": "So3118",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNw=="
+                },
+                {
+                  "gtfsId": "HSL:6304002",
+                  "code": "So3113",
+                  "id": "U3RvcDpIU0w6NjMwNDAwMg=="
+                },
+                {
+                  "gtfsId": "HSL:6304004",
+                  "code": "So3115",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6304006",
+                  "code": "So3117",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNg=="
+                },
+                {
+                  "gtfsId": "HSL:6307004",
+                  "code": "So3131",
+                  "id": "U3RvcDpIU0w6NjMwNzAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6307008",
+                  "code": "So3135",
+                  "id": "U3RvcDpIU0w6NjMwNzAwOA=="
+                },
+                {
+                  "gtfsId": "HSL:6070230",
+                  "code": "So0730",
+                  "id": "U3RvcDpIU0w6NjA3MDIzMA=="
+                },
+                {
+                  "gtfsId": "HSL:6070232",
+                  "code": "Ki0732",
+                  "id": "U3RvcDpIU0w6NjA3MDIzMg=="
+                }
+              ],
+              "id": "UGF0dGVybjpIU0w6NjkxMks6MDowMQ=="
+            },
+            "id": "VHJpcDpIU0w6NjkxMktfMjAyMTA5MDhfTWFfMV8xMzI1"
+          }
+        },
+        {
+          "realtimeState": "SCHEDULED",
+          "realtimeDeparture": 52200,
+          "scheduledDeparture": 52200,
+          "realtimeArrival": 52200,
+          "scheduledArrival": 52200,
+          "realtime": false,
+          "serviceDay": 1631480400,
+          "pickupType": "SCHEDULED",
+          "headsign": "Siuntio",
+          "stop": {
+            "id": "U3RvcDpIU0w6NjMwNDAwNA==",
+            "code": "So3115",
+            "platformCode": null
+          },
+          "trip": {
+            "gtfsId": "HSL:6181_20210908_Ma_1_1405",
+            "directionId": "0",
+            "tripHeadsign": "Siuntio",
+            "stops": [
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI5NQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDI1MA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNzAwNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNzAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwMw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwMA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+              }
+            ],
+            "pattern": {
+              "route": {
+                "gtfsId": "HSL:6181",
+                "shortName": "181",
+                "longName": "Kirkkonummi-Siuntio",
+                "mode": "BUS",
+                "color": null,
+                "agency": {
+                  "name": "Helsingin seudun liikenne",
+                  "id": "QWdlbmN5OkhTTDpIU0w="
+                },
+                "alerts": [],
+                "id": "Um91dGU6SFNMOjYxODE="
+              },
+              "code": "HSL:6181:0:01",
+              "stops": [
+                {
+                  "gtfsId": "HSL:6040295",
+                  "code": "Ki0495",
+                  "id": "U3RvcDpIU0w6NjA0MDI5NQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050250",
+                  "code": "Ki0550",
+                  "id": "U3RvcDpIU0w6NjA1MDI1MA=="
+                },
+                {
+                  "gtfsId": "HSL:6040275",
+                  "code": "Ki0475",
+                  "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040277",
+                  "code": "Ki0477",
+                  "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+                },
+                {
+                  "gtfsId": "HSL:6040238",
+                  "code": "Ki0438",
+                  "id": "U3RvcDpIU0w6NjA0MDIzOA=="
+                },
+                {
+                  "gtfsId": "HSL:6040237",
+                  "code": "Ki0437",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNw=="
+                },
+                {
+                  "gtfsId": "HSL:6040234",
+                  "code": "Ki0434",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNA=="
+                },
+                {
+                  "gtfsId": "HSL:6050219",
+                  "code": "Ki0519",
+                  "id": "U3RvcDpIU0w6NjA1MDIxOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050215",
+                  "code": "Ki0515",
+                  "id": "U3RvcDpIU0w6NjA1MDIxNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050214",
+                  "code": "Ki0514",
+                  "id": "U3RvcDpIU0w6NjA1MDIxNA=="
+                },
+                {
+                  "gtfsId": "HSL:6050212",
+                  "code": "Ki0512",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMg=="
+                },
+                {
+                  "gtfsId": "HSL:6050210",
+                  "code": "Ki0510",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMA=="
+                },
+                {
+                  "gtfsId": "HSL:6050217",
+                  "code": "Ki0517",
+                  "id": "U3RvcDpIU0w6NjA1MDIxNw=="
+                },
+                {
+                  "gtfsId": "HSL:6306001",
+                  "code": "So3122",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMQ=="
+                },
+                {
+                  "gtfsId": "HSL:6306002",
+                  "code": "So3123",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMg=="
+                },
+                {
+                  "gtfsId": "HSL:6306004",
+                  "code": "So3125",
+                  "id": "U3RvcDpIU0w6NjMwNjAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6307006",
+                  "code": "So3133",
+                  "id": "U3RvcDpIU0w6NjMwNzAwNg=="
+                },
+                {
+                  "gtfsId": "HSL:6307005",
+                  "code": "So3132",
+                  "id": "U3RvcDpIU0w6NjMwNzAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304004",
+                  "code": "So3115",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6304005",
+                  "code": "So3116",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304003",
+                  "code": "So3114",
+                  "id": "U3RvcDpIU0w6NjMwNDAwMw=="
+                },
+                {
+                  "gtfsId": "HSL:6304009",
+                  "code": "So3120",
+                  "id": "U3RvcDpIU0w6NjMwNDAwOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304008",
+                  "code": "So3119",
+                  "id": "U3RvcDpIU0w6NjMwNDAwOA=="
+                },
+                {
+                  "gtfsId": "HSL:6302018",
+                  "code": "So3100",
+                  "id": "U3RvcDpIU0w6NjMwMjAxOA=="
+                },
+                {
+                  "gtfsId": "HSL:6302005",
+                  "code": "So3087",
+                  "id": "U3RvcDpIU0w6NjMwMjAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6302008",
+                  "code": "So3090",
+                  "id": "U3RvcDpIU0w6NjMwMjAwOA=="
+                },
+                {
+                  "gtfsId": "HSL:6302000",
+                  "code": "So3082",
+                  "id": "U3RvcDpIU0w6NjMwMjAwMA=="
+                },
+                {
+                  "gtfsId": "HSL:6302017",
+                  "code": "So3099",
+                  "id": "U3RvcDpIU0w6NjMwMjAxNw=="
+                },
+                {
+                  "gtfsId": "HSL:6302012",
+                  "code": "So3094",
+                  "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+                }
+              ],
+              "id": "UGF0dGVybjpIU0w6NjE4MTowOjAx"
+            },
+            "id": "VHJpcDpIU0w6NjE4MV8yMDIxMDkwOF9NYV8xXzE0MDU="
+          }
+        },
+        {
+          "realtimeState": "SCHEDULED",
+          "realtimeDeparture": 53700,
+          "scheduledDeparture": 53700,
+          "realtimeArrival": 53700,
+          "scheduledArrival": 53700,
+          "realtime": false,
+          "serviceDay": 1631480400,
+          "pickupType": "SCHEDULED",
+          "headsign": "Kirkkonummi",
+          "stop": {
+            "id": "U3RvcDpIU0w6NjMwNDAwNA==",
+            "code": "So3115",
+            "platformCode": null
+          },
+          "trip": {
+            "gtfsId": "HSL:6181K_20210908_Ma_2_1445",
+            "directionId": "1",
+            "tripHeadsign": "Kirkkonummi",
+            "stops": [
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwMQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIwOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzMQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzMw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDI1MQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI5MQ=="
+              }
+            ],
+            "pattern": {
+              "route": {
+                "gtfsId": "HSL:6181K",
+                "shortName": "181K",
+                "longName": "Kirkkonummi-Siuntio",
+                "mode": "BUS",
+                "color": null,
+                "agency": {
+                  "name": "Helsingin seudun liikenne",
+                  "id": "QWdlbmN5OkhTTDpIU0w="
+                },
+                "alerts": [],
+                "id": "Um91dGU6SFNMOjYxODFL"
+              },
+              "code": "HSL:6181K:1:01",
+              "stops": [
+                {
+                  "gtfsId": "HSL:6302012",
+                  "code": "So3094",
+                  "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+                },
+                {
+                  "gtfsId": "HSL:6302016",
+                  "code": "So3098",
+                  "id": "U3RvcDpIU0w6NjMwMjAxNg=="
+                },
+                {
+                  "gtfsId": "HSL:6302001",
+                  "code": "So3083",
+                  "id": "U3RvcDpIU0w6NjMwMjAwMQ=="
+                },
+                {
+                  "gtfsId": "HSL:6302009",
+                  "code": "So3091",
+                  "id": "U3RvcDpIU0w6NjMwMjAwOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6302004",
+                  "code": "So3086",
+                  "id": "U3RvcDpIU0w6NjMwMjAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6302019",
+                  "code": "So3101",
+                  "id": "U3RvcDpIU0w6NjMwMjAxOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304007",
+                  "code": "So3118",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNw=="
+                },
+                {
+                  "gtfsId": "HSL:6304002",
+                  "code": "So3113",
+                  "id": "U3RvcDpIU0w6NjMwNDAwMg=="
+                },
+                {
+                  "gtfsId": "HSL:6304004",
+                  "code": "So3115",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6304006",
+                  "code": "So3117",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNg=="
+                },
+                {
+                  "gtfsId": "HSL:6306005",
+                  "code": "So3126",
+                  "id": "U3RvcDpIU0w6NjMwNjAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6306003",
+                  "code": "So3124",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMw=="
+                },
+                {
+                  "gtfsId": "HSL:6306006",
+                  "code": "So3160",
+                  "id": "U3RvcDpIU0w6NjMwNjAwNg=="
+                },
+                {
+                  "gtfsId": "HSL:6306000",
+                  "code": "So3121",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMA=="
+                },
+                {
+                  "gtfsId": "HSL:6050209",
+                  "code": "Ki0509",
+                  "id": "U3RvcDpIU0w6NjA1MDIwOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050211",
+                  "code": "Ki0511",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050213",
+                  "code": "Ki0513",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMw=="
+                },
+                {
+                  "gtfsId": "HSL:6040235",
+                  "code": "Ki0435",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040231",
+                  "code": "Ki0431",
+                  "id": "U3RvcDpIU0w6NjA0MDIzMQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040233",
+                  "code": "Ki0433",
+                  "id": "U3RvcDpIU0w6NjA0MDIzMw=="
+                },
+                {
+                  "gtfsId": "HSL:6040236",
+                  "code": "Ki0436",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNg=="
+                },
+                {
+                  "gtfsId": "HSL:6040239",
+                  "code": "Ki0439",
+                  "id": "U3RvcDpIU0w6NjA0MDIzOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040275",
+                  "code": "Ki0475",
+                  "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040277",
+                  "code": "Ki0477",
+                  "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+                },
+                {
+                  "gtfsId": "HSL:6050251",
+                  "code": "Ki0551",
+                  "id": "U3RvcDpIU0w6NjA1MDI1MQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040291",
+                  "code": "Ki0491",
+                  "id": "U3RvcDpIU0w6NjA0MDI5MQ=="
+                }
+              ],
+              "id": "UGF0dGVybjpIU0w6NjE4MUs6MTowMQ=="
+            },
+            "id": "VHJpcDpIU0w6NjE4MUtfMjAyMTA5MDhfTWFfMl8xNDQ1"
+          }
+        },
+        {
+          "realtimeState": "SCHEDULED",
+          "realtimeDeparture": 57300,
+          "scheduledDeparture": 57300,
+          "realtimeArrival": 57300,
+          "scheduledArrival": 57300,
+          "realtime": false,
+          "serviceDay": 1631480400,
+          "pickupType": "SCHEDULED",
+          "headsign": "Siuntio",
+          "stop": {
+            "id": "U3RvcDpIU0w6NjMwNDAwNA==",
+            "code": "So3115",
+            "platformCode": null
+          },
+          "trip": {
+            "gtfsId": "HSL:6181_20210908_Ma_1_1530",
+            "directionId": "0",
+            "tripHeadsign": "Siuntio",
+            "stops": [
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI5NQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDI1MA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA0MDIzNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxMA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjA1MDIxNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwMg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNjAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNzAwNg=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNzAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwMw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwOQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwNDAwOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwNQ=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwOA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAwMA=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxNw=="
+              },
+              {
+                "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+              }
+            ],
+            "pattern": {
+              "route": {
+                "gtfsId": "HSL:6181",
+                "shortName": "181",
+                "longName": "Kirkkonummi-Siuntio",
+                "mode": "BUS",
+                "color": null,
+                "agency": {
+                  "name": "Helsingin seudun liikenne",
+                  "id": "QWdlbmN5OkhTTDpIU0w="
+                },
+                "alerts": [],
+                "id": "Um91dGU6SFNMOjYxODE="
+              },
+              "code": "HSL:6181:0:01",
+              "stops": [
+                {
+                  "gtfsId": "HSL:6040295",
+                  "code": "Ki0495",
+                  "id": "U3RvcDpIU0w6NjA0MDI5NQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050250",
+                  "code": "Ki0550",
+                  "id": "U3RvcDpIU0w6NjA1MDI1MA=="
+                },
+                {
+                  "gtfsId": "HSL:6040275",
+                  "code": "Ki0475",
+                  "id": "U3RvcDpIU0w6NjA0MDI3NQ=="
+                },
+                {
+                  "gtfsId": "HSL:6040277",
+                  "code": "Ki0477",
+                  "id": "U3RvcDpIU0w6NjA0MDI3Nw=="
+                },
+                {
+                  "gtfsId": "HSL:6040238",
+                  "code": "Ki0438",
+                  "id": "U3RvcDpIU0w6NjA0MDIzOA=="
+                },
+                {
+                  "gtfsId": "HSL:6040237",
+                  "code": "Ki0437",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNw=="
+                },
+                {
+                  "gtfsId": "HSL:6040234",
+                  "code": "Ki0434",
+                  "id": "U3RvcDpIU0w6NjA0MDIzNA=="
+                },
+                {
+                  "gtfsId": "HSL:6050219",
+                  "code": "Ki0519",
+                  "id": "U3RvcDpIU0w6NjA1MDIxOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050215",
+                  "code": "Ki0515",
+                  "id": "U3RvcDpIU0w6NjA1MDIxNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6050214",
+                  "code": "Ki0514",
+                  "id": "U3RvcDpIU0w6NjA1MDIxNA=="
+                },
+                {
+                  "gtfsId": "HSL:6050212",
+                  "code": "Ki0512",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMg=="
+                },
+                {
+                  "gtfsId": "HSL:6050210",
+                  "code": "Ki0510",
+                  "id": "U3RvcDpIU0w6NjA1MDIxMA=="
+                },
+                {
+                  "gtfsId": "HSL:6050217",
+                  "code": "Ki0517",
+                  "id": "U3RvcDpIU0w6NjA1MDIxNw=="
+                },
+                {
+                  "gtfsId": "HSL:6306001",
+                  "code": "So3122",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMQ=="
+                },
+                {
+                  "gtfsId": "HSL:6306002",
+                  "code": "So3123",
+                  "id": "U3RvcDpIU0w6NjMwNjAwMg=="
+                },
+                {
+                  "gtfsId": "HSL:6306004",
+                  "code": "So3125",
+                  "id": "U3RvcDpIU0w6NjMwNjAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6307006",
+                  "code": "So3133",
+                  "id": "U3RvcDpIU0w6NjMwNzAwNg=="
+                },
+                {
+                  "gtfsId": "HSL:6307005",
+                  "code": "So3132",
+                  "id": "U3RvcDpIU0w6NjMwNzAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304004",
+                  "code": "So3115",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+                },
+                {
+                  "gtfsId": "HSL:6304005",
+                  "code": "So3116",
+                  "id": "U3RvcDpIU0w6NjMwNDAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304003",
+                  "code": "So3114",
+                  "id": "U3RvcDpIU0w6NjMwNDAwMw=="
+                },
+                {
+                  "gtfsId": "HSL:6304009",
+                  "code": "So3120",
+                  "id": "U3RvcDpIU0w6NjMwNDAwOQ=="
+                },
+                {
+                  "gtfsId": "HSL:6304008",
+                  "code": "So3119",
+                  "id": "U3RvcDpIU0w6NjMwNDAwOA=="
+                },
+                {
+                  "gtfsId": "HSL:6302018",
+                  "code": "So3100",
+                  "id": "U3RvcDpIU0w6NjMwMjAxOA=="
+                },
+                {
+                  "gtfsId": "HSL:6302005",
+                  "code": "So3087",
+                  "id": "U3RvcDpIU0w6NjMwMjAwNQ=="
+                },
+                {
+                  "gtfsId": "HSL:6302008",
+                  "code": "So3090",
+                  "id": "U3RvcDpIU0w6NjMwMjAwOA=="
+                },
+                {
+                  "gtfsId": "HSL:6302000",
+                  "code": "So3082",
+                  "id": "U3RvcDpIU0w6NjMwMjAwMA=="
+                },
+                {
+                  "gtfsId": "HSL:6302017",
+                  "code": "So3099",
+                  "id": "U3RvcDpIU0w6NjMwMjAxNw=="
+                },
+                {
+                  "gtfsId": "HSL:6302012",
+                  "code": "So3094",
+                  "id": "U3RvcDpIU0w6NjMwMjAxMg=="
+                }
+              ],
+              "id": "UGF0dGVybjpIU0w6NjE4MTowOjAx"
+            },
+            "id": "VHJpcDpIU0w6NjE4MV8yMDIxMDkwOF9NYV8xXzE1MzA="
+          }
+        }
+      ],
+      "id": "U3RvcDpIU0w6NjMwNDAwNA=="
+    }
+  }
+}
