@@ -1,4 +1,10 @@
 /* eslint-disable prefer-template */
+import {
+  BIKEAVL_BIKES,
+  BIKEAVL_WITHMAX,
+  BIKEAVL_UNKNOWN,
+} from '../util/citybikes';
+
 const CONFIG = 'matka';
 const APP_DESCRIPTION = 'Matka.fi–palvelu.';
 const APP_TITLE = 'Matka.fi';
@@ -114,11 +120,13 @@ export default {
 
   redirectReittiopasParams: true,
   map: { minZoom: 5 },
+  suggestBikeMaxDistance: 2000000,
 
   cityBike: {
     showCityBikes: true,
     networks: {
       smoove: {
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
           fi: 'Helsinki ja Espoo',
@@ -133,6 +141,7 @@ export default {
         },
       },
       vantaa: {
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike-secondary',
         name: {
           fi: 'Vantaa',
@@ -147,6 +156,7 @@ export default {
         },
       },
       turku: {
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
           fi: 'Turku',
@@ -161,6 +171,7 @@ export default {
         },
       },
       vilkku: {
+        capacity: BIKEAVL_BIKES,
         icon: 'citybike',
         name: {
           fi: 'Vilkku',
@@ -174,8 +185,8 @@ export default {
           en: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
         },
       },
-      /*
       lappeenranta: {
+        capacity: BIKEAVL_UNKNOWN,
         icon: 'citybike',
         name: {
           fi: 'Lappeenranta',
@@ -183,12 +194,12 @@ export default {
           en: 'Lappeenranta',
         },
         type: 'citybike',
-	url: {
-	  fi: 'https://kaakau.fi/lappeenranta/',
-	  sv: 'https://kaakau.fi/lappeenranta/?lang=en',
-	  en: 'https://kaakau.fi/lappeenranta/?lang=sv',
-	},
-	}, */
+        url: {
+          fi: 'https://kaakau.fi/lappeenranta/',
+          sv: 'https://kaakau.fi/lappeenranta/?lang=sv',
+          en: 'https://kaakau.fi/lappeenranta/?lang=en',
+        },
+      },
     },
   },
 

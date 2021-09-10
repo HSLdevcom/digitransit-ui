@@ -79,9 +79,9 @@ export default configMerger(walttiConfig, {
 
   cityBike: {
     showCityBikes: true,
-    capacity: BIKEAVL_BIKES,
     networks: {
       vilkku: {
+        capacity: BIKEAVL_BIKES,
         icon: 'citybike',
         name: {
           fi: 'Vilkku',

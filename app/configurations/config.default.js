@@ -127,8 +127,8 @@ export default {
     walkReluctance: 2,
     walkSpeed: 1.2,
     includeBikeSuggestions: true,
-    includeParkAndRideSuggestions: true,
-    includeCarSuggestions: true,
+    includeParkAndRideSuggestions: false,
+    includeCarSuggestions: false,
   },
 
   /**
@@ -345,6 +345,7 @@ export default {
     keywords: 'digitransit',
   },
 
+  hideExternalOperator: () => false,
   // Ticket information feature toggle
   showTicketInformation: false,
   ticketInformation: {
@@ -719,8 +720,8 @@ export default {
   showBikeAndParkItineraries: false,
 
   includeBikeSuggestions: true,
-  includeCarSuggestions: true,
-  includeParkAndRideSuggestions: true,
+  includeCarSuggestions: false,
+  includeParkAndRideSuggestions: false,
 
   showNearYouButtons: false,
   nearYouModes: [],
@@ -740,4 +741,6 @@ export default {
 
   // DT-4802 Toggling this off shows the alert bodytext instead of the header
   showAlertHeader: true,
+
+  showSimilarRoutesOnRouteDropDown: false,
 };

@@ -3105,6 +3105,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hsl-fi/animated-spinner@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@hsl-fi/animated-spinner@npm:0.2.0"
+  dependencies:
+    "@hsl-fi/icons": ^1.0.2
+    "@hsl-fi/sass": ^0.2.0
+  checksum: 413d074e382b53dde180900ea6648fada3aa3726a406a74d6735a00a226ce2b5d6db088b7178f3832b0b883d3d8dce8d2772c87845180f71856059888428c798
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/button@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@hsl-fi/button@npm:1.2.1"
+  dependencies:
+    "@hsl-fi/content-delivery-api-types": ^0.1.3
+    "@hsl-fi/sass": ^0.2.0
+    "@hsl-fi/utilities": ^0.2.11
+  checksum: 841d451314fa71c26087213810733598037cb28c6d65b3bed08db3c02929a416bc3f798198becb1e04161d112e3322c1c944e733752542cf5d55e76a77cb53c2
+  languageName: node
+  linkType: hard
+
 "@hsl-fi/container-spinner@npm:0.2.0":
   version: 0.2.0
   resolution: "@hsl-fi/container-spinner@npm:0.2.0"
@@ -3120,7 +3141,36 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/hooks@npm:0.2.0, @hsl-fi/hooks@npm:^0.2.0":
+"@hsl-fi/container-spinner@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "@hsl-fi/container-spinner@npm:0.3.1"
+  dependencies:
+    "@hsl-fi/animated-spinner": ^0.2.0
+    "@hsl-fi/sass": ^0.2.0
+    "@hsl-fi/utilities": ^0.2.11
+  checksum: 6437375d844886290a4c62d112cf790e935d6c7ec1cce0c140ec60f1950cb3c2ece46976aefdfe3c1273fbe4db635ead950c88192103b648d71a3bfa2a3f5459
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/content-delivery-api-types@npm:^0.1.3, @hsl-fi/content-delivery-api-types@npm:^0.1.4":
+  version: 0.1.4
+  resolution: "@hsl-fi/content-delivery-api-types@npm:0.1.4"
+  checksum: 5091b1cbebc354ddccdb829de3fa5aa512a60a1bebbae6313a08c0952d6ce67282e7d72418c97acc4bf0c40e13b1ab49e2796b393daa01d8242c08f8b0d5f0cc
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/hooks@npm:0.2.1, @hsl-fi/hooks@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "@hsl-fi/hooks@npm:0.2.1"
+  peerDependencies:
+    "@types/node": ^14.14.25
+    "@types/react": ^16.9.56
+    typescript: ^4.1.3
+  checksum: 183eca3ed2782b47ad4aeebbc31ae02a936e9084543e7aed90ab66f6719c32cccc3575e4a7bfbdf81932214b132bbb77ef9ea536d09b654ea450965af32a0f3b
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/hooks@npm:^0.2.0":
   version: 0.2.0
   resolution: "@hsl-fi/hooks@npm:0.2.0"
   peerDependencies:
@@ -3138,7 +3188,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/icons@npm:^1.0.0, @hsl-fi/icons@npm:^1.0.2":
+"@hsl-fi/icons@npm:^1.0.2":
   version: 1.0.2
   resolution: "@hsl-fi/icons@npm:1.0.2"
   checksum: 2822bc5fce4522e4d618016c9e19dee0855099cc2be45299228ac5aa2fdcaaff85fefbeae6b11437c0f1596c06290e8af85b60d66a92b6649f525be596b8661c
@@ -3166,6 +3216,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hsl-fi/sass@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@hsl-fi/sass@npm:0.2.0"
+  peerDependencies:
+    sass: ^1.37.2
+  checksum: 82eac60e9f71a42ecb4a2e80f385736d27f945448d7056a818714a7b69db8d97ea940a8bbd2facb06bcd2ce16f17898ce8ef30ab6ef0a024110d0d8c5bd35f37
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/search-input@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@hsl-fi/search-input@npm:1.0.0"
+  dependencies:
+    "@hsl-fi/icons": ^1.0.2
+    "@hsl-fi/text-input": ^1.0.0
+  checksum: 5fe25e42fb61dadb82a0a671a375d7abf9390bf99dfd21f118d9565aeb89ed6075055306de01f1611852f0bb741253c3f4be43761e6a2ecd7107e277f58457ab
+  languageName: node
+  linkType: hard
+
 "@hsl-fi/shared-local-storage@npm:0.3.0":
   version: 0.3.0
   resolution: "@hsl-fi/shared-local-storage@npm:0.3.0"
@@ -3189,31 +3258,83 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/site-header@npm:1.1.3":
-  version: 1.1.3
-  resolution: "@hsl-fi/site-header@npm:1.1.3"
+"@hsl-fi/site-header@npm:3.0.7":
+  version: 3.0.7
+  resolution: "@hsl-fi/site-header@npm:3.0.7"
   dependencies:
-    "@hsl-fi/animated-spinner": ^0.1.0
-    "@hsl-fi/hooks": ^0.2.0
-    "@hsl-fi/icons": ^1.0.0
-    "@hsl-fi/utilities": ^0.2.2
-  peerDependencies:
-    "@hsl-fi/content-delivery-api-types": ^0.1.0
-    "@hsl-fi/sass": ^0.1.1
-    "@types/node": ^14.14.25
-    "@types/react": ^16.9.56
-    typescript: ^4.1.3
-  checksum: a8dfcf868475c2285de87c66aa592f85b38bb09162c49633b123b9bd985077be32f6e92852627c4014f714a738dd01d2558c296115b7e1ac74d827e23e60787f
+    "@hsl-fi/animated-spinner": ^0.2.0
+    "@hsl-fi/button": ^1.2.1
+    "@hsl-fi/container-spinner": ^0.3.1
+    "@hsl-fi/content-delivery-api-types": ^0.1.4
+    "@hsl-fi/hooks": ^0.2.1
+    "@hsl-fi/icons": ^1.0.2
+    "@hsl-fi/sass": ^0.2.0
+    "@hsl-fi/search-input": ^1.0.0
+    "@hsl-fi/utilities": ^0.2.12
+    lodash: 4.17.21
+    react-animate-height: ^2.0.21
+  checksum: da15d19679fd6cbb31e20d6256343b41146addff0e92dea602a4296b60a8d42c0a94606296f256083a62c94ea6ce4a6fdef75f1d25c67f9f4fb923630e5f9551
   languageName: node
   linkType: hard
 
-"@hsl-fi/utilities@npm:^0.2.1, @hsl-fi/utilities@npm:^0.2.2":
+"@hsl-fi/text-input-error@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@hsl-fi/text-input-error@npm:0.1.0"
+  dependencies:
+    "@hsl-fi/sass": ^0.2.0
+    "@hsl-fi/utilities": ^0.2.12
+  checksum: e9b9f00f673398298aecd78e3cc4f2f39febf8e57b6d478f63cd12a4f0b0610501cea4e2e0dec3fe8f3b8f5abfb322808d8b50b825edbf4cede9e37d745b1993
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/text-input-field@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@hsl-fi/text-input-field@npm:1.0.0"
+  dependencies:
+    "@hsl-fi/icons": ^1.0.2
+    "@hsl-fi/utilities": ^0.2.12
+  checksum: 45559203d2e669073ba57590761e05811c01b28c35a1036d8de43d926a39eaa7b612fb79ab107539714019ee83d41581ce81a00600a733616da22fd1de40744b
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/text-input-label@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@hsl-fi/text-input-label@npm:1.0.0"
+  dependencies:
+    "@hsl-fi/utilities": ^0.2.12
+  checksum: 09cdfda188f34d4defcb495702e1ba406fe770fc6af20f60437f5eef506a9f020a7bfd4b178170f2da8665592c4ff9a76e08056f333681b1726b6d8629d1e1d5
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/text-input@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "@hsl-fi/text-input@npm:1.0.1"
+  dependencies:
+    "@hsl-fi/text-input-error": ^0.1.0
+    "@hsl-fi/text-input-field": ^1.0.0
+    "@hsl-fi/text-input-label": ^1.0.0
+    "@hsl-fi/utilities": ^0.2.12
+  checksum: 87d95dd1570ff9db91dbf3a0bd100996af995812d4e51b8e6c89a0a852e1cf10fe16162585fe165409b55a8e0ccc174f1926d9a8fd6b963112ae26d49e2c267f
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/utilities@npm:^0.2.1":
   version: 0.2.11
   resolution: "@hsl-fi/utilities@npm:0.2.11"
   dependencies:
     "@hsl-fi/icon-config": ^0.1.4
     "@hsl-fi/icons": ^1.0.2
   checksum: edf7acb36b12c8d103b1e9cfcb6f9373b85bc2aa8737fc3f699ce2ea0ad2b92fa5cfad53ad7370ea2333d202a8ebcd8bc03c3fc2ff6039e1ada0aa269b536cee
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/utilities@npm:^0.2.11, @hsl-fi/utilities@npm:^0.2.12":
+  version: 0.2.12
+  resolution: "@hsl-fi/utilities@npm:0.2.12"
+  dependencies:
+    "@hsl-fi/icon-config": ^0.1.4
+    "@hsl-fi/icons": ^1.0.2
+  checksum: 56e57aa93e9b0f0ab2d07745271641b706d2003a1c1e7cf2e7dd308ff50444ebf07b00367515b2dd9deca6bc7bbda7722629c3c419257930ce4ea7a09dc86012
   languageName: node
   linkType: hard
 
@@ -7767,7 +7888,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:^2.2.6":
+"classnames@npm:^2.2.5, classnames@npm:^2.2.6":
   version: 2.3.1
   resolution: "classnames@npm:2.3.1"
   checksum: 57d536edede609f81425d24b062d8d720a466565faf1e38d32c881e883920baa71519ac70c7b565e9cd39201fb1c1ff9bdf8aabf8e26544bac481e7924867c83
@@ -9718,12 +9839,12 @@ __metadata:
     "@commitlint/cli": 9.1.2
     "@commitlint/config-conventional": 9.1.2
     "@hsl-fi/container-spinner": 0.2.0
-    "@hsl-fi/hooks": 0.2.0
+    "@hsl-fi/hooks": 0.2.1
     "@hsl-fi/modal": " ^0.1.8"
     "@hsl-fi/sass": " ^0.1.1"
     "@hsl-fi/shared-local-storage": 0.3.0
     "@hsl-fi/shimmer": 0.1.0
-    "@hsl-fi/site-header": 1.1.3
+    "@hsl-fi/site-header": 3.0.7
     "@lerna/batch-packages": 3.16.0
     "@lerna/filter-packages": 3.18.0
     "@lerna/project": 3.21.0
@@ -21567,7 +21688,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"prop-types@npm:15.7.2, prop-types@npm:^15.5.8, prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2":
+"prop-types@npm:15.7.2, prop-types@npm:^15.5.8, prop-types@npm:^15.6.0, prop-types@npm:^15.6.1, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2":
   version: 15.7.2
   resolution: "prop-types@npm:15.7.2"
   dependencies:
@@ -22007,6 +22128,19 @@ fsevents@~2.1.2:
   bin:
     rc: ./cli.js
   checksum: ea2b7f7cee201a67923a2240de594a5d9b59bd312b814b06536d3d609a416dfd6fb9b85ea2abfd3b8a4eb5ed33eaff946ee75a8f2b7fb10941073c5cfee6b7a5
+  languageName: node
+  linkType: hard
+
+"react-animate-height@npm:^2.0.21":
+  version: 2.0.23
+  resolution: "react-animate-height@npm:2.0.23"
+  dependencies:
+    classnames: ^2.2.5
+    prop-types: ^15.6.1
+  peerDependencies:
+    react: ">=15.6.2"
+    react-dom: ">=15.6.2"
+  checksum: 2f9741dc27f508e40ea59e3e15231b2fd8db183d42110f01564b67a81bc571caf89f25b5fa755e3deeb0e918dcbe6055840488bef7117ae54bdb77d1d61fedb7
   languageName: node
   linkType: hard
 
