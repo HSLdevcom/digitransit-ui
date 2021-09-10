@@ -417,7 +417,7 @@ class RouteScheduleContainer extends PureComponent {
     return '';
   };
 
-  populateData = (wantedDayIn, departures, isMerged) => {
+  populateData = (wantedDayIn, departures, isMerged, dataExistsDay) => {
     const departureCount = departures.filter(d => d.length > 0).length;
     const wantedDay = wantedDayIn || moment();
     const startOfWeek = moment().startOf('isoWeek');
@@ -556,6 +556,14 @@ class RouteScheduleContainer extends PureComponent {
       ];
       return undefined;
     });
+
+    if (!pastDate) {
+      pastDate = startOfWeek
+        .clone()
+        .add(dataExistsDay - 1, 'd')
+        .format(DATE_FORMAT);
+    }
+
     return [
       weekStarts,
       days,
@@ -570,6 +578,7 @@ class RouteScheduleContainer extends PureComponent {
     const { query } = this.props.match.location;
     const { intl } = this.context;
     this.hasMergedData = false;
+    this.dataExistsDay = 1; // 1 = monday
 
     if (!this.props.pattern) {
       if (this.props.match.params.routeId) {
@@ -619,6 +628,22 @@ class RouteScheduleContainer extends PureComponent {
       }
     }
 
+    if (this.hasMergedData) {
+      if (this.props.firstDepartures.wk1tue.length !== 0) {
+        this.dataExistsDay = 2;
+      } else if (this.props.firstDepartures.wk1wed.length !== 0) {
+        this.dataExistsDay = 3;
+      } else if (this.props.firstDepartures.wk1thu.length !== 0) {
+        this.dataExistsDay = 4;
+      } else if (this.props.firstDepartures.wk1fri.length !== 0) {
+        this.dataExistsDay = 5;
+      } else if (this.props.firstDepartures.wk1sat.length !== 0) {
+        this.dataExistsDay = 6;
+      } else if (this.props.firstDepartures.wk1sun.length !== 0) {
+        this.dataExistsDay = 7;
+      }
+    }
+
     const wantedDay =
       query &&
       query.serviceDay &&
@@ -630,6 +655,7 @@ class RouteScheduleContainer extends PureComponent {
       wantedDay,
       firstDepartures,
       this.hasMergedData,
+      this.dataExistsDay,
     );
 
     let newServiceDay;
