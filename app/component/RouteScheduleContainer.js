@@ -660,17 +660,22 @@ class RouteScheduleContainer extends PureComponent {
 
     let newServiceDay;
 
-    if (
-      !wantedDay &&
-      data &&
-      data.length >= 3 &&
-      data[2].length >= 4 &&
-      data[2][2] !== data[2][3][0].charAt(0)
-    ) {
-      newServiceDay = moment()
-        .startOf('isoWeek')
-        .add(Number(data[2][3][0].charAt(0)) - 1, 'd')
-        .format(DATE_FORMAT);
+    if (!wantedDay && data && data.length >= 3 && data[2].length >= 4) {
+      if (data[2][3] !== '') {
+        if (data[2][2] !== data[2][3][0].charAt(0)) {
+          newServiceDay = moment()
+            .startOf('isoWeek')
+            .add(Number(data[2][3][0].charAt(0)) - 1, 'd')
+            .format(DATE_FORMAT);
+        }
+      } else if (
+        data[3] &&
+        data[3][0] &&
+        data[2][1] &&
+        moment(data[2][1]).isBefore(data[0][0])
+      ) {
+        newServiceDay = data[3][0].value;
+      }
     }
 
     const routeIdSplitted = this.props.match.params.routeId.split(':');
