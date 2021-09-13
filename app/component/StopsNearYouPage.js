@@ -222,6 +222,8 @@ class StopsNearYouPage extends React.Component {
       placeTypes = 'BICYCLE_RENT';
       modes = ['BICYCLE'];
     }
+    const prioritizedStops =
+      this.context.config.prioritizedStopsNearYou[mode.toLowerCase()] || [];
     return {
       lat: searchPosition.lat,
       lon: searchPosition.lon,
@@ -234,6 +236,7 @@ class StopsNearYouPage extends React.Component {
       filterByPlaceTypes: placeTypes,
       omitNonPickups: this.context.config.omitNonPickups,
       feedIds: this.context.config.feedIds,
+      prioritizedStopIds: prioritizedStops,
     };
   };
 
@@ -578,11 +581,6 @@ class StopsNearYouPage extends React.Component {
                     )}
 
                   {renderRefetchButton && this.refetchButton(nearByStopMode)}
-                  {!props && (
-                    <div className="stops-near-you-spinner-container">
-                      <Loading />
-                    </div>
-                  )}
                   {prioritizedStops?.length && (
                     <QueryRenderer
                       query={graphql`
@@ -607,6 +605,11 @@ class StopsNearYouPage extends React.Component {
                         return null;
                       }}
                     />
+                  )}
+                  {!props && (
+                    <div className="stops-near-you-spinner-container">
+                      <Loading />
+                    </div>
                   )}
                   {props && (
                     <StopsNearYouContainer
@@ -724,6 +727,7 @@ class StopsNearYouPage extends React.Component {
             $maxResults: Int!
             $maxDistance: Int!
             $omitNonPickups: Boolean
+            $prioritizedStopIds: [String!]!
           ) {
             stops: viewer {
               ...StopsNearYouMapContainer_stopsNearYou
@@ -738,6 +742,9 @@ class StopsNearYouPage extends React.Component {
                 omitNonPickups: $omitNonPickups
               )
             }
+            prioritizedStops: stops(ids: $prioritizedStopIds) {
+              ...StopsNearYouMapContainer_prioritizedStopsNearYou
+            }
           }
         `}
         variables={this.getQueryVariables(mode)}
@@ -748,6 +755,7 @@ class StopsNearYouPage extends React.Component {
               <StopsNearYouMapContainer
                 position={this.state.searchPosition}
                 stopsNearYou={props.stops}
+                prioritizedStopsNearYou={props.prioritizedStops}
                 match={this.props.match}
                 mapLayers={filteredMapLayers}
                 mapLayerOptions={this.state.mapLayerOptions}
