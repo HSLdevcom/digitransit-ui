@@ -454,7 +454,6 @@ export default {
   cityBike: {
     minZoomStopsNearYou: 10,
     showCityBikes,
-    capacity: BIKEAVL_WITHMAX,
     showFullInfo: true,
     networks: {
       smoove: {

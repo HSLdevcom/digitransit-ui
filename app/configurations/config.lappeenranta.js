@@ -44,7 +44,6 @@ export default configMerger(walttiConfig, {
 
   cityBike: {
     showCityBikes,
-    capacity: BIKEAVL_UNKNOWN,
     networks: {
       lappeenranta: {
         capacity: BIKEAVL_UNKNOWN,
