@@ -345,7 +345,7 @@ export default {
     keywords: 'digitransit',
   },
 
-  hideExternalOperator: false,
+  hideExternalOperator: () => false,
   // Ticket information feature toggle
   showTicketInformation: false,
   ticketInformation: {
