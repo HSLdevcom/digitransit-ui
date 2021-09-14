@@ -357,7 +357,7 @@ class RouteScheduleContainer extends PureComponent {
         return (
           <button
             type="button"
-            disabled={dayArray.length === 1}
+            disabled={dayArray.length === 1 && separatedMultiDays.length < 2}
             key={tab}
             className={cx({
               'is-active': selected,
