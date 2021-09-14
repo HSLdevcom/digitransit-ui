@@ -50,7 +50,7 @@ describe(`Stop page with ${config} config`, () => {
     matka: '/pysakit/HSL:6304004',
   };
   test(`departure list on ${platform}`, async () => {
-    const snapshotName = `departure-list-${platform}`;
+    const snapshotName = `stop-page-departure-list-${platform}`;
     const response = await page.goto(`http://localhost:8080${paths[config]}`);
 
     // await new Promise(res => setTimeout(res, 2000000));
