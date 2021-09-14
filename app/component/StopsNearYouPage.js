@@ -16,6 +16,7 @@ import withBreakpoint, { DesktopOrMobile } from '../util/withBreakpoint';
 import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import Loading from './Loading';
+import PrioritizedStopsNearYou from './PrioritizedStopsNearYou';
 import {
   checkPositioningPermission,
   startLocationWatch,
@@ -226,6 +227,8 @@ class StopsNearYouPage extends React.Component {
       placeTypes = 'BICYCLE_RENT';
       modes = ['BICYCLE'];
     }
+    const prioritizedStops =
+      this.context.config.prioritizedStopsNearYou[mode.toLowerCase()] || [];
     return {
       lat: searchPosition.lat,
       lon: searchPosition.lon,
@@ -238,6 +241,7 @@ class StopsNearYouPage extends React.Component {
       filterByPlaceTypes: placeTypes,
       omitNonPickups: this.context.config.omitNonPickups,
       feedIds: this.context.config.feedIds,
+      prioritizedStopIds: prioritizedStops,
     };
   };
 
@@ -498,6 +502,8 @@ class StopsNearYouPage extends React.Component {
                   this.context.config,
                 ).url;
               }
+              const prioritizedStops = this.context.config
+                .prioritizedStopsNearYou[nearByStopMode.toLowerCase()];
               return (
                 <div className="stops-near-you-page">
                   {renderDisruptionBanner && (
@@ -581,6 +587,31 @@ class StopsNearYouPage extends React.Component {
                     )}
 
                   {renderRefetchButton && this.refetchButton(nearByStopMode)}
+                  {prioritizedStops?.length && (
+                    <QueryRenderer
+                      query={graphql`
+                        query StopsNearYouPagePrioritizedStopsQuery(
+                          $stopIds: [String!]!
+                        ) {
+                          stops: stops(ids: $stopIds) {
+                            ...PrioritizedStopsNearYou_stops
+                          }
+                        }
+                      `}
+                      variables={{
+                        stopIds: prioritizedStops,
+                      }}
+                      environment={this.props.relayEnvironment}
+                      render={res => {
+                        if (res.props) {
+                          return (
+                            <PrioritizedStopsNearYou stops={res.props.stops} />
+                          );
+                        }
+                        return null;
+                      }}
+                    />
+                  )}
                   {!props && (
                     <div className="stops-near-you-spinner-container">
                       <Loading />
@@ -588,6 +619,7 @@ class StopsNearYouPage extends React.Component {
                   )}
                   {props && (
                     <StopsNearYouContainer
+                      prioritizedStops={prioritizedStops}
                       setLoadState={this.setLoadState}
                       match={this.props.match}
                       stopPatterns={props.stopPatterns}
@@ -701,6 +733,7 @@ class StopsNearYouPage extends React.Component {
             $maxResults: Int!
             $maxDistance: Int!
             $omitNonPickups: Boolean
+            $prioritizedStopIds: [String!]!
           ) {
             stops: viewer {
               ...StopsNearYouMapContainer_stopsNearYou
@@ -715,6 +748,9 @@ class StopsNearYouPage extends React.Component {
                 omitNonPickups: $omitNonPickups
               )
             }
+            prioritizedStops: stops(ids: $prioritizedStopIds) {
+              ...StopsNearYouMapContainer_prioritizedStopsNearYou
+            }
           }
         `}
         variables={this.getQueryVariables(mode)}
@@ -725,6 +761,7 @@ class StopsNearYouPage extends React.Component {
               <StopsNearYouMapContainer
                 position={this.state.searchPosition}
                 stopsNearYou={props.stops}
+                prioritizedStopsNearYou={props.prioritizedStops}
                 match={this.props.match}
                 mapLayers={filteredMapLayers}
                 mapLayerOptions={this.state.mapLayerOptions}

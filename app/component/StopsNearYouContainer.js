@@ -31,6 +31,7 @@ class StopsNearYouContainer extends React.Component {
       lon: PropTypes.number,
     }).isRequired,
     withSeparator: PropTypes.bool,
+    prioritizedStops: PropTypes.arrayOf(PropTypes.string),
   };
 
   static contextTypes = {
@@ -228,9 +229,19 @@ class StopsNearYouContainer extends React.Component {
             stop.stoptimesWithoutPatterns &&
             stop.stoptimesWithoutPatterns.length > 0
           ) {
-            if (stop.parentStation) {
-              if (terminalNames.indexOf(stop.parentStation.name) === -1) {
-                terminalNames.push(stop.parentStation.name);
+            if (!this.props.prioritizedStops?.includes(stop.gtfsId)) {
+              if (stop.parentStation) {
+                if (terminalNames.indexOf(stop.parentStation.name) === -1) {
+                  terminalNames.push(stop.parentStation.name);
+                  return (
+                    <StopNearYou
+                      key={`${stop.gtfsId}`}
+                      stop={stop}
+                      currentTime={this.props.currentTime}
+                    />
+                  );
+                }
+              } else {
                 return (
                   <StopNearYou
                     key={`${stop.gtfsId}`}
@@ -239,14 +250,6 @@ class StopsNearYouContainer extends React.Component {
                   />
                 );
               }
-            } else {
-              return (
-                <StopNearYou
-                  key={`${stop.gtfsId}`}
-                  stop={stop}
-                  currentTime={this.props.currentTime}
-                />
-              );
             }
           }
           break;
