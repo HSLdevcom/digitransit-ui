@@ -206,7 +206,7 @@ class MapLayersDialogContent extends React.Component {
               }}
             />
           )}
-          {showCityBikes(this.context.config.cityBike?.networks) && (
+          {showCityBikes(this.context.config?.cityBike?.networks) && (
             <Checkbox
               large
               checked={citybike}

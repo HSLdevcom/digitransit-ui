@@ -27,6 +27,9 @@ export const showCitybikeNetwork = network => {
 };
 
 export const showCityBikes = networks => {
+  if (!networks) {
+    return false;
+  }
   return Object.values(networks).some(network => showCitybikeNetwork(network));
 };
 
@@ -41,7 +44,11 @@ export const getNearYouModes = config => {
 };
 
 export const getTransportModes = config => {
-  if (!showCityBikes(config.cityBike.networks)) {
+  if (
+    config.cityBike &&
+    config.cityBike.networks &&
+    !showCityBikes(config.cityBike.networks)
+  ) {
     return {
       ...config.transportModes,
       ...{ citybike: { availableForSelection: false } },
