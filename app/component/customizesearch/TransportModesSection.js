@@ -68,8 +68,8 @@ const TransportModesSection = (
       {modes.includes('CITYBIKE') &&
         config.cityBike.networks &&
         Object.keys(config.cityBike.networks).length > 1 &&
-        config.transportModes.citybike &&
-        config.transportModes.citybike.availableForSelection && (
+        transportModes.citybike &&
+        transportModes.citybike.availableForSelection && (
           <fieldset
             className="mode-option-container"
             style={{

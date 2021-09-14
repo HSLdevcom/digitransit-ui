@@ -81,6 +81,11 @@ export default configMerger(walttiConfig, {
     showCityBikes: true,
     networks: {
       vilkku: {
+        enabled: true,
+        season: {
+          start: new Date(new Date().getFullYear(), 3, 26),
+          end: new Date(new Date().getFullYear(), 10, 1),
+        },
         capacity: BIKEAVL_BIKES,
         icon: 'citybike',
         name: {

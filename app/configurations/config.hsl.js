@@ -132,7 +132,7 @@ export default {
 
   transportModes: {
     citybike: {
-      availableForSelection: showCityBikes,
+      availableForSelection: true,
     },
     airplane: {
       availableForSelection: false,
@@ -457,6 +457,11 @@ export default {
     showFullInfo: true,
     networks: {
       smoove: {
+        enabled: true,
+        season: {
+          start: new Date(new Date().getFullYear(), 3, 1),
+          end: new Date(new Date().getFullYear(), 10, 1),
+        },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
@@ -488,6 +493,11 @@ export default {
         timeBeforeSurcharge: 30 * 60,
       },
       vantaa: {
+        enabled: true,
+        season: {
+          start: new Date(new Date().getFullYear(), 3, 1),
+          end: new Date(new Date().getFullYear(), 10, 1),
+        },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike-secondary',
         name: {
@@ -543,7 +553,7 @@ export default {
     'subway',
     'rail',
     'ferry',
-    ...(showCityBikes ? ['citybike'] : []),
+    'citybike',
   ],
 
   hostnames: [

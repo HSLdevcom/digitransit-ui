@@ -1,6 +1,5 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
-import { isCitybikeSeasonActive } from '../util/modeUtils';
 import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = 'turku';
@@ -9,14 +8,6 @@ const APP_DESCRIPTION =
   'Fölin reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi.';
 
 const walttiConfig = require('./config.waltti').default;
-
-const cityBikesEnabled = true;
-const citybikeSeason = {
-  start: new Date(new Date().getFullYear(), 3, 1),
-  end: new Date(new Date().getFullYear(), 9, 1),
-};
-const showCityBikes =
-  cityBikesEnabled && isCitybikeSeasonActive(citybikeSeason);
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -61,10 +52,14 @@ export default configMerger(walttiConfig, {
   logo: 'turku/foli-logo.png',
 
   cityBike: {
-    showCityBikes,
     networks: {
       turku: {
         capacity: BIKEAVL_WITHMAX,
+        enabled: true,
+        season: {
+          start: new Date(new Date().getFullYear(), 3, 1),
+          end: new Date(new Date().getFullYear(), 9, 1),
+        },
         icon: 'citybike',
         name: {
           fi: 'Turku',
@@ -93,7 +88,7 @@ export default configMerger(walttiConfig, {
     },
 
     citybike: {
-      availableForSelection: showCityBikes,
+      availableForSelection: true,
       color: '#f2b62d',
     },
   },

@@ -18,6 +18,7 @@ import {
 import FavouriteStore from '../store/FavouriteStore';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { LightenDarkenColor } from '../util/colorUtils';
+import { showCityBikes } from '../util/modeUtils';
 
 const AutoSuggestWithSearchContext = withSearchContext(AutoSuggest);
 
@@ -327,10 +328,7 @@ class FavouritesContainer extends React.Component {
     const favouritePlaces = this.props.favourites.filter(
       item => item.type === 'place',
     );
-    if (
-      this.context.config.cityBike &&
-      this.context.config.cityBike.showCityBikes
-    ) {
+    if (showCityBikes(this.context.config.cityBike?.networks)) {
       targets.push('BikeRentalStations');
     }
     return (

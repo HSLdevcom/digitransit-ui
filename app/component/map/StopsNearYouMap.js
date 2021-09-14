@@ -25,6 +25,7 @@ import ItineraryLine from './ItineraryLine';
 import { dtLocationShape, mapLayerOptionsShape } from '../../util/shapes';
 import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
+import { getDefaultNetworks } from '../../util/citybikes';
 
 const locationMarkerModules = {
   LocationMarker: () =>
@@ -294,13 +295,24 @@ function StopsNearYouMap(
         relay.loadMore(5);
         return;
       }
-      const sortedEdges = !isTransitMode
-        ? stopsNearYou.nearest.edges
-            .slice()
-            .sort(sortNearbyRentalStations(favouriteIds))
-        : active
-            .slice()
-            .sort(sortNearbyStops(favouriteIds, walkRoutingThreshold));
+      let sortedEdges;
+      if (!isTransitMode) {
+        const withNetworks = stopsNearYou.nearest.edges.filter(edge => {
+          return !!edge.node.place?.networks;
+        });
+        const filteredCityBikeEdges = withNetworks.filter(pattern => {
+          return pattern.node.place?.networks.every(network =>
+            getDefaultNetworks(context.config).includes(network),
+          );
+        });
+        sortedEdges = filteredCityBikeEdges
+          .slice()
+          .sort(sortNearbyRentalStations(favouriteIds));
+      } else {
+        sortedEdges = active
+          .slice()
+          .sort(sortNearbyStops(favouriteIds, walkRoutingThreshold));
+      }
       const stopsAndStations = handleStopsAndStations(sortedEdges);
 
       handleWalkRoutes(stopsAndStations);

@@ -5,6 +5,7 @@ import pick from 'lodash/pick';
 
 import { isBrowser } from '../../../util/browser';
 import { getMapIconScale, drawCitybikeIcon } from '../../../util/mapIconUtils';
+import { showCitybikeNetwork } from '../../../util/modeUtils';
 
 import {
   getCityBikeNetworkConfig,
@@ -96,8 +97,9 @@ class CityBikes {
             ? this.config.colors.iconColors['mode-citybike-secondary']
             : this.config.colors.iconColors['mode-citybike'];
         if (
-          !this.tile.stopsToShow ||
-          this.tile.stopsToShow.includes(result.stationId)
+          (!this.tile.stopsToShow ||
+            this.tile.stopsToShow.includes(result.stationId)) &&
+          showCitybikeNetwork(this.config.cityBike.networks[result.networks])
         ) {
           const citybikeCapacity = getCitybikeCapacity(this.config, networks);
           drawCitybikeIcon(
