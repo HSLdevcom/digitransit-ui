@@ -21,7 +21,7 @@ const transportModeConfigShape = PropTypes.shape({
 
 const mapLayersConfigShape = PropTypes.shape({
   cityBike: PropTypes.shape({
-    showCityBikes: PropTypes.bool,
+    networks: PropTypes.object,
   }),
   geoJson: PropTypes.shape({
     layers: PropTypes.arrayOf(

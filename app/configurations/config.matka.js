@@ -127,7 +127,6 @@ export default {
   suggestBikeMaxDistance: 2000000,
 
   cityBike: {
-    showCityBikes: true,
     networks: {
       smoove: {
         enabled: HSLConfig.cityBike.networks.smoove.enabled,

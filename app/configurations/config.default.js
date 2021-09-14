@@ -743,4 +743,6 @@ export default {
   showAlertHeader: true,
 
   showSimilarRoutesOnRouteDropDown: false,
+
+  prioritizedStopsNearYou: {},
 };

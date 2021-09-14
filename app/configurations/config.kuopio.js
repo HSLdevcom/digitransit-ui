@@ -78,7 +78,6 @@ export default configMerger(walttiConfig, {
   showVehiclesOnSummaryPage: true,
 
   cityBike: {
-    showCityBikes: true,
     networks: {
       vilkku: {
         enabled: true,
