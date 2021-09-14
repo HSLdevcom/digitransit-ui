@@ -465,11 +465,11 @@ export default {
         type: 'citybike',
         url: {
           fi:
-            'https://www.hsl.fi/kaupunkipyorat/osta?area=helsinki-espoo&utm_campaign=kaupunkipyorat-omat-hkiespoo&utm_source=reittiopas&utm_medium=referral',
+            'https://www.hsl.fi/kaupunkipyorat?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
           sv:
-            'https://www.hsl.fi/sv/stadscyklar/kop?area=helsinki-espoo&utm_campaign=kaupunkipyorat-omat-hkiespoo&utm_source=reittiopas&utm_medium=referral',
+            'https://www.hsl.fi/sv/stadscyklar?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
           en:
-            'https://www.hsl.fi/en/citybikes/buy?area=helsinki-espoo&utm_campaign=kaupunkipyorat-omat-hkiespoo&utm_source=reittiopas&utm_medium=referral',
+            'https://www.hsl.fi/en/citybikes?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
         },
         returnInstructions: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#palauta',
@@ -496,11 +496,11 @@ export default {
         type: 'citybike',
         url: {
           fi:
-            'https://www.hsl.fi/kaupunkipyorat/osta?area=vantaa&utm_campaign=kaupunkipyorat-omat-vantaa&utm_source=reittiopas&utm_medium=referral',
+            'https://www.hsl.fi/kaupunkipyorat?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
           sv:
-            'https://www.hsl.fi/sv/stadscyklar/kop?area=vantaa&utm_campaign=kaupunkipyorat-omat-vantaa&utm_source=reittiopas&utm_medium=referral',
+            'https://www.hsl.fi/sv/stadscyklar?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
           en:
-            'https://www.hsl.fi/en/citybikes/buy?area=vantaa&utm_campaign=kaupunkipyorat-omat-vantaa&utm_source=reittiopas&utm_medium=referral',
+            'https://www.hsl.fi/en/citybikes?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
         },
         returnInstructions: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa/kayttoohje#palauta',
