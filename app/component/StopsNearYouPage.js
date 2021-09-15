@@ -41,6 +41,11 @@ import {
   getCityBikeNetworkId,
 } from '../util/citybikes';
 import { getMapLayerOptions } from '../util/mapLayerUtils';
+import {
+  getTransportModes,
+  getNearYouModes,
+  showCityBikes,
+} from '../util/modeUtils';
 
 // component initialization phases
 const PH_START = 'start';
@@ -332,11 +337,12 @@ class StopsNearYouPage extends React.Component {
   };
 
   getNearByStopModes = () => {
-    const configNearByYouModes = this.context.config.nearYouModes.length
-      ? this.context.config.nearYouModes
-      : Object.keys(this.context.config.transportModes).filter(
-          mode =>
-            this.context.config.transportModes[mode].availableForSelection,
+    const transportModes = getTransportModes(this.context.config);
+    const nearYouModes = getNearYouModes(this.context.config);
+    const configNearByYouModes = nearYouModes.length
+      ? nearYouModes
+      : Object.keys(transportModes).filter(
+          mode => transportModes[mode].availableForSelection,
         );
     const nearByStopModes = configNearByYouModes.map(nearYouMode =>
       nearYouMode.toUpperCase(),
@@ -821,10 +827,7 @@ class StopsNearYouPage extends React.Component {
       inputClassName: onMap ? 'origin-stop-near-you-selector' : undefined,
     };
     const targets = ['Locations', 'Stops'];
-    if (
-      this.context.config.cityBike &&
-      this.context.config.cityBike.showCityBikes
-    ) {
+    if (showCityBikes(this.context.config.cityBike?.networks)) {
       targets.push('BikeRentalStations');
     }
     return (
@@ -975,7 +978,7 @@ const PositioningWrapper = connectToStores(
       .filter(stop => stop.type === 'station')
       .map(stop => stop.gtfsId);
     let favouriteBikeStationIds = [];
-    if (context.config.cityBike && context.config.cityBike.showCityBikes) {
+    if (showCityBikes(context.config.cityBike?.networks)) {
       favouriteBikeStationIds = context
         .getStore('FavouriteStore')
         .getBikeRentalStations()

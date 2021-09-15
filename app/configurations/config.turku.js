@@ -52,10 +52,14 @@ export default configMerger(walttiConfig, {
   logo: 'turku/foli-logo.png',
 
   cityBike: {
-    showCityBikes: true,
     networks: {
       turku: {
         capacity: BIKEAVL_WITHMAX,
+        enabled: true,
+        season: {
+          start: new Date(new Date().getFullYear(), 3, 1),
+          end: new Date(new Date().getFullYear(), 9, 1),
+        },
         icon: 'citybike',
         name: {
           fi: 'Turku',

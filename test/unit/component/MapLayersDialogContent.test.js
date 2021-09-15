@@ -209,7 +209,11 @@ describe('<MapLayersDialogContent />', () => {
     const context = {
       config: {
         cityBike: {
-          showCityBikes: true,
+          networks: {
+            foo: {
+              enabled: true,
+            },
+          },
         },
         transportModes: {
           citybike: {

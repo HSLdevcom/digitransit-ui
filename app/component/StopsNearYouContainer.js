@@ -10,6 +10,7 @@ import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';
 import CityBikeStopNearYou from './CityBikeStopNearYou';
 import Loading from './Loading';
 import Icon from './Icon';
+import { getDefaultNetworks } from '../util/citybikes';
 
 class StopsNearYouContainer extends React.Component {
   static propTypes = {
@@ -198,14 +199,27 @@ class StopsNearYouContainer extends React.Component {
     const stopPatterns = this.props.stopPatterns.nearest.edges;
     const terminalNames = [];
     const isCityBikeView = this.props.match.params.mode === 'CITYBIKE';
-    const sortedPatterns = isCityBikeView
-      ? stopPatterns
-          .slice(0, 5)
-          .sort(sortNearbyRentalStations(this.props.favouriteIds))
-      : stopPatterns
-          .slice(0, 5)
-          .sort(sortNearbyStops(this.props.favouriteIds, walkRoutingThreshold));
-    sortedPatterns.push(...stopPatterns.slice(5));
+    let sortedPatterns;
+    if (isCityBikeView) {
+      const withNetworks = stopPatterns.filter(pattern => {
+        return !!pattern.node.place?.networks;
+      });
+      const filteredCityBikeStopPatterns = withNetworks.filter(pattern => {
+        return pattern.node.place?.networks.every(network =>
+          getDefaultNetworks(this.context.config).includes(network),
+        );
+      });
+      sortedPatterns = filteredCityBikeStopPatterns
+        .slice(0, 5)
+        .sort(sortNearbyRentalStations(this.props.favouriteIds));
+      filteredCityBikeStopPatterns.push(...stopPatterns.slice(5));
+    } else {
+      sortedPatterns = stopPatterns
+        .slice(0, 5)
+        .sort(sortNearbyStops(this.props.favouriteIds, walkRoutingThreshold));
+      sortedPatterns.push(...stopPatterns.slice(5));
+    }
+
     const stops = sortedPatterns.map(({ node }) => {
       const stop = node.place;
       /* eslint-disable-next-line no-underscore-dangle */

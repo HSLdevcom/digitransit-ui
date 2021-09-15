@@ -5,6 +5,7 @@ import pure from 'recompose/pure';
 
 import ToggleButton from './ToggleButton';
 import ComponentUsageExample from './ComponentUsageExample';
+import { getTransportModes } from '../util/modeUtils';
 
 class ModeFilter extends React.Component {
   static propTypes = {
@@ -21,14 +22,15 @@ class ModeFilter extends React.Component {
 
   // TODO use props instead of config so that visual tests do not break every
   // time modes are updated...
-  availableModes = () =>
-    Object.keys(this.context.config.transportModes).filter(
-      mode => this.context.config.transportModes[mode].availableForSelection,
-    );
+  availableModes = () => {
+    const modes = getTransportModes(this.context.config);
+    return Object.keys(modes).filter(mode => modes[mode].availableForSelection);
+  };
 
   render() {
+    const transportModes = getTransportModes(this.context.config);
     const ModeToggleButton = ({ type, stateName }) => {
-      if (this.context.config.transportModes[type].availableForSelection) {
+      if (transportModes[type].availableForSelection) {
         const action = this.props.action[
           `toggle${type.charAt(0).toUpperCase() + type.slice(1)}State`
         ];

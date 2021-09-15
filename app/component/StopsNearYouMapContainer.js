@@ -69,6 +69,7 @@ const containerComponent = createPaginationContainer(
                   lat
                   lon
                   stationId
+                  networks
                 }
                 ... on Stop {
                   gtfsId
