@@ -46,6 +46,8 @@ class StopsNearYouContainer extends React.Component {
     super(props, context);
     this.resultsUpdatedAlertRef = React.createRef();
     this.state = {
+      maxRefetches: context.config.maxNearbyStopRefetches,
+      refetches: 0,
       stopCount: 5,
       currentPosition: props.position,
       fetchMoreStops: false,
@@ -91,17 +93,23 @@ class StopsNearYouContainer extends React.Component {
         }
       });
       if (
-        newestStops.every(stop => {
+        (newestStops.every(stop => {
           return (
             stop.node.place.stoptimesWithoutPatterns &&
             stop.node.place.stoptimesWithoutPatterns.length === 0
           );
         }) ||
-        checkStops(terminals, newestStops)
+          checkStops(terminals, newestStops)) &&
+        prevState.refetches < prevState.maxRefetches
       ) {
         newState = {
           ...newState,
           fetchMoreStops: true,
+        };
+      } else {
+        newState = {
+          ...newState,
+          fetchMoreStops: false,
         };
       }
     }
@@ -128,7 +136,7 @@ class StopsNearYouContainer extends React.Component {
       }
     }
     if (this.state.fetchMoreStops) {
-      this.showMore();
+      this.showMore(true);
     }
     if (
       this.resultsUpdatedAlertRef.current &&
@@ -150,7 +158,7 @@ class StopsNearYouContainer extends React.Component {
   componentDidMount() {
     this.props.setLoadState();
     if (this.state.fetchMoreStops) {
-      this.showMore();
+      this.showMore(true);
     }
   }
 
@@ -175,13 +183,16 @@ class StopsNearYouContainer extends React.Component {
     );
   };
 
-  showMore = () => {
+  showMore = automatic => {
     if (!this.props.relay.hasMore() || this.state.isLoadingmoreStops) {
       return;
     }
     this.setState({ isLoadingmoreStops: true, fetchMoreStops: false });
     this.props.relay.loadMore(5, () => {
       this.setState(previousState => ({
+        refetches: automatic
+          ? previousState.refetches + 1
+          : previousState.refetches,
         stopCount: previousState.stopCount + 5,
         fetchMoreStops: false,
         isLoadingmoreStops: false,
@@ -279,20 +290,25 @@ class StopsNearYouContainer extends React.Component {
       />
     );
     const stops = this.createNearbyStops().filter(e => e);
+    const noStopsFound =
+      !stops.length &&
+      this.state.refetches >= this.state.maxRefetches &&
+      !this.state.isLoadingmoreStops;
     return (
       <>
-        {!this.props.relay.hasMore() && !stops.length && (
-          <>
-            {this.props.withSeparator && <div className="separator" />}
-            <div className="stops-near-you-no-stops">
-              <Icon
-                img="icon-icon_info"
-                color={this.context.config.colors.primary}
-              />
-              <FormattedMessage id="nearest-no-stops" />
-            </div>
-          </>
-        )}
+        {(!this.props.relay.hasMore() && !stops.length) ||
+          (noStopsFound && (
+            <>
+              {this.props.withSeparator && <div className="separator" />}
+              <div className="stops-near-you-no-stops">
+                <Icon
+                  img="icon-icon_info"
+                  color={this.context.config.colors.primary}
+                />
+                <FormattedMessage id="nearest-no-stops" />
+              </div>
+            </>
+          ))}
         {screenReaderUpdateAlert}
         {this.state.isUpdatingPosition && (
           <div className="stops-near-you-spinner-container">
@@ -307,7 +323,7 @@ class StopsNearYouContainer extends React.Component {
             <Loading />
           </div>
         )}
-        {this.props.relay.hasMore() && (
+        {this.props.relay.hasMore() && !noStopsFound && (
           <button
             type="button"
             aria-label={this.context.intl.formatMessage({
@@ -315,7 +331,7 @@ class StopsNearYouContainer extends React.Component {
               defaultMessage: 'Load more nearby stops',
             })}
             className="show-more-button"
-            onClick={this.showMore}
+            onClick={() => this.showMore(false)}
           >
             <FormattedMessage id="show-more" defaultMessage="Show more" />
           </button>
