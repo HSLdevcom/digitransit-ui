@@ -73,10 +73,22 @@
                     height: 30px;
                 }
             }
+            &.car-park-primary {
+                padding-top: 12px;
+                .icon-container {
+                    .icon {
+                        width: 24px;
+                        height: 24px;
+                    }
+                }
+            }
             &.secondary-icon {
                 margin-bottom: 20px;
                 margin-left: -18px;
                 padding-top: 0px;
+                &.car-park-secondary {
+                    margin-left: -12px;
+                }
                 .icon-container {
                     .icon {
                         width: 12px;

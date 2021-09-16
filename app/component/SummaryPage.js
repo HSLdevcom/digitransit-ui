@@ -2084,7 +2084,8 @@ class SummaryPage extends React.Component {
         showBikeAndPublicOptionButton ||
         showCarOptionButton ||
         showParkRideOptionButton) &&
-      this.props.match.params.hash !== 'bikeAndVehicle';
+      this.props.match.params.hash !== 'bikeAndVehicle' &&
+      this.props.match.params.hash !== 'parkAndRide';
 
     const hasItineraries =
       this.selectedPlan && Array.isArray(this.selectedPlan.itineraries);
@@ -2350,6 +2351,14 @@ class SummaryPage extends React.Component {
                   }
                 />
               )}
+              {this.props.match.params.hash === 'parkAndRide' && (
+                <div className="street-mode-info">
+                  <FormattedMessage
+                    id="leave-your-car-park-and-ride"
+                    defaultMessage="Park your car at the Park & Ride site"
+                  />
+                </div>
+              )}
             </span>
           }
           content={
@@ -2508,6 +2517,14 @@ class SummaryPage extends React.Component {
                     this.state.isFetchingWeather
                   }
                 />
+              )}
+              {this.props.match.params.hash === 'parkAndRide' && (
+                <div className="street-mode-info">
+                  <FormattedMessage
+                    id="leave-your-car-park-and-ride"
+                    defaultMessage="Park your car at the Park & Ride site"
+                  />
+                </div>
               )}
             </span>
           ) : (

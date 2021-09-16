@@ -1111,6 +1111,7 @@ const translations = {
     'itinerary-walk.title': 'Total walking distance',
     'journeyplanner.title': 'HSL Journey Planner',
     later: 'Later departures',
+    'leave-your-car-park-and-ride': 'Leave your car at Park & Ride site',
     leaves: 'Leaves',
     'leaving-at': 'Leaving at',
     'likely-to-recommend':
@@ -2105,6 +2106,7 @@ const translations = {
     'itinerary-walk.title': 'Kävelyä',
     'journeyplanner.title': 'HSL Reittiopas',
     later: 'Myöhempiä lähtöjä',
+    'leave-your-car-park-and-ride': 'Jätä autosi liityntäpysäköintiin',
     leaves: 'Lähtee',
     'leaving-at': 'Lähtöaika',
     'likely-to-recommend':
@@ -3883,6 +3885,7 @@ const translations = {
     'itinerary-walk.title': 'Gång totalt',
     'journeyplanner.title': 'HRT Reseplaneraren',
     later: 'Senare avgångar',
+    'leave-your-car-park-and-ride': 'Lämna din bil på anslutningsparkering',
     leaves: 'Avgår',
     'leaving-at': 'Avgångstid',
     'likely-to-recommend':
