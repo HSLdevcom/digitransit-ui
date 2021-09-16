@@ -192,7 +192,7 @@ export default configMerger(walttiConfig, {
 
     title: APP_TITLE,
 
-    favicon: './app/configurations/images/landstadtmobil/favicon.png',
+    favicon: './app/configurations/images/landstadtmobil/favicon.ico',
 
     meta: {
         description: APP_DESCRIPTION,
