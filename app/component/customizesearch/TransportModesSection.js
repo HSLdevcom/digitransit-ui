@@ -13,7 +13,10 @@ import {
   toggleTransportMode,
 } from '../../util/modeUtils';
 import CityBikeNetworkSelector from '../CityBikeNetworkSelector';
-import { getCitybikeNetworks } from '../../util/citybikes';
+import {
+  getCitybikeNetworks,
+  mapDefaultNetworkProperties,
+} from '../../util/citybikes';
 
 const TransportModesSection = (
   { config },
@@ -67,9 +70,7 @@ const TransportModesSection = (
       ))}
       {modes.includes('CITYBIKE') &&
         config.cityBike.networks &&
-        Object.keys(config.cityBike.networks).length > 1 &&
-        transportModes.citybike &&
-        transportModes.citybike.availableForSelection && (
+        mapDefaultNetworkProperties(config).length > 1 && (
           <fieldset
             className="mode-option-container"
             style={{
