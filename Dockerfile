@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:10.23
 
 EXPOSE 8080
 
@@ -35,11 +35,14 @@ ENV \
 WORKDIR ${WORK}
 COPY . ${WORK}
 
-RUN rm yarn.lock
-RUN yarn
-RUN yarn setup
-RUN yarn build
-# RUN rm -rf static docs test /tmp/*
-RUN yarn cache clean --all
+RUN yarn install
 
-CMD yarn run start
+# RUN rm yarn.lock
+# RUN yarn
+# RUN yarn setup
+# RUN yarn build
+# RUN rm -rf static docs test /tmp/*
+# RUN yarn cache clean --all
+
+# CMD yarn run start
+CMD CONFIG=bb_angermuende NODE_OPTS='--title=digitransit-ui' yarn run dev
