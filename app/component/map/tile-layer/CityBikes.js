@@ -22,8 +22,6 @@ const query = graphql`
     station: bikeRentalStation(id: $id) {
       stationId
       bikesAvailable
-      spacesAvailable
-      capacity
       networks
       state
     }
