@@ -17,7 +17,7 @@ export default configMerger(walttiConfig, {
     },
 
     title: APP_TITLE,
-    favicon: './app/configurations/images/muensingen/favicon.ico',
+    favicon: './app/configurations/images/muensingen/favicon.png',
     logo: 'muensingen/landstadtmobil-muensingen-logo.svg',
 
     searchParams: {
