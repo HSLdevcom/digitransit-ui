@@ -694,6 +694,7 @@ export default {
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
     matka: 'matka',
+    bar: '(bar|hamburg)',
     landstadtmobil: 'landstadtmobil',
     engstingen: 'engstingen',
     muensingen: 'muensingen',
