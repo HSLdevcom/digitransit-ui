@@ -9,20 +9,18 @@ const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{
 const SEMI_TRANSPARENT_MAP_URL = process.env.SEMITRANSPARENT_MAP_URL || "https://tiles.stadtnavi.eu/satellite-overlay/{z}/{x}/{y}{r}.png";
 const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || "https://photon.stadtnavi.eu/pelias/v1";
 const YEAR = 1900 + new Date().getYear();
-const STATIC_MESSAGE_URL =
-    process.env.STATIC_MESSAGE_URL ||
-    '/assets/messages/message.bb_angermuende.json';
+const STATIC_MESSAGE_URL = process.env.STATIC_MESSAGE_URL || '/assets/messages/message.bb_angermuende.json';
 
 const walttiConfig = require('./config.waltti.js').default;
 
-const realtimeHbg = require('./realtimeUtils').default.hbg;
-const hostname = new URL(API_URL);
-realtimeHbg.mqtt = `wss://${hostname.host}/mqtt/`;
+// const realtimeHbg = require('./realtimeUtils').default.bb_angermuende;
+// const hostname = new URL(API_URL);
+// realtimeHbg.mqtt = `wss://${hostname.host}/mqtt/`;
 
-const minLat = 47.6020;
-const maxLat = 49.0050;
-const minLon = 8.4087;
-const maxLon = 9.9014;
+const minLat = 52.015895;
+const maxLat = 54.015895;
+const minLon = 13.000255;
+const maxLon = 15.000255;
 
 export default configMerger(walttiConfig, {
     CONFIG,
@@ -37,10 +35,10 @@ export default configMerger(walttiConfig, {
         STOP_MAP: `${API_URL}/routing/v1/router/vectorTiles/stops/`,
         DYNAMICPARKINGLOTS_MAP: `${API_URL}/routing/v1/router/vectorTiles/parking/`,
         ROADWORKS_MAP: `${API_URL}/map/v1/cifs/`,
-        COVID19_MAP: `https://tiles.caresteouvert.fr/public.poi_osm_light/{z}/{x}/{y}.pbf`,
+        // COVID19_MAP: `https://tiles.caresteouvert.fr/public.poi_osm_light/{z}/{x}/{y}.pbf`,
         CITYBIKE_MAP: `${API_URL}/routing/v1/router/vectorTiles/citybikes/`,
         BIKE_PARKS_MAP: `${API_URL}/routing/v1/router/vectorTiles/parking/`,
-        WEATHER_STATIONS_MAP: `${API_URL}/map/v1/weather-stations/`,
+        // WEATHER_STATIONS_MAP: `${API_URL}/map/v1/weather-stations/`,
         CHARGING_STATIONS_MAP: `${API_URL}/tiles/charging-stations/`,
         PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
         PELIAS_REVERSE_GEOCODER: `${
@@ -49,7 +47,7 @@ export default configMerger(walttiConfig, {
         PELIAS_PLACE: `${
             process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
         }/place`,
-        FARES: `${API_URL}/fares`,
+        // FARES: `${API_URL}/fares`,
         FONT: '' // Do not use Google fonts.
     },
 
@@ -136,7 +134,7 @@ export default configMerger(walttiConfig, {
     },
 
     roadworks: {
-        showRoadworks: true,
+        showRoadworks: false,
         roadworksSmallIconZoom: 16,
         roadworksMinZoom: 10
     },
@@ -149,7 +147,7 @@ export default configMerger(walttiConfig, {
 
 
     weatherStations: {
-        show: true,
+        show: false,
         smallIconZoom: 17,
         minZoom: 15
     },
@@ -223,9 +221,9 @@ export default configMerger(walttiConfig, {
         description: APP_DESCRIPTION,
     },
 
-    modeToOTP: {
-        carpool: 'CARPOOL',
-    },
+    // modeToOTP: {
+    //     carpool: 'CARPOOL',
+    // },
 
     logo: 'bb_angermuende/stadtnavi-bb_angermuende-logo.svg',
 
@@ -258,19 +256,19 @@ export default configMerger(walttiConfig, {
         },
     },
 
-    feedIds: ['hbg'],
+    feedIds: ['bb_angermuende'],
 
-    realtime: { hbg: realtimeHbg },
+    //  realtime: { bb_angermuende: realtimeHbg },
 
     searchSources: ['oa', 'osm'],
 
     searchParams: {
-        'boundary.rect.min_lat': 48.34164,
-        'boundary.rect.max_lat': 48.97661,
-        'boundary.rect.min_lon': 9.95635,
-        'boundary.rect.max_lon': 8.530883,
-        'focus.point.lat': 48.5957,
-        'focus.point.lon': 8.8675
+        'boundary.rect.min_lat': 52.015895,
+        'boundary.rect.max_lat': 54.015895,
+        'boundary.rect.min_lon': 15.000255,
+        'boundary.rect.max_lon': 13.000255,
+        'focus.point.lat': 53.015895,
+        'focus.point.lon': 14.000255
     },
 
     areaPolygon: [
@@ -283,30 +281,24 @@ export default configMerger(walttiConfig, {
     nationalServiceLink: { name: 'Fahrplanauskunft efa-bw', href: 'https://www.efa-bw.de' },
 
     defaultEndpoint: {
-        lat: 48.5942066,
-        lon: 8.8644041,
+        lat: 53.015895,
+        lon: 14.000255,
     },
 
 
     defaultOrigins: [
         {
             icon: 'icon-icon_bus',
-            label: 'ZOB Herrenberg',
-            lat: 48.5942066,
-            lon: 8.8644041,
+            label: 'Bahnhof Angermünde',
+            lat: 53.015694,
+            lon: 13.996112,
         },
         {
             icon: 'icon-icon_star',
             label: 'Krankenhaus',
-            lat: 48.59174,
-            lon: 8.87536,
-        },
-        {
-            icon: 'icon-icon_star',
-            label: 'Waldfriedhof / Schönbuchturm',
-            lat: 48.6020352,
-            lon: 8.9036348,
-        },
+            lat: 53.013128,
+            lon: 13.989340,
+        }
     ],
 
     menu: {
@@ -458,7 +450,7 @@ export default configMerger(walttiConfig, {
         },
 
         carpool: {
-            availableForSelection: true,
+            availableForSelection: false,
             defaultValue: false,
             nearYouLabel: {
                 de: 'Mitfahrpunkte in der Nähe',
@@ -513,16 +505,16 @@ export default configMerger(walttiConfig, {
         },
 
         carpool: {
-            availableForSelection: true,
+            availableForSelection: false,
             defaultValue: false,
             exclusive: true,
             icon: 'carpool-withoutBox',
         },
     },
 
-    showTicketInformation: true,
-    showTicketPrice: true,
-    availableTickets: { 'hbg' : {}},
+    showTicketInformation: false,
+    showTicketPrice: false,
+    availableTickets: { 'bb_angermuende' : {}},
     fareMapping: function mapHbFareId(fareId) {
         return {
             en: "Adult",
@@ -539,45 +531,46 @@ export default configMerger(walttiConfig, {
     geoJson: {
         layers: [
             // bicycleinfrastructure includes shops, repair stations,
-            {
-                name: {
-                    fi: '',
-                    en: 'Service stations and stores',
-                    de: "Service Stationen und Läden",
-                },
-                url: '/assets/geojson/hb-layers/bicycleinfrastructure.geojson',
-            },
-            /* Charging stations
-            {
-                name: {
-                    fi: '',
-                    en: 'Charging stations',
-                    de: 'Ladestationen',
-                },
-                url: '/assets/geojson/hb-layers/charging.geojson',
-            },*/
+            // {
+            //     name: {
+            //         fi: '',
+            //         en: 'Service stations and stores',
+            //         de: "Service Stationen und Läden",
+            //     },
+            //     url: '/assets/geojson/hb-layers/bicycleinfrastructure.geojson',
+            // },
+            // Charging stations
+            // {
+            //     name: {
+            //         fi: '',
+            //         en: 'Charging stations',
+            //         de: 'Ladestationen',
+            //     },
+            //     url: '/assets/geojson/hb-layers/charging.geojson',
+            // },
             // LoRaWan map layer
-            {
-                name: {
-                    fi: '',
-                    en: 'LoRaWAN Gateways',
-                    de: 'LoRaWAN Gateways',
-                },
-                url: '/assets/geojson/hb-layers/lorawan-gateways.geojson',
-                isOffByDefault: true,
-            },
+            // {
+            //     name: {
+            //         fi: '',
+            //         en: 'LoRaWAN Gateways',
+            //         de: 'LoRaWAN Gateways',
+            //     },
+            //     url: '/assets/geojson/hb-layers/lorawan-gateways.geojson',
+            //     isOffByDefault: true,
+            // },
             // Nette Toilette layer
-            {
-                name: {
-                    fi: '',
-                    en: 'Public Toilets',
-                    de: 'Nette Toilette',
-                },
-                url: '/assets/geojson/hb-layers/toilet.geojson',
-                isOffByDefault: true,
-            },
+            // {
+            //     name: {
+            //         fi: '',
+            //         en: 'Public Toilets',
+            //         de: 'Nette Toilette',
+            //     },
+            //     url: '/assets/geojson/hb-layers/toilet.geojson',
+            //     isOffByDefault: true,
+            // },
         ],
     },
+
     staticMessagesUrl: STATIC_MESSAGE_URL,
 
     parkAndRideBannedVehicleParkingTags: [

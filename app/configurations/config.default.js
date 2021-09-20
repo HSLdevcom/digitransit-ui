@@ -714,7 +714,6 @@ export default {
     landstadtmobil: 'landstadtmobil',
     engstingen: 'engstingen',
     muensingen: 'muensingen',
-    bb_angermuende: 'bb_angermuende',
     vaasa: 'vaasa',
     walttiOpas: 'waltti',
     rovaniemi: 'rovaniemi',
@@ -726,6 +725,7 @@ export default {
     lahti: 'lahti',
     kuopio: 'kuopio',
     hbnext: 'hbnext',
+    bb_angermuende: 'bb_angermuende',
   },
 
   minutesToDepartureLimit: 9,
