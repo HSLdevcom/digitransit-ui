@@ -139,7 +139,10 @@ export const ModeLeg = (
   { config },
 ) => {
   let networkIcon;
-  if (mode === 'BICYCLE' && leg.from.bikeRentalStation) {
+  if (
+    (mode === 'CITYBIKE' || mode === 'BICYCLE') &&
+    leg.from.bikeRentalStation
+  ) {
     networkIcon =
       leg.from.bikeRentalStation &&
       getCityBikeNetworkIcon(
@@ -363,7 +366,10 @@ const SummaryRow = (
           </div>,
         );
       }
-    } else if (leg.mode === 'CITYBIKE' && leg.rentedBike) {
+    } else if (
+      (leg.mode === 'CITYBIKE' || leg.mode === 'BICYCLE') &&
+      leg.rentedBike
+    ) {
       const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       // eslint-disable-next-line prefer-destructuring
       bikeNetwork = getCityBikeNetworkId(leg.from.bikeRentalStation.networks);
