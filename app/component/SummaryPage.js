@@ -1695,7 +1695,7 @@ class SummaryPage extends React.Component {
 
   filteredbikeAndPublic = plan => {
     return {
-      itineraries: this.filterOnlyBikeAndWalk(plan?.itineraries),
+      itineraries: this.filterOnlyBikeAndWalk(plan?.itineraries) || [],
     };
   };
 
