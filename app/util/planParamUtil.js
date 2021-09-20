@@ -295,7 +295,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
         from: fromLocation,
         to: toLocation,
         intermediatePlaces: intermediatePlaceLocations,
-        numItineraries: 25,
+        numItineraries: 10,
         date: parsedTime.format('YYYY-MM-DD'),
         time: parsedTime.format('HH:mm:ss'),
         walkReluctance: settings.walkReluctance,

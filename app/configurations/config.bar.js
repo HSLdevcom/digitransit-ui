@@ -428,11 +428,7 @@ export default configMerger(walttiConfig, {
     },
     staticMessagesUrl: STATIC_MESSAGE_URL,
 
-    parkAndRideBannedVehicleParkingTags: [
-        'lot_type:Parkplatz',
-        'lot_type:Tiefgarage',
-        'lot_type:Parkhaus'
-    ],
+    parkAndRideBannedVehicleParkingTags: [],
 
     suggestCarMinDistance: 800,
     suggestWalkMaxDistance: 3000,
@@ -444,7 +440,7 @@ export default configMerger(walttiConfig, {
     showVehiclesOnSummaryPage: false,
     showVehiclesOnStopPage: false,
 
-    showBikeAndPublicItineraries: true,
+    showBikeAndPublicItineraries: false,
     showBikeAndParkItineraries: true,
     showStopAndRouteSearch: false,
     showTimeTableOptions: false,
