@@ -21,6 +21,8 @@ import {
   getTotalWalkingDistance,
   getTotalWalkingDuration,
   legContainsRentalBike,
+  getTotalDrivingDuration,
+  getTotalDrivingDistance,
 } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -108,6 +110,8 @@ class ItineraryTab extends React.Component {
     const walkingDuration = getTotalWalkingDuration(compressedItinerary);
     const bikingDistance = getTotalBikingDistance(compressedItinerary);
     const bikingDuration = getTotalBikingDuration(compressedItinerary);
+    const drivingDuration = getTotalDrivingDuration(compressedItinerary);
+    const drivingDistance = getTotalDrivingDistance(compressedItinerary);
     const futureText = this.getFutureText(itinerary.startTime);
     const isMultiRow =
       walkingDistance > 0 && bikingDistance > 0 && futureText !== '';
@@ -119,6 +123,10 @@ class ItineraryTab extends React.Component {
       biking: {
         duration: bikingDuration,
         distance: bikingDistance,
+      },
+      driving: {
+        duration: drivingDuration,
+        distance: drivingDistance,
       },
       futureText,
       isMultiRow,
@@ -170,6 +178,7 @@ class ItineraryTab extends React.Component {
                 key="summary"
                 walking={extraProps.walking}
                 biking={extraProps.biking}
+                driving={extraProps.driving}
                 futureText={extraProps.futureText}
                 isMultiRow={extraProps.isMultiRow}
                 isMobile={this.props.isMobile}
@@ -199,6 +208,7 @@ class ItineraryTab extends React.Component {
                     key="summary"
                     walking={extraProps.walking}
                     biking={extraProps.biking}
+                    driving={extraProps.driving}
                     futureText={extraProps.futureText}
                     isMultiRow={extraProps.isMultiRow}
                     isMobile={this.props.isMobile}

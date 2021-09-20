@@ -212,6 +212,12 @@ $itinerary-tab-switch-height: 48px;
   padding-bottom: 20px;
 }
 
+.driving-summary {
+  .icon.car {
+    top: 3px;
+  }
+}
+
 .summary-divider {
   height: 1px;
   margin-left: 60px;
