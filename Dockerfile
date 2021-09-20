@@ -34,6 +34,8 @@ EXPOSE 8080
 
 ENV WORK=/opt/digitransit-ui
 ENV HOME=/opt/digitransit-ui
+ENV NODE_OPTS=--title=digitransit-ui
+
 # ENV GTFS_URL=https://www.vbb.de/fileadmin/user_upload/VBB/Dokumente/API-Datensaetze/GTFS.zip
 # ENV OSM_URL=https://download.geofabrik.de/europe/germany/brandenburg-latest.osm.pbf
 ENV API_URL=https://api.tpwd-bb-navi.customer.planetary-quantum.net
@@ -52,4 +54,4 @@ ENV CONFIG=bb_angermuende
 # RUN yarn cache clean --all
 
 CMD yarn run start
-# CMD NODE_OPTS='--title=digitransit-ui' yarn run dev
+# CMD yarn run dev
