@@ -2,7 +2,7 @@
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'bar';
-  const APP_TITLE = 'Bike &amp; Ride';
+  const APP_TITLE = 'Bike & Ride';
 const APP_DESCRIPTION = 'Unterwegs mit dem Fahrrad, Bus und Bahn';
 const API_URL = process.env.API_URL || 'https://api.bike-and-ride.de';
 const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{x}/{y}{r}.png';
@@ -132,16 +132,16 @@ export default configMerger(walttiConfig, {
         useSpacesAvailable: false,
         showCityBikes: true,
         networks: {
-            regiorad: {
-                icon: 'regiorad',
+            stadtrad: {
+                icon: 'stadtrad',
                 name: {
-                    de: 'RegioRad',
-                    en: 'RegioRad',
+                    de: 'StadtRAD Hamburg',
+                    en: 'StadtRAD Hamburg',
                 },
                 type: 'citybike',
                 url: {
-                    de: 'https://www.regioradstuttgart.de/de',
-                    en: 'https://www.regioradstuttgart.de/',
+                    de: 'https://stadtrad.hamburg.de/de',
+                    en: 'https://stadtrad.hamburg.de/en',
                 },
                 visibleInSettingsUi: false,
             },
@@ -183,12 +183,12 @@ export default configMerger(walttiConfig, {
             }
         },
         attribution: {
-            'default': '© <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, <a tabindex=-1 href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>Datensätze der NVBW GmbH</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>',
-            'bicycle': '© <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href=https://www.cyclosm.org/#map=12/52.3728/4.8936/cyclosmx>CyclOSM</a>, © <a tabindex=-1 href="https://www.openstreetmap.fr/">OSM-FR</a>, <a tabindex=-1 href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>Datensätze der NVBW GmbH</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>',
+            'default': '© <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, ÖPNV-Datensätze des HVV und der Connect Fahrplanauskunft GmbH',
+            'bicycle': '© <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href=https://www.cyclosm.org/#map=12/52.3728/4.8936/cyclosmx>CyclOSM</a>, © <a tabindex=-1 href="https://www.openstreetmap.fr/">OSM-FR</a>, ÖPNV-Datensätze des HVV und der Connect Fahrplanauskunft GmbH',
         },
     },
 
-    feedIds: ['hbg'],
+    feedIds: ['hh'],
 
     searchSources: ['oa', 'osm'],
 
@@ -208,7 +208,7 @@ export default configMerger(walttiConfig, {
         [maxLon, minLat],
     ],
 
-    nationalServiceLink: { name: 'Fahrplanauskunft efa-bw', href: 'https://www.efa-bw.de' },
+    nationalServiceLink: { name: 'Fahrplanauskunft der Deutschen Bahn', href: 'https://www.bahn.de/' },
 
     defaultEndpoint: {
         lat: 53.5506,
@@ -217,7 +217,7 @@ export default configMerger(walttiConfig, {
 
     menu: {
         copyright: {
-            label: `© Kreis Reutlingen ${YEAR}`
+            label: `© Binary Butterfly ${YEAR}`
         },
         content: [
             {
@@ -229,7 +229,7 @@ export default configMerger(walttiConfig, {
             {
                 name: 'imprint',
                 nameEn: 'Imprint',
-                href: 'https://www.kreis-reutlingen.de/de/impressum',
+                href: 'https://binary-butterfly.de/impressum/',
             }
         ],
     },
@@ -237,10 +237,10 @@ export default configMerger(walttiConfig, {
     aboutThisService: {
         de: [
             {
-                header: 'Datenschutzhinweise zur Routingplatform LandStadtMobil',
+                header: 'Datenschutzhinweise zur Routingplatform Bike-and-Ride',
                 paragraphs: [
                     'Es gelten die Datenschutzhinweise des Landkreises Reutlingen. Diese sind unter <a href="https://www.kreis-reutlingen.de/datenschutz">https://www.kreis-reutlingen.de/datenschutz</a> einsehbar.',
-                    'Die Anwendung LandStadtMobil bietet intermodale Mobilitätsauskünfte. Neben den Datenschutzhinweisen des Landkreises (in der Allgemeinen Datenschutzerklärung) zu Server-Logs und Cookies werden zur Optimierung der Anwendung die genutz-ten Funktionen erhoben. Hierzu nutzt die Anwendung LandStadtMobil die Anwendung Matomo und speichert hierzu Cookies. Die Speicherung dieser Cookies erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. ',
+                    'Die Anwendung LandStadtMobil bietet intermodale Mobilitätsauskünfte. Neben den Datenschutzhinweisen des Landkreises (in der Allgemeinen Datenschutzerklärung) zu Server-Logs und Cookies werden zur Optimierung der Anwendung die genutzten Funktionen erhoben. Hierzu nutzt die Anwendung LandStadtMobil die Anwendung Matomo und speichert hierzu Cookies. Die Speicherung dieser Cookies erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. ',
                     'Explizit nicht gespeichert werden Start-/Ziel Suchen.'
                 ],
             },
@@ -255,7 +255,7 @@ export default configMerger(walttiConfig, {
                 header: 'Datenquellen',
                 paragraphs: [
                     'Kartendaten: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap Mitwirkende</a>',
-                    'ÖPNV-Daten: Datensätze der <a target=new href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>NVBW GmbH</a> und der <a target=new href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) jeweils angereichert mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende',
+                    'ÖPNV-Daten: Datensätze des <a target=new href=https://www.hvv.de/de/fahrplaene/abruf-fahrplaninfos/datenabruf>Hamburger Verkehrsverbund GmbH</a> und der <a target=new href=http://www.connect-fahrplanauskunft.de/index.php?id=impressum>Connect Fahrplanauskunft GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) jeweils angereichert mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende',
                     'Alle Angaben ohne Gewähr.'
                 ],
             },
@@ -289,8 +289,8 @@ export default configMerger(walttiConfig, {
         },
 
         tram: {
-            availableForSelection: false,
-            defaultValue: false,
+            availableForSelection: true,
+            defaultValue: true,
             nearYouLabel: {
                 de: 'Tramhaltestellen in der Nähe',
             }
@@ -312,15 +312,15 @@ export default configMerger(walttiConfig, {
         },
 
         ferry: {
-            availableForSelection: false,
-            defaultValue: false,
+            availableForSelection: true,
+            defaultValue: true,
             nearYouLabel: {
                 de: 'Fähranleger in der Nähe',
             }
         },
 
         carpool: {
-            availableForSelection: true,
+            availableForSelection: false,
             defaultValue: false,
             nearYouLabel: {
                 de: 'Mitfahrpunkte in der Nähe',
@@ -375,7 +375,7 @@ export default configMerger(walttiConfig, {
         },
 
         carpool: {
-            availableForSelection: true,
+            availableForSelection: false,
             defaultValue: false,
             exclusive: true,
             icon: 'carpool-withoutBox',
