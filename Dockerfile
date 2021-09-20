@@ -51,5 +51,5 @@ ENV CONFIG=bb_angermuende
 # RUN rm -rf static docs test /tmp/*
 # RUN yarn cache clean --all
 
-# CMD yarn run start
-CMD NODE_OPTS='--title=digitransit-ui' yarn run dev
+CMD yarn run start
+# CMD NODE_OPTS='--title=digitransit-ui' yarn run dev
