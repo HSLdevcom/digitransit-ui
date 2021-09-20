@@ -32,6 +32,11 @@ import { LightenDarkenColor } from '../util/colorUtils';
 import { getRefPoint } from '../util/apiUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import LazilyLoad, { importLazy } from './LazilyLoad';
+import {
+  getTransportModes,
+  getNearYouModes,
+  showCityBikes,
+} from '../util/modeUtils';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
@@ -217,10 +222,7 @@ class IndexPage extends React.Component {
       'Stops',
     ];
 
-    if (
-      this.context.config.cityBike &&
-      this.context.config.cityBike.showCityBikes
-    ) {
+    if (showCityBikes(this.context.config.cityBike?.networks)) {
       stopAndRouteSearchTargets.push('BikeRentalStations');
       locationSearchTargets.push('BikeRentalStations');
     }
@@ -277,16 +279,17 @@ class IndexPage extends React.Component {
       modeIconColors: config.colors.iconColors,
     };
 
+    const transportModes = getTransportModes(config);
+    const nearYouModes = getNearYouModes(config);
+
     const NearStops = CtrlPanel => {
-      const btnWithoutLabel = config.nearYouModes.length > 0;
+      const btnWithoutLabel = nearYouModes.length > 0;
       const modeTitles = this.filterObject(
-        config.transportModes,
+        transportModes,
         'availableForSelection',
         true,
       );
-      const modes = btnWithoutLabel
-        ? config.nearYouModes
-        : Object.keys(modeTitles);
+      const modes = btnWithoutLabel ? nearYouModes : Object.keys(modeTitles);
 
       return config.showNearYouButtons ? (
         <>
@@ -300,11 +303,9 @@ class IndexPage extends React.Component {
             omitLanguageUrl
             onClick={this.clickStopNearIcon}
             buttonStyle={
-              btnWithoutLabel ? undefined : config.transportModes?.nearYouButton
+              btnWithoutLabel ? undefined : transportModes?.nearYouButton
             }
-            title={
-              btnWithoutLabel ? undefined : config.transportModes?.nearYouTitle
-            }
+            title={btnWithoutLabel ? undefined : transportModes?.nearYouTitle}
             modes={btnWithoutLabel ? undefined : modeTitles}
             modeIconColors={config.colors.iconColors}
             fontWeights={fontWeights}
