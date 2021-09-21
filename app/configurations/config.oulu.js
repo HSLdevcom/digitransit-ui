@@ -38,9 +38,9 @@ export default configMerger(walttiConfig, {
   logo: 'oulu/oulu-logo.png',
 
   cityBike: {
-    showCityBikes: false,
     networks: {
       oulu: {
+        enabled: false,
         icon: 'citybike',
         name: {
           fi: 'Oulu',

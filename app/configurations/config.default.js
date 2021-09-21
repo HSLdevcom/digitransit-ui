@@ -108,6 +108,7 @@ export default {
 
   omitNonPickups: true,
   maxNearbyStopAmount: 5,
+  maxNearbyStopRefetches: 5,
   maxNearbyStopDistance: {
     favorite: 100000,
     bus: 100000,
@@ -345,7 +346,7 @@ export default {
     keywords: 'digitransit',
   },
 
-  hideExternalOperator: false,
+  hideExternalOperator: () => false,
   // Ticket information feature toggle
   showTicketInformation: false,
   ticketInformation: {
@@ -743,4 +744,6 @@ export default {
   showAlertHeader: true,
 
   showSimilarRoutesOnRouteDropDown: false,
+
+  prioritizedStopsNearYou: {},
 };

@@ -21,9 +21,7 @@ export default {
 
   stopsMinZoom: 14,
 
-  cityBike: {
-    showCityBikes: false,
-  },
+  cityBike: {},
 
   search: {
     minimalRegexp: new RegExp('.+'),
