@@ -161,7 +161,7 @@ export default configMerger(walttiConfig, {
                 },
                 visibleInSettingsUi: false,
             },
-            "tier_REUTLINGEN": {
+            tier_reutlingen: {
                 icon: 'scooter',
                 name: {
                     de: 'TIER Reutlingen',
