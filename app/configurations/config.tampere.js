@@ -238,10 +238,14 @@ export default configMerger(walttiConfig, {
   },
 
   cityBike: {
-    showCityBikes: true,
-    capacity: BIKEAVL_WITHMAX,
     networks: {
       tampere: {
+        capacity: BIKEAVL_WITHMAX,
+        enabled: true,
+        season: {
+          start: new Date(new Date().getFullYear(), 3, 1),
+          end: new Date(new Date().getFullYear(), 10, 1),
+        },
         icon: 'citybike',
         name: {
           fi: 'Tampere',
