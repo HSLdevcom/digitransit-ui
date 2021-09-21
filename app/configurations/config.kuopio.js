@@ -82,6 +82,7 @@ export default configMerger(walttiConfig, {
       vilkku: {
         enabled: true,
         season: {
+          // 26.4. - 31.10.
           start: new Date(new Date().getFullYear(), 3, 26),
           end: new Date(new Date().getFullYear(), 10, 1),
         },
