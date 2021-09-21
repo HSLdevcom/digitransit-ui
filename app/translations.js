@@ -259,9 +259,9 @@ const translations = {
   },
 
   de: {
-    'tier-reutlingen-availability': 'TIER E-Scooter verfügbar',
-    'tier-reutlingen-station-no-id': 'TIER E-Scooter',
-    'tier-reutlingen-start-using': 'Buchen Sie einen TIER E-Scooter',
+    'tier_REUTLINGEN-availability': 'TIER E-Scooter verfügbar',
+    'tier_REUTLINGEN-station-no-id': 'TIER E-Scooter',
+    'tier_REUTLINGEN-start-using': 'Buchen Sie einen TIER E-Scooter',
     'zone-info': 'Zoneninformation',
     'fares-disclaimer': 'Tarifauskünfte werden durch die Nahverkehrsgesellschaft Baden-Württemberg mbH (NVBW) zur Verfügung gestellt. Alle Angaben ohne Gewähr.',
     imprint: 'Impressum',
@@ -1008,9 +1008,9 @@ const translations = {
   },
 
   en: {
-    'tier-reutlingen-start-using': 'Book a TIER e-scooter',
-    'tier-reutlingen-station-no-id': 'TIER e-scooter',
-    'tier-reutlingen-availability': 'TIER e-scooters available at the station right now',
+    'tier_REUTLINGEN-start-using': 'Book a TIER e-scooter',
+    'tier_REUTLINGEN-station-no-id': 'TIER e-scooter',
+    'tier_REUTLINGEN-availability': 'TIER e-scooters available at the station right now',
     'book-locker': 'Book locker',
     'fares-disclaimer': 'Fare information provided by Nahverkehrsgesellschaft Baden-Württemberg mbH (NVBW). No liability for the correctness of the information.',
     imprint: 'Imprint',
