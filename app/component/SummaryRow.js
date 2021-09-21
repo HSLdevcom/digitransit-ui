@@ -139,7 +139,10 @@ export const ModeLeg = (
   { config },
 ) => {
   let networkIcon;
-  if (mode === 'BICYCLE' && leg.from.bikeRentalStation) {
+  if (
+    (mode === 'CITYBIKE' || mode === 'BICYCLE') &&
+    leg.from.bikeRentalStation
+  ) {
     networkIcon =
       leg.from.bikeRentalStation &&
       getCityBikeNetworkIcon(
@@ -322,7 +325,6 @@ const SummaryRow = (
     if (shouldRenderLastLeg) {
       legLength += lastLegLength; // if the last leg is too short add its length to the leg before it
     }
-
     if (legLength < renderBarThreshold && isLegOnFoot(leg)) {
       // don't render short legs that are on foot at all
       renderBar = false;
@@ -364,7 +366,10 @@ const SummaryRow = (
           </div>,
         );
       }
-    } else if (leg.rentedBike) {
+    } else if (
+      (leg.mode === 'CITYBIKE' || leg.mode === 'BICYCLE') &&
+      leg.rentedBike
+    ) {
       const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       // eslint-disable-next-line prefer-destructuring
       bikeNetwork = getCityBikeNetworkId(leg.from.bikeRentalStation.networks);

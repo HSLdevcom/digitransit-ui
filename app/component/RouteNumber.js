@@ -66,7 +66,12 @@ function RouteNumber(props, context) {
           badgeText={badgeText}
           badgeTextFill={badgeTextFill}
           color={color}
-          className={mode}
+          className={cx(mode, {
+            [['secondary']]:
+              mode === 'citybike' &&
+              props.icon &&
+              props.icon.includes('secondary'), // Vantaa citybike station
+          })}
           img={icon || `icon-icon_${mode}`}
           subIcon=""
         />
