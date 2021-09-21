@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
+import cx from 'classnames';
 
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -10,7 +11,7 @@ import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
-function CarLeg(props, { config, intl }) {
+function CarParkLeg(props, { config, intl }) {
   const distance = displayDistance(
     parseInt(props.leg.distance, 10),
     config,
@@ -18,9 +19,6 @@ function CarLeg(props, { config, intl }) {
   );
   const duration = durationToString(props.leg.duration * 1000);
   const firstLegClassName = props.index === 0 ? 'start' : '';
-  const modeClassName = 'car';
-
-  const [address, place] = props.leg.from.name.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
@@ -44,8 +42,8 @@ function CarLeg(props, { config, intl }) {
       </div>
       <ItineraryCircleLineWithIcon
         index={props.index}
-        modeClassName={modeClassName}
-        icon="icon-icon_car-withoutBox"
+        modeClassName="walk"
+        carPark
       />
       <div
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
@@ -58,17 +56,25 @@ function CarLeg(props, { config, intl }) {
         </span>
         <div className="itinerary-leg-first-row" aria-hidden="true">
           <div className="address-container">
+            {/*  TODO linking when carpark pages are available */}
+            {/* <Link
+                  onClick={e => {
+                    e.stopPropagation();
+                  }}
+                  to={''}
+                > */}
             <div className="address">
-              {address}
-              {props.leg.from.stop && (
+              <FormattedMessage id="car_park" defaultMessage="Park & Ride" />
+              {/* props.carPark && (
                 <Icon
                   img="icon-icon_arrow-collapse--right"
                   className="itinerary-arrow-icon"
-                  color="#333"
+                  color={config.colors.primary}
                 />
-              )}
+              ) */}
             </div>
-            <div className="place">{place}</div>
+            {/* </Link> */}
+            <div className="place">{props.carPark.name}</div>
           </div>
           <div>{props.children}</div>
           <div
@@ -86,12 +92,32 @@ function CarLeg(props, { config, intl }) {
             />
           </div>
         </div>
-        <div className="itinerary-leg-action" aria-hidden="true">
-          <FormattedMessage
-            id="car-distance-duration"
-            values={{ distance, duration }}
-            defaultMessage="Drive {distance} ({duration})}"
-          />
+        <div className={cx('itinerary-leg-action', 'car')}>
+          <div className="itinerary-leg-action-content">
+            <FormattedMessage
+              id="walk-distance-duration"
+              values={{ distance, duration }}
+              defaultMessage="Walk {distance} ({duration})"
+            />
+            <div
+              className="itinerary-map-action"
+              onClick={props.focusAction}
+              onKeyPress={e =>
+                isKeyboardSelectionEvent(e) && props.focusAction(e)
+              }
+              role="button"
+              tabIndex="0"
+              aria-label={intl.formatMessage(
+                { id: 'itinerary-summary.show-on-map' },
+                { target: props.leg.from.name || '' },
+              )}
+            >
+              <Icon
+                img="icon-icon_show-on-map"
+                className="itinerary-search-icon"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -106,19 +132,19 @@ const exampleLeg = t1 => ({
   mode: 'CAR',
 });
 
-CarLeg.description = () => {
+CarParkLeg.description = () => {
   const today = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
       <p>Displays an itinerary car leg.</p>
       <ComponentUsageExample>
-        <CarLeg leg={exampleLeg(today)} index={0} focusAction={() => {}} />
+        <CarParkLeg leg={exampleLeg(today)} index={0} focusAction={() => {}} />
       </ComponentUsageExample>
     </div>
   );
 };
 
-CarLeg.propTypes = {
+CarParkLeg.propTypes = {
   leg: PropTypes.shape({
     duration: PropTypes.number.isRequired,
     startTime: PropTypes.number.isRequired,
@@ -137,11 +163,12 @@ CarLeg.propTypes = {
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node,
+  carPark: PropTypes.object,
 };
 
-CarLeg.contextTypes = {
+CarParkLeg.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 };
 
-export default CarLeg;
+export default CarParkLeg;

@@ -19,6 +19,7 @@ import TramLeg from './TramLeg';
 import RailLeg from './RailLeg';
 import FerryLeg from './FerryLeg';
 import CarLeg from './CarLeg';
+import CarParkLeg from './CarParkLeg';
 import ViaLeg from './ViaLeg';
 import CallAgencyLeg from './CallAgencyLeg';
 import { itineraryHasCancelation } from '../util/alertUtils';
@@ -133,6 +134,7 @@ class ItineraryLegs extends React.Component {
         : false;
       const nextInterliningLeg = isNextLegInterlining ? nextLeg : undefined;
       const bikePark = previousLeg?.to.bikePark;
+      const carPark = previousLeg?.to.carPark;
       if (leg.mode !== 'WALK' && isCallAgencyPickupType(leg)) {
         legs.push(
           <CallAgencyLeg
@@ -157,6 +159,16 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             bikePark={bikePark}
+            focusAction={this.focus(leg.from)}
+            focusToLeg={this.focusToLeg(leg)}
+          />,
+        );
+      } else if (carPark) {
+        legs.push(
+          <CarParkLeg
+            index={j}
+            leg={leg}
+            carPark={carPark}
             focusAction={this.focus(leg.from)}
             focusToLeg={this.focusToLeg(leg)}
           />,

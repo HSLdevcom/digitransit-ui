@@ -274,6 +274,11 @@ $itinerary-tab-switch-height: 48px;
       width: 25.28px;
       top: 3.36px;
     }
+    &.car {
+      height: 25.32px;
+      width: 25.32px;
+      top: 3.44px;
+    }
   }
   .duration,
   .walk-distance {
@@ -339,6 +344,15 @@ $itinerary-tab-switch-height: 48px;
     width: 18px;
     height: 18px;
     top: 8px;
+    .icon {
+      width: 18px;
+      height: 18px;
+    }
+  }
+  &.car-park {
+    width: 18px;
+    height: 18px;
+    top: 10px;
     .icon {
       width: 18px;
       height: 18px;
@@ -696,6 +710,50 @@ $itinerary-tab-switch-height: 48px;
         }
       }
     }
+    &.car {
+      .route-number {
+        top: 60%;
+        right: 1px;
+        .icon-container .icon {
+          font-size: 24px;
+        }
+      }
+      .leg-before-line {
+        color: $gray;
+        &.car {
+          height: 25%;
+          top: 32%;
+          background-position-y: 3px;
+          border-radius: 3px;
+        }
+        &.bottom {
+          height: 19%;
+          background-position-y: 5px;
+          border-radius: 3px;
+          top: 84%;
+        }
+      }
+      &.via {
+        .route-number {
+          top: 67%;
+        }
+        .itinerary-icon-container {
+          top: 7px;
+        }
+        .leg-before-line {
+          &.walk {
+            height: 55%;
+            background-position-y: 3px;
+            border-radius: 3px;
+          }
+          &.bottom {
+            height: 19%;
+            background-position-y: 5px;
+            border-radius: 3px;
+          }
+        }
+      }
+    }
     &.first {
       .leg-before-line {
         top: 42px;
@@ -798,6 +856,15 @@ $itinerary-tab-switch-height: 48px;
       width: 6px;
       height: 100%;
       background: $white;
+    }
+    &.car {
+      height: 48%;
+      border-radius: 3px;
+      &.bottom {
+        background-position-y: 5px;
+        height: 19%;
+        top: 85%;
+      }
     }
   }
 
