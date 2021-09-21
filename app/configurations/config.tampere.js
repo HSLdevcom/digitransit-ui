@@ -272,6 +272,9 @@ export default configMerger(walttiConfig, {
       availableForSelection: true,
       defaultValue: true,
     },
+    citybike: {
+      availableForSelection: true,
+    },
   },
 
   // modes that should not coexist with BICYCLE mode
