@@ -2,61 +2,8 @@
   "staticMessages": [
     {
       "content": {
-        "en": [
-          {
-            "content": "Now available as native App!",
-            "type": "heading"
-          },
-          {
-            "content": "stadtnavi now is available as native app for your mobile phone. Test the",
-            "type": "text"
-          },
-          {
-            "type": "a",
-            "content": "iOS",
-            "href": "https://apps.apple.com/us/app/stadtnavi-herrenberg/id1573166501"
-          },
-          {
-            "content": "or",
-            "type": "text"
-          },
-          {
-            "type": "a",
-            "content": "Android",
-            "href": "https://play.google.com/store/apps/details?id=de.stadtnavi.herrenberg"
-          },
-          {
-            "content": "version of the app today and share your feedback with us.",
-            "type": "text"
-          }
-        ],
-        "de": [
-          {
-            "content": "Jetzt auch als App für Ihr Mobiltelefon verfügbar",
-            "type": "heading"
-          },
-          {
-            "content": "stadtnavi gibt es jetzt auch als native App für Ihr Mobiltelefon. Testen Sie die",
-            "type": "text"
-          },
-          {
-            "type": "a",
-            "content": "iOS",
-            "href": "https://apps.apple.com/us/app/stadtnavi-herrenberg/id1573166501"
-          },
-          {
-            "content": "oder",
-            "type": "text"
-          },
-          {
-            "type": "a",
-            "content": "Android",
-            "href": "https://play.google.com/store/apps/details?id=de.stadtnavi.herrenberg"
-          },
-          {
-            "content": "Version der App und teilen Sie uns Ihr Feedback mit.",
-            "type": "text"
-          }]
+        "en": [],
+        "de": []
       },
       "type": "info",
       "id": "202106250848",
