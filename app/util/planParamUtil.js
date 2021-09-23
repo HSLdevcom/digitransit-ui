@@ -156,7 +156,6 @@ export const getSettings = config => {
       ),
     allowedBikeRentalNetworks: custSettings.allowedBikeRentalNetworks,
     includeBikeSuggestions: custSettings.includeBikeSuggestions,
-    includeParkAndRideSuggestions: custSettings.includeParkAndRideSuggestions,
     includeCarSuggestions: custSettings.includeCarSuggestions,
   };
 };
@@ -164,32 +163,21 @@ export const getSettings = config => {
 const getShouldMakeParkRideQuery = (
   linearDistance,
   config,
-  settings,
-  defaultSettings,
+  includeCarSuggestions,
 ) => {
   return (
     linearDistance > config.suggestCarMinDistance &&
-    (settings.includeCarSuggestions
-      ? settings.includeCarSuggestions
-      : defaultSettings.includeCarSuggestions) &&
-    (settings.includeParkAndRideSuggestions
-      ? settings.includeParkAndRideSuggestions
-      : defaultSettings.includeParkAndRideSuggestions)
+    includeCarSuggestions &&
+    config.includeParkAndRideSuggestions
   );
 };
 
 const getShouldMakeCarQuery = (
   linearDistance,
   config,
-  settings,
-  defaultSettings,
+  includeCarSuggestions,
 ) => {
-  return (
-    linearDistance > config.suggestCarMinDistance &&
-    (settings.includeCarSuggestions
-      ? settings.includeCarSuggestions
-      : defaultSettings.includeCarSuggestions)
-  );
+  return linearDistance > config.suggestCarMinDistance && includeCarSuggestions;
 };
 
 export const preparePlanParams = (config, useDefaultModes) => (
@@ -244,6 +232,10 @@ export const preparePlanParams = (config, useDefaultModes) => (
     settings.includeBikeSuggestions !== undefined
       ? settings.includeBikeSuggestions
       : defaultSettings.includeBikeSuggestions;
+  const includeCarSuggestions =
+    settings.includeCarSuggestions !== undefined
+      ? settings.includeCarSuggestions
+      : defaultSettings.includeCarSuggestions;
   const linearDistance = estimateItineraryDistance(
     fromLocation,
     toLocation,
@@ -301,14 +293,12 @@ export const preparePlanParams = (config, useDefaultModes) => (
     shouldMakeCarQuery: getShouldMakeCarQuery(
       linearDistance,
       config,
-      settings,
-      defaultSettings,
+      includeCarSuggestions,
     ),
     shouldMakeParkRideQuery: getShouldMakeParkRideQuery(
       linearDistance,
       config,
-      settings,
-      defaultSettings,
+      includeCarSuggestions,
     ),
     showBikeAndPublicItineraries:
       !wheelchair &&

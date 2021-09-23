@@ -2075,7 +2075,7 @@ class SummaryPage extends React.Component {
     );
     const showParkRideOptionButton =
       this.context.config.includeParkAndRideSuggestions &&
-      currentSettings.includeParkAndRideSuggestions &&
+      currentSettings.includeCarSuggestions &&
       hasParkAndRideItineraries;
 
     const showStreetModeSelector =
