@@ -2,7 +2,7 @@
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'bar';
-  const APP_TITLE = 'Bike & Ride';
+  const APP_TITLE = 'RadZugServices';
 const APP_DESCRIPTION = 'Unterwegs mit dem Fahrrad, Bus und Bahn';
 const API_URL = process.env.API_URL || 'https://api.bike-and-ride.de';
 const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{x}/{y}{r}.png';
@@ -152,13 +152,14 @@ export default configMerger(walttiConfig, {
 
     title: APP_TITLE,
 
-    favicon: './app/configurations/images/bar/favicon.ico',
+    favicon: './app/configurations/images/bar/favicon.png',
 
     meta: {
         description: APP_DESCRIPTION,
     },
 
     logo: 'bar/bike-and-ride-logo.svg',
+    showTitles: true,
 
     GTMid: '',
 
@@ -239,9 +240,8 @@ export default configMerger(walttiConfig, {
             {
                 header: 'Datenschutzhinweise zur Routingplatform Bike-and-Ride',
                 paragraphs: [
-                    'Es gelten die Datenschutzhinweise des Landkreises Reutlingen. Diese sind unter <a href="https://www.kreis-reutlingen.de/datenschutz">https://www.kreis-reutlingen.de/datenschutz</a> einsehbar.',
-                    'Die Anwendung LandStadtMobil bietet intermodale Mobilitätsauskünfte. Neben den Datenschutzhinweisen des Landkreises (in der Allgemeinen Datenschutzerklärung) zu Server-Logs und Cookies werden zur Optimierung der Anwendung die genutzten Funktionen erhoben. Hierzu nutzt die Anwendung LandStadtMobil die Anwendung Matomo und speichert hierzu Cookies. Die Speicherung dieser Cookies erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. ',
-                    'Explizit nicht gespeichert werden Start-/Ziel Suchen.'
+                    'Es gelten die Datenschutzhinweise von binary butterfly. Diese sind unter <a href="https://binary-butterfly.de/datenschutz/">https://binary-butterfly.de/datenschutz/</a> einsehbar.',
+                    'Die Anwendung bike-and-ride bietet intermodale Mobilitätsauskünfte.'
                 ],
             },
             {

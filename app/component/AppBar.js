@@ -43,7 +43,7 @@ const AppBar = (
               });
             }}
           >
-            <LogoSmall showLogo={showLogo} logo={logo} title={title} />
+            <LogoSmall showLogo={showLogo} showTitles={config.showTitles} logo={logo} title={title}/>
           </button>
         </section>
         <section className="controls">
