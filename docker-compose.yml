@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  digitransit-ui:
+    image: registry.gitlab.tpwd.de/tpwd/bb-navi/digitransit-ui
+    environment:
+      - WORK=/opt/digitransit-ui
+      - ROUTER=bb_angermuende
+      - API_URL=https://api.tpwd-bb-navi.customer.planetary-quantum.net
+      - DT_IMAGE=bb-navi/digitransit-ui
+      - DT_TAG=next
+      - GTFS_URL=https://www.openvvs.de/dataset/e66f03e4-79f2-41d0-90f1-166ca609e491/resource/bfbb59c7-767c-4bca-bbb2-d8d32a3e0378/download/google_transit.zip
+      - OSM_URL=https://download.geofabrik.de/europe/germany/brandenburg-latest.osm.pbf
+      - GRAPH_BUILD_MEMORY=4G
+      - OTP_PORT=8090
+      - OTP_IMAGE=mfdz/opentripplanner
+      - OTP_TAG=latest
+      - CONFIG=bb_angermuende
+      - GEOCODING_BASE_URL=https://photon.stadtnavi.eu/pelias/v1
+    networks:
+      - public
+
+networks:
+  public:
+    external: true

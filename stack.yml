@@ -1,0 +1,16 @@
+version: '3.7'
+
+
+services:
+  digitransit-ui:
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == node-001.tpwd-bb-navi
+      labels:
+        traefik.docker.network: public
+        traefik.enable: "true"
+        traefik.frontend.passHostHeader: "true"
+        traefik.frontend.rule: Host:ui.tpwd-bb-navi.customer.planetary-quantum.net,ui.angermuende.bbnavi.de
+        traefik.port: '8080'
