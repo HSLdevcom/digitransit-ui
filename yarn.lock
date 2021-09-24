@@ -9885,7 +9885,6 @@ __metadata:
     suncalc: 1.8.0
     swipe-js-iso: 2.1.5
     terser-webpack-plugin: 4.1.0
-    trim-right: 1.0.1
     universal-cookie: 4.0.4
     url-loader: 3.0.0
     uuid: 8.3.0
@@ -25572,13 +25571,6 @@ resolve@1.1.7:
   version: 3.0.1
   resolution: "trim-newlines@npm:3.0.1"
   checksum: a1cc3d5992d47349fa0b48206038e524f42d0ade81913cc72322e4f5a99c5e936eb730af762c9f5bafa3c19ab1e9eaf14bdff487cbe3f2c5d525dd03f3f89fb0
-  languageName: node
-  linkType: hard
-
-"trim-right@npm:1.0.1":
-  version: 1.0.1
-  resolution: "trim-right@npm:1.0.1"
-  checksum: 8c5441313e1b38b66f8b73f504bcc1c57f520a7064016530321ba5ac9f840a1879228645a8304f67ecb3e2bdb29e250c221fa165ad7ed177e3bc297d2d71057d
   languageName: node
   linkType: hard
 
