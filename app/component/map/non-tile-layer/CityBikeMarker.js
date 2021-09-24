@@ -3,8 +3,6 @@ import React from 'react';
 import { routerShape } from 'found';
 import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
-import { station as exampleStation } from '../../ExampleData';
-import ComponentUsageExample from '../../ComponentUsageExample';
 import {
   BIKEAVL_UNKNOWN,
   getCityBikeNetworkConfig,
@@ -39,19 +37,6 @@ const smallIconSvg = `
 `;
 
 export default class CityBikeMarker extends React.Component {
-  static description = (
-    <div>
-      <p>Renders a citybike marker</p>
-      <ComponentUsageExample description="">
-        <CityBikeMarker
-          key={exampleStation.id}
-          map="leaflet map here"
-          station={exampleStation}
-        />
-      </ComponentUsageExample>
-    </div>
-  );
-
   static displayName = 'CityBikeMarker';
 
   static propTypes = {

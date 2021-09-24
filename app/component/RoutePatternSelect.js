@@ -17,11 +17,6 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from './Icon';
-import ComponentUsageExample from './ComponentUsageExample';
-import {
-  routePatterns as exampleRoutePatterns,
-  twoRoutePatterns as exampleTwoRoutePatterns,
-} from './ExampleData';
 import { isBrowser } from '../util/browser';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -412,45 +407,6 @@ class RoutePatternSelect extends Component {
     );
   }
 }
-
-const defaultProps = {
-  className: 'bp-large',
-  serviceDay: '20190306',
-  relay: {
-    refetch: (variables, renderVariables, callback) => {
-      callback();
-    },
-  },
-  params: {
-    routeId: 'HSL:1010',
-    patternId: 'HSL:1010:0:01',
-  },
-  useCurrentTime: true,
-};
-
-RoutePatternSelect.description = () => (
-  <div>
-    <p>Display a dropdown to select the pattern for a route</p>
-    <ComponentUsageExample>
-      <RoutePatternSelect
-        route={exampleRoutePatterns}
-        onSelectChange={() => {}}
-        gtfsId="HSL:1010"
-        lang="en"
-        {...defaultProps}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample>
-      <RoutePatternSelect
-        route={exampleTwoRoutePatterns}
-        onSelectChange={() => {}}
-        gtfsId="HSL:1010"
-        lang="en"
-        {...defaultProps}
-      />
-    </ComponentUsageExample>
-  </div>
-);
 
 // DT-2531: added activeDates
 const withStore = createRefetchContainer(

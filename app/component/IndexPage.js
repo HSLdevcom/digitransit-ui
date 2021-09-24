@@ -26,7 +26,6 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 import Geomover from './Geomover';
-import ComponentUsageExample from './ComponentUsageExample';
 import scrollTop from '../util/scroll';
 import { LightenDarkenColor } from '../util/colorUtils';
 import { getRefPoint } from '../util/apiUtils';
@@ -461,12 +460,6 @@ const Index = shouldUpdate(
 )(IndexPage);
 
 const IndexPageWithBreakpoint = withBreakpoint(Index);
-
-IndexPageWithBreakpoint.description = (
-  <ComponentUsageExample isFullscreen>
-    <IndexPageWithBreakpoint destination={{}} origin={{}} routes={[]} />
-  </ComponentUsageExample>
-);
 
 const IndexPageWithStores = connectToStores(
   IndexPageWithBreakpoint,

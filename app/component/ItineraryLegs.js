@@ -24,8 +24,6 @@ import CallAgencyLeg from './CallAgencyLeg';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import { compressLegs, isCallAgencyPickupType } from '../util/legUtils';
 import updateShowCanceledLegsBannerState from '../action/CanceledLegsBarActions';
-import ComponentUsageExample from './ComponentUsageExample';
-import { exampleData, scooterData } from './data/ItineraryLegs.ExampleData';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import ItineraryProfile from './ItineraryProfile';
 import BikeParkLeg from './BikeParkLeg';
@@ -366,27 +364,5 @@ const enhancedComponent = compose(
     ...rest,
   })),
 )(ItineraryLegs);
-
-ItineraryLegs.description = () => (
-  <div>
-    <p>Legs shown for the itinerary</p>
-    <ComponentUsageExample description="Shows the legs of the itinerary">
-      <ItineraryLegs
-        focusToPoint={() => {}}
-        itinerary={exampleData}
-        toggleCanceledLegsBanner={() => {}}
-        waitThreshold={180}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="Itinerary with a kick scooter leg">
-      <ItineraryLegs
-        focusToPoint={() => {}}
-        itinerary={scooterData}
-        toggleCanceledLegsBanner={() => {}}
-        waitThreshold={180}
-      />
-    </ComponentUsageExample>
-  </div>
-);
 
 export { enhancedComponent as default, ItineraryLegs as Component };

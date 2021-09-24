@@ -5,7 +5,6 @@ import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import { replaceQueryParams } from '../util/queryUtils';
-import ComponentUsageExample from './ComponentUsageExample';
 
 class CanceledLegsBar extends React.Component {
   static contextTypes = {
@@ -78,15 +77,6 @@ const withStore = connectToStores(
       .getStore('CanceledLegsBarStore')
       .getShowCanceledLegsBanner(),
   }),
-);
-
-CanceledLegsBar.description = () => (
-  <div>
-    <p>Canceled legs banner.</p>
-    <ComponentUsageExample description="Informs the user about canceled legs on the suggested itinerary.">
-      <CanceledLegsBar showCanceledLegsBanner />
-    </ComponentUsageExample>
-  </div>
 );
 
 export { withStore as default, CanceledLegsBar as component };

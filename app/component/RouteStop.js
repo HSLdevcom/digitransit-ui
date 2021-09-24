@@ -9,8 +9,6 @@ import FuzzyTripLink from './FuzzyTripLink';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { fromStopTime } from './DepartureTime';
 import ZoneIcon from './ZoneIcon';
-import ComponentUsageExample from './ComponentUsageExample';
-import { AlertSeverityLevelType, RealtimeStateType } from '../constants';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import { PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -18,31 +16,6 @@ import { getZoneLabel } from '../util/legUtils';
 import { estimateItineraryDistance } from '../util/geo-utils';
 import getVehicleState from '../util/vehicleStateUtils';
 import Icon from './Icon';
-
-const exampleStop = {
-  stopTimesForPattern: [
-    {
-      realtime: true,
-      realtimeState: 'UPDATED',
-      realtimeDeparture: 48796,
-      serviceDay: 1471467600,
-      scheduledDeparture: 48780,
-    },
-    {
-      realtime: false,
-      realtimeState: 'SCHEDULED',
-      realtimeDeparture: 49980,
-      serviceDay: 1471467600,
-      scheduledDeparture: 49980,
-    },
-  ],
-  gtfsId: 'HSL:1173101',
-  lat: 60.198185699999726,
-  lon: 24.940634400000118,
-  name: 'Asemapäällikönkatu',
-  desc: 'Ratamestarinkatu',
-  code: '0663',
-};
 
 const RouteStop = (
   {
@@ -305,71 +278,5 @@ RouteStop.contextTypes = {
   intl: intlShape.isRequired,
   config: PropTypes.object.isRequired,
 };
-
-RouteStop.description = () => (
-  <React.Fragment>
-    <ComponentUsageExample description="basic">
-      <RouteStop
-        stop={{ ...exampleStop }}
-        mode="bus"
-        distance={200}
-        last={false}
-        currentTime={1471515614}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="with info">
-      <RouteStop
-        stop={{
-          ...exampleStop,
-          alerts: [{ alertSeverityLevel: AlertSeverityLevelType.Info }],
-        }}
-        mode="bus"
-        distance={200}
-        last={false}
-        currentTime={1471515614}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="with caution">
-      <RouteStop
-        stop={{
-          ...exampleStop,
-          alerts: [{ alertSeverityLevel: AlertSeverityLevelType.Warning }],
-          stopTimesForPattern: [],
-        }}
-        mode="bus"
-        distance={200}
-        last={false}
-        currentTime={1471515614}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="with cancelation">
-      <RouteStop
-        stop={{
-          ...exampleStop,
-          stopTimesForPattern: [
-            {
-              realtime: false,
-              realtimeState: RealtimeStateType.Canceled,
-              realtimeDeparture: 48796,
-              serviceDay: 1471467600,
-              scheduledDeparture: 48780,
-            },
-            {
-              realtime: false,
-              realtimeState: RealtimeStateType.Canceled,
-              realtimeDeparture: 49980,
-              serviceDay: 1471467600,
-              scheduledDeparture: 49980,
-            },
-          ],
-        }}
-        mode="bus"
-        distance={200}
-        last={false}
-        currentTime={1471515614}
-      />
-    </ComponentUsageExample>
-  </React.Fragment>
-);
 
 export default RouteStop;

@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { routerShape } from 'found';
-import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 
 const mapToLink = (href, children, onClick) => (
@@ -67,17 +66,5 @@ MenuItem.contextTypes = {
 };
 
 MenuItem.displayName = 'MenuItem';
-
-MenuItem.description = () => (
-  <div>
-    <p>Front page menu item</p>
-    <ComponentUsageExample description="external">
-      <MenuItem name="Palaute" href="http://www.hsl.fi/" />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="with icon">
-      <MenuItem icon="icon-icon_speech-bubble" name="Feedback" route="/" />
-    </ComponentUsageExample>
-  </div>
-);
 
 export default MenuItem;

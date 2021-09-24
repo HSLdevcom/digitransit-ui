@@ -15,7 +15,6 @@ test_output
 test/binaries
 test/flow/binaries
 selenium-debug.log
-gemini-report
 tags
 .nyc_output
 coverage
