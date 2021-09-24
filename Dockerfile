@@ -38,7 +38,7 @@ ENV NODE_OPTS=--title=digitransit-ui
 
 # ENV GTFS_URL=https://www.vbb.de/fileadmin/user_upload/VBB/Dokumente/API-Datensaetze/GTFS.zip
 # ENV OSM_URL=https://download.geofabrik.de/europe/germany/brandenburg-latest.osm.pbf
-ENV API_URL=https://api.tpwd-bb-navi.customer.planetary-quantum.net
+ENV API_URL=https://api.angermuende.bbnavi.de
 
 WORKDIR ${WORK}
 COPY . ${WORK}
