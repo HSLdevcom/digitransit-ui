@@ -133,7 +133,7 @@ export default configMerger(walttiConfig, {
         showCityBikes: true,
         networks: {
             stadtrad: {
-                icon: 'stadtrad',
+                icon: 'citybike',
                 name: {
                     de: 'StadtRAD Hamburg',
                     en: 'StadtRAD Hamburg',
