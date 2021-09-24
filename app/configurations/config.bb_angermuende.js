@@ -93,7 +93,7 @@ export default configMerger(walttiConfig, {
     },
 
     colors: {
-        primary: '#9fc727',
+        primary: '#DA1B1B',
         iconColors: {
             'mode-bus': '#ff0000',
             'mode-car': '#007AC9',
