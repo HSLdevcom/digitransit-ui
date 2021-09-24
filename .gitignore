@@ -13,7 +13,6 @@ test/binaries
 *~
 test_output
 test/binaries
-test/flow/binaries
 selenium-debug.log
 tags
 .nyc_output
