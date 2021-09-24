@@ -103,7 +103,7 @@
     display: flex;
     flex-direction: column;
     &.checked {
-      color: #9fc727;
+      color: #DA1B1B;
     }
   }
 
@@ -111,7 +111,7 @@
     width: 100px;
     margin-bottom: 5px;
     &.checked {
-      border: 3px solid #9fc727;
+      border: 3px solid #DA1B1B;
     }
   }
 }
