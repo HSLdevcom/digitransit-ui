@@ -250,9 +250,9 @@ export default configMerger(walttiConfig, {
             }
         },
         attribution: {
-            'default': '© <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, <a tabindex=-1 href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>Datensätze der NVBW GmbH</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>',
-            'satellite': '© <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href="https://www.lgl-bw.de/">LGL BW</a>, <a tabindex=-1 href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>Datensätze der NVBW GmbH</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>',
-            'bicycle': '© <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href=https://www.cyclosm.org/#map=12/52.3728/4.8936/cyclosmx>CyclOSM</a>, © <a tabindex=-1 href="https://www.openstreetmap.fr/">OSM-FR</a>, <a tabindex=-1 href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>Datensätze der NVBW GmbH</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>',
+            'default': '© <a tabindex=-1 href=https://www.openstreetmap.org/copyright>OpenStreetMap Mitwirkende</a>, <a tabindex=-1 href=https://www.vbb.de/vbb-services/api-open-data/datensaetze/>Datensätze des Verkehrsverbundes Berlin-Brandenburg GmbH (VBB)</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>',
+            'satellite': '© <a tabindex=-1 href=https://www.openstreetmap.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href="https://www.lgl-bw.de/">LGL BW</a>, <a tabindex=-1 href=https://www.vbb.de/vbb-services/api-open-data/datensaetze//>Datensätze des Verkehrsverbundes Berlin-Brandenburg GmbH (VBB)</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>',
+            'bicycle': '© <a tabindex=-1 href=https://www.openstreetmap.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href=https://www.cyclosm.org/#map=12/52.3728/4.8936/cyclosmx>CyclOSM</a>, © <a tabindex=-1 href="https://www.openstreetmap.fr/">OSM-FR</a>, <a tabindex=-1 href=https://www.vbb.de/vbb-services/api-open-data/datensaetze//>Datensätze des Verkehrsverbundes Berlin-Brandenburg GmbH (VBB)</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>',
         },
     },
 
@@ -303,7 +303,7 @@ export default configMerger(walttiConfig, {
 
     menu: {
         copyright: {
-            label: `© Stadt Angermünde ${YEAR}`
+            label: `© DigitalAgentur Brandenburg GmbH ${YEAR}`
         },
         content: [
             {
