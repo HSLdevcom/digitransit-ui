@@ -11,7 +11,7 @@ import { options } from '../../ExampleData';
 import SelectCarpoolRow from './SelectCarpoolRow';
 import SelectBikeParkRow from './SelectBikeParkRow';
 import SelectDynamicParkingLotsRow from './SelectDynamicParkingLotsRow';
-import RoadworksRow from './RoadworksRow';
+import SelectRoadworksRow from './SelectRoadworksRow';
 import SelectChargingStationRow from './SelectChargingStationRow';
 
 function MarkerSelectPopup(props) {
@@ -112,7 +112,7 @@ function MarkerSelectPopup(props) {
     }
     if (option.layer === 'roadworks') {
       return (
-        <RoadworksRow
+        <SelectRoadworksRow
           {...option.feature}
           key={option.feature.properties.id}
           selectRow={() => props.selectRow(option)}

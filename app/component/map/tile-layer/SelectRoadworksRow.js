@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Icon from '../../Icon';
 import Roadworks from './Roadworks';
 
-export default function RoadworksRow(props) {
+export default function SelectRoadworksRow(props) {
   const { selectRow, properties } = props;
 
   return (
@@ -26,7 +26,7 @@ export default function RoadworksRow(props) {
   );
 }
 
-RoadworksRow.propTypes = {
+SelectRoadworksRow.propTypes = {
   selectRow: PropTypes.func.isRequired,
   properties: PropTypes.object.isRequired,
 };
