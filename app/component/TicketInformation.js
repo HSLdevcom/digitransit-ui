@@ -4,7 +4,6 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 
 import { v4 as uuid } from 'uuid';
-import ComponentUsageExample from './ComponentUsageExample';
 import ExternalLink from './ExternalLink';
 import { renderZoneTicket } from './ZoneTicket';
 import { getAlternativeFares } from '../util/fareUtils';
@@ -201,46 +200,3 @@ TicketInformation.contextTypes = {
 };
 
 TicketInformation.displayName = 'TicketInformation';
-
-TicketInformation.description = () => (
-  <div>
-    <p>Information about the required ticket for the itinerary.</p>
-    <ComponentUsageExample description="single fare">
-      <TicketInformation
-        fares={[{ fareId: 'HSL:AB', cents: 280, ticketName: 'AB' }]}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="single fare, with agency fare url">
-      <TicketInformation
-        fares={[
-          {
-            agency: { fareUrl: 'foo' },
-            cents: 280,
-            fareId: 'HSL:AB',
-            ticketName: 'AB',
-          },
-        ]}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="multiple fares">
-      <TicketInformation
-        fares={[
-          { fareId: 'HSL:AB', cents: 280, ticketName: 'AB' },
-          { fareId: 'HSL:BC', cents: 280, ticketName: 'BC' },
-        ]}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="unknown fare">
-      <TicketInformation
-        fares={[
-          { fareId: 'HSL:ABC', cents: 460, ticketName: 'ABC' },
-          {
-            agency: { fareUrl: 'foo', name: 'Ferry operator' },
-            isUnknown: true,
-            routeName: 'Ferry line',
-          },
-        ]}
-      />
-    </ComponentUsageExample>
-  </div>
-);

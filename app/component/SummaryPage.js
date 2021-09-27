@@ -34,9 +34,7 @@ import {
 } from '../util/timeUtils';
 import { planQuery, moreItinerariesQuery } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
-import ComponentUsageExample from './ComponentUsageExample';
-import exampleData from './data/SummaryPage.ExampleData';
-import { isBrowser, isIOS } from '../util/browser';
+import { isIOS } from '../util/browser';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
@@ -2544,12 +2542,6 @@ const SummaryPageWithBreakpoint = withBreakpoint(props => (
     )}
   </ReactRelayContext.Consumer>
 ));
-
-SummaryPageWithBreakpoint.description = (
-  <ComponentUsageExample isFullscreen>
-    {isBrowser && <SummaryPageWithBreakpoint {...exampleData} />}
-  </ComponentUsageExample>
-);
 
 const SummaryPageWithStores = connectToStores(
   SummaryPageWithBreakpoint,

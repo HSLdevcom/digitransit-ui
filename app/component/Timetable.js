@@ -10,7 +10,6 @@ import Icon from './Icon';
 import FilterTimeTableModal from './FilterTimeTableModal';
 import TimeTableOptionsPanel from './TimeTableOptionsPanel';
 import TimetableRow from './TimetableRow';
-import ComponentUsageExample from './ComponentUsageExample';
 import { RealtimeStateType } from '../constants';
 import SecondaryButton from './SecondaryButton';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -394,70 +393,5 @@ class Timetable extends React.Component {
 }
 
 Timetable.displayName = 'Timetable';
-const exampleStop = {
-  gtfsId: '123124234',
-  name: '1231213',
-  url: '1231231',
-  stoptimesForServiceDate: [
-    {
-      pattern: {
-        headsign: 'Pornainen',
-        route: {
-          shortName: '787K',
-          agency: {
-            name: 'Helsingin seudun liikenne',
-          },
-          mode: 'BUS',
-        },
-      },
-      stoptimes: [
-        {
-          scheduledDeparture: 60180,
-          serviceDay: 1495659600,
-          realtimeState: 'CANCELED',
-        },
-        {
-          scheduledDeparture: 61380,
-          serviceDay: 1495659600,
-          realtimeState: 'SCHEDULED',
-        },
-      ],
-    },
-    {
-      pattern: {
-        route: {
-          mode: 'BUS',
-          shortName: 'Kotkan linja-autoasema',
-          agency: {
-            name: 'Helsingin seudun liikenne',
-          },
-        },
-      },
-      stoptimes: [
-        {
-          scheduledDeparture: 61180,
-          serviceDay: 1495659600,
-          realtimeState: 'SCHEDULED',
-        },
-      ],
-    },
-  ],
-};
-
-Timetable.description = () => (
-  <div>
-    <p>Renders a timetable</p>
-    <ComponentUsageExample description="">
-      <Timetable
-        stop={exampleStop}
-        propsForDateSelect={{
-          startDate: '20190110',
-          selectedDate: '20190110',
-          onDateChange: () => {},
-        }}
-      />
-    </ComponentUsageExample>
-  </div>
-);
 
 export default Timetable;

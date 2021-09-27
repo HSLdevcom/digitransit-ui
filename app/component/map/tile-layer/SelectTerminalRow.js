@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import routeCompare from '../../../util/route-compare';
-import ComponentUsageExample from '../../ComponentUsageExample';
 import Icon from '../../Icon';
 
 function getName(route) {
@@ -51,22 +50,6 @@ function SelectTerminalRow(props) {
 }
 
 SelectTerminalRow.displayName = 'SelectTerminalRow';
-
-SelectTerminalRow.description = (
-  <div>
-    <p>Renders a select stop row</p>
-    <ComponentUsageExample description="">
-      <SelectTerminalRow
-        name="Pasilan Asema"
-        selectRow={() => {}}
-        type="BUS"
-        routes={
-          '[{"mode":"BUS","shortName":"154"},{"mode":"BUS","shortName":"111T"}]'
-        }
-      />
-    </ComponentUsageExample>
-  </div>
-);
 
 SelectTerminalRow.propTypes = {
   type: PropTypes.string.isRequired,

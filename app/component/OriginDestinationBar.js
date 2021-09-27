@@ -6,7 +6,6 @@ import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import ComponentUsageExample from './ComponentUsageExample';
 import withSearchContext from './WithSearchContext';
 import {
   setIntermediatePlaces,
@@ -170,38 +169,6 @@ class OriginDestinationBar extends React.Component {
     );
   }
 }
-
-OriginDestinationBar.description = (
-  <React.Fragment>
-    <ComponentUsageExample>
-      <OriginDestinationBar
-        destination={{}}
-        origin={{
-          address: 'Messukeskus, Itä-Pasila, Helsinki',
-          lat: 60.201415,
-          lon: 24.936696,
-        }}
-        showFavourites
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="with-viapoint">
-      <OriginDestinationBar
-        destination={{}}
-        location={{
-          query: {
-            intermediatePlaces: 'Opastinsilta 6, Helsinki::60.199093,24.940536',
-          },
-        }}
-        origin={{
-          address: 'Messukeskus, Itä-Pasila, Helsinki',
-          lat: 60.201415,
-          lon: 24.936696,
-        }}
-        showFavourites
-      />
-    </ComponentUsageExample>
-  </React.Fragment>
-);
 
 const connectedComponent = connectToStores(
   OriginDestinationBar,

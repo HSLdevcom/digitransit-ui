@@ -23,9 +23,7 @@ import {
   legContainsRentalBike,
 } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
-import ComponentUsageExample from './ComponentUsageExample';
 
-import exampleData from './data/ItineraryTab.exampleData.json';
 import { getFares, shouldShowFareInfo } from '../util/fareUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
@@ -269,20 +267,6 @@ class ItineraryTab extends React.Component {
     );
   }
 }
-
-ItineraryTab.description = (
-  <ComponentUsageExample description="with disruption">
-    <div style={{ maxWidth: '528px' }}>
-      <ItineraryTab
-        focusToPoint={() => {}}
-        itinerary={{ ...exampleData.itinerary }}
-        plan={{ date: 1553845502000 }}
-        focusToLeg={() => {}}
-        isMobile={false}
-      />
-    </div>
-  </ComponentUsageExample>
-);
 
 const withRelay = createFragmentContainer(ItineraryTab, {
   plan: graphql`

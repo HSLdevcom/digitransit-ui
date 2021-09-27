@@ -5,7 +5,6 @@ import { intlShape } from 'react-intl';
 
 import Select from 'react-select';
 import Icon from './Icon';
-import ComponentUsageExample from './ComponentUsageExample';
 
 function DateSelect(props, context) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -123,19 +122,5 @@ DateSelect.contextTypes = {
   intl: intlShape.isRequired, // eslint-disable-line react/no-typos
 };
 DateSelect.displayName = 'DateSelect';
-
-DateSelect.description = () => (
-  <div>
-    <p>Display a date selection using react components</p>
-    <ComponentUsageExample>
-      <DateSelect
-        startDate="19700101"
-        selectedDate="19700101"
-        dateFormat="YYYYMMDD"
-        onDateChange={event => event.target.value}
-      />
-    </ComponentUsageExample>
-  </div>
-);
 
 export default DateSelect;

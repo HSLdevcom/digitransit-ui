@@ -3,7 +3,6 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import moment from 'moment';
 import { Link } from 'found';
-import ComponentUsageExample from './ComponentUsageExample';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
@@ -72,26 +71,6 @@ function AirportCollectLuggageLeg(props, { config, intl }) {
     </div>
   );
 }
-
-const exampleLeg = t1 => ({
-  endTime: t1 + 100000,
-});
-
-AirportCollectLuggageLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0).valueOf();
-  return (
-    <div>
-      <p>Displays an itinerary airport collect luggage leg.</p>
-      <ComponentUsageExample>
-        <AirportCollectLuggageLeg
-          leg={exampleLeg(today)}
-          focusAction={() => {}}
-          index={1}
-        />
-      </ComponentUsageExample>
-    </div>
-  );
-};
 
 AirportCollectLuggageLeg.propTypes = {
   index: PropTypes.number.isRequired,
