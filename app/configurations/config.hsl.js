@@ -67,6 +67,11 @@ export default {
   parkAndRide: {
     showParkAndRide: true,
     parkAndRideMinZoom: 14,
+    url: {
+      fi: 'https://www.hsl.fi/matkustaminen/liityntapysakointi',
+      sv: 'https://www.hsl.fi/sv/att-resa/anslutningsparkering',
+      en: 'https://www.hsl.fi/en/travelling/park--ride',
+    },
   },
 
   showDisclaimer: true,
