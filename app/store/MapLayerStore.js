@@ -43,6 +43,7 @@ class MapLayerStore extends Store {
       this.mapLayers = {
         ...this.mapLayers,
         ...storedMapLayers,
+        terminal: { ...this.mapLayers.terminal, ...storedMapLayers.terminal },
       };
     }
   }
