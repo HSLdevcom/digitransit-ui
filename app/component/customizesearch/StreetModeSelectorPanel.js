@@ -61,6 +61,35 @@ const StreetModeSelectorPanel = (
             />
           ) : null}
         </div>
+        {config.includeParkAndRideSuggestions && (
+          <div key="mode-option-park-and-ride">
+            <div className="mode-option-container">
+              <div className="mode-option-block">
+                <div className="mode-icon">
+                  <Icon
+                    className="park-ride-icon-icon"
+                    img="icon-icon_park-and-ride"
+                  />
+                </div>
+                <div className="mode-name">
+                  <FormattedMessage
+                    className="mode-name"
+                    id="park-and-ride"
+                    defaultMessage="Park & Ride"
+                  />
+                </div>
+              </div>
+              <div>
+                <Toggle
+                  toggled={currentSettings.includeParkAndRideSuggestions}
+                  onToggle={() =>
+                    onToggle('includeParkAndRideSuggestions', 'ParkAndRide')
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        )}
         {config.includeCarSuggestions && (
           <div key="mode-option-park-and-ride">
             <div className="mode-option-container">
