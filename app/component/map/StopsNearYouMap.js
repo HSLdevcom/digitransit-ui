@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { matchShape } from 'found';
 import { graphql, fetchQuery } from 'react-relay';
 import moment from 'moment';
 import uniqBy from 'lodash/uniqBy';
@@ -121,9 +120,9 @@ const getLocationMarker = location => {
 function StopsNearYouMap(
   {
     breakpoint,
+    mode,
     currentTime,
     stopsNearYou,
-    match,
     loading,
     favouriteIds,
     relay,
@@ -147,7 +146,7 @@ function StopsNearYouMap(
     isFetching: false,
     stop: null,
   });
-  const { mode } = match.params;
+  // const { mode } = match.params;
   const isTransitMode = mode !== 'CITYBIKE';
   const walkRoutingThreshold =
     mode === 'RAIL' || mode === 'SUBWAY' || mode === 'FERRY' ? 3000 : 1500;
@@ -436,6 +435,7 @@ function StopsNearYouMap(
 }
 
 StopsNearYouMap.propTypes = {
+  mode: PropTypes.string,
   currentTime: PropTypes.number.isRequired,
   stopsNearYou: PropTypes.object.isRequired,
   prioritizedStopsNearYou: PropTypes.array,
@@ -443,7 +443,6 @@ StopsNearYouMap.propTypes = {
   mapLayers: PropTypes.object.isRequired,
   mapLayerOptions: mapLayerOptionsShape.isRequired,
   position: dtLocationShape.isRequired,
-  match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
   relay: PropTypes.shape({

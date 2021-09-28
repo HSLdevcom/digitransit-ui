@@ -61,7 +61,7 @@ const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION, PH_USEMAPCENTER]; // rend
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 
-class StopsNearYouPage extends React.Component {
+class StopsNearYouPage extends React.PureComponent {
   // eslint-disable-line
   static contextTypes = {
     config: PropTypes.object.isRequired,
@@ -87,6 +87,7 @@ class StopsNearYouPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentIndex: 0,
       phase: PH_START,
       centerOfMap: null,
       centerOfMapChanged: false,
@@ -103,9 +104,10 @@ class StopsNearYouPage extends React.Component {
 
   componentDidMount() {
     const readMessageIds = getReadMessageIds();
+    const { mode } = this.props.match.params;
     const showCityBikeTeaser = !readMessageIds.includes('citybike_teaser');
+    this.setState({ currentIndex: this.getNearByStopModes().indexOf(mode) });
     if (this.context.config.map.showLayerSelector) {
-      const { mode } = this.props.match.params;
       const mapLayerOptions = getMapLayerOptions({
         lockedMapLayers: ['vehicles', 'citybike', 'stop'],
         selectedMapLayers: ['vehicles', mode.toLowerCase()],
@@ -119,7 +121,6 @@ class StopsNearYouPage extends React.Component {
       const savedPermission = getGeolocationState();
       const { state } = permission;
       const newState = {};
-
       if (origin) {
         newState.searchPosition = otpToLocation(origin);
       } else {
@@ -365,10 +366,8 @@ class StopsNearYouPage extends React.Component {
     const paramArray = this.props.match.location.pathname.split(mode);
     const pathParams = paramArray.length > 1 ? paramArray[1] : '/POS';
     const path = `/${PREFIX_NEARYOU}/${newMode}${pathParams}`;
-    this.context.router.replace({
-      ...this.props.match.location,
-      pathname: path,
-    });
+    this.setState({ currentIndex: e });
+    window.history.replaceState(null, '', path);
   };
 
   refetchButton = nearByMode => {
@@ -425,7 +424,6 @@ class StopsNearYouPage extends React.Component {
     const renderRefetchButton =
       (centerOfMapChanged || this.positionChanged()) && !noFavorites;
     const nearByStopModes = this.getNearByStopModes();
-    const index = nearByStopModes.indexOf(mode);
     const tabs = nearByStopModes.map(nearByStopMode => {
       const renderSearch =
         nearByStopMode !== 'FERRY' && nearByStopMode !== 'FAVORITE';
@@ -436,7 +434,8 @@ class StopsNearYouPage extends React.Component {
           <div
             key={nearByStopMode}
             className={`stops-near-you-page swipeable-tab ${
-              nearByStopMode !== mode && 'inactive'
+              nearByStopMode !== nearByStopModes[this.state.currentIndex] &&
+              'inactive'
             }`}
             aria-hidden={nearByStopMode !== mode}
           >
@@ -455,7 +454,10 @@ class StopsNearYouPage extends React.Component {
 
       return (
         <div
-          className={`swipeable-tab ${nearByStopMode !== mode && 'inactive'}`}
+          className={`swipeable-tab ${
+            nearByStopMode !== nearByStopModes[this.state.currentIndex] &&
+            'inactive'
+          }`}
           key={nearByStopMode}
           aria-hidden={nearByStopMode !== mode}
         >
@@ -640,7 +642,7 @@ class StopsNearYouPage extends React.Component {
     if (tabs.length > 1) {
       return (
         <SwipeableTabs
-          tabIndex={index}
+          tabIndex={this.state.currentIndex}
           onSwipe={this.onSwipe}
           tabs={tabs}
           classname={
@@ -655,7 +657,8 @@ class StopsNearYouPage extends React.Component {
   };
 
   renderMap = () => {
-    const { mode } = this.props.match.params;
+    const nearByStopModes = this.getNearByStopModes();
+    const mode = nearByStopModes[this.state.currentIndex];
     if (mode === 'FAVORITE') {
       return (
         <QueryRenderer
@@ -762,6 +765,7 @@ class StopsNearYouPage extends React.Component {
             return (
               <StopsNearYouMapContainer
                 position={this.state.searchPosition}
+                mode={nearByStopModes[this.state.currentIndex]}
                 stopsNearYou={props.stops}
                 prioritizedStopsNearYou={props.prioritizedStops}
                 match={this.props.match}
@@ -906,7 +910,6 @@ class StopsNearYouPage extends React.Component {
     const { mode } = this.props.match.params;
     const { phase } = this.state;
     const nearByStopModes = this.getNearByStopModes();
-
     if (PH_SHOWSEARCH.includes(phase)) {
       return <div>{this.renderDialogModal()}</div>;
     }
