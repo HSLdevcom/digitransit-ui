@@ -61,7 +61,7 @@ const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION, PH_USEMAPCENTER]; // rend
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 
-class StopsNearYouPage extends React.PureComponent {
+class StopsNearYouPage extends React.Component {
   // eslint-disable-line
   static contextTypes = {
     config: PropTypes.object.isRequired,
