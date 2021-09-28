@@ -143,7 +143,7 @@ export const compressLegs = (originalLegs, keepBicycleWalk = false) => {
   let compressedLeg;
   let bikeParked = false;
   originalLegs.forEach((currentLeg, i) => {
-    if (currentLeg.to?.bikePark) {
+    if (currentLeg.to?.bikePark || currentLeg.from?.bikePark) {
       bikeParked = true;
     }
     if (!compressedLeg) {
