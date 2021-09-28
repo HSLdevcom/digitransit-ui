@@ -2,7 +2,7 @@
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'bb_angermuende';
-const APP_TITLE = 'stadtnavi Angermünde';
+const APP_TITLE = 'bbnavi Angermünde';
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
 const API_URL = process.env.API_URL || 'https://api.dev.stadtnavi.eu';
 const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{x}/{y}{r}.png';
@@ -83,7 +83,7 @@ export default configMerger(walttiConfig, {
 
     appBarLink: {
         name: 'Feedback',
-        href: 'https://stadtnavi.de/feedback',
+        href: 'https://bbnavi.de/feedback',
         target: '_blank'
     },
 
@@ -330,7 +330,7 @@ export default configMerger(walttiConfig, {
             {
                 header: 'Über diesen Dienst',
                 paragraphs: [
-                    'stadtnavi ist eine Reiseplanungs-Anwendung für die Stadt Angermünde und Umgebung. Dieser Dienst umfasst ÖPNV, Fußwege, Radverkehr, Straßen- und Parkplatzinformationen, Ladeinfrastruktur und Sharing-Angebote. Mobilitätsangebote werden durch intermodales Routing miteinander vernetzt.',
+                    'bbnavi ist eine Reiseplanungs-Anwendung für die Stadt Angermünde und Umgebung. Dieser Dienst umfasst ÖPNV, Fußwege, Radverkehr, Straßen- und Parkplatzinformationen, Ladeinfrastruktur und Sharing-Angebote. Mobilitätsangebote werden durch intermodales Routing miteinander vernetzt.',
                     'Gefördert durch <br>',
                     '<a href="https://www.angermuende.de/stadtluft"><img src="https://www.angermuende.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
 
@@ -339,14 +339,14 @@ export default configMerger(walttiConfig, {
             {
                 header: 'Mitmachen',
                 paragraphs: [
-                    'Die Stadt Angermünde hat diese App im Rahmen der Modellstadt, gefördert durch das Bundesministerium für Verkehr und digitale Infrastruktur (BMVI) entwickelt. stadtnavi Anwendung ist eine Open Source Lösung und kann von anderen Kommunen und Akteuren unter ihrem Namen und Erscheinungsbild verwendet und an individuelle Bedürfnisse angepasst und weiterentwickelt werden (White Label Lösung). Mitmachen ist gewünscht!',
+                    'Die Stadt Angermünde hat diese App im Rahmen der Modellstadt, gefördert durch das Bundesministerium für Verkehr und digitale Infrastruktur (BMVI) entwickelt. bbnavi Anwendung ist eine Open Source Lösung und kann von anderen Kommunen und Akteuren unter ihrem Namen und Erscheinungsbild verwendet und an individuelle Bedürfnisse angepasst und weiterentwickelt werden (White Label Lösung). Mitmachen ist gewünscht!',
                 ]
             },
             {
                 header: 'Digitransit Plattform',
                 paragraphs: [
                     'Dieser Dienst basiert auf der Digitransit Platform und dem Backend-Dienst OpenTripPlanner. Alle Software ist unter einer offenen Lizenzen verfügbar. Vielen Dank an alle Beteiligten.',
-                    'Der gesamte Quellcode der Plattform, die aus vielen verschiedenen Komponenten besteht, ist auf <a href="https://github.com/stadtnavi/">Github</a> verfügbar.'
+                    'Der gesamte Quellcode der Plattform, die aus vielen verschiedenen Komponenten besteht, ist auf <a href="https://github.com/bbnavi/">Github</a> verfügbar.'
                 ],
             },
             {
@@ -362,14 +362,14 @@ export default configMerger(walttiConfig, {
             {
                 header: 'About this service',
                 paragraphs: [
-                    'stadtnavi is a travel planning application for the city of Angermünde and its surroundings. This service includes public transport, footpaths, cycling, street and parking information, charging infrastructure and sharing offerings. The mobility offerings are connected through intermodal routing.',
+                    'bbnavi is a travel planning application for the city of Angermünde and its surroundings. This service includes public transport, footpaths, cycling, street and parking information, charging infrastructure and sharing offerings. The mobility offerings are connected through intermodal routing.',
                     '<a href="https://www.herrenberg.de/stadtluft"><img src="https://www.angermuende.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
                 ],
             },
             {
                 header: 'Contribute',
                 paragraphs: [
-                    'The city of Angermünde has developed this app, funded by the Federal Ministry of Transport and Digital Infrastructure (BMVI), as model city. The stadtnavi app is an open source solution and can be used, customized and further developed by other municipalities to meet individual needs (white lable solution). Participation is welcome!',
+                    'The city of Angermünde has developed this app, funded by the Federal Ministry of Transport and Digital Infrastructure (BMVI), as model city. The bbnavi app is an open source solution and can be used, customized and further developed by other municipalities to meet individual needs (white lable solution). Participation is welcome!',
                 ]
             },
             {
