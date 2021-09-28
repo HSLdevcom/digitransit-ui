@@ -146,7 +146,6 @@ function StopsNearYouMap(
     isFetching: false,
     stop: null,
   });
-  // const { mode } = match.params;
   const isTransitMode = mode !== 'CITYBIKE';
   const walkRoutingThreshold =
     mode === 'RAIL' || mode === 'SUBWAY' || mode === 'FERRY' ? 3000 : 1500;
