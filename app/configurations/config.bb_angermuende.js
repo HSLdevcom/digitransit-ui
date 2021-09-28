@@ -22,13 +22,15 @@ const maxLat = 54.015895;
 const minLon = 13.000255;
 const maxLon = 15.000255;
 
+// https://tiles.stadtnavi.eu/orthophoto/{z}/{x}/{y}.jpg
+
 export default configMerger(walttiConfig, {
     CONFIG,
     URL: {
         OTP: process.env.OTP_URL || `${API_URL}/otp/routers/default/`,
         MAP: {
             default: MAP_URL,
-            satellite: 'https://tiles.stadtnavi.eu/orthophoto/{z}/{x}/{y}.jpg',
+            satellite: 'https://isk.geobasis-bb.de/mapproxy/dop20c_wmts/service?layer=bebb_dop20c&style=default&tilematrixset=grid_25833&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fpng&TileMatrix={z}&TileCol={x}&TileRow={y}',
             semiTransparent: SEMI_TRANSPARENT_MAP_URL,
             bicycle: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png',
         },
