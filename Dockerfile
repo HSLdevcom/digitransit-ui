@@ -43,6 +43,8 @@ ENV API_URL=https://api.angermuende.bbnavi.de
 WORKDIR ${WORK}
 COPY . ${WORK}
 
+
+RUN rm yarn.lock
 RUN yarn install
 RUN yarn setup
 RUN yarn build
