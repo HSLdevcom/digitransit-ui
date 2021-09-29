@@ -10,6 +10,8 @@ import {
   updateCitybikeNetworks,
   getCitybikeNetworks,
 } from '../util/citybikes';
+import { toggleTransportMode } from '../util/modeUtils';
+import { TransportMode } from '../constants';
 
 const CityBikeNetworkSelector = (
   { isUsingCitybike, currentOptions },
@@ -49,14 +51,26 @@ const CityBikeNetworkSelector = (
             ).length > 0
           }
           onToggle={() => {
-            executeAction(saveRoutingSettings, {
-              allowedBikeRentalNetworks: updateCitybikeNetworks(
-                getCitybikeNetworks(config),
-                network.networkName,
-                config,
-                isUsingCitybike,
-              ),
-            });
+            const currentSettings = getCitybikeNetworks(config);
+            if (
+              currentSettings.find(
+                o => o.toLowerCase() === network.networkName.toLowerCase(),
+              ) &&
+              currentSettings.length === 1
+            ) {
+              executeAction(saveRoutingSettings, {
+                modes: toggleTransportMode(TransportMode.Citybike, config),
+              });
+            } else {
+              executeAction(saveRoutingSettings, {
+                allowedBikeRentalNetworks: updateCitybikeNetworks(
+                  currentSettings,
+                  network.networkName,
+                  config,
+                  isUsingCitybike,
+                ),
+              });
+            }
           }}
         />
       </div>
