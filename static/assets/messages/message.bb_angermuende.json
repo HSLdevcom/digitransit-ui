@@ -2,8 +2,36 @@
   "staticMessages": [
     {
       "content": {
-        "en": [],
-        "de": []
+        "en": [
+          {
+            "content": "This is a test version (public beta)!",
+            "type": "heading"
+          },
+          {
+            "content": "More data and functions will be added here in the coming weeks and months.",
+            "type": "text"
+          },
+          {
+            "type": "a",
+            "content": "More info about the pilot project",
+            "href": "https://bbnavi.de"
+          }
+        ],
+        "de": [
+          {
+            "content": "Dies ist eine Testversion (public beta)!",
+            "type": "heading"
+          },
+          {
+            "content": "In den nächsten Wochen und Monaten werden hier weitere Daten und Funktionen ergänzt.",
+            "type": "text"
+          },
+          {
+            "type": "a",
+            "content": "Mehr Infos zum Pilotprojekt",
+            "href": "https://bbnavi.de"
+          }
+        ]
       },
       "type": "info",
       "id": "202106250848",
