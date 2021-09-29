@@ -77,7 +77,8 @@ class MarkerPopupBottom extends React.Component {
           />
         </div>
 
-        {reportButton}
+        {/* TODO: BBNAV-15 */}
+        {/* {reportButton} */}
 
         <div onClick={() => this.routeTo()} className="route cursor-pointer">
           <FormattedMessage id="route-here" defaultMessage="Route here" />
