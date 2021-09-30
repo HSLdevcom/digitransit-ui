@@ -4,6 +4,7 @@ services:
   digitransit-ui:
     build:
       context: .
+    command: yarn run dev
     image: "bb-navi/digitransit-ui"
     environment:
       - ROUTER=bb_angermuende
