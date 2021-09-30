@@ -252,9 +252,9 @@ export default configMerger(walttiConfig, {
             }
         },
         attribution: {
-            'default': '© <a tabindex=-1 href=https://www.openstreetmap.org/copyright>OpenStreetMap Mitwirkende</a>, <a tabindex=-1 href=https://www.vbb.de/vbb-services/api-open-data/datensaetze/>Datensätze des Verkehrsverbundes Berlin-Brandenburg GmbH (VBB)</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>',
-            'satellite': '© <a tabindex=-1 href=https://www.openstreetmap.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href="https://www.lgl-bw.de/">LGL BW</a>, <a tabindex=-1 href=https://www.vbb.de/vbb-services/api-open-data/datensaetze//>Datensätze des Verkehrsverbundes Berlin-Brandenburg GmbH (VBB)</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>',
-            'bicycle': '© <a tabindex=-1 href=https://www.openstreetmap.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href=https://www.cyclosm.org/#map=12/52.3728/4.8936/cyclosmx>CyclOSM</a>, © <a tabindex=-1 href="https://www.openstreetmap.fr/">OSM-FR</a>, <a tabindex=-1 href=https://www.vbb.de/vbb-services/api-open-data/datensaetze//>Datensätze des Verkehrsverbundes Berlin-Brandenburg GmbH (VBB)</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>',
+            'default': '© <a tabindex=-1 href=https://www.openstreetmap.org/copyright>OpenStreetMap Mitwirkende</a>, <a tabindex=-1 href=https://www.vbb.de/vbb-services/api-open-data/datensaetze/>Datensätze des Verkehrsverbundes Berlin-Brandenburg GmbH (VBB)</a> ',
+            'satellite': '© <a tabindex=-1 href=https://www.openstreetmap.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href="https://www.lgl-bw.de/">LGL BW</a>, <a tabindex=-1 href=https://www.vbb.de/vbb-services/api-open-data/datensaetze//>Datensätze des Verkehrsverbundes Berlin-Brandenburg GmbH (VBB)</a> ',
+            'bicycle': '© <a tabindex=-1 href=https://www.openstreetmap.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href=https://www.cyclosm.org/#map=12/52.3728/4.8936/cyclosmx>CyclOSM</a>, © <a tabindex=-1 href="https://www.openstreetmap.fr/">OSM-FR</a>, <a tabindex=-1 href=https://www.vbb.de/vbb-services/api-open-data/datensaetze//>Datensätze des Verkehrsverbundes Berlin-Brandenburg GmbH (VBB)</a>',
         },
     },
 
@@ -317,12 +317,12 @@ export default configMerger(walttiConfig, {
             {
                 name: 'imprint',
                 nameEn: 'Imprint',
-                href: 'https://www.angermuende.de/impressum',
+                href: 'https://bbnavi.de/impressum/',
             },
             {
                 name: 'privacy',
                 nameEn: 'Privacy',
-                href: 'https://www.angermuende.de/datenschutz',
+                href: 'https://bbnavi.de/datenschutzerklaerung/',
             },
         ],
     },
@@ -330,24 +330,24 @@ export default configMerger(walttiConfig, {
     aboutThisService: {
         de: [
             {
-                header: 'Über diesen Dienst',
+                header: 'Über dieses Angebot',
                 paragraphs: [
-                    'bbnavi ist eine Reiseplanungs-Anwendung für die Stadt Angermünde und Umgebung. Dieser Dienst umfasst ÖPNV, Fußwege, Radverkehr, Straßen- und Parkplatzinformationen, Ladeinfrastruktur und Sharing-Angebote. Mobilitätsangebote werden durch intermodales Routing miteinander vernetzt.',
-                    'Gefördert durch <br>',
-                    '<a href="https://www.angermuende.de/stadtluft"><img src="https://www.angermuende.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
-
+                    'bbnavi ist eine Mobilitätsplattform für Brandenburg. Die Projektpartner:innen und die beteiligten Kommunen bündeln hier Daten zu ÖPNV, Fußwegen, Radverkehr, Straßen- und Parkplätzen  Ladeinfrastruktur und Sharing-Angeboten. Die Mobilitätsangebote werden durch intermodales Routing miteinander vernetzt.',
                 ],
             },
             {
                 header: 'Mitmachen',
                 paragraphs: [
-                    'Die Stadt Angermünde hat diese App im Rahmen der Modellstadt, gefördert durch das Bundesministerium für Verkehr und digitale Infrastruktur (BMVI) entwickelt. bbnavi Anwendung ist eine Open Source Lösung und kann von anderen Kommunen und Akteuren unter ihrem Namen und Erscheinungsbild verwendet und an individuelle Bedürfnisse angepasst und weiterentwickelt werden (White Label Lösung). Mitmachen ist gewünscht!',
+                    'Sie betreiben ein Mobilitätsangebot ein Brandenburg und haben es noch nicht in bbnavi gefunden? Dann freuen wir uns über Ihre Nachricht. Statistische und Echtzeit-Informationen, die als offene Daten vorliegen, binden wir gerne ein.',
+                    'Sie nutzen ein Mobilitätsangebot in Brandenburg (z.B. einen Bürgerbus oder ein Fahrrad- oder Carsharing-Angebot) und finden es nicht in bbnavi? Dann freuen wir uns über Ihre Hinweise und gucken dann, ob wir es in bbnavi einbinden können.',
+                    'Sie möchten zum Mitmacher werden und wünschen mehr Informationen?',
+                    'Schreiben Sie uns eine E-mail an bbnavi@digital-agentur.de',
                 ]
             },
             {
                 header: 'Digitransit Plattform',
                 paragraphs: [
-                    'Dieser Dienst basiert auf der Digitransit Platform und dem Backend-Dienst OpenTripPlanner. Alle Software ist unter einer offenen Lizenzen verfügbar. Vielen Dank an alle Beteiligten.',
+                    'Dieser Dienst basiert auf <a href="https://stadtnavi.de/">stadtnavi</a> stadtnavi.de, einem Projekt der Stadt Herrenberg in Baden-Württemberg. Die Grundlage für stadtnavi sind die internationalen Open-Source-Projekte Digitransit und OpenTripPlanner. Alle Software ist unter einer offenen Lizenzen verfügbar. Vielen Dank an alle Beteiligten.',
                     'Der gesamte Quellcode der Plattform, die aus vielen verschiedenen Komponenten besteht, ist auf <a href="https://github.com/bbnavi/">Github</a> verfügbar.'
                 ],
             },
@@ -355,7 +355,7 @@ export default configMerger(walttiConfig, {
                 header: 'Datenquellen',
                 paragraphs: [
                     'Kartendaten: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap Mitwirkende</a>',
-                    'ÖPNV-Daten: Datensätze der <a target=new href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>NVBW GmbH</a> und der <a target=new href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) jeweils angereichert mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende',
+                    'ÖPNV-Daten: Datensätze des <a target=new href=https://www.vbb.de/vbb-services/api-open-data/datensaetze/>VBB GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) jeweils angereichert mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende',
                     'Alle Angaben ohne Gewähr.'
                 ],
             },
@@ -364,33 +364,25 @@ export default configMerger(walttiConfig, {
             {
                 header: 'About this service',
                 paragraphs: [
-                    'bbnavi is a travel planning application for the city of Angermünde and its surroundings. This service includes public transport, footpaths, cycling, street and parking information, charging infrastructure and sharing offerings. The mobility offerings are connected through intermodal routing.',
-                    '<a href="https://www.herrenberg.de/stadtluft"><img src="https://www.angermuende.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
+                    'bbnavi is a travel planning application for the state of Brandenburg. This service includes public transport, footpaths, cycling, street and parking information, charging infrastructure and sharing offerings. The mobility offerings are connected through intermodal routing.',
                 ],
             },
             {
-                header: 'Contribute',
+                header: 'Open Source Software',
                 paragraphs: [
-                    'The city of Angermünde has developed this app, funded by the Federal Ministry of Transport and Digital Infrastructure (BMVI), as model city. The bbnavi app is an open source solution and can be used, customized and further developed by other municipalities to meet individual needs (white lable solution). Participation is welcome!',
-                ]
-            },
-            {
-                header: 'Digitransit platform',
-                paragraphs: [
-                    'The Digitransit service platform is an open source routing platform developed by HSL and Traficom. It builds on OpenTripPlanner by Conveyal. Enhancements by Transportkollektiv and MITFAHR|DE|ZENTRALE. All software is open source. Thanks to everybody working on this!',
+                    'bbnavi is based on the Digitransit service platform is an open source routing platform developed by HSL and Traficom. It builds on OpenTripPlanner by Conveyal. Enhancements by Transportkollektiv and MITFAHR|DE|ZENTRALE. All software is open source. Thanks to everybody working on this!',
                 ],
             },
             {
                 header: 'Data sources',
                 paragraphs: [
                     'Map data: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap contributors</a>',
-                    'Public transit data: Datasets by <a target=new href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>NVBW GmbH</a> and <a target=new href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) enhanced with OpenStreetMap data © OpenStreetMap contributors',
+                    'Public transit data: Datasets by <a target=new href=https://www.vbb.de/vbb-services/api-open-data/datensaetze/>VBB GmbH</a>,  Shapes enhanced with OpenStreetMap data © OpenStreetMap contributors',
                     'No responsibility is accepted for the accuracy of this information.'
                 ],
             },
-        ],
+        ]
     },
-
     redirectReittiopasParams: true,
 
     themeMap: {
