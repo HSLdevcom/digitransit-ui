@@ -48,6 +48,7 @@ const AppBar = (
               logo={logo}
               title={title}
             />
+            <span className="logo community">Angermünde</span>
           </button>
         </section>
         <section className="controls">
