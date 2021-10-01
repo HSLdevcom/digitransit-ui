@@ -239,7 +239,7 @@ export default configMerger(walttiConfig, {
 
   cityBike: {
     networks: {
-      tampere: {
+      sharingos_tampere: {
         capacity: BIKEAVL_WITHMAX,
         enabled: true,
         season: {
