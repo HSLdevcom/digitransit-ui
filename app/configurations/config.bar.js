@@ -214,7 +214,7 @@ export default configMerger(walttiConfig, {
     defaultEndpoint: {
         lat: 53.5506,
         lon: 10.0007,
-    },  
+    },
 
     menu: {
         copyright: {
@@ -260,7 +260,7 @@ export default configMerger(walttiConfig, {
                 ],
             },
         ],
-        
+
     },
 
     redirectReittiopasParams: true,
@@ -394,7 +394,7 @@ export default configMerger(walttiConfig, {
     geoJson: {
         layers: [
             // bicycleinfrastructure includes shops, repair stations,
-            /* 
+            /*
             {
                 name: {
                     fi: '',
@@ -443,7 +443,7 @@ export default configMerger(walttiConfig, {
     includeCarSuggestions: false,
     includeParkAndRideSuggestions: false,
 
-    showBikeAndPublicItineraries: false,
+    showBikeAndPublicItineraries: true,
     showBikeAndParkItineraries: true,
     showStopAndRouteSearch: false,
     showTimeTableOptions: false,
