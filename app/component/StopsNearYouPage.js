@@ -757,26 +757,23 @@ class StopsNearYouPage extends React.Component {
         variables={this.getQueryVariables(mode)}
         environment={this.props.relayEnvironment}
         render={({ props }) => {
-          if (props) {
-            return (
-              <StopsNearYouMapContainer
-                position={this.state.searchPosition}
-                stopsNearYou={props.stops}
-                prioritizedStopsNearYou={props.prioritizedStops}
-                match={this.props.match}
-                mapLayers={filteredMapLayers}
-                mapLayerOptions={this.state.mapLayerOptions}
-                showWalkRoute={
-                  this.state.phase === PH_USEGEOLOCATION ||
-                  this.state.phase === PH_USEDEFAULTPOS
-                }
-                onEndNavigation={this.setCenterOfMap}
-                onMapTracking={this.setCenterOfMap}
-                breakpoint={this.props.breakpoint}
-              />
-            );
-          }
-          return null;
+          return (
+            <StopsNearYouMapContainer
+              position={this.state.searchPosition}
+              stopsNearYou={props && props.stops}
+              prioritizedStopsNearYou={props && props.prioritizedStops}
+              match={this.props.match}
+              mapLayers={filteredMapLayers}
+              mapLayerOptions={this.state.mapLayerOptions}
+              showWalkRoute={
+                this.state.phase === PH_USEGEOLOCATION ||
+                this.state.phase === PH_USEDEFAULTPOS
+              }
+              onEndNavigation={this.setCenterOfMap}
+              onMapTracking={this.setCenterOfMap}
+              breakpoint={this.props.breakpoint}
+            />
+          );
         }}
       />
     );
