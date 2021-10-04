@@ -265,10 +265,10 @@ export default configMerger(walttiConfig, {
     searchSources: ['oa', 'osm'],
 
     searchParams: {
-        'boundary.rect.min_lat': 52.015895,
+        'boundary.rect.min_lat': 50.015895,
         'boundary.rect.max_lat': 54.015895,
         'boundary.rect.min_lon': 15.000255,
-        'boundary.rect.max_lon': 13.000255,
+        'boundary.rect.max_lon': 11.000255,
         'focus.point.lat': 53.015895,
         'focus.point.lon': 14.000255
     },
