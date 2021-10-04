@@ -20,10 +20,10 @@ before_script:
 .docker-build: &docker-build
   stage: build
   script:
-    - docker pull $IMAGE:latest || true
-    - docker build --cache-from $IMAGE:latest --tag $IMAGE:$CI_COMMIT_SHA --tag $IMAGE:latest -f $DOCKERFILE .
+    - docker pull $IMAGE:bb-bad-belzig || true
+    - docker build --cache-from $IMAGE:bb-bad-belzig --tag $IMAGE:$CI_COMMIT_SHA --tag $IMAGE:bb-bad-belzig -f $DOCKERFILE .
     - docker push $IMAGE:$CI_COMMIT_SHA
-    - docker push $IMAGE:latest
+    - docker push $IMAGE:bb-bad-belzig
 
 .quantum-conf: &quantum-conf
   stage: predeploy
@@ -35,7 +35,7 @@ before_script:
   script:
     - docker-compose -f docker-compose.yml -f stack.yml config > quantum.yml
   only:
-    - releases
+    - release/bb/bad-belzig
 
 .deploy: &deploy
   stage: deploy
@@ -47,7 +47,7 @@ before_script:
     - quantum-cli stack update --create --stack $PROJECT-$QUANTUM_ENDPOINT --wait
   tags: [v2]
   only:
-    - releases
+    - release/bb/bad-belzig
 
 build-app:
   variables:
@@ -59,9 +59,9 @@ build-app:
 app-conf:
   <<: *quantum-conf
   variables:
-    PROJECT: digitransit-ui
+    PROJECT: digitransit-ui-bb-bad-belzig
 
 deploy:
   <<: *deploy
   variables:
-    PROJECT: digitransit-ui
+    PROJECT: digitransit-ui-bb-bad-belzig

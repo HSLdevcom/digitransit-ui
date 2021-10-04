@@ -2,7 +2,7 @@
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'bb_angermuende';
-const APP_TITLE = 'bbnavi Angermünde';
+const APP_TITLE = 'bbnavi Bad Belzig';
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
 const API_URL = process.env.API_URL || 'https://api.dev.stadtnavi.eu';
 const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{x}/{y}{r}.png';
@@ -269,8 +269,8 @@ export default configMerger(walttiConfig, {
         'boundary.rect.max_lat': 54.015895,
         'boundary.rect.min_lon': 15.000255,
         'boundary.rect.max_lon': 11.000255,
-        'focus.point.lat': 53.015895,
-        'focus.point.lon': 14.000255
+        'focus.point.lat': 52.14246,
+        'focus.point.lon': 12.59488
     },
 
     areaPolygon: [
@@ -283,25 +283,12 @@ export default configMerger(walttiConfig, {
     nationalServiceLink: { name: 'Fahrplanauskunft efa-bw', href: 'https://www.efa-bw.de' },
 
     defaultEndpoint: {
-        lat: 53.015895,
-        lon: 14.000255,
+        lat: 52.14246,
+        lon: 12.59488,
     },
 
 
-    defaultOrigins: [
-        {
-            icon: 'icon-icon_bus',
-            label: 'Bahnhof Angermünde',
-            lat: 53.015694,
-            lon: 13.996112,
-        },
-        {
-            icon: 'icon-icon_star',
-            label: 'Krankenhaus',
-            lat: 53.013128,
-            lon: 13.989340,
-        }
-    ],
+    defaultOrigins: [],
 
     menu: {
         copyright: {
