@@ -222,22 +222,22 @@ class StopsNearYouPage extends React.Component {
 
   getQueryVariables = nearByMode => {
     const { searchPosition } = this.state;
-    const { mode } = this.props.match.params;
     let placeTypes = 'STOP';
-    let modes = nearByMode ? [nearByMode] : [mode];
+    let modes = [nearByMode];
     if (nearByMode === 'CITYBIKE') {
       placeTypes = 'BICYCLE_RENT';
       modes = ['BICYCLE'];
     }
     const prioritizedStops =
-      this.context.config.prioritizedStopsNearYou[mode.toLowerCase()] || [];
+      this.context.config.prioritizedStopsNearYou[nearByMode.toLowerCase()] ||
+      [];
     return {
       lat: searchPosition.lat,
       lon: searchPosition.lon,
       maxResults: 2000,
       first: this.context.config.maxNearbyStopAmount,
       maxDistance: this.context.config.maxNearbyStopDistance[
-        mode.toLowerCase()
+        nearByMode.toLowerCase()
       ],
       filterByModes: modes,
       filterByPlaceTypes: placeTypes,
