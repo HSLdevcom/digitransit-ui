@@ -8,10 +8,6 @@
             "type": "heading"
           },
           {
-            "content": "More data and functions will be added here in the coming weeks and months.",
-            "type": "text"
-          },
-          {
             "type": "a",
             "content": "More info about the pilot project",
             "href": "https://bbnavi.de"
@@ -19,12 +15,8 @@
         ],
         "de": [
           {
-            "content": "Dies ist eine Testversion (public beta)!",
+            "content": "Diese Testversion ist im Aufbau (public beta)",
             "type": "heading"
-          },
-          {
-            "content": "In den nächsten Wochen und Monaten werden hier weitere Daten und Funktionen ergänzt.",
-            "type": "text"
           },
           {
             "type": "a",
