@@ -26,7 +26,6 @@ import {
   TAB_FAVOURITES,
 } from './util/path';
 import {
-  errorLoading,
   getDefault,
   getComponentOrLoadingRenderer,
   getComponentOrNullRenderer,
@@ -83,7 +82,7 @@ export default config => {
     <Route Component={TopLevel}>
       {getStopRoutes()}
       {getStopRoutes(true) /* terminals */}
-      {routeRoutes}
+      {routeRoutes(config)}
       <Route path={`/${PREFIX_GEOJSON}`}>
         {{
           content: (
@@ -240,7 +239,12 @@ export default config => {
                   }
                 }
               `}
-              render={getComponentOrNullRenderer}
+              render={({ Component, props, error, match }) => {
+                if (Component && (props || error)) {
+                  return <Component {...props} match={match} error={error} />;
+                }
+                return null;
+              }}
             />
           ),
           map: (
@@ -396,27 +400,6 @@ export default config => {
           ),
         }}
       </Route>
-      <Route
-        path="/styleguide"
-        getComponent={() =>
-          import(
-            /* webpackChunkName: "styleguide" */ './component/StyleGuidePage'
-          )
-            .then(getDefault)
-            .catch(errorLoading)
-        }
-      />
-      <Route
-        path="/styleguide/component/:componentName"
-        topBarOptions={{ hidden: true }}
-        getComponent={() =>
-          import(
-            /* webpackChunkName: "styleguide" */ './component/StyleGuidePage'
-          )
-            .then(getDefault)
-            .catch(errorLoading)
-        }
-      />
       <Route
         path="/dieser-dienst"
         getComponent={() =>

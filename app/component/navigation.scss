@@ -19,8 +19,9 @@ $offcanvas-background-active: scale-color($gray, $lightness: -30%);
 /* top bar */
 $topbar-height: 40px;
 
-$top-navigation-icon-color: navbar-icon-color($primary-color);
-$top-navigation-title-color: navbar-icon-color($primary-color);
+$top-navigation-icon-color: navbar-icon-color($top-bar-color) !default;
+//$top-navigation-icon-color: $top-menu-navigation-icon-color;
+$top-navigation-title-color: navbar-icon-color($top-bar-color);
 
 /* offcanvas */
 $offcanvas-profile-icon-size: 60px;
@@ -329,10 +330,11 @@ $content-background-color: $background-color;
       width: 1.3em;
     }
   }
-  .h2 {
+  h1 {
     font-size: 1.2em;
     margin: 0 0 0 2.5em;
     font-weight: $font-weight-medium;
+    font-family: $heading-font-family;
     &::first-letter {
       text-transform: capitalize;
     }
@@ -416,22 +418,34 @@ $content-background-color: $background-color;
 
   button.noborder {
     @include font-medium;
+    font-family: $button-font-family;
   }
 
   .menu-section {
     border-bottom: 1px solid #DDDDDD;
     padding-bottom: 15px;
     padding-top: 15px;
-  }
-  .menu-section.main-links {
-    .offcanvas-section {
-      button {
-        font-weight: $font-weight-medium;
+    &.main-links {
+      .offcanvas-section {
+        font-family: $heading-font-family;
+        button {
+          font-weight: $font-weight-medium;
+        }
       }
+      font-weight: $font-weight-medium !important;
     }
-    font-weight: $font-weight-medium !important;
+    &.secondary-links .offcanvas-section button {
+      font-weight: $font-weight-book;
+    }
+  }
+  .menu-section:last-of-type {
+    .menu-item {
+      font-weight: $font-weight-book;
+    }
   }
   .copyright {
+    font-family: $heading-font-family;
+    font-weight: $font-weight-book;
     color: black;
     margin-top: 30px;
   }
@@ -500,7 +514,9 @@ $content-background-color: $background-color;
     margin: 0px;
     display: inline-block;
     font-size: $font-size-normal;
+    font-family: $heading-font-family;
     button {
+      font-family: $button-font-family;
       font-size: $font-size-normal;
     }
     .icon {
@@ -508,6 +524,7 @@ $content-background-color: $background-color;
     }
   }
   .disruption-info .icon.disruption-info {
+    font-family: $heading-font-family;
     padding-left: 0;
     margin-left: 10px;
     width: 24px;
@@ -577,6 +594,7 @@ section.content {
       }
       h1 {
         @include font-medium;
+        font-family: $heading-font-family;
         color: #333333; // DT-3358: was $primary-font-color
         // line-height: 1;
         display: inline;
@@ -591,7 +609,7 @@ section.content {
     }
     .back-button {
       position: absolute;
-      left: 1.5em;
+      left: 24px;
     }
     .main-content {
       width: 520px;
@@ -703,6 +721,7 @@ section.content {
           button {
             text-decoration: underline;
             font-weight: $font-weight-bold;
+            font-family: $font-family;
           }
           .message-bar-link {
             word-break: normal;
@@ -714,7 +733,13 @@ section.content {
       .react-swipe-container {
         height: auto;
         width: 100%;
-        margin-bottom: 3px;
+        margin-bottom: 0;
+
+        @media print {
+          display: block;
+          height: auto;
+        }
+
         .message-content {
           .message-heading {
             min-height: 11px;
@@ -736,8 +761,12 @@ section.content {
       .swipe-tab-indicator {
         flex-grow: 0;
       }
-      .swipe-button .icon.disabled {
-       fill: #ccc;
+      .swipe-button .icon {
+        height: 14px;
+        width: 14px;
+        &.disabled {
+          fill: $medium-gray;
+        }
       }
     }
 
@@ -843,8 +872,7 @@ section.content {
   fill: $primary-color;
   height: 24px;
   width: 24px;
-  margin: 11px;
-  margin-top: 20px;
+  margin: 18px;
 }
 
 .message-bar .icon.close {

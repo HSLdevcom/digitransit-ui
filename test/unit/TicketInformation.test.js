@@ -12,6 +12,7 @@ const defaultConfig = {
   showTicketInformation: true,
   showTicketPrice: true,
   fareMapping: fareId => fareId.replace('HSL:', ''),
+  hideExternalOperator: () => false,
 };
 
 const proxyFares = (fares, routes = [], config = defaultConfig) =>

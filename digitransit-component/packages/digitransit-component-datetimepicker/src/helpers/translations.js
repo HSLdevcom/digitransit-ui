@@ -24,6 +24,8 @@ const translations = {
     'accessible-open': 'Open the picker',
     'accessible-opened': 'Timepicker opened',
     'accessible-title': 'Date and timepicker',
+    'accessible-update-instructions':
+      'Changing time parameters will trigger a new search.',
     arrival: 'Arrival',
     date: 'Date',
     departure: 'Departure',
@@ -41,6 +43,8 @@ const translations = {
     'accessible-open': 'Avaa valitsin',
     'accessible-opened': 'Valitsin avattu',
     'accessible-title': 'Aika- ja päivämäärävalitsin',
+    'accessible-update-instructions':
+      'Aikavalintojen muuttaminen laukaisee uuden haun.',
     arrival: 'Perillä',
     date: 'Päivä',
     departure: 'Lähtöaika',
@@ -58,6 +62,8 @@ const translations = {
     'accessible-open': 'Öppna väljaren',
     'accessible-opened': 'Väljaren öppnade',
     'accessible-title': 'Tid- och datumväljaren',
+    'accessible-update-instructions':
+      'Om du ändrar tiderna, startas en ny sökning automatiskt.',
     arrival: 'Anländer',
     date: 'Datum',
     departure: 'Avgångstid',

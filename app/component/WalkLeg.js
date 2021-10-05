@@ -5,7 +5,6 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
 
-import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import PlatformNumber from './PlatformNumber';
@@ -29,22 +28,26 @@ function WalkLeg(
   { config, intl },
 ) {
   const distance = displayDistance(
-    parseInt(leg.distance, 10),
+    parseInt(leg.mode !== 'WALK' ? 0 : leg.distance, 10),
     config,
     intl.formatNumber,
   );
-  const duration = durationToString(leg.duration * 1000);
+  const duration = durationToString(
+    leg.mode !== 'WALK' ? 0 : leg.duration * 1000,
+  );
+  // If mode is not WALK, WalkLeg should get information from "to".
+  const toOrFrom = leg.mode !== 'WALK' ? 'to' : 'from';
   const modeClassName = 'walk';
-  const fromMode = leg.from.stop ? leg.from.stop.vehicleMode : '';
+  const fromMode = leg[toOrFrom].stop ? leg[toOrFrom].stop.vehicleMode : '';
   const isFirstLeg = i => i === 0;
-  const [address, place] = splitStringToAddressAndPlace(leg.from.name);
+  const [address, place] = splitStringToAddressAndPlace(leg[toOrFrom].name);
 
   const networkType = getCityBikeNetworkConfig(
     getCityBikeNetworkId(
       previousLeg &&
         previousLeg.rentedBike &&
-        previousLeg.from.bikeRentalStation &&
-        previousLeg.from.bikeRentalStation.networks,
+        previousLeg[toOrFrom].bikeRentalStation &&
+        previousLeg[toOrFrom].bikeRentalStation.networks,
     ),
     config,
   ).type;
@@ -65,7 +68,7 @@ function WalkLeg(
             ? 'return-scooter-to'
             : 'return-cycle-to'
         }
-        values={{ station: leg.from ? leg.from.name : '' }}
+        values={{ station: leg[toOrFrom] ? leg[toOrFrom].name : '' }}
         defaultMessage="Return the bike to {station} station"
       />
     ) : null;
@@ -84,7 +87,7 @@ function WalkLeg(
             time: moment(leg.startTime).format('HH:mm'),
             distance,
             duration,
-            origin: leg.from ? leg.from.name : '',
+            origin: leg[toOrFrom] ? leg[toOrFrom].name : '',
             destination: leg.to ? leg.to.name : '',
           }}
         />
@@ -109,7 +112,7 @@ function WalkLeg(
         <span className="sr-only">
           <FormattedMessage
             id="itinerary-summary.show-on-map"
-            values={{ target: leg.from.name || '' }}
+            values={{ target: leg[toOrFrom].name || '' }}
           />
         </span>
         {isFirstLeg(index) ? (
@@ -117,7 +120,7 @@ function WalkLeg(
             <div className="address-container">
               <div className="address">
                 {address}
-                {leg.from.stop && (
+                {leg[toOrFrom].stop && (
                   <Icon
                     img="icon-icon_arrow-collapse--right"
                     className="itinerary-arrow-icon"
@@ -135,7 +138,7 @@ function WalkLeg(
               tabIndex="0"
               aria-label={intl.formatMessage(
                 { id: 'itinerary-summary.show-on-map' },
-                { target: leg.from.name || '' },
+                { target: leg[toOrFrom].name || '' },
               )}
             >
               <Icon
@@ -154,15 +157,15 @@ function WalkLeg(
             style={extraHeightForButton}
           >
             <div className="itinerary-leg-row">
-              {leg.from.stop ? (
+              {leg[toOrFrom].stop ? (
                 <Link
                   onClick={e => {
                     e.stopPropagation();
                   }}
-                  to={`/${PREFIX_STOPS}/${leg.from.stop.gtfsId}`}
+                  to={`/${PREFIX_STOPS}/${leg[toOrFrom].stop.gtfsId}`}
                 >
-                  {returnNotice || leg.from.name}
-                  {leg.from.stop && (
+                  {returnNotice || leg[toOrFrom].name}
+                  {leg[toOrFrom].stop && (
                     <Icon
                       img="icon-icon_arrow-collapse--right"
                       className="itinerary-arrow-icon"
@@ -172,7 +175,7 @@ function WalkLeg(
                   <ServiceAlertIcon
                     className="inline-icon"
                     severityLevel={getActiveAlertSeverityLevel(
-                      leg.from.stop && leg.from.stop.alerts,
+                      leg[toOrFrom].stop && leg[toOrFrom].stop.alerts,
                       leg.startTime / 1000,
                     )}
                   />
@@ -182,14 +185,14 @@ function WalkLeg(
                   {returnNotice ? (
                     <CityBikeLeg
                       isScooter={isScooter}
-                      stationName={leg.from.name}
-                      bikeRentalStation={leg.from.bikeRentalStation}
+                      stationName={leg[toOrFrom].name}
+                      bikeRentalStation={leg[toOrFrom].bikeRentalStation}
                       returnBike
                     />
                   ) : (
-                    leg.from.name
+                    leg[toOrFrom].name
                   )}
-                  {leg.from.stop && (
+                  {leg[toOrFrom].stop && (
                     <Icon
                       img="icon-icon_arrow-collapse--right"
                       className="itinerary-arrow-icon"
@@ -199,7 +202,7 @@ function WalkLeg(
                   <ServiceAlertIcon
                     className="inline-icon"
                     severityLevel={getActiveAlertSeverityLevel(
-                      leg.from.stop && leg.from.stop.alerts,
+                      leg[toOrFrom].stop && leg[toOrFrom].stop.alerts,
                       leg.startTime / 1000,
                     )}
                   />
@@ -207,9 +210,9 @@ function WalkLeg(
               )}
               <div className="stop-code-container">
                 {children}
-                {leg.from.stop && (
+                {leg[toOrFrom].stop && (
                   <PlatformNumber
-                    number={leg.from.stop.platformCode}
+                    number={leg[toOrFrom].stop.platformCode}
                     short
                     isRailOrSubway={
                       fromMode === 'RAIL' || fromMode === 'SUBWAY'
@@ -234,7 +237,7 @@ function WalkLeg(
                 </div>
               )}
             </div>
-            {/*           <div
+            <div
               className="itinerary-map-action"
               onClick={focusAction}
               onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
@@ -242,14 +245,14 @@ function WalkLeg(
               tabIndex="0"
               aria-label={intl.formatMessage(
                 { id: 'itinerary-summary.show-on-map' },
-                { target: leg.from.name || '' },
+                { target: leg[toOrFrom].name || '' },
               )}
             >
               <Icon
                 img="icon-icon_show-on-map"
                 className="itinerary-search-icon"
               />
-            </div> */}
+            </div>
           </div>
         )}
 
@@ -282,29 +285,6 @@ function WalkLeg(
   );
 }
 
-const exampleLeg = t1 => ({
-  duration: 438,
-  startTime: t1 + 10000,
-  distance: 483.84600000000006,
-  mode: 'WALK',
-  from: { name: 'Messukeskus', stop: { code: '0613' } },
-});
-
-WalkLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0).valueOf();
-  return (
-    <div>
-      <p>Displays an itinerary walk leg.</p>
-      <ComponentUsageExample description="walk-start">
-        <WalkLeg leg={exampleLeg(today)} index={0} focusAction={() => {}} />
-      </ComponentUsageExample>
-      <ComponentUsageExample description="walk-middle">
-        <WalkLeg leg={exampleLeg(today)} index={1} focusAction={() => {}} />
-      </ComponentUsageExample>
-    </div>
-  );
-};
-
 const walkLegShape = PropTypes.shape({
   distance: PropTypes.number.isRequired,
   duration: PropTypes.number.isRequired,
@@ -317,21 +297,31 @@ const walkLegShape = PropTypes.shape({
       platformCode: PropTypes.string,
       vehicleMode: PropTypes.string,
     }),
-
     bikeRentalStation: PropTypes.shape({
       networks: PropTypes.array,
+    }),
+  }).isRequired,
+  to: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    stop: PropTypes.shape({
+      alerts: PropTypes.array,
+      code: PropTypes.string,
+      gtfsId: PropTypes.string.isRequired,
+      platformCode: PropTypes.string,
+      vehicleMode: PropTypes.string,
+    }),
+    bikeRentalStation: PropTypes.shape({
+      networks: PropTypes.array,
+    }),
+    bikePark: PropTypes.shape({
+      bikeParkId: PropTypes.string,
     }),
   }).isRequired,
   mode: PropTypes.string.isRequired,
   rentedBike: PropTypes.bool,
   startTime: PropTypes.number.isRequired,
-  to: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    bikePark: PropTypes.shape({
-      bikeParkId: PropTypes.string,
-    }),
-  }).isRequired,
   arrivalDelay: PropTypes.number,
+  endTime: PropTypes.number.isRequired,
 });
 
 WalkLeg.propTypes = {

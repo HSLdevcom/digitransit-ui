@@ -1,18 +1,26 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
+import cx from 'classnames';
+import { matchShape } from 'found';
 
 import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from './Icon';
-import ComponentUsageExample from './ComponentUsageExample';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import { parseLocation } from '../util/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function EndLeg(props, context) {
-  const [address, place] = props.to?.split(/, (.+)/) || []; // Splits the string to two parts from the first occurance of ', '
+  const parsedAddress = parseLocation(context.match.params.to).address;
+  const [address, place] = props.to.name.split(/, (.+)/) || []; // Splits the string to two parts from the first occurance of ', '
+  // Below check is needed for unit tests
+  const [addressFromUrl, placeFromUrl] = !parsedAddress
+    ? [address, place]
+    : parsedAddress.split(/, (.+)/);
+  const { stop } = props?.to;
   const modeClassName = 'end';
   return (
-    <div key={props.index} className="row itinerary-row">
+    <div key={props.index} className={cx('row', 'itinerary-row')}>
       <span className="sr-only">
         <FormattedMessage
           id="itinerary-details.end-leg"
@@ -45,8 +53,8 @@ function EndLeg(props, context) {
         </span>
         <div className="itinerary-leg-first-row">
           <div className="address-container">
-            <div className="address">{address}</div>
-            <div className="place">{place}</div>
+            <div className="address">{!stop ? address : addressFromUrl}</div>
+            <div className="place">{place || placeFromUrl}</div>
           </div>
           <div
             className="itinerary-map-action"
@@ -72,31 +80,16 @@ function EndLeg(props, context) {
   );
 }
 
-EndLeg.description = () => {
-  const endTime = moment().hour(12).minute(34).second(0).valueOf();
-  return (
-    <div>
-      <p>Displays an itinerary end leg.</p>
-      <ComponentUsageExample>
-        <EndLeg
-          endTime={endTime}
-          to="Veturitie"
-          index={3}
-          focusAction={() => {}}
-        />
-      </ComponentUsageExample>
-    </div>
-  );
-};
-
 EndLeg.propTypes = {
   endTime: PropTypes.number.isRequired,
-  to: PropTypes.string.isRequired,
+  to: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
 };
+
 EndLeg.contextTypes = {
   intl: intlShape.isRequired,
+  match: matchShape.isRequired,
 };
 
 export default EndLeg;

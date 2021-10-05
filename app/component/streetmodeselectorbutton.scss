@@ -2,11 +2,12 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    min-width: 70px;
+    flex-basis: 56px;
     padding-left: 7px;
+    flex-shrink: 0;
 
     .mobile & {
-        min-width: 57px;
+        flex-basis: 57px;
     }
 
     .hover-frame:hover {
@@ -40,9 +41,10 @@
 .street-mode-selector-button-container {
     display: flex;
     cursor: pointer;
-    width: 120px;
-    min-width: 121px;
-    height: 52px;
+    flex-basis: 121px;
+    flex-shrink: 0;
+    height: calc(32px + 1.25rem);
+    min-height: 52px;
     border-radius: 5px;
     position: relative;
     box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
@@ -51,6 +53,10 @@
     background-color: #ffffff;
     align-items: center;
     margin-right: 8px;
+
+    &:last-child {
+        margin-right: 0;
+    }
 
     .street-mode-selector-button-content {
         margin: auto;
@@ -89,6 +95,7 @@
                 font-weight: $font-weight-medium;
                 height: 15px;
                 line-height: 15px;
+                white-space: nowrap;
             }
             .street-mode-button-length {
                 font-size: 13px;

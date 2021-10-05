@@ -17,7 +17,7 @@ export default function DesktopView({
 }) {
   return (
     <div className="desktop">
-      <div className="main-content">
+      <div className="main-content" role="main">
         {bckBtnVisible && (
           <div className="desktop-title">
             <div className="title-container h2">

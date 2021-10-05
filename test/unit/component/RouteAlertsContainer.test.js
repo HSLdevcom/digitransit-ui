@@ -10,7 +10,6 @@ import { Component as RouteAlertsContainer } from '../../../app/component/RouteA
 describe('<RouteAlertsContainer />', () => {
   it('should indicate that there are no alerts if the route has no alerts nor canceled stoptimes', () => {
     const props = {
-      patternId: 'HSL:1063:0:01',
       route: {
         alerts: [],
         mode: 'BUS',
@@ -36,7 +35,10 @@ describe('<RouteAlertsContainer />', () => {
       },
     };
     const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
-      context: { ...mockContext },
+      context: {
+        ...mockContext,
+        match: { params: { patternId: 'HSL:1063:0:01' } },
+      },
     });
     expect(wrapper.find(AlertList).props()).to.deep.equal({
       cancelations: [],
@@ -47,7 +49,6 @@ describe('<RouteAlertsContainer />', () => {
 
   it('should indicate that there are no alerts if there are canceled stoptimes but not for the current patternId', () => {
     const props = {
-      patternId: 'HSL:1063:0:02',
       route: {
         alerts: [],
         mode: 'BUS',
@@ -73,7 +74,10 @@ describe('<RouteAlertsContainer />', () => {
       },
     };
     const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
-      context: { ...mockContext },
+      context: {
+        ...mockContext,
+        match: { params: { patternId: 'HSL:1063:0:02' } },
+      },
     });
     expect(wrapper.find(AlertList).props()).to.deep.equal({
       cancelations: [],
@@ -84,7 +88,6 @@ describe('<RouteAlertsContainer />', () => {
 
   it('should indicate that there are cancelations if there are canceled stoptimes with the current patternId', () => {
     const props = {
-      patternId: 'HSL:1063:0:01',
       route: {
         alerts: [],
         mode: 'BUS',
@@ -121,14 +124,16 @@ describe('<RouteAlertsContainer />', () => {
       },
     };
     const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
-      context: { ...mockContext },
+      context: {
+        ...mockContext,
+        match: { params: { patternId: 'HSL:1063:0:01' } },
+      },
     });
     expect(wrapper.find(AlertList).prop('cancelations')).to.have.lengthOf(1);
   });
 
   it('should use the first and last stoptimes as the startTime and endTime for validityPeriod', () => {
     const props = {
-      patternId: 'HSL:1063:0:01',
       route: {
         alerts: [],
         mode: 'BUS',
@@ -165,7 +170,10 @@ describe('<RouteAlertsContainer />', () => {
       },
     };
     const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
-      context: { ...mockContext },
+      context: {
+        ...mockContext,
+        match: { params: { patternId: 'HSL:1063:0:01' } },
+      },
     });
     const cancelation = wrapper.find(AlertList).prop('cancelations')[0];
     expect(cancelation.validityPeriod.startTime).to.equal(3);
@@ -214,7 +222,6 @@ describe('<RouteAlertsContainer />', () => {
 
   it('should use the tripHeadsign if the stoptime does not have a headsign', () => {
     const props = {
-      patternId: 'HSL:1063:0:01',
       route: {
         alerts: [],
         mode: 'BUS',
@@ -244,7 +251,10 @@ describe('<RouteAlertsContainer />', () => {
       },
     };
     const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
-      context: { ...mockContext },
+      context: {
+        ...mockContext,
+        match: { params: { patternId: 'HSL:1063:0:01' } },
+      },
     });
     expect(
       wrapper.find(AlertList).prop('cancelations')[0].header.props.headsign,

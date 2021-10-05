@@ -82,6 +82,7 @@ function Datetimepicker({
   const [useMobileInputs] = useState(isMobile() && dateTimeInputIsSupported());
   const openPickerRef = useRef();
   const inputRef = useRef();
+  const alertRef = useRef();
 
   const translationSettings = { lng: lang };
 
@@ -222,9 +223,29 @@ function Datetimepicker({
     .fill()
     .map((_, i) => moment(dateSelectStartTime).add(i, 'day').valueOf());
 
-  const ariaOpenPickerLabel = isOpen
-    ? i18next.t('accessible-opened', translationSettings)
-    : i18next.t('accessible-closed', translationSettings);
+  function showScreenreaderCloseAlert() {
+    if (alertRef.current) {
+      alertRef.current.innerHTML = i18next.t(
+        'accessible-closed',
+        translationSettings,
+      );
+      setTimeout(() => {
+        alertRef.current.innerHTML = null;
+      }, 100);
+    }
+  }
+
+  function showScreenreaderOpenAlert() {
+    if (alertRef.current) {
+      alertRef.current.innerHTML = i18next.t(
+        'accessible-opened',
+        translationSettings,
+      );
+      setTimeout(() => {
+        alertRef.current.innerHTML = null;
+      }, 100);
+    }
+  }
 
   function renderOpen() {
     if (useMobileInputs) {
@@ -234,6 +255,7 @@ function Datetimepicker({
             departureOrArrival={departureOrArrival}
             onNowClick={() => {
               changeOpen(false);
+              showScreenreaderCloseAlert();
               onNowClick();
             }}
             lang={lang}
@@ -241,9 +263,11 @@ function Datetimepicker({
             onSubmit={(newTimestamp, newDepartureOrArrival) => {
               onModalSubmit(newTimestamp, newDepartureOrArrival);
               changeOpen(false);
+              showScreenreaderCloseAlert();
             }}
             onCancel={() => {
               changeOpen(false);
+              showScreenreaderCloseAlert();
             }}
             getTimeDisplay={getTimeDisplay}
             timeZone={timeZone}
@@ -273,9 +297,7 @@ function Datetimepicker({
             }
           >
             {' '}
-            <span role="alert" className={styles['sr-only']}>
-              {ariaOpenPickerLabel}
-            </span>
+            <span role="alert" className={styles['sr-only']} ref={alertRef} />
             <span />
             {/* This empty span prevents a weird focus bug on chrome */}
             <span className={styles['departure-or-arrival-container']}>
@@ -330,6 +352,7 @@ function Datetimepicker({
               className={styles['departure-now-button']}
               onClick={() => {
                 changeOpen(false);
+                showScreenreaderCloseAlert();
                 onNowClick();
               }}
               ref={inputRef}
@@ -342,7 +365,10 @@ function Datetimepicker({
                 className={styles['close-button']}
                 aria-controls={`${htmlId}-root`}
                 aria-expanded="true"
-                onClick={() => changeOpen(false)}
+                onClick={() => {
+                  changeOpen(false);
+                  showScreenreaderCloseAlert();
+                }}
               >
                 <span className={styles['close-icon']}>
                   <Icon img="close" color={color} />
@@ -425,6 +451,9 @@ function Datetimepicker({
       <legend className={styles['sr-only']}>
         {i18next.t('accessible-title', translationSettings)}
       </legend>
+      <span className="sr-only">
+        {i18next.t('accessible-update-instructions', translationSettings)}
+      </span>
       <>
         <div
           className={
@@ -440,16 +469,17 @@ function Datetimepicker({
             <span className={styles['sr-only']}>
               {i18next.t('accessible-open', translationSettings)}
             </span>
-            <span role="alert" className={styles['sr-only']}>
-              {ariaOpenPickerLabel}
-            </span>
+            <span role="alert" className={styles['sr-only']} ref={alertRef} />
             <button
               id={`${htmlId}-open`}
               type="button"
               className={`${styles.textbutton} ${styles.active} ${styles['open-button']}`}
               aria-controls={`${htmlId}-root`}
               aria-expanded="false"
-              onClick={() => changeOpen(true)}
+              onClick={() => {
+                changeOpen(true);
+                showScreenreaderOpenAlert();
+              }}
               ref={openPickerRef}
             >
               <span>

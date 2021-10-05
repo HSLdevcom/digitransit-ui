@@ -1,7 +1,13 @@
 import uniq from 'lodash/uniq';
 
 function getFareId(config, fareId, lang) {
-  const tmp = config.fareMapping(fareId);
+  // E2E-testing does not work without this check
+  const tmp =
+    (config.NODE_ENV === 'test' &&
+      (fareId && fareId.substring
+        ? fareId.substring(fareId.indexOf(':') + 1)
+        : '')) ||
+    config.fareMapping(fareId);
   return typeof tmp === 'string' ? tmp : tmp[lang];
 }
 

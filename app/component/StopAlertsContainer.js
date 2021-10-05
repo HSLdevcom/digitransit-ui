@@ -84,6 +84,7 @@ const containerComponent = createFragmentContainer(StopAlertsContainer, {
       id
       gtfsId
       code
+      name
       stops {
         id
         gtfsId

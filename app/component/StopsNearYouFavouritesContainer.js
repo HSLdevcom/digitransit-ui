@@ -22,31 +22,37 @@ function StopsNearYouFavouritesContainer({
   }, [currentTime]);
   const stopList = [];
   stopList.push(
-    ...stops.map(stop => {
-      return {
-        type: 'stop',
-        distance: distance(searchPosition, stop),
-        ...stop,
-      };
-    }),
+    ...stops
+      .filter(s => s)
+      .map(stop => {
+        return {
+          type: 'stop',
+          distance: distance(searchPosition, stop),
+          ...stop,
+        };
+      }),
   );
   stopList.push(
-    ...stations.map(stop => {
-      return {
-        type: 'station',
-        distance: distance(searchPosition, stop),
-        ...stop,
-      };
-    }),
+    ...stations
+      .filter(s => s)
+      .map(stop => {
+        return {
+          type: 'station',
+          distance: distance(searchPosition, stop),
+          ...stop,
+        };
+      }),
   );
   stopList.push(
-    ...bikeStations.map(stop => {
-      return {
-        type: 'bikeRentalStation',
-        distance: distance(searchPosition, stop),
-        ...stop,
-      };
-    }),
+    ...bikeStations
+      .filter(s => s)
+      .map(stop => {
+        return {
+          type: 'bikeRentalStation',
+          distance: distance(searchPosition, stop),
+          ...stop,
+        };
+      }),
   );
   stopList.sort((a, b) => a.distance - b.distance);
   const stopElements = stopList.map(stop => {

@@ -659,7 +659,7 @@ export function drawCitybikeIcon(
     getImageFromSpriteCache(icon, width, height).then(image => {
       tile.ctx.drawImage(image, x, y);
       // if (isHilighted) {
-      //   drawSelectionCircle(tile, x, y, width, height, radius, false);
+      //  drawSelectionCircle(tile, x, y, radius, false, false);
       // }
     });
   }
@@ -669,7 +669,8 @@ export function drawCitybikeIcon(
     y = geom.y / tile.ratio - height;
     const showAvailabilityBadge =
       showAvailability &&
-      (Number.isSafeInteger(bikesAvailable) && bikesAvailable > -1) &&
+      Number.isSafeInteger(bikesAvailable) &&
+      bikesAvailable > -1 &&
       (state === BIKESTATION_ON || state === null);
     let icon = `${iconName}_station_${color}_large`;
     if (state === BIKESTATION_CLOSED || state === BIKESTATION_OFF) {
@@ -691,15 +692,7 @@ export function drawCitybikeIcon(
         /* eslint-enable no-param-reassign */
       }
       // if (isHilighted) {
-      //   drawSelectionCircle(
-      //     tile,
-      //     x,
-      //     y,
-      //     width,
-      //     height,
-      //     radius,
-      //     showAvailabilityBadge,
-      //   );
+      //  drawSelectionCircle(tile, iconX, iconY, radius, true, true);
       // }
     });
   }
@@ -737,6 +730,45 @@ export function drawTerminalIcon(tile, geom, type, isHilighted) {
         );
       },
     );
+  }
+}
+
+/**
+ * Draw icon for hybrid stations, meaning BUS and TRAM station in the same place.
+ */
+export function drawHybridStationIcon(tile, geom, isHilighted) {
+  const zoom = tile.coords.z - 1;
+  const styles = getTerminalIconStyles(zoom);
+  if (!styles) {
+    return;
+  }
+  let { width, height } = styles;
+  width *= tile.scaleratio * 1.5;
+  height *= tile.scaleratio * 1.5;
+  // only bus/tram hybrid exist
+  getImageFromSpriteCache('icon-icon_map_hybrid_station', width, height).then(
+    image => {
+      tile.ctx.drawImage(
+        image,
+        geom.x / tile.ratio - width / 2,
+        geom.y / tile.ratio - height / 2,
+      );
+    },
+  );
+  if (isHilighted) {
+    getImageFromSpriteCache(
+      'icon-icon_hybrid_station_highlight',
+      width,
+      height,
+    ).then(image => {
+      tile.ctx.drawImage(
+        image,
+        geom.x / tile.ratio - width / 2 - 4 / tile.scaleratio,
+        geom.y / tile.ratio - height / 2 - 4 / tile.scaleratio,
+        width + 8 / tile.scaleratio,
+        height + 8 / tile.scaleratio,
+      );
+    });
   }
 }
 

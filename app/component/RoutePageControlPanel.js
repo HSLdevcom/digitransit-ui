@@ -5,7 +5,7 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy'; // DT-3182
-import { matchShape, routerShape, RedirectException } from 'found';
+import { matchShape, routerShape } from 'found';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import CallAgencyWarning from './CallAgencyWarning';
 import RoutePatternSelect from './RoutePatternSelect';
@@ -33,8 +33,9 @@ import {
   PREFIX_TIMETABLE,
 } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { isBrowser, isIOS } from '../util/browser';
+import { isIOS } from '../util/browser';
 import { saveSearch } from '../action/SearchActions';
+import Icon from './Icon';
 
 const Tab = {
   Disruptions: PREFIX_DISRUPTION,
@@ -70,6 +71,21 @@ class RoutePageControlPanel extends React.Component {
     breakpoint: PropTypes.string.isRequired,
     noInitialServiceDay: PropTypes.bool,
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      focusedTab: getActiveTab(props.match.location.pathname),
+    };
+    this.stopTabRef = React.createRef();
+    this.timetableTabRef = React.createRef();
+    this.disruptionTabRef = React.createRef();
+    this.tabRefs = [
+      this.stopTabRef,
+      this.timetableTabRef,
+      this.disruptionTabRef,
+    ];
+  }
 
   // gets called if pattern has not been visited before
   componentDidMount() {
@@ -326,22 +342,9 @@ class RoutePageControlPanel extends React.Component {
   render() {
     const { breakpoint, match, route } = this.props;
     const { patternId } = match.params;
-    const { config, router } = this.context;
-
-    if (route == null) {
-      /* In this case there is little we can do
-       * There is no point continuing rendering as it can only
-       * confuse user. Therefore redirect to Routes page */
-      if (isBrowser) {
-        router.replace(`/${PREFIX_ROUTES}`);
-      } else {
-        throw new RedirectException(`/${PREFIX_ROUTES}`);
-      }
-      return null;
-    }
+    const { config } = this.context;
 
     const activeTab = getActiveTab(match.location.pathname);
-
     const currentTime = moment().unix();
     const hasActiveAlert = isAlertActive(
       getCancelationsForRoute(route, patternId),
@@ -398,6 +401,20 @@ class RoutePageControlPanel extends React.Component {
     const countOfButtons = 3;
     const isOnDemandTaxi = route.type === 715;
 
+    let disruptionIcon;
+    if (disruptionClassName === 'active-disruption-alert') {
+      disruptionIcon = (
+        <Icon
+          className="disrution-icon"
+          img="icon-icon_caution-no-excl-no-stroke"
+        />
+      );
+    } else if (disruptionClassName === 'active-service-alert') {
+      disruptionIcon = (
+        <Icon className="service-alert-icon" img="icon-icon_info" />
+      );
+    }
+
     return (
       <div
         className={cx('route-page-control-panel-container', activeTab, {
@@ -428,15 +445,41 @@ class RoutePageControlPanel extends React.Component {
               useCurrentTime={useCurrentTime}
             />
           )}
-          <div className="route-tabs" role="tablist">
+          {/* eslint-disable jsx-a11y/interactive-supports-focus */}
+          <div
+            className="route-tabs"
+            role="tablist"
+            onKeyDown={e => {
+              const tabs = [Tab.Stops, Tab.Timetable, Tab.Disruptions];
+              const tabCount = tabs.length;
+              const activeIndex = tabs.indexOf(this.state.focusedTab);
+              let index;
+              switch (e.nativeEvent.code) {
+                case 'ArrowLeft':
+                  index = (activeIndex - 1 + tabCount) % tabCount;
+                  this.tabRefs[index].current.focus();
+                  this.setState({ focusedTab: tabs[index] });
+                  break;
+                case 'ArrowRight':
+                  index = (activeIndex + 1) % tabCount;
+                  this.tabRefs[index].current.focus();
+                  this.setState({ focusedTab: tabs[index] });
+                  break;
+                default:
+                  break;
+              }
+            }}
+          >
+            {/* eslint-enable jsx-a11y/interactive-supports-focus */}
             <button
               type="button"
               className={cx({ 'is-active': activeTab === Tab.Stops })}
               onClick={() => {
                 this.changeTab(Tab.Stops);
               }}
-              tabIndex={0}
+              tabIndex={activeTab === Tab.Stops ? 0 : -1}
               role="tab"
+              ref={this.stopTabRef}
               aria-selected={activeTab === Tab.Stops}
               style={{
                 '--totalCount': `${countOfButtons}`,
@@ -452,8 +495,9 @@ class RoutePageControlPanel extends React.Component {
               onClick={() => {
                 this.changeTab(Tab.Timetable);
               }}
-              tabIndex={0}
+              tabIndex={activeTab === Tab.Timetable ? 0 : -1}
               role="tab"
+              ref={this.timetableTabRef}
               aria-selected={activeTab === Tab.Timetable}
               style={{
                 '--totalCount': `${countOfButtons}`,
@@ -472,8 +516,9 @@ class RoutePageControlPanel extends React.Component {
               onClick={() => {
                 this.changeTab(Tab.Disruptions);
               }}
-              tabIndex={0}
+              tabIndex={activeTab === Tab.Disruptions ? 0 : -1}
               role="tab"
+              ref={this.disruptionTabRef}
               aria-selected={activeTab === Tab.Disruptions}
               style={{
                 '--totalCount': `${countOfButtons}`,
@@ -484,10 +529,18 @@ class RoutePageControlPanel extends React.Component {
                   disruptionClassName || `no-alerts`
                 }`}
               >
+                {disruptionIcon}
                 <FormattedMessage
                   id="disruptions"
                   defaultMessage="Disruptions"
                 />
+                <span className="sr-only">
+                  {disruptionClassName ? (
+                    <FormattedMessage id="disruptions-tab.sr-disruptions" />
+                  ) : (
+                    <FormattedMessage id="disruptions-tab.sr-no-disruptions" />
+                  )}
+                </span>
               </div>
             </button>
           </div>

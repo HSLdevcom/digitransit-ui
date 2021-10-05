@@ -34,10 +34,15 @@ export default configMerger(walttiConfig, {
   favicon: './app/configurations/images/lappeenranta/bussi_fin.jpeg',
 
   cityBike: {
-    showCityBikes: true,
-    capacity: BIKEAVL_UNKNOWN,
     networks: {
       lappeenranta: {
+        enabled: true,
+        season: {
+          // 1.4. - 30.11. TODO uncertain end date depends on weather
+          start: new Date(new Date().getFullYear(), 3, 1),
+          end: new Date(new Date().getFullYear(), 11, 1),
+        },
+        capacity: BIKEAVL_UNKNOWN,
         icon: 'citybike',
         name: {
           fi: 'Lappeenranta',

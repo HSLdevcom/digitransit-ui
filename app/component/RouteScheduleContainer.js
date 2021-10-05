@@ -3,7 +3,7 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { matchShape, routerShape } from 'found';
+import { matchShape, routerShape, RedirectException } from 'found';
 import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
 import keyBy from 'lodash/keyBy';
@@ -11,6 +11,7 @@ import sortBy from 'lodash/sortBy';
 import cx from 'classnames';
 import { dayRangePattern } from '@digitransit-util/digitransit-util';
 import { getTranslatedDayString } from '@digitransit-util/digitransit-util-route-pattern-option-text';
+import isEqual from 'lodash/isEqual';
 import RouteScheduleHeader from './RouteScheduleHeader';
 import RouteScheduleTripRow from './RouteScheduleTripRow';
 import SecondaryButton from './SecondaryButton';
@@ -74,17 +75,27 @@ class RouteScheduleContainer extends PureComponent {
 
   state = {
     from: 0,
-    to: this.props.pattern.stops.length - 1 || undefined,
+    to:
+      (this.props.pattern && this.props.pattern.stops.length - 1) || undefined,
     serviceDay: this.props.serviceDay,
     hasLoaded: false,
+    focusedTab: null,
   };
+
+  tabRefs = {};
 
   hasMergedData = false;
 
   componentDidMount = () => {
     const { match } = this.props;
-    const date = moment(match.location.query.serviceDay, 'YYYYMMDD', true);
-    if (date.isBefore(moment())) {
+    const date = moment(match.location.query.serviceDay, DATE_FORMAT, true);
+    // Don't allow past dates (before current week) because we might have no data from them
+    if (
+      date &&
+      moment(date.clone().startOf('isoWeek').format(DATE_FORMAT)).isBefore(
+        moment(moment().startOf('isoWeek').format(DATE_FORMAT)),
+      )
+    ) {
       match.router.replace(decodeURIComponent(match.location.pathname));
     }
   };
@@ -112,12 +123,17 @@ class RouteScheduleContainer extends PureComponent {
     });
   };
 
-  getTrips = (currentPattern, from, to) => {
+  getTrips = (currentPattern, from, to, newServiceDay) => {
     const { stops } = currentPattern;
     const trips = RouteScheduleContainer.transformTrips(
       currentPattern.trips,
       stops,
     );
+
+    if (trips.length === 0 && newServiceDay) {
+      return `/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_TIMETABLE}/${currentPattern.code}?serviceDay=${newServiceDay}`;
+    }
+
     if (trips !== null && !this.state.hasLoaded) {
       this.setState({
         hasLoaded: true,
@@ -162,14 +178,6 @@ class RouteScheduleContainer extends PureComponent {
   formatTime = timestamp => moment(timestamp * 1000).format('HH:mm');
 
   changeDate = newServiceDay => {
-    // Don't set past dates because we have no data from them
-    if (moment(newServiceDay).isBefore(moment())) {
-      if (this.hasMergedData) {
-        newServiceDay = moment(newServiceDay).add(7, 'd').format(DATE_FORMAT);
-      } else {
-        newServiceDay = moment().format(DATE_FORMAT);
-      }
-    }
     addAnalyticsEvent({
       category: 'Route',
       action: 'ChangeTimetableDay',
@@ -260,7 +268,12 @@ class RouteScheduleContainer extends PureComponent {
   };
 
   renderDayTabs = data => {
-    const dayArray = data[2][3];
+    const dayArray =
+      data && data.length >= 3 && data[2].length >= 4 ? data[2][3] : undefined;
+    if (!dayArray || (dayArray.length === 1 && dayArray[0] === '1234567')) {
+      return null;
+    }
+
     if (dayArray.length > 0) {
       const singleDays = dayArray.filter(s => s.length === 1);
       const multiDays = dayArray.filter(s => s.length !== 1);
@@ -300,35 +313,62 @@ class RouteScheduleContainer extends PureComponent {
         weekStartDate.format(DATE_FORMAT) ===
         moment().startOf('isoWeek').format(DATE_FORMAT);
       const firstDay = dayTabs[0][0];
+      let { focusedTab } = this.state;
       const tabs = dayTabs.map((tab, id) => {
+        const selected =
+          tab.indexOf(data[2][2]) !== -1 ||
+          (tab.indexOf(firstDay) !== -1 &&
+            !isSameWeek &&
+            dayTabs.indexOf(data[2][2]) === id) ||
+          count === 1;
+        // create refs and set focused tab needed for accessibilty here, not ideal but works
+        if (!this.tabRefs[tab]) {
+          this.tabRefs[tab] = React.createRef();
+        }
+        if (!focusedTab && selected) {
+          focusedTab = tab;
+        }
+
+        let tabDate = moment(data[2][4]);
+        if (
+          data[4] &&
+          data[5] &&
+          !isEqual(
+            tabDate.clone().format(DATE_FORMAT),
+            moment(data[5]).format(DATE_FORMAT),
+          )
+        ) {
+          if (
+            moment(data[5]).isAfter(
+              tabDate
+                .clone()
+                .add(Number(tab[0]) - 1, 'd')
+                .format(DATE_FORMAT),
+            )
+          ) {
+            tabDate = tabDate.clone().add(Number(tab[0]) + 6, 'd');
+          } else {
+            tabDate = tabDate.clone().add(Number(tab[0]) - 1, 'd');
+          }
+        } else {
+          tabDate = tabDate.clone().add(Number(tab[0]) - 1, 'd');
+        }
+
         return (
           <button
             type="button"
+            disabled={dayArray.length === 1 && separatedMultiDays.length < 2}
             key={tab}
             className={cx({
-              'is-active':
-                tab.indexOf(data[2][2]) !== -1 ||
-                (tab.indexOf(firstDay) !== -1 &&
-                  !isSameWeek &&
-                  dayTabs.indexOf(data[2][2]) === id) ||
-                count === 1,
+              'is-active': selected,
             })}
             onClick={() => {
-              this.changeDate(
-                weekStartDate
-                  .clone()
-                  .add(
-                    tab.indexOf(data[2][2]) !== -1
-                      ? data[2][2] - 1
-                      : tab[0] - 1,
-                    'd',
-                  )
-                  .format(DATE_FORMAT),
-              );
+              this.changeDate(tabDate.format(DATE_FORMAT));
             }}
-            tabIndex={0}
+            ref={this.tabRefs[tab]}
+            tabIndex={selected ? 0 : -1}
             role="tab"
-            aria-selected
+            aria-selected={selected}
             style={{
               '--totalCount': `${count}`,
             }}
@@ -343,22 +383,70 @@ class RouteScheduleContainer extends PureComponent {
       });
 
       if (dayTabs.length > 0) {
+        /* eslint-disable jsx-a11y/interactive-supports-focus */
         return (
-          <div className="route-tabs days" role="tablist">
+          <div
+            className="route-tabs days"
+            role="tablist"
+            onKeyDown={e => {
+              const tabCount = count;
+              const activeIndex = dayTabs.indexOf(focusedTab);
+              let index;
+              switch (e.nativeEvent.code) {
+                case 'ArrowLeft':
+                  index = (activeIndex - 1 + tabCount) % tabCount;
+                  this.tabRefs[dayTabs[index]].current.focus();
+                  this.setState({ focusedTab: dayTabs[index] });
+                  break;
+                case 'ArrowRight':
+                  index = (activeIndex + 1) % tabCount;
+                  this.tabRefs[dayTabs[index]].current.focus();
+                  this.setState({ focusedTab: dayTabs[index] });
+                  break;
+                default:
+                  break;
+              }
+            }}
+          >
             {tabs}
           </div>
         );
+        /* eslint-enable jsx-a11y/interactive-supports-focus */
       }
     }
     return '';
   };
 
-  populateData = (wantedDayIn, departures) => {
+  populateData = (wantedDayIn, departures, isMerged, dataExistsDay) => {
     const departureCount = departures.filter(d => d.length > 0).length;
     const wantedDay = wantedDayIn || moment();
     const startOfWeek = moment().startOf('isoWeek');
     const today = moment();
-    const weekStarts = [today.format(DATE_FORMAT)];
+
+    const currentAndNextWeekAreSame =
+      departureCount >= 2 && isEqual(departures[0], departures[1]);
+
+    const weekStarts = [
+      currentAndNextWeekAreSame
+        ? startOfWeek.format(DATE_FORMAT)
+        : today.format(DATE_FORMAT),
+    ];
+
+    let pastDate;
+    if (
+      !currentAndNextWeekAreSame &&
+      departures &&
+      departures.length > 0 &&
+      departures[0].length > 0
+    ) {
+      const minDayNo = Math.min(...departures[0][0][0].split('').map(Number));
+      pastDate = startOfWeek
+        .clone()
+        .add(minDayNo - 1)
+        .format(DATE_FORMAT);
+      weekStarts[0] = pastDate;
+    }
+
     const weekEnds = [startOfWeek.clone().endOf('isoWeek').format(DATE_FORMAT)];
     const days = [[]];
     const indexToRemove = [];
@@ -404,11 +492,10 @@ class RouteScheduleContainer extends PureComponent {
 
     indexToRemove.sort((a, b) => b - a);
 
-    indexToRemove.map(i => {
+    indexToRemove.forEach(i => {
       days.splice(i, 1);
       weekStarts.splice(i, 1);
       weekEnds.splice(i - 1, 1);
-      return undefined;
     });
 
     let range = [
@@ -434,7 +521,10 @@ class RouteScheduleContainer extends PureComponent {
               .format(DATE_FORMAT2)
           : moment(w).format(DATE_FORMAT2);
       const timeRange =
-        days.length === 1 && days[idx][0].length === 1 && wantedDayIn
+        days.length === 1 &&
+        days[idx][0].length === 1 &&
+        wantedDayIn &&
+        !isMerged
           ? wantedDay.format(DATE_FORMAT2)
           : `${timeRangeStart} - ${moment(weekEnds[idx]).format(DATE_FORMAT2)}`;
       if (
@@ -466,34 +556,46 @@ class RouteScheduleContainer extends PureComponent {
       ];
       return undefined;
     });
-    return [weekStarts, days, range, options.filter(o => o)];
+
+    if (!pastDate) {
+      pastDate = startOfWeek
+        .clone()
+        .add(dataExistsDay - 1, 'd')
+        .format(DATE_FORMAT);
+    }
+
+    return [
+      weekStarts,
+      days,
+      range,
+      options.filter(o => o),
+      currentAndNextWeekAreSame,
+      pastDate,
+    ];
   };
 
   render() {
     const { query } = this.props.match.location;
     const { intl } = this.context;
     this.hasMergedData = false;
+    this.dataExistsDay = 1; // 1 = monday
 
     if (!this.props.pattern) {
-      if (isBrowser) {
-        if (this.props.match.params.routeId) {
+      if (this.props.match.params.routeId) {
+        if (isBrowser) {
           // Redirect back to routes default pattern
           // eslint-disable-next-line react/prop-types
           this.props.router.replace(
             `/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_TIMETABLE}`,
           );
+        } else {
+          throw new RedirectException(
+            `/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_TIMETABLE}`,
+          );
         }
-        return false;
       }
       return false;
     }
-
-    const wantedDay =
-      query &&
-      query.serviceDay &&
-      moment(query.serviceDay, 'YYYYMMDD', true).isValid()
-        ? moment(query.serviceDay)
-        : undefined;
 
     const newFromTo = [this.state.from, this.state.to];
 
@@ -504,7 +606,10 @@ class RouteScheduleContainer extends PureComponent {
     const firstDepartures = this.modifyDepartures(this.props.firstDepartures);
 
     // If we are missing data from the start of the week, see if we can merge it with next week
-    if (this.props.firstDepartures.wk1mon.length === 0) {
+    if (
+      firstDepartures[0].length !== 0 &&
+      this.props.firstDepartures.wk1mon.length === 0
+    ) {
       const [thisWeekData, nextWeekData] = firstDepartures;
       const thisWeekHashes = [];
       const nextWeekHashes = [];
@@ -523,7 +628,56 @@ class RouteScheduleContainer extends PureComponent {
       }
     }
 
-    const data = this.populateData(wantedDay, firstDepartures);
+    if (this.hasMergedData) {
+      if (this.props.firstDepartures.wk1tue.length !== 0) {
+        this.dataExistsDay = 2;
+      } else if (this.props.firstDepartures.wk1wed.length !== 0) {
+        this.dataExistsDay = 3;
+      } else if (this.props.firstDepartures.wk1thu.length !== 0) {
+        this.dataExistsDay = 4;
+      } else if (this.props.firstDepartures.wk1fri.length !== 0) {
+        this.dataExistsDay = 5;
+      } else if (this.props.firstDepartures.wk1sat.length !== 0) {
+        this.dataExistsDay = 6;
+      } else if (this.props.firstDepartures.wk1sun.length !== 0) {
+        this.dataExistsDay = 7;
+      }
+    }
+
+    const wantedDay =
+      query &&
+      query.serviceDay &&
+      moment(query.serviceDay, 'YYYYMMDD', true).isValid()
+        ? moment(query.serviceDay)
+        : undefined;
+
+    const data = this.populateData(
+      wantedDay,
+      firstDepartures,
+      this.hasMergedData,
+      this.dataExistsDay,
+    );
+
+    let newServiceDay;
+
+    if (!wantedDay && data && data.length >= 3 && data[2].length >= 4) {
+      if (data[2][3] !== '') {
+        if (data[2][2] !== data[2][3][0].charAt(0)) {
+          newServiceDay = moment()
+            .startOf('isoWeek')
+            .add(Number(data[2][3][0].charAt(0)) - 1, 'd')
+            .format(DATE_FORMAT);
+        }
+      } else if (
+        data[3] &&
+        data[3][0] &&
+        data[2][1] &&
+        moment(data[2][1]).isBefore(data[0][0])
+      ) {
+        newServiceDay = data[3][0].value;
+      }
+    }
+
     const routeIdSplitted = this.props.match.params.routeId.split(':');
     const routeTimetableHandler = routeIdSplitted
       ? this.context.config.timetables &&
@@ -542,7 +696,19 @@ class RouteScheduleContainer extends PureComponent {
       currentPattern[0],
       newFromTo[0],
       newFromTo[1],
+      newServiceDay,
     );
+
+    const tabs = this.renderDayTabs(data);
+
+    if (showTrips && typeof showTrips === 'string') {
+      if (isBrowser) {
+        this.props.match.router.replace(showTrips);
+      } else {
+        throw new RedirectException(showTrips);
+      }
+      return false;
+    }
 
     if (!this.state.hasLoaded) {
       return (
@@ -583,7 +749,7 @@ class RouteScheduleContainer extends PureComponent {
               )}
             </div>
           </div>
-          {this.renderDayTabs(data)}
+          {tabs}
           {this.props.pattern && (
             <div
               className={cx('route-schedule-list-wrapper', {
@@ -601,13 +767,16 @@ class RouteScheduleContainer extends PureComponent {
               <div
                 className="route-schedule-list momentum-scroll"
                 role="list"
-                aria-atomic="true"
+                aria-live="off"
               >
                 {showTrips}
               </div>
             </div>
           )}
         </ScrollableWrapper>
+        {this.props.breakpoint === 'large' && (
+          <div className="after-scrollable-area" />
+        )}
         <div className="route-page-action-bar">
           <div className="print-button-container">
             {routeTimetableUrl && (
@@ -738,7 +907,7 @@ const containerComponent = createFragmentContainer(
     firstDepartures: graphql`
       fragment RouteScheduleContainer_firstDepartures on Pattern
       @argumentDefinitions(
-        showAdditionalWeeks: { type: "Boolean!", defaultValue: false }
+        showTenWeeks: { type: "Boolean!", defaultValue: false }
         wk1day1: { type: "String!", defaultValue: "19700101" }
         wk1day2: { type: "String!", defaultValue: "19700101" }
         wk1day3: { type: "String!", defaultValue: "19700101" }
@@ -836,31 +1005,31 @@ const containerComponent = createFragmentContainer(
           }
         }
         wk6mon: tripsForDate(serviceDate: $wk6day1)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk7mon: tripsForDate(serviceDate: $wk7day1)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk8mon: tripsForDate(serviceDate: $wk8day1)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk9mon: tripsForDate(serviceDate: $wk9day1)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk10mon: tripsForDate(serviceDate: $wk10day1)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
@@ -891,31 +1060,31 @@ const containerComponent = createFragmentContainer(
           }
         }
         wk6tue: tripsForDate(serviceDate: $wk6day2)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk7tue: tripsForDate(serviceDate: $wk7day2)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk8tue: tripsForDate(serviceDate: $wk8day2)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk9tue: tripsForDate(serviceDate: $wk9day2)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk10tue: tripsForDate(serviceDate: $wk10day2)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
@@ -946,31 +1115,31 @@ const containerComponent = createFragmentContainer(
           }
         }
         wk6wed: tripsForDate(serviceDate: $wk6day3)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk7wed: tripsForDate(serviceDate: $wk7day3)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk8wed: tripsForDate(serviceDate: $wk8day3)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk9wed: tripsForDate(serviceDate: $wk9day3)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk10wed: tripsForDate(serviceDate: $wk10day3)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
@@ -1001,31 +1170,31 @@ const containerComponent = createFragmentContainer(
           }
         }
         wk6thu: tripsForDate(serviceDate: $wk6day4)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk7thu: tripsForDate(serviceDate: $wk7day4)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk8thu: tripsForDate(serviceDate: $wk8day4)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk9thu: tripsForDate(serviceDate: $wk9day4)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk10thu: tripsForDate(serviceDate: $wk10day4)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
@@ -1056,31 +1225,31 @@ const containerComponent = createFragmentContainer(
           }
         }
         wk6fri: tripsForDate(serviceDate: $wk6day5)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk7fri: tripsForDate(serviceDate: $wk7day5)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk8fri: tripsForDate(serviceDate: $wk8day5)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk9fri: tripsForDate(serviceDate: $wk9day5)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk10fri: tripsForDate(serviceDate: $wk10day5)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
@@ -1111,31 +1280,31 @@ const containerComponent = createFragmentContainer(
           }
         }
         wk6sat: tripsForDate(serviceDate: $wk6day6)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk7sat: tripsForDate(serviceDate: $wk7day6)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk8sat: tripsForDate(serviceDate: $wk8day6)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk9sat: tripsForDate(serviceDate: $wk9day6)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk10sat: tripsForDate(serviceDate: $wk10day6)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
@@ -1166,31 +1335,31 @@ const containerComponent = createFragmentContainer(
           }
         }
         wk6sun: tripsForDate(serviceDate: $wk6day7)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk7sun: tripsForDate(serviceDate: $wk7day7)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk8sun: tripsForDate(serviceDate: $wk8day7)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk9sun: tripsForDate(serviceDate: $wk9day7)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk10sun: tripsForDate(serviceDate: $wk10day7)
-        @include(if: $showAdditionalWeeks) {
+        @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }

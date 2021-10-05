@@ -14,7 +14,7 @@ $gray-blue-light: rgb(182, 193, 199);
 $livi-blue: #000F94;
 $livi-gold: rgb(233, 171, 0);
 $livi-bus-blue: rgb(0, 136, 206);
-$livi-airplane-blue: rgb(0, 70, 173);
+$livi-airplane-blue: #1A4A8F;
 $livi-ferry-blue: rgb(53, 181, 179);
 $livi-rail-purple: rgb(175, 141, 188);
 $livi-subway-orange: rgb(237, 140, 0);
@@ -76,6 +76,8 @@ $carpool-color: #9fc727;
 
 /* Fonts */
 $font-family: 'Roboto', Arial, Georgia, Serif;
+$heading-font-family: $font-family;
+$button-font-family: $font-family;
 $font-weight-book: 400;
 $font-weight-medium: 700;
 $font-weight-map-container: $font-weight-book;

@@ -1,6 +1,7 @@
 import Store from 'fluxible/addons/BaseStore';
 import PropTypes from 'prop-types';
 import { setMapLayerSettings, getMapLayerSettings } from './localStorage';
+import { showCityBikes } from '../util/modeUtils';
 
 class MapLayerStore extends Store {
   static defaultLayers = {
@@ -18,6 +19,7 @@ class MapLayerStore extends Store {
       ferry: true,
       rail: true,
       subway: true,
+      tram: true,
     },
     vehicles: false,
     geoJson: {},
@@ -35,13 +37,14 @@ class MapLayerStore extends Store {
     super(dispatcher);
 
     const { config } = dispatcher.getContext();
-    this.mapLayers.citybike = config.cityBike?.showCityBikes;
+    this.mapLayers.citybike = showCityBikes(config.cityBike?.networks);
 
     const storedMapLayers = getMapLayerSettings();
     if (Object.keys(storedMapLayers).length > 0) {
       this.mapLayers = {
         ...this.mapLayers,
         ...storedMapLayers,
+        terminal: { ...this.mapLayers.terminal, ...storedMapLayers.terminal },
       };
     }
   }
@@ -82,6 +85,10 @@ class MapLayerStore extends Store {
     this.mapLayers = {
       ...this.mapLayers,
       ...mapLayers,
+      stop: {
+        ...this.mapLayers.stop,
+        ...mapLayers.stop,
+      },
     };
     setMapLayerSettings({ ...this.mapLayers });
     this.emitChange();

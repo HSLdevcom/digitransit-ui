@@ -81,8 +81,18 @@ export const stoptimeHasCancelation = stoptime => {
  * @param {*} stop the stop object to look a cancelation for.
  */
 export const tripHasCancelationForStop = (trip, stop) => {
-  if (!trip || !Array.isArray(trip.stoptimes) || !stop || !stop.gtfsId) {
+  if (
+    !trip ||
+    (!Array.isArray(trip.stoptimes) && !Array.isArray(trip.stoptimesForDate)) ||
+    !stop ||
+    !stop.gtfsId
+  ) {
     return false;
+  }
+  if (Array.isArray(trip.stoptimesForDate)) {
+    return trip.stoptimesForDate
+      .filter(stoptimeHasCancelation)
+      .some(st => st.stop && st.stop.gtfsId === stop.gtfsId);
   }
   return trip.stoptimes
     .filter(stoptimeHasCancelation)
@@ -95,8 +105,14 @@ export const tripHasCancelationForStop = (trip, stop) => {
  * @param {*} trip the trip object to check.
  */
 export const tripHasCancelation = trip => {
-  if (!trip || !Array.isArray(trip.stoptimes)) {
+  if (
+    !trip ||
+    (!Array.isArray(trip.stoptimes) && !Array.isArray(trip.stoptimesForDate))
+  ) {
     return false;
+  }
+  if (Array.isArray(trip.stoptimesForDate)) {
+    return trip.stoptimesForDate.every(stoptimeHasCancelation);
   }
   return trip.stoptimes.every(stoptimeHasCancelation);
 };
@@ -377,12 +393,12 @@ export const getServiceAlertsForTerminalStops = (
   stop,
   locale = 'en',
 ) => {
-  const s = stop.stops || [];
-  const alerts = isTerminal
-    ? s
-        .map(terminalStop => getServiceAlertsForStop(terminalStop, locale))
-        .filter(arr => arr.length > 0)
-    : [];
+  const alerts =
+    isTerminal && stop.stops
+      ? stop.stops
+          .map(terminalStop => getServiceAlertsForStop(terminalStop, locale))
+          .filter(arr => arr.length > 0)
+      : [];
   return alerts.reduce((a, b) => a.concat(b), []);
 };
 
@@ -686,6 +702,7 @@ export const createUniqueAlertList = (
   const getVehicleMode = alert => getStop(alert).vehicleMode;
   const getCode = alert => getStop(alert).code;
   const getStopGtfsId = alert => getStop(alert).gtfsId;
+  const getStopName = alert => getStop(alert).name;
 
   const getGroupKey = alert =>
     `${alert.severityLevel}${
@@ -740,6 +757,17 @@ export const createUniqueAlertList = (
           stopGtfsId: alerts.sort(alertCompare).map(getStopGtfsId).join(','),
           code: alerts.sort(alertCompare).map(getCode).join(', '),
           vehicleMode: getVehicleMode(alert),
+          nameAndCode: alerts
+            .sort(alertCompare)
+            .map(a => {
+              const stopName = getStopName(a);
+              const stopCode = getCode(a);
+              return (
+                (stopName && stopCode && `${stopName} (${stopCode})`) ||
+                stopName
+              );
+            })
+            .join(', '),
         }) ||
         undefined,
     };

@@ -16,6 +16,7 @@ import Icon from '@digitransit-component/digitransit-component-icon';
 import moment from 'moment-timezone';
 import 'moment/locale/fi';
 import 'moment/locale/sv';
+import 'moment/locale/de';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import translations from './helpers/translations';
@@ -694,20 +695,25 @@ class DTAutosuggest extends React.Component {
   // DT-3263 starts
   // eslint-disable-next-line consistent-return
   keyDown = event => {
-    const keyCode = event.keyCode || event.which;
-
+    const keyCode = event.key;
+    if (keyCode === 'Escape') {
+      this.setState({ editing: false });
+    }
     if (this.state.editing) {
-      if (keyCode === 13) {
+      if (keyCode === 'Enter') {
         this.fetchFunction({ value: this.state.value });
       }
       return this.inputClicked();
     }
 
-    if ((keyCode === 13 || keyCode === 40) && this.state.value === '') {
+    if (
+      (keyCode === 'Enter' || keyCode === 'ArrowDown') &&
+      this.state.value === ''
+    ) {
       return this.clearInput();
     }
 
-    if (keyCode === 40 && this.state.value !== '') {
+    if (keyCode === 'ArrowDown' && this.state.value !== '') {
       const newState = {
         editing: true,
         value: this.state.value,
@@ -721,7 +727,7 @@ class DTAutosuggest extends React.Component {
       this.setState({ editing: true });
     }
 
-    if (keyCode === 9) {
+    if (keyCode === 'Tab') {
       return this.onBlur();
     }
   };

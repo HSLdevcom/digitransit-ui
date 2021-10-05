@@ -13,8 +13,6 @@ import {
   TeslaS,
 } from 'react-charging-station-connector-icons';
 import isNumber from 'lodash/isNumber';
-import { station as exampleStation } from '../../ExampleData';
-import ComponentUsageExample from '../../ComponentUsageExample';
 import Loading from '../../Loading';
 import Icon from '../../Icon';
 import withBreakpoint from '../../../util/withBreakpoint';
@@ -287,23 +285,6 @@ const ChargingStationContent = ({ match }, { intl }) => {
 ChargingStationContent.propTypes = {
   match: PropTypes.object,
 };
-
-ChargingStationContent.description = (
-  <div>
-    <p>Renders a citybike popup.</p>
-    <ComponentUsageExample description="">
-      <ChargingStationContent
-        id={123}
-        lat={123}
-        lon={123}
-        context="context object here"
-        station={exampleStation}
-      >
-        Im content of a citybike card
-      </ChargingStationContent>
-    </ComponentUsageExample>
-  </div>
-);
 
 ChargingStationContent.contextTypes = {
   intl: intlShape.isRequired,

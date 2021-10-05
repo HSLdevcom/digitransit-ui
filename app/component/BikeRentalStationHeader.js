@@ -28,7 +28,9 @@ const BikeRentalStationHeader = (
       if (data.features != null && data.features.length > 0) {
         const match = data.features[0].properties;
         const id = getZoneId(config, match.zones, data.zones);
-        setZoneId(id?.toString().toLowerCase());
+        if (id) {
+          setZoneId(id.toString().toLowerCase());
+        }
       }
     });
   }, []);
@@ -43,7 +45,7 @@ const BikeRentalStationHeader = (
         />
       )}
       <div className="header">
-        <h3>{bikeRentalStation.name}</h3>
+        <h1>{bikeRentalStation.name}</h1>
         <div className="bike-station-sub-header">
           <FormattedMessage id={`${network}-station-no-id`} />
           {bikeRentalStation.name !== bikeRentalStation.stationId && (

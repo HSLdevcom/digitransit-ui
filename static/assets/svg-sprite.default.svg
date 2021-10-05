@@ -1,4 +1,4 @@
-<svg aria-hidden="true" style="position: absolute; width: 0; height: 0;" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="https://inkscape.org/namespaces/inkscape/">
+<svg aria-hidden="true" style="position: absolute; width: 0; height: 0;" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <defs>
 <symbol id="icon-icon_airplane-withoutBox" viewBox="0 0 1024 1024">
 	<path class="path1" d="M1010.085 13.915c-40.5-40.5-162.938 16.274-203.438 56.774l-201.072 201.072-487.713-62.074c-20.631-2.626-41.316 4.447-56.023 19.153l-61.846 61.846 376.82 237.995-151.501 170.149-161.056 3.909c-14.772 0.358-21.928 18.236-11.477 28.687l239.798 239.794c10.451 10.447 28.329 3.295 28.687-11.477l3.905-161.056 170.149-151.501 237.995 376.817 61.846-61.846c14.706-14.706 21.776-35.392 19.153-56.023l-62.070-487.713 201.072-201.072c40.5-40.5 97.274-162.935 56.77-203.434z"></path>
@@ -64,6 +64,13 @@
 <symbol id="icon-icon_caution-no-excl" viewBox="0 0 12 12">
     <g fill="none" fill-rule="evenodd">
         <g fill="#DC0451" stroke="#FFF">
+            <path d="M6 1c.305 0 .61.08.88.24.252.147.474.364.637.65h0l3.75 6.62c.332.589.29 1.251-.001 1.766-.152.268-.371.495-.64.653-.253.15-.55.238-.876.238h0H2.25c-.327 0-.624-.088-.877-.237-.269-.158-.488-.386-.64-.654C.443 9.761.401 9.1.734 8.51h0l3.75-6.62c.162-.286.384-.503.635-.65C5.39 1.08 5.695 1 6 1z" transform="translate(-203 -416) translate(0 -52) translate(0 77) translate(203 391)"/>
+        </g>
+    </g>
+</symbol>
+<symbol id="icon-icon_caution-no-excl-no-stroke" viewBox="0 0 12 12">
+    <g fill="none" fill-rule="evenodd">
+        <g fill="#DC0451" stroke="¤DC0451">
             <path d="M6 1c.305 0 .61.08.88.24.252.147.474.364.637.65h0l3.75 6.62c.332.589.29 1.251-.001 1.766-.152.268-.371.495-.64.653-.253.15-.55.238-.876.238h0H2.25c-.327 0-.624-.088-.877-.237-.269-.158-.488-.386-.64-.654C.443 9.761.401 9.1.734 8.51h0l3.75-6.62c.162-.286.384-.503.635-.65C5.39 1.08 5.695 1 6 1z" transform="translate(-203 -416) translate(0 -52) translate(0 77) translate(203 391)"/>
         </g>
     </g>
@@ -1033,8 +1040,8 @@
         </g>
     </g>
 </symbol>
-	<symbol id="icon-icon_check-digitransit" viewBox="0 0 22 18" fill="none" >
-		<path d="M1.5 8L8 14.5L20.5 2" stroke="#000F94" stroke-width="4"/>
+	<symbol id="icon-icon_check-digitransit" viewBox="0 0 22 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path d="M1.5 8L8 14.5L20.5 2" stroke="currentColor" stroke-width="4"/>
 	</symbol>
 <symbol id="icon-icon_checkbox_checked" viewBox="0 0 30 30">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -1084,6 +1091,26 @@
 	</g>
 	</g>
 </symbol>
+<symbol id="icon-icon_map_hybrid_station" width="62" height="30" viewBox="0 0 62 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30" height="30">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H29.9998V30H0V0Z" fill="white"/>
+</mask>
+<g mask="url(#mask0)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M26.9999 30H2.99988C1.34328 30 -0.00012207 28.6572 -0.00012207 27V3C-0.00012207 1.3434 1.34328 0 2.99988 0H26.9999C28.6571 0 29.9999 1.3434 29.9999 3V27C29.9999 28.6572 28.6571 30 26.9999 30Z" fill="#1A4A8F"/>
+</g>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M22.593 15.472C22.593 15.7468 22.4088 15.9874 22.1436 16.0588C21.0852 16.3432 18.2784 17.002 15 17.002C11.7222 17.002 8.91483 16.3432 7.85643 16.0588C7.59123 15.9874 7.40703 15.7468 7.40703 15.472V7.24237C7.40703 6.90697 7.67943 6.63517 8.01423 6.63517H21.9852C22.3212 6.63517 22.593 6.90697 22.593 7.24237V15.472ZM21.4308 21.5392C20.7882 21.5392 20.268 21.019 20.268 20.3764C20.268 19.7344 20.7882 19.2142 21.4308 19.2142C22.0728 19.2142 22.593 19.7344 22.593 20.3764C22.593 21.019 22.0728 21.5392 21.4308 21.5392ZM8.56983 21.5392C7.92783 21.5392 7.40703 21.019 7.40703 20.3764C7.40703 19.7344 7.92783 19.2142 8.56983 19.2142C9.21183 19.2142 9.73203 19.7344 9.73203 20.3764C9.73203 21.019 9.21183 21.5392 8.56983 21.5392ZM11.625 5.50057H18.375V4.35757H11.625V5.50057ZM22.593 3.00037H7.40703C6.56823 3.00037 5.88843 3.68017 5.88843 4.51897V22.7416C5.88843 23.5798 6.56823 24.2596 7.40703 24.2596H22.593C23.4312 24.2596 24.1116 23.5798 24.1116 22.7416V4.51897C24.1116 3.68017 23.4312 3.00037 22.593 3.00037Z" fill="white"/>
+<mask id="mask1" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30" height="30">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 30H30V0H0V30Z" fill="white"/>
+</mask>
+<g mask="url(#mask1)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M7.40698 26.9994H9.73198V24.2346H7.40698V26.9994Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M20.2679 26.9994H22.5929V24.2346H20.2679V26.9994Z" fill="white"/>
+</g>
+<path d="M58.9997 29.9989H35.0003C33.343 29.9989 32 28.6559 32 26.9997V3.00032C32 1.343 33.343 0 35.0003 0H58.9997C60.657 0 62 1.343 62 3.00032V26.9997C61.9989 28.6559 60.6559 29.9989 58.9997 29.9989Z" fill="#DA2128"/>
+<path d="M54.0722 22.9675V10.1196C54.0722 9.02638 53.1853 6.14354 52.0921 6.14354H48.6663L49.6643 4.06607H51.3428V3.0014H42.6583V4.06607H44.3548L45.3528 6.14354H41.908C40.8147 6.14354 39.9279 9.02638 39.9279 10.1196V22.9675C39.9279 24.0608 40.8137 24.9466 41.9069 24.9476L40.4274 27.0008H42.5927L44.0722 24.9476H49.9278L51.4074 27.0008H53.5727L52.0932 24.9476C53.1864 24.9466 54.0722 24.0608 54.0722 22.9675ZM45.5232 4.06607H48.497L47.499 6.14354H46.5211L45.5232 4.06607ZM43.8563 7.40716H50.1437V8.47183H43.8563V7.40716ZM41.3418 21.5304C41.3418 20.9324 41.8265 20.4477 42.4244 20.4477C43.0224 20.4477 43.5071 20.9324 43.5071 21.5304C43.5071 22.1283 43.0224 22.613 42.4244 22.613C41.8265 22.613 41.3418 22.1283 41.3418 21.5304ZM51.5746 22.613C50.9766 22.613 50.4919 22.1283 50.4919 21.5304C50.4919 20.9324 50.9766 20.4477 51.5746 20.4477C52.1725 20.4477 52.6572 20.9324 52.6572 21.5304C52.6572 22.1283 52.1725 22.613 51.5746 22.613ZM52.6572 18.3586C52.6572 18.6147 52.5207 18.838 52.3228 18.9047C51.5344 19.1693 49.4421 19.3841 46.9995 19.3841C44.5569 19.3841 42.4646 19.1693 41.6762 18.9047C41.4783 18.838 41.3418 18.6147 41.3418 18.3586V10.0942C41.3418 9.78202 41.5439 9.52802 41.7947 9.52802H52.2053C52.4551 9.52802 52.6583 9.78096 52.6583 10.0942V18.3586H52.6572Z" fill="white"/>
+</symbol>
+
+
 <symbol id="icon-icon_stop_tram" viewBox="0 0 16 22">
 	<g fill="none" fill-rule="evenodd" xmlns="http://www.w3.org/2000/svg">
 	<g transform="translate(-52 -55)">
@@ -1698,6 +1725,9 @@
 </symbol>
 <symbol id="icon-icon_station_highlight" width="32" height="32" viewBox="0 0 32 32" fill="none" >
 	<rect x="1" y="1" width="30" height="30" rx="6" stroke="black" stroke-width="2" fill="none"/>
+</symbol>
+<symbol id="icon-icon_hybrid_station_highlight" width="62" height="30" viewBox="0 0 62 30" fill="none" >
+	<rect x="2" y="1" width="57" height="28" rx="6" stroke="black" stroke-width="2" fill="none"/>
 </symbol>
 <symbol id="icon-icon_weather_1" width="40" height="40" viewBox="0 0 40 40">
     <g fill="none" fill-rule="evenodd">

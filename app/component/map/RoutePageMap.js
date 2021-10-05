@@ -13,6 +13,8 @@ import BackButton from '../BackButton';
 import { isActiveDate } from '../../util/patternUtils';
 import { mapLayerShape } from '../../store/MapLayerStore';
 import { boundWithMinimumArea } from '../../util/geo-utils';
+import { getMapLayerOptions } from '../../util/mapLayerUtils';
+import { mapLayerOptionsShape } from '../../util/shapes';
 
 class RoutePageMap extends React.Component {
   constructor(props) {
@@ -29,7 +31,9 @@ class RoutePageMap extends React.Component {
     lon: PropTypes.number,
     breakpoint: PropTypes.string.isRequired,
     mapLayers: mapLayerShape.isRequired,
+    mapLayerOptions: mapLayerOptionsShape.isRequired,
     trip: PropTypes.shape({ gtfsId: PropTypes.string }),
+    error: PropTypes.object,
   };
 
   static defaultProps = {
@@ -68,8 +72,23 @@ class RoutePageMap extends React.Component {
     }
   };
 
+  componentDidMount() {
+    // Throw error in client side if relay fails to fetch data
+    if (this.props.error) {
+      throw this.props.error.message;
+    }
+  }
+
   render() {
-    const { pattern, lat, lon, match, breakpoint, mapLayers } = this.props;
+    const {
+      pattern,
+      lat,
+      lon,
+      match,
+      breakpoint,
+      mapLayers,
+      mapLayerOptions,
+    } = this.props;
     if (!pattern) {
       return false;
     }
@@ -142,6 +161,7 @@ class RoutePageMap extends React.Component {
         className="full"
         leafletObjs={leafletObjs}
         mapLayers={mapLayers}
+        mapLayerOptions={mapLayerOptions}
         onStartNavigation={this.stopTracking}
         onMapTracking={this.stopTracking}
         setMWTRef={this.setMWTRef}
@@ -165,6 +185,10 @@ const RoutePageMapWithVehicles = connectToStores(
   ({ getStore }, { trip }) => {
     const mapLayers = getStore('MapLayerStore').getMapLayers({
       notThese: ['stop', 'vehicles'],
+    });
+    const mapLayerOptions = getMapLayerOptions({
+      lockedMapLayers: ['vehicles', 'stop', 'citybike'],
+      selectedMapLayers: ['vehicles'],
     });
     if (trip) {
       const { vehicles } = getStore('RealTimeInformationStore');
@@ -190,16 +214,17 @@ const RoutePageMapWithVehicles = connectToStores(
 
       if (matchingVehicles.length !== 1) {
         // no matching vehicles or cant distinguish between vehicles
-        return { mapLayers };
+        return { mapLayers, mapLayerOptions };
       }
       const selectedVehicle = matchingVehicles[0];
       return {
         lat: selectedVehicle.lat,
         lon: selectedVehicle.long,
         mapLayers,
+        mapLayerOptions,
       };
     }
-    return { mapLayers };
+    return { mapLayers, mapLayerOptions };
   },
 );
 

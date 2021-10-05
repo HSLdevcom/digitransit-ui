@@ -59,6 +59,7 @@ class SummaryPlanContainer extends React.Component {
     loading: PropTypes.bool.isRequired,
     onLater: PropTypes.func.isRequired,
     onEarlier: PropTypes.func.isRequired,
+    onDetailsTabFocused: PropTypes.func.isRequired,
     loadingMoreItineraries: PropTypes.string,
   };
 
@@ -111,6 +112,7 @@ class SummaryPlanContainer extends React.Component {
   }
 
   onSelectImmediately = index => {
+    const subpath = this.getSubPath('/');
     const momentumScroll = document.getElementsByClassName(
       'momentum-scroll',
     )[0];
@@ -118,7 +120,6 @@ class SummaryPlanContainer extends React.Component {
       momentumScroll.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
 
-    const subpath = this.getSubPath('/');
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'Itinerary',
@@ -142,6 +143,7 @@ class SummaryPlanContainer extends React.Component {
     this.context.router.replace(newState);
     newState.pathname = indexPath;
     this.context.router.push(newState);
+    this.props.onDetailsTabFocused();
   };
 
   onNow = () => {

@@ -1,7 +1,7 @@
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || 'next-'; // TODO maybe use regular endpoint again at some point
+const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
 const APP_DESCRIPTION = 'Uusi Reittiopas';
 const YEAR = 1900 + new Date().getYear();
 
@@ -21,9 +21,7 @@ export default {
 
   stopsMinZoom: 14,
 
-  cityBike: {
-    showCityBikes: false,
-  },
+  cityBike: {},
 
   search: {
     minimalRegexp: new RegExp('.+'),

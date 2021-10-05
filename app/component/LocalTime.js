@@ -1,13 +1,11 @@
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
-import { isStyleGuide } from '../util/browser';
-
 const LocalTime = ({ forceUtc, time }) => {
   const wrapper = Number.isFinite(time)
     ? moment(time < 1e10 ? time * 1000 : time)
     : time;
-  if (forceUtc || isStyleGuide) {
+  if (forceUtc) {
     wrapper.utc();
   }
   return wrapper.format('HH:mm');

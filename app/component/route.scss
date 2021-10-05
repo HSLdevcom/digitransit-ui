@@ -1,8 +1,8 @@
 @import '~@hsl-fi/sass/mixins/screen';
 
 $route-schedule-date-height: 36px;
-$margin-left-right-large: 3.75em;
-$margin-left-right: 1.333em;
+$margin-left-right-large: 60px;
+$margin-left-right: 21.3px;
 
 .error {
   div {
@@ -48,27 +48,35 @@ $margin-left-right: 1.333em;
     background-color: transparent;
     position: relative;
     .route-page-control-panel-container {
-      margin: 0 1.333em;
+      margin: 0 21.3px;
     }
   }
   .bottom-whitespace {
     min-height: 300px;
     display: block;
   }
+  .location-details_container {
+    .route-now-content {
+      .large-vehicle-icon {
+        left: calc(-2rem + 20px);
+      }
+    }
+  }
 }
 .route-page-container {
   background-color: $white;
-  padding-top: 3em;
+  padding-top: 48px;
 }
 
 .route-page-content {
+  max-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 1.5em $margin-left-right 0;
+  padding: 24px $margin-left-right 0;
   display: flex;
   position: relative;
   flex-direction: column;
-  padding-bottom: 1.5em;
+  padding-bottom: 24px;
   flex: 1 0;
   flex-basis: 0px;
   background: $white;
@@ -78,8 +86,8 @@ $margin-left-right: 1.333em;
   &.bp-large {
     top: 0;
     padding-top: 0;
-    padding-left: 3.5em;
-    padding-right: 3.5em;
+    padding-left: 56px;
+    padding-right: 56px;
   }
   &:empty {
     flex-basis: 0;
@@ -96,9 +104,13 @@ $margin-left-right: 1.333em;
 .route-stop-list {
   @include font-narrow-medium;
   background-color: $white;
-  margin-left: 2px;
+  margin: 0 0 0 2px;
+  padding: 0;
   .route-stop:last-child .route-stop-row_content-container {
     border-bottom: none;
+  }
+  & > li {
+    list-style: none;
   }
 }
 
@@ -141,7 +153,7 @@ $margin-left-right: 1.333em;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 18px;
+  height: 1.125em;
   min-width: calc(100% - 13% - 15px);
   margin-bottom: 5px;
   flex-direction: row;
@@ -252,7 +264,7 @@ $margin-left-right: 1.333em;
     .large-vehicle-icon {
       font-size: 3.5em;
       bottom: 0;
-      left: -10px;
+      left: calc(-2rem + 22px);
     }
   }
   .route-stop-now_circleline {
@@ -280,17 +292,13 @@ $margin-left-right: 1.333em;
   .route-stop-row_content-container {
     width: 100%; //calc(100% - 13% - 15px - 1em);
     margin-left: 15px;
-    display: block;
+    display: flex;
     border-bottom: 1px solid #eef1f3;
     a {
-      display: flex;
-      flex-direction: row;
       width: 100%;
       height: 100%;
       padding: 10px 0;
       text-decoration: none;
-      justify-content: space-between;
-      align-items: center;
       .route-details_container {
         flex-grow: 1;
         display: flex;
@@ -326,6 +334,7 @@ $margin-left-right: 1.333em;
             line-height: 1.6;
             white-space: nowrap;
             &.empty {
+              width: 0;
               background: none;
             }
           }
@@ -334,7 +343,8 @@ $margin-left-right: 1.333em;
       .route-details-bottom-row {
         display: flex;
         align-items: center;
-        height: 16px;
+        height: 1em;
+        justify-content: space-between;
         .route-address-container {
           display: flex;
           align-items: center;
@@ -343,7 +353,7 @@ $margin-left-right: 1.333em;
           display: flex;
           align-items: center;
           margin-left: 0;
-          max-height: 15px;
+          height: 0.9375rem;
           margin-right: 5px;
         }
         .route-stop-address {
@@ -374,7 +384,7 @@ $margin-left-right: 1.333em;
           font-family: $font-family;
           &.time {
             display: flex;
-            flex: 1;
+            flex: 1 1 auto;
             white-space: unset;
             text-align: right;
             font-size: 12px;
@@ -384,12 +394,16 @@ $margin-left-right: 1.333em;
             padding: 0;
             margin: 0;
             line-height: 14px;
-          }
-          &.first {
-            font-size: 15px;
-            font-family: $font-family-narrow;
-            height: 18px;
-            line-height: 18px;
+            min-width: 2.35rem;
+            &.first {
+              font-size: 15px;
+              font-family: $font-family-narrow;
+              height: 18px;
+              line-height: 18px;
+              min-width: unset;
+              width: 2rem;
+              margin-left: 9px;
+            }
           }
           &.next {
             font-weight: $font-weight-book;
@@ -401,9 +415,11 @@ $margin-left-right: 1.333em;
     }
   }
 }
+
 .route-address-row-container {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   .route-stop-address-row {
     font-size: $font-size-xsmall;
     font-family: $font-family;
@@ -413,7 +429,7 @@ $margin-left-right: 1.333em;
     color: #666;
     display: flex;
     word-break: keep-all;
-    height: 1.25rem;
+    min-height: 1.25rem;
     margin-right: 5px;
   }
   .itinerary-stop-code {
@@ -428,13 +444,13 @@ $margin-left-right: 1.333em;
     margin-left: 4px;
     padding: 0px 5px 0px 5px;
     letter-spacing: -0.37px;
-    height: 16px;
+    height: 1.45em;
   }
 }
 
 // To hide the line element in the last itinerary leg
 .route-stop-list
-  > div:last-child
+  > .route-stop:last-of-type
   > div.route-stop-now_circleline
   > .route-stop-now_line {
   display: none;
@@ -476,6 +492,7 @@ $margin-left-right: 1.333em;
     display: flex;
     min-width: 0;
     .route-short-name {
+      margin: 0;
       font-family: $font-family-narrow;
       font-size: 30px;
       font-weight: $font-weight-medium;
@@ -507,7 +524,7 @@ $margin-left-right: 1.333em;
       font-size: 11px;
     }
     .destination-headsign {
-      font-weight: 400;
+      font-weight: $font-weight-book;
       font-size: 15px;
       line-height: 18px;
       letter-spacing: -0.03em;
@@ -539,13 +556,13 @@ $margin-left-right: 1.333em;
   }
 
   .route-page-control-panel-container {
-    padding: 10px 1.25em 0;
+    padding: 10px 20px 0;
   }
 }
 
 .route-schedule-list-wrapper,
 .route-alerts-list-wrapper {
-  margin-top: 10px;
+  margin-top: 14px;
   &.bp-large {
     flex: 1;
     display: flex;
@@ -558,6 +575,7 @@ $margin-left-right: 1.333em;
   }
 
   .route-schedule-header {
+    padding: 9.6px 0 2px 0;
     @media print {
       margin-left: 0;
       margin-right: auto;
@@ -584,7 +602,7 @@ $margin-left-right: 1.333em;
     h1 {
       font-size: 26px;
       font-weight: $font-weight-medium;
-      font-family: $font-family;
+      font-family: $heading-font-family;
     }
   }
 }
@@ -652,12 +670,11 @@ $margin-left-right: 1.333em;
 }*/
 
 .route-schedule-dropdowns {
-  max-height: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   @media print {
     display: none;
-  }
-  .dd-container {
-    width: 50%;
   }
 }
 
@@ -671,8 +688,8 @@ $margin-left-right: 1.333em;
   padding-bottom: 1.5em;
   flex: 1 0;
   flex-basis: 0px;
-  padding-right: 3.5em;
-  padding-left: 3.5em;
+  padding-right: 56px;
+  padding-left: 56px;
   .route-page-control-panel-container {
     padding: 0px;
   }
@@ -688,16 +705,16 @@ $margin-left-right: 1.333em;
 .route-schedule-ranges {
   display: flex;
   justify-content: space-between;
-  max-height: 24px;
   min-height: 24px;
-  margin-bottom: 12px;
-  margin-top: 12px;
+  margin-bottom: 13px;
+  margin-top: 25px;
+  flex-wrap: wrap;
 
   .current-range {
     flex: 1;
     white-space: nowrap;
     font-style: normal;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     font-size: 18px;
     line-height: 22px;
     letter-spacing: -0.03em;
@@ -705,7 +722,7 @@ $margin-left-right: 1.333em;
   }
 
   .other-ranges-dropdown {
-    flex: 1;
+    flex: 1 0 6rem;
     @media print {
       display: none;
     }
@@ -794,8 +811,26 @@ $margin-left-right: 1.333em;
   }
 }
 
+.after-scrollable-area {
+  display: none;
+  @include min-width(tablet) {
+    display: block;
+  }
+  position: absolute;
+  z-index: 22;
+  height: 16px;
+  width: 520px;
+  background-color: rgba(0, 0, 0, 0);
+  bottom: 34px;
+  box-shadow: 0 -8px 6px -6px rgba(0, 0, 0, 0.2);
+  @media print {
+    display: none;
+  }
+}
+
 .route-page-action-bar {
-  justify-content: center;
+  justify-content: flex-start;
+  padding-left: 60px;
   display: flex;
   background-color: #ffffff;
 
@@ -888,15 +923,15 @@ $margin-left-right: 1.333em;
   margin: 5px 20px 0 20px;
   padding-bottom: 5px;
   &.bp-large {
-    margin: 0 4.5em 0 $margin-left-right-large;
+    margin: 0 72px 0 $margin-left-right-large;
     box-shadow: none;
   }
 }
 
 .route-page-control-panel-container {
-  padding-bottom: 1.75rem;
+  padding-bottom: 28px;
   &.hairiot {
-    margin: 0 3.5em;
+    margin: 0 56px;
   }
 
   @media print {
@@ -931,11 +966,36 @@ $margin-left-right: 1.333em;
       font-weight: $font-weight-medium;
       background-color: $white;
     }
+    &:disabled {
+      color: #333;
+      font-weight: $font-weight-medium;
+      background-color: $white;
+      cursor: default;
+      opacity: 1;
+      box-shadow: none;
+      &:focus, &:hover {
+        color: inherit;
+        background: $white;
+      }
+    }
     .no-alerts > span {
-      color: #b7b7b7;
+      color: #888;
     }
   }
 
+  .tab-route-disruption {
+    .icon-container {
+      margin-right: 5px;
+      vertical-align: middle;
+      .disruption-icon {
+        width: 0.85em;
+        height: 0.95em;
+      }
+      .service-alert-icon {
+        fill: rgba(136, 136, 136, 1);
+      }
+    }
+  }
   .tab-panel {
     flex-grow: 1;
     display: flex;
@@ -987,6 +1047,9 @@ $margin-left-right: 1.333em;
     &:focus {
       outline: none;
       border-color: $primary-color;
+      background: #fff;
+      border: solid 1px $primary-color;
+      box-shadow: 0px 0px 2px 1px $secondary-color;
     }
 
     .toggle-icon {
@@ -1025,12 +1088,15 @@ $margin-left-right: 1.333em;
     border-radius: 4px;
     position: relative;
     &:focus-within {
+      outline: none;
       border-color: $primary-color;
-      box-shadow: none;
+      background: #fff;
+      border: solid 1px $primary-color;
+      box-shadow: 0px 0px 2px 1px $secondary-color;
     }
     .input-display {
       position: relative;
-      font-weight: 400;
+      font-weight: $font-weight-book;
       font-size: 15px;
       line-height: 18px;
       letter-spacing: -0.03em;
@@ -1075,7 +1141,7 @@ $margin-left-right: 1.333em;
           border-radius: 0 0 4px 4px;
         }
         background: white;
-        font-weight: 400;
+        font-weight: $font-weight-book;
         font-size: 15px;
         line-height: 18px;
         letter-spacing: -0.03em;
@@ -1092,7 +1158,7 @@ $margin-left-right: 1.333em;
             border-bottom: 1px solid #dddddd;
             list-style: none;
             min-height: 44px;
-            padding: 13px 32px 13px 16px;
+            padding: 13px 10px 13px 16px;
             position: relative;
             .icon.check,
             .icon.dropdown-arrow {
@@ -1107,6 +1173,69 @@ $margin-left-right: 1.333em;
             background: #dfe5e8;
           }
         }
+
+  a {
+    text-decoration: none;
+  }
+
+  .similar-route {
+    display: flex;
+    justify-content: space-between;
+    .icon-container {
+      position: relative;
+      width: auto;
+      height: auto;
+      right: auto;
+      top: auto;
+      margin-top: 3px;
+      margin-right: 10px;
+      flex-shrink: 0;
+      .icon {
+        position: relative;
+        width: 2em;
+        height: 2em;
+        right: auto;
+        top: auto;
+      }
+    }
+
+    .similar-route-arrow-container {
+      margin-top: 5px;
+      .icon-container {
+        margin-right: 0px;
+        .similar-route-arrow {
+          width: 1.35em;
+          height:1.35em;
+        }
+      }
+    }
+
+    .similar-route-text {
+      flex-grow: 1;
+      overflow: auto;
+      font-family: $font-family;
+      display: flex;
+      flex-direction: column;
+      white-space: nowrap;
+
+      .similar-route-name {
+        color: #333333;
+        font-style: normal;
+        font-weight: $font-weight-medium;
+        font-size: 15px;
+        line-height: 20px;
+      }
+      .similar-route-longname {
+        color: #666666;
+        font-size: 13px;
+        line-height: 20px;
+        text-decoration-color: white;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        letter-spacing: -0.48px;
+      }
+    }
+  }
       }
     }
   }
@@ -1144,6 +1273,7 @@ $margin-left-right: 1.333em;
     }
 
     .route-alert-row-link {
+      display: contents;
       padding-right: 1px;
       padding-left: 1px;
     }
@@ -1155,17 +1285,14 @@ $margin-left-right: 1.333em;
       vertical-align: bottom;
 
       .route-alert-top-row {
-        display: flex;
+        display: inline-flex;
         align-items: center;
+        font-size: 15px;
         .route-alert-entityid {
           font-family: $font-family-narrow;
           font-size: 21px;
           font-weight: $font-weight-medium;
-          margin-right: 10px;
-        }
-        .route-alert-time-period {
-          font-size: 15px;
-          padding: 0 0 0 5px;
+          margin-right: 15px;
         }
       }
     }

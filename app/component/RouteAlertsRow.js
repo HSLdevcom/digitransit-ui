@@ -7,12 +7,10 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 import Link from 'found/Link';
 
-import ComponentUsageExample from './ComponentUsageExample';
 import ExternalLink from './ExternalLink';
 import Icon from './Icon';
 import RouteNumber from './RouteNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
-import { AlertSeverityLevelType } from '../constants';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
 export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
@@ -20,7 +18,7 @@ export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
     id: 'at-time',
   });
   const defaultFormat = `D.M.YYYY [${at}] HH:mm`;
-  return `${capitalize(
+  const start = capitalize(
     startTime.calendar(currentTime, {
       lastDay: `[${intl.formatMessage({ id: 'yesterday' })} ${at}] HH:mm`,
       sameDay: `[${intl.formatMessage({ id: 'today' })} ${at}] HH:mm`,
@@ -29,12 +27,17 @@ export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
       nextWeek: defaultFormat,
       sameElse: defaultFormat,
     }),
-  )} - ${endTime.calendar(startTime, {
+  );
+  if (!endTime) {
+    return start;
+  }
+  const end = endTime.calendar(startTime, {
     sameDay: 'HH:mm',
     nextDay: defaultFormat,
     nextWeek: defaultFormat,
     sameElse: defaultFormat,
-  })}`;
+  });
+  return `${start} - ${end}`;
 };
 
 export default function RouteAlertsRow(
@@ -52,15 +55,11 @@ export default function RouteAlertsRow(
     url,
     gtfsIds,
     showRouteNameLink,
+    header,
   },
   { intl },
 ) {
-  const showTime =
-    severityLevel &&
-    severityLevel !== AlertSeverityLevelType.Info &&
-    startTime &&
-    endTime &&
-    currentTime;
+  const showTime = startTime && endTime && currentTime;
   const gtfsIdList = gtfsIds ? gtfsIds.split(',') : [];
 
   const routeLinks =
@@ -69,11 +68,11 @@ export default function RouteAlertsRow(
           <Link
             key={gtfsIdList[i]}
             to={`/${PREFIX_ROUTES}/${gtfsIdList[i]}/${PREFIX_STOPS}`}
-            className="route-alert-row-link"
+            className={cx('route-alert-row-link', entityMode)}
             style={{ color }}
           >
             {' '}
-            {identifier}{' '}
+            {identifier}
           </Link>
         ))
       : [];
@@ -84,10 +83,10 @@ export default function RouteAlertsRow(
           <Link
             key={gtfsIdList[i]}
             to={`/${PREFIX_STOPS}/${gtfsIdList[i]}`}
-            className="route-alert-row-link"
+            className={cx('route-alert-row-link', entityMode)}
           >
             {' '}
-            {identifier}{' '}
+            {identifier}
           </Link>
         ))
       : [];
@@ -95,10 +94,29 @@ export default function RouteAlertsRow(
   const checkedUrl =
     url && (url.match(/^[a-zA-Z]+:\/\//) ? url : `http://${url}`);
 
-  if (!description) {
+  if (!description && !header) {
     return null;
   }
 
+  let genericCancellation;
+  if (!description && header) {
+    const {
+      headsign,
+      routeMode,
+      shortName,
+      scheduledDepartureTime,
+    } = header.props;
+    const mode = intl.formatMessage({ id: routeMode.toLowerCase() });
+    genericCancellation = intl.formatMessage(
+      { id: 'generic-cancelation' },
+      {
+        mode,
+        route: shortName,
+        headsign,
+        time: moment.unix(scheduledDepartureTime).format('HH:mm'),
+      },
+    );
+  }
   return (
     <div
       className={cx('route-alert-row', { expired })}
@@ -134,39 +152,36 @@ export default function RouteAlertsRow(
             {entityIdentifier &&
               ((entityType === 'route' &&
                 showRouteNameLink &&
-                routeLinks.length > 0 && (
-                  <div className={entityMode}>{routeLinks}</div>
-                )) ||
+                routeLinks.length > 0 && <>{routeLinks} </>) ||
                 (!showRouteNameLink && (
-                  <div className="route-alert-entityid">
-                    <div className={entityMode} style={{ color }}>
-                      {entityIdentifier}{' '}
-                    </div>
+                  <div
+                    className={cx('route-alert-entityid', entityMode)}
+                    style={{ color }}
+                  >
+                    {entityIdentifier}{' '}
                   </div>
                 )) ||
                 (entityType === 'stop' &&
                   showRouteNameLink &&
-                  stopLinks.length > 0 && (
-                    <div className={entityMode}>{stopLinks}</div>
-                  )) ||
+                  stopLinks.length > 0 && <>{stopLinks} </>) ||
                 (!showRouteNameLink && (
                   <div className={entityMode}>{entityIdentifier}</div>
                 )))}
             {showTime && (
-              <div className="route-alert-time-period">
+              <>
                 {getTimePeriod({
                   currentTime: moment.unix(currentTime),
                   startTime: moment.unix(startTime),
-                  endTime: moment.unix(endTime),
+                  endTime: description ? moment.unix(endTime) : undefined,
                   intl,
                 })}
-              </div>
+              </>
             )}
           </div>
         )}
-        {description && (
+        {(description || genericCancellation) && (
           <div className="route-alert-body">
-            {description}
+            {description || genericCancellation}
             {url && (
               <ExternalLink className="route-alert-url" href={checkedUrl}>
                 {intl.formatMessage({ id: 'extra-info' })}
@@ -193,6 +208,7 @@ RouteAlertsRow.propTypes = {
   url: PropTypes.string,
   gtfsIds: PropTypes.string,
   showRouteNameLink: PropTypes.bool,
+  header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
 };
 
 RouteAlertsRow.contextTypes = {
@@ -208,121 +224,5 @@ RouteAlertsRow.defaultProps = {
   entityType: 'route',
   severityLevel: undefined,
   startTime: undefined,
+  header: undefined,
 };
-
-RouteAlertsRow.description = () => (
-  <div>
-    <p>Display a disruption alert for a specific route.</p>
-    <div className="route-alerts-list">
-      <ComponentUsageExample description="Currently active disruption">
-        <RouteAlertsRow
-          header="Raitiolinja 2 - Myöhästyy"
-          description={
-            'Raitiolinjat: 2 Kaivopuiston suuntaan ja 3 Nordenskiöldinkadun ' +
-            'suuntaan, myöhästyy. Syy: tekninen vika. Paikka: Kauppatori, Hakaniemi. ' +
-            'Arvioitu kesto: 14:29 - 15:20.'
-          }
-          entityMode="tram"
-          entityIdentifier="2"
-          gtfsIds="HSL:1002"
-          expired={false}
-        />
-      </ComponentUsageExample>
-      <ComponentUsageExample description="Past disruption">
-        <RouteAlertsRow
-          header="Raitiolinja 2 - Myöhästyy"
-          description={
-            'Raitiolinjat: 2 Kaivopuiston suuntaan ja 3 Nordenskiöldinkadun ' +
-            'suuntaan, myöhästyy. Syy: tekninen vika. Paikka: Kauppatori, Hakaniemi. ' +
-            'Arvioitu kesto: 14:29 - 15:20.'
-          }
-          entityMode="tram"
-          entityIdentifier="2"
-          gtfsIds="HSL:1002"
-          expired
-        />
-      </ComponentUsageExample>
-      <ComponentUsageExample description="service alert, valid yesterday">
-        <RouteAlertsRow
-          currentTime={moment().unix()}
-          startTime={moment().add(-1, 'days').startOf('day').unix()}
-          endTime={moment().add(-1, 'days').endOf('day').unix()}
-          header="Lähijunat välillä Pasila-Leppävaara peruttu"
-          description="Suurin osa lähijunista välillä Pasila-Leppävaara on peruttu asetinlaitevian vuoksi"
-          entityIdentifier="Y, S, U, L, E, A"
-          gtfsIds="HSL:3002Y, HSL:3002S, HSL:3002U, HSL:3002L, HSL:3002E, HSL:3002A"
-          entityMode="rail"
-          severityLevel="WARNING"
-          expired
-        />
-      </ComponentUsageExample>
-      <ComponentUsageExample description="service alert, valid today">
-        <RouteAlertsRow
-          currentTime={moment().unix()}
-          startTime={moment().startOf('day').unix()}
-          endTime={moment().endOf('day').unix()}
-          header="Lähijunat välillä Pasila-Leppävaara peruttu"
-          description="Suurin osa lähijunista välillä Pasila-Leppävaara on peruttu asetinlaitevian vuoksi"
-          entityIdentifier="Y, S, U, L, E, A"
-          gtfsIds="HSL:3002Y, HSL:3002S, HSL:3002U, HSL:3002L, HSL:3002E, HSL:3002A"
-          entityMode="rail"
-          severityLevel="WARNING"
-        />
-      </ComponentUsageExample>
-      <ComponentUsageExample description="service alert, valid tomorrow">
-        <RouteAlertsRow
-          currentTime={moment().unix()}
-          startTime={moment().add(1, 'day').startOf('day').unix()}
-          endTime={moment().add(1, 'day').endOf('day').unix()}
-          header="Lähijunat välillä Pasila-Leppävaara peruttu"
-          description="Suurin osa lähijunista välillä Pasila-Leppävaara on peruttu asetinlaitevian vuoksi"
-          entityIdentifier="Y, S, U, L, E, A"
-          gtfsIds="HSL:3002Y, HSL:3002S, HSL:3002U, HSL:3002L, HSL:3002E, HSL:3002A"
-          entityMode="rail"
-          severityLevel="WARNING"
-        />
-      </ComponentUsageExample>
-      <ComponentUsageExample description="service alert, valid some day">
-        <RouteAlertsRow
-          currentTime={moment().unix()}
-          startTime={moment()
-            .add(20, 'days')
-            .startOf('day')
-            .add(8, 'hours')
-            .add(37, 'minutes')
-            .unix()}
-          endTime={moment().add(25, 'days').endOf('day').unix()}
-          header="Lähijunat välillä Pasila-Leppävaara peruttu"
-          description="Suurin osa lähijunista välillä Pasila-Leppävaara on peruttu asetinlaitevian vuoksi"
-          entityIdentifier="Y, S, U, L, E, A"
-          gtfsIds="HSL:3002Y, HSL:3002S, HSL:3002U, HSL:3002L, HSL:3002E, HSL:3002A"
-          entityMode="rail"
-          severityLevel="WARNING"
-        />
-      </ComponentUsageExample>
-      <ComponentUsageExample description="with alert url">
-        <RouteAlertsRow
-          header="Pysäkki H4461 siirtyy"
-          description="Leikkikujan pysäkki H4461 siirtyy tilapäisesti kulkusuunnassa 100 metriä taaksepäin."
-          entityIdentifier="97N"
-          gtfsIds="HSL:1097N"
-          entityMode="bus"
-          severityLevel="INFO"
-          url="https://www.hsl.fi"
-        />
-      </ComponentUsageExample>
-      <ComponentUsageExample description="service alert for a stop">
-        <RouteAlertsRow
-          header="Pysäkki H4461 siirtyy"
-          description="Leikkikujan pysäkki H4461 siirtyy tilapäisesti kulkusuunnassa 100 metriä taaksepäin."
-          entityIdentifier="4461"
-          gtfsIds="HSL%3A1471151"
-          entityMode="bus"
-          entityType="stop"
-          severityLevel="INFO"
-          url="https://www.hsl.fi"
-        />
-      </ComponentUsageExample>
-    </div>
-  </div>
-);

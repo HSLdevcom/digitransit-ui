@@ -4,7 +4,6 @@ import mapProps from 'recompose/mapProps';
 import { FormattedMessage } from 'react-intl';
 
 import Availability from './Availability';
-import ComponentUsageExample from './ComponentUsageExample';
 
 function getText(network, available) {
   if (available > -1) {
@@ -60,21 +59,6 @@ const CityBikeAvailability = mapProps(
 )(Availability);
 
 CityBikeAvailability.displayName = 'CityBikeAvailability';
-
-CityBikeAvailability.description = () => (
-  <div>
-    <p>Renders information about citybike availability</p>
-    <ComponentUsageExample description="">
-      <CityBikeAvailability
-        bikesAvailable={1}
-        totalSpaces={3}
-        fewAvailableCount={3}
-        type="citybike"
-        useSpacesAvailable
-      />
-    </ComponentUsageExample>
-  </div>
-);
 
 CityBikeAvailability.propTypes = {
   bikesAvailable: PropTypes.number.isRequired,

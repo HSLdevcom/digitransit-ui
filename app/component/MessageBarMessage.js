@@ -3,9 +3,15 @@ import React from 'react';
 
 import TruncatedMessage from './TruncatedMessage';
 
-const MessageBarMessage = ({ content, textColor, truncate, onShowMore }) => {
+const MessageBarMessage = ({
+  content,
+  textColor,
+  truncate,
+  onShowMore,
+  config,
+}) => {
   const heading = (e, color) => {
-    if (e?.type === 'heading') {
+    if (config.showAlertHeader && e?.type === 'heading') {
       return <h2 style={{ color }}>{e.content}</h2>;
     }
     return null;
@@ -58,22 +64,20 @@ const MessageBarMessage = ({ content, textColor, truncate, onShowMore }) => {
     );
   };
 
+  const headingContent = heading(
+    content.find(part => part.type === 'heading'),
+    textColor,
+  );
   // eslint-disable-next-line jsx-a11y/click-events-have-key-events
   return (
-    <div
-      className="message-content"
-      tabIndex={0}
-      aria-hidden="true"
-      role="button"
-      style={{ color: textColor, whiteSpace: 'pre' }}
-    >
-      <div className="message-heading">
-        {heading(
-          content.find(part => part.type === 'heading'),
-          textColor,
-        )}
-      </div>
-      {body(content)}
+    <div className="message-content" style={{ color: textColor }}>
+      {headingContent && (
+        <div className="message-heading">{headingContent}</div>
+      )}
+      {body(
+        content.find(part => part.type === 'text'),
+        content.find(part => part.type === 'a'),
+      )}
     </div>
   );
 };
@@ -83,6 +87,7 @@ MessageBarMessage.propTypes = {
   textColor: PropTypes.string,
   truncate: PropTypes.bool,
   onShowMore: PropTypes.func,
+  config: PropTypes.object,
 };
 
 export default MessageBarMessage;

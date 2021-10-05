@@ -2,7 +2,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { intlShape } from 'react-intl';
-import ComponentUsageExample from '../../ComponentUsageExample';
 import Loading from '../../Loading';
 import withBreakpoint from '../../../util/withBreakpoint';
 import SidebarContainer from './SidebarContainer';
@@ -156,17 +155,6 @@ const CargoBikeContent = ({ slug }, { intl }) => {
 CargoBikeContent.propTypes = {
   slug: PropTypes.string.isRequired,
 };
-
-CargoBikeContent.description = (
-  <div>
-    <p>Renders a citybike popup.</p>
-    <ComponentUsageExample description="">
-      <CargoBikeContent slug="cargo-bike-slug">
-        Im content of a cargo bike card
-      </CargoBikeContent>
-    </ComponentUsageExample>
-  </div>
-);
 
 CargoBikeContent.contextTypes = {
   intl: intlShape.isRequired,

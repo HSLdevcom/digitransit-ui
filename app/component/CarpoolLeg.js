@@ -8,7 +8,6 @@ import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
-import ComponentUsageExample from './ComponentUsageExample';
 
 function CarpoolLeg(props, { config, intl }) {
   const { leg } = props;
@@ -169,18 +168,6 @@ const exampleLeg = day => ({
     },
   },
 });
-
-CarpoolLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0).valueOf();
-  return (
-    <div>
-      <p>Displays an itinerary car leg.</p>
-      <ComponentUsageExample>
-        <CarpoolLeg leg={exampleLeg(today)} index={0} focusAction={() => {}} />
-      </ComponentUsageExample>
-    </div>
-  );
-};
 
 CarpoolLeg.propTypes = {
   leg: PropTypes.shape({

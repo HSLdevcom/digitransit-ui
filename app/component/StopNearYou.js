@@ -24,7 +24,14 @@ const StopNearYou = ({ stop, desc, stopIsStation, ...props }) => {
           isStation={isStation}
           linkAddress={linkAddress}
         />
+        <span className="sr-only">
+          <FormattedMessage
+            id="departure-list-update.sr-instructions"
+            default="The departure list and estimated departure times will update in real time."
+          />
+        </span>
         <StopNearYouDepartureRowContainer
+          mode={stop.vehicleMode}
           stopTimes={stopOrStation.stoptimesWithoutPatterns}
           currentTime={props.currentTime}
           isStation={isStation && stop.vehicleMode !== 'SUBWAY'}

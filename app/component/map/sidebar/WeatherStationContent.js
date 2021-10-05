@@ -3,7 +3,6 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import moment from 'moment';
 import { isNumber } from 'lodash';
-import ComponentUsageExample from '../../ComponentUsageExample';
 import SidebarContainer from './SidebarContainer';
 
 const makeValue = number => {
@@ -181,15 +180,6 @@ const WeatherStationContent = ({ match }, { intl }) => {
 };
 
 WeatherStationContent.displayName = 'WeatherStationContent';
-
-WeatherStationContent.description = (
-  <div>
-    <p>Renders a weather station content.</p>
-    <ComponentUsageExample description="">
-      <WeatherStationContent context="context object here" />
-    </ComponentUsageExample>
-  </div>
-);
 
 WeatherStationContent.propTypes = {
   match: PropTypes.object.isRequired,
