@@ -17,12 +17,8 @@ const MessageBarMessage = ({
     return null;
   };
 
-  const getTextElement = text => {
+  const body = (text, link) => {
     const textPart = text && text.content;
-    return <>{textPart}</>;
-  };
-
-  const getLinkElement = link => {
     const linkPart = link && link.href && (
       <span>
         <a
@@ -34,33 +30,20 @@ const MessageBarMessage = ({
         </a>
       </span>
     );
-    return linkPart ? <>{linkPart}</> : undefined;
-  };
-
-  const body = bodyContent => {
-    const message = bodyContent
-      .reduce((previous, contentElement) => {
-        if (contentElement.type === 'text') {
-          return [...previous, getTextElement(contentElement)];
-        }
-        if (contentElement.type === 'a') {
-          return [...previous, getLinkElement(contentElement)];
-        }
-        return [...previous];
-      }, [])
-      .filter(element => element !== undefined);
-
+    const bodyContent = (
+      <>
+        {textPart}
+        {linkPart}
+      </>
+    );
     return (
-      message.length > 0 && (
-        <TruncatedMessage
-          key={Math.random()}
-          lines={2}
-          message={message}
-          className="message-bar-text"
-          truncate={truncate}
-          onShowMore={onShowMore}
-        />
-      )
+      <TruncatedMessage
+        lines={2}
+        message={bodyContent}
+        className="message-bar-text"
+        truncate={truncate}
+        onShowMore={onShowMore}
+      />
     );
   };
 

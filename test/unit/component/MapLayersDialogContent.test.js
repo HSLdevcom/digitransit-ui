@@ -237,7 +237,7 @@ describe('<MapLayersDialogContent />', () => {
     );
 
     wrapper
-      .find('.option-checkbox.large input')
+      .find('.option-checkbox input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -276,7 +276,7 @@ describe('<MapLayersDialogContent />', () => {
     );
 
     wrapper
-      .find('.option-checkbox.large input')
+      .find('.option-checkbox input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 

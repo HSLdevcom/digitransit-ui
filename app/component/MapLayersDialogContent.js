@@ -202,7 +202,6 @@ class MapLayersDialogContent extends React.Component {
               icon="icon-icon_material_rail"
               onChange={newSettings => {
                 this.updateSetting(merge(this.props.mapLayers, newSettings));
-                this.sendLayerChangedAnalyticsEvents(newSettings);
               }}
               options={[
                 isTransportModeEnabled(transportModes.bus) && {
@@ -261,7 +260,6 @@ class MapLayersDialogContent extends React.Component {
               icon="icon-icon_material_bike"
               onChange={newSettings => {
                 this.updateSetting(merge(this.props.mapLayers, newSettings));
-                this.sendLayerChangedAnalyticsEvents(newSettings);
               }}
               options={[
                 this.context.config.bikeParks &&
@@ -293,7 +291,6 @@ class MapLayersDialogContent extends React.Component {
               icon="icon-icon_material_bike_scooter"
               onChange={newSettings => {
                 this.updateSetting(merge(this.props.mapLayers, newSettings));
-                this.sendLayerChangedAnalyticsEvents(newSettings);
               }}
               options={[
                 showCityBikes(this.context.config?.cityBike?.networks) && {
@@ -321,7 +318,6 @@ class MapLayersDialogContent extends React.Component {
               icon="icon-icon_material_car"
               onChange={newSettings => {
                 this.updateSetting(merge(this.props.mapLayers, newSettings));
-                this.sendLayerChangedAnalyticsEvents(newSettings);
               }}
               options={[
                 this.context.config.dynamicParkingLots &&
@@ -361,7 +357,6 @@ class MapLayersDialogContent extends React.Component {
               icon="icon-icon_material_map"
               onChange={newSettings => {
                 this.updateSetting(merge(this.props.mapLayers, newSettings));
-                this.sendLayerChangedAnalyticsEvents(newSettings);
               }}
               options={[
                 publicToiletsLayer && {
