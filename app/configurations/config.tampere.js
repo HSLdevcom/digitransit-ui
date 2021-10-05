@@ -268,6 +268,11 @@ export default configMerger(walttiConfig, {
         timeBeforeSurcharge: 30 * 60,
       },
     },
+    buyUrl: {
+      fi: 'https://www.nysse.fi/kaupunkipyorat',
+      sv: 'https://www.nysse.fi/en/city-bikes.html',
+      en: 'https://www.nysse.fi/en/city-bikes.html',
+    },
   },
 
   // enable train routing for Tampere
