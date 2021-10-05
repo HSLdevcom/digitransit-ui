@@ -95,7 +95,6 @@ class MapLayersDialogContent extends React.Component {
 
   updateSetting = newSetting => {
     this.props.updateMapLayers({
-      ...this.props.mapLayers,
       ...newSetting,
     });
   };
@@ -115,7 +114,6 @@ class MapLayersDialogContent extends React.Component {
 
   updateStopSetting = newSetting => {
     const stop = {
-      ...this.props.mapLayers.stop,
       ...newSetting,
     };
     this.updateSetting({ stop });
@@ -144,6 +142,7 @@ class MapLayersDialogContent extends React.Component {
       citybike,
       parkAndRide,
       stop,
+      terminal,
       geoJson,
       vehicles,
       bikeParks,
@@ -214,20 +213,20 @@ class MapLayersDialogContent extends React.Component {
                   icon: 'icon-icon_stop_bus',
                   settings: { stop: 'bus' },
                 },
-                /* isTransportModeEnabled(transportModes.subway) && {
+                isTransportModeEnabled(transportModes.subway) && {
                   checked: terminal.subway,
                   defaultMessage: 'Subway station',
                   labelId: 'map-layer-terminal-subway',
                   icon: 'icon-icon_stop_subway',
                   settings: { stop: 'subway', terminal: 'subway' },
-                }, */
-                /* isTransportModeEnabled(transportModes.rail) && {
+                },
+                isTransportModeEnabled(transportModes.rail) && {
                   checked: terminal.rail,
                   defaultMessage: 'Railway station',
                   labelId: 'map-layer-terminal-rail',
                   icon: 'icon-icon_stop_rail',
                   settings: { stop: 'rail', terminal: 'rail' },
-                }, */
+                },
                 isTransportModeEnabled(transportModes.tram) && {
                   checked: stop.tram,
                   disabled: !!this.props.mapLayerOptions?.stop?.tram?.isLocked,
