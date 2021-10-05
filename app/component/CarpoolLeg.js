@@ -154,21 +154,6 @@ CarpoolLeg.drawIcons = agency => {
   );
 };
 
-const exampleLeg = day => ({
-  duration: 900,
-  startTime: day + 20000,
-  distance: 5678,
-  from: { name: 'Herrenberg (Württ)' },
-  mode: 'CARPOOL',
-  route: {
-    url: 'https://www.fahrgemeinschaft.de/',
-    agency: {
-      gtfsId: 'mfdz:fg',
-      name: 'Fahrgemeinschaft.de',
-    },
-  },
-});
-
 CarpoolLeg.propTypes = {
   leg: PropTypes.shape({
     duration: PropTypes.number.isRequired,

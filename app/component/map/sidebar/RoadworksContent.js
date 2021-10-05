@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
+import withBreakpoint from '../../../util/withBreakpoint';
 import SidebarContainer from './SidebarContainer';
 
 class RoadworksContent extends React.Component {
