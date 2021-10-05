@@ -41,7 +41,6 @@ const DesktopModal = ({
       </div>
       <div className={styles['favourite-modal-desktop-main']}>
         <div className={styles['favourite-modal-desktop-location-search']}>
-          <p className={styles['sr-only']}>{requiredText}</p>
           {autosuggestComponent}
         </div>
         <div className={styles['favourite-modal-desktop-name']}>
