@@ -294,7 +294,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
     bannedBicycleParkingTags = ['osm:fee=yes'];
   }
   if (BicycleParkingFilter.SecurePreferred === settings.bicycleParkingFilter) {
-    preferredBicycleParkingTags = ['osm:fee=yes'];
+    preferredBicycleParkingTags = ['osm:fee=yes', 'osm:fee=some'];
   }
 
   const cookies = new Cookies();
