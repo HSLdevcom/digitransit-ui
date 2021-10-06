@@ -101,6 +101,10 @@ export function setCustomizedSettings(data) {
       oldSettings.accessibilityOption,
     ),
     bikeSpeed: getNumberValueOrDefault(data.bikeSpeed, oldSettings.bikeSpeed),
+    bicycleParkingFilter: getValueOrDefault(
+      data.bicycleParkingFilter,
+      oldSettings.bicycleParkingFilter,
+    ),
     modes: getValueOrDefault(data.modes, oldSettings.modes),
     ticketTypes: getValueOrDefault(data.ticketTypes, oldSettings.ticketTypes),
     walkBoardCost: getNumberValueOrDefault(
