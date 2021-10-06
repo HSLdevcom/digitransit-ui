@@ -7,18 +7,70 @@ import { getCustomizedSettings } from '../store/localStorage';
 import { isInBoundingBox } from './geo-utils';
 import { addAnalyticsEvent } from './analyticsUtils';
 
+export const isCitybikeSeasonActive = season => {
+  if (!season) {
+    return true;
+  }
+  const currentDate = new Date();
+
+  if (
+    currentDate.getTime() <= season.end.getTime() &&
+    currentDate.getTime() >= season.start.getTime()
+  ) {
+    return true;
+  }
+  return false;
+};
+
+export const showCitybikeNetwork = network => {
+  return network.enabled && isCitybikeSeasonActive(network.season);
+};
+
+export const showCityBikes = networks => {
+  if (!networks) {
+    return false;
+  }
+  return Object.values(networks).some(network => showCitybikeNetwork(network));
+};
+
+export const getNearYouModes = config => {
+  if (!config.cityBike || !config.cityBike.networks) {
+    return config.nearYouModes;
+  }
+  if (!showCityBikes(config.cityBike.networks)) {
+    return config.nearYouModes.filter(mode => mode !== 'citybike');
+  }
+  return config.nearYouModes;
+};
+
+export const getTransportModes = config => {
+  if (
+    config.cityBike &&
+    config.cityBike.networks &&
+    !showCityBikes(config.cityBike.networks)
+  ) {
+    return {
+      ...config.transportModes,
+      ...{ citybike: { availableForSelection: false } },
+    };
+  }
+  return config.transportModes || {};
+};
+
 /**
  * Retrieves all transport modes that have specified "availableForSelection": true.
  * The full configuration will be returned.
  *
  * @param {*} config The configuration for the software installation
  */
-export const getAvailableTransportModeConfigs = config =>
-  config.transportModes
-    ? Object.keys(config.transportModes)
-        .filter(tm => config.transportModes[tm].availableForSelection)
-        .map(tm => ({ ...config.transportModes[tm], name: tm.toUpperCase() }))
+export const getAvailableTransportModeConfigs = config => {
+  const transportModes = getTransportModes(config);
+  return transportModes
+    ? Object.keys(transportModes)
+        .filter(tm => transportModes[tm].availableForSelection)
+        .map(tm => ({ ...transportModes[tm], name: tm.toUpperCase() }))
     : [];
+};
 
 export const getDefaultTransportModes = config =>
   getAvailableTransportModeConfigs(config)

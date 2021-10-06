@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-favourite-bar",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "description": "digitransit-component favourite-bar module",
   "main": "lib/index.js",
   "files": [
@@ -28,8 +28,8 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "peerDependencies": {
-    "@digitransit-component/digitransit-component-icon": "^0.1.10",
-    "@digitransit-component/digitransit-component-suggestion-item": "^0.2.11",
+    "@digitransit-component/digitransit-component-icon": "^0.1.12",
+    "@digitransit-component/digitransit-component-suggestion-item": "^0.2.12",
     "@hsl-fi/sass": "^0.1.1",
     "@hsl-fi/shimmer": "0.1.0",
     "classnames": "2.2.6",

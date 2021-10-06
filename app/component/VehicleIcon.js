@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import ComponentUsageExample from './ComponentUsageExample';
 
 const getFontSize = length => {
   switch (length) {
@@ -107,18 +106,6 @@ const VehicleIcon = ({
 );
 
 VehicleIcon.displayName = 'VehicleIcon';
-
-VehicleIcon.description = () => (
-  <div>
-    <p>Shows an icon from the SVG sprite and adds blue &lsquo;tail&rsquo;.</p>
-    <ComponentUsageExample description="Rotate 0">
-      <VehicleIcon rotate={0} vehicleNumber="550" />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="Rotate 90">
-      <VehicleIcon rotate={90} vehicleNumber="550" />
-    </ComponentUsageExample>
-  </div>
-);
 
 VehicleIcon.propTypes = {
   id: PropTypes.string,

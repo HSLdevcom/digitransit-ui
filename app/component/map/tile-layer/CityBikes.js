@@ -4,12 +4,18 @@ import { graphql, fetchQuery } from 'react-relay';
 import pick from 'lodash/pick';
 
 import { isBrowser } from '../../../util/browser';
-import { getMapIconScale, drawCitybikeIcon } from '../../../util/mapIconUtils';
+import {
+  getMapIconScale,
+  drawCitybikeIcon,
+  getStopIconStyles,
+} from '../../../util/mapIconUtils';
+import { showCitybikeNetwork } from '../../../util/modeUtils';
 
 import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
+  getCitybikeCapacity,
   BIKEAVL_UNKNOWN,
 } from '../../../util/citybikes';
 
@@ -20,8 +26,6 @@ const query = graphql`
     station: bikeRentalStation(id: $id) {
       stationId
       bikesAvailable
-      spacesAvailable
-      capacity
       networks
       state
       rentalUris {
@@ -81,45 +85,60 @@ class CityBikes {
       );
     });
 
-  fetchAndDrawStatus = ({ geom, properties: { id } }) => {
+  fetchAndDrawStatus = ({ geom, properties: { id, networks } }) => {
+    if (
+      (this.tile.stopsToShow && !this.tile.stopsToShow.includes(id)) ||
+      !showCitybikeNetwork(this.config.cityBike.networks[networks])
+    ) {
+      return;
+    }
     const lastFetch = timeOfLastFetch[id];
     const currentTime = new Date().getTime();
 
+    const iconName = getCityBikeNetworkIcon(
+      getCityBikeNetworkConfig(getCityBikeNetworkId(networks), this.config),
+    );
+    const citybikeCapacity = getCitybikeCapacity(this.config, networks);
+    const iconColor =
+      iconName.includes('secondary') &&
+      this.config.colors.iconColors['mode-citybike-secondary']
+        ? this.config.colors.iconColors['mode-citybike-secondary']
+        : this.config.colors.iconColors['mode-citybike'];
+
+    const isHilighted = this.tile.hilightedStops?.includes(id);
+
     const callback = ({ station: result }) => {
-      const isHilighted = this.tile.hilightedStops?.includes(result.stationId);
       timeOfLastFetch[id] = new Date().getTime();
       if (result) {
-        const iconName = getCityBikeNetworkIcon(
-          getCityBikeNetworkConfig(
-            getCityBikeNetworkId(result.networks),
-            this.config,
-          ),
+        drawCitybikeIcon(
+          this.tile,
+          geom,
+          result.state,
+          result.bikesAvailable,
+          iconName,
+          citybikeCapacity !== BIKEAVL_UNKNOWN,
+          iconColor,
+          isHilighted,
         );
-        const iconColor =
-          iconName.includes('secondary') &&
-          this.config.colors.iconColors['mode-citybike-secondary']
-            ? this.config.colors.iconColors['mode-citybike-secondary']
-            : this.config.colors.iconColors['mode-citybike'];
-        if (
-          !this.tile.stopsToShow ||
-          this.tile.stopsToShow.includes(result.stationId)
-        ) {
-          drawCitybikeIcon(
-            this.tile,
-            geom,
-            result.state,
-            result.bikesAvailable,
-            iconName,
-            this.config.cityBike.capacity !== BIKEAVL_UNKNOWN,
-            iconColor,
-            isHilighted,
-          );
-        }
       }
       return this;
     };
 
-    if (lastFetch && currentTime - lastFetch <= 30000) {
+    const zoom = this.tile.coords.z - 1;
+    // If small icon is shown, enough information is within vector tile
+    // and no need to fetch additional data from routing
+    if (getStopIconStyles('citybike', zoom, isHilighted)?.style === 'small') {
+      drawCitybikeIcon(
+        this.tile,
+        geom,
+        undefined,
+        undefined,
+        iconName,
+        citybikeCapacity !== BIKEAVL_UNKNOWN,
+        iconColor,
+        false,
+      );
+    } else if (lastFetch && currentTime - lastFetch <= 30000) {
       fetchQuery(this.relayEnvironment, query, { id }).then(callback);
     } else {
       fetchQuery(this.relayEnvironment, query, { id }, { force: true }).then(

@@ -6,7 +6,6 @@ import { matchShape } from 'found';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import DisruptionInfo from './DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
-import ComponentUsageExample from './ComponentUsageExample';
 import MessageBar from './MessageBar';
 import LogoSmall from './LogoSmall';
 import CanceledLegsBar from './CanceledLegsBar';
@@ -24,7 +23,7 @@ const AppBar = (
   return (
     <>
       <DisruptionInfo />
-      <MessageBar breakpoint={breakpoint} />
+      {config.NODE_ENV !== 'test' && <MessageBar breakpoint={breakpoint} />}
       <CanceledLegsBar />
       <nav className={`top-bar ${breakpoint !== 'large' ? 'mobile' : ''}`}>
         <section className="title">
@@ -43,7 +42,12 @@ const AppBar = (
               });
             }}
           >
-            <LogoSmall showLogo={showLogo} showTitles={config.showTitles} logo={logo} title={title}/>
+            <LogoSmall
+              showLogo={showLogo}
+              showTitles={config.showTitles}
+              logo={logo}
+              title={title}
+            />
           </button>
         </section>
         <section className="controls">
@@ -76,18 +80,6 @@ const AppBar = (
 };
 
 AppBar.displayName = 'AppBar';
-
-AppBar.description = () => (
-  <div>
-    <p>AppBar of application for small display</p>
-    <ComponentUsageExample description="">
-      <AppBar title="Reittiopas.hsl.fi" className="fullscreen" />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="no back button">
-      <AppBar title="Reittiopas.hsl.fi" className="fullscreen" />
-    </ComponentUsageExample>
-  </div>
-);
 
 AppBar.propTypes = {
   showLogo: PropTypes.bool,

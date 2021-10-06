@@ -21,6 +21,8 @@ import {
 import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch } from '../action/SearchActions';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
+import { showCityBikes } from './modeUtils';
+import { getDefaultNetworks } from './citybikes';
 
 export default function intializeSearchContext(context, searchContext) {
   // DT-3424: Set SearchContext for Autosuggest and searchUtils.
@@ -37,8 +39,8 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.URL_PELIAS_PLACE = config.URL.PELIAS_PLACE;
   // FeedId's like  [HSL, HSLLautta]
   searchContext.feedIDs = config.feedIds;
-  searchContext.cityBikeNetworks = config.cityBike.showCityBikes
-    ? Object.keys(config.cityBike.networks).map(t => `citybikes${t}`)
+  searchContext.cityBikeNetworks = showCityBikes(config.cityBike.networks)
+    ? getDefaultNetworks(config).map(t => `citybikes${t}`)
     : [];
   // searchSources e.g. [oa,osm,nlsfi.]
   searchContext.geocodingSources = config.searchSources;

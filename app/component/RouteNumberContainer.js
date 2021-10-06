@@ -1,22 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import get from 'lodash/get';
-
+import { getLegText } from '../util/legUtils';
 import RouteNumber from './RouteNumber';
 
-const getText = (route, config) => {
-  const showAgency = get(config, 'agency.show', false);
-  if (route.shortName) {
-    return route.shortName;
-  }
-  if (showAgency && route.agency) {
-    return route.agency.name;
-  }
-  return '';
-};
-
 const RouteNumberContainer = (
-  { alertSeverityLevel, className, route, isCallAgency, withBicycle, ...props },
+  {
+    alertSeverityLevel,
+    interliningWithRoute,
+    className,
+    route,
+    isCallAgency,
+    withBicycle,
+    ...props
+  },
   { config },
 ) => {
   const isOnDemandTaxi = route.type === 715;
@@ -30,7 +26,7 @@ const RouteNumberContainer = (
         color={route.color ? `#${route.color}` : null}
         mode={route.mode}
         icon={isOnDemandTaxi ? 'icon-icon_on-demand-taxi-white' : null}
-        text={getText(route, config)}
+        text={getLegText(route, config, interliningWithRoute)}
         withBicycle={withBicycle}
         {...props}
       />
@@ -41,6 +37,7 @@ const RouteNumberContainer = (
 RouteNumberContainer.propTypes = {
   alertSeverityLevel: PropTypes.string,
   route: PropTypes.object.isRequired,
+  interliningWithRoute: PropTypes.number,
   isCallAgency: PropTypes.bool,
   vertical: PropTypes.bool,
   className: PropTypes.string,

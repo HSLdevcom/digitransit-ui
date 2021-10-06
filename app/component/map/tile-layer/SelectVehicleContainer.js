@@ -4,7 +4,6 @@ import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
 import TripMarkerPopup from '../route/TripMarkerPopup';
 import SelectVehicleRow from './SelectVehicleRow';
 import Loading from '../../Loading';
-import ComponentUsageExample from '../../ComponentUsageExample';
 
 const rowQuery = graphql`
   query SelectVehicleContainerRowQuery($tripId: String!) {
@@ -120,21 +119,6 @@ function SelectVehicleContainer(props) {
 }
 
 SelectVehicleContainer.displayName = 'SelectVehicleContainer';
-
-SelectVehicleContainer.description = () => (
-  <div>
-    <p>Renders a select stop row</p>
-    <ComponentUsageExample description="">
-      <SelectVehicleRow
-        gtfsId="TEST"
-        type="BUS"
-        name="Testipysäkki"
-        code="X0000"
-        desc="Testikatu"
-      />
-    </ComponentUsageExample>
-  </div>
-);
 
 SelectVehicleContainer.propTypes = {
   rowView: PropTypes.bool,

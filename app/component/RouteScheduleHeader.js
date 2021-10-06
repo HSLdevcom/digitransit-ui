@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ComponentUsageExample from './ComponentUsageExample';
-import { routeScheduleHeaderStops as exampleStops } from './ExampleData';
 import Icon from './Icon';
 import { isBrowser } from '../util/browser';
 import RouteScheduleDropdown from './RouteScheduleDropdown';
@@ -57,7 +55,7 @@ function RouteScheduleHeader({
   );
 
   return (
-    <div className="route-schedule-header row padding-vertical-normal">
+    <div className="route-schedule-header row">
       {stopHeadersForPrinting}
       <div className="route-schedule-dropdowns">
         <RouteScheduleDropdown
@@ -88,20 +86,5 @@ RouteScheduleHeader.propTypes = {
 };
 
 RouteScheduleHeader.displayName = 'RouteScheduleHeader';
-
-RouteScheduleHeader.description = () => (
-  <div>
-    <p>Display a route schedule header using react components</p>
-    <ComponentUsageExample>
-      <RouteScheduleHeader
-        stops={exampleStops}
-        from={0}
-        to={1}
-        onFromSelectChange={event => event.target.value}
-        onToSelectChange={event => event.target.value}
-      />
-    </ComponentUsageExample>
-  </div>
-);
 
 export default RouteScheduleHeader;

@@ -144,6 +144,12 @@ export default configMerger(walttiConfig, {
                     en: 'https://stadtrad.hamburg.de/en',
                 },
                 visibleInSettingsUi: false,
+                enabled: true,
+                season: {
+                    // 1.1. - 31.12.
+                    start: new Date(new Date().getFullYear(), 0, 1),
+                    end: new Date(new Date().getFullYear(), 11, 31),
+                },
             },
         }
     },

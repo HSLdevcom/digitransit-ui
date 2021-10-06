@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import Icon from './Icon';
-import ComponentUsageExample from './ComponentUsageExample';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 export default function RightOffcanvasToggle(
@@ -57,12 +56,3 @@ RightOffcanvasToggle.contextTypes = {
 };
 
 RightOffcanvasToggle.displayName = 'RightOffcanvasToggle';
-
-RightOffcanvasToggle.description = () => (
-  <div>
-    <p>A toggle for the itinerary search preferences.</p>
-    <ComponentUsageExample>
-      <RightOffcanvasToggle onToggleClick={() => {}} />
-    </ComponentUsageExample>
-  </div>
-);

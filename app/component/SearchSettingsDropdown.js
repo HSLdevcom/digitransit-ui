@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/click-events-have-key-events, no-sequences */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -122,31 +122,33 @@ class SearchSettingsDropdown extends React.Component {
               ? option.displayNameObject
               : option.displayName}
           </span>
-          <span className="checkmark">
-            &nbsp;
-            {option.value === this.props.currentSelection.value && (
-              <Icon
-                className="selected-checkmark"
-                img="icon-icon_check"
-                viewBox="0 0 15 11"
-              />
-            )}
+          <span className="right-side">
+            <span className="kmh-value">{option.kmhValue}</span>
+            <span className="checkmark">
+              &nbsp;
+              {option.value === this.props.currentSelection.value && (
+                <Icon
+                  className="selected-checkmark"
+                  img="icon-icon_check"
+                  viewBox="0 0 15 11"
+                />
+              )}
+            </span>
+            <input
+              id={`dropdown-${this.props.name}-${option.value}`}
+              type="radio"
+              name={this.props.name}
+              checked={option.value === this.props.currentSelection.value}
+              value={option.value}
+              onChange={e => {
+                this.handleChangeOnly(option.value);
+                // try to detect if event is from an actual click or keyboard navigation
+                if (e.nativeEvent.clientX || e.nativeEvent.clientY) {
+                  this.handleDropdownClick(prevState);
+                }
+              }}
+            />
           </span>
-          <span className="kmh-value">{option.kmhValue}</span>
-          <input
-            id={`dropdown-${this.props.name}-${option.value}`}
-            type="radio"
-            name={this.props.name}
-            checked={option.value === this.props.currentSelection.value}
-            value={option.value}
-            onChange={e => {
-              this.handleChangeOnly(option.value);
-              // try to detect if event is from an actual click or keyboard navigation
-              if (e.nativeEvent.clientX || e.nativeEvent.clientY) {
-                this.handleDropdownClick(prevState);
-              }
-            }}
-          />
         </label>
       </li>
     ));
@@ -229,33 +231,34 @@ class SearchSettingsDropdown extends React.Component {
           className="settings-dropdown-label"
           onClick={() => this.toggleDropdown(this.state.showDropdown)}
         >
-          &zwnj;{/* removing this breaks keyboard navigation on firefox??? */}
           <p className="settings-dropdown-label-text">{labelText}</p>
-          <p className="settings-dropdown-label-value">
-            {/* eslint-disable-next-line no-nested-ternary */}
-            {displayValueFormatter
-              ? displayValueFormatter(currentSelection.title)
-              : translateLabels
-              ? `${intl.formatMessage({
-                  id: currentSelection.title,
-                })}`
-              : currentSelection.title}
-          </p>
-          <span className="sr-only">
-            {intl.formatMessage({
-              id: showDropdown
-                ? 'settings-dropdown-close-label'
-                : 'settings-dropdown-open-label',
-            })}
+          <span className="settings-dropdown-text-container">
+            <p className="settings-dropdown-label-value">
+              {/* eslint-disable-next-line no-nested-ternary */}
+              {displayValueFormatter
+                ? displayValueFormatter(currentSelection.title)
+                : translateLabels
+                ? `${intl.formatMessage({
+                    id: currentSelection.title,
+                  })}`
+                : currentSelection.title}
+            </p>
+            <span className="sr-only">
+              {intl.formatMessage({
+                id: showDropdown
+                  ? 'settings-dropdown-close-label'
+                  : 'settings-dropdown-open-label',
+              })}
+            </span>
+            <Icon
+              className={
+                this.state.showDropdown
+                  ? 'fake-select-arrow inverted'
+                  : 'fake-select-arrow'
+              }
+              img="icon-icon_arrow-dropdown"
+            />
           </span>
-          <Icon
-            className={
-              this.state.showDropdown
-                ? 'fake-select-arrow inverted'
-                : 'fake-select-arrow'
-            }
-            img="icon-icon_arrow-dropdown"
-          />
         </button>
         {showDropdown && (
           <ul role="radiogroup" className="settings-dropdown">

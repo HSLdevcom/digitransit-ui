@@ -1,5 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
+import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = 'tampere';
 const APP_TITLE = 'Nyssen reittiopas';
@@ -51,7 +52,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/tre_zone_lines_20210222.geojson',
+        url: '/assets/geojson/tre_zone_lines_20210622.geojson',
         isOffByDefault: true,
       },
     ],
@@ -236,6 +237,32 @@ export default configMerger(walttiConfig, {
     tampere: tampereTimetables,
   },
 
+  cityBike: {
+    networks: {
+      tampere: {
+        capacity: BIKEAVL_WITHMAX,
+        enabled: true,
+        season: {
+          // 1.4. - 31.10.
+          start: new Date(new Date().getFullYear(), 3, 1),
+          end: new Date(new Date().getFullYear(), 10, 1),
+        },
+        icon: 'citybike',
+        name: {
+          fi: 'Tampere',
+          sv: 'Tammerfors',
+          en: 'Tampere',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://www.nysse.fi/kaupunkipyorat',
+          sv: 'https://www.nysse.fi/en/city-bikes.html',
+          en: 'https://www.nysse.fi/en/city-bikes.html',
+        },
+      },
+    },
+  },
+
   // enable train routing for Tampere
   transportModes: {
     rail: {
@@ -246,9 +273,14 @@ export default configMerger(walttiConfig, {
       availableForSelection: true,
       defaultValue: true,
     },
+    citybike: {
+      availableForSelection: true,
+    },
   },
 
   // modes that should not coexist with BICYCLE mode
   // boarding a long distance train with bicycle costs extra
   modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'RAIL'],
+
+  showTenWeeksOnRouteSchedule: true,
 });

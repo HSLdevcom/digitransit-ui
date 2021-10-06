@@ -184,15 +184,43 @@ function ItinerarySummaryListContainer(
       </div>
     );
   }
-  if (!error && (!from.lat || !from.lon || !to.lat || !to.lon)) {
-    return (
-      <div className="summary-list-container summary-no-route-found">
-        <FormattedMessage
-          id="no-route-start-end"
-          defaultMessage="Please select origin and destination."
-        />
-      </div>
-    );
+  if (!error) {
+    if ((!from.lat || !from.lon) && (!to.lat || !to.lon)) {
+      return (
+        <div className="summary-list-container">
+          <div className="summary-no-route-found">
+            <FormattedMessage
+              id="no-route-start-end"
+              defaultMessage="Please select origin and destination"
+            />
+          </div>
+        </div>
+      );
+    }
+    if (!from.lat || !from.lon) {
+      return (
+        <div className="summary-list-container">
+          <div className="summary-no-route-found">
+            <FormattedMessage
+              id="no-route-start"
+              defaultMessage="Please select origin"
+            />
+          </div>
+        </div>
+      );
+    }
+    if (!to.lat || !to.lon) {
+      return (
+        <div className="summary-list-container">
+          <div className="summary-no-route-found">
+            <FormattedMessage
+              id="no-route-end"
+              defaultMessage="Please select destination"
+            />
+          </div>
+        </div>
+      );
+    }
   }
 
   if (loading) {

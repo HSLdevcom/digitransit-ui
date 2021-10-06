@@ -8,22 +8,25 @@ import { matchShape, routerShape, withRouter } from 'found';
 import merge from 'lodash/merge';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import Icon from './Icon';
-
 import GeoJsonStore from '../store/GeoJsonStore';
+import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 import { updateMapLayers } from '../action/MapLayerActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withGeojsonObjects from './map/withGeojsonObjects';
 import { replaceQueryParams, clearQueryParams } from '../util/queryUtils';
 import { MapMode } from '../constants';
-import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 import { setMapMode } from '../action/MapModeActions';
 import LayerCategoryDropdown from './LayerCategoryDropdown';
+import { mapLayerOptionsShape } from '../util/shapes';
+import { getTransportModes, showCityBikes } from '../util/modeUtils';
 
 const transportModeConfigShape = PropTypes.shape({
   availableForSelection: PropTypes.bool,
 });
+
 const mapLayersConfigShape = PropTypes.shape({
   cityBike: PropTypes.shape({
+    networks: PropTypes.object,
     showCityBikes: PropTypes.bool,
   }),
   geoJson: PropTypes.shape({
@@ -61,12 +64,17 @@ const mapLayersConfigShape = PropTypes.shape({
 
 class MapLayersDialogContent extends React.Component {
   static propTypes = {
-    mapLayers: PropTypes.object,
+    mapLayers: mapLayerShape.isRequired,
+    mapLayerOptions: mapLayerOptionsShape,
     setOpen: PropTypes.func.isRequired,
     updateMapLayers: PropTypes.func,
     lang: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
     geoJson: PropTypes.object,
+  };
+
+  static defaultProps = {
+    mapLayerOptions: null,
   };
 
   sendLayerChangeAnalytic = (name, enable) => {
@@ -87,17 +95,36 @@ class MapLayersDialogContent extends React.Component {
 
   updateSetting = newSetting => {
     this.props.updateMapLayers({
-      ...this.props.mapLayers,
       ...newSetting,
     });
   };
 
-  updateTicketSalesSetting = newSetting => {
-    const ticketSales = {
-      ...this.props.mapLayers.ticketSales,
+  updateStopAndTerminalSetting = newSetting => {
+    const { mapLayers } = this.props;
+    const stop = {
+      ...mapLayers.stop,
       ...newSetting,
     };
-    this.updateSetting({ ticketSales });
+    const terminal = {
+      ...mapLayers.terminal,
+      ...newSetting,
+    };
+    this.updateSetting({ stop, terminal });
+  };
+
+  updateStopSetting = newSetting => {
+    const stop = {
+      ...newSetting,
+    };
+    this.updateSetting({ stop });
+  };
+
+  updateGeoJsonSetting = newSetting => {
+    const geoJson = {
+      ...this.props.mapLayers.geoJson,
+      ...newSetting,
+    };
+    this.updateSetting({ geoJson });
   };
 
   switchMapLayers = mode => {
@@ -108,28 +135,6 @@ class MapLayersDialogContent extends React.Component {
       clearQueryParams(router, match, ['mapMode']);
     }
     this.props.setMapMode(mapMode);
-  };
-
-  sendLayerChangedAnalyticsEvents = settings => {
-    function capitalize(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
-    Object.keys(settings).forEach(settingType => {
-      if (typeof settings[settingType] !== 'object') {
-        this.sendLayerChangeAnalytic(
-          capitalize(settingType),
-          settings[settingType],
-        );
-      } else {
-        Object.keys(settings[settingType]).forEach(settingSubType => {
-          this.sendLayerChangeAnalytic(
-            capitalize(settingSubType) + capitalize(settingType),
-            settings[settingType][settingSubType],
-          );
-        });
-      }
-    });
   };
 
   render() {
@@ -157,7 +162,7 @@ class MapLayersDialogContent extends React.Component {
 
     const isTransportModeEnabled = transportMode =>
       transportMode && transportMode.availableForSelection;
-    const transportModes = this.context.config.transportModes || {};
+    const transportModes = getTransportModes(this.context.config);
 
     const bikeServiceLayer = geoJsonLayers?.find(
       layer => layer.name.en === 'Service stations and stores',
@@ -187,7 +192,6 @@ class MapLayersDialogContent extends React.Component {
             defaultMessage: 'Bubble Dialog Header',
           })}
         </span>
-
         <div className="map-layers-content">
           <div>
             <LayerCategoryDropdown
@@ -198,11 +202,11 @@ class MapLayersDialogContent extends React.Component {
               icon="icon-icon_material_rail"
               onChange={newSettings => {
                 this.updateSetting(merge(this.props.mapLayers, newSettings));
-                this.sendLayerChangedAnalyticsEvents(newSettings);
               }}
               options={[
                 isTransportModeEnabled(transportModes.bus) && {
                   checked: stop.bus,
+                  disabled: !!this.props.mapLayerOptions?.stop?.bus?.isLocked,
                   defaultMessage: 'Bus stop',
                   labelId: 'map-layer-stop-bus',
                   icon: 'icon-icon_stop_bus',
@@ -224,6 +228,7 @@ class MapLayersDialogContent extends React.Component {
                 },
                 isTransportModeEnabled(transportModes.tram) && {
                   checked: stop.tram,
+                  disabled: !!this.props.mapLayerOptions?.stop?.tram?.isLocked,
                   defaultMessage: 'Tram stop',
                   labelId: 'map-layer-stop-tram',
                   icon: 'icon-icon_stop_tram',
@@ -231,6 +236,7 @@ class MapLayersDialogContent extends React.Component {
                 },
                 isTransportModeEnabled(transportModes.ferry) && {
                   checked: stop.ferry,
+                  disabled: !!this.props.mapLayerOptions?.stop?.ferry?.isLocked,
                   defaultMessage: 'Ferry',
                   labelId: 'map-layer-stop-ferry',
                   icon: 'icon-icon_stop_ferry',
@@ -238,6 +244,7 @@ class MapLayersDialogContent extends React.Component {
                 },
                 this.context.config.vehicles && {
                   checked: vehicles,
+                  disabled: !!this.props.mapLayerOptions?.vehicles?.isLocked,
                   defaultMessage: 'Moving vehicles',
                   labelId: 'map-layer-vehicles',
                   icon: 'icon-icon_moving_bus',
@@ -253,7 +260,6 @@ class MapLayersDialogContent extends React.Component {
               icon="icon-icon_material_bike"
               onChange={newSettings => {
                 this.updateSetting(merge(this.props.mapLayers, newSettings));
-                this.sendLayerChangedAnalyticsEvents(newSettings);
               }}
               options={[
                 this.context.config.bikeParks &&
@@ -285,24 +291,23 @@ class MapLayersDialogContent extends React.Component {
               icon="icon-icon_material_bike_scooter"
               onChange={newSettings => {
                 this.updateSetting(merge(this.props.mapLayers, newSettings));
-                this.sendLayerChangedAnalyticsEvents(newSettings);
               }}
               options={[
-                this.context.config.cityBike &&
-                  this.context.config.cityBike.showCityBikes && {
-                    checked: citybike,
-                    defaultMessage: 'Sharing',
-                    labelId: 'map-layer-sharing',
-                    icon: 'icon-icon_citybike',
-                    settings: 'citybike',
-                  },
-                isTransportModeEnabled(transportModes.carpool) && {
+                showCityBikes(this.context.config?.cityBike?.networks) && {
+                  checked: citybike,
+                  disabled: !!this.props.mapLayerOptions?.citybike?.isLocked,
+                  defaultMessage: 'Sharing',
+                  labelId: 'map-layer-sharing',
+                  icon: 'icon-icon_citybike',
+                  settings: 'citybike',
+                },
+                /* isTransportModeEnabled(transportModes.carpool) && {
                   checked: terminal.carpool,
                   defaultMessage: 'Carpool stops',
                   labelId: 'map-layer-carpool',
                   icon: 'icon-icon_carpool',
                   settings: { stop: 'carpool', terminal: 'carpool' },
-                },
+                }, */
               ]}
             />
             <LayerCategoryDropdown
@@ -313,7 +318,6 @@ class MapLayersDialogContent extends React.Component {
               icon="icon-icon_material_car"
               onChange={newSettings => {
                 this.updateSetting(merge(this.props.mapLayers, newSettings));
-                this.sendLayerChangedAnalyticsEvents(newSettings);
               }}
               options={[
                 this.context.config.dynamicParkingLots &&
@@ -328,6 +332,8 @@ class MapLayersDialogContent extends React.Component {
                 this.context.config.parkAndRide &&
                   this.context.config.parkAndRide.showParkAndRide && {
                     checked: parkAndRide,
+                    disabled: !!this.props.mapLayerOptions?.parkAndRide
+                      ?.isLocked,
                     defaultMessage: 'Park &amp; ride',
                     labelId: 'map-layer-park-and-ride',
                     icon: 'icon-icon_park-and-ride',
@@ -351,7 +357,6 @@ class MapLayersDialogContent extends React.Component {
               icon="icon-icon_material_map"
               onChange={newSettings => {
                 this.updateSetting(merge(this.props.mapLayers, newSettings));
-                this.sendLayerChangedAnalyticsEvents(newSettings);
               }}
               options={[
                 publicToiletsLayer && {
@@ -481,7 +486,6 @@ MapLayersDialogContent.contextTypes = {
   router: routerShape.isRequired,
   match: matchShape.isRequired,
 };
-
 /**
  * Retrieves the list of geojson layers in use from the configuration or
  * the geojson store. If no layers exist in these sources, the

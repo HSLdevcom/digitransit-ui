@@ -11,6 +11,9 @@
 }
 
 .summary-no-route-found {
+  display: flex;
+  justify-content: center;
+  margin-top: 10%;
   padding: 1em;
   .external-no-route .external-link-container {
     margin-left: 0.5rem;
@@ -360,7 +363,8 @@
           height: inherit;
         }
       }
-      h2 {
+      h1 {
+        font-family: $heading-font-family;
         width: 100%;
         text-align: center;
         margin: 1.7em 0 25px 0;

@@ -2,8 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { station as exampleStation } from '../../ExampleData';
-import ComponentUsageExample from '../../ComponentUsageExample';
 import OSMOpeningHours from '../popups/OSMOpeningHours';
 import SidebarContainer from './SidebarContainer';
 
@@ -33,20 +31,6 @@ class DynamicParkingLotsContent extends React.Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
   };
-
-  static description = (
-    <div>
-      <p>Renders a citybike popup.</p>
-      <ComponentUsageExample description="">
-        <DynamicParkingLotsContent
-          context="context object here"
-          station={exampleStation}
-        >
-          Im content of a citybike card
-        </DynamicParkingLotsContent>
-      </ComponentUsageExample>
-    </div>
-  );
 
   static displayName = 'ParkingLotPopup';
 

@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import Icon from '../../Icon';
-import ComponentUsageExample from '../../ComponentUsageExample';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function SelectWeatherStationRow(props, { intl }) {
@@ -29,15 +28,6 @@ function SelectWeatherStationRow(props, { intl }) {
 }
 
 SelectWeatherStationRow.displayName = 'SelectWeatherStationRow';
-
-SelectWeatherStationRow.description = (
-  <div>
-    <p>Renders a select weather station row</p>
-    <ComponentUsageExample description="">
-      <SelectWeatherStationRow selectRow={() => {}} />
-    </ComponentUsageExample>
-  </div>
-);
 
 SelectWeatherStationRow.propTypes = {
   selectRow: PropTypes.func.isRequired,

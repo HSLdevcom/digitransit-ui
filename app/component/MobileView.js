@@ -104,7 +104,12 @@ export default function MobileView({
           <MapBottomsheetContext.Provider value={bottomsheetState.context}>
             {map}
           </MapBottomsheetContext.Provider>
-          <div className="drawer-container" onScroll={onScroll} ref={scrollRef}>
+          <div
+            className="drawer-container"
+            onScroll={onScroll}
+            ref={scrollRef}
+            role="main"
+          >
             <div className="drawer-padding" />
             <div className="drawer-content">
               <div className="drag-line" />
@@ -116,10 +121,10 @@ export default function MobileView({
           </div>
         </>
       ) : (
-        <>
+        <div role="main">
           {header}
           {content}
-        </>
+        </div>
       )}
     </div>
   );

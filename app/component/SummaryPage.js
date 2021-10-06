@@ -13,7 +13,7 @@ import { connectToStores } from 'fluxible-addons-react';
 import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
 import polyline from 'polyline-encoded';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
@@ -38,9 +38,7 @@ import {
   clearQueryParams,
 } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
-import ComponentUsageExample from './ComponentUsageExample';
-import exampleData from './data/SummaryPage.ExampleData';
-import { isBrowser, isIOS } from '../util/browser';
+import { isIOS } from '../util/browser';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
@@ -67,6 +65,8 @@ import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { saveSearch } from '../action/SearchActions';
 import CustomizeSearch from './CustomizeSearchNew';
 import { mapLayerShape } from '../store/MapLayerStore';
+import { getMapLayerOptions } from '../util/mapLayerUtils';
+import { mapLayerOptionsShape } from '../util/shapes';
 
 const POINT_FOCUS_ZOOM = 16; // used when focusing to a point
 
@@ -251,6 +251,7 @@ class SummaryPage extends React.Component {
     getStore: PropTypes.func,
     router: routerShape.isRequired, // DT-3358
     match: matchShape.isRequired,
+    intl: intlShape.isRequired,
   };
 
   static propTypes = {
@@ -276,6 +277,7 @@ class SummaryPage extends React.Component {
       refetch: PropTypes.func.isRequired,
     }).isRequired,
     mapLayers: mapLayerShape.isRequired,
+    mapLayerOptions: mapLayerOptionsShape.isRequired,
   };
 
   static defaultProps = {
@@ -297,9 +299,10 @@ class SummaryPage extends React.Component {
     if (props.error) {
       reportError(props.error);
     }
-    this.resultsUpdatedAlertRef = React.createRef();
-    this.itinerariesLoadingAlertRef = React.createRef();
-    this.itinerariesLoadedAlertRef = React.createRef();
+    this.alertRef = React.createRef();
+    this.tabHeaderRef = React.createRef(null);
+    this.headerRef = React.createRef();
+    this.contentRef = React.createRef();
 
     // DT-4161: Threshold to determine should vehicles be shown if search is made in the future
     this.show_vehicles_threshold_minutes = 720;
@@ -573,6 +576,7 @@ class SummaryPage extends React.Component {
         $bikeParkModes: [TransportMode!]
         $carParkModes: [TransportMode!]
         $bannedVehicleParkingTags: [String]
+        $bannedBicycleParkingTags: [String]
         $useVehicleParkingAvailabilityInformation: Boolean
       ) {
         walkPlan: plan(
@@ -784,6 +788,7 @@ class SummaryPage extends React.Component {
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
           locale: $locale
+          bannedVehicleParkingTags: $bannedBicycleParkingTags
         ) @include(if: $showBikeAndParkItineraries) {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
@@ -885,6 +890,10 @@ class SummaryPage extends React.Component {
                 name
                 lat
                 lon
+                bikePark {
+                  bikeParkId
+                  name
+                }
               }
               distance
             }
@@ -1137,10 +1146,7 @@ class SummaryPage extends React.Component {
       name: null,
     });
     this.setState({ loadingMoreItineraries: reversed ? 'top' : 'bottom' });
-    if (this.itinerariesLoadingAlertRef.current) {
-      // eslint-disable-next-line no-self-assign
-      this.itinerariesLoadingAlertRef.current.innerHTML = this.itinerariesLoadingAlertRef.current.innerHTML;
-    }
+    this.showScreenreaderLoadingAlert();
 
     const end = moment.unix(this.props.serviceTimeRange.end);
     const latestDepartureTime = itineraries.reduce((previous, current) => {
@@ -1188,10 +1194,7 @@ class SummaryPage extends React.Component {
       moreItinerariesQuery,
       tunedParams,
     ).then(({ plan: result }) => {
-      if (this.itinerariesLoadedAlertRef.current) {
-        // eslint-disable-next-line no-self-assign
-        this.itinerariesLoadedAlertRef.current.innerHTML = this.itinerariesLoadedAlertRef.current.innerHTML;
-      }
+      this.showScreenreaderLoadedAlert();
       if (reversed) {
         const reversedItineraries = result.itineraries
           .slice() // Need to copy because result is readonly
@@ -1256,10 +1259,7 @@ class SummaryPage extends React.Component {
       name: null,
     });
     this.setState({ loadingMoreItineraries: reversed ? 'bottom' : 'top' });
-    if (this.itinerariesLoadingAlertRef.current) {
-      // eslint-disable-next-line no-self-assign
-      this.itinerariesLoadingAlertRef.current.innerHTML = this.itinerariesLoadingAlertRef.current.innerHTML;
-    }
+    this.showScreenreaderLoadingAlert();
 
     const start = moment.unix(this.props.serviceTimeRange.start);
     const earliestArrivalTime = itineraries.reduce((previous, current) => {
@@ -1309,10 +1309,7 @@ class SummaryPage extends React.Component {
         // --> cannot calculate earlier start time
         this.setError('no-route-start-date-too-early');
       }
-      if (this.itinerariesLoadedAlertRef.current) {
-        // eslint-disable-next-line no-self-assign
-        this.itinerariesLoadedAlertRef.current.innerHTML = this.itinerariesLoadedAlertRef.current.innerHTML;
-      }
+      this.showScreenreaderLoadedAlert();
       if (reversed) {
         this.setState(prevState => {
           return {
@@ -1466,14 +1463,20 @@ class SummaryPage extends React.Component {
     if (this.showVehicles()) {
       this.stopClient();
     }
-    //  alert screen reader when search results appear
-    if (this.resultsUpdatedAlertRef.current) {
-      // eslint-disable-next-line no-self-assign
-      this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
-    }
   }
 
   componentDidUpdate(prevProps) {
+    // screen reader alert when new itineraries are fetched
+    if (
+      this.props.match.params.hash === undefined &&
+      this.props.viewer &&
+      this.props.viewer.plan &&
+      this.props.viewer.plan.itineraries &&
+      !this.secondQuerySent
+    ) {
+      this.showScreenreaderLoadedAlert();
+    }
+
     const viaPoints = getIntermediatePlaces(this.props.match.location.query);
     if (
       this.props.match.params.hash &&
@@ -1568,16 +1571,6 @@ class SummaryPage extends React.Component {
       }
     }
 
-    if (
-      this.resultsUpdatedAlertRef.current &&
-      this.selectedPlan.itineraries &&
-      JSON.stringify(prevProps.match.location) !==
-        JSON.stringify(this.props.match.location)
-    ) {
-      // refresh content to trigger the alert
-      // eslint-disable-next-line no-self-assign
-      this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
-    }
     if (this.props.error) {
       reportError(this.props.error);
     }
@@ -1756,6 +1749,19 @@ class SummaryPage extends React.Component {
           .catch(err => {
             this.pendingWeatherHash = undefined;
             this.setState({ isFetchingWeather: false, weatherData: { err } });
+          })
+          .finally(() => {
+            if (this.alertRef.current) {
+              this.alertRef.current.innerHTML = this.context.intl.formatMessage(
+                {
+                  id: 'itinerary-summary-page-street-mode.update-alert',
+                  defaultMessage: 'Walking and biking results updated',
+                },
+              );
+              setTimeout(() => {
+                this.alertRef.current.innerHTML = null;
+              }, 100);
+            }
           });
       }
     }
@@ -1776,6 +1782,33 @@ class SummaryPage extends React.Component {
         center: undefined,
         bounds: undefined,
       });
+    }
+  }
+
+  showScreenreaderLoadedAlert() {
+    if (this.alertRef.current) {
+      if (this.alertRef.current.innerHTML) {
+        this.alertRef.current.innerHTML = null;
+      }
+      this.alertRef.current.innerHTML = this.context.intl.formatMessage({
+        id: 'itinerary-page.itineraries-loaded',
+        defaultMessage: 'More itineraries loaded',
+      });
+      setTimeout(() => {
+        this.alertRef.current.innerHTML = null;
+      }, 100);
+    }
+  }
+
+  showScreenreaderLoadingAlert() {
+    if (this.alertRef.current && !this.alertRef.current.innerHTML) {
+      this.alertRef.current.innerHTML = this.context.intl.formatMessage({
+        id: 'itinerary-page.loading-itineraries',
+        defaultMessage: 'Loading for more itineraries',
+      });
+      setTimeout(() => {
+        this.alertRef.current.innerHTML = null;
+      }, 100);
     }
   }
 
@@ -1818,9 +1851,7 @@ class SummaryPage extends React.Component {
       // no map on mobile summary view
       return null;
     }
-    let filteredItineraries;
-
-    filteredItineraries = combinedItineraries.filter(
+    let filteredItineraries = combinedItineraries.filter(
       itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
     );
     if (!filteredItineraries.length) {
@@ -1850,6 +1881,7 @@ class SummaryPage extends React.Component {
         viaPoints={viaPoints}
         zoom={POINT_FOCUS_ZOOM}
         mapLayers={this.props.mapLayers}
+        mapLayerOptions={this.props.mapLayerOptions}
         setMWTRef={this.setMWTRef}
         breakpoint={breakpoint}
         itineraries={filteredItineraries}
@@ -1876,6 +1908,35 @@ class SummaryPage extends React.Component {
   };
 
   internalSetOffcanvas = newState => {
+    if (this.headerRef.current && this.contentRef.current) {
+      setTimeout(() => {
+        let inputs = Array.from(
+          this.headerRef.current.querySelectorAll(
+            'input, button, *[role="button"]',
+          ),
+        );
+        inputs = inputs.concat(
+          Array.from(
+            this.contentRef.current.querySelectorAll(
+              'input, button, *[role="button"]',
+            ),
+          ),
+        );
+        /* eslint-disable no-param-reassign */
+        if (newState) {
+          // hide inputs from screen reader
+          inputs.forEach(elem => {
+            elem.tabIndex = '-1';
+          });
+        } else {
+          // show inputs
+          inputs.forEach(elem => {
+            elem.tabIndex = '0';
+          });
+        }
+        /* eslint-enable no-param-reassign */
+      }, 100);
+    }
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
@@ -1905,6 +1966,7 @@ class SummaryPage extends React.Component {
             getCurrentSettings(this.context.config, ''),
           )
         ) {
+          this.showScreenreaderLoadedAlert();
           if (
             !isEqual(
               otpToLocation(this.context.match.params.from),
@@ -1927,6 +1989,7 @@ class SummaryPage extends React.Component {
           getCurrentSettings(this.context.config, ''),
         )
       ) {
+        this.showScreenreaderLoadedAlert();
         if (
           !isEqual(
             otpToLocation(this.context.match.params.from),
@@ -1997,6 +2060,14 @@ class SummaryPage extends React.Component {
     return itineraries.filter(x => x !== undefined);
   };
 
+  onDetailsTabFocused = () => {
+    setTimeout(() => {
+      if (this.tabHeaderRef.current) {
+        this.tabHeaderRef.current.focus();
+      }
+    }, 500);
+  };
+
   render() {
     const { match, error } = this.props;
     const {
@@ -2036,18 +2107,34 @@ class SummaryPage extends React.Component {
       this.state.alternativePlan.itineraries &&
       this.state.alternativePlan.itineraries.length > 0;
 
+    const screenReaderAlert = (
+      <>
+        <span className="sr-only" role="alert" ref={this.alertRef} />
+      </>
+    );
+
     this.bikeAndPublicItinerariesToShow = 0;
     this.bikeAndParkItinerariesToShow = 0;
     if (this.props.match.params.hash === 'walk') {
       this.stopClient();
       if (!walkPlan) {
-        return <Loading />;
+        return (
+          <>
+            {screenReaderAlert}
+            <Loading />
+          </>
+        );
       }
       this.selectedPlan = walkPlan;
     } else if (this.props.match.params.hash === 'bike') {
       this.stopClient();
       if (!bikePlan) {
-        return <Loading />;
+        return (
+          <>
+            {screenReaderAlert}
+            <Loading />
+          </>
+        );
       }
       this.selectedPlan = bikePlan;
     } else if (this.props.match.params.hash === 'onDemandTaxi') {
@@ -2064,7 +2151,12 @@ class SummaryPage extends React.Component {
         !bikeParkPlan ||
         !Array.isArray(bikeParkPlan.itineraries)
       ) {
-        return <Loading />;
+        return (
+          <>
+            {screenReaderAlert}
+            <Loading />
+          </>
+        );
       }
       if (
         this.hasItinerariesContainingPublicTransit(bikeAndPublicPlan) &&
@@ -2250,54 +2342,6 @@ class SummaryPage extends React.Component {
       latestArrivalTime = Math.max(...combinedItineraries.map(i => i.endTime));
     }
 
-    const loadingStreeModeSelector =
-      this.props.loading ||
-      this.state.isFetchingWalkAndBike ||
-      (!this.state.weatherData.temperature && !this.state.weatherData.err);
-
-    const screenReaderWalkAndBikeUpdateAlert = (
-      <span className="sr-only" role="alert">
-        <FormattedMessage
-          id="itinerary-summary-page-street-mode.update-alert"
-          defaultMessage="Walking and biking results updated"
-        />
-      </span>
-    );
-    const screenReaderAlert = (
-      <>
-        <span
-          className="sr-only"
-          role="alert"
-          ref={this.itinerariesLoadedAlertRef}
-        >
-          <FormattedMessage
-            id="itinerary-page.itineraries-loaded"
-            defaultMessage="More itineraries loaded"
-          />
-        </span>
-        <span
-          className="sr-only"
-          role="alert"
-          ref={this.itinerariesLoadingAlertRef}
-        >
-          <FormattedMessage
-            id="itinerary-page.loading-itineraries"
-            defaultMessage="Loading for more itineraries"
-          />
-        </span>
-        <span
-          className="sr-only"
-          role="alert"
-          ref={this.resultsUpdatedAlertRef}
-        >
-          <FormattedMessage
-            id="itinerary-page.update-alert"
-            defaultMessage="Search results updated"
-          />
-        </span>
-      </>
-    );
-
     const serviceTimeRange = validateServiceTimeRange(
       this.context.config.itinerary.serviceTimeRange,
       this.props.serviceTimeRange,
@@ -2331,6 +2375,7 @@ class SummaryPage extends React.Component {
               <div
                 className={`swipeable-tab ${activeIndex !== i && 'inactive'}`}
                 key={itinerary.key}
+                aria-hidden={activeIndex !== i}
               >
                 <ItineraryTab
                   hideTitle
@@ -2361,10 +2406,12 @@ class SummaryPage extends React.Component {
           return (
             <DesktopView
               title={
-                <FormattedMessage
-                  id="itinerary-page.title"
-                  defaultMessage="Itinerary suggestions"
-                />
+                <span ref={this.tabHeaderRef} tabIndex={-1}>
+                  <FormattedMessage
+                    id="itinerary-page.title"
+                    defaultMessage="Itinerary suggestions"
+                  />
+                </span>
               }
               carpoolDrawer={
                 <CarpoolDrawer
@@ -2407,6 +2454,9 @@ class SummaryPage extends React.Component {
               loading={this.state.isFetchingWalkAndBike && !error}
               onLater={this.onLater}
               onEarlier={this.onEarlier}
+              onDetailsTabFocused={() => {
+                this.onDetailsTabFocused();
+              }}
               loadingMoreItineraries={this.state.loadingMoreItineraries}
             >
               {this.props.content &&
@@ -2421,6 +2471,7 @@ class SummaryPage extends React.Component {
       } else {
         content = (
           <div style={{ position: 'relative', height: 200 }}>
+            {screenReaderAlert}
             <Loading />
           </div>
         );
@@ -2468,7 +2519,7 @@ class SummaryPage extends React.Component {
             match.params.hash === 'bikeAndVehicle' ? 'pop' : undefined
           }
           header={
-            <React.Fragment>
+            <span aria-hidden={this.getOffcanvasState()} ref={this.headerRef}>
               <SummaryNavigation
                 params={match.params}
                 serviceTimeRange={serviceTimeRange}
@@ -2503,10 +2554,13 @@ class SummaryPage extends React.Component {
                   }
                 />
               )}
-              {!loadingStreeModeSelector && screenReaderWalkAndBikeUpdateAlert}
-            </React.Fragment>
+            </span>
           }
-          content={content}
+          content={
+            <span aria-hidden={this.getOffcanvasState()} ref={this.contentRef}>
+              {content}
+            </span>
+          }
           settingsDrawer={
             <SettingsDrawer
               open={this.getOffcanvasState()}
@@ -2533,6 +2587,7 @@ class SummaryPage extends React.Component {
       isLoading = true;
       content = (
         <div style={{ position: 'relative', height: 200 }}>
+          {screenReaderAlert}
           <Loading />
         </div>
       );
@@ -2575,6 +2630,7 @@ class SummaryPage extends React.Component {
       if (isLoading) {
         content = (
           <div style={{ position: 'relative', height: 200 }}>
+            {screenReaderAlert}
             <Loading />
           </div>
         );
@@ -2609,6 +2665,9 @@ class SummaryPage extends React.Component {
               loading={this.state.isFetchingWalkAndBike && !error}
               onLater={this.onLater}
               onEarlier={this.onEarlier}
+              onDetailsTabFocused={() => {
+                this.onDetailsTabFocused();
+              }}
               loadingMoreItineraries={this.state.loadingMoreItineraries}
             />
             {screenReaderAlert}
@@ -2625,7 +2684,7 @@ class SummaryPage extends React.Component {
             match.params.secondHash,
             combinedItineraries,
           ) ? (
-            <React.Fragment>
+            <span aria-hidden={this.getOffcanvasState()} ref={this.headerRef}>
               <SummaryNavigation
                 params={match.params}
                 serviceTimeRange={serviceTimeRange}
@@ -2658,13 +2717,16 @@ class SummaryPage extends React.Component {
                   }
                 />
               )}
-              {!loadingStreeModeSelector && screenReaderWalkAndBikeUpdateAlert}
-            </React.Fragment>
+            </span>
           ) : (
             false
           )
         }
-        content={content}
+        content={
+          <span aria-hidden={this.getOffcanvasState()} ref={this.contentRef}>
+            {content}
+          </span>
+        }
         map={map}
         settingsDrawer={
           <SettingsDrawer
@@ -2699,18 +2761,16 @@ const SummaryPageWithBreakpoint = withBreakpoint(props => (
   </ReactRelayContext.Consumer>
 ));
 
-SummaryPageWithBreakpoint.description = (
-  <ComponentUsageExample isFullscreen>
-    {isBrowser && <SummaryPageWithBreakpoint {...exampleData} />}
-  </ComponentUsageExample>
-);
-
 const SummaryPageWithStores = connectToStores(
   SummaryPageWithBreakpoint,
   ['MapLayerStore'],
   ({ getStore }) => ({
     mapLayers: getStore('MapLayerStore').getMapLayers({
       notThese: ['stop', 'vehicles'],
+    }),
+    mapLayerOptions: getMapLayerOptions({
+      lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+      selectedMapLayers: ['vehicles'],
     }),
   }),
 );

@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
 import Link from 'found/Link';
 import { FormattedMessage, intlShape } from 'react-intl';
-import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -110,33 +108,6 @@ function WaitLeg(
     </div>
   );
 }
-
-const exampleLeg = () => ({
-  to: {
-    name: 'Ilmattarentie',
-    stop: { gtfsId: 'FOO:123' },
-  },
-});
-
-WaitLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0).valueOf();
-  const leg = exampleLeg();
-  const duration = moment.duration(17, 'minutes').asMilliseconds();
-  return (
-    <div>
-      <p>Displays an itinerary wait leg.</p>
-      <ComponentUsageExample>
-        <WaitLeg
-          startTime={today}
-          focusAction={() => {}}
-          waitTime={duration}
-          leg={leg}
-          index={1}
-        />
-      </ComponentUsageExample>
-    </div>
-  );
-};
 
 WaitLeg.propTypes = {
   startTime: PropTypes.number.isRequired,

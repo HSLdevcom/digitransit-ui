@@ -75,7 +75,23 @@ export default class BackButton extends React.Component {
     }
     return (
       <div className={this.props.className} style={{ display: 'flex' }}>
+        {this.props.title &&
+          !this.props.titleClassName &&
+          !this.props.titleCustomStyle && (
+            <h1 className="h1">{this.props.title}</h1>
+          )}
+        {this.props.title &&
+          this.props.titleClassName &&
+          !this.props.titleCustomStyle && (
+            <span className={this.props.titleClassName}>
+              {this.props.title}
+            </span>
+          )}
+        {this.props.title && this.props.titleCustomStyle && (
+          <span style={this.props.titleCustomStyle}>{this.props.title}</span>
+        )}
         <button
+          type="button"
           className="icon-holder noborder cursor-pointer"
           onClick={
             this.props.onBackBtnClick
@@ -94,21 +110,6 @@ export default class BackButton extends React.Component {
             className={`${this.props.iconClassName} cursor-pointer`}
           />
         </button>
-        {this.props.title &&
-          !this.props.titleClassName &&
-          !this.props.titleCustomStyle && (
-            <h2 className="h2">{this.props.title}</h2>
-          )}
-        {this.props.title &&
-          this.props.titleClassName &&
-          !this.props.titleCustomStyle && (
-            <span className={this.props.titleClassName}>
-              {this.props.title}
-            </span>
-          )}
-        {this.props.title && this.props.titleCustomStyle && (
-          <span style={this.props.titleCustomStyle}>{this.props.title}</span>
-        )}
       </div>
     );
   }

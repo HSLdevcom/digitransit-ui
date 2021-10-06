@@ -12,6 +12,7 @@ const defaultConfig = {
   showTicketInformation: true,
   showTicketPrice: true,
   fareMapping: fareId => fareId.replace('HSL:', ''),
+  hideExternalOperator: () => false,
 };
 
 const proxyFares = (fares, routes = [], config = defaultConfig) =>
@@ -329,7 +330,7 @@ describe('<TicketInformation />', () => {
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
       context: { config: defaultConfig },
     });
-    expect(wrapper.find(ExternalLink).prop('href')).to.equal('foobar');
+    expect(wrapper.find(ExternalLink).first().prop('href')).to.equal('foobar');
   });
 
   it('should not include unknown fares to the listing', () => {

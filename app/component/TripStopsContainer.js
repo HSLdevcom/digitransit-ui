@@ -28,13 +28,6 @@ function TripStopsContainer({ breakpoint, match, trip, route }) {
     trip.stoptimesForDate[0].scheduledDeparture,
   );
 
-  const fullscreen =
-    match.location.state && match.location.state.fullscreenMap === true;
-
-  if (fullscreen && breakpoint !== 'large') {
-    return <div className="route-page-content" />;
-  }
-
   const handleScroll = () => {
     if (humanScrolling.current && keepTracking) {
       setTracking(false);
@@ -44,36 +37,26 @@ function TripStopsContainer({ breakpoint, match, trip, route }) {
   return (
     <>
       <ScrollableWrapper
-        className={cx(
-          'route-page-content',
-          {
-            'fullscreen-map': fullscreen && breakpoint !== 'large',
-          },
-          {
-            'bp-large': breakpoint === 'large',
-          },
-        )}
+        className={cx('route-page-content', {
+          'bp-large': breakpoint === 'large',
+        })}
+        id="trip-route-page-content"
+        onScroll={debounce(handleScroll, 100, { leading: true })}
       >
-        <div
-          id="trip-route-page-content"
-          onScroll={debounce(handleScroll, 40, { leading: true })}
-        >
-          {route && route.patterns && (
-            <RoutePageControlPanel
-              match={match}
-              route={route}
-              breakpoint={breakpoint}
-            />
-          )}
-          <TripStopListContainer
-            key="list"
-            trip={trip}
-            tripStart={tripStartTime}
-            fullscreenMap={fullscreen}
-            keepTracking={keepTracking}
-            setHumanScrolling={setHumanScrolling}
+        {route && route.patterns && (
+          <RoutePageControlPanel
+            match={match}
+            route={route}
+            breakpoint={breakpoint}
           />
-        </div>
+        )}
+        <TripStopListContainer
+          key="list"
+          trip={trip}
+          tripStart={tripStartTime}
+          keepTracking={keepTracking}
+          setHumanScrolling={setHumanScrolling}
+        />
       </ScrollableWrapper>
     </>
   );

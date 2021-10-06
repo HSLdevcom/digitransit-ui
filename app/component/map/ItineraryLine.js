@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import polyUtil from 'polyline-encoded';
-import get from 'lodash/get';
 
 import StopMarker from './non-tile-layer/StopMarker';
 import LegMarker from './non-tile-layer/LegMarker';
@@ -13,24 +12,10 @@ import Icon from '../Icon';
 import CityBikeMarker from './non-tile-layer/CityBikeMarker';
 import { getMiddleOf } from '../../util/geo-utils';
 import { isBrowser } from '../../util/browser';
-import { isCallAgencyPickupType } from '../../util/legUtils';
+import { isCallAgencyPickupType, getLegText } from '../../util/legUtils';
 import IconMarker from './IconMarker';
 import SpeechBubble from './SpeechBubble';
 import { durationToString } from '../../util/timeUtils';
-
-const getLegText = (leg, config) => {
-  if (!leg.route) {
-    return '';
-  }
-  const showAgency = get(config, 'agency.show', false);
-  if (leg.transitLeg && leg.route.shortName) {
-    return leg.route.shortName;
-  }
-  if (showAgency && leg.route.agency) {
-    return leg.route.agency.name;
-  }
-  return '';
-};
 
 class ItineraryLine extends React.Component {
   static contextTypes = {
@@ -67,8 +52,11 @@ class ItineraryLine extends React.Component {
       if (!leg || leg.mode === 'WAIT') {
         return;
       }
+      const nextLeg = this.props.legs[i + 1];
 
       let { mode } = leg;
+      const interliningWithRoute =
+        nextLeg?.interlineWithPreviousLeg && nextLeg.route.shortName;
 
       if (leg.rentedBike && leg.mode !== 'WALK') {
         mode = 'CITYBIKE';
@@ -78,7 +66,15 @@ class ItineraryLine extends React.Component {
         mode.toLowerCase() + (this.props.passive ? ' passive' : '');
 
       const geometry = polyUtil.decode(leg.legGeometry.points);
-      const middle = getMiddleOf(geometry);
+      let middle = getMiddleOf(geometry);
+
+      if (nextLeg?.interlineWithPreviousLeg) {
+        const interlinedGeometry = [
+          ...geometry,
+          ...polyUtil.decode(nextLeg.legGeometry.points),
+        ];
+        middle = getMiddleOf(interlinedGeometry);
+      }
 
       objs.push(
         <Line
@@ -132,7 +128,11 @@ class ItineraryLine extends React.Component {
             />,
           );
         } else if (leg.transitLeg) {
-          const name = getLegText(leg, this.context.config);
+          const name = getLegText(
+            leg.route,
+            this.context.config,
+            interliningWithRoute,
+          );
           if (isCallAgencyPickupType(leg)) {
             objs.push(
               <IconMarker
@@ -151,29 +151,37 @@ class ItineraryLine extends React.Component {
               />,
             );
           } else {
-            const isOnDemandTaxi = leg.route.type === 715;
-            objs.push(
-              <LegMarker
-                key={`${i},${leg.mode}legmarker`}
-                disableModeIcons
-                renderName
-                icon={isOnDemandTaxi ? 'icon-icon_on-demand-taxi-white' : null}
-                color={
-                  leg.route && leg.route.color ? `#${leg.route.color}` : null
-                }
-                leg={{
-                  from: leg.from,
-                  to: leg.to,
-                  lat: middle.lat,
-                  lon: middle.lon,
-                  name,
-                  gtfsId: leg.from?.stop?.gtfsId,
-                  code: leg.from?.stop?.code,
-                }}
-                mode={mode.toLowerCase()}
-                zIndexOffset={300} // Make sure the LegMarker always stays above the StopMarkers
-              />,
-            );
+            if (!leg?.interlineWithPreviousLeg) {
+              const isOnDemandTaxi = leg.route.type === 715;
+              objs.push(
+                <LegMarker
+                  key={`${i},${leg.mode}legmarker`}
+                  disableModeIcons
+                  renderName
+                  icon={
+                    isOnDemandTaxi ? 'icon-icon_on-demand-taxi-white' : null
+                  }
+                  wide={
+                    nextLeg?.interlineWithPreviousLeg &&
+                    interliningWithRoute !== leg.route.shortName
+                  }
+                  color={
+                    leg.route && leg.route.color ? `#${leg.route.color}` : null
+                  }
+                  leg={{
+                    from: leg.from,
+                    to: nextLeg?.interlineWithPreviousLeg ? nextLeg.to : leg.to,
+                    lat: middle.lat,
+                    lon: middle.lon,
+                    name,
+                    gtfsId: leg.from.stop.gtfsId,
+                    code: leg.from.stop.code,
+                  }}
+                  mode={mode.toLowerCase()}
+                  zIndexOffset={300} // Make sure the LegMarker always stays above the StopMarkers
+                />,
+              );
+            }
 
             objs.push(
               <StopMarker
@@ -228,6 +236,7 @@ export default createFragmentContainer(ItineraryLine, {
         points
       }
       transitLeg
+      interlineWithPreviousLeg
       route {
         shortName
         color

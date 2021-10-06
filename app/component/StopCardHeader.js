@@ -3,10 +3,6 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { matchShape } from 'found';
 import CardHeader from './CardHeader';
-import ComponentUsageExample from './ComponentUsageExample';
-import Icon from './Icon';
-import ServiceAlertIcon from './ServiceAlertIcon';
-import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import ExternalLink from './ExternalLink';
 import { getJson } from '../util/xhrPromise';
 import { saveSearch } from '../action/SearchActions';
@@ -105,7 +101,6 @@ class StopCardHeader extends React.Component {
   render() {
     const {
       className,
-      currentTime,
       headingStyle,
       icons,
       stop,
@@ -120,15 +115,6 @@ class StopCardHeader extends React.Component {
     return (
       <CardHeader
         className={className}
-        headerIcon={
-          <ServiceAlertIcon
-            className="inline-icon"
-            severityLevel={getActiveAlertSeverityLevel(
-              stop.alerts,
-              currentTime,
-            )}
-          />
-        }
         headingStyle={headingStyle}
         description={this.getDescription()}
         code={this.headerConfig.showStopCode && stop.code ? stop.code : null}
@@ -155,7 +141,6 @@ class StopCardHeader extends React.Component {
 }
 
 StopCardHeader.propTypes = {
-  currentTime: PropTypes.number,
   stop: PropTypes.shape({
     gtfsId: PropTypes.string,
     name: PropTypes.string,
@@ -208,31 +193,6 @@ StopCardHeader.contextTypes = {
   match: matchShape.isRequired,
 };
 
-const exampleStop = {
-  code: '4611',
-  gtfsId: 'HSL:1541157',
-  name: 'Kaivonkatsojanpuisto',
-  desc: 'Kaivonkatsojantie',
-};
-
 StopCardHeader.displayName = 'StopCardHeader';
-
-StopCardHeader.description = () => (
-  <div>
-    <ComponentUsageExample description="basic">
-      <StopCardHeader stop={exampleStop} distance={345.6} />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="with icons">
-      <StopCardHeader
-        stop={exampleStop}
-        distance={345.6}
-        icons={[
-          <Icon className="info" img="icon-icon_info" key="1" />,
-          <Icon className="caution" img="icon-icon_caution" key="2" />,
-        ]}
-      />
-    </ComponentUsageExample>
-  </div>
-);
 
 export default StopCardHeader;

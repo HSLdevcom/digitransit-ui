@@ -52,37 +52,6 @@ jobs:
         run: yarn setup
       - name: Run linters
         run: yarn lint
-  # flow-test:
-  #   needs: install
-  #   runs-on: ubuntu-18.04
-  #   strategy:
-  #     matrix:
-  #       node-version: [10.x]
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: "Set time zone to Europe/Helsinki"
-  #       uses: zcong1993/setup-timezone@master
-  #       with:
-  #         timezone: "Europe/Helsinki"
-  #     - name: Use Node.js ${{ matrix.node-version }}
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-  #     - name: Cache node modules
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: '**/node_modules'
-  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-  #     - name: Install dependencies
-  #       run: yarn
-  #     - name: Run flow tests
-  #       run: ./test/flow.sh
-  #       env:
-  #         encrypted_59b1a6418079_key: ${{ secrets.encrypted_59b1a6418079_key }}
-  #         encrypted_59b1a6418079_iv: ${{ secrets.encrypted_59b1a6418079_iv }}
-  #         BS_ACCESS_KEY: ${{ secrets.BS_ACCESS_KEY }}
-  #         BS_USERNAME: ${{ secrets.BS_USERNAME }}
   unit-test:
     needs: install
     runs-on: ubuntu-18.04
@@ -113,7 +82,35 @@ jobs:
         run: yarn run test-coverage
       - name: Send test coverage report
         run: yarn run test-report
-  # visual-test-chrome:
+#  accessibility-test:
+#    needs: install
+#    runs-on: ubuntu-18.04
+#    strategy:
+#      matrix:
+#        node-version: [10.x]
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#      - name: "Set time zone to Europe/Helsinki"
+#        uses: zcong1993/setup-timezone@master
+#        with:
+#          timezone: "Europe/Helsinki"
+#      - name: Use Node.js ${{ matrix.node-version }}
+#        uses: actions/setup-node@v1
+#        with:
+#          node-version: ${{ matrix.node-version }}
+#      - name: Cache node modules
+#        uses: actions/cache@v2
+#        with:
+#          path: '**/node_modules'
+#          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+#      - name: Install dependencies and build shared components
+#        run: yarn setup
+#      - name: build relay queries
+#        run: yarn relay
+#      - name: Run accessibility tests
+#        run: yarn test-accessibility
+  # build:
   #   needs: install
   #   runs-on: ubuntu-18.04
   #   strategy:
@@ -135,146 +132,138 @@ jobs:
   #       with:
   #         path: '**/node_modules'
   #         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-  #     - name: Install dependencies
-  #       run: yarn
-  #     - name: Run chrome visual tests
-  #       run: ./test/visual.sh
-  #       env:
-  #         VISUAL: chrome
-  #         encrypted_59b1a6418079_key: ${{ secrets.encrypted_59b1a6418079_key }}
-  #         encrypted_59b1a6418079_iv: ${{ secrets.encrypted_59b1a6418079_iv }}
-  #         BS_ACCESS_KEY: ${{ secrets.BS_ACCESS_KEY }}
-  #         BS_USERNAME: ${{ secrets.BS_USERNAME }}
-  # visual-test-firefox:
-  #   needs: install
-  #   runs-on: ubuntu-18.04
-  #   strategy:
-  #     matrix:
-  #       node-version: [10.x]
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: "Set time zone to Europe/Helsinki"
-  #       uses: zcong1993/setup-timezone@master
-  #       with:
-  #         timezone: "Europe/Helsinki"
-  #     - name: Use Node.js ${{ matrix.node-version }}
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-  #     - name: Cache node modules
+  #     - name: Build shared components
+  #       run: yarn setup
+  #     - name: Build UI
+  #       run: yarn build
+  #     - name: Cache build
+  #       id: cache-build
   #       uses: actions/cache@v2
   #       with:
-  #         path: '**/node_modules'
-  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-  #     - name: Install dependencies
-  #       run: yarn
-  #     - name: Run firefox visual tests
-  #       run: ./test/visual.sh
-  #       env:
-  #         VISUAL: firefox
-  #         encrypted_59b1a6418079_key: ${{ secrets.encrypted_59b1a6418079_key }}
-  #         encrypted_59b1a6418079_iv: ${{ secrets.encrypted_59b1a6418079_iv }}
-  #         BS_ACCESS_KEY: ${{ secrets.BS_ACCESS_KEY }}
-  #         BS_USERNAME: ${{ secrets.BS_USERNAME }}
-  # visual-test-safari:
-  #   needs: install
-  #   runs-on: ubuntu-18.04
-  #   strategy:
-  #     matrix:
-  #       node-version: [10.x]
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: "Set time zone to Europe/Helsinki"
-  #       uses: zcong1993/setup-timezone@master
-  #       with:
-  #         timezone: "Europe/Helsinki"
-  #     - name: Use Node.js ${{ matrix.node-version }}
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-  #     - name: Cache node modules
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: '**/node_modules'
-  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-  #     - name: Install dependencies
-  #       run: yarn
-  #     - name: Run safari visual tests
-  #       run: ./test/visual.sh
-  #       env:
-  #         VISUAL: safari
-  #         encrypted_59b1a6418079_key: ${{ secrets.encrypted_59b1a6418079_key }}
-  #         encrypted_59b1a6418079_iv: ${{ secrets.encrypted_59b1a6418079_iv }}
-  #         BS_ACCESS_KEY: ${{ secrets.BS_ACCESS_KEY }}
-  #         BS_USERNAME: ${{ secrets.BS_USERNAME }}
-  # visual-test-edge:
-  #   needs: install
-  #   runs-on: ubuntu-18.04
-  #   strategy:
-  #     matrix:
-  #       node-version: [10.x]
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: "Set time zone to Europe/Helsinki"
-  #       uses: zcong1993/setup-timezone@master
-  #       with:
-  #         timezone: "Europe/Helsinki"
-  #     - name: Use Node.js ${{ matrix.node-version }}
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-  #     - name: Cache node modules
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: '**/node_modules'
-  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-  #     - name: Install dependencies
-  #       run: yarn
-  #     - name: Run edge visual tests
-  #       run: ./test/visual.sh
-  #       env:
-  #         VISUAL: edge
-  #         encrypted_59b1a6418079_key: ${{ secrets.encrypted_59b1a6418079_key }}
-  #         encrypted_59b1a6418079_iv: ${{ secrets.encrypted_59b1a6418079_iv }}
-  #         BS_ACCESS_KEY: ${{ secrets.BS_ACCESS_KEY }}
-  #         BS_USERNAME: ${{ secrets.BS_USERNAME }}
-
-  publish-npm:
-    if: github.ref == 'refs/heads/nonexisting'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Publish to Dockerhub
-        uses: elgohr/Publish-Docker-Github-Action@master
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Install dependencies and build shared components
-        run: yarn setup
-      - name: build relay queries
-        run: yarn relay
-      - name: Authenticate with registry
-        run: echo //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN} > .npmrc
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-      - name: Publish shared components to npm
-        run: echo ::set-output name=publish-logs::$(yarn digitransit-npm-autopublish)
-        shell: bash
-        id: publish
-      - name: Parse publish logs
-        run: echo ::set-output name=published-packages::$(echo "${{ steps.publish.outputs.publish-logs }}" | grep -o -P '(Successfully published:).*')
-        shell: bash
-        id: log-parse
-      - name: Send published packages to slack
-        if:  steps.log-parse.outputs.published-packages != ''
-        run: ./.github/workflows/scripts/slack_message.sh
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          PUBLISHED_PACKAGES: ${{ steps.log-parse.outputs.published-packages }}
-        shell: bash
+  #         path: |
+  #           '**/_static'
+  #           './manifest.json'
+  #         key: ${{ runner.os }}-build-${{ github.run_id }}
+#  e2e-test-desktop:
+#    needs: install
+#    runs-on: ubuntu-18.04
+#    strategy:
+#      # don't cancel running jobs even if one fails
+#      fail-fast: false
+#      matrix:
+#        node-version: [10.x]
+#        config: [hsl, tampere, matka]
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#      - name: "Set time zone to Europe/Helsinki"
+#        uses: zcong1993/setup-timezone@master
+#        with:
+#          timezone: "Europe/Helsinki"
+#      - name: Use Node.js ${{ matrix.node-version }}
+#        uses: actions/setup-node@v1
+#        with:
+#          node-version: ${{ matrix.node-version }}
+#      - name: Cache node modules
+#        uses: actions/cache@v2
+#        with:
+#          path: '**/node_modules'
+#          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+#      - name: Build shared components
+#        run: yarn setup
+#      - name: Build relay queries
+#        run: yarn relay
+#      - name: Build UI
+#        run: yarn build
+#      - uses: microsoft/playwright-github-action@v1.4.4
+#      - name: Run End to End tests
+#        id: 'test_e2e'
+#        env:
+#          CONFIG: ${{matrix.config}}
+#        run: yarn test:e2e
+#  e2e-test-mobile:
+#    needs: install
+#    runs-on: ubuntu-18.04
+#    strategy:
+#      # don't cancel running jobs even if one fails
+#      fail-fast: false
+#      matrix:
+#        node-version: [10.x]
+#        config: [hsl, tampere, matka]
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#      - name: "Set time zone to Europe/Helsinki"
+#        uses: zcong1993/setup-timezone@master
+#        with:
+#          timezone: "Europe/Helsinki"
+#      - name: Use Node.js ${{ matrix.node-version }}
+#        uses: actions/setup-node@v1
+#        with:
+#          node-version: ${{ matrix.node-version }}
+#      - name: Cache node modules
+#        uses: actions/cache@v2
+#        with:
+#          path: '**/node_modules'
+#          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+#      - name: Install dependencies and build shared components
+#        run: yarn setup
+#      - name: Build relay queries
+#        run: yarn relay
+#      - name: Build UI
+#        run: yarn build
+#      - uses: microsoft/playwright-github-action@v1.4.4
+#      - name: Run End to End tests
+#        id: 'test_e2e'
+#        env:
+#          MOBILE: "true"
+#          CONFIG: ${{matrix.config}}
+#        run: yarn test:e2e
+#  publish-npm:
+#    if: github.ref == 'refs/heads/nonexisting'
+#    needs:
+#      - install
+#      - lint
+#      - unit-test
+#      - accessibility-test
+#      - e2e-test-desktop
+#      - e2e-test-mobile
+#    runs-on: ubuntu-latest
+#    strategy:
+#      matrix:
+#        node-version: [ 10.x ]
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Publish to Dockerhub
+#        uses: elgohr/Publish-Docker-Github-Action@master
+#        with:
+#          path: '**/node_modules'
+#          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+#      - name: Install dependencies and build shared components
+#        run: yarn setup
+#      - name: build relay queries
+#        run: yarn relay
+#      - name: Authenticate with registry
+#        run: echo //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN} > .npmrc
+#        env:
+#          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+#      - name: disregard changed yarn.lock
+#        run: git update-index --assume-unchanged yarn.lock
+#      - name: Publish shared components to npm
+#        run: echo ::set-output name=publish-logs::$(yarn digitransit-npm-autopublish)
+#        shell: bash
+#        id: publish
+#      - name: Parse publish logs
+#        run: echo ::set-output name=published-packages::$(echo "${{ steps.publish.outputs.publish-logs }}" | grep -o -P '(Successfully published:).*')
+#        shell: bash
+#        id: log-parse
+#      - name: Send published packages to slack
+#        if:  steps.log-parse.outputs.published-packages != ''
+#        run: ./.github/workflows/scripts/slack_message.sh
+#        env:
+#          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+#          PUBLISHED_PACKAGES: ${{ steps.log-parse.outputs.published-packages }}
+#        shell: bash
 
   docker-push:
     if: github.ref == 'refs/heads/next'
@@ -292,9 +281,7 @@ jobs:
     needs:
       - lint
       #- publish-npm
-      # - flow-test
       - unit-test
-      # - visual-test-chrome
-      # - visual-test-firefox
-      # - visual-test-safari
-      # - visual-test-edge
+      #- accessibility-test
+      #- e2e-test-desktop
+      #- e2e-test-mobile

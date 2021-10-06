@@ -56,6 +56,13 @@
   flex-grow: 1;
   .departure-list {
     overflow-x: hidden;
+    width: 100%;
+    margin: 0;
+    border-spacing: 0;
+    tr, td {
+      padding: 0;
+      border: 0;
+    }
   }
 }
 .mobile .stop-scroll-container {
@@ -64,10 +71,9 @@
 }
 
 .desktop .stop-page.header {
-  .h3 {
-    height: 24px;
+  h1 {
     margin: 1px 19px 1px 0;
-    font-family: $font-family;
+    font-family: $heading-font-family;
     font-size: 24px;
     font-weight: $font-weight-medium;
     font-stretch: normal;
@@ -143,11 +149,8 @@
   display: flex;
   background-color: #dddddd;
   border-radius: 5px;
-  margin: 0.5em 4em 1em 4em;
+  margin: 8px 64px 16px 64px;
   position: relative;
-  > button {
-    outline: 0;
-  }
   @media print {
     display: none;
   }
@@ -181,53 +184,34 @@
     border-left: 1px solid $light-gray;
   }
 
-  svg {
-    stroke: $primary-color;
-    fill: $primary-color;
-  }
-
   &.active,
   &.active:hover {
     background-color: $white;
-    color: $black;
     font-weight: $font-weight-medium;
-    svg {
-      stroke: $black;
-      fill: $black;
-    }
-    .no-alerts span {
-      color: $black;
-    }
-    .no-alerts.icon {
-      fill: $black;
-    }
-    .active-disruption-alert.icon {
-      fill: $black;
-    }
-    .active-service-alert.icon {
-      stroke: $black;
-      fill: $black;
-    }
   }
 
-  &.alert-active {
-    .icon {
-      fill: $cancelation-red;
+  .active-disruption-alert {
+    .icon-container {
+      vertical-align: middle;
+      margin-right: 5px;
+      .icon {
+        width: 0.85em;
+        height: 0.95em;
+      }
+    }
+  }
+  .active-service-alert {
+    .icon-container {
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+    .service-alert-icon {
+      fill: rgba(136, 136, 136, 1);
     }
   }
 
   .no-alerts span {
-    color: rgb(183, 183, 183);
-  }
-  .no-alerts.icon {
-    fill: rgb(183, 183, 183);
-  }
-  .active-disruption-alert.icon {
-    fill: $cancelation-red;
-  }
-  .active-service-alert.icon {
-    stroke: $primary-color;
-    fill: $primary-color;
+    color: #888;
   }
 
   @media print {
@@ -245,7 +229,7 @@
 }
 
 .stop-page-departure-wrapper {
-  padding: 0em 3.75em 0em 3.75em;
+  padding: 0em 60px 0em 60px;
 }
 
 .stop-page-tab_icon {
@@ -273,7 +257,7 @@
     width: 4em;
   }
   .route-destination-header {
-    flex: 1 0 11em;
+    flex: 1 0 176px;
   }
   .time-header {
     font-weight: inherit;
@@ -301,9 +285,9 @@
     border-radius: 5px;
     border: 1px solid #eaeaea;
   }
-  .departure-row-container {
     .departure-row {
-      height: 50px;
+      width: 100%;
+      min-height: 50px;
       @include font-narrow-book;
       font-weight: normal;
       display: flex;
@@ -327,7 +311,7 @@
         font-size: 0.75rem;
         padding-right: 8px;
         padding-left: 8px;
-        padding-bottom: 2px;
+        position: relative;
         span {
           vertical-align: sub;
         }
@@ -360,6 +344,12 @@
           }
         }
       }
+      .time-cell {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        max-width: 100px;
+      }
       &.realtime {
         color: $realtime-color;
       }
@@ -376,8 +366,8 @@
       color: #333;
       flex: 1;
       padding-left: $padding-medium;
-      overflow: hidden;
-      white-space: nowrap;
+      overflow: clip;
+      white-space: normal;
       margin-bottom: -2px;
     }
     .route-time {
@@ -403,7 +393,7 @@
       font-size: $font-size-small;
       font-weight: $font-weight-medium;
       text-align: center;
-      margin-left: 1em;
+      margin-left: 13px;
       margin-right: 0.3em;
       line-height: 1.6;
       white-space: nowrap;
@@ -429,11 +419,11 @@
         overflow: hidden;
       }
     }
-  }
 }
 
 .mobile .stop-page.departure-list .departure-row {
   .route-arrival {
+    top: 0.03125rem;
     padding-bottom: 0;
   }
 }
@@ -442,11 +432,11 @@
   .departure-row {
     .route-headsign {
       padding-left: $padding-medium;
-      font-weight: 400;
+      font-weight: $font-weight-book;
       color: #333;
       flex: 1;
-      overflow: hidden;
-      white-space: nowrap;
+      overflow: clip;
+      white-space: normal;
       margin-bottom: -2px;
     }
   }
@@ -645,16 +635,17 @@ hr.action-bar {
 }
 
 .timetablerow-linetime {
-  display: inline-block;
-  margin-right: 1.2em;
-  min-width: 4.1em;
+  display: inline-flex;
+  justify-content: flex-start;
+  min-width: 4.0625rem;
+  margin-bottom: 4px;
 }
 
 .timetable-topbar {
   display: flex;
   justify-content: center;
   background: $white;
-  margin: 0.5em 3em 1em 4em;
+  margin: 8px 48px 16px 64px;
   .secondary-button.print {
     @media print {
       display: none;
@@ -667,21 +658,32 @@ hr.action-bar {
   @media print {
     display: block;
     h1 {
-      font-family: $font-family;
+      font-family: $heading-font-family;
       font-size: 13px;
       font-weight: $font-weight-book;
     }
   }
 }
 
-.print-button-container {
-  margin-top: 0.5em;
+.stop-page-action-bar {
   display: flex;
-  float: left;
+  justify-content: flex-start;
+  padding-left: 60px;
+  background: #fff;
+}
+
+.print-button-container {
+  display: flex;
+  height: 50px;
+  align-items: center;
+  z-index: 22;
+
   button {
-    margin-right: 1em;
-    margin-left: auto;
-    margin-bottom: $padding-medium;
+    margin: 11px 10px 11px 0;
+  }
+
+  @media print {
+    display: none;
   }
 }
 
@@ -752,18 +754,18 @@ hr.action-bar {
   }
 
   .timetable-topbar {
-    margin: 0em 1em 1em 1em;
+    margin: 1px 16px 16px 16px;
   }
 
   .stop-tab-container {
     border-bottom: none;
-    margin: 0em 1em 1em 1em;
+    margin: 0em 16px 16px 16px;
   }
   .stop-tabs-fillerline {
     height: 5px;
   }
   .stop-page-departure-wrapper {
-    padding: 0em 1em 0em 1em;
+    padding: 0em 16px 0em 16px;
   }
 
   .filter-stop-modal-overlay {
@@ -784,6 +786,7 @@ hr.action-bar {
     z-index: 99999;
     height: 100%;
     width: 100%;
+    overflow: scroll;
     min-height: 100%;
     max-width: 100%;
     position: fixed;
@@ -805,5 +808,9 @@ hr.action-bar {
   }
   .route-number-header {
     width: 3.5em;
+  }
+
+  .time-cell {
+    margin-top: 1px;
   }
 }

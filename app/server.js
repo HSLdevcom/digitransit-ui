@@ -43,6 +43,7 @@ import { getAnalyticsInitCode } from './util/analyticsUtils';
 
 import { historyMiddlewares, render } from './routes';
 import { LOCAL_STORAGE_EMITTER_PATH } from './util/path';
+import ErrorHandlerSSR from './component/ErrorHandlerSSR';
 
 // Look up paths for various asset files
 const appRoot = `${process.cwd()}/`;
@@ -281,7 +282,29 @@ export default async function (req, res, next) {
         res.redirect(e.status, e.location);
         return;
       }
-      throw e;
+      try {
+        content = ReactDOM.renderToString(
+          <ContextProvider
+            locale={locale}
+            messages={translations[locale]}
+            context={context.getComponentContext()}
+          >
+            <>
+              <ErrorHandlerSSR />
+              <Helmet
+                {...meta(
+                  context.getStore('PreferencesStore').getLanguage(),
+                  req.hostname,
+                  `https://${req.hostname}${req.originalUrl}`,
+                  config,
+                )}
+              />
+            </>
+          </ContextProvider>,
+        );
+      } catch (_) {
+        content = '';
+      }
     }
 
     const contentWithBreakpoint = `<div id="app" data-initial-breakpoint="${breakpoint}">${content}</div>\n`;

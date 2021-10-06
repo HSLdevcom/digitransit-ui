@@ -3,6 +3,8 @@ import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
+import NetworkError from './NetworkError';
+import isRelayNetworkError from '../util/relayUtils';
 
 export default class ErrorBoundary extends React.Component {
   static propTypes = { children: PropTypes.node.isRequired };
@@ -24,13 +26,16 @@ export default class ErrorBoundary extends React.Component {
       return;
     }
     this.setState({ error });
-    if (this.context.raven) {
+    if (this.context.raven && !isRelayNetworkError(error)) {
       this.context.raven.captureException(error, { extra: errorInfo });
     }
   }
 
   render() {
     if (this.state.error) {
+      if (isRelayNetworkError(this.state.error)) {
+        return <NetworkError retry={this.resetState} />;
+      }
       return (
         <div className="page-not-found">
           <Icon img="icon-icon_error_page_not_found" />

@@ -73,6 +73,7 @@ class Map extends React.Component {
     mapBottomPadding: PropTypes.number,
     buttonBottomPadding: PropTypes.number,
     bottomButtons: PropTypes.node,
+    topButtons: PropTypes.node,
     geoJson: PropTypes.object,
     mapLayers: PropTypes.object,
   };
@@ -85,6 +86,7 @@ class Map extends React.Component {
     mapBottomPadding: 0,
     buttonBottomPadding: 0,
     bottomButtons: null,
+    topButtons: null,
     mergeStops: true,
     mapLayers: { geoJson: {} },
   };
@@ -284,6 +286,7 @@ class Map extends React.Component {
 
     return (
       <div aria-hidden="true">
+        <span>{this.props.topButtons}</span>
         <span
           className="overlay-mover"
           style={{

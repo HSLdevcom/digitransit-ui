@@ -8,7 +8,6 @@ import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
-import ComponentUsageExample from './ComponentUsageExample';
 
 function CarpoolLeg(props, { config, intl }) {
   const { leg } = props;
@@ -152,33 +151,6 @@ CarpoolLeg.drawIcons = agency => {
       className="carpool-agency-logo"
       ariaLabel={agency.name}
     />
-  );
-};
-
-const exampleLeg = day => ({
-  duration: 900,
-  startTime: day + 20000,
-  distance: 5678,
-  from: { name: 'Herrenberg (Württ)' },
-  mode: 'CARPOOL',
-  route: {
-    url: 'https://www.fahrgemeinschaft.de/',
-    agency: {
-      gtfsId: 'mfdz:fg',
-      name: 'Fahrgemeinschaft.de',
-    },
-  },
-});
-
-CarpoolLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0).valueOf();
-  return (
-    <div>
-      <p>Displays an itinerary car leg.</p>
-      <ComponentUsageExample>
-        <CarpoolLeg leg={exampleLeg(today)} index={0} focusAction={() => {}} />
-      </ComponentUsageExample>
-    </div>
   );
 };
 

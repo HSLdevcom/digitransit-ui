@@ -98,3 +98,9 @@ export const MapMode = {
   Satellite: 'satellite',
   Bicycle: 'bicycle',
 };
+
+export const BicycleParkingFilter = {
+  All: 'all',
+  FreeOnly: 'freeOnly',
+  SecurePreferred: 'securePreferred',
+};

@@ -3,10 +3,14 @@ import React from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
+import { routerShape, RedirectException } from 'found';
+
 import DepartureListContainer from './DepartureListContainer';
-import Error404 from './404';
+import Loading from './Loading';
 import Icon from './Icon';
 import ScrollableWrapper from './ScrollableWrapper';
+import { isBrowser } from '../util/browser';
+import { PREFIX_TERMINALS } from '../util/path';
 
 class TerminalPageContent extends React.Component {
   static propTypes = {
@@ -19,6 +23,8 @@ class TerminalPageContent extends React.Component {
       refetch: PropTypes.func.isRequired,
     }).isRequired,
     currentTime: PropTypes.number.isRequired,
+    error: PropTypes.object,
+    router: routerShape.isRequired,
   };
 
   // eslint-disable-next-line camelcase
@@ -31,9 +37,29 @@ class TerminalPageContent extends React.Component {
     }
   }
 
+  componentDidMount() {
+    // Throw error in client side if relay fails to fetch data
+    if (this.props.error) {
+      throw this.props.error.message;
+    }
+  }
+
   render() {
-    if (!this.props.station) {
-      return <Error404 />;
+    // Render something in client side to clear SSR
+    if (isBrowser && this.props.error) {
+      return <Loading />;
+    }
+
+    if (!this.props.station && !this.props.error) {
+      /* In this case there is little we can do
+       * There is no point continuing rendering as it can only
+       * confuse user. Therefore redirect to Terminals page */
+      if (isBrowser) {
+        this.props.router.replace(`/${PREFIX_TERMINALS}`);
+      } else {
+        throw new RedirectException(`/${PREFIX_TERMINALS}`);
+      }
+      return null;
     }
 
     const { stoptimes } = this.props.station;
@@ -51,7 +77,10 @@ class TerminalPageContent extends React.Component {
     return (
       <ScrollableWrapper>
         <div className="stop-page-departure-wrapper stop-scroll-container">
-          <div className="departure-list-header row padding-vertical-normal">
+          <div
+            className="departure-list-header row padding-vertical-normal"
+            aria-hidden="true"
+          >
             <span className="route-number-header">
               <FormattedMessage id="route" defaultMessage="Route" />
             </span>
@@ -70,6 +99,7 @@ class TerminalPageContent extends React.Component {
           </div>
           <DepartureListContainer
             stoptimes={stoptimes}
+            mode={mode}
             key="departures"
             className="stop-page"
             routeLinks

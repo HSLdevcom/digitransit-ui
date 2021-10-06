@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { dtLocationShape } from '../util/shapes';
 import StopsNearYouFavouritesContainer from './StopsNearYouFavouritesContainer';
 import withBreakpoint from '../util/withBreakpoint';
+import Loading from './Loading';
 
 function StopsNearYouFavorites({
   favoriteStops,
@@ -75,7 +76,7 @@ function StopsNearYouFavorites({
             />
           );
         }
-        return undefined;
+        return <Loading />;
       }}
     />
   );

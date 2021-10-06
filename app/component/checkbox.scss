@@ -1,40 +1,35 @@
 .option-checkbox-container {
   display: flex;
-
   &.large {
     max-height: 55px;
-
     > span {
-      font-weight: 400;
+      font-weight: $font-weight-book;
       user-select: none;
       line-height: 4;
     }
   }
-
   .option-checkbox {
     position: relative;
     margin-right: 2em;
+   &.large {
+     margin-right: 1em;
+     margin-bottom: 1em;
+     margin-top: 1em;
+     label {
+       height: 32px;
+       width: 32px;
+       position: relative;
 
-    &.large {
-      margin-right: 1em;
-      margin-bottom: 1em;
-      margin-top: 1em;
+       &.checked {
+         border: #007ac9 1px solid;
 
-      label {
-        height: 32px;
-        width: 32px;
-        position: relative;
-
-        &.checked {
-          border: #007ac9 1px solid;
-
-          &.disabled:before {
-            color: $gray;
-          }
-        }
-      }
-    }
-
+         &.disabled {
+           color: $gray;
+           border: #78909c 1px solid;
+         }
+       }
+     }
+   }
     label {
       height: 20px;
       width: 20px;
@@ -68,11 +63,17 @@
         }
       }
 
+      span > svg {
+        color: $primary-color;
+      }
+
       &.disabled {
         background: $light-gray;
-        border-color: currentColor;
         cursor: not-allowed;
         pointer-events: none;
+        span > svg {
+          color: #888;
+        }
       }
     }
 
@@ -90,8 +91,7 @@
     font-weight: $font-weight-book;
     user-select: none;
   }
-
-  .checkmark {
+  .checkmark{
     position: absolute;
 
     &.large {

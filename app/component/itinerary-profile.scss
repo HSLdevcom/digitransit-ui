@@ -1,4 +1,7 @@
 .itinerary-profile-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-left: 15px;
   font-size: 15px;
   line-height: 18px;
@@ -18,5 +21,14 @@
     color: $black;
     display: inline-block;
     margin-left: 0.25rem;
+  }
+  @media print {
+    margin-bottom: 16px;
+  }
+  button {
+    display: none;
+    @include min-width(tablet) {
+      display: flex;
+    }
   }
 }

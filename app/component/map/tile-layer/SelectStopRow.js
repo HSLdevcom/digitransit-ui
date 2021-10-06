@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import Icon from '../../Icon';
-import ComponentUsageExample from '../../ComponentUsageExample';
 import { PREFIX_TERMINALS, PREFIX_STOPS } from '../../../util/path';
 
 function SelectStopRow({ gtfsId, type, name, code, terminal, desc }) {
@@ -73,21 +72,6 @@ function SelectStopRow({ gtfsId, type, name, code, terminal, desc }) {
 }
 
 SelectStopRow.displayName = 'SelectStopRow';
-
-SelectStopRow.description = () => (
-  <div>
-    <p>Renders a select stop row</p>
-    <ComponentUsageExample description="">
-      <SelectStopRow
-        gtfsId="TEST"
-        type="BUS"
-        name="Testipysäkki"
-        code="X0000"
-        desc="Testikatu"
-      />
-    </ComponentUsageExample>
-  </div>
-);
 
 SelectStopRow.propTypes = {
   gtfsId: PropTypes.string.isRequired,

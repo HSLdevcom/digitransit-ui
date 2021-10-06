@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 
-import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -20,11 +19,12 @@ class MainMenuContainer extends Component {
   static propTypes = {
     homeUrl: PropTypes.string.isRequired,
     isOpen: PropTypes.bool,
-    breakpoint: PropTypes.string.isRequired,
+    breakpoint: PropTypes.string,
   };
 
   static defaultProps = {
     isOpen: false,
+    breakpoint: 'small',
   };
 
   mainMenuModules = {
@@ -106,11 +106,5 @@ class MainMenuContainer extends Component {
     );
   };
 }
-
-MainMenuContainer.description = (
-  <ComponentUsageExample isFullscreen>
-    <MainMenuContainer homeUrl="" isOpen />
-  </ComponentUsageExample>
-);
 
 export default MainMenuContainer;

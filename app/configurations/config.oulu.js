@@ -38,9 +38,9 @@ export default configMerger(walttiConfig, {
   logo: 'oulu/oulu-logo.png',
 
   cityBike: {
-    showCityBikes: false,
     networks: {
       oulu: {
+        enabled: false,
         icon: 'citybike',
         name: {
           fi: 'Oulu',
@@ -154,4 +154,7 @@ export default configMerger(walttiConfig, {
     stops: true,
     itinerary: true,
   },
+
+  // DT-4802 Toggling this off shows the alert bodytext instead of the header
+  showAlertHeader: false,
 });

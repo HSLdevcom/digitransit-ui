@@ -26,7 +26,7 @@ const AppBarHsl = ({ lang, user }, context) => {
   const [banners, setBanners] = useState([]);
 
   useEffect(() => {
-    if (config.URL.BANNERS) {
+    if (config.URL.BANNERS && config.NODE_ENV !== 'test') {
       getJson(`${config.URL.BANNERS}&language=${lang}`).then(data =>
         setBanners(data),
       );
@@ -63,6 +63,7 @@ const AppBarHsl = ({ lang, user }, context) => {
           userMenu: {
             isLoading: false, // When fetching for login-information, `isLoading`-property can be set to true. Spinner will be shown.
             isAuthenticated: !!user.sub, // If user is authenticated, set `isAuthenticated`-property to true.
+            isSelected: false,
             loginUrl: `/login?url=${url}&${params}`, // Url that user will be redirect to when Person-icon is pressed and user is not logged in.
             initials,
             menuItems: [
@@ -72,7 +73,7 @@ const AppBarHsl = ({ lang, user }, context) => {
                   defaultMessage: 'My information',
                 }),
                 url: `${config.URL.ROOTLINK}/omat-tiedot`,
-                selected: false,
+                onClick: () => {},
               },
               {
                 name: intl.formatMessage({
@@ -80,7 +81,6 @@ const AppBarHsl = ({ lang, user }, context) => {
                   defaultMessage: 'Logout',
                 }),
                 url: '/logout',
-                selected: false,
                 onClick: () => clearStorages(context),
               },
             ],
@@ -102,6 +102,8 @@ const AppBarHsl = ({ lang, user }, context) => {
             {...userMenu}
             languageMenu={languages}
             banners={banners}
+            suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
+            isNavSearchEnabled
           />
         </>
       )}

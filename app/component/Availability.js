@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import ComponentUsageExample from './ComponentUsageExample';
 
 function Availability({
   total,
@@ -60,30 +59,6 @@ function Availability({
 }
 
 Availability.displayName = 'Availability';
-
-Availability.description = () => (
-  <div>
-    <p>Renders information about availability</p>
-    <ComponentUsageExample description="">
-      <Availability
-        available={1}
-        total={3}
-        fewAvailableCount={3}
-        text="Bikes available"
-        showStatusBar
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="">
-      <Availability
-        available={1}
-        total={3}
-        fewAvailableCount={3}
-        text="Bikes available"
-        showStatusBar={false}
-      />
-    </ComponentUsageExample>
-  </div>
-);
 
 Availability.propTypes = {
   available: PropTypes.number.isRequired,

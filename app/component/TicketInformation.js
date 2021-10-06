@@ -4,7 +4,6 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 
 import { v4 as uuid } from 'uuid';
-import ComponentUsageExample from './ComponentUsageExample';
 import ExternalLink from './ExternalLink';
 import { renderZoneTicket } from './ZoneTicket';
 import { getAlternativeFares } from '../util/fareUtils';
@@ -104,7 +103,7 @@ export default function TicketInformation(
                   <div className="ticket-identifier">
                     {unknownFareRouteName}
                   </div>
-                  {fare.agency && (
+                  {fare.agency && !config.hideExternalOperator(fare.agency) && (
                     <div className="ticket-description">{fare.agency.name}</div>
                   )}
                 </div>
@@ -117,16 +116,57 @@ export default function TicketInformation(
                   </div>
                   {config.showTicketPrice && (
                     <div className="ticket-description">
-                      {`${(fare.cents / 100).toLocaleString(intl.locale, {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })} €`}
+                      {`${(fare.cents / 100).toFixed(2)} €`}
                     </div>
                   )}
                 </div>
               )}
             </div>
           </div>
+          {fare.isUnknown
+            ? fare.agency &&
+              fare.agency.fareUrl &&
+              !config.hideExternalOperator(fare.agency) && (
+                <div
+                  className="ticket-type-agency-link"
+                  key={i} // eslint-disable-line react/no-array-index-key
+                >
+                  <ExternalLink
+                    className="itinerary-ticket-external-link"
+                    href={fare.agency.fareUrl}
+                    onClick={() => {
+                      addAnalyticsEvent({
+                        category: 'Itinerary',
+                        action: 'OpenHowToBuyTicket',
+                        name: null,
+                      });
+                    }}
+                  >
+                    {intl.formatMessage({ id: 'extra-info' })}
+                  </ExternalLink>
+                </div>
+              )
+            : fare.agency &&
+              fare.agency.fareUrl && (
+                <div
+                  className="ticket-type-agency-link"
+                  key={i} // eslint-disable-line react/no-array-index-key
+                >
+                  <ExternalLink
+                    className="itinerary-ticket-external-link"
+                    href={fare.agency.fareUrl}
+                    onClick={() => {
+                      addAnalyticsEvent({
+                        category: 'Itinerary',
+                        action: 'OpenHowToBuyTicket',
+                        name: null,
+                      });
+                    }}
+                  >
+                    {intl.formatMessage({ id: 'extra-info' })}
+                  </ExternalLink>
+                </div>
+              )}
           {ticketUrl() && (
             <div
               className="ticket-type-agency-link"
@@ -156,7 +196,6 @@ export default function TicketInformation(
             </ExternalLink>
           )}
         </div>
-
         <div key={uuid()} className="ticket-container">
           <div className="ticket-info-container small">
             <FormattedMessage id="fares-disclaimer" />
@@ -237,46 +276,3 @@ TicketInformation.contextTypes = {
 };
 
 TicketInformation.displayName = 'TicketInformation';
-
-TicketInformation.description = () => (
-  <div>
-    <p>Information about the required ticket for the itinerary.</p>
-    <ComponentUsageExample description="single fare">
-      <TicketInformation
-        fares={[{ fareId: 'HSL:AB', cents: 280, ticketName: 'AB' }]}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="single fare, with agency fare url">
-      <TicketInformation
-        fares={[
-          {
-            agency: { fareUrl: 'foo' },
-            cents: 280,
-            fareId: 'HSL:AB',
-            ticketName: 'AB',
-          },
-        ]}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="multiple fares">
-      <TicketInformation
-        fares={[
-          { fareId: 'HSL:AB', cents: 280, ticketName: 'AB' },
-          { fareId: 'HSL:BC', cents: 280, ticketName: 'BC' },
-        ]}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="unknown fare">
-      <TicketInformation
-        fares={[
-          { fareId: 'HSL:ABC', cents: 460, ticketName: 'ABC' },
-          {
-            agency: { fareUrl: 'foo', name: 'Ferry operator' },
-            isUnknown: true,
-            routeName: 'Ferry line',
-          },
-        ]}
-      />
-    </ComponentUsageExample>
-  </div>
-);

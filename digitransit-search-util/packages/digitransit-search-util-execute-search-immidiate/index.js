@@ -217,6 +217,7 @@ const routeLayers = [
   'route-RAIL',
   'route-FERRY',
   'route-SUBWAY',
+  'route-AIRPLANE',
 ];
 const locationLayers = ['favouritePlace', 'venue', 'address', 'street'];
 /**

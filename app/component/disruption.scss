@@ -13,7 +13,8 @@
     flex: 0 0 auto;
   }
 
-  .stop-tab-singletab {
+  .stop-tab-singletab, .stop-tab-singletab:hover {
+    padding: 10px 0 10px 0;
     background-color: white;
     border-top-color: white;
   }

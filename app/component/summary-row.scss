@@ -50,8 +50,8 @@
 
 .itinerary-summary-row {
   min-height: 50px;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
+  padding-left: 15px;
+  padding-right: 15px;
   overflow: hidden;
   background-color: $white;
   display: flex;
@@ -115,6 +115,25 @@
     width: 100%;
   }
 
+  .citybike-duration-info-short {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-top: 4px;
+    padding: 6px 10px 2px 4px;
+    background: #E5F2FA;
+    border-radius: 5px;
+    font-weight: normal;
+    font-size: 13px;
+    color: #333333;
+    line-height: 16px;
+    white-space: normal;
+
+    .icon-container {
+      padding: 0 4px 4px 2px;
+    }
+  }
+
   .itinerary-first-leg-start-time-container {
     top: 3.77em;
     left: 2.3em;
@@ -126,8 +145,8 @@
 
     .itinerary-first-leg-start-time {
       font-size: 13px;
-      overflow: hidden;
-      white-space: nowrap;
+      overflow: auto;
+      white-space: normal;
       .platform-or-track {
         text-transform: lowercase;
       }
@@ -173,7 +192,7 @@
         min-width: 24px;
         width: 24px;
         position: relative;
-        height: 24px;
+        height: 1.5rem;
         border: 1px solid #ddd;
         border-radius: 3px;
         background-color: #f9af1f;
@@ -204,7 +223,7 @@
       &.via {
         min-width: 24px;
         max-width: 24px;
-        height: 24px;
+        height: 1.5rem;
         border: 1px solid #ddd;
         border-radius: 3px;
         .itinerary-icon {
@@ -226,7 +245,7 @@
       .route-number {
         display: flex;
         min-width: 0;
-        height: 24px;
+        height: 1.5rem;
         .vcenter-children {
           display: block;
           align-items: center;
@@ -296,6 +315,16 @@
             .icon {
               width: 24px;
             }
+            .secondary {
+              .icon {
+                width: 18px;
+                margin-left: 2px;
+                padding-bottom: 2px;
+                @include min-width(tablet) {
+                  padding-bottom: 0px;
+                }
+              }
+            }
           }
         }
         .itinerary-icon_with-bicycle {
@@ -305,7 +334,7 @@
           padding-bottom: 4px;
         }
         .special-icon {
-          height: 24px;
+          height: 1.5rem;
         }
           .vehicle-number-container-v {
             padding-right: 5px;
@@ -369,7 +398,7 @@
     div.bar {
       width: 100%;
       background-color: currentColor;
-      height: 24px;
+      height: 1.5rem;
       border-radius: $border-radius;
       &.call {
         border-color: #aaa;
@@ -445,7 +474,7 @@
   &.bp-large {
     min-height: 100px;
     border-left-width: 8px;
-    padding: 0 0 0 3.75em;
+    padding: 0 0 0 60px;
     .summary-clickable-area {
       max-width: calc(100% - 70px);
     }
@@ -467,7 +496,8 @@
       }
     }
     .action-arrow-click-area {
-      padding: 0 25px 0 20px;
+      padding: 0 15px 0 20px;
+      margin-left: 5px;
     }
     .action-arrow {
       font-size: 20px;

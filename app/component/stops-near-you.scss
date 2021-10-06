@@ -57,7 +57,7 @@
   overflow: visible;
   display: flex;
   flex-direction: column;
-  padding: 0px 3.75em 10px 3.75em;
+  padding: 0px 60px 10px 60px;
   min-height: calc(50vh - 60px);
   .route-number {
     .icon-container {
@@ -120,7 +120,7 @@
     }
 
     .disclaimer-close-button {
-      font-weight: 500;
+      font-weight: $font-weight-medium;
     }
 
     .disclaimer-close {
@@ -162,7 +162,7 @@
     font-size: 0.9375rem;
   }
   .nearest-stops-update-container {
-    height: 80px;
+    min-height: 80px;
     display: flex;
     flex-direction: column;
     margin: 0 auto;
@@ -199,7 +199,10 @@
     .stop-near-you-header-container {
       display: flex;
       .stop-near-you-name {
+        font-size: 1rem;
         line-height: 24px;
+        letter-spacing: -0.4px;
+        margin: 0;
       }
       .stop-header-content {
         a {
@@ -218,10 +221,10 @@
 
         .route-stop-address-row {
           color: #666;
-          font-weight: 400;
+          font-weight: $font-weight-book;
         }
         .card-code {
-          font-weight: 400;
+          font-weight: $font-weight-book;
           margin: 0px;
           &.terminal {
             margin-right: 3px;
@@ -274,7 +277,19 @@
   }
   .near-departures-container {
     padding: 2px 15px 15px 15px;
+    border-spacing: 0;
+    margin: 0;
+    width: 100%;
+    table-layout: fixed;
+    tr, td {
+      margin: 0;
+      padding: 0;
+      border-spacing: 0;
+    }
     .departure-row {
+      .platform-cell {
+        display: flex;
+      }
       .platform-code {
         height: 20px;
         width: 26px;
@@ -289,9 +304,8 @@
         @include font-medium;
         font-size: 0.75rem;
         padding-right: 8px;
-        span {
-          vertical-align: sub;
-        }
+        position: relative;
+        top: -1px;
         &.realtime {
           color: $realtime-color;
         }
@@ -363,6 +377,9 @@
   padding: 12px 0 5px 0;
   border-radius: 10px;
   margin-bottom: 15px;
+  .swipe-scroll-container {
+    flex-basis: unset;
+  }
   .swipe-header.disruption-banner {
     width: unset;
     .swipe-button-container {
@@ -580,7 +597,7 @@
       width: 100%;
       height: 40px;
       font-size: 15px;
-      font-family: $font-family;
+      font-family: $button-font-family;
       font-weight: $font-weight-medium;
       letter-spacing: -0.5px;
       background: $primary-color;

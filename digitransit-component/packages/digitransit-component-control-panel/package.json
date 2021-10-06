@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-control-panel",
-  "version": "0.3.13",
+  "version": "0.3.19",
   "description": "digitransit-component control-panel module",
   "main": "lib/index.js",
   "files": [
@@ -28,10 +28,12 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "peerDependencies": {
-    "@digitransit-component/digitransit-component-icon": "^0.1.10",
+    "@digitransit-component/digitransit-component-icon": "^0.1.12",
     "@hsl-fi/sass": "~0.1.1",
+    "classnames": "2.2.6",
     "i18next": "^19.3.3",
     "prop-types": "^15.7.2",
-    "react": "^16.13.0"
+    "react": "^16.13.0",
+    "react-cookie": "^4.0.3"
   }
 }

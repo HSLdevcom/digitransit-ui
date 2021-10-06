@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
-import ComponentUsageExample from '../../ComponentUsageExample';
 import withBreakpoint from '../../../util/withBreakpoint';
 import SidebarContainer from './SidebarContainer';
 
@@ -15,17 +14,6 @@ class RoadworksContent extends React.Component {
   static propTypes = {
     match: PropTypes.object,
   };
-
-  static description = (
-    <div>
-      <p>Renders a roadworks popup.</p>
-      <ComponentUsageExample description="">
-        <RoadworksContent context="context object here">
-          Im content of a roadworks card
-        </RoadworksContent>
-      </ComponentUsageExample>
-    </div>
-  );
 
   static displayName = 'RoadworksContent';
 

@@ -8,6 +8,7 @@ import compact from 'lodash/compact';
 import indexOf from 'lodash/indexOf';
 import isEqual from 'lodash/isEqual';
 import polyline from 'polyline-encoded';
+import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import BackButton from '../BackButton';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import Line from './Line';
@@ -22,9 +23,10 @@ import {
   sortNearbyStops,
 } from '../../util/sortUtils';
 import ItineraryLine from './ItineraryLine';
-import { dtLocationShape } from '../../util/shapes';
+import { dtLocationShape, mapLayerOptionsShape } from '../../util/shapes';
 import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
+import { getDefaultNetworks } from '../../util/citybikes';
 
 const locationMarkerModules = {
   LocationMarker: () =>
@@ -129,7 +131,9 @@ function StopsNearYouMap(
     onEndNavigation,
     onMapTracking,
     mapLayers,
+    mapLayerOptions,
     showWalkRoute,
+    prioritizedStopsNearYou,
   },
   { ...context },
 ) {
@@ -293,15 +297,38 @@ function StopsNearYouMap(
         relay.loadMore(5);
         return;
       }
-      const sortedEdges = !isTransitMode
-        ? stopsNearYou.nearest.edges
-            .slice()
-            .sort(sortNearbyRentalStations(favouriteIds))
-        : active
-            .slice()
-            .sort(sortNearbyStops(favouriteIds, walkRoutingThreshold));
-      const stopsAndStations = handleStopsAndStations(sortedEdges);
+      let sortedEdges;
+      if (!isTransitMode) {
+        const withNetworks = stopsNearYou.nearest.edges.filter(edge => {
+          return !!edge.node.place?.networks;
+        });
+        const filteredCityBikeEdges = withNetworks.filter(pattern => {
+          return pattern.node.place?.networks.every(network =>
+            getDefaultNetworks(context.config).includes(network),
+          );
+        });
+        sortedEdges = filteredCityBikeEdges
+          .slice()
+          .sort(sortNearbyRentalStations(favouriteIds));
+      } else {
+        sortedEdges = active
+          .slice()
+          .sort(sortNearbyStops(favouriteIds, walkRoutingThreshold));
+      }
 
+      sortedEdges.unshift(
+        ...prioritizedStopsNearYou.map(stop => {
+          return {
+            node: {
+              distance: distance(position, stop),
+              place: {
+                ...stop,
+              },
+            },
+          };
+        }),
+      );
+      const stopsAndStations = handleStopsAndStations(sortedEdges);
       handleWalkRoutes(stopsAndStations);
       setSortedStopEdges(sortedEdges);
       setRoutes(sortedEdges);
@@ -338,7 +365,9 @@ function StopsNearYouMap(
   }
 
   if (uniqueRealtimeTopics.length > 0) {
-    leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
+    leafletObjs.push(
+      <VehicleMarkerContainer key="vehicles" useLargeIcon mode={mode} />,
+    );
   }
   if (
     firstPlan.itinerary.itineraries &&
@@ -362,11 +391,7 @@ function StopsNearYouMap(
 
   const hilightedStops = () => {
     const stopsAndStations = handleStopsAndStations(sortedStopEdges);
-    if (
-      Array.isArray(stopsAndStations) &&
-      stopsAndStations.length > 0 &&
-      mode !== 'CITYBIKE'
-    ) {
+    if (Array.isArray(stopsAndStations) && stopsAndStations.length > 0) {
       return [
         stopsAndStations[0]?.gtfsId ||
           stopsAndStations[0]?.stationId ||
@@ -386,6 +411,7 @@ function StopsNearYouMap(
     hilightedStops: hilightedStops(),
     mergeStops: false,
     mapLayers,
+    mapLayerOptions,
     bounds,
     leafletObjs,
     breakpoint,
@@ -412,8 +438,10 @@ function StopsNearYouMap(
 StopsNearYouMap.propTypes = {
   currentTime: PropTypes.number.isRequired,
   stopsNearYou: PropTypes.object.isRequired,
+  prioritizedStopsNearYou: PropTypes.array,
   favouriteIds: PropTypes.object.isRequired,
   mapLayers: PropTypes.object.isRequired,
+  mapLayerOptions: mapLayerOptionsShape.isRequired,
   position: dtLocationShape.isRequired,
   match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,

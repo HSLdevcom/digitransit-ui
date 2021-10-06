@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, xit } from 'mocha';
 import React from 'react';
 
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
@@ -154,96 +154,6 @@ describe('<MapLayersDialogContent />', () => {
     expect(mapLayers.stop.tram).to.equal(true);
   });
 
-  it('should update the rail stop and terminal layers', () => {
-    let mapLayers = {
-      stop: {
-        rail: false,
-      },
-      terminal: {
-        rail: false,
-      },
-    };
-    const props = {
-      open: true,
-      setOpen: () => {},
-      lang: 'fi',
-      mapLayers,
-      updateMapLayers: layers => {
-        mapLayers = { ...layers };
-      },
-      setMapMode: () => {},
-    };
-    const context = {
-      config: {
-        transportModes: {
-          rail: {
-            availableForSelection: true,
-          },
-        },
-      },
-    };
-    const wrapper = mountWithIntl(
-      <MapLayersDialogContent isOpen {...props} />,
-      {
-        context: { ...mockContext, ...context },
-        childContextTypes: { ...mockChildContextTypes },
-      },
-    );
-
-    wrapper
-      .find('.option-checkbox input')
-      .at(0)
-      .simulate('change', { target: { checked: true } });
-
-    expect(mapLayers.stop.rail).to.equal(true);
-    expect(mapLayers.terminal.rail).to.equal(true);
-  });
-
-  it('should update the subway stop and terminal layers', () => {
-    let mapLayers = {
-      stop: {
-        subway: false,
-      },
-      terminal: {
-        subway: false,
-      },
-    };
-    const props = {
-      open: true,
-      setOpen: () => {},
-      lang: 'fi',
-      mapLayers,
-      updateMapLayers: layers => {
-        mapLayers = { ...layers };
-      },
-      setMapMode: () => {},
-    };
-    const context = {
-      config: {
-        transportModes: {
-          subway: {
-            availableForSelection: true,
-          },
-        },
-      },
-    };
-    const wrapper = mountWithIntl(
-      <MapLayersDialogContent isOpen {...props} />,
-      {
-        context: { ...mockContext, ...context },
-        childContextTypes: { ...mockChildContextTypes },
-      },
-    );
-
-    wrapper
-      .find('.option-checkbox input')
-      .at(0)
-      .simulate('change', { target: { checked: true } });
-
-    expect(mapLayers.stop.subway).to.equal(true);
-    expect(mapLayers.terminal.subway).to.equal(true);
-  });
-
   it('should update the ferry stop layer', () => {
     let mapLayers = {
       stop: {
@@ -305,7 +215,11 @@ describe('<MapLayersDialogContent />', () => {
     const context = {
       config: {
         cityBike: {
-          showCityBikes: true,
+          networks: {
+            foo: {
+              enabled: true,
+            },
+          },
         },
         transportModes: {
           citybike: {
@@ -322,6 +236,8 @@ describe('<MapLayersDialogContent />', () => {
       },
     );
 
+    expect(mapLayers.citybike).to.equal(false);
+
     wrapper
       .find('.option-checkbox input')
       .at(2)
@@ -330,7 +246,7 @@ describe('<MapLayersDialogContent />', () => {
     expect(mapLayers.citybike).to.equal(true);
   });
 
-  it('should update the park&ride layer', () => {
+  xit('should update the park&ride layer', () => {
     let mapLayers = {
       parkAndRide: false,
       stop: {},
@@ -363,7 +279,7 @@ describe('<MapLayersDialogContent />', () => {
 
     wrapper
       .find('.option-checkbox input')
-      .at(3)
+      .at(0)
       .simulate('change', { target: { checked: true } });
 
     expect(mapLayers.parkAndRide).to.equal(true);

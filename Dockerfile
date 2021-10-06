@@ -38,7 +38,7 @@ RUN \
   yarn && \
   yarn setup && \
   yarn build && \
-  rm -rf static docs test /tmp/* && \
+  rm -rf static docs test /tmp/* .cache && \
   yarn cache clean --all
 
 CMD yarn run start

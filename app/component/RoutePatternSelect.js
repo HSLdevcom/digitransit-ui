@@ -3,20 +3,20 @@
 /* eslint-disable import/no-unresolved */
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { createRefetchContainer, graphql } from 'react-relay';
+import {
+  createRefetchContainer,
+  fetchQuery,
+  graphql,
+  ReactRelayContext,
+} from 'react-relay';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
-import { routerShape, RedirectException } from 'found';
+import { routerShape, RedirectException, Link } from 'found';
 import Autosuggest from 'react-autosuggest';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from './Icon';
-import ComponentUsageExample from './ComponentUsageExample';
-import {
-  routePatterns as exampleRoutePatterns,
-  twoRoutePatterns as exampleTwoRoutePatterns,
-} from './ExampleData';
 import { isBrowser } from '../util/browser';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -55,10 +55,75 @@ function patternTextWithIcon(pattern) {
   return <></>;
 }
 
+function filterSimilarRoutes(routes, currentRoute) {
+  const withoutCurrent = routes.filter(r => r.gtfsId !== currentRoute.gtfsId);
+
+  let routeBasename = currentRoute.shortName;
+  if (Number.isNaN(Number(routeBasename))) {
+    routeBasename = routeBasename.replace(/\D/g, ''); // Delete all non-digits from the string
+  }
+  const onlyRelatedRoutes = withoutCurrent.filter(r =>
+    Number.isNaN(Number(r.shortName.replace(routeBasename, '')[0])),
+  );
+  return sortBy(onlyRelatedRoutes, 'shortName');
+}
+
+function renderPatternSelectSuggestion(item, currentPattern) {
+  if (item.stops) {
+    return (
+      <>
+        {patternTextWithIcon(item)}
+        {item.code === currentPattern.code && (
+          <>
+            <Icon className="check" img="icon-icon_check" />
+            <span className="sr-only">
+              <FormattedMessage id="route-page.pattern-chosen" />
+            </span>
+          </>
+        )}
+      </>
+    );
+  }
+  if (item.shortName && item.longName && item.mode) {
+    const routePath = `/${PREFIX_ROUTES}/${item.gtfsId}`;
+    return (
+      <Link
+        to={routePath}
+        onClick={e => {
+          e.stopPropagation();
+        }}
+      >
+        <div className="similar-route">
+          <Icon
+            className={item.mode.toLowerCase()}
+            img={`icon-icon_${item.mode.toLowerCase()}`}
+          />
+          <div className="similar-route-text">
+            <span className="similar-route-name">{item.shortName}</span>
+            <span className="similar-route-longname">{item.longName}</span>
+          </div>
+          <div className="similar-route-arrow-container">
+            <Icon
+              className="similar-route-arrow"
+              img="icon-icon_arrow-collapse--right"
+            />
+          </div>
+        </div>
+      </Link>
+    );
+  }
+  return <></>;
+}
+
 class RoutePatternSelect extends Component {
   constructor(props) {
     super(props);
     this.resultsUpdatedAlertRef = React.createRef();
+    this.state = {
+      similarRoutes: [],
+      loadingSimilar: true,
+    };
+    this.fetchSimilarRoutes(this.props.route);
   }
 
   static propTypes = {
@@ -73,6 +138,7 @@ class RoutePatternSelect extends Component {
     gtfsId: PropTypes.string.isRequired,
     useCurrentTime: PropTypes.bool, // DT-3182
     lang: PropTypes.string.isRequired, // DT-3347
+    relayEnvironment: PropTypes.object,
   };
 
   static contextTypes = {
@@ -80,6 +146,42 @@ class RoutePatternSelect extends Component {
     config: PropTypes.object, // DT-3317
     getStore: PropTypes.func.isRequired, // DT-3347
     intl: intlShape.isRequired,
+  };
+
+  similarRoutesToOptions = () => {};
+
+  fetchSimilarRoutes = route => {
+    let searchSimilarTo = route.shortName;
+    if (Number.isNaN(Number(route.shortName))) {
+      searchSimilarTo = route.shortName.replace(/\D/g, ''); // Delete all non-digits from the string
+    }
+    if (!searchSimilarTo) {
+      // Dont try to search similar routes for routes that are named with letters (eg. P train)
+      return;
+    }
+    const query = graphql`
+      query RoutePatternSelect_similarRoutesQuery(
+        $name: String
+        $mode: [Mode]
+      ) {
+        routes(name: $name, transportModes: $mode) {
+          gtfsId
+          shortName
+          longName
+          mode
+        }
+      }
+    `;
+
+    const params = { name: searchSimilarTo, mode: route.mode };
+    fetchQuery(this.props.relayEnvironment, query, params, {
+      force: true,
+    }).then(results => {
+      this.setState({
+        similarRoutes: filterSimilarRoutes(results.routes, this.props.route),
+        loadingSimilar: false,
+      });
+    });
   };
 
   getOptions = () => {
@@ -144,13 +246,16 @@ class RoutePatternSelect extends Component {
 
     const noSpecialRoutes = !specialRoutes || specialRoutes.length === 0;
     const noFutureRoutes = !futureRoutes || futureRoutes.length === 0;
+    const noSimilarRoutes =
+      !this.state.similarRoutes || this.state.similarRoutes.length === 0;
 
     const renderButtonOnly =
       mainRoutes &&
       mainRoutes.length > 0 &&
       mainRoutes.length <= 2 &&
       noSpecialRoutes &&
-      noFutureRoutes;
+      noFutureRoutes &&
+      noSimilarRoutes;
 
     const directionSwap = mainRoutes.length === 2;
     if (renderButtonOnly) {
@@ -209,6 +314,19 @@ class RoutePatternSelect extends Component {
       });
     }
 
+    if (
+      this.context.config.showSimilarRoutesOnRouteDropDown &&
+      !this.state.loadingSimilar &&
+      this.state.similarRoutes?.length > 0
+    ) {
+      optionArray.push({
+        options: this.state.similarRoutes,
+        name: intl.formatMessage({
+          id: 'route-page.similar-routes',
+        }),
+      });
+    }
+
     const sectionTitleFontWeight =
       this.context.config.appBarStyle === 'hsl' ? 500 : 600;
 
@@ -236,21 +354,18 @@ class RoutePatternSelect extends Component {
               return s.options;
             }}
             getSuggestionValue={s => s.code}
-            renderSuggestion={s => (
-              <>
-                {patternTextWithIcon(s)}
-                {s.code === currentPattern.code && (
-                  <>
-                    <Icon className="check" img="icon-icon_check" />
-                    <span className="sr-only">
-                      <FormattedMessage id="route-page.pattern-chosen" />
-                    </span>
-                  </>
-                )}
-              </>
-            )}
+            renderSuggestion={s =>
+              renderPatternSelectSuggestion(s, currentPattern)
+            }
             onSuggestionsFetchRequested={() => null}
             shouldRenderSuggestions={() => true}
+            onSuggestionSelected={(e, { suggestion, suggestionValue }) => {
+              if (!suggestionValue && suggestion.gtfsId) {
+                // for similarRoute links to work when selected with keyboard
+                const routePath = `/${PREFIX_ROUTES}/${suggestion.gtfsId}`;
+                this.context.router.push(routePath);
+              }
+            }}
             inputProps={{
               value: this.props.params && patternOptionText(currentPattern),
               onChange: (_, { newValue, method }) => {
@@ -293,58 +408,32 @@ class RoutePatternSelect extends Component {
   }
 }
 
-const defaultProps = {
-  className: 'bp-large',
-  serviceDay: '20190306',
-  relay: {
-    refetch: (variables, renderVariables, callback) => {
-      callback();
-    },
-  },
-  params: {
-    routeId: 'HSL:1010',
-    patternId: 'HSL:1010:0:01',
-  },
-  useCurrentTime: true,
-};
-
-RoutePatternSelect.description = () => (
-  <div>
-    <p>Display a dropdown to select the pattern for a route</p>
-    <ComponentUsageExample>
-      <RoutePatternSelect
-        route={exampleRoutePatterns}
-        onSelectChange={() => {}}
-        gtfsId="HSL:1010"
-        lang="en"
-        {...defaultProps}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample>
-      <RoutePatternSelect
-        route={exampleTwoRoutePatterns}
-        onSelectChange={() => {}}
-        gtfsId="HSL:1010"
-        lang="en"
-        {...defaultProps}
-      />
-    </ComponentUsageExample>
-  </div>
-);
-
 // DT-2531: added activeDates
 const withStore = createRefetchContainer(
-  connectToStores(RoutePatternSelect, ['PreferencesStore'], context => ({
-    serviceDay: context
-      .getStore('TimeStore')
-      .getCurrentTime()
-      .format(DATE_FORMAT),
-    lang: context.getStore('PreferencesStore').getLanguage(), // DT-3347
-  })),
+  connectToStores(
+    props => (
+      <ReactRelayContext.Consumer>
+        {({ environment }) => (
+          <RoutePatternSelect {...props} relayEnvironment={environment} />
+        )}
+      </ReactRelayContext.Consumer>
+    ),
+    ['PreferencesStore'],
+    context => ({
+      serviceDay: context
+        .getStore('TimeStore')
+        .getCurrentTime()
+        .format(DATE_FORMAT),
+      lang: context.getStore('PreferencesStore').getLanguage(), // DT-3347
+    }),
+  ),
   {
     route: graphql`
       fragment RoutePatternSelect_route on Route
       @argumentDefinitions(date: { type: "String" }) {
+        shortName
+        mode
+        gtfsId
         patterns {
           code
           directionId
