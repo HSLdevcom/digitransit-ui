@@ -1,6 +1,7 @@
 /* eslint-disable prefer-template */
 import safeJsonParse from '../util/safeJsonParser';
 import { BIKEAVL_WITHMAX } from '../util/citybikes';
+import { BicycleParkingFilter } from '../constants';
 
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
@@ -123,6 +124,7 @@ export default {
   defaultSettings: {
     accessibilityOption: 0,
     bikeSpeed: 5.55,
+    bicycleParkingFilter: BicycleParkingFilter.All,
     ticketTypes: 'none',
     walkBoardCost: 600,
     walkReluctance: 2,

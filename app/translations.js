@@ -259,6 +259,9 @@ const translations = {
   },
 
   de: {
+    'bicycle-parking-filter': 'Bevorzugte Abstellart',
+    'bicycle-parking-filter-all': 'Alle Abstellanlagen',
+    'bicycle-parking-filter-freeOnly': 'Nur kostenlose Anlagen',
     'tier_REUTLINGEN-availability': 'TIER E-Scooter verfügbar',
     'tier_REUTLINGEN-station-no-id': 'TIER E-Scooter',
     'tier_REUTLINGEN-start-using': 'Buchen Sie einen TIER E-Scooter',
@@ -1038,6 +1041,7 @@ const translations = {
   },
 
   en: {
+    'bicycle-parking-filter': 'Bicycle parking options',
     'tier_REUTLINGEN-start-using': 'Book a TIER e-scooter',
     'tier_REUTLINGEN-station-no-id': 'TIER e-scooter',
     'tier_REUTLINGEN-availability': 'TIER e-scooters available at the station right now',

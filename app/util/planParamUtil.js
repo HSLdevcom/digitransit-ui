@@ -18,6 +18,7 @@ import { otpToLocation, getIntermediatePlaces } from './otpStrings';
 import { getDefaultNetworks } from './citybikes';
 import { getCustomizedSettings } from '../store/localStorage';
 import { estimateItineraryDistance } from './geo-utils';
+import { BicycleParkingFilter } from '../constants';
 
 /**
  * Retrieves the default settings from the configuration.
@@ -165,6 +166,7 @@ export const getSettings = config => {
     includeParkAndRideSuggestions: custSettings.includeParkAndRideSuggestions,
     useCarParkAvailabilityInformation:
       custSettings.useCarParkAvailabilityInformation,
+    bicycleParkingFilter: custSettings.bicycleParkingFilter,
   };
 };
 
@@ -286,6 +288,11 @@ export const preparePlanParams = (config, useDefaultModes) => (
   };
   const parsedTime = time ? moment(time * 1000) : moment();
 
+  let bannedBicycleParkingTags = [];
+  if (BicycleParkingFilter.FreeOnly === settings.bicycleParkingFilter) {
+    bannedBicycleParkingTags = ['osm:fee=yes'];
+  }
+
   const cookies = new Cookies();
   return {
     ...defaultSettings,
@@ -384,6 +391,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
       { mode: 'BICYCLE' },
       ...modesAsOTPModes(getBicycleCompatibleModes(config, modesOrDefault)),
     ],
+    bannedBicycleParkingTags,
     onDemandTaxiModes: [
       { mode: 'RAIL' },
       { mode: 'FLEX', qualifier: 'EGRESS' },

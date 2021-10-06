@@ -56,6 +56,7 @@ const StreetModeSelectorPanel = (
           {currentSettings.includeBikeSuggestions ? (
             <BikingOptionsSection
               bikeSpeed={currentSettings.bikeSpeed}
+              bicycleParkingFilter={currentSettings.bicycleParkingFilter}
               defaultSettings={defaultSettings}
               bikeSpeedOptions={config.defaultOptions.bikeSpeed}
             />
