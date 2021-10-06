@@ -289,8 +289,12 @@ export const preparePlanParams = (config, useDefaultModes) => (
   const parsedTime = time ? moment(time * 1000) : moment();
 
   let bannedBicycleParkingTags = [];
+  let preferredBicycleParkingTags = [];
   if (BicycleParkingFilter.FreeOnly === settings.bicycleParkingFilter) {
     bannedBicycleParkingTags = ['osm:fee=yes'];
+  }
+  if (BicycleParkingFilter.SecurePreferred === settings.bicycleParkingFilter) {
+    preferredBicycleParkingTags = ['osm:fee=yes'];
   }
 
   const cookies = new Cookies();
@@ -392,6 +396,9 @@ export const preparePlanParams = (config, useDefaultModes) => (
       ...modesAsOTPModes(getBicycleCompatibleModes(config, modesOrDefault)),
     ],
     bannedBicycleParkingTags,
+    preferredBicycleParkingTags,
+    unpreferredBicycleParkingTagPenalty:
+      config.unpreferredBicycleParkingTagPenalty,
     onDemandTaxiModes: [
       { mode: 'RAIL' },
       { mode: 'FLEX', qualifier: 'EGRESS' },

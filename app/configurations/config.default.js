@@ -178,6 +178,7 @@ export default {
   minTransferTime: 120,
   optimize: 'GREENWAYS',
   transferPenalty: 0,
+  unpreferredBicycleParkingTagPenalty: 900,
   availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de', 'da', 'es', 'ro'],
   defaultLanguage: 'en',
   // This timezone data will expire in 2037

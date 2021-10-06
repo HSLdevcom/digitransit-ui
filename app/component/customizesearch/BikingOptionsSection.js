@@ -32,10 +32,12 @@ class BikingOptionsSection extends React.Component {
         }),
         value: BicycleParkingFilter.FreeOnly,
       },
-      /* {
-        title: 'Sichere bevorzugt',
+      {
+        title: intl.formatMessage({
+          id: `bicycle-parking-filter-${BicycleParkingFilter.SecurePreferred}`,
+        }),
         value: BicycleParkingFilter.SecurePreferred,
-      }, */
+      },
     ];
 
     const currentSelection =
