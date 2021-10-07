@@ -154,6 +154,10 @@ const StopPageMap = (
     mwtProps.zoom = !match.params.stopId || stop.platformCode ? 18 : 16;
   }
 
+  let topButtons = [];
+  if (config.showMapRoutingButton) {
+    topButtons = <MapRoutingButton stop={stop} />;
+  }
   return (
     <MapWithTracking
       className="flex-grow"
@@ -162,7 +166,7 @@ const StopPageMap = (
       {...mwtProps}
       mapLayers={mapLayers}
       mapLayerOptions={mapLayerOptions}
-      topButtons={<MapRoutingButton stop={stop} />}
+      topButtons={topButtons}
     >
       {children}
     </MapWithTracking>

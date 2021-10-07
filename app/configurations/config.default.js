@@ -763,6 +763,10 @@ export default {
   availableTickets: {},
   /* Option to disable TimeTableOptionsPanel component on Route panel */
   showTimeTableOptions: true,
+
+  // the route to stop button in when you select an individual stop/bike rental station
+  showMapRoutingButton: true,
+
   zones: {
     stops: false,
     itinerary: false,

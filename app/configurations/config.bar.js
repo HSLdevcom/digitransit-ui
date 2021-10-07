@@ -449,6 +449,8 @@ export default configMerger(walttiConfig, {
     includeCarSuggestions: false,
     includeParkAndRideSuggestions: false,
 
+    showMapRoutingButton: false,
+
     showBikeAndPublicItineraries: true,
     showBikeAndParkItineraries: true,
     showStopAndRouteSearch: false,
