@@ -185,6 +185,7 @@ class ItineraryLegs extends React.Component {
               previousLeg={previousLeg}
               focusAction={this.focus(leg.from)}
               focusToLeg={this.focusToLeg(leg)}
+              startTime={startTime}
             >
               {this.stopCode(leg.from.stop)}
             </WalkLeg>,
