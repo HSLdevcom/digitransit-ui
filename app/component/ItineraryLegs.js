@@ -106,7 +106,9 @@ class ItineraryLegs extends React.Component {
         undefined,
     }));
     const numberOfLegs = compressedLegs.length;
-    const bikeParked = compressedLegs.some(leg => leg.to.bikePark);
+    const bikeParked = compressedLegs.some(
+      leg => leg.to.bikePark || leg.from.bikePark,
+    );
     if (numberOfLegs === 0) {
       return null;
     }
@@ -133,6 +135,7 @@ class ItineraryLegs extends React.Component {
         : false;
       const nextInterliningLeg = isNextLegInterlining ? nextLeg : undefined;
       const bikePark = previousLeg?.to.bikePark;
+      const fromBikePark = leg?.from.bikePark;
       if (leg.mode !== 'WALK' && isCallAgencyPickupType(leg)) {
         legs.push(
           <CallAgencyLeg
@@ -164,18 +167,29 @@ class ItineraryLegs extends React.Component {
           />,
         );
       } else if (this.isLegOnFoot(leg)) {
-        legs.push(
-          <WalkLeg
-            index={j}
-            leg={leg}
-            previousLeg={previousLeg}
-            focusAction={this.focus(leg.from)}
-            focusToLeg={this.focusToLeg(leg)}
-            startTime={startTime}
-          >
-            {this.stopCode(leg.from.stop)}
-          </WalkLeg>,
-        );
+        if (fromBikePark) {
+          legs.push(
+            <BikeParkLeg
+              index={j}
+              leg={leg}
+              bikePark={fromBikePark}
+              focusAction={this.focus(leg.from)}
+              focusToLeg={this.focusToLeg(leg)}
+            />,
+          );
+        } else {
+          legs.push(
+            <WalkLeg
+              index={j}
+              leg={leg}
+              previousLeg={previousLeg}
+              focusAction={this.focus(leg.from)}
+              focusToLeg={this.focusToLeg(leg)}
+            >
+              {this.stopCode(leg.from.stop)}
+            </WalkLeg>,
+          );
+        }
       } else if (leg.mode === 'BUS' && !leg.interlineWithPreviousLeg) {
         legs.push(
           <BusLeg
