@@ -399,8 +399,8 @@ const translations = {
     'bike-availability': 'Fahrräder verfügbar',
     'bike-not-allowed-bus': 'Keine Fahrradmitnahme im Bus',
     'bike-not-allowed-tram': 'Keine Fahrradmitnahme in der Straßenbahn',
-    'bike-park': 'Bike & Ride',
-    'bike-station-disabled': 'Pyöräasema ei ole käytössä.',
+    'bike-park': 'Fahrrad abstellen',
+    'bike-station-disabled': 'Leihstation außer Betrieb.',
     'bikes-available': 'Fahrräder verfügbar',
     'biketransport-citybike': 'Ich benutze ein Leihrad',
     'biketransport-only-bike': 'Ich fahre nur mit dem Fahrrad',
@@ -598,13 +598,13 @@ const translations = {
     'itinerary-summary-row.walking-distance':
       'Gesamte Laufstrecke: {totalDistance}.',
     'itinerary-summary.bikeAndPublic-fallback-title':
-      'Nehmen Sie Ihr Rad mit ins Fahrzeug',
+      'Verbindungen mit Fahrradmitnahme',
     'itinerary-summary.bikeAndPublic-rail-subway-title':
-      'Nehmen Sie Ihr Rad mit in den Zug oder die Bahn',
+      'Verbindungen mit Fahrradmitnahme',
     'itinerary-summary.bikeAndPublic-rail-title':
-      'Nehmen Sie Ihr Rad mit in den Zug',
+      'Verbindungen mit Fahrradmitnahme',
     'itinerary-summary.bikeAndPublic-subway-title':
-      'Nehmen Sie Ihr Rad mit in die Bahn',
+      'Verbindungen mit Fahrradmitnahme',
     'itinerary-summary.bikePark-title': 'Fahrrad abstellen und weiterfahren',
     'itinerary-summary.interline-wait': 'Die Route ({shortName}) und Ziel ({destination}) werden sich am Halt {stop} verändern. Die Wartezeit beträgt {time}. Bitte bleiben Sie sitzen.',
     'itinerary-summary.show-on-map': 'Auf Karte zeigen {target}',
