@@ -158,6 +158,14 @@ export default configMerger(walttiConfig, {
         url: 'https://ckan.saita.fi/geojson/pyorailyreitit_lpr.geojson',
         isOffByDefault: true,
       },
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/lpr_zone_lines_20211008.geojson',
+      },
     ],
   },
 });
