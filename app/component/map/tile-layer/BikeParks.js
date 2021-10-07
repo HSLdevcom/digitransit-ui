@@ -67,11 +67,25 @@ class BikeParks {
     });
 
   static getIcon = ({ tags }) => {
-    const covered = tags.split(',').includes('osm:covered');
-    if (covered) {
-      return `icon-bike-park-covered`;
+    const type = BikeParks.getBikeParkType(tags);
+    return `icon-${type}`;
+    
+  };
+
+  static getBikeParkType = (tags) => {
+    const splitTags = tags.split(',')
+    const covered = splitTags.includes('osm:covered');
+    const garage = splitTags.includes('osm:bicycle_parking=shed') || splitTags.includes('osm:bicycle_parking=garage');
+    const lockers = splitTags.includes('osm:bicycle_parking=lockers');
+    if (lockers) {
+      return `bike-park-lockers`;
+    } else if (garage) {
+      return `bike-park-station`;
+    } else if (covered) {
+      return `bike-park-covered`;
+    } else {
+      return `bike-park`;
     }
-    return `icon-bike-park`;
   };
 
   drawStatus = ({ geom, properties }) => {
