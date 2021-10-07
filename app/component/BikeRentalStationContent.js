@@ -9,10 +9,7 @@ import CityBikeStopContent from './CityBikeStopContent';
 import BikeRentalStationHeader from './BikeRentalStationHeader';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
-import {
-  getCityBikeNetworkConfig,
-  getCityBikeNetworkId,
-} from '../util/citybikes';
+import { getCityBikeNetworkConfig } from '../util/citybikes';
 import { isBrowser } from '../util/browser';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import CargoBikeContent from './map/sidebar/CargoBikeContent';
@@ -57,14 +54,6 @@ const BikeRentalStationContent = (
   }
   const { cityBike } = config;
   const cityBikeBuyUrl = cityBike.buyUrl;
-  let cityBikeNetworkUrl;
-  // Use general information about using city bike, if one network config is available
-  if (Object.keys(cityBike.networks).length === 1) {
-    cityBikeNetworkUrl = getCityBikeNetworkConfig(
-      getCityBikeNetworkId(Object.keys(cityBike.networks)),
-      config,
-    ).url;
-  }
 
   if (
     bikeRentalStation.networks[0] === 'cargo-bike' &&
@@ -95,7 +84,7 @@ const BikeRentalStationContent = (
           </a>
         </div>
       )}
-      {url && (cityBikeBuyUrl || cityBikeNetworkUrl) && (
+      {url && (
         <div className="citybike-use-disclaimer">
           <div className="disclaimer-header">
             <FormattedMessage
@@ -106,10 +95,7 @@ const BikeRentalStationContent = (
             {cityBikeBuyUrl ? (
               <FormattedMessage id="citybike-buy-season" />
             ) : (
-              <a
-                className="external-link-citybike"
-                href={cityBikeNetworkUrl[language]}
-              >
+              <a className="external-link-citybike" href={url}>
                 <FormattedMessage id="citybike-start-using-info" />{' '}
               </a>
             )}
