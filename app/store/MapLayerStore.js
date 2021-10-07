@@ -23,6 +23,7 @@ class MapLayerStore extends Store {
     },
     vehicles: false,
     geoJson: {},
+    bikeParks: true,
   };
 
   static handlers = {
