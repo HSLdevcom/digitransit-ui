@@ -257,3 +257,11 @@ export function setSavedGeolocationPermission(key, value) {
     [key]: value,
   });
 }
+
+export function hasSeenPopup() {
+  return !!getItem('hasSeenPopup');
+}
+
+export function markPopupAsSeen() {
+  return setItem('hasSeenPopup', true);
+}
