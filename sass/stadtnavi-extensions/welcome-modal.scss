@@ -1,0 +1,25 @@
+.welcome-modal {
+  z-index: 999;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  max-width: 500px;
+  padding: 35px 20px 20px 20px;
+
+  .welcome-modal-header {
+    font-family: $heading-font-family;
+    font-size: $font-size-large;
+    font-weight: $font-weight-medium;
+
+    margin: 0 0 20px;
+    display: flex;
+    align-items: center;
+    letter-spacing: -0.3px;
+    color: #333333;
+  }
+}

@@ -451,10 +451,20 @@ export default configMerger(walttiConfig, {
 
     showMapRoutingButton: false,
 
+
     showBikeAndPublicItineraries: true,
     showBikeAndParkItineraries: true,
     showStopAndRouteSearch: false,
     showTimeTableOptions: false,
 
     viaPointsEnabled: false,
+
+    welcomePopup: {
+        enabled: true,
+        heading: 'Wilkommen zu RadZugServices',
+        paragraphs: [
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mattis arcu ac commodo vestibulum. Curabitur faucibus, sapien non consectetur porttitor, nulla eros dictum purus, nec interdum diam tortor eu ex.',
+            'Aenean a nisl molestie purus viverra molestie quis id metus. Suspendisse eget accumsan ligula. Quisque congue feugiat tempor. Integer et mi et eros feugiat viverra vitae non velit. Ut consectetur dolor eros, vel vehicula metus cursus in. Praesent blandit massa quis tempus elementum. Nunc euismod rutrum faucibus.'
+        ],
+    },
 });

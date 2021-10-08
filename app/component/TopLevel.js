@@ -5,6 +5,7 @@ import some from 'lodash/some';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape, routerShape } from 'found';
 import getContext from 'recompose/getContext';
+import Modal from '@hsl-fi/modal';
 import {
   getHomeUrl,
   PREFIX_STOPS,
@@ -24,6 +25,7 @@ import { setSettingsOpen } from '../action/userPreferencesActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import MapLayersDialogContent from './MapLayersDialogContent';
 import PreferencesStore from '../store/PreferencesStore';
+import { hasSeenPopup, markPopupAsSeen } from '../store/localStorage';
 
 class TopLevel extends React.Component {
   static propTypes = {
@@ -86,6 +88,9 @@ class TopLevel extends React.Component {
 
   constructor(props, context) {
     super(props, context);
+    this.state = {
+      showPopup: !hasSeenPopup(),
+    };
     if (
       this.context.config.allowLogin &&
       !this.props.user.name &&
@@ -178,6 +183,32 @@ class TopLevel extends React.Component {
 
     let content;
 
+    let popup = [];
+    const { welcomePopup } = this.context.config;
+    if (this.state.showPopup && welcomePopup.enabled) {
+      popup = (
+        <Modal
+          appElement="#app"
+          contentLabel=""
+          closeButtonLabel="close"
+          isOpen={this.state.showPopup}
+          onCrossClick={() => {
+            this.setState({ showPopup: false });
+            markPopupAsSeen();
+          }}
+          className="welcome-modal"
+          overlayClassName="map-routing-modal-overlay"
+        >
+          <h2 className="welcome-modal-header">{welcomePopup.heading}</h2>
+          <div>
+            {welcomePopup.paragraphs.map(p => (
+              <p key="123">{p}</p>
+            ))}
+          </div>
+        </Modal>
+      );
+    }
+
     const homeUrl = getHomeUrl(
       this.props.origin,
       this.context.config.indexPath,
@@ -251,6 +282,7 @@ class TopLevel extends React.Component {
             {content}
           </ErrorBoundary>
         </section>
+        {popup}
       </Fragment>
     );
   }

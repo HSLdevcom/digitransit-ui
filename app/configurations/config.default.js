@@ -780,4 +780,10 @@ export default {
   showSimilarRoutesOnRouteDropDown: false,
 
   prioritizedStopsNearYou: {},
+
+  welcomePopup: {
+    enabled: false,
+    heading: 'Welcome to Digitransit',
+    paragraphs: [],
+  },
 };
