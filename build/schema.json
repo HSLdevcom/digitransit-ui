@@ -1379,6 +1379,33 @@
                             "deprecationReason": null
                         },
                         {
+                            "name": "vehicleParking",
+                            "description": "Get a single vehicle park based on its ID, i.e. value of field `vehicleParkId`",
+                            "args": [
+                                {
+                                    "name": "id",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "SCALAR",
+                                            "name": "String",
+                                            "ofType": null
+                                        }
+                                    },
+                                    "defaultValue": null
+                                }
+                            ],
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "VehicleParking",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
                             "name": "carParks",
                             "description": "Get all car parks",
                             "args": [

@@ -702,7 +702,7 @@ const translations = {
       'Wir konnten leider keine Reisevorschläge für diese Strecke finden. Bitte versuchen Sie den Abfahrts- oder Zielort zu ändern.',
     'no-route-msg-with-changes':
       'Leider wurden keine Reiseoptionen zu Ihrer Anfrage gefunden. Passen Sie Ihre Einstellungen, Abfahrt- oder Zielort an.',
-    'book-locker': 'Schließfach buchen',
+    'book-locker': 'Stellplatz buchen',
     'no-route-origin-near-destination':
       'Die Entfernung zwischen Start und Ziel ist sehr gering. Bitte ändern Sie einen dieser Orte.',
     'no-route-origin-same-as-destination':
@@ -1053,7 +1053,7 @@ const translations = {
     'tier_REUTLINGEN-start-using': 'Book a TIER e-scooter',
     'tier_REUTLINGEN-station-no-id': 'TIER e-scooter',
     'tier_REUTLINGEN-availability': 'TIER e-scooters available at the station right now',
-    'book-locker': 'Book locker',
+    'book-locker': 'Book space',
     'fares-disclaimer': 'Fare information provided by Nahverkehrsgesellschaft Baden-Württemberg mbH (NVBW). No liability for the correctness of the information.',
     imprint: 'Imprint',
     'position-estimated': 'Position estimated. No current position information is available.',
