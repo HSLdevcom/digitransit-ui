@@ -360,7 +360,7 @@ function getSmallStopIcon(type, radius, color) {
   return new Promise(r => r(canvas));
 }
 
-const getMemoizedStopIcon = memoize(
+export const getMemoizedStopIcon = memoize(
   getSmallStopIcon,
   (type, radius, color, isHilighted) =>
     `${type}_${radius}_${color}_${isHilighted}`,
