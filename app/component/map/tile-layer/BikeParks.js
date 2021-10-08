@@ -4,7 +4,11 @@ import pick from 'lodash/pick';
 
 import range from 'lodash-es/range';
 import { isBrowser } from '../../../util/browser';
-import { drawIcon, getMemoizedStopIcon } from '../../../util/mapIconUtils';
+import {
+  drawAvailabilityBadge,
+  drawIcon,
+  getMemoizedStopIcon,
+} from '../../../util/mapIconUtils';
 import glfun from '../../../util/glfun';
 
 const getScale = glfun({
@@ -41,6 +45,8 @@ class BikeParks {
 
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.iconSize = 20 * this.scaleratio * getScale(this.tile.coords.z);
+    this.availabilityImageSize =
+      14 * this.scaleratio * getScale(this.tile.coords.z);
 
     this.promise = this.fetchWithAction(this.drawStatus);
   }
@@ -109,6 +115,17 @@ class BikeParks {
     return BikeParkingType.Unknown;
   };
 
+  static getAvailability(properties) {
+    const available = properties['availability.bicyclePlaces'];
+    if (available === 0) {
+      return 'no';
+    }
+    /* if (available === 1) {
+      return 'poor';
+    } */
+    return 'good';
+  }
+
   drawStatus = ({ geom, properties }) => {
     const type = BikeParks.getBikeParkType(properties.tags);
     if (this.tile.coords.z <= type.smallIconZoom) {
@@ -125,7 +142,18 @@ class BikeParks {
       });
     } else {
       const icon = BikeParks.getIcon(properties);
-      drawIcon(icon, this.tile, geom, this.iconSize);
+      drawIcon(icon, this.tile, geom, this.iconSize).then(() => {
+        if (typeof properties['availability.bicyclePlaces'] === 'number') {
+          drawAvailabilityBadge(
+            BikeParks.getAvailability(properties),
+            this.tile,
+            geom,
+            this.iconSize,
+            this.availabilityImageSize,
+            this.scaleratio,
+          );
+        }
+      });
     }
   };
 
