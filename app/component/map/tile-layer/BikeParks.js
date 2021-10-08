@@ -4,7 +4,7 @@ import pick from 'lodash/pick';
 
 import range from 'lodash-es/range';
 import { isBrowser } from '../../../util/browser';
-import { drawIcon, drawStopIcon } from '../../../util/mapIconUtils';
+import { drawIcon, getMemoizedStopIcon } from '../../../util/mapIconUtils';
 import glfun from '../../../util/glfun';
 
 const getScale = glfun({
@@ -14,6 +14,25 @@ const getScale = glfun({
     [20, 1.6],
   ],
 });
+
+const BikeParkingType = {
+  Unknown: {
+    icon: 'bike-park',
+    smallIconZoom: 17,
+  },
+  Lockers: {
+    icon: 'bike-park-lockers',
+    smallIconZoom: 15,
+  },
+  Station: {
+    icon: 'bike-park-station',
+    smallIconZoom: 15,
+  },
+  Covered: {
+    icon: 'bike-park-covered',
+    smallIconZoom: 15,
+  },
+};
 
 class BikeParks {
   constructor(tile, config) {
@@ -68,41 +87,46 @@ class BikeParks {
 
   static getIcon = ({ tags }) => {
     const type = BikeParks.getBikeParkType(tags);
-    return `icon-${type}`;
-    
+    return `icon-${type.icon}`;
   };
 
-  static getBikeParkType = (tags) => {
-    const splitTags = tags.split(',')
+  static getBikeParkType = tags => {
+    const splitTags = tags.split(',');
     const covered = splitTags.includes('osm:covered');
-    const garage = splitTags.includes('osm:bicycle_parking=shed') || splitTags.includes('osm:bicycle_parking=garage');
+    const garage =
+      splitTags.includes('osm:bicycle_parking=shed') ||
+      splitTags.includes('osm:bicycle_parking=garage');
     const lockers = splitTags.includes('osm:bicycle_parking=lockers');
     if (lockers) {
-      return `bike-park-lockers`;
-    } else if (garage) {
-      return `bike-park-station`;
-    } else if (covered) {
-      return `bike-park-covered`;
-    } else {
-      return `bike-park`;
+      return BikeParkingType.Lockers;
     }
+    if (garage) {
+      return BikeParkingType.Station;
+    }
+    if (covered) {
+      return BikeParkingType.Covered;
+    }
+    return BikeParkingType.Unknown;
   };
 
   drawStatus = ({ geom, properties }) => {
-    if (this.tile.coords.z <= this.config.bikeParks.smallIconZoom) {
-      return drawStopIcon(
-        this.tile,
-        geom,
-        'bike-park',
-        null,
-        null,
-        null,
-        this.config.colors.iconColors,
-      );
-    }
+    const type = BikeParks.getBikeParkType(properties.tags);
+    if (this.tile.coords.z <= type.smallIconZoom) {
+      const mode = `mode-bike-park`;
+      const color = this.config.colors.iconColors[mode];
+      let width = 10;
+      width *= this.tile.scaleratio;
 
-    const icon = BikeParks.getIcon(properties);
-    return drawIcon(icon, this.tile, geom, this.iconSize);
+      const radius = width / 2;
+      const x = geom.x / this.tile.ratio - radius;
+      const y = geom.y / this.tile.ratio - radius;
+      getMemoizedStopIcon(type, radius, color, false).then(image => {
+        this.tile.ctx.drawImage(image, x, y);
+      });
+    } else {
+      const icon = BikeParks.getIcon(properties);
+      drawIcon(icon, this.tile, geom, this.iconSize);
+    }
   };
 
   onTimeChange = () => {
