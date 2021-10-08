@@ -395,7 +395,6 @@ class TileLayerContainer extends GridLayer {
           const {
             // eslint-disable-next-line no-shadow
             id,
-            maxCapacity,
             name,
           } = this.state.selectableTargets[0].feature.properties;
           const { lat, lng } = this.state.coords;
@@ -405,7 +404,6 @@ class TileLayerContainer extends GridLayer {
               lat,
               lng,
               name,
-              maxCapacity,
             },
             value => value !== undefined,
           );
