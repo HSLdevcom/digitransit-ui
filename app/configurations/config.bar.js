@@ -460,7 +460,7 @@ export default configMerger(walttiConfig, {
     viaPointsEnabled: false,
 
     welcomePopup: {
-        enabled: true,
+        enabled: false,
         heading: 'Wilkommen zu RadZugServices',
         paragraphs: [
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mattis arcu ac commodo vestibulum. Curabitur faucibus, sapien non consectetur porttitor, nulla eros dictum purus, nec interdum diam tortor eu ex.',
