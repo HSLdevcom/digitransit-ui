@@ -342,7 +342,7 @@ const translations = {
     streets: 'Straßen',
     satellite: 'Satellit',
     'add-favourite-bikeStation-failed-heading':
-        'Saving the citybike station failed',
+        'Speichern der Ausleihstation fehlgeschlagen',
     'add-favourite-place-failed-heading': 'Standort kann nicht gespeichert werden',
     'add-favourite-route-failed-heading': 'Speichern der Route fehlgeschlagen',
     'add-favourite-station-failed-heading': 'Speichern der Station fehlgeschlagen',
@@ -351,6 +351,7 @@ const translations = {
     'map-layer-carpool': 'Mitfahrpunkte',
     'add-itinerary-via-point': 'Zwischenstopp hinzufügen',
     'add-location-to-favourites': 'Ort zu Favoriten hinzufügen',
+    'add-to-favourites': 'Zu Favoriten hinzufügen',
     'add-via-button-label': 'Zwischenstopp hinzufügen',
     'add-via-duration-button-label': 'Aufenthaltszeit am Zwischenstopp {index}',
     'add-via-duration-button-label-close':
@@ -408,7 +409,7 @@ const translations = {
     'biking-speed': 'Geschwindigkeit mit dem Fahrrad',
     bus: 'Bus',
     'bus-with-route-number': 'Bus {routeNumber} {headSign}',
-    buy: 'Buy',
+    buy: 'Kaufen',
     'buy-ticket': 'Tickets kaufen',
     call: 'Anrufen',
     cancel: 'Abbrechen',
@@ -578,7 +579,7 @@ const translations = {
     'itinerary-page.title': 'Reisebeschreibung',
     'itinerary-page.update-alert': 'Suchergebnisse aktualisiert',
     'itinerary-summary-page-street-mode.update-alert':
-      'Walking and biking results updated',
+      'Gehen- und Radfahren-Ergebnisse aktualisiert',
     'itinerary-summary-page.description': 'Reisevorschläge',
     'itinerary-summary-page.title': 'Routenvorschläge',
     'itinerary-summary-row.biking-distance':
@@ -613,7 +614,7 @@ const translations = {
     'itinerary-tickets.title': 'Benötigte Fahrkarten',
     'itinerary-time.title': 'Dauer',
     'itinerary-walk.title': 'Gesamte Laufstrecke',
-    'journeyplanner.title': 'HSL Reiseplaner',
+    'journeyplanner.title': 'Reiseplaner',
     later: 'Später',
     'last-updated': 'Daten von {time} Uhr',
     leaves: 'Abfahrt',
@@ -792,6 +793,7 @@ const translations = {
     realtime: 'Echtzeit',
     'realtime-matching': 'Echtzeit-Matching',
     releases: 'Veröffentlichungen',
+    'remove-favourite': 'Von Favoriten entfernen',
     'remove-via-button-label': 'Zwischenstopp {index} entfernen',
     'rent-scooter-at': 'Scooter ausleihen:',
     'required-ticket': 'Benötigtes Ticket',

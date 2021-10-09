@@ -1,13 +1,13 @@
 const translations = {
   de: {
     address: 'Adresse',
-    'address-place-or-business': 'Adress, Ort or Geschäft',
+    'address-place-or-business': 'Adresse, Ort oder Geschäft',
     'add-via-button-label': 'Füge Zwischenziel hinzu',
-    'add-via-duration-button-label': 'Set stop duration at via point {{index}}',
+    'add-via-duration-button-label': 'Setze Aufenthaltsdauer am Zwischenziel {{index}}',
     'add-via-duration-button-label-close':
-      'Close stop duration selector at via point {{index}}',
+      'Schließe Auswahl Aufenthaltsdauer am Zwischenziel {{index}}',
     'add-via-duration-button-label-open':
-      'Open stop duration selector at via point {{index}}',
+      'Öffne Auswahl Aufenthaltsdauer am Zwischenziel {{index}}',
     airplane: 'Flug',
     arrival: 'Ankunft',
     back: 'Zurück',
@@ -18,7 +18,7 @@ const translations = {
     'clear-search-history': 'Suchhistorie löschen',
     currentposition: 'Aktuelle Position',
     delete: 'Löschen',
-    'delete-old-searches-header': 'Wollen Sie die Such-Historie löschen?',
+    'delete-old-searches-header': 'Wollen Sie die Suchhistorie löschen?',
     departure: 'Abfahrt',
     destination: 'Ziel',
     'give-origin': 'Start eingeben.',
@@ -44,10 +44,10 @@ const translations = {
     'search-origin-index': 'Startort eingeben',
     'search-position': 'Standort ermitteln',
     'search-autosuggest-label':
-      'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
-    'search-autosuggest-len': 'There is {{count}} suggestion available',
+      'Adresse, Ort und Haltestellensuche. Navigieren Sie in der Liste mit den Pfeiltasten und wählen Sie mit der Enter-Taste',
+    'search-autosuggest-len': '{{count}} Vorschlag verfügbar',
     'search-autosuggest-len_plural':
-      'There are {{count}} suggestions available',
+      '{{count}}  Vorschläge verfügbar',
     'search-current-suggestion': 'Aktuelle Auswahl: {{selection}}',
     subway: 'U-Bahn',
     station: 'Station',
@@ -65,7 +65,7 @@ const translations = {
     'use-own-position': 'Benutze aktuellen Standort',
     'select-from-map': 'Wähle Position anhand Karte',
     'select-from-own-locations': 'Aus eigenen Favoriten auswählen',
-    venue: 'Venue',
+    venue: 'Adresse',
     'via-point': 'Zwischenziel',
     where: 'Wohin?',
     place: 'Ort',
