@@ -80,7 +80,7 @@ export default configMerger(walttiConfig, {
 
     appBarLink: {
         name: 'Feedback',
-        href: 'https://stadtnavi.de/feedback',
+        href: 'https://open-booking.eu/feedback/',
         target: '_blank'
     },
 
