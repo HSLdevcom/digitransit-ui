@@ -26,6 +26,10 @@ const BikeParkContent = ({ match }, { intl }) => {
     return null;
   };
 
+  const getPhotoUrl = props => {
+    return props?.vehicleParking?.imageUrl;
+  };
+
   const getName = props => {
     if (props?.vehicleParking?.name) {
       const { name } = props.vehicleParking;
@@ -77,7 +81,7 @@ const BikeParkContent = ({ match }, { intl }) => {
                 lat
                 detailsUrl
                 tags
-                detailsUrl
+                imageUrl
                 capacity {
                   bicycleSpaces
                 }
@@ -94,10 +98,12 @@ const BikeParkContent = ({ match }, { intl }) => {
                 address: getName(props),
                 lat: Number(lat),
                 lon: Number(lng),
-              }}
+              }}  
+              photoUrl={props?.vehicleParking?.imageUrl}
             >
               {getCapacity(props)}
               {getBookingButton(props)}
+             
             </SidebarContainer>
           )}
         />
