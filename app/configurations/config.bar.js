@@ -460,11 +460,11 @@ export default configMerger(walttiConfig, {
     viaPointsEnabled: false,
 
     welcomePopup: {
-        enabled: false,
-        heading: 'Wilkommen zu RadZugServices',
+        enabled: true,
+        heading: 'Die Zukunft der Fahrrad-Zug Navigation. Bike-Train-Navigator',
         paragraphs: [
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mattis arcu ac commodo vestibulum. Curabitur faucibus, sapien non consectetur porttitor, nulla eros dictum purus, nec interdum diam tortor eu ex.',
-            'Aenean a nisl molestie purus viverra molestie quis id metus. Suspendisse eget accumsan ligula. Quisque congue feugiat tempor. Integer et mi et eros feugiat viverra vitae non velit. Ut consectetur dolor eros, vel vehicula metus cursus in. Praesent blandit massa quis tempus elementum. Nunc euismod rutrum faucibus.'
+            'Teste zum ITS Kongress unser Routing Tool. Dafür musst Du nur Start- und Endstation angeben, schon kannst Du Teile der Strecke mit dem Fahrrad zurücklegen und das Fahrrad bequem und sicher abstellen. Alle Informationen zum Routing und zu möglichen Fahrradabstellplätzen erhältst du auf RadZugServices. Für alle die ohne eigenes Fahrrad unterwegs sind, ist auch ein Sharing Angebot mit StadtRad im Routing integriert. ',
+            'Die Anwendung ist ein Demonstrator. Wir freuen uns auf euer Feedback, durch welches wir den Service optimieren können.'
         ],
     },
 });
