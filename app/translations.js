@@ -439,7 +439,7 @@ const translations = {
     'charging-spaces-available': '{available} von {capacity} Ladeplätzen frei',
     'charging-spaces-in-total': '{capacity} Ladeplätze',
     'charging-spaces-no-data' : 'Keine Daten zu den Ladeplätze vorhanden',
-    'choose-stop': 'Haltestelle auswählen',
+    'choose-stop': 'Option auswählen',
     'choose-stop-or-vehicle': 'Fahrzeug oder Haltestelle auswählen',
     'choose-vehicle': 'Fahrzeug auswählen',
     'direction': 'Ri. ',
