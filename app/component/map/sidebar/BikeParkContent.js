@@ -37,8 +37,17 @@ const BikeParkContent = ({ match }, { intl }) => {
       if (cleaned.length) {
         return cleaned;
       }
+
+      var parkingType = 'bicycle-parking';
+      if (bicycle_parking=="shed") {
+        parkingType = "bicycle-parking-shed";
+      } else if (bicycle_parking=="lockers") {
+        parkingType = "bicycle-parking-lockers";
+      } else if (bicycle_parking=="garage") {
+        parkingType = "bicycle-parking-garage";
+      } 
       return intl.formatMessage({
-        id: 'bicycle-parking',
+        id: parkingType,
         defaultMessage: 'Bicycle parking',
       });
     }
@@ -58,6 +67,46 @@ const BikeParkContent = ({ match }, { intl }) => {
           >
             <FormattedMessage id="book-locker" defaultMessage="Book locker" />
           </a>
+        </div>
+      );
+    }
+    return [];
+  };
+
+  const getTagValue = (tags, key) => {
+    for (var tag of tags) {
+      if (tag.startsWith(key)) {
+        const keyValue = tag.split("=");
+        if (keyValue.length > 1) {
+          return keyValue[1];
+        } else {
+          return "yes";
+        }
+      }
+    }
+    return null;
+  }
+
+  const getDataSourceInfo = props => {
+    if (props?.vehicleParking?.tags) {
+      const tags = props.vehicleParking.tags;
+      const source = getTagValue(tags, "osm:source");
+      const operator = getTagValue(tags, "osm:operator");
+      const type = getTagValue(tags, "osm:bicycle_parking");
+      return (
+        <div>
+          {operator && (
+            <FormattedMessage
+                id="vehicle-parking-operator"
+                defaultMessage="Betreiberin: {operator}"
+                values={{ operator: operator}}
+              />
+          )}
+          <div class="text-light">
+            <FormattedMessage
+                id="datasources"
+                defaultMessage="data sources"/> {": " + (source || "OpenStreetMap")}
+          </div>
         </div>
       );
     }
@@ -102,6 +151,7 @@ const BikeParkContent = ({ match }, { intl }) => {
               photoUrl={props?.vehicleParking?.imageUrl}
             >
               {getCapacity(props)}
+              {getDataSourceInfo(props)}
               {getBookingButton(props)}
              
             </SidebarContainer>
