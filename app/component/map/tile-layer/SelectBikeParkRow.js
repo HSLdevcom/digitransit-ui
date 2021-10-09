@@ -2,15 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../../Icon';
 import BikeParks from './BikeParks';
-import { FormattedMessage } from 'react-intl';
 
 export default function SelectBikeParkRow(props, { intl }) {
   const { selectRow, properties } = props;
   const icon = BikeParks.getIcon(properties);
-  const name = properties.name;
+  const { name } = properties;
 
-  function cleanName (name) {
-    const cleaned = name.replace('Bicycle parking', '').trim();
+  function cleanName(otpBikeparkName) {
+    const cleaned = otpBikeparkName.replace('Bicycle parking', '').trim();
     if (cleaned.length) {
       return cleaned;
     }
@@ -18,7 +17,7 @@ export default function SelectBikeParkRow(props, { intl }) {
       id: 'bicycle-parking',
       defaultMessage: 'Bicycle parking',
     });
-  };
+  }
 
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions

@@ -8,6 +8,19 @@ import SidebarContainer from './SidebarContainer';
 const BikeParkContent = ({ match }, { intl }) => {
   const { lat, lng, id } = match.location.query;
 
+  const getTagValue = (tags, key) => {
+    for (let i = 0; i < tags.length; i++) {
+      const keyValue = tags[i].split('=');
+      if (keyValue[0] === key) {
+        if (keyValue.length > 1) {
+          return keyValue[1];
+        }
+        return 'yes';
+      }
+    }
+    return null;
+  };
+
   const getCapacity = props => {
     if (props?.vehicleParking?.capacity) {
       const maxCapacity = props.vehicleParking.capacity.bicycleSpaces;
@@ -26,10 +39,6 @@ const BikeParkContent = ({ match }, { intl }) => {
     return null;
   };
 
-  const getPhotoUrl = props => {
-    return props?.vehicleParking?.imageUrl;
-  };
-
   const getName = props => {
     if (props?.vehicleParking?.name) {
       const { name } = props.vehicleParking;
@@ -38,14 +47,18 @@ const BikeParkContent = ({ match }, { intl }) => {
         return cleaned;
       }
 
-      var parkingType = 'bicycle-parking';
-      if (bicycle_parking=="shed") {
-        parkingType = "bicycle-parking-shed";
-      } else if (bicycle_parking=="lockers") {
-        parkingType = "bicycle-parking-lockers";
-      } else if (bicycle_parking=="garage") {
-        parkingType = "bicycle-parking-garage";
-      } 
+      const bicycleParking = getTagValue(
+        props.vehicleParking.tags,
+        'osm:bicycle_parking',
+      );
+      let parkingType = 'bicycle-parking';
+      if (bicycleParking === 'shed') {
+        parkingType = 'bicycle-parking-shed';
+      } else if (bicycleParking === 'lockers') {
+        parkingType = 'bicycle-parking-lockers';
+      } else if (bicycleParking === 'garage') {
+        parkingType = 'bicycle-parking-garage';
+      }
       return intl.formatMessage({
         id: parkingType,
         defaultMessage: 'Bicycle parking',
@@ -73,39 +86,27 @@ const BikeParkContent = ({ match }, { intl }) => {
     return [];
   };
 
-  const getTagValue = (tags, key) => {
-    for (var tag of tags) {
-      if (tag.startsWith(key)) {
-        const keyValue = tag.split("=");
-        if (keyValue.length > 1) {
-          return keyValue[1];
-        } else {
-          return "yes";
-        }
-      }
-    }
-    return null;
-  }
-
   const getDataSourceInfo = props => {
     if (props?.vehicleParking?.tags) {
-      const tags = props.vehicleParking.tags;
-      const source = getTagValue(tags, "osm:source");
-      const operator = getTagValue(tags, "osm:operator");
-      const type = getTagValue(tags, "osm:bicycle_parking");
+      const { tags } = props.vehicleParking;
+      let source = getTagValue(tags, 'osm:source');
+      if (props.vehicleParking.name?.startsWith('ITS Congress')) {
+        // TODO should be returned via OTP
+        source = 'OpenBooking';
+      }
+      const operator = getTagValue(tags, 'osm:operator');
       return (
         <div>
           {operator && (
             <FormattedMessage
-                id="vehicle-parking-operator"
-                defaultMessage="Betreiberin: {operator}"
-                values={{ operator: operator}}
-              />
+              id="vehicle-parking-operator"
+              defaultMessage="Betreiberin: {operator}"
+              values={{ operator }}
+            />
           )}
-          <div class="text-light">
-            <FormattedMessage
-                id="datasources"
-                defaultMessage="data sources"/> {": " + (source || "OpenStreetMap")}
+          <div className="text-light">
+            <FormattedMessage id="datasources" defaultMessage="data sources" />{' '}
+            {`: ${source || 'OpenStreetMap'}`}
           </div>
         </div>
       );
@@ -147,13 +148,12 @@ const BikeParkContent = ({ match }, { intl }) => {
                 address: getName(props),
                 lat: Number(lat),
                 lon: Number(lng),
-              }}  
+              }}
               photoUrl={props?.vehicleParking?.imageUrl}
             >
               {getCapacity(props)}
               {getDataSourceInfo(props)}
               {getBookingButton(props)}
-             
             </SidebarContainer>
           )}
         />

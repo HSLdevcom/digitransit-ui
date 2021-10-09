@@ -3,7 +3,8 @@ const translations = {
     address: 'Adresse',
     'address-place-or-business': 'Adresse, Ort oder Geschäft',
     'add-via-button-label': 'Füge Zwischenziel hinzu',
-    'add-via-duration-button-label': 'Setze Aufenthaltsdauer am Zwischenziel {{index}}',
+    'add-via-duration-button-label':
+      'Setze Aufenthaltsdauer am Zwischenziel {{index}}',
     'add-via-duration-button-label-close':
       'Schließe Auswahl Aufenthaltsdauer am Zwischenziel {{index}}',
     'add-via-duration-button-label-open':
@@ -46,8 +47,7 @@ const translations = {
     'search-autosuggest-label':
       'Adresse, Ort und Haltestellensuche. Navigieren Sie in der Liste mit den Pfeiltasten und wählen Sie mit der Enter-Taste',
     'search-autosuggest-len': '{{count}} Vorschlag verfügbar',
-    'search-autosuggest-len_plural':
-      '{{count}}  Vorschläge verfügbar',
+    'search-autosuggest-len_plural': '{{count}}  Vorschläge verfügbar',
     'search-current-suggestion': 'Aktuelle Auswahl: {{selection}}',
     subway: 'U-Bahn',
     station: 'Station',
