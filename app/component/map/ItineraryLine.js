@@ -119,10 +119,11 @@ class ItineraryLine extends React.Component {
         }
 
         if (leg.from.vertexType === 'BIKESHARE') {
+          console.log(leg);
           objs.push(
             <CityBikeMarker
               key={leg.from.bikeRentalStation.stationId}
-              showBikeAvailability
+              showBikeAvailability={leg.rentedBike}
               station={leg.from.bikeRentalStation}
               transit
             />,

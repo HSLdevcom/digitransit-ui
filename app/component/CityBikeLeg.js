@@ -63,18 +63,18 @@ function CityBikeLeg(
       <div className="itinerary-leg-row-bike">{legDescription}</div>
       <div className="itinerary-transit-leg-route-bike">
         <div className="citybike-itinerary">
-          <div className={cx('citybike-icon', { small: mobileReturn })}>
+          <div className={cx('citybike-icon', { small: mobileReturn })}>  
             <Icon
               img={citybikeicon}
               width={1.655}
               height={1.655}
               badgeText={
-                citybikeCapacity !== BIKEAVL_UNKNOWN
+                citybikeCapacity !== BIKEAVL_UNKNOWN && !returnBike
                   ? bikeRentalStation.bikesAvailable
                   : null
               }
-              badgeFill={availabilityIndicatorColor}
-              badgeTextFill={availabilityTextColor}
+              badgeFill={returnBike ? null : availabilityIndicatorColor}
+              badgeTextFill={returnBike ? null : availabilityTextColor}
             />
           </div>
           <div className="citybike-itinerary-text-container">
