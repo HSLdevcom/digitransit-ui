@@ -2,7 +2,7 @@
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'bar';
-  const APP_TITLE = 'RadZugServices';
+const APP_TITLE = 'Allrad';
 const APP_DESCRIPTION = 'Unterwegs mit dem Fahrrad, Bus und Bahn';
 const API_URL = process.env.API_URL || 'https://api.bike-and-ride.de';
 const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{x}/{y}{r}.png';
@@ -244,16 +244,16 @@ export default configMerger(walttiConfig, {
     aboutThisService: {
         de: [
             {
-                header: 'Datenschutzhinweise zur Routingplatform Bike-and-Ride',
+                header: 'Datenschutzhinweise zur Routingplatform Allrad',
                 paragraphs: [
                     'Es gelten die Datenschutzhinweise von binary butterfly. Diese sind unter <a href="https://binary-butterfly.de/datenschutz/">https://binary-butterfly.de/datenschutz/</a> einsehbar.',
-                    'Die Anwendung bike-and-ride bietet intermodale Mobilitätsauskünfte.'
+                    'Die Anwendung Allrad bietet intermodale Mobilitätsauskünfte.'
                 ],
             },
             {
                 header: 'stadtnavi / Digitransit Plattform',
                 paragraphs: [
-                    'Dieser Dienst basiert auf dem Dienst stadtnavi, welche auf der Digitransit Platform und dem Backend-Dienst OpenTripPlanner basiert. Alle Software ist unter einer offenen Lizenzen verfügbar. Vielen Dank an alle Beteiligten.',
+                    'Dieser Dienst basiert auf dem Dienst stadtnavi, welcher wiederum auf der Digitransit Platform und dem Backend-Dienst OpenTripPlanner basiert. Alle Software ist unter einer offenen Lizenzen verfügbar. Vielen Dank an alle Beteiligten.',
                     'Der gesamte Quellcode der Plattform, die aus vielen verschiedenen Komponenten besteht, ist auf <a href="https://github.com/stadtnavi/">Github</a> verfügbar.'
                 ],
             },
@@ -262,6 +262,8 @@ export default configMerger(walttiConfig, {
                 paragraphs: [
                     'Kartendaten: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap Mitwirkende</a>',
                     'ÖPNV-Daten: Datensätze des <a target=new href=https://www.hvv.de/de/fahrplaene/abruf-fahrplaninfos/datenabruf>Hamburger Verkehrsverbund GmbH</a> und der <a target=new href=http://www.connect-fahrplanauskunft.de/index.php?id=impressum>Connect Fahrplanauskunft GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) jeweils angereichert mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende',
+                    'StadtRAD-Daten: © Deutsche Bahn Connect GmbH',
+                    'B+R Abstellanlagen: © P+R Betreibergesellschaft GmbH und OpenStreetMap Mitwirkende, eigener Abgleich',
                     'Alle Angaben ohne Gewähr.'
                 ],
             },
@@ -461,9 +463,9 @@ export default configMerger(walttiConfig, {
 
     welcomePopup: {
         enabled: true,
-        heading: 'Die Zukunft der Fahrrad-Zug Navigation. Bike-Train-Navigator',
+        heading: 'Die Zukunft der Fahrrad-Zug Navigation. Allrad.',
         paragraphs: [
-            'Teste zum ITS Kongress unser Routing Tool. Dafür musst Du nur Start- und Endstation angeben, schon kannst Du Teile der Strecke mit dem Fahrrad zurücklegen und das Fahrrad bequem und sicher abstellen. Alle Informationen zum Routing und zu möglichen Fahrradabstellplätzen erhältst du auf RadZugServices. Für alle die ohne eigenes Fahrrad unterwegs sind, ist auch ein Sharing Angebot mit StadtRad im Routing integriert. ',
+            'Teste zum ITS Kongress unser Routing Tool. Dafür musst Du nur Start- und Endstation angeben, schon kannst Du Teile der Strecke mit dem Fahrrad zurücklegen und das Fahrrad bequem und sicher abstellen. Alle Informationen zum Routing und zu möglichen Fahrradabstellplätzen erhältst du auf Allrad. Für alle die ohne eigenes Fahrrad unterwegs sind, ist auch ein Sharing Angebot mit StadtRad im Routing integriert. ',
             'Die Anwendung ist ein Demonstrator. Wir freuen uns auf euer Feedback, durch welches wir den Service optimieren können.'
         ],
     },
