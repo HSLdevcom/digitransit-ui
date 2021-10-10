@@ -111,6 +111,8 @@ class LocationPopup extends React.Component {
   }
 
   render() {
+    const { config } = this.context;
+
     if (this.state.loading) {
       return (
         <div className="card smallspinner" style={{ height: '4rem' }}>
@@ -128,9 +130,13 @@ class LocationPopup extends React.Component {
       feature: { postalcode },
     } = this.state;
 
-    let reporterUrl = `https://maengelmelder.service-bw.de/?lat=${lat}&lng=${lon}`;
+    let reporterUrl = config.issueTrackerUrl;
     if (postalcode === '71083') {
       reporterUrl = `https://www.herrenberg.de/tools/mvs/?lat=${lat}&lng=${lon}#mvPagePictures`;
+    } else if (reporterUrl) {
+      /* eslint-disable no-template-curly-in-string */
+      reporterUrl = reporterUrl.replace('${lat}', lat);
+      reporterUrl = reporterUrl.replace('${lon}', lon);
     }
 
     return (

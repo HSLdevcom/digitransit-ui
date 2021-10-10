@@ -59,6 +59,7 @@ export default configMerger(walttiConfig, {
 
     availableLanguages: ['de', 'en'],
     defaultLanguage: 'de',
+    issueTrackerUrl: 'https://maengelmelder.service-bw.de/?lat=${lat}&lng=${lon}',
 
     MATOMO_URL: process.env.MATOMO_URL,
 
