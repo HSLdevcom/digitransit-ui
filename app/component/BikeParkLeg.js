@@ -2,12 +2,14 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import React from 'react';
 import moment from 'moment';
+import { Link } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import Icon from './Icon';
+import { PREFIX_BIKE_PARKS } from '../util/path';
 
 const BikeParkLeg = (
   { leg, index, focusAction, bikePark },
@@ -34,25 +36,23 @@ const BikeParkLeg = (
       <div className="small-9 columns itinerary-instruction-column">
         <div className={cx('itinerary-leg-first-row', 'bicycle')}>
           <div className="address-container">
-            {/*  TODO linking when bikepark pages are available */}
-            {/* <Link
-                  onClick={e => {
-                    e.stopPropagation();
-                  }}
-                  to={''}
-                > */}
-            <div className="address">
-              <FormattedMessage id="bike-park" />
-              {/* TODO */}
-              {/* {bikePark && (
+            <Link
+              onClick={e => {
+                e.stopPropagation();
+              }}
+              to={`/${PREFIX_BIKE_PARKS}?id=${bikePark.bikeParkId}&lat=${leg.from.lat}&lng=${leg.from.lon}`}
+            >
+              <div className="address">
+                <FormattedMessage id="bike-park" />
+                {bikePark && (
                   <Icon
                     img="icon-icon_arrow-collapse--right"
                     className="itinerary-arrow-icon"
                     color={config.colors.primary}
                   />
-                )} */}
-            </div>
-            {/* </Link> */}
+                )}
+              </div>
+            </Link>
             <div className="place">{bikePark.name}</div>
           </div>
           <div
@@ -117,6 +117,8 @@ BikeParkLeg.propTypes = {
     distance: PropTypes.number.isRequired,
     from: PropTypes.shape({
       name: PropTypes.string.isRequired,
+      lat: PropTypes.number.isRequired,
+      lon: PropTypes.number.isRequired,
       bikeRentalStation: PropTypes.shape({
         bikesAvailable: PropTypes.number.isRequired,
         networks: PropTypes.array.isRequired,
