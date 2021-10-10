@@ -86,6 +86,12 @@ function MainMenu(props, { config, intl, executeAction }) {
       {config.menu?.copyright && (
         <div className="copyright">{config.menu.copyright.label}</div>
       )}
+      {config.menu?.footer && (
+        <div>
+          <div className="text-light">{config.menu?.footer.body}</div>
+          <div className="text-light">{config.menu?.footer.footer}</div>
+        </div>
+      )}
     </div>
   );
 }

@@ -224,7 +224,7 @@ export default configMerger(walttiConfig, {
 
     menu: {
         copyright: {
-            label: `© Binary Butterfly ${YEAR}`
+            label: `Demonstrator für gobeta.de/hamburg von binary butterfly GmbH ${YEAR}`
         },
         content: [
             {
@@ -239,6 +239,11 @@ export default configMerger(walttiConfig, {
                 href: 'https://binary-butterfly.de/impressum/',
             }
         ],
+        footer: 
+            {
+                body: 'Entwickelt von Holger Bruch, Ernesto Ruge u.a. mit OpenSource-Komponenten aus Digitransit und OpenBooking u.a.',
+                footer: '#poweredbyDBmindbox'
+            }
     },
 
     aboutThisService: {
