@@ -246,14 +246,14 @@ class StopsNearYouPage extends React.Component {
     };
   };
 
-  setCenterOfMap = mapElement => {
+  setCenterOfMap = (mapElement, e) => {
     let location;
     if (!mapElement) {
       if (distance(this.state.searchPosition, this.props.position) > 100) {
         // user has pressed locate me after moving on the map via the search box
         return this.setState({
           centerOfMap: this.props.position,
-          centerOfMapChanged: true,
+          centerOfMapChanged: false,
         });
       }
       return this.setState({
@@ -276,7 +276,7 @@ class StopsNearYouPage extends React.Component {
       ]);
       location = { lat: point.lat, lon: point.lng };
     }
-    if (distance(location, this.state.searchPosition) > 100) {
+    if (e && distance(location, this.state.searchPosition) > 100) {
       // user has scrolled over 100 meters on the map
       return this.setState({
         centerOfMap: location,
