@@ -5,6 +5,7 @@ import { intlShape } from 'react-intl';
 
 import { v4 as uuid } from 'uuid';
 import { renderZoneTicket } from './ZoneTicket';
+import Icon from './Icon';
 import { getAlternativeFares } from '../util/fareUtils';
 
 const getUnknownFareRoute = (fares, route) => {
@@ -80,74 +81,31 @@ export default function TicketInformation(
               )}
             </div>
           ) : (
-            <div>
-              <div className="ticket-identifier">
-                {config.useTicketIcons
-                  ? renderZoneTicket(fare.ticketName, alternativeFares)
-                  : fare.ticketName}
-              </div>
-            </div>
-          )}
-        </div>
-        {/* {fare.isUnknown
-          ? fare.agency &&
-            fare.agency.fareUrl &&
-            !config.hideExternalOperator(fare.agency) && (
-              <div
-                className="ticket-type-agency-link"
-                key={i} // eslint-disable-line react/no-array-index-key
-              >
-                <ExternalLink
-                  className="itinerary-ticket-external-link"
-                  href={fare.agency.fareUrl}
-                  onClick={() => {
-                    addAnalyticsEvent({
-                      category: 'Itinerary',
-                      action: 'OpenHowToBuyTicket',
-                      name: null,
-                    });
-                  }}
-                >
-                  {intl.formatMessage({ id: 'extra-info' })}
-                </ExternalLink>
+            (config.ticketLink && (
+              <a href={config.ticketLink}>
+                <div className="ticket-identifier">
+                  {config.useTicketIcons
+                    ? renderZoneTicket(fare.ticketName, alternativeFares)
+                    : fare.ticketName}
+                </div>
+                {config.showTicketPrice && (
+                  <div className="ticket-description">
+                    {`${(fare.cents / 100).toFixed(2)} €`}
+                  </div>
+                )}
+                <Icon img="icon-icon_arrow-collapse--right" />
+              </a>
+            )) || (
+              <div>
+                <div className="ticket-identifier">
+                  {config.useTicketIcons
+                    ? renderZoneTicket(fare.ticketName, alternativeFares)
+                    : fare.ticketName}
+                </div>
               </div>
             )
-          : fare.agency &&
-            fare.agency.fareUrl && (
-              <div
-                className="ticket-type-agency-link"
-                key={i} // eslint-disable-line react/no-array-index-key
-              >
-                <ExternalLink
-                  className="itinerary-ticket-external-link"
-                  href={fare.agency.fareUrl}
-                  onClick={() => {
-                    addAnalyticsEvent({
-                      category: 'Itinerary',
-                      action: 'OpenHowToBuyTicket',
-                      name: null,
-                    });
-                  }}
-                >
-                  {intl.formatMessage({ id: 'extra-info' })}
-                </ExternalLink>
-              </div>
-            )} */}
-        {/* {config.ticketLink && (
-          <ExternalLink
-            className="itinerary-ticket-external-link"
-            href={config.ticketLink}
-            onClick={() => {
-              addAnalyticsEvent({
-                category: 'Itinerary',
-                action: 'OpenHowToBuyTicket',
-                name: null,
-              });
-            }}
-          >
-            {intl.formatMessage({ id: 'buy-ticket' })}
-          </ExternalLink>
-        )} */}
+          )}
+        </div>
       </div>
     );
   });

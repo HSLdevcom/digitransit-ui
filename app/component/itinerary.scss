@@ -488,13 +488,35 @@ $itinerary-tab-switch-height: 48px;
       }
       div {
         display: flex;
-        .ticket-description {
-          display: flex;
-          padding-left: 3px;
-        }
         .ticket-identifier {
-          @include font-medium;
-          color: $black;
+          font-size: 1.125rem;
+        }
+      }
+      a {
+        display: flex;
+        height: 18px;
+        align-items: center;
+        text-decoration: none;
+        font-size: $font-size-normal;
+      }
+      .ticket-description {
+        display: flex;
+        padding-left: 6px;
+        color: #666666;
+      }
+      .ticket-identifier {
+        @include font-medium;
+        color: $black;
+      }
+      span {
+        display: flex;
+        align-items: center;
+        margin-left: 1px;
+        svg {
+          color: $primary-color;
+          height: 18px;
+          width: 18px;
+          margin: 0;
         }
       }
       .ticket-type-agency-link {
@@ -522,7 +544,6 @@ $itinerary-tab-switch-height: 48px;
   letter-spacing: -0.03em;
   line-height: 22px;
   text-align: center;
-  font-size: 1.125rem;
 }
 
 .desktop {
