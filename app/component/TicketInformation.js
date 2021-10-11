@@ -1,13 +1,11 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { intlShape } from 'react-intl';
 
 import { v4 as uuid } from 'uuid';
-import ExternalLink from './ExternalLink';
 import { renderZoneTicket } from './ZoneTicket';
 import { getAlternativeFares } from '../util/fareUtils';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const getUnknownFareRoute = (fares, route) => {
   for (let i = 0; i < fares.length; i++) {
@@ -54,53 +52,44 @@ export default function TicketInformation(
     let header;
     if (i === 0) {
       header = (
-        <div>
-          <FormattedMessage
-            id={
-              isMultiComponent
-                ? 'itinerary-tickets.title'
-                : 'itinerary-ticket.title'
-            }
-            defaultMessage="Required tickets"
-          />
+        <>
+          {intl.formatMessage({
+            id: isMultiComponent
+              ? 'itinerary-tickets.title'
+              : 'itinerary-ticket.title',
+            defaultMessage: 'Required tickets',
+          })}
           :
-        </div>
+        </>
       );
     }
     return (
       <div key={uuid()} className="ticket-container">
-        <div className="ticket-info-container">
-          <div className="ticket-type-title">{header}</div>
-          <div
-            className={cx('ticket-type-zone', {
-              'multi-component': isMultiComponent,
-            })}
-            key={i} // eslint-disable-line react/no-array-index-key
-          >
-            {fare.isUnknown ? (
-              <div className="unknown-fare-container">
-                <div className="ticket-identifier">{unknownFareRouteName}</div>
-                {fare.agency && !config.hideExternalOperator(fare.agency) && (
-                  <div className="ticket-description">{fare.agency.name}</div>
-                )}
+        <div className="ticket-type-title">{header}</div>
+        <div
+          className={cx('ticket-type-zone', {
+            'multi-component': isMultiComponent,
+          })}
+          key={i} // eslint-disable-line react/no-array-index-key
+        >
+          {fare.isUnknown ? (
+            <div className="unknown-fare-container">
+              <div className="ticket-identifier">{unknownFareRouteName}</div>
+              {fare.agency && !config.hideExternalOperator(fare.agency) && (
+                <div className="ticket-description">{fare.agency.name}</div>
+              )}
+            </div>
+          ) : (
+            <div>
+              <div className="ticket-identifier">
+                {config.useTicketIcons
+                  ? renderZoneTicket(fare.ticketName, alternativeFares)
+                  : fare.ticketName}
               </div>
-            ) : (
-              <div>
-                <div className="ticket-identifier">
-                  {config.useTicketIcons
-                    ? renderZoneTicket(fare.ticketName, alternativeFares)
-                    : fare.ticketName}
-                </div>
-                {config.showTicketPrice && (
-                  <div className="ticket-description">
-                    {`${(fare.cents / 100).toFixed(2)} €`}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
-        {fare.isUnknown
+        {/* {fare.isUnknown
           ? fare.agency &&
             fare.agency.fareUrl &&
             !config.hideExternalOperator(fare.agency) && (
@@ -143,8 +132,8 @@ export default function TicketInformation(
                   {intl.formatMessage({ id: 'extra-info' })}
                 </ExternalLink>
               </div>
-            )}
-        {config.ticketLink && (
+            )} */}
+        {/* {config.ticketLink && (
           <ExternalLink
             className="itinerary-ticket-external-link"
             href={config.ticketLink}
@@ -158,13 +147,13 @@ export default function TicketInformation(
           >
             {intl.formatMessage({ id: 'buy-ticket' })}
           </ExternalLink>
-        )}
+        )} */}
       </div>
     );
   });
 
   return (
-    <div className="row itinerary-ticket-information">
+    <div className="itinerary-ticket-information">
       <div className="itinerary-ticket-type">{faresInfo}</div>
     </div>
   );

@@ -424,9 +424,9 @@ $itinerary-tab-switch-height: 48px;
   color: $gray;
   font-weight: $font-weight-book;
   font-size: $font-size-small;
-  margin: 0;
-  border: 0px;
-  border-top: 1px solid #ddd;
+  margin: 0 10px;
+  border-bottom: 1px solid #ddd;
+
   .ticket-type-agency-link {
     flex: 0;
     .external-link-container {
@@ -458,14 +458,12 @@ $itinerary-tab-switch-height: 48px;
     flex-shrink: 1;
     white-space: normal;
     line-height: 1.33;
-    border-bottom: 1px solid #ddd;
+
     .ticket-container {
       display: flex;
-      margin: -4px 10px -4px 15px;
-    }
-    .ticket-info-container {
-      flex: 1;
-      padding: 14px 0;
+      align-items: center;
+      justify-content: space-between;
+      margin: 11px 15px 10px 15px;
     }
     .ticket-type-agency-link {
       align-self: center;
@@ -477,7 +475,7 @@ $itinerary-tab-switch-height: 48px;
       color: $gray;
       display: flex;
       justify-content: space-between;
-      flex: 1;
+
       .unknown-fare-container {
         display: block;
         .ticket-description {
@@ -513,6 +511,7 @@ $itinerary-tab-switch-height: 48px;
     margin-left: $padding-xsmall;
   }
   .or {
+    font-size: 1.125rem;
     padding: 0 3px;
     flex: 0;
   }
@@ -520,14 +519,17 @@ $itinerary-tab-switch-height: 48px;
 
 .zone-ticket {
   color: #333;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.03em;
+  line-height: 22px;
   text-align: center;
-  font-size: $font-size-small;
+  font-size: 1.125rem;
 }
 
 .desktop {
   .itinerary-ticket-information {
     font-size: 0.9375rem;
+    width: 400px;
+    margin: 0 60px;
   }
 }
 .call-agency {
