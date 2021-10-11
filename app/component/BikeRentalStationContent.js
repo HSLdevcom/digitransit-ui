@@ -13,6 +13,7 @@ import { getCityBikeNetworkConfig } from '../util/citybikes';
 import { isBrowser } from '../util/browser';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import CargoBikeContent from './map/sidebar/CargoBikeContent';
+import { isMobile, isAndroid, isIOS } from '../util/browser';
 
 const BikeRentalStationContent = (
   { bikeRentalStation, breakpoint, language, router, error },
@@ -45,8 +46,14 @@ const BikeRentalStationContent = (
     config,
   );
   let url = networkConfig?.url ? networkConfig.url[language] : '';
-  if (bikeRentalStation.rentalUris && bikeRentalStation.rentalUris.web) {
-    url = bikeRentalStation.rentalUris.web;
+  if (bikeRentalStation.rentalUris) {
+    if (isMobile && isIOS && bikeRentalStation.rentalUris.ios) {
+      url = bikeRentalStation.rentalUris.ios;
+    } else if (isMobile && isAndroid && bikeRentalStation.rentalUris.android) {
+      url = bikeRentalStation.rentalUris.android;
+    } else if (bikeRentalStation.rentalUris.web) {
+      url = bikeRentalStation.rentalUris.web;
+    }
   }
   let returnInstructionsUrl;
   if (networkConfig.returnInstructions) {
