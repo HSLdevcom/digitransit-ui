@@ -463,7 +463,10 @@ $itinerary-tab-switch-height: 48px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin: 11px 15px 10px 15px;
+      margin: 11px 10px 10px 15px;
+      @include min-width(tablet) {
+        margin-right: 15px;
+      }
     }
     .ticket-type-agency-link {
       align-self: center;
@@ -494,7 +497,6 @@ $itinerary-tab-switch-height: 48px;
       }
       a {
         display: flex;
-        height: 18px;
         align-items: center;
         text-decoration: none;
         font-size: $font-size-normal;
@@ -528,12 +530,12 @@ $itinerary-tab-switch-height: 48px;
 
 .zone-ticket-multiple-options {
   display: flex;
+  align-items: center;
   flex: 0;
   span + span {
     margin-left: $padding-xsmall;
   }
   .or {
-    font-size: 1.125rem;
     padding: 0 3px;
     flex: 0;
   }
