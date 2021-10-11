@@ -253,7 +253,7 @@ class StopsNearYouPage extends React.Component {
         // user has pressed locate me after moving on the map via the search box
         return this.setState({
           centerOfMap: this.props.position,
-          centerOfMapChanged: false,
+          centerOfMapChanged: true,
         });
       }
       return this.setState({
