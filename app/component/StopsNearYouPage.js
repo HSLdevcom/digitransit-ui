@@ -354,6 +354,7 @@ class StopsNearYouPage extends React.Component {
       ...this.props.match.location,
       pathname: path,
     });
+    this.setState({ centerOfMapChanged: false });
   };
 
   refetchButton = nearByMode => {
