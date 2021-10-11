@@ -144,6 +144,7 @@ export default configMerger(walttiConfig, {
                     en: 'https://stadtrad.hamburg.de/en',
                 },
                 visibleInSettingsUi: false,
+                hideCode: true,
                 enabled: true,
                 season: {
                     // 1.1. - 31.12.

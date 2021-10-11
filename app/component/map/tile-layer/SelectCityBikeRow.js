@@ -12,11 +12,14 @@ import { PREFIX_BIKESTATIONS } from '../../../util/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function SelectCityBikeRow({ name, networks, id, desc }, { config }) {
-  const img = getCityBikeNetworkIcon(
-    getCityBikeNetworkConfig(getCityBikeNetworkId(networks), config),
+  const networkConfig = getCityBikeNetworkConfig(
+    getCityBikeNetworkId(networks),
+    config,
   );
+  const img = getCityBikeNetworkIcon(networkConfig);
   const address = desc || <FormattedMessage id="citybike-station-no-id" />;
-  const showCode = id && id !== 'null';
+  const displayName = name || <FormattedMessage id="citybike-station-no-id" />;
+  const showCode = id && id !== 'null' && !networkConfig.hideCode;
   return (
     <Link
       className="stop-popup-choose-row"
@@ -26,9 +29,9 @@ function SelectCityBikeRow({ name, networks, id, desc }, { config }) {
         <Icon img={img} />
       </span>
       <span className="choose-row-center-column">
-        <h5 className="choose-row-header">{name || `Station - ${id}`}</h5>
+        <h5 className="choose-row-header">{displayName}</h5>
         <span className="choose-row-text">
-          <span className="choose-row-address">{address}</span>
+          {address && <span className="choose-row-address">{address}</span>}
           {showCode && <span className="choose-row-number">{id}</span>}
         </span>
       </span>
