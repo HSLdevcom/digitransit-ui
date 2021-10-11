@@ -239,7 +239,7 @@ export default configMerger(walttiConfig, {
 
   cityBike: {
     networks: {
-      tampere: {
+      sharingos_tampere: {
         capacity: BIKEAVL_WITHMAX,
         enabled: true,
         season: {
@@ -259,7 +259,19 @@ export default configMerger(walttiConfig, {
           sv: 'https://www.nysse.fi/en/city-bikes.html',
           en: 'https://www.nysse.fi/en/city-bikes.html',
         },
+        // Shown if citybike leg duration exceeds timeBeforeSurcharge
+        durationInstructions: {
+          fi: 'https://www.nysse.fi/kaupunkipyorat',
+          sv: 'https://www.nysse.fi/en/city-bikes.html',
+          en: 'https://www.nysse.fi/en/city-bikes.html',
+        },
+        timeBeforeSurcharge: 30 * 60,
       },
+    },
+    buyUrl: {
+      fi: 'https://www.nysse.fi/kaupunkipyorat',
+      sv: 'https://www.nysse.fi/en/city-bikes.html',
+      en: 'https://www.nysse.fi/en/city-bikes.html',
     },
   },
 
