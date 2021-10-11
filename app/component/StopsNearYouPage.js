@@ -289,22 +289,6 @@ class StopsNearYouPage extends React.Component {
     });
   };
 
-  positionChanged = () => {
-    const { searchPosition, centerOfMap } = this.state;
-    if (!searchPosition.lat) {
-      return false;
-    }
-    if (
-      centerOfMap &&
-      searchPosition.lat === centerOfMap.lat &&
-      searchPosition.lon === centerOfMap.lon
-    ) {
-      return false;
-    }
-    const position = this.getPosition();
-    return distance(searchPosition, position) > 100;
-  };
-
   updateLocation = () => {
     const { centerOfMap } = this.state;
     const { mode } = this.props.match.params;
@@ -421,8 +405,7 @@ class StopsNearYouPage extends React.Component {
     const { centerOfMapChanged } = this.state;
     const { mode } = this.props.match.params;
     const noFavorites = mode === 'FAVORITE' && this.noFavorites();
-    const renderRefetchButton =
-      (centerOfMapChanged || this.positionChanged()) && !noFavorites;
+    const renderRefetchButton = centerOfMapChanged && !noFavorites;
     const nearByStopModes = this.getNearByStopModes();
     const index = nearByStopModes.indexOf(mode);
     const tabs = nearByStopModes.map(nearByStopMode => {
