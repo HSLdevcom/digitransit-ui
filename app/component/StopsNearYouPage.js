@@ -276,12 +276,14 @@ class StopsNearYouPage extends React.Component {
       ]);
       location = { lat: point.lat, lon: point.lng };
     }
-    if (e && distance(location, this.state.searchPosition) > 100) {
+    if (distance(location, this.state.searchPosition) > 100) {
       // user has scrolled over 100 meters on the map
-      return this.setState({
-        centerOfMap: location,
-        centerOfMapChanged: true,
-      });
+      if (e || this.state.centerOfMapChanged) {
+        return this.setState({
+          centerOfMap: location,
+          centerOfMapChanged: true,
+        });
+      }
     }
     return this.setState({
       centerOfMap: location,
