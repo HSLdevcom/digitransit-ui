@@ -134,7 +134,7 @@ class ItineraryTab extends React.Component {
 
     const fares = getFares(itinerary.fares, getRoutes(itinerary.legs), config);
     const extraProps = this.setExtraProps(itinerary);
-    const legsWithRentalBike = itinerary.legs.filter(leg => legContainsRentalBike(leg));
+    const legsWithRentalBike = compressLegs(itinerary.legs).filter(leg => legContainsRentalBike(leg));
     const rentalBikeNetworks = new Set();
     let showRentalBikeDurationWarning = false;
     if (legsWithRentalBike.length > 0) {
