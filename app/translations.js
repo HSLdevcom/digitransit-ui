@@ -2099,8 +2099,8 @@ const translations = {
     'itinerary-summary.interline-wait':
       'Linjatunnus ({shortName}) ja määränpää ({destination}) vaihtuvat pysäkillä {stop}. Matka jatkuu {time} odotuksen jälkeen. Odota kulkuneuvossa.',
     'itinerary-summary.show-on-map': 'Näytä kartalla {target}',
-    'itinerary-ticket.title': 'Tarvittava lippu',
-    'itinerary-tickets.title': 'Tarvittavat liput',
+    'itinerary-ticket.title': 'Reitillä tarvittava lippu',
+    'itinerary-tickets.title': 'Reitillä tarvittavat liput',
     'itinerary-time.title': 'Matka-aika',
     'itinerary-walk.title': 'Kävelyä',
     'journeyplanner.title': 'HSL Reittiopas',

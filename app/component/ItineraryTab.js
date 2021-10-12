@@ -201,11 +201,17 @@ class ItineraryTab extends React.Component {
                     isMultiRow={extraProps.isMultiRow}
                     isMobile={this.props.isMobile}
                   />
-                  <div className="summary-divider" />
                 </div>
               </>
             ),
             showRentalBikeDurationWarning && <CityBikeDurationInfo networks={Array.from(rentalBikeNetworks)} config={config} />,
+            shouldShowFareInfo(config) && (
+              <TicketInformation
+                fares={fares}
+                zones={getZones(itinerary.legs)}
+                legs={itinerary.legs}
+              />
+            ),
             <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
                 multirow: extraProps.isMultiRow,
@@ -242,13 +248,6 @@ class ItineraryTab extends React.Component {
                   focusToPoint={this.handleFocus}
                   focusToLeg={this.props.focusToLeg}
                 />
-                {shouldShowFareInfo(config) && (
-                  <TicketInformation
-                    fares={fares}
-                    zones={getZones(itinerary.legs)}
-                    legs={itinerary.legs}
-                  />
-                )}
                 {config.showRouteInformation && <RouteInformation />}
               </div>
               {this.shouldShowDisclaimer(config) && (
