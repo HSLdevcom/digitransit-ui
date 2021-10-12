@@ -480,20 +480,20 @@ $itinerary-tab-switch-height: 48px;
       justify-content: space-between;
 
       .unknown-fare-container {
-        display: block;
+        display: flex;
+        font-size: $font-size-normal;
         .ticket-description {
-          padding: 0;
+          padding-left: 6px;
         }
       }
       &.multi-component + .multi-component {
         border-top: 1px solid $light-gray;
         padding-top: $padding-medium;
       }
-      div {
+      .fare-container {
         display: flex;
-        .ticket-identifier {
-          font-size: 1.125rem;
-        }
+        align-items: center;
+        font-size: 1.125rem;
       }
       a {
         display: flex;

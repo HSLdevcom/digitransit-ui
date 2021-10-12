@@ -52,17 +52,12 @@ export default function TicketInformation(
   const faresInfo = fares.map((fare, i) => {
     let header;
     if (i === 0) {
-      header = (
-        <>
-          {intl.formatMessage({
-            id: isMultiComponent
-              ? 'itinerary-tickets.title'
-              : 'itinerary-ticket.title',
-            defaultMessage: 'Required tickets',
-          })}
-          :
-        </>
-      );
+      header = `${intl.formatMessage({
+        id: isMultiComponent
+          ? 'itinerary-tickets.title'
+          : 'itinerary-ticket.title',
+        defaultMessage: 'Required tickets',
+      })}:`;
     }
     return (
       <div key={uuid()} className="ticket-container">
@@ -96,12 +91,17 @@ export default function TicketInformation(
                 <Icon img="icon-icon_arrow-collapse--right" />
               </a>
             )) || (
-              <div>
+              <div className="fare-container">
                 <div className="ticket-identifier">
                   {config.useTicketIcons
                     ? renderZoneTicket(fare.ticketName, alternativeFares)
                     : fare.ticketName}
                 </div>
+                {config.showTicketPrice && (
+                  <div className="ticket-description">
+                    {`${(fare.cents / 100).toFixed(2)} €`}
+                  </div>
+                )}
               </div>
             )
           )}
