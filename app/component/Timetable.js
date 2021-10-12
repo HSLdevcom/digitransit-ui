@@ -262,6 +262,9 @@ class Timetable extends React.Component {
             this.props.stop,
           )
         : null;
+    const virtualMonitorUrl =
+      this.context.config?.stopCard?.header?.virtualMonitorBaseUrl &&
+      `${this.context.config.stopCard.header.virtualMonitorBaseUrl}${this.props.stop.gtfsId}`;
     return (
       <>
         <ScrollableWrapper>
@@ -382,6 +385,17 @@ class Timetable extends React.Component {
                   });
                 }}
                 buttonIcon="icon-icon_print"
+                smallSize
+              />
+            )}
+            {virtualMonitorUrl && (
+              <SecondaryButton
+                ariaLabel="stop-virtual-monitor"
+                buttonName="stop-virtual-monitor"
+                buttonClickAction={e => {
+                  e.preventDefault();
+                  window.open(virtualMonitorUrl, '_blank ');
+                }}
                 smallSize
               />
             )}
