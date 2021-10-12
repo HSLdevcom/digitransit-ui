@@ -503,12 +503,12 @@ $itinerary-tab-switch-height: 48px;
       }
       .ticket-description {
         display: flex;
-        padding-left: 6px;
         color: #666666;
       }
       .ticket-identifier {
         @include font-medium;
         color: $black;
+        padding-right: 6px;
       }
       span {
         display: flex;
