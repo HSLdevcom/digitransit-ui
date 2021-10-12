@@ -223,7 +223,7 @@ class StopsNearYouContainer extends React.Component {
       sortedPatterns = filteredCityBikeStopPatterns
         .slice(0, 5)
         .sort(sortNearbyRentalStations(this.props.favouriteIds));
-      filteredCityBikeStopPatterns.push(...stopPatterns.slice(5));
+      sortedPatterns.push(...filteredCityBikeStopPatterns.slice(5));
     } else {
       sortedPatterns = stopPatterns
         .slice(0, 5)
