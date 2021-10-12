@@ -141,7 +141,7 @@ function BicycleLeg(
             values={{ target: leg.from.name || '' }}
           />
         </span>
-        {isFirstLeg(index) || bicycleWalkLeg?.from.stop || true ? (
+        {isFirstLeg(index) || bicycleWalkLeg?.from.stop ? (
           <div className={cx('itinerary-leg-first-row', 'bicycle', 'first')}>
             <div className="address-container">
               <div className="address">
