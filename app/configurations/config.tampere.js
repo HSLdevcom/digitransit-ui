@@ -132,6 +132,12 @@ export default configMerger(walttiConfig, {
         href:
           'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
       },
+      {
+        name: 'stop-virtual-monitor',
+        nameEn: 'Stop display',
+        href: 'https://tremonitori.digitransit.fi',
+        openInNewTab: true,
+      },
     ],
   },
 
