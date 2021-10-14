@@ -10,10 +10,9 @@ import BikeRentalStationHeader from './BikeRentalStationHeader';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
 import { getCityBikeNetworkConfig } from '../util/citybikes';
-import { isBrowser } from '../util/browser';
+import { isBrowser, isMobile, isAndroid, isIOS } from '../util/browser';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import CargoBikeContent from './map/sidebar/CargoBikeContent';
-import { isMobile, isAndroid, isIOS } from '../util/browser';
 
 const BikeRentalStationContent = (
   { bikeRentalStation, breakpoint, language, router, error },
