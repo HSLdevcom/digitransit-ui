@@ -38,16 +38,18 @@ const StreetModeSelectorPanel = (
               <div className="mode-icon">
                 <Icon className="bicycle-icon" img="icon-icon_bike" />
               </div>
-              <div className="mode-name">
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+              <label className="mode-name" htmlFor="settings-toggle-bicycle">
                 <FormattedMessage
                   className="mode-name"
                   id="bicycle"
                   defaultMessage="bicycle"
                 />
-              </div>
+              </label>
             </div>
             <div>
               <Toggle
+                id="settings-toggle-bicycle"
                 toggled={currentSettings.includeBikeSuggestions}
                 onToggle={() => onToggle('includeBikeSuggestions', 'OwnBike')}
               />
