@@ -179,7 +179,13 @@ export default configMerger(walttiConfig, {
                     en: 'https://www.regioradstuttgart.de/',
                 },
                 visibleInSettingsUi: true,
+                hideCode: true,
                 enabled: true,
+                season: {
+                    // 1.1. - 31.12.
+                    start: new Date(new Date().getFullYear(), 0, 1),
+                    end: new Date(new Date().getFullYear(), 11, 31),
+                },
             },
             'taxi': {
                 icon: 'taxi',
