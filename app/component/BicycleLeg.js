@@ -88,7 +88,7 @@ function BicycleLeg(
     modeClassName = 'citybike';
     legDescription = (
       <FormattedMessage
-        id={isScooter ? 'rent-scooter-at' : 'rent-cycle-at'}
+        id={isScooter ? 'rent-scooter-at' : 'rent-citybike-at'}
         defaultMessage="Fetch a bike"
       />
     );
@@ -207,7 +207,6 @@ function BicycleLeg(
         ) : (
           <CityBikeLeg
             stationName={leg.from.name}
-            isScooter={isScooter}
             bikeRentalStation={leg.from.bikeRentalStation}
           />
         )}

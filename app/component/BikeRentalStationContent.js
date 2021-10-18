@@ -68,6 +68,7 @@ const BikeRentalStationContent = (
     return <CargoBikeContent slug={bikeRentalStation.stationId} />;
   }
 
+  const formFactor = networkConfig.type || 'citybike';
   return (
     <div className="bike-station-page-container">
       <BikeRentalStationHeader
@@ -93,16 +94,14 @@ const BikeRentalStationContent = (
       {url && (
         <div className="citybike-use-disclaimer">
           <div className="disclaimer-header">
-            <FormattedMessage
-              id={`${bikeRentalStation.networks[0]}-start-using`}
-            />
+            <FormattedMessage id={`${formFactor}-start-using`} />
           </div>
           <div className="disclaimer-content">
             {cityBikeBuyUrl ? (
               <FormattedMessage id="citybike-buy-season" />
             ) : (
               <a className="external-link-citybike" href={url}>
-                <FormattedMessage id="citybike-start-using-info" />{' '}
+                <FormattedMessage id={`${formFactor}-start-using-info`} />{' '}
               </a>
             )}
           </div>

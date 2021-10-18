@@ -86,9 +86,18 @@ class CityBikes {
     });
 
   fetchAndDrawStatus = ({ geom, properties: { id, networks } }) => {
+    // FIXME remove network rewrite as soon as config/OTP is updated
+    let patchedNetworks = networks;
+    if (patchedNetworks === 'taxi') {
+      patchedNetworks = 'de.mfdz.gbfs.taxi.herrenberg';
+    } else if (patchedNetworks === 'de.openbikebox.stadt-herrenberg') {
+      patchedNetworks = 'cargo-bike';
+    } else {
+      console.log(patchedNetworks);
+    }
     if (
       (this.tile.stopsToShow && !this.tile.stopsToShow.includes(id)) ||
-      !showCitybikeNetwork(this.config.cityBike.networks[networks])
+      !showCitybikeNetwork(this.config.cityBike.networks[patchedNetworks])
     ) {
       return;
     }
@@ -96,9 +105,9 @@ class CityBikes {
     const currentTime = new Date().getTime();
 
     const iconName = getCityBikeNetworkIcon(
-      getCityBikeNetworkConfig(getCityBikeNetworkId(networks), this.config),
+      getCityBikeNetworkConfig(getCityBikeNetworkId(patchedNetworks), this.config),
     );
-    const citybikeCapacity = getCitybikeCapacity(this.config, networks);
+    const citybikeCapacity = getCitybikeCapacity(this.config, patchedNetworks);
     const iconColor =
       iconName.includes('secondary') &&
       this.config.colors.iconColors['mode-citybike-secondary']

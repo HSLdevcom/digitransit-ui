@@ -63,17 +63,12 @@ function WalkLeg(
   const returnNotice =
     previousLeg && previousLeg.rentedBike ? (
       <FormattedMessage
-        id={
-          networkType === CityBikeNetworkType.Scooter
-            ? 'return-scooter-to'
-            : 'return-cycle-to'
-        }
+        id={ `return-${networkType}-to` }
         values={{ station: leg[toOrFrom] ? leg[toOrFrom].name : '' }}
         defaultMessage="Return the bike to {station} station"
       />
     ) : null;
   let appendClass;
-  const isScooter = networkType === CityBikeNetworkType.Scooter;
   if (returnNotice) {
     appendClass = 'return-citybike';
   }
@@ -184,7 +179,6 @@ function WalkLeg(
                 <div>
                   {returnNotice ? (
                     <CityBikeLeg
-                      isScooter={isScooter}
                       stationName={leg[toOrFrom].name}
                       bikeRentalStation={leg[toOrFrom].bikeRentalStation}
                       returnBike

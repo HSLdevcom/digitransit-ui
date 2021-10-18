@@ -5,12 +5,12 @@ import { FormattedMessage } from 'react-intl';
 
 import Availability from './Availability';
 
-function getText(network, available) {
+function getText(formFactor, available) {
   if (available > -1) {
     return (
       <p className="sub-header-h4 availability-header">
         <FormattedMessage
-          id={`${network}-availability`}
+          id={`${formFactor}-availability`}
           defaultMessage="Bikes available at the station right now"
         />
         {'\u00a0'}
@@ -29,7 +29,7 @@ const CityBikeAvailability = mapProps(
     fewAvailableCount,
     fewerAvailableCount,
     useSpacesAvailable,
-    networks,
+    formFactor,
   }) => {
     const total = Number.isNaN(totalSpaces) ? 0 : totalSpaces;
     const available = Number.isNaN(bikesAvailable) ? 0 : bikesAvailable;
@@ -45,14 +45,13 @@ const CityBikeAvailability = mapProps(
         showStatusBar: useSpacesAvailable,
       };
     }
-    const n = networks || [];
-    const network = n[0] || 'citybike';
+
     return {
       available,
       total,
       fewAvailableCount,
       fewerAvailableCount,
-      text: getText(network, available),
+      text: getText(formFactor, available),
       showStatusBar: false,
     };
   },
@@ -64,11 +63,11 @@ CityBikeAvailability.propTypes = {
   bikesAvailable: PropTypes.number.isRequired,
   totalSpaces: PropTypes.number.isRequired,
   fewAvailableCount: PropTypes.number.isRequired,
-  networks: PropTypes.array,
+  formFactor: PropTypes.string,
   useSpacesAvailable: PropTypes.bool.isRequired,
 };
 CityBikeAvailability.defaultProps = {
-  type: 'citybike',
+  formFactor: 'citybike',
 };
 
 export default CityBikeAvailability;

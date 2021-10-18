@@ -6,6 +6,7 @@ import LazilyLoad, { importLazy } from './LazilyLoad';
 import { getJson } from '../util/xhrPromise';
 import getZoneId from '../util/zoneIconUtils';
 import ZoneIcon from './ZoneIcon';
+import { getCityBikeNetworkConfig } from '../util/citybikes';
 
 const modules = {
   FavouriteBikeRentalStationContainer: () =>
@@ -35,7 +36,12 @@ const BikeRentalStationHeader = (
     });
   }, []);
 
-  const network = bikeRentalStation.networks[0];
+  const networkConfig = getCityBikeNetworkConfig(
+    bikeRentalStation.networks[0],
+    config,
+  );
+  const formFactor = networkConfig?.type || 'citybike';
+
   return (
     <div className="bike-station-header">
       {breakpoint === 'large' && (
@@ -47,7 +53,7 @@ const BikeRentalStationHeader = (
       <div className="header">
         <h1>{bikeRentalStation.name}</h1>
         <div className="bike-station-sub-header">
-          <FormattedMessage id={`${network}-station-no-id`} />
+          <FormattedMessage id={`${formFactor}-station-no-id`} />
           {bikeRentalStation.name !== bikeRentalStation.stationId && (
             <>
               {zoneId && (

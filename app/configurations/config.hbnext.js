@@ -180,7 +180,7 @@ export default configMerger(walttiConfig, {
                 },
                 visibleInSettingsUi: true,
             },
-            taxi: {
+            'de.mfdz.gbfs.taxi.herrenberg': {
                 icon: 'taxi',
                 name: {
                     de: 'Taxi',
@@ -188,6 +188,7 @@ export default configMerger(walttiConfig, {
                 },
                 type: 'taxi',
                 visibleInSettingsUi: false,
+                enabled: true,
             },
             "car-sharing": {
                 icon: 'car-sharing',
@@ -201,6 +202,7 @@ export default configMerger(walttiConfig, {
                     en: 'https://stuttgart.stadtmobil.de/privatkunden/',
                 },
                 visibleInSettingsUi: false,
+                enabled: true,
             },
             "cargo-bike": {
                 icon: 'cargobike',
@@ -210,6 +212,7 @@ export default configMerger(walttiConfig, {
                 },
                 type: 'cargo-bike',
                 visibleInSettingsUi: false,
+                enabled: true,
             },
         }
     },
