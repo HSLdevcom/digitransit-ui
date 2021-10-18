@@ -293,6 +293,10 @@
         margin-top: -0.8em;
       }
     }
+    label.mode-name  {
+      font-weight: $font-weight-medium;
+      font-size: $font-size-small;
+    }
     .mode-name {
       display: flex;
       flex-direction: column;
