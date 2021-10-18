@@ -1,0 +1,13 @@
+{
+    "data":{
+       "routes":[
+          {
+             "gtfsId":"HSL:1052",
+             "shortName":"52",
+             "longName":"Kuninkaantammi-Kannelmäki-Munkkivuori-Otaniemi",
+             "mode":"BUS",
+             "id":"Um91dGU6SFNMOjEwNTI="
+          }
+       ]
+    }
+ }
