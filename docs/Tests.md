@@ -7,6 +7,7 @@ E2E-tests are run with hsl, tampere and matka configs on github actions. Desktop
 
 - Running tests for desktop: `CONFIG=hsl yarn test:e2e`
 - Running tests for mobile: `MOBILE=TRUE CONFIG=hsl yarn test:e2e`
+- Running single visual test, for example tests for FrontPage: `CONFIG=hsl yarn test:e2e -- FrontPage`
 
 ## Updating snapshots
 

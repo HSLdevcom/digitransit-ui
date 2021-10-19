@@ -4,9 +4,9 @@ import { FormattedMessage } from 'react-intl';
 import { routerShape } from 'found';
 import Icon from './Icon';
 
-const mapToLink = (href, children, onClick) => (
+const mapToLink = (href, children, onClick, openInNewTab) => (
   <span className="cursor-pointer">
-    <a href={href} onClick={onClick}>
+    <a href={href} onClick={onClick} target={openInNewTab ? '_blank' : '_self'}>
       {children}
     </a>
   </span>
@@ -27,7 +27,7 @@ const mapToRoute = (router, route, children, onClick) => (
 );
 
 const MenuItem = (
-  { name, href, label, nameEn, route, icon, onClick },
+  { name, href, label, nameEn, route, icon, onClick, openInNewTab },
   { router },
 ) => {
   const displayIcon =
@@ -42,7 +42,7 @@ const MenuItem = (
     </span>
   );
   if (href) {
-    item = mapToLink(href, item, onClick);
+    item = mapToLink(href, item, onClick, openInNewTab);
   } else if (route) {
     item = mapToRoute(router, route, item, onClick);
   } else {
@@ -59,6 +59,7 @@ MenuItem.propTypes = {
   route: PropTypes.string,
   label: PropTypes.string,
   onClick: PropTypes.func,
+  openInNewTab: PropTypes.bool,
 };
 
 MenuItem.contextTypes = {

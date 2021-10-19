@@ -162,18 +162,18 @@ class MapWithTrackingStateHandler extends React.Component {
     this.refresh = true;
   };
 
-  startNavigation = () => {
+  startNavigation = e => {
     if (this.props.onStartNavigation) {
-      this.props.onStartNavigation(this.mapElement);
+      this.props.onStartNavigation(this.mapElement, e);
     }
     if (this.state.mapTracking && !this.ignoreNavigation) {
       this.disableMapTracking();
     }
   };
 
-  endNavigation = () => {
+  endNavigation = e => {
     if (this.props.onEndNavigation) {
-      this.props.onEndNavigation(this.mapElement);
+      this.props.onEndNavigation(this.mapElement, e);
     }
     this.navigated = true;
   };

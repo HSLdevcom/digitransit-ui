@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 import CardHeader from './CardHeader';
-import ExternalLink from './ExternalLink';
 import { getJson } from '../util/xhrPromise';
 import { saveSearch } from '../action/SearchActions';
 import { isIOS } from '../util/browser';
@@ -79,32 +78,12 @@ class StopCardHeader extends React.Component {
     return description;
   }
 
-  getExternalLink(gtfsId, isPopUp) {
-    // Check for popup from stopMarkerPopup, should the external link be visible
-    if (!gtfsId || isPopUp || !this.headerConfig.virtualMonitorBaseUrl) {
-      return null;
-    }
-    const url = `${this.headerConfig.virtualMonitorBaseUrl}${gtfsId}`;
-    return (
-      <ExternalLink className="external-stop-link" href={url}>
-        {' '}
-        {
-          <FormattedMessage
-            id="stop-virtual-monitor"
-            defaultMessage="Virtual monitor"
-          />
-        }{' '}
-      </ExternalLink>
-    );
-  }
-
   render() {
     const {
       className,
       headingStyle,
       icons,
       stop,
-      isPopUp,
       breakpoint, // DT-3472
       isTerminal,
     } = this.props;
@@ -118,7 +97,6 @@ class StopCardHeader extends React.Component {
         headingStyle={headingStyle}
         description={this.getDescription()}
         code={this.headerConfig.showStopCode && stop.code ? stop.code : null}
-        externalLink={this.getExternalLink(stop.gtfsId, isPopUp)}
         icons={icons}
         showBackButton={breakpoint === 'large'}
         stop={stop}

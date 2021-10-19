@@ -426,7 +426,7 @@ export default {
 
   unknownZones: ['Ei HSL'],
 
-  showTicketPrice: true,
+  showTicketPrice: false,
 
   map: {
     showZoomControl: true, // DT-3470, DT-3397
@@ -480,7 +480,7 @@ export default {
             'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#aterlamna',
           en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#return',
         },
-        // Shown if citybike leg duration exceeds minutesBeforeSurcharge
+        // Shown if citybike leg duration exceeds timeBeforeSurcharge
         durationInstructions: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#aja',
           sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#cykla',
@@ -539,8 +539,8 @@ export default {
   showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
 
-  includeCarSuggestions: true,
-  includeParkAndRideSuggestions: true,
+  includeCarSuggestions: false,
+  includeParkAndRideSuggestions: false,
 
   showNearYouButtons: true,
   nearYouModes: [
