@@ -63,6 +63,8 @@ export default configMerger(walttiConfig, {
     serviceTimeRange: 60,
   },
 
+  itineraryFiltering: 2.5, // drops 40% worse routes
+
   stopCard: {
     header: {
       virtualMonitorBaseUrl: 'https://tremonitori.digitransit.fi/stop/',
@@ -129,6 +131,12 @@ export default configMerger(walttiConfig, {
         nameEn: 'Accessibility statement',
         href:
           'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
+      },
+      {
+        name: 'stop-virtual-monitor',
+        nameEn: 'Stop display',
+        href: 'https://tremonitori.digitransit.fi',
+        openInNewTab: true,
       },
     ],
   },
