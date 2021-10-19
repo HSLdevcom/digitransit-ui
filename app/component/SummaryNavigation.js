@@ -102,7 +102,6 @@ class SummaryNavigation extends React.Component {
           origin={parseLocation(this.props.params.from)}
           destination={parseLocation(this.props.params.to)}
           isMobile={this.props.breakpoint !== 'large'}
-          modeSet={this.context.config.searchIconModeSet}
         />
         {isBrowser && (
           <React.Fragment>

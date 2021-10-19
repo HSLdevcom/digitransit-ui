@@ -72,6 +72,7 @@ export default {
 
   stopsMinZoom: 14,
   mergeStopsByCode: true,
+
   colors: {
     primary: '#007ac9',
     hover: '#0062a1',
@@ -85,7 +86,7 @@ export default {
       'mode-citybike-secondary': '#333333',
     },
   },
-  searchIconModeSet: 'default',
+
   fontWeights: {
     medium: 500,
   },
