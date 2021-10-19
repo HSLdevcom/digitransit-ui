@@ -39,6 +39,7 @@ function getStopsFromGeocoding(stops, URL_PELIAS_PLACE) {
       const favourite = {
         type: 'FavouriteStop',
         properties: {
+          addendum: stop.properties.addendum,
           gid: stopStationMap[stop.properties.gid].gid,
           code: stopStationMap[stop.properties.gid].code,
           gtfsId: stopStationMap[stop.properties.gid].gtfsId,
