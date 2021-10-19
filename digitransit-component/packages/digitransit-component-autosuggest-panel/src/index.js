@@ -516,7 +516,7 @@ class DTAutosuggestPanel extends React.Component {
                       color={this.props.color}
                       hoverColor={this.props.hoverColor}
                       fontWeights={this.props.fontWeights}
-                      modeSeet={this.props.modeSet}
+                      modeSet={this.props.modeSet}
                     />
                   </div>
                   <ItinerarySearchControl
