@@ -1949,7 +1949,7 @@ class SummaryPage extends React.Component {
       this.selectedPlan = walkPlan;
     } else if (this.props.match.params.hash === 'bike') {
       this.stopClient();
-      if (!bikePlan) {
+      if (this.state.isFetchingWalkAndBike) {
         return (
           <>
             {screenReaderAlert}
@@ -1959,18 +1959,21 @@ class SummaryPage extends React.Component {
       }
       this.selectedPlan = bikePlan;
     } else if (this.props.match.params.hash === 'bikeAndVehicle') {
-      if (
-        !bikeAndPublicPlan ||
-        !Array.isArray(bikeAndPublicPlan.itineraries) ||
-        !bikeParkPlan ||
-        !Array.isArray(bikeParkPlan.itineraries)
-      ) {
+      if (this.state.isFetchingWalkAndBike) {
         return (
           <>
             {screenReaderAlert}
             <Loading />
           </>
         );
+      }
+      if (
+        !this.state.isFetchingWalkAndBike &&
+        (!Array.isArray(bikeAndPublicPlan?.itineraries) ||
+          !Array.isArray(bikeParkPlan?.itineraries))
+      ) {
+        this.toggleStreetMode(''); // go back to showing normal itineraries
+        return <Loading />;
       }
       if (
         this.hasItinerariesContainingPublicTransit(bikeAndPublicPlan) &&
@@ -1999,13 +2002,20 @@ class SummaryPage extends React.Component {
       );
     } else if (this.props.match.params.hash === 'car') {
       this.stopClient();
-      if (!carPlan) {
+      if (this.state.isFetchingWalkAndBike) {
         return <Loading />;
       }
       this.selectedPlan = carPlan;
     } else if (this.props.match.params.hash === 'parkAndRide') {
       this.stopClient();
-      if (!parkRidePlan) {
+      if (this.state.isFetchingWalkAndBike) {
+        return <Loading />;
+      }
+      if (
+        !this.state.isFetchingWalkAndBike &&
+        !Array.isArray(parkRidePlan?.itineraries)
+      ) {
+        this.toggleStreetMode(''); // go back to showing normal itineraries
         return <Loading />;
       }
       this.selectedPlan = parkRidePlan;
