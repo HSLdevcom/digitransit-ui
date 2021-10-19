@@ -2037,7 +2037,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel"
   peerDependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^1.7.15
+    "@digitransit-component/digitransit-component-autosuggest": ^1.7.17
     "@digitransit-component/digitransit-component-icon": ^0.1.13
     "@hsl-fi/sass": ^0.1.1
     classnames: 2.2.6
