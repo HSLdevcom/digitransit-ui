@@ -5,7 +5,7 @@ const getConfig = (
 ) => {
   return {
     diffDirection: 'vertical',
-    dumpDiffToConsole: true,
+    dumpDiffToConsole: false,
     comparisonMethod: 'ssim',
     failureThreshold: 0.025,
     failureThresholdType: 'percent',
