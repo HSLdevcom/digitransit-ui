@@ -2013,10 +2013,10 @@ __metadata:
   linkType: soft
 
 "@digitransit-component/digitransit-component-autosuggest-panel@npm:latest":
-  version: 1.3.23
-  resolution: "@digitransit-component/digitransit-component-autosuggest-panel@npm:1.3.23"
+  version: 1.3.24
+  resolution: "@digitransit-component/digitransit-component-autosuggest-panel@npm:1.3.24"
   peerDependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^1.7.15
+    "@digitransit-component/digitransit-component-autosuggest": ^1.7.17
     "@digitransit-component/digitransit-component-icon": ^0.1.13
     "@hsl-fi/sass": ^0.1.1
     classnames: 2.2.6
@@ -2029,7 +2029,7 @@ __metadata:
     react-autowhatever: 10.2.1
     react-sortablejs: 2.0.11
     recompose: 0.30.0
-  checksum: 97195fe4987235841702b5d4416a0f12adab46bc8f101d4b59901c4ee7471a9eb2c704d3b269d9c05b84cbbf9ffe3e8b21259b54ec54dacb48036df42fa0ea60
+  checksum: 7d3bae4f651c46abec67db63175916aca18d67fd257ebf1b3e175576ad74888215b05bc6a69f0fb2f3745a9cd92f2cfbddea1b659d1685c3ea4a8e57f6c87bcf
   languageName: node
   linkType: hard
 
@@ -2054,8 +2054,8 @@ __metadata:
   linkType: soft
 
 "@digitransit-component/digitransit-component-autosuggest@npm:latest":
-  version: 1.7.16
-  resolution: "@digitransit-component/digitransit-component-autosuggest@npm:1.7.16"
+  version: 1.7.17
+  resolution: "@digitransit-component/digitransit-component-autosuggest@npm:1.7.17"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": ^0.3.3
     "@digitransit-search-util/digitransit-search-util-get-label": ^0.1.1
@@ -2075,7 +2075,7 @@ __metadata:
     react-autosuggest: ^10.0.0
     react-modal: ~3.11.2
     recompose: 0.30.0
-  checksum: 2d565ccd377e7ee5f18690096200596895e5fd7ae22ed6e5abb67a6009b6ce45b503393c698bf2badeab86ccaf1cd5a213d3758312543be10b3ce7d444d92ce7
+  checksum: f06b63340d70f3269861c50631f8af81f3e50893b73af691f8c495ca709fb9644741819bdf041e896ed342310259b54132bf5b2e919417f73ce656d2226adb1e
   languageName: node
   linkType: hard
 
