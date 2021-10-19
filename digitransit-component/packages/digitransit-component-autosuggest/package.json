@@ -28,7 +28,7 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "^0.3.3",
+    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "^0.3.4",
     "@digitransit-search-util/digitransit-search-util-get-label": "^0.1.1",
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "^0.1.1",
     "@hsl-fi/hooks": "^0.2.0"
