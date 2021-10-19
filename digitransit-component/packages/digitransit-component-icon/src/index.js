@@ -5,7 +5,6 @@ import Arrow from './assets/arrow.svg';
 import Bus from './assets/bus.svg';
 import Busstop from './assets/bus_stop.svg';
 import City from './assets/city.svg';
-import Citybike from './assets/citybike.svg';
 import Edit from './assets/edit.svg';
 import Ferry from './assets/ferry.svg';
 import Home from './assets/home.svg';
@@ -51,6 +50,20 @@ import CitybikeWaltti from './assets/citybike-waltti.svg';
 import RailWaltti from './assets/rail-waltti.svg';
 import TramWaltti from './assets/tram-waltti.svg';
 import Check from './assets/check.svg';
+import SearchBusStopDefault from './assets/search-bus-stop-default.svg';
+import SearchRailStopDefault from './assets/search-rail-stop-default.svg';
+import SearchFerryDefault from './assets/search-ferry-default.svg';
+import CityBikeStopDefault from './assets/citybike-stop-default.svg';
+import SearchTramStopDefault from './assets/search-tram-stop-default.svg';
+import CityBikeStopDigitransit from './assets/citybike-stop-digitransit.svg';
+import SearchAirplaneDigitransit from './assets/search-airplane-digitransit.svg';
+import SearchBusStationDigitransit from './assets/search-bus-station-digitransit.svg';
+import SearchBusStopDigitransit from './assets/search-bus-stop-digitransit.svg';
+import SearchBusTramStopDigitransit from './assets/search-bustram-stop-digitransit.svg';
+import SearchFerryDigitransit from './assets/search-ferry-digitransit.svg';
+import SearchRailStopDigitransit from './assets/search-rail-stop-digitransit.svg';
+import SearchRailStationDigitransit from './assets/search-rail-station-digitransit.svg';
+import SearchTramStopDigitransit from './assets/search-tram-stop-digitransit.svg';
 
 const IconMap = style => {
   return {
@@ -60,7 +73,7 @@ const IconMap = style => {
     busstop: <Busstop style={style} />,
     caution: <CautionWhite style={style} />,
     city: <City style={style} />,
-    citybike: <Citybike style={style} />,
+    citybike: <CityBikeStopDefault style={style} />,
     edit: <Edit style={style} />,
     ferry: <Ferry style={style} />,
     home: <Home style={style} />,
@@ -107,6 +120,25 @@ const IconMap = style => {
     'rail-waltti': <RailWaltti style={style} />,
     'tram-waltti': <TramWaltti style={style} />,
     check: <Check style={style} />,
+    'search-bus-stop-default': <SearchBusStopDefault style={style} />,
+    'search-rail-stop-default': <SearchRailStopDefault style={style} />,
+    'search-ferry-default': <SearchFerryDefault style={style} />,
+    'search-tram-stop-default': <SearchTramStopDefault style={style} />,
+    'citybike-stop-digitransit': <CityBikeStopDigitransit style={style} />,
+    'search-airplane-digitransit': <SearchAirplaneDigitransit style={style} />,
+    'search-bus-station-digitransit': (
+      <SearchBusStationDigitransit style={style} />
+    ),
+    'search-bus-stop-digitransit': <SearchBusStopDigitransit style={style} />,
+    'search-bustram-stop-digitransit': (
+      <SearchBusTramStopDigitransit style={style} />
+    ),
+    'search-ferry-digitransit': <SearchFerryDigitransit style={style} />,
+    'search-rail-stop-digitransit': <SearchRailStopDigitransit style={style} />,
+    'search-rail-station-digitransit': (
+      <SearchRailStationDigitransit style={style} />
+    ),
+    'search-tram-stop-digitransit': <SearchTramStopDigitransit style={style} />,
   };
 };
 
