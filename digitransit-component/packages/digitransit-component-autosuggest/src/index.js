@@ -77,7 +77,8 @@ function getSuggestionContent(item) {
       (item.properties.layer === 'stop' || item.properties.layer === 'station')
     ) {
       const stopCode = getStopCode(item.properties);
-      const mode = item.properties.addendum.GTFS.modes;
+
+      const mode = item.properties.addendum?.GTFS.modes;
       return [
         suggestionType,
         getStopName(name, stopCode),
