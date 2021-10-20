@@ -181,44 +181,6 @@ jobs:
         env:
           CONFIG: ${{matrix.config}}
         run: yarn test:e2e
-  e2e-test-mobile:
-    needs: install
-    runs-on: ubuntu-18.04
-    strategy:
-      # don't cancel running jobs even if one fails
-      fail-fast: false
-      matrix:
-        node-version: [10.x]
-        config: [hsl, tampere, matka]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: "Set time zone to Europe/Helsinki"
-        uses: zcong1993/setup-timezone@master
-        with:
-          timezone: "Europe/Helsinki"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Install dependencies and build shared components
-        run: yarn setup
-      - name: Build relay queries
-        run: yarn relay
-      - name: Build UI
-        run: yarn build
-      - uses: microsoft/playwright-github-action@v1.4.4
-      - name: Run End to End tests
-        id: 'test_e2e'
-        env:
-          MOBILE: "true"
-          CONFIG: ${{matrix.config}}
-        run: yarn test:e2e
   publish-npm:
     if: github.ref == 'refs/heads/next'
     needs:
