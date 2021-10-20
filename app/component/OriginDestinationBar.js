@@ -33,6 +33,7 @@ class OriginDestinationBar extends React.Component {
     showFavourites: PropTypes.bool.isRequired,
     viaPoints: PropTypes.array,
     locationState: dtLocationShape.isRequired,
+    modeSet: PropTypes.string,
   };
 
   static contextTypes = {
@@ -49,6 +50,7 @@ class OriginDestinationBar extends React.Component {
     language: 'fi',
     isMobile: false,
     viaPoints: [],
+    modeSet: undefined,
   };
 
   constructor(props) {
@@ -127,7 +129,6 @@ class OriginDestinationBar extends React.Component {
       desktopTargets.push('BikeRentalStations');
     }
     const mobileTargets = [...desktopTargets, 'MapPosition'];
-
     return (
       <div
         className={cx(
@@ -164,6 +165,7 @@ class OriginDestinationBar extends React.Component {
             this.context.config.colors.hover ||
             LightenDarkenColor(this.context.config.colors.primary, -20)
           }
+          modeSet={this.props.modeSet}
         />{' '}
       </div>
     );
