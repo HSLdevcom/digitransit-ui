@@ -518,11 +518,21 @@ class RouteScheduleContainer extends PureComponent {
     }
 
     // find empty and populate days
+    let notEmptyWeekFound = false;
     departures.forEach((d, idx) => {
       if (d.length === 0) {
         indexToRemove.push(idx);
       } else {
-        if (d.length > 1) {
+        if (d.length === 1) {
+          if (d[0][1] === 0) {
+            if (!notEmptyWeekFound) {
+              indexToRemove.push(idx);
+            }
+          } else {
+            notEmptyWeekFound = true;
+          }
+        } else {
+          notEmptyWeekFound = true;
           // remove days with no departures otherwise showing later on tabs
           d = d.filter(z => z[1] !== 0);
         }
