@@ -99,7 +99,7 @@ export default function RouteAlertsRow(
   }
 
   let genericCancellation;
-  if (!description && header) {
+  if (!description && header.props) {
     const {
       headsign,
       routeMode,
