@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
@@ -6,7 +6,13 @@ import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import StopNearYouHeader from './StopNearYouHeader';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
 
-const StopNearYou = ({ stop, desc, stopIsStation, ...props }) => {
+const StopNearYou = ({ stop, desc, stopIsStation, currentTime, relay }) => {
+  useEffect(() => {
+    const id = stopIsStation ? stop.parentStation.gtfsId : stop.gtfsId;
+    relay?.refetch(oldVariables => {
+      return { ...oldVariables, stopId: id, startTime: currentTime };
+    }, null);
+  }, [currentTime]);
   const stopOrStation = stop.parentStation ? stop.parentStation : stop;
   const description = desc || stop.desc;
   const isStation = !!stop.parentStation || stopIsStation;
@@ -30,12 +36,14 @@ const StopNearYou = ({ stop, desc, stopIsStation, ...props }) => {
             default="The departure list and estimated departure times will update in real time."
           />
         </span>
-        <StopNearYouDepartureRowContainer
-          mode={stop.vehicleMode}
-          stopTimes={stopOrStation.stoptimesWithoutPatterns}
-          currentTime={props.currentTime}
-          isStation={isStation && stop.vehicleMode !== 'SUBWAY'}
-        />
+        {stopOrStation.stoptimesWithoutPatterns && (
+          <StopNearYouDepartureRowContainer
+            mode={stop.vehicleMode}
+            stopTimes={stopOrStation.stoptimesWithoutPatterns}
+            currentTime={currentTime}
+            isStation={isStation && stop.vehicleMode !== 'SUBWAY'}
+          />
+        )}
         <Link
           className="stop-near-you-more-departures"
           as="button"
@@ -59,6 +67,7 @@ StopNearYou.propTypes = {
   stopIsStation: PropTypes.bool,
   currentTime: PropTypes.number.isRequired,
   desc: PropTypes.string,
+  relay: PropTypes.any,
 };
 
 StopNearYou.defaultProps = {

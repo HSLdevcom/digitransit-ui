@@ -4,7 +4,8 @@ import { createPaginationContainer, graphql } from 'react-relay';
 import { intlShape, FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape } from 'found';
-import StopNearYou from './StopNearYou';
+import StopNearYouContainer from './StopNearYouContainer';
+import StationNearYouContainer from './StationNearYouContainer';
 import withBreakpoint from '../util/withBreakpoint';
 import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';
 import CityBikeStopNearYou from './CityBikeStopNearYou';
@@ -117,16 +118,7 @@ class StopsNearYouContainer extends React.Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    const { relay, currentTime, position } = prevProps;
-    const { currentTime: currUnix } = this.props;
-    if (currUnix !== currentTime) {
-      const variables = {
-        startTime: currentTime,
-        lat: this.props.position.lat,
-        lon: this.props.position.lon,
-      };
-      relay.refetchConnection(this.state.stopCount, null, variables);
-    }
+    const { position } = prevProps;
     if (position && this.state.currentPosition) {
       if (
         position.lat !== this.props.position.lat ||
@@ -245,16 +237,17 @@ class StopsNearYouContainer extends React.Component {
                 if (terminalNames.indexOf(stop.parentStation.name) === -1) {
                   terminalNames.push(stop.parentStation.name);
                   return (
-                    <StopNearYou
+                    <StationNearYouContainer
                       key={`${stop.gtfsId}`}
                       stop={stop}
                       currentTime={this.props.currentTime}
+                      stopIsStation
                     />
                   );
                 }
               } else {
                 return (
-                  <StopNearYou
+                  <StopNearYouContainer
                     key={`${stop.gtfsId}`}
                     stop={stop}
                     currentTime={this.props.currentTime}
@@ -411,84 +404,17 @@ const refetchContainer = createPaginationContainer(
                   state
                 }
                 ... on Stop {
+                  ...StopNearYouContainer_stop @arguments(startTime: $startTime)
+                  ...StationNearYouContainer_stop
+                  @arguments(startTime: $startTime)
                   id
                   name
                   gtfsId
-                  code
-                  desc
-                  lat
-                  lon
-                  zoneId
-                  platformCode
-                  vehicleMode
-                  stoptimesWithoutPatterns(
-                    startTime: $startTime
-                    omitNonPickups: $omitNonPickups
-                  ) {
+                  stoptimesWithoutPatterns(startTime: $startTime) {
                     scheduledArrival
-                    realtimeArrival
-                    arrivalDelay
-                    scheduledDeparture
-                    realtimeDeparture
-                    departureDelay
-                    realtime
-                    realtimeState
-                    serviceDay
-                    headsign
-                    trip {
-                      tripHeadsign
-                      route {
-                        shortName
-                        longName
-                        gtfsId
-                        mode
-                        color
-                        patterns {
-                          headsign
-                        }
-                      }
-                    }
                   }
                   parentStation {
-                    id
                     name
-                    gtfsId
-                    code
-                    desc
-                    lat
-                    lon
-                    zoneId
-                    platformCode
-                    vehicleMode
-                    stoptimesWithoutPatterns(
-                      startTime: $startTime
-                      omitNonPickups: $omitNonPickups
-                    ) {
-                      scheduledArrival
-                      realtimeArrival
-                      arrivalDelay
-                      scheduledDeparture
-                      realtimeDeparture
-                      departureDelay
-                      realtime
-                      realtimeState
-                      serviceDay
-                      headsign
-                      trip {
-                        route {
-                          shortName
-                          longName
-                          gtfsId
-                          mode
-                          patterns {
-                            headsign
-                          }
-                        }
-                      }
-                      stop {
-                        platformCode
-                      }
-                    }
                   }
                 }
               }
