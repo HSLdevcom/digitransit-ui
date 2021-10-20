@@ -826,7 +826,6 @@ class StopsNearYouPage extends React.Component {
         mode={this.props.match.params.mode}
         isMobile={isMobile}
         selectHandler={this.selectHandler} // prop for context handler
-        modeSet={this.context.config.searchIconModeSet}
         {...searchProps}
       />
     );
