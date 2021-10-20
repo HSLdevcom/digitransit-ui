@@ -332,6 +332,24 @@
         font-weight: $font-weight-book;
         color: #333;
         flex: 1;
+        overflow: hidden;
+        white-space: nowrap;
+        mask-image:
+          linear-gradient(
+            to left,
+            transparent,
+            rgba(0, 0, 0, 0.2) 5px,
+            rgba(0, 0, 0, 1) 25px,
+            rgba(0, 0, 0, 1)
+          );
+        -webkit-mask-image:
+          linear-gradient(
+            to left,
+            transparent,
+            rgba(0, 0, 0, 0.2) 5px,
+            rgba(0, 0, 0, 1) 25px,
+            rgba(0, 0, 0, 1)
+          );
       }
       .route-time {
         color: #333;
