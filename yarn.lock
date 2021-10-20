@@ -2013,10 +2013,10 @@ __metadata:
   linkType: soft
 
 "@digitransit-component/digitransit-component-autosuggest-panel@npm:latest":
-  version: 1.3.24
-  resolution: "@digitransit-component/digitransit-component-autosuggest-panel@npm:1.3.24"
+  version: 1.3.25
+  resolution: "@digitransit-component/digitransit-component-autosuggest-panel@npm:1.3.25"
   peerDependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^1.7.17
+    "@digitransit-component/digitransit-component-autosuggest": ^1.7.18
     "@digitransit-component/digitransit-component-icon": ^0.1.13
     "@hsl-fi/sass": ^0.1.1
     classnames: 2.2.6
@@ -2029,7 +2029,7 @@ __metadata:
     react-autowhatever: 10.2.1
     react-sortablejs: 2.0.11
     recompose: 0.30.0
-  checksum: 7d3bae4f651c46abec67db63175916aca18d67fd257ebf1b3e175576ad74888215b05bc6a69f0fb2f3745a9cd92f2cfbddea1b659d1685c3ea4a8e57f6c87bcf
+  checksum: 5aad36b4b9ef7ba1a319cef976134a1a1b268d6c81d3a09b1f0bbbd99853cbd1fb00e25ca656b41def80152dd603105407f65c43e957eef4afea2204109cbf7a
   languageName: node
   linkType: hard
 
@@ -2037,7 +2037,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel"
   peerDependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^1.7.17
+    "@digitransit-component/digitransit-component-autosuggest": ^1.7.18
     "@digitransit-component/digitransit-component-icon": ^0.1.13
     "@hsl-fi/sass": ^0.1.1
     classnames: 2.2.6
@@ -2054,10 +2054,10 @@ __metadata:
   linkType: soft
 
 "@digitransit-component/digitransit-component-autosuggest@npm:latest":
-  version: 1.7.17
-  resolution: "@digitransit-component/digitransit-component-autosuggest@npm:1.7.17"
+  version: 1.7.18
+  resolution: "@digitransit-component/digitransit-component-autosuggest@npm:1.7.18"
   dependencies:
-    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": ^0.3.3
+    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": ^0.3.4
     "@digitransit-search-util/digitransit-search-util-get-label": ^0.1.1
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": ^0.1.1
     "@hsl-fi/hooks": ^0.2.0
@@ -2075,7 +2075,7 @@ __metadata:
     react-autosuggest: ^10.0.0
     react-modal: ~3.11.2
     recompose: 0.30.0
-  checksum: f06b63340d70f3269861c50631f8af81f3e50893b73af691f8c495ca709fb9644741819bdf041e896ed342310259b54132bf5b2e919417f73ce656d2226adb1e
+  checksum: c132f21b96542e4bd3660eb560d8180aa7408554f7e86e22c51c8c2ea5da0f9d84b22d1c028ccda12769a5e0dae3c80e1e135995b4dc8d0374bfb127906d26dd
   languageName: node
   linkType: hard
 
@@ -2083,7 +2083,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest"
   dependencies:
-    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": ^0.3.3
+    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": ^0.3.4
     "@digitransit-search-util/digitransit-search-util-get-label": ^0.1.1
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": ^0.1.1
     "@hsl-fi/hooks": ^0.2.0
@@ -2366,7 +2366,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@^0.3.3, @digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate":
+"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@^0.3.4, @digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate":
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate"
   dependencies:
@@ -2893,15 +2893,15 @@ __metadata:
   linkType: hard
 
 "@graphql-tools/import@npm:^6.2.6":
-  version: 6.5.4
-  resolution: "@graphql-tools/import@npm:6.5.4"
+  version: 6.5.5
+  resolution: "@graphql-tools/import@npm:6.5.5"
   dependencies:
-    "@graphql-tools/utils": 8.3.0
+    "@graphql-tools/utils": 8.4.0
     resolve-from: 5.0.0
     tslib: ~2.3.0
   peerDependencies:
     graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: 0e6a3d9816458ccd04d1c69fd8c5f4530732bc0eb453f37c859df8202f2e7bc5362260f7cbe24ddfb884e52503aa8dfee0e1277a8d95308fc76401f5918065df
+  checksum: 6451d7f84cd4a5748d615191e8205e2fe3e34e2016fbb8444e83210125850c03b1b4edbf0bb74b77c1370a8f63fab9e56c9ad44735bdae4bdb510b0f7efb4a34
   languageName: node
   linkType: hard
 
@@ -2962,15 +2962,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-tools/merge@npm:^8.1.0":
-  version: 8.1.2
-  resolution: "@graphql-tools/merge@npm:8.1.2"
+"@graphql-tools/merge@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "@graphql-tools/merge@npm:8.2.0"
   dependencies:
-    "@graphql-tools/utils": ^8.2.2
+    "@graphql-tools/utils": ^8.4.0
     tslib: ~2.3.0
   peerDependencies:
     graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: 5c0f66bd59b292c7e55b77840e50da36ba7b41bbbd5df6b9283559129a18df7e3c0d3efba9667f17fd8a441c850e07b4458461c120122994bf71310cf713758b
+  checksum: 141a13c0a82d9ba4dc3b827dd64cfeebe29ccbdae87c060a6be80d71e988bd87092c4a93cc25a5999c87d7640e0b84e382d9c95f0663aebccf8d5f96a875f3a3
   languageName: node
   linkType: hard
 
@@ -2988,16 +2988,16 @@ __metadata:
   linkType: hard
 
 "@graphql-tools/schema@npm:^8.0.2":
-  version: 8.2.0
-  resolution: "@graphql-tools/schema@npm:8.2.0"
+  version: 8.3.0
+  resolution: "@graphql-tools/schema@npm:8.3.0"
   dependencies:
-    "@graphql-tools/merge": ^8.1.0
-    "@graphql-tools/utils": ^8.2.0
+    "@graphql-tools/merge": ^8.2.0
+    "@graphql-tools/utils": ^8.4.0
     tslib: ~2.3.0
-    value-or-promise: 1.0.10
+    value-or-promise: 1.0.11
   peerDependencies:
     graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: 1ef23067aabe0267f8f54cb5ca2a707d0fa198e5996c37c973afec6c451706638a1eb4df5ac2720943272b66ef5392c516309b5608e0d9d965e1b0aa6f7f5ba2
+  checksum: 1e73335adbd55bc1e329cd12d0f751da982dbe26a36d3d22a16aa1eb038e8f431bd5c241f6fc6e897f99b112e1bdc638368e8ff43fdd9ce41a5decfea1f51aab
   languageName: node
   linkType: hard
 
@@ -3041,14 +3041,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-tools/utils@npm:8.3.0, @graphql-tools/utils@npm:^8.2.0, @graphql-tools/utils@npm:^8.2.2":
-  version: 8.3.0
-  resolution: "@graphql-tools/utils@npm:8.3.0"
+"@graphql-tools/utils@npm:8.4.0, @graphql-tools/utils@npm:^8.4.0":
+  version: 8.4.0
+  resolution: "@graphql-tools/utils@npm:8.4.0"
   dependencies:
     tslib: ~2.3.0
   peerDependencies:
     graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: 8f142824762a4b2bf171c0a7e2471404a5482ad9b6f5d4fd00b949f3c216483b2f021c23b3fad8bb0114abdd5b1b635bacaae08d480bebf12147f3dd181a55f2
+  checksum: af0e8f9fd640aa7610c98467b1ee80b6f9f40409daeff543a4ddc2cb229893fc531b149e2c239767e1c84e1b426917e122a200a6bc0f63ec0b4bd222740da9e8
   languageName: node
   linkType: hard
 
@@ -4941,12 +4941,12 @@ __metadata:
   linkType: hard
 
 "@types/glob@npm:^7.1.1":
-  version: 7.1.4
-  resolution: "@types/glob@npm:7.1.4"
+  version: 7.2.0
+  resolution: "@types/glob@npm:7.2.0"
   dependencies:
     "@types/minimatch": "*"
     "@types/node": "*"
-  checksum: 689ec49590e870ba475f5372fe657d19d9f9632c45546acb233a12f9bb6aa9fa62356f7bfd33071edba7f68336ffa1b1d0e112c34159252fe1756b061afb2520
+  checksum: 7ffc39eae2ee62ddbb3062f332cf3abb9f9d0a91821821e032cab9e38a1362f0f6f9eb5c34fb0b40647a25e57884e68462d5fb635810ad9ad12f5f6b2c393f8b
   languageName: node
   linkType: hard
 
@@ -7505,16 +7505,16 @@ __metadata:
   linkType: hard
 
 "caniuse-db@npm:^1.0.30001090":
-  version: 1.0.30001269
-  resolution: "caniuse-db@npm:1.0.30001269"
-  checksum: 569af459a4c25256e6c9fa6528384b429ccab1ca727a1da3caef78d7f5812dbcb94b543596041effa7d17f1b5cdbf1ed539fa7cfa9ec7699cbb9a37992ce0a4b
+  version: 1.0.30001270
+  resolution: "caniuse-db@npm:1.0.30001270"
+  checksum: 90137c5759abe2d431d7054f0c0b5dd15a4950f71056c756d7f605a7d718b4defe7539e5cbf26adddfc99b41029c2163b421f1fdc8d6c15c9aba1d06c4c1daf7
   languageName: node
   linkType: hard
 
 "caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001265":
-  version: 1.0.30001269
-  resolution: "caniuse-lite@npm:1.0.30001269"
-  checksum: e544bd20bf4186cc32ef24881ec45a8d61898e37ff4efc7736ad0f7419baf2ec2560de308ec28209f0aae637ec76baea9f1517eaa13cd06b35a14de86b25fc68
+  version: 1.0.30001270
+  resolution: "caniuse-lite@npm:1.0.30001270"
+  checksum: 61bba73255d1ba2b03a045a3ee5b4a28f2d7849e9b377b5a78e36321ec13b20a39e2fee7ffef8d8bd76f5685bacd9d3bd8054675ce62c4621a7193697f69dc37
   languageName: node
   linkType: hard
 
@@ -10350,9 +10350,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.867":
-  version: 1.3.872
-  resolution: "electron-to-chromium@npm:1.3.872"
-  checksum: 280a44cd2fd6f2e89c47c94b7355f00c2acf188242021ed16454e2e56b0ffefd951ba501a83ff16deb25070bd3d1152a2aea252a8a61b0748892b3b1cb0c2c3f
+  version: 1.3.873
+  resolution: "electron-to-chromium@npm:1.3.873"
+  checksum: 81ff078a1dda64e1c87b5af436527085e3f10039103a019679be22291a1037085825f11a3cf5cee890421553fddd21e62a04822326db70241c7bb0eb294eda1c
   languageName: node
   linkType: hard
 
@@ -26578,10 +26578,10 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"value-or-promise@npm:1.0.10":
-  version: 1.0.10
-  resolution: "value-or-promise@npm:1.0.10"
-  checksum: 381d254e1bf6e4b56a1512591664c88989e2fc584ac939e3164ba92055f078862e1b7dd8d0bed33d7772e16ac7ff14d521bd06fa7fd6468305132cb8958daf4c
+"value-or-promise@npm:1.0.11":
+  version: 1.0.11
+  resolution: "value-or-promise@npm:1.0.11"
+  checksum: a1d5b5f3233d4f417c9846dd76279b9b4f2b1b5af6f57c2c264b6a9ee3fa0eca5979e955847aa8a8361fdbcd5a4dc3bcc594a5ff463279b1e17d7bae3d95a6fb
   languageName: node
   linkType: hard
 
