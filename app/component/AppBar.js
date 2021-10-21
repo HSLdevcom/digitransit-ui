@@ -48,7 +48,7 @@ const AppBar = (
               logo={logo}
               title={title}
             />
-            <span className="logo community">Bad Belzig</span>
+            <span className="logo community">{config.URL.HEADER_TITLE}</span>
           </button>
         </section>
         <section className="controls">

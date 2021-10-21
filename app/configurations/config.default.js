@@ -724,7 +724,7 @@ export default {
     lahti: 'lahti',
     kuopio: 'kuopio',
     hbnext: 'hbnext',
-    bb_angermuende: 'bb_angermuende',
+    bbnavi: 'bbnavi',
   },
 
   minutesToDepartureLimit: 9,

@@ -5,7 +5,7 @@ services:
     image: registry.gitlab.tpwd.de/tpwd/bb-navi/digitransit-ui:bb-bad-belzig
     environment:
       - WORK=/opt/digitransit-ui
-      - ROUTER=bb_angermuende
+      - ROUTER=bbnavi
       - API_URL=https://api.angermuende.bbnavi.de
       - DT_IMAGE=bb-navi/digitransit-ui
       - DT_TAG=next
@@ -15,7 +15,7 @@ services:
       - OTP_PORT=8090
       - OTP_IMAGE=mfdz/opentripplanner
       - OTP_TAG=latest
-      - CONFIG=bb_angermuende
+      - CONFIG=bbnavi
       - GEOCODING_BASE_URL=https://photon.stadtnavi.eu/pelias/v1
     networks:
       - public
