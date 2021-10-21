@@ -35,6 +35,7 @@ EXPOSE 8080
 ENV WORK=/opt/digitransit-ui
 ENV HOME=/opt/digitransit-ui
 ENV NODE_OPTS=--title=digitransit-ui
+ENV GRAPH_BUILD_MEMORY=4G
 
 # ENV GTFS_URL=https://www.vbb.de/fileadmin/user_upload/VBB/Dokumente/API-Datensaetze/GTFS.zip
 # ENV OSM_URL=https://download.geofabrik.de/europe/germany/brandenburg-latest.osm.pbf
