@@ -19,12 +19,10 @@ import withBreakpoint from '../../../util/withBreakpoint';
 import SidebarContainer from './SidebarContainer';
 
 export const getIcon = properties => {
-  const { cu, ca, name } = properties;
+  const { cb, c, name } = properties;
+  // c - car capacity, cb - bike capacity
   return `icon-icon_stop_${
-    ((ca === undefined || ca === 0) && cu !== undefined) ||
-    name.includes('E-Bike')
-      ? 'bicycle'
-      : 'car'
+    (!c && cb) || name.includes('E-Bike') ? 'bicycle' : 'car'
   }_charging_station`;
 };
 
