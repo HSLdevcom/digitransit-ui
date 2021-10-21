@@ -12,27 +12,29 @@ import {
 } from '../util/citybikes';
 
 const CityBikeNetworkSelector = (
-  { isUsingCitybike, currentOptions },
+  { currentOptions },
   { config, getStore, executeAction },
 ) => (
   <React.Fragment>
     {mapDefaultNetworkProperties(config).map(network => (
       <div
-        className="mode-option-block citybike-network-container"
+        className="mode-option-container"
         key={`cb-${network.networkName}`}
         style={{ height: '3.5em' }}
       >
         <label
           htmlFor={`settings-toggle-bike-${network.networkName}`}
-          className="toggle-label"
+          className="mode-option-block toggle-label"
         >
-          <Icon
-            className={`${network.icon}-icon`}
-            img={`icon-icon_${network.icon}`}
-            height={1}
-            width={1}
-          />
-          <span className="network-name">
+          <div className="mode-icon">
+            <Icon
+              className={`${network.icon}-icon`}
+              img={`icon-icon_${network.icon}`}
+              height={1}
+              width={1}
+            />
+          </div>
+          <span className="mode-name">
             {getCityBikeNetworkName(
               getCityBikeNetworkConfig(network.networkName, config),
               getStore('PreferencesStore').getLanguage(),
@@ -42,7 +44,6 @@ const CityBikeNetworkSelector = (
         <Toggle
           id={`settings-toggle-bike-${network.networkName}`}
           toggled={
-            isUsingCitybike &&
             currentOptions.filter(
               option =>
                 option.toLowerCase() === network.networkName.toLowerCase(),
@@ -53,8 +54,6 @@ const CityBikeNetworkSelector = (
               allowedBikeRentalNetworks: updateCitybikeNetworks(
                 getCitybikeNetworks(config),
                 network.networkName,
-                config,
-                isUsingCitybike,
               ),
             });
           }}
@@ -66,7 +65,6 @@ const CityBikeNetworkSelector = (
 
 CityBikeNetworkSelector.propTypes = {
   currentOptions: PropTypes.array.isRequired,
-  isUsingCitybike: PropTypes.bool.isRequired,
 };
 
 CityBikeNetworkSelector.contextTypes = {
