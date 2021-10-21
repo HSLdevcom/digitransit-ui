@@ -9888,6 +9888,7 @@ __metadata:
     css-loader: 3.6.0
     debug: 4.1.1
     documentation: 13.0.2
+    dotenv: ^10.0.0
     enzyme: 3.11.0
     enzyme-adapter-react-16: 1.15.4
     enzyme-wait: 1.0.9
@@ -10372,6 +10373,13 @@ __metadata:
   dependencies:
     is-obj: ^2.0.0
   checksum: 76e6693d8803eeff9cb920988446bf223cf1f6e5b1c0c2fe07a66906392134931a481b11e3c0bd852c5cfc97fad65258bcb4359169ad1d8d624cb3f56932be98
+  languageName: node
+  linkType: hard
+
+"dotenv@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "dotenv@npm:10.0.0"
+  checksum: 9c45712e213de63bdb646b8e5344749b7566e25a67bbd3f03711d54e40eff10066c1f23eff0081d0949fda7c8efcc6e9e8bf18d0f023a8274f55f5d5f97bb6db
   languageName: node
   linkType: hard
 
