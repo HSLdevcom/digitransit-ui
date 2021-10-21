@@ -12,5 +12,5 @@ services:
         traefik.docker.network: public
         traefik.enable: "true"
         traefik.frontend.passHostHeader: "true"
-        traefik.frontend.rule: Host:bad-belzig.bbnavi.de
+        traefik.frontend.rule: Host:herzberg-elster.bbnavi.de
         traefik.port: '8080'

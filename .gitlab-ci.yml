@@ -20,10 +20,10 @@ before_script:
 .docker-build: &docker-build
   stage: build
   script:
-    - docker pull $IMAGE:bb-bad-belzig || true
-    - docker build --cache-from $IMAGE:bb-bad-belzig --tag $IMAGE:$CI_COMMIT_SHA --tag $IMAGE:bb-bad-belzig -f $DOCKERFILE .
+    - docker pull $IMAGE:bb-herzberg-elster || true
+    - docker build --cache-from $IMAGE:bb-herzberg-elster --tag $IMAGE:$CI_COMMIT_SHA --tag $IMAGE:bb-herzberg-elster -f $DOCKERFILE .
     - docker push $IMAGE:$CI_COMMIT_SHA
-    - docker push $IMAGE:bb-bad-belzig
+    - docker push $IMAGE:bb-herzberg-elster
 
 .quantum-conf: &quantum-conf
   stage: predeploy
@@ -35,7 +35,7 @@ before_script:
   script:
     - docker-compose -f docker-compose.yml -f stack.yml config > quantum.yml
   only:
-    - release/bb/bad-belzig
+    - release/bb/herzberg-elster
 
 .deploy: &deploy
   stage: deploy
@@ -47,7 +47,7 @@ before_script:
     - quantum-cli stack update --create --stack $PROJECT-$QUANTUM_ENDPOINT --wait
   tags: [v2]
   only:
-    - release/bb/bad-belzig
+    - release/bb/herzberg-elster
 
 build-app:
   variables:
@@ -59,9 +59,9 @@ build-app:
 app-conf:
   <<: *quantum-conf
   variables:
-    PROJECT: digitransit-ui-bb-bad-belzig
+    PROJECT: digitransit-ui-bb-herzberg-elster
 
 deploy:
   <<: *deploy
   variables:
-    PROJECT: digitransit-ui-bb-bad-belzig
+    PROJECT: digitransit-ui-bb-herzberg-elster
