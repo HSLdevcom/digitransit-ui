@@ -10,11 +10,11 @@ def has_icon(icons, icon_name):
     return False
 
 
-hb_source_file = "static/assets/svg-sprite.bb_angermuende-source.svg"
+hb_source_file = "static/assets/svg-sprite.bbnavi-source.svg"
 hsl_source_file = "static/assets/svg-sprite.hsl.svg"
 default_source_file = "static/assets/svg-sprite.default.svg"
 
-output_file_name = "static/assets/svg-sprite.bb_angermuende.svg"
+output_file_name = "static/assets/svg-sprite.bbnavi.svg"
 
 hb_source = xml.dom.minidom.parse(hb_source_file)
 hb_icons = hb_source.getElementsByTagName("symbol")

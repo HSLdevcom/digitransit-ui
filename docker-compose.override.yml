@@ -7,7 +7,7 @@ services:
     command: yarn run dev
     image: "bb-navi/digitransit-ui"
     environment:
-      - ROUTER=bb_angermuende
+      - ROUTER=bbnavi
       - API_URL=https://api-bbnavi.docker.localhost
       - DT_IMAGE=bb-navi/digitransit-ui
       - DT_TAG=next
@@ -17,7 +17,7 @@ services:
       - OTP_PORT=8090
       - OTP_IMAGE=mfdz/opentripplanner
       - OTP_TAG=latest
-      - CONFIG=bb_angermuende
+      - CONFIG=bbnavi
       - GEOCODING_BASE_URL=https://photon.stadtnavi.eu/pelias/v1
     labels:
       traefik.docker.network: public
