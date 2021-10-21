@@ -1,7 +1,8 @@
 /* eslint-disable */
 import configMerger from '../util/configMerger';
 
-const CONFIG = 'bb_angermuende';
+const CONFIG = 'bbnavi';
+const HEADER_TITLE = "Angermünde";
 const APP_TITLE = 'bbnavi Angermünde';
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
 const API_URL = process.env.API_URL || 'https://api.dev.stadtnavi.eu';
@@ -9,11 +10,11 @@ const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{
 const SEMI_TRANSPARENT_MAP_URL = process.env.SEMITRANSPARENT_MAP_URL || "https://tiles.stadtnavi.eu/satellite-overlay/{z}/{x}/{y}{r}.png";
 const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || "https://photon.stadtnavi.eu/pelias/v1";
 const YEAR = 1900 + new Date().getYear();
-const STATIC_MESSAGE_URL = process.env.STATIC_MESSAGE_URL || '/assets/messages/message.bb_angermuende.json';
+const STATIC_MESSAGE_URL = process.env.STATIC_MESSAGE_URL || '/assets/messages/message.bbnavi.json';
 
 const walttiConfig = require('./config.waltti.js').default;
 
-// const realtimeHbg = require('./realtimeUtils').default.bb_angermuende;
+// const realtimeHbg = require('./realtimeUtils').default.bbnavi;
 // const hostname = new URL(API_URL);
 // realtimeHbg.mqtt = `wss://${hostname.host}/mqtt/`;
 
@@ -27,6 +28,7 @@ const maxLon = 15.000255;
 export default configMerger(walttiConfig, {
     CONFIG,
     URL: {
+        HEADER_TITLE: HEADER_TITLE,
         OTP: process.env.OTP_URL || `${API_URL}/otp/routers/default/`,
         MAP: {
             default: MAP_URL,
@@ -105,7 +107,7 @@ export default configMerger(walttiConfig, {
         },
     },
 
-    sprites: 'assets/svg-sprite.bb_angermuende.svg',
+    sprites: 'assets/svg-sprite.bbnavi.svg',
 
     socialMedia: {
         title: APP_TITLE,
@@ -217,7 +219,7 @@ export default configMerger(walttiConfig, {
 
     title: APP_TITLE,
 
-    favicon: './app/configurations/images/bb_angermuende/favicon.png',
+    favicon: './app/configurations/images/bbnavi/favicon.png',
 
     meta: {
         description: APP_DESCRIPTION,
@@ -227,7 +229,7 @@ export default configMerger(walttiConfig, {
     //     carpool: 'CARPOOL',
     // },
 
-    logo: 'bb_angermuende/stadtnavi-bb_angermuende-logo.svg',
+    logo: 'bbnavi/stadtnavi-bbnavi-logo.svg',
 
     GTMid: '',
 
@@ -258,9 +260,9 @@ export default configMerger(walttiConfig, {
         },
     },
 
-    feedIds: ['bb_angermuende'],
+    feedIds: ['bbnavi'],
 
-    //  realtime: { bb_angermuende: realtimeHbg },
+    //  realtime: { bbnavi: realtimeHbg },
 
     searchSources: ['oa', 'osm'],
 
@@ -386,7 +388,7 @@ export default configMerger(walttiConfig, {
     redirectReittiopasParams: true,
 
     themeMap: {
-        bb_angermuende: 'bb_angermuende'
+        bbnavi: 'bbnavi'
     },
 
     transportModes: {
@@ -508,7 +510,7 @@ export default configMerger(walttiConfig, {
 
     showTicketInformation: false,
     showTicketPrice: false,
-    availableTickets: { 'bb_angermuende' : {}},
+    availableTickets: { 'bbnavi' : {}},
     fareMapping: function mapHbFareId(fareId) {
         return {
             en: "Adult",

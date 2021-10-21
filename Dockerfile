@@ -18,7 +18,7 @@ EXPOSE 8080
 #   GTFS_URL=https://www.openvvs.de/dataset/e66f03e4-79f2-41d0-90f1-166ca609e491/resource/bfbb59c7-767c-4bca-bbb2-d8d32a3e0378/download/google_transit.zip \
 #   OSM_URL=https://download.geofabrik.de/europe/germany/brandenburg-latest.osm.pbf \
 #   APP_PATH='' \
-#   CONFIG=bb_angermuende \
+#   CONFIG=bbnavi \
 #   NODE_ENV='' \
 #   # setting a non-empty default value for NODE_OPTS
 #   # if you don't do this then yarn/node seem to think that you want to
@@ -49,8 +49,8 @@ RUN yarn install
 RUN yarn setup
 RUN yarn build
 
-# Set bb_angermuende AFTER yarn build!
-ENV CONFIG=bb_angermuende
+# Set bbnavi AFTER yarn build!
+ENV CONFIG=bbnavi
 
 # RUN rm -rf static docs test /tmp/*
 # RUN yarn cache clean --all
