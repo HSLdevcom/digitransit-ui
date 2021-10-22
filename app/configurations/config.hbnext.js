@@ -179,6 +179,7 @@ export default configMerger(walttiConfig, {
                     en: 'https://www.regioradstuttgart.de/',
                 },
                 visibleInSettingsUi: true,
+                enabled: true,
             },
             'taxi': {
                 icon: 'taxi',
