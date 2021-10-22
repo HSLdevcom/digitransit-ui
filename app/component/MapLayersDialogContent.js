@@ -301,13 +301,13 @@ class MapLayersDialogContent extends React.Component {
                   icon: 'icon-icon_citybike',
                   settings: 'citybike',
                 },
-                /* isTransportModeEnabled(transportModes.carpool) && {
+                isTransportModeEnabled(transportModes.carpool) && {
                   checked: terminal.carpool,
                   defaultMessage: 'Carpool stops',
                   labelId: 'map-layer-carpool',
                   icon: 'icon-icon_carpool',
                   settings: { stop: 'carpool', terminal: 'carpool' },
-                }, */
+                },
               ]}
             />
             <LayerCategoryDropdown
