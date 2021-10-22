@@ -343,7 +343,7 @@ class MapLayersDialogContent extends React.Component {
                   this.context.config.chargingStations.show && {
                     checked: chargingStations,
                     defaultMessage: 'Charging stations',
-                    labelId: 'map-layer-charging-staions',
+                    labelId: 'map-layer-charging-stations',
                     icon: 'icon-icon_stop_car_charging_station',
                     settings: 'chargingStations',
                   },

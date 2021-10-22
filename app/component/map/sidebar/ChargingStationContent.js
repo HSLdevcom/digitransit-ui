@@ -19,7 +19,11 @@ import withBreakpoint from '../../../util/withBreakpoint';
 import SidebarContainer from './SidebarContainer';
 
 export const getIcon = properties => {
-  return `icon-icon_stop_${properties.vehicleType || 'car'}_charging_station`;
+  const { cb, c, name } = properties;
+  // c - car capacity, cb - bike capacity
+  return `icon-icon_stop_${
+    (!c && cb) || name.includes('E-Bike') ? 'bicycle' : 'car'
+  }_charging_station`;
 };
 
 const CONNECTOR_ICONS_MAP = {
