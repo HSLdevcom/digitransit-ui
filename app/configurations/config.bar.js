@@ -109,7 +109,7 @@ export default configMerger(walttiConfig, {
         image: {
             url: '/img/bar-social-media-card.png',
             width: 1080,
-            height: 598,
+            height: 600,
         },
 
         twitter: {
