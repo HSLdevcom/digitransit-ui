@@ -12,7 +12,6 @@ import ServiceAlertIcon from './ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import { PREFIX_STOPS } from '../util/path';
 import {
-  CityBikeNetworkType,
   getCityBikeNetworkId,
   getCityBikeNetworkConfig,
 } from '../util/citybikes';
@@ -63,7 +62,7 @@ function WalkLeg(
   const returnNotice =
     previousLeg && previousLeg.rentedBike ? (
       <FormattedMessage
-        id={ `return-${networkType}-to` }
+        id={`return-${networkType}-to`}
         values={{ station: leg[toOrFrom] ? leg[toOrFrom].name : '' }}
         defaultMessage="Return the bike to {station} station"
       />

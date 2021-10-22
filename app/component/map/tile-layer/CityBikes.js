@@ -92,8 +92,6 @@ class CityBikes {
       patchedNetworks = 'de.mfdz.gbfs.taxi.herrenberg';
     } else if (patchedNetworks === 'de.openbikebox.stadt-herrenberg') {
       patchedNetworks = 'cargo-bike';
-    } else {
-      console.log(patchedNetworks);
     }
     if (
       (this.tile.stopsToShow && !this.tile.stopsToShow.includes(id)) ||
@@ -105,7 +103,10 @@ class CityBikes {
     const currentTime = new Date().getTime();
 
     const iconName = getCityBikeNetworkIcon(
-      getCityBikeNetworkConfig(getCityBikeNetworkId(patchedNetworks), this.config),
+      getCityBikeNetworkConfig(
+        getCityBikeNetworkId(patchedNetworks),
+        this.config,
+      ),
     );
     const citybikeCapacity = getCitybikeCapacity(this.config, patchedNetworks);
     const iconColor =
