@@ -2,8 +2,8 @@
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'bbnavi';
-const HEADER_TITLE = "Herzberg (Elster)";
-const APP_TITLE = 'bbnavi Herzberg (Elster)';
+const HEADER_TITLE = "Bernau";
+const APP_TITLE = 'bbnavi Bernau';
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
 const API_URL = process.env.API_URL || 'https://api.dev.stadtnavi.eu';
 const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{x}/{y}{r}.png';
@@ -271,8 +271,8 @@ export default configMerger(walttiConfig, {
         'boundary.rect.max_lat': 54.015895,
         'boundary.rect.min_lon': 15.000255,
         'boundary.rect.max_lon': 11.000255,
-        'focus.point.lat': 51.679428,
-        'focus.point.lon': 13.202817
+        'focus.point.lat': 52.675386,
+        'focus.point.lon': 13.591960
     },
 
     areaPolygon: [
@@ -285,8 +285,8 @@ export default configMerger(walttiConfig, {
     nationalServiceLink: { name: 'Fahrplanauskunft efa-bw', href: 'https://www.efa-bw.de' },
 
     defaultEndpoint: {
-        lat: 51.679428,
-        lon: 13.202817,
+        lat: 52.675386,
+        lon: 13.591960,
     },
 
     defaultOrigins: [],
