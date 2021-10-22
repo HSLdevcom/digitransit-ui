@@ -1687,8 +1687,8 @@ __metadata:
   linkType: hard
 
 "@babel/preset-modules@npm:^0.1.3, @babel/preset-modules@npm:^0.1.4":
-  version: 0.1.4
-  resolution: "@babel/preset-modules@npm:0.1.4"
+  version: 0.1.5
+  resolution: "@babel/preset-modules@npm:0.1.5"
   dependencies:
     "@babel/helper-plugin-utils": ^7.0.0
     "@babel/plugin-proposal-unicode-property-regex": ^7.4.4
@@ -1697,7 +1697,7 @@ __metadata:
     esutils: ^2.0.2
   peerDependencies:
     "@babel/core": ^7.0.0-0
-  checksum: 8a463709fd9db195c73ad1d6ff2d85ce92976167f20ded23ec49b47754c42fae40f93ff3287fb2e980f0d7f0b7ddf163aa92faf416ef422bdccf722bdae50138
+  checksum: 5a9cdbfc77302d376a7a3965dea35f0fa44eb39cf0174850ed0277fb74aea6948367c8b564643cef2ed6ed48c9aa13ac2e289b387fbb0e2535325f5219ad2b76
   languageName: node
   linkType: hard
 
@@ -2039,7 +2039,7 @@ __metadata:
   peerDependencies:
     "@digitransit-component/digitransit-component-autosuggest": ^1.7.18
     "@digitransit-component/digitransit-component-icon": ^0.1.13
-    "@hsl-fi/sass": ^0.1.1
+    "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
     i18next: ^19.3.3
     lodash: 4.17.21
@@ -2086,12 +2086,12 @@ __metadata:
     "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": ^0.3.4
     "@digitransit-search-util/digitransit-search-util-get-label": ^0.1.1
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": ^0.1.1
-    "@hsl-fi/hooks": ^0.2.0
+    "@hsl-fi/hooks": ^0.2.1
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": ^0.3.2
     "@digitransit-component/digitransit-component-icon": ^0.1.13
     "@digitransit-component/digitransit-component-suggestion-item": ^0.2.13
-    "@hsl-fi/sass": ^0.1.1
+    "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
     i18next: ^19.3.3
     lodash: 4.17.21
@@ -2124,7 +2124,7 @@ __metadata:
   resolution: "@digitransit-component/digitransit-component-control-panel@workspace:digitransit-component/packages/digitransit-component-control-panel"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": ^0.1.13
-    "@hsl-fi/sass": ~0.1.1
+    "@hsl-fi/sass": ~0.2.0
     classnames: 2.2.6
     i18next: ^19.3.3
     prop-types: ^15.7.2
@@ -2155,9 +2155,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-dialog-modal@workspace:digitransit-component/packages/digitransit-component-dialog-modal"
   dependencies:
-    "@hsl-fi/modal": ^0.1.8
+    "@hsl-fi/modal": ^0.2.1
   peerDependencies:
-    "@hsl-fi/sass": ^0.1.1
+    "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
     i18next: ^19.3.3
     prop-types: ^15.7.2
@@ -2189,7 +2189,7 @@ __metadata:
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": ^0.1.13
     "@digitransit-component/digitransit-component-suggestion-item": ^0.2.13
-    "@hsl-fi/sass": ^0.1.1
+    "@hsl-fi/sass": ^0.2.0
     "@hsl-fi/shimmer": 0.1.0
     classnames: 2.2.6
     i18next: ^19.3.3
@@ -2223,9 +2223,9 @@ __metadata:
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": ^0.3.2
     "@digitransit-component/digitransit-component-icon": ^0.1.13
-    "@hsl-fi/container-spinner": 0.2.0
-    "@hsl-fi/modal": ^0.1.8
-    "@hsl-fi/sass": ^0.1.1
+    "@hsl-fi/container-spinner": 0.3.1
+    "@hsl-fi/modal": ^0.2.1
+    "@hsl-fi/sass": ^0.2.0
     i18next: ^19.3.3
     prop-types: ^15.7.2
     react: ^16.13.0
@@ -2255,8 +2255,8 @@ __metadata:
   resolution: "@digitransit-component/digitransit-component-favourite-modal@workspace:digitransit-component/packages/digitransit-component-favourite-modal"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": ^0.1.13
-    "@hsl-fi/modal": ^0.1.8
-    "@hsl-fi/sass": ^0.1.1
+    "@hsl-fi/modal": ^0.2.1
+    "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
     i18next: ^19.3.3
     lodash: 4.17.21
@@ -2299,7 +2299,7 @@ __metadata:
     recompose: 0.30.0
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": ^0.1.13
-    "@hsl-fi/sass": " ^0.1.1"
+    "@hsl-fi/sass": " ^0.2.0"
     classnames: 2.2.6
     i18next: ^19.3.3
     prop-types: ^15.7.2
@@ -2312,7 +2312,7 @@ __metadata:
   resolution: "@digitransit-component/digitransit-component-traffic-now-link@workspace:digitransit-component/packages/digitransit-component-traffic-now-link"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": ^0.1.13
-    "@hsl-fi/sass": ^0.1.1
+    "@hsl-fi/sass": ^0.2.0
     i18next: ^19.3.3
     prop-types: ^15.7.2
     react: ^16.13.0
@@ -2893,15 +2893,15 @@ __metadata:
   linkType: hard
 
 "@graphql-tools/import@npm:^6.2.6":
-  version: 6.5.5
-  resolution: "@graphql-tools/import@npm:6.5.5"
+  version: 6.5.6
+  resolution: "@graphql-tools/import@npm:6.5.6"
   dependencies:
-    "@graphql-tools/utils": 8.4.0
+    "@graphql-tools/utils": 8.5.0
     resolve-from: 5.0.0
     tslib: ~2.3.0
   peerDependencies:
     graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: 6451d7f84cd4a5748d615191e8205e2fe3e34e2016fbb8444e83210125850c03b1b4edbf0bb74b77c1370a8f63fab9e56c9ad44735bdae4bdb510b0f7efb4a34
+  checksum: 8d78cb77c8cbd0006a0a4a825afc80d27d204bea00ff90dc82ebcf501a5c3bfd9f9a122ebc807839d4db21a7ff6cc961b6b52e86b7d03d9fc7288df8ed687a15
   languageName: node
   linkType: hard
 
@@ -3041,14 +3041,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-tools/utils@npm:8.4.0, @graphql-tools/utils@npm:^8.4.0":
-  version: 8.4.0
-  resolution: "@graphql-tools/utils@npm:8.4.0"
+"@graphql-tools/utils@npm:8.5.0, @graphql-tools/utils@npm:^8.4.0":
+  version: 8.5.0
+  resolution: "@graphql-tools/utils@npm:8.5.0"
   dependencies:
     tslib: ~2.3.0
   peerDependencies:
     graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: af0e8f9fd640aa7610c98467b1ee80b6f9f40409daeff543a4ddc2cb229893fc531b149e2c239767e1c84e1b426917e122a200a6bc0f63ec0b4bd222740da9e8
+  checksum: 2614c404ac0a639d022a0bd35f885af52fd1234727e870cb65e9090a6ef18ac78f5e94f42276ea6ff494f96f89cfbccfa6f3d9c443e38aad0dda0e36607c67d3
   languageName: node
   linkType: hard
 
@@ -3096,16 +3096,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/animated-spinner@npm:^0.1.0":
-  version: 0.1.3
-  resolution: "@hsl-fi/animated-spinner@npm:0.1.3"
-  dependencies:
-    "@hsl-fi/icons": ^1.0.2
-    "@hsl-fi/sass": ^0.1.1
-  checksum: bbfd57e604c338814bfa938a27ef04e844a20d2fa3348779b2f7e54629b8e772e13b3015437f4131ed93294dddcfc29eef6c8ee8096cc5f3834e4a741e6f8e87
-  languageName: node
-  linkType: hard
-
 "@hsl-fi/animated-spinner@npm:^0.2.0":
   version: 0.2.0
   resolution: "@hsl-fi/animated-spinner@npm:0.2.0"
@@ -3127,22 +3117,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/container-spinner@npm:0.2.0":
-  version: 0.2.0
-  resolution: "@hsl-fi/container-spinner@npm:0.2.0"
-  dependencies:
-    "@hsl-fi/animated-spinner": ^0.1.0
-    "@hsl-fi/utilities": ^0.2.1
-  peerDependencies:
-    "@hsl-fi/sass": ^0.1.1
-    "@types/node": ^14.0.1
-    "@types/react": ^16.9.35
-    typescript: ^3.9.2
-  checksum: d5dd95e69ebf8290eb8ab16fbcb071789af27f0ca6c7c6039461e5132528cd0a5e456b6fd0b13ae1b2bf69ce2e5c711f37f50fa80694f806909cb4b23706a8a9
-  languageName: node
-  linkType: hard
-
-"@hsl-fi/container-spinner@npm:^0.3.1":
+"@hsl-fi/container-spinner@npm:0.3.1, @hsl-fi/container-spinner@npm:^0.3.1":
   version: 0.3.1
   resolution: "@hsl-fi/container-spinner@npm:0.3.1"
   dependencies:
@@ -3185,28 +3160,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/modal@npm: ^0.1.8, @hsl-fi/modal@npm:^0.1.8":
-  version: 0.1.9
-  resolution: "@hsl-fi/modal@npm:0.1.9"
+"@hsl-fi/modal@npm: ^0.2.1, @hsl-fi/modal@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "@hsl-fi/modal@npm:0.2.1"
   dependencies:
     "@hsl-fi/hooks": ^0.2.0
     "@hsl-fi/icons": ^1.0.2
-    "@hsl-fi/sass": ^0.1.1
+    "@hsl-fi/sass": ^0.2.0
     react-modal: ^3.11.2
-  checksum: a0c30a043f9eb9ef84ac76dfbe6ab4b62a4ea5cb6d3535f310ac1f665a66e4b9ab5e25623f16a12773df98c7a852736c9254900276664b2c9d8c24e15735a896
+  checksum: 1f52422053e732541959cdbc249ba54ae2ba8929f27387f2553afa2aa9b1be25ab8200410be75688b4da5c6e058594c33905766c3ba110939ba5008325f8a35c
   languageName: node
   linkType: hard
 
-"@hsl-fi/sass@npm: ^0.1.1, @hsl-fi/sass@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "@hsl-fi/sass@npm:0.1.1"
-  peerDependencies:
-    node-sass: ^4.13.1
-  checksum: 230b138c14a8f9398c19a14d93b4b474ef7741fab73924792ce0bc6ff4a992009c885f57d63aaf9e8f432d51bf3ed1cebb144e06e714af93e02d82675160d7f2
-  languageName: node
-  linkType: hard
-
-"@hsl-fi/sass@npm:^0.2.0":
+"@hsl-fi/sass@npm: ^0.2.0, @hsl-fi/sass@npm:^0.2.0":
   version: 0.2.0
   resolution: "@hsl-fi/sass@npm:0.2.0"
   peerDependencies:
@@ -3225,15 +3191,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/shared-local-storage@npm:0.3.0":
-  version: 0.3.0
-  resolution: "@hsl-fi/shared-local-storage@npm:0.3.0"
-  peerDependencies:
-    "@types/node": ^14.0.1
-    "@types/react": ^16.9.35
-    node-sass: ^4.14.1
-    typescript: ^3.9.2
-  checksum: 3d2d13830b04160d50ba10df86cf851ffa6a0103afe7d74e9772c8344d1e50a17b4fe0929e2e079038c862f32568e391f690fc91e0750a649cc4156280e26538
+"@hsl-fi/shared-local-storage@npm:0.4.0":
+  version: 0.4.0
+  resolution: "@hsl-fi/shared-local-storage@npm:0.4.0"
+  checksum: 641747547f620b76ce26d445293c5f3d09b8fba63c227aee6dbe3b6852d0546b048df57a5393495d2e32ac26fea37e4cea39754ffb4169910dbb4b3ace0b54fa
   languageName: node
   linkType: hard
 
@@ -3309,7 +3270,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/utilities@npm:^0.2.1, @hsl-fi/utilities@npm:^0.2.11, @hsl-fi/utilities@npm:^0.2.12":
+"@hsl-fi/utilities@npm:^0.2.11, @hsl-fi/utilities@npm:^0.2.12":
   version: 0.2.13
   resolution: "@hsl-fi/utilities@npm:0.2.13"
   dependencies:
@@ -5048,9 +5009,9 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*, @types/node@npm:>= 8":
-  version: 16.11.1
-  resolution: "@types/node@npm:16.11.1"
-  checksum: b4b48f5ef35a98a7e2929f1198aef7b51b2662a9d1b4d4460136efc0f326c2c575837fd1c141c41bd02ab46d118414e10340e118a7b7e1a9e34508564a96848d
+  version: 16.11.2
+  resolution: "@types/node@npm:16.11.2"
+  checksum: 237662369cd4d44fe8f14c8deffba06bfdc5ec30029e98aae3ee262a8d51d5605dc44a52e101ee1e88e678abde26104ace07f604f0cccc6d6b759162437fc435
   languageName: node
   linkType: hard
 
@@ -5090,36 +5051,36 @@ __metadata:
   linkType: hard
 
 "@types/react-redux@npm:^7.1.16":
-  version: 7.1.19
-  resolution: "@types/react-redux@npm:7.1.19"
+  version: 7.1.20
+  resolution: "@types/react-redux@npm:7.1.20"
   dependencies:
     "@types/hoist-non-react-statics": ^3.3.0
     "@types/react": "*"
     hoist-non-react-statics: ^3.3.0
     redux: ^4.0.0
-  checksum: 8409593705ede42c48f71a13096dd21fd08a8517cb92e8dfbe3b203c55ac82dce662117ae718e08c73247a6eabb6a9643b311b7010fb2678536b41a6bf011233
+  checksum: 465fa8ce079a34e9a05e97192e3d9ac56bf0e4a3d31fb3ceaecd61a9fcdcbd02eb626fc1caf90ced699902c04672fbefba6df9ab77fde78217bb665b2f35b3b9
   languageName: node
   linkType: hard
 
 "@types/react@npm:*":
-  version: 17.0.30
-  resolution: "@types/react@npm:17.0.30"
+  version: 17.0.31
+  resolution: "@types/react@npm:17.0.31"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 81749c8061db3f724a09e65ebf8adb3d6dde1d356f5ec13fbca8b3376613ee61cb0c9265380f3410b8bf6daa2f10aa94b38af3069f7dc0a90cee2ca86543d55f
+  checksum: bbdfc50fd73d83a8bcaa5afa570e2ad7e442b76d72fdc0be0cbdc428ddb4aff14906bc1a8b842ee49bca890442b3a727d2969dc47bc7a06a4eac29f0b7440f5a
   languageName: node
   linkType: hard
 
 "@types/react@npm:^16.9.31":
-  version: 16.14.17
-  resolution: "@types/react@npm:16.14.17"
+  version: 16.14.18
+  resolution: "@types/react@npm:16.14.18"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: e721ed6224bc1c3a1c6151cc77efb46f7f31eaebfe0f5abd0631d8ab2bad1a21c1f99a0e36107f895882fdd9ed420926ec79b2a2caa77bbbd14ffb7625149146
+  checksum: e6729ac24934f5a313ba94a332da0daeaa25173b5b5b912309212291470e1b58fa71a558047696670548f4c3fc9ce7af3c597180680f8859ff7b89f19e5eecc2
   languageName: node
   linkType: hard
 
@@ -7505,16 +7466,16 @@ __metadata:
   linkType: hard
 
 "caniuse-db@npm:^1.0.30001090":
-  version: 1.0.30001270
-  resolution: "caniuse-db@npm:1.0.30001270"
-  checksum: 90137c5759abe2d431d7054f0c0b5dd15a4950f71056c756d7f605a7d718b4defe7539e5cbf26adddfc99b41029c2163b421f1fdc8d6c15c9aba1d06c4c1daf7
+  version: 1.0.30001271
+  resolution: "caniuse-db@npm:1.0.30001271"
+  checksum: 3d4c14b65a9bf0fd52d3fddb2d5a7fb8fedd389f2965e7f310833efde1bd605571ffe906c228da2539723b2fe7232be6d5c62834c960fe405d42d6af806171e1
   languageName: node
   linkType: hard
 
 "caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001265":
-  version: 1.0.30001270
-  resolution: "caniuse-lite@npm:1.0.30001270"
-  checksum: 61bba73255d1ba2b03a045a3ee5b4a28f2d7849e9b377b5a78e36321ec13b20a39e2fee7ffef8d8bd76f5685bacd9d3bd8054675ce62c4621a7193697f69dc37
+  version: 1.0.30001271
+  resolution: "caniuse-lite@npm:1.0.30001271"
+  checksum: 0d05504a96aea55246d3166a83d63f216aa04d0c9c726423c75e76b724f4d08fe29635a3aedfcf8f9ddb2aee756d5ad4f1683173936e5c6376850b6ab8b16c29
   languageName: node
   linkType: hard
 
@@ -8265,6 +8226,13 @@ __metadata:
   version: 7.2.0
   resolution: "commander@npm:7.2.0"
   checksum: bdc0eca5e25cd24af8440163d3c9a996785bbac4b49a590365699cdc1ed08cefbac8f268153208ab2bc5dc3cb1d3fb573fd1590c681e36e371342186bd331a4c
+  languageName: node
+  linkType: hard
+
+"commander@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "commander@npm:8.2.0"
+  checksum: e41e680f2afa0a409aa21d3cad6f06a3d9d2d1086e76223ebd600181b588085e6ad0c7387cf491cb96c60de0a0a50815130368b40bfde017744210d4a8fb75a7
   languageName: node
   linkType: hard
 
@@ -9763,11 +9731,11 @@ __metadata:
     "@babel/runtime": 7.11.2
     "@commitlint/cli": 9.1.2
     "@commitlint/config-conventional": 9.1.2
-    "@hsl-fi/container-spinner": 0.2.0
+    "@hsl-fi/container-spinner": 0.3.1
     "@hsl-fi/hooks": 0.2.1
-    "@hsl-fi/modal": " ^0.1.8"
-    "@hsl-fi/sass": " ^0.1.1"
-    "@hsl-fi/shared-local-storage": 0.3.0
+    "@hsl-fi/modal": " ^0.2.1"
+    "@hsl-fi/sass": " ^0.2.0"
+    "@hsl-fi/shared-local-storage": 0.4.0
     "@hsl-fi/shimmer": 0.1.0
     "@hsl-fi/site-header": 3.0.7
     "@lerna/batch-packages": 3.16.0
@@ -10350,9 +10318,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.867":
-  version: 1.3.873
-  resolution: "electron-to-chromium@npm:1.3.873"
-  checksum: 81ff078a1dda64e1c87b5af436527085e3f10039103a019679be22291a1037085825f11a3cf5cee890421553fddd21e62a04822326db70241c7bb0eb294eda1c
+  version: 1.3.877
+  resolution: "electron-to-chromium@npm:1.3.877"
+  checksum: 9efc99a4cced0724391ea413eefdef95370eeda44500a08803621515e49199e5bba6a617f889b6d5e3adf1e564374a736784a90fcdd82d83614bf067461fed28
   languageName: node
   linkType: hard
 
@@ -18653,9 +18621,9 @@ fsevents@~2.1.2:
   linkType: hard
 
 "node-releases@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "node-releases@npm:2.0.0"
-  checksum: 072914baf9eab6cc4fb051935acf6a4f9974ab47224794375c817513ca3645dc9f3a65a821e9c6a6d54213e771c4d49db8cff0b6b8bb6b9b31424c815c716829
+  version: 2.0.1
+  resolution: "node-releases@npm:2.0.1"
+  checksum: 4113fdc41979e65416d84e0cf0456c3097a045dfa0a10196689f07c32de854204e3f4e1631bb06f4e903cc68c12455b8525e92e19956f64364b7202ca93846d6
   languageName: node
   linkType: hard
 
@@ -20319,10 +20287,10 @@ fsevents@~2.1.2:
   linkType: hard
 
 "playwright-core@npm:>=1.2.0":
-  version: 1.15.2
-  resolution: "playwright-core@npm:1.15.2"
+  version: 1.16.0
+  resolution: "playwright-core@npm:1.16.0"
   dependencies:
-    commander: ^6.1.0
+    commander: ^8.2.0
     debug: ^4.1.1
     extract-zip: ^2.0.1
     https-proxy-agent: ^5.0.0
@@ -20333,12 +20301,14 @@ fsevents@~2.1.2:
     proper-lockfile: ^4.1.1
     proxy-from-env: ^1.1.0
     rimraf: ^3.0.2
+    socks-proxy-agent: ^6.1.0
     stack-utils: ^2.0.3
     ws: ^7.4.6
+    yauzl: ^2.10.0
     yazl: ^2.5.1
   bin:
-    playwright: lib/cli/cli.js
-  checksum: f59295b3cd4014487b5076d92305122fc1a81111f2e73a3e3e5538ca2c9705a2b687fbb58a776b98c96941347bbb2c3be8ae6d60725c475ec4ab31f9c93bc715
+    playwright: cli.js
+  checksum: d266b140a7555f2cd39b25d6887c78564bd0e189ec41dd1ad61a17ecab72b47300a997d7d85d8b76585d14b2daaa783271c2c016fae2b2e9c960dd199c349680
   languageName: node
   linkType: hard
 
@@ -23938,7 +23908,7 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"socks-proxy-agent@npm:^6.0.0":
+"socks-proxy-agent@npm:^6.0.0, socks-proxy-agent@npm:^6.1.0":
   version: 6.1.0
   resolution: "socks-proxy-agent@npm:6.1.0"
   dependencies:
