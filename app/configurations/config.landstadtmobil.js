@@ -148,7 +148,7 @@ export default configMerger(walttiConfig, {
         useSpacesAvailable: false,
         showCityBikes: true,
         networks: {
-            regiorad: {
+            'de.mfdz.flinkster.cab.regiorad_stuttgart': {
                 icon: 'regiorad',
                 name: {
                     de: 'RegioRad',
@@ -163,7 +163,7 @@ export default configMerger(walttiConfig, {
                 enabled: true,
                 hideCode: true,
             },
-            'tier-reutlingen': {
+            'tier_reutlingen': {
                 icon: 'scooter',
                 name: {
                     de: 'TIER Reutlingen',
