@@ -6,7 +6,10 @@ const connectedComponent = createRefetchContainer(
   {
     stop: graphql`
       fragment StopNearYouContainer_stop on Stop
-      @argumentDefinitions(startTime: { type: "Long!", defaultValue: 0 }) {
+      @argumentDefinitions(
+        startTime: { type: "Long!", defaultValue: 0 }
+        omitNonPickups: { type: "Boolean!", defaultValue: false }
+      ) {
         id
         name
         gtfsId
@@ -17,7 +20,10 @@ const connectedComponent = createRefetchContainer(
         zoneId
         platformCode
         vehicleMode
-        stoptimesWithoutPatterns(startTime: $startTime) {
+        stoptimesWithoutPatterns(
+          startTime: $startTime
+          omitNonPickups: $omitNonPickups
+        ) {
           scheduledArrival
           realtimeArrival
           arrivalDelay
@@ -53,7 +59,13 @@ const connectedComponent = createRefetchContainer(
           zoneId
           platformCode
           vehicleMode
-          stoptimesWithoutPatterns(startTime: $startTime) {
+          stoptimesWithoutPatterns(
+            startTime: $startTime
+            omitNonPickups: $omitNonPickups
+          ) {
+            stop {
+              platformCode
+            }
             scheduledArrival
             realtimeArrival
             arrivalDelay
@@ -75,9 +87,6 @@ const connectedComponent = createRefetchContainer(
                 }
               }
             }
-            stop {
-              platformCode
-            }
           }
         }
       }
@@ -87,9 +96,11 @@ const connectedComponent = createRefetchContainer(
     query StopNearYouContainerRefetchQuery(
       $stopId: String!
       $startTime: Long!
+      $omitNonPickups: Boolean!
     ) {
       stop(id: $stopId) {
-        ...StopNearYouContainer_stop @arguments(startTime: $startTime)
+        ...StopNearYouContainer_stop
+        @arguments(startTime: $startTime, omitNonPickups: $omitNonPickups)
       }
     }
   `,

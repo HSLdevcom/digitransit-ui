@@ -6,14 +6,25 @@ import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import StopNearYouHeader from './StopNearYouHeader';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
 
-const StopNearYou = ({ stop, desc, stopIsStation, currentTime, relay }) => {
-  useEffect(() => {
-    const id = stopIsStation ? stop.parentStation.gtfsId : stop.gtfsId;
-    relay?.refetch(oldVariables => {
-      return { ...oldVariables, stopId: id, startTime: currentTime };
-    }, null);
-  }, [currentTime]);
+const StopNearYou = ({
+  stop,
+  desc,
+  stopIsStation,
+  currentTime,
+  currentMode,
+  relay,
+}) => {
   const stopOrStation = stop.parentStation ? stop.parentStation : stop;
+  useEffect(() => {
+    const id = stop.gtfsId;
+    if (
+      currentMode === stopOrStation.stoptimesWithoutPatterns[0].trip.route.mode
+    ) {
+      relay?.refetch(oldVariables => {
+        return { ...oldVariables, stopId: id, startTime: currentTime };
+      }, null);
+    }
+  }, [currentTime, currentMode]);
   const description = desc || stop.desc;
   const isStation = !!stop.parentStation || stopIsStation;
   const gtfsId =
@@ -38,9 +49,9 @@ const StopNearYou = ({ stop, desc, stopIsStation, currentTime, relay }) => {
         </span>
         {stopOrStation.stoptimesWithoutPatterns && (
           <StopNearYouDepartureRowContainer
+            currentTime={currentTime}
             mode={stop.vehicleMode}
             stopTimes={stopOrStation.stoptimesWithoutPatterns}
-            currentTime={currentTime}
             isStation={isStation && stop.vehicleMode !== 'SUBWAY'}
           />
         )}
@@ -66,6 +77,7 @@ StopNearYou.propTypes = {
   stop: PropTypes.object.isRequired,
   stopIsStation: PropTypes.bool,
   currentTime: PropTypes.number.isRequired,
+  currentMode: PropTypes.string.isRequired,
   desc: PropTypes.string,
   relay: PropTypes.any,
 };

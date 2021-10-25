@@ -5,7 +5,6 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape } from 'found';
 import StopNearYouContainer from './StopNearYouContainer';
-import StationNearYouContainer from './StationNearYouContainer';
 import withBreakpoint from '../util/withBreakpoint';
 import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';
 import CityBikeStopNearYou from './CityBikeStopNearYou';
@@ -237,10 +236,11 @@ class StopsNearYouContainer extends React.Component {
                 if (terminalNames.indexOf(stop.parentStation.name) === -1) {
                   terminalNames.push(stop.parentStation.name);
                   return (
-                    <StationNearYouContainer
+                    <StopNearYouContainer
                       key={`${stop.gtfsId}`}
                       stop={stop}
                       currentTime={this.props.currentTime}
+                      currentMode={this.props.match.params.mode}
                       stopIsStation
                     />
                   );
@@ -251,6 +251,7 @@ class StopsNearYouContainer extends React.Component {
                     key={`${stop.gtfsId}`}
                     stop={stop}
                     currentTime={this.props.currentTime}
+                    currentMode={this.props.match.params.mode}
                   />
                 );
               }
@@ -260,10 +261,11 @@ class StopsNearYouContainer extends React.Component {
         case 'BikeRentalStation':
           return (
             <CityBikeStopNearYou
-              key={stop.name}
+              key={`${stop.stationId}`}
               stop={stop}
               color={this.context.config.colors.primary}
               currentTime={this.props.currentTime}
+              currentMode={this.props.match.params.mode}
             />
           );
         default:
@@ -395,22 +397,23 @@ const refetchContainer = createPaginationContainer(
               place {
                 __typename
                 ... on BikeRentalStation {
+                  ...CityBikeStopNearYou_stop
                   stationId
-                  name
-                  bikesAvailable
-                  spacesAvailable
-                  capacity
                   networks
-                  state
                 }
                 ... on Stop {
-                  ...StopNearYouContainer_stop @arguments(startTime: $startTime)
-                  ...StationNearYouContainer_stop
-                  @arguments(startTime: $startTime)
+                  ...StopNearYouContainer_stop
+                  @arguments(
+                    startTime: $startTime
+                    omitNonPickups: $omitNonPickups
+                  )
                   id
                   name
                   gtfsId
-                  stoptimesWithoutPatterns(startTime: $startTime) {
+                  stoptimesWithoutPatterns(
+                    startTime: $startTime
+                    omitNonPickups: $omitNonPickups
+                  ) {
                     scheduledArrival
                   }
                   parentStation {
