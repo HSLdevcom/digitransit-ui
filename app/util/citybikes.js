@@ -125,11 +125,17 @@ const addAnalytics = (action, name) => {
  */
 
 export const updateCitybikeNetworks = (currentSettings, newValue) => {
-  const chosenNetworks = currentSettings.find(
-    o => o.toLowerCase() === newValue.toLowerCase(),
-  )
-    ? without(currentSettings, newValue, newValue.toUpperCase())
-    : currentSettings.concat([newValue]);
+  let chosenNetworks;
+
+  if (currentSettings) {
+    chosenNetworks = currentSettings.find(
+      o => o.toLowerCase() === newValue.toLowerCase(),
+    )
+      ? without(currentSettings, newValue, newValue.toUpperCase())
+      : currentSettings.concat([newValue]);
+  } else {
+    chosenNetworks = [newValue];
+  }
 
   if (Array.isArray(currentSettings) && Array.isArray(chosenNetworks)) {
     const action = `Settings${

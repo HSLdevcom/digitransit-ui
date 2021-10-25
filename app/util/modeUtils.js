@@ -229,6 +229,14 @@ export const getModes = config => {
     }
     return modesWithWalk;
   }
+  if (
+    Array.isArray(allowedBikeRentalNetworks) &&
+    allowedBikeRentalNetworks.length > 0
+  ) {
+    const modesWithCitybike = getDefaultModes(config);
+    modesWithCitybike.push(TransportMode.Citybike);
+    return modesWithCitybike;
+  }
   return getDefaultModes(config);
 };
 

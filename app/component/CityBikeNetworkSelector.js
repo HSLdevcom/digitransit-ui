@@ -44,6 +44,7 @@ const CityBikeNetworkSelector = (
         <Toggle
           id={`settings-toggle-bike-${network.networkName}`}
           toggled={
+            !!currentOptions &&
             currentOptions.filter(
               option =>
                 option.toLowerCase() === network.networkName.toLowerCase(),
