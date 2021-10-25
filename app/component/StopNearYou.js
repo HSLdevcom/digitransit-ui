@@ -18,7 +18,7 @@ const StopNearYou = ({
   useEffect(() => {
     const id = stop.gtfsId;
     if (
-      currentMode === stopOrStation.stoptimesWithoutPatterns[0].trip.route.mode
+      currentMode === stopOrStation.stoptimesWithoutPatterns[0]?.trip.route.mode
     ) {
       relay?.refetch(oldVariables => {
         return { ...oldVariables, stopId: id, startTime: currentTime };
