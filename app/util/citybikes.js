@@ -102,7 +102,7 @@ export const getCitybikeCapacity = (config, network = undefined) => {
 
 export const getCitybikeNetworks = () => {
   const { allowedBikeRentalNetworks } = getCustomizedSettings();
-  return allowedBikeRentalNetworks;
+  return allowedBikeRentalNetworks || [];
 };
 
 const addAnalytics = (action, name) => {
