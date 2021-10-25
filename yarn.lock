@@ -2013,10 +2013,10 @@ __metadata:
   linkType: soft
 
 "@digitransit-component/digitransit-component-autosuggest-panel@npm:latest":
-  version: 1.3.27
-  resolution: "@digitransit-component/digitransit-component-autosuggest-panel@npm:1.3.27"
+  version: 1.3.28
+  resolution: "@digitransit-component/digitransit-component-autosuggest-panel@npm:1.3.28"
   peerDependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^1.7.19
+    "@digitransit-component/digitransit-component-autosuggest": ^1.7.20
     "@digitransit-component/digitransit-component-icon": ^0.1.13
     "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
@@ -2029,7 +2029,7 @@ __metadata:
     react-autowhatever: 10.2.1
     react-sortablejs: 2.0.11
     recompose: 0.30.0
-  checksum: 46f8be2e18194818df206b5b46b5296fa41b82067b6f62c3776c559703e78e42325b95c2f059096b2d232ba7fd37640786f6e1dce4a15e8af4d3eb70f03f4e22
+  checksum: ce5cf42cfe71a17647bc5d48a392cde1fc157dfedfd973c0b9f8ecda610aedfe1310f0a763f4d8e9e2469387761ec8f258de7baeb1de82b4279facd015ae7778
   languageName: node
   linkType: hard
 
@@ -2054,8 +2054,8 @@ __metadata:
   linkType: soft
 
 "@digitransit-component/digitransit-component-autosuggest@npm:latest":
-  version: 1.7.19
-  resolution: "@digitransit-component/digitransit-component-autosuggest@npm:1.7.19"
+  version: 1.7.20
+  resolution: "@digitransit-component/digitransit-component-autosuggest@npm:1.7.20"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": ^0.3.4
     "@digitransit-search-util/digitransit-search-util-get-label": ^0.1.1
@@ -2064,7 +2064,7 @@ __metadata:
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": ^0.3.3
     "@digitransit-component/digitransit-component-icon": ^0.1.13
-    "@digitransit-component/digitransit-component-suggestion-item": ^0.2.14
+    "@digitransit-component/digitransit-component-suggestion-item": ^0.2.15
     "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
     i18next: ^19.3.3
@@ -2075,7 +2075,7 @@ __metadata:
     react-autosuggest: ^10.0.0
     react-modal: ~3.11.2
     recompose: 0.30.0
-  checksum: 36cc95cd7f77cbca6c5e7b580690d44d3b7496cceee4893a85a15d978b210e9891868eb1865823746afd97d7d7de2c2ff379db2e363b0257dae2e1580a8c96d2
+  checksum: e3ab91655c86b861ed2990a5c567d7d0b3137bb2fa7fce5064220dc6d941568579b839811b12edab21457a2280435011f8b557f6c0ae674074753c42ee39e6ca
   languageName: node
   linkType: hard
 
@@ -2166,11 +2166,11 @@ __metadata:
   linkType: soft
 
 "@digitransit-component/digitransit-component-favourite-bar@npm:latest":
-  version: 0.2.14
-  resolution: "@digitransit-component/digitransit-component-favourite-bar@npm:0.2.14"
+  version: 0.2.15
+  resolution: "@digitransit-component/digitransit-component-favourite-bar@npm:0.2.15"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": ^0.1.13
-    "@digitransit-component/digitransit-component-suggestion-item": ^0.2.14
+    "@digitransit-component/digitransit-component-suggestion-item": ^0.2.15
     "@hsl-fi/sass": ^0.2.0
     "@hsl-fi/shimmer": 0.1.0
     classnames: 2.2.6
@@ -2179,7 +2179,7 @@ __metadata:
     lodash-es: 4.17.21
     prop-types: ^15.7.2
     react: ^16.13.0
-  checksum: 002bf521b40c44b452fc838c59d5726296737037439c520ef94808f28903a7e1a244e8fc54db65528f60277827a1d0349108adb097d46667bc082b8b676348a2
+  checksum: a371810d23f439227f6466b76d29afdb267932b57f77810f03a77d7e43b79b6cbc59dbca122de2cde54badfab3e44abaaffe16a44e3fb0211b14b8ec7301a902
   languageName: node
   linkType: hard
 
@@ -2277,8 +2277,8 @@ __metadata:
   linkType: soft
 
 "@digitransit-component/digitransit-component-suggestion-item@npm:latest":
-  version: 0.2.14
-  resolution: "@digitransit-component/digitransit-component-suggestion-item@npm:0.2.14"
+  version: 0.2.15
+  resolution: "@digitransit-component/digitransit-component-suggestion-item@npm:0.2.15"
   dependencies:
     recompose: 0.30.0
   peerDependencies:
@@ -2288,7 +2288,7 @@ __metadata:
     i18next: ^19.3.3
     prop-types: ^15.7.2
     react: ^16.13.0
-  checksum: 2cfd13c20a222f93048e082b972b0fb465b06aa03fc5b4104f396bda386a7ff09197523b21f107fd730449fe42de094a1e864efc300d795bbed30c7b84c94864
+  checksum: 531b50222b92788d5910f3df745fc5d82dd6eb52ad8b388c8d0cee64c65256de4629a75f896f65a5a66f6dca654c35409336f184225bd0560360a2d8f3ab4c8a
   languageName: node
   linkType: hard
 
@@ -11188,9 +11188,9 @@ __metadata:
   linkType: hard
 
 "estraverse@npm:^5.1.0, estraverse@npm:^5.2.0":
-  version: 5.2.0
-  resolution: "estraverse@npm:5.2.0"
-  checksum: 7dc1b027aebf937bab10c3254d9d73ed21672d7382518c9ddb9dc45560cb2f4e6548cc8ff1a07b7f431e94bd0fb0bf5da75b602e2473f966fea141c4c31b31d6
+  version: 5.3.0
+  resolution: "estraverse@npm:5.3.0"
+  checksum: b48b7578cc824853194540b4cd90a38b5928e1540c66767096e61a42f6f60023ae4ee823e725bbe4dfb4f5775e76e0b4a2dd6c804fb035424c03cbfb806fa1fa
   languageName: node
   linkType: hard
 
