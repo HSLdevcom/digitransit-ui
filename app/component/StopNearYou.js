@@ -47,14 +47,12 @@ const StopNearYou = ({
             default="The departure list and estimated departure times will update in real time."
           />
         </span>
-        {stopOrStation.stoptimesWithoutPatterns && (
-          <StopNearYouDepartureRowContainer
-            currentTime={currentTime}
-            mode={stop.vehicleMode}
-            stopTimes={stopOrStation.stoptimesWithoutPatterns}
-            isStation={isStation && stop.vehicleMode !== 'SUBWAY'}
-          />
-        )}
+        <StopNearYouDepartureRowContainer
+          currentTime={currentTime}
+          mode={stop.vehicleMode}
+          stopTimes={stopOrStation.stoptimesWithoutPatterns}
+          isStation={isStation && stop.vehicleMode !== 'SUBWAY'}
+        />
         <Link
           className="stop-near-you-more-departures"
           as="button"

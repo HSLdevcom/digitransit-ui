@@ -66,7 +66,7 @@ CityBikeStopNearYou.propTypes = {
   relay: PropTypes.any,
 };
 
-const connectedComponent = createRefetchContainer(
+const containerComponent = createRefetchContainer(
   CityBikeStopNearYou,
   {
     stop: graphql`
@@ -90,4 +90,4 @@ const connectedComponent = createRefetchContainer(
   `,
 );
 
-export { connectedComponent as default, CityBikeStopNearYou as Component };
+export { containerComponent as default, CityBikeStopNearYou as Component };

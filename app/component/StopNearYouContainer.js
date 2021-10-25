@@ -1,7 +1,7 @@
 import { graphql, createRefetchContainer } from 'react-relay';
 import StopNearYou from './StopNearYou';
 
-const connectedComponent = createRefetchContainer(
+const containerComponent = createRefetchContainer(
   StopNearYou,
   {
     stop: graphql`
@@ -106,4 +106,4 @@ const connectedComponent = createRefetchContainer(
   `,
 );
 
-export default connectedComponent;
+export default containerComponent;
