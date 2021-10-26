@@ -233,7 +233,6 @@ jobs:
       - unit-test
       - accessibility-test
       - e2e-test-desktop
-      - e2e-test-mobile
     runs-on: ubuntu-18.04
     strategy:
       matrix:

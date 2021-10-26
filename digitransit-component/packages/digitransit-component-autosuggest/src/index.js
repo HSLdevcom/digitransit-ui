@@ -72,9 +72,19 @@ function getSuggestionContent(item) {
       suggestionType = i18next.t(layer);
     }
 
-    if (item.properties.id && item.properties.layer === 'stop') {
+    if (
+      item.properties.id &&
+      (item.properties.layer === 'stop' || item.properties.layer === 'station')
+    ) {
       const stopCode = getStopCode(item.properties);
-      return [suggestionType, getStopName(name, stopCode), label, stopCode];
+      const mode = item.properties.addendum?.GTFS.modes;
+      return [
+        suggestionType,
+        getStopName(name, stopCode),
+        label,
+        stopCode,
+        mode,
+      ];
     }
     if (
       item.properties.layer === 'favouriteStop' ||
@@ -225,6 +235,7 @@ class DTAutosuggest extends React.Component {
     }),
     modeIconColors: PropTypes.object,
     required: PropTypes.bool,
+    modeSet: PropTypes.string,
   };
 
   static defaultProps = {
@@ -257,6 +268,7 @@ class DTAutosuggest extends React.Component {
       'mode-ferry': '#007A97',
     },
     required: false,
+    modeSet: undefined,
   };
 
   constructor(props) {
@@ -676,6 +688,7 @@ class DTAutosuggest extends React.Component {
         fillInput={this.fillInput}
         fontWeights={this.props.fontWeights}
         modeIconColors={this.props.modeIconColors}
+        modeSet={this.props.modeSet}
       />
     );
   };
