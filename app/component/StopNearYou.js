@@ -15,11 +15,10 @@ const StopNearYou = ({
   relay,
 }) => {
   const stopOrStation = stop.parentStation ? stop.parentStation : stop;
+  const stopMode = stopOrStation.stoptimesWithoutPatterns[0]?.trip.route.mode;
   useEffect(() => {
     const id = stop.gtfsId;
-    if (
-      currentMode === stopOrStation.stoptimesWithoutPatterns[0]?.trip.route.mode
-    ) {
+    if (currentMode === stopMode) {
       relay?.refetch(oldVariables => {
         return { ...oldVariables, stopId: id, startTime: currentTime };
       }, null);
@@ -49,9 +48,9 @@ const StopNearYou = ({
         </span>
         <StopNearYouDepartureRowContainer
           currentTime={currentTime}
-          mode={stop.vehicleMode}
+          mode={stopMode}
           stopTimes={stopOrStation.stoptimesWithoutPatterns}
-          isStation={isStation && stop.vehicleMode !== 'SUBWAY'}
+          isStation={isStation && stopMode !== 'SUBWAY'}
         />
         <Link
           className="stop-near-you-more-departures"

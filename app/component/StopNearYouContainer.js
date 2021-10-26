@@ -19,7 +19,6 @@ const containerComponent = createRefetchContainer(
         lon
         zoneId
         platformCode
-        vehicleMode
         stoptimesWithoutPatterns(
           startTime: $startTime
           omitNonPickups: $omitNonPickups
@@ -58,7 +57,6 @@ const containerComponent = createRefetchContainer(
           lon
           zoneId
           platformCode
-          vehicleMode
           stoptimesWithoutPatterns(
             startTime: $startTime
             omitNonPickups: $omitNonPickups
