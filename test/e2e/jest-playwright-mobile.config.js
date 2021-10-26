@@ -1,3 +1,7 @@
+const { devices } = require('playwright');
+
+const iPhone12 = devices['iPhone 12'];
+
 module.exports = {
   serverOptions: {
     command: `CONFIG=${
@@ -13,12 +17,9 @@ module.exports = {
     headless: true,
   },
   contextOptions: {
-    viewport: {
-      width: 390,
-      height: 844,
-    },
+    viewport: iPhone12.viewport,
   },
   isMobile: true,
   devices: ['iPhone 12'],
-  browsers: ['chromium', 'webkit'],
+  browsers: ['chromium'],
 };
