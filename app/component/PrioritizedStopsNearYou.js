@@ -49,7 +49,6 @@ const containerComponent = createRefetchContainer(
         lon
         zoneId
         platformCode
-        vehicleMode
         stoptimesWithoutPatterns(startTime: $startTime, omitNonPickups: true) {
           scheduledArrival
           realtimeArrival
