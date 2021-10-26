@@ -5,7 +5,6 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 
 import Icon from './Icon';
-import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -123,26 +122,6 @@ function CarParkLeg(props, { config, intl }) {
     </div>
   );
 }
-
-const exampleLeg = t1 => ({
-  duration: 900,
-  startTime: t1 + 20000,
-  distance: 5678,
-  from: { name: 'Ratsukuja', stop: { code: 'E1102' } },
-  mode: 'CAR',
-});
-
-CarParkLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0).valueOf();
-  return (
-    <div>
-      <p>Displays an itinerary car leg.</p>
-      <ComponentUsageExample>
-        <CarParkLeg leg={exampleLeg(today)} index={0} focusAction={() => {}} />
-      </ComponentUsageExample>
-    </div>
-  );
-};
 
 CarParkLeg.propTypes = {
   leg: PropTypes.shape({
