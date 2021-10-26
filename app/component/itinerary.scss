@@ -1670,6 +1670,9 @@ div.itinerary-container-content {
 }
 
 .swipe-button-container {
+  &.active {
+    cursor: pointer;
+  }
   display: flex;
   justify-content: center;
   align-items: center;
