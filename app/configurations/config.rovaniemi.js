@@ -23,29 +23,14 @@ export default configMerger(walttiConfig, {
       'mode-bus': '#34B233',
     },
   },
-  transportModes: {
-    bus: {
-      availableForSelection: true,
-      defaultValue: true,
-      nearYouLabel: {
-        fi: 'Lähipysäkit kartalla',
-        sv: 'Hållplatser på kartan',
-        en: 'Nearby stops on map',
-      },
-    },
-  },
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
   },
 
   title: APP_TITLE,
-
   // Navbar logo
   logo: 'rovaniemi/rovaniemi-logo.svg',
-
-  textLogo: false, // title text instead of logo img
-
   feedIds: ['Rovaniemi'],
 
   searchParams: {
