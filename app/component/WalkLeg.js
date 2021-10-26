@@ -5,7 +5,6 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
 
-import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import PlatformNumber from './PlatformNumber';
@@ -211,22 +210,24 @@ function WalkLeg(
                 )}
               </div>
             </div>
-            <div
-              className="itinerary-map-action"
-              onClick={focusAction}
-              onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-              role="button"
-              tabIndex="0"
-              aria-label={intl.formatMessage(
-                { id: 'itinerary-summary.show-on-map' },
-                { target: leg[toOrFrom].name || '' },
-              )}
-            >
-              <Icon
-                img="icon-icon_show-on-map"
-                className="itinerary-search-icon"
-              />
-            </div>
+            {!returnNotice && (
+              <div
+                className="itinerary-map-action"
+                onClick={focusAction}
+                onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+                role="button"
+                tabIndex="0"
+                aria-label={intl.formatMessage(
+                  { id: 'itinerary-summary.show-on-map' },
+                  { target: leg[toOrFrom].name || '' },
+                )}
+              >
+                <Icon
+                  img="icon-icon_show-on-map"
+                  className="itinerary-search-icon"
+                />
+              </div>
+            )}
           </div>
         )}
 
@@ -258,29 +259,6 @@ function WalkLeg(
     </div>
   );
 }
-
-const exampleLeg = t1 => ({
-  duration: 438,
-  startTime: t1 + 10000,
-  distance: 483.84600000000006,
-  mode: 'WALK',
-  from: { name: 'Messukeskus', stop: { code: '0613' } },
-});
-
-WalkLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0).valueOf();
-  return (
-    <div>
-      <p>Displays an itinerary walk leg.</p>
-      <ComponentUsageExample description="walk-start">
-        <WalkLeg leg={exampleLeg(today)} index={0} focusAction={() => {}} />
-      </ComponentUsageExample>
-      <ComponentUsageExample description="walk-middle">
-        <WalkLeg leg={exampleLeg(today)} index={1} focusAction={() => {}} />
-      </ComponentUsageExample>
-    </div>
-  );
-};
 
 const walkLegShape = PropTypes.shape({
   distance: PropTypes.number.isRequired,

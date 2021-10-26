@@ -223,7 +223,7 @@ class StopsNearYouContainer extends React.Component {
       sortedPatterns = filteredCityBikeStopPatterns
         .slice(0, 5)
         .sort(sortNearbyRentalStations(this.props.favouriteIds));
-      filteredCityBikeStopPatterns.push(...stopPatterns.slice(5));
+      sortedPatterns.push(...filteredCityBikeStopPatterns.slice(5));
     } else {
       sortedPatterns = stopPatterns
         .slice(0, 5)
@@ -296,19 +296,21 @@ class StopsNearYouContainer extends React.Component {
       !this.state.isLoadingmoreStops;
     return (
       <>
-        {(!this.props.relay.hasMore() && !stops.length) ||
-          (noStopsFound && (
-            <>
-              {this.props.withSeparator && <div className="separator" />}
-              <div className="stops-near-you-no-stops">
-                <Icon
-                  img="icon-icon_info"
-                  color={this.context.config.colors.primary}
-                />
-                <FormattedMessage id="nearest-no-stops" />
-              </div>
-            </>
-          ))}
+        {((!this.props.relay.hasMore() &&
+          !stops.length &&
+          !this.props.prioritizedStops?.length) ||
+          (noStopsFound && !this.props.prioritizedStops?.length)) && (
+          <>
+            {this.props.withSeparator && <div className="separator" />}
+            <div className="stops-near-you-no-stops">
+              <Icon
+                img="icon-icon_info"
+                color={this.context.config.colors.primary}
+              />
+              <FormattedMessage id="nearest-no-stops" />
+            </div>
+          </>
+        )}
         {screenReaderUpdateAlert}
         {this.state.isUpdatingPosition && (
           <div className="stops-near-you-spinner-container">

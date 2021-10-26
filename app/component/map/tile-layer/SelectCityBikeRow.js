@@ -3,7 +3,6 @@ import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
-import ComponentUsageExample from '../../ComponentUsageExample';
 import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkIcon,
@@ -41,15 +40,6 @@ function SelectCityBikeRow({ name, networks, id, desc }, { config }) {
 }
 
 SelectCityBikeRow.displayName = 'SelectCityBikeRow';
-
-SelectCityBikeRow.description = (
-  <div>
-    <p>Renders a select citybike row</p>
-    <ComponentUsageExample description="">
-      <SelectCityBikeRow name="LINNANMÄKI" selectRow={() => {}} />
-    </ComponentUsageExample>
-  </div>
-);
 
 SelectCityBikeRow.propTypes = {
   name: PropTypes.string.isRequired,

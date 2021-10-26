@@ -69,12 +69,12 @@ function CityBikeLeg(
               width={1.655}
               height={1.655}
               badgeText={
-                citybikeCapacity !== BIKEAVL_UNKNOWN
+                citybikeCapacity !== BIKEAVL_UNKNOWN && !returnBike
                   ? bikeRentalStation.bikesAvailable
                   : null
               }
-              badgeFill={availabilityIndicatorColor}
-              badgeTextFill={availabilityTextColor}
+              badgeFill={returnBike ? null : availabilityIndicatorColor}
+              badgeTextFill={returnBike ? null : availabilityTextColor}
             />
           </div>
           <div className="citybike-itinerary-text-container">

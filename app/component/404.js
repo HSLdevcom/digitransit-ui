@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import Link from 'found/Link';
 import Icon from './Icon';
-import ComponentUsageExample from './ComponentUsageExample';
 
 const Error404 = (props, { config }) => (
   <div className="page-not-found">
@@ -40,11 +39,5 @@ Error404.contextTypes = {
 };
 
 Error404.displayName = 'Error404';
-
-Error404.description = () => (
-  <ComponentUsageExample description="Error page">
-    <Error404 />
-  </ComponentUsageExample>
-);
 
 export default Error404;

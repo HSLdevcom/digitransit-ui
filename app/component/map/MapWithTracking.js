@@ -9,7 +9,6 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import { intlShape } from 'react-intl';
 import { startLocationWatch } from '../../action/PositionActions';
-import ComponentUsageExample from '../ComponentUsageExample';
 import MapContainer from './MapContainer';
 import ToggleMapTracking from '../ToggleMapTracking';
 import { isBrowser } from '../../util/browser';
@@ -163,18 +162,18 @@ class MapWithTrackingStateHandler extends React.Component {
     this.refresh = true;
   };
 
-  startNavigation = () => {
+  startNavigation = e => {
     if (this.props.onStartNavigation) {
-      this.props.onStartNavigation(this.mapElement);
+      this.props.onStartNavigation(this.mapElement, e);
     }
     if (this.state.mapTracking && !this.ignoreNavigation) {
       this.disableMapTracking();
     }
   };
 
-  endNavigation = () => {
+  endNavigation = e => {
     if (this.props.onEndNavigation) {
-      this.props.onEndNavigation(this.mapElement);
+      this.props.onEndNavigation(this.mapElement, e);
     }
     this.navigated = true;
   };
@@ -393,15 +392,6 @@ const MapWithTracking = connectToStores(
     position: getStore(PositionStore).getLocationState(),
     lang: getStore(PreferencesStore).getLanguage(),
   }),
-);
-
-MapWithTracking.description = (
-  <div>
-    <p>Renders a map with map-tracking functionality</p>
-    <ComponentUsageExample description="">
-      <MapWithTracking />
-    </ComponentUsageExample>
-  </div>
 );
 
 export { MapWithTracking as default, MapWithTrackingStateHandler as Component };

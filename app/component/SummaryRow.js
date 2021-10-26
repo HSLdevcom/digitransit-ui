@@ -25,15 +25,6 @@ import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkId,
 } from '../util/citybikes';
-import ComponentUsageExample from './ComponentUsageExample';
-import {
-  exampleData,
-  exampleDataBiking,
-  exampleDataCallAgency,
-  examplePropsCityBike,
-  exampleDataVia,
-  exampleDataCanceled,
-} from './data/SummaryRow.ExampleData';
 
 const Leg = ({
   mode,
@@ -139,7 +130,10 @@ export const ModeLeg = (
   { config },
 ) => {
   let networkIcon;
-  if (mode === 'BICYCLE' && leg.from.bikeRentalStation) {
+  if (
+    (mode === 'CITYBIKE' || mode === 'BICYCLE') &&
+    leg.from.bikeRentalStation
+  ) {
     networkIcon =
       leg.from.bikeRentalStation &&
       getCityBikeNetworkIcon(
@@ -322,7 +316,6 @@ const SummaryRow = (
     if (shouldRenderLastLeg) {
       legLength += lastLegLength; // if the last leg is too short add its length to the leg before it
     }
-
     if (legLength < renderBarThreshold && isLegOnFoot(leg)) {
       // don't render short legs that are on foot at all
       renderBar = false;
@@ -364,7 +357,10 @@ const SummaryRow = (
           </div>,
         );
       }
-    } else if (leg.rentedBike) {
+    } else if (
+      (leg.mode === 'CITYBIKE' || leg.mode === 'BICYCLE') &&
+      leg.rentedBike
+    ) {
       const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       // eslint-disable-next-line prefer-destructuring
       bikeNetwork = getCityBikeNetworkId(leg.from.bikeRentalStation.networks);
@@ -858,202 +854,6 @@ SummaryRow.contextTypes = {
 };
 
 SummaryRow.displayName = 'SummaryRow';
-
-const nop = () => {};
-
-SummaryRow.description = () => {
-  const today = 1478522040000;
-  const date = 1478611781000;
-  return (
-    <div>
-      <p>Displays a summary of an itinerary.</p>
-      <ComponentUsageExample description="large">
-        {/* passive-large-today */}
-        <SummaryRow
-          refTime={today}
-          breakpoint="large"
-          data={exampleData(today)}
-          passive
-          onSelect={nop}
-          onSelectImmediately={nop}
-          hash={1}
-        />
-        {/* active-large-today */}
-        <SummaryRow
-          refTime={today}
-          breakpoint="large"
-          data={exampleData(today)}
-          onSelect={nop}
-          onSelectImmediately={nop}
-          hash={1}
-        />
-        {/* "passive-large-tomorrow" */}
-        <SummaryRow
-          refTime={today}
-          breakpoint="large"
-          data={exampleData(date)}
-          passive
-          onSelect={nop}
-          onSelectImmediately={nop}
-          hash={1}
-        />
-        {/* "active-large-tomorrow" */}
-        <SummaryRow
-          refTime={today}
-          breakpoint="large"
-          data={exampleData(date)}
-          onSelect={nop}
-          onSelectImmediately={nop}
-          hash={1}
-        />
-        {/* "open-large-today" */}
-        <SummaryRow
-          refTime={today}
-          breakpoint="large"
-          data={exampleData(today)}
-          onSelect={nop}
-          onSelectImmediately={nop}
-          hash={1}
-        />
-        {/* "open-large-tomorrow" */}
-        <SummaryRow
-          refTime={today}
-          breakpoint="large"
-          data={exampleData(date)}
-          onSelect={nop}
-          onSelectImmediately={nop}
-          hash={1}
-        />
-        {/* active-large-via */}
-        <SummaryRow
-          refTime={today}
-          breakpoint="large"
-          data={exampleDataVia(today)}
-          onSelect={nop}
-          onSelectImmediately={nop}
-          hash={1}
-        />
-        {/* active-large-call-agency */}
-        <SummaryRow
-          refTime={today}
-          breakpoint="large"
-          data={exampleDataCallAgency(today)}
-          onSelect={nop}
-          onSelectImmediately={nop}
-          hash={1}
-        />
-        {/* passive-large-biking */}
-        <SummaryRow
-          refTime={today}
-          breakpoint="large"
-          data={exampleDataBiking(today)}
-          passive
-          onSelect={nop}
-          onSelectImmediately={nop}
-          hash={1}
-        />
-        {/* citybike-large-passive */}
-        <SummaryRow {...examplePropsCityBike('large')} />
-        {/* canceled-large-itinerary */}
-        <SummaryRow
-          refTime={today}
-          breakpoint="large"
-          data={exampleDataCanceled}
-          passive
-          onSelect={nop}
-          onSelectImmediately={nop}
-          hash={1}
-          isCancelled
-          showCancelled
-        />
-      </ComponentUsageExample>
-      <ComponentUsageExample description="small">
-        {/* passive-small-today */}
-        <SummaryRow
-          refTime={today}
-          breakpoint="small"
-          data={exampleData(today)}
-          passive
-          onSelect={nop}
-          onSelectImmediately={nop}
-          hash={1}
-        />
-        {/* active-small-today */}
-        <SummaryRow
-          refTime={today}
-          breakpoint="small"
-          data={exampleData(today)}
-          onSelect={nop}
-          onSelectImmediately={nop}
-          hash={1}
-        />
-        {/* passive-small-tomorrow */}
-        <SummaryRow
-          refTime={today}
-          breakpoint="small"
-          data={exampleData(date)}
-          passive
-          onSelect={nop}
-          onSelectImmediately={nop}
-          hash={1}
-        />
-        {/* active-small-tomorrow */}
-        <SummaryRow
-          refTime={today}
-          breakpoint="small"
-          data={exampleData(date)}
-          onSelect={nop}
-          onSelectImmediately={nop}
-          hash={1}
-        />
-        {/* passive-small-via */}
-        <SummaryRow
-          refTime={today}
-          breakpoint="small"
-          data={exampleDataVia(today)}
-          passive
-          onSelect={nop}
-          onSelectImmediately={nop}
-          hash={1}
-        />
-        {/* passive-small-call-agency */}
-        <SummaryRow
-          refTime={today}
-          breakpoint="small"
-          data={exampleDataCallAgency(today)}
-          passive
-          onSelect={nop}
-          onSelectImmediately={nop}
-          hash={1}
-        />
-        {/* passive-small-biking */}
-        <SummaryRow
-          refTime={today}
-          breakpoint="small"
-          data={exampleDataBiking(today)}
-          passive
-          onSelect={nop}
-          onSelectImmediately={nop}
-          hash={1}
-        />
-        {/* citybike-small-passive */}
-        <SummaryRow {...examplePropsCityBike('small')} />
-        {/* canceled-large-itinerary */}
-        <SummaryRow
-          refTime={today}
-          breakpoint="small"
-          data={exampleDataCanceled}
-          passive
-          onSelect={nop}
-          onSelectImmediately={nop}
-          hash={1}
-          isCancelled
-          showCancelled
-        />
-      </ComponentUsageExample>
-    </div>
-  );
-};
 
 const SummaryRowWithBreakpoint = withBreakpoint(SummaryRow);
 

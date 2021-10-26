@@ -4,19 +4,11 @@ import Link from 'found/Link';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 
-import ComponentUsageExample from './ComponentUsageExample';
 import AddressRow from './AddressRow';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import PatternLink from './PatternLink';
 import { fromStopTime } from './DepartureTime';
-import { RealtimeStateType, AlertSeverityLevelType } from '../constants';
 import { PREFIX_STOPS } from '../util/path';
-import {
-  currentTime as exampleCurrentTime,
-  departure as exampleDeparture,
-  realtimeDeparture as exampleRealtimeDeparture,
-  vehicle as exampleVehicle,
-} from './ExampleData';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import { estimateItineraryDistance } from '../util/geo-utils';
 import ZoneIcon from './ZoneIcon';
@@ -189,109 +181,5 @@ TripRouteStop.contextTypes = {
 };
 
 TripRouteStop.displayName = 'TripRouteStop';
-
-TripRouteStop.description = () => (
-  <div>
-    <p>
-      Renders a row intended to for use in a trip route stop list. The row
-      contains the information of a single stop along a certain route.
-    </p>
-    <ComponentUsageExample description="Not realtime, no vehicle info:">
-      <TripRouteStop
-        key={exampleDeparture.stop.gtfsId}
-        stop={exampleDeparture.stop}
-        mode={exampleDeparture.pattern.route.mode}
-        route={exampleDeparture.pattern.route.gtfsId}
-        pattern={exampleDeparture.pattern.code}
-        vehicles={null}
-        stopPassed
-        realtime={exampleDeparture.realtime}
-        distance={321}
-        stoptime={exampleDeparture}
-        currentTime={exampleCurrentTime}
-        selectedVehicle={false}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="Realtime with vehicle info:">
-      <TripRouteStop
-        key={exampleRealtimeDeparture.stop.gtfsId}
-        stop={exampleRealtimeDeparture.stop}
-        mode={exampleRealtimeDeparture.pattern.route.mode}
-        pattern={exampleDeparture.pattern.code}
-        route={exampleRealtimeDeparture.pattern.route.gtfsId}
-        vehicles={[exampleVehicle]}
-        stopPassed={false}
-        realtime={exampleRealtimeDeparture.realtime}
-        distance={231}
-        stoptime={exampleRealtimeDeparture}
-        currentTime={exampleCurrentTime}
-        selectedVehicle={exampleVehicle}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="With info:">
-      <TripRouteStop
-        key={exampleDeparture.stop.gtfsId}
-        stop={{
-          ...exampleDeparture.stop,
-          alerts: [
-            {
-              alertSeverityLevel: AlertSeverityLevelType.Info,
-            },
-          ],
-        }}
-        mode={exampleDeparture.pattern.route.mode}
-        route={exampleDeparture.pattern.route.gtfsId}
-        pattern={exampleDeparture.pattern.code}
-        vehicles={null}
-        realtime={false}
-        distance={321}
-        stoptime={exampleDeparture}
-        currentTime={exampleCurrentTime}
-        selectedVehicle={false}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="With caution:">
-      <TripRouteStop
-        key={exampleDeparture.stop.gtfsId}
-        stop={{
-          ...exampleDeparture.stop,
-          alerts: [
-            {
-              alertSeverityLevel: AlertSeverityLevelType.Warning,
-            },
-          ],
-        }}
-        mode={exampleDeparture.pattern.route.mode}
-        route={exampleDeparture.pattern.route.gtfsId}
-        pattern={exampleDeparture.pattern.code}
-        vehicles={null}
-        realtime={false}
-        distance={321}
-        stoptime={exampleDeparture}
-        currentTime={exampleCurrentTime}
-        selectedVehicle={false}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="With cancelation:">
-      <TripRouteStop
-        key={exampleDeparture.stop.gtfsId}
-        stop={exampleDeparture.stop}
-        mode={exampleDeparture.pattern.route.mode}
-        route={exampleDeparture.pattern.route.gtfsId}
-        pattern={exampleDeparture.pattern.code}
-        vehicles={null}
-        realtime={false}
-        distance={321}
-        stoptime={{
-          ...exampleDeparture,
-          realtimeState: RealtimeStateType.Canceled,
-          scheduledDeparture: 69900,
-        }}
-        currentTime={exampleCurrentTime}
-        selectedVehicle={false}
-      />
-    </ComponentUsageExample>
-  </div>
-);
 
 export default TripRouteStop;

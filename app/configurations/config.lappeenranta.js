@@ -27,8 +27,6 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  textLogo: false, // title text instead of logo img
-
   logo: 'lappeenranta/logo.png',
 
   favicon: './app/configurations/images/lappeenranta/bussi_fin.jpeg',
@@ -38,6 +36,7 @@ export default configMerger(walttiConfig, {
       lappeenranta: {
         enabled: true,
         season: {
+          // 1.4. - 30.11. TODO uncertain end date depends on weather
           start: new Date(new Date().getFullYear(), 3, 1),
           end: new Date(new Date().getFullYear(), 11, 1),
         },
@@ -156,6 +155,14 @@ export default configMerger(walttiConfig, {
         },
         url: 'https://ckan.saita.fi/geojson/pyorailyreitit_lpr.geojson',
         isOffByDefault: true,
+      },
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/lpr_zone_lines_20211008.geojson',
       },
     ],
   },

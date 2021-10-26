@@ -2,12 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { routerShape } from 'found';
-import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 
-const mapToLink = (href, children, onClick) => (
+const mapToLink = (href, children, onClick, openInNewTab) => (
   <span className="cursor-pointer">
-    <a href={href} onClick={onClick}>
+    <a href={href} onClick={onClick} target={openInNewTab ? '_blank' : '_self'}>
       {children}
     </a>
   </span>
@@ -28,7 +27,7 @@ const mapToRoute = (router, route, children, onClick) => (
 );
 
 const MenuItem = (
-  { name, href, label, nameEn, route, icon, onClick },
+  { name, href, label, nameEn, route, icon, onClick, openInNewTab },
   { router },
 ) => {
   const displayIcon =
@@ -43,7 +42,7 @@ const MenuItem = (
     </span>
   );
   if (href) {
-    item = mapToLink(href, item, onClick);
+    item = mapToLink(href, item, onClick, openInNewTab);
   } else if (route) {
     item = mapToRoute(router, route, item, onClick);
   } else {
@@ -60,6 +59,7 @@ MenuItem.propTypes = {
   route: PropTypes.string,
   label: PropTypes.string,
   onClick: PropTypes.func,
+  openInNewTab: PropTypes.bool,
 };
 
 MenuItem.contextTypes = {
@@ -67,17 +67,5 @@ MenuItem.contextTypes = {
 };
 
 MenuItem.displayName = 'MenuItem';
-
-MenuItem.description = () => (
-  <div>
-    <p>Front page menu item</p>
-    <ComponentUsageExample description="external">
-      <MenuItem name="Palaute" href="http://www.hsl.fi/" />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="with icon">
-      <MenuItem icon="icon-icon_speech-bubble" name="Feedback" route="/" />
-    </ComponentUsageExample>
-  </div>
-);
 
 export default MenuItem;

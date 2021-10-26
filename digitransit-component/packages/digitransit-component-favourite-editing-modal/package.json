@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-favourite-editing-modal",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "description": "digitransit-component favourite-editing-modal module",
   "main": "lib/index.js",
   "files": [
@@ -28,11 +28,11 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "peerDependencies": {
-    "@digitransit-component/digitransit-component-dialog-modal": "^0.3.2",
-    "@digitransit-component/digitransit-component-icon": "^0.1.12",
-    "@hsl-fi/container-spinner": "0.2.0",
-    "@hsl-fi/modal": "^0.1.8",
-    "@hsl-fi/sass": "^0.1.1",
+    "@digitransit-component/digitransit-component-dialog-modal": "^0.3.3",
+    "@digitransit-component/digitransit-component-icon": "^0.1.13",
+    "@hsl-fi/container-spinner": "0.3.1",
+    "@hsl-fi/modal": "^0.2.1",
+    "@hsl-fi/sass": "^0.2.0",
     "i18next": "^19.3.3",
     "prop-types": "^15.7.2",
     "react": "^16.13.0",

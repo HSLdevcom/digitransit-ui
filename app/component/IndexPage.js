@@ -26,7 +26,6 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 import Geomover from './Geomover';
-import ComponentUsageExample from './ComponentUsageExample';
 import scrollTop from '../util/scroll';
 import { LightenDarkenColor } from '../util/colorUtils';
 import { getRefPoint } from '../util/apiUtils';
@@ -260,6 +259,8 @@ class IndexPage extends React.Component {
       onGeolocationStart: this.onSelectLocation,
       fromMap: this.props.fromMap,
       fontWeights,
+      modeIconColors: config.colors.iconColors,
+      modeSet: config.searchIconModeSet,
     };
 
     const stopRouteSearchProps = {
@@ -277,8 +278,8 @@ class IndexPage extends React.Component {
       targets: stopAndRouteSearchTargets,
       fontWeights,
       modeIconColors: config.colors.iconColors,
+      modeSet: config.searchIconModeSet,
     };
-
     const transportModes = getTransportModes(config);
     const nearYouModes = getNearYouModes(config);
 
@@ -461,12 +462,6 @@ const Index = shouldUpdate(
 )(IndexPage);
 
 const IndexPageWithBreakpoint = withBreakpoint(Index);
-
-IndexPageWithBreakpoint.description = (
-  <ComponentUsageExample isFullscreen>
-    <IndexPageWithBreakpoint destination={{}} origin={{}} routes={[]} />
-  </ComponentUsageExample>
-);
 
 const IndexPageWithStores = connectToStores(
   IndexPageWithBreakpoint,

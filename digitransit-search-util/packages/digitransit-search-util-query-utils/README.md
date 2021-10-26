@@ -36,15 +36,6 @@ Returns Stop and station objects .
 
 -   `favourites` **any** 
 
-## filterStopsAndStationsByMode
-
-Returns Stop and station objects filtered by given mode .
-
-### Parameters
-
--   `stopsToFilter` **any** 
--   `mode` **[String][3]** 
-
 ## getFavouriteRoutesQuery
 
 Returns Favourite Route objects depending on input

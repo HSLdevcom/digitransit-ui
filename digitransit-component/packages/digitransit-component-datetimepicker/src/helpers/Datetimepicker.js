@@ -451,7 +451,7 @@ function Datetimepicker({
       <legend className={styles['sr-only']}>
         {i18next.t('accessible-title', translationSettings)}
       </legend>
-      <span className="sr-only">
+      <span className={styles['sr-only']}>
         {i18next.t('accessible-update-instructions', translationSettings)}
       </span>
       <>

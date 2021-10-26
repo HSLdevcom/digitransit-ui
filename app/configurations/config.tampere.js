@@ -1,5 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
+import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = 'tampere';
 const APP_TITLE = 'Nyssen reittiopas';
@@ -34,8 +35,6 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  textLogo: false, // title text instead of logo img
-
   // Navbar logo
   logo: 'tampere/tampere-logo.png',
 
@@ -61,6 +60,8 @@ export default configMerger(walttiConfig, {
     // Number of days to include to the service time range from the future (DT-3175)
     serviceTimeRange: 60,
   },
+
+  itineraryFiltering: 2.5, // drops 40% worse routes
 
   stopCard: {
     header: {
@@ -129,6 +130,14 @@ export default configMerger(walttiConfig, {
         href:
           'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
       },
+      /*
+      {
+        name: 'stop-virtual-monitor',
+        nameEn: 'Stop display',
+        href: 'https://tremonitori.digitransit.fi',
+        openInNewTab: true,
+      },
+      */
     ],
   },
 
@@ -182,7 +191,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'Tietolähteet',
         paragraphs: [
-          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat Nyssen tuottamaan GTFS-aineistoon.',
+          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Digi- ja väestötietoviraston rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat Nyssen tuottamaan GTFS-aineistoon.',
         ],
       },
     ],
@@ -236,6 +245,44 @@ export default configMerger(walttiConfig, {
     tampere: tampereTimetables,
   },
 
+  cityBike: {
+    networks: {
+      sharingos_tampere: {
+        capacity: BIKEAVL_WITHMAX,
+        enabled: true,
+        season: {
+          // 1.4. - 31.10.
+          start: new Date(new Date().getFullYear(), 3, 1),
+          end: new Date(new Date().getFullYear(), 10, 1),
+        },
+        icon: 'citybike',
+        name: {
+          fi: 'Tampere',
+          sv: 'Tammerfors',
+          en: 'Tampere',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://www.nysse.fi/kaupunkipyorat',
+          sv: 'https://www.nysse.fi/en/city-bikes.html',
+          en: 'https://www.nysse.fi/en/city-bikes.html',
+        },
+        // Shown if citybike leg duration exceeds timeBeforeSurcharge
+        durationInstructions: {
+          fi: 'https://www.nysse.fi/kaupunkipyorat',
+          sv: 'https://www.nysse.fi/en/city-bikes.html',
+          en: 'https://www.nysse.fi/en/city-bikes.html',
+        },
+        timeBeforeSurcharge: 30 * 60,
+      },
+    },
+    buyUrl: {
+      fi: 'https://www.nysse.fi/kaupunkipyorat',
+      sv: 'https://www.nysse.fi/en/city-bikes.html',
+      en: 'https://www.nysse.fi/en/city-bikes.html',
+    },
+  },
+
   // enable train routing for Tampere
   transportModes: {
     rail: {
@@ -245,6 +292,9 @@ export default configMerger(walttiConfig, {
     tram: {
       availableForSelection: true,
       defaultValue: true,
+    },
+    citybike: {
+      availableForSelection: true,
     },
   },
 

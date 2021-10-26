@@ -50,11 +50,7 @@ const ItinerarySummary = ({
           mode="car"
         />
       )}
-      <div
-        className={cx('divider-bottom', {
-          multirow: isMultiRow,
-        })}
-      />
+      <div className={cx('divider-bottom')} />
     </div>
   );
 };

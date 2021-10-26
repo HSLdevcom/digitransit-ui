@@ -78,9 +78,14 @@ export const getDefaultNetworks = config => {
 
 export const mapDefaultNetworkProperties = config => {
   const mappedNetworks = [];
-  Object.keys(config.cityBike.networks).forEach(key =>
-    mappedNetworks.push({ networkName: key, ...config.cityBike.networks[key] }),
-  );
+  Object.keys(config.cityBike.networks).forEach(key => {
+    if (showCitybikeNetwork(config.cityBike.networks[key])) {
+      mappedNetworks.push({
+        networkName: key,
+        ...config.cityBike.networks[key],
+      });
+    }
+  });
   return mappedNetworks;
 };
 

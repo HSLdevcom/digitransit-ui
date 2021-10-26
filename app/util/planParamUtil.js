@@ -156,6 +156,8 @@ export const getSettings = config => {
       ),
     allowedBikeRentalNetworks: custSettings.allowedBikeRentalNetworks,
     includeBikeSuggestions: custSettings.includeBikeSuggestions,
+    includeCarSuggestions: custSettings.includeCarSuggestions,
+    includeParkAndRideSuggestions: custSettings.includeParkAndRideSuggestions,
   };
 };
 

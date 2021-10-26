@@ -6,7 +6,6 @@ import { matchShape, routerShape } from 'found';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import Loading from './Loading';
 import DisruptionListContainer from './DisruptionListContainer';
-import ComponentUsageExample from './ComponentUsageExample';
 import { isBrowser } from '../util/browser';
 
 function DisruptionInfo(props, context) {
@@ -89,19 +88,5 @@ DisruptionInfo.contextTypes = {
 };
 
 DisruptionInfo.propTypes = {};
-
-DisruptionInfo.description = () => (
-  <div>
-    <p>
-      Modal that shows all available disruption info. Opened by
-      DisruptionInfoButton.
-      <strong>Deprecated:</strong> Will be removed in short future in favor of
-      announcements page.
-    </p>
-    <ComponentUsageExample>
-      <DisruptionInfo />
-    </ComponentUsageExample>
-  </div>
-);
 
 export default DisruptionInfo;

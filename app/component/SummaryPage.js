@@ -34,9 +34,7 @@ import {
 } from '../util/timeUtils';
 import { planQuery, moreItinerariesQuery } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
-import ComponentUsageExample from './ComponentUsageExample';
-import exampleData from './data/SummaryPage.ExampleData';
-import { isBrowser, isIOS } from '../util/browser';
+import { isIOS } from '../util/browser';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
@@ -270,6 +268,7 @@ class SummaryPage extends React.Component {
     }).isRequired,
     mapLayers: mapLayerShape.isRequired,
     mapLayerOptions: mapLayerOptionsShape.isRequired,
+    alertRef: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -291,7 +290,6 @@ class SummaryPage extends React.Component {
     if (props.error) {
       reportError(props.error);
     }
-    this.alertRef = React.createRef();
     this.tabHeaderRef = React.createRef(null);
     this.headerRef = React.createRef();
     this.contentRef = React.createRef();
@@ -1588,15 +1586,15 @@ class SummaryPage extends React.Component {
             this.setState({ isFetchingWeather: false, weatherData: { err } });
           })
           .finally(() => {
-            if (this.alertRef.current) {
-              this.alertRef.current.innerHTML = this.context.intl.formatMessage(
+            if (this.props.alertRef.current) {
+              this.props.alertRef.current.innerHTML = this.context.intl.formatMessage(
                 {
                   id: 'itinerary-summary-page-street-mode.update-alert',
                   defaultMessage: 'Walking and biking results updated',
                 },
               );
               setTimeout(() => {
-                this.alertRef.current.innerHTML = null;
+                this.props.alertRef.current.innerHTML = null;
               }, 100);
             }
           });
@@ -1623,28 +1621,43 @@ class SummaryPage extends React.Component {
   }
 
   showScreenreaderLoadedAlert() {
-    if (this.alertRef.current) {
-      if (this.alertRef.current.innerHTML) {
-        this.alertRef.current.innerHTML = null;
+    if (this.props.alertRef.current) {
+      if (this.props.alertRef.current.innerHTML) {
+        this.props.alertRef.current.innerHTML = null;
       }
-      this.alertRef.current.innerHTML = this.context.intl.formatMessage({
+      this.props.alertRef.current.innerHTML = this.context.intl.formatMessage({
         id: 'itinerary-page.itineraries-loaded',
         defaultMessage: 'More itineraries loaded',
       });
       setTimeout(() => {
-        this.alertRef.current.innerHTML = null;
+        this.props.alertRef.current.innerHTML = null;
+      }, 100);
+    }
+  }
+
+  showScreenreaderUpdatedAlert() {
+    if (this.props.alertRef.current) {
+      if (this.props.alertRef.current.innerHTML) {
+        this.props.alertRef.current.innerHTML = null;
+      }
+      this.props.alertRef.current.innerHTML = this.context.intl.formatMessage({
+        id: 'itinerary-page.itineraries-updated',
+        defaultMessage: 'search results updated',
+      });
+      setTimeout(() => {
+        this.props.alertRef.current.innerHTML = null;
       }, 100);
     }
   }
 
   showScreenreaderLoadingAlert() {
-    if (this.alertRef.current && !this.alertRef.current.innerHTML) {
-      this.alertRef.current.innerHTML = this.context.intl.formatMessage({
+    if (this.props.alertRef.current && !this.props.alertRef.current.innerHTML) {
+      this.props.alertRef.current.innerHTML = this.context.intl.formatMessage({
         id: 'itinerary-page.loading-itineraries',
         defaultMessage: 'Loading for more itineraries',
       });
       setTimeout(() => {
-        this.alertRef.current.innerHTML = null;
+        this.props.alertRef.current.innerHTML = null;
       }, 100);
     }
   }
@@ -1796,7 +1809,6 @@ class SummaryPage extends React.Component {
             getCurrentSettings(this.context.config, ''),
           )
         ) {
-          this.showScreenreaderLoadedAlert();
           if (
             !isEqual(
               otpToLocation(this.context.match.params.from),
@@ -1805,12 +1817,15 @@ class SummaryPage extends React.Component {
             getIntermediatePlaces(this.context.match.location.query).length > 0
           ) {
             this.context.router.go(-1);
-            this.setState({
-              earlierItineraries: [],
-              laterItineraries: [],
-              separatorPosition: undefined,
-              alternativePlan: undefined,
-            });
+            this.setState(
+              {
+                earlierItineraries: [],
+                laterItineraries: [],
+                separatorPosition: undefined,
+                alternativePlan: undefined,
+              },
+              () => this.showScreenreaderUpdatedAlert(),
+            );
           }
         }
       } else if (
@@ -1819,7 +1834,6 @@ class SummaryPage extends React.Component {
           getCurrentSettings(this.context.config, ''),
         )
       ) {
-        this.showScreenreaderLoadedAlert();
         if (
           !isEqual(
             otpToLocation(this.context.match.params.from),
@@ -1849,6 +1863,7 @@ class SummaryPage extends React.Component {
                     alternativePlan: undefined,
                   },
                   () => {
+                    this.showScreenreaderUpdatedAlert();
                     this.resetSummaryPageSelection();
                   },
                 );
@@ -1930,12 +1945,6 @@ class SummaryPage extends React.Component {
       this.state.alternativePlan.itineraries &&
       this.state.alternativePlan.itineraries.length > 0;
 
-    const screenReaderAlert = (
-      <>
-        <span className="sr-only" role="alert" ref={this.alertRef} />
-      </>
-    );
-
     this.bikeAndPublicItinerariesToShow = 0;
     this.bikeAndParkItinerariesToShow = 0;
     if (this.props.match.params.hash === 'walk') {
@@ -1943,7 +1952,6 @@ class SummaryPage extends React.Component {
       if (!walkPlan) {
         return (
           <>
-            {screenReaderAlert}
             <Loading />
           </>
         );
@@ -1951,28 +1959,29 @@ class SummaryPage extends React.Component {
       this.selectedPlan = walkPlan;
     } else if (this.props.match.params.hash === 'bike') {
       this.stopClient();
-      if (!bikePlan) {
+      if (this.state.isFetchingWalkAndBike) {
         return (
           <>
-            {screenReaderAlert}
             <Loading />
           </>
         );
       }
       this.selectedPlan = bikePlan;
     } else if (this.props.match.params.hash === 'bikeAndVehicle') {
-      if (
-        !bikeAndPublicPlan ||
-        !Array.isArray(bikeAndPublicPlan.itineraries) ||
-        !bikeParkPlan ||
-        !Array.isArray(bikeParkPlan.itineraries)
-      ) {
+      if (this.state.isFetchingWalkAndBike) {
         return (
           <>
-            {screenReaderAlert}
             <Loading />
           </>
         );
+      }
+      if (
+        !this.state.isFetchingWalkAndBike &&
+        (!Array.isArray(bikeAndPublicPlan?.itineraries) ||
+          !Array.isArray(bikeParkPlan?.itineraries))
+      ) {
+        this.toggleStreetMode(''); // go back to showing normal itineraries
+        return <Loading />;
       }
       if (
         this.hasItinerariesContainingPublicTransit(bikeAndPublicPlan) &&
@@ -2001,13 +2010,20 @@ class SummaryPage extends React.Component {
       );
     } else if (this.props.match.params.hash === 'car') {
       this.stopClient();
-      if (!carPlan) {
+      if (this.state.isFetchingWalkAndBike) {
         return <Loading />;
       }
       this.selectedPlan = carPlan;
     } else if (this.props.match.params.hash === 'parkAndRide') {
       this.stopClient();
-      if (!parkRidePlan) {
+      if (this.state.isFetchingWalkAndBike) {
+        return <Loading />;
+      }
+      if (
+        !this.state.isFetchingWalkAndBike &&
+        !Array.isArray(parkRidePlan?.itineraries)
+      ) {
+        this.toggleStreetMode(''); // go back to showing normal itineraries
         return <Loading />;
       }
       this.selectedPlan = parkRidePlan;
@@ -2201,7 +2217,6 @@ class SummaryPage extends React.Component {
 
           content = (
             <div className="swipe-scroll-wrapper">
-              {screenReaderAlert}
               <SwipeableTabs
                 tabs={itineraryTabs}
                 tabIndex={activeIndex}
@@ -2231,7 +2246,6 @@ class SummaryPage extends React.Component {
         }
         content = (
           <>
-            {screenReaderAlert}
             <SummaryPlanContainer
               activeIndex={activeIndex}
               plan={this.selectedPlan}
@@ -2269,7 +2283,6 @@ class SummaryPage extends React.Component {
       } else {
         content = (
           <div style={{ position: 'relative', height: 200 }}>
-            {screenReaderAlert}
             <Loading />
           </div>
         );
@@ -2383,7 +2396,6 @@ class SummaryPage extends React.Component {
       isLoading = true;
       content = (
         <div style={{ position: 'relative', height: 200 }}>
-          {screenReaderAlert}
           <Loading />
         </div>
       );
@@ -2425,7 +2437,6 @@ class SummaryPage extends React.Component {
       if (isLoading) {
         content = (
           <div style={{ position: 'relative', height: 200 }}>
-            {screenReaderAlert}
             <Loading />
           </div>
         );
@@ -2462,7 +2473,6 @@ class SummaryPage extends React.Component {
               }}
               loadingMoreItineraries={this.state.loadingMoreItineraries}
             />
-            {screenReaderAlert}
           </>
         );
       }
@@ -2544,12 +2554,6 @@ const SummaryPageWithBreakpoint = withBreakpoint(props => (
     )}
   </ReactRelayContext.Consumer>
 ));
-
-SummaryPageWithBreakpoint.description = (
-  <ComponentUsageExample isFullscreen>
-    {isBrowser && <SummaryPageWithBreakpoint {...exampleData} />}
-  </ComponentUsageExample>
-);
 
 const SummaryPageWithStores = connectToStores(
   SummaryPageWithBreakpoint,

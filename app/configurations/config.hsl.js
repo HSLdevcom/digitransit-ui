@@ -72,7 +72,6 @@ export default {
 
   stopsMinZoom: 14,
   mergeStopsByCode: true,
-
   colors: {
     primary: '#007ac9',
     hover: '#0062a1',
@@ -86,7 +85,7 @@ export default {
       'mode-citybike-secondary': '#333333',
     },
   },
-
+  searchIconModeSet: 'default',
   fontWeights: {
     medium: 500,
   },
@@ -285,7 +284,7 @@ export default {
       {
         header: 'Tietolähteet',
         paragraphs: [
-          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat HSL:n JORE-aineistoon.',
+          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Digi- ja väestötietoviraston rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat HSL:n JORE-aineistoon.',
         ],
       },
     ],
@@ -426,7 +425,7 @@ export default {
 
   unknownZones: ['Ei HSL'],
 
-  showTicketPrice: true,
+  showTicketPrice: false,
 
   map: {
     showZoomControl: true, // DT-3470, DT-3397
@@ -454,6 +453,7 @@ export default {
       smoove: {
         enabled: true,
         season: {
+          // 1.4. - 31.10.
           start: new Date(new Date().getFullYear(), 3, 1),
           end: new Date(new Date().getFullYear(), 10, 1),
         },
@@ -479,7 +479,7 @@ export default {
             'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#aterlamna',
           en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#return',
         },
-        // Shown if citybike leg duration exceeds minutesBeforeSurcharge
+        // Shown if citybike leg duration exceeds timeBeforeSurcharge
         durationInstructions: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#aja',
           sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#cykla',
@@ -490,6 +490,7 @@ export default {
       vantaa: {
         enabled: true,
         season: {
+          // 1.4. - 31.10.
           start: new Date(new Date().getFullYear(), 3, 1),
           end: new Date(new Date().getFullYear(), 10, 1),
         },

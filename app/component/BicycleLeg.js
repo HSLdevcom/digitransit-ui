@@ -4,7 +4,6 @@ import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import Icon from './Icon';
-import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
@@ -142,7 +141,7 @@ function BicycleLeg(
             values={{ target: leg.from.name || '' }}
           />
         </span>
-        {isFirstLeg(index) || bicycleWalkLeg?.from.stop || true ? (
+        {isFirstLeg(index) || bicycleWalkLeg?.from.stop ? (
           <div className={cx('itinerary-leg-first-row', 'bicycle', 'first')}>
             <div className="address-container">
               <div className="address">
@@ -295,125 +294,6 @@ function BicycleLeg(
     </div>
   );
 }
-
-const exampleLeg = t1 => ({
-  duration: 120,
-  startTime: t1 + 20000,
-  endTime: t1 + 20000 + 120 * 1000,
-  distance: 586.4621425755712,
-  from: { name: 'Ilmattarentie' },
-  to: { name: 'Kuusitie' },
-  mode: 'BICYCLE',
-  rentedBike: false,
-});
-
-const exampleLegWalkingBike = t1 => ({
-  duration: 120,
-  startTime: t1 + 20000,
-  endTime: t1 + 20000 + 120 * 1000,
-  distance: 586.4621425755712,
-  from: { name: 'Ilmattarentie' },
-  to: { name: 'Kuusitie' },
-  mode: 'BICYCLE_WALK',
-  rentedBike: false,
-});
-
-const exampleLegCitybike = t1 => ({
-  duration: 120,
-  startTime: t1 + 20000,
-  endTime: t1 + 20000 + 120 * 1000,
-  distance: 586.4621425755712,
-  from: { name: 'Ilmattarentie' },
-  to: { name: 'Kuusitie' },
-  mode: 'BICYCLE',
-  rentedBike: true,
-});
-
-const exampleLegCitybikeWalkingBike = t1 => ({
-  duration: 120,
-  startTime: t1 + 20000,
-  endTime: t1 + 20000 + 120 * 1000,
-  distance: 586.4621425755712,
-  from: { name: 'Ilmattarentie' },
-  to: { name: 'Kuusitie' },
-  mode: 'WALK',
-  rentedBike: true,
-});
-
-const exampleLegScooter = t1 => ({
-  duration: 120,
-  startTime: t1 + 20000,
-  endTime: t1 + 20000 + 120 * 1000,
-  distance: 586.4621425755712,
-  from: {
-    name: 'Ilmattarentie',
-    bikeRentalStation: { bikesAvailable: 5, networks: ['samocat'] },
-  },
-  to: { name: 'Kuusitie' },
-  mode: 'BICYCLE',
-  rentedBike: true,
-});
-
-const exampleLegScooterWalkingScooter = t1 => ({
-  duration: 120,
-  startTime: t1 + 20000,
-  endTime: t1 + 20000 + 120 * 1000,
-  distance: 586.4621425755712,
-  from: {
-    name: 'Ilmattarentie',
-    bikeRentalStation: { bikesAvailable: 5, networks: ['samocat'] },
-  },
-  to: { name: 'Kuusitie' },
-  mode: 'WALK',
-  rentedBike: true,
-});
-
-BicycleLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0).valueOf();
-  return (
-    <div>
-      <p>Displays an itinerary bicycle leg.</p>
-      <ComponentUsageExample description="bicycle-leg-normal">
-        <BicycleLeg leg={exampleLeg(today)} index={0} focusAction={() => {}} />
-      </ComponentUsageExample>
-      <ComponentUsageExample description="bicycle-leg-walking-bike">
-        <BicycleLeg
-          leg={exampleLegWalkingBike(today)}
-          index={0}
-          focusAction={() => {}}
-        />
-      </ComponentUsageExample>
-      <ComponentUsageExample description="bicycle-leg-citybike">
-        <BicycleLeg
-          leg={exampleLegCitybike(today)}
-          index={0}
-          focusAction={() => {}}
-        />
-      </ComponentUsageExample>
-      <ComponentUsageExample description="bicycle-leg-citybike-walking-bike">
-        <BicycleLeg
-          leg={exampleLegCitybikeWalkingBike(today)}
-          index={1}
-          focusAction={() => {}}
-        />
-      </ComponentUsageExample>
-      <ComponentUsageExample description="bicycle-leg-scooter">
-        <BicycleLeg
-          leg={exampleLegScooter(today)}
-          index={0}
-          focusAction={() => {}}
-        />
-      </ComponentUsageExample>
-      <ComponentUsageExample description="bicycle-leg-scooter-walking-scooter">
-        <BicycleLeg
-          leg={exampleLegScooterWalkingScooter(today)}
-          index={1}
-          focusAction={() => {}}
-        />
-      </ComponentUsageExample>
-    </div>
-  );
-};
 
 BicycleLeg.propTypes = {
   leg: PropTypes.shape({

@@ -47,8 +47,6 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'kotka/ksjl.png',
 
-  textLogo: false, // title text instead of logo img
-
   feedIds: ['Kotka'],
 
   searchParams: {

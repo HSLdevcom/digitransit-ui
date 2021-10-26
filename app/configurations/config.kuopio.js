@@ -27,8 +27,6 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  textLogo: false, // title text instead of logo img
-
   favicon: './app/configurations/images/kuopio/favicon.png',
 
   // Navbar logo
@@ -82,6 +80,7 @@ export default configMerger(walttiConfig, {
       vilkku: {
         enabled: true,
         season: {
+          // 26.4. - 31.10.
           start: new Date(new Date().getFullYear(), 3, 26),
           end: new Date(new Date().getFullYear(), 10, 1),
         },
@@ -143,7 +142,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'Tietolähteet',
         paragraphs: [
-          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat Kuopion tuottamaan GTFS-aineistoon.',
+          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Digi- ja väestötietoviraston rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat Kuopion tuottamaan GTFS-aineistoon.',
         ],
       },
     ],
