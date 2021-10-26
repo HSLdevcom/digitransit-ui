@@ -8347,7 +8347,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:^6.0.0, commander@npm:^6.1.0":
+"commander@npm:^6.0.0":
   version: 6.2.1
   resolution: "commander@npm:6.2.1"
   checksum: 47856aae6f194404122e359d8463e5e1a18f7cbab26722ce69f1379be8514bd49a160ef81a983d3d2091e3240022643354101d1276c797dcdd0b5bfc3c3f04a3
@@ -9942,7 +9942,7 @@ __metadata:
     iso-morphic-style-loader: 2.0.1
     jest: 27.0.3
     jest-image-snapshot: 4.5.0
-    jest-playwright-preset: 1.6.0
+    jest-playwright-preset: 1.7.0
     jsdom: 13.2.0
     leaflet: 1.6.0
     lerna: 3.20.2
@@ -9967,7 +9967,7 @@ __metadata:
     optimize-css-assets-webpack-plugin: 5.0.4
     passport: 0.4.1
     pbf: 3.2.1
-    playwright: 1.11.1
+    playwright: 1.16.1
     point-in-polygon: 1.0.1
     polyfill-library: 3.96.0
     polyline-encoded: 0.0.9
@@ -11554,12 +11554,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expect-playwright@npm:^0.3.4":
-  version: 0.3.4
-  resolution: "expect-playwright@npm:0.3.4"
-  peerDependencies:
-    playwright-core: ^1.10.0
-  checksum: 7e78e149a16ef326df6b82095c0f94206db825b785cd5a16e004e6dccdf97be9249df9a4a9c890fddbccae647a52dfeeebd65f4e84a4c20f2532c3bb8d2c25a3
+"expect-playwright@npm:^0.7.0":
+  version: 0.7.2
+  resolution: "expect-playwright@npm:0.7.2"
+  checksum: 9e9a93893fc511741312b85ad106256dc44750c883c86c1a93df398c481da59f60c0229689d8ebfe9130e3c8d1398fe8bc9e51b48b63e405fcc97dec560d0781
   languageName: node
   linkType: hard
 
@@ -15843,11 +15841,11 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"jest-playwright-preset@npm:1.6.0":
-  version: 1.6.0
-  resolution: "jest-playwright-preset@npm:1.6.0"
+"jest-playwright-preset@npm:1.7.0":
+  version: 1.7.0
+  resolution: "jest-playwright-preset@npm:1.7.0"
   dependencies:
-    expect-playwright: ^0.3.4
+    expect-playwright: ^0.7.0
     jest-process-manager: ^0.3.1
     nyc: ^15.1.0
     playwright-core: ">=1.2.0"
@@ -15856,9 +15854,9 @@ fsevents@~2.1.2:
   peerDependencies:
     jest: ">=26.6.3"
     jest-circus: ">=26.6.3"
-    jest-environment-node: ">=26.6.2"
+    jest-environment-node: ">=26.6.3"
     jest-runner: ">=26.6.3"
-  checksum: 1ea04247dce854267fc31a95dadfe3aa11d0a5b9b6e50db2052d1ecf1816e1b17037cb88ac878c5c0ccb6f6a0e617a4312cd7b3a7c6241de4db16cc0d8592885
+  checksum: 1f07ad2966c9d15ed5101b8e6113e85a2e7e32c2f22ac6a087157bf20883b1e78caa2c7a437e3221d29a05df0d9a32151c197bf907139524ef4439329cc02e88
   languageName: node
   linkType: hard
 
@@ -20419,7 +20417,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:>=1.2.0":
+"playwright-core@npm:=1.16.1, playwright-core@npm:>=1.2.0":
   version: 1.16.1
   resolution: "playwright-core@npm:1.16.1"
   dependencies:
@@ -20445,27 +20443,14 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"playwright@npm:1.11.1":
-  version: 1.11.1
-  resolution: "playwright@npm:1.11.1"
+"playwright@npm:1.16.1":
+  version: 1.16.1
+  resolution: "playwright@npm:1.16.1"
   dependencies:
-    commander: ^6.1.0
-    debug: ^4.1.1
-    extract-zip: ^2.0.1
-    https-proxy-agent: ^5.0.0
-    jpeg-js: ^0.4.2
-    mime: ^2.4.6
-    pngjs: ^5.0.0
-    progress: ^2.0.3
-    proper-lockfile: ^4.1.1
-    proxy-from-env: ^1.1.0
-    rimraf: ^3.0.2
-    stack-utils: ^2.0.3
-    ws: ^7.3.1
-    yazl: ^2.5.1
+    playwright-core: =1.16.1
   bin:
-    playwright: lib/cli/cli.js
-  checksum: 1446964b6ef8b4d7fafb45a38f9b992ee76e456e7072a7179f720cafb4204bce2e737a26929065778336450a598ec83c5fdd19d5199e6b42b4d075a5a930d931
+    playwright: cli.js
+  checksum: 89261b43ee6bec17d5ba21c985ab1804fa6ceeca8d8bafb229d15bd8844ec3ce0c1fb4bdb349e91d034082d573ad52e5af7be91fa8668cb55354638cb13643cc
   languageName: node
   linkType: hard
 
