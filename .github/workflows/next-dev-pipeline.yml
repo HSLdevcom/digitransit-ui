@@ -180,6 +180,9 @@ jobs:
         id: 'test_e2e'
         env:
           CONFIG: ${{matrix.config}}
+          REF: ${{github.head_ref}}
+          STORAGESASTOKEN: ${{ secrets.STORAGESASTOKEN }}
+          STORAGERESOURCENAME: "visualtestsnapshots"
         run: yarn test:e2e
   e2e-test-mobile:
     needs: install
@@ -218,6 +221,9 @@ jobs:
         env:
           MOBILE: "true"
           CONFIG: ${{matrix.config}}
+          REF: ${{github.head_ref}}
+          STORAGESASTOKEN: ${{ secrets.STORAGESASTOKEN }}
+          STORAGERESOURCENAME: "visualtestsnapshots"
         run: yarn test:e2e
   publish-npm:
     if: github.ref == 'refs/heads/next'
