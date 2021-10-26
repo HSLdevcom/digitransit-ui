@@ -259,6 +259,7 @@ class IndexPage extends React.Component {
       onGeolocationStart: this.onSelectLocation,
       fromMap: this.props.fromMap,
       fontWeights,
+      modeIconColors: config.colors.iconColors,
       modeSet: config.searchIconModeSet,
     };
 

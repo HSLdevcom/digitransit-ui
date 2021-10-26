@@ -167,6 +167,7 @@ class DTAutosuggestPanel extends React.Component {
     destinationMobileLabel: PropTypes.string,
     refPoint: PropTypes.object,
     modeSet: PropTypes.string,
+    modeIconColors: PropTypes.object,
     fontWeights: PropTypes.shape({
       medium: PropTypes.number,
     }),
@@ -191,6 +192,7 @@ class DTAutosuggestPanel extends React.Component {
     originMobileLabel: null,
     destinationMobileLabel: null,
     modeSet: undefined,
+    modeIconColors: undefined,
     fontWeights: {
       medium: 500,
     },
@@ -441,6 +443,7 @@ class DTAutosuggestPanel extends React.Component {
             mobileLabel={originMobileLabel}
             fontWeights={this.props.fontWeights}
             modeSet={this.props.modeSet}
+            modeIconColors={this.props.modeIconColors}
           />
           <ItinerarySearchControl
             className={styles.opposite}
@@ -517,6 +520,7 @@ class DTAutosuggestPanel extends React.Component {
                       hoverColor={this.props.hoverColor}
                       fontWeights={this.props.fontWeights}
                       modeSet={this.props.modeSet}
+                      modeIconColors={this.props.modeIconColors}
                     />
                   </div>
                   <ItinerarySearchControl
@@ -617,6 +621,7 @@ class DTAutosuggestPanel extends React.Component {
             mobileLabel={destinationMobileLabel}
             fontWeights={this.props.fontWeights}
             modeSet={this.props.modeSet}
+            modeIconColors={this.props.modeIconColors}
           />
           <ItinerarySearchControl
             className={cx(styles['add-via-point'], styles.more, {

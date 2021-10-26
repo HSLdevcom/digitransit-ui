@@ -99,23 +99,29 @@ export default function RouteAlertsRow(
   }
 
   let genericCancellation;
-  if (!description && header) {
-    const {
-      headsign,
-      routeMode,
-      shortName,
-      scheduledDepartureTime,
-    } = header.props;
-    const mode = intl.formatMessage({ id: routeMode.toLowerCase() });
-    genericCancellation = intl.formatMessage(
-      { id: 'generic-cancelation' },
-      {
-        mode,
-        route: shortName,
+  if (!description) {
+    if (typeof header === 'string') {
+      genericCancellation = header;
+    } else if (header.props) {
+      const {
         headsign,
-        time: moment.unix(scheduledDepartureTime).format('HH:mm'),
-      },
-    );
+        routeMode,
+        shortName,
+        scheduledDepartureTime,
+      } = header.props;
+      if (headsign && routeMode && shortName && scheduledDepartureTime) {
+        const mode = intl.formatMessage({ id: routeMode.toLowerCase() });
+        genericCancellation = intl.formatMessage(
+          { id: 'generic-cancelation' },
+          {
+            mode,
+            route: shortName,
+            headsign,
+            time: moment.unix(scheduledDepartureTime).format('HH:mm'),
+          },
+        );
+      }
+    }
   }
   return (
     <div

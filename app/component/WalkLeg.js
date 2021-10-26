@@ -210,22 +210,24 @@ function WalkLeg(
                 )}
               </div>
             </div>
-            <div
-              className="itinerary-map-action"
-              onClick={focusAction}
-              onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-              role="button"
-              tabIndex="0"
-              aria-label={intl.formatMessage(
-                { id: 'itinerary-summary.show-on-map' },
-                { target: leg[toOrFrom].name || '' },
-              )}
-            >
-              <Icon
-                img="icon-icon_show-on-map"
-                className="itinerary-search-icon"
-              />
-            </div>
+            {!returnNotice && (
+              <div
+                className="itinerary-map-action"
+                onClick={focusAction}
+                onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+                role="button"
+                tabIndex="0"
+                aria-label={intl.formatMessage(
+                  { id: 'itinerary-summary.show-on-map' },
+                  { target: leg[toOrFrom].name || '' },
+                )}
+              >
+                <Icon
+                  img="icon-icon_show-on-map"
+                  className="itinerary-search-icon"
+                />
+              </div>
+            )}
           </div>
         )}
 

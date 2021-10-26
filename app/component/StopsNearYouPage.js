@@ -809,6 +809,7 @@ class StopsNearYouPage extends React.Component {
         ? this.context.intl.formatMessage({ id: 'position' })
         : undefined,
       inputClassName: onMap ? 'origin-stop-near-you-selector' : undefined,
+      modeIconColors: this.context.config.colors.iconColors,
       modeSet: this.context.config.searchIconModeSet,
     };
     const targets = ['Locations', 'Stops'];
@@ -826,7 +827,6 @@ class StopsNearYouPage extends React.Component {
         mode={this.props.match.params.mode}
         isMobile={isMobile}
         selectHandler={this.selectHandler} // prop for context handler
-        modeSet={this.context.config.searchIconModeSet}
         {...searchProps}
       />
     );

@@ -98,7 +98,7 @@ function getIconProperties(item, color, modes = undefined, modeSet) {
     ],
     ['SUBWAY-default', { icon: 'subway', color: 'mode-metro' }],
     ['SUBWAY-digitransit', { icon: 'subway', color: 'mode-metro' }],
-    ['SUBWAY-STATION', { icon: 'subway', color: 'mode-metro' }],
+    ['SUBWAY-STATION-default', { icon: 'subway', color: 'mode-metro' }],
     ['SUBWAY-STATION-digitransit', { icon: 'subway', color: 'mode-metro' }],
     ['FERRY-default', { icon: 'search-ferry-default', color: 'mode-ferry' }],
     [
