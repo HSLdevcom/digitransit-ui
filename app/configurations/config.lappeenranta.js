@@ -27,8 +27,6 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  textLogo: false, // title text instead of logo img
-
   logo: 'lappeenranta/logo.png',
 
   favicon: './app/configurations/images/lappeenranta/bussi_fin.jpeg',
