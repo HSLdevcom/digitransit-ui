@@ -22,6 +22,8 @@ const TransportModesSection = (
   modes = getModes(config),
 ) => {
   const { iconColors } = config.colors;
+  const alternativeNames = config.useAlternativeNameForModes || [];
+
   return (
     <fieldset>
       <legend className="transport-mode-subheader settings-header">
@@ -61,7 +63,11 @@ const TransportModesSection = (
               </div>
               <div className="mode-name">
                 <FormattedMessage
-                  id={mode.toLowerCase()}
+                  id={
+                    alternativeNames.includes(mode.toLowerCase())
+                      ? `settings-alternative-name-${mode.toLowerCase()}`
+                      : mode.toLowerCase()
+                  }
                   defaultMessage={mode.toLowerCase()}
                 />
               </div>
