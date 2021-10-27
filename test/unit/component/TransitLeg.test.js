@@ -302,6 +302,15 @@ describe('<TransitLeg />', () => {
               zoneId: 'B',
             },
           },
+          {
+            arrivalTime: 1540990270000,
+            stop: {
+              code: 'E2506',
+              gtfsId: 'HSL:123456',
+              name: 'Turvesolmu',
+              zoneId: 'B',
+            },
+          },
         ],
         route: {
           gtfsId: 'HSL:7280',
@@ -628,6 +637,7 @@ describe('<TransitLeg />', () => {
             arrivalTime: 1553856410,
             stop: {
               gtfsId: 'foobar',
+              name: 'Foo',
               alerts: [
                 {
                   alertSeverityLevel: AlertSeverityLevelType.Warning,

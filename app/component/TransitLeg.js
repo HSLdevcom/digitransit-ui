@@ -37,7 +37,7 @@ class TransitLeg extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showIntermediateStops: false,
+      showIntermediateStops: props.leg.intermediatePlaces.length < 2,
     };
   }
 
@@ -476,18 +476,20 @@ class TransitLeg extends React.Component {
             !omitDivider && <div className="divider" />
           )}
           <LegAgencyInfo leg={leg} />
-          <div>
-            <StopInfo
-              toggleFunction={this.toggleShowIntermediateStops}
-              leg={leg}
-              intermediateStopCount={intermediateStopCount}
-              duration={
-                this.props.nextInterliningLeg
-                  ? this.props.nextInterliningLeg.endTime - leg.startTime
-                  : leg.duration * 1000
-              }
-              showIntermediateStops={this.state.showIntermediateStops}
-            />
+          <div className="intermediate-stops-button-container">
+            {leg.intermediatePlaces.length > 1 && (
+              <StopInfo
+                toggleFunction={this.toggleShowIntermediateStops}
+                leg={leg}
+                intermediateStopCount={intermediateStopCount}
+                duration={
+                  this.props.nextInterliningLeg
+                    ? this.props.nextInterliningLeg.endTime - leg.startTime
+                    : leg.duration * 1000
+                }
+                showIntermediateStops={this.state.showIntermediateStops}
+              />
+            )}
           </div>
           {leg.fare && leg.fare.isUnknown && shouldShowFareInfo(config) && (
             <div className="disclaimer-container unknown-fare-disclaimer__leg">
