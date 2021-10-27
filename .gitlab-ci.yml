@@ -20,10 +20,10 @@ before_script:
 .docker-build: &docker-build
   stage: build
   script:
-    - docker pull $IMAGE:bb-fuerstenberg-havel || true
-    - docker build --cache-from $IMAGE:bb-fuerstenberg-havel --tag $IMAGE:$CI_COMMIT_SHA --tag $IMAGE:bb-fuerstenberg-havel -f $DOCKERFILE .
+    - docker pull $IMAGE:bb-dabb-potsdam || true
+    - docker build --cache-from $IMAGE:bb-dabb-potsdam --tag $IMAGE:$CI_COMMIT_SHA --tag $IMAGE:bb-dabb-potsdam -f $DOCKERFILE .
     - docker push $IMAGE:$CI_COMMIT_SHA
-    - docker push $IMAGE:bb-fuerstenberg-havel
+    - docker push $IMAGE:bb-dabb-potsdam
 
 .quantum-conf: &quantum-conf
   stage: predeploy
@@ -35,7 +35,7 @@ before_script:
   script:
     - docker-compose -f docker-compose.yml -f stack.yml config > quantum.yml
   only:
-    - release/bb/fuerstenberg-havel
+    - release/bb/dabb-potsdam
 
 .deploy: &deploy
   stage: deploy
@@ -47,7 +47,7 @@ before_script:
     - quantum-cli stack update --create --stack $PROJECT-$QUANTUM_ENDPOINT --wait
   tags: [v2]
   only:
-    - release/bb/fuerstenberg-havel
+    - release/bb/dabb-potsdam
 
 build-app:
   variables:
@@ -59,9 +59,9 @@ build-app:
 app-conf:
   <<: *quantum-conf
   variables:
-    PROJECT: bb-fuerstenberg-havel
+    PROJECT: bb-dabb-potsdam
 
 deploy:
   <<: *deploy
   variables:
-    PROJECT: bb-fuerstenberg-havel
+    PROJECT: bb-dabb-potsdam
