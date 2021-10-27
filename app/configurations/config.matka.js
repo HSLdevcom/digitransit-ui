@@ -119,6 +119,17 @@ export default {
         href:
           'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas/matkafi-reittioppaan-saavutettavuusseloste',
       },
+      {
+        name: 'privacy-statement',
+        href: {
+          fi:
+            'https://www.traficom.fi/fi/traficom/tietosuoja-traficomissa/tietosuojaselosteet',
+          sv:
+            'https://www.traficom.fi/sv/traficom/dataskydd-hos-traficom/dataskyddsbeskrivningar',
+          en:
+            'https://www.traficom.fi/en/traficom/privacy-policy/privacy-statements',
+        },
+      },
     ],
   },
 
