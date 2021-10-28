@@ -63,20 +63,21 @@ export default configMerger(walttiConfig, {
     content: [
       {
         name: 'menu-feedback',
-        nameEn: 'Submit feedback',
-        href:
-          'https://e-asiointi.lahti.fi/eFeedback/fi/Feedback/29-Joukkoliikenne',
-        icon: 'icon-icon_speech-bubble',
+        href: {
+          fi:
+            'https://e-asiointi.lahti.fi/eFeedback/fi/Feedback/29-Joukkoliikenne',
+          sv:
+            'https://e-asiointi.lahti.fi/eFeedback/sv/Feedback/29-Kollektivtrafik',
+          en:
+            'https://e-asiointi.lahti.fi/eFeedback/en/Feedback/29-Public%20transport',
+        },
       },
       {
         name: 'about-this-service',
-        nameEn: 'About this service',
         route: '/tietoja-palvelusta',
-        icon: 'icon-icon_info',
       },
       {
         name: 'accessibility-statement',
-        nameEn: 'Accessibility statement',
         href:
           'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
       },

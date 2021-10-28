@@ -83,19 +83,21 @@ export default configMerger(walttiConfig, {
     content: [
       {
         name: 'menu-feedback',
-        nameEn: 'Submit feedback',
-        href: 'http://www.palautekouvola.fi',
-        icon: 'icon-icon_speech-bubble',
+        href: {
+          fi:
+            'https://kartta.kouvola.fi/eFeedback/fi/Feedback/34-Joukkoliikenne',
+          sv:
+            'https://kartta.kouvola.fi/eFeedback/fi/Feedback/34-Joukkoliikenne',
+          en:
+            'https://kartta.kouvola.fi/eFeedback/en/Feedback/34-Joukkoliikenne',
+        },
       },
       {
         name: 'about-this-service',
-        nameEn: 'About this service',
         route: '/tietoja-palvelusta',
-        icon: 'icon-icon_info',
       },
       {
         name: 'accessibility-statement',
-        nameEn: 'Accessibility statement',
         href:
           'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
       },
