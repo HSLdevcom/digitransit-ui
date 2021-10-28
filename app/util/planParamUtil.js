@@ -11,7 +11,7 @@ import {
   isTransportModeAvailable,
 } from './modeUtils';
 import { otpToLocation, getIntermediatePlaces } from './otpStrings';
-import { getDefaultNetworks } from './citybikes';
+import { getCitybikeNetworks, getDefaultNetworks } from './citybikes';
 import { getCustomizedSettings } from '../store/localStorage';
 import { estimateItineraryDistance } from './geo-utils';
 
@@ -27,7 +27,9 @@ export const getDefaultSettings = config => {
   return {
     ...config.defaultSettings,
     modes: getDefaultModes(config).sort(),
-    allowedBikeRentalNetworks: getDefaultNetworks(config),
+    allowedBikeRentalNetworks: config.transportModes.citybike.defaultValue
+      ? getDefaultNetworks(config)
+      : [],
   };
 };
 
@@ -51,6 +53,7 @@ export const getCurrentSettings = config => {
           'WALK',
         ].sort()
       : defaultSettings.modes,
+    allowedBikeRentalNetworks: getCitybikeNetworks(),
   };
 };
 
@@ -213,26 +216,23 @@ export const preparePlanParams = (config, useDefaultModes) => (
         intermediatePlaceLocations,
       );
   const defaultSettings = { ...getDefaultSettings(config) };
+  const allowedCitybikeNetworks = getDefaultNetworks(config);
   // legacy settings used to set network name in uppercase in localstorage
-  const allowedBikeRentalNetworksMapped = Array.isArray(
-    settings.allowedBikeRentalNetworks,
-  )
-    ? settings.allowedBikeRentalNetworks
-        .filter(
-          network =>
-            defaultSettings.allowedBikeRentalNetworks.includes(network) ||
-            defaultSettings.allowedBikeRentalNetworks.includes(
-              network.toLowerCase(),
-            ),
-        )
-        .map(network =>
-          defaultSettings.allowedBikeRentalNetworks.includes(
-            network.toLowerCase(),
+  const allowedBikeRentalNetworksMapped =
+    Array.isArray(settings.allowedBikeRentalNetworks) &&
+    settings.allowedBikeRentalNetworks.length > 0
+      ? settings.allowedBikeRentalNetworks
+          .filter(
+            network =>
+              allowedCitybikeNetworks.includes(network) ||
+              allowedCitybikeNetworks.includes(network.toLowerCase()),
           )
-            ? network.toLowerCase()
-            : network,
-        )
-    : defaultSettings.allowedBikeRentalNetworks;
+          .map(network =>
+            allowedCitybikeNetworks.includes(network.toLowerCase())
+              ? network.toLowerCase()
+              : network,
+          )
+      : defaultSettings.allowedBikeRentalNetworks;
   const formattedModes = modesAsOTPModes(modesOrDefault);
   const wheelchair =
     getNumberValueOrDefault(settings.accessibilityOption, defaultSettings) ===

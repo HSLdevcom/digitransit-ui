@@ -36,8 +36,6 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'lahti/lahti-logo.png',
 
-  textLogo: false, // title text instead of logo img
-
   feedIds: ['Lahti'],
 
   searchParams: {
@@ -65,20 +63,21 @@ export default configMerger(walttiConfig, {
     content: [
       {
         name: 'menu-feedback',
-        nameEn: 'Submit feedback',
-        href:
-          'https://e-asiointi.lahti.fi/eFeedback/fi/Feedback/29-Joukkoliikenne',
-        icon: 'icon-icon_speech-bubble',
+        href: {
+          fi:
+            'https://e-asiointi.lahti.fi/eFeedback/fi/Feedback/29-Joukkoliikenne',
+          sv:
+            'https://e-asiointi.lahti.fi/eFeedback/sv/Feedback/29-Kollektivtrafik',
+          en:
+            'https://e-asiointi.lahti.fi/eFeedback/en/Feedback/29-Public%20transport',
+        },
       },
       {
         name: 'about-this-service',
-        nameEn: 'About this service',
         route: '/tietoja-palvelusta',
-        icon: 'icon-icon_info',
       },
       {
         name: 'accessibility-statement',
-        nameEn: 'Accessibility statement',
         href:
           'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
       },
@@ -96,7 +95,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'Tietolähteet',
         paragraphs: [
-          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat Lahden omaan GTFS-aineistoon.',
+          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Digi- ja väestötietoviraston rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat Lahden omaan GTFS-aineistoon.',
         ],
       },
     ],

@@ -103,21 +103,27 @@ export default {
     content: [
       {
         name: 'menu-feedback',
-        nameEn: 'Submit feedback',
         href: 'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas',
-        icon: 'icon-icon_speech-bubble',
       },
       {
         name: 'about-this-service',
-        nameEn: 'About this service',
         href: 'https://www.traficom.fi/fi/joukkoliikenteen-informaatiopalvelut',
-        icon: 'icon-icon_info',
       },
       {
         name: 'accessibility-statement',
-        nameEn: 'Accessibility statement',
         href:
           'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas/matkafi-reittioppaan-saavutettavuusseloste',
+      },
+      {
+        name: 'privacy-statement',
+        href: {
+          fi:
+            'https://www.traficom.fi/fi/traficom/tietosuoja-traficomissa/tietosuojaselosteet',
+          sv:
+            'https://www.traficom.fi/sv/traficom/dataskydd-hos-traficom/dataskyddsbeskrivningar',
+          en:
+            'https://www.traficom.fi/en/traficom/privacy-policy/privacy-statements',
+        },
       },
     ],
   },
@@ -262,4 +268,33 @@ export default {
     'citybike',
     'airplane',
   ],
+  useAlternativeNameForModes: ['rail'],
+
+  sourceForAlertsAndDisruptions: {
+    HSL: {
+      fi: 'Helsingin seutu',
+      sv: 'Helsingforsregion',
+      en: 'Helsinki region',
+    },
+    tampere: {
+      fi: 'Tampereen seutu',
+      sv: 'Tammerforsregion',
+      en: 'Tampere region',
+    },
+    LINKKI: {
+      fi: 'Jyväskylän seutu',
+      sv: 'Jyväskyläregion',
+      en: 'Jyväskylä region',
+    },
+    lautta: {
+      fi: 'Lautat',
+      sv: 'Färja',
+      en: 'Ferries',
+    },
+    OULU: {
+      fi: 'Oulu',
+      sv: 'Uleåborg',
+      en: 'Oulu',
+    },
+  },
 };

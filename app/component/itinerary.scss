@@ -1387,6 +1387,9 @@ $itinerary-tab-switch-height: 48px;
       padding-bottom: 0px;
       @extend .itinerary-leg-text-gray;
     }
+    .intermediate-stops-button-container {
+      min-height: 40px;
+    }
 
     .intermediate-stops-clickable {
       height: 60px;
@@ -1670,6 +1673,9 @@ div.itinerary-container-content {
 }
 
 .swipe-button-container {
+  &.active {
+    cursor: pointer;
+  }
   display: flex;
   justify-content: center;
   align-items: center;

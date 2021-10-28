@@ -118,7 +118,6 @@ const refetchContainer = createRefetchContainer(
         lon
         zoneId
         platformCode
-        vehicleMode
         stoptimesWithoutPatterns(startTime: $startTime, omitNonPickups: true) {
           scheduledArrival
           realtimeArrival
@@ -153,7 +152,6 @@ const refetchContainer = createRefetchContainer(
           lon
           zoneId
           platformCode
-          vehicleMode
           stoptimesWithoutPatterns(
             startTime: $startTime
             omitNonPickups: true
@@ -199,7 +197,6 @@ const refetchContainer = createRefetchContainer(
         lon
         zoneId
         platformCode
-        vehicleMode
         stops {
           desc
         }
