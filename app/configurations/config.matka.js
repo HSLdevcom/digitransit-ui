@@ -273,4 +273,5 @@ export default {
     'citybike',
     'airplane',
   ],
+  useAlternativeNameForModes: ['rail'],
 };
