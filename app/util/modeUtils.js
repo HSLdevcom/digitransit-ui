@@ -24,7 +24,13 @@ export const isCitybikeSeasonActive = season => {
 };
 
 export const showCitybikeNetwork = network => {
-  return network.enabled && isCitybikeSeasonActive(network.season);
+  return network?.enabled && isCitybikeSeasonActive(network?.season);
+};
+
+export const networkIsActive = (config, networkName) => {
+  const networks = config?.cityBike?.networks;
+
+  return showCitybikeNetwork(networks[networkName]);
 };
 
 export const showCityBikes = networks => {
@@ -215,14 +221,17 @@ export const showModeSettings = config =>
  */
 export const getModes = config => {
   const { modes, allowedBikeRentalNetworks } = getCustomizedSettings();
+  const activeAndAllowedBikeRentalNetworks = allowedBikeRentalNetworks
+    ? allowedBikeRentalNetworks.filter(x => networkIsActive(config, x))
+    : [];
   if (showModeSettings(config) && Array.isArray(modes) && modes.length > 0) {
     const transportModes = modes.filter(mode =>
       isTransportModeAvailable(config, mode),
     );
     const modesWithWalk = [...transportModes, 'WALK'];
     if (
-      allowedBikeRentalNetworks &&
-      allowedBikeRentalNetworks.length > 0 &&
+      activeAndAllowedBikeRentalNetworks &&
+      activeAndAllowedBikeRentalNetworks.length > 0 &&
       modesWithWalk.indexOf(TransportMode.Citybike) === -1
     ) {
       modesWithWalk.push(TransportMode.Citybike);
@@ -230,8 +239,8 @@ export const getModes = config => {
     return modesWithWalk;
   }
   if (
-    Array.isArray(allowedBikeRentalNetworks) &&
-    allowedBikeRentalNetworks.length > 0
+    Array.isArray(activeAndAllowedBikeRentalNetworks) &&
+    activeAndAllowedBikeRentalNetworks.length > 0
   ) {
     const modesWithCitybike = getDefaultModes(config);
     modesWithCitybike.push(TransportMode.Citybike);
