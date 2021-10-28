@@ -63,8 +63,14 @@ export default configMerger(walttiConfig, {
     content: [
       {
         name: 'menu-feedback',
-        href:
-          'https://e-asiointi.lahti.fi/eFeedback/fi/Feedback/29-Joukkoliikenne',
+        href: {
+          fi:
+            'https://e-asiointi.lahti.fi/eFeedback/fi/Feedback/29-Joukkoliikenne',
+          sv:
+            'https://e-asiointi.lahti.fi/eFeedback/fi/Feedback/29-Joukkoliikenne',
+          en:
+            'https://e-asiointi.lahti.fi/eFeedback/en/Feedback/29-Joukkoliikenne',
+        },
       },
       {
         name: 'about-this-service',

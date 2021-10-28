@@ -64,7 +64,11 @@ export default configMerger(walttiConfig, {
     content: [
       {
         name: 'menu-feedback',
-        href: 'https://kartta.vaasa.fi/eFeedback',
+        href: { 
+          fi: 'https://kartta.vaasa.fi/eFeedback/fi/Feedback/6-Joukkoliikenne',
+          sv: 'https://kartta.vaasa.fi/eFeedback/sv/Feedback/6-Joukkoliikenne',
+          en: 'https://kartta.vaasa.fi/eFeedback/fi/Feedback/6-Joukkoliikenne',
+        }
       },
       {
         name: 'about-this-service',

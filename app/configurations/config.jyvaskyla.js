@@ -68,7 +68,14 @@ export default configMerger(walttiConfig, {
     content: [
       {
         name: 'menu-feedback',
-        href: 'https://s-asiointi.jkl.fi/eFeedback/fi/Feedback/38',
+        href: {
+          fi:
+            'https://s-asiointi.jkl.fi/eFeedback/fi/Feedback/38-Joukkoliikenne',
+          sv:
+            'https://s-asiointi.jkl.fi/eFeedback/fi/Feedback/38-Joukkoliikenne',
+          en:
+            'https://s-asiointi.jkl.fi/eFeedback/en/Feedback/38-Public%20transport',
+        },
       },
       {
         name: 'about-this-service',

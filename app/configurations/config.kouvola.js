@@ -83,7 +83,14 @@ export default configMerger(walttiConfig, {
     content: [
       {
         name: 'menu-feedback',
-        href: 'http://www.palautekouvola.fi',
+        href: {
+          fi:
+            'https://kartta.kouvola.fi/eFeedback/fi/Feedback/34-Joukkoliikenne',
+          sv:
+            'https://kartta.kouvola.fi/eFeedback/fi/Feedback/34-Joukkoliikenne',
+          en:
+            'https://kartta.kouvola.fi/eFeedback/en/Feedback/34-Joukkoliikenne',
+        },
       },
       {
         name: 'about-this-service',

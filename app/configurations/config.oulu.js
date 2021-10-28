@@ -92,7 +92,11 @@ export default configMerger(walttiConfig, {
     content: [
       {
         name: 'menu-feedback',
-        href: 'http://www.oulunjoukkoliikenne.fi/palautteet',
+        href: {
+          fi: 'http://www.oulunjoukkoliikenne.fi/palautteet',
+          sv: 'http://www.oulunjoukkoliikenne.fi/palautteet',
+          en: 'https://www.ouka.fi/oulu/public-transport/customer-service',
+        },
       },
       {
         name: 'about-this-service',

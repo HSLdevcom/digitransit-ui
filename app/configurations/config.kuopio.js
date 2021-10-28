@@ -112,7 +112,11 @@ export default configMerger(walttiConfig, {
     content: [
       {
         name: 'menu-feedback',
-        href: 'https://palaute.kuopio.fi/fi#!/palautelomake/27050/27054',
+        href: {
+          fi: 'https://palaute.kuopio.fi/fi#!/palautelomake/27050/27054',
+          sv: 'https://palaute.kuopio.fi/fi#!/palautelomake/27050/27054',
+          en: 'https://palaute.kuopio.fi/en#!/palautelomake/27050/27054',
+        },
       },
       {
         name: 'about-this-service',

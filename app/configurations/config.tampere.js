@@ -114,7 +114,11 @@ export default configMerger(walttiConfig, {
     content: [
       {
         name: 'menu-feedback',
-        href: 'https://www.nysse.fi/palaute.html',
+        href: {
+          fi: 'https://www.nysse.fi/palaute.html',
+          sv: 'https://www.nysse.fi/palaute.html',
+          en: 'https://www.nysse.fi/en/feedback.html',
+        },
       },
       {
         name: 'about-this-service',
