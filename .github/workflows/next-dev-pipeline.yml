@@ -175,7 +175,7 @@ jobs:
         run: yarn relay
       - name: Build UI
         run: yarn build
-      - uses: microsoft/playwright-github-action@v1.4.4
+      - uses: microsoft/playwright-github-action@v1.5.0
       - name: Run End to End tests
         id: 'test_e2e'
         env:
@@ -215,7 +215,7 @@ jobs:
         run: yarn relay
       - name: Build UI
         run: yarn build
-      - uses: microsoft/playwright-github-action@v1.4.4
+      - uses: microsoft/playwright-github-action@v1.5.0
       - name: Run End to End tests
         id: 'test_e2e'
         env:
