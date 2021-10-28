@@ -83,9 +83,9 @@ export default configMerger(walttiConfig, {
           fi:
             'https://kartta.hameenlinna.fi/eFeedback/fi/Feedback/35-Joukkoliikenne',
           sv:
-            'https://kartta.hameenlinna.fi/eFeedback/fi/Feedback/35-Joukkoliikenne',
+            'https://kartta.hameenlinna.fi/eFeedback/sv/Feedback/35-Joukkoliikenne',
           en:
-            'https://kartta.hameenlinna.fi/eFeedback/en/Feedback/35-Joukkoliikenne',
+            'https://kartta.hameenlinna.fi/eFeedback/en/Feedback/35-Public%20transportation',
         },
       },
       {

@@ -110,9 +110,9 @@ export default configMerger(walttiConfig, {
           fi:
             'https://opaskartta.turku.fi/eFeedback/fi/Feedback/35-Joukkoliikenne%20F%C3%B6li',
           sv:
-            'https://opaskartta.turku.fi/eFeedback/fi/Feedback/35-Joukkoliikenne%20F%C3%B6li',
+            'https://opaskartta.turku.fi/eFeedback/sv/Feedback/35-Kollektivtrafiken%20F%C3%B6li',
           en:
-            'https://opaskartta.turku.fi/eFeedback/en/Feedback/35-FÖLI%20public%20transport',
+            'https://opaskartta.turku.fi/eFeedback/en/Feedback/35-F%C3%96LI%20public%20transport',
         },
       },
       {
