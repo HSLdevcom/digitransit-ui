@@ -9967,7 +9967,7 @@ __metadata:
     optimize-css-assets-webpack-plugin: 5.0.4
     passport: 0.4.1
     pbf: 3.2.1
-    playwright: 1.16.1
+    playwright: 1.16.2
     point-in-polygon: 1.0.1
     polyfill-library: 3.96.0
     polyline-encoded: 0.0.9
@@ -20417,7 +20417,33 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:=1.16.1, playwright-core@npm:>=1.2.0":
+"playwright-core@npm:=1.16.2":
+  version: 1.16.2
+  resolution: "playwright-core@npm:1.16.2"
+  dependencies:
+    commander: ^8.2.0
+    debug: ^4.1.1
+    extract-zip: ^2.0.1
+    https-proxy-agent: ^5.0.0
+    jpeg-js: ^0.4.2
+    mime: ^2.4.6
+    pngjs: ^5.0.0
+    progress: ^2.0.3
+    proper-lockfile: ^4.1.1
+    proxy-from-env: ^1.1.0
+    rimraf: ^3.0.2
+    socks-proxy-agent: ^6.1.0
+    stack-utils: ^2.0.3
+    ws: ^7.4.6
+    yauzl: ^2.10.0
+    yazl: ^2.5.1
+  bin:
+    playwright: cli.js
+  checksum: 5386cffecd5a244dccaabc4a8248151418c228dbcb1a0e15d9aca81dd8ce0231fa0da3601cdd68a3a409d0b58db70f85e31e47afc54e5b0fd8542dfcc034d0fb
+  languageName: node
+  linkType: hard
+
+"playwright-core@npm:>=1.2.0":
   version: 1.16.1
   resolution: "playwright-core@npm:1.16.1"
   dependencies:
@@ -20443,14 +20469,14 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"playwright@npm:1.16.1":
-  version: 1.16.1
-  resolution: "playwright@npm:1.16.1"
+"playwright@npm:1.16.2":
+  version: 1.16.2
+  resolution: "playwright@npm:1.16.2"
   dependencies:
-    playwright-core: =1.16.1
+    playwright-core: =1.16.2
   bin:
     playwright: cli.js
-  checksum: 89261b43ee6bec17d5ba21c985ab1804fa6ceeca8d8bafb229d15bd8844ec3ce0c1fb4bdb349e91d034082d573ad52e5af7be91fa8668cb55354638cb13643cc
+  checksum: 354d28a097cf1b91c49b240cad913c87d99e39c64ff4d5ac6c6b160a6ae7e76cdd9262847ab9ba5badd433c8bfde14d19f14fb96b5c6d7992af861b183822695
   languageName: node
   linkType: hard
 
