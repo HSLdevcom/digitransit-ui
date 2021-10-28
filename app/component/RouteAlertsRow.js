@@ -127,10 +127,13 @@ export default function RouteAlertsRow(
 
   const mapSource = feedName => {
     if (
+      config &&
       config.sourceForAlertsAndDisruptions &&
       config.sourceForAlertsAndDisruptions[feedName]
     ) {
-      return config.sourceForAlertsAndDisruptions[feedName].concat(': ');
+      return config.sourceForAlertsAndDisruptions[feedName][intl.locale].concat(
+        ': ',
+      );
     }
     return '';
   };
