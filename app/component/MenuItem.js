@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { routerShape } from 'found';
-import Icon from './Icon';
 
 const mapToLink = (href, children, onClick, openInNewTab) => (
   <span className="cursor-pointer">
@@ -27,20 +26,13 @@ const mapToRoute = (router, route, children, onClick) => (
 );
 
 const MenuItem = (
-  { name, href, label, nameEn, route, icon, onClick, openInNewTab },
+  { name, href, label, route, onClick, openInNewTab },
   { router, intl },
 ) => {
-  const displayIcon =
-    (icon && <Icon className="menu-icon" img={icon} />) || undefined;
   const displayLabel = label || (
-    <FormattedMessage id={name} defaultMessage={nameEn || name} />
+    <FormattedMessage id={name} defaultMessage={name} />
   );
-  let item = (
-    <span id={name}>
-      {displayIcon}
-      {displayLabel}
-    </span>
-  );
+  let item = <span id={name}>{displayLabel}</span>;
   if (href) {
     if (typeof href === 'object') {
       item = mapToLink(href[intl.locale], item, onClick, openInNewTab);
@@ -57,8 +49,6 @@ const MenuItem = (
 
 MenuItem.propTypes = {
   name: PropTypes.string,
-  nameEn: PropTypes.string,
-  icon: PropTypes.string,
   href: PropTypes.string,
   route: PropTypes.string,
   label: PropTypes.string,

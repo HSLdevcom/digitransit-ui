@@ -103,19 +103,14 @@ export default {
     content: [
       {
         name: 'menu-feedback',
-        nameEn: 'Submit feedback',
         href: 'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas',
-        icon: 'icon-icon_speech-bubble',
       },
       {
         name: 'about-this-service',
-        nameEn: 'About this service',
         href: 'https://www.traficom.fi/fi/joukkoliikenteen-informaatiopalvelut',
-        icon: 'icon-icon_info',
       },
       {
         name: 'accessibility-statement',
-        nameEn: 'Accessibility statement',
         href:
           'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas/matkafi-reittioppaan-saavutettavuusseloste',
       },
