@@ -56,8 +56,9 @@ export default function RouteAlertsRow(
     gtfsIds,
     showRouteNameLink,
     header,
+    source,
   },
-  { intl },
+  { intl, config },
 ) {
   const showTime = startTime && endTime && currentTime;
   const gtfsIdList = gtfsIds ? gtfsIds.split(',') : [];
@@ -123,6 +124,17 @@ export default function RouteAlertsRow(
       }
     }
   }
+
+  const mapSource = feedName => {
+    if (
+      config.sourceForAlertsAndDisruptions &&
+      config.sourceForAlertsAndDisruptions[feedName]
+    ) {
+      return config.sourceForAlertsAndDisruptions[feedName].concat(': ');
+    }
+    return '';
+  };
+
   return (
     <div
       className={cx('route-alert-row', { expired })}
@@ -153,6 +165,7 @@ export default function RouteAlertsRow(
           </div>
         )}
       <div className="route-alert-contents">
+        {mapSource(source)}
         {(entityIdentifier || showTime) && (
           <div className="route-alert-top-row">
             {entityIdentifier &&
@@ -215,9 +228,11 @@ RouteAlertsRow.propTypes = {
   gtfsIds: PropTypes.string,
   showRouteNameLink: PropTypes.bool,
   header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
+  source: PropTypes.string,
 };
 
 RouteAlertsRow.contextTypes = {
+  config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 };
 
