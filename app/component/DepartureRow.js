@@ -95,12 +95,12 @@ const DepartureRow = (
           {showPlatformCode && (
             <div
               className={
-                !departure.stop.platformCode
+                !departure.stop?.platformCode
                   ? 'platform-code empty'
                   : 'platform-code'
               }
             >
-              {departure.stop.platformCode}
+              {departure.stop?.platformCode}
             </div>
           )}
         </td>

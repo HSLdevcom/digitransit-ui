@@ -11,7 +11,6 @@ import {
   isStop,
 } from '@digitransit-search-util/digitransit-search-util-helpers';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
-import { getGTFSId } from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 
 let relayEnvironment = null;
 
@@ -110,44 +109,6 @@ const favouriteBikeRentalQuery = graphql`
     bikeRentalStations(ids: $ids) {
       name
       stationId
-    }
-  }
-`;
-
-const stopsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsStopsQuery($ids: [String!]!) {
-    stops(ids: $ids) {
-      gtfsId
-      lat
-      lon
-      name
-      code
-      stoptimesWithoutPatterns(numberOfDepartures: 1) {
-        trip {
-          route {
-            mode
-          }
-        }
-      }
-    }
-  }
-`;
-
-const stationsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsStationsQuery($ids: [String!]!) {
-    stations(ids: $ids) {
-      gtfsId
-      lat
-      lon
-      name
-      code
-      stoptimesWithoutPatterns(numberOfDepartures: 1) {
-        trip {
-          route {
-            mode
-          }
-        }
-      }
     }
   }
 `;
@@ -284,78 +245,7 @@ export const getAllBikeRentalStations = () => {
   }
   return fetchQuery(relayEnvironment, searchBikeRentalStationsQuery);
 };
-/**
- * Returns Stop and station objects filtered by given mode .
- * @param {*} stopsToFilter
- * @param {String} mode
- */
-export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
-  if (!relayEnvironment || stopsToFilter.length < 1) {
-    return Promise.resolve([]);
-  }
-  const stationIds = stopsToFilter
-    .filter(
-      item =>
-        item.properties.layer === 'station' ||
-        item.properties.layer === 'favouriteStation' ||
-        item.properties.type === 'station',
-    )
-    .map(item => item.gtfsId);
 
-  const stopIds = stopsToFilter
-    .filter(
-      item =>
-        item.properties.layer === 'stop' ||
-        item.properties.layer === 'favouriteStop' ||
-        item.properties.type === 'stop',
-    )
-    .map(item => item.gtfsId);
-  const queries = [];
-  if (stopIds.length > 0) {
-    queries.push(
-      fetchQuery(relayEnvironment, stopsQuery, {
-        ids: stopIds,
-      }),
-    );
-  }
-  if (stationIds.length > 0) {
-    queries.push(
-      fetchQuery(relayEnvironment, stationsQuery, {
-        ids: stationIds,
-      }),
-    );
-  }
-  if (queries.length === 0) {
-    return Promise.resolve([]);
-  }
-  return Promise.all(queries)
-    .then(qres =>
-      qres.map(stopOrStation => {
-        return stopOrStation.stops
-          ? stopOrStation.stops
-          : stopOrStation.stations;
-      }),
-    )
-    .then(flatten)
-    .then(result => result.filter(res => res !== null))
-    .then(data =>
-      data.map(stop => {
-        const stopMode = stop.stoptimesWithoutPatterns[0]
-          ? stop.stoptimesWithoutPatterns[0].trip.route.mode
-          : undefined;
-        const oldStop = stopsToFilter.find(s => s.gtfsId === stop.gtfsId);
-        const newStop = {
-          ...oldStop,
-          mode: stopMode,
-        };
-        if (newStop.mode === mode) {
-          return newStop;
-        }
-        return undefined;
-      }),
-    )
-    .then(compact);
-};
 /**
  * Returns Favourite Route objects depending on input
  * @param {String} input Search text, if empty no objects are returned
@@ -497,19 +387,9 @@ export const filterSearchResultsByMode = (results, mode, type = 'Stops') => {
     case 'Routes':
       return results;
     case 'Stops': {
-      const gtfsIds = results.map(x => {
-        const gtfsId = x.properties.gtfsId
-          ? x.properties.gtfsId
-          : getGTFSId({ id: x.properties.id });
-        if (gtfsId) {
-          return {
-            gtfsId,
-            ...x,
-          };
-        }
-        return null;
+      return results.filter(stop => {
+        return stop.properties.addendum?.GTFS?.modes.includes(mode);
       });
-      return filterStopsAndStationsByMode(compact(gtfsIds), mode);
     }
     default:
       return results;

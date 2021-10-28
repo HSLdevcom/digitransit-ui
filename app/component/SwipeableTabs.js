@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactSwipe from 'react-swipe';
 import { intlShape } from 'react-intl';
+import cx from 'classnames';
 import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import ScrollableWrapper from './ScrollableWrapper';
@@ -282,7 +283,11 @@ export default class SwipeableTabs extends React.Component {
             tabIndex="0"
           >
             {!hideArrows && (
-              <div className="swipe-button-container">
+              <div
+                className={cx('swipe-button-container', {
+                  active: !(disabled || this.state.tabIndex <= 0),
+                })}
+              >
                 <div
                   className="swipe-button"
                   onClick={() => reactSwipeEl.prev()}
@@ -318,7 +323,11 @@ export default class SwipeableTabs extends React.Component {
               {disabled ? null : tabBalls}
             </div>
             {!hideArrows && (
-              <div className="swipe-button-container">
+              <div
+                className={cx('swipe-button-container', {
+                  active: !(disabled || this.state.tabIndex >= tabs.length - 1),
+                })}
+              >
                 <div
                   className="swipe-button"
                   onClick={() => reactSwipeEl.next()}
