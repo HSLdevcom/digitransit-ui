@@ -240,7 +240,7 @@ export default configMerger(walttiConfig, {
         useRetinaTiles: true,
         tileSize: 256,
         zoomOffset: 0,
-
+        zoom: 14,
         showZoomControl: true, // DT-3470, DT-3397
         showStreetModeSelector: false, // DT-3470
         showLayerSelector: true, // DT-3470

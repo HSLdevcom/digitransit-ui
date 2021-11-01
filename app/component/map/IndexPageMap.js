@@ -37,7 +37,7 @@ function IndexPageMap(
   } else if (!match.params.from && !match.params.to) {
     // use default location only if url does not include location
     newFocus = config.defaultEndpoint;
-    zoom = 12;
+    zoom = config.map?.zoom || 12;
   }
 
   if (!sameLocations(focus, newFocus) && newFocus.lat) {
