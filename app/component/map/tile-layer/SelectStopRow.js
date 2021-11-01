@@ -8,24 +8,28 @@ function SelectStopRow({ gtfsId, type, name, code, terminal, desc }) {
   const iconOptions = {};
   switch (type) {
     case 'TRAM':
-      iconOptions.iconId = 'icon-icon_bus-stop';
+      iconOptions.iconId = 'icon-icon_tram-stop-lollipop';
       iconOptions.className = 'tram-stop';
       break;
     case 'RAIL':
-      iconOptions.iconId = 'icon-icon_station';
+      iconOptions.iconId = terminal
+        ? 'icon-icon_rail'
+        : 'icon-icon_rail-stop-lollipop';
       iconOptions.className = 'rail-stop';
       break;
     case 'BUS':
-      iconOptions.iconId = 'icon-icon_bus-stop';
+      iconOptions.iconId = terminal
+        ? 'icon-icon_bus'
+        : 'icon-icon_bus-stop-lollipop';
       iconOptions.className = 'bus-stop';
       break;
     case 'SUBWAY':
-      iconOptions.iconId = 'icon-icon_station';
+      iconOptions.iconId = 'icon-icon_subway';
       iconOptions.className = 'subway-stop';
       break;
     case 'FERRY':
       iconOptions.iconId =
-        code !== 'null' ? 'icon-icon_ferry' : 'icon-icon_stop_ferry';
+        code !== 'null' ? 'icon-icon_ferry' : 'icon-icon_stop-ferry-lollipop';
       iconOptions.className = 'ferry-stop';
       break;
     case 'AIRPLANE':
