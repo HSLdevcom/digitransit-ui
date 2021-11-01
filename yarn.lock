@@ -9931,6 +9931,7 @@ __metadata:
     jest-image-snapshot: 4.5.0
     jest-playwright-preset: 1.6.0
     jsdom: 13.2.0
+    klaro: ^0.7.18
     leaflet: 1.6.0
     lerna: 3.20.2
     lint-staged: 10.3.0
@@ -16581,6 +16582,13 @@ fsevents@~2.1.2:
   version: 6.0.3
   resolution: "kind-of@npm:6.0.3"
   checksum: 5de5d6577796af87a983199d6350ed41c670abec4a306cc43ca887c1afdbd6b89af9ab00016e3ca17eb7ad89ebfd9bb817d33baa89f855c6c95398a8b8abbf08
+  languageName: node
+  linkType: hard
+
+"klaro@npm:^0.7.18":
+  version: 0.7.18
+  resolution: "klaro@npm:0.7.18"
+  checksum: 22816675de62b3495a746cb9bbc78cc057ca2aa13532a5a6abd56dcf6a62f44df442392b30a4d46c02e79eb0576b1a8d3215e93dca005c1b0039378273359f64
   languageName: node
   linkType: hard
 

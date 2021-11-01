@@ -591,4 +591,92 @@ export default configMerger(walttiConfig, {
     showTimeTableOptions: false,
 
     viaPointsEnabled: false,
+
+    klaro: {
+        styling: {
+            theme: ['light', 'bottom'],
+        },
+        hideDeclineAll: true,
+        mustConsent: true,
+        translations: {
+            de: {
+                privacyPolicyUrl: 'https://bbnavi.de/datenschutzerklaerung',
+                acceptSelected: 'Auswahl bestätigen',
+                consentModal: {
+                    title: 'Cookies und Privatsphäre',
+                    description: 'Wir verwenden Cookies auf dieser Webseite.',
+                },
+                privacyPolicy: {
+                    name: 'hier',
+                    text: 'Weitere Informationen zum Umgang mit Cookies und unsere Datenschutzerklärung finden Sie {privacyPolicy}.'
+                },
+                purposes: {
+                    functional: {
+                        title: "Notwendige Cookies",
+                        description: "Diese Cookies werden für eine reibungslose Funktion unserer Website benötigt."
+                    }
+                },
+                service: {
+                    required: {
+                        description: ' ',
+                        title: ' '
+                    }
+                },
+                klaro: {
+                    title: "1. klaro",
+                    description: "Zweck: Speichert Ihre Einwilligung zur Verwendung von Cookies."
+                },
+                lang: {
+                    title: "2. lang",
+                    description: "Zweck: Speichert Ihre gewählte Sprache."
+                }
+            },
+            en: {
+                privacyPolicyUrl: 'https://bbnavi.de/datenschutzerklaerung',
+                acceptSelected: 'Confirm selection',
+                consentModal: {
+                    title: 'Cookies and privacy',
+                    description: 'We use cookies on this website.',
+                },
+                privacyPolicy: {
+                    name: 'here',
+                    text: 'For more information on how we handle cookies and our privacy policy, please see {privacyPolicy}.'
+                },
+                purposes: {
+                    functional: {
+                        title: "Necessary cookies",
+                        description: "These cookies are needed for the smooth functioning of our website."
+                    }
+                },
+                service: {
+                    required: {
+                        description: ' ',
+                        title: ' '
+                    }
+                },
+                klaro: {
+                    title: "1. klaro",
+                    description: "Purpose: Saves your consent to the use of cookies."
+                },
+                lang: {
+                    title: "2. lang",
+                    description: "Purpose: Saves your selected language."
+                }
+            }
+        },
+        services: [
+            {
+                name: "klaro",
+                default: true,
+                required: true,
+                purposes: ['functional']
+            },
+            {
+                name: "lang",
+                default: true,
+                required: true,
+                purposes: ['functional']
+            }
+        ]
+    }
 });

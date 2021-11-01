@@ -25,6 +25,9 @@ import { ReactRelayContext } from 'react-relay';
 
 import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search-util-query-utils';
 
+// Import Klaro without styles
+import * as Klaro from 'klaro/dist/klaro';
+
 import { historyMiddlewares, render } from './routes';
 
 import Raven from './util/Raven';
@@ -290,6 +293,13 @@ async function init() {
       );
     }
   });
+
+  // Cookie banner:
+  // Assign the Klaro module to the window, so that we can access it in JS
+  window.klaro = Klaro;
+  window.klaroConfig = config.klaro;
+  // Set up Klaro with the config
+  Klaro.setup(config.klaro);
 }
 
 init();
