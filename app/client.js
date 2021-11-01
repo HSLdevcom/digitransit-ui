@@ -26,7 +26,7 @@ import { ReactRelayContext } from 'react-relay';
 import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search-util-query-utils';
 
 // Import Klaro without styles
-import * as Klaro from 'klaro/dist/klaro';
+import * as Klaro from 'klaro/dist/klaro-no-css';
 
 import { historyMiddlewares, render } from './routes';
 
