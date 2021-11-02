@@ -2,8 +2,8 @@
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'bbnavi';
-const HEADER_TITLE = "TH Brandenburg";
-const APP_TITLE = 'bbnavi TH Brandenburg';
+const HEADER_TITLE = "Staging";
+const APP_TITLE = 'bbnavi Staging';
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
 const API_URL = process.env.API_URL || 'https://api.dev.stadtnavi.eu';
 const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{x}/{y}{r}.png';
@@ -271,8 +271,8 @@ export default configMerger(walttiConfig, {
         'boundary.rect.max_lat': 54.015895,
         'boundary.rect.min_lon': 15.000255,
         'boundary.rect.max_lon': 11.000255,
-        'focus.point.lat': 52.41167909055245,
-        'focus.point.lon': 12.539776469044579
+        'focus.point.lat': 52.391618,
+        'focus.point.lon': 13.067224
     },
 
     areaPolygon: [
@@ -285,8 +285,8 @@ export default configMerger(walttiConfig, {
     nationalServiceLink: { name: 'Fahrplanauskunft efa-bw', href: 'https://www.efa-bw.de' },
 
     defaultEndpoint: {
-        lat: 52.41167909055245,
-        lon: 12.539776469044579,
+        lat: 52.391618,
+        lon: 13.067224,
     },
 
     defaultOrigins: [],

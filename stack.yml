@@ -12,6 +12,6 @@ services:
         traefik.docker.network: public
         traefik.enable: "true"
         traefik.frontend.passHostHeader: "true"
-        traefik.frontend.rule: Host:th-brandenburg.bbnavi.de
+        traefik.frontend.rule: Host:staging.bbnavi.de
         traefik.frontend.auth.basic.users: bbnavi:$$apr1$$s135n0lg$$.yhGUnsFgFVpKW.9UuyTJ/
         traefik.port: '8080'

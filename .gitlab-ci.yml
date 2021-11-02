@@ -20,10 +20,10 @@ before_script:
 .docker-build: &docker-build
   stage: build
   script:
-    - docker pull $IMAGE:bb-th-brandenburg || true
-    - docker build --cache-from $IMAGE:bb-th-brandenburg --tag $IMAGE:$CI_COMMIT_SHA --tag $IMAGE:bb-th-brandenburg -f $DOCKERFILE .
+    - docker pull $IMAGE:int-development || true
+    - docker build --cache-from $IMAGE:int-development --tag $IMAGE:$CI_COMMIT_SHA --tag $IMAGE:int-development -f $DOCKERFILE .
     - docker push $IMAGE:$CI_COMMIT_SHA
-    - docker push $IMAGE:bb-th-brandenburg
+    - docker push $IMAGE:int-development
 
 .quantum-conf: &quantum-conf
   stage: predeploy
@@ -35,7 +35,7 @@ before_script:
   script:
     - docker-compose -f docker-compose.yml -f stack.yml config > quantum.yml
   only:
-    - release/bb/th-brandenburg
+    - release/int/development
 
 .deploy: &deploy
   stage: deploy
@@ -47,7 +47,7 @@ before_script:
     - quantum-cli stack update --create --stack $PROJECT-$QUANTUM_ENDPOINT --wait
   tags: [v2]
   only:
-    - release/bb/th-brandenburg
+    - release/int/development
 
 build-app:
   variables:
@@ -59,9 +59,9 @@ build-app:
 app-conf:
   <<: *quantum-conf
   variables:
-    PROJECT: bb-th-brandenburg
+    PROJECT: int-development
 
 deploy:
   <<: *deploy
   variables:
-    PROJECT: bb-th-brandenburg
+    PROJECT: int-development
