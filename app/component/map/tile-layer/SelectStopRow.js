@@ -7,8 +7,14 @@ import { PREFIX_TERMINALS, PREFIX_STOPS } from '../../../util/path';
 function SelectStopRow({ gtfsId, type, name, code, terminal, desc }) {
   const iconOptions = {};
   switch (type) {
+    case 'TRAM,BUS':
+      iconOptions.iconId = 'icon-icon_bustram-stop-lollipop';
+      iconOptions.className = 'tram-stop';
+      break;
     case 'TRAM':
-      iconOptions.iconId = 'icon-icon_tram-stop-lollipop';
+      iconOptions.iconId = terminal
+        ? 'icon-icon_tram'
+        : 'icon-icon_tram-stop-lollipop';
       iconOptions.className = 'tram-stop';
       break;
     case 'RAIL':
@@ -29,7 +35,7 @@ function SelectStopRow({ gtfsId, type, name, code, terminal, desc }) {
       break;
     case 'FERRY':
       iconOptions.iconId =
-        code !== 'null' ? 'icon-icon_ferry' : 'icon-icon_stop-ferry-lollipop';
+        code !== 'null' ? 'icon-icon_ferry' : 'icon-icon_stop_ferry';
       iconOptions.className = 'ferry-stop';
       break;
     case 'AIRPLANE':
