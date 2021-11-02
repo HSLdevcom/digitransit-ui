@@ -11,6 +11,7 @@ import {
 } from 'react-relay';
 import { connectToStores } from 'fluxible-addons-react';
 import findIndex from 'lodash/findIndex';
+import pick from 'lodash/pick';
 import get from 'lodash/get';
 import polyline from 'polyline-encoded';
 import { FormattedMessage, intlShape } from 'react-intl';
@@ -238,25 +239,50 @@ const getBounds = (itineraries, from, to, viaPoints) => {
 };
 
 /**
- * Compares the plan and a plan with default modes, if plan with default settings provides different
+ * Compares the current plans itineraries with the itineraries with default settings, if plan with default settings provides different
  * itineraries, return true
  *
- * @param {*} plan
- * @param {*} defaultSettingsPlan
+ * @param {*} itineraries
+ * @param {*} defaultItineraries
  * @returns boolean indicating weather or not the default settings provide a better plan
  */
-const comparePlans = (itineraries, defaultItineraries) => {
+const compareItineraries = (itineraries, defaultItineraries) => {
   if (!itineraries || !defaultItineraries) {
     return false;
   }
-
+  const legValuesToCompare = ['to', 'from', 'route', 'mode'];
   for (let i = 0; i < itineraries.length; i++) {
-    if (!isEqual(itineraries[i], defaultItineraries[i])) {
-      return true;
+    for (let j = 0; j < itineraries[i].legs.length; j++) {
+      if (
+        !isEqual(
+          pick(itineraries[i].legs[j], legValuesToCompare),
+          pick(defaultItineraries[i].legs[j], legValuesToCompare),
+        )
+      ) {
+        return true;
+      }
     }
   }
-
   return false;
+};
+
+const relevantRoutingSettingsChanged = config => {
+  const settingsToCompare = [
+    'modes',
+    'walkBoardCost',
+    'ticketTypes',
+    'walkReluctance',
+  ];
+  const defaultSettingsToCompare = pick(
+    getDefaultSettings(config),
+    settingsToCompare,
+  );
+  const currentSettingsToCompare = pick(
+    getCurrentSettings(config),
+    settingsToCompare,
+  );
+
+  return isEqual(defaultSettingsToCompare, currentSettingsToCompare);
 };
 
 class SummaryPage extends React.Component {
@@ -360,30 +386,19 @@ class SummaryPage extends React.Component {
     } else {
       this.selectedPlan = this.props.viewer && this.props.viewer.plan;
     }
-    if (
-      !isEqual(
-        getDefaultSettings(this.context.config),
-        getCurrentSettings(this.context.config),
-      )
-    ) {
+    if (relevantRoutingSettingsChanged(context.config)) {
       this.makeQueryWithAllModes();
     }
   }
 
   shouldShowSettingsChangedNotification = (plan, alternativePlan) => {
-    if (
-      isEqual(
-        getDefaultSettings(this.context.config),
-        getCurrentSettings(this.context.config),
-      )
-    ) {
+    if (relevantRoutingSettingsChanged(this.context.config)) {
       return false;
     }
     if (
-      // Dont show the notification if settings were just changed
       !this.state.settingsChangedRecently &&
       !this.planHasNoItineraries() &&
-      comparePlans(plan?.itineraries, alternativePlan?.itineraries)
+      compareItineraries(plan?.itineraries, alternativePlan?.itineraries)
     ) {
       return true;
     }
@@ -1000,9 +1015,33 @@ class SummaryPage extends React.Component {
                 directionId
                 stoptimesForDate {
                   scheduledDeparture
+                  pickupType
                 }
                 pattern {
                   ...RouteLine_pattern
+                }
+              }
+              from {
+                name
+                lat
+                lon
+                stop {
+                  gtfsId
+                  zoneId
+                }
+                bikeRentalStation {
+                  bikesAvailable
+                  networks
+                }
+              }
+              to {
+                stop {
+                  gtfsId
+                  zoneId
+                }
+                bikePark {
+                  bikeParkId
+                  name
                 }
               }
             }
