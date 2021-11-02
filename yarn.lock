@@ -35,6 +35,112 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/abort-controller@npm:^1.0.0":
+  version: 1.0.4
+  resolution: "@azure/abort-controller@npm:1.0.4"
+  dependencies:
+    tslib: ^2.0.0
+  checksum: e772f6c9afd2c448260f08ef796e4ff73348c5dfd100ce557cf73dd08d7664e819f11f8e59c19a76daa46c1b271ce3061db23072c2150b112df655d38e82944b
+  languageName: node
+  linkType: hard
+
+"@azure/core-asynciterator-polyfill@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@azure/core-asynciterator-polyfill@npm:1.0.0"
+  checksum: 0ca9ab69091dd1a95724884313b6fa0b957d3ead7bcdc055f796599e3854e17e4ecdca193170692d412b5a2b7ccb9c7cfae274c7cbe26b4ab98004b300a285df
+  languageName: node
+  linkType: hard
+
+"@azure/core-auth@npm:^1.3.0":
+  version: 1.3.2
+  resolution: "@azure/core-auth@npm:1.3.2"
+  dependencies:
+    "@azure/abort-controller": ^1.0.0
+    tslib: ^2.2.0
+  checksum: 66c7d074b55e15ecf75c2de64841693c680c326c969dd037bc3800674b658ae1d1b717975c543a34de2da1a1eb1410983d7d2f96ad1d26b61f0372d9214feeb7
+  languageName: node
+  linkType: hard
+
+"@azure/core-http@npm:^2.0.0":
+  version: 2.2.1
+  resolution: "@azure/core-http@npm:2.2.1"
+  dependencies:
+    "@azure/abort-controller": ^1.0.0
+    "@azure/core-asynciterator-polyfill": ^1.0.0
+    "@azure/core-auth": ^1.3.0
+    "@azure/core-tracing": 1.0.0-preview.13
+    "@azure/logger": ^1.0.0
+    "@types/node-fetch": ^2.5.0
+    "@types/tunnel": ^0.0.3
+    form-data: ^4.0.0
+    node-fetch: ^2.6.0
+    process: ^0.11.10
+    tough-cookie: ^4.0.0
+    tslib: ^2.2.0
+    tunnel: ^0.0.6
+    uuid: ^8.3.0
+    xml2js: ^0.4.19
+  checksum: a073ea6231259ee651064aa2e8ad24739583aec9b7963dda9fe9124532c51eca2544aeeb39c6a98075be3d28c4289058b963370321ca7f809d1109bd44f3bc2b
+  languageName: node
+  linkType: hard
+
+"@azure/core-lro@npm:^2.2.0":
+  version: 2.2.1
+  resolution: "@azure/core-lro@npm:2.2.1"
+  dependencies:
+    "@azure/abort-controller": ^1.0.0
+    "@azure/core-tracing": 1.0.0-preview.13
+    "@azure/logger": ^1.0.0
+    tslib: ^2.2.0
+  checksum: 0f092a9c09516dc9caceb5383d58dad1839ba2d4556e81368f1c06c4bf9634d1a39d5361bcba4047f3e0887ebb506b9e453ccbae4851b4a061a59de7e193e49b
+  languageName: node
+  linkType: hard
+
+"@azure/core-paging@npm:^1.1.1":
+  version: 1.2.0
+  resolution: "@azure/core-paging@npm:1.2.0"
+  dependencies:
+    "@azure/core-asynciterator-polyfill": ^1.0.0
+    tslib: ^2.2.0
+  checksum: 3edcf6cbb019082b9e68af8e701f47ee2321a3f60504cedb3778c69f7ee3dd00267abc2d7faee9e5fc72d0ce1e0948c816c17601f6763d6397304b7a460762c3
+  languageName: node
+  linkType: hard
+
+"@azure/core-tracing@npm:1.0.0-preview.13":
+  version: 1.0.0-preview.13
+  resolution: "@azure/core-tracing@npm:1.0.0-preview.13"
+  dependencies:
+    "@opentelemetry/api": ^1.0.1
+    tslib: ^2.2.0
+  checksum: 1c149db27833b18671162ad5f803598a866e9ff230ccf8babec7b2af703660a230a9e4e7cdcf13eed83cbe16ce92184608a33ebf979d58a9080f46104b9a51df
+  languageName: node
+  linkType: hard
+
+"@azure/logger@npm:^1.0.0":
+  version: 1.0.3
+  resolution: "@azure/logger@npm:1.0.3"
+  dependencies:
+    tslib: ^2.2.0
+  checksum: d13db0c8a819ed654edf873329a00a0a5b7fee747cf327fe39ef1f4c5305fcd527e45a8c48f36ae2b4b985f7e4e503a4b310aa5542082aadce5f69c94232fdf7
+  languageName: node
+  linkType: hard
+
+"@azure/storage-blob@npm:^12.8.0":
+  version: 12.8.0
+  resolution: "@azure/storage-blob@npm:12.8.0"
+  dependencies:
+    "@azure/abort-controller": ^1.0.0
+    "@azure/core-http": ^2.0.0
+    "@azure/core-lro": ^2.2.0
+    "@azure/core-paging": ^1.1.1
+    "@azure/core-tracing": 1.0.0-preview.13
+    "@azure/logger": ^1.0.0
+    events: ^3.0.0
+    tslib: ^2.2.0
+  checksum: 55c494d8d02732b144640b3a26e7a01b39542b8aec054cf730ff7d4e927afb3aa7171a146bdebcfb0956073e173f67a8130899cfe4bf378b04b817e8666dd091
+  languageName: node
+  linkType: hard
+
 "@babel/cli@npm:7.11.5":
   version: 7.11.5
   resolution: "@babel/cli@npm:7.11.5"
@@ -1775,7 +1881,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.10.0, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.12.0, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2, @babel/runtime@npm:^7.9.6":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.10.0, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.12.0, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2, @babel/runtime@npm:^7.9.6":
   version: 7.15.4
   resolution: "@babel/runtime@npm:7.15.4"
   dependencies:
@@ -4614,6 +4720,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@opentelemetry/api@npm:^1.0.1":
+  version: 1.0.3
+  resolution: "@opentelemetry/api@npm:1.0.3"
+  checksum: 3981bed61e9b212b9cdeeb6599a084d319bc7b481ea1fcc1ebf758aaf1eec37de9b5ab944f7ff2d810becb6dee7e64030a5a481a508d28199d28c3a2a0aca0dd
+  languageName: node
+  linkType: hard
+
 "@panva/asn1.js@npm:^1.0.0":
   version: 1.0.0
   resolution: "@panva/asn1.js@npm:1.0.0"
@@ -5008,10 +5121,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node-fetch@npm:^2.5.0":
+  version: 2.5.12
+  resolution: "@types/node-fetch@npm:2.5.12"
+  dependencies:
+    "@types/node": "*"
+    form-data: ^3.0.0
+  checksum: f648728116a24b9b5abc117e08788ed859283548ed65d374dba333d4604a7e8d22934cb4dbe7d64498c5c7f04885d84a2dc11c9a4115d426c242e74fb2f2a6a6
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:*, @types/node@npm:>= 8":
-  version: 16.11.4
-  resolution: "@types/node@npm:16.11.4"
-  checksum: 4182611dd4ae8d32a2f9c6a680f5c8ce0897cbe93fbc74a1351fe1507bd5e5dc53d323c2539cc06b98892486a2485a937a5ca1d106cc2d482f0ee22f8a72f146
+  version: 16.11.6
+  resolution: "@types/node@npm:16.11.6"
+  checksum: 52890a089f89ca9f20d6022c65aa747954040835436f1ceca62bdba1e2e604a86f8a2bbc4a5d54c975834092bb22f8e23832cd6b2d1b0abc0249e9f5035d86b4
   languageName: node
   linkType: hard
 
@@ -5050,7 +5173,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-redux@npm:^7.1.16":
+"@types/react-redux@npm:^7.1.20":
   version: 7.1.20
   resolution: "@types/react-redux@npm:7.1.20"
   dependencies:
@@ -5063,24 +5186,24 @@ __metadata:
   linkType: hard
 
 "@types/react@npm:*":
-  version: 17.0.32
-  resolution: "@types/react@npm:17.0.32"
+  version: 17.0.33
+  resolution: "@types/react@npm:17.0.33"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 84a09e977b53b189324c7886fcee11054d62d7f9387751c1b4c560e815fb3513c8767fb530d8097d15e9e35727b4b4acda57c90ae3b47de19957761e9a1f48a6
+  checksum: ca343662dd2c1b323b5fa4f269334c786839a93b31a878d7a8a090be3a1ae65a7bd90992d0ebfb3aeb6e326d25c319cf4ae44fa7858dfbb8d953b099a91e59bd
   languageName: node
   linkType: hard
 
 "@types/react@npm:^16.9.31":
-  version: 16.14.19
-  resolution: "@types/react@npm:16.14.19"
+  version: 16.14.20
+  resolution: "@types/react@npm:16.14.20"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: a26d38ed328fc9fc2820b21e8c4d0da83193068982a3f5290a75a0ef43d5aacec14d9c42db97c335bbe151cf28f767fff305b37b9815b165e81813f5223a7b19
+  checksum: 7cca848cdb921960fa147316530ab32b05dc49ec8453f93896697a88ae8ffc2ad0d35adc968a2e4ea4e8a99240d0bb9d6bb6fa2f5c1cb97bba08d4309d67152b
   languageName: node
   linkType: hard
 
@@ -5120,6 +5243,15 @@ __metadata:
   version: 2.0.1
   resolution: "@types/stack-utils@npm:2.0.1"
   checksum: a5277189a3316b84cfe9381e5b9b12ceaae82e0592d7c5f963c29061a51f90870b7c54c3882975bdf6cd3b98b87fcaa08246ca0e078679c896f7a16ec4558c4d
+  languageName: node
+  linkType: hard
+
+"@types/tunnel@npm:^0.0.3":
+  version: 0.0.3
+  resolution: "@types/tunnel@npm:0.0.3"
+  dependencies:
+    "@types/node": "*"
+  checksum: 71a33e3e79668da2b18865ddc067e66e6746da39e09c64bef399ca5b9e86b2efd434f5ba6e2de8bd32e7b2003d8f7c80a66817eb17b16e3c5bbd27f5eaa973ac
   languageName: node
   linkType: hard
 
@@ -6292,9 +6424,9 @@ __metadata:
   linkType: hard
 
 "axe-core@npm:^4.2.1, axe-core@npm:^4.3.3":
-  version: 4.3.3
-  resolution: "axe-core@npm:4.3.3"
-  checksum: 1e5a87a86502e0525821d4217d52ff4d8aa44bb720a2e31d8dcc777cc47928072ed36fc6685eb0f508356ad52a87163e5986152ea6567b302c79e69bf6e45bf4
+  version: 4.3.4
+  resolution: "axe-core@npm:4.3.4"
+  checksum: b3d41705e70b2beb6e6a3ef937b84d300ac4e26a4a21930896337e51a652e773eafb6fb3e8b46afd310b7c14dd446ed781f5bb4b5672085fd040edffd23a2cca
   languageName: node
   linkType: hard
 
@@ -8215,7 +8347,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:^6.0.0, commander@npm:^6.1.0":
+"commander@npm:^6.0.0":
   version: 6.2.1
   resolution: "commander@npm:6.2.1"
   checksum: 47856aae6f194404122e359d8463e5e1a18f7cbab26722ce69f1379be8514bd49a160ef81a983d3d2091e3240022643354101d1276c797dcdd0b5bfc3c3f04a3
@@ -9717,6 +9849,7 @@ __metadata:
   dependencies:
     "@axe-core/react": ^4.2.0
     "@axe-core/webdriverjs": ^4.2.1
+    "@azure/storage-blob": ^12.8.0
     "@babel/cli": 7.11.5
     "@babel/core": 7.11.5
     "@babel/plugin-proposal-class-properties": 7.12.1
@@ -9809,7 +9942,7 @@ __metadata:
     iso-morphic-style-loader: 2.0.1
     jest: 27.0.3
     jest-image-snapshot: 4.5.0
-    jest-playwright-preset: 1.6.0
+    jest-playwright-preset: 1.7.0
     jsdom: 13.2.0
     leaflet: 1.6.0
     lerna: 3.20.2
@@ -9834,7 +9967,7 @@ __metadata:
     optimize-css-assets-webpack-plugin: 5.0.4
     passport: 0.4.1
     pbf: 3.2.1
-    playwright: 1.11.1
+    playwright: 1.16.2
     point-in-polygon: 1.0.1
     polyfill-library: 3.96.0
     polyline-encoded: 0.0.9
@@ -10318,9 +10451,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.878":
-  version: 1.3.878
-  resolution: "electron-to-chromium@npm:1.3.878"
-  checksum: 3c85f736d0a24d4a753a82c3c3fd6f58aa2e53a85c86e6f1f8f050b506c910e2229b86c5ec38cbfb5151df71f97be6571e2de16bd923fcfd0944eaa3df5cd521
+  version: 1.3.879
+  resolution: "electron-to-chromium@npm:1.3.879"
+  checksum: 318762538caa32372b9ff88fc3fa51b2ef077b432895f2050a9624b7a8fcf9aefbab290890dea777c147f196955bd1de3a8002205e606d21c90cd87b925e31de
   languageName: node
   linkType: hard
 
@@ -11421,12 +11554,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expect-playwright@npm:^0.3.4":
-  version: 0.3.4
-  resolution: "expect-playwright@npm:0.3.4"
-  peerDependencies:
-    playwright-core: ^1.10.0
-  checksum: 7e78e149a16ef326df6b82095c0f94206db825b785cd5a16e004e6dccdf97be9249df9a4a9c890fddbccae647a52dfeeebd65f4e84a4c20f2532c3bb8d2c25a3
+"expect-playwright@npm:^0.7.0":
+  version: 0.7.2
+  resolution: "expect-playwright@npm:0.7.2"
+  checksum: 9e9a93893fc511741312b85ad106256dc44750c883c86c1a93df398c481da59f60c0229689d8ebfe9130e3c8d1398fe8bc9e51b48b63e405fcc97dec560d0781
   languageName: node
   linkType: hard
 
@@ -12230,7 +12361,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"form-data@npm:4.0.0":
+"form-data@npm:4.0.0, form-data@npm:^4.0.0":
   version: 4.0.0
   resolution: "form-data@npm:4.0.0"
   dependencies:
@@ -15710,11 +15841,11 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"jest-playwright-preset@npm:1.6.0":
-  version: 1.6.0
-  resolution: "jest-playwright-preset@npm:1.6.0"
+"jest-playwright-preset@npm:1.7.0":
+  version: 1.7.0
+  resolution: "jest-playwright-preset@npm:1.7.0"
   dependencies:
-    expect-playwright: ^0.3.4
+    expect-playwright: ^0.7.0
     jest-process-manager: ^0.3.1
     nyc: ^15.1.0
     playwright-core: ">=1.2.0"
@@ -15723,9 +15854,9 @@ fsevents@~2.1.2:
   peerDependencies:
     jest: ">=26.6.3"
     jest-circus: ">=26.6.3"
-    jest-environment-node: ">=26.6.2"
+    jest-environment-node: ">=26.6.3"
     jest-runner: ">=26.6.3"
-  checksum: 1ea04247dce854267fc31a95dadfe3aa11d0a5b9b6e50db2052d1ecf1816e1b17037cb88ac878c5c0ccb6f6a0e617a4312cd7b3a7c6241de4db16cc0d8592885
+  checksum: 1f07ad2966c9d15ed5101b8e6113e85a2e7e32c2f22ac6a087157bf20883b1e78caa2c7a437e3221d29a05df0d9a32151c197bf907139524ef4439329cc02e88
   languageName: node
   linkType: hard
 
@@ -18474,7 +18605,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:^2.2.0, node-fetch@npm:^2.5.0, node-fetch@npm:^2.6.1":
+"node-fetch@npm:^2.2.0, node-fetch@npm:^2.5.0, node-fetch@npm:^2.6.0, node-fetch@npm:^2.6.1":
   version: 2.6.5
   resolution: "node-fetch@npm:2.6.5"
   dependencies:
@@ -20286,6 +20417,32 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"playwright-core@npm:=1.16.2":
+  version: 1.16.2
+  resolution: "playwright-core@npm:1.16.2"
+  dependencies:
+    commander: ^8.2.0
+    debug: ^4.1.1
+    extract-zip: ^2.0.1
+    https-proxy-agent: ^5.0.0
+    jpeg-js: ^0.4.2
+    mime: ^2.4.6
+    pngjs: ^5.0.0
+    progress: ^2.0.3
+    proper-lockfile: ^4.1.1
+    proxy-from-env: ^1.1.0
+    rimraf: ^3.0.2
+    socks-proxy-agent: ^6.1.0
+    stack-utils: ^2.0.3
+    ws: ^7.4.6
+    yauzl: ^2.10.0
+    yazl: ^2.5.1
+  bin:
+    playwright: cli.js
+  checksum: 5386cffecd5a244dccaabc4a8248151418c228dbcb1a0e15d9aca81dd8ce0231fa0da3601cdd68a3a409d0b58db70f85e31e47afc54e5b0fd8542dfcc034d0fb
+  languageName: node
+  linkType: hard
+
 "playwright-core@npm:>=1.2.0":
   version: 1.16.1
   resolution: "playwright-core@npm:1.16.1"
@@ -20312,27 +20469,14 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"playwright@npm:1.11.1":
-  version: 1.11.1
-  resolution: "playwright@npm:1.11.1"
+"playwright@npm:1.16.2":
+  version: 1.16.2
+  resolution: "playwright@npm:1.16.2"
   dependencies:
-    commander: ^6.1.0
-    debug: ^4.1.1
-    extract-zip: ^2.0.1
-    https-proxy-agent: ^5.0.0
-    jpeg-js: ^0.4.2
-    mime: ^2.4.6
-    pngjs: ^5.0.0
-    progress: ^2.0.3
-    proper-lockfile: ^4.1.1
-    proxy-from-env: ^1.1.0
-    rimraf: ^3.0.2
-    stack-utils: ^2.0.3
-    ws: ^7.3.1
-    yazl: ^2.5.1
+    playwright-core: =1.16.2
   bin:
-    playwright: lib/cli/cli.js
-  checksum: 1446964b6ef8b4d7fafb45a38f9b992ee76e456e7072a7179f720cafb4204bce2e737a26929065778336450a598ec83c5fdd19d5199e6b42b4d075a5a930d931
+    playwright: cli.js
+  checksum: 354d28a097cf1b91c49b240cad913c87d99e39c64ff4d5ac6c6b160a6ae7e76cdd9262847ab9ba5badd433c8bfde14d19f14fb96b5c6d7992af861b183822695
   languageName: node
   linkType: hard
 
@@ -21767,7 +21911,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"react-is@npm:^17.0.1":
+"react-is@npm:^17.0.1, react-is@npm:^17.0.2":
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
   checksum: 3eff23f410d40ab9bc5177f147a92c7f42c356a21ecea340e0554566956d67e5e1ba56f26cc7fa22339ac3c7151744177bd6305eaa26d3cbf15f354358c9d9b6
@@ -21826,15 +21970,15 @@ fsevents@~2.1.2:
   linkType: hard
 
 "react-redux@npm:^7.0.0":
-  version: 7.2.5
-  resolution: "react-redux@npm:7.2.5"
+  version: 7.2.6
+  resolution: "react-redux@npm:7.2.6"
   dependencies:
-    "@babel/runtime": ^7.12.1
-    "@types/react-redux": ^7.1.16
+    "@babel/runtime": ^7.15.4
+    "@types/react-redux": ^7.1.20
     hoist-non-react-statics: ^3.3.2
     loose-envify: ^1.4.0
     prop-types: ^15.7.2
-    react-is: ^16.13.1
+    react-is: ^17.0.2
   peerDependencies:
     react: ^16.8.3 || ^17
   peerDependenciesMeta:
@@ -21842,7 +21986,7 @@ fsevents@~2.1.2:
       optional: true
     react-native:
       optional: true
-  checksum: cfb3fcea7015def19435ccdb700ce0a496a15d69021fd5159f0492029337911be1ae38fc1b45239772552ef87dc6ec10c9dd0d214471bd0a383cadc6d5e53e3e
+  checksum: 32952c3fa1fbc12a28e93a6a116f320319c3d82ded71af053e7d405d760e96bccbc1d939ad06848ed6f088819d490f3180a31975c53ce23248934de906f2b27c
   languageName: node
   linkType: hard
 
@@ -25723,7 +25867,7 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2, tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.2.0, tslib@npm:~2.3.0":
+"tslib@npm:^2, tslib@npm:^2.0.0, tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.2.0, tslib@npm:~2.3.0":
   version: 2.3.1
   resolution: "tslib@npm:2.3.1"
   checksum: 5ae2f209c5127bad284974c78916f02c72082615f65889a7ed0c7ca6d5f935c30338a0ee7310e1d9652dabc7b7507fd2905035487446d09d45fc1f19de71cf05
@@ -25764,6 +25908,13 @@ resolve@1.1.7:
   dependencies:
     safe-buffer: ^5.0.1
   checksum: 03db75a4f994fee610d3485c492e95105ed265a9fecd49d14c98e9982f973ecc0220d0c1bc264e37802e423a1274bb63788a873e4e07009408ae3ac517347fd7
+  languageName: node
+  linkType: hard
+
+"tunnel@npm:^0.0.6":
+  version: 0.0.6
+  resolution: "tunnel@npm:0.0.6"
+  checksum: 78fbb1a55a44fc8de6a497923bf7bf6e7b14b396e0ddaf11fe624ab7f646a0d2ada03f6dcb4a80940faed9649e30d229114f218e8906badd12ded2323a6f666b
   languageName: node
   linkType: hard
 
@@ -26481,7 +26632,7 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"uuid@npm:^8.3.2":
+"uuid@npm:^8.3.0, uuid@npm:^8.3.2":
   version: 8.3.2
   resolution: "uuid@npm:8.3.2"
   bin:
@@ -27510,7 +27661,7 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"xml2js@npm:>=0.2.4, xml2js@npm:^0.4.17, xml2js@npm:^0.4.5":
+"xml2js@npm:>=0.2.4, xml2js@npm:^0.4.17, xml2js@npm:^0.4.19, xml2js@npm:^0.4.5":
   version: 0.4.23
   resolution: "xml2js@npm:0.4.23"
   dependencies:

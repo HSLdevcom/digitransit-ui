@@ -269,4 +269,32 @@ export default {
     'airplane',
   ],
   useAlternativeNameForModes: ['rail'],
+
+  sourceForAlertsAndDisruptions: {
+    HSL: {
+      fi: 'Helsingin seutu',
+      sv: 'Helsingforsregion',
+      en: 'Helsinki region',
+    },
+    tampere: {
+      fi: 'Tampereen seutu',
+      sv: 'Tammerforsregion',
+      en: 'Tampere region',
+    },
+    LINKKI: {
+      fi: 'Jyväskylän seutu',
+      sv: 'Jyväskyläregion',
+      en: 'Jyväskylä region',
+    },
+    lautta: {
+      fi: 'Lautat',
+      sv: 'Färja',
+      en: 'Ferries',
+    },
+    OULU: {
+      fi: 'Oulu',
+      sv: 'Uleåborg',
+      en: 'Oulu',
+    },
+  },
 };

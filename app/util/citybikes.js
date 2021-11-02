@@ -1,4 +1,3 @@
-import isEmpty from 'lodash/isEmpty';
 import isString from 'lodash/isString';
 import without from 'lodash/without';
 import { getCustomizedSettings } from '../store/localStorage';
@@ -96,20 +95,14 @@ export const getCitybikeCapacity = (config, network = undefined) => {
 };
 /**
  * Retrieves all chosen citybike networks from the
- * localstorage or default configuration.
+ * localstorage
  *
  * @param {*} config The configuration for the software installation
  */
 
-export const getCitybikeNetworks = config => {
+export const getCitybikeNetworks = () => {
   const { allowedBikeRentalNetworks } = getCustomizedSettings();
-  if (
-    Array.isArray(allowedBikeRentalNetworks) &&
-    !isEmpty(allowedBikeRentalNetworks)
-  ) {
-    return allowedBikeRentalNetworks;
-  }
-  return getDefaultNetworks(config);
+  return allowedBikeRentalNetworks || [];
 };
 
 const addAnalytics = (action, name) => {
@@ -131,15 +124,10 @@ const addAnalytics = (action, name) => {
  * @returns the updated citybike networks
  */
 
-export const updateCitybikeNetworks = (
-  currentSettings,
-  newValue,
-  config,
-  isUsingCitybike,
-) => {
+export const updateCitybikeNetworks = (currentSettings, newValue) => {
   let chosenNetworks;
 
-  if (isUsingCitybike) {
+  if (currentSettings) {
     chosenNetworks = currentSettings.find(
       o => o.toLowerCase() === newValue.toLowerCase(),
     )
@@ -147,15 +135,6 @@ export const updateCitybikeNetworks = (
       : currentSettings.concat([newValue]);
   } else {
     chosenNetworks = [newValue];
-  }
-
-  if (chosenNetworks.length === 0 || !isUsingCitybike) {
-    if (chosenNetworks.length === 0) {
-      addAnalytics('SettingsResetCityBikeNetwork', null);
-      return getDefaultNetworks(config);
-    }
-    addAnalytics('SettingsNotUsingCityBikeNetwork', null);
-    return chosenNetworks;
   }
 
   if (Array.isArray(currentSettings) && Array.isArray(chosenNetworks)) {

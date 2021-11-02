@@ -5,8 +5,8 @@ const getConfig = (
 ) => {
   return {
     diffDirection: 'vertical',
-    dumpDiffToConsole: true,
-    comparisonMethod: 'ssim',
+    dumpDiffToConsole: false,
+    comparisonMethod: 'pixelmatch',
     failureThreshold: 0.025,
     failureThresholdType: 'percent',
     customSnapshotsDir,
