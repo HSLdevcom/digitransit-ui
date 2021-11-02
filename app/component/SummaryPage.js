@@ -282,7 +282,7 @@ const relevantRoutingSettingsChanged = config => {
     settingsToCompare,
   );
 
-  return isEqual(defaultSettingsToCompare, currentSettingsToCompare);
+  return !isEqual(defaultSettingsToCompare, currentSettingsToCompare);
 };
 
 class SummaryPage extends React.Component {
@@ -392,10 +392,8 @@ class SummaryPage extends React.Component {
   }
 
   shouldShowSettingsChangedNotification = (plan, alternativePlan) => {
-    if (relevantRoutingSettingsChanged(this.context.config)) {
-      return false;
-    }
     if (
+      relevantRoutingSettingsChanged(this.context.config) &&
       !this.state.settingsChangedRecently &&
       !this.planHasNoItineraries() &&
       compareItineraries(plan?.itineraries, alternativePlan?.itineraries)
