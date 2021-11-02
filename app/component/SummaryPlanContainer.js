@@ -22,6 +22,7 @@ import { replaceQueryParams } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { isIOS, isSafari } from '../util/browser';
+import SettingsChangedNotification from './SettingsChangedNotification';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
@@ -34,7 +35,7 @@ class SummaryPlanContainer extends React.Component {
         endTime: PropTypes.number,
         startTime: PropTypes.number,
       }),
-    ),
+    ).isRequired,
     locationState: PropTypes.object,
     params: PropTypes.shape({
       from: PropTypes.string.isRequired,
@@ -42,7 +43,16 @@ class SummaryPlanContainer extends React.Component {
       hash: PropTypes.string,
       secondHash: PropTypes.string,
     }).isRequired,
-    plan: PropTypes.shape({ date: PropTypes.number }), // eslint-disable-line
+    plan: PropTypes.shape({
+      date: PropTypes.number,
+      itineraries: PropTypes.arrayOf(
+        PropTypes.shape({
+          endTime: PropTypes.number,
+          startTime: PropTypes.number,
+          legs: PropTypes.array,
+        }),
+      ),
+    }).isRequired,
     serviceTimeRange: PropTypes.shape({
       start: PropTypes.number.isRequired,
       end: PropTypes.number.isRequired,
@@ -58,12 +68,23 @@ class SummaryPlanContainer extends React.Component {
     onEarlier: PropTypes.func.isRequired,
     onDetailsTabFocused: PropTypes.func.isRequired,
     loadingMoreItineraries: PropTypes.string,
+    alternativePlan: PropTypes.shape({
+      date: PropTypes.number,
+      itineraries: PropTypes.arrayOf(
+        PropTypes.shape({
+          endTime: PropTypes.number,
+          startTime: PropTypes.number,
+          legs: PropTypes.array,
+        }),
+      ),
+    }).isRequired,
+    showSettingsChangedNotification: PropTypes.func.isRequired,
+    openSettingsModal: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     activeIndex: 0,
     error: undefined,
-    itineraries: [],
     walking: false,
     biking: false,
     showAlternativePlan: false,
@@ -277,6 +298,14 @@ class SummaryPlanContainer extends React.Component {
         >
           {this.props.children}
         </ItinerarySummaryListContainer>
+        {this.props.showSettingsChangedNotification(
+          this.props.plan,
+          this.props.alternativePlan,
+        ) && (
+          <SettingsChangedNotification
+            onButtonClick={this.props.openSettingsModal}
+          />
+        )}
         {(this.context.match.params.hash &&
           this.context.match.params.hash === 'bikeAndVehicle') ||
         disableButtons
@@ -310,6 +339,55 @@ const connectedContainer = createFragmentContainer(
     plan: graphql`
       fragment SummaryPlanContainer_plan on Plan {
         date
+        itineraries {
+          startTime
+          endTime
+          legs {
+            mode
+            ...ItineraryLine_legs
+            transitLeg
+            legGeometry {
+              points
+            }
+            route {
+              gtfsId
+            }
+            trip {
+              gtfsId
+              directionId
+              stoptimesForDate {
+                scheduledDeparture
+                pickupType
+              }
+              pattern {
+                ...RouteLine_pattern
+              }
+            }
+            from {
+              name
+              lat
+              lon
+              stop {
+                gtfsId
+                zoneId
+              }
+              bikeRentalStation {
+                bikesAvailable
+                networks
+              }
+            }
+            to {
+              stop {
+                gtfsId
+                zoneId
+              }
+              bikePark {
+                bikeParkId
+                name
+              }
+            }
+          }
+        }
       }
     `,
     itineraries: graphql`

@@ -52,7 +52,11 @@ import {
 import ItineraryTab from './ItineraryTab';
 import { StreetModeSelector } from './StreetModeSelector';
 import SwipeableTabs from './SwipeableTabs';
-import { getCurrentSettings, preparePlanParams } from '../util/planParamUtil';
+import {
+  getCurrentSettings,
+  preparePlanParams,
+  getDefaultSettings,
+} from '../util/planParamUtil';
 import { getTotalBikingDistance } from '../util/legUtils';
 import { userHasChangedModes } from '../util/modeUtils';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
@@ -233,6 +237,28 @@ const getBounds = (itineraries, from, to, viaPoints) => {
   );
 };
 
+/**
+ * Compares the plan and a plan with default modes, if plan with default settings provides different
+ * itineraries, return true
+ *
+ * @param {*} plan
+ * @param {*} defaultSettingsPlan
+ * @returns boolean indicating weather or not the default settings provide a better plan
+ */
+const comparePlans = (itineraries, defaultItineraries) => {
+  if (!itineraries || !defaultItineraries) {
+    return false;
+  }
+
+  for (let i = 0; i < itineraries.length; i++) {
+    if (!isEqual(itineraries[i], defaultItineraries[i])) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
 class SummaryPage extends React.Component {
   static contextTypes = {
     config: PropTypes.object,
@@ -314,6 +340,7 @@ class SummaryPage extends React.Component {
       parkRidePlan: undefined,
       loadingMoreItineraries: undefined,
       isFetchingWalkAndBike: true,
+      settingsChangedRecently: false,
     };
     if (this.props.match.params.hash === 'walk') {
       this.selectedPlan = this.state.walkPlan;
@@ -333,7 +360,35 @@ class SummaryPage extends React.Component {
     } else {
       this.selectedPlan = this.props.viewer && this.props.viewer.plan;
     }
+    if (
+      !isEqual(
+        getDefaultSettings(this.context.config),
+        getCurrentSettings(this.context.config),
+      )
+    ) {
+      this.makeQueryWithAllModes();
+    }
   }
+
+  shouldShowSettingsChangedNotification = (plan, alternativePlan) => {
+    if (
+      isEqual(
+        getDefaultSettings(this.context.config),
+        getCurrentSettings(this.context.config),
+      )
+    ) {
+      return false;
+    }
+    if (
+      // Dont show the notification if settings were just changed
+      !this.state.settingsChangedRecently &&
+      !this.planHasNoItineraries() &&
+      comparePlans(plan?.itineraries, alternativePlan?.itineraries)
+    ) {
+      return true;
+    }
+    return false;
+  };
 
   toggleStreetMode = newStreetMode => {
     const newState = {
@@ -1353,6 +1408,17 @@ class SummaryPage extends React.Component {
       this.updateLocalStorage(false);
     }
 
+    if (!isEqual(this.props.viewer.plan, prevProps.viewer.plan)) {
+      if (
+        !isEqual(
+          getDefaultSettings(this.context.config),
+          getCurrentSettings(this.context.config),
+        )
+      ) {
+        this.makeQueryWithAllModes();
+      }
+    }
+
     // Reset walk and bike suggestions when new search is made
     if (
       this.selectedPlan !== this.state.alternativePlan &&
@@ -1823,6 +1889,7 @@ class SummaryPage extends React.Component {
                 laterItineraries: [],
                 separatorPosition: undefined,
                 alternativePlan: undefined,
+                settingsChangedRecently: true,
               },
               () => this.showScreenreaderUpdatedAlert(),
             );
@@ -1861,6 +1928,7 @@ class SummaryPage extends React.Component {
                     laterItineraries: [],
                     separatorPosition: undefined,
                     alternativePlan: undefined,
+                    settingsChangedRecently: true,
                   },
                   () => {
                     this.showScreenreaderUpdatedAlert();
@@ -1937,7 +2005,6 @@ class SummaryPage extends React.Component {
       this.originalPlan = this.props.viewer.plan;
       this.isFetching = true;
       this.setState({ isFetchingWalkAndBike: true });
-      this.makeQueryWithAllModes();
       this.makeWalkAndBikeQueries();
     }
     const hasAlternativeItineraries =
@@ -2270,6 +2337,11 @@ class SummaryPage extends React.Component {
                 this.onDetailsTabFocused();
               }}
               loadingMoreItineraries={this.state.loadingMoreItineraries}
+              showSettingsChangedNotification={
+                this.shouldShowSettingsChangedNotification
+              }
+              openSettingsModal={this.toggleCustomizeSearchOffcanvas}
+              alternativePlan={this.state.alternativePlan}
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {
@@ -2472,6 +2544,11 @@ class SummaryPage extends React.Component {
                 this.onDetailsTabFocused();
               }}
               loadingMoreItineraries={this.state.loadingMoreItineraries}
+              showSettingsChangedNotification={
+                this.shouldShowSettingsChangedNotification
+              }
+              openSettingsModal={this.toggleCustomizeSearchOffcanvas}
+              alternativePlan={this.state.alternativePlan}
             />
           </>
         );
