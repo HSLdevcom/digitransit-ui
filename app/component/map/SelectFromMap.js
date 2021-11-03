@@ -221,6 +221,7 @@ class SelectFromMapPageMap extends React.Component {
     const { type } = this.props;
     const { mapCenter } = this.state;
     const defaultLocation = config.defaultEndpoint;
+    const zoom = config.map?.zoom || 12;
     const isDesktop = this.props.breakpoint === DESKTOP_BREAKPOINT;
 
     const leafletObjs = [];
@@ -309,7 +310,7 @@ class SelectFromMapPageMap extends React.Component {
         leafletObjs={leafletObjs}
         lat={defaultLocation.lat}
         lon={defaultLocation.lon}
-        zoom={12}
+        zoom={zoom}
         mapLayers={this.props.mapLayers}
         locationPopup="none"
         mapRef={this.setMapElementRef}

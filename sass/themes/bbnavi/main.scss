@@ -1,6 +1,9 @@
 @import 'theme';
 @import '../../main';
 
+@import '~klaro/src/scss/klaro.scss';
+@import 'klaro';
+
 .external-link-container {
   position: relative;
   display: inline-block;
