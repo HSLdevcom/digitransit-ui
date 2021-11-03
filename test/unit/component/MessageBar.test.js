@@ -45,6 +45,7 @@ describe('<MessageBar />', () => {
           alertSeverityLevel: AlertSeverityLevelType.Severe,
           effectiveStartDate: defaultProps.currentTime - 100,
           effectiveEndDate: defaultProps.currentTime + 100,
+          feed: 'Foo',
         },
       ],
     };
@@ -65,6 +66,7 @@ describe('<MessageBar />', () => {
         alertSeverityLevel: AlertSeverityLevelType.Severe,
         effectiveStartDate: defaultProps.currentTime - 100,
         effectiveEndDate: defaultProps.currentTime + 100,
+        feed: 'Foo',
       },
       {
         alertDescriptionText: 'text',
@@ -73,6 +75,7 @@ describe('<MessageBar />', () => {
         alertSeverityLevel: AlertSeverityLevelType.Severe,
         effectiveStartDate: defaultProps.currentTime - 100,
         effectiveEndDate: defaultProps.currentTime + 100,
+        feed: 'Foo',
       },
     ];
 
@@ -99,6 +102,7 @@ describe('<MessageBar />', () => {
         alertSeverityLevel: AlertSeverityLevelType.Severe,
         effectiveEndDate: 1558610381,
         effectiveStartDate: 1558610380,
+        feed: 'Foo',
       },
     ];
     const props = {
@@ -123,6 +127,7 @@ describe('<MessageBar />', () => {
           alertSeverityLevel: AlertSeverityLevelType.Severe,
           effectiveStartDate: defaultProps.currentTime - 100,
           effectiveEndDate: defaultProps.currentTime + 100,
+          feed: 'Foo',
         },
       ],
     };
