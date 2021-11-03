@@ -23,7 +23,9 @@
   box-shadow: none;
   transform: none;
   margin: 0 0 0 auto;
+  max-height: 100vh;
   max-width: 600px;
+  position: relative;
 }
 
 .klaro .cookie-modal .cm-modal .cm-header {
