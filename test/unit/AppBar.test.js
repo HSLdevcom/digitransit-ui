@@ -15,6 +15,9 @@ describe('<AppBar />', () => {
         context: {
           config: {
             textLogo: false,
+            URL: {
+              HEADER_TITLE: '',
+            },
           },
           match: {
             location: {
@@ -37,6 +40,9 @@ describe('<AppBar />', () => {
         context: {
           config: {
             textLogo: true,
+            URL: {
+              HEADER_TITLE: '',
+            },
           },
           match: {
             location: {
