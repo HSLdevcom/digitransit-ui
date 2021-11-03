@@ -56,8 +56,8 @@ describe('<MessageBar />', () => {
     expect(wrapper.find(Icon)).to.have.lengthOf(2);
   });
 
-  it('should not show a closed service alert  again', async () => {
-    const alertId = 1375604289;
+  it('should not show a closed service alert again', async () => {
+    const alertId = -1298241169;
     const alerts = [
       {
         alertDescriptionText: 'bar',
