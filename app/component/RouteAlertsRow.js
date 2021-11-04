@@ -12,6 +12,7 @@ import Icon from './Icon';
 import RouteNumber from './RouteNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
+import { mapAlertSource } from '../util/alertUtils';
 
 export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
   const at = intl.formatMessage({
@@ -125,19 +126,6 @@ export default function RouteAlertsRow(
     }
   }
 
-  const mapSource = feedName => {
-    if (
-      config &&
-      config.sourceForAlertsAndDisruptions &&
-      config.sourceForAlertsAndDisruptions[feedName]
-    ) {
-      return config.sourceForAlertsAndDisruptions[feedName][intl.locale].concat(
-        ': ',
-      );
-    }
-    return '';
-  };
-
   return (
     <div
       className={cx('route-alert-row', { expired })}
@@ -168,7 +156,7 @@ export default function RouteAlertsRow(
           </div>
         )}
       <div className="route-alert-contents">
-        {mapSource(source)}
+        {mapAlertSource(config, intl.locale, source)}
         {(entityIdentifier || showTime) && (
           <div className="route-alert-top-row">
             {entityIdentifier &&
