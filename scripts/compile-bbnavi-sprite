@@ -2,5 +2,5 @@
 
 path=$(dirname "$0")
 
-${path}/update-hb-sprite
+${path}/update-bbnavi-sprite
 ${path}/reformat-sprites

@@ -309,4 +309,18 @@ export default {
 
     active: true,
   },
+  bbnavi: {
+    mqttTopicResolver: function mqttTopicResolver() {
+      return '/gtfsrt/vp/#';
+    },
+
+    // this value is overridden in config.bbnavi.js
+    mqtt: 'wss://api.dev.stadtnavi.eu/mqtt/',
+
+    gtfsrt: true,
+
+    routeSelector: defaultRouteSelector,
+
+    active: true,
+  },
 };

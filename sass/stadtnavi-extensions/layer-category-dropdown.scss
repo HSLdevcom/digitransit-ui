@@ -39,7 +39,7 @@
   border: 1px solid #a0a0a0 !important;
   border-radius: 0 !important;
   &.checked {
-    background: #9fc727 !important;
+    background: $primary-color !important;
   }
   &.mobile {
     .icon-container {
