@@ -401,8 +401,8 @@ export default configMerger(walttiConfig, {
         },
 
         tram: {
-            availableForSelection: false,
-            defaultValue: false,
+            availableForSelection: true,
+            defaultValue: true,
             nearYouLabel: {
                 de: 'Tramhaltestellen in der Nähe',
             }
@@ -424,16 +424,16 @@ export default configMerger(walttiConfig, {
         },
 
         ferry: {
-            availableForSelection: false,
-            defaultValue: false,
+            availableForSelection: true,
+            defaultValue: true,
             nearYouLabel: {
                 de: 'Fähranleger in der Nähe',
             }
         },
 
         carpool: {
-            availableForSelection: false,
-            defaultValue: false,
+            availableForSelection: true,
+            defaultValue: true,
             nearYouLabel: {
                 de: 'Mitfahrpunkte in der Nähe',
                 en: 'Nearby carpool stops on the map',
