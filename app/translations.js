@@ -343,6 +343,7 @@ const translations = {
     'clear-button-label': 'Leeren',
     close: 'Schließen',
     'close-favourite-module': 'Favoriten-Modul schließen',
+    'close-settings': 'Fenster schließen und Einstellungen speichern',
     'contact-information': '{contactName} Kontaktinformationen',
     continue: 'Fortsetzen',
     'create-account': '{contactName}-Konto anlegen',
@@ -439,6 +440,10 @@ const translations = {
     'itinerary-hide-stops': 'Zwischenstopps ausblenden',
     'itinerary-page.description': 'Reisebeschreibung',
     'itinerary-page.hide-details': 'Details ausblenden',
+    'itinerary-page.itineraries-loaded': 'Weitere Suchergebnisse geladen',
+    'itinerary-page.itineraries-updated': 'Suchergebnisse aktualisiert',
+    'itinerary-page.loading-itineraries':
+      'Weitere Suchergebnisse werden geladen',
     'itinerary-page.show-details': 'Details zeigen',
     'itinerary-page.show-details-label':
       'Zeige Details zu Routenvorschlag {number}',
