@@ -16,7 +16,7 @@ describe('<AppBar />', () => {
           config: {
             textLogo: false,
             URL: {
-              HEADER_TITLE: 'bbnavi',
+              HEADER_TITLE: '',
             },
           },
           match: {
@@ -41,7 +41,7 @@ describe('<AppBar />', () => {
           config: {
             textLogo: true,
             URL: {
-              HEADER_TITLE: 'bbnavi',
+              HEADER_TITLE: '',
             },
           },
           match: {

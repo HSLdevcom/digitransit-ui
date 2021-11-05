@@ -2,33 +2,33 @@
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'bbnavi';
-const HEADER_TITLE = "Staging";
 const APP_TITLE = 'bbnavi Staging';
+const HEADER_TITLE = "Staging";
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
-const API_URL = process.env.API_URL || 'https://api.dev.stadtnavi.eu';
+const API_URL = process.env.API_URL || 'https://api.bbnavi.de';
 const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{x}/{y}{r}.png';
 const SEMI_TRANSPARENT_MAP_URL = process.env.SEMITRANSPARENT_MAP_URL || "https://tiles.stadtnavi.eu/satellite-overlay/{z}/{x}/{y}{r}.png";
 const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || "https://photon.stadtnavi.eu/pelias/v1";
 const YEAR = 1900 + new Date().getYear();
-const STATIC_MESSAGE_URL = process.env.STATIC_MESSAGE_URL || '/assets/messages/message.bbnavi.json';
+const STATIC_MESSAGE_URL =
+    process.env.STATIC_MESSAGE_URL ||
+    '/assets/messages/message.bbnavi.json';
 
 const walttiConfig = require('./config.waltti.js').default;
 
-// const realtimeHbg = require('./realtimeUtils').default.bbnavi;
-// const hostname = new URL(API_URL);
-// realtimeHbg.mqtt = `wss://${hostname.host}/mqtt/`;
+const realtimeBbnavi = require('./realtimeUtils').default.bbnavi;
+const hostname = new URL(API_URL);
+realtimeBbnavi.mqtt = `wss://${hostname.host}/mqtt/`;
 
 const minLat = 52.015895;
 const maxLat = 54.015895;
 const minLon = 13.000255;
 const maxLon = 15.000255;
 
-// https://tiles.stadtnavi.eu/orthophoto/{z}/{x}/{y}.jpg
-
 export default configMerger(walttiConfig, {
     CONFIG,
     URL: {
-        HEADER_TITLE: HEADER_TITLE,
+        HEADER_TITLE,
         OTP: process.env.OTP_URL || `${API_URL}/otp/routers/default/`,
         MAP: {
             default: MAP_URL,
@@ -39,11 +39,11 @@ export default configMerger(walttiConfig, {
         STOP_MAP: `${API_URL}/otp/routers/default/vectorTiles/stops/`,
         DYNAMICPARKINGLOTS_MAP: `${API_URL}/otp/routers/default/vectorTiles/parking/`,
         ROADWORKS_MAP: `${API_URL}/map/v1/cifs/`,
-        // COVID19_MAP: `https://tiles.caresteouvert.fr/public.poi_osm_light/{z}/{x}/{y}.pbf`,
+        COVID19_MAP: '', // `https://tiles.caresteouvert.fr/public.poi_osm_light/{z}/{x}/{y}.pbf`,
         CITYBIKE_MAP: `${API_URL}/otp/routers/default/vectorTiles/citybikes/`,
         BIKE_PARKS_MAP: `${API_URL}/otp/routers/default/vectorTiles/parking/`,
-        // WEATHER_STATIONS_MAP: `${API_URL}/map/v1/weather-stations/`,
-        // CHARGING_STATIONS_MAP: `${API_URL}/tiles/charging-stations/`,
+        WEATHER_STATIONS_MAP: '', // `${API_URL}/map/v1/weather-stations/`,
+        CHARGING_STATIONS_MAP: '', // `${API_URL}/tiles/charging-stations/`,
         PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
         PELIAS_REVERSE_GEOCODER: `${
             process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
@@ -51,7 +51,7 @@ export default configMerger(walttiConfig, {
         PELIAS_PLACE: `${
             process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
         }/place`,
-        // FARES: `${API_URL}/fares`,
+        FARES: '', // `${API_URL}/fares`,
         FONT: '' // Do not use Google fonts.
     },
 
@@ -61,6 +61,7 @@ export default configMerger(walttiConfig, {
 
     availableLanguages: ['de', 'en'],
     defaultLanguage: 'de',
+    issueTrackerUrl: '', // 'https://maengelmelder.service-bw.de/?lat=${lat}&lng=${lon}',
 
     MATOMO_URL: process.env.MATOMO_URL,
 
@@ -180,8 +181,9 @@ export default configMerger(walttiConfig, {
                     en: 'https://www.regioradstuttgart.de/',
                 },
                 visibleInSettingsUi: true,
+                enabled: true,
             },
-            taxi: {
+            'taxi': {
                 icon: 'taxi',
                 name: {
                     de: 'Taxi',
@@ -189,6 +191,7 @@ export default configMerger(walttiConfig, {
                 },
                 type: 'taxi',
                 visibleInSettingsUi: false,
+                enabled: true,
             },
             "car-sharing": {
                 icon: 'car-sharing',
@@ -202,16 +205,28 @@ export default configMerger(walttiConfig, {
                     en: 'https://stuttgart.stadtmobil.de/privatkunden/',
                 },
                 visibleInSettingsUi: false,
+                enabled: true,
             },
             "cargo-bike": {
                 icon: 'cargobike',
                 name: {
-                    de: 'Lastenrad Herrenberg',
-                    en: 'Cargo bike Herrenberg',
+                    de: 'Freie Lastenräder',
+                    en: 'Free cargo bikes',
                 },
                 type: 'cargo-bike',
                 visibleInSettingsUi: false,
+                enabled: true,
             },
+            // "de.openbikebox.stadt-herrenberg": {
+            //     icon: 'cargobike',
+            //     name: {
+            //         de: 'Lastenrad Herrenberg',
+            //         en: 'Cargo bike Herrenberg',
+            //     },
+            //     type: 'cargo-bike',
+            //     visibleInSettingsUi: false,
+            //     enabled: true,
+            // },
         }
     },
 
@@ -225,9 +240,9 @@ export default configMerger(walttiConfig, {
         description: APP_DESCRIPTION,
     },
 
-    // modeToOTP: {
-    //     carpool: 'CARPOOL',
-    // },
+    modeToOTP: {
+        carpool: 'CARPOOL',
+    },
 
     logo: 'bbnavi/stadtnavi-bbnavi-logo.svg',
 
@@ -262,7 +277,7 @@ export default configMerger(walttiConfig, {
 
     feedIds: ['bbnavi'],
 
-    //  realtime: { bbnavi: realtimeHbg },
+    // realtime: { bbnavi: realtimeBbnavi },
 
     searchSources: ['oa', 'osm'],
 
@@ -271,8 +286,8 @@ export default configMerger(walttiConfig, {
         'boundary.rect.max_lat': 54.015895,
         'boundary.rect.min_lon': 15.000255,
         'boundary.rect.max_lon': 11.000255,
-        'focus.point.lat': 52.391618,
-        'focus.point.lon': 13.067224
+        'focus.point.lat': 53.015895,
+        'focus.point.lon': 14.000255
     },
 
     areaPolygon: [
@@ -285,11 +300,25 @@ export default configMerger(walttiConfig, {
     nationalServiceLink: { name: 'Fahrplanauskunft efa-bw', href: 'https://www.efa-bw.de' },
 
     defaultEndpoint: {
-        lat: 52.391618,
-        lon: 13.067224,
+        lat: 53.015895,
+        lon: 14.000255,
     },
 
-    defaultOrigins: [],
+
+    defaultOrigins: [
+        {
+            icon: 'icon-icon_bus',
+            label: 'Bahnhof',
+            lat: 53.015694,
+            lon: 13.996112,
+        },
+        {
+            icon: 'icon-icon_star',
+            label: 'Krankenhaus',
+            lat: 53.013128,
+            lon: 13.989340,
+        }
+    ],
 
     menu: {
         copyright: {
@@ -305,12 +334,12 @@ export default configMerger(walttiConfig, {
             {
                 name: 'imprint',
                 nameEn: 'Imprint',
-                href: 'https://bbnavi.de/impressum/',
+                href: 'https://bbnavi.de/impressum',
             },
             {
                 name: 'privacy',
                 nameEn: 'Privacy',
-                href: 'https://bbnavi.de/datenschutzerklaerung/',
+                href: 'https://bbnavi.de/datenschutzerklaerung',
             },
         ],
     },
@@ -343,7 +372,7 @@ export default configMerger(walttiConfig, {
                 header: 'Datenquellen',
                 paragraphs: [
                     'Kartendaten: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap Mitwirkende</a>',
-                    'ÖPNV-Daten: Datensätze des <a target=new href=https://www.vbb.de/vbb-services/api-open-data/datensaetze/>VBB GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) jeweils angereichert mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende',
+                    'ÖPNV-Daten: Datensätze der <a target=new href=https://www.vbb.de/vbb-services/api-open-data/datensaetze/>VBB GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) jeweils angereichert mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende',
                     'Alle Angaben ohne Gewähr.'
                 ],
             },
@@ -365,7 +394,7 @@ export default configMerger(walttiConfig, {
                 header: 'Data sources',
                 paragraphs: [
                     'Map data: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap contributors</a>',
-                    'Public transit data: Datasets by <a target=new href=https://www.vbb.de/vbb-services/api-open-data/datensaetze/>VBB GmbH</a>,  Shapes enhanced with OpenStreetMap data © OpenStreetMap contributors',
+                    'Public transit data: Datasets by <a target=new href=https://www.vbb.de/vbb-services/api-open-data/datensaetze/>VBB GmbH</a>, Shapes enhanced with OpenStreetMap data © OpenStreetMap contributors',
                     'No responsibility is accepted for the accuracy of this information.'
                 ],
             },
@@ -487,7 +516,7 @@ export default configMerger(walttiConfig, {
         },
 
         carpool: {
-            availableForSelection: false,
+            availableForSelection: true,
             defaultValue: false,
             exclusive: true,
             icon: 'carpool-withoutBox',
@@ -497,7 +526,7 @@ export default configMerger(walttiConfig, {
     showTicketInformation: false,
     showTicketPrice: false,
     availableTickets: { 'bbnavi' : {}},
-    fareMapping: function mapHbFareId(fareId) {
+    fareMapping: function mapFareId(fareId) {
         return {
             en: "Adult",
             de: "Regulär",
@@ -521,15 +550,15 @@ export default configMerger(walttiConfig, {
             //     },
             //     url: '/assets/geojson/hb-layers/bicycleinfrastructure.geojson',
             // },
-            // Charging stations
-            // {
-            //     name: {
-            //         fi: '',
-            //         en: 'Charging stations',
-            //         de: 'Ladestationen',
-            //     },
-            //     url: '/assets/geojson/hb-layers/charging.geojson',
-            // },
+            /* Charging stations
+            {
+                name: {
+                    fi: '',
+                    en: 'Charging stations',
+                    de: 'Ladestationen',
+                },
+                url: '/assets/geojson/hb-layers/charging.geojson',
+            },*/
             // LoRaWan map layer
             // {
             //     name: {
@@ -552,7 +581,6 @@ export default configMerger(walttiConfig, {
             // },
         ],
     },
-
     staticMessagesUrl: STATIC_MESSAGE_URL,
 
     parkAndRideBannedVehicleParkingTags: [

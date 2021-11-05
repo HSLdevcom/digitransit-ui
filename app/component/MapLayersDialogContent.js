@@ -301,13 +301,13 @@ class MapLayersDialogContent extends React.Component {
                   icon: 'icon-icon_citybike',
                   settings: 'citybike',
                 },
-                /* isTransportModeEnabled(transportModes.carpool) && {
+                isTransportModeEnabled(transportModes.carpool) && {
                   checked: terminal.carpool,
                   defaultMessage: 'Carpool stops',
                   labelId: 'map-layer-carpool',
                   icon: 'icon-icon_carpool',
                   settings: { stop: 'carpool', terminal: 'carpool' },
-                }, */
+                },
               ]}
             />
             <LayerCategoryDropdown
@@ -343,7 +343,7 @@ class MapLayersDialogContent extends React.Component {
                   this.context.config.chargingStations.show && {
                     checked: chargingStations,
                     defaultMessage: 'Charging stations',
-                    labelId: 'map-layer-charging-staions',
+                    labelId: 'map-layer-charging-stations',
                     icon: 'icon-icon_stop_car_charging_station',
                     settings: 'chargingStations',
                   },

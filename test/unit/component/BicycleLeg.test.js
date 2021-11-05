@@ -41,7 +41,7 @@ describe('<BicycleLeg />', () => {
       },
     });
     expect(wrapper.find(FormattedMessage).at(0).prop('id')).to.equal(
-      'rent-cycle-at',
+      'rent-citybike-at',
     );
   });
 

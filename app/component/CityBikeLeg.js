@@ -20,31 +20,26 @@ import {
 } from '../util/legUtils';
 
 function CityBikeLeg(
-  { stationName, isScooter, bikeRentalStation, returnBike = false, breakpoint },
+  { stationName, bikeRentalStation, returnBike = false, breakpoint },
   { config, intl },
 ) {
   if (!bikeRentalStation) {
     return null;
   }
+  const networkConfig = getCityBikeNetworkConfig(
+    getCityBikeNetworkId(bikeRentalStation.networks),
+    config,
+  );
+  const formFactor = networkConfig.type || 'citybike';
+
   // eslint-disable-next-line no-nested-ternary
-  const id = returnBike
-    ? isScooter
-      ? 'return-scooter-to'
-      : 'return-cycle-to'
-    : isScooter
-    ? 'rent-scooter-at'
-    : 'rent-cycle-at';
+  const id = returnBike ? `return-${formFactor}-to` : `rent-${formFactor}-at`;
   const legDescription = (
     <span className="citybike-leg-header">
       <FormattedMessage id={id} defaultMessage="Fetch a bike" />
     </span>
   );
-  const citybikeicon = getCityBikeNetworkIcon(
-    getCityBikeNetworkConfig(
-      getCityBikeNetworkId(bikeRentalStation.networks),
-      config,
-    ),
-  );
+  const citybikeicon = getCityBikeNetworkIcon(networkConfig);
   const availabilityIndicatorColor = getCityBikeAvailabilityIndicatorColor(
     bikeRentalStation.bikesAvailable,
     config,
@@ -81,7 +76,7 @@ function CityBikeLeg(
             <span className="headsign"> {stationName}</span>
             <span className="citybike-station-text">
               {intl.formatMessage({
-                id: 'citybike-station-no-id',
+                id: `${formFactor}-station-no-id`,
                 defaultMessage: 'Bike station',
               })}
             </span>
@@ -104,7 +99,6 @@ function CityBikeLeg(
 CityBikeLeg.propTypes = {
   bikeRentalStation: PropTypes.object,
   stationName: PropTypes.string,
-  isScooter: PropTypes.bool,
   returnBike: PropTypes.bool,
   breakpoint: PropTypes.string,
 };

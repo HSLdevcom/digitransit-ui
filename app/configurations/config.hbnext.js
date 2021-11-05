@@ -167,7 +167,7 @@ export default configMerger(walttiConfig, {
         useSpacesAvailable: false,
         showCityBikes: true,
         networks: {
-            regiorad: {
+            'de.mfdz.flinkster.cab.regiorad_stuttgart': {
                 icon: 'regiorad',
                 name: {
                     de: 'RegioRad',
@@ -179,8 +179,9 @@ export default configMerger(walttiConfig, {
                     en: 'https://www.regioradstuttgart.de/',
                 },
                 visibleInSettingsUi: true,
+                enabled: true,
             },
-            taxi: {
+            'taxi': {
                 icon: 'taxi',
                 name: {
                     de: 'Taxi',
@@ -188,6 +189,7 @@ export default configMerger(walttiConfig, {
                 },
                 type: 'taxi',
                 visibleInSettingsUi: false,
+                enabled: true,
             },
             "car-sharing": {
                 icon: 'car-sharing',
@@ -201,8 +203,19 @@ export default configMerger(walttiConfig, {
                     en: 'https://stuttgart.stadtmobil.de/privatkunden/',
                 },
                 visibleInSettingsUi: false,
+                enabled: true,
             },
             "cargo-bike": {
+                icon: 'cargobike',
+                name: {
+                    de: 'Freie Lastenräder Herrenberg',
+                    en: 'Free cargo bikes Herrenberg',
+                },
+                type: 'cargo-bike',
+                visibleInSettingsUi: false,
+                enabled: true,
+            },
+            "de.openbikebox.stadt-herrenberg": {
                 icon: 'cargobike',
                 name: {
                     de: 'Lastenrad Herrenberg',
@@ -210,6 +223,7 @@ export default configMerger(walttiConfig, {
                 },
                 type: 'cargo-bike',
                 visibleInSettingsUi: false,
+                enabled: true,
             },
         }
     },
