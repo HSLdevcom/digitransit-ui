@@ -48,7 +48,9 @@ const AppBar = (
               logo={logo}
               title={title}
             />
-            <span className="logo community">{config.URL.HEADER_TITLE}</span>
+            {!!config.URL?.HEADER_TITLE && (
+              <span className="logo community">{config.URL.HEADER_TITLE}</span>
+            )}
           </button>
         </section>
         <section className="controls">

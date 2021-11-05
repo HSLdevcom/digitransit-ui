@@ -107,9 +107,15 @@ export default configMerger(walttiConfig, {
         description: APP_DESCRIPTION,
 
         image: {
-            url: '/img/stadtnavi-social-media-card.png',
-            width: 600,
-            height: 300,
+            url: '/img/bar-social-media-card.png',
+            width: 1080,
+            height: 600,
+        },
+
+        twitter: {
+            card: 'summary_large_image',
+            site: '@bike_and_ride',
+            creator: '@bike_and_ride'
         },
 
     },

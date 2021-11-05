@@ -89,7 +89,7 @@ describe('<WalkLeg />', () => {
     });
 
     expect(wrapper.find(FormattedMessage).at(0).prop('id')).to.equal(
-      'return-cycle-to',
+      'return-citybike-to',
     );
   });
 

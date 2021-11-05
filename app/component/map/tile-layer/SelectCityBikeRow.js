@@ -17,8 +17,13 @@ function SelectCityBikeRow({ name, networks, id, desc }, { config }) {
     config,
   );
   const img = getCityBikeNetworkIcon(networkConfig);
-  const address = desc || <FormattedMessage id="citybike-station-no-id" />;
-  const displayName = name || <FormattedMessage id="citybike-station-no-id" />;
+  const formFactor = networkConfig.type || 'citybike';
+  const address = desc || (
+    <FormattedMessage id={`${formFactor}-station-no-id`} />
+  );
+  const displayName = name || (
+    <FormattedMessage id={`${formFactor}-station-no-id`} />
+  );
   const showCode = id && id !== 'null' && !networkConfig.hideCode;
   return (
     <Link

@@ -35,10 +35,11 @@ const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
     bikeRentalStation.state === BIKESTATION_OFF ||
     bikeRentalStation.state === BIKESTATION_CLOSED;
 
-  const citybikeicon = getCityBikeNetworkIcon(
-    getCityBikeNetworkConfig(bikeRentalStation.networks[0], config),
-    disabled,
+  const networkConfig = getCityBikeNetworkConfig(
+    bikeRentalStation.networks[0],
+    config,
   );
+  const citybikeicon = getCityBikeNetworkIcon(networkConfig, disabled);
   return (
     <div className="citybike-content-container">
       <Icon img={citybikeicon} />
@@ -49,7 +50,7 @@ const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
         fewAvailableCount={fewAvailableCount}
         fewerAvailableCount={fewerAvailableCount}
         useSpacesAvailable={citybikeCapacity === BIKEAVL_WITHMAX}
-        networks={bikeRentalStation.networks}
+        formFactor={networkConfig.type || 'citybike'}
       />
     </div>
   );
