@@ -12,7 +12,7 @@ ENV \
   SENTRY_DSN='' \
   SENTRY_SECRET_DSN='' \
   PORT=8080 \
-  API_URL='https://api.bbnavi.de' \
+  API_URL='https://staging.api.bbnavi.de' \
   MAP_URL='' \
   OTP_URL='' \
   GEOCODING_BASE_URL='' \
