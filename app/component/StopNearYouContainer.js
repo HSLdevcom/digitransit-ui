@@ -17,6 +17,14 @@ const containerComponent = createRefetchContainer(
         desc
         lat
         lon
+        alerts {
+          alertSeverityLevel
+          alertDescriptionText
+          alertDescriptionTextTranslations {
+            text
+            language
+          }
+        }
         zoneId
         platformCode
         stoptimesWithoutPatterns(
@@ -57,6 +65,14 @@ const containerComponent = createRefetchContainer(
           lon
           zoneId
           platformCode
+          alerts {
+            alertSeverityLevel
+            alertDescriptionText
+            alertDescriptionTextTranslations {
+              text
+              language
+            }
+          }
           stoptimesWithoutPatterns(
             startTime: $startTime
             omitNonPickups: $omitNonPickups

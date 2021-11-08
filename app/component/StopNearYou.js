@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
 import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import StopNearYouHeader from './StopNearYouHeader';
+import StopNearYouAlert from './StopNearYouAlert';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
 
 const StopNearYou = ({
@@ -16,6 +17,7 @@ const StopNearYou = ({
 }) => {
   const stopOrStation = stop.parentStation ? stop.parentStation : stop;
   const stopMode = stopOrStation.stoptimesWithoutPatterns[0]?.trip.route.mode;
+  const alert = stop.alerts?.length > 0 ? stop.alerts[0] : null;
   useEffect(() => {
     const id = stop.gtfsId;
     if (currentMode === stopMode) {
@@ -46,6 +48,7 @@ const StopNearYou = ({
             default="The departure list and estimated departure times will update in real time."
           />
         </span>
+        {alert && <StopNearYouAlert stop={stop} linkAddress={linkAddress} />}
         <StopNearYouDepartureRowContainer
           currentTime={currentTime}
           mode={stopMode}
