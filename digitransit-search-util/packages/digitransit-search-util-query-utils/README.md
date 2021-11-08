@@ -36,6 +36,16 @@ Returns Stop and station objects .
 
 -   `favourites` **any** 
 
+## filterStopsAndStationsByMode
+
+Returns Stop and station objects filtered by given mode based on mode information 
+acquired from OTP by checking the modes of the departures on the given stops.
+
+### Parameters
+
+-   `stopsToFilter` **any** 
+-   `mode` **[String][3]** 
+
 ## getFavouriteRoutesQuery
 
 Returns Favourite Route objects depending on input
