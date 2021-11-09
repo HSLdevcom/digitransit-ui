@@ -110,6 +110,8 @@ $margin-left-right: 21.3px;
     font-size: $font-size-xsmall;
     font-weight: $font-weight-book;
     padding-inline-start: 0px;
+    line-height: 16px;
+    letter-spacing: -0.03em;
   }
   .route-notification-link {
     font-size: $font-size-xsmall;
@@ -117,7 +119,7 @@ $margin-left-right: 21.3px;
   }
 }
 .route-notification.minimized {
-  max-height: 24px;
+  max-height: 25px;
 }
 
 .route-page-content {

@@ -1210,6 +1210,8 @@ const translations = {
     'no-route-start-end': 'Please select origin and destination',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'No journeys found for the selected date.',
+    'notification-minimize': 'Close message',
+    'notification-open': 'Open message',
     now: 'Now',
     'number-of-intermediate-stops':
       '{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }',
@@ -2206,6 +2208,8 @@ const translations = {
     'no-route-start-end': 'Syötä lähtöpaikka ja määränpää',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Valitulle päivälle ei löydy matkoja.',
+    'notification-minimize': 'Sulje ilmoitus',
+    'notification-open': 'Avaa ilmoitus',
     now: 'Nyt',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other {{number} pysäkkiä} }',
@@ -3988,6 +3992,8 @@ const translations = {
     'no-route-start-end': 'Välj avfärdsplats och destination',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Inga resor på den valda dagen.',
+    'notification-minimize': 'Stäng meddelande',
+    'notification-open': 'Öppna meddelande',
     now: 'Nu',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Inga hållplatser} one {1 hållplats} other {{number} hållplatser} }',

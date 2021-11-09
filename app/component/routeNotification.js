@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { intlShape } from 'react-intl';
 import { getDialogState, setDialogState } from '../store/localStorage';
 
 import Icon from './Icon';
@@ -57,7 +57,15 @@ const RouteNotification = (props, context) => {
             setHideNote(!hideNote);
           }}
           aria-label={
-            <FormattedMessage id="asd" defaultMessage="Close notification" />
+            hideNote
+              ? context.intl.formatMessage({
+                  id: 'notification-open',
+                  defaultMessage: 'Open message',
+                })
+              : context.intl.formatMessage({
+                  id: 'notification-minimize',
+                  defaultMessage: 'Close message',
+                })
           }
         >
           <Icon
@@ -87,6 +95,7 @@ RouteNotification.defaultProps = {
 
 RouteNotification.contextTypes = {
   config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 };
 
 export default RouteNotification;

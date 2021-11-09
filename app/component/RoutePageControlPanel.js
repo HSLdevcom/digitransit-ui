@@ -357,7 +357,7 @@ class RoutePageControlPanel extends React.Component {
             content={notification.content[language]}
             link={notification.link[language]}
             id={notification.id}
-            buttonText={notification.closeButtonLabel[language]}
+            closeButtonLabel={notification.closeButtonLabel[language]}
           />,
         );
       }
