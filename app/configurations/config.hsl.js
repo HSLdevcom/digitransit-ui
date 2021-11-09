@@ -578,7 +578,7 @@ export default {
       },
       content: {
         fi: [
-          'Mm. lastenvaunujen osalta noudatetaan liikennöitsijän sääntöjä.',
+          'Mm. lastenvaunujen osalta noudatetaan liikennöitsijän sääntöjä. ',
           'HSL-alueen ulkopuolelle käytetään liikennöitsijän lippuja.',
         ],
         en: ['', ''],
