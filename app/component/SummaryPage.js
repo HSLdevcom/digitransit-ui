@@ -1445,15 +1445,11 @@ class SummaryPage extends React.Component {
       this.updateLocalStorage(false);
     }
 
-    if (!isEqual(this.props.viewer.plan, prevProps.viewer.plan)) {
-      if (
-        !isEqual(
-          getDefaultSettings(this.context.config),
-          getCurrentSettings(this.context.config),
-        )
-      ) {
-        this.makeQueryWithAllModes();
-      }
+    if (
+      !isEqual(this.props.viewer.plan, prevProps.viewer.plan) &&
+      relevantRoutingSettingsChanged(this.context.config)
+    ) {
+      this.makeQueryWithAllModes();
     }
 
     // Reset walk and bike suggestions when new search is made

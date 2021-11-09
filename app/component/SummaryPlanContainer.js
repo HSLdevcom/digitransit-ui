@@ -252,7 +252,7 @@ class SummaryPlanContainer extends React.Component {
       loadingMoreItineraries,
     } = this.props;
     const searchTime =
-      this.props.plan.date ||
+      this.props.plan?.date ||
       (location.query &&
         location.query.time &&
         moment.unix(location.query.time).valueOf()) ||
