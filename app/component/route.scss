@@ -68,6 +68,58 @@ $margin-left-right: 21.3px;
   padding-top: 48px;
 }
 
+.route-notification {
+  display: flex;
+  background: #E5F2FA;
+  border-radius: 5px;
+  margin: 10px 0 10px 0;
+  padding: 3px 10px 10px 0px;
+
+  .left-block {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .right-block {
+    flex: 1;
+  }
+  .button-block {
+    display: flex;
+    max-height: 24px;
+    label {
+      color: $primary-color;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    .route-notification-collapse-button {
+      .route-notification-collapse-icon {
+        width: 10px;
+        height: 10px;
+      }
+      .inverted {
+        transform: rotate(180deg);
+      }
+    }
+  }
+  h3 {
+    margin-top: 1px;
+    font-size: $font-size-xsmall;
+    font-weight: bold;
+  }
+  ul {
+    margin: 3px 0px 0px 20px;
+    font-size: $font-size-xsmall;
+    font-weight: $font-weight-book;
+    padding-inline-start: 0px;
+  }
+  .route-notification-link {
+    font-size: $font-size-xsmall;
+    text-decoration: none;
+  }
+}
+.route-notification.minimized {
+  max-height: 24px;
+}
+
 .route-page-content {
   max-height: 100vh;
   overflow-x: hidden;

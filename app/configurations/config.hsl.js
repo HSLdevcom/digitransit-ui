@@ -565,4 +565,35 @@ export default {
   },
 
   showSimilarRoutesOnRouteDropDown: true,
+
+  routeNotifications: [
+    {
+      showForRoute: gtfsId =>
+        gtfsId.slice(4).length === 4 && gtfsId.slice(4)[0] === '7',
+      id: 'uLineNotification',
+      header: {
+        fi: 'U-Linja',
+        en: 'U-Line',
+        sv: 'U-Linje',
+      },
+      content: {
+        fi: [
+          'Mm. lastenvaunujen osalta noudatetaan liikennöitsijän sääntöjä.',
+          'HSL-alueen ulkopuolelle käytetään liikennöitsijän lippuja.',
+        ],
+        en: ['', ''],
+        sv: ['', ''],
+      },
+      closeButtonLabel: {
+        fi: 'Mitä U-linja tarkoittaa?',
+        en: '',
+        sv: '',
+      },
+      link: {
+        fi: 'hsl.fi/matkustaminen/u-liikenne/',
+        en: 'hsl.fi/matkustaminen/u-liikenne/',
+        sv: 'hsl.fi/sv/att-resa/U-trafik/',
+      },
+    },
+  ],
 };
