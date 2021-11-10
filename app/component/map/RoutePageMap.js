@@ -74,7 +74,7 @@ class RoutePageMap extends React.Component {
 
   componentDidMount() {
     // Throw error in client side if relay fails to fetch data
-    if (this.props.error) {
+    if (this.props.error && !this.props.pattern) {
       throw this.props.error.message;
     }
   }

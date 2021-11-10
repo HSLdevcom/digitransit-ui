@@ -40,7 +40,7 @@ class RoutePage extends React.Component {
 
   componentDidMount() {
     // Throw error in client side if relay fails to fetch data
-    if (this.props.error) {
+    if (this.props.error && !this.props.route) {
       throw this.props.error.message;
     }
   }
@@ -52,7 +52,7 @@ class RoutePage extends React.Component {
     const tripId = this.props.match.params?.tripId;
 
     // Render something in client side to clear SSR
-    if (isBrowser && error) {
+    if (isBrowser && error && !route) {
       return <Loading />;
     }
 
