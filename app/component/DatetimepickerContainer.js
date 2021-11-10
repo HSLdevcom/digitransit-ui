@@ -12,16 +12,29 @@ function DatetimepickerContainer(
   context,
 ) {
   const { router, match, config } = context;
-
-  const setParams = debounce((time, arriveBy) => {
+  const openPicker = match.location.query.setTime;
+  const setParams = debounce((time, arriveBy, setTime) => {
     replaceQueryParams(router, match, {
       time,
       arriveBy,
+      setTime,
     });
   }, 10);
 
+  const setOpenParam = debounce(setTime => {
+    replaceQueryParams(router, match, {
+      setTime,
+    });
+  }, 10);
+
+  const onClose = () => {
+    setOpenParam(undefined);
+  };
+  const onOpen = () => {
+    setOpenParam(true);
+  };
   const onTimeChange = (time, arriveBy) => {
-    setParams(time, arriveBy ? 'true' : undefined);
+    setParams(time, arriveBy ? 'true' : undefined, true);
     addAnalyticsEvent({
       action: 'EditJourneyTime',
       category: 'ItinerarySettings',
@@ -30,7 +43,7 @@ function DatetimepickerContainer(
   };
 
   const onDateChange = (time, arriveBy) => {
-    setParams(time, arriveBy ? 'true' : undefined);
+    setParams(time, arriveBy ? 'true' : undefined, true);
     addAnalyticsEvent({
       action: 'EditJourneyDate',
       category: 'ItinerarySettings',
@@ -40,15 +53,15 @@ function DatetimepickerContainer(
 
   const onNowClick = time => {
     if (realtime) {
-      setParams(undefined, undefined);
+      setParams(undefined, undefined, undefined);
     } else {
       // Lock the current time in url when clicked on itinerary page
-      setParams(time, undefined);
+      setParams(time, undefined, undefined);
     }
   };
 
   const onDepartureClick = time => {
-    setParams(time, undefined);
+    setParams(time, undefined, true);
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
@@ -58,7 +71,7 @@ function DatetimepickerContainer(
   };
 
   const onArrivalClick = time => {
-    setParams(time, 'true');
+    setParams(time, 'true', true);
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
@@ -83,6 +96,9 @@ function DatetimepickerContainer(
       timeZone={config.timezoneData.split('|')[0]}
       serviceTimeRange={context.config.itinerary.serviceTimeRange}
       fontWeights={config.fontWeights}
+      onOpen={onOpen}
+      onClose={onClose}
+      openPicker={openPicker}
     />
   );
 }
