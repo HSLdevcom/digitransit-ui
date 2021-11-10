@@ -577,6 +577,8 @@ class SummaryPage extends React.Component {
         $carParkModes: [TransportMode!]
         $bannedVehicleParkingTags: [String]
         $bannedBicycleParkingTags: [String]
+        $preferredBicycleParkingTags: [String]
+        $unpreferredBicycleParkingTagPenalty: Float
         $useVehicleParkingAvailabilityInformation: Boolean
       ) {
         walkPlan: plan(
@@ -789,6 +791,8 @@ class SummaryPage extends React.Component {
           unpreferred: $unpreferred
           locale: $locale
           bannedVehicleParkingTags: $bannedBicycleParkingTags
+          preferredVehicleParkingTags: $preferredBicycleParkingTags
+          unpreferredVehicleParkingTagPenalty: $unpreferredBicycleParkingTagPenalty
         ) @include(if: $showBikeAndParkItineraries) {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
