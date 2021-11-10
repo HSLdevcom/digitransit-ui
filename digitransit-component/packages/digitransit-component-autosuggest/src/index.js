@@ -116,9 +116,9 @@ function translateFutureRouteSuggestionTime(item) {
     ? i18next.t('arrival')
     : i18next.t('departure');
   if (time.isSame(moment(), 'day')) {
-    str = `${str} ${i18next.t('today')}`;
+    str = `${str} ${i18next.t('today-at')}`;
   } else if (time.isSame(moment().add(1, 'day'), 'day')) {
-    str = `${str} ${i18next.t('tomorrow')}`;
+    str = `${str} ${i18next.t('tomorrow-at')}`;
   } else {
     str = `${str} ${time.format('dd D.M.')}`;
   }
