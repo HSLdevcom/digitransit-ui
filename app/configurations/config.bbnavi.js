@@ -169,6 +169,20 @@ export default configMerger(walttiConfig, {
         useSpacesAvailable: false,
         showCityBikes: true,
         networks: {
+            'nextbike_dc': {
+                icon: 'regiorad',
+                name: {
+                    de: 'Nextbike',
+                    en: 'Nextbike',
+                },
+                type: 'citybike',
+                url: {
+                    de: 'https://www.nextbike.de/de/standorte/',
+                    en: 'https://www.nextbike.de/en/standorte/',
+                },
+                visibleInSettingsUi: true,
+                enabled: true,
+            },
             regiorad: {
                 icon: 'regiorad',
                 name: {
