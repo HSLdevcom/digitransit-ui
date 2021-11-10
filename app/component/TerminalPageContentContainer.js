@@ -39,14 +39,14 @@ class TerminalPageContent extends React.Component {
 
   componentDidMount() {
     // Throw error in client side if relay fails to fetch data
-    if (this.props.error) {
+    if (this.props.error && !this.props.station) {
       throw this.props.error.message;
     }
   }
 
   render() {
     // Render something in client side to clear SSR
-    if (isBrowser && this.props.error) {
+    if (isBrowser && this.props.error && !this.props.station) {
       return <Loading />;
     }
 
