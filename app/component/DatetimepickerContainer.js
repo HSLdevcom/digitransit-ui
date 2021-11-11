@@ -33,8 +33,9 @@ function DatetimepickerContainer(
   const onOpen = () => {
     setOpenParam(true);
   };
-  const onTimeChange = (time, arriveBy) => {
-    setParams(time, arriveBy ? 'true' : undefined, true);
+  const onTimeChange = (time, arriveBy, onSubmit = false) => {
+    const keepPickerOpen = onSubmit === false ? true : undefined;
+    setParams(time, arriveBy ? true : undefined, keepPickerOpen);
     addAnalyticsEvent({
       action: 'EditJourneyTime',
       category: 'ItinerarySettings',
@@ -43,7 +44,7 @@ function DatetimepickerContainer(
   };
 
   const onDateChange = (time, arriveBy) => {
-    setParams(time, arriveBy ? 'true' : undefined, true);
+    setParams(time, arriveBy ? true : undefined, true);
     addAnalyticsEvent({
       action: 'EditJourneyDate',
       category: 'ItinerarySettings',
@@ -71,7 +72,7 @@ function DatetimepickerContainer(
   };
 
   const onArrivalClick = time => {
-    setParams(time, 'true', true);
+    setParams(time, true, true);
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
@@ -83,7 +84,7 @@ function DatetimepickerContainer(
     <Datetimepicker
       realtime={realtime}
       initialTimestamp={match.location.query.time}
-      initialArriveBy={match.location.query.arriveBy === 'true'}
+      initialArriveBy={match.location.query.arriveBy === true}
       onTimeChange={onTimeChange}
       onDateChange={onDateChange}
       onNowClick={onNowClick}

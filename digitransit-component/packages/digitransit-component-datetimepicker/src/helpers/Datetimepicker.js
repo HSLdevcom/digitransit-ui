@@ -274,6 +274,9 @@ function Datetimepicker({
             onCancel={() => {
               changeOpen(false);
               showScreenreaderCloseAlert();
+              if (onClose) {
+                onClose();
+              }
             }}
             getTimeDisplay={getTimeDisplay}
             timeZone={timeZone}

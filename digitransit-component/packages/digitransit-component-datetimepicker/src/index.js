@@ -162,7 +162,7 @@ function DatetimepickerStateContainer({
   const onModalSubmit = (time, mode) => {
     changeTimestampState(time);
     changeDepartureOrArrival(mode);
-    onTimeChange(time / 1000, mode === 'arrival');
+    onTimeChange(time / 1000, mode === 'arrival', true);
   };
 
   return (
