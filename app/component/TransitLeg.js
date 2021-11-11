@@ -280,33 +280,37 @@ class TransitLeg extends React.Component {
     }
 
     const routeNotifications = [];
-    for (let i = 0; i < config.routeNotifications.length; i++) {
-      const notification = config.routeNotifications[i];
-      if (notification.showForRoute(leg.route.gtfsId)) {
-        routeNotifications.push(
-          <div className="disruption">
-            <Link
-              to={`https://www.${notification.link[lang]}`}
-              className="disruption-link"
-            >
-              <div className="disruption-icon notification-icon">
-                <ServiceAlertIcon
-                  className="inline-icon"
-                  severityLevel={AlertSeverityLevelType.Info}
+    if (config.routeNotifications && config.routeNotifications.length > 0) {
+      for (let i = 0; i < config.routeNotifications.length; i++) {
+        const notification = config.routeNotifications[i];
+        if (notification.showForRoute(leg.route.gtfsId)) {
+          routeNotifications.push(
+            <div className="disruption">
+              <Link
+                to={`https://www.${notification.link[lang]}`}
+                className="disruption-link"
+              >
+                <div className="disruption-icon notification-icon">
+                  <ServiceAlertIcon
+                    className="inline-icon"
+                    severityLevel={AlertSeverityLevelType.Info}
+                  />
+                </div>
+                <div className="info-notification">
+                  <h3 className="info-header">{notification.header[lang]}</h3>
+                  <div className="info-content">
+                    {notification.content[lang]}
+                  </div>
+                </div>
+                <Icon
+                  img="icon-icon_arrow-collapse--right"
+                  className="disruption-link-arrow"
+                  color={config.colors.primary}
                 />
-              </div>
-              <div className="info-notification">
-                <h3 className="info-header">{notification.header[lang]}</h3>
-                <div className="info-content">{notification.content[lang]}</div>
-              </div>
-              <Icon
-                img="icon-icon_arrow-collapse--right"
-                className="disruption-link-arrow"
-                color={config.colors.primary}
-              />
-            </Link>
-          </div>,
-        );
+              </Link>
+            </div>,
+          );
+        }
       }
     }
 

@@ -72,8 +72,10 @@ class RoutePageControlPanel extends React.Component {
     match: matchShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
     noInitialServiceDay: PropTypes.bool,
-    language: PropTypes.string.isRequired,
+    language: PropTypes.string,
   };
+
+  static defaultProps = { language: 'fi' };
 
   constructor(props) {
     super(props);
@@ -348,20 +350,23 @@ class RoutePageControlPanel extends React.Component {
     const { config } = this.context;
 
     const routeNotifications = [];
-    for (let i = 0; i < config.routeNotifications.length; i++) {
-      const notification = config.routeNotifications[i];
-      if (notification.showForRoute(route.gtfsId)) {
-        routeNotifications.push(
-          <RouteNotification
-            header={notification.header[language]}
-            content={notification.content[language]}
-            link={notification.link[language]}
-            id={notification.id}
-            closeButtonLabel={notification.closeButtonLabel[language]}
-          />,
-        );
+    if (config.routeNotifications && config.routeNotifications.length > 0) {
+      for (let i = 0; i < config.routeNotifications.length; i++) {
+        const notification = config.routeNotifications[i];
+        if (notification.showForRoute(route.gtfsId)) {
+          routeNotifications.push(
+            <RouteNotification
+              header={notification.header[language]}
+              content={notification.content[language]}
+              link={notification.link[language]}
+              id={notification.id}
+              closeButtonLabel={notification.closeButtonLabel[language]}
+            />,
+          );
+        }
       }
     }
+
     const activeTab = getActiveTab(match.location.pathname);
     const currentTime = moment().unix();
     const hasActiveAlert = isAlertActive(
