@@ -286,8 +286,8 @@ class TransitLeg extends React.Component {
         if (notification.showForRoute(leg.route.gtfsId)) {
           routeNotifications.push(
             <div className="disruption">
-              <Link
-                to={`https://www.${notification.link[lang]}`}
+              <a
+                href={`https://www.${notification.link[lang]}`}
                 className="disruption-link"
               >
                 <div className="disruption-icon notification-icon">
@@ -307,7 +307,7 @@ class TransitLeg extends React.Component {
                   className="disruption-link-arrow"
                   color={config.colors.primary}
                 />
-              </Link>
+              </a>
             </div>,
           );
         }
