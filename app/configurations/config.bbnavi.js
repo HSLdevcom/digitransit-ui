@@ -115,9 +115,9 @@ export default configMerger(walttiConfig, {
         description: APP_DESCRIPTION,
 
         image: {
-            url: '/img/stadtnavi-social-media-card.png',
-            width: 600,
-            height: 300,
+            url: '/img/bbnavi-social-preview.png',
+            width: 2048,
+            height: 1536,
         },
 
         twitter: {
