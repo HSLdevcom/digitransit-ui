@@ -13,6 +13,7 @@ function DatetimepickerContainer(
 ) {
   const { router, match, config } = context;
   const openPicker = match.location.query.setTime;
+
   const setParams = debounce((time, arriveBy, setTime) => {
     replaceQueryParams(router, match, {
       time,
@@ -30,12 +31,14 @@ function DatetimepickerContainer(
   const onClose = () => {
     setOpenParam(undefined);
   };
+
   const onOpen = () => {
-    setOpenParam(true);
+    setOpenParam('true');
   };
+
   const onTimeChange = (time, arriveBy, onSubmit = false) => {
-    const keepPickerOpen = onSubmit === false ? true : undefined;
-    setParams(time, arriveBy ? true : undefined, keepPickerOpen);
+    const keepPickerOpen = onSubmit === false ? 'true' : undefined;
+    setParams(time, arriveBy ? 'true' : undefined, keepPickerOpen);
     addAnalyticsEvent({
       action: 'EditJourneyTime',
       category: 'ItinerarySettings',
@@ -44,7 +47,7 @@ function DatetimepickerContainer(
   };
 
   const onDateChange = (time, arriveBy) => {
-    setParams(time, arriveBy ? true : undefined, true);
+    setParams(time, arriveBy ? 'true' : undefined, 'true');
     addAnalyticsEvent({
       action: 'EditJourneyDate',
       category: 'ItinerarySettings',
@@ -62,7 +65,7 @@ function DatetimepickerContainer(
   };
 
   const onDepartureClick = time => {
-    setParams(time, undefined, true);
+    setParams(time, undefined, 'true');
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
@@ -72,7 +75,7 @@ function DatetimepickerContainer(
   };
 
   const onArrivalClick = time => {
-    setParams(time, true, true);
+    setParams(time, 'true', 'true');
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
@@ -80,11 +83,12 @@ function DatetimepickerContainer(
       name: 'SelectArriving',
     });
   };
+
   return (
     <Datetimepicker
       realtime={realtime}
       initialTimestamp={match.location.query.time}
-      initialArriveBy={match.location.query.arriveBy === true}
+      initialArriveBy={match.location.query.arriveBy === 'true'}
       onTimeChange={onTimeChange}
       onDateChange={onDateChange}
       onNowClick={onNowClick}
