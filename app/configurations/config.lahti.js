@@ -2,8 +2,8 @@
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'lahti';
-const APP_TITLE = 'Uusi Reittiopas';
-const APP_DESCRIPTION = 'Uusi Reittiopas - Lahti';
+const APP_TITLE = 'LSL reittiopas';
+const APP_DESCRIPTION = 'Lahden seudun liikenteen reittiopas';
 
 const walttiConfig = require('./config.waltti').default;
 
