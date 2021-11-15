@@ -14,6 +14,44 @@ import filterMatchingToInput from '@digitransit-search-util/digitransit-search-u
 
 let relayEnvironment = null;
 
+const stopsQuery = graphql`
+  query digitransitSearchUtilQueryUtilsStopsQuery($ids: [String!]!) {
+    stops(ids: $ids) {
+      gtfsId
+      lat
+      lon
+      name
+      code
+      stoptimesWithoutPatterns(numberOfDepartures: 1) {
+        trip {
+          route {
+            mode
+          }
+        }
+      }
+    }
+  }
+`;
+
+const stationsQuery = graphql`
+  query digitransitSearchUtilQueryUtilsStationsQuery($ids: [String!]!) {
+    stations(ids: $ids) {
+      gtfsId
+      lat
+      lon
+      name
+      code
+      stoptimesWithoutPatterns(numberOfDepartures: 1) {
+        trip {
+          route {
+            mode
+          }
+        }
+      }
+    }
+  }
+`;
+
 const alertsQuery = graphql`
   query digitransitSearchUtilQueryUtilsAlertsQuery($feedIds: [String!]) {
     alerts(severityLevel: [SEVERE], feeds: $feedIds) {
@@ -244,6 +282,80 @@ export const getAllBikeRentalStations = () => {
     return Promise.resolve([]);
   }
   return fetchQuery(relayEnvironment, searchBikeRentalStationsQuery);
+};
+
+/**
+ * Returns Stop and station objects filtered by given mode based on mode information
+ * acquired from OTP by checking the modes of the departures on the given stops.
+ * @param {*} stopsToFilter
+ * @param {String} mode
+ */
+export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
+  if (!relayEnvironment || stopsToFilter.length < 1) {
+    return Promise.resolve([]);
+  }
+  const stationIds = stopsToFilter
+    .filter(
+      item =>
+        item.properties.layer === 'station' ||
+        item.properties.layer === 'favouriteStation' ||
+        item.properties.type === 'station',
+    )
+    .map(item => item.gtfsId);
+
+  const stopIds = stopsToFilter
+    .filter(
+      item =>
+        item.properties.layer === 'stop' ||
+        item.properties.layer === 'favouriteStop' ||
+        item.properties.type === 'stop',
+    )
+    .map(item => item.gtfsId);
+  const queries = [];
+  if (stopIds.length > 0) {
+    queries.push(
+      fetchQuery(relayEnvironment, stopsQuery, {
+        ids: stopIds,
+      }),
+    );
+  }
+  if (stationIds.length > 0) {
+    queries.push(
+      fetchQuery(relayEnvironment, stationsQuery, {
+        ids: stationIds,
+      }),
+    );
+  }
+  if (queries.length === 0) {
+    return Promise.resolve([]);
+  }
+  return Promise.all(queries)
+    .then(qres =>
+      qres.map(stopOrStation => {
+        return stopOrStation.stops
+          ? stopOrStation.stops
+          : stopOrStation.stations;
+      }),
+    )
+    .then(flatten)
+    .then(result => result.filter(res => res !== null))
+    .then(data =>
+      data.map(stop => {
+        const stopMode = stop.stoptimesWithoutPatterns[0]
+          ? stop.stoptimesWithoutPatterns[0].trip.route.mode
+          : undefined;
+        const oldStop = stopsToFilter.find(s => s.gtfsId === stop.gtfsId);
+        const newStop = {
+          ...oldStop,
+          mode: stopMode,
+        };
+        if (newStop.mode === mode) {
+          return newStop;
+        }
+        return undefined;
+      }),
+    )
+    .then(compact);
 };
 
 /**

@@ -454,9 +454,8 @@ class RouteScheduleContainer extends PureComponent {
           )
         ) {
           return moment(date).format(DATE_FORMAT);
-        } else {
-          return moment().format(DATE_FORMAT);
         }
+        return moment().format(DATE_FORMAT);
       }
     }
     return undefined;

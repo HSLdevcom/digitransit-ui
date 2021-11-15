@@ -196,6 +196,40 @@
     width: 100%;
     margin-bottom: 10px;
     animation: fadeIn 0.7s;
+    .alert-link {
+      text-decoration: none;
+      color: #333;
+    }
+    .alert-container {
+      display: flex;
+      margin: 0 14px 4px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      height: 48px;
+      .alert-text {
+        font-size: 0.813rem;
+        padding-top: 4px;
+        font-weight: 400;
+      }
+      .arrow-icon {
+        .icon-container {
+          font-size: 18px;
+          margin-right: 16px;
+          margin-left: 4px;
+          svg {
+            margin-top: 14px;
+          }
+        }
+      }
+      .icon-container {
+        min-width: 46px;
+        text-align: center;
+        font-size: 24px;
+        svg {
+          margin-top: 10px;
+        }
+      }
+    }
     .stop-near-you-header-container {
       display: flex;
       .stop-near-you-name {
