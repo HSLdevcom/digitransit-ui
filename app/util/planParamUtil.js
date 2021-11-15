@@ -292,9 +292,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
     shouldMakeBikeQuery:
       !wheelchair &&
       linearDistance < config.suggestBikeMaxDistance &&
-      (settings.includeBikeSuggestions
-        ? settings.includeBikeSuggestions
-        : defaultSettings.includeBikeSuggestions),
+      includeBikeSuggestions,
     shouldMakeCarQuery: getShouldMakeCarQuery(
       linearDistance,
       config,
