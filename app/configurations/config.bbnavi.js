@@ -32,7 +32,7 @@ export default configMerger(walttiConfig, {
         OTP: process.env.OTP_URL || `${API_URL}/otp/routers/default/`,
         MAP: {
             default: MAP_URL,
-            satellite: 'https://isk.geobasis-bb.de/mapproxy/dop20c_wmts/service?layer=bebb_dop20c&style=default&tilematrixset=grid_25833&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fpng&TileMatrix={z}&TileCol={x}&TileRow={y}',
+            satellite: 'https://isk.geobasis-bb.de/mapproxy/dop20c/service/wms',
             semiTransparent: SEMI_TRANSPARENT_MAP_URL,
             bicycle: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png',
         },

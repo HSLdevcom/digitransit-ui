@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import LeafletMap from 'react-leaflet/es/Map';
 import TileLayer from 'react-leaflet/es/TileLayer';
+import WMSTileLayer from 'react-leaflet/es/WMSTileLayer';
 import AttributionControl from 'react-leaflet/es/AttributionControl';
 import ScaleControl from 'react-leaflet/es/ScaleControl';
 import ZoomControl from 'react-leaflet/es/ZoomControl';
@@ -165,8 +166,34 @@ class Map extends React.Component {
     this.updateZoom();
   };
 
-  loadMapLayer(mapUrl, attribution, index) {
+  loadMapLayer(mapUrl, attribution, index, config) {
     const zIndex = -10 + index;
+
+    if (mapUrl === config.URL.MAP.satellite) {
+      return (
+        <WMSTileLayer
+          layers="bebb_dop20c"
+          key={mapUrl}
+          onLoad={this.setLoaded}
+          url={mapUrl}
+          tileSize={this.context.config.map.tileSize || 256}
+          zoomOffset={this.context.config.map.zoomOffset || 0}
+          updateWhenIdle={false}
+          zIndex={zIndex}
+          size={
+            this.context.config.map.useRetinaTiles &&
+            L.Browser.retina &&
+            !isDebugTiles
+              ? '@2x'
+              : ''
+          }
+          minZoom={this.context.config.map.minZoom}
+          maxZoom={this.context.config.map.maxZoom}
+          attribution={attribution}
+        />
+      );
+    }
+
     return (
       <TileLayer
         key={mapUrl}
@@ -316,7 +343,7 @@ class Map extends React.Component {
           closePopupOnClick={false}
         >
           {mapUrls.map((url, index) =>
-            this.loadMapLayer(url, attribution, index),
+            this.loadMapLayer(url, attribution, index, config),
           )}
           <BreakpointConsumer>
             {breakpoint =>
@@ -363,7 +390,6 @@ class Map extends React.Component {
       mapUrls.push(`${config.URL.OTP}inspector/tile/traversal/{z}/{x}/{y}.png`);
     } else if (currentMapMode === MapMode.Satellite) {
       mapUrls.push(config.URL.MAP.satellite);
-      mapUrls.push(config.URL.MAP.semiTransparent);
     } else if (currentMapMode === MapMode.Bicycle) {
       mapUrls.push(config.URL.MAP.bicycle);
     } else {
