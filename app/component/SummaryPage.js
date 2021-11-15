@@ -1445,13 +1445,6 @@ class SummaryPage extends React.Component {
       this.updateLocalStorage(false);
     }
 
-    if (
-      !isEqual(this.props.viewer.plan, prevProps.viewer.plan) &&
-      relevantRoutingSettingsChanged(this.context.config)
-    ) {
-      this.makeQueryWithAllModes();
-    }
-
     // Reset walk and bike suggestions when new search is made
     if (
       this.selectedPlan !== this.state.alternativePlan &&
@@ -1466,20 +1459,27 @@ class SummaryPage extends React.Component {
       this.setParamsAndQuery();
       this.secondQuerySent = false;
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        isFetchingWalkAndBike: true,
-        walkPlan: undefined,
-        bikePlan: undefined,
-        bikeAndPublicPlan: undefined,
-        bikeParkPlan: undefined,
-        carPlan: undefined,
-        parkRidePlan: undefined,
-        earlierItineraries: [],
-        laterItineraries: [],
-        weatherData: {},
-        separatorPosition: undefined,
-        alternativePlan: undefined,
-      });
+      this.setState(
+        {
+          isFetchingWalkAndBike: true,
+          walkPlan: undefined,
+          bikePlan: undefined,
+          bikeAndPublicPlan: undefined,
+          bikeParkPlan: undefined,
+          carPlan: undefined,
+          parkRidePlan: undefined,
+          earlierItineraries: [],
+          laterItineraries: [],
+          weatherData: {},
+          separatorPosition: undefined,
+          alternativePlan: undefined,
+        },
+        () => {
+          if (relevantRoutingSettingsChanged(this.context.config)) {
+            this.makeQueryWithAllModes();
+          }
+        },
+      );
     }
 
     // Public transit routes fetched, now fetch walk and bike itineraries
