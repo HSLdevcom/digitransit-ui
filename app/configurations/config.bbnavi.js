@@ -283,9 +283,9 @@ export default configMerger(walttiConfig, {
             }
         },
         attribution: {
-            'default': '© <a tabindex=-1 href=https://www.openstreetmap.org/copyright>OpenStreetMap Mitwirkende</a>, <a tabindex=-1 href=https://www.vbb.de/vbb-services/api-open-data/datensaetze/>Datensätze des Verkehrsverbundes Berlin-Brandenburg GmbH (VBB)</a> ',
-            'satellite': '© <a tabindex=-1 href=https://www.openstreetmap.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href="https://www.lgl-bw.de/">LGL BW</a>, <a tabindex=-1 href=https://www.vbb.de/vbb-services/api-open-data/datensaetze//>Datensätze des Verkehrsverbundes Berlin-Brandenburg GmbH (VBB)</a> ',
-            'bicycle': '© <a tabindex=-1 href=https://www.openstreetmap.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href=https://www.cyclosm.org/#map=12/52.3728/4.8936/cyclosmx>CyclOSM</a>, © <a tabindex=-1 href="https://www.openstreetmap.fr/">OSM-FR</a>, <a tabindex=-1 href=https://www.vbb.de/vbb-services/api-open-data/datensaetze//>Datensätze des Verkehrsverbundes Berlin-Brandenburg GmbH (VBB)</a>',
+            'default': '© <a tabindex=-1 href=https://www.openstreetmap.org/copyright>OpenStreetMap Mitwirkende</a>, <a tabindex=-1 href=https://www.vbb.de/vbb-services/api-open-data/datensaetze/>VBB</a> ',
+            'satellite': '© GeoBasis-DE/LGB, <a tabindex=-1 href=https://www.govdata.de/dl-de/by-2-0>dl-de/by-2-0</a>, © Geoportal Berlin, <a tabindex=-1 href=https://www.govdata.de/dl-de/by-2-0>dl-de/by-2-0</a>, © <a tabindex=-1 href=https://www.openstreetmap.org/copyright>OpenStreetMap Mitwirkende</a>, <a tabindex=-1 href=https://www.vbb.de/vbb-services/api-open-data/datensaetze/>VBB</a> ',
+            'bicycle': '© <a tabindex=-1 href=https://www.openstreetmap.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href=https://www.cyclosm.org/#map=12/52.3728/4.8936/cyclosmx>CyclOSM</a>, © <a tabindex=-1 href="https://www.openstreetmap.fr/">OSM-FR</a>, <a tabindex=-1 href=https://www.vbb.de/vbb-services/api-open-data/datensaetze/>VBB</a>',
         },
     },
 

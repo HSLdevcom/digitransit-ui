@@ -281,6 +281,8 @@ class Map extends React.Component {
     }
 
     let attribution = get(config, 'map.attribution.default');
+    const currentMapMode = getMapMode(this.context.match);
+    attribution = config.map.attribution[currentMapMode] || attribution;
     if (!isString(attribution) || isEmpty(attribution)) {
       attribution = false;
     }
@@ -390,6 +392,7 @@ class Map extends React.Component {
       mapUrls.push(`${config.URL.OTP}inspector/tile/traversal/{z}/{x}/{y}.png`);
     } else if (currentMapMode === MapMode.Satellite) {
       mapUrls.push(config.URL.MAP.satellite);
+      mapUrls.push(config.URL.MAP.semiTransparent);
     } else if (currentMapMode === MapMode.Bicycle) {
       mapUrls.push(config.URL.MAP.bicycle);
     } else {
