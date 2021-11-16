@@ -285,6 +285,16 @@ const relevantRoutingSettingsChanged = config => {
   return !isEqual(defaultSettingsToCompare, currentSettingsToCompare);
 };
 
+const setCurrentTimeToURL = match => {
+  if (!match.location?.query?.time) {
+    const newLocation = {
+      ...match.location,
+      query: { time: moment().unix() },
+    };
+    match.router.replace(newLocation);
+  }
+};
+
 class SummaryPage extends React.Component {
   static contextTypes = {
     config: PropTypes.object,
@@ -348,6 +358,8 @@ class SummaryPage extends React.Component {
 
     // DT-4161: Threshold to determine should vehicles be shown if search is made in the future
     this.show_vehicles_threshold_minutes = 720;
+
+    setCurrentTimeToURL(props.match);
 
     this.state = {
       weatherData: {},
@@ -1399,6 +1411,7 @@ class SummaryPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    setCurrentTimeToURL(this.props.match);
     // screen reader alert when new itineraries are fetched
     if (
       this.props.match.params.hash === undefined &&
