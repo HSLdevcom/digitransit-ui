@@ -301,6 +301,4 @@ export default configMerger(walttiConfig, {
   modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'RAIL'],
 
   showTenWeeksOnRouteSchedule: true,
-
-  streetTrafficTerminals: ['tampere:9903', 'tampere:9904'],
 });
