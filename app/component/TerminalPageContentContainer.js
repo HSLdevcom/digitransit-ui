@@ -73,7 +73,10 @@ class TerminalPageContent extends React.Component {
         </div>
       );
     }
-
+    const isStreetTrafficTerminal = () =>
+      this.props.station.stops.some(
+        stop => stop.patterns[0].route.mode === 'BUS',
+      );
     return (
       <ScrollableWrapper>
         <div className="stop-page-departure-wrapper stop-scroll-container">
@@ -92,8 +95,16 @@ class TerminalPageContent extends React.Component {
             </span>
             <span className="track-header">
               <FormattedMessage
-                id={mode === 'BUS' ? 'platform' : 'track'}
-                defaultMessage={mode === 'BUS' ? 'Platform' : 'Track'}
+                id={
+                  mode === 'BUS' || isStreetTrafficTerminal()
+                    ? 'platform'
+                    : 'track'
+                }
+                defaultMessage={
+                  mode === 'BUS' || isStreetTrafficTerminal()
+                    ? 'Platform'
+                    : 'Track'
+                }
               />
             </span>
           </div>
