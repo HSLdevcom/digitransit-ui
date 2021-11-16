@@ -27,6 +27,10 @@ class TerminalPageContent extends React.Component {
     router: routerShape.isRequired,
   };
 
+  static contextTypes = {
+    config: PropTypes.object.isRequired,
+  };
+
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps({ relay, currentTime }) {
     const currUnix = this.props.currentTime;
@@ -73,7 +77,11 @@ class TerminalPageContent extends React.Component {
         </div>
       );
     }
-
+    const isStreetTrafficTerminal =
+      this.context.config.streetTrafficTerminals &&
+      this.context.config.streetTrafficTerminals.includes(
+        this.props.station.gtfsId,
+      );
     return (
       <ScrollableWrapper>
         <div className="stop-page-departure-wrapper stop-scroll-container">
@@ -92,8 +100,16 @@ class TerminalPageContent extends React.Component {
             </span>
             <span className="track-header">
               <FormattedMessage
-                id={mode === 'BUS' ? 'platform' : 'track'}
-                defaultMessage={mode === 'BUS' ? 'Platform' : 'Track'}
+                id={
+                  mode === 'BUS' || isStreetTrafficTerminal
+                    ? 'platform'
+                    : 'track'
+                }
+                defaultMessage={
+                  mode === 'BUS' || isStreetTrafficTerminal
+                    ? 'Platform'
+                    : 'Track'
+                }
               />
             </span>
           </div>
@@ -127,6 +143,7 @@ const connectedComponent = createRefetchContainer(
         timeRange: { type: "Int!", defaultValue: 43200 }
         numberOfDepartures: { type: "Int!", defaultValue: 100 }
       ) {
+        gtfsId
         url
         stops {
           patterns {
