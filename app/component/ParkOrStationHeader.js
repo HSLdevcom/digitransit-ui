@@ -26,7 +26,9 @@ const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
       if (data.features != null && data.features.length > 0) {
         const match = data.features[0].properties;
         const id = getZoneId(config, match.zones, data.zones);
-        setZoneId(id.toString().toLowerCase());
+        if (id) {
+          setZoneId(id.toString().toLowerCase());
+        }
       }
     });
   }, []);

@@ -79,20 +79,21 @@ export default configMerger(walttiConfig, {
     content: [
       {
         name: 'menu-feedback',
-        nameEn: 'Submit feedback',
-        href:
-          'http://kartta.hameenlinna.fi/eFeedback/fi/Feedback/35-Joukkoliikenne',
-        icon: 'icon-icon_speech-bubble',
+        href: {
+          fi:
+            'https://kartta.hameenlinna.fi/eFeedback/fi/Feedback/35-Joukkoliikenne',
+          sv:
+            'https://kartta.hameenlinna.fi/eFeedback/sv/Feedback/35-Joukkoliikenne',
+          en:
+            'https://kartta.hameenlinna.fi/eFeedback/en/Feedback/35-Public%20transportation',
+        },
       },
       {
         name: 'about-this-service',
-        nameEn: 'About this service',
         route: '/tietoja-palvelusta',
-        icon: 'icon-icon_info',
       },
       {
         name: 'accessibility-statement',
-        nameEn: 'Accessibility statement',
         href:
           'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
       },

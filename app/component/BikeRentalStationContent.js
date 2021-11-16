@@ -27,7 +27,7 @@ const BikeRentalStationContent = (
   });
 
   // throw error in client side relay query fails
-  if (isClient && error) {
+  if (isClient && error && !bikeRentalStation) {
     throw error.message;
   }
 

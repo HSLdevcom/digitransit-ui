@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
+import { intlShape } from 'react-intl';
 import { v4 as uuid } from 'uuid';
 import { Link } from 'found';
 import LocalTime from './LocalTime';
@@ -12,7 +12,7 @@ import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
 const DepartureRow = (
   { departure, departureTime, showPlatformCode, canceled, showLink, ...props },
-  { config },
+  { config, intl },
 ) => {
   const mode = departure.trip.route.mode.toLowerCase();
   const timeDiffInMinutes = Math.floor(
@@ -24,16 +24,19 @@ const DepartureRow = (
     getHeadsignFromRouteLongName(departure.trip.route);
   let shownTime;
   if (timeDiffInMinutes <= 0) {
-    shownTime = <FormattedMessage id="arriving-soon" defaultMessage="Now" />;
+    shownTime = intl.formatMessage({
+      id: 'arriving-soon',
+      defaultMessage: 'Now',
+    });
   } else if (timeDiffInMinutes > config.minutesToDepartureLimit) {
     shownTime = undefined;
   } else {
-    shownTime = (
-      <FormattedMessage
-        id="departure-time-in-minutes"
-        defaultMessage="{minutes} min"
-        values={{ minutes: timeDiffInMinutes }}
-      />
+    shownTime = intl.formatMessage(
+      {
+        id: 'departure-time-in-minutes',
+        defaultMessage: '{minutes} min',
+      },
+      { minutes: timeDiffInMinutes },
     );
   }
   let { shortName } = departure.trip.route;
@@ -92,12 +95,12 @@ const DepartureRow = (
           {showPlatformCode && (
             <div
               className={
-                !departure.stop.platformCode
+                !departure.stop?.platformCode
                   ? 'platform-code empty'
                   : 'platform-code'
               }
             >
-              {departure.stop.platformCode}
+              {departure.stop?.platformCode}
             </div>
           )}
         </td>
@@ -137,5 +140,6 @@ DepartureRow.propTypes = {
 
 DepartureRow.contextTypes = {
   config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 };
 export default DepartureRow;

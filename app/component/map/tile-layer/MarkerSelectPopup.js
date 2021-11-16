@@ -6,8 +6,6 @@ import SelectStopRow from './SelectStopRow';
 import SelectCityBikeRow from './SelectCityBikeRow';
 import SelectParkAndRideRow from './SelectParkAndRideRow';
 import SelectVehicleContainer from './SelectVehicleContainer';
-import ComponentUsageExample from '../../ComponentUsageExample';
-import { options } from '../../ExampleData';
 
 function MarkerSelectPopup(props) {
   const hasStop = () =>
@@ -101,15 +99,6 @@ function MarkerSelectPopup(props) {
 }
 
 MarkerSelectPopup.displayName = 'MarkerSelectPopup';
-
-MarkerSelectPopup.description = (
-  <div className="popup">
-    <p>Renders a marker select popup</p>
-    <ComponentUsageExample description="">
-      <MarkerSelectPopup options={options} selectRow={() => {}} />
-    </ComponentUsageExample>
-  </div>
-);
 
 MarkerSelectPopup.propTypes = {
   options: PropTypes.array.isRequired,

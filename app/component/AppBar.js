@@ -6,7 +6,6 @@ import { matchShape } from 'found';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import DisruptionInfo from './DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
-import ComponentUsageExample from './ComponentUsageExample';
 import MessageBar from './MessageBar';
 import LogoSmall from './LogoSmall';
 import CanceledLegsBar from './CanceledLegsBar';
@@ -76,18 +75,6 @@ const AppBar = (
 };
 
 AppBar.displayName = 'AppBar';
-
-AppBar.description = () => (
-  <div>
-    <p>AppBar of application for small display</p>
-    <ComponentUsageExample description="">
-      <AppBar title="Reittiopas.hsl.fi" className="fullscreen" />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="no back button">
-      <AppBar title="Reittiopas.hsl.fi" className="fullscreen" />
-    </ComponentUsageExample>
-  </div>
-);
 
 AppBar.propTypes = {
   showLogo: PropTypes.bool,

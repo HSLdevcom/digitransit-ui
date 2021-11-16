@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-dialog-modal",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "digitransit-component dialog-modal module",
   "main": "lib/index.js",
   "files": [
@@ -28,10 +28,10 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@hsl-fi/modal": "^0.1.8"
+    "@hsl-fi/modal": "^0.2.1"
   },
   "peerDependencies": {
-    "@hsl-fi/sass": "^0.1.1",
+    "@hsl-fi/sass": "^0.2.0",
     "classnames": "2.2.6",
     "i18next": "^19.3.3",
     "prop-types": "^15.7.2",

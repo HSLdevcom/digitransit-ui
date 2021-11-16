@@ -14,8 +14,6 @@ const rootLink = process.env.ROOTLINK || 'https://dev.hslfi.hsldev.com';
 const BANNER_URL = 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
 // 'https://test-api.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
 
-const cityBikesEnabled = true;
-
 export default {
   CONFIG,
 
@@ -27,6 +25,7 @@ export default {
     CITYBIKE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-citybike-map/`,
     ROOTLINK: rootLink,
     BANNERS: BANNER_URL,
+    HSL_FI_SUGGESTIONS: 'https://content.hsl.fi/api/v1/search/suggestions',
   },
 
   indexPath: 'etusivu',
@@ -78,7 +77,6 @@ export default {
 
   stopsMinZoom: 14,
   mergeStopsByCode: true,
-
   colors: {
     primary: '#007ac9',
     hover: '#0062a1',
@@ -92,7 +90,7 @@ export default {
       'mode-citybike-secondary': '#333333',
     },
   },
-
+  searchIconModeSet: 'default',
   fontWeights: {
     medium: 500,
   },
@@ -129,7 +127,7 @@ export default {
 
   transportModes: {
     citybike: {
-      availableForSelection: cityBikesEnabled,
+      availableForSelection: true,
     },
     airplane: {
       availableForSelection: false,
@@ -291,7 +289,7 @@ export default {
       {
         header: 'Tietolähteet',
         paragraphs: [
-          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat HSL:n JORE-aineistoon.',
+          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Digi- ja väestötietoviraston rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat HSL:n JORE-aineistoon.',
         ],
       },
     ],
@@ -327,6 +325,7 @@ export default {
     ],
   },
 
+  hideExternalOperator: agency => agency.name === 'Helsingin seudun liikenne',
   showTicketInformation: true,
   ticketInformation: {
     primaryAgencyName: 'HSL',
@@ -342,6 +341,11 @@ export default {
     ferry: 100000,
     citybike: 100000,
   },
+
+  prioritizedStopsNearYou: {
+    ferry: ['HSL:1030701'],
+  },
+
   showTicketSelector: true,
 
   staticMessages: [
@@ -426,7 +430,7 @@ export default {
 
   unknownZones: ['Ei HSL'],
 
-  showTicketPrice: true,
+  showTicketPrice: false,
 
   map: {
     showZoomControl: true, // DT-3470, DT-3397
@@ -449,11 +453,16 @@ export default {
 
   cityBike: {
     minZoomStopsNearYou: 10,
-    showCityBikes: cityBikesEnabled,
-    capacity: BIKEAVL_WITHMAX,
     showFullInfo: true,
     networks: {
       smoove: {
+        enabled: true,
+        season: {
+          // 1.4. - 31.10.
+          start: new Date(new Date().getFullYear(), 3, 1),
+          end: new Date(new Date().getFullYear(), 10, 1),
+        },
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
           fi: 'Helsinki ja Espoo',
@@ -463,11 +472,11 @@ export default {
         type: 'citybike',
         url: {
           fi:
-            'https://www.hsl.fi/kaupunkipyorat/osta?area=helsinki-espoo&utm_campaign=kaupunkipyorat-omat-hkiespoo&utm_source=reittiopas&utm_medium=referral',
+            'https://www.hsl.fi/kaupunkipyorat?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
           sv:
-            'https://www.hsl.fi/sv/stadscyklar/kop?area=helsinki-espoo&utm_campaign=kaupunkipyorat-omat-hkiespoo&utm_source=reittiopas&utm_medium=referral',
+            'https://www.hsl.fi/sv/stadscyklar?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
           en:
-            'https://www.hsl.fi/en/citybikes/buy?area=helsinki-espoo&utm_campaign=kaupunkipyorat-omat-hkiespoo&utm_source=reittiopas&utm_medium=referral',
+            'https://www.hsl.fi/en/citybikes?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
         },
         returnInstructions: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#palauta',
@@ -475,7 +484,7 @@ export default {
             'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#aterlamna',
           en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#return',
         },
-        // Shown if citybike leg duration exceeds minutesBeforeSurcharge
+        // Shown if citybike leg duration exceeds timeBeforeSurcharge
         durationInstructions: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#aja',
           sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#cykla',
@@ -484,6 +493,13 @@ export default {
         timeBeforeSurcharge: 30 * 60,
       },
       vantaa: {
+        enabled: true,
+        season: {
+          // 1.4. - 31.10.
+          start: new Date(new Date().getFullYear(), 3, 1),
+          end: new Date(new Date().getFullYear(), 10, 1),
+        },
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike-secondary',
         name: {
           fi: 'Vantaa',
@@ -493,11 +509,11 @@ export default {
         type: 'citybike',
         url: {
           fi:
-            'https://www.hsl.fi/kaupunkipyorat/osta?area=vantaa&utm_campaign=kaupunkipyorat-omat-vantaa&utm_source=reittiopas&utm_medium=referral',
+            'https://www.hsl.fi/kaupunkipyorat?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
           sv:
-            'https://www.hsl.fi/sv/stadscyklar/kop?area=vantaa&utm_campaign=kaupunkipyorat-omat-vantaa&utm_source=reittiopas&utm_medium=referral',
+            'https://www.hsl.fi/sv/stadscyklar?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
           en:
-            'https://www.hsl.fi/en/citybikes/buy?area=vantaa&utm_campaign=kaupunkipyorat-omat-vantaa&utm_source=reittiopas&utm_medium=referral',
+            'https://www.hsl.fi/en/citybikes?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
         },
         returnInstructions: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa/kayttoohje#palauta',
@@ -514,11 +530,11 @@ export default {
     },
     buyUrl: {
       fi:
-        'https://www.hsl.fi/kaupunkipyorat/osta?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral',
+        'https://www.hsl.fi/kaupunkipyorat?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
       sv:
-        'https://www.hsl.fi/sv/stadscyklar/kop?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral',
+        'https://www.hsl.fi/sv/stadscyklar?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
       en:
-        'https://www.hsl.fi/en/citybikes/buy?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral',
+        'https://www.hsl.fi/en/citybikes?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
     },
   },
 
@@ -538,7 +554,7 @@ export default {
     'subway',
     'rail',
     'ferry',
-    cityBikesEnabled && 'citybike',
+    'citybike',
   ],
 
   hostnames: [

@@ -1,8 +1,8 @@
-import isEmpty from 'lodash/isEmpty';
 import isString from 'lodash/isString';
 import without from 'lodash/without';
 import { getCustomizedSettings } from '../store/localStorage';
 import { addAnalyticsEvent } from './analyticsUtils';
+import { showCitybikeNetwork } from './modeUtils';
 
 export const BIKESTATION_ON = 'Station on';
 export const BIKESTATION_OFF = 'Station off';
@@ -67,36 +67,42 @@ export const getCityBikeNetworkConfig = (networkId, config) => {
 
 export const getDefaultNetworks = config => {
   const mappedNetworks = [];
-  Object.keys(config.cityBike.networks).forEach(key =>
-    mappedNetworks.push(key),
-  );
+  Object.entries(config.cityBike.networks).forEach(n => {
+    if (showCitybikeNetwork(n[1])) {
+      mappedNetworks.push(n[0]);
+    }
+  });
   return mappedNetworks;
 };
 
 export const mapDefaultNetworkProperties = config => {
   const mappedNetworks = [];
-  Object.keys(config.cityBike.networks).forEach(key =>
-    mappedNetworks.push({ networkName: key, ...config.cityBike.networks[key] }),
-  );
+  Object.keys(config.cityBike.networks).forEach(key => {
+    if (showCitybikeNetwork(config.cityBike.networks[key])) {
+      mappedNetworks.push({
+        networkName: key,
+        ...config.cityBike.networks[key],
+      });
+    }
+  });
   return mappedNetworks;
 };
 
+export const getCitybikeCapacity = (config, network = undefined) => {
+  return (
+    config.cityBike?.networks[network]?.capacity || config.cityBike.capacity
+  );
+};
 /**
  * Retrieves all chosen citybike networks from the
- * localstorage or default configuration.
+ * localstorage
  *
  * @param {*} config The configuration for the software installation
  */
 
-export const getCitybikeNetworks = config => {
+export const getCitybikeNetworks = () => {
   const { allowedBikeRentalNetworks } = getCustomizedSettings();
-  if (
-    Array.isArray(allowedBikeRentalNetworks) &&
-    !isEmpty(allowedBikeRentalNetworks)
-  ) {
-    return allowedBikeRentalNetworks;
-  }
-  return getDefaultNetworks(config);
+  return allowedBikeRentalNetworks || [];
 };
 
 const addAnalytics = (action, name) => {
@@ -118,15 +124,10 @@ const addAnalytics = (action, name) => {
  * @returns the updated citybike networks
  */
 
-export const updateCitybikeNetworks = (
-  currentSettings,
-  newValue,
-  config,
-  isUsingCitybike,
-) => {
+export const updateCitybikeNetworks = (currentSettings, newValue) => {
   let chosenNetworks;
 
-  if (isUsingCitybike) {
+  if (currentSettings) {
     chosenNetworks = currentSettings.find(
       o => o.toLowerCase() === newValue.toLowerCase(),
     )
@@ -134,15 +135,6 @@ export const updateCitybikeNetworks = (
       : currentSettings.concat([newValue]);
   } else {
     chosenNetworks = [newValue];
-  }
-
-  if (chosenNetworks.length === 0 || !isUsingCitybike) {
-    if (chosenNetworks.length === 0) {
-      addAnalytics('SettingsResetCityBikeNetwork', null);
-      return getDefaultNetworks(config);
-    }
-    addAnalytics('SettingsNotUsingCityBikeNetwork', null);
-    return chosenNetworks;
   }
 
   if (Array.isArray(currentSettings) && Array.isArray(chosenNetworks)) {

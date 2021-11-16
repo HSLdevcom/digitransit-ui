@@ -38,7 +38,8 @@ Returns Stop and station objects .
 
 ## filterStopsAndStationsByMode
 
-Returns Stop and station objects filtered by given mode .
+Returns Stop and station objects filtered by given mode based on mode information
+acquired from OTP by checking the modes of the departures on the given stops.
 
 ### Parameters
 

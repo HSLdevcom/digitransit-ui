@@ -20,9 +20,6 @@ Digitransit-ui is a React based web application. The following bullet point desc
     - Views should preferably be created using stateless functional components
     - Views mustn't hold any state
       - If state is needed you should either store it using fluxible or in a container
-    - Must be included in the style guide
-    - Visual regression testing using gemini
-      - all use cases should be provided by the style guide
   - RelayConnector
     - Data from server should be fetched by adding a relay fragment and wrapping it with Relay.createContainer
     - The file should have the pure view as default export and the <View>RelayConnector as named export
@@ -40,17 +37,6 @@ Digitransit-ui is a React based web application. The following bullet point desc
       - Higher order component that wraps another component to provide store state to other component props
       - Must include StoreConnector in their name
     - Containers should include unit tests either testing their functions separately or by testing it's shallow rendering using Enzyme
-
-## Flow testing
-  - Most commonly used flows, i.e. making a route search and navigating routes/stops/trips should be tested using Nightwatch
-  - Should be tested in browserstack using most commonly used browsers
-
-## How to get there
-  - Incremental process
-  - When working with a file
-    - add to style guide
-    - write gemini and/or unit tests
-    - create gemini images
 
 React components can access data in two different ways:
 - OpenTripPlanner GraphQL queries with Relay

@@ -72,9 +72,19 @@ function getSuggestionContent(item) {
       suggestionType = i18next.t(layer);
     }
 
-    if (item.properties.id && item.properties.layer === 'stop') {
+    if (
+      item.properties.id &&
+      (item.properties.layer === 'stop' || item.properties.layer === 'station')
+    ) {
       const stopCode = getStopCode(item.properties);
-      return [suggestionType, getStopName(name, stopCode), label, stopCode];
+      const mode = item.properties.addendum?.GTFS.modes;
+      return [
+        suggestionType,
+        getStopName(name, stopCode),
+        label,
+        stopCode,
+        mode,
+      ];
     }
     if (
       item.properties.layer === 'favouriteStop' ||
@@ -106,9 +116,9 @@ function translateFutureRouteSuggestionTime(item) {
     ? i18next.t('arrival')
     : i18next.t('departure');
   if (time.isSame(moment(), 'day')) {
-    str = `${str} ${i18next.t('today')}`;
+    str = `${str} ${i18next.t('today-at')}`;
   } else if (time.isSame(moment().add(1, 'day'), 'day')) {
-    str = `${str} ${i18next.t('tomorrow')}`;
+    str = `${str} ${i18next.t('tomorrow-at')}`;
   } else {
     str = `${str} ${time.format('dd D.M.')}`;
   }
@@ -224,6 +234,8 @@ class DTAutosuggest extends React.Component {
       medium: PropTypes.number,
     }),
     modeIconColors: PropTypes.object,
+    required: PropTypes.bool,
+    modeSet: PropTypes.string,
   };
 
   static defaultProps = {
@@ -255,6 +267,8 @@ class DTAutosuggest extends React.Component {
       'mode-metro': '#ed8c00',
       'mode-ferry': '#007A97',
     },
+    required: false,
+    modeSet: undefined,
   };
 
   constructor(props) {
@@ -674,6 +688,7 @@ class DTAutosuggest extends React.Component {
         fillInput={this.fillInput}
         fontWeights={this.props.fontWeights}
         modeIconColors={this.props.modeIconColors}
+        modeSet={this.props.modeSet}
       />
     );
   };
@@ -816,10 +831,14 @@ class DTAutosuggest extends React.Component {
         } ${this.props.inputClassName}`,
       ),
       onKeyDown: this.keyDown, // DT-3263
+      required: this.props.required,
     };
     const ariaBarId = this.props.id.replace('searchfield-', '');
     let SearchBarId = this.props.ariaLabel || i18next.t(ariaBarId);
     SearchBarId = SearchBarId.replace('searchfield-', '');
+    const ariaRequiredText = this.props.required
+      ? `${i18next.t('required')}.`
+      : '';
     const ariaLabelText = i18next.t('search-autosuggest-label');
     const ariaSuggestionLen = i18next.t('search-autosuggest-len', {
       count: suggestions.length,
@@ -871,7 +890,11 @@ class DTAutosuggest extends React.Component {
             getSuggestionValue={this.getSuggestionValue}
             renderSuggestion={this.renderItem}
             closeHandle={this.closeMobileSearch}
-            ariaLabel={SearchBarId.concat(' ').concat(ariaLabelText)}
+            ariaLabel={ariaRequiredText
+              .concat(' ')
+              .concat(SearchBarId)
+              .concat(' ')
+              .concat(ariaLabelText)}
             label={
               this.props.mobileLabel
                 ? this.props.mobileLabel
@@ -931,7 +954,11 @@ class DTAutosuggest extends React.Component {
               renderInputComponent={p => (
                 <>
                   <input
-                    aria-label={SearchBarId.concat(' ').concat(ariaLabelText)}
+                    aria-label={ariaRequiredText
+                      .concat(' ')
+                      .concat(SearchBarId)
+                      .concat(' ')
+                      .concat(ariaLabelText)}
                     id={this.props.id}
                     onClick={this.inputClicked}
                     onKeyDown={this.keyDown}

@@ -4,7 +4,8 @@ import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const GEOCODING_BASE_URL = `${API_URL}/geocoding/v1`;
+const GEOCODING_BASE_URL =
+  process.env.GEOCODING_BASE_URL || `${API_URL}/geocoding/v1`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
@@ -108,6 +109,7 @@ export default {
 
   omitNonPickups: true,
   maxNearbyStopAmount: 5,
+  maxNearbyStopRefetches: 5,
   maxNearbyStopDistance: {
     favorite: 100000,
     bus: 100000,
@@ -308,7 +310,7 @@ export default {
       'mode-citybike': '#f2b62d',
     },
   },
-
+  searchIconModeSet: 'digitransit',
   fontWeights: {
     medium: 700,
   },
@@ -345,6 +347,7 @@ export default {
     keywords: 'digitransit',
   },
 
+  hideExternalOperator: () => false,
   // Ticket information feature toggle
   showTicketInformation: false,
   ticketInformation: {
@@ -513,12 +516,10 @@ export default {
     content: [
       {
         name: 'menu-feedback',
-        nameEn: 'Submit feedback',
         href: 'https://github.com/HSLdevcom/digitransit-ui/issues',
       },
       {
         name: 'about-this-service',
-        nameEn: 'About this service',
         route: '/tietoja-palvelusta',
       },
     ],
@@ -552,7 +553,7 @@ export default {
       {
         header: 'Tietolähteet',
         paragraphs: [
-          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut ladataan Traficomin valtakunnallisesta joukkoliikenteen tietokannasta.',
+          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Digi- ja väestötietoviraston rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut ladataan Traficomin valtakunnallisesta joukkoliikenteen tietokannasta.',
         ],
       },
     ],
@@ -742,4 +743,6 @@ export default {
   showAlertHeader: true,
 
   showSimilarRoutesOnRouteDropDown: false,
+
+  prioritizedStopsNearYou: {},
 };

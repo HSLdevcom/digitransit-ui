@@ -22,7 +22,6 @@ import {
   TAB_FAVOURITES,
 } from './util/path';
 import {
-  errorLoading,
   getDefault,
   getComponentOrLoadingRenderer,
   getComponentOrNullRenderer,
@@ -370,27 +369,6 @@ export default config => {
           ),
         }}
       </Route>
-      <Route
-        path="/styleguide"
-        getComponent={() =>
-          import(
-            /* webpackChunkName: "styleguide" */ './component/StyleGuidePage'
-          )
-            .then(getDefault)
-            .catch(errorLoading)
-        }
-      />
-      <Route
-        path="/styleguide/component/:componentName"
-        topBarOptions={{ hidden: true }}
-        getComponent={() =>
-          import(
-            /* webpackChunkName: "styleguide" */ './component/StyleGuidePage'
-          )
-            .then(getDefault)
-            .catch(errorLoading)
-        }
-      />
       <Route
         path="/tietoja-palvelusta"
         getComponent={() =>

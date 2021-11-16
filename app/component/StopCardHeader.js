@@ -1,11 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 import CardHeader from './CardHeader';
-import ComponentUsageExample from './ComponentUsageExample';
-import Icon from './Icon';
-import ExternalLink from './ExternalLink';
 import { getJson } from '../util/xhrPromise';
 import { saveSearch } from '../action/SearchActions';
 import { isIOS } from '../util/browser';
@@ -81,32 +78,12 @@ class StopCardHeader extends React.Component {
     return description;
   }
 
-  getExternalLink(gtfsId, isPopUp) {
-    // Check for popup from stopMarkerPopup, should the external link be visible
-    if (!gtfsId || isPopUp || !this.headerConfig.virtualMonitorBaseUrl) {
-      return null;
-    }
-    const url = `${this.headerConfig.virtualMonitorBaseUrl}${gtfsId}`;
-    return (
-      <ExternalLink className="external-stop-link" href={url}>
-        {' '}
-        {
-          <FormattedMessage
-            id="stop-virtual-monitor"
-            defaultMessage="Virtual monitor"
-          />
-        }{' '}
-      </ExternalLink>
-    );
-  }
-
   render() {
     const {
       className,
       headingStyle,
       icons,
       stop,
-      isPopUp,
       breakpoint, // DT-3472
       isTerminal,
     } = this.props;
@@ -120,7 +97,6 @@ class StopCardHeader extends React.Component {
         headingStyle={headingStyle}
         description={this.getDescription()}
         code={this.headerConfig.showStopCode && stop.code ? stop.code : null}
-        externalLink={this.getExternalLink(stop.gtfsId, isPopUp)}
         icons={icons}
         showBackButton={breakpoint === 'large'}
         stop={stop}
@@ -191,31 +167,6 @@ StopCardHeader.contextTypes = {
   match: matchShape.isRequired,
 };
 
-const exampleStop = {
-  code: '4611',
-  gtfsId: 'HSL:1541157',
-  name: 'Kaivonkatsojanpuisto',
-  desc: 'Kaivonkatsojantie',
-};
-
 StopCardHeader.displayName = 'StopCardHeader';
-
-StopCardHeader.description = () => (
-  <div>
-    <ComponentUsageExample description="basic">
-      <StopCardHeader stop={exampleStop} distance={345.6} />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="with icons">
-      <StopCardHeader
-        stop={exampleStop}
-        distance={345.6}
-        icons={[
-          <Icon className="info" img="icon-icon_info" key="1" />,
-          <Icon className="caution" img="icon-icon_caution" key="2" />,
-        ]}
-      />
-    </ComponentUsageExample>
-  </div>
-);
 
 export default StopCardHeader;

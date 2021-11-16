@@ -6,7 +6,6 @@ import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import ComponentUsageExample from './ComponentUsageExample';
 import withSearchContext from './WithSearchContext';
 import {
   setIntermediatePlaces,
@@ -18,6 +17,7 @@ import { dtLocationShape } from '../util/shapes';
 import { setViaPoints } from '../action/ViaPointActions';
 import { LightenDarkenColor } from '../util/colorUtils';
 import { getRefPoint } from '../util/apiUtils';
+import { showCityBikes } from '../util/modeUtils';
 
 const DTAutosuggestPanelWithSearchContext = withSearchContext(
   DTAutosuggestPanel,
@@ -33,6 +33,7 @@ class OriginDestinationBar extends React.Component {
     showFavourites: PropTypes.bool.isRequired,
     viaPoints: PropTypes.array,
     locationState: dtLocationShape.isRequired,
+    modeSet: PropTypes.string,
   };
 
   static contextTypes = {
@@ -49,6 +50,7 @@ class OriginDestinationBar extends React.Component {
     language: 'fi',
     isMobile: false,
     viaPoints: [],
+    modeSet: undefined,
   };
 
   constructor(props) {
@@ -123,14 +125,10 @@ class OriginDestinationBar extends React.Component {
       this.props.locationState,
     );
     const desktopTargets = ['Locations', 'CurrentPosition', 'Stops'];
-    if (
-      this.context.config.cityBike &&
-      this.context.config.cityBike.showCityBikes
-    ) {
+    if (showCityBikes(this.context.config.cityBike?.networks)) {
       desktopTargets.push('BikeRentalStations');
     }
     const mobileTargets = [...desktopTargets, 'MapPosition'];
-
     return (
       <div
         className={cx(
@@ -167,43 +165,12 @@ class OriginDestinationBar extends React.Component {
             this.context.config.colors.hover ||
             LightenDarkenColor(this.context.config.colors.primary, -20)
           }
+          modeSet={this.props.modeSet}
         />{' '}
       </div>
     );
   }
 }
-
-OriginDestinationBar.description = (
-  <React.Fragment>
-    <ComponentUsageExample>
-      <OriginDestinationBar
-        destination={{}}
-        origin={{
-          address: 'Messukeskus, Itä-Pasila, Helsinki',
-          lat: 60.201415,
-          lon: 24.936696,
-        }}
-        showFavourites
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="with-viapoint">
-      <OriginDestinationBar
-        destination={{}}
-        location={{
-          query: {
-            intermediatePlaces: 'Opastinsilta 6, Helsinki::60.199093,24.940536',
-          },
-        }}
-        origin={{
-          address: 'Messukeskus, Itä-Pasila, Helsinki',
-          lat: 60.201415,
-          lon: 24.936696,
-        }}
-        showFavourites
-      />
-    </ComponentUsageExample>
-  </React.Fragment>
-);
 
 const connectedComponent = connectToStores(
   OriginDestinationBar,

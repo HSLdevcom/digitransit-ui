@@ -1,13 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
 import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import StopNearYouHeader from './StopNearYouHeader';
+import StopNearYouAlert from './StopNearYouAlert';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
 
-const StopNearYou = ({ stop, desc, stopIsStation, ...props }) => {
+const StopNearYou = ({
+  stop,
+  desc,
+  stopIsStation,
+  currentTime,
+  currentMode,
+  relay,
+}) => {
   const stopOrStation = stop.parentStation ? stop.parentStation : stop;
+  const stopMode = stopOrStation.stoptimesWithoutPatterns[0]?.trip.route.mode;
+  const alert = stop.alerts?.length > 0 ? stop.alerts[0] : null;
+  useEffect(() => {
+    const id = stop.gtfsId;
+    if (currentMode === stopMode) {
+      relay?.refetch(oldVariables => {
+        return { ...oldVariables, stopId: id, startTime: currentTime };
+      }, null);
+    }
+  }, [currentTime, currentMode]);
   const description = desc || stop.desc;
   const isStation = !!stop.parentStation || stopIsStation;
   const gtfsId =
@@ -30,11 +48,12 @@ const StopNearYou = ({ stop, desc, stopIsStation, ...props }) => {
             default="The departure list and estimated departure times will update in real time."
           />
         </span>
+        {alert && <StopNearYouAlert stop={stop} linkAddress={linkAddress} />}
         <StopNearYouDepartureRowContainer
-          mode={stop.vehicleMode}
+          currentTime={currentTime}
+          mode={stopMode}
           stopTimes={stopOrStation.stoptimesWithoutPatterns}
-          currentTime={props.currentTime}
-          isStation={isStation && stop.vehicleMode !== 'SUBWAY'}
+          isStation={isStation && stopMode !== 'SUBWAY'}
         />
         <Link
           className="stop-near-you-more-departures"
@@ -58,7 +77,9 @@ StopNearYou.propTypes = {
   stop: PropTypes.object.isRequired,
   stopIsStation: PropTypes.bool,
   currentTime: PropTypes.number.isRequired,
+  currentMode: PropTypes.string.isRequired,
   desc: PropTypes.string,
+  relay: PropTypes.any,
 };
 
 StopNearYou.defaultProps = {

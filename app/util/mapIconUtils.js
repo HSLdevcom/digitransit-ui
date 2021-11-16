@@ -695,14 +695,7 @@ export function drawCitybikeIcon(
         /* eslint-enable no-param-reassign */
       }
       if (isHilighted) {
-        drawSelectionCircle(
-          tile,
-          iconX,
-          iconY,
-          radius,
-          true,
-          showAvailabilityBadge,
-        );
+        drawSelectionCircle(tile, iconX, iconY, radius, true, true);
       }
     });
   }
