@@ -202,7 +202,7 @@ export default configMerger(walttiConfig, {
         },
     },
 
-    feedIds: ['hh'],
+    feedIds: ['hh', "1"],
 
     searchSources: ['oa', 'osm'],
 
@@ -402,10 +402,18 @@ export default configMerger(walttiConfig, {
         },
     },
 
-    showTicketInformation: false,
-    showTicketPrice: false,
-    displayFareInfoTop: false,
+    showTicketInformation: true,
+    showTicketPrice: true,
+    showTicketSelector: true,
+    displayFareInfoTop: true,
 
+    availableTickets: { '1' : {}, 'hh' : {}},
+
+    fareMapping: (fareId) => {
+        return fareId && fareId.substring
+            ? fareId.substring(fareId.indexOf(':') + 1)
+            : '';
+    },
 
     showRouteSearch: false,
     showNearYouButtons: false,
