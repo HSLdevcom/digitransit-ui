@@ -337,7 +337,7 @@ const translations = {
     'accessibility-nolimit': 'Keine Einschränkungen',
     'accessibility-statement': 'Erklärung zur Barrierefreiheit',
     'map-type': 'Kartenarten',
-    streets: 'Straßen',
+    streets: 'Straßen (LGB)',
     satellite: 'Satellit',
     'add-favourite-bikeStation-failed-heading':
         'Speichern der Ausleihstation fehlgeschlagen',

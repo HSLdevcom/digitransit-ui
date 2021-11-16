@@ -422,9 +422,9 @@ class MapLayersDialogContent extends React.Component {
                   'panel-maptype-image',
                   currentMapMode === MapMode.Default && 'checked',
                 )}
-                src="/img/maptype-streets.png"
+                src="/img/maptype-streets-lgb.png"
               />
-              <FormattedMessage id="streets" defaultMessage="Streets" />
+              <FormattedMessage id="streets" defaultMessage="Streets (LGB)" />
             </button>
             <button
               type="button"
@@ -462,9 +462,29 @@ class MapLayersDialogContent extends React.Component {
                   'panel-maptype-image',
                   currentMapMode === MapMode.Bicycle && 'checked',
                 )}
-                src="/img/maptype-terrain.png"
+                src="/img/maptype-bicycle.png"
               />
               <FormattedMessage id="bicycle" defaultMessage="Bicycle" />
+            </button>
+            <button
+              type="button"
+              className={cx(
+                'panel-maptype-button',
+                currentMapMode === MapMode.OSM && 'checked',
+              )}
+              onClick={() => {
+                this.switchMapLayers(MapMode.OSM);
+              }}
+            >
+              <img
+                alt="openstreetmap"
+                className={cx(
+                  'panel-maptype-image',
+                  currentMapMode === MapMode.OSM && 'checked',
+                )}
+                src="/img/maptype-streets-osm.png"
+              />
+              <FormattedMessage id="openstreetmap" defaultMessage="OSM" />
             </button>
           </div>
         </div>
