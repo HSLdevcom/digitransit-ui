@@ -254,6 +254,8 @@ class Map extends React.Component {
     }
 
     let attribution = get(config, 'map.attribution.default');
+    const currentMapMode = getMapMode(this.context.match);
+    attribution = config.map.attribution[currentMapMode] || attribution;
     if (!isString(attribution) || isEmpty(attribution)) {
       attribution = false;
     }
