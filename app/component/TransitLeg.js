@@ -279,6 +279,45 @@ class TransitLeg extends React.Component {
         this.props.nextInterliningLeg.intermediatePlaces.length + 1;
     }
 
+    const routeNotifications = [];
+    if (
+      config.NODE_ENV !== 'test' &&
+      config.routeNotifications &&
+      config.routeNotifications.length > 0
+    ) {
+      for (let i = 0; i < config.routeNotifications.length; i++) {
+        const notification = config.routeNotifications[i];
+        if (notification.showForRoute(leg.route.gtfsId)) {
+          routeNotifications.push(
+            <div className="disruption">
+              <a
+                href={`https://www.${notification.link[lang]}`}
+                className="disruption-link"
+              >
+                <div className="disruption-icon notification-icon">
+                  <ServiceAlertIcon
+                    className="inline-icon"
+                    severityLevel={AlertSeverityLevelType.Info}
+                  />
+                </div>
+                <div className="info-notification">
+                  <h3 className="info-header">{notification.header[lang]}</h3>
+                  <div className="info-content">
+                    {notification.content[lang]}
+                  </div>
+                </div>
+                <Icon
+                  img="icon-icon_arrow-collapse--right"
+                  className="disruption-link-arrow"
+                  color={config.colors.primary}
+                />
+              </a>
+            </div>,
+          );
+        }
+      }
+    }
+
     return (
       <div key={index} className="row itinerary-row">
         <span className="sr-only">{textVersionBeforeLink}</span>
@@ -473,8 +512,10 @@ class TransitLeg extends React.Component {
               />
             </div>
           ) : (
-            !omitDivider && <div className="divider" />
+            !omitDivider &&
+            routeNotifications.length === 0 && <div className="divider" />
           )}
+          {routeNotifications}
           <LegAgencyInfo leg={leg} />
           <div className="intermediate-stops-button-container">
             {leg.intermediatePlaces.length > 1 && (
