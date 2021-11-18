@@ -29,7 +29,7 @@
     "test-unit": "yarn lerna run build:test --scope '@digitransit-component/*' && yarn lerna run build:test --scope '@digitransit-store/*' && mocha --require mock-local-storage --file test/unit/helpers/babel-register.js --file test/unit/helpers/init.js \"test/unit/**/*.test.js\"",
     "test-single": "mocha --require mock-local-storage --file test/unit/helpers/babel-register.js --file test/unit/helpers/init.js \"test/unit/**/*.test.js\" -g",
     "test:e2e": "jest --runInBand --detectOpenHandles --config=./test/e2e/jest.config.js",
-    "test:update-snapshots": "jest --runInBand --detectOpenHandles --updateSnapshot --config=./test/e2e/jest.config.js",
+    "test:update-snapshots": "UPDATE_E2E=true jest --runInBand --detectOpenHandles --updateSnapshot --config=./test/e2e/jest.config.js",
     "test:update-all-desktop-snapshots": "CONFIG=hsl yarn test:update-snapshots && CONFIG=tampere yarn test:update-snapshots && CONFIG=matka yarn test:update-snapshots",
     "test:update-all-mobile-snapshots": "MOBILE=true CONFIG=hsl yarn test:update-snapshots && MOBILE=true CONFIG=tampere yarn test:update-snapshots && MOBILE=true CONFIG=matka yarn test:update-snapshots",
     "test:update-all-snapshots": "yarn test:update-all-desktop-snapshots && yarn test:update-all-mobile-snapshots",
