@@ -169,10 +169,18 @@ class Map extends React.Component {
   loadMapLayer(mapUrl, attribution, index, config) {
     const zIndex = -10 + index;
 
-    if (mapUrl === config.URL.MAP.satellite) {
+    if (
+      mapUrl === config.URL.MAP.satellite ||
+      mapUrl === config.URL.MAP.default
+    ) {
+      const layer = {
+        [config.URL.MAP.satellite]: 'bebb_dop20c',
+        [config.URL.MAP.default]: 'webatlastopplusopen_farbe',
+      }[mapUrl];
+
       return (
         <WMSTileLayer
-          layers="bebb_dop20c"
+          layers={layer}
           key={mapUrl}
           onLoad={this.setLoaded}
           url={mapUrl}
@@ -190,6 +198,7 @@ class Map extends React.Component {
           minZoom={this.context.config.map.minZoom}
           maxZoom={this.context.config.map.maxZoom}
           attribution={attribution}
+          version="1.3.0"
         />
       );
     }
@@ -395,6 +404,8 @@ class Map extends React.Component {
       mapUrls.push(config.URL.MAP.semiTransparent);
     } else if (currentMapMode === MapMode.Bicycle) {
       mapUrls.push(config.URL.MAP.bicycle);
+    } else if (currentMapMode === MapMode.OSM) {
+      mapUrls.push(config.URL.MAP.osm);
     } else {
       mapUrls.push(config.URL.MAP.default);
     }

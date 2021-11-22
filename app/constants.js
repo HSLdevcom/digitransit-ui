@@ -97,6 +97,7 @@ export const MapMode = {
   Default: 'default',
   Satellite: 'satellite',
   Bicycle: 'bicycle',
+  OSM: 'osm',
 };
 
 export const BicycleParkingFilter = {

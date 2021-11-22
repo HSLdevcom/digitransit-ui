@@ -31,7 +31,8 @@ export default configMerger(walttiConfig, {
         HEADER_TITLE,
         OTP: process.env.OTP_URL || `${API_URL}/otp/routers/default/`,
         MAP: {
-            default: MAP_URL,
+            default: 'https://isk.geobasis-bb.de/mapproxy/webatlasde_topplus/service/wms',
+            osm: MAP_URL,
             satellite: 'https://isk.geobasis-bb.de/mapproxy/dop20c/service/wms',
             semiTransparent: SEMI_TRANSPARENT_MAP_URL,
             bicycle: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png',
@@ -269,9 +270,10 @@ export default configMerger(walttiConfig, {
             }
         },
         attribution: {
-            'default': '© <a tabindex=-1 href=https://www.openstreetmap.org/copyright>OpenStreetMap Mitwirkende</a>, <a tabindex=-1 href=https://www.vbb.de/vbb-services/api-open-data/datensaetze/>VBB</a> ',
-            'satellite': '© GeoBasis-DE/LGB, <a tabindex=-1 href=https://www.govdata.de/dl-de/by-2-0>dl-de/by-2-0</a>, © Geoportal Berlin, <a tabindex=-1 href=https://www.govdata.de/dl-de/by-2-0>dl-de/by-2-0</a>, © <a tabindex=-1 href=https://www.openstreetmap.org/copyright>OpenStreetMap Mitwirkende</a>, <a tabindex=-1 href=https://www.vbb.de/vbb-services/api-open-data/datensaetze/>VBB</a> ',
-            'bicycle': '© <a tabindex=-1 href=https://www.openstreetmap.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href=https://www.cyclosm.org/#map=12/52.3728/4.8936/cyclosmx>CyclOSM</a>, © <a tabindex=-1 href="https://www.openstreetmap.fr/">OSM-FR</a>, <a tabindex=-1 href=https://www.vbb.de/vbb-services/api-open-data/datensaetze/>VBB</a>',
+            'default': '© GeoBasis-DE/LGB, <a tabindex=-1 href="https://www.govdata.de/dl-de/by-2-0">dl-de/by-2-0</a>, © Geoportal Berlin, <a tabindex=-1 href="https://www.govdata.de/dl-de/by-2-0">dl-de/by-2-0</a>, © <a tabindex=-1 href="https://gdz.bkg.bund.de">BKG</a>, © <a tabindex=-1 href="https://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, <a tabindex=-1 href="https://www.vbb.de/vbb-services/api-open-data/datensaetze/">VBB</a> ',
+            'osm': '© <a tabindex=-1 href="https://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, <a tabindex=-1 href="https://www.vbb.de/vbb-services/api-open-data/datensaetze/">VBB</a> ',
+            'satellite': '© GeoBasis-DE/LGB, <a tabindex=-1 href="https://www.govdata.de/dl-de/by-2-0">dl-de/by-2-0</a>, © Geoportal Berlin, <a tabindex=-1 href="https://www.govdata.de/dl-de/by-2-0">dl-de/by-2-0</a>, © <a tabindex=-1 href="https://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, <a tabindex=-1 href="https://www.vbb.de/vbb-services/api-open-data/datensaetze/">VBB</a> ',
+            'bicycle': '© <a tabindex=-1 href="https://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, © <a tabindex=-1 href="https://www.cyclosm.org/#map=12/52.3728/4.8936/cyclosmx">CyclOSM</a>, © <a tabindex=-1 href="https://www.openstreetmap.fr/">OSM-FR</a>, <a tabindex=-1 href="https://www.vbb.de/vbb-services/api-open-data/datensaetze/">VBB</a>',
         },
     },
 
