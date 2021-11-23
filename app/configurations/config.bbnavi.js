@@ -33,7 +33,8 @@ export default configMerger(walttiConfig, {
         MAP: {
             default: 'https://isk.geobasis-bb.de/mapproxy/webatlasde_topplus/service/wms',
             osm: MAP_URL,
-            satellite: 'https://isk.geobasis-bb.de/mapproxy/dop20c/service/wms',
+            satellite: 'https://isk.geobasis-bb.de/mapproxy/dop20c_sentinel/service/wms',
+            satellite_eu: 'https://isk.geobasis-bb.de/mapproxy/dop20c_sentinel/service/wms?eu',
             semiTransparent: SEMI_TRANSPARENT_MAP_URL,
             bicycle: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png',
         },

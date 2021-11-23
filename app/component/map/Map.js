@@ -171,10 +171,12 @@ class Map extends React.Component {
 
     if (
       mapUrl === config.URL.MAP.satellite ||
+      mapUrl === config.URL.MAP.satellite_eu ||
       mapUrl === config.URL.MAP.default
     ) {
       const layer = {
-        [config.URL.MAP.satellite]: 'bebb_dop20c',
+        [config.URL.MAP.satellite]: 'dop_brandenburg',
+        [config.URL.MAP.satellite_eu]: 'sentinel_europe',
         [config.URL.MAP.default]: 'webatlastopplusopen_farbe',
       }[mapUrl];
 
@@ -199,6 +201,8 @@ class Map extends React.Component {
           maxZoom={this.context.config.map.maxZoom}
           attribution={attribution}
           version="1.3.0"
+          transparent={mapUrl === config.URL.MAP.satellite}
+          format="image/png"
         />
       );
     }
@@ -400,6 +404,7 @@ class Map extends React.Component {
     if (isDebugTiles) {
       mapUrls.push(`${config.URL.OTP}inspector/tile/traversal/{z}/{x}/{y}.png`);
     } else if (currentMapMode === MapMode.Satellite) {
+      mapUrls.push(config.URL.MAP.satellite_eu);
       mapUrls.push(config.URL.MAP.satellite);
       mapUrls.push(config.URL.MAP.semiTransparent);
     } else if (currentMapMode === MapMode.Bicycle) {
