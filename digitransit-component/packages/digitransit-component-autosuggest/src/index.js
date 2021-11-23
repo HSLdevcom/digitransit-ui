@@ -321,6 +321,7 @@ class DTAutosuggest extends React.Component {
   onChange = (event, { newValue, method }) => {
     const newState = {
       value: this.fInput || newValue || '',
+      renderMobileSearch: this.props.isMobile,
     };
     // Remove filled input value so it wont be reused unnecessary
     this.fInput = null;
@@ -612,11 +613,15 @@ class DTAutosuggest extends React.Component {
 
   inputClicked = inputValue => {
     this.input.focus();
+    if (this.props.isMobile) {
+      this.props.lock();
+    }
     if (!this.state.editing) {
       const newState = {
         editing: true,
         // reset at start, just in case we missed something
         pendingSelection: null,
+        renderMobileSearch: this.props.isMobile,
       };
 
       // DT-3263: added stateKeyDown
@@ -797,11 +802,7 @@ class DTAutosuggest extends React.Component {
       this.clearInput();
     }
     const scrollY = window.pageYOffset;
-    if (this.props.isMobile) {
-      this.props.lock();
-    }
     return this.setState({
-      renderMobileSearch: this.props.isMobile,
       scrollY,
     });
   };
@@ -839,14 +840,21 @@ class DTAutosuggest extends React.Component {
     const ariaRequiredText = this.props.required
       ? `${i18next.t('required')}.`
       : '';
-    const ariaLabelText = i18next.t('search-autosuggest-label');
+    const ariaLabelText = this.props.isMobile
+      ? i18next.t('search-autosuggest-label-mobile')
+      : i18next.t('search-autosuggest-label-desktop');
     const ariaSuggestionLen = i18next.t('search-autosuggest-len', {
       count: suggestions.length,
     });
 
-    const ariaCurrentSuggestion = i18next.t('search-current-suggestion', {
-      selection: this.suggestionAsAriaContent(),
-    });
+    const ariaCurrentSuggestion = () => {
+      if (this.suggestionAsAriaContent() || this.props.value) {
+        return i18next.t('search-current-suggestion', {
+          selection: this.suggestionAsAriaContent() || this.props.value,
+        });
+      }
+      return '';
+    };
 
     return (
       <React.Fragment>
@@ -862,7 +870,7 @@ class DTAutosuggest extends React.Component {
           role={this.state.typing ? undefined : 'alert'}
           aria-hidden={!this.state.editing || suggestions.length === 0}
         >
-          {ariaCurrentSuggestion}
+          {ariaCurrentSuggestion()}
         </span>
         {this.props.isMobile && (
           <MobileSearch
@@ -894,7 +902,7 @@ class DTAutosuggest extends React.Component {
               .concat(' ')
               .concat(SearchBarId)
               .concat(' ')
-              .concat(ariaLabelText)}
+              .concat(ariaCurrentSuggestion())}
             label={
               this.props.mobileLabel
                 ? this.props.mobileLabel
@@ -953,8 +961,19 @@ class DTAutosuggest extends React.Component {
               theme={styles}
               renderInputComponent={p => (
                 <>
+                  <label className="sr-only" htmlFor={this.props.id}>
+                    {ariaCurrentSuggestion()
+                      .concat(' ')
+                      .concat(ariaRequiredText)
+                      .concat(' ')
+                      .concat(SearchBarId)
+                      .concat(' ')
+                      .concat(ariaLabelText)}
+                  </label>
                   <input
-                    aria-label={ariaRequiredText
+                    aria-label={ariaCurrentSuggestion()
+                      .concat(' ')
+                      .concat(ariaRequiredText)
                       .concat(' ')
                       .concat(SearchBarId)
                       .concat(' ')
