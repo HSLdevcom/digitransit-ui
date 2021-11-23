@@ -12,6 +12,7 @@ import LazilyLoad, { importLazy } from './LazilyLoad';
 
 const modules = {
   AppBar: () => importLazy(import('./AppBar')),
+  AppBarSmall: () => importLazy(import('./AppBarSmall')),
   AppBarHsl: () => importLazy(import('./AppBarHsl')),
   MessageBar: () => importLazy(import('./MessageBar')),
 };
@@ -59,7 +60,8 @@ const AppBarContainer = ({
         />
       </a>
       <LazilyLoad modules={modules}>
-        {({ AppBar, AppBarHsl, MessageBar }) =>
+        {/* eslint-disable no-nested-ternary */}
+        {({ AppBar, AppBarSmall, AppBarHsl, MessageBar }) =>
           style === 'hsl' ? (
             <div
               className="hsl-header-container"
@@ -68,6 +70,19 @@ const AppBarContainer = ({
               <AppBarHsl user={user} lang={lang} />
               <MessageBar breakpoint={breakpoint} />{' '}
             </div>
+          ) : navigator?.userAgent?.endsWith('smart-village-app') &&
+            breakpoint !== 'large' ? (
+            <AppBarSmall
+              {...args}
+              showLogo
+              logo={logo}
+              breakpoint={breakpoint}
+              titleClicked={() => {
+                executeAction(storeOrigin, {});
+                executeAction(storeDestination, {});
+                router.push(homeUrl);
+              }}
+            />
           ) : (
             <AppBar
               {...args}
@@ -84,6 +99,7 @@ const AppBarContainer = ({
             />
           )
         }
+        {/* eslint-enable no-nested-ternary */}
       </LazilyLoad>
     </>
   );

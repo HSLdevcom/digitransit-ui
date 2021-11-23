@@ -249,6 +249,7 @@ class TopLevel extends React.Component {
             {...this.state}
             homeUrl={homeUrl}
             style={this.context.config.appBarStyle}
+            map={this.disableMapOnMobile ? null : this.props.map}
           />
         )}
         <section
