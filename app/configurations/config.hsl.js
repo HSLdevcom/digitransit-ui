@@ -9,6 +9,7 @@ const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
+const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 
 const rootLink = process.env.ROOTLINK || 'https://dev.hslfi.hsldev.com';
 const BANNER_URL = 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
@@ -70,6 +71,9 @@ export default {
       fi: 'https://www.hsl.fi/matkustaminen/liityntapysakointi',
       sv: 'https://www.hsl.fi/sv/att-resa/anslutningsparkering',
       en: 'https://www.hsl.fi/en/travelling/park--ride',
+    },
+    pageContent: {
+      default: HSLParkAndRideUtils,
     },
   },
 
