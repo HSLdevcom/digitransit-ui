@@ -5,8 +5,10 @@ const ParkAndRideUtils = {
       const { tags } = park;
       if (Array.isArray(tags)) {
         return tags
-          .filter(tag => tag.includes('AUTHENTICATION_METHOD'))
-          .map(tag => tag.replace('AUTHENTICATION_METHOD_', '').toLowerCase());
+          .filter(tag => tag.includes('hslpark:AUTHENTICATION_METHOD'))
+          .map(tag =>
+            tag.replace('hslpark:AUTHENTICATION_METHOD_', '').toLowerCase(),
+          );
       }
       return [];
     },
@@ -14,8 +16,8 @@ const ParkAndRideUtils = {
       const { tags } = park;
       if (Array.isArray(tags)) {
         return tags
-          .filter(tag => tag.includes('PRICING_METHOD'))
-          .map(tag => tag.replace('PRICING_METHOD_', '').toLowerCase());
+          .filter(tag => tag.includes('hslpark:PRICING_METHOD'))
+          .map(tag => tag.replace('hslpark:PRICING_METHOD_', '').toLowerCase());
       }
       return [];
     },
@@ -23,8 +25,8 @@ const ParkAndRideUtils = {
       const { tags } = park;
       if (Array.isArray(tags)) {
         return tags
-          .filter(tag => tag.includes('SERVICE'))
-          .map(tag => tag.replace('SERVICE_', '').toLowerCase());
+          .filter(tag => tag.includes('hslpark:SERVICE'))
+          .map(tag => tag.replace('hslpark:SERVICE_', '').toLowerCase());
       }
       return [];
     },
