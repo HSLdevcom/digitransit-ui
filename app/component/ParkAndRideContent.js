@@ -2,14 +2,25 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { matchShape, routerShape, RedirectException } from 'found';
 import { intlShape } from 'react-intl';
+import moment from 'moment-timezone';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../util/path';
 import { isBrowser } from '../util/browser';
 
+const weekDaysMap = {
+  1: 'short-for-monday',
+  2: 'short-for-tuesday',
+  3: 'short-for-wednesday',
+  4: 'short-for-thursday',
+  5: 'short-for-friday',
+  6: 'short-for-saturday',
+  0: 'short-for-sunday',
+};
+
 const ParkAndRideContent = (
   { bikePark, carPark, router, match, error },
-  { intl },
+  { config, intl },
 ) => {
   const park = bikePark || carPark;
 
@@ -40,33 +51,75 @@ const ParkAndRideContent = (
   const [authenticationMethods, setAuthenticationMethods] = useState([]);
   const [pricingMethods, setPricingMethods] = useState([]);
   const [services, setServices] = useState([]);
-  const { spacesAvailable, tags } = park;
+  const [openingHours, setOpeningHours] = useState(null);
+  const { spacesAvailable } = park;
+  const {
+    getAuthenticationMethods,
+    getPricingMethods,
+    getServices,
+    isFree,
+    isPaid,
+    getOpeningHours,
+  } = config.parkAndRide.pageContent.default;
 
   useEffect(() => {
-    if (Array.isArray(tags)) {
-      setAuthenticationMethods(
-        tags
-          .filter(tag => tag.includes('AUTHENTICATION_METHOD'))
-          .map(tag => tag.replace('AUTHENTICATION_METHOD_', '').toLowerCase()),
-      );
-
-      setPricingMethods(
-        tags
-          .filter(tag => tag.includes('PRICING_METHOD'))
-          .map(tag => tag.replace('PRICING_METHOD_', '').toLowerCase()),
-      );
-
-      setServices(
-        tags
-          .filter(tag => tag.includes('SERVICE'))
-          .map(tag => tag.replace('SERVICE_', '').toLowerCase()),
-      );
-    }
+    setAuthenticationMethods(getAuthenticationMethods(park));
+    setPricingMethods(getPricingMethods(park));
+    setServices(getServices(park));
+    setOpeningHours(getOpeningHours(park));
   }, []);
 
-  const isFree = pricingMethods.some(method => method.includes('free'));
-  const isPaid = pricingMethods.some(method => method.includes('paid'));
-  const isOpen24h = pricingMethods.some(method => method.includes('247'));
+  const getOpeningHoursAsText = () => {
+    if (openingHours) {
+      const sameOpeningHoursEveryday = openingHours.every(
+        openingHour =>
+          openingHour?.timeSpans.from === openingHours[0]?.timeSpans.from &&
+          openingHour?.timeSpans.to === openingHours[0]?.timeSpans.to,
+      );
+      if (sameOpeningHoursEveryday) {
+        const { to, from } = openingHours[0]?.timeSpans;
+        if (to - from - 60 * 60 * 24 === 0) {
+          return [`24${intl.formatMessage({ id: 'hour-short' })}`];
+        }
+        const formattedFrom = moment.utc(from * 1000).format('HH:mm');
+        const formattedTo = moment.utc(to * 1000).format('HH:mm');
+        return [`${formattedFrom} - ${formattedTo}`];
+      }
+      let i = 0;
+      const hoursAsText = [];
+      while (i < openingHours.length) {
+        const { day, timeSpans } = openingHours[i];
+        let j = i + 1;
+        while (j < openingHours.length) {
+          if (
+            openingHours[i].timeSpans.from !== openingHours[j].timeSpans.from &&
+            openingHours[i].timeSpans.to !== openingHours[j].timeSpans.to
+          ) {
+            break;
+          }
+          j += 1;
+        }
+        const from = moment.utc(timeSpans.from * 1000).format('HH:mm');
+        const to = moment.utc(timeSpans.to * 1000).format('HH:mm');
+        if (i === j - 1) {
+          hoursAsText.push(
+            `${intl.formatMessage({ id: weekDaysMap[day] })} ${from}-${to}`,
+          );
+        } else {
+          hoursAsText.push(
+            `${intl.formatMessage({
+              id: weekDaysMap[day],
+            })}-${intl.formatMessage({
+              id: weekDaysMap[openingHours[j - 1].day],
+            })} ${from}-${to}`,
+          );
+        }
+        i = j;
+      }
+      return hoursAsText;
+    }
+    return [];
+  };
 
   return (
     <div className="bike-station-page-container">
@@ -74,19 +127,23 @@ const ParkAndRideContent = (
       <div className="park-content-container">
         <Icon img={`icon-icon_${prePostFix}`} height={2.4} width={2.4} />
         <div className="park-details">
-          {isOpen24h && (
+          <div className="park-opening-hours">
+            <span>{intl.formatMessage({ id: 'is-open' })} &#160;</span>
             <span>
-              {intl.formatMessage({ id: 'is-open' })} &#160;
-              <p>{`24${intl.formatMessage({ id: 'hour-short' })}`}</p>
+              {getOpeningHoursAsText().map((text, i) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <p key={`opening-hour-${text}-${i}`}>{text}</p>
+              ))}
             </span>
-          )}
+          </div>
           <span>
             {intl.formatMessage({ id: 'number-of-spaces' })} &#160;
             <p>{spacesAvailable}</p>
           </span>
           <span>
-            {isFree && intl.formatMessage({ id: 'free-of-charge' })}
-            {isPaid && intl.formatMessage({ id: 'paid' })}
+            {isFree(pricingMethods) &&
+              intl.formatMessage({ id: 'free-of-charge' })}
+            {isPaid(pricingMethods) && intl.formatMessage({ id: 'paid' })}
             {authenticationMethods.length > 0 &&
               `, ${intl.formatMessage({
                 id: 'access_with',
@@ -160,6 +217,7 @@ ParkAndRideContent.defaultProps = {
 };
 
 ParkAndRideContent.contextTypes = {
+  config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 };
 

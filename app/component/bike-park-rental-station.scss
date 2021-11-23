@@ -61,6 +61,20 @@
         flex-direction: column;
         margin-left: 15px;
         line-height: 18px;
+        .park-opening-hours {
+          display: flex;
+          flex-direction: row;
+          span {
+            display: flex;
+            color: #666;
+            flex-direction: column;
+            p {
+              margin: 0;
+              font-weight: $font-weight-medium;
+              color: #333;
+            }
+          }
+        }
         span {
           display: inline-flex;
           color: #666;
@@ -211,6 +225,21 @@
       }
       span:first-child {
         margin-top: 0;
+      }
+      .park-opening-hours {
+        display: flex;
+        flex-direction: row;
+        > span {
+          display: flex;
+          color: #666;
+          flex-direction: column;
+          margin-top: 0;
+          p {
+            margin: 0;
+            font-weight: $font-weight-medium;
+            color: #333;
+          }
+        }
       }
     }
   }
