@@ -44,6 +44,9 @@ const containerComponent = createRefetchContainer(
           trip {
             tripHeadsign
             route {
+              alerts {
+                alertSeverityLevel
+              }
               shortName
               longName
               gtfsId
@@ -92,6 +95,9 @@ const containerComponent = createRefetchContainer(
             headsign
             trip {
               route {
+                alerts {
+                  alertSeverityLevel
+                }
                 shortName
                 longName
                 gtfsId

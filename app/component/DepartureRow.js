@@ -6,6 +6,7 @@ import { v4 as uuid } from 'uuid';
 import { Link } from 'found';
 import LocalTime from './LocalTime';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
+import { alertSeverityCompare } from '../util/alertUtils';
 import Icon from './Icon';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
@@ -18,6 +19,15 @@ const DepartureRow = (
   const timeDiffInMinutes = Math.floor(
     (departureTime - props.currentTime) / 60,
   );
+  let icon, iconColor;
+  if (departure.trip.route?.alerts?.length > 0) {
+    console.log("asdasdasd")
+    const alert = departure.trip.route.alerts.slice().sort(alertSeverityCompare)[0];
+    icon = alert.alertSeverityLevel === 'SEVERE'
+      ? 'icon-icon_caution_white_exclamation'
+      : 'icon-icon_info';
+    iconColor = alert.alertSeverityLevel === 'SEVERE' ? '#DC0451' : '#888';
+  }
   const headsign =
     departure.headsign ||
     departure.trip.tripHeadsign ||
@@ -65,6 +75,9 @@ const DepartureRow = (
           style={{ backgroundColor: `#${departure.trip.route.color}` }}
         >
           <div className="route-number">{shortName}</div>
+          {icon && (
+            <Icon img={icon} color={iconColor}/>
+          )}
         </td>
         <td
           className={cx('route-headsign', departure.bottomRow ? 'bottom' : '')}

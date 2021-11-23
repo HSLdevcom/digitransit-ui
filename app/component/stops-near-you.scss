@@ -233,7 +233,7 @@
     .stop-near-you-header-container {
       display: flex;
       .stop-near-you-name {
-        font-size: 1rem;
+        font-size: 1.125rem;
         line-height: 24px;
         letter-spacing: -0.4px;
         margin: 0;
@@ -320,6 +320,9 @@
       padding: 0;
       border-spacing: 0;
     }
+    .departure-row:first-child {
+      border-top: 1px solid #ddd;
+    }
     .departure-row {
       .platform-cell {
         display: flex;
@@ -333,6 +336,9 @@
       @include font-narrow-book;
       font-weight: normal;
       display: flex;
+      align-items: center;
+      height: 40px;
+      border-bottom: 1px solid #ddd;
       .route-arrival {
         color: #333;
         @include font-medium;
