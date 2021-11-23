@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { matchShape, routerShape, RedirectException } from 'found';
 import { intlShape } from 'react-intl';
 import moment from 'moment-timezone';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../util/path';
@@ -19,7 +20,7 @@ const weekDaysMap = {
 };
 
 const ParkAndRideContent = (
-  { bikePark, carPark, router, match, error },
+  { bikePark, carPark, router, match, error, currentLanguage },
   { config, intl },
 ) => {
   const park = bikePark || carPark;
@@ -52,6 +53,8 @@ const ParkAndRideContent = (
   const [pricingMethods, setPricingMethods] = useState([]);
   const [services, setServices] = useState([]);
   const [openingHours, setOpeningHours] = useState(null);
+  const [lang, setLang] = useState('fi');
+
   const { spacesAvailable } = park;
   const {
     getAuthenticationMethods,
@@ -68,6 +71,12 @@ const ParkAndRideContent = (
     setServices(getServices(park));
     setOpeningHours(getOpeningHours(park));
   }, []);
+
+  useEffect(() => {
+    if (lang !== currentLanguage) {
+      setLang(currentLanguage);
+    }
+  }, [currentLanguage]);
 
   const getOpeningHoursAsText = () => {
     if (openingHours) {
@@ -180,7 +189,9 @@ const ParkAndRideContent = (
             e.stopPropagation();
           }}
           className="external-link"
-          href="#"
+          href={config.parkAndRide.url[lang]}
+          target="_blank"
+          rel="noreferrer"
         >
           {intl.formatMessage({ id: `${prePostFix}-disclaimer-link` })} &rsaquo;
         </a>
@@ -209,6 +220,7 @@ ParkAndRideContent.propTypes = {
   router: routerShape.isRequired,
   match: matchShape.isRequired,
   error: PropTypes.object,
+  currentLanguage: PropTypes.string.isRequired,
 };
 
 ParkAndRideContent.defaultProps = {
@@ -221,4 +233,12 @@ ParkAndRideContent.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-export default ParkAndRideContent;
+const connectedComponent = connectToStores(
+  ParkAndRideContent,
+  ['PreferencesStore'],
+  context => ({
+    currentLanguage: context.getStore('PreferencesStore').getLanguage(),
+  }),
+);
+
+export { connectedComponent as default, ParkAndRideContent as Component };
