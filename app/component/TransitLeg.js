@@ -131,7 +131,7 @@ class TransitLeg extends React.Component {
         const nextZoneId =
           (array[i + 1] && array[i + 1].stop.zoneId) ||
           (isLastPlace &&
-            interliningLegs[interliningLegs.length - 1].to.stop.zoneId) ||
+            interliningLegs[interliningLegs.length - 1]?.to.stop.zoneId) ||
           leg.to.stop.zoneId;
         const previousZoneIdDiffers =
           previousZoneId && previousZoneId !== currentZoneId;

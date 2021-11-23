@@ -15,6 +15,7 @@ import { mockContext } from '../helpers/mock-context';
 
 const defaultProps = {
   children: <div />,
+  interliningLegs: [],
   focusAction: () => {},
   index: 0,
   lang: 'fi',
