@@ -3,13 +3,21 @@ import ParkAndRideContent from './ParkAndRideContent';
 
 const containerComponent = createFragmentContainer(ParkAndRideContent, {
   carPark: graphql`
-    fragment CarParkContent_carPark on CarPark {
+    fragment CarParkContent_carPark on CarPark
+    @argumentDefinitions(dates: { type: "[String!]" }) {
       carParkId
       spacesAvailable
       name
       lat
       lon
       tags
+      openingHours(dates: $dates) {
+        date
+        timeSpans {
+          from
+          to
+        }
+      }
     }
   `,
 });

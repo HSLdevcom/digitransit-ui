@@ -10,6 +10,8 @@ import Error404 from './component/404';
 import TopLevel from './component/TopLevel';
 import LocalStorageEmitter from './component/LocalStorageEmitter';
 
+import { prepareWeekDays } from './util/dateParamUtils';
+
 import {
   PREFIX_ITINERARY_SUMMARY,
   PREFIX_NEARYOU,
@@ -23,6 +25,7 @@ import {
 } from './util/path';
 import {
   getDefault,
+  errorLoading,
   getComponentOrLoadingRenderer,
   getComponentOrNullRenderer,
 } from './util/routerUtils';
@@ -141,10 +144,14 @@ export default config => {
                     .then(getDefault)
                     .catch(errorLoading)
                 }
+                prepareVariables={prepareWeekDays}
                 query={graphql`
-                  query routes_BikePark_Query($id: String!) {
+                  query routes_BikePark_Query(
+                    $id: String!
+                    $dates: [String!]!
+                  ) {
                     bikePark(id: $id) {
-                      ...BikeParkContent_bikePark
+                      ...BikeParkContent_bikePark @arguments(dates: $dates)
                     }
                   }
                 `}
@@ -196,12 +203,13 @@ export default config => {
                     .catch(errorLoading)
                 }
                 query={graphql`
-                  query routes_CarPark_Query($id: String!) {
+                  query routes_CarPark_Query($id: String!, $dates: [String!]!) {
                     carPark(id: $id) {
-                      ...CarParkContent_carPark
+                      ...CarParkContent_carPark @arguments(dates: $dates)
                     }
                   }
                 `}
+                prepareVariables={prepareWeekDays}
                 render={({ Component, props, error, match, retry }) => {
                   if (Component && (props || error)) {
                     return <Component {...props} match={match} error={error} />;
