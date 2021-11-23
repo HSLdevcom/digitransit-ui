@@ -19,10 +19,6 @@ const BusLeg = ({ leg, ...props }) => (
 
 BusLeg.propTypes = {
   leg: PropTypes.object.isRequired,
-  index: PropTypes.number.isRequired,
-  focusAction: PropTypes.func.isRequired,
-  interliningWait: PropTypes.number,
-  nextInterliningLeg: PropTypes.any,
 };
 
 export default BusLeg;
