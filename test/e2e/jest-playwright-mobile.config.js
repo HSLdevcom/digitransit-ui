@@ -14,7 +14,7 @@ module.exports = {
     usedPortAction: 'ignore',
   },
   launchOptions: {
-    headless: true,
+    headless: !process.env.DEBUG,
   },
   contextOptions: {
     viewport: iPhone12.viewport,
