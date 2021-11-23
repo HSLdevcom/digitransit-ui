@@ -32,6 +32,7 @@ const containerComponent = createFragmentContainer(CarParkPageMapContainer, {
       lat
       lon
       name
+      carParkId
     }
   `,
 });

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import Modal from '@hsl-fi/modal';
@@ -13,7 +13,14 @@ import {
 
 const MapRoutingButton = ({ stop }, { intl, router, match }) => {
   const [showModal, setShowModal] = useState(false);
-
+  const [buttonText, setButtonText] = useState(null);
+  useEffect(() => {
+    if (!!stop?.carParkId || !!stop?.bikeParkId) {
+      setButtonText('route-to-park');
+    } else {
+      setButtonText('route-to-stop');
+    }
+  }, [stop]);
   const { location } = match;
   const closeModal = () => setShowModal(false);
 
@@ -65,7 +72,9 @@ const MapRoutingButton = ({ stop }, { intl, router, match }) => {
         }}
       >
         <Icon className="map-routing-button-icon" img="icon-icon_route" />
-        <FormattedMessage id="route-to-stop" defaultMessage="Route to stop" />
+        {buttonText && (
+          <FormattedMessage id={buttonText} defaultMessage="Route to stop" />
+        )}
       </button>
       {showModal && (
         <Modal
