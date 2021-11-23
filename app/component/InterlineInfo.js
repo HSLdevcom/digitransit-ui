@@ -6,6 +6,14 @@ import { getHeadsignFromRouteLongName } from '../util/legUtils';
 import Icon from './Icon';
 
 const InterlineInfo = ({ legs, leg, wait }) => {
+  let totalWait = wait;
+  if (legs.length > 1) {
+    legs.forEach((iLeg, i) => {
+      if (legs[i + 1]) {
+        totalWait += legs[i + 1].startTime - iLeg.endTime;
+      }
+    });
+  }
   return (
     <div className="interline-info-container">
       {legs.length === 1 && (
@@ -24,7 +32,7 @@ const InterlineInfo = ({ legs, leg, wait }) => {
                 </span>
               ),
               stop: leg.to.name,
-              time: <span className="bold">{durationToString(wait)}</span>,
+              time: <span className="bold">{durationToString(totalWait)}</span>,
             }}
           />
         </>
@@ -32,7 +40,12 @@ const InterlineInfo = ({ legs, leg, wait }) => {
       {legs.length > 1 && (
         <>
           <Icon img="icon-icon_wait" />
-          <FormattedMessage id="itinerary-summary.interline-wait-multiple-legs" />
+          <FormattedMessage
+            id="itinerary-summary.interline-wait-multiple-legs"
+            values={{
+              time: <span className="bold">{durationToString(totalWait)}</span>,
+            }}
+          />
         </>
       )}
     </div>
@@ -43,6 +56,7 @@ InterlineInfo.propTypes = {
   leg: PropTypes.object,
   legs: PropTypes.arrayOf(
     PropTypes.shape({
+      startTime: PropTypes.number,
       route: PropTypes.shape({
         shortName: PropTypes.string,
       }).isRequired,

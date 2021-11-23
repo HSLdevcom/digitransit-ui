@@ -1111,7 +1111,7 @@ const translations = {
     'itinerary-summary.interline-wait':
       'The route number ({shortName}) and destination ({destination}) will change at the {stop} stop. Waiting time at the stop is {time}. Please wait onboard.',
     'itinerary-summary.interline-wait-multiple-legs':
-      'The route number and destination will change multiple times during the journey. Please wait onboard.',
+      'The route number and destination will change multiple times during the journey. Total waiting time during the journey is {time}. Please wait onboard.',
     'itinerary-summary.show-on-map': 'Show on map {target}',
     'itinerary-ticket.title': 'Required ticket',
     'itinerary-tickets.title': 'Required tickets',
@@ -2116,7 +2116,7 @@ const translations = {
     'itinerary-summary.interline-wait':
       'Linjatunnus ({shortName}) ja määränpää ({destination}) vaihtuvat pysäkillä {stop}. Matka jatkuu {time} odotuksen jälkeen. Odota kulkuneuvossa.',
     'itinerary-summary.interline-wait-multiple-legs':
-      'Linjatunnus ja määränpää vaihtuvat useita kertoja matkan aikana. Odota ajoneuvossa.',
+      'Linjatunnus ja määränpää vaihtuvat useita kertoja matkan aikana. Odotusta yhteensä {time}. Odota ajoneuvossa.',
     'itinerary-summary.show-on-map': 'Näytä kartalla {target}',
     'itinerary-ticket.title': 'Reitillä tarvittava lippu',
     'itinerary-tickets.title': 'Reitillä tarvittavat liput',
