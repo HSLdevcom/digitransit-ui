@@ -234,6 +234,16 @@ export default configMerger(parentConfig, {
     // adding assets/geoJson/hb-layers layers
     geoJson: {
         layers: [
+            // Nette Toilette layer
+            {
+                name: {
+                    fi: '',
+                    en: 'Public Toilets',
+                    de: 'Nette Toilette',
+                },
+                url: 'https://die-nette-toilette.de/verwaltung/application/?action=getToiletsJSON&apikey=a9llu42&webcode=7OWOBO&ort_id=95',
+                isOffByDefault: true,
+            },
         ],
     },
     staticMessagesUrl: STATIC_MESSAGE_URL,
