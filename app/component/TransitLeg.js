@@ -32,6 +32,7 @@ import { shouldShowFareInfo } from '../util/fareUtils';
 import { AlertSeverityLevelType } from '../constants';
 import ZoneIcon from './ZoneIcon';
 import StopInfo from './StopInfo';
+import InterlineInfo from './InterlineInfo';
 
 class TransitLeg extends React.Component {
   constructor(props) {
@@ -59,9 +60,9 @@ class TransitLeg extends React.Component {
   };
 
   getZoneChange() {
-    const { leg, nextInterliningLeg } = this.props;
+    const { leg } = this.props;
     const startZone = leg.from.stop.zoneId;
-    const endZone = nextInterliningLeg?.to?.stop.zoneId || leg.to.stop.zoneId;
+    const endZone = leg.to?.stop.zoneId || leg.to.stop.zoneId;
     if (
       startZone !== endZone &&
       !this.state.showIntermediateStops &&
@@ -102,17 +103,21 @@ class TransitLeg extends React.Component {
   }
 
   renderIntermediate() {
-    const { leg, mode, nextInterliningLeg } = this.props;
+    const { leg, mode, interliningLegs } = this.props;
     if (
       leg.intermediatePlaces.length > 0 &&
       this.state.showIntermediateStops === true
     ) {
       const places = leg.intermediatePlaces.slice();
-      if (this.props.nextInterliningLeg) {
-        places.push(
-          { ...leg.to, arrivalTime: leg.endTime },
-          ...this.props.nextInterliningLeg.intermediatePlaces,
-        );
+      if (interliningLegs) {
+        let previousLeg = leg;
+        interliningLegs.forEach(iLeg => {
+          places.push(
+            { ...previousLeg.to, arrivalTime: previousLeg.endTime },
+            ...iLeg.intermediatePlaces,
+          );
+          previousLeg = iLeg;
+        });
       }
       const stopList = places.map((place, i, array) => {
         const isFirstPlace = i === 0;
@@ -125,7 +130,8 @@ class TransitLeg extends React.Component {
         const currentZoneId = place.stop.zoneId;
         const nextZoneId =
           (array[i + 1] && array[i + 1].stop.zoneId) ||
-          (isLastPlace && nextInterliningLeg?.to?.stop.zoneId) ||
+          (isLastPlace &&
+            interliningLegs[interliningLegs.length - 1]?.to.stop.zoneId) ||
           leg.to.stop.zoneId;
         const previousZoneIdDiffers =
           previousZoneId && previousZoneId !== currentZoneId;
@@ -182,8 +188,9 @@ class TransitLeg extends React.Component {
       leg,
       mode,
       lang,
-      nextInterliningLeg,
       omitDivider,
+      interliningWait,
+      interliningLegs,
     } = this.props;
     const { config, intl } = this.context;
     const originalTime = leg.realTime &&
@@ -274,9 +281,11 @@ class TransitLeg extends React.Component {
       leg.trip.tripHeadsign || getHeadsignFromRouteLongName(leg.route);
 
     let intermediateStopCount = leg.intermediatePlaces.length;
-    if (this.props.nextInterliningLeg) {
-      intermediateStopCount +=
-        this.props.nextInterliningLeg.intermediatePlaces.length + 1;
+    if (interliningLegs) {
+      intermediateStopCount = interliningLegs.reduce(
+        (prev, curr) => prev + curr.intermediatePlaces.length + 1,
+        leg.intermediatePlaces.length,
+      );
     }
 
     const routeNotifications = [];
@@ -485,32 +494,12 @@ class TransitLeg extends React.Component {
               </div>
             </div>
           )}
-          {nextInterliningLeg ? (
-            <div className="interline-info-container">
-              <Icon img="icon-icon_wait" />
-              <FormattedMessage
-                id="itinerary-summary.interline-wait"
-                values={{
-                  shortName: (
-                    <span className="bold">
-                      {nextInterliningLeg.route.shortName}
-                    </span>
-                  ),
-                  destination: (
-                    <span className="bold">
-                      {nextInterliningLeg.trip.tripHeadsign ||
-                        getHeadsignFromRouteLongName(nextInterliningLeg.route)}
-                    </span>
-                  ),
-                  stop: leg.to.name,
-                  time: (
-                    <span className="bold">
-                      {durationToString(this.props.interliningWait)}
-                    </span>
-                  ),
-                }}
-              />
-            </div>
+          {interliningLegs?.length > 0 ? (
+            <InterlineInfo
+              legs={interliningLegs}
+              leg={leg}
+              wait={interliningWait}
+            />
           ) : (
             !omitDivider &&
             routeNotifications.length === 0 && <div className="divider" />
@@ -524,8 +513,9 @@ class TransitLeg extends React.Component {
                 leg={leg}
                 intermediateStopCount={intermediateStopCount}
                 duration={
-                  this.props.nextInterliningLeg
-                    ? this.props.nextInterliningLeg.endTime - leg.startTime
+                  interliningLegs.length > 0
+                    ? interliningLegs[interliningLegs.length - 1].endTime -
+                      leg.startTime
                     : leg.duration * 1000
                 }
                 showIntermediateStops={this.state.showIntermediateStops}
@@ -633,31 +623,33 @@ TransitLeg.propTypes = {
     ).isRequired,
     interlineWithPreviousLeg: PropTypes.bool.isRequired,
   }).isRequired,
-  nextInterliningLeg: PropTypes.shape({
-    intermediatePlaces: PropTypes.arrayOf(
-      PropTypes.shape({
-        arrivalTime: PropTypes.number.isRequired,
+  interliningLegs: PropTypes.arrayOf(
+    PropTypes.shape({
+      intermediatePlaces: PropTypes.arrayOf(
+        PropTypes.shape({
+          arrivalTime: PropTypes.number.isRequired,
+          stop: PropTypes.shape({
+            gtfsId: PropTypes.string.isRequired,
+            code: PropTypes.string,
+            platformCode: PropTypes.string,
+            zoneId: PropTypes.string,
+          }).isRequired,
+        }),
+      ).isRequired,
+      route: PropTypes.shape({
+        shortName: PropTypes.string,
+      }).isRequired,
+      trip: PropTypes.shape({
+        tripHeadsign: PropTypes.string.isRequired,
+      }).isRequired,
+      endTime: PropTypes.number.isRequired,
+      to: PropTypes.shape({
         stop: PropTypes.shape({
-          gtfsId: PropTypes.string.isRequired,
-          code: PropTypes.string,
-          platformCode: PropTypes.string,
           zoneId: PropTypes.string,
         }).isRequired,
-      }),
-    ).isRequired,
-    route: PropTypes.shape({
-      shortName: PropTypes.string,
-    }).isRequired,
-    trip: PropTypes.shape({
-      tripHeadsign: PropTypes.string.isRequired,
-    }).isRequired,
-    endTime: PropTypes.number.isRequired,
-    to: PropTypes.shape({
-      stop: PropTypes.shape({
-        zoneId: PropTypes.string,
       }).isRequired,
-    }).isRequired,
-  }),
+    }),
+  ),
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
   interliningWait: PropTypes.number,
