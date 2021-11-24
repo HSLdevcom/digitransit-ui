@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useCallback } from 'react';
 import cx from 'classnames';
@@ -69,6 +67,18 @@ const MobileSearch = ({
     }
   };
 
+  const isKeyboardSelectionEvent = event => {
+    const space = [13, ' ', 'Spacebar'];
+    const enter = [32, 'Enter'];
+    const key = (event && (event.key || event.which || event.keyCode)) || '';
+
+    if (!key || !space.concat(enter).includes(key)) {
+      return false;
+    }
+    event.preventDefault();
+    return true;
+  };
+
   const getValue = suggestion => {
     if (suggestion.type === 'clear-search-history') {
       return '';
@@ -112,6 +122,7 @@ const MobileSearch = ({
         type="button"
         className={styles['clear-input']}
         onClick={clearInput}
+        onKeyDown={e => isKeyboardSelectionEvent(e) && clearInput()}
         aria-label={clearInputButtonText}
       >
         <Icon img="close" color={color} />
@@ -121,10 +132,17 @@ const MobileSearch = ({
 
   const renderContent = () => {
     return (
-      <label className={styles['combobox-container']} htmlFor={inputId}>
-        <div className={styles['combobox-icon']} onClick={onClose}>
+      <div className={styles['combobox-container']} htmlFor={inputId}>
+        <button
+          type="button"
+          className={styles['combobox-icon']}
+          onClick={() => onClose()}
+          onKeyDown={e => isKeyboardSelectionEvent(e) && onClose()}
+          aria-label={dialogSecondaryButtonText}
+          tabIndex={0}
+        >
           <Icon img="arrow" />
-        </div>
+        </button>
         <span className={styles['right-column']}>
           <span className={styles['combobox-label']} id={labelId}>
             {label}
@@ -166,7 +184,7 @@ const MobileSearch = ({
             ref={inputRef}
           />
         </span>
-      </label>
+      </div>
     );
   };
   if (focusInput && inputRef.current?.input) {
