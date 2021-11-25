@@ -36,6 +36,8 @@ const color = {
   minor: '\x1b[33m',
 };
 
+process.exitCode = 1;
+
 const createDriver = () => {
   return new Builder()
     .forBrowser('firefox')
@@ -44,7 +46,10 @@ const createDriver = () => {
 };
 
 const createBuilder = driver => {
-  return new AxeBuilder(driver).exclude('.map').disableRules('color-contrast'); // Color-contrast checks seem inconsistent, can be possibly enabled in newer axe versions
+  return new AxeBuilder(driver)
+    .setLegacyMode()
+    .exclude('.map')
+    .disableRules('color-contrast'); // Color-contrast checks seem inconsistent, can be possibly enabled in newer axe versions
 };
 
 const createTestEnv = () => {
@@ -157,7 +162,7 @@ async function ItineraryTest(rootUrl, printResults, benchmark, path) {
 
 const TEST_CASES = {
   '/etusivu': frontPageTest,
-  '/linjat/HSL:3002P': routePageTest,
+  '/linjat/HSL:3002P/pysakit/HSL:3002P:0:01': routePageTest,
   '/linjat/HSL:3002P/aikataulu/HSL:3002P:0:01': routePageTimetableTest,
   '/terminaalit/HSL%3A2000102/aikataulu': terminalPageTimetableTest,
   '/lahellasi/BUS/Rautatientori%2C%20Helsinki::60.170384,24.939846': stopsNearYouTest,
@@ -249,33 +254,42 @@ const wrapup = () => {
       }
       process.exitCode = 1;
     } else {
+      process.exitCode = 0;
       console.log('No new erros');
     }
+  }
+  if (onlyTestLocal && localResults.violations.length === 0) {
+    process.exitCode = 0;
   }
 };
 
 const runTests = (printResults, pathsToTest = undefined) => {
-  console.time('Execution time');
-  parallel(
-    [
-      callback => {
-        runTestCases(LOCAL, false, callback, printResults, pathsToTest);
-      },
-      callback => {
-        if (!onlyTestLocal) {
-          runTestCases(BENCHMARK, true, callback, false, pathsToTest);
-        } else {
-          callback(null);
+  try {
+    console.time('Execution time');
+    parallel(
+      [
+        callback => {
+          runTestCases(LOCAL, false, callback, printResults, pathsToTest);
+        },
+        callback => {
+          if (!onlyTestLocal) {
+            runTestCases(BENCHMARK, true, callback, false, pathsToTest);
+          } else {
+            callback(null);
+          }
+        },
+      ],
+      err => {
+        if (err) {
+          throw new Error(err);
         }
+        wrapup();
       },
-    ],
-    err => {
-      if (err) {
-        console.error(err);
-      }
-      wrapup();
-    },
-  );
+    );
+  } catch (e) {
+    process.exitCode = 1;
+    throw new Error(e);
+  }
 };
 
 runTests(true);

@@ -24,7 +24,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@axe-core/webdriverjs@npm:^4.2.1":
+"@axe-core/webdriverjs@npm:^4.3.1":
   version: 4.3.1
   resolution: "@axe-core/webdriverjs@npm:4.3.1"
   dependencies:
@@ -6353,7 +6353,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"async@npm:^3.2.0":
+"async@npm:^3.2.2":
   version: 3.2.2
   resolution: "async@npm:3.2.2"
   checksum: 9f9873f96dc3d319262c0379979ae906fa17d9faaf8ae370c44e578eae54e48ee5db79ba40021fd0291b3d305e17ba9c6bdcdba78785c1ef71d586c52c0dea3b
@@ -9887,7 +9887,7 @@ __metadata:
   resolution: "digitransit-ui@workspace:."
   dependencies:
     "@axe-core/react": ^4.2.0
-    "@axe-core/webdriverjs": ^4.2.1
+    "@axe-core/webdriverjs": ^4.3.1
     "@azure/storage-blob": ^12.8.0
     "@babel/cli": 7.11.5
     "@babel/core": 7.11.5
@@ -9918,7 +9918,7 @@ __metadata:
     "@rollup/plugin-babel": 5.2.2
     "@rollup/plugin-json": 4.1.0
     "@rollup/plugin-node-resolve": 11.0.1
-    async: ^3.2.0
+    async: ^3.2.2
     autoprefixer: 9.8.6
     axe-core: ^4.2.1
     babel-core: 7.0.0-bridge.0
