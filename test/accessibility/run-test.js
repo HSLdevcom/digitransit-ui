@@ -252,7 +252,6 @@ const wrapup = () => {
           '\x1b[0m',
         );
       }
-      process.exitCode = 1;
     } else {
       process.exitCode = 0;
       console.log('No new erros');
@@ -287,7 +286,6 @@ const runTests = (printResults, pathsToTest = undefined) => {
       },
     );
   } catch (e) {
-    process.exitCode = 1;
     throw new Error(e);
   }
 };
