@@ -551,7 +551,8 @@ export default configMerger(walttiConfig, {
     },
     displayFareInfoTop: false,
 
-
+    // the route to stop button in when you select an individual stop/bike rental station
+    showMapRoutingButton: false,
     showRouteSearch: false,
     showNearYouButtons: false,
 
