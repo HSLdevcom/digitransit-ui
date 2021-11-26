@@ -398,7 +398,7 @@ mode-tram: "#DA2128"
 
 SuggestionItem.propTypes = {
   item: PropTypes.object,
-  content: PropTypes.arrayOf(PropTypes.string),
+  content: PropTypes.array,
   className: PropTypes.string,
   isMobile: PropTypes.bool,
   color: PropTypes.string,
