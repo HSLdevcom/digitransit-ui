@@ -51,6 +51,9 @@ function getSuggestionContent(item) {
     let suggestionType;
     /* eslint-disable-next-line prefer-const */
     let [name, label] = getNameLabel(item.properties, true);
+    if (item.type === 'SelectFromMap') {
+      return ['select-from-map'];
+    }
     if (
       item.properties.layer.toLowerCase().includes('bikerental') ||
       item.properties.layer.toLowerCase().includes('bikestation')

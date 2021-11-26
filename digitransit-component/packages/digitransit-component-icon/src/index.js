@@ -53,6 +53,7 @@ import Check from './assets/check.svg';
 import SearchBusStopDefault from './assets/search-bus-stop-default.svg';
 import SearchRailStopDefault from './assets/search-rail-stop-default.svg';
 import SearchFerryDefault from './assets/search-ferry-default.svg';
+import SearchFerryStopDefault from './assets/search-ferry-stop-default.svg';
 import CityBikeStopDefault from './assets/citybike-stop-default.svg';
 import SearchTramStopDefault from './assets/search-tram-stop-default.svg';
 import CityBikeStopDigitransit from './assets/citybike-stop-digitransit.svg';
@@ -61,6 +62,7 @@ import SearchBusStationDigitransit from './assets/search-bus-station-digitransit
 import SearchBusStopDigitransit from './assets/search-bus-stop-digitransit.svg';
 import SearchBusTramStopDigitransit from './assets/search-bustram-stop-digitransit.svg';
 import SearchFerryDigitransit from './assets/search-ferry-digitransit.svg';
+import SearchFerryStopDigitransit from './assets/search-ferry-stop-digitransit.svg';
 import SearchRailStopDigitransit from './assets/search-rail-stop-digitransit.svg';
 import SearchRailStationDigitransit from './assets/search-rail-station-digitransit.svg';
 import SearchTramStopDigitransit from './assets/search-tram-stop-digitransit.svg';
@@ -123,6 +125,7 @@ const IconMap = style => {
     'search-bus-stop-default': <SearchBusStopDefault style={style} />,
     'search-rail-stop-default': <SearchRailStopDefault style={style} />,
     'search-ferry-default': <SearchFerryDefault style={style} />,
+    'search-ferry-stop-default': <SearchFerryStopDefault style={style} />,
     'search-tram-stop-default': <SearchTramStopDefault style={style} />,
     'citybike-stop-digitransit': <CityBikeStopDigitransit style={style} />,
     'search-airplane-digitransit': <SearchAirplaneDigitransit style={style} />,
@@ -134,6 +137,9 @@ const IconMap = style => {
       <SearchBusTramStopDigitransit style={style} />
     ),
     'search-ferry-digitransit': <SearchFerryDigitransit style={style} />,
+    'search-ferry-stop-digitransit': (
+      <SearchFerryStopDigitransit style={style} />
+    ),
     'search-rail-stop-digitransit': <SearchRailStopDigitransit style={style} />,
     'search-rail-station-digitransit': (
       <SearchRailStationDigitransit style={style} />

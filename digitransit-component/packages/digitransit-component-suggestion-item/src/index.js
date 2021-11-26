@@ -100,11 +100,23 @@ function getIconProperties(item, color, modes = undefined, modeSet) {
     ['SUBWAY-digitransit', { icon: 'subway', color: 'mode-metro' }],
     ['SUBWAY-STATION-default', { icon: 'subway', color: 'mode-metro' }],
     ['SUBWAY-STATION-digitransit', { icon: 'subway', color: 'mode-metro' }],
-    ['FERRY-default', { icon: 'search-ferry-default', color: 'mode-ferry' }],
     [
-      'FERRY-digitransit',
+      'FERRY-STATION-default',
+      { icon: 'search-ferry-default', color: 'mode-ferry' },
+    ],
+    [
+      'FERRY-STATION-digitransit',
       { icon: 'search-ferry-digitransit', color: 'mode-ferry' },
     ],
+    [
+      'FERRY-default',
+      { icon: 'search-ferry-stop-default', color: 'mode-ferry-pier' },
+    ],
+    [
+      'FERRY-digitransit',
+      { icon: 'search-ferry-stop-digitransit', color: 'mode-ferry-pier' },
+    ],
+
     [
       'AIRPLANE-digitransit',
       { icon: 'search-airplane-digitransit', color: 'mode-airplane' },
@@ -122,7 +134,10 @@ function getIconProperties(item, color, modes = undefined, modeSet) {
   if (modes?.length) {
     const mode = modes.join('-');
     let iconStr;
-    if (item.properties.layer === 'station') {
+    if (
+      item.properties.layer === 'station' ||
+      (item.properties.type === 'FERRY' && item.properties.code !== 'null')
+    ) {
       const iconProperties = layerIcon.get(
         mode.concat('-STATION').concat('-').concat(modeSet),
       );
@@ -422,6 +437,7 @@ SuggestionItem.defaultProps = {
     'mode-tram': '#008151',
     'mode-metro': '#ed8c00',
     'mode-ferry': '#007A97',
+    'mode-ferry-pier': '#666666',
   },
   modeSet: undefined,
 };
