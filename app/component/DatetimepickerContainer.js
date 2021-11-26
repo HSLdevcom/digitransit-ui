@@ -12,7 +12,7 @@ function DatetimepickerContainer(
   context,
 ) {
   const { router, match, config } = context;
-  const openPicker = match.location.query.setTime;
+  const openPicker = !!match.location.query.setTime; // string to boolean
 
   const setParams = debounce((time, arriveBy, setTime) => {
     replaceQueryParams(router, match, {
