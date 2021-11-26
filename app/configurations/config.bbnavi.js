@@ -172,8 +172,8 @@ export default configMerger(walttiConfig, {
             'nextbike_dc': {
                 icon: 'regiorad',
                 name: {
-                    de: 'Nextbike',
-                    en: 'Nextbike',
+                    de: 'Nextbike (Potsdam)',
+                    en: 'Nextbike (Potsdam)',
                 },
                 type: 'citybike',
                 url: {
@@ -183,16 +183,16 @@ export default configMerger(walttiConfig, {
                 visibleInSettingsUi: true,
                 enabled: true,
             },
-            regiorad: {
+            'nextbike_bn': {
                 icon: 'regiorad',
                 name: {
-                    de: 'RegioRad',
-                    en: 'RegioRad',
+                    de: 'Nextbike (Berlin)',
+                    en: 'Nextbike (Berlin)',
                 },
                 type: 'citybike',
                 url: {
-                    de: 'https://www.regioradstuttgart.de/de',
-                    en: 'https://www.regioradstuttgart.de/',
+                    de: 'https://www.nextbike.de/de/standorte/',
+                    en: 'https://www.nextbike.de/en/standorte/',
                 },
                 visibleInSettingsUi: true,
                 enabled: true,
