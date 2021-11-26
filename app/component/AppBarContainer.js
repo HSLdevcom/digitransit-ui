@@ -34,6 +34,7 @@ const AppBarContainer = ({
   executeAction,
   homeUrl,
   logo,
+  logoSmall,
   user,
   style,
   lang,
@@ -75,7 +76,7 @@ const AppBarContainer = ({
             <AppBarSmall
               {...args}
               showLogo
-              logo={logo}
+              logo={logoSmall}
               breakpoint={breakpoint}
               titleClicked={() => {
                 executeAction(storeOrigin, {});
@@ -111,6 +112,7 @@ AppBarContainer.propTypes = {
   executeAction: PropTypes.func,
   homeUrl: PropTypes.string.isRequired,
   logo: PropTypes.string,
+  logoSmall: PropTypes.string,
   user: PropTypes.object,
   style: PropTypes.string.isRequired, // DT-3375
   lang: PropTypes.string, // DT-3376
