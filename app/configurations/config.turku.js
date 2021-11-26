@@ -28,6 +28,7 @@ export default configMerger(walttiConfig, {
       'mode-bus': '#e8aa27',
       'mode-rail': '#8c4799',
       'mode-ferry': '#35b5b3',
+      'mode-ferry-pier': '#666666',
     },
   },
 
