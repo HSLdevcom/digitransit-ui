@@ -136,6 +136,7 @@ class IndexPage extends React.Component {
       if (newLocation.query.time === undefined) {
         newLocation.query.time = moment().unix();
       }
+      delete newLocation.query.setTime;
       router.push(newLocation);
     } else {
       const path = getPathWithEndpointObjects(
