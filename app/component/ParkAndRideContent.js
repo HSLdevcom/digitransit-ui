@@ -162,21 +162,23 @@ const ParkAndRideContent = (
               `, ${intl.formatMessage({
                 id: 'access_with',
               })} `}
-            {authenticationMethods.map((method, i) => (
-              <>
-                {intl.formatMessage({ id: method })}
-                {i < authenticationMethods.length - 1 && ' | '}
-              </>
-            ))}
+            {authenticationMethods.map(
+              (method, i) =>
+                `
+                ${intl.formatMessage({ id: method })}
+                ${i < authenticationMethods.length - 1 ? ' | ' : ''}
+              `,
+            )}
           </span>
           {services.length > 0 && (
             <span>
-              {services.map((service, i) => (
-                <>
-                  {intl.formatMessage({ id: service })}
-                  {i < services.length - 1 && ' | '}
-                </>
-              ))}
+              {services.map(
+                (service, i) =>
+                  `
+                ${intl.formatMessage({ id: service })}
+                ${i < services.length - 1 ? ' | ' : ''}
+              `,
+              )}
             </span>
           )}
         </div>
