@@ -9,16 +9,6 @@ import Icon from './Icon';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../util/path';
 import { isBrowser } from '../util/browser';
 
-const weekDaysMap = {
-  1: 'short-for-monday',
-  2: 'short-for-tuesday',
-  3: 'short-for-wednesday',
-  4: 'short-for-thursday',
-  5: 'short-for-friday',
-  6: 'short-for-saturday',
-  0: 'short-for-sunday',
-};
-
 const ParkAndRideContent = (
   { bikePark, carPark, router, match, error, currentLanguage },
   { config, intl },
@@ -97,7 +87,7 @@ const ParkAndRideContent = (
       let i = 0;
       const hoursAsText = [];
       while (i < openingHours.length) {
-        const { day, timeSpans } = openingHours[i];
+        const { date, timeSpans } = openingHours[i];
         let j = i + 1;
         while (j < openingHours.length) {
           if (
@@ -110,17 +100,22 @@ const ParkAndRideContent = (
         }
         const from = moment.utc(timeSpans.from * 1000).format('HH:mm');
         const to = moment.utc(timeSpans.to * 1000).format('HH:mm');
+        const day = date.toLocaleString(currentLanguage, { weekday: 'short' });
         if (i === j - 1) {
           hoursAsText.push(
-            `${intl.formatMessage({ id: weekDaysMap[day] })} ${from}-${to}`,
+            `${day.charAt(0).toUpperCase() + day.slice(1)} ${from}-${to}`,
           );
         } else {
+          const until = openingHours[j - 1].date.toLocaleString(
+            currentLanguage,
+            {
+              weekday: 'short',
+            },
+          );
           hoursAsText.push(
-            `${intl.formatMessage({
-              id: weekDaysMap[day],
-            })}-${intl.formatMessage({
-              id: weekDaysMap[openingHours[j - 1].day],
-            })} ${from}-${to}`,
+            `${day.charAt(0).toUpperCase() + day.slice(1)}-${
+              until.charAt(0).toUpperCase() + until.slice(1)
+            } ${from}-${to}`,
           );
         }
         i = j;

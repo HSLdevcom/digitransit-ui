@@ -39,7 +39,7 @@ const ParkAndRideUtils = {
           const month = dateString.substring(4, 6);
           const day = dateString.substring(6, 8);
           return {
-            day: new Date(year, month - 1, day).getDay(),
+            date: new Date(year, month - 1, day),
             timeSpans: openingHour.timeSpans[0],
           };
         });
