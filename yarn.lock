@@ -2156,7 +2156,7 @@ __metadata:
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel"
   peerDependencies:
     "@digitransit-component/digitransit-component-autosuggest": ^1.7.23
-    "@digitransit-component/digitransit-component-icon": ^0.1.13
+    "@digitransit-component/digitransit-component-icon": ^0.1.14
     "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
     i18next: ^19.3.3
@@ -2207,7 +2207,7 @@ __metadata:
     "@hsl-fi/hooks": ^1.0.0
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": ^0.3.3
-    "@digitransit-component/digitransit-component-icon": ^0.1.13
+    "@digitransit-component/digitransit-component-icon": ^0.1.14
     "@digitransit-component/digitransit-component-suggestion-item": ^0.2.16
     "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
@@ -2241,7 +2241,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-control-panel@workspace:digitransit-component/packages/digitransit-component-control-panel"
   peerDependencies:
-    "@digitransit-component/digitransit-component-icon": ^0.1.13
+    "@digitransit-component/digitransit-component-icon": ^0.1.14
     "@hsl-fi/sass": ~0.2.0
     classnames: 2.2.6
     i18next: ^19.3.3
@@ -2255,7 +2255,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-datetimepicker@workspace:digitransit-component/packages/digitransit-component-datetimepicker"
   peerDependencies:
-    "@digitransit-component/digitransit-component-icon": ^0.1.13
+    "@digitransit-component/digitransit-component-icon": ^0.1.14
     i18next: ^19.3.3
     lodash: 4.17.21
     lodash-es: 4.17.21
@@ -2273,7 +2273,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-dialog-modal@workspace:digitransit-component/packages/digitransit-component-dialog-modal"
   dependencies:
-    "@hsl-fi/modal": ^0.2.1
+    "@hsl-fi/modal": ^0.3.0
   peerDependencies:
     "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
@@ -2305,7 +2305,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar"
   peerDependencies:
-    "@digitransit-component/digitransit-component-icon": ^0.1.13
+    "@digitransit-component/digitransit-component-icon": ^0.1.14
     "@digitransit-component/digitransit-component-suggestion-item": ^0.2.16
     "@hsl-fi/sass": ^0.2.0
     "@hsl-fi/shimmer": 0.1.0
@@ -2340,9 +2340,9 @@ __metadata:
   resolution: "@digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal"
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": ^0.3.3
-    "@digitransit-component/digitransit-component-icon": ^0.1.13
+    "@digitransit-component/digitransit-component-icon": ^0.1.14
     "@hsl-fi/container-spinner": 0.3.1
-    "@hsl-fi/modal": ^0.2.1
+    "@hsl-fi/modal": ^0.3.0
     "@hsl-fi/sass": ^0.2.0
     i18next: ^19.3.3
     prop-types: ^15.7.2
@@ -2372,8 +2372,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-modal@workspace:digitransit-component/packages/digitransit-component-favourite-modal"
   peerDependencies:
-    "@digitransit-component/digitransit-component-icon": ^0.1.13
-    "@hsl-fi/modal": ^0.2.1
+    "@digitransit-component/digitransit-component-icon": ^0.1.14
+    "@hsl-fi/modal": ^0.3.0
     "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
     i18next: ^19.3.3
@@ -2416,7 +2416,7 @@ __metadata:
   dependencies:
     recompose: 0.30.0
   peerDependencies:
-    "@digitransit-component/digitransit-component-icon": ^0.1.13
+    "@digitransit-component/digitransit-component-icon": ^0.1.14
     "@hsl-fi/sass": " ^0.2.0"
     classnames: 2.2.6
     i18next: ^19.3.3
@@ -2429,7 +2429,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-traffic-now-link@workspace:digitransit-component/packages/digitransit-component-traffic-now-link"
   peerDependencies:
-    "@digitransit-component/digitransit-component-icon": ^0.1.13
+    "@digitransit-component/digitransit-component-icon": ^0.1.14
     "@hsl-fi/sass": ^0.2.0
     i18next: ^19.3.3
     prop-types: ^15.7.2
@@ -2678,8 +2678,8 @@ __metadata:
   linkType: hard
 
 "@emotion/react@npm:^11.1.1":
-  version: 11.6.0
-  resolution: "@emotion/react@npm:11.6.0"
+  version: 11.7.0
+  resolution: "@emotion/react@npm:11.7.0"
   dependencies:
     "@babel/runtime": ^7.13.10
     "@emotion/cache": ^11.6.0
@@ -2696,7 +2696,7 @@ __metadata:
       optional: true
     "@types/react":
       optional: true
-  checksum: 29860f7e733facdf176df75bb054362211976e7e26b803041ce4ee5d051eb0d90a85a481e985e53255a21024d9f8d6d37bd74da17009a10f5947e750dddfc145
+  checksum: f0676d8a4d1fd0accce3ebfa2da92efd880b9a952aacf3c6aa559f2865e4a6aeadb987b16f988d76e3e3e4029a957c6bc5780045b9a38558bf5b3531f71f6184
   languageName: node
   linkType: hard
 
@@ -3224,7 +3224,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/button@npm:^1.2.1":
+"@hsl-fi/button@npm:^1.2.3":
   version: 1.2.3
   resolution: "@hsl-fi/button@npm:1.2.3"
   dependencies:
@@ -3260,7 +3260,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/hooks@npm:^0.2.0, @hsl-fi/hooks@npm:^0.2.1":
+"@hsl-fi/hooks@npm:^0.2.1":
   version: 0.2.1
   resolution: "@hsl-fi/hooks@npm:0.2.1"
   peerDependencies:
@@ -3285,15 +3285,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/modal@npm: ^0.2.1, @hsl-fi/modal@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "@hsl-fi/modal@npm:0.2.1"
+"@hsl-fi/modal@npm: ^0.3.0, @hsl-fi/modal@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "@hsl-fi/modal@npm:0.3.0"
   dependencies:
-    "@hsl-fi/hooks": ^0.2.0
+    "@hsl-fi/hooks": ^1.0.0
     "@hsl-fi/icons": ^1.0.2
     "@hsl-fi/sass": ^0.2.0
     react-modal: ^3.11.2
-  checksum: 1f52422053e732541959cdbc249ba54ae2ba8929f27387f2553afa2aa9b1be25ab8200410be75688b4da5c6e058594c33905766c3ba110939ba5008325f8a35c
+  checksum: ecc15203ca56070bc08e35673e89291a41689b0d16434ef78c2be0ccc4d483c58970baa19571bd495051038100d07e3cdd740651ad2cd14b202ac331a30a9458
   languageName: node
   linkType: hard
 
@@ -3334,22 +3334,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/site-header@npm:3.0.7":
-  version: 3.0.7
-  resolution: "@hsl-fi/site-header@npm:3.0.7"
+"@hsl-fi/site-header@npm:3.1.0":
+  version: 3.1.0
+  resolution: "@hsl-fi/site-header@npm:3.1.0"
   dependencies:
     "@hsl-fi/animated-spinner": ^0.2.0
-    "@hsl-fi/button": ^1.2.1
+    "@hsl-fi/button": ^1.2.3
     "@hsl-fi/container-spinner": ^0.3.1
     "@hsl-fi/content-delivery-api-types": ^0.1.4
-    "@hsl-fi/hooks": ^0.2.1
+    "@hsl-fi/hooks": ^1.0.0
     "@hsl-fi/icons": ^1.0.2
     "@hsl-fi/sass": ^0.2.0
     "@hsl-fi/search-input": ^1.0.0
-    "@hsl-fi/utilities": ^0.2.12
+    "@hsl-fi/utilities": ^0.2.13
     lodash: 4.17.21
     react-animate-height: ^2.0.21
-  checksum: da15d19679fd6cbb31e20d6256343b41146addff0e92dea602a4296b60a8d42c0a94606296f256083a62c94ea6ce4a6fdef75f1d25c67f9f4fb923630e5f9551
+  checksum: 9aa8030b2d8ec6e9708f4fe9df36e164f79d03d0068ae480b0681f22c3dfdf1dc9feb5506bbb7b31b3223a7b747c0027974fad64f1b9f1fb3e5caa0f3d0ad94e
   languageName: node
   linkType: hard
 
@@ -3395,7 +3395,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/utilities@npm:^0.2.11, @hsl-fi/utilities@npm:^0.2.12":
+"@hsl-fi/utilities@npm:^0.2.11, @hsl-fi/utilities@npm:^0.2.12, @hsl-fi/utilities@npm:^0.2.13":
   version: 0.2.13
   resolution: "@hsl-fi/utilities@npm:0.2.13"
   dependencies:
@@ -5205,13 +5205,13 @@ __metadata:
   linkType: hard
 
 "@types/react@npm:*":
-  version: 17.0.36
-  resolution: "@types/react@npm:17.0.36"
+  version: 17.0.37
+  resolution: "@types/react@npm:17.0.37"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 90904786837843aa96c39048cfa63670cc7699080f697f2ae21c035e1d5d0db58fd40b45f02353359eed78966a4378ffdb139017f6d04d3b2504603652738e45
+  checksum: 9edbfaf07cdfbb6cebdd30e972bca85e1f73dca082c83c0fdecd2b75a0f8af2159814748c55b80e64ab0a392a732340923fd1f0ca57789d17acba12ce3b22c99
   languageName: node
   linkType: hard
 
@@ -7634,16 +7634,16 @@ __metadata:
   linkType: hard
 
 "caniuse-db@npm:^1.0.30001090":
-  version: 1.0.30001282
-  resolution: "caniuse-db@npm:1.0.30001282"
-  checksum: 8665bfd504a69886d1205f23ff529512631dd22bda012a3b95b29769989b2b8279d5104c0c95789522a308b7116ef047784b2f69015645e00d4db4818a8f340f
+  version: 1.0.30001283
+  resolution: "caniuse-db@npm:1.0.30001283"
+  checksum: f34cfc778a2414b181205dfa40fd924b4c559607eb0e0bf6cebb21ea55f4e3af6cff6902e364eb19d282806c9805faf2e21d0da89d5c7745e5d02f34642f8b2e
   languageName: node
   linkType: hard
 
 "caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001280":
-  version: 1.0.30001282
-  resolution: "caniuse-lite@npm:1.0.30001282"
-  checksum: 4a26dcc269f917825afc2e82791965e96f00826dd65fd4df838f79deaea7ad950e9ec0222e7eea2f7549a05ea131bb6c5317dd609d96d50ad274b8a634902048
+  version: 1.0.30001283
+  resolution: "caniuse-lite@npm:1.0.30001283"
+  checksum: fbfe5f9fb35196e537a6a1dd451ed0c438b5be38bcd33803db3a0874ab6080af327b4214ac5c021d92ebc10c3e1f23a6ec66d7ed09b3b97d5d5f6877aa56389a
   languageName: node
   linkType: hard
 
@@ -8290,12 +8290,12 @@ __metadata:
   linkType: hard
 
 "color-string@npm:^1.6.0":
-  version: 1.6.0
-  resolution: "color-string@npm:1.6.0"
+  version: 1.7.4
+  resolution: "color-string@npm:1.7.4"
   dependencies:
     color-name: ^1.0.0
     simple-swizzle: ^0.2.2
-  checksum: d48692037a6d38bd1deb91886a075d8af82e4e8269c5ab33eadf174d8aa5e82753a2f3edfe6749e24e48898ea2eb76df706b603c65a721e10ddc57c5d6a078cf
+  checksum: 2f4c706408c8a8c80d645ed26dc609640479e9600bc10352caae3e54d582a4ac2f77144698a1c8a4cb1374c3ab02ad211593c0d425b571e93142e52b0590033a
   languageName: node
   linkType: hard
 
@@ -9518,14 +9518,14 @@ __metadata:
   linkType: hard
 
 "debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1":
-  version: 4.3.2
-  resolution: "debug@npm:4.3.2"
+  version: 4.3.3
+  resolution: "debug@npm:4.3.3"
   dependencies:
     ms: 2.1.2
   peerDependenciesMeta:
     supports-color:
       optional: true
-  checksum: 5543570879e2274f6725d4285a034d6e0822d35faefc6f55965933fb440e8c21eb3a0bef934e66f4b6b491f898ee2de37cab980e9d4fd61372136c19d3ce4527
+  checksum: 1bceffaa69207300c49f868643a4f637a20dd292fe005fb0d5a625957ee1fe7a4e65c5f4c6f65ce2b1ef30087cf4e327207d4e0554362e4c44574f85328e3b71
   languageName: node
   linkType: hard
 
@@ -9912,11 +9912,11 @@ __metadata:
     "@commitlint/config-conventional": 9.1.2
     "@hsl-fi/container-spinner": 0.3.1
     "@hsl-fi/hooks": 1.0.0
-    "@hsl-fi/modal": " ^0.2.1"
+    "@hsl-fi/modal": " ^0.3.0"
     "@hsl-fi/sass": " ^0.2.0"
     "@hsl-fi/shared-local-storage": 0.4.0
     "@hsl-fi/shimmer": 0.1.0
-    "@hsl-fi/site-header": 3.0.7
+    "@hsl-fi/site-header": 3.1.0
     "@lerna/batch-packages": 3.16.0
     "@lerna/filter-packages": 3.18.0
     "@lerna/project": 3.21.0
@@ -10497,9 +10497,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.896":
-  version: 1.4.0
-  resolution: "electron-to-chromium@npm:1.4.0"
-  checksum: 12db08ffac97029b56772793c6ace9ddbc310d17a17a0fa88e72037a95fad446f3f3e74db18659faa1d3308334fb6e21a32013c3d4c117e708182cb2219bb735
+  version: 1.4.4
+  resolution: "electron-to-chromium@npm:1.4.4"
+  checksum: 459e67e7969fd7b26c1c1bd587b3b3a5f46b55c5ac8c05ee1ba4eb27ffb4aba22e77274ba2c6ee4a4258e40e2ce73a3deddedc54a3fa85a0891691d61aa4069e
   languageName: node
   linkType: hard
 
@@ -14032,9 +14032,9 @@ fsevents@~2.1.2:
   linkType: hard
 
 "http-parser-js@npm:>=0.5.1":
-  version: 0.5.3
-  resolution: "http-parser-js@npm:0.5.3"
-  checksum: 78f190ffc6047b92265ab6933f66fbffc1b06103b8364ffc2e1733d94b30d8ad3295959b613ef006052bd9c98e9020dfc05c95e4f5cb846c656b82b6062fc414
+  version: 0.5.5
+  resolution: "http-parser-js@npm:0.5.5"
+  checksum: 218033e7ef8d33043130ee37be7541533449f2b124734e562148ba6ce5fb7748c1a12047b8708c47eccfc7bae4b6eab680aef38c52b5c5939b44c4a9c3466834
   languageName: node
   linkType: hard
 
