@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import StopNearYouHeader from './StopNearYouHeader';
 import StopNearYouAlert from './StopNearYouAlert';
@@ -73,6 +74,17 @@ const StopNearYou = ({
   );
 };
 
+const connectedComponent = connectToStores(
+  StopNearYou,
+  ['TimeStore'],
+  (context, props) => {
+    return {
+      ...props,
+      currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+    };
+  },
+);
+
 StopNearYou.propTypes = {
   stop: PropTypes.object.isRequired,
   stopIsStation: PropTypes.bool,
@@ -86,4 +98,4 @@ StopNearYou.defaultProps = {
   stopIsStation: false,
 };
 
-export default StopNearYou;
+export default connectedComponent;

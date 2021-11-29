@@ -31,9 +31,7 @@ const containerComponent = createRefetchContainer(
           startTime: $startTime
           omitNonPickups: $omitNonPickups
         ) {
-          scheduledArrival
           realtimeArrival
-          arrivalDelay
           scheduledDeparture
           realtimeDeparture
           departureDelay
@@ -41,8 +39,18 @@ const containerComponent = createRefetchContainer(
           realtimeState
           serviceDay
           headsign
+          stop {
+            platformCode
+          }
           trip {
+            gtfsId
             tripHeadsign
+            pattern {
+              code
+              route {
+                gtfsId
+              }
+            }
             route {
               alerts {
                 alertSeverityLevel
@@ -83,17 +91,18 @@ const containerComponent = createRefetchContainer(
             stop {
               platformCode
             }
-            scheduledArrival
             realtimeArrival
-            arrivalDelay
-            scheduledDeparture
-            realtimeDeparture
-            departureDelay
             realtime
-            realtimeState
             serviceDay
             headsign
             trip {
+              gtfsId
+              pattern {
+                code
+                route {
+                  gtfsId
+                }
+              }
               route {
                 alerts {
                   alertSeverityLevel

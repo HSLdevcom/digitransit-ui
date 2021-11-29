@@ -19,14 +19,20 @@ const DepartureRow = (
   const timeDiffInMinutes = Math.floor(
     (departureTime - props.currentTime) / 60,
   );
-  let icon, iconColor;
+  let icon;
+  let iconColor;
+  let backgroundShape;
   if (departure.trip.route?.alerts?.length > 0) {
-    console.log("asdasdasd")
-    const alert = departure.trip.route.alerts.slice().sort(alertSeverityCompare)[0];
-    icon = alert.alertSeverityLevel === 'SEVERE'
-      ? 'icon-icon_caution_white_exclamation'
-      : 'icon-icon_info';
+    const alert = departure.trip.route.alerts
+      .slice()
+      .sort(alertSeverityCompare)[0];
+    icon =
+      alert.alertSeverityLevel === 'SEVERE'
+        ? 'icon-icon_caution-white-excl-stroke'
+        : 'icon-icon_info';
     iconColor = alert.alertSeverityLevel === 'SEVERE' ? '#DC0451' : '#888';
+    backgroundShape =
+      alert.alertSeverityLevel === 'SEVERE' ? undefined : 'circle';
   }
   const headsign =
     departure.headsign ||
@@ -76,7 +82,12 @@ const DepartureRow = (
         >
           <div className="route-number">{shortName}</div>
           {icon && (
-            <Icon img={icon} color={iconColor}/>
+            <Icon
+              className={backgroundShape}
+              img={icon}
+              color={iconColor}
+              backgroundShape={backgroundShape}
+            />
           )}
         </td>
         <td
@@ -125,7 +136,7 @@ const DepartureRow = (
     <>
       {showLink && (
         <Link
-          to={`/${PREFIX_ROUTES}/${departure.trip.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.trip.pattern.code}`}
+          to={`/${PREFIX_ROUTES}/${departure.trip.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.trip.pattern.code}/${departure.trip.gtfsId}`}
           onClick={() => {
             addAnalyticsEvent({
               category: 'Stop',

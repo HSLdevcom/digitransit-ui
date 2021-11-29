@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { graphql, createRefetchContainer } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { dtLocationShape } from '../util/shapes';
-import StopNearYou from './StopNearYou';
+import StopNearYouContainer from './StopNearYouContainer';
 import CityBikeStopNearYou from './CityBikeStopNearYou';
 
 function StopsNearYouFavouritesContainer({
@@ -13,13 +13,7 @@ function StopsNearYouFavouritesContainer({
   stations,
   bikeStations,
   searchPosition,
-  relay,
 }) {
-  useEffect(() => {
-    relay.refetch(oldVariables => {
-      return { ...oldVariables, startTime: currentTime };
-    });
-  }, [currentTime]);
   const stopList = [];
   stopList.push(
     ...stops
@@ -59,7 +53,7 @@ function StopsNearYouFavouritesContainer({
     switch (stop.type) {
       case 'stop':
         return (
-          <StopNearYou
+          <StopNearYouContainer
             key={stop.gtfsId}
             stop={stop}
             currentTime={currentTime}
@@ -67,7 +61,7 @@ function StopsNearYouFavouritesContainer({
         );
       case 'station':
         return (
-          <StopNearYou
+          <StopNearYouContainer
             key={stop.gtfsId}
             stop={stop}
             desc={stop.stops[0].desc}
@@ -109,123 +103,22 @@ const refetchContainer = createRefetchContainer(
       fragment StopsNearYouFavouritesContainer_stops on Stop
       @relay(plural: true)
       @argumentDefinitions(startTime: { type: "Long!", defaultValue: 0 }) {
-        id
-        name
+        ...StopNearYouContainer_stop
         gtfsId
-        code
-        desc
         lat
         lon
-        zoneId
-        platformCode
-        stoptimesWithoutPatterns(startTime: $startTime, omitNonPickups: true) {
-          scheduledArrival
-          realtimeArrival
-          arrivalDelay
-          scheduledDeparture
-          realtimeDeparture
-          departureDelay
-          realtime
-          realtimeState
-          serviceDay
-          headsign
-          trip {
-            route {
-              shortName
-              longName
-              gtfsId
-              mode
-              color
-              patterns {
-                headsign
-              }
-            }
-          }
-        }
-        parentStation {
-          id
-          name
-          gtfsId
-          code
-          desc
-          lat
-          lon
-          zoneId
-          platformCode
-          stoptimesWithoutPatterns(
-            startTime: $startTime
-            omitNonPickups: true
-          ) {
-            scheduledArrival
-            realtimeArrival
-            arrivalDelay
-            scheduledDeparture
-            realtimeDeparture
-            departureDelay
-            realtime
-            realtimeState
-            serviceDay
-            headsign
-            trip {
-              route {
-                shortName
-                longName
-                gtfsId
-                mode
-                patterns {
-                  headsign
-                }
-              }
-            }
-            stop {
-              platformCode
-            }
-          }
-        }
       }
     `,
     stations: graphql`
       fragment StopsNearYouFavouritesContainer_stations on Stop
       @relay(plural: true)
       @argumentDefinitions(startTime: { type: "Long!", defaultValue: 0 }) {
-        id
-        name
+        ...StopNearYouContainer_stop
         gtfsId
-        code
-        desc
         lat
         lon
-        zoneId
-        platformCode
         stops {
           desc
-        }
-        stoptimesWithoutPatterns(startTime: $startTime, omitNonPickups: true) {
-          scheduledArrival
-          realtimeArrival
-          arrivalDelay
-          scheduledDeparture
-          realtimeDeparture
-          departureDelay
-          realtime
-          realtimeState
-          serviceDay
-          headsign
-          trip {
-            route {
-              shortName
-              longName
-              gtfsId
-              mode
-              color
-              patterns {
-                headsign
-              }
-            }
-          }
-          stop {
-            platformCode
-          }
         }
       }
     `,

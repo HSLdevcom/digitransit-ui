@@ -315,6 +315,9 @@
     margin: 0;
     width: 100%;
     table-layout: fixed;
+    a {
+      text-decoration: none;
+    }
     tr, td {
       margin: 0;
       padding: 0;
@@ -358,6 +361,7 @@
         height: 1.25em;
         padding: 0 4px;
         text-align: center;
+        position: relative;
         .route-number {
           color: $white;
           line-height: 1.24;
@@ -365,6 +369,25 @@
           display: block;
           white-space: nowrap;
           overflow: hidden;
+        }
+        .icon-container {
+          position: absolute;
+          left: -3px;
+          bottom: -5px;
+          .icon-circle {
+            stroke-width: 12;
+            stroke: white;
+          }
+          .icon {
+            width: 1em;
+            height: 1em;
+            display: block;
+            overflow: visible;
+            &.circle {
+              width: 0.75em;
+              height: 0.75em;
+            }
+          }
         }
       }
       .route-headsign {
