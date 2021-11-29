@@ -559,6 +559,14 @@ export default configMerger(walttiConfig, {
     // adding assets/geoJson/hb-layers layers
     geoJson: {
         layers: [
+            // TMB Geo Daten der POIs
+            {
+                name: {
+                    en: 'Tourismus-Marketing Brandenburg',
+                    de: 'Tourismus-Marketing Brandenburg',
+                },
+                url: 'https://datahub.bbnavi.de/export/point_of_interests.geojson'
+            },
             // bicycleinfrastructure includes shops, repair stations,
             // {
             //     name: {
