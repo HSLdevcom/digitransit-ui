@@ -16,13 +16,14 @@ const MapRoutingButton = ({ stop }, { intl, router, match }) => {
 
   const { location } = match;
   const closeModal = () => setShowModal(false);
-
+  // Reset query parameters from timetablepage  that is not needed in summary page
+  const locationWithoutQuery = { ...location, query: {}, search: '' };
   const onSelectLocation = (item, id) => {
     // eslint-disable-next-line no-param-reassign
     item = { ...item, address: item.name };
     if (id === 'origin') {
       const newLocation = {
-        ...location,
+        ...locationWithoutQuery,
         pathname: getPathWithEndpointObjects(
           item,
           {},
@@ -32,12 +33,13 @@ const MapRoutingButton = ({ stop }, { intl, router, match }) => {
       router.push(newLocation);
     } else if (id === 'destination') {
       const newLocation = {
-        ...location,
+        ...locationWithoutQuery,
         pathname: getPathWithEndpointObjects(
           {},
           item,
           PREFIX_ITINERARY_SUMMARY,
         ),
+        query: {},
       };
       router.push(newLocation);
     } else {

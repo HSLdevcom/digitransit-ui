@@ -6,6 +6,9 @@ import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
 import { FormattedMessage } from 'react-intl';
+import debounce from 'lodash/debounce';
+import { isEqual } from 'lodash';
+import { matchShape, routerShape } from 'found';
 import Icon from './Icon';
 import FilterTimeTableModal from './FilterTimeTableModal';
 import TimeTableOptionsPanel from './TimeTableOptionsPanel';
@@ -15,6 +18,7 @@ import SecondaryButton from './SecondaryButton';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import DateSelect from './DateSelect';
 import ScrollableWrapper from './ScrollableWrapper';
+import { replaceQueryParams } from '../util/queryUtils';
 
 class Timetable extends React.Component {
   static propTypes = {
@@ -48,9 +52,12 @@ class Timetable extends React.Component {
       selectedDate: PropTypes.string,
       onDateChange: PropTypes.func,
     }).isRequired,
+    date: PropTypes.string,
   };
 
   static contextTypes = {
+    router: routerShape.isRequired,
+    match: matchShape.isRequired,
     config: PropTypes.object.isRequired,
   };
 
@@ -70,6 +77,42 @@ class Timetable extends React.Component {
   UNSAFE_componentWillReceiveProps = () => {
     if (this.props.stop.gtfsId !== this.state.oldStopId) {
       this.resetStopOptions(this.props.stop.gtfsId);
+    }
+  };
+
+  componentDidUpdate() {
+    const { router, match } = this.context;
+    const { query } = match.location;
+    const setParams = debounce(routes => {
+      const routeStr = routes.join(',');
+      replaceQueryParams(router, match, {
+        routes: routeStr,
+      });
+    }, 10);
+    const setDate = debounce(date => {
+      replaceQueryParams(router, match, {
+        date,
+      });
+    }, 10);
+
+    const routesFromQuery = query.routes?.split(',');
+    const dateFromQuery = query.date;
+    if (this.props.date !== dateFromQuery) {
+      setDate(this.props.date);
+    }
+    if (
+      this.state.showRoutes.length &&
+      !isEqual(this.state.showRoutes, routesFromQuery)
+    ) {
+      setParams(this.state.showRoutes);
+    }
+  }
+
+  componentDidMount = () => {
+    if (this.context.match.location.query.routes) {
+      this.setState({
+        showRoutes: this.context.match.location.query.routes?.split(',') || [],
+      });
     }
   };
 
