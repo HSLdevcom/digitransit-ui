@@ -84,11 +84,6 @@ ParkOrBikeStationHeader.propTypes = {
 
 ParkOrBikeStationHeader.contextTypes = {
   config: PropTypes.object.isRequired,
-  parkOrStation: {
-    stationId: null,
-    bikeParkId: null,
-    carParkId: null,
-  },
 };
 
 export default ParkOrBikeStationHeader;
