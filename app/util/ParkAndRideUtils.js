@@ -4,8 +4,13 @@ const ParkAndRideUtils = {
     getAuthenticationMethods: park => {
       const { tags } = park;
       if (Array.isArray(tags)) {
+        const allowedAuthenticationMethods = [
+          'hslpark:AUTHENTICATION_METHOD_HSL_TICKET',
+          'hslpark:AUTHENTICATION_METHOD_VR_TICKET',
+          'hslpark:AUTHENTICATION_METHOD_HSL_TRAVEL_CARD',
+        ];
         return tags
-          .filter(tag => tag.includes('hslpark:AUTHENTICATION_METHOD'))
+          .filter(tag => allowedAuthenticationMethods.includes(tag))
           .map(tag =>
             tag.replace('hslpark:AUTHENTICATION_METHOD_', '').toLowerCase(),
           );
@@ -24,8 +29,16 @@ const ParkAndRideUtils = {
     getServices: park => {
       const { tags } = park;
       if (Array.isArray(tags)) {
+        const allowedServices = [
+          'hslpark:SERVICE_LIGHTING',
+          'hslpark:SERVICE_COVERED',
+          'hslpark:SERVICE_SURVEILLANCE_CAMERAS',
+          'hslpark:SERVICE_PAYMENT_AT_GATE',
+          'hslpark:SERVICE_ENGINE_IGNITION_AID',
+          'hslpark:SERVICE_BICYCLE_FRAME_LOCK',
+        ];
         return tags
-          .filter(tag => tag.includes('hslpark:SERVICE'))
+          .filter(tag => allowedServices.includes(tag))
           .map(tag => tag.replace('hslpark:SERVICE_', '').toLowerCase());
       }
       return [];
