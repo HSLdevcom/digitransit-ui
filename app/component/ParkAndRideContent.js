@@ -91,7 +91,7 @@ const ParkAndRideContent = (
         let j = i + 1;
         while (j < openingHours.length) {
           if (
-            openingHours[i].timeSpans.from !== openingHours[j].timeSpans.from &&
+            openingHours[i].timeSpans.from !== openingHours[j].timeSpans.from ||
             openingHours[i].timeSpans.to !== openingHours[j].timeSpans.to
           ) {
             break;
