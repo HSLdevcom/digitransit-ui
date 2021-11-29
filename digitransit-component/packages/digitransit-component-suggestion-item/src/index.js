@@ -136,7 +136,7 @@ function getIconProperties(item, color, modes = undefined, modeSet) {
     let iconStr;
     if (
       item.properties.layer === 'station' ||
-      (item.properties.type === 'FERRY' && item.properties.code !== 'null')
+      (item.properties?.type === 'FERRY' && item.properties?.code !== 'null')
     ) {
       const iconProperties = layerIcon.get(
         mode.concat('-STATION').concat('-').concat(modeSet),
