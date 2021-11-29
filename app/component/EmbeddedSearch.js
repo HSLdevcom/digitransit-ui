@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react';
-import { matchShape, routerShape } from 'found';
+import { matchShape } from 'found';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import { intlShape } from 'react-intl';
@@ -18,7 +18,7 @@ const LocationSearch = withSearchContext(DTAutosuggestPanel);
 const EmbeddedSearch = (props, context) => {
   // eslint-disable-next-line no-unused-vars
   const { query } = props.match.location;
-  const { config, intl, router } = context;
+  const { config, intl } = context;
   const { colors, fontWeights } = config;
 
   const [origin, setOrigin] = useState({});
@@ -70,14 +70,16 @@ const EmbeddedSearch = (props, context) => {
   };
 
   const executeSearch = () => {
-    const newLocation = {
-      pathname: getPathWithEndpointObjects(
-        origin,
-        destination,
-        PREFIX_ITINERARY_SUMMARY,
-      ),
-    };
-    router.push(newLocation); // Does not work inside iframe
+    const pathName = getPathWithEndpointObjects(
+      origin,
+      destination,
+      PREFIX_ITINERARY_SUMMARY,
+    );
+    if (window.self !== window.top) {
+      window.parent.location.href = pathName;
+    } else {
+      window.location.href = pathName;
+    }
   };
 
   return (
@@ -121,7 +123,6 @@ const EmbeddedSearch = (props, context) => {
 EmbeddedSearch.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
-  router: routerShape.isRequired,
 };
 
 EmbeddedSearch.propTypes = {
