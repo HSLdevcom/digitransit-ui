@@ -2273,7 +2273,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-dialog-modal@workspace:digitransit-component/packages/digitransit-component-dialog-modal"
   dependencies:
-    "@hsl-fi/modal": ^0.3.0
+    "@hsl-fi/modal": ^0.2.1
   peerDependencies:
     "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
@@ -2342,7 +2342,7 @@ __metadata:
     "@digitransit-component/digitransit-component-dialog-modal": ^0.3.3
     "@digitransit-component/digitransit-component-icon": ^0.1.14
     "@hsl-fi/container-spinner": 0.3.1
-    "@hsl-fi/modal": ^0.3.0
+    "@hsl-fi/modal": ^0.2.1
     "@hsl-fi/sass": ^0.2.0
     i18next: ^19.3.3
     prop-types: ^15.7.2
@@ -2373,7 +2373,7 @@ __metadata:
   resolution: "@digitransit-component/digitransit-component-favourite-modal@workspace:digitransit-component/packages/digitransit-component-favourite-modal"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": ^0.1.14
-    "@hsl-fi/modal": ^0.3.0
+    "@hsl-fi/modal": ^0.2.1
     "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
     i18next: ^19.3.3
@@ -3260,7 +3260,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/hooks@npm:^0.2.1":
+"@hsl-fi/hooks@npm:^0.2.0, @hsl-fi/hooks@npm:^0.2.1":
   version: 0.2.1
   resolution: "@hsl-fi/hooks@npm:0.2.1"
   peerDependencies:
@@ -3285,15 +3285,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/modal@npm: ^0.3.0, @hsl-fi/modal@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "@hsl-fi/modal@npm:0.3.0"
+"@hsl-fi/modal@npm: ^0.2.1, @hsl-fi/modal@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "@hsl-fi/modal@npm:0.2.1"
   dependencies:
-    "@hsl-fi/hooks": ^1.0.0
+    "@hsl-fi/hooks": ^0.2.0
     "@hsl-fi/icons": ^1.0.2
     "@hsl-fi/sass": ^0.2.0
     react-modal: ^3.11.2
-  checksum: ecc15203ca56070bc08e35673e89291a41689b0d16434ef78c2be0ccc4d483c58970baa19571bd495051038100d07e3cdd740651ad2cd14b202ac331a30a9458
+  checksum: 1f52422053e732541959cdbc249ba54ae2ba8929f27387f2553afa2aa9b1be25ab8200410be75688b4da5c6e058594c33905766c3ba110939ba5008325f8a35c
   languageName: node
   linkType: hard
 
@@ -9912,7 +9912,7 @@ __metadata:
     "@commitlint/config-conventional": 9.1.2
     "@hsl-fi/container-spinner": 0.3.1
     "@hsl-fi/hooks": 1.0.0
-    "@hsl-fi/modal": " ^0.3.0"
+    "@hsl-fi/modal": " ^0.2.1"
     "@hsl-fi/sass": " ^0.2.0"
     "@hsl-fi/shared-local-storage": 0.4.0
     "@hsl-fi/shimmer": 0.1.0
