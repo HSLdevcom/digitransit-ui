@@ -40,7 +40,7 @@ const ParkAndRideUtils = {
           const day = dateString.substring(6, 8);
           return {
             date: new Date(year, month - 1, day),
-            timeSpans: openingHour.timeSpans[0],
+            timeSpans: openingHour?.timeSpans && openingHour?.timeSpans[0],
           };
         });
         return openingHoursByDay;

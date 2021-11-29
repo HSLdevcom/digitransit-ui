@@ -70,13 +70,18 @@ const ParkAndRideContent = (
 
   const getOpeningHoursAsText = () => {
     if (openingHours) {
-      const sameOpeningHoursEveryday = openingHours.every(
+      const filteredOpeningHours = openingHours.filter(o => o.timeSpans);
+      const sameOpeningHoursEveryday = filteredOpeningHours.every(
         openingHour =>
-          openingHour?.timeSpans.from === openingHours[0]?.timeSpans.from &&
-          openingHour?.timeSpans.to === openingHours[0]?.timeSpans.to,
+          openingHour?.timeSpans.from ===
+            filteredOpeningHours[0]?.timeSpans.from &&
+          openingHour?.timeSpans.to === filteredOpeningHours[0]?.timeSpans.to,
       );
-      if (sameOpeningHoursEveryday) {
-        const { to, from } = openingHours[0]?.timeSpans;
+      if (
+        sameOpeningHoursEveryday &&
+        filteredOpeningHours.length === openingHours.length
+      ) {
+        const { to, from } = filteredOpeningHours[0]?.timeSpans;
         if (to - from - 60 * 60 * 24 === 0) {
           return [`24${intl.formatMessage({ id: 'hour-short' })}`];
         }
@@ -86,13 +91,16 @@ const ParkAndRideContent = (
       }
       let i = 0;
       const hoursAsText = [];
-      while (i < openingHours.length) {
-        const { date, timeSpans } = openingHours[i];
+      const numberOfDays = filteredOpeningHours.length;
+      while (i < numberOfDays) {
+        const { date, timeSpans } = filteredOpeningHours[i];
         let j = i + 1;
-        while (j < openingHours.length) {
+        while (j < numberOfDays) {
           if (
-            openingHours[i].timeSpans.from !== openingHours[j].timeSpans.from ||
-            openingHours[i].timeSpans.to !== openingHours[j].timeSpans.to
+            filteredOpeningHours[i].timeSpans.from !==
+              filteredOpeningHours[j].timeSpans.from ||
+            filteredOpeningHours[i].timeSpans.to !==
+              filteredOpeningHours[j].timeSpans.to
           ) {
             break;
           }
@@ -131,15 +139,17 @@ const ParkAndRideContent = (
       <div className="park-content-container">
         <Icon img={`icon-icon_${prePostFix}`} height={2.4} width={2.4} />
         <div className="park-details">
-          <div className="park-opening-hours">
-            <span>{intl.formatMessage({ id: 'is-open' })} &#160;</span>
-            <span>
-              {getOpeningHoursAsText().map((text, i) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <p key={`opening-hour-${text}-${i}`}>{text}</p>
-              ))}
-            </span>
-          </div>
+          {openingHours && (
+            <div className="park-opening-hours">
+              <span>{intl.formatMessage({ id: 'is-open' })} &#160;</span>
+              <span>
+                {getOpeningHoursAsText().map((text, i) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <p key={`opening-hour-${text}-${i}`}>{text}</p>
+                ))}
+              </span>
+            </div>
+          )}
           <span>
             {intl.formatMessage({ id: 'number-of-spaces' })} &#160;
             <p>{spacesAvailable}</p>
