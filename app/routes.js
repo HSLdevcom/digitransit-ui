@@ -397,6 +397,15 @@ export default config => {
       {config.indexPath !== '' && (
         <Redirect from="/" to={`/${config.indexPath}`} />
       )}
+      <Route
+        path="/embedded-search"
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "embedded-search" */ './component/EmbeddedSearch'
+          ).then(getDefault)
+        }
+        topBarOptions={{ hidden: true }}
+      />
       {/* For all the rest render 404 */}
       <Route path="*" Component={Error404} />
     </Route>

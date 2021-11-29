@@ -1,0 +1,18 @@
+.embedded-seach-container {
+    padding: 10px;
+    .embedded-search-button-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        .search-button {
+            background-color: $primary-color;
+            font-family: $button-font-family;
+            border: 2px solid $primary-color;
+            color: white;
+            border-radius: 5000px;
+            font-weight: 500;
+            height: 34px;
+            width: 124px;
+        }
+    }
+}
