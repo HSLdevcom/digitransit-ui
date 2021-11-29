@@ -573,9 +573,9 @@ export default {
         gtfsId.slice(4).length === 4 && gtfsId.slice(4)[0] === '7',
       id: 'uLineNotification',
       header: {
-        fi: 'U-Linja',
-        en: 'U-Line',
-        sv: 'U-Linje',
+        fi: 'U-linja',
+        en: 'U-line',
+        sv: 'U-linje',
       },
       content: {
         fi: [
@@ -593,7 +593,7 @@ export default {
       },
       closeButtonLabel: {
         fi: 'Mitä U-linja tarkoittaa?',
-        en: 'What does a U-Line mean?',
+        en: 'What does a U-line mean?',
         sv: 'Vad betyder en U-linje?',
       },
       link: {
