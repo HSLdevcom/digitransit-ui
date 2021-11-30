@@ -132,7 +132,8 @@ const ParkAndRideContent = (
     }
     return [];
   };
-
+  const parkIsPaid = isPaid(pricingMethods);
+  const parkIsFree = isFree(pricingMethods);
   return (
     <div className="bike-station-page-container">
       <ParkOrStationHeader parkOrStation={park} />
@@ -154,22 +155,23 @@ const ParkAndRideContent = (
             {intl.formatMessage({ id: 'number-of-spaces' })} &#160;
             <p>{spacesAvailable}</p>
           </span>
-          <span>
-            {isFree(pricingMethods) &&
-              intl.formatMessage({ id: 'free-of-charge' })}
-            {isPaid(pricingMethods) && intl.formatMessage({ id: 'paid' })}
-            {authenticationMethods.length > 0 &&
-              `, ${intl.formatMessage({
-                id: 'access_with',
-              })} `}
-            {authenticationMethods.map(
-              (method, i) =>
-                `
+          {(parkIsFree || parkIsPaid) && (
+            <span>
+              {parkIsFree && intl.formatMessage({ id: 'free-of-charge' })}
+              {parkIsPaid && intl.formatMessage({ id: 'paid' })}
+              {authenticationMethods.length > 0 &&
+                `, ${intl.formatMessage({
+                  id: 'access_with',
+                })} `}
+              {authenticationMethods.map(
+                (method, i) =>
+                  `
                 ${intl.formatMessage({ id: method })}
                 ${i < authenticationMethods.length - 1 ? ' | ' : ''}
               `,
-            )}
-          </span>
+              )}
+            </span>
+          )}
           {services.length > 0 && (
             <span>
               {services.map(
