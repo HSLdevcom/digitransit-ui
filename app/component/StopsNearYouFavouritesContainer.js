@@ -1,14 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { graphql, createFragmentContainer } from 'react-relay';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { dtLocationShape } from '../util/shapes';
 import StopNearYouContainer from './StopNearYouContainer';
 import CityBikeStopNearYou from './CityBikeStopNearYou';
 
 function StopsNearYouFavouritesContainer({
-  currentTime,
   stops,
   stations,
   bikeStations,
@@ -57,7 +55,6 @@ function StopsNearYouFavouritesContainer({
             key={stop.gtfsId}
             stop={stop}
             currentMode="FAVORITE"
-            currentTime={currentTime}
           />
         );
       case 'station':
@@ -67,7 +64,6 @@ function StopsNearYouFavouritesContainer({
             stop={stop}
             desc={stop.stops[0].desc}
             stopId={stop.stops[0].gtfsId}
-            currentTime={currentTime}
           />
         );
       case 'bikeRentalStation':
@@ -86,56 +82,50 @@ StopsNearYouFavouritesContainer.propTypes = {
   relay: PropTypes.shape({
     refetch: PropTypes.func.isRequired,
   }).isRequired,
-  currentTime: PropTypes.number.isRequired,
 };
 
-const connectedContainer = connectToStores(
+const refetchContainer = createFragmentContainer(
   StopsNearYouFavouritesContainer,
-  ['TimeStore'],
-  ({ getStore }) => ({
-    currentTime: getStore('TimeStore').getCurrentTime().unix(),
-  }),
-);
-
-const refetchContainer = createFragmentContainer(connectedContainer, {
-  stops: graphql`
-    fragment StopsNearYouFavouritesContainer_stops on Stop
-    @relay(plural: true)
-    @argumentDefinitions(startTime: { type: "Long!", defaultValue: 0 }) {
-      ...StopNearYouContainer_stop
-      gtfsId
-      lat
-      lon
-    }
-  `,
-  stations: graphql`
-    fragment StopsNearYouFavouritesContainer_stations on Stop
-    @relay(plural: true)
-    @argumentDefinitions(startTime: { type: "Long!", defaultValue: 0 }) {
-      ...StopNearYouContainer_stop
-      gtfsId
-      lat
-      lon
-      stops {
+  {
+    stops: graphql`
+      fragment StopsNearYouFavouritesContainer_stops on Stop
+      @relay(plural: true)
+      @argumentDefinitions(startTime: { type: "Long!", defaultValue: 0 }) {
+        ...StopNearYouContainer_stop
         gtfsId
-        desc
+        lat
+        lon
       }
-    }
-  `,
-  bikeStations: graphql`
-    fragment StopsNearYouFavouritesContainer_bikeStations on BikeRentalStation
-    @relay(plural: true) {
-      stationId
-      name
-      bikesAvailable
-      spacesAvailable
-      capacity
-      networks
-      lat
-      lon
-    }
-  `,
-});
+    `,
+    stations: graphql`
+      fragment StopsNearYouFavouritesContainer_stations on Stop
+      @relay(plural: true)
+      @argumentDefinitions(startTime: { type: "Long!", defaultValue: 0 }) {
+        ...StopNearYouContainer_stop
+        gtfsId
+        lat
+        lon
+        stops {
+          gtfsId
+          desc
+        }
+      }
+    `,
+    bikeStations: graphql`
+      fragment StopsNearYouFavouritesContainer_bikeStations on BikeRentalStation
+      @relay(plural: true) {
+        stationId
+        name
+        bikesAvailable
+        spacesAvailable
+        capacity
+        networks
+        lat
+        lon
+      }
+    `,
+  },
+);
 
 export {
   refetchContainer as default,
