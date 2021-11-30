@@ -45,7 +45,7 @@ const ParkAndRideContent = (
   const [openingHours, setOpeningHours] = useState(null);
   const [lang, setLang] = useState('fi');
 
-  const { spacesAvailable } = park;
+  const { spacesAvailable, maxCapacity } = park;
   const {
     getAuthenticationMethods,
     getPricingMethods,
@@ -134,6 +134,7 @@ const ParkAndRideContent = (
   };
   const parkIsPaid = isPaid(pricingMethods);
   const parkIsFree = isFree(pricingMethods);
+  const realtime = park?.realtime;
   return (
     <div className="bike-station-page-container">
       <ParkOrStationHeader parkOrStation={park} />
@@ -151,10 +152,20 @@ const ParkAndRideContent = (
               </span>
             </div>
           )}
-          <span>
-            {intl.formatMessage({ id: 'number-of-spaces' })} &#160;
-            <p>{spacesAvailable}</p>
-          </span>
+          {realtime && (
+            <span>
+              {intl.formatMessage({ id: 'park-and-ride-availability' })} &#160;
+              <p>
+                {spacesAvailable} / {maxCapacity}
+              </p>
+            </span>
+          )}
+          {!realtime && (
+            <span>
+              {intl.formatMessage({ id: 'number-of-spaces' })} &#160;
+              <p>{spacesAvailable}</p>
+            </span>
+          )}
           {(parkIsFree || parkIsPaid) && (
             <span>
               {parkIsFree && intl.formatMessage({ id: 'free-of-charge' })}
@@ -221,10 +232,12 @@ ParkAndRideContent.propTypes = {
   carPark: PropTypes.shape({
     carParkId: PropTypes.string,
     spacesAvailable: PropTypes.number,
+    maxCapacity: PropTypes.number,
     name: PropTypes.string,
     lat: PropTypes.number,
     lon: PropTypes.number,
     tags: PropTypes.arrayOf(PropTypes.string),
+    realtime: PropTypes.bool,
   }),
   router: routerShape.isRequired,
   match: matchShape.isRequired,

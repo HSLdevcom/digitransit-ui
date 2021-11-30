@@ -11,6 +11,8 @@ const containerComponent = createFragmentContainer(ParkAndRideContent, {
       lat
       lon
       tags
+      realtime
+      maxCapacity
       openingHours(dates: $dates) {
         date
         timeSpans {
