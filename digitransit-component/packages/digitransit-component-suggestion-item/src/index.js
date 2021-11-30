@@ -17,7 +17,7 @@ function getAriaDescription(ariaContentArray) {
   return description;
 }
 
-function getIconProperties(item, color, modes = undefined, modeSet) {
+function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
   let iconId;
   let iconColor = '#888888';
   // because of legacy favourites there might be selectedIconId for some stops or stations
@@ -134,10 +134,7 @@ function getIconProperties(item, color, modes = undefined, modeSet) {
   if (modes?.length) {
     const mode = modes.join('-');
     let iconStr;
-    if (
-      item.properties.layer === 'station' ||
-      (item.properties?.type === 'FERRY' && item.properties?.code !== 'null')
-    ) {
+    if (item.properties.layer === 'station' || (mode === 'FERRY' && stopCode)) {
       const iconProperties = layerIcon.get(
         mode.concat('-STATION').concat('-').concat(modeSet),
       );
@@ -204,7 +201,13 @@ mode-metro: "#ed8c00"
 mode-rail: "#0E7F3C"
 mode-tram: "#DA2128"
     * */
-    const [iconId, iconColor] = getIconProperties(item, color, modes, modeSet);
+    const [iconId, iconColor] = getIconProperties(
+      item,
+      color,
+      modes,
+      modeSet,
+      stopCode,
+    );
     const modeIconColor = modes?.length
       ? modeIconColors[iconColor]
       : modeIconColors && modeIconColors[iconId];
