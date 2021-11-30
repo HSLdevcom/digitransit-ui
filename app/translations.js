@@ -1338,7 +1338,7 @@ const translations = {
     'search-origin': 'Search origin, route or stop',
     'search-origin-index': 'Enter origin',
     'search-position': 'Detect location',
-    'search-route': 'Search a route',
+    'search-route': 'Search routes',
     'search-search-results-but-no-destination':
       'View results in the adjacent “About the route or stop” tab',
     'searching-position': 'Detecting location...',
@@ -4136,7 +4136,7 @@ const translations = {
     'search-origin': 'Sök avfärdsplats, linje eller hållplats',
     'search-origin-index': 'Skriv avfärdsplats',
     'search-position': 'Sök position',
-    'search-route': 'Sök en rutt',
+    'search-route': 'Söka rutter',
     'search-search-results-but-no-destination':
       'Se resultaten under fliken Linje eller hållplats',
     'searching-position': 'Söker position...',

@@ -15,19 +15,37 @@ import {
 
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
 
+// test case: http://localhost:8080/embedded-search?daddress=Opastinsilta%206%20A,%20Helsinki&dlat=60.199118&dlon=24.940652
+
 const EmbeddedSearch = (props, context) => {
-  // eslint-disable-next-line no-unused-vars
   const { query } = props.match.location;
   const { config, intl } = context;
   const { colors, fontWeights } = config;
 
-  const [origin, setOrigin] = useState({});
-  const [destination, setDestination] = useState({});
+  const deafultOriginExists = query.olat && query.olon;
+  const defaultOrigin = {
+    lat: Number(query.olat),
+    lon: Number(query.olon),
+    address: query.oaddress,
+  };
+  const defaultDestinationExists = query.dlat && query.dlon;
+  const defaultDestination = {
+    lat: Number(query.dlat),
+    lon: Number(query.dlon),
+    address: query.daddress,
+    name: query.daddress,
+  };
+  const [origin, setOrigin] = useState(
+    deafultOriginExists ? defaultOrigin : {},
+  );
+  const [destination, setDestination] = useState(
+    defaultDestinationExists ? defaultDestination : {},
+  );
 
   const color = colors.primary;
   const hoverColor = colors.hover;
   const appElement = 'embedded-root';
-  const lang = 'fi';
+  const lang = intl.locale || 'fi';
 
   const locationSearchTargets = [
     'Locations',
@@ -63,10 +81,10 @@ const EmbeddedSearch = (props, context) => {
     destinationPlaceHolder: 'search-destination-index',
     selectHandler: onSelectLocation,
     onGeolocationStart: onSelectLocation,
-    // fromMap: this.props.fromMap,
     fontWeights,
     modeIconColors: config.colors.iconColors,
     modeSet: config.searchIconModeSet,
+    isMobile: true,
   };
 
   const executeSearch = () => {
