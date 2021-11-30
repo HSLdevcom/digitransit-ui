@@ -22,7 +22,7 @@ const DepartureRow = (
   let icon;
   let iconColor;
   let backgroundShape;
-  if (departure.trip.route?.alerts?.length > 0) {
+  if (props.showAlerts && departure.trip.route?.alerts?.length > 0) {
     const alert = departure.trip.route.alerts
       .slice()
       .sort(alertSeverityCompare)[0];
@@ -160,6 +160,7 @@ DepartureRow.propTypes = {
   canceled: PropTypes.bool,
   className: PropTypes.string,
   showLink: PropTypes.bool,
+  showAlerts: PropTypes.bool,
 };
 
 DepartureRow.contextTypes = {
