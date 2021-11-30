@@ -28,7 +28,7 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@hsl-fi/modal": "^0.2.1"
+    "@hsl-fi/modal": "^0.3.1"
   },
   "peerDependencies": {
     "@hsl-fi/sass": "^0.2.0",
