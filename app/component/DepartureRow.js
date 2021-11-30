@@ -22,10 +22,18 @@ const DepartureRow = (
   let icon;
   let iconColor;
   let backgroundShape;
+  let sr;
   if (props.showAlerts && departure.trip.route?.alerts?.length > 0) {
     const alert = departure.trip.route.alerts
       .slice()
       .sort(alertSeverityCompare)[0];
+    sr = (
+      <span className="sr-only">
+        {intl.formatMessage({
+          id: 'disruptions-tab.sr-disruptions',
+        })}
+      </span>
+    );
     icon =
       alert.alertSeverityLevel !== 'INFO'
         ? 'icon-icon_caution-white-excl-stroke'
@@ -82,12 +90,15 @@ const DepartureRow = (
         >
           <div className="route-number">{shortName}</div>
           {icon && (
-            <Icon
-              className={backgroundShape}
-              img={icon}
-              color={iconColor}
-              backgroundShape={backgroundShape}
-            />
+            <>
+              <Icon
+                className={backgroundShape}
+                img={icon}
+                color={iconColor}
+                backgroundShape={backgroundShape}
+              />
+              {sr}
+            </>
           )}
         </td>
         <td
