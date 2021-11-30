@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { matchShape } from 'found';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import { intlShape } from 'react-intl';
 import { getRefPoint } from '../util/apiUtils';
 import withSearchContext from './WithSearchContext';
-import Icon from './Icon';
 import {
   getPathWithEndpointObjects,
   PREFIX_ITINERARY_SUMMARY,
@@ -35,6 +34,7 @@ const EmbeddedSearch = (props, context) => {
     address: query.daddress,
     name: query.daddress,
   };
+  const [logo, setLogo] = useState();
   const [origin, setOrigin] = useState(
     deafultOriginExists ? defaultOrigin : {},
   );
@@ -100,6 +100,14 @@ const EmbeddedSearch = (props, context) => {
     }
   };
 
+  useEffect(() => {
+    import(
+      /* webpackChunkName: "main" */ `../configurations/images/${config.logo}`
+    ).then(l => {
+      setLogo(l.default);
+    });
+  }, []);
+
   return (
     <div className="embedded-seach-container" id={appElement}>
       <CtrlPanel
@@ -121,7 +129,7 @@ const EmbeddedSearch = (props, context) => {
           {...locationSearchProps}
         />
         <div className="embedded-search-button-container">
-          <Icon img={config.logo} color={config.colors.primary} />
+          <img src={logo} className="brand-logo" alt={`${config.title} logo`} />
           <button
             className="search-button"
             type="button"

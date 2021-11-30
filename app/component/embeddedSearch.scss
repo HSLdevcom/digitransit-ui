@@ -9,11 +9,15 @@
             font-family: $button-font-family;
             border: 2px solid $primary-color;
             color: white;
-            border-radius: 5000px;
+            border-radius: 40px;
             font-weight: 500;
-            height: 34px;
-            width: 124px;
+            width: 128px;
+            height: 40px;
             font-size: $font-size-small;
+        }
+        .brand-logo {
+            width: 80px;
+            height: 40px;
         }
     }
 }
