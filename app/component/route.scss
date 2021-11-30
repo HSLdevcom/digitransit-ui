@@ -980,6 +980,10 @@ $margin-left-right: 21.3px;
     margin: 0 72px 0 $margin-left-right-large;
     box-shadow: none;
   }
+  .trip-page-alert-container {
+    display: flex;
+    height: 50px;
+  }
 }
 
 .route-page-control-panel-container {

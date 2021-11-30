@@ -5,30 +5,32 @@ import { Link } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import StopNearYouHeader from './StopNearYouHeader';
-import StopNearYouAlert from './StopNearYouAlert';
+import AlertBanner from './AlertBanner';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
 
 const StopNearYou = ({
   stop,
   desc,
-  stopIsStation,
+  stopId,
   currentTime,
   currentMode,
   relay,
 }) => {
   const stopOrStation = stop.parentStation ? stop.parentStation : stop;
   const stopMode = stopOrStation.stoptimesWithoutPatterns[0]?.trip.route.mode;
-  const alert = stop.alerts?.length > 0 ? stop.alerts[0] : null;
   useEffect(() => {
-    const id = stop.gtfsId;
-    if (currentMode === stopMode) {
+    let id = stop.gtfsId;
+    if (stopId) {
+      id = stopId;
+    }
+    if (currentMode === stopMode || !currentMode) {
       relay?.refetch(oldVariables => {
         return { ...oldVariables, stopId: id, startTime: currentTime };
       }, null);
     }
   }, [currentTime, currentMode]);
   const description = desc || stop.desc;
-  const isStation = !!stop.parentStation || stopIsStation;
+  const isStation = !!stop.parentStation || stopId;
   const gtfsId =
     (stop.parentStation && stop.parentStation.gtfsId) || stop.gtfsId;
   const linkAddress = isStation
@@ -49,7 +51,12 @@ const StopNearYou = ({
             default="The departure list and estimated departure times will update in real time."
           />
         </span>
-        {alert && <StopNearYouAlert stop={stop} linkAddress={linkAddress} />}
+        {stop.alerts.length > 0 && (
+          <AlertBanner
+            alerts={stop.alerts}
+            linkAddress={`${linkAddress}/hairiot`}
+          />
+        )}
         <StopNearYouDepartureRowContainer
           currentTime={currentTime}
           mode={stopMode}
@@ -87,15 +94,11 @@ const connectedComponent = connectToStores(
 
 StopNearYou.propTypes = {
   stop: PropTypes.object.isRequired,
-  stopIsStation: PropTypes.bool,
+  stopId: PropTypes.string,
   currentTime: PropTypes.number.isRequired,
   currentMode: PropTypes.string.isRequired,
   desc: PropTypes.string,
   relay: PropTypes.any,
-};
-
-StopNearYou.defaultProps = {
-  stopIsStation: false,
 };
 
 export default connectedComponent;

@@ -27,12 +27,12 @@ const DepartureRow = (
       .slice()
       .sort(alertSeverityCompare)[0];
     icon =
-      alert.alertSeverityLevel === 'SEVERE'
+      alert.alertSeverityLevel !== 'INFO'
         ? 'icon-icon_caution-white-excl-stroke'
         : 'icon-icon_info';
-    iconColor = alert.alertSeverityLevel === 'SEVERE' ? '#DC0451' : '#888';
+    iconColor = alert.alertSeverityLevel !== 'INFO' ? '#DC0451' : '#888';
     backgroundShape =
-      alert.alertSeverityLevel === 'SEVERE' ? undefined : 'circle';
+      alert.alertSeverityLevel !== 'INFO' ? undefined : 'circle';
   }
   const headsign =
     departure.headsign ||

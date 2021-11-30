@@ -32,9 +32,6 @@ const containerComponent = createRefetchContainer(
           omitNonPickups: $omitNonPickups
         ) {
           realtimeArrival
-          scheduledDeparture
-          realtimeDeparture
-          departureDelay
           realtime
           realtimeState
           serviceDay
