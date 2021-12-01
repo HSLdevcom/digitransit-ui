@@ -2384,7 +2384,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-icon@^0.1.13, @digitransit-component/digitransit-component-icon@workspace:digitransit-component/packages/digitransit-component-icon":
+"@digitransit-component/digitransit-component-icon@portal:/home/vesa/digitransit/next/digitransit-component/packages/digitransit-component-icon::locator=digitransit-ui%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@digitransit-component/digitransit-component-icon@portal:/home/vesa/digitransit/next/digitransit-component/packages/digitransit-component-icon::locator=digitransit-ui%40workspace%3A."
+  peerDependencies:
+    i18next: ^19.3.3
+    prop-types: ^15.7.2
+    react: ^16.13.0
+  languageName: node
+  linkType: soft
+
+"@digitransit-component/digitransit-component-icon@workspace:digitransit-component/packages/digitransit-component-icon":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-icon@workspace:digitransit-component/packages/digitransit-component-icon"
   peerDependencies:
@@ -2394,21 +2404,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-suggestion-item@npm:latest":
-  version: 0.2.15
-  resolution: "@digitransit-component/digitransit-component-suggestion-item@npm:0.2.15"
+"@digitransit-component/digitransit-component-suggestion-item@portal:/home/vesa/digitransit/next/digitransit-component/packages/digitransit-component-suggestion-item::locator=digitransit-ui%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@digitransit-component/digitransit-component-suggestion-item@portal:/home/vesa/digitransit/next/digitransit-component/packages/digitransit-component-suggestion-item::locator=digitransit-ui%40workspace%3A."
   dependencies:
     recompose: 0.30.0
   peerDependencies:
-    "@digitransit-component/digitransit-component-icon": ^0.1.13
+    "@digitransit-component/digitransit-component-icon": ^0.1.14
     "@hsl-fi/sass": " ^0.2.0"
     classnames: 2.2.6
     i18next: ^19.3.3
     prop-types: ^15.7.2
     react: ^16.13.0
-  checksum: 531b50222b92788d5910f3df745fc5d82dd6eb52ad8b388c8d0cee64c65256de4629a75f896f65a5a66f6dca654c35409336f184225bd0560360a2d8f3ab4c8a
   languageName: node
-  linkType: hard
+  linkType: soft
 
 "@digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item":
   version: 0.0.0-use.local
