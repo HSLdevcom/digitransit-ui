@@ -52,16 +52,7 @@ function StopPageTabs({ stop }, { intl, match }) {
     return null;
   }
   const activeTab = getActiveTab(match.location.pathname);
-  let queryParams = '';
-  const { query } = match.location;
-  if (query.routes && query.routes.length) {
-    queryParams = queryParams.concat(`?routes=${query.routes}`);
-  }
-  if (match.location.query.date) {
-    queryParams = query.routes?.length
-      ? queryParams.concat(`&date=${query.date}`)
-      : queryParams.concat(`?date=${query.date}`);
-  }
+  const { search } = match.location;
 
   const [focusedTab, changeFocusedTab] = useState(activeTab);
   const rightNowTabRef = useRef();
@@ -183,7 +174,7 @@ function StopPageTabs({ stop }, { intl, match }) {
             active: activeTab === Tab.RightNow,
           })}
           onClick={() => {
-            router.replace(`${urlBase}${queryParams}`);
+            router.replace(`${urlBase}${search}`);
             addAnalyticsEvent({
               category: 'Stop',
               action: 'OpenRightNowTab',
@@ -207,7 +198,7 @@ function StopPageTabs({ stop }, { intl, match }) {
             active: activeTab === Tab.Timetable,
           })}
           onClick={() => {
-            router.replace(`${urlBase}/${Tab.Timetable}${queryParams}`);
+            router.replace(`${urlBase}/${Tab.Timetable}${search}`);
             addAnalyticsEvent({
               category: 'Stop',
               action: 'OpenTimetableTab',
@@ -234,7 +225,7 @@ function StopPageTabs({ stop }, { intl, match }) {
               hasActiveServiceAlerts || stopRoutesWithAlerts.length > 0,
           })}
           onClick={() => {
-            router.replace(`${urlBase}/${Tab.Disruptions}${queryParams}`);
+            router.replace(`${urlBase}/${Tab.Disruptions}${search}`);
             addAnalyticsEvent({
               category: 'Stop',
               action: 'OpenDisruptionsTab',

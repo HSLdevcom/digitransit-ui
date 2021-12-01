@@ -39,7 +39,6 @@ const MapRoutingButton = ({ stop }, { intl, router, match }) => {
           item,
           PREFIX_ITINERARY_SUMMARY,
         ),
-        query: {},
       };
       router.push(newLocation);
     } else {

@@ -6,8 +6,6 @@ import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
 import { FormattedMessage } from 'react-intl';
-import debounce from 'lodash/debounce';
-import { isEqual } from 'lodash';
 import { matchShape, routerShape } from 'found';
 import Icon from './Icon';
 import FilterTimeTableModal from './FilterTimeTableModal';
@@ -80,40 +78,19 @@ class Timetable extends React.Component {
     }
   };
 
-  componentDidUpdate() {
-    const { router, match } = this.context;
-    const { query } = match.location;
-    const setParams = debounce(routes => {
-      const routeStr = routes.join(',');
-      replaceQueryParams(router, match, {
-        routes: routeStr,
-      });
-    }, 10);
-    const setDate = debounce(date => {
-      replaceQueryParams(router, match, {
-        date,
-      });
-    }, 10);
-
-    const routesFromQuery = query.routes?.split(',');
-    const dateFromQuery = query.date;
-    if (this.props.date !== dateFromQuery) {
-      setDate(this.props.date);
-    }
-    if (
-      this.state.showRoutes.length &&
-      !isEqual(this.state.showRoutes, routesFromQuery)
-    ) {
-      setParams(this.state.showRoutes);
-    }
-  }
-
   componentDidMount = () => {
     if (this.context.match.location.query.routes) {
       this.setState({
         showRoutes: this.context.match.location.query.routes?.split(',') || [],
       });
     }
+  };
+
+  setParams = (routes, date) => {
+    replaceQueryParams(this.context.router, this.context.match, {
+      routes,
+      date,
+    });
   };
 
   getDuplicatedRoutes = () => {
@@ -146,6 +123,10 @@ class Timetable extends React.Component {
 
   setRouteVisibilityState = val => {
     this.setState({ showRoutes: val.showRoutes });
+    const showRoutes = val.showRoutes.length
+      ? val.showRoutes.join(',')
+      : undefined;
+    this.setParams(showRoutes, this.props.date);
   };
 
   resetStopOptions = id => {
@@ -326,6 +307,10 @@ class Timetable extends React.Component {
                 selectedDate={this.props.propsForDateSelect.selectedDate}
                 onDateChange={e => {
                   this.props.propsForDateSelect.onDateChange(e);
+                  const showRoutes = this.state.showRoutes.length
+                    ? this.state.showRoutes.join(',')
+                    : undefined;
+                  this.setParams(showRoutes, e);
                   addAnalyticsEvent({
                     category: 'Stop',
                     action: 'ChangeTimetableDay',
