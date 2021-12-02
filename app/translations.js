@@ -1017,6 +1017,7 @@ const translations = {
     ferry: 'Ferry',
     'ferry-with-route-number': 'Ferry {routeNumber} {headSign}',
     'fetch-new-route': 'Fetch a new route',
+    'find-route': 'Find a route',
     'from-ferry': 'ferry',
     'from-rail': 'train',
     'from-station': 'from station',
@@ -1337,6 +1338,7 @@ const translations = {
     'search-origin': 'Search origin, route or stop',
     'search-origin-index': 'Enter origin',
     'search-position': 'Detect location',
+    'search-route': 'Search routes',
     'search-search-results-but-no-destination':
       'View results in the adjacent “About the route or stop” tab',
     'searching-position': 'Detecting location...',
@@ -2028,6 +2030,7 @@ const translations = {
     ferry: 'Lautta',
     'ferry-with-route-number': 'Lautta {routeNumber} {headSign}',
     'fetch-new-route': 'Hae uusi reitti',
+    'find-route': 'Löydä reitti',
     'from-ferry': 'lautasta',
     'from-rail': 'junasta',
     'from-station': 'asemalta',
@@ -2341,6 +2344,7 @@ const translations = {
     'search-origin': 'Hae lähtöpaikkaa, linjaa tai pysäkkiä',
     'search-origin-index': 'Syötä lähtöpaikka',
     'search-position': 'Paikanna',
+    'search-route': 'Hae reitti',
     'search-search-results-but-no-destination':
       'Katso tulokset viereiseltä "Tietoja linjasta tai pysäkistä" –välilehdeltä',
     'searching-position': 'Paikannetaan...',
@@ -3812,6 +3816,7 @@ const translations = {
     ferry: 'Färja',
     'ferry-with-route-number': 'Färja {routeNumber} {headSign}',
     'fetch-new-route': 'Sök en ny rutt',
+    'find-route': 'Sök en rutt',
     'from-ferry': 'lautasta',
     'from-rail': 'junasta',
     'from-station': 'från stationen',
@@ -4131,6 +4136,7 @@ const translations = {
     'search-origin': 'Sök avfärdsplats, linje eller hållplats',
     'search-origin-index': 'Skriv avfärdsplats',
     'search-position': 'Sök position',
+    'search-route': 'Söka rutter',
     'search-search-results-but-no-destination':
       'Se resultaten under fliken Linje eller hållplats',
     'searching-position': 'Söker position...',
