@@ -24,8 +24,8 @@ function SeparatorLine({ usePaddingBottom20 }) {
     ? styles['separator-div2']
     : styles['separator-div'];
   return (
-    <div id="SeparatorDiv" className={className}>
-      <div id="SeparatorLine" className={styles['separator-line']} />
+    <div className={className}>
+      <div className={styles['separator-line']} />
     </div>
   );
 }
