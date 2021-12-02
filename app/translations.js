@@ -3770,7 +3770,7 @@ const translations = {
       'Du kan enkelt kombinera kollektivtrafiken med bilkörning, när du lämnar din bil i anslutningsparkering och fortsätter din resa med tåg, buss, metro eller spårvagn. Parkeringen är gratis och den har inte en begränsad parkeringstid.',
     'car-park-disclaimer-header': 'Lämna din bil i parkeringen',
     'car-park-disclaimer-link': 'Läs mer om anslutningsparkeringen',
-    car_park: 'infartsparkering',
+    car_park: 'Infartsparkering',
     cause: 'Orsak',
     'char-left': 'tecken',
     'choose-stop': 'Välj hållplats',
