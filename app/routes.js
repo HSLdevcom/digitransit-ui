@@ -263,6 +263,15 @@ export default config => {
         }
       />
       <Route
+        path="/embedded-search"
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "embedded-search" */ './component/EmbeddedSearch'
+          ).then(getDefault)
+        }
+        topBarOptions={{ hidden: true }}
+      />
+      <Route
         path={LOCAL_STORAGE_EMITTER_PATH}
         Component={LocalStorageEmitter}
         topBarOptions={{ hidden: true }}
