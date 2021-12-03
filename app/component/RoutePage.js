@@ -15,6 +15,7 @@ import withBreakpoint from '../util/withBreakpoint';
 import BackButton from './BackButton'; // DT-3472
 import { isBrowser } from '../util/browser';
 import LazilyLoad, { importLazy } from './LazilyLoad';
+import AlertBanner from './AlertBanner';
 
 const modules = {
   FavouriteRouteContainer: () =>
@@ -129,6 +130,14 @@ class RoutePage extends React.Component {
               </LazilyLoad>
             )}
           </div>
+          {tripId && route.alerts.length > 0 && (
+            <div className="trip-page-alert-container">
+              <AlertBanner
+                alerts={route.alerts}
+                linkAddress={`/linjat/${this.props.match.params.routeId}/hairiot/${this.props.match.params.patternId}`}
+              />
+            </div>
+          )}
           <RouteAgencyInfo route={route} />
         </div>
         {route &&
@@ -162,6 +171,10 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
         alertSeverityLevel
         effectiveEndDate
         effectiveStartDate
+        alertDescriptionTextTranslations {
+          language
+          text
+        }
         trip {
           pattern {
             code

@@ -239,7 +239,6 @@ class StopsNearYouContainer extends React.Component {
                     <StopNearYouContainer
                       key={`${stop.gtfsId}`}
                       stop={stop}
-                      currentTime={this.props.currentTime}
                       currentMode={this.props.match.params.mode}
                       stopIsStation
                     />
@@ -250,7 +249,6 @@ class StopsNearYouContainer extends React.Component {
                   <StopNearYouContainer
                     key={`${stop.gtfsId}`}
                     stop={stop}
-                    currentTime={this.props.currentTime}
                     currentMode={this.props.match.params.mode}
                   />
                 );
