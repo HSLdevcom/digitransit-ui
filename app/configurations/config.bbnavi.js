@@ -247,6 +247,7 @@ export default configMerger(walttiConfig, {
     },
 
     logo: 'bbnavi/stadtnavi-bbnavi-logo.svg',
+    logoSmall: 'bbnavi/stadtnavi-bbnavi-logo-red.svg',
 
     GTMid: '',
 
