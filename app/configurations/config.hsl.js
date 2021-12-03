@@ -86,7 +86,7 @@ export default {
       'mode-citybike-secondary': '#333333',
     },
   },
-  searchIconModeSet: 'default',
+  iconModeSet: 'default',
   fontWeights: {
     medium: 500,
   },

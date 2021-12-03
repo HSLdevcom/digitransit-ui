@@ -83,7 +83,7 @@ const EmbeddedSearch = (props, context) => {
     onGeolocationStart: onSelectLocation,
     fontWeights,
     modeIconColors: config.colors.iconColors,
-    modeSet: config.searchIconModeSet,
+    modeSet: config.iconModeSet,
     isMobile: true,
   };
 

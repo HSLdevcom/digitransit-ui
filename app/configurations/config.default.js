@@ -310,7 +310,7 @@ export default {
       'mode-citybike': '#f2b62d',
     },
   },
-  searchIconModeSet: 'digitransit',
+  iconModeSet: 'digitransit',
   fontWeights: {
     medium: 700,
   },

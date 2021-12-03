@@ -261,7 +261,7 @@ class IndexPage extends React.Component {
       fromMap: this.props.fromMap,
       fontWeights,
       modeIconColors: config.colors.iconColors,
-      modeSet: config.searchIconModeSet,
+      modeSet: config.iconModeSet,
     };
 
     const stopRouteSearchProps = {
@@ -279,7 +279,7 @@ class IndexPage extends React.Component {
       targets: stopAndRouteSearchTargets,
       fontWeights,
       modeIconColors: config.colors.iconColors,
-      modeSet: config.searchIconModeSet,
+      modeSet: config.iconModeSet,
     };
     const transportModes = getTransportModes(config);
     const nearYouModes = getNearYouModes(config);
@@ -309,6 +309,7 @@ class IndexPage extends React.Component {
             }
             title={btnWithoutLabel ? undefined : transportModes?.nearYouTitle}
             modes={btnWithoutLabel ? undefined : modeTitles}
+            modeSet={config.iconModeSet}
             modeIconColors={config.colors.iconColors}
             fontWeights={fontWeights}
           />
