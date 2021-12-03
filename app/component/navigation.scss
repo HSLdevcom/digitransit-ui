@@ -118,6 +118,26 @@ $content-background-color: $background-color;
   }
 }
 
+.app-bar--small {
+  .top-bar {
+    background: transparent;
+    float: right;
+
+    section.title {
+      padding-right: 0.7em;
+    }
+
+    section .logo {
+      min-width: 7em;
+    }
+  }
+
+  &-with-map {
+    position: absolute;
+    width: 100%;
+  }
+}
+
 #skip-to-content-link {
   height: 0px;
 
