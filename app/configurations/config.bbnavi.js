@@ -261,6 +261,7 @@ export default configMerger(walttiConfig, {
     },
 
     logo: 'bbnavi/stadtnavi-bbnavi-logo.svg',
+    logoSmall: 'bbnavi/stadtnavi-bbnavi-logo-red.svg',
 
     GTMid: '',
 
@@ -314,7 +315,10 @@ export default configMerger(walttiConfig, {
         [maxLon, minLat],
     ],
 
-    nationalServiceLink: { name: 'Fahrplanauskunft efa-bw', href: 'https://www.efa-bw.de' },
+    nationalServiceLink: {
+        name: 'reiseauskunft.bahn.de',
+        href: 'https://reiseauskunft.bahn.de/bin/query.exe/dn?protocol=https:'
+    },
 
     defaultEndpoint: {
         lat: 53.015895,
