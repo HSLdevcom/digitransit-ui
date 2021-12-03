@@ -493,7 +493,7 @@ const translations = {
     destination: 'Zielort',
     'destination-label-change': 'Zielort ändern',
     'destination-outside-service':
-      'Leider konnte keine Route an diesen Zielort gefunden werden. Der Zielort befindet sich außerhalb des abgedeckten Gebietes. Bitte ändern Sie den Zielort.',
+      'Leider konnte keine Verbindung mit Bus & Bahn für diese Route gefunden werden.',
     'destination-placeholder': 'Wohin reisen?',
     'dialog-return-to-map': 'Zurück zur Karte',
     'digitransit-platform': 'Digitransit-Plattform',
@@ -733,7 +733,7 @@ const translations = {
     origin: 'Start',
     'origin-label-change': 'Abfahrt ändern',
     'origin-outside-service':
-      'Leider konnte keine Route von diesem Startort gefunden werden. Der Startort befindet sich außerhalb des abgedeckten Gebietes. Bitte ändern Sie den Startort.',
+      'Leider konnte keine Verbindung mit Bus & Bahn für diese Route gefunden werden.',
     'origin-placeholder': 'Start',
     'other-dates': 'Anderer Zeitraum',
     'route-page.special-routes': 'Geänderte Routenführung',
@@ -990,7 +990,7 @@ const translations = {
     'use-citybike': 'Leihrad benutzen',
     'use-national-service-postfix': '.',
     'use-national-service-prefix':
-      'Wir empfehlen, dass Sie den überregionalen Routenplaner nutzen, ',
+      'Wir empfehlen Ihnen, die überregionale Reiseauskunft der Deutschen Bahn zu nutzen: ',
     'use-own-position': 'Aktuellen Standort benutzen',
     'using-modes': 'Verkehrsmittel',
     'vehicle-parking-operator': 'Betreiberin: {operator}',
@@ -1791,7 +1791,7 @@ const translations = {
     'use-citybike': 'Start using',
     'use-national-service-postfix': '.',
     'use-national-service-prefix':
-      'We recommend you try the national journey planner, ',
+      'We recommend you try the national journey planner: ',
     'use-own-position': 'Use current location',
     userinfo: 'My information',
     usermenu: 'User menu',
@@ -2790,7 +2790,7 @@ const translations = {
     'use-citybike': 'Ota käyttöön',
     'use-national-service-postfix': '-palvelusta.',
     'use-national-service-prefix':
-      'Suosittelemme kokeilemaan reittihakua koko maan kattavasta ',
+      'Suosittelemme kokeilemaan reittihakua koko maan kattavasta: ',
     'use-own-position': 'Käytä nykyistä sijaintia',
     userinfo: 'Omat tiedot',
     usermenu: 'Käyttäjävalikko',
@@ -4578,7 +4578,7 @@ const translations = {
     'use-national-service': 'Du kan också använda national tjänsten:',
     'use-national-service-postfix': '-tjänsten.',
     'use-national-service-prefix':
-      'Vi rekommenderar att du använder ruttsökning',
+      'Vi rekommenderar att du använder ruttsökning: ',
     'use-own-position': 'Använd min position',
     userinfo: 'Mina uppgifter',
     usermenu: 'Användarmeny',
