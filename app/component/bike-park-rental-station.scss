@@ -49,6 +49,47 @@
         }
       }
     }
+    .park-content-container {
+      display: flex;
+      flex-direction: row;
+      margin-top: 23px;
+      font-weight: $font-weight-book;
+      font-size: $font-size-normal;
+      letter-spacing: -0.03em;
+      .park-details {
+        display: flex;
+        flex-direction: column;
+        margin-left: 15px;
+        line-height: 18px;
+        .park-opening-hours {
+          display: flex;
+          flex-direction: row;
+          span {
+            display: flex;
+            color: #666;
+            flex-direction: column;
+            p {
+              margin: 0;
+              font-weight: $font-weight-medium;
+              color: #333;
+            }
+          }
+        }
+        span {
+          display: inline-flex;
+          color: #666;
+          margin-top: 8px;
+          p {
+            margin: 0;
+            font-weight: $font-weight-medium;
+            color: #333;
+          }
+        }
+        span:first-child {
+          margin-top: 0;
+        }
+      }
+    }
   }
 }
 .bike-station-page-container {
@@ -64,24 +105,39 @@
     text-decoration: none;
   }
   .citybike-use-disclaimer {
+    min-height: 120px;
     border-radius: 8px;
     border: solid 1px #dddddd;
     background-color: #f4f4f5;
-    padding: 12px 21px 21px 18px;
+    padding: 16px 21px 16px 18px;
     width: 100%;
     margin-top: 24px;
+
+    font-family: $font-family;
+    font-size: $font-size-normal;
+    font-weight: normal;
+    line-height: 18px;
+    letter-spacing: -0.03em;
     .disclaimer-header {
       display: flex;
-      font-size: 1.125rem;
+      font-size: $font-size-large;
+      font-weight: $font-weight-medium;
+      line-height: 22px;
+      margin: 0 0 4px;
+      color: #333;
     }
     .disclaimer-content {
       display: flex;
-      font-weight: normal;
-      font-size: 0.9375rem;
+      font-size: $font-size-normal;
+      margin-bottom: 8px;
+      color: #666;
+      line-height: 18px;
+      letter-spacing: -0.03em;
     }
     .external-link {
-      font-size: 0.9375rem;
+      color: #007AC9;
       text-decoration: none;
+      font-weight: $font-weight-medium;
       .icon-container {
         padding-left: 7px;
         vertical-align: text-top;
@@ -115,6 +171,11 @@
   }
     padding-top: 2px;
     position: absolute;
+    margin-left: 5px;
+    svg {
+      width: 14px;
+      height: 14px;
+    }
   }
   .bike-station-sub-header {
     font-size: 0.813rem;
@@ -136,6 +197,49 @@
       .icon {
         width: 48px;
         height: 48px;
+      }
+    }
+  }
+
+  .park-content-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 23px;
+    font-weight: $font-weight-book;
+    font-size: $font-size-normal;
+    letter-spacing: -0.03em;
+    .park-details {
+      display: flex;
+      flex-direction: column;
+      margin-left: 15px;
+      line-height: 18px;
+      span {
+        display: inline-flex;
+        color: #666;
+        margin-top: 8px;
+        p {
+          margin: 0;
+          font-weight: $font-weight-medium;
+          color: #333;
+        }
+      }
+      span:first-child {
+        margin-top: 0;
+      }
+      .park-opening-hours {
+        display: flex;
+        flex-direction: row;
+        > span {
+          display: flex;
+          color: #666;
+          flex-direction: column;
+          margin-top: 0;
+          p {
+            margin: 0;
+            font-weight: $font-weight-medium;
+            color: #333;
+          }
+        }
       }
     }
   }
