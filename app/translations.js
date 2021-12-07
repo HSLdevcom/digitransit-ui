@@ -1029,6 +1029,7 @@ const translations = {
     ferry: 'Ferry',
     'ferry-with-route-number': 'Ferry {routeNumber} {headSign}',
     'fetch-new-route': 'Fetch a new route',
+    'find-route': 'Find a route',
     'free-of-charge': 'Free',
     'from-ferry': 'ferry',
     'from-rail': 'train',
@@ -1127,6 +1128,8 @@ const translations = {
     'itinerary-summary.bikePark-title': 'Leave your bike at a Park & Ride',
     'itinerary-summary.interline-wait':
       'The route number ({shortName}) and destination ({destination}) will change at the {stop} stop. Waiting time at the stop is {time}. Please wait onboard.',
+    'itinerary-summary.interline-wait-multiple-legs':
+      'The route number and destination will change multiple times during the journey. Total waiting time during the journey is {time}. Please wait onboard.',
     'itinerary-summary.show-on-map': 'Show on map {target}',
     'itinerary-ticket.title': 'Required ticket',
     'itinerary-tickets.title': 'Required tickets',
@@ -1233,6 +1236,8 @@ const translations = {
     'no-route-start-end': 'Please select origin and destination',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'No journeys found for the selected date.',
+    'notification-minimize': 'Close message',
+    'notification-open': 'Open message',
     now: 'Now',
     'number-of-intermediate-stops':
       '{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }',
@@ -1355,6 +1360,7 @@ const translations = {
     'search-origin': 'Search origin, route or stop',
     'search-origin-index': 'Enter origin',
     'search-position': 'Detect location',
+    'search-route': 'Search routes',
     'search-search-results-but-no-destination':
       'View results in the adjacent “About the route or stop” tab',
     'searching-position': 'Detecting location...',
@@ -2060,6 +2066,7 @@ const translations = {
     ferry: 'Lautta',
     'ferry-with-route-number': 'Lautta {routeNumber} {headSign}',
     'fetch-new-route': 'Hae uusi reitti',
+    'find-route': 'Löydä reitti',
     'free-of-charge': 'Maksuton',
     'from-ferry': 'lautasta',
     'from-rail': 'junasta',
@@ -2152,6 +2159,8 @@ const translations = {
     'itinerary-summary.bikePark-title': 'Jätä pyöräsi liityntäpysäköintiin',
     'itinerary-summary.interline-wait':
       'Linjatunnus ({shortName}) ja määränpää ({destination}) vaihtuvat pysäkillä {stop}. Matka jatkuu {time} odotuksen jälkeen. Odota kulkuneuvossa.',
+    'itinerary-summary.interline-wait-multiple-legs':
+      'Linjatunnus ja määränpää vaihtuvat useita kertoja matkan aikana. Odotusta yhteensä {time}. Odota ajoneuvossa.',
     'itinerary-summary.show-on-map': 'Näytä kartalla {target}',
     'itinerary-ticket.title': 'Reitillä tarvittava lippu',
     'itinerary-tickets.title': 'Reitillä tarvittavat liput',
@@ -2257,6 +2266,8 @@ const translations = {
     'no-route-start-end': 'Syötä lähtöpaikka ja määränpää',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Valitulle päivälle ei löydy matkoja.',
+    'notification-minimize': 'Sulje ilmoitus',
+    'notification-open': 'Avaa ilmoitus',
     now: 'Nyt',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other {{number} pysäkkiä} }',
@@ -2379,6 +2390,7 @@ const translations = {
     'search-origin': 'Hae lähtöpaikkaa, linjaa tai pysäkkiä',
     'search-origin-index': 'Syötä lähtöpaikka',
     'search-position': 'Paikanna',
+    'search-route': 'Hae reitti',
     'search-search-results-but-no-destination':
       'Katso tulokset viereiseltä "Tietoja linjasta tai pysäkistä" –välilehdeltä',
     'searching-position': 'Paikannetaan...',
@@ -3864,6 +3876,7 @@ const translations = {
     ferry: 'Färja',
     'ferry-with-route-number': 'Färja {routeNumber} {headSign}',
     'fetch-new-route': 'Sök en ny rutt',
+    'find-route': 'Sök en rutt',
     'free-of-charge': 'Kostnadsfri',
     'from-ferry': 'lautasta',
     'from-rail': 'junasta',
@@ -3961,6 +3974,8 @@ const translations = {
       'Lämna din cykel till anslutningsparkeringen',
     'itinerary-summary.interline-wait':
       'Linjenumret ({shortName}) och destinationen ({destination}) ändras vid hållplats {stop}. Resan fortsätter om {time}. Vänta ombord på bussen.',
+    'itinerary-summary.interline-wait-multiple-legs':
+      'Linjatunnus ja määränpää vaihtuvat useita kertoja matkan aikana. Odota ajoneuvossa.',
     'itinerary-summary.show-on-map': 'Visa på kartan {target}',
     'itinerary-ticket.title': 'Biljett som behövs',
     'itinerary-tickets.title': 'Biljetter som behövs',
@@ -4067,6 +4082,8 @@ const translations = {
     'no-route-start-end': 'Välj avfärdsplats och destination',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Inga resor på den valda dagen.',
+    'notification-minimize': 'Stäng meddelande',
+    'notification-open': 'Öppna meddelande',
     now: 'Nu',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Inga hållplatser} one {1 hållplats} other {{number} hållplatser} }',
@@ -4189,6 +4206,7 @@ const translations = {
     'search-origin': 'Sök avfärdsplats, linje eller hållplats',
     'search-origin-index': 'Skriv avfärdsplats',
     'search-position': 'Sök position',
+    'search-route': 'Söka rutter',
     'search-search-results-but-no-destination':
       'Se resultaten under fliken Linje eller hållplats',
     'searching-position': 'Söker position...',

@@ -745,4 +745,5 @@ export default {
   showSimilarRoutesOnRouteDropDown: false,
 
   prioritizedStopsNearYou: {},
+  routeNotifications: [],
 };

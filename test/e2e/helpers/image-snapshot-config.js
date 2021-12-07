@@ -7,7 +7,7 @@ const getConfig = (
     diffDirection: 'vertical',
     dumpDiffToConsole: false,
     comparisonMethod: 'pixelmatch',
-    failureThreshold: 0.0125,
+    failureThreshold: process.env.UPDATE_E2E ? 0 : 0.0125,
     failureThresholdType: 'percent',
     customSnapshotsDir,
     customDiffDir,

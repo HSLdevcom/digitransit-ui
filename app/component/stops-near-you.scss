@@ -196,44 +196,13 @@
     width: 100%;
     margin-bottom: 10px;
     animation: fadeIn 0.7s;
-    .alert-link {
-      text-decoration: none;
-      color: #333;
-    }
     .alert-container {
-      display: flex;
       margin: 0 14px 4px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      height: 48px;
-      .alert-text {
-        font-size: 0.813rem;
-        padding-top: 4px;
-        font-weight: 400;
-      }
-      .arrow-icon {
-        .icon-container {
-          font-size: 18px;
-          margin-right: 16px;
-          margin-left: 4px;
-          svg {
-            margin-top: 14px;
-          }
-        }
-      }
-      .icon-container {
-        min-width: 46px;
-        text-align: center;
-        font-size: 24px;
-        svg {
-          margin-top: 10px;
-        }
-      }
     }
     .stop-near-you-header-container {
       display: flex;
       .stop-near-you-name {
-        font-size: 1rem;
+        font-size: 1.125rem;
         line-height: 24px;
         letter-spacing: -0.4px;
         margin: 0;
@@ -315,10 +284,16 @@
     margin: 0;
     width: 100%;
     table-layout: fixed;
+    a {
+      text-decoration: none;
+    }
     tr, td {
       margin: 0;
       padding: 0;
       border-spacing: 0;
+    }
+    .departure-row:first-child {
+      border-top: 1px solid #ddd;
     }
     .departure-row {
       .platform-cell {
@@ -333,6 +308,9 @@
       @include font-narrow-book;
       font-weight: normal;
       display: flex;
+      align-items: center;
+      height: 40px;
+      border-bottom: 1px solid #ddd;
       .route-arrival {
         color: #333;
         @include font-medium;
@@ -352,6 +330,7 @@
         height: 1.25em;
         padding: 0 4px;
         text-align: center;
+        position: relative;
         .route-number {
           color: $white;
           line-height: 1.24;
@@ -359,6 +338,25 @@
           display: block;
           white-space: nowrap;
           overflow: hidden;
+        }
+        .icon-container {
+          position: absolute;
+          left: -3px;
+          bottom: -5px;
+          .icon-circle {
+            stroke-width: 12;
+            stroke: white;
+          }
+          .icon {
+            width: 1em;
+            height: 1em;
+            display: block;
+            overflow: visible;
+            &.circle {
+              width: 0.75em;
+              height: 0.75em;
+            }
+          }
         }
       }
       .route-headsign {
