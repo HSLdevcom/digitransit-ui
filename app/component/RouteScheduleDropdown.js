@@ -5,6 +5,8 @@ import Select from 'react-select';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import { intlShape } from 'react-intl';
 import isEmpty from 'lodash/isEmpty';
+import moment from 'moment';
+import { DATE_FORMAT } from '../constants';
 
 export default function RouteScheduleDropdown(props, context) {
   const { alignRight, id, labelId, list, onSelectChange, title } = props;
@@ -17,17 +19,21 @@ export default function RouteScheduleDropdown(props, context) {
   const onMenuClose = () => setIsMenuOpen(false);
 
   const handleChange = selectedOption => {
+    const option = { ...selectedOption };
     if (!id) {
       setSelectedValue(title);
     } else {
-      const option = {
-        ...selectedOption,
-        label: selectedOption.titleLabel,
-      };
-      setSelectedValue(option);
+      const today = moment();
+
+      option.value =
+        moment(option.value).unix() > today.unix()
+          ? selectedOption.value
+          : today.format(DATE_FORMAT);
+
+      setSelectedValue({ ...option, label: selectedOption.titleLabel });
     }
     if (onSelectChange) {
-      onSelectChange(selectedOption.value);
+      onSelectChange(option.value);
     }
   };
 
