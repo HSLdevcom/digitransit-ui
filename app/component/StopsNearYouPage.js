@@ -16,7 +16,7 @@ import withBreakpoint, { DesktopOrMobile } from '../util/withBreakpoint';
 import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import Loading from './Loading';
-import PrioritizedStopsNearYou from './PrioritizedStopsNearYou';
+import StopNearYouContainer from './StopNearYouContainer';
 import {
   checkPositioningPermission,
   startLocationWatch,
@@ -579,20 +579,39 @@ class StopsNearYouPage extends React.Component {
                       query={graphql`
                         query StopsNearYouPagePrioritizedStopsQuery(
                           $stopIds: [String!]!
+                          $startTime: Long!
+                          $omitNonPickups: Boolean!
                         ) {
                           stops: stops(ids: $stopIds) {
-                            ...PrioritizedStopsNearYou_stops
+                            gtfsId
+                            ...StopNearYouContainer_stop
+                            @arguments(
+                              startTime: $startTime
+                              omitNonPickups: $omitNonPickups
+                            )
                           }
                         }
                       `}
                       variables={{
                         stopIds: prioritizedStops,
+                        startTime: 0,
+                        omitNonPickups: false,
                       }}
                       environment={this.props.relayEnvironment}
                       render={res => {
                         if (res.props) {
                           return (
-                            <PrioritizedStopsNearYou stops={res.props.stops} />
+                            <>
+                              {res.props.stops.map(stop => {
+                                return (
+                                  <StopNearYouContainer
+                                    stop={stop}
+                                    key={stop.gtfsId}
+                                    currentMode={nearByStopMode}
+                                  />
+                                );
+                              })}
+                            </>
                           );
                         }
                         return null;

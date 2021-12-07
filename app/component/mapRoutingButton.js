@@ -15,7 +15,9 @@ const MapRoutingButton = ({ stop }, { intl, router, match }) => {
   const [showModal, setShowModal] = useState(false);
   const [buttonText, setButtonText] = useState(null);
   useEffect(() => {
-    if (stop?.vehicleMode === 'FERRY') {
+    if (!!stop?.carParkId || !!stop?.bikeParkId) {
+      setButtonText('route-to-park');
+    } else if (stop?.vehicleMode === 'FERRY') {
       setButtonText('route-to-ferry');
     } else if (stop?.locationType === 'STATION') {
       setButtonText('route-to-station');
@@ -25,13 +27,14 @@ const MapRoutingButton = ({ stop }, { intl, router, match }) => {
   }, [stop]);
   const { location } = match;
   const closeModal = () => setShowModal(false);
-
+  // Reset query parameters from timetablepage  that is not needed in summary page
+  const locationWithoutQuery = { ...location, query: {}, search: '' };
   const onSelectLocation = (item, id) => {
     // eslint-disable-next-line no-param-reassign
     item = { ...item, address: item.name };
     if (id === 'origin') {
       const newLocation = {
-        ...location,
+        ...locationWithoutQuery,
         pathname: getPathWithEndpointObjects(
           item,
           {},
@@ -41,7 +44,7 @@ const MapRoutingButton = ({ stop }, { intl, router, match }) => {
       router.push(newLocation);
     } else if (id === 'destination') {
       const newLocation = {
-        ...location,
+        ...locationWithoutQuery,
         pathname: getPathWithEndpointObjects(
           {},
           item,

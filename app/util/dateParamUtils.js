@@ -16,3 +16,17 @@ export const prepareDatesForStops = params => {
     date: moment().format(DATE_FORMAT),
   };
 };
+
+export const prepareWeekDays = params => {
+  const monday = moment().isoWeekday(1).format(DATE_FORMAT);
+  const tuesday = moment().isoWeekday(2).format(DATE_FORMAT);
+  const wednesday = moment().isoWeekday(3).format(DATE_FORMAT);
+  const thursday = moment().isoWeekday(4).format(DATE_FORMAT);
+  const friday = moment().isoWeekday(5).format(DATE_FORMAT);
+  const saturday = moment().isoWeekday(6).format(DATE_FORMAT);
+  const sunday = moment().isoWeekday(7).format(DATE_FORMAT);
+  return {
+    ...params,
+    dates: [monday, tuesday, wednesday, thursday, friday, saturday, sunday],
+  };
+};

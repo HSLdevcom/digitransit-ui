@@ -9,21 +9,21 @@ import {
   alertSeverityCompare,
 } from '../util/alertUtils';
 
-const StopNearYouAlert = ({ stop, linkAddress, language }, { config }) => {
-  const alert = stop.alerts.sort(alertSeverityCompare)[0];
+const AlertBanner = ({ alerts, linkAddress, language }, { config }) => {
+  const alert = alerts.sort(alertSeverityCompare)[0];
   const message = getServiceAlertDescription(alert, language);
   const icon =
-    alert.alertSeverityLevel === 'SEVERE'
+    alert.alertSeverityLevel !== 'INFO'
       ? 'icon-icon_caution_white_exclamation'
       : 'icon-icon_info';
-  const iconColor = alert.alertSeverityLevel === 'SEVERE' ? '#DC0451' : '#888';
+  const iconColor = alert.alertSeverityLevel !== 'INFO' ? '#DC0451' : '#888';
   return (
     <Link
-      className="alert-link"
+      className={`alert-banner-link ${alert.alertSeverityLevel.toLowerCase()}`}
       onClick={e => {
         e.stopPropagation();
       }}
-      to={`${linkAddress}/hairiot`}
+      to={`${linkAddress}`}
     >
       <div className="alert-container">
         <Icon img={icon} color={iconColor} />
@@ -44,18 +44,18 @@ const StopNearYouAlert = ({ stop, linkAddress, language }, { config }) => {
 };
 
 const connectedComponent = connectToStores(
-  StopNearYouAlert,
+  AlertBanner,
   ['PreferencesStore'],
   ({ getStore }) => ({
     language: getStore('PreferencesStore').getLanguage(),
   }),
 );
-StopNearYouAlert.propTypes = {
-  stop: PropTypes.object.isRequired,
+AlertBanner.propTypes = {
+  alerts: PropTypes.array.isRequired,
   linkAddress: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
 };
-StopNearYouAlert.contextTypes = {
+AlertBanner.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 export default connectedComponent;
