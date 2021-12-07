@@ -7,6 +7,7 @@ import LazilyLoad, { importLazy } from './LazilyLoad';
 import { getJson } from '../util/xhrPromise';
 import getZoneId from '../util/zoneIconUtils';
 import ZoneIcon from './ZoneIcon';
+import withBreakpoint from '../util/withBreakpoint';
 
 const modules = {
   FavouriteBikeRentalStationContainer: () =>
@@ -86,4 +87,8 @@ ParkOrBikeStationHeader.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-export default ParkOrBikeStationHeader;
+const ParkOrBikeStationHeaderWithBreakpoint = withBreakpoint(
+  ParkOrBikeStationHeader,
+);
+
+export default ParkOrBikeStationHeaderWithBreakpoint;
