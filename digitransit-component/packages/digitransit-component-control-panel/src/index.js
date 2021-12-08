@@ -165,7 +165,7 @@ BubbleDialog.propTypes = {
  */
 
 function getIconName(mode, modeSet) {
-  return modeSet === 'default' ? `mode-${mode}` : `mode-${mode}-{modeSet}`;
+  return modeSet === 'default' ? `mode-${mode}` : `mode-${modeSet}-${mode}`;
 }
 
 function NearStopsAndRoutes({
