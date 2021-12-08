@@ -29,9 +29,10 @@ function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
   } else if (item && item.selectedIconId) {
     iconId = item.selectedIconId;
   } else if (item && item.properties) {
+    if (item.properties.layer === 'bikestation') {
+      return [`citybike-stop-${modeSet}`, 'mode-citybike'];
+    }
     iconId = item.properties.selectedIconId || item.properties.layer;
-  } else if (item && item.properties.layer === 'bikestation') {
-    iconId = 'citybike';
   }
   if (item && item.iconColor) {
     // eslint-disable-next-line prefer-destructuring
@@ -192,15 +193,7 @@ const SuggestionItem = pure(
       item.name,
       item.address,
     ];
-    /*
-    * mode-airplane: "#0046ad"
-mode-bus: "#1A4A8F"
-mode-citybike: "#f2b62d"
-mode-ferry: "#35b5b3"
-mode-metro: "#ed8c00"
-mode-rail: "#0E7F3C"
-mode-tram: "#DA2128"
-    * */
+
     const [iconId, iconColor] = getIconProperties(
       item,
       color,
@@ -208,10 +201,8 @@ mode-tram: "#DA2128"
       modeSet,
       stopCode,
     );
-    const modeIconColor = modes?.length
-      ? modeIconColors[iconColor]
-      : modeIconColors && modeIconColors[iconId];
-    // Arrow clicked is for street itmes. Instead of selecting item when a user clicks on arrow,
+    const modeIconColor = modeIconColors[iconColor] || modeIconColors[iconId];
+    // Arrow clicked is for street. Instead of selecting item when a user clicks on arrow,
     // It fills the input field.
     const [arrowClicked, setArrowClicked] = useState(false);
 
@@ -441,6 +432,7 @@ SuggestionItem.defaultProps = {
     'mode-metro': '#ed8c00',
     'mode-ferry': '#007A97',
     'mode-ferry-pier': '#666666',
+    'mode-citybike': '#f2b62d',
   },
   modeSet: undefined,
 };

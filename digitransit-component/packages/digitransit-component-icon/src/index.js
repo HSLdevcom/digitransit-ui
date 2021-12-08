@@ -136,6 +136,7 @@ const IconMap = style => {
     'search-ferry-stop-default': <SearchFerryStopDefault style={style} />,
     'search-tram-stop-default': <SearchTramStopDefault style={style} />,
     'citybike-stop-digitransit': <CityBikeStopDigitransit style={style} />,
+    'citybike-stop-default': <CityBikeStopDefault style={style} />,
     'search-airplane-digitransit': <SearchAirplaneDigitransit style={style} />,
     'search-bus-station-digitransit': (
       <SearchBusStationDigitransit style={style} />
