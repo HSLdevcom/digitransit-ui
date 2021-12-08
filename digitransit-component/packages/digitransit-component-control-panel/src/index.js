@@ -99,6 +99,7 @@ function BubbleDialog({ title, content, closeDialog, shouldRender, lang }) {
           </div>
           <button
             className={styles['nearby-stops-bubble-dialog-close']}
+            aria-label={i18next.t('close-nearby-teaser')}
             onClick={event => {
               event.preventDefault();
               closeDialog();
