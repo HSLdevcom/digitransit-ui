@@ -121,6 +121,8 @@ export default {
     },
   },
 
+  nearbyModeSet: 'waltti',
+
   redirectReittiopasParams: true,
   queryMaxAgeDays: 14,
 

@@ -309,7 +309,7 @@ class IndexPage extends React.Component {
             }
             title={btnWithoutLabel ? undefined : transportModes?.nearYouTitle}
             modes={btnWithoutLabel ? undefined : modeTitles}
-            modeSet={config.iconModeSet}
+            modeSet={config.nearbyModeSet || config.iconModeSet}
             modeIconColors={config.colors.iconColors}
             fontWeights={fontWeights}
           />

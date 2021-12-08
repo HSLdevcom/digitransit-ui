@@ -165,7 +165,7 @@ BubbleDialog.propTypes = {
  */
 
 function getIconName(mode, modeSet) {
-  return modeSet === 'digitransit' ? `${mode}-waltti` : `mode-${mode}`;
+  return modeSet === 'default' ? `mode-${mode}` : `mode-${mode}-{modeSet}`;
 }
 
 function NearStopsAndRoutes({

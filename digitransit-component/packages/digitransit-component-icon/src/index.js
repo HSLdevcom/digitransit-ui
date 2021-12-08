@@ -41,6 +41,8 @@ import ModeTram from './assets/mode_tram.svg';
 import ModeFerry from './assets/mode_ferry.svg';
 import ModeCitybike from './assets/mode_citybike.svg';
 import ModeAirplane from './assets/mode_airplane.svg';
+import ModeDigiTram from './assets/mode_digi_tram.svg';
+import ModeDigiCitybike from './assets/mode_digi_citybike.svg';
 import FutureRoute from './assets/icon-route.svg';
 import Position from './assets/position.svg';
 import SearchStreetName from './assets/search-streetname.svg';
@@ -112,15 +114,21 @@ const IconMap = style => {
     'mode-subway': <Subway style={style} />,
     'mode-ferry': <ModeFerry style={style} />,
     'mode-citybike': <ModeCitybike style={style} />,
-    'mode-airplane': <ModeAirplane style={style} />,
+    'mode-digitransit-bus': <SearchBusStationDigitransit style={style} />,
+    'mode-digitransit-rail': <SearchRailStationDigitransit style={style} />,
+    'mode-digitransit-ferry': <SearchFerryDigitransit style={style} />,
+    'mode-digitransit-tram': <ModeDigiTram style={style} />,
+    'mode-digitransit-citybike': <ModeDigiCitybike style={style} />,
+    'mode-digitransit-airplane': <ModeAirplane style={style} />,
+    'mode-digitransit-subway': <Subway style={style} />,
+    'mode-waltti-bus': <BusWaltti style={style} />,
+    'mode-waltti-citybike': <CitybikeWaltti style={style} />,
+    'mode-waltti-ferry': <FerryWaltti style={style} />,
+    'mode-waltti-rail': <RailWaltti style={style} />,
+    'mode-waltti-tram': <TramWaltti style={style} />,
     'future-route': <FutureRoute style={style} />,
     position: <Position style={style} />,
     'search-street-name': <SearchStreetName style={style} />,
-    'bus-waltti': <BusWaltti style={style} />,
-    'citybike-waltti': <CitybikeWaltti style={style} />,
-    'ferry-waltti': <FerryWaltti style={style} />,
-    'rail-waltti': <RailWaltti style={style} />,
-    'tram-waltti': <TramWaltti style={style} />,
     check: <Check style={style} />,
     'search-bus-stop-default': <SearchBusStopDefault style={style} />,
     'search-rail-stop-default': <SearchRailStopDefault style={style} />,
