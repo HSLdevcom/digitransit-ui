@@ -26,6 +26,11 @@ function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
     iconId = 'favouriteStop';
   } else if (item.type === 'FavouriteStation') {
     iconId = 'favouriteStation';
+  } else if (item.type === 'Route') {
+    const mode = item?.properties?.mode?.toLowerCase() || 'bus';
+    return modeSet === 'default'
+      ? [`mode-${mode}`, `mode-${mode}`]
+      : [`mode-${modeSet}-${mode}`, `mode-${mode}`];
   } else if (item && item.selectedIconId) {
     iconId = item.selectedIconId;
   } else if (item && item.properties) {
@@ -202,6 +207,7 @@ const SuggestionItem = pure(
       stopCode,
     );
     const modeIconColor = modeIconColors[iconColor] || modeIconColors[iconId];
+
     // Arrow clicked is for street. Instead of selecting item when a user clicks on arrow,
     // It fills the input field.
     const [arrowClicked, setArrowClicked] = useState(false);
