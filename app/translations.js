@@ -493,7 +493,7 @@ const translations = {
     destination: 'Zielort',
     'destination-label-change': 'Zielort ändern',
     'destination-outside-service':
-      'Leider konnte keine Verbindung mit Bus & Bahn für diese Route gefunden werden. Wir empfehlen Ihnen, die überregionale Reiseauskunft der Deutschen Bahn zu nutzen:',
+      'Leider konnte keine Verbindung mit Bus & Bahn für diese Route gefunden werden.',
     'destination-placeholder': 'Wohin reisen?',
     'dialog-return-to-map': 'Zurück zur Karte',
     'digitransit-platform': 'Digitransit-Plattform',
@@ -733,7 +733,7 @@ const translations = {
     origin: 'Start',
     'origin-label-change': 'Abfahrt ändern',
     'origin-outside-service':
-      'Leider konnte keine Verbindung mit Bus & Bahn für diese Route gefunden werden. Wir empfehlen Ihnen, die überregionale Reiseauskunft der Deutschen Bahn zu nutzen:',
+      'Leider konnte keine Verbindung mit Bus & Bahn für diese Route gefunden werden.',
     'origin-placeholder': 'Start',
     'other-dates': 'Anderer Zeitraum',
     'route-page.special-routes': 'Geänderte Routenführung',
@@ -990,7 +990,7 @@ const translations = {
     'use-citybike': 'Leihrad benutzen',
     'use-national-service-postfix': '.',
     'use-national-service-prefix':
-      'Wir empfehlen, dass Sie die überregionale Reiseauskunft der Deutschen Bahn nutzen: ',
+      'Wir empfehlen Ihnen, die überregionale Reiseauskunft der Deutschen Bahn zu nutzen: ',
     'use-own-position': 'Aktuellen Standort benutzen',
     'using-modes': 'Verkehrsmittel',
     'vehicle-parking-operator': 'Betreiberin: {operator}',
