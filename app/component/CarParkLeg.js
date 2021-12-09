@@ -4,11 +4,13 @@ import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 
+import { Link } from 'found';
 import Icon from './Icon';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import { PREFIX_CARPARK } from '../util/path';
 
 function CarParkLeg(props, { config, intl }) {
   const distance = displayDistance(
@@ -55,24 +57,23 @@ function CarParkLeg(props, { config, intl }) {
         </span>
         <div className="itinerary-leg-first-row" aria-hidden="true">
           <div className="address-container">
-            {/*  TODO linking when carpark pages are available */}
-            {/* <Link
-                  onClick={e => {
-                    e.stopPropagation();
-                  }}
-                  to={''}
-                > */}
-            <div className="address">
-              <FormattedMessage id="car_park" defaultMessage="Park & Ride" />
-              {/* props.carPark && (
-                <Icon
-                  img="icon-icon_arrow-collapse--right"
-                  className="itinerary-arrow-icon"
-                  color={config.colors.primary}
-                />
-              ) */}
-            </div>
-            {/* </Link> */}
+            <Link
+              onClick={e => {
+                e.stopPropagation();
+              }}
+              to={`/${PREFIX_CARPARK}/${props.carPark.carParkId}`}
+            >
+              <div className="address">
+                <FormattedMessage id="car_park" defaultMessage="Park & Ride" />
+                {props.carPark && (
+                  <Icon
+                    img="icon-icon_arrow-collapse--right"
+                    className="itinerary-arrow-icon"
+                    color={config.colors.primary}
+                  />
+                )}
+              </div>
+            </Link>
             <div className="place">{props.carPark.name}</div>
           </div>
           <div>{props.children}</div>
