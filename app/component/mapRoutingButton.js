@@ -17,6 +17,10 @@ const MapRoutingButton = ({ stop }, { intl, router, match }) => {
   useEffect(() => {
     if (!!stop?.carParkId || !!stop?.bikeParkId) {
       setButtonText('route-to-park');
+    } else if (stop?.vehicleMode === 'FERRY') {
+      setButtonText('route-to-ferry');
+    } else if (stop?.locationType === 'STATION') {
+      setButtonText('route-to-station');
     } else {
       setButtonText('route-to-stop');
     }
