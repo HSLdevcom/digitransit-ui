@@ -389,7 +389,7 @@ class FavouritesContainer extends React.Component {
               hoverColor={this.props.hoverColor}
               fontWeights={fontWeights}
               required
-              modeSet={this.context.config.searchIconModeSet}
+              modeSet={this.context.config.iconModeSet}
             />
           }
           color={this.props.color}

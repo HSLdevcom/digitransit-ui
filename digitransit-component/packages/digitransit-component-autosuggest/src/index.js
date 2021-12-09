@@ -48,9 +48,18 @@ Loading.propTypes = {
 
 function getSuggestionContent(item) {
   if (item.type !== 'FutureRoute') {
-    let suggestionType;
+    if (item.type === 'SelectFromMap') {
+      return ['', i18next.t('select-from-map')];
+    }
+    if (item.type === 'CurrentLocation') {
+      return ['', i18next.t('use-own-position')];
+    }
+    if (item.type === 'SelectFromOwnLocations') {
+      return ['', i18next.t('select-from-own-locations')];
+    }
     /* eslint-disable-next-line prefer-const */
     let [name, label] = getNameLabel(item.properties, true);
+    let suggestionType;
     if (
       item.properties.layer.toLowerCase().includes('bikerental') ||
       item.properties.layer.toLowerCase().includes('bikestation')

@@ -89,12 +89,13 @@ export default {
       'mode-rail': '#8c4799',
       'mode-tram': '#008151',
       'mode-ferry': '#007A97',
+      'mode-ferry-pier': '#666666',
       'mode-metro': '#CA4000',
       'mode-citybike': '#f2b62d',
       'mode-citybike-secondary': '#333333',
     },
   },
-  searchIconModeSet: 'default',
+  iconModeSet: 'default',
   fontWeights: {
     medium: 500,
   },
@@ -581,9 +582,9 @@ export default {
         gtfsId.slice(4).length === 4 && gtfsId.slice(4)[0] === '7',
       id: 'uLineNotification',
       header: {
-        fi: 'U-Linja',
-        en: 'U-Line',
-        sv: 'U-Linje',
+        fi: 'U-linja',
+        en: 'U-line',
+        sv: 'U-linje',
       },
       content: {
         fi: [
@@ -601,7 +602,7 @@ export default {
       },
       closeButtonLabel: {
         fi: 'Mitä U-linja tarkoittaa?',
-        en: 'What does a U-Line mean?',
+        en: 'What does a U-line mean?',
         sv: 'Vad betyder en U-linje?',
       },
       link: {

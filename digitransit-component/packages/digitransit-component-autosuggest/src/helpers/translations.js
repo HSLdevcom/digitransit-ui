@@ -50,6 +50,7 @@ const translations = {
     'search-autosuggest-len_plural':
       'There are {{count}} suggestions available',
     'search-current-suggestion': 'Aktuelle Auswahl: {{selection}}',
+    street: 'Straße',
     subway: 'U-Bahn',
     station: 'Station',
     stop: 'Haltestelle',
@@ -123,6 +124,7 @@ const translations = {
     'search-autosuggest-len_plural':
       'There are {{count}} suggestions available',
     'search-current-suggestion': 'Current selection: {{selection}}',
+    street: 'Street',
     subway: 'Metro',
     station: 'Station',
     stop: 'Stop',
@@ -198,6 +200,7 @@ const translations = {
     'search-autosuggest-len_plural': ' Löydettiin {{count}} ehdotusta',
     'search-current-suggestion': 'Tämänhetkinen valinta: {{selection}}',
     'search-position': 'Paikanna',
+    street: 'Katu',
     subway: 'Metro',
     station: 'Asema',
     stop: 'Pysäkki',
@@ -272,6 +275,7 @@ const translations = {
       'Plats, linje och hållplatssökning. Ange platsen och navigera i listan genom att svepa.',
     'search-autosuggest-len': 'Hittade {{count}} förslag',
     'search-current-suggestion': 'Nuvarande val: {{selection}}',
+    street: 'Gata',
     subway: 'Metro',
     station: 'Station',
     stop: 'Hållplats',

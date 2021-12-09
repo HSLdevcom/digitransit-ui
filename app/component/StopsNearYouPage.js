@@ -829,7 +829,7 @@ class StopsNearYouPage extends React.Component {
         : undefined,
       inputClassName: onMap ? 'origin-stop-near-you-selector' : undefined,
       modeIconColors: this.context.config.colors.iconColors,
-      modeSet: this.context.config.searchIconModeSet,
+      modeSet: this.context.config.iconModeSet,
     };
     const targets = ['Locations', 'Stops'];
     if (showCityBikes(this.context.config.cityBike?.networks)) {
