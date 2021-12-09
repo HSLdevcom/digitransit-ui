@@ -20,7 +20,7 @@ const LocationSearch = withSearchContext(DTAutosuggestPanel);
 
 /**
  *  A search component that can be embedded to other sites using iframe
- *  optimized for widths 320px, 360px and  640px, and height 250px. The widest 640px version requries a query param "wide=1" to function correctly
+ *  optimized for widths 320px, 360px and  640px, and height 250px.
  *
  */
 const EmbeddedSearch = (props, context) => {
@@ -29,7 +29,6 @@ const EmbeddedSearch = (props, context) => {
   const { colors, fontWeights } = config;
   const bikeOnly = query?.bikeOnly;
   const walkOnly = query?.walkOnly;
-  const wide = query?.wide;
 
   const deafultOriginExists = query.olat && query.olon;
   const defaultOrigin = {
@@ -131,7 +130,7 @@ const EmbeddedSearch = (props, context) => {
       return (
         <Icon
           img="icon-embedded-search-bike-background"
-          className={`background ${wide ? 'wide' : ''}`}
+          className="background"
           color={config.colors.primary}
         />
       );
@@ -140,7 +139,7 @@ const EmbeddedSearch = (props, context) => {
       return (
         <Icon
           img="icon-embedded-search-walk-background"
-          className={`background ${wide ? 'wide' : ''}`}
+          className="background"
           color={config.colors.primary}
         />
       );

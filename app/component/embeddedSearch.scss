@@ -37,7 +37,9 @@
         display: inline-block;
         width: 110%;
         height: 365px;
-        &.wide {
+    }
+    @media only screen and (min-width: 600px) {
+        .background {
             right: -26%;
         }
     }
