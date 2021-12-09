@@ -9,12 +9,11 @@ const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
+const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 
 const rootLink = process.env.ROOTLINK || 'https://dev.hslfi.hsldev.com';
 const BANNER_URL = 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
 // 'https://test-api.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
-
-const cityBikesEnabled = true;
 
 export default {
   CONFIG,
@@ -68,13 +67,20 @@ export default {
   parkAndRide: {
     showParkAndRide: true,
     parkAndRideMinZoom: 14,
+    url: {
+      fi: 'https://www.hsl.fi/matkustaminen/liityntapysakointi',
+      sv: 'https://www.hsl.fi/sv/att-resa/anslutningsparkering',
+      en: 'https://www.hsl.fi/en/travelling/park--ride',
+    },
+    pageContent: {
+      default: HSLParkAndRideUtils,
+    },
   },
 
   showDisclaimer: true,
 
   stopsMinZoom: 14,
   mergeStopsByCode: true,
-
   colors: {
     primary: '#007ac9',
     hover: '#0062a1',
@@ -83,12 +89,13 @@ export default {
       'mode-rail': '#8c4799',
       'mode-tram': '#008151',
       'mode-ferry': '#007A97',
+      'mode-ferry-pier': '#666666',
       'mode-metro': '#CA4000',
       'mode-citybike': '#f2b62d',
       'mode-citybike-secondary': '#333333',
     },
   },
-
+  iconModeSet: 'default',
   fontWeights: {
     medium: 500,
   },
@@ -125,7 +132,7 @@ export default {
 
   transportModes: {
     citybike: {
-      availableForSelection: cityBikesEnabled,
+      availableForSelection: true,
     },
     airplane: {
       availableForSelection: false,
@@ -287,7 +294,7 @@ export default {
       {
         header: 'Tietolähteet',
         paragraphs: [
-          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat HSL:n JORE-aineistoon.',
+          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Digi- ja väestötietoviraston rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat HSL:n JORE-aineistoon.',
         ],
       },
     ],
@@ -428,7 +435,7 @@ export default {
 
   unknownZones: ['Ei HSL'],
 
-  showTicketPrice: true,
+  showTicketPrice: false,
 
   map: {
     showZoomControl: true, // DT-3470, DT-3397
@@ -451,10 +458,15 @@ export default {
 
   cityBike: {
     minZoomStopsNearYou: 10,
-    showCityBikes: cityBikesEnabled,
     showFullInfo: true,
     networks: {
       smoove: {
+        enabled: true,
+        season: {
+          // 1.4. - 31.10.
+          start: new Date(new Date().getFullYear(), 3, 1),
+          end: new Date(new Date().getFullYear(), 10, 1),
+        },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
@@ -477,7 +489,7 @@ export default {
             'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#aterlamna',
           en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#return',
         },
-        // Shown if citybike leg duration exceeds minutesBeforeSurcharge
+        // Shown if citybike leg duration exceeds timeBeforeSurcharge
         durationInstructions: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#aja',
           sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#cykla',
@@ -486,6 +498,12 @@ export default {
         timeBeforeSurcharge: 30 * 60,
       },
       vantaa: {
+        enabled: true,
+        season: {
+          // 1.4. - 31.10.
+          start: new Date(new Date().getFullYear(), 3, 1),
+          end: new Date(new Date().getFullYear(), 10, 1),
+        },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike-secondary',
         name: {
@@ -541,7 +559,7 @@ export default {
     'subway',
     'rail',
     'ferry',
-    cityBikesEnabled && 'citybike',
+    'citybike',
   ],
 
   hostnames: [
@@ -557,4 +575,41 @@ export default {
   },
 
   showSimilarRoutesOnRouteDropDown: true,
+
+  routeNotifications: [
+    {
+      showForRoute: gtfsId =>
+        gtfsId.slice(4).length === 4 && gtfsId.slice(4)[0] === '7',
+      id: 'uLineNotification',
+      header: {
+        fi: 'U-linja',
+        en: 'U-line',
+        sv: 'U-linje',
+      },
+      content: {
+        fi: [
+          'Mm. lastenvaunujen osalta noudatetaan liikennöitsijän sääntöjä. ',
+          'HSL-alueen ulkopuolelle käytetään liikennöitsijän lippuja.',
+        ],
+        en: [
+          "As far as i.e. baby carriages are concerned, the bus operators' own rules apply on the U lines. ",
+          "Outside the HSL area, the operator's tickets are used.",
+        ],
+        sv: [
+          'Vad gäller bl.a. barnvagn och keldjur, gäller bussoperatörernas egna regler på U-linjerna. ',
+          'Om resan börjar eller riktas utanför HRT-området används trafikidkarens egna biljetter',
+        ],
+      },
+      closeButtonLabel: {
+        fi: 'Mitä U-linja tarkoittaa?',
+        en: 'What does a U-line mean?',
+        sv: 'Vad betyder en U-linje?',
+      },
+      link: {
+        fi: 'hsl.fi/matkustaminen/u-liikenne/',
+        en: 'hsl.fi/matkustaminen/u-liikenne/',
+        sv: 'hsl.fi/sv/att-resa/U-trafik/',
+      },
+    },
+  ],
 };

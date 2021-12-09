@@ -1,9 +1,9 @@
 <svg id="icon-icon_check" viewBox="0 0 15 11">
-    <g id="Desktop---Asetukset" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
-        <g id="hsl-reittiasetukset-valikot-auki-pyörä" transform="translate(-819.000000, -323.000000)" stroke="#007AC9" stroke-width="2.39999986">
-            <g id="kävelynopeus" transform="translate(552.000000, 174.000000)">
-                <g id="pace" transform="translate(0.000000, 48.000000)">
-                    <polyline id="icon-check" points="269 106.4117 272.727822 110 280 103"></polyline>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
+        <g transform="translate(-819.000000, -323.000000)" stroke="#007AC9" stroke-width="2.39999986">
+            <g transform="translate(552.000000, 174.000000)">
+                <g transform="translate(0.000000, 48.000000)">
+                    <polyline points="269 106.4117 272.727822 110 280 103"></polyline>
                 </g>
             </g>
         </g>

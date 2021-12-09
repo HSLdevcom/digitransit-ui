@@ -37,6 +37,9 @@ i18next.init({
  * @param {node} props.embedWhenOpen          JSX element to render when input is open
  * @param {string} props.lang                 Language selection
  * @param {number} props.serviceTimeRange           Determine number of days shown in timepicker. Optional. default is 30.
+ * @param {function} props.onOpen                   Determine what to do when timepicker is open. Optional. no default implementation.
+ * @param {function} props.onClose                  Determine what to do when timepicker is closed. Optional. no default implementation.
+ * @param {function} props.openPicker               Determine if timepicker should be open in intial render. Optional. Default is undefined.
  *
  *
  * @example
@@ -69,9 +72,12 @@ function Datetimepicker({
   onModalSubmit,
   fontWeights,
   serviceTimeRange,
+  onOpen,
+  onClose,
+  openPicker,
 }) {
   moment.tz.setDefault(timeZone);
-  const [isOpen, changeOpen] = useState(false);
+  const [isOpen, changeOpen] = useState(openPicker || false);
   const [displayTimestamp, changeDisplayTimestamp] = useState(
     timestamp || moment().valueOf(),
   );
@@ -268,6 +274,9 @@ function Datetimepicker({
             onCancel={() => {
               changeOpen(false);
               showScreenreaderCloseAlert();
+              if (onClose) {
+                onClose();
+              }
             }}
             getTimeDisplay={getTimeDisplay}
             timeZone={timeZone}
@@ -353,6 +362,9 @@ function Datetimepicker({
               onClick={() => {
                 changeOpen(false);
                 showScreenreaderCloseAlert();
+                if (onClose) {
+                  onClose();
+                }
                 onNowClick();
               }}
               ref={inputRef}
@@ -368,6 +380,9 @@ function Datetimepicker({
                 onClick={() => {
                   changeOpen(false);
                   showScreenreaderCloseAlert();
+                  if (onClose) {
+                    onClose();
+                  }
                 }}
               >
                 <span className={styles['close-icon']}>
@@ -451,7 +466,7 @@ function Datetimepicker({
       <legend className={styles['sr-only']}>
         {i18next.t('accessible-title', translationSettings)}
       </legend>
-      <span className="sr-only">
+      <span className={styles['sr-only']}>
         {i18next.t('accessible-update-instructions', translationSettings)}
       </span>
       <>
@@ -479,6 +494,9 @@ function Datetimepicker({
               onClick={() => {
                 changeOpen(true);
                 showScreenreaderOpenAlert();
+                if (onOpen) {
+                  onOpen();
+                }
               }}
               ref={openPickerRef}
             >
@@ -533,6 +551,9 @@ Datetimepicker.propTypes = {
     medium: PropTypes.number.isRequired,
   }).isRequired,
   serviceTimeRange: PropTypes.number,
+  onOpen: PropTypes.func,
+  onClose: PropTypes.func,
+  openPicker: PropTypes.bool,
 };
 
 Datetimepicker.defaultProps = {
@@ -542,6 +563,9 @@ Datetimepicker.defaultProps = {
   color: '#007ac9',
   timeZone: 'Europe/Helsinki',
   serviceTimeRange: 30,
+  onOpen: null,
+  onClose: null,
+  openPicker: undefined,
 };
 
 export default Datetimepicker;

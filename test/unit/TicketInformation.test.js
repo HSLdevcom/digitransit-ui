@@ -1,9 +1,6 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-
 import { mountWithIntl, shallowWithIntl } from './helpers/mock-intl-enzyme';
 
-import ExternalLink from '../../app/component/ExternalLink';
 import TicketInformation from '../../app/component/TicketInformation';
 import ZoneTicket from '../../app/component/ZoneTicket';
 import { getFares } from '../../app/util/fareUtils';
@@ -71,10 +68,9 @@ describe('<TicketInformation />', () => {
     const wrapper = mountWithIntl(<TicketInformation {...props} />, {
       context: { config: defaultConfig },
     });
-
-    expect(
-      wrapper.find('.ticket-type-title').find(FormattedMessage).prop('id'),
-    ).to.equal('itinerary-tickets.title');
+    expect(wrapper.find('.ticket-type-title').first().text()).to.equal(
+      'Required tickets:',
+    );
   });
 
   it('should not show a multiple tickets required title when there is only a single component', () => {
@@ -97,9 +93,9 @@ describe('<TicketInformation />', () => {
       context: { config: defaultConfig },
     });
 
-    expect(
-      wrapper.find('.ticket-type-title').find(FormattedMessage).prop('id'),
-    ).to.equal('itinerary-ticket.title');
+    expect(wrapper.find('.ticket-type-title').first().text()).to.equal(
+      'Required ticket:',
+    );
   });
 
   it('should not show any ticket information if components are missing', () => {
@@ -320,9 +316,9 @@ describe('<TicketInformation />', () => {
       ]),
     };
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
-      context: { config: defaultConfig },
+      context: { config: { ...defaultConfig, ticketLink: 'foobar' } },
     });
-    expect(wrapper.find(ExternalLink).prop('href')).to.equal('foobar');
+    expect(wrapper.find('a').prop('href')).to.equal('foobar');
   });
 
   it('should include unknown fares to the listing', () => {
@@ -383,7 +379,7 @@ describe('<TicketInformation />', () => {
       ),
     };
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
-      context: { config: defaultConfig },
+      context: { config: { ...defaultConfig, ticketLink: 'foobaz' } },
     });
     expect(wrapper.find('.ticket-identifier')).to.have.lengthOf(2);
 
@@ -394,6 +390,6 @@ describe('<TicketInformation />', () => {
     expect(ticketWrapper.find('.ticket-description').text()).to.equal(
       'Merisataman lauttaliikenne',
     );
-    expect(wrapper.find(ExternalLink).prop('href')).to.equal('foobaz');
+    expect(wrapper.find('a').prop('href')).to.equal('foobaz');
   });
 });

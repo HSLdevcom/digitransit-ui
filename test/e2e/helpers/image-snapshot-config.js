@@ -5,9 +5,9 @@ const getConfig = (
 ) => {
   return {
     diffDirection: 'vertical',
-    dumpDiffToConsole: true,
+    dumpDiffToConsole: false,
     comparisonMethod: 'pixelmatch',
-    failureThreshold: 0.025,
+    failureThreshold: process.env.UPDATE_E2E ? 0 : 0.0125,
     failureThresholdType: 'percent',
     customSnapshotsDir,
     customDiffDir,

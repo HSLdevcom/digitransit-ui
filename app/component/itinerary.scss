@@ -240,12 +240,6 @@ $itinerary-tab-switch-height: 48px;
     }
   }
 
-  .divider-bottom {
-    &.multirow {
-      top: 76px;
-    }
-  }
-
   .icon {
     margin-right: 5px;
     margin-top: 1px;
@@ -424,9 +418,9 @@ $itinerary-tab-switch-height: 48px;
   color: $gray;
   font-weight: $font-weight-book;
   font-size: $font-size-small;
-  margin: 0;
-  border: 0px;
-  border-top: 1px solid #ddd;
+  margin: 0 10px;
+  border-bottom: 1px solid #ddd;
+
   .ticket-type-agency-link {
     flex: 0;
     .external-link-container {
@@ -458,14 +452,15 @@ $itinerary-tab-switch-height: 48px;
     flex-shrink: 1;
     white-space: normal;
     line-height: 1.33;
-    border-bottom: 1px solid #ddd;
+
     .ticket-container {
       display: flex;
-      margin: -4px 10px -4px 15px;
-    }
-    .ticket-info-container {
-      flex: 1;
-      padding: 14px 0;
+      align-items: center;
+      justify-content: space-between;
+      margin: 11px 10px 10px 15px;
+      @include min-width(tablet) {
+        margin-right: 15px;
+      }
     }
     .ticket-type-agency-link {
       align-self: center;
@@ -477,26 +472,47 @@ $itinerary-tab-switch-height: 48px;
       color: $gray;
       display: flex;
       justify-content: space-between;
-      flex: 1;
+
       .unknown-fare-container {
-        display: block;
+        display: flex;
+        font-size: $font-size-normal;
         .ticket-description {
-          padding: 0;
+          padding-left: 6px;
         }
       }
       &.multi-component + .multi-component {
         border-top: 1px solid $light-gray;
         padding-top: $padding-medium;
       }
-      div {
+      .fare-container {
         display: flex;
-        .ticket-description {
-          display: flex;
-          padding-left: 3px;
-        }
-        .ticket-identifier {
-          @include font-medium;
-          color: $black;
+        align-items: center;
+        font-size: 1.125rem;
+      }
+      a {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        font-size: $font-size-normal;
+      }
+      .ticket-description {
+        display: flex;
+        color: #666666;
+      }
+      .ticket-identifier {
+        @include font-medium;
+        color: $black;
+        padding-right: 6px;
+      }
+      span {
+        display: flex;
+        align-items: center;
+        margin-left: 1px;
+        svg {
+          color: $primary-color;
+          height: 18px;
+          width: 18px;
+          margin: 0;
         }
       }
       .ticket-type-agency-link {
@@ -508,6 +524,7 @@ $itinerary-tab-switch-height: 48px;
 
 .zone-ticket-multiple-options {
   display: flex;
+  align-items: center;
   flex: 0;
   span + span {
     margin-left: $padding-xsmall;
@@ -520,14 +537,16 @@ $itinerary-tab-switch-height: 48px;
 
 .zone-ticket {
   color: #333;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.03em;
+  line-height: 22px;
   text-align: center;
-  font-size: $font-size-small;
 }
 
 .desktop {
   .itinerary-ticket-information {
     font-size: 0.9375rem;
+    width: 400px;
+    margin: 0 60px;
   }
 }
 .call-agency {
@@ -1297,6 +1316,25 @@ $itinerary-tab-switch-height: 48px;
           margin-left: 0px;
         }
       }
+      .notification-icon {
+        align-self: baseline;
+      }
+
+      .info-notification {
+        .info-content {
+          flex: 1;
+          font-size: $font-size-xsmall;
+          color: #333333;
+          margin: 0 4px 0 8px;
+          line-height: 1.23;
+          letter-spacing: -0.43px;
+        }
+        .info-header {
+          font-size: $font-size-xsmall;
+          font-weight: bold;
+          margin: 0 4px 0 8px;
+        }
+      }
 
       .description {
         flex: 1;
@@ -1367,6 +1405,9 @@ $itinerary-tab-switch-height: 48px;
       margin-top: 12px;
       padding-bottom: 0px;
       @extend .itinerary-leg-text-gray;
+    }
+    .intermediate-stops-button-container {
+      min-height: 40px;
     }
 
     .intermediate-stops-clickable {
@@ -1651,6 +1692,9 @@ div.itinerary-container-content {
 }
 
 .swipe-button-container {
+  &.active {
+    cursor: pointer;
+  }
   display: flex;
   justify-content: center;
   align-items: center;

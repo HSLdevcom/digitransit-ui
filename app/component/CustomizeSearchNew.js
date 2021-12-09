@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import Icon from './Icon';
@@ -11,8 +11,10 @@ import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
 import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSection';
 import { getDefaultSettings } from '../util/planParamUtil';
 import TransferOptionsSection from './customizesearch/TransferOptionsSection';
-import { showModeSettings } from '../util/modeUtils';
+import { showModeSettings, showCityBikes } from '../util/modeUtils';
 import ScrollableWrapper from './ScrollableWrapper';
+import CityBikeNetworkSelector from './CityBikeNetworkSelector';
+import { getCitybikeNetworks } from '../util/citybikes';
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
@@ -110,6 +112,28 @@ class CustomizeSearch extends React.Component {
               />
             </div>
           </div>
+          {showCityBikes(config?.cityBike?.networks) && (
+            <div className="settings-section">
+              <div className="settings-option-container">
+                <fieldset>
+                  <legend className="settings-header transport-mode-subheader">
+                    <FormattedMessage
+                      id="citybike-network-header"
+                      defaultMessage={intl.formatMessage({
+                        id: 'citybike-network-headers',
+                        defaultMessage: 'Citybikes and scooters',
+                      })}
+                    />
+                  </legend>
+                  <div className="transport-modes-container">
+                    <CityBikeNetworkSelector
+                      currentOptions={getCitybikeNetworks(config)}
+                    />
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          )}
           <div className="settings-section">
             <div className="settings-option-container">
               <StreetModeSelectorPanel

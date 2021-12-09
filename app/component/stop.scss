@@ -86,7 +86,6 @@
     font-size: 11px;
     font-weight: $font-weight-medium;
     margin-left: 4px;
-    margin-top: 14px;
     margin-right: 5px;
     padding: 0px 2px 0px 2px;
   }
@@ -312,7 +311,6 @@
         padding-right: 8px;
         padding-left: 8px;
         position: relative;
-        top: -3px;
         span {
           vertical-align: sub;
         }
@@ -344,6 +342,7 @@
       }
       .time-cell {
         display: flex;
+        align-items: center;
         flex-wrap: wrap;
         max-width: 100px;
       }
@@ -414,6 +413,7 @@
 
 .mobile .stop-page.departure-list .departure-row {
   .route-arrival {
+    top: 0.03125rem;
     padding-bottom: 0;
   }
 }

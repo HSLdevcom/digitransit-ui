@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import { routerShape, RedirectException } from 'found';
 
 import CityBikeStopContent from './CityBikeStopContent';
-import BikeRentalStationHeader from './BikeRentalStationHeader';
+import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
 import {
@@ -27,7 +27,7 @@ const BikeRentalStationContent = (
   });
 
   // throw error in client side relay query fails
-  if (isClient && error) {
+  if (isClient && error && !bikeRentalStation) {
     throw error.message;
   }
 
@@ -63,8 +63,8 @@ const BikeRentalStationContent = (
   }
   return (
     <div className="bike-station-page-container">
-      <BikeRentalStationHeader
-        bikeRentalStation={bikeRentalStation}
+      <ParkOrStationHeader
+        parkOrStation={bikeRentalStation}
         breakpoint={breakpoint}
       />
       <CityBikeStopContent bikeRentalStation={bikeRentalStation} />
@@ -85,9 +85,9 @@ const BikeRentalStationContent = (
       )}
       {(cityBikeBuyUrl || cityBikeNetworkUrl) && (
         <div className="citybike-use-disclaimer">
-          <div className="disclaimer-header">
+          <h2 className="disclaimer-header">
             <FormattedMessage id="citybike-start-using" />
-          </div>
+          </h2>
           <div className="disclaimer-content">
             {cityBikeBuyUrl ? (
               <FormattedMessage id="citybike-buy-season" />

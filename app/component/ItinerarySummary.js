@@ -38,11 +38,7 @@ const ItinerarySummary = ({
           walkDuration={biking.duration}
         />
       )}
-      <div
-        className={cx('divider-bottom', {
-          multirow: isMultiRow,
-        })}
-      />
+      <div className={cx('divider-bottom')} />
     </div>
   );
 };

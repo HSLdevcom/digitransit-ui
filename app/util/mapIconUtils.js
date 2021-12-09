@@ -346,13 +346,6 @@ function getSmallStopIcon(type, radius, color) {
   // inner circle
   ctx.beginPath();
   ctx.fillStyle = color;
-  if (type === 'FERRY') {
-    // different color for stops only
-    ctx.fillStyle = '#666666';
-  }
-  if (type === 'FERRY_TERMINAL') {
-    ctx.fillStyle = '#007A97';
-  }
   ctx.arc(x, y, radius - 1, 0, FULL_CIRCLE);
   ctx.fill();
 
@@ -368,8 +361,8 @@ const getMemoizedStopIcon = memoize(
 /**
  * Draw stop icon based on type.
  * Determine size from zoom level.
- * Supported icons are BUS, TRAM, FERRY
  */
+
 export function drawStopIcon(
   tile,
   geom,
@@ -379,11 +372,14 @@ export function drawStopIcon(
   isFerryTerminal,
   modeIconColors,
 ) {
-  const mode = `mode-${type.toLowerCase()}`;
-  const color = modeIconColors[mode] || '#000';
   if (type === 'SUBWAY') {
     return;
   }
+  const mode = `mode-${type.toLowerCase()}`;
+  const color =
+    mode === 'mode-ferry' && !isFerryTerminal
+      ? modeIconColors['mode-ferry-pier']
+      : modeIconColors[mode];
   const zoom = tile.coords.z - 1;
   const drawNumber = zoom >= 16;
   const styles = getStopIconStyles('stop', zoom, isHilighted);
@@ -429,13 +425,6 @@ export function drawStopIcon(
         tile.ctx.beginPath();
         /* eslint-disable no-param-reassign */
         tile.ctx.fillStyle = color;
-        if (type === 'FERRY' && !isFerryTerminal) {
-          // ferry stops have different color than terminals
-          tile.ctx.fillStyle = '#666666';
-        } else if (type === 'FERRY' && isFerryTerminal) {
-          // ferry terminals
-          tile.ctx.fillStyle = '#007A97';
-        }
         tile.ctx.arc(x, y, radius - 1, 0, FULL_CIRCLE);
         tile.ctx.fill();
         tile.ctx.font = `${
@@ -511,7 +500,7 @@ export function drawHybridStopIcon(tile, geom, isHilighted, modeIconColors) {
     tile.ctx.arc(x, y, radiusOuter * tile.scaleratio, 0, FULL_CIRCLE);
     tile.ctx.fill();
     tile.ctx.beginPath();
-    tile.ctx.fillStyle = modeIconColors[`mode-tram`];
+    tile.ctx.fillStyle = modeIconColors['mode-tram'];
     tile.ctx.arc(x, y, (radiusOuter - 1) * tile.scaleratio, 0, FULL_CIRCLE);
     tile.ctx.fill();
     // inner icon
@@ -520,7 +509,7 @@ export function drawHybridStopIcon(tile, geom, isHilighted, modeIconColors) {
     tile.ctx.arc(x, y, radiusInner * tile.scaleratio, 0, FULL_CIRCLE);
     tile.ctx.fill();
     tile.ctx.beginPath();
-    tile.ctx.fillStyle = modeIconColors[`mode-bus`];
+    tile.ctx.fillStyle = modeIconColors['mode-bus'];
     tile.ctx.arc(x, y, (radiusInner - 0.5) * tile.scaleratio, 0, FULL_CIRCLE);
     tile.ctx.fill();
     /* eslint-enable no-param-reassign */
@@ -695,14 +684,7 @@ export function drawCitybikeIcon(
         /* eslint-enable no-param-reassign */
       }
       if (isHilighted) {
-        drawSelectionCircle(
-          tile,
-          iconX,
-          iconY,
-          radius,
-          true,
-          showAvailabilityBadge,
-        );
+        drawSelectionCircle(tile, iconX, iconY, radius, true, true);
       }
     });
   }

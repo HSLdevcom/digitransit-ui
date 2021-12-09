@@ -11,9 +11,46 @@ import {
   isStop,
 } from '@digitransit-search-util/digitransit-search-util-helpers';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
-import { getGTFSId } from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 
 let relayEnvironment = null;
+
+const stopsQuery = graphql`
+  query digitransitSearchUtilQueryUtilsStopsQuery($ids: [String!]!) {
+    stops(ids: $ids) {
+      gtfsId
+      lat
+      lon
+      name
+      code
+      stoptimesWithoutPatterns(numberOfDepartures: 1) {
+        trip {
+          route {
+            mode
+          }
+        }
+      }
+    }
+  }
+`;
+
+const stationsQuery = graphql`
+  query digitransitSearchUtilQueryUtilsStationsQuery($ids: [String!]!) {
+    stations(ids: $ids) {
+      gtfsId
+      lat
+      lon
+      name
+      code
+      stoptimesWithoutPatterns(numberOfDepartures: 1) {
+        trip {
+          route {
+            mode
+          }
+        }
+      }
+    }
+  }
+`;
 
 const alertsQuery = graphql`
   query digitransitSearchUtilQueryUtilsAlertsQuery($feedIds: [String!]) {
@@ -110,44 +147,6 @@ const favouriteBikeRentalQuery = graphql`
     bikeRentalStations(ids: $ids) {
       name
       stationId
-    }
-  }
-`;
-
-const stopsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsStopsQuery($ids: [String!]!) {
-    stops(ids: $ids) {
-      gtfsId
-      lat
-      lon
-      name
-      code
-      stoptimesWithoutPatterns(numberOfDepartures: 1) {
-        trip {
-          route {
-            mode
-          }
-        }
-      }
-    }
-  }
-`;
-
-const stationsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsStationsQuery($ids: [String!]!) {
-    stations(ids: $ids) {
-      gtfsId
-      lat
-      lon
-      name
-      code
-      stoptimesWithoutPatterns(numberOfDepartures: 1) {
-        trip {
-          route {
-            mode
-          }
-        }
-      }
     }
   }
 `;
@@ -284,8 +283,10 @@ export const getAllBikeRentalStations = () => {
   }
   return fetchQuery(relayEnvironment, searchBikeRentalStationsQuery);
 };
+
 /**
- * Returns Stop and station objects filtered by given mode .
+ * Returns Stop and station objects filtered by given mode based on mode information
+ * acquired from OTP by checking the modes of the departures on the given stops.
  * @param {*} stopsToFilter
  * @param {String} mode
  */
@@ -356,6 +357,7 @@ export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
     )
     .then(compact);
 };
+
 /**
  * Returns Favourite Route objects depending on input
  * @param {String} input Search text, if empty no objects are returned
@@ -497,19 +499,9 @@ export const filterSearchResultsByMode = (results, mode, type = 'Stops') => {
     case 'Routes':
       return results;
     case 'Stops': {
-      const gtfsIds = results.map(x => {
-        const gtfsId = x.properties.gtfsId
-          ? x.properties.gtfsId
-          : getGTFSId({ id: x.properties.id });
-        if (gtfsId) {
-          return {
-            gtfsId,
-            ...x,
-          };
-        }
-        return null;
+      return results.filter(stop => {
+        return stop.properties.addendum?.GTFS?.modes.includes(mode);
       });
-      return filterStopsAndStationsByMode(compact(gtfsIds), mode);
     }
     default:
       return results;

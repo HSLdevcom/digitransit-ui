@@ -38,16 +38,18 @@ const StreetModeSelectorPanel = (
               <div className="mode-icon">
                 <Icon className="bicycle-icon" img="icon-icon_bike" />
               </div>
-              <div className="mode-name">
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+              <label className="mode-name" htmlFor="settings-toggle-bicycle">
                 <FormattedMessage
                   className="mode-name"
                   id="bicycle"
                   defaultMessage="bicycle"
                 />
-              </div>
+              </label>
             </div>
             <div>
               <Toggle
+                id="settings-toggle-bicycle"
                 toggled={currentSettings.includeBikeSuggestions}
                 onToggle={() => onToggle('includeBikeSuggestions', 'OwnBike')}
               />
@@ -71,16 +73,21 @@ const StreetModeSelectorPanel = (
                     img="icon-icon_park-and-ride"
                   />
                 </div>
-                <div className="mode-name">
+                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+                <label
+                  className="mode-name"
+                  htmlFor="settings-toggle-parkAndRide"
+                >
                   <FormattedMessage
                     className="mode-name"
                     id="park-and-ride"
                     defaultMessage="Park & Ride"
                   />
-                </div>
+                </label>
               </div>
               <div>
                 <Toggle
+                  id="settings-toggle-parkAndRide"
                   toggled={currentSettings.includeParkAndRideSuggestions}
                   onToggle={() =>
                     onToggle('includeParkAndRideSuggestions', 'ParkAndRide')
@@ -97,16 +104,18 @@ const StreetModeSelectorPanel = (
                 <div className="mode-icon">
                   <Icon className="car-icon" img="icon-icon_car-withoutBox" />
                 </div>
-                <div className="mode-name">
+                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+                <label className="mode-name" htmlFor="settings-toggle-car">
                   <FormattedMessage
                     className="mode-name"
                     id="car"
                     defaultMessage="car"
                   />
-                </div>
+                </label>
               </div>
               <div>
                 <Toggle
+                  id="settings-toggle-car"
                   toggled={currentSettings.includeCarSuggestions}
                   onToggle={() => onToggle('includeCarSuggestions', 'OwnCar')}
                 />

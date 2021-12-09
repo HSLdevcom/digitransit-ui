@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import IconWithIcon from './IconWithIcon';
-import ComponentUsageExample from './ComponentUsageExample';
 import { AlertSeverityLevelType } from '../constants';
 
 const IconWithBigCaution = ({ alertSeverityLevel, className, color, img }) => {
@@ -24,14 +23,6 @@ const IconWithBigCaution = ({ alertSeverityLevel, className, color, img }) => {
 };
 
 IconWithBigCaution.displayName = 'IconWithBigCaution';
-
-IconWithBigCaution.description = () => (
-  <ComponentUsageExample description="Bus with caution">
-    <div style={{ paddingLeft: '5px', position: 'relative' }}>
-      <IconWithBigCaution className="bus" img="icon-icon_bus" />
-    </div>
-  </ComponentUsageExample>
-);
 
 IconWithBigCaution.propTypes = {
   alertSeverityLevel: PropTypes.string,

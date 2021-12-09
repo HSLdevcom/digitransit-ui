@@ -124,6 +124,26 @@ export const getLegText = (route, config, interliningWithRoute) => {
   return '';
 };
 
+/**
+ * Returns all legs after a given index in which the user can wait in the vehilce for the next transit leg
+ * to start.
+ * @param {*} legs An array of itinerary legs
+ * @param {*} index Current index on the array
+ */
+export const getInterliningLegs = (legs, index) => {
+  const interliningLegs = [];
+  const interliningLines = [];
+  let i = index;
+  while (legs[i + 1] && legs[i + 1].interlineWithPreviousLeg) {
+    interliningLegs.push(legs[i + 1]);
+    interliningLines.push(legs[i + 1].route.shortName);
+    i += 1;
+  }
+  const uniqueLines = Array.from(new Set(interliningLines));
+
+  return [uniqueLines, interliningLegs];
+};
+
 const bikingEnded = leg1 => {
   return leg1.from.bikeRentalStation && leg1.mode === 'WALK';
 };
@@ -143,7 +163,7 @@ export const compressLegs = (originalLegs, keepBicycleWalk = false) => {
   let compressedLeg;
   let bikeParked = false;
   originalLegs.forEach((currentLeg, i) => {
-    if (currentLeg.to?.bikePark) {
+    if (currentLeg.to?.bikePark || currentLeg.from?.bikePark) {
       bikeParked = true;
     }
     if (!compressedLeg) {

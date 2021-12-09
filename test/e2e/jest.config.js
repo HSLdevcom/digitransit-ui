@@ -11,4 +11,5 @@ module.exports = {
   testTimeout: 200000,
   preset: 'jest-playwright-preset',
   setupFilesAfterEnv: ['./test/e2e/jest.image.js'],
+  reporters: ['default', './test/e2e/helpers/image-reporter.js'],
 };

@@ -1,13 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { routerShape } from 'found';
-import ComponentUsageExample from './ComponentUsageExample';
-import Icon from './Icon';
 
-const mapToLink = (href, children, onClick) => (
+const mapToLink = (href, children, onClick, openInNewTab) => (
   <span className="cursor-pointer">
-    <a href={href} onClick={onClick}>
+    <a href={href} onClick={onClick} target={openInNewTab ? '_blank' : '_self'}>
       {children}
     </a>
   </span>
@@ -28,22 +26,19 @@ const mapToRoute = (router, route, children, onClick) => (
 );
 
 const MenuItem = (
-  { name, href, label, nameEn, route, icon, onClick },
-  { router },
+  { name, href, label, route, onClick, openInNewTab },
+  { router, intl },
 ) => {
-  const displayIcon =
-    (icon && <Icon className="menu-icon" img={icon} />) || undefined;
   const displayLabel = label || (
-    <FormattedMessage id={name} defaultMessage={nameEn || name} />
+    <FormattedMessage id={name} defaultMessage={name} />
   );
-  let item = (
-    <span id={name}>
-      {displayIcon}
-      {displayLabel}
-    </span>
-  );
+  let item = <span id={name}>{displayLabel}</span>;
   if (href) {
-    item = mapToLink(href, item, onClick);
+    if (typeof href === 'object') {
+      item = mapToLink(href[intl.locale], item, onClick, openInNewTab);
+    } else {
+      item = mapToLink(href, item, onClick, openInNewTab);
+    }
   } else if (route) {
     item = mapToRoute(router, route, item, onClick);
   } else {
@@ -54,30 +49,18 @@ const MenuItem = (
 
 MenuItem.propTypes = {
   name: PropTypes.string,
-  nameEn: PropTypes.string,
-  icon: PropTypes.string,
   href: PropTypes.string,
   route: PropTypes.string,
   label: PropTypes.string,
   onClick: PropTypes.func,
+  openInNewTab: PropTypes.bool,
 };
 
 MenuItem.contextTypes = {
   router: routerShape.isRequired,
+  intl: intlShape.isRequired,
 };
 
 MenuItem.displayName = 'MenuItem';
-
-MenuItem.description = () => (
-  <div>
-    <p>Front page menu item</p>
-    <ComponentUsageExample description="external">
-      <MenuItem name="Palaute" href="http://www.hsl.fi/" />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="with icon">
-      <MenuItem icon="icon-icon_speech-bubble" name="Feedback" route="/" />
-    </ComponentUsageExample>
-  </div>
-);
 
 export default MenuItem;

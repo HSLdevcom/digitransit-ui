@@ -8,6 +8,7 @@ import TruncatedMessage from './TruncatedMessage';
 import {
   getServiceAlertDescription,
   getServiceAlertHeader,
+  mapAlertSource,
 } from '../util/alertUtils';
 
 const DisruptionBannerAlert = (
@@ -41,6 +42,9 @@ const DisruptionBannerAlert = (
         <div className="disruption-info-container">
           {(!config.URL.ROOTLINK || !config.trafficNowLink) && (
             <>
+              <div className="disruption-source-label">
+                {mapAlertSource(config, language, alert.feed)}
+              </div>
               <TruncatedMessage
                 className="disruption-show-more"
                 lines={3}
@@ -54,6 +58,9 @@ const DisruptionBannerAlert = (
             config.trafficNowLink &&
             (truncate && !renderLink ? (
               <>
+                <div className="disruption-source-label">
+                  {mapAlertSource(config, language, alert.feed)}
+                </div>
                 <TruncatedMessage
                   className="disruption-show-more"
                   lines={3}

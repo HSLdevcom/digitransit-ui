@@ -320,6 +320,16 @@
             .icon {
               width: 24px;
             }
+            .secondary {
+              .icon {
+                width: 18px;
+                margin-left: 2px;
+                padding-bottom: 2px;
+                @include min-width(tablet) {
+                  padding-bottom: 0px;
+                }
+              }
+            }
           }
         }
         .itinerary-icon_with-bicycle {

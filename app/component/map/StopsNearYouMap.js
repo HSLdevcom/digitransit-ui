@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { matchShape } from 'found';
 import { graphql, fetchQuery } from 'react-relay';
@@ -16,6 +16,7 @@ import MapWithTracking from './MapWithTracking';
 import {
   startRealTimeClient,
   stopRealTimeClient,
+  changeRealTimeClientTopics,
 } from '../../action/realTimeClientAction';
 import { addressToItinerarySearch } from '../../util/otpStrings';
 import {
@@ -26,6 +27,7 @@ import ItineraryLine from './ItineraryLine';
 import { dtLocationShape, mapLayerOptionsShape } from '../../util/shapes';
 import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
+import { getDefaultNetworks } from '../../util/citybikes';
 
 const locationMarkerModules = {
   LocationMarker: () =>
@@ -50,7 +52,7 @@ const handleStopsAndStations = edges => {
   return compact(stopsAndStations);
 };
 
-const startClient = (context, routes) => {
+const getRealTimeSettings = (routes, context) => {
   const { realTime } = context.config;
   let agency;
   /* handle multiple feedid case */
@@ -61,11 +63,18 @@ const startClient = (context, routes) => {
   });
   const source = agency && realTime[agency];
   if (source && source.active && routes.length > 0) {
-    const config = {
+    return {
       ...source,
       agency,
       options: routes,
     };
+  }
+  return null;
+};
+
+const startClient = (context, routes) => {
+  const config = getRealTimeSettings(routes, context);
+  if (config) {
     context.executeAction(startRealTimeClient, config);
   }
 };
@@ -73,6 +82,14 @@ const stopClient = context => {
   const { client } = context.getStore('RealTimeInformationStore');
   if (client) {
     context.executeAction(stopRealTimeClient, client);
+  }
+};
+const updateClient = (context, topics) => {
+  const { client } = context.getStore('RealTimeInformationStore');
+  const config = getRealTimeSettings(topics, context);
+  config.client = client;
+  if (client) {
+    context.executeAction(changeRealTimeClientTopics, config, client);
   }
 };
 
@@ -146,6 +163,7 @@ function StopsNearYouMap(
     isFetching: false,
     stop: null,
   });
+  const prevMode = useRef();
   const { mode } = match.params;
   const isTransitMode = mode !== 'CITYBIKE';
   const walkRoutingThreshold =
@@ -228,6 +246,12 @@ function StopsNearYouMap(
       });
     }
   };
+  useEffect(() => {
+    prevMode.current = match.params.mode;
+    return function cleanup() {
+      stopClient(context);
+    };
+  }, []);
 
   useEffect(() => {
     const newBounds = handleBounds(position, sortedStopEdges, breakpoint);
@@ -268,19 +292,19 @@ function StopsNearYouMap(
     });
 
     setRouteLines(routeLines);
-    if (!clientOn) {
-      setUniqueRealtimeTopics(uniqBy(realtimeTopics, route => route.route));
-    }
+    setUniqueRealtimeTopics(uniqBy(realtimeTopics, route => route.route));
   };
 
   useEffect(() => {
-    if (uniqueRealtimeTopics.length > 0 && !clientOn) {
-      startClient(context, uniqueRealtimeTopics);
-      setClientOn(true);
+    if (uniqueRealtimeTopics.length > 0) {
+      if (!clientOn) {
+        startClient(context, uniqueRealtimeTopics);
+        setClientOn(true);
+      } else if (match.params.mode !== prevMode.current) {
+        updateClient(context, uniqueRealtimeTopics);
+        prevMode.current = match.params.mode;
+      }
     }
-    return function cleanup() {
-      stopClient(context);
-    };
   }, [uniqueRealtimeTopics]);
 
   useEffect(() => {
@@ -296,13 +320,24 @@ function StopsNearYouMap(
         relay.loadMore(5);
         return;
       }
-      const sortedEdges = !isTransitMode
-        ? stopsNearYou.nearest.edges
-            .slice()
-            .sort(sortNearbyRentalStations(favouriteIds))
-        : active
-            .slice()
-            .sort(sortNearbyStops(favouriteIds, walkRoutingThreshold));
+      let sortedEdges;
+      if (!isTransitMode) {
+        const withNetworks = stopsNearYou.nearest.edges.filter(edge => {
+          return !!edge.node.place?.networks;
+        });
+        const filteredCityBikeEdges = withNetworks.filter(pattern => {
+          return pattern.node.place?.networks.every(network =>
+            getDefaultNetworks(context.config).includes(network),
+          );
+        });
+        sortedEdges = filteredCityBikeEdges
+          .slice()
+          .sort(sortNearbyRentalStations(favouriteIds));
+      } else {
+        sortedEdges = active
+          .slice()
+          .sort(sortNearbyStops(favouriteIds, walkRoutingThreshold));
+      }
 
       sortedEdges.unshift(
         ...prioritizedStopsNearYou.map(stop => {
@@ -351,7 +386,6 @@ function StopsNearYouMap(
       return null;
     });
   }
-
   if (uniqueRealtimeTopics.length > 0) {
     leafletObjs.push(
       <VehicleMarkerContainer key="vehicles" useLargeIcon mode={mode} />,
