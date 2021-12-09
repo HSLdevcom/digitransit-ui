@@ -493,7 +493,7 @@ const translations = {
     destination: 'Zielort',
     'destination-label-change': 'Zielort ändern',
     'destination-outside-service':
-      'Leider konnte keine Route an diesen Zielort gefunden werden. Der Zielort befindet sich außerhalb des abgedeckten Gebietes. Bitte ändern Sie den Zielort.',
+      'Leider konnte keine Verbindung mit Bus & Bahn für diese Route gefunden werden. Wir empfehlen Ihnen, die überregionale Reiseauskunft der Deutschen Bahn zu nutzen:',
     'destination-placeholder': 'Wohin reisen?',
     'dialog-return-to-map': 'Zurück zur Karte',
     'digitransit-platform': 'Digitransit-Plattform',
@@ -733,7 +733,7 @@ const translations = {
     origin: 'Start',
     'origin-label-change': 'Abfahrt ändern',
     'origin-outside-service':
-      'Leider konnte keine Route von diesem Startort gefunden werden. Der Startort befindet sich außerhalb des abgedeckten Gebietes. Bitte ändern Sie den Startort.',
+      'Leider konnte keine Verbindung mit Bus & Bahn für diese Route gefunden werden. Wir empfehlen Ihnen, die überregionale Reiseauskunft der Deutschen Bahn zu nutzen:',
     'origin-placeholder': 'Start',
     'other-dates': 'Anderer Zeitraum',
     'route-page.special-routes': 'Geänderte Routenführung',
