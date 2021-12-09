@@ -114,26 +114,24 @@ export default configMerger(walttiConfig, {
     content: [
       {
         name: 'menu-feedback',
-        nameEn: 'Submit feedback',
-        href: 'https://www.nysse.fi/palaute.html',
-        icon: 'icon-icon_speech-bubble',
+        href: {
+          fi: 'https://www.nysse.fi/palaute.html',
+          sv: 'https://www.nysse.fi/palaute.html',
+          en: 'https://www.nysse.fi/en/feedback.html',
+        },
       },
       {
         name: 'about-this-service',
-        nameEn: 'About this service',
         route: '/tietoja-palvelusta',
-        icon: 'icon-icon_info',
       },
       {
         name: 'accessibility-statement',
-        nameEn: 'Accessibility statement',
         href:
           'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
       },
       /*
       {
         name: 'stop-virtual-monitor',
-        nameEn: 'Stop display',
         href: 'https://tremonitori.digitransit.fi',
         openInNewTab: true,
       },

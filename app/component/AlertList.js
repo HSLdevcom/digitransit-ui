@@ -61,6 +61,7 @@ const AlertList = ({
                 stop: { code, vehicleMode, stopGtfsId, nameAndCode } = {},
                 url,
                 validityPeriod: { startTime, endTime },
+                source,
               },
               i,
             ) => (
@@ -85,6 +86,7 @@ const AlertList = ({
                 url={url}
                 gtfsIds={routeGtfsId || stopGtfsId}
                 showRouteNameLink={showRouteNameLink}
+                source={source}
               />
             ),
           )}

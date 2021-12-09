@@ -1389,6 +1389,25 @@ $itinerary-tab-switch-height: 48px;
           margin-left: 0px;
         }
       }
+      .notification-icon {
+        align-self: baseline;
+      }
+
+      .info-notification {
+        .info-content {
+          flex: 1;
+          font-size: $font-size-xsmall;
+          color: #333333;
+          margin: 0 4px 0 8px;
+          line-height: 1.23;
+          letter-spacing: -0.43px;
+        }
+        .info-header {
+          font-size: $font-size-xsmall;
+          font-weight: bold;
+          margin: 0 4px 0 8px;
+        }
+      }
 
       .description {
         flex: 1;
@@ -1459,6 +1478,9 @@ $itinerary-tab-switch-height: 48px;
       margin-top: 12px;
       padding-bottom: 0px;
       @extend .itinerary-leg-text-gray;
+    }
+    .intermediate-stops-button-container {
+      min-height: 40px;
     }
 
     .intermediate-stops-clickable {
@@ -1743,6 +1765,9 @@ div.itinerary-container-content {
 }
 
 .swipe-button-container {
+  &.active {
+    cursor: pointer;
+  }
   display: flex;
   justify-content: center;
   align-items: center;

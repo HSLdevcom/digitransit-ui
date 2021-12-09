@@ -24,8 +24,8 @@ function SeparatorLine({ usePaddingBottom20 }) {
     ? styles['separator-div2']
     : styles['separator-div'];
   return (
-    <div id="SeparatorDiv" className={className}>
-      <div id="SeparatorLine" className={styles['separator-line']} />
+    <div className={className}>
+      <div className={styles['separator-line']} />
     </div>
   );
 }
@@ -99,6 +99,7 @@ function BubbleDialog({ title, content, closeDialog, shouldRender, lang }) {
           </div>
           <button
             className={styles['nearby-stops-bubble-dialog-close']}
+            aria-label={i18next.t('close-nearby-teaser')}
             onClick={event => {
               event.preventDefault();
               closeDialog();
@@ -163,6 +164,11 @@ BubbleDialog.propTypes = {
  *    />
  *
  */
+
+function getIconName(mode, modeSet) {
+  return modeSet === 'default' ? `mode-${mode}` : `mode-${modeSet}-${mode}`;
+}
+
 function NearStopsAndRoutes({
   modeArray,
   urlPrefix,
@@ -176,6 +182,7 @@ function NearStopsAndRoutes({
   buttonStyle,
   title,
   modes,
+  modeSet,
   modeIconColors,
   fontWeights,
   showTeaser,
@@ -227,7 +234,7 @@ function NearStopsAndRoutes({
         <span className={styles['transport-mode-icon-container']}>
           <span className={styles['transport-mode-icon-with-icon']}>
             <Icon
-              img={mode === 'favorite' ? 'star' : `mode-${mode}`}
+              img={mode === 'favorite' ? 'star' : getIconName(mode, modeSet)}
               color={modeIconColors[`mode-${mode}`]}
             />
             {withAlert && (
@@ -255,7 +262,7 @@ function NearStopsAndRoutes({
               '--borderRadius': `${buttonStyle.borderRadius}`,
             }}
           >
-            <Icon img={`${mode}-waltti`} />
+            <Icon img={getIconName(mode, modeSet)} />
             {withAlert && (
               <span className={styles['transport-mode-alert-icon']}>
                 <Icon img="caution" color="#dc0451" />
@@ -353,6 +360,7 @@ NearStopsAndRoutes.propTypes = {
   title: PropTypes.object,
   modes: PropTypes.object,
   modeIconColors: PropTypes.object,
+  modeSet: PropTypes.string,
   fontWeights: PropTypes.shape({
     medium: PropTypes.number,
   }),
@@ -376,6 +384,7 @@ NearStopsAndRoutes.defaultProps = {
     'mode-ferry': '#007A97',
     'mode-citybike': '#F2B62D',
   },
+  modeSet: 'default',
   fontWeights: {
     medium: 500,
   },

@@ -1,15 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import StopNearYouHeader from './StopNearYouHeader';
+import AlertBanner from './AlertBanner';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
 
-const StopNearYou = ({ stop, desc, stopIsStation, ...props }) => {
+const StopNearYou = ({
+  stop,
+  desc,
+  stopId,
+  currentTime,
+  currentMode,
+  relay,
+}) => {
   const stopOrStation = stop.parentStation ? stop.parentStation : stop;
+  const stopMode = stopOrStation.stoptimesWithoutPatterns[0]?.trip.route.mode;
+  useEffect(() => {
+    let id = stop.gtfsId;
+    if (stopId) {
+      id = stopId;
+    }
+    if (currentMode === stopMode || !currentMode) {
+      relay?.refetch(oldVariables => {
+        return { ...oldVariables, stopId: id, startTime: currentTime };
+      }, null);
+    }
+  }, [currentTime, currentMode]);
   const description = desc || stop.desc;
-  const isStation = !!stop.parentStation || stopIsStation;
+  const isStation = !!stop.parentStation || stopId;
   const gtfsId =
     (stop.parentStation && stop.parentStation.gtfsId) || stop.gtfsId;
   const linkAddress = isStation
@@ -30,11 +51,17 @@ const StopNearYou = ({ stop, desc, stopIsStation, ...props }) => {
             default="The departure list and estimated departure times will update in real time."
           />
         </span>
+        {stop.alerts.length > 0 && (
+          <AlertBanner
+            alerts={stop.alerts}
+            linkAddress={`${linkAddress}/hairiot`}
+          />
+        )}
         <StopNearYouDepartureRowContainer
-          mode={stop.vehicleMode}
+          currentTime={currentTime}
+          mode={stopMode}
           stopTimes={stopOrStation.stoptimesWithoutPatterns}
-          currentTime={props.currentTime}
-          isStation={isStation && stop.vehicleMode !== 'SUBWAY'}
+          isStation={isStation && stopMode !== 'SUBWAY'}
         />
         <Link
           className="stop-near-you-more-departures"
@@ -54,15 +81,24 @@ const StopNearYou = ({ stop, desc, stopIsStation, ...props }) => {
   );
 };
 
+const connectedComponent = connectToStores(
+  StopNearYou,
+  ['TimeStore'],
+  (context, props) => {
+    return {
+      ...props,
+      currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+    };
+  },
+);
+
 StopNearYou.propTypes = {
   stop: PropTypes.object.isRequired,
-  stopIsStation: PropTypes.bool,
+  stopId: PropTypes.string,
   currentTime: PropTypes.number.isRequired,
+  currentMode: PropTypes.string.isRequired,
   desc: PropTypes.string,
+  relay: PropTypes.any,
 };
 
-StopNearYou.defaultProps = {
-  stopIsStation: false,
-};
-
-export default StopNearYou;
+export default connectedComponent;

@@ -15,6 +15,7 @@ import {
   compressLegs,
   getLegBadgeProps,
   isCallAgencyPickupType,
+  getInterliningLegs,
 } from '../util/legUtils';
 import { dateOrEmpty, isTomorrow } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
@@ -269,7 +270,6 @@ const SummaryRow = (
   let showRentalBikeDurationWarning = false;
   const citybikeNetworks = new Set();
   let citybikeicon;
-
   compressedLegs.forEach((leg, i) => {
     let interliningWithRoute;
     let renderBar = true;
@@ -305,10 +305,18 @@ const SummaryRow = (
       }
     }
 
-    if (nextLeg?.interlineWithPreviousLeg) {
-      interliningWithRoute = nextLeg.route.shortName;
+    const [interliningLines, interliningLegs] = getInterliningLegs(
+      compressedLegs,
+      i,
+    );
+
+    const lastLegWithInterline = interliningLegs[interliningLegs.length - 1];
+    if (lastLegWithInterline) {
+      interliningWithRoute = interliningLines.join(' / ');
       legLength =
-        ((nextLeg.endTime - leg.startTime) / durationWithoutSlack) * 100;
+        ((lastLegWithInterline.endTime - leg.startTime) /
+          durationWithoutSlack) *
+        100;
     }
     legLength += addition;
     addition = 0;

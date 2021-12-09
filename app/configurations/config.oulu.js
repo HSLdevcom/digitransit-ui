@@ -92,19 +92,18 @@ export default configMerger(walttiConfig, {
     content: [
       {
         name: 'menu-feedback',
-        nameEn: 'Submit feedback',
-        href: 'http://www.oulunjoukkoliikenne.fi/palautteet',
-        icon: 'icon-icon_speech-bubble',
+        href: {
+          fi: 'http://www.oulunjoukkoliikenne.fi/palautteet',
+          sv: 'http://www.oulunjoukkoliikenne.fi/palautteet',
+          en: 'https://www.ouka.fi/oulu/public-transport/customer-service',
+        },
       },
       {
         name: 'about-this-service',
-        nameEn: 'About this service',
         route: '/tietoja-palvelusta',
-        icon: 'icon-icon_info',
       },
       {
         name: 'accessibility-statement',
-        nameEn: 'Accessibility statement',
         href:
           'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
       },

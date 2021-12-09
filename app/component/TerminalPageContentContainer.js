@@ -39,14 +39,14 @@ class TerminalPageContent extends React.Component {
 
   componentDidMount() {
     // Throw error in client side if relay fails to fetch data
-    if (this.props.error) {
+    if (this.props.error && !this.props.station) {
       throw this.props.error.message;
     }
   }
 
   render() {
     // Render something in client side to clear SSR
-    if (isBrowser && this.props.error) {
+    if (isBrowser && this.props.error && !this.props.station) {
       return <Loading />;
     }
 
@@ -73,7 +73,10 @@ class TerminalPageContent extends React.Component {
         </div>
       );
     }
-
+    const isStreetTrafficTerminal = () =>
+      this.props.station.stops.some(
+        stop => stop.patterns[0].route.mode === 'BUS',
+      );
     return (
       <ScrollableWrapper>
         <div className="stop-page-departure-wrapper stop-scroll-container">
@@ -92,8 +95,16 @@ class TerminalPageContent extends React.Component {
             </span>
             <span className="track-header">
               <FormattedMessage
-                id={mode === 'BUS' ? 'platform' : 'track'}
-                defaultMessage={mode === 'BUS' ? 'Platform' : 'Track'}
+                id={
+                  mode === 'BUS' || isStreetTrafficTerminal()
+                    ? 'platform'
+                    : 'track'
+                }
+                defaultMessage={
+                  mode === 'BUS' || isStreetTrafficTerminal()
+                    ? 'Platform'
+                    : 'Track'
+                }
               />
             </span>
           </div>

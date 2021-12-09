@@ -9,6 +9,7 @@ const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
+const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 
 const rootLink = process.env.ROOTLINK || 'https://dev.hslfi.hsldev.com';
 const BANNER_URL = 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
@@ -66,6 +67,14 @@ export default {
   parkAndRide: {
     showParkAndRide: true,
     parkAndRideMinZoom: 14,
+    url: {
+      fi: 'https://www.hsl.fi/matkustaminen/liityntapysakointi',
+      sv: 'https://www.hsl.fi/sv/att-resa/anslutningsparkering',
+      en: 'https://www.hsl.fi/en/travelling/park--ride',
+    },
+    pageContent: {
+      default: HSLParkAndRideUtils,
+    },
   },
 
   showDisclaimer: true,
@@ -80,12 +89,13 @@ export default {
       'mode-rail': '#8c4799',
       'mode-tram': '#008151',
       'mode-ferry': '#007A97',
+      'mode-ferry-pier': '#666666',
       'mode-metro': '#CA4000',
       'mode-citybike': '#f2b62d',
       'mode-citybike-secondary': '#333333',
     },
   },
-  searchIconModeSet: 'default',
+  iconModeSet: 'default',
   fontWeights: {
     medium: 500,
   },
@@ -565,4 +575,41 @@ export default {
   },
 
   showSimilarRoutesOnRouteDropDown: true,
+
+  routeNotifications: [
+    {
+      showForRoute: gtfsId =>
+        gtfsId.slice(4).length === 4 && gtfsId.slice(4)[0] === '7',
+      id: 'uLineNotification',
+      header: {
+        fi: 'U-linja',
+        en: 'U-line',
+        sv: 'U-linje',
+      },
+      content: {
+        fi: [
+          'Mm. lastenvaunujen osalta noudatetaan liikennöitsijän sääntöjä. ',
+          'HSL-alueen ulkopuolelle käytetään liikennöitsijän lippuja.',
+        ],
+        en: [
+          "As far as i.e. baby carriages are concerned, the bus operators' own rules apply on the U lines. ",
+          "Outside the HSL area, the operator's tickets are used.",
+        ],
+        sv: [
+          'Vad gäller bl.a. barnvagn och keldjur, gäller bussoperatörernas egna regler på U-linjerna. ',
+          'Om resan börjar eller riktas utanför HRT-området används trafikidkarens egna biljetter',
+        ],
+      },
+      closeButtonLabel: {
+        fi: 'Mitä U-linja tarkoittaa?',
+        en: 'What does a U-line mean?',
+        sv: 'Vad betyder en U-linje?',
+      },
+      link: {
+        fi: 'hsl.fi/matkustaminen/u-liikenne/',
+        en: 'hsl.fi/matkustaminen/u-liikenne/',
+        sv: 'hsl.fi/sv/att-resa/U-trafik/',
+      },
+    },
+  ],
 };

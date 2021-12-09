@@ -164,28 +164,6 @@
       line-height: 16px;
     }
   }
-  .mode-option-block.citybike-network-container:nth-child(2) {
-    border-bottom: 1px solid #e3e3e3;
-  }
-  .mode-option-block.citybike-network-container {
-    margin-bottom: 0.75em;
-    label.toggle-label {
-      display: flex;
-      flex-grow: 1;
-      line-height: 35px;
-      .network-name {
-        margin-top: 4px;
-      }
-    }
-    .option-toggle-container {
-      .toggle {
-        top: 0px;
-      }
-    }
-    .icon-container {
-      margin-right: 0.5em;
-    }
-  }
 }
 
 .settings-section {
@@ -241,12 +219,6 @@
   color: $gray;
   font-weight: normal;
   padding: 0 0 0 1em;
-}
-
-.settings-header-citybike {
-  padding-left: 0;
-  position: relative;
-  top: 10px;
 }
 
 .mode-option-container {

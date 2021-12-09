@@ -43,12 +43,14 @@ const translations = {
     'search-origin': 'Suche Startort, Linie oder Haltestelle',
     'search-origin-index': 'Startort eingeben',
     'search-position': 'Standort ermitteln',
-    'search-autosuggest-label':
+    'search-autosuggest-label-desktop':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
+    'search-autosuggest-label-mobile': 'Venue, place and stopsearch.',
     'search-autosuggest-len': 'There is {{count}} suggestion available',
     'search-autosuggest-len_plural':
       'There are {{count}} suggestions available',
     'search-current-suggestion': 'Aktuelle Auswahl: {{selection}}',
+    street: 'Straße',
     subway: 'U-Bahn',
     station: 'Station',
     stop: 'Haltestelle',
@@ -58,8 +60,8 @@ const translations = {
     'stop-near-you-rail': 'Suche Zugverbindungen oder Bahnhöfe',
     'stop-near-you-subway': 'Suche U-Bahn-Linien oder Haltestellen',
     'stop-near-you-tram': 'Suche Stadtbahn-Haltestellen-Suche',
-    today: 'Heute um',
-    tomorrow: 'Morgen um',
+    'today-at': 'Heute um',
+    'tomorrow-at': 'Morgen um',
     tram: 'Straßenbahn',
     'use-own-position': 'Benutze aktuellen Standort',
     'select-from-map': 'Wähle Position anhand Karte',
@@ -114,12 +116,15 @@ const translations = {
     'search-origin': 'Search origin, route or stop',
     'search-origin-index': 'Enter origin',
     'search-position': 'Detect location',
-    'search-autosuggest-label':
+    'search-autosuggest-label-desktop':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
+    'search-autosuggest-label-mobile':
+      'Venue, place and stopsearch. Enter the location and navigate in the list by swiping.',
     'search-autosuggest-len': 'There is {{count}} suggestion available',
     'search-autosuggest-len_plural':
       'There are {{count}} suggestions available',
     'search-current-suggestion': 'Current selection: {{selection}}',
+    street: 'Street',
     subway: 'Metro',
     station: 'Station',
     stop: 'Stop',
@@ -131,8 +136,8 @@ const translations = {
     'stop-near-you-subway': 'Search metro routes or stations ',
     'stop-near-you-tram': 'Search tram routes or stops',
     'stop-route-station': 'Bus and stop search',
-    today: 'today at',
-    tomorrow: 'tomorrow at',
+    'today-at': 'today at',
+    'tomorrow-at': 'tomorrow at',
     tram: 'Tram',
     'use-own-position': 'Use current location',
     'select-from-map': 'Select position from map',
@@ -187,12 +192,15 @@ const translations = {
     'search-no-results': 'Ei tuloksia',
     'search-origin': 'Hae lähtöpaikkaa, linjaa tai pysäkkiä',
     'search-origin-index': 'Syötä lähtöpaikka',
-    'search-autosuggest-label':
+    'search-autosuggest-label-desktop':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
+    'search-autosuggest-label-mobile':
+      'Paikka, linja ja pysäkkihaku. Syötä sijainti ja navigoi listassa pyyhkäisemällä.',
     'search-autosuggest-len': ' Löydettiin {{count}} ehdotus',
     'search-autosuggest-len_plural': ' Löydettiin {{count}} ehdotusta',
     'search-current-suggestion': 'Tämänhetkinen valinta: {{selection}}',
     'search-position': 'Paikanna',
+    street: 'Katu',
     subway: 'Metro',
     station: 'Asema',
     stop: 'Pysäkki',
@@ -204,8 +212,8 @@ const translations = {
     'stop-near-you-subway': 'Hae metrolinjaa tai asemaa',
     'stop-near-you-tram': 'Hae raitiolinjaa tai pysäkkiä',
     'stop-route-station': 'Linja- ja pysäkkihaku',
-    today: 'tänään klo',
-    tomorrow: 'huomenna klo',
+    'today-at': 'tänään klo',
+    'tomorrow-at': 'huomenna klo',
     tram: 'Raitiovaunu',
     'use-own-position': 'Käytä nykyistä sijaintia',
     'select-from-map': 'Valitse sijainti kartalta',
@@ -261,10 +269,13 @@ const translations = {
     'search-origin': 'Sök avfärdsplats, linje eller hållplats',
     'search-origin-index': 'Skriv avfärdsplats',
     'search-position': 'Sök position',
-    'search-autosuggest-label':
+    'search-autosuggest-label-desktop':
       'Plats, linje och hållplatssökning. Navigera listan med piltangenterna och välj med Enter-tangeten',
+    'search-autosuggest-label-mobile':
+      'Plats, linje och hållplatssökning. Ange platsen och navigera i listan genom att svepa.',
     'search-autosuggest-len': 'Hittade {{count}} förslag',
     'search-current-suggestion': 'Nuvarande val: {{selection}}',
+    street: 'Gata',
     subway: 'Metro',
     station: 'Station',
     stop: 'Hållplats',
@@ -276,8 +287,8 @@ const translations = {
     'stop-near-you-subway': 'Sök metrolinjer eller stationer',
     'stop-near-you-tram': 'Sök spårvagnlinjer eller hållplatser',
     'stop-route-station': 'Buss och stopp sökningen',
-    today: 'i dag kl',
-    tomorrow: 'i morgon',
+    'today-at': 'i dag kl',
+    'tomorrow-at': 'i morgon',
     tram: 'Spårvagn',
     'use-own-position': 'Använd min position',
     'select-from-map': 'Välj position från kartan',

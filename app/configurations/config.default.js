@@ -306,11 +306,11 @@ export default {
       'mode-tram': '#6a8925',
       'mode-metro': '#ed8c00',
       'mode-rail': '#af8dbc',
-      'mode-ferry': '#35b5b3',
+      'mode-ferry': '#247C7B',
       'mode-citybike': '#f2b62d',
     },
   },
-  searchIconModeSet: 'digitransit',
+  iconModeSet: 'digitransit',
   fontWeights: {
     medium: 700,
   },
@@ -516,12 +516,10 @@ export default {
     content: [
       {
         name: 'menu-feedback',
-        nameEn: 'Submit feedback',
         href: 'https://github.com/HSLdevcom/digitransit-ui/issues',
       },
       {
         name: 'about-this-service',
-        nameEn: 'About this service',
         route: '/tietoja-palvelusta',
       },
     ],
@@ -747,4 +745,5 @@ export default {
   showSimilarRoutesOnRouteDropDown: false,
 
   prioritizedStopsNearYou: {},
+  routeNotifications: [],
 };

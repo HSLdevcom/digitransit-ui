@@ -129,10 +129,19 @@ class ItineraryLegs extends React.Component {
         }
         return undefined;
       };
+      let index = j;
+      const interliningLegs = [];
+      // there can be an arbitrary amount of interlining legs, search for the last one
+      while (
+        compressedLegs[index + 1] &&
+        compressedLegs[index + 1].interlineWithPreviousLeg
+      ) {
+        interliningLegs.push(compressedLegs[index + 1]);
+        index += 1;
+      }
       const isNextLegInterlining = nextLeg
         ? nextLeg.interlineWithPreviousLeg
         : false;
-      const nextInterliningLeg = isNextLegInterlining ? nextLeg : undefined;
       const bikePark = previousLeg?.to.bikePark;
       const carPark = previousLeg?.to.carPark;
       const fromBikePark = leg?.from.bikePark;
@@ -204,7 +213,7 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            nextInterliningLeg={nextInterliningLeg}
+            interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
         );
@@ -214,7 +223,7 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            nextInterliningLeg={nextInterliningLeg}
+            interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
         );
@@ -224,7 +233,7 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            nextInterliningLeg={nextInterliningLeg}
+            interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
         );
@@ -234,7 +243,7 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            nextInterliningLeg={nextInterliningLeg}
+            interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
         );
@@ -244,7 +253,7 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             interliningWait={interliningWait()}
-            nextInterliningLeg={nextInterliningLeg}
+            interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
         );
