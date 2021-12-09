@@ -129,8 +129,8 @@ export default {
     walkReluctance: 2,
     walkSpeed: 1.2,
     includeBikeSuggestions: true,
-    includeParkAndRideSuggestions: true,
-    includeCarSuggestions: true,
+    includeParkAndRideSuggestions: false,
+    includeCarSuggestions: false,
   },
 
   /**
@@ -720,8 +720,8 @@ export default {
   showBikeAndParkItineraries: false,
 
   includeBikeSuggestions: true,
-  includeCarSuggestions: true,
-  includeParkAndRideSuggestions: true,
+  includeCarSuggestions: false,
+  includeParkAndRideSuggestions: false,
 
   showNearYouButtons: false,
   nearYouModes: [],
