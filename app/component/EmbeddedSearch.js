@@ -14,9 +14,9 @@ import {
 } from '../util/path';
 import Icon from './Icon';
 
-const LocationSearch = withSearchContext(DTAutosuggestPanel);
+const LocationSearch = withSearchContext(DTAutosuggestPanel, true);
 
-// test case: http://localhost:8080/embedded-search?daddress=Opastinsilta%206%20A,%20Helsinki&dlat=60.199118&dlon=24.940652&bikeOnly=1
+// test case: http://localhost:8080/haku?address2=Opastinsilta%206%20A,%20Helsinki&lat2=60.199118&lon2=24.940652&bikeOnly=1
 
 /**
  *  A search component that can be embedded to other sites using iframe
@@ -30,18 +30,19 @@ const EmbeddedSearch = (props, context) => {
   const bikeOnly = query?.bikeOnly;
   const walkOnly = query?.walkOnly;
 
-  const deafultOriginExists = query.olat && query.olon;
+  const deafultOriginExists = query.lat1 && query.lon1;
   const defaultOrigin = {
-    lat: Number(query.olat),
-    lon: Number(query.olon),
-    address: query.oaddress,
+    lat: Number(query.lat1),
+    lon: Number(query.lon1),
+    address: query.address1,
+    name: query.address1,
   };
-  const defaultDestinationExists = query.dlat && query.dlon;
+  const defaultDestinationExists = query.lat2 && query.lon2;
   const defaultDestination = {
-    lat: Number(query.dlat),
-    lon: Number(query.dlon),
-    address: query.daddress,
-    name: query.daddress,
+    lat: Number(query.lat2),
+    lon: Number(query.lon2),
+    address: query.address2,
+    name: query.address2,
   };
   const [logo, setLogo] = useState();
   const [origin, setOrigin] = useState(
@@ -79,7 +80,7 @@ const EmbeddedSearch = (props, context) => {
     'FutureRoutes',
     'Stops',
   ];
-  const sources = ['Datasource'];
+  const sources = ['Favourite', 'History', 'Datasource'];
   const refPoint = getRefPoint(origin, destination, {});
 
   const onSelectLocation = (item, id) => {
