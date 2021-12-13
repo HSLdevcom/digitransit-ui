@@ -217,12 +217,7 @@ class TileLayerContainer extends GridLayer {
         selectableTargets: selectableTargets.filter(
           target =>
             target.layer === 'realTimeVehicle' ||
-            isFeatureLayerEnabled(
-              target.feature,
-              target.layer,
-              mapLayers,
-              this.context.config,
-            ),
+            isFeatureLayerEnabled(target.feature, target.layer, mapLayers),
         ),
         coords,
       });
