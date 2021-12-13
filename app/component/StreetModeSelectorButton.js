@@ -102,7 +102,9 @@ export const StreetModeSelectorButton = (
         <div
           className={`street-mode-selector-button-icon ${
             secondaryIcon ? 'primary-icon' : ''
-          } ${name === 'parkAndRide' ? 'car-park-primary' : ''}`}
+          } ${name === 'parkAndRide' ? 'car-park-primary' : ''} ${
+            name === 'bikeAndVehicle' ? 'bike-and-vehicle-primary' : ''
+          }`}
         >
           <Icon img={icon} />
         </div>

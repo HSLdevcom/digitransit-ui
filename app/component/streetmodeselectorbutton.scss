@@ -77,8 +77,16 @@
                 padding-top: 12px;
                 .icon-container {
                     .icon {
-                        width: 24px;
-                        height: 24px;
+                        width: 22px;
+                        height: 22px;
+                    }
+                }
+            }
+            &.bike-and-vehicle-primary {
+                .icon-container {
+                    .icon {
+                        width: 27px;
+                        height: 27px;
                     }
                 }
             }
