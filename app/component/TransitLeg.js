@@ -189,7 +189,6 @@ class TransitLeg extends React.Component {
       mode,
       lang,
       omitDivider,
-      interliningWait,
       interliningLegs,
     } = this.props;
     const { config, intl } = this.context;
@@ -495,11 +494,7 @@ class TransitLeg extends React.Component {
             </div>
           )}
           {interliningLegs?.length > 0 ? (
-            <InterlineInfo
-              legs={interliningLegs}
-              leg={leg}
-              wait={interliningWait}
-            />
+            <InterlineInfo legs={interliningLegs} leg={leg} />
           ) : (
             !omitDivider &&
             routeNotifications.length === 0 && <div className="divider" />
@@ -652,7 +647,6 @@ TransitLeg.propTypes = {
   ),
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
-  interliningWait: PropTypes.number,
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
   lang: PropTypes.string.isRequired,
