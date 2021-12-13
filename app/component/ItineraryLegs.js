@@ -121,13 +121,6 @@ class ItineraryLegs extends React.Component {
         previousLeg = compressedLegs[j - 1];
       }
       const startTime = (previousLeg && previousLeg.endTime) || leg.startTime;
-
-      const interliningWait = () => {
-        if (nextLeg?.interlineWithPreviousLeg) {
-          return nextLeg.startTime - leg.endTime;
-        }
-        return undefined;
-      };
       let index = j;
       const interliningLegs = [];
       // there can be an arbitrary amount of interlining legs, search for the last one
@@ -200,7 +193,6 @@ class ItineraryLegs extends React.Component {
           <BusLeg
             index={j}
             leg={leg}
-            interliningWait={interliningWait()}
             interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
@@ -210,7 +202,6 @@ class ItineraryLegs extends React.Component {
           <TramLeg
             index={j}
             leg={leg}
-            interliningWait={interliningWait()}
             interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
@@ -220,7 +211,6 @@ class ItineraryLegs extends React.Component {
           <FerryLeg
             index={j}
             leg={leg}
-            interliningWait={interliningWait()}
             interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
@@ -230,7 +220,6 @@ class ItineraryLegs extends React.Component {
           <RailLeg
             index={j}
             leg={leg}
-            interliningWait={interliningWait()}
             interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
@@ -240,7 +229,6 @@ class ItineraryLegs extends React.Component {
           <SubwayLeg
             index={j}
             leg={leg}
-            interliningWait={interliningWait()}
             interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
