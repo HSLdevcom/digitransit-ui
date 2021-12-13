@@ -26,6 +26,7 @@ export default function RouteScheduleDropdown(props, context) {
       const today = moment();
 
       option.value =
+        !moment(selectedOption.value, 'YYYYMMDD', true).isValid() ||
         moment(option.value).unix() > today.unix()
           ? selectedOption.value
           : today.format(DATE_FORMAT);
