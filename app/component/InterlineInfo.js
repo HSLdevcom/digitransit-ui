@@ -55,7 +55,11 @@ const InterlineInfo = ({ legs, leg }) => {
                   {durationToString(totalWait)}
                 </span>
               ),
-              shortName: <span className="bold">{routes.join(', ')}</span>,
+              shortName: (
+                <span className="bold">
+                  {Array.from(new Set(routes)).join(', ')}
+                </span>
+              ),
             }}
           />
         </>
