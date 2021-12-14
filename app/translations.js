@@ -974,6 +974,7 @@ const translations = {
     continue: 'Continue',
     covered: 'Sheltered',
     'create-account': 'Create {contactName} account',
+    'create-stop-monitor': 'Create a stop display',
     'cycle-distance-duration': 'Cycle {duration} ({distance})',
     'cyclewalk-distance-duration': 'Walk your bike {duration} ({distance})',
     // eslint-disable-next-line sort-keys
@@ -2012,6 +2013,7 @@ const translations = {
     continue: 'Jatka',
     covered: 'Katettu',
     'create-account': 'Luo {contactName} tunnus',
+    'create-stop-monitor': 'Luo pysäkkinäyttö',
     'cycle-distance-duration': 'Pyöräile {duration} ({distance})',
     'cyclewalk-distance-duration': 'Taluta pyörää {duration} ({distance})',
     // eslint-disable-next-line sort-keys
@@ -3827,6 +3829,7 @@ const translations = {
     continue: 'Fortsätt',
     covered: 'Tak',
     'create-account': 'Skapa {contactName} konto',
+    'create-stop-monitor': 'Skapa hållplatsskärm',
     'cycle-distance-duration': 'Cykla {duration} ({distance})',
     'cyclewalk-distance-duration': 'Led cykeln {duration} ({distance})',
     // eslint-disable-next-line sort-keys

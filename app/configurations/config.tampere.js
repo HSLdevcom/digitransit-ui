@@ -109,6 +109,13 @@ export default configMerger(walttiConfig, {
     lon: 23.7606972,
   },
 
+  mainMenu: {
+    stopMonitor: {
+      show: true,
+      url: 'https://tremonitori.digitransit.fi/createview',
+    },
+  },
+
   menu: {
     copyright: { label: `© Tampere ${walttiConfig.YEAR}` },
     content: [
