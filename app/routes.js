@@ -22,6 +22,7 @@ import {
   createReturnPath,
   TAB_NEARBY,
   TAB_FAVOURITES,
+  EMBEDDED_SEARCH_PATH,
 } from './util/path';
 import {
   getDefault,
@@ -303,7 +304,47 @@ export default config => {
         }}
       />
       <Route
+        path={`/${PREFIX_ITINERARY_SUMMARY}/POS/:to/:hash`}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "itinerary" */ './component/Geolocator'
+          ).then(getDefault)
+        }
+        render={({ Component, props }) => {
+          if (Component) {
+            return (
+              <Component
+                {...props}
+                createReturnPath={createReturnPath}
+                path={PREFIX_ITINERARY_SUMMARY}
+              />
+            );
+          }
+          return undefined;
+        }}
+      />
+      <Route
         path={`/${PREFIX_ITINERARY_SUMMARY}/:from/POS`}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "itinerary" */ './component/Geolocator'
+          ).then(getDefault)
+        }
+        render={({ Component, props }) => {
+          if (Component) {
+            return (
+              <Component
+                {...props}
+                createReturnPath={createReturnPath}
+                path={PREFIX_ITINERARY_SUMMARY}
+              />
+            );
+          }
+          return undefined;
+        }}
+      />
+      <Route
+        path={`/${PREFIX_ITINERARY_SUMMARY}/:from/POS/:hash`}
         getComponent={() =>
           import(
             /* webpackChunkName: "itinerary" */ './component/Geolocator'
@@ -386,7 +427,7 @@ export default config => {
         }
       />
       <Route
-        path="/embedded-search"
+        path={EMBEDDED_SEARCH_PATH}
         getComponent={() =>
           import(
             /* webpackChunkName: "embedded-search" */ './component/EmbeddedSearch'
