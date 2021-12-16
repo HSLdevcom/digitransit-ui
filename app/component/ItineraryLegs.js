@@ -299,7 +299,12 @@ class ItineraryLegs extends React.Component {
         );
       } else if (leg.mode === 'CAR') {
         legs.push(
-          <CarLeg index={j} leg={leg} focusAction={this.focus(leg.from)}>
+          <CarLeg
+            index={j}
+            leg={leg}
+            focusAction={this.focus(leg.from)}
+            focusToLeg={this.focusToLeg(leg)}
+          >
             {this.stopCode(leg.from.stop)}
           </CarLeg>,
         );

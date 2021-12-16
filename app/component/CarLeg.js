@@ -16,7 +16,7 @@ function CarLeg(props, { config, intl }) {
     intl.formatNumber,
   );
   const duration = durationToString(props.leg.duration * 1000);
-  const firstLegClassName = props.index === 0 ? 'start' : '';
+  const firstLegClassName = props.index === 0 ? 'first' : '';
   const modeClassName = 'car';
 
   const [address, place] = props.leg.from.name.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
@@ -55,7 +55,10 @@ function CarLeg(props, { config, intl }) {
             values={{ target: props.leg.from.name || '' }}
           />
         </span>
-        <div className="itinerary-leg-first-row" aria-hidden="true">
+        <div
+          className={`itinerary-leg-first-row ${firstLegClassName}`}
+          aria-hidden="true"
+        >
           <div className="address-container">
             <div className="address">
               {address}
@@ -86,11 +89,30 @@ function CarLeg(props, { config, intl }) {
           </div>
         </div>
         <div className="itinerary-leg-action" aria-hidden="true">
-          <FormattedMessage
-            id="car-distance-duration"
-            values={{ distance, duration }}
-            defaultMessage="Drive {distance} ({duration})}"
-          />
+          <div className="itinerary-leg-action-content">
+            <FormattedMessage
+              id="car-distance-duration"
+              values={{ distance, duration }}
+              defaultMessage="Drive {distance} ({duration})}"
+            />
+            <div
+              className="itinerary-map-action"
+              onClick={props.focusToLeg}
+              onKeyPress={e =>
+                isKeyboardSelectionEvent(e) && props.focusToLeg(e)
+              }
+              role="button"
+              tabIndex="0"
+              aria-label={intl.formatMessage({
+                id: 'itinerary-summary-row.clickable-area-description',
+              })}
+            >
+              <Icon
+                img="icon-icon_show-on-map"
+                className="itinerary-search-icon"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -115,6 +137,7 @@ CarLeg.propTypes = {
   }).isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
+  focusToLeg: PropTypes.func.isRequired,
   children: PropTypes.node,
 };
 

@@ -115,7 +115,7 @@ class ItineraryTab extends React.Component {
     const drivingDistance = getTotalDrivingDistance(compressedItinerary);
     const futureText = this.getFutureText(itinerary.startTime, this.props.currentTime);
     const isMultiRow =
-      walkingDistance > 0 && bikingDistance > 0 && futureText !== '';
+      walkingDistance > 0 && (bikingDistance > 0 || drivingDistance > 0) && futureText !== '';
     const extraProps = {
       walking: {
         duration: walkingDuration,

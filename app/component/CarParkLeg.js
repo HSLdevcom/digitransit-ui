@@ -19,14 +19,14 @@ function CarParkLeg(props, { config, intl }) {
     intl.formatNumber,
   );
   const duration = durationToString(props.leg.duration * 1000);
-  const firstLegClassName = props.index === 0 ? 'start' : '';
+  const firstLegClassName = props.index === 0 ? 'first' : '';
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={props.index} className="row itinerary-row">
       <span className="sr-only">
         <FormattedMessage
-          id="itinerary-details.car-leg"
+          id="itinerary-details.walk-leg"
           values={{
             time: moment(props.leg.startTime).format('HH:mm'),
             distance,
@@ -55,7 +55,10 @@ function CarParkLeg(props, { config, intl }) {
             values={{ target: props.leg.from.name || '' }}
           />
         </span>
-        <div className="itinerary-leg-first-row" aria-hidden="true">
+        <div
+          className={`itinerary-leg-first-row ${firstLegClassName}`}
+          aria-hidden="true"
+        >
           <div className="address-container">
             <Link
               onClick={e => {
@@ -107,10 +110,9 @@ function CarParkLeg(props, { config, intl }) {
               }
               role="button"
               tabIndex="0"
-              aria-label={intl.formatMessage(
-                { id: 'itinerary-summary.show-on-map' },
-                { target: props.leg.from.name || '' },
-              )}
+              aria-label={intl.formatMessage({
+                id: 'itinerary-summary-row.clickable-area-description',
+              })}
             >
               <Icon
                 img="icon-icon_show-on-map"

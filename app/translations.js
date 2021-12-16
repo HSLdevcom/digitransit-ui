@@ -1974,7 +1974,7 @@ const translations = {
       'Piilota perutut reittiehdotukset ({itineraryAmount})',
     'canceled-legs': 'Reitillä peruttuja vuoroja',
     car: 'Auto',
-    'car-distance-duration': 'Aja {duration} ({distance})',
+    'car-distance-duration': 'Autoile {duration} ({distance})',
     'car-park-disclaimer':
       'Voit yhdistää kätevästi joukkoliikenteen ja autoilun, kun jätät autosi liityntäpysäköintiin ja jatkat matkaasi junalla, bussilla, metrolla tai ratikalla. Auton pysäköinti on useissa paikoissa maksutonta eikä siinä ole aikarajaa.',
     'car-park-disclaimer-header': 'Jätä auto parkkiin',
