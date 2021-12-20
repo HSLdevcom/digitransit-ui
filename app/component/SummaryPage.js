@@ -737,7 +737,7 @@ class SummaryPage extends React.Component {
           fromPlace: $fromPlace
           toPlace: $toPlace
           intermediatePlaces: $intermediatePlaces
-          numItineraries: 5
+          numItineraries: 6
           transportModes: $bikeParkModes
           date: $date
           time: $time
@@ -799,7 +799,7 @@ class SummaryPage extends React.Component {
           fromPlace: $fromPlace
           toPlace: $toPlace
           intermediatePlaces: $intermediatePlaces
-          numItineraries: 6
+          numItineraries: 5
           transportModes: [{ mode: CAR }]
           date: $date
           time: $time
@@ -860,7 +860,7 @@ class SummaryPage extends React.Component {
           fromPlace: $fromPlace
           toPlace: $toPlace
           intermediatePlaces: $intermediatePlaces
-          numItineraries: 6
+          numItineraries: 5
           transportModes: [{ mode: CAR, qualifier: PARK }, { mode: TRANSIT }]
           date: $date
           time: $time
