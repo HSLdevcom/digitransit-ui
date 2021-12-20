@@ -701,6 +701,7 @@ class DTAutosuggest extends React.Component {
         isMobile={this.props.isMobile}
         ariaFavouriteString={i18next.t('favourite')}
         color={this.props.color}
+        accessiblePrimaryColor={this.props.accessiblePrimaryColor}
         fillInput={this.fillInput}
         fontWeights={this.props.fontWeights}
         modeIconColors={this.props.modeIconColors}
