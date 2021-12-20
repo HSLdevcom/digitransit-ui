@@ -83,6 +83,7 @@ export default {
   mergeStopsByCode: true,
   colors: {
     primary: '#007ac9',
+    accessiblePrimary: '#0074be',
     hover: '#0062a1',
     iconColors: {
       'mode-bus': '#007ac9',

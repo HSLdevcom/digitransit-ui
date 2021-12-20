@@ -229,6 +229,7 @@ class DTAutosuggest extends React.Component {
     isMobile: PropTypes.bool,
     color: PropTypes.string,
     hoverColor: PropTypes.string,
+    accessiblePrimaryColor: PropTypes.string,
     timeZone: PropTypes.string,
     pathOpts: PropTypes.shape({
       routesPrefix: PropTypes.string,
@@ -258,6 +259,7 @@ class DTAutosuggest extends React.Component {
     isMobile: false,
     color: '#007ac9',
     hoverColor: '#0062a1',
+    accessiblePrimaryColor: '#0074be',
     timeZone: 'Europe/Helsinki',
     pathOpts: {
       routesPrefix: 'linjat',
@@ -926,6 +928,7 @@ class DTAutosuggest extends React.Component {
             focusInput={cleanExecuted}
             color={this.props.color}
             hoverColor={this.props.hoverColor}
+            accessiblePrimaryColor={this.props.accessiblePrimaryColor}
             fontWeights={this.props.fontWeights}
           />
         )}

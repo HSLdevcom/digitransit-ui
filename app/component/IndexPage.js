@@ -210,6 +210,7 @@ class IndexPage extends React.Component {
     const { trafficNowLink, colors, fontWeights } = config;
     const color = colors.primary;
     const hoverColor = colors.hover || LightenDarkenColor(colors.primary, -20);
+    const accessiblePrimaryColor = colors.accessiblePrimary || colors.primary;
     const { breakpoint, lang } = this.props;
     const origin = this.pendingOrigin || this.props.origin;
     const destination = this.pendingDestination || this.props.destination;
@@ -249,6 +250,7 @@ class IndexPage extends React.Component {
       sources,
       color,
       hoverColor,
+      accessiblePrimaryColor,
       refPoint,
       searchPanelText: intl.formatMessage({
         id: 'where',
@@ -275,6 +277,7 @@ class IndexPage extends React.Component {
       lang,
       color,
       hoverColor,
+      accessiblePrimaryColor,
       sources,
       targets: stopAndRouteSearchTargets,
       fontWeights,
