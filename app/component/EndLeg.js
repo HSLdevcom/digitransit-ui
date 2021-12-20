@@ -66,7 +66,7 @@ function EndLeg(props, context) {
             tabIndex="0"
             aria-label={context.intl.formatMessage(
               { id: 'itinerary-summary.show-on-map' },
-              { target: props.to },
+              { target: props.to.name },
             )}
           >
             <Icon
