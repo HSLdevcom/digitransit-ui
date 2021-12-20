@@ -290,10 +290,7 @@ const SuggestionItem = pure(
             )}
           {(item.selectedIconId === 'favourite' || iconId === 'edit') && (
             <span>
-              <div
-                className={cx(styles['suggestion-name'], styles[className])}
-                style={{ color: `${item.color}` }}
-              >
+              <div className={cx(styles['suggestion-name'], styles[className])}>
                 {name}
               </div>
             </span>
