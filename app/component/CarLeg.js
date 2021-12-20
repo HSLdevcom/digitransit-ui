@@ -81,6 +81,10 @@ function CarLeg(props, { config, intl }) {
             }
             role="button"
             tabIndex="0"
+            aria-label={intl.formatMessage(
+              { id: 'itinerary-summary.show-on-map' },
+              { target: props.leg.from.name || '' },
+            )}
           >
             <Icon
               img="icon-icon_show-on-map"
@@ -103,9 +107,10 @@ function CarLeg(props, { config, intl }) {
               }
               role="button"
               tabIndex="0"
-              aria-label={intl.formatMessage({
-                id: 'itinerary-summary-row.clickable-area-description',
-              })}
+              aria-label={intl.formatMessage(
+                { id: 'itinerary-summary.show-on-map' },
+                { target: props.leg.from.name || '' },
+              )}
             >
               <Icon
                 img="icon-icon_show-on-map"

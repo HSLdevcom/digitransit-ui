@@ -2310,7 +2310,7 @@ $font-print-decrease: 0.7;
     top: 0;
     margin-left: 0;
     margin-bottom: 0;
-    height: 60px;
+    min-height: 60px;
     white-space: nowrap;
     .duration,
     .walk-distance {

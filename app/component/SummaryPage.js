@@ -737,7 +737,7 @@ class SummaryPage extends React.Component {
           fromPlace: $fromPlace
           toPlace: $toPlace
           intermediatePlaces: $intermediatePlaces
-          numItineraries: 6
+          numItineraries: 5
           transportModes: $bikeParkModes
           date: $date
           time: $time

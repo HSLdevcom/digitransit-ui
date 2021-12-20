@@ -161,13 +161,14 @@ class ItineraryTab extends React.Component {
         }
       }
     }
+    const suggestionIndex = this.context.match.params.secondHash ? Number(this.context.match.params.secondHash) + 1 : Number(this.context.match.params.hash) + 1
     return (
       <div className="itinerary-tab">
         <h2 className="sr-only">
           <FormattedMessage
             id="summary-page.row-label"
             values={{
-              number: Number(this.context.match.params.hash) + 1,
+              number: suggestionIndex,
             }}
           />
         </h2>
