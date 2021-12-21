@@ -305,7 +305,6 @@ class FavouriteBar extends React.Component {
       {
         name: i18next.t('add-place'),
         selectedIconId: 'favourite',
-        color: this.props.color,
       },
     ];
     if (this.props.favourites.length === 0) {
@@ -317,7 +316,6 @@ class FavouriteBar extends React.Component {
         name: i18next.t('edit'),
         selectedIconId: 'edit',
         iconColor: this.props.color,
-        color: this.props.color,
       },
     ];
   };
