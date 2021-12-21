@@ -6,6 +6,7 @@ import { showCityBikes } from '../util/modeUtils';
 class MapLayerStore extends Store {
   static defaultLayers = {
     parkAndRide: false,
+    parkAndRideForBikes: false,
     stop: {
       bus: true,
       ferry: true,
@@ -97,6 +98,7 @@ class MapLayerStore extends Store {
 export const mapLayerShape = PropTypes.shape({
   citybike: PropTypes.bool,
   parkAndRide: PropTypes.bool,
+  parkAndRideForBikes: PropTypes.bool,
   stop: PropTypes.shape({
     bus: PropTypes.bool,
     ferry: PropTypes.bool,

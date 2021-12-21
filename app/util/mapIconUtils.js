@@ -770,6 +770,12 @@ export function drawParkAndRideIcon(tile, geom, width, height) {
   });
 }
 
+export function drawParkAndRideForBikesIcon(tile, geom, width, height) {
+  getImageFromSpriteCache('icon-icon_bike-park', width, height).then(image => {
+    drawIconImage(image, tile, geom, width, height);
+  });
+}
+
 export function drawAvailabilityBadge(
   availability,
   tile,

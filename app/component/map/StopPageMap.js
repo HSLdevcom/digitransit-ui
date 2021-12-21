@@ -27,6 +27,9 @@ const getModeFromProps = props => {
   if (props.citybike) {
     return 'citybike';
   }
+  if (props.stop.bikeParkId) {
+    return 'parkAndRideForBikes';
+  }
   if (props.stop.carParkId) {
     return 'parkAndRide';
   }
