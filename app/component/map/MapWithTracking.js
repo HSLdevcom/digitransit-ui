@@ -183,26 +183,26 @@ class MapWithTrackingStateHandler extends React.Component {
   };
 
   getMapLayers = () => {
-    if (!isEmpty(this.state.forcedLayers)) {
-      const merged = {
-        ...this.props.mapLayers,
-        ...this.state.forcedLayers,
-        vehicles: !this.props.mapLayerOptions
-          ? this.props.mapLayers.vehicles
-          : false,
-      };
-      if (!isEmpty(this.state.forcedLayers.stop)) {
-        return {
-          ...merged,
-          stop: {
-            ...this.props.mapLayers.stop,
-            ...this.state.forcedLayers.stop,
-          },
-        };
-      }
+    if (isEmpty(this.state.forcedLayers)) {
+      return this.props.mapLayers;
+    }
+    const merged = {
+      ...this.props.mapLayers,
+      ...this.state.forcedLayers,
+      vehicles: !this.props.mapLayerOptions
+        ? this.props.mapLayers.vehicles
+        : false,
+    };
+    if (isEmpty(this.state.forcedLayers.stop)) {
       return merged;
     }
-    return this.props.mapLayers;
+    return {
+      ...merged,
+      stop: {
+        ...this.props.mapLayers.stop,
+        ...this.state.forcedLayers.stop,
+      },
+    };
   };
 
   render() {
