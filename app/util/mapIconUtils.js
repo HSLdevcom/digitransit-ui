@@ -765,11 +765,9 @@ export function drawHybridStationIcon(tile, geom, isHilighted) {
 }
 
 export function drawParkAndRideIcon(tile, geom, width, height) {
-  getImageFromSpriteCache('icon-icon_park-and-ride', width, height).then(
-    image => {
-      drawIconImage(image, tile, geom, width, height);
-    },
-  );
+  getImageFromSpriteCache('icon-icon_car-park', width, height).then(image => {
+    drawIconImage(image, tile, geom, width, height);
+  });
 }
 
 export function drawAvailabilityBadge(

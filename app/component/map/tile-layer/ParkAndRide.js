@@ -21,7 +21,7 @@ export default class ParkAndRide {
     this.relayEnvironment = relayEnvironment;
     const scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.width = 24 * scaleratio;
-    this.height = 12 * scaleratio;
+    this.height = 24 * scaleratio;
     this.promise = this.getPromise();
   }
 
@@ -40,7 +40,6 @@ export default class ParkAndRide {
       return res.arrayBuffer().then(
         buf => {
           const vt = new VectorTile(new Protobuf(buf));
-
           this.features = [];
 
           if (this.tile.coords.z < showFacilities && vt.layers.hubs != null) {
