@@ -49,16 +49,7 @@ function CarParkLeg(props, { config, intl }) {
       <div
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
       >
-        <span className="sr-only">
-          <FormattedMessage
-            id="itinerary-summary.show-on-map"
-            values={{ target: props.leg.from.name || '' }}
-          />
-        </span>
-        <div
-          className={`itinerary-leg-first-row ${firstLegClassName}`}
-          aria-hidden="true"
-        >
+        <div className={`itinerary-leg-first-row ${firstLegClassName}`}>
           <div className="address-container">
             <Link
               onClick={e => {
