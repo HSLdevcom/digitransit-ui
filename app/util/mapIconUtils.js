@@ -764,16 +764,41 @@ export function drawHybridStationIcon(tile, geom, isHilighted) {
   }
 }
 
-export function drawParkAndRideIcon(tile, geom, width, height) {
-  getImageFromSpriteCache('icon-icon_car-park', width, height).then(image => {
+export function drawParkAndRideIcon(
+  tile,
+  geom,
+  width,
+  height,
+  isHilighted = false,
+  isBikePark = false,
+) {
+  const img = isBikePark ? 'icon-icon_bike-park' : 'icon-icon_car-park';
+  getImageFromSpriteCache(img, width, height).then(image => {
     drawIconImage(image, tile, geom, width, height);
   });
+  if (isHilighted) {
+    getImageFromSpriteCache(`icon-icon_station_highlight`, width, height).then(
+      image => {
+        tile.ctx.drawImage(
+          image,
+          geom.x / tile.ratio - width / 2 - 4 / tile.scaleratio,
+          geom.y / tile.ratio - height / 2 - 4 / tile.scaleratio,
+          width + 7.5 / tile.scaleratio,
+          height + 6 / tile.scaleratio,
+        );
+      },
+    );
+  }
 }
 
-export function drawParkAndRideForBikesIcon(tile, geom, width, height) {
-  getImageFromSpriteCache('icon-icon_bike-park', width, height).then(image => {
-    drawIconImage(image, tile, geom, width, height);
-  });
+export function drawParkAndRideForBikesIcon(
+  tile,
+  geom,
+  width,
+  height,
+  isHighlighted = false,
+) {
+  drawParkAndRideIcon(tile, geom, width, height, isHighlighted, true);
 }
 
 export function drawAvailabilityBadge(

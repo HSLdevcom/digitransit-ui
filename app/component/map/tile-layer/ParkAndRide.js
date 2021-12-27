@@ -80,6 +80,11 @@ export default class ParkAndRide {
                 const result = data.carPark;
                 if (result != null && result.id != null) {
                   feature.properties.facility = result;
+                  const isHilighted =
+                    this.tile.hilightedStops &&
+                    this.tile.hilightedStops.includes(
+                      feature.properties?.facility?.carParkId,
+                    );
                   feature.geom = new Contour(
                     feature.loadGeometry()[0],
                   ).centroid();
@@ -89,6 +94,7 @@ export default class ParkAndRide {
                     feature.geom,
                     this.width,
                     this.height,
+                    isHilighted,
                   );
                 }
               });
