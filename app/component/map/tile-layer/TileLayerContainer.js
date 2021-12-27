@@ -218,7 +218,8 @@ class TileLayerContainer extends GridLayer {
       }
       if (
         selectableTargets.length === 1 &&
-        selectableTargets[0].layer === 'parkAndRideForBikes'
+        selectableTargets[0].layer === 'parkAndRideForBikes' &&
+        selectableTargets[0].feature.properties.facility
       ) {
         this.context.router.push(
           `/${PREFIX_BIKEPARK}/${encodeURIComponent(
@@ -295,6 +296,7 @@ class TileLayerContainer extends GridLayer {
   render() {
     let popup = null;
     let latlng = this.state.coords;
+    let contents;
     const breakpoint = getClientBreakpoint(); // DT-3470
     let showPopup = true; // DT-3470
 
@@ -306,20 +308,12 @@ class TileLayerContainer extends GridLayer {
           this.state.selectableTargets[0].feature.properties.facilityIds
         ) {
           id = this.state.selectableTargets[0].feature.properties.facilityIds;
-          popup = (
-            <Popup
-              key={this.state.coords.toString()}
-              {...this.PopupOptions}
-              position={this.state.coords}
-              maxWidth="300px"
-              className={`${this.PopupOptions.className} choice-popup`}
-            >
-              <MarkerSelectPopup
-                selectRow={this.selectRow}
-                options={this.state.selectableTargets}
-                colors={this.context.config.colors}
-              />
-            </Popup>
+          contents = (
+            <MarkerSelectPopup
+              selectRow={this.selectRow}
+              options={this.state.selectableTargets}
+              colors={this.context.config.colors}
+            />
           );
         } else if (
           this.state.selectableTargets[0].layer === 'realTimeVehicle'
@@ -333,17 +327,23 @@ class TileLayerContainer extends GridLayer {
             };
           }
           this.PopupOptions.className = 'vehicle-popup';
-          popup = (
-            <Popup
-              {...this.PopupOptions}
-              key={id}
-              position={latlng}
-              className={`${this.PopupOptions.className} single-popup`}
-            >
-              <SelectVehicleContainer vehicle={vehicle} />
-            </Popup>
-          );
+
+          contents = <SelectVehicleContainer vehicle={vehicle} />;
         }
+        popup = (
+          <Popup
+            {...this.PopupOptions}
+            key={id}
+            position={latlng}
+            className={`${this.PopupOptions.className} ${
+              this.PopupOptions.className === 'vehicle-popup'
+                ? 'single-popup'
+                : 'choice-popup'
+            }`}
+          >
+            {contents}
+          </Popup>
+        );
       } else if (this.state.selectableTargets.length > 1) {
         if (
           !this.context.config.map.showStopMarkerPopupOnMobile &&
