@@ -1,18 +1,12 @@
 import { fetchQuery } from 'react-relay';
 import { VectorTile } from '@mapbox/vector-tile';
-import compact from 'lodash/compact';
-import isEmpty from 'lodash/isEmpty';
-import pick from 'lodash/pick';
 import Protobuf from 'pbf';
 
 import { drawParkAndRideForBikesIcon } from '../../../util/mapIconUtils';
 import { Contour } from '../../../util/geo-utils';
 import { isBrowser } from '../../../util/browser';
 
-import bikeParksQuery from './bikeParks';
 import bikeParkQuery from './bikePark';
-
-const showFacilities = 17;
 
 export default class ParkAndRideForBikes {
   constructor(tile, config, mapLayers, relayEnvironment) {
@@ -42,32 +36,7 @@ export default class ParkAndRideForBikes {
           const vt = new VectorTile(new Protobuf(buf));
           this.features = [];
 
-          if (this.tile.coords.z < showFacilities && vt.layers.hubs != null) {
-            for (let i = 0, ref = vt.layers.hubs.length - 1; i <= ref; i++) {
-              const feature = vt.layers.hubs.feature(i);
-              fetchQuery(this.relayEnvironment, bikeParksQuery, {
-                ids: JSON.parse(feature.properties.facilityIds).map(id =>
-                  id.toString(),
-                ),
-              }).then(data => {
-                const result = compact(data.bikeParks);
-                if (!isEmpty(result)) {
-                  feature.properties.facilities = result;
-                  [[feature.geom]] = feature.loadGeometry();
-                  this.features.push(pick(feature, ['geom', 'properties']));
-                  drawParkAndRideForBikesIcon(
-                    this.tile,
-                    feature.geom,
-                    this.width,
-                    this.height,
-                  );
-                }
-              });
-            }
-          } else if (
-            this.tile.coords.z >= showFacilities &&
-            vt.layers.facilities != null
-          ) {
+          if (vt.layers.facilities != null) {
             for (
               let i = 0, ref = vt.layers.facilities.length - 1;
               i <= ref;
