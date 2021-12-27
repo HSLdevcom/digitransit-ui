@@ -14,7 +14,7 @@ import bikeParkQuery from './bikePark';
 
 const showFacilities = 17;
 
-export default class ParkAndRide {
+export default class ParkAndRideForBikes {
   constructor(tile, config, mapLayers, relayEnvironment) {
     this.tile = tile;
     this.config = config;
