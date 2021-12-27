@@ -12,8 +12,6 @@ import { withLeaflet } from 'react-leaflet/es/context';
 import { matchShape, routerShape } from 'found';
 import { mapLayerShape } from '../../../store/MapLayerStore';
 import MarkerSelectPopup from './MarkerSelectPopup';
-import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopupContainer';
-import ParkAndRideFacilityPopup from '../popups/ParkAndRideFacilityPopupContainer';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
@@ -24,6 +22,8 @@ import {
   PREFIX_BIKESTATIONS,
   PREFIX_STOPS,
   PREFIX_TERMINALS,
+  PREFIX_CARPARK,
+  PREFIX_BIKEPARK,
 } from '../../../util/path';
 import SelectVehicleContainer from './SelectVehicleContainer';
 
@@ -205,6 +205,29 @@ class TileLayerContainer extends GridLayer {
         return;
       }
       if (
+        selectableTargets.length === 1 &&
+        selectableTargets[0].layer === 'parkAndRide' &&
+        selectableTargets[0].feature.properties.facility
+      ) {
+        this.context.router.push(
+          `/${PREFIX_CARPARK}/${encodeURIComponent(
+            selectableTargets[0].feature.properties.facility.carParkId,
+          )}`,
+        );
+        return;
+      }
+      if (
+        selectableTargets.length === 1 &&
+        selectableTargets[0].layer === 'parkAndRideForBikes'
+      ) {
+        this.context.router.push(
+          `/${PREFIX_BIKEPARK}/${encodeURIComponent(
+            selectableTargets[0].feature.properties.facility.bikeParkId,
+          )}`,
+        );
+        return;
+      }
+      if (
         popup &&
         popup.isOpen() &&
         (!forceOpen || (coords && coords.equals(prevCoords)))
@@ -272,7 +295,6 @@ class TileLayerContainer extends GridLayer {
   render() {
     let popup = null;
     let latlng = this.state.coords;
-    let contents;
     const breakpoint = getClientBreakpoint(); // DT-3470
     let showPopup = true; // DT-3470
 
@@ -284,35 +306,20 @@ class TileLayerContainer extends GridLayer {
           this.state.selectableTargets[0].feature.properties.facilityIds
         ) {
           id = this.state.selectableTargets[0].feature.properties.facilityIds;
-          contents = (
-            <ParkAndRideHubPopup
-              ids={JSON.parse(id).map(i => i.toString())}
-              name={
-                JSON.parse(
-                  this.state.selectableTargets[0].feature.properties.name,
-                )[this.context.intl.locale]
-              }
-              coords={this.state.coords}
-              context={this.context}
-              onSelectLocation={this.props.onSelectLocation}
-              locationPopup={this.props.locationPopup}
-            />
-          );
-        } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {
-          ({ id } = this.state.selectableTargets[0].feature);
-          contents = (
-            <ParkAndRideFacilityPopup
-              id={id.toString()}
-              name={
-                JSON.parse(
-                  this.state.selectableTargets[0].feature.properties.name,
-                )[this.context.intl.locale]
-              }
-              coords={this.state.coords}
-              context={this.context}
-              onSelectLocation={this.props.onSelectLocation}
-              locationPopup={this.props.locationPopup}
-            />
+          popup = (
+            <Popup
+              key={this.state.coords.toString()}
+              {...this.PopupOptions}
+              position={this.state.coords}
+              maxWidth="300px"
+              className={`${this.PopupOptions.className} choice-popup`}
+            >
+              <MarkerSelectPopup
+                selectRow={this.selectRow}
+                options={this.state.selectableTargets}
+                colors={this.context.config.colors}
+              />
+            </Popup>
           );
         } else if (
           this.state.selectableTargets[0].layer === 'realTimeVehicle'
@@ -326,18 +333,17 @@ class TileLayerContainer extends GridLayer {
             };
           }
           this.PopupOptions.className = 'vehicle-popup';
-          contents = <SelectVehicleContainer vehicle={vehicle} />;
+          popup = (
+            <Popup
+              {...this.PopupOptions}
+              key={id}
+              position={latlng}
+              className={`${this.PopupOptions.className} single-popup`}
+            >
+              <SelectVehicleContainer vehicle={vehicle} />
+            </Popup>
+          );
         }
-        popup = (
-          <Popup
-            {...this.PopupOptions}
-            key={id}
-            position={latlng}
-            className={`${this.PopupOptions.className} single-popup`}
-          >
-            {contents}
-          </Popup>
-        );
       } else if (this.state.selectableTargets.length > 1) {
         if (
           !this.context.config.map.showStopMarkerPopupOnMobile &&

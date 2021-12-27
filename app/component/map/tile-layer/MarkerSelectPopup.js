@@ -50,18 +50,25 @@ function MarkerSelectPopup(props) {
         />
       );
     }
-    if (option.layer === 'parkAndRide') {
+    if (
+      option.layer === 'parkAndRide' ||
+      (option.layer === 'parkAndRideForBikes' &&
+        Array.isArray(option.feature.properties?.facilities) &&
+        option.feature.properties.facilities.length > 0)
+    ) {
       return (
-        <SelectParkAndRideRow
-          {...option.feature.properties}
-          key={
-            Array.isArray(option.feature.properties.facilities) &&
-            option.feature.properties.facilities.length > 0 &&
-            option.feature.properties.facilities[0].id
-          }
-          selectRow={() => props.selectRow(option)}
-          colors={props.colors}
-        />
+        <>
+          {option.feature.properties.facilities.map(facility => {
+            return (
+              <SelectParkAndRideRow
+                key={facility.id}
+                name={facility.name}
+                bikeParkId={facility?.bikeParkId}
+                carParkId={facility?.carParkId}
+              />
+            );
+          })}
+        </>
       );
     }
     if (option.layer === 'realTimeVehicle') {
@@ -75,7 +82,6 @@ function MarkerSelectPopup(props) {
     }
     return null;
   });
-
   let id = 'choose-stop';
   if (hasStop() && hasVehicle()) {
     id = 'choose-stop-or-vehicle';
