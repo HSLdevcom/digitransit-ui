@@ -82,7 +82,7 @@ class MapWithTrackingStateHandler extends React.Component {
     this.state = {
       mapTracking: props.mapTracking,
       settingsOpen: false,
-      forcedLayers: {},
+      forcedLayers: null,
     };
     this.naviProps = {};
   }
@@ -102,22 +102,9 @@ class MapWithTrackingStateHandler extends React.Component {
 
     const { mapLayerOptions } = newProps;
     if (mapLayerOptions && isEmpty(this.state.forcedLayers)) {
-      const forcedLayers = {};
-      Object.keys(mapLayerOptions).forEach(key => {
-        const layer = mapLayerOptions[key];
-        if (layer?.isLocked === undefined) {
-          Object.keys(layer).forEach(subKey => {
-            if (layer[subKey].isLocked) {
-              if (!forcedLayers[key]) {
-                forcedLayers[key] = {};
-              }
-              forcedLayers[key][subKey] = layer[subKey].isSelected;
-            }
-          });
-        } else if (layer?.isLocked) {
-          forcedLayers[key] = layer.isSelected;
-        }
-      });
+      const forcedLayers = this.getForcedLayersFromMapLayerOptions(
+        mapLayerOptions,
+      );
       newState = { forcedLayers };
     }
 
@@ -130,6 +117,32 @@ class MapWithTrackingStateHandler extends React.Component {
       this.setState(newState);
     }
   }
+
+  getForcedLayersFromMapLayerOptions = mapLayerOptions => {
+    const forcedLayers = {};
+    Object.keys(mapLayerOptions).forEach(key => {
+      const layer = mapLayerOptions[key];
+      if (layer?.isLocked === undefined) {
+        Object.keys(layer).forEach(subKey => {
+          if (layer[subKey].isLocked) {
+            if (!forcedLayers[key]) {
+              forcedLayers[key] = {};
+            }
+            forcedLayers[key][subKey] = layer[subKey].isSelected;
+          }
+        });
+      } else if (layer?.isLocked) {
+        forcedLayers[key] = layer.isSelected;
+      }
+    });
+    return forcedLayers;
+  };
+
+  setForcedLayers = forcedLayers => {
+    if (!isEmpty(forcedLayers)) {
+      this.setState({ forcedLayers });
+    }
+  };
 
   setMapElementRef = element => {
     if (element && this.mapElement !== element) {
@@ -220,6 +233,13 @@ class MapWithTrackingStateHandler extends React.Component {
       ...rest
     } = this.props;
     const { config } = this.context;
+
+    if (mapLayerOptions && isEmpty(this.state.forcedLayers)) {
+      const forcedLayers = this.getForcedLayersFromMapLayerOptions(
+        mapLayerOptions,
+      );
+      this.setForcedLayers(forcedLayers);
+    }
 
     let btnClassName = 'map-with-tracking-buttons'; // DT-3470
     if (config.map.showZoomControl) {
