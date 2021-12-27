@@ -52,23 +52,34 @@ function MarkerSelectPopup(props) {
     }
     if (
       option.layer === 'parkAndRide' ||
-      (option.layer === 'parkAndRideForBikes' &&
-        Array.isArray(option.feature.properties?.facilities) &&
-        option.feature.properties.facilities.length > 0)
+      option.layer === 'parkAndRideForBikes'
     ) {
+      if (
+        Array.isArray(option.feature.properties?.facilities) &&
+        option.feature.properties.facilities.length > 0
+      ) {
+        return (
+          <>
+            {option.feature.properties.facilities.map(facility => {
+              return (
+                <SelectParkAndRideRow
+                  key={facility.id}
+                  name={facility.name}
+                  bikeParkId={facility?.bikeParkId}
+                  carParkId={facility?.carParkId}
+                />
+              );
+            })}
+          </>
+        );
+      }
       return (
-        <>
-          {option.feature.properties.facilities.map(facility => {
-            return (
-              <SelectParkAndRideRow
-                key={facility.id}
-                name={facility.name}
-                bikeParkId={facility?.bikeParkId}
-                carParkId={facility?.carParkId}
-              />
-            );
-          })}
-        </>
+        <SelectParkAndRideRow
+          key={option.feature.properties.facility.id}
+          name={option.feature.properties.facility.name}
+          bikeParkId={option.feature.properties.facility?.bikeParkId}
+          carParkId={option.feature.properties.facility?.carParkId}
+        />
       );
     }
     if (option.layer === 'realTimeVehicle') {
