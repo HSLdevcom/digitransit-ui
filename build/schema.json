@@ -1312,7 +1312,22 @@
                         {
                             "name": "bikeParks",
                             "description": "Get all bike parks",
-                            "args": [],
+                            "args": [
+                                {
+                                    "name": "ids",
+                                    "description": "Return bike parks with these ids.  \n **Note:** if an id is invalid (or the bike park service is unavailable) the returned list will contain `null` values.",
+                                    "type": {
+                                        "kind": "LIST",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "SCALAR",
+                                            "name": "String",
+                                            "ofType": null
+                                        }
+                                    },
+                                    "defaultValue": null
+                                }
+                            ],
                             "type": {
                                 "kind": "LIST",
                                 "name": null,

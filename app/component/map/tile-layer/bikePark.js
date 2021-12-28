@@ -1,12 +1,11 @@
 import { graphql } from 'react-relay';
 
 export default graphql`
-  query carParksQuery($ids: [String!]!) {
-    carParks(ids: $ids) {
+  query bikeParkQuery($id: String!) {
+    bikePark(id: $id) {
       id
-      carParkId
+      bikeParkId
       name
-      maxCapacity
       spacesAvailable
       realtime
     }
