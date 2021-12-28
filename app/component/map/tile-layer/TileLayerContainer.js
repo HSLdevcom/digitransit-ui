@@ -207,14 +207,18 @@ class TileLayerContainer extends GridLayer {
       if (
         selectableTargets.length === 1 &&
         selectableTargets[0].layer === 'parkAndRide' &&
-        selectableTargets[0].feature.properties.facility
+        (selectableTargets[0].feature.properties.facility ||
+          selectableTargets[0].feature.properties.facilities.length === 1)
       ) {
-        this.context.router.push(
-          `/${PREFIX_CARPARK}/${encodeURIComponent(
-            selectableTargets[0].feature.properties.facility.carParkId,
-          )}`,
-        );
-        return;
+        const carParkId =
+          selectableTargets[0].feature.properties?.facility?.carParkId ||
+          selectableTargets[0].feature.properties?.facilities[0]?.carParkId;
+        if (carParkId) {
+          this.context.router.push(
+            `/${PREFIX_CARPARK}/${encodeURIComponent(carParkId)}`,
+          );
+          return;
+        }
       }
       if (
         selectableTargets.length === 1 &&
