@@ -31,6 +31,11 @@ function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
     return modeSet === 'default'
       ? [`mode-${mode}`, `mode-${mode}`]
       : [`mode-${modeSet}-${mode}`, `mode-${mode}`];
+  } else if (item.type === 'OldSearch' && item?.properties?.mode) {
+    const mode = item?.properties?.mode?.toLowerCase();
+    return modeSet === 'default'
+      ? [`mode-${mode}`, `mode-${mode}`]
+      : [`mode-${modeSet}-${mode}`, `mode-${mode}`];
   } else if (item && item.selectedIconId) {
     iconId = item.selectedIconId;
   } else if (item && item.properties) {
