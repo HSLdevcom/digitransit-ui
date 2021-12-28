@@ -96,7 +96,8 @@ class TileContainer {
           return isEnabled;
         }
         if (
-          layerName === 'parkAndRide' &&
+          (layerName === 'parkAndRide' ||
+            layerName === 'parkAndRideForBikes') &&
           config.parkAndRide &&
           this.coords.z >= config.parkAndRide.parkAndRideMinZoom
         ) {

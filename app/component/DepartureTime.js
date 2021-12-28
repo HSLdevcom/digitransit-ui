@@ -6,13 +6,6 @@ import { intlShape } from 'react-intl';
 import Icon from './Icon';
 import LocalTime from './LocalTime';
 
-import ComponentUsageExample from './ComponentUsageExample';
-import {
-  currentTime as exampleCurrentTime,
-  departure as exampleDeparture,
-  realtimeDeparture as exampleRealtimeDeparture,
-} from './ExampleData';
-
 function DepartureTime(props, context) {
   let shownTime;
   const timeDiffInMinutes = Math.floor(
@@ -92,41 +85,6 @@ DepartureTime.contextTypes = {
   intl: intlShape.isRequired, // eslint-disable-line react/no-typos
   config: PropTypes.object.isRequired,
 };
-
-DepartureTime.description = () => (
-  <div>
-    <p>
-      Display time in correct format. Displays minutes for 20 minutes, otherwise
-      in HH:mm format. Also, it takes into account if the time is realtime. The
-      prop useUTC forces rendering in UTC, not local TZ, for testing.
-    </p>
-    <ComponentUsageExample description="real time">
-      <DepartureTime
-        departureTime={exampleRealtimeDeparture.stoptime}
-        realtime={exampleRealtimeDeparture.realtime}
-        currentTime={exampleCurrentTime}
-        useUTC
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="not real time">
-      <DepartureTime
-        departureTime={exampleDeparture.stoptime}
-        realtime={exampleDeparture.realtime}
-        currentTime={exampleCurrentTime}
-        useUTC
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="canceled">
-      <DepartureTime
-        departureTime={exampleDeparture.stoptime}
-        realtime={exampleDeparture.realtime}
-        currentTime={exampleCurrentTime}
-        canceled
-        useUTC
-      />
-    </ComponentUsageExample>
-  </div>
-);
 
 DepartureTime.displayName = 'DepartureTime';
 

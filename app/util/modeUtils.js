@@ -6,6 +6,7 @@ import inside from 'point-in-polygon';
 import { getCustomizedSettings } from '../store/localStorage';
 import { isInBoundingBox } from './geo-utils';
 import { addAnalyticsEvent } from './analyticsUtils';
+import { TransportMode } from '../constants';
 
 export const isCitybikeSeasonActive = season => {
   if (!season) {
@@ -23,7 +24,13 @@ export const isCitybikeSeasonActive = season => {
 };
 
 export const showCitybikeNetwork = network => {
-  return network.enabled && isCitybikeSeasonActive(network.season);
+  return network?.enabled && isCitybikeSeasonActive(network?.season);
+};
+
+export const networkIsActive = (config, networkName) => {
+  const networks = config?.cityBike?.networks;
+
+  return showCitybikeNetwork(networks[networkName]);
 };
 
 export const showCityBikes = networks => {
@@ -213,12 +220,31 @@ export const showModeSettings = config =>
  * @returns {String[]} returns user set modes or default modes
  */
 export const getModes = config => {
-  const { modes } = getCustomizedSettings();
+  const { modes, allowedBikeRentalNetworks } = getCustomizedSettings();
+  const activeAndAllowedBikeRentalNetworks = allowedBikeRentalNetworks
+    ? allowedBikeRentalNetworks.filter(x => networkIsActive(config, x))
+    : [];
   if (showModeSettings(config) && Array.isArray(modes) && modes.length > 0) {
     const transportModes = modes.filter(mode =>
       isTransportModeAvailable(config, mode),
     );
-    return [...transportModes, 'WALK'];
+    const modesWithWalk = [...transportModes, 'WALK'];
+    if (
+      activeAndAllowedBikeRentalNetworks &&
+      activeAndAllowedBikeRentalNetworks.length > 0 &&
+      modesWithWalk.indexOf(TransportMode.Citybike) === -1
+    ) {
+      modesWithWalk.push(TransportMode.Citybike);
+    }
+    return modesWithWalk;
+  }
+  if (
+    Array.isArray(activeAndAllowedBikeRentalNetworks) &&
+    activeAndAllowedBikeRentalNetworks.length > 0
+  ) {
+    const modesWithCitybike = getDefaultModes(config);
+    modesWithCitybike.push(TransportMode.Citybike);
+    return modesWithCitybike;
   }
   return getDefaultModes(config);
 };

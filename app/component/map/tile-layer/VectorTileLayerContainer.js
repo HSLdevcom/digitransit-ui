@@ -5,6 +5,7 @@ import TileLayerContainer from './TileLayerContainer';
 import CityBikes from './CityBikes';
 import Stops from './Stops';
 import ParkAndRide from './ParkAndRide';
+import ParkAndRideForBikes from './ParkAndRideForBikes';
 import { mapLayerShape } from '../../../store/MapLayerStore';
 
 export default function VectorTileLayerContainer(props, { config }) {
@@ -17,6 +18,9 @@ export default function VectorTileLayerContainer(props, { config }) {
   }
   if (props.mapLayers.parkAndRide) {
     layers.push(ParkAndRide);
+  }
+  if (props.mapLayers.parkAndRideForBikes) {
+    layers.push(ParkAndRideForBikes);
   }
 
   return (

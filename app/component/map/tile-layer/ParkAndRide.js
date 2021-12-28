@@ -21,7 +21,7 @@ export default class ParkAndRide {
     this.relayEnvironment = relayEnvironment;
     const scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.width = 24 * scaleratio;
-    this.height = 12 * scaleratio;
+    this.height = 24 * scaleratio;
     this.promise = this.getPromise();
   }
 
@@ -40,7 +40,6 @@ export default class ParkAndRide {
       return res.arrayBuffer().then(
         buf => {
           const vt = new VectorTile(new Protobuf(buf));
-
           this.features = [];
 
           if (this.tile.coords.z < showFacilities && vt.layers.hubs != null) {
@@ -81,6 +80,11 @@ export default class ParkAndRide {
                 const result = data.carPark;
                 if (result != null && result.id != null) {
                   feature.properties.facility = result;
+                  const isHilighted =
+                    this.tile.hilightedStops &&
+                    this.tile.hilightedStops.includes(
+                      feature.properties?.facility?.carParkId,
+                    );
                   feature.geom = new Contour(
                     feature.loadGeometry()[0],
                   ).centroid();
@@ -90,6 +94,7 @@ export default class ParkAndRide {
                     feature.geom,
                     this.width,
                     this.height,
+                    isHilighted,
                   );
                 }
               });

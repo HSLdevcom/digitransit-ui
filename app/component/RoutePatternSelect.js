@@ -17,11 +17,6 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from './Icon';
-import ComponentUsageExample from './ComponentUsageExample';
-import {
-  routePatterns as exampleRoutePatterns,
-  twoRoutePatterns as exampleTwoRoutePatterns,
-} from './ExampleData';
 import { isBrowser } from '../util/browser';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -121,14 +116,17 @@ function renderPatternSelectSuggestion(item, currentPattern) {
 }
 
 class RoutePatternSelect extends Component {
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     this.resultsUpdatedAlertRef = React.createRef();
     this.state = {
       similarRoutes: [],
       loadingSimilar: true,
     };
-    this.fetchSimilarRoutes(this.props.route);
+    this.fetchSimilarRoutes(
+      this.props.route,
+      this.context.config.showSimilarRoutesOnRouteDropDown,
+    );
   }
 
   static propTypes = {
@@ -155,38 +153,40 @@ class RoutePatternSelect extends Component {
 
   similarRoutesToOptions = () => {};
 
-  fetchSimilarRoutes = route => {
-    let searchSimilarTo = route.shortName;
-    if (Number.isNaN(Number(route.shortName))) {
-      searchSimilarTo = route.shortName.replace(/\D/g, ''); // Delete all non-digits from the string
-    }
-    if (!searchSimilarTo) {
-      // Dont try to search similar routes for routes that are named with letters (eg. P train)
-      return;
-    }
-    const query = graphql`
-      query RoutePatternSelect_similarRoutesQuery(
-        $name: String
-        $mode: [Mode]
-      ) {
-        routes(name: $name, transportModes: $mode) {
-          gtfsId
-          shortName
-          longName
-          mode
-        }
+  fetchSimilarRoutes = (route, callFetch) => {
+    if (callFetch) {
+      let searchSimilarTo = route.shortName;
+      if (Number.isNaN(Number(route.shortName))) {
+        searchSimilarTo = route.shortName.replace(/\D/g, ''); // Delete all non-digits from the string
       }
-    `;
+      if (!searchSimilarTo) {
+        // Dont try to search similar routes for routes that are named with letters (eg. P train)
+        return;
+      }
+      const query = graphql`
+        query RoutePatternSelect_similarRoutesQuery(
+          $name: String
+          $mode: [Mode]
+        ) {
+          routes(name: $name, transportModes: $mode) {
+            gtfsId
+            shortName
+            longName
+            mode
+          }
+        }
+      `;
 
-    const params = { name: searchSimilarTo, mode: route.mode };
-    fetchQuery(this.props.relayEnvironment, query, params, {
-      force: true,
-    }).then(results => {
-      this.setState({
-        similarRoutes: filterSimilarRoutes(results.routes, this.props.route),
-        loadingSimilar: false,
+      const params = { name: searchSimilarTo, mode: route.mode };
+      fetchQuery(this.props.relayEnvironment, query, params, {
+        force: true,
+      }).then(results => {
+        this.setState({
+          similarRoutes: filterSimilarRoutes(results.routes, this.props.route),
+          loadingSimilar: false,
+        });
       });
-    });
+    }
   };
 
   getOptions = () => {
@@ -241,7 +241,6 @@ class RoutePatternSelect extends Component {
     ) {
       mainRoutes = possibleMainRoutes.slice(0, 1);
     }
-
     const specialRoutes = options
       .slice(mainRoutes.length)
       .filter(o => !o.inFuture);
@@ -412,45 +411,6 @@ class RoutePatternSelect extends Component {
     );
   }
 }
-
-const defaultProps = {
-  className: 'bp-large',
-  serviceDay: '20190306',
-  relay: {
-    refetch: (variables, renderVariables, callback) => {
-      callback();
-    },
-  },
-  params: {
-    routeId: 'HSL:1010',
-    patternId: 'HSL:1010:0:01',
-  },
-  useCurrentTime: true,
-};
-
-RoutePatternSelect.description = () => (
-  <div>
-    <p>Display a dropdown to select the pattern for a route</p>
-    <ComponentUsageExample>
-      <RoutePatternSelect
-        route={exampleRoutePatterns}
-        onSelectChange={() => {}}
-        gtfsId="HSL:1010"
-        lang="en"
-        {...defaultProps}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample>
-      <RoutePatternSelect
-        route={exampleTwoRoutePatterns}
-        onSelectChange={() => {}}
-        gtfsId="HSL:1010"
-        lang="en"
-        {...defaultProps}
-      />
-    </ComponentUsageExample>
-  </div>
-);
 
 // DT-2531: added activeDates
 const withStore = createRefetchContainer(

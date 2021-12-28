@@ -47,8 +47,6 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  textLogo: false, // title text instead of logo img
-
   // Navbar logo
   logo: 'kouvola/logo.png',
 
@@ -76,24 +74,30 @@ export default configMerger(walttiConfig, {
     lon: 26.705328946745546,
   },
 
+  vehicles: true,
+  showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
+
   menu: {
     copyright: { label: `© Kouvola ${walttiConfig.YEAR}` },
     content: [
       {
         name: 'menu-feedback',
-        nameEn: 'Submit feedback',
-        href: 'http://www.palautekouvola.fi',
-        icon: 'icon-icon_speech-bubble',
+        href: {
+          fi:
+            'https://kartta.kouvola.fi/eFeedback/fi/Feedback/34-Joukkoliikenne',
+          sv:
+            'https://kartta.kouvola.fi/eFeedback/fi/Feedback/34-Joukkoliikenne',
+          en:
+            'https://kartta.kouvola.fi/eFeedback/en/Feedback/34-Joukkoliikenne',
+        },
       },
       {
         name: 'about-this-service',
-        nameEn: 'About this service',
         route: '/tietoja-palvelusta',
-        icon: 'icon-icon_info',
       },
       {
         name: 'accessibility-statement',
-        nameEn: 'Accessibility statement',
         href:
           'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
       },
@@ -117,7 +121,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'Tietolähteet',
         paragraphs: [
-          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat Kouvolan tuottamaan GTFS-aineistoon.',
+          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Digi- ja väestötietoviraston rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat Kouvolan tuottamaan GTFS-aineistoon.',
         ],
       },
     ],

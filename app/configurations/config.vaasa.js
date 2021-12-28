@@ -35,8 +35,6 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  textLogo: false,
-
   logo: 'vaasa/vaasa_vasa_rgb_nega_v01.png',
 
   feedIds: ['Vaasa'],
@@ -66,19 +64,18 @@ export default configMerger(walttiConfig, {
     content: [
       {
         name: 'menu-feedback',
-        nameEn: 'Submit feedback',
-        href: 'https://kartta.vaasa.fi/eFeedback',
-        icon: 'icon-icon_speech-bubble',
+        href: { 
+          fi: 'https://kartta.vaasa.fi/eFeedback/fi/Feedback/6-Joukkoliikenne',
+          sv: 'https://kartta.vaasa.fi/eFeedback/sv/Feedback/6-Kollektivtrafik',
+          en: 'https://kartta.vaasa.fi/eFeedback/fi/Feedback/6-Joukkoliikenne',
+        }
       },
       {
         name: 'about-this-service',
-        nameEn: 'About this service',
         route: '/tietoja-palvelusta',
-        icon: 'icon-icon_info',
       },
       {
         name: 'accessibility-statement',
-        nameEn: 'Accessibility statement',
         href:
           'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
       },

@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ComponentUsageExample from './ComponentUsageExample';
 
 function GenericTable(props) {
   return (
@@ -11,15 +10,6 @@ function GenericTable(props) {
 }
 
 GenericTable.displayName = 'GenericTable';
-
-GenericTable.description = () => (
-  <div>
-    <p>Renders a score table</p>
-    <ComponentUsageExample description="">
-      <GenericTable />
-    </ComponentUsageExample>
-  </div>
-);
 
 GenericTable.propTypes = {
   children: PropTypes.node,

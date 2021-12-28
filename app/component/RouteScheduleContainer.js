@@ -260,9 +260,11 @@ class RouteScheduleContainer extends PureComponent {
             return c;
           }, {}),
         );
-        modifiedDepartures.push(result.sort().filter(x => x[2].length > 0));
+        modifiedDepartures.push(result.sort());
       }
-      return modifiedDepartures;
+      if (modifiedDepartures.length > 0) {
+        return modifiedDepartures;
+      }
     }
     return departures;
   };
@@ -417,8 +419,51 @@ class RouteScheduleContainer extends PureComponent {
     return '';
   };
 
+  isEmptyWeek = departures => {
+    return (
+      departures[0][0] === '1234567' &&
+      departures[0][1] === 0 &&
+      departures[0][2] === ''
+    );
+  };
+
+  getFirstDepartureDate = (departures, dateIn) => {
+    if (departures.length > 0) {
+      const date = dateIn || moment();
+      const dayNo = moment(date).isoWeekday();
+      const idx = departures.findIndex(
+        departure => departure[0].indexOf(dayNo) !== -1,
+      );
+      if (idx > 0 && departures[idx][1] === 0 && departures[idx][2] === '') {
+        // get departure day on current week
+        if (departures[idx - 1][1] !== 0 && departures[idx - 1][2] !== '') {
+          const newDayNo = Number(departures[idx - 1][0].substring(0, 1));
+          return moment(date)
+            .subtract(dayNo - newDayNo, 'd')
+            .format(DATE_FORMAT);
+        }
+      } else if (
+        idx === 0 &&
+        departures[idx][1] !== 0 &&
+        departures[idx][2] !== ''
+      ) {
+        if (
+          !isEqual(
+            moment(date).startOf('isoWeek').format(DATE_FORMAT),
+            moment().startOf('isoWeek').format(DATE_FORMAT),
+          )
+        ) {
+          return moment(date).format(DATE_FORMAT);
+        }
+        return moment().format(DATE_FORMAT);
+      }
+    }
+    return undefined;
+  };
+
   populateData = (wantedDayIn, departures, isMerged, dataExistsDay) => {
-    const departureCount = departures.filter(d => d.length > 0).length;
+    const departureCount = departures.length;
+
     const wantedDay = wantedDayIn || moment();
     const startOfWeek = moment().startOf('isoWeek');
     const today = moment();
@@ -450,7 +495,20 @@ class RouteScheduleContainer extends PureComponent {
     const weekEnds = [startOfWeek.clone().endOf('isoWeek').format(DATE_FORMAT)];
     const days = [[]];
     const indexToRemove = [];
+    const emptyWeek = [];
     for (let x = 1; x < departures.length; x++) {
+      // check also first week
+      if (this.isEmptyWeek(departures[x - 1])) {
+        emptyWeek.push(
+          startOfWeek
+            .clone()
+            .add(x - 1, 'w')
+            .format(DATE_FORMAT),
+        );
+      }
+      if (this.isEmptyWeek(departures[x])) {
+        emptyWeek.push(startOfWeek.clone().add(x, 'w').format(DATE_FORMAT));
+      }
       weekStarts.push(startOfWeek.clone().add(x, 'w').format(DATE_FORMAT));
       weekEnds.push(
         startOfWeek.clone().endOf('isoWeek').add(x, 'w').format(DATE_FORMAT),
@@ -459,11 +517,27 @@ class RouteScheduleContainer extends PureComponent {
     }
 
     // find empty and populate days
+    let notEmptyWeekFound = false;
     departures.forEach((d, idx) => {
       if (d.length === 0) {
         indexToRemove.push(idx);
       } else {
-        d.forEach(x => days[idx].push(x[0]));
+        if (d.length === 1) {
+          if (d[0][1] === 0) {
+            if (!notEmptyWeekFound) {
+              indexToRemove.push(idx);
+            }
+          } else {
+            notEmptyWeekFound = true;
+          }
+        } else {
+          notEmptyWeekFound = true;
+          // remove days with no departures otherwise showing later on tabs
+          d = d.filter(z => z[1] !== 0);
+        }
+        d.forEach(x => {
+          days[idx].push(x[0]);
+        });
       }
     });
 
@@ -481,11 +555,7 @@ class RouteScheduleContainer extends PureComponent {
     indexToRemove.splice(0, indexToRemove.length);
 
     departures.forEach((d, idx) => {
-      if (
-        idx > 0 &&
-        departures[idx - 1][0][0] === d[0][0] &&
-        departures[idx - 1][0][1] === d[0][1]
-      ) {
+      if (idx > 0 && isEqual(departures[idx - 1], d)) {
         indexToRemove.push(idx);
       }
     });
@@ -518,15 +588,16 @@ class RouteScheduleContainer extends PureComponent {
           ? moment(w)
               .clone()
               .add(firstServiceDay[0] - 1, 'd')
-              .format(DATE_FORMAT2)
-          : moment(w).format(DATE_FORMAT2);
+          : moment(w);
       const timeRange =
         days.length === 1 &&
         days[idx][0].length === 1 &&
         wantedDayIn &&
         !isMerged
           ? wantedDay.format(DATE_FORMAT2)
-          : `${timeRangeStart} - ${moment(weekEnds[idx]).format(DATE_FORMAT2)}`;
+          : `${timeRangeStart.format(DATE_FORMAT2)} - ${moment(
+              weekEnds[idx],
+            ).format(DATE_FORMAT2)}`;
       if (
         !(wantedDay.isSameOrAfter(w) && wantedDay.isSameOrBefore(weekEnds[idx]))
       ) {
@@ -568,7 +639,11 @@ class RouteScheduleContainer extends PureComponent {
       weekStarts,
       days,
       range,
-      options.filter(o => o),
+      options
+        .filter(o => o)
+        .filter(o => {
+          return !emptyWeek.includes(o.value);
+        }),
       currentAndNextWeekAreSame,
       pastDate,
     ];
@@ -604,9 +679,10 @@ class RouteScheduleContainer extends PureComponent {
     );
 
     const firstDepartures = this.modifyDepartures(this.props.firstDepartures);
-
+    const firstWeekEmpty = this.isEmptyWeek(firstDepartures[0]);
     // If we are missing data from the start of the week, see if we can merge it with next week
     if (
+      !firstWeekEmpty &&
       firstDepartures[0].length !== 0 &&
       this.props.firstDepartures.wk1mon.length === 0
     ) {
@@ -650,6 +726,39 @@ class RouteScheduleContainer extends PureComponent {
       moment(query.serviceDay, 'YYYYMMDD', true).isValid()
         ? moment(query.serviceDay)
         : undefined;
+
+    // check if first week is empty and redirect if is
+    const nextMonday = moment()
+      .startOf('isoWeek')
+      .add(1, 'w')
+      .format(DATE_FORMAT);
+
+    const firstDepartureDate = this.getFirstDepartureDate(
+      firstDepartures[0],
+      wantedDay,
+    );
+    const isBeforeNextWeek = wantedDay
+      ? moment(wantedDay).isBefore(moment(nextMonday))
+      : false;
+    const isSameOrAfterNextWeek = wantedDay
+      ? moment(wantedDay).isSameOrAfter(moment(nextMonday))
+      : false;
+
+    if ((isBeforeNextWeek && firstWeekEmpty) || firstDepartureDate) {
+      if (
+        !isEqual(moment().format(DATE_FORMAT), firstDepartureDate) &&
+        !isSameOrAfterNextWeek
+      ) {
+        const redirectUrl = this.props.match.location.pathname.concat(
+          `?serviceDay=${firstDepartureDate || nextMonday}`,
+        );
+        if (isBrowser) {
+          this.props.match.router.replace(redirectUrl);
+        } else {
+          throw new RedirectException(redirectUrl);
+        }
+      }
+    }
 
     const data = this.populateData(
       wantedDay,

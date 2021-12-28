@@ -6,16 +6,17 @@ import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
 import { FormattedMessage } from 'react-intl';
+import { matchShape, routerShape } from 'found';
 import Icon from './Icon';
 import FilterTimeTableModal from './FilterTimeTableModal';
 import TimeTableOptionsPanel from './TimeTableOptionsPanel';
 import TimetableRow from './TimetableRow';
-import ComponentUsageExample from './ComponentUsageExample';
 import { RealtimeStateType } from '../constants';
 import SecondaryButton from './SecondaryButton';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import DateSelect from './DateSelect';
 import ScrollableWrapper from './ScrollableWrapper';
+import { replaceQueryParams } from '../util/queryUtils';
 
 class Timetable extends React.Component {
   static propTypes = {
@@ -49,9 +50,12 @@ class Timetable extends React.Component {
       selectedDate: PropTypes.string,
       onDateChange: PropTypes.func,
     }).isRequired,
+    date: PropTypes.string,
   };
 
   static contextTypes = {
+    router: routerShape.isRequired,
+    match: matchShape.isRequired,
     config: PropTypes.object.isRequired,
   };
 
@@ -72,6 +76,21 @@ class Timetable extends React.Component {
     if (this.props.stop.gtfsId !== this.state.oldStopId) {
       this.resetStopOptions(this.props.stop.gtfsId);
     }
+  };
+
+  componentDidMount = () => {
+    if (this.context.match.location.query.routes) {
+      this.setState({
+        showRoutes: this.context.match.location.query.routes?.split(',') || [],
+      });
+    }
+  };
+
+  setParams = (routes, date) => {
+    replaceQueryParams(this.context.router, this.context.match, {
+      routes,
+      date,
+    });
   };
 
   getDuplicatedRoutes = () => {
@@ -104,6 +123,10 @@ class Timetable extends React.Component {
 
   setRouteVisibilityState = val => {
     this.setState({ showRoutes: val.showRoutes });
+    const showRoutes = val.showRoutes.length
+      ? val.showRoutes.join(',')
+      : undefined;
+    this.setParams(showRoutes, this.props.date);
   };
 
   resetStopOptions = id => {
@@ -263,6 +286,9 @@ class Timetable extends React.Component {
             this.props.stop,
           )
         : null;
+    const virtualMonitorUrl =
+      this.context.config?.stopCard?.header?.virtualMonitorBaseUrl &&
+      `${this.context.config.stopCard.header.virtualMonitorBaseUrl}${this.props.stop.gtfsId}`;
     return (
       <>
         <ScrollableWrapper>
@@ -281,6 +307,10 @@ class Timetable extends React.Component {
                 selectedDate={this.props.propsForDateSelect.selectedDate}
                 onDateChange={e => {
                   this.props.propsForDateSelect.onDateChange(e);
+                  const showRoutes = this.state.showRoutes.length
+                    ? this.state.showRoutes.join(',')
+                    : undefined;
+                  this.setParams(showRoutes, e);
                   addAnalyticsEvent({
                     category: 'Stop',
                     action: 'ChangeTimetableDay',
@@ -386,6 +416,17 @@ class Timetable extends React.Component {
                 smallSize
               />
             )}
+            {virtualMonitorUrl && (
+              <SecondaryButton
+                ariaLabel="stop-virtual-monitor"
+                buttonName="stop-virtual-monitor"
+                buttonClickAction={e => {
+                  e.preventDefault();
+                  window.open(virtualMonitorUrl, '_blank ');
+                }}
+                smallSize
+              />
+            )}
           </div>
         </div>
       </>
@@ -394,70 +435,5 @@ class Timetable extends React.Component {
 }
 
 Timetable.displayName = 'Timetable';
-const exampleStop = {
-  gtfsId: '123124234',
-  name: '1231213',
-  url: '1231231',
-  stoptimesForServiceDate: [
-    {
-      pattern: {
-        headsign: 'Pornainen',
-        route: {
-          shortName: '787K',
-          agency: {
-            name: 'Helsingin seudun liikenne',
-          },
-          mode: 'BUS',
-        },
-      },
-      stoptimes: [
-        {
-          scheduledDeparture: 60180,
-          serviceDay: 1495659600,
-          realtimeState: 'CANCELED',
-        },
-        {
-          scheduledDeparture: 61380,
-          serviceDay: 1495659600,
-          realtimeState: 'SCHEDULED',
-        },
-      ],
-    },
-    {
-      pattern: {
-        route: {
-          mode: 'BUS',
-          shortName: 'Kotkan linja-autoasema',
-          agency: {
-            name: 'Helsingin seudun liikenne',
-          },
-        },
-      },
-      stoptimes: [
-        {
-          scheduledDeparture: 61180,
-          serviceDay: 1495659600,
-          realtimeState: 'SCHEDULED',
-        },
-      ],
-    },
-  ],
-};
-
-Timetable.description = () => (
-  <div>
-    <p>Renders a timetable</p>
-    <ComponentUsageExample description="">
-      <Timetable
-        stop={exampleStop}
-        propsForDateSelect={{
-          startDate: '20190110',
-          selectedDate: '20190110',
-          onDateChange: () => {},
-        }}
-      />
-    </ComponentUsageExample>
-  </div>
-);
 
 export default Timetable;

@@ -1,0 +1,46 @@
+.embedded-seach-container {
+    padding: 10px;
+    height: 250px;
+    width: 100%;
+    max-width: 100%;
+    h1 {
+        margin-top: 25px;
+    }
+    .main-left {
+        max-width: 100%;
+    }
+    & > div:first-of-type {
+        max-width: 100%;
+    }
+    .embedded-search-button-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        .search-button {
+            background-color: $primary-color;
+            font-family: $button-font-family;
+            border: 2px solid $primary-color;
+            color: white;
+            border-radius: 40px;
+            font-weight: 500;
+            width: 128px;
+            height: 40px;
+            font-size: $font-size-small;
+        }
+        .brand-logo {
+            height: 40px;
+        }
+    }
+    .background {
+        top: -58px;
+        position: absolute;
+        display: inline-block;
+        width: 110%;
+        height: 365px;
+    }
+    @media only screen and (min-width: 600px) {
+        .background {
+            right: -26%;
+        }
+    }
+}

@@ -9,7 +9,6 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import { intlShape } from 'react-intl';
 import { startLocationWatch } from '../../action/PositionActions';
-import ComponentUsageExample from '../ComponentUsageExample';
 import MapContainer from './MapContainer';
 import ToggleMapTracking from '../ToggleMapTracking';
 import { isBrowser } from '../../util/browser';
@@ -83,7 +82,7 @@ class MapWithTrackingStateHandler extends React.Component {
     this.state = {
       mapTracking: props.mapTracking,
       settingsOpen: false,
-      forcedLayers: {},
+      forcedLayers: null,
     };
     this.naviProps = {};
   }
@@ -103,22 +102,9 @@ class MapWithTrackingStateHandler extends React.Component {
 
     const { mapLayerOptions } = newProps;
     if (mapLayerOptions && isEmpty(this.state.forcedLayers)) {
-      const forcedLayers = {};
-      Object.keys(mapLayerOptions).forEach(key => {
-        const layer = mapLayerOptions[key];
-        if (layer?.isLocked === undefined) {
-          Object.keys(layer).forEach(subKey => {
-            if (layer[subKey].isLocked) {
-              if (!forcedLayers[key]) {
-                forcedLayers[key] = {};
-              }
-              forcedLayers[key][subKey] = layer[subKey].isSelected;
-            }
-          });
-        } else if (layer?.isLocked) {
-          forcedLayers[key] = layer.isSelected;
-        }
-      });
+      const forcedLayers = this.getForcedLayersFromMapLayerOptions(
+        mapLayerOptions,
+      );
       newState = { forcedLayers };
     }
 
@@ -131,6 +117,32 @@ class MapWithTrackingStateHandler extends React.Component {
       this.setState(newState);
     }
   }
+
+  getForcedLayersFromMapLayerOptions = mapLayerOptions => {
+    const forcedLayers = {};
+    Object.keys(mapLayerOptions).forEach(key => {
+      const layer = mapLayerOptions[key];
+      if (layer?.isLocked === undefined) {
+        Object.keys(layer).forEach(subKey => {
+          if (layer[subKey].isLocked) {
+            if (!forcedLayers[key]) {
+              forcedLayers[key] = {};
+            }
+            forcedLayers[key][subKey] = layer[subKey].isSelected;
+          }
+        });
+      } else if (layer?.isLocked) {
+        forcedLayers[key] = layer.isSelected;
+      }
+    });
+    return forcedLayers;
+  };
+
+  setForcedLayers = forcedLayers => {
+    if (!isEmpty(forcedLayers)) {
+      this.setState({ forcedLayers });
+    }
+  };
 
   setMapElementRef = element => {
     if (element && this.mapElement !== element) {
@@ -163,18 +175,18 @@ class MapWithTrackingStateHandler extends React.Component {
     this.refresh = true;
   };
 
-  startNavigation = () => {
+  startNavigation = e => {
     if (this.props.onStartNavigation) {
-      this.props.onStartNavigation(this.mapElement);
+      this.props.onStartNavigation(this.mapElement, e);
     }
     if (this.state.mapTracking && !this.ignoreNavigation) {
       this.disableMapTracking();
     }
   };
 
-  endNavigation = () => {
+  endNavigation = e => {
     if (this.props.onEndNavigation) {
-      this.props.onEndNavigation(this.mapElement);
+      this.props.onEndNavigation(this.mapElement, e);
     }
     this.navigated = true;
   };
@@ -184,26 +196,26 @@ class MapWithTrackingStateHandler extends React.Component {
   };
 
   getMapLayers = () => {
-    if (!isEmpty(this.state.forcedLayers)) {
-      const merged = {
-        ...this.props.mapLayers,
-        ...this.state.forcedLayers,
-        vehicles: !this.props.mapLayerOptions
-          ? this.props.mapLayers.vehicles
-          : false,
-      };
-      if (!isEmpty(this.state.forcedLayers.stop)) {
-        return {
-          ...merged,
-          stop: {
-            ...this.props.mapLayers.stop,
-            ...this.state.forcedLayers.stop,
-          },
-        };
-      }
+    if (isEmpty(this.state.forcedLayers)) {
+      return this.props.mapLayers;
+    }
+    const merged = {
+      ...this.props.mapLayers,
+      ...this.state.forcedLayers,
+      vehicles: !this.props.mapLayerOptions
+        ? this.props.mapLayers.vehicles
+        : false,
+    };
+    if (isEmpty(this.state.forcedLayers.stop)) {
       return merged;
     }
-    return this.props.mapLayers;
+    return {
+      ...merged,
+      stop: {
+        ...this.props.mapLayers.stop,
+        ...this.state.forcedLayers.stop,
+      },
+    };
   };
 
   render() {
@@ -221,6 +233,13 @@ class MapWithTrackingStateHandler extends React.Component {
       ...rest
     } = this.props;
     const { config } = this.context;
+
+    if (mapLayerOptions && isEmpty(this.state.forcedLayers)) {
+      const forcedLayers = this.getForcedLayersFromMapLayerOptions(
+        mapLayerOptions,
+      );
+      this.setForcedLayers(forcedLayers);
+    }
 
     let btnClassName = 'map-with-tracking-buttons'; // DT-3470
     if (config.map.showZoomControl) {
@@ -393,15 +412,6 @@ const MapWithTracking = connectToStores(
     position: getStore(PositionStore).getLocationState(),
     lang: getStore(PreferencesStore).getLanguage(),
   }),
-);
-
-MapWithTracking.description = (
-  <div>
-    <p>Renders a map with map-tracking functionality</p>
-    <ComponentUsageExample description="">
-      <MapWithTracking />
-    </ComponentUsageExample>
-  </div>
 );
 
 export { MapWithTracking as default, MapWithTrackingStateHandler as Component };

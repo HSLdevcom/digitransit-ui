@@ -6,7 +6,6 @@ import { matchShape } from 'found';
 
 import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from './Icon';
-import ComponentUsageExample from './ComponentUsageExample';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { parseLocation } from '../util/path';
 
@@ -80,23 +79,6 @@ function EndLeg(props, context) {
     </div>
   );
 }
-
-EndLeg.description = () => {
-  const endTime = moment().hour(12).minute(34).second(0).valueOf();
-  return (
-    <div>
-      <p>Displays an itinerary end leg.</p>
-      <ComponentUsageExample>
-        <EndLeg
-          endTime={endTime}
-          to="Veturitie"
-          index={3}
-          focusAction={() => {}}
-        />
-      </ComponentUsageExample>
-    </div>
-  );
-};
 
 EndLeg.propTypes = {
   endTime: PropTypes.number.isRequired,

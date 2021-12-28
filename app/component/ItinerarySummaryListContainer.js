@@ -298,7 +298,7 @@ function ItinerarySummaryListContainer(
         <Icon
           className={cx('no-route-icon', iconType)}
           img={iconImg}
-          color={iconImg === 'icon-icon_info' ? '#007ac9' : null}
+          color={iconImg === 'icon-icon_info' ? '#0074be' : null}
         />
         <div>
           <FormattedMessage

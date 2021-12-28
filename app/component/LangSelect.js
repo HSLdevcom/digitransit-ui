@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import ComponentUsageExample from './ComponentUsageExample';
 import { isBrowser } from '../util/browser';
 
 const language = (lang, highlight, match) => (
@@ -30,17 +29,6 @@ const LangSelect = ({ currentLanguage }, { config, match }) => {
 };
 
 LangSelect.displayName = 'LangSelect';
-
-LangSelect.description = () => (
-  <div>
-    <p>Language selection component, language selection comes from config.</p>
-    <ComponentUsageExample description="">
-      <div style={{ width: '200px', background: 'rgb(51, 51, 51)' }}>
-        <LangSelect currentLanguage="en" />
-      </div>
-    </ComponentUsageExample>
-  </div>
-);
 
 LangSelect.propTypes = {
   currentLanguage: PropTypes.string.isRequired,

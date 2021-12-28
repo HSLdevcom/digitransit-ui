@@ -3,7 +3,6 @@ import React from 'react';
 
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
-import ComponentUsageExample from './ComponentUsageExample';
 
 const IconWithIcon = (
   {
@@ -39,51 +38,6 @@ const IconWithIcon = (
       </span>
     )}
   </span>
-);
-
-IconWithIcon.description = () => (
-  <div>
-    <ComponentUsageExample description="Bus with caution">
-      <div style={{ paddingLeft: '5px', position: 'relative' }}>
-        <IconWithIcon
-          className="bus"
-          img="icon-icon_bus"
-          subIcon="icon-icon_caution"
-          subIconClassName="subicon-caution-no-excl"
-        />
-      </div>
-    </ComponentUsageExample>
-    <ComponentUsageExample description="Bus with info level alert">
-      <div style={{ paddingLeft: '5px', position: 'relative' }}>
-        <IconWithIcon
-          className="bus"
-          img="icon-icon_bus"
-          subIcon="icon-icon_info"
-          subIconClassName="subicon-info"
-        />
-      </div>
-    </ComponentUsageExample>
-    <ComponentUsageExample description="Bus with call agency caution">
-      <div style={{ paddingLeft: '5px', position: 'relative' }}>
-        <IconWithIcon
-          className="bus"
-          img="icon-icon_bus"
-          subIcon="icon-icon_call"
-        />
-      </div>
-    </ComponentUsageExample>
-    <ComponentUsageExample description="Bus with call agency caution, with 5em base font size">
-      <div
-        style={{ fontSize: '5em', paddingLeft: '5px', position: 'relative' }}
-      >
-        <IconWithIcon
-          className="bus"
-          img="icon-icon_bus"
-          subIcon="icon-icon_call"
-        />
-      </div>
-    </ComponentUsageExample>
-  </div>
 );
 
 IconWithIcon.displayName = 'IconWithIcon';

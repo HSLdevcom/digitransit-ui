@@ -32,6 +32,7 @@ const mapAlert = (alert, locale) => ({
     endTime: alert.effectiveEndDate,
     startTime: alert.effectiveStartDate,
   },
+  source: alert.feed,
 });
 
 function DisruptionListContainer(
@@ -219,6 +220,7 @@ const containerComponent = createFragmentContainer(
       fragment DisruptionListContainer_viewer on QueryType
       @argumentDefinitions(feedIds: { type: "[String!]", defaultValue: [] }) {
         alerts(feeds: $feedIds) {
+          feed
           id
           alertDescriptionText
           alertHash
