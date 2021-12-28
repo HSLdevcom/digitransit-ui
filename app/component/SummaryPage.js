@@ -255,8 +255,8 @@ const compareItineraries = (itineraries, defaultItineraries) => {
     for (let j = 0; j < itineraries[i].legs.length; j++) {
       if (
         !isEqual(
-          pick(itineraries?.[i].legs?.[j], legValuesToCompare),
-          pick(defaultItineraries?.[i].legs?.[j], legValuesToCompare),
+          pick(itineraries?.[i]?.legs?.[j], legValuesToCompare),
+          pick(defaultItineraries?.[i]?.legs?.[j], legValuesToCompare),
         )
       ) {
         return true;
