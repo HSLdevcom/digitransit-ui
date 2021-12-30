@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-query-utils",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "digitransit-search-util query-utils module",
   "main": "index.generated",
   "publishConfig": {
@@ -24,7 +24,7 @@
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
     "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "0.0.3",
-    "@digitransit-search-util/digitransit-search-util-helpers": "0.1.5",
+    "@digitransit-search-util/digitransit-search-util-helpers": "0.1.6",
     "@digitransit-search-util/digitransit-search-util-route-name-compare": "0.0.2",
     "babel-plugin-relay": "10.0.1",
     "lodash": "4.17.21",
