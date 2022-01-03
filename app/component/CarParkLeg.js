@@ -11,6 +11,7 @@ import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { PREFIX_CARPARK } from '../util/path';
+import ItineraryCircleLine from './ItineraryCircleLine';
 
 function CarParkLeg(props, { config, intl }) {
   const distance = displayDistance(
@@ -25,27 +26,38 @@ function CarParkLeg(props, { config, intl }) {
   return (
     <div key={props.index} className="row itinerary-row">
       <span className="sr-only">
-        <FormattedMessage
-          id="itinerary-details.walk-leg"
-          values={{
-            time: moment(props.leg.startTime).format('HH:mm'),
-            distance,
-            origin: props.leg.from ? props.leg.from.name : '',
-            destination: props.leg.to ? props.leg.to.name : '',
-            duration,
-          }}
-        />
+        {!props.noWalk && (
+          <FormattedMessage
+            id="itinerary-details.walk-leg"
+            values={{
+              time: moment(props.leg.startTime).format('HH:mm'),
+              distance,
+              origin: props.leg.from ? props.leg.from.name : '',
+              destination: props.leg.to ? props.leg.to.name : '',
+              duration,
+            }}
+          />
+        )}
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
           {moment(props.leg.startTime).format('HH:mm')}
         </div>
       </div>
-      <ItineraryCircleLineWithIcon
-        index={props.index}
-        modeClassName="walk"
-        carPark
-      />
+      {props.noWalk ? (
+        <ItineraryCircleLine
+          index={props.index}
+          modeClassName="car-park-walk"
+          carPark
+        />
+      ) : (
+        <ItineraryCircleLineWithIcon
+          index={props.index}
+          modeClassName="walk"
+          carPark
+        />
+      )}
+
       <div
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
       >
@@ -90,33 +102,35 @@ function CarParkLeg(props, { config, intl }) {
             />
           </div>
         </div>
-        <div className={cx('itinerary-leg-action', 'car')}>
-          <div className="itinerary-leg-action-content">
-            <FormattedMessage
-              id="walk-distance-duration"
-              values={{ distance, duration }}
-              defaultMessage="Walk {distance} ({duration})"
-            />
-            <div
-              className="itinerary-map-action"
-              onClick={props.focusAction}
-              onKeyPress={e =>
-                isKeyboardSelectionEvent(e) && props.focusAction(e)
-              }
-              role="button"
-              tabIndex="0"
-              aria-label={intl.formatMessage(
-                { id: 'itinerary-summary.show-on-map' },
-                { target: props.leg.from.name || '' },
-              )}
-            >
-              <Icon
-                img="icon-icon_show-on-map"
-                className="itinerary-search-icon"
+        {!props.noWalk && (
+          <div className={cx('itinerary-leg-action', 'car')}>
+            <div className="itinerary-leg-action-content">
+              <FormattedMessage
+                id="walk-distance-duration"
+                values={{ distance, duration }}
+                defaultMessage="Walk {distance} ({duration})"
               />
+              <div
+                className="itinerary-map-action"
+                onClick={props.focusAction}
+                onKeyPress={e =>
+                  isKeyboardSelectionEvent(e) && props.focusAction(e)
+                }
+                role="button"
+                tabIndex="0"
+                aria-label={intl.formatMessage(
+                  { id: 'itinerary-summary.show-on-map' },
+                  { target: props.leg.from.name || '' },
+                )}
+              >
+                <Icon
+                  img="icon-icon_show-on-map"
+                  className="itinerary-search-icon"
+                />
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
@@ -142,6 +156,7 @@ CarParkLeg.propTypes = {
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node,
   carPark: PropTypes.object,
+  noWalk: PropTypes.bool,
 };
 
 CarParkLeg.contextTypes = {

@@ -145,6 +145,21 @@ class ItineraryLegs extends React.Component {
       const bikePark = previousLeg?.to.bikePark;
       const carPark = previousLeg?.to.carPark;
       const fromBikePark = leg?.from.bikePark;
+      const fromCarPark = leg?.from.carPark || previousLeg?.to.carPark;
+
+      if (fromCarPark && !this.isLegOnFoot(leg)) {
+        legs.push(
+          <CarParkLeg
+            index={j}
+            leg={previousLeg}
+            carPark={fromCarPark}
+            focusAction={this.focus(leg.from)}
+            focusToLeg={this.focusToLeg(leg)}
+            noWalk
+          />,
+        );
+      }
+
       if (leg.mode !== 'WALK' && isCallAgencyPickupType(leg)) {
         legs.push(
           <CallAgencyLeg
@@ -173,7 +188,7 @@ class ItineraryLegs extends React.Component {
             focusToLeg={this.focusToLeg(leg)}
           />,
         );
-      } else if (carPark) {
+      } else if (carPark && this.isLegOnFoot(leg)) {
         legs.push(
           <CarParkLeg
             index={j}

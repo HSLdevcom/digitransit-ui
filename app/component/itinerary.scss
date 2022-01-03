@@ -859,7 +859,8 @@ $itinerary-tab-switch-height: 48px;
     }
 
     &.walk,
-    &.bicycle_walk {
+    &.bicycle_walk,
+    &.car-park-walk {
       background-size: 100% auto;
       background-position-y: 8px;
       background-position-x: 0px;
@@ -1044,6 +1045,9 @@ $itinerary-tab-switch-height: 48px;
   }
 
   .itinerary-instruction-column.walk:not(.to)::after {
+    border-left-style: dotted;
+  }
+  .itinerary-instruction-column.car-park-walk:not(.to)::after {
     border-left-style: dotted;
   }
   .itinerary-instruction-column.bicycle_walk:not(.to)::after {
@@ -2136,7 +2140,8 @@ $font-print-decrease: 0.7;
     flex-grow: 1;
 
     &.walk,
-    &.bicycle_walk {
+    &.bicycle_walk,
+    &.car-park-walk {
       border-color: transparent $walk-color transparent transparent;
       border-style: dotted;
       border-width: 8px;
