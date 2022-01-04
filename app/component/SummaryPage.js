@@ -799,7 +799,7 @@ class SummaryPage extends React.Component {
           fromPlace: $fromPlace
           toPlace: $toPlace
           intermediatePlaces: $intermediatePlaces
-          numItineraries: 6
+          numItineraries: 5
           transportModes: [{ mode: CAR }]
           date: $date
           time: $time
@@ -860,7 +860,7 @@ class SummaryPage extends React.Component {
           fromPlace: $fromPlace
           toPlace: $toPlace
           intermediatePlaces: $intermediatePlaces
-          numItineraries: 6
+          numItineraries: 5
           transportModes: [{ mode: CAR, qualifier: PARK }, { mode: TRANSIT }]
           date: $date
           time: $time
@@ -1776,6 +1776,7 @@ class SummaryPage extends React.Component {
 
   changeHash = index => {
     const isbikeAndVehicle = this.props.match.params.hash === 'bikeAndVehicle';
+    const isParkAndRide = this.props.match.params.hash === 'parkAndRide';
 
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
@@ -1791,7 +1792,9 @@ class SummaryPage extends React.Component {
     const indexPath = `${getSummaryPath(
       this.props.match.params.from,
       this.props.match.params.to,
-    )}${isbikeAndVehicle ? '/bikeAndVehicle/' : '/'}${index}`;
+    )}${isbikeAndVehicle ? '/bikeAndVehicle/' : ''}${
+      isParkAndRide ? '/parkAndRide/' : '/'
+    }${index}`;
 
     newState.pathname = indexPath;
     this.context.router.replace(newState);

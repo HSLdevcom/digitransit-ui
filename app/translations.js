@@ -857,6 +857,8 @@ const translations = {
       'Total journey time {duration}. Departing at {inFuture} {departureTime} and arriving at {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
       'Total cycling {duration}, {distance} ',
+    'aria-itinerary-summary-car-distance':
+      'Total driving {duration}, {distance} ',
     'aria-itinerary-summary-walk-distance':
       'Total walking {duration}, {distance} ',
     'arrive-leave': 'Arrive or leave at selected time',
@@ -1891,6 +1893,8 @@ const translations = {
       'Matkan kokonaiskesto {duration}. Lähtö {inFuture} kello {departureTime}. Perillä kello {arrivalTime}.',
     'aria-itinerary-summary-bike-distance':
       'pyöräilyä yhteensä {duration}, {distance} ',
+    'aria-itinerary-summary-car-distance':
+      'ajamista yhteensä {duration}, {distance} ',
     'aria-itinerary-summary-walk-distance':
       'kävelyä yhteensä {duration}, {distance} ',
     'arrive-leave': 'Saavu tai lähde valittuna aikana',
@@ -1975,7 +1979,7 @@ const translations = {
       'Piilota perutut reittiehdotukset ({itineraryAmount})',
     'canceled-legs': 'Reitillä peruttuja vuoroja',
     car: 'Auto',
-    'car-distance-duration': 'Aja {duration} ({distance})',
+    'car-distance-duration': 'Autoile {duration} ({distance})',
     'car-park-disclaimer':
       'Voit yhdistää kätevästi joukkoliikenteen ja autoilun, kun jätät autosi liityntäpysäköintiin ja jatkat matkaasi junalla, bussilla, metrolla tai ratikalla. Auton pysäköinti on useissa paikoissa maksutonta eikä siinä ole aikarajaa.',
     'car-park-disclaimer-header': 'Jätä auto parkkiin',
@@ -3723,6 +3727,8 @@ const translations = {
       'Den totala restiden {duration}. Avgång {inFuture} klockan {departureTime}. Framme klockan {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
       'cykling sammanlagt {duration}, {distance}',
+    'aria-itinerary-summary-car-distance':
+      'körning sammanlagt {duration}, {distance} ',
     'aria-itinerary-summary-walk-distance':
       'promenad sammanlagt {duration}, {distance}',
     'arrive-leave': 'Anländer eller lämnar vid vald tid',
