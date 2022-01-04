@@ -121,6 +121,7 @@ const EmbeddedSearch = (props, context) => {
     modeIconColors: config.colors.iconColors,
     modeSet: config.iconModeSet,
     isMobile: true,
+    showScroll: true,
   };
 
   const executeSearch = () => {

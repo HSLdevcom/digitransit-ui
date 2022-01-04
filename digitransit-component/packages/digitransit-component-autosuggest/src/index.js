@@ -245,6 +245,7 @@ class DTAutosuggest extends React.Component {
     modeIconColors: PropTypes.object,
     required: PropTypes.bool,
     modeSet: PropTypes.string,
+    showScroll: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -278,6 +279,7 @@ class DTAutosuggest extends React.Component {
     },
     required: false,
     modeSet: undefined,
+    showScroll: false,
   };
 
   constructor(props) {
@@ -927,6 +929,7 @@ class DTAutosuggest extends React.Component {
             color={this.props.color}
             hoverColor={this.props.hoverColor}
             fontWeights={this.props.fontWeights}
+            showScroll={this.props.showScroll}
           />
         )}
         {!renderMobileSearch && (
