@@ -275,6 +275,31 @@
   }
 }
 
+.departure-row {
+  .route-number-container {
+    position: relative;
+    .icon-container {
+      position: absolute;
+      left: -3px;
+      bottom: -5px;
+      .icon-circle {
+        stroke-width: 12;
+        stroke: white;
+      }
+      .icon {
+        width: 1em;
+        height: 1em;
+        display: block;
+        overflow: visible;
+        &.circle {
+          width: 0.75em;
+          height: 0.75em;
+        }
+      }
+    }
+  }
+}
+
 .stop-page.departure-list {
   padding: 0px 0px 15px 5px;
   .departure-day-divider {
@@ -292,7 +317,6 @@
       display: flex;
       align-items: center;
       border-bottom: 1px solid #dddddd;
-
       &.no-border {
         border: none;
       }

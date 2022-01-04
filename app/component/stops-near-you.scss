@@ -339,25 +339,6 @@
           white-space: nowrap;
           overflow: hidden;
         }
-        .icon-container {
-          position: absolute;
-          left: -3px;
-          bottom: -5px;
-          .icon-circle {
-            stroke-width: 12;
-            stroke: white;
-          }
-          .icon {
-            width: 1em;
-            height: 1em;
-            display: block;
-            overflow: visible;
-            &.circle {
-              width: 0.75em;
-              height: 0.75em;
-            }
-          }
-        }
       }
       .route-headsign {
         font-family: $font-family-narrow;
