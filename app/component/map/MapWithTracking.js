@@ -101,7 +101,7 @@ class MapWithTrackingStateHandler extends React.Component {
     let newState;
 
     const { mapLayerOptions } = newProps;
-    if (mapLayerOptions && isEmpty(this.state.forcedLayers)) {
+    if (mapLayerOptions) {
       const forcedLayers = this.getForcedLayersFromMapLayerOptions(
         mapLayerOptions,
       );
@@ -233,13 +233,6 @@ class MapWithTrackingStateHandler extends React.Component {
       ...rest
     } = this.props;
     const { config } = this.context;
-
-    if (mapLayerOptions && isEmpty(this.state.forcedLayers)) {
-      const forcedLayers = this.getForcedLayersFromMapLayerOptions(
-        mapLayerOptions,
-      );
-      this.setForcedLayers(forcedLayers);
-    }
 
     let btnClassName = 'map-with-tracking-buttons'; // DT-3470
     if (config.map.showZoomControl) {
