@@ -974,7 +974,7 @@ class DTAutosuggest extends React.Component {
               theme={styles}
               renderInputComponent={p => (
                 <>
-                  <label className="sr-only" htmlFor={this.props.id}>
+                  <label className={styles['sr-only']} htmlFor={this.props.id}>
                     {ariaCurrentSuggestion()
                       .concat(' ')
                       .concat(ariaRequiredText)
