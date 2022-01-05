@@ -2430,6 +2430,8 @@ __metadata:
     moment: 2.29.1
     react-relay: 10.0.1
     relay-compiler: 10.0.1
+  peerDependencies:
+    moment: 2.29.1
   languageName: unknown
   linkType: soft
 
