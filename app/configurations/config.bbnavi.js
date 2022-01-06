@@ -199,6 +199,48 @@ export default configMerger(walttiConfig, {
                 visibleInSettingsUi: true,
                 enabled: true,
             },
+            'barshare-bike': {
+                icon: 'regiorad',
+                name: {
+                    de: 'BARshare E-Bike',
+                    en: 'BARshare E-Bike',
+                },
+                type: 'citybike',
+                url: {
+                    de: 'https://www.barshare.de/barshare-standorte',
+                    en: 'https://www.barshare.de/barshare-standorte',
+                },
+                visibleInSettingsUi: true,
+                enabled: true,
+            },
+            'barshare-car': {
+                icon: 'car-sharing',
+                name: {
+                    de: 'BARshare Car',
+                    en: 'BARshare Car',
+                },
+                type: 'car-sharing',
+                url: {
+                    de: 'https://www.barshare.de/barshare-standorte',
+                    en: 'https://www.barshare.de/barshare-standorte',
+                },
+                visibleInSettingsUi: true,
+                enabled: true,
+            },
+            'barshare-other': {
+                icon: 'cargobike',
+                name: {
+                    de: 'BARshare Car',
+                    en: 'BARshare Car',
+                },
+                type: 'cargo-bike',
+                url: {
+                    de: 'https://www.barshare.de/barshare-standorte',
+                    en: 'https://www.barshare.de/barshare-standorte',
+                },
+                visibleInSettingsUi: true,
+                enabled: true,
+            },
             'taxi': {
                 icon: 'taxi',
                 name: {
