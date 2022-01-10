@@ -20,7 +20,7 @@
     "@digitransit-component/digitransit-component-favourite-bar": "1.0.0",
     "@digitransit-component/digitransit-component-favourite-editing-modal": "^0.3.12",
     "@digitransit-component/digitransit-component-favourite-modal": "^0.3.15",
-    "@digitransit-component/digitransit-component-icon": "^0.1.14",
+    "@digitransit-component/digitransit-component-icon": "^0.1.15",
     "@digitransit-component/digitransit-component-suggestion-item": "^0.2.18",
     "@digitransit-component/digitransit-component-with-breakpoint": "^0.0.5"
   }
