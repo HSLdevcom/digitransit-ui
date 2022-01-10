@@ -63,6 +63,13 @@ export default configMerger(walttiConfig, {
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
 
+  mainMenu: {
+    stopMonitor: {
+      show: true,
+      url: 'https://pysakit.jyvaskyla.fi/createview',
+    },
+  },
+
   menu: {
     copyright: { label: `© Jyvaskyla ${walttiConfig.YEAR}` },
     content: [

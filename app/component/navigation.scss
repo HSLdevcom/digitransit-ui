@@ -496,13 +496,17 @@ $content-background-color: $background-color;
       display: none;
     }
   }
-  .disruption-info .icon.disruption-info {
-    font-family: $heading-font-family;
-    padding-left: 0;
-    margin-left: 10px;
-    width: 24px;
-    fill: #dc0451;
-    height: 21px;
+  .disruption-info {
+    height: 35px;
+    align-items: center;
+    .icon.disruption-info {
+      font-family: $heading-font-family;
+      padding-left: 0;
+      margin-left: 10px;
+      width: 24px;
+      fill: #dc0451;
+      height: 21px;
+    }
   }
 }
 
