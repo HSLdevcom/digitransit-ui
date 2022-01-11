@@ -349,7 +349,11 @@ class RoutePageControlPanel extends React.Component {
     const { config } = this.context;
 
     const routeNotifications = [];
-    if (config.routeNotifications && config.routeNotifications.length > 0) {
+    if (
+      config.NODE_ENV !== 'test' &&
+      config.routeNotifications &&
+      config.routeNotifications.length > 0
+    ) {
       for (let i = 0; i < config.routeNotifications.length; i++) {
         const notification = config.routeNotifications[i];
         if (notification.showForRoute(route.gtfsId)) {
