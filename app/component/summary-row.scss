@@ -211,6 +211,9 @@
           }
         }
       }
+      &.car_park {
+        background-color: #007ac9;
+      }
       &.walk, &.wait {
         min-width: 1px;
         &.render-icon {
@@ -278,6 +281,12 @@
                 display: flex;
                 justify-content: center;
                 max-width: 100%;
+              }
+              &.car {
+                width: 1em;
+                .car {
+                  color: $white;
+                }
               }
             }
             .leg-duration-container {

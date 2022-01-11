@@ -464,3 +464,15 @@
   position: relative;
   top: -1px;
 }
+
+.street-mode-info {
+  background-color: $background-color-lighter;
+  height: 50px;
+  display: flex;
+  padding: 15px 15px;
+  font-weight: $font-weight-book;
+  font-size: $font-size-small;
+  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+  color: #666666;
+}

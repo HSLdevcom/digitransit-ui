@@ -42,6 +42,7 @@ const MobileSearch = ({
   focusInput,
   color,
   hoverColor,
+  accessiblePrimaryColor,
   searchOpen,
   fontWeights,
   showScroll,
@@ -207,6 +208,7 @@ const MobileSearch = ({
         className={styles['mobile-modal-content']}
         style={{
           '--color': `${color}`,
+          '--accessible-primary-color': accessiblePrimaryColor,
           '--hover-color': `${hoverColor}`,
           '--font-weight-medium': fontWeights.medium,
         }}
@@ -247,6 +249,7 @@ MobileSearch.propTypes = {
   focusInput: PropTypes.bool,
   color: PropTypes.string,
   hoverColor: PropTypes.string,
+  accessiblePrimaryColor: PropTypes.string.isRequired,
   searchOpen: PropTypes.bool.isRequired,
   fontWeights: PropTypes.shape({
     medium: PropTypes.number.isRequired,

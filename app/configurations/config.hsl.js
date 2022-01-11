@@ -66,7 +66,7 @@ export default {
 
   parkAndRide: {
     showParkAndRide: true,
-    parkAndRideMinZoom: 14,
+    parkAndRideMinZoom: 13,
     url: {
       fi: 'https://www.hsl.fi/matkustaminen/liityntapysakointi',
       sv: 'https://www.hsl.fi/sv/att-resa/anslutningsparkering',
@@ -83,6 +83,7 @@ export default {
   mergeStopsByCode: true,
   colors: {
     primary: '#007ac9',
+    accessiblePrimary: '#0074be',
     hover: '#0062a1',
     iconColors: {
       'mode-bus': '#007ac9',
@@ -549,7 +550,7 @@ export default {
   showBikeAndParkItineraries: true,
 
   includeCarSuggestions: false,
-  includeParkAndRideSuggestions: false,
+  includeParkAndRideSuggestions: true,
 
   showNearYouButtons: true,
   nearYouModes: [

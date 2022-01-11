@@ -168,7 +168,7 @@
     "lodash": "4.17.19",
     "lru-cache": "6.0.0",
     "moment": "2.29.1",
-    "moment-timezone": "0.5.31",
+    "moment-timezone": "0.5.34",
     "morgan": "1.10.0",
     "mqtt": "4.2.1",
     "name-all-modules-plugin": "1.0.1",

@@ -125,6 +125,7 @@ li:last-child > div.suggestion-item-container.mobile {
     position: absolute;
     right: 0px;
     svg {
+      fill: var(--accessible-primary-color) !important;
       width: 17px;
       height: 17px;
     }

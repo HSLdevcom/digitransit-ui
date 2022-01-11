@@ -857,6 +857,8 @@ const translations = {
       'Total journey time {duration}. Departing at {inFuture} {departureTime} and arriving at {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
       'Total cycling {duration}, {distance} ',
+    'aria-itinerary-summary-car-distance':
+      'Total driving {duration}, {distance} ',
     'aria-itinerary-summary-walk-distance':
       'Total walking {duration}, {distance} ',
     'arrive-leave': 'Arrive or leave at selected time',
@@ -974,6 +976,7 @@ const translations = {
     continue: 'Continue',
     covered: 'Sheltered',
     'create-account': 'Create {contactName} account',
+    'create-stop-monitor': 'Create a stop display',
     'cycle-distance-duration': 'Cycle {duration} ({distance})',
     'cyclewalk-distance-duration': 'Walk your bike {duration} ({distance})',
     // eslint-disable-next-line sort-keys
@@ -1139,6 +1142,7 @@ const translations = {
     'itinerary-walk.title': 'Total walking distance',
     'journeyplanner.title': 'HSL Journey Planner',
     later: 'Later departures',
+    'leave-your-car-park-and-ride': 'Leave your car at Park & Ride site',
     leaves: 'Leaves',
     'leaving-at': 'Leaving at',
     lighting: 'Lighting',
@@ -1434,7 +1438,11 @@ const translations = {
     'street-mode-bikeandvehicle-aria':
       'Show a combination of cycling and public transport. Duration {duration}, distance {length}',
     'street-mode-car': 'Car',
+    'street-mode-car-aria':
+      'Show driving route. Duration {duration}, distance {length}',
     'street-mode-car_park': 'Park & ride',
+    'street-mode-parkandride-aria':
+      'Show park and ride route. Duration {duration}, distance {length}',
     'street-mode-public_transport': 'Public transport',
     'street-mode-walk': 'Walking',
     'street-mode-walk-aria':
@@ -1886,6 +1894,8 @@ const translations = {
       'Matkan kokonaiskesto {duration}. Lähtö {inFuture} kello {departureTime}. Perillä kello {arrivalTime}.',
     'aria-itinerary-summary-bike-distance':
       'pyöräilyä yhteensä {duration}, {distance} ',
+    'aria-itinerary-summary-car-distance':
+      'ajamista yhteensä {duration}, {distance} ',
     'aria-itinerary-summary-walk-distance':
       'kävelyä yhteensä {duration}, {distance} ',
     'arrive-leave': 'Saavu tai lähde valittuna aikana',
@@ -1970,7 +1980,7 @@ const translations = {
       'Piilota perutut reittiehdotukset ({itineraryAmount})',
     'canceled-legs': 'Reitillä peruttuja vuoroja',
     car: 'Auto',
-    'car-distance-duration': 'Aja {duration} ({distance})',
+    'car-distance-duration': 'Autoile {duration} ({distance})',
     'car-park-disclaimer':
       'Voit yhdistää kätevästi joukkoliikenteen ja autoilun, kun jätät autosi liityntäpysäköintiin ja jatkat matkaasi junalla, bussilla, metrolla tai ratikalla. Auton pysäköinti on useissa paikoissa maksutonta eikä siinä ole aikarajaa.',
     'car-park-disclaimer-header': 'Jätä auto parkkiin',
@@ -2012,6 +2022,7 @@ const translations = {
     continue: 'Jatka',
     covered: 'Katettu',
     'create-account': 'Luo {contactName} tunnus',
+    'create-stop-monitor': 'Luo pysäkkinäyttö',
     'cycle-distance-duration': 'Pyöräile {duration} ({distance})',
     'cyclewalk-distance-duration': 'Taluta pyörää {duration} ({distance})',
     // eslint-disable-next-line sort-keys
@@ -2174,6 +2185,7 @@ const translations = {
     'itinerary-walk.title': 'Kävelyä',
     'journeyplanner.title': 'HSL Reittiopas',
     later: 'Myöhempiä lähtöjä',
+    'leave-your-car-park-and-ride': 'Jätä autosi liityntäpysäköintiin',
     leaves: 'Lähtee',
     'leaving-at': 'Lähtöaika',
     lighting: 'Valaistus',
@@ -2469,7 +2481,11 @@ const translations = {
     'street-mode-bikeandvehicle-aria':
       'Näytä pyöräilyn ja julkisen liikenteen yhdistelmä. Kesto {duration}, pyöräilyn pituus {length}',
     'street-mode-car': 'Auto',
+    'street-mode-car-aria':
+      'Näytä ajoreitti. Kesto {duration}, pituus {length}',
     'street-mode-car_park': 'Liityntä\u00ADpysäköinti',
+    'street-mode-parkandride-aria':
+      'Näytä liityntäpysäköintireitti. Kesto {duration}, pituus {length}',
     'street-mode-public_transport': 'Julkinen liikenne',
     'street-mode-walk': 'Kävely',
     'street-mode-walk-aria':
@@ -3713,6 +3729,8 @@ const translations = {
       'Den totala restiden {duration}. Avgång {inFuture} klockan {departureTime}. Framme klockan {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
       'cykling sammanlagt {duration}, {distance}',
+    'aria-itinerary-summary-car-distance':
+      'körning sammanlagt {duration}, {distance} ',
     'aria-itinerary-summary-walk-distance':
       'promenad sammanlagt {duration}, {distance}',
     'arrive-leave': 'Anländer eller lämnar vid vald tid',
@@ -3827,6 +3845,7 @@ const translations = {
     continue: 'Fortsätt',
     covered: 'Tak',
     'create-account': 'Skapa {contactName} konto',
+    'create-stop-monitor': 'Skapa hållplatsskärm',
     'cycle-distance-duration': 'Cykla {duration} ({distance})',
     'cyclewalk-distance-duration': 'Led cykeln {duration} ({distance})',
     // eslint-disable-next-line sort-keys
@@ -3993,6 +4012,7 @@ const translations = {
     'itinerary-walk.title': 'Gång totalt',
     'journeyplanner.title': 'HRT Reseplaneraren',
     later: 'Senare avgångar',
+    'leave-your-car-park-and-ride': 'Lämna din bil på anslutningsparkering',
     leaves: 'Avgår',
     'leaving-at': 'Avgångstid',
     lighting: 'Belysning',
@@ -4292,7 +4312,10 @@ const translations = {
     'street-mode-bikeandvehicle-aria':
       'Visa kombinationen av cykling och kollektivtrafik. Tid {duration}, längd {length}',
     'street-mode-car': 'Bil',
+    'street-mode-car-aria': 'Visa bilrutt. Tid {duration}, längd {length}',
     'street-mode-car_park': 'Infarts\u00ADparkering',
+    'street-mode-parkandride-aria':
+      'Visa anslutningsparkeringrutt. Tid {duration}, längd {length}',
     'street-mode-public_transport': 'Kollektiv\u00ADtrafik',
     'street-mode-walk': 'Gång',
     'street-mode-walk-aria':

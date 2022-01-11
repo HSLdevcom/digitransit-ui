@@ -109,6 +109,13 @@ export default configMerger(walttiConfig, {
     lon: 23.7606972,
   },
 
+  mainMenu: {
+    stopMonitor: {
+      show: true,
+      url: 'https://tremonitori.digitransit.fi/createview',
+    },
+  },
+
   menu: {
     copyright: { label: `© Tampere ${walttiConfig.YEAR}` },
     content: [
@@ -129,13 +136,6 @@ export default configMerger(walttiConfig, {
         href:
           'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
       },
-      /*
-      {
-        name: 'stop-virtual-monitor',
-        href: 'https://tremonitori.digitransit.fi',
-        openInNewTab: true,
-      },
-      */
     ],
   },
 

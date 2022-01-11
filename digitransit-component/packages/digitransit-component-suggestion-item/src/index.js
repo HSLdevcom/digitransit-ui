@@ -31,6 +31,11 @@ function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
     return modeSet === 'default'
       ? [`mode-${mode}`, `mode-${mode}`]
       : [`mode-${modeSet}-${mode}`, `mode-${mode}`];
+  } else if (item.type === 'OldSearch' && item?.properties?.mode) {
+    const mode = item?.properties?.mode?.toLowerCase();
+    return modeSet === 'default'
+      ? [`mode-${mode}`, `mode-${mode}`]
+      : [`mode-${modeSet}-${mode}`, `mode-${mode}`];
   } else if (item && item.selectedIconId) {
     iconId = item.selectedIconId;
   } else if (item && item.properties) {
@@ -188,6 +193,7 @@ const SuggestionItem = pure(
     isMobile,
     ariaFavouriteString,
     color,
+    accessiblePrimaryColor,
     fillInput,
     fontWeights,
     modeIconColors,
@@ -258,7 +264,6 @@ const SuggestionItem = pure(
             [styles.futureroute]: isFutureRoute,
           },
         )}
-        style={{ '--font-weight-medium': fontWeights.medium }}
       >
         <span aria-label={suggestionType} className={styles['suggestion-icon']}>
           {icon}
@@ -290,10 +295,7 @@ const SuggestionItem = pure(
             )}
           {(item.selectedIconId === 'favourite' || iconId === 'edit') && (
             <span>
-              <div
-                className={cx(styles['suggestion-name'], styles[className])}
-                style={{ color: `${item.color}` }}
-              >
+              <div className={cx(styles['suggestion-name'], styles[className])}>
                 {name}
               </div>
             </span>
@@ -403,6 +405,10 @@ const SuggestionItem = pure(
             [styles.futureroute]: isFutureRoute,
           },
         )}
+        style={{
+          '--font-weight-medium': fontWeights.medium,
+          '--accessible-primary-color': accessiblePrimaryColor,
+        }}
       >
         {acri}
         {ri}
@@ -417,6 +423,7 @@ SuggestionItem.propTypes = {
   className: PropTypes.string,
   isMobile: PropTypes.bool,
   color: PropTypes.string,
+  accessiblePrimaryColor: PropTypes.string,
   fontWeights: PropTypes.shape({
     medium: PropTypes.number,
   }),
@@ -428,6 +435,7 @@ SuggestionItem.defaultProps = {
   className: undefined,
   isMobile: false,
   color: '#007ac9',
+  accessiblePrimaryColor: '#0074be',
   fontWeights: {
     medium: 500,
   },
