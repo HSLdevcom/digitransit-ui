@@ -18,7 +18,7 @@ class TimeStore extends Store {
   updateCurrentTime = () => {
     if (this.config.NODE_ENV === 'test') {
       // Set current time to Tue Dec 28 2021 for E2E-tests
-      this.currentTime = moment('2021-12-28T12:52:00+00:00');
+      this.currentTime = moment('2021-12-28T12:57:00+00:00');
     } else {
       this.currentTime = moment();
     }
