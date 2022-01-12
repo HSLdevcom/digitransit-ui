@@ -1093,7 +1093,8 @@ const translations = {
     'itinerary-feedback-message': 'Couldn’t find what you were looking for?',
     'itinerary-feedback-placeholder': 'Description (optional)',
     'itinerary-hide-stops': 'Hide stops',
-    'itinerary-in-the-past': 'The route search falls within a period that is in the past.',
+    'itinerary-in-the-past':
+      'The route search falls within a period that is in the past.',
     'itinerary-in-the-past-link': 'I want to travel now ›',
     'itinerary-in-the-past-title': 'The route options cannot be displayed',
     'itinerary-page.description': 'Itinerary',

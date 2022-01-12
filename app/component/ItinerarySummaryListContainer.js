@@ -257,14 +257,12 @@ function ItinerarySummaryListContainer(
     iconImg = 'icon-icon_info';
     if (searchTime < currentTime) {
       msgId = 'itinerary-in-the-past';
+    } else if (walking && !biking) {
+      msgId = 'walk-bike-itinerary-1';
+    } else if (!walking && biking) {
+      msgId = 'walk-bike-itinerary-2';
     } else {
-      if (walking && !biking) {
-        msgId = 'walk-bike-itinerary-1';
-      } else if (!walking && biking) {
-        msgId = 'walk-bike-itinerary-2';
-      } else {
-        msgId = 'walk-bike-itinerary-3';
-      }
+      msgId = 'walk-bike-itinerary-3';
     }
   } else {
     const hasChanges = !isEqual(
@@ -297,13 +295,16 @@ function ItinerarySummaryListContainer(
   let titlePart = null;
   if (msgId === 'itinerary-in-the-past') {
     titlePart = (
-      <div className='in-the-past'>
+      <div className="in-the-past">
         <FormattedMessage id={`${msgId}-title`} defaultMessage="" />
       </div>
     );
     linkPart = (
       <div>
-        <a className={cx('no-decoration', 'medium')} href={match.location.pathname}>
+        <a
+          className={cx('no-decoration', 'medium')}
+          href={match.location.pathname}
+        >
           <FormattedMessage id={`${msgId}-link`} defaultMessage="" />
         </a>
       </div>
