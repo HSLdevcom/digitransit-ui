@@ -20,6 +20,7 @@ cd watchman
 ./configure --enable-lenient --without-python
 make
 sudo make install
+watchman -v
 ```
 
 ## Installation
