@@ -30,6 +30,7 @@ import {
   PREFIX_BIKE_PARKS,
   PREFIX_DYNAMIC_PARKING_LOTS,
   PREFIX_ROAD_WEATHER,
+  PREFIX_DATAHUB_TILE,
 } from '../../../util/path';
 import SelectVehicleContainer from './SelectVehicleContainer';
 
@@ -464,6 +465,26 @@ class TileLayerContainer extends GridLayer {
           this.setState({ selectableTargets: undefined });
           this.context.router.push(
             `/${PREFIX_ROAD_WEATHER}?${new URLSearchParams(params).toString()}`,
+          );
+          showPopup = false;
+        } else if (this.state.selectableTargets[0].layer === 'datahubTiles') {
+          const {
+            updatedAt,
+            address,
+          } = this.state.selectableTargets[0].feature.properties;
+          const { lat, lng } = this.state.coords;
+          const params = pickBy(
+            {
+              lat,
+              lng,
+              updatedAt,
+              address,
+            },
+            value => value !== undefined,
+          );
+          this.setState({ selectableTargets: undefined });
+          this.context.router.push(
+            `/${PREFIX_DATAHUB_TILE}?${new URLSearchParams(params).toString()}`,
           );
           showPopup = false;
         }

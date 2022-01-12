@@ -114,6 +114,12 @@ class TileContainer {
           return isEnabled;
         }
         if (
+          layerName === 'datahubTiles' &&
+          this.coords.z >= config.datahubTiles.minZoom
+        ) {
+          return isEnabled;
+        }
+        if (
           layerName === 'chargingStations' &&
           this.coords.z >= config.chargingStations.minZoom
         ) {

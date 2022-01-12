@@ -473,6 +473,7 @@ const translations = {
     currentposition: 'Aktuelle Position',
     'cycle-distance-duration': 'Radfahren: {duration} ({distance})',
     'cyclewalk-distance-duration': 'Fahrrad schieben: {duration} ({distance})',
+    'datahub-tile': 'Datahub tile',
     datasources: 'Datenquellen',
     date: 'Datum',
     delete: 'Löschen',
@@ -657,6 +658,7 @@ const translations = {
     'map-layer-terminal-subway': 'U-Bahnhöfe',
     'map-layer-vehicles': 'Buspositionen',
     'map-layer-weather-stations': 'Straßenwetter',
+    'map-layer-datahub-tiles': 'Datahub tiles',
     'menu-faq': 'FAQ',
     'menu-feedback': 'Feedback senden',
     'menu-link-to-privacy-policy': 'Datenschutz',
@@ -1135,6 +1137,7 @@ const translations = {
     'add-via-duration-button-label-open':
       'Open stop duration selector at via point {index}',
     'add-work': 'Add work',
+    'additional-info': 'Hier werden Informationen erscheinen...',
     'air-temperature': 'Air temperature',
     'alert:bikerental:free-floating-drop-off':
       'Destination is not a designated drop-off area. Rental cannot be completed here. Please check terms & conditions for additional fees.',
