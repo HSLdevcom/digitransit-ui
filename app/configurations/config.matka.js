@@ -28,6 +28,13 @@ export default {
       'https://digitransit-prod-cdn-origin.azureedge.net/matka-fonts/roboto/roboto+montserrat.css',
   },
 
+  mainMenu: {
+    stopMonitor: {
+      show: true,
+      url: 'https://matkamonitori.digitransit.fi/createview',
+    },
+  },
+
   contactName: {
     sv: 'Livin',
     fi: 'Livin',

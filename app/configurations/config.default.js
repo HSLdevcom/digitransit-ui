@@ -186,6 +186,9 @@ export default {
     showLoginCreateAccount: true,
     showOffCanvasList: true,
     showFrontPageLink: true,
+    stopMonitor: {
+      show: false,
+    },
   },
 
   itinerary: {
