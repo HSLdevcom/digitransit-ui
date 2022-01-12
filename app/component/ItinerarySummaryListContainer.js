@@ -255,7 +255,9 @@ function ItinerarySummaryListContainer(
   } else if (walking || biking) {
     iconType = 'info';
     iconImg = 'icon-icon_info';
-    if (walking && !biking) {
+    if (config.includeCarSuggestions) {
+      msgId = 'walk-bike-itinerary-4';
+    } else if (walking && !biking) {
       msgId = 'walk-bike-itinerary-1';
     } else if (!walking && biking) {
       msgId = 'walk-bike-itinerary-2';
