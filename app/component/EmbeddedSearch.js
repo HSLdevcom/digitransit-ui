@@ -29,8 +29,9 @@ const EmbeddedSearch = (props, context) => {
   const { colors, fontWeights } = config;
   const bikeOnly = query?.bikeOnly;
   const walkOnly = query?.walkOnly;
+  const useCurrentLocation = query?.loc;
 
-  const deafultOriginExists = query.lat1 && query.lon1;
+  const defaultOriginExists = query.lat1 && query.lon1;
   const defaultOrigin = {
     lat: Number(query.lat1),
     lon: Number(query.lon1),
@@ -46,7 +47,18 @@ const EmbeddedSearch = (props, context) => {
   };
   const [logo, setLogo] = useState();
   const [origin, setOrigin] = useState(
-    deafultOriginExists ? defaultOrigin : {},
+    useCurrentLocation
+      ? {
+          type: 'CurrentLocation',
+          status: 'no-location',
+          address: intl.formatMessage({
+            id: 'own-position',
+            defaultMessage: 'Own Location',
+          }),
+        }
+      : defaultOriginExists
+      ? defaultOrigin
+      : {},
   );
   const [destination, setDestination] = useState(
     defaultDestinationExists ? defaultDestination : {},
@@ -109,6 +121,7 @@ const EmbeddedSearch = (props, context) => {
     modeIconColors: config.colors.iconColors,
     modeSet: config.iconModeSet,
     isMobile: true,
+    showScroll: true,
   };
 
   const executeSearch = () => {

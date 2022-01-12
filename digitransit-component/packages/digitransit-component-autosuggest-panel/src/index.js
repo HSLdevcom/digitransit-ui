@@ -171,6 +171,7 @@ class DTAutosuggestPanel extends React.Component {
     fontWeights: PropTypes.shape({
       medium: PropTypes.number,
     }),
+    showScroll: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -196,6 +197,7 @@ class DTAutosuggestPanel extends React.Component {
     fontWeights: {
       medium: 500,
     },
+    showScroll: false,
   };
 
   constructor(props) {
@@ -444,6 +446,7 @@ class DTAutosuggestPanel extends React.Component {
             fontWeights={this.props.fontWeights}
             modeSet={this.props.modeSet}
             modeIconColors={this.props.modeIconColors}
+            showScroll={this.props.showScroll}
           />
           <ItinerarySearchControl
             className={styles.opposite}
@@ -521,6 +524,7 @@ class DTAutosuggestPanel extends React.Component {
                       fontWeights={this.props.fontWeights}
                       modeSet={this.props.modeSet}
                       modeIconColors={this.props.modeIconColors}
+                      showScroll={this.props.showScroll}
                     />
                   </div>
                   <ItinerarySearchControl
@@ -622,6 +626,7 @@ class DTAutosuggestPanel extends React.Component {
             fontWeights={this.props.fontWeights}
             modeSet={this.props.modeSet}
             modeIconColors={this.props.modeIconColors}
+            showScroll={this.props.showScroll}
           />
           <ItinerarySearchControl
             className={cx(styles['add-via-point'], styles.more, {
