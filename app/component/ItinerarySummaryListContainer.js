@@ -44,7 +44,7 @@ function ItinerarySummaryListContainer(
   context,
 ) {
   const [showCancelled, setShowCancelled] = useState(false);
-  const { config } = context;
+  const { config, match } = context;
 
   if (
     !error &&
@@ -255,7 +255,9 @@ function ItinerarySummaryListContainer(
   } else if (walking || biking) {
     iconType = 'info';
     iconImg = 'icon-icon_info';
-    if (walking && !biking) {
+    if (searchTime < currentTime) {
+      msgId = 'itinerary-in-the-past';
+    } else if (walking && !biking) {
       msgId = 'walk-bike-itinerary-1';
     } else if (!walking && biking) {
       msgId = 'walk-bike-itinerary-2';
@@ -289,6 +291,26 @@ function ItinerarySummaryListContainer(
       </div>
     );
   }
+
+  let titlePart = null;
+  if (msgId === 'itinerary-in-the-past') {
+    titlePart = (
+      <div className="in-the-past">
+        <FormattedMessage id={`${msgId}-title`} defaultMessage="" />
+      </div>
+    );
+    linkPart = (
+      <div>
+        <a
+          className={cx('no-decoration', 'medium')}
+          href={match.location.pathname}
+        >
+          <FormattedMessage id={`${msgId}-link`} defaultMessage="" />
+        </a>
+      </div>
+    );
+  }
+
   const background = iconImg.replace('icon-icon_', '');
   return (
     <div className="summary-list-container summary-no-route-found">
@@ -301,6 +323,7 @@ function ItinerarySummaryListContainer(
           color={iconImg === 'icon-icon_info' ? '#0074be' : null}
         />
         <div>
+          {titlePart}
           <FormattedMessage
             id={msgId}
             defaultMessage={
