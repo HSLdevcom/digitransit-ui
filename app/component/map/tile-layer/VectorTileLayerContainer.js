@@ -5,6 +5,7 @@ import TileLayerContainer from './TileLayerContainer';
 import CityBikes from './CityBikes';
 import DynamicParkingLots from './DynamicParkingLots';
 import WeatherStations from './WeatherStations';
+import DatahubTiles from './DatahubTiles';
 import Stops from './Stops';
 import ParkAndRide from './ParkAndRide';
 import BikeParks from './BikeParks';
@@ -41,6 +42,10 @@ export default function VectorTileLayerContainer(props, { config }) {
 
     if (config.weatherStations && config.weatherStations.show) {
       layersToAdd.push(WeatherStations);
+    }
+
+    if (config.datahubTiles && config.datahubTiles.show) {
+      layersToAdd.push(DatahubTiles);
     }
 
     if (config.chargingStations && config.chargingStations.show) {

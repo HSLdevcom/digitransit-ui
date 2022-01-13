@@ -6,6 +6,7 @@ const APP_TITLE = 'bbnavi Staging';
 const HEADER_TITLE = "Staging";
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
 const API_URL = process.env.API_URL || 'https://api.bbnavi.de';
+const DATAHUB_TILES_URL = process.env.DATAHUB_TILES_URL || 'https://tiles.bbnavi.de';
 const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{x}/{y}{r}.png';
 const SEMI_TRANSPARENT_MAP_URL = process.env.SEMITRANSPARENT_MAP_URL || "https://tiles.stadtnavi.eu/satellite-overlay/{z}/{x}/{y}{r}.png";
 const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || "https://photon.stadtnavi.eu/pelias/v1";
@@ -45,6 +46,7 @@ export default configMerger(walttiConfig, {
         CITYBIKE_MAP: `${API_URL}/otp/routers/default/vectorTiles/citybikes/`,
         BIKE_PARKS_MAP: `${API_URL}/otp/routers/default/vectorTiles/parking/`,
         WEATHER_STATIONS_MAP: '', // `${API_URL}/map/v1/weather-stations/`,
+        DATAHUB_TILES_MAP: `${DATAHUB_TILES_URL}/public.geo_locations/`,
         CHARGING_STATIONS_MAP: '', // `${API_URL}/tiles/charging-stations/`,
         PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
         PELIAS_REVERSE_GEOCODER: `${
@@ -152,9 +154,14 @@ export default configMerger(walttiConfig, {
         minZoom: 15
     },
 
-
     weatherStations: {
         show: false,
+        smallIconZoom: 17,
+        minZoom: 15
+    },
+
+    datahubTiles: {
+        show: true,
         smallIconZoom: 17,
         minZoom: 15
     },
