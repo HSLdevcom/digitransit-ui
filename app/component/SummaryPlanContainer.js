@@ -80,6 +80,7 @@ class SummaryPlanContainer extends React.Component {
     }).isRequired,
     showSettingsChangedNotification: PropTypes.func.isRequired,
     openSettingsModal: PropTypes.func.isRequired,
+    driving: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -89,6 +90,7 @@ class SummaryPlanContainer extends React.Component {
     biking: false,
     showAlternativePlan: false,
     loadingMoreItineraries: undefined,
+    driving: false,
   };
 
   static contextTypes = {
@@ -250,6 +252,7 @@ class SummaryPlanContainer extends React.Component {
       separatorPosition,
       loading,
       loadingMoreItineraries,
+      driving,
     } = this.props;
     const searchTime =
       this.props.plan?.date ||
@@ -295,6 +298,7 @@ class SummaryPlanContainer extends React.Component {
           separatorPosition={separatorPosition}
           loadingMoreItineraries={loadingMoreItineraries}
           loading={loading}
+          driving={driving}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>

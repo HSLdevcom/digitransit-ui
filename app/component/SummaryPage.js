@@ -2392,6 +2392,7 @@ class SummaryPage extends React.Component {
               }
               openSettingsModal={this.toggleCustomizeSearchOffcanvas}
               alternativePlan={this.state.alternativePlan}
+              driving={showCarOptionButton}
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {
@@ -2607,6 +2608,7 @@ class SummaryPage extends React.Component {
               }
               openSettingsModal={this.toggleCustomizeSearchOffcanvas}
               alternativePlan={this.state.alternativePlan}
+              driving={showCarOptionButton}
             />
           </>
         );
