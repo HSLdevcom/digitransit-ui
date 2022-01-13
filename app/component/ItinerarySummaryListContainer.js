@@ -256,19 +256,17 @@ function ItinerarySummaryListContainer(
   } else if (walking || biking || driving) {
     iconType = 'info';
     iconImg = 'icon-icon_info';
-    if (driving) {
+    const yesterday = currentTime - 24 * 60 * 60 * 1000;
+    if (searchTime < yesterday) {
+      msgId = 'itinerary-in-the-past';
+    } else if (driving) {
       msgId = 'walk-bike-itinerary-4';
+    } else if (walking && !biking) {
+      msgId = 'walk-bike-itinerary-1';
+    } else if (!walking && biking) {
+      msgId = 'walk-bike-itinerary-2';
     } else {
-      const yesterday = currentTime - 24 * 60 * 60 * 1000;
-      if (searchTime < yesterday) {
-        msgId = 'itinerary-in-the-past';
-      } else if (walking && !biking) {
-        msgId = 'walk-bike-itinerary-1';
-      } else if (!walking && biking) {
-        msgId = 'walk-bike-itinerary-2';
-      } else {
-        msgId = 'walk-bike-itinerary-3';
-      }
+      msgId = 'walk-bike-itinerary-3';
     }
   } else {
     const hasChanges = !isEqual(
@@ -369,6 +367,7 @@ ItinerarySummaryListContainer.propTypes = {
   bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
   walking: PropTypes.bool,
   biking: PropTypes.bool,
+  driving: PropTypes.bool,
   showAlternativePlan: PropTypes.bool,
   separatorPosition: PropTypes.number,
   loadingMoreItineraries: PropTypes.string,
