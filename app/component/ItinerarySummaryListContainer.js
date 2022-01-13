@@ -253,18 +253,22 @@ function ItinerarySummaryListContainer(
       msgId = 'no-route-origin-near-destination';
     }
   } else if (walking || biking) {
+    let yesterday = currentTime - 24 * 60 * 60 * 1000;
+    const ownSettings = getCurrentSettings(config);
     iconType = 'info';
     iconImg = 'icon-icon_info';
-    if (searchTime < currentTime) {
-      msgId = 'itinerary-in-the-past';
-    } else if (config.includeCarSuggestions) {
+    if (config.includeCarSuggestions && ownSettings.includeCarSuggestions) {
       msgId = 'walk-bike-itinerary-4';
-    } else if (walking && !biking) {
-      msgId = 'walk-bike-itinerary-1';
-    } else if (!walking && biking) {
-      msgId = 'walk-bike-itinerary-2';
     } else {
-      msgId = 'walk-bike-itinerary-3';
+      if (searchTime < yesterday) {
+        msgId = 'itinerary-in-the-past';
+      } else if (walking && !biking) {
+        msgId = 'walk-bike-itinerary-1';
+      } else if (!walking && biking) {
+        msgId = 'walk-bike-itinerary-2';
+      } else {
+        msgId = 'walk-bike-itinerary-3';
+      }
     }
   } else {
     const hasChanges = !isEqual(
