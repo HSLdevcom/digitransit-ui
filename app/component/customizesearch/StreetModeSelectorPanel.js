@@ -68,10 +68,7 @@ const StreetModeSelectorPanel = (
             <div className="mode-option-container">
               <div className="mode-option-block">
                 <div className="mode-icon">
-                  <Icon
-                    className="park-ride-icon-icon"
-                    img="icon-icon_park-and-ride"
-                  />
+                  <Icon className="car-icon" img="icon-icon_car-withoutBox" />
                 </div>
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label
@@ -80,8 +77,8 @@ const StreetModeSelectorPanel = (
                 >
                   <FormattedMessage
                     className="mode-name"
-                    id="park-and-ride"
-                    defaultMessage="Park & Ride"
+                    id="car"
+                    defaultMessage="Car"
                   />
                 </label>
               </div>

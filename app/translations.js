@@ -815,6 +815,8 @@ const translations = {
     'walk-bike-itinerary-1': 'Ihre Suche ergab nur Fußweg-Routen.',
     'walk-bike-itinerary-2': 'Ihre Suche ergab nur Fahrrad-Routen.',
     'walk-bike-itinerary-3': 'Ihre Suche ergab nur Fußweg- und Fahrrad-Routen.',
+    'walk-bike-itinerary-4':
+      'Ihre Suche ergab nur Fußweg- Fahrrad- und Auto-Routen.',
     'walk-distance-duration': 'Gehen {duration} ({distance})',
     walking: 'Gehen',
     'walking-speed': 'Laufgeschwindigkeit',
@@ -1529,6 +1531,8 @@ const translations = {
     'walk-bike-itinerary-2': 'Your search returned only cycling routes.',
     'walk-bike-itinerary-3':
       'Your search returned only walking and cycling routes.',
+    'walk-bike-itinerary-4':
+      'Your search only returned routes requiring cycling or driving.',
     'walk-distance-duration': 'Walk {duration} ({distance})',
     walking: 'Amount of walking',
     'walking-speed': 'Walking speed',
@@ -2579,6 +2583,8 @@ const translations = {
       'Löysimme valitsemallesi reitille vain pyöräilyyn liittyviä reittiehdotuksia.',
     'walk-bike-itinerary-3':
       'Löysimme valitsemallesi reitille vain kävelyyn ja pyöräilyyn liittyviä reittiehdotuksia.',
+    'walk-bike-itinerary-4':
+      'Löysimme valitsemallesi reitille vain omiin kulkuneuvoihin liittyviä reittiehdotuksia.',
     'walk-distance-duration': 'Kävele {duration} ({distance})',
     walking: 'Kävelyn määrä',
     'walking-speed': 'Kävelynopeus',
@@ -4417,6 +4423,8 @@ const translations = {
       'Vi har endast hittat ruttförslag i vilka ingår cykling.',
     'walk-bike-itinerary-3':
       'Vi har endast hittat ruttförslag i vilka ingår promenad och cykling.',
+    'walk-bike-itinerary-4':
+      'Vi har endast hittat ruttförslag i vilka ingår cykling eller körning.',
     'walk-distance-duration': 'Gå {duration} ({distance})',
     walking: 'Gång',
     'walking-speed': 'Promenadhastighet',

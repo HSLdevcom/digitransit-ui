@@ -277,6 +277,7 @@ export default {
     'airplane',
   ],
   useAlternativeNameForModes: ['rail'],
+  includeCarSuggestions: true,
 
   sourceForAlertsAndDisruptions: {
     HSL: {
