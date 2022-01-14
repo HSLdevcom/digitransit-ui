@@ -46,7 +46,8 @@ export default {
 
   appBarLink: {
     name: 'Traficom',
-    href: 'https://www.traficom.fi/fi/joukkoliikenteen-informaatiopalvelut',
+    href:
+      'https://www.traficom.fi/fi/liikenne/liikennejarjestelma/joukkoliikenteen-informaatiopalvelut',
   },
 
   socialMedia: {
@@ -111,11 +112,11 @@ export default {
     content: [
       {
         name: 'menu-feedback',
-        href: 'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas',
+        href: 'https://www.matka.fi',
       },
       {
         name: 'about-this-service',
-        href: 'https://www.traficom.fi/fi/joukkoliikenteen-informaatiopalvelut',
+        href: 'https://www.matka.fi',
       },
       {
         name: 'accessibility-statement',
@@ -123,15 +124,8 @@ export default {
           'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas/matkafi-reittioppaan-saavutettavuusseloste',
       },
       {
-        name: 'privacy-statement',
-        href: {
-          fi:
-            'https://www.traficom.fi/fi/traficom/tietosuoja-traficomissa/tietosuojaselosteet',
-          sv:
-            'https://www.traficom.fi/sv/traficom/dataskydd-hos-traficom/dataskyddsbeskrivningar',
-          en:
-            'https://www.traficom.fi/en/traficom/privacy-policy/privacy-statements',
-        },
+        name: 'about-these-pages',
+        href: 'https://traficom.fi/fi/tietoa-matkafi-sivustosta',
       },
     ],
   },
