@@ -1,8 +1,8 @@
 /* eslint-disable */
 import configMerger from '../util/configMerger';
 
-const CONFIG = 'hbnext';
-const APP_TITLE = 'stadtnavi Herrenberg';
+const CONFIG = 'bw';
+const APP_TITLE = 'BW Digitransit Demo';
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
 const API_URL = process.env.API_URL || 'https://api.dev.stadtnavi.eu';
 const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{x}/{y}{r}.png';
@@ -226,8 +226,6 @@ export default configMerger(walttiConfig, {
     modeToOTP: {
         carpool: 'CARPOOL',
     },
-
-    logo: 'hbnext/stadtnavi-herrenberg-logo.svg',
 
     GTMid: '',
 
