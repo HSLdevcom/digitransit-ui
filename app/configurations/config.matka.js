@@ -112,11 +112,11 @@ export default {
     content: [
       {
         name: 'menu-feedback',
-        href: 'https://www.matka.fi',
+        href: 'http://www.matka.fi',
       },
       {
         name: 'about-this-service',
-        href: 'https://www.matka.fi',
+        href: 'http://www.matka.fi',
       },
       {
         name: 'accessibility-statement',
