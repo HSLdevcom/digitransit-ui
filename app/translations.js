@@ -832,6 +832,7 @@ const translations = {
   },
 
   en: {
+    'about-these-pages': 'About the web pages',
     'about-this-service': 'About the service',
     access_with: 'access with',
     accessibility: 'Accessibility',
@@ -1878,6 +1879,7 @@ const translations = {
   },
 
   fi: {
+    'about-these-pages': 'Tietoja sivustosta',
     'about-this-service': 'Tietoja palvelusta',
     access_with: 'pääsy',
     accessibility: 'Esteettömyys',
@@ -3713,6 +3715,7 @@ const translations = {
   },
 
   sv: {
+    'about-these-pages': 'Om webbplatsen',
     'about-this-service': 'Om tjänsten',
     access_with: 'åtgång med',
     accessibility: 'Tillgänglighet',
