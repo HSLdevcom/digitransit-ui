@@ -111,11 +111,7 @@ export default {
     copyright: { label: `© Matka.fi ${YEAR}` },
     content: [
       {
-        name: 'menu-feedback',
-        href: 'http://www.matka.fi',
-      },
-      {
-        name: 'about-this-service',
+        name: 'about-service-feedback',
         href: 'http://www.matka.fi',
       },
       {
