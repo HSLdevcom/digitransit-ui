@@ -259,6 +259,7 @@ class DTAutosuggest extends React.Component {
     modeIconColors: PropTypes.object,
     required: PropTypes.bool,
     modeSet: PropTypes.string,
+    showScroll: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -293,6 +294,7 @@ class DTAutosuggest extends React.Component {
     },
     required: false,
     modeSet: undefined,
+    showScroll: false,
   };
 
   constructor(props) {
@@ -498,6 +500,10 @@ class DTAutosuggest extends React.Component {
               this.state.suggestions[this.state.suggestionIndex],
               this.props.id,
             );
+
+            if (this.props.isMobile) {
+              this.closeMobileSearch();
+            }
           }
         },
       );
@@ -746,7 +752,13 @@ class DTAutosuggest extends React.Component {
     }
     if (this.state.editing) {
       if (keyCode === 'Enter') {
-        this.fetchFunction({ value: this.state.value });
+        if (this.props.isMobile) {
+          this.setState({ pendingSelection: true }, () => {
+            this.fetchFunction({ value: this.state.value });
+          });
+        } else {
+          this.fetchFunction({ value: this.state.value });
+        }
       }
       return this.inputClicked();
     }
@@ -944,6 +956,7 @@ class DTAutosuggest extends React.Component {
             hoverColor={this.props.hoverColor}
             accessiblePrimaryColor={this.props.accessiblePrimaryColor}
             fontWeights={this.props.fontWeights}
+            showScroll={this.props.showScroll}
           />
         )}
         {!renderMobileSearch && (

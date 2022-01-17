@@ -815,6 +815,8 @@ const translations = {
     'walk-bike-itinerary-1': 'Ihre Suche ergab nur Fußweg-Routen.',
     'walk-bike-itinerary-2': 'Ihre Suche ergab nur Fahrrad-Routen.',
     'walk-bike-itinerary-3': 'Ihre Suche ergab nur Fußweg- und Fahrrad-Routen.',
+    'walk-bike-itinerary-4':
+      'Ihre Suche ergab nur Fußweg- Fahrrad- und Auto-Routen.',
     'walk-distance-duration': 'Gehen {duration} ({distance})',
     walking: 'Gehen',
     'walking-speed': 'Laufgeschwindigkeit',
@@ -830,6 +832,8 @@ const translations = {
   },
 
   en: {
+    'about-service-feedback': 'About the service and feedback',
+    'about-these-pages': 'About the web pages',
     'about-this-service': 'About the service',
     access_with: 'access with',
     accessibility: 'Accessibility',
@@ -1094,6 +1098,10 @@ const translations = {
     'itinerary-feedback-message': 'Couldn’t find what you were looking for?',
     'itinerary-feedback-placeholder': 'Description (optional)',
     'itinerary-hide-stops': 'Hide stops',
+    'itinerary-in-the-past':
+      'The route search falls within a period that is in the past.',
+    'itinerary-in-the-past-link': 'I want to travel now ›',
+    'itinerary-in-the-past-title': 'The route options cannot be displayed',
     'itinerary-page.description': 'Itinerary',
     'itinerary-page.hide-details': 'Hide itinerary details',
     'itinerary-page.itineraries-loaded': 'More search results downloaded',
@@ -1525,6 +1533,8 @@ const translations = {
     'walk-bike-itinerary-2': 'Your search returned only cycling routes.',
     'walk-bike-itinerary-3':
       'Your search returned only walking and cycling routes.',
+    'walk-bike-itinerary-4':
+      'Your search only returned routes requiring cycling or driving.',
     'walk-distance-duration': 'Walk {duration} ({distance})',
     walking: 'Amount of walking',
     'walking-speed': 'Walking speed',
@@ -1870,6 +1880,8 @@ const translations = {
   },
 
   fi: {
+    'about-service-feedback': 'Tietoja palvelusta ja palaute',
+    'about-these-pages': 'Tietoja sivustosta',
     'about-this-service': 'Tietoja palvelusta',
     access_with: 'pääsy',
     accessibility: 'Esteettömyys',
@@ -2139,6 +2151,9 @@ const translations = {
     'itinerary-feedback-message': 'Etkö löytänyt mitä etsit?',
     'itinerary-feedback-placeholder': 'Kuvaus (valinnainen)',
     'itinerary-hide-stops': 'Piilota pysäkit',
+    'itinerary-in-the-past': 'Reittihaun ajankohta on menneisyydessä.',
+    'itinerary-in-the-past-link': 'Muuta lähtöajaksi nyt ›',
+    'itinerary-in-the-past-title': 'Reittivaihtoehtoja ei voida näyttää',
     'itinerary-page.description': 'Reittiohje',
     'itinerary-page.hide-details': 'Piilota reittiohje',
     'itinerary-page.itineraries-loaded': 'Lisää hakutuloksia ladattu',
@@ -2572,6 +2587,8 @@ const translations = {
       'Löysimme valitsemallesi reitille vain pyöräilyyn liittyviä reittiehdotuksia.',
     'walk-bike-itinerary-3':
       'Löysimme valitsemallesi reitille vain kävelyyn ja pyöräilyyn liittyviä reittiehdotuksia.',
+    'walk-bike-itinerary-4':
+      'Löysimme valitsemallesi reitille vain omiin kulkuneuvoihin liittyviä reittiehdotuksia.',
     'walk-distance-duration': 'Kävele {duration} ({distance})',
     walking: 'Kävelyn määrä',
     'walking-speed': 'Kävelynopeus',
@@ -3700,6 +3717,8 @@ const translations = {
   },
 
   sv: {
+    'about-service-feedback': 'Om tjänsten och respons',
+    'about-these-pages': 'Om webbplatsen',
     'about-this-service': 'Om tjänsten',
     access_with: 'åtgång med',
     accessibility: 'Tillgänglighet',
@@ -3964,6 +3983,9 @@ const translations = {
     'itinerary-feedback-message': 'Hittade du inte vad du sökte?',
     'itinerary-feedback-placeholder': 'Beskrivning (valfri)',
     'itinerary-hide-stops': 'Dölj hållplatserna',
+    'itinerary-in-the-past': 'Datumet kan inte vara i det förflutna.',
+    'itinerary-in-the-past-link': 'Jag vill åka nu ›',
+    'itinerary-in-the-past-title': 'Ruttalternativen kan inte visas',
     'itinerary-page.description': 'Ruttinformation',
     'itinerary-page.hide-details': 'Göm ruttbeskrivningen',
     'itinerary-page.itineraries-loaded': 'Flera ruttbeskrivningen laddade',
@@ -4407,6 +4429,8 @@ const translations = {
       'Vi har endast hittat ruttförslag i vilka ingår cykling.',
     'walk-bike-itinerary-3':
       'Vi har endast hittat ruttförslag i vilka ingår promenad och cykling.',
+    'walk-bike-itinerary-4':
+      'Vi har endast hittat ruttförslag i vilka ingår cykling eller körning.',
     'walk-distance-duration': 'Gå {duration} ({distance})',
     walking: 'Gång',
     'walking-speed': 'Promenadhastighet',

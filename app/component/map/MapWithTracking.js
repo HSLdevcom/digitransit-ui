@@ -82,7 +82,6 @@ class MapWithTrackingStateHandler extends React.Component {
     this.state = {
       mapTracking: props.mapTracking,
       settingsOpen: false,
-      forcedLayers: null,
     };
     this.naviProps = {};
   }
@@ -99,14 +98,6 @@ class MapWithTrackingStateHandler extends React.Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(newProps) {
     let newState;
-
-    const { mapLayerOptions } = newProps;
-    if (mapLayerOptions && isEmpty(this.state.forcedLayers)) {
-      const forcedLayers = this.getForcedLayersFromMapLayerOptions(
-        mapLayerOptions,
-      );
-      newState = { forcedLayers };
-    }
 
     if (newProps.mapTracking && !this.state.mapTracking) {
       newState = { ...newState, mapTracking: true };
@@ -136,12 +127,6 @@ class MapWithTrackingStateHandler extends React.Component {
       }
     });
     return forcedLayers;
-  };
-
-  setForcedLayers = forcedLayers => {
-    if (!isEmpty(forcedLayers)) {
-      this.setState({ forcedLayers });
-    }
   };
 
   setMapElementRef = element => {
@@ -196,24 +181,30 @@ class MapWithTrackingStateHandler extends React.Component {
   };
 
   getMapLayers = () => {
-    if (isEmpty(this.state.forcedLayers)) {
+    let forcedLayers;
+    if (this.props.mapLayerOptions) {
+      forcedLayers = this.getForcedLayersFromMapLayerOptions(
+        this.props.mapLayerOptions,
+      );
+    }
+    if (isEmpty(forcedLayers)) {
       return this.props.mapLayers;
     }
     const merged = {
       ...this.props.mapLayers,
-      ...this.state.forcedLayers,
+      ...forcedLayers,
       vehicles: !this.props.mapLayerOptions
         ? this.props.mapLayers.vehicles
         : false,
     };
-    if (isEmpty(this.state.forcedLayers.stop)) {
+    if (isEmpty(forcedLayers.stop)) {
       return merged;
     }
     return {
       ...merged,
       stop: {
         ...this.props.mapLayers.stop,
-        ...this.state.forcedLayers.stop,
+        ...forcedLayers.stop,
       },
     };
   };
@@ -233,13 +224,6 @@ class MapWithTrackingStateHandler extends React.Component {
       ...rest
     } = this.props;
     const { config } = this.context;
-
-    if (mapLayerOptions && isEmpty(this.state.forcedLayers)) {
-      const forcedLayers = this.getForcedLayersFromMapLayerOptions(
-        mapLayerOptions,
-      );
-      this.setForcedLayers(forcedLayers);
-    }
 
     let btnClassName = 'map-with-tracking-buttons'; // DT-3470
     if (config.map.showZoomControl) {

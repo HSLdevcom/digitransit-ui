@@ -159,7 +159,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/lpr_zone_lines_20211008.geojson',
+        url: '/assets/geojson/lpr_zone_lines_20220113.geojson',
       },
     ],
   },

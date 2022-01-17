@@ -738,7 +738,6 @@ $itinerary-tab-switch-height: 48px;
         }
       }
       .leg-before-line {
-        color: $gray;
         &.car {
           height: 25%;
           top: 32%;
@@ -2362,4 +2361,8 @@ $font-print-decrease: 0.7;
   &.info {
     background: #e5f1f9;
   }
+}
+
+.in-the-past {
+  font-weight: $font-weight-medium;
 }

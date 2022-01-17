@@ -152,6 +152,9 @@
 
 .no-decoration {
   text-decoration: none;
+  &.medium {
+    font-weight: $font-weight-medium;
+  }
 }
 .large-text {
   font-size: 1.1em;

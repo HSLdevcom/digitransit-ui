@@ -108,6 +108,9 @@ class TileLayerContainer extends GridLayer {
     if (!isEqual(prevProps.mapLayers, this.props.mapLayers)) {
       this.leafletElement.redraw();
     }
+    if (!isEqual(prevProps.hilightedStops, this.props.hilightedStops)) {
+      this.leafletElement.redraw();
+    }
   }
 
   componentWillUnmount() {
