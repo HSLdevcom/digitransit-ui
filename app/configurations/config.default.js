@@ -703,7 +703,7 @@ export default {
     },
   ],
   themeMap: {
-    hsl: '(bw|reittiopas)',
+    hsl: 'reittiopas',
     turku: '(turku|foli)',
     lappeenranta: 'lappeenranta',
     joensuu: 'joensuu',
@@ -725,6 +725,7 @@ export default {
     lahti: 'lahti',
     kuopio: 'kuopio',
     hbnext: 'hbnext',
+    bw: 'bw',
   },
 
   minutesToDepartureLimit: 9,

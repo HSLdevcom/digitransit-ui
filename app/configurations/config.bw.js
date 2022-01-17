@@ -395,11 +395,6 @@ export default configMerger(walttiConfig, {
 
     redirectReittiopasParams: true,
 
-    themeMap: {
-        hsl: '(bw|reittiopas)',
-        bw: 'hbnext'
-    },
-
     transportModes: {
 
         nearYouTitle: {
