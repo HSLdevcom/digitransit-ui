@@ -85,14 +85,27 @@ function getSuggestionContent(item) {
       item.properties.id &&
       (item.properties.layer === 'stop' || item.properties.layer === 'station')
     ) {
+      const getPlatform = addendum => {
+        if (!addendum || !addendum.GTFS.platform) {
+          return undefined;
+        }
+        const { modes, platform } = addendum.GTFS;
+        const type =
+          modes && modes[0] === 'RAIL'
+            ? i18next.t('track')
+            : i18next.t('platform');
+        return [type, platform];
+      };
       const stopCode = getStopCode(item.properties);
       const mode = item.properties.addendum?.GTFS.modes;
+      const platform = getPlatform(item.properties.addendum);
       return [
         suggestionType,
         getStopName(name, stopCode),
         label,
         stopCode,
         mode,
+        platform,
       ];
     }
     if (

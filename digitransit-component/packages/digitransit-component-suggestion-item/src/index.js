@@ -199,11 +199,14 @@ const SuggestionItem = pure(
     modeIconColors,
     modeSet = 'default',
   }) => {
-    const [suggestionType, name, label, stopCode, modes] = content || [
-      '',
-      item.name,
-      item.address,
-    ];
+    const [
+      suggestionType,
+      name,
+      label,
+      stopCode,
+      modes,
+      platform,
+    ] = content || ['', item.name, item.address];
 
     const [iconId, iconColor] = getIconProperties(
       item,
@@ -213,11 +216,9 @@ const SuggestionItem = pure(
       stopCode,
     );
     const modeIconColor = modeIconColors[iconColor] || modeIconColors[iconId];
-
     // Arrow clicked is for street. Instead of selecting item when a user clicks on arrow,
     // It fills the input field.
     const [arrowClicked, setArrowClicked] = useState(false);
-
     const icon = (
       <span
         className={`${styles[iconId]} ${item?.properties?.mode?.toLowerCase()}`}
@@ -289,6 +290,12 @@ const SuggestionItem = pure(
                     <span className={styles['stop-code']}>
                       {stopCode || item.properties.id}
                     </span>
+                  )}
+                  {platform?.length === 2 && (
+                    <>
+                      {platform[0]}{' '}
+                      <span className={styles.platform}>{platform[1]}</span>
+                    </>
                   )}
                 </div>
               </span>
