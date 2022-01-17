@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-suggestion-item",
-  "version": "0.2.18",
+  "version": "0.2.19",
   "description": "digitransit-component suggestion-item module",
   "main": "lib/index.js",
   "files": [
