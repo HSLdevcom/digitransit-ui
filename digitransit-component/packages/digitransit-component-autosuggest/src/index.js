@@ -46,6 +46,16 @@ Loading.propTypes = {
   children: PropTypes.node,
 };
 
+const getPlatform = addendum => {
+  if (!addendum || !addendum.GTFS.platform) {
+    return undefined;
+  }
+  const { modes, platform } = addendum.GTFS;
+  const type =
+    modes && modes[0] === 'RAIL' ? i18next.t('track') : i18next.t('platform');
+  return [type, platform];
+};
+
 function getSuggestionContent(item) {
   if (item.type !== 'FutureRoute') {
     if (item.type === 'SelectFromMap') {
@@ -85,17 +95,6 @@ function getSuggestionContent(item) {
       item.properties.id &&
       (item.properties.layer === 'stop' || item.properties.layer === 'station')
     ) {
-      const getPlatform = addendum => {
-        if (!addendum || !addendum.GTFS.platform) {
-          return undefined;
-        }
-        const { modes, platform } = addendum.GTFS;
-        const type =
-          modes && modes[0] === 'RAIL'
-            ? i18next.t('track')
-            : i18next.t('platform');
-        return [type, platform];
-      };
       const stopCode = getStopCode(item.properties);
       const mode = item.properties.addendum?.GTFS.modes;
       const platform = getPlatform(item.properties.addendum);
@@ -114,7 +113,8 @@ function getSuggestionContent(item) {
     ) {
       const { address, code } = item.properties;
       const stoName = address ? getStopName(address.split(',')[0], code) : name;
-      return [suggestionType, stoName, label, code];
+      const platform = getPlatform(item.properties.addendum);
+      return [suggestionType, stoName, label, code, undefined, platform];
     }
     return [suggestionType, name, label];
   }
