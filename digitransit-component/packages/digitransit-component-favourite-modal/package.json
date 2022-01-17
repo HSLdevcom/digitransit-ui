@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-favourite-modal",
-  "version": "0.3.15",
+  "version": "0.3.16",
   "description": "digitransit-component favourite-modal module",
   "main": "lib/index.js",
   "files": [
@@ -28,7 +28,7 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "peerDependencies": {
-    "@digitransit-component/digitransit-component-icon": "^0.1.14",
+    "@digitransit-component/digitransit-component-icon": "^0.1.15",
     "@hsl-fi/modal": "^0.3.1",
     "@hsl-fi/sass": "^0.2.0",
     "classnames": "2.2.6",

@@ -68,6 +68,7 @@ import SearchFerryStopDigitransit from './assets/search-ferry-stop-digitransit.s
 import SearchRailStopDigitransit from './assets/search-rail-stop-digitransit.svg';
 import SearchRailStationDigitransit from './assets/search-rail-station-digitransit.svg';
 import SearchTramStopDigitransit from './assets/search-tram-stop-digitransit.svg';
+import Funicular from './assets/funicular.svg';
 
 const IconMap = style => {
   return {
@@ -154,6 +155,7 @@ const IconMap = style => {
       <SearchRailStationDigitransit style={style} />
     ),
     'search-tram-stop-digitransit': <SearchTramStopDigitransit style={style} />,
+    funicular: <Funicular style={style} />,
   };
 };
 
