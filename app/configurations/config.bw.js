@@ -397,6 +397,7 @@ export default configMerger(walttiConfig, {
 
     themeMap: {
         hsl: '(bw|reittiopas)',
+        bw: 'hbnext'
     },
 
     transportModes: {
