@@ -396,7 +396,7 @@ export default configMerger(walttiConfig, {
     redirectReittiopasParams: true,
 
     themeMap: {
-        hbnext: 'hbnext'
+        hsl: '(bw|reittiopas)',
     },
 
     transportModes: {
@@ -574,13 +574,8 @@ export default configMerger(walttiConfig, {
             },
         ],
     },
-    staticMessagesUrl: STATIC_MESSAGE_URL,
 
-    parkAndRideBannedVehicleParkingTags: [
-        'lot_type:Parkplatz',
-        'lot_type:Tiefgarage',
-        'lot_type:Parkhaus'
-    ],
+    //staticMessagesUrl: STATIC_MESSAGE_URL,
 
     suggestCarMinDistance: 800,
     suggestWalkMaxDistance: 3000,

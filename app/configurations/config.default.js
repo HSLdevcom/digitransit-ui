@@ -703,7 +703,7 @@ export default {
     },
   ],
   themeMap: {
-    hsl: 'reittiopas',
+    hsl: '(bw|reittiopas)',
     turku: '(turku|foli)',
     lappeenranta: 'lappeenranta',
     joensuu: 'joensuu',
