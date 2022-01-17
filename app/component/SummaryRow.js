@@ -285,8 +285,7 @@ const SummaryRow = (
     let legLength =
       ((leg.endTime - leg.startTime) / durationWithoutSlack) * 100; // length of the current leg in %
 
-    const longName =
-      leg.route && leg.route.shortName && leg.route.shortName.length > 5;
+    const longName = !leg?.route?.shortName || leg?.route?.shortName.length > 5;
 
     if (
       nextLeg &&
