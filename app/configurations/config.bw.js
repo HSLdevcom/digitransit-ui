@@ -15,10 +15,10 @@ const STATIC_MESSAGE_URL =
 
 const walttiConfig = require('./config.waltti.js').default;
 
-const minLat = 47.6020;
-const maxLat = 49.0050;
-const minLon = 8.4087;
-const maxLon = 9.9014;
+const minLat = 47.3797543;
+const maxLat = 49.8663167;
+const minLon = 7.19604492;
+const maxLon = 10.535888;
 
 export default configMerger(walttiConfig, {
     CONFIG,
@@ -261,12 +261,12 @@ export default configMerger(walttiConfig, {
     searchSources: ['oa', 'osm'],
 
     searchParams: {
-        'boundary.rect.min_lat': 48.34164,
-        'boundary.rect.max_lat': 48.97661,
-        'boundary.rect.min_lon': 9.95635,
-        'boundary.rect.max_lon': 8.530883,
-        'focus.point.lat': 48.5957,
-        'focus.point.lon': 8.8675
+        'boundary.rect.min_lat': minLat,
+        'boundary.rect.max_lat': maxLat,
+        'boundary.rect.min_lon': minLon,
+        'boundary.rect.max_lon': maxLon,
+        'focus.point.lat': 48.7796,
+        'focus.point.lon': 9.1773
     },
 
     areaPolygon: [
