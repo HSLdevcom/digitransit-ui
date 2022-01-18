@@ -5,7 +5,7 @@ import { intlShape } from 'react-intl';
 import VehicleIcon from './VehicleIcon';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
-function PatternLink(
+function TripLinkWithScroll(
   {
     mode,
     pattern,
@@ -17,6 +17,7 @@ function PatternLink(
     keepTracking,
     stopName,
     nextStopName,
+    tripId,
   },
   context,
 ) {
@@ -49,12 +50,11 @@ function PatternLink(
       }, 4000);
     }
   });
-
   const localizedMode = context.intl.formatMessage({
     id: `${mode}`,
     defaultMessage: `${mode}`,
   });
-  const ariaMessage = nextStopName
+  let ariaMessage = nextStopName
     ? context.intl.formatMessage(
         {
           id: 'route-page-vehicle-position-between',
@@ -75,10 +75,15 @@ function PatternLink(
         },
         { stopName, mode: localizedMode, shortName: vehicleNumber },
       );
-
+  if (selected) {
+    ariaMessage += context.intl.formatMessage({
+      id: 'route-page-vehicle-selected',
+      defaultMessage: 'Current selection.',
+    });
+  }
   const icon = (
     <Link
-      to={`/${PREFIX_ROUTES}/${route}/${PREFIX_STOPS}/${pattern}`}
+      to={`/${PREFIX_ROUTES}/${route}/${PREFIX_STOPS}/${pattern}/${tripId}`}
       className="route-now-content"
       aria-label={ariaMessage}
     >
@@ -101,7 +106,7 @@ function PatternLink(
   );
 }
 
-PatternLink.propTypes = {
+TripLinkWithScroll.propTypes = {
   mode: PropTypes.string.isRequired,
   pattern: PropTypes.string.isRequired,
   route: PropTypes.string.isRequired,
@@ -112,10 +117,11 @@ PatternLink.propTypes = {
   keepTracking: PropTypes.bool,
   stopName: PropTypes.string,
   nextStopName: PropTypes.string,
+  tripId: PropTypes.string,
 };
 
-PatternLink.contextTypes = {
+TripLinkWithScroll.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-export default PatternLink;
+export default TripLinkWithScroll;

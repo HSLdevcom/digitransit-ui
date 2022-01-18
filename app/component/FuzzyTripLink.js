@@ -6,10 +6,11 @@ import cx from 'classnames';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import { intlShape } from 'react-intl';
 import VehicleIcon from './VehicleIcon';
+import TripLInkWithScroll from './TripLInkWithScroll';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-function FuzzyTripLink({ vehicle, stopName, nextStopName }, context) {
+function FuzzyTripLink({ vehicle, stopName, nextStopName, ...rest }, context) {
   const { environment } = useContext(ReactRelayContext);
   const icon = (
     <VehicleIcon
@@ -59,6 +60,9 @@ function FuzzyTripLink({ vehicle, stopName, nextStopName }, context) {
       render={({ props }) => {
         if (!props || props.trip === null) {
           return <span className="route-now-content">{icon}</span>;
+        }
+        if (rest.setHumanScrolling) {
+          return <TripLInkWithScroll {...rest} tripId={props.trip.gtfsId} />;
         }
 
         const route = props.trip.route.gtfsId;
