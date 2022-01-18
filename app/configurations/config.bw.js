@@ -419,8 +419,8 @@ export default configMerger(walttiConfig, {
         },
 
         tram: {
-            availableForSelection: false,
-            defaultValue: false,
+            availableForSelection: true,
+            defaultValue: true,
             nearYouLabel: {
                 de: 'Tramhaltestellen in der Nähe',
             }
