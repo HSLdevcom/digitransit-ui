@@ -80,7 +80,7 @@ const getConnectors = evses => {
 
 const ChargingStationContent = ({ match }, { intl }) => {
   const CHARGING_STATION_DETAILS_API =
-    'https://ochp.next-site.de/api/ocpi/2.2/location/';
+    'https://api.ocpdb.de/api/ocpi/2.2/location/';
   const { lat, lng } = match.location.query;
   const [details, setDetails] = useState({});
   const [connectors, setConnectors] = useState([]);
