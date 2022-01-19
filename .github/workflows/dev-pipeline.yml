@@ -1,4 +1,4 @@
-name: Process next push or pr
+name: Process v2 push or pr
 on:
   push:
     branches:
@@ -226,7 +226,7 @@ jobs:
           STORAGERESOURCENAME: "visualtestsnapshots"
         run: yarn test:e2e
   publish-npm:
-    if: github.ref == 'refs/heads/next'
+    if: github.ref == 'refs/heads/v2'
     needs:
       - install
       - lint
@@ -295,7 +295,7 @@ jobs:
         uses: zcong1993/setup-timezone@master
         with:
           timezone: "Europe/Helsinki"
-      - name: Build docker image from next and push it
+      - name: Build docker image from v2 and push it
         run: ./.github/workflows/scripts/build_and_push_dev.sh
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
