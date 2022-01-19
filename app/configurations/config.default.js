@@ -726,6 +726,7 @@ export default {
     kuopio: 'kuopio',
     hbnext: 'hbnext',
     bw: 'bw',
+    ludwigsburg: 'ludwigsburg',
   },
 
   minutesToDepartureLimit: 9,
