@@ -1,117 +1,51 @@
-/* Default theme */
 
-/* General palette */
-$white: #ffffff;
-$light-gray: #ddd;
-$medium-gray: #ccc;
-$gray: #666;
-$dark-gray: #575757;
-$black: #333;
-$gray-blue: #78909c;
-$gray-blue-light: rgb(182, 193, 199);
+@import '../../base/waltti';
 
-/* Operator palette */
-$livi-blue: #000F94;
-$livi-gold: rgb(233, 171, 0);
-$livi-bus-blue: rgb(0, 136, 206);
-$livi-airplane-blue: #1A4A8F;
-$livi-ferry-blue: rgb(53, 181, 179);
-$livi-rail-purple: rgb(175, 141, 188);
-$livi-subway-orange: rgb(237, 140, 0);
-$livi-tram-green: rgb(106, 137, 37);
-
-/* Application palette */
-$background-color: #fff;
-$background-color-darker: #e0e5e8;
-$background-color-lighter: #f4f4f5;
-$primary-color: $livi-blue;
-$primary-font-color: $white;
-$secondary-color: #008bde;
-$secondary-font-color: $white;
-$favourite-color: $livi-gold;
-$hilight-color: $livi-blue;
-$action-color: $secondary-color;
-$cancelation-red: #dc0451;
-$cancelation-black: #666;
-$cancelation-background: #fbe0ea;
-$disruption-color: $cancelation-red;
-$realtime-color: #46850E;
-$late-color: #FF4500;
-$visited-link-color: #8c4799;
+/* main theme colors */
+$primary-color: #9fc727;
+$secondary-color: darken($primary-color, 20%);
+$hilight-color: $primary-color;
+$action-color: $primary-color;
+$viewpoint-marker-color: $primary-color;
 $current-location-color: $primary-color;
-$desktop-title-color: $primary-color;
-$desktop-title-arrow-icon-color: $secondary-color;
-
-/* Component palette */
-$title-color: $white;
-$standalone-btn-color: $action-color;
-$standalone-btn-hover-color: $gray-blue-light;
-$standalone-btn-active-color: $gray-blue-light;
-$viewpoint-marker-color: $livi-blue;
+$standalone-btn-color: $primary-color;
 $link-color: $primary-color;
-$from-color: #4ea700;
-$to-color: #ec5188;
-$slider-severe-color: #CA4000;
-$slider-warning-color: #fbb800;
-$slider-ok-color: #4ea700;
-$selected-lang-background: rgba(0, 0, 0, 0.15);
-$caution-icon-color: $white;
-$caution-icon-font-color: none;
+$desktop-title-color: $primary-color;
 $top-bar-color: $primary-color;
 
 /* Vehicle palette */
-$airplane-color: $livi-airplane-blue;
-$bus-color: $livi-bus-blue;
-$tram-color: $livi-tram-green;
-$metro-color: $livi-subway-orange;
-$rail-color: $livi-rail-purple;
-$ferry-color: $livi-ferry-blue;
-$citybike-color: #f2b62d;
-$citybike-off-color: #919191;
-$walk-color: #666;
-$wait-color: #979797;
-$bicycle-color: #666;
-$car-color: #333;
-$carpool-color: #9fc727;
+$bus-color: red;
+$metro-color: blue;
+$rail-color: green;
+$citybike-color: #009fe4;
+$carpool-color: $primary-color;
+$bike-color: #005ab4;
 
-/* Fonts */
-$font-family: 'Roboto', Arial, Georgia, Serif;
-$heading-font-family: $font-family;
-$button-font-family: $font-family;
-$font-weight-book: 400;
-$font-weight-medium: 700;
-$font-weight-map-container: $font-weight-book;
-$letter-spacing: 0;
-$letter-spacing-front-page: -0.67px;
+.car {
+  color: #005ab4;
+}
 
-$font-family-narrow:  'Roboto Condensed', 'Arial Condensed', Arial, Georgia, Serif;
-$font-narrow-weight-book: 400;
-$font-narrow-weight-medium: 700;
-$narrow-letter-spacing: 0;
+.top-bar button .navi-logo {
+  width: 350px;
+  height: 62px;
+}
 
-$line-height-normal: 1.2;
+.top-bar section .logo {
+  width: 350px;
+  height: 62px;
+}
 
-$font-size-xxxxsmall: 0.62rem;
-$font-size-xxxsmall: 0.72rem;
-$font-size-xxsmall: 0.8rem;
-$font-size-xsmall: 0.87rem;
-$font-size-small: 0.92rem;
-$font-size-normal: 1rem;
-$font-size-medium-large: 1.15rem;
-$font-size-large: 1.25rem;
-$font-size-xlarge: 1.5rem;
+.top-bar .icon {
+  color: $white !important;
+}
 
-/* Paddings */
-$padding-xxsmall: 0.125em;
-$padding-xsmall: 0.25em;
-$padding-small: 0.4em;
-$padding-medium: 0.7em;
-$padding-large: 1.5em;
-$padding-xlarge: 2em;
+@media screen and (max-width: 400px) {
+  .top-bar section .logo {
+    height: 43px;
+    width: 200px;
+  }
+}
 
-/* Borders */
-$border-radius-small: 2px;
-$border-radius: 3px;
-$border-radius-bigger: 8px;
-
-$spinner-image: url('../default/default-spinner.png');
+.charging-station {
+  color: #00b096;
+}

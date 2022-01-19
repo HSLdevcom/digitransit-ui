@@ -91,6 +91,18 @@ export default configMerger(walttiConfig, {
         default: 'transportkollektiv',
     },
 
+    colors: {
+        primary: '#9fc727',
+        iconColors: {
+            'mode-bus': '#ff0000',
+            'mode-car': '#007AC9',
+            'mode-rail': '#008000',
+            'mode-tram': '#008000',
+            'mode-charging-station': '#00b096',
+            'mode-bike-park': '#005ab4',
+        },
+    },
+
     sprites: 'assets/svg-sprite.hb.svg',
 
     socialMedia: {
