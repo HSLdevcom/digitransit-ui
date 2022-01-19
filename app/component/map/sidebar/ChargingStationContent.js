@@ -65,10 +65,9 @@ const getConnectors = evses => {
     ],
     [],
   );
-
-  const uniqueConnectors = [
-    ...new Map(connectors?.map(item => [item.standard, item])).values(),
-  ];
+  const uniqueConnectors = Array.from(
+    new Map(connectors?.map(item => [item.standard, item])).values(),
+  );
 
   return uniqueConnectors?.map(connector => ({
     icon: CONNECTOR_ICONS_MAP[connector.standard],
@@ -180,14 +179,24 @@ const ChargingStationContent = ({ match }, { intl }) => {
     return (
       address &&
       city &&
-      postal_code && <div>{`${address}, ${postal_code}, ${city}`}</div>
+      postal_code && <div>{`${address}, ${postal_code} ${city}`}</div>
     );
   };
 
   const getPhoneNumber = () => {
     const { evses } = details;
     const phone = evses ? evses[0].phone : undefined;
-    return phone && <div>{phone.replace('00', '+')}</div>;
+    return (
+      (phone && <div>{phone.replace('00', '+')}</div>) || (
+        <div>
+          {' '}
+          {intl.formatMessage({
+            id: 'charging-payment-unknown',
+            defaultMessage: 'Unknown',
+          })}
+        </div>
+      )
+    );
   };
 
   const getPaymentTypes = () => {
@@ -216,6 +225,10 @@ const ChargingStationContent = ({ match }, { intl }) => {
       id: 'charging-payment-contactless',
       defaultMessage: 'Contactless',
     });
+    const unknownPaymentMessage = intl.formatMessage({
+      id: 'charging-payment-unknown',
+      defaultMessage: 'Unknown',
+    });
 
     return (
       capabilities && (
@@ -224,6 +237,12 @@ const ChargingStationContent = ({ match }, { intl }) => {
           {supportsCreditCard && <span>{`, ${creditCardMessage}`}</span>}
           {supportsDebitCard && <span>{`, ${debitCardMessage}`}</span>}
           {supportsContactless && <span>{`, ${contactlessMessage}`}</span>}
+          {!(
+            supportsRfid ||
+            supportsCreditCard ||
+            supportsDebitCard ||
+            supportsContactless
+          ) && <span>{`${unknownPaymentMessage}`}</span>}
         </div>
       )
     );
