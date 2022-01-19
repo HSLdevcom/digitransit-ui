@@ -5,7 +5,7 @@ const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
+const MAP_VERSION = process.env.MAP_VERSION || 'v1';
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
@@ -20,10 +20,10 @@ export default {
 
   URL: {
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/hsl/`,
-    STOP_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-stop-map/`,
-    PARK_AND_RIDE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-parkandride-map/`,
+    STOP_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-stop-map/`,
+    PARK_AND_RIDE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-parkandride-map/`,
     FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
-    CITYBIKE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-citybike-map/`,
+    CITYBIKE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-citybike-map/`,
     ROOTLINK: rootLink,
     BANNERS: BANNER_URL,
     HSL_FI_SUGGESTIONS: 'https://content.hsl.fi/api/v1/search/suggestions',
