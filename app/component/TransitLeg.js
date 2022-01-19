@@ -26,7 +26,11 @@ import {
 import { PREFIX_ROUTES, PREFIX_STOPS, PREFIX_DISRUPTION } from '../util/path';
 import { durationToString } from '../util/timeUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { getZoneLabel, getHeadsignFromRouteLongName } from '../util/legUtils';
+import {
+  getZoneLabel,
+  getHeadsignFromRouteLongName,
+  getStopHeadsignFromStoptimes,
+} from '../util/legUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { shouldShowFareInfo } from '../util/fareUtils';
 import { AlertSeverityLevelType } from '../constants';
@@ -277,7 +281,9 @@ class TransitLeg extends React.Component {
       leg.route.shortName.length > 3;
 
     const headsign =
-      leg.trip.tripHeadsign || getHeadsignFromRouteLongName(leg.route);
+      getStopHeadsignFromStoptimes(leg.from.stop, leg.trip.stoptimesForDate) ||
+      leg.trip.tripHeadsign ||
+      getHeadsignFromRouteLongName(leg.route);
 
     let intermediateStopCount = leg.intermediatePlaces.length;
     if (interliningLegs) {
@@ -601,6 +607,14 @@ TransitLeg.propTypes = {
         code: PropTypes.string.isRequired,
       }).isRequired,
       tripHeadsign: PropTypes.string.isRequired,
+      stoptimesForDate: PropTypes.arrayOf(
+        PropTypes.shape({
+          headsign: PropTypes.string,
+          stop: PropTypes.shape({
+            gtfsId: PropTypes.string.isRequired,
+          }),
+        }),
+      ),
     }).isRequired,
     startTime: PropTypes.number.isRequired,
     endTime: PropTypes.number,
@@ -636,6 +650,14 @@ TransitLeg.propTypes = {
       }).isRequired,
       trip: PropTypes.shape({
         tripHeadsign: PropTypes.string.isRequired,
+        stoptimesForDate: PropTypes.arrayOf(
+          PropTypes.shape({
+            headsign: PropTypes.string,
+            stop: PropTypes.shape({
+              gtfsId: PropTypes.string.isRequired,
+            }),
+          }),
+        ),
       }).isRequired,
       endTime: PropTypes.number.isRequired,
       to: PropTypes.shape({

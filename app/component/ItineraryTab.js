@@ -496,6 +496,7 @@ const withRelay = createFragmentContainer(
             code
           }
           stoptimesForDate {
+            headsign
             pickupType
             realtimeState
             stop {
