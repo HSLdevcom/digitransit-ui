@@ -41,7 +41,7 @@ const ZoneIcon = ({ className, zoneId, showUnknown }, { config, intl }) => {
       {!zoneUnknown && (
         <>
           <p className="sr-only">
-            {intl.formatMessage({ id: 'zone' })} {zoneId}
+            {intl.formatMessage({ id: 'zone-info' }, { zone: zoneId })}
           </p>
           <div
             aria-hidden
