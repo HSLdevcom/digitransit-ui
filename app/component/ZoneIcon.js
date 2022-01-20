@@ -27,28 +27,33 @@ const ZoneIcon = ({ className, zoneId, showUnknown }, { config, intl }) => {
           'unknown-container': zoneUnknown,
         },
       )}
-      aria-label={
-        !zoneUnknown
-          ? `${intl.formatMessage({ id: 'zone' })} ${zoneId}`
-          : intl.formatMessage({ id: 'zone-unknown' })
-      }
     >
       {zoneUnknown && (
-        <div aria-hidden className="unknown">
-          ?
-        </div>
+        <>
+          <p className="sr-only">
+            {intl.formatMessage({ id: 'zone-unknown' })}
+          </p>
+          <div aria-hidden className="unknown">
+            ?
+          </div>
+        </>
       )}
       {!zoneUnknown && (
-        <div
-          aria-hidden
-          className={cx(
-            'circle',
-            { 'multi-letter': zoneId.length > 1 },
-            zoneId,
-          )}
-        >
-          {zoneId}
-        </div>
+        <>
+          <p className="sr-only">
+            {intl.formatMessage({ id: 'zone-info' }, { zone: zoneId })}
+          </p>
+          <div
+            aria-hidden
+            className={cx(
+              'circle',
+              { 'multi-letter': zoneId.length > 1 },
+              zoneId,
+            )}
+          >
+            {zoneId}
+          </div>
+        </>
       )}
     </div>
   );
