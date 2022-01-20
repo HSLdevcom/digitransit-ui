@@ -6,7 +6,6 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape, routerShape, RedirectException } from 'found';
 import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
-import keyBy from 'lodash/keyBy';
 import sortBy from 'lodash/sortBy';
 import cx from 'classnames';
 import { dayRangePattern } from '@digitransit-util/digitransit-util';
@@ -31,25 +30,25 @@ const DATE_FORMAT2 = 'D.M.YYYY';
 
 const isTripCanceled = trip =>
   trip.stoptimes &&
-  Object.keys(trip.stoptimes)
-    .map(key => trip.stoptimes[key])
-    .every(st => st.realtimeState === RealtimeStateType.Canceled);
+  trip.stoptimes.length > 0 &&
+  trip.stoptimes.every(st => st.realtimeState === RealtimeStateType.Canceled);
 
 class RouteScheduleContainer extends PureComponent {
-  static transformTrips(trips, stops) {
+  static sortTrips(trips) {
     if (trips == null) {
       return null;
     }
-    let transformedTrips = trips.map(trip => {
-      const newTrip = { ...trip };
-      newTrip.stoptimes = keyBy(trip.stoptimes, 'stop.id');
-      return newTrip;
+    return [...trips].sort((a, b) => {
+      if (!Array.isArray(b.stoptimes) || b.stoptimes.length === 0) {
+        return -1;
+      }
+      if (!Array.isArray(a.stoptimes) || a.stoptimes.length === 0) {
+        return 1;
+      }
+      return (
+        a.stoptimes[0].scheduledDeparture - b.stoptimes[0].scheduledDeparture
+      );
     });
-    transformedTrips = sortBy(
-      transformedTrips,
-      trip => trip.stoptimes[stops[0].id].scheduledDeparture,
-    );
-    return transformedTrips;
   }
 
   static propTypes = {
@@ -124,11 +123,7 @@ class RouteScheduleContainer extends PureComponent {
   };
 
   getTrips = (currentPattern, from, to, newServiceDay) => {
-    const { stops } = currentPattern;
-    const trips = RouteScheduleContainer.transformTrips(
-      currentPattern.trips,
-      stops,
-    );
+    const trips = RouteScheduleContainer.sortTrips(currentPattern.trips);
 
     if (trips.length === 0 && newServiceDay) {
       return `/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_TIMETABLE}/${currentPattern.code}?serviceDay=${newServiceDay}`;
@@ -155,8 +150,8 @@ class RouteScheduleContainer extends PureComponent {
       );
     }
     return trips.map(trip => {
-      const fromSt = trip.stoptimes[stops[from].id];
-      const toSt = trip.stoptimes[stops[to].id];
+      const fromSt = trip.stoptimes[from];
+      const toSt = trip.stoptimes[to];
       const departureTime = this.formatTime(
         fromSt.serviceDay + fromSt.scheduledDeparture,
       );
