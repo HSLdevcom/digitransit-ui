@@ -328,6 +328,7 @@ class FavouriteBar extends React.Component {
     const {
       listOpen,
       favourites,
+      highlightedIndex,
       firstFavourite,
       secondFavourite,
     } = this.state;
@@ -404,6 +405,7 @@ class FavouriteBar extends React.Component {
             aria-owns={favourites
               .map((_, i) => `favourite-suggestion-list--item-${i}`)
               .join(' ')}
+            aria-activedescendant={`favourite-suggestion-list--item-${highlightedIndex}`}
           >
             <Shimmer active={isLoading}>
               <Icon img={expandIcon} color={this.props.color} />
