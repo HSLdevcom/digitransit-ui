@@ -1217,7 +1217,8 @@ const translations = {
     'no-route-start-date-too-early': 'There are no earlier departures.',
     'no-route-start-end': 'Please select origin and destination',
     'no-transfers-margin': '1 min',
-    'no-trips-found': 'No journeys found for the selected date ({selectedDate}).',
+    'no-trips-found':
+      'No journeys found for the selected date ({selectedDate}).',
     'notification-minimize': 'Close message',
     'notification-open': 'Open message',
     now: 'Now',
@@ -1698,7 +1699,8 @@ const translations = {
       'Los horarios actuales no incluyen rutas saliendo antes.',
     'no-route-start-end': 'Por favor seleccione origen y destino.',
     'no-transfers-margin': '1 min',
-    'no-trips-found': 'No se han encontrado viajes para la fecha seleccionada ({selectedDate}).',
+    'no-trips-found':
+      'No se han encontrado viajes para la fecha seleccionada ({selectedDate}).',
     now: 'Ahora',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Sin paradas} one {1 parada} other {{number} paradas} }',
@@ -2723,7 +2725,8 @@ const translations = {
       'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Choisir un point de départ et une destination',
     'no-transfers-margin': 'Aucune',
-    'no-trips-found': "Il n'y a pas de trajet possible au jour choisi ({selectedDate}).",
+    'no-trips-found':
+      "Il n'y a pas de trajet possible au jour choisi ({selectedDate}).",
     now: 'Maintenant',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Sans arrêt} =1 {{number} arrêt} other {{number} arrêts} }',
@@ -3017,7 +3020,8 @@ const translations = {
       'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Vennligst velg avgangssted og destinasjon.',
     'no-transfers-margin': 'Ingen',
-    'no-trips-found': 'Ingen reiser tilgjenelig for denne dagen ({selectedDate}).',
+    'no-trips-found':
+      'Ingen reiser tilgjenelig for denne dagen ({selectedDate}).',
     now: 'Nå',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ingen stopp} other {{number} stopp} }',
@@ -3412,7 +3416,8 @@ const translations = {
     'no-route-start-date-too-early': 'Nu am găsit curse mai devreme în orar.',
     'no-route-start-end': 'Selectați punctele de plecare și destinație.',
     'no-transfers-margin': '1 min',
-    'no-trips-found': 'Nicio călătorie găsită pentru data respectivă ({selectedDate}).',
+    'no-trips-found':
+      'Nicio călătorie găsită pentru data respectivă ({selectedDate}).',
     now: 'Now',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Nicio stație intermediară} O {1 stație} altă {{number} opriri} }',
