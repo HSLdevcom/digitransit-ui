@@ -164,7 +164,7 @@ export default config => {
             <Route
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "road weather" */ './component/map/sidebar/DatahubTileContent'
+                  /* webpackChunkName: "road weather" */ './component/map/sidebar/bbnavi/DatahubTileContent'
                 ).then(getDefault)
               }
             />

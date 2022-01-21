@@ -38,7 +38,7 @@ export default class DatahubTiles {
             this.features = range(length).map(index => {
               const feature = layerData.feature(index);
               [[feature.geom]] = feature.loadGeometry();
-              return pick(feature, ['geom', 'properties']);
+              return pick(feature, ['geom', 'properties', 'id']);
             });
 
             this.features.forEach(feature => {

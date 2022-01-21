@@ -28,8 +28,13 @@ const maxLon = 15.000255;
 
 export default configMerger(walttiConfig, {
     CONFIG,
+    DATAHUB_O_AUTH: {
+        CLIENT_ID: process.env.DATAHUB_O_AUTH_CLIENT_ID,
+        CLIENT_SECRET: process.env.DATAHUB_O_AUTH_CLIENT_SECRET,
+    },
     URL: {
         HEADER_TITLE,
+        DATAHUB: process.env.DATAHUB_URL,
         OTP: process.env.OTP_URL || `${API_URL}/otp/routers/default/`,
         MAP: {
             default: 'https://isk.geobasis-bb.de/mapproxy/webatlasde_topplus/service/wms',
