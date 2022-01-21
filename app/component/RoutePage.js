@@ -10,7 +10,7 @@ import Loading from './Loading';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from './RouteNumber';
 import RoutePageControlPanel from './RoutePageControlPanel';
-import { PREFIX_ROUTES } from '../util/path';
+import { PREFIX_DISRUPTION, PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import BackButton from './BackButton'; // DT-3472
 import { isBrowser } from '../util/browser';
@@ -134,7 +134,7 @@ class RoutePage extends React.Component {
             <div className="trip-page-alert-container">
               <AlertBanner
                 alerts={route.alerts}
-                linkAddress={`/linjat/${this.props.match.params.routeId}/hairiot/${this.props.match.params.patternId}`}
+                linkAddress={`/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_DISRUPTION}/${this.props.match.params.patternId}`}
               />
             </div>
           )}
@@ -142,7 +142,7 @@ class RoutePage extends React.Component {
         </div>
         {route &&
           route.patterns &&
-          this.props.match.params.type === 'hairiot' && (
+          this.props.match.params.type === PREFIX_DISRUPTION && (
             <RoutePageControlPanel
               match={this.props.match}
               route={route}
