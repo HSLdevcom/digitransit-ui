@@ -212,10 +212,12 @@ class GeoJSON extends React.Component {
 
       const index =
         this.props.geoJsonZoomLevel !== -1 ? this.props.geoJsonZoomLevel : 0;
+      const featureWeight = feature.style.weight ? feature.style.weight : 1;
       const newStyle = {
         ...feature.style,
         weight:
-          feature.style.type === 'halo' ? haloArray[index] : lineArray[index],
+          feature.style.type ===
+          ('halo' ? haloArray[index] : lineArray[index]) * featureWeight,
       };
       return { ...defaultLineStyle, ...newStyle };
     }
