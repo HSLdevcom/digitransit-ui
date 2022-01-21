@@ -43,7 +43,7 @@
     "start-test": "NODE_ENV=test node $NODE_OPTS server/server",
     "win-start": "set NODE_ENV=production&& set CONFIG=hsl&& node server/server.js",
     "add-theme": "node build/add-theme",
-    "relay": "relay-compiler --src ./. --schema ./build/schema.json",
+    "relay": "relay-compiler --src ./. --exclude ./app/component/map/sidebar/bbnavi/. --schema ./build/schema.json",
     "relay-bbnavi": "relay-compiler --src ./app/component/map/sidebar/bbnavi/. --schema ./build/schema-bbnavi.json",
     "relay-watch": "relay-compiler --src . --schema ./build/schema.json --watch",
     "digitransit-npm-publish": "lerna publish from-package --no-git-tag-version --no-push",
