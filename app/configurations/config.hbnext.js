@@ -42,6 +42,7 @@ export default configMerger(walttiConfig, {
         BIKE_PARKS_MAP: `${API_URL}/routing/v1/router/vectorTiles/parking/`,
         WEATHER_STATIONS_MAP: `${API_URL}/map/v1/weather-stations/`,
         CHARGING_STATIONS_MAP: `${API_URL}/tiles/charging-stations/`,
+        CHARGING_STATION_DETAILS_API: 'https://api.ocpdb.de/api/ocpi/2.2/location/',
         PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
         PELIAS_REVERSE_GEOCODER: `${
             process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL

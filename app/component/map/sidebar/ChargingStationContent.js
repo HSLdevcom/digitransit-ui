@@ -77,9 +77,8 @@ const getConnectors = evses => {
   }));
 };
 
-const ChargingStationContent = ({ match }, { intl }) => {
-  const CHARGING_STATION_DETAILS_API =
-    'https://api.ocpdb.de/api/ocpi/2.2/location/';
+const ChargingStationContent = ({ match }, { intl, config }) => {
+  const { CHARGING_STATION_DETAILS_API } = config.URL;
   const { lat, lng } = match.location.query;
   const [details, setDetails] = useState({});
   const [connectors, setConnectors] = useState([]);
@@ -311,6 +310,7 @@ ChargingStationContent.propTypes = {
 
 ChargingStationContent.contextTypes = {
   intl: intlShape.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 export default withBreakpoint(ChargingStationContent);
