@@ -8,7 +8,7 @@ const GEOCODING_BASE_URL =
   process.env.GEOCODING_BASE_URL || `${API_URL}/geocoding/v1`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
+const MAP_VERSION = process.env.MAP_VERSION || 'v1';
 const APP_PATH = process.env.APP_CONTEXT || '';
 const { SENTRY_DSN, AXE, NODE_ENV } = process.env;
 const PORT = process.env.PORT || 8080;
@@ -32,8 +32,8 @@ export default {
     MAP_URL,
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/finland/`,
     MAP: {
-      default: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-map/`,
-      sv: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-map-sv/`,
+      default: `${MAP_URL}/map/${MAP_VERSION}/hsl-map/`,
+      sv: `${MAP_URL}/map/${MAP_VERSION}/hsl-map-sv/`,
     },
     STOP_MAP: `${MAP_URL}/map/v1/finland-stop-map/`,
     CITYBIKE_MAP: `${MAP_URL}/map/v1/finland-citybike-map/`,
@@ -186,6 +186,9 @@ export default {
     showLoginCreateAccount: true,
     showOffCanvasList: true,
     showFrontPageLink: true,
+    stopMonitor: {
+      show: false,
+    },
   },
 
   itinerary: {
@@ -306,11 +309,11 @@ export default {
       'mode-tram': '#6a8925',
       'mode-metro': '#ed8c00',
       'mode-rail': '#af8dbc',
-      'mode-ferry': '#35b5b3',
+      'mode-ferry': '#247C7B',
       'mode-citybike': '#f2b62d',
     },
   },
-  searchIconModeSet: 'digitransit',
+  iconModeSet: 'digitransit',
   fontWeights: {
     medium: 700,
   },

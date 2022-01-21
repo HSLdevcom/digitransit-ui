@@ -255,8 +255,8 @@ const compareItineraries = (itineraries, defaultItineraries) => {
     for (let j = 0; j < itineraries[i].legs.length; j++) {
       if (
         !isEqual(
-          pick(itineraries?.[i].legs?.[j], legValuesToCompare),
-          pick(defaultItineraries?.[i].legs?.[j], legValuesToCompare),
+          pick(itineraries?.[i]?.legs?.[j], legValuesToCompare),
+          pick(defaultItineraries?.[i]?.legs?.[j], legValuesToCompare),
         )
       ) {
         return true;
@@ -799,7 +799,7 @@ class SummaryPage extends React.Component {
           fromPlace: $fromPlace
           toPlace: $toPlace
           intermediatePlaces: $intermediatePlaces
-          numItineraries: 6
+          numItineraries: 5
           transportModes: [{ mode: CAR }]
           date: $date
           time: $time
@@ -860,7 +860,7 @@ class SummaryPage extends React.Component {
           fromPlace: $fromPlace
           toPlace: $toPlace
           intermediatePlaces: $intermediatePlaces
-          numItineraries: 6
+          numItineraries: 5
           transportModes: [{ mode: CAR, qualifier: PARK }, { mode: TRANSIT }]
           date: $date
           time: $time
@@ -1776,6 +1776,7 @@ class SummaryPage extends React.Component {
 
   changeHash = index => {
     const isbikeAndVehicle = this.props.match.params.hash === 'bikeAndVehicle';
+    const isParkAndRide = this.props.match.params.hash === 'parkAndRide';
 
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
@@ -1791,7 +1792,9 @@ class SummaryPage extends React.Component {
     const indexPath = `${getSummaryPath(
       this.props.match.params.from,
       this.props.match.params.to,
-    )}${isbikeAndVehicle ? '/bikeAndVehicle/' : '/'}${index}`;
+    )}${isbikeAndVehicle ? '/bikeAndVehicle/' : ''}${
+      isParkAndRide ? '/parkAndRide/' : '/'
+    }${index}`;
 
     newState.pathname = indexPath;
     this.context.router.replace(newState);
@@ -2213,7 +2216,8 @@ class SummaryPage extends React.Component {
         showBikeAndPublicOptionButton ||
         showCarOptionButton ||
         showParkRideOptionButton) &&
-      this.props.match.params.hash !== 'bikeAndVehicle';
+      this.props.match.params.hash !== 'bikeAndVehicle' &&
+      this.props.match.params.hash !== 'parkAndRide';
 
     const hasItineraries =
       this.selectedPlan && Array.isArray(this.selectedPlan.itineraries);
@@ -2388,6 +2392,7 @@ class SummaryPage extends React.Component {
               }
               openSettingsModal={this.toggleCustomizeSearchOffcanvas}
               alternativePlan={this.state.alternativePlan}
+              driving={showCarOptionButton}
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {
@@ -2480,6 +2485,14 @@ class SummaryPage extends React.Component {
                     this.state.isFetchingWeather
                   }
                 />
+              )}
+              {this.props.match.params.hash === 'parkAndRide' && (
+                <div className="street-mode-info">
+                  <FormattedMessage
+                    id="leave-your-car-park-and-ride"
+                    defaultMessage="Park your car at the Park & Ride site"
+                  />
+                </div>
               )}
             </span>
           }
@@ -2595,6 +2608,7 @@ class SummaryPage extends React.Component {
               }
               openSettingsModal={this.toggleCustomizeSearchOffcanvas}
               alternativePlan={this.state.alternativePlan}
+              driving={showCarOptionButton}
             />
           </>
         );
@@ -2641,6 +2655,14 @@ class SummaryPage extends React.Component {
                     this.state.isFetchingWeather
                   }
                 />
+              )}
+              {this.props.match.params.hash === 'parkAndRide' && (
+                <div className="street-mode-info">
+                  <FormattedMessage
+                    id="leave-your-car-park-and-ride"
+                    defaultMessage="Park your car at the Park & Ride site"
+                  />
+                </div>
               )}
             </span>
           ) : (

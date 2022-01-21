@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect } from 'react';
@@ -11,32 +12,53 @@ import {
   getPathWithEndpointObjects,
   PREFIX_ITINERARY_SUMMARY,
 } from '../util/path';
+import Icon from './Icon';
 
-const LocationSearch = withSearchContext(DTAutosuggestPanel);
+const LocationSearch = withSearchContext(DTAutosuggestPanel, true);
 
-// test case: http://localhost:8080/embedded-search?daddress=Opastinsilta%206%20A,%20Helsinki&dlat=60.199118&dlon=24.940652
+// test case: http://localhost:8080/haku?address2=Opastinsilta%206%20A,%20Helsinki&lat2=60.199118&lon2=24.940652&bikeOnly=1
 
+/**
+ *  A search component that can be embedded to other sites using iframe
+ *  optimized for widths 320px, 360px and  640px, and height 250px.
+ *
+ */
 const EmbeddedSearch = (props, context) => {
   const { query } = props.match.location;
   const { config, intl } = context;
   const { colors, fontWeights } = config;
+  const bikeOnly = query?.bikeOnly;
+  const walkOnly = query?.walkOnly;
+  const useCurrentLocation = query?.loc;
 
-  const deafultOriginExists = query.olat && query.olon;
+  const defaultOriginExists = query.lat1 && query.lon1;
   const defaultOrigin = {
-    lat: Number(query.olat),
-    lon: Number(query.olon),
-    address: query.oaddress,
+    lat: Number(query.lat1),
+    lon: Number(query.lon1),
+    address: query.address1,
+    name: query.address1,
   };
-  const defaultDestinationExists = query.dlat && query.dlon;
+  const defaultDestinationExists = query.lat2 && query.lon2;
   const defaultDestination = {
-    lat: Number(query.dlat),
-    lon: Number(query.dlon),
-    address: query.daddress,
-    name: query.daddress,
+    lat: Number(query.lat2),
+    lon: Number(query.lon2),
+    address: query.address2,
+    name: query.address2,
   };
   const [logo, setLogo] = useState();
   const [origin, setOrigin] = useState(
-    deafultOriginExists ? defaultOrigin : {},
+    useCurrentLocation
+      ? {
+          type: 'CurrentLocation',
+          status: 'no-location',
+          address: intl.formatMessage({
+            id: 'own-position',
+            defaultMessage: 'Own Location',
+          }),
+        }
+      : defaultOriginExists
+      ? defaultOrigin
+      : {},
   );
   const [destination, setDestination] = useState(
     defaultDestinationExists ? defaultDestination : {},
@@ -46,6 +68,23 @@ const EmbeddedSearch = (props, context) => {
   const hoverColor = colors.hover;
   const appElement = 'embedded-root';
   const lang = intl.locale || 'fi';
+  let titleText;
+  if (bikeOnly) {
+    titleText = intl.formatMessage({
+      id: 'find-bike-route',
+      defaultMessage: 'Find a biking route',
+    });
+  } else if (walkOnly) {
+    titleText = intl.formatMessage({
+      id: 'find-walk-route',
+      defaultMessage: 'Find a walking route',
+    });
+  } else {
+    titleText = intl.formatMessage({
+      id: 'find-route',
+      defaultMessage: 'Find a route',
+    });
+  }
 
   const locationSearchTargets = [
     'Locations',
@@ -53,7 +92,7 @@ const EmbeddedSearch = (props, context) => {
     'FutureRoutes',
     'Stops',
   ];
-  const sources = ['Datasource'];
+  const sources = ['Favourite', 'History', 'Datasource'];
   const refPoint = getRefPoint(origin, destination, {});
 
   const onSelectLocation = (item, id) => {
@@ -73,30 +112,51 @@ const EmbeddedSearch = (props, context) => {
     color,
     hoverColor,
     refPoint,
-    searchPanelText: intl.formatMessage({
-      id: 'find-route',
-      defaultMessage: 'Find a route',
-    }),
+    searchPanelText: titleText,
     originPlaceHolder: 'search-origin-index',
     destinationPlaceHolder: 'search-destination-index',
     selectHandler: onSelectLocation,
     onGeolocationStart: onSelectLocation,
     fontWeights,
     modeIconColors: config.colors.iconColors,
-    modeSet: config.searchIconModeSet,
+    modeSet: config.iconModeSet,
     isMobile: true,
+    showScroll: true,
   };
 
   const executeSearch = () => {
-    const pathName = getPathWithEndpointObjects(
+    const urlEnd = bikeOnly ? '/bike' : walkOnly ? '/walk' : '';
+    const pathName = `${getPathWithEndpointObjects(
       origin,
       destination,
       PREFIX_ITINERARY_SUMMARY,
-    );
+    )}${urlEnd}`;
     if (window.self !== window.top) {
       window.parent.location.href = pathName;
     } else {
       window.location.href = pathName;
+    }
+  };
+
+  // eslint-disable-next-line consistent-return
+  const drawBackgroundIcon = () => {
+    if (bikeOnly) {
+      return (
+        <Icon
+          img="icon-embedded-search-bike-background"
+          className="background"
+          color={config.colors.primary}
+        />
+      );
+    }
+    if (walkOnly) {
+      return (
+        <Icon
+          img="icon-embedded-search-walk-background"
+          className="background"
+          color={config.colors.primary}
+        />
+      );
     }
   };
 
@@ -109,7 +169,13 @@ const EmbeddedSearch = (props, context) => {
   }, []);
 
   return (
-    <div className="embedded-seach-container" id={appElement}>
+    <div
+      className={`embedded-seach-container ${
+        bikeOnly ? 'bike' : walkOnly ? 'walk' : ''
+      }`}
+      id={appElement}
+    >
+      {drawBackgroundIcon()}
       <CtrlPanel
         instance="HSL"
         language={lang}

@@ -26,7 +26,7 @@ function EndLeg(props, context) {
           id="itinerary-details.end-leg"
           values={{
             time: moment(props.endTime).format('HH:mm'),
-            destination: props.to,
+            destination: props.to.name,
           }}
         />
       </span>
@@ -48,7 +48,7 @@ function EndLeg(props, context) {
         <span className="sr-only">
           <FormattedMessage
             id="itinerary-summary.show-on-map"
-            values={{ target: props.to || '' }}
+            values={{ target: props.to.name || '' }}
           />
         </span>
         <div className="itinerary-leg-first-row">
@@ -66,7 +66,7 @@ function EndLeg(props, context) {
             tabIndex="0"
             aria-label={context.intl.formatMessage(
               { id: 'itinerary-summary.show-on-map' },
-              { target: props.to },
+              { target: props.to.name },
             )}
           >
             <Icon

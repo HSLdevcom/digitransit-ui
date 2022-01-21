@@ -6,7 +6,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from './Icon';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
-import ItineraryCircleLine from './ItineraryCircleLine';
+import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 function CarLeg(props, { config, intl }) {
@@ -16,7 +16,7 @@ function CarLeg(props, { config, intl }) {
     intl.formatNumber,
   );
   const duration = durationToString(props.leg.duration * 1000);
-  const firstLegClassName = props.index === 0 ? 'start' : '';
+  const firstLegClassName = props.index === 0 ? 'first' : '';
   const modeClassName = 'car';
 
   const [address, place] = props.leg.from.name.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
@@ -41,17 +41,15 @@ function CarLeg(props, { config, intl }) {
           {moment(props.leg.startTime).format('HH:mm')}
         </div>
       </div>
-      <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
+      <ItineraryCircleLineWithIcon
+        index={props.index}
+        modeClassName={modeClassName}
+        icon="icon-icon_car-withoutBox"
+      />
       <div
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
       >
-        <span className="sr-only">
-          <FormattedMessage
-            id="itinerary-summary.show-on-map"
-            values={{ target: props.leg.from.name || '' }}
-          />
-        </span>
-        <div className="itinerary-leg-first-row" aria-hidden="true">
+        <div className={`itinerary-leg-first-row ${firstLegClassName}`}>
           <div className="address-container">
             <div className="address">
               {address}
@@ -74,6 +72,10 @@ function CarLeg(props, { config, intl }) {
             }
             role="button"
             tabIndex="0"
+            aria-label={intl.formatMessage(
+              { id: 'itinerary-summary.show-on-map' },
+              { target: props.leg.from.name || '' },
+            )}
           >
             <Icon
               img="icon-icon_show-on-map"
@@ -81,12 +83,32 @@ function CarLeg(props, { config, intl }) {
             />
           </div>
         </div>
-        <div className="itinerary-leg-action" aria-hidden="true">
-          <FormattedMessage
-            id="car-distance-duration"
-            values={{ distance, duration }}
-            defaultMessage="Drive {distance} ({duration})}"
-          />
+        <div className="itinerary-leg-action">
+          <div className="itinerary-leg-action-content">
+            <FormattedMessage
+              id="car-distance-duration"
+              values={{ distance, duration }}
+              defaultMessage="Drive {distance} ({duration})}"
+            />
+            <div
+              className="itinerary-map-action"
+              onClick={props.focusToLeg}
+              onKeyPress={e =>
+                isKeyboardSelectionEvent(e) && props.focusToLeg(e)
+              }
+              role="button"
+              tabIndex="0"
+              aria-label={intl.formatMessage(
+                { id: 'itinerary-summary.show-on-map' },
+                { target: props.leg.from.name || '' },
+              )}
+            >
+              <Icon
+                img="icon-icon_show-on-map"
+                className="itinerary-search-icon"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -111,6 +133,7 @@ CarLeg.propTypes = {
   }).isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
+  focusToLeg: PropTypes.func.isRequired,
   children: PropTypes.node,
 };
 

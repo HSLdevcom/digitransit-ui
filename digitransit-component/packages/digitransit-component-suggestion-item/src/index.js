@@ -17,7 +17,7 @@ function getAriaDescription(ariaContentArray) {
   return description;
 }
 
-function getIconProperties(item, color, modes = undefined, modeSet) {
+function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
   let iconId;
   let iconColor = '#888888';
   // because of legacy favourites there might be selectedIconId for some stops or stations
@@ -26,12 +26,23 @@ function getIconProperties(item, color, modes = undefined, modeSet) {
     iconId = 'favouriteStop';
   } else if (item.type === 'FavouriteStation') {
     iconId = 'favouriteStation';
+  } else if (item.type === 'Route') {
+    const mode = item?.properties?.mode?.toLowerCase() || 'bus';
+    return modeSet === 'default'
+      ? [`mode-${mode}`, `mode-${mode}`]
+      : [`mode-${modeSet}-${mode}`, `mode-${mode}`];
+  } else if (item.type === 'OldSearch' && item?.properties?.mode) {
+    const mode = item?.properties?.mode?.toLowerCase();
+    return modeSet === 'default'
+      ? [`mode-${mode}`, `mode-${mode}`]
+      : [`mode-${modeSet}-${mode}`, `mode-${mode}`];
   } else if (item && item.selectedIconId) {
     iconId = item.selectedIconId;
   } else if (item && item.properties) {
+    if (item.properties.layer === 'bikestation') {
+      return [`citybike-stop-${modeSet}`, 'mode-citybike'];
+    }
     iconId = item.properties.selectedIconId || item.properties.layer;
-  } else if (item && item.properties.layer === 'bikestation') {
-    iconId = 'citybike';
   }
   if (item && item.iconColor) {
     // eslint-disable-next-line prefer-destructuring
@@ -100,11 +111,23 @@ function getIconProperties(item, color, modes = undefined, modeSet) {
     ['SUBWAY-digitransit', { icon: 'subway', color: 'mode-metro' }],
     ['SUBWAY-STATION-default', { icon: 'subway', color: 'mode-metro' }],
     ['SUBWAY-STATION-digitransit', { icon: 'subway', color: 'mode-metro' }],
-    ['FERRY-default', { icon: 'search-ferry-default', color: 'mode-ferry' }],
     [
-      'FERRY-digitransit',
+      'FERRY-STATION-default',
+      { icon: 'search-ferry-default', color: 'mode-ferry' },
+    ],
+    [
+      'FERRY-STATION-digitransit',
       { icon: 'search-ferry-digitransit', color: 'mode-ferry' },
     ],
+    [
+      'FERRY-default',
+      { icon: 'search-ferry-stop-default', color: 'mode-ferry-pier' },
+    ],
+    [
+      'FERRY-digitransit',
+      { icon: 'search-ferry-stop-digitransit', color: 'mode-ferry-pier' },
+    ],
+
     [
       'AIRPLANE-digitransit',
       { icon: 'search-airplane-digitransit', color: 'mode-airplane' },
@@ -122,7 +145,7 @@ function getIconProperties(item, color, modes = undefined, modeSet) {
   if (modes?.length) {
     const mode = modes.join('-');
     let iconStr;
-    if (item.properties.layer === 'station') {
+    if (item.properties.layer === 'station' || (mode === 'FERRY' && stopCode)) {
       const iconProperties = layerIcon.get(
         mode.concat('-STATION').concat('-').concat(modeSet),
       );
@@ -170,33 +193,32 @@ const SuggestionItem = pure(
     isMobile,
     ariaFavouriteString,
     color,
+    accessiblePrimaryColor,
     fillInput,
     fontWeights,
     modeIconColors,
     modeSet = 'default',
   }) => {
-    const [suggestionType, name, label, stopCode, modes] = content || [
-      '',
-      item.name,
-      item.address,
-    ];
-    /*
-    * mode-airplane: "#0046ad"
-mode-bus: "#1A4A8F"
-mode-citybike: "#f2b62d"
-mode-ferry: "#35b5b3"
-mode-metro: "#ed8c00"
-mode-rail: "#0E7F3C"
-mode-tram: "#DA2128"
-    * */
-    const [iconId, iconColor] = getIconProperties(item, color, modes, modeSet);
-    const modeIconColor = modes?.length
-      ? modeIconColors[iconColor]
-      : modeIconColors && modeIconColors[iconId];
-    // Arrow clicked is for street itmes. Instead of selecting item when a user clicks on arrow,
+    const [
+      suggestionType,
+      name,
+      label,
+      stopCode,
+      modes,
+      platform,
+    ] = content || ['', item.name, item.address];
+
+    const [iconId, iconColor] = getIconProperties(
+      item,
+      color,
+      modes,
+      modeSet,
+      stopCode,
+    );
+    const modeIconColor = modeIconColors[iconColor] || modeIconColors[iconId];
+    // Arrow clicked is for street. Instead of selecting item when a user clicks on arrow,
     // It fills the input field.
     const [arrowClicked, setArrowClicked] = useState(false);
-
     const icon = (
       <span
         className={`${styles[iconId]} ${item?.properties?.mode?.toLowerCase()}`}
@@ -243,7 +265,6 @@ mode-tram: "#DA2128"
             [styles.futureroute]: isFutureRoute,
           },
         )}
-        style={{ '--font-weight-medium': fontWeights.medium }}
       >
         <span aria-label={suggestionType} className={styles['suggestion-icon']}>
           {icon}
@@ -270,15 +291,18 @@ mode-tram: "#DA2128"
                       {stopCode || item.properties.id}
                     </span>
                   )}
+                  {platform?.length === 2 && (
+                    <>
+                      {platform[0]}{' '}
+                      <span className={styles.platform}>{platform[1]}</span>
+                    </>
+                  )}
                 </div>
               </span>
             )}
           {(item.selectedIconId === 'favourite' || iconId === 'edit') && (
             <span>
-              <div
-                className={cx(styles['suggestion-name'], styles[className])}
-                style={{ color: `${item.color}` }}
-              >
+              <div className={cx(styles['suggestion-name'], styles[className])}>
                 {name}
               </div>
             </span>
@@ -388,6 +412,10 @@ mode-tram: "#DA2128"
             [styles.futureroute]: isFutureRoute,
           },
         )}
+        style={{
+          '--font-weight-medium': fontWeights.medium,
+          '--accessible-primary-color': accessiblePrimaryColor,
+        }}
       >
         {acri}
         {ri}
@@ -398,10 +426,11 @@ mode-tram: "#DA2128"
 
 SuggestionItem.propTypes = {
   item: PropTypes.object,
-  content: PropTypes.arrayOf(PropTypes.string),
+  content: PropTypes.array,
   className: PropTypes.string,
   isMobile: PropTypes.bool,
   color: PropTypes.string,
+  accessiblePrimaryColor: PropTypes.string,
   fontWeights: PropTypes.shape({
     medium: PropTypes.number,
   }),
@@ -413,6 +442,7 @@ SuggestionItem.defaultProps = {
   className: undefined,
   isMobile: false,
   color: '#007ac9',
+  accessiblePrimaryColor: '#0074be',
   fontWeights: {
     medium: 500,
   },
@@ -422,6 +452,8 @@ SuggestionItem.defaultProps = {
     'mode-tram': '#008151',
     'mode-metro': '#ed8c00',
     'mode-ferry': '#007A97',
+    'mode-ferry-pier': '#666666',
+    'mode-citybike': '#f2b62d',
   },
   modeSet: undefined,
 };

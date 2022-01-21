@@ -815,6 +815,8 @@ const translations = {
     'walk-bike-itinerary-1': 'Ihre Suche ergab nur Fußweg-Routen.',
     'walk-bike-itinerary-2': 'Ihre Suche ergab nur Fahrrad-Routen.',
     'walk-bike-itinerary-3': 'Ihre Suche ergab nur Fußweg- und Fahrrad-Routen.',
+    'walk-bike-itinerary-4':
+      'Ihre Suche ergab nur Fußweg- Fahrrad- und Auto-Routen.',
     'walk-distance-duration': 'Gehen {duration} ({distance})',
     walking: 'Gehen',
     'walking-speed': 'Laufgeschwindigkeit',
@@ -830,7 +832,10 @@ const translations = {
   },
 
   en: {
+    'about-service-feedback': 'About the service and feedback',
+    'about-these-pages': 'About the web pages',
     'about-this-service': 'About the service',
+    access_with: 'access with',
     accessibility: 'Accessibility',
     'accessibility-limited': 'Wheelchair',
     'accessibility-nolimit': 'No limits',
@@ -856,6 +861,8 @@ const translations = {
       'Total journey time {duration}. Departing at {inFuture} {departureTime} and arriving at {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
       'Total cycling {duration}, {distance} ',
+    'aria-itinerary-summary-car-distance':
+      'Total driving {duration}, {distance} ',
     'aria-itinerary-summary-walk-distance':
       'Total walking {duration}, {distance} ',
     'arrive-leave': 'Arrive or leave at selected time',
@@ -904,11 +911,16 @@ const translations = {
       'Take your bike off the {transportMode} and walk it for {distance} ({duration})',
     'bicycle-walk-to-transit':
       'Walk your bike for {distance} ({duration}) and take it on the {transportMode}',
+    bicycle_frame_lock: 'Frame locking',
     bicycle_walk: 'Walking a bike',
     'bike-availability': 'Bikes available at the station right now',
     'bike-not-allowed-bus': 'Bikes are not allowed on the bus',
     'bike-not-allowed-tram': 'Bikes are not allowed on the tram',
     'bike-park': 'Park & Ride for bikes',
+    'bike-park-disclaimer':
+      'You can conveniently combine cycling and public transport: leave your bike at a Park & Ride and continue by train, bus, metro or tram. Bike parking is free of charge and there are no time limits.',
+    'bike-park-disclaimer-header': 'Park your bike',
+    'bike-park-disclaimer-link': 'Read more about Park & Ride for bikes',
     'bike-station-disabled': 'The bike station is out of service.',
     'bikes-available': '{amount} bikes at the station ',
     'biketransport-citybike': "I'm using a citybike",
@@ -929,6 +941,10 @@ const translations = {
     'canceled-legs': 'Canceled departures on the route',
     car: 'Car',
     'car-distance-duration': 'Drive {duration} ({distance})',
+    'car-park-disclaimer':
+      'You can conveniently combine car and public transport: leave your car at a Park & Ride and continue by train, bus, metro or tram. Car parking is free of charge and there are no time limits.',
+    'car-park-disclaimer-header': 'Park your car',
+    'car-park-disclaimer-link': 'Read more about Park & Ride',
     car_park: 'Park & ride',
     cause: 'cause',
     'char-left': 'characters',
@@ -962,7 +978,9 @@ const translations = {
     'close-settings': 'Close window and save settings',
     'contact-information': '{contactName} contact details',
     continue: 'Continue',
+    covered: 'Sheltered',
     'create-account': 'Create {contactName} account',
+    'create-stop-monitor': 'Create a stop display',
     'cycle-distance-duration': 'Cycle {duration} ({distance})',
     'cyclewalk-distance-duration': 'Walk your bike {duration} ({distance})',
     // eslint-disable-next-line sort-keys
@@ -1010,6 +1028,7 @@ const translations = {
     'edit-favourites': 'Edit the location in the Favorites',
     'elevation-gained-total': 'Elevation gained',
     'elevation-lost-total': 'Elevation lost',
+    engine_ignition_aid: 'Engine starting aid',
     explanations: 'Explanations',
     'extra-info': 'More info',
     'favourite-failed-text': 'Please try again in a while.',
@@ -1017,7 +1036,10 @@ const translations = {
     ferry: 'Ferry',
     'ferry-with-route-number': 'Ferry {routeNumber} {headSign}',
     'fetch-new-route': 'Fetch a new route',
+    'find-bike-route': 'Find a biking route',
     'find-route': 'Find a route',
+    'find-walk-route': 'Find a walking route ',
+    'free-of-charge': 'Free',
     'from-ferry': 'ferry',
     'from-rail': 'train',
     'from-station': 'from station',
@@ -1047,10 +1069,14 @@ const translations = {
     hour: 'Hour',
     'hour-short': 'h',
     'how-to-rate-service': 'How would you rate the service?',
+    hsl_mobile_ticket: 'HSL mobile ticket',
+    hsl_ticket: 'HSL ticket',
+    hsl_travel_card: 'HSL card',
     'in-addition': 'In addition',
     'index.title': 'Journey Planner',
     inquiry: 'How did you find the new Journey Planner? Please tell us!',
     instructions: 'Instructions',
+    'is-open': 'Open:',
     'itinerary-details.biking-leg':
       'At {time} cycle {distance} from {origin} to {destination}. Estimated time {duration}',
     'itinerary-details.car-leg':
@@ -1072,6 +1098,10 @@ const translations = {
     'itinerary-feedback-message': 'Couldn’t find what you were looking for?',
     'itinerary-feedback-placeholder': 'Description (optional)',
     'itinerary-hide-stops': 'Hide stops',
+    'itinerary-in-the-past':
+      'The route search falls within a period that is in the past.',
+    'itinerary-in-the-past-link': 'I want to travel now ›',
+    'itinerary-in-the-past-title': 'The route options cannot be displayed',
     'itinerary-page.description': 'Itinerary',
     'itinerary-page.hide-details': 'Hide itinerary details',
     'itinerary-page.itineraries-loaded': 'More search results downloaded',
@@ -1112,7 +1142,7 @@ const translations = {
     'itinerary-summary.interline-wait':
       'The route number ({shortName}) and destination ({destination}) will change at the {stop} stop. Waiting time at the stop is {time}. Please wait onboard.',
     'itinerary-summary.interline-wait-multiple-legs':
-      'The route number and destination will change multiple times during the journey. Total waiting time during the journey is {time}. Please wait onboard.',
+      'The route number ({shortName}) and destination will change multiple times during the journey. Total waiting time during the journey is {time}. Please wait onboard.',
     'itinerary-summary.show-on-map': 'Show on map {target}',
     'itinerary-ticket.title': 'Required ticket',
     'itinerary-tickets.title': 'Required tickets',
@@ -1120,8 +1150,10 @@ const translations = {
     'itinerary-walk.title': 'Total walking distance',
     'journeyplanner.title': 'HSL Journey Planner',
     later: 'Later departures',
+    'leave-your-car-park-and-ride': 'Leave your car at Park & Ride site',
     leaves: 'Leaves',
     'leaving-at': 'Leaving at',
+    lighting: 'Lighting',
     'likely-to-recommend':
       'How likely are you to recommend our service to your friends or colleagues?',
     'likely-to-use':
@@ -1226,6 +1258,7 @@ const translations = {
       '{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }',
     'number-of-minutes':
       '{number, plural, =0 {0 minutes} one {1 minute} other {{number} minutes}}',
+    'number-of-spaces': 'Number of spaces:',
     'off-canvas-info':
       'Log in to the service to save your favorites and utilize them on other devices',
     'option-default': 'Average',
@@ -1241,9 +1274,11 @@ const translations = {
     'other-dates': 'Other dates',
     'own-position': 'Your current location',
     'page-not-found': 'The page cannot be found.',
+    paid: 'Paid',
     'park-and-ride': 'Park and Ride',
-    'park-and-ride-availability': 'Spaces available',
+    'park-and-ride-availability': 'Spaces available:',
     'pay-attention': 'N.B.',
+    payment_at_gate: 'Payment at the gate ',
     'pick-icon': 'Select icon',
     'pick-mode': 'Transport modes',
     'pick-mode-airplane-disabled': 'Flight not selected',
@@ -1315,6 +1350,9 @@ const translations = {
     'route-page.special-routes': 'Other routes',
     'route-page.title': 'Route {shortName}',
     'route-page.title-short': 'Route',
+    'route-to-ferry': 'Route to the pier',
+    'route-to-park': 'Route to the park',
+    'route-to-station': 'Route to the station',
     'route-to-stop': 'Route to the stop',
     routes: 'Routes',
     'routes-platforms': 'Routes and platforms',
@@ -1409,7 +1447,11 @@ const translations = {
     'street-mode-bikeandvehicle-aria':
       'Show a combination of cycling and public transport. Duration {duration}, distance {length}',
     'street-mode-car': 'Car',
+    'street-mode-car-aria':
+      'Show driving route. Duration {duration}, distance {length}',
     'street-mode-car_park': 'Park & ride',
+    'street-mode-parkandride-aria':
+      'Show park and ride route. Duration {duration}, distance {length}',
     'street-mode-public_transport': 'Public transport',
     'street-mode-walk': 'Walking',
     'street-mode-walk-aria':
@@ -1421,6 +1463,7 @@ const translations = {
     'summary-page.description': '{from} - {to}',
     'summary-page.row-label': 'Itinerary suggestion {number}',
     'summary-page.title': 'Itinerary suggestions',
+    surveillance_cameras: 'Camera surveillance',
     'swap-order-button-label': 'Reverse origin and destination',
     'swipe-disruption-info': 'Disruption info  swipe result tabs',
     'swipe-disruption-info-header': 'Disruption info swipe result tabs.',
@@ -1483,6 +1526,7 @@ const translations = {
     'view-route': 'View Route',
     // eslint-disable-next-line sort-keys
     venue: 'Venue',
+    vr_ticket: 'VR ticket',
     wait: 'Wait',
     'wait-amount-of-time': 'Wait {duration}',
     walk: 'walking',
@@ -1490,6 +1534,8 @@ const translations = {
     'walk-bike-itinerary-2': 'Your search returned only cycling routes.',
     'walk-bike-itinerary-3':
       'Your search returned only walking and cycling routes.',
+    'walk-bike-itinerary-4':
+      'Your search only returned routes requiring cycling or driving.',
     'walk-distance-duration': 'Walk {duration} ({distance})',
     walking: 'Amount of walking',
     'walking-speed': 'Walking speed',
@@ -1836,7 +1882,10 @@ const translations = {
   },
 
   fi: {
+    'about-service-feedback': 'Tietoja palvelusta ja palaute',
+    'about-these-pages': 'Tietoja sivustosta',
     'about-this-service': 'Tietoja palvelusta',
+    access_with: 'pääsy',
     accessibility: 'Esteettömyys',
     'accessibility-limited': 'Pyörätuoli',
     'accessibility-nolimit': 'Ei rajoitusta',
@@ -1859,6 +1908,8 @@ const translations = {
       'Matkan kokonaiskesto {duration}. Lähtö {inFuture} kello {departureTime}. Perillä kello {arrivalTime}.',
     'aria-itinerary-summary-bike-distance':
       'pyöräilyä yhteensä {duration}, {distance} ',
+    'aria-itinerary-summary-car-distance':
+      'ajamista yhteensä {duration}, {distance} ',
     'aria-itinerary-summary-walk-distance':
       'kävelyä yhteensä {duration}, {distance} ',
     'arrive-leave': 'Saavu tai lähde valittuna aikana',
@@ -1914,11 +1965,16 @@ const translations = {
       'Ota pyörä {transportMode} ja taluta {distance} ({duration})',
     'bicycle-walk-to-transit':
       'Taluta {distance} ({duration}) ja ota pyörä mukaan {transportMode}',
+    bicycle_frame_lock: 'Runkolukitus',
     bicycle_walk: 'Polkupyörän talutus',
     'bike-availability': 'Pyöriä asemalla juuri nyt',
     'bike-not-allowed-bus': 'Pyörää ei voi kuljettaa bussissa',
     'bike-not-allowed-tram': 'Pyörää ei voi kuljettaa raitiovaunussa',
     'bike-park': 'Liityntäpyöräparkki',
+    'bike-park-disclaimer':
+      'Voit yhdistää kätevästi joukkoliikenteen ja pyöräilyn, kun jätät pyöräsi liityntäpysäköintiin ja jatkat matkaasi junalla, bussilla, metrolla tai ratikalla. Pyörän pysäköinti on maksutonta eikä siinä ole aikarajaa.',
+    'bike-park-disclaimer-header': 'Jätä pyörä parkkiin',
+    'bike-park-disclaimer-link': 'Lue lisää liityntäpyöräpysäköinnistä',
     'bike-station-disabled': 'Pyöräasema ei ole käytössä.',
     'bikes-available': 'Pyöriä asemalla {amount}',
     'biketransport-citybike': 'Käytän kaupunkipyörää',
@@ -1938,7 +1994,11 @@ const translations = {
       'Piilota perutut reittiehdotukset ({itineraryAmount})',
     'canceled-legs': 'Reitillä peruttuja vuoroja',
     car: 'Auto',
-    'car-distance-duration': 'Aja {duration} ({distance})',
+    'car-distance-duration': 'Autoile {duration} ({distance})',
+    'car-park-disclaimer':
+      'Voit yhdistää kätevästi joukkoliikenteen ja autoilun, kun jätät autosi liityntäpysäköintiin ja jatkat matkaasi junalla, bussilla, metrolla tai ratikalla. Auton pysäköinti on useissa paikoissa maksutonta eikä siinä ole aikarajaa.',
+    'car-park-disclaimer-header': 'Jätä auto parkkiin',
+    'car-park-disclaimer-link': 'Lue lisää liityntäpysäköinnistä',
     car_park: 'Liityntäpysäköinti',
     cause: 'syy',
     'char-left': 'merkkiä',
@@ -1974,7 +2034,9 @@ const translations = {
     'close-settings': 'Sulje ikkuna ja tallenna asetukset',
     'contact-information': '{contactName}:n yhteystiedot',
     continue: 'Jatka',
+    covered: 'Katettu',
     'create-account': 'Luo {contactName} tunnus',
+    'create-stop-monitor': 'Luo pysäkkinäyttö',
     'cycle-distance-duration': 'Pyöräile {duration} ({distance})',
     'cyclewalk-distance-duration': 'Taluta pyörää {duration} ({distance})',
     // eslint-disable-next-line sort-keys
@@ -2025,6 +2087,7 @@ const translations = {
     'edit-favourites': 'Muokkaa paikkaa Suosikkisi-välilehdellä',
     'elevation-gained-total': 'Nousua yhteensä',
     'elevation-lost-total': 'Laskua yhteensä',
+    engine_ignition_aid: 'Käynnistysapu',
     explanations: 'Selitykset',
     'extra-info': 'Lisätiedot',
     'favourite-failed-text': 'Yritä hetken päästä uudelleen.',
@@ -2032,7 +2095,10 @@ const translations = {
     ferry: 'Lautta',
     'ferry-with-route-number': 'Lautta {routeNumber} {headSign}',
     'fetch-new-route': 'Hae uusi reitti',
+    'find-bike-route': 'Löydä pyöräreitti',
     'find-route': 'Löydä reitti',
+    'find-walk-route': 'Löydä kävelyreitti',
+    'free-of-charge': 'Maksuton',
     'from-ferry': 'lautasta',
     'from-rail': 'junasta',
     'from-station': 'asemalta',
@@ -2059,10 +2125,14 @@ const translations = {
     hour: 'Tunti',
     'hour-short': 'h',
     'how-to-rate-service': 'Kuinka arvioisit palvelua?',
+    hsl_mobile_ticket: 'HSL-mobiililipulla',
+    hsl_ticket: 'HSL-lipulla',
+    hsl_travel_card: 'HSL-kortilla',
     'in-addition': 'Lisäksi',
     'index.title': 'Reittiopas',
     inquiry: 'Mitä pidät uudesta Reittioppaasta? Kerro se meille! ',
     instructions: 'Ohjeet',
+    'is-open': 'Avoinna:',
     'itinerary-details.biking-leg':
       '{time} pyöräile kohteesta {origin} {distance} kohteeseen {destination}. Matka-aika {duration}',
     'itinerary-details.car-leg':
@@ -2083,6 +2153,9 @@ const translations = {
     'itinerary-feedback-message': 'Etkö löytänyt mitä etsit?',
     'itinerary-feedback-placeholder': 'Kuvaus (valinnainen)',
     'itinerary-hide-stops': 'Piilota pysäkit',
+    'itinerary-in-the-past': 'Reittihaun ajankohta on menneisyydessä.',
+    'itinerary-in-the-past-link': 'Muuta lähtöajaksi nyt ›',
+    'itinerary-in-the-past-title': 'Reittivaihtoehtoja ei voida näyttää',
     'itinerary-page.description': 'Reittiohje',
     'itinerary-page.hide-details': 'Piilota reittiohje',
     'itinerary-page.itineraries-loaded': 'Lisää hakutuloksia ladattu',
@@ -2121,7 +2194,7 @@ const translations = {
     'itinerary-summary.interline-wait':
       'Linjatunnus ({shortName}) ja määränpää ({destination}) vaihtuvat pysäkillä {stop}. Matka jatkuu {time} odotuksen jälkeen. Odota kulkuneuvossa.',
     'itinerary-summary.interline-wait-multiple-legs':
-      'Linjatunnus ja määränpää vaihtuvat useita kertoja matkan aikana. Odotusta yhteensä {time}. Odota ajoneuvossa.',
+      'Linjatunnus ({shortName}) ja määränpää vaihtuvat useita kertoja matkan aikana. Odotusta yhteensä {time}. Odota ajoneuvossa.',
     'itinerary-summary.show-on-map': 'Näytä kartalla {target}',
     'itinerary-ticket.title': 'Reitillä tarvittava lippu',
     'itinerary-tickets.title': 'Reitillä tarvittavat liput',
@@ -2129,8 +2202,10 @@ const translations = {
     'itinerary-walk.title': 'Kävelyä',
     'journeyplanner.title': 'HSL Reittiopas',
     later: 'Myöhempiä lähtöjä',
+    'leave-your-car-park-and-ride': 'Jätä autosi liityntäpysäköintiin',
     leaves: 'Lähtee',
     'leaving-at': 'Lähtöaika',
+    lighting: 'Valaistus',
     'likely-to-recommend':
       'Kuinka todennäköistä on, että suosittelisit palveluamme ystävälle tai kollegallesi?',
     'likely-to-use':
@@ -2233,6 +2308,7 @@ const translations = {
       '{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other {{number} pysäkkiä} }',
     'number-of-minutes':
       '{number, plural, =0 {0 minuuttia} one {1 minuutti} other {{number} minuuttia}}',
+    'number-of-spaces': 'Paikkojen määrä:',
     'off-canvas-info':
       'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
     'option-default': 'Keskimääräinen',
@@ -2249,9 +2325,11 @@ const translations = {
     'other-dates': 'Muut ajankohdat',
     'own-position': 'Nykyinen sijaintisi',
     'page-not-found': 'Etsimääsi sivua ei löytynyt.',
+    paid: 'Maksullinen',
     'park-and-ride': 'Liityntäpysäköinti',
-    'park-and-ride-availability': 'Pysäköintipaikkoja vapaana',
+    'park-and-ride-availability': 'Paikkoja vapaana:',
     'pay-attention': 'Huom!',
+    payment_at_gate: 'Maksu portilla',
     'pick-icon': 'Valitse kuvake',
     'pick-mode': 'Liikennevälineet',
     'pick-mode-airplane-disabled': 'Lentokone ei valittu',
@@ -2322,6 +2400,9 @@ const translations = {
     'route-page.special-routes': 'Muut reitit',
     'route-page.title': 'Linja {shortName}',
     'route-page.title-short': 'Linja',
+    'route-to-ferry': 'Reitti laiturille',
+    'route-to-park': 'Reitti parkille',
+    'route-to-station': 'Reitti asemalle',
     'route-to-stop': 'Reitti pysäkille',
     routes: 'Linjat',
     'routes-platforms': 'Linjat ja laiturit',
@@ -2417,7 +2498,11 @@ const translations = {
     'street-mode-bikeandvehicle-aria':
       'Näytä pyöräilyn ja julkisen liikenteen yhdistelmä. Kesto {duration}, pyöräilyn pituus {length}',
     'street-mode-car': 'Auto',
+    'street-mode-car-aria':
+      'Näytä ajoreitti. Kesto {duration}, pituus {length}',
     'street-mode-car_park': 'Liityntä\u00ADpysäköinti',
+    'street-mode-parkandride-aria':
+      'Näytä liityntäpysäköintireitti. Kesto {duration}, pituus {length}',
     'street-mode-public_transport': 'Julkinen liikenne',
     'street-mode-walk': 'Kävely',
     'street-mode-walk-aria':
@@ -2429,6 +2514,7 @@ const translations = {
     'summary-page.description': '{from} - {to}',
     'summary-page.row-label': 'Reittiehdotus {number}',
     'summary-page.title': 'Reittiehdotukset',
+    surveillance_cameras: 'Kameravalvonta',
     'swap-order-button-label': 'Käännä reitin suunta vastakkaiseksi',
     'swipe-disruption-info': 'Poikkeustietovälilehtien',
     'swipe-disruption-info-header': 'Poikkeustietovälilehdet.',
@@ -2493,6 +2579,7 @@ const translations = {
     'view-route': 'Linjan tiedot',
     // eslint-disable-next-line sort-keys
     venue: 'Paikka',
+    vr_ticket: 'VR-lipulla',
     wait: 'Odota',
     'wait-amount-of-time': 'Odota {duration}',
     walk: 'kävelyn',
@@ -2502,6 +2589,8 @@ const translations = {
       'Löysimme valitsemallesi reitille vain pyöräilyyn liittyviä reittiehdotuksia.',
     'walk-bike-itinerary-3':
       'Löysimme valitsemallesi reitille vain kävelyyn ja pyöräilyyn liittyviä reittiehdotuksia.',
+    'walk-bike-itinerary-4':
+      'Löysimme valitsemallesi reitille vain omiin kulkuneuvoihin liittyviä reittiehdotuksia.',
     'walk-distance-duration': 'Kävele {duration} ({distance})',
     walking: 'Kävelyn määrä',
     'walking-speed': 'Kävelynopeus',
@@ -3633,7 +3722,10 @@ const translations = {
   },
 
   sv: {
+    'about-service-feedback': 'Om tjänsten och respons',
+    'about-these-pages': 'Om webbplatsen',
     'about-this-service': 'Om tjänsten',
+    access_with: 'åtgång med',
     accessibility: 'Tillgänglighet',
     'accessibility-limited': 'Med rullstolen',
     'accessibility-nolimit': 'Ingen begränsning',
@@ -3661,6 +3753,8 @@ const translations = {
       'Den totala restiden {duration}. Avgång {inFuture} klockan {departureTime}. Framme klockan {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
       'cykling sammanlagt {duration}, {distance}',
+    'aria-itinerary-summary-car-distance':
+      'körning sammanlagt {duration}, {distance} ',
     'aria-itinerary-summary-walk-distance':
       'promenad sammanlagt {duration}, {distance}',
     'arrive-leave': 'Anländer eller lämnar vid vald tid',
@@ -3704,11 +3798,16 @@ const translations = {
       'Ta cykeln från {transportMode} och led cykeln {distance} ({duration})',
     'bicycle-walk-to-transit':
       'Led cykeln {distance} ({duration}) och ta cykeln med på {transportMode}',
+    bicycle_frame_lock: 'Ramlås',
     bicycle_walk: 'Leder en cykel',
     'bike-availability': 'Antal cyklar just nu',
     'bike-not-allowed-bus': 'Cyklar är inte tillåtna på bussen',
     'bike-not-allowed-tram': 'Cyklar är inte tillåtna på spårvagnen',
     'bike-park': 'Anslutningsparkering för cyklar',
+    'bike-park-disclaimer':
+      'Du kan enkelt kombinera kollektivtrafiken med cykling, när du lämnar din cykel i anslutningsparkering och fortsätter din resa med tåg, buss, metro eller spårvagn. Cykelparkeringen är gratis och den har inte en begränsad parkeringstid.',
+    'bike-park-disclaimer-header': 'Lämna din cykel i parkeringen',
+    'bike-park-disclaimer-link': 'Läs mer om anslutningsparkeringen för cyklar',
     'bike-station-disabled': 'Stadscykelstationen är ur bruk.',
     'bikes-available': '{amount} cyklar vid stationen',
     'biketransport-citybike': 'Jag använder en stadscykel',
@@ -3729,7 +3828,11 @@ const translations = {
     'canceled-legs': 'Inställda avgångar på linjen',
     car: 'Bil',
     'car-distance-duration': 'Kör {duration} ({distance})',
-    car_park: 'infartsparkering',
+    'car-park-disclaimer':
+      'Du kan enkelt kombinera kollektivtrafiken med bilkörning, när du lämnar din bil i anslutningsparkering och fortsätter din resa med tåg, buss, metro eller spårvagn. Parkeringen är gratis och den har inte en begränsad parkeringstid.',
+    'car-park-disclaimer-header': 'Lämna din bil i parkeringen',
+    'car-park-disclaimer-link': 'Läs mer om anslutningsparkeringen',
+    car_park: 'Infartsparkering',
     cause: 'Orsak',
     'char-left': 'tecken',
     'choose-stop': 'Välj hållplats',
@@ -3764,7 +3867,9 @@ const translations = {
     'close-settings': 'Stäng fönstret och spara inställningar',
     'contact-information': '{contactName} Kontaktuppgifter',
     continue: 'Fortsätt',
+    covered: 'Tak',
     'create-account': 'Skapa {contactName} konto',
+    'create-stop-monitor': 'Skapa hållplatsskärm',
     'cycle-distance-duration': 'Cykla {duration} ({distance})',
     'cyclewalk-distance-duration': 'Led cykeln {duration} ({distance})',
     // eslint-disable-next-line sort-keys
@@ -3814,6 +3919,7 @@ const translations = {
     'edit-favourites': 'Redigera favoritdestination',
     'elevation-gained-total': 'Uppförsbacke totalt',
     'elevation-lost-total': 'Nedförsbacke totalt',
+    engine_ignition_aid: 'Starthjälp',
     explanations: 'Förklaringar',
     'extra-info': 'Mer info',
     'favourite-failed-text': 'Försök på nytt senare.',
@@ -3821,7 +3927,10 @@ const translations = {
     ferry: 'Färja',
     'ferry-with-route-number': 'Färja {routeNumber} {headSign}',
     'fetch-new-route': 'Sök en ny rutt',
+    'find-bike-route': 'Sök en cyckelrutt',
     'find-route': 'Sök en rutt',
+    'find-walk-route': 'Sök en promenadsrutt ',
+    'free-of-charge': 'Kostnadsfri',
     'from-ferry': 'lautasta',
     'from-rail': 'junasta',
     'from-station': 'från stationen',
@@ -3849,10 +3958,14 @@ const translations = {
     hour: 'Timme',
     'hour-short': 'h',
     'how-to-rate-service': 'Hur skulle du utvärdera tjänsten?',
+    hsl_mobile_ticket: 'HRT-mobilbiljetten',
+    hsl_ticket: 'HRT-biljetten',
+    hsl_travel_card: 'HRT-kortet',
     'in-addition': 'Även',
     'index.title': 'Reseplaneraren',
     inquiry: 'Vad tycker du om den nya Reseplaneraren. Berätta för oss!',
     instructions: 'Anvisningar',
+    'is-open': 'Öppet:',
     'itinerary-details.biking-leg':
       '{time} cykla {distance} från {origin} till destinationen {destination}. Restid {duration}',
     'itinerary-details.car-leg':
@@ -3875,6 +3988,9 @@ const translations = {
     'itinerary-feedback-message': 'Hittade du inte vad du sökte?',
     'itinerary-feedback-placeholder': 'Beskrivning (valfri)',
     'itinerary-hide-stops': 'Dölj hållplatserna',
+    'itinerary-in-the-past': 'Datumet kan inte vara i det förflutna.',
+    'itinerary-in-the-past-link': 'Jag vill åka nu ›',
+    'itinerary-in-the-past-title': 'Ruttalternativen kan inte visas',
     'itinerary-page.description': 'Ruttinformation',
     'itinerary-page.hide-details': 'Göm ruttbeskrivningen',
     'itinerary-page.itineraries-loaded': 'Flera ruttbeskrivningen laddade',
@@ -3915,7 +4031,7 @@ const translations = {
     'itinerary-summary.interline-wait':
       'Linjenumret ({shortName}) och destinationen ({destination}) ändras vid hållplats {stop}. Resan fortsätter om {time}. Vänta ombord på bussen.',
     'itinerary-summary.interline-wait-multiple-legs':
-      'Linjatunnus ja määränpää vaihtuvat useita kertoja matkan aikana. Odota ajoneuvossa.',
+      'Linjatunnus ({shortName}) ja määränpää vaihtuvat useita kertoja matkan aikana. Odotusta yhteensä {time}. Odota ajoneuvossa.',
     'itinerary-summary.show-on-map': 'Visa på kartan {target}',
     'itinerary-ticket.title': 'Biljett som behövs',
     'itinerary-tickets.title': 'Biljetter som behövs',
@@ -3923,8 +4039,10 @@ const translations = {
     'itinerary-walk.title': 'Gång totalt',
     'journeyplanner.title': 'HRT Reseplaneraren',
     later: 'Senare avgångar',
+    'leave-your-car-park-and-ride': 'Lämna din bil på anslutningsparkering',
     leaves: 'Avgår',
     'leaving-at': 'Avgångstid',
+    lighting: 'Belysning',
     'likely-to-recommend':
       'Hur sannolikt är det att du skulle rekommendera den här tjänsten åt en vän eller kollega?',
     'likely-to-use':
@@ -4028,6 +4146,7 @@ const translations = {
       '{number, plural, =0 {Inga hållplatser} one {1 hållplats} other {{number} hållplatser} }',
     'number-of-minutes':
       '{number, plural, =0 {0 minuter} one {1 minut} other {{number} minuter}}',
+    'number-of-spaces': 'Antalet platser:',
     'off-canvas-info':
       'Genom att logga in kan du spara dina favoriter och använda dem med dina andra enheter.',
     'option-default': 'Standard',
@@ -4044,9 +4163,11 @@ const translations = {
     'other-dates': 'Andra datum',
     'own-position': 'Min position',
     'page-not-found': 'Sidan kunde inte hittas.',
+    paid: 'Avgiftsbelagd',
     'park-and-ride': 'Infartsparkering',
-    'park-and-ride-availability': 'Lediga parkeringsplatser',
+    'park-and-ride-availability': 'Lediga platser:',
     'pay-attention': 'Obs!',
+    payment_at_gate: 'Betalning vid porten',
     'pick-icon': 'Välj en ikon',
     'pick-mode': 'Trafikslag',
     'pick-mode-airplane-disabled': 'Flyg inte vald',
@@ -4118,6 +4239,9 @@ const translations = {
     'route-page.special-routes': 'Andra rutter',
     'route-page.title': 'Linje {shortName}',
     'route-page.title-short': 'Linje',
+    'route-to-ferry': 'Rutt till piren',
+    'route-to-park': 'Rutt till parken',
+    'route-to-station': 'Rutt till stationen',
     'route-to-stop': 'Rutt till hållplatsen',
     routes: 'Linjer',
     'routes-platforms': 'Linjer och plattformer',
@@ -4215,7 +4339,10 @@ const translations = {
     'street-mode-bikeandvehicle-aria':
       'Visa kombinationen av cykling och kollektivtrafik. Tid {duration}, längd {length}',
     'street-mode-car': 'Bil',
+    'street-mode-car-aria': 'Visa bilrutt. Tid {duration}, längd {length}',
     'street-mode-car_park': 'Infarts\u00ADparkering',
+    'street-mode-parkandride-aria':
+      'Visa anslutningsparkeringrutt. Tid {duration}, längd {length}',
     'street-mode-public_transport': 'Kollektiv\u00ADtrafik',
     'street-mode-walk': 'Gång',
     'street-mode-walk-aria':
@@ -4227,6 +4354,7 @@ const translations = {
     'summary-page.description': '{from} - {to}',
     'summary-page.row-label': 'Ruttförslag {number}',
     'summary-page.title': 'Ruttförslag',
+    surveillance_cameras: 'Kameraövervakning',
     'swap-order-button-label': 'Sväng ruttens riktning till den motsatta',
     'swipe-disruption-info': 'Navigeringsknapp för att kunna bläddra störning',
     'swipe-disruption-info-header': 'Störning.',
@@ -4296,6 +4424,7 @@ const translations = {
     'view-route': 'Visa linje',
     // eslint-disable-next-line sort-keys
     venue: 'Mötesplats',
+    vr_ticket: 'VR-biljetten',
     wait: 'Vänta',
     'wait-amount-of-time': 'Vänta {duration}',
     walk: 'gång',
@@ -4305,6 +4434,8 @@ const translations = {
       'Vi har endast hittat ruttförslag i vilka ingår cykling.',
     'walk-bike-itinerary-3':
       'Vi har endast hittat ruttförslag i vilka ingår promenad och cykling.',
+    'walk-bike-itinerary-4':
+      'Vi har endast hittat ruttförslag i vilka ingår cykling eller körning.',
     'walk-distance-duration': 'Gå {duration} ({distance})',
     walking: 'Gång',
     'walking-speed': 'Promenadhastighet',

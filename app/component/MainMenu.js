@@ -54,6 +54,13 @@ function MainMenu(props, { config, intl }) {
             <DisruptionInfoButtonContainer />
           </div>
         )}
+        {config.mainMenu.stopMonitor.show && (
+          <div className="offcanvas-section">
+            <a href={config.mainMenu.stopMonitor.url}>
+              <FormattedMessage id="create-stop-monitor" />
+            </a>
+          </div>
+        )}
         {config.appBarLink && config.appBarLink.name && config.appBarLink.href && (
           <div className="offcanvas-section">
             <a

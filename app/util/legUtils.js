@@ -69,6 +69,7 @@ export const LegMode = {
   BicycleWalk: 'BICYCLE_WALK',
   CityBike: 'CITYBIKE',
   Walk: 'WALK',
+  Car: 'CAR',
 };
 
 /**
@@ -91,6 +92,8 @@ export const getLegMode = legOrMode => {
       return LegMode.CityBike;
     case LegMode.Walk:
       return LegMode.Walk;
+    case LegMode.Car:
+      return LegMode.Car;
     default:
       return undefined;
   }
@@ -251,7 +254,7 @@ const isWalkingLeg = leg =>
   [LegMode.BicycleWalk, LegMode.Walk].includes(getLegMode(leg));
 const isBikingLeg = leg =>
   [LegMode.Bicycle, LegMode.CityBike].includes(getLegMode(leg));
-
+const isDrivingLeg = leg => [LegMode.Car].includes(getLegMode(leg));
 /**
  * Checks if the itinerary consists of a single biking leg.
  *
@@ -293,6 +296,9 @@ export const getTotalWalkingDistance = itinerary =>
  */
 export const getTotalBikingDistance = itinerary =>
   sumDistances(itinerary.legs.filter(isBikingLeg));
+
+export const getTotalDrivingDistance = itinerary =>
+  sumDistances(itinerary.legs.filter(isDrivingLeg));
 
 /**
  * Calculates and returns the total distance undertaken in an itinerary.
@@ -466,6 +472,19 @@ export const getHeadsignFromRouteLongName = route => {
   return headsign;
 };
 
+export const getStopHeadsignFromStoptimes = (stop, stoptimes) => {
+  const { gtfsId } = stop;
+  let headsign;
+  if (Array.isArray(stoptimes)) {
+    stoptimes.forEach(stoptime => {
+      if (stoptime.stop.gtfsId === gtfsId) {
+        headsign = stoptime.headsign;
+      }
+    });
+  }
+  return headsign;
+};
+
 /**
  * Calculates and returns the total duration undertaken in legs.
  *
@@ -491,3 +510,6 @@ export const getTotalWalkingDuration = itinerary =>
  */
 export const getTotalBikingDuration = itinerary =>
   sumDurations(itinerary.legs.filter(isBikingLeg));
+
+export const getTotalDrivingDuration = itinerary =>
+  sumDurations(itinerary.legs.filter(isDrivingLeg));

@@ -26,7 +26,11 @@ import {
 import { PREFIX_ROUTES, PREFIX_STOPS, PREFIX_DISRUPTION } from '../util/path';
 import { durationToString } from '../util/timeUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { getZoneLabel, getHeadsignFromRouteLongName } from '../util/legUtils';
+import {
+  getZoneLabel,
+  getHeadsignFromRouteLongName,
+  getStopHeadsignFromStoptimes,
+} from '../util/legUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { shouldShowFareInfo } from '../util/fareUtils';
 import { AlertSeverityLevelType } from '../constants';
@@ -189,7 +193,6 @@ class TransitLeg extends React.Component {
       mode,
       lang,
       omitDivider,
-      interliningWait,
       interliningLegs,
     } = this.props;
     const { config, intl } = this.context;
@@ -278,7 +281,9 @@ class TransitLeg extends React.Component {
       leg.route.shortName.length > 3;
 
     const headsign =
-      leg.trip.tripHeadsign || getHeadsignFromRouteLongName(leg.route);
+      getStopHeadsignFromStoptimes(leg.from.stop, leg.trip.stoptimesForDate) ||
+      leg.trip.tripHeadsign ||
+      getHeadsignFromRouteLongName(leg.route);
 
     let intermediateStopCount = leg.intermediatePlaces.length;
     if (interliningLegs) {
@@ -495,11 +500,7 @@ class TransitLeg extends React.Component {
             </div>
           )}
           {interliningLegs?.length > 0 ? (
-            <InterlineInfo
-              legs={interliningLegs}
-              leg={leg}
-              wait={interliningWait}
-            />
+            <InterlineInfo legs={interliningLegs} leg={leg} />
           ) : (
             !omitDivider &&
             routeNotifications.length === 0 && <div className="divider" />
@@ -606,6 +607,14 @@ TransitLeg.propTypes = {
         code: PropTypes.string.isRequired,
       }).isRequired,
       tripHeadsign: PropTypes.string.isRequired,
+      stoptimesForDate: PropTypes.arrayOf(
+        PropTypes.shape({
+          headsign: PropTypes.string,
+          stop: PropTypes.shape({
+            gtfsId: PropTypes.string.isRequired,
+          }),
+        }),
+      ),
     }).isRequired,
     startTime: PropTypes.number.isRequired,
     endTime: PropTypes.number,
@@ -641,6 +650,14 @@ TransitLeg.propTypes = {
       }).isRequired,
       trip: PropTypes.shape({
         tripHeadsign: PropTypes.string.isRequired,
+        stoptimesForDate: PropTypes.arrayOf(
+          PropTypes.shape({
+            headsign: PropTypes.string,
+            stop: PropTypes.shape({
+              gtfsId: PropTypes.string.isRequired,
+            }),
+          }),
+        ),
       }).isRequired,
       endTime: PropTypes.number.isRequired,
       to: PropTypes.shape({
@@ -652,7 +669,6 @@ TransitLeg.propTypes = {
   ),
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
-  interliningWait: PropTypes.number,
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
   lang: PropTypes.string.isRequired,

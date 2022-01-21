@@ -70,7 +70,7 @@ export const StreetModeSelector = ({
 
           {showParkRideOptionButton && (
             <StreetModeSelectorButton
-              icon="icon-icon_park-and-ride"
+              icon="icon-icon_car-withoutBox"
               name="parkAndRide"
               plan={parkRidePlan}
               onClick={toggleStreetMode}

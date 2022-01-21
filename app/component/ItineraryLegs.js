@@ -19,6 +19,7 @@ import TramLeg from './TramLeg';
 import RailLeg from './RailLeg';
 import FerryLeg from './FerryLeg';
 import CarLeg from './CarLeg';
+import CarParkLeg from './CarParkLeg';
 import ViaLeg from './ViaLeg';
 import CallAgencyLeg from './CallAgencyLeg';
 import { itineraryHasCancelation } from '../util/alertUtils';
@@ -121,13 +122,6 @@ class ItineraryLegs extends React.Component {
         previousLeg = compressedLegs[j - 1];
       }
       const startTime = (previousLeg && previousLeg.endTime) || leg.startTime;
-
-      const interliningWait = () => {
-        if (nextLeg?.interlineWithPreviousLeg) {
-          return nextLeg.startTime - leg.endTime;
-        }
-        return undefined;
-      };
       let index = j;
       const interliningLegs = [];
       // there can be an arbitrary amount of interlining legs, search for the last one
@@ -142,7 +136,23 @@ class ItineraryLegs extends React.Component {
         ? nextLeg.interlineWithPreviousLeg
         : false;
       const bikePark = previousLeg?.to.bikePark;
+      const carPark = previousLeg?.to.carPark;
       const fromBikePark = leg?.from.bikePark;
+      const fromCarPark = leg?.from.carPark || previousLeg?.to.carPark;
+
+      if (fromCarPark && !this.isLegOnFoot(leg)) {
+        legs.push(
+          <CarParkLeg
+            index={j}
+            leg={previousLeg}
+            carPark={fromCarPark}
+            focusAction={this.focus(leg.from)}
+            focusToLeg={this.focusToLeg(leg)}
+            noWalk
+          />,
+        );
+      }
+
       if (leg.mode !== 'WALK' && isCallAgencyPickupType(leg)) {
         legs.push(
           <CallAgencyLeg
@@ -167,6 +177,16 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             bikePark={bikePark}
+            focusAction={this.focus(leg.from)}
+            focusToLeg={this.focusToLeg(leg)}
+          />,
+        );
+      } else if (carPark && this.isLegOnFoot(leg)) {
+        legs.push(
+          <CarParkLeg
+            index={j}
+            leg={leg}
+            carPark={carPark}
             focusAction={this.focus(leg.from)}
             focusToLeg={this.focusToLeg(leg)}
           />,
@@ -200,7 +220,6 @@ class ItineraryLegs extends React.Component {
           <BusLeg
             index={j}
             leg={leg}
-            interliningWait={interliningWait()}
             interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
@@ -210,7 +229,6 @@ class ItineraryLegs extends React.Component {
           <TramLeg
             index={j}
             leg={leg}
-            interliningWait={interliningWait()}
             interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
@@ -220,7 +238,6 @@ class ItineraryLegs extends React.Component {
           <FerryLeg
             index={j}
             leg={leg}
-            interliningWait={interliningWait()}
             interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
@@ -230,7 +247,6 @@ class ItineraryLegs extends React.Component {
           <RailLeg
             index={j}
             leg={leg}
-            interliningWait={interliningWait()}
             interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
@@ -240,7 +256,6 @@ class ItineraryLegs extends React.Component {
           <SubwayLeg
             index={j}
             leg={leg}
-            interliningWait={interliningWait()}
             interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
@@ -287,7 +302,12 @@ class ItineraryLegs extends React.Component {
         );
       } else if (leg.mode === 'CAR') {
         legs.push(
-          <CarLeg index={j} leg={leg} focusAction={this.focus(leg.from)}>
+          <CarLeg
+            index={j}
+            leg={leg}
+            focusAction={this.focus(leg.from)}
+            focusToLeg={this.focusToLeg(leg)}
+          >
             {this.stopCode(leg.from.stop)}
           </CarLeg>,
         );

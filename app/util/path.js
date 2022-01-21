@@ -11,19 +11,28 @@ export const PREFIX_ROUTES = 'linjat';
 export const PREFIX_NEARYOU = TAB_NEARBY;
 export const PREFIX_STOPS = 'pysakit';
 export const PREFIX_BIKESTATIONS = 'pyoraasemat';
+export const PREFIX_BIKEPARK = 'pyoraparkit';
+export const PREFIX_CARPARK = 'autoparkit';
 export const PREFIX_TERMINALS = 'terminaalit';
 export const PREFIX_ITINERARY_SUMMARY = 'reitti';
 export const PREFIX_DISRUPTION = 'hairiot';
 export const PREFIX_TIMETABLE = 'aikataulu';
 export const stopUrl = id => id;
 export const LOCAL_STORAGE_EMITTER_PATH = '/local-storage-emitter';
+export const EMBEDDED_SEARCH_PATH = '/haku';
 
-export const createReturnPath = (path, origin, destination) => {
+export const createReturnPath = (
+  path,
+  origin,
+  destination,
+  hash = undefined,
+) => {
   const returnUrl = path === '' ? '' : `/${path}`;
   return [
     returnUrl,
     encodeURIComponent(decodeURIComponent(origin)),
     encodeURIComponent(decodeURIComponent(destination)),
+    hash || '',
   ].join('/');
 };
 

@@ -5,7 +5,8 @@ import ReactModal from 'react-modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import Autosuggest from 'react-autosuggest';
-import styles from './MobileSearch.scss';
+import mobileStyles from './MobileSearch.scss';
+import mobileNoScrollStyles from './MobileNoScroll.scss';
 
 class AutosuggestPatch extends Autosuggest {
   constructor(props) {
@@ -41,9 +42,13 @@ const MobileSearch = ({
   focusInput,
   color,
   hoverColor,
+  accessiblePrimaryColor,
   searchOpen,
   fontWeights,
+  showScroll,
 }) => {
+  const styles = showScroll ? mobileStyles : mobileNoScrollStyles;
+
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
 
@@ -203,6 +208,7 @@ const MobileSearch = ({
         className={styles['mobile-modal-content']}
         style={{
           '--color': `${color}`,
+          '--accessible-primary-color': accessiblePrimaryColor,
           '--hover-color': `${hoverColor}`,
           '--font-weight-medium': fontWeights.medium,
         }}
@@ -243,10 +249,12 @@ MobileSearch.propTypes = {
   focusInput: PropTypes.bool,
   color: PropTypes.string,
   hoverColor: PropTypes.string,
+  accessiblePrimaryColor: PropTypes.string.isRequired,
   searchOpen: PropTypes.bool.isRequired,
   fontWeights: PropTypes.shape({
     medium: PropTypes.number.isRequired,
   }).isRequired,
+  showScroll: PropTypes.bool,
 };
 
 export default MobileSearch;

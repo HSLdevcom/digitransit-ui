@@ -10,17 +10,23 @@ import Error404 from './component/404';
 import TopLevel from './component/TopLevel';
 import LocalStorageEmitter from './component/LocalStorageEmitter';
 
+import { prepareWeekDays } from './util/dateParamUtils';
+
 import {
   PREFIX_ITINERARY_SUMMARY,
   PREFIX_NEARYOU,
   PREFIX_BIKESTATIONS,
+  PREFIX_BIKEPARK,
+  PREFIX_CARPARK,
   LOCAL_STORAGE_EMITTER_PATH,
   createReturnPath,
   TAB_NEARBY,
   TAB_FAVOURITES,
+  EMBEDDED_SEARCH_PATH,
 } from './util/path';
 import {
   getDefault,
+  errorLoading,
   getComponentOrLoadingRenderer,
   getComponentOrNullRenderer,
 } from './util/routerUtils';
@@ -93,11 +99,16 @@ export default config => {
                   }
                 }
               `}
-              render={({ Component, props, error, match }) => {
+              render={({ Component, props, error, match, retry }) => {
                 if (Component && (props || error)) {
                   return <Component {...props} match={match} error={error} />;
                 }
-                return null;
+                return getComponentOrLoadingRenderer({
+                  Component,
+                  props,
+                  error,
+                  retry,
+                });
               }}
             />
           ),
@@ -120,6 +131,119 @@ export default config => {
             />
           ),
         }}
+      </Route>
+      <Route path={`/${PREFIX_BIKEPARK}`}>
+        <Route Component={Error404} />
+        <Route path=":id">
+          {{
+            content: (
+              <Route
+                getComponent={() =>
+                  import(
+                    /* webpackChunkName: "bikepark" */ './component/BikeParkContent'
+                  )
+                    .then(getDefault)
+                    .catch(errorLoading)
+                }
+                prepareVariables={prepareWeekDays}
+                query={graphql`
+                  query routes_BikePark_Query(
+                    $id: String!
+                    $dates: [String!]!
+                  ) {
+                    bikePark(id: $id) {
+                      ...BikeParkContent_bikePark @arguments(dates: $dates)
+                    }
+                  }
+                `}
+                render={({ Component, props, error, match, retry }) => {
+                  if (Component && (props || error)) {
+                    return <Component {...props} match={match} error={error} />;
+                  }
+                  return getComponentOrLoadingRenderer({
+                    Component,
+                    props,
+                    error,
+                    retry,
+                  });
+                }}
+              />
+            ),
+            map: (
+              <Route
+                path="(.*)?"
+                getComponent={() =>
+                  import(
+                    /* webpackChunkName: "bikepark" */ './component/BikeParkMapContainer'
+                  ).then(getDefault)
+                }
+                query={graphql`
+                  query routes_BikeParkMap_Query($id: String!) {
+                    bikePark(id: $id) {
+                      ...BikeParkMapContainer_bikePark
+                    }
+                  }
+                `}
+                render={getComponentOrNullRenderer}
+              />
+            ),
+          }}
+        </Route>
+      </Route>
+      <Route path={`/${PREFIX_CARPARK}`}>
+        <Route Component={Error404} />
+        <Route path=":id">
+          {{
+            content: (
+              <Route
+                getComponent={() =>
+                  import(
+                    /* webpackChunkName: "carpark" */ './component/CarParkContent'
+                  )
+                    .then(getDefault)
+                    .catch(errorLoading)
+                }
+                query={graphql`
+                  query routes_CarPark_Query($id: String!, $dates: [String!]!) {
+                    carPark(id: $id) {
+                      ...CarParkContent_carPark @arguments(dates: $dates)
+                    }
+                  }
+                `}
+                prepareVariables={prepareWeekDays}
+                render={({ Component, props, error, match, retry }) => {
+                  if (Component && (props || error)) {
+                    return <Component {...props} match={match} error={error} />;
+                  }
+                  return getComponentOrLoadingRenderer({
+                    Component,
+                    props,
+                    error,
+                    retry,
+                  });
+                }}
+              />
+            ),
+            map: (
+              <Route
+                path="(.*)?"
+                getComponent={() =>
+                  import(
+                    /* webpackChunkName: "carpark" */ './component/CarParkMapContainer'
+                  ).then(getDefault)
+                }
+                query={graphql`
+                  query routes_CarParkMap_Query($id: String!) {
+                    carPark(id: $id) {
+                      ...CarParkMapContainer_carPark
+                    }
+                  }
+                `}
+                render={getComponentOrNullRenderer}
+              />
+            ),
+          }}
+        </Route>
       </Route>
       <Route path={`/${PREFIX_NEARYOU}/:mode/:place/:origin?`}>
         {{
@@ -180,7 +304,47 @@ export default config => {
         }}
       />
       <Route
+        path={`/${PREFIX_ITINERARY_SUMMARY}/POS/:to/:hash`}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "itinerary" */ './component/Geolocator'
+          ).then(getDefault)
+        }
+        render={({ Component, props }) => {
+          if (Component) {
+            return (
+              <Component
+                {...props}
+                createReturnPath={createReturnPath}
+                path={PREFIX_ITINERARY_SUMMARY}
+              />
+            );
+          }
+          return undefined;
+        }}
+      />
+      <Route
         path={`/${PREFIX_ITINERARY_SUMMARY}/:from/POS`}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "itinerary" */ './component/Geolocator'
+          ).then(getDefault)
+        }
+        render={({ Component, props }) => {
+          if (Component) {
+            return (
+              <Component
+                {...props}
+                createReturnPath={createReturnPath}
+                path={PREFIX_ITINERARY_SUMMARY}
+              />
+            );
+          }
+          return undefined;
+        }}
+      />
+      <Route
+        path={`/${PREFIX_ITINERARY_SUMMARY}/:from/POS/:hash`}
         getComponent={() =>
           import(
             /* webpackChunkName: "itinerary" */ './component/Geolocator'
@@ -263,7 +427,7 @@ export default config => {
         }
       />
       <Route
-        path="/embedded-search"
+        path={EMBEDDED_SEARCH_PATH}
         getComponent={() =>
           import(
             /* webpackChunkName: "embedded-search" */ './component/EmbeddedSearch'

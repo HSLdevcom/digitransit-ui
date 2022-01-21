@@ -136,6 +136,7 @@ class IndexPage extends React.Component {
       if (newLocation.query.time === undefined) {
         newLocation.query.time = moment().unix();
       }
+      delete newLocation.query.setTime;
       router.push(newLocation);
     } else {
       const path = getPathWithEndpointObjects(
@@ -209,6 +210,7 @@ class IndexPage extends React.Component {
     const { trafficNowLink, colors, fontWeights } = config;
     const color = colors.primary;
     const hoverColor = colors.hover || LightenDarkenColor(colors.primary, -20);
+    const accessiblePrimaryColor = colors.accessiblePrimary || colors.primary;
     const { breakpoint, lang } = this.props;
     const origin = this.pendingOrigin || this.props.origin;
     const destination = this.pendingDestination || this.props.destination;
@@ -248,6 +250,7 @@ class IndexPage extends React.Component {
       sources,
       color,
       hoverColor,
+      accessiblePrimaryColor,
       refPoint,
       searchPanelText: intl.formatMessage({
         id: 'where',
@@ -260,7 +263,7 @@ class IndexPage extends React.Component {
       fromMap: this.props.fromMap,
       fontWeights,
       modeIconColors: config.colors.iconColors,
-      modeSet: config.searchIconModeSet,
+      modeSet: config.iconModeSet,
     };
 
     const stopRouteSearchProps = {
@@ -274,11 +277,12 @@ class IndexPage extends React.Component {
       lang,
       color,
       hoverColor,
+      accessiblePrimaryColor,
       sources,
       targets: stopAndRouteSearchTargets,
       fontWeights,
       modeIconColors: config.colors.iconColors,
-      modeSet: config.searchIconModeSet,
+      modeSet: config.iconModeSet,
     };
     const transportModes = getTransportModes(config);
     const nearYouModes = getNearYouModes(config);
@@ -308,6 +312,7 @@ class IndexPage extends React.Component {
             }
             title={btnWithoutLabel ? undefined : transportModes?.nearYouTitle}
             modes={btnWithoutLabel ? undefined : modeTitles}
+            modeSet={config.nearbyModeSet || config.iconModeSet}
             modeIconColors={config.colors.iconColors}
             fontWeights={fontWeights}
           />

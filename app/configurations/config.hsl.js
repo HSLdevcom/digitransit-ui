@@ -5,10 +5,11 @@ const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
+const MAP_VERSION = process.env.MAP_VERSION || 'v1';
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
+const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 
 const rootLink = process.env.ROOTLINK || 'https://dev.hslfi.hsldev.com';
 const BANNER_URL = 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
@@ -19,10 +20,10 @@ export default {
 
   URL: {
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/hsl/`,
-    STOP_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-stop-map/`,
-    PARK_AND_RIDE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-parkandride-map/`,
+    STOP_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-stop-map/`,
+    PARK_AND_RIDE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-parkandride-map/`,
     FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
-    CITYBIKE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-citybike-map/`,
+    CITYBIKE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-citybike-map/`,
     ROOTLINK: rootLink,
     BANNERS: BANNER_URL,
     HSL_FI_SUGGESTIONS: 'https://content.hsl.fi/api/v1/search/suggestions',
@@ -65,7 +66,15 @@ export default {
 
   parkAndRide: {
     showParkAndRide: true,
-    parkAndRideMinZoom: 14,
+    parkAndRideMinZoom: 13,
+    url: {
+      fi: 'https://www.hsl.fi/matkustaminen/liityntapysakointi',
+      sv: 'https://www.hsl.fi/sv/att-resa/anslutningsparkering',
+      en: 'https://www.hsl.fi/en/travelling/park--ride',
+    },
+    pageContent: {
+      default: HSLParkAndRideUtils,
+    },
   },
 
   showDisclaimer: true,
@@ -74,18 +83,20 @@ export default {
   mergeStopsByCode: true,
   colors: {
     primary: '#007ac9',
+    accessiblePrimary: '#0074be',
     hover: '#0062a1',
     iconColors: {
       'mode-bus': '#007ac9',
       'mode-rail': '#8c4799',
       'mode-tram': '#008151',
       'mode-ferry': '#007A97',
+      'mode-ferry-pier': '#666666',
       'mode-metro': '#CA4000',
       'mode-citybike': '#f2b62d',
       'mode-citybike-secondary': '#333333',
     },
   },
-  searchIconModeSet: 'default',
+  iconModeSet: 'default',
   fontWeights: {
     medium: 500,
   },
@@ -539,7 +550,7 @@ export default {
   showBikeAndParkItineraries: true,
 
   includeCarSuggestions: false,
-  includeParkAndRideSuggestions: false,
+  includeParkAndRideSuggestions: true,
 
   showNearYouButtons: true,
   nearYouModes: [
@@ -572,9 +583,9 @@ export default {
         gtfsId.slice(4).length === 4 && gtfsId.slice(4)[0] === '7',
       id: 'uLineNotification',
       header: {
-        fi: 'U-Linja',
-        en: 'U-Line',
-        sv: 'U-Linje',
+        fi: 'U-linja',
+        en: 'U-line',
+        sv: 'U-linje',
       },
       content: {
         fi: [
@@ -592,7 +603,7 @@ export default {
       },
       closeButtonLabel: {
         fi: 'Mitä U-linja tarkoittaa?',
-        en: 'What does a U-Line mean?',
+        en: 'What does a U-line mean?',
         sv: 'Vad betyder en U-linje?',
       },
       link: {

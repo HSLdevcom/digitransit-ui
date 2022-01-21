@@ -82,7 +82,6 @@ class MapWithTrackingStateHandler extends React.Component {
     this.state = {
       mapTracking: props.mapTracking,
       settingsOpen: false,
-      forcedLayers: {},
     };
     this.naviProps = {};
   }
@@ -100,27 +99,6 @@ class MapWithTrackingStateHandler extends React.Component {
   UNSAFE_componentWillReceiveProps(newProps) {
     let newState;
 
-    const { mapLayerOptions } = newProps;
-    if (mapLayerOptions && isEmpty(this.state.forcedLayers)) {
-      const forcedLayers = {};
-      Object.keys(mapLayerOptions).forEach(key => {
-        const layer = mapLayerOptions[key];
-        if (layer?.isLocked === undefined) {
-          Object.keys(layer).forEach(subKey => {
-            if (layer[subKey].isLocked) {
-              if (!forcedLayers[key]) {
-                forcedLayers[key] = {};
-              }
-              forcedLayers[key][subKey] = layer[subKey].isSelected;
-            }
-          });
-        } else if (layer?.isLocked) {
-          forcedLayers[key] = layer.isSelected;
-        }
-      });
-      newState = { forcedLayers };
-    }
-
     if (newProps.mapTracking && !this.state.mapTracking) {
       newState = { ...newState, mapTracking: true };
     } else if (newProps.mapTracking === false && this.state.mapTracking) {
@@ -130,6 +108,26 @@ class MapWithTrackingStateHandler extends React.Component {
       this.setState(newState);
     }
   }
+
+  getForcedLayersFromMapLayerOptions = mapLayerOptions => {
+    const forcedLayers = {};
+    Object.keys(mapLayerOptions).forEach(key => {
+      const layer = mapLayerOptions[key];
+      if (layer?.isLocked === undefined) {
+        Object.keys(layer).forEach(subKey => {
+          if (layer[subKey].isLocked) {
+            if (!forcedLayers[key]) {
+              forcedLayers[key] = {};
+            }
+            forcedLayers[key][subKey] = layer[subKey].isSelected;
+          }
+        });
+      } else if (layer?.isLocked) {
+        forcedLayers[key] = layer.isSelected;
+      }
+    });
+    return forcedLayers;
+  };
 
   setMapElementRef = element => {
     if (element && this.mapElement !== element) {
@@ -183,26 +181,32 @@ class MapWithTrackingStateHandler extends React.Component {
   };
 
   getMapLayers = () => {
-    if (!isEmpty(this.state.forcedLayers)) {
-      const merged = {
-        ...this.props.mapLayers,
-        ...this.state.forcedLayers,
-        vehicles: !this.props.mapLayerOptions
-          ? this.props.mapLayers.vehicles
-          : false,
-      };
-      if (!isEmpty(this.state.forcedLayers.stop)) {
-        return {
-          ...merged,
-          stop: {
-            ...this.props.mapLayers.stop,
-            ...this.state.forcedLayers.stop,
-          },
-        };
-      }
+    let forcedLayers;
+    if (this.props.mapLayerOptions) {
+      forcedLayers = this.getForcedLayersFromMapLayerOptions(
+        this.props.mapLayerOptions,
+      );
+    }
+    if (isEmpty(forcedLayers)) {
+      return this.props.mapLayers;
+    }
+    const merged = {
+      ...this.props.mapLayers,
+      ...forcedLayers,
+      vehicles: !this.props.mapLayerOptions
+        ? this.props.mapLayers.vehicles
+        : false,
+    };
+    if (isEmpty(forcedLayers.stop)) {
       return merged;
     }
-    return this.props.mapLayers;
+    return {
+      ...merged,
+      stop: {
+        ...this.props.mapLayers.stop,
+        ...forcedLayers.stop,
+      },
+    };
   };
 
   render() {

@@ -5,12 +5,15 @@ import { durationToString } from '../util/timeUtils';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
 import Icon from './Icon';
 
-const InterlineInfo = ({ legs, leg, wait }) => {
-  let totalWait = wait;
-  if (legs.length > 1) {
-    legs.forEach((iLeg, i) => {
-      if (legs[i + 1]) {
-        totalWait += legs[i + 1].startTime - iLeg.endTime;
+const InterlineInfo = ({ legs, leg }) => {
+  let totalWait = 0;
+  const allLegs = [leg, ...legs];
+  const routes = [];
+  if (legs.length > 0) {
+    allLegs.forEach((iLeg, i) => {
+      routes.push(iLeg.route.shortName);
+      if (allLegs[i + 1]) {
+        totalWait += allLegs[i + 1].startTime - iLeg.endTime;
       }
     });
   }
@@ -32,7 +35,11 @@ const InterlineInfo = ({ legs, leg, wait }) => {
                 </span>
               ),
               stop: leg.to.name,
-              time: <span className="bold">{durationToString(totalWait)}</span>,
+              time: (
+                <span className="bold no-wrap">
+                  {durationToString(totalWait)}
+                </span>
+              ),
             }}
           />
         </>
@@ -43,7 +50,16 @@ const InterlineInfo = ({ legs, leg, wait }) => {
           <FormattedMessage
             id="itinerary-summary.interline-wait-multiple-legs"
             values={{
-              time: <span className="bold">{durationToString(totalWait)}</span>,
+              time: (
+                <span className="bold no-wrap">
+                  {durationToString(totalWait)}
+                </span>
+              ),
+              shortName: (
+                <span className="bold">
+                  {Array.from(new Set(routes)).join(', ')}
+                </span>
+              ),
             }}
           />
         </>
@@ -65,6 +81,5 @@ InterlineInfo.propTypes = {
       }).isRequired,
     }),
   ).isRequired,
-  wait: PropTypes.number,
 };
 export default InterlineInfo;

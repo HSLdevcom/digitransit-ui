@@ -58,6 +58,7 @@ export default class Line extends React.Component {
       this.props.mode,
       { thin: this.props.thin },
       { opaque: this.props.opaque },
+      'map-line',
     ]);
     let filteredPoints;
     if (this.props.geometry) {

@@ -46,11 +46,30 @@ Loading.propTypes = {
   children: PropTypes.node,
 };
 
+const getPlatform = addendum => {
+  if (!addendum || !addendum.GTFS.platform) {
+    return undefined;
+  }
+  const { modes, platform } = addendum.GTFS;
+  const type =
+    modes && modes[0] === 'RAIL' ? i18next.t('track') : i18next.t('platform');
+  return [type, platform];
+};
+
 function getSuggestionContent(item) {
   if (item.type !== 'FutureRoute') {
-    let suggestionType;
+    if (item.type === 'SelectFromMap') {
+      return ['', i18next.t('select-from-map')];
+    }
+    if (item.type === 'CurrentLocation') {
+      return ['', i18next.t('use-own-position')];
+    }
+    if (item.type === 'SelectFromOwnLocations') {
+      return ['', i18next.t('select-from-own-locations')];
+    }
     /* eslint-disable-next-line prefer-const */
     let [name, label] = getNameLabel(item.properties, true);
+    let suggestionType;
     if (
       item.properties.layer.toLowerCase().includes('bikerental') ||
       item.properties.layer.toLowerCase().includes('bikestation')
@@ -78,12 +97,14 @@ function getSuggestionContent(item) {
     ) {
       const stopCode = getStopCode(item.properties);
       const mode = item.properties.addendum?.GTFS.modes;
+      const platform = getPlatform(item.properties.addendum);
       return [
         suggestionType,
         getStopName(name, stopCode),
         label,
         stopCode,
         mode,
+        platform,
       ];
     }
     if (
@@ -92,7 +113,8 @@ function getSuggestionContent(item) {
     ) {
       const { address, code } = item.properties;
       const stoName = address ? getStopName(address.split(',')[0], code) : name;
-      return [suggestionType, stoName, label, code];
+      const platform = getPlatform(item.properties.addendum);
+      return [suggestionType, stoName, label, code, undefined, platform];
     }
     return [suggestionType, name, label];
   }
@@ -220,6 +242,7 @@ class DTAutosuggest extends React.Component {
     isMobile: PropTypes.bool,
     color: PropTypes.string,
     hoverColor: PropTypes.string,
+    accessiblePrimaryColor: PropTypes.string,
     timeZone: PropTypes.string,
     pathOpts: PropTypes.shape({
       routesPrefix: PropTypes.string,
@@ -236,6 +259,7 @@ class DTAutosuggest extends React.Component {
     modeIconColors: PropTypes.object,
     required: PropTypes.bool,
     modeSet: PropTypes.string,
+    showScroll: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -249,6 +273,7 @@ class DTAutosuggest extends React.Component {
     isMobile: false,
     color: '#007ac9',
     hoverColor: '#0062a1',
+    accessiblePrimaryColor: '#0074be',
     timeZone: 'Europe/Helsinki',
     pathOpts: {
       routesPrefix: 'linjat',
@@ -269,6 +294,7 @@ class DTAutosuggest extends React.Component {
     },
     required: false,
     modeSet: undefined,
+    showScroll: false,
   };
 
   constructor(props) {
@@ -474,6 +500,10 @@ class DTAutosuggest extends React.Component {
               this.state.suggestions[this.state.suggestionIndex],
               this.props.id,
             );
+
+            if (this.props.isMobile) {
+              this.closeMobileSearch();
+            }
           }
         },
       );
@@ -690,6 +720,7 @@ class DTAutosuggest extends React.Component {
         isMobile={this.props.isMobile}
         ariaFavouriteString={i18next.t('favourite')}
         color={this.props.color}
+        accessiblePrimaryColor={this.props.accessiblePrimaryColor}
         fillInput={this.fillInput}
         fontWeights={this.props.fontWeights}
         modeIconColors={this.props.modeIconColors}
@@ -721,7 +752,13 @@ class DTAutosuggest extends React.Component {
     }
     if (this.state.editing) {
       if (keyCode === 'Enter') {
-        this.fetchFunction({ value: this.state.value });
+        if (this.props.isMobile) {
+          this.setState({ pendingSelection: true }, () => {
+            this.fetchFunction({ value: this.state.value });
+          });
+        } else {
+          this.fetchFunction({ value: this.state.value });
+        }
       }
       return this.inputClicked();
     }
@@ -917,7 +954,9 @@ class DTAutosuggest extends React.Component {
             focusInput={cleanExecuted}
             color={this.props.color}
             hoverColor={this.props.hoverColor}
+            accessiblePrimaryColor={this.props.accessiblePrimaryColor}
             fontWeights={this.props.fontWeights}
+            showScroll={this.props.showScroll}
           />
         )}
         {!renderMobileSearch && (
@@ -961,7 +1000,7 @@ class DTAutosuggest extends React.Component {
               theme={styles}
               renderInputComponent={p => (
                 <>
-                  <label className="sr-only" htmlFor={this.props.id}>
+                  <label className={styles['sr-only']} htmlFor={this.props.id}>
                     {ariaCurrentSuggestion()
                       .concat(' ')
                       .concat(ariaRequiredText)

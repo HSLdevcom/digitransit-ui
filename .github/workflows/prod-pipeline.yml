@@ -12,7 +12,7 @@ jobs:
       - name: Check Tag
         id: check-tag
         run: |
-          if [[ ${GITHUB_REF##*/} =~ ^202[0-9][0-1][0-9][0-3][0-9]$ ]]; then
+          if [[ ${GITHUB_REF##*/} =~ ^202[0-9][0-1][0-9][0-3][0-9]*$ ]]; then
               echo ::set-output name=match::true
           fi
       - name: Push latest image as prod
@@ -21,5 +21,3 @@ jobs:
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_AUTH: ${{ secrets.DOCKER_AUTH }}
-          DOCKER_BASE_TAG: prod
-          DOCKER_DEV_TAG: latest

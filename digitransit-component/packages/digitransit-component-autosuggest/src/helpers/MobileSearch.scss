@@ -162,11 +162,6 @@ button.clear-input {
   left: 0;
   overflow-x: hidden;
   overflow-y: scroll;
-  -ms-overflow-style: none;  /* Internet Explorer 10+ */
-  scrollbar-width: none;  /* Firefox */
-  &::-webkit-scrollbar {
-    display: none;  /* Safari and Chrome */
-  }
   .suggestionsList {
     width: 100vw;
     list-style: none;
@@ -184,7 +179,7 @@ button.clear-input {
   width: 100%;
   height: 62px;
   background: #f4f4f5;
-  color: var(--color);
+  color: var(--accessible-primary-color);
   font-size: 15px;
   font-weight: var(--font-weight-medium);
   letter-spacing: -0.42px;

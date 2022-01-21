@@ -28,6 +28,13 @@ export default {
       'https://digitransit-prod-cdn-origin.azureedge.net/matka-fonts/roboto/roboto+montserrat.css',
   },
 
+  mainMenu: {
+    stopMonitor: {
+      show: true,
+      url: 'https://matkamonitori.digitransit.fi/createview',
+    },
+  },
+
   contactName: {
     sv: 'Livin',
     fi: 'Livin',
@@ -39,7 +46,8 @@ export default {
 
   appBarLink: {
     name: 'Traficom',
-    href: 'https://www.traficom.fi/fi/joukkoliikenteen-informaatiopalvelut',
+    href:
+      'https://www.traficom.fi/fi/liikenne/liikennejarjestelma/joukkoliikenteen-informaatiopalvelut',
   },
 
   socialMedia: {
@@ -64,6 +72,7 @@ export default {
       'mode-metro': '#CA4000',
       'mode-rail': '#8E5EA0',
       'mode-ferry': '#247C7B',
+      'mode-ferry-pier': '#666666',
       'mode-citybike': '#FCBC19',
     },
   },
@@ -102,12 +111,8 @@ export default {
     copyright: { label: `© Matka.fi ${YEAR}` },
     content: [
       {
-        name: 'menu-feedback',
-        href: 'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas',
-      },
-      {
-        name: 'about-this-service',
-        href: 'https://www.traficom.fi/fi/joukkoliikenteen-informaatiopalvelut',
+        name: 'about-service-feedback',
+        href: 'http://www.matka.fi',
       },
       {
         name: 'accessibility-statement',
@@ -115,15 +120,8 @@ export default {
           'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas/matkafi-reittioppaan-saavutettavuusseloste',
       },
       {
-        name: 'privacy-statement',
-        href: {
-          fi:
-            'https://www.traficom.fi/fi/traficom/tietosuoja-traficomissa/tietosuojaselosteet',
-          sv:
-            'https://www.traficom.fi/sv/traficom/dataskydd-hos-traficom/dataskyddsbeskrivningar',
-          en:
-            'https://www.traficom.fi/en/traficom/privacy-policy/privacy-statements',
-        },
+        name: 'about-these-pages',
+        href: 'https://traficom.fi/fi/tietoa-matkafi-sivustosta',
       },
     ],
   },
@@ -269,6 +267,7 @@ export default {
     'airplane',
   ],
   useAlternativeNameForModes: ['rail'],
+  includeCarSuggestions: true,
 
   sourceForAlertsAndDisruptions: {
     HSL: {

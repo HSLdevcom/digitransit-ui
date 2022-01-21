@@ -35,10 +35,7 @@ export default function isDuplicate(item1, item2) {
     const name1 = `${o1.name}//${o1.locality}//${d1.name}//${d1.locality}`;
     const name2 = `${o2.name}//${o2.locality}//${d2.name}//${d2.locality}`;
 
-    if (truEq(name1, name2)) {
-      return true;
-    }
-    return false;
+    return name1 === name2;
   }
   if (item1.type === 'FutureRoute' || item2.type === 'FutureRoute') {
     return false;
@@ -52,14 +49,22 @@ export default function isDuplicate(item1, item2) {
   ) {
     return props1.labelId === props2.labelId;
   }
-  if (truEq(props1.gtfsId, props2.gtfsId)) {
-    return true;
+  if (props1.gtfsId && props2.gtfsId) {
+    return props1.gtfsId === props2.gtfsId;
   }
   if (props1.gtfsId && props2.gid && props2.gid.includes(props1.gtfsId)) {
     return true;
   }
   if (props2.gtfsId && props1.gid && props1.gid.includes(props2.gtfsId)) {
     return true;
+  }
+  if (
+    (props1.layer === 'stop' || props1.layer === 'station') &&
+    (props2.layer === 'stop' || props2.layer === 'station') &&
+    props1.gid &&
+    props2.gid
+  ) {
+    return props1.gid === props2.gid;
   }
 
   const p1 = item1 && item1.geometry ? item1.geometry.coordinates : undefined;
