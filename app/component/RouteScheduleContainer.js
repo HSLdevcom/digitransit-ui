@@ -25,6 +25,7 @@ import RoutePageControlPanel from './RoutePageControlPanel';
 import { PREFIX_ROUTES, PREFIX_TIMETABLE } from '../util/path';
 import { isBrowser } from '../util/browser';
 import ScrollableWrapper from './ScrollableWrapper';
+import getTestData from '../../test/unit/test-data/RouteScheduleTestData';
 
 const DATE_FORMAT2 = 'D.M.YYYY';
 
@@ -122,11 +123,32 @@ class RouteScheduleContainer extends PureComponent {
     });
   };
 
-  getTrips = (currentPattern, from, to, newServiceDay) => {
+  getTrips = (patternIn, from, to, newServiceDay, wantedDay) => {
+    let currentPattern = patternIn;
+    let queryParams = newServiceDay ? `?serviceDay=${newServiceDay}` : '';
+
+    if (this.testing && this.testNum && currentPattern) {
+      currentPattern = {
+        ...currentPattern,
+        trips: currentPattern.trips?.filter((s, i) => i < 2),
+      };
+      if (
+        moment(wantedDay, 'YYYYMMDD', true).isValid() &&
+        moment(this.testNoDataDay, 'YYYYMMDD', true).isValid() &&
+        wantedDay.format(DATE_FORMAT) === this.testNoDataDay
+      ) {
+        currentPattern = {
+          ...currentPattern,
+          trips: [],
+        };
+      }
+      queryParams = queryParams.concat(`&test=${this.testNum}`);
+    }
+
     const trips = RouteScheduleContainer.sortTrips(currentPattern.trips);
 
     if (trips.length === 0 && newServiceDay) {
-      return `/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_TIMETABLE}/${currentPattern.code}?serviceDay=${newServiceDay}`;
+      return `/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_TIMETABLE}/${currentPattern.code}${queryParams}`;
     }
 
     if (trips !== null && !this.state.hasLoaded) {
@@ -139,16 +161,27 @@ class RouteScheduleContainer extends PureComponent {
         </div>
       );
     }
+
     if (trips.length === 0) {
       return (
         <div className="text-center">
-          {this.context.intl.formatMessage({
-            id: 'no-trips-found',
-            defaultMessage: 'No journeys found for the selected date.',
-          })}
+          {this.context.intl.formatMessage(
+            {
+              id: 'no-trips-found',
+              defaultMessage: `No journeys found for the selected date ${moment(
+                this.context.match.location.query.serviceDay,
+              ).format(DATE_FORMAT2)}`,
+            },
+            {
+              selectedDate: moment(
+                this.context.match.location.query.serviceDay,
+              ).format(DATE_FORMAT2),
+            },
+          )}
         </div>
       );
     }
+
     return trips.map(trip => {
       const fromSt = trip.stoptimes[from];
       const toSt = trip.stoptimes[to];
@@ -173,14 +206,16 @@ class RouteScheduleContainer extends PureComponent {
   formatTime = timestamp => moment(timestamp * 1000).format('HH:mm');
 
   changeDate = newServiceDay => {
+    const { location } = this.context.match;
     addAnalyticsEvent({
       category: 'Route',
       action: 'ChangeTimetableDay',
       name: null,
     });
     const newPath = {
-      ...this.context.match.location,
+      ...location,
       query: {
+        ...location.query,
         serviceDay: newServiceDay,
       },
     };
@@ -644,11 +679,50 @@ class RouteScheduleContainer extends PureComponent {
     ];
   };
 
+  redirectWithServiceDay = serviceDay => {
+    const { location } = this.context.match;
+    const newPath = {
+      ...location,
+      query: {
+        ...location.query,
+        serviceDay,
+      },
+    };
+    if (isBrowser) {
+      this.props.match.router.replace(newPath);
+    } else {
+      throw new RedirectException(newPath);
+    }
+  };
+
+  getMostFrequent = arr => {
+    const hashmap = arr.reduce((acc, val) => {
+      acc[hashCode(val.map(v => v[0]).join())] =
+        (acc[hashCode(val.map(v => v[0]).join())] || 0) + 1;
+      return acc;
+    }, {});
+    const hash = Object.keys(hashmap).reduce((a, b) =>
+      hashmap[a] > hashmap[b] ? a : b,
+    );
+    let retValue;
+    arr.forEach(a => {
+      const tmpHash = hashCode(a.map(v => v[0]).join());
+      if (!retValue && Number(hash) === tmpHash) {
+        retValue = a;
+      }
+    });
+    return retValue;
+  };
+
   render() {
     const { query } = this.props.match.location;
     const { intl } = this.context;
     this.hasMergedData = false;
     this.dataExistsDay = 1; // 1 = monday
+    // USE FOR TESTING PURPOSE
+    this.testing = false;
+    this.testNum = this.testing && query && query.test;
+    this.testNoDataDay = ''; // set to next week's Thursday
 
     if (!this.props.pattern) {
       if (this.props.match.params.routeId) {
@@ -673,44 +747,55 @@ class RouteScheduleContainer extends PureComponent {
       p => p.code === this.props.pattern.code,
     );
 
-    const firstDepartures = this.modifyDepartures(this.props.firstDepartures);
+    let dataToHandle;
+
+    if (this.testing && this.testNum) {
+      dataToHandle = getTestData(this.testNum);
+    } else {
+      dataToHandle = this.props.firstDepartures;
+    }
+    const firstDepartures = this.modifyDepartures(dataToHandle);
     const firstWeekEmpty = this.isEmptyWeek(firstDepartures[0]);
     // If we are missing data from the start of the week, see if we can merge it with next week
     if (
       !firstWeekEmpty &&
       firstDepartures[0].length !== 0 &&
-      this.props.firstDepartures.wk1mon.length === 0
+      dataToHandle.wk1mon.length === 0
     ) {
-      const [thisWeekData, nextWeekData] = firstDepartures;
+      const [thisWeekData, normalWeekData] =
+        Number(this.testNum) === 0
+          ? firstDepartures
+          : [firstDepartures[0], this.getMostFrequent(firstDepartures)];
       const thisWeekHashes = [];
       const nextWeekHashes = [];
+
       for (let i = 0; i < thisWeekData.length; i++) {
         thisWeekHashes.push(thisWeekData[i][1]);
       }
-      for (let i = 0; i < nextWeekData.length; i++) {
-        nextWeekHashes.push(nextWeekData[i][1]);
+      for (let i = 0; i < normalWeekData.length; i++) {
+        nextWeekHashes.push(normalWeekData[i][1]);
       }
 
-      // If this weeks data is a subset of next weeks data, merge them
+      // If this weeks data is a subset of normal weeks data, merge them
       if (thisWeekHashes.every(hash => nextWeekHashes.includes(hash))) {
         // eslint-disable-next-line prefer-destructuring
-        firstDepartures[0] = firstDepartures[1];
+        firstDepartures[0] = normalWeekData;
         this.hasMergedData = true;
       }
     }
 
     if (this.hasMergedData) {
-      if (this.props.firstDepartures.wk1tue.length !== 0) {
+      if (dataToHandle.wk1tue.length !== 0) {
         this.dataExistsDay = 2;
-      } else if (this.props.firstDepartures.wk1wed.length !== 0) {
+      } else if (dataToHandle.wk1wed.length !== 0) {
         this.dataExistsDay = 3;
-      } else if (this.props.firstDepartures.wk1thu.length !== 0) {
+      } else if (dataToHandle.wk1thu.length !== 0) {
         this.dataExistsDay = 4;
-      } else if (this.props.firstDepartures.wk1fri.length !== 0) {
+      } else if (dataToHandle.wk1fri.length !== 0) {
         this.dataExistsDay = 5;
-      } else if (this.props.firstDepartures.wk1sat.length !== 0) {
+      } else if (dataToHandle.wk1sat.length !== 0) {
         this.dataExistsDay = 6;
-      } else if (this.props.firstDepartures.wk1sun.length !== 0) {
+      } else if (dataToHandle.wk1sun.length !== 0) {
         this.dataExistsDay = 7;
       }
     }
@@ -721,6 +806,11 @@ class RouteScheduleContainer extends PureComponent {
       moment(query.serviceDay, 'YYYYMMDD', true).isValid()
         ? moment(query.serviceDay)
         : undefined;
+
+    const firstDataDate = moment()
+      .startOf('isoWeek')
+      .add(this.dataExistsDay - 1, 'd')
+      .format(DATE_FORMAT);
 
     // check if first week is empty and redirect if is
     const nextMonday = moment()
@@ -739,19 +829,19 @@ class RouteScheduleContainer extends PureComponent {
       ? moment(wantedDay).isSameOrAfter(moment(nextMonday))
       : false;
 
-    if ((isBeforeNextWeek && firstWeekEmpty) || firstDepartureDate) {
+    // Checking is wanted day is before first available day when data is found
+    const isBeforeFirstDataDate = wantedDay
+      ? moment(wantedDay).isBefore(moment(firstDataDate))
+      : false;
+
+    if ((!this.testNum || this.testNum !== 0) && isBeforeFirstDataDate) {
+      this.redirectWithServiceDay(firstDataDate);
+    } else if ((isBeforeNextWeek && firstWeekEmpty) || firstDepartureDate) {
       if (
         !isEqual(moment().format(DATE_FORMAT), firstDepartureDate) &&
         !isSameOrAfterNextWeek
       ) {
-        const redirectUrl = this.props.match.location.pathname.concat(
-          `?serviceDay=${firstDepartureDate || nextMonday}`,
-        );
-        if (isBrowser) {
-          this.props.match.router.replace(redirectUrl);
-        } else {
-          throw new RedirectException(redirectUrl);
-        }
+        this.redirectWithServiceDay(firstDepartureDate || nextMonday);
       }
     }
 
@@ -801,6 +891,7 @@ class RouteScheduleContainer extends PureComponent {
       newFromTo[0],
       newFromTo[1],
       newServiceDay,
+      wantedDay,
     );
 
     const tabs = this.renderDayTabs(data);
