@@ -1236,7 +1236,8 @@ const translations = {
     'no-route-end': 'Please select destination',
     'no-route-end-date-not-in-range':
       'The timetable does not include later departures.',
-    'no-route-found': 'Unfortunately, no route {shortName} ({longName}) were found.',
+    'no-route-found':
+      'Unfortunately, no route {shortName} ({longName}) were found.',
     'no-route-msg': 'Unfortunately, no route suggestions were found.',
     'no-route-msg-with-changes':
       'Unfortunately, no route suggestions were found. Please check your search settings or try changing the origin or destination.',
@@ -2286,7 +2287,8 @@ const translations = {
     'no-route-end': 'Syötä vielä määränpää',
     'no-route-end-date-not-in-range':
       'Aikataulu ei sisällä myöhäisempiä reittejä.',
-    'no-route-found': 'Linjaa {shortName} ({longName}) ei valitettavasti löytynyt.',
+    'no-route-found':
+      'Linjaa {shortName} ({longName}) ei valitettavasti löytynyt.',
     'no-route-msg': 'Reittiehdotuksia ei valitettavasti löytynyt.',
     'no-route-msg-with-changes':
       'Reittiehdotuksia ei valitettavasti löytynyt. Ole hyvä ja tarkasta asettamasi hakuasetukset tai yritä muuttaa lähtöpaikkaa tai määränpäätä.',
