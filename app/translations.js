@@ -324,7 +324,9 @@ const translations = {
     'add-carpool-offer-frequency': 'Wie oft bieten Sie diese Fahrt an?',
     once: 'einmalig',
     recurring: 'regelmäßig',
-    'add-phone-number': 'Bitte fügen Sie Ihre Telefonnummer hinzu:',
+    'add-email-address': 'Bitte geben Sie Ihre E-Mail-Adresse an:',
+    'email-info': 'Diese wird Interessenten NICHT angezeigt.',
+    'add-phone-number': 'Bitte geben Sie Ihre Telefonnummer an:',
     'phone-number-info': 'Diese wird Interessenten angezeigt.',
     'your-carpool-trip': 'Ihr Inserat',
     'carpool-success-info':

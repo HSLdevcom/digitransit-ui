@@ -159,8 +159,8 @@ function setUpCarpoolOffer() {
     function (req, res) {
       postCarpoolOffer(req.body).then(json => {
         const jsonResponse = {
-          id: json.tripID,
-          url: `https://live.ride2go.com/#/trip/${json.tripID}/{lang}`,
+          url: json.deeplink,
+          status: json.status,
         };
         res.set('Content-Type', 'application/json');
         res.send(JSON.stringify(jsonResponse));
