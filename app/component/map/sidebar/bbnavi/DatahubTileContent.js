@@ -35,6 +35,20 @@ function fetchJSON(url, init = {}) {
   });
 }
 
+function fetchGraphQL(url, query, variables, headers = {}) {
+  return fetchJSON(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...headers,
+    },
+    body: JSON.stringify({
+      query,
+      variables,
+    }),
+  });
+}
+
 function fetchQuery(operation, variables, config) {
   const { DATAHUB_O_AUTH, URL } = config;
 
@@ -54,13 +68,8 @@ function fetchQuery(operation, variables, config) {
     response => {
       const bearer = response.access_token;
 
-      return fetchJSON(`${URL.DATAHUB}/graphql`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${bearer}`,
-        },
-        body: JSON.stringify({ query: operation.text, variables }),
+      return fetchGraphQL(`${URL.DATAHUB}/graphql`, operation.text, variables, {
+        Authorization: `Bearer ${bearer}`,
       });
     },
   );
