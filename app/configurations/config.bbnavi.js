@@ -618,13 +618,13 @@ export default configMerger(walttiConfig, {
     geoJson: {
         layers: [
             // TMB Geo Daten der POIs aus der Kategorie 15 (Fahrradvermietung/-service)
-            {
-                name: {
-                    en: 'Tourismus-Marketing Brandenburg',
-                    de: 'Tourismus-Marketing Brandenburg',
-                },
-                url: 'https://datahub.bbnavi.de/export/point_of_interests/15.geojson'
-            },
+            // {
+            //     name: {
+            //         en: 'Tourismus-Marketing Brandenburg',
+            //         de: 'Tourismus-Marketing Brandenburg',
+            //     },
+            //     url: 'https://datahub.bbnavi.de/export/point_of_interests/15.geojson'
+            // },
             // bicycleinfrastructure includes shops, repair stations,
             // {
             //     name: {
