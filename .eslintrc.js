@@ -75,7 +75,7 @@ module.exports = {
           {
             ...graphqlTemplateStringsConfig,
             // eslint-disable-next-line global-require
-            schemaJson: require('./build/schema-bbnavi.json').data,
+            schemaJson: require('./build/schema-bbnavi-datahub.json').data,
           },
         ],
       },
