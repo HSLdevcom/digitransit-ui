@@ -45,7 +45,7 @@
     "add-theme": "node build/add-theme",
     "relay": "relay-compiler --src . --schema build/schema.json --exclude '**/node_modules/**' '**/__mocks__/**' '**/__generated__/**' 'app/component/map/sidebar/bbnavi/**'",
     "relay-bbnavi-datahub": "relay-compiler --src ./app/component/map/sidebar/bbnavi --schema build/schema-bbnavi-datahub.json --exclude '**/node_modules/**' '**/__mocks__/**' '**/__generated__/**'",
-    "relay-watch": "relay-compiler --watch --src . --schema build/schema.json --exclude '**/node_modules/**' '**/__mocks__/**' '**/__generated__/**' './app/component/map/sidebar/bbnavi/**'",
+    "relay-watch": "relay-compiler --watch --src . --schema build/schema.json --exclude '**/node_modules/**' '**/__mocks__/**' '**/__generated__/**' 'app/component/map/sidebar/bbnavi/**'",
     "digitransit-npm-publish": "lerna publish from-package --no-git-tag-version --no-push",
     "digitransit-npm-autopublish": "lerna publish from-package --no-git-tag-version --no-push -y --no-verify-access",
     "digitransit-search-util-docs": "node -r esm ./digitransit-search-util/scripts/generate-readmes",
