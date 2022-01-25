@@ -39,9 +39,10 @@ function fetchQuery(operation, variables, config) {
           Authorization: `Bearer ${bearer}`,
         },
         body: JSON.stringify({ query: operation.text, variables }),
-      }).then(response => {
-        return response.json();
       });
+    })
+    .then(response => {
+      return response.json();
     });
 }
 
@@ -54,7 +55,7 @@ const getEnvironment = config =>
   });
 
 const DatahubTileContent = ({ match }, { config }) => {
-  const { lat, lng, datahubId } = match.location.query;
+  const { datahubId } = match.location.query;
 
   return (
     <QueryRenderer
