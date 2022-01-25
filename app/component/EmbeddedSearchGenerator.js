@@ -1,0 +1,418 @@
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { FormattedMessage } from 'react-intl';
+import connectToStores from 'fluxible-addons-react/connectToStores';
+import DTAutosuggest from '@digitransit-component/digitransit-component-autosuggest';
+import EmbeddedSearch from './EmbeddedSearch';
+import { EMBEDDED_SEARCH_PATH } from '../util/path';
+import withSearchContext from './WithSearchContext';
+import { getRefPoint } from '../util/apiUtils';
+import withBreakpoint from '../util/withBreakpoint';
+
+const LocationSearch = withSearchContext(DTAutosuggest, true);
+
+const locationSearchTargets = [
+  'Locations',
+  'CurrentPosition',
+  'FutureRoutes',
+  'Stops',
+];
+const sources = ['Favourite', 'History', 'Datasource'];
+
+const EmbeddedSearchGenerator = (props, context) => {
+  const { breakpoint } = props;
+  const { config } = context;
+  const { colors, fontWeights } = config;
+  const MIN_WIDTH = 360;
+  const MAX_WIDTH = 640;
+
+  const [searchLang, setSearchLang] = useState('fi');
+  const [searchWidth, setSearchWidth] = useState(360);
+  const [searchModeRestriction, setSearchModeRestriction] = useState('');
+
+  const [prefilledLocation, setPrefilledLocation] = useState('');
+  const [searchOrigin, setSearchOrigin] = useState();
+  const [searchDestination, setSearchDestination] = useState();
+
+  const refPoint = getRefPoint(searchOrigin, searchDestination, {});
+
+  const value = location =>
+    (location?.properties && location.properties.label) ||
+    (location && location.gps && location.ready && 'Nykyinen sijainti') ||
+    '';
+
+  const searchProps = {
+    appElement: '#app',
+    icon: 'mapMarker',
+    autoFocus: true,
+    refPoint,
+    lang: context.lang,
+    sources,
+    targets: locationSearchTargets,
+    isMobile: breakpoint !== 'large',
+    color: colors.primary,
+    hoverColor: colors.hover,
+    fontWeights,
+    modeSet: config.iconModeSet,
+    modeIconColors: config.colors.modeIconColors,
+  };
+
+  const generateComponent = () => {
+    let locData = {};
+    if (prefilledLocation === 'origin') {
+      locData = {
+        lon1: searchOrigin?.geometry?.coordinates[0],
+        lat1: searchOrigin?.geometry?.coordinates[1],
+        address1: value(searchOrigin),
+      };
+    }
+    if (prefilledLocation === 'destination') {
+      locData = {
+        lon2: searchDestination?.geometry?.coordinates[0],
+        lat2: searchDestination?.geometry?.coordinates[1],
+        address2: value(searchDestination),
+      };
+    }
+    const mode = {}; // Mode background has absolute positioning in the embedded search so does not work here
+    /* mode[searchModeRestriction.substring(0, searchModeRestriction.length - 2)] =
+      'true'; */ const searchMatch = {
+      location: { query: { ...mode, ...locData } },
+    };
+    return <EmbeddedSearch match={searchMatch} />;
+  };
+
+  const generateComponentString = () => {
+    const currentURL = window.location.origin;
+    if (prefilledLocation === 'origin' && searchOrigin) {
+      return `<iframe width="${searchWidth}" height="250" style="border-radius: 10px;" src="${currentURL}/${searchLang}${EMBEDDED_SEARCH_PATH}?address1=${value(
+        searchOrigin,
+      )}&lon1=${searchOrigin?.geometry?.coordinates[0]}&lat1=${
+        searchOrigin?.geometry?.coordinates[1]
+      }&${searchModeRestriction}" title="Digitransit UI embedded search" scrolling="no" />`;
+    }
+    if (prefilledLocation === 'destination' && searchDestination) {
+      return `<iframe width="${searchWidth}" height="250" style="border-radius: 10px;" src="${currentURL}/${searchLang}${EMBEDDED_SEARCH_PATH}?address2=${value(
+        searchDestination,
+      )}&lon2=${searchDestination?.geometry?.coordinates[0]}&lat2=${
+        searchDestination?.geometry?.coordinates[1]
+      }&${searchModeRestriction}" title="Digitransit UI embedded search" scrolling="no" />`;
+    }
+    return `<iframe width="${searchWidth}" height="250" style="border-radius: 10px;" src="${currentURL}/${searchLang}${EMBEDDED_SEARCH_PATH}?${searchModeRestriction}" title="Digitransit UI embedded search" scrolling="no" />`;
+  };
+
+  const handleLangChange = event => {
+    if (event.target.value) {
+      setSearchLang(event.target.value);
+    }
+  };
+
+  const hanldeWidthChange = val => {
+    setSearchWidth(Number(val));
+  };
+
+  const hanldeWidthOnBlur = val => {
+    if (val < MIN_WIDTH) {
+      setSearchWidth(MIN_WIDTH);
+    }
+    if (val > MAX_WIDTH) {
+      setSearchWidth(MAX_WIDTH);
+    }
+  };
+
+  return (
+    <section id="mainContent" className="content">
+      <div
+        className={`embedded-search-generator ${
+          breakpoint !== 'large' ? 'mobile' : ''
+        }`}
+      >
+        <h1 id="embed-form-heading">
+          <FormattedMessage
+            id="embedded-search-component-heading"
+            defaultMessage="Embedded search component"
+          />
+        </h1>
+        <p>
+          <FormattedMessage
+            id="embedded-search-component-info"
+            defaultMessage="Create an embedded search component and embed it into your own service. The search button redirects to to the HSL services."
+          />
+        </p>
+        <form onSubmit={event => event.preventDefault()} action="">
+          <h2>
+            <FormattedMessage
+              id="embedded-search-form-heading"
+              defaultMessage="Embedded search settings"
+            />
+          </h2>
+
+          <fieldset id="lang">
+            <legend>
+              <h3>
+                <FormattedMessage
+                  id="choose-language"
+                  defaultMessage="Search language"
+                />
+              </h3>
+            </legend>
+
+            <label htmlFor="lang-fi">
+              <input
+                type="radio"
+                value="fi"
+                name="lang"
+                id="lang-fi"
+                onChange={event => handleLangChange(event)}
+                checked={searchLang === 'fi'}
+              />
+              <FormattedMessage id="finnish" defaultMessage="Finnish" />
+            </label>
+
+            <label htmlFor="lang-sv">
+              <input
+                type="radio"
+                value="sv"
+                name="lang"
+                id="lang-sv"
+                onChange={event => handleLangChange(event)}
+                checked={searchLang === 'sv'}
+              />
+              <FormattedMessage id="swedish" defaultMessage="Swedish" />
+            </label>
+
+            <label htmlFor="lang-en">
+              <input
+                type="radio"
+                value="en"
+                name="lang"
+                id="lang-en"
+                onChange={event => handleLangChange(event)}
+                checked={searchLang === 'en'}
+              />
+              <FormattedMessage id="english" defaultMessage="English" />
+            </label>
+          </fieldset>
+
+          <fieldset id="width">
+            <legend>
+              <h3>
+                <FormattedMessage
+                  id="choose-width-component"
+                  defaultMessage="Width of the component"
+                />{' '}
+                ({MIN_WIDTH} - {MAX_WIDTH} px)
+              </h3>
+            </legend>
+
+            <label htmlFor="embedded-search-width">
+              <input
+                type="number"
+                value={searchWidth}
+                name="embedded-search-width"
+                id="embedded-search-width"
+                min={MIN_WIDTH}
+                max={MAX_WIDTH}
+                onChange={event => {
+                  hanldeWidthChange(event.target.value);
+                }}
+                onBlur={event => {
+                  hanldeWidthOnBlur(event.target.value);
+                }}
+              />
+              <span> px x 250px</span>
+            </label>
+          </fieldset>
+
+          <fieldset id="mode-restrictions">
+            <legend>
+              <h3>
+                <FormattedMessage
+                  id="choose-mode"
+                  defaultMessage="mode of transport"
+                />
+              </h3>
+            </legend>
+
+            <label htmlFor="mode-all">
+              <input
+                type="radio"
+                value=""
+                name="mode"
+                id="mode-all"
+                onChange={event => setSearchModeRestriction(event.target.value)}
+                checked={searchModeRestriction === ''}
+                invalid
+              />
+              <FormattedMessage id="all" defaultMessage="All" />
+            </label>
+
+            <label htmlFor="mode-bike">
+              <input
+                type="radio"
+                value="bikeOnly=1"
+                name="mode"
+                id="mode-bike"
+                onChange={event => setSearchModeRestriction(event.target.value)}
+                checked={searchModeRestriction === 'bikeOnly=1'}
+              />
+              <FormattedMessage id="bike-only" defaultMessage="Bike only" />
+            </label>
+
+            <label htmlFor="mode-walk">
+              <input
+                type="radio"
+                value="walkOnly=1"
+                name="mode"
+                id="mode-walk"
+                onChange={event => setSearchModeRestriction(event.target.value)}
+                checked={searchModeRestriction === 'walkOnly=1'}
+              />
+              <FormattedMessage id="walk-only" defaultMessage="Walk only" />
+            </label>
+          </fieldset>
+
+          <fieldset id="origin-and-destination">
+            <legend>
+              <h3>
+                <FormattedMessage
+                  id="origin-and-destination"
+                  defaultMessage="Origin and destination"
+                />
+              </h3>
+            </legend>
+
+            <label htmlFor="choose-freely">
+              <input
+                type="radio"
+                value=""
+                name="origin-and-destination"
+                id="choose-freely"
+                onChange={event => setPrefilledLocation(event.target.value)}
+                checked={prefilledLocation === ''}
+              />
+              <FormattedMessage
+                id="choose-freely"
+                defaultMessage="Choose freely"
+              />
+            </label>
+
+            <label htmlFor="origin">
+              <input
+                type="radio"
+                value="origin"
+                name="origin-and-destination"
+                id="origin"
+                onChange={event => {
+                  setPrefilledLocation(event.target.value);
+                }}
+                checked={prefilledLocation === 'origin'}
+              />
+              <FormattedMessage
+                id="destination-defined"
+                defaultMessage="Origin defined"
+              />
+            </label>
+            {prefilledLocation === 'origin' && (
+              <div className="location-search-wrapper">
+                <LocationSearch
+                  targets={locationSearchTargets}
+                  id="origin"
+                  placeholder="search-origin-index"
+                  className="origin-search"
+                  onSelect={setSearchOrigin}
+                  value={value(searchOrigin)}
+                  {...searchProps}
+                />
+              </div>
+            )}
+
+            <label htmlFor="destination">
+              <input
+                type="radio"
+                value="destination"
+                name="origin-and-destination"
+                id="destination"
+                onChange={event => {
+                  setPrefilledLocation(event.target.value);
+                }}
+                checked={prefilledLocation === 'destination'}
+              />
+              <FormattedMessage
+                id="destination-defined"
+                defaultMessage="Destination defined"
+              />
+            </label>
+            {prefilledLocation === 'destination' && (
+              <div className="location-search-wrapper">
+                <LocationSearch
+                  targets={locationSearchTargets}
+                  id="destination"
+                  placeholder="search-destination-index"
+                  className="destination-search"
+                  onSelect={setSearchDestination}
+                  value={value(searchDestination)}
+                  {...searchProps}
+                />
+              </div>
+            )}
+          </fieldset>
+
+          <div
+            className="embed-preview"
+            aria-disabled
+            aria-hidden
+            tabIndex="-1"
+          >
+            <h3>
+              <FormattedMessage id="preview" defaultMessage="Preview" />
+            </h3>
+            <div
+              className="embedded-search-container"
+              id="embedded-search-container-id"
+              style={{
+                height: 250,
+                width: searchWidth,
+                minWidth: MIN_WIDTH,
+                maxWidth: MAX_WIDTH,
+              }}
+            >
+              {generateComponent()}
+            </div>
+          </div>
+
+          <div>
+            <h3>
+              <FormattedMessage id="copy-code" defaultMessage="Copy code" />
+            </h3>
+
+            <textarea
+              id="code"
+              name="code"
+              rows="5"
+              cols="50"
+              value={generateComponentString()}
+              readOnly
+            />
+          </div>
+        </form>
+      </div>
+    </section>
+  );
+};
+
+EmbeddedSearchGenerator.propTypes = {
+  breakpoint: PropTypes.string,
+};
+
+EmbeddedSearchGenerator.contextTypes = {
+  config: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
+};
+
+export default connectToStores(
+  withBreakpoint(EmbeddedSearchGenerator),
+  ['PreferencesStore'],
+  context => ({
+    lang: context.getStore('PreferencesStore').getLanguage(),
+  }),
+);

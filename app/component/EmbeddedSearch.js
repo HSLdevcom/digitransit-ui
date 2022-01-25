@@ -64,6 +64,24 @@ const EmbeddedSearch = (props, context) => {
     defaultDestinationExists ? defaultDestination : {},
   );
 
+  useEffect(() => {
+    setOrigin(
+      useCurrentLocation
+        ? {
+            type: 'CurrentLocation',
+            status: 'no-location',
+            address: intl.formatMessage({
+              id: 'own-position',
+              defaultMessage: 'Own Location',
+            }),
+          }
+        : defaultOriginExists
+        ? defaultOrigin
+        : {},
+    );
+    setDestination(defaultDestinationExists ? defaultDestination : {});
+  }, [query]);
+
   const color = colors.primary;
   const hoverColor = colors.hover;
   const appElement = 'embedded-root';
