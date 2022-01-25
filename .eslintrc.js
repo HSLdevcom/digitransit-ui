@@ -1,3 +1,10 @@
+const graphqlTemplateStringsConfig = {
+  env: 'relay',
+  // eslint-disable-next-line global-require
+  schemaJson: require('./build/schema.json').data,
+  tagName: 'graphql',
+};
+
 module.exports = {
   parser: 'babel-eslint',
   extends: [
@@ -44,15 +51,7 @@ module.exports = {
     'compat/compat': 'warn',
 
     // graphql
-    'graphql/template-strings': [
-      'error',
-      {
-        env: 'relay',
-        // eslint-disable-next-line global-require
-        schemaJson: require('./build/schema.json').data,
-        tagName: 'graphql',
-      },
-    ],
+    'graphql/template-strings': ['error', graphqlTemplateStringsConfig],
 
     // prettier
     'prettier/prettier': [
@@ -65,6 +64,23 @@ module.exports = {
       },
     ],
   },
+  overrides: [
+    {
+      // The files within app/component/map/sidebar/bbnavi use a separate GraphQL endpoint,
+      // so they must be linted with a different schema.
+      files: ['app/component/map/sidebar/bbnavi/*.js'],
+      rules: {
+        'graphql/template-strings': [
+          'error',
+          {
+            ...graphqlTemplateStringsConfig,
+            // eslint-disable-next-line global-require
+            schemaJson: require('./build/schema-bbnavi-datahub.json').data,
+          },
+        ],
+      },
+    },
+  ],
   env: {
     browser: true,
   },
