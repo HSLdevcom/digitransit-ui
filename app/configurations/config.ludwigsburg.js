@@ -11,7 +11,7 @@ const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || "https://photon.sta
 const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL =
     process.env.STATIC_MESSAGE_URL ||
-    '/assets/messages/message.ludwigsburg.json';
+    '/assets/messages/message.ludwigsburgold.json';
 
 const parentConfig = require('./config.hbnext.js').default;
 
@@ -235,6 +235,17 @@ export default configMerger(parentConfig, {
     // adding assets/geoJson/hb-layers layers
     geoJson: {
         layers: [
+            // bicycleinfrastructure includes shops, repair stations,
+            {
+                name: {
+                    fi: '',
+                    en: 'Service stations and stores',
+                    de: "Radservice Stationen",
+                },
+                url: 'https://node21-iot.apps.okd.swlb.de/radservice.json',
+                icon: 'icon-icon_bike_repair',
+                isOffByDefault: true,
+            },
             // Nette Toilette layer
             {
                 name: {
@@ -242,10 +253,46 @@ export default configMerger(parentConfig, {
                     en: 'Public Toilets',
                     de: 'Nette Toilette',
                 },
-                url: 'https://die-nette-toilette.de/verwaltung/application/?action=getToiletsJSON&apikey=a9llu42&webcode=7OWOBO&ort_id=95',
+                url: "https://node21-iot.apps.okd.swlb.de/nettetoilette.json",
+                icon: 'icon-icon_public_toilets',
                 isOffByDefault: true,
             },
-        ],
+            // LoRaWan map layer
+            {
+                name: {
+                    fi: '',
+                    en: 'LoRaWAN Gateways',
+                    de: 'LoRaWAN Gateways',
+                },
+                url: "https://node21-iot.apps.okd.swlb.de/lora.json",
+                icon: 'icon-icon_gateways',
+                isOffByDefault: true,
+            },
+            // Parking zones layer
+            {
+                name: {
+                  fi: '',
+                  en: 'Parking zones',
+                  de: 'Parkzonen',
+                },
+                category: 'car',
+                url: 'https://node21-iot.apps.okd.swlb.de/parkzonen.json',
+                icon: 'icon-icon_open_carpark',
+                isOffByDefault: false,
+            },
+            // Bicycle network layer
+            {
+                name: {
+                  fi: '',
+                  en: "Bicycle network",
+                  de: 'Radnetz Ludwigsburg',
+                },
+                category: 'bicycle',
+                url: 'https://node21-iot.apps.okd.swlb.de/radwege.json',
+                icon: 'icon-icon_bike_repair',
+                isOffByDefault: false,
+            },
+	],
     },
     staticMessagesUrl: STATIC_MESSAGE_URL,
 
