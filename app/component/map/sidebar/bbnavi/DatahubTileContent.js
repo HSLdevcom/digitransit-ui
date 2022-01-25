@@ -25,7 +25,7 @@ function fetchJSON(url, init = {}) {
       error.response = response;
       throw error;
     }
-    if (response.headers['Content-Type'] !== 'application/json') {
+    if (!response.headers.get('Content-Type').includes('application/json')) {
       const error = new Error(`${url}: unexpected Content-Type`);
       error.url = response.url;
       error.response = response;
