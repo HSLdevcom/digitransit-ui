@@ -30,7 +30,7 @@ import {
   PREFIX_BIKE_PARKS,
   PREFIX_DYNAMIC_PARKING_LOTS,
   PREFIX_ROAD_WEATHER,
-  PREFIX_DATAHUB_TILE,
+  PREFIX_DATAHUB_POI,
 } from '../../../util/path';
 import SelectVehicleContainer from './SelectVehicleContainer';
 
@@ -468,19 +468,21 @@ class TileLayerContainer extends GridLayer {
           );
           showPopup = false;
         } else if (this.state.selectableTargets[0].layer === 'datahubTiles') {
-          const datahubId = this.state.selectableTargets[0].feature.id;
           const { lat, lng } = this.state.coords;
+          const datahubId = this.state.selectableTargets[0].feature.id;
+          const name = this.state.selectableTargets[0].feature.properties?.name;
           const params = pickBy(
             {
               lat,
               lng,
               datahubId,
+              name,
             },
             value => value !== undefined,
           );
           this.setState({ selectableTargets: undefined });
           this.context.router.push(
-            `/${PREFIX_DATAHUB_TILE}?${new URLSearchParams(params).toString()}`,
+            `/${PREFIX_DATAHUB_POI}?${new URLSearchParams(params).toString()}`,
           );
           showPopup = false;
         }

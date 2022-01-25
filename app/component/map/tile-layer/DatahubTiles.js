@@ -29,9 +29,7 @@ export default class DatahubTiles {
       return res.arrayBuffer().then(
         buf => {
           const vt = new VectorTile(new Protobuf(buf));
-          this.features = [];
-
-          const layerData = vt.layers['public.geo_locations'] || { length: 0 };
+          const layerData = vt.layers['public.poi_coords'] || { length: 0 };
           const { length } = layerData;
 
           if (layerData != null) {

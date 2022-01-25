@@ -19,7 +19,7 @@ import {
   PREFIX_BIKE_PARKS,
   PREFIX_DYNAMIC_PARKING_LOTS,
   PREFIX_ROAD_WEATHER,
-  PREFIX_DATAHUB_TILE,
+  PREFIX_DATAHUB_POI,
   PREFIX_GEOJSON,
   LOCAL_STORAGE_EMITTER_PATH,
   createReturnPath,
@@ -158,7 +158,7 @@ export default config => {
           ),
         }}
       </Route>
-      <Route path={`/${PREFIX_DATAHUB_TILE}`}>
+      <Route path={`/${PREFIX_DATAHUB_POI}`}>
         {{
           content: (
             <Route

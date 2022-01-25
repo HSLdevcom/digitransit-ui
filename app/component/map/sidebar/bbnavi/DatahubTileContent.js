@@ -89,8 +89,8 @@ const DatahubTileContent = ({ match }, { config }) => {
   return (
     <QueryRenderer
       query={graphql`
-        query DatahubTileContentQuery($geoLocationId: ID!) {
-          pointOfInterestByGeoLocation(geoLocationId: $geoLocationId) {
+        query DatahubTileContentQuery($datahubId: ID!) {
+          pointOfInterest(id: $datahubId) {
             id
             name
             category {
@@ -130,10 +130,10 @@ const DatahubTileContent = ({ match }, { config }) => {
           }
         }
       `}
-      variables={{ geoLocationId: datahubId }}
+      variables={{ datahubId }}
       environment={getEnvironment(config)}
       render={({ props }) => {
-        const data = props?.pointOfInterestByGeoLocation;
+        const data = props?.pointOfInterest;
         const loading = !data;
 
         if (loading) {
@@ -161,7 +161,7 @@ DatahubTileContent.displayName = 'DatahubTileContent';
 
 DatahubTileContent.propTypes = {
   match: PropTypes.object.isRequired,
-  pointOfInterestByGeoLocation: PropTypes.object,
+  pointOfInterest: PropTypes.object,
 };
 
 DatahubTileContent.contextTypes = {
