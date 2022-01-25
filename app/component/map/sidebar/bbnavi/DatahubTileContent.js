@@ -9,13 +9,38 @@ import Contact from './section/Contact';
 import OpeningHours from './section/OpeningHours';
 import DataProvider from './section/DataProvider';
 
+function fetchJSON(url, init = {}) {
+  return fetch(url, {
+    ...init,
+    headers: {
+      Accept: 'application/json',
+      ...(init.headers || {}),
+    },
+  }).then(response => {
+    if (!response.ok) {
+      const error = new Error(
+        `${url}: ${response.status} ${response.statusText}`,
+      );
+      error.url = response.url;
+      error.response = response;
+      throw error;
+    }
+    if (response.headers['Content-Type'] !== 'application/json') {
+      const error = new Error(`${url}: unexpected Content-Type`);
+      error.url = response.url;
+      error.response = response;
+      throw error;
+    }
+    return response.json();
+  });
+}
+
 function fetchQuery(operation, variables, config) {
   const { DATAHUB_O_AUTH, URL } = config;
 
   const fetchBearerObj = {
     method: 'POST',
     headers: {
-      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -25,14 +50,11 @@ function fetchQuery(operation, variables, config) {
     }),
   };
 
-  return fetch(`${URL.DATAHUB}/oauth/token`, fetchBearerObj)
-    .then(response => {
-      return response.json();
-    })
-    .then(response => {
+  return fetchJSON(`${URL.DATAHUB}/oauth/token`, fetchBearerObj).then(
+    response => {
       const bearer = response.access_token;
 
-      return fetch(`${URL.DATAHUB}/graphql`, {
+      return fetchJSON(`${URL.DATAHUB}/graphql`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,10 +62,8 @@ function fetchQuery(operation, variables, config) {
         },
         body: JSON.stringify({ query: operation.text, variables }),
       });
-    })
-    .then(response => {
-      return response.json();
-    });
+    },
+  );
 }
 
 const getEnvironment = config =>
