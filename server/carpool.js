@@ -1,86 +1,59 @@
 const fetch = require('node-fetch');
-const moment = require('moment');
-
-const calulateWeekdays = days => {
-  const result = {};
-  Object.keys(days).forEach(weekday => {
-    const value = days[weekday];
-    const bool = value ? '1' : '0';
-    const upperCasedWeekday =
-      weekday.charAt(0).toUpperCase() + weekday.slice(1);
-    result[upperCasedWeekday] = bool;
-  });
-  return result;
-};
-
-const calculateReoccur = options => {
-  if (options.time.type === 'recurring') {
-    return calulateWeekdays(options.time.weekdays);
-  }
-  return {};
-};
-
-const calculateDate = options => {
-  if (options.time.date) {
-    return options.time.date.replace(/-/g, '');
-  }
-  return moment().format('YYYYMMDD');
-};
 
 const postCarpoolOffer = options => {
   const body = {
-    Contactmobile: options.phoneNumber,
-    Currency: 'EUR',
-    Enterdate: moment().unix(),
-    IDuser: '830d39a4-3584-6f04-a178-25176353b359',
-    Places: '3',
-    Prefgender: 'g',
-    Privacy: {
-      Name: '1',
-      Mobile: '1',
-      Email: '1',
-      Landline: '1',
-      NumberPlate: '1',
-      Car: '1',
-    },
-    Relevance: '10',
-    Reoccur: calculateReoccur(options),
-    Routings: [
+    stops: [
       {
-        RoutingID: null,
-        Origin: {
-          Address: options.origin.label,
-          CountryName: 'Deutschland',
-          CountryCode: 'DE',
-          Latitude: options.origin.lat,
-          Longitude: options.origin.lon,
+        address: options.origin.label,
+        departTime: options.time.departureTime,
+        coordinates: {
+          lat: Math.round(options.origin.lat * 100000) / 100000,
+          lon: Math.round(options.origin.lon * 100000) / 100000,
         },
-        Destination: {
-          Address: options.destination.label,
-          CountryName: 'Deutschland',
-          CountryCode: 'DE',
-          Latitude: options.destination.lat,
-          Longitude: options.destination.lon,
+      },
+      {
+        address: options.destination.label,
+        coordinates: {
+          lat: Math.round(options.destination.lat * 100000) / 100000,
+          lon: Math.round(options.destination.lon * 100000) / 100000,
         },
-        RoutingIndex: 0,
       },
     ],
-    Smoker: 'no',
-    Startdate: calculateDate(options),
-    Starttime: options.time.departureTime.replace(':', ''),
-    Triptype: 'offer',
-    Associations: null,
-    ExclusiveAssociations: null,
+    departTime: options.time.departureTime,
+    email: options.email,
+    phoneNumber: options.phoneNumber,
+    acceptTerms: true,
   };
+
+  if (options.time.date) {
+    body.departDate = options.time.date;
+  } else {
+    const WEEKDAYS = [
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
+      'sunday',
+    ];
+    const offerWeekdays = [];
+    WEEKDAYS.forEach(weekday => {
+      if (options.time.weekdays[weekday]) {
+        offerWeekdays.push(weekday);
+      }
+    });
+    body.weekdays = offerWeekdays;
+  }
 
   const headers = {
-    apikey: process.env.FAHRGEMEINSCHAFT_API_KEY,
-    authkey: process.env.FAHRGEMEINSCHAFT_AUTH_KEY,
-    'content-type': 'application/json',
+    'X-API-Key': process.env.FAHRGEMEINSCHAFT_API_KEY,
+    'Content-Type': 'application/json',
   };
+
   const bodyContent = JSON.stringify(body);
 
-  return fetch('https://harveydent.api.pendlernetz.de/trip', {
+  return fetch('https://fahrgemeinschaft.de/api/trip', {
     method: 'post',
     body: bodyContent,
     headers,

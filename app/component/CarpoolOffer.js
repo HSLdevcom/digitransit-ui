@@ -73,6 +73,10 @@ export default class CarpoolOffer extends React.Component {
     this.setState({ phoneNumber: event.target.value });
   };
 
+  updateEmail = event => {
+    this.setState({ email: event.target.value });
+  };
+
   finishForm = e => {
     e.preventDefault();
 
@@ -90,10 +94,12 @@ export default class CarpoolOffer extends React.Component {
         lon: to.lon,
       },
       phoneNumber: this.state.phoneNumber,
+      email: this.state.email,
       time: {
         type: this.state.isRegularly ? 'recurring' : 'one-off',
         departureTime: new Moment(this.props.start).format('HH:mm'),
       },
+      acceptTerms: true,
     };
 
     if (this.state.isRegularly) {
@@ -275,6 +281,26 @@ export default class CarpoolOffer extends React.Component {
         <div className="carpool-checkbox">
           {this.allWeekdays.map(day => this.renderCheckbox(day, isRegularly))}
         </div>
+        <label className="phone-label" htmlFor="email">
+          <FormattedMessage
+            id="add-email-address"
+            defaultMessage="Add your email address"
+          />
+          <input
+            type="email"
+            max="60"
+            id="email"
+            name="email"
+            placeholder="mein.name@mail.de"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+            required
+            onChange={this.updateEmail}
+          />
+          <FormattedMessage
+            id="email-info"
+            defaultMessage="This will be not be shown to people interested in the ride."
+          />
+        </label>
         <label className="phone-label" htmlFor="phone">
           <FormattedMessage
             id="add-phone-number"
@@ -298,6 +324,7 @@ export default class CarpoolOffer extends React.Component {
         </label>
         <div className="gdpr-checkbox">
           <Checkbox
+            id="GDPR"
             checked={GDPR}
             onChange={() => {
               this.setState({ GDPR: !GDPR });
