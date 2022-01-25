@@ -254,6 +254,12 @@ export default {
       '<a tabIndex="-1" href="http://osm.org/copyright">© OpenStreetMap</a>', // DT-3470, DT-3397
 
     useModeIconsInNonTileLayer: false,
+    // areBounds is for keeping map and user inside given area
+    // Finland + Stockholm
+    areaBounds: {
+      corner1: [70.25, 32.25],
+      corner2: [58.99, 17.75],
+    },
   },
 
   stopCard: {

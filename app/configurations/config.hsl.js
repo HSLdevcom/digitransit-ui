@@ -445,6 +445,12 @@ export default {
     showScaleBar: true, // DT-3470, DT-3397
     attribution:
       '<a tabindex="-1" href="http://osm.org/copyright">© OpenStreetMap</a>', // DT-3470, DT-3397
+    // areBounds is for keeping map and user inside given area
+    // HSL region + Lahti 
+    areaBounds: {
+      corner1: [61.21, 25.73],
+      corner2: [59.69, 23.69],
+    },
   },
 
   useTicketIcons: true,
