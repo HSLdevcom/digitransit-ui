@@ -4,8 +4,7 @@ import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = 'turku';
 const APP_TITLE = 'Fölin reittiopas';
-const APP_DESCRIPTION =
-  'Fölin reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi.';
+const APP_DESCRIPTION = 'Turun seudun joukkoliikenteen eli Fölin reittiopas';
 
 const walttiConfig = require('./config.waltti').default;
 
