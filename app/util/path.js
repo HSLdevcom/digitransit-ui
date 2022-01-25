@@ -20,7 +20,7 @@ export const PREFIX_BIKE_PARKS = 'fahrradparkplaetze';
 export const PREFIX_CHARGING_STATIONS = 'ladestationen';
 export const PREFIX_DYNAMIC_PARKING_LOTS = 'parkplaetze';
 export const PREFIX_ROAD_WEATHER = 'strassenwetter';
-export const PREFIX_DATAHUB_TILE = 'datahub-tile';
+export const PREFIX_DATAHUB_POI = 'datahub-poi';
 export const PREFIX_GEOJSON = 'geojson';
 export const stopUrl = id => id;
 export const LOCAL_STORAGE_EMITTER_PATH = '/local-storage-emitter';
