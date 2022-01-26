@@ -182,6 +182,20 @@ export default class Map extends React.Component {
       }
     }
 
+    // When this option is set, the map restricts the view to the given geographical bounds,
+    // bouncing the user back if the user tries to pan outside the view.
+    const mapAreaBounds = L.latLngBounds(
+      L.latLng(
+        config.map.areaBounds.corner1[0],
+        config.map.areaBounds.corner1[1],
+      ),
+      L.latLng(
+        config.map.areaBounds.corner2[0],
+        config.map.areaBounds.corner2[1],
+      ),
+    );
+    naviProps.maxBounds = mapAreaBounds;
+
     if (naviProps.bounds || (naviProps.center && naviProps.zoom)) {
       this.ready = true;
     }
