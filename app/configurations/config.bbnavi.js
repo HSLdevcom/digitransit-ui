@@ -242,8 +242,8 @@ export default configMerger(walttiConfig, {
             'barshare-other': {
                 icon: 'cargobike',
                 name: {
-                    de: 'BARshare Car',
-                    en: 'BARshare Car',
+                    de: 'BARshare Lastenrad',
+                    en: 'BARshare cargo bike',
                 },
                 type: 'cargo-bike',
                 url: {
