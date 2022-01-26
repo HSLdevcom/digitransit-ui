@@ -182,7 +182,7 @@ export default class Map extends React.Component {
       }
     }
 
-    // When this option is set, the map restricts the view to the given geographical bounds, 
+    // When this option is set, the map restricts the view to the given geographical bounds,
     // bouncing the user back if the user tries to pan outside the view.
     const mapAreaBounds = L.latLngBounds(
       L.latLng(
