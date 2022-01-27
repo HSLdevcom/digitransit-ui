@@ -1,4 +1,4 @@
-import flatten from 'lodash/flatten';
+import flatMap from 'lodash/flatMap';
 import omit from 'lodash/omit';
 import L from 'leaflet';
 import { isEqual, some } from 'lodash';
@@ -217,15 +217,13 @@ class TileContainer {
         (point[1] * this.scaleratio) % this.tileSize,
       ];
 
-      features = flatten(
-        this.layers.map(
-          layer =>
-            layer.features &&
-            layer.features.map(feature => ({
+      features = flatMap(this.layers, layer =>
+        layer.features
+          ? layer.features.map(feature => ({
               layer: layer.constructor.getName(),
               feature,
-            })),
-        ),
+            }))
+          : [],
       );
       features = projectedVehicles.concat(features);
 
