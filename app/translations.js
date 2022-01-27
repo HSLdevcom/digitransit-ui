@@ -1075,6 +1075,7 @@ const translations = {
     'direction': 'To ',
     'car-sharing-start-using': 'Book a shared car',
     'car-sharing-start-using-info': 'More information at',
+    'car-sharing-availability': 'Shared cars available',
     'regiorad-start-using': 'Book a rental bike',
     'stadtrad-start-using': 'Book a rental bike',
     'cargo-bike': 'Cargo bike',
