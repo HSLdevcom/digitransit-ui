@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTAutosuggest from '@digitransit-component/digitransit-component-autosuggest';
 import EmbeddedSearch from './EmbeddedSearch';
@@ -8,6 +8,7 @@ import { EMBEDDED_SEARCH_PATH } from '../util/path';
 import withSearchContext from './WithSearchContext';
 import { getRefPoint } from '../util/apiUtils';
 import withBreakpoint from '../util/withBreakpoint';
+import { isBrowser } from '../util/browser';
 
 const LocationSearch = withSearchContext(DTAutosuggest, true);
 
@@ -20,8 +21,11 @@ const locationSearchTargets = [
 const sources = ['Favourite', 'History', 'Datasource'];
 
 const EmbeddedSearchGenerator = (props, context) => {
+  if (!isBrowser) {
+    return false;
+  }
   const { breakpoint } = props;
-  const { config } = context;
+  const { config, intl, lang } = context;
   const { colors, fontWeights } = config;
   const MIN_WIDTH = 360;
   const MAX_WIDTH = 640;
@@ -36,17 +40,21 @@ const EmbeddedSearchGenerator = (props, context) => {
 
   const refPoint = getRefPoint(searchOrigin, searchDestination, {});
 
-  const value = location =>
-    (location?.properties && location.properties.label) ||
-    (location && location.gps && location.ready && 'Nykyinen sijainti') ||
-    '';
+  const value = location => {
+    return (
+      (location?.properties && location.properties.label) ||
+      (location?.type === 'CurrentLocation' &&
+        intl.formatMessage({ id: 'own-position' })) ||
+      ''
+    );
+  };
 
   const searchProps = {
     appElement: '#app',
     icon: 'mapMarker',
     autoFocus: true,
     refPoint,
-    lang: context.lang,
+    lang,
     sources,
     targets: locationSearchTargets,
     isMobile: breakpoint !== 'large',
@@ -73,10 +81,11 @@ const EmbeddedSearchGenerator = (props, context) => {
         address2: value(searchDestination),
       };
     }
-    const mode = {}; // Mode background has absolute positioning in the embedded search so does not work here
-    /* mode[searchModeRestriction.substring(0, searchModeRestriction.length - 2)] =
-      'true'; */ const searchMatch = {
-      location: { query: { ...mode, ...locData } },
+    const mode = {};
+    mode[searchModeRestriction.substring(0, searchModeRestriction.length - 2)] =
+      'true';
+    const searchMatch = {
+      location: { query: { ...mode, ...locData, lang: searchLang } },
     };
     return <EmbeddedSearch match={searchMatch} />;
   };
@@ -84,20 +93,20 @@ const EmbeddedSearchGenerator = (props, context) => {
   const generateComponentString = () => {
     const currentURL = window.location.origin;
     if (prefilledLocation === 'origin' && searchOrigin) {
-      return `<iframe width="${searchWidth}" height="250" style="border-radius: 10px;" src="${currentURL}/${searchLang}${EMBEDDED_SEARCH_PATH}?address1=${value(
+      return `<iframe width="${searchWidth}" height="250" style="border-radius: 10px;" src="${currentURL}${EMBEDDED_SEARCH_PATH}?address1=${value(
         searchOrigin,
       )}&lon1=${searchOrigin?.geometry?.coordinates[0]}&lat1=${
         searchOrigin?.geometry?.coordinates[1]
-      }&${searchModeRestriction}" title="Digitransit UI embedded search" scrolling="no" />`;
+      }&${searchModeRestriction}&lang=${searchLang}" title="Digitransit UI embedded search" scrolling="no" />`;
     }
     if (prefilledLocation === 'destination' && searchDestination) {
-      return `<iframe width="${searchWidth}" height="250" style="border-radius: 10px;" src="${currentURL}/${searchLang}${EMBEDDED_SEARCH_PATH}?address2=${value(
+      return `<iframe width="${searchWidth}" height="250" style="border-radius: 10px;" src="${currentURL}${EMBEDDED_SEARCH_PATH}?address2=${value(
         searchDestination,
       )}&lon2=${searchDestination?.geometry?.coordinates[0]}&lat2=${
         searchDestination?.geometry?.coordinates[1]
-      }&${searchModeRestriction}" title="Digitransit UI embedded search" scrolling="no" />`;
+      }&${searchModeRestriction}&lang=${searchLang}" title="Digitransit UI embedded search" scrolling="no" />`;
     }
-    return `<iframe width="${searchWidth}" height="250" style="border-radius: 10px;" src="${currentURL}/${searchLang}${EMBEDDED_SEARCH_PATH}?${searchModeRestriction}" title="Digitransit UI embedded search" scrolling="no" />`;
+    return `<iframe width="${searchWidth}" height="250" style="border-radius: 10px;" src="${currentURL}${EMBEDDED_SEARCH_PATH}?${searchModeRestriction}&lang=${searchLang}" title="Digitransit UI embedded search" scrolling="no" />`;
   };
 
   const handleLangChange = event => {
@@ -228,7 +237,7 @@ const EmbeddedSearchGenerator = (props, context) => {
               <h3>
                 <FormattedMessage
                   id="choose-mode"
-                  defaultMessage="mode of transport"
+                  defaultMessage="Mode of transport"
                 />
               </h3>
             </legend>
@@ -407,12 +416,15 @@ EmbeddedSearchGenerator.propTypes = {
 EmbeddedSearchGenerator.contextTypes = {
   config: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
+  intl: intlShape.isRequired,
 };
 
 export default connectToStores(
   withBreakpoint(EmbeddedSearchGenerator),
   ['PreferencesStore'],
   context => ({
-    lang: context.getStore('PreferencesStore').getLanguage(),
+    lang: isBrowser
+      ? context.getStore('PreferencesStore').getLanguage()
+      : undefined,
   }),
 );

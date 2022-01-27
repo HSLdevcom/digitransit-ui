@@ -47,6 +47,21 @@
             border-radius: 10px;
             border: 1px solid gray;
             background: white;
+            .control-panel-container {
+                // So that the preview autosuggest inputs dont appear on top of the origin/destination selection
+                input[id=origin], input[id=destination] {
+                    z-index: -10;
+                }
+                & > div:first-of-type > div:first-of-type :nth-of-type(2) > div:first-of-type {
+                    z-index: 1;
+                 }
+                & > div:first-of-type > div:first-of-type :nth-of-type(3) {
+                    z-index: 0;
+                }
+                & > div:first-of-type > div:first-of-type :nth-of-type(5) > div:first-of-type {
+                    z-index: 1;
+                }
+            }
         }
     }
 
