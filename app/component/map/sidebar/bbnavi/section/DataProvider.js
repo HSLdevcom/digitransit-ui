@@ -10,10 +10,12 @@ const DataProvider = ({ dataProvider }) => {
   return (
     <div>
       <div className="divider" />
-      <div className="text-light sidebar-info-container">
-        <FormattedMessage id="datasources" defaultMessage="data sources" />{' '}
-        {`: ${dataProvider.description}`}
-      </div>
+      {!!dataProvider.description && (
+        <div className="text-light sidebar-info-container">
+          <FormattedMessage id="datasource" defaultMessage="data source" />{' '}
+          {`: ${dataProvider.description}`}
+        </div>
+      )}
       <div
         className="data-provider-notice"
         dangerouslySetInnerHTML={{ __html: dataProvider.notice }}

@@ -44,6 +44,7 @@ const translations = {
     'cycle-distance-duration': 'Cykle {duration} ({distance})',
     'cyclewalk-distance-duration': 'Tril cyklen {duration} ({distance})',
     datasources: 'Datakilder',
+    datasource: 'Datakilde',
     delete: 'Slet',
     'departure-time-in-minutes': '{minutes} m',
     departures: 'Afgange',
@@ -475,6 +476,7 @@ const translations = {
     'cyclewalk-distance-duration': 'Fahrrad schieben: {duration} ({distance})',
     'datahub-poi': 'Datahub POI',
     datasources: 'Datenquellen',
+    datasource: 'Datenquelle',
     date: 'Datum',
     delete: 'Löschen',
     'departure-is-canceled': '{modeInfo} {from}–{to} at {time} fällt aus',
@@ -1272,6 +1274,7 @@ const translations = {
     // eslint-disable-next-line sort-keys
     currentposition: 'Current position',
     datasources: 'Data sources',
+    datasource: 'Data source',
     date: 'Date',
     day: 'Day',
     delete: 'Delete',
@@ -1918,6 +1921,7 @@ const translations = {
     'cyclewalk-distance-duration':
       'Anda junto a tu bici {duration} ({distance})',
     datasources: 'Fuentes de datos',
+    datasource: 'Fuente de datos',
     date: 'Fecha',
     delete: 'Eliminar',
     'departure-time-in-minutes': '{minutes} min',
@@ -2307,6 +2311,7 @@ const translations = {
     // eslint-disable-next-line sort-keys
     currentposition: 'Tämänhetkinen sijainti',
     datasources: 'Tietolähteet',
+    datasource: 'Tietolähde',
     date: 'Päivämäärä',
     day: 'Päivä',
     delete: 'Poista',
@@ -2923,6 +2928,7 @@ const translations = {
     'cyclewalk-distance-duration':
       'Avancer pied à terre sur {duration} ({distance})',
     datasources: 'Sources des données',
+    datasource: 'Source des données',
     date: 'Date',
     delete: 'Supprimer',
     'departure-time-in-minutes': '{minutes} min',
@@ -3243,6 +3249,7 @@ const translations = {
     'cycle-distance-duration': 'Sykle {duration} ({distance})',
     'cyclewalk-distance-duration': 'Trill sykkelen {duration} ({distance})',
     datasources: 'Datakilder',
+    datasource: 'Datakilde',
     delete: 'Slett',
     'departure-time-in-minutes': '{minutes} m',
     departures: 'Avganger',
@@ -3549,6 +3556,7 @@ const translations = {
     // eslint-disable-next-line sort-keys
     currentposition: 'Locația curentă',
     datasources: 'Surse de informații',
+    datasource: 'Sursă de informații',
     date: 'Data',
     delete: 'Ștergere',
     'departure-is-canceled': '{modeInfo} {from}–{to} la {time} este anulat',
@@ -4082,6 +4090,7 @@ const translations = {
     // eslint-disable-next-line sort-keys
     currentposition: 'Nuvarande position',
     datasources: 'Datakällor',
+    datasource: 'Datakälla',
     date: 'Datum',
     day: 'Dagen',
     delete: 'Ta bort',
