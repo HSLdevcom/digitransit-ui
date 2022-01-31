@@ -24,8 +24,8 @@ const EmbeddedSearchGenerator = (props, context) => {
   if (!isBrowser) {
     return false;
   }
-  const { breakpoint } = props;
-  const { config, intl, lang } = context;
+  const { breakpoint, lang } = props;
+  const { config, intl } = context;
   const { colors, fontWeights } = config;
   const MIN_WIDTH = 360;
   const MAX_WIDTH = 640;
@@ -137,20 +137,20 @@ const EmbeddedSearchGenerator = (props, context) => {
       >
         <h1 id="embed-form-heading">
           <FormattedMessage
-            id="embedded-search-component-heading"
+            id="embedded-search.component-heading"
             defaultMessage="Embedded search component"
           />
         </h1>
         <p>
           <FormattedMessage
-            id="embedded-search-component-info"
+            id="embedded-search.component-info"
             defaultMessage="Create an embedded search component and embed it into your own service. The search button redirects to to the HSL services."
           />
         </p>
         <form onSubmit={event => event.preventDefault()} action="">
           <h2>
             <FormattedMessage
-              id="embedded-search-form-heading"
+              id="embedded-search.form-heading"
               defaultMessage="Embedded search settings"
             />
           </h2>
@@ -159,7 +159,7 @@ const EmbeddedSearchGenerator = (props, context) => {
             <legend>
               <h3>
                 <FormattedMessage
-                  id="choose-language"
+                  id="embedded-search.choose-language"
                   defaultMessage="Search language"
                 />
               </h3>
@@ -206,7 +206,7 @@ const EmbeddedSearchGenerator = (props, context) => {
             <legend>
               <h3>
                 <FormattedMessage
-                  id="choose-width-component"
+                  id="embedded-search.choose-width-component"
                   defaultMessage="Width of the component"
                 />{' '}
                 ({MIN_WIDTH} - {MAX_WIDTH} px)
@@ -236,7 +236,7 @@ const EmbeddedSearchGenerator = (props, context) => {
             <legend>
               <h3>
                 <FormattedMessage
-                  id="choose-mode"
+                  id="embedded-search.choose-mode"
                   defaultMessage="Mode of transport"
                 />
               </h3>
@@ -317,7 +317,7 @@ const EmbeddedSearchGenerator = (props, context) => {
                 checked={prefilledLocation === 'origin'}
               />
               <FormattedMessage
-                id="destination-defined"
+                id="origin-defined"
                 defaultMessage="Origin defined"
               />
             </label>
@@ -366,12 +366,7 @@ const EmbeddedSearchGenerator = (props, context) => {
             )}
           </fieldset>
 
-          <div
-            className="embed-preview"
-            aria-disabled
-            aria-hidden
-            tabIndex="-1"
-          >
+          <div className="embed-preview">
             <h3>
               <FormattedMessage id="preview" defaultMessage="Preview" />
             </h3>
@@ -384,6 +379,11 @@ const EmbeddedSearchGenerator = (props, context) => {
                 minWidth: MIN_WIDTH,
                 maxWidth: MAX_WIDTH,
               }}
+              disabled="disabled"
+              readOnly="readonly"
+              aria-disabled
+              aria-hidden
+              tabIndex="-1"
             >
               {generateComponent()}
             </div>
@@ -411,11 +411,11 @@ const EmbeddedSearchGenerator = (props, context) => {
 
 EmbeddedSearchGenerator.propTypes = {
   breakpoint: PropTypes.string,
+  lang: PropTypes.string.isRequired,
 };
 
 EmbeddedSearchGenerator.contextTypes = {
   config: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
 };
 
@@ -423,8 +423,6 @@ export default connectToStores(
   withBreakpoint(EmbeddedSearchGenerator),
   ['PreferencesStore'],
   context => ({
-    lang: isBrowser
-      ? context.getStore('PreferencesStore').getLanguage()
-      : undefined,
+    lang: context.getStore('PreferencesStore').getLanguage(),
   }),
 );

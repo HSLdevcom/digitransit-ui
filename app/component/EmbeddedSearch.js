@@ -64,7 +64,6 @@ const EmbeddedSearch = (props, context) => {
   const { colors, fontWeights } = config;
   const bikeOnly = query?.bikeOnly;
   const walkOnly = query?.walkOnly;
-  const useCurrentLocation = query?.loc;
   const lang = query.lang || 'fi';
 
   useEffect(() => {
@@ -84,6 +83,7 @@ const EmbeddedSearch = (props, context) => {
     address: query.address1,
     name: query.address1,
   };
+  const useCurrentLocation = !defaultOriginExists; // query?.loc; // Current location as default
   const defaultDestinationExists = query.lat2 && query.lon2;
   const defaultDestination = {
     lat: Number(query.lat2),
