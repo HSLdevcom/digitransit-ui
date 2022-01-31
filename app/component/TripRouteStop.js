@@ -30,6 +30,7 @@ const TripRouteStop = (props, { config }) => {
     keepTracking,
     first,
     last,
+    prevStop,
   } = props;
 
   const getVehiclePatternLink = vehicle => {
@@ -53,8 +54,8 @@ const TripRouteStop = (props, { config }) => {
       last,
     );
     const linkProps = {
-      stopName: stop.name,
-      nextStopName: nextStop ? nextStop.name : null,
+      stopName: vehicleState === 'arriving' ? prevStop?.name : stop.name,
+      nextStopName: vehicleState === 'arriving' ? stop?.name : nextStop?.name,
       key: vehicle.id,
       mode,
       pattern: props.pattern,
@@ -65,6 +66,7 @@ const TripRouteStop = (props, { config }) => {
       color: !stopPassed ? vehicle.color : '',
       setHumanScrolling,
       keepTracking,
+      vehicleState,
     };
     return (
       <div className={cx('route-stop-now', vehicleState)}>
@@ -167,6 +169,7 @@ TripRouteStop.propTypes = {
   stopPassed: PropTypes.bool,
   stop: PropTypes.object.isRequired,
   nextStop: PropTypes.object,
+  prevStop: PropTypes.object,
   stoptime: PropTypes.object.isRequired,
   currentTime: PropTypes.number.isRequired,
   pattern: PropTypes.string.isRequired,

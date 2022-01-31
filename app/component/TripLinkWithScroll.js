@@ -18,6 +18,7 @@ function TripLinkWithScroll(
     stopName,
     nextStopName,
     tripId,
+    vehicleState,
   },
   context,
 ) {
@@ -54,7 +55,7 @@ function TripLinkWithScroll(
     id: `${mode}`,
     defaultMessage: `${mode}`,
   });
-  let ariaMessage = nextStopName
+  let ariaMessage = !(vehicleState === 'arrived')
     ? context.intl.formatMessage(
         {
           id: 'route-page-vehicle-position-between',
@@ -118,6 +119,7 @@ TripLinkWithScroll.propTypes = {
   stopName: PropTypes.string,
   nextStopName: PropTypes.string,
   tripId: PropTypes.string,
+  vehicleState: PropTypes.string,
 };
 
 TripLinkWithScroll.contextTypes = {

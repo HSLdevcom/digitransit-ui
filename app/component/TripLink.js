@@ -5,11 +5,11 @@ import Link from 'found/Link';
 import cx from 'classnames';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import VehicleIcon from './VehicleIcon';
-import TripLInkWithScroll from './TripLInkWithScroll';
+import TripLinkWithScroll from './TripLinkWithScroll';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-function TripLink({ vehicle, shortName, ...rest }) {
+function TripLink({ vehicleState, vehicle, shortName, ...rest }) {
   const { environment } = useContext(ReactRelayContext);
   const icon = (
     <VehicleIcon
@@ -45,7 +45,13 @@ function TripLink({ vehicle, shortName, ...rest }) {
           return <span className="route-now-content">{icon}</span>;
         }
         if (rest.setHumanScrolling) {
-          return <TripLInkWithScroll {...rest} tripId={props.trip.gtfsId} />;
+          return (
+            <TripLinkWithScroll
+              {...rest}
+              vehicleState={vehicleState}
+              tripId={props.trip.gtfsId}
+            />
+          );
         }
 
         const route = props.trip.route.gtfsId;
@@ -81,6 +87,7 @@ TripLink.propTypes = {
     color: PropTypes.string,
   }).isRequired,
   shortName: PropTypes.string,
+  vehicleState: PropTypes.string,
 };
 
 export default TripLink;
