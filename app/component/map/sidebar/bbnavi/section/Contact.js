@@ -8,18 +8,35 @@ const Contact = ({ contact }) => {
     return null;
   }
 
+  const webUrl = (contact.webUrls || []).find(
+    _webUrl => _webUrl.description === 'url',
+  );
+  const { url } = webUrl || {};
+
   return (
     <div>
+      {!!url && (
+        <div className="text-light sidebar-info-container">
+          <Icon className="sidebar-info-icon" img="poi_link" />
+          <a href={url} className="text-alignment">
+            {url}
+          </a>
+        </div>
+      )}
       {!!contact.email && (
         <div className="text-light sidebar-info-container">
           <Icon className="sidebar-info-icon" img="poi_mail" />
-          <span className="text-alignment">{contact.email}</span>
+          <a href={`mailto:${contact.email}`} className="text-alignment">
+            {contact.email}
+          </a>
         </div>
       )}
       {!!contact.phone && (
         <div className="text-light sidebar-info-container">
           <Icon className="sidebar-info-icon" img="icon-icon_call" />
-          <span className="text-alignment">{contact.phone}</span>
+          <a href={`tel:${contact.phone}`} className="text-alignment">
+            {contact.phone}
+          </a>
         </div>
       )}
       {!!contact.fax && (
