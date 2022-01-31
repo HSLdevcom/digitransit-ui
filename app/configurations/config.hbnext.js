@@ -188,6 +188,21 @@ export default configMerger(walttiConfig, {
                     end: new Date(new Date().getFullYear(), 11, 31),
                 },
             },
+            'tier_ludwigsburg': {
+                icon: 'scooter',
+                name: {
+                    de: 'TIER Ludwigsburg',
+                    en: 'TIER Ludwigsburg',
+                },
+                type: 'scooter',
+                url: {
+                    de: 'https://www.tier.app/de',
+                    en: 'https://www.tier.app/',
+                },
+                visibleInSettingsUi: true,
+                hideCode: true,
+                enabled: true,
+            },
             'taxi': {
                 icon: 'taxi',
                 name: {
