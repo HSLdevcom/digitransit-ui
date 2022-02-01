@@ -26,6 +26,7 @@ module.exports = function (api) {
     ],
   ];
   const plugins = [
+    ['relay', { compat: true, schema: 'schema.json' }],
     'babel-plugin-optimize-clsx',
     ['@babel/plugin-proposal-class-properties', { loose: true }],
     ['@babel/plugin-proposal-object-rest-spread', { loose: true }],

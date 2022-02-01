@@ -45,6 +45,10 @@ const globals = {
   'lodash/memoize': 'memoize',
   'lodash/cloneDeep': 'cloneDeep',
   'lodash/get': 'get',
+  'lodash/uniq': 'uniq',
+  'lodash/compact': 'compact',
+  moment: 'moment',
+  'react-relay': 'reactRelay',
 };
 
 async function getSortedPackages() {
