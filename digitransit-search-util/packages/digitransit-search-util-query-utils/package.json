@@ -10,7 +10,7 @@
     "clean": "rm -rf lib ./node_modules",
     "test": "mocha -r esm test.js",
     "docs": "node -r esm ../../scripts/generate-readmes",
-    "relay": "relay-compiler --src . --schema schema.json --extensions=js --extensions=jsx --extensions=generated && mkdir lib && mv src/__generated__ lib/"
+    "relay": "relay-compiler --src . --schema schema.json --extensions=js --extensions=jsx --extensions=generated && mkdir lib && mv __generated__ lib/"
   },
   "repository": {
     "type": "git",

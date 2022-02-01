@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 import autoprefixer from 'autoprefixer';
 import commonjs from 'rollup-plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
@@ -70,8 +71,13 @@ export default async () => {
   packages.forEach(pkg => {
     /* Absolute path to package directory */
     const basePath = path.relative(__dirname, pkg.location);
-    /* Absolute path to input file */
-    const input = path.join(__dirname, basePath, 'src/index.js');
+    const srcDir = path.join(__dirname, basePath, 'src');
+    let input;
+    if (fs.existsSync(srcDir)) {
+      input = path.join(srcDir, 'index.js');
+    } else {
+      input = path.join(__dirname, basePath, 'index.js');
+    }
     const buildConfig = {
       input,
       output: [
