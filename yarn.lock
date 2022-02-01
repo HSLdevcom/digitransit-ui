@@ -2429,7 +2429,6 @@ __metadata:
     relay-compiler: 10.0.1
   peerDependencies:
     babel-plugin-relay: 10.0.1
-    graphql: 15.0.0
     lodash: 4.17.21
     moment: 2.29.1
     react-relay: 10.0.1
