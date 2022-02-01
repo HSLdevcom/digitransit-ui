@@ -48,6 +48,8 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: test flow
+        run: echo hello
       - name: Install dependencies and build shared components
         run: yarn setup
       - name: Run linters
