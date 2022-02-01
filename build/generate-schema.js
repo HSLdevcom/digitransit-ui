@@ -1,9 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies, no-console */
-
 const fs = require('fs');
-const { introspectionQuery } = require('graphql/utilities/introspectionQuery');
 const fetch = require('node-fetch');
+const { getIntrospectionQuery } = require('graphql');
 
+const introspectionQuery = getIntrospectionQuery();
 const outputFilename = 'schema.json';
 
 fetch(
