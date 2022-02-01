@@ -2426,12 +2426,13 @@ __metadata:
     "@digitransit-search-util/digitransit-search-util-helpers": 0.1.6
     "@digitransit-search-util/digitransit-search-util-route-name-compare": 0.0.2
     babel-plugin-relay: 10.0.1
+    relay-compiler: 10.0.1
+  peerDependencies:
+    babel-plugin-relay: 10.0.1
+    graphql: 15.0.0
     lodash: 4.17.21
     moment: 2.29.1
     react-relay: 10.0.1
-    relay-compiler: 10.0.1
-  peerDependencies:
-    moment: 2.29.1
   languageName: unknown
   linkType: soft
 
@@ -3196,9 +3197,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/site-header@npm:3.1.0":
-  version: 3.1.0
-  resolution: "@hsl-fi/site-header@npm:3.1.0"
+"@hsl-fi/site-header@npm:3.1.1":
+  version: 3.1.1
+  resolution: "@hsl-fi/site-header@npm:3.1.1"
   dependencies:
     "@hsl-fi/animated-spinner": ^0.2.0
     "@hsl-fi/button": ^1.2.3
@@ -3211,7 +3212,7 @@ __metadata:
     "@hsl-fi/utilities": ^0.2.13
     lodash: 4.17.21
     react-animate-height: ^2.0.21
-  checksum: 9aa8030b2d8ec6e9708f4fe9df36e164f79d03d0068ae480b0681f22c3dfdf1dc9feb5506bbb7b31b3223a7b747c0027974fad64f1b9f1fb3e5caa0f3d0ad94e
+  checksum: c1b8243d6ca10cec10227821c1cc0a035ea1c15f603ec512a4cbfb4d3b27459b0e2318bd06d7c145e2ce4faf70d9ce96f7fd1345206e1394f0e66c1041239500
   languageName: node
   linkType: hard
 
@@ -9804,7 +9805,7 @@ __metadata:
     "@hsl-fi/sass": " ^0.2.0"
     "@hsl-fi/shared-local-storage": 0.4.0
     "@hsl-fi/shimmer": 0.1.0
-    "@hsl-fi/site-header": 3.1.0
+    "@hsl-fi/site-header": 3.1.1
     "@lerna/batch-packages": 3.16.0
     "@lerna/filter-packages": 3.18.0
     "@lerna/project": 3.21.0
@@ -9866,7 +9867,7 @@ __metadata:
     found-relay: 0.8.2
     foundation-apps: 1.2.0
     git-precommit-checks: 3.0.0
-    graphql: 14.6.0
+    graphql: 15.5.0
     helmet: 4.1.0
     hoist-non-react-statics: 2.5.4
     htm-to-json: 0.1.4
@@ -13367,12 +13368,10 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"graphql@npm:14.6.0":
-  version: 14.6.0
-  resolution: "graphql@npm:14.6.0"
-  dependencies:
-    iterall: ^1.2.2
-  checksum: 24cab2758cea2ce592c59af28cac0fc80d2f2eac2f2441ce0152ce3c5a3a2416394aadf71b2d8db58f46c44ca3d20747eb168f58502f6eadafab0f11dea13791
+"graphql@npm:15.5.0":
+  version: 15.5.0
+  resolution: "graphql@npm:15.5.0"
+  checksum: 789cdcb069a3e00592e779002217a6bc5fd09efad63ee8c4190c4b3ea96c89010e74f085fb1cba876a0bb0e324e01df2eddb84d79dca90a28e582bc425fef9ef
   languageName: node
   linkType: hard
 
@@ -15529,7 +15528,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"iterall@npm:^1.2.1, iterall@npm:^1.2.2":
+"iterall@npm:^1.2.1":
   version: 1.3.0
   resolution: "iterall@npm:1.3.0"
   checksum: 25ae2d07cf97fc35d43fa7af814839689416b83d3ade0fec97a62c58b7b9fad5ff89dd0ede99f2d67cae2697ffa6987f0ab10876f40ae6466e802609a05b1006
