@@ -59,6 +59,7 @@
     "digitransit-watch-components": "NODE_ENV=development SCOPE='@digitransit-component/*' rollup -w -c ./config/rollup.config.js",
     "digitransit-build-components": "lerna run clean --scope '@digitransit-component/*' && NODE_ENV=production SCOPE='@digitransit-component/*' rollup -c ./config/rollup.config.js",
     "build-search-utils": "cd digitransit-search-util && find . -type dir -name node_modules | xargs rm -rf && cd .. && lerna run build:index --scope '@digitransit-search-util/digitransit-search-util-query-utils'",
+    "build-search-utils": "lerna run clean --scope @digitransit-search-util/digitransit-search-util-query-utils && lerna run relay --scope @digitransit-search-util/digitransit-search-util-query-utils && NODE_ENV=production SCOPE='@digitransit-search-util/digitransit-search-util-query-utils' rollup -c ./config/rollup.config.js",
     "digitransit-store-docs": "node -r esm ./digitransit-store/scripts/generate-readmes",
     "digitransit-store-new-module": "node -r esm ./digitransit-store/scripts/create-new-module",
     "digitransit-store-tests": "lerna run build:test --scope '@digitransit-store/*' && lerna run test --scope '@digitransit-store/*'",
