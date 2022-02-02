@@ -71,11 +71,8 @@ export default async () => {
   packages.forEach(pkg => {
     /* Absolute path to package directory */
     const basePath = path.relative(__dirname, pkg.location);
-    const srcDir = path.join(__dirname, basePath, 'src');
-    let input;
-    if (fs.existsSync(srcDir)) {
-      input = path.join(srcDir, 'index.js');
-    } else {
+    let input = path.join(__dirname, basePath, 'src/index.js');
+    if (!fs.existsSync(input)) {
       input = path.join(__dirname, basePath, 'index.js');
     }
     const buildConfig = {
