@@ -755,6 +755,4 @@ export default {
 
   prioritizedStopsNearYou: {},
   routeNotifications: [],
-
-  ROUTEPAGETESTING: process.env.ROUTEPAGETESTING || false,
 };

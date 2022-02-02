@@ -716,11 +716,11 @@ class RouteScheduleContainer extends PureComponent {
 
   render() {
     const { query } = this.props.match.location;
-    const { intl, config } = this.context;
+    const { intl } = this.context;
     this.hasMergedData = false;
     this.dataExistsDay = 1; // 1 = monday
     // USE FOR TESTING PURPOSE
-    this.testing = config.ROUTEPAGETESTING || false;
+    this.testing = process.env.ROUTEPAGETESTING || false;
     this.testNum = this.testing && query && query.test;
     this.testNoDataDay = ''; // set to next week's Thursday
 
