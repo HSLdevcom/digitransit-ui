@@ -25,7 +25,7 @@ import RoutePageControlPanel from './RoutePageControlPanel';
 import { PREFIX_ROUTES, PREFIX_TIMETABLE } from '../util/path';
 import { isBrowser } from '../util/browser';
 import ScrollableWrapper from './ScrollableWrapper';
-import getTestData from '../../test/unit/test-data/RouteScheduleTestData';
+import getTestData from './RouteScheduleDebugData';
 
 const DATE_FORMAT2 = 'D.M.YYYY';
 
@@ -720,7 +720,7 @@ class RouteScheduleContainer extends PureComponent {
     this.hasMergedData = false;
     this.dataExistsDay = 1; // 1 = monday
     // USE FOR TESTING PURPOSE
-    this.testing = false;
+    this.testing = process.env.ROUTEPAGETESTING || false;
     this.testNum = this.testing && query && query.test;
     this.testNoDataDay = ''; // set to next week's Thursday
 
