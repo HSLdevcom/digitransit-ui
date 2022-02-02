@@ -102,12 +102,12 @@ export const getCitybikeCapacity = (config, network = undefined) => {
  */
 
 export const getCitybikeNetworks = config => {
-  const { allowedBikeRentalNetworks } = getCustomizedSettings();
+  const { allowedVehicleRentalNetworks } = getCustomizedSettings();
   if (
-    Array.isArray(allowedBikeRentalNetworks) &&
-    !isEmpty(allowedBikeRentalNetworks)
+    Array.isArray(allowedVehicleRentalNetworks) &&
+    !isEmpty(allowedVehicleRentalNetworks)
   ) {
-    return allowedBikeRentalNetworks;
+    return allowedVehicleRentalNetworks;
   }
   return getDefaultNetworks(config);
 };
