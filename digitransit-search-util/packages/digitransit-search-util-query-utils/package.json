@@ -1,16 +1,16 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-query-utils",
-  "version": "1.1.4",
+  "version": "2.0.0",
   "description": "digitransit-search-util query-utils module",
-  "main": "index.generated",
+  "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build:index": "yarn run relay && webpack --config webpack.config.babel.js && yarn run docs",
+    "clean": "rm -rf lib ./node_modules",
     "test": "mocha -r esm test.js",
     "docs": "node -r esm ../../scripts/generate-readmes",
-    "relay": "relay-compiler --src . --schema schema.json --extensions=js --extensions=jsx --extensions=generated"
+    "relay": "relay-compiler --src . --schema schema.json --extensions=js --extensions=jsx --extensions=generated && mkdir lib && mv __generated__ lib/"
   },
   "repository": {
     "type": "git",
@@ -23,16 +23,18 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "peerDependencies": {
-    "moment": "2.29.1"
+    "babel-plugin-relay": "10.0.1",
+    "lodash": "4.17.21",
+    "moment": "2.29.1",
+    "react-relay": "10.0.1"
+  },
+  "devDependencies": {
+    "relay-compiler": "10.0.1"
   },
   "dependencies": {
     "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "0.0.3",
     "@digitransit-search-util/digitransit-search-util-helpers": "0.1.6",
     "@digitransit-search-util/digitransit-search-util-route-name-compare": "0.0.2",
-    "babel-plugin-relay": "10.0.1",
-    "lodash": "4.17.21",
-    "moment": "2.29.1",
-    "react-relay": "10.0.1",
-    "relay-compiler": "10.0.1"
+    "babel-plugin-relay": "10.0.1"
   }
 }

@@ -7,7 +7,6 @@
     "access": "public"
   },
   "scripts": {
-    "build:index": "ENV=production webpack --config webpack.config.babel.js && yarn run docs",
     "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties,@babel/plugin-proposal-numeric-separator --out-file test.generated",
     "watch": "ENV=development webpack --watch --config webpack.config.babel.js",
     "clean": "rm -rf ./lib ./node_modules",
