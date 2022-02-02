@@ -122,7 +122,6 @@ const DatahubTileContent = ({ match }, { config }) => {
             contact {
               id
               email
-              fax
               firstName
               lastName
               phone
