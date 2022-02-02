@@ -1,13 +1,30 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
+
+// lower `sortNumber` first, `null` last
+const sortOpeningHours = (oH1, oH2) => {
+  const { sortNumber: sN1 } = oH1;
+  const { sortNumber: sN2 } = oH2;
+  if (Number.isInteger(sN1) && Number.isInteger(sN2)) {
+    return sN1 - sN2;
+  }
+  if (!Number.isInteger(sN1) && !Number.isInteger(sN2)) {
+    return 0;
+  }
+  if (!Number.isInteger(sN1)) {
+    return 1;
+  }
+  return -1;
+};
 
 const OpeningHours = ({ openingHours }) => {
   if (!openingHours?.length) {
     return null;
   }
 
-  return openingHours.map(item => {
+  const sortedOpeningHours = openingHours.slice().sort(sortOpeningHours);
+
+  return sortedOpeningHours.map(item => {
     const {
       id,
       dateFrom,

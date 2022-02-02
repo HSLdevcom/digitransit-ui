@@ -111,6 +111,7 @@ const DatahubTileContent = ({ match }, { config }) => {
             }
             openingHours {
               id
+              sortNumber
               dateFrom
               dateTo
               description
