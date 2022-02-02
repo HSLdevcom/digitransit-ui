@@ -31,6 +31,7 @@
  */
 
 const data1 = {
+  info: 'test #1',
   wk1mon: [],
   wk1tue: [],
   wk1wed: [
@@ -138,6 +139,7 @@ const data1 = {
 };
 
 const data2 = {
+  info: 'test #0 or #2',
   wk1mon: [],
   wk1tue: [
     { departureStoptime: { scheduledDeparture: 54540 } },
@@ -245,6 +247,7 @@ const data2 = {
 };
 
 const data3 = {
+  info: 'test #3',
   wk1mon: [],
   wk1tue: [
     { departureStoptime: { scheduledDeparture: 54540 } },
@@ -367,6 +370,7 @@ const data3 = {
 };
 
 const data4 = {
+  info: 'test #4',
   wk1mon: [],
   wk1tue: [],
   wk1wed: [
