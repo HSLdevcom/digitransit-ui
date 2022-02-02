@@ -26,6 +26,10 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies
         run: yarn
+      - name: Install dependencies and build shared components
+        run: yarn setup
+      - name: build relay queries
+        run: yarn relay
   lint:
     needs: install
     runs-on: ubuntu-18.04
@@ -43,15 +47,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: test flow
-        run: echo hello
-      - name: Install dependencies and build shared components
-        run: yarn setup
       - name: Run linters
         run: yarn lint
   unit-test:
@@ -71,15 +66,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Install dependencies and build shared components
-        run: yarn setup
-      - name: build relay queries
-        run: yarn relay
       - name: Run unit tests
         run: yarn run test-coverage
       - name: Send test coverage report
@@ -101,15 +87,6 @@ jobs:
   #       uses: actions/setup-node@v1
   #       with:
   #         node-version: ${{ matrix.node-version }}
-  #     - name: Cache node modules
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: '**/node_modules'
-  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-  #     - name: Install dependencies and build shared components
-  #       run: yarn setup
-  #     - name: build relay queries
-  #       run: yarn relay
   #     - name: Run accessibility tests
   #       run: yarn test-accessibility
   # build:
@@ -129,13 +106,6 @@ jobs:
   #       uses: actions/setup-node@v1
   #       with:
   #         node-version: ${{ matrix.node-version }}
-  #     - name: Cache node modules
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: '**/node_modules'
-  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-  #     - name: Build shared components
-  #       run: yarn setup
   #     - name: Build UI
   #       run: yarn build
   #     - name: Cache build
@@ -166,15 +136,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Build shared components
-        run: yarn setup
-      - name: Build relay queries
-        run: yarn relay
       - name: Build UI
         run: yarn build
       - uses: microsoft/playwright-github-action@v1.5.0
@@ -206,15 +167,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Install dependencies and build shared components
-        run: yarn setup
-      - name: Build relay queries
-        run: yarn relay
       - name: Build UI
         run: yarn build
       - uses: microsoft/playwright-github-action@v1.5.0
@@ -249,15 +201,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Install dependencies and build shared components
-        run: yarn setup
-      - name: build relay queries
-        run: yarn relay
       - name: Authenticate with registry
         run: echo //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN} > .npmrc
         env:
