@@ -83,7 +83,7 @@ const EmbeddedSearch = (props, context) => {
     address: query.address1,
     name: query.address1,
   };
-  const useCurrentLocation = !defaultOriginExists; // query?.loc; // Current location as default
+  const useOriginLocation = query?.originLoc;
   const defaultDestinationExists = query.lat2 && query.lon2;
   const defaultDestination = {
     lat: Number(query.lat2),
@@ -91,9 +91,10 @@ const EmbeddedSearch = (props, context) => {
     address: query.address2,
     name: query.address2,
   };
+  const useDestinationLocation = query?.destinationLoc;
   const [logo, setLogo] = useState();
   const [origin, setOrigin] = useState(
-    useCurrentLocation
+    useOriginLocation
       ? {
           type: 'CurrentLocation',
           status: 'no-location',
@@ -104,12 +105,20 @@ const EmbeddedSearch = (props, context) => {
       : {},
   );
   const [destination, setDestination] = useState(
-    defaultDestinationExists ? defaultDestination : {},
+    useDestinationLocation
+      ? {
+          type: 'CurrentLocation',
+          status: 'no-location',
+          address: i18next.t('own-position'),
+        }
+      : defaultDestinationExists
+      ? defaultDestination
+      : {},
   );
 
   useEffect(() => {
     setOrigin(
-      useCurrentLocation
+      useOriginLocation
         ? {
             type: 'CurrentLocation',
             status: 'no-location',
@@ -119,7 +128,17 @@ const EmbeddedSearch = (props, context) => {
         ? defaultOrigin
         : {},
     );
-    setDestination(defaultDestinationExists ? defaultDestination : {});
+    setDestination(
+      useDestinationLocation
+        ? {
+            type: 'CurrentLocation',
+            status: 'no-location',
+            address: i18next.t('own-position'),
+          }
+        : defaultDestinationExists
+        ? defaultDestination
+        : {},
+    );
   }, [query]);
 
   const color = colors.primary;
@@ -144,6 +163,10 @@ const EmbeddedSearch = (props, context) => {
   const refPoint = getRefPoint(origin, destination, {});
 
   const onSelectLocation = (item, id) => {
+    if (item?.type === 'CurrentLocation') {
+      // eslint-disable-next-line no-param-reassign
+      item.address = i18next.t('own-position');
+    }
     if (id === 'origin') {
       setOrigin(item);
     } else {

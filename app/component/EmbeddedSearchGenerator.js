@@ -34,9 +34,18 @@ const EmbeddedSearchGenerator = (props, context) => {
   const [searchWidth, setSearchWidth] = useState(360);
   const [searchModeRestriction, setSearchModeRestriction] = useState('');
 
-  const [prefilledLocation, setPrefilledLocation] = useState('');
+  const [chooseFreely, setChooseFreely] = useState(true);
+  const [searchOriginDefined, setSearchOriginDefined] = useState(false);
   const [searchOrigin, setSearchOrigin] = useState();
+  const [searchDestinationDefined, setSearchDestinationDefined] = useState(
+    false,
+  );
   const [searchDestination, setSearchDestination] = useState();
+
+  const originIsCurrentLocation = () =>
+    searchOrigin?.type === 'CurrentLocation';
+  const destinationIsCurrentLocation = () =>
+    searchDestination?.type === 'CurrentLocation';
 
   const refPoint = getRefPoint(searchOrigin, searchDestination, {});
 
@@ -67,19 +76,29 @@ const EmbeddedSearchGenerator = (props, context) => {
 
   const generateComponent = () => {
     let locData = {};
-    if (prefilledLocation === 'origin') {
-      locData = {
-        lon1: searchOrigin?.geometry?.coordinates[0],
-        lat1: searchOrigin?.geometry?.coordinates[1],
-        address1: value(searchOrigin),
-      };
+    if (searchOriginDefined) {
+      if (originIsCurrentLocation()) {
+        locData = { ...locData, originLoc: true };
+      } else {
+        locData = {
+          ...locData,
+          lon1: searchOrigin?.geometry?.coordinates[0],
+          lat1: searchOrigin?.geometry?.coordinates[1],
+          address1: value(searchOrigin),
+        };
+      }
     }
-    if (prefilledLocation === 'destination') {
-      locData = {
-        lon2: searchDestination?.geometry?.coordinates[0],
-        lat2: searchDestination?.geometry?.coordinates[1],
-        address2: value(searchDestination),
-      };
+    if (searchDestinationDefined) {
+      if (destinationIsCurrentLocation()) {
+        locData = { ...locData, destinationLoc: true };
+      } else {
+        locData = {
+          ...locData,
+          lon2: searchDestination?.geometry?.coordinates[0],
+          lat2: searchDestination?.geometry?.coordinates[1],
+          address2: value(searchDestination),
+        };
+      }
     }
     const mode = {};
     mode[searchModeRestriction.substring(0, searchModeRestriction.length - 2)] =
@@ -92,21 +111,30 @@ const EmbeddedSearchGenerator = (props, context) => {
 
   const generateComponentString = () => {
     const currentURL = window.location.origin;
-    if (prefilledLocation === 'origin' && searchOrigin) {
-      return `<iframe width="${searchWidth}" height="250" style="border-radius: 10px;" src="${currentURL}${EMBEDDED_SEARCH_PATH}?address1=${value(
-        searchOrigin,
-      )}&lon1=${searchOrigin?.geometry?.coordinates[0]}&lat1=${
-        searchOrigin?.geometry?.coordinates[1]
-      }&${searchModeRestriction}&lang=${searchLang}" title="Digitransit UI embedded search" scrolling="no" />`;
+    let iframeHTML = `<iframe width="${searchWidth}" height="250" style="border-radius: 10px;" src="${currentURL}${EMBEDDED_SEARCH_PATH}?${searchModeRestriction}&lang=${searchLang}`;
+    if (!chooseFreely) {
+      if (searchOriginDefined) {
+        if (originIsCurrentLocation()) {
+          iframeHTML += '&originLoc=1';
+        } else {
+          iframeHTML += `&address1=${value(searchOrigin)}&lon1=${
+            searchOrigin?.geometry?.coordinates[0]
+          }&lat1=${searchOrigin?.geometry?.coordinates[1]}`;
+        }
+      }
+      if (searchDestinationDefined) {
+        if (destinationIsCurrentLocation()) {
+          iframeHTML += '&destinationLoc=1';
+        } else {
+          iframeHTML += `&address2=${value(searchDestination)}&lon2=${
+            searchDestination?.geometry?.coordinates[0]
+          }&lat2=${searchDestination?.geometry?.coordinates[1]}`;
+        }
+      }
     }
-    if (prefilledLocation === 'destination' && searchDestination) {
-      return `<iframe width="${searchWidth}" height="250" style="border-radius: 10px;" src="${currentURL}${EMBEDDED_SEARCH_PATH}?address2=${value(
-        searchDestination,
-      )}&lon2=${searchDestination?.geometry?.coordinates[0]}&lat2=${
-        searchDestination?.geometry?.coordinates[1]
-      }&${searchModeRestriction}&lang=${searchLang}" title="Digitransit UI embedded search" scrolling="no" />`;
-    }
-    return `<iframe width="${searchWidth}" height="250" style="border-radius: 10px;" src="${currentURL}${EMBEDDED_SEARCH_PATH}?${searchModeRestriction}&lang=${searchLang}" title="Digitransit UI embedded search" scrolling="no" />`;
+
+    iframeHTML += `" title="Digitransit UI embedded search" scrolling="no" />`;
+    return iframeHTML;
   };
 
   const handleLangChange = event => {
@@ -292,12 +320,18 @@ const EmbeddedSearchGenerator = (props, context) => {
 
             <label htmlFor="choose-freely">
               <input
-                type="radio"
-                value=""
+                type="checkbox"
+                value="1"
                 name="origin-and-destination"
                 id="choose-freely"
-                onChange={event => setPrefilledLocation(event.target.value)}
-                checked={prefilledLocation === ''}
+                onChange={() => {
+                  if (!chooseFreely) {
+                    setSearchOriginDefined(false);
+                    setSearchDestinationDefined(false);
+                    setChooseFreely(!chooseFreely);
+                  }
+                }}
+                checked={chooseFreely}
               />
               <FormattedMessage
                 id="choose-freely"
@@ -307,21 +341,27 @@ const EmbeddedSearchGenerator = (props, context) => {
 
             <label htmlFor="origin">
               <input
-                type="radio"
-                value="origin"
+                type="checkbox"
+                value="1"
                 name="origin-and-destination"
                 id="origin"
-                onChange={event => {
-                  setPrefilledLocation(event.target.value);
+                onChange={() => {
+                  if (!searchOriginDefined) {
+                    setChooseFreely(false);
+                  }
+                  if (!searchDestinationDefined && searchOriginDefined) {
+                    setChooseFreely(true);
+                  }
+                  setSearchOriginDefined(!searchOriginDefined);
                 }}
-                checked={prefilledLocation === 'origin'}
+                checked={searchOriginDefined}
               />
               <FormattedMessage
                 id="origin-defined"
                 defaultMessage="Origin defined"
               />
             </label>
-            {prefilledLocation === 'origin' && (
+            {searchOriginDefined && (
               <div className="location-search-wrapper">
                 <LocationSearch
                   targets={locationSearchTargets}
@@ -337,21 +377,27 @@ const EmbeddedSearchGenerator = (props, context) => {
 
             <label htmlFor="destination">
               <input
-                type="radio"
-                value="destination"
+                type="checkbox"
+                value="1"
                 name="origin-and-destination"
                 id="destination"
-                onChange={event => {
-                  setPrefilledLocation(event.target.value);
+                onChange={() => {
+                  if (!searchDestinationDefined) {
+                    setChooseFreely(false);
+                  }
+                  if (searchDestinationDefined && !searchOriginDefined) {
+                    setChooseFreely(true);
+                  }
+                  setSearchDestinationDefined(!searchDestinationDefined);
                 }}
-                checked={prefilledLocation === 'destination'}
+                checked={searchDestinationDefined}
               />
               <FormattedMessage
                 id="destination-defined"
                 defaultMessage="Destination defined"
               />
             </label>
-            {prefilledLocation === 'destination' && (
+            {searchDestinationDefined && (
               <div className="location-search-wrapper">
                 <LocationSearch
                   targets={locationSearchTargets}
