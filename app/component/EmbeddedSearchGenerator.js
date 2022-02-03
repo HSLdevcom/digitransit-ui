@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTAutosuggest from '@digitransit-component/digitransit-component-autosuggest';
@@ -46,6 +46,9 @@ const EmbeddedSearchGenerator = (props, context) => {
     searchOrigin?.type === 'CurrentLocation';
   const destinationIsCurrentLocation = () =>
     searchDestination?.type === 'CurrentLocation';
+
+  const beforePreview = useRef();
+  const afterPreview = useRef();
 
   const refPoint = getRefPoint(searchOrigin, searchDestination, {});
 
@@ -390,6 +393,7 @@ const EmbeddedSearchGenerator = (props, context) => {
                   }
                   setSearchDestinationDefined(!searchDestinationDefined);
                 }}
+                ref={beforePreview}
                 checked={searchDestinationDefined}
               />
               <FormattedMessage
@@ -412,7 +416,13 @@ const EmbeddedSearchGenerator = (props, context) => {
             )}
           </fieldset>
 
-          <div className="embed-preview">
+          <div
+            className="embed-preview"
+            onFocus={e => {
+              e.preventDefault();
+              afterPreview.current?.focus();
+            }}
+          >
             <h3>
               <FormattedMessage id="preview" defaultMessage="Preview" />
             </h3>
@@ -447,6 +457,13 @@ const EmbeddedSearchGenerator = (props, context) => {
               cols="50"
               value={generateComponentString()}
               readOnly
+              ref={afterPreview}
+              onKeyDown={e => {
+                if (e.key === 'Tab' && e.shiftKey) {
+                  e.preventDefault();
+                  beforePreview.current?.focus();
+                }
+              }}
             />
           </div>
         </form>
