@@ -55,6 +55,8 @@ class CityBikeMarkerContainer extends React.Component {
                     bikesAvailable
                     rentalUris {
                       web
+                      android
+                      ios
                     }
                   }
                 }
