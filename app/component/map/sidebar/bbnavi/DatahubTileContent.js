@@ -122,6 +122,10 @@ const DatahubTileContent = ({ match }, { config }) => {
             }
             contact {
               id
+              webUrls {
+                description
+                url
+              }
               email
               firstName
               lastName
