@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
-import { v4 as uuid } from 'uuid';
 
 import SwipeableTabs from './SwipeableTabs';
 import Icon from './Icon';
@@ -185,11 +184,11 @@ class MessageBar extends Component {
     }
   };
 
-  ariaContent = content => {
+  ariaContent = (content, id) => {
     return (
-      <span key={uuid()}>
+      <span key={`message-${id}`}>
         {content.map(e => (
-          <span key={uuid()}>{e.content}</span>
+          <span key={`message-content-${id}-${e.type}`}>{e.content}</span>
         ))}
       </span>
     );
@@ -271,14 +270,16 @@ class MessageBar extends Component {
     return (
       <>
         <span className="sr-only" role="alert">
-          {this.validMessages().map(el =>
-            this.ariaContent(el.content[this.props.lang] || el.content.fi),
+          {messages.map(el =>
+            this.ariaContent(
+              el.content[this.props.lang] || el.content.fi,
+              el.id,
+            ),
           )}
         </span>
         <section
           key={this.props.duplicateMessageCounter}
           id="messageBar"
-          role="banner"
           className="message-bar flex-horizontal"
           style={{ background: backgroundColor }}
         >
