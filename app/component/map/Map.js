@@ -266,7 +266,8 @@ class Map extends React.Component {
           key =>
             mapLayers.geoJson[key] !== false &&
             (mapLayers.geoJson[key] === true ||
-              geoJson[key].isOffByDefault !== true),
+              geoJson[key].isOffByDefault !== true) &&
+            this.state.zoom >= (geoJson[key].minZoom || 0),
         )
         .forEach((key, i) => {
           leafletObjNew.push(

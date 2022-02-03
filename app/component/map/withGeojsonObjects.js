@@ -37,17 +37,25 @@ function withGeojsonObjects(Component) {
         if (Array.isArray(layers) && layers.length > 0) {
           const json = await Promise.all(
             layers.map(
-              async ({ url, name, isOffByDefault, metadata, icon }) => ({
+              async ({
+                url,
+                name,
+                isOffByDefault,
+                metadata,
+                icon,
+                minZoom,
+              }) => ({
                 url,
                 isOffByDefault,
                 data: await getGeoJsonData(url, name, metadata),
                 icon,
+                minZoom,
               }),
             ),
           );
           const newGeoJson = {};
-          json.forEach(({ url, data, isOffByDefault, icon }) => {
-            newGeoJson[url] = { ...data, isOffByDefault, icon };
+          json.forEach(({ url, data, isOffByDefault, icon, minZoom }) => {
+            newGeoJson[url] = { ...data, isOffByDefault, icon, minZoom };
           });
           updateGeoJson(newGeoJson);
         }
