@@ -39,12 +39,6 @@ const Contact = ({ contact }) => {
           </a>
         </div>
       )}
-      {!!contact.fax && (
-        <div className="text-light sidebar-info-container">
-          <Icon className="sidebar-info-icon" img="poi_news" />
-          <span className="text-alignment">{contact.fax}</span>
-        </div>
-      )}
       <div className="divider" />
     </div>
   );

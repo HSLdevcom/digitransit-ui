@@ -111,6 +111,7 @@ const DatahubTileContent = ({ match }, { config }) => {
             }
             openingHours {
               id
+              sortNumber
               dateFrom
               dateTo
               description
@@ -122,7 +123,6 @@ const DatahubTileContent = ({ match }, { config }) => {
             contact {
               id
               email
-              fax
               firstName
               lastName
               phone
