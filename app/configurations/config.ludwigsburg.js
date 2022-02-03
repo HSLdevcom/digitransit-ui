@@ -279,6 +279,7 @@ export default configMerger(parentConfig, {
                 url: 'https://node21-iot.apps.okd.swlb.de/parkzonen.json',
                 icon: 'icon-icon_open_carpark',
                 isOffByDefault: false,
+                minZoom: 13
             },
             // Bicycle network layer
             {
@@ -289,8 +290,9 @@ export default configMerger(parentConfig, {
                 },
                 category: 'bicycle',
                 url: 'https://node21-iot.apps.okd.swlb.de/radwege.json',
-                icon: 'icon-icon_bike_repair',
+                icon: 'icon-icon_radnetz',
                 isOffByDefault: false,
+                minZoom: 12
             },
 	],
     },
