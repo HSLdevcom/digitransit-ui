@@ -34,7 +34,7 @@ export default configMerger(walttiConfig, {
     },
     URL: {
         HEADER_TITLE,
-        DATAHUB: process.env.DATAHUB_URL,
+        DATAHUB: process.env.DATAHUB_URL || 'https://datahub.bbnavi.de',
         OTP: process.env.OTP_URL || `${API_URL}/otp/routers/default/`,
         MAP: {
             default: 'https://isk.geobasis-bb.de/mapproxy/webatlasde_topplus/service/wms',
