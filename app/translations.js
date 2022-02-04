@@ -1038,7 +1038,7 @@ const translations = {
     'embedded-search.choose-width-component': 'Width of the component',
     'embedded-search.component-heading': 'Embedded search component',
     'embedded-search.component-info':
-      'Create your own embedded search component and add it to your own service. The search button of the component will redirect to HSL services.',
+      'Create your own embedded search component and add it to your own service. The search button of the component will redirect to the journey planner',
     'embedded-search.form-heading': 'Component settings',
     engine_ignition_aid: 'Engine starting aid',
     english: 'English',
@@ -2110,7 +2110,7 @@ const translations = {
     'embedded-search.choose-width-component': 'Upotuksen leveys',
     'embedded-search.component-heading': 'Reittihakuelementti',
     'embedded-search.component-info':
-      'Luo reittihakuelementti ja lisää se omaan palveluusi. Hakukomponentin Hae reitti -painikkeesta siirrytään HSL:n palveluun.',
+      'Luo reittihakuelementti ja lisää se omaan palveluusi. Hakukomponentin Hae reitti -painikkeesta siirrytään reittioppaaseen.',
     'embedded-search.form-heading': 'Upotusvalinnat',
     engine_ignition_aid: 'Käynnistysapu',
     english: 'Englanti',
@@ -3954,7 +3954,7 @@ const translations = {
     'embedded-search.choose-width-component': 'Bredd på komponenten',
     'embedded-search.component-heading': 'Ruttsökningselement',
     'embedded-search.component-info':
-      'Skapa din egen inbäddade sökkomponent och lägg till den i din egen tjänst. Sökknappen för komponenten omdirigerar till HSL-tjänster.',
+      'Skapa din egen inbäddade sökkomponent och lägg till den i din egen tjänst. Sökknappen för komponenten omdirigerar till reseplaneraren.',
     'embedded-search.form-heading': 'Komponentinställningar',
     engine_ignition_aid: 'Starthjälp',
     english: 'Engelsk',
