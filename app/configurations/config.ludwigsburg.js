@@ -155,7 +155,7 @@ export default configMerger(parentConfig, {
             {
                 name: 'imprint',
                 nameEn: 'Imprint',
-                href: 'https://www.swlb.de/de/Home/Impressum/',
+                href: 'https://www.ludwigsburg.de/LB2020/impressum.html',
             },
             {
                 name: 'privacy',
