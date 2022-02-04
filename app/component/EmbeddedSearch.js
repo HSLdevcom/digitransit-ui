@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { matchShape } from 'found';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
-import { intlShape } from 'react-intl';
+import i18next from 'i18next';
 import { getRefPoint } from '../util/apiUtils';
 import withSearchContext from './WithSearchContext';
 import {
@@ -16,6 +16,41 @@ import Icon from './Icon';
 
 const LocationSearch = withSearchContext(DTAutosuggestPanel, true);
 
+const translations = {
+  fi: {
+    'own-position': 'Nykyinen sijaintisi',
+    'find-bike-route': 'Löydä pyöräreitti',
+    'find-walk-route': 'Löydä kävelyreitti',
+    'find-route': 'Löydä reitti',
+    'search-fields.sr-instructions': '',
+    'search-route': 'Hae reitti',
+  },
+  en: {
+    'own-position': 'Your current location',
+    'find-bike-route': 'Find a biking route',
+    'find-walk-route': 'Find a walking route',
+    'find-route': 'Find a route',
+    'search-fields.sr-instructions': '',
+    'search-route': 'Search routes',
+  },
+  sv: {
+    'own-position': 'Min position',
+    'find-bike-route': 'Sök en cyckelrutt',
+    'find-walk-route': 'Sök en promenadsrutt',
+    'find-route': 'Sök en rutt',
+    'search-fields.sr-instructions': '',
+    'search-route': 'Söka rutter',
+  },
+};
+
+i18next.init({
+  fallbackLng: 'fi',
+  defaultNS: 'translation',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
+});
+
 // test case: http://localhost:8080/haku?address2=Opastinsilta%206%20A,%20Helsinki&lat2=60.199118&lon2=24.940652&bikeOnly=1
 
 /**
@@ -25,11 +60,21 @@ const LocationSearch = withSearchContext(DTAutosuggestPanel, true);
  */
 const EmbeddedSearch = (props, context) => {
   const { query } = props.match.location;
-  const { config, intl } = context;
+  const { config } = context;
   const { colors, fontWeights } = config;
   const bikeOnly = query?.bikeOnly;
   const walkOnly = query?.walkOnly;
-  const useCurrentLocation = query?.loc;
+  const lang = query.lang || 'fi';
+
+  useEffect(() => {
+    Object.keys(translations).forEach(language => {
+      i18next.addResourceBundle(
+        language,
+        'translation',
+        translations[language],
+      );
+    });
+  });
 
   const defaultOriginExists = query.lat1 && query.lon1;
   const defaultOrigin = {
@@ -38,6 +83,7 @@ const EmbeddedSearch = (props, context) => {
     address: query.address1,
     name: query.address1,
   };
+  const useOriginLocation = query?.originLoc;
   const defaultDestinationExists = query.lat2 && query.lon2;
   const defaultDestination = {
     lat: Number(query.lat2),
@@ -45,45 +91,66 @@ const EmbeddedSearch = (props, context) => {
     address: query.address2,
     name: query.address2,
   };
+  const useDestinationLocation = query?.destinationLoc;
   const [logo, setLogo] = useState();
   const [origin, setOrigin] = useState(
-    useCurrentLocation
+    useOriginLocation
       ? {
           type: 'CurrentLocation',
           status: 'no-location',
-          address: intl.formatMessage({
-            id: 'own-position',
-            defaultMessage: 'Own Location',
-          }),
+          address: i18next.t('own-position'),
         }
       : defaultOriginExists
       ? defaultOrigin
       : {},
   );
   const [destination, setDestination] = useState(
-    defaultDestinationExists ? defaultDestination : {},
+    useDestinationLocation
+      ? {
+          type: 'CurrentLocation',
+          status: 'no-location',
+          address: i18next.t('own-position'),
+        }
+      : defaultDestinationExists
+      ? defaultDestination
+      : {},
   );
+
+  useEffect(() => {
+    setOrigin(
+      useOriginLocation
+        ? {
+            type: 'CurrentLocation',
+            status: 'no-location',
+            address: i18next.t('own-position'),
+          }
+        : defaultOriginExists
+        ? defaultOrigin
+        : {},
+    );
+    setDestination(
+      useDestinationLocation
+        ? {
+            type: 'CurrentLocation',
+            status: 'no-location',
+            address: i18next.t('own-position'),
+          }
+        : defaultDestinationExists
+        ? defaultDestination
+        : {},
+    );
+  }, [query]);
 
   const color = colors.primary;
   const hoverColor = colors.hover;
   const appElement = 'embedded-root';
-  const lang = intl.locale || 'fi';
   let titleText;
   if (bikeOnly) {
-    titleText = intl.formatMessage({
-      id: 'find-bike-route',
-      defaultMessage: 'Find a biking route',
-    });
+    titleText = i18next.t('find-bike-route');
   } else if (walkOnly) {
-    titleText = intl.formatMessage({
-      id: 'find-walk-route',
-      defaultMessage: 'Find a walking route',
-    });
+    titleText = i18next.t('find-walk-route');
   } else {
-    titleText = intl.formatMessage({
-      id: 'find-route',
-      defaultMessage: 'Find a route',
-    });
+    titleText = i18next.t('find-route');
   }
 
   const locationSearchTargets = [
@@ -96,6 +163,10 @@ const EmbeddedSearch = (props, context) => {
   const refPoint = getRefPoint(origin, destination, {});
 
   const onSelectLocation = (item, id) => {
+    if (item?.type === 'CurrentLocation') {
+      // eslint-disable-next-line no-param-reassign
+      item.address = i18next.t('own-position');
+    }
     if (id === 'origin') {
       setOrigin(item);
     } else {
@@ -168,6 +239,10 @@ const EmbeddedSearch = (props, context) => {
     });
   }, []);
 
+  if (i18next.language !== lang) {
+    i18next.changeLanguage(lang);
+  }
+
   return (
     <div
       className={`embedded-seach-container ${
@@ -175,46 +250,44 @@ const EmbeddedSearch = (props, context) => {
       }`}
       id={appElement}
     >
-      {drawBackgroundIcon()}
-      <CtrlPanel
-        instance="HSL"
-        language={lang}
-        origin={origin}
-        position="left"
-        fontWeights={fontWeights}
-      >
-        <span className="sr-only">
-          {intl.formatMessage({
-            id: 'search-fields.sr-instructions',
-            defaultMessage:
-              'The search is triggered automatically when origin and destination are set. Changing any search parameters triggers a new search',
-          })}
-        </span>
-        <LocationSearch
-          targets={locationSearchTargets}
-          {...locationSearchProps}
-        />
-        <div className="embedded-search-button-container">
-          <img src={logo} className="brand-logo" alt={`${config.title} logo`} />
-          <button
-            className="search-button"
-            type="button"
-            onClick={() => executeSearch(origin, destination)}
-          >
-            {intl.formatMessage({
-              id: 'search-route',
-              defaultMessage: 'Search a route',
-            })}
-          </button>
-        </div>
-      </CtrlPanel>
+      <div className="background-container">{drawBackgroundIcon()}</div>
+      <div className="control-panel-container">
+        <CtrlPanel
+          instance="HSL"
+          language={lang}
+          origin={origin}
+          position="left"
+          fontWeights={fontWeights}
+        >
+          <span className="sr-only">
+            {i18next.t('search-fields.sr-instructions')}
+          </span>
+          <LocationSearch
+            targets={locationSearchTargets}
+            {...locationSearchProps}
+          />
+          <div className="embedded-search-button-container">
+            <img
+              src={logo}
+              className="brand-logo"
+              alt={`${config.title} logo`}
+            />
+            <button
+              className="search-button"
+              type="button"
+              onClick={() => executeSearch(origin, destination)}
+            >
+              {i18next.t('search-route')}
+            </button>
+          </div>
+        </CtrlPanel>
+      </div>
     </div>
   );
 };
 
 EmbeddedSearch.contextTypes = {
   config: PropTypes.object.isRequired,
-  intl: intlShape.isRequired,
 };
 
 EmbeddedSearch.propTypes = {

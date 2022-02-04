@@ -1,15 +1,20 @@
 .embedded-seach-container {
+    display: grid;
     padding: 10px;
     height: 250px;
     width: 100%;
     max-width: 100%;
+    .background-container, .control-panel-container{
+        grid-column: 1;
+        grid-row: 1;
+    }
     h1 {
         margin-top: 25px;
     }
     .main-left {
         max-width: 100%;
     }
-    & > div:first-of-type {
+    .control-panel-container > div:first-of-type {
         max-width: 100%;
     }
     .embedded-search-button-container {
@@ -32,11 +37,8 @@
         }
     }
     .background {
-        top: -58px;
-        position: absolute;
-        display: inline-block;
-        width: 110%;
-        height: 365px;
+        width: calc(140% - 50px);
+        height: 273px;
     }
     @media only screen and (min-width: 600px) {
         .background {
