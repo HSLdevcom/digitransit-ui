@@ -763,13 +763,9 @@ class DTAutosuggest extends React.Component {
     }
     if (this.state.editing) {
       if (keyCode === 'Enter') {
-        if (this.props.isMobile) {
-          this.setState({ pendingSelection: true }, () => {
-            this.fetchFunction({ value: this.state.value });
-          });
-        } else {
+        this.setState({ pendingSelection: true }, () => {
           this.fetchFunction({ value: this.state.value });
-        }
+        });
       }
       this.inputClicked();
       return;
