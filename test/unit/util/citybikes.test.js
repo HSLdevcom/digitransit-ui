@@ -61,11 +61,11 @@ describe('citybikes', () => {
       );
     });
 
-    it('should convert networkId to lowercase', () => {
+    it('should handle networkId case-sensitive', () => {
       const config = {
         cityBike: {
           networks: {
-            foobar: {
+            Foobar: {
               icon: 'citybike',
               type: 'scooter',
             },
@@ -73,7 +73,7 @@ describe('citybikes', () => {
         },
       };
       expect(getCityBikeNetworkConfig('Foobar', config)).to.equal(
-        config.cityBike.networks.foobar,
+        config.cityBike.networks.Foobar,
       );
     });
   });

@@ -245,7 +245,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
         intermediatePlaceLocations,
       );
   const defaultSettings = { ...getDefaultSettings(config) };
-  // legacy settings used to set network name in uppercase in localstorage
+  // network Id is handled case sensitive by OTP, so don't switch case
   const allowedVehicleRentalNetworksMapped = Array.isArray(
     settings.allowedVehicleRentalNetworks,
   )

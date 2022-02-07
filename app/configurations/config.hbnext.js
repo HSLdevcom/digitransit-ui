@@ -188,7 +188,7 @@ export default configMerger(walttiConfig, {
                     end: new Date(new Date().getFullYear(), 11, 31),
                 },
             },
-            'tier_ludwigsburg': {
+            'tier_LUDWIGSBURG': {
                 icon: 'scooter',
                 name: {
                     de: 'TIER Ludwigsburg',

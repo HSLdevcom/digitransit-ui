@@ -53,7 +53,7 @@ export const getCityBikeNetworkConfig = (networkId, config) => {
   if (!networkId || !networkId.toLowerCase) {
     return defaultNetworkConfig;
   }
-  const id = networkId.toLowerCase();
+  const id = networkId;
   if (
     config &&
     config.cityBike &&
@@ -143,7 +143,13 @@ export const updateCitybikeNetworks = (
     chosenNetworks = currentSettings.find(
       o => o.toLowerCase() === newValue.toLowerCase(),
     )
-      ? without(currentSettings, newValue, newValue.toUpperCase())
+      ? // Not only remove uppercased network, but also lowercased network
+        without(
+          currentSettings,
+          newValue,
+          newValue.toUpperCase(),
+          newValue.toLowerCase(),
+        )
       : currentSettings.concat([newValue]);
   } else {
     chosenNetworks = [newValue];

@@ -164,13 +164,28 @@ export default configMerger(walttiConfig, {
                 enabled: true,
                 hideCode: true,
             },
-            'tier_reutlingen': {
+            'tier_REUTLINGEN': {
                 icon: 'scooter',
                 name: {
                     de: 'TIER Reutlingen',
                     en: 'TIER Reutlingen',
                 },
                 type: 'scooter',
+                url: {
+                    de: 'https://www.tier.app/de',
+                    en: 'https://www.tier.app/',
+                },
+                visibleInSettingsUi: true,
+                enabled: true,
+                hideCode: true,
+            },
+            'tier_MUENSINGEN': {
+                icon: 'scooter',
+                name: {
+                    de: 'TIER Münsingen',
+                    en: 'TIER Münsingen',
+                },
+                type: 'citybike',
                 url: {
                     de: 'https://www.tier.app/de',
                     en: 'https://www.tier.app/',

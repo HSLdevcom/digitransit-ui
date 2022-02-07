@@ -45,10 +45,8 @@ const CityBikeNetworkSelector = (
             id={`settings-toggle-bike-${network.networkName}`}
             toggled={
               isUsingCitybike &&
-              currentOptions.filter(
-                option =>
-                  option.toLowerCase() === network.networkName.toLowerCase(),
-              ).length > 0
+              currentOptions.filter(option => option === network.networkName)
+                .length > 0
             }
             onToggle={() => {
               executeAction(saveRoutingSettings, {

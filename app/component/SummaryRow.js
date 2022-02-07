@@ -131,7 +131,7 @@ export const ModeLeg = (
 ) => {
   let networkIcon;
   if (
-    (mode === 'CITYBIKE' || mode === 'BICYCLE') &&
+    (mode === 'CITYBIKE' || mode === 'BICYCLE' || mode === 'SCOOTER') &&
     leg.from.bikeRentalStation
   ) {
     networkIcon =
@@ -363,7 +363,9 @@ const SummaryRow = (
         );
       }
     } else if (
-      (leg.mode === 'CITYBIKE' || leg.mode === 'BICYCLE') &&
+      (leg.mode === 'CITYBIKE' ||
+        leg.mode === 'BICYCLE' ||
+        leg.mode === 'SCOOTER') &&
       leg.rentedBike
     ) {
       const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
@@ -395,6 +397,7 @@ const SummaryRow = (
           renderModeIcons={renderModeIcons}
           leg={leg}
           duration={bikingTime}
+          // TODO Use leg.mode (requires updating css for rental submode)
           mode="CITYBIKE"
           legLength={legLength}
           large={breakpoint === 'large'}
