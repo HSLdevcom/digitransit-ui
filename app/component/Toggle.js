@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
-import Message from './Message';
 
-const Toggle = ({ toggled, title, label, onToggle, id }) => {
+const Toggle = ({ toggled, title, onToggle, id }) => {
   const useId = id || uniqueId('input-');
   return (
     <div className="option-toggle-container" title={title}>
-      {label && <Message defaultMessage={label} />}
-      <label className="toggle" htmlFor={useId}>
+      <div className="toggle">
         <input
           type="checkbox"
           id={useId}
@@ -24,14 +22,13 @@ const Toggle = ({ toggled, title, label, onToggle, id }) => {
           onChange={() => onToggle()}
         />
         <span className="slider round" />
-      </label>
+      </div>
     </div>
   );
 };
 
 Toggle.propTypes = {
   toggled: PropTypes.bool,
-  label: PropTypes.string,
   onToggle: PropTypes.func.isRequired,
   title: PropTypes.string,
   id: PropTypes.string,
@@ -39,7 +36,6 @@ Toggle.propTypes = {
 
 Toggle.defaultProps = {
   toggled: true,
-  label: '',
   title: undefined,
   id: null,
 };

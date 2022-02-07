@@ -132,11 +132,10 @@
 
   .toggle-container {
     .settings-header {
-      padding-top: 0.5em;
-    }
-    span {
-      padding-top: 1em;
+      display: flex;
       width: 100%;
+      justify-content: space-between;
+      padding-top: 0.5em;
     }
     .icon-container {
       width: auto;
@@ -147,6 +146,7 @@
     font-weight: $font-weight-medium;
 
     .walk-option-inner {
+      height: 51px;
       padding: 0 16px 0 16px;
     }
 
@@ -154,14 +154,13 @@
       border-bottom: 1px solid #e3e3e3;
     }
 
-    .toggle-container {
+    label.toggle-label {
       display: flex;
       justify-content: space-between;
-      height: 51px;
-    }
-    label.toggle-label {
-      padding-top: 17px;
-      line-height: 16px;
+
+      .toggle-label-text {
+        padding-top: 5px;
+      }
     }
   }
 }
@@ -222,8 +221,6 @@
 }
 
 .mode-option-container {
-  display: flex;
-  justify-content: space-between;
   border-bottom: 1px solid #e3e3e3;
   font-size: $font-size-small;
   flex-wrap: wrap;
@@ -244,6 +241,7 @@
   label.toggle-label {
     font-size: 0.92rem;
     font-weight: $font-weight-medium;
+    align-items: center;
   }
 
   .mode-option-block {
@@ -271,16 +269,16 @@
       }
     }
     label.mode-name  {
+      display: flex;
+      justify-content: space-between;
       font-weight: $font-weight-medium;
       font-size: $font-size-small;
     }
     .mode-name {
-      display: flex;
-      flex-direction: column;
-      margin-top: 1.2em;
       width:100%;
-      span {
+      > span {
         line-height: 1.1em;
+        margin-top: 1.2em;
       }
       .span-bike-not-allowed {
         font-size: $font-size-xxsmall;
@@ -347,10 +345,13 @@
   height: 3.5em;
 
   label.toggle-label {
-    flex-grow: 1;
     display:flex;
+    justify-content: space-between;
     line-height: 35px;
     color: #333;
+    .accessibility-label {
+      flex-grow: 1;
+    }
   }
 }
 
