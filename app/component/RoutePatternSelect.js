@@ -387,7 +387,6 @@ class RoutePatternSelect extends Component {
               id: 'select-route-pattern-input',
               'aria-autocomplete': 'none',
               readOnly: true,
-              'aria-labelledby': 'pattern-select-label-text',
             }}
             renderInputComponent={inputProps => {
               return (
