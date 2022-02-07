@@ -267,11 +267,17 @@ class FavouriteBar extends React.Component {
       if (listOpen) {
         this.toggleList();
       }
-    } else if (key === 'ArrowUp' || key === 38) {
+    } else if (
+      (key === 'ArrowUp' || key === 38) &&
+      this.props.favourites.length > 0
+    ) {
       const next =
         highlightedIndex === 0 ? favourites.length + 1 : highlightedIndex - 1;
       this.highlightSuggestion(next);
-    } else if (key === 'ArrowDown' || key === 40) {
+    } else if (
+      (key === 'ArrowDown' || key === 40) &&
+      this.props.favourites.length > 0
+    ) {
       const next =
         highlightedIndex === favourites.length + 1 ? 0 : highlightedIndex + 1;
       this.highlightSuggestion(next);
