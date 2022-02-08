@@ -54,11 +54,19 @@ const EmbeddedSearchGenerator = (props, context) => {
 
   const value = location => {
     return (
-      (location?.properties && location.properties.label) ||
-      (location?.type === 'CurrentLocation' &&
-        intl.formatMessage({ id: 'own-position' })) ||
+      location?.address ||
+      location?.name ||
+      (location?.gps && intl.formatMessage({ id: 'own-position' })) ||
       ''
     );
+  };
+
+  const onSelectLocation = (item, id) => {
+    if (id === 'origin') {
+      setSearchOrigin(item);
+    } else {
+      setSearchDestination(item);
+    }
   };
 
   const searchProps = {
@@ -75,6 +83,7 @@ const EmbeddedSearchGenerator = (props, context) => {
     fontWeights,
     modeSet: config.iconModeSet,
     modeIconColors: config.colors.modeIconColors,
+    selectHandler: onSelectLocation,
   };
 
   const generateComponent = () => {
@@ -85,8 +94,8 @@ const EmbeddedSearchGenerator = (props, context) => {
       } else {
         locData = {
           ...locData,
-          lon1: searchOrigin?.geometry?.coordinates[0],
-          lat1: searchOrigin?.geometry?.coordinates[1],
+          lon1: searchOrigin?.lon,
+          lat1: searchOrigin?.lat,
           address1: value(searchOrigin),
         };
       }
@@ -97,8 +106,8 @@ const EmbeddedSearchGenerator = (props, context) => {
       } else {
         locData = {
           ...locData,
-          lon2: searchDestination?.geometry?.coordinates[0],
-          lat2: searchDestination?.geometry?.coordinates[1],
+          lon2: searchDestination?.lon,
+          lat2: searchDestination?.lat,
           address2: value(searchDestination),
         };
       }
@@ -116,22 +125,22 @@ const EmbeddedSearchGenerator = (props, context) => {
     const currentURL = window.location.origin;
     let iframeHTML = `<iframe width="${searchWidth}" height="250" style="border-radius: 10px;" src="${currentURL}${EMBEDDED_SEARCH_PATH}?${searchModeRestriction}&lang=${searchLang}`;
     if (!chooseFreely) {
-      if (searchOriginDefined) {
+      if (searchOriginDefined && searchOrigin) {
         if (originIsCurrentLocation()) {
           iframeHTML += '&originLoc=1';
         } else {
           iframeHTML += `&address1=${value(searchOrigin)}&lon1=${
-            searchOrigin?.geometry?.coordinates[0]
-          }&lat1=${searchOrigin?.geometry?.coordinates[1]}`;
+            searchOrigin?.lon
+          }&lat1=${searchOrigin?.lat}`;
         }
       }
-      if (searchDestinationDefined) {
+      if (searchDestinationDefined && searchDestination) {
         if (destinationIsCurrentLocation()) {
           iframeHTML += '&destinationLoc=1';
         } else {
           iframeHTML += `&address2=${value(searchDestination)}&lon2=${
-            searchDestination?.geometry?.coordinates[0]
-          }&lat2=${searchDestination?.geometry?.coordinates[1]}`;
+            searchDestination?.lon
+          }&lat2=${searchDestination?.lat}`;
         }
       }
     }
@@ -371,8 +380,8 @@ const EmbeddedSearchGenerator = (props, context) => {
                   id="origin"
                   placeholder="search-origin-index"
                   className="origin-search"
-                  onSelect={setSearchOrigin}
                   value={value(searchOrigin)}
+                  onClear={() => setSearchOrigin(undefined)}
                   {...searchProps}
                 />
               </div>
@@ -408,8 +417,8 @@ const EmbeddedSearchGenerator = (props, context) => {
                   id="destination"
                   placeholder="search-destination-index"
                   className="destination-search"
-                  onSelect={setSearchDestination}
                   value={value(searchDestination)}
+                  onClear={() => setSearchDestination(undefined)}
                   {...searchProps}
                 />
               </div>

@@ -13,6 +13,7 @@ import {
   PREFIX_ITINERARY_SUMMARY,
 } from '../util/path';
 import Icon from './Icon';
+import Loading from './Loading';
 
 const LocationSearch = withSearchContext(DTAutosuggestPanel, true);
 
@@ -115,6 +116,7 @@ const EmbeddedSearch = (props, context) => {
       ? defaultDestination
       : {},
   );
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setOrigin(
@@ -202,11 +204,7 @@ const EmbeddedSearch = (props, context) => {
       destination,
       PREFIX_ITINERARY_SUMMARY,
     )}${urlEnd}`;
-    if (window.self !== window.top) {
-      window.parent.location.href = pathName;
-    } else {
-      window.location.href = pathName;
-    }
+    window.open(pathName, '_blank');
   };
 
   // eslint-disable-next-line consistent-return
@@ -236,11 +234,16 @@ const EmbeddedSearch = (props, context) => {
       /* webpackChunkName: "main" */ `../configurations/images/${config.logo}`
     ).then(l => {
       setLogo(l.default);
+      setLoading(false);
     });
   }, []);
 
   if (i18next.language !== lang) {
     i18next.changeLanguage(lang);
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (
