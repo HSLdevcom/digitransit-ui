@@ -371,9 +371,8 @@ export function getSearchResults(
     }
     if (allSources || sources.includes('Datasource')) {
       const geocodingLayers = ['stop', 'station'];
-      const searchParams = {
-        size: geocodingSize,
-      };
+      const searchParams =
+        geocodingSize && geocodingSize !== 10 ? { size: geocodingSize } : {};
       const feedis = feedIDs.map(v => `gtfs${v}`).join(',');
       searchComponents.push(
         getGeocodingResults(

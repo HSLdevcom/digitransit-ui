@@ -418,6 +418,7 @@ class DTAutosuggest extends React.Component {
         );
         return;
       }
+      this.selectionDone = true; // selection done, do not let upcoming keyboard events confuse the flow
       this.setState(
         {
           editing: false,
@@ -430,12 +431,17 @@ class DTAutosuggest extends React.Component {
           } else {
             this.props.onSelect(ref.suggestion, this.props.id);
           }
-          this.setState({
-            renderMobileSearch: false,
-            sources: this.props.sources,
-            ownPlaces: false,
-            suggestions: [],
-          });
+          this.setState(
+            {
+              renderMobileSearch: false,
+              sources: this.props.sources,
+              ownPlaces: false,
+              suggestions: [],
+            },
+            () => {
+              this.selectionDone = false;
+            },
+          );
           if (this.props.focusChange && !this.props.isMobile) {
             this.props.focusChange();
           }
@@ -527,6 +533,10 @@ class DTAutosuggest extends React.Component {
     return this.setState(
       { valid: false, cleanExecuted: !cleanExecuted ? false : cleanExecuted },
       () => {
+        if (this.selectionDone) {
+          // do not let component cast unnecessary requests
+          return;
+        }
         const isLocationSearch =
           isEmpty(this.props.targets) ||
           this.props.targets.includes('Locations');
@@ -743,31 +753,30 @@ class DTAutosuggest extends React.Component {
     );
   };
 
-  // DT-3263 starts
-  // eslint-disable-next-line consistent-return
   keyDown = event => {
+    if (this.selectionDone) {
+      return;
+    }
     const keyCode = event.key;
     if (keyCode === 'Escape') {
       this.setState({ editing: false });
     }
     if (this.state.editing) {
       if (keyCode === 'Enter') {
-        if (this.props.isMobile) {
-          this.setState({ pendingSelection: true }, () => {
-            this.fetchFunction({ value: this.state.value });
-          });
-        } else {
+        this.setState({ pendingSelection: true }, () => {
           this.fetchFunction({ value: this.state.value });
-        }
+        });
       }
-      return this.inputClicked();
+      this.inputClicked();
+      return;
     }
 
     if (
       (keyCode === 'Enter' || keyCode === 'ArrowDown') &&
       this.state.value === ''
     ) {
-      return this.clearInput();
+      this.clearInput();
+      return;
     }
 
     if (keyCode === 'ArrowDown' && this.state.value !== '') {
@@ -785,7 +794,7 @@ class DTAutosuggest extends React.Component {
     }
 
     if (keyCode === 'Tab') {
-      return this.onBlur();
+      this.onBlur();
     }
   };
 

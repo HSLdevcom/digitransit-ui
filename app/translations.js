@@ -857,6 +857,7 @@ const translations = {
     'add-via-duration-button-label-open':
       'Open stop duration selector at via point {index}',
     'add-work': 'Add work',
+    all: 'All',
     'aria-itinerary-summary':
       'Total journey time {duration}. Departing at {inFuture} {departureTime} and arriving at {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
@@ -916,6 +917,7 @@ const translations = {
     'bike-availability': 'Bikes available at the station right now',
     'bike-not-allowed-bus': 'Bikes are not allowed on the bus',
     'bike-not-allowed-tram': 'Bikes are not allowed on the tram',
+    'bike-only': 'Only biking',
     'bike-park': 'Park & Ride for bikes',
     'bike-park-disclaimer':
       'You can conveniently combine cycling and public transport: leave your bike at a Park & Ride and continue by train, bus, metro or tram. Bike parking is free of charge and there are no time limits.',
@@ -948,6 +950,7 @@ const translations = {
     car_park: 'Park & ride',
     cause: 'cause',
     'char-left': 'characters',
+    'choose-freely': 'Choose freely',
     'choose-stop': 'Select stop',
     'choose-stop-or-vehicle': 'Select vehicle or stop',
     'choose-vehicle': 'Select vehicle',
@@ -978,6 +981,7 @@ const translations = {
     'close-settings': 'Close window and save settings',
     'contact-information': '{contactName} contact details',
     continue: 'Continue',
+    'copy-code': 'Copy code',
     covered: 'Sheltered',
     'create-account': 'Create {contactName} account',
     'create-stop-monitor': 'Create a stop display',
@@ -1005,6 +1009,7 @@ const translations = {
     'departures-by-hour-minutes-route': '(minutes/route)',
     description: 'Find public transport services to locations near and far.',
     destination: 'Destination',
+    'destination-defined': 'Destination defined',
     'destination-outside-service':
       'No route suggestions were found because the destination is outside the service area.',
     'destination-placeholder': 'Enter destination, route or stop',
@@ -1028,7 +1033,15 @@ const translations = {
     'edit-favourites': 'Edit the location in the Favorites',
     'elevation-gained-total': 'Elevation gained',
     'elevation-lost-total': 'Elevation lost',
+    'embedded-search.choose-language': 'Language',
+    'embedded-search.choose-mode': 'Mode of transport',
+    'embedded-search.choose-width-component': 'Width of the component',
+    'embedded-search.component-heading': 'Embedded search component',
+    'embedded-search.component-info':
+      'Create your own embedded search component and add it to your own service. The search button of the component will redirect to the journey planner',
+    'embedded-search.form-heading': 'Component settings',
     engine_ignition_aid: 'Engine starting aid',
+    english: 'English',
     explanations: 'Explanations',
     'extra-info': 'More info',
     'favourite-failed-text': 'Please try again in a while.',
@@ -1036,9 +1049,7 @@ const translations = {
     ferry: 'Ferry',
     'ferry-with-route-number': 'Ferry {routeNumber} {headSign}',
     'fetch-new-route': 'Fetch a new route',
-    'find-bike-route': 'Find a biking route',
-    'find-route': 'Find a route',
-    'find-walk-route': 'Find a walking route ',
+    finnish: 'Finnish',
     'free-of-charge': 'Free',
     'from-ferry': 'ferry',
     'from-rail': 'train',
@@ -1269,6 +1280,8 @@ const translations = {
     'option-most': 'Fast',
     or: 'or',
     origin: 'Origin',
+    'origin-and-destination': 'Origin and destination',
+    'origin-defined': 'Origin defined',
     'origin-outside-service':
       'No route suggestions were found because the origin is outside the service area.',
     'origin-placeholder': 'From? - address or stop',
@@ -1305,6 +1318,7 @@ const translations = {
     'platform-short-no-num': 'Plat.',
     position: 'Position',
     'prefer-walking': 'Prefer walking',
+    preview: 'Preview',
     previous: 'Previous',
     print: 'Print',
     'print-timetable': 'Weekly timetable',
@@ -1378,7 +1392,6 @@ const translations = {
     'search-origin': 'Search origin, route or stop',
     'search-origin-index': 'Enter origin',
     'search-position': 'Detect location',
-    'search-route': 'Search routes',
     'search-search-results-but-no-destination':
       'View results in the adjacent “About the route or stop” tab',
     'searching-position': 'Detecting location...',
@@ -1466,6 +1479,7 @@ const translations = {
     'summary-page.title': 'Itinerary suggestions',
     surveillance_cameras: 'Camera surveillance',
     'swap-order-button-label': 'Reverse origin and destination',
+    swedish: 'Swedish',
     'swipe-disruption-info': 'Disruption info  swipe result tabs',
     'swipe-disruption-info-header': 'Disruption info swipe result tabs.',
     'swipe-message-bar': 'Message swipe result tabs',
@@ -1538,6 +1552,7 @@ const translations = {
     'walk-bike-itinerary-4':
       'Your search only returned routes requiring cycling or driving.',
     'walk-distance-duration': 'Walk {duration} ({distance})',
+    'walk-only': 'Only walking',
     walking: 'Amount of walking',
     'walking-speed': 'Walking speed',
     'warning-call-agency':
@@ -1905,6 +1920,7 @@ const translations = {
     'add-to-favourites': 'Lisää suosikiksi',
     'add-via-button-label': 'Lisää välipiste',
     'add-work': 'Lisää työ',
+    all: 'Kaikki',
     'aria-itinerary-summary':
       'Matkan kokonaiskesto {duration}. Lähtö {inFuture} kello {departureTime}. Perillä kello {arrivalTime}.',
     'aria-itinerary-summary-bike-distance':
@@ -1971,6 +1987,7 @@ const translations = {
     'bike-availability': 'Pyöriä asemalla juuri nyt',
     'bike-not-allowed-bus': 'Pyörää ei voi kuljettaa bussissa',
     'bike-not-allowed-tram': 'Pyörää ei voi kuljettaa raitiovaunussa',
+    'bike-only': 'Vain pyöräily',
     'bike-park': 'Liityntäpyöräparkki',
     'bike-park-disclaimer':
       'Voit yhdistää kätevästi joukkoliikenteen ja pyöräilyn, kun jätät pyöräsi liityntäpysäköintiin ja jatkat matkaasi junalla, bussilla, metrolla tai ratikalla. Pyörän pysäköinti on maksutonta eikä siinä ole aikarajaa.',
@@ -2003,6 +2020,7 @@ const translations = {
     car_park: 'Liityntäpysäköinti',
     cause: 'syy',
     'char-left': 'merkkiä',
+    'choose-freely': 'Vapaasti valittavat',
     'choose-stop': 'Valitse pysäkki',
     'choose-stop-or-vehicle': 'Valitse linja tai pysäkki',
     'choose-vehicle': 'Valitse linja',
@@ -2035,6 +2053,7 @@ const translations = {
     'close-settings': 'Sulje ikkuna ja tallenna asetukset',
     'contact-information': '{contactName}:n yhteystiedot',
     continue: 'Jatka',
+    'copy-code': 'Kopioi koodi',
     covered: 'Katettu',
     'create-account': 'Luo {contactName} tunnus',
     'create-stop-monitor': 'Luo pysäkkinäyttö',
@@ -2063,6 +2082,7 @@ const translations = {
     'departures-by-hour-minutes-route': '(minuutit/linja)',
     description: 'Löydä joukkoliikennetarjonta lähelle ja kauas.',
     destination: 'Määränpää',
+    'destination-defined': 'Määränpää määritetty',
     'destination-label-change': 'Vaihda määränpää',
     'destination-outside-service':
       'Reittiehdotuksia ei löytynyt, koska määränpää sijaitsee palvelualueen ulkopuolella.',
@@ -2088,7 +2108,15 @@ const translations = {
     'edit-favourites': 'Muokkaa paikkaa Suosikkisi-välilehdellä',
     'elevation-gained-total': 'Nousua yhteensä',
     'elevation-lost-total': 'Laskua yhteensä',
+    'embedded-search.choose-language': 'Kieli',
+    'embedded-search.choose-mode': 'Liikkumistapa',
+    'embedded-search.choose-width-component': 'Upotuksen leveys',
+    'embedded-search.component-heading': 'Reittihakuelementti',
+    'embedded-search.component-info':
+      'Luo reittihakuelementti ja lisää se omaan palveluusi. Hakukomponentin Hae reitti -painikkeesta siirrytään reittioppaaseen.',
+    'embedded-search.form-heading': 'Upotusvalinnat',
     engine_ignition_aid: 'Käynnistysapu',
+    english: 'Englanti',
     explanations: 'Selitykset',
     'extra-info': 'Lisätiedot',
     'favourite-failed-text': 'Yritä hetken päästä uudelleen.',
@@ -2096,9 +2124,7 @@ const translations = {
     ferry: 'Lautta',
     'ferry-with-route-number': 'Lautta {routeNumber} {headSign}',
     'fetch-new-route': 'Hae uusi reitti',
-    'find-bike-route': 'Löydä pyöräreitti',
-    'find-route': 'Löydä reitti',
-    'find-walk-route': 'Löydä kävelyreitti',
+    finnish: 'Suomi',
     'free-of-charge': 'Maksuton',
     'from-ferry': 'lautasta',
     'from-rail': 'junasta',
@@ -2320,6 +2346,8 @@ const translations = {
     'option-most': 'Nopea',
     or: 'tai',
     origin: 'Lähtöpaikka',
+    'origin-and-destination': 'Lähtöpaikka ja määränpää',
+    'origin-defined': 'Lähtöpaikka määritetty',
     'origin-label-change': 'Vaihda lähtöpaikka',
     'origin-outside-service':
       'Reittiehdotuksia ei löytynyt, koska lähtöpaikka sijaitsee palvelualueen ulkopuolella.',
@@ -2357,6 +2385,7 @@ const translations = {
     'platform-short-no-num': 'Lait.',
     position: 'Sijainti',
     'prefer-walking': 'Suosi kävelyä',
+    preview: 'Esikatselu',
     previous: 'Edelliset',
     print: 'Tulosta',
     'print-timetable': 'Viikkoaikataulu',
@@ -2429,7 +2458,6 @@ const translations = {
     'search-origin': 'Hae lähtöpaikkaa, linjaa tai pysäkkiä',
     'search-origin-index': 'Syötä lähtöpaikka',
     'search-position': 'Paikanna',
-    'search-route': 'Hae reitti',
     'search-search-results-but-no-destination':
       'Katso tulokset viereiseltä "Tietoja linjasta tai pysäkistä" –välilehdeltä',
     'searching-position': 'Paikannetaan...',
@@ -2518,6 +2546,7 @@ const translations = {
     'summary-page.title': 'Reittiehdotukset',
     surveillance_cameras: 'Kameravalvonta',
     'swap-order-button-label': 'Käännä reitin suunta vastakkaiseksi',
+    swedish: 'Ruotsi',
     'swipe-disruption-info': 'Poikkeustietovälilehtien',
     'swipe-disruption-info-header': 'Poikkeustietovälilehdet.',
     'swipe-message-bar': 'Viestivälilehtien',
@@ -2594,6 +2623,7 @@ const translations = {
     'walk-bike-itinerary-4':
       'Löysimme valitsemallesi reitille vain omiin kulkuneuvoihin liittyviä reittiehdotuksia.',
     'walk-distance-duration': 'Kävele {duration} ({distance})',
+    'walk-only': 'Vain kävely',
     walking: 'Kävelyn määrä',
     'walking-speed': 'Kävelynopeus',
     'warning-call-agency': `Liikennöidään kutsujoukkoliikenteenä: {routeName},
@@ -3751,6 +3781,7 @@ const translations = {
     'add-via-duration-button-label-open':
       'Öppna väljaren för varaktighet vid via-punkten',
     'add-work': 'Lägg till arbete',
+    all: 'Allt',
     'aria-itinerary-summary':
       'Den totala restiden {duration}. Avgång {inFuture} klockan {departureTime}. Framme klockan {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
@@ -3805,6 +3836,7 @@ const translations = {
     'bike-availability': 'Antal cyklar just nu',
     'bike-not-allowed-bus': 'Cyklar är inte tillåtna på bussen',
     'bike-not-allowed-tram': 'Cyklar är inte tillåtna på spårvagnen',
+    'bike-only': 'Bara cyckla',
     'bike-park': 'Anslutningsparkering för cyklar',
     'bike-park-disclaimer':
       'Du kan enkelt kombinera kollektivtrafiken med cykling, när du lämnar din cykel i anslutningsparkering och fortsätter din resa med tåg, buss, metro eller spårvagn. Cykelparkeringen är gratis och den har inte en begränsad parkeringstid.',
@@ -3837,6 +3869,7 @@ const translations = {
     car_park: 'Infartsparkering',
     cause: 'Orsak',
     'char-left': 'tecken',
+    'choose-freely': 'Välja fritt',
     'choose-stop': 'Välj hållplats',
     'choose-stop-or-vehicle': 'Select vehicle or stop',
     'choose-vehicle': 'Select vehicle',
@@ -3869,6 +3902,7 @@ const translations = {
     'close-settings': 'Stäng fönstret och spara inställningar',
     'contact-information': '{contactName} Kontaktuppgifter',
     continue: 'Fortsätt',
+    'copy-code': 'Kopiera koden',
     covered: 'Tak',
     'create-account': 'Skapa {contactName} konto',
     'create-stop-monitor': 'Skapa hållplatsskärm',
@@ -3897,6 +3931,7 @@ const translations = {
     'departures-by-hour-minutes-route': '(minuter/rad)',
     description: 'Res kollektivt när och fjärran.',
     destination: 'Destination',
+    'destination-defined': 'Destination definierat',
     'destination-label-change': 'Byt destination',
     'destination-outside-service':
       'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra destination, som ligger utanför serviceområde.',
@@ -3921,7 +3956,15 @@ const translations = {
     'edit-favourites': 'Redigera favoritdestination',
     'elevation-gained-total': 'Uppförsbacke totalt',
     'elevation-lost-total': 'Nedförsbacke totalt',
+    'embedded-search.choose-language': 'Språk',
+    'embedded-search.choose-mode': 'Transportsätt',
+    'embedded-search.choose-width-component': 'Bredd på komponenten',
+    'embedded-search.component-heading': 'Ruttsökningselement',
+    'embedded-search.component-info':
+      'Skapa din egen inbäddade sökkomponent och lägg till den i din egen tjänst. Sökknappen för komponenten omdirigerar till reseplaneraren.',
+    'embedded-search.form-heading': 'Komponentinställningar',
     engine_ignition_aid: 'Starthjälp',
+    english: 'Engelsk',
     explanations: 'Förklaringar',
     'extra-info': 'Mer info',
     'favourite-failed-text': 'Försök på nytt senare.',
@@ -3929,9 +3972,7 @@ const translations = {
     ferry: 'Färja',
     'ferry-with-route-number': 'Färja {routeNumber} {headSign}',
     'fetch-new-route': 'Sök en ny rutt',
-    'find-bike-route': 'Sök en cyckelrutt',
-    'find-route': 'Sök en rutt',
-    'find-walk-route': 'Sök en promenadsrutt ',
+    finnish: 'Finska',
     'free-of-charge': 'Kostnadsfri',
     'from-ferry': 'lautasta',
     'from-rail': 'junasta',
@@ -4159,6 +4200,8 @@ const translations = {
     'option-most': 'Mest',
     or: 'eller',
     origin: 'Avfärdsplats',
+    'origin-and-destination': 'Avfärdsplats och destination',
+    'origin-defined': 'Avfärdsplats definierat',
     'origin-label-change': 'Byt avfärdsplats',
     'origin-outside-service':
       'Kunde inte hitta ruttförslag eftersom avgångsplatsen ligger utanför vårt serviceområde.',
@@ -4196,6 +4239,7 @@ const translations = {
     'platform-short-no-num': 'Plattf.',
     position: 'Position',
     'prefer-walking': 'Främja gång',
+    preview: 'Förhandsvisning',
     previous: 'Senaste',
     print: 'Skriv ut',
     'print-timetable': 'Veckans tidtabell',
@@ -4268,7 +4312,6 @@ const translations = {
     'search-origin': 'Sök avfärdsplats, linje eller hållplats',
     'search-origin-index': 'Skriv avfärdsplats',
     'search-position': 'Sök position',
-    'search-route': 'Söka rutter',
     'search-search-results-but-no-destination':
       'Se resultaten under fliken Linje eller hållplats',
     'searching-position': 'Söker position...',
@@ -4359,6 +4402,7 @@ const translations = {
     'summary-page.title': 'Ruttförslag',
     surveillance_cameras: 'Kameraövervakning',
     'swap-order-button-label': 'Sväng ruttens riktning till den motsatta',
+    swedish: 'Svenska',
     'swipe-disruption-info': 'Navigeringsknapp för att kunna bläddra störning',
     'swipe-disruption-info-header': 'Störning.',
     'swipe-message-bar': 'Navigeringsknapp för att kunna bläddra stäng banner',
@@ -4440,6 +4484,7 @@ const translations = {
     'walk-bike-itinerary-4':
       'Vi har endast hittat ruttförslag i vilka ingår cykling eller körning.',
     'walk-distance-duration': 'Gå {duration} ({distance})',
+    'walk-only': 'Bara promenader',
     walking: 'Gång',
     'walking-speed': 'Promenadhastighet',
     'warning-call-agency':

@@ -23,6 +23,7 @@ import {
   TAB_NEARBY,
   TAB_FAVOURITES,
   EMBEDDED_SEARCH_PATH,
+  EMBEDDED_SEARCH_GENERATOR_PATH,
 } from './util/path';
 import {
   getDefault,
@@ -424,6 +425,14 @@ export default config => {
           import(/* webpackChunkName: "about" */ './component/AboutPage').then(
             getDefault,
           )
+        }
+      />
+      <Route
+        path={EMBEDDED_SEARCH_GENERATOR_PATH}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "embedded-search-generator" */ './component/EmbeddedSearchGenerator'
+          ).then(getDefault)
         }
       />
       <Route
