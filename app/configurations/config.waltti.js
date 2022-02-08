@@ -1,7 +1,7 @@
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const MAP_VERSION = process.env.MAP_VERSION || 'v1';
+const MAP_VERSION = process.env.MAP_VERSION || 'v2';
 const APP_DESCRIPTION = 'Uusi Reittiopas';
 const YEAR = 1900 + new Date().getYear();
 

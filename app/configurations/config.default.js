@@ -8,7 +8,7 @@ const GEOCODING_BASE_URL =
   process.env.GEOCODING_BASE_URL || `${API_URL}/geocoding/v1`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const MAP_VERSION = process.env.MAP_VERSION || 'v1';
+const MAP_VERSION = process.env.MAP_VERSION || 'v2';
 const APP_PATH = process.env.APP_CONTEXT || '';
 const { SENTRY_DSN, AXE, NODE_ENV } = process.env;
 const PORT = process.env.PORT || 8080;
