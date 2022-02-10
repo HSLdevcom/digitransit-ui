@@ -98,8 +98,28 @@ class OldSearchesStore extends Store {
     this.emitChange();
   }
 
+  getOldSearchItems() {
+    const { items } = this.getStorageObject();
+    const timestamp = moment().unix();
+    return items.filter(
+      item =>
+        (item.lastUpdated
+          ? timestamp - item.lastUpdated < STORE_PERIOD
+          : true) && !isCurrentLocationItem(item),
+    );
+  }
+
+  saveOldSearchItems(items) {
+    setOldSearchesStorage({
+      version: STORE_VERSION,
+      items: orderBy(items, 'count', 'desc'),
+    });
+    this.emitChange();
+  }
+
   static handlers = {
     SaveSearch: 'saveSearch',
+    SaveSearchItems: 'saveOldSearchItems',
   };
 }
 
