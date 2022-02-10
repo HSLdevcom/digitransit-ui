@@ -90,6 +90,7 @@ SelectStopRow.propTypes = {
   code: PropTypes.string,
   desc: PropTypes.string,
   terminal: PropTypes.bool,
+  colors: PropTypes.object,
 };
 
 SelectStopRow.defaultProps = {
