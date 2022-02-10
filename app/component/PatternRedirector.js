@@ -3,14 +3,32 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import sortBy from 'lodash/sortBy';
 import { matchShape, routerShape, RedirectException } from 'found';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { isBrowser } from '../util/browser';
 import Error404 from './404';
+import { saveSearchItems } from '../action/SearchActions';
+import { getOldSearchItems } from '../util/storeUtils';
 
-const PatternRedirector = ({ router, match, route, error }) => {
+const PatternRedirector = ({ router, match, route }, context) => {
   if (!route) {
-    if (error) {
+    const oldSearchItems = getOldSearchItems(context);
+    const oldItem = oldSearchItems.filter(
+      s =>
+        s.item.properties.layer.startsWith('route-') &&
+        s.item.properties.link === match.location.pathname,
+    );
+    if (oldItem && oldItem.length !== 0) {
+      const error = {
+        id: 'no-route-found',
+        values: {
+          shortName: oldItem[0].item.properties.shortName,
+          longName: oldItem[0].item.properties.longName,
+        },
+      };
+      context.executeAction(
+        saveSearchItems,
+        oldSearchItems.filter(s => s !== oldItem[0]),
+      );
       return <Error404 error={error} />;
     }
     return <Error404 />;
@@ -47,54 +65,29 @@ const PatternRedirector = ({ router, match, route, error }) => {
   return null;
 };
 
+PatternRedirector.contextTypes = {
+  executeAction: PropTypes.func.isRequired,
+  getStore: PropTypes.func.isRequired,
+};
+
 PatternRedirector.propTypes = {
   router: routerShape.isRequired,
   match: matchShape.isRequired,
   route: PropTypes.object,
-  error: PropTypes.object,
 };
 
-const containerComponent = createFragmentContainer(
-  connectToStores(PatternRedirector, ['OldSearchesStore'], (context, props) => {
-    let error;
-    if (!props.route) {
-      const oldItems = context.getStore('OldSearchesStore').getOldSearchItems();
-      const oldItem = oldItems.filter(
-        s =>
-          s.item.properties.layer.startsWith('route-') &&
-          s.item.properties.link === props.match.location.pathname,
-      );
-      if (oldItem && oldItem.length !== 0) {
-        error = {
-          id: 'no-route-found',
-          values: {
-            shortName: oldItem[0].item.properties.shortName,
-            longName: oldItem[0].item.properties.longName,
-          },
-        };
-        context
-          .getStore('OldSearchesStore')
-          .saveOldSearchItems(oldItems.filter(s => s !== oldItem[0]));
-      }
-    }
-    return {
-      ...props,
-      error,
-    };
-  }),
-  {
-    route: graphql`
-      fragment PatternRedirector_route on Route
-      @argumentDefinitions(date: { type: "String" }) {
-        patterns {
-          code
-          trips: tripsForDate(serviceDate: $date) {
-            gtfsId
-          }
+const containerComponent = createFragmentContainer(PatternRedirector, {
+  route: graphql`
+    fragment PatternRedirector_route on Route
+    @argumentDefinitions(date: { type: "String" }) {
+      patterns {
+        code
+        trips: tripsForDate(serviceDate: $date) {
+          gtfsId
         }
       }
-    `,
-  },
-);
+    }
+  `,
+});
 
-export { containerComponent as default, PatternRedirector as Component };
+export default containerComponent;
