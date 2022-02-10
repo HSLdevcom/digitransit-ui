@@ -16,6 +16,9 @@
         padding: 60px;
 
         input[type="checkbox"], input[type="radio"] {
+            /* stylelint-disable */
+            accent-color: $primary-color;
+            /* stylelint-enable */
             border: 1px solid #888888;
             box-sizing: border-box;
             width: 24px;
@@ -98,6 +101,7 @@
             align-self: center;
             margin-left: 14px;
             height: 28px;
+            white-space: nowrap;
         }
     }
 

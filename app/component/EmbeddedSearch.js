@@ -231,7 +231,7 @@ const EmbeddedSearch = (props, context) => {
 
   useEffect(() => {
     import(
-      /* webpackChunkName: "main" */ `../configurations/images/${config.logo}`
+      /* webpackChunkName: "embedded-search" */ `../configurations/images/${config.logo}`
     ).then(l => {
       setLogo(l.default);
       setLoading(false);
