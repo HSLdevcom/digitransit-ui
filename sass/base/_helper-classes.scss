@@ -250,5 +250,10 @@ body .large {
     button {
       margin: 0;
     }
+
+    &.error {
+      display: block;
+      margin: 25px;
+    }
   }
 }

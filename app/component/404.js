@@ -20,7 +20,7 @@ const Error404 = (props, { config }) => {
         </p>
       )}
       {error && (
-        <p>
+        <p className="error">
           <FormattedMessage
             id={error.id}
             values={error.values || {}}
