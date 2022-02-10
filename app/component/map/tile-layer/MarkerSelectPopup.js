@@ -25,6 +25,7 @@ function MarkerSelectPopup(props) {
           type={option.feature.properties.type}
           key={option.feature.properties.gtfsId}
           desc={option.feature.properties.desc}
+          colors={props.colors}
         />
       );
     }
@@ -37,6 +38,7 @@ function MarkerSelectPopup(props) {
           type={option.feature.properties.type}
           key={option.feature.properties.gtfsId}
           desc={option.feature.properties.desc}
+          colors={props.colors}
         />
       );
     }
