@@ -3119,17 +3119,36 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/content-delivery-api-types@npm:^0.1.3, @hsl-fi/content-delivery-api-types@npm:^0.1.4":
-  version: 0.1.4
-  resolution: "@hsl-fi/content-delivery-api-types@npm:0.1.4"
-  checksum: 5091b1cbebc354ddccdb829de3fa5aa512a60a1bebbae6313a08c0952d6ce67282e7d72418c97acc4bf0c40e13b1ab49e2796b393daa01d8242c08f8b0d5f0cc
+"@hsl-fi/content-delivery-api-types@npm:^0.1.3, @hsl-fi/content-delivery-api-types@npm:^0.1.4, @hsl-fi/content-delivery-api-types@npm:^0.1.5":
+  version: 0.1.5
+  resolution: "@hsl-fi/content-delivery-api-types@npm:0.1.5"
+  checksum: b70c59cd8f01f7e34cc54adc2106c0778f4fdbe156ee808fa2bb3a41dd7ccd2ceaf632ef5d2f9315b19ad0a71cb168ab5c8f8169d720b5465b0664e1198889cc
   languageName: node
   linkType: hard
 
-"@hsl-fi/hooks@npm:1.0.0, @hsl-fi/hooks@npm:^1.0.0":
+"@hsl-fi/hooks@npm:1.0.0":
   version: 1.0.0
   resolution: "@hsl-fi/hooks@npm:1.0.0"
   checksum: 56974d520db0fac13c8b7772aaba798a8dff9c90d4494150c08afd0453c1bf1f50a0f364242d2d89436b0acbe850765e4054e8bfff630263625b4bd840f762d4
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/hooks@npm:^1.0.0, @hsl-fi/hooks@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "@hsl-fi/hooks@npm:1.1.2"
+  checksum: 3493652aca0d6c52f30c2b297b32c91057beb4543399bb3bf04abdff1b64a767984f18e1a1689a62e11a8ad5a22cb4087d7309e12cc3bd01c2a0e116ac111e21
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/hsl-link@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@hsl-fi/hsl-link@npm:1.0.0"
+  peerDependencies:
+    next: ^10.0.6
+  peerDependenciesMeta:
+    next:
+      optional: true
+  checksum: 354778c3f983c976eeea15e9ff60290a61cde4e65c58661396959654c1d7d2776ea8cb492a2519af0e399345f1b386bee2723e1b5d77595fff6fbd852ce8d351
   languageName: node
   linkType: hard
 
@@ -3144,6 +3163,13 @@ __metadata:
   version: 1.0.3
   resolution: "@hsl-fi/icons@npm:1.0.3"
   checksum: 4a2927ee5d2ba1e8536aefaf8dea5d0388f0aa7bc0a1591627fc6c3cdfab730d9b4dd6e4944851407b8a1f50c075b0d4ba7227f2c88baf7226b030babd7b15c0
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/icons@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "@hsl-fi/icons@npm:1.0.4"
+  checksum: 3065a3c0268c9efe8cb11888d28c583d12f42bc638816b8014ba98a2ef0fb3324f6e023a067dcfaf5c1b7bed6d810c314b62dcadf97149cc020c702c816f2cd6
   languageName: node
   linkType: hard
 
@@ -3168,6 +3194,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hsl-fi/screen-reader-only@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@hsl-fi/screen-reader-only@npm:1.0.0"
+  checksum: 60151e57b005f2c3a1dac06cb89d509b74004b6cf5d9ad3eff8afadf0bbe3f6dbb581f6c1edff00689873a04d8f7b1b41087aa72928d183c0899cb4b60e5c23f
+  languageName: node
+  linkType: hard
+
 "@hsl-fi/search-input@npm:^1.0.0":
   version: 1.0.0
   resolution: "@hsl-fi/search-input@npm:1.0.0"
@@ -3185,7 +3218,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/shimmer@npm:0.1.0":
+"@hsl-fi/shimmer@npm:0.1.0, @hsl-fi/shimmer@npm:^0.1.0":
   version: 0.1.0
   resolution: "@hsl-fi/shimmer@npm:0.1.0"
   peerDependencies:
@@ -3196,22 +3229,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/site-header@npm:3.1.1":
-  version: 3.1.1
-  resolution: "@hsl-fi/site-header@npm:3.1.1"
+"@hsl-fi/site-header@npm:4.0.0-rc15":
+  version: 4.0.0-rc15
+  resolution: "@hsl-fi/site-header@npm:4.0.0-rc15"
   dependencies:
     "@hsl-fi/animated-spinner": ^0.2.0
     "@hsl-fi/button": ^1.2.3
     "@hsl-fi/container-spinner": ^0.3.1
-    "@hsl-fi/content-delivery-api-types": ^0.1.4
-    "@hsl-fi/hooks": ^1.0.0
-    "@hsl-fi/icons": ^1.0.2
+    "@hsl-fi/content-delivery-api-types": ^0.1.5
+    "@hsl-fi/hooks": ^1.1.2
+    "@hsl-fi/hsl-link": 1.0.0
+    "@hsl-fi/icons": ^1.0.4
     "@hsl-fi/sass": ^0.2.0
+    "@hsl-fi/screen-reader-only": ^1.0.0
     "@hsl-fi/search-input": ^1.0.0
-    "@hsl-fi/utilities": ^0.2.13
+    "@hsl-fi/shimmer": ^0.1.0
+    "@hsl-fi/traffic-announcements": ^1.1.1
+    "@hsl-fi/utilities": ^0.2.14
     lodash: 4.17.21
     react-animate-height: ^2.0.21
-  checksum: c1b8243d6ca10cec10227821c1cc0a035ea1c15f603ec512a4cbfb4d3b27459b0e2318bd06d7c145e2ce4faf70d9ce96f7fd1345206e1394f0e66c1041239500
+  checksum: 6ea8fd32d6294c96e1211058aa6c425e9df91d29e9b34d5f4e503b7915195946dd4b66342e77dea4ec78d688d1288ef11e7d59bc9ab87ba563ffcd493ad1fe2c
   languageName: node
   linkType: hard
 
@@ -3257,7 +3294,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/utilities@npm:^0.2.11, @hsl-fi/utilities@npm:^0.2.12, @hsl-fi/utilities@npm:^0.2.13":
+"@hsl-fi/traffic-announcements@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@hsl-fi/traffic-announcements@npm:1.1.1"
+  dependencies:
+    "@hsl-fi/button": ^1.2.3
+    "@hsl-fi/content-delivery-api-types": ^0.1.5
+    "@hsl-fi/icons": ^1.0.4
+    "@hsl-fi/sass": ^0.2.0
+    "@hsl-fi/utilities": ^0.2.14
+  checksum: a596526c705e009a32a5af6eb9bf278c1963969756a1f78b37039041bf892e6263fbdab494f08c7b3f2102f96908c56f2eaa89be39564824aeb55d440ad7d4fa
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/utilities@npm:^0.2.11, @hsl-fi/utilities@npm:^0.2.12":
   version: 0.2.13
   resolution: "@hsl-fi/utilities@npm:0.2.13"
   dependencies:
@@ -3265,6 +3315,17 @@ __metadata:
     "@hsl-fi/icon-config": ^0.1.4
     "@hsl-fi/icons": ^1.0.2
   checksum: b90e0319478a2d5bd340338f2d63d1b2e2323239dc46b63c483a3a825d9b2667ac53fe36bfad9e2082be03b90e400bd785690ab80ea5129a7f2fe9ff2a742d04
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/utilities@npm:^0.2.14":
+  version: 0.2.14
+  resolution: "@hsl-fi/utilities@npm:0.2.14"
+  dependencies:
+    "@hsl-fi/content-delivery-api-types": ^0.1.4
+    "@hsl-fi/icon-config": ^0.1.4
+    "@hsl-fi/icons": ^1.0.2
+  checksum: aef901e3df6aefab613688548c8490877a52032297d4ff9b9b3fe4f05793ef477d3ac171dd40e7f94bf19da2e6bfafcefe44c0cd1ba5d14fc87e46abf117685e
   languageName: node
   linkType: hard
 
@@ -9804,7 +9865,7 @@ __metadata:
     "@hsl-fi/sass": " ^0.2.0"
     "@hsl-fi/shared-local-storage": 0.4.0
     "@hsl-fi/shimmer": 0.1.0
-    "@hsl-fi/site-header": 3.1.1
+    "@hsl-fi/site-header": 4.0.0-rc15
     "@lerna/batch-packages": 3.16.0
     "@lerna/filter-packages": 3.18.0
     "@lerna/project": 3.21.0
