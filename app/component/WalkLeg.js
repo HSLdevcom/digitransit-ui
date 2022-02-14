@@ -77,6 +77,12 @@ function WalkLeg(
           id="itinerary-details.walk-leg"
           values={{
             time: moment(leg.startTime).format('HH:mm'),
+            to: intl.formatMessage({
+              id: `modes.to-${
+                leg.to.stop?.vehicleMode.toLowerCase() || 'place'
+              }`,
+              defaultMessage: 'modes.to-stop',
+            }),
             distance,
             duration,
             origin: leg[toOrFrom] ? leg[toOrFrom].name : '',
