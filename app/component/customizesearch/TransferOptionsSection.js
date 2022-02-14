@@ -20,24 +20,24 @@ const TransferOptionsSection = (
             id="avoid-transfers"
             defaultMessage="Avoid transfers"
           />
+          <Toggle
+            id="settings-toggle-transfers"
+            toggled={avoidTransfers}
+            onToggle={() => {
+              executeAction(saveRoutingSettings, {
+                walkBoardCost: avoidTransfers
+                  ? defaultSettings.walkBoardCost
+                  : walkBoardCostHigh,
+              });
+              addAnalyticsEvent({
+                category: 'ItinerarySettings',
+                action: 'changeNumberOfTransfers',
+                name: avoidTransfers,
+              });
+            }}
+            title="transfers"
+          />
         </label>
-        <Toggle
-          id="settings-toggle-transfers"
-          toggled={avoidTransfers}
-          onToggle={() => {
-            executeAction(saveRoutingSettings, {
-              walkBoardCost: avoidTransfers
-                ? defaultSettings.walkBoardCost
-                : walkBoardCostHigh,
-            });
-            addAnalyticsEvent({
-              category: 'ItinerarySettings',
-              action: 'changeNumberOfTransfers',
-              name: avoidTransfers,
-            });
-          }}
-          title="transfers"
-        />
       </div>
     </React.Fragment>
   );

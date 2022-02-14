@@ -86,7 +86,6 @@ function Icon({
         viewBox={!omitViewBox ? viewBox : null}
         className={cx('icon', className)}
         aria-label={ariaLabel}
-        tabIndex={-1}
       >
         {backgroundShape === 'circle' && (
           <circle className="icon-circle" cx="20" cy="20" fill="white" r="20" />

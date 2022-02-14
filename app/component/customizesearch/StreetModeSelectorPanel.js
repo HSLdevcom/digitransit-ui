@@ -45,14 +45,12 @@ const StreetModeSelectorPanel = (
                   id="bicycle"
                   defaultMessage="bicycle"
                 />
+                <Toggle
+                  id="settings-toggle-bicycle"
+                  toggled={currentSettings.includeBikeSuggestions}
+                  onToggle={() => onToggle('includeBikeSuggestions', 'OwnBike')}
+                />
               </label>
-            </div>
-            <div>
-              <Toggle
-                id="settings-toggle-bicycle"
-                toggled={currentSettings.includeBikeSuggestions}
-                onToggle={() => onToggle('includeBikeSuggestions', 'OwnBike')}
-              />
             </div>
           </div>
           {currentSettings.includeBikeSuggestions ? (
@@ -80,16 +78,14 @@ const StreetModeSelectorPanel = (
                     id="car"
                     defaultMessage="Car"
                   />
+                  <Toggle
+                    id="settings-toggle-parkAndRide"
+                    toggled={currentSettings.includeParkAndRideSuggestions}
+                    onToggle={() =>
+                      onToggle('includeParkAndRideSuggestions', 'ParkAndRide')
+                    }
+                  />
                 </label>
-              </div>
-              <div>
-                <Toggle
-                  id="settings-toggle-parkAndRide"
-                  toggled={currentSettings.includeParkAndRideSuggestions}
-                  onToggle={() =>
-                    onToggle('includeParkAndRideSuggestions', 'ParkAndRide')
-                  }
-                />
               </div>
             </div>
           </div>
@@ -108,14 +104,12 @@ const StreetModeSelectorPanel = (
                     id="car"
                     defaultMessage="car"
                   />
+                  <Toggle
+                    id="settings-toggle-car"
+                    toggled={currentSettings.includeCarSuggestions}
+                    onToggle={() => onToggle('includeCarSuggestions', 'OwnCar')}
+                  />
                 </label>
-              </div>
-              <div>
-                <Toggle
-                  id="settings-toggle-car"
-                  toggled={currentSettings.includeCarSuggestions}
-                  onToggle={() => onToggle('includeCarSuggestions', 'OwnCar')}
-                />
               </div>
             </div>
           </div>

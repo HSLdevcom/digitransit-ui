@@ -275,13 +275,15 @@ export default class SwipeableTabs extends React.Component {
           {this.props.classname === 'swipe-desktop-view' && (
             <div className="desktop-view-divider" />
           )}
-          <div
-            className={`swipe-header ${this.props.classname}`}
-            role="row"
+          <button
+            className="sr-only"
+            type="button"
             onKeyDown={e => this.handleKeyPress(e, reactSwipeEl)}
             aria-label={ariaHeader}
-            tabIndex="0"
           >
+            {ariaHeader}
+          </button>
+          <div className={`swipe-header ${this.props.classname}`}>
             {!hideArrows && (
               <div
                 className={cx('swipe-button-container', {

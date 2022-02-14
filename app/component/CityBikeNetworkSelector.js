@@ -40,25 +40,25 @@ const CityBikeNetworkSelector = (
               getStore('PreferencesStore').getLanguage(),
             )}
           </span>
+          <Toggle
+            id={`settings-toggle-bike-${network.networkName}`}
+            toggled={
+              !!currentOptions &&
+              currentOptions.filter(
+                option =>
+                  option.toLowerCase() === network.networkName.toLowerCase(),
+              ).length > 0
+            }
+            onToggle={() => {
+              executeAction(saveRoutingSettings, {
+                allowedBikeRentalNetworks: updateCitybikeNetworks(
+                  getCitybikeNetworks(config),
+                  network.networkName,
+                ),
+              });
+            }}
+          />
         </label>
-        <Toggle
-          id={`settings-toggle-bike-${network.networkName}`}
-          toggled={
-            !!currentOptions &&
-            currentOptions.filter(
-              option =>
-                option.toLowerCase() === network.networkName.toLowerCase(),
-            ).length > 0
-          }
-          onToggle={() => {
-            executeAction(saveRoutingSettings, {
-              allowedBikeRentalNetworks: updateCitybikeNetworks(
-                getCitybikeNetworks(config),
-                network.networkName,
-              ),
-            });
-          }}
-        />
       </div>
     ))}
   </React.Fragment>

@@ -71,16 +71,16 @@ const TransportModesSection = (
                     defaultMessage={mode.toLowerCase()}
                   />
                 </div>
+                <Toggle
+                  id={`settings-toggle-${mode}`}
+                  toggled={modes.filter(o2 => o2 === mode).length > 0}
+                  onToggle={() =>
+                    executeAction(saveRoutingSettings, {
+                      modes: toggleTransportMode(mode, config),
+                    })
+                  }
+                />
               </label>
-              <Toggle
-                id={`settings-toggle-${mode}`}
-                toggled={modes.filter(o2 => o2 === mode).length > 0}
-                onToggle={() =>
-                  executeAction(saveRoutingSettings, {
-                    modes: toggleTransportMode(mode, config),
-                  })
-                }
-              />
             </div>
           ))}
       </div>

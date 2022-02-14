@@ -34,17 +34,19 @@ const AccessibilityOptionSection = ({ currentSettings }, { executeAction }) => {
             height={2}
             width={2}
           />
-          <FormattedMessage
-            id="accessibility-limited"
-            defaultMessage="Wheelchair"
+          <span className="accessibility-label">
+            <FormattedMessage
+              id="accessibility-limited"
+              defaultMessage="Wheelchair"
+            />
+          </span>
+          <Toggle
+            id="settings-toggle-accessibility"
+            toggled={!!currentSettings.accessibilityOption}
+            title="accessibility"
+            onToggle={() => onToggle()}
           />
         </label>
-        <Toggle
-          id="settings-toggle-accessibility"
-          toggled={!!currentSettings.accessibilityOption}
-          title="accessibility"
-          onToggle={() => onToggle()}
-        />
       </div>
     </fieldset>
   );
