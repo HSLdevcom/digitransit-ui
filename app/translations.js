@@ -1103,6 +1103,8 @@ const translations = {
     'itinerary-details.transit-leg-part-1': 'At {time} take',
     'itinerary-details.transit-leg-part-2':
       'from stop {startStop} {startZoneInfo} {trackInfo} to stop {endStop} {endZoneInfo}. Estimated duration {duration}',
+    'itinerary-details.via-leg':
+      '{arrivalTime} arrive to via point {viaPoint}. {leaveAction}',
     'itinerary-details.walk-leg':
       'At {time} walk {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-feedback-button': 'Send feedback',
@@ -2182,6 +2184,8 @@ const translations = {
     'itinerary-details.transit-leg-part-1': '{time} ota',
     'itinerary-details.transit-leg-part-2':
       'pysäkiltä {startStop} {startZoneInfo} {trackInfo} pysäkille {endStop} {endZoneInfo}. Arvioitu matka-aika {duration}',
+    'itinerary-details.via-leg':
+      '{arrivalTime} saavu välipisteeseen {viaPoint}. {leaveAction}',
     'itinerary-details.walk-leg':
       '{time} kävele kohteesta {origin} {to} {destination}. Matka-aika {duration}',
     'itinerary-feedback-button': 'Lähetä palautetta',
@@ -4042,6 +4046,8 @@ const translations = {
     'itinerary-details.transit-leg-part-1': '{time} ta',
     'itinerary-details.transit-leg-part-2':
       'från hållplats {startStop} {startZoneInfo} {trackInfo} till hållplats {endStop} {endZoneInfo}. Beräknad restid {duration}',
+    'itinerary-details.via-leg':
+      '{arrivalTime} du anländer till mellanstopp {viaPoint}. {leaveAction}',
     'itinerary-details.walk-leg':
       '{time} promenera {distance} från {origin} till {to} {destination}. Restid {duration}',
     'itinerary-feedback-button': 'Skicka respons',
