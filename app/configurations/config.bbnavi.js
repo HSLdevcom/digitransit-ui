@@ -4,7 +4,7 @@ import configMerger from '../util/configMerger';
 const CONFIG = 'bbnavi';
 const APP_TITLE = 'bbnavi Staging';
 const HEADER_TITLE = "Staging";
-const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
+const APP_DESCRIPTION = 'Mobilitätsplattform für Kommunen in Brandenburg';
 const API_URL = process.env.API_URL || 'https://api.bbnavi.de';
 const DATAHUB_TILES_URL = process.env.DATAHUB_TILES_URL || 'https://tiles.bbnavi.de';
 const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{x}/{y}{r}.png';
@@ -131,7 +131,7 @@ export default configMerger(walttiConfig, {
 
         twitter: {
             card: 'summary_large_image',
-            site: '@TUGHerrenberg',
+            site: '@bbnavi_mobil',
         },
     },
 
