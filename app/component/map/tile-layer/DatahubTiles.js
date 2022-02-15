@@ -43,9 +43,19 @@ export default class DatahubTiles {
               if (
                 this.tile.coords.z <= this.config.datahubTiles.smallIconZoom
               ) {
-                return drawDatahubTileIcon(this.tile, feature.geom, null);
+                return drawDatahubTileIcon(
+                  this.tile,
+                  feature.geom,
+                  null,
+                  feature.properties,
+                );
               }
-              return drawDatahubTileIcon(this.tile, feature.geom, true);
+              return drawDatahubTileIcon(
+                this.tile,
+                feature.geom,
+                true,
+                feature.properties,
+              );
             });
           }
         },
