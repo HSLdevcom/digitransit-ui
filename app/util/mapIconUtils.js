@@ -775,7 +775,7 @@ export function drawHybridStationIcon(tile, geom, isHilighted) {
 /**
  * Draw icon for hybrid stations, meaning BUS and TRAM station in the same place.
  */
-export function drawDatahubTileIcon(tile, geom, isHilighted) {
+export function drawDatahubTileIcon(tile, geom, isHilighted, properties) {
   const zoom = tile.coords.z - 1;
   const styles = getTerminalIconStyles(zoom);
   if (!styles) {
@@ -784,34 +784,25 @@ export function drawDatahubTileIcon(tile, geom, isHilighted) {
   let { width, height } = styles;
   width *= tile.scaleratio;
   height *= tile.scaleratio;
-  getImageFromSpriteCache(
-    'icon-icon_mapMarker-point',
-    width,
-    height,
-    '#707070',
-  ).then(image => {
+
+  const domUrl = window.URL || window.webkitURL || window;
+  const { svg_icon: svgIcon } = properties;
+  const svg = new Blob([svgIcon], {
+    type: 'image/svg+xml;charset=utf-8',
+  });
+  const blobUrl = domUrl?.createObjectURL(svg);
+  const image = new Image(width, height);
+
+  image.onload = function () {
     tile.ctx.drawImage(
       image,
-      geom.x / tile.ratio - width / 2,
-      geom.y / tile.ratio - height,
+      geom.x / tile.ratio - width / 2 - 1 / tile.scaleratio,
+      geom.y / tile.ratio - height / 2 - height / tile.scaleratio,
+      width + 2 / tile.scaleratio,
+      height + 2 / tile.scaleratio,
     );
-  });
-  if (isHilighted) {
-    getImageFromSpriteCache(
-      'icon-icon_mapMarker-point',
-      width,
-      height,
-      '#707070',
-    ).then(image => {
-      tile.ctx.drawImage(
-        image,
-        geom.x / tile.ratio - width / 2 - 4 / tile.scaleratio,
-        geom.y / tile.ratio - height - 4 / tile.scaleratio,
-        width + 8 / tile.scaleratio,
-        height + 8 / tile.scaleratio,
-      );
-    });
-  }
+  };
+  image.src = blobUrl;
 }
 
 export function drawParkAndRideIcon(tile, geom, width, height) {
