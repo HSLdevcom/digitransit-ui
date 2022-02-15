@@ -264,7 +264,12 @@ class FavouriteBar extends React.Component {
     }
   };
 
-  renderSuggestion = (item, index, className = undefined) => {
+  renderSuggestion = (
+    item,
+    index,
+    ariaLabelSuffix = '',
+    className = undefined,
+  ) => {
     const id = `favourite-suggestion-list--item-${index}`;
     // The key event is handled by the button that opens the dropdown
     return (
@@ -280,7 +285,9 @@ class FavouriteBar extends React.Component {
         ref={index === 0 ? this.firstItemRef : ''}
         // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus={index === 0}
-        aria-label={`${item?.name} ${item.address ? item.address : ''}`}
+        aria-label={`${item?.name || ''} ${
+          item?.address || ''
+        } ${ariaLabelSuffix}`}
       >
         <SuggestionItem
           item={item}
@@ -424,9 +431,12 @@ class FavouriteBar extends React.Component {
                     iconColor: this.props.color,
                   },
                   index,
+                  `, ${i18next.t('add-destination')}`,
                 ),
               )}
-              {favourites.length > 0 && <div className={styles.divider} />}
+              {favourites.length > 0 && (
+                <div aria-hidden className={styles.divider} />
+              )}
               {this.getCustomSuggestions().map((item, index) =>
                 this.renderSuggestion(
                   {
@@ -434,6 +444,7 @@ class FavouriteBar extends React.Component {
                     iconColor: this.props.color,
                   },
                   favourites.length + index,
+                  undefined,
                   'favouriteCustom',
                 ),
               )}
