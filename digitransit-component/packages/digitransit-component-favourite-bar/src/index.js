@@ -249,7 +249,7 @@ class FavouriteBar extends React.Component {
   };
 
   handleKeyDown = (event, index) => {
-    const { listOpen } = this.state;
+    const { listOpen, favourites } = this.state;
     const key = (event && (event.key || event.which || event.keyCode)) || '';
     if (isKeyboardSelectionEvent(event)) {
       if (!listOpen) {
@@ -261,6 +261,12 @@ class FavouriteBar extends React.Component {
       if (listOpen) {
         this.toggleList();
       }
+    } else if (
+      key === 'Tab' &&
+      !event.shiftKey &&
+      index === favourites.length + this.getCustomSuggestions().length - 1
+    ) {
+      this.setState({ listOpen: false });
     }
   };
 
