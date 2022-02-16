@@ -1792,9 +1792,9 @@ class SummaryPage extends React.Component {
     const indexPath = `${getSummaryPath(
       this.props.match.params.from,
       this.props.match.params.to,
-    )}${isbikeAndVehicle ? '/bikeAndVehicle/' : ''}${
-      isParkAndRide ? '/parkAndRide/' : '/'
-    }${index}`;
+    )}${isbikeAndVehicle ? '/bikeAndVehicle' : ''}${
+      isParkAndRide ? '/parkAndRide' : ''
+    }/${index}`;
 
     newState.pathname = indexPath;
     this.context.router.replace(newState);
