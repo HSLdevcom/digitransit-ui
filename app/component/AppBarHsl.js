@@ -19,6 +19,11 @@ const clearStorages = context => {
   context.getStore('FavouriteStore').clearFavourites();
 };
 
+const notificationApiUrls = {
+  get: 'https://localhost:3000/user/api/v1/notifications?language=fi',
+  post: 'https://localhost:3000/user/api/v1/notifications/read?language=fi',
+};
+
 const AppBarHsl = ({ lang, user }, context) => {
   const { config, match, intl } = context;
   const { location } = match;
@@ -106,6 +111,7 @@ const AppBarHsl = ({ lang, user }, context) => {
             languageMenu={languages}
             banners={banners}
             suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
+            notificationApiUrls={notificationApiUrls}
           />
         </>
       )}
