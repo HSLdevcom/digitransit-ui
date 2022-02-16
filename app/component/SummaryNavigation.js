@@ -87,7 +87,10 @@ class SummaryNavigation extends React.Component {
             icon="icon-icon_arrow-collapse--left"
             iconClassName="arrow-icon"
             fallback={
-              this.props.params.hash === 'bikeAndVehicle' ? 'pop' : undefined
+              this.props.params.hash === 'bikeAndVehicle' ||
+              this.props.params.hash === 'parkAndRide'
+                ? 'pop'
+                : undefined
             }
           />
         )}
