@@ -100,6 +100,7 @@ export default configMerger(walttiConfig, {
             'mode-bus': '#ff0000',
             'mode-car': '#007AC9',
             'mode-rail': '#008000',
+            'mode-citybike': '#0e1a50',
             'mode-charging-station': '#00b096',
             'mode-bike-park': '#005ab4',
         },
@@ -165,7 +166,7 @@ export default configMerger(walttiConfig, {
                 hideCode: true,
             },
             'tier_REUTLINGEN': {
-                icon: 'scooter',
+                icon: 'tier_scooter',
                 name: {
                     de: 'TIER Reutlingen',
                     en: 'TIER Reutlingen',
@@ -179,8 +180,8 @@ export default configMerger(walttiConfig, {
                 enabled: true,
                 hideCode: true,
             },
-            'tier_MUENSINGEN': {
-                icon: 'scooter',
+            'tier_MUNSINGEN': {
+                icon: 'tier_bicycle',
                 name: {
                     de: 'TIER Münsingen',
                     en: 'TIER Münsingen',
