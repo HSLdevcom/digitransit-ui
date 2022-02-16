@@ -33,9 +33,26 @@ print("")
 print(f"Icons that exist in {hb_source_file}")
 print("")
 
+symbols = {}
 for icon in hb_icons:
     icon_id = icon.getAttribute("id")
+    symbols[icon_id] = icon
     print(icon_id)
+
+for icon in hb_icons:
+    icon_id = icon.getAttribute("id")
+    for child in icon.childNodes:
+        if child.nodeName == 'use':
+            ref = child.getAttribute("xlink:href")[1:]
+            symbol = symbols[ref].cloneNode(True)
+            g = hb_source.createElement("g")
+            g.setAttribute("style", child.getAttribute("style"))
+            for symbolChild in symbol.childNodes:
+                print(symbolChild.nodeName)
+                g.appendChild(symbolChild.cloneNode(True))
+            icon.replaceChild(g, child)
+            icon.setAttribute("viewBox", symbol.getAttribute("viewBox"))
+            print("Inlined use for {} by {}".format(icon_id, ref))
 
 print("")
 print(f"Icons added from {default_source_file}")
