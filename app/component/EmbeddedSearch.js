@@ -199,7 +199,7 @@ const EmbeddedSearch = (props, context) => {
 
   const executeSearch = () => {
     const urlEnd = bikeOnly ? '/bike' : walkOnly ? '/walk' : '';
-    const pathName = `${getPathWithEndpointObjects(
+    const pathName = `/${lang}${getPathWithEndpointObjects(
       origin,
       destination,
       PREFIX_ITINERARY_SUMMARY,
@@ -213,7 +213,7 @@ const EmbeddedSearch = (props, context) => {
       return (
         <Icon
           img="icon-embedded-search-bike-background"
-          className="background"
+          className="background bike"
           color={config.colors.primary}
         />
       );
@@ -222,7 +222,7 @@ const EmbeddedSearch = (props, context) => {
       return (
         <Icon
           img="icon-embedded-search-walk-background"
-          className="background"
+          className="background walk"
           color={config.colors.primary}
         />
       );
