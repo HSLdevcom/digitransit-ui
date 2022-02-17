@@ -19,9 +19,16 @@ const clearStorages = context => {
   context.getStore('FavouriteStore').clearFavourites();
 };
 
+const notificationAPI = '/api/user/notifications';
+
 const AppBarHsl = ({ lang, user }, context) => {
   const { config, match, intl } = context;
   const { location } = match;
+
+  const notificationApiUrls = {
+    get: `${notificationAPI}?language=${lang}`,
+    post: `${notificationAPI}?language=${lang}`,
+  };
 
   const [banners, setBanners] = useState([]);
 
@@ -63,6 +70,7 @@ const AppBarHsl = ({ lang, user }, context) => {
           userMenu: {
             isLoading: false, // When fetching for login-information, `isLoading`-property can be set to true. Spinner will be shown.
             isAuthenticated: !!user.sub, // If user is authenticated, set `isAuthenticated`-property to true.
+            // @TODO: Replace with user's idToken
             isSelected: false,
             loginUrl: `/login?url=${url}&${params}`, // Url that user will be redirect to when Person-icon is pressed and user is not logged in.
             initials,
@@ -103,7 +111,7 @@ const AppBarHsl = ({ lang, user }, context) => {
             languageMenu={languages}
             banners={banners}
             suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
-            isNavSearchEnabled
+            notificationApiUrls={notificationApiUrls}
           />
         </>
       )}
