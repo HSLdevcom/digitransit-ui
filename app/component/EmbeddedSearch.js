@@ -23,7 +23,7 @@ const translations = {
     'find-bike-route': 'Löydä pyöräreitti',
     'find-walk-route': 'Löydä kävelyreitti',
     'find-route': 'Löydä reitti',
-    'search-fields.sr-instructions': '',
+    'search-fields-sr-instructions': '',
     'search-route': 'Hae reitti',
   },
   en: {
@@ -31,7 +31,7 @@ const translations = {
     'find-bike-route': 'Find a biking route',
     'find-walk-route': 'Find a walking route',
     'find-route': 'Find a route',
-    'search-fields.sr-instructions': '',
+    'search-fields-sr-instructions': '',
     'search-route': 'Search routes',
   },
   sv: {
@@ -39,7 +39,7 @@ const translations = {
     'find-bike-route': 'Sök en cyckelrutt',
     'find-walk-route': 'Sök en promenadsrutt',
     'find-route': 'Sök en rutt',
-    'search-fields.sr-instructions': '',
+    'search-fields-sr-instructions': '',
     'search-route': 'Söka rutter',
   },
 };
@@ -263,7 +263,7 @@ const EmbeddedSearch = (props, context) => {
           fontWeights={fontWeights}
         >
           <span className="sr-only">
-            {i18next.t('search-fields.sr-instructions')}
+            {i18next.t('search-fields-sr-instructions')}
           </span>
           <LocationSearch
             targets={locationSearchTargets}
