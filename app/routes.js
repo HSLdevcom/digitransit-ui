@@ -439,7 +439,7 @@ export default config => {
         path={EMBEDDED_SEARCH_PATH}
         getComponent={() =>
           import(
-            /* webpackChunkName: "embedded-search" */ './component/EmbeddedSearch'
+            /* webpackChunkName: "embedded-search" */ './component/EmbeddedSearchContainer'
           ).then(getDefault)
         }
         topBarOptions={{ hidden: true }}

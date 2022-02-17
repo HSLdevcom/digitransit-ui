@@ -41,15 +41,31 @@
             max-width: 320px;
         }
 
-        #code {
-            margin: 20px 0;
-            max-width: 480px;
+        .code-label {
+            margin-top: 20px;
+            border: 1px solid #DDD;
+            width: fit-content;
+            display: flex;
+            flex-direction: column;
+            border-radius: 5px;
+            height: fit-content;
+            font-size: 14px;
+            line-height: 17px;
+            p {
+                margin: 5px 5px 5px 10px;
+            }
+            #code {
+                border-top: 1px solid #DDD;
+                background: white;
+                margin: 0;
+                max-width: 480px;
+            }
         }
 
         .embedded-search-container {
             margin: 10px 0;
             border-radius: 10px;
-            border: 1px solid gray;
+            border: 1px solid #c4c4c4;
             background: white;
             .control-panel-container {
                 // So that the preview autosuggest inputs dont appear on top of the origin/destination selection
