@@ -20,6 +20,10 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
   const FavouriteHost =
     process.env.FAVOURITE_HOST || 'https://dev-api.digitransit.fi/favourites';
 
+  const NotificationHost =
+    process.env.NOTIFICATION_HOST ||
+    'https://test.hslfi.hsldev.com/user/api/v1/notifications';
+
   const RedisHost = process.env.REDIS_HOST || 'localhost';
   const RedisPort = process.env.REDIS_PORT || 6379;
   const RedisKey = process.env.REDIS_KEY;
@@ -281,6 +285,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       },
     );
   };
+
   app.use('/api/user/favourites', userAuthenticated, function (req, res) {
     request(
       {
@@ -295,6 +300,40 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
         if (!err) {
           res.status(response.statusCode).send(body);
         } else {
+          res.status(response.statusCode).send(body);
+        }
+      },
+    );
+  });
+
+  app.use('/api/user/notifications', userAuthenticated, function (req, res) {
+    const params = Object.keys(req.query)
+      .map(k => `${k}=${req.query[k]}`)
+      .join('&');
+
+    const url =
+      req.method === 'POST'
+        ? `${NotificationHost}/read?${params}`
+        : `${NotificationHost}?${params}`;
+
+    console.log('notifications req', req.method, url);
+
+    request(
+      {
+        auth: {
+          bearer: req.user.token.access_token,
+        },
+        method: req.method,
+        url,
+        body: JSON.stringify(req.body),
+      },
+      function (err, response, body) {
+        if (!err) {
+          console.log('notification request OK', response.statusCode);
+          console.log(response.body);
+          res.status(response.statusCode).send(body);
+        } else {
+          console.log('notification request failed', response.statusCode);
           res.status(response.statusCode).send(body);
         }
       },
