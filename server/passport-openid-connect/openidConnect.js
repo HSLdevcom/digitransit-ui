@@ -2,7 +2,7 @@
 const passport = require('passport');
 const session = require('express-session');
 const redis = require('redis');
-const request = require('request');
+const axios = require('axios');
 const moment = require('moment');
 const RedisStore = require('connect-redis')(session);
 const LoginStrategy = require('./Strategy').Strategy;
@@ -10,6 +10,8 @@ const LoginStrategy = require('./Strategy').Strategy;
 const clearAllUserSessions = false; // set true if logout should erase all user's sessions
 
 const debugLogging = process.env.DEBUGLOGGING;
+
+axios.defaults.timeout = 15000;
 
 export default function setUpOIDC(app, port, indexPath, hostnames) {
   /* ********* Setup OpenID Connect ********* */
@@ -248,58 +250,57 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     }
   });
 
+  const errorHandler = function (error, res) {
+    if (error.response) {
+      res
+        .status(error.response.status || 500)
+        .send(error.response.data || 'Unknown error');
+    } else {
+      res.status(500).send('Unknown error');
+    }
+  };
+
   /* GET the profile of the current authenticated user */
   app.get('/api/user', function (req, res) {
-    request.get(
-      `${OIDCHost}/openid/userinfo`,
-      {
-        auth: {
-          bearer: req.user.token.access_token,
-        },
-      },
-      function (err, response, body) {
-        if (!err && response.statusCode === 200) {
-          res.status(response.statusCode).send(body);
-        } else {
-          res.status(401).send('Unauthorized');
-        }
-      },
-    );
+    axios
+      .get(`${OIDCHost}/openid/userinfo`, {
+        headers: { Authorization: `Bearer ${req.user.token.access_token}` },
+      })
+      .then(function (response) {
+        res.status(response.status).send(response.data);
+      })
+      .catch(function (err) {
+        errorHandler(err, res);
+      });
   });
 
   // Temporary solution for checking if user is authenticated
   const userAuthenticated = function (req, res, next) {
-    request.get(
-      `${OIDCHost}/openid/userinfo`,
-      {
-        auth: {
-          bearer: req.user.token.access_token,
-        },
-      },
-      function (err, response) {
-        if (!err && response.statusCode === 200) {
-          next();
-        } else {
-          res.status(401).send('Unauthorized');
-        }
-      },
-    );
+    axios
+      .get(`${OIDCHost}/openid/userinfo`, {
+        headers: { Authorization: `Bearer ${req.user.token.access_token}` },
+      })
+      .then(function () {
+        next();
+      })
+      .catch(function (err) {
+        errorHandler(err, res);
+      });
   };
 
   app.use('/api/user/favourites', userAuthenticated, function (req, res) {
-    request(
-      {
-        auth: {
-          bearer: req.user.token.access_token,
-        },
-        method: req.method,
-        url: `${FavouriteHost}/${req.user.data.sub}`,
-        body: JSON.stringify(req.body),
-      },
-      function (err, response, body) {
-        res.status(response.statusCode).send(body);
-      },
-    );
+    axios({
+      headers: { Authorization: `Bearer ${req.user.token.access_token}` },
+      method: req.method,
+      url: `${FavouriteHost}/${req.user.data.sub}`,
+      data: JSON.stringify(req.body),
+    })
+      .then(function (response) {
+        res.status(response.status).send(response.data);
+      })
+      .catch(function (err) {
+        errorHandler(err, res);
+      });
   });
 
   app.use('/api/user/notifications', userAuthenticated, function (req, res) {
@@ -312,21 +313,20 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
         ? `${NotificationHost}/read?${params}`
         : `${NotificationHost}?${params}`;
 
-    console.log('notifications req', req.method, url);
-
-    request(
-      {
-        headers: {
-          'content-type': 'application/json',
-          'x-hslid-token': req.user.token.access_token,
-        },
-        method: req.method,
-        url,
-        body: JSON.stringify(req.body),
+    axios({
+      headers: {
+        'content-type': 'application/json',
+        'x-hslid-token': req.user.token.access_token,
       },
-      function (err, response, body) {
-        res.status(response.statusCode).send(body);
-      },
-    );
+      method: req.method,
+      url,
+      data: JSON.stringify(req.body),
+    })
+      .then(function (response) {
+        res.status(response.status).send(response.data);
+      })
+      .catch(function (err) {
+        errorHandler(err, res);
+      });
   });
 }

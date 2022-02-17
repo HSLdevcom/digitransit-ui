@@ -203,7 +203,7 @@
     "recompose": "0.30.0",
     "redis": "2.8.0",
     "relay-runtime": "10.0.1",
-    "request": "2.88.2",
+    "axios": "0.26.0",
     "serialize-javascript": "4.0.0",
     "suncalc": "1.8.0",
     "swipe-js-iso": "2.1.5",
