@@ -297,11 +297,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
         body: JSON.stringify(req.body),
       },
       function (err, response, body) {
-        if (!err) {
-          res.status(response.statusCode).send(body);
-        } else {
-          res.status(response.statusCode).send(body);
-        }
+        res.status(response.statusCode).send(body);
       },
     );
   });
@@ -320,22 +316,16 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
 
     request(
       {
-        auth: {
-          bearer: req.user.token.access_token,
+        headers: {
+          'content-type': 'application/json',
+          'x-hslid-token': req.user.token.access_token,
         },
         method: req.method,
         url,
         body: JSON.stringify(req.body),
       },
       function (err, response, body) {
-        if (!err) {
-          console.log('notification request OK', response.statusCode);
-          console.log(response.body);
-          res.status(response.statusCode).send(body);
-        } else {
-          console.log('notification request failed', response.statusCode);
-          res.status(response.statusCode).send(body);
-        }
+        res.status(response.statusCode).send(body);
       },
     );
   });
