@@ -459,21 +459,24 @@ const EmbeddedSearchGenerator = (props, context) => {
               <FormattedMessage id="copy-code" defaultMessage="Copy code" />
             </h3>
 
-            <textarea
-              id="code"
-              name="code"
-              rows="5"
-              cols="50"
-              value={generateComponentString()}
-              readOnly
-              ref={afterPreview}
-              onKeyDown={e => {
-                if (e.key === 'Tab' && e.shiftKey) {
-                  e.preventDefault();
-                  beforePreview.current?.focus();
-                }
-              }}
-            />
+            <label htmlFor="code" className="code-label">
+              <p>HTML</p>
+              <textarea
+                id="code"
+                name="code"
+                rows="5"
+                cols="50"
+                value={generateComponentString()}
+                readOnly
+                ref={afterPreview}
+                onKeyDown={e => {
+                  if (e.key === 'Tab' && e.shiftKey) {
+                    e.preventDefault();
+                    beforePreview.current?.focus();
+                  }
+                }}
+              />
+            </label>
           </div>
         </form>
       </div>
