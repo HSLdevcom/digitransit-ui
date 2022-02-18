@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 import LazilyLoad, { importLazy } from './LazilyLoad';
@@ -21,7 +21,7 @@ const clearStorages = context => {
 
 const notificationAPI = '/api/user/notifications';
 
-const AppBarHsl = ({ lang, user }, context) => {
+const AppBarHsl = ({ lang, user, favourites }, context) => {
   const { config, match, intl } = context;
   const { location } = match;
 
@@ -95,6 +95,9 @@ const AppBarHsl = ({ lang, user }, context) => {
         }
       : {};
 
+  const siteHeaderRef = useRef(null);
+  useEffect(() => siteHeaderRef.current?.fetchNotifications()[favourites]);
+
   return (
     <LazilyLoad modules={modules}>
       {({ SiteHeader, SharedLocalStorageObserver }) => (
@@ -104,6 +107,7 @@ const AppBarHsl = ({ lang, user }, context) => {
             url={config.localStorageEmitter}
           />
           <SiteHeader
+            ref={siteHeaderRef}
             hslFiUrl={config.URL.ROOTLINK}
             lang={lang}
             {...userMenu}
@@ -133,6 +137,7 @@ AppBarHsl.propTypes = {
     sub: PropTypes.string,
     notLogged: PropTypes.bool,
   }),
+  favourites: PropTypes.array,
 };
 
 AppBarHsl.defaultProps = {

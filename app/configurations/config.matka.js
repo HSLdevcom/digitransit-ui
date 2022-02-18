@@ -14,8 +14,7 @@ const APP_DESCRIPTION = 'Matka.fi–palvelu.';
 const APP_TITLE = 'Matka.fi';
 const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL =
-  process.env.STATIC_MESSAGE_URL ||
-  'https://dev-matka-yleisviesti.digitransit.fi/';
+  process.env.STATIC_MESSAGE_URL || 'http://localhost:8080';
 
 // route timetable data needs to be up-to-date before this is enabled
 // const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;

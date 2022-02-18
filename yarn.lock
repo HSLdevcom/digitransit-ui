@@ -3229,9 +3229,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/site-header@npm:4.0.0-rc16":
-  version: 4.0.0-rc16
-  resolution: "@hsl-fi/site-header@npm:4.0.0-rc16"
+"@hsl-fi/site-header@npm:4.0.0-rc17":
+  version: 4.0.0-rc17
+  resolution: "@hsl-fi/site-header@npm:4.0.0-rc17"
   dependencies:
     "@hsl-fi/animated-spinner": ^0.2.0
     "@hsl-fi/button": ^1.2.3
@@ -3248,7 +3248,7 @@ __metadata:
     "@hsl-fi/utilities": ^0.2.14
     lodash: 4.17.21
     react-animate-height: ^2.0.21
-  checksum: 4c7148e0ddf7b44514f967b0b905582aa96754376ffb6a3b83312da02b53268799e24ba04eadb51f5e142b7f02ab9fc9524dabb4038a3684a2d387baf066a026
+  checksum: aea13452731d5d34fbc4d25d40102c287ceb1e11dcc07f9abcb497de62e8f43d9d09e695ada62dec5db30d0e79e444b7a9bffbf2ec6008117c7df585786df22d
   languageName: node
   linkType: hard
 
@@ -9885,7 +9885,7 @@ __metadata:
     "@hsl-fi/sass": " ^0.2.0"
     "@hsl-fi/shared-local-storage": 0.4.0
     "@hsl-fi/shimmer": 0.1.1
-    "@hsl-fi/site-header": 4.0.0-rc16
+    "@hsl-fi/site-header": 4.0.0-rc17
     "@lerna/batch-packages": 3.16.0
     "@lerna/filter-packages": 3.18.0
     "@lerna/project": 3.21.0

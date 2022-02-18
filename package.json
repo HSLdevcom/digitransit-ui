@@ -137,7 +137,7 @@
     "@hsl-fi/sass": " ^0.2.0",
     "@hsl-fi/shared-local-storage": "0.4.0",
     "@hsl-fi/shimmer": "0.1.1",
-    "@hsl-fi/site-header": "4.0.0-rc16",
+    "@hsl-fi/site-header": "4.0.0-rc17",
     "@mapbox/sphericalmercator": "1.1.0",
     "@mapbox/vector-tile": "1.3.1",
     "axios": "0.26.0",
