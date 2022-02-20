@@ -330,7 +330,7 @@ const translations = {
     'phone-number-info': 'Diese wird Interessenten angezeigt.',
     'your-carpool-trip': 'Ihr Inserat',
     'carpool-success-info':
-      'Ihr Inserat wird nach Ablauf der Zeit jedoch spätestens nach drei Monaten (bei regelmäßigen Fahrten) gelöscht.',
+      'Sie erhalten eine E-Mail von ride2go zur Aktivierung Ihres Inserats. Diese Mail enthält auch einen Link, mit dem Sie das Inserat später löschen können.',
     'carpool-offer-success':
       'Ihr Inserat von {origin} nach {destination} wurde eingestellt.',
     'time-oclock': ' Uhr.',

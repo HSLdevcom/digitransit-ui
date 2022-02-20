@@ -53,7 +53,7 @@ const postCarpoolOffer = options => {
 
   const bodyContent = JSON.stringify(body);
 
-  return fetch('https://fahrgemeinschaft.de/api/trip', {
+  return fetch('https://fahrgemeinschaft.de/api/v1/trip', {
     method: 'post',
     body: bodyContent,
     headers,

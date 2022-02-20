@@ -209,7 +209,7 @@ export default class CarpoolOffer extends React.Component {
           <p>
             <FormattedMessage
               id="carpool-success-info"
-              defaultMessage="Your offer will be deleted after the day of the ride. Regular ones will be removed after three months."
+              defaultMessage="You will receive an email from ride2go to activate your ad. This email also contains a link with which you can later delete the advertisement."
             />
           </p>
         </div>
@@ -227,8 +227,8 @@ export default class CarpoolOffer extends React.Component {
     const departure = new Moment(this.props.start).format('LT');
     const { GDPR, isRegularly } = this.state;
 
-    const policyUrl = 'https://www.fahrgemeinschaft.de/datenschutz.php';
-    const termsUrl = 'https://www.fahrgemeinschaft.de/rules.php';
+    const policyUrl = 'https://fahrgemeinschaft.de/html/datenschutz.html';
+    const termsUrl = 'https://ride2go.com/GTC?tenant=fahrgemeinschaft';
 
     return (
       <form onSubmit={this.finishForm} className="sidePanelText">
