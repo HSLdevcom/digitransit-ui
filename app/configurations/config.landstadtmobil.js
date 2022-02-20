@@ -308,27 +308,32 @@ export default configMerger(walttiConfig, {
                 header: 'Datenschutzhinweise zur Routingplatform LandStadtMobil',
                 paragraphs: [
                     'Es gelten die Datenschutzhinweise des Landkreises Reutlingen. Diese sind unter <a href="https://www.kreis-reutlingen.de/datenschutz">https://www.kreis-reutlingen.de/datenschutz</a> einsehbar.',
-                    'Die Anwendung LandStadtMobil bietet intermodale Mobilitätsauskünfte. Neben den Datenschutzhinweisen des Landkreises (in der Allgemeinen Datenschutzerklärung) zu Server-Logs und Cookies werden zur Optimierung der Anwendung die genutz-ten Funktionen erhoben. Hierzu nutzt die Anwendung LandStadtMobil die Anwendung Matomo und speichert hierzu Cookies. Die Speicherung dieser Cookies erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. ',
+                    'Die Anwendung LandStadtMobil bietet intermodale Mobilitätsauskünfte. Neben den Datenschutzhinweisen des Landkreises (in der Allgemeinen Datenschutzerklärung) zu Server-Logs und Cookies werden zur Optimierung der Anwendung die genutzten Funktionen erhoben. Hierzu nutzt die Anwendung LandStadtMobil die Anwendung Matomo und speichert hierzu Cookies. Die Speicherung dieser Cookies erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. ',
                     'Explizit nicht gespeichert werden Start-/Ziel Suchen.'
                 ],
             },
             {
-                header: 'Fahrgemeinschaft.de',
+                header: 'ride2go',
                 paragraphs: [
-                    'LandStadtMobil nutzt zum Inserieren von Fahrgemeinschaftsangeboten die Dienste der Fahrgemeinschaft.de GmbH, Erlenstr. 7, D-71297 Mönsheim.',
-                    'Beim Inserieren von Mitfahrangeboten werden die folgenden Daten vom Nutzer erhoben und an Fahrgemeinschaft.de übermittelt: ',
-                    'Fahrtdaten (Start, Ziel, Datum/Wochentage und Uhrzeit), Kontaktdaten (Telefonnummer)',
-                    'Die personenbezogenen Daten werden für die Einstellung eines Fahrgemein-schafts-Inserats in LandStadtMobil erhoben und als Kontaktmöglichkeit für die Nut-zer zur Kontaktaufnahme verwendet. Die angegebenen Daten werden durch Fahr-gemeinschaft.de und angeschlossene Partner-Portale veröffentlicht und damit wei-tergegeben. Die Nutzung und Eingabe von Daten in diese Online-Anwendung er-folgt freiwillig.',
-                    'Einmalige Fahrgemeinschaftsangebote werden nach dem Datum der Fahrt ge-löscht. Regelmäßige Fahrgemeinschaftsangebote werden spätestens drei Monate nach Aufgabe des Inserats gelöscht.',
-                    'Mehr Informationen zum Umgang mit Nutzerdaten finden Sie in der Datenschutzer-klärung von Fahrgemeinschaft.de: www.fahrgemeinschaft.de/datenschutz.php',
+                    'LandStadtMobil nutzt zum Inserieren von Fahrgemeinschaftsangeboten die Dienste der ride2go GmbH, Erlenstr. 7, D-71297 Mönsheim.',
+                    'Beim Inserieren von Mitfahrangeboten werden die folgenden Daten vom Nutzer erhoben und an ride2go.de übermittelt: ',
+                    'Fahrtdaten (Start, Ziel, Datum/Wochentage und Uhrzeit), Kontaktdaten (Telefonnummer, E-Mail-Adresse)',
+                    'Die personenbezogenen Daten werden für die Einstellung eines Fahrgemeinschafts-Inserats in LandStadtMobil erhoben und als Kontaktmöglichkeit für die Nutzer zur Kontaktaufnahme verwendet. Die angegebenen Daten werden durch ride2go.de und angeschlossene Partner-Portale veröffentlicht und damit weitergegeben. Die Nutzung und Eingabe von Daten in diese Online-Anwendung erfolgt freiwillig.',
+                    'Nach dem Absenden eines Inserats erhalten Inserierende eine E-Mail-Bestätigung zur Aktivierung und späteren Löschung des Inserats.',
+                    'Mehr Informationen zum Umgang mit Nutzerdaten finden Sie in der <a href="https://www.ride2go.de/html/datenschutz.html">Datenschutzerklärung von ride2go.de</a>',
                     'LandStadtMobil speichert keine Kontaktdaten.'
                 ]
             },
             {
-                header: 'stadtnavi / Digitransit Plattform',
+                header: 'Über LandStadtMobil',
                 paragraphs: [
-                    'Dieser Dienst basiert auf dem Dienst stadtnavi, welche auf der Digitransit Platform und dem Backend-Dienst OpenTripPlanner basiert. Alle Software ist unter einer offenen Lizenzen verfügbar. Vielen Dank an alle Beteiligten.',
-                    'Der gesamte Quellcode der Plattform, die aus vielen verschiedenen Komponenten besteht, ist auf <a href="https://github.com/stadtnavi/">Github</a> verfügbar.'
+                    'LandStadtMobil ist eine Routingplattform, die verschiedene Mobilitätsangebote wie Bus, Bahn, Fahrrad und Fahrgemeinschaften miteinander verknüpft. Die Plattform ist Teil des Modellpro-jektes „Integriertes Mobilitätskonzept zur Sicherung der Anschlussmobilität im ländlichen Raum“, das im Rahmen des Förderprogramms „LandMobil“ vom Ministerium für Ernährung und Landwirtschaft gefördert wird.',
+                    'Bis Ende 2022 werden die Gemeinde Engstingen und die Stadt Münsingen gemeinsam mit dem Landkreis erproben, wie die Anschlussmobilität im ländlichen Raum, also die erste und letzte Meile zu Mobilitätsknotenpunkten, verbessert werden kann. Dazu werden zusätzliche Mobilitätsangebote, ein E-Bikesharing-System, ein E-Carsharing-Modell und ein lokales Mitfahrnetzwerk in der Gemeinde Engstingen und der Stadt Münsingen umgesetzt. Die Angebote werden in die Routingplattform LandStadtMobil integriert, um entsprechende Routingauskünfte und Reisevorschläge generieren zu können. Ergänzt werden die Mobilitätsangebote um Fahrradabstellmöglichkeiten (Fahrradständer und Fahrradboxen) sowie Lademöglichkeiten für E-Bikes.',
+                    'Während des Erprobungszeitraums werden die Projekte vom Kreisamt für nachhaltige Entwicklung begleitet, evaluiert, übertragbare Lösungen abgeleitet und darauf aufbauend Handlungsempfehlungen formuliert.',
+                    'Weitere Informationen zum Projekt erhalten Sie unter <a href="https://www.kreis-reutlingen.de/landmobil">www.kreis-reutlingen.de/landmobil</a>.',
+                    'Dieser Dienst basiert auf dem Dienst stadtnavi, welche auf der Digitransit Platform und dem Backend-Dienst OpenTripPlanner basiert. Alle Software ist unter einer offenen Lizenzen verfügbar. Vielen Dank an alle Beitragenden.',
+                    'Der gesamte Quellcode der Plattform, die aus vielen verschiedenen Komponenten besteht, ist auf <a href="https://github.com/stadtnavi/">Github</a> verfügbar.',
+                    '<img src="/img/landstadtmobil-funding-logo.png"/>'
                 ],
             },
             {
@@ -337,47 +342,52 @@ export default configMerger(walttiConfig, {
                     'Kartendaten: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap Mitwirkende</a>',
                     'ÖPNV-Daten: Datensätze der <a target=new href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>NVBW GmbH</a> und der <a target=new href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) jeweils angereichert mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende',
                     'CarSharing-Standorte: Datensätze der <a target=new href=https://www.teilauto-neckar-alb.de/>teilAuto Neckar-Alb eG</a>.',
-                    'BikeSharing-Standorte: <a target=new href=https://www.tier.app/>TIER Mobility GmbH</a>.',
+                    'Scooter und BikeSharing-Standorte: <a target=new href=https://www.tier.app/>TIER Mobility GmbH</a>.',
                     'Alle Angaben ohne Gewähr.'
                 ],
-            },
+            }
         ],
         en: [
             {
-                header: 'Datenschutzhinweise zur Routingplatform LandStadtMobil',
+                header: 'Data protection information for the routing platform LandStadtMobil',
                 paragraphs: [
-                    'Es gelten die Datenschutzhinweise des Landkreises Reutlingen. Diese sind unter <a href="https://www.kreis-reutlingen.de/datenschutz">https://www.kreis-reutlingen.de/datenschutz</a> einsehbar.',
-                    'Die Anwendung LandStadtMobil bietet intermodale Mobilitätsauskünfte. Neben den Datenschutzhinweisen des Landkreises (in der Allgemeinen Datenschutzerklärung) zu Server-Logs und Cookies werden zur Optimierung der Anwendung die genutz-ten Funktionen erhoben. Hierzu nutzt die Anwendung LandStadtMobil die Anwendung Matomo und speichert hierzu Cookies. Die Speicherung dieser Cookies erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. ',
-                    'Explizit nicht gespeichert werden Start-/Ziel Suchen.'
+                    'The data protection information of the district of Reutlingen applies. These can be found at <a href="https://www.kreis-reutlingen.de/datenschutz">https://www.kreis-reutlingen.de/datenschutz</a>.',
+                    'The LandStadtMobil application offers intermodal mobility information. In addition to the data protection notices of the district (in the general data protection declaration) on server logs and cookies, the functions used are recorded to optimize the application. For this purpose, the LandStadtMobil application uses the Matomo application and stores cookies for this purpose. These cookies are stored on the basis of Article 6 (1) (f) GDPR. ',
+                    'Start/destination searches are not saved.'
                 ],
             },
             {
-                header: 'Fahrgemeinschaft.de',
+                header: 'ride2go',
                 paragraphs: [
-                    'LandStadtMobil nutzt zum Inserieren von Fahrgemeinschaftsangeboten die Dienste der Fahrgemeinschaft.de GmbH, Erlenstr. 7, D-71297 Mönsheim.',
-                    'Beim Inserieren von Mitfahrangeboten werden die folgenden Daten vom Nutzer erhoben und an Fahrgemeinschaft.de übermittelt: ',
-                    'Fahrtdaten (Start, Ziel, Datum/Wochentage und Uhrzeit), Kontaktdaten (Telefonnummer)',
-                    'Die personenbezogenen Daten werden für die Einstellung eines Fahrgemein-schafts-Inserats in LandStadtMobil erhoben und als Kontaktmöglichkeit für die Nut-zer zur Kontaktaufnahme verwendet. Die angegebenen Daten werden durch Fahr-gemeinschaft.de und angeschlossene Partner-Portale veröffentlicht und damit wei-tergegeben. Die Nutzung und Eingabe von Daten in diese Online-Anwendung er-folgt freiwillig.',
-                    'Einmalige Fahrgemeinschaftsangebote werden nach dem Datum der Fahrt ge-löscht. Regelmäßige Fahrgemeinschaftsangebote werden spätestens drei Monate nach Aufgabe des Inserats gelöscht.',
-                    'Mehr Informationen zum Umgang mit Nutzerdaten finden Sie in der Datenschutzer-klärung von Fahrgemeinschaft.de: www.fahrgemeinschaft.de/datenschutz.php',
-                    'LandStadtMobil speichert keine Kontaktdaten.'
+                    'LandStadtMobil uses the services of ride2go GmbH, Erlenstr. 7, D-71297 Mönsheim to advertise carpool offers.',
+                    'When advertising carpooling offers, the following data is collected from the user and transmitted to ride2go.de:',
+                    'Journey data (start, destination, date/weekdays and time), contact details (telephone number, e-mail address)',
+                    'The personal data is collected for the placement of a carpool advertisement in LandStadtMobil and used as a contact option for interested riders to get in touch. The data provided will be published by ride2go.de and affiliated partner portals and thus passed on. The use and input of data in this online application is voluntary.',
+                    'After submitting an advertisement, advertisers receive an e-mail confirming the activation and subsequent deletion of the advertisement.',
+                    'More information on handling user data can be found in the <a href="https://www.ride2go.de/html/datenschutz.html">Privacy Policy of ride2go.de</a>',
+                    'LandStadtMobil does not store any contact data.'
                 ]
             },
             {
-                header: 'stadtnavi / Digitransit Plattform',
+                header: 'About LandStadtMobil',
                 paragraphs: [
-                    'Dieser Dienst basiert auf dem Dienst stadtnavi, welche auf der Digitransit Platform und dem Backend-Dienst OpenTripPlanner basiert. Alle Software ist unter einer offenen Lizenzen verfügbar. Vielen Dank an alle Beteiligten.',
-                    'Der gesamte Quellcode der Plattform, die aus vielen verschiedenen Komponenten besteht, ist auf <a href="https://github.com/stadtnavi/">Github</a> verfügbar.'
+                    'LandStadtMobil is a routing platform that links various mobility offers such as bus, train, bicycle and carpooling. The platform is part of the model project “Integrated mobility concept to ensure subsequent mobility in rural areas”, which is funded by the Ministry of Food and Agriculture as part of the “LandMobil” funding program.',
+                    'By the end of 2022, the municipality of Engstingen and the city of Münsingen will work with the district to test how connecting mobility in rural areas, i.e. the first and last mile to mobility hubs, can be improved. Additional mobility offers, an e-bike sharing system, an e-car sharing model and a local car sharing network will be implemented in the community of Engstingen and the city of Münsingen. The offers are integrated into the LandStadtMobil routing platform in order to be able to generate appropriate routing information and travel suggestions. The mobility offers are supplemented by bicycle parking facilities (bicycle racks and bicycle boxes) and charging facilities for e-bikes.',
+                    'During the trial period, the projects are monitored and evaluated by the district office for sustainable development, transferrable solutions are derived and recommendations for action are formulated based on this.',
+                    'For more information about the project, see <a href="https://www.kreis-reutlingen.de/landmobil">www.kreis-reutlingen.de/landmobil</a>.',
+                    'This service is based on the stadtnavi service, which is based on the Digitransit Platform and the OpenTripPlanner backend service. All software is available under an open license. Thanks to all contributors.',
+                    'The entire source code of the platform, which consists of many different components, is on available on <a href="https://github.com/stadtnavi/">Github</a>.',
+                    '<img src="/img/landstadtmobil-funding-logo.png"/>'
                 ],
             },
             {
-                header: 'Datenquellen',
+                header: 'Data sources',
                 paragraphs: [
-                    'Kartendaten: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap Mitwirkende</a>',
-                    'ÖPNV-Daten: Datensätze der <a target=new href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>NVBW GmbH</a> und der <a target=new href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) jeweils angereichert mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende',
-                    'CarSharing-Standorte: Datensätze der <a target=new href=https://www.teilauto-neckar-alb.de/>teilAuto Neckar-Alb eG</a>.',
-                    'BikeSharing-Standorte: <a target=new href=https://www.tier.app/>TIER Mobility GmbH</a>.',
-                    'Alle Angaben ohne Gewähr.'
+                    'Map data: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap Mitwirkende</a>',
+                    'Transit data: Datensätze der <a target=new href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>NVBW GmbH</a> und der <a target=new href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) jeweils angereichert mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende',
+                    'CarSharing locations: Datensätze der <a target=new href=https://www.teilauto-neckar-alb.de/>teilAuto Neckar-Alb eG</a>.',
+                    'Scooter and BikeSharing locations: <a target=new href=https://www.tier.app/>TIER Mobility GmbH</a>.',
+                    'All statements without guarantee.'
                 ],
             },
         ],
