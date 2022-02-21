@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Toggle from './Toggle';
-import { saveRoutingSettings } from '../action/SearchSettingsActions';
-import Icon from './Icon';
+import { saveRoutingSettings } from '../../action/SearchSettingsActions';
+import Icon from '../Icon';
 import {
   mapDefaultNetworkProperties,
   getCityBikeNetworkName,
   getCityBikeNetworkConfig,
   updateCitybikeNetworks,
   getCitybikeNetworks,
-} from '../util/citybikes';
+} from '../../util/citybikes';
 
 const CityBikeNetworkSelector = (
   { currentOptions },
