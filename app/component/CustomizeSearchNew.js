@@ -4,16 +4,16 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import Icon from './Icon';
-import FareZoneSelector from './FareZoneSelector';
+import FareZoneSelector from './customizesearch/FareZoneSelector';
 import StreetModeSelectorPanel from './customizesearch/StreetModeSelectorPanel';
 import TransportModesSection from './customizesearch/TransportModesSection';
 import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
 import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSection';
-import { getDefaultSettings } from '../util/planParamUtil';
 import TransferOptionsSection from './customizesearch/TransferOptionsSection';
+import CityBikeNetworkSelector from './customizesearch/CityBikeNetworkSelector';
 import { showModeSettings, showCityBikes } from '../util/modeUtils';
 import ScrollableWrapper from './ScrollableWrapper';
-import CityBikeNetworkSelector from './CityBikeNetworkSelector';
+import { getDefaultSettings } from '../util/planParamUtil';
 import { getCitybikeNetworks } from '../util/citybikes';
 
 class CustomizeSearch extends React.Component {
