@@ -9,6 +9,7 @@ import { matchShape } from 'found';
 import isEqual from 'lodash/isEqual';
 
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import isRelayNetworkError from '../util/relayUtils';
 import Icon from './Icon';
 import SummaryRow from './SummaryRow';
 import { isBrowser } from '../util/browser';
@@ -231,9 +232,10 @@ function ItinerarySummaryListContainer(
   let outside;
   let iconType = 'caution';
   let iconImg = 'icon-icon_caution';
-  // If error starts with "Error" it's not a message id, it's an error message
-  // from OTP
-  if (error && !startsWith(error, 'Error')) {
+  // `error` is either an error message or a message id.
+  if (error && (/\bNetworkError\b/.test(error) || isRelayNetworkError(error))) {
+    msgId = 'network-error';
+  } else if (error && !startsWith(error, 'Error')) {
     msgId = 'no-route-msg';
   } else if (!inside([from.lon, from.lat], config.areaPolygon)) {
     msgId = 'origin-outside-service';
