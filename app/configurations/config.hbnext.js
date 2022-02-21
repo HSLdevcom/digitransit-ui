@@ -102,9 +102,11 @@ export default configMerger(walttiConfig, {
             'mode-bus': '#ff0000',
             'mode-car': '#007AC9',
             'mode-rail': '#008000',
+            'mode-subway': '#0000ff',
             'mode-citybike': '#ff834a',
             'mode-charging-station': '#00b096',
             'mode-bike-park': '#005ab4',
+            'mode-carpool': '#9fc727',
         },
     },
 
