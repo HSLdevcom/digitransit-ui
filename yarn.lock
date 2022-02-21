@@ -5651,7 +5651,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aggregate-error@npm:^3.0.0":
+"aggregate-error@npm:^3.0.0, aggregate-error@npm:^3.1.0":
   version: 3.1.0
   resolution: "aggregate-error@npm:3.1.0"
   dependencies:
@@ -6745,13 +6745,6 @@ __metadata:
   version: 1.5.1
   resolution: "base64-js@npm:1.5.1"
   checksum: c1b41a26ddc6620eb7f1ee6c29c812f5942a4e328e74263f995872cfb8ca3aee08542beb25cd10fd7ef16e4f16603e25c35a26e776c01fd55277e5035e829e0e
-  languageName: node
-  linkType: hard
-
-"base64url@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "base64url@npm:3.0.1"
-  checksum: e7c3424af4c711e1fbfe6b6e7e3976af684a5a080aa7c17a3d1fd375a029ff5f831ada40223571a8032d7c45f91d48266a9c367467a5f0c995cfb69de90cbdd3
   languageName: node
   linkType: hard
 
@@ -9972,7 +9965,7 @@ __metadata:
     nodemon: 1.18.10
     nyc: 15.0.1
     offline-plugin: 5.0.7
-    openid-client: 4.2.0
+    openid-client: 4.9.1
     optimize-css-assets-webpack-plugin: 5.0.4
     passport: 0.4.1
     pbf: 3.2.1
@@ -13366,7 +13359,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"got@npm:^11.6.2":
+"got@npm:^11.8.0":
   version: 11.8.3
   resolution: "got@npm:11.8.3"
   dependencies:
@@ -16218,7 +16211,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"jose@npm:^2.0.2":
+"jose@npm:^2.0.5":
   version: 2.0.5
   resolution: "jose@npm:2.0.5"
   dependencies:
@@ -19450,7 +19443,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"oidc-token-hash@npm:^5.0.0":
+"oidc-token-hash@npm:^5.0.1":
   version: 5.0.1
   resolution: "oidc-token-hash@npm:5.0.1"
   checksum: 9090d9a850ec07fd322915a8fdcbe48b8050843afbe38643c5dea52627cc6b8600a234a1a8b17514f3aa775982ab2934f242298c59a558588b7a677022207c6b
@@ -19518,19 +19511,18 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"openid-client@npm:4.2.0":
-  version: 4.2.0
-  resolution: "openid-client@npm:4.2.0"
+"openid-client@npm:4.9.1":
+  version: 4.9.1
+  resolution: "openid-client@npm:4.9.1"
   dependencies:
-    base64url: ^3.0.1
-    got: ^11.6.2
-    jose: ^2.0.2
+    aggregate-error: ^3.1.0
+    got: ^11.8.0
+    jose: ^2.0.5
     lru-cache: ^6.0.0
     make-error: ^1.3.6
     object-hash: ^2.0.1
-    oidc-token-hash: ^5.0.0
-    p-any: ^3.0.0
-  checksum: b25a48e3357301a13116ea7accea699f5dbfe19b4f77cee3d69b34720b83260ba3f5e7aee0cb9abb6031297ac0baf6c29804a066da78f9046ae7e049e5056d44
+    oidc-token-hash: ^5.0.1
+  checksum: 0801f82b9124cc9bcb1748a46ccb7a70deeb01bdaf7f01e1d976837244a743d2eee187a7c49e095aba3406c5679c78086d0ecd56a3ed5855fa415ad7c8318e91
   languageName: node
   linkType: hard
 
@@ -19659,16 +19651,6 @@ fsevents@~2.1.2:
     os-homedir: ^1.0.0
     os-tmpdir: ^1.0.0
   checksum: 1c7462808c5ff0c2816b11f2f46265a98c395586058f98d73a6deac82955744484b277baedceeb962c419f3b75d0831a77ce7cf38b9e4f20729943ba79d72b08
-  languageName: node
-  linkType: hard
-
-"p-any@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "p-any@npm:3.0.0"
-  dependencies:
-    p-cancelable: ^2.0.0
-    p-some: ^5.0.0
-  checksum: 684f65435bb3d1c43c671d860c42b67d5a5cdc07a929a62ba315d1dadc2bd20cdab15d8ab10d6369fc96065c9d71bad9393a6b1df7a9d97c8d9f6d87a34af770
   languageName: node
   linkType: hard
 
@@ -19836,16 +19818,6 @@ fsevents@~2.1.2:
   dependencies:
     retry: ^0.12.0
   checksum: 26c888de4e64e62e9b6112219fae2c2f45ddc2face5d6c7c98e1b8762bcd4a54bea4f50cdff275b2ee5ebb11b633bfb16f4dd473ecd4d07081385cb716e961cf
-  languageName: node
-  linkType: hard
-
-"p-some@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "p-some@npm:5.0.0"
-  dependencies:
-    aggregate-error: ^3.0.0
-    p-cancelable: ^2.0.0
-  checksum: cb778e32d64555db610cb1bbbec145b10bd541d1219996349aa515998aa89ea87a85c6c9c4629763a11fc1769c2b3e1656d12ab9cfcc77eaf8fc1acc080661de
   languageName: node
   linkType: hard
 
