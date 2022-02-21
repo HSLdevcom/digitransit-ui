@@ -3,7 +3,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import Icon from './Icon';
+import Icon from '../Icon';
 
 const roundToOneDecimal = number => {
   const rounded = Math.round(number * 10) / 10;

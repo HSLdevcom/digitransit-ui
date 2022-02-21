@@ -6,8 +6,8 @@ import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import SearchSettingsDropdown, {
   getFiveStepOptions,
-} from '../SearchSettingsDropdown';
-import Toggle from '../Toggle';
+} from './SearchSettingsDropdown';
+import Toggle from './Toggle';
 import { findNearestOption } from '../../util/planParamUtil';
 
 const WalkingOptionsSection = (

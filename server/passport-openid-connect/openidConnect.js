@@ -250,8 +250,8 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     }
   });
 
-  const errorHandler = function (error, res) {
-    if (error.response) {
+  const errorHandler = function (res, error) {
+    if (error?.response) {
       res
         .status(error.response.status || 500)
         .send(error.response.data || 'Unknown error');
@@ -267,10 +267,14 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
         headers: { Authorization: `Bearer ${req.user.token.access_token}` },
       })
       .then(function (response) {
-        res.status(response.status).send(response.data);
+        if (response && response.status && response.data) {
+          res.status(response.status).send(response.data);
+        } else {
+          errorHandler(res);
+        }
       })
       .catch(function (err) {
-        errorHandler(err, res);
+        errorHandler(res, err);
       });
   });
 
@@ -284,7 +288,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
         next();
       })
       .catch(function (err) {
-        errorHandler(err, res);
+        errorHandler(res, err);
       });
   };
 
@@ -296,10 +300,14 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       data: JSON.stringify(req.body),
     })
       .then(function (response) {
-        res.status(response.status).send(response.data);
+        if (response && response.status && response.data) {
+          res.status(response.status).send(response.data);
+        } else {
+          errorHandler(res);
+        }
       })
       .catch(function (err) {
-        errorHandler(err, res);
+        errorHandler(res, err);
       });
   });
 
@@ -323,10 +331,14 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       data: JSON.stringify(req.body),
     })
       .then(function (response) {
-        res.status(response.status).send(response.data);
+        if (response && response.status && response.data) {
+          res.status(response.status).send(response.data);
+        } else {
+          errorHandler(res);
+        }
       })
       .catch(function (err) {
-        errorHandler(err, res);
+        errorHandler(res, err);
       });
   });
 }
