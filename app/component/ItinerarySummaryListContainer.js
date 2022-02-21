@@ -234,7 +234,7 @@ function ItinerarySummaryListContainer(
   let iconImg = 'icon-icon_caution';
   // `error` is either an error message or a message id.
   if (error && (/\bNetworkError\b/.test(error) || isRelayNetworkError(error))) {
-    msgId = 'network-error';
+    msgId = 'network-error-itineraries-summary';
   } else if (error && !startsWith(error, 'Error')) {
     msgId = 'no-route-msg';
   } else if (!inside([from.lon, from.lat], config.areaPolygon)) {

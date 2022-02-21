@@ -687,6 +687,7 @@ const translations = {
       'Position auf der Karte hat sich geändert',
     neighbourhood: 'Viertel ',
     'network-error': 'Ein Netzwerkfehler ist aufgetreten.',
+    'network-error-itineraries-summary': 'Wir konnten leider keine Reisevorschläge abrufen, weil Ihre Internetverbindung unterbrochen oder der bbnavi-Server nicht erreichbar ist. Bitte versuchen Sie es später erneut.',
     next: 'Nächste',
     'no-bike-allowed-popup-train':
       'Die Fahrradmitnahme ist in Pendlerzügen erlaubt, in Fernverkehrszügen ist jedoch ein Zuschlag nötig und es könnte eine Reservierung erforderlich sein.',
