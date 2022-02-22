@@ -1089,9 +1089,9 @@ const translations = {
     instructions: 'Instructions',
     'is-open': 'Open:',
     'itinerary-details.biking-leg':
-      'At {time} cycle {distance} from {origin} to {destination}. Estimated time {duration}',
+      'At {time} cycle {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-details.car-leg':
-      'At {time} drive {distance} from {origin} to {destination}. Estimated time {duration}',
+      'At {time} drive {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-details.end-leg':
       'At {time} arrive to destination {destination}.',
     'itinerary-details.route-has-info-alert': 'Route has alerts.',
@@ -1103,8 +1103,10 @@ const translations = {
     'itinerary-details.transit-leg-part-1': 'At {time} take',
     'itinerary-details.transit-leg-part-2':
       'from stop {startStop} {startZoneInfo} {trackInfo} to stop {endStop} {endZoneInfo}. Estimated duration {duration}',
+    'itinerary-details.via-leg':
+      '{arrivalTime} arrive to via point {viaPoint}. {leaveAction}',
     'itinerary-details.walk-leg':
-      'At {time} walk {distance} from {origin} to {destination}. Estimated time {duration}',
+      'At {time} walk {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-feedback-button': 'Send feedback',
     'itinerary-feedback-message': 'Couldn’t find what you were looking for?',
     'itinerary-feedback-placeholder': 'Description (optional)',
@@ -1185,7 +1187,6 @@ const translations = {
     'login-content':
       'To save and utilize places, routes and stops, you must log in using your HSL account.',
     'login-header': 'Log in First',
-
     logout: 'Log out',
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Close the main menu',
@@ -1209,6 +1210,15 @@ const translations = {
     'minute-short': 'min',
     minutes: 'min',
     'minutes-or-route': 'Min / Route',
+    'modes.to-bike': 'city bike station',
+    'modes.to-bike-park': 'bike park',
+    'modes.to-bus': 'bus stop',
+    'modes.to-car-park': 'car park',
+    'modes.to-place': 'destination',
+    'modes.to-rail': 'train station',
+    'modes.to-stop': 'stop',
+    'modes.to-subway': 'subway station',
+    'modes.to-tram': 'tram stop',
     'more-departures': 'More departures',
     'more-settings': 'More settings',
     'move-on-map': 'Move on the map',
@@ -2163,9 +2173,9 @@ const translations = {
     instructions: 'Ohjeet',
     'is-open': 'Avoinna:',
     'itinerary-details.biking-leg':
-      '{time} pyöräile kohteesta {origin} {distance} kohteeseen {destination}. Matka-aika {duration}',
+      '{time} pyöräile kohteesta {origin} {distance} {to} {destination}. Matka-aika {duration}',
     'itinerary-details.car-leg':
-      '{time} aja {distance} kohteesta {origin} kohteeseen {destination}. Matka-aika {duration}',
+      '{time} aja {distance} kohteesta {origin} {to} {destination}. Matka-aika {duration}',
     'itinerary-details.end-leg': '{time} saavu kohteeseen {destination}.',
     'itinerary-details.route-has-info-alert': 'Reitillä on tiedotteita.',
     'itinerary-details.route-has-severe-alert': 'Reitillä on poikkeuksia.',
@@ -2175,9 +2185,11 @@ const translations = {
       '{time} potkulautaile {distance} kohteesta {origin} kohteeseen {destination}. Matka-aika {duration}',
     'itinerary-details.transit-leg-part-1': '{time} ota',
     'itinerary-details.transit-leg-part-2':
-      'pysäkiltä {startStop} {startZoneInfo} {trackInfo} Pysäkille {endStop} {endZoneInfo}. Arvioitu matka-aika {duration}',
+      'pysäkiltä {startStop} {startZoneInfo} {trackInfo} pysäkille {endStop} {endZoneInfo}. Arvioitu matka-aika {duration}',
+    'itinerary-details.via-leg':
+      '{arrivalTime} saavu välipisteeseen {viaPoint}. {leaveAction}',
     'itinerary-details.walk-leg':
-      '{time} kävele {distance} kohteesta {origin} kohteeseen {destination}. Matka-aika {duration}',
+      '{time} kävele kohteesta {origin} {to} {destination}. Matka-aika {duration}',
     'itinerary-feedback-button': 'Lähetä palautetta',
     'itinerary-feedback-message': 'Etkö löytänyt mitä etsit?',
     'itinerary-feedback-placeholder': 'Kuvaus (valinnainen)',
@@ -2278,6 +2290,15 @@ const translations = {
     'minute-short': 'min',
     minutes: 'min',
     'minutes-or-route': 'Min / Linja',
+    'modes.to-bike': 'kaupunkipyöräasemalle',
+    'modes.to-bike-park': 'liityntäpyöräparkkiin',
+    'modes.to-bus': 'bussipysäkille',
+    'modes.to-car-park': 'liityntäpysäköintiin',
+    'modes.to-place': 'kohteeseen',
+    'modes.to-rail': 'juna-asemalle',
+    'modes.to-stop': 'pysäkille',
+    'modes.to-subway': 'metroasemalle',
+    'modes.to-tram': 'raitiovaunupysäkille',
     'more-departures': 'Lisää lähtöjä',
     'more-settings': 'Lisäasetukset',
     'move-on-map': 'Siirry kartalla',
@@ -4014,9 +4035,9 @@ const translations = {
     instructions: 'Anvisningar',
     'is-open': 'Öppet:',
     'itinerary-details.biking-leg':
-      '{time} cykla {distance} från {origin} till destinationen {destination}. Restid {duration}',
+      '{time} cykla {distance} från {origin} till {to} {destination}. Restid {duration}',
     'itinerary-details.car-leg':
-      '{time} kör {distance} från {origin} till destinationen {destination}. Restid {duration}',
+      '{time} kör {distance} från {origin} till {to} {destination}. Restid {duration}',
     'itinerary-details.end-leg':
       '{time} du anländer till destinationen {destination}',
     'itinerary-details.route-has-info-alert':
@@ -4029,8 +4050,10 @@ const translations = {
     'itinerary-details.transit-leg-part-1': '{time} ta',
     'itinerary-details.transit-leg-part-2':
       'från hållplats {startStop} {startZoneInfo} {trackInfo} till hållplats {endStop} {endZoneInfo}. Beräknad restid {duration}',
+    'itinerary-details.via-leg':
+      '{arrivalTime} du anländer till mellanstopp {viaPoint}. {leaveAction}',
     'itinerary-details.walk-leg':
-      '{time} promenera {distance} från {origin} till destinationen {destination}. Restid {duration}',
+      '{time} promenera {distance} från {origin} till {to} {destination}. Restid {duration}',
     'itinerary-feedback-button': 'Skicka respons',
     'itinerary-feedback-message': 'Hittade du inte vad du sökte?',
     'itinerary-feedback-placeholder': 'Beskrivning (valfri)',
@@ -4133,6 +4156,15 @@ const translations = {
     'minute-short': 'min',
     minutes: 'min',
     'minutes-or-route': 'Min / Linje',
+    'modes.to-bike': 'stadscykelstation',
+    'modes.to-bike-park': 'anslutningsparkering för cyklar',
+    'modes.to-bus': 'busshållplats',
+    'modes.to-car-park': 'infartsparkering',
+    'modes.to-place': 'destination',
+    'modes.to-rail': 'tågstation',
+    'modes.to-stop': 'hållplats',
+    'modes.to-subway': 'metrostation',
+    'modes.to-tram': 'spårvagnshållplats',
     'more-departures': 'Fler avgångar',
     'more-settings': 'Fler inställningar',
     'move-on-map': 'Flytta på kartan',

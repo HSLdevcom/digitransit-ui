@@ -32,6 +32,12 @@ function CarParkLeg(props, { config, intl }) {
             values={{
               time: moment(props.leg.startTime).format('HH:mm'),
               distance,
+              to: intl.formatMessage({
+                id: `modes.to-${
+                  props.leg.to.stop?.vehicleMode?.toLowerCase() || 'place'
+                }`,
+                defaultMessage: 'modes.to-stop',
+              }),
               origin: props.leg.from ? props.leg.from.name : '',
               destination: props.leg.to ? props.leg.to.name : '',
               duration,
@@ -149,6 +155,7 @@ CarParkLeg.propTypes = {
     }).isRequired,
     to: PropTypes.shape({
       name: PropTypes.string.isRequired,
+      stop: PropTypes.object,
     }),
     mode: PropTypes.string.isRequired,
   }).isRequired,

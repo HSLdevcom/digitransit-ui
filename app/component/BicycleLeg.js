@@ -108,6 +108,22 @@ function BicycleLeg(
     );
   }
   const fromStop = () => leg?.from.stop || bicycleWalkLeg?.from.stop;
+  const getToMode = () => {
+    if (leg.to.bikePark) {
+      return 'bike-park';
+    }
+    if (leg.to.stop?.vehicleMode) {
+      return leg.to.stop?.vehicleMode.toLowerCase();
+    }
+    if (bicycleWalkLeg?.to.stop?.vehicleMode) {
+      return bicycleWalkLeg.to.stop?.vehicleMode.toLowerCase();
+    }
+    return 'place';
+  };
+  const origin = bicycleWalkLeg?.from.stop ? bicycleWalkLeg.from.name : address;
+  const destination = bicycleWalkLeg?.to.stop
+    ? bicycleWalkLeg?.to.name
+    : leg.to.name;
   return (
     <div key={index} className="row itinerary-row">
       <span className="sr-only">
@@ -118,9 +134,10 @@ function BicycleLeg(
           id="itinerary-details.biking-leg"
           values={{
             time: moment(leg.startTime).format('HH:mm'),
+            to: intl.formatMessage({ id: `modes.to-${getToMode()}` }),
             distance,
-            origin: leg.from ? leg.from.name : '',
-            destination: leg.to ? leg.to.name : '',
+            origin,
+            destination,
             duration,
           }}
         />
@@ -311,6 +328,8 @@ BicycleLeg.propTypes = {
     }).isRequired,
     to: PropTypes.shape({
       name: PropTypes.string.isRequired,
+      stop: PropTypes.object,
+      bikePark: PropTypes.object,
     }).isRequired,
     mode: PropTypes.string.isRequired,
     rentedBike: PropTypes.bool.isRequired,
