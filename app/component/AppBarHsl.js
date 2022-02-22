@@ -19,16 +19,17 @@ const clearStorages = context => {
   context.getStore('FavouriteStore').clearFavourites();
 };
 
-const notificationAPI = '/api/user/notifications';
+// const notificationAPI = '/api/user/notifications';
 
 const AppBarHsl = ({ lang, user, favourites }, context) => {
   const { config, match, intl } = context;
   const { location } = match;
 
-  const notificationApiUrls = {
+  const notificationApiUrls = undefined;
+  /* {
     get: `${notificationAPI}?language=${lang}`,
     post: `${notificationAPI}?language=${lang}`,
-  };
+  }; */
 
   const [banners, setBanners] = useState([]);
 
@@ -96,8 +97,9 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
       : {};
 
   const siteHeaderRef = useRef(null);
-  useEffect(() => siteHeaderRef.current?.fetchNotifications()[favourites]);
-
+  if (notificationApiUrls) {
+    useEffect(() => siteHeaderRef.current?.fetchNotifications()[favourites]);
+  }
   return (
     <LazilyLoad modules={modules}>
       {({ SiteHeader, SharedLocalStorageObserver }) => (
