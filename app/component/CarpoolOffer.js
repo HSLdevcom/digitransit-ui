@@ -221,8 +221,8 @@ export default class CarpoolOffer extends React.Component {
     const departure = new Moment(this.props.start).format('LT');
     const { GDPR, isRegularly } = this.state;
 
-    const policyUrl = 'https://www.fahrgemeinschaft.de/datenschutz.php';
-    const termsUrl = 'https://www.fahrgemeinschaft.de/rules.php';
+    const policyUrl = 'https://ride2go.com/privacy?tenant=fahrgemeinschaft';
+    const termsUrl = 'https://ride2go.com/GTC?tenant=fahrgemeinschaft';
 
     return (
       <form onSubmit={this.finishForm} className="sidePanelText">
