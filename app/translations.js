@@ -321,7 +321,7 @@ const translations = {
     'chosen-times-once':
       'Sie haben für den folgendes Datum und Uhrzeit inseriert: ',
     'accept-carpool-policy':
-      'Ich habe die <a href="{policyUrl}" target="_blank">Datenschutzbestimmungen</a> und die <a href="{termsUrl}" target="_blank">AGB</a> gelesen und erkläre mich einverstanden.',
+      'Ich habe die <a href="{policyUrl}" target="_blank" style="color: #92bc05">Datenschutzbestimmungen</a> und die <a href="{termsUrl}" target="_blank" style="color: #92bc05">AGB</a> von Fahrgemeinschaft.de gelesen und erkläre mich einverstanden.',
     'add-carpool-offer-frequency': 'Wie oft bieten Sie diese Fahrt an?',
     once: 'einmalig',
     recurring: 'regelmäßig',
@@ -1123,7 +1123,7 @@ const translations = {
     'car-park-capacity-alert': 'This car park is close to capacity. Please allow additional time for your journey',
     'exclude-full-carparks': 'Exclude full car parks',
     'accept-carpool-policy':
-      'I have read and agreed to the <a href="{policyUrl}" target="_blank">privacy policy</a> and <a href="{termsUrl}" target="_blank">terms of use</a>.',
+      'I have read and agreed to Fahrgemeinschaft.de\'s <a href="{policyUrl}" target="_blank" style="color: #92bc05">privacy policy</a> and <a href="{termsUrl}" target="_blank" style="color: #92bc05">terms of use</a>.',
     accessibility: 'Accessibility',
     'accessibility-limited': 'Wheelchair',
     'accessibility-nolimit': 'No limits',

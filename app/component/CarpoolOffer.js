@@ -311,7 +311,12 @@ export default class CarpoolOffer extends React.Component {
             }
           />
         </div>
-        <button disabled={!GDPR} className="standalone-btn" type="submit">
+        <button
+          disabled={!GDPR}
+          className="standalone-btn"
+          type="submit"
+          style={{ backgroundColor: '#92bc05' }}
+        >
           <FormattedMessage id="offer-ride" defaultMessage="Offer carpool" />
         </button>
       </form>
