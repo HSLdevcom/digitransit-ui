@@ -56,7 +56,7 @@ $favourite-highlight-background-color: #F4F4F5;
     margin-right: 8px;
     overflow: hidden;
 
-    & > button {
+    & > div {
       @extend .shimmer-shared;
     }
 
@@ -146,7 +146,7 @@ $favourite-highlight-background-color: #F4F4F5;
     flex-shrink: 0;
     overflow: hidden;
 
-    & > button {
+    & > div {
       @extend .shimmer-shared;
       justify-content: center;
     }
