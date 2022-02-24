@@ -2246,25 +2246,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-bar@npm:1.0.4":
-  version: 1.0.4
-  resolution: "@digitransit-component/digitransit-component-favourite-bar@npm:1.0.4"
-  peerDependencies:
-    "@digitransit-component/digitransit-component-icon": ^0.1.15
-    "@digitransit-component/digitransit-component-suggestion-item": ^0.2.18
-    "@hsl-fi/sass": ^0.2.0
-    "@hsl-fi/shimmer": 0.1.1
-    classnames: 2.2.6
-    i18next: ^19.3.3
-    lodash: 4.17.21
-    lodash-es: 4.17.21
-    prop-types: ^15.7.2
-    react: ^16.13.0
-  checksum: 14aa64a6001eb5ea30d9f8c161077bd0c7d56fa793b4f096851c3a69f4b053fa31167e32271fae49e2b34e054f7aeffa32e803192dbe6ab9d382bc1b3d71efd6
-  languageName: node
-  linkType: hard
-
-"@digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar":
+"@digitransit-component/digitransit-component-favourite-bar@1.0.8, @digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar"
   peerDependencies:
@@ -2369,7 +2351,7 @@ __metadata:
     "@digitransit-component/digitransit-component-autosuggest": ^1.7.33
     "@digitransit-component/digitransit-component-autosuggest-panel": ^1.3.40
     "@digitransit-component/digitransit-component-control-panel": ^1.0.0
-    "@digitransit-component/digitransit-component-favourite-bar": 1.0.4
+    "@digitransit-component/digitransit-component-favourite-bar": 1.0.8
     "@digitransit-component/digitransit-component-favourite-editing-modal": ^0.3.14
     "@digitransit-component/digitransit-component-favourite-modal": ^0.3.15
     "@digitransit-component/digitransit-component-icon": ^0.1.15
