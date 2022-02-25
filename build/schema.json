@@ -7104,6 +7104,12 @@
                             "deprecationReason": null
                         },
                         {
+                            "name": "VEHICLEPARKING",
+                            "description": "VEHICLEPARKING",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
                             "name": "BIKESHARE",
                             "description": "BIKESHARE",
                             "isDeprecated": false,
