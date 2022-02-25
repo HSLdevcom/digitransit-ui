@@ -42,7 +42,7 @@ export const isFeatureLayerEnabled = (
     return false;
   }
   const featureType = (feature.properties.type || '').toLocaleLowerCase();
-  if (isHybridStation && featureType) {
+  if (isHybridStation === true && featureType) {
     const featureTypes = feature.properties.type.split(',');
     return featureTypes.some(type =>
       Boolean(mapLayers[layerName][type.toLocaleLowerCase()]),

@@ -305,7 +305,6 @@ class TileContainer {
             (localPoint[0] - p.x / this.ratio) ** 2 +
               (localPoint[1] - p.y / this.ratio) ** 2,
           );
-
           return dist < 22 * this.scaleratio;
         });
       });
