@@ -14,6 +14,7 @@ import {
 } from '../util/path';
 import Icon from './Icon';
 import Loading from './Loading';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const LocationSearch = withSearchContext(DTAutosuggestPanel, true);
 
@@ -66,6 +67,10 @@ const EmbeddedSearch = (props, context) => {
   const bikeOnly = query?.bikeOnly;
   const walkOnly = query?.walkOnly;
   const lang = query.lang || 'fi';
+  const url =
+    window.location !== window.parent.location
+      ? document.referrer
+      : document.location.href;
 
   useEffect(() => {
     Object.keys(translations).forEach(language => {
@@ -170,8 +175,20 @@ const EmbeddedSearch = (props, context) => {
       item.address = i18next.t('own-position');
     }
     if (id === 'origin') {
+      addAnalyticsEvent({
+        category: 'EmbeddedSearch',
+        action: 'setOrigin',
+        name: url,
+        value: item.address,
+      });
       setOrigin(item);
     } else {
+      addAnalyticsEvent({
+        category: 'EmbeddedSearch',
+        action: 'setDestination',
+        name: url,
+        value: item.address,
+      });
       setDestination(item);
     }
   };
@@ -199,11 +216,20 @@ const EmbeddedSearch = (props, context) => {
 
   const executeSearch = () => {
     const urlEnd = bikeOnly ? '/bike' : walkOnly ? '/walk' : '';
+    const mode = bikeOnly ? 'bike' : walkOnly ? 'walk' : 'all';
     const pathName = `/${lang}${getPathWithEndpointObjects(
       origin,
       destination,
       PREFIX_ITINERARY_SUMMARY,
     )}${urlEnd}`;
+    addAnalyticsEvent({
+      category: 'EmbeddedSearch',
+      action: 'executeSearch',
+      name: url,
+      value: mode,
+      origin: origin?.address,
+      destination: destination?.address,
+    });
     window.open(pathName, '_blank');
   };
 
