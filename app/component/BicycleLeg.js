@@ -3,11 +3,13 @@ import React from 'react';
 import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
+import Link from 'found/Link';
 import Icon from './Icon';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import ItineraryCircleLineLong from './ItineraryCircleLineLong';
+import { PREFIX_STOPS } from '../util/path';
 import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkId,
@@ -162,13 +164,22 @@ function BicycleLeg(
           <div className={cx('itinerary-leg-first-row', 'bicycle', 'first')}>
             <div className="address-container">
               <div className="address">
-                {bicycleWalkLeg?.from.stop ? bicycleWalkLeg.from.name : address}
-                {fromStop() && (
-                  <Icon
-                    img="icon-icon_arrow-collapse--right"
-                    className="itinerary-arrow-icon"
-                    color="#333"
-                  />
+                {fromStop() ? (
+                  <Link
+                    onClick={e => {
+                      e.stopPropagation();
+                    }}
+                    to={`/${PREFIX_STOPS}/${bicycleWalkLeg.from.stop.gtfsId}`}
+                  >
+                    {bicycleWalkLeg.from.name}
+                    <Icon
+                      img="icon-icon_arrow-collapse--right"
+                      className="itinerary-arrow-icon"
+                      color={config.colors.primary}
+                    />
+                  </Link>
+                ) : (
+                  address
                 )}
               </div>
               {bicycleWalkLeg?.from.stop?.code && (
@@ -210,24 +221,37 @@ function BicycleLeg(
         {bicycleWalkLeg?.from.stop && (
           <div className={cx('itinerary-leg-action', 'bicycle')}>
             <div className="itinerary-leg-action-content">
-              <FormattedMessage
-                id="bicycle-walk-from-transit"
-                values={{
-                  transportMode: (
-                    <FormattedMessage
-                      id={`from-${bicycleWalkLeg.from.stop.vehicleMode.toLowerCase()}`}
-                    />
-                  ),
-                  duration: durationToString(
-                    bicycleWalkLeg.endTime - bicycleWalkLeg.startTime,
-                  ),
-                  distance: displayDistance(
-                    parseInt(bicycleWalkLeg.distance, 10),
-                    config,
-                    intl.formatNumber,
-                  ),
-                }}
-              />
+              {bicycleWalkLeg.distance === -1 ? (
+                <FormattedMessage
+                  id="bicycle-walk-from-transit-no-duration"
+                  values={{
+                    transportMode: (
+                      <FormattedMessage
+                        id={`from-${bicycleWalkLeg.from.stop.vehicleMode.toLowerCase()}`}
+                      />
+                    ),
+                  }}
+                />
+              ) : (
+                <FormattedMessage
+                  id="bicycle-walk-from-transit"
+                  values={{
+                    transportMode: (
+                      <FormattedMessage
+                        id={`from-${bicycleWalkLeg.from.stop.vehicleMode.toLowerCase()}`}
+                      />
+                    ),
+                    duration: durationToString(
+                      bicycleWalkLeg.endTime - bicycleWalkLeg.startTime,
+                    ),
+                    distance: displayDistance(
+                      parseInt(bicycleWalkLeg.distance, 10),
+                      config,
+                      intl.formatNumber,
+                    ),
+                  }}
+                />
+              )}
               <div
                 className="itinerary-map-action"
                 onClick={focusAction}
@@ -267,27 +291,40 @@ function BicycleLeg(
             </div>
           </div>
         </div>
-        {bicycleWalkLeg && !bicycleWalkLeg?.from.stop && (
+        {bicycleWalkLeg && bicycleWalkLeg?.to.stop && (
           <div className={cx('itinerary-leg-action', 'bicycle')}>
             <div className="itinerary-leg-action-content">
-              <FormattedMessage
-                id="bicycle-walk-to-transit"
-                values={{
-                  transportMode: (
-                    <FormattedMessage
-                      id={`from-${bicycleWalkLeg.to.stop.vehicleMode.toLowerCase()}`}
-                    />
-                  ),
-                  duration: durationToString(
-                    bicycleWalkLeg.endTime - bicycleWalkLeg.startTime,
-                  ),
-                  distance: displayDistance(
-                    parseInt(bicycleWalkLeg.distance, 10),
-                    config,
-                    intl.formatNumber,
-                  ),
-                }}
-              />
+              {bicycleWalkLeg.distance === -1 ? (
+                <FormattedMessage
+                  id="bicycle-walk-to-transit-no-duration"
+                  values={{
+                    transportMode: (
+                      <FormattedMessage
+                        id={`to-${bicycleWalkLeg.to.stop?.vehicleMode.toLowerCase()}`}
+                      />
+                    ),
+                  }}
+                />
+              ) : (
+                <FormattedMessage
+                  id="bicycle-walk-to-transit"
+                  values={{
+                    transportMode: (
+                      <FormattedMessage
+                        id={`to-${bicycleWalkLeg.to.stop.vehicleMode.toLowerCase()}`}
+                      />
+                    ),
+                    duration: durationToString(
+                      bicycleWalkLeg.endTime - bicycleWalkLeg.startTime,
+                    ),
+                    distance: displayDistance(
+                      parseInt(bicycleWalkLeg.distance, 10),
+                      config,
+                      intl.formatNumber,
+                    ),
+                  }}
+                />
+              )}
               <div
                 className="itinerary-map-action"
                 onClick={focusAction}

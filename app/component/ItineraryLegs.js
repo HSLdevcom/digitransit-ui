@@ -139,7 +139,14 @@ class ItineraryLegs extends React.Component {
       const carPark = previousLeg?.to.carPark;
       const fromBikePark = leg?.from.bikePark;
       const fromCarPark = leg?.from.carPark || previousLeg?.to.carPark;
-
+      const showBicycleWalkLeg = () => {
+        return (
+          nextLeg?.mode === 'RAIL' ||
+          nextLeg?.mode === 'SUBWAY' ||
+          previousLeg?.mode === 'RAIL' ||
+          previousLeg?.mode === 'SUBWAY'
+        );
+      };
       if (fromCarPark && !this.isLegOnFoot(leg)) {
         legs.push(
           <CarParkLeg
@@ -290,6 +297,26 @@ class ItineraryLegs extends React.Component {
         }
         if (previousLeg?.mode === 'BICYCLE_WALK' && !bikeParked) {
           bicycleWalkLeg = previousLeg;
+        }
+        // if there is a transit leg after or before a bicycle leg, render a bicycle_walk leg without distance information
+        if (showBicycleWalkLeg() && !bikeParked) {
+          let { from } = leg;
+          if (
+            (previousLeg?.mode === 'RAIL' || previousLeg?.mode === 'SUBWAY') &&
+            !leg.from.stop
+          ) {
+            from = previousLeg.to;
+          }
+          bicycleWalkLeg = {
+            duration: 0,
+            startTime: 0,
+            endTime: 0,
+            distance: -1,
+            rentedBike: leg.rentedBike,
+            to: leg.to,
+            from,
+            mode: 'BICYCLE_WALK',
+          };
         }
         legs.push(
           <BicycleLeg
