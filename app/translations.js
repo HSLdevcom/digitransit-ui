@@ -4479,7 +4479,7 @@ const translations = {
     'time-selector-hours-label': 'Timme',
     'time-selector-minutes-label': 'Minut',
     timetable: 'Tidtabell',
-    'to-ferry': 'lauttaan',
+    'to-ferry': 'färjan',
     'to-frontpage': 'Till startsidan',
     'to-rail': 'tåget',
     'to-subway': 'metron',
