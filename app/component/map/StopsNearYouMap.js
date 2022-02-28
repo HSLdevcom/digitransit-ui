@@ -273,6 +273,7 @@ function StopsNearYouMap(
             feedId,
             route: pattern.route.gtfsId.split(':')[1],
             shortName: pattern.route.shortName,
+            type: pattern.route.type,
           });
           routeLines.push(pattern);
         });
@@ -285,6 +286,7 @@ function StopsNearYouMap(
               feedId,
               route: pattern.route.gtfsId.split(':')[1],
               shortName: pattern.route.shortName,
+              type: pattern.route.type,
             });
             routeLines.push(pattern);
           });
@@ -379,7 +381,11 @@ function StopsNearYouMap(
             key={`${pattern.code}`}
             opaque
             geometry={polyline.decode(pattern.patternGeometry.points)}
-            mode={pattern.route.mode.toLowerCase()}
+            mode={
+              pattern.route.type === 702
+                ? 'bus-trunk'
+                : pattern.route.mode.toLowerCase()
+            }
           />
         );
       }
@@ -388,7 +394,12 @@ function StopsNearYouMap(
   }
   if (uniqueRealtimeTopics.length > 0) {
     leafletObjs.push(
-      <VehicleMarkerContainer key="vehicles" useLargeIcon mode={mode} />,
+      <VehicleMarkerContainer
+        key="vehicles"
+        useLargeIcon
+        mode={mode}
+        topics={uniqueRealtimeTopics}
+      />,
     );
   }
   if (

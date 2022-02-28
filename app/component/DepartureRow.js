@@ -15,7 +15,11 @@ const DepartureRow = (
   { departure, departureTime, showPlatformCode, canceled, showLink, ...props },
   { config, intl },
 ) => {
-  const mode = departure.trip.route.mode.toLowerCase();
+  const mode =
+    departure.trip.route.type === 702
+      ? 'bus-trunk'
+      : departure.trip.route.mode.toLowerCase();
+
   const timeDiffInMinutes = Math.floor(
     (departureTime - props.currentTime) / 60,
   );
