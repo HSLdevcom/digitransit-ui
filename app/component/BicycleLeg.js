@@ -3,11 +3,13 @@ import React from 'react';
 import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
+import Link from 'found/Link';
 import Icon from './Icon';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import ItineraryCircleLineLong from './ItineraryCircleLineLong';
+import { PREFIX_STOPS } from '../util/path';
 import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkId,
@@ -162,13 +164,22 @@ function BicycleLeg(
           <div className={cx('itinerary-leg-first-row', 'bicycle', 'first')}>
             <div className="address-container">
               <div className="address">
-                {bicycleWalkLeg?.from.stop ? bicycleWalkLeg.from.name : address}
-                {fromStop() && (
-                  <Icon
-                    img="icon-icon_arrow-collapse--right"
-                    className="itinerary-arrow-icon"
-                    color="#333"
-                  />
+                {fromStop() ? (
+                  <Link
+                    onClick={e => {
+                      e.stopPropagation();
+                    }}
+                    to={`/${PREFIX_STOPS}/${bicycleWalkLeg.from.stop.gtfsId}`}
+                  >
+                    {bicycleWalkLeg.from.name}
+                    <Icon
+                      img="icon-icon_arrow-collapse--right"
+                      className="itinerary-arrow-icon"
+                      color={config.colors.primary}
+                    />
+                  </Link>
+                ) : (
+                  address
                 )}
               </div>
               {bicycleWalkLeg?.from.stop?.code && (
