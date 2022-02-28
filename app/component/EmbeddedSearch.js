@@ -179,7 +179,7 @@ const EmbeddedSearch = (props, context) => {
         category: 'EmbeddedSearch',
         action: 'setOrigin',
         name: url,
-        value: item.address,
+        origin: item.address,
       });
       setOrigin(item);
     } else {
@@ -187,7 +187,7 @@ const EmbeddedSearch = (props, context) => {
         category: 'EmbeddedSearch',
         action: 'setDestination',
         name: url,
-        value: item.address,
+        destination: item.address,
       });
       setDestination(item);
     }
@@ -226,7 +226,7 @@ const EmbeddedSearch = (props, context) => {
       category: 'EmbeddedSearch',
       action: 'executeSearch',
       name: url,
-      value: mode,
+      mode,
       origin: origin?.address,
       destination: destination?.address,
     });
