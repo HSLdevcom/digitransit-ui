@@ -210,24 +210,37 @@ function BicycleLeg(
         {bicycleWalkLeg?.from.stop && (
           <div className={cx('itinerary-leg-action', 'bicycle')}>
             <div className="itinerary-leg-action-content">
-              <FormattedMessage
-                id="bicycle-walk-from-transit"
-                values={{
-                  transportMode: (
-                    <FormattedMessage
-                      id={`from-${bicycleWalkLeg.from.stop.vehicleMode.toLowerCase()}`}
-                    />
-                  ),
-                  duration: durationToString(
-                    bicycleWalkLeg.endTime - bicycleWalkLeg.startTime,
-                  ),
-                  distance: displayDistance(
-                    parseInt(bicycleWalkLeg.distance, 10),
-                    config,
-                    intl.formatNumber,
-                  ),
-                }}
-              />
+              {bicycleWalkLeg.distance === -1 ? (
+                <FormattedMessage
+                  id="bicycle-walk-from-transit-no-duration"
+                  values={{
+                    transportMode: (
+                      <FormattedMessage
+                        id={`from-${bicycleWalkLeg.from.stop.vehicleMode.toLowerCase()}`}
+                      />
+                    ),
+                  }}
+                />
+              ) : (
+                <FormattedMessage
+                  id="bicycle-walk-from-transit"
+                  values={{
+                    transportMode: (
+                      <FormattedMessage
+                        id={`from-${bicycleWalkLeg.from.stop.vehicleMode.toLowerCase()}`}
+                      />
+                    ),
+                    duration: durationToString(
+                      bicycleWalkLeg.endTime - bicycleWalkLeg.startTime,
+                    ),
+                    distance: displayDistance(
+                      parseInt(bicycleWalkLeg.distance, 10),
+                      config,
+                      intl.formatNumber,
+                    ),
+                  }}
+                />
+              )}
               <div
                 className="itinerary-map-action"
                 onClick={focusAction}
@@ -267,27 +280,40 @@ function BicycleLeg(
             </div>
           </div>
         </div>
-        {bicycleWalkLeg && !bicycleWalkLeg?.from.stop && (
+        {bicycleWalkLeg && bicycleWalkLeg?.to.stop && (
           <div className={cx('itinerary-leg-action', 'bicycle')}>
             <div className="itinerary-leg-action-content">
-              <FormattedMessage
-                id="bicycle-walk-to-transit"
-                values={{
-                  transportMode: (
-                    <FormattedMessage
-                      id={`from-${bicycleWalkLeg.to.stop.vehicleMode.toLowerCase()}`}
-                    />
-                  ),
-                  duration: durationToString(
-                    bicycleWalkLeg.endTime - bicycleWalkLeg.startTime,
-                  ),
-                  distance: displayDistance(
-                    parseInt(bicycleWalkLeg.distance, 10),
-                    config,
-                    intl.formatNumber,
-                  ),
-                }}
-              />
+              {bicycleWalkLeg.distance === -1 ? (
+                <FormattedMessage
+                  id="bicycle-walk-to-transit-no-duration"
+                  values={{
+                    transportMode: (
+                      <FormattedMessage
+                        id={`to-${bicycleWalkLeg.to.stop?.vehicleMode.toLowerCase()}`}
+                      />
+                    ),
+                  }}
+                />
+              ) : (
+                <FormattedMessage
+                  id="bicycle-walk-to-transit"
+                  values={{
+                    transportMode: (
+                      <FormattedMessage
+                        id={`to-${bicycleWalkLeg.to.stop.vehicleMode.toLowerCase()}`}
+                      />
+                    ),
+                    duration: durationToString(
+                      bicycleWalkLeg.endTime - bicycleWalkLeg.startTime,
+                    ),
+                    distance: displayDistance(
+                      parseInt(bicycleWalkLeg.distance, 10),
+                      config,
+                      intl.formatNumber,
+                    ),
+                  }}
+                />
+              )}
               <div
                 className="itinerary-map-action"
                 onClick={focusAction}
