@@ -179,11 +179,11 @@ function translateFutureRouteSuggestionTime(item) {
  *   clearFutureRoutes: () => ({}),        // Function that clears future routes
  * };
  * const lang = 'fi'; // en, fi or sv
- * const onSelect = () => {
+ * const onSelect = (item, id) => {
  *    // Funtionality when user selects a suggesions. No default implementation is given.
  *    return null;
  * };
- * const onClear = () => {
+ * const onClear = id => {
  *    // Called  when user clicks the clear search string button. No default implementation.
  *    return null;
  * };
@@ -646,7 +646,7 @@ class DTAutosuggest extends React.Component {
       this.fetchFunction({ value: '', cleanExecuted: true }),
     );
     if (this.props.onClear) {
-      this.props.onClear();
+      this.props.onClear(this.props.id);
     }
     this.input.focus();
   };
