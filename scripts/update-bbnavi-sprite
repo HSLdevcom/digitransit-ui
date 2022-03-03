@@ -10,13 +10,13 @@ def has_icon(icons, icon_name):
     return False
 
 
-hb_source_file = "static/assets/svg-sprite.hb-source.svg"
+bbnavi_source_file = "static/assets/svg-sprite.bbnavi-source.svg"
 hsl_source_file = "static/assets/svg-sprite.hsl.svg"
 default_source_file = "static/assets/svg-sprite.default.svg"
 
-output_file_name = "static/assets/svg-sprite.hb.svg"
+output_file_name = "static/assets/svg-sprite.bbnavi.svg"
 
-hb_source = xml.dom.minidom.parse(hb_source_file)
+hb_source = xml.dom.minidom.parse(bbnavi_source_file)
 hb_icons = hb_source.getElementsByTagName("symbol")
 
 hsl_doc = xml.dom.minidom.parse(hsl_source_file)
@@ -25,12 +25,12 @@ hsl_icons = hsl_doc.getElementsByTagName("symbol")
 default_doc = xml.dom.minidom.parse(default_source_file)
 default_icons = default_doc.getElementsByTagName("symbol")
 
-print(f"Found {len(hb_icons)} icons {hb_source_file}")
+print(f"Found {len(hb_icons)} icons {bbnavi_source_file}")
 print(f"Found {len(hsl_icons)} icons {hsl_source_file}")
 
 output_defs = hb_source.getElementsByTagName("defs")[0]
 print("")
-print(f"Icons that exist in {hb_source_file}")
+print(f"Icons that exist in {bbnavi_source_file}")
 print("")
 
 symbols = {}

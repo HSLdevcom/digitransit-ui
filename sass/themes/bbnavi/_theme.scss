@@ -1,0 +1,162 @@
+
+@import '../../base/waltti';
+
+@import 'fonts';
+
+/* main theme colors */
+$primary-color: #DA1B1B;
+$secondary-color: darken($primary-color, 20%);
+$hilight-color: $primary-color;
+$action-color: $primary-color;
+$viewpoint-marker-color: $primary-color;
+$current-location-color: $primary-color;
+$standalone-btn-color: $primary-color;
+$link-color: $primary-color;
+$desktop-title-color: $primary-color;
+$top-bar-color: $primary-color;
+
+/* Vehicle palette */
+$bus-color: red;
+$metro-color: blue;
+$rail-color: green;
+$citybike-color: #009fe4;
+$carpool-color: $primary-color;
+$bike-color: #005ab4;
+
+.car {
+  color: #005ab4;
+}
+
+.top-bar button .navi-logo {
+  width: 350px;
+  height: 62px;
+}
+
+.top-bar section .logo {
+  width: auto;
+  min-width: 11em;
+  float: left;
+  color: white;
+  // height: 62px;
+
+  &.community{
+    font-family: "Heebo Regular";
+    font-size: 2.2em;
+    min-width: auto;
+    line-height: 1.3em;
+    padding-left: 5px;
+  }
+}
+
+.top-bar .icon {
+  color: $white !important;
+}
+
+@media screen and (max-width: 834px) {
+  .top-bar section .logo {
+    height: 43px;
+    width: auto;
+    min-width: 7em;
+
+    &.community{
+      font-family: "Heebo Regular";
+      font-size: 1.4em;
+      min-width: auto;
+      line-height: 1.8em;
+    }
+  }
+}
+
+@media screen and (max-width: 782px) {
+  .top-bar section .logo {
+    height: 43px;
+    width: auto;
+    min-width: 7em;
+
+    &.community{
+      font-family: "Heebo Regular";
+      font-size: 1.4em;
+      min-width: auto;
+      line-height: 1.8em;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .top-bar section .logo {
+    height: 43px;
+    width: auto;
+    min-width: 7em;
+
+    &.community{
+      font-family: "Heebo Regular";
+      font-size: 1.4em;
+      min-width: auto;
+      line-height: 1.8em;
+    }
+  }
+}
+
+@media screen and (max-width: 507px) {
+  .top-bar section .logo {
+    height: 43px;
+    width: auto;
+    min-width: 7em;
+
+    &.community{
+      font-family: "Heebo Regular";
+      font-size: 1.4em;
+      min-width: auto;
+      line-height: 2.1em;
+    }
+  }
+}
+
+@media screen and (max-width: 414px) {
+  .top-bar section .logo {
+    height: 43px;
+    width: auto;
+    min-width: 7em;
+
+    &.community{
+      font-family: "Heebo Regular";
+      font-size: 1.4em;
+      min-width: auto;
+      line-height: 2.1em;
+    }
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .top-bar section .logo {
+    height: 43px;
+    width: auto;
+    min-width: 7em;
+
+    &.community{
+      font-family: "Heebo Regular";
+      font-size: 1.4em;
+      min-width: auto;
+      line-height: 2.1em;
+    }
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .top-bar section .logo {
+    height: 43px;
+    width: auto;
+    min-width: 7em;
+
+    &.community{
+      font-family: "Heebo Regular";
+      font-size: 1.4em;
+      min-width: auto;
+      line-height: 2.3em;
+    }
+  }
+}
+
+.charging-station {
+  color: #00b096;
+}

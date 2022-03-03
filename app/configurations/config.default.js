@@ -726,6 +726,7 @@ export default {
     lahti: 'lahti',
     kuopio: 'kuopio',
     hbnext: 'hbnext',
+    bbnavi: 'bbnavi',
     bw: 'bw',
     ludwigsburg: 'ludwigsburg',
   },

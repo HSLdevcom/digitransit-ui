@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:10.23
 MAINTAINER Reittiopas version: 0.1
 
 EXPOSE 8080
@@ -17,7 +17,7 @@ ENV \
   OTP_URL='' \
   GEOCODING_BASE_URL='' \
   APP_PATH='' \
-  CONFIG='' \
+  CONFIG='bbnavi' \
   NODE_ENV='' \
   # setting a non-empty default value for NODE_OPTS
   # if you don't do this then yarn/node seem to think that you want to

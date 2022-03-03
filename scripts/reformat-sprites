@@ -1,4 +1,4 @@
 #! /bin/bash
 
-xmllint -o static/assets/svg-sprite.hb-source.svg --format static/assets/svg-sprite.hb-source.svg
-xmllint -o static/assets/svg-sprite.hb.svg --format static/assets/svg-sprite.hb.svg
+xmllint -o static/assets/svg-sprite.bbnavi-source.svg --format static/assets/svg-sprite.bbnavi-source.svg
+xmllint -o static/assets/svg-sprite.bbnavi.svg --format static/assets/svg-sprite.bbnavi.svg

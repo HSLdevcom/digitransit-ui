@@ -19,6 +19,12 @@ const {
 
 const validator = new Validator({ allErrors: true });
 
+// use .env file in development
+if (process.env.NODE_ENV === 'development') {
+  // https://github.com/motdotla/dotenv#usage
+  require('dotenv').config();
+}
+
 global.fetch = require('node-fetch');
 const proxy = require('express-http-proxy');
 

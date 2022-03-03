@@ -339,7 +339,7 @@ const translations = {
     'accessibility-nolimit': 'Keine Einschränkungen',
     'accessibility-statement': 'Erklärung zur Barrierefreiheit',
     'map-type': 'Kartenarten',
-    streets: 'Straßen',
+    streets: 'Straßen (LGB)',
     satellite: 'Satellit',
     'add-favourite-bikeStation-failed-heading':
         'Speichern der Ausleihstation fehlgeschlagen',
@@ -468,6 +468,7 @@ const translations = {
     'clear-button-label': 'Leeren',
     close: 'Schließen',
     'close-favourite-module': 'Favoriten-Modul schließen',
+    'close-settings': 'Fenster schließen und Einstellungen speichern',
     'condition': 'Straßenzustand',
     'contact-information': '{contactName} Kontaktinformationen',
     continue: 'Fortsetzen',
@@ -575,6 +576,7 @@ const translations = {
     'itinerary-hide-stops': 'Zwischenstopps ausblenden',
     'itinerary-page.description': 'Reisebeschreibung',
     'itinerary-page.hide-details': 'Details ausblenden',
+    'itinerary-page.itineraries-loaded': 'Weitere Suchergebnisse geladen',
     'itinerary-page.show-details': 'Details zeigen',
     'itinerary-page.show-details-label':
       'Zeige Details zu Routenvorschlag {number}',
