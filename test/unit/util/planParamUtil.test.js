@@ -341,7 +341,7 @@ describe('planParamUtil', () => {
 
     it('should use same letter case for citybike networks from custom settings as in default settings', () => {
       setCustomizedSettings({
-        allowedBikeRentalNetworks: ['FOO'],
+        allowedVehicleRentalNetworks: ['FOO'],
       });
       const configWithCitybikes = {
         ...defaultConfig,
@@ -378,8 +378,8 @@ describe('planParamUtil', () => {
           },
         },
       );
-      const { allowedBikeRentalNetworks } = params;
-      expect(allowedBikeRentalNetworks).to.deep.equal(['foo']);
+      const { allowedVehicleRentalNetworks } = params;
+      expect(allowedVehicleRentalNetworks).to.deep.equal(['foo']);
     });
   });
 

@@ -1,26 +1,26 @@
 /* eslint-disable */
 import configMerger from '../util/configMerger';
 
-const CONFIG = 'bar';
-const APP_TITLE = 'Allrad';
-const APP_DESCRIPTION = 'Unterwegs mit dem Fahrrad, Bus und Bahn';
-const API_URL = process.env.API_URL || 'https://api.bike-and-ride.de';
+const CONFIG = 'vpe';
+const APP_TITLE = 'mobi VPE';
+const APP_DESCRIPTION = 'Verbindungssuche des VPE';
+const API_URL = process.env.API_URL || 'https://api.dev.stadtnavi.eu';
 const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{x}/{y}{r}.png';
 const SEMI_TRANSPARENT_MAP_URL = process.env.SEMITRANSPARENT_MAP_URL || "https://tiles.stadtnavi.eu/satellite-overlay/{z}/{x}/{y}{r}.png";
 const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || "https://photon.stadtnavi.eu/pelias/v1";
 const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL =
     process.env.STATIC_MESSAGE_URL ||
-    '/assets/messages/message.bar.json';
+    '/assets/messages/message.vpe.json';
 
 const walttiConfig = require('./config.waltti.js').default;
 
 const hostname = new URL(API_URL);
 
-const minLat = 51.9078;
-const maxLat = 55.0917;
-const minLon = 8.0489;
-const maxLon = 11.0207;
+const minLat = 47.305;
+const maxLat = 50.008;
+const minLon = 5.620;
+const maxLon = 12.387;
 
 export default configMerger(walttiConfig, {
     CONFIG,
@@ -34,10 +34,11 @@ export default configMerger(walttiConfig, {
         },
         STOP_MAP: `${API_URL}/routing/v1/router/vectorTiles/stops/`,
         DYNAMICPARKINGLOTS_MAP: `${API_URL}/routing/v1/router/vectorTiles/parking/`,
-        // ROADWORKS_MAP: `${API_URL}/map/v1/cifs/`,
+        //ROADWORKS_MAP: `${API_URL}/map/v1/cifs/`,
         CITYBIKE_MAP: `${API_URL}/routing/v1/router/vectorTiles/citybikes/`,
         BIKE_PARKS_MAP: `${API_URL}/routing/v1/router/vectorTiles/parking/`,
-        // CHARGING_STATIONS_MAP: `${API_URL}/tiles/charging-stations/`,
+        CHARGING_STATIONS_MAP: `${API_URL}/tiles/charging-stations/`,
+        CHARGING_STATION_DETAILS_API: `${API_URL}/charging-stations/2.2/location/`,
         PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
         PELIAS_REVERSE_GEOCODER: `${
             process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
@@ -45,6 +46,7 @@ export default configMerger(walttiConfig, {
         PELIAS_PLACE: `${
             process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
         }/place`,
+        FARES: `${API_URL}/fares`,
         FONT: '' // Do not use Google fonts.
     },
 
@@ -54,6 +56,7 @@ export default configMerger(walttiConfig, {
 
     availableLanguages: ['de', 'en'],
     defaultLanguage: 'de',
+    issueTrackerUrl: 'https://maengelmelder.service-bw.de/?lat=${lat}&lng=${lon}',
 
     MATOMO_URL: process.env.MATOMO_URL,
 
@@ -79,24 +82,27 @@ export default configMerger(walttiConfig, {
     },
 
     appBarLink: {
-        name: 'Feedback',
-        href: 'https://open-booking.eu/feedback/',
+        name: 'Kontakt',
+        href: 'https://www.vpe.de/kontakt/',
         target: '_blank'
     },
 
     contactName: {
-        de: 'transportkollektiv',
-        default: 'transportkollektiv',
+        de: 'VPE GmbH',
+        default: 'VPE GmbH',
     },
 
     colors: {
-        primary: '#E10019',
+        primary: '#1CA438',
         iconColors: {
             'mode-bus': '#ff0000',
             'mode-car': '#007AC9',
             'mode-rail': '#008000',
+            'mode-subway': '#0000ff',
+            'mode-citybike': '#0e1a50',
             'mode-charging-station': '#00b096',
             'mode-bike-park': '#005ab4',
+            'mode-carpool': '#9fc727',
         },
     },
 
@@ -107,17 +113,10 @@ export default configMerger(walttiConfig, {
         description: APP_DESCRIPTION,
 
         image: {
-            url: '/img/bar-social-media-card.png',
-            width: 1080,
-            height: 600,
+            url: '/img/stadtnavi-social-media-card.png',
+            width: 600,
+            height: 300,
         },
-
-        twitter: {
-            card: 'summary_large_image',
-            site: '@bike_and_ride',
-            creator: '@bike_and_ride'
-        },
-
     },
 
     dynamicParkingLots: {
@@ -132,32 +131,19 @@ export default configMerger(walttiConfig, {
         minZoom: 14
     },
 
+    chargingStations: {
+        show: true,
+        smallIconZoom: 14,
+        minZoom: 14
+    },
+
     cityBike: {
         minZoomStopsNearYou: 10,
         showStationId: false,
         useSpacesAvailable: false,
         showCityBikes: true,
         networks: {
-            stadtrad: {
-                icon: 'citybike',
-                name: {
-                    de: 'StadtRAD Hamburg',
-                    en: 'StadtRAD Hamburg',
-                },
-                type: 'citybike',
-                url: {
-                    de: 'https://stadtrad.hamburg.de/de',
-                    en: 'https://stadtrad.hamburg.de/en',
-                },
-                visibleInSettingsUi: false,
-                hideCode: true,
-                enabled: true,
-                season: {
-                    // 1.1. - 31.12.
-                    start: new Date(new Date().getFullYear(), 0, 1),
-                    end: new Date(new Date().getFullYear(), 11, 31),
-                },
-            },
+            
         }
     },
 
@@ -165,14 +151,15 @@ export default configMerger(walttiConfig, {
 
     title: APP_TITLE,
 
-    favicon: './app/configurations/images/bar/favicon.png',
+    favicon: 'https://www.vpe.de/wp-content/themes/VPE2018/images/3e39e5ce308fe1cd2878ef4df5ceeb00_favicon.png',
 
     meta: {
         description: APP_DESCRIPTION,
     },
 
-    logo: 'bar/bike-and-ride-logo.svg',
-    showTitles: true,
+    modeToOTP: {
+        carpool: 'CARPOOL',
+    },
 
     GTMid: '',
 
@@ -197,22 +184,23 @@ export default configMerger(walttiConfig, {
             }
         },
         attribution: {
-            'default': '© <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, ÖPNV-Datensätze des HVV und der Connect Fahrplanauskunft GmbH',
-            'bicycle': '© <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href=https://www.cyclosm.org/#map=12/52.3728/4.8936/cyclosmx>CyclOSM</a>, © <a tabindex=-1 href="https://www.openstreetmap.fr/">OSM-FR</a>, ÖPNV-Datensätze des HVV und der Connect Fahrplanauskunft GmbH',
+            'default': '© <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, <a tabindex=-1 href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>Datensätze der NVBW GmbH</a> und <a tabindex=-1 href=https://vpe.de/>VPE GmbH</a>',
+            'satellite': '© <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href="https://www.lgl-bw.de/">LGL BW</a>, <a tabindex=-1 href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>Datensätze der NVBW GmbH</a> und <a tabindex=-1 href=https://vpe.de/>VPE GmbH</a>',
+            'bicycle': '© <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href=https://www.cyclosm.org/#map=12/52.3728/4.8936/cyclosmx>CyclOSM</a>, © <a tabindex=-1 href="https://www.openstreetmap.fr/">OSM-FR</a>, <a tabindex=-1 href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>Datensätze der NVBW GmbH</a> und <a tabindex=-1 href=https://vpe.de/>VPE GmbH</a>',
         },
     },
 
-    feedIds: ['hh', "1"],
+    feedIds: ['hbg'],
 
     searchSources: ['oa', 'osm'],
 
     searchParams: {
-        'boundary.rect.min_lat': 51.9078,
-        'boundary.rect.max_lat': 55.0917,
-        'boundary.rect.min_lon': 8.0489,
-        'boundary.rect.max_lon': 11.0207,
-        'focus.point.lat': 53.5506,
-        'focus.point.lon': 10.0007
+        'boundary.rect.min_lat': 47.305,
+        'boundary.rect.max_lat': 50.008,
+        'boundary.rect.min_lon': 5.620,
+        'boundary.rect.max_lon': 12.387,
+        'focus.point.lat': 48.8910,
+        'focus.point.lon': 8.7033
     },
 
     areaPolygon: [
@@ -222,50 +210,50 @@ export default configMerger(walttiConfig, {
         [maxLon, minLat],
     ],
 
-    nationalServiceLink: { name: 'Fahrplanauskunft der Deutschen Bahn', href: 'https://www.bahn.de/' },
+    nationalServiceLink: { name: 'Fahrplanauskunft efa-bw', href: 'https://www.efa-bw.de' },
 
     defaultEndpoint: {
-        lat: 53.5506,
-        lon: 10.0007,
+        lat: 48.8910,
+        lon: 8.7033,
     },
 
     menu: {
         copyright: {
-            label: `Demonstrator für gobeta.de/hamburg von binary butterfly GmbH ${YEAR}`
+            label: `© VPE GmbH ${YEAR}`
         },
         content: [
             {
-                name: 'privacy',
-                nameEn: 'Privacy',
+                name: 'about-this-service',
+                nameEn: 'About this service',
                 route: '/dieser-dienst',
                 icon: 'icon-icon_info',
             },
             {
                 name: 'imprint',
                 nameEn: 'Imprint',
-                href: 'https://binary-butterfly.de/impressum/',
-            }
-        ],
-        footer: 
+                href: 'https://www.vpe.de/impressum/',
+            },
             {
-                body: 'Entwickelt von Holger Bruch, Ernesto Ruge u.a. mit OpenSource-Komponenten aus Digitransit und OpenBooking u.a.',
-                footer: '#poweredbyDBmindbox'
-            }
+                name: 'privacy',
+                nameEn: 'Privacy',
+                href: 'https://www.vpe.de/datenschutz/',
+            },
+        ],
     },
 
     aboutThisService: {
         de: [
             {
-                header: 'Datenschutzhinweise zur Routingplatform Allrad',
+                header: 'Über diesen Dienst',
                 paragraphs: [
-                    'Es gelten die Datenschutzhinweise von binary butterfly. Diese sind unter <a href="https://binary-butterfly.de/datenschutz/">https://binary-butterfly.de/datenschutz/</a> einsehbar.',
-                    'Die Anwendung Allrad bietet intermodale Mobilitätsauskünfte.'
+                    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+                    
                 ],
             },
             {
-                header: 'stadtnavi / Digitransit Plattform',
+                header: 'Digitransit Plattform',
                 paragraphs: [
-                    'Dieser Dienst basiert auf dem Dienst stadtnavi, welcher wiederum auf der Digitransit Platform und dem Backend-Dienst OpenTripPlanner basiert. Alle Software ist unter einer offenen Lizenzen verfügbar. Vielen Dank an alle Beteiligten.',
+                    'Dieser Dienst basiert auf der Digitransit Platform und dem Backend-Dienst OpenTripPlanner. Alle Software ist unter einer offenen Lizenzen verfügbar. Vielen Dank an alle Beitragenden.',
                     'Der gesamte Quellcode der Plattform, die aus vielen verschiedenen Komponenten besteht, ist auf <a href="https://github.com/stadtnavi/">Github</a> verfügbar.'
                 ],
             },
@@ -273,14 +261,33 @@ export default configMerger(walttiConfig, {
                 header: 'Datenquellen',
                 paragraphs: [
                     'Kartendaten: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap Mitwirkende</a>',
-                    'ÖPNV-Daten: Datensätze des <a target=new href=https://www.hvv.de/de/fahrplaene/abruf-fahrplaninfos/datenabruf>Hamburger Verkehrsverbund GmbH</a> und der <a target=new href=http://www.connect-fahrplanauskunft.de/index.php?id=impressum>Connect Fahrplanauskunft GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) jeweils angereichert mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende',
-                    'StadtRAD-Daten: © Deutsche Bahn Connect GmbH',
-                    'B+R Abstellanlagen: © P+R Betreibergesellschaft GmbH und OpenStreetMap Mitwirkende, eigener Abgleich',
+                    'ÖPNV-Daten: Datensätze der <a target=new href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>NVBW GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) jeweils angereichert mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende',
                     'Alle Angaben ohne Gewähr.'
                 ],
             },
         ],
-
+        en: [
+            {
+                header: 'About this service',
+                paragraphs: [
+                    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+                ],
+            },
+            {
+                header: 'Digitransit platform',
+                paragraphs: [
+                    'The Digitransit service platform is an open source routing platform developed by HSL and Traficom. It builds on OpenTripPlanner by Conveyal. Enhancements by Transportkollektiv and MITFAHR|DE|ZENTRALE. All software is open source. Thanks to everybody working on this!',
+                ],
+            },
+            {
+                header: 'Data sources',
+                paragraphs: [
+                    'Map data: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap contributors</a>',
+                    'Public transit data: Datasets by <a target=new href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>NVBW GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) enhanced with OpenStreetMap data © OpenStreetMap contributors',
+                    'No responsibility is accepted for the accuracy of this information.'
+                ],
+            },
+        ],
     },
 
     redirectReittiopasParams: true,
@@ -309,8 +316,8 @@ export default configMerger(walttiConfig, {
         },
 
         tram: {
-            availableForSelection: true,
-            defaultValue: true,
+            availableForSelection: false,
+            defaultValue: false,
             nearYouLabel: {
                 de: 'Tramhaltestellen in der Nähe',
             }
@@ -332,15 +339,15 @@ export default configMerger(walttiConfig, {
         },
 
         ferry: {
-            availableForSelection: true,
-            defaultValue: true,
+            availableForSelection: false,
+            defaultValue: false,
             nearYouLabel: {
                 de: 'Fähranleger in der Nähe',
             }
         },
 
         carpool: {
-            availableForSelection: false,
+            availableForSelection: true,
             defaultValue: false,
             nearYouLabel: {
                 de: 'Mitfahrpunkte in der Nähe',
@@ -350,7 +357,7 @@ export default configMerger(walttiConfig, {
 
         citybike: {
             availableForSelection: true,
-            defaultValue: true,
+            defaultValue: false,
             nearYouLabel: {
                 de: 'Sharing-Angebote in der Nähe',
                 en: 'Shared mobility near you'
@@ -395,7 +402,7 @@ export default configMerger(walttiConfig, {
         },
 
         carpool: {
-            availableForSelection: false,
+            availableForSelection: true,
             defaultValue: false,
             exclusive: true,
             icon: 'carpool-withoutBox',
@@ -404,16 +411,15 @@ export default configMerger(walttiConfig, {
 
     showTicketInformation: true,
     showTicketPrice: true,
-    showTicketSelector: true,
-    displayFareInfoTop: true,
-
-    availableTickets: { '1' : {}, 'hh' : {}},
-
-    fareMapping: (fareId) => {
-        return fareId && fareId.substring
-            ? fareId.substring(fareId.indexOf(':') + 1)
-            : '';
+    availableTickets: { 'hbg' : {}},
+    fareMapping: function mapHbFareId(fareId) {
+        return {
+            en: "Adult",
+            de: "Regulär",
+        };
     },
+    displayFareInfoTop: false,
+
 
     showRouteSearch: false,
     showNearYouButtons: false,
@@ -422,7 +428,7 @@ export default configMerger(walttiConfig, {
     geoJson: {
         layers: [
             // bicycleinfrastructure includes shops, repair stations,
-            /*
+            /* 
             {
                 name: {
                     fi: '',
@@ -456,23 +462,21 @@ export default configMerger(walttiConfig, {
     },
     staticMessagesUrl: STATIC_MESSAGE_URL,
 
-    parkAndRideBannedVehicleParkingTags: [],
+    parkAndRideBannedVehicleParkingTags: [
+        'lot_type:Parkplatz',
+        'lot_type:Tiefgarage',
+        'lot_type:Parkhaus'
+    ],
 
     suggestCarMinDistance: 800,
     suggestWalkMaxDistance: 3000,
-    suggestBikeAndPublicMinDistance: 1000,
-    suggestBikeAndParkMinDistance: 1000,
+    suggestBikeAndPublicMinDistance: 3000,
+    suggestBikeAndParkMinDistance: 3000,
 
     // live bus locations
     vehicles: false,
     showVehiclesOnSummaryPage: false,
-    showVehiclesOnStopPage: false,
-
-    includeCarSuggestions: false,
-    includeParkAndRideSuggestions: false,
-
-    showMapRoutingButton: false,
-
+    showVehiclesOnStopPage: true,
 
     showBikeAndPublicItineraries: true,
     showBikeAndParkItineraries: true,
@@ -480,13 +484,4 @@ export default configMerger(walttiConfig, {
     showTimeTableOptions: false,
 
     viaPointsEnabled: false,
-
-    welcomePopup: {
-        enabled: true,
-        heading: 'Die Zukunft der Fahrrad-Zug Navigation. Allrad.',
-        paragraphs: [
-            'Teste zum ITS Kongress unser Routing Tool. Dafür musst Du nur Start- und Endstation angeben, schon kannst Du Teile der Strecke mit dem Fahrrad zurücklegen und das Fahrrad bequem und sicher abstellen. Alle Informationen zum Routing und zu möglichen Fahrradabstellplätzen erhältst du auf Allrad. Für alle die ohne eigenes Fahrrad unterwegs sind, ist auch ein Sharing Angebot mit StadtRad im Routing integriert. ',
-            'Die Anwendung ist ein Demonstrator. Wir freuen uns auf euer Feedback, durch welches wir den Service optimieren können.'
-        ],
-    },
 });

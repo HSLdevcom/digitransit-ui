@@ -30,6 +30,8 @@ const query = graphql`
       state
       rentalUris {
         web
+        android
+        ios
       }
     }
   }

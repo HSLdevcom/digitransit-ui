@@ -116,9 +116,9 @@ export function setCustomizedSettings(data) {
       oldSettings.walkReluctance,
     ),
     walkSpeed: getNumberValueOrDefault(data.walkSpeed, oldSettings.walkSpeed),
-    allowedBikeRentalNetworks: getValueOrDefault(
-      data.allowedBikeRentalNetworks,
-      oldSettings.allowedBikeRentalNetworks,
+    allowedVehicleRentalNetworks: getValueOrDefault(
+      data.allowedVehicleRentalNetworks,
+      oldSettings.allowedVehicleRentalNetworks,
     ),
     includeBikeSuggestions: getValueOrDefault(
       data.includeBikeSuggestions,

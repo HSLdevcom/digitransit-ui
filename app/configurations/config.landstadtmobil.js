@@ -1,28 +1,26 @@
 /* eslint-disable */
 import configMerger from '../util/configMerger';
 
-const CONFIG = 'hbnext';
-const APP_TITLE = 'stadtnavi Herrenberg';
+const CONFIG = 'landstadtmobil';
+  const APP_TITLE = 'landstadtmobil Kreis Reutlingen';
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
-const API_URL = process.env.API_URL || 'https://api.dev.stadtnavi.eu';
+const API_URL = process.env.API_URL || 'https://api.stadtnavi.de';
 const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{x}/{y}{r}.png';
 const SEMI_TRANSPARENT_MAP_URL = process.env.SEMITRANSPARENT_MAP_URL || "https://tiles.stadtnavi.eu/satellite-overlay/{z}/{x}/{y}{r}.png";
 const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || "https://photon.stadtnavi.eu/pelias/v1";
 const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL =
     process.env.STATIC_MESSAGE_URL ||
-    '/assets/messages/message.hb.json';
+    '/assets/messages/message.kreis_reutlingen.json';
 
 const walttiConfig = require('./config.waltti.js').default;
 
-const realtimeHbg = require('./realtimeUtils').default.hbg;
 const hostname = new URL(API_URL);
-realtimeHbg.mqtt = `wss://${hostname.host}/mqtt/`;
 
-const minLat = 47.6020;
-const maxLat = 49.0050;
-const minLon = 8.4087;
-const maxLon = 9.9014;
+const minLat = 48.6020;
+const maxLat = 50.0050;
+const minLon = 9.4087;
+const maxLon = 10.9014;
 
 export default configMerger(walttiConfig, {
     CONFIG,
@@ -37,10 +35,8 @@ export default configMerger(walttiConfig, {
         STOP_MAP: `${API_URL}/routing/v1/router/vectorTiles/stops/`,
         DYNAMICPARKINGLOTS_MAP: `${API_URL}/routing/v1/router/vectorTiles/parking/`,
         ROADWORKS_MAP: `${API_URL}/map/v1/cifs/`,
-        COVID19_MAP: `https://tiles.caresteouvert.fr/public.poi_osm_light/{z}/{x}/{y}.pbf`,
         CITYBIKE_MAP: `${API_URL}/routing/v1/router/vectorTiles/citybikes/`,
         BIKE_PARKS_MAP: `${API_URL}/routing/v1/router/vectorTiles/parking/`,
-        WEATHER_STATIONS_MAP: `${API_URL}/map/v1/weather-stations/`,
         CHARGING_STATIONS_MAP: `${API_URL}/tiles/charging-stations/`,
         CHARGING_STATION_DETAILS_API: 'https://api.ocpdb.de/api/ocpi/2.2/location/',
         PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
@@ -50,7 +46,6 @@ export default configMerger(walttiConfig, {
         PELIAS_PLACE: `${
             process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
         }/place`,
-        FARES: `${API_URL}/fares`,
         FONT: '' // Do not use Google fonts.
     },
 
@@ -58,9 +53,12 @@ export default configMerger(walttiConfig, {
         showDisruptions: false,
     },
 
+    themeMap: {
+        muensingen: 'muensingen'
+    },
+
     availableLanguages: ['de', 'en'],
     defaultLanguage: 'de',
-    issueTrackerUrl: 'https://maengelmelder.service-bw.de/?lat=${lat}&lng=${lon}',
 
     MATOMO_URL: process.env.MATOMO_URL,
 
@@ -97,13 +95,13 @@ export default configMerger(walttiConfig, {
     },
 
     colors: {
-        primary: '#9fc727',
+        primary: '#888c98',
         iconColors: {
             'mode-bus': '#ff0000',
             'mode-car': '#007AC9',
             'mode-rail': '#008000',
             'mode-subway': '#0000ff',
-            'mode-citybike': '#ff834a',
+            'mode-citybike': '#0e1a50',
             'mode-charging-station': '#00b096',
             'mode-bike-park': '#005ab4',
             'mode-carpool': '#9fc727',
@@ -122,10 +120,6 @@ export default configMerger(walttiConfig, {
             height: 300,
         },
 
-        twitter: {
-            card: 'summary_large_image',
-            site: '@TUGHerrenberg',
-        },
     },
 
     dynamicParkingLots: {
@@ -144,19 +138,6 @@ export default configMerger(walttiConfig, {
         showRoadworks: true,
         roadworksSmallIconZoom: 16,
         roadworksMinZoom: 10
-    },
-
-    covid19: {
-        show: false,
-        smallIconZoom: 17,
-        minZoom: 15
-    },
-
-
-    weatherStations: {
-        show: true,
-        smallIconZoom: 17,
-        minZoom: 15
     },
 
     chargingStations: {
@@ -182,20 +163,15 @@ export default configMerger(walttiConfig, {
                     de: 'https://www.regioradstuttgart.de/de',
                     en: 'https://www.regioradstuttgart.de/',
                 },
-                visibleInSettingsUi: true,
-                hideCode: true,
+                visibleInSettingsUi: false,
                 enabled: true,
-                season: {
-                    // 1.1. - 31.12.
-                    start: new Date(new Date().getFullYear(), 0, 1),
-                    end: new Date(new Date().getFullYear(), 11, 31),
-                },
+                hideCode: true,
             },
-            'tier_LUDWIGSBURG': {
-                icon: 'scooter',
+            'tier_REUTLINGEN': {
+                icon: 'tier_scooter',
                 name: {
-                    de: 'TIER Ludwigsburg',
-                    en: 'TIER Ludwigsburg',
+                    de: 'TIER Reutlingen',
+                    en: 'TIER Reutlingen',
                 },
                 type: 'scooter',
                 url: {
@@ -203,18 +179,23 @@ export default configMerger(walttiConfig, {
                     en: 'https://www.tier.app/',
                 },
                 visibleInSettingsUi: true,
+                enabled: true,
                 hideCode: true,
-                enabled: true,
             },
-            'taxi': {
-                icon: 'taxi',
+            'tier_MUNSINGEN': {
+                icon: 'tier_bicycle',
                 name: {
-                    de: 'Taxi',
-                    en: 'Taxi',
+                    de: 'TIER Münsingen',
+                    en: 'TIER Münsingen',
                 },
-                type: 'taxi',
-                visibleInSettingsUi: false,
+                type: 'citybike',
+                url: {
+                    de: 'https://www.tier.app/de',
+                    en: 'https://www.tier.app/',
+                },
+                visibleInSettingsUi: true,
                 enabled: true,
+                hideCode: true,
             },
             "car-sharing": {
                 icon: 'car-sharing',
@@ -224,31 +205,10 @@ export default configMerger(walttiConfig, {
                 },
                 type: 'car-sharing',
                 url: {
-                    de: 'https://stuttgart.stadtmobil.de/privatkunden/',
-                    en: 'https://stuttgart.stadtmobil.de/privatkunden/',
                 },
                 visibleInSettingsUi: false,
                 enabled: true,
-            },
-            "cargo-bike": {
-                icon: 'cargobike',
-                name: {
-                    de: 'Freie Lastenräder Herrenberg',
-                    en: 'Free cargo bikes Herrenberg',
-                },
-                type: 'cargo-bike',
-                visibleInSettingsUi: false,
-                enabled: true,
-            },
-            "de.openbikebox.stadt-herrenberg": {
-                icon: 'cargobike',
-                name: {
-                    de: 'Lastenrad Herrenberg',
-                    en: 'Cargo bike Herrenberg',
-                },
-                type: 'cargo-bike',
-                visibleInSettingsUi: false,
-                enabled: true,
+                hideCode: true,
             },
         }
     },
@@ -257,7 +217,7 @@ export default configMerger(walttiConfig, {
 
     title: APP_TITLE,
 
-    favicon: './app/configurations/images/hbnext/favicon.png',
+    favicon: './app/configurations/images/landstadtmobil/favicon.png',
 
     meta: {
         description: APP_DESCRIPTION,
@@ -267,7 +227,7 @@ export default configMerger(walttiConfig, {
         carpool: 'CARPOOL',
     },
 
-    logo: 'hbnext/stadtnavi-herrenberg-logo.svg',
+    logo: 'landstadtmobil/landstadtmobil-reutlingen-logo.svg',
 
     GTMid: '',
 
@@ -300,8 +260,6 @@ export default configMerger(walttiConfig, {
 
     feedIds: ['hbg'],
 
-    realtime: { hbg: realtimeHbg },
-
     searchSources: ['oa', 'osm'],
 
     searchParams: {
@@ -309,8 +267,8 @@ export default configMerger(walttiConfig, {
         'boundary.rect.max_lat': 48.97661,
         'boundary.rect.min_lon': 9.95635,
         'boundary.rect.max_lon': 8.530883,
-        'focus.point.lat': 48.5957,
-        'focus.point.lon': 8.8675
+        'focus.point.lat': 48.4008,
+        'focus.point.lon': 9.3762
     },
 
     areaPolygon: [
@@ -323,78 +281,61 @@ export default configMerger(walttiConfig, {
     nationalServiceLink: { name: 'Fahrplanauskunft efa-bw', href: 'https://www.efa-bw.de' },
 
     defaultEndpoint: {
-        lat: 48.5942066,
-        lon: 8.8644041,
-    },
-
-
-    defaultOrigins: [
-        {
-            icon: 'icon-icon_bus',
-            label: 'ZOB Herrenberg',
-            lat: 48.5942066,
-            lon: 8.8644041,
-        },
-        {
-            icon: 'icon-icon_star',
-            label: 'Krankenhaus',
-            lat: 48.59174,
-            lon: 8.87536,
-        },
-        {
-            icon: 'icon-icon_star',
-            label: 'Waldfriedhof / Schönbuchturm',
-            lat: 48.6020352,
-            lon: 8.9036348,
-        },
-    ],
+        lat: 48.4008,
+        lon: 9.3762,
+    },  
 
     menu: {
         copyright: {
-            label: `© Stadt Herrenberg ${YEAR}`
+            label: `© Kreis Reutlingen ${YEAR}`
         },
         content: [
             {
-                name: 'about-this-service',
-                nameEn: 'About this service',
+                name: 'privacy',
+                nameEn: 'Privacy',
                 route: '/dieser-dienst',
                 icon: 'icon-icon_info',
             },
             {
                 name: 'imprint',
                 nameEn: 'Imprint',
-                href: 'https://www.herrenberg.de/impressum',
-            },
-            {
-                name: 'privacy',
-                nameEn: 'Privacy',
-                href: 'https://www.herrenberg.de/datenschutz',
-            },
+                href: 'https://www.kreis-reutlingen.de/de/impressum',
+            }
         ],
     },
 
     aboutThisService: {
         de: [
             {
-                header: 'Über diesen Dienst',
+                header: 'Datenschutzhinweise zur Routingplatform LandStadtMobil',
                 paragraphs: [
-                    'stadtnavi ist eine Reiseplanungs-Anwendung für die Stadt Herrenberg und Umgebung. Dieser Dienst umfasst ÖPNV, Fußwege, Radverkehr, Straßen- und Parkplatzinformationen, Ladeinfrastruktur und Sharing-Angebote. Mobilitätsangebote werden durch intermodales Routing miteinander vernetzt.',
-                    'Gefördert durch <br>',
-                    '<a href="https://www.herrenberg.de/stadtluft"><img src="https://www.herrenberg.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
-
+                    'Es gelten die Datenschutzhinweise des Landkreises Reutlingen. Diese sind unter <a href="https://www.kreis-reutlingen.de/datenschutz">https://www.kreis-reutlingen.de/datenschutz</a> einsehbar.',
+                    'Die Anwendung LandStadtMobil bietet intermodale Mobilitätsauskünfte. Neben den Datenschutzhinweisen des Landkreises (in der Allgemeinen Datenschutzerklärung) zu Server-Logs und Cookies werden zur Optimierung der Anwendung die genutzten Funktionen erhoben. Hierzu nutzt die Anwendung LandStadtMobil die Anwendung Matomo und speichert hierzu Cookies. Die Speicherung dieser Cookies erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. ',
+                    'Explizit nicht gespeichert werden Start-/Ziel Suchen.'
                 ],
             },
             {
-                header: 'Mitmachen',
+                header: 'ride2go',
                 paragraphs: [
-                    'Die Stadt Herrenberg hat diese App im Rahmen der Modellstadt, gefördert durch das Bundesministerium für Verkehr und digitale Infrastruktur (BMVI) entwickelt. stadtnavi Anwendung ist eine Open Source Lösung und kann von anderen Kommunen und Akteuren unter ihrem Namen und Erscheinungsbild verwendet und an individuelle Bedürfnisse angepasst und weiterentwickelt werden (White Label Lösung). Mitmachen ist gewünscht!',
+                    'LandStadtMobil nutzt zum Inserieren von Fahrgemeinschaftsangeboten die Dienste der ride2go GmbH, Erlenstr. 7, D-71297 Mönsheim.',
+                    'Beim Inserieren von Mitfahrangeboten werden die folgenden Daten vom Nutzer erhoben und an ride2go.de übermittelt: ',
+                    'Fahrtdaten (Start, Ziel, Datum/Wochentage und Uhrzeit), Kontaktdaten (Telefonnummer, E-Mail-Adresse)',
+                    'Die personenbezogenen Daten werden für die Einstellung eines Fahrgemeinschafts-Inserats in LandStadtMobil erhoben und als Kontaktmöglichkeit für die Nutzer zur Kontaktaufnahme verwendet. Die angegebenen Daten werden durch ride2go.de und angeschlossene Partner-Portale veröffentlicht und damit weitergegeben. Die Nutzung und Eingabe von Daten in diese Online-Anwendung erfolgt freiwillig.',
+                    'Nach dem Absenden eines Inserats erhalten Inserierende eine E-Mail-Bestätigung zur Aktivierung und späteren Löschung des Inserats.',
+                    'Mehr Informationen zum Umgang mit Nutzerdaten finden Sie in der <a href="https://www.ride2go.de/html/datenschutz.html">Datenschutzerklärung von ride2go.de</a>',
+                    'LandStadtMobil speichert keine Kontaktdaten.'
                 ]
             },
             {
-                header: 'Digitransit Plattform',
+                header: 'Über LandStadtMobil',
                 paragraphs: [
-                    'Dieser Dienst basiert auf der Digitransit Platform und dem Backend-Dienst OpenTripPlanner. Alle Software ist unter einer offenen Lizenzen verfügbar. Vielen Dank an alle Beteiligten.',
-                    'Der gesamte Quellcode der Plattform, die aus vielen verschiedenen Komponenten besteht, ist auf <a href="https://github.com/stadtnavi/">Github</a> verfügbar.'
+                    'LandStadtMobil ist eine Routingplattform, die verschiedene Mobilitätsangebote wie Bus, Bahn, Fahrrad und Fahrgemeinschaften miteinander verknüpft. Die Plattform ist Teil des Modellpro-jektes „Integriertes Mobilitätskonzept zur Sicherung der Anschlussmobilität im ländlichen Raum“, das im Rahmen des Förderprogramms „LandMobil“ vom Ministerium für Ernährung und Landwirtschaft gefördert wird.',
+                    'Bis Ende 2022 werden die Gemeinde Engstingen und die Stadt Münsingen gemeinsam mit dem Landkreis erproben, wie die Anschlussmobilität im ländlichen Raum, also die erste und letzte Meile zu Mobilitätsknotenpunkten, verbessert werden kann. Dazu werden zusätzliche Mobilitätsangebote, ein E-Bikesharing-System, ein E-Carsharing-Modell und ein lokales Mitfahrnetzwerk in der Gemeinde Engstingen und der Stadt Münsingen umgesetzt. Die Angebote werden in die Routingplattform LandStadtMobil integriert, um entsprechende Routingauskünfte und Reisevorschläge generieren zu können. Ergänzt werden die Mobilitätsangebote um Fahrradabstellmöglichkeiten (Fahrradständer und Fahrradboxen) sowie Lademöglichkeiten für E-Bikes.',
+                    'Während des Erprobungszeitraums werden die Projekte vom Kreisamt für nachhaltige Entwicklung begleitet, evaluiert, übertragbare Lösungen abgeleitet und darauf aufbauend Handlungsempfehlungen formuliert.',
+                    'Weitere Informationen zum Projekt erhalten Sie unter <a href="https://www.kreis-reutlingen.de/landmobil">www.kreis-reutlingen.de/landmobil</a>.',
+                    'Dieser Dienst basiert auf dem Dienst stadtnavi, welche auf der Digitransit Platform und dem Backend-Dienst OpenTripPlanner basiert. Alle Software ist unter einer offenen Lizenzen verfügbar. Vielen Dank an alle Beitragenden.',
+                    'Der gesamte Quellcode der Plattform, die aus vielen verschiedenen Komponenten besteht, ist auf <a href="https://github.com/stadtnavi/">Github</a> verfügbar.',
+                    '<img src="/img/landstadtmobil-funding-logo.png"/>'
                 ],
             },
             {
@@ -402,46 +343,59 @@ export default configMerger(walttiConfig, {
                 paragraphs: [
                     'Kartendaten: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap Mitwirkende</a>',
                     'ÖPNV-Daten: Datensätze der <a target=new href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>NVBW GmbH</a> und der <a target=new href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) jeweils angereichert mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende',
+                    'CarSharing-Standorte: Datensätze der <a target=new href=https://www.teilauto-neckar-alb.de/>teilAuto Neckar-Alb eG</a>.',
+                    'Scooter und BikeSharing-Standorte: <a target=new href=https://www.tier.app/>TIER Mobility GmbH</a>.',
                     'Alle Angaben ohne Gewähr.'
                 ],
-            },
+            }
         ],
         en: [
             {
-                header: 'About this service',
+                header: 'Data protection information for the routing platform LandStadtMobil',
                 paragraphs: [
-                    'stadtnavi is a travel planning application for the city of Herrenberg and its surroundings. This service includes public transport, footpaths, cycling, street and parking information, charging infrastructure and sharing offerings. The mobility offerings are connected through intermodal routing.',
-                    '<a href="https://www.herrenberg.de/stadtluft"><img src="https://www.herrenberg.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
+                    'The data protection information of the district of Reutlingen applies. These can be found at <a href="https://www.kreis-reutlingen.de/datenschutz">https://www.kreis-reutlingen.de/datenschutz</a>.',
+                    'The LandStadtMobil application offers intermodal mobility information. In addition to the data protection notices of the district (in the general data protection declaration) on server logs and cookies, the functions used are recorded to optimize the application. For this purpose, the LandStadtMobil application uses the Matomo application and stores cookies for this purpose. These cookies are stored on the basis of Article 6 (1) (f) GDPR. ',
+                    'Start/destination searches are not saved.'
                 ],
             },
             {
-                header: 'Contribute',
+                header: 'ride2go',
                 paragraphs: [
-                    'The city of Herrenberg has developed this app, funded by the Federal Ministry of Transport and Digital Infrastructure (BMVI), as model city. The stadtnavi app is an open source solution and can be used, customized and further developed by other municipalities to meet individual needs (white lable solution). Participation is welcome!',
+                    'LandStadtMobil uses the services of ride2go GmbH, Erlenstr. 7, D-71297 Mönsheim to advertise carpool offers.',
+                    'When advertising carpooling offers, the following data is collected from the user and transmitted to ride2go.de:',
+                    'Journey data (start, destination, date/weekdays and time), contact details (telephone number, e-mail address)',
+                    'The personal data is collected for the placement of a carpool advertisement in LandStadtMobil and used as a contact option for interested riders to get in touch. The data provided will be published by ride2go.de and affiliated partner portals and thus passed on. The use and input of data in this online application is voluntary.',
+                    'After submitting an advertisement, advertisers receive an e-mail confirming the activation and subsequent deletion of the advertisement.',
+                    'More information on handling user data can be found in the <a href="https://www.ride2go.de/html/datenschutz.html">Privacy Policy of ride2go.de</a>',
+                    'LandStadtMobil does not store any contact data.'
                 ]
             },
             {
-                header: 'Digitransit platform',
+                header: 'About LandStadtMobil',
                 paragraphs: [
-                    'The Digitransit service platform is an open source routing platform developed by HSL and Traficom. It builds on OpenTripPlanner by Conveyal. Enhancements by Transportkollektiv and MITFAHR|DE|ZENTRALE. All software is open source. Thanks to everybody working on this!',
+                    'LandStadtMobil is a routing platform that links various mobility offers such as bus, train, bicycle and carpooling. The platform is part of the model project “Integrated mobility concept to ensure subsequent mobility in rural areas”, which is funded by the Ministry of Food and Agriculture as part of the “LandMobil” funding program.',
+                    'By the end of 2022, the municipality of Engstingen and the city of Münsingen will work with the district to test how connecting mobility in rural areas, i.e. the first and last mile to mobility hubs, can be improved. Additional mobility offers, an e-bike sharing system, an e-car sharing model and a local car sharing network will be implemented in the community of Engstingen and the city of Münsingen. The offers are integrated into the LandStadtMobil routing platform in order to be able to generate appropriate routing information and travel suggestions. The mobility offers are supplemented by bicycle parking facilities (bicycle racks and bicycle boxes) and charging facilities for e-bikes.',
+                    'During the trial period, the projects are monitored and evaluated by the district office for sustainable development, transferrable solutions are derived and recommendations for action are formulated based on this.',
+                    'For more information about the project, see <a href="https://www.kreis-reutlingen.de/landmobil">www.kreis-reutlingen.de/landmobil</a>.',
+                    'This service is based on the stadtnavi service, which is based on the Digitransit Platform and the OpenTripPlanner backend service. All software is available under an open license. Thanks to all contributors.',
+                    'The entire source code of the platform, which consists of many different components, is on available on <a href="https://github.com/stadtnavi/">Github</a>.',
+                    '<img src="/img/landstadtmobil-funding-logo.png"/>'
                 ],
             },
             {
                 header: 'Data sources',
                 paragraphs: [
-                    'Map data: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap contributors</a>',
-                    'Public transit data: Datasets by <a target=new href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>NVBW GmbH</a> and <a target=new href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) enhanced with OpenStreetMap data © OpenStreetMap contributors',
-                    'No responsibility is accepted for the accuracy of this information.'
+                    'Map data: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap Mitwirkende</a>',
+                    'Transit data: Datensätze der <a target=new href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>NVBW GmbH</a> und der <a target=new href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) jeweils angereichert mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende',
+                    'CarSharing locations: Datensätze der <a target=new href=https://www.teilauto-neckar-alb.de/>teilAuto Neckar-Alb eG</a>.',
+                    'Scooter and BikeSharing locations: <a target=new href=https://www.tier.app/>TIER Mobility GmbH</a>.',
+                    'All statements without guarantee.'
                 ],
             },
         ],
     },
 
     redirectReittiopasParams: true,
-
-    themeMap: {
-        hbnext: 'hbnext'
-    },
 
     transportModes: {
 
@@ -579,6 +533,7 @@ export default configMerger(walttiConfig, {
     geoJson: {
         layers: [
             // bicycleinfrastructure includes shops, repair stations,
+            /* 
             {
                 name: {
                     fi: '',
@@ -586,7 +541,6 @@ export default configMerger(walttiConfig, {
                     de: "Service Stationen und Läden",
                 },
                 url: '/assets/geojson/hb-layers/bicycleinfrastructure.geojson',
-                icon: 'icon-icon_bike_repair',
             },
             // LoRaWan map layer
             {
@@ -597,7 +551,6 @@ export default configMerger(walttiConfig, {
                 },
                 url: '/assets/geojson/hb-layers/lorawan-gateways.geojson',
                 isOffByDefault: true,
-                icon: 'icon-icon_gateways',
             },
             // Nette Toilette layer
             {
@@ -608,8 +561,8 @@ export default configMerger(walttiConfig, {
                 },
                 url: '/assets/geojson/hb-layers/toilet.geojson',
                 isOffByDefault: true,
-                icon: 'icon-icon_public_toilets',
             },
+            */
         ],
     },
     staticMessagesUrl: STATIC_MESSAGE_URL,
