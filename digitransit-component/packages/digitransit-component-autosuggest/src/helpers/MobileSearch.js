@@ -94,7 +94,9 @@ const MobileSearch = ({
   const renderItem = item => {
     if (item.type === 'clear-search-history') {
       return (
-        <span className={styles['clear-search-history']}>{item.labelId}</span>
+        <button type="button" className={styles['clear-search-history']}>
+          {item.labelId}
+        </button>
       );
     }
     return renderSuggestion(item);
