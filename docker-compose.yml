@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  digitransit-ui:
+    image: registry.gitlab.tpwd.de/tpwd/bb-navi/digitransit-ui:int-development
+    environment:
+      - WORK=/opt/digitransit-ui
+      - ROUTER=bbnavi
+      - API_URL=https://staging.api.bbnavi.de
+      - DATAHUB_URL=https://datahub.bbnavi.de
+      - DATAHUB_O_AUTH_CLIENT_ID=B0IlpNZbNizOP0hLYJzo88bKVc_SZD6e3Dxxoa6Fgts
+      - DATAHUB_O_AUTH_CLIENT_SECRET=qFQr8S6ld1tnVjojgSvjr9Q6IoM3i4OdaZ3Hv1M8idk
+      - DT_IMAGE=bb-navi/digitransit-ui
+      - DT_TAG=next
+      - GTFS_URL=https://www.openvvs.de/dataset/e66f03e4-79f2-41d0-90f1-166ca609e491/resource/bfbb59c7-767c-4bca-bbb2-d8d32a3e0378/download/google_transit.zip
+      - OSM_URL=https://download.geofabrik.de/europe/germany/brandenburg-latest.osm.pbf
+      - GRAPH_BUILD_MEMORY=4G
+      - OTP_PORT=8090
+      - OTP_IMAGE=mfdz/opentripplanner
+      - OTP_TAG=latest
+      - CONFIG=bbnavi
+      - GEOCODING_BASE_URL=https://photon.stadtnavi.eu/pelias/v1
+    networks:
+      - public
+
+networks:
+  public:
+    external: true

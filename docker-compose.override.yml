@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  digitransit-ui:
+    build:
+      context: .
+    command: yarn run dev
+    image: "bb-navi/digitransit-ui"
+    environment:
+      - ROUTER=bbnavi
+      - API_URL=https://api-bbnavi.docker.localhost
+      - DT_IMAGE=bb-navi/digitransit-ui
+      - DT_TAG=next
+      - GTFS_URL=https://www.openvvs.de/dataset/e66f03e4-79f2-41d0-90f1-166ca609e491/resource/bfbb59c7-767c-4bca-bbb2-d8d32a3e0378/download/google_transit.zip
+      - OSM_URL=https://download.geofabrik.de/europe/germany/brandenburg-latest.osm.pbf
+      - GRAPH_BUILD_MEMORY=5G
+      - OTP_PORT=8090
+      - OTP_IMAGE=mfdz/opentripplanner
+      - OTP_TAG=latest
+      - CONFIG=bbnavi
+      - GEOCODING_BASE_URL=https://photon.stadtnavi.eu/pelias/v1
+    labels:
+      traefik.docker.network: public
+      traefik.enable: "true"
+      traefik.frontend.passHostHeader: "true"
+      traefik.frontend.rule: Host:ui-bbnavi.docker.localhost
+      traefik.port: '8080'

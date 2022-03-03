@@ -2,10 +2,11 @@
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'bbnavi';
-const APP_TITLE = 'bbnavi';
-const HEADER_TITLE = '';
+const APP_TITLE = 'bbnavi Staging';
+const HEADER_TITLE = "Staging";
 const APP_DESCRIPTION = 'Mobilitätsplattform für Kommunen in Brandenburg';
 const API_URL = process.env.API_URL || 'https://api.bbnavi.de';
+const DATAHUB_TILES_URL = process.env.DATAHUB_TILES_URL || 'https://tiles.bbnavi.de';
 const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{x}/{y}{r}.png';
 const SEMI_TRANSPARENT_MAP_URL = process.env.SEMITRANSPARENT_MAP_URL || "https://tiles.stadtnavi.eu/satellite-overlay/{z}/{x}/{y}{r}.png";
 const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || "https://photon.stadtnavi.eu/pelias/v1";
@@ -27,8 +28,13 @@ const maxLon = 15.000255;
 
 export default configMerger(walttiConfig, {
     CONFIG,
+    DATAHUB_O_AUTH: {
+        CLIENT_ID: process.env.DATAHUB_O_AUTH_CLIENT_ID,
+        CLIENT_SECRET: process.env.DATAHUB_O_AUTH_CLIENT_SECRET,
+    },
     URL: {
         HEADER_TITLE,
+        DATAHUB: process.env.DATAHUB_URL || 'https://datahub.bbnavi.de',
         OTP: process.env.OTP_URL || `${API_URL}/otp/routers/default/`,
         MAP: {
             default: 'https://isk.geobasis-bb.de/mapproxy/webatlasde_topplus/service/wms',
@@ -45,6 +51,7 @@ export default configMerger(walttiConfig, {
         CITYBIKE_MAP: `${API_URL}/otp/routers/default/vectorTiles/citybikes/`,
         BIKE_PARKS_MAP: `${API_URL}/otp/routers/default/vectorTiles/parking/`,
         WEATHER_STATIONS_MAP: '', // `${API_URL}/map/v1/weather-stations/`,
+        DATAHUB_TILES_MAP: `${DATAHUB_TILES_URL}/public.poi_coords/`,
         CHARGING_STATIONS_MAP: '', // `${API_URL}/tiles/charging-stations/`,
         PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
         PELIAS_REVERSE_GEOCODER: `${
@@ -152,9 +159,14 @@ export default configMerger(walttiConfig, {
         minZoom: 15
     },
 
-
     weatherStations: {
         show: false,
+        smallIconZoom: 17,
+        minZoom: 15
+    },
+
+    datahubTiles: {
+        show: true,
         smallIconZoom: 17,
         minZoom: 15
     },
@@ -171,16 +183,72 @@ export default configMerger(walttiConfig, {
         useSpacesAvailable: false,
         showCityBikes: true,
         networks: {
-            regiorad: {
+            'nextbike_dc': {
                 icon: 'regiorad',
                 name: {
-                    de: 'RegioRad',
-                    en: 'RegioRad',
+                    de: 'Nextbike (Potsdam)',
+                    en: 'Nextbike (Potsdam)',
                 },
                 type: 'citybike',
                 url: {
-                    de: 'https://www.regioradstuttgart.de/de',
-                    en: 'https://www.regioradstuttgart.de/',
+                    de: 'https://www.nextbike.de/de/standorte/',
+                    en: 'https://www.nextbike.de/en/standorte/',
+                },
+                visibleInSettingsUi: true,
+                enabled: true,
+            },
+            'nextbike_bn': {
+                icon: 'regiorad',
+                name: {
+                    de: 'Nextbike (Berlin)',
+                    en: 'Nextbike (Berlin)',
+                },
+                type: 'citybike',
+                url: {
+                    de: 'https://www.nextbike.de/de/standorte/',
+                    en: 'https://www.nextbike.de/en/standorte/',
+                },
+                visibleInSettingsUi: true,
+                enabled: true,
+            },
+            'barshare-bike': {
+                icon: 'regiorad',
+                name: {
+                    de: 'BARshare E-Bike',
+                    en: 'BARshare E-Bike',
+                },
+                type: 'citybike',
+                url: {
+                    de: 'https://www.barshare.de/barshare-standorte',
+                    en: 'https://www.barshare.de/barshare-standorte',
+                },
+                visibleInSettingsUi: true,
+                enabled: true,
+            },
+            'barshare-car': {
+                icon: 'car-sharing',
+                name: {
+                    de: 'BARshare Car',
+                    en: 'BARshare Car',
+                },
+                type: 'car-sharing',
+                url: {
+                    de: 'https://www.barshare.de/barshare-standorte',
+                    en: 'https://www.barshare.de/barshare-standorte',
+                },
+                visibleInSettingsUi: true,
+                enabled: true,
+            },
+            'barshare-other': {
+                icon: 'cargobike',
+                name: {
+                    de: 'BARshare Lastenrad',
+                    en: 'BARshare cargo bike',
+                },
+                type: 'cargo-bike',
+                url: {
+                    de: 'https://www.barshare.de/barshare-standorte',
+                    en: 'https://www.barshare.de/barshare-standorte',
                 },
                 visibleInSettingsUi: true,
                 enabled: true,
@@ -258,7 +326,7 @@ export default configMerger(walttiConfig, {
         useRetinaTiles: true,
         tileSize: 256,
         zoomOffset: 0,
-
+        zoom: 14,
         showZoomControl: true, // DT-3470, DT-3397
         showStreetModeSelector: false, // DT-3470
         showLayerSelector: true, // DT-3470
@@ -301,7 +369,10 @@ export default configMerger(walttiConfig, {
         [maxLon, minLat],
     ],
 
-    nationalServiceLink: { name: 'Fahrplanauskunft efa-bw', href: 'https://www.efa-bw.de' },
+    nationalServiceLink: {
+        name: 'reiseauskunft.bahn.de',
+        href: 'https://reiseauskunft.bahn.de/bin/query.exe/dn?protocol=https:'
+    },
 
     defaultEndpoint: {
         lat: 53.015895,
@@ -546,6 +617,14 @@ export default configMerger(walttiConfig, {
     // adding assets/geoJson/hb-layers layers
     geoJson: {
         layers: [
+            // TMB Geo Daten der POIs aus der Kategorie 15 (Fahrradvermietung/-service)
+            // {
+            //     name: {
+            //         en: 'Tourismus-Marketing Brandenburg',
+            //         de: 'Tourismus-Marketing Brandenburg',
+            //     },
+            //     url: 'https://datahub.bbnavi.de/export/point_of_interests/15.geojson'
+            // },
             // bicycleinfrastructure includes shops, repair stations,
             // {
             //     name: {
@@ -610,4 +689,92 @@ export default configMerger(walttiConfig, {
     showTimeTableOptions: false,
 
     viaPointsEnabled: false,
+
+    klaro: {
+        styling: {
+            theme: ['light', 'bottom'],
+        },
+        hideDeclineAll: true,
+        mustConsent: true,
+        translations: {
+            de: {
+                privacyPolicyUrl: 'https://bbnavi.de/datenschutzerklaerung',
+                acceptSelected: 'Auswahl bestätigen',
+                consentModal: {
+                    title: 'Cookies und Privatsphäre',
+                    description: 'Wir verwenden Cookies auf dieser Webseite.',
+                },
+                privacyPolicy: {
+                    name: 'hier',
+                    text: 'Weitere Informationen zum Umgang mit Cookies und unsere Datenschutzerklärung finden Sie {privacyPolicy}.'
+                },
+                purposes: {
+                    functional: {
+                        title: "Notwendige Cookies",
+                        description: "Diese Cookies werden für eine reibungslose Funktion unserer Website benötigt."
+                    }
+                },
+                service: {
+                    required: {
+                        description: ' ',
+                        title: ' '
+                    }
+                },
+                klaro: {
+                    title: "1. klaro",
+                    description: "Zweck: Speichert Ihre Einwilligung zur Verwendung von Cookies."
+                },
+                lang: {
+                    title: "2. lang",
+                    description: "Zweck: Speichert Ihre gewählte Sprache."
+                }
+            },
+            en: {
+                privacyPolicyUrl: 'https://bbnavi.de/datenschutzerklaerung',
+                acceptSelected: 'Confirm selection',
+                consentModal: {
+                    title: 'Cookies and privacy',
+                    description: 'We use cookies on this website.',
+                },
+                privacyPolicy: {
+                    name: 'here',
+                    text: 'For more information on how we handle cookies and our privacy policy, please see {privacyPolicy}.'
+                },
+                purposes: {
+                    functional: {
+                        title: "Necessary cookies",
+                        description: "These cookies are needed for the smooth functioning of our website."
+                    }
+                },
+                service: {
+                    required: {
+                        description: ' ',
+                        title: ' '
+                    }
+                },
+                klaro: {
+                    title: "1. klaro",
+                    description: "Purpose: Saves your consent to the use of cookies."
+                },
+                lang: {
+                    title: "2. lang",
+                    description: "Purpose: Saves your selected language."
+                }
+            }
+        },
+        services: [
+            {
+                name: "klaro",
+                default: true,
+                required: true,
+                purposes: ['functional']
+            },
+            {
+                name: "lang",
+                default: true,
+                required: true,
+                purposes: ['functional']
+            }
+        ]
+    }
 });

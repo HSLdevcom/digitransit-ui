@@ -150,6 +150,7 @@ class MapLayersDialogContent extends React.Component {
       roadworks,
       dynamicParkingLots,
       weatherStations,
+      datahubTiles,
       chargingStations,
     } = this.props.mapLayers;
     const currentMapMode =
@@ -415,6 +416,14 @@ class MapLayersDialogContent extends React.Component {
                     labelId: 'map-layer-weather-stations',
                     icon: 'icon-icon_stop_monitor',
                     settings: 'weatherStations',
+                  },
+                this.context.config.datahubTiles &&
+                  this.context.config.datahubTiles.show && {
+                    checked: datahubTiles,
+                    defaultMessage: 'Datahub tiles',
+                    labelId: 'map-layer-datahub-tiles',
+                    icon: 'icon-icon_mapMarker-point',
+                    settings: 'datahubTiles',
                   },
                 gatewaysLayer && {
                   checked:

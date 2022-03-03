@@ -227,7 +227,7 @@ export default class CarpoolOffer extends React.Component {
     const departure = new Moment(this.props.start).format('LT');
     const { GDPR, isRegularly } = this.state;
 
-    const policyUrl = 'https://fahrgemeinschaft.de/html/datenschutz.html';
+    const policyUrl = 'https://ride2go.com/privacy?tenant=fahrgemeinschaft';
     const termsUrl = 'https://ride2go.com/GTC?tenant=fahrgemeinschaft';
 
     return (
@@ -338,7 +338,12 @@ export default class CarpoolOffer extends React.Component {
             }
           />
         </div>
-        <button disabled={!GDPR} className="standalone-btn" type="submit">
+        <button
+          disabled={!GDPR}
+          className="standalone-btn"
+          type="submit"
+          style={{ backgroundColor: '#92bc05' }}
+        >
           <FormattedMessage id="offer-ride" defaultMessage="Offer carpool" />
         </button>
       </form>

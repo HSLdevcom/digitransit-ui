@@ -12,12 +12,12 @@ ENV \
   SENTRY_DSN='' \
   SENTRY_SECRET_DSN='' \
   PORT=8080 \
-  API_URL='' \
+  API_URL='https://staging.api.bbnavi.de' \
   MAP_URL='' \
   OTP_URL='' \
   GEOCODING_BASE_URL='' \
   APP_PATH='' \
-  CONFIG='bbnavi' \
+  CONFIG='' \
   NODE_ENV='' \
   # setting a non-empty default value for NODE_OPTS
   # if you don't do this then yarn/node seem to think that you want to
@@ -29,16 +29,20 @@ ENV \
   NODE_OPTS='--title=digitransit-ui' \
   RELAY_FETCH_TIMEOUT='' \
   ASSET_URL='' \
-  STATIC_MESSAGE_URL=''
+  STATIC_MESSAGE_URL='' \
+  GRAPH_BUILD_MEMORY=4G
 
 WORKDIR ${WORK}
-ADD . ${WORK}
+COPY . ${WORK}
 
 RUN \
   yarn && \
   yarn setup && \
   yarn build && \
-  rm -rf static docs test /tmp/* .cache && \
+  # rm -rf static docs test /tmp/* .cache && \
   yarn cache clean --all
+
+# Set bbnavi AFTER yarn build!
+ENV CONFIG=bbnavi
 
 CMD yarn run start

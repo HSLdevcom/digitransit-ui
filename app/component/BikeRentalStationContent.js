@@ -9,7 +9,10 @@ import CityBikeStopContent from './CityBikeStopContent';
 import BikeRentalStationHeader from './BikeRentalStationHeader';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
-import { getCityBikeNetworkConfig } from '../util/citybikes';
+import {
+  getCityBikeNetworkConfig,
+  getCityBikeNetworkName,
+} from '../util/citybikes';
 import { isBrowser, isMobile, isAndroid, isIOS } from '../util/browser';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import CargoBikeContent from './map/sidebar/CargoBikeContent';
@@ -61,6 +64,7 @@ const BikeRentalStationContent = (
   const { cityBike } = config;
   const cityBikeBuyUrl = cityBike.buyUrl;
 
+  // todo: remove Stadtnavi Herrenberg-specific stuff?
   if (
     bikeRentalStation.networks[0] === 'cargo-bike' &&
     bikeRentalStation.stationId === 'cargobike-herrenberg'
@@ -69,6 +73,7 @@ const BikeRentalStationContent = (
   }
 
   const formFactor = networkConfig.type || 'citybike';
+  const networkName = getCityBikeNetworkName(networkConfig, language);
   return (
     <div className="bike-station-page-container">
       <BikeRentalStationHeader
@@ -102,6 +107,7 @@ const BikeRentalStationContent = (
             ) : (
               <a className="external-link-citybike" href={url}>
                 <FormattedMessage id={`${formFactor}-start-using-info`} />{' '}
+                {networkName}
               </a>
             )}
           </div>
