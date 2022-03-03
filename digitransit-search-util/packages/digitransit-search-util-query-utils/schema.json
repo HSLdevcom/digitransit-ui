@@ -1949,8 +1949,8 @@
                                     "defaultValue": null
                                 },
                                 {
-                                    "name": "allowedBikeRentalNetworks",
-                                    "description": "Which bike rental networks can be used. By default, all networks are allowed.",
+                                    "name": "allowedVehicleRentalNetworks",
+                                    "description": "Which vehicle rental networks can be used. By default, all networks are allowed.",
                                     "type": {
                                         "kind": "LIST",
                                         "name": null,

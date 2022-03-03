@@ -160,6 +160,8 @@ const containerComponent = createFragmentContainer(connectedComponent, {
       state
       rentalUris {
         web
+        android
+        ios
       }
     }
   `,

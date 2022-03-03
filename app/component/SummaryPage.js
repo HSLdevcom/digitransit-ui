@@ -930,7 +930,6 @@ class SummaryPage extends React.Component {
           triangle: $triangle
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
-          carReluctance: 10
           locale: $locale
           useVehicleParkingAvailabilityInformation: $useVehicleParkingAvailabilityInformation
           bannedVehicleParkingTags: $bannedVehicleParkingTags
@@ -1058,7 +1057,7 @@ class SummaryPage extends React.Component {
         $optimize: OptimizeType
         $itineraryFiltering: Float
         $unpreferred: InputUnpreferred
-        $allowedBikeRentalNetworks: [String]
+        $allowedVehicleRentalNetworks: [String]
         $locale: String
       ) {
         plan: plan(
@@ -1083,7 +1082,7 @@ class SummaryPage extends React.Component {
           optimize: $optimize
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
-          allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+          allowedVehicleRentalNetworks: $allowedVehicleRentalNetworks
           locale: $locale
         ) {
           ...SummaryPlanContainer_plan
@@ -2807,7 +2806,7 @@ const containerComponent = createRefetchContainer(
         triangle: { type: "InputTriangle" }
         itineraryFiltering: { type: "Float" }
         unpreferred: { type: "InputUnpreferred" }
-        allowedBikeRentalNetworks: { type: "[String]" }
+        allowedVehicleRentalNetworks: { type: "[String]" }
         locale: { type: "String" }
         useCarParkAvailabilityInformation: { type: "Boolean" }
         useVehicleParkingAvailabilityInformation: { type: "Boolean" }
@@ -2836,7 +2835,7 @@ const containerComponent = createRefetchContainer(
           triangle: $triangle
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
-          allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+          allowedVehicleRentalNetworks: $allowedVehicleRentalNetworks
           locale: $locale
         ) {
           ...SummaryPlanContainer_plan

@@ -42,6 +42,7 @@ export default configMerger(walttiConfig, {
         BIKE_PARKS_MAP: `${API_URL}/routing/v1/router/vectorTiles/parking/`,
         WEATHER_STATIONS_MAP: `${API_URL}/map/v1/weather-stations/`,
         CHARGING_STATIONS_MAP: `${API_URL}/tiles/charging-stations/`,
+        CHARGING_STATION_DETAILS_API: 'https://api.ocpdb.de/api/ocpi/2.2/location/',
         PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
         PELIAS_REVERSE_GEOCODER: `${
             process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
@@ -101,8 +102,11 @@ export default configMerger(walttiConfig, {
             'mode-bus': '#ff0000',
             'mode-car': '#007AC9',
             'mode-rail': '#008000',
+            'mode-subway': '#0000ff',
+            'mode-citybike': '#ff834a',
             'mode-charging-station': '#00b096',
             'mode-bike-park': '#005ab4',
+            'mode-carpool': '#9fc727',
         },
     },
 
@@ -179,6 +183,27 @@ export default configMerger(walttiConfig, {
                     en: 'https://www.regioradstuttgart.de/',
                 },
                 visibleInSettingsUi: true,
+                hideCode: true,
+                enabled: true,
+                season: {
+                    // 1.1. - 31.12.
+                    start: new Date(new Date().getFullYear(), 0, 1),
+                    end: new Date(new Date().getFullYear(), 11, 31),
+                },
+            },
+            'tier_LUDWIGSBURG': {
+                icon: 'scooter',
+                name: {
+                    de: 'TIER Ludwigsburg',
+                    en: 'TIER Ludwigsburg',
+                },
+                type: 'scooter',
+                url: {
+                    de: 'https://www.tier.app/de',
+                    en: 'https://www.tier.app/',
+                },
+                visibleInSettingsUi: true,
+                hideCode: true,
                 enabled: true,
             },
             'taxi': {
@@ -561,16 +586,8 @@ export default configMerger(walttiConfig, {
                     de: "Service Stationen und Läden",
                 },
                 url: '/assets/geojson/hb-layers/bicycleinfrastructure.geojson',
+                icon: 'icon-icon_bike_repair',
             },
-            /* Charging stations
-            {
-                name: {
-                    fi: '',
-                    en: 'Charging stations',
-                    de: 'Ladestationen',
-                },
-                url: '/assets/geojson/hb-layers/charging.geojson',
-            },*/
             // LoRaWan map layer
             {
                 name: {
@@ -580,6 +597,7 @@ export default configMerger(walttiConfig, {
                 },
                 url: '/assets/geojson/hb-layers/lorawan-gateways.geojson',
                 isOffByDefault: true,
+                icon: 'icon-icon_gateways',
             },
             // Nette Toilette layer
             {
@@ -590,6 +608,7 @@ export default configMerger(walttiConfig, {
                 },
                 url: '/assets/geojson/hb-layers/toilet.geojson',
                 isOffByDefault: true,
+                icon: 'icon-icon_public_toilets',
             },
         ],
     },

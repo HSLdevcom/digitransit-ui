@@ -2020,8 +2020,8 @@
                                     "defaultValue": null
                                 },
                                 {
-                                    "name": "allowedBikeRentalNetworks",
-                                    "description": "Which bike rental networks can be used. By default, all networks are allowed.",
+                                    "name": "allowedVehicleRentalNetworks",
+                                    "description": "Which vehicle rental networks can be used. By default, all networks are allowed.",
                                     "type": {
                                         "kind": "LIST",
                                         "name": null,
@@ -6484,6 +6484,38 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "android",
+                            "description": "Global object ID provided by Relay. This value can be used to refetch this object using **node** query.",
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "ios",
+                            "description": "Global object ID provided by Relay. This value can be used to refetch this object using **node** query.",
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "inputFields": null,
@@ -7068,6 +7100,12 @@
                         {
                             "name": "BIKEPARK",
                             "description": "BIKEPARK",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "VEHICLEPARKING",
+                            "description": "VEHICLEPARKING",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },

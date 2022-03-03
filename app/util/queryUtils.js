@@ -219,7 +219,7 @@ export const planQuery = graphql`
     $triangle: InputTriangle
     $itineraryFiltering: Float
     $unpreferred: InputUnpreferred
-    $allowedBikeRentalNetworks: [String]
+    $allowedVehicleRentalNetworks: [String]
     $locale: String
   ) {
     viewer {
@@ -247,7 +247,7 @@ export const planQuery = graphql`
         triangle: $triangle
         itineraryFiltering: $itineraryFiltering
         unpreferred: $unpreferred
-        allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+        allowedVehicleRentalNetworks: $allowedVehicleRentalNetworks
         locale: $locale
       )
     }
@@ -281,7 +281,7 @@ export const moreItinerariesQuery = graphql`
     $optimize: OptimizeType
     $itineraryFiltering: Float
     $unpreferred: InputUnpreferred
-    $allowedBikeRentalNetworks: [String]
+    $allowedVehicleRentalNetworks: [String]
     $locale: String
   ) {
     plan(
@@ -306,7 +306,7 @@ export const moreItinerariesQuery = graphql`
       optimize: $optimize
       itineraryFiltering: $itineraryFiltering
       unpreferred: $unpreferred
-      allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+      allowedVehicleRentalNetworks: $allowedVehicleRentalNetworks
       locale: $locale
     ) {
       ...SummaryPlanContainer_plan

@@ -32,7 +32,7 @@ export const getDefaultSettings = config => {
   return {
     ...config.defaultSettings,
     modes: getDefaultModes(config).sort(),
-    allowedBikeRentalNetworks: getDefaultNetworks(config),
+    allowedVehicleRentalNetworks: getDefaultNetworks(config),
     useCarParkAvailabilityInformation: null,
   };
 };
@@ -160,7 +160,7 @@ export const getSettings = config => {
             config.defaultOptions.bikeSpeed,
           ),
       ),
-    allowedBikeRentalNetworks: custSettings.allowedBikeRentalNetworks,
+    allowedVehicleRentalNetworks: custSettings.allowedVehicleRentalNetworks,
     includeBikeSuggestions: custSettings.includeBikeSuggestions,
     includeCarSuggestions: custSettings.includeCarSuggestions,
     includeParkAndRideSuggestions: custSettings.includeParkAndRideSuggestions,
@@ -245,26 +245,26 @@ export const preparePlanParams = (config, useDefaultModes) => (
         intermediatePlaceLocations,
       );
   const defaultSettings = { ...getDefaultSettings(config) };
-  // legacy settings used to set network name in uppercase in localstorage
-  const allowedBikeRentalNetworksMapped = Array.isArray(
-    settings.allowedBikeRentalNetworks,
+  // network Id is handled case sensitive by OTP, so don't switch case
+  const allowedVehicleRentalNetworksMapped = Array.isArray(
+    settings.allowedVehicleRentalNetworks,
   )
-    ? settings.allowedBikeRentalNetworks
+    ? settings.allowedVehicleRentalNetworks
         .filter(
           network =>
-            defaultSettings.allowedBikeRentalNetworks.includes(network) ||
-            defaultSettings.allowedBikeRentalNetworks.includes(
+            defaultSettings.allowedVehicleRentalNetworks.includes(network) ||
+            defaultSettings.allowedVehicleRentalNetworks.includes(
               network.toLowerCase(),
             ),
         )
         .map(network =>
-          defaultSettings.allowedBikeRentalNetworks.includes(
+          defaultSettings.allowedVehicleRentalNetworks.includes(
             network.toLowerCase(),
           )
             ? network.toLowerCase()
             : network,
         )
-    : defaultSettings.allowedBikeRentalNetworks;
+    : defaultSettings.allowedVehicleRentalNetworks;
   const formattedModes = modesAsOTPModes(modesOrDefault);
   const wheelchair =
     getNumberValueOrDefault(settings.accessibilityOption, defaultSettings) ===
@@ -357,7 +357,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
       settings.ticketTypes,
       defaultSettings.ticketTypes,
     ),
-    allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
+    allowedVehicleRentalNetworks: allowedVehicleRentalNetworksMapped,
     shouldMakeWalkQuery:
       !wheelchair && linearDistance < config.suggestWalkMaxDistance,
     shouldMakeBikeQuery:

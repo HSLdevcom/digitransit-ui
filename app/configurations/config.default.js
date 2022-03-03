@@ -710,6 +710,7 @@ export default {
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
     matka: 'matka',
+    vpe: 'vpe',
     bar: '(bar|hamburg)',
     landstadtmobil: 'landstadtmobil',
     engstingen: 'engstingen',
@@ -726,6 +727,8 @@ export default {
     kuopio: 'kuopio',
     hbnext: 'hbnext',
     bbnavi: 'bbnavi',
+    bw: 'bw',
+    ludwigsburg: 'ludwigsburg',
   },
 
   minutesToDepartureLimit: 9,

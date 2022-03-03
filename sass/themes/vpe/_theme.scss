@@ -1,9 +1,8 @@
-
 @import '../../base/waltti';
 
 /* main theme colors */
-$primary-color: #FAB900;
-$secondary-color: #FAA500;
+$primary-color: #1CA438;
+$secondary-color: darken($primary-color, 20%);
 $hilight-color: $primary-color;
 $action-color: $primary-color;
 $viewpoint-marker-color: $primary-color;
@@ -17,8 +16,8 @@ $top-bar-color: $primary-color;
 $bus-color: red;
 $metro-color: blue;
 $rail-color: green;
-$citybike-color: #0E1A50;
-$carpool-color: $primary-color;
+$citybike-color: #009fe4;
+$carpool-color: #9fc727;
 $bike-color: #005ab4;
 
 .car {
