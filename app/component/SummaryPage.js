@@ -930,7 +930,6 @@ class SummaryPage extends React.Component {
           triangle: $triangle
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
-          carReluctance: 10
           locale: $locale
           useVehicleParkingAvailabilityInformation: $useVehicleParkingAvailabilityInformation
           bannedVehicleParkingTags: $bannedVehicleParkingTags
