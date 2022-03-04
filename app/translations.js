@@ -332,8 +332,8 @@ const translations = {
     'carpool-success-info':
       'Sie erhalten eine E-Mail von ride2go zur Aktivierung Ihres Inserats. Diese Mail enthält auch einen Link, mit dem Sie das Inserat später löschen können.',
     'carpool-offer-success':
-      'Ihr Inserat von {origin} nach {destination} wurde eingestellt.',
-    'time-oclock': ' Uhr.',
+      'Ihr Inserat von {origin} nach {destination} wurde auf der Plattform Fahrgemeinschaft.de eingestellt.',
+    'time-oclock': ' Uhr',
     accessibility: 'Barrierefreiheit',
     'accessibility-limited': 'Rollstuhlgerecht',
     'accessibility-nolimit': 'Keine Einschränkungen',
