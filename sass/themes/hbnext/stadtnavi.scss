@@ -1,5 +1,3 @@
-@import 'theme';
-@import '../../main';
 
 .external-link-container {
   position: relative;
@@ -22,10 +20,6 @@
 
 .card-sub-header {
   display: block !important;
-}
-
-.carpool {
-  color: $carpool-color;
 }
 
 .carparks-exclude-container {
