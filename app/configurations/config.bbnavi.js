@@ -114,6 +114,7 @@ export default configMerger(walttiConfig, {
             'mode-rail': '#008000',
             'mode-charging-station': '#00b096',
             'mode-bike-park': '#005ab4',
+            'mode-carpool': '#DA1B1B',
         },
     },
 
