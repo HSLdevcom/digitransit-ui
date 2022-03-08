@@ -763,6 +763,9 @@ class DTAutosuggest extends React.Component {
     }
     if (this.state.editing) {
       if (keyCode === 'Enter') {
+        if (this.state.value === '' && this.state.renderMobileSearch) {
+          return;
+        }
         this.setState({ pendingSelection: true }, () => {
           this.fetchFunction({ value: this.state.value });
         });
@@ -955,7 +958,6 @@ class DTAutosuggest extends React.Component {
                 : i18next.t(this.props.id)
             }
             onSuggestionSelected={this.onSelected}
-            onKeyDown={this.keyDown}
             dialogHeaderText={i18next.t('delete-old-searches-header')}
             dialogPrimaryButtonText={i18next.t('delete')}
             dialogSecondaryButtonText={i18next.t('cancel')}

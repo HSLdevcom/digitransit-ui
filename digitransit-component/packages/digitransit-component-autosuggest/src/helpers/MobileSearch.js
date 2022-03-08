@@ -34,7 +34,6 @@ const MobileSearch = ({
   label,
   onSuggestionSelected,
   clearOldSearches,
-  onKeyDown,
   dialogHeaderText,
   dialogPrimaryButtonText,
   dialogSecondaryButtonText,
@@ -177,12 +176,7 @@ const MobileSearch = ({
             }}
             renderInputComponent={p => (
               <>
-                <input
-                  aria-label={ariaLabel}
-                  id={id}
-                  onKeyDown={onKeyDown}
-                  {...p}
-                />
+                <input aria-label={ariaLabel} id={id} {...p} />
                 {value && clearButton()}
               </>
             )}
@@ -243,7 +237,6 @@ MobileSearch.propTypes = {
   onSuggestionSelected: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   clearOldSearches: PropTypes.func.isRequired,
-  onKeyDown: PropTypes.func.isRequired,
   ariaLabel: PropTypes.string,
   dialogHeaderText: PropTypes.string,
   dialogPrimaryButtonText: PropTypes.string,
