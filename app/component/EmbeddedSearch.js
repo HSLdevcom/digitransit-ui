@@ -169,14 +169,6 @@ const EmbeddedSearch = (props, context) => {
   const sources = ['Favourite', 'History', 'Datasource'];
   const refPoint = getRefPoint(origin, destination, {});
 
-  const onClear = id => {
-    if (id === 'origin') {
-      setOrigin({});
-    } else {
-      setDestination({});
-    }
-  };
-
   const onSelectLocation = (item, id) => {
     if (item?.type === 'CurrentLocation') {
       // eslint-disable-next-line no-param-reassign
@@ -215,7 +207,6 @@ const EmbeddedSearch = (props, context) => {
     destinationPlaceHolder: 'search-destination-index',
     selectHandler: onSelectLocation,
     onGeolocationStart: onSelectLocation,
-    onClear,
     fontWeights,
     modeIconColors: config.colors.iconColors,
     modeSet: config.iconModeSet,

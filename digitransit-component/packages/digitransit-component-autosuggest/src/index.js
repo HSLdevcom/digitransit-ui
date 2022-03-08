@@ -375,6 +375,9 @@ class DTAutosuggest extends React.Component {
   };
 
   onBlur = () => {
+    if (this.state.renderMobileSearch) {
+      return;
+    }
     if (this.state.editing) {
       this.input.focus();
     }
@@ -872,7 +875,7 @@ class DTAutosuggest extends React.Component {
         : i18next.t(this.props.placeholder),
       value,
       onChange: this.onChange,
-      onBlur: !this.props.isMobile ? this.onBlur : () => null,
+      onBlur: this.onBlur,
       className: cx(
         `${styles.input} ${
           this.props.isMobile && this.props.transportMode ? styles.thin : ''
