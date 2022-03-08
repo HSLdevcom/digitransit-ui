@@ -25,6 +25,7 @@ import {
   getCityBikeNetworkIcon,
   getCityBikeNetworkConfig,
   getCityBikeNetworkId,
+  getCitybikeCapacity,
 } from '../util/citybikes';
 
 const Leg = ({
@@ -212,7 +213,7 @@ const bikeWasParked = legs => {
 
 const SummaryRow = (
   { data, breakpoint, intermediatePlaces, zones, ...props },
-  { intl, intl: { formatMessage }, config, context },
+  { intl, intl: { formatMessage }, config },
 ) => {
   const isTransitLeg = leg => leg.transitLeg;
   const isLegOnFoot = leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
@@ -569,7 +570,10 @@ const SummaryRow = (
             }}
           />
           <div>
-            {context.config.cityBike.capacity !== BIKEAVL_UNKNOWN && (
+            {getCitybikeCapacity(
+              config,
+              firstDeparture.from.bikeRentalStation.networks[0],
+            ) !== BIKEAVL_UNKNOWN && (
               <FormattedMessage
                 id="bikes-available"
                 values={{
