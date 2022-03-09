@@ -1,0 +1,111 @@
+.fg_icon {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.carpool {
+  color: $carpool-color;
+}
+
+.carpool-offer-btn {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.carpool-offer {
+  white-space: initial;
+
+  h2 {
+    margin-left: 0px;
+    color: black;
+  }
+
+  p {
+    color: black;
+  }
+}
+
+input[type='radio'] {
+  margin-right: 10px;
+  width: 20px;
+  height: 1.15em;
+}
+
+.radio-label {
+  span {
+    position: relative;
+    top: -3px;
+  }
+
+  display: flex;
+  align-items: center;
+
+  input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    height: 32px;
+    width: 32px;
+    border: 2px solid #999;
+    border-radius: 50%;
+    transition: 0.2s all linear;
+    margin-right: 15px;
+  }
+
+  input[type="radio"]:checked {
+    border: 10px solid #000f94;
+  }
+}
+
+.radio-label,
+.phone-label {
+  font-family: $font-family;
+  font-size: inherit;
+  color: inherit;
+}
+
+.phone-label {
+  margin-bottom: 20px;
+}
+
+.carpool-checkbox {
+  margin: 10px 0;
+  div {
+    .option-checkbox-container {
+      .option-checkbox {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+  }
+}
+
+.gdpr-checkbox {
+  & span {
+    font-weight: bold;
+    position: relative;
+  }
+
+  & label {
+    top: 8px;
+  }
+}
+
+#phone, #email,
+.phone-label {
+  display: inline-block;
+}
+
+#phone, #email {
+  width: 60%;
+  height: 30px;
+  border-radius: 5px;
+  border: solid 1px #888888;
+  background-color: #ffffff;
+}

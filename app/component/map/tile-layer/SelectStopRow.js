@@ -35,7 +35,12 @@ function SelectStopRow({ gtfsId, type, name, code, terminal, desc }) {
       iconOptions.iconId = 'icon-icon_carpool';
       break;
     default:
-      iconOptions.iconId = 'icon-icon_bus';
+      // FIXME: type is (temporarilly) deduced from gtfsId. Should be returned by OTP
+      if (gtfsId.includes(':mfdz:')) {
+        iconOptions.iconId = 'icon-icon_carpool';
+      } else {
+        iconOptions.iconId = 'icon-icon_bus';
+      }
       break;
   }
 
