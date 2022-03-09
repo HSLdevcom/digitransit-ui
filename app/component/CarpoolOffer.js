@@ -119,7 +119,7 @@ export default class CarpoolOffer extends React.Component {
       body: JSON.stringify(carpoolOffer),
       // eslint-disable-next-line func-names
     }).then(response => {
-      if (response.status !== 200 || response.json().status !== 'success') {
+      if (!response.ok || response.json().status !== 'success') {
         this.setState({ formState: 'failed' });
       } else {
         this.setState({ formState: 'success' });
