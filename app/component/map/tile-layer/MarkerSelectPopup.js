@@ -33,11 +33,7 @@ function MarkerSelectPopup(props) {
         />
       );
     }
-    if (
-      option.layer === 'stop' &&
-      (option.feature.properties.name.indexOf('P+M') !== -1 ||
-        option.feature.properties.type !== 'CARPOOL')
-    ) {
+    if (option.layer === 'stop') {
       return (
         <SelectStopRow
           gtfsId={option.feature.properties.gtfsId}

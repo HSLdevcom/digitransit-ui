@@ -73,7 +73,8 @@ class Stops {
   isExcludedCarpoolStop = stop => {
     return (
       stop.properties.type === 'CARPOOL' &&
-      !stop.properties.name.includes('P+M')
+      !stop.properties.name.includes('P+M') &&
+      !stop.properties.gtfsId.includes(':mfdz:')
     );
   };
 
@@ -112,6 +113,13 @@ class Stops {
             const drawRailPlatforms = this.config.railPlatformsMinZoom <= zoom;
             for (let i = 0, ref = vt.layers.stops.length - 1; i <= ref; i++) {
               const feature = vt.layers.stops.feature(i);
+              // FIXME: type is (temporarilly) deduced from gtfsId. Should be returned by OTP
+              if (
+                !feature.properties.type &&
+                feature.properties.gtfsId.includes(':mfdz:')
+              ) {
+                feature.properties.type = 'CARPOOL';
+              }
               if (
                 isFeatureLayerEnabled(feature, 'stop', this.mapLayers) &&
                 feature.properties.type &&
