@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { matchShape } from 'found';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
@@ -71,6 +71,8 @@ const EmbeddedSearch = (props, context) => {
     window.location !== window.parent.location
       ? document.referrer
       : document.location.href;
+
+  const buttonRef = useRef(null);
 
   useEffect(() => {
     Object.keys(translations).forEach(language => {
@@ -190,6 +192,9 @@ const EmbeddedSearch = (props, context) => {
         destination: item.address,
       });
       setDestination(item);
+      if (origin) {
+        buttonRef?.current.focus();
+      }
     }
   };
 
@@ -302,6 +307,7 @@ const EmbeddedSearch = (props, context) => {
               alt={`${config.title} logo`}
             />
             <button
+              ref={buttonRef}
               className="search-button"
               type="button"
               onClick={() => executeSearch(origin, destination)}
