@@ -76,8 +76,8 @@ export default {
   feedIds: [
     'MATKA',
     'HSL',
-    'tampere',
     'LINKKI',
+    'tampere',
     'lautta',
     'OULU',
     'MatkahuoltoKainuu',
