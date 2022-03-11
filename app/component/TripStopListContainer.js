@@ -80,6 +80,7 @@ class TripStopListContainer extends React.PureComponent {
         stopPassed = false;
       }
       const nextStoptimeForDate = trip.stoptimesForDate[index + 1];
+      const prevStop = trip.stoptimesForDate[index - 1]?.stop;
 
       return (
         <TripRouteStop
@@ -87,6 +88,7 @@ class TripStopListContainer extends React.PureComponent {
           stoptime={stoptime}
           stop={stoptime.stop}
           nextStop={nextStoptimeForDate ? nextStoptimeForDate.stop : null}
+          prevStop={prevStop || null}
           mode={mode}
           color={trip.route && trip.route.color ? `#${trip.route.color}` : null}
           vehicles={vehicles[stoptime.stop.gtfsId]}

@@ -6,10 +6,11 @@ import cx from 'classnames';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import { intlShape } from 'react-intl';
 import VehicleIcon from './VehicleIcon';
+import TripLinkWithScroll from './TripLinkWithScroll';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-function FuzzyTripLink({ vehicle, stopName, nextStopName }, context) {
+function FuzzyTripLink({ vehicle, stopName, nextStopName, ...rest }, context) {
   const { environment } = useContext(ReactRelayContext);
   const icon = (
     <VehicleIcon
@@ -60,6 +61,16 @@ function FuzzyTripLink({ vehicle, stopName, nextStopName }, context) {
         if (!props || props.trip === null) {
           return <span className="route-now-content">{icon}</span>;
         }
+        if (rest.setHumanScrolling) {
+          return (
+            <TripLinkWithScroll
+              {...rest}
+              stopName={stopName}
+              nextStopName={nextStopName}
+              tripId={props.trip.gtfsId}
+            />
+          );
+        }
 
         const route = props.trip.route.gtfsId;
         const pattern = props.trip.pattern.code;
@@ -70,7 +81,7 @@ function FuzzyTripLink({ vehicle, stopName, nextStopName }, context) {
           id: `${mode}`,
           defaultMessage: `${mode}`,
         });
-        const ariaMessage = nextStopName
+        const ariaMessage = !(rest.vehicleState === 'arrived')
           ? context.intl.formatMessage(
               {
                 id: 'route-page-vehicle-position-between',

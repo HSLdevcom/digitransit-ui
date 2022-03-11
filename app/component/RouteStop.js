@@ -30,6 +30,7 @@ const RouteStop = (
     vehicle,
     displayNextDeparture,
     shortName,
+    prevStop,
   },
   { config, intl },
 ) => {
@@ -135,8 +136,10 @@ const RouteStop = (
         <TripLink key={vehicle.id} vehicle={vehicle} shortName={shortName} />
       ) : (
         <FuzzyTripLink
-          stopName={stop.name}
-          nextStopName={nextStop ? nextStop.name : null}
+          stopName={vehicleState === 'arriving' ? prevStop?.name : stop?.name}
+          nextStopName={
+            vehicleState === 'arriving' ? stop?.name : nextStop?.name
+          }
           key={vehicle.id}
           vehicle={vehicle}
         />
@@ -261,6 +264,7 @@ RouteStop.propTypes = {
   vehicle: PropTypes.object,
   stop: PropTypes.object,
   nextStop: PropTypes.object,
+  prevStop: PropTypes.object,
   mode: PropTypes.string,
   className: PropTypes.string,
   currentTime: PropTypes.number.isRequired,
