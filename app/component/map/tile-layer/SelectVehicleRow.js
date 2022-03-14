@@ -4,30 +4,16 @@ import { createFragmentContainer, graphql } from 'react-relay';
 
 import Link from 'found/Link';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../util/path';
+import { getRouteMode } from '../../../util/modeUtils';
 import Icon from '../../Icon';
 
 function SelectVehicleRow(props) {
-  let iconId;
   if (!props.trip) {
     return null;
   }
-  switch (props.trip.route.mode) {
-    case 'TRAM':
-      iconId = 'icon-icon_tram';
-      break;
-    case 'RAIL':
-      iconId = 'icon-icon_rail';
-      break;
-    case 'BUS':
-      iconId = 'icon-icon_bus';
-      break;
-    case 'SUBWAY':
-      iconId = 'icon-icon_subway';
-      break;
-    default:
-      iconId = 'icon-icon_bus';
-      break;
-  }
+  const mode = getRouteMode(props.trip.route);
+  const iconId = `icon-icon_${mode || 'bus'}`;
+
   let patternPath = `/${PREFIX_ROUTES}/${props.trip.route.gtfsId}/${PREFIX_STOPS}`;
 
   if (props.trip) {
@@ -76,6 +62,7 @@ const containerComponent = createFragmentContainer(SelectVehicleRow, {
         gtfsId
         mode
         shortName
+        type
         longName
         color
       }

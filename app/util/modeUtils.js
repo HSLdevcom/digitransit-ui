@@ -65,7 +65,7 @@ export const getTransportModes = config => {
 };
 
 export const getRouteMode = route => {
-  return route.type === 702 ? 'bus-trunk' : route.mode.toLowerCase();
+  return route.type === 702 ? 'bus-trunk' : route.mode?.toLowerCase();
 };
 
 /**
