@@ -19,6 +19,7 @@ function ItineraryPageMap(
     viaPoints,
     breakpoint,
     showVehicles,
+    topics,
     ...rest
   },
   { match, router, executeAction, config },
@@ -27,7 +28,9 @@ function ItineraryPageMap(
   const leafletObjs = [];
 
   if (showVehicles) {
-    leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
+    leafletObjs.push(
+      <VehicleMarkerContainer key="vehicles" useLargeIcon topics={topics} />,
+    );
   }
   if (!showActive) {
     itineraries.forEach((itinerary, i) => {
@@ -108,6 +111,7 @@ function ItineraryPageMap(
 
 ItineraryPageMap.propTypes = {
   itineraries: PropTypes.array.isRequired,
+  topics: PropTypes.array,
   active: PropTypes.number.isRequired,
   showActive: PropTypes.bool,
   breakpoint: PropTypes.string.isRequired,
