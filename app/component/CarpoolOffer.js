@@ -118,14 +118,19 @@ export default class CarpoolOffer extends React.Component {
       headers: new Headers({ 'content-type': 'application/json' }),
       body: JSON.stringify(carpoolOffer),
       // eslint-disable-next-line func-names
-    }).then(response => {
-      if (!response.ok || response.json().status !== 'success') {
+    })
+      .then(response => response.json())
+      .then(result => {
+        if (result.status !== 'success') {
+          this.setState({ formState: 'failed' });
+        } else {
+          this.setState({ formState: 'success' });
+        }
+        return result;
+      })
+      .catch(() => {
         this.setState({ formState: 'failed' });
-      } else {
-        this.setState({ formState: 'success' });
-      }
-      return response.json();
-    });
+      });
   };
 
   getOfferedTimes = () => {
