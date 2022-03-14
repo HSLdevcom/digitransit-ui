@@ -52,6 +52,7 @@ const containerComponent = createRefetchContainer(
               alerts {
                 alertSeverityLevel
               }
+              type
               shortName
               longName
               gtfsId
@@ -104,6 +105,7 @@ const containerComponent = createRefetchContainer(
                 alerts {
                   alertSeverityLevel
                 }
+                type
                 shortName
                 longName
                 gtfsId

@@ -60,6 +60,10 @@ class ItineraryLine extends React.Component {
 
       let { mode } = leg;
 
+      if (leg.route?.type === 702) {
+        mode = 'bus-trunk';
+      }
+
       const [interliningLines, interliningLegs] = getInterliningLegs(
         this.props.legs,
         i,
@@ -245,6 +249,7 @@ export default createFragmentContainer(ItineraryLine, {
       route {
         shortName
         color
+        type
         agency {
           name
         }

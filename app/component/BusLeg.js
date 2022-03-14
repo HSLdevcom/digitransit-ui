@@ -5,7 +5,11 @@ import { FormattedMessage } from 'react-intl';
 import TransitLeg from './TransitLeg';
 
 const BusLeg = ({ leg, ...props }) => (
-  <TransitLeg mode="BUS" leg={leg} {...props}>
+  <TransitLeg
+    mode={leg.route.type === 702 ? 'bus-trunk' : 'bus'}
+    leg={leg}
+    {...props}
+  >
     <FormattedMessage
       id="bus-with-route-number"
       values={{

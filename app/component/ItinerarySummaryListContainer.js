@@ -419,6 +419,7 @@ const containerComponent = createFragmentContainer(
           route {
             mode
             shortName
+            type
             color
             agency {
               name
