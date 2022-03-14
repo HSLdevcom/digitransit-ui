@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import cx from 'classnames';
-import ReactModal from 'react-modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import Autosuggest from 'react-autosuggest';
@@ -34,7 +33,6 @@ const MobileSearch = ({
   label,
   onSuggestionSelected,
   clearOldSearches,
-  onKeyDown,
   dialogHeaderText,
   dialogPrimaryButtonText,
   dialogSecondaryButtonText,
@@ -58,10 +56,6 @@ const MobileSearch = ({
   const onClose = useCallback(() => {
     closeHandle();
   });
-
-  useEffect(() => {
-    ReactModal.setAppElement(appElement);
-  }, []);
 
   const onSelect = (e, ref) => {
     if (ref.suggestion.type === 'clear-search-history') {
@@ -94,7 +88,9 @@ const MobileSearch = ({
   const renderItem = item => {
     if (item.type === 'clear-search-history') {
       return (
-        <span className={styles['clear-search-history']}>{item.labelId}</span>
+        <button type="button" className={styles['clear-search-history']}>
+          {item.labelId}
+        </button>
       );
     }
     return renderSuggestion(item);
@@ -175,12 +171,7 @@ const MobileSearch = ({
             }}
             renderInputComponent={p => (
               <>
-                <input
-                  aria-label={ariaLabel}
-                  id={id}
-                  onKeyDown={onKeyDown}
-                  {...p}
-                />
+                <input aria-label={ariaLabel} id={id} {...p} />
                 {value && clearButton()}
               </>
             )}
@@ -197,26 +188,23 @@ const MobileSearch = ({
   }
 
   return (
-    <ReactModal
-      isOpen={searchOpen}
-      className={styles['mobile-modal']}
-      overlayClassName={styles['mobile-modal-overlay']}
-      onAfterClose={onClose}
-      shouldCloseOnEsc
-    >
-      <div
-        className={styles['mobile-modal-content']}
-        style={{
-          '--color': `${color}`,
-          '--accessible-primary-color': accessiblePrimaryColor,
-          '--hover-color': `${hoverColor}`,
-          '--font-weight-medium': fontWeights.medium,
-        }}
-      >
-        {renderContent()}
-        {renderDialogModal()}
+    searchOpen && (
+      <div className={styles['mobile-modal-overlay']}>
+        <div
+          id="mobile-modal"
+          className={styles['mobile-modal']}
+          style={{
+            '--color': `${color}`,
+            '--accessible-primary-color': accessiblePrimaryColor,
+            '--hover-color': `${hoverColor}`,
+            '--font-weight-medium': fontWeights.medium,
+          }}
+        >
+          {renderContent()}
+          {renderDialogModal()}
+        </div>
       </div>
-    </ReactModal>
+    )
   );
 };
 
@@ -241,7 +229,6 @@ MobileSearch.propTypes = {
   onSuggestionSelected: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   clearOldSearches: PropTypes.func.isRequired,
-  onKeyDown: PropTypes.func.isRequired,
   ariaLabel: PropTypes.string,
   dialogHeaderText: PropTypes.string,
   dialogPrimaryButtonText: PropTypes.string,

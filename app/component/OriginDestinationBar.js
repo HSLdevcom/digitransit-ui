@@ -166,6 +166,7 @@ class OriginDestinationBar extends React.Component {
             LightenDarkenColor(this.context.config.colors.primary, -20)
           }
           modeSet={this.props.modeSet}
+          onFocusChange={() => {}}
         />{' '}
       </div>
     );

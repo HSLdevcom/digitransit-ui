@@ -479,6 +479,13 @@ const EmbeddedSearchGenerator = (props, context) => {
             </label>
           </div>
         </form>
+        {config?.embeddedCookieLink && (
+          <p>
+            <a href={config.embeddedCookieLink[lang].url}>
+              {config.embeddedCookieLink[lang].text}
+            </a>
+          </p>
+        )}
       </div>
     </section>
   );
