@@ -10,12 +10,15 @@ import { alertSeverityCompare } from '../util/alertUtils';
 import Icon from './Icon';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
+import { getRouteMode } from '../util/modeUtils';
 
 const DepartureRow = (
   { departure, departureTime, showPlatformCode, canceled, showLink, ...props },
   { config, intl },
 ) => {
-  const mode = departure.trip.route.mode.toLowerCase();
+  const { route } = departure.trip;
+  const mode = getRouteMode(route);
+
   const timeDiffInMinutes = Math.floor(
     (departureTime - props.currentTime) / 60,
   );
