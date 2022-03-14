@@ -260,6 +260,7 @@ class DTAutosuggest extends React.Component {
     required: PropTypes.bool,
     modeSet: PropTypes.string,
     showScroll: PropTypes.bool,
+    isEmbedded: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -445,7 +446,10 @@ class DTAutosuggest extends React.Component {
               this.selectionDone = false;
             },
           );
-          if (this.props.focusChange) {
+          if (
+            this.props.focusChange &&
+            (!this.props.isMobile || this.props.isEmbedded)
+          ) {
             this.props.focusChange();
           }
         },
@@ -513,7 +517,10 @@ class DTAutosuggest extends React.Component {
             if (this.props.isMobile) {
               this.closeMobileSearch();
             }
-            if (this.props.focusChange) {
+            if (
+              this.props.focusChange &&
+              (!this.props.isMobile || this.props.isEmbedded)
+            ) {
               this.props.focusChange();
             }
           }

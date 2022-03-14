@@ -142,6 +142,7 @@ ItinerarySearchControl.propTypes = {
  *    isMobile  // Optional. Defaults to false. Whether to use mobile search.
  *    originMobileLabel="Origin label" // Optional. Custom label text for origin field on mobile.
  *    destinationMobileLabel="Destination label" // Optional. Custom label text for destination field on mobile.
+ *    handleFocusChange={() => {}} // Optional. If defined overrides default onFocusChange behaviour
  */
 class DTAutosuggestPanel extends React.Component {
   static propTypes = {
@@ -177,6 +178,8 @@ class DTAutosuggestPanel extends React.Component {
       medium: PropTypes.number,
     }),
     showScroll: PropTypes.bool,
+    onFocusChange: PropTypes.func,
+    isEmbedded: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -203,6 +206,8 @@ class DTAutosuggestPanel extends React.Component {
       medium: 500,
     },
     showScroll: false,
+    onFocusChange: undefined,
+    isEmbedded: false,
   };
 
   constructor(props) {
@@ -389,6 +394,7 @@ class DTAutosuggestPanel extends React.Component {
       originMobileLabel,
       destinationMobileLabel,
       fontWeights,
+      onFocusChange,
     } = this.props;
     const { activeSlackInputs } = this.state;
     const slackTime = this.getSlackTimeOptions();
@@ -440,7 +446,7 @@ class DTAutosuggestPanel extends React.Component {
             searchContext={searchContext}
             onSelect={this.props.onSelect}
             onClear={this.props.onClear}
-            focusChange={this.handleFocusChange}
+            focusChange={onFocusChange || this.handleFocusChange}
             lang={this.props.lang}
             sources={this.props.sources}
             targets={this.props.targets}
@@ -453,6 +459,7 @@ class DTAutosuggestPanel extends React.Component {
             modeSet={this.props.modeSet}
             modeIconColors={this.props.modeIconColors}
             showScroll={this.props.showScroll}
+            isEmbedded={this.props.isEmbedded}
           />
           <ItinerarySearchControl
             className={styles.opposite}
@@ -635,6 +642,7 @@ class DTAutosuggestPanel extends React.Component {
             modeSet={this.props.modeSet}
             modeIconColors={this.props.modeIconColors}
             showScroll={this.props.showScroll}
+            isEmbedded={this.props.isEmbedded}
           />
           <ItinerarySearchControl
             className={cx(styles['add-via-point'], styles.more, {
