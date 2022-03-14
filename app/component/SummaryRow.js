@@ -26,6 +26,7 @@ import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkId,
 } from '../util/citybikes';
+import { getRouteMode } from '../util/modeUtils';
 
 const Leg = ({
   mode,
@@ -69,6 +70,7 @@ export const RouteLeg = ({
 }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
+  const mode = getRouteMode(leg.route);
   if (isCallAgency) {
     const message = intl.formatMessage({
       id: 'pay-attention',
@@ -92,7 +94,7 @@ export const RouteLeg = ({
         route={leg.route}
         className={cx('line', leg.mode.toLowerCase())}
         interliningWithRoute={interliningWithRoute}
-        mode={leg.mode}
+        mode={mode}
         vertical
         withBar
         isTransitLeg={isTransitLeg}
@@ -102,7 +104,7 @@ export const RouteLeg = ({
   }
   return (
     <Leg
-      mode={leg.mode}
+      mode={mode}
       routeNumber={routeNumber}
       large={large}
       legLength={legLength}

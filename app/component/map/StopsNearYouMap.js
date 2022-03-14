@@ -28,6 +28,7 @@ import { dtLocationShape, mapLayerOptionsShape } from '../../util/shapes';
 import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { getDefaultNetworks } from '../../util/citybikes';
+import { getRouteMode } from '../../util/modeUtils';
 
 const locationMarkerModules = {
   LocationMarker: () =>
@@ -381,11 +382,7 @@ function StopsNearYouMap(
             key={`${pattern.code}`}
             opaque
             geometry={polyline.decode(pattern.patternGeometry.points)}
-            mode={
-              pattern.route.type === 702
-                ? 'bus-trunk'
-                : pattern.route.mode.toLowerCase()
-            }
+            mode={getRouteMode(pattern.route)}
           />
         );
       }

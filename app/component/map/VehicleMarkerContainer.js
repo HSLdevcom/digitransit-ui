@@ -78,7 +78,7 @@ function VehicleMarkerContainer(props) {
 
   return visibleVehicles.map(([id, message]) => {
     const type = props.topics?.find(t => t.shortName === message.shortName)
-      .type;
+      ?.type;
     const mode = type === 702 ? 'bus-trunk' : message.mode;
     return (
       <IconMarker

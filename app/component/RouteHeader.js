@@ -5,25 +5,26 @@ import cx from 'classnames';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { convertTo24HourFormat } from '../util/timeUtils';
 import RouteNumber from './RouteNumber';
+import { getRouteMode } from '../util/modeUtils';
 
-export default function RouteHeader(props) {
-  const mode = props.route.mode.toLowerCase();
+export default function RouteHeader({ route, pattern, card, trip, className }) {
+  const mode = getRouteMode(route);
 
-  let trip;
-  if (props.trip && props.trip.length > 3) {
+  let tripEl;
+  if (trip && trip.length > 3) {
     // change to 24h format
-    const startTime = convertTo24HourFormat(props.trip);
-    trip = <span className="route-header-trip">{startTime} →</span>;
+    const startTime = convertTo24HourFormat(trip);
+    tripEl = <span className="route-header-trip">{startTime} →</span>;
   } else {
-    trip = '';
+    tripEl = '';
   }
 
-  const routeLineText = ` ${props.route.shortName || ''}`;
+  const routeLineText = ` ${route.shortName || ''}`;
 
   const routeLine =
-    props.trip && props.pattern ? (
+    trip && pattern ? (
       <Link
-        to={`/${PREFIX_ROUTES}/${props.route.gtfsId}/${PREFIX_STOPS}/${props.pattern.code}`}
+        to={`/${PREFIX_ROUTES}/${route.gtfsId}/${PREFIX_STOPS}/${pattern.code}`}
       >
         {routeLineText}
       </Link>
@@ -32,15 +33,15 @@ export default function RouteHeader(props) {
     );
 
   return (
-    <div className={cx('route-header', props.className)}>
+    <div className={cx('route-header', className)}>
       <h1 className={mode}>
         <RouteNumber
-          card={props.card}
+          card={card}
           mode={mode}
           text={routeLine}
-          color={props.route.color ? `#${props.route.color}` : 'currentColor'}
+          color={route.color ? `#${route.color}` : 'currentColor'}
         />
-        {trip}
+        {tripEl}
       </h1>
     </div>
   );
