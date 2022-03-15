@@ -162,7 +162,6 @@ class FavouriteBar extends React.Component {
     super(props);
     this.state = {
       listOpen: false,
-      highlightedIndex: 0,
       firstFavourite: props.favourites[0] || null,
       secondFavourite: props.favourites[1] || null,
       favourites: props.favourites.slice(2, props.favourites.length),
@@ -211,7 +210,6 @@ class FavouriteBar extends React.Component {
       this.setState(
         prevState => ({
           listOpen: !prevState.listOpen,
-          highlightedIndex: 0,
           timestamp: new Date().getTime(),
         }),
         () => {
@@ -223,10 +221,6 @@ class FavouriteBar extends React.Component {
         },
       );
     }
-  };
-
-  highlightSuggestion = index => {
-    this.setState({ highlightedIndex: index });
   };
 
   handleClickOutside = event => {
@@ -242,83 +236,74 @@ class FavouriteBar extends React.Component {
     }
   };
 
-  suggestionSelected = () => {
-    const { favourites, highlightedIndex } = this.state;
-    if (highlightedIndex < favourites.length) {
-      this.props.onClickFavourite(favourites[highlightedIndex]);
-    } else if (highlightedIndex === favourites.length) {
+  suggestionSelected = index => {
+    const { favourites } = this.state;
+    if (index < favourites.length) {
+      this.props.onClickFavourite(favourites[index]);
+    } else if (index === favourites.length) {
       this.props.onAddPlace();
-    } else if (highlightedIndex === favourites.length + 1) {
+    } else if (index === favourites.length + 1) {
       this.props.onEdit();
     }
     this.toggleList();
   };
 
-  handleKeyDown = event => {
-    const { favourites, highlightedIndex, listOpen } = this.state;
+  handleKeyDown = (event, index) => {
+    const { listOpen, favourites } = this.state;
     const key = (event && (event.key || event.which || event.keyCode)) || '';
     if (isKeyboardSelectionEvent(event)) {
       if (!listOpen) {
         this.toggleList();
       } else {
-        this.suggestionSelected();
+        this.suggestionSelected(index);
       }
     } else if (key === 'Escape' || key === 27) {
       if (listOpen) {
         this.toggleList();
       }
     } else if (
-      (key === 'ArrowUp' || key === 38) &&
-      this.props.favourites.length > 0
+      key === 'Tab' &&
+      !event.shiftKey &&
+      index === favourites.length + this.getCustomSuggestions().length - 1
     ) {
-      const next =
-        highlightedIndex === 0 ? favourites.length + 1 : highlightedIndex - 1;
-      this.highlightSuggestion(next);
-    } else if (
-      (key === 'ArrowDown' || key === 40) &&
-      this.props.favourites.length > 0
-    ) {
-      const next =
-        highlightedIndex === favourites.length + 1 ? 0 : highlightedIndex + 1;
-      this.highlightSuggestion(next);
-    } else if (key === 'Tab' || key === 9) {
       this.setState({ listOpen: false });
     }
   };
 
-  renderSuggestion = (item, index, className = undefined) => {
-    const { highlightedIndex } = this.state;
+  renderSuggestion = (
+    item,
+    index,
+    ariaLabelSuffix = '',
+    className = undefined,
+  ) => {
     const id = `favourite-suggestion-list--item-${index}`;
-    const selected = highlightedIndex === index;
-    /* eslint-disable jsx-a11y/click-events-have-key-events */
-    // The key event is handled by the button that opens the dropdown
     return (
-      <div
-        tabIndex="0"
-        key={`favourite-suggestion-item-${index}`}
-        id={id}
-        className={cx(
-          styles['favourite-suggestion-item'],
-          selected ? styles.highlighted : '',
-        )}
-        onMouseEnter={() => this.highlightSuggestion(index)}
-        onClick={this.suggestionSelected}
-        onKeyDown={e => this.handleKeyDown(e)}
-        aria-selected={selected}
-        role="option"
-        ref={index === 0 ? this.firstItemRef : ''}
-        // eslint-disable-next-line jsx-a11y/no-autofocus
-        autoFocus={selected}
-      >
-        <SuggestionItem
-          item={item}
-          iconColor={this.props.color}
-          className={className}
-          fontWeights={this.props.fontWeights}
-        />
-      </div>
+      <li>
+        <div
+          role="button"
+          type="button"
+          tabIndex="0"
+          key={`favourite-suggestion-item-${index}`}
+          id={id}
+          className={cx(styles['favourite-suggestion-item'])}
+          onClick={() => this.suggestionSelected(index)}
+          onKeyDown={e => this.handleKeyDown(e, index)}
+          ref={index === 0 ? this.firstItemRef : ''}
+          // eslint-disable-next-line jsx-a11y/no-autofocus
+          autoFocus={index === 0}
+          aria-label={`${item?.name || ''} ${
+            item?.address || ''
+          } ${ariaLabelSuffix}`}
+        >
+          <SuggestionItem
+            item={item}
+            iconColor={this.props.color}
+            className={className}
+            fontWeights={this.props.fontWeights}
+          />
+        </div>
+      </li>
     );
-    /* eslint-enable jsx-a11y/click-events-have-key-events */
   };
 
   getCustomSuggestions = () => {
@@ -346,7 +331,6 @@ class FavouriteBar extends React.Component {
     const {
       listOpen,
       favourites,
-      highlightedIndex,
       firstFavourite,
       secondFavourite,
     } = this.state;
@@ -417,17 +401,9 @@ class FavouriteBar extends React.Component {
             id="favourite-expand-button"
             onKeyDown={e => this.handleKeyDown(e)}
             onClick={() => this.toggleList()}
-            tabIndex="0"
+            aria-haspopup
             aria-pressed={this.state.listOpen}
             aria-label={i18next.t('open-favourites')}
-            aria-owns={favourites
-              .map((_, i) => `favourite-suggestion-list--item-${i}`)
-              .join(' ')}
-            aria-activedescendant={
-              listOpen
-                ? `favourite-suggestion-list--item-${highlightedIndex}`
-                : undefined
-            }
           >
             <Shimmer active={isLoading}>
               <Icon img={expandIcon} color={this.props.color} />
@@ -437,11 +413,10 @@ class FavouriteBar extends React.Component {
         </div>
         <div className={styles['favourite-suggestion-container']}>
           {listOpen && (
-            <div
+            <ul
               className={styles['favourite-suggestion-list']}
               id="favourite-suggestion-list"
               ref={this.suggestionListRef}
-              role="listbox"
               aria-label={i18next.t('favourites-list')}
             >
               {favourites.map((item, index) =>
@@ -457,9 +432,12 @@ class FavouriteBar extends React.Component {
                     iconColor: this.props.color,
                   },
                   index,
+                  `, ${i18next.t('add-destination')}`,
                 ),
               )}
-              {favourites.length > 0 && <div className={styles.divider} />}
+              {favourites.length > 0 && (
+                <div aria-hidden className={styles.divider} />
+              )}
               {this.getCustomSuggestions().map((item, index) =>
                 this.renderSuggestion(
                   {
@@ -467,10 +445,11 @@ class FavouriteBar extends React.Component {
                     iconColor: this.props.color,
                   },
                   favourites.length + index,
+                  undefined,
                   'favouriteCustom',
                 ),
               )}
-            </div>
+            </ul>
           )}
         </div>
       </div>

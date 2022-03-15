@@ -201,14 +201,13 @@ $favourite-highlight-background-color: #F4F4F5;
     overflow-y: scroll;
   }
   .favourite-suggestion-item {
-    cursor: pointer;
-    &.highlighted {
-      background-color: $favourite-highlight-background-color;
-    }
     &.custom {
       font-size: 15px;
       font-weight: var(--font-weight-medium);
       letter-spacing: -0.5;
     }
+  }
+  .favourite-suggestion-item:hover {
+    background-color: $favourite-highlight-background-color;
   }
 }
