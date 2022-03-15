@@ -6,7 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
-
+import { getRouteMode } from '../util/modeUtils';
 import TripRouteStop from './TripRouteStop';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -39,7 +39,7 @@ class TripStopListContainer extends React.PureComponent {
       vehicles: propVehicles,
     } = this.props;
 
-    const mode = trip.route.mode.toLowerCase();
+    const mode = getRouteMode(trip.route);
 
     const vehicles = groupBy(
       values(propVehicles).filter(
@@ -136,6 +136,7 @@ const connectedComponent = createFragmentContainer(
       fragment TripStopListContainer_trip on Trip {
         route {
           mode
+          type
           gtfsId
           color
           shortName

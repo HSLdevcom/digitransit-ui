@@ -133,13 +133,19 @@ const RouteStop = (
         last,
       );
       vehicleTripLink = vehicle.tripId ? (
-        <TripLink key={vehicle.id} vehicle={vehicle} shortName={shortName} />
+        <TripLink
+          key={vehicle.id}
+          vehicle={vehicle}
+          shortName={shortName}
+          mode={mode}
+        />
       ) : (
         <FuzzyTripLink
           stopName={vehicleState === 'arriving' ? prevStop?.name : stop?.name}
           nextStopName={
             vehicleState === 'arriving' ? stop?.name : nextStop?.name
           }
+          mode={mode}
           key={vehicle.id}
           vehicle={vehicle}
         />

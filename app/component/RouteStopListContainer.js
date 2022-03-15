@@ -10,6 +10,7 @@ import { FormattedMessage } from 'react-intl';
 
 import RouteStop from './RouteStop';
 import withBreakpoint from '../util/withBreakpoint';
+import { getRouteMode } from '../util/modeUtils';
 
 class RouteStopListContainer extends React.PureComponent {
   static propTypes = {
@@ -31,7 +32,7 @@ class RouteStopListContainer extends React.PureComponent {
   getStops() {
     const { stops } = this.props.pattern;
 
-    const mode = this.props.pattern.route.mode.toLowerCase();
+    const mode = getRouteMode(this.props.pattern.route);
     const vehicles = groupBy(
       values(this.props.vehicles).filter(
         vehicle =>
@@ -125,6 +126,7 @@ const containerComponent = createRefetchContainer(
           mode
           color
           shortName
+          type
         }
         stops {
           alerts {

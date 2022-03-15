@@ -303,7 +303,7 @@ class TransitLeg extends React.Component {
     ) {
       for (let i = 0; i < config.routeNotifications.length; i++) {
         const notification = config.routeNotifications[i];
-        if (notification.showForRoute(leg.route.gtfsId)) {
+        if (notification.showForRoute(leg.route)) {
           routeNotifications.push(
             <div className="disruption">
               <a
