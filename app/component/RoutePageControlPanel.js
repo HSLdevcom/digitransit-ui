@@ -356,9 +356,10 @@ class RoutePageControlPanel extends React.Component {
     ) {
       for (let i = 0; i < config.routeNotifications.length; i++) {
         const notification = config.routeNotifications[i];
-        if (notification.showForRoute(route.gtfsId)) {
+        if (notification.showForRoute(route)) {
           routeNotifications.push(
             <RouteNotification
+              key={notification.id}
               header={notification.header[language]}
               content={notification.content[language]}
               link={notification.link[language]}

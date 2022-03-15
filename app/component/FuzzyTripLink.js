@@ -14,8 +14,8 @@ function FuzzyTripLink({ vehicle, stopName, nextStopName, ...rest }, context) {
   const { environment } = useContext(ReactRelayContext);
   const icon = (
     <VehicleIcon
-      className={cx(vehicle.mode, 'tail-icon')}
-      mode={vehicle.mode}
+      className={cx(rest.mode, 'tail-icon')}
+      mode={rest.mode}
       rotate={180}
       vehicleNumber={vehicle.shortName}
       useLargeIcon

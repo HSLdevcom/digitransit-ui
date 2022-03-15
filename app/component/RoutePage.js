@@ -15,6 +15,7 @@ import withBreakpoint from '../util/withBreakpoint';
 import BackButton from './BackButton'; // DT-3472
 import { isBrowser } from '../util/browser';
 import LazilyLoad, { importLazy } from './LazilyLoad';
+import { getRouteMode } from '../util/modeUtils';
 import AlertBanner from './AlertBanner';
 
 const modules = {
@@ -68,7 +69,7 @@ class RoutePage extends React.Component {
       }
       return null;
     }
-
+    const mode = getRouteMode(route);
     return (
       <div className={cx('route-page-container')}>
         <div className="header-for-printing">
@@ -94,18 +95,18 @@ class RoutePage extends React.Component {
             <div aria-hidden="true">
               <RouteNumber
                 color={route.color ? `#${route.color}` : null}
-                mode={route.mode}
+                mode={mode}
                 text=""
               />
             </div>
             <div className="route-info">
               <h1
-                className={cx('route-short-name', route.mode.toLowerCase())}
+                className={cx('route-short-name', mode.toLowerCase())}
                 style={{ color: route.color ? `#${route.color}` : null }}
               >
                 <span className="sr-only" style={{ whiteSpace: 'pre' }}>
                   {this.context.intl.formatMessage({
-                    id: route.mode.toLowerCase(),
+                    id: mode.toLowerCase(),
                   })}{' '}
                 </span>
                 {route.shortName}

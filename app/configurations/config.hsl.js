@@ -585,8 +585,8 @@ export default {
 
   routeNotifications: [
     {
-      showForRoute: gtfsId =>
-        gtfsId.slice(4).length === 4 && gtfsId.slice(4)[0] === '7',
+      showForRoute: route =>
+        route.gtfsId.slice(4).length === 4 && route.gtfsId.slice(4)[0] === '7',
       id: 'uLineNotification',
       header: {
         fi: 'U-linja',
@@ -616,6 +616,39 @@ export default {
         fi: 'hsl.fi/matkustaminen/u-liikenne/',
         en: 'hsl.fi/matkustaminen/u-liikenne/',
         sv: 'hsl.fi/sv/att-resa/U-trafik/',
+      },
+    },
+    {
+      showForRoute: route => route.type === 702,
+      id: 'trunkRouteNotification',
+      header: {
+        fi: 'Runkolinja',
+        en: 'Trunk route',
+        sv: 'Stomlinje',
+      },
+      content: {
+        fi: [
+          'Pääset kyytiin myös keskiovista näyttämättä lippua kuljettajalle. ',
+          'Linja käyttää valikoituja pysäkkejä eli ei pysähdy kaikilla pysäkeillä. ',
+        ],
+        en: [
+          'Passengers can board the buses also through the middle doors. ',
+          'The bus will not serve all stops along the route. ',
+        ],
+        sv: [
+          'Man kan stiga på genom mittdörren och behöver inte visa upp sin biljett för föraren. ',
+          'För att snabba upp trafiken stannar bussarna inte vid alla hållplatser. ',
+        ],
+      },
+      closeButtonLabel: {
+        fi: 'Mitä runkolinja tarkoittaa?',
+        en: 'What does a trunk route mean?',
+        sv: 'Vad betyder en Stomlinje?',
+      },
+      link: {
+        fi: 'hsl.fi/hsl/runkoverkko',
+        en: 'hsl.fi/hsl/runkoverkko',
+        sv: 'hsl.fi/hsl/runkoverkko',
       },
     },
   ],
