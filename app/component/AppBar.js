@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 
@@ -17,12 +17,18 @@ const AppBar = (
   { config, intl, match, getStore },
 ) => {
   const { location } = match;
+  const [disruptionInfoOpen, setDisruptionInfoOpen] = useState(false);
   const url = encodeURI(`${window.location?.origin || ''}${location.pathname}`);
   const params = location.search && location.search.substring(1);
 
   return (
     <>
-      <DisruptionInfo />
+      {disruptionInfoOpen && (
+        <DisruptionInfo
+          isOpen={disruptionInfoOpen}
+          toggle={setDisruptionInfoOpen}
+        />
+      )}
       {config.NODE_ENV !== 'test' && <MessageBar breakpoint={breakpoint} />}
       <CanceledLegsBar />
       <nav className={`top-bar ${breakpoint !== 'large' ? 'mobile' : ''}`}>
@@ -67,7 +73,13 @@ const AppBar = (
                 isMobile
               />
             ))}
-          <MainMenuContainer homeUrl={homeUrl} breakpoint={breakpoint} />
+          {!disruptionInfoOpen && (
+            <MainMenuContainer
+              homeUrl={homeUrl}
+              breakpoint={breakpoint}
+              setDisruptionInfoOpen={setDisruptionInfoOpen}
+            />
+          )}
         </section>
       </nav>
     </>

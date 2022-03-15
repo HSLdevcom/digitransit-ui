@@ -51,7 +51,9 @@ function MainMenu(props, { config, intl }) {
         )}
         {config.mainMenu.showDisruptions && props.showDisruptionInfo && (
           <div className="offcanvas-section">
-            <DisruptionInfoButtonContainer />
+            <DisruptionInfoButtonContainer
+              setDisruptionInfoOpen={props.setDisruptionInfoOpen}
+            />
           </div>
         )}
         {config.mainMenu.stopMonitor.show && (
@@ -95,6 +97,7 @@ function MainMenu(props, { config, intl }) {
 
 MainMenu.propTypes = {
   showDisruptionInfo: PropTypes.bool,
+  setDisruptionInfoOpen: PropTypes.func.isRequired,
   toggleVisibility: PropTypes.func.isRequired,
   visible: PropTypes.bool,
   homeUrl: PropTypes.string.isRequired,

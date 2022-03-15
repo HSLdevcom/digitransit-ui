@@ -20,6 +20,7 @@ class MainMenuContainer extends Component {
     homeUrl: PropTypes.string.isRequired,
     isOpen: PropTypes.bool,
     breakpoint: PropTypes.string,
+    setDisruptionInfoOpen: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -84,6 +85,7 @@ class MainMenuContainer extends Component {
                 showDisruptionInfo={isOpen && !isForcedOpen}
                 visible={isOpen}
                 homeUrl={this.props.homeUrl}
+                setDisruptionInfoOpen={this.props.setDisruptionInfoOpen}
               />
             </MenuDrawer>
           )}

@@ -8,6 +8,7 @@ function DisruptionInfoButton(props, { config }) {
   if (!config.disruption || config.disruption.showInfoButton) {
     return (
       <button
+        type="button"
         className="cursor-pointer disruption-info noborder"
         onClick={props.toggleDisruptionInfo}
       >
