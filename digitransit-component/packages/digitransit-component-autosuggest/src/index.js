@@ -179,11 +179,11 @@ function translateFutureRouteSuggestionTime(item) {
  *   clearFutureRoutes: () => ({}),        // Function that clears future routes
  * };
  * const lang = 'fi'; // en, fi or sv
- * const onSelect = () => {
+ * const onSelect = (item, id) => {
  *    // Funtionality when user selects a suggesions. No default implementation is given.
  *    return null;
  * };
- * const onClear = () => {
+ * const onClear = id => {
  *    // Called  when user clicks the clear search string button. No default implementation.
  *    return null;
  * };
@@ -260,6 +260,7 @@ class DTAutosuggest extends React.Component {
     required: PropTypes.bool,
     modeSet: PropTypes.string,
     showScroll: PropTypes.bool,
+    isEmbedded: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -375,6 +376,9 @@ class DTAutosuggest extends React.Component {
   };
 
   onBlur = () => {
+    if (this.state.renderMobileSearch) {
+      return;
+    }
     if (this.state.editing) {
       this.input.focus();
     }
@@ -442,7 +446,10 @@ class DTAutosuggest extends React.Component {
               this.selectionDone = false;
             },
           );
-          if (this.props.focusChange && !this.props.isMobile) {
+          if (
+            this.props.focusChange &&
+            (!this.props.isMobile || this.props.isEmbedded)
+          ) {
             this.props.focusChange();
           }
         },
@@ -509,6 +516,12 @@ class DTAutosuggest extends React.Component {
 
             if (this.props.isMobile) {
               this.closeMobileSearch();
+            }
+            if (
+              this.props.focusChange &&
+              (!this.props.isMobile || this.props.isEmbedded)
+            ) {
+              this.props.focusChange();
             }
           }
         },
@@ -646,7 +659,7 @@ class DTAutosuggest extends React.Component {
       this.fetchFunction({ value: '', cleanExecuted: true }),
     );
     if (this.props.onClear) {
-      this.props.onClear();
+      this.props.onClear(this.props.id);
     }
     this.input.focus();
   };
@@ -763,6 +776,9 @@ class DTAutosuggest extends React.Component {
     }
     if (this.state.editing) {
       if (keyCode === 'Enter') {
+        if (this.state.value === '' && this.state.renderMobileSearch) {
+          return;
+        }
         this.setState({ pendingSelection: true }, () => {
           this.fetchFunction({ value: this.state.value });
         });
@@ -869,7 +885,7 @@ class DTAutosuggest extends React.Component {
         : i18next.t(this.props.placeholder),
       value,
       onChange: this.onChange,
-      onBlur: !this.props.isMobile ? this.onBlur : () => null,
+      onBlur: this.onBlur,
       className: cx(
         `${styles.input} ${
           this.props.isMobile && this.props.transportMode ? styles.thin : ''
@@ -955,7 +971,6 @@ class DTAutosuggest extends React.Component {
                 : i18next.t(this.props.id)
             }
             onSuggestionSelected={this.onSelected}
-            onKeyDown={this.keyDown}
             dialogHeaderText={i18next.t('delete-old-searches-header')}
             dialogPrimaryButtonText={i18next.t('delete')}
             dialogSecondaryButtonText={i18next.t('cancel')}
