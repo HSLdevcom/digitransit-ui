@@ -15,6 +15,9 @@ $itinerary-tab-switch-height: 48px;
   &.bus {
     @include getCircleSvg($bus-color, $fill);
   }
+  &.bus-trunk {
+    @include getCircleSvg($bus-trunk-color, $fill);
+  }
   &.airplane {
     @include getCircleSvg($airplane-color, $fill);
   }
@@ -180,15 +183,6 @@ $itinerary-tab-switch-height: 48px;
         > div {
           flex-grow: 0;
         }
-      }
-    }
-    .zone-triple.zone-previous {
-      .leg-before-circle {
-        margin-bottom: 2em;
-      }
-
-      .itinerary-instruction-column {
-        justify-content: center;
       }
     }
   }

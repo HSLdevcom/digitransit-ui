@@ -910,8 +910,12 @@ const translations = {
     'bicycle-distance-duration': 'Bike {duration} ({distance})',
     'bicycle-walk-from-transit':
       'Take your bike off the {transportMode} and walk it for {distance} ({duration})',
+    'bicycle-walk-from-transit-no-duration':
+      'Walk your bike off the {transportMode}',
     'bicycle-walk-to-transit':
       'Walk your bike for {distance} ({duration}) and take it on the {transportMode}',
+    'bicycle-walk-to-transit-no-duration':
+      'Walk your bike to the {transportMode}',
     bicycle_frame_lock: 'Frame locking',
     bicycle_walk: 'Walking a bike',
     'bike-availability': 'Bikes available at the station right now',
@@ -1089,9 +1093,9 @@ const translations = {
     instructions: 'Instructions',
     'is-open': 'Open:',
     'itinerary-details.biking-leg':
-      'At {time} cycle {distance} from {origin} to {destination}. Estimated time {duration}',
+      'At {time} cycle {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-details.car-leg':
-      'At {time} drive {distance} from {origin} to {destination}. Estimated time {duration}',
+      'At {time} drive {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-details.end-leg':
       'At {time} arrive to destination {destination}.',
     'itinerary-details.route-has-info-alert': 'Route has alerts.',
@@ -1103,8 +1107,10 @@ const translations = {
     'itinerary-details.transit-leg-part-1': 'At {time} take',
     'itinerary-details.transit-leg-part-2':
       'from stop {startStop} {startZoneInfo} {trackInfo} to stop {endStop} {endZoneInfo}. Estimated duration {duration}',
+    'itinerary-details.via-leg':
+      '{arrivalTime} arrive to via point {viaPoint}. {leaveAction}',
     'itinerary-details.walk-leg':
-      'At {time} walk {distance} from {origin} to {destination}. Estimated time {duration}',
+      'At {time} walk {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-feedback-button': 'Send feedback',
     'itinerary-feedback-message': 'Couldn’t find what you were looking for?',
     'itinerary-feedback-placeholder': 'Description (optional)',
@@ -1185,7 +1191,6 @@ const translations = {
     'login-content':
       'To save and utilize places, routes and stops, you must log in using your HSL account.',
     'login-header': 'Log in First',
-
     logout: 'Log out',
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Close the main menu',
@@ -1209,6 +1214,15 @@ const translations = {
     'minute-short': 'min',
     minutes: 'min',
     'minutes-or-route': 'Min / Route',
+    'modes.to-bike': 'city bike station',
+    'modes.to-bike-park': 'bike park',
+    'modes.to-bus': 'bus stop',
+    'modes.to-car-park': 'car park',
+    'modes.to-place': 'destination',
+    'modes.to-rail': 'train station',
+    'modes.to-stop': 'stop',
+    'modes.to-subway': 'subway station',
+    'modes.to-tram': 'tram stop',
     'more-departures': 'More departures',
     'more-settings': 'More settings',
     'move-on-map': 'Move on the map',
@@ -1359,6 +1373,7 @@ const translations = {
       '{mode} {shortName} is at the {stopName} stop',
     'route-page-vehicle-position-between':
       '{mode} {shortName} is between the {stopName} stop and the {nextStopName} stop.',
+    'route-page-vehicle-selected': 'Current selection.',
     'route-page.description': 'Route {shortName} - {longName}',
     'route-page.future-routes': 'Future routes',
     'route-page.pattern-chosen': 'Selected',
@@ -1507,6 +1522,8 @@ const translations = {
     'time-selector-minutes-label': 'Minute',
     timetable: 'Timetable',
     'to-frontpage': 'To the front page',
+    'to-rail': 'train',
+    'to-subway': 'subway',
     today: 'Today',
     tomorrow: 'Tomorrow',
     track: 'Track',
@@ -1982,8 +1999,10 @@ const translations = {
     'bicycle-distance-duration': 'Pyöräile {duration} ({distance})',
     'bicycle-walk-from-transit':
       'Ota pyörä {transportMode} ja taluta {distance} ({duration})',
+    'bicycle-walk-from-transit-no-duration': 'Taluta pyörä {transportMode}',
     'bicycle-walk-to-transit':
       'Taluta {distance} ({duration}) ja ota pyörä mukaan {transportMode}',
+    'bicycle-walk-to-transit-no-duration': 'Taluta pyörä {transportMode}',
     bicycle_frame_lock: 'Runkolukitus',
     bicycle_walk: 'Polkupyörän talutus',
     'bike-availability': 'Pyöriä asemalla juuri nyt',
@@ -2163,9 +2182,9 @@ const translations = {
     instructions: 'Ohjeet',
     'is-open': 'Avoinna:',
     'itinerary-details.biking-leg':
-      '{time} pyöräile kohteesta {origin} {distance} kohteeseen {destination}. Matka-aika {duration}',
+      '{time} pyöräile kohteesta {origin} {distance} {to} {destination}. Matka-aika {duration}',
     'itinerary-details.car-leg':
-      '{time} aja {distance} kohteesta {origin} kohteeseen {destination}. Matka-aika {duration}',
+      '{time} aja {distance} kohteesta {origin} {to} {destination}. Matka-aika {duration}',
     'itinerary-details.end-leg': '{time} saavu kohteeseen {destination}.',
     'itinerary-details.route-has-info-alert': 'Reitillä on tiedotteita.',
     'itinerary-details.route-has-severe-alert': 'Reitillä on poikkeuksia.',
@@ -2175,9 +2194,11 @@ const translations = {
       '{time} potkulautaile {distance} kohteesta {origin} kohteeseen {destination}. Matka-aika {duration}',
     'itinerary-details.transit-leg-part-1': '{time} ota',
     'itinerary-details.transit-leg-part-2':
-      'pysäkiltä {startStop} {startZoneInfo} {trackInfo} Pysäkille {endStop} {endZoneInfo}. Arvioitu matka-aika {duration}',
+      'pysäkiltä {startStop} {startZoneInfo} {trackInfo} pysäkille {endStop} {endZoneInfo}. Arvioitu matka-aika {duration}',
+    'itinerary-details.via-leg':
+      '{arrivalTime} saavu välipisteeseen {viaPoint}. {leaveAction}',
     'itinerary-details.walk-leg':
-      '{time} kävele {distance} kohteesta {origin} kohteeseen {destination}. Matka-aika {duration}',
+      '{time} kävele kohteesta {origin} {to} {destination}. Matka-aika {duration}',
     'itinerary-feedback-button': 'Lähetä palautetta',
     'itinerary-feedback-message': 'Etkö löytänyt mitä etsit?',
     'itinerary-feedback-placeholder': 'Kuvaus (valinnainen)',
@@ -2278,6 +2299,15 @@ const translations = {
     'minute-short': 'min',
     minutes: 'min',
     'minutes-or-route': 'Min / Linja',
+    'modes.to-bike': 'kaupunkipyöräasemalle',
+    'modes.to-bike-park': 'liityntäpyöräparkkiin',
+    'modes.to-bus': 'bussipysäkille',
+    'modes.to-car-park': 'liityntäpysäköintiin',
+    'modes.to-place': 'kohteeseen',
+    'modes.to-rail': 'juna-asemalle',
+    'modes.to-stop': 'pysäkille',
+    'modes.to-subway': 'metroasemalle',
+    'modes.to-tram': 'raitiovaunupysäkille',
     'more-departures': 'Lisää lähtöjä',
     'more-settings': 'Lisäasetukset',
     'move-on-map': 'Siirry kartalla',
@@ -2427,6 +2457,7 @@ const translations = {
     'route-page-vehicle-position': '{mode} {shortName} on pysäkillä {stopName}',
     'route-page-vehicle-position-between':
       '{mode} {shortName} on pysäkin {stopName} ja pysäkin {nextStopName} välissä.',
+    'route-page-vehicle-selected': 'Tämänhetkinen valinta.',
     'route-page.description': 'Linja {shortName}, {longName}',
     'route-page.future-routes': 'Tulevat reitit',
     'route-page.pattern-chosen': 'Valittu',
@@ -2578,6 +2609,8 @@ const translations = {
     'time-selector-minutes-label': 'Minuutti',
     timetable: 'Aikataulu',
     'to-frontpage': 'Etusivulle',
+    'to-rail': 'junaan',
+    'to-subway': 'metroon',
     today: 'Tänään',
     tomorrow: 'Huomenna',
     track: 'Raide',
@@ -3833,8 +3866,10 @@ const translations = {
     'bicycle-distance-duration': 'Cykla {duration} ({distance})',
     'bicycle-walk-from-transit':
       'Ta cykeln från {transportMode} och led cykeln {distance} ({duration})',
+    'bicycle-walk-from-transit-no-duration': 'Led cykeln från {transportMode}',
     'bicycle-walk-to-transit':
       'Led cykeln {distance} ({duration}) och ta cykeln med på {transportMode}',
+    'bicycle-walk-to-transit-no-duration': 'Led cykeln på {transportMode}',
     bicycle_frame_lock: 'Ramlås',
     bicycle_walk: 'Leder en cykel',
     'bike-availability': 'Antal cyklar just nu',
@@ -3978,11 +4013,11 @@ const translations = {
     'fetch-new-route': 'Sök en ny rutt',
     finnish: 'Finska',
     'free-of-charge': 'Kostnadsfri',
-    'from-ferry': 'lautasta',
-    'from-rail': 'junasta',
+    'from-ferry': 'färjan',
+    'from-rail': 'tåget',
     'from-station': 'från stationen',
     'from-stop': 'från hållplats',
-    'from-subway': 'metrosta',
+    'from-subway': 'metron',
     frontpage: 'Framsidan',
     'generic-cancelation': '{mode} {route} {headsign} kl. {time} ställs in.',
     'generic-error': 'Det hände ett fel',
@@ -4014,9 +4049,9 @@ const translations = {
     instructions: 'Anvisningar',
     'is-open': 'Öppet:',
     'itinerary-details.biking-leg':
-      '{time} cykla {distance} från {origin} till destinationen {destination}. Restid {duration}',
+      '{time} cykla {distance} från {origin} till {to} {destination}. Restid {duration}',
     'itinerary-details.car-leg':
-      '{time} kör {distance} från {origin} till destinationen {destination}. Restid {duration}',
+      '{time} kör {distance} från {origin} till {to} {destination}. Restid {duration}',
     'itinerary-details.end-leg':
       '{time} du anländer till destinationen {destination}',
     'itinerary-details.route-has-info-alert':
@@ -4029,8 +4064,10 @@ const translations = {
     'itinerary-details.transit-leg-part-1': '{time} ta',
     'itinerary-details.transit-leg-part-2':
       'från hållplats {startStop} {startZoneInfo} {trackInfo} till hållplats {endStop} {endZoneInfo}. Beräknad restid {duration}',
+    'itinerary-details.via-leg':
+      '{arrivalTime} du anländer till mellanstopp {viaPoint}. {leaveAction}',
     'itinerary-details.walk-leg':
-      '{time} promenera {distance} från {origin} till destinationen {destination}. Restid {duration}',
+      '{time} promenera {distance} från {origin} till {to} {destination}. Restid {duration}',
     'itinerary-feedback-button': 'Skicka respons',
     'itinerary-feedback-message': 'Hittade du inte vad du sökte?',
     'itinerary-feedback-placeholder': 'Beskrivning (valfri)',
@@ -4133,6 +4170,15 @@ const translations = {
     'minute-short': 'min',
     minutes: 'min',
     'minutes-or-route': 'Min / Linje',
+    'modes.to-bike': 'stadscykelstation',
+    'modes.to-bike-park': 'anslutningsparkering för cyklar',
+    'modes.to-bus': 'busshållplats',
+    'modes.to-car-park': 'infartsparkering',
+    'modes.to-place': 'destination',
+    'modes.to-rail': 'tågstation',
+    'modes.to-stop': 'hållplats',
+    'modes.to-subway': 'metrostation',
+    'modes.to-tram': 'spårvagnshållplats',
     'more-departures': 'Fler avgångar',
     'more-settings': 'Fler inställningar',
     'move-on-map': 'Flytta på kartan',
@@ -4283,6 +4329,7 @@ const translations = {
       '{mode} {shortName} är vid hållplatsen {stopName}',
     'route-page-vehicle-position-between':
       '{mode} {shortName} är mellan hållplats {stopName} och hållplats {nextStopName}.',
+    'route-page-vehicle-selected': 'Nuvarande urval.',
     'route-page.description': 'Linje {shortName} - {longName}',
     'route-page.future-routes': 'Framtida rutter',
     'route-page.pattern-chosen': 'Vald',
@@ -4435,10 +4482,10 @@ const translations = {
     'time-selector-hours-label': 'Timme',
     'time-selector-minutes-label': 'Minut',
     timetable: 'Tidtabell',
-    'to-ferry': 'lauttaan',
+    'to-ferry': 'färjan',
     'to-frontpage': 'Till startsidan',
-    'to-rail': 'junaan',
-    'to-subway': 'metroon',
+    'to-rail': 'tåget',
+    'to-subway': 'metron',
     today: 'I dag',
     tomorrow: 'I morgon',
     track: 'Spår',

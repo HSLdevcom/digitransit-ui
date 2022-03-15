@@ -67,12 +67,18 @@ class TransitLeg extends React.Component {
     const { leg } = this.props;
     const startZone = leg.from.stop.zoneId;
     const endZone = leg.to?.stop.zoneId || leg.to.stop.zoneId;
+    const renderZoneIcons = () => {
+      return (
+        this.context.config.zones.itinerary &&
+        leg.from.stop.gtfsId &&
+        this.context.config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0])
+      );
+    };
     if (
       startZone !== endZone &&
-      !this.state.showIntermediateStops &&
-      this.context.config.zones.itinerary &&
-      leg.from.stop.gtfsId &&
-      this.context.config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0])
+      (!this.state.showIntermediateStops ||
+        leg.intermediatePlaces.length === 0) &&
+      renderZoneIcons()
     ) {
       return (
         <div className="time-column-zone-icons-container">
@@ -88,12 +94,8 @@ class TransitLeg extends React.Component {
         </div>
       );
     }
-    if (
-      startZone === endZone &&
-      this.context.config.zones.itinerary &&
-      leg.from.stop.gtfsId &&
-      this.context.config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0])
-    ) {
+
+    if (startZone === endZone && renderZoneIcons()) {
       return (
         <div className="time-column-zone-icons-container single">
           <ZoneIcon
@@ -354,7 +356,10 @@ class TransitLeg extends React.Component {
           index={index}
           modeClassName={modeClassName}
           color={leg.route ? `#${leg.route.color}` : 'currentColor'}
-          renderBottomMarker={!this.state.showIntermediateStops}
+          renderBottomMarker={
+            !this.state.showIntermediateStops ||
+            leg.intermediatePlaces.length === 0
+          }
         />
         <div
           style={{

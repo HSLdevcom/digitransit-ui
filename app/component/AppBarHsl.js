@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 import LazilyLoad, { importLazy } from './LazilyLoad';
@@ -19,9 +19,16 @@ const clearStorages = context => {
   context.getStore('FavouriteStore').clearFavourites();
 };
 
-const AppBarHsl = ({ lang, user }, context) => {
+const notificationAPI = '/api/user/notifications';
+
+const AppBarHsl = ({ lang, user, favourites }, context) => {
   const { config, match, intl } = context;
   const { location } = match;
+
+  const notificationApiUrls = {
+    get: `${notificationAPI}?language=${lang}`,
+    post: `${notificationAPI}?language=${lang}`,
+  };
 
   const [banners, setBanners] = useState([]);
 
@@ -88,6 +95,9 @@ const AppBarHsl = ({ lang, user }, context) => {
         }
       : {};
 
+  const siteHeaderRef = useRef(null);
+  useEffect(() => siteHeaderRef.current?.fetchNotifications()[favourites]);
+
   return (
     <LazilyLoad modules={modules}>
       {({ SiteHeader, SharedLocalStorageObserver }) => (
@@ -97,13 +107,14 @@ const AppBarHsl = ({ lang, user }, context) => {
             url={config.localStorageEmitter}
           />
           <SiteHeader
+            ref={siteHeaderRef}
             hslFiUrl={config.URL.ROOTLINK}
             lang={lang}
             {...userMenu}
             languageMenu={languages}
             banners={banners}
             suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
-            isNavSearchEnabled
+            notificationApiUrls={notificationApiUrls}
           />
         </>
       )}
@@ -126,6 +137,7 @@ AppBarHsl.propTypes = {
     sub: PropTypes.string,
     notLogged: PropTypes.bool,
   }),
+  favourites: PropTypes.array,
 };
 
 AppBarHsl.defaultProps = {

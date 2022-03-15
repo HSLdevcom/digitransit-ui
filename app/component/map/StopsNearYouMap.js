@@ -28,6 +28,7 @@ import { dtLocationShape, mapLayerOptionsShape } from '../../util/shapes';
 import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { getDefaultNetworks } from '../../util/citybikes';
+import { getRouteMode } from '../../util/modeUtils';
 
 const locationMarkerModules = {
   LocationMarker: () =>
@@ -273,6 +274,7 @@ function StopsNearYouMap(
             feedId,
             route: pattern.route.gtfsId.split(':')[1],
             shortName: pattern.route.shortName,
+            type: pattern.route.type,
           });
           routeLines.push(pattern);
         });
@@ -285,6 +287,7 @@ function StopsNearYouMap(
               feedId,
               route: pattern.route.gtfsId.split(':')[1],
               shortName: pattern.route.shortName,
+              type: pattern.route.type,
             });
             routeLines.push(pattern);
           });
@@ -379,7 +382,7 @@ function StopsNearYouMap(
             key={`${pattern.code}`}
             opaque
             geometry={polyline.decode(pattern.patternGeometry.points)}
-            mode={pattern.route.mode.toLowerCase()}
+            mode={getRouteMode(pattern.route)}
           />
         );
       }
@@ -388,7 +391,12 @@ function StopsNearYouMap(
   }
   if (uniqueRealtimeTopics.length > 0) {
     leafletObjs.push(
-      <VehicleMarkerContainer key="vehicles" useLargeIcon mode={mode} />,
+      <VehicleMarkerContainer
+        key="vehicles"
+        useLargeIcon
+        mode={mode}
+        topics={uniqueRealtimeTopics}
+      />,
     );
   }
   if (

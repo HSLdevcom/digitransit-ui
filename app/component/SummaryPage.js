@@ -194,15 +194,19 @@ const getTopicOptions = (context, planitineraries, match) => {
               route: leg.route.gtfsId.split(':')[1],
               mode: leg.mode.toLowerCase(),
               direction: Number(leg.trip.directionId),
+              shortName: leg.trip.pattern.route.shortName,
               tripStartTime: getStartTimeWithColon(
                 leg.trip.stoptimesForDate[0].scheduledDeparture,
               ),
+              type: leg.route.type,
             };
           } else if (realTime[feedId]) {
             topic = {
               feedId,
               route: leg.route.gtfsId.split(':')[1],
               tripId: leg.trip.gtfsId.split(':')[1],
+              type: leg.route.type,
+              shortName: leg.trip.pattern.route.shortName,
             };
           }
         }
@@ -1792,9 +1796,9 @@ class SummaryPage extends React.Component {
     const indexPath = `${getSummaryPath(
       this.props.match.params.from,
       this.props.match.params.to,
-    )}${isbikeAndVehicle ? '/bikeAndVehicle/' : ''}${
-      isParkAndRide ? '/parkAndRide/' : '/'
-    }${index}`;
+    )}${isbikeAndVehicle ? '/bikeAndVehicle' : ''}${
+      isParkAndRide ? '/parkAndRide' : ''
+    }/${index}`;
 
     newState.pathname = indexPath;
     this.context.router.replace(newState);
@@ -1848,6 +1852,7 @@ class SummaryPage extends React.Component {
         setMWTRef={this.setMWTRef}
         breakpoint={breakpoint}
         itineraries={filteredItineraries}
+        topics={this.itineraryTopics}
         active={activeIndex}
         showActive={detailView}
         showVehicles={this.showVehicles()}
@@ -2785,6 +2790,7 @@ const containerComponent = createRefetchContainer(
               }
               route {
                 gtfsId
+                type
               }
               trip {
                 gtfsId
@@ -2795,6 +2801,9 @@ const containerComponent = createRefetchContainer(
                 }
                 pattern {
                   ...RouteLine_pattern
+                  route {
+                    shortName
+                  }
                 }
               }
               from {

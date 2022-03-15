@@ -13,9 +13,6 @@ const CONFIG = 'matka';
 const APP_DESCRIPTION = 'Matka.fi–palvelu.';
 const APP_TITLE = 'Matka.fi';
 const YEAR = 1900 + new Date().getYear();
-const STATIC_MESSAGE_URL =
-  process.env.STATIC_MESSAGE_URL ||
-  'https://dev-matka-yleisviesti.digitransit.fi/';
 
 // route timetable data needs to be up-to-date before this is enabled
 // const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
@@ -79,8 +76,8 @@ export default {
   feedIds: [
     'MATKA',
     'HSL',
-    'tampere',
     'LINKKI',
+    'tampere',
     'lautta',
     'OULU',
     'MatkahuoltoKainuu',
@@ -95,6 +92,7 @@ export default {
     'MatkahuoltoVakka',
     'MatkahuoltoVantaa',
     'MatkahuoltoVarsinais',
+    'digitraffic',
   ],
 
   meta: {
@@ -254,7 +252,7 @@ export default {
       },
     ],
   },
-  staticMessagesUrl: STATIC_MESSAGE_URL,
+  staticMessagesUrl: process.env.STATIC_MESSAGE_URL,
 
   showNearYouButtons: true,
   nearYouModes: [

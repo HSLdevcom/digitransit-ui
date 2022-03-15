@@ -113,9 +113,12 @@ ItinerarySearchControl.propTypes = {
  *   set: true,
  *   ready: true,
  * }
- * onSelect() {
+ * onSelect(item, id) {
  *  return null;  // Define what to do when a suggestion is being selected. None by default.
  *  }
+ * onClear(id) {
+ *  return null;  // Define what to do when a suggestion is being selected. None by default.
+ * }
  * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, MapPosition and CurrentPosition. Leave empty to search all targets.
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches), and Datasource. Leave empty to use all sources.
  * <DTAutosuggestPanel
@@ -130,6 +133,7 @@ ItinerarySearchControl.propTypes = {
  *    swapOrder={() => return null} // Optional. If showMultiPointControls is set to true, define how to swap order of your points (origin, destination, viapoints). Currently no default implementation is given.
  *    searchContext={searchContext}
  *    onSelect={this.onSelect}
+ *    onClear={this.onClear}
  *    lang="fi" // Define language fi sv or en.
  *    addAnalyticsEvent={null} // Optional. you can record an analytics event if you wish. if passed, component will pass an category, action, name parameters to addAnalyticsEvent
  *    disableAutoFocus={false} // Optional. use this to disable autofocus completely from DTAutosuggestPanel
@@ -138,6 +142,7 @@ ItinerarySearchControl.propTypes = {
  *    isMobile  // Optional. Defaults to false. Whether to use mobile search.
  *    originMobileLabel="Origin label" // Optional. Custom label text for origin field on mobile.
  *    destinationMobileLabel="Destination label" // Optional. Custom label text for destination field on mobile.
+ *    handleFocusChange={() => {}} // Optional. If defined overrides default onFocusChange behaviour
  */
 class DTAutosuggestPanel extends React.Component {
   static propTypes = {
@@ -154,6 +159,7 @@ class DTAutosuggestPanel extends React.Component {
     searchPanelText: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
     onSelect: PropTypes.func,
+    onClear: PropTypes.func,
     addAnalyticsEvent: PropTypes.func,
     lang: PropTypes.string,
     disableAutoFocus: PropTypes.bool,
@@ -172,6 +178,8 @@ class DTAutosuggestPanel extends React.Component {
       medium: PropTypes.number,
     }),
     showScroll: PropTypes.bool,
+    onFocusChange: PropTypes.func,
+    isEmbedded: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -198,6 +206,8 @@ class DTAutosuggestPanel extends React.Component {
       medium: 500,
     },
     showScroll: false,
+    onFocusChange: undefined,
+    isEmbedded: false,
   };
 
   constructor(props) {
@@ -384,6 +394,7 @@ class DTAutosuggestPanel extends React.Component {
       originMobileLabel,
       destinationMobileLabel,
       fontWeights,
+      onFocusChange,
     } = this.props;
     const { activeSlackInputs } = this.state;
     const slackTime = this.getSlackTimeOptions();
@@ -434,7 +445,8 @@ class DTAutosuggestPanel extends React.Component {
             value={this.value(origin)}
             searchContext={searchContext}
             onSelect={this.props.onSelect}
-            focusChange={this.handleFocusChange}
+            onClear={this.props.onClear}
+            focusChange={onFocusChange || this.handleFocusChange}
             lang={this.props.lang}
             sources={this.props.sources}
             targets={this.props.targets}
@@ -447,6 +459,7 @@ class DTAutosuggestPanel extends React.Component {
             modeSet={this.props.modeSet}
             modeIconColors={this.props.modeIconColors}
             showScroll={this.props.showScroll}
+            isEmbedded={this.props.isEmbedded}
           />
           <ItinerarySearchControl
             className={styles.opposite}
@@ -511,6 +524,7 @@ class DTAutosuggestPanel extends React.Component {
                       refPoint={this.props.refPoint}
                       value={(o && o.address) || ''}
                       onSelect={this.props.onSelect}
+                      onClear={this.props.onClear}
                       handleViaPoints={item =>
                         this.handleViaPointLocationSelected(item, i)
                       }
@@ -613,6 +627,7 @@ class DTAutosuggestPanel extends React.Component {
             className={this.class(this.props.destination)}
             searchContext={searchContext}
             onSelect={this.props.onSelect}
+            onClear={this.props.onClear}
             refPoint={this.props.refPoint}
             value={this.value(this.props.destination)}
             lang={this.props.lang}
@@ -627,6 +642,7 @@ class DTAutosuggestPanel extends React.Component {
             modeSet={this.props.modeSet}
             modeIconColors={this.props.modeIconColors}
             showScroll={this.props.showScroll}
+            isEmbedded={this.props.isEmbedded}
           />
           <ItinerarySearchControl
             className={cx(styles['add-via-point'], styles.more, {

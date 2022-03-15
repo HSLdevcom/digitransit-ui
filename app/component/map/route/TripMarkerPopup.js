@@ -90,6 +90,7 @@ const containerComponent = createFragmentContainer(TripMarkerPopup, {
         mode
         shortName
         color
+        type
       }
     }
   `,

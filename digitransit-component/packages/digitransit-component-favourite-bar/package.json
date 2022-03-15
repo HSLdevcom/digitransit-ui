@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-favourite-bar",
-  "version": "1.0.4",
+  "version": "1.0.9",
   "description": "digitransit-component favourite-bar module",
   "main": "lib/index.js",
   "files": [
@@ -31,7 +31,7 @@
     "@digitransit-component/digitransit-component-icon": "^0.1.15",
     "@digitransit-component/digitransit-component-suggestion-item": "^0.2.18",
     "@hsl-fi/sass": "^0.2.0",
-    "@hsl-fi/shimmer": "0.1.0",
+    "@hsl-fi/shimmer": "0.1.2",
     "classnames": "2.2.6",
     "i18next": "^19.3.3",
     "lodash": "4.17.21",

@@ -64,6 +64,10 @@ export const getTransportModes = config => {
   return config.transportModes || {};
 };
 
+export const getRouteMode = route => {
+  return route.type === 702 ? 'bus-trunk' : route.mode?.toLowerCase();
+};
+
 /**
  * Retrieves all transport modes that have specified "availableForSelection": true.
  * The full configuration will be returned.

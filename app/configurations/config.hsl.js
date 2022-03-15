@@ -619,4 +619,19 @@ export default {
       },
     },
   ],
+
+  embeddedCookieLink: {
+    fi: {
+      text: 'Lisätietoa evästeistä',
+      url: 'https://www.hsl.fi/hsl/tietosuoja',
+    },
+    en: {
+      text: 'More information about cookies',
+      url: 'https://www.hsl.fi/en/hsl/privacy-policy',
+    },
+    sv: {
+      text: 'Mer information om cookies',
+      url: 'https://www.hsl.fi/sv/hrt/Dataskydd',
+    },
+  },
 };

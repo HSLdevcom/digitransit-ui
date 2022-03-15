@@ -5,7 +5,7 @@ import { intlShape, FormattedMessage } from 'react-intl';
 
 import cx from 'classnames';
 import { saveRoutingSettings } from '../../action/SearchSettingsActions';
-import Toggle from '../Toggle';
+import Toggle from './Toggle';
 import Icon from '../Icon';
 import {
   getAvailableTransportModes,

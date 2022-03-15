@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { matchShape } from 'found';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
@@ -14,6 +14,7 @@ import {
 } from '../util/path';
 import Icon from './Icon';
 import Loading from './Loading';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const LocationSearch = withSearchContext(DTAutosuggestPanel, true);
 
@@ -23,7 +24,7 @@ const translations = {
     'find-bike-route': 'Löydä pyöräreitti',
     'find-walk-route': 'Löydä kävelyreitti',
     'find-route': 'Löydä reitti',
-    'search-fields.sr-instructions': '',
+    'search-fields-sr-instructions': '',
     'search-route': 'Hae reitti',
   },
   en: {
@@ -31,7 +32,7 @@ const translations = {
     'find-bike-route': 'Find a biking route',
     'find-walk-route': 'Find a walking route',
     'find-route': 'Find a route',
-    'search-fields.sr-instructions': '',
+    'search-fields-sr-instructions': '',
     'search-route': 'Search routes',
   },
   sv: {
@@ -39,7 +40,7 @@ const translations = {
     'find-bike-route': 'Sök en cyckelrutt',
     'find-walk-route': 'Sök en promenadsrutt',
     'find-route': 'Sök en rutt',
-    'search-fields.sr-instructions': '',
+    'search-fields-sr-instructions': '',
     'search-route': 'Söka rutter',
   },
 };
@@ -66,6 +67,12 @@ const EmbeddedSearch = (props, context) => {
   const bikeOnly = query?.bikeOnly;
   const walkOnly = query?.walkOnly;
   const lang = query.lang || 'fi';
+  const url =
+    window.location !== window.parent.location
+      ? document.referrer
+      : document.location.href;
+
+  const buttonRef = useRef(null);
 
   useEffect(() => {
     Object.keys(translations).forEach(language => {
@@ -170,9 +177,24 @@ const EmbeddedSearch = (props, context) => {
       item.address = i18next.t('own-position');
     }
     if (id === 'origin') {
+      addAnalyticsEvent({
+        category: 'EmbeddedSearch',
+        action: 'setOrigin',
+        name: url,
+        origin: item.address,
+      });
       setOrigin(item);
     } else {
+      addAnalyticsEvent({
+        category: 'EmbeddedSearch',
+        action: 'setDestination',
+        name: url,
+        destination: item.address,
+      });
       setDestination(item);
+      if (origin) {
+        buttonRef?.current.focus();
+      }
     }
   };
 
@@ -195,15 +217,25 @@ const EmbeddedSearch = (props, context) => {
     modeSet: config.iconModeSet,
     isMobile: true,
     showScroll: true,
+    isEmbedded: true,
   };
 
   const executeSearch = () => {
     const urlEnd = bikeOnly ? '/bike' : walkOnly ? '/walk' : '';
-    const pathName = `${getPathWithEndpointObjects(
+    const mode = bikeOnly ? 'bike' : walkOnly ? 'walk' : 'all';
+    const pathName = `/${lang}${getPathWithEndpointObjects(
       origin,
       destination,
       PREFIX_ITINERARY_SUMMARY,
     )}${urlEnd}`;
+    addAnalyticsEvent({
+      category: 'EmbeddedSearch',
+      action: 'executeSearch',
+      name: url,
+      mode,
+      origin: origin?.address,
+      destination: destination?.address,
+    });
     window.open(pathName, '_blank');
   };
 
@@ -213,7 +245,7 @@ const EmbeddedSearch = (props, context) => {
       return (
         <Icon
           img="icon-embedded-search-bike-background"
-          className="background"
+          className="background bike"
           color={config.colors.primary}
         />
       );
@@ -222,7 +254,7 @@ const EmbeddedSearch = (props, context) => {
       return (
         <Icon
           img="icon-embedded-search-walk-background"
-          className="background"
+          className="background walk"
           color={config.colors.primary}
         />
       );
@@ -263,7 +295,7 @@ const EmbeddedSearch = (props, context) => {
           fontWeights={fontWeights}
         >
           <span className="sr-only">
-            {i18next.t('search-fields.sr-instructions')}
+            {i18next.t('search-fields-sr-instructions')}
           </span>
           <LocationSearch
             targets={locationSearchTargets}
@@ -276,6 +308,7 @@ const EmbeddedSearch = (props, context) => {
               alt={`${config.title} logo`}
             />
             <button
+              ref={buttonRef}
               className="search-button"
               type="button"
               onClick={() => executeSearch(origin, destination)}

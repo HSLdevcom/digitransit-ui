@@ -3,10 +3,10 @@ import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
-
+import TripLink from './TripLink';
+import FuzzyTripLink from './FuzzyTripLink';
 import AddressRow from './AddressRow';
 import ServiceAlertIcon from './ServiceAlertIcon';
-import PatternLink from './PatternLink';
 import { fromStopTime } from './DepartureTime';
 import { PREFIX_STOPS } from '../util/path';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
@@ -15,7 +15,7 @@ import ZoneIcon from './ZoneIcon';
 import { getZoneLabel } from '../util/legUtils';
 import getVehicleState from '../util/vehicleStateUtils';
 
-const TripRouteStop = (props, context) => {
+const TripRouteStop = (props, { config }) => {
   const {
     className,
     color,
@@ -30,9 +30,8 @@ const TripRouteStop = (props, context) => {
     keepTracking,
     first,
     last,
+    prevStop,
   } = props;
-
-  const { config } = context;
 
   const getVehiclePatternLink = vehicle => {
     const maxDistance = vehicle.mode === 'rail' ? 100 : 50;
@@ -54,23 +53,33 @@ const TripRouteStop = (props, context) => {
       first,
       last,
     );
+    const linkProps = {
+      stopName: vehicleState === 'arriving' ? prevStop?.name : stop.name,
+      nextStopName: vehicleState === 'arriving' ? stop?.name : nextStop?.name,
+      key: vehicle.id,
+      mode,
+      pattern: props.pattern,
+      route: props.route,
+      vehicleNumber: vehicle.shortName || shortName,
+      selected:
+        props.selectedVehicle && props.selectedVehicle.id === vehicle.id,
+      color: !stopPassed ? vehicle.color : '',
+      setHumanScrolling,
+      keepTracking,
+      vehicleState,
+    };
     return (
       <div className={cx('route-stop-now', vehicleState)}>
-        <PatternLink
-          stopName={stop.name}
-          nextStopName={nextStop ? nextStop.name : null}
-          key={vehicle.id}
-          mode={vehicle.mode}
-          pattern={props.pattern}
-          route={props.route}
-          vehicleNumber={vehicle.shortName || shortName}
-          selected={
-            props.selectedVehicle && props.selectedVehicle.id === vehicle.id
-          }
-          color={!stopPassed && vehicle.color}
-          setHumanScrolling={setHumanScrolling}
-          keepTracking={keepTracking}
-        />
+        {vehicle.tripId ? (
+          <TripLink
+            key={vehicle.id}
+            shortName={shortName}
+            vehicle={vehicle}
+            {...linkProps}
+          />
+        ) : (
+          <FuzzyTripLink key={vehicle.id} vehicle={vehicle} {...linkProps} />
+        )}
       </div>
     );
   };
@@ -160,6 +169,7 @@ TripRouteStop.propTypes = {
   stopPassed: PropTypes.bool,
   stop: PropTypes.object.isRequired,
   nextStop: PropTypes.object,
+  prevStop: PropTypes.object,
   stoptime: PropTypes.object.isRequired,
   currentTime: PropTypes.number.isRequired,
   pattern: PropTypes.string.isRequired,

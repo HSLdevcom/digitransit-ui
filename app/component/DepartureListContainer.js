@@ -410,6 +410,7 @@ const containerComponent = createFragmentContainer(DepartureListContainer, {
             shortName
             longName
             mode
+            type
             color
             agency {
               name

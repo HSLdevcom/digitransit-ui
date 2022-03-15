@@ -455,6 +455,7 @@ const withRelay = createFragmentContainer(
           shortName
           color
           gtfsId
+          type
           longName
           desc
           agency {

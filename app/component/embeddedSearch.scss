@@ -2,8 +2,9 @@
     display: grid;
     padding: 10px;
     height: 250px;
-    width: 100%;
+    width: 100vw;
     max-width: 100%;
+    overflow: hidden;
     .background-container, .control-panel-container{
         grid-column: 1;
         grid-row: 1;
@@ -34,11 +35,19 @@
         }
         .brand-logo {
             height: 40px;
+            max-width: 55%;
         }
     }
     .background {
-        width: calc(140% - 50px);
-        height: 273px;
+        width: auto;
+        float: right;
+        height: 340px;
+        margin-top: -40px;
+        &.bike {
+            margin-right: -30px;
+            margin-top: -35px;
+            height: 275px;
+        }
     }
     @media only screen and (min-width: 600px) {
         .background {
