@@ -646,9 +646,9 @@ export default {
         sv: 'Vad betyder en Stomlinje?',
       },
       link: {
-        fi: 'hsl.fi/matkustaminen/runkoverkko',
-        en: 'hsl.fi/matkustaminen/runkoverkko',
-        sv: 'hsl.fi/matkustaminen/runkoverkko',
+        fi: 'hsl.fi/hsl/runkoverkko',
+        en: 'hsl.fi/hsl/runkoverkko',
+        sv: 'hsl.fi/hsl/runkoverkko',
       },
     },
   ],
