@@ -277,33 +277,33 @@ class FavouriteBar extends React.Component {
     className = undefined,
   ) => {
     const id = `favourite-suggestion-list--item-${index}`;
-    // The key event is handled by the button that opens the dropdown
     return (
-      <div
-        role="button"
-        type="button"
-        tabIndex="0"
-        key={`favourite-suggestion-item-${index}`}
-        id={id}
-        className={cx(styles['favourite-suggestion-item'])}
-        onClick={() => this.suggestionSelected(index)}
-        onKeyDown={e => this.handleKeyDown(e, index)}
-        ref={index === 0 ? this.firstItemRef : ''}
-        // eslint-disable-next-line jsx-a11y/no-autofocus
-        autoFocus={index === 0}
-        aria-label={`${item?.name || ''} ${
-          item?.address || ''
-        } ${ariaLabelSuffix}`}
-      >
-        <SuggestionItem
-          item={item}
-          iconColor={this.props.color}
-          className={className}
-          fontWeights={this.props.fontWeights}
-        />
-      </div>
+      <li>
+        <div
+          role="button"
+          type="button"
+          tabIndex="0"
+          key={`favourite-suggestion-item-${index}`}
+          id={id}
+          className={cx(styles['favourite-suggestion-item'])}
+          onClick={() => this.suggestionSelected(index)}
+          onKeyDown={e => this.handleKeyDown(e, index)}
+          ref={index === 0 ? this.firstItemRef : ''}
+          // eslint-disable-next-line jsx-a11y/no-autofocus
+          autoFocus={index === 0}
+          aria-label={`${item?.name || ''} ${
+            item?.address || ''
+          } ${ariaLabelSuffix}`}
+        >
+          <SuggestionItem
+            item={item}
+            iconColor={this.props.color}
+            className={className}
+            fontWeights={this.props.fontWeights}
+          />
+        </div>
+      </li>
     );
-    /* eslint-enable jsx-a11y/click-events-have-key-events */
   };
 
   getCustomSuggestions = () => {
@@ -404,9 +404,6 @@ class FavouriteBar extends React.Component {
             aria-haspopup
             aria-pressed={this.state.listOpen}
             aria-label={i18next.t('open-favourites')}
-            aria-owns={favourites
-              .map((_, i) => `favourite-suggestion-list--item-${i}`)
-              .join(' ')}
           >
             <Shimmer active={isLoading}>
               <Icon img={expandIcon} color={this.props.color} />
@@ -416,12 +413,10 @@ class FavouriteBar extends React.Component {
         </div>
         <div className={styles['favourite-suggestion-container']}>
           {listOpen && (
-            <div
+            <ul
               className={styles['favourite-suggestion-list']}
               id="favourite-suggestion-list"
               ref={this.suggestionListRef}
-              role="toolbar"
-              aria-orientation="vertical"
               aria-label={i18next.t('favourites-list')}
             >
               {favourites.map((item, index) =>
@@ -454,7 +449,7 @@ class FavouriteBar extends React.Component {
                   'favouriteCustom',
                 ),
               )}
-            </div>
+            </ul>
           )}
         </div>
       </div>
