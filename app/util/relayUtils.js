@@ -1,8 +1,15 @@
 export default function isRelayNetworkError(error) {
+  let errorMsg = error;
+  if (typeof error !== 'string') {
+    if (error) {
+      errorMsg = error.message || error.toString();
+    } else {
+      errorMsg = '';
+    }
+  }
   return (
-    typeof error === 'string' &&
-    (error ===
-      'Server does not return response for request at index 0.\nResponse should have an array with 1 item(s).' ||
-      error.includes('Reached request timeout'))
+    errorMsg.includes(
+      'Server does not return response for request at index ',
+    ) || errorMsg.includes('Reached request timeout')
   );
 }
