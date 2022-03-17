@@ -452,6 +452,9 @@ class DTAutosuggest extends React.Component {
           ) {
             this.props.focusChange();
           }
+          if (this.props.isMobile) {
+            this.closeMobileSearch();
+          }
         },
       );
     } else {
