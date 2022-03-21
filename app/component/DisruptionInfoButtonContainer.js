@@ -36,7 +36,7 @@ function DisruptionInfoButtonContainer(outerProps, { config: { feedIds } }) {
           <DisruptionInfoButton
             viewer={null}
             {...props}
-            toggleDisruptionInfo={openDisruptionInfo}
+            openDisruptionInfo={openDisruptionInfo}
           />
         )}
       />
