@@ -11,7 +11,7 @@ import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
 import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSection';
 import TransferOptionsSection from './customizesearch/TransferOptionsSection';
 import CityBikeNetworkSelector from './customizesearch/CityBikeNetworkSelector';
-import { showModeSettings, showCityBikes } from '../util/modeUtils';
+import { showModeSettings, useCitybikes } from '../util/modeUtils';
 import ScrollableWrapper from './ScrollableWrapper';
 import { getDefaultSettings } from '../util/planParamUtil';
 import { getCitybikeNetworks } from '../util/citybikes';
@@ -112,7 +112,7 @@ class CustomizeSearch extends React.Component {
               />
             </div>
           </div>
-          {showCityBikes(config?.cityBike?.networks) && (
+          {useCitybikes(config?.cityBike?.networks) && (
             <div className="settings-section">
               <div className="settings-option-container">
                 <fieldset>

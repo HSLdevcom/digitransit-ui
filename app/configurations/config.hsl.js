@@ -470,6 +470,8 @@ export default {
       smoove: {
         enabled: true,
         season: {
+          // 18.3.
+          preSeasonStart: new Date(new Date().getFullYear(), 2, 18),
           // 1.4. - 31.10.
           start: new Date(new Date().getFullYear(), 3, 1),
           end: new Date(new Date().getFullYear(), 10, 1),

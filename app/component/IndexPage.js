@@ -34,7 +34,7 @@ import LazilyLoad, { importLazy } from './LazilyLoad';
 import {
   getTransportModes,
   getNearYouModes,
-  showCityBikes,
+  useCitybikes,
 } from '../util/modeUtils';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
@@ -223,7 +223,7 @@ class IndexPage extends React.Component {
       'Stops',
     ];
 
-    if (showCityBikes(this.context.config.cityBike?.networks)) {
+    if (useCitybikes(this.context.config.cityBike?.networks)) {
       stopAndRouteSearchTargets.push('BikeRentalStations');
       locationSearchTargets.push('BikeRentalStations');
     }
