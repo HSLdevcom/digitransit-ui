@@ -276,27 +276,4 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           PUBLISHED_PACKAGES: ${{ steps.log-parse.outputs.published-packages }}
-        shell: bash
-
-  docker-push:
-    if: github.ref == 'refs/heads/v2'
-    needs:
-      - lint
-      - publish-npm
-      - unit-test
-#      - accessibility-test
-      - e2e-test-desktop
-      - e2e-test-mobile
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set time zone to Europe/Helsinki
-        uses: zcong1993/setup-timezone@master
-        with:
-          timezone: "Europe/Helsinki"
-      - name: Build docker image from v2 and push it
-        run: ./.github/workflows/scripts/build_and_push_dev.sh
-        env:
-          DOCKER_USER: ${{ secrets.DOCKER_USER }}
-          DOCKER_AUTH: ${{ secrets.DOCKER_AUTH }}
+        shell: bash  
