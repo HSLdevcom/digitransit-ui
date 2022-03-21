@@ -2,7 +2,7 @@ import isString from 'lodash/isString';
 import without from 'lodash/without';
 import { getCustomizedSettings } from '../store/localStorage';
 import { addAnalyticsEvent } from './analyticsUtils';
-import { showCitybikeNetwork } from './modeUtils';
+import { citybikeRoutingIsActive } from './modeUtils';
 
 export const BIKESTATION_ON = 'Station on';
 export const BIKESTATION_OFF = 'Station off';
@@ -68,7 +68,7 @@ export const getCityBikeNetworkConfig = (networkId, config) => {
 export const getDefaultNetworks = config => {
   const mappedNetworks = [];
   Object.entries(config.cityBike.networks).forEach(n => {
-    if (showCitybikeNetwork(n[1])) {
+    if (citybikeRoutingIsActive(n[1])) {
       mappedNetworks.push(n[0]);
     }
   });
@@ -78,7 +78,7 @@ export const getDefaultNetworks = config => {
 export const mapDefaultNetworkProperties = config => {
   const mappedNetworks = [];
   Object.keys(config.cityBike.networks).forEach(key => {
-    if (showCitybikeNetwork(config.cityBike.networks[key])) {
+    if (citybikeRoutingIsActive(config.cityBike.networks[key])) {
       mappedNetworks.push({
         networkName: key,
         ...config.cityBike.networks[key],

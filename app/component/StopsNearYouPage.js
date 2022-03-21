@@ -44,7 +44,7 @@ import { getMapLayerOptions } from '../util/mapLayerUtils';
 import {
   getTransportModes,
   getNearYouModes,
-  showCityBikes,
+  useCitybikes,
 } from '../util/modeUtils';
 
 // component initialization phases
@@ -832,7 +832,7 @@ class StopsNearYouPage extends React.Component {
       modeSet: this.context.config.iconModeSet,
     };
     const targets = ['Locations', 'Stops'];
-    if (showCityBikes(this.context.config.cityBike?.networks)) {
+    if (useCitybikes(this.context.config.cityBike?.networks)) {
       targets.push('BikeRentalStations');
     }
     return (
@@ -983,7 +983,7 @@ const PositioningWrapper = connectToStores(
       .filter(stop => stop.type === 'station')
       .map(stop => stop.gtfsId);
     let favouriteBikeStationIds = [];
-    if (showCityBikes(context.config.cityBike?.networks)) {
+    if (useCitybikes(context.config.cityBike?.networks)) {
       favouriteBikeStationIds = context
         .getStore('FavouriteStore')
         .getBikeRentalStations()
