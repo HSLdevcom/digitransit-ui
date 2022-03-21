@@ -304,5 +304,11 @@
     "webpack-bundle-analyzer": "3.6.0",
     "webpack-cli": "3.3.10",
     "webpack-dev-server": "3.10.1"
+  },
+  "resolutions": {
+    "@digitransit-component/digitransit-component-autosuggest-panel": "portal:/home/mikko/digi/digitransit-ui/digitransit-component/packages/digitransit-component-autosuggest-panel",
+    "@digitransit-component/digitransit-component-autosuggest": "portal:/home/mikko/digi/digitransit-ui/digitransit-component/packages/digitransit-component-autosuggest",
+    "@digitransit-component/digitransit-component-suggestion-item": "portal:/home/mikko/digi/digitransit-ui/digitransit-component/packages/digitransit-component-suggestion-item",
+    "@digitransit-component/digitransit-component-icon": "portal:/home/mikko/digi/digitransit-ui/digitransit-component/packages/digitransit-component-icon"
   }
 }

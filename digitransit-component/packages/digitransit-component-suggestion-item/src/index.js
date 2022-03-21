@@ -164,6 +164,7 @@ function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
       if (!icon) {
         return ['busstop', 'mode-bus'];
       }
+      console.log(iconStr, item, icon, iconColor)
       return [icon, iconColor];
     }
     // If no icon's found, return default stop icon.
@@ -172,6 +173,7 @@ function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
   if (layerIcon.get(iconId) === 'locate') {
     iconColor = color;
   }
+  console.log(iconId)
   return [layerIcon.get(iconId) || defaultIcon, iconColor];
 }
 

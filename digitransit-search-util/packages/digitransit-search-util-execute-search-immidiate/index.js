@@ -442,7 +442,7 @@ export function getSearchResults(
     }
     searchComponents.push(
       getRoutesQuery(input, feedIDs, transportMode, pathOpts).then(result =>
-        filterResults ? filterResults(result, mode, 'Routes') : result,
+        filterResults ? filterResults(result, mode, 'Routes') : result
       ),
     );
     if (allSources || sources.includes('History')) {
