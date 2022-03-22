@@ -8,10 +8,10 @@ import DisruptionListContainer from './DisruptionListContainer';
 import { isBrowser } from '../util/browser';
 
 function DisruptionInfo(props, context) {
-  const { isOpen, toggle } = props;
+  const { setOpen } = props;
   const { intl } = context;
   const { environment } = useContext(ReactRelayContext);
-  if (!isBrowser || !isOpen) {
+  if (!isBrowser) {
     return null;
   }
 
@@ -27,8 +27,9 @@ function DisruptionInfo(props, context) {
         id: 'disruption-info',
         defaultMessage: 'Disruption info',
       })}
-      isOpen={isOpen}
-      onCrossClick={() => toggle(!isOpen)}
+      isOpen
+      onCrossClick={() => setOpen(false)}
+      onClose={() => setOpen(false)}
       shouldCloseOnEsc
       shouldCloseOnOverlayClick
     >
@@ -74,8 +75,7 @@ function DisruptionInfo(props, context) {
 }
 
 DisruptionInfo.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  toggle: PropTypes.func.isRequired,
+  setOpen: PropTypes.func.isRequired,
 };
 
 DisruptionInfo.contextTypes = {
