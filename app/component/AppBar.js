@@ -91,6 +91,7 @@ const AppBar = (
             <div className="icon-holder cursor-pointer main-menu-toggle">
               <button
                 type="button"
+                id="openMenuButton"
                 aria-label={intl.formatMessage({
                   id: 'main-menu-label-open',
                   defaultMessage: 'Open the main menu',
