@@ -229,6 +229,7 @@ export const planQuery = graphql`
         toPlace: $toPlace
         intermediatePlaces: $intermediatePlaces
         numItineraries: $numItineraries
+        # todo: rename to e.g. "defaultModes" to delineate them from other routing queries using other modes
         modes: $modes
         date: $date
         time: $time

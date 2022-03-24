@@ -268,6 +268,7 @@ export default configMerger(walttiConfig, {
 
     modeToOTP: {
         carpool: 'CARPOOL',
+        bus: 'BUS,FLEX_ACCESS,FLEX_EGRESS',
     },
 
     logo: 'bbnavi/stadtnavi-bbnavi-logo.svg',
