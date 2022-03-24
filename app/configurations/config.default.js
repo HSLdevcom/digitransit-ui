@@ -189,6 +189,7 @@ export default {
     stopMonitor: {
       show: false,
     },
+    showEmbeddedSearch: true,
   },
 
   itinerary: {
