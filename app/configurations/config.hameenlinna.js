@@ -36,6 +36,7 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'hameenlinna/logo.png',
+  secondaryLogo: 'hameenlinna/secondary-logo.png',
 
   feedIds: ['Hameenlinna'],
 
