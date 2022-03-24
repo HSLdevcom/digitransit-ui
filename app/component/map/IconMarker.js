@@ -70,7 +70,9 @@ export default class IconMarker extends React.Component {
         {...this.props}
         icon={this.state.icon}
         keyboard={false}
-      />,
+      >
+        {this.props.children}
+      </Marker>,
     ];
   }
 }
@@ -83,4 +85,5 @@ IconMarker.propTypes = {
   icon: PropTypes.shape({
     element: PropTypes.node.isRequired,
   }).isRequired,
+  children: PropTypes.node,
 };
