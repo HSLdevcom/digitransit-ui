@@ -302,7 +302,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
         from: fromLocation,
         to: toLocation,
         intermediatePlaces: intermediatePlaceLocations,
-        numItineraries: 10,
+        numItineraries: 5,
         date: parsedTime.format('YYYY-MM-DD'),
         time: parsedTime.format('HH:mm:ss'),
         walkReluctance: settings.walkReluctance,
@@ -343,7 +343,14 @@ export const preparePlanParams = (config, useDefaultModes) => (
       },
       nullOrUndefined,
     ),
-    modes: formattedModes,
+    // These modes are used by the "default" routing query.
+    modes: [
+      // In bbnavi, we want direct Flex routing whenever bus routing is enabled.
+      ...(formattedModes.some(({ mode }) => mode === 'BUS')
+        ? [{ mode: 'FLEX', qualifier: 'DIRECT' }]
+        : []),
+      ...formattedModes,
+    ],
     ticketTypes: getTicketTypes(
       settings.ticketTypes,
       defaultSettings.ticketTypes,
