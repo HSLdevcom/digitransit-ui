@@ -26,10 +26,8 @@ const DepartureRow = (
   let iconColor;
   let backgroundShape;
   let sr;
-  if (props.showAlerts && departure.trip.route?.alerts?.length > 0) {
-    const alert = departure.trip.route.alerts
-      .slice()
-      .sort(alertSeverityCompare)[0];
+  if (route?.alerts?.length > 0) {
+    const alert = route.alerts.slice().sort(alertSeverityCompare)[0];
     sr = (
       <span className="sr-only">
         {intl.formatMessage({
@@ -70,8 +68,8 @@ const DepartureRow = (
   if (shortName?.length > 6 || !shortName?.length) {
     shortName = (
       <Icon
-        className={departure.trip.route.mode.toLowerCase()}
-        img={`icon-icon_${departure.trip.route.mode.toLowerCase()}`}
+        className={mode.toLowerCase()}
+        img={`icon-icon_${mode.toLowerCase()}`}
       />
     );
   }
@@ -174,7 +172,6 @@ DepartureRow.propTypes = {
   canceled: PropTypes.bool,
   className: PropTypes.string,
   showLink: PropTypes.bool,
-  showAlerts: PropTypes.bool,
 };
 
 DepartureRow.contextTypes = {

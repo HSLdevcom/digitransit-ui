@@ -322,7 +322,6 @@ class DepartureListContainer extends Component {
               ? 'no-border'
               : ''
           }
-          showAlerts
         />
       );
 

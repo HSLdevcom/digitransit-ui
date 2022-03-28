@@ -278,6 +278,13 @@
 .departure-row {
   .route-number-container {
     position: relative;
+    .route-number {
+      justify-content: center;
+      display: flex;
+      .icon-container {
+        position: unset;
+      }
+    }
     .icon-container {
       position: absolute;
       left: -3px;
@@ -355,7 +362,6 @@
           color: $white;
           line-height: 1.5;
           min-width: unset;
-          display: block;
           white-space: nowrap;
           overflow: hidden;
           .icon-container {
@@ -428,7 +434,6 @@
         color: $white;
         line-height: 1.35;
         min-width: unset;
-        display: block;
         white-space: nowrap;
         overflow: hidden;
       }
