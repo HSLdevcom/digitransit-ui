@@ -4,6 +4,7 @@ import React from 'react';
 
 import Icon from '../Icon';
 import IconMarker from './IconMarker';
+import ViaPointPopup from './popups/ViaPointPopup';
 
 import GenericMarker from './GenericMarker';
 import { isBrowser } from '../../util/browser';
@@ -87,7 +88,15 @@ export default function LocationMarker({
           iconAnchor: [sideLength / 2, sideLength],
           iconSize: [sideLength, sideLength],
         }}
-      />
+      >
+        {validType === 'via' && (
+          <ViaPointPopup
+            lat={position.lat}
+            lon={position.lon}
+            key={`${position.lat}${position.lon}`}
+          />
+        )}
+      </IconMarker>
     </>
   );
 }
