@@ -121,14 +121,6 @@ $heading-color: #858585;
       font-size: 13px;
     }
 
-    .next-departures-list-header {
-      background: #eef1f3;
-      padding: 6px 14px;
-    }
-    .next-departure-row {
-      padding-left: 20px;
-      padding-right: 5px;
-    }
     .scrollable.favourites {
       position: relative;
     }
@@ -150,9 +142,6 @@ $heading-color: #858585;
     border-top-right-radius: 8px;
     border-top: none;
     outline: none;
-  }
-  &.expanded {
-    // top: 45px;
   }
 
   li {
