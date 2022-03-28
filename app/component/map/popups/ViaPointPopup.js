@@ -43,7 +43,7 @@ function ViaPointPopup(
       autoPan={false}
       className="popup single-popup"
     >
-      <Card>
+      <Card className="no-margin">
         <div className="location-popup-wrapper">
           <div className="location-address">
             <FormattedMessage id="via-point" defaultMessage="Via point" />

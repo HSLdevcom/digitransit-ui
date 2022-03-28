@@ -530,6 +530,9 @@ div.leaflet-marker-icon.vehicle-icon {
       display: none;
     }
   }
+  .card.no-margin {
+    margin: 0;
+  }
   .card-header {
     border-radius: $border-radius;
   }
