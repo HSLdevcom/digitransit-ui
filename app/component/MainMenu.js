@@ -43,6 +43,7 @@ function MainMenu(props, { config, intl }) {
                     action: 'Home',
                     name: null,
                   });
+                  props.closeMenu();
                 }}
               >
                 <FormattedMessage id="frontpage" defaultMessage="Frontpage" />
@@ -66,7 +67,10 @@ function MainMenu(props, { config, intl }) {
         )}
         {config.mainMenu.showEmbeddedSearch && (
           <div className="offcanvas-section">
-            <Link to={`${EMBEDDED_SEARCH_GENERATOR_PATH}`}>
+            <Link
+              to={`${EMBEDDED_SEARCH_GENERATOR_PATH}`}
+              onClick={props.closeMenu}
+            >
               <FormattedMessage
                 id="create-embedded-search"
                 defaultMessage="Create a route search element"
