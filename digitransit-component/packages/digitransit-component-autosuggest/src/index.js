@@ -1020,7 +1020,7 @@ class DTAutosuggest extends React.Component {
               }}
               focusInputOnSuggestionClick
               shouldRenderSuggestions={() => this.state.editing}
-              highlightFirstSuggestion
+              highlightFirstSuggestion={!this.state.ownPlaces}
               theme={styles}
               renderInputComponent={p => (
                 <>
