@@ -57,8 +57,8 @@ export default configMerger(walttiConfig, {
         capacity: BIKEAVL_WITHMAX,
         enabled: true,
         season: {
-          // 1.4. - 30.9.
-          start: new Date(new Date().getFullYear(), 3, 1),
+          // 1.6. - 30.9.
+          start: new Date(new Date().getFullYear(), 5, 1),
           end: new Date(new Date().getFullYear(), 9, 1),
         },
         icon: 'citybike',
