@@ -28,6 +28,7 @@ export default configMerger(walttiConfig, {
   title: APP_TITLE,
 
   logo: 'lappeenranta/logo.png',
+  secondaryLogo: 'lappeenranta/secondary-logo.png',
 
   favicon: './app/configurations/images/lappeenranta/bussi_fin.jpeg',
 

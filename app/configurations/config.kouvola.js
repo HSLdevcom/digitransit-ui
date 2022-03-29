@@ -49,6 +49,7 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'kouvola/logo.png',
+  secondaryLogo: 'kouvola/secondary-logo.png',
 
   favicon: './app/configurations/images/kouvola/favicon.png',
 
