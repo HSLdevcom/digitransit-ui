@@ -8,6 +8,7 @@ import Icon from './Icon';
 import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { EMBEDDED_SEARCH_GENERATOR_PATH } from '../util/path';
 
 function MainMenu(props, { config, intl }) {
   return (
@@ -42,6 +43,7 @@ function MainMenu(props, { config, intl }) {
                     action: 'Home',
                     name: null,
                   });
+                  props.closeMenu();
                 }}
               >
                 <FormattedMessage id="frontpage" defaultMessage="Frontpage" />
@@ -61,6 +63,19 @@ function MainMenu(props, { config, intl }) {
             <a href={config.mainMenu.stopMonitor.url}>
               <FormattedMessage id="create-stop-monitor" />
             </a>
+          </div>
+        )}
+        {config.mainMenu.showEmbeddedSearch && (
+          <div className="offcanvas-section">
+            <Link
+              to={`${EMBEDDED_SEARCH_GENERATOR_PATH}`}
+              onClick={props.closeMenu}
+            >
+              <FormattedMessage
+                id="create-embedded-search"
+                defaultMessage="Create a route search element"
+              />
+            </Link>
           </div>
         )}
         {config.appBarLink && config.appBarLink.name && config.appBarLink.href && (
