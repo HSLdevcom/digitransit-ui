@@ -53,6 +53,8 @@ build-app:
   variables:
     IMAGE: $CI_REGISTRY_IMAGE
     DOCKERFILE: Dockerfile
+    IMAGE: $CI_REGISTRY_IMAGE
+    FAHRGEMEINSCHAFT_API_KEY: $FAHRGEMEINSCHAFT_API_KEY
   <<: *docker-build
 
 

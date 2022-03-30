@@ -429,8 +429,10 @@ const translations = {
     'car-park-full': 'Volle Parkplätze ausschließen',
     car_park: 'Park & Ride',
     carpool: 'Fahrgemeinschaft',
+    'carpool-legal-notice': 'Dies ist ein Angebot des externen Anbieters ride2Go GmbH.',
     'card-header-back-to-result-list' : 'Zurück zu den Ergebnissen',
     'carpool-distance-duration': '{duration} ({distance}) mitfahren',
+    'carpool-details-link': 'Details bei {agency}',
     cause: 'Grund',
     'char-left': 'Zeichen',
     'charging-direct-deep-link': 'Ladevorgang starten',
@@ -561,6 +563,8 @@ const translations = {
       'Um {time} {distance} mit dem Rad von {origin} nach {destination} fahren. Geschätzte Dauer: {duration}',
     'itinerary-details.car-leg':
       'Um {time} {distance} mit dem Auto von {origin} nach {destination} fahren. Geschätzte Dauer: {duration}',
+    'itinerary-details.carpool-leg':
+      'Um {time} {distance} mit dem Auto von {origin} nach {destination} minfahren. Geschätzte Dauer: {duration}',
     'itinerary-details.end-leg': 'Um {time} am Ziel {destination} ankommen.',
     'itinerary-details.route-has-info-alert': 'Route enthält Warnungen.',
     'itinerary-details.route-has-severe-alert': 'Route enthält Störungen.',
@@ -1237,6 +1241,7 @@ const translations = {
     'car-park-full': 'Exclude car parks with few spaces',
     car_park: 'Park & ride',
     carpool: 'Carpool',
+    'carpool-legal-notice': 'This is a service of the external provider ride2Go GmbH.',
     'carpool-distance-duration': 'Ride {duration} ({distance})',
     'carpool-with-route-number': 'Carpool route {routeNumber} to {headsign}',
     'card-header-back-to-result-list' : 'Go back to results',
@@ -1370,6 +1375,8 @@ const translations = {
       'At {time} cycle {distance} from {origin} to {destination}. Estimated time {duration}',
     'itinerary-details.car-leg':
       'At {time} drive {distance} from {origin} to {destination}. Estimated time {duration}',
+    'itinerary-details.car-leg':
+      'At {time} travel {distance} via carpool from {origin} to {destination}. Estimated time {duration}',
     'itinerary-details.end-leg':
       'At {time} arrive to destination {destination}.',
     'itinerary-details.route-has-info-alert': 'Route has alerts.',

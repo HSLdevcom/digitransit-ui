@@ -198,15 +198,6 @@ const getShouldMakeCarQuery = (
   );
 };
 
-const getShouldMakeOnDemandTaxiQuery = time => {
-  const date = new Date(time * 1000);
-  return (
-    date.getHours() > 20 || // starting at 9pm
-    date.getHours() < 5 ||
-    (date.getHours() === 5 && date.getMinutes() === 0)
-  );
-};
-
 const isDestinationOldTownOfHerrenberg = destination => {
   return booleanPointInPolygon(
     point([destination.lon, destination.lat]),
@@ -378,7 +369,9 @@ export const preparePlanParams = (config, useDefaultModes) => (
       settings,
       defaultSettings,
     ),
-    shouldMakeOnDemandTaxiQuery: getShouldMakeOnDemandTaxiQuery(time),
+    // For almost the whole day, there are some bbnavi-covered on-demand lines in operation.
+    // https://github.com/bbnavi/gtfs-flex/blob/0a563b9109e3da12d0f7a3aad5a930e0763f13cb/stop_times.txt#L2-L9
+    shouldMakeOnDemandTaxiQuery: true,
     showBikeAndPublicItineraries:
       !wheelchair &&
       config.showBikeAndPublicItineraries &&

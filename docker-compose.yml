@@ -4,6 +4,7 @@ services:
   digitransit-ui:
     image: registry.gitlab.tpwd.de/tpwd/bb-navi/digitransit-ui:int-development
     environment:
+      - FAHRGEMEINSCHAFT_API_KEY=$FAHRGEMEINSCHAFT_API_KEY
       - WORK=/opt/digitransit-ui
       - ROUTER=bbnavi
       - API_URL=https://staging.api.bbnavi.de

@@ -17,10 +17,6 @@ const STATIC_MESSAGE_URL =
 
 const walttiConfig = require('./config.waltti.js').default;
 
-const realtimeBbnavi = require('./realtimeUtils').default.bbnavi;
-const hostname = new URL(API_URL);
-realtimeBbnavi.mqtt = `wss://${hostname.host}/mqtt/`;
-
 const minLat = 52.015895;
 const maxLat = 54.015895;
 const minLon = 13.000255;
@@ -254,50 +250,6 @@ export default configMerger(walttiConfig, {
                 visibleInSettingsUi: true,
                 enabled: true,
             },
-            'taxi': {
-                icon: 'taxi',
-                name: {
-                    de: 'Taxi',
-                    en: 'Taxi',
-                },
-                type: 'taxi',
-                visibleInSettingsUi: false,
-                enabled: true,
-            },
-            "car-sharing": {
-                icon: 'car-sharing',
-                name: {
-                    de: 'Carsharing',
-                    en: 'Car sharing',
-                },
-                type: 'car-sharing',
-                url: {
-                    de: 'https://stuttgart.stadtmobil.de/privatkunden/',
-                    en: 'https://stuttgart.stadtmobil.de/privatkunden/',
-                },
-                visibleInSettingsUi: false,
-                enabled: true,
-            },
-            "cargo-bike": {
-                icon: 'cargobike',
-                name: {
-                    de: 'Freie Lastenräder',
-                    en: 'Free cargo bikes',
-                },
-                type: 'cargo-bike',
-                visibleInSettingsUi: false,
-                enabled: true,
-            },
-            // "de.openbikebox.stadt-herrenberg": {
-            //     icon: 'cargobike',
-            //     name: {
-            //         de: 'Lastenrad Herrenberg',
-            //         en: 'Cargo bike Herrenberg',
-            //     },
-            //     type: 'cargo-bike',
-            //     visibleInSettingsUi: false,
-            //     enabled: true,
-            // },
         }
     },
 
@@ -349,8 +301,6 @@ export default configMerger(walttiConfig, {
     },
 
     feedIds: ['bbnavi'],
-
-    // realtime: { bbnavi: realtimeBbnavi },
 
     searchSources: ['oa', 'osm'],
 
