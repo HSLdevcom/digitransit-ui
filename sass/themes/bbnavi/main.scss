@@ -5,3 +5,9 @@
 @import 'klaro';
 
 @import '../hbnext/stadtnavi';
+
+.carpool-leg-details-link {
+  a.external-link {
+    color: $link-color;
+  }
+}
