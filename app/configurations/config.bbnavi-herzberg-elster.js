@@ -13,7 +13,7 @@ export default configMerger(bbnaviConfig, {
   },
 
   map: {
-    zoom: 15,
+    zoom: 14,
   },
 
   socialMedia: {
