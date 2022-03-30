@@ -2066,6 +2066,29 @@
                                         }
                                     },
                                     "defaultValue": null
+                                },
+                                {
+                                    "name": "preferredVehicleParkingTags",
+                                    "description": "",
+                                    "type": {
+                                        "kind": "LIST",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "SCALAR",
+                                            "name": "String",
+                                            "ofType": null
+                                        }
+                                    },
+                                    "defaultValue": null
+                                },
+                                {
+                                    "name": "unpreferredVehicleParkingTagPenalty",
+                                    "description": "",
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "Float"
+                                    },
+                                    "defaultValue": null
                                 }
                             ],
                             "type": {
@@ -7904,7 +7927,7 @@
                             "isDeprecated": false,
                             "deprecationReason": null
                         }
-
+                        
                     ],
                     "inputFields": null,
                     "interfaces": [],
@@ -7951,7 +7974,7 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
-                        }
+                        } 
                     ],
                     "inputFields": null,
                     "interfaces": [],
