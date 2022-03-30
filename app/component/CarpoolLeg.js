@@ -7,6 +7,7 @@ import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import Icon from './Icon';
+import ExternalLink from './ExternalLink';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 function CarpoolLeg(props, { config, intl }) {
@@ -120,9 +121,13 @@ function CarpoolLeg(props, { config, intl }) {
 CarpoolLeg.createBookButton = route => {
   if (route.url) {
     return (
-      <a target="_blank" rel="noopener noreferrer" href={route.url}>
-        <FormattedMessage id="details" defaultMessage="Details" />
-      </a>
+      <ExternalLink className="carpool-leg-details-link" href={route.url}>
+        <FormattedMessage
+          id="carpool-details-link"
+          values={{ agency: route.agency.name }}
+          defaultMessage="Details"
+        />
+      </ExternalLink>
     );
   }
   return <span />;
