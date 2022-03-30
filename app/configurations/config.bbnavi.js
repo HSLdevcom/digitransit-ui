@@ -163,7 +163,7 @@ export default configMerger(walttiConfig, {
     },
 
     datahubTiles: {
-        show: true,
+        show: false,
         smallIconZoom: 17,
         minZoom: 15
     },
@@ -630,7 +630,7 @@ export default configMerger(walttiConfig, {
     suggestBikeAndParkMinDistance: 3000,
 
     // live bus locations
-    vehicles: true,
+    vehicles: false,
     showVehiclesOnSummaryPage: false,
     showVehiclesOnStopPage: true,
 
