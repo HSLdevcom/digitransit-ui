@@ -250,6 +250,9 @@ export default class CarpoolOffer extends React.Component {
 
     return (
       <form onSubmit={this.finishForm} className="sidePanelText">
+        <p className="carpool-legal-notice">
+          <FormattedMessage id="carpool-legal-notice" />
+        </p>
         <h2>
           <FormattedMessage id="your-carpool-trip" defaultMessage="Your trip" />
         </h2>

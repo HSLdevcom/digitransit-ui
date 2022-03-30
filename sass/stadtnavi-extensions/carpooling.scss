@@ -4,7 +4,6 @@
   margin-right: auto;
   width: 20%;
   margin-top: 20px;
-  margin-bottom: 30px;
 }
 
 .carpool {
@@ -19,6 +18,12 @@
 
 .carpool-offer {
   white-space: initial;
+
+  .carpool-legal-notice {
+    margin-top: 0;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
 
   h2 {
     margin-left: 0px;
