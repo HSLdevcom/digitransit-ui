@@ -17,10 +17,6 @@ const STATIC_MESSAGE_URL =
 
 const walttiConfig = require('./config.waltti.js').default;
 
-const realtimeBbnavi = require('./realtimeUtils').default.bbnavi;
-const hostname = new URL(API_URL);
-realtimeBbnavi.mqtt = `wss://${hostname.host}/mqtt/`;
-
 const minLat = 52.015895;
 const maxLat = 54.015895;
 const minLon = 13.000255;
@@ -349,8 +345,6 @@ export default configMerger(walttiConfig, {
     },
 
     feedIds: ['bbnavi'],
-
-    // realtime: { bbnavi: realtimeBbnavi },
 
     searchSources: ['oa', 'osm'],
 
