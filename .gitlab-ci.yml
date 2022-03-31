@@ -8,6 +8,7 @@ variables:
   QUANTUM_PROJECT: digitransit-ui
 
 stages:
+  - lint-test
   - build-push
   - predeploy
   - deploy
@@ -25,6 +26,23 @@ services:
     - /^release_[\w-]+_\d{4}-\d{2}-\d{2}$/
   except:
     - branches
+
+test-and-lint:
+  stage: lint-test
+  image:
+    # We mirror the Dockerfile here.
+    name: node:10.23
+  script:
+    - yarn install --immutable
+    - yarn build-workspaces
+    - yarn run lint
+    - yarn run relay
+    - yarn run test-unit
+  cache:
+    key: $CI_PROJECT_PATH_SLUG-yarn-cache
+    paths:
+      - .yarn/cache
+  interruptible: true
 
 build-and-push-docker-img:
   extends:
