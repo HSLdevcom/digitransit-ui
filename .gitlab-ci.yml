@@ -1,69 +1,63 @@
 variables:
   DOCKER_HOST: tcp://docker:2375/
+  DOCKER_AUTH_CONFIG: '{ "auths": { "https://index.docker.io/v1/": { "auth": "$DOCKER_AUTH" } }}'
+  DOCKER_IMAGE: $CI_REGISTRY_IMAGE
   QUANTUM_CLI: registry.internal.planetary-networks.de/quantum-public/cli:2
   QUANTUM_ENDPOINT: tpwd-bb-navi
-  DOCKER_AUTH_CONFIG: '{ "auths": { "https://index.docker.io/v1/": { "auth": "$DOCKER_AUTH" } }}'
+  QUANTUM_PROJECT: digitransit-ui
 
 stages:
   - build
-  - tag
   - predeploy
   - deploy
 
 services:
-  - docker:19.03.0-dind
+  - docker:19.03-dind
 
-before_script:
-  - docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_PASSWORD
-  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+.only-on-bbnavi-pushes:
+  only:
+    refs:
+      - bbnavi
 
-.docker-build: &docker-build
+build-and-push-docker-img:
   stage: build
+  variables:
+    TAG: $CI_COMMIT_SHA
+    CACHE_TAG: $CI_COMMIT_BRANCH
+  before_script:
+    - docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_PASSWORD
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    # leverage Docker caching mechanism when building
+    # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#make-docker-in-docker-builds-faster-with-docker-layer-caching
+    - docker pull $DOCKER_IMAGE:$CACHE_TAG || true
   script:
-    - docker pull $IMAGE:int-development || true
-    - docker build --cache-from $IMAGE:int-development --tag $IMAGE:$CI_COMMIT_SHA --tag $IMAGE:int-development -f $DOCKERFILE .
-    - docker push $IMAGE:$CI_COMMIT_SHA
-    - docker push $IMAGE:int-development
+    - docker build --cache-from $DOCKER_IMAGE:$CACHE_TAG --tag $DOCKER_IMAGE:$TAG .
+    - docker push $DOCKER_IMAGE:$TAG
+  after_script:
+    # update cache Docker image
+    - docker tag $DOCKER_IMAGE:$TAG $DOCKER_IMAGE:$CACHE_TAG
+    - docker push $DOCKER_IMAGE:$CACHE_TAG
 
-.quantum-conf: &quantum-conf
+generate-quantum-config:
+  extends:
+    - .only-on-bbnavi-pushes
   stage: predeploy
   image:
-    name: docker/compose:1.25.0
+    name: docker/compose:1.25.5
   cache:
-    key: "${CI_PIPELINE_ID}-${PROJECT}"
+    key: "${CI_PIPELINE_ID}-${QUANTUM_PROJECT}"
     paths: [quantum.yml]
   script:
     - docker-compose -f docker-compose.yml -f stack.yml config > quantum.yml
-  only:
-    - release/int/development
 
-.deploy: &deploy
+deploy-using-quantum:
+  extends:
+    - .only-on-bbnavi-pushes
   stage: deploy
   image: $QUANTUM_CLI
   cache:
-    key: "${CI_PIPELINE_ID}-${PROJECT}"
+    key: "${CI_PIPELINE_ID}-${QUANTUM_PROJECT}"
     paths: [quantum.yml]
   script:
-    - quantum-cli stack update --create --stack $PROJECT-$QUANTUM_ENDPOINT --wait
+    - quantum-cli stack update --create --stack $QUANTUM_PROJECT-$QUANTUM_ENDPOINT --wait
   tags: [v2]
-  only:
-    - release/int/development
-
-build-app:
-  variables:
-    IMAGE: $CI_REGISTRY_IMAGE
-    DOCKERFILE: Dockerfile
-    IMAGE: $CI_REGISTRY_IMAGE
-    FAHRGEMEINSCHAFT_API_KEY: $FAHRGEMEINSCHAFT_API_KEY
-  <<: *docker-build
-
-
-app-conf:
-  <<: *quantum-conf
-  variables:
-    PROJECT: int-development
-
-deploy:
-  <<: *deploy
-  variables:
-    PROJECT: int-development
