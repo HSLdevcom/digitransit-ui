@@ -2027,6 +2027,7 @@ class SummaryPage extends React.Component {
       this.context.config.showVehiclesOnSummaryPage &&
       hash !== 'walk' &&
       hash !== 'bike' &&
+      hash !== 'car' &&
       (this.props.breakpoint === 'large' || hash)
     );
   };
@@ -2149,7 +2150,6 @@ class SummaryPage extends React.Component {
       }
       this.selectedPlan = carPlan;
     } else if (this.props.match.params.hash === 'parkAndRide') {
-      this.stopClient();
       if (this.state.isFetchingWalkAndBike) {
         return <Loading />;
       }
