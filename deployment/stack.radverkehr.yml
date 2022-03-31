@@ -1,0 +1,11 @@
+version: '3.7'
+# This file partially overrides stack.yml.
+services:
+  digitransit-ui:
+    environment:
+      - CONFIG=bbnavi-radverkehr
+    deploy:
+      labels:
+        traefik.frontend.rule: Host:radverkehr.bbnavi.de
+        # bbnavi:digitransit
+        traefik.frontend.auth.basic.users: bbnavi:$$apr1$$s135n0lg$$.yhGUnsFgFVpKW.9UuyTJ/

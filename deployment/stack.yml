@@ -4,11 +4,10 @@ version: '3.7'
 
 services:
   digitransit-ui:
-    image: registry.gitlab.tpwd.de/tpwd/bb-navi/digitransit-ui:bb-angermuende
+    image: ${DOCKER_IMAGE:?missing env var DOCKER_IMAGE}:${DOCKER_TAG:?missing env var DOCKER_TAG}
     environment:
       - FAHRGEMEINSCHAFT_API_KEY=${FAHRGEMEINSCHAFT_API_KEY:?missing env var FAHRGEMEINSCHAFT_API_KEY}
-      - API_URL=https://staging.api.bbnavi.de
-      - CONFIG=bbnavi-angermuende
+      - API_URL=https://api.bbnavi.de
     networks:
       - public
     deploy:
@@ -20,12 +19,9 @@ services:
         traefik.docker.network: public
         traefik.enable: "true"
         traefik.frontend.passHostHeader: "true"
-        # todo: make instance-specific
-        traefik.frontend.rule: Host:staging.bbnavi.de
-        # bbnavi:digitransit
-        # todo: make instance-specific
-        traefik.frontend.auth.basic.users: bbnavi:$$apr1$$s135n0lg$$.yhGUnsFgFVpKW.9UuyTJ/
         traefik.port: '8080'
+        # traefik.frontend.rule is added by stack.*.yml
+        # traefik.frontend.auth.basic.users is added by some of stack.*.yml
 
 networks:
   public:
