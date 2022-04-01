@@ -920,19 +920,10 @@ class DTAutosuggest extends React.Component {
 
     return (
       <React.Fragment>
-        <span
-          className={styles['sr-only']}
-          role={this.state.typing ? undefined : 'alert'}
-          aria-hidden={!this.state.editing}
-        >
-          {ariaSuggestionLen}
-        </span>
-        <span
-          className={styles['sr-only']}
-          role={this.state.typing ? undefined : 'alert'}
-          aria-hidden={!this.state.editing || suggestions.length === 0}
-        >
-          {ariaCurrentSuggestion()}
+        <span className={styles['sr-only']} role="alert">
+          {!this.state.typing &&
+            this.state.editing &&
+            `${ariaSuggestionLen} ${ariaCurrentSuggestion()}`}
         </span>
         {this.props.isMobile && (
           <MobileSearch
