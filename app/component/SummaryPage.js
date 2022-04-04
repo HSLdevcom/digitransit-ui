@@ -557,7 +557,7 @@ class SummaryPage extends React.Component {
 
   stopClient = () => {
     const { client } = this.context.getStore('RealTimeInformationStore');
-    if (client) {
+    if (client && this.state.itineraryTopics) {
       this.context.executeAction(stopRealTimeClient, client);
       this.setState({ itineraryTopics: undefined });
     }
