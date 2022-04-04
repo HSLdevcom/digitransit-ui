@@ -33,8 +33,4 @@ export default configMerger(bbnaviConfig, {
   },
 
   defaultOrigins: [],
-
-  carpool: {
-    availableForSelection: false,
-  },
 });
