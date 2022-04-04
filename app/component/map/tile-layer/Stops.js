@@ -75,10 +75,11 @@ class Stops {
       ? Object.values(vehicles)[0]?.mode
       : undefined;
     if (
-      (modesWithoutIcon.includes(mode) &&
-        viewsWithoutIcon.some(view => path.includes(view))) ||
-      (modesWithoutIcon.includes(selectedMode.toUpperCase()) &&
-        path.includes(PREFIX_ROUTES))
+      modesWithoutIcon.includes(mode) &&
+      (viewsWithoutIcon.some(view => path.includes(view)) ||
+        (!!selectedMode &&
+          modesWithoutIcon.includes(selectedMode.toUpperCase()) &&
+          path.includes(PREFIX_ROUTES)))
     ) {
       return false;
     }
