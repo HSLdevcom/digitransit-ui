@@ -621,7 +621,7 @@ export default {
       },
     },
     {
-      showForRoute: route => route.type === 999702,
+      showForRoute: route => route.type === 702,
       id: 'trunkRouteNotification',
       header: {
         fi: 'Runkolinja',
