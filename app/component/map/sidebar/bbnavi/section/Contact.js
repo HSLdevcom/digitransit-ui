@@ -18,7 +18,12 @@ const Contact = ({ contact }) => {
       {!!url && (
         <div className="text-light sidebar-info-container">
           <Icon className="sidebar-info-icon" img="poi_link" />
-          <a href={url} className="text-alignment" target="_blank">
+          <a
+            href={url}
+            className="text-alignment"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             {url}
           </a>
         </div>
