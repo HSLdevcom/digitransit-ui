@@ -124,5 +124,6 @@ deploy-using-quantum:
     key: "${CI_PIPELINE_ID}-${QUANTUM_PROJECT}"
     paths: [quantum.yml]
   script:
-    - quantum-cli stack update --create --stack "$QUANTUM_PROJECT-$BBNAVI_CONFIG-$QUANTUM_ENDPOINT" --wait
+    # The "bb-" namespace stands for "Brandenburg", in case we ever have instances in other regions.
+    - quantum-cli stack update --create --stack "$QUANTUM_PROJECT-bb-$BBNAVI_CONFIG-$QUANTUM_ENDPOINT" --wait
   tags: [v2]
