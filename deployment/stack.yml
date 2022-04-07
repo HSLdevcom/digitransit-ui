@@ -1,0 +1,28 @@
+version: '3.7'
+
+# This file partially overrides docker-compose.yml, and configures digitransit-ui for deployments.
+
+services:
+  digitransit-ui:
+    image: ${DOCKER_IMAGE:?missing env var DOCKER_IMAGE}:${DOCKER_TAG:?missing env var DOCKER_TAG}
+    environment:
+      - FAHRGEMEINSCHAFT_API_KEY=${FAHRGEMEINSCHAFT_API_KEY:?missing env var FAHRGEMEINSCHAFT_API_KEY}
+      - API_URL=https://api.bbnavi.de
+    networks:
+      - public
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == node-001.tpwd-bb-navi
+      labels:
+        traefik.docker.network: public
+        traefik.enable: "true"
+        traefik.frontend.passHostHeader: "true"
+        traefik.port: '8080'
+        # traefik.frontend.rule is added by stack.*.yml
+        # traefik.frontend.auth.basic.users is added by some of stack.*.yml
+
+networks:
+  public:
+    external: true
