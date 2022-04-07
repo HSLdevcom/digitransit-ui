@@ -7,5 +7,3 @@ services:
     deploy:
       labels:
         traefik.frontend.rule: Host:angermuende.bbnavi.de
-        # bbnavi:digitransit
-        traefik.frontend.auth.basic.users: bbnavi:$$apr1$$s135n0lg$$.yhGUnsFgFVpKW.9UuyTJ/
