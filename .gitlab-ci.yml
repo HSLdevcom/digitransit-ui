@@ -8,19 +8,16 @@ variables:
   QUANTUM_PROJECT: digitransit-ui
 
 stages:
+  - prerequisites
   - lint-test
   - build-push
   - predeploy
   - deploy
 
-services:
-  - docker:19.03-dind
-
-.only-on-bbnavi-pushes-or-release-tags:
+.only-on-bbnavi-pushes:
   only:
     # todo: $CI_DEFAULT_BRANCH doesn't seem to work here?
     - bbnavi
-    - /^release_[\w-]+_\d{4}-\d{2}-\d{2}$/
 
 .only-on-release-tags:
   only:
@@ -28,13 +25,41 @@ services:
   except:
     - branches
 
+.with-docker:
+  services:
+    - docker:20.10.14-dind
+
 .parse-bbnavi-config-from-release-tag:
   before_script:
     # strip "release_" prefix & date suffix from Git tag, export as $BBNAVI_CONFIG
     - apk add --upgrade --no-cache pcre2-tools
     - export BBNAVI_CONFIG="$(echo -n "$CI_COMMIT_TAG" | pcre2grep -o1 '(?:release_)([\w-]+)(?:_\d{4}-\d{2}-\d{2})')"
 
+expect-published-docker-img:
+  extends:
+    - .only-on-release-tags
+    - .with-docker
+  stage: prerequisites
+  variables:
+    TAG: $CI_COMMIT_SHA
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+  script:
+    # Using the registry API from the CI currently fails.
+    # - apk add --upgrade --no-cache curl jq
+    # - 'REPOSITORIES_URL="$GITLAB_API_URL/v4/projects/$CI_PROJECT_ID/registry/repositories"'
+    # - 'REPOSITORY_ID="$(curl "$REPOSITORIES_URL" -H "JOB-TOKEN: $CI_JOB_TOKEN" -s | jq -rc ".[] | [.id, .path]" | grep -m1 "$CI_PROJECT_PATH" | jq ".[0]")"'
+    # - 'TAG_URL="$REPOSITORIES_URL/$REPOSITORY_ID/tags/$TAG"'
+    # - 'curl "$TAG_URL" -H "JOB-TOKEN: $CI_JOB_TOKEN" -s -o /dev/null"
+    # Using `docker manifest inspect` currently fails if the image hasn't been pulled before. 🤔
+    # - 'docker manifest inspect "$DOCKER_IMAGE:$TAG"'
+    # So we use `docker pull` instead. 🤷
+    - docker pull "$DOCKER_IMAGE:$TAG" >/dev/null
+
 test-and-lint:
+  # We don't lint & test on release tags because we assume that it has been done already in the branch pipeline.
+  extends:
+    - .only-on-bbnavi-pushes
   stage: lint-test
   image:
     # We mirror the Dockerfile here.
@@ -53,7 +78,8 @@ test-and-lint:
 
 build-and-push-docker-img:
   extends:
-    - .only-on-bbnavi-pushes-or-release-tags
+    - .only-on-bbnavi-pushes
+    - .with-docker
   stage: build-push
   variables:
     TAG: $CI_COMMIT_SHA
@@ -62,26 +88,20 @@ build-and-push-docker-img:
     - docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_PASSWORD
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
-    # Only build & push the :$TAG Docker image if it doesn't exist jet.
-    # Also, pull :$CACHE_TAG before & push it after, to leverage Docker caching.
+    # Pull :$CACHE_TAG before & push it after, to leverage Docker caching.
     # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#make-docker-in-docker-builds-faster-with-docker-layer-caching
-    # todo: don't pull Docker image, just check if it exists
-    # - export CONTAINER_REPOSITORY_ID="$(curl "$GITLAB_API_URL/v4/projects/$CI_PROJECT_ID/registry/repositories' -H "PRIVATE-TOKEN: $CI_JOB_TOKEN" -s | jq -rc '.[] | [.id, .path]' | grep -m1 "$CI_PROJECT_PATH" | jq '.[0]')"
-    # - if ! curl "$GITLAB_API_URL/v4/projects/$CI_PROJECT_ID/registry/repositories/$$CONTAINER_REPOSITORY_ID/tags/$TAG' -H "PRIVATE-TOKEN: $CI_JOB_TOKEN" -s -f -o /dev/null
-    - >
-      if ! docker pull $DOCKER_IMAGE:$TAG; then
-        docker pull $DOCKER_IMAGE:$CACHE_TAG || true
-
-        docker build --cache-from $DOCKER_IMAGE:$CACHE_TAG --tag $DOCKER_IMAGE:$TAG .
-        docker push $DOCKER_IMAGE:$TAG
-
-        docker tag $DOCKER_IMAGE:$TAG $DOCKER_IMAGE:$CACHE_TAG
-        docker push $DOCKER_IMAGE:$CACHE_TAG
-      fi
+    - docker pull $DOCKER_IMAGE:$CACHE_TAG || true
+    # Build & push actual :$TAG image.
+    - docker build --cache-from $DOCKER_IMAGE:$CACHE_TAG --tag $DOCKER_IMAGE:$TAG .
+    - docker push $DOCKER_IMAGE:$TAG
+    # Adapt & push :$CACHE_TAG image.
+    - docker tag $DOCKER_IMAGE:$TAG $DOCKER_IMAGE:$CACHE_TAG
+    - docker push $DOCKER_IMAGE:$CACHE_TAG
 
 generate-quantum-config:
   extends:
     - .only-on-release-tags
+    - .with-docker
     - .parse-bbnavi-config-from-release-tag
   variables:
     DOCKER_TAG: $CI_COMMIT_SHA
