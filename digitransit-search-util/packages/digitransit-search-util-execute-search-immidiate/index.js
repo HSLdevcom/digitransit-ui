@@ -474,9 +474,9 @@ export function getSearchResults(
   }
   if (allTargets || targets.includes('BikeRentalStations')) {
     if (sources.includes('Favourite')) {
-      const favouriteRoutes = getFavouriteBikeRentalStations(context);
+      const favouriteBikeStations = getFavouriteBikeRentalStations(context);
       searchComponents.push(
-        getFavouriteBikeRentalStationsQuery(favouriteRoutes, input),
+        getFavouriteBikeRentalStationsQuery(favouriteBikeStations, input),
       );
     }
     if (allSources || sources.includes('Datasource')) {
