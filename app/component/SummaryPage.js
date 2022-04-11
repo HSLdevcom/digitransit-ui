@@ -194,7 +194,7 @@ const getTopicOptions = (context, planitineraries, match) => {
               route: leg.route.gtfsId.split(':')[1],
               mode: leg.mode.toLowerCase(),
               direction: Number(leg.trip.directionId),
-              shortName: leg.trip.pattern.route.shortName,
+              shortName: leg.route.shortName,
               tripStartTime: getStartTimeWithColon(
                 leg.trip.stoptimesForDate[0].scheduledDeparture,
               ),
@@ -206,7 +206,7 @@ const getTopicOptions = (context, planitineraries, match) => {
               route: leg.route.gtfsId.split(':')[1],
               tripId: leg.trip.gtfsId.split(':')[1],
               type: leg.route.type,
-              shortName: leg.trip.pattern.route.shortName,
+              shortName: leg.route.shortName,
             };
           }
         }
@@ -381,6 +381,7 @@ class SummaryPage extends React.Component {
       carPlan: undefined,
       parkRidePlan: undefined,
       loadingMoreItineraries: undefined,
+      itineraryTopics: undefined,
       isFetchingWalkAndBike: true,
       settingsChangedRecently: false,
     };
@@ -524,7 +525,6 @@ class SummaryPage extends React.Component {
   };
 
   startClient = itineraryTopics => {
-    this.itineraryTopics = itineraryTopics;
     if (itineraryTopics && !isEmpty(itineraryTopics)) {
       const clientConfig = this.configClient(itineraryTopics);
       this.context.executeAction(startRealTimeClient, clientConfig);
@@ -535,7 +535,7 @@ class SummaryPage extends React.Component {
     const { client, topics } = this.context.getStore(
       'RealTimeInformationStore',
     );
-    this.itineraryTopics = itineraryTopics;
+
     if (isEmpty(itineraryTopics) && client) {
       this.stopClient();
       return;
@@ -557,9 +557,9 @@ class SummaryPage extends React.Component {
 
   stopClient = () => {
     const { client } = this.context.getStore('RealTimeInformationStore');
-    if (client) {
+    if (client && this.state.itineraryTopics) {
       this.context.executeAction(stopRealTimeClient, client);
-      this.itineraryTopics = undefined;
+      this.setState({ itineraryTopics: undefined });
     }
   };
 
@@ -721,6 +721,8 @@ class SummaryPage extends React.Component {
               }
               route {
                 gtfsId
+                type
+                shortName
               }
               trip {
                 gtfsId
@@ -777,6 +779,8 @@ class SummaryPage extends React.Component {
               }
               route {
                 gtfsId
+                type
+                shortName
               }
               trip {
                 gtfsId
@@ -838,6 +842,8 @@ class SummaryPage extends React.Component {
               }
               route {
                 gtfsId
+                type
+                shortName
               }
               trip {
                 gtfsId
@@ -899,6 +905,8 @@ class SummaryPage extends React.Component {
               }
               route {
                 gtfsId
+                type
+                shortName
               }
               trip {
                 gtfsId
@@ -1404,6 +1412,7 @@ class SummaryPage extends React.Component {
           this.props.match,
         );
         this.startClient(itineraryTopics);
+        this.setState({ itineraryTopics });
       }
     }
   }
@@ -1543,8 +1552,12 @@ class SummaryPage extends React.Component {
       );
       const { client } = this.context.getStore('RealTimeInformationStore');
       // Client may not be initialized yet if there was an client before ComponentDidMount
-      if (!isEqual(itineraryTopics, this.itineraryTopics) || !client) {
+      if (!isEqual(itineraryTopics, this.state.itineraryTopics) || !client) {
         this.updateClient(itineraryTopics);
+      }
+      if (!isEqual(itineraryTopics, this.state.itineraryTopics)) {
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({ itineraryTopics });
       }
     }
   }
@@ -1852,7 +1865,7 @@ class SummaryPage extends React.Component {
         setMWTRef={this.setMWTRef}
         breakpoint={breakpoint}
         itineraries={filteredItineraries}
-        topics={this.itineraryTopics}
+        topics={this.state.itineraryTopics}
         active={activeIndex}
         showActive={detailView}
         showVehicles={this.showVehicles()}
@@ -2014,6 +2027,7 @@ class SummaryPage extends React.Component {
       this.context.config.showVehiclesOnSummaryPage &&
       hash !== 'walk' &&
       hash !== 'bike' &&
+      hash !== 'car' &&
       (this.props.breakpoint === 'large' || hash)
     );
   };
@@ -2136,7 +2150,6 @@ class SummaryPage extends React.Component {
       }
       this.selectedPlan = carPlan;
     } else if (this.props.match.params.hash === 'parkAndRide') {
-      this.stopClient();
       if (this.state.isFetchingWalkAndBike) {
         return <Loading />;
       }
@@ -2791,6 +2804,7 @@ const containerComponent = createRefetchContainer(
               route {
                 gtfsId
                 type
+                shortName
               }
               trip {
                 gtfsId
@@ -2801,9 +2815,6 @@ const containerComponent = createRefetchContainer(
                 }
                 pattern {
                   ...RouteLine_pattern
-                  route {
-                    shortName
-                  }
                 }
               }
               from {

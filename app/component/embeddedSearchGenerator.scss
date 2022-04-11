@@ -137,4 +137,19 @@
 
 .mobile.embedded-search-generator {
     margin: 15px;
+    form {
+        padding: 5px;
+        #embedded-search-width {
+            width: auto;
+            min-width: 50%;
+        }
+        label {
+            span {
+                white-space: normal;
+            }
+        }
+        #embedded-root {
+            width: auto;
+        }
+    }
 }

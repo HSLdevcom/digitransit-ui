@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 
+import Icon from './Icon';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import DisruptionInfo from './DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
@@ -17,12 +18,23 @@ const AppBar = (
   { config, intl, match, getStore },
 ) => {
   const { location } = match;
+  const [disruptionInfoOpen, setDisruptionInfoOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const url = encodeURI(`${window.location?.origin || ''}${location.pathname}`);
   const params = location.search && location.search.substring(1);
 
+  const setMenuOpenWithAnalytics = newState => {
+    addAnalyticsEvent({
+      category: 'Navigation',
+      action: newState ? 'OpenMenu' : 'CloseMenu',
+      name: null,
+    });
+    setMenuOpen(newState);
+  };
+
   return (
     <>
-      <DisruptionInfo />
+      {disruptionInfoOpen && <DisruptionInfo setOpen={setDisruptionInfoOpen} />}
       {config.NODE_ENV !== 'test' && <MessageBar breakpoint={breakpoint} />}
       <CanceledLegsBar />
       <nav className={`top-bar ${breakpoint !== 'large' ? 'mobile' : ''}`}>
@@ -67,7 +79,30 @@ const AppBar = (
                 isMobile
               />
             ))}
-          <MainMenuContainer homeUrl={homeUrl} breakpoint={breakpoint} />
+          {!disruptionInfoOpen && menuOpen && (
+            <MainMenuContainer
+              homeUrl={homeUrl}
+              closeMenu={() => setMenuOpenWithAnalytics(false)}
+              breakpoint={breakpoint}
+              setDisruptionInfoOpen={setDisruptionInfoOpen}
+            />
+          )}
+          {config.mainMenu.show ? (
+            <div className="icon-holder cursor-pointer main-menu-toggle">
+              <button
+                type="button"
+                id="openMenuButton"
+                aria-label={intl.formatMessage({
+                  id: 'main-menu-label-open',
+                  defaultMessage: 'Open the main menu',
+                })}
+                onClick={() => setMenuOpenWithAnalytics(true)}
+                className="noborder cursor-pointer"
+              >
+                <Icon img="icon-icon_menu" className="icon" />
+              </button>
+            </div>
+          ) : null}
         </section>
       </nav>
     </>

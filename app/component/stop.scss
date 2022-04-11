@@ -61,7 +61,6 @@
     border-spacing: 0;
     tr, td {
       padding: 0;
-      border: 0;
     }
   }
 }
@@ -275,31 +274,6 @@
   }
 }
 
-.departure-row {
-  .route-number-container {
-    position: relative;
-    .icon-container {
-      position: absolute;
-      left: -3px;
-      bottom: -5px;
-      .icon-circle {
-        stroke-width: 12;
-        stroke: white;
-      }
-      .icon {
-        width: 1em;
-        height: 1em;
-        display: block;
-        overflow: visible;
-        &.circle {
-          width: 0.75em;
-          height: 0.75em;
-        }
-      }
-    }
-  }
-}
-
 .stop-page.departure-list {
   padding: 0px 0px 15px 5px;
   .departure-day-divider {
@@ -309,130 +283,90 @@
     border-radius: 5px;
     border: 1px solid #eaeaea;
   }
-    .departure-row {
-      width: 100%;
-      min-height: 50px;
-      @include font-narrow-book;
-      font-weight: normal;
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid #dddddd;
-      &.no-border {
-        border: none;
-      }
-      &.bottom {
-        height: 70px;
-        padding-top: 12px;
-        align-items: baseline;
-        .drop-off-container {
-          margin-top: 5px;
-        }
-      }
-      .route-arrival {
-        color: #333;
-        @include font-medium;
-        font-size: 0.75rem;
-        padding-right: 8px;
-        padding-left: 8px;
-        position: relative;
-        span {
-          vertical-align: sub;
-        }
-        &.realtime {
-          color: $realtime-color;
-        }
-        &.canceled {
-          color: $cancelation-red;
-        }
-      }
-      .route-number-container {
-        background-color: currentColor;
-        border-radius: 3px;
-        width: 3em;
-        height: 1.5em;
-        text-align: center;
-        .route-number {
-          color: $white;
-          line-height: 1.5;
-          min-width: unset;
-          display: block;
-          white-space: nowrap;
-          overflow: hidden;
-          .icon-container {
-            font-size: 1.5em;
-            line-height: 1;
-          }
-        }
-      }
-      .time-cell {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        max-width: 100px;
-      }
-      &.realtime {
-        color: $realtime-color;
-      }
-      &.canceled {
-        color: $cancelation-red;
+  .departure-row {
+    width: 100%;
+    min-height: 50px;
+    &.no-border {
+      border: none;
+    }
+    &.bottom {
+      height: 70px;
+      padding-top: 12px;
+      align-items: baseline;
+      .drop-off-container {
+        margin-top: 5px;
       }
     }
-    .route-headsign {
-      font-family: $font-family-narrow;
-      font-weight: $font-weight-book;
-      color: #333;
-      flex: 1;
-      padding-left: $padding-medium;
-      overflow: clip;
-      white-space: normal;
-      margin-bottom: -2px;
-    }
-    .route-time {
-      font-size: $font-size-small;
-      font-weight: $font-weight-medium;
-      color: #333;
-      &.realtime {
-        color: $realtime-color;
-      }
-      &.canceled {
-        color: $cancelation-red;
-      }
-    }
-    .platform-code {
-      background: #f4f4f5;
-      color: #333333;
-      width: 28px;
-      height: 24px;
-      border-radius: 4px;
-      font-size: $font-size-small;
-      font-weight: $font-weight-medium;
-      text-align: center;
-      margin-left: 13px;
-      margin-right: 0.3em;
-      line-height: 1.6;
-      white-space: nowrap;
-      margin-bottom: -2px;
-      &.empty {
-        background: none;
+    .route-arrival {
+      span {
+        vertical-align: sub;
       }
     }
     .route-number-container {
+      width: 3em;
+      height: 1.5em;
       margin-top: 2px;
-      background-color: currentColor;
-      border-radius: 3px;
       min-width: 2.25em;
-      height: 1.25em;
       padding: 0 4px;
-      text-align: center;
       .route-number {
-        color: $white;
-        line-height: 1.35;
-        min-width: unset;
-        display: block;
-        white-space: nowrap;
-        overflow: hidden;
+        .icon-container {
+          font-size: 1.5em;
+          line-height: 1;
+        }
       }
     }
+    .time-cell {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      max-width: 100px;
+    }
+    &.realtime {
+      color: $realtime-color;
+    }
+    &.canceled {
+      color: $cancelation-red;
+    }
+  }
+  .route-headsign {
+    font-family: $font-family-narrow;
+    font-weight: $font-weight-book;
+    color: #333;
+    flex: 1;
+    padding-left: $padding-medium;
+    overflow: clip;
+    white-space: normal;
+    margin-bottom: -2px;
+  }
+  .route-time {
+    font-size: $font-size-small;
+    font-weight: $font-weight-medium;
+    color: #333;
+    &.realtime {
+      color: $realtime-color;
+    }
+    &.canceled {
+      color: $cancelation-red;
+    }
+  }
+  .platform-code {
+    background: #f4f4f5;
+    color: #333333;
+    width: 28px;
+    height: 24px;
+    border-radius: 4px;
+    font-size: $font-size-small;
+    font-weight: $font-weight-medium;
+    text-align: center;
+    margin-left: 13px;
+    margin-right: 0.3em;
+    line-height: 1.6;
+    white-space: nowrap;
+    margin-bottom: -2px;
+    &.empty {
+      background: none;
+    }
+  }
 }
 
 .mobile .stop-page.departure-list .departure-row {

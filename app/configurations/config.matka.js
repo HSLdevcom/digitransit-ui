@@ -1,9 +1,5 @@
 /* eslint-disable prefer-template */
-import {
-  BIKEAVL_BIKES,
-  BIKEAVL_WITHMAX,
-  BIKEAVL_UNKNOWN,
-} from '../util/citybikes';
+import { BIKEAVL_BIKES, BIKEAVL_WITHMAX } from '../util/citybikes';
 import HSLConfig from './config.hsl';
 import TurkuConfig from './config.turku';
 import LappeenrantaConfig from './config.lappeenranta';
@@ -198,10 +194,11 @@ export default {
           en: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
         },
       },
-      lappeenranta: {
-        enabled: LappeenrantaConfig.cityBike.networks.lappeenranta.enabled,
-        season: LappeenrantaConfig.cityBike.networks.lappeenranta.season,
-        capacity: BIKEAVL_UNKNOWN,
+      donkey_lappeenranta: {
+        enabled:
+          LappeenrantaConfig.cityBike.networks.donkey_lappeenranta.enabled,
+        season: LappeenrantaConfig.cityBike.networks.donkey_lappeenranta.season,
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
           fi: 'Lappeenranta',

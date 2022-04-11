@@ -35,6 +35,7 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'lahti/lahti-logo.png',
+  secondaryLogo: 'lahti/secondary-lahti-logo.png',
 
   feedIds: ['Lahti'],
 

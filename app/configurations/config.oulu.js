@@ -36,6 +36,7 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'oulu/oulu-logo.png',
+  secondaryLogo: 'oulu/secondary-oulu-logo.png',
 
   cityBike: {
     networks: {

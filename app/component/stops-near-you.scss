@@ -296,6 +296,7 @@
       border-top: 1px solid #ddd;
     }
     .departure-row {
+      height: 40px;
       .platform-cell {
         display: flex;
       }
@@ -305,40 +306,12 @@
         font-size: 0.813rem;
         align-self: center;
       }
-      @include font-narrow-book;
-      font-weight: normal;
-      display: flex;
-      align-items: center;
-      height: 40px;
-      border-bottom: 1px solid #ddd;
-      .route-arrival {
-        color: #333;
-        @include font-medium;
-        font-size: 0.75rem;
-        padding-right: 8px;
-        position: relative;
-        top: -1px;
-        &.realtime {
-          color: $realtime-color;
-        }
-      }
       .route-number-container {
-        background-color: currentColor;
         margin-right: 10px;
-        border-radius: 3px;
         width: 3em;
         height: 1.25em;
         padding: 0 4px;
-        text-align: center;
         position: relative;
-        .route-number {
-          color: $white;
-          line-height: 1.24;
-          min-width: unset;
-          display: block;
-          white-space: nowrap;
-          overflow: hidden;
-        }
       }
       .route-headsign {
         font-family: $font-family-narrow;

@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
-import { BIKEAVL_UNKNOWN } from '../util/citybikes';
+import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = 'lappeenranta';
 const APP_TITLE = 'reittiopas.lappeenranta.fi';
@@ -28,19 +28,20 @@ export default configMerger(walttiConfig, {
   title: APP_TITLE,
 
   logo: 'lappeenranta/logo.png',
+  secondaryLogo: 'lappeenranta/secondary-logo.png',
 
   favicon: './app/configurations/images/lappeenranta/bussi_fin.jpeg',
 
   cityBike: {
     networks: {
-      lappeenranta: {
+      donkey_lappeenranta: {
         enabled: true,
         season: {
           // 1.4. - 30.11. TODO uncertain end date depends on weather
           start: new Date(new Date().getFullYear(), 3, 1),
           end: new Date(new Date().getFullYear(), 11, 1),
         },
-        capacity: BIKEAVL_UNKNOWN,
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
           fi: 'Lappeenranta',

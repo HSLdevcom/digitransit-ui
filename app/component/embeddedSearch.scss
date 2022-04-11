@@ -34,6 +34,7 @@
             font-size: $font-size-small;
         }
         .brand-logo {
+            object-fit: contain;
             height: 40px;
             max-width: 55%;
         }
