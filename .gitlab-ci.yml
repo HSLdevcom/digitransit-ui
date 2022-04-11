@@ -4,8 +4,8 @@ variables:
   DOCKER_AUTH_CONFIG: '{ "auths": { "https://index.docker.io/v1/": { "auth": "$DOCKER_AUTH" } }}'
   DOCKER_IMAGE: $CI_REGISTRY_IMAGE
   QUANTUM_CLI: registry.internal.planetary-networks.de/quantum-public/cli:2
-  QUANTUM_ENDPOINT: tpwd-bbnavi
-  QUANTUM_PROJECT: digitransit-ui
+  QUANTUM_ENDPOINT: tpwd-bb-navi
+  QUANTUM_PROJECT: bbnavi-digitransit-ui
 
 stages:
   - prerequisites
@@ -125,5 +125,5 @@ deploy-using-quantum:
     paths: [quantum.yml]
   script:
     # The "bb-" namespace stands for "Brandenburg", in case we ever have instances in other regions.
-    - quantum-cli stack update --create --stack "$QUANTUM_PROJECT-bb-$BBNAVI_CONFIG-$QUANTUM_ENDPOINT" --wait
+    - quantum-cli stack update --create --stack "$QUANTUM_PROJECT-bb-$BBNAVI_CONFIG" --wait
   tags: [v2]
