@@ -4,7 +4,7 @@ variables:
   DOCKER_AUTH_CONFIG: '{ "auths": { "https://index.docker.io/v1/": { "auth": "$DOCKER_AUTH" } }}'
   DOCKER_IMAGE: $CI_REGISTRY_IMAGE
   QUANTUM_CLI: registry.internal.planetary-networks.de/quantum-public/cli:2
-  QUANTUM_ENDPOINT: tpwd-bb-navi
+  QUANTUM_ENDPOINT: tpwd-bbnavi
   QUANTUM_PROJECT: digitransit-ui
 
 stages:
