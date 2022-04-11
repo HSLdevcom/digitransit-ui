@@ -6,7 +6,7 @@ import TransitLeg from './TransitLeg';
 
 const BusLeg = ({ leg, ...props }) => (
   <TransitLeg
-    mode={leg.route.type === 702 ? 'bus-trunk' : 'bus'}
+    mode={leg.route.type === 999702 ? 'bus-trunk' : 'bus'}
     leg={leg}
     {...props}
   >
