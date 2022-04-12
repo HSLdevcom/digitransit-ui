@@ -250,7 +250,7 @@ export default configMerger(walttiConfig, {
         enabled: true,
         season: {
           // 15.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 3, 15),
+          start: new Date(new Date().getFullYear(), 5, 1), // temporarily delay to 1st June
           end: new Date(new Date().getFullYear(), 10, 1),
         },
         icon: 'citybike',
