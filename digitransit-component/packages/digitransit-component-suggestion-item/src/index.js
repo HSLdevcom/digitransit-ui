@@ -41,12 +41,18 @@ function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
   } else if (item.type === 'FavouriteStation') {
     iconId = 'favouriteStation';
   } else if (item.type === 'Route') {
-    const mode = getRouteMode(item?.properties);
+    const mode =
+      modeSet === 'default'
+        ? getRouteMode(item?.properties)
+        : item?.properties?.mode?.toLowerCase() || 'bus';
     return modeSet === 'default'
       ? [`mode-${mode}`, `mode-${mode}`]
       : [`mode-${modeSet}-${mode}`, `mode-${mode}`];
   } else if (item.type === 'OldSearch' && item?.properties?.mode) {
-    const mode = getRouteMode(item?.properties);
+    const mode =
+      modeSet === 'default'
+        ? getRouteMode(item?.properties)
+        : item?.properties?.mode?.toLowerCase() || 'bus';
     return modeSet === 'default'
       ? [`mode-${mode}`, `mode-${mode}`]
       : [`mode-${modeSet}-${mode}`, `mode-${mode}`];
@@ -172,7 +178,7 @@ function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
       } else {
         iconStr = ['busstop', 'mode-bus'];
       }
-    } else if (modes.includes('BUS-EXPRESS')) {
+    } else if (modes.includes('BUS-EXPRESS') && modeSet === 'default') {
       iconStr = [layerIcon.get('BUS-EXPRESS'.concat('-').concat(modeSet))];
     } else {
       iconStr = [layerIcon.get(mode.concat('-').concat(modeSet))];
