@@ -292,6 +292,7 @@ class DTAutosuggest extends React.Component {
       'mode-tram': '#008151',
       'mode-metro': '#ed8c00',
       'mode-ferry': '#007A97',
+      'mode-citybike': '#f2b62d',
     },
     required: false,
     modeSet: undefined,
