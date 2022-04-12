@@ -168,21 +168,26 @@ export default configMerger(walttiConfig, {
         layers: [{
             name: 'poi_coords_bike_rentals',
             labelId: 'map-layer-datahub-bike-rentals',
+            icon: 'poi_bicycle_rental',
             baseUrl: `${DATAHUB_TILES_URL}/public.poi_coords_bike_rentals/`,
             vectorTileLayer: 'public.poi_coords_bike_rentals',
         }, {
             name: 'poi_coords_bike_repair_shops',
             labelId: 'map-layer-datahub-bike-repair-shops',
+            icon: 'todo', // todo
             baseUrl: `${DATAHUB_TILES_URL}/public.poi_coords_bike_repair_shops/`,
             vectorTileLayer: 'public.poi_coords_bike_repair_shops',
         }, {
             name: 'poi_coords_e_bike_charging_stations',
             labelId: 'map-layer-datahub-e-bike-charging-stations',
+            icon: 'icon-icon_stop_e_bike_charging_station',
+            // todo: there also is `icon-icon_stop_bicycle_charging_station`
             baseUrl: `${DATAHUB_TILES_URL}/public.poi_coords_e_bike_charging_stations/`,
             vectorTileLayer: 'public.poi_coords_e_bike_charging_stations',
         }, {
             name: 'poi_coords_e_bike_rentals',
             labelId: 'map-layer-datahub-e-bike-rentals',
+            icon: 'todo', // todo
             baseUrl: `${DATAHUB_TILES_URL}/public.poi_coords_e_bike_rentals/`,
             vectorTileLayer: 'public.poi_coords_e_bike_rentals',
         }],
