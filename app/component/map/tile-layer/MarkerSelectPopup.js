@@ -11,6 +11,7 @@ import SelectBikeParkRow from './SelectBikeParkRow';
 import SelectDynamicParkingLotsRow from './SelectDynamicParkingLotsRow';
 import SelectRoadworksRow from './SelectRoadworksRow';
 import SelectChargingStationRow from './SelectChargingStationRow';
+import SelectDatahubPoiRow from './SelectDatahubPoiRow';
 
 function MarkerSelectPopup(props) {
   const hasStop = () =>
@@ -20,6 +21,19 @@ function MarkerSelectPopup(props) {
     props.options.find(option => option.layer === 'realTimeVehicle');
 
   const rows = props.options.map(option => {
+    if (option.layer === 'datahubTiles') {
+      return (
+        <SelectDatahubPoiRow
+          // todo: use option.feature.id?
+          datahubId={option.feature.properties.datahub_id}
+          name={option.feature.properties.name}
+          description={option.feature.properties.tag_name}
+          // todo: use option.feature.properties.svg_icon?
+          icon={option.layerConfig.icon}
+        />
+      );
+    }
+
     if (option.layer === 'stop' && option.feature.properties.stops) {
       return (
         <SelectStopRow
