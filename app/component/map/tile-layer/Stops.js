@@ -9,6 +9,7 @@ import {
   drawHybridStationIcon,
 } from '../../../util/mapIconUtils';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
+import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from '../../../util/path';
 
 class Stops {
   constructor(tile, config, mapLayers, relayEnvironment, mergeStops) {
@@ -66,6 +67,24 @@ class Stops {
     }
     return true;
   }
+
+  shouldRenderTerminalIcon = (mode, path, vehicles) => {
+    const modesWithoutIcon = ['SUBWAY'];
+    const viewsWithoutIcon = [PREFIX_ITINERARY_SUMMARY];
+    const selectedMode = vehicles
+      ? Object.values(vehicles)[0]?.mode
+      : undefined;
+    if (
+      modesWithoutIcon.includes(mode) &&
+      (viewsWithoutIcon.some(view => path.includes(view)) ||
+        (!!selectedMode &&
+          modesWithoutIcon.includes(selectedMode.toUpperCase()) &&
+          path.includes(PREFIX_ROUTES)))
+    ) {
+      return false;
+    }
+    return true;
+  };
 
   getPromise() {
     return fetch(
@@ -220,7 +239,12 @@ class Stops {
                 if (
                   !isHybridStation &&
                   (isHilighted ||
-                    this.tile.coords.z >= this.config.terminalStopsMinZoom)
+                    this.tile.coords.z >= this.config.terminalStopsMinZoom) &&
+                  this.shouldRenderTerminalIcon(
+                    feature.properties.type,
+                    window.location.pathname,
+                    this.tile?.vehicles,
+                  )
                 ) {
                   drawTerminalIcon(
                     this.tile,

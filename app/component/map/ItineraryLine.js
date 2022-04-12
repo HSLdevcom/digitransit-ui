@@ -60,7 +60,7 @@ class ItineraryLine extends React.Component {
 
       let { mode } = leg;
 
-      if (leg.route?.type === 702) {
+      if (leg.route?.type === 999702) {
         mode = 'bus-trunk';
       }
 

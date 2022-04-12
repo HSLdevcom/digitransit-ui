@@ -1,5 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
+import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = 'kotka';
 const APP_TITLE = 'Uusi Reittiopas';
@@ -24,6 +25,8 @@ export default configMerger(walttiConfig, {
     primary: '#118ddd',
     iconColors: {
       'mode-bus': '#118ddd',
+      'mode-citybike': '#f2b62d',
+      'mode-citybike-secondary': '#333333',
     },
   },
   transportModes: {
@@ -36,7 +39,58 @@ export default configMerger(walttiConfig, {
         en: 'Nearby stops on map',
       },
     },
+    citybike: {
+      availableForSelection: true,
+    },
   },
+
+  cityBike: {
+    networks: {
+      donkey_kotka: {
+        enabled: true,
+        season: {
+          // 14.4. - 31.10.
+          start: new Date(new Date().getFullYear(), 3, 14),
+          end: new Date(new Date().getFullYear(), 10, 1),
+        },
+        capacity: BIKEAVL_WITHMAX,
+        icon: 'citybike',
+        name: {
+          fi: 'Kotka',
+          sv: 'Kotka',
+          en: 'Kotka',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://kaakau.fi/kotka/',
+          sv: 'https://kaakau.fi/kotka/?lang=sv',
+          en: 'https://kaakau.fi/kotka/?lang=en',
+        },
+      },
+      donkey_hamina: {
+        enabled: true,
+        season: {
+          // 14.4. - 31.10.
+          start: new Date(new Date().getFullYear(), 3, 14),
+          end: new Date(new Date().getFullYear(), 10, 1),
+        },
+        capacity: BIKEAVL_WITHMAX,
+        icon: 'citybike-secondary',
+        name: {
+          fi: 'Hamina',
+          sv: 'Hamina',
+          en: 'Hamina',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://kaakau.fi/hamina/',
+          sv: 'https://kaakau.fi/hamina/?lang=sv',
+          en: 'https://kaakau.fi/hamina/?lang=en',
+        },
+      },
+    },
+  },
+
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,

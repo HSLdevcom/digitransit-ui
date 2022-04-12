@@ -88,6 +88,7 @@ export default function LocationMarker({
           iconAnchor: [sideLength / 2, sideLength],
           iconSize: [sideLength, sideLength],
         }}
+        zIndexOffset={12000}
       >
         {validType === 'via' && (
           <ViaPointPopup

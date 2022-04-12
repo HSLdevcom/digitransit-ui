@@ -448,8 +448,8 @@ export default {
     // areBounds is for keeping map and user inside given area
     // HSL region + Lahti
     areaBounds: {
-      corner1: [61.21, 26.73],
-      corner2: [59.69, 23.69],
+      corner1: [62, 27],
+      corner2: [59, 22],
     },
   },
 
@@ -621,7 +621,7 @@ export default {
       },
     },
     {
-      showForRoute: route => route.type === 702,
+      showForRoute: route => route.type === 999702,
       id: 'trunkRouteNotification',
       header: {
         fi: 'Runkolinja',
