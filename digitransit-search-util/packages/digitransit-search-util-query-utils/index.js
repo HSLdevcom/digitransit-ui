@@ -474,7 +474,7 @@ export function getRoutesQuery(input, feedIds, transportMode, pathOpts) {
       data.viewer.routes
         .map(r => mapRoute(r, pathOpts))
         .filter(route => !!route)
-        .sort((x, y) => routeNameCompare(x.properties, y.properties))
+        .sort((x, y) => routeNameCompare(x.properties, y.properties)),
     )
     .then(suggestions => take(suggestions, 100));
 }

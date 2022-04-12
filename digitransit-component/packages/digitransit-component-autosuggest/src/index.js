@@ -870,7 +870,6 @@ class DTAutosuggest extends React.Component {
   };
 
   render() {
-    console.log("asdasdasd")
     if (i18next.language !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
     }
