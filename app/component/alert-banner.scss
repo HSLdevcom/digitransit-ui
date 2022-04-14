@@ -1,0 +1,41 @@
+.alert-banner-link {
+  text-decoration: none;
+  color: #333;
+  &.warning, &.severe {
+    .alert-container {
+      background-color: rgba(220,4,81,0.09);
+      border: none;
+    }
+  }
+  .alert-container {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    height: 48px;
+    .alert-text {
+      font-size: 0.813rem;
+      font-weight: 400;
+    }
+    .arrow-icon {
+      height: 100%;
+      .icon-container {
+        font-size: 18px;
+        margin-right: 16px;
+        margin-left: 4px;
+        svg {
+          margin-top: 14px;
+        }
+      }
+    }
+    .icon-container {
+      min-width: 46px;
+      text-align: center;
+      font-size: 24px;
+      svg {
+        margin-top: 10px;
+      }
+    }
+  }
+}

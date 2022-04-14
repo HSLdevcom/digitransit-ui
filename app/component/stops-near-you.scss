@@ -57,7 +57,7 @@
   overflow: visible;
   display: flex;
   flex-direction: column;
-  padding: 0px 3.75em 10px 3.75em;
+  padding: 0px 60px 10px 60px;
   min-height: calc(50vh - 60px);
   .route-number {
     .icon-container {
@@ -120,7 +120,7 @@
     }
 
     .disclaimer-close-button {
-      font-weight: 500;
+      font-weight: $font-weight-medium;
     }
 
     .disclaimer-close {
@@ -162,7 +162,7 @@
     font-size: 0.9375rem;
   }
   .nearest-stops-update-container {
-    height: 80px;
+    min-height: 80px;
     display: flex;
     flex-direction: column;
     margin: 0 auto;
@@ -196,10 +196,13 @@
     width: 100%;
     margin-bottom: 10px;
     animation: fadeIn 0.7s;
+    .alert-container {
+      margin: 0 14px 4px;
+    }
     .stop-near-you-header-container {
       display: flex;
       .stop-near-you-name {
-        font-size: 1rem;
+        font-size: 1.125rem;
         line-height: 24px;
         letter-spacing: -0.4px;
         margin: 0;
@@ -221,10 +224,10 @@
 
         .route-stop-address-row {
           color: #666;
-          font-weight: 400;
+          font-weight: $font-weight-book;
         }
         .card-code {
-          font-weight: 400;
+          font-weight: $font-weight-book;
           margin: 0px;
           &.terminal {
             margin-right: 3px;
@@ -280,12 +283,20 @@
     border-spacing: 0;
     margin: 0;
     width: 100%;
+    table-layout: fixed;
+    a {
+      text-decoration: none;
+    }
     tr, td {
       margin: 0;
       padding: 0;
       border-spacing: 0;
     }
+    .departure-row:first-child {
+      border-top: 1px solid #ddd;
+    }
     .departure-row {
+      height: 40px;
       .platform-cell {
         display: flex;
       }
@@ -295,42 +306,36 @@
         font-size: 0.813rem;
         align-self: center;
       }
-      @include font-narrow-book;
-      font-weight: normal;
-      display: flex;
-      .route-arrival {
-        color: #333;
-        @include font-medium;
-        font-size: 0.75rem;
-        padding-right: 8px;
-        position: relative;
-        top: -1px;
-        &.realtime {
-          color: $realtime-color;
-        }
-      }
       .route-number-container {
-        background-color: currentColor;
         margin-right: 10px;
-        border-radius: 3px;
         width: 3em;
         height: 1.25em;
         padding: 0 4px;
-        text-align: center;
-        .route-number {
-          color: $white;
-          line-height: 1.24;
-          min-width: unset;
-          display: block;
-          white-space: nowrap;
-          overflow: hidden;
-        }
+        position: relative;
       }
       .route-headsign {
         font-family: $font-family-narrow;
         font-weight: $font-weight-book;
         color: #333;
         flex: 1;
+        overflow: hidden;
+        white-space: nowrap;
+        mask-image:
+          linear-gradient(
+            to left,
+            transparent,
+            rgba(0, 0, 0, 0.2) 5px,
+            rgba(0, 0, 0, 1) 25px,
+            rgba(0, 0, 0, 1)
+          );
+        -webkit-mask-image:
+          linear-gradient(
+            to left,
+            transparent,
+            rgba(0, 0, 0, 0.2) 5px,
+            rgba(0, 0, 0, 1) 25px,
+            rgba(0, 0, 0, 1)
+          );
       }
       .route-time {
         color: #333;
@@ -425,6 +430,9 @@
       font-size: $font-size-normal;
     }
     .disruption-show-more {
+      font-weight: $font-weight-medium;
+    }
+    .disruption-source-label {
       font-weight: $font-weight-medium;
     }
   }
@@ -590,7 +598,7 @@
       width: 100%;
       height: 40px;
       font-size: 15px;
-      font-family: $font-family;
+      font-family: $button-font-family;
       font-weight: $font-weight-medium;
       letter-spacing: -0.5px;
       background: $primary-color;

@@ -1,0 +1,155 @@
+.embedded-search-generator {
+    font-family: $font-family;
+    margin: auto;
+
+    fieldset {
+        max-width: 350px;
+        border: none;
+        legend {
+            background: none;
+        }
+    }
+
+    form {
+        background: #F2F5F7;
+        border-radius: 5px;
+        padding: 60px;
+
+        input[type="checkbox"], input[type="radio"] {
+            /* stylelint-disable */
+            accent-color: $primary-color;
+            /* stylelint-enable */
+            border: 1px solid #888888;
+            box-sizing: border-box;
+            width: 24px;
+            height: 24px;
+        }
+
+        #embedded-search-width {
+            width: 314px;
+            height: 44px;
+            background: #FFFFFF;
+            border: 1px solid #888888;
+            box-sizing: border-box;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .location-search-wrapper {
+            margin: 10px 0;
+            padding: 0 20px;
+            max-width: 320px;
+        }
+
+        .code-label {
+            margin-top: 20px;
+            border: 1px solid #DDD;
+            width: fit-content;
+            display: flex;
+            flex-direction: column;
+            border-radius: 5px;
+            height: fit-content;
+            font-size: 14px;
+            line-height: 17px;
+            p {
+                margin: 5px 5px 5px 10px;
+            }
+            #code {
+                border-top: 1px solid #DDD;
+                background: white;
+                margin: 0;
+                max-width: 480px;
+            }
+        }
+
+        .embedded-search-container {
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid #c4c4c4;
+            background: white;
+            .control-panel-container {
+                // So that the preview autosuggest inputs dont appear on top of the origin/destination selection
+                input[id=origin], input[id=destination] {
+                    z-index: -10;
+                }
+                & > div:first-of-type > div:first-of-type :nth-of-type(2) > div:first-of-type {
+                    z-index: 1;
+                 }
+                & > div:first-of-type > div:first-of-type :nth-of-type(3) {
+                    z-index: 0;
+                }
+                & > div:first-of-type > div:first-of-type :nth-of-type(5) > div:first-of-type {
+                    z-index: 1;
+                }
+            }
+        }
+    }
+
+    h1,h2,h3,label {
+        font-family: $heading-font-family;
+        letter-spacing: $letter-spacing;
+        color: $black;
+    }
+    h1,h2,h3 {
+        font-weight: $font-weight-medium;
+    }
+
+    #embed-form-heading {
+        font-size: 36px;
+        line-height: 44px;
+    }
+
+    h2 {
+        font-size: 24px;
+        line-height: 29px;
+    }
+
+    h3 {
+        font-size: 18px;
+        line-height: 22px;
+    }
+
+    label {
+        display: flex;
+        font-size: 16px;
+        line-height: 24px;
+        span {
+            align-self: center;
+            margin-left: 14px;
+            height: 28px;
+            white-space: nowrap;
+        }
+    }
+
+    .embed-preview, fieldset {
+        margin: 1.125rem 0;
+        padding: 1.125rem 0 1.125rem 0;
+    }
+    .embed-preview {
+        pointer-events: none;
+        user-select: none;
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -o-user-select: none;
+    }
+}
+
+.mobile.embedded-search-generator {
+    margin: 15px;
+    form {
+        padding: 5px;
+        #embedded-search-width {
+            width: auto;
+            min-width: 50%;
+        }
+        label {
+            span {
+                white-space: normal;
+            }
+        }
+        #embedded-root {
+            width: auto;
+        }
+    }
+}

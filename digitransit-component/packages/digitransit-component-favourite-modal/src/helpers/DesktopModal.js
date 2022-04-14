@@ -41,11 +41,11 @@ const DesktopModal = ({
       </div>
       <div className={styles['favourite-modal-desktop-main']}>
         <div className={styles['favourite-modal-desktop-location-search']}>
-          <p className={styles['sr-only']}>{requiredText}</p>
           {autosuggestComponent}
         </div>
         <div className={styles['favourite-modal-desktop-name']}>
           <input
+            aria-label={inputPlaceholder}
             className={styles['favourite-modal-desktop-input']}
             value={name}
             placeholder={inputPlaceholder}
@@ -53,13 +53,15 @@ const DesktopModal = ({
           />
         </div>
       </div>
-      <div className={styles['favourite-modal-desktop-text']}>
-        {chooseIconText}
-        <p className={styles['sr-only']}>{requiredText}</p>
-      </div>
-      <div className={styles['favourite-modal-desktop-icons']}>
-        {favouriteIconTable}
-      </div>
+      <fieldset className={styles['icons-container']}>
+        <legend className={styles['favourite-modal-desktop-text']}>
+          {chooseIconText}
+          <p className={styles['sr-only']}>{requiredText}</p>
+        </legend>
+        <div className={styles['favourite-modal-desktop-icons']}>
+          {favouriteIconTable}
+        </div>
+      </fieldset>
       <div className={styles['favourite-modal-desktop-buttons']}>
         <button
           type="button"
@@ -70,6 +72,7 @@ const DesktopModal = ({
           )}
           onClick={saveFavourite}
           aria-label={`${canSave() ? savePlaceText : cantSaveText}`}
+          aria-disabled={!canSave()}
         >
           {saveText}
         </button>

@@ -5,8 +5,6 @@ import { intlShape } from 'react-intl';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import Icon from './Icon';
-import ComponentUsageExample from './ComponentUsageExample';
-import { realtimeDeparture as exampleRealtimeDeparture } from './ExampleData';
 
 const LONG_ROUTE_NUMBER_LENGTH = 6;
 
@@ -66,7 +64,12 @@ function RouteNumber(props, context) {
           badgeText={badgeText}
           badgeTextFill={badgeTextFill}
           color={color}
-          className={mode}
+          className={cx(mode, {
+            [['secondary']]:
+              mode === 'citybike' &&
+              props.icon &&
+              props.icon.includes('secondary'), // Vantaa citybike station
+          })}
           img={icon || `icon-icon_${mode}`}
           subIcon=""
         />
@@ -167,63 +170,6 @@ function RouteNumber(props, context) {
     </>
   );
 }
-
-RouteNumber.description = () => (
-  <div>
-    <p>Display mode icon and route number with mode color</p>
-    <ComponentUsageExample>
-      <RouteNumber
-        mode={exampleRealtimeDeparture.pattern.route.mode}
-        text={exampleRealtimeDeparture.pattern.route.shortName}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="with disruption">
-      <div style={{ paddingLeft: '5px' }}>
-        <RouteNumber
-          mode={exampleRealtimeDeparture.pattern.route.mode}
-          text={exampleRealtimeDeparture.pattern.route.shortName}
-          hasDisruption
-        />
-      </div>
-    </ComponentUsageExample>
-    <ComponentUsageExample description="with callAgency">
-      <div style={{ paddingLeft: '5px' }}>
-        <RouteNumber
-          mode={exampleRealtimeDeparture.pattern.route.mode}
-          text={exampleRealtimeDeparture.pattern.route.shortName}
-          isCallAgency
-        />
-      </div>
-    </ComponentUsageExample>
-    <ComponentUsageExample description="in vertical configuration">
-      <RouteNumber
-        mode={exampleRealtimeDeparture.pattern.route.mode}
-        text={exampleRealtimeDeparture.pattern.route.shortName}
-        vertical
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="in vertical configuration with disruption">
-      <div style={{ paddingLeft: '5px' }}>
-        <RouteNumber
-          mode={exampleRealtimeDeparture.pattern.route.mode}
-          text={exampleRealtimeDeparture.pattern.route.shortName}
-          hasDisruption
-          vertical
-        />
-      </div>
-    </ComponentUsageExample>
-    <ComponentUsageExample description="in vertical configuration with callAgency">
-      <div style={{ paddingLeft: '5px' }}>
-        <RouteNumber
-          mode={exampleRealtimeDeparture.pattern.route.mode}
-          text={exampleRealtimeDeparture.pattern.route.shortName}
-          isCallAgency
-          vertical
-        />
-      </div>
-    </ComponentUsageExample>
-  </div>
-);
 
 RouteNumber.propTypes = {
   alertSeverityLevel: PropTypes.string,

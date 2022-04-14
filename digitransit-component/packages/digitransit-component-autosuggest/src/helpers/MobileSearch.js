@@ -1,13 +1,11 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import PropTypes from 'prop-types';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import cx from 'classnames';
-import ReactModal from 'react-modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import Autosuggest from 'react-autosuggest';
-import styles from './MobileSearch.scss';
+import mobileStyles from './MobileSearch.scss';
+import mobileNoScrollStyles from './MobileNoScroll.scss';
 
 class AutosuggestPatch extends Autosuggest {
   constructor(props) {
@@ -35,7 +33,6 @@ const MobileSearch = ({
   label,
   onSuggestionSelected,
   clearOldSearches,
-  onKeyDown,
   dialogHeaderText,
   dialogPrimaryButtonText,
   dialogSecondaryButtonText,
@@ -43,9 +40,13 @@ const MobileSearch = ({
   focusInput,
   color,
   hoverColor,
+  accessiblePrimaryColor,
   searchOpen,
   fontWeights,
+  showScroll,
 }) => {
+  const styles = showScroll ? mobileStyles : mobileNoScrollStyles;
+
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
 
@@ -56,10 +57,6 @@ const MobileSearch = ({
     closeHandle();
   });
 
-  useEffect(() => {
-    ReactModal.setAppElement(appElement);
-  }, []);
-
   const onSelect = (e, ref) => {
     if (ref.suggestion.type === 'clear-search-history') {
       setDialogOpen(true);
@@ -67,6 +64,18 @@ const MobileSearch = ({
       // Select item if fill input button is not pressed (diagonal arrow in suggestion items)
       onSuggestionSelected(e, ref);
     }
+  };
+
+  const isKeyboardSelectionEvent = event => {
+    const space = [13, ' ', 'Spacebar'];
+    const enter = [32, 'Enter'];
+    const key = (event && (event.key || event.which || event.keyCode)) || '';
+
+    if (!key || !space.concat(enter).includes(key)) {
+      return false;
+    }
+    event.preventDefault();
+    return true;
   };
 
   const getValue = suggestion => {
@@ -79,7 +88,9 @@ const MobileSearch = ({
   const renderItem = item => {
     if (item.type === 'clear-search-history') {
       return (
-        <span className={styles['clear-search-history']}>{item.labelId}</span>
+        <button type="button" className={styles['clear-search-history']}>
+          {item.labelId}
+        </button>
       );
     }
     return renderSuggestion(item);
@@ -112,6 +123,7 @@ const MobileSearch = ({
         type="button"
         className={styles['clear-input']}
         onClick={clearInput}
+        onKeyDown={e => isKeyboardSelectionEvent(e) && clearInput()}
         aria-label={clearInputButtonText}
       >
         <Icon img="close" color={color} />
@@ -121,10 +133,17 @@ const MobileSearch = ({
 
   const renderContent = () => {
     return (
-      <label className={styles['combobox-container']} htmlFor={inputId}>
-        <div className={styles['combobox-icon']} onClick={onClose}>
+      <div className={styles['combobox-container']} htmlFor={inputId}>
+        <button
+          type="button"
+          className={styles['combobox-icon']}
+          onClick={() => onClose()}
+          onKeyDown={e => isKeyboardSelectionEvent(e) && onClose()}
+          aria-label={dialogSecondaryButtonText}
+          tabIndex={0}
+        >
           <Icon img="arrow" />
-        </div>
+        </button>
         <span className={styles['right-column']}>
           <span className={styles['combobox-label']} id={labelId}>
             {label}
@@ -152,12 +171,7 @@ const MobileSearch = ({
             }}
             renderInputComponent={p => (
               <>
-                <input
-                  aria-label={ariaLabel}
-                  id={id}
-                  onKeyDown={onKeyDown}
-                  {...p}
-                />
+                <input aria-label={ariaLabel} id={id} {...p} />
                 {value && clearButton()}
               </>
             )}
@@ -166,7 +180,7 @@ const MobileSearch = ({
             ref={inputRef}
           />
         </span>
-      </label>
+      </div>
     );
   };
   if (focusInput && inputRef.current?.input) {
@@ -174,25 +188,23 @@ const MobileSearch = ({
   }
 
   return (
-    <ReactModal
-      isOpen={searchOpen}
-      className={styles['mobile-modal']}
-      overlayClassName={styles['mobile-modal-overlay']}
-      onAfterClose={onClose}
-      shouldCloseOnEsc
-    >
-      <div
-        className={styles['mobile-modal-content']}
-        style={{
-          '--color': `${color}`,
-          '--hover-color': `${hoverColor}`,
-          '--font-weight-medium': fontWeights.medium,
-        }}
-      >
-        {renderContent()}
-        {renderDialogModal()}
+    searchOpen && (
+      <div className={styles['mobile-modal-overlay']}>
+        <div
+          id="mobile-modal"
+          className={styles['mobile-modal']}
+          style={{
+            '--color': `${color}`,
+            '--accessible-primary-color': accessiblePrimaryColor,
+            '--hover-color': `${hoverColor}`,
+            '--font-weight-medium': fontWeights.medium,
+          }}
+        >
+          {renderContent()}
+          {renderDialogModal()}
+        </div>
       </div>
-    </ReactModal>
+    )
   );
 };
 
@@ -217,7 +229,6 @@ MobileSearch.propTypes = {
   onSuggestionSelected: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   clearOldSearches: PropTypes.func.isRequired,
-  onKeyDown: PropTypes.func.isRequired,
   ariaLabel: PropTypes.string,
   dialogHeaderText: PropTypes.string,
   dialogPrimaryButtonText: PropTypes.string,
@@ -225,10 +236,12 @@ MobileSearch.propTypes = {
   focusInput: PropTypes.bool,
   color: PropTypes.string,
   hoverColor: PropTypes.string,
+  accessiblePrimaryColor: PropTypes.string.isRequired,
   searchOpen: PropTypes.bool.isRequired,
   fontWeights: PropTypes.shape({
     medium: PropTypes.number.isRequired,
   }).isRequired,
+  showScroll: PropTypes.bool,
 };
 
 export default MobileSearch;

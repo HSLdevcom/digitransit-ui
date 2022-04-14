@@ -277,6 +277,7 @@ export const moreItinerariesQuery = graphql`
       ...SummaryPlanContainer_plan
       ...ItineraryTab_plan
       itineraries {
+        duration
         startTime
         endTime
         ...ItineraryTab_itinerary
@@ -290,6 +291,8 @@ export const moreItinerariesQuery = graphql`
           }
           route {
             gtfsId
+            shortName
+            type
           }
           trip {
             gtfsId
@@ -322,6 +325,10 @@ export const moreItinerariesQuery = graphql`
             }
             bikePark {
               bikeParkId
+              name
+            }
+            carPark {
+              carParkId
               name
             }
           }

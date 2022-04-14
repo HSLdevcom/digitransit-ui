@@ -33,6 +33,6 @@ describe('<ZoneIcon />', () => {
         config,
       },
     });
-    expect(wrapper.text()).to.equal('?');
+    expect(wrapper.find('.unknown').text()).to.equal('?');
   });
 });

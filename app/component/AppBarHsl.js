@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 import LazilyLoad, { importLazy } from './LazilyLoad';
@@ -19,9 +19,16 @@ const clearStorages = context => {
   context.getStore('FavouriteStore').clearFavourites();
 };
 
-const AppBarHsl = ({ lang, user }, context) => {
+const notificationAPI = '/api/user/notifications';
+
+const AppBarHsl = ({ lang, user, favourites }, context) => {
   const { config, match, intl } = context;
   const { location } = match;
+
+  const notificationApiUrls = {
+    get: `${notificationAPI}?language=${lang}`,
+    post: `${notificationAPI}?language=${lang}`,
+  };
 
   const [banners, setBanners] = useState([]);
 
@@ -63,6 +70,7 @@ const AppBarHsl = ({ lang, user }, context) => {
           userMenu: {
             isLoading: false, // When fetching for login-information, `isLoading`-property can be set to true. Spinner will be shown.
             isAuthenticated: !!user.sub, // If user is authenticated, set `isAuthenticated`-property to true.
+            isSelected: false,
             loginUrl: `/login?url=${url}&${params}`, // Url that user will be redirect to when Person-icon is pressed and user is not logged in.
             initials,
             menuItems: [
@@ -72,7 +80,7 @@ const AppBarHsl = ({ lang, user }, context) => {
                   defaultMessage: 'My information',
                 }),
                 url: `${config.URL.ROOTLINK}/omat-tiedot`,
-                selected: false,
+                onClick: () => {},
               },
               {
                 name: intl.formatMessage({
@@ -80,13 +88,15 @@ const AppBarHsl = ({ lang, user }, context) => {
                   defaultMessage: 'Logout',
                 }),
                 url: '/logout',
-                selected: false,
                 onClick: () => clearStorages(context),
               },
             ],
           },
         }
       : {};
+
+  const siteHeaderRef = useRef(null);
+  useEffect(() => siteHeaderRef.current?.fetchNotifications()[favourites]);
 
   return (
     <LazilyLoad modules={modules}>
@@ -97,11 +107,14 @@ const AppBarHsl = ({ lang, user }, context) => {
             url={config.localStorageEmitter}
           />
           <SiteHeader
+            ref={siteHeaderRef}
             hslFiUrl={config.URL.ROOTLINK}
             lang={lang}
             {...userMenu}
             languageMenu={languages}
             banners={banners}
+            suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
+            notificationApiUrls={notificationApiUrls}
           />
         </>
       )}
@@ -124,6 +137,7 @@ AppBarHsl.propTypes = {
     sub: PropTypes.string,
     notLogged: PropTypes.bool,
   }),
+  favourites: PropTypes.array,
 };
 
 AppBarHsl.defaultProps = {

@@ -6,12 +6,14 @@ const PopupHeader = ({ header, subHeader, children }, { intl }) => {
   return (
     <div className="location-popup-wrapper">
       <div className="location-address">{header}</div>
-      <div className="location-place">
-        {!subHeader
-          ? intl.formatMessage({ id: 'zone', defaultMessage: 'Zone' })
-          : subHeader}
-        {children}
-      </div>
+      {(children || subHeader) && (
+        <div className="location-place">
+          {!subHeader
+            ? intl.formatMessage({ id: 'zone', defaultMessage: 'Zone' })
+            : subHeader}
+          {children}
+        </div>
+      )}
     </div>
   );
 };

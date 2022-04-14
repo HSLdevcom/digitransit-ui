@@ -70,7 +70,10 @@ export default class IconMarker extends React.Component {
         {...this.props}
         icon={this.state.icon}
         keyboard={false}
-      />,
+        zIndexOffset={this.props.zIndexOffset}
+      >
+        {this.props.children}
+      </Marker>,
     ];
   }
 }
@@ -83,4 +86,10 @@ IconMarker.propTypes = {
   icon: PropTypes.shape({
     element: PropTypes.node.isRequired,
   }).isRequired,
+  zIndexOffset: PropTypes.number,
+  children: PropTypes.node,
+};
+
+IconMarker.defaultProps = {
+  zIndexOffset: undefined,
 };

@@ -39,6 +39,7 @@ function getStopsFromGeocoding(stops, URL_PELIAS_PLACE) {
       const favourite = {
         type: 'FavouriteStop',
         properties: {
+          addendum: stop.properties.addendum,
           gid: stopStationMap[stop.properties.gid].gid,
           code: stopStationMap[stop.properties.gid].code,
           gtfsId: stopStationMap[stop.properties.gid].gtfsId,
@@ -217,6 +218,7 @@ const routeLayers = [
   'route-RAIL',
   'route-FERRY',
   'route-SUBWAY',
+  'route-AIRPLANE',
 ];
 const locationLayers = ['favouritePlace', 'venue', 'address', 'street'];
 /**
@@ -369,9 +371,8 @@ export function getSearchResults(
     }
     if (allSources || sources.includes('Datasource')) {
       const geocodingLayers = ['stop', 'station'];
-      const searchParams = {
-        size: geocodingSize,
-      };
+      const searchParams =
+        geocodingSize && geocodingSize !== 10 ? { size: geocodingSize } : {};
       const feedis = feedIDs.map(v => `gtfs${v}`).join(',');
       searchComponents.push(
         getGeocodingResults(
@@ -473,9 +474,9 @@ export function getSearchResults(
   }
   if (allTargets || targets.includes('BikeRentalStations')) {
     if (sources.includes('Favourite')) {
-      const favouriteRoutes = getFavouriteBikeRentalStations(context);
+      const favouriteBikeStations = getFavouriteBikeRentalStations(context);
       searchComponents.push(
-        getFavouriteBikeRentalStationsQuery(favouriteRoutes, input),
+        getFavouriteBikeRentalStationsQuery(favouriteBikeStations, input),
       );
     }
     if (allSources || sources.includes('Datasource')) {

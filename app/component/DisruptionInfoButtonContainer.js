@@ -7,20 +7,12 @@ import DisruptionInfoButton from './DisruptionInfoButton';
 import { isBrowser } from '../util/browser';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-function DisruptionInfoButtonContainer(
-  outerProps,
-  { router, match, config: { feedIds } },
-) {
+function DisruptionInfoButtonContainer(outerProps, { config: { feedIds } }) {
+  const { setDisruptionInfoOpen } = outerProps;
   const { environment } = useContext(ReactRelayContext);
   if (isBrowser) {
     const openDisruptionInfo = () => {
-      router.push({
-        ...match.location,
-        state: {
-          ...match.location.state,
-          disruptionInfoOpen: true,
-        },
-      });
+      setDisruptionInfoOpen(true);
       addAnalyticsEvent({
         category: 'Navigation',
         action: 'OpenDisruptions',
@@ -44,7 +36,7 @@ function DisruptionInfoButtonContainer(
           <DisruptionInfoButton
             viewer={null}
             {...props}
-            toggleDisruptionInfo={openDisruptionInfo}
+            openDisruptionInfo={openDisruptionInfo}
           />
         )}
       />
@@ -52,6 +44,10 @@ function DisruptionInfoButtonContainer(
   }
   return <div />;
 }
+
+DisruptionInfoButtonContainer.propTypes = {
+  setDisruptionInfoOpen: PropTypes.func.isRequired,
+};
 
 DisruptionInfoButtonContainer.contextTypes = {
   router: routerShape.isRequired,

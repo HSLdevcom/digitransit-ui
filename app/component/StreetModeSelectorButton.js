@@ -19,7 +19,7 @@ export const StreetModeSelectorButton = (
     return null;
   }
 
-  if (name === 'bikeAndVehicle') {
+  if (name === 'bikeAndVehicle' || name === 'parkAndRide') {
     const compressedLegs = compressLegs(itinerary.legs);
     itinerary = {
       ...itinerary,
@@ -67,6 +67,18 @@ export const StreetModeSelectorButton = (
         metroColor = '#CA4000';
       }
     }
+  } else if (name === 'parkAndRide') {
+    const publicModes = plan.itineraries[0].legs.filter(
+      obj =>
+        obj.mode !== 'WALK' && obj.mode !== 'BICYCLE' && obj.mode !== 'CAR',
+    );
+    if (publicModes.length > 0) {
+      const firstMode = publicModes[0].mode.toLowerCase();
+      secondaryIcon = `icon-icon_${firstMode}`;
+      if (firstMode === 'subway') {
+        metroColor = '#CA4000';
+      }
+    }
   }
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events
@@ -90,12 +102,18 @@ export const StreetModeSelectorButton = (
         <div
           className={`street-mode-selector-button-icon ${
             secondaryIcon ? 'primary-icon' : ''
+          } ${name === 'parkAndRide' ? 'car-park-primary' : ''} ${
+            name === 'bikeAndVehicle' ? 'bike-and-vehicle-primary' : ''
           }`}
         >
           <Icon img={icon} />
         </div>
-        {name === 'bikeAndVehicle' ? (
-          <div className="street-mode-selector-button-icon secondary-icon">
+        {name === 'bikeAndVehicle' || name === 'parkAndRide' ? (
+          <div
+            className={`street-mode-selector-button-icon secondary-icon ${
+              name === 'parkAndRide' ? 'car-park-secondary' : ''
+            }`}
+          >
             <Icon img={secondaryIcon} color={metroColor || ''} />
           </div>
         ) : (

@@ -1,6 +1,6 @@
 node_modules
 _static
-gemini-report
 app/buildInfo.js
 digitransit-component/packages/**/lib
 digitransit-store/packages/**/lib
+digitransit-search-util/packages/**/lib

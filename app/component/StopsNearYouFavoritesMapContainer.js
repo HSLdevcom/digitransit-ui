@@ -13,43 +13,49 @@ function StopsNearYouFavoritesMapContainer(props) {
   const { stops, stations, bikeStations, position } = props;
   const stopList = [];
   stopList.push(
-    ...stops.map(stop => {
-      return {
-        type: 'stop',
-        node: {
-          distance: distance(position, stop),
-          place: {
-            ...stop,
+    ...stops
+      .filter(s => s)
+      .map(stop => {
+        return {
+          type: 'stop',
+          node: {
+            distance: distance(position, stop),
+            place: {
+              ...stop,
+            },
           },
-        },
-      };
-    }),
+        };
+      }),
   );
   stopList.push(
-    ...stations.map(stop => {
-      return {
-        type: 'station',
-        node: {
-          distance: distance(position, stop),
-          place: {
-            ...stop,
+    ...stations
+      .filter(s => s)
+      .map(stop => {
+        return {
+          type: 'station',
+          node: {
+            distance: distance(position, stop),
+            place: {
+              ...stop,
+            },
           },
-        },
-      };
-    }),
+        };
+      }),
   );
   stopList.push(
-    ...bikeStations.map(stop => {
-      return {
-        type: 'bikeRentalStation',
-        node: {
-          distance: distance(position, stop),
-          place: {
-            ...stop,
+    ...bikeStations
+      .filter(s => s)
+      .map(stop => {
+        return {
+          type: 'bikeRentalStation',
+          node: {
+            distance: distance(position, stop),
+            place: {
+              ...stop,
+            },
           },
-        },
-      };
-    }),
+        };
+      }),
   );
   stopList.sort((a, b) => a.node.distance - b.node.distance);
 

@@ -82,9 +82,3 @@ export const isKeyboardSelectionEvent = event => {
   event.preventDefault();
   return true;
 };
-
-/**
- * Checks if the current view is part of the style guide.
- */
-export const isStyleGuide =
-  isBrowser && window.location.pathname.indexOf('styleguide') !== -1;

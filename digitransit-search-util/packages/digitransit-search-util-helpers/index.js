@@ -198,7 +198,7 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
         switch (layer) {
           case LayerType.Station: {
             const boost = source.indexOf('gtfs') === 0 ? 0.05 : 0.01;
-            return Math.min(confidence + boost, 1);
+            return confidence + boost;
           }
           default:
             return confidence;

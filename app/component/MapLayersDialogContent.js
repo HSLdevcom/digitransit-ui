@@ -13,6 +13,7 @@ import { updateMapLayers } from '../action/MapLayerActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withGeojsonObjects from './map/withGeojsonObjects';
 import { mapLayerOptionsShape } from '../util/shapes';
+import { getTransportModes, showCityBikes } from '../util/modeUtils';
 
 const transportModeConfigShape = PropTypes.shape({
   availableForSelection: PropTypes.bool,
@@ -20,7 +21,7 @@ const transportModeConfigShape = PropTypes.shape({
 
 const mapLayersConfigShape = PropTypes.shape({
   cityBike: PropTypes.shape({
-    showCityBikes: PropTypes.bool,
+    networks: PropTypes.object,
   }),
   geoJson: PropTypes.shape({
     layers: PropTypes.arrayOf(
@@ -123,7 +124,7 @@ class MapLayersDialogContent extends React.Component {
     }
     const isTransportModeEnabled = transportMode =>
       transportMode && transportMode.availableForSelection;
-    const transportModes = this.context.config.transportModes || {};
+    const transportModes = getTransportModes(this.context.config);
     return (
       <Fragment>
         <button
@@ -205,20 +206,19 @@ class MapLayersDialogContent extends React.Component {
               }}
             />
           )}
-          {this.context.config.cityBike &&
-            this.context.config.cityBike.showCityBikes && (
-              <Checkbox
-                large
-                checked={citybike}
-                disabled={!!this.props.mapLayerOptions?.citybike?.isLocked}
-                defaultMessage="Citybike station"
-                labelId="map-layer-citybike"
-                onChange={e => {
-                  this.updateSetting({ citybike: e.target.checked });
-                  this.sendLayerChangeAnalytic('Citybike', e.target.checked);
-                }}
-              />
-            )}
+          {showCityBikes(this.context.config?.cityBike?.networks) && (
+            <Checkbox
+              large
+              checked={citybike}
+              disabled={!!this.props.mapLayerOptions?.citybike?.isLocked}
+              defaultMessage="Citybike station"
+              labelId="map-layer-citybike"
+              onChange={e => {
+                this.updateSetting({ citybike: e.target.checked });
+                this.sendLayerChangeAnalytic('Citybike', e.target.checked);
+              }}
+            />
+          )}
           {this.context.config.parkAndRide &&
             this.context.config.parkAndRide.showParkAndRide && (
               <Checkbox

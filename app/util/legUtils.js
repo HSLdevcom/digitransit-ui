@@ -1,5 +1,4 @@
 import cloneDeep from 'lodash/cloneDeep';
-import forEach from 'lodash/forEach';
 import get from 'lodash/get';
 import { BIKEAVL_UNKNOWN } from './citybikes';
 
@@ -70,6 +69,7 @@ export const LegMode = {
   BicycleWalk: 'BICYCLE_WALK',
   CityBike: 'CITYBIKE',
   Walk: 'WALK',
+  Car: 'CAR',
 };
 
 /**
@@ -92,6 +92,8 @@ export const getLegMode = legOrMode => {
       return LegMode.CityBike;
     case LegMode.Walk:
       return LegMode.Walk;
+    case LegMode.Car:
+      return LegMode.Car;
     default:
       return undefined;
   }
@@ -125,6 +127,26 @@ export const getLegText = (route, config, interliningWithRoute) => {
   return '';
 };
 
+/**
+ * Returns all legs after a given index in which the user can wait in the vehilce for the next transit leg
+ * to start.
+ * @param {*} legs An array of itinerary legs
+ * @param {*} index Current index on the array
+ */
+export const getInterliningLegs = (legs, index) => {
+  const interliningLegs = [];
+  const interliningLines = [];
+  let i = index;
+  while (legs[i + 1] && legs[i + 1].interlineWithPreviousLeg) {
+    interliningLegs.push(legs[i + 1]);
+    interliningLines.push(legs[i + 1].route.shortName);
+    i += 1;
+  }
+  const uniqueLines = Array.from(new Set(interliningLines));
+
+  return [uniqueLines, interliningLegs];
+};
+
 const bikingEnded = leg1 => {
   return leg1.from.bikeRentalStation && leg1.mode === 'WALK';
 };
@@ -134,14 +156,19 @@ const bikingEnded = leg1 => {
  * one after the other.
  *
  * @param {*} originalLegs an array of legs
+ * @param {boolean} keepBicycleWalk whether to keep bicycle walk legs before and after a public transport leg
  */
-export const compressLegs = originalLegs => {
+export const compressLegs = (originalLegs, keepBicycleWalk = false) => {
   const usingOwnBicycle = originalLegs.some(
     leg => getLegMode(leg) === LegMode.Bicycle && leg.rentedBike === false,
   );
   const compressedLegs = [];
   let compressedLeg;
-  forEach(originalLegs, currentLeg => {
+  let bikeParked = false;
+  originalLegs.forEach((currentLeg, i) => {
+    if (currentLeg.to?.bikePark || currentLeg.from?.bikePark) {
+      bikeParked = true;
+    }
     if (!compressedLeg) {
       compressedLeg = cloneDeep(currentLeg);
       return;
@@ -152,6 +179,21 @@ export const compressLegs = originalLegs => {
       return;
     }
 
+    if (keepBicycleWalk && usingOwnBicycle) {
+      if (originalLegs[i + 1]?.transitLeg && currentLeg.mode !== 'BICYCLE') {
+        compressedLegs.push(compressedLeg);
+        compressedLeg = cloneDeep(currentLeg);
+        return;
+      }
+      if (
+        compressedLegs[compressedLegs.length - 1]?.transitLeg &&
+        compressedLeg.mode !== 'BICYCLE'
+      ) {
+        compressedLegs.push(compressedLeg);
+        compressedLeg = cloneDeep(currentLeg);
+        return;
+      }
+    }
     if (usingOwnBicycle && continueWithBicycle(compressedLeg, currentLeg)) {
       // eslint-disable-next-line no-nested-ternary
       const newBikePark = compressedLeg.to.bikePark
@@ -180,14 +222,22 @@ export const compressLegs = originalLegs => {
       return;
     }
 
-    if (usingOwnBicycle && getLegMode(compressedLeg) === LegMode.Walk) {
+    if (
+      usingOwnBicycle &&
+      !bikeParked &&
+      getLegMode(compressedLeg) === LegMode.Walk
+    ) {
       compressedLeg.mode = LegMode.BicycleWalk;
     }
 
     compressedLegs.push(compressedLeg);
     compressedLeg = cloneDeep(currentLeg);
 
-    if (usingOwnBicycle && getLegMode(currentLeg) === LegMode.Walk) {
+    if (
+      usingOwnBicycle &&
+      !bikeParked &&
+      getLegMode(currentLeg) === LegMode.Walk
+    ) {
       compressedLeg.mode = LegMode.BicycleWalk;
     }
   });
@@ -204,7 +254,7 @@ const isWalkingLeg = leg =>
   [LegMode.BicycleWalk, LegMode.Walk].includes(getLegMode(leg));
 const isBikingLeg = leg =>
   [LegMode.Bicycle, LegMode.CityBike].includes(getLegMode(leg));
-
+const isDrivingLeg = leg => [LegMode.Car].includes(getLegMode(leg));
 /**
  * Checks if the itinerary consists of a single biking leg.
  *
@@ -220,6 +270,15 @@ export const onlyBiking = itinerary =>
  */
 export const containsBiking = itinerary => itinerary.legs.some(isBikingLeg);
 
+/**
+ * Checks if any of the legs in the given itinerary contains biking with rental bike.
+ *
+ * @param {*} leg
+ */
+export const legContainsRentalBike = leg =>
+  (getLegMode(leg) === LegMode.CityBike ||
+    getLegMode(leg) === LegMode.Bicycle) &&
+  leg.rentedBike;
 /**
  * Calculates and returns the total walking distance undertaken in an itinerary.
  * This could be used as a fallback if the backend returns an invalid value.
@@ -237,6 +296,9 @@ export const getTotalWalkingDistance = itinerary =>
  */
 export const getTotalBikingDistance = itinerary =>
   sumDistances(itinerary.legs.filter(isBikingLeg));
+
+export const getTotalDrivingDistance = itinerary =>
+  sumDistances(itinerary.legs.filter(isDrivingLeg));
 
 /**
  * Calculates and returns the total distance undertaken in an itinerary.
@@ -410,6 +472,19 @@ export const getHeadsignFromRouteLongName = route => {
   return headsign;
 };
 
+export const getStopHeadsignFromStoptimes = (stop, stoptimes) => {
+  const { gtfsId } = stop;
+  let headsign;
+  if (Array.isArray(stoptimes)) {
+    stoptimes.forEach(stoptime => {
+      if (stoptime.stop.gtfsId === gtfsId) {
+        headsign = stoptime.headsign;
+      }
+    });
+  }
+  return headsign;
+};
+
 /**
  * Calculates and returns the total duration undertaken in legs.
  *
@@ -435,3 +510,6 @@ export const getTotalWalkingDuration = itinerary =>
  */
 export const getTotalBikingDuration = itinerary =>
   sumDurations(itinerary.legs.filter(isBikingLeg));
+
+export const getTotalDrivingDuration = itinerary =>
+  sumDurations(itinerary.legs.filter(isDrivingLeg));

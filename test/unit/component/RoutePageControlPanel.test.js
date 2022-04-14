@@ -8,7 +8,7 @@ import { mockContext } from '../helpers/mock-context';
 import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { startRealTimeClient } from '../../../app/action/realTimeClientAction';
-import { default as RoutePageControlPanel } from '../../../app/component/RoutePageControlPanel';
+import { Component as RoutePageControlPanel } from '../../../app/component/RoutePageControlPanel';
 import { AlertSeverityLevelType } from '../../../app/constants';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../app/util/path';
 

@@ -15,8 +15,11 @@ class ItineraryCircleLineWithIcon extends React.Component {
     index: PropTypes.number.isRequired,
     modeClassName: PropTypes.string.isRequired,
     isVia: PropTypes.bool,
+    bikePark: PropTypes.bool,
+    carPark: PropTypes.bool,
     color: PropTypes.string,
     appendClass: PropTypes.string,
+    icon: PropTypes.string,
   };
 
   state = {
@@ -56,7 +59,24 @@ class ItineraryCircleLineWithIcon extends React.Component {
         </div>
       );
     }
-    if (this.props.modeClassName === 'walk') {
+    if (this.props.bikePark) {
+      return (
+        <div className="itinerary-icon-container bike-park">
+          <Icon img="icon-bike_parking" />
+        </div>
+      );
+    }
+    if (this.props.carPark) {
+      return (
+        <div className="itinerary-icon-container car-park">
+          <Icon img="icon-icon_car-park" />
+        </div>
+      );
+    }
+    if (
+      this.props.modeClassName === 'walk' ||
+      this.props.modeClassName === 'bicycle'
+    ) {
       return <></>;
     }
     return (
@@ -83,7 +103,6 @@ class ItineraryCircleLineWithIcon extends React.Component {
     if (
       isBrowser &&
       (this.props.modeClassName === 'walk' ||
-        this.props.modeClassName === 'bicycle' ||
         this.props.modeClassName === 'bicycle_walk')
     ) {
       // eslint-disable-next-line global-require
@@ -93,6 +112,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
       <div
         className={cx('leg-before', this.props.modeClassName, {
           via: this.props.isVia,
+          'first-leg': this.props.index === 0,
         })}
         aria-hidden="true"
       >
@@ -109,6 +129,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
         <RouteNumber
           appendClass={this.props.appendClass}
           mode={this.props.modeClassName}
+          icon={this.props.icon}
           vertical
         />
         <div

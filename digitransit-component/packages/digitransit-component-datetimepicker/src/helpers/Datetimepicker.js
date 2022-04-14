@@ -37,6 +37,9 @@ i18next.init({
  * @param {node} props.embedWhenOpen          JSX element to render when input is open
  * @param {string} props.lang                 Language selection
  * @param {number} props.serviceTimeRange           Determine number of days shown in timepicker. Optional. default is 30.
+ * @param {function} props.onOpen                   Determine what to do when timepicker is open. Optional. no default implementation.
+ * @param {function} props.onClose                  Determine what to do when timepicker is closed. Optional. no default implementation.
+ * @param {function} props.openPicker               Determine if timepicker should be open in intial render. Optional. Default is undefined.
  *
  *
  * @example
@@ -69,9 +72,12 @@ function Datetimepicker({
   onModalSubmit,
   fontWeights,
   serviceTimeRange,
+  onOpen,
+  onClose,
+  openPicker,
 }) {
   moment.tz.setDefault(timeZone);
-  const [isOpen, changeOpen] = useState(false);
+  const [isOpen, changeOpen] = useState(openPicker || false);
   const [displayTimestamp, changeDisplayTimestamp] = useState(
     timestamp || moment().valueOf(),
   );
@@ -82,6 +88,7 @@ function Datetimepicker({
   const [useMobileInputs] = useState(isMobile() && dateTimeInputIsSupported());
   const openPickerRef = useRef();
   const inputRef = useRef();
+  const alertRef = useRef();
 
   const translationSettings = { lng: lang };
 
@@ -222,9 +229,29 @@ function Datetimepicker({
     .fill()
     .map((_, i) => moment(dateSelectStartTime).add(i, 'day').valueOf());
 
-  const ariaOpenPickerLabel = isOpen
-    ? i18next.t('accessible-opened', translationSettings)
-    : i18next.t('accessible-closed', translationSettings);
+  function showScreenreaderCloseAlert() {
+    if (alertRef.current) {
+      alertRef.current.innerHTML = i18next.t(
+        'accessible-closed',
+        translationSettings,
+      );
+      setTimeout(() => {
+        alertRef.current.innerHTML = null;
+      }, 100);
+    }
+  }
+
+  function showScreenreaderOpenAlert() {
+    if (alertRef.current) {
+      alertRef.current.innerHTML = i18next.t(
+        'accessible-opened',
+        translationSettings,
+      );
+      setTimeout(() => {
+        alertRef.current.innerHTML = null;
+      }, 100);
+    }
+  }
 
   function renderOpen() {
     if (useMobileInputs) {
@@ -234,6 +261,7 @@ function Datetimepicker({
             departureOrArrival={departureOrArrival}
             onNowClick={() => {
               changeOpen(false);
+              showScreenreaderCloseAlert();
               onNowClick();
             }}
             lang={lang}
@@ -241,9 +269,14 @@ function Datetimepicker({
             onSubmit={(newTimestamp, newDepartureOrArrival) => {
               onModalSubmit(newTimestamp, newDepartureOrArrival);
               changeOpen(false);
+              showScreenreaderCloseAlert();
             }}
             onCancel={() => {
               changeOpen(false);
+              showScreenreaderCloseAlert();
+              if (onClose) {
+                onClose();
+              }
             }}
             getTimeDisplay={getTimeDisplay}
             timeZone={timeZone}
@@ -273,9 +306,7 @@ function Datetimepicker({
             }
           >
             {' '}
-            <span role="alert" className={styles['sr-only']}>
-              {ariaOpenPickerLabel}
-            </span>
+            <span role="alert" className={styles['sr-only']} ref={alertRef} />
             <span />
             {/* This empty span prevents a weird focus bug on chrome */}
             <span className={styles['departure-or-arrival-container']}>
@@ -330,6 +361,10 @@ function Datetimepicker({
               className={styles['departure-now-button']}
               onClick={() => {
                 changeOpen(false);
+                showScreenreaderCloseAlert();
+                if (onClose) {
+                  onClose();
+                }
                 onNowClick();
               }}
               ref={inputRef}
@@ -342,7 +377,13 @@ function Datetimepicker({
                 className={styles['close-button']}
                 aria-controls={`${htmlId}-root`}
                 aria-expanded="true"
-                onClick={() => changeOpen(false)}
+                onClick={() => {
+                  changeOpen(false);
+                  showScreenreaderCloseAlert();
+                  if (onClose) {
+                    onClose();
+                  }
+                }}
               >
                 <span className={styles['close-icon']}>
                   <Icon img="close" color={color} />
@@ -425,6 +466,9 @@ function Datetimepicker({
       <legend className={styles['sr-only']}>
         {i18next.t('accessible-title', translationSettings)}
       </legend>
+      <span className={styles['sr-only']}>
+        {i18next.t('accessible-update-instructions', translationSettings)}
+      </span>
       <>
         <div
           className={
@@ -440,16 +484,20 @@ function Datetimepicker({
             <span className={styles['sr-only']}>
               {i18next.t('accessible-open', translationSettings)}
             </span>
-            <span role="alert" className={styles['sr-only']}>
-              {ariaOpenPickerLabel}
-            </span>
+            <span role="alert" className={styles['sr-only']} ref={alertRef} />
             <button
               id={`${htmlId}-open`}
               type="button"
               className={`${styles.textbutton} ${styles.active} ${styles['open-button']}`}
               aria-controls={`${htmlId}-root`}
               aria-expanded="false"
-              onClick={() => changeOpen(true)}
+              onClick={() => {
+                changeOpen(true);
+                showScreenreaderOpenAlert();
+                if (onOpen) {
+                  onOpen();
+                }
+              }}
               ref={openPickerRef}
             >
               <span>
@@ -503,6 +551,9 @@ Datetimepicker.propTypes = {
     medium: PropTypes.number.isRequired,
   }).isRequired,
   serviceTimeRange: PropTypes.number,
+  onOpen: PropTypes.func,
+  onClose: PropTypes.func,
+  openPicker: PropTypes.bool,
 };
 
 Datetimepicker.defaultProps = {
@@ -512,6 +563,9 @@ Datetimepicker.defaultProps = {
   color: '#007ac9',
   timeZone: 'Europe/Helsinki',
   serviceTimeRange: 30,
+  onOpen: null,
+  onClose: null,
+  openPicker: undefined,
 };
 
 export default Datetimepicker;

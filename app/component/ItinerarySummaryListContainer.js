@@ -40,11 +40,12 @@ function ItinerarySummaryListContainer(
     separatorPosition,
     loadingMoreItineraries,
     loading,
+    driving,
   },
   context,
 ) {
   const [showCancelled, setShowCancelled] = useState(false);
-  const { config } = context;
+  const { config, match } = context;
 
   if (
     !error &&
@@ -180,15 +181,43 @@ function ItinerarySummaryListContainer(
       </div>
     );
   }
-  if (!error && (!from.lat || !from.lon || !to.lat || !to.lon)) {
-    return (
-      <div className="summary-list-container summary-no-route-found">
-        <FormattedMessage
-          id="no-route-start-end"
-          defaultMessage="Please select origin and destination."
-        />
-      </div>
-    );
+  if (!error) {
+    if ((!from.lat || !from.lon) && (!to.lat || !to.lon)) {
+      return (
+        <div className="summary-list-container">
+          <div className="summary-no-route-found">
+            <FormattedMessage
+              id="no-route-start-end"
+              defaultMessage="Please select origin and destination"
+            />
+          </div>
+        </div>
+      );
+    }
+    if (!from.lat || !from.lon) {
+      return (
+        <div className="summary-list-container">
+          <div className="summary-no-route-found">
+            <FormattedMessage
+              id="no-route-start"
+              defaultMessage="Please select origin"
+            />
+          </div>
+        </div>
+      );
+    }
+    if (!to.lat || !to.lon) {
+      return (
+        <div className="summary-list-container">
+          <div className="summary-no-route-found">
+            <FormattedMessage
+              id="no-route-end"
+              defaultMessage="Please select destination"
+            />
+          </div>
+        </div>
+      );
+    }
   }
 
   if (loading) {
@@ -224,10 +253,15 @@ function ItinerarySummaryListContainer(
     } else {
       msgId = 'no-route-origin-near-destination';
     }
-  } else if (walking || biking) {
+  } else if (walking || biking || driving) {
     iconType = 'info';
     iconImg = 'icon-icon_info';
-    if (walking && !biking) {
+    const yesterday = currentTime - 24 * 60 * 60 * 1000;
+    if (searchTime < yesterday) {
+      msgId = 'itinerary-in-the-past';
+    } else if (driving) {
+      msgId = 'walk-bike-itinerary-4';
+    } else if (walking && !biking) {
       msgId = 'walk-bike-itinerary-1';
     } else if (!walking && biking) {
       msgId = 'walk-bike-itinerary-2';
@@ -261,6 +295,26 @@ function ItinerarySummaryListContainer(
       </div>
     );
   }
+
+  let titlePart = null;
+  if (msgId === 'itinerary-in-the-past') {
+    titlePart = (
+      <div className="in-the-past">
+        <FormattedMessage id={`${msgId}-title`} defaultMessage="" />
+      </div>
+    );
+    linkPart = (
+      <div>
+        <a
+          className={cx('no-decoration', 'medium')}
+          href={match.location.pathname}
+        >
+          <FormattedMessage id={`${msgId}-link`} defaultMessage="" />
+        </a>
+      </div>
+    );
+  }
+
   const background = iconImg.replace('icon-icon_', '');
   return (
     <div className="summary-list-container summary-no-route-found">
@@ -270,9 +324,10 @@ function ItinerarySummaryListContainer(
         <Icon
           className={cx('no-route-icon', iconType)}
           img={iconImg}
-          color={iconImg === 'icon-icon_info' ? '#007ac9' : null}
+          color={iconImg === 'icon-icon_info' ? '#0074be' : null}
         />
         <div>
+          {titlePart}
           <FormattedMessage
             id={msgId}
             defaultMessage={
@@ -312,6 +367,7 @@ ItinerarySummaryListContainer.propTypes = {
   bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
   walking: PropTypes.bool,
   biking: PropTypes.bool,
+  driving: PropTypes.bool,
   showAlternativePlan: PropTypes.bool,
   separatorPosition: PropTypes.number,
   loadingMoreItineraries: PropTypes.string,
@@ -363,6 +419,7 @@ const containerComponent = createFragmentContainer(
           route {
             mode
             shortName
+            type
             color
             agency {
               name
@@ -421,6 +478,10 @@ const containerComponent = createFragmentContainer(
             }
             bikePark {
               bikeParkId
+              name
+            }
+            carPark {
+              carParkId
               name
             }
           }

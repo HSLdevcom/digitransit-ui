@@ -1,11 +1,14 @@
 /* eslint-disable prefer-template */
+import { BIKEAVL_BIKES, BIKEAVL_WITHMAX } from '../util/citybikes';
+import HSLConfig from './config.hsl';
+import TurkuConfig from './config.turku';
+import LappeenrantaConfig from './config.lappeenranta';
+import KuopioConfig from './config.kuopio';
+
 const CONFIG = 'matka';
 const APP_DESCRIPTION = 'Matka.fi–palvelu.';
 const APP_TITLE = 'Matka.fi';
 const YEAR = 1900 + new Date().getYear();
-const STATIC_MESSAGE_URL =
-  process.env.STATIC_MESSAGE_URL ||
-  'https://tyokalu.navici.com/yleisviestipalvelu/messages/';
 
 // route timetable data needs to be up-to-date before this is enabled
 // const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
@@ -13,6 +16,17 @@ const STATIC_MESSAGE_URL =
 export default {
   CONFIG,
   OTPTimeout: process.env.OTP_TIMEOUT || 30000,
+  URL: {
+    FONT:
+      'https://digitransit-prod-cdn-origin.azureedge.net/matka-fonts/roboto/roboto+montserrat.css',
+  },
+
+  mainMenu: {
+    stopMonitor: {
+      show: true,
+      url: 'https://matkamonitori.digitransit.fi/createview',
+    },
+  },
 
   contactName: {
     sv: 'Livin',
@@ -25,7 +39,8 @@ export default {
 
   appBarLink: {
     name: 'Traficom',
-    href: 'https://www.traficom.fi/fi/joukkoliikenteen-informaatiopalvelut',
+    href:
+      'https://www.traficom.fi/fi/liikenne/liikennejarjestelma/joukkoliikenteen-informaatiopalvelut',
   },
 
   socialMedia: {
@@ -37,15 +52,28 @@ export default {
   title: APP_TITLE,
 
   // Navbar logo
-  logo: 'matka/matka-logo.png',
+  logo: 'matka/matka-logo.svg',
 
-  favicon: './app/configurations/images/hsl/icon_favicon-matkafi.svg',
+  favicon: './app/configurations/images/matka/favicon.svg',
 
+  colors: {
+    primary: '#026273',
+    iconColors: {
+      'mode-airplane': '#0046AD',
+      'mode-bus': '#007ac9',
+      'mode-tram': '#5E7921',
+      'mode-metro': '#CA4000',
+      'mode-rail': '#8E5EA0',
+      'mode-ferry': '#247C7B',
+      'mode-ferry-pier': '#666666',
+      'mode-citybike': '#FCBC19',
+    },
+  },
   feedIds: [
     'MATKA',
     'HSL',
-    'tampere',
     'LINKKI',
+    'tampere',
     'lautta',
     'OULU',
     'MatkahuoltoKainuu',
@@ -60,6 +88,7 @@ export default {
     'MatkahuoltoVakka',
     'MatkahuoltoVantaa',
     'MatkahuoltoVarsinais',
+    'digitraffic',
   ],
 
   meta: {
@@ -73,36 +102,34 @@ export default {
   },
 
   menu: {
-    copyright: { label: `© Traficom ${YEAR}` },
+    copyright: { label: `© Matka.fi ${YEAR}` },
     content: [
       {
-        name: 'menu-feedback',
-        nameEn: 'Submit feedback',
-        href: 'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas',
-        icon: 'icon-icon_speech-bubble',
-      },
-      {
-        name: 'about-this-service',
-        nameEn: 'About this service',
-        href: 'https://www.traficom.fi/fi/joukkoliikenteen-informaatiopalvelut',
-        icon: 'icon-icon_info',
+        name: 'about-service-feedback',
+        href: 'http://www.matka.fi',
       },
       {
         name: 'accessibility-statement',
-        nameEn: 'Accessibility statement',
         href:
           'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas/matkafi-reittioppaan-saavutettavuusseloste',
+      },
+      {
+        name: 'about-these-pages',
+        href: 'https://traficom.fi/fi/tietoa-matkafi-sivustosta',
       },
     ],
   },
 
   redirectReittiopasParams: true,
   map: { minZoom: 5 },
+  suggestBikeMaxDistance: 2000000,
 
   cityBike: {
-    showCityBikes: true,
     networks: {
       smoove: {
+        enabled: HSLConfig.cityBike.networks.smoove.enabled,
+        season: HSLConfig.cityBike.networks.smoove.season,
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
           fi: 'Helsinki ja Espoo',
@@ -117,6 +144,9 @@ export default {
         },
       },
       vantaa: {
+        enabled: HSLConfig.cityBike.networks.vantaa.enabled,
+        season: HSLConfig.cityBike.networks.vantaa.season,
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike-secondary',
         name: {
           fi: 'Vantaa',
@@ -131,6 +161,9 @@ export default {
         },
       },
       turku: {
+        enabled: TurkuConfig.cityBike.networks.turku.enabled,
+        season: TurkuConfig.cityBike.networks.turku.season,
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
           fi: 'Turku',
@@ -145,6 +178,9 @@ export default {
         },
       },
       vilkku: {
+        enabled: KuopioConfig.cityBike.networks.vilkku.enabled,
+        season: KuopioConfig.cityBike.networks.vilkku.season,
+        capacity: BIKEAVL_BIKES,
         icon: 'citybike',
         name: {
           fi: 'Vilkku',
@@ -158,8 +194,11 @@ export default {
           en: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
         },
       },
-      /*
-      lappeenranta: {
+      donkey_lappeenranta: {
+        enabled:
+          LappeenrantaConfig.cityBike.networks.donkey_lappeenranta.enabled,
+        season: LappeenrantaConfig.cityBike.networks.donkey_lappeenranta.season,
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
           fi: 'Lappeenranta',
@@ -167,12 +206,12 @@ export default {
           en: 'Lappeenranta',
         },
         type: 'citybike',
-	url: {
-	  fi: 'https://kaakau.fi/lappeenranta/',
-	  sv: 'https://kaakau.fi/lappeenranta/?lang=en',
-	  en: 'https://kaakau.fi/lappeenranta/?lang=sv',
-	},
-	}, */
+        url: {
+          fi: 'https://kaakau.fi/lappeenranta/',
+          sv: 'https://kaakau.fi/lappeenranta/?lang=sv',
+          en: 'https://kaakau.fi/lappeenranta/?lang=en',
+        },
+      },
     },
   },
 
@@ -210,5 +249,46 @@ export default {
       },
     ],
   },
-  staticMessagesUrl: STATIC_MESSAGE_URL,
+  staticMessagesUrl: process.env.STATIC_MESSAGE_URL,
+
+  showNearYouButtons: true,
+  nearYouModes: [
+    'bus',
+    'tram',
+    'subway',
+    'rail',
+    'ferry',
+    'citybike',
+    'airplane',
+  ],
+  useAlternativeNameForModes: ['rail'],
+  includeCarSuggestions: true,
+
+  sourceForAlertsAndDisruptions: {
+    HSL: {
+      fi: 'Helsingin seutu',
+      sv: 'Helsingforsregion',
+      en: 'Helsinki region',
+    },
+    tampere: {
+      fi: 'Tampereen seutu',
+      sv: 'Tammerforsregion',
+      en: 'Tampere region',
+    },
+    LINKKI: {
+      fi: 'Jyväskylän seutu',
+      sv: 'Jyväskyläregion',
+      en: 'Jyväskylä region',
+    },
+    lautta: {
+      fi: 'Lautat',
+      sv: 'Färja',
+      en: 'Ferries',
+    },
+    OULU: {
+      fi: 'Oulu',
+      sv: 'Uleåborg',
+      en: 'Oulu',
+    },
+  },
 };

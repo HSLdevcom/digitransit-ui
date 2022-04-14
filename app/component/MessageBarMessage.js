@@ -3,9 +3,15 @@ import React from 'react';
 
 import TruncatedMessage from './TruncatedMessage';
 
-const MessageBarMessage = ({ content, textColor, truncate, onShowMore }) => {
+const MessageBarMessage = ({
+  content,
+  textColor,
+  truncate,
+  onShowMore,
+  config,
+}) => {
   const heading = (e, color) => {
-    if (e?.type === 'heading') {
+    if (config.showAlertHeader && e?.type === 'heading') {
       return <h2 style={{ color }}>{e.content}</h2>;
     }
     return null;
@@ -65,6 +71,7 @@ MessageBarMessage.propTypes = {
   textColor: PropTypes.string,
   truncate: PropTypes.bool,
   onShowMore: PropTypes.func,
+  config: PropTypes.object,
 };
 
 export default MessageBarMessage;

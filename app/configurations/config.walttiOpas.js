@@ -8,7 +8,7 @@ const APP_DESCRIPTION = 'Uusi Reittiopas - Waltti-opas';
 const walttiConfig = require('./config.waltti').default;
 
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v1/routers/next-waltti/`
+const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/waltti-alt/`
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -48,8 +48,6 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'walttiOpas/waltti-logo.png',
 
-  textLogo: false, // title text instead of logo img
-
   feedIds: ['Kotka', 'Kouvola', 'Salo'],
 
   defaultEndpoint: {
@@ -63,13 +61,10 @@ export default configMerger(walttiConfig, {
     content: [
       {
         name: 'about-this-service',
-        nameEn: 'About this service',
         route: '/tietoja-palvelusta',
-        icon: 'icon-icon_info',
       },
       {
         name: 'accessibility-statement',
-        nameEn: 'Accessibility statement',
         href:
           'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
       },
@@ -93,7 +88,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'Tietolähteet',
         paragraphs: [
-          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut ladataan Traficomin valtakunnallisesta joukkoliikenteen tietokannasta.',
+          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Digi- ja väestötietoviraston rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut ladataan Traficomin valtakunnallisesta joukkoliikenteen tietokannasta.',
         ],
       },
     ],

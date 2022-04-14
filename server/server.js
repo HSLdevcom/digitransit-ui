@@ -37,7 +37,6 @@ const express = require('express');
 const expressStaticGzip = require('express-static-gzip');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const request = require('request');
 const logger = require('morgan');
 const { retryFetch } = require('../app/util/fetchUtils');
 const config = require('../app/config').getConfiguration();

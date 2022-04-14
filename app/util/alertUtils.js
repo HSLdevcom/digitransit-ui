@@ -799,3 +799,14 @@ export const otpServiceAlertShape = PropTypes.shape({
   effectiveEndDate: PropTypes.number,
   effectiveStartDate: PropTypes.number,
 });
+
+export const mapAlertSource = (config, lang, feedName) => {
+  if (
+    config &&
+    config.sourceForAlertsAndDisruptions &&
+    config.sourceForAlertsAndDisruptions[feedName]
+  ) {
+    return config.sourceForAlertsAndDisruptions[feedName][lang].concat(': ');
+  }
+  return '';
+};

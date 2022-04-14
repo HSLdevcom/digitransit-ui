@@ -3,7 +3,6 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from '@digitransit-component/digitransit-component-icon';
-import ComponentUsageExample from './ComponentUsageExample';
 
 function RouteScheduleTripRow(props) {
   return (
@@ -41,14 +40,5 @@ RouteScheduleTripRow.defaultProps = {
 };
 
 RouteScheduleTripRow.displayName = 'RouteScheduleTripRow';
-
-RouteScheduleTripRow.description = () => (
-  <div>
-    <p>Display a route schedule row using react components</p>
-    <ComponentUsageExample>
-      <RouteScheduleTripRow departureTime="08:12" arrivalTime="08:12" />
-    </ComponentUsageExample>
-  </div>
-);
 
 export default RouteScheduleTripRow;

@@ -1,27 +1,36 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import ComponentUsageExample from './ComponentUsageExample';
 import { isBrowser } from '../util/browser';
 
-const language = (lang, highlight, match) => (
-  <a
-    id={`lang-${lang}`}
-    key={lang}
-    href={`/${lang}${match.location.pathname}${match.location.search}`}
-    className={`${(highlight && 'selected') || ''} noborder lang`}
-  >
-    {lang}
-  </a>
-);
+const language = (lang, highlight, match, intl) => {
+  const aria = highlight
+    ? intl.formatMessage(
+        { id: 'search-current-suggestion' },
+        { selection: lang },
+      )
+    : intl.formatMessage({ id: 'language-selection' }, { language: lang });
+  return (
+    <a
+      id={`lang-${lang}`}
+      aria-label={aria}
+      key={lang}
+      href={`/${lang}${match.location.pathname}${match.location.search}`}
+      className={`${(highlight && 'selected') || ''} noborder lang`}
+    >
+      {lang}
+    </a>
+  );
+};
 
-const LangSelect = ({ currentLanguage }, { config, match }) => {
+const LangSelect = ({ currentLanguage }, { config, match, intl }) => {
   if (isBrowser) {
     return (
       <div key="lang-select" id="lang-select">
         {config.availableLanguages.map(lang =>
-          language(lang, lang === currentLanguage, match),
+          language(lang, lang === currentLanguage, match, intl),
         )}
       </div>
     );
@@ -30,17 +39,6 @@ const LangSelect = ({ currentLanguage }, { config, match }) => {
 };
 
 LangSelect.displayName = 'LangSelect';
-
-LangSelect.description = () => (
-  <div>
-    <p>Language selection component, language selection comes from config.</p>
-    <ComponentUsageExample description="">
-      <div style={{ width: '200px', background: 'rgb(51, 51, 51)' }}>
-        <LangSelect currentLanguage="en" />
-      </div>
-    </ComponentUsageExample>
-  </div>
-);
 
 LangSelect.propTypes = {
   currentLanguage: PropTypes.string.isRequired,
@@ -51,6 +49,7 @@ LangSelect.contextTypes = {
   config: PropTypes.object.isRequired,
   router: routerShape.isRequired,
   match: matchShape.isRequired,
+  intl: intlShape.isRequired,
 };
 
 const connected = connectToStores(

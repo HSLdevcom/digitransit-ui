@@ -10,6 +10,9 @@
 .bus {
   color: $bus-color;
 }
+.bus-trunk {
+  color: $bus-trunk-color;
+}
 .map .call {
   color: $white;
 }
@@ -152,6 +155,9 @@
 
 .no-decoration {
   text-decoration: none;
+  &.medium {
+    font-weight: $font-weight-medium;
+  }
 }
 .large-text {
   font-size: 1.1em;
@@ -246,6 +252,11 @@ body .large {
     }
     button {
       margin: 0;
+    }
+
+    &.error {
+      display: block;
+      margin: 25px;
     }
   }
 }

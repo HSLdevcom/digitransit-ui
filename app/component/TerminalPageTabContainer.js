@@ -5,7 +5,7 @@ import StopPageTabs from './StopPageTabs';
 
 function TerminalPageTabContainer({ children, station }) {
   return (
-    <div className="stop-page-content-wrapper" aria-live="polite">
+    <div className="stop-page-content-wrapper">
       <StopPageTabs stop={station} />
       {children}
     </div>

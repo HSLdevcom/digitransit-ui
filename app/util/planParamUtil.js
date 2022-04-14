@@ -1,6 +1,6 @@
 import omitBy from 'lodash/omitBy';
 import moment from 'moment';
-import cookie from 'react-cookie';
+import Cookies from 'universal-cookie';
 
 import {
   filterModes,
@@ -11,7 +11,7 @@ import {
   isTransportModeAvailable,
 } from './modeUtils';
 import { otpToLocation, getIntermediatePlaces } from './otpStrings';
-import { getDefaultNetworks } from './citybikes';
+import { getCitybikeNetworks, getDefaultNetworks } from './citybikes';
 import { getCustomizedSettings } from '../store/localStorage';
 import { estimateItineraryDistance } from './geo-utils';
 
@@ -27,7 +27,9 @@ export const getDefaultSettings = config => {
   return {
     ...config.defaultSettings,
     modes: getDefaultModes(config).sort(),
-    allowedBikeRentalNetworks: getDefaultNetworks(config),
+    allowedBikeRentalNetworks: config.transportModes.citybike.defaultValue
+      ? getDefaultNetworks(config)
+      : [],
   };
 };
 
@@ -51,6 +53,7 @@ export const getCurrentSettings = config => {
           'WALK',
         ].sort()
       : defaultSettings.modes,
+    allowedBikeRentalNetworks: getCitybikeNetworks(),
   };
 };
 
@@ -156,7 +159,37 @@ export const getSettings = config => {
       ),
     allowedBikeRentalNetworks: custSettings.allowedBikeRentalNetworks,
     includeBikeSuggestions: custSettings.includeBikeSuggestions,
+    includeCarSuggestions: custSettings.includeCarSuggestions,
+    includeParkAndRideSuggestions: custSettings.includeParkAndRideSuggestions,
   };
+};
+
+const getShouldMakeParkRideQuery = (
+  linearDistance,
+  config,
+  settings,
+  defaultSettings,
+) => {
+  return (
+    linearDistance > config.suggestCarMinDistance &&
+    (settings.includeParkAndRideSuggestions
+      ? settings.includeParkAndRideSuggestions
+      : defaultSettings.includeParkAndRideSuggestions)
+  );
+};
+
+const getShouldMakeCarQuery = (
+  linearDistance,
+  config,
+  settings,
+  defaultSettings,
+) => {
+  return (
+    linearDistance > config.suggestCarMinDistance &&
+    (settings.includeCarSuggestions
+      ? settings.includeCarSuggestions
+      : defaultSettings.includeCarSuggestions)
+  );
 };
 
 export const preparePlanParams = (config, useDefaultModes) => (
@@ -183,26 +216,23 @@ export const preparePlanParams = (config, useDefaultModes) => (
         intermediatePlaceLocations,
       );
   const defaultSettings = { ...getDefaultSettings(config) };
+  const allowedCitybikeNetworks = getDefaultNetworks(config);
   // legacy settings used to set network name in uppercase in localstorage
-  const allowedBikeRentalNetworksMapped = Array.isArray(
-    settings.allowedBikeRentalNetworks,
-  )
-    ? settings.allowedBikeRentalNetworks
-        .filter(
-          network =>
-            defaultSettings.allowedBikeRentalNetworks.includes(network) ||
-            defaultSettings.allowedBikeRentalNetworks.includes(
-              network.toLowerCase(),
-            ),
-        )
-        .map(network =>
-          defaultSettings.allowedBikeRentalNetworks.includes(
-            network.toLowerCase(),
+  const allowedBikeRentalNetworksMapped =
+    Array.isArray(settings.allowedBikeRentalNetworks) &&
+    settings.allowedBikeRentalNetworks.length > 0
+      ? settings.allowedBikeRentalNetworks
+          .filter(
+            network =>
+              allowedCitybikeNetworks.includes(network) ||
+              allowedCitybikeNetworks.includes(network.toLowerCase()),
           )
-            ? network.toLowerCase()
-            : network,
-        )
-    : defaultSettings.allowedBikeRentalNetworks;
+          .map(network =>
+            allowedCitybikeNetworks.includes(network.toLowerCase())
+              ? network.toLowerCase()
+              : network,
+          )
+      : defaultSettings.allowedBikeRentalNetworks;
   const formattedModes = modesAsOTPModes(modesOrDefault);
   const wheelchair =
     getNumberValueOrDefault(settings.accessibilityOption, defaultSettings) ===
@@ -211,6 +241,13 @@ export const preparePlanParams = (config, useDefaultModes) => (
     settings.includeBikeSuggestions !== undefined
       ? settings.includeBikeSuggestions
       : defaultSettings.includeBikeSuggestions;
+  const linearDistance = estimateItineraryDistance(
+    fromLocation,
+    toLocation,
+    intermediatePlaceLocations,
+  );
+
+  const cookies = new Cookies();
   return {
     ...defaultSettings,
     ...omitBy(
@@ -240,7 +277,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
         disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
           modesOrDefault,
         ),
-        locale: locale || cookie.load('lang') || 'fi',
+        locale: locale || cookies.get('lang') || 'fi',
       },
       nullOrUndefined,
     ),
@@ -251,20 +288,23 @@ export const preparePlanParams = (config, useDefaultModes) => (
     ),
     allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
     shouldMakeWalkQuery:
-      !wheelchair &&
-      estimateItineraryDistance(
-        fromLocation,
-        toLocation,
-        intermediatePlaceLocations,
-      ) < config.suggestWalkMaxDistance,
+      !wheelchair && linearDistance < config.suggestWalkMaxDistance,
     shouldMakeBikeQuery:
       !wheelchair &&
-      estimateItineraryDistance(
-        fromLocation,
-        toLocation,
-        intermediatePlaceLocations,
-      ) < config.suggestBikeMaxDistance &&
+      linearDistance < config.suggestBikeMaxDistance &&
       includeBikeSuggestions,
+    shouldMakeCarQuery: getShouldMakeCarQuery(
+      linearDistance,
+      config,
+      settings,
+      defaultSettings,
+    ),
+    shouldMakeParkRideQuery: getShouldMakeParkRideQuery(
+      linearDistance,
+      config,
+      settings,
+      defaultSettings,
+    ),
     showBikeAndPublicItineraries:
       !wheelchair &&
       config.showBikeAndPublicItineraries &&

@@ -10,12 +10,12 @@ module.exports = {
     usedPortAction: 'ignore',
   },
   launchOptions: {
-    headless: true,
+    headless: !process.env.DEBUG,
   },
   contextOptions: {
     viewport: {
-      width: 1360,
-      height: 768,
+      width: 1920,
+      height: 1080,
     },
   },
   browsers: ['chromium', 'firefox', 'webkit'],

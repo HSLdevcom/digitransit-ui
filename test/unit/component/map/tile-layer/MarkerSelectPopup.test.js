@@ -42,19 +42,40 @@ describe('<MarkerSelectPopup />', () => {
         {
           layer: 'parkAndRide',
           feature: {
-            geom: { x: 2949, y: 3451 },
+            geom: {
+              x: 3270,
+              y: 2778,
+            },
             properties: {
-              facilities: [
-                {
-                  id: 'Q2FyUGFyazo5OTA=',
-                  maxCapacity: 1365,
-                  name: 'Tapiola Park',
-                  realtime: true,
-                  spacesAvailable: 853,
-                },
-              ],
-              facilityIds: '[983,984,985,986,987,990,1058,1085]',
-              name: `{"fi":"Tapiola","sv":"Hagalund","en":"Tapiola"}`,
+              name: '{"fi":"Tapiola","sv":"Hagalund","en":"Tapiola"}',
+              facility: {
+                id: 'Q2FyUGFyazo5OTA=',
+                carParkId: '990',
+                name: 'Tapiola Park',
+                maxCapacity: 1365,
+                spacesAvailable: 1123,
+                realtime: true,
+              },
+            },
+          },
+        },
+        {
+          layer: 'parkAndRideForBikes',
+          feature: {
+            geom: {
+              x: 3270,
+              y: 2778,
+            },
+            properties: {
+              name: '{"fi":"Tapiola","sv":"Hagalund","en":"Tapiola"}',
+              facility: {
+                id: 'Q2FyUGFyazo5OTA=',
+                bikeParkId: '990',
+                name: 'Tapiola Park',
+                maxCapacity: 1365,
+                spacesAvailable: 1123,
+                realtime: true,
+              },
             },
           },
         },
@@ -98,7 +119,7 @@ describe('<MarkerSelectPopup />', () => {
     });
     expect(wrapper.find(SelectStopRow)).to.have.lengthOf(1);
     expect(wrapper.find(SelectCityBikeRow)).to.have.lengthOf(1);
-    expect(wrapper.find(SelectParkAndRideRow)).to.have.lengthOf(1);
+    expect(wrapper.find(SelectParkAndRideRow)).to.have.lengthOf(2);
     expect(wrapper.find(SelectVehicleContainer)).to.have.lengthOf(1);
   });
 });

@@ -19,15 +19,15 @@ import TramLeg from './TramLeg';
 import RailLeg from './RailLeg';
 import FerryLeg from './FerryLeg';
 import CarLeg from './CarLeg';
+import CarParkLeg from './CarParkLeg';
 import ViaLeg from './ViaLeg';
 import CallAgencyLeg from './CallAgencyLeg';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import { compressLegs, isCallAgencyPickupType } from '../util/legUtils';
 import updateShowCanceledLegsBannerState from '../action/CanceledLegsBarActions';
-import ComponentUsageExample from './ComponentUsageExample';
-import { exampleData, scooterData } from './data/ItineraryLegs.ExampleData';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import ItineraryProfile from './ItineraryProfile';
+import BikeParkLeg from './BikeParkLeg';
 
 class ItineraryLegs extends React.Component {
   static childContextTypes = {
@@ -74,7 +74,7 @@ class ItineraryLegs extends React.Component {
   };
 
   isLegOnFoot = leg => {
-    return leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
+    return leg.mode === 'WALK';
   };
 
   focusToLeg = leg => e => {
@@ -84,9 +84,20 @@ class ItineraryLegs extends React.Component {
 
   stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 
+  printItinerary = e => {
+    e.stopPropagation();
+    addAnalyticsEvent({
+      event: 'sendMatomoEvent',
+      category: 'Itinerary',
+      action: 'Print',
+      name: null,
+    });
+    window.print();
+  };
+
   render() {
     const { itinerary, fares, waitThreshold } = this.props;
-    const compressedLegs = compressLegs(itinerary.legs).map(leg => ({
+    const compressedLegs = compressLegs(itinerary.legs, true).map(leg => ({
       ...leg,
       fare:
         (leg.route &&
@@ -94,6 +105,9 @@ class ItineraryLegs extends React.Component {
         undefined,
     }));
     const numberOfLegs = compressedLegs.length;
+    const bikeParked = compressedLegs.some(
+      leg => leg.to.bikePark || leg.from.bikePark,
+    );
     if (numberOfLegs === 0) {
       return null;
     }
@@ -108,17 +122,44 @@ class ItineraryLegs extends React.Component {
         previousLeg = compressedLegs[j - 1];
       }
       const startTime = (previousLeg && previousLeg.endTime) || leg.startTime;
-
-      const interliningWait = () => {
-        if (nextLeg?.interlineWithPreviousLeg) {
-          return nextLeg.startTime - leg.endTime;
-        }
-        return undefined;
-      };
+      let index = j;
+      const interliningLegs = [];
+      // there can be an arbitrary amount of interlining legs, search for the last one
+      while (
+        compressedLegs[index + 1] &&
+        compressedLegs[index + 1].interlineWithPreviousLeg
+      ) {
+        interliningLegs.push(compressedLegs[index + 1]);
+        index += 1;
+      }
       const isNextLegInterlining = nextLeg
         ? nextLeg.interlineWithPreviousLeg
         : false;
-      const nextInterliningLeg = isNextLegInterlining ? nextLeg : undefined;
+      const bikePark = previousLeg?.to.bikePark;
+      const carPark = previousLeg?.to.carPark;
+      const fromBikePark = leg?.from.bikePark;
+      const fromCarPark = leg?.from.carPark || previousLeg?.to.carPark;
+      const showBicycleWalkLeg = () => {
+        return (
+          nextLeg?.mode === 'RAIL' ||
+          nextLeg?.mode === 'SUBWAY' ||
+          previousLeg?.mode === 'RAIL' ||
+          previousLeg?.mode === 'SUBWAY'
+        );
+      };
+      if (fromCarPark && !this.isLegOnFoot(leg)) {
+        legs.push(
+          <CarParkLeg
+            index={j}
+            leg={previousLeg}
+            carPark={fromCarPark}
+            focusAction={this.focus(leg.from)}
+            focusToLeg={this.focusToLeg(leg)}
+            noWalk
+          />,
+        );
+      }
+
       if (leg.mode !== 'WALK' && isCallAgencyPickupType(leg)) {
         legs.push(
           <CallAgencyLeg
@@ -137,25 +178,56 @@ class ItineraryLegs extends React.Component {
             focusToLeg={this.focusToLeg(leg)}
           />,
         );
-      } else if (this.isLegOnFoot(leg)) {
+      } else if (bikePark) {
         legs.push(
-          <WalkLeg
+          <BikeParkLeg
             index={j}
             leg={leg}
-            previousLeg={previousLeg}
+            bikePark={bikePark}
             focusAction={this.focus(leg.from)}
             focusToLeg={this.focusToLeg(leg)}
-          >
-            {this.stopCode(leg.from.stop)}
-          </WalkLeg>,
+          />,
         );
+      } else if (carPark && this.isLegOnFoot(leg)) {
+        legs.push(
+          <CarParkLeg
+            index={j}
+            leg={leg}
+            carPark={carPark}
+            focusAction={this.focus(leg.from)}
+            focusToLeg={this.focusToLeg(leg)}
+          />,
+        );
+      } else if (this.isLegOnFoot(leg)) {
+        if (fromBikePark) {
+          legs.push(
+            <BikeParkLeg
+              index={j}
+              leg={leg}
+              bikePark={fromBikePark}
+              focusAction={this.focus(leg.from)}
+              focusToLeg={this.focusToLeg(leg)}
+            />,
+          );
+        } else {
+          legs.push(
+            <WalkLeg
+              index={j}
+              leg={leg}
+              previousLeg={previousLeg}
+              focusAction={this.focus(leg.from)}
+              focusToLeg={this.focusToLeg(leg)}
+            >
+              {this.stopCode(leg.from.stop)}
+            </WalkLeg>,
+          );
+        }
       } else if (leg.mode === 'BUS' && !leg.interlineWithPreviousLeg) {
         legs.push(
           <BusLeg
             index={j}
             leg={leg}
-            interliningWait={interliningWait()}
-            nextInterliningLeg={nextInterliningLeg}
+            interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
         );
@@ -164,8 +236,7 @@ class ItineraryLegs extends React.Component {
           <TramLeg
             index={j}
             leg={leg}
-            interliningWait={interliningWait()}
-            nextInterliningLeg={nextInterliningLeg}
+            interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
         );
@@ -174,8 +245,7 @@ class ItineraryLegs extends React.Component {
           <FerryLeg
             index={j}
             leg={leg}
-            interliningWait={interliningWait()}
-            nextInterliningLeg={nextInterliningLeg}
+            interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
         );
@@ -184,8 +254,7 @@ class ItineraryLegs extends React.Component {
           <RailLeg
             index={j}
             leg={leg}
-            interliningWait={interliningWait()}
-            nextInterliningLeg={nextInterliningLeg}
+            interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
         );
@@ -194,8 +263,7 @@ class ItineraryLegs extends React.Component {
           <SubwayLeg
             index={j}
             leg={leg}
-            interliningWait={interliningWait()}
-            nextInterliningLeg={nextInterliningLeg}
+            interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
           />,
         );
@@ -222,22 +290,51 @@ class ItineraryLegs extends React.Component {
             focusAction={this.focus(leg.to)}
           />,
         );
-      } else if (
-        leg.rentedBike ||
-        leg.mode === 'BICYCLE' ||
-        leg.mode === 'BICYCLE_WALK'
-      ) {
+      } else if (leg.rentedBike || leg.mode === 'BICYCLE') {
+        let bicycleWalkLeg;
+        if (nextLeg?.mode === 'BICYCLE_WALK' && !bikeParked) {
+          bicycleWalkLeg = nextLeg;
+        }
+        if (previousLeg?.mode === 'BICYCLE_WALK' && !bikeParked) {
+          bicycleWalkLeg = previousLeg;
+        }
+        // if there is a transit leg after or before a bicycle leg, render a bicycle_walk leg without distance information
+        if (showBicycleWalkLeg() && !bikeParked) {
+          let { from } = leg;
+          if (
+            (previousLeg?.mode === 'RAIL' || previousLeg?.mode === 'SUBWAY') &&
+            !leg.from.stop
+          ) {
+            from = previousLeg.to;
+          }
+          bicycleWalkLeg = {
+            duration: 0,
+            startTime: 0,
+            endTime: 0,
+            distance: -1,
+            rentedBike: leg.rentedBike,
+            to: leg.to,
+            from,
+            mode: 'BICYCLE_WALK',
+          };
+        }
         legs.push(
           <BicycleLeg
             index={j}
             leg={leg}
             focusAction={this.focus(leg.from)}
             focusToLeg={this.focusToLeg(leg)}
+            bicycleWalkLeg={bicycleWalkLeg}
           />,
         );
       } else if (leg.mode === 'CAR') {
         legs.push(
-          <CarLeg index={j} leg={leg} focusAction={this.focus(leg.from)}>
+          <CarLeg
+            index={j}
+            leg={leg}
+            focusAction={this.focus(leg.from)}
+            focusToLeg={this.focusToLeg(leg)}
+          >
             {this.stopCode(leg.from.stop)}
           </CarLeg>,
         );
@@ -251,8 +348,10 @@ class ItineraryLegs extends React.Component {
           waitTime > waitThresholdInMs &&
           (nextLeg != null ? nextLeg.mode : null) !== 'AIRPLANE' &&
           leg.mode !== 'AIRPLANE' &&
+          leg.mode !== 'CAR' &&
           !nextLeg.intermediatePlace &&
-          !isNextLegInterlining
+          !isNextLegInterlining &&
+          leg.to.stop
         ) {
           legs.push(
             <WaitLeg
@@ -269,16 +368,40 @@ class ItineraryLegs extends React.Component {
       }
     });
 
+    // This solves edge case when itinerary ends at the stop without walking.
+    // There should be WalkLeg rendered before EndLeg.
+    if (
+      compressedLegs[numberOfLegs - 1].mode !== 'WALK' &&
+      compressedLegs[numberOfLegs - 1].to.stop
+    ) {
+      legs.push(
+        <WalkLeg
+          index={numberOfLegs}
+          leg={compressedLegs[numberOfLegs - 1]}
+          previousLeg={compressedLegs[numberOfLegs - 2]}
+          focusAction={this.focus(compressedLegs[numberOfLegs - 1].to)}
+          focusToLeg={this.focusToLeg(compressedLegs[numberOfLegs - 1])}
+        >
+          {this.stopCode(compressedLegs[numberOfLegs - 1].to.stop)}
+        </WalkLeg>,
+      );
+    }
+
     legs.push(
       <EndLeg
         index={numberOfLegs}
         endTime={itinerary.endTime}
         focusAction={this.focus(compressedLegs[numberOfLegs - 1].to)}
-        to={compressedLegs[numberOfLegs - 1].to.name}
+        to={compressedLegs[numberOfLegs - 1].to}
       />,
     );
 
-    legs.push(<ItineraryProfile itinerary={itinerary} />);
+    legs.push(
+      <ItineraryProfile
+        itinerary={itinerary}
+        printItinerary={this.printItinerary}
+      />,
+    );
 
     return (
       <span className="itinerary-list-container" role="list">
@@ -312,27 +435,5 @@ const enhancedComponent = compose(
     ...rest,
   })),
 )(ItineraryLegs);
-
-ItineraryLegs.description = () => (
-  <div>
-    <p>Legs shown for the itinerary</p>
-    <ComponentUsageExample description="Shows the legs of the itinerary">
-      <ItineraryLegs
-        focusToPoint={() => {}}
-        itinerary={exampleData}
-        toggleCanceledLegsBanner={() => {}}
-        waitThreshold={180}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="Itinerary with a kick scooter leg">
-      <ItineraryLegs
-        focusToPoint={() => {}}
-        itinerary={scooterData}
-        toggleCanceledLegsBanner={() => {}}
-        waitThreshold={180}
-      />
-    </ComponentUsageExample>
-  </div>
-);
 
 export { enhancedComponent as default, ItineraryLegs as Component };

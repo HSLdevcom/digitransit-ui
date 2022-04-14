@@ -74,31 +74,33 @@ class TrafficNowLink extends React.Component {
     const { lang, fontWeights } = this.props;
     i18next.changeLanguage(lang);
     return (
-      <div
-        className={styles.banner}
-        tabIndex="0"
-        role="button"
-        onClick={e => this.props.handleClick(e, lang)}
-        onKeyDown={e => this.handleKeyDown(e, lang)}
-        style={{ '--font-weight-medium': fontWeights.medium }}
-      >
-        <div className={styles.caution}>
-          {' '}
-          <Icon
-            img="caution-white"
-            color="#DC0451"
-            height={1.375}
-            width={1.25}
-          />{' '}
-          <a className={styles.text} href={this.props.href}>
-            {i18next.t('traffic')}
-          </a>
-        </div>
+      <h2 className={styles.container}>
+        <div
+          className={styles.banner}
+          tabIndex="0"
+          role="button"
+          onClick={e => this.props.handleClick(e, lang)}
+          onKeyDown={e => this.handleKeyDown(e, lang)}
+          style={{ '--font-weight-medium': fontWeights.medium }}
+        >
+          <div className={styles.caution}>
+            {' '}
+            <Icon
+              img="caution-white"
+              color="#DC0451"
+              height={1.375}
+              width={1.25}
+            />{' '}
+            <a className={styles.text} href={this.props.href}>
+              {i18next.t('traffic')}
+            </a>
+          </div>
 
-        <span>
-          <Icon width={0.8125} height={1.1875} img="arrow" color="#007ac9" />
-        </span>
-      </div>
+          <span>
+            <Icon width={0.8125} height={1.1875} img="arrow" color="#007ac9" />
+          </span>
+        </div>
+      </h2>
     );
   }
 }

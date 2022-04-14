@@ -1,6 +1,6 @@
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import React from 'react';
 import { ReactSortable } from 'react-sortablejs';
 import cx from 'classnames';
 import i18next from 'i18next';
@@ -330,19 +330,17 @@ class FavouriteEditingModal extends React.Component {
           </Modal>
         )}
         {!isMobile && (
-          <Fragment>
-            <Modal
-              appElement={this.props.appElement}
-              contentLabel={i18next.t('edit-modal-on-open')}
-              closeButtonLabel={i18next.t('close-modal')}
-              variant="small"
-              isOpen={this.props.isModalOpen && !showDeletePlaceModal}
-              onCrossClick={this.closeModal}
-            >
-              {this.renderModalContent()}
-            </Modal>
+          <Modal
+            appElement={this.props.appElement}
+            contentLabel={i18next.t('edit-modal-on-open')}
+            closeButtonLabel={i18next.t('close-modal')}
+            variant="small"
+            isOpen={this.props.isModalOpen}
+            onCrossClick={this.closeModal}
+          >
             {this.renderDeleteFavouriteModal(selectedFavourite)}
-          </Fragment>
+            {!showDeletePlaceModal && this.renderModalContent()}
+          </Modal>
         )}
       </div>
     );

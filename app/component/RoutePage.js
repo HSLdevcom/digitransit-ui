@@ -6,14 +6,17 @@ import cx from 'classnames';
 import { matchShape, routerShape, RedirectException } from 'found';
 import Icon from './Icon';
 
+import Loading from './Loading';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from './RouteNumber';
 import RoutePageControlPanel from './RoutePageControlPanel';
-import { PREFIX_ROUTES } from '../util/path';
+import { PREFIX_DISRUPTION, PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import BackButton from './BackButton'; // DT-3472
 import { isBrowser } from '../util/browser';
 import LazilyLoad, { importLazy } from './LazilyLoad';
+import { getRouteMode } from '../util/modeUtils';
+import AlertBanner from './AlertBanner';
 
 const modules = {
   FavouriteRouteContainer: () =>
@@ -34,15 +37,28 @@ class RoutePage extends React.Component {
     match: matchShape.isRequired,
     router: routerShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
+    error: PropTypes.object,
   };
+
+  componentDidMount() {
+    // Throw error in client side if relay fails to fetch data
+    if (this.props.error && !this.props.route) {
+      throw this.props.error.message;
+    }
+  }
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/anchor-is-valid */
   render() {
-    const { breakpoint, router, route } = this.props;
+    const { breakpoint, router, route, error } = this.props;
     const { config } = this.context;
     const tripId = this.props.match.params?.tripId;
 
-    if (route == null) {
+    // Render something in client side to clear SSR
+    if (isBrowser && error && !route) {
+      return <Loading />;
+    }
+
+    if (route == null && !error) {
       /* In this case there is little we can do
        * There is no point continuing rendering as it can only
        * confuse user. Therefore redirect to Routes page */
@@ -53,7 +69,7 @@ class RoutePage extends React.Component {
       }
       return null;
     }
-
+    const mode = getRouteMode(route);
     return (
       <div className={cx('route-page-container')}>
         <div className="header-for-printing">
@@ -79,18 +95,18 @@ class RoutePage extends React.Component {
             <div aria-hidden="true">
               <RouteNumber
                 color={route.color ? `#${route.color}` : null}
-                mode={route.mode}
+                mode={mode}
                 text=""
               />
             </div>
             <div className="route-info">
               <h1
-                className={cx('route-short-name', route.mode.toLowerCase())}
+                className={cx('route-short-name', mode.toLowerCase())}
                 style={{ color: route.color ? `#${route.color}` : null }}
               >
                 <span className="sr-only" style={{ whiteSpace: 'pre' }}>
                   {this.context.intl.formatMessage({
-                    id: route.mode.toLowerCase(),
+                    id: mode.toLowerCase(),
                   })}{' '}
                 </span>
                 {route.shortName}
@@ -115,11 +131,19 @@ class RoutePage extends React.Component {
               </LazilyLoad>
             )}
           </div>
+          {tripId && route.alerts.length > 0 && (
+            <div className="trip-page-alert-container">
+              <AlertBanner
+                alerts={route.alerts}
+                linkAddress={`/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_DISRUPTION}/${this.props.match.params.patternId}`}
+              />
+            </div>
+          )}
           <RouteAgencyInfo route={route} />
         </div>
         {route &&
           route.patterns &&
-          this.props.match.params.type === 'hairiot' && (
+          this.props.match.params.type === PREFIX_DISRUPTION && (
             <RoutePageControlPanel
               match={this.props.match}
               route={route}
@@ -148,6 +172,10 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
         alertSeverityLevel
         effectiveEndDate
         effectiveStartDate
+        alertDescriptionTextTranslations {
+          language
+          text
+        }
         trip {
           pattern {
             code

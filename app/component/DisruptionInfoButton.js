@@ -8,8 +8,9 @@ function DisruptionInfoButton(props, { config }) {
   if (!config.disruption || config.disruption.showInfoButton) {
     return (
       <button
+        type="button"
         className="cursor-pointer disruption-info noborder"
-        onClick={props.toggleDisruptionInfo}
+        onClick={props.openDisruptionInfo}
       >
         <FormattedMessage
           id="disruptions-and-diversions"
@@ -30,7 +31,7 @@ function DisruptionInfoButton(props, { config }) {
 }
 
 DisruptionInfoButton.propTypes = {
-  toggleDisruptionInfo: PropTypes.func.isRequired,
+  openDisruptionInfo: PropTypes.func.isRequired,
   viewer: PropTypes.shape({
     alerts: PropTypes.array,
   }),

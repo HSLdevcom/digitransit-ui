@@ -43,3 +43,7 @@ export const getFutureRoutes = context => {
 export const clearFutureRoutes = context => {
   return context.getStore('FutureRouteStore').clearFutureRoutes();
 };
+
+export const getOldSearchItems = context => {
+  return context.getStore('OldSearchesStore').getOldSearchItems();
+};

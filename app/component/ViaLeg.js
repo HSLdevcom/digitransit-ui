@@ -4,7 +4,6 @@ import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 
 import Icon from './Icon';
-import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -69,6 +68,12 @@ function ViaLeg(props, { config, intl }) {
                 }
                 values={{
                   time: moment(props.leg.startTime).format('HH:mm'),
+                  to: intl.formatMessage({
+                    id: `modes.to-${
+                      props.leg.to.stop?.vehicleMode.toLowerCase() || 'place'
+                    }`,
+                    defaultMessage: 'modes.to-stop',
+                  }),
                   distance,
                   origin: props.leg.from ? props.leg.from.name : '',
                   destination: props.leg.to ? props.leg.to.name : '',
@@ -169,35 +174,6 @@ function ViaLeg(props, { config, intl }) {
   );
 }
 
-const exampleLeg = t1 => ({
-  duration: 438,
-  arrivalTime: t1,
-  startTime: t1 + 900000,
-  distance: 483.846,
-  mode: 'WALK',
-  from: { name: 'Messukeskus', stop: { code: '0613' } },
-});
-
-ViaLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0).valueOf();
-  return (
-    <div>
-      <p>
-        Displays an itinerary via leg. Note that the times are supposed to go on
-        top of the previous leg.
-      </p>
-      <ComponentUsageExample>
-        <ViaLeg
-          arrivalTime={today}
-          leg={exampleLeg(today)}
-          index={1}
-          focusAction={() => {}}
-        />
-      </ComponentUsageExample>
-    </div>
-  );
-};
-
 ViaLeg.propTypes = {
   arrivalTime: PropTypes.number.isRequired,
   leg: PropTypes.shape({
@@ -213,6 +189,7 @@ ViaLeg.propTypes = {
     }).isRequired,
     to: PropTypes.shape({
       name: PropTypes.string.isRequired,
+      stop: PropTypes.object,
     }),
   }).isRequired,
   index: PropTypes.number.isRequired,

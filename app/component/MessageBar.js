@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
-import { v4 as uuid } from 'uuid';
 
 import SwipeableTabs from './SwipeableTabs';
 import Icon from './Icon';
@@ -16,6 +15,7 @@ import {
   getServiceAlertDescription,
   getServiceAlertHeader,
   getServiceAlertUrl,
+  mapAlertSource,
 } from '../util/alertUtils';
 import { isIe, isKeyboardSelectionEvent } from '../util/browser';
 import hashCode from '../util/hashUtil';
@@ -29,6 +29,7 @@ const fetchServiceAlerts = async (feedids, relayEnvironment) => {
   const query = graphql`
     query MessageBarQuery($feedids: [String!]) {
       alerts: alerts(severityLevel: [SEVERE], feeds: $feedids) {
+        feed
         id
         alertDescriptionText
         alertHash
@@ -63,44 +64,62 @@ export const getServiceAlertId = alert =>
      ${alert.alertHeaderText}
      ${alert.alertSeverityLevel}
      ${alert.effectiveEndDate}
-     ${alert.effectiveStartDate}`,
+     ${alert.effectiveStartDate}
+     ${alert.feed}`,
   );
 
-const toMessage = (alert, intl) => ({
-  content: {
-    en: [
-      { type: 'heading', content: getServiceAlertHeader(alert, 'en') },
-      { type: 'text', content: getServiceAlertDescription(alert, 'en') },
-      {
-        type: 'a',
-        content: intl.formatMessage({ id: 'extra-info' }),
-        href: getServiceAlertUrl(alert, 'en'),
-      },
-    ],
-    fi: [
-      { type: 'heading', content: getServiceAlertHeader(alert, 'fi') },
-      { type: 'text', content: getServiceAlertDescription(alert, 'fi') },
-      {
-        type: 'a',
-        content: intl.formatMessage({ id: 'extra-info' }),
-        href: getServiceAlertUrl(alert, 'fi'),
-      },
-    ],
-    sv: [
-      { type: 'heading', content: getServiceAlertHeader(alert, 'sv') },
-      { type: 'text', content: getServiceAlertDescription(alert, 'sv') },
-      {
-        type: 'a',
-        content: intl.formatMessage({ id: 'extra-info' }),
-        href: getServiceAlertUrl(alert, 'sv'),
-      },
-    ],
-  },
-  icon: 'caution',
-  id: getServiceAlertId(alert),
-  persistence: 'repeat',
-  type: 'disruption',
-});
+const toMessage = (alert, intl, config) => {
+  const source = {
+    en: mapAlertSource(config, 'en', alert.feed),
+    fi: mapAlertSource(config, 'fi', alert.feed),
+    sv: mapAlertSource(config, 'sv', alert.feed),
+  };
+
+  return {
+    content: {
+      en: [
+        {
+          type: 'heading',
+          content: source.en.concat(getServiceAlertHeader(alert, 'en')),
+        },
+        { type: 'text', content: getServiceAlertDescription(alert, 'en') },
+        {
+          type: 'a',
+          content: intl.formatMessage({ id: 'extra-info' }),
+          href: getServiceAlertUrl(alert, 'en'),
+        },
+      ],
+      fi: [
+        {
+          type: 'heading',
+          content: source.fi.concat(getServiceAlertHeader(alert, 'fi')),
+        },
+        { type: 'text', content: getServiceAlertDescription(alert, 'fi') },
+        {
+          type: 'a',
+          content: intl.formatMessage({ id: 'extra-info' }),
+          href: getServiceAlertUrl(alert, 'fi'),
+        },
+      ],
+      sv: [
+        {
+          type: 'heading',
+          content: source.sv.concat(getServiceAlertHeader(alert, 'sv')),
+        },
+        { type: 'text', content: getServiceAlertDescription(alert, 'sv') },
+        {
+          type: 'a',
+          content: intl.formatMessage({ id: 'extra-info' }),
+          href: getServiceAlertUrl(alert, 'sv'),
+        },
+      ],
+    },
+    icon: 'caution',
+    id: getServiceAlertId(alert),
+    persistence: 'repeat',
+    type: 'disruption',
+  };
+};
 
 class MessageBar extends Component {
   static contextTypes = {
@@ -165,11 +184,11 @@ class MessageBar extends Component {
     }
   };
 
-  ariaContent = content => {
+  ariaContent = (content, id) => {
     return (
-      <span key={uuid()}>
+      <span key={`message-${id}`}>
         {content.map(e => (
-          <span key={uuid()}>{e.content}</span>
+          <span key={`message-content-${id}-${e.type}`}>{e.content}</span>
         ))}
       </span>
     );
@@ -187,13 +206,14 @@ class MessageBar extends Component {
           textColor={textColor}
           truncate={!this.state.allAlertsOpen}
           onShowMore={this.openAllAlerts}
+          config={this.context.config}
         />
       </div>
     ));
 
   validMessages = () => {
     const { serviceAlerts } = this.state;
-    const { intl } = this.context;
+    const { intl, config } = this.context;
 
     const readMessageIds = getReadMessageIds();
     const filteredServiceAlerts = serviceAlerts.filter(
@@ -201,7 +221,7 @@ class MessageBar extends Component {
     );
     const { lang, messages } = this.props;
     return [
-      ...filteredServiceAlerts.map(alert => toMessage(alert, intl)),
+      ...filteredServiceAlerts.map(alert => toMessage(alert, intl, config)),
       ...messages,
     ].filter(el => {
       if (
@@ -250,14 +270,16 @@ class MessageBar extends Component {
     return (
       <>
         <span className="sr-only" role="alert">
-          {this.validMessages().map(el =>
-            this.ariaContent(el.content[this.props.lang] || el.content.fi),
+          {messages.map(el =>
+            this.ariaContent(
+              el.content[this.props.lang] || el.content.fi,
+              el.id,
+            ),
           )}
         </span>
         <section
           key={this.props.duplicateMessageCounter}
           id="messageBar"
-          role="banner"
           className="message-bar flex-horizontal"
           style={{ background: backgroundColor }}
         >

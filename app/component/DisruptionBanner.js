@@ -122,6 +122,7 @@ const containerComponent = createFragmentContainer(
   {
     alerts: graphql`
       fragment DisruptionBanner_alerts on Alert @relay(plural: true) {
+        feed
         id
         alertSeverityLevel
         alertHeaderText

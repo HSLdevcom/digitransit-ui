@@ -3,7 +3,6 @@ import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
-import ComponentUsageExample from '../../ComponentUsageExample';
 import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkIcon,
@@ -13,9 +12,9 @@ import { PREFIX_BIKESTATIONS } from '../../../util/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function SelectCityBikeRow({ name, networks, id, desc }, { config }) {
-  const img = getCityBikeNetworkIcon(
+  const img = `${getCityBikeNetworkIcon(
     getCityBikeNetworkConfig(getCityBikeNetworkId(networks), config),
-  );
+  )}-stop-lollipop`;
   const address = desc || <FormattedMessage id="citybike-station-no-id" />;
   const showCode = id && id !== 'null';
   return (
@@ -41,15 +40,6 @@ function SelectCityBikeRow({ name, networks, id, desc }, { config }) {
 }
 
 SelectCityBikeRow.displayName = 'SelectCityBikeRow';
-
-SelectCityBikeRow.description = (
-  <div>
-    <p>Renders a select citybike row</p>
-    <ComponentUsageExample description="">
-      <SelectCityBikeRow name="LINNANMÄKI" selectRow={() => {}} />
-    </ComponentUsageExample>
-  </div>
-);
 
 SelectCityBikeRow.propTypes = {
   name: PropTypes.string.isRequired,

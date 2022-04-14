@@ -6,21 +6,8 @@ import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import { withLeaflet } from 'react-leaflet/es/context';
 
 import CityBikeMarker from './CityBikeMarker';
-import ComponentUsageExample from '../../ComponentUsageExample';
 
 class CityBikeMarkerContainer extends React.Component {
-  static description = (
-    <div>
-      <p>
-        Renders all citybike stations if zoom is over 14. Requires map to be
-        found in props.
-      </p>
-      <ComponentUsageExample description="">
-        <CityBikeMarkerContainer />
-      </ComponentUsageExample>
-    </div>
-  );
-
   static contextTypes = {
     config: PropTypes.object.isRequired,
   };

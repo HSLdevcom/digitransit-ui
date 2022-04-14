@@ -4,7 +4,6 @@ import React from 'react';
 
 import { withLeaflet } from 'react-leaflet/es/context';
 
-import ComponentUsageExample from '../ComponentUsageExample';
 import { isBrowser } from '../../util/browser';
 
 let Marker;
@@ -23,21 +22,6 @@ if (isBrowser) {
 /* eslint-enable global-require */
 
 class GenericMarker extends React.Component {
-  static description = (
-    <div>
-      <p>A base class for markers.</p>
-      <ComponentUsageExample description="">
-        <GenericMarker
-          position={{ lat: 60.1626075196532, lon: 24.939603788199364 }}
-          mode="citybike"
-          icons={{ smallIconSvg: 'smallIcon in svg', iconSvg: 'icon in svg' }}
-          iconSizes={{ smallIconSvg: [8, 8], iconSvg: [20, 20] }}
-          map="leaflet map object"
-        />
-      </ComponentUsageExample>
-    </div>
-  );
-
   static displayName = 'GenericMarker';
 
   static contextTypes = {

@@ -69,6 +69,7 @@ const containerComponent = createPaginationContainer(
                   lat
                   lon
                   stationId
+                  networks
                 }
                 ... on Stop {
                   gtfsId
@@ -86,6 +87,7 @@ const containerComponent = createPaginationContainer(
                       gtfsId
                       shortName
                       mode
+                      type
                     }
                     code
                     directionId
@@ -103,6 +105,36 @@ const containerComponent = createPaginationContainer(
               }
             }
           }
+        }
+      }
+    `,
+    prioritizedStopsNearYou: graphql`
+      fragment StopsNearYouMapContainer_prioritizedStopsNearYou on Stop
+      @relay(plural: true) {
+        gtfsId
+        lat
+        lon
+        name
+        parentStation {
+          lat
+          lon
+          name
+          gtfsId
+        }
+        patterns {
+          route {
+            gtfsId
+            shortName
+            mode
+          }
+          code
+          directionId
+          patternGeometry {
+            points
+          }
+        }
+        stoptimesWithoutPatterns {
+          scheduledArrival
         }
       }
     `,

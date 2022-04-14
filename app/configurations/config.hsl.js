@@ -5,28 +5,28 @@ const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || 'next-'; // TODO maybe use regular endpoint again at some point
+const MAP_VERSION = process.env.MAP_VERSION || 'v2';
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
+const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 
 const rootLink = process.env.ROOTLINK || 'https://dev.hslfi.hsldev.com';
 const BANNER_URL = 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
 // 'https://test-api.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
-
-const cityBikesEnabled = true;
 
 export default {
   CONFIG,
 
   URL: {
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/hsl/`,
-    STOP_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-stop-map/`,
-    PARK_AND_RIDE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-parkandride-map/`,
+    STOP_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-stop-map/`,
+    PARK_AND_RIDE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-parkandride-map/`,
     FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
-    CITYBIKE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-citybike-map/`,
+    CITYBIKE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-citybike-map/`,
     ROOTLINK: rootLink,
     BANNERS: BANNER_URL,
+    HSL_FI_SUGGESTIONS: 'https://content.hsl.fi/api/v1/search/suggestions',
   },
 
   indexPath: 'etusivu',
@@ -66,28 +66,37 @@ export default {
 
   parkAndRide: {
     showParkAndRide: true,
-    parkAndRideMinZoom: 14,
+    parkAndRideMinZoom: 13,
+    url: {
+      fi: 'https://www.hsl.fi/matkustaminen/liityntapysakointi',
+      sv: 'https://www.hsl.fi/sv/att-resa/anslutningsparkering',
+      en: 'https://www.hsl.fi/en/travelling/park--ride',
+    },
+    pageContent: {
+      default: HSLParkAndRideUtils,
+    },
   },
 
   showDisclaimer: true,
 
   stopsMinZoom: 14,
   mergeStopsByCode: true,
-
   colors: {
     primary: '#007ac9',
+    accessiblePrimary: '#0074be',
     hover: '#0062a1',
     iconColors: {
       'mode-bus': '#007ac9',
       'mode-rail': '#8c4799',
       'mode-tram': '#008151',
       'mode-ferry': '#007A97',
+      'mode-ferry-pier': '#666666',
       'mode-metro': '#CA4000',
       'mode-citybike': '#f2b62d',
       'mode-citybike-secondary': '#333333',
     },
   },
-
+  iconModeSet: 'default',
   fontWeights: {
     medium: 500,
   },
@@ -124,7 +133,7 @@ export default {
 
   transportModes: {
     citybike: {
-      availableForSelection: cityBikesEnabled,
+      availableForSelection: true,
     },
     airplane: {
       availableForSelection: false,
@@ -286,7 +295,7 @@ export default {
       {
         header: 'Tietolähteet',
         paragraphs: [
-          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat HSL:n JORE-aineistoon.',
+          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Digi- ja väestötietoviraston rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat HSL:n JORE-aineistoon.',
         ],
       },
     ],
@@ -322,13 +331,26 @@ export default {
     ],
   },
 
+  hideExternalOperator: agency => agency.name === 'Helsingin seudun liikenne',
   showTicketInformation: true,
   ticketInformation: {
     primaryAgencyName: 'HSL',
   },
 
   maxNearbyStopAmount: 5,
-  maxNearbyStopDistance: 100000,
+  maxNearbyStopDistance: {
+    favorite: 100000,
+    bus: 30000,
+    tram: 100000,
+    subway: 100000,
+    rail: 50000,
+    ferry: 100000,
+    citybike: 100000,
+  },
+
+  prioritizedStopsNearYou: {
+    ferry: ['HSL:1030701'],
+  },
 
   showTicketSelector: true,
 
@@ -414,7 +436,7 @@ export default {
 
   unknownZones: ['Ei HSL'],
 
-  showTicketPrice: true,
+  showTicketPrice: false,
 
   map: {
     showZoomControl: true, // DT-3470, DT-3397
@@ -423,6 +445,12 @@ export default {
     showScaleBar: true, // DT-3470, DT-3397
     attribution:
       '<a tabindex="-1" href="http://osm.org/copyright">© OpenStreetMap</a>', // DT-3470, DT-3397
+    // areBounds is for keeping map and user inside given area
+    // HSL region + Lahti
+    areaBounds: {
+      corner1: [62, 27],
+      corner2: [59, 22],
+    },
   },
 
   useTicketIcons: true,
@@ -437,11 +465,18 @@ export default {
 
   cityBike: {
     minZoomStopsNearYou: 10,
-    showCityBikes: cityBikesEnabled,
-    capacity: BIKEAVL_WITHMAX,
     showFullInfo: true,
     networks: {
       smoove: {
+        enabled: true,
+        season: {
+          // 18.3.
+          preSeasonStart: new Date(new Date().getFullYear(), 2, 18),
+          // 1.4. - 31.10.
+          start: new Date(new Date().getFullYear(), 3, 1),
+          end: new Date(new Date().getFullYear(), 10, 1),
+        },
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
           fi: 'Helsinki ja Espoo',
@@ -451,11 +486,11 @@ export default {
         type: 'citybike',
         url: {
           fi:
-            'https://www.hsl.fi/kaupunkipyorat/osta?area=helsinki-espoo&utm_campaign=kaupunkipyorat-omat-hkiespoo&utm_source=reittiopas&utm_medium=referral',
+            'https://www.hsl.fi/kaupunkipyorat?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
           sv:
-            'https://www.hsl.fi/sv/stadscyklar/kop?area=helsinki-espoo&utm_campaign=kaupunkipyorat-omat-hkiespoo&utm_source=reittiopas&utm_medium=referral',
+            'https://www.hsl.fi/sv/stadscyklar?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
           en:
-            'https://www.hsl.fi/en/citybikes/buy?area=helsinki-espoo&utm_campaign=kaupunkipyorat-omat-hkiespoo&utm_source=reittiopas&utm_medium=referral',
+            'https://www.hsl.fi/en/citybikes?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
         },
         returnInstructions: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#palauta',
@@ -463,8 +498,22 @@ export default {
             'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#aterlamna',
           en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#return',
         },
+        // Shown if citybike leg duration exceeds timeBeforeSurcharge
+        durationInstructions: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#aja',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#cykla',
+          en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#ride',
+        },
+        timeBeforeSurcharge: 30 * 60,
       },
       vantaa: {
+        enabled: true,
+        season: {
+          // 1.4. - 31.10.
+          start: new Date(new Date().getFullYear(), 5, 1), // temp postpone
+          end: new Date(new Date().getFullYear(), 10, 1),
+        },
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike-secondary',
         name: {
           fi: 'Vantaa',
@@ -474,26 +523,32 @@ export default {
         type: 'citybike',
         url: {
           fi:
-            'https://www.hsl.fi/kaupunkipyorat/osta?area=vantaa&utm_campaign=kaupunkipyorat-omat-vantaa&utm_source=reittiopas&utm_medium=referral',
+            'https://www.hsl.fi/kaupunkipyorat?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
           sv:
-            'https://www.hsl.fi/sv/stadscyklar/kop?area=vantaa&utm_campaign=kaupunkipyorat-omat-vantaa&utm_source=reittiopas&utm_medium=referral',
+            'https://www.hsl.fi/sv/stadscyklar?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
           en:
-            'https://www.hsl.fi/en/citybikes/buy?area=vantaa&utm_campaign=kaupunkipyorat-omat-vantaa&utm_source=reittiopas&utm_medium=referral',
+            'https://www.hsl.fi/en/citybikes?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
         },
         returnInstructions: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa/kayttoohje#palauta',
           sv: 'https://www.hsl.fi/sv/stadscyklar/vanda/anvisningar#aterlamna',
           en: 'https://www.hsl.fi/en/citybikes/vantaa/instructions#return',
         },
+        durationInstructions: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa/kayttoohje#aja',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/vanda/anvisningar#cykla',
+          en: 'https://www.hsl.fi/en/citybikes/vantaa/instructions#ride',
+        },
+        timeBeforeSurcharge: 60 * 60,
       },
     },
     buyUrl: {
       fi:
-        'https://www.hsl.fi/kaupunkipyorat/osta?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral',
+        'https://www.hsl.fi/kaupunkipyorat?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
       sv:
-        'https://www.hsl.fi/sv/stadscyklar/kop?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral',
+        'https://www.hsl.fi/sv/stadscyklar?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
       en:
-        'https://www.hsl.fi/en/citybikes/buy?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral',
+        'https://www.hsl.fi/en/citybikes?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
     },
   },
 
@@ -501,6 +556,9 @@ export default {
   showVehiclesOnSummaryPage: true,
   showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
+
+  includeCarSuggestions: false,
+  includeParkAndRideSuggestions: true,
 
   showNearYouButtons: true,
   nearYouModes: [
@@ -510,7 +568,7 @@ export default {
     'subway',
     'rail',
     'ferry',
-    cityBikesEnabled && 'citybike',
+    'citybike',
   ],
 
   hostnames: [
@@ -523,5 +581,92 @@ export default {
   zones: {
     stops: true,
     itinerary: true,
+  },
+
+  showSimilarRoutesOnRouteDropDown: true,
+
+  routeNotifications: [
+    {
+      showForRoute: route =>
+        route.gtfsId.slice(4).length === 4 && route.gtfsId.slice(4)[0] === '7',
+      id: 'uLineNotification',
+      header: {
+        fi: 'U-linja',
+        en: 'U-line',
+        sv: 'U-linje',
+      },
+      content: {
+        fi: [
+          'Mm. lastenvaunujen osalta noudatetaan liikennöitsijän sääntöjä. ',
+          'HSL-alueen ulkopuolelle käytetään liikennöitsijän lippuja.',
+        ],
+        en: [
+          "As far as i.e. baby carriages are concerned, the bus operators' own rules apply on the U lines. ",
+          "Outside the HSL area, the operator's tickets are used.",
+        ],
+        sv: [
+          'Vad gäller bl.a. barnvagn och keldjur, gäller bussoperatörernas egna regler på U-linjerna. ',
+          'Om resan börjar eller riktas utanför HRT-området används trafikidkarens egna biljetter',
+        ],
+      },
+      closeButtonLabel: {
+        fi: 'Mitä U-linja tarkoittaa?',
+        en: 'What does a U-line mean?',
+        sv: 'Vad betyder en U-linje?',
+      },
+      link: {
+        fi: 'hsl.fi/matkustaminen/u-liikenne/',
+        en: 'hsl.fi/matkustaminen/u-liikenne/',
+        sv: 'hsl.fi/sv/att-resa/U-trafik/',
+      },
+    },
+    {
+      showForRoute: route => route.type === 999702,
+      id: 'trunkRouteNotification',
+      header: {
+        fi: 'Runkolinja',
+        en: 'Trunk route',
+        sv: 'Stomlinje',
+      },
+      content: {
+        fi: [
+          'Pääset kyytiin myös keskiovista näyttämättä lippua kuljettajalle. ',
+          'Linja käyttää valikoituja pysäkkejä eli ei pysähdy kaikilla pysäkeillä. ',
+        ],
+        en: [
+          'Passengers can board the buses also through the middle doors. ',
+          'The bus will not serve all stops along the route. ',
+        ],
+        sv: [
+          'Man kan stiga på genom mittdörren och behöver inte visa upp sin biljett för föraren. ',
+          'För att snabba upp trafiken stannar bussarna inte vid alla hållplatser. ',
+        ],
+      },
+      closeButtonLabel: {
+        fi: 'Mitä runkolinja tarkoittaa?',
+        en: 'What does a trunk route mean?',
+        sv: 'Vad betyder en Stomlinje?',
+      },
+      link: {
+        fi: 'hsl.fi/hsl/runkoverkko',
+        en: 'hsl.fi/hsl/runkoverkko',
+        sv: 'hsl.fi/hsl/runkoverkko',
+      },
+    },
+  ],
+
+  embeddedCookieLink: {
+    fi: {
+      text: 'Lisätietoa evästeistä',
+      url: 'https://www.hsl.fi/hsl/tietosuoja',
+    },
+    en: {
+      text: 'More information about cookies',
+      url: 'https://www.hsl.fi/en/hsl/privacy-policy',
+    },
+    sv: {
+      text: 'Mer information om cookies',
+      url: 'https://www.hsl.fi/sv/hrt/Dataskydd',
+    },
   },
 };

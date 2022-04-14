@@ -37,6 +37,7 @@ const containerComponent = createFragmentContainer(StopPageMapContainer, {
       code
       desc
       vehicleMode
+      locationType
     }
   `,
 });

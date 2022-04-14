@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-import ComponentUsageExample from './ComponentUsageExample';
 
 function PlatformNumber({ number, short, isRailOrSubway }) {
   if (!number) {
@@ -46,14 +45,5 @@ PlatformNumber.contextTypes = {
 };
 
 PlatformNumber.displayName = 'PlatformNumber';
-
-PlatformNumber.description = () => (
-  <div>
-    <p>Displays the platform number for a specific departure</p>
-    <ComponentUsageExample>
-      <PlatformNumber number="2" />
-    </ComponentUsageExample>
-  </div>
-);
 
 export default PlatformNumber;

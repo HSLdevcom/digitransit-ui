@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
-import { BIKEAVL_UNKNOWN } from '../util/citybikes';
+import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = 'lappeenranta';
 const APP_TITLE = 'reittiopas.lappeenranta.fi';
@@ -27,17 +27,21 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  textLogo: false, // title text instead of logo img
-
   logo: 'lappeenranta/logo.png',
+  secondaryLogo: 'lappeenranta/secondary-logo.png',
 
   favicon: './app/configurations/images/lappeenranta/bussi_fin.jpeg',
 
   cityBike: {
-    showCityBikes: true,
-    capacity: BIKEAVL_UNKNOWN,
     networks: {
-      lappeenranta: {
+      donkey_lappeenranta: {
+        enabled: true,
+        season: {
+          // 1.4. - 30.11. TODO uncertain end date depends on weather
+          start: new Date(new Date().getFullYear(), 3, 1),
+          end: new Date(new Date().getFullYear(), 11, 1),
+        },
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
           fi: 'Lappeenranta',
@@ -91,13 +95,10 @@ export default configMerger(walttiConfig, {
     content: [
       {
         name: 'about-this-service',
-        nameEn: 'About this service',
         route: '/tietoja-palvelusta',
-        icon: 'icon-icon_info',
       },
       {
         name: 'accessibility-statement',
-        nameEn: 'Accessibility statement',
         href:
           'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
       },
@@ -152,6 +153,14 @@ export default configMerger(walttiConfig, {
         },
         url: 'https://ckan.saita.fi/geojson/pyorailyreitit_lpr.geojson',
         isOffByDefault: true,
+      },
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/lpr_zone_lines_20220113.geojson',
       },
     ],
   },

@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React, { Fragment, useEffect, useState } from 'react';
 import i18next from 'i18next';
+import { useCookies } from 'react-cookie';
+import cx from 'classnames';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
@@ -22,8 +24,8 @@ function SeparatorLine({ usePaddingBottom20 }) {
     ? styles['separator-div2']
     : styles['separator-div'];
   return (
-    <div id="SeparatorDiv" className={className}>
-      <div id="SeparatorLine" className={styles['separator-line']} />
+    <div className={className}>
+      <div className={styles['separator-line']} />
     </div>
   );
 }
@@ -65,6 +67,73 @@ OriginToDestination.defaultProps = {
   language: 'fi',
 };
 
+function BubbleDialog({ title, content, closeDialog, shouldRender, lang }) {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setShow(true);
+    }, 500);
+  }, [show]);
+
+  return (
+    <div
+      className={cx(styles['nearby-stops-bubble-dialog'], {
+        [styles['visible']]: shouldRender && show,
+      })}
+    >
+      <div
+        id="nearby-stops-bubble-dialog-container"
+        className={styles['nearby-stops-bubble-dialog-container']}
+      >
+        <div>
+          <div
+            className={cx(
+              styles['nearby-stops-bubble-dialog-header'],
+              styles[lang],
+            )}
+          >
+            {title}
+          </div>
+          <div className={styles['nearby-stops-bubble-dialog-content']}>
+            {content}
+          </div>
+          <button
+            className={styles['nearby-stops-bubble-dialog-close']}
+            aria-label={i18next.t('close-nearby-teaser')}
+            onClick={event => {
+              event.preventDefault();
+              closeDialog();
+            }}
+            onKeyDown={event => {
+              event.preventDefault();
+              const space = [13, ' ', 'Spacebar'];
+              const enter = [32, 'Enter'];
+              const key = event && event.key;
+              if (key && space.concat(enter).includes(key)) {
+                closeDialog();
+              }
+            }}
+            type="button"
+          >
+            <Icon img="close" />
+          </button>
+        </div>
+        <div className={styles['nearby-stops-bubble-dialog-tip-container']}>
+          <div className={styles['nearby-stops-bubble-dialog-tip']} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+BubbleDialog.propTypes = {
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  closeDialog: PropTypes.func.isRequired,
+  shouldRender: PropTypes.bool.isRequired,
+  lang: PropTypes.string.isRequired,
+};
+
 /**
  * Show button links to near you page for different travel modes
  *
@@ -95,6 +164,11 @@ OriginToDestination.defaultProps = {
  *    />
  *
  */
+
+function getIconName(mode, modeSet) {
+  return modeSet === 'default' ? `mode-${mode}` : `mode-${modeSet}-${mode}`;
+}
+
 function NearStopsAndRoutes({
   modeArray,
   urlPrefix,
@@ -108,9 +182,14 @@ function NearStopsAndRoutes({
   buttonStyle,
   title,
   modes,
+  modeSet,
   modeIconColors,
+  fontWeights,
+  showTeaser,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
+  const [cookies, setCookie] = useCookies(['nearbyTeaserShown']);
+
   useEffect(() => {
     Object.keys(translations).forEach(lang => {
       i18next.addResourceBundle(lang, 'translation', translations[lang]);
@@ -123,6 +202,12 @@ function NearStopsAndRoutes({
         });
     }
   }, []);
+
+  const closeBubbleDialog = () =>
+    setCookie('nearbyTeaserShown', true, {
+      path: '/',
+      maxAge: 10 * 365 * 24 * 60 * 60,
+    });
 
   let urlStart;
   if (omitLanguageUrl) {
@@ -149,7 +234,7 @@ function NearStopsAndRoutes({
         <span className={styles['transport-mode-icon-container']}>
           <span className={styles['transport-mode-icon-with-icon']}>
             <Icon
-              img={mode === 'favorite' ? 'star' : `mode-${mode}`}
+              img={mode === 'favorite' ? 'star' : getIconName(mode, modeSet)}
               color={modeIconColors[`mode-${mode}`]}
             />
             {withAlert && (
@@ -177,7 +262,7 @@ function NearStopsAndRoutes({
               '--borderRadius': `${buttonStyle.borderRadius}`,
             }}
           >
-            <Icon img={`${mode}-waltti`} />
+            <Icon img={getIconName(mode, modeSet)} />
             {withAlert && (
               <span className={styles['transport-mode-alert-icon']}>
                 <Icon img="caution" color="#dc0451" />
@@ -219,13 +304,30 @@ function NearStopsAndRoutes({
   });
 
   return (
-    <div className={styles['near-you-container']}>
+    <div
+      className={styles['near-you-container']}
+      style={{ '--font-weight-medium': fontWeights.medium }}
+    >
       {showTitle && (
         <h2 className={styles['near-you-title']}>
           {!modes
             ? i18next.t('title-route-stop-station', { lng: language })
             : title[language]}
         </h2>
+      )}
+      {showTeaser && !cookies?.nearbyTeaserShown && (
+        <BubbleDialog
+          title={i18next.t('nearby-stops-teaser-header', { lng: language })}
+          content={i18next.t('nearby-stops-teaser-content', {
+            lng: language,
+          })}
+          closeDialog={closeBubbleDialog}
+          shouldRender={
+            i18next.t('nearby-stops-teaser-header', { lng: language }) !==
+            'nearby-stops-teaser-header'
+          }
+          lang={language}
+        />
       )}
       <div
         className={
@@ -258,6 +360,11 @@ NearStopsAndRoutes.propTypes = {
   title: PropTypes.object,
   modes: PropTypes.object,
   modeIconColors: PropTypes.object,
+  modeSet: PropTypes.string,
+  fontWeights: PropTypes.shape({
+    medium: PropTypes.number,
+  }),
+  showTeaser: PropTypes.bool,
 };
 
 NearStopsAndRoutes.defaultProps = {
@@ -277,6 +384,11 @@ NearStopsAndRoutes.defaultProps = {
     'mode-ferry': '#007A97',
     'mode-citybike': '#F2B62D',
   },
+  modeSet: 'default',
+  fontWeights: {
+    medium: 500,
+  },
+  showTeaser: false,
 };
 
 /**
@@ -300,6 +412,8 @@ class CtrlPanel extends React.Component {
   static OriginToDestination = OriginToDestination;
 
   static SeparatorLine = SeparatorLine;
+
+  static BubbleDialog = BubbleDialog;
 
   static propTypes = {
     children: PropTypes.node,

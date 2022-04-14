@@ -5,10 +5,12 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy'; // DT-3182
-import { matchShape, routerShape, RedirectException } from 'found';
+import { matchShape, routerShape } from 'found';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import CallAgencyWarning from './CallAgencyWarning';
 import RoutePatternSelect from './RoutePatternSelect';
+import RouteNotification from './routeNotification';
 import { AlertSeverityLevelType, DATE_FORMAT } from '../constants';
 import {
   startRealTimeClient,
@@ -33,7 +35,7 @@ import {
   PREFIX_TIMETABLE,
 } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { isBrowser, isIOS } from '../util/browser';
+import { isIOS } from '../util/browser';
 import { saveSearch } from '../action/SearchActions';
 import Icon from './Icon';
 
@@ -70,7 +72,10 @@ class RoutePageControlPanel extends React.Component {
     match: matchShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
     noInitialServiceDay: PropTypes.bool,
+    language: PropTypes.string,
   };
+
+  static defaultProps = { language: 'fi' };
 
   constructor(props) {
     super(props);
@@ -274,8 +279,7 @@ class RoutePageControlPanel extends React.Component {
     const { config, executeAction } = this.context;
     const { match, route } = this.props;
     const { realTime } = config;
-
-    if (!realTime) {
+    if (config.NODE_ENV === 'test' || !realTime) {
       return;
     }
 
@@ -340,24 +344,34 @@ class RoutePageControlPanel extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/anchor-is-valid */
   render() {
-    const { breakpoint, match, route } = this.props;
+    const { breakpoint, match, route, language } = this.props;
     const { patternId } = match.params;
-    const { config, router } = this.context;
+    const { config } = this.context;
 
-    if (route == null) {
-      /* In this case there is little we can do
-       * There is no point continuing rendering as it can only
-       * confuse user. Therefore redirect to Routes page */
-      if (isBrowser) {
-        router.replace(`/${PREFIX_ROUTES}`);
-      } else {
-        throw new RedirectException(`/${PREFIX_ROUTES}`);
+    const routeNotifications = [];
+    if (
+      config.NODE_ENV !== 'test' &&
+      config.routeNotifications &&
+      config.routeNotifications.length > 0
+    ) {
+      for (let i = 0; i < config.routeNotifications.length; i++) {
+        const notification = config.routeNotifications[i];
+        if (notification.showForRoute(route)) {
+          routeNotifications.push(
+            <RouteNotification
+              key={notification.id}
+              header={notification.header[language]}
+              content={notification.content[language]}
+              link={notification.link[language]}
+              id={notification.id}
+              closeButtonLabel={notification.closeButtonLabel[language]}
+            />,
+          );
+        }
       }
-      return null;
     }
 
     const activeTab = getActiveTab(match.location.pathname);
-
     const currentTime = moment().unix();
     const hasActiveAlert = isAlertActive(
       getCancelationsForRoute(route, patternId),
@@ -448,6 +462,7 @@ class RoutePageControlPanel extends React.Component {
           })}
           aria-live="polite"
         >
+          {routeNotifications}
           {patternId && (
             <RoutePatternSelect
               params={match.params}
@@ -547,6 +562,13 @@ class RoutePageControlPanel extends React.Component {
                   id="disruptions"
                   defaultMessage="Disruptions"
                 />
+                <span className="sr-only">
+                  {disruptionClassName ? (
+                    <FormattedMessage id="disruptions-tab.sr-disruptions" />
+                  ) : (
+                    <FormattedMessage id="disruptions-tab.sr-no-disruptions" />
+                  )}
+                </span>
               </div>
             </button>
           </div>
@@ -556,4 +578,12 @@ class RoutePageControlPanel extends React.Component {
   }
 }
 
-export default RoutePageControlPanel;
+const connectedComponent = connectToStores(
+  RoutePageControlPanel,
+  ['PreferencesStore'],
+  context => ({
+    language: context.getStore('PreferencesStore').getLanguage(),
+  }),
+);
+
+export { connectedComponent as default, RoutePageControlPanel as Component };

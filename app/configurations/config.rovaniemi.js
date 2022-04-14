@@ -23,29 +23,14 @@ export default configMerger(walttiConfig, {
       'mode-bus': '#34B233',
     },
   },
-  transportModes: {
-    bus: {
-      availableForSelection: true,
-      defaultValue: true,
-      nearYouLabel: {
-        fi: 'Lähipysäkit kartalla',
-        sv: 'Hållplatser på kartan',
-        en: 'Nearby stops on map',
-      },
-    },
-  },
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
   },
 
   title: APP_TITLE,
-
   // Navbar logo
   logo: 'rovaniemi/rovaniemi-logo.svg',
-
-  textLogo: false, // title text instead of logo img
-
   feedIds: ['Rovaniemi'],
 
   searchParams: {
@@ -73,13 +58,10 @@ export default configMerger(walttiConfig, {
     content: [
       {
         name: 'about-this-service',
-        nameEn: 'About this service',
         route: '/tietoja-palvelusta',
-        icon: 'icon-icon_info',
       },
       {
         name: 'accessibility-statement',
-        nameEn: 'Accessibility statement',
         href:
           'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
       },
@@ -105,7 +87,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'Tietolähteet',
         paragraphs: [
-          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut ladataan Rovaniemen kaupungin tuottamasta aineistosta.',
+          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Digi- ja väestötietoviraston rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut ladataan Rovaniemen kaupungin tuottamasta aineistosta.',
         ],
       },
     ],

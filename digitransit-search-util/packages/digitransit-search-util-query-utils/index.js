@@ -11,9 +11,46 @@ import {
   isStop,
 } from '@digitransit-search-util/digitransit-search-util-helpers';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
-import { getGTFSId } from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 
 let relayEnvironment = null;
+
+const stopsQuery = graphql`
+  query digitransitSearchUtilQueryUtilsStopsQuery($ids: [String!]!) {
+    stops(ids: $ids) {
+      gtfsId
+      lat
+      lon
+      name
+      code
+      stoptimesWithoutPatterns(numberOfDepartures: 1) {
+        trip {
+          route {
+            mode
+          }
+        }
+      }
+    }
+  }
+`;
+
+const stationsQuery = graphql`
+  query digitransitSearchUtilQueryUtilsStationsQuery($ids: [String!]!) {
+    stations(ids: $ids) {
+      gtfsId
+      lat
+      lon
+      name
+      code
+      stoptimesWithoutPatterns(numberOfDepartures: 1) {
+        trip {
+          route {
+            mode
+          }
+        }
+      }
+    }
+  }
+`;
 
 const alertsQuery = graphql`
   query digitransitSearchUtilQueryUtilsAlertsQuery($feedIds: [String!]) {
@@ -114,46 +151,8 @@ const favouriteBikeRentalQuery = graphql`
   }
 `;
 
-const stopsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsStopsQuery($ids: [String!]!) {
-    stops(ids: $ids) {
-      gtfsId
-      lat
-      lon
-      name
-      code
-      stoptimesWithoutPatterns(numberOfDepartures: 1) {
-        trip {
-          route {
-            mode
-          }
-        }
-      }
-    }
-  }
-`;
-
-const stationsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsStationsQuery($ids: [String!]!) {
-    stations(ids: $ids) {
-      gtfsId
-      lat
-      lon
-      name
-      code
-      stoptimesWithoutPatterns(numberOfDepartures: 1) {
-        trip {
-          route {
-            mode
-          }
-        }
-      }
-    }
-  }
-`;
-
 /** Verifies that the data for favourites is coherent and current and fixes errors */
-const verify = (stopStationMap, favourites) => {
+function verify(stopStationMap, favourites) {
   const result = favourites
     .map(favourite => {
       const fromQuery = stopStationMap[favourite.gtfsId];
@@ -169,7 +168,7 @@ const verify = (stopStationMap, favourites) => {
     })
     .filter(r => r !== null);
   return result;
-};
+}
 /**
  * Set you Relay environment
  * @param {*} environment Your Relay environment
@@ -185,7 +184,7 @@ export function setRelayEnvironment(environment) {
  * @param {Array} feedIds Array of feedId Strings
  *
  */
-export const getModesWithAlerts = (currentTime, feedIds = null) => {
+export function getModesWithAlerts(currentTime, feedIds = null) {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
@@ -206,12 +205,12 @@ export const getModesWithAlerts = (currentTime, feedIds = null) => {
     })
     .then(compact)
     .then(uniq);
-};
+}
 /**
  * Returns Stop and station objects .
  * @param {*} favourites
  */
-export const getStopAndStationsQuery = favourites => {
+export function getStopAndStationsQuery(favourites) {
   // TODO perhaps validate stops/stations through geocoding api instead of routing?
   if (!relayEnvironment || !Array.isArray(favourites)) {
     return Promise.resolve([]);
@@ -276,20 +275,22 @@ export const getStopAndStationsQuery = favourites => {
         return favourite;
       });
     });
-};
+}
 
-export const getAllBikeRentalStations = () => {
+export function getAllBikeRentalStations() {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
   return fetchQuery(relayEnvironment, searchBikeRentalStationsQuery);
-};
+}
+
 /**
- * Returns Stop and station objects filtered by given mode .
+ * Returns Stop and station objects filtered by given mode based on mode information
+ * acquired from OTP by checking the modes of the departures on the given stops.
  * @param {*} stopsToFilter
  * @param {String} mode
  */
-export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
+export function filterStopsAndStationsByMode(stopsToFilter, mode) {
   if (!relayEnvironment || stopsToFilter.length < 1) {
     return Promise.resolve([]);
   }
@@ -355,7 +356,8 @@ export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
       }),
     )
     .then(compact);
-};
+}
+
 /**
  * Returns Favourite Route objects depending on input
  * @param {String} input Search text, if empty no objects are returned
@@ -476,7 +478,7 @@ export function getRoutesQuery(input, feedIds, transportMode, pathOpts) {
     .then(suggestions => take(suggestions, 100));
 }
 
-export const withCurrentTime = location => {
+export function withCurrentTime(location) {
   const query = (location && location.query) || {};
   return {
     ...location,
@@ -485,33 +487,32 @@ export const withCurrentTime = location => {
       time: query.time ? query.time : moment().unix(),
     },
   };
-};
+}
 /**
  * Can be used to filter stops and stations by a given mode
  * @param {*} results search results from geocoding
  * @param {*} type type of search results to filter, e.g 'Stops' or 'Routes'. This function only filters Stops because routes can be filtered with the query itself
  * @param {*} mode e.g 'BUS' or 'TRAM'
  */
-export const filterSearchResultsByMode = (results, mode, type = 'Stops') => {
+export function filterSearchResultsByMode(results, mode, type = 'Stops') {
   switch (type) {
     case 'Routes':
       return results;
     case 'Stops': {
-      const gtfsIds = results.map(x => {
-        const gtfsId = x.properties.gtfsId
-          ? x.properties.gtfsId
-          : getGTFSId({ id: x.properties.id });
-        if (gtfsId) {
-          return {
-            gtfsId,
-            ...x,
-          };
+      return results.filter(stop => {
+        if (
+          stop &&
+          stop.properties &&
+          stop.properties.addendum &&
+          stop.properties.addendum.GTFS &&
+          stop.properties.addendum.GTFS.modes
+        ) {
+          return stop.properties.addendum.GTFS.modes.includes(mode);
         }
-        return null;
+        return false;
       });
-      return filterStopsAndStationsByMode(compact(gtfsIds), mode);
     }
     default:
       return results;
   }
-};
+}

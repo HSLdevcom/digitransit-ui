@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import { routerShape, RedirectException } from 'found';
 
 import CityBikeStopContent from './CityBikeStopContent';
-import BikeRentalStationHeader from './BikeRentalStationHeader';
+import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
 import {
@@ -17,7 +17,7 @@ import { isBrowser } from '../util/browser';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 
 const BikeRentalStationContent = (
-  { bikeRentalStation, breakpoint, language, router },
+  { bikeRentalStation, breakpoint, language, router, error },
   { config },
 ) => {
   const [isClient, setClient] = useState(false);
@@ -26,7 +26,12 @@ const BikeRentalStationContent = (
     setClient(true);
   });
 
-  if (!bikeRentalStation) {
+  // throw error in client side relay query fails
+  if (isClient && error && !bikeRentalStation) {
+    throw error.message;
+  }
+
+  if (!bikeRentalStation && !error) {
     if (isBrowser) {
       router.replace(`/${PREFIX_BIKESTATIONS}`);
     } else {
@@ -58,8 +63,8 @@ const BikeRentalStationContent = (
   }
   return (
     <div className="bike-station-page-container">
-      <BikeRentalStationHeader
-        bikeRentalStation={bikeRentalStation}
+      <ParkOrStationHeader
+        parkOrStation={bikeRentalStation}
         breakpoint={breakpoint}
       />
       <CityBikeStopContent bikeRentalStation={bikeRentalStation} />
@@ -80,9 +85,9 @@ const BikeRentalStationContent = (
       )}
       {(cityBikeBuyUrl || cityBikeNetworkUrl) && (
         <div className="citybike-use-disclaimer">
-          <div className="disclaimer-header">
+          <h2 className="disclaimer-header">
             <FormattedMessage id="citybike-start-using" />
-          </div>
+          </h2>
           <div className="disclaimer-content">
             {cityBikeBuyUrl ? (
               <FormattedMessage id="citybike-buy-season" />
@@ -117,6 +122,7 @@ BikeRentalStationContent.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
   router: routerShape.isRequired,
+  error: PropTypes.object,
 };
 BikeRentalStationContent.contextTypes = {
   config: PropTypes.object.isRequired,

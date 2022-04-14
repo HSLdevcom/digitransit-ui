@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import ComponentUsageExample from './ComponentUsageExample';
 
 const ExternalLinkDecoration = ({ className }) => (
   <svg
@@ -20,22 +19,6 @@ const ExternalLinkDecoration = ({ className }) => (
       x="4"
     />
   </svg>
-);
-
-ExternalLinkDecoration.description = () => (
-  <ComponentUsageExample description="Bus with caution">
-    <div
-      className="external-top-bar"
-      style={{
-        textAlign: 'center',
-        width: 50,
-        height: 20,
-        backgroundColor: '#ccc',
-      }}
-    >
-      <ExternalLinkDecoration />
-    </div>
-  </ComponentUsageExample>
 );
 
 ExternalLinkDecoration.displayName = 'IconWithCaution';

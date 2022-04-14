@@ -1,5 +1,6 @@
 const translations = {
   de: {
+    'close-teaser-modal': 'Schließen',
     'pick-mode': 'Wählen Sie ein Verkehrsmittel',
     'pick-mode-airplane': 'Flug',
     'pick-mode-bus': 'Bus',
@@ -16,6 +17,7 @@ const translations = {
     'use-own-position': 'Verwende aktuelle Position',
   },
   en: {
+    'close-teaser-modal': 'Close',
     'pick-mode': 'Select a transport mode',
     'pick-mode-airplane': 'Flight',
     'pick-mode-bus': 'Bus',
@@ -30,8 +32,12 @@ const translations = {
     'title-route-stop-station': 'Nearby stops and routes',
     'title-origin-to-destination': 'Where to?',
     'use-own-position': 'Use current location',
+    'nearby-stops-teaser-header': 'Try the new map views showing nearby stops',
+    'nearby-stops-teaser-content':
+      'Real-time timetables for nearby stops and vehicles on map.',
   },
   fi: {
+    'close-teaser-modal': 'Sulje',
     'pick-mode': 'Valitse joukkoliikennevälineistä',
     'pick-mode-airplane': 'Lentokone',
     'pick-mode-bus': 'Bussi',
@@ -46,8 +52,12 @@ const translations = {
     'title-route-stop-station': 'Lähipysäkit ja linjat',
     'title-origin-to-destination': 'Minne mennään?',
     'use-own-position': 'Käytä nykyistä sijaintia',
+    'nearby-stops-teaser-header': 'Kokeile uusia lähipysäkkinäkymiä',
+    'nearby-stops-teaser-content':
+      'Reaaliaikaiset lähipysäkkiesi aikataulut ja ajoneuvot kartalla.',
   },
   sv: {
+    'close-teaser-modal': 'Stäng',
     'pick-mode': 'Välj ett transportläge',
     'pick-mode-airplane': 'Flyg',
     'pick-mode-bus': 'Buss',
@@ -62,6 +72,10 @@ const translations = {
     'title-route-stop-station': 'Hållplatser och linjer nära dig',
     'title-origin-to-destination': 'Var till?',
     'use-own-position': 'Använd min position',
+    'nearby-stops-teaser-header':
+      'Prova de nya kartavyerna som visar hållplatserna i närheten',
+    'nearby-stops-teaser-content':
+      'Fordonen och tidtabellerna i realtid för hållplatserna nära dig på kartan.',
   },
 };
 

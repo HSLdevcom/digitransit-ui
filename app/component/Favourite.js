@@ -5,7 +5,6 @@ import DialogModal from '@digitransit-component/digitransit-component-dialog-mod
 import { matchShape } from 'found';
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
-import ComponentUsageExample from './ComponentUsageExample';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
@@ -150,21 +149,6 @@ Favourite.propTypes = {
   isLoggedIn: PropTypes.bool,
   language: PropTypes.string,
 };
-
-Favourite.description = () => (
-  <div>
-    <p>
-      {`This component shows whether an entity is a favourite
-        and allows the user to toggle the favourite status on/off.`}
-    </p>
-    <ComponentUsageExample description="entity is favourite">
-      <Favourite addFavourite={() => {}} deleteFavourite={() => {}} favourite />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="entity is not favourite">
-      <Favourite addFavourite={() => {}} deleteFavourite={() => {}} />
-    </ComponentUsageExample>
-  </div>
-);
 
 Favourite.displayName = 'Favourite';
 

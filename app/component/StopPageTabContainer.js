@@ -5,7 +5,7 @@ import StopPageTabs from './StopPageTabs';
 
 function StopPageTabContainer({ children, stop }) {
   return (
-    <div className="stop-page-content-wrapper" aria-live="polite">
+    <div className="stop-page-content-wrapper">
       <StopPageTabs stop={stop} />
       {children}
     </div>

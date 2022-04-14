@@ -1,14 +1,12 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { intlShape } from 'react-intl';
 
 import { v4 as uuid } from 'uuid';
-import ComponentUsageExample from './ComponentUsageExample';
-import ExternalLink from './ExternalLink';
 import { renderZoneTicket } from './ZoneTicket';
+import Icon from './Icon';
 import { getAlternativeFares } from '../util/fareUtils';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const getUnknownFareRoute = (fares, route) => {
   for (let i = 0; i < fares.length; i++) {
@@ -54,39 +52,46 @@ export default function TicketInformation(
   const faresInfo = fares.map((fare, i) => {
     let header;
     if (i === 0) {
-      header = (
-        <div>
-          <FormattedMessage
-            id={
-              isMultiComponent
-                ? 'itinerary-tickets.title'
-                : 'itinerary-ticket.title'
-            }
-            defaultMessage="Required tickets"
-          />
-          :
-        </div>
-      );
+      header = `${intl.formatMessage({
+        id: isMultiComponent
+          ? 'itinerary-tickets.title'
+          : 'itinerary-ticket.title',
+        defaultMessage: 'Required tickets',
+      })}:`;
     }
     return (
       <div key={uuid()} className="ticket-container">
-        <div className="ticket-info-container">
-          <div className="ticket-type-title">{header}</div>
-          <div
-            className={cx('ticket-type-zone', {
-              'multi-component': isMultiComponent,
-            })}
-            key={i} // eslint-disable-line react/no-array-index-key
-          >
-            {fare.isUnknown ? (
-              <div className="unknown-fare-container">
-                <div className="ticket-identifier">{unknownFareRouteName}</div>
-                {fare.agency && (
-                  <div className="ticket-description">{fare.agency.name}</div>
+        <div className="ticket-type-title">{header}</div>
+        <div
+          className={cx('ticket-type-zone', {
+            'multi-component': isMultiComponent,
+          })}
+          key={i} // eslint-disable-line react/no-array-index-key
+        >
+          {fare.isUnknown ? (
+            <div className="unknown-fare-container">
+              <div className="ticket-identifier">{unknownFareRouteName}</div>
+              {fare.agency && !config.hideExternalOperator(fare.agency) && (
+                <div className="ticket-description">{fare.agency.name}</div>
+              )}
+            </div>
+          ) : (
+            (config.ticketLink && (
+              <a href={config.ticketLink}>
+                <div className="ticket-identifier">
+                  {config.useTicketIcons
+                    ? renderZoneTicket(fare.ticketName, alternativeFares)
+                    : fare.ticketName}
+                </div>
+                {config.showTicketPrice && (
+                  <div className="ticket-description">
+                    {`${(fare.cents / 100).toFixed(2)} €`}
+                  </div>
                 )}
-              </div>
-            ) : (
-              <div>
+                <Icon img="icon-icon_arrow-collapse--right" />
+              </a>
+            )) || (
+              <div className="fare-container">
                 <div className="ticket-identifier">
                   {config.useTicketIcons
                     ? renderZoneTicket(fare.ticketName, alternativeFares)
@@ -98,50 +103,15 @@ export default function TicketInformation(
                   </div>
                 )}
               </div>
-            )}
-          </div>
+            )
+          )}
         </div>
-        {fare.agency && fare.agency.fareUrl && (
-          <div
-            className="ticket-type-agency-link"
-            key={i} // eslint-disable-line react/no-array-index-key
-          >
-            <ExternalLink
-              className="itinerary-ticket-external-link"
-              href={fare.agency.fareUrl}
-              onClick={() => {
-                addAnalyticsEvent({
-                  category: 'Itinerary',
-                  action: 'OpenHowToBuyTicket',
-                  name: null,
-                });
-              }}
-            >
-              {intl.formatMessage({ id: 'extra-info' })}
-            </ExternalLink>
-          </div>
-        )}
-        {config.ticketLink && (
-          <ExternalLink
-            className="itinerary-ticket-external-link"
-            href={config.ticketLink}
-            onClick={() => {
-              addAnalyticsEvent({
-                category: 'Itinerary',
-                action: 'OpenHowToBuyTicket',
-                name: null,
-              });
-            }}
-          >
-            {intl.formatMessage({ id: 'buy-ticket' })}
-          </ExternalLink>
-        )}
       </div>
     );
   });
 
   return (
-    <div className="row itinerary-ticket-information">
+    <div className="itinerary-ticket-information">
       <div className="itinerary-ticket-type">{faresInfo}</div>
     </div>
   );
@@ -177,46 +147,3 @@ TicketInformation.contextTypes = {
 };
 
 TicketInformation.displayName = 'TicketInformation';
-
-TicketInformation.description = () => (
-  <div>
-    <p>Information about the required ticket for the itinerary.</p>
-    <ComponentUsageExample description="single fare">
-      <TicketInformation
-        fares={[{ fareId: 'HSL:AB', cents: 280, ticketName: 'AB' }]}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="single fare, with agency fare url">
-      <TicketInformation
-        fares={[
-          {
-            agency: { fareUrl: 'foo' },
-            cents: 280,
-            fareId: 'HSL:AB',
-            ticketName: 'AB',
-          },
-        ]}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="multiple fares">
-      <TicketInformation
-        fares={[
-          { fareId: 'HSL:AB', cents: 280, ticketName: 'AB' },
-          { fareId: 'HSL:BC', cents: 280, ticketName: 'BC' },
-        ]}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="unknown fare">
-      <TicketInformation
-        fares={[
-          { fareId: 'HSL:ABC', cents: 460, ticketName: 'ABC' },
-          {
-            agency: { fareUrl: 'foo', name: 'Ferry operator' },
-            isUnknown: true,
-            routeName: 'Ferry line',
-          },
-        ]}
-      />
-    </ComponentUsageExample>
-  </div>
-);

@@ -2,11 +2,9 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import cx from 'classnames';
 import AddressRow from './AddressRow';
-import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import ZoneIcon from './ZoneIcon';
 import SplitBars from './SplitBars';
-import Favourite from './Favourite';
 import BackButton from './BackButton'; // DT-3472
 import { getZoneLabel } from '../util/legUtils';
 
@@ -86,37 +84,7 @@ const CardHeader = (
   );
 };
 
-const emptyFunction = () => {};
-const exampleIcons = [
-  <Favourite
-    key="favourite"
-    favourite={false}
-    addFavourite={emptyFunction}
-    deleteFavourite={emptyFunction}
-    allowLogin={false}
-    requireLoggedIn={false}
-  />,
-];
-
 CardHeader.displayName = 'CardHeader';
-
-CardHeader.description = () => (
-  <div>
-    <p>
-      Generic card header, which displays card name, description, favourite star
-      and optional childs
-    </p>
-    <ComponentUsageExample description="">
-      <CardHeader
-        name="Testipysäkki"
-        description="Testipysäkki 2"
-        code="7528"
-        icons={exampleIcons}
-        headingStyle="header-primary"
-      />
-    </ComponentUsageExample>
-  </div>
-);
 
 CardHeader.propTypes = {
   className: PropTypes.string,

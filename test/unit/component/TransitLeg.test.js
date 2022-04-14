@@ -15,6 +15,7 @@ import { mockContext } from '../helpers/mock-context';
 
 const defaultProps = {
   children: <div />,
+  interliningLegs: [],
   focusAction: () => {},
   index: 0,
   lang: 'fi',
@@ -299,6 +300,15 @@ describe('<TransitLeg />', () => {
               code: 'E2502',
               gtfsId: 'HSL:2252202',
               name: 'Leppäsolmu',
+              zoneId: 'B',
+            },
+          },
+          {
+            arrivalTime: 1540990270000,
+            stop: {
+              code: 'E2506',
+              gtfsId: 'HSL:123456',
+              name: 'Turvesolmu',
               zoneId: 'B',
             },
           },
@@ -628,6 +638,7 @@ describe('<TransitLeg />', () => {
             arrivalTime: 1553856410,
             stop: {
               gtfsId: 'foobar',
+              name: 'Foo',
               alerts: [
                 {
                   alertSeverityLevel: AlertSeverityLevelType.Warning,
@@ -718,6 +729,7 @@ describe('<TransitLeg />', () => {
           availableTickets: { HSL: { 'HSL:A': { price: 5.5, zones: ['A'] } } },
           feedIds: ['HSL', 'HSLlautta'],
           colors: { primary: '#007ac9' },
+          hideExternalOperator: () => false,
         },
         focusFunction: () => () => {},
       },
@@ -773,6 +785,7 @@ describe('<TransitLeg />', () => {
           availableTickets: { HSL: { 'foo:A': { price: 5.5, zones: ['A'] } } },
           feedIds: ['HSL', 'HSLlautta'],
           colors: { primary: '#007ac9' },
+          hideExternalOperator: () => false,
         },
         focusFunction: () => () => {},
       },
@@ -894,6 +907,7 @@ describe('<TransitLeg />', () => {
           itinerary: {},
           zones: { itinerary: true },
           colors: { primary: '#007ac9' },
+          showAlertHeader: true,
         },
         focusFunction: () => () => {},
       },
@@ -947,6 +961,7 @@ describe('<TransitLeg />', () => {
           itinerary: {},
           zones: { itinerary: true },
           colors: { primary: '#007ac9' },
+          showAlertHeader: true,
         },
         focusFunction: () => () => {},
       },

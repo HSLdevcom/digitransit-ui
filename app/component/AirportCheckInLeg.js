@@ -3,7 +3,6 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import moment from 'moment';
 import { Link } from 'found';
-import ComponentUsageExample from './ComponentUsageExample';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
@@ -80,27 +79,6 @@ function AirportCheckInLeg(props, { config, intl }) {
     </div>
   );
 }
-
-const exampleLeg = () => ({
-  agency: { name: 'Finnair' },
-});
-
-AirportCheckInLeg.description = () => {
-  const startTime = moment().hour(12).minute(34).second(0).valueOf();
-  return (
-    <div>
-      <p>Displays an itinerary airport check-in leg.</p>
-      <ComponentUsageExample>
-        <AirportCheckInLeg
-          leg={exampleLeg()}
-          startTime={startTime}
-          focusAction={() => {}}
-          index={1}
-        />
-      </ComponentUsageExample>
-    </div>
-  );
-};
 
 AirportCheckInLeg.propTypes = {
   leg: PropTypes.shape({

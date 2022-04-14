@@ -38,7 +38,6 @@ const MobileModal = ({
       </div>
       <div className={styles['favourite-modal-mobile-main']}>
         <div className={styles['favourite-modal-mobile-location-search']}>
-          <p className={styles['sr-only']}>{requiredText}</p>
           {autosuggestComponent}
         </div>
         <input

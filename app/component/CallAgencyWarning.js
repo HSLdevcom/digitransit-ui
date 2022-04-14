@@ -3,7 +3,6 @@ import React from 'react';
 import get from 'lodash/get';
 
 import { FormattedMessage } from 'react-intl';
-import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 
 const CallAgencyWarning = ({ route }) => (
@@ -25,15 +24,6 @@ const CallAgencyWarning = ({ route }) => (
     ) : (
       ''
     )}
-  </div>
-);
-
-CallAgencyWarning.description = () => (
-  <div>
-    <p>Displays a warning message.</p>
-    <ComponentUsageExample description="normal">
-      <CallAgencyWarning route={{ agency: { phone: '+358123456789' } }} />
-    </ComponentUsageExample>
   </div>
 );
 

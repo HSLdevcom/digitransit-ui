@@ -6,9 +6,11 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 import cx from 'classnames';
+import { FormattedMessage } from 'react-intl';
 
 import RouteStop from './RouteStop';
 import withBreakpoint from '../util/withBreakpoint';
+import { getRouteMode } from '../util/modeUtils';
 
 class RouteStopListContainer extends React.PureComponent {
   static propTypes = {
@@ -30,7 +32,7 @@ class RouteStopListContainer extends React.PureComponent {
   getStops() {
     const { stops } = this.props.pattern;
 
-    const mode = this.props.pattern.route.mode.toLowerCase();
+    const mode = getRouteMode(this.props.pattern.route);
     const vehicles = groupBy(
       values(this.props.vehicles).filter(
         vehicle =>
@@ -43,6 +45,7 @@ class RouteStopListContainer extends React.PureComponent {
     return stops.map((stop, i) => {
       const idx = i; // DT-3159: using in key of RouteStop component
       const nextStop = stops[i + 1];
+      const prevStop = stops[i - 1];
 
       return (
         <RouteStop
@@ -54,6 +57,7 @@ class RouteStopListContainer extends React.PureComponent {
           key={`${stop.gtfsId}-${this.props.pattern}-${idx}`}
           stop={stop}
           nextStop={nextStop}
+          prevStop={prevStop}
           mode={mode}
           vehicle={vehicles[stop.gtfsId] ? vehicles[stop.gtfsId][0] : null}
           currentTime={this.props.currentTime.unix()}
@@ -86,9 +90,17 @@ class RouteStopListContainer extends React.PureComponent {
 
   render() {
     return (
-      <ul className={cx('route-stop-list', this.props.className)}>
-        {this.getStops()}
-      </ul>
+      <>
+        <span className="sr-only">
+          <FormattedMessage
+            id="stop-list-update.sr-instructions"
+            default="Departure times for each stop update in real time."
+          />
+        </span>
+        <ul className={cx('route-stop-list', this.props.className)}>
+          {this.getStops()}
+        </ul>
+      </>
     );
   }
 }
@@ -114,6 +126,7 @@ const containerComponent = createRefetchContainer(
           mode
           color
           shortName
+          type
         }
         stops {
           alerts {

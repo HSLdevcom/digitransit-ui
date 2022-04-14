@@ -2,32 +2,44 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import Icon from '../../Icon';
-import ComponentUsageExample from '../../ComponentUsageExample';
 import { PREFIX_TERMINALS, PREFIX_STOPS } from '../../../util/path';
 
-function SelectStopRow({ gtfsId, type, name, code, terminal, desc }) {
+function SelectStopRow({ gtfsId, type, name, code, terminal, desc, colors }) {
   const iconOptions = {};
   switch (type) {
+    case 'TRAM,BUS':
+      iconOptions.iconId = 'icon-icon_bustram-stop-lollipop';
+      iconOptions.className = 'tram-stop';
+      break;
     case 'TRAM':
-      iconOptions.iconId = 'icon-icon_bus-stop';
+      iconOptions.iconId = terminal
+        ? 'icon-icon_tram'
+        : 'icon-icon_tram-stop-lollipop';
       iconOptions.className = 'tram-stop';
       break;
     case 'RAIL':
-      iconOptions.iconId = 'icon-icon_station';
+      iconOptions.iconId = terminal
+        ? 'icon-icon_rail'
+        : 'icon-icon_rail-stop-lollipop';
       iconOptions.className = 'rail-stop';
       break;
     case 'BUS':
-      iconOptions.iconId = 'icon-icon_bus-stop';
+      iconOptions.iconId = terminal
+        ? 'icon-icon_bus'
+        : 'icon-icon_bus-stop-lollipop';
       iconOptions.className = 'bus-stop';
       break;
     case 'SUBWAY':
-      iconOptions.iconId = 'icon-icon_station';
+      iconOptions.iconId = 'icon-icon_subway';
       iconOptions.className = 'subway-stop';
       break;
     case 'FERRY':
       iconOptions.iconId =
         code !== 'null' ? 'icon-icon_ferry' : 'icon-icon_stop_ferry';
       iconOptions.className = 'ferry-stop';
+      if (iconOptions.iconId === 'icon-icon_stop_ferry') {
+        iconOptions.color = colors.iconColors['mode-ferry-pier'];
+      }
       break;
     case 'AIRPLANE':
       iconOptions.iconId = 'icon-icon_airplane';
@@ -71,21 +83,6 @@ function SelectStopRow({ gtfsId, type, name, code, terminal, desc }) {
 
 SelectStopRow.displayName = 'SelectStopRow';
 
-SelectStopRow.description = () => (
-  <div>
-    <p>Renders a select stop row</p>
-    <ComponentUsageExample description="">
-      <SelectStopRow
-        gtfsId="TEST"
-        type="BUS"
-        name="Testipysäkki"
-        code="X0000"
-        desc="Testikatu"
-      />
-    </ComponentUsageExample>
-  </div>
-);
-
 SelectStopRow.propTypes = {
   gtfsId: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
@@ -93,6 +90,7 @@ SelectStopRow.propTypes = {
   code: PropTypes.string,
   desc: PropTypes.string,
   terminal: PropTypes.bool,
+  colors: PropTypes.object,
 };
 
 SelectStopRow.defaultProps = {

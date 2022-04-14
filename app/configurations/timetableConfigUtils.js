@@ -31,11 +31,7 @@ export default {
   },
   tampere: {
     timetableUrlResolver: function timetableUrlResolver(baseURL, route) {
-      const { mode } = route;
       const routeNumber = route.shortName.replace(/\D/g, '');
-      if (mode === 'TRAM') {
-        return `${baseURL}${routeNumber}-ratikka.html`;
-      }
       return `${baseURL}${routeNumber}.html`;
     },
     stopPdfUrlResolver: function stopPdfUrlResolver(baseURL, stop) {

@@ -1,72 +1,69 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
-import { graphql, createRefetchContainer } from 'react-relay';
-import connectToStores from 'fluxible-addons-react/connectToStores';
+import React from 'react';
+import { graphql, createFragmentContainer } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { dtLocationShape } from '../util/shapes';
-import StopNearYou from './StopNearYou';
+import StopNearYouContainer from './StopNearYouContainer';
 import CityBikeStopNearYou from './CityBikeStopNearYou';
 
 function StopsNearYouFavouritesContainer({
-  currentTime,
   stops,
   stations,
   bikeStations,
   searchPosition,
-  relay,
 }) {
-  useEffect(() => {
-    relay.refetch(oldVariables => {
-      return { ...oldVariables, startTime: currentTime };
-    });
-  }, [currentTime]);
   const stopList = [];
   stopList.push(
-    ...stops.map(stop => {
-      return {
-        type: 'stop',
-        distance: distance(searchPosition, stop),
-        ...stop,
-      };
-    }),
+    ...stops
+      .filter(s => s)
+      .map(stop => {
+        return {
+          type: 'stop',
+          distance: distance(searchPosition, stop),
+          ...stop,
+        };
+      }),
   );
   stopList.push(
-    ...stations.map(stop => {
-      return {
-        type: 'station',
-        distance: distance(searchPosition, stop),
-        ...stop,
-      };
-    }),
+    ...stations
+      .filter(s => s)
+      .map(stop => {
+        return {
+          type: 'station',
+          distance: distance(searchPosition, stop),
+          ...stop,
+        };
+      }),
   );
   stopList.push(
-    ...bikeStations.map(stop => {
-      return {
-        type: 'bikeRentalStation',
-        distance: distance(searchPosition, stop),
-        ...stop,
-      };
-    }),
+    ...bikeStations
+      .filter(s => s)
+      .map(stop => {
+        return {
+          type: 'bikeRentalStation',
+          distance: distance(searchPosition, stop),
+          ...stop,
+        };
+      }),
   );
   stopList.sort((a, b) => a.distance - b.distance);
   const stopElements = stopList.map(stop => {
     switch (stop.type) {
       case 'stop':
         return (
-          <StopNearYou
+          <StopNearYouContainer
             key={stop.gtfsId}
             stop={stop}
-            currentTime={currentTime}
+            currentMode="FAVORITE"
           />
         );
       case 'station':
         return (
-          <StopNearYou
+          <StopNearYouContainer
             key={stop.gtfsId}
             stop={stop}
             desc={stop.stops[0].desc}
-            stopIsStation
-            currentTime={currentTime}
+            stopId={stop.stops[0].gtfsId}
           />
         );
       case 'bikeRentalStation':
@@ -85,144 +82,32 @@ StopsNearYouFavouritesContainer.propTypes = {
   relay: PropTypes.shape({
     refetch: PropTypes.func.isRequired,
   }).isRequired,
-  currentTime: PropTypes.number.isRequired,
 };
 
-const connectedContainer = connectToStores(
+const refetchContainer = createFragmentContainer(
   StopsNearYouFavouritesContainer,
-  ['TimeStore'],
-  ({ getStore }) => ({
-    currentTime: getStore('TimeStore').getCurrentTime().unix(),
-  }),
-);
-
-const refetchContainer = createRefetchContainer(
-  connectedContainer,
   {
     stops: graphql`
       fragment StopsNearYouFavouritesContainer_stops on Stop
       @relay(plural: true)
       @argumentDefinitions(startTime: { type: "Long!", defaultValue: 0 }) {
-        id
-        name
+        ...StopNearYouContainer_stop
         gtfsId
-        code
-        desc
         lat
         lon
-        zoneId
-        platformCode
-        vehicleMode
-        stoptimesWithoutPatterns(startTime: $startTime, omitNonPickups: true) {
-          scheduledArrival
-          realtimeArrival
-          arrivalDelay
-          scheduledDeparture
-          realtimeDeparture
-          departureDelay
-          realtime
-          realtimeState
-          serviceDay
-          headsign
-          trip {
-            route {
-              shortName
-              longName
-              gtfsId
-              mode
-              color
-              patterns {
-                headsign
-              }
-            }
-          }
-        }
-        parentStation {
-          id
-          name
-          gtfsId
-          code
-          desc
-          lat
-          lon
-          zoneId
-          platformCode
-          vehicleMode
-          stoptimesWithoutPatterns(
-            startTime: $startTime
-            omitNonPickups: true
-          ) {
-            scheduledArrival
-            realtimeArrival
-            arrivalDelay
-            scheduledDeparture
-            realtimeDeparture
-            departureDelay
-            realtime
-            realtimeState
-            serviceDay
-            headsign
-            trip {
-              route {
-                shortName
-                longName
-                gtfsId
-                mode
-                patterns {
-                  headsign
-                }
-              }
-            }
-            stop {
-              platformCode
-            }
-          }
-        }
       }
     `,
     stations: graphql`
       fragment StopsNearYouFavouritesContainer_stations on Stop
       @relay(plural: true)
       @argumentDefinitions(startTime: { type: "Long!", defaultValue: 0 }) {
-        id
-        name
+        ...StopNearYouContainer_stop
         gtfsId
-        code
-        desc
         lat
         lon
-        zoneId
-        platformCode
-        vehicleMode
         stops {
+          gtfsId
           desc
-        }
-        stoptimesWithoutPatterns(startTime: $startTime, omitNonPickups: true) {
-          scheduledArrival
-          realtimeArrival
-          arrivalDelay
-          scheduledDeparture
-          realtimeDeparture
-          departureDelay
-          realtime
-          realtimeState
-          serviceDay
-          headsign
-          trip {
-            route {
-              shortName
-              longName
-              gtfsId
-              mode
-              color
-              patterns {
-                headsign
-              }
-            }
-          }
-          stop {
-            platformCode
-          }
         }
       }
     `,
@@ -240,26 +125,6 @@ const refetchContainer = createRefetchContainer(
       }
     `,
   },
-  graphql`
-    query StopsNearYouFavouritesContainerRefetchQuery(
-      $stopIds: [String!]!
-      $stationIds: [String!]!
-      $bikeRentalStationIds: [String!]!
-      $startTime: Long!
-    ) {
-      stops: stops(ids: $stopIds) {
-        ...StopsNearYouFavouritesContainer_stops
-        @arguments(startTime: $startTime)
-      }
-      stations: stations(ids: $stationIds) {
-        ...StopsNearYouFavouritesContainer_stations
-        @arguments(startTime: $startTime)
-      }
-      bikeStations: bikeRentalStations(ids: $bikeRentalStationIds) {
-        ...StopsNearYouFavouritesContainer_bikeStations
-      }
-    }
-  `,
 );
 
 export {

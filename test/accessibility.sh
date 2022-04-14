@@ -8,7 +8,7 @@ cleanup() {
 trap "exit $TESTSTATUS" INT TERM
 trap cleanup EXIT
 
-GECKODRIVER_URL="https://github.com/mozilla/geckodriver/releases/download/v0.29.1/geckodriver-v0.29.1-linux64.tar.gz"
+GECKODRIVER_URL="https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz"
 GECKODRIVER_FILENAME=$(echo $GECKODRIVER_URL | awk -F/ '{print $NF}')
 
 # Silence output and send to background

@@ -11,10 +11,10 @@
   height: 100%;
   background: #f4f4f5;
   .settings-option-container {
-    padding: 0.5em 1em 0 1em;
+    padding: 8px 16px 0 16px;
     h2 {
       text-align: center;
-      padding: 1em 0.5em 1em 0.5em;
+      padding: 24px 12px 24px 12px;
       font-size: $font-size-large;
     }
     .mode-option-container {
@@ -132,12 +132,10 @@
 
   .toggle-container {
     .settings-header {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
       padding-top: 0.5em;
-      width: 100%;
-    }
-    span {
-      padding-top: 1em;
-      width: 100%;
     }
     .icon-container {
       width: auto;
@@ -148,42 +146,21 @@
     font-weight: $font-weight-medium;
 
     .walk-option-inner {
-      padding: 0 1em 0 1em;
+      min-height: 51px;
+      padding: 0 16px 0 16px;
     }
 
     .settings-dropdown-wrapper {
       border-bottom: 1px solid #e3e3e3;
     }
 
-    .toggle-container {
-      display: flex;
-      height: 51px;
-    }
-    label.toggle-label {
-      padding-top: 17px;
-      line-height: 16px;
-    }
-  }
-  .mode-option-block.citybike-network-container:nth-child(2) {
-    border-bottom: 1px solid #e3e3e3;
-  }
-  .mode-option-block.citybike-network-container {
-    margin-bottom: 0.75em;
     label.toggle-label {
       display: flex;
-      flex-grow: 1;
-      line-height: 35px;
-      .network-name {
-        margin-top: 4px;
+      justify-content: space-between;
+
+      .toggle-label-text {
+        padding-top: 5px;
       }
-    }
-    .option-toggle-container {
-      .toggle {
-        top: 0px;
-      }
-    }
-    .icon-container {
-      margin-right: 0.5em;
     }
   }
 }
@@ -204,7 +181,7 @@
 }
 
 .settings-option-container {
-  padding: 0.5em 1em 0 1em;
+  padding: 8px 16px 0 16px;
   font-weight: $font-weight-medium;
 
   h2 {
@@ -212,8 +189,8 @@
     font-size: $font-size-xlarge;
     letter-spacing: -0.6pt;
     font-weight: $font-weight-medium;
-    font-family: $font-family;
-    padding: 1.5em 0.5em 0.5em 0.5em;
+    font-family: $heading-font-family;
+    padding: 36px 12px 12px 12px;
     margin: 0;
   }
 
@@ -232,7 +209,7 @@
     letter-spacing: -0.6pt;
     font-size: $font-size-normal;
     font-weight: $font-weight-medium;
-    font-family: $font-family;
+    font-family: $heading-font-family;
   }
 }
 
@@ -243,19 +220,18 @@
   padding: 0 0 0 1em;
 }
 
-.settings-header-citybike {
-  padding-left: 0;
-  position: relative;
-  top: 10px;
-}
-
 .mode-option-container {
-  display: flex;
   border-bottom: 1px solid #e3e3e3;
   font-size: $font-size-small;
+  flex-wrap: wrap;
 
   .icon-container {
     width: auto;
+  }
+
+  .car-icon {
+    width: 0.8em;
+    height: 0.8em;
   }
 
   .option-checkbox {
@@ -265,11 +241,11 @@
   label.toggle-label {
     font-size: 0.92rem;
     font-weight: $font-weight-medium;
+    align-items: center;
   }
 
   .mode-option-block {
-    width: 100%;
-    height: 3.5em;
+    min-height: 51.5156px;
     margin-bottom: 0.1em;
     display: flex;
     cursor: pointer;
@@ -283,8 +259,8 @@
     }
 
     .mode-icon {
-      margin-left: 1em;
-      margin-right: 1em;
+      margin-left: 14.72px;
+      margin-right: 14.72px;
       .subicon-caution .icon {
         width: 16px;
         height: 16px;
@@ -292,13 +268,17 @@
         margin-top: -0.8em;
       }
     }
-    .mode-name {
+    label.mode-name  {
       display: flex;
-      flex-direction: column;
-      margin-top: 1.2em;
+      justify-content: space-between;
+      font-weight: $font-weight-medium;
+      font-size: $font-size-small;
+    }
+    .mode-name {
       width:100%;
-      span {
+      > span {
         line-height: 1.1em;
+        margin-top: 1.2em;
       }
       .span-bike-not-allowed {
         font-size: $font-size-xxsmall;
@@ -317,7 +297,7 @@
     font-size: $font-size-normal;
     letter-spacing: -0.6pt;
     font-weight: $font-weight-medium;
-    font-family: $font-family;
+    font-family: $heading-font-family;
   }
   h4 {
     display: none;
@@ -352,6 +332,8 @@
 .avoid-transfers-container {
   padding: 0 0 0 1em;
   height: 3.5em;
+  display: flex;
+  justify-content: space-between;
   .settings-header {
     padding-left: 0px;
     line-height: inherit;
@@ -363,10 +345,13 @@
   height: 3.5em;
 
   label.toggle-label {
-    flex-grow: 1;
     display:flex;
+    justify-content: space-between;
     line-height: 35px;
     color: #333;
+    .accessibility-label {
+      flex-grow: 1;
+    }
   }
 }
 

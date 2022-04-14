@@ -7,7 +7,7 @@ import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 import SearchSettingsDropdown, {
   getFiveStepOptionsNumerical,
   valueShape,
-} from '../SearchSettingsDropdown';
+} from './SearchSettingsDropdown';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { findNearestOption } from '../../util/planParamUtil';
 

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { ReactRelayContext } from 'react-relay';
 import { matchShape } from 'found';
 import Loading from './Loading';
@@ -17,6 +17,16 @@ const modules = {
 const SummaryPageContainer = ({ content, match }, { config }) => {
   const { environment } = useContext(ReactRelayContext);
   const [isClient, setClient] = useState(false);
+  const alertRef = useRef();
+
+  const screenReaderAlert = (
+    <div
+      className="sr-only"
+      role="alert"
+      ref={alertRef}
+      id="summarypage-screenreader-alert"
+    />
+  );
 
   useEffect(() => {
     // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
@@ -31,22 +41,30 @@ const SummaryPageContainer = ({ content, match }, { config }) => {
           environment={environment}
           render={({ props: innerProps, error }) => {
             return innerProps ? (
-              <SummaryPage
-                {...innerProps}
-                content={content}
-                match={match}
-                error={error}
-                loading={false}
-              />
+              <>
+                {screenReaderAlert}
+                <SummaryPage
+                  {...innerProps}
+                  content={content}
+                  match={match}
+                  error={error}
+                  loading={false}
+                  alertRef={alertRef}
+                />
+              </>
             ) : (
-              <SummaryPage
-                content={content}
-                match={match}
-                viewer={{ plan: {} }}
-                serviceTimeRange={validateServiceTimeRange()}
-                loading
-                error={error}
-              />
+              <>
+                {screenReaderAlert}
+                <SummaryPage
+                  content={content}
+                  match={match}
+                  viewer={{ plan: {} }}
+                  serviceTimeRange={validateServiceTimeRange()}
+                  loading
+                  error={error}
+                  alertRef={alertRef}
+                />
+              </>
             );
           }}
         />

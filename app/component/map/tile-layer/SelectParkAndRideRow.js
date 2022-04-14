@@ -1,52 +1,38 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
-
+import Link from 'found/Link';
 import Icon from '../../Icon';
-import ComponentUsageExample from '../../ComponentUsageExample';
+import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../util/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function SelectParkAndRideRow(props, { intl }) {
+function SelectParkAndRideRow({ name, bikeParkId, carParkId }) {
+  const id = bikeParkId || carParkId;
+  const img = carParkId ? 'icon-icon_car-park' : 'icon-icon_bike-park';
+  const PREFIX = carParkId ? PREFIX_CARPARK : PREFIX_BIKEPARK;
   return (
-    <div className="no-margin">
-      <div className="cursor-pointer select-row" onClick={props.selectRow}>
-        <div className="padding-vertical-normal select-row-icon">
-          <Icon img="icon-icon_car" color={props.colors.primary} />
-        </div>
-        <div className="padding-vertical-normal select-row-text">
-          <span className="header-primary no-margin link-color">
-            {JSON.parse(props.name)[intl.locale]} ›
-          </span>
-        </div>
-        <div className="clear" />
-      </div>
-      <hr className="no-margin gray" />
-    </div>
+    <Link
+      className="stop-popup-choose-row"
+      to={`/${PREFIX}/${encodeURIComponent(id)}`}
+    >
+      <span className="choose-row-left-column" aria-hidden="true">
+        <Icon img={img} />
+      </span>
+      <span className="choose-row-center-column">
+        <h5 className="choose-row-header">{name}</h5>
+      </span>
+      <span className="choose-row-right-column">
+        <Icon img="icon-icon_arrow-collapse--right" />
+      </span>
+    </Link>
   );
 }
 
 SelectParkAndRideRow.displayName = 'SelectParkAndRideRow';
 
-SelectParkAndRideRow.description = (
-  <div>
-    <p>Renders a select citybike row</p>
-    <ComponentUsageExample description="">
-      <SelectParkAndRideRow
-        name={'{"en": "Leppävaara", "fi": "Leppävaara", "sv": "Leppävaara"}'}
-        selectRow={() => {}}
-      />
-    </ComponentUsageExample>
-  </div>
-);
-
 SelectParkAndRideRow.propTypes = {
-  selectRow: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
-  colors: PropTypes.object.isRequired,
-};
-
-SelectParkAndRideRow.contextTypes = {
-  intl: intlShape,
+  bikeParkId: PropTypes.string,
+  carParkId: PropTypes.string,
+  name: PropTypes.string,
 };
 
 export default SelectParkAndRideRow;

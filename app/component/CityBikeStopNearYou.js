@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
+import { graphql, createRefetchContainer } from 'react-relay';
 import CityBikeStopContent from './CityBikeStopContent';
 import FavouriteBikeRentalStationContainer from './FavouriteBikeRentalStationContainer';
-
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
-const CityBikeStopNearYou = ({ stop }) => {
+const CityBikeStopNearYou = ({ stop, relay, currentTime, currentMode }) => {
+  useEffect(() => {
+    const { stationId } = stop;
+    if (currentMode === 'CITYBIKE') {
+      relay?.refetch(
+        oldVariables => {
+          return { ...oldVariables, stopId: stationId };
+        },
+        null,
+        null,
+        { force: true }, // query variables stay the same between refetches
+      );
+    }
+  }, [currentTime]);
   return (
     <span role="listitem">
       <div className="stop-near-you-container">
@@ -48,6 +61,33 @@ const CityBikeStopNearYou = ({ stop }) => {
 };
 CityBikeStopNearYou.propTypes = {
   stop: PropTypes.object.isRequired,
+  currentTime: PropTypes.number.isRequired,
+  currentMode: PropTypes.string.isRequired,
+  relay: PropTypes.any,
 };
 
-export default CityBikeStopNearYou;
+const containerComponent = createRefetchContainer(
+  CityBikeStopNearYou,
+  {
+    stop: graphql`
+      fragment CityBikeStopNearYou_stop on BikeRentalStation {
+        stationId
+        name
+        bikesAvailable
+        spacesAvailable
+        capacity
+        networks
+        state
+      }
+    `,
+  },
+  graphql`
+    query CityBikeStopNearYouRefetchQuery($stopId: String!) {
+      bikeRentalStation(id: $stopId) {
+        ...CityBikeStopNearYou_stop
+      }
+    }
+  `,
+);
+
+export { containerComponent as default, CityBikeStopNearYou as Component };

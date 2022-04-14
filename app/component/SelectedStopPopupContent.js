@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ComponentUsageExample from './ComponentUsageExample';
-
 const SelectedStopPopupContent = ({ stop }) => (
   <div className="origin-popup">
     <div className="origin-popup-header">
@@ -27,16 +25,5 @@ SelectedStopPopupContent.propTypes = {
 };
 
 SelectedStopPopupContent.displayName = 'SelectedStopPopupContent';
-
-SelectedStopPopupContent.description = () => (
-  <div>
-    <p>Renders a popup with the selected stop</p>
-    <ComponentUsageExample description="example">
-      <SelectedStopPopupContent
-        stop={{ name: 'Name', code: '123', desc: 'Desc' }}
-      />
-    </ComponentUsageExample>
-  </div>
-);
 
 export default SelectedStopPopupContent;

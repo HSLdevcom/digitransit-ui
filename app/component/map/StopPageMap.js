@@ -21,6 +21,23 @@ import { addressToItinerarySearch } from '../../util/otpStrings';
 import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
 import { getMapLayerOptions } from '../../util/mapLayerUtils';
+import MapRoutingButton from '../mapRoutingButton';
+
+const getModeFromProps = props => {
+  if (props.citybike) {
+    return 'citybike';
+  }
+  if (props.stop.bikeParkId) {
+    return 'parkAndRideForBikes';
+  }
+  if (props.stop.carParkId) {
+    return 'parkAndRide';
+  }
+  if (props.stop.vehicleMode) {
+    return props.stop.vehicleMode.toLowerCase();
+  }
+  return 'stop';
+};
 
 const StopPageMap = (
   { stop, breakpoint, currentTime, locationState, mapLayers, mapLayerOptions },
@@ -161,6 +178,7 @@ const StopPageMap = (
       {...mwtProps}
       mapLayers={mapLayers}
       mapLayerOptions={mapLayerOptions}
+      topButtons={<MapRoutingButton stop={stop} />}
     >
       {children}
     </MapWithTracking>
@@ -206,10 +224,7 @@ const StopPageMapWithStores = connectToStores(
       ml.force = ['terminal'];
     }
     const mapLayers = getStore(MapLayerStore).getMapLayers(ml);
-    const mode = props.citybike
-      ? 'citybike'
-      : (props.stop.vehicleMode && props.stop.vehicleMode.toLowerCase()) ||
-        'stop';
+    const mode = getModeFromProps(props);
     const mapLayerOptions = getMapLayerOptions({
       lockedMapLayers: ['vehicles', mode],
       selectedMapLayers: ['vehicles', mode],

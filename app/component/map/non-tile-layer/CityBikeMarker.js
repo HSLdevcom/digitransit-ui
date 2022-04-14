@@ -3,13 +3,12 @@ import React from 'react';
 import { routerShape } from 'found';
 import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
-import { station as exampleStation } from '../../ExampleData';
-import ComponentUsageExample from '../../ComponentUsageExample';
 import {
   BIKEAVL_UNKNOWN,
   getCityBikeNetworkConfig,
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
+  getCitybikeCapacity,
 } from '../../../util/citybikes';
 import { isBrowser } from '../../../util/browser';
 import {
@@ -38,19 +37,6 @@ const smallIconSvg = `
 `;
 
 export default class CityBikeMarker extends React.Component {
-  static description = (
-    <div>
-      <p>Renders a citybike marker</p>
-      <ComponentUsageExample description="">
-        <CityBikeMarker
-          key={exampleStation.id}
-          map="leaflet map here"
-          station={exampleStation}
-        />
-      </ComponentUsageExample>
-    </div>
-  );
-
   static displayName = 'CityBikeMarker';
 
   static propTypes = {
@@ -83,7 +69,7 @@ export default class CityBikeMarker extends React.Component {
   getIcon = zoom => {
     const { showBikeAvailability, station, transit } = this.props;
     const { config } = this.context;
-
+    const citybikeCapacity = getCitybikeCapacity(config, station.networks[0]);
     const iconName = `${getCityBikeNetworkIcon(
       getCityBikeNetworkConfig(getCityBikeNetworkId(station.networks), config),
     )}-lollipop`;
@@ -109,7 +95,7 @@ export default class CityBikeMarker extends React.Component {
                   config,
                 ),
                 badgeText:
-                  this.context.config.cityBike.capacity !== BIKEAVL_UNKNOWN
+                  citybikeCapacity !== BIKEAVL_UNKNOWN
                     ? station.bikesAvailable
                     : null,
               })

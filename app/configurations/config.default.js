@@ -4,10 +4,11 @@ import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const GEOCODING_BASE_URL = `${API_URL}/geocoding/v1`;
+const GEOCODING_BASE_URL =
+  process.env.GEOCODING_BASE_URL || `${API_URL}/geocoding/v1`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || 'next-'; // TODO maybe use regular endpoint again at some point
+const MAP_VERSION = process.env.MAP_VERSION || 'v2';
 const APP_PATH = process.env.APP_CONTEXT || '';
 const { SENTRY_DSN, AXE, NODE_ENV } = process.env;
 const PORT = process.env.PORT || 8080;
@@ -31,8 +32,8 @@ export default {
     MAP_URL,
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/finland/`,
     MAP: {
-      default: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-map/`,
-      sv: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-map-sv/`,
+      default: `${MAP_URL}/map/${MAP_VERSION}/hsl-map/`,
+      sv: `${MAP_URL}/map/${MAP_VERSION}/hsl-map-sv/`,
     },
     STOP_MAP: `${MAP_URL}/map/v1/finland-stop-map/`,
     CITYBIKE_MAP: `${MAP_URL}/map/v1/finland-citybike-map/`,
@@ -108,7 +109,17 @@ export default {
 
   omitNonPickups: true,
   maxNearbyStopAmount: 5,
-  maxNearbyStopDistance: 2000,
+  maxNearbyStopRefetches: 5,
+  maxNearbyStopDistance: {
+    favorite: 100000,
+    bus: 100000,
+    tram: 100000,
+    subway: 100000,
+    rail: 100000,
+    ferry: 100000,
+    citybike: 100000,
+    airplane: 200000,
+  },
 
   defaultSettings: {
     accessibilityOption: 0,
@@ -118,6 +129,8 @@ export default {
     walkReluctance: 2,
     walkSpeed: 1.2,
     includeBikeSuggestions: true,
+    includeParkAndRideSuggestions: false,
+    includeCarSuggestions: false,
   },
 
   /**
@@ -146,9 +159,12 @@ export default {
   walkBoardCostHigh: 1200,
 
   maxWalkDistance: 10000,
+  suggestBikeAndPublicMaxDistance: 15000,
   suggestWalkMaxDistance: 10000,
   suggestBikeMaxDistance: 30000,
-  suggestBikeAndPublicMaxDistance: 15000,
+  // if you enable car suggestions but the linear distance between all points is less than this, then a car route will
+  // not be computed
+  suggestCarMinDistance: 2000,
   itineraryFiltering: 1.5, // drops 66% worse routes
   useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
   minTransferTime: 120,
@@ -170,6 +186,10 @@ export default {
     showLoginCreateAccount: true,
     showOffCanvasList: true,
     showFrontPageLink: true,
+    stopMonitor: {
+      show: false,
+    },
+    showEmbeddedSearch: true,
   },
 
   itinerary: {
@@ -235,6 +255,12 @@ export default {
       '<a tabIndex="-1" href="http://osm.org/copyright">© OpenStreetMap</a>', // DT-3470, DT-3397
 
     useModeIconsInNonTileLayer: false,
+    // areBounds is for keeping map and user inside given area
+    // Finland + Stockholm
+    areaBounds: {
+      corner1: [70.25, 32.25],
+      corner2: [58.99, 17.75],
+    },
   },
 
   stopCard: {
@@ -290,11 +316,11 @@ export default {
       'mode-tram': '#6a8925',
       'mode-metro': '#ed8c00',
       'mode-rail': '#af8dbc',
-      'mode-ferry': '#35b5b3',
+      'mode-ferry': '#247C7B',
       'mode-citybike': '#f2b62d',
     },
   },
-
+  iconModeSet: 'digitransit',
   fontWeights: {
     medium: 700,
   },
@@ -331,6 +357,7 @@ export default {
     keywords: 'digitransit',
   },
 
+  hideExternalOperator: () => false,
   // Ticket information feature toggle
   showTicketInformation: false,
   ticketInformation: {
@@ -499,12 +526,10 @@ export default {
     content: [
       {
         name: 'menu-feedback',
-        nameEn: 'Submit feedback',
         href: 'https://github.com/HSLdevcom/digitransit-ui/issues',
       },
       {
         name: 'about-this-service',
-        nameEn: 'About this service',
         route: '/tietoja-palvelusta',
       },
     ],
@@ -538,7 +563,7 @@ export default {
       {
         header: 'Tietolähteet',
         paragraphs: [
-          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut ladataan Traficomin valtakunnallisesta joukkoliikenteen tietokannasta.',
+          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Digi- ja väestötietoviraston rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut ladataan Traficomin valtakunnallisesta joukkoliikenteen tietokannasta.',
         ],
       },
     ],
@@ -705,6 +730,8 @@ export default {
   showBikeAndParkItineraries: false,
 
   includeBikeSuggestions: true,
+  includeCarSuggestions: false,
+  includeParkAndRideSuggestions: false,
 
   showNearYouButtons: false,
   nearYouModes: [],
@@ -721,4 +748,12 @@ export default {
   },
 
   viaPointsEnabled: true,
+
+  // DT-4802 Toggling this off shows the alert bodytext instead of the header
+  showAlertHeader: true,
+
+  showSimilarRoutesOnRouteDropDown: false,
+
+  prioritizedStopsNearYou: {},
+  routeNotifications: [],
 };

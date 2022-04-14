@@ -346,10 +346,10 @@ describe('planParamUtil', () => {
       const configWithCitybikes = {
         ...defaultConfig,
         cityBike: {
-          showCityBikes: true,
           capacity: 'Bikes on station',
           networks: {
             foo: {
+              enabled: true,
               icon: 'citybike',
               name: {
                 en: 'Foo bikes',
@@ -357,6 +357,7 @@ describe('planParamUtil', () => {
               type: 'citybike',
             },
             bar: {
+              enabled: true,
               icon: 'citybike',
               name: {
                 en: 'Bar bikes',

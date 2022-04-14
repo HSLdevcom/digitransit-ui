@@ -7,7 +7,12 @@ const populateData = (params, match, noOfWeeks) => {
   const startOfWeek = moment().startOf('isoWeek');
   const date = moment(query.serviceDay, 'YYYYMMDD', true);
   const serviceDay =
-    query && query.serviceDay && date.isValid() && date.isAfter(moment())
+    query &&
+    query.serviceDay &&
+    date.isValid() &&
+    !moment(date.clone().startOf('isoWeek').format(DATE_FORMAT)).isBefore(
+      moment(moment().startOf('isoWeek').format(DATE_FORMAT)),
+    )
       ? moment(query.serviceDay)
       : moment();
 

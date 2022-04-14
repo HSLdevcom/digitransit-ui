@@ -5,6 +5,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import cx from 'classnames';
 import { matchShape, routerShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import Icon from './Icon';
 import TicketInformation from './TicketInformation';
@@ -20,11 +21,12 @@ import {
   getTotalBikingDuration,
   getTotalWalkingDistance,
   getTotalWalkingDuration,
+  legContainsRentalBike,
+  getTotalDrivingDuration,
+  getTotalDrivingDistance,
 } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
-import ComponentUsageExample from './ComponentUsageExample';
 
-import exampleData from './data/ItineraryTab.exampleData.json';
 import { getFares, shouldShowFareInfo } from '../util/fareUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
@@ -33,6 +35,8 @@ import {
   getFormattedTimeDate,
   getCurrentMillis,
 } from '../util/timeUtils';
+import CityBikeDurationInfo from './CityBikeDurationInfo';
+import { getCityBikeNetworkId } from '../util/citybikes';
 
 /* eslint-disable prettier/prettier */
 class ItineraryTab extends React.Component {
@@ -44,6 +48,7 @@ class ItineraryTab extends React.Component {
     focusToPoint: PropTypes.func.isRequired,
     focusToLeg: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
+    currentTime: PropTypes.number.isRequired,
     hideTitle: PropTypes.bool,
   };
 
@@ -52,6 +57,7 @@ class ItineraryTab extends React.Component {
     router: routerShape.isRequired,
     match: matchShape.isRequired,
     intl: intlShape.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
   handleFocus = (lat, lon) => {
@@ -83,8 +89,8 @@ class ItineraryTab extends React.Component {
     });
   };
 
-  getFutureText = startTime => {
-    const refTime = getCurrentMillis();
+  getFutureText = (startTime, currentTime) => {
+    const refTime = getCurrentMillis(currentTime);
     if (isToday(startTime, refTime)) {
       return '';
     }
@@ -105,9 +111,11 @@ class ItineraryTab extends React.Component {
     const walkingDuration = getTotalWalkingDuration(compressedItinerary);
     const bikingDistance = getTotalBikingDistance(compressedItinerary);
     const bikingDuration = getTotalBikingDuration(compressedItinerary);
-    const futureText = this.getFutureText(itinerary.startTime);
+    const drivingDuration = getTotalDrivingDuration(compressedItinerary);
+    const drivingDistance = getTotalDrivingDistance(compressedItinerary);
+    const futureText = this.getFutureText(itinerary.startTime, this.props.currentTime);
     const isMultiRow =
-      walkingDistance > 0 && bikingDistance > 0 && futureText !== '';
+      walkingDistance > 0 && (bikingDistance > 0 || drivingDistance > 0) && futureText !== '';
     const extraProps = {
       walking: {
         duration: walkingDuration,
@@ -116,6 +124,10 @@ class ItineraryTab extends React.Component {
       biking: {
         duration: bikingDuration,
         distance: bikingDistance,
+      },
+      driving: {
+        duration: drivingDuration,
+        distance: drivingDistance,
       },
       futureText,
       isMultiRow,
@@ -133,8 +145,33 @@ class ItineraryTab extends React.Component {
 
     const fares = getFares(itinerary.fares, getRoutes(itinerary.legs), config);
     const extraProps = this.setExtraProps(itinerary);
+    const legsWithRentalBike = compressLegs(itinerary.legs).filter(leg => legContainsRentalBike(leg));
+    const rentalBikeNetworks = new Set();
+    let showRentalBikeDurationWarning = false;
+    if (legsWithRentalBike.length > 0) {
+      for (let i=0; i < legsWithRentalBike.length; i++) {
+        const leg = legsWithRentalBike[i];
+        const network = getCityBikeNetworkId(leg.from.bikeRentalStation?.networks);
+        if (config.cityBike.networks[network]?.timeBeforeSurcharge && config.cityBike.networks[network]?.durationInstructions) {
+          const rentDurationOverSurchargeLimit = leg.duration > config.cityBike.networks[network].timeBeforeSurcharge;
+          if (rentDurationOverSurchargeLimit) {
+            rentalBikeNetworks.add(network);
+            showRentalBikeDurationWarning = rentDurationOverSurchargeLimit || showRentalBikeDurationWarning;
+          }
+        }
+      }
+    }
+    const suggestionIndex = this.context.match.params.secondHash ? Number(this.context.match.params.secondHash) + 1 : Number(this.context.match.params.hash) + 1
     return (
       <div className="itinerary-tab">
+        <h2 className="sr-only">
+          <FormattedMessage
+            id="summary-page.row-label"
+            values={{
+              number: suggestionIndex,
+            }}
+          />
+        </h2>
         <BreakpointConsumer>
           {breakpoint => [
             breakpoint !== 'large' ? (
@@ -143,6 +180,7 @@ class ItineraryTab extends React.Component {
                 key="summary"
                 walking={extraProps.walking}
                 biking={extraProps.biking}
+                driving={extraProps.driving}
                 futureText={extraProps.futureText}
                 isMultiRow={extraProps.isMultiRow}
                 isMobile={this.props.isMobile}
@@ -166,19 +204,27 @@ class ItineraryTab extends React.Component {
                     </div>
                   </div>
                 )}
-                <div>
+                <div className="itinerary-summary-container">
                   <ItinerarySummary
                     itinerary={itinerary}
                     key="summary"
                     walking={extraProps.walking}
                     biking={extraProps.biking}
+                    driving={extraProps.driving}
                     futureText={extraProps.futureText}
                     isMultiRow={extraProps.isMultiRow}
                     isMobile={this.props.isMobile}
                   />
-                  <div className="summary-divider" />
                 </div>
               </>
+            ),
+            showRentalBikeDurationWarning && <CityBikeDurationInfo networks={Array.from(rentalBikeNetworks)} config={config} />,
+            shouldShowFareInfo(config) && (
+              <TicketInformation
+                fares={fares}
+                zones={getZones(itinerary.legs)}
+                legs={itinerary.legs}
+              />
             ),
             <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
@@ -216,13 +262,6 @@ class ItineraryTab extends React.Component {
                   focusToPoint={this.handleFocus}
                   focusToLeg={this.props.focusToLeg}
                 />
-                {shouldShowFareInfo(config) && (
-                  <TicketInformation
-                    fares={fares}
-                    zones={getZones(itinerary.legs)}
-                    legs={itinerary.legs}
-                  />
-                )}
                 {config.showRouteInformation && <RouteInformation />}
               </div>
               {this.shouldShowDisclaimer(config) && (
@@ -242,21 +281,13 @@ class ItineraryTab extends React.Component {
   }
 }
 
-ItineraryTab.description = (
-  <ComponentUsageExample description="with disruption">
-    <div style={{ maxWidth: '528px' }}>
-      <ItineraryTab
-        focusToPoint={() => {}}
-        itinerary={{ ...exampleData.itinerary }}
-        plan={{ date: 1553845502000 }}
-        focusToLeg={() => {}}
-        isMobile={false}
-      />
-    </div>
-  </ComponentUsageExample>
-);
-
-const withRelay = createFragmentContainer(ItineraryTab, {
+const withRelay = createFragmentContainer(
+  connectToStores(
+    ItineraryTab,
+    ['TimeStore'],
+  context => ({
+    currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+  })), {
   plan: graphql`
     fragment ItineraryTab_plan on Plan {
       date
@@ -292,6 +323,10 @@ const withRelay = createFragmentContainer(ItineraryTab, {
           lon
           name
           vertexType
+          bikePark {
+            bikeParkId
+            name
+          }
           bikeRentalStation {
             networks
             bikesAvailable
@@ -316,6 +351,11 @@ const withRelay = createFragmentContainer(ItineraryTab, {
               }
               alertHeaderText
               alertHeaderTextTranslations {
+                text
+                language
+              }
+              alertDescriptionText
+              alertDescriptionTextTranslations {
                 text
                 language
               }
@@ -345,6 +385,7 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             platformCode
             zoneId
             name
+            vehicleMode
             alerts {
               alertSeverityLevel
               effectiveEndDate
@@ -362,6 +403,11 @@ const withRelay = createFragmentContainer(ItineraryTab, {
                 text
                 language
               }
+              alertDescriptionText
+              alertDescriptionTextTranslations {
+                text
+                language
+              }
               alertUrl
               alertUrlTranslations {
                 text
@@ -371,6 +417,10 @@ const withRelay = createFragmentContainer(ItineraryTab, {
           }
           bikePark {
             bikeParkId
+            name
+          }
+          carPark {
+            carParkId 
             name
           }
         }
@@ -405,6 +455,7 @@ const withRelay = createFragmentContainer(ItineraryTab, {
           shortName
           color
           gtfsId
+          type
           longName
           desc
           agency {
@@ -427,6 +478,11 @@ const withRelay = createFragmentContainer(ItineraryTab, {
               text
               language
             }
+            alertDescriptionText
+            alertDescriptionTextTranslations {
+              text
+              language
+            }
             alertUrl
             alertUrlTranslations {
               text
@@ -441,6 +497,7 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             code
           }
           stoptimesForDate {
+            headsign
             pickupType
             realtimeState
             stop {

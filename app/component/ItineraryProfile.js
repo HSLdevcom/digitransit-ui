@@ -5,8 +5,12 @@ import { intlShape } from 'react-intl';
 
 import { displayDistance } from '../util/geo-utils';
 import { getTotalDistance } from '../util/legUtils';
+import SecondaryButton from './SecondaryButton';
 
-const ItineraryProfile = ({ itinerary, small }, { config, intl }) => {
+const ItineraryProfile = (
+  { itinerary, small, printItinerary },
+  { config, intl },
+) => {
   return (
     <div className={cx('itinerary-profile-container', { small })}>
       <div className="itinerary-profile-item">
@@ -24,6 +28,15 @@ const ItineraryProfile = ({ itinerary, small }, { config, intl }) => {
           )}
         </div>
       </div>
+      {printItinerary && (
+        <SecondaryButton
+          ariaLabel="print"
+          buttonName="print"
+          buttonClickAction={printItinerary}
+          buttonIcon="icon-icon_print"
+          smallSize
+        />
+      )}
     </div>
   );
 };
@@ -37,10 +50,12 @@ ItineraryProfile.propTypes = {
     ).isRequired,
   }).isRequired,
   small: PropTypes.bool,
+  printItinerary: PropTypes.func,
 };
 
 ItineraryProfile.defaultProps = {
   small: false,
+  printItinerary: undefined,
 };
 
 ItineraryProfile.contextTypes = {
