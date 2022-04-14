@@ -13,6 +13,7 @@ class MapLayerStore extends Store {
       rail: true,
       subway: true,
       tram: true,
+      carpool: true,
     },
     terminal: {
       bus: true,
@@ -20,6 +21,7 @@ class MapLayerStore extends Store {
       rail: true,
       subway: true,
       tram: true,
+      carpool: true,
     },
     vehicles: false,
     geoJson: {},
