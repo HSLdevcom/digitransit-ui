@@ -81,6 +81,9 @@ export default configMerger(walttiConfig, {
         safetyFactor: 0.4,
         slopeFactor: 0.3,
         timeFactor: 0.3,
+
+        includeParkAndRideSuggestions: true,
+        includeCarSuggestions: true,
     },
 
     defaultOptions: {
@@ -497,7 +500,7 @@ export default configMerger(walttiConfig, {
 
         citybike: {
             availableForSelection: true,
-            defaultValue: false,
+            defaultValue: true,
             nearYouLabel: {
                 de: 'Sharing-Angebote in der Nähe',
                 en: 'Shared mobility near you'
