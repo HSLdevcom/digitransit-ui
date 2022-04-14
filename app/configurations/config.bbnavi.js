@@ -500,7 +500,7 @@ export default configMerger(walttiConfig, {
 
         citybike: {
             availableForSelection: true,
-            defaultValue: false,
+            defaultValue: true,
             nearYouLabel: {
                 de: 'Sharing-Angebote in der Nähe',
                 en: 'Shared mobility near you'
