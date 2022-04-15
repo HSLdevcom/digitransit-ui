@@ -45,7 +45,23 @@ export default function VectorTileLayerContainer(props, { config }) {
     }
 
     if (config.datahubTiles && config.datahubTiles.show) {
-      layersToAdd.push(DatahubTiles);
+      config.datahubTiles.layers.forEach(layerConfig => {
+        // Technically, we just need to pass the layer's base URL into the instance.
+        // To follow this code base's style, we use a "wrapper class" instead of a closure.
+        class DatahubTilesWithLayer extends DatahubTiles {
+          // eslint-disable-next-line no-shadow
+          constructor(tile, config) {
+            super(tile, layerConfig, config);
+          }
+
+          static getName = () => 'datahubTiles';
+
+          // We need this as a static property so that `TileContainer` can check if
+          // this layer is enabled *before* creating instances from the class.
+          static layerConfig = layerConfig;
+        }
+        layersToAdd.push(DatahubTilesWithLayer);
+      });
     }
 
     if (config.chargingStations && config.chargingStations.show) {

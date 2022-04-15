@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import { Environment, Network, RecordSource, Store } from 'relay-runtime';
+import { FormattedMessage } from 'react-intl';
 
 import SidebarContainer from '../SidebarContainer';
 import Address from './section/Address';
@@ -136,7 +137,14 @@ const DatahubTileContent = ({ match }, { config }) => {
       `}
       variables={{ datahubId }}
       environment={getEnvironment(config)}
-      render={({ props }) => {
+      render={({ error, props }) => {
+        if (error) {
+          // eslint-disable-next-line no-console
+          console.error(error);
+          // todo: /\bNetworkError\b/.test(error), show different error message?
+          return <FormattedMessage id="network-error" />;
+        }
+
         const data = props?.pointOfInterest;
         const loading = !data;
 

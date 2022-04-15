@@ -166,3 +166,10 @@ export const getHomeUrl = (origin, indexPath) => {
 
   return homeUrl;
 };
+
+export const getDatahubPoiPath = datahubId => {
+  const searchParams = new URLSearchParams({
+    datahubId,
+  }).toString();
+  return `/${PREFIX_DATAHUB_POI}?${searchParams}`;
+};
