@@ -162,7 +162,7 @@ export default configMerger(walttiConfig, {
     },
 
     datahubTiles: {
-        show: false,
+        show: true,
         smallIconZoom: 17,
         minZoom: 15,
         layers: [{
