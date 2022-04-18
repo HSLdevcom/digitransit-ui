@@ -259,6 +259,7 @@ export default configMerger(walttiConfig, {
     mergeStopsByCode: true,
 
     title: APP_TITLE,
+    titleAsHtml: APP_TITLE,
 
     favicon: './app/configurations/images/bbnavi/favicon.png',
 
