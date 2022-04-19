@@ -480,6 +480,8 @@ SuggestionItem.defaultProps = {
     'mode-ferry': '#007A97',
     'mode-ferry-pier': '#666666',
     'mode-citybike': '#f2b62d',
+    'mode-bus-express': '#CA4000',
+    'mode-bus-local': '#007ac9',
   },
   modeSet: undefined,
 };
