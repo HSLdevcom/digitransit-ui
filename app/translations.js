@@ -942,6 +942,10 @@ const translations = {
       'Zeige Fahrradroute. Dauer {duration}, Strecke {length}',
     'street-mode-bikeandvehicle-aria':
       'Zeige Kombination von Fahrrad und ÖPNV. Dauer {duration}, davon {length} per Rad',
+    'street-mode-parkandride-aria':
+      'Zeige Kombination von Auto und ÖPNV. Dauer {duration}, davon {length} per Auto',
+    'street-mode-car-aria':
+      'Zeige Autoroute. Dauer {duration}',
     'street-mode-car': 'Auto',
     'street-mode-car_park': 'Park & Ride',
     'street-mode-public_transport': 'ÖPNV',
