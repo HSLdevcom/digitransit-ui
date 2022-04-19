@@ -143,7 +143,7 @@ const connectedComponent = connectToStores(
     const vehiclesWithRecentUpdates = Object.entries(vehiclesFiltered).filter(
       ([, message]) => {
         const threeMinutesAgo = moment().subtract(180, 'seconds');
-        return moment.unix(message.timestamp).isAfter(threeMinutesAgo);
+        return moment.unix(message.receivedAt).isAfter(threeMinutesAgo);
       },
     );
     return {
