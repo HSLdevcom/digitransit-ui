@@ -33,6 +33,8 @@ export default class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.error) {
+      // eslint-disable-next-line no-console
+      console.error(this.state.error);
       if (isRelayNetworkError(this.state.error)) {
         return <NetworkError retry={this.resetState} />;
       }
