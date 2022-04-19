@@ -369,9 +369,8 @@ export const preparePlanParams = (config, useDefaultModes) => (
       settings,
       defaultSettings,
     ),
-    // For almost the whole day, there are some bbnavi-covered on-demand lines in operation.
-    // https://github.com/bbnavi/gtfs-flex/blob/0a563b9109e3da12d0f7a3aad5a930e0763f13cb/stop_times.txt#L2-L9
-    shouldMakeOnDemandTaxiQuery: true,
+    // In bbnavi, we include Flex routing in the "default" public routing mode.
+    shouldMakeOnDemandTaxiQuery: false,
     showBikeAndPublicItineraries:
       !wheelchair &&
       config.showBikeAndPublicItineraries &&
