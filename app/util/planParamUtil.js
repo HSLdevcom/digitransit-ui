@@ -398,6 +398,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
       config.unpreferredBicycleParkingTagPenalty,
     onDemandTaxiModes: [
       { mode: 'RAIL' },
+      { mode: 'BUS' },
       { mode: 'FLEX', qualifier: 'EGRESS' },
       { mode: 'FLEX', qualifier: 'DIRECT' },
       { mode: 'WALK' },
@@ -407,6 +408,12 @@ export const preparePlanParams = (config, useDefaultModes) => (
       isDestinationOldTownOfHerrenberg(toLocation)
         ? { mode: 'CAR', qualifier: 'PARK' }
         : { mode: 'CAR' },
+    ],
+    parkRideModes: [
+      { mode: 'CAR', qualifier: 'PARK' },
+      { mode: 'BUS' },
+      { mode: 'RAIL' },
+      { mode: 'SUBWAY' },
     ],
   };
 };
