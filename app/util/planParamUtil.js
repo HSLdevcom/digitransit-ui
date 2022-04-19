@@ -397,11 +397,19 @@ export const preparePlanParams = (config, useDefaultModes) => (
     unpreferredBicycleParkingTagPenalty:
       config.unpreferredBicycleParkingTagPenalty,
     onDemandTaxiModes: [
-      { mode: 'RAIL' },
-      { mode: 'BUS' },
-      { mode: 'FLEX', qualifier: 'EGRESS' },
+      // `filterModes` removes `FLEX_*`, so we include it manually.
       { mode: 'FLEX', qualifier: 'DIRECT' },
-      { mode: 'WALK' },
+      { mode: 'FLEX', qualifier: 'ACCESS' },
+      { mode: 'FLEX', qualifier: 'EGRESS' },
+      ...modesAsOTPModes(
+        filterModes(
+          config,
+          ['RAIL', 'BUS', 'WALK'],
+          from,
+          to,
+          intermediatePlaces || [],
+        ),
+      ),
     ],
     bikeParkModes: [{ mode: 'BICYCLE', qualifier: 'PARK' }, ...formattedModes],
     carParkModes: [
@@ -409,11 +417,14 @@ export const preparePlanParams = (config, useDefaultModes) => (
         ? { mode: 'CAR', qualifier: 'PARK' }
         : { mode: 'CAR' },
     ],
-    parkRideModes: [
-      { mode: 'CAR', qualifier: 'PARK' },
-      { mode: 'BUS' },
-      { mode: 'RAIL' },
-      { mode: 'SUBWAY' },
-    ],
+    parkRideModes: modesAsOTPModes(
+      filterModes(
+        config,
+        ['CAR_PARK', 'BUS', 'RAIL', 'SUBWAY'],
+        from,
+        to,
+        intermediatePlaces || [],
+      ),
+    ),
   };
 };
