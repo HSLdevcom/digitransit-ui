@@ -99,7 +99,7 @@ export default configMerger(walttiConfig, {
   title: APP_TITLE,
 
   // Navbar logo
-  logo: 'kotka/ksjl.png',
+  logo: 'kotka/kotka.png',
 
   feedIds: ['Kotka'],
 
