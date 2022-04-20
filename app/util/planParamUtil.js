@@ -345,8 +345,10 @@ export const preparePlanParams = (config, useDefaultModes) => (
     ),
     // These modes are used by the "default" routing query.
     modes: [
-      // In bbnavi, we always want direct Flex routing by default.
-      { mode: 'FLEX', qualifier: 'DIRECT' },
+      // In bbnavi, we want direct Flex routing whenever bus routing is enabled.
+      ...(formattedModes.some(({ mode }) => mode === 'BUS')
+        ? [{ mode: 'FLEX', qualifier: 'DIRECT' }]
+        : []),
       ...formattedModes,
     ],
     ticketTypes: getTicketTypes(
