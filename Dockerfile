@@ -1,6 +1,5 @@
 # syntax = docker/dockerfile:1.4
-FROM node:12
-MAINTAINER Reittiopas version: 0.1
+FROM node:12 as builder
 
 WORKDIR /opt/digitransit-ui
 
@@ -8,11 +7,50 @@ ENV \
   # Picked up by various Node.js tools.
   NODE_ENV=production
 
+COPY .yarnrc.yml package.json yarn.lock lerna.json ./
+COPY .yarn ./.yarn
+
+# todo: only copy */packages/*/package.json, not all of the code
+# AFAIK there is no blob syntax that copies */package.json while keeping paths.
+# https://github.com/moby/moby/issues/15858
+COPY digitransit-util ./digitransit-util
+COPY digitransit-search-util ./digitransit-search-util
+COPY digitransit-component ./digitransit-component
+COPY digitransit-store ./digitransit-store
+
+RUN \
+  yarn \
+  && yarn cache clean --all \
+  && rm -rf /tmp/phantomjs
+
+COPY config ./config
+RUN \
+  yarn run build-workspaces
+
+COPY . .
+
+RUN \
+  yarn run build
+
+# Deleting files retrospectively, after having copied/generated them in a previous step, *does not* reduce
+# the size of the resulting (builder) Docker image. But we prevent them from being copied into the final image.
+RUN \
+  rm -rf static docs .cache
+
+FROM node:12
+MAINTAINER Reittiopas version: 0.1
+
+WORKDIR /opt/digitransit-ui
+
 EXPOSE 8080
 
+# todo: install production dependencies only, re-use .yarn/cache from above
+# `yarn install --production` is not supported by Yarn v2.4.3, and the suggested `yarn workspaces focus` command
+# does not exist.
+
+COPY --from=builder /opt/digitransit-ui/ .
+
 ENV \
-  # Used indirectly for saving npm logs etc. \
-  HOME=/opt/digitransit-ui \
   # App specific settings to override when the image is run \
   SENTRY_DSN='' \
   SENTRY_SECRET_DSN='' \
@@ -36,14 +74,5 @@ ENV \
   RELAY_FETCH_TIMEOUT='' \
   ASSET_URL='' \
   STATIC_MESSAGE_URL=''
-
-ADD . ${WORK}
-
-RUN \
-  yarn && \
-  yarn setup && \
-  yarn build && \
-  rm -rf static docs test /tmp/* .cache && \
-  yarn cache clean --all
 
 CMD yarn run start

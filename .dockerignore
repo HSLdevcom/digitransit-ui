@@ -10,4 +10,11 @@ docker-compose.yml
 win-launch-scripts/
 docs/
 node_modules
+/.yarn
+!/.yarn/plugins
+!/.yarn/releases
+!/.yarn/versions
+
 _static
+/app/__generated__
+/app/**/__generated__
