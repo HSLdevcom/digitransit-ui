@@ -1,11 +1,16 @@
+# syntax = docker/dockerfile:1.4
 FROM node:10
 MAINTAINER Reittiopas version: 0.1
+
+WORKDIR /opt/digitransit-ui
+
+ENV \
+  # Picked up by various Node.js tools.
+  NODE_ENV=production
 
 EXPOSE 8080
 
 ENV \
-  # Where the app is built and run inside the docker fs \
-  WORK=/opt/digitransit-ui \
   # Used indirectly for saving npm logs etc. \
   HOME=/opt/digitransit-ui \
   # App specific settings to override when the image is run \
@@ -31,7 +36,6 @@ ENV \
   ASSET_URL='' \
   STATIC_MESSAGE_URL=''
 
-WORKDIR ${WORK}
 ADD . ${WORK}
 
 RUN \
