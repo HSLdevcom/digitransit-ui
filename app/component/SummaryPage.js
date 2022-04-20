@@ -573,8 +573,10 @@ class SummaryPage extends React.Component {
         $showBikeAndPublicItineraries: Boolean!
         $showBikeAndParkItineraries: Boolean!
         $bikeAndPublicModes: [TransportMode!]
+        $onDemandTaxiModes: [TransportMode!]
         $bikeParkModes: [TransportMode!]
         $carParkModes: [TransportMode!]
+        $parkRideModes: [TransportMode!]
         $bannedVehicleParkingTags: [String]
         $bannedBicycleParkingTags: [String]
         $preferredBicycleParkingTags: [String]
@@ -708,13 +710,7 @@ class SummaryPage extends React.Component {
           toPlace: $toPlace
           intermediatePlaces: $intermediatePlaces
           numItineraries: 6
-          transportModes: [
-            { mode: RAIL }
-            { mode: BUS }
-            { mode: FLEX, qualifier: EGRESS }
-            { mode: FLEX, qualifier: DIRECT }
-            { mode: WALK }
-          ]
+          transportModes: $onDemandTaxiModes
           date: $date
           time: $time
           walkReluctance: $walkReluctance
@@ -909,12 +905,7 @@ class SummaryPage extends React.Component {
           toPlace: $toPlace
           intermediatePlaces: $intermediatePlaces
           numItineraries: 6
-          transportModes: [
-            { mode: CAR, qualifier: PARK }
-            { mode: BUS }
-            { mode: RAIL }
-            { mode: SUBWAY }
-          ]
+          transportModes: $parkRideModes
           date: $date
           time: $time
           walkReluctance: $walkReluctance

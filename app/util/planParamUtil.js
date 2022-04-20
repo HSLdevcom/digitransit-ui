@@ -302,7 +302,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
         from: fromLocation,
         to: toLocation,
         intermediatePlaces: intermediatePlaceLocations,
-        numItineraries: 10,
+        numItineraries: 5,
         date: parsedTime.format('YYYY-MM-DD'),
         time: parsedTime.format('HH:mm:ss'),
         walkReluctance: settings.walkReluctance,
@@ -343,7 +343,14 @@ export const preparePlanParams = (config, useDefaultModes) => (
       },
       nullOrUndefined,
     ),
-    modes: formattedModes,
+    // These modes are used by the "default" routing query.
+    modes: [
+      // In bbnavi, we want direct Flex routing whenever bus routing is enabled.
+      ...(formattedModes.some(({ mode }) => mode === 'BUS')
+        ? [{ mode: 'FLEX', qualifier: 'DIRECT' }]
+        : []),
+      ...formattedModes,
+    ],
     ticketTypes: getTicketTypes(
       settings.ticketTypes,
       defaultSettings.ticketTypes,
@@ -369,9 +376,8 @@ export const preparePlanParams = (config, useDefaultModes) => (
       settings,
       defaultSettings,
     ),
-    // For almost the whole day, there are some bbnavi-covered on-demand lines in operation.
-    // https://github.com/bbnavi/gtfs-flex/blob/0a563b9109e3da12d0f7a3aad5a930e0763f13cb/stop_times.txt#L2-L9
-    shouldMakeOnDemandTaxiQuery: true,
+    // In bbnavi, we include Flex routing in the "default" public routing mode.
+    shouldMakeOnDemandTaxiQuery: false,
     showBikeAndPublicItineraries:
       !wheelchair &&
       config.showBikeAndPublicItineraries &&
@@ -397,10 +403,19 @@ export const preparePlanParams = (config, useDefaultModes) => (
     unpreferredBicycleParkingTagPenalty:
       config.unpreferredBicycleParkingTagPenalty,
     onDemandTaxiModes: [
-      { mode: 'RAIL' },
-      { mode: 'FLEX', qualifier: 'EGRESS' },
+      // `filterModes` removes `FLEX_*`, so we include it manually.
       { mode: 'FLEX', qualifier: 'DIRECT' },
-      { mode: 'WALK' },
+      { mode: 'FLEX', qualifier: 'ACCESS' },
+      { mode: 'FLEX', qualifier: 'EGRESS' },
+      ...modesAsOTPModes(
+        filterModes(
+          config,
+          ['RAIL', 'BUS', 'WALK'],
+          from,
+          to,
+          intermediatePlaces || [],
+        ),
+      ),
     ],
     bikeParkModes: [{ mode: 'BICYCLE', qualifier: 'PARK' }, ...formattedModes],
     carParkModes: [
@@ -408,5 +423,14 @@ export const preparePlanParams = (config, useDefaultModes) => (
         ? { mode: 'CAR', qualifier: 'PARK' }
         : { mode: 'CAR' },
     ],
+    parkRideModes: modesAsOTPModes(
+      filterModes(
+        config,
+        ['CAR_PARK', 'BUS', 'RAIL', 'SUBWAY'],
+        from,
+        to,
+        intermediatePlaces || [],
+      ),
+    ),
   };
 };
