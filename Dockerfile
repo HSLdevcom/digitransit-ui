@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:1.4
-FROM node:10 as builder
+FROM node:14-alpine as builder
 
 WORKDIR /opt/digitransit-ui
 
@@ -8,6 +8,11 @@ ENV \
   CI=true \
   # Picked up by various Node.js tools.
   NODE_ENV=production
+
+# install dependencies for npm packages
+RUN \
+  # required for sharp, which builds libvips using node-gyp
+  apk add --no-cache python3 make g++ vips-dev
 
 COPY .yarnrc.yml package.json yarn.lock lerna.json ./
 COPY .yarn ./.yarn
@@ -25,6 +30,7 @@ RUN \
   # https://github.com/microsoft/playwright/blob/v1.16.2/installation-tests/installation-tests.sh#L200-L216
   export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 \
   && yarn install --immutable --inline-builds \
+  && yarn run node14-patch \
   && yarn cache clean --all \
   && rm -rf /tmp/phantomjs
 
@@ -42,7 +48,7 @@ RUN \
 RUN \
   rm -rf static docs .cache
 
-FROM node:10
+FROM node:14-alpine
 MAINTAINER Reittiopas version: 0.1
 
 WORKDIR /opt/digitransit-ui
