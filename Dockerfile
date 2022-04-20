@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:1.4
-FROM node:12 as builder
+FROM node:14-alpine as builder
 
 WORKDIR /opt/digitransit-ui
 
@@ -8,6 +8,11 @@ ENV \
   CI=true \
   # Picked up by various Node.js tools.
   NODE_ENV=production
+
+# install dependencies for npm packages
+RUN \
+  # required for sharp, which builds libvips using node-gyp
+  apk add --no-cache python3 make g++ vips-dev
 
 COPY .yarnrc.yml package.json yarn.lock lerna.json ./
 COPY .yarn ./.yarn
@@ -42,7 +47,7 @@ RUN \
 RUN \
   rm -rf static docs .cache
 
-FROM node:12
+FROM node:14-alpine
 MAINTAINER Reittiopas version: 0.1
 
 WORKDIR /opt/digitransit-ui
