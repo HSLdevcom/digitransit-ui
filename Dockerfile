@@ -19,7 +19,7 @@ COPY digitransit-component ./digitransit-component
 COPY digitransit-store ./digitransit-store
 
 RUN \
-  yarn \
+  yarn install --immutable \
   && yarn cache clean --all \
   && rm -rf /tmp/phantomjs
 
