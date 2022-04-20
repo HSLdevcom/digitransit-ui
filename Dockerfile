@@ -63,6 +63,7 @@ EXPOSE 8080
 
 COPY --from=builder /opt/digitransit-ui/ .
 
+ARG WEBPACK_DEVTOOL=''
 ENV \
   # App specific settings to override when the image is run \
   SENTRY_DSN='' \
@@ -84,6 +85,7 @@ ENV \
   # https://nodejs.org/api/cli.html#cli_title_title
   NODE_OPTS='--title=digitransit-ui' \
   RELAY_FETCH_TIMEOUT='' \
+  WEBPACK_DEVTOOL=$WEBPACK_DEVTOOL \
   ASSET_URL='' \
   STATIC_MESSAGE_URL=''
 
