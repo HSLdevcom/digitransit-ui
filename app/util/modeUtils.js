@@ -1,6 +1,7 @@
 import isString from 'lodash/isString';
 import sortedUniq from 'lodash/sortedUniq';
 import xor from 'lodash/xor';
+import flatMap from 'lodash/flatMap';
 import isEqual from 'lodash/isEqual';
 import inside from 'point-in-polygon';
 import { getCustomizedSettings } from '../store/localStorage';
@@ -164,21 +165,22 @@ export const filterModes = (config, modes, from, to, intermediatePlaces) => {
   if (!isString(modesStr)) {
     return [];
   }
-  return sortedUniq(
-    modesStr
-      .split(',')
-      .filter(mode => isModeAvailable(config, mode))
-      .filter(mode =>
-        isModeAvailableInsidePolygons(config, mode, [
-          from,
-          to,
-          ...intermediatePlaces,
-        ]),
-      )
-      .map(mode => getOTPMode(config, mode))
-      .filter(mode => !!mode)
-      .sort(),
-  );
+  const filtered = modesStr
+    .split(',')
+    .filter(mode => isModeAvailable(config, mode))
+    .filter(mode =>
+      isModeAvailableInsidePolygons(config, mode, [
+        from,
+        to,
+        ...intermediatePlaces,
+      ]),
+    );
+  const mapped = flatMap(filtered, mode => {
+    const mapping = getOTPMode(config, mode);
+    return mapping === undefined ? [] : mapping.split(',');
+  });
+
+  return sortedUniq(mapped.sort());
 };
 
 /**
