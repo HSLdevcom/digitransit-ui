@@ -373,6 +373,11 @@ export function getSearchResults(
       const geocodingLayers = ['stop', 'station'];
       const searchParams =
         geocodingSize && geocodingSize !== 10 ? { size: geocodingSize } : {};
+      // a little hack: when searching location data, automatically dedupe stops
+      // this could be a new explicit prop
+      if (allTargets || targets.includes('Locations')) {
+        searchParams.dedupestops = 1;
+      }
       const feedis = feedIDs.map(v => `gtfs${v}`).join(',');
       searchComponents.push(
         getGeocodingResults(
