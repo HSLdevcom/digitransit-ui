@@ -41,7 +41,9 @@ RUN \
 COPY . .
 
 RUN \
-  yarn run build
+  yarn run build \
+  && rm -rf node_modules/.cache \
+  && rm -rf /tmp/Relay*
 
 # Deleting files retrospectively, after having copied/generated them in a previous step, *does not* reduce
 # the size of the resulting (builder) Docker image. But we prevent them from being copied into the final image.
