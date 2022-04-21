@@ -41,4 +41,8 @@ jobs:
           tags: |
             hsldevcom/digitransit-ui:hotfix
             hsldevcom/digitransit-ui:${{ steps.docker-tags.outputs.permanent-tag }}
+          # https://github.com/docker/build-push-action/blob/9472e9021074a3cb3279ba431598b8836d40433f/docs/advanced/cache.md#github-cache
+          # https://github.com/moby/buildkit#registry-push-image-and-cache-separately
+          cache-from: type=gha
+          cache-to: type=gha,mode=max,oci-mediatypes=true,compression=zstd
           push: true
