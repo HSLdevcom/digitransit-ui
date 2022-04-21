@@ -8,7 +8,6 @@ import Icon from './Icon';
 import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { EMBEDDED_SEARCH_GENERATOR_PATH } from '../util/path';
 
 function MainMenu(props, { config, intl }) {
   return (
@@ -68,7 +67,7 @@ function MainMenu(props, { config, intl }) {
         {config.mainMenu.showEmbeddedSearch && (
           <div className="offcanvas-section">
             <Link
-              to={`${EMBEDDED_SEARCH_GENERATOR_PATH}`}
+              to={`${config.URL.EMBEDDED_SEARCH_GENERATION}`}
               onClick={props.closeMenu}
             >
               <FormattedMessage

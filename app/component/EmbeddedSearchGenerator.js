@@ -175,18 +175,8 @@ const EmbeddedSearchGenerator = (props, context) => {
           breakpoint !== 'large' ? 'mobile' : ''
         }`}
       >
-        <h1 id="embed-form-heading">
-          <FormattedMessage
-            id="embedded-search.component-heading"
-            defaultMessage="Embedded search component"
-          />
-        </h1>
-        <p>
-          <FormattedMessage
-            id="embedded-search.component-info"
-            defaultMessage="Create an embedded search component and embed it into your own service. The search button redirects to to the HSL services."
-          />
-        </p>
+        <h1 id="embed-form-heading">{config.embeddedSearch.title[lang]}</h1>
+        <p>{config.embeddedSearch.infoText[lang]}</p>
         <form onSubmit={event => event.preventDefault()} action="">
           <h2>
             <FormattedMessage
@@ -479,10 +469,10 @@ const EmbeddedSearchGenerator = (props, context) => {
             </label>
           </div>
         </form>
-        {config?.embeddedCookieLink && (
+        {config.embeddedSearch?.cookieLink && (
           <p>
-            <a href={config.embeddedCookieLink[lang].url}>
-              {config.embeddedCookieLink[lang].text}
+            <a href={config.embeddedSearch.cookieLink[lang].url}>
+              {config.embeddedSearch.cookieLink[lang].text}
             </a>
           </p>
         )}

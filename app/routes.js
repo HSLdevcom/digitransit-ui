@@ -23,7 +23,6 @@ import {
   TAB_NEARBY,
   TAB_FAVOURITES,
   EMBEDDED_SEARCH_PATH,
-  EMBEDDED_SEARCH_GENERATOR_PATH,
 } from './util/path';
 import {
   getDefault,
@@ -428,7 +427,7 @@ export default config => {
         }
       />
       <Route
-        path={EMBEDDED_SEARCH_GENERATOR_PATH}
+        path={config.URL.EMBEDDED_SEARCH_GENERATION}
         getComponent={() =>
           import(
             /* webpackChunkName: "embedded-search-generator" */ './component/EmbeddedSearchGenerator'
