@@ -14,6 +14,7 @@ env:
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
 
 jobs:
+  # install dependencies, build shared components, cache both for subsequent jobs
   install:
     runs-on: ubuntu-latest
     strategy:
