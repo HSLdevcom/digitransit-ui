@@ -37,7 +37,8 @@ jobs:
           key: yarn-cache-${{ github.ref_name }}
           restore-keys: yarn-cache-v3
       - name: Install dependencies
-        run: yarn
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+        run: yarn install --immutable
   lint:
     runs-on: ubuntu-latest
     strategy:
@@ -69,8 +70,12 @@ jobs:
           path: '.yarn/cache'
           key: yarn-cache-${{ github.ref_name }}
           restore-keys: yarn-cache-v3
-      - name: Install dependencies and build shared components
-        run: yarn setup
+      - name: Install dependencies
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+        run: yarn install --immutable
+
+      - name: Build shared components
+        run: yarn run build-workspaces
       - name: Run linters
         run: yarn lint
       - name: lint SVG sprites using xmllint
@@ -109,8 +114,12 @@ jobs:
           path: '.yarn/cache'
           key: yarn-cache-${{ github.ref_name }}
           restore-keys: yarn-cache-v3
-      - name: Install dependencies and build shared components
-        run: yarn setup
+      - name: Install dependencies
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+        run: yarn install --immutable
+
+      - name: Build shared components
+        run: yarn run build-workspaces
       - name: build relay queries
         run: yarn relay
       - name: Run unit tests
