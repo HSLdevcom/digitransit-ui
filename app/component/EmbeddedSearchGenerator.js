@@ -12,12 +12,7 @@ import { isBrowser } from '../util/browser';
 
 const LocationSearch = withSearchContext(DTAutosuggest, true);
 
-const locationSearchTargets = [
-  'Locations',
-  'CurrentPosition',
-  'FutureRoutes',
-  'Stops',
-];
+const locationSearchTargets = ['Locations', 'CurrentPosition', 'Stops'];
 const sources = ['Favourite', 'History', 'Datasource'];
 
 const EmbeddedSearchGenerator = (props, context) => {
