@@ -140,6 +140,24 @@ class FavouriteEditingModal extends React.Component {
     }
   };
 
+  moveFavourite = (favourite, direction) => {
+    const { favourites } = this.state;
+    // Edit copy of the favourites to avoid changing the props.favourites used for state initialization
+    const favouritesCopy = [...favourites];
+    const i = favouritesCopy.indexOf(favourite);
+
+    if (direction === 'UP' && i !== 0) {
+      const tmp = favouritesCopy[i - 1];
+      favouritesCopy[i - 1] = favouritesCopy[i];
+      favouritesCopy[i] = tmp;
+    } else if (direction === 'DOWN' && i !== favouritesCopy.length - 1) {
+      const tmp = favouritesCopy[i + 1];
+      favouritesCopy[i + 1] = favouritesCopy[i];
+      favouritesCopy[i] = tmp;
+    }
+    this.setState({ favourites: favouritesCopy });
+  };
+
   renderFavouriteListItem = (favourite, color) => {
     const iconId = favourite.selectedIconId
       ? favourite.selectedIconId.replace('icon-icon_', '')
@@ -154,6 +172,28 @@ class FavouriteEditingModal extends React.Component {
         key={favourite.favouriteId}
       >
         <div className={styles['favourite-edit-list-item-left']}>
+          <button
+            className={styles['favourite-edit-list-arrow-hidden']}
+            styles={{ color: this.props.color }}
+            type="button"
+            aria-label={i18next.t('up')}
+            onClick={() => {
+              this.moveFavourite(favourite, 'UP');
+            }}
+          >
+            &uarr;
+          </button>
+          <button
+            className={styles['favourite-edit-list-arrow-hidden']}
+            styles={{ color: this.props.color }}
+            type="button"
+            aria-label={i18next.t('down')}
+            onClick={() => {
+              this.moveFavourite(favourite, 'DOWN');
+            }}
+          >
+            &darr;
+          </button>
           <div className={styles['favourite-edit-list-item-drag']}>
             <div className={styles['favourite-edit-list-item-ellipsis']}>
               <Icon img="ellipsis" />
