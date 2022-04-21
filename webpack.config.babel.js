@@ -149,7 +149,13 @@ const productionPlugins = [
       },
     ],
   }),
-  new StatsPlugin('../stats.json', { chunkModules: true }),
+  new StatsPlugin('../stats.json', {
+    // We use stats.json in app/server.js to know which assets to serve. We
+    // only need `.entrypoints.main.assets` for that.
+    // https://github.com/webpack/webpack/blob/v4.44.1/declarations/WebpackOptions.d.ts#L1250-L1458
+    all: false,
+    entrypoints: true,
+  }),
   new WebpackAssetsManifest({ output: '../manifest.json' }),
 ];
 
