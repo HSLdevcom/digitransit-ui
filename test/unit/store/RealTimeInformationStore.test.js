@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
+import moment from 'moment';
 import sinon from 'sinon';
 
 import RealTimeInformationStore from '../../../app/store/RealTimeInformationStore';
@@ -68,7 +69,8 @@ describe('RealtimeInformationStore', () => {
         bar: 'baz',
       };
       store.handleMessage(message);
-      expect(store.vehicles.foo).to.equal(message);
+      const receivedAt = moment().unix();
+      expect(store.vehicles.foo).to.deep.equal({ ...message, receivedAt });
     });
 
     it('should handle an array of messages', () => {
@@ -83,8 +85,9 @@ describe('RealtimeInformationStore', () => {
         },
       ];
       store.handleMessage(messages);
-      expect(store.vehicles.foo1).to.equal(messages[0]);
-      expect(store.vehicles.foo2).to.equal(messages[1]);
+      const receivedAt = moment().unix();
+      expect(store.vehicles.foo1).to.deep.equal({ ...messages[0], receivedAt });
+      expect(store.vehicles.foo2).to.deep.equal({ ...messages[1], receivedAt });
     });
   });
 
@@ -96,9 +99,11 @@ describe('RealtimeInformationStore', () => {
       });
 
       const vehicle = store.getVehicle('foo');
+      const receivedAt = moment().unix();
       expect(vehicle).to.deep.equal({
         id: 'foo',
         bar: 'baz',
+        receivedAt,
       });
     });
   });

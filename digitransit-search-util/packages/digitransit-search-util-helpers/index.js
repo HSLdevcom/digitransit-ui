@@ -50,7 +50,6 @@ export const mapRoute = (item, pathOpts) => {
   const stopsPrefix = opts.stopsPrefix || DEFAULT_STOPS_PREFIX;
 
   const link = `/${routesPrefix}/${item.gtfsId}/${stopsPrefix}`;
-
   return {
     type: 'Route',
     properties: {

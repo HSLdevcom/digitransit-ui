@@ -11,6 +11,10 @@ import {
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from '../../../util/path';
 
+function isNull(val) {
+  return val === 'null' || val === undefined || val === null;
+}
+
 class Stops {
   constructor(tile, config, mapLayers, relayEnvironment, mergeStops) {
     this.tile = tile;
@@ -48,13 +52,13 @@ class Stops {
         this.tile,
         feature.geom,
         feature.properties.type,
-        feature.properties.platform !== 'null'
+        !isNull(feature.properties.platform)
           ? feature.properties.platform
           : false,
         isHilighted,
         !!(
           feature.properties.type === 'FERRY' &&
-          feature.properties.code !== 'null'
+          !isNull(feature.properties.code)
         ),
         this.config.colors.iconColors,
       );
@@ -124,7 +128,7 @@ class Stops {
               if (
                 isFeatureLayerEnabled(feature, 'stop', this.mapLayers) &&
                 feature.properties.type &&
-                (feature.properties.parentStation === 'null' ||
+                (isNull(feature.properties.parentStation) ||
                   drawPlatforms ||
                   (feature.properties.type === 'RAIL' && drawRailPlatforms))
               ) {

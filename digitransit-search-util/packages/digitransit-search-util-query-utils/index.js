@@ -87,6 +87,7 @@ const searchRoutesQuery = graphql`
         agency {
           name
         }
+        type
         shortName
         mode
         longName
