@@ -6,8 +6,8 @@ import pure from 'recompose/pure';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 
-const BUS_EXPRESS = 999702;
-const BUS_LOCAL = 999704;
+const BUS_EXPRESS = 702;
+const BUS_LOCAL = 704;
 
 const getRouteMode = props => {
   switch (props.type) {
