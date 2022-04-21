@@ -105,8 +105,7 @@ function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
     ['BUS-default', { icon: 'search-bus-stop-default', color: 'mode-bus' }],
     [
       'BUS-EXPRESS-default',
-      // { icon: 'search-bus-stop-express-default', color: 'mode-bus-express' },
-      { icon: 'search-bus-stop-default', color: 'mode-bus' },
+      { icon: 'search-bus-stop-express-default', color: 'mode-bus-express' },
     ],
     [
       'BUS-digitransit',
