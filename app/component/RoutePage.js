@@ -109,7 +109,9 @@ class RoutePage extends React.Component {
                     id: mode.toLowerCase(),
                   })}{' '}
                 </span>
-                {route.shortName}
+                {route.shortName === '' || route.shortName === null
+                  ? route.shortName
+                  : route.longName}
               </h1>
               {tripId && route.patterns[1]?.headsign && (
                 <div className="trip-destination">
