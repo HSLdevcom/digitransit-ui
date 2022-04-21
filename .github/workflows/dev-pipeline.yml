@@ -104,6 +104,7 @@ jobs:
 #          xmllint --nonet --noout static/assets/svg-sprite.*.svg
 
   unit-test:
+    needs: install
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -148,8 +149,19 @@ jobs:
         if: ${{ steps.cache-shared-components.outputs.cache-hit != 'true' }}
         run: yarn run build-workspaces
 
-      - name: build relay queries
-        run: yarn relay
+      - name: cache built Relay queries
+        id: cache-relay
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./__generated__
+            **/__generated__
+          key: ${{ runner.os }}-relay-${{ github.sha }}
+      - name: build Relay queries
+        if: ${{ steps.cache-relay.outputs.cache-hit != 'true' }}
+        run: |
+          yarn run relay
+
       - name: Run unit tests
         run: yarn run test-coverage
       - name: Send test coverage report
