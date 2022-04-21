@@ -55,6 +55,7 @@ export default {
     },
     WEATHER_DATA:
       'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::hirlam::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
+    EMBEDDED_SEARCH_GENERATION: '/reittihakuelementti',
   },
 
   APP_PATH: `${APP_PATH}`,
@@ -756,4 +757,20 @@ export default {
 
   prioritizedStopsNearYou: {},
   routeNotifications: [],
+
+  embeddedSearch: {
+    title: {
+      fi: 'Reittihakuelementti',
+      en: 'Embedded search component',
+      sv: 'Ruttsökningselement',
+    },
+    infoText: {
+      fi:
+        'Luo reittihakuelementti ja lisää se omaan palveluusi. Hakukomponentin Hae reitti -painikkeesta siirrytään Reittioppaaseen.',
+      en:
+        'Create your own embedded search component and add it to your own service. The search button of the component will redirect to the journey planner',
+      sv:
+        'Skapa din egen inbäddade sökkomponent och lägg till den i din egen tjänst. Sökknappen för komponenten omdirigerar till reseplaneraren.',
+    },
+  },
 };
