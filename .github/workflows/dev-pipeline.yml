@@ -14,6 +14,7 @@ env:
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
 
 jobs:
+  # install dependencies, build shared components, cache both for subsequent jobs
   install:
     runs-on: ubuntu-latest
     strategy:
@@ -117,10 +118,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: "Set time zone to Europe/Helsinki"
-        uses: zcong1993/setup-timezone@master
-        with:
-          timezone: "Europe/Helsinki"
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
