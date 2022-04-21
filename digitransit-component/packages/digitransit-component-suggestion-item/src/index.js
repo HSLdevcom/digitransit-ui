@@ -6,6 +6,20 @@ import pure from 'recompose/pure';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 
+const BUS_EXPRESS = 999702;
+const BUS_LOCAL = 999704;
+
+const getRouteMode = props => {
+  switch (props.type) {
+    case BUS_LOCAL:
+      return 'bus-local';
+    case BUS_EXPRESS:
+      return 'bus-express';
+    default:
+      return props?.mode?.toLowerCase() || 'bus';
+  }
+};
+
 function isFavourite(item) {
   return item && item.type && item.type.includes('Favourite');
 }
@@ -27,12 +41,18 @@ function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
   } else if (item.type === 'FavouriteStation') {
     iconId = 'favouriteStation';
   } else if (item.type === 'Route') {
-    const mode = item?.properties?.mode?.toLowerCase() || 'bus';
+    const mode =
+      modeSet === 'default'
+        ? getRouteMode(item?.properties)
+        : item?.properties?.mode?.toLowerCase() || 'bus';
     return modeSet === 'default'
       ? [`mode-${mode}`, `mode-${mode}`]
       : [`mode-${modeSet}-${mode}`, `mode-${mode}`];
   } else if (item.type === 'OldSearch' && item?.properties?.mode) {
-    const mode = item?.properties?.mode?.toLowerCase();
+    const mode =
+      modeSet === 'default'
+        ? getRouteMode(item?.properties)
+        : item?.properties?.mode?.toLowerCase() || 'bus';
     return modeSet === 'default'
       ? [`mode-${mode}`, `mode-${mode}`]
       : [`mode-${modeSet}-${mode}`, `mode-${mode}`];
@@ -83,6 +103,10 @@ function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
     ['back', 'arrow'],
     ['futureRoute', 'future-route'],
     ['BUS-default', { icon: 'search-bus-stop-default', color: 'mode-bus' }],
+    [
+      'BUS-EXPRESS-default',
+      { icon: 'search-bus-stop-express-default', color: 'mode-bus-express' },
+    ],
     [
       'BUS-digitransit',
       { icon: 'search-bus-stop-digitransit', color: 'mode-bus' },
@@ -143,7 +167,7 @@ function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
   const defaultIcon = 'place';
   // Use more accurate icons in stop/station search, depending on mode from geocoding
   if (modes?.length) {
-    const mode = modes.join('-');
+    const mode = modes[0];
     let iconStr;
     if (item.properties.layer === 'station' || (mode === 'FERRY' && stopCode)) {
       const iconProperties = layerIcon.get(
@@ -154,6 +178,8 @@ function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
       } else {
         iconStr = ['busstop', 'mode-bus'];
       }
+    } else if (modes.includes('BUS-EXPRESS') && modeSet === 'default') {
+      iconStr = [layerIcon.get('BUS-EXPRESS'.concat('-').concat(modeSet))];
     } else {
       iconStr = [layerIcon.get(mode.concat('-').concat(modeSet))];
     }
@@ -454,6 +480,8 @@ SuggestionItem.defaultProps = {
     'mode-ferry': '#007A97',
     'mode-ferry-pier': '#666666',
     'mode-citybike': '#f2b62d',
+    'mode-bus-express': '#CA4000',
+    'mode-bus-local': '#007ac9',
   },
   modeSet: undefined,
 };
