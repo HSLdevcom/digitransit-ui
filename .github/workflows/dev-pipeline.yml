@@ -103,7 +103,70 @@ jobs:
           sudo apt install -y libxml2-utils
           xmllint --nonet --noout static/assets/svg-sprite.*.svg
 
+  build:
+    needs: install
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: "Set time zone to Europe/Helsinki"
+        uses: zcong1993/setup-timezone@master
+        with:
+          timezone: "Europe/Helsinki"
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Cache .yarn/cache
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+        uses: actions/cache@v3
+        with:
+          path: '.yarn/cache'
+          key: yarn-cache-${{ github.ref_name }}
+          restore-keys: yarn-cache-v3
+      - name: Install dependencies
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+        run: yarn --immutable
+
+      - name: cache shared components
+        id: cache-shared-components
+        uses: actions/cache@v3
+        with:
+          path: 'digitransit-*'
+          key: ${{ runner.os }}-shared-components-${{ hashFiles('digitransit-*') }}
+      - name: build shared components
+        if: ${{ steps.cache-shared-components.outputs.cache-hit != 'true' }}
+        run: yarn run build-workspaces
+
+      - name: cache built Relay queries & UI
+        id: cache-ui-build
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./_static
+            ./manifest.json
+            ./stats.json
+            ./__generated__
+            **/__generated__
+          key: relay-ui-${{ github.sha }}
+      - name: build Relay queries & UI
+        if: ${{ steps.cache-ui-build.outputs.cache-hit != 'true' }}
+        run: |
+          yarn build
+
   unit-test:
+    needs: build
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -148,8 +211,22 @@ jobs:
         if: ${{ steps.cache-shared-components.outputs.cache-hit != 'true' }}
         run: yarn run build-workspaces
 
-      - name: build relay queries
-        run: yarn relay
+      - name: cache built Relay queries & UI
+        id: cache-ui-build
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./_static
+            ./manifest.json
+            ./stats.json
+            ./__generated__
+            **/__generated__
+          key: relay-ui-${{ github.sha }}
+      - name: build Relay queries & UI
+        if: ${{ steps.cache-ui-build.outputs.cache-hit != 'true' }}
+        run: |
+          yarn build
+
       - name: Run unit tests
         run: yarn run test-coverage
       - name: Send test coverage report
