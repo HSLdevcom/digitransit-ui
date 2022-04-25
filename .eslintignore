@@ -1,5 +1,6 @@
 node_modules
 _static
+static
 app/buildInfo.js
 digitransit-component/packages/**/lib
 digitransit-store/packages/**/lib
