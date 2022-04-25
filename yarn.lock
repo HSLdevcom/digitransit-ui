@@ -2263,7 +2263,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-editing-modal@^0.3.15, @digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal":
+"@digitransit-component/digitransit-component-favourite-editing-modal@^0.3.16, @digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal"
   peerDependencies:
@@ -2352,7 +2352,7 @@ __metadata:
     "@digitransit-component/digitransit-component-autosuggest-panel": ^1.4.0
     "@digitransit-component/digitransit-component-control-panel": ^1.0.2
     "@digitransit-component/digitransit-component-favourite-bar": 1.0.10
-    "@digitransit-component/digitransit-component-favourite-editing-modal": ^0.3.15
+    "@digitransit-component/digitransit-component-favourite-editing-modal": ^0.3.16
     "@digitransit-component/digitransit-component-favourite-modal": ^0.3.17
     "@digitransit-component/digitransit-component-icon": ^0.1.16
     "@digitransit-component/digitransit-component-suggestion-item": ^0.3.0
