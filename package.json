@@ -279,7 +279,7 @@
     "nyc": "15.0.1",
     "optimize-css-assets-webpack-plugin": "5.0.4",
     "playwright": "1.16.2",
-    "postcss": "8.2.1",
+    "postcss": "8.2.13",
     "postcss-flexbugs-fixes": "4.2.1",
     "postcss-loader": "4.0.1",
     "prettier": "2.1.1",
