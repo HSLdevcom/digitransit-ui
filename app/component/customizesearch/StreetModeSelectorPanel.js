@@ -32,36 +32,38 @@ const StreetModeSelectorPanel = (
             defaultMessage="Your own transportation modes"
           />
         </div>
-        <div key="mode-option-bicycle">
-          <div className="mode-option-container">
-            <div className="mode-option-block">
-              <div className="mode-icon">
-                <Icon className="bicycle-icon" img="icon-icon_bike" />
+        {!!config.streetModes.bicycle.availableForSelection && (
+          <div key="mode-option-bicycle">
+            <div className="mode-option-container">
+              <div className="mode-option-block">
+                <div className="mode-icon">
+                  <Icon className="bicycle-icon" img="icon-icon_bike" />
+                </div>
+                <div className="mode-name">
+                  <FormattedMessage
+                    className="mode-name"
+                    id="bicycle"
+                    defaultMessage="bicycle"
+                  />
+                </div>
               </div>
-              <div className="mode-name">
-                <FormattedMessage
-                  className="mode-name"
-                  id="bicycle"
-                  defaultMessage="bicycle"
+              <div>
+                <Toggle
+                  toggled={currentSettings.includeBikeSuggestions}
+                  onToggle={() => onToggle('includeBikeSuggestions', 'OwnBike')}
                 />
               </div>
             </div>
-            <div>
-              <Toggle
-                toggled={currentSettings.includeBikeSuggestions}
-                onToggle={() => onToggle('includeBikeSuggestions', 'OwnBike')}
+            {currentSettings.includeBikeSuggestions ? (
+              <BikingOptionsSection
+                bikeSpeed={currentSettings.bikeSpeed}
+                bicycleParkingFilter={currentSettings.bicycleParkingFilter}
+                defaultSettings={defaultSettings}
+                bikeSpeedOptions={config.defaultOptions.bikeSpeed}
               />
-            </div>
+            ) : null}
           </div>
-          {currentSettings.includeBikeSuggestions ? (
-            <BikingOptionsSection
-              bikeSpeed={currentSettings.bikeSpeed}
-              bicycleParkingFilter={currentSettings.bicycleParkingFilter}
-              defaultSettings={defaultSettings}
-              bikeSpeedOptions={config.defaultOptions.bikeSpeed}
-            />
-          ) : null}
-        </div>
+        )}
         {config.includeParkAndRideSuggestions && (
           <div key="mode-option-park-and-ride">
             <div className="mode-option-container">
