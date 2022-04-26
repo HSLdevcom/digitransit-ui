@@ -70,6 +70,8 @@ class RoutePage extends React.Component {
       return null;
     }
     const mode = getRouteMode(route);
+    const label = route.shortName ? route.shortName : route.longName || '';
+
     return (
       <div className={cx('route-page-container')}>
         <div className="header-for-printing">
@@ -109,18 +111,21 @@ class RoutePage extends React.Component {
                     id: mode.toLowerCase(),
                   })}{' '}
                 </span>
-                {route.shortName === '' || route.shortName === null
-                  ? route.longName
-                  : route.shortName}
+                {label}
               </h1>
-              {tripId && route.patterns[1]?.headsign && (
-                <div className="trip-destination">
-                  <Icon className="in-text-arrow" img="icon-icon_arrow-right" />
-                  <div className="destination-headsign">
-                    {route.patterns[1].headsign}
+              {tripId &&
+                route.patterns[1]?.headsign &&
+                !label.includes(route.patterns[1].headsign) && (
+                  <div className="trip-destination">
+                    <Icon
+                      className="in-text-arrow"
+                      img="icon-icon_arrow-right"
+                    />
+                    <div className="destination-headsign">
+                      {route.patterns[1].headsign}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
             </div>
             {!tripId && (
               <LazilyLoad modules={modules}>
