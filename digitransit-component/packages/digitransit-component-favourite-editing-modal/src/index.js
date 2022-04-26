@@ -140,7 +140,19 @@ class FavouriteEditingModal extends React.Component {
     }
   };
 
-  renderFavouriteListItem = (favourite, color) => {
+  moveFavourite = (i, direction) => {
+    const { favourites } = this.state;
+    // Edit copy of the favourites to avoid changing the props.favourites used for state initialization
+    const favouritesCopy = [...favourites];
+
+    const tmp = favouritesCopy[i + direction];
+    favouritesCopy[i + direction] = favouritesCopy[i];
+    favouritesCopy[i] = tmp;
+
+    this.setState({ favourites: favouritesCopy });
+  };
+
+  renderFavouriteListItem = (favourite, index) => {
     const iconId = favourite.selectedIconId
       ? favourite.selectedIconId.replace('icon-icon_', '')
       : 'place';
@@ -154,6 +166,32 @@ class FavouriteEditingModal extends React.Component {
         key={favourite.favouriteId}
       >
         <div className={styles['favourite-edit-list-item-left']}>
+          {index > 0 && (
+            <button
+              className={styles['favourite-edit-list-arrow-hidden']}
+              styles={{ color: this.props.color }}
+              type="button"
+              aria-label={i18next.t('up')}
+              onClick={() => {
+                this.moveFavourite(index, -1);
+              }}
+            >
+              &uarr;
+            </button>
+          )}
+          {index < this.state.favourites.length - 1 && (
+            <button
+              className={styles['favourite-edit-list-arrow-hidden']}
+              styles={{ color: this.props.color }}
+              type="button"
+              aria-label={i18next.t('down')}
+              onClick={() => {
+                this.moveFavourite(index, 1);
+              }}
+            >
+              &darr;
+            </button>
+          )}
           <div className={styles['favourite-edit-list-item-drag']}>
             <div className={styles['favourite-edit-list-item-ellipsis']}>
               <Icon img="ellipsis" />
@@ -165,7 +203,7 @@ class FavouriteEditingModal extends React.Component {
               styles[iconId],
             )}
           >
-            <Icon img={iconId} color={color} />
+            <Icon img={iconId} color={this.props.color} />
           </div>
         </div>
         <div className={styles['favourite-edit-list-item-content']}>
@@ -236,8 +274,8 @@ class FavouriteEditingModal extends React.Component {
             animation={200}
             handle={`.${styles['favourite-edit-list-item-left']}`}
           >
-            {favourites.map(favourite => {
-              return this.renderFavouriteListItem(favourite);
+            {favourites.map((favourite, index) => {
+              return this.renderFavouriteListItem(favourite, index);
             })}
           </ReactSortable>
         </ContainerSpinner>
