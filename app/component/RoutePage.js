@@ -110,8 +110,8 @@ class RoutePage extends React.Component {
                   })}{' '}
                 </span>
                 {route.shortName === '' || route.shortName === null
-                  ? route.shortName
-                  : route.longName}
+                  ? route.longName
+                  : route.shortName}
               </h1>
               {tripId && route.patterns[1]?.headsign && (
                 <div className="trip-destination">
