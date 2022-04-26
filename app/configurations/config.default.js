@@ -179,7 +179,7 @@ export default {
 
   allowLogin: false,
   allowFavouritesFromLocalstorage: true,
-
+  useExtendedRouteTypes: false,
   mainMenu: {
     // Whether to show the left menu toggle button at all
     show: true,

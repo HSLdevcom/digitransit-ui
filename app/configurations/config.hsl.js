@@ -82,6 +82,7 @@ export default {
 
   stopsMinZoom: 14,
   mergeStopsByCode: true,
+  useExtendedRouteTypes: true,
   colors: {
     primary: '#007ac9',
     accessiblePrimary: '#0074be',
