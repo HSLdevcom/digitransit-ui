@@ -4,7 +4,6 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import { matchShape, routerShape, RedirectException } from 'found';
-import Icon from './Icon';
 
 import Loading from './Loading';
 import RouteAgencyInfo from './RouteAgencyInfo';
@@ -113,14 +112,6 @@ class RoutePage extends React.Component {
                   ? route.longName
                   : route.shortName}
               </h1>
-              {tripId && route.patterns[1]?.headsign && (
-                <div className="trip-destination">
-                  <Icon className="in-text-arrow" img="icon-icon_arrow-right" />
-                  <div className="destination-headsign">
-                    {route.patterns[1].headsign}
-                  </div>
-                </div>
-              )}
             </div>
             {!tripId && (
               <LazilyLoad modules={modules}>
