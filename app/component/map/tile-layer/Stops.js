@@ -2,6 +2,7 @@ import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
 import pick from 'lodash/pick';
 
+import { graphql, fetchQuery } from 'react-relay';
 import {
   drawTerminalIcon,
   drawStopIcon,
@@ -10,6 +11,16 @@ import {
 } from '../../../util/mapIconUtils';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from '../../../util/path';
+
+const stopTypeQuery = graphql`
+  query StopsTypeQuery($id: String!) {
+    stop: stop(id: $id) {
+      routes {
+        type
+      }
+    }
+  }
+`;
 
 function isNull(val) {
   return val === 'null' || val === undefined || val === null;
@@ -31,7 +42,6 @@ class Stops {
     const isHilighted =
       this.tile.hilightedStops &&
       this.tile.hilightedStops.includes(feature.properties.gtfsId);
-
     const ignoreMinZoomLevel =
       feature.properties.type === 'FERRY' ||
       feature.properties.type === 'RAIL' ||
@@ -39,12 +49,27 @@ class Stops {
 
     if (ignoreMinZoomLevel || zoom >= minZoom) {
       if (isHybrid) {
+        if (
+          feature.properties.type === 'BUS' &&
+          this.config.useExtendedRouteTypes
+        ) {
+          this.fetchTypeAndDraw(feature, isHilighted, true);
+          return;
+        }
         drawHybridStopIcon(
           this.tile,
           feature.geom,
           isHilighted,
           this.config.colors.iconColors,
         );
+        return;
+      }
+
+      if (
+        feature.properties.type === 'BUS' &&
+        this.config.useExtendedRouteTypes
+      ) {
+        this.fetchTypeAndDraw(feature, isHilighted);
         return;
       }
 
@@ -64,6 +89,43 @@ class Stops {
       );
     }
   }
+
+  // Can be deleted if map API provides route type information one day
+  fetchTypeAndDraw = (feature, isHilighted, hybrid = false) => {
+    const { gtfsId } = feature.properties;
+
+    const callback = ({ stop: result }) => {
+      const hasTrunkRoute = result.routes.some(route => route.type === 702);
+      if (hybrid) {
+        drawHybridStopIcon(
+          this.tile,
+          feature.geom,
+          isHilighted,
+          this.config.colors.iconColors,
+          hasTrunkRoute,
+        );
+      } else {
+        drawStopIcon(
+          this.tile,
+          feature.geom,
+          hasTrunkRoute ? 'bus-express' : feature.properties.type,
+          feature.properties.platform !== 'null'
+            ? feature.properties.platform
+            : false,
+          isHilighted,
+          !!(
+            feature.properties.type === 'FERRY' &&
+            feature.properties.code !== 'null'
+          ),
+          this.config.colors.iconColors,
+        );
+      }
+    };
+
+    fetchQuery(this.relayEnvironment, stopTypeQuery, { id: gtfsId }).then(
+      callback,
+    );
+  };
 
   stopsToShowCheck(feature) {
     if (this.tile.stopsToShow) {
@@ -103,7 +165,6 @@ class Stops {
       return res.arrayBuffer().then(
         buf => {
           const vt = new VectorTile(new Protobuf(buf));
-
           this.features = [];
 
           // draw highlighted stops on lower zoom levels
@@ -164,16 +225,23 @@ class Stops {
                     f.geom.x === prevFeature.geom.x &&
                     f.geom.y === prevFeature.geom.y
                   ) {
-                    // save only one gtfsId per hybrid stop
-                    hybridGtfsIdByCode[f.properties.code] = f.properties.gtfsId;
-                    // Also change hilighted stopId in hybrid stop cases
+                    // save only one gtfsId per hybrid stop, always save the gtfsId for the bus stop to fetch extended route types
+                    const featWithBus =
+                      prevFeature.properties.type === 'BUS' ? prevFeature : f;
+                    const featWithoutBus =
+                      prevFeature.properties.type === 'BUS' ? f : prevFeature;
+                    hybridGtfsIdByCode[featWithBus.properties.code] =
+                      featWithBus.properties.gtfsId;
+                    // Also change hilighted stopId to the stop with type = BUS in hybrid stop cases
                     if (
                       this.tile.hilightedStops &&
                       this.tile.hilightedStops.includes(
-                        prevFeature.properties.gtfsId,
+                        featWithoutBus.properties.gtfsId,
                       )
                     ) {
-                      this.tile.hilightedStops = [f.properties.gtfsId];
+                      this.tile.hilightedStops = [
+                        featWithBus.properties.gtfsId,
+                      ];
                     }
                   }
                 }
