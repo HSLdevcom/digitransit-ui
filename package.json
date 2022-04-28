@@ -12,6 +12,7 @@
     "digitransit-store/packages/*"
   ],
   "scripts": {
+    "postinstall": "yarn run node14-patch",
     "setup": "yarn install && yarn build-workspaces",
     "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
     "win-static": "xcopy static\\* _static /e /s /y /i& if not exist _static\\js mkdir _static\\js& if not exist _static\\css mkdir _static\\css",
@@ -63,7 +64,8 @@
     "digitransit-store-docs": "node -r esm ./digitransit-store/scripts/generate-readmes",
     "digitransit-store-new-module": "node -r esm ./digitransit-store/scripts/create-new-module",
     "digitransit-store-tests": "lerna run build:test --scope '@digitransit-store/*' && lerna run test --scope '@digitransit-store/*'",
-    "digitransit-store-build": "lerna run clean --scope '@digitransit-store/*' && NODE_ENV=production SCOPE='@digitransit-store/*' rollup -c ./config/rollup.config.js"
+    "digitransit-store-build": "lerna run clean --scope '@digitransit-store/*' && NODE_ENV=production SCOPE='@digitransit-store/*' rollup -c ./config/rollup.config.js",
+    "node14-patch": "rm -f ./node_modules/react-leaflet/node_modules/@babel/runtime/helpers/esm/package.json"
   },
   "main": "server.js",
   "repository": {
