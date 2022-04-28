@@ -8,7 +8,6 @@ import createRender from 'found/createRender';
 
 import Error404 from './component/404';
 import TopLevel from './component/TopLevel';
-import LocalStorageEmitter from './component/LocalStorageEmitter';
 
 import { prepareWeekDays } from './util/dateParamUtils';
 
@@ -18,7 +17,6 @@ import {
   PREFIX_BIKESTATIONS,
   PREFIX_BIKEPARK,
   PREFIX_CARPARK,
-  LOCAL_STORAGE_EMITTER_PATH,
   createReturnPath,
   TAB_NEARBY,
   TAB_FAVOURITES,
@@ -441,11 +439,6 @@ export default config => {
             /* webpackChunkName: "embedded-search" */ './component/EmbeddedSearchContainer'
           ).then(getDefault)
         }
-        topBarOptions={{ hidden: true }}
-      />
-      <Route
-        path={LOCAL_STORAGE_EMITTER_PATH}
-        Component={LocalStorageEmitter}
         topBarOptions={{ hidden: true }}
       />
       <Route path="/js/*" Component={Error404} />
