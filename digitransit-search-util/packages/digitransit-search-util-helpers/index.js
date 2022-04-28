@@ -130,7 +130,7 @@ export const getLayerRank = (layer, source) => {
       // venue, address, street, route-xxx
       return 0.4;
     case LayerType.Stop:
-      return 0.35;
+      return 0.03;
     case LayerType.BikeRentalStation:
       return 0.1;
   }
