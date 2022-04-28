@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@digitransit-component/digitransit-component-autosuggest": "^1.8.3",
-    "@digitransit-component/digitransit-component-autosuggest-panel": "^1.4.2",
+    "@digitransit-component/digitransit-component-autosuggest-panel": "^1.4.3",
     "@digitransit-component/digitransit-component-control-panel": "^1.0.2",
     "@digitransit-component/digitransit-component-favourite-bar": "1.0.10",
     "@digitransit-component/digitransit-component-favourite-editing-modal": "^0.3.16",
