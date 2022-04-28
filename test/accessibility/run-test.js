@@ -3,7 +3,7 @@
 /* eslint-disable no-console */
 const parallel = require('async/parallel');
 const AxeBuilder = require('@axe-core/webdriverjs');
-const { Builder, By, Key } = require('selenium-webdriver');
+const { Builder, By, Key, until } = require('selenium-webdriver');
 const firefox = require('selenium-webdriver/firefox');
 
 const args = process.argv.slice(2);
@@ -132,10 +132,6 @@ async function terminalPageTimetableTest(
   const [driver, builder] = createTestEnv();
   const url = `${rootUrl}${path}`;
   await driver.get(url);
-  // Open route select menu
-  await driver
-    .findElement(By.id('timetable-showroutes-button'))
-    .sendKeys(Key.RETURN);
   await analyzeWithAxe(builder, printResults, benchmark, path);
   driver.quit();
 }
@@ -153,9 +149,11 @@ async function ItineraryTest(rootUrl, printResults, benchmark, path) {
   const url = `${rootUrl}${path}`;
   await driver.get(url);
   // Open settings menu
-  await driver
-    .findElement(By.className('open-advanced-settings-window-button'))
-    .sendKeys(Key.RETURN);
+  const el = await driver.findElement(
+    By.className('open-advanced-settings-window-button'),
+  );
+  await driver.wait(until.elementIsVisible(el), 1000);
+  await el.sendKeys(Key.RETURN);
   await analyzeWithAxe(builder, printResults, benchmark, path);
   driver.quit();
 }
