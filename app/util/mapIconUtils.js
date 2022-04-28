@@ -477,7 +477,13 @@ export function drawStopIcon(
  * Draw icon for hybrid stops, meaning BUS and TRAM stop in the same place.
  * Determine icon size based on zoom level
  */
-export function drawHybridStopIcon(tile, geom, isHilighted, modeIconColors) {
+export function drawHybridStopIcon(
+  tile,
+  geom,
+  isHilighted,
+  modeIconColors,
+  hasTrunkRoute = false,
+) {
   const zoom = tile.coords.z - 1;
   const styles = getStopIconStyles('hybrid', zoom, isHilighted);
   if (!styles) {
@@ -509,7 +515,8 @@ export function drawHybridStopIcon(tile, geom, isHilighted, modeIconColors) {
     tile.ctx.arc(x, y, radiusInner * tile.scaleratio, 0, FULL_CIRCLE);
     tile.ctx.fill();
     tile.ctx.beginPath();
-    tile.ctx.fillStyle = modeIconColors['mode-bus'];
+    tile.ctx.fillStyle =
+      modeIconColors[hasTrunkRoute ? 'mode-bus-express' : 'mode-bus'];
     tile.ctx.arc(x, y, (radiusInner - 0.5) * tile.scaleratio, 0, FULL_CIRCLE);
     tile.ctx.fill();
     /* eslint-enable no-param-reassign */
@@ -517,84 +524,90 @@ export function drawHybridStopIcon(tile, geom, isHilighted, modeIconColors) {
   if (style === 'large') {
     const x = geom.x / tile.ratio - width / 2;
     const y = geom.y / tile.ratio - height;
-    getImageFromSpriteCache('icon-icon_map_hybrid_stop', width, height).then(
-      image => {
-        tile.ctx.drawImage(image, x, y);
-      },
-    );
-    if (isHilighted) {
-      tile.ctx.beginPath();
-      // eslint-disable-next-line no-param-reassign
-      tile.ctx.lineWidth = 2;
-      if (zoom === 14) {
-        tile.ctx.arc(
-          x + 64.5 / tile.ratio,
-          y + 177 / tile.ratio,
-          10.5 * tile.scaleratio,
-          0,
-          Math.PI,
-        );
-        tile.ctx.arc(
-          x + 64.5 / tile.ratio,
-          y + 60 / tile.ratio,
-          10.5 * tile.scaleratio,
-          Math.PI,
-          0,
-        );
-        tile.ctx.arc(
-          x + 64.5 / tile.ratio,
-          y + 177 / tile.ratio,
-          10.5 * tile.scaleratio,
-          0,
-          Math.PI,
-        );
-      } else if (zoom === 15) {
-        tile.ctx.arc(
-          x + 81 / tile.ratio,
-          y + 213 / tile.ratio,
-          12 * tile.scaleratio,
-          0,
-          Math.PI,
-        );
-        tile.ctx.arc(
-          x + 81 / tile.ratio,
-          y + 75 / tile.ratio,
-          12 * tile.scaleratio,
-          Math.PI,
-          0,
-        );
-        tile.ctx.arc(
-          x + 81 / tile.ratio,
-          y + 213 / tile.ratio,
-          12 * tile.scaleratio,
-          0,
-          Math.PI,
-        );
-      } else {
-        tile.ctx.arc(
-          x + 97.2 / tile.ratio,
-          y + 273 / tile.ratio,
-          13.5 * tile.scaleratio,
-          0,
-          Math.PI,
-        );
-        tile.ctx.arc(
-          x + 97.2 / tile.ratio,
-          y + 88.5 / tile.ratio,
-          13.5 * tile.scaleratio,
-          Math.PI,
-          0,
-        );
-        tile.ctx.arc(
-          x + 97.2 / tile.ratio,
-          y + 273 / tile.ratio,
-          13.5 * tile.scaleratio,
-          0,
-          Math.PI,
-        );
+    getImageFromSpriteCache(
+      `icon-icon_map_hybrid_stop${hasTrunkRoute ? '_express' : ''}`,
+      width,
+      height,
+    ).then(image => {
+      tile.ctx.drawImage(image, x, y);
+      if (isHilighted) {
+        tile.ctx.beginPath();
+        // eslint-disable-next-line no-param-reassign
+        tile.ctx.lineWidth = 2;
+        if (zoom === 14 || zoom === 13) {
+          const xOff = 82; // Position in x-axis
+          const yOff = 230; // Position in y-axis
+          const radius = 11; // How large the arcs of the ellipse are (width of the ellipse)
+          const eHeight = 65; // How tall the ellipse is. Smaller value => taller ellipse.
+          tile.ctx.arc(
+            x + xOff / tile.ratio,
+            y + yOff / tile.ratio,
+            radius * tile.scaleratio,
+            0,
+            Math.PI,
+          );
+          tile.ctx.arc(
+            x + xOff / tile.ratio,
+            y + eHeight / tile.ratio,
+            radius * tile.scaleratio,
+            Math.PI,
+            0,
+          );
+          tile.ctx.arc(
+            x + xOff / tile.ratio,
+            y + yOff / tile.ratio,
+            radius * tile.scaleratio,
+            0,
+            Math.PI,
+          );
+        } else if (zoom === 15) {
+          tile.ctx.arc(
+            x + 81 / tile.ratio,
+            y + 213 / tile.ratio,
+            12 * tile.scaleratio,
+            0,
+            Math.PI,
+          );
+          tile.ctx.arc(
+            x + 81 / tile.ratio,
+            y + 75 / tile.ratio,
+            12 * tile.scaleratio,
+            Math.PI,
+            0,
+          );
+          tile.ctx.arc(
+            x + 81 / tile.ratio,
+            y + 213 / tile.ratio,
+            12 * tile.scaleratio,
+            0,
+            Math.PI,
+          );
+        } else {
+          tile.ctx.arc(
+            x + 97.2 / tile.ratio,
+            y + 273 / tile.ratio,
+            13.5 * tile.scaleratio,
+            0,
+            Math.PI,
+          );
+          tile.ctx.arc(
+            x + 97.2 / tile.ratio,
+            y + 88.5 / tile.ratio,
+            13.5 * tile.scaleratio,
+            Math.PI,
+            0,
+          );
+          tile.ctx.arc(
+            x + 97.2 / tile.ratio,
+            y + 273 / tile.ratio,
+            13.5 * tile.scaleratio,
+            0,
+            Math.PI,
+          );
+        }
+        tile.ctx.stroke();
       }
-      tile.ctx.stroke();
-    }
+    });
   }
 }
 

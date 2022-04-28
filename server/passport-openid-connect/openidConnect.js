@@ -11,7 +11,7 @@ const clearAllUserSessions = false; // set true if logout should erase all user'
 
 const debugLogging = process.env.DEBUGLOGGING;
 
-axios.defaults.timeout = 8000;
+axios.defaults.timeout = 12000;
 
 export default function setUpOIDC(app, port, indexPath, hostnames) {
   /* ********* Setup OpenID Connect ********* */
@@ -250,13 +250,15 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     }
   });
 
-  const errorHandler = function (res, error) {
-    if (error?.response) {
+  const errorHandler = function (res, err) {
+    const status = err?.message && err.message.includes('timeout') ? 408 : 500;
+
+    if (err?.response) {
       res
-        .status(error.response.status || 500)
-        .send(error.response.data || 'Unknown error');
+        .status(err.response.status || status)
+        .send(err.response.data || err?.message || 'Unknown err');
     } else {
-      res.status(500).send('Unknown error');
+      res.status(status).send(err?.message || 'Unknown error');
     }
   };
 

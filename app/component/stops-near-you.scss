@@ -453,6 +453,7 @@
   .stops-near-you-location-search {
     width: 145px;
     margin: 25px 15px 0 0;
+    z-index: 9999;
     div > div > .origin-stop-near-you-selector {
       height: 34px;
     }

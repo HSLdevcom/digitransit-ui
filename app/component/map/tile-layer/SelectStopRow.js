@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'found/Link';
+import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
 import Icon from '../../Icon';
 import { PREFIX_TERMINALS, PREFIX_STOPS } from '../../../util/path';
 
@@ -8,9 +9,34 @@ function isNull(val) {
   return val === 'null' || val === undefined || val === null;
 }
 
-function SelectStopRow({ gtfsId, type, name, code, terminal, desc, colors }) {
+const stopTypeQuery = graphql`
+  query SelectStopRowTypeQuery($id: String!) {
+    stop: stop(id: $id) {
+      routes {
+        type
+      }
+    }
+  }
+`;
+
+function SelectStopRow(
+  { gtfsId, type, name, code, terminal, desc, colors, relayEnvironment },
+  { config },
+) {
+  const [mode, setMode] = useState(type);
+  useEffect(() => {
+    if (type === 'BUS' && config.useExtendedRouteTypes) {
+      fetchQuery(relayEnvironment, stopTypeQuery, { id: gtfsId }).then(
+        results => {
+          if (results.stop.routes.some(r => r.type === 702)) {
+            setMode('bus-express');
+          }
+        },
+      );
+    }
+  }, []);
   const iconOptions = {};
-  switch (type) {
+  switch (mode) {
     case 'TRAM,BUS':
       iconOptions.iconId = 'icon-icon_bustram-stop-lollipop';
       iconOptions.className = 'tram-stop';
@@ -31,6 +57,12 @@ function SelectStopRow({ gtfsId, type, name, code, terminal, desc, colors }) {
       iconOptions.iconId = terminal
         ? 'icon-icon_bus'
         : 'icon-icon_bus-stop-lollipop';
+      iconOptions.className = 'bus-stop';
+      break;
+    case 'bus-express':
+      iconOptions.iconId = terminal
+        ? 'icon-icon_bus'
+        : 'icon-icon_bus-stop-express-lollipop';
       iconOptions.className = 'bus-stop';
       break;
     case 'SUBWAY':
@@ -86,10 +118,19 @@ function SelectStopRow({ gtfsId, type, name, code, terminal, desc, colors }) {
   );
 }
 
+const withRelay = props => (
+  <ReactRelayContext.Consumer>
+    {({ environment }) => (
+      <SelectStopRow {...props} relayEnvironment={environment} />
+    )}
+  </ReactRelayContext.Consumer>
+);
+
 SelectStopRow.displayName = 'SelectStopRow';
 
 SelectStopRow.propTypes = {
   gtfsId: PropTypes.string.isRequired,
+  relayEnvironment: PropTypes.object,
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   code: PropTypes.string,
@@ -104,4 +145,10 @@ SelectStopRow.defaultProps = {
   desc: null,
 };
 
-export default SelectStopRow;
+SelectStopRow.contextTypes = {
+  config: PropTypes.shape({
+    useExtendedRouteTypes: PropTypes.bool.isRequired,
+  }).isRequired,
+};
+
+export { withRelay as default, SelectStopRow as Component };
