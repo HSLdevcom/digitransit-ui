@@ -111,10 +111,12 @@ function setUpStaticFolders() {
     }),
   );
 
-  app.use(
-    '/local-storage-emitter',
-    express.static(path.join(staticFolder, 'emitter')),
-  );
+  if (config.localStorageEmitter) {
+    app.use(
+      '/local-storage-emitter',
+      express.static(path.join(staticFolder, 'emitter')),
+    );
+  }
 }
 
 function setUpMiddleware() {
