@@ -48,7 +48,7 @@ export default configMerger(walttiConfig, {
       donkey_kouvola: {
         enabled: true,
         season: {
-          // 14.4. - 31.10.
+          // 20.4. - 31.10.
           start: new Date(new Date().getFullYear(), 3, 20),
           end: new Date(new Date().getFullYear(), 10, 1),
         },
