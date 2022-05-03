@@ -83,7 +83,7 @@ const RouteNotification = (props, context) => {
 
 RouteNotification.propTypes = {
   header: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
+  content: PropTypes.array.isRequired,
   link: PropTypes.string,
   id: PropTypes.string.isRequired,
   closeButtonLabel: PropTypes.string,
