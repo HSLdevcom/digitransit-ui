@@ -307,6 +307,7 @@ export function getSearchResults(
         searchComponents.push(getBackSuggestion());
       }
     }
+
     if (allSources || sources.includes('Datasource')) {
       const geocodingLayers = ['station', 'venue', 'address', 'street'];
       const feedis = feedIDs.map(v => `gtfs${v}`);
@@ -338,6 +339,39 @@ export function getSearchResults(
       ];
       dropLayers.push(...routeLayers);
       searchComponents.push(getOldSearches(locationHistory, input, dropLayers));
+    }
+  }
+  const carParkFeeds = ['liipi'];
+  const bikeParkFeeds = ['liipi'];
+  console.log("t & s",targets, sources)
+  if (allTargets || targets.includes('ParkingAreas')) {
+    if (allSources || sources.includes('Datasource')) {
+      const carParks = carParkFeeds.map(f => `carparks${f}`);
+      const bikeParks = bikeParkFeeds.map(f => `bikeparks${f}`);
+      console.log("c & b", carParks, bikeParks)
+      const feedIds = carParks.concat(bikeParks).join(',');
+      console.log("f", feedIds);
+      const searchParams =
+        geocodingSize && geocodingSize !== 10 ? { size: geocodingSize } : {};
+      const geocodingLayers = ['carpark', 'bikepark'];
+      console.log("searc p areash")
+      searchComponents.push(
+        getGeocodingResults(
+          input,
+          searchParams,
+          language,
+          focusPoint,
+          feedIds,
+          URL_PELIAS,
+          minimalRegexp,
+          geocodingLayers,
+        ).then(results => {
+          if (filterResults) {
+            return filterResults(results, mode);
+          }
+          return results;
+        }),
+      );
     }
   }
 

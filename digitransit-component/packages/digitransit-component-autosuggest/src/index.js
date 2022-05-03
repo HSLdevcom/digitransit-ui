@@ -391,6 +391,7 @@ class DTAutosuggest extends React.Component {
   };
 
   onSelected = (e, ref) => {
+    console.log("sel", ref)
     if (this.state.valid) {
       if (ref.suggestion.type === 'SelectFromOwnLocations') {
         this.setState(

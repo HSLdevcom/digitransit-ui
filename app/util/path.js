@@ -115,6 +115,14 @@ export const getStopRoutePath = searchObj => {
       path = `/${PREFIX_BIKESTATIONS}/`;
       id = searchObj.properties.labelId;
       break;
+    case 'carpark':
+      path = `/${PREFIX_CARPARK}/`;
+      id = searchObj.properties.id;
+      break;
+    case 'bikepark':
+      path = `/${PREFIX_BIKEPARK}/`;
+      id = searchObj.properties.id;
+      break;
     default:
       path = `/${PREFIX_STOPS}/`;
       id = id.replace('GTFS:', '').replace(':', '%3A');
