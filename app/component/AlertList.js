@@ -8,6 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import RouteAlertsRow from './RouteAlertsRow';
 import { createUniqueAlertList } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
+import { getRouteMode } from '../util/modeUtils';
 
 const AlertList = ({
   cancelations,
@@ -56,7 +57,7 @@ const AlertList = ({
                 description,
                 expired,
                 header,
-                route: { color, mode, shortName, routeGtfsId } = {},
+                route: { color, mode, type, shortName, routeGtfsId } = {},
                 severityLevel,
                 stop: { code, vehicleMode, stopGtfsId, nameAndCode } = {},
                 url,
@@ -72,7 +73,7 @@ const AlertList = ({
                 endTime={endTime}
                 entityIdentifier={shortName || nameAndCode || code}
                 entityMode={
-                  (mode && mode.toLowerCase()) ||
+                  (mode && getRouteMode({ mode, type })) ||
                   (vehicleMode && vehicleMode.toLowerCase())
                 }
                 entityType={
