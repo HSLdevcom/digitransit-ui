@@ -3,8 +3,8 @@ import configMerger from '../util/configMerger';
 import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = 'kotka';
-const APP_TITLE = 'Uusi Reittiopas';
-const APP_DESCRIPTION = 'Uusi Reittiopas - kotka';
+const APP_TITLE = 'Kotkan seudun reittiopas';
+const APP_DESCRIPTION = 'Kotkan seudun reittiopas';
 
 const walttiConfig = require('./config.waltti').default;
 
@@ -172,6 +172,9 @@ export default configMerger(walttiConfig, {
     3: 'C',
     4: 'D',
   },
+  vehicles: true,
+  showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
   zones: {
     stops: true,
     itinerary: true,
