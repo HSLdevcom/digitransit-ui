@@ -63,7 +63,7 @@
     "digitransit-store-new-module": "node -r esm ./digitransit-store/scripts/create-new-module",
     "digitransit-store-tests": "lerna run build:test --scope '@digitransit-store/*' && lerna run test --scope '@digitransit-store/*'",
     "build-store": "lerna run clean --scope '@digitransit-store/*' && NODE_ENV=production SCOPE='@digitransit-store/*' rollup -c ./config/rollup.config.js",
-    "node14-patch": "rm ./node_modules/react-leaflet/node_modules/@babel/runtime/helpers/esm/package.json"
+    "node14-patch": "rm -f ./node_modules/react-leaflet/node_modules/@babel/runtime/helpers/esm/package.json"
   },
   "main": "server.js",
   "repository": {
