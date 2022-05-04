@@ -201,6 +201,20 @@ function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
   return [layerIcon.get(iconId) || defaultIcon, iconColor];
 }
 
+/** *
+ * Checks if stationId is a number. We don't want to display random hashes or names.
+ *
+ * @param stationId station's id, TODO we should probably support GBFS short_name
+ */
+function hasVehicleStationCode(stationId) {
+  return (
+    // eslint-disable-next-line no-restricted-globals
+    !isNaN(stationId) &&
+    // eslint-disable-next-line no-restricted-globals
+    !isNaN(parseFloat(stationId))
+  );
+}
+
 /**
  * SuggestionItem renders suggestions for digitransit-autosuggest component.
  * @example
@@ -312,7 +326,8 @@ const SuggestionItem = pure(
                 <div className={styles['suggestion-label']}>
                   {isBikeRentalStation ? cityBikeLabel : label}
                   {((stopCode && stopCode !== name) ||
-                    item.properties?.layer === 'bikestation') && (
+                    (item.properties?.layer === 'bikestation' &&
+                      hasVehicleStationCode(item.properties.id))) && (
                     <span className={styles['stop-code']}>
                       {stopCode || item.properties.id}
                     </span>
