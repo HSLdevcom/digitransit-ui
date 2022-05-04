@@ -42,6 +42,7 @@ class PreferencesStore extends Store {
       // Good up to one year
       maxAge: 365 * 24 * 60 * 60,
       path: '/',
+      secure: true,
     });
     this.language = language;
     this.emitChange();
