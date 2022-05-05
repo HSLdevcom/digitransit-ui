@@ -510,11 +510,11 @@ export default {
         },
         timeBeforeSurcharge: 30 * 60,
       },
-      vantaa: {
+      seatcode_vantaa: {
         enabled: true,
         season: {
           // 1.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 5, 1), // temp postpone
+          start: new Date(new Date().getFullYear(), 3, 1),
           end: new Date(new Date().getFullYear(), 10, 1),
         },
         capacity: BIKEAVL_WITHMAX,
