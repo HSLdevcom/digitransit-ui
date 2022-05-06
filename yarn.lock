@@ -4691,6 +4691,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-leaflet/core@npm:^1.0.2":
+  version: 1.1.1
+  resolution: "@react-leaflet/core@npm:1.1.1"
+  peerDependencies:
+    leaflet: ^1.7.1
+    react: ^17.0.1
+    react-dom: ^17.0.1
+  checksum: a959eb48074b10f69f46b5afb72277889b739cd52f41bf94676d0dcc68de1930b5aaa194cd76dfac64fce6692fff4bc0f3dac90f3a981becf36044f1a591a605
+  languageName: node
+  linkType: hard
+
 "@restart/context@npm:^2.1.4":
   version: 2.1.4
   resolution: "@restart/context@npm:2.1.4"
@@ -9955,7 +9966,7 @@ __metadata:
     jest-image-snapshot: 4.5.0
     jest-playwright-preset: 1.7.0
     jsdom: 13.2.0
-    leaflet: 1.6.0
+    leaflet: 1.7.1
     lerna: 3.20.2
     lint-staged: 10.3.0
     lodash: 4.17.19
@@ -9997,7 +10008,7 @@ __metadata:
     react-dom: 16.13.0
     react-helmet: 6.1.0
     react-intl: 2.8.0
-    react-leaflet: 2.7.0
+    react-leaflet: 3.1.0
     react-motion: 0.5.2
     react-relay: 10.0.1
     react-relay-network-modern: 5.0.0
@@ -16752,10 +16763,10 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"leaflet@npm:1.6.0":
-  version: 1.6.0
-  resolution: "leaflet@npm:1.6.0"
-  checksum: de9cc64bfaa767fb2a6a437f5621aafc356f4201cded36a25d8c4e3802085638791e737d127e4d9981b678f802b6757e8053936baad68c62bf80f39b0d063d4b
+"leaflet@npm:1.7.1":
+  version: 1.7.1
+  resolution: "leaflet@npm:1.7.1"
+  checksum: 7a841174dc3c8e135a2ba9a81cdd8145ef4c00e516eb558281ea47b20499f94ddab58a76a72ee15104e0dce88a07ae91fe933cfab75b569c5ed0770497aa7d99
   languageName: node
   linkType: hard
 
@@ -22014,19 +22025,16 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"react-leaflet@npm:2.7.0":
-  version: 2.7.0
-  resolution: "react-leaflet@npm:2.7.0"
+"react-leaflet@npm:3.1.0":
+  version: 3.1.0
+  resolution: "react-leaflet@npm:3.1.0"
   dependencies:
-    "@babel/runtime": ^7.9.2
-    fast-deep-equal: ^3.1.1
-    hoist-non-react-statics: ^3.3.2
-    warning: ^4.0.3
+    "@react-leaflet/core": ^1.0.2
   peerDependencies:
-    leaflet: ^1.6.0
-    react: ^16.8.0
-    react-dom: ^16.8.0
-  checksum: b74068625a650470dc624f9439480331b5beed340291d9bb2977acb4962bb86b10ddf7c0b61f24337dd322edf7da6d647bd8fdd50f8eb96b8ff74db0317e0b5d
+    leaflet: ^1.7.1
+    react: ^17.0.1
+    react-dom: ^17.0.1
+  checksum: 983744e95dd29891f97cd5977feb9c6eafe97c2abf9f8ca63cbc93e17311b80beac211d9f6dc860aab3fffae62ce17382eca37f61b3a36229b3c23f86365d948
   languageName: node
   linkType: hard
 

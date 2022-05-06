@@ -2,7 +2,7 @@ import isFunction from 'lodash/isFunction';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { withLeaflet } from 'react-leaflet/es/context';
+import { withLeaflet } from 'react-leaflet';
 
 import { isBrowser } from '../../util/browser';
 
@@ -15,8 +15,9 @@ let L;
 //      these need to be loaded only when isBrowser is true.
 //      Perhaps still using the require from webpack?
 if (isBrowser) {
-  Marker = require('react-leaflet/es/Marker').default;
-  Popup = require('react-leaflet/es/Popup').default;
+  console.log('i bim ein browser');
+  Marker = require('react-leaflet/esm/Marker').default;
+  Popup = require('react-leaflet/esm/Popup').default;
   L = require('leaflet');
 }
 /* eslint-enable global-require */
