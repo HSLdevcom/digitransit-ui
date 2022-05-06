@@ -22,9 +22,9 @@ export default configMerger(walttiConfig, {
   },
 
   colors: {
-    primary: '#118ddd',
+    primary: '#0001FF',
     iconColors: {
-      'mode-bus': '#118ddd',
+      'mode-bus': '#0001FF',
       'mode-citybike': '#f2b62d',
       'mode-citybike-secondary': '#333333',
     },
