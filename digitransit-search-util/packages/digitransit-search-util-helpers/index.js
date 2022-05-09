@@ -202,7 +202,7 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
           default:
             return confidence;
           case LayerType.Stop:
-            return confidence - 0.01;
+            return confidence - 0.05;
         }
       },
     ],

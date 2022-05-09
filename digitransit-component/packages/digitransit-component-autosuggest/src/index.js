@@ -566,6 +566,12 @@ class DTAutosuggest extends React.Component {
           ) {
             targets.push('Stops');
           }
+          if (
+            isEmpty(this.props.targets) ||
+            this.props.targets.includes('BikeRentalStations')
+          ) {
+            targets.push('BikeRentalStations');
+          }
         } else if (!isEmpty(this.props.targets)) {
           targets = [...this.props.targets];
           // in desktop, favorites are accessed via sub search
