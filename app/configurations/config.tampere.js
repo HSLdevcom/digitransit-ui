@@ -246,7 +246,7 @@ export default configMerger(walttiConfig, {
     },
     buyInstructions: {
       fi: 'Osta käyttöoikeutta päiväksi, kuukaudeksi tai koko kaudeksi.',
-      sv: 'Köp ett abonnemang för en dag, en månad eller för en hel säsong.',
+      sv: 'Köp ett abonnemang för en dag, en månad eller en hel säsong.',
       en: 'Buy licenses for a day, a month or an entire season.',
     },
   },
