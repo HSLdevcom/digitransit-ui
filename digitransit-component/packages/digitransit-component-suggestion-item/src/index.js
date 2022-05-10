@@ -282,7 +282,7 @@ const SuggestionItem = pure(
     const isParkingArea =
       item.properties?.layer === 'carpark' ||
       item.properties?.layer === 'bikepark';
-    const cityBikeLabel =
+    const labelWithLocationType =
       isBikeRentalStation || isParkingArea
         ? suggestionType.concat(
             item.properties.localadmin ? `, ${item.properties.localadmin}` : '',
@@ -319,7 +319,9 @@ const SuggestionItem = pure(
                   {name}
                 </div>
                 <div className={styles['suggestion-label']}>
-                  {isBikeRentalStation || isParkingArea ? cityBikeLabel : label}
+                  {isBikeRentalStation || isParkingArea
+                    ? labelWithLocationType
+                    : label}
                   {((stopCode && stopCode !== name) ||
                     item.properties?.layer === 'bikestation') && (
                     <span className={styles['stop-code']}>
