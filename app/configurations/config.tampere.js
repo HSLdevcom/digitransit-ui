@@ -249,6 +249,11 @@ export default configMerger(walttiConfig, {
       sv: 'https://www.nysse.fi/en/city-bikes.html',
       en: 'https://www.nysse.fi/en/city-bikes.html',
     },
+    buyInstructions: {
+      fi: 'Osta käyttöoikeutta päiväksi, kuukaudeksi tai koko kaudeksi.',
+      sv: 'Köp ett abonnemang för en dag, en månad eller för en hel säsong.',
+      en: 'Buy licenses for a day, a month or an entire season.',
+    },
   },
 
   // enable train routing for Tampere

@@ -53,6 +53,10 @@ const BikeRentalStationContent = (
   }
   const { cityBike } = config;
   const cityBikeBuyUrl = cityBike.buyUrl;
+  const buyInstructions = cityBikeBuyUrl
+    ? cityBike.buyInstructions?.[language]
+    : undefined;
+
   let cityBikeNetworkUrl;
   // Use general information about using city bike, if one network config is available
   if (Object.keys(cityBike.networks).length === 1) {
@@ -68,7 +72,7 @@ const BikeRentalStationContent = (
         breakpoint={breakpoint}
       />
       <CityBikeStopContent bikeRentalStation={bikeRentalStation} />
-      {config.cityBike.showFullInfo && isFull && (
+      {cityBike.showFullInfo && isFull && (
         <div className="citybike-full-station-guide">
           <FormattedMessage id="citybike-return-full" />
           <a
@@ -89,9 +93,7 @@ const BikeRentalStationContent = (
             <FormattedMessage id="citybike-start-using" />
           </h2>
           <div className="disclaimer-content">
-            {cityBikeBuyUrl ? (
-              <FormattedMessage id="citybike-buy-season" />
-            ) : (
+            {buyInstructions || (
               <a
                 className="external-link-citybike"
                 href={cityBikeNetworkUrl[language]}

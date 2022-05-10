@@ -960,7 +960,6 @@ const translations = {
     'choose-stop-or-vehicle': 'Select vehicle or stop',
     'choose-vehicle': 'Select vehicle',
     citybike: 'City bike',
-    'citybike-buy-season': 'Buy a daily, weekly or season pass',
     'citybike-distance-duration': 'Bike {duration} ({distance})',
     'citybike-duration-general-header':
       'Extra charge applies to several sections of route to be completed by a city bike.',
@@ -2046,8 +2045,6 @@ const translations = {
     'choose-stop-or-vehicle': 'Valitse linja tai pysäkki',
     'choose-vehicle': 'Valitse linja',
     citybike: 'Kaupunkipyörä',
-    'citybike-buy-season':
-      'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi',
     'citybike-distance-duration': 'Pyöräile {duration} ({distance})',
     'citybike-duration-general-header':
       'Useampi reitin kaupunkipyöräosuuksista sisältää lisämaksuja.',
@@ -3912,8 +3909,6 @@ const translations = {
     'choose-stop-or-vehicle': 'Select vehicle or stop',
     'choose-vehicle': 'Select vehicle',
     citybike: 'Stadscykel',
-    'citybike-buy-season':
-      'Köp ett abonnemang för en dag, en vecka eller för en hel säsong',
     'citybike-distance-duration': 'Cykla {duration} ({distance})',
     'citybike-duration-general-header':
       'Rutten har flera sträckor med stadscykel som inkluderar tilläggsavgifter.',

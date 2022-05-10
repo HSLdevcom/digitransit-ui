@@ -287,6 +287,11 @@ export default {
     fewAvailableCount: 3,
     networks: {},
     capacity: BIKEAVL_WITHMAX,
+    buyInstructions: {
+      fi: 'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi',
+      sv: 'Köp ett abonnemang för en dag, en vecka eller för en hel säsong',
+      en: 'Buy a daily, weekly or season pass',
+    },
   },
 
   // Lowest level for stops and terminals are rendered
