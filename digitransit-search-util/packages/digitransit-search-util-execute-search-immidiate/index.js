@@ -221,6 +221,7 @@ const routeLayers = [
   'route-AIRPLANE',
 ];
 const locationLayers = ['favouritePlace', 'venue', 'address', 'street'];
+const parkingLayers = ['carpark', 'bikepark'];
 /**
  * Executes the search
  *
@@ -334,6 +335,8 @@ export function getSearchResults(
         'futureRoute',
         'ownLocations',
         'bikeRentalStation',
+        'bikepark',
+        'carpark',
         'stop',
         'back',
       ];
@@ -341,13 +344,9 @@ export function getSearchResults(
       searchComponents.push(getOldSearches(locationHistory, input, dropLayers));
     }
   }
-  const carParkFeeds = ['liipi'];
-  const bikeParkFeeds = ['liipi'];
   if (allTargets || targets.includes('ParkingAreas')) {
     if (allSources || sources.includes('Datasource')) {
-      const carParks = carParkFeeds.map(f => `carparks${f}`);
-      const bikeParks = bikeParkFeeds.map(f => `bikeparks${f}`);
-      const feedIds = carParks.concat(bikeParks).join(',');
+      const feedIds = ['liipi'];
       const searchParams =
         geocodingSize && geocodingSize !== 10 ? { size: geocodingSize } : {};
       const geocodingLayers = ['carpark', 'bikepark'];
@@ -368,6 +367,22 @@ export function getSearchResults(
           return results;
         }),
       );
+    }
+    if (allSources || sources.includes('History')) {
+      const history = prevSearches(context);
+      const dropLayers = [
+        'currentPosition',
+        'selectFromMap',
+        'futureRoute',
+        'ownLocations',
+        'favouritePlace',
+        'bikestation',
+        'bikeRentalStation',
+        'back',
+      ];
+      dropLayers.push(...routeLayers);
+      dropLayers.push(...locationLayers);
+      searchComponents.push(getOldSearches(history, input, dropLayers));
     }
   }
 
@@ -445,6 +460,7 @@ export function getSearchResults(
       ];
       dropLayers.push(...routeLayers);
       dropLayers.push(...locationLayers);
+      dropLayers.push(...parkingLayers);
       if (transportMode) {
         if (transportMode !== 'route-CITYBIKE') {
           dropLayers.push('bikeRentalStation');
@@ -489,6 +505,8 @@ export function getSearchResults(
         'favouritePlace',
         'stop',
         'station',
+        'bikepark',
+        'carpark',
         'ownLocations',
         'back',
       ];

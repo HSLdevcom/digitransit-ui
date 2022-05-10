@@ -227,7 +227,7 @@ class IndexPage extends React.Component {
       stopAndRouteSearchTargets.push('BikeRentalStations');
       locationSearchTargets.push('BikeRentalStations');
     }
-    if (true) {
+    if (this.context.config.includeParkAndRideSuggestions) {
       stopAndRouteSearchTargets.push('ParkingAreas');
       locationSearchTargets.push('ParkingAreas');
     }
