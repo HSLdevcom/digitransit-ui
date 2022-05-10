@@ -18,6 +18,7 @@ export default createFragmentContainer(Timetable, {
             id
             shortName
             longName
+            type
             mode
             agency {
               id

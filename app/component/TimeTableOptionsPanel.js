@@ -40,7 +40,14 @@ class TimeTableOptionsPanel extends React.Component {
           i === routeNames.length - 1 ? '' : ', '
         }`,
     );
-    const stopVehicle = this.props.stop.stoptimesForServiceDate[0].pattern.route.mode.toLowerCase();
+    let stopVehicle = this.props.stop.stoptimesForServiceDate[0].pattern.route.mode.toLowerCase();
+    if (stopVehicle === 'bus') {
+      stopVehicle = this.props.stop.stoptimesForServiceDate.some(
+        stopTime => stopTime.pattern.route.type === 702,
+      )
+        ? 'bus-trunk'
+        : stopVehicle;
+    }
     return (
       <label
         className="timetable-showroutes combobox-container"
