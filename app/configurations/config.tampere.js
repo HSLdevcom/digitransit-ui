@@ -230,11 +230,6 @@ export default configMerger(walttiConfig, {
           en: 'Tampere',
         },
         type: 'citybike',
-        url: {
-          fi: 'https://www.nysse.fi/kaupunkipyorat',
-          sv: 'https://www.nysse.fi/en/city-bikes.html',
-          en: 'https://www.nysse.fi/en/city-bikes.html',
-        },
         // Shown if citybike leg duration exceeds timeBeforeSurcharge
         durationInstructions: {
           fi: 'https://www.nysse.fi/kaupunkipyorat',
@@ -248,6 +243,11 @@ export default configMerger(walttiConfig, {
       fi: 'https://www.nysse.fi/kaupunkipyorat',
       sv: 'https://www.nysse.fi/en/city-bikes.html',
       en: 'https://www.nysse.fi/en/city-bikes.html',
+    },
+    buyInstructions: {
+      fi: 'Osta käyttöoikeutta päiväksi, kuukaudeksi tai koko kaudeksi.',
+      sv: 'Köp ett abonnemang för en dag, en månad eller en hel säsong.',
+      en: 'Buy licenses for a day, a month or an entire season.',
     },
   },
 

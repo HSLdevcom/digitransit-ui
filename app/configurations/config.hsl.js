@@ -488,14 +488,6 @@ export default {
           en: 'Helsinki and Espoo',
         },
         type: 'citybike',
-        url: {
-          fi:
-            'https://www.hsl.fi/kaupunkipyorat?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
-          sv:
-            'https://www.hsl.fi/sv/stadscyklar?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
-          en:
-            'https://www.hsl.fi/en/citybikes?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
-        },
         returnInstructions: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#palauta',
           sv:
@@ -525,14 +517,6 @@ export default {
           en: 'Vantaa',
         },
         type: 'citybike',
-        url: {
-          fi:
-            'https://www.hsl.fi/kaupunkipyorat?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
-          sv:
-            'https://www.hsl.fi/sv/stadscyklar?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
-          en:
-            'https://www.hsl.fi/en/citybikes?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
-        },
         returnInstructions: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa/kayttoohje#palauta',
           sv: 'https://www.hsl.fi/sv/stadscyklar/vanda/anvisningar#aterlamna',

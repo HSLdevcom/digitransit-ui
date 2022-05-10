@@ -9,10 +9,7 @@ import CityBikeStopContent from './CityBikeStopContent';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
-import {
-  getCityBikeNetworkConfig,
-  getCityBikeNetworkId,
-} from '../util/citybikes';
+import { getCityBikeNetworkConfig } from '../util/citybikes';
 import { isBrowser } from '../util/browser';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 
@@ -46,21 +43,17 @@ const BikeRentalStationContent = (
     bikeRentalStation.networks[0],
     config,
   );
-  const url = networkConfig.url[language];
+  const cityBikeNetworkUrl = networkConfig?.url?.[language];
   let returnInstructionsUrl;
   if (networkConfig.returnInstructions) {
     returnInstructionsUrl = networkConfig.returnInstructions[language];
   }
   const { cityBike } = config;
-  const cityBikeBuyUrl = cityBike.buyUrl;
-  let cityBikeNetworkUrl;
-  // Use general information about using city bike, if one network config is available
-  if (Object.keys(cityBike.networks).length === 1) {
-    cityBikeNetworkUrl = getCityBikeNetworkConfig(
-      getCityBikeNetworkId(Object.keys(cityBike.networks)),
-      config,
-    ).url;
-  }
+  const cityBikeBuyUrl = cityBike.buyUrl?.[language];
+  const buyInstructions = cityBikeBuyUrl
+    ? cityBike.buyInstructions?.[language]
+    : undefined;
+
   return (
     <div className="bike-station-page-container">
       <ParkOrStationHeader
@@ -68,7 +61,7 @@ const BikeRentalStationContent = (
         breakpoint={breakpoint}
       />
       <CityBikeStopContent bikeRentalStation={bikeRentalStation} />
-      {config.cityBike.showFullInfo && isFull && (
+      {cityBike.showFullInfo && isFull && (
         <div className="citybike-full-station-guide">
           <FormattedMessage id="citybike-return-full" />
           <a
@@ -89,13 +82,8 @@ const BikeRentalStationContent = (
             <FormattedMessage id="citybike-start-using" />
           </h2>
           <div className="disclaimer-content">
-            {cityBikeBuyUrl ? (
-              <FormattedMessage id="citybike-buy-season" />
-            ) : (
-              <a
-                className="external-link-citybike"
-                href={cityBikeNetworkUrl[language]}
-              >
+            {buyInstructions || (
+              <a className="external-link-citybike" href={cityBikeNetworkUrl}>
                 <FormattedMessage id="citybike-start-using-info" />{' '}
               </a>
             )}
@@ -106,7 +94,7 @@ const BikeRentalStationContent = (
                 e.stopPropagation();
               }}
               className="external-link"
-              href={url}
+              href={cityBikeBuyUrl}
             >
               <FormattedMessage id="citybike-purchase-link" />
               <Icon img="icon-icon_external-link-box" />
