@@ -346,10 +346,10 @@ export function getSearchResults(
   }
   if (allTargets || targets.includes('ParkingAreas')) {
     if (allSources || sources.includes('Datasource')) {
-      const feedIds = ['liipi'];
       const searchParams =
         geocodingSize && geocodingSize !== 10 ? { size: geocodingSize } : {};
       const geocodingLayers = ['carpark', 'bikepark'];
+      const feedIds = ['carparksliipi', 'bikeparksliipi'].join(',');
       searchComponents.push(
         getGeocodingResults(
           input,
