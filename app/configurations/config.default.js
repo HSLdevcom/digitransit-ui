@@ -281,13 +281,17 @@ export default {
     // Config for map features. NOTE: availability for routing is controlled by
     // transportModes.citybike.availableForSelection
     showFullInfo: false,
-    showStationId: true,
     cityBikeMinZoom: 14,
     cityBikeSmallIconZoom: 14,
     // When should bikeshare availability be rendered in orange rather than green
     fewAvailableCount: 3,
     networks: {},
     capacity: BIKEAVL_WITHMAX,
+    buyInstructions: {
+      fi: 'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi',
+      sv: 'Köp ett abonnemang för en dag, en vecka eller för en hel säsong',
+      en: 'Buy a daily, weekly or season pass',
+    },
   },
 
   // Lowest level for stops and terminals are rendered

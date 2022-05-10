@@ -139,4 +139,22 @@ export default configMerger(walttiConfig, {
   viaPointsEnabled: false,
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
+
+  sourceForAlertsAndDisruptions: {
+    Kotka: {
+      fi: 'Kotkan seutu',
+      sv: 'Kotkaregion',
+      en: 'Kotka region',
+    },
+    Kouvola: {
+      fi: 'Kouvola',
+      sv: 'Kouvola',
+      en: 'Kouvola',
+    },
+    Salo: {
+      fi: 'Salo',
+      sv: 'Salo',
+      en: 'Salo',
+    },
+  },
 });

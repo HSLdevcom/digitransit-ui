@@ -109,13 +109,13 @@ class Stops {
           this.tile,
           feature.geom,
           hasTrunkRoute ? 'bus-express' : feature.properties.type,
-          feature.properties.platform !== 'null'
+          !isNull(feature.properties.platform)
             ? feature.properties.platform
             : false,
           isHilighted,
           !!(
             feature.properties.type === 'FERRY' &&
-            feature.properties.code !== 'null'
+            !isNull(feature.properties.code)
           ),
           this.config.colors.iconColors,
         );

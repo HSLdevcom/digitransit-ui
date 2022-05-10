@@ -481,6 +481,10 @@ class StopsNearYouPage extends React.Component {
               const { cityBike } = this.context.config;
               // Use buy instructions if available
               const cityBikeBuyUrl = cityBike.buyUrl;
+              const buyInstructions = cityBikeBuyUrl
+                ? cityBike.buyInstructions?.[this.props.lang]
+                : undefined;
+
               let cityBikeNetworkUrl;
               // Use general information about using city bike, if one network config is available
               if (Object.keys(cityBike.networks).length === 1) {
@@ -535,9 +539,7 @@ class StopsNearYouPage extends React.Component {
                           </div>
                         </div>
                         <div className="disclaimer-content">
-                          {cityBikeBuyUrl ? (
-                            <FormattedMessage id="citybike-buy-season" />
-                          ) : (
+                          {buyInstructions || (
                             <a
                               className="external-link-citybike"
                               href={cityBikeNetworkUrl[this.props.lang]}

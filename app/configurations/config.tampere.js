@@ -139,37 +139,7 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  staticMessages: [
-    {
-      id: '4',
-      priority: -1,
-      persistence: 'repeat',
-      content: {
-        fi: [
-          {
-            type: 'a',
-            content:
-              'Tutustu turvallisen matkustamisen ohjeisiin koronaviruksen aikana tästä linkistä',
-            href: 'https://www.nysse.fi/korona.html',
-          },
-        ],
-        en: [
-          {
-            type: 'a',
-            content: 'Please check instructions for safe travelling here',
-            href: 'https://www.nysse.fi/en/service-changes/coronavirus.html',
-          },
-        ],
-        sv: [
-          {
-            type: 'a',
-            content: 'Please check instructions for safe travelling here',
-            href: 'https://www.nysse.fi/en/service-changes/coronavirus.html',
-          },
-        ],
-      },
-    },
-  ],
+  staticMessages: [],
 
   aboutThisService: {
     fi: [
@@ -245,12 +215,12 @@ export default configMerger(walttiConfig, {
 
   cityBike: {
     networks: {
-      sharingos_tampere: {
+      seatcode_tampere: {
         capacity: BIKEAVL_WITHMAX,
         enabled: true,
         season: {
           // 15.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 5, 1), // temporarily delay to 1st June
+          start: new Date(new Date().getFullYear(), 3, 15),
           end: new Date(new Date().getFullYear(), 10, 1),
         },
         icon: 'citybike',
@@ -260,11 +230,6 @@ export default configMerger(walttiConfig, {
           en: 'Tampere',
         },
         type: 'citybike',
-        url: {
-          fi: 'https://www.nysse.fi/kaupunkipyorat',
-          sv: 'https://www.nysse.fi/en/city-bikes.html',
-          en: 'https://www.nysse.fi/en/city-bikes.html',
-        },
         // Shown if citybike leg duration exceeds timeBeforeSurcharge
         durationInstructions: {
           fi: 'https://www.nysse.fi/kaupunkipyorat',
@@ -278,6 +243,11 @@ export default configMerger(walttiConfig, {
       fi: 'https://www.nysse.fi/kaupunkipyorat',
       sv: 'https://www.nysse.fi/en/city-bikes.html',
       en: 'https://www.nysse.fi/en/city-bikes.html',
+    },
+    buyInstructions: {
+      fi: 'Osta käyttöoikeutta päiväksi, kuukaudeksi tai koko kaudeksi.',
+      sv: 'Köp ett abonnemang för en dag, en månad eller en hel säsong.',
+      en: 'Buy licenses for a day, a month or an entire season.',
     },
   },
 

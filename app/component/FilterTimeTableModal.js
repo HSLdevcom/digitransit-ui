@@ -8,6 +8,7 @@ import Icon from './Icon';
 import routeCompare from '../util/route-compare';
 import withBreakpoint from '../util/withBreakpoint';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import { getRouteMode } from '../util/modeUtils';
 
 class FilterTimeTableModal extends React.Component {
   static propTypes = {
@@ -77,13 +78,15 @@ class FilterTimeTableModal extends React.Component {
             headsign: o.pattern.headsign,
             shortName: o.pattern.route.shortName,
             mode: o.pattern.route.mode,
+            type: o.pattern.route.type,
             agency: o.pattern.route.agency.name,
           },
       )
       .filter(o => o)
       .sort(routeCompare);
 
-    routesWithStopTimes.forEach(o =>
+    routesWithStopTimes.forEach(o => {
+      const mode = getRouteMode(o);
       routeDivs.push(
         <div key={o.code} className="route-row">
           <div className="checkbox-container">
@@ -97,7 +100,7 @@ class FilterTimeTableModal extends React.Component {
                 },
                 {
                   mode: this.context.intl.formatMessage({
-                    id: o.mode.toLowerCase(),
+                    id: mode.toLowerCase(),
                   }),
                   shortName: o.shortName,
                   headsign: o.headsign,
@@ -134,12 +137,12 @@ class FilterTimeTableModal extends React.Component {
           </div>
           <div className="route-mode">
             <Icon
-              className={o.mode.toLowerCase()}
-              img={`icon-icon_${o.mode.toLowerCase()}`}
+              className={mode.toLowerCase()}
+              img={`icon-icon_${mode.toLowerCase()}`}
             />
           </div>
           <div
-            className={`route-number ${o.mode.toLowerCase()} ${cx({
+            className={`route-number ${mode.toLowerCase()} ${cx({
               'overflow-fade':
                 (o.shortName ? o.shortName : o.agency) &&
                 (o.shortName ? o.shortName : o.agency).length > LONG_LINE_NAME,
@@ -149,8 +152,8 @@ class FilterTimeTableModal extends React.Component {
           </div>
           <div className="route-headsign">{o.headsign}</div>
         </div>,
-      ),
-    );
+      );
+    });
     return routeDivs;
   };
 

@@ -10,7 +10,7 @@ import {
 } from '../util/alertUtils';
 
 const AlertBanner = ({ alerts, linkAddress, language }, { config }) => {
-  const alert = alerts.sort(alertSeverityCompare)[0];
+  const alert = [...alerts].sort(alertSeverityCompare)[0];
   const message = getServiceAlertDescription(alert, language);
   const icon =
     alert.alertSeverityLevel !== 'INFO'

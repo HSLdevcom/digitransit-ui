@@ -491,6 +491,7 @@ describe('alertUtils', () => {
         ],
         color: 'pink',
         mode: 'BUS',
+        type: 700,
         shortName: 'foobar',
         gtfsId: 'foo: 1',
       };
@@ -505,6 +506,7 @@ describe('alertUtils', () => {
             mode: 'BUS',
             shortName: 'foobar',
             gtfsId: 'foo: 1',
+            type: 700,
           },
           stop: {
             gtfsId: undefined,
