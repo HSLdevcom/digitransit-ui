@@ -62,6 +62,12 @@ function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
     if (item.properties.layer === 'bikestation') {
       return [`citybike-stop-${modeSet}`, 'mode-citybike'];
     }
+    if (item.properties.layer === 'carpark') {
+      return [`car-park`, 'mode-citybike'];
+    }
+    if (item.properties.layer === 'bikepark') {
+      return [`bike-park`, 'mode-citybike'];
+    }
     iconId = item.properties.selectedIconId || item.properties.layer;
   }
   if (item && item.iconColor) {
@@ -233,7 +239,6 @@ const SuggestionItem = pure(
       modes,
       platform,
     ] = content || ['', item.name, item.address];
-
     const [iconId, iconColor] = getIconProperties(
       item,
       color,
@@ -274,11 +279,15 @@ const SuggestionItem = pure(
       (item.properties.layer === 'bikeRentalStation' ||
         item.properties.layer === 'favouriteBikeRentalStation' ||
         item.properties.layer === 'bikestation');
-    const cityBikeLabel = isBikeRentalStation
-      ? suggestionType.concat(
-          item.properties.localadmin ? `, ${item.properties.localadmin}` : '',
-        )
-      : label;
+    const isParkingArea =
+      item.properties?.layer === 'carpark' ||
+      item.properties?.layer === 'bikepark';
+    const cityBikeLabel =
+      isBikeRentalStation || isParkingArea
+        ? suggestionType.concat(
+            item.properties.localadmin ? `, ${item.properties.localadmin}` : '',
+          )
+        : label;
     const ri = (
       <div
         aria-hidden="true"
@@ -310,7 +319,7 @@ const SuggestionItem = pure(
                   {name}
                 </div>
                 <div className={styles['suggestion-label']}>
-                  {isBikeRentalStation ? cityBikeLabel : label}
+                  {isBikeRentalStation || isParkingArea ? cityBikeLabel : label}
                   {((stopCode && stopCode !== name) ||
                     item.properties?.layer === 'bikestation') && (
                     <span className={styles['stop-code']}>

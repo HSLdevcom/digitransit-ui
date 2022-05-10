@@ -27,9 +27,6 @@ export default function getGeocodingResults(
   minimalRegexp,
   geocodingLayers,
 ) {
-  console.log(searchParams)
-  console.log(sources)
-  console.log(searchString)
   const text = searchString ? searchString.trim() : null;
   if (
     text === undefined ||

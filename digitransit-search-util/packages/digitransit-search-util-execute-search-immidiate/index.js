@@ -343,18 +343,14 @@ export function getSearchResults(
   }
   const carParkFeeds = ['liipi'];
   const bikeParkFeeds = ['liipi'];
-  console.log("t & s",targets, sources)
   if (allTargets || targets.includes('ParkingAreas')) {
-    if (allSources || sources.includes('Datasource')) {
+    if (allSources || sources.includes('Datasource')) {
       const carParks = carParkFeeds.map(f => `carparks${f}`);
       const bikeParks = bikeParkFeeds.map(f => `bikeparks${f}`);
-      console.log("c & b", carParks, bikeParks)
       const feedIds = carParks.concat(bikeParks).join(',');
-      console.log("f", feedIds);
       const searchParams =
         geocodingSize && geocodingSize !== 10 ? { size: geocodingSize } : {};
       const geocodingLayers = ['carpark', 'bikepark'];
-      console.log("searc p areash")
       searchComponents.push(
         getGeocodingResults(
           input,
