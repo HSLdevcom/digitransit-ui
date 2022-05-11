@@ -34,7 +34,8 @@ export default configMerger(bbnaviConfig, {
 
   defaultOrigins: [],
 
-  carpool: {
-    availableForSelection: false,
-  },
+  // todo: this is nested in transportModes/streetModes!
+  // carpool: {
+  //   availableForSelection: false,
+  // },
 });
