@@ -686,6 +686,9 @@ export default configMerger(walttiConfig, {
     },
     staticMessagesUrl: STATIC_MESSAGE_URL,
 
+    parkAndRide: {
+        showParkAndRide: true,
+    },
     parkAndRideBannedVehicleParkingTags: [
         'lot_type:Parkplatz',
         'lot_type:Tiefgarage',

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { describe, it, xit } from 'mocha';
+import { describe, it } from 'mocha';
 import React from 'react';
 
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
@@ -21,7 +21,6 @@ describe('<MapLayersDialogContent />', () => {
         terminal: {},
       },
       updateMapLayers: () => {},
-      setMapMode: () => {},
     };
     const wrapper = mountWithIntl(
       <MapLayersDialogContent isOpen {...props} />,
@@ -48,7 +47,6 @@ describe('<MapLayersDialogContent />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
-      setMapMode: () => {},
     };
     const context = {
       config: {
@@ -63,7 +61,7 @@ describe('<MapLayersDialogContent />', () => {
       },
     );
     wrapper
-      .find('.option-checkbox input')
+      .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -85,7 +83,6 @@ describe('<MapLayersDialogContent />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
-      setMapMode: () => {},
     };
     const context = {
       config: {
@@ -105,7 +102,7 @@ describe('<MapLayersDialogContent />', () => {
     );
 
     wrapper
-      .find('.option-checkbox input')
+      .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -127,7 +124,6 @@ describe('<MapLayersDialogContent />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
-      setMapMode: () => {},
     };
     const context = {
       config: {
@@ -147,7 +143,7 @@ describe('<MapLayersDialogContent />', () => {
     );
 
     wrapper
-      .find('.option-checkbox input')
+      .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -169,7 +165,6 @@ describe('<MapLayersDialogContent />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
-      setMapMode: () => {},
     };
     const context = {
       config: {
@@ -189,7 +184,7 @@ describe('<MapLayersDialogContent />', () => {
     );
 
     wrapper
-      .find('.option-checkbox input')
+      .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -210,7 +205,6 @@ describe('<MapLayersDialogContent />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
-      setMapMode: () => {},
     };
     const context = {
       config: {
@@ -236,17 +230,15 @@ describe('<MapLayersDialogContent />', () => {
       },
     );
 
-    expect(mapLayers.citybike).to.equal(false);
-
     wrapper
-      .find('.option-checkbox input')
-      .at(2)
+      .find('.option-checkbox.large input')
+      .at(0)
       .simulate('change', { target: { checked: true } });
 
     expect(mapLayers.citybike).to.equal(true);
   });
 
-  xit('should update the park&ride layer', () => {
+  it('should update the park&ride layer', () => {
     let mapLayers = {
       parkAndRide: false,
       stop: {},
@@ -260,7 +252,6 @@ describe('<MapLayersDialogContent />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
-      setMapMode: () => {},
     };
     const context = {
       config: {
@@ -278,7 +269,7 @@ describe('<MapLayersDialogContent />', () => {
     );
 
     wrapper
-      .find('.option-checkbox input')
+      .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
 
@@ -303,20 +294,19 @@ describe('<MapLayersDialogContent />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
-      setMapMode: () => {},
       geoJson: {
         somejson: {
           name: {
             fi: 'testi',
             sv: 'test',
-            en: 'Public Toilets',
+            en: 'test',
           },
         },
         morejson: {
           name: {
             fi: 'nimi',
             sv: 'namn',
-            en: 'LoRaWAN Gateways',
+            en: 'name',
           },
         },
       },
@@ -329,7 +319,7 @@ describe('<MapLayersDialogContent />', () => {
               name: {
                 fi: 'testi',
                 sv: 'test',
-                en: 'Public Toilets',
+                en: 'test',
               },
               url: 'somejson',
             },
@@ -337,7 +327,7 @@ describe('<MapLayersDialogContent />', () => {
               name: {
                 fi: 'nimi',
                 sv: 'namn',
-                en: 'LoRaWAN Gateways',
+                en: 'name',
               },
               url: 'morejson',
             },
@@ -352,9 +342,10 @@ describe('<MapLayersDialogContent />', () => {
         childContextTypes: { ...mockChildContextTypes },
       },
     );
-    const checkboxes = wrapper.find('.option-checkbox input');
+    const checkboxes = wrapper.find('.option-checkbox.large input');
+    expect(checkboxes.length).to.equal(2);
 
-    checkboxes.at(4).simulate('change', { target: { checked: true } });
+    checkboxes.at(1).simulate('change', { target: { checked: true } });
 
     expect(mapLayers.geoJson.morejson).to.equal(true);
   });
