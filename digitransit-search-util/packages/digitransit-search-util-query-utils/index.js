@@ -148,6 +148,8 @@ const favouriteBikeRentalQuery = graphql`
     bikeRentalStations(ids: $ids) {
       name
       stationId
+      lat
+      lon
     }
   }
 `;
@@ -429,6 +431,9 @@ export function getFavouriteBikeRentalStationsQuery(favourites, input) {
     .then(stations => stations.filter(station => !!station))
     .then(stations =>
       stations.map(favourite => ({
+        geometry: {
+          coordinates: [favourite.lon, favourite.lat],
+        },
         properties: {
           name: favourite.name,
           labelId: favourite.stationId,
