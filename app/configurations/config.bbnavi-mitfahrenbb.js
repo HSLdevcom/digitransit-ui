@@ -32,6 +32,8 @@ export default configMerger(bbnaviConfig, {
 
   title: APP_TITLE,
 
+  searchPanelText: 'This is special!',
+
   // todo
   // logo: 'bbnavi/mitfahrenbb-logo.svg',
   // logoSmall: 'bbnavi/mitfahrenbb-logo-red.svg',
@@ -52,7 +54,6 @@ export default configMerger(bbnaviConfig, {
 
   // todo:
   // - Kartenmenü: Nur ÖPNV, Auto und Mitfahrangebote verfügbar
-  // - Linke Spalte Startscreen: “Wohin?” -> “Verbindung suchen / Mitfahrgelegenheit anbieten”
 
   transportModes: {
     citybike: {

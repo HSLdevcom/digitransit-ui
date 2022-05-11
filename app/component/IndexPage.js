@@ -243,6 +243,12 @@ class IndexPage extends React.Component {
       (origin.type === 'CurrentLocation' && !origin.address) ||
       (destination.type === 'CurrentLocation' && !destination.address);
     const refPoint = getRefPoint(origin, destination, this.props.locationState);
+    const searchPanelText =
+      config.searchPanelText ||
+      intl.formatMessage({
+        id: 'where',
+        defaultMessage: 'Where to?',
+      });
     const locationSearchProps = {
       appElement: '#app',
       origin,
@@ -252,10 +258,7 @@ class IndexPage extends React.Component {
       color,
       hoverColor,
       refPoint,
-      searchPanelText: intl.formatMessage({
-        id: 'where',
-        defaultMessage: 'Where to?',
-      }),
+      searchPanelText,
       originPlaceHolder: 'search-origin-index',
       destinationPlaceHolder: 'search-destination-index',
       selectHandler: this.onSelectLocation,
