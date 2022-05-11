@@ -63,10 +63,10 @@ function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
       return [`citybike-stop-${modeSet}`, 'mode-citybike'];
     }
     if (item.properties.layer === 'carpark') {
-      return [`car-park`, 'mode-citybike'];
+      return [`car-park`, 'mode-carpark'];
     }
     if (item.properties.layer === 'bikepark') {
-      return [`bike-park`, 'mode-citybike'];
+      return [`bike-park`, 'mode-bikepark'];
     }
     iconId = item.properties.selectedIconId || item.properties.layer;
   }
