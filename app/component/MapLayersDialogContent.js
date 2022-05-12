@@ -110,8 +110,11 @@ class MapLayersDialogContent extends React.Component {
 
   render() {
     const {
+      bikeParks,
       citybike,
       parkAndRide,
+      chargingStations,
+      dynamicParkingLots,
       stop,
       geoJson,
       vehicles,
@@ -143,9 +146,8 @@ class MapLayersDialogContent extends React.Component {
             defaultMessage: 'Bubble Dialog Header',
           })}
         </span>
-        <div className="checkbox-grouping" />{' '}
-        {this.context.config.vehicles && (
-          <div className="checkbox-grouping">
+        <div className="checkbox-grouping">
+          {this.context.config.vehicles && (
             <Checkbox
               large
               checked={
@@ -162,9 +164,7 @@ class MapLayersDialogContent extends React.Component {
                 this.sendLayerChangeAnalytic('Vehicles', e.target.checked);
               }}
             />
-          </div>
-        )}
-        <div className="checkbox-grouping">
+          )}
           {isTransportModeEnabled(transportModes.bus) && (
             <Fragment>
               <Checkbox
@@ -176,6 +176,36 @@ class MapLayersDialogContent extends React.Component {
                 onChange={e => {
                   this.updateStopSetting({ bus: e.target.checked });
                   this.sendLayerChangeAnalytic('BusStop', e.target.checked);
+                }}
+              />
+            </Fragment>
+          )}
+          {isTransportModeEnabled(transportModes.subway) && (
+            <Fragment>
+              <Checkbox
+                large
+                checked={stop.subway}
+                disabled={!!this.props.mapLayerOptions?.stop?.subway?.isLocked}
+                defaultMessage="Subway station"
+                labelId="map-layer-stop-subway"
+                onChange={e => {
+                  // todo: terminal?
+                  this.updateStopSetting({ subway: e.target.checked });
+                }}
+              />
+            </Fragment>
+          )}
+          {isTransportModeEnabled(transportModes.rail) && (
+            <Fragment>
+              <Checkbox
+                large
+                checked={stop.rail}
+                disabled={!!this.props.mapLayerOptions?.stop?.rail?.isLocked}
+                defaultMessage="Railway station"
+                labelId="map-layer-stop-rail"
+                onChange={e => {
+                  // todo: terminal
+                  this.updateStopSetting({ rail: e.target.checked });
                 }}
               />
             </Fragment>
@@ -222,6 +252,35 @@ class MapLayersDialogContent extends React.Component {
               }}
             />
           )}
+          {isTransportModeEnabled(transportModes.carpool) && (
+            <Checkbox
+              large
+              checked={stop.carpool}
+              disabled={!!this.props.mapLayerOptions?.stop?.carpool?.isLocked}
+              defaultMessage="Carpool stop"
+              labelId="map-layer-stop-carpool"
+              onChange={e => {
+                this.updateStopSetting({ carpool: e.target.checked });
+              }}
+            />
+          )}
+        </div>
+        <div className="checkbox-grouping">
+          {this.context.config.dynamicParkingLots &&
+            this.context.config.dynamicParkingLots.showDynamicParkingLots && (
+              <Checkbox
+                large
+                checked={dynamicParkingLots}
+                disabled={
+                  !!this.props.mapLayerOptions?.dynamicParkingLots?.isLocked
+                }
+                defaultMessage="Parking"
+                labelId="map-layer-dynamic-parking-lots"
+                onChange={e => {
+                  this.updateSetting({ dynamicParkingLots: e.target.checked });
+                }}
+              />
+            )}
           {this.context.config.parkAndRide &&
             this.context.config.parkAndRide.showParkAndRide && (
               <Checkbox
@@ -232,6 +291,22 @@ class MapLayersDialogContent extends React.Component {
                 labelId="map-layer-park-and-ride"
                 onChange={e => {
                   this.updateSetting({ parkAndRide: e.target.checked });
+                  this.sendLayerChangeAnalytic('ParkAndRide', e.target.checked);
+                }}
+              />
+            )}
+          {this.context.config.chargingStations &&
+            this.context.config.chargingStations.showChargingStations && (
+              <Checkbox
+                large
+                checked={chargingStations}
+                disabled={
+                  !!this.props.mapLayerOptions?.chargingStations?.isLocked
+                }
+                defaultMessage="Charging stations"
+                labelId="map-layer-charging-stations"
+                onChange={e => {
+                  this.updateSetting({ chargingStations: e.target.checked });
                   this.sendLayerChangeAnalytic('ParkAndRide', e.target.checked);
                 }}
               />
