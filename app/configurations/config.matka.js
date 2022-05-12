@@ -144,8 +144,8 @@ export default {
         },
       },
       vantaa: {
-        enabled: HSLConfig.cityBike.networks.seatcode_vantaa.enabled,
-        season: HSLConfig.cityBike.networks.seatcode_vantaa.season,
+        enabled: HSLConfig.cityBike.networks.vantaa.enabled,
+        season: HSLConfig.cityBike.networks.vantaa.season,
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike-secondary',
         name: {
