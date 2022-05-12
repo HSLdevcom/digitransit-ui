@@ -502,7 +502,7 @@ export default {
         },
         timeBeforeSurcharge: 30 * 60,
       },
-      seatcode_vantaa: {
+      vantaa: {
         enabled: true,
         season: {
           // 1.4. - 31.10.
