@@ -242,16 +242,16 @@ class MapLayersDialogContent extends React.Component {
           ) && (
             <Checkbox
               large
-              checked={citybike}
-              disabled={!!this.props.mapLayerOptions?.citybike?.isLocked}
-              defaultMessage="Citybike station"
+              checked={bikeParks}
+              disabled={!!this.props.mapLayerOptions?.bikeParks?.isLocked}
+              defaultMessage="Bike parks"
               labelId="map-layer-citybike"
               onChange={e => {
-                this.updateSetting({ citybike: e.target.checked });
-                this.sendLayerChangeAnalytic('Citybike', e.target.checked);
+                this.updateSetting({ bikeParks: e.target.checked });
               }}
             />
           )}
+          {/* todo: bike service stations and stores? currently disabled */}
           {isTransportModeEnabled(transportModes.carpool) && (
             <Checkbox
               large
@@ -311,7 +311,11 @@ class MapLayersDialogContent extends React.Component {
                 }}
               />
             )}
+          {/* todo: charging stations? currently disabled */}
+          {/* todo: parking zones? currently disabled */}
+          {/* todo: datahub tiles */}
         </div>
+        {/* todo: remove this? we want a specific order. do we use any geojson layers? */}
         {arr && Array.isArray(arr) && (
           <div className="checkbox-grouping">
             {arr.map(gj => (

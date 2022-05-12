@@ -229,7 +229,6 @@ export default configMerger(walttiConfig, {
         minZoomStopsNearYou: 10,
         showStationId: false,
         useSpacesAvailable: false,
-        showCityBikes: true,
         networks: {
             'nextbike_dc': {
                 icon: 'nextbike',
