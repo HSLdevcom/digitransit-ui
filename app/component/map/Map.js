@@ -177,7 +177,7 @@ class Map extends React.Component {
       const layer = {
         [config.URL.MAP.satellite]: 'dop_brandenburg',
         [config.URL.MAP.satellite_eu]: 'sentinel_europe',
-        [config.URL.MAP.default]: 'webatlastopplusopen_farbe',
+        [config.URL.MAP.default]: 'topplus_farbe,webatlas_farbe',
       }[mapUrl];
 
       return (
