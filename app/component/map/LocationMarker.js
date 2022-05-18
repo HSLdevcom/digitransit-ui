@@ -27,32 +27,30 @@ export default function LocationMarker({
   const validType = getValidType(type);
   const sideLength = isLarge ? 30 : 24;
   return (
-    <>
-      <IconMarker
-        position={position}
-        className={cx(validType, className)}
-        icon={{
-          className: cx(validType, className),
-          element: (
-            <Icon
-              img={`icon-icon_mapMarker-${validType}-map`}
-              color={disabled ? '#bbbbbb' : null}
-            />
-          ),
-          iconAnchor: [sideLength / 2, sideLength],
-          iconSize: [sideLength, sideLength],
-        }}
-        zIndexOffset={12000}
-      >
-        {validType === 'via' && (
-          <ViaPointPopup
-            lat={position.lat}
-            lon={position.lon}
-            key={`${position.lat}${position.lon}`}
+    <IconMarker
+      position={position}
+      className={cx(validType, className)}
+      icon={{
+        className: cx(validType, className),
+        element: (
+          <Icon
+            img={`icon-icon_mapMarker-${validType}-map`}
+            color={disabled ? '#bbbbbb' : null}
           />
-        )}
-      </IconMarker>
-    </>
+        ),
+        iconAnchor: [sideLength / 2, sideLength],
+        iconSize: [sideLength, sideLength],
+      }}
+      zIndexOffset={12000}
+    >
+      {validType === 'via' && (
+        <ViaPointPopup
+          lat={position.lat}
+          lon={position.lon}
+          key={`${position.lat}${position.lon}`}
+        />
+      )}
+    </IconMarker>
   );
 }
 
