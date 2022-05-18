@@ -349,7 +349,7 @@ export function getSearchResults(
       const searchParams =
         geocodingSize && geocodingSize !== 10 ? { size: geocodingSize } : {};
       const geocodingLayers = ['carpark', 'bikepark'];
-      const feedIds = ['carparksliipi', 'bikeparksliipi'].join(',');
+      const feedIds = 'parksliipi';
       searchComponents.push(
         getGeocodingResults(
           input,
