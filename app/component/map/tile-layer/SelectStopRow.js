@@ -109,7 +109,7 @@ SelectStopRow.propTypes = {
   gtfsId: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  patterns: PropTypes.array,
+  patterns: PropTypes.string,
   code: PropTypes.string,
   desc: PropTypes.string,
   terminal: PropTypes.bool,
