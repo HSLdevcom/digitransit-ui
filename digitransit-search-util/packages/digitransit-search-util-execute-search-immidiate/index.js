@@ -243,6 +243,7 @@ export function getSearchResults(
     getFavouriteLocations: locations,
     getOldSearches: prevSearches,
     getFavouriteStops: stops,
+    parkingAreaSources,
     getLanguage,
     getStopAndStationsQuery,
     getFavouriteBikeRentalStationsQuery,
@@ -349,7 +350,7 @@ export function getSearchResults(
       const searchParams =
         geocodingSize && geocodingSize !== 10 ? { size: geocodingSize } : {};
       const geocodingLayers = ['carpark', 'bikepark'];
-      const feedIds = 'parksliipi';
+      const feedIds = parkingAreaSources ? parkingAreaSources.join(',') : null;
       searchComponents.push(
         getGeocodingResults(
           input,
