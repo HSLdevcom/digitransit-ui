@@ -41,14 +41,16 @@
         align-items: center;
 
         .favourite-edit-list-arrow-hidden {
-          left: -999px;
-          position: absolute;
           z-index: -999;
+          opacity: 0;
+          width: 0;
+          padding: 0;
+          border: 0;
         }
         .favourite-edit-list-arrow-hidden:focus {
           font-weight: bold;
-          left: 0;
           z-index: 10;
+          opacity: 1;
         }
 
         .favourite-edit-list-item-drag {

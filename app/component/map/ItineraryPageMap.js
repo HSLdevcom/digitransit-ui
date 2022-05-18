@@ -61,23 +61,11 @@ function ItineraryPageMap(
 
   if (from.lat && from.lon) {
     leafletObjs.push(
-      <LocationMarker
-        key="fromMarker"
-        position={from}
-        type="from"
-        streetMode={hash}
-      />,
+      <LocationMarker key="fromMarker" position={from} type="from" />,
     );
   }
   if (to.lat && to.lon) {
-    leafletObjs.push(
-      <LocationMarker
-        key="toMarker"
-        position={to}
-        type="to"
-        streetMode={hash}
-      />,
-    );
+    leafletObjs.push(<LocationMarker key="toMarker" position={to} type="to" />);
   }
   viaPoints.forEach((via, i) => {
     leafletObjs.push(<LocationMarker key={`via_${i}`} position={via} />);
