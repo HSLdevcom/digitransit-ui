@@ -43,6 +43,9 @@ export default function intializeSearchContext(context, searchContext) {
     ? getDefaultNetworks(config).map(t => `citybikes${t}`)
     : [];
   // searchSources e.g. [oa,osm,nlsfi.]
+  searchContext.parkingAreaSources = config.parkingAreaSources
+    ? config.parkingAreaSources.map(s => `parks${s}`)
+    : undefined;
   searchContext.geocodingSources = config.searchSources;
   searchContext.geocodingSearchParams = config.searchParams;
   searchContext.getOldSearches = getOldSearches;

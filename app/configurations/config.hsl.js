@@ -548,6 +548,8 @@ export default {
   includeCarSuggestions: false,
   includeParkAndRideSuggestions: true,
 
+  parkingAreaSources: ['liipi'],
+
   showNearYouButtons: true,
   nearYouModes: [
     'favorite',

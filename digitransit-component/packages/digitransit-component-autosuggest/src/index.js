@@ -79,6 +79,16 @@ function getSuggestionContent(item) {
       return [suggestionType, name, undefined, stopCode];
     }
 
+    if (item.properties.layer === 'bikepark') {
+      suggestionType = i18next.t('bikepark');
+      return [suggestionType, name, undefined, undefined];
+    }
+
+    if (item.properties.layer === 'carpark') {
+      suggestionType = i18next.t('carpark');
+      return [suggestionType, name, undefined, undefined];
+    }
+
     if (item.properties.mode) {
       suggestionType = i18next.t(
         item.properties.mode.toLowerCase().replace('favourite', ''),

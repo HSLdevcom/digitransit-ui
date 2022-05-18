@@ -27,6 +27,8 @@ import Search from './assets/search.svg';
 import Plus from './assets/plus.svg';
 import Attention from './assets/attention.svg';
 import Dropdown from './assets/dropdown.svg';
+import CarPark from './assets/car-park.svg';
+import BikePark from './assets/bike-park.svg';
 import Time from './assets/time.svg';
 import Ellipsis from './assets/ellipsis.svg';
 import Opposite from './assets/opposite.svg';
@@ -99,6 +101,8 @@ const IconMap = style => {
     work: <Work style={style} />,
     close: <Close style={style} />,
     'mapMarker-via': <MapmarkerVia style={style} />,
+    'bike-park': <BikePark style={style} />,
+    'car-park': <CarPark style={style} />,
     mapMarker: <Mapmarker style={style} />,
     search: <Search style={style} />,
     plus: <Plus style={style} />,
