@@ -1,40 +1,25 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'found/Link';
-import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
 import Icon from '../../Icon';
 import { PREFIX_TERMINALS, PREFIX_STOPS } from '../../../util/path';
+import { ExtendedRouteTypes } from '../../../constants';
 
 function isNull(val) {
   return val === 'null' || val === undefined || val === null;
 }
 
-const stopTypeQuery = graphql`
-  query SelectStopRowTypeQuery($id: String!) {
-    stop: stop(id: $id) {
-      routes {
-        type
-      }
-    }
-  }
-`;
-
 function SelectStopRow(
-  { gtfsId, type, name, code, terminal, desc, colors, relayEnvironment },
+  { code, type, desc, gtfsId, name, patterns, terminal, colors },
   { config },
 ) {
-  const [mode, setMode] = useState(type);
-  useEffect(() => {
-    if (type === 'BUS' && config.useExtendedRouteTypes) {
-      fetchQuery(relayEnvironment, stopTypeQuery, { id: gtfsId }).then(
-        results => {
-          if (results.stop.routes.some(r => r.type === 702)) {
-            setMode('bus-express');
-          }
-        },
-      );
+  let mode = type;
+  if (type === 'BUS' && config.useExtendedRouteTypes) {
+    const patternArray = JSON.parse(patterns);
+    if (patternArray.some(p => p.gtfsType === ExtendedRouteTypes.BusExpress)) {
+      mode = 'bus-express';
     }
-  }, []);
+  }
   const iconOptions = {};
   switch (mode) {
     case 'TRAM,BUS':
@@ -118,21 +103,13 @@ function SelectStopRow(
   );
 }
 
-const withRelay = props => (
-  <ReactRelayContext.Consumer>
-    {({ environment }) => (
-      <SelectStopRow {...props} relayEnvironment={environment} />
-    )}
-  </ReactRelayContext.Consumer>
-);
-
 SelectStopRow.displayName = 'SelectStopRow';
 
 SelectStopRow.propTypes = {
   gtfsId: PropTypes.string.isRequired,
-  relayEnvironment: PropTypes.object,
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  patterns: PropTypes.array,
   code: PropTypes.string,
   desc: PropTypes.string,
   terminal: PropTypes.bool,
@@ -141,8 +118,6 @@ SelectStopRow.propTypes = {
 
 SelectStopRow.defaultProps = {
   terminal: false,
-  code: null,
-  desc: null,
 };
 
 SelectStopRow.contextTypes = {
@@ -151,4 +126,4 @@ SelectStopRow.contextTypes = {
   }).isRequired,
 };
 
-export { withRelay as default, SelectStopRow as Component };
+export default SelectStopRow;

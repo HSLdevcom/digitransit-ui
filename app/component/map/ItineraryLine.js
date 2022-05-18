@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import polyUtil from 'polyline-encoded';
-
+import { ExtendedRouteTypes } from '../../constants';
 import StopMarker from './non-tile-layer/StopMarker';
 import LegMarker from './non-tile-layer/LegMarker';
 import Line from './Line';
@@ -60,7 +60,7 @@ class ItineraryLine extends React.Component {
 
       let { mode } = leg;
 
-      if (leg.route?.type === 702) {
+      if (leg.route?.type === ExtendedRouteTypes.BusExpress) {
         mode = 'bus-trunk';
       }
 
