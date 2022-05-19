@@ -2,9 +2,10 @@
   "name": "@digitransit-component/digitransit-component-favourite-editing-modal",
   "version": "1.0.2",
   "description": "digitransit-component favourite-editing-modal module",
-  "main": "lib/index.js",
+  "main": "index.js",
   "files": [
-    "/lib"
+    "/lib",
+    "index.js"
   ],
   "publishConfig": {
     "access": "public"

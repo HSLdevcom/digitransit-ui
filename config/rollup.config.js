@@ -87,6 +87,15 @@ export default async () => {
           exports: 'named',
           globals,
         },
+        {
+          name: pkg.name,
+          file: path.join(__dirname, basePath, 'lib', 'index.development.js'),
+          format: 'umd',
+          sourcemap: 'inline',
+          inlineDynamicImports: true,
+          exports: 'named',
+          globals,
+        },
       ],
       context: 'self',
       plugins: [

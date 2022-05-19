@@ -2,9 +2,10 @@
   "name": "@digitransit-component/digitransit-component-traffic-now-link",
   "version": "0.1.16",
   "description": "digitransit-component traffic-now-link module",
-  "main": "lib/index.js",
+  "main": "index.js",
   "files": [
-    "/lib"
+    "/lib",
+    "index.js"
   ],
   "publishConfig": {
     "access": "public"
