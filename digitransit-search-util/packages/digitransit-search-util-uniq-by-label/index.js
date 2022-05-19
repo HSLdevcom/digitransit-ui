@@ -5,6 +5,15 @@ import escapeRegExp from 'lodash/escapeRegExp';
 import cloneDeep from 'lodash/cloneDeep';
 
 /**
+ * Location properties.
+ * @typedef {LocationProperties}
+ * @property {string} layer Suggestion layer.
+ * @property {lat} [number]
+ * @property {lon} [number]
+ * @property {string} address Address.
+ */
+
+/**
  * Returns locality (city name) for suggestions
  *
  * @name getLocality
@@ -35,6 +44,20 @@ export const getStopCode = ({ id, code }) => {
   return id.substring(id.indexOf('#') + 1);
 };
 
+export const formatFavouritePlaceLabel = (name, address) => [
+  name || (address && address.split(',')[0]),
+  address.replace(new RegExp(`${escapeRegExp(name)}([ ,]|$)+`), ''),
+];
+
+/**
+ * Format suggestion-pair [name, address] by `suggestion.layer`.
+ *
+ * @name getNameLabel
+ * @param {LocationProperties} suggestion
+ * @param {boolean} [plain]
+ *
+ * @returns {Array.<string>} Formatted label.
+ */
 export const getNameLabel = memoize(
   (suggestion, plain = false) => {
     switch (suggestion.layer) {
@@ -45,14 +68,7 @@ export const getNameLabel = memoize(
       case 'back':
         return [suggestion.labelId];
       case 'favouritePlace':
-        return [
-          suggestion.name ||
-            (suggestion.address && suggestion.address.split(',')[0]),
-          suggestion.address.replace(
-            new RegExp(`${escapeRegExp(suggestion.name)}(,)?( )?`),
-            '',
-          ),
-        ];
+        return formatFavouritePlaceLabel(suggestion.name, suggestion.address);
       case 'favouriteBikeRentalStation':
       case 'bikeRentalStation':
         return [suggestion.name];
