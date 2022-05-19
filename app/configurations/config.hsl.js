@@ -1,5 +1,6 @@
 /* eslint-disable prefer-template */
 import { BIKEAVL_WITHMAX } from '../util/citybikes';
+import { ExtendedRouteTypes } from '../constants';
 
 const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
@@ -611,7 +612,7 @@ export default {
       },
     },
     {
-      showForRoute: route => route.type === 702,
+      showForRoute: route => route.type === ExtendedRouteTypes.BusExpress,
       id: 'trunkRouteNotification',
       header: {
         fi: 'Runkolinja',

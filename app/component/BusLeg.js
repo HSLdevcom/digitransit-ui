@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-
+import { ExtendedRouteTypes } from '../constants';
 import TransitLeg from './TransitLeg';
 
 const BusLeg = ({ leg, ...props }) => (
   <TransitLeg
-    mode={leg.route.type === 702 ? 'bus-trunk' : 'bus'}
+    mode={
+      leg.route.type === ExtendedRouteTypes.BusExpress ? 'bus-trunk' : 'bus'
+    }
     leg={leg}
     {...props}
   >
