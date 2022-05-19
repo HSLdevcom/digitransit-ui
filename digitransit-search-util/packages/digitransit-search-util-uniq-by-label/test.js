@@ -45,15 +45,17 @@ const feature3 = {
   },
 };
 describe('Testing @digitransit-search-util/digitransit-search-util-uniq-by-label module', () => {
-  it('Checking that returns unique results by label', () => {
-    const features = [feature1, feature2, feature3];
-    const retValue = uniqByLabel(features);
-    expect(retValue.length).to.be.equal(2);
-  });
+  describe('uniqByLabel()', () => {
+    it('Checking that returns unique results by label', () => {
+      const features = [feature1, feature2, feature3];
+      const retValue = uniqByLabel(features);
+      expect(retValue.length).to.be.equal(2);
+    });
 
-  it('Checking that returns only one result', () => {
-    const features = [feature1, feature3];
-    const retValue = uniqByLabel(features);
-    expect(retValue.length).to.be.equal(1);
+    it('Checking that returns only one result', () => {
+      const features = [feature1, feature3];
+      const retValue = uniqByLabel(features);
+      expect(retValue.length).to.be.equal(1);
+    });
   });
 });
