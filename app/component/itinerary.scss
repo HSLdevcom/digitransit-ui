@@ -574,7 +574,7 @@ $itinerary-tab-switch-height: 48px;
   z-index: 9;
   @include setModeCircles(#fff);
   &.circle-fill {
-    &.bus {
+    &.bus, &.bus-local {
       @include setModeCircles($bus-color);
     }
     &.airplane {

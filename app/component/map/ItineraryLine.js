@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import polyUtil from 'polyline-encoded';
-import { ExtendedRouteTypes } from '../../constants';
+import { getRouteMode } from '../../util/modeUtils';
 import StopMarker from './non-tile-layer/StopMarker';
 import LegMarker from './non-tile-layer/LegMarker';
 import Line from './Line';
@@ -58,13 +58,7 @@ class ItineraryLine extends React.Component {
       }
       const nextLeg = this.props.legs[i + 1];
 
-      let { mode } = leg;
-
-      if (leg.route?.type === ExtendedRouteTypes.BusExpress) {
-        mode = 'bus-express';
-      } else if (leg.route?.type === ExtendedRouteTypes.BusLocal) {
-        mode = 'bus-local';
-      }
+      let mode = getRouteMode({ mode: leg.mode, type: leg.route?.type });
 
       const [interliningLines, interliningLegs] = getInterliningLegs(
         this.props.legs,
