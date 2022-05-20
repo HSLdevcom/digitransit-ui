@@ -61,7 +61,9 @@ class ItineraryLine extends React.Component {
       let { mode } = leg;
 
       if (leg.route?.type === ExtendedRouteTypes.BusExpress) {
-        mode = 'bus-trunk';
+        mode = 'bus-express';
+      } else if (leg.route?.type === ExtendedRouteTypes.BusLocal) {
+        mode = 'bus-local';
       }
 
       const [interliningLines, interliningLegs] = getInterliningLegs(

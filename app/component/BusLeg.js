@@ -7,7 +7,7 @@ import TransitLeg from './TransitLeg';
 const BusLeg = ({ leg, ...props }) => (
   <TransitLeg
     mode={
-      leg.route.type === ExtendedRouteTypes.BusExpress ? 'bus-trunk' : 'bus'
+      leg.route.type === ExtendedRouteTypes.BusExpress ? 'bus-express' : 'bus'
     }
     leg={leg}
     {...props}

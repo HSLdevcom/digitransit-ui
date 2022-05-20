@@ -2186,7 +2186,7 @@ __metadata:
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": ^0.3.4
     "@digitransit-component/digitransit-component-icon": ^0.1.17
-    "@digitransit-component/digitransit-component-suggestion-item": ^1.0.2
+    "@digitransit-component/digitransit-component-suggestion-item": ^1.0.3
     "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
     i18next: ^19.3.3
@@ -2246,12 +2246,30 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-bar@1.0.13, @digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar":
+"@digitransit-component/digitransit-component-favourite-bar@npm:1.0.13":
+  version: 1.0.13
+  resolution: "@digitransit-component/digitransit-component-favourite-bar@npm:1.0.13"
+  peerDependencies:
+    "@digitransit-component/digitransit-component-icon": ^0.1.17
+    "@digitransit-component/digitransit-component-suggestion-item": ^1.0.2
+    "@hsl-fi/sass": ^0.2.0
+    "@hsl-fi/shimmer": 0.1.2
+    classnames: 2.2.6
+    i18next: ^19.3.3
+    lodash: 4.17.21
+    lodash-es: 4.17.21
+    prop-types: ^15.7.2
+    react: ^16.13.0
+  checksum: 6c042cf3462e6927a3db68136d289960b84e1aea4f6c654aa0d16b93dd59797ed1430148725eb8bede6597ad9540dee3c4a64651996f60797188b4c3f9ff2ba1
+  languageName: node
+  linkType: hard
+
+"@digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": ^0.1.17
-    "@digitransit-component/digitransit-component-suggestion-item": ^1.0.2
+    "@digitransit-component/digitransit-component-suggestion-item": ^1.0.3
     "@hsl-fi/sass": ^0.2.0
     "@hsl-fi/shimmer": 0.1.2
     classnames: 2.2.6
@@ -2305,7 +2323,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-suggestion-item@^1.0.2, @digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item":
+"@digitransit-component/digitransit-component-suggestion-item@^1.0.3, @digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item"
   dependencies:
@@ -2355,7 +2373,7 @@ __metadata:
     "@digitransit-component/digitransit-component-favourite-editing-modal": ^1.0.2
     "@digitransit-component/digitransit-component-favourite-modal": ^0.3.18
     "@digitransit-component/digitransit-component-icon": ^0.1.17
-    "@digitransit-component/digitransit-component-suggestion-item": ^1.0.2
+    "@digitransit-component/digitransit-component-suggestion-item": ^1.0.3
     "@digitransit-component/digitransit-component-with-breakpoint": ^0.0.5
   languageName: unknown
   linkType: soft
