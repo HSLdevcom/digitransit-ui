@@ -95,4 +95,5 @@ export const AlertEffectType = {
 
 export const ExtendedRouteTypes = {
   BusExpress: 702,
+  BusLocal: 704,
 };

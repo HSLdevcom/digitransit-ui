@@ -9,7 +9,7 @@ import { isBrowser } from '../../util/browser';
 
 const MODES_WITH_ICONS = [
   'bus',
-  'bus-trunk',
+  'bus-express',
   'tram',
   'rail',
   'subway',
@@ -81,7 +81,7 @@ function VehicleMarkerContainer(props) {
     const type = props.topics?.find(t => t.shortName === message.shortName)
       ?.type;
     const mode =
-      type === ExtendedRouteTypes.BusExpress ? 'bus-trunk' : message.mode;
+      type === ExtendedRouteTypes.BusExpress ? 'bus-express' : message.mode;
     return (
       <IconMarker
         key={id}

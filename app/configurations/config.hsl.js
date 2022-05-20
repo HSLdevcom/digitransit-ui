@@ -1,6 +1,5 @@
 /* eslint-disable prefer-template */
 import { BIKEAVL_WITHMAX } from '../util/citybikes';
-import { ExtendedRouteTypes } from '../constants';
 
 const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
@@ -612,7 +611,7 @@ export default {
       },
     },
     {
-      showForRoute: route => route.type === ExtendedRouteTypes.BusExpress,
+      showForRoute: route => route.type === 702,
       id: 'trunkRouteNotification',
       header: {
         fi: 'Runkolinja',
@@ -642,6 +641,39 @@ export default {
         fi: 'hsl.fi/hsl/runkoverkko',
         en: 'hsl.fi/hsl/runkoverkko',
         sv: 'hsl.fi/hsl/runkoverkko',
+      },
+    },
+    {
+      showForRoute: route => route.type === 704,
+      id: 'localRouteNotification',
+      header: {
+        fi: 'Lähibussi',
+        en: 'Neighborhood route',
+        sv: 'Närbuss',
+      },
+      content: {
+        fi: [
+          'Lähibussit on suunniteltu erityisesti ikäihmisille ja liikuntarajoitteisille. ',
+          'Kyytiin voi nousta ja kyydistä poistua pysäkkien lisäksi myös muulla, liikennesääntöjen puitteissa. ',
+        ],
+        en: [
+          'The routes and timetables have been planned to serve, in particular, the needs of senior citizens. ',
+          'In addition to regular bus stops, the buses can stop at other locations, as long as it is safe to do so. ',
+        ],
+        sv: [
+          'Närbusslinjerna är planerade i synnerhet med tanke på seniorer och rörelsehindrade. ',
+          'Närbussarna kan inom ramen för trafikreglerna också stanna annanstans än vid markerade hållplatser. ',
+        ],
+      },
+      closeButtonLabel: {
+        fi: 'Mitä lähibussi tarkoittaa?',
+        en: 'What does a neigbourhood route mean?',
+        sv: 'Vad betyder en närbuss?',
+      },
+      link: {
+        fi: 'hsl.fi/matkustaminen/lahibussit',
+        en: 'hsl.fi/matkustaminen/lahibussit',
+        sv: 'hsl.fi/matkustaminen/lahibussit',
       },
     },
   ],

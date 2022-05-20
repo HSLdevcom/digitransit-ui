@@ -47,7 +47,7 @@ class TimeTableOptionsPanel extends React.Component {
         stopTime =>
           stopTime.pattern.route.type === ExtendedRouteTypes.BusExpress,
       )
-        ? 'bus-trunk'
+        ? 'bus-express'
         : stopVehicle;
     }
     return (

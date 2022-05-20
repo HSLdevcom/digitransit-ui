@@ -752,6 +752,7 @@ export const createUniqueAlertList = (
           routeGtfsId: alerts.sort(alertCompare).map(getRouteGtfsId).join(','),
           shortName: alerts.sort(alertCompare).map(getShortName).join(', '),
           color: getRouteColor(alert),
+          type: getRoute(alert).type,
         }) ||
         undefined,
       stop:

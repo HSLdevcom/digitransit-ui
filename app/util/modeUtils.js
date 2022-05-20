@@ -97,9 +97,14 @@ export const getTransportModes = config => {
 };
 
 export const getRouteMode = route => {
-  return route.type === ExtendedRouteTypes.BusExpress
-    ? 'bus-trunk'
-    : route.mode?.toLowerCase();
+  switch (route.type) {
+    case ExtendedRouteTypes.BusExpress:
+      return 'bus-express';
+    case ExtendedRouteTypes.BusLocal:
+      return 'bus-local';
+    default:
+      return route.mode?.toLowerCase();
+  }
 };
 
 /**

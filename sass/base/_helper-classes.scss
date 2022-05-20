@@ -10,8 +10,11 @@
 .bus {
   color: $bus-color;
 }
-.bus-trunk {
-  color: $bus-trunk-color;
+.bus-local {
+  color: $bus-color;
+}
+.bus-express {
+  color: $bus-express-color;
 }
 .map .call {
   color: $white;
