@@ -52,6 +52,7 @@ const containerComponent = createFragmentContainer(StopAlertsContainer, {
         shortName
         longName
         mode
+        type
         color
         alerts {
           id
