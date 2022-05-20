@@ -151,6 +151,7 @@ const containerComponent = createFragmentContainer(StopAlertsContainer, {
           route {
             color
             mode
+            type
             shortName
             gtfsId
             alerts {
