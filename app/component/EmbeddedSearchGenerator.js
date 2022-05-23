@@ -140,7 +140,7 @@ const EmbeddedSearchGenerator = (props, context) => {
       }
     }
 
-    iframeHTML += `" title="Digitransit UI embedded search" scrolling="no" />`;
+    iframeHTML += `" title="Digitransit UI embedded search" scrolling="no"></iframe>`;
     return iframeHTML;
   };
 
