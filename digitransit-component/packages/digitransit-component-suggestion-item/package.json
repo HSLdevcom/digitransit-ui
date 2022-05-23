@@ -2,9 +2,10 @@
   "name": "@digitransit-component/digitransit-component-suggestion-item",
   "version": "1.0.3",
   "description": "digitransit-component suggestion-item module",
-  "main": "lib/index.js",
+  "main": "index.js",
   "files": [
-    "/lib"
+    "/lib",
+    "index.js"
   ],
   "publishConfig": {
     "access": "public"

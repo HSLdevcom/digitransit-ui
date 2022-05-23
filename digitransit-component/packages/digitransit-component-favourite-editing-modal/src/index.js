@@ -4,7 +4,6 @@ import React from 'react';
 import { ReactSortable } from 'react-sortablejs';
 import cx from 'classnames';
 import i18next from 'i18next';
-import escapeRegExp from 'lodash/escapeRegExp';
 import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
@@ -13,6 +12,7 @@ import ContainerSpinner from '@hsl-fi/container-spinner';
 import Modal from '@hsl-fi/modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
+import { formatFavouritePlaceLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import ModalContent from './helpers/ModalContent';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
@@ -156,10 +156,11 @@ class FavouriteEditingModal extends React.Component {
     const iconId = favourite.selectedIconId
       ? favourite.selectedIconId.replace('icon-icon_', '')
       : 'place';
-    const address = favourite.address.replace(
-      new RegExp(`${escapeRegExp(favourite.name)}(,)?( )?`),
-      '',
+    const [name, address] = formatFavouritePlaceLabel(
+      favourite.name,
+      favourite.address,
     );
+
     return (
       <li
         className={cx(styles['favourite-edit-list-item'])}
@@ -207,9 +208,7 @@ class FavouriteEditingModal extends React.Component {
           </div>
         </div>
         <div className={styles['favourite-edit-list-item-content']}>
-          <p className={styles['favourite-edit-list-item-name']}>
-            {favourite.name}
-          </p>
+          <p className={styles['favourite-edit-list-item-name']}>{name}</p>
           <p className={styles['favourite-edit-list-item-address']}>
             {address}
           </p>

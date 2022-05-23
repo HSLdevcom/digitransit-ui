@@ -2,9 +2,10 @@
   "name": "@digitransit-component/digitransit-component-favourite-modal",
   "version": "0.3.18",
   "description": "digitransit-component favourite-modal module",
-  "main": "lib/index.js",
+  "main": "index.js",
   "files": [
-    "/lib"
+    "/lib",
+    "index.js"
   ],
   "publishConfig": {
     "access": "public"

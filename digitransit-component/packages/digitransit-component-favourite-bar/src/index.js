@@ -5,10 +5,10 @@ import i18next from 'i18next';
 import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
-import escapeRegExp from 'lodash/escapeRegExp';
 import Shimmer from '@hsl-fi/shimmer';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
 import Icon from '@digitransit-component/digitransit-component-icon';
+import { formatFavouritePlaceLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 
@@ -30,6 +30,16 @@ const isKeyboardSelectionEvent = event => {
   event.preventDefault();
   return true;
 };
+
+/**
+ * Utility to format location [name, address] pair.
+ * @param {LocationProperties} favourite
+ * @returns {Array.<string>}
+ */
+const formatFavourite = favourite =>
+  favourite && (favourite.name || favourite.address)
+    ? formatFavouritePlaceLabel(favourite.name, favourite.address)
+    : [];
 
 const FavouriteLocation = ({
   className,
@@ -340,18 +350,15 @@ class FavouriteBar extends React.Component {
       i18next.changeLanguage(this.props.lang);
     }
 
+    const [name1, address1] = formatFavourite(firstFavourite);
+    const [name2, address2] = formatFavourite(secondFavourite);
+
     return (
       <div style={{ '--font-weight-medium': fontWeights.medium }}>
         <div className={styles['favourite-container']}>
           <FavouriteLocation
-            text={
-              (firstFavourite &&
-                (firstFavourite.name ||
-                  (firstFavourite.address &&
-                    firstFavourite.address.split(',')[0]))) ||
-              i18next.t('add-home')
-            }
-            label={(firstFavourite && firstFavourite.address) || ''}
+            text={name1 || i18next.t('add-home')}
+            label={address1 || ''}
             clickItem={() =>
               firstFavourite
                 ? onClickFavourite(firstFavourite)
@@ -368,14 +375,8 @@ class FavouriteBar extends React.Component {
             color={this.props.color}
           />
           <FavouriteLocation
-            text={
-              (secondFavourite &&
-                (secondFavourite.name ||
-                  (secondFavourite.address &&
-                    secondFavourite.address.split(',')[0]))) ||
-              i18next.t('add-work')
-            }
-            label={(secondFavourite && secondFavourite.address) || ''}
+            text={name2 || i18next.t('add-work')}
+            label={address2 || ''}
             clickItem={() =>
               secondFavourite
                 ? onClickFavourite(secondFavourite)
@@ -419,22 +420,23 @@ class FavouriteBar extends React.Component {
               ref={this.suggestionListRef}
               aria-label={i18next.t('favourites-list')}
             >
-              {favourites.map((item, index) =>
-                this.renderSuggestion(
+              {favourites.map((item, index) => {
+                const favouriteLabel = formatFavouritePlaceLabel(
+                  item.name,
+                  item.address,
+                );
+                const address = favouriteLabel[1];
+
+                return this.renderSuggestion(
                   {
                     ...item,
-                    address: item.address
-                      ? item.address.replace(
-                          new RegExp(`${escapeRegExp(item.name)}(,)?( )?`),
-                          '',
-                        )
-                      : '',
+                    address,
                     iconColor: this.props.color,
                   },
                   index,
                   `, ${i18next.t('add-destination')}`,
-                ),
-              )}
+                );
+              })}
               {favourites.length > 0 && (
                 <div aria-hidden className={styles.divider} />
               )}

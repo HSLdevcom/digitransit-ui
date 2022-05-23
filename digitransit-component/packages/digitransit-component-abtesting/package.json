@@ -2,9 +2,10 @@
   "name": "@digitransit-component/digitransit-component-abtesting",
   "version": "0.1.2",
   "description": "digitransit-component abtesting module",
-  "main": "lib/index.js",
+  "main": "index.js",
   "files": [
-    "/lib"
+    "/lib",
+    "index.js"
   ],
   "publishConfig": {
     "access": "public"
