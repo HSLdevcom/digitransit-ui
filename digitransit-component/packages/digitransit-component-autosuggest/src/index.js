@@ -267,6 +267,7 @@ class DTAutosuggest extends React.Component {
       medium: PropTypes.number,
     }),
     modeIconColors: PropTypes.object,
+    getAutoSuggestIcons: PropTypes.object,
     required: PropTypes.bool,
     modeSet: PropTypes.string,
     showScroll: PropTypes.bool,
@@ -766,6 +767,7 @@ class DTAutosuggest extends React.Component {
         accessiblePrimaryColor={this.props.accessiblePrimaryColor}
         fillInput={this.fillInput}
         fontWeights={this.props.fontWeights}
+        getAutoSuggestIcons={this.props.getAutoSuggestIcons}
         modeIconColors={this.props.modeIconColors}
         modeSet={this.props.modeSet}
       />

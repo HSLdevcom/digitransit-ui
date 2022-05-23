@@ -84,7 +84,17 @@ export default {
 
   // Google Tag Manager id
   GTMid: process.env.GTM_ID || null,
-
+  /*
+   * Define the icon and icon color used for each citybike station. Two icons are available,
+   * 'citybike-stop-digitransit' and 'citybike-stop-digitransit-secondary'. For the first icon
+   * the color controls the color of the background and for the second the color of the bicycle
+   */
+  getAutoSuggestIcons: {
+    // eslint-disable-next-line no-unused-vars
+    citybikes: station => {
+      return ['citybike-stop-digitransit', '#f2b62d'];
+    },
+  },
   /*
    * by default search endpoints from all but gtfs sources, correct gtfs source
    * figured based on feedIds config variable

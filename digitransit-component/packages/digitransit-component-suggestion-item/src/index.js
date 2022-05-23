@@ -31,9 +31,19 @@ function getAriaDescription(ariaContentArray) {
   return description;
 }
 
-function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
+function getIconProperties(
+  item,
+  color,
+  modes = undefined,
+  modeSet,
+  stopCode,
+  getIcons,
+) {
   let iconId;
   let iconColor = '#888888';
+  if (item.properties.layer === 'bikestation' && getIcons) {
+    return getIcons.citybikes(item);
+  }
   // because of legacy favourites there might be selectedIconId for some stops or stations
   // but we do not want to show those icons
   if (item.type === 'FavouriteStop') {
@@ -243,6 +253,7 @@ const SuggestionItem = pure(
     fillInput,
     fontWeights,
     modeIconColors,
+    getAutoSuggestIcons,
     modeSet = 'default',
   }) => {
     const [
@@ -259,6 +270,7 @@ const SuggestionItem = pure(
       modes,
       modeSet,
       stopCode,
+      getAutoSuggestIcons,
     );
     const modeIconColor = modeIconColors[iconColor] || modeIconColors[iconId];
     // Arrow clicked is for street. Instead of selecting item when a user clicks on arrow,
@@ -488,6 +500,7 @@ SuggestionItem.propTypes = {
   fontWeights: PropTypes.shape({
     medium: PropTypes.number,
   }),
+  getAutoSuggestIcons: PropTypes.object,
   modeIconColors: PropTypes.object,
   modeSet: PropTypes.string,
 };
@@ -510,6 +523,17 @@ SuggestionItem.defaultProps = {
     'mode-citybike': '#f2b62d',
     'mode-bus-express': '#CA4000',
     'mode-bus-local': '#007ac9',
+  },
+  getAutoSuggestIcons: {
+    citybikes: station => {
+      if (station.properties.source === 'citybikessmoove') {
+        return ['citybike-stop-default', '#f2b62d'];
+      }
+      if (station.properties.source === 'citybikesvantaa') {
+        return ['citybike-stop-default-secondary', '#f2b62d'];
+      }
+      return ['citybike-stop-default', '#f2b62d'];
+    },
   },
   modeSet: undefined,
 };

@@ -79,6 +79,7 @@ const EmbeddedSearchGenerator = (props, context) => {
     modeSet: config.iconModeSet,
     modeIconColors: config.colors.modeIconColors,
     selectHandler: onSelectLocation,
+    getAutoSuggestIcons: context.config.getAutoSuggestIcons,
   };
 
   const generateComponent = () => {

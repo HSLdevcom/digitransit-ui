@@ -174,6 +174,7 @@ class DTAutosuggestPanel extends React.Component {
     refPoint: PropTypes.object,
     modeSet: PropTypes.string,
     modeIconColors: PropTypes.object,
+    getAutoSuggestIcons: PropTypes.object,
     fontWeights: PropTypes.shape({
       medium: PropTypes.number,
     }),
@@ -444,6 +445,7 @@ class DTAutosuggestPanel extends React.Component {
             placeholder={this.props.originPlaceHolder}
             value={this.value(origin)}
             searchContext={searchContext}
+            getAutoSuggestIcons={this.props.getAutoSuggestIcons}
             onSelect={this.props.onSelect}
             onClear={this.props.onClear}
             focusChange={onFocusChange || this.handleFocusChange}
@@ -532,6 +534,7 @@ class DTAutosuggestPanel extends React.Component {
                       sources={this.props.sources}
                       targets={this.props.targets}
                       filterResults={this.props.filterResults}
+                      getAutoSuggestIcons={this.props.getAutoSuggestIcons}
                       isMobile={this.props.isMobile}
                       color={this.props.color}
                       hoverColor={this.props.hoverColor}
@@ -625,6 +628,7 @@ class DTAutosuggestPanel extends React.Component {
             storeRef={this.storeReference}
             placeholder={this.props.destinationPlaceHolder}
             className={this.class(this.props.destination)}
+            getAutoSuggestIcons={this.props.getAutoSuggestIcons}
             searchContext={searchContext}
             onSelect={this.props.onSelect}
             onClear={this.props.onClear}
