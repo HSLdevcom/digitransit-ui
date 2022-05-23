@@ -12,7 +12,7 @@ $itinerary-tab-switch-height: 48px;
 }
 
 @mixin setModeCircles($fill) {
-  &.bus {
+  &.bus, &.bus-local {
     @include getCircleSvg($bus-color, $fill);
   }
   &.bus-express {

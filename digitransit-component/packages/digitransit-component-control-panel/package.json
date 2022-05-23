@@ -2,9 +2,10 @@
   "name": "@digitransit-component/digitransit-component-control-panel",
   "version": "1.0.4",
   "description": "digitransit-component control-panel module",
-  "main": "lib/index.js",
+  "main": "index.js",
   "files": [
-    "/lib"
+    "/lib",
+    "index.js"
   ],
   "publishConfig": {
     "access": "public"
