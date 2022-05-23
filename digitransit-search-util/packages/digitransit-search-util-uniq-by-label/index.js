@@ -46,7 +46,9 @@ export const getStopCode = ({ id, code }) => {
 
 export const formatFavouritePlaceLabel = (name, address) => [
   name || (address && address.split(',')[0]),
-  address.replace(new RegExp(`${escapeRegExp(name)}([ ,]|$)+`), ''),
+  typeof address === 'string'
+    ? address.replace(new RegExp(`${escapeRegExp(name)}([ ,]|$)+`), '')
+    : '',
 ];
 
 /**

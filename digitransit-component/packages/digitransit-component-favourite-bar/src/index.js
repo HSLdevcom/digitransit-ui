@@ -5,7 +5,6 @@ import i18next from 'i18next';
 import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
-import escapeRegExp from 'lodash/escapeRegExp';
 import Shimmer from '@hsl-fi/shimmer';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
 import Icon from '@digitransit-component/digitransit-component-icon';
@@ -421,22 +420,23 @@ class FavouriteBar extends React.Component {
               ref={this.suggestionListRef}
               aria-label={i18next.t('favourites-list')}
             >
-              {favourites.map((item, index) =>
-                this.renderSuggestion(
+              {favourites.map((item, index) => {
+                const favouriteLabel = formatFavouritePlaceLabel(
+                  item.name,
+                  item.address,
+                );
+                const address = favouriteLabel[1];
+
+                return this.renderSuggestion(
                   {
                     ...item,
-                    address: item.address
-                      ? item.address.replace(
-                          new RegExp(`${escapeRegExp(item.name)}(,)?( )?`),
-                          '',
-                        )
-                      : '',
+                    address,
                     iconColor: this.props.color,
                   },
                   index,
                   `, ${i18next.t('add-destination')}`,
-                ),
-              )}
+                );
+              })}
               {favourites.length > 0 && (
                 <div aria-hidden className={styles.divider} />
               )}
