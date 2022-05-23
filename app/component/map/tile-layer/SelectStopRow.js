@@ -14,7 +14,7 @@ function SelectStopRow(
   { config },
 ) {
   let mode = type;
-  if (type === 'BUS' && config.useExtendedRouteTypes) {
+  if (patterns && type === 'BUS' && config.useExtendedRouteTypes) {
     const patternArray = JSON.parse(patterns);
     if (patternArray.some(p => p.gtfsType === ExtendedRouteTypes.BusExpress)) {
       mode = 'bus-express';
