@@ -507,6 +507,7 @@ class RoutePageControlPanel extends React.Component {
               }}
               tabIndex={activeTab === Tab.Stops ? 0 : -1}
               role="tab"
+              {...(activeTab === Tab.Stops ? { id: 'route-tab' } : {})}
               ref={this.stopTabRef}
               aria-selected={activeTab === Tab.Stops}
               style={{
