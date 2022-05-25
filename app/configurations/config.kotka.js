@@ -93,13 +93,10 @@ export default configMerger(walttiConfig, {
 
   getAutoSuggestIcons: {
     citybikes: station => {
-      if (station.properties.source === 'citybikesdonkey_kotka') {
-        return ['citybike-stop-digitransit', '#f2b62d'];
-      }
       if (station.properties.source === 'citybikesdonkey_hamina') {
         return ['citybike-stop-digitransit-secondary', '#f2b62d'];
       }
-      return ['citybike-stop-default', '#f2b62d'];
+      return ['citybike-stop-digitransit', '#f2b62d'];
     },
   },
 

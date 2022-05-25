@@ -41,7 +41,7 @@ function getIconProperties(
 ) {
   let iconId;
   let iconColor = '#888888';
-  if (item.properties.layer === 'bikestation' && getIcons) {
+  if (item?.properties?.layer === 'bikestation' && getIcons) {
     return getIcons.citybikes(item);
   }
   // because of legacy favourites there might be selectedIconId for some stops or stations

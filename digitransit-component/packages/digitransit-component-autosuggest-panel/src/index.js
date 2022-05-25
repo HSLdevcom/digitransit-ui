@@ -119,6 +119,13 @@ ItinerarySearchControl.propTypes = {
  * onClear(id) {
  *  return null;  // Define what to do when a suggestion is being selected. None by default.
  * }
+ * const getAutoSuggestIcons: {
+ *   // Called for every city bike station rendered as a search suggestion. Should return the icon and
+ *   // color used for that station. Two icons are available, 'citybike-stop-digitransit' anditybike-stop-digitransit-secondary'.
+ *   citybikes: station => {
+ *      return ['citybike-stop-digitransit', '#f2b62d'];
+ *   }
+ * }
  * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, MapPosition and CurrentPosition. Leave empty to search all targets.
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches), and Datasource. Leave empty to use all sources.
  * <DTAutosuggestPanel
@@ -132,6 +139,7 @@ ItinerarySearchControl.propTypes = {
  *    updateViaPoints={() => return []} // Optional. If showMultiPointControls is set to true, define how to update your via point list with this function. Currenlty no default implementation is given.
  *    swapOrder={() => return null} // Optional. If showMultiPointControls is set to true, define how to swap order of your points (origin, destination, viapoints). Currently no default implementation is given.
  *    searchContext={searchContext}
+ *    getAutoSuggestIcons={getAutoSuggestIcons}
  *    onSelect={this.onSelect}
  *    onClear={this.onClear}
  *    lang="fi" // Define language fi sv or en.

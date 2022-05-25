@@ -102,9 +102,6 @@ export default {
   },
   getAutoSuggestIcons: {
     citybikes: station => {
-      if (station.properties.source === 'citybikessmoove') {
-        return ['citybike-stop-default', '#f2b62d'];
-      }
       if (station.properties.source === 'citybikesvantaa') {
         return ['citybike-stop-default-secondary', '#f2b62d'];
       }

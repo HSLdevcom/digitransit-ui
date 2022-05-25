@@ -197,6 +197,13 @@ function translateFutureRouteSuggestionTime(item) {
  *    // Called  when user clicks the clear search string button. No default implementation.
  *    return null;
  * };
+ * const getAutoSuggestIcons: {
+ *   // Called for every city bike station rendered as a search suggestion. Should return the icon and
+ *   // color used for that station. Two icons are available, 'citybike-stop-digitransit' anditybike-stop-digitransit-secondary'.
+ *   citybikes: station => {
+ *      return ['citybike-stop-digitransit', '#f2b62d'];
+ *   }
+ * }
  * const transportMode = undefined;
  * const placeholder = "stop-near-you";
  * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, MapPosition and CurrentPosition. Leave empty to search all targets.
@@ -213,6 +220,7 @@ function translateFutureRouteSuggestionTime(item) {
  *    onClear={onClear}
  *    autoFocus={false} // defines that should this field be automatically focused when page is loaded.
  *    lang={lang}
+ *    getAutoSuggestIcons={getAutoSuggestIcons}
  *    transportMode={transportMode} // transportmode with which we filter the routes, e.g. route-BUS
  *    geocodingSize={10} // defines how many stops and stations to fetch from geocoding. Useful if you want to filter the results and still get a reasonable amount of suggestions.
  *    filterResults={results => return results} // Optional filtering function for routes and stops
