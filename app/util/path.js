@@ -167,9 +167,13 @@ export const getHomeUrl = (origin, indexPath) => {
   return homeUrl;
 };
 
-export const getDatahubPoiPath = datahubId => {
+export const getDatahubPoiPath = (datahubId, name, latitude, longitude) => {
   const searchParams = new URLSearchParams({
     datahubId,
+    name,
+    // We follow SidebarMap's parameter naming here.
+    lat: latitude,
+    lng: longitude,
   }).toString();
   return `/${PREFIX_DATAHUB_POI}?${searchParams}`;
 };
