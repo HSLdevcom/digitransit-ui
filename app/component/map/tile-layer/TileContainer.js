@@ -233,6 +233,7 @@ class TileContainer {
               // todo: this is really ugly!
               layerConfig: layer.constructor.layerConfig,
               feature,
+              coords: this.project(feature.geom),
             }))
           : [],
       );

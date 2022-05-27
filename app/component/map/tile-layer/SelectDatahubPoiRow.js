@@ -5,9 +5,9 @@ import { getDatahubPoiPath } from '../../../util/path';
 import Icon from '../../Icon';
 
 function SelectDatahubPoiRow(props) {
-  const { datahubId, icon, name, description } = props;
+  const { datahubId, name, description, latitude, longitude, icon } = props;
 
-  const path = getDatahubPoiPath(datahubId);
+  const path = getDatahubPoiPath(datahubId, name, latitude, longitude);
 
   return (
     <Link className="stop-popup-choose-row" to={path}>
@@ -31,6 +31,8 @@ SelectDatahubPoiRow.propTypes = {
   datahubId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  latitude: PropTypes.number.isRequired,
+  longitude: PropTypes.number.isRequired,
   icon: PropTypes.string,
 };
 
