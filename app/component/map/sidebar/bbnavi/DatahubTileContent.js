@@ -94,10 +94,7 @@ const DatahubTileContent = ({ match }, { config }) => {
           pointOfInterest(id: $datahubId) {
             id
             name
-            category {
-              id
-              name
-            }
+            tagList
             dataProvider {
               id
               description
@@ -155,7 +152,7 @@ const DatahubTileContent = ({ match }, { config }) => {
         return (
           <SidebarContainer
             name={data.name}
-            description={data.category.name}
+            description={data.tagList.join(', ')}
             icon="icon-icon_mapMarker-point"
           >
             <Address addresses={data.addresses} />
