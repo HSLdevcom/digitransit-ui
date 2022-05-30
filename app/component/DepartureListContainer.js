@@ -16,16 +16,30 @@ import {
 } from '../action/realTimeClientAction';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
 
+const getDropoffMessage = (hasOnlyDropoff, hasNoStop) => {
+  if (hasNoStop) {
+    return 'route-no-stop';
+  }
+  if (hasOnlyDropoff) {
+    return 'route-destination-arrives';
+  }
+  return undefined;
+};
+
 const asDepartures = stoptimes =>
   !stoptimes
     ? []
     : stoptimes.map(stoptime => {
-        const isArrival = stoptime.pickupType === 'NONE';
+        const hasDropoff = stoptime.dropoffType !== 'NONE';
+        const hasPickup = stoptime.pickupType !== 'NONE';
+        const hasNoStop = !hasPickup && !hasDropoff;
+        const isArrival = !hasPickup;
         let isLastStop = false;
         if (stoptime.trip && stoptime.trip.stops) {
           const lastStop = stoptime.trip.stops.slice(-1).pop();
           isLastStop = stoptime.stop.id === lastStop.id;
         }
+        const hasOnlyDropoff = !hasPickup && !isLastStop;
         /* OTP returns either scheduled time or realtime prediction in
          * 'realtimeDeparture' and 'realtimeArrival' fields.
          * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
@@ -47,6 +61,8 @@ const asDepartures = stoptimes =>
           ),
           canceled,
           isArrival,
+          hasNoStop,
+          hasOnlyDropoff,
           isLastStop,
           stoptime: stoptimeTime,
           stop: stoptime.stop,
@@ -284,24 +300,27 @@ class DepartureListContainer extends Component {
       }
 
       const id = `${departure.pattern.code}:${departure.stoptime}`;
+      const dropoffMessage = getDropoffMessage(
+        departure.hasOnlyDropoff,
+        departure.hasNoStop,
+      );
       const row = {
         headsign: this.getHeadsign(departure),
         trip: { ...departure.trip, ...{ route: departure.trip.pattern.route } },
         stop: departure.stop,
         realtime: departure.realtime,
-        bottomRow:
-          departure.isArrival && !departure.isLastStop ? (
-            <div className="drop-off-container">
-              <Icon
-                img="icon-icon_info"
-                color={this.context.config.colors.primary}
-              />
-              <FormattedMessage
-                id="route-destination-arrives"
-                defaultMessage="Drop-off only"
-              />
-            </div>
-          ) : null,
+        bottomRow: dropoffMessage ? (
+          <div className="drop-off-container">
+            <Icon
+              img="icon-icon_info"
+              color={this.context.config.colors.primary}
+            />
+            <FormattedMessage
+              id={dropoffMessage}
+              defaultMessage="Drop-off only"
+            />
+          </div>
+        ) : null,
       };
 
       const nextDeparture = departuresWithDayDividers[index + 1];
@@ -390,6 +409,7 @@ const containerComponent = createFragmentContainer(DepartureListContainer, {
       realtime
       serviceDay
       pickupType
+      dropoffType
       headsign
       stop {
         id

@@ -170,6 +170,7 @@ const translations = {
     'route-destination-arrives': 'Destination / Sidste holdeplads',
     'route-from-here': 'Find rute herfra',
     'route-here': 'Find rute hertil',
+    'route-no-stop': 'Ingen stop',
     'route-not-possible':
       'Desværre kan vi ikke finde et rejseforslag til dig. Teknisk feil: "{error}"',
     'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
@@ -651,6 +652,7 @@ const translations = {
     'route-least-elevation-changes': 'Höhenunterschiede vermeiden',
     'route-least-transfers': 'Umstiege vermeiden',
     'route-least-walking': 'Wenig zu Fuß',
+    'route-no-stop': 'Kein Halten',
     'route-not-possible':
       'Leider konnte keine Route berechnet werden. Technischer Fehler: "{error}"',
     'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
@@ -1366,6 +1368,7 @@ const translations = {
     'route-least-elevation-changes': 'Avoid changes in elevation',
     'route-least-transfers': 'Avoid transfers',
     'route-least-walking': 'Avoid walking',
+    'route-no-stop': 'No stop',
     'route-not-possible':
       'Unfortunately, your route is not available. Technical error: "{error}"',
     'route-page-vehicle-position':
@@ -1820,6 +1823,7 @@ const translations = {
     'route-here': 'Ruta hacia aquí',
     'route-least-transfers': 'Evitar transbordos',
     'route-least-walking': 'Evitar andar',
+    'route-no-stop': 'No se detiene',
     'route-not-possible':
       'Desafortunadamente, su ruta no está disponible. Error: "{error}"',
     'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
@@ -2449,6 +2453,7 @@ const translations = {
     'route-least-elevation-changes': 'Vältä korkeuseroja',
     'route-least-transfers': 'Vältä vaihtoja',
     'route-least-walking': 'Vältä kävelyä',
+    'route-no-stop': 'Ei pysähdystä',
     'route-not-possible':
       'Valitettavasti reittisi ei ole mahdollinen. Tekninen virhe: "{error}"',
     'route-page-vehicle-position': '{mode} {shortName} on pysäkillä {stopName}',
@@ -2934,6 +2939,7 @@ const translations = {
     'route-here': 'Arriver ici',
     'route-least-transfers': 'Éviter les correspondances',
     'route-least-walking': 'Éviter la marche',
+    'route-no-stop': "Pas d'arrêt",
     'route-not-possible':
       'Impossible de calculer un itinéraire. Information technique : "{error}"',
     'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
@@ -3211,6 +3217,7 @@ const translations = {
     'route-destination-arrives': 'Destinasjon / Siste holdeplass',
     'route-from-here': 'Finn rute herfra',
     'route-here': 'Finn rute hit',
+    'route-no-stop': 'Ingen stopp',
     'route-not-possible':
       'Dessverre kan vi ikke finne et reiseforslag til deg. Teknisk feil: "{error}"',
     'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
@@ -3646,6 +3653,7 @@ const translations = {
     'route-least-elevation-changes': 'Evitați variația de altitudine',
     'route-least-transfers': 'Evitați schimbările de vehicul',
     'route-least-walking': 'Evitați mersul pe jos',
+    'route-no-stop': 'Fara oprire',
     'route-not-possible': 'Rută indisponibiă. Cod eroare: "{error}"',
     'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
     'route-page-vehicle-position-between':
@@ -4318,6 +4326,7 @@ const translations = {
     'route-least-elevation-changes': 'Undvik höjdskillnader',
     'route-least-transfers': 'Minsta överföringar',
     'route-least-walking': 'Minsta gången',
+    'route-no-stop': 'Inget stopp',
     'route-not-possible':
       'Tyvärr är din rutt inte möjlig. Tekniskt fel: "{error}"',
     'route-page-vehicle-position':
