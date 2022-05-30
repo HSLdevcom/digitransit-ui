@@ -31,7 +31,7 @@ describe('path', () => {
     });
 
     it('should join paths with trailing slash', () => {
-      expect(pathJoin(['my', '/path/'])).to.equal('my/path');
+      expect(pathJoin(['my', '/path/'])).to.equal('my/path/');
       expect(pathJoin(['my/', 'path/'])).to.equal('my/path/');
       expect(pathJoin(['/my/', '/path/'])).to.equal('/my/path/');
     });
