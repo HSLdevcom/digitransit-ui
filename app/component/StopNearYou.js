@@ -30,7 +30,7 @@ const StopNearYou = ({
     }
   }, [currentTime, currentMode]);
   const description = desc || stop.desc;
-  const isStation = !!stop.parentStation || stopId;
+  const isStation = !!stop.parentStation || !!stopId;
   const gtfsId =
     (stop.parentStation && stop.parentStation.gtfsId) || stop.gtfsId;
   const linkAddress = isStation
