@@ -29,22 +29,20 @@ const getSize = window => ({
  */
 const useWindowSize = () => {
   const [size, setSize] = useState(
-    () =>
-      isBrowser
-        ? getSize(window)
-        : {
+    isBrowser
+      ? getSize(window)
+      : {
+          width: undefined,
+          height: undefined,
+          outer: {
             width: undefined,
             height: undefined,
-            outer: {
-              width: undefined,
-              height: undefined,
-            },
           },
-    [],
+        },
   );
 
   useEffect(() => {
-    const onResize = () => setSize(window);
+    const onResize = () => setSize(getSize(window));
     window.addEventListener('resize', onResize);
 
     // clear event listener on unmount
