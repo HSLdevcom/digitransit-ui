@@ -78,28 +78,30 @@ const DepartureRow = (
   const renderWithLink = (node, first) => {
     return (
       <>
-        <Link
-          to={`/${PREFIX_ROUTES}/${departure.trip.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.trip.pattern.code}/${departure.trip.gtfsId}`}
-          onClick={() => {
-            addAnalyticsEvent({
-              category: 'Stop',
-              action: 'OpenRouteViewFromStop',
-              name: 'RightNowTab',
-            });
-          }}
-          tabIndex={first ? '0' : '-1'}
-          aria-hidden={!first}
-          aria-label={intl.formatMessage(
-            {
-              id: 'departure-page-sr',
-            },
-            {
-              shortName,
-              destination: headsign,
-              time: moment(departureTime * 1000).format('HH:mm'),
-            },
-          )}
-        />
+        {showLink && (
+          <Link
+            to={`/${PREFIX_ROUTES}/${departure.trip.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.trip.pattern.code}/${departure.trip.gtfsId}`}
+            onClick={() => {
+              addAnalyticsEvent({
+                category: 'Stop',
+                action: 'OpenRouteViewFromStop',
+                name: 'RightNowTab',
+              });
+            }}
+            tabIndex={first ? '0' : '-1'}
+            aria-hidden={!first}
+            aria-label={intl.formatMessage(
+              {
+                id: 'departure-page-sr',
+              },
+              {
+                shortName,
+                destination: headsign,
+                time: moment(departureTime * 1000).format('HH:mm'),
+              },
+            )}
+          />
+        )}
         {node}
       </>
     );
