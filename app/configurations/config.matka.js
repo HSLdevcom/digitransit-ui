@@ -3,6 +3,7 @@ import { BIKEAVL_BIKES, BIKEAVL_WITHMAX } from '../util/citybikes';
 import HSLConfig from './config.hsl';
 import TurkuConfig from './config.turku';
 import LappeenrantaConfig from './config.lappeenranta';
+import TampereConfig from './config.tampere';
 import KuopioConfig from './config.kuopio';
 
 const CONFIG = 'matka';
@@ -158,6 +159,23 @@ export default {
           fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa',
           sv: 'https://www.hsl.fi/sv/stadscyklar/vantaa',
           en: 'https://www.hsl.fi/en/citybikes/vantaa',
+        },
+      },
+      seatcode_tampere: {
+        capacity: BIKEAVL_WITHMAX,
+        enabled: true,
+        season: TampereConfig.cityBike.networks.seatcode_tampere.season,
+        icon: 'citybike',
+        name: {
+          fi: 'Tampere',
+          sv: 'Tammerfors',
+          en: 'Tampere',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://www.nysse.fi/kaupunkipyorat',
+          sv: 'https://www.nysse.fi/en/city-bikes.html',
+          en: 'https://www.nysse.fi/en/city-bikes.html',
         },
       },
       turku: {
