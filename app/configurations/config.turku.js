@@ -58,7 +58,7 @@ export default configMerger(walttiConfig, {
         enabled: true,
         season: {
           // 1.6. - 30.9.
-          start: new Date(new Date().getFullYear(), 4, 1),
+          start: new Date(new Date().getFullYear(), 5, 1),
           end: new Date(new Date().getFullYear(), 10, 1),
         },
         icon: 'citybike',
