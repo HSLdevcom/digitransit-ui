@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import xor from 'lodash/xor';
 import Toggle from './Toggle';
 import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 import Icon from '../Icon';
@@ -10,6 +11,8 @@ import {
   updateCitybikeNetworks,
   getCitybikeNetworks,
 } from '../../util/citybikes';
+import { getModes } from '../../util/modeUtils';
+import { TransportMode } from '../../constants';
 
 const CityBikeNetworkSelector = (
   { currentOptions },
@@ -50,12 +53,20 @@ const CityBikeNetworkSelector = (
               ).length > 0
             }
             onToggle={() => {
-              executeAction(saveRoutingSettings, {
-                allowedBikeRentalNetworks: updateCitybikeNetworks(
-                  getCitybikeNetworks(config),
-                  network.networkName,
-                ),
-              });
+              const newNetworks = updateCitybikeNetworks(
+                getCitybikeNetworks(config),
+                network.networkName,
+              );
+              const modes = getModes(config);
+              const newSettings = { allowedBikeRentalNetworks: newNetworks };
+              if (newNetworks.length > 0) {
+                if (modes.indexOf(TransportMode.Citybike) === -1) {
+                  newSettings.modes = xor(modes, [TransportMode.Citybike]);
+                }
+              } else if (modes.indexOf(TransportMode.Citybike) !== -1) {
+                newSettings.modes = xor(modes, [TransportMode.Citybike]);
+              }
+              executeAction(saveRoutingSettings, newSettings);
             }}
           />
         </label>
