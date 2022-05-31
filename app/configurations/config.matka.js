@@ -161,8 +161,8 @@ export default {
         },
       },
       turku: {
-        enabled: TurkuConfig.cityBike.networks.turku.enabled,
-        season: TurkuConfig.cityBike.networks.turku.season,
+        enabled: TurkuConfig.cityBike.networks.donkey_turku.enabled,
+        season: TurkuConfig.cityBike.networks.donkey_turku.season,
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
@@ -172,9 +172,9 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: 'https://www.foli.fi/kaupunkipyorat',
-          sv: 'https://www.foli.fi/sv/stadscyklar',
-          en: 'https://www.foli.fi/en/citybikes',
+          fi: 'https://www.foli.fi/fi/aikataulut-ja-reitit/fölifillarit',
+          sv: 'https://www.foli.fi/sv/fölicyklar',
+          en: 'https://www.foli.fi/en/föli-bikes',
         },
       },
       vilkku: {

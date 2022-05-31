@@ -1887,15 +1887,15 @@ class SummaryPage extends React.Component {
     if (this.headerRef.current && this.contentRef.current) {
       setTimeout(() => {
         let inputs = Array.from(
-          this.headerRef.current.querySelectorAll(
+          this.headerRef?.current?.querySelectorAll(
             'input, button, *[role="button"]',
-          ),
+          ) || [],
         );
         inputs = inputs.concat(
           Array.from(
-            this.contentRef.current.querySelectorAll(
+            this.contentRef?.current?.querySelectorAll(
               'input, button, *[role="button"]',
-            ),
+            ) || [],
           ),
         );
         /* eslint-disable no-param-reassign */
