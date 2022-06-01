@@ -25,6 +25,7 @@ Visual tests are run with jest and playwright.
 More information about [testing](docs/Tests.md).
 
 ## Documentation
+* [Deployment (*bbnavi*-specific)](docs/Deployment.md)
 * [Terms](docs/Terms.md)
 * [Architecture](docs/Architecture.md)
 * [Positioning](docs/Position.md)
