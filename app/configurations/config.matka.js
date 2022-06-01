@@ -111,8 +111,11 @@ export default {
       },
       {
         name: 'accessibility-statement',
-        href:
-          'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas/matkafi-reittioppaan-saavutettavuusseloste',
+        href: {
+          fi: 'https://www.digitransit.fi/accessibility',
+          sv: 'https://www.digitransit.fi/accessibility',
+          en: 'https://www.digitransit.fi/en/accessibility',
+        },
       },
       {
         name: 'about-these-pages',
