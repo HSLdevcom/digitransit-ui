@@ -14,7 +14,7 @@ import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { getRouteMode } from '../util/modeUtils';
 
 const DepartureRow = (
-  { departure, departureTime, showPlatformCode, canceled, showLink, ...props },
+  { departure, departureTime, showPlatformCode, canceled, ...props },
   { config, intl },
 ) => {
   const { route } = departure.trip;
@@ -78,30 +78,28 @@ const DepartureRow = (
   const renderWithLink = (node, first) => {
     return (
       <>
-        {showLink && (
-          <Link
-            to={`/${PREFIX_ROUTES}/${departure.trip.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.trip.pattern.code}/${departure.trip.gtfsId}`}
-            onClick={() => {
-              addAnalyticsEvent({
-                category: 'Stop',
-                action: 'OpenRouteViewFromStop',
-                name: 'RightNowTab',
-              });
-            }}
-            tabIndex={first ? '0' : '-1'}
-            aria-hidden={!first}
-            aria-label={intl.formatMessage(
-              {
-                id: 'departure-page-sr',
-              },
-              {
-                shortName,
-                destination: headsign,
-                time: moment(departureTime * 1000).format('HH:mm'),
-              },
-            )}
-          />
-        )}
+        <Link
+          to={`/${PREFIX_ROUTES}/${departure.trip.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.trip.pattern.code}/${departure.trip.gtfsId}`}
+          onClick={() => {
+            addAnalyticsEvent({
+              category: 'Stop',
+              action: 'OpenRouteViewFromStop',
+              name: 'RightNowTab',
+            });
+          }}
+          tabIndex={first ? '0' : '-1'}
+          aria-hidden={!first}
+          aria-label={intl.formatMessage(
+            {
+              id: 'departure-page-sr',
+            },
+            {
+              shortName,
+              destination: headsign,
+              time: moment(departureTime * 1000).format('HH:mm'),
+            },
+          )}
+        />
         {node}
       </>
     );
@@ -213,7 +211,6 @@ DepartureRow.propTypes = {
   showPlatformCode: PropTypes.bool,
   canceled: PropTypes.bool,
   className: PropTypes.string,
-  showLink: PropTypes.bool,
 };
 
 DepartureRow.contextTypes = {

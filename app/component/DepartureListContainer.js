@@ -66,7 +66,6 @@ class DepartureListContainer extends Component {
     currentTime: PropTypes.number.isRequired,
     limit: PropTypes.number,
     infiniteScroll: PropTypes.bool,
-    routeLinks: PropTypes.bool,
     className: PropTypes.string,
     isTerminal: PropTypes.bool,
     isStopPage: PropTypes.bool,
@@ -320,7 +319,6 @@ class DepartureListContainer extends Component {
         <DepartureRow
           key={id}
           departure={row}
-          showLink={this.props.routeLinks}
           departureTime={departure.stoptime}
           currentTime={this.props.currentTime}
           showPlatformCode={isTerminal}

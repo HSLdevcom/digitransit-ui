@@ -76,7 +76,6 @@ class StopPageContent extends React.Component {
             stoptimes={stoptimes}
             key="departures"
             className="stop-page momentum-scroll"
-            routeLinks
             infiniteScroll
             currentTime={this.props.currentTime}
             isStopPage
