@@ -275,7 +275,7 @@ class DepartureListContainer extends Component {
       if (departure.addDayDivider) {
         departureObjs.push(
           <tr key={departureDate}>
-            <td>
+            <td colSpan="4">
               <div className="date-row border-bottom">
                 {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
               </div>
@@ -285,7 +285,7 @@ class DepartureListContainer extends Component {
       } else if (departure.addServiceDayDivider) {
         departureObjs.push(
           <tr>
-            <td>
+            <td colSpan="4">
               <div className="departure-day-divider" />
             </td>
           </tr>,
