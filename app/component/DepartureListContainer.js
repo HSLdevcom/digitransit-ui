@@ -274,22 +274,12 @@ class DepartureListContainer extends Component {
 
       if (departure.addDayDivider) {
         departureObjs.push(
-          <tr key={departureDate}>
-            <td colSpan="4">
-              <div className="date-row border-bottom">
-                {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
-              </div>
-            </td>
-          </tr>,
+          <div key={departureDate} className="date-row border-bottom">
+            {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
+          </div>,
         );
       } else if (departure.addServiceDayDivider) {
-        departureObjs.push(
-          <tr>
-            <td colSpan="4">
-              <div className="departure-day-divider" />
-            </td>
-          </tr>,
-        );
+        departureObjs.push(<div className="departure-day-divider" />);
       }
 
       const id = `${departure.pattern.code}:${departure.stoptime}`;
