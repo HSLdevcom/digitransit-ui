@@ -293,7 +293,10 @@ const setCurrentTimeToURL = (config, match) => {
   if (config.NODE_ENV !== 'test' && !match.location?.query?.time) {
     const newLocation = {
       ...match.location,
-      query: { time: moment().unix() },
+      query: {
+        ...match.location.query,
+        time: moment().unix(),
+      },
     };
     match.router.replace(newLocation);
   }
