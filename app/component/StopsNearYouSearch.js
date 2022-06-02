@@ -37,6 +37,7 @@ function StopsNearYouSearch({ mode, breakpoint, lang }, { router, config }) {
           }
           isMobile={isMobile}
           selectHandler={selectHandler} // prop for context handler
+          getAutoSuggestIcons={config.getAutoSuggestIcons}
           modeIconColors={config.colors.iconColors}
           modeSet={config.iconModeSet}
         />

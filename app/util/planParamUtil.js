@@ -206,7 +206,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
   const intermediatePlaceLocations = getIntermediatePlaces({
     intermediatePlaces,
   });
-  const modesOrDefault = useDefaultModes
+  let modesOrDefault = useDefaultModes
     ? getDefaultModes(config)
     : filterModes(
         config,
@@ -233,6 +233,13 @@ export const preparePlanParams = (config, useDefaultModes) => (
               : network,
           )
       : defaultSettings.allowedBikeRentalNetworks;
+  if (
+    !allowedBikeRentalNetworksMapped ||
+    !allowedBikeRentalNetworksMapped.length
+  ) {
+    // do not ask citybike routes if no networks are allowed
+    modesOrDefault = modesOrDefault.filter(mode => mode !== 'BICYCLE_RENT');
+  }
   const formattedModes = modesAsOTPModes(modesOrDefault);
   const wheelchair =
     getNumberValueOrDefault(settings.accessibilityOption, defaultSettings) ===

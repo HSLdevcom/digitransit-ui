@@ -91,6 +91,15 @@ export default configMerger(walttiConfig, {
     },
   },
 
+  getAutoSuggestIcons: {
+    citybikes: station => {
+      if (station.properties.source === 'citybikesdonkey_hamina') {
+        return ['citybike-stop-digitransit-secondary', '#f2b62d'];
+      }
+      return ['citybike-stop-digitransit', '#f2b62d'];
+    },
+  },
+
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
@@ -132,8 +141,11 @@ export default configMerger(walttiConfig, {
       },
       {
         name: 'accessibility-statement',
-        href:
-          'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
+        href: {
+          fi: 'https://www.digitransit.fi/accessibility',
+          sv: 'https://www.digitransit.fi/accessibility',
+          en: 'https://www.digitransit.fi/en/accessibility',
+        },
       },
     ],
   },

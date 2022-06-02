@@ -293,7 +293,10 @@ const setCurrentTimeToURL = (config, match) => {
   if (config.NODE_ENV !== 'test' && !match.location?.query?.time) {
     const newLocation = {
       ...match.location,
-      query: { time: moment().unix() },
+      query: {
+        ...match.location.query,
+        time: moment().unix(),
+      },
     };
     match.router.replace(newLocation);
   }
@@ -1887,15 +1890,15 @@ class SummaryPage extends React.Component {
     if (this.headerRef.current && this.contentRef.current) {
       setTimeout(() => {
         let inputs = Array.from(
-          this.headerRef.current.querySelectorAll(
+          this.headerRef?.current?.querySelectorAll(
             'input, button, *[role="button"]',
-          ),
+          ) || [],
         );
         inputs = inputs.concat(
           Array.from(
-            this.contentRef.current.querySelectorAll(
+            this.contentRef?.current?.querySelectorAll(
               'input, button, *[role="button"]',
-            ),
+            ) || [],
           ),
         );
         /* eslint-disable no-param-reassign */

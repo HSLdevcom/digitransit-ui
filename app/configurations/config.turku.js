@@ -53,13 +53,13 @@ export default configMerger(walttiConfig, {
 
   cityBike: {
     networks: {
-      turku: {
+      donkey_turku: {
         capacity: BIKEAVL_WITHMAX,
         enabled: true,
         season: {
           // 1.6. - 30.9.
           start: new Date(new Date().getFullYear(), 5, 1),
-          end: new Date(new Date().getFullYear(), 9, 1),
+          end: new Date(new Date().getFullYear(), 10, 1),
         },
         icon: 'citybike',
         name: {
@@ -69,9 +69,9 @@ export default configMerger(walttiConfig, {
         },
         type: 'citybike',
         url: {
-          fi: 'https://www.foli.fi/kaupunkipyorat',
-          sv: 'https://www.foli.fi/sv/stadscyklar',
-          en: 'https://www.foli.fi/en/citybikes',
+          fi: 'https://www.foli.fi/fi/aikataulut-ja-reitit/fölifillarit',
+          sv: 'https://www.foli.fi/sv/fölicyklar',
+          en: 'https://www.foli.fi/en/föli-bikes',
         },
       },
     },
@@ -121,8 +121,11 @@ export default configMerger(walttiConfig, {
       },
       {
         name: 'accessibility-statement',
-        href:
-          'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
+        href: {
+          fi: 'https://www.digitransit.fi/accessibility',
+          sv: 'https://www.digitransit.fi/accessibility',
+          en: 'https://www.digitransit.fi/en/accessibility',
+        },
       },
     ],
   },

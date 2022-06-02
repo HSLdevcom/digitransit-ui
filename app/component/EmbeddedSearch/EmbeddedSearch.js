@@ -6,15 +6,18 @@ import { matchShape } from 'found';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import i18next from 'i18next';
-import { getRefPoint } from '../util/apiUtils';
-import withSearchContext from './WithSearchContext';
+import { getRefPoint } from '../../util/apiUtils';
+import withSearchContext from '../WithSearchContext';
 import {
+  buildQueryString,
+  buildURL,
   getPathWithEndpointObjects,
   PREFIX_ITINERARY_SUMMARY,
-} from '../util/path';
-import Icon from './Icon';
-import Loading from './Loading';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
+} from '../../util/path';
+import Icon from '../Icon';
+import Loading from '../Loading';
+import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import useUTMCampaignParams from './hooks/useUTMCampaignParams';
 
 const LocationSearch = withSearchContext(DTAutosuggestPanel, true);
 
@@ -220,14 +223,25 @@ const EmbeddedSearch = (props, context) => {
     isEmbedded: true,
   };
 
+  const mode = bikeOnly ? 'bike' : walkOnly ? 'walk' : 'all';
+
+  const utmCampaignParams = useUTMCampaignParams({
+    mode,
+    hasOrigin: Boolean(defaultOriginExists),
+    hasDest: Boolean(defaultDestinationExists),
+  });
+
   const executeSearch = () => {
     const urlEnd = bikeOnly ? '/bike' : walkOnly ? '/walk' : '';
-    const mode = bikeOnly ? 'bike' : walkOnly ? 'walk' : 'all';
-    const pathName = `/${lang}${getPathWithEndpointObjects(
-      origin,
-      destination,
-      PREFIX_ITINERARY_SUMMARY,
-    )}${urlEnd}`;
+
+    const targetUrl = buildURL([
+      lang,
+      getPathWithEndpointObjects(origin, destination, PREFIX_ITINERARY_SUMMARY),
+      urlEnd,
+    ]);
+
+    targetUrl.search += buildQueryString(utmCampaignParams);
+
     addAnalyticsEvent({
       category: 'EmbeddedSearch',
       action: 'executeSearch',
@@ -236,7 +250,7 @@ const EmbeddedSearch = (props, context) => {
       origin: origin?.address,
       destination: destination?.address,
     });
-    window.open(pathName, '_blank');
+    window.open(targetUrl.href, '_blank');
   };
 
   // eslint-disable-next-line consistent-return
@@ -263,7 +277,7 @@ const EmbeddedSearch = (props, context) => {
 
   useEffect(() => {
     import(
-      /* webpackChunkName: "embedded-search" */ `../configurations/images/${
+      /* webpackChunkName: "embedded-search" */ `../../configurations/images/${
         config.secondaryLogo || config.logo
       }`
     ).then(l => {

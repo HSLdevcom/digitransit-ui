@@ -11,6 +11,11 @@ button {
   position: relative;
   background-color: transparent;
   transition: none;
+  display: inline-block;
+  text-decoration: none;
+  font-weight: inherit;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   color: inherit;
 
   &:focus {

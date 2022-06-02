@@ -62,8 +62,10 @@ import SearchRailStopDefault from './assets/search-rail-stop-default.svg';
 import SearchFerryDefault from './assets/search-ferry-default.svg';
 import SearchFerryStopDefault from './assets/search-ferry-stop-default.svg';
 import CityBikeStopDefault from './assets/citybike-stop-default.svg';
+import CityBikeStopDefaultSecondary from './assets/citybike-stop-default-secondary.svg';
 import SearchTramStopDefault from './assets/search-tram-stop-default.svg';
 import CityBikeStopDigitransit from './assets/citybike-stop-digitransit.svg';
+import CityBikeStopDigitransitSecondary from './assets/citybike-stop-digitransit-secondary.svg';
 import SearchAirplaneDigitransit from './assets/search-airplane-digitransit.svg';
 import SearchBusStationDigitransit from './assets/search-bus-station-digitransit.svg';
 import SearchBusStopDigitransit from './assets/search-bus-stop-digitransit.svg';
@@ -149,7 +151,13 @@ const IconMap = style => {
     'search-ferry-stop-default': <SearchFerryStopDefault style={style} />,
     'search-tram-stop-default': <SearchTramStopDefault style={style} />,
     'citybike-stop-digitransit': <CityBikeStopDigitransit style={style} />,
+    'citybike-stop-digitransit-secondary': (
+      <CityBikeStopDigitransitSecondary style={style} />
+    ),
     'citybike-stop-default': <CityBikeStopDefault style={style} />,
+    'citybike-stop-default-secondary': (
+      <CityBikeStopDefaultSecondary style={style} />
+    ),
     'search-airplane-digitransit': <SearchAirplaneDigitransit style={style} />,
     'search-bus-station-digitransit': (
       <SearchBusStationDigitransit style={style} />

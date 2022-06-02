@@ -184,6 +184,8 @@ const RouteStop = (
       </div>
       <div className="route-stop-row_content-container">
         <Link
+          as="button"
+          type="button"
           to={`/${PREFIX_STOPS}/${encodeURIComponent(stop.gtfsId)}`}
           onClick={() => {
             addAnalyticsEvent({
