@@ -134,28 +134,28 @@ CarpoolLeg.createBookButton = route => {
 };
 
 CarpoolLeg.drawIcons = agency => {
-  if (agency.gtfsId === 'mfdz:fg') {
+  if (agency.gtfsId === 'mfdz:mifaz') {
     return (
-      <>
-        <Icon
-          img="fg_icon"
-          className="carpool-agency-logo"
-          ariaLabel={agency.name}
-        />
-        <Icon
-          img="adac_icon"
-          className="carpool-agency-logo"
-          ariaLabel="ADAC Mitfahrclub"
-        />
-      </>
+      <Icon
+        img="mifaz_icon-without-text"
+        className="carpool-agency-logo"
+        ariaLabel={agency.name}
+      />
     );
   }
   return (
-    <Icon
-      img="mifaz_icon-without-text"
-      className="carpool-agency-logo"
-      ariaLabel={agency.name}
-    />
+    <>
+      <Icon
+        img="fg_icon"
+        className="carpool-agency-logo"
+        ariaLabel={agency.name}
+      />
+      <Icon
+        img="adac_icon"
+        className="carpool-agency-logo"
+        ariaLabel="ADAC Mitfahrclub"
+      />
+    </>
   );
 };
 
