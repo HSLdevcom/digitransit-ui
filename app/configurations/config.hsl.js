@@ -662,7 +662,7 @@ export default {
       content: {
         fi: [
           'Lähibussit on suunniteltu erityisesti ikäihmisille ja liikuntarajoitteisille. ',
-          'Kyytiin voi nousta ja kyydistä poistua pysäkkien lisäksi myös muulla, liikennesääntöjen puitteissa. ',
+          'Kyytiin voi nousta ja kyydistä poistua pysäkkien lisäksi myös muualla, liikennesääntöjen puitteissa. ',
         ],
         en: [
           'The routes and timetables have been planned to serve, in particular, the needs of senior citizens. ',
