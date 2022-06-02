@@ -658,7 +658,7 @@ export function drawCitybikeIcon(
     y = geom.y / tile.ratio - height;
     let icon = `${iconName}_station_${color}_small`;
     if (state === BIKESTATION_CLOSED || state === BIKESTATION_OFF) {
-      icon = `${iconName}_station_closed_small`;
+      icon = 'icon-icon_citybike_station_closed_small';
     }
     getImageFromSpriteCache(icon, width, height).then(image => {
       tile.ctx.drawImage(image, x, y);
@@ -679,7 +679,7 @@ export function drawCitybikeIcon(
       state === BIKESTATION_ON;
     let icon = `${iconName}_station_${color}_large`;
     if (state === BIKESTATION_CLOSED || state === BIKESTATION_OFF) {
-      icon = `${iconName}_station_closed_large`;
+      icon = 'icon-icon_citybike_station_closed_large';
     }
     getImageFromSpriteCache(icon, width, height).then(image => {
       tile.ctx.drawImage(image, x, y);

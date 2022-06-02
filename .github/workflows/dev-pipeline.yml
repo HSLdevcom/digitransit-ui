@@ -7,27 +7,7 @@ on:
     branches:
       - v2
 jobs:
-  install:
-    runs-on: ubuntu-18.04
-    strategy:
-      matrix:
-        node-version: [10.x]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Install dependencies
-        run: yarn
   lint:
-    needs: install
     runs-on: ubuntu-18.04
     strategy:
       matrix:
@@ -43,17 +23,13 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
+        run: yarn
       - name: Install dependencies and build shared components
         run: yarn setup
       - name: Run linters
         run: yarn lint
   unit-test:
-    needs: install
     runs-on: ubuntu-18.04
     strategy:
       matrix:
@@ -69,11 +45,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
+        run: yarn
       - name: Install dependencies and build shared components
         run: yarn setup
       - name: build relay queries
@@ -83,7 +56,6 @@ jobs:
       - name: Send test coverage report
         run: yarn run test-report
   accessibility-test:
-    needs: install
     runs-on: ubuntu-18.04
     strategy:
       matrix:
@@ -99,11 +71,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
+        run: yarn
       - name: Install dependencies and build shared components
         run: yarn setup
       - name: build relay queries
@@ -129,11 +98,6 @@ jobs:
   #       uses: actions/setup-node@v1
   #       with:
   #         node-version: ${{ matrix.node-version }}
-  #     - name: Cache node modules
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: '**/node_modules'
-  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
   #     - name: Build shared components
   #       run: yarn setup
   #     - name: Build UI
@@ -147,7 +111,6 @@ jobs:
   #           './manifest.json'
   #         key: ${{ runner.os }}-build-${{ github.run_id }}
   e2e-test-desktop:
-    needs: install
     runs-on: ubuntu-18.04
     strategy:
       # don't cancel running jobs even if one fails
@@ -166,11 +129,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
+        run: yarn
       - name: Build shared components
         run: yarn setup
       - name: Build relay queries
@@ -187,7 +147,6 @@ jobs:
           STORAGERESOURCENAME: "visualtestsnapshots"
         run: yarn test:e2e
   e2e-test-mobile:
-    needs: install
     runs-on: ubuntu-18.04
     strategy:
       # don't cancel running jobs even if one fails
@@ -206,11 +165,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
+        run: yarn
       - name: Install dependencies and build shared components
         run: yarn setup
       - name: Build relay queries
@@ -230,7 +186,6 @@ jobs:
   publish-npm:
     if: github.ref == 'refs/heads/v2'
     needs:
-      - install
       - lint
       - unit-test
       - accessibility-test
@@ -249,11 +204,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
+        run: yarn
       - name: Install dependencies and build shared components
         run: yarn setup
       - name: build relay queries

@@ -100,6 +100,14 @@ export default {
       'mode-citybike-secondary': '#333333',
     },
   },
+  getAutoSuggestIcons: {
+    citybikes: station => {
+      if (station.properties.source === 'citybikesvantaa') {
+        return ['citybike-stop-default-secondary', '#f2b62d'];
+      }
+      return ['citybike-stop-default', '#f2b62d'];
+    },
+  },
   iconModeSet: 'default',
   fontWeights: {
     medium: 500,
