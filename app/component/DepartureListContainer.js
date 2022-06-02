@@ -291,18 +291,20 @@ class DepartureListContainer extends Component {
       if (departure.addDayDivider) {
         departureObjs.push(
           <tr key={departureDate}>
-            <td colSpan={isTerminal ? '4' : '3'}>
+            <td colSpan={isTerminal ? 4 : 3}>
               {' '}
               <div className="date-row border-bottom">
                 {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
               </div>
+              <td />
+              <td />
             </td>
           </tr>,
         );
       } else if (departure.addServiceDayDivider) {
         departureObjs.push(
           <tr key={`${departureDate}_divider`}>
-            <td colSpan={isTerminal ? '4' : '3'}>
+            <td colSpan={isTerminal ? 4 : 3}>
               <div className="departure-day-divider" />
             </td>
           </tr>,
