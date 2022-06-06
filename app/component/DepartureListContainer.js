@@ -82,7 +82,6 @@ class DepartureListContainer extends Component {
     currentTime: PropTypes.number.isRequired,
     limit: PropTypes.number,
     infiniteScroll: PropTypes.bool,
-    routeLinks: PropTypes.bool,
     className: PropTypes.string,
     isTerminal: PropTypes.bool,
     isStopPage: PropTypes.bool,
@@ -106,7 +105,9 @@ class DepartureListContainer extends Component {
         },
       );
       setTimeout(() => {
-        this.pageLoadedAlertRef.current.innerHTML = null;
+        if (this.pageLoadedAlertRef?.current) {
+          this.pageLoadedAlertRef.current.innerHTML = null;
+        }
       }, 100);
     }
     if (this.context.config.showVehiclesOnStopPage && this.props.isStopPage) {
@@ -291,12 +292,22 @@ class DepartureListContainer extends Component {
 
       if (departure.addDayDivider) {
         departureObjs.push(
-          <div key={departureDate} className="date-row border-bottom">
-            {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
-          </div>,
+          <tr key={departureDate}>
+            <td colSpan={isTerminal ? 4 : 3}>
+              <div className="date-row border-bottom">
+                {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
+              </div>
+            </td>
+          </tr>,
         );
       } else if (departure.addServiceDayDivider) {
-        departureObjs.push(<div className="departure-day-divider" />);
+        departureObjs.push(
+          <tr key={`${departureDate}_divider`}>
+            <td colSpan={isTerminal ? 4 : 3}>
+              <div className="departure-day-divider" />
+            </td>
+          </tr>,
+        );
       }
 
       const id = `${departure.pattern.code}:${departure.stoptime}`;
@@ -329,7 +340,6 @@ class DepartureListContainer extends Component {
         <DepartureRow
           key={id}
           departure={row}
-          showLink={this.props.routeLinks}
           departureTime={departure.stoptime}
           currentTime={this.props.currentTime}
           showPlatformCode={isTerminal}
