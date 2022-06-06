@@ -292,7 +292,6 @@ class DepartureListContainer extends Component {
         departureObjs.push(
           <tr key={departureDate}>
             <td colSpan={isTerminal ? 4 : 3}>
-              {' '}
               <div className="date-row border-bottom">
                 {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
               </div>
