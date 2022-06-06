@@ -296,8 +296,6 @@ class DepartureListContainer extends Component {
               <div className="date-row border-bottom">
                 {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
               </div>
-              <td />
-              <td />
             </td>
           </tr>,
         );

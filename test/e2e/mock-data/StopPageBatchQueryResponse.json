@@ -231,6 +231,7 @@
               "realtime": true,
               "serviceDay": 1640642400,
               "pickupType": "SCHEDULED",
+              "dropoffType": "SCHEDULED",
               "headsign": "Kirkkonummi",
               "stop": {
                 "id": "U3RvcDpIU0w6NjMwNDAwNA==",
@@ -482,6 +483,7 @@
               "realtime": false,
               "serviceDay": 1640642400,
               "pickupType": "SCHEDULED",
+              "dropoffType": "SCHEDULED",
               "headsign": "Siuntio",
               "stop": {
                 "id": "U3RvcDpIU0w6NjMwNDAwNA==",
@@ -757,6 +759,7 @@
               "realtime": false,
               "serviceDay": 1640728800,
               "pickupType": "SCHEDULED",
+              "dropoffType": "SCHEDULED",
               "headsign": "Kirkkonummi",
               "stop": {
                 "id": "U3RvcDpIU0w6NjMwNDAwNA==",
@@ -1000,6 +1003,7 @@
               "realtime": false,
               "serviceDay": 1640728800,
               "pickupType": "SCHEDULED",
+              "dropoffType": "SCHEDULED",
               "headsign": "Siuntio",
               "stop": {
                 "id": "U3RvcDpIU0w6NjMwNDAwNA==",
@@ -1283,6 +1287,7 @@
               "realtime": false,
               "serviceDay": 1640728800,
               "pickupType": "SCHEDULED",
+              "dropoffType": "SCHEDULED",
               "headsign": "Kirkkonummi",
               "stop": {
                 "id": "U3RvcDpIU0w6NjMwNDAwNA==",
@@ -1526,6 +1531,7 @@
               "realtime": false,
               "serviceDay": 1640728800,
               "pickupType": "SCHEDULED",
+              "dropoffType": "SCHEDULED",
               "headsign": "Siuntio",
               "stop": {
                 "id": "U3RvcDpIU0w6NjMwNDAwNA==",
@@ -1809,6 +1815,7 @@
               "realtime": false,
               "serviceDay": 1640728800,
               "pickupType": "SCHEDULED",
+              "dropoffType": "SCHEDULED",
               "headsign": "Siuntio",
               "stop": {
                 "id": "U3RvcDpIU0w6NjMwNDAwNA==",
@@ -2084,6 +2091,7 @@
               "realtime": false,
               "serviceDay": 1640728800,
               "pickupType": "SCHEDULED",
+              "dropoffType": "SCHEDULED",
               "headsign": "Kirkkonummi",
               "stop": {
                 "id": "U3RvcDpIU0w6NjMwNDAwNA==",
@@ -2335,6 +2343,7 @@
               "realtime": false,
               "serviceDay": 1640728800,
               "pickupType": "SCHEDULED",
+              "dropoffType": "SCHEDULED",
               "headsign": "Siuntio",
               "stop": {
                 "id": "U3RvcDpIU0w6NjMwNDAwNA==",
@@ -2610,6 +2619,7 @@
               "realtime": false,
               "serviceDay": 1640815200,
               "pickupType": "SCHEDULED",
+              "dropoffType": "SCHEDULED",
               "headsign": "Kirkkonummi",
               "stop": {
                 "id": "U3RvcDpIU0w6NjMwNDAwNA==",
@@ -2853,6 +2863,7 @@
               "realtime": false,
               "serviceDay": 1640815200,
               "pickupType": "SCHEDULED",
+              "dropoffType": "SCHEDULED",
               "headsign": "Siuntio",
               "stop": {
                 "id": "U3RvcDpIU0w6NjMwNDAwNA==",
