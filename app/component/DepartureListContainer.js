@@ -105,7 +105,9 @@ class DepartureListContainer extends Component {
         },
       );
       setTimeout(() => {
-        this.pageLoadedAlertRef.current.innerHTML = null;
+        if (this.pageLoadedAlertRef?.current) {
+          this.pageLoadedAlertRef.current.innerHTML = null;
+        }
       }, 100);
     }
     if (this.context.config.showVehiclesOnStopPage && this.props.isStopPage) {
