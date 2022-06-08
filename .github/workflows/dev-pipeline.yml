@@ -111,7 +111,7 @@ jobs:
   #           './manifest.json'
   #         key: ${{ runner.os }}-build-${{ github.run_id }}
   e2e-test-desktop:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     strategy:
       # don't cancel running jobs even if one fails
       fail-fast: false
@@ -147,7 +147,7 @@ jobs:
           STORAGERESOURCENAME: "visualtestsnapshots"
         run: yarn test:e2e
   e2e-test-mobile:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     strategy:
       # don't cancel running jobs even if one fails
       fail-fast: false
