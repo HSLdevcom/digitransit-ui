@@ -3,10 +3,10 @@ import React, { useEffect, useContext, useState } from 'react';
 import { matchShape, routerShape } from 'found';
 import moment from 'moment';
 import { connectToStores } from 'fluxible-addons-react';
-
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { graphql, fetchQuery } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
+import { getSettings } from '../../util/planParamUtil';
 import TimeStore from '../../store/TimeStore';
 import PositionStore from '../../store/PositionStore';
 import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
@@ -61,11 +61,14 @@ const StopPageMap = (
             lon: targetStop.lon,
             lat: targetStop.lat,
           };
+          const settings = getSettings(config);
           const variables = {
             fromPlace: addressToItinerarySearch(locationState),
             toPlace: addressToItinerarySearch(toPlace),
             date: moment(currentTime * 1000).format('YYYY-MM-DD'),
             time: moment(currentTime * 1000).format('HH:mm:ss'),
+            walkSpeed: settings.walkSpeed,
+            wheelchair: !!settings.accessibilityOption,
           };
           const query = graphql`
             query StopPageMapQuery(
@@ -73,6 +76,8 @@ const StopPageMap = (
               $toPlace: String!
               $date: String!
               $time: String!
+              $walkSpeed: Float
+              $wheelchair: Boolean
             ) {
               plan: plan(
                 fromPlace: $fromPlace
@@ -80,6 +85,8 @@ const StopPageMap = (
                 date: $date
                 time: $time
                 transportModes: [{ mode: WALK }]
+                walkSpeed: $walkSpeed
+                wheelchair: $wheelchair
               ) {
                 itineraries {
                   legs {
