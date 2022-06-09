@@ -13,6 +13,7 @@ import BackButton from '../BackButton';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import Line from './Line';
 import MapWithTracking from './MapWithTracking';
+import { getSettings } from '../../util/planParamUtil';
 import {
   startRealTimeClient,
   stopRealTimeClient,
@@ -176,11 +177,14 @@ function StopsNearYouMap(
       lon: stop.lon,
       lat: stop.lat,
     };
+    const settings = getSettings(context.config);
     const variables = {
       fromPlace: addressToItinerarySearch(position),
       toPlace: addressToItinerarySearch(toPlace),
       date: moment(currentTime * 1000).format('YYYY-MM-DD'),
       time: moment(currentTime * 1000).format('HH:mm:ss'),
+      walkSpeed: settings.walkSpeed,
+      wheelchair: !!settings.accessibilityOption,
     };
     const query = graphql`
       query StopsNearYouMapQuery(
@@ -188,6 +192,8 @@ function StopsNearYouMap(
         $toPlace: String!
         $date: String!
         $time: String!
+        $walkSpeed: Float
+        $wheelchair: Boolean
       ) {
         plan: plan(
           fromPlace: $fromPlace
@@ -195,6 +201,8 @@ function StopsNearYouMap(
           date: $date
           time: $time
           transportModes: [{ mode: WALK }]
+          walkSpeed: $walkSpeed
+          wheelchair: $wheelchair
         ) {
           itineraries {
             legs {
