@@ -6,8 +6,12 @@ import { drawDatahubTileIcon } from '../../../util/mapIconUtils';
 import { isBrowser } from '../../../util/browser';
 
 export default class DatahubTiles {
-  constructor(tile, config) {
+  constructor(tile, layerConfig, config) {
     this.tile = tile;
+
+    this.baseUrl = layerConfig.baseUrl;
+    this.vectorTileLayer = layerConfig.vectorTileLayer;
+
     this.config = config;
     const scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.imageSize = 20 * scaleratio;
@@ -18,18 +22,22 @@ export default class DatahubTiles {
 
   getPromise() {
     return fetch(
-      `${this.config.URL.DATAHUB_TILES_MAP}${
+      `${this.baseUrl}${
         this.tile.coords.z + (this.tile.props.zoomOffset || 0)
       }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
     ).then(res => {
-      if (res.status !== 200) {
+      if (!res.ok) {
         return undefined;
       }
 
       return res.arrayBuffer().then(
         buf => {
+          if (buf.byteLength === 0) {
+            return;
+          }
+
           const vt = new VectorTile(new Protobuf(buf));
-          const layerData = vt.layers['public.poi_coords'] || { length: 0 };
+          const layerData = vt.layers[this.vectorTileLayer] || { length: 0 };
           const { length } = layerData;
 
           if (layerData != null) {

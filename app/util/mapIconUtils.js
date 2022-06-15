@@ -785,12 +785,10 @@ export function drawDatahubTileIcon(tile, geom, isHilighted, properties) {
   width *= tile.scaleratio;
   height *= tile.scaleratio;
 
-  const domUrl = window.URL || window.webkitURL || window;
   const { svg_icon: svgIcon } = properties;
-  const svg = new Blob([svgIcon], {
-    type: 'image/svg+xml;charset=utf-8',
-  });
-  const blobUrl = domUrl?.createObjectURL(svg);
+  const blobUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
+    svgIcon,
+  )}`;
   const image = new Image(width, height);
 
   image.onload = function () {

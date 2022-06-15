@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import { Environment, Network, RecordSource, Store } from 'relay-runtime';
+import { FormattedMessage } from 'react-intl';
 
 import SidebarContainer from '../SidebarContainer';
 import Address from './section/Address';
@@ -93,10 +94,7 @@ const DatahubTileContent = ({ match }, { config }) => {
           pointOfInterest(id: $datahubId) {
             id
             name
-            category {
-              id
-              name
-            }
+            tagList
             dataProvider {
               id
               description
@@ -136,7 +134,14 @@ const DatahubTileContent = ({ match }, { config }) => {
       `}
       variables={{ datahubId }}
       environment={getEnvironment(config)}
-      render={({ props }) => {
+      render={({ error, props }) => {
+        if (error) {
+          // eslint-disable-next-line no-console
+          console.error(error);
+          // todo: /\bNetworkError\b/.test(error), show different error message?
+          return <FormattedMessage id="network-error" />;
+        }
+
         const data = props?.pointOfInterest;
         const loading = !data;
 
@@ -147,7 +152,7 @@ const DatahubTileContent = ({ match }, { config }) => {
         return (
           <SidebarContainer
             name={data.name}
-            description={data.category.name}
+            description={data.tagList.join(', ')}
             icon="icon-icon_mapMarker-point"
           >
             <Address addresses={data.addresses} />

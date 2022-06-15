@@ -47,7 +47,6 @@ export default configMerger(walttiConfig, {
         CITYBIKE_MAP: `${API_URL}/otp/routers/default/vectorTiles/citybikes/`,
         BIKE_PARKS_MAP: `${API_URL}/otp/routers/default/vectorTiles/parking/`,
         WEATHER_STATIONS_MAP: '', // `${API_URL}/map/v1/weather-stations/`,
-        DATAHUB_TILES_MAP: `${DATAHUB_TILES_URL}/public.poi_coords/`,
         CHARGING_STATIONS_MAP: '', // `${API_URL}/tiles/charging-stations/`,
         PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
         PELIAS_REVERSE_GEOCODER: `${
@@ -166,9 +165,34 @@ export default configMerger(walttiConfig, {
     },
 
     datahubTiles: {
-        show: false,
+        show: true,
         smallIconZoom: 17,
-        minZoom: 15
+        minZoom: 15,
+        layers: [{
+            name: 'poi_coords_bike_rentals',
+            labelId: 'map-layer-datahub-bike-rentals',
+            icon: 'poi_bicycle_rental',
+            baseUrl: `${DATAHUB_TILES_URL}/public.poi_coords_bike_rentals/`,
+            vectorTileLayer: 'public.poi_coords_bike_rentals',
+        }, {
+            name: 'poi_coords_bike_repair_shops',
+            labelId: 'map-layer-datahub-bike-repair-shops',
+            icon: 'icon-icon_stop_bicycle_repair',
+            baseUrl: `${DATAHUB_TILES_URL}/public.poi_coords_bike_repair_shops/`,
+            vectorTileLayer: 'public.poi_coords_bike_repair_shops',
+        }, {
+            name: 'poi_coords_e_bike_charging_stations',
+            labelId: 'map-layer-datahub-e-bike-charging-stations',
+            icon: 'icon-icon_stop_e_bike_charging_station',
+            baseUrl: `${DATAHUB_TILES_URL}/public.poi_coords_e_bike_charging_stations/`,
+            vectorTileLayer: 'public.poi_coords_e_bike_charging_stations',
+        }, {
+            name: 'poi_coords_e_bike_rentals',
+            labelId: 'map-layer-datahub-e-bike-rentals',
+            icon: 'poi_e_bike_rental',
+            baseUrl: `${DATAHUB_TILES_URL}/public.poi_coords_e_bike_rentals/`,
+            vectorTileLayer: 'public.poi_coords_e_bike_rentals',
+        }],
     },
 
     chargingStations: {

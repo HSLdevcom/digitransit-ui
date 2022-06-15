@@ -43,6 +43,12 @@ class MapLayerStore extends Store {
     const { config } = dispatcher.getContext();
     this.mapLayers.citybike = showCityBikes(config.cityBike?.networks);
 
+    const datahubLayers =
+      (config.datahubTiles && config.datahubTiles.layers) || [];
+    this.mapLayers.datahubTiles = Object.fromEntries(
+      datahubLayers.map(l => [l.name, true]),
+    );
+
     const storedMapLayers = getMapLayerSettings();
     if (Object.keys(storedMapLayers).length > 0) {
       this.mapLayers = {
@@ -117,6 +123,8 @@ export const mapLayerShape = PropTypes.shape({
   }).isRequired,
   vehicles: PropTypes.bool,
   geoJson: PropTypes.object,
+  // Because the keys of this object depend on the config, but the config is being fetched asynchronously, we can't describe the shape here.
+  datahubTiles: PropTypes.objectOf(PropTypes.bool),
 });
 
 export default MapLayerStore;

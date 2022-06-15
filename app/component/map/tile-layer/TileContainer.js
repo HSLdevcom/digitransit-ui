@@ -70,6 +70,15 @@ class TileContainer {
       .filter(Layer => {
         const layerName = Layer.getName();
 
+        // Because the Datahub layers are nested, we check differently if they're enabled.
+        if (layerName === 'datahubTiles') {
+          const { name: datahubLayerName } = Layer.layerConfig;
+          const isEnabled = Boolean(
+            props.mapLayers.datahubTiles[datahubLayerName],
+          );
+          return isEnabled;
+        }
+
         // stops and terminals are drawn on same layer
         const isEnabled =
           isLayerEnabled(layerName, this.props.mapLayers) ||
@@ -110,12 +119,6 @@ class TileContainer {
         if (
           layerName === 'weatherStations' &&
           this.coords.z >= config.weatherStations.minZoom
-        ) {
-          return isEnabled;
-        }
-        if (
-          layerName === 'datahubTiles' &&
-          this.coords.z >= config.datahubTiles.minZoom
         ) {
           return isEnabled;
         }
@@ -227,7 +230,10 @@ class TileContainer {
         layer.features
           ? layer.features.map(feature => ({
               layer: layer.constructor.getName(),
+              // todo: this is really ugly!
+              layerConfig: layer.constructor.layerConfig,
               feature,
+              coords: this.project(feature.geom),
             }))
           : [],
       );

@@ -183,6 +183,21 @@ class MapLayersDialogContent extends React.Component {
       layer => layer.name.en === 'Bicycle network',
     );
 
+    const { config } = this.context;
+    const datahubLayers =
+      config.datahubTiles && config.datahubTiles.show
+        ? config.datahubTiles.layers
+        : [];
+    const datahubBicycleLayers = datahubLayers.map(layer => {
+      return {
+        checked: datahubTiles[layer.name],
+        defaultMessage: layer.name,
+        labelId: layer.labelId,
+        icon: layer.icon,
+        settings: { datahubTiles: layer.name },
+      };
+    });
+
     return (
       <>
         <button
@@ -301,6 +316,7 @@ class MapLayersDialogContent extends React.Component {
                   icon: cycleNetworkLayer.icon,
                   settings: { geoJson: cycleNetworkLayer.url },
                 },
+                ...datahubBicycleLayers,
               ]}
             />
             <LayerCategoryDropdown
@@ -416,14 +432,6 @@ class MapLayersDialogContent extends React.Component {
                     labelId: 'map-layer-weather-stations',
                     icon: 'icon-icon_stop_monitor',
                     settings: 'weatherStations',
-                  },
-                this.context.config.datahubTiles &&
-                  this.context.config.datahubTiles.show && {
-                    checked: datahubTiles,
-                    defaultMessage: 'Datahub tiles',
-                    labelId: 'map-layer-datahub-tiles',
-                    icon: 'icon-icon_mapMarker-point',
-                    settings: 'datahubTiles',
                   },
                 gatewaysLayer && {
                   checked:

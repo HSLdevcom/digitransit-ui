@@ -74,7 +74,8 @@ class Stops {
     return (
       stop.properties.type === 'CARPOOL' &&
       !stop.properties.name.includes('P+M') &&
-      !stop.properties.gtfsId.includes(':mfdz:')
+      !stop.properties.gtfsId.includes(':mfdz:') &&
+      !stop.properties.gtfsId.includes(':bbnavi:')
     );
   };
 
@@ -116,7 +117,8 @@ class Stops {
               // FIXME: type is (temporarilly) deduced from gtfsId. Should be returned by OTP
               if (
                 !feature.properties.type &&
-                feature.properties.gtfsId.includes(':mfdz:')
+                (feature.properties.gtfsId.includes(':mfdz:') ||
+                  feature.properties.gtfsId.includes(':bbnavi:'))
               ) {
                 feature.properties.type = 'CARPOOL';
               }
