@@ -2087,7 +2087,7 @@ class SummaryPage extends React.Component {
     this.bikeAndParkItinerariesToShow = 0;
     if (this.props.match.params.hash === 'walk') {
       this.stopClient();
-      if (!walkPlan) {
+      if (this.state.isFetchingWalkAndBike) {
         return (
           <>
             <Loading />
