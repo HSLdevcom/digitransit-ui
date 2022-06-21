@@ -203,7 +203,6 @@ jobs:
       - unit-test
       - accessibility-test
       - e2e-test-desktop
-      - e2e-test-mobile
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
