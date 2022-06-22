@@ -29,7 +29,6 @@ export default configMerger(walttiConfig, {
         CLIENT_SECRET: process.env.DATAHUB_O_AUTH_CLIENT_SECRET,
     },
     URL: {
-        HEADER_TITLE,
         DATAHUB: process.env.DATAHUB_URL || 'https://datahub.bbnavi.de',
         OTP: process.env.OTP_URL || `${API_URL}/otp/routers/default/`,
         MAP: {
@@ -283,6 +282,7 @@ export default configMerger(walttiConfig, {
     mergeStopsByCode: true,
 
     title: APP_TITLE,
+    appBarTitle: HEADER_TITLE,
     titleAsHtml: APP_TITLE,
 
     favicon: './app/configurations/images/bbnavi/favicon.png',

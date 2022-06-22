@@ -28,6 +28,7 @@ export default configMerger(bbnaviConfig, {
   },
 
   title: APP_TITLE,
+  appBarTitle: HEADER_TITLE,
 
   searchParams: {
     'boundary.rect.min_lat': minLat,

@@ -31,6 +31,7 @@ export default configMerger(bbnaviConfig, {
   },
 
   title: APP_TITLE,
+  appBarTitle: HEADER_TITLE,
 
   searchPanelText: 'This is special!',
 
