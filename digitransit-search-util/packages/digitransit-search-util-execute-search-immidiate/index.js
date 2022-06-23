@@ -347,8 +347,10 @@ export function getSearchResults(
   }
   if (allTargets || targets.includes('ParkingAreas')) {
     if (allSources || sources.includes('Datasource')) {
-      const searchParams =
-        geocodingSize && geocodingSize !== 10 ? { size: geocodingSize } : {};
+      const searchParams = geocodingSearchParams;
+      if (geocodingSize && geocodingSize !== 10) {
+        searchParams.size = geocodingSize;
+      }
       const geocodingLayers = ['carpark', 'bikepark'];
       const feedIds = parkingAreaSources ? parkingAreaSources.join(',') : null;
       searchComponents.push(
@@ -535,9 +537,8 @@ export function getSearchResults(
     }
     if (allSources || sources.includes('Datasource')) {
       const geocodingLayers = ['bikestation'];
-      const searchParams = {
-        size: geocodingSize,
-      };
+      const searchParams =
+        geocodingSize && geocodingSize !== 10 ? { size: geocodingSize } : {};
       searchComponents.push(
         getGeocodingResults(
           input,
