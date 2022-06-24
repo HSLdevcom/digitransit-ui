@@ -4,6 +4,7 @@ import bbnaviConfig from './config.bbnavi';
 const CONFIG = 'bbnavi-fuerstenberg-havel';
 const APP_TITLE = 'bbnavi Fürstenberg (Havel)';
 const HEADER_TITLE = 'Fürstenberg (Havel)';
+const MATOMO_URL = 'https://nutzung.bbnavi.de/js/container_bsSknwat.js';
 
 export default configMerger(bbnaviConfig, {
   CONFIG,
@@ -34,4 +35,6 @@ export default configMerger(bbnaviConfig, {
   },
 
   defaultOrigins: [],
+
+  MATOMO_URL,
 });
