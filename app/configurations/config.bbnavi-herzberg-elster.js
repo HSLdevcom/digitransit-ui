@@ -4,6 +4,7 @@ import bbnaviConfig from './config.bbnavi';
 const CONFIG = 'bbnavi-herzberg-elster';
 const APP_TITLE = 'bbnavi Herzberg (Elster)';
 const HEADER_TITLE = 'Herzberg (Elster)';
+const MATOMO_URL = 'https://nutzung.bbnavi.de/js/container_hzTe9yfE.js';
 
 export default configMerger(bbnaviConfig, {
   CONFIG,
@@ -39,4 +40,6 @@ export default configMerger(bbnaviConfig, {
   // carpool: {
   //   availableForSelection: false,
   // },
+
+  MATOMO_URL,
 });

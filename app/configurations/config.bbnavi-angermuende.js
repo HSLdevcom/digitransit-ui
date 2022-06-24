@@ -4,6 +4,7 @@ import bbnaviConfig from './config.bbnavi';
 const CONFIG = 'bbnavi-angermuende';
 const APP_TITLE = 'bbnavi Angermünde';
 const HEADER_TITLE = 'Angermünde';
+const MATOMO_URL = 'https://nutzung.bbnavi.de/js/container_zrAgG1hE.js';
 
 export default configMerger(bbnaviConfig, {
   CONFIG,
@@ -18,4 +19,6 @@ export default configMerger(bbnaviConfig, {
 
   title: APP_TITLE,
   appBarTitle: HEADER_TITLE,
+
+  MATOMO_URL,
 });
