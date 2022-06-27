@@ -172,7 +172,7 @@
     "moment": "2.29.1",
     "moment-timezone": "0.5.34",
     "morgan": "1.10.0",
-    "mqtt": "4.2.1",
+    "mqtt": "4.3.7",
     "name-all-modules-plugin": "1.0.1",
     "node-fetch": "2.6.0",
     "offline-plugin": "5.0.7",
@@ -245,7 +245,7 @@
     "compression-webpack-plugin": "5.0.2",
     "copy-webpack-plugin": "6.1.0",
     "css-loader": "3.6.0",
-    "documentation": "13.0.2",
+    "documentation": "13.2.5",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.4",
     "enzyme-wait": "1.0.9",
@@ -305,6 +305,6 @@
     "webpack-assets-manifest": "3.1.1",
     "webpack-bundle-analyzer": "3.6.0",
     "webpack-cli": "3.3.10",
-    "webpack-dev-server": "3.10.1"
+    "webpack-dev-server": "3.10.3"
   }
 }
