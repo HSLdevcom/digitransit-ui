@@ -97,3 +97,17 @@ export const ExtendedRouteTypes = {
   BusExpress: 702,
   BusLocal: 704,
 };
+
+/**
+ * OpenTripPlanner (v2) plan message enumerations.
+ */
+export const PlannerMessageType = {
+  NoTransitConnection: 'NO_TRANSIT_CONNECTION',
+  NoTransitConnectionInSearchWindow: 'NO_TRANSIT_CONNECTION_IN_SEARCH_WINDOW',
+  WalkingBetterThanTransit: 'WALKING_BETTER_THAN_TRANSIT',
+  OutsideBounds: 'OUTSIDE_BOUNDS',
+  OutsideServicePeriod: 'OUTSIDE_SERVICE_PERIOD',
+  LocationNotFound: 'LOCATION_NOT_FOUND',
+  NoStopsInRange: 'NO_STOPS_IN_RANGE',
+  SystemError: 'SYSTEM_ERROR',
+};
