@@ -283,7 +283,11 @@ export default {
     'airplane',
   ],
   useAlternativeNameForModes: ['rail'],
+
   includeCarSuggestions: true,
+  includeParkAndRideSuggestions: true,
+
+  parkingAreaSources: ['liipi'],
 
   sourceForAlertsAndDisruptions: {
     HSL: {

@@ -23,6 +23,15 @@ const StreetModeSelectorPanel = (
     executeAction(saveRoutingSettings, action);
   };
 
+  const prId =
+    config.includeParkAndRideSuggestions && config.includeCarSuggestions
+      ? 'park-and-ride'
+      : 'car';
+  const prIcon =
+    config.includeParkAndRideSuggestions && config.includeCarSuggestions
+      ? 'icon-icon_car_park-withoutBox'
+      : 'icon-icon_car-withoutBox';
+
   return (
     <React.Fragment>
       <div className="street-modes-container">
@@ -66,7 +75,7 @@ const StreetModeSelectorPanel = (
             <div className="mode-option-container">
               <div className="mode-option-block">
                 <div className="mode-icon">
-                  <Icon className="car-icon" img="icon-icon_car-withoutBox" />
+                  <Icon className="car-icon" img={prIcon} />
                 </div>
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label
@@ -75,8 +84,8 @@ const StreetModeSelectorPanel = (
                 >
                   <FormattedMessage
                     className="mode-name"
-                    id="car"
-                    defaultMessage="Car"
+                    id={prId}
+                    defaultMessage="Park & Ride"
                   />
                   <Toggle
                     id="settings-toggle-parkAndRide"
@@ -91,7 +100,7 @@ const StreetModeSelectorPanel = (
           </div>
         )}
         {config.includeCarSuggestions && (
-          <div key="mode-option-park-and-ride">
+          <div key="mode-option-car">
             <div className="mode-option-container">
               <div className="mode-option-block">
                 <div className="mode-icon">
@@ -102,7 +111,7 @@ const StreetModeSelectorPanel = (
                   <FormattedMessage
                     className="mode-name"
                     id="car"
-                    defaultMessage="car"
+                    defaultMessage="Car"
                   />
                   <Toggle
                     id="settings-toggle-car"
