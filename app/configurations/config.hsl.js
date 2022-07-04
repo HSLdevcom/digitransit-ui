@@ -599,18 +599,18 @@ export default {
           'HSL-alueen ulkopuolelle käytetään liikennöitsijän lippuja.',
         ],
         en: [
-          "As far as i.e. baby carriages are concerned, the bus operators' own rules apply on the U lines. ",
-          "Outside the HSL area, the operator's tickets are used.",
+          "The bus operators' regulations are applied e.g. to the transport of prams. ",
+          "The bus operators' tickets are used outside the HSL area.",
         ],
         sv: [
-          'Vad gäller bl.a. barnvagn och keldjur, gäller bussoperatörernas egna regler på U-linjerna. ',
-          'Om resan börjar eller riktas utanför HRT-området används trafikidkarens egna biljetter',
+          'Trafikföretagets regler tillämpas t.ex. på barnvagnar. ',
+          'Trafikföretagets egna biljetter gäller utanför HRT-området.',
         ],
       },
       closeButtonLabel: {
         fi: 'Mitä U-linja tarkoittaa?',
-        en: 'What does a U-line mean?',
-        sv: 'Vad betyder en U-linje?',
+        en: 'What does U-line mean?',
+        sv: 'Vad betyder U-linje?',
       },
       link: {
         fi: 'hsl.fi/matkustaminen/u-liikenne/',

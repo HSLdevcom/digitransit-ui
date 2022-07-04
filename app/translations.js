@@ -923,7 +923,7 @@ const translations = {
     'bike-availability': 'Bikes available at the station right now',
     'bike-not-allowed-bus': 'Bikes are not allowed on the bus',
     'bike-not-allowed-tram': 'Bikes are not allowed on the tram',
-    'bike-only': 'Only biking',
+    'bike-only': 'Cycling only',
     'bike-park': 'Park & Ride for bikes',
     'bike-park-disclaimer':
       'You can conveniently combine cycling and public transport: leave your bike at a Park & Ride and continue by train, bus, metro or tram. Bike parking is free of charge and there are no time limits.',
@@ -958,7 +958,7 @@ const translations = {
     car_park: 'Park & ride',
     cause: 'cause',
     'char-left': 'characters',
-    'choose-freely': 'Choose freely',
+    'choose-freely': 'Optional',
     'choose-stop': 'Select stop',
     'choose-stop-or-vehicle': 'Select vehicle or stop',
     'choose-vehicle': 'Select vehicle',
@@ -988,7 +988,7 @@ const translations = {
     'close-settings': 'Close window and save settings',
     'contact-information': '{contactName} contact details',
     continue: 'Continue',
-    'copy-code': 'Copy code',
+    'copy-code': 'Copy the code',
     covered: 'Sheltered',
     'create-account': 'Create {contactName} account',
     'create-embedded-search': 'Create a route search element',
@@ -1044,9 +1044,9 @@ const translations = {
     'elevation-gained-total': 'Elevation gained',
     'elevation-lost-total': 'Elevation lost',
     'embedded-search.choose-language': 'Language',
-    'embedded-search.choose-mode': 'Mode of transport',
-    'embedded-search.choose-width-component': 'Width of the component',
-    'embedded-search.form-heading': 'Component settings',
+    'embedded-search.choose-mode': 'Means of transport',
+    'embedded-search.choose-width-component': 'Width of the embedding',
+    'embedded-search.form-heading': 'Embedding tools',
     engine_ignition_aid: 'Engine starting aid',
     english: 'English',
     explanations: 'Explanations',
@@ -1162,7 +1162,7 @@ const translations = {
     'itinerary-summary.interline-wait':
       'The route number ({shortName}) and destination ({destination}) will change at the {stop} stop. Waiting time at the stop is {time}. Please wait onboard.',
     'itinerary-summary.interline-wait-multiple-legs':
-      'The route number ({shortName}) and destination will change multiple times during the journey. Total waiting time during the journey is {time}. Please wait onboard.',
+      'The route number ({shortName}) and destination will change several times during the journey. Total waiting time is {time}. Please do not leave the vehicle.',
     'itinerary-summary.show-on-map': 'Show on map {target}',
     'itinerary-ticket.title': 'Required ticket',
     'itinerary-tickets.title': 'Required tickets',
@@ -1266,7 +1266,7 @@ const translations = {
     'no-route-end-date-not-in-range':
       'The timetable does not include later departures.',
     'no-route-found':
-      'Unfortunately, no route {shortName} ({longName}) were found.',
+      'Unfortunately, route {shortName} ({longName}) could not be found.',
     'no-route-msg': 'Unfortunately, no route suggestions were found.',
     'no-route-msg-with-changes':
       'Unfortunately, no route suggestions were found. Please check your search settings or try changing the origin or destination.',
@@ -1435,8 +1435,9 @@ const translations = {
     'settings-dropdown-open-label': 'Open options',
     'settings-label-change': 'Change settings',
     'settings-missing-itineraries-body':
-      'There are options in the settings that exclude some route options.',
-    'settings-missing-itineraries-header': 'Missing itineraries?',
+      'Some selections in the settings exclude certain route alternatives.',
+    'settings-missing-itineraries-header':
+      'Are some route alternatives missing?',
     share: 'Share itinerary',
     show: 'Show',
     'show-departures': 'Show departures',
@@ -1575,7 +1576,7 @@ const translations = {
     'walk-bike-itinerary-4':
       'Your search only returned routes requiring cycling or driving.',
     'walk-distance-duration': 'Walk {duration} ({distance})',
-    'walk-only': 'Only walking',
+    'walk-only': 'Walking only',
     walking: 'Amount of walking',
     'walking-speed': 'Walking speed',
     'warning-call-agency':
@@ -2137,7 +2138,7 @@ const translations = {
     'edit-favourites': 'Muokkaa paikkaa Suosikkisi-välilehdellä',
     'elevation-gained-total': 'Nousua yhteensä',
     'elevation-lost-total': 'Laskua yhteensä',
-    'embedded-search.choose-language': 'Kieli',
+    'embedded-search.choose-language': 'Näkymän kieli',
     'embedded-search.choose-mode': 'Liikkumistapa',
     'embedded-search.choose-width-component': 'Upotuksen leveys',
     'embedded-search.form-heading': 'Upotusvalinnat',
@@ -3884,7 +3885,7 @@ const translations = {
     'bike-availability': 'Antal cyklar just nu',
     'bike-not-allowed-bus': 'Cyklar är inte tillåtna på bussen',
     'bike-not-allowed-tram': 'Cyklar är inte tillåtna på spårvagnen',
-    'bike-only': 'Bara cyckla',
+    'bike-only': 'Endast cykling',
     'bike-park': 'Anslutningsparkering för cyklar',
     'bike-park-disclaimer':
       'Du kan enkelt kombinera kollektivtrafiken med cykling, när du lämnar din cykel i anslutningsparkering och fortsätter din resa med tåg, buss, metro eller spårvagn. Cykelparkeringen är gratis och den har inte en begränsad parkeringstid.',
@@ -3919,7 +3920,7 @@ const translations = {
     car_park: 'Infartsparkering',
     cause: 'Orsak',
     'char-left': 'tecken',
-    'choose-freely': 'Välja fritt',
+    'choose-freely': 'Valfria',
     'choose-stop': 'Välj hållplats',
     'choose-stop-or-vehicle': 'Select vehicle or stop',
     'choose-vehicle': 'Select vehicle',
@@ -4008,9 +4009,9 @@ const translations = {
     'elevation-gained-total': 'Uppförsbacke totalt',
     'elevation-lost-total': 'Nedförsbacke totalt',
     'embedded-search.choose-language': 'Språk',
-    'embedded-search.choose-mode': 'Transportsätt',
-    'embedded-search.choose-width-component': 'Bredd på komponenten',
-    'embedded-search.form-heading': 'Komponentinställningar',
+    'embedded-search.choose-mode': 'Färdsätt',
+    'embedded-search.choose-width-component': 'Inbäddningens bredd',
+    'embedded-search.form-heading': 'Inbäddningsverktyg',
     engine_ignition_aid: 'Starthjälp',
     english: 'Engelsk',
     explanations: 'Förklaringar',
@@ -4124,7 +4125,7 @@ const translations = {
     'itinerary-summary.interline-wait':
       'Linjenumret ({shortName}) och destinationen ({destination}) ändras vid hållplats {stop}. Resan fortsätter om {time}. Vänta ombord på bussen.',
     'itinerary-summary.interline-wait-multiple-legs':
-      'Linjatunnus ({shortName}) ja määränpää vaihtuvat useita kertoja matkan aikana. Odotusta yhteensä {time}. Odota ajoneuvossa.',
+      'Linjenumret ({shortName}) och destinationen ändras många gånger under resan. Väntetiden är sammanlagt {time}. Vänta på fordon.',
     'itinerary-summary.show-on-map': 'Visa på kartan {target}',
     'itinerary-ticket.title': 'Biljett som behövs',
     'itinerary-tickets.title': 'Biljetter som behövs',
@@ -4299,7 +4300,7 @@ const translations = {
     'platform-short-no-num': 'Plattf.',
     position: 'Position',
     'prefer-walking': 'Främja gång',
-    preview: 'Förhandsvisning',
+    preview: 'Förhandsgranskning',
     previous: 'Senaste',
     print: 'Skriv ut',
     'print-timetable': 'Veckans tidtabell',
@@ -4400,8 +4401,8 @@ const translations = {
     'settings-dropdown-open-label': 'Öppna alternativen',
     'settings-label-change': 'Anpassa sökning',
     'settings-missing-itineraries-body':
-      'Det finns valda inställningar som utesluter vissa ruttalternativ',
-    'settings-missing-itineraries-header': 'Saknar ruttalternativa?',
+      'Dina val i inställningar utesluter vissa ruttalternativ.',
+    'settings-missing-itineraries-header': 'Saknas det några ruttförslag?',
     share: 'Dela resan',
     show: 'Visa',
     'show-departures': 'Visa avgångarna',
@@ -4546,7 +4547,7 @@ const translations = {
     'walk-bike-itinerary-4':
       'Vi har endast hittat ruttförslag i vilka ingår cykling eller körning.',
     'walk-distance-duration': 'Gå {duration} ({distance})',
-    'walk-only': 'Bara promenader',
+    'walk-only': 'Endast gång',
     walking: 'Gång',
     'walking-speed': 'Promenadhastighet',
     'warning-call-agency':
