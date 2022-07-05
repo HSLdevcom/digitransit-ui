@@ -66,6 +66,9 @@ import CustomizeSearch from './CustomizeSearchNew';
 import { mapLayerShape } from '../store/MapLayerStore';
 import { getMapLayerOptions } from '../util/mapLayerUtils';
 import { mapLayerOptionsShape } from '../util/shapes';
+import ItineraryShape from '../prop-types/ItineraryShape';
+import ErrorShape from '../prop-types/ErrorShape';
+import RoutingErrorShape from '../prop-types/RoutingErrorShape';
 
 const POINT_FOCUS_ZOOM = 16; // used when focusing to a point
 
@@ -317,21 +320,22 @@ class SummaryPage extends React.Component {
     match: matchShape.isRequired,
     viewer: PropTypes.shape({
       plan: PropTypes.shape({
-        itineraries: PropTypes.array,
+        routingErrors: PropTypes.arrayOf(RoutingErrorShape),
+        itineraries: PropTypes.arrayOf(ItineraryShape),
       }),
     }).isRequired,
     serviceTimeRange: PropTypes.shape({
       start: PropTypes.number.isRequired,
       end: PropTypes.number.isRequired,
     }).isRequired,
-    content: PropTypes.node,
+    content: PropTypes.node.isRequired,
     map: PropTypes.shape({
       type: PropTypes.func.isRequired,
     }),
     breakpoint: PropTypes.string.isRequired,
-    error: PropTypes.object,
+    error: ErrorShape,
     loading: PropTypes.bool,
-    relayEnvironment: PropTypes.object,
+    relayEnvironment: PropTypes.object.isRequired,
     relay: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
     }).isRequired,
@@ -1018,6 +1022,10 @@ class SummaryPage extends React.Component {
           allowedBikeRentalNetworks: $allowedBikeRentalNetworks
           locale: $locale
         ) {
+          routingErrors {
+            code
+            inputField
+          }
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
           itineraries {
@@ -2388,6 +2396,7 @@ class SummaryPage extends React.Component {
               activeIndex={activeIndex}
               plan={this.selectedPlan}
               serviceTimeRange={serviceTimeRange}
+              routingErrors={this.originalPlan.routingErrors}
               itineraries={selectedItineraries}
               params={match.params}
               error={error || this.state.error}
@@ -2792,6 +2801,10 @@ const containerComponent = createRefetchContainer(
         ) {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
+          routingErrors {
+            code
+            inputField
+          }
           itineraries {
             startTime
             endTime
