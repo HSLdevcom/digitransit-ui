@@ -11,6 +11,8 @@ const APP_DESCRIPTION = 'Matka.fi–palvelu.';
 const APP_TITLE = 'Matka.fi';
 const YEAR = 1900 + new Date().getYear();
 
+const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
+
 // route timetable data needs to be up-to-date before this is enabled
 // const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
 
@@ -288,6 +290,14 @@ export default {
   includeParkAndRideSuggestions: true,
 
   parkingAreaSources: ['liipi'],
+
+  parkAndRide: {
+    showParkAndRide: true,
+    parkAndRideMinZoom: 13,
+    pageContent: {
+      default: HSLParkAndRideUtils,
+    },
+  },
 
   sourceForAlertsAndDisruptions: {
     HSL: {
