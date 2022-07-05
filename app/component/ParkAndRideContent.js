@@ -135,13 +135,17 @@ const ParkAndRideContent = (
   const parkIsPaid = isPaid(pricingMethods);
   const parkIsFree = isFree(pricingMethods);
   const realtime = park?.realtime;
+  const showOpeningHours =
+    Array.isArray(openingHours) && openingHours.length > 0;
+  const showSpacesAvailable = !realtime && spacesAvailable;
+
   return (
     <div className="bike-station-page-container">
       <ParkOrStationHeader parkOrStation={park} />
       <div className="park-content-container">
         <Icon img={`icon-icon_${prePostFix}`} height={2.4} width={2.4} />
         <div className="park-details">
-          {openingHours && (
+          {showOpeningHours && (
             <div className="park-opening-hours">
               <span>{intl.formatMessage({ id: 'is-open' })} &#160;</span>
               <span>
@@ -160,7 +164,7 @@ const ParkAndRideContent = (
               </p>
             </span>
           )}
-          {!realtime && (
+          {showSpacesAvailable && (
             <span>
               {intl.formatMessage({ id: 'number-of-spaces' })} &#160;
               <p>{spacesAvailable}</p>
@@ -204,17 +208,20 @@ const ParkAndRideContent = (
           {intl.formatMessage({ id: `${prePostFix}-disclaimer` })}
         </div>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-        <a
-          onClick={e => {
-            e.stopPropagation();
-          }}
-          className="external-link"
-          href={config.parkAndRide.url[lang]}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {intl.formatMessage({ id: `${prePostFix}-disclaimer-link` })} &rsaquo;
-        </a>
+        {config.parkAndRide.url && (
+          <a
+            onClick={e => {
+              e.stopPropagation();
+            }}
+            className="external-link"
+            href={config.parkAndRide.url[lang]}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {intl.formatMessage({ id: `${prePostFix}-disclaimer-link` })}{' '}
+            &rsaquo;
+          </a>
+        )}
       </div>
     </div>
   );
