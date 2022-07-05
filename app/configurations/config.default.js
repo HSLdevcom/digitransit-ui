@@ -778,16 +778,16 @@ export default {
   embeddedSearch: {
     title: {
       fi: 'Reittihakuelementti',
-      en: 'Embedded search component',
+      en: 'Route search element',
       sv: 'Ruttsökningselement',
     },
     infoText: {
       fi:
         'Luo reittihakuelementti ja lisää se omaan palveluusi. Hakukomponentin Hae reitti -painikkeesta siirrytään Reittioppaaseen.',
       en:
-        'Create your own embedded search component and add it to your own service. The search button of the component will redirect to the journey planner',
+        'Create a route search element and add it to your own service. The Find route button in the search component will transfer you to the journey planner.',
       sv:
-        'Skapa din egen inbäddade sökkomponent och lägg till den i din egen tjänst. Sökknappen för komponenten omdirigerar till reseplaneraren.',
+        'Skapa ett ruttsökningselement och lägg det till din egen tjänst. Sök rutt-knappen i sökkomponenten tar dig till reseplaneraren.',
     },
   },
 };
