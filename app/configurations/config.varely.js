@@ -2,8 +2,9 @@
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'varely';
+const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const APP_TITLE = 'Seutu+ reittiopas';
-const APP_DESCRIPTION = 'Turun seudun joukkoliikenteen eli Fölin reittiopas';
+const APP_DESCRIPTION = 'Varsinais-Suomen ELY-keskuksen reittiopas';
 
 const walttiConfig = require('./config.waltti').default;
 
@@ -11,6 +12,13 @@ const colorPrimary = '#008161';
 
 export default configMerger(walttiConfig, {
   CONFIG,
+
+  URL: {
+    OTP: process.env.OTP_URL || `${API_URL}/routing/v2/routers/varely/`,
+    STOP_MAP:
+      (process.env.OTP_URL || `${API_URL}/routing/v2/routers/varely/`) +
+      `/vectorTiles/stops,stations/`,
+  },
 
   feedIds: ['VARELY'],
 
