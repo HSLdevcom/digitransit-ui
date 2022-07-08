@@ -6,7 +6,7 @@ import Icon from './Icon';
 import { ExtendedRouteTypes } from '../constants';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-const MAX_ROUTEFILTER_LEN = 16;
+const MAX_ROUTEFILTER_LEN = 13;
 
 class TimeTableOptionsPanel extends React.Component {
   static propTypes = {
