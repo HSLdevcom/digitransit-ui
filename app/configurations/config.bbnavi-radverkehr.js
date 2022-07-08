@@ -4,6 +4,8 @@ import bbnaviConfig from './config.bbnavi';
 const CONFIG = 'bbnavi-radverkehr';
 const APP_TITLE = 'bbnavi Radverkehr';
 const HEADER_TITLE = 'Radverkehr';
+const MATOMO_URL = 'https://nutzung.bbnavi.de/js/container_vsBXzsHm.js';
+
 
 // Brandenburg bounding box
 const minLat = 51.36066;
@@ -43,4 +45,6 @@ export default configMerger(bbnaviConfig, {
     lat: 52.4,
     lon: 13.3,
   },
+
+  MATOMO_URL,
 });

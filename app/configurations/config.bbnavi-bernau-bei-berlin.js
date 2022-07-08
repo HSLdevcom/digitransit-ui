@@ -4,7 +4,7 @@ import bbnaviConfig from './config.bbnavi';
 const CONFIG = 'bbnavi-bernau-bei-berlin';
 const APP_TITLE = 'bbnavi Bernau';
 const HEADER_TITLE = 'Bernau';
-const MATOMO_URL = 'https://nutzung.bbnavi.de/js/container_iV9mPA62.js';
+const MATOMO_URL = 'https://nutzung.bbnavi.de/js/container_yHcKbzwR.js';
 
 export default configMerger(bbnaviConfig, {
   CONFIG,
