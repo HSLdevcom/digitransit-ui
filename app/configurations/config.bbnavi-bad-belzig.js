@@ -4,7 +4,7 @@ import bbnaviConfig from './config.bbnavi';
 const CONFIG = 'bbnavi-bad-belzig';
 const APP_TITLE = 'bbnavi Bad Belzig';
 const HEADER_TITLE = 'Bad Belzig';
-const MATOMO_URL = 'https://nutzung.bbnavi.de/js/container_EPPlG1eo.js';
+const MATOMO_URL = 'https://nutzung.bbnavi.de/js/container_OrGgJ17H.js';
 
 export default configMerger(bbnaviConfig, {
   CONFIG,
