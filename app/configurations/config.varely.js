@@ -22,7 +22,7 @@ export default configMerger(walttiConfig, {
     STOP_MAP: `${OTP_URL}vectorTiles/stops,stations/`,
   },
 
-  feedIds: ['VARELY'],
+  feedIds: ['VARELY', 'FOLI'],
 
   searchParams: {
     'boundary.rect.min_lat': 59.475641,
