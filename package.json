@@ -298,7 +298,7 @@
     "stylelint": "13.7.0",
     "stylelint-scss": "3.18.0",
     "terser-webpack-plugin": "^4.1.0",
-    "url-loader": "3.0.0",
+    "url-loader": "^4.0.0",
     "webpack": "^4.46.0",
     "webpack-assets-manifest": "^4.0.6",
     "webpack-bundle-analyzer": "^4.5.0",

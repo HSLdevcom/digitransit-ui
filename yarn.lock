@@ -10715,7 +10715,7 @@ __metadata:
     swipe-js-iso: 2.1.5
     terser-webpack-plugin: ^4.1.0
     universal-cookie: 4.0.4
-    url-loader: 3.0.0
+    url-loader: ^4.0.0
     uuid: 8.3.0
     webpack: ^4.46.0
     webpack-assets-manifest: ^4.0.6
@@ -18665,12 +18665,28 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"mime-db@npm:1.52.0":
+  version: 1.52.0
+  resolution: "mime-db@npm:1.52.0"
+  checksum: cfa3f12a40091755ec89f2fb50d361952acf2d9acb72b8cfc5b1c1a8581fa1b906929410db8ab834f9d8dd913fe0083e58900d6b8570803b42cf16499ed57b08
+  languageName: node
+  linkType: hard
+
 "mime-types@npm:^2.1.12, mime-types@npm:~2.1.17, mime-types@npm:~2.1.19, mime-types@npm:~2.1.24, mime-types@npm:~2.1.34":
   version: 2.1.34
   resolution: "mime-types@npm:2.1.34"
   dependencies:
     mime-db: 1.51.0
   checksum: 54390df0c7a300e33f7aa465f4aca149eca379ff36d5708323e0bc1de465b35c9a67201b354c17dab30ff276edc54ed753c45767d0c1df37537620e3a90035de
+  languageName: node
+  linkType: hard
+
+"mime-types@npm:^2.1.27":
+  version: 2.1.35
+  resolution: "mime-types@npm:2.1.35"
+  dependencies:
+    mime-db: 1.52.0
+  checksum: 1cbad57696e48f729add20e242f03f8b956a42a3e6e2ecd3ff74fe50ad8308d175961f88e117996dd5ec96b2d64ec69646206ddfc3dae02a629b6b2129e5e30c
   languageName: node
   linkType: hard
 
@@ -24373,7 +24389,7 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"schema-utils@npm:^2.5.0, schema-utils@npm:^2.6.5, schema-utils@npm:^2.7.1":
+"schema-utils@npm:^2.6.5, schema-utils@npm:^2.7.1":
   version: 2.7.1
   resolution: "schema-utils@npm:2.7.1"
   dependencies:
@@ -27403,20 +27419,20 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"url-loader@npm:3.0.0":
-  version: 3.0.0
-  resolution: "url-loader@npm:3.0.0"
+"url-loader@npm:^4.0.0":
+  version: 4.1.1
+  resolution: "url-loader@npm:4.1.1"
   dependencies:
-    loader-utils: ^1.2.3
-    mime: ^2.4.4
-    schema-utils: ^2.5.0
+    loader-utils: ^2.0.0
+    mime-types: ^2.1.27
+    schema-utils: ^3.0.0
   peerDependencies:
     file-loader: "*"
     webpack: ^4.0.0 || ^5.0.0
   peerDependenciesMeta:
     file-loader:
       optional: true
-  checksum: 11a78530d310118e3d7758f9a5e2f6828fc2518764c9a33cb0545ef2beecc0a6c9eedab14275ec5ee9213f61dfba0bc9dfefc15a6c1914024e5287930674070a
+  checksum: 871e8c8df26a985bbc8c1fb345f26565ee920a36bd7f48bece74aa541675b1ff3583e1ca5e9338d0525fbf5e5f6de96d84d9f6e6aa76657a68a5fc13832b009f
   languageName: node
   linkType: hard
 
