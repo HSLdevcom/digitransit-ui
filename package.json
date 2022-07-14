@@ -36,9 +36,9 @@
     "es-lint": "eslint .",
     "lint": "yarn run es-lint && yarn run stylelint",
     "stylelint": "stylelint sass/**/*.scss app/**/*.scss --syntax scss",
-    "build": "NODE_ENV=production && yarn prebuild && node --max_old_space_size=4096 node_modules/.bin/webpack --progress --color --display-error-details",
+    "build": "NODE_ENV=production && yarn prebuild && node --max_old_space_size=4096 node_modules/.bin/webpack --progress",
     "build-workspaces": "yarn build-components && yarn build-search-utils && yarn build-store",
-    "win-build": "set NODE_ENV=production&& webpack --progress --color",
+    "win-build": "set NODE_ENV=production&& webpack --progress",
     "start": "NODE_ENV=production node $NODE_OPTS server/server",
     "start-test": "NODE_ENV=test node $NODE_OPTS server/server",
     "win-start": "set NODE_ENV=production&& set CONFIG=hsl&& node server/server.js",
@@ -299,10 +299,10 @@
     "stylelint-scss": "3.18.0",
     "terser-webpack-plugin": "4.1.0",
     "url-loader": "3.0.0",
-    "webpack": "4.44.1",
-    "webpack-assets-manifest": "3.1.1",
-    "webpack-bundle-analyzer": "3.6.0",
-    "webpack-cli": "3.3.10",
+    "webpack": "^4.46.0",
+    "webpack-assets-manifest": "^4.0.6",
+    "webpack-bundle-analyzer": "^4.5.0",
+    "webpack-cli": "^4.10.0",
     "webpack-dev-server": "3.10.3"
   }
 }
