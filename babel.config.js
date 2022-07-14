@@ -29,4 +29,5 @@ module.exports = {
       plugins: ['istanbul'],
     },
   },
+  ignore: ['.yarn'],
 };
