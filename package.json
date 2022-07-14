@@ -259,7 +259,7 @@
     "eslint-plugin-react": "7.20.6",
     "favicons-webpack-plugin": "0.0.9",
     "fetch-mock": "9.10.7",
-    "file-loader": "5.0.2",
+    "file-loader": "^6.0.0",
     "git-precommit-checks": "3.0.0",
     "graphql": "15.5.0",
     "husky": "4.3.0",

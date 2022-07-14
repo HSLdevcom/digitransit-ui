@@ -10623,7 +10623,7 @@ __metadata:
     fast-xml-parser: 3.17.4
     favicons-webpack-plugin: 0.0.9
     fetch-mock: 9.10.7
-    file-loader: 5.0.2
+    file-loader: ^6.0.0
     fluxible: 1.4.0
     fluxible-addons-react: 0.2.16
     found: 0.5.9
@@ -12702,15 +12702,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"file-loader@npm:5.0.2":
-  version: 5.0.2
-  resolution: "file-loader@npm:5.0.2"
+"file-loader@npm:^6.0.0":
+  version: 6.2.0
+  resolution: "file-loader@npm:6.2.0"
   dependencies:
-    loader-utils: ^1.2.3
-    schema-utils: ^2.5.0
+    loader-utils: ^2.0.0
+    schema-utils: ^3.0.0
   peerDependencies:
     webpack: ^4.0.0 || ^5.0.0
-  checksum: c8200207b023695afc4df7cc69d9bb6a3658edb6264a98b9863b91ab93cc37e09d816f376218a335774cd9f2f5aa751680a984cc35b86980dde18b4f50926f39
+  checksum: 0f103418c072ec66c081a9908cd7824ee19905e18be16889cb050f5f373998afaf7ca4c2fd2df4cabf703a2cd526aefe59105930e3f8d266a5b35e6d5f5b3cf4
   languageName: node
   linkType: hard
 
