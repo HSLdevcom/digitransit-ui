@@ -127,13 +127,13 @@ const productionPlugins = [
     chunkFilename: 'css/[name].[contenthash].css',
   }),
   new CompressionPlugin({
-    filename: '[path].gz[query]',
+    filename: '[path][base].gz[query]',
     test: /\.(js|css|html|svg|ico)$/,
     minRatio: 0.95,
     algorithm: 'gzip',
   }),
   new CompressionPlugin({
-    filename: '[path].br[query]',
+    filename: '[path][base].br[query]',
     test: /\.(js|css|html|svg|ico)$/,
     minRatio: 0.95,
     algorithm: 'brotliCompress',
