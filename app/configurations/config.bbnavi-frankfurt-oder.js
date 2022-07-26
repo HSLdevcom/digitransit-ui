@@ -13,7 +13,7 @@ export default configMerger(bbnaviConfig, {
   },
 
   map: {
-    zoom: 18,
+    zoom: 16,
   },
 
   socialMedia: {
@@ -24,13 +24,13 @@ export default configMerger(bbnaviConfig, {
   appBarTitle: HEADER_TITLE,
 
   searchParams: {
-    'focus.point.lat': 52.3424526,
-    'focus.point.lon': 14.5524818,
+    'focus.point.lat': 52.3517,
+    'focus.point.lon': 14.5515,
   },
 
   defaultEndpoint: {
-    lat: 52.3424526,
-    lon: 14.5524818,
+    lat: 52.3517,
+    lon: 14.5515,
   },
 
   defaultOrigins: [],
