@@ -2,8 +2,8 @@ import configMerger from '../util/configMerger';
 import bbnaviConfig from './config.bbnavi';
 
 const CONFIG = 'bbnavi-frankfurt-oder';
-const APP_TITLE = 'bbnavi Frankfurt Oder';
-const HEADER_TITLE = 'Frankfurt Oder';
+const APP_TITLE = 'bbnavi Frankfurt (Oder)';
+const HEADER_TITLE = 'Frankfurt (Oder)';
 
 export default configMerger(bbnaviConfig, {
   CONFIG,
