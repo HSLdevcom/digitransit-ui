@@ -6,6 +6,16 @@ export default class MapModeStore extends Store {
 
   static existingMapModes = Object.values(MapMode);
 
+  constructor(dispatcher) {
+    super(dispatcher);
+
+    const { config } = dispatcher.getContext();
+
+    if (config.backgroundMaps?.[0]) {
+      this.mapMode = config.backgroundMaps[0].mapMode;
+    }
+  }
+
   mapMode = MapMode.Default;
 
   prevMapMode = this.mapMode;
