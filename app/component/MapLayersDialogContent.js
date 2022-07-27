@@ -471,7 +471,7 @@ class MapLayersDialogContent extends React.Component {
                 )}
                 src="/img/maptype-streets-lgb.png"
               />
-              <FormattedMessage id="streets" defaultMessage="Streets (LGB)" />
+              <FormattedMessage id="map-type-streets" defaultMessage="Streets (LGB)" />
             </button>
             <button
               type="button"
@@ -491,7 +491,7 @@ class MapLayersDialogContent extends React.Component {
                 )}
                 src="/img/maptype-satellite.png"
               />
-              <FormattedMessage id="satellite" defaultMessage="Satellite" />
+              <FormattedMessage id="map-type-satellite" defaultMessage="Satellite" />
             </button>
             <button
               type="button"
@@ -511,7 +511,7 @@ class MapLayersDialogContent extends React.Component {
                 )}
                 src="/img/maptype-bicycle.png"
               />
-              <FormattedMessage id="bicycle" defaultMessage="Bicycle" />
+              <FormattedMessage id="map-type-bicycle" defaultMessage="Bicycle" />
             </button>
             <button
               type="button"
@@ -531,7 +531,7 @@ class MapLayersDialogContent extends React.Component {
                 )}
                 src="/img/maptype-streets-osm.png"
               />
-              <FormattedMessage id="openstreetmap" defaultMessage="OSM" />
+              <FormattedMessage id="map-type-openstreetmap" defaultMessage="OpenStreetMap" />
             </button>
           </div>
         </div>
