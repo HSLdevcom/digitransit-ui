@@ -274,6 +274,20 @@ export default configMerger(walttiConfig, {
                 visibleInSettingsUi: true,
                 enabled: true,
             },
+            'donkey_berlin': {
+                icon: 'regiorad',
+                name: {
+                    de: 'Donkey Republic',
+                    en: 'Donkey Republic',
+                },
+                type: 'citybike',
+                url: {
+                    de: 'https://www.donkey.bike/de/stadte/fahrradverleih-berlin/',
+                    en: 'https://www.donkey.bike/cities/bike-rental-berlin/',
+                },
+                visibleInSettingsUi: true,
+                enabled: true,
+            },
         }
     },
 
