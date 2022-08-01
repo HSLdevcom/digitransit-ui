@@ -453,7 +453,7 @@ class MapLayersDialogContent extends React.Component {
           </p>
 
           <div className="panel-maptype-container">
-            {config.backgroundMaps?.map((bgMapConfig, idx) => {
+            {config.backgroundMaps?.map((bgMapConfig) => {
               const {
                 mapMode,
                 messageId,
