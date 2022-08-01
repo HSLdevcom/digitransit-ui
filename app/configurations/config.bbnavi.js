@@ -1,5 +1,6 @@
 /* eslint-disable */
 import configMerger from '../util/configMerger';
+import { MapMode } from '../constants';
 
 const CONFIG = 'bbnavi';
 const APP_TITLE = 'bbnavi Staging';
@@ -162,6 +163,28 @@ export default configMerger(walttiConfig, {
         smallIconZoom: 17,
         minZoom: 15
     },
+
+    backgroundMaps: [{
+        mapMode: MapMode.Default,
+        messageId: 'map-type-streets',
+        defaultMessage: 'Streets (LGB)',
+        previewImage: '/img/maptype-streets-lgb.png',
+    }, {
+        mapMode: MapMode.Satellite,
+        messageId: 'map-type-satellite',
+        defaultMessage: 'Satellite',
+        previewImage: '/img/maptype-satellite.png',
+    }, {
+        mapMode: MapMode.Bicycle,
+        messageId: 'map-type-bicycle',
+        defaultMessage: 'Bicycle',
+        previewImage: '/img/maptype-bicycle.png',
+    }, {
+        mapMode: MapMode.OSM,
+        messageId: 'map-type-openstreetmap',
+        defaultMessage: 'OSM',
+        previewImage: '/img/maptype-streets-osm.png',
+    }],
 
     datahubTiles: {
         show: true,

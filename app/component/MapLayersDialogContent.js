@@ -453,86 +453,38 @@ class MapLayersDialogContent extends React.Component {
           </p>
 
           <div className="panel-maptype-container">
-            <button
-              type="button"
-              className={cx(
-                'panel-maptype-button',
-                currentMapMode === MapMode.Default && 'checked',
-              )}
-              onClick={() => {
-                this.switchMapLayers(MapMode.Default);
-              }}
-            >
-              <img
-                alt="street"
-                className={cx(
-                  'panel-maptype-image',
-                  currentMapMode === MapMode.Default && 'checked',
-                )}
-                src="/img/maptype-streets-lgb.png"
-              />
-              <FormattedMessage id="streets" defaultMessage="Streets (LGB)" />
-            </button>
-            <button
-              type="button"
-              className={cx(
-                'panel-maptype-button',
-                currentMapMode === MapMode.Satellite && 'checked',
-              )}
-              onClick={() => {
-                this.switchMapLayers(MapMode.Satellite);
-              }}
-            >
-              <img
-                alt="satellite"
-                className={cx(
-                  'panel-maptype-image',
-                  currentMapMode === MapMode.Satellite && 'checked',
-                )}
-                src="/img/maptype-satellite.png"
-              />
-              <FormattedMessage id="satellite" defaultMessage="Satellite" />
-            </button>
-            <button
-              type="button"
-              className={cx(
-                'panel-maptype-button',
-                currentMapMode === MapMode.Bicycle && 'checked',
-              )}
-              onClick={() => {
-                this.switchMapLayers(MapMode.Bicycle);
-              }}
-            >
-              <img
-                alt="bicycle"
-                className={cx(
-                  'panel-maptype-image',
-                  currentMapMode === MapMode.Bicycle && 'checked',
-                )}
-                src="/img/maptype-bicycle.png"
-              />
-              <FormattedMessage id="bicycle" defaultMessage="Bicycle" />
-            </button>
-            <button
-              type="button"
-              className={cx(
-                'panel-maptype-button',
-                currentMapMode === MapMode.OSM && 'checked',
-              )}
-              onClick={() => {
-                this.switchMapLayers(MapMode.OSM);
-              }}
-            >
-              <img
-                alt="openstreetmap"
-                className={cx(
-                  'panel-maptype-image',
-                  currentMapMode === MapMode.OSM && 'checked',
-                )}
-                src="/img/maptype-streets-osm.png"
-              />
-              <FormattedMessage id="openstreetmap" defaultMessage="OSM" />
-            </button>
+            {config.backgroundMaps?.map((bgMapConfig, idx) => {
+              const {
+                mapMode,
+                messageId,
+                defaultMessage,
+                previewImage,
+              } = bgMapConfig;
+              const isCurrent = currentMapMode === mapMode;
+              return (
+                <button
+                  key={mapMode}
+                  type="button"
+                  className={cx('panel-maptype-button', isCurrent && 'checked')}
+                  onClick={() => {
+                    this.switchMapLayers(mapMode);
+                  }}
+                >
+                  <img
+                    alt={defaultMessage}
+                    className={cx(
+                      'panel-maptype-image',
+                      isCurrent && 'checked',
+                    )}
+                    src={previewImage}
+                  />
+                  <FormattedMessage
+                    id={messageId}
+                    defaultMessage={defaultMessage}
+                  />
+                </button>
+              );
+            })}
           </div>
         </div>
       </>
