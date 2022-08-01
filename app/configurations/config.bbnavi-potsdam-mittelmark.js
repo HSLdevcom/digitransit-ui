@@ -2,8 +2,8 @@ import configMerger from '../util/configMerger';
 import bbnaviConfig from './config.bbnavi';
 
 const CONFIG = 'bbnavi-potsdam-mittelmark';
-const APP_TITLE = 'bbnavi Potsdam Mittelmark';
-const HEADER_TITLE = 'Potsdam Mittelmark';
+const APP_TITLE = 'bbnavi Potsdam-Mittelmark';
+const HEADER_TITLE = 'Potsdam-Mittelmark';
 
 export default configMerger(bbnaviConfig, {
   CONFIG,
@@ -13,7 +13,7 @@ export default configMerger(bbnaviConfig, {
   },
 
   map: {
-    zoom: 11,
+    zoom: 10,
   },
 
   socialMedia: {
@@ -24,13 +24,13 @@ export default configMerger(bbnaviConfig, {
   appBarTitle: HEADER_TITLE,
 
   searchParams: {
-    'focus.point.lat': 52.142525,
-    'focus.point.lon': 12.584593,
+    'focus.point.lat': 52.1524,
+    'focus.point.lon': 12.6837,
   },
 
   defaultEndpoint: {
-    lat: 52.142525,
-    lon: 12.584593,
+    lat: 52.1524,
+    lon: 12.6837,
   },
 
   defaultOrigins: [],
