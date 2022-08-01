@@ -6,7 +6,6 @@ const APP_TITLE = 'bbnavi TH Brandenburg';
 const HEADER_TITLE = 'TH Brandenburg';
 const MATOMO_URL = 'https://nutzung.bbnavi.de/js/container_oVwbhfUS.js';
 
-
 export default configMerger(bbnaviConfig, {
   CONFIG,
 

@@ -6,7 +6,6 @@ const APP_TITLE = 'mitfahrenBB';
 const HEADER_TITLE = 'mitfahrenBB';
 const MATOMO_URL = 'https://nutzung.bbnavi.de/js/container_MlnEbkiT.js';
 
-
 // Brandenburg bounding box
 const minLat = 51.36066;
 const maxLat = 53.55795;

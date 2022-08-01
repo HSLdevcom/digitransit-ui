@@ -6,7 +6,6 @@ const APP_TITLE = 'bbnavi Radverkehr';
 const HEADER_TITLE = 'Radverkehr';
 const MATOMO_URL = 'https://nutzung.bbnavi.de/js/container_vsBXzsHm.js';
 
-
 // Brandenburg bounding box
 const minLat = 51.36066;
 const maxLat = 53.55795;
