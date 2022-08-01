@@ -100,7 +100,7 @@ const ChargingStationContent = ({ match }, { intl, config }) => {
     const available = details.evses?.filter(evse => evse.status === 'AVAILABLE')
       .length;
     const capacityUnknown = details.evses?.filter(
-      evse => evse.status === 'UNKNOWN',
+      evse => evse.status === 'UNKNOWN' || evse.status === 'STATIC',
     ).length;
     const capacity = details.evses?.length;
     const body = {
@@ -161,11 +161,18 @@ const ChargingStationContent = ({ match }, { intl, config }) => {
   const getOpeningTimes = () => {
     const openingTimes = details?.opening_times;
     return (
-      openingTimes?.twentyfourseven && (
+      (openingTimes?.twentyfourseven && (
         <div>
           {intl.formatMessage({
             id: 'open-24-7',
             defaultMessage: 'Open 24/7',
+          })}
+        </div>
+      )) || (
+        <div>
+          {intl.formatMessage({
+            id: 'charging-opening-hours-unknown',
+            defaultMessage: 'Unknown opening hours',
           })}
         </div>
       )
@@ -255,7 +262,7 @@ const ChargingStationContent = ({ match }, { intl, config }) => {
         lat: Number(lat),
         lon: Number(lng),
       }}
-      name={details.name}
+      name={details.name || details.address}
       icon={getIcon(match.location.query)}
       newLayout
     >

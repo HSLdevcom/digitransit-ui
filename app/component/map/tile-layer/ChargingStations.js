@@ -35,12 +35,14 @@ class ChargingStations {
     this.promise = this.fetchWithAction(this.drawStatus);
   }
 
-  fetchWithAction = actionFn =>
-    fetch(
-      `${this.config.URL.CHARGING_STATIONS_MAP}` +
-        `${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}/` +
-        `${this.tile.coords.x}/${this.tile.coords.y}.mvt`,
-    ).then(res => {
+  fetchWithAction = actionFn => {
+    const url = this.config.URL.CHARGING_STATIONS_MAP.replace(
+      '{x}',
+      this.tile.coords.x,
+    )
+      .replace('{y}', this.tile.coords.y)
+      .replace('{z}', this.tile.coords.z + (this.tile.props.zoomOffset || 0));
+    fetch(url).then(res => {
       if (res.status !== 200) {
         return undefined;
       }
@@ -66,6 +68,7 @@ class ChargingStations {
         err => console.error(err),
       );
     });
+  };
 
   drawStatus = ({ geom, properties }) => {
     if (this.tile.coords.z <= this.config.chargingStations.smallIconZoom) {
@@ -82,8 +85,8 @@ class ChargingStations {
 
     const icon = getIcon(properties);
     return drawIcon(icon, this.tile, geom, this.iconSize).then(() => {
-      const { c, ca, cu } = properties;
-      const availableStatus = this.getAvailabilityStatus(c, ca, cu);
+      const { c, ca, cu, cs } = properties;
+      const availableStatus = this.getAvailabilityStatus(c, ca, cu + cs);
       if (availableStatus) {
         drawAvailabilityBadge(
           availableStatus,
