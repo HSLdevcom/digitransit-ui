@@ -205,7 +205,7 @@ export default configMerger(walttiConfig, {
         showCityBikes: true,
         networks: {
             'nextbike_dc': {
-                icon: 'regiorad',
+                icon: 'nextbike',
                 name: {
                     de: 'Nextbike (Potsdam)',
                     en: 'Nextbike (Potsdam)',
@@ -219,7 +219,7 @@ export default configMerger(walttiConfig, {
                 enabled: true,
             },
             'nextbike_bn': {
-                icon: 'regiorad',
+                icon: 'nextbike',
                 name: {
                     de: 'Nextbike (Berlin)',
                     en: 'Nextbike (Berlin)',
@@ -275,7 +275,7 @@ export default configMerger(walttiConfig, {
                 enabled: true,
             },
             'donkey_berlin': {
-                icon: 'regiorad',
+                icon: 'donkeyrepublic',
                 name: {
                     de: 'Donkey Republic',
                     en: 'Donkey Republic',
