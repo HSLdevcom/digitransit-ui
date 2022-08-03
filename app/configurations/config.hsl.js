@@ -20,7 +20,7 @@ export default {
 
   URL: {
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/hsl/`,
-    STOP_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-stop-map/`,
+    STOP_MAP: `${process.env.OTP_URL}vectorTiles/stops,stations/`,
     PARK_AND_RIDE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-parkandride-map/`,
     FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
     CITYBIKE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-citybike-map/`,

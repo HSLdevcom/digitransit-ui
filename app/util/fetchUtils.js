@@ -34,4 +34,21 @@ export const retryFetch = (URL, options = {}, retryCount, retryDelay) =>
     retry(retryCount);
   });
 
-export default retryFetch;
+export const fetchWithHeaders = (URL, headers) => {
+  return fetch(URL, {
+    headers,
+  }).then(res => {
+    if (res.status !== 200) {
+      return undefined;
+    }
+    return res;
+  });
+};
+
+export const fetchWithLanguage = (URL, language, addHeaders = {}) => {
+  const headers = new Headers(...addHeaders);
+  headers.append('Accept-Language', language);
+
+  return fetchWithHeaders(URL, headers);
+};
+export default { retryFetch, fetchWithHeaders };

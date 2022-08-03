@@ -168,6 +168,7 @@ class TileLayerContainer extends GridLayer {
       this.props.hilightedStops,
       this.props.vehicles,
       this.props.stopsToShow,
+      this.context.getStore('PreferencesStore').getLanguage(),
     );
     tile.onSelectableTargetClicked = (
       selectableTargets,

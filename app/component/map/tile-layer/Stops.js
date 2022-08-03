@@ -11,6 +11,7 @@ import {
 } from '../../../util/mapIconUtils';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from '../../../util/path';
+import { fetchWithLanguage } from '../../../util/fetchUtils';
 
 const stopTypeQuery = graphql`
   query StopsTypeQuery($id: String!) {
@@ -27,10 +28,11 @@ function isNull(val) {
 }
 
 class Stops {
-  constructor(tile, config, mapLayers, relayEnvironment, mergeStops) {
+  constructor(tile, config, mapLayers, relayEnvironment, mergeStops, lang) {
     this.tile = tile;
     this.config = config;
     this.mapLayers = mapLayers;
+    this.lang = lang;
     this.promise = this.getPromise();
     this.relayEnvironment = relayEnvironment;
     this.mergeStops = mergeStops;
@@ -95,6 +97,9 @@ class Stops {
     const { gtfsId } = feature.properties;
 
     const callback = ({ stop: result }) => {
+      if (!result) {
+        return;
+      }
       const hasTrunkRoute = result.routes.some(route => route.type === 702);
       if (hybrid) {
         drawHybridStopIcon(
@@ -153,15 +158,13 @@ class Stops {
   };
 
   getPromise() {
-    return fetch(
-      `${this.config.URL.STOP_MAP}${
-        this.tile.coords.z + (this.tile.props.zoomOffset || 0)
-      }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
-    ).then(res => {
-      if (res.status !== 200) {
+    const URL = `${this.config.URL.STOP_MAP}${
+      this.tile.coords.z + (this.tile.props.zoomOffset || 0)
+    }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`;
+    return fetchWithLanguage(URL, this.lang).then(res => {
+      if (!res) {
         return undefined;
       }
-
       return res.arrayBuffer().then(
         buf => {
           const vt = new VectorTile(new Protobuf(buf));

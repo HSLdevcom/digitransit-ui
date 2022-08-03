@@ -21,6 +21,7 @@ class TileContainer {
     hilightedStops,
     vehicles,
     stopsToShow,
+    lang,
   ) {
     const markersMinZoom = Math.min(
       getCityBikeMinZoomOnStopsNearYou(
@@ -66,7 +67,6 @@ class TileContainer {
     }
 
     this.ctx = this.el.getContext('2d');
-
     this.layers = this.props.layers
       .filter(Layer => {
         const layerName = Layer.getName();
@@ -113,6 +113,7 @@ class TileContainer {
             this.props.mapLayers,
             relayEnvironment,
             mergeStops,
+            lang,
           ),
       );
 
