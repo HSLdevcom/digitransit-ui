@@ -36,7 +36,7 @@ export const retryFetch = (URL, options = {}, retryCount, retryDelay) =>
 
 export const fetchWithHeaders = (URL, headers) => {
   return fetch(URL, {
-    headers,
+    headers: { ...headers },
   }).then(res => {
     if (res.status !== 200) {
       return undefined;
@@ -46,9 +46,7 @@ export const fetchWithHeaders = (URL, headers) => {
 };
 
 export const fetchWithLanguage = (URL, language, addHeaders = {}) => {
-  const headers = new Headers(...addHeaders);
-  headers.append('Accept-Language', language);
-
+  const headers = { 'Accept-Language': language, ...addHeaders };
   return fetchWithHeaders(URL, headers);
 };
 export default { retryFetch, fetchWithHeaders };
