@@ -278,9 +278,6 @@ export const preparePlanParams = (config, useDefaultModes) => (
         bikeSpeed: settings.bikeSpeed,
         optimize: config.optimize,
         itineraryFiltering: config.itineraryFiltering,
-        unpreferred: {
-          useUnpreferredRoutesPenalty: config.useUnpreferredRoutesPenalty,
-        },
         disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
           modesOrDefault,
         ),
