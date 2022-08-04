@@ -25,12 +25,14 @@ export default class MapModeStore extends Store {
   getMapMode = () => this.mapMode;
 
   setMapMode = mapMode => {
-    if (
-      MapModeStore.existingMapModes.includes(mapMode) &&
-      mapMode !== this.mapMode
-    ) {
-      this.mapMode = mapMode;
-      this.emitChange();
+    if (!MapModeStore.existingMapModes.includes(mapMode)) {
+      throw new Error('invalid mapMode, must be one of ' + MapModeStore.existingMapModes.join(', '));
     }
+    if (mapMode === this.mapMode) {
+      return;
+    }
+
+    this.mapMode = mapMode;
+    this.emitChange();
   };
 }
