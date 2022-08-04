@@ -8,14 +8,14 @@ We develop using *one* development branch (`release/int/development`) and *one* 
 - different states of development – `angermuende.bbnavi.de` might have been deployed via a tag on a more recent commit of the `bbnavi` branch than e.g. `herzberg-elster.bbnavi.de`
 - configured environment variables, which in turn might toggle [feature flags](https://en.wikipedia.org/wiki/Feature_toggle) in the code
 
-A `CONFIG` environment variable is used to determine which instance-specific configuration to use; For example, `CONFIG=bbnavi-angermuende` will make it load `app/configurations/config.bbnavi-angermuende.js`. Because we develop from *one* main branch, almost all differences between the instances lead back to a different to a different `config.bbnavi-*.js` file being used because of a different `$CONFIG` value.
+A `CONFIG` environment variable is used to determine which instance-specific configuration to use; For example, `CONFIG=bbnavi-angermuende` will make it load `app/configurations/config.bbnavi-angermuende.js`. Because we develop from *one* main branch, almost all differences between the instances lead back to a different `config.bbnavi-*.js` file being used because of a different `$CONFIG` value.
 
 [`.gitlab-ci.yml`](.gitlab-ci.yml) defines all steps to be run by the [Gitlab CI service](https://docs.gitlab.com/ee/ci/) in all possible scenarios. Currently, the scenarious relevant to the deployment process are these:
 - on a push to the `bbnavi` (main) branch, the CI system will
 	1. lint & test the code
 	2. build a Docker image tagged with the [Git commit](https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-aiddefcommitacommit)'s hash, e.g. `digitransit-ui:157f0ec…`
 	3. push this Docker image to [the repo's *Container Registry*](https://gitlab.tpwd.de/tpwd/bb-navi/digitransit-ui/container_registry), a place to store Docker images
-- when Git tag named `release_<instance>_<date>` is pushed, the CI system will
+- when Git tag named `release_<instance>_<date>` or `release_<instance>_<date>_<count>` is pushed, the CI system will
 	1. check if there is a Docker image tagged with the respective commit's hash available in the *Container Registry*
 	2. deploy that Docker image to our infrastructure, using
 		- [*Docker Compose*](https://docs.docker.com/compose/) to compile the environment variables & configuration of the instance from several files

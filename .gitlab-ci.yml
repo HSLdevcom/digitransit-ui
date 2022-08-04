@@ -21,7 +21,7 @@ stages:
 
 .only-on-release-tags:
   only:
-    - /^release_[\w-]+_\d{4}-\d{2}-\d{2}$/
+    - /^release_[\w-]+_\d{4}-\d{2}-\d{2}(_\d+)?$/
   except:
     - branches
 
