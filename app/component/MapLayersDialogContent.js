@@ -4,7 +4,7 @@ import cx from 'classnames';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { matchShape, routerShape, withRouter } from 'found';
+import { routerShape, withRouter } from 'found';
 import merge from 'lodash/merge';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import Icon from './Icon';
@@ -13,7 +13,6 @@ import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 import { updateMapLayers } from '../action/MapLayerActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withGeojsonObjects from './map/withGeojsonObjects';
-import { replaceQueryParams, clearQueryParams } from '../util/queryUtils';
 import { MapMode } from '../constants';
 import { setMapMode } from '../action/MapModeActions';
 import LayerCategoryDropdown from './LayerCategoryDropdown';
@@ -70,6 +69,7 @@ class MapLayersDialogContent extends React.Component {
     setOpen: PropTypes.func.isRequired,
     updateMapLayers: PropTypes.func,
     lang: PropTypes.string.isRequired,
+    mapMode: PropTypes.oneOf(Object.keys(MapMode)),
     open: PropTypes.bool.isRequired,
     geoJson: PropTypes.object,
   };
@@ -128,16 +128,6 @@ class MapLayersDialogContent extends React.Component {
     this.updateSetting({ geoJson });
   };
 
-  switchMapLayers = mode => {
-    const mapMode = mode;
-    const { router, match } = this.context;
-    replaceQueryParams(router, match, { mapMode });
-    if (mapMode === MapMode.Default) {
-      clearQueryParams(router, match, ['mapMode']);
-    }
-    this.props.setMapMode(mapMode);
-  };
-
   render() {
     const {
       citybike,
@@ -153,8 +143,8 @@ class MapLayersDialogContent extends React.Component {
       datahubTiles,
       chargingStations,
     } = this.props.mapLayers;
-    const currentMapMode =
-      this.context.match.location.query.mapMode || MapMode.Default;
+    const { mapMode: currentMapMode } = this.props;
+
     let geoJsonLayers;
     if (this.props.geoJson) {
       geoJsonLayers = Object.entries(this.props.geoJson)?.map(([k, v]) => {
@@ -453,7 +443,7 @@ class MapLayersDialogContent extends React.Component {
           </p>
 
           <div className="panel-maptype-container">
-            {config.backgroundMaps?.map((bgMapConfig) => {
+            {config.backgroundMaps?.map(bgMapConfig => {
               const {
                 mapMode,
                 messageId,
@@ -467,7 +457,7 @@ class MapLayersDialogContent extends React.Component {
                   type="button"
                   className={cx('panel-maptype-button', isCurrent && 'checked')}
                   onClick={() => {
-                    this.switchMapLayers(mapMode);
+                    this.props.setMapMode(mapMode);
                   }}
                 >
                   <img
@@ -503,7 +493,6 @@ MapLayersDialogContent.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   router: routerShape.isRequired,
-  match: matchShape.isRequired,
 };
 /**
  * Retrieves the list of geojson layers in use from the configuration or
@@ -543,6 +532,7 @@ const connectedComponent = connectToStores(
     updateMapLayers: mapLayers =>
       executeAction(updateMapLayers, { ...mapLayers }),
     lang: getStore('PreferencesStore').getLanguage(),
+    mapMode: getStore('MapModeStore').getMapMode(),
     setMapMode: mapMode => executeAction(setMapMode, mapMode),
   }),
   {

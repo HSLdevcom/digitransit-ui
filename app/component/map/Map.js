@@ -12,7 +12,7 @@ import isString from 'lodash/isString';
 import isEmpty from 'lodash/isEmpty';
 // Webpack handles this by bundling it with the other css files
 import 'leaflet/dist/leaflet.css';
-import { withRouter, routerShape, matchShape } from 'found';
+import { withRouter, routerShape } from 'found';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import {
   startRealTimeClient,
@@ -26,7 +26,6 @@ import { isDebugTiles } from '../../util/browser';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
 import events from '../../util/events';
 import { MapMode } from '../../constants';
-import { getMapMode } from '../../util/queryUtils';
 
 import GeoJSON from './GeoJSON';
 
@@ -77,6 +76,7 @@ class Map extends React.Component {
     topButtons: PropTypes.node,
     geoJson: PropTypes.object,
     mapLayers: PropTypes.object,
+    mapMode: PropTypes.oneOf(Object.keys(MapMode)),
   };
 
   static defaultProps = {
@@ -97,7 +97,6 @@ class Map extends React.Component {
     getStore: PropTypes.func,
     config: PropTypes.object.isRequired,
     router: routerShape,
-    match: matchShape,
   };
 
   constructor(props) {
@@ -272,7 +271,8 @@ class Map extends React.Component {
       boundsOptions.paddingBottomRight = [0, this.props.mapBottomPadding];
     }
 
-    const mapUrls = this.getMapUrls(config, this.context.match);
+    const currentMapMode = this.props.mapMode;
+    const mapUrls = this.getMapUrls(config, currentMapMode);
 
     const leafletObjNew = leafletObjs.concat([
       <VectorTileLayerContainer
@@ -294,7 +294,6 @@ class Map extends React.Component {
     }
 
     let attribution = get(config, 'map.attribution.default');
-    const currentMapMode = getMapMode(this.context.match);
     attribution = config.map.attribution[currentMapMode] || attribution;
     if (!isString(attribution) || isEmpty(attribution)) {
       attribution = false;
@@ -398,9 +397,7 @@ class Map extends React.Component {
     );
   }
 
-  getMapUrls = (config, match) => {
-    const currentMapMode = getMapMode(match);
-
+  getMapUrls = (config, currentMapMode) => {
     const mapUrls = [];
     if (isDebugTiles) {
       mapUrls.push(`${config.URL.OTP}inspector/tile/traversal/{z}/{x}/{y}.png`);

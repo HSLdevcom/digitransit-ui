@@ -9,7 +9,6 @@ import {
 } from './otpStrings';
 import { getPathWithEndpointObjects, PREFIX_ITINERARY_SUMMARY } from './path';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
-import { MapMode } from '../constants';
 import { addViaPoint } from '../action/ViaPointActions';
 
 /**
@@ -94,16 +93,6 @@ export const clearQueryParams = (router, match, paramsToClear = []) => {
     ...location,
     query,
   });
-};
-
-export const getMapMode = match => {
-  let currentMapMode;
-  if (match && match.location.query && match.location.query.mapMode) {
-    currentMapMode = match.location.query.mapMode;
-  } else {
-    currentMapMode = MapMode.Default;
-  }
-  return currentMapMode;
 };
 
 /**
