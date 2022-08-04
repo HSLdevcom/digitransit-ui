@@ -49,8 +49,9 @@ MapContainer.defaultProps = {
 
 export default connectToStores(
   withGeojsonObjects(MapContainer),
-  ['PreferencesStore'],
+  ['PreferencesStore', 'MapModeStore'],
   context => ({
     lang: context.getStore('PreferencesStore').getLanguage(),
+    mapMode: context.getStore('MapModeStore').getMapMode(),
   }),
 );
