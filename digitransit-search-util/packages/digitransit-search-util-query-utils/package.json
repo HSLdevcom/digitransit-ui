@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-query-utils",
-  "version": "2.0.3",
+  "version": "2.0.5",
   "description": "digitransit-search-util query-utils module",
   "main": "lib/index.js",
   "publishConfig": {
@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "0.0.3",
-    "@digitransit-search-util/digitransit-search-util-helpers": "1.0.2",
+    "@digitransit-search-util/digitransit-search-util-helpers": "1.0.3",
     "@digitransit-search-util/digitransit-search-util-route-name-compare": "0.0.2",
     "babel-plugin-relay": "10.0.1"
   }

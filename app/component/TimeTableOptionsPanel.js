@@ -3,7 +3,10 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import uniqBy from 'lodash/uniqBy';
 import Icon from './Icon';
+import { ExtendedRouteTypes } from '../constants';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+
+const MAX_ROUTEFILTER_LEN = 13;
 
 class TimeTableOptionsPanel extends React.Component {
   static propTypes = {
@@ -34,13 +37,34 @@ class TimeTableOptionsPanel extends React.Component {
       throw Error('Empty stop');
     }
     const routeNames = this.getRouteNames(this.props.showRoutes);
-    const showRoutesDiv = routeNames.map(
-      (o, i) =>
-        `${o.shortName ? o.shortName : o.agencyName}${
-          i === routeNames.length - 1 ? '' : ', '
-        }`,
-    );
-    const stopVehicle = this.props.stop.stoptimesForServiceDate[0].pattern.route.mode.toLowerCase();
+    const showRoutesDiv = [];
+    for (let i = 0; i < routeNames.length; i++) {
+      const o = routeNames[i];
+      showRoutesDiv[i] = `${o.shortName ? o.shortName : o.agencyName}${
+        i === routeNames.length - 1 ? '' : ', '
+      }`;
+      if (showRoutesDiv.join().length > MAX_ROUTEFILTER_LEN) {
+        if (i > 0) {
+          showRoutesDiv[i] = '\u{02026}';
+        } else {
+          showRoutesDiv[0] = `${showRoutesDiv[0].substr(
+            0,
+            MAX_ROUTEFILTER_LEN - 1,
+          )}\u{02026}`;
+        }
+        break;
+      }
+    }
+
+    let stopVehicle = this.props.stop.stoptimesForServiceDate[0].pattern.route.mode.toLowerCase();
+    if (stopVehicle === 'bus') {
+      stopVehicle = this.props.stop.stoptimesForServiceDate.some(
+        stopTime =>
+          stopTime.pattern.route.type === ExtendedRouteTypes.BusExpress,
+      )
+        ? 'bus-express'
+        : stopVehicle;
+    }
     return (
       <label
         className="timetable-showroutes combobox-container"

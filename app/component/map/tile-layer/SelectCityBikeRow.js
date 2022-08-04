@@ -7,6 +7,7 @@ import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
+  hasStationCode,
 } from '../../../util/citybikes';
 import { PREFIX_BIKESTATIONS } from '../../../util/path';
 
@@ -16,7 +17,6 @@ function SelectCityBikeRow({ name, networks, id, desc }, { config }) {
     getCityBikeNetworkConfig(getCityBikeNetworkId(networks), config),
   )}-stop-lollipop`;
   const address = desc || <FormattedMessage id="citybike-station-no-id" />;
-  const showCode = id && id !== 'null';
   return (
     <Link
       className="stop-popup-choose-row"
@@ -29,7 +29,9 @@ function SelectCityBikeRow({ name, networks, id, desc }, { config }) {
         <h5 className="choose-row-header">{name}</h5>
         <span className="choose-row-text">
           <span className="choose-row-address">{address}</span>
-          {showCode && <span className="choose-row-number">{id}</span>}
+          {hasStationCode({ stationId: id }) && (
+            <span className="choose-row-number">{id}</span>
+          )}
         </span>
       </span>
       <span className="choose-row-right-column">

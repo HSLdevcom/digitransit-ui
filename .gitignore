@@ -9,6 +9,7 @@ test/credentials.json
 test/binaries
 *.swp
 .idea
+.vscode
 *.iml
 *~
 test_output

@@ -1,10 +1,11 @@
 {
   "name": "@digitransit-component/digitransit-component-icon",
-  "version": "0.1.16",
+  "version": "0.1.18",
   "description": "digitransit-component icon module",
-  "main": "lib/index.js",
+  "main": "index.js",
   "files": [
-    "/lib"
+    "/lib",
+    "index.js"
   ],
   "publishConfig": {
     "access": "public"

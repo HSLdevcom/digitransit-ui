@@ -122,7 +122,11 @@ const TripRouteStop = (props, { config }) => {
         />
       </div>
       <div className="route-stop-row_content-container">
-        <Link to={`/${PREFIX_STOPS}/${encodeURIComponent(stop.gtfsId)}`}>
+        <Link
+          as="button"
+          type="button"
+          to={`/${PREFIX_STOPS}/${encodeURIComponent(stop.gtfsId)}`}
+        >
           <div>
             <div className="route-details-upper-row">
               <div className={`route-details_container ${mode}`}>

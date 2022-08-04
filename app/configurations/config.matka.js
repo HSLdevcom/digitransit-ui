@@ -3,12 +3,15 @@ import { BIKEAVL_BIKES, BIKEAVL_WITHMAX } from '../util/citybikes';
 import HSLConfig from './config.hsl';
 import TurkuConfig from './config.turku';
 import LappeenrantaConfig from './config.lappeenranta';
+import TampereConfig from './config.tampere';
 import KuopioConfig from './config.kuopio';
 
 const CONFIG = 'matka';
 const APP_DESCRIPTION = 'Matka.fi–palvelu.';
 const APP_TITLE = 'Matka.fi';
 const YEAR = 1900 + new Date().getYear();
+
+const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 
 // route timetable data needs to be up-to-date before this is enabled
 // const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
@@ -110,8 +113,11 @@ export default {
       },
       {
         name: 'accessibility-statement',
-        href:
-          'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas/matkafi-reittioppaan-saavutettavuusseloste',
+        href: {
+          fi: 'https://www.digitransit.fi/accessibility',
+          sv: 'https://www.digitransit.fi/accessibility',
+          en: 'https://www.digitransit.fi/en/accessibility',
+        },
       },
       {
         name: 'about-these-pages',
@@ -160,9 +166,26 @@ export default {
           en: 'https://www.hsl.fi/en/citybikes/vantaa',
         },
       },
+      seatcode_tampere: {
+        capacity: BIKEAVL_WITHMAX,
+        enabled: true,
+        season: TampereConfig.cityBike.networks.seatcode_tampere.season,
+        icon: 'citybike',
+        name: {
+          fi: 'Tampere',
+          sv: 'Tammerfors',
+          en: 'Tampere',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://www.nysse.fi/kaupunkipyorat',
+          sv: 'https://www.nysse.fi/en/city-bikes.html',
+          en: 'https://www.nysse.fi/en/city-bikes.html',
+        },
+      },
       turku: {
-        enabled: TurkuConfig.cityBike.networks.turku.enabled,
-        season: TurkuConfig.cityBike.networks.turku.season,
+        enabled: TurkuConfig.cityBike.networks.donkey_turku.enabled,
+        season: TurkuConfig.cityBike.networks.donkey_turku.season,
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
@@ -172,9 +195,9 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: 'https://www.foli.fi/kaupunkipyorat',
-          sv: 'https://www.foli.fi/sv/stadscyklar',
-          en: 'https://www.foli.fi/en/citybikes',
+          fi: 'https://www.foli.fi/fi/aikataulut-ja-reitit/fölifillarit',
+          sv: 'https://www.foli.fi/sv/fölicyklar',
+          en: 'https://www.foli.fi/en/föli-bikes',
         },
       },
       vilkku: {
@@ -262,7 +285,19 @@ export default {
     'airplane',
   ],
   useAlternativeNameForModes: ['rail'],
+
   includeCarSuggestions: true,
+  includeParkAndRideSuggestions: true,
+
+  parkingAreaSources: ['liipi'],
+
+  parkAndRide: {
+    showParkAndRide: true,
+    parkAndRideMinZoom: 13,
+    pageContent: {
+      default: HSLParkAndRideUtils,
+    },
+  },
 
   sourceForAlertsAndDisruptions: {
     HSL: {

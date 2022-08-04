@@ -79,6 +79,7 @@ const EmbeddedSearchGenerator = (props, context) => {
     modeSet: config.iconModeSet,
     modeIconColors: config.colors.modeIconColors,
     selectHandler: onSelectLocation,
+    getAutoSuggestIcons: context.config.getAutoSuggestIcons,
   };
 
   const generateComponent = () => {
@@ -140,7 +141,7 @@ const EmbeddedSearchGenerator = (props, context) => {
       }
     }
 
-    iframeHTML += `" title="Digitransit UI embedded search" scrolling="no" />`;
+    iframeHTML += `" title="Digitransit UI embedded search" scrolling="no"></iframe>`;
     return iframeHTML;
   };
 

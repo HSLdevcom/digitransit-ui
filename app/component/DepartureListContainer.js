@@ -16,16 +16,30 @@ import {
 } from '../action/realTimeClientAction';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
 
+const getDropoffMessage = (hasOnlyDropoff, hasNoStop) => {
+  if (hasNoStop) {
+    return 'route-no-stop';
+  }
+  if (hasOnlyDropoff) {
+    return 'route-destination-arrives';
+  }
+  return undefined;
+};
+
 const asDepartures = stoptimes =>
   !stoptimes
     ? []
     : stoptimes.map(stoptime => {
-        const isArrival = stoptime.pickupType === 'NONE';
+        const hasDropoff = stoptime.dropoffType !== 'NONE';
+        const hasPickup = stoptime.pickupType !== 'NONE';
+        const hasNoStop = !hasPickup && !hasDropoff;
+        const isArrival = !hasPickup;
         let isLastStop = false;
         if (stoptime.trip && stoptime.trip.stops) {
           const lastStop = stoptime.trip.stops.slice(-1).pop();
           isLastStop = stoptime.stop.id === lastStop.id;
         }
+        const hasOnlyDropoff = !hasPickup && !isLastStop;
         /* OTP returns either scheduled time or realtime prediction in
          * 'realtimeDeparture' and 'realtimeArrival' fields.
          * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
@@ -47,6 +61,8 @@ const asDepartures = stoptimes =>
           ),
           canceled,
           isArrival,
+          hasNoStop,
+          hasOnlyDropoff,
           isLastStop,
           stoptime: stoptimeTime,
           stop: stoptime.stop,
@@ -66,7 +82,6 @@ class DepartureListContainer extends Component {
     currentTime: PropTypes.number.isRequired,
     limit: PropTypes.number,
     infiniteScroll: PropTypes.bool,
-    routeLinks: PropTypes.bool,
     className: PropTypes.string,
     isTerminal: PropTypes.bool,
     isStopPage: PropTypes.bool,
@@ -90,7 +105,9 @@ class DepartureListContainer extends Component {
         },
       );
       setTimeout(() => {
-        this.pageLoadedAlertRef.current.innerHTML = null;
+        if (this.pageLoadedAlertRef?.current) {
+          this.pageLoadedAlertRef.current.innerHTML = null;
+        }
       }, 100);
     }
     if (this.context.config.showVehiclesOnStopPage && this.props.isStopPage) {
@@ -275,33 +292,46 @@ class DepartureListContainer extends Component {
 
       if (departure.addDayDivider) {
         departureObjs.push(
-          <div key={departureDate} className="date-row border-bottom">
-            {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
-          </div>,
+          <tr key={departureDate}>
+            <td colSpan={isTerminal ? 4 : 3}>
+              <div className="date-row border-bottom">
+                {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
+              </div>
+            </td>
+          </tr>,
         );
       } else if (departure.addServiceDayDivider) {
-        departureObjs.push(<div className="departure-day-divider" />);
+        departureObjs.push(
+          <tr key={`${departureDate}_divider`}>
+            <td colSpan={isTerminal ? 4 : 3}>
+              <div className="departure-day-divider" />
+            </td>
+          </tr>,
+        );
       }
 
       const id = `${departure.pattern.code}:${departure.stoptime}`;
+      const dropoffMessage = getDropoffMessage(
+        departure.hasOnlyDropoff,
+        departure.hasNoStop,
+      );
       const row = {
         headsign: this.getHeadsign(departure),
         trip: { ...departure.trip, ...{ route: departure.trip.pattern.route } },
         stop: departure.stop,
         realtime: departure.realtime,
-        bottomRow:
-          departure.isArrival && !departure.isLastStop ? (
-            <div className="drop-off-container">
-              <Icon
-                img="icon-icon_info"
-                color={this.context.config.colors.primary}
-              />
-              <FormattedMessage
-                id="route-destination-arrives"
-                defaultMessage="Drop-off only"
-              />
-            </div>
-          ) : null,
+        bottomRow: dropoffMessage ? (
+          <div className="drop-off-container">
+            <Icon
+              img="icon-icon_info"
+              color={this.context.config.colors.primary}
+            />
+            <FormattedMessage
+              id={dropoffMessage}
+              defaultMessage="Drop-off only"
+            />
+          </div>
+        ) : null,
       };
 
       const nextDeparture = departuresWithDayDividers[index + 1];
@@ -310,7 +340,6 @@ class DepartureListContainer extends Component {
         <DepartureRow
           key={id}
           departure={row}
-          showLink={this.props.routeLinks}
           departureTime={departure.stoptime}
           currentTime={this.props.currentTime}
           showPlatformCode={isTerminal}
@@ -390,6 +419,7 @@ const containerComponent = createFragmentContainer(DepartureListContainer, {
       realtime
       serviceDay
       pickupType
+      dropoffType
       headsign
       stop {
         id

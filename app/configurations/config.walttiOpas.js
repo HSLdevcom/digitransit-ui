@@ -65,8 +65,11 @@ export default configMerger(walttiConfig, {
       },
       {
         name: 'accessibility-statement',
-        href:
-          'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
+        href: {
+          fi: 'https://www.digitransit.fi/accessibility',
+          sv: 'https://www.digitransit.fi/accessibility',
+          en: 'https://www.digitransit.fi/en/accessibility',
+        },
       },
     ],
   },
@@ -139,4 +142,22 @@ export default configMerger(walttiConfig, {
   viaPointsEnabled: false,
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
+
+  sourceForAlertsAndDisruptions: {
+    Kotka: {
+      fi: 'Kotkan seutu',
+      sv: 'Kotkaregion',
+      en: 'Kotka region',
+    },
+    Kouvola: {
+      fi: 'Kouvola',
+      sv: 'Kouvola',
+      en: 'Kouvola',
+    },
+    Salo: {
+      fi: 'Salo',
+      sv: 'Salo',
+      en: 'Salo',
+    },
+  },
 });

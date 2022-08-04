@@ -344,11 +344,11 @@ $margin-left-right: 21.3px;
     }
   }
   .route-stop-row_content-container {
-    width: 100%; //calc(100% - 13% - 15px - 1em);
+    width: calc(100% - 30px);
     margin-left: 15px;
     display: flex;
     border-bottom: 1px solid #eef1f3;
-    a {
+    button {
       width: 100%;
       height: 100%;
       padding: 10px 0;
@@ -1071,10 +1071,6 @@ $margin-left-right: 21.3px;
       text-decoration: underline;
     }
   }
-}
-
-.fpccontainer > div > div > div.spinner-loader {
-  top: 15%;
 }
 
 .mode-nearby {

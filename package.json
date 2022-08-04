@@ -12,14 +12,14 @@
     "digitransit-store/packages/*"
   ],
   "scripts": {
-    "setup": "yarn install && yarn build-workspaces",
+    "setup": "yarn install && yarn build-workspaces && yarn node14-patch",
     "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
     "win-static": "xcopy static\\* _static /e /s /y /i& if not exist _static\\js mkdir _static\\js& if not exist _static\\css mkdir _static\\css",
     "prebuild": "yarn run static && yarn run relay",
     "predev": "yarn run static",
     "predev-win-hsl": "yarn run win-static",
     "predev-win-national": "yarn run win-static",
-    "dev": "bash -c \"trap 'pkill -QUIT -P $$ > /dev/null' EXIT; yarn run predev && yarn run relay-watch & NODE_ENV=development yarn nodemon -e js,css,scss,html --watch ./server/ --watch ./app/ server/server.js & NODE_ENV=development yarn webpack-dev-server\"",
+    "dev": "bash -c \"trap 'pkill -QUIT -P $$ > /dev/null' EXIT; yarn run predev && yarn run relay-watch & NODE_ENV=development yarn nodemon -e js,css,scss,html --watch ./server/ --watch ./app/ server/server.js & NODE_ENV=development yarn webpack-dev-server & yarn digitransit-watch-components\"",
     "dev-win-hsl": "yarn predev-win-hsl && cd win-launch-scripts&& hsl-win-launch-script.bat",
     "dev-win-national": "yarn predev-win-hsl && cd win-launch-scripts&& set CONFIG=&& national-win-launch-script.bat",
     "dev-nowatch": "bash -c 'NODE_ENV=development node server/server.js & NODE_ENV=development webpack-dev-server'",
@@ -62,7 +62,8 @@
     "digitransit-store-docs": "node -r esm ./digitransit-store/scripts/generate-readmes",
     "digitransit-store-new-module": "node -r esm ./digitransit-store/scripts/create-new-module",
     "digitransit-store-tests": "lerna run build:test --scope '@digitransit-store/*' && lerna run test --scope '@digitransit-store/*'",
-    "build-store": "lerna run clean --scope '@digitransit-store/*' && NODE_ENV=production SCOPE='@digitransit-store/*' rollup -c ./config/rollup.config.js"
+    "build-store": "lerna run clean --scope '@digitransit-store/*' && NODE_ENV=production SCOPE='@digitransit-store/*' rollup -c ./config/rollup.config.js",
+    "node14-patch": "rm -f ./node_modules/react-leaflet/node_modules/@babel/runtime/helpers/esm/package.json"
   },
   "main": "server.js",
   "repository": {
@@ -171,7 +172,7 @@
     "moment": "2.29.1",
     "moment-timezone": "0.5.34",
     "morgan": "1.10.0",
-    "mqtt": "4.2.1",
+    "mqtt": "4.3.7",
     "name-all-modules-plugin": "1.0.1",
     "node-fetch": "2.6.0",
     "offline-plugin": "5.0.7",
@@ -227,6 +228,7 @@
     "@rollup/plugin-babel": "5.2.2",
     "@rollup/plugin-json": "4.1.0",
     "@rollup/plugin-node-resolve": "11.0.1",
+    "@testing-library/react-hooks": "^8.0.0",
     "async": "^3.2.2",
     "autoprefixer": "9.8.6",
     "axe-core": "^4.2.1",
@@ -243,7 +245,7 @@
     "compression-webpack-plugin": "5.0.2",
     "copy-webpack-plugin": "6.1.0",
     "css-loader": "3.6.0",
-    "documentation": "13.0.2",
+    "documentation": "13.2.5",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.4",
     "enzyme-wait": "1.0.9",
@@ -303,6 +305,6 @@
     "webpack-assets-manifest": "3.1.1",
     "webpack-bundle-analyzer": "3.6.0",
     "webpack-cli": "3.3.10",
-    "webpack-dev-server": "3.10.1"
+    "webpack-dev-server": "3.10.3"
   }
 }

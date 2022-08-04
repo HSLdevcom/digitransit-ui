@@ -15,29 +15,12 @@ function MarkerSelectPopup(props) {
     props.options.find(option => option.layer === 'realTimeVehicle');
 
   const rows = props.options.map(option => {
-    if (option.layer === 'stop' && option.feature.properties.stops) {
-      return (
-        <SelectStopRow
-          terminal
-          gtfsId={option.feature.properties.gtfsId}
-          code={option.feature.properties.code || null}
-          name={option.feature.properties.name}
-          type={option.feature.properties.type}
-          key={option.feature.properties.gtfsId}
-          desc={option.feature.properties.desc}
-          colors={props.colors}
-        />
-      );
-    }
     if (option.layer === 'stop') {
       return (
         <SelectStopRow
-          gtfsId={option.feature.properties.gtfsId}
-          code={option.feature.properties.code || null}
-          name={option.feature.properties.name}
-          type={option.feature.properties.type}
+          terminal={!!option.feature.properties.stops}
+          {...option.feature.properties}
           key={option.feature.properties.gtfsId}
-          desc={option.feature.properties.desc}
           colors={props.colors}
         />
       );
@@ -47,8 +30,6 @@ function MarkerSelectPopup(props) {
         <SelectCityBikeRow
           {...option.feature.properties}
           key={`citybike:${option.feature.properties.id}`}
-          name={option.feature.properties.name}
-          desc={option.feature.properties.desc}
         />
       );
     }

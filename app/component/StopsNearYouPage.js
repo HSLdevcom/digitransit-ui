@@ -481,6 +481,10 @@ class StopsNearYouPage extends React.Component {
               const { cityBike } = this.context.config;
               // Use buy instructions if available
               const cityBikeBuyUrl = cityBike.buyUrl;
+              const buyInstructions = cityBikeBuyUrl
+                ? cityBike.buyInstructions?.[this.props.lang]
+                : undefined;
+
               let cityBikeNetworkUrl;
               // Use general information about using city bike, if one network config is available
               if (Object.keys(cityBike.networks).length === 1) {
@@ -535,9 +539,7 @@ class StopsNearYouPage extends React.Component {
                           </div>
                         </div>
                         <div className="disclaimer-content">
-                          {cityBikeBuyUrl ? (
-                            <FormattedMessage id="citybike-buy-season" />
-                          ) : (
+                          {buyInstructions || (
                             <a
                               className="external-link-citybike"
                               href={cityBikeNetworkUrl[this.props.lang]}
@@ -830,10 +832,14 @@ class StopsNearYouPage extends React.Component {
       inputClassName: onMap ? 'origin-stop-near-you-selector' : undefined,
       modeIconColors: this.context.config.colors.iconColors,
       modeSet: this.context.config.iconModeSet,
+      getAutoSuggestIcons: this.context.config.getAutoSuggestIcons,
     };
     const targets = ['Locations', 'Stops'];
     if (useCitybikes(this.context.config.cityBike?.networks)) {
       targets.push('BikeRentalStations');
+    }
+    if (this.context.config.includeParkAndRideSuggestions && onMap) {
+      targets.push('ParkingAreas');
     }
     return (
       <DTAutoSuggestWithSearchContext

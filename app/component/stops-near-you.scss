@@ -346,6 +346,16 @@
     }
   }
 }
+.desktop {
+  .scrollable-content-wrapper .react-swipe-container {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    >div {
+      flex: 1;
+    }
+  }
+}
 .scrollable-content-wrapper {
   .stops-near-you-search-container {
     margin-bottom: 22px;
@@ -453,7 +463,7 @@
   .stops-near-you-location-search {
     width: 145px;
     margin: 25px 15px 0 0;
-    z-index: 9999;
+    z-index: 5;
     div > div > .origin-stop-near-you-selector {
       height: 34px;
     }

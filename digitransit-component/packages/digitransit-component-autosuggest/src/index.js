@@ -79,6 +79,16 @@ function getSuggestionContent(item) {
       return [suggestionType, name, undefined, stopCode];
     }
 
+    if (item.properties.layer === 'bikepark') {
+      suggestionType = i18next.t('bikepark');
+      return [suggestionType, name, undefined, undefined];
+    }
+
+    if (item.properties.layer === 'carpark') {
+      suggestionType = i18next.t('carpark');
+      return [suggestionType, name, undefined, undefined];
+    }
+
     if (item.properties.mode) {
       suggestionType = i18next.t(
         item.properties.mode.toLowerCase().replace('favourite', ''),
@@ -187,6 +197,13 @@ function translateFutureRouteSuggestionTime(item) {
  *    // Called  when user clicks the clear search string button. No default implementation.
  *    return null;
  * };
+ * const getAutoSuggestIcons: {
+ *   // Called for every city bike station rendered as a search suggestion. Should return the icon and
+ *   // color used for that station. Two icons are available, 'citybike-stop-digitransit' anditybike-stop-digitransit-secondary'.
+ *   citybikes: station => {
+ *      return ['citybike-stop-digitransit', '#f2b62d'];
+ *   }
+ * }
  * const transportMode = undefined;
  * const placeholder = "stop-near-you";
  * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, MapPosition and CurrentPosition. Leave empty to search all targets.
@@ -203,6 +220,7 @@ function translateFutureRouteSuggestionTime(item) {
  *    onClear={onClear}
  *    autoFocus={false} // defines that should this field be automatically focused when page is loaded.
  *    lang={lang}
+ *    getAutoSuggestIcons={getAutoSuggestIcons}
  *    transportMode={transportMode} // transportmode with which we filter the routes, e.g. route-BUS
  *    geocodingSize={10} // defines how many stops and stations to fetch from geocoding. Useful if you want to filter the results and still get a reasonable amount of suggestions.
  *    filterResults={results => return results} // Optional filtering function for routes and stops
@@ -257,6 +275,7 @@ class DTAutosuggest extends React.Component {
       medium: PropTypes.number,
     }),
     modeIconColors: PropTypes.object,
+    getAutoSuggestIcons: PropTypes.object,
     required: PropTypes.bool,
     modeSet: PropTypes.string,
     showScroll: PropTypes.bool,
@@ -566,6 +585,12 @@ class DTAutosuggest extends React.Component {
           ) {
             targets.push('Stops');
           }
+          if (
+            isEmpty(this.props.targets) ||
+            this.props.targets.includes('BikeRentalStations')
+          ) {
+            targets.push('BikeRentalStations');
+          }
         } else if (!isEmpty(this.props.targets)) {
           targets = [...this.props.targets];
           // in desktop, favorites are accessed via sub search
@@ -750,6 +775,7 @@ class DTAutosuggest extends React.Component {
         accessiblePrimaryColor={this.props.accessiblePrimaryColor}
         fillInput={this.fillInput}
         fontWeights={this.props.fontWeights}
+        getAutoSuggestIcons={this.props.getAutoSuggestIcons}
         modeIconColors={this.props.modeIconColors}
         modeSet={this.props.modeSet}
       />

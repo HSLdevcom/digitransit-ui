@@ -6,7 +6,7 @@ import inside from 'point-in-polygon';
 import { getCustomizedSettings } from '../store/localStorage';
 import { isInBoundingBox } from './geo-utils';
 import { addAnalyticsEvent } from './analyticsUtils';
-import { TransportMode } from '../constants';
+import { ExtendedRouteTypes, TransportMode } from '../constants';
 
 export const isCitybikeSeasonActive = season => {
   if (!season) {
@@ -97,7 +97,14 @@ export const getTransportModes = config => {
 };
 
 export const getRouteMode = route => {
-  return route.type === 702 ? 'bus-trunk' : route.mode?.toLowerCase();
+  switch (route.type) {
+    case ExtendedRouteTypes.BusExpress:
+      return 'bus-express';
+    case ExtendedRouteTypes.BusLocal:
+      return 'bus-local';
+    default:
+      return route.mode?.toLowerCase();
+  }
 };
 
 /**

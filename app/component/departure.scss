@@ -227,12 +227,39 @@
   }
 }
 
+.departure-row:focus-within {
+  outline: 2px auto #333 !important;
+}
+
 .departure-row {
   @include font-narrow-book;
   font-weight: normal;
   display: flex;
   align-items: center;
   border-bottom: 1px solid #ddd;
+  td {
+    position: relative;
+    a {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      z-index: 1;
+    }
+    a:focus {
+      outline: none;
+    }
+    .platform-code {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .headsign {
+    color: #333;
+    display: flex;
+  }
   .route-arrival {
     color: #333;
     @include font-medium;
@@ -251,6 +278,9 @@
     background-color: currentColor;
     position: relative;
     border-radius: 3px;
+    a {
+      justify-content: center;
+    }
     .route-number {
       justify-content: center;
       align-items: center;

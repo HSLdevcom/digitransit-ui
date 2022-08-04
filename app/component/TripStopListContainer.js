@@ -113,7 +113,11 @@ class TripStopListContainer extends React.PureComponent {
   render() {
     return (
       <>
-        <div className={cx('route-stop-list', this.props.className)}>
+        <div
+          className={cx('route-stop-list', this.props.className)}
+          role="tabpanel"
+          aria-labelledby="route-tab"
+        >
           {this.getStops()}
         </div>
         <div className="bottom-whitespace" />

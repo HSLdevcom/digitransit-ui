@@ -1,4 +1,7 @@
 import get from 'lodash/get';
+import trimEnd from 'lodash/trimEnd';
+import trimStart from 'lodash/trimStart';
+import toPairs from 'lodash/toPairs';
 import {
   otpToLocation,
   locationToOTP,
@@ -20,6 +23,47 @@ export const PREFIX_TIMETABLE = 'aikataulu';
 export const stopUrl = id => id;
 export const LOCAL_STORAGE_EMITTER_PATH = '/local-storage-emitter';
 export const EMBEDDED_SEARCH_PATH = '/haku';
+
+/**
+ * Join argument with slash separator.
+ *
+ * @param  {Array.<string>} segments Path segments.
+ * @returns {string}
+ *
+ * @example
+ * pathJoin("my/", "path") // my/path
+ */
+export const pathJoin = segments =>
+  segments
+    .reduce((acc, segment, i, arr) => {
+      let output = String(segment);
+      output = i > 0 ? trimStart(output, '/') : output;
+      output = i < arr.length - 1 ? trimEnd(output, '/') : output;
+      return acc.concat(output);
+    }, [])
+    .join('/');
+
+/**
+ * @param {Object.<string, string>} params
+ * @returns {string}
+ */
+export const buildQueryString = params => {
+  return toPairs(params)
+    .map(keyVal => keyVal.join('='))
+    .join('&');
+};
+
+export const buildURL = (pathSegments = []) => {
+  const urlOrigin =
+    typeof window !== 'undefined'
+      ? window.location.origin // eslint-disable-line compat/compat
+      : 'url://builder/';
+
+  // build valid url
+  const url = new URL(urlOrigin); // eslint-disable-line compat/compat
+  url.pathname = pathJoin(pathSegments);
+  return url;
+};
 
 export const createReturnPath = (
   path,
@@ -114,6 +158,14 @@ export const getStopRoutePath = searchObj => {
     case 'favouriteBikeRentalStation':
       path = `/${PREFIX_BIKESTATIONS}/`;
       id = searchObj.properties.labelId;
+      break;
+    case 'carpark':
+      path = `/${PREFIX_CARPARK}/`;
+      id = searchObj.properties.id;
+      break;
+    case 'bikepark':
+      path = `/${PREFIX_BIKEPARK}/`;
+      id = searchObj.properties.id;
       break;
     default:
       path = `/${PREFIX_STOPS}/`;

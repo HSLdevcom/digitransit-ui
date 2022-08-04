@@ -10,9 +10,7 @@ Selector | Component | Z-Index | Comment
 `.search-modal` | Search modal | 1301 |
 `.search-modal-overlay` | Search modal | 1100 |
 `N/A` | Loading Page | 40000 |
-`.spinner-loader` | RoutePage | 40000 | 
-`.frontpage-panel-container .tabs-row` | Front page tabs | 800 |
-`.frontpage-panel-wrapper` | Front page pull ups (nearby, favourites) | 1000 |
+`.spinner-loader` | RoutePage | 40000 |
 `.top-bar` | AppBar | 1008 |
 `div.leaflet-marker-icon.from, div.leaflet-marker-icon.to { > span { &::before` | From/To marker letters | 1000 | Could be removed through new icon components
 `#splash-container` | Splash screen |  802 |

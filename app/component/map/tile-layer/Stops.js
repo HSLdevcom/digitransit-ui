@@ -1,27 +1,16 @@
 import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
 import pick from 'lodash/pick';
-
-import { graphql, fetchQuery } from 'react-relay';
 import {
   drawTerminalIcon,
   drawStopIcon,
   drawHybridStopIcon,
   drawHybridStationIcon,
 } from '../../../util/mapIconUtils';
+import { ExtendedRouteTypes } from '../../../constants';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from '../../../util/path';
 import { fetchWithLanguage } from '../../../util/fetchUtils';
-
-const stopTypeQuery = graphql`
-  query StopsTypeQuery($id: String!) {
-    stop: stop(id: $id) {
-      routes {
-        type
-      }
-    }
-  }
-`;
 
 function isNull(val) {
   return val === 'null' || val === undefined || val === null;
@@ -44,41 +33,36 @@ class Stops {
     const isHilighted =
       this.tile.hilightedStops &&
       this.tile.hilightedStops.includes(feature.properties.gtfsId);
+    let hasTrunkRoute = false;
+    if (
+      feature.properties.type === 'BUS' &&
+      this.config.useExtendedRouteTypes
+    ) {
+      const patterns = JSON.parse(feature.properties.patterns);
+      if (patterns.some(p => p.gtfsType === ExtendedRouteTypes.BusExpress)) {
+        hasTrunkRoute = true;
+      }
+    }
     const ignoreMinZoomLevel =
       feature.properties.type === 'FERRY' ||
       feature.properties.type === 'RAIL' ||
       feature.properties.type === 'SUBWAY';
-
     if (ignoreMinZoomLevel || zoom >= minZoom) {
       if (isHybrid) {
-        if (
-          feature.properties.type === 'BUS' &&
-          this.config.useExtendedRouteTypes
-        ) {
-          this.fetchTypeAndDraw(feature, isHilighted, true);
-          return;
-        }
         drawHybridStopIcon(
           this.tile,
           feature.geom,
           isHilighted,
           this.config.colors.iconColors,
+          hasTrunkRoute,
         );
-        return;
-      }
-
-      if (
-        feature.properties.type === 'BUS' &&
-        this.config.useExtendedRouteTypes
-      ) {
-        this.fetchTypeAndDraw(feature, isHilighted);
         return;
       }
 
       drawStopIcon(
         this.tile,
         feature.geom,
-        feature.properties.type,
+        hasTrunkRoute ? 'bus-express' : feature.properties.type,
         !isNull(feature.properties.platform)
           ? feature.properties.platform
           : false,
@@ -91,46 +75,6 @@ class Stops {
       );
     }
   }
-
-  // Can be deleted if map API provides route type information one day
-  fetchTypeAndDraw = (feature, isHilighted, hybrid = false) => {
-    const { gtfsId } = feature.properties;
-
-    const callback = ({ stop: result }) => {
-      if (!result) {
-        return;
-      }
-      const hasTrunkRoute = result.routes.some(route => route.type === 702);
-      if (hybrid) {
-        drawHybridStopIcon(
-          this.tile,
-          feature.geom,
-          isHilighted,
-          this.config.colors.iconColors,
-          hasTrunkRoute,
-        );
-      } else {
-        drawStopIcon(
-          this.tile,
-          feature.geom,
-          hasTrunkRoute ? 'bus-express' : feature.properties.type,
-          feature.properties.platform !== 'null'
-            ? feature.properties.platform
-            : false,
-          isHilighted,
-          !!(
-            feature.properties.type === 'FERRY' &&
-            feature.properties.code !== 'null'
-          ),
-          this.config.colors.iconColors,
-        );
-      }
-    };
-
-    fetchQuery(this.relayEnvironment, stopTypeQuery, { id: gtfsId }).then(
-      callback,
-    );
-  };
 
   stopsToShowCheck(feature) {
     if (this.tile.stopsToShow) {

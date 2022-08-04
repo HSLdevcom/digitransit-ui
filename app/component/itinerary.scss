@@ -12,11 +12,11 @@ $itinerary-tab-switch-height: 48px;
 }
 
 @mixin setModeCircles($fill) {
-  &.bus {
+  &.bus, &.bus-local {
     @include getCircleSvg($bus-color, $fill);
   }
-  &.bus-trunk {
-    @include getCircleSvg($bus-trunk-color, $fill);
+  &.bus-express {
+    @include getCircleSvg($bus-express-color, $fill);
   }
   &.airplane {
     @include getCircleSvg($airplane-color, $fill);
@@ -574,7 +574,7 @@ $itinerary-tab-switch-height: 48px;
   z-index: 9;
   @include setModeCircles(#fff);
   &.circle-fill {
-    &.bus {
+    &.bus, &.bus-local {
       @include setModeCircles($bus-color);
     }
     &.airplane {

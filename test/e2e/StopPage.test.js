@@ -45,9 +45,9 @@ describe(`Stop page with ${config} config`, () => {
     await mockRoutes(page);
   });
   const paths = {
-    hsl: '/pysakit/HSL:6304004',
+    hsl: '/pysakit/HSL:2434202',
     tampere: '/pysakit/tampere:0536',
-    matka: '/pysakit/HSL:6304004',
+    matka: '/pysakit/HSL:2434202',
   };
   test(`departure list on ${platform}`, async () => {
     const snapshotName = `stop-page-departure-list-${platform}`;

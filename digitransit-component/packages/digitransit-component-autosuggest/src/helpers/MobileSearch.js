@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import ReactModal from 'react-modal';
 import cx from 'classnames';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
@@ -52,6 +53,10 @@ const MobileSearch = ({
 
   const [isDialogOpen, setDialogOpen] = useState(false);
   const inputRef = React.useRef();
+
+  useEffect(() => {
+    ReactModal.setAppElement(appElement);
+  }, []);
 
   const onClose = useCallback(() => {
     closeHandle();
@@ -188,23 +193,26 @@ const MobileSearch = ({
   }
 
   return (
-    searchOpen && (
-      <div className={styles['mobile-modal-overlay']}>
-        <div
-          id="mobile-modal"
-          className={styles['mobile-modal']}
-          style={{
-            '--color': `${color}`,
-            '--accessible-primary-color': accessiblePrimaryColor,
-            '--hover-color': `${hoverColor}`,
-            '--font-weight-medium': fontWeights.medium,
-          }}
-        >
-          {renderContent()}
-          {renderDialogModal()}
-        </div>
+    <ReactModal
+      isOpen={searchOpen}
+      className={styles['mobile-modal']}
+      overlayClassName={styles['mobile-modal-overlay']}
+      onAfterClose={onClose}
+      shouldCloseOnEsc
+    >
+      <div
+        className={styles['mobile-modal-content']}
+        style={{
+          '--color': `${color}`,
+          '--accessible-primary-color': accessiblePrimaryColor,
+          '--hover-color': `${hoverColor}`,
+          '--font-weight-medium': fontWeights.medium,
+        }}
+      >
+        {renderContent()}
+        {renderDialogModal()}
       </div>
-    )
+    </ReactModal>
   );
 };
 

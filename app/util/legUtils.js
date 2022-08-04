@@ -343,7 +343,8 @@ export const getLegBadgeProps = (leg, config) => {
     !leg.rentedBike ||
     !leg.from ||
     !leg.from.bikeRentalStation ||
-    config.cityBike.capacity === BIKEAVL_UNKNOWN
+    config.cityBike.capacity === BIKEAVL_UNKNOWN ||
+    leg.mode === 'WALK'
   ) {
     return undefined;
   }

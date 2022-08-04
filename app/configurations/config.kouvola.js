@@ -1,5 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
+import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = 'kouvola';
 const APP_TITLE = 'Kouvolan reittiopas';
@@ -24,6 +25,7 @@ export default configMerger(walttiConfig, {
     primary: '#000000',
     iconColors: {
       'mode-bus': '#000000',
+      'mode-citybike': '#f2b62d',
     },
   },
   transportModes: {
@@ -36,7 +38,42 @@ export default configMerger(walttiConfig, {
         en: 'Nearby stops on map',
       },
     },
+    citybike: {
+      availableForSelection: true,
+    },
   },
+
+  cityBike: {
+    networks: {
+      donkey_kouvola: {
+        enabled: true,
+        season: {
+          // 20.4. - 31.10.
+          start: new Date(new Date().getFullYear(), 3, 20),
+          end: new Date(new Date().getFullYear(), 10, 1),
+        },
+        capacity: BIKEAVL_WITHMAX,
+        icon: 'citybike',
+        name: {
+          fi: 'Kouvola',
+          sv: 'Kouvola',
+          en: 'Kouvola',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://kaakau.fi/kouvola/',
+          sv: 'https://kaakau.fi/kouvola/?lang=sv',
+          en: 'https://kaakau.fi/kouvola/?lang=en',
+        },
+        returnInstructions: {
+          fi: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+          sv: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+          en: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+        },
+      },
+    },
+  },
+
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
@@ -99,8 +136,11 @@ export default configMerger(walttiConfig, {
       },
       {
         name: 'accessibility-statement',
-        href:
-          'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
+        href: {
+          fi: 'https://www.digitransit.fi/accessibility',
+          sv: 'https://www.digitransit.fi/accessibility',
+          en: 'https://www.digitransit.fi/en/accessibility',
+        },
       },
     ],
   },

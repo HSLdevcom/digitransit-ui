@@ -5,8 +5,9 @@ import uniqBy from 'lodash/uniqBy';
 import isEmpty from 'lodash/isEmpty';
 import groupBy from 'lodash/groupBy';
 import PropTypes from 'prop-types';
-
 import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
+import { getRouteMode } from './modeUtils';
+
 import {
   RealtimeStateType,
   AlertSeverityLevelType,
@@ -321,7 +322,7 @@ export const getServiceAlertMetadata = (alert = {}) => ({
 
 const getServiceAlerts = (
   { alerts } = {},
-  { color, mode, shortName, routeGtfsId, stopGtfsId } = {},
+  { color, mode, shortName, routeGtfsId, stopGtfsId, type } = {},
   locale = 'en',
 ) =>
   Array.isArray(alerts)
@@ -334,6 +335,7 @@ const getServiceAlerts = (
           color,
           mode,
           shortName,
+          type,
           gtfsId: routeGtfsId,
         },
         stop: {
@@ -746,10 +748,11 @@ export const createUniqueAlertList = (
       ...alert,
       route:
         (hasRoute(alert) && {
-          mode: getMode(alert),
+          mode: getRouteMode(alert.route),
           routeGtfsId: alerts.sort(alertCompare).map(getRouteGtfsId).join(','),
           shortName: alerts.sort(alertCompare).map(getShortName).join(', '),
           color: getRouteColor(alert),
+          type: getRoute(alert).type,
         }) ||
         undefined,
       stop:

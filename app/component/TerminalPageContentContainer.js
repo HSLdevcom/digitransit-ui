@@ -113,7 +113,6 @@ class TerminalPageContent extends React.Component {
             mode={mode}
             key="departures"
             className="stop-page"
-            routeLinks
             infiniteScroll
             isTerminal
             currentTime={this.props.currentTime}

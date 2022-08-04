@@ -383,6 +383,7 @@ class FavouritesContainer extends React.Component {
                 (this.state.favourite && this.state.favourite.address) || ''
               }
               selectHandler={this.setLocationProperties}
+              getAutoSuggestIcons={this.context.config.getAutoSuggestIcons}
               lang={this.props.lang}
               isMobile={this.props.isMobile}
               color={this.props.color}

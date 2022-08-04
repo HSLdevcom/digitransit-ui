@@ -227,6 +227,10 @@ class IndexPage extends React.Component {
       stopAndRouteSearchTargets.push('BikeRentalStations');
       locationSearchTargets.push('BikeRentalStations');
     }
+    if (this.context.config.includeParkAndRideSuggestions) {
+      stopAndRouteSearchTargets.push('ParkingAreas');
+      locationSearchTargets.push('ParkingAreas');
+    }
     const locationSearchTargetsMobile = [
       ...locationSearchTargets,
       'MapPosition',
@@ -259,6 +263,7 @@ class IndexPage extends React.Component {
       originPlaceHolder: 'search-origin-index',
       destinationPlaceHolder: 'search-destination-index',
       selectHandler: this.onSelectLocation,
+      getAutoSuggestIcons: config.getAutoSuggestIcons,
       onGeolocationStart: this.onSelectLocation,
       fromMap: this.props.fromMap,
       fontWeights,
@@ -273,6 +278,7 @@ class IndexPage extends React.Component {
       className: 'destination',
       placeholder: 'stop-near-you',
       selectHandler: this.onSelectStopRoute,
+      getAutoSuggestIcons: config.getAutoSuggestIcons,
       value: '',
       lang,
       color,

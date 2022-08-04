@@ -31,9 +31,19 @@ function getAriaDescription(ariaContentArray) {
   return description;
 }
 
-function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
+function getIconProperties(
+  item,
+  color,
+  modes = undefined,
+  modeSet,
+  stopCode,
+  getIcons,
+) {
   let iconId;
   let iconColor = '#888888';
+  if (item?.properties?.layer === 'bikestation' && getIcons) {
+    return getIcons.citybikes(item);
+  }
   // because of legacy favourites there might be selectedIconId for some stops or stations
   // but we do not want to show those icons
   if (item.type === 'FavouriteStop') {
@@ -61,6 +71,12 @@ function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
   } else if (item && item.properties) {
     if (item.properties.layer === 'bikestation') {
       return [`citybike-stop-${modeSet}`, 'mode-citybike'];
+    }
+    if (item.properties.layer === 'carpark') {
+      return [`car-park`, 'mode-carpark'];
+    }
+    if (item.properties.layer === 'bikepark') {
+      return [`bike-park`, 'mode-bikepark'];
     }
     iconId = item.properties.selectedIconId || item.properties.layer;
   }
@@ -201,6 +217,20 @@ function getIconProperties(item, color, modes = undefined, modeSet, stopCode) {
   return [layerIcon.get(iconId) || defaultIcon, iconColor];
 }
 
+/** *
+ * Checks if stationId is a number. We don't want to display random hashes or names.
+ *
+ * @param stationId station's id, TODO we should probably support GBFS short_name
+ */
+function hasVehicleStationCode(stationId) {
+  return (
+    // eslint-disable-next-line no-restricted-globals
+    !isNaN(stationId) &&
+    // eslint-disable-next-line no-restricted-globals
+    !isNaN(parseFloat(stationId))
+  );
+}
+
 /**
  * SuggestionItem renders suggestions for digitransit-autosuggest component.
  * @example
@@ -223,6 +253,7 @@ const SuggestionItem = pure(
     fillInput,
     fontWeights,
     modeIconColors,
+    getAutoSuggestIcons,
     modeSet = 'default',
   }) => {
     const [
@@ -233,13 +264,13 @@ const SuggestionItem = pure(
       modes,
       platform,
     ] = content || ['', item.name, item.address];
-
     const [iconId, iconColor] = getIconProperties(
       item,
       color,
       modes,
       modeSet,
       stopCode,
+      getAutoSuggestIcons,
     );
     const modeIconColor = modeIconColors[iconColor] || modeIconColors[iconId];
     // Arrow clicked is for street. Instead of selecting item when a user clicks on arrow,
@@ -274,11 +305,15 @@ const SuggestionItem = pure(
       (item.properties.layer === 'bikeRentalStation' ||
         item.properties.layer === 'favouriteBikeRentalStation' ||
         item.properties.layer === 'bikestation');
-    const cityBikeLabel = isBikeRentalStation
-      ? suggestionType.concat(
-          item.properties.localadmin ? `, ${item.properties.localadmin}` : '',
-        )
-      : label;
+    const isParkingArea =
+      item.properties?.layer === 'carpark' ||
+      item.properties?.layer === 'bikepark';
+    const labelWithLocationType =
+      isBikeRentalStation || isParkingArea
+        ? suggestionType.concat(
+            item.properties.localadmin ? `, ${item.properties.localadmin}` : '',
+          )
+        : label;
     const ri = (
       <div
         aria-hidden="true"
@@ -310,9 +345,14 @@ const SuggestionItem = pure(
                   {name}
                 </div>
                 <div className={styles['suggestion-label']}>
-                  {isBikeRentalStation ? cityBikeLabel : label}
-                  {((stopCode && stopCode !== name) ||
-                    item.properties?.layer === 'bikestation') && (
+                  {isBikeRentalStation || isParkingArea
+                    ? labelWithLocationType
+                    : label}
+                  {((!isBikeRentalStation && stopCode && stopCode !== name) ||
+                    (isBikeRentalStation &&
+                      hasVehicleStationCode(
+                        stopCode || item.properties.id,
+                      ))) && (
                     <span className={styles['stop-code']}>
                       {stopCode || item.properties.id}
                     </span>
@@ -460,6 +500,7 @@ SuggestionItem.propTypes = {
   fontWeights: PropTypes.shape({
     medium: PropTypes.number,
   }),
+  getAutoSuggestIcons: PropTypes.object,
   modeIconColors: PropTypes.object,
   modeSet: PropTypes.string,
 };
@@ -482,6 +523,17 @@ SuggestionItem.defaultProps = {
     'mode-citybike': '#f2b62d',
     'mode-bus-express': '#CA4000',
     'mode-bus-local': '#007ac9',
+  },
+  getAutoSuggestIcons: {
+    citybikes: station => {
+      if (station.properties.source === 'citybikessmoove') {
+        return ['citybike-stop-default', '#f2b62d'];
+      }
+      if (station.properties.source === 'citybikesvantaa') {
+        return ['citybike-stop-default-secondary', '#f2b62d'];
+      }
+      return ['citybike-stop-default', '#f2b62d'];
+    },
   },
   modeSet: undefined,
 };

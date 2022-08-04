@@ -12,11 +12,11 @@ import {
   otpServiceAlertShape,
   tripHasCancelation,
 } from '../util/alertUtils';
+import { getRouteMode } from '../util/modeUtils';
 
 function RouteAlertsContainer({ route }, { intl, match }) {
-  const { color, mode, shortName } = route;
+  const { shortName } = route;
   const { patternId } = match.params;
-
   const cancelations = route.patterns
     .filter(pattern => pattern.code === patternId)
     .map(pattern => pattern.trips.filter(tripHasCancelation))
@@ -30,15 +30,13 @@ function RouteAlertsContainer({ route }, { intl, match }) {
           <DepartureCancelationInfo
             firstStopName={first.stop.name}
             headsign={first.headsign || trip.tripHeadsign}
-            routeMode={mode}
+            routeMode={getRouteMode(route)}
             scheduledDepartureTime={departureTime}
             shortName={shortName}
           />
         ),
         route: {
-          color,
-          mode,
-          shortName,
+          ...route,
         },
         validityPeriod: {
           startTime: departureTime,
@@ -106,6 +104,7 @@ const containerComponent = createFragmentContainer(RouteAlertsContainer, {
     @argumentDefinitions(date: { type: "String" }) {
       color
       mode
+      type
       shortName
       alerts {
         id
