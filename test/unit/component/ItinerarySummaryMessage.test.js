@@ -92,10 +92,10 @@ const defaultProps = {
   },
   error: undefined,
   areaPolygon,
-  minDistanceBetweenFromAndTo: undefined,
+  minDistanceBetweenFromAndTo: 100.0,
   nationalServiceLink: {
     name: 'Matka',
-    href: 'https://matka.fi',
+    href: 'https://opas.matka.fi',
   },
   from: {},
   to: {},
@@ -103,27 +103,45 @@ const defaultProps = {
   currentTime: 1656580024206,
 };
 
-const matchFormattedMessage = msgId => enzymeWrapper =>
-  enzymeWrapper.name() === 'FormattedMessage' &&
-  enzymeWrapper.prop('id') === msgId;
+const matchElement = (componentName, propName, propValue) => enzymeWrapper =>
+  enzymeWrapper.name() === componentName &&
+  enzymeWrapper.prop(propName) === propValue;
 
 /**
  * Test case creation helper.
  *
  * @param {Object.<String, any>} props `props` for `ItinerarySummaryMessage` component.
- * @param {String} messageId
+ * @param {String} expectPropValue, expectPropName
  */
-const expectFormattedMessage = (props, messageId) => {
+const expectElementWithId = (
+  props,
+  expectComponent,
+  expectPropName,
+  expectPropValue,
+) => {
   const wrapper = shallowWithIntl(<ItinerarySummaryMessage {...props} />, {
     context: mockContext,
     childContextTypes: mockChildContextTypes,
   });
 
-  const assertErrorMessage = `<FormattedMessage id="${messageId}" .../> not found.`;
-  expect(wrapper.findWhere(matchFormattedMessage(messageId))).to.have.length(
-    1,
-    assertErrorMessage,
-  );
+  const assertErrorMessage = `<${expectComponent} ${expectPropName}="${expectPropValue}" .../> not found.`;
+  expect(
+    wrapper.findWhere(
+      matchElement(expectComponent, expectPropName, expectPropValue),
+    ),
+  ).to.have.length(1, assertErrorMessage);
+};
+
+const expectElement = (props, componentName) => {
+  const wrapper = shallowWithIntl(<ItinerarySummaryMessage {...props} />, {
+    context: mockContext,
+    childContextTypes: mockChildContextTypes,
+  });
+
+  const assertErrorMessage = `<${componentName} .../> not found.`;
+  expect(
+    wrapper.findWhere(enzymeWrapper => enzymeWrapper.name() === componentName),
+  ).to.have.length(1, assertErrorMessage);
 };
 
 describe('<ItinerarySummaryMessage />', () => {
@@ -143,18 +161,22 @@ describe('<ItinerarySummaryMessage />', () => {
     const DATE_2022_01_01 = 1640995200000;
 
     it('renders "see national service" link when outside area', () => {
-      expectFormattedMessage(
-        {
-          ...defaultProps,
-          from: TestLocation.Outside,
-          to: TestLocation.Rautatientori,
-        },
-        'use-national-service-prefix',
-      );
+      const props = {
+        ...defaultProps,
+        routingErrors: [
+          {
+            code: PlannerMessageType.OutsideBounds,
+            inputField: 'FROM',
+          },
+        ],
+        from: TestLocation.Outside,
+        to: TestLocation.Rautatientori,
+      };
+      expectElement(props, 'NationalServiceLink');
     });
 
     it('renders message when origin out of bounds', () => {
-      expectFormattedMessage(
+      expectElementWithId(
         {
           ...defaultProps,
           from: TestLocation.Outside,
@@ -163,12 +185,14 @@ describe('<ItinerarySummaryMessage />', () => {
             { code: PlannerMessageType.OutsideBounds, inputField: 'FROM' },
           ],
         },
+        'ErrorCard',
+        'msgId',
         'origin-outside-service',
       );
     });
 
     it('renders message when destination out of bounds', () => {
-      expectFormattedMessage(
+      expectElementWithId(
         {
           ...defaultProps,
           from: TestLocation.Rautatientori,
@@ -177,12 +201,14 @@ describe('<ItinerarySummaryMessage />', () => {
             { code: PlannerMessageType.OutsideBounds, inputField: 'TO' },
           ],
         },
+        'ErrorCard',
+        'msgId',
         'destination-outside-service',
       );
     });
 
     it('renders message when origin and destination out of bounds', () => {
-      expectFormattedMessage(
+      expectElementWithId(
         {
           ...defaultProps,
           from: TestLocation.Rautatientori,
@@ -192,43 +218,54 @@ describe('<ItinerarySummaryMessage />', () => {
             { code: PlannerMessageType.OutsideBounds, inputField: 'FROM' },
           ],
         },
-        'origin-and-destination-outside-service',
+        'ErrorCard',
+        'msgId',
+        'router-outside-bounds-3',
       );
     });
 
-    it('renders message when: no stops near', () => {
-      // NO_STOPS_IN_RANGE (lappers)
-      // NO_STOPS_IN_RANGE (lappers)
-    });
-
-    it('renders message when: no stops near origin', () => {
-      // NO_STOPS_IN_RANGE (lappers)
-    });
-
-    it('renders message when: no stops near destination', () => {
-      // NO_STOPS_IN_RANGE (lappers)
-    });
-
-    it('renders message when: no transit connection', () => {});
-    it('renders message when: no transit connection in search window', () => {});
-    it('renders message when: walk only', () => {});
-
     it('renders message when: outside service period', () => {
-      expectFormattedMessage(
+      expectElementWithId(
         {
           ...defaultProps,
           currentTime: DATE_2022_01_01,
           searchTime: DATE_2022_01_01 + 180 * DAY,
           from: TestLocation.Rautatientori,
           to: TestLocation.Mannerheimintie_89,
-          messageEnums: [PlannerMessageType.OutsideServicePeriod],
+          routingErrors: [
+            {
+              code: PlannerMessageType.OutsideServicePeriod,
+              inputField: 'DATE_TIME',
+            },
+          ],
         },
-        'outside-service-period',
+        'ErrorCard',
+        'msgId',
+        'router-outside-service-period',
       );
     });
 
-    it('renders message when: serach time is in the past', () => {
-      expectFormattedMessage(
+    it('renders an action link when: outside service period', () => {
+      expectElement(
+        {
+          ...defaultProps,
+          currentTime: DATE_2022_01_01,
+          searchTime: DATE_2022_01_01 + 180 * DAY,
+          from: TestLocation.Rautatientori,
+          to: TestLocation.Mannerheimintie_89,
+          routingErrors: [
+            {
+              code: PlannerMessageType.OutsideServicePeriod,
+              inputField: 'DATE_TIME',
+            },
+          ],
+        },
+        'PastLink',
+      );
+    });
+
+    it('renders message when: search time is in the past', () => {
+      expectElementWithId(
         {
           ...defaultProps,
           currentTime: DATE_2022_01_01,
@@ -237,58 +274,66 @@ describe('<ItinerarySummaryMessage />', () => {
           to: TestLocation.Mannerheimintie_89,
           walking: true,
         },
-        'itinerary-in-the-past-title',
+        'ErrorCard',
+        'msgId',
+        'itinerary-in-the-past',
       );
     });
   });
 });
 
 /*
+Test case route queries
+-----------------------
 
-NO_TRANSIT_CONNECTION
-		http://localhost:8080/reitti/Valittu%20sijainti%3A%3A60.161908100606325%2C24.981869459152225/Valittu%20sijainti%3A%3A60.15968202058385%2C24.97222423553467?time=1660567140
-NO_TRANSIT_CONNECTION_IN_SEARCH_WINDOW
+  NO_TRANSIT_CONNECTION
+    /reitti/Valittu%20sijainti%3A%3A60.161908100606325%2C24.981869459152225/Valittu%20sijainti%3A%3A60.15968202058385%2C24.97222423553467?time=1660567140
+
+  NO_TRANSIT_CONNECTION_IN_SEARCH_WINDOW
     fromPlace: "Rautatientori::60.170384,24.939846",
-  	toPlace: "Kabanovintie 631, Kirkkonummi::60.0706649887424,24.49556350708008", 
-  	date: "08-25-2022"
-  	time: "3:00am"
-WALKING_BETTER_THAN_TRANSIT
-	http://localhost:8080/reitti/Rautatientori%2C%20Helsinki%3A%3A60.170384%2C24.939846/Keskuskatu%208%2C%20Helsinki%3A%3A60.1704933781611%2C24.94251072406769?time=1660567140
-OUTSIDE_BOUNDS 1
-  	fromPlace: "Rautatientori::60.170384,24.939846",
+    toPlace: "Kabanovintie 631, Kirkkonummi::60.0706649887424,24.49556350708008", 
+    date: "08-25-2022"
+    time: "3:00am"
+
+  WALKING_BETTER_THAN_TRANSIT
+    /reitti/Rautatientori%2C%20Helsinki%3A%3A60.170384%2C24.939846/Keskuskatu%208%2C%20Helsinki%3A%3A60.1704933781611%2C24.94251072406769?time=1660567140
+
+  OUTSIDE_BOUNDS 1
+    fromPlace: "Rautatientori::60.170384,24.939846",
     toPlace: "Ei yhteyttä::60.528407,23.617172",
-  	date: "2022-08-25"
-OUTSIDE_BOUNDS 2
+      
+  OUTSIDE_BOUNDS 2
     fromPlace: "Ei yhteyttä::60.528407,23.617172",
-  	toPlace: "Rautatientori::60.170384,24.939846",
-  	date: "2022-08-25"
-OUTSIDE_BOUNDS 3
+    toPlace: "Rautatientori::60.170384,24.939846",
+
+  OUTSIDE_BOUNDS 3
     fromPlace: "Ei yhteyttä::60.528407,23.617172",
-  	toPlace: "Ei yhteyttä B::60.528507,23.617272",
-  	date: "2022-08-25"
-OUTSIDE_SERVICE_PERIOD
-    fromPlace: "Matinkylä (M), Espoo::60.160047,24.739703",
-  	toPlace: "Rautatientori::60.170384,24.939846",
-  	date: "2022-03-01"
-LOCATION_NOT_FOUND 1
+    toPlace: "Ei yhteyttä B::60.528507,23.617272",
+
+  OUTSIDE_SERVICE_PERIOD
+    date: "2022-03-01"
+
+  LOCATION_NOT_FOUND 1
     fromPlace: "Lempans::60.22924371006018,24.127006530761722",
-  	toPlace: "Rautatientori::60.170384,24.939846", 
-  	date: "08-25-2022"
-LOCATION_NOT_FOUND 2
+    toPlace: "Rautatientori::60.170384,24.939846", 
+
+  LOCATION_NOT_FOUND 2
+    fromPlace: "Rautatientori::60.170384,24.939846", 
     toPlace: "Lempans::60.22924371006018,24.127006530761722",
-  	fromPlace: "Rautatientori::60.170384,24.939846", 
-  	date: "08-25-2022"
-LOCATION_NOT_FOUND 3
+
+  LOCATION_NOT_FOUND 3
     fromPlace: "Lempans::60.22924371006018,24.127006530761722",
-  	toPlace: "Lappers::60.20342859480837,24.039373397827152", 
-  	date: "08-25-2022"
-NO_STOPS_IN_RANGE 1
+    toPlace: "Lappers::60.20342859480837,24.039373397827152", 
+
+  NO_STOPS_IN_RANGE 1
     fromPlace: "Lempans::60.22924371006018,24.127006530761722",
-  	toPlace: "Rautatientori::60.170384,24.939846",
-NO_STOPS_IN_RANGE 2
+    toPlace: "Rautatientori::60.170384,24.939846",
+
+  NO_STOPS_IN_RANGE 2
     fromPlace: "Rautatientori::60.170384,24.939846",
-  	toPlace: "Lappers::60.20342859480837,24.039373397827152",
-NO_STOPS_IN_RANGE 3
+    toPlace: "Lappers::60.20342859480837,24.039373397827152",
+
+  NO_STOPS_IN_RANGE 3
     fromPlace: "Lempans::60.22924371006018,24.127006530761722",
-  	toPlace: "Lappers::60.20342859480837,24.039373397827152", 
+    toPlace: "Lappers::60.20342859480837,24.039373397827152", 
 */
