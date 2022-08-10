@@ -256,7 +256,7 @@ module.exports = {
         },
         digitransitComponents: {
           name: 'digitransit-components',
-          test: /[\\/]node_modules[\\/](@digitransit-component|@digitransit-search-util|@digitransit-util|@hsl-fi)[\\/]/,
+          test: /[\\/]node_modules[\\/](@digitransit-component|@digitransit-search-util|@digitransit-store|@digitransit-util|@hsl-fi)[\\/]/,
           reuseExistingChunk: false,
         },
       },
