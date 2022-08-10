@@ -1120,7 +1120,7 @@ const translations = {
     'itinerary-hide-stops': 'Hide stops',
     'itinerary-in-the-past':
       'The route search falls within a period that is in the past.',
-    'itinerary-in-the-past-link': 'I want to travel now ›',
+    'itinerary-in-the-past-link': 'Depart now ›',
     'itinerary-in-the-past-title': 'The route options cannot be displayed',
     'itinerary-page.description': 'Itinerary',
     'itinerary-page.hide-details': 'Hide itinerary details',
@@ -1390,6 +1390,37 @@ const translations = {
     'route-to-park': 'Route to the park',
     'route-to-station': 'Route to the station',
     'route-to-stop': 'Route to the stop',
+    // begin
+    'router-change-departure-time': 'Change departure time',
+    'router-location-not-found':
+      'Please select location on the road network or at a stop.',
+    'router-location-not-found-title-1':
+      'There is no defined access to the destination',
+    'router-location-not-found-title-2':
+      'There is no defined access to the origin',
+    'router-location-not-found-title-3':
+      'There is no defined access to the origin and the destination',
+    'router-only-walk':
+      'No faster alternatives than walking are available for the route you searched for.',
+    'router-only-walk-title': 'Walk the route',
+    'router-outside-bounds-3':
+      'No route suggestions were found because the origin and destination are outside the service area.',
+    'router-outside-service-period':
+      'Timetable information is not available for the time you selected.',
+    'router-stops-in-range-1':
+      'There are no public transport stops close enough to the selected destination.',
+    'router-stops-in-range-2':
+      'There are no public transport stops close enough to the selected origin.',
+    'router-stops-in-range-3':
+      'There are no public transport stops close enough to the selected origin and destination.',
+    'router-system-error':
+      'An error occurred in the system. Please try again later.',
+    'router-transit-connection':
+      'Please try changing the origin or destination.',
+    'router-transit-connection-in-search-window':
+      'There are no services available at the selected time.',
+    'router-unable': 'Unable to show route options',
+    // end
     routes: 'Routes',
     'routes-platforms': 'Routes and platforms',
     'routes-tracks': 'Routes and tracks',
@@ -2477,6 +2508,35 @@ const translations = {
     'route-to-park': 'Reitti parkille',
     'route-to-station': 'Reitti asemalle',
     'route-to-stop': 'Reitti pysäkille',
+    'router-change-departure-time': 'Muuta lähtöaikaa',
+    'router-location-not-found':
+      'Ole hyvä ja valitse paikka tieverkolta tai pysäkiltä.',
+    'router-location-not-found-title-1':
+      'Määränpäähän ei ole määritelty kulkuyhteyttä',
+    'router-location-not-found-title-2':
+      'Lähtöpaikkaan ei ole määritelty kulkuyhteyttä',
+    'router-location-not-found-title-3':
+      'Lähtöpaikkaan eikä määränpäähän ole määritelty kulkuyhteyttä',
+    'router-only-walk':
+      'Haetulle reitille ei löydy kävelyä nopeampaa vaihtoehtoa.',
+    'router-only-walk-title': 'Kulje reitti kävellen',
+    'router-outside-bounds-3':
+      'Reittiehdotuksia ei löytynyt, koska lähtöpaikka ja määränpää sijaistevat palvelun ulkopuolella.',
+    'router-outside-service-period':
+      'Valitsemaasi ajankohtaan ei ole saatavilla aikatalutietoja.',
+    'router-stops-in-range-1':
+      'Joukkoliikennepysäkkejä ei ole riittävän lähellä valittua lähtöpaikkaa.',
+    'router-stops-in-range-2':
+      'Joukkoliikennepysäkkejä ei ole riittävän lähellä valittua määränpäätä.',
+    'router-stops-in-range-3':
+      'Joukkoliikennepysäkkejä ei ole riittävän lähellä valittua lähtöpaikkaa eikä määränpäätä.',
+    'router-system-error':
+      'Järjestelmässä tapahtui virhe. Yritä myöhemmin uudelleen.',
+    'router-transit-connection':
+      'Ole hyvä ja yritä muuttaa lähtöpaikkaa tai määränpäätä.',
+    'router-transit-connection-in-search-window':
+      'Valittuna ajankohtana ei ole liikennöintiä.',
+    'router-unable': 'Reittivaihtoehtoja ei voida näyttää',
     routes: 'Linjat',
     'routes-platforms': 'Linjat ja laiturit',
     'routes-tracks': 'Linjat ja raiteet',
@@ -4353,6 +4413,35 @@ const translations = {
     'route-to-park': 'Rutt till parken',
     'route-to-station': 'Rutt till stationen',
     'route-to-stop': 'Rutt till hållplatsen',
+    'router-change-departure-time': 'Change departure time',
+    'router-location-not-found':
+      'Please select location on the road network or at a stop.',
+    'router-location-not-found-title-1':
+      'There is no defined access to the destination',
+    'router-location-not-found-title-2':
+      'There is no defined access to the origin',
+    'router-location-not-found-title-3':
+      'There is no defined access to the origin and the destination',
+    'router-only-walk':
+      'No faster alternatives than walking are available for the route you searched for.',
+    'router-only-walk-title': 'Walk the route',
+    'router-outside-bounds-3':
+      'No route suggestions were found because the origin and destination are outside the service area.',
+    'router-outside-service-period':
+      'Timetable information is not available for the time you selected.',
+    'router-stops-in-range-1':
+      'There are no public transport stops close enough to the selected destination.',
+    'router-stops-in-range-2':
+      'There are no public transport stops close enough to the selected origin.',
+    'router-stops-in-range-3':
+      'There are no public transport stops close enough to the selected origin and destination.',
+    'router-system-error':
+      'An error occurred in the system. Please try again later.',
+    'router-transit-connection':
+      'Please try changing the origin or destination.',
+    'router-transit-connection-in-search-window':
+      'There are no services available at the selected time.',
+    'router-unable': 'Unable to show route options',
     routes: 'Linjer',
     'routes-platforms': 'Linjer och plattformer',
     'routes-tracks': 'Linjer och spår',
