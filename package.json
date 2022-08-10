@@ -79,7 +79,9 @@
     "npm": ">=3.0"
   },
   "browserslist": [
+    "last 2 versions",
     "> 0.2% in FI",
+    "not dead",
     "not op_mini all",
     "not IE 11"
   ],

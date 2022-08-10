@@ -178,8 +178,6 @@ module.exports = {
             [
               '@babel/preset-env',
               {
-                // loose is needed by older Androids < 4.3 and IE10
-                loose: true,
                 modules: false,
               },
             ],
@@ -199,7 +197,7 @@ module.exports = {
               },
             ],
             '@babel/plugin-syntax-dynamic-import',
-            ['@babel/plugin-proposal-class-properties', { loose: true }],
+            '@babel/plugin-proposal-class-properties',
             '@babel/plugin-proposal-json-strings',
           ],
         },
