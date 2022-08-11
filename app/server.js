@@ -59,9 +59,9 @@ if (process.env.NODE_ENV !== 'development') {
   // eslint-disable-next-line global-require, import/no-unresolved
   assets = require('../manifest.json');
   // eslint-disable-next-line global-require, import/no-unresolved
-  mainAssets = require('../stats.json').entrypoints.main.assets.filter(
-    asset => !asset.endsWith('.map'),
-  );
+  mainAssets = require('../stats.json')
+    .entrypoints.main.assets.filter(asset => !asset.name.endsWith('.map'))
+    .map(asset => asset.name);
 
   const manifestFiles = mainAssets.filter(asset =>
     asset.startsWith('js/runtime'),

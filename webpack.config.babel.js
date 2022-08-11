@@ -2,8 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserJsPlugin = require('terser-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 const OfflinePlugin = require('offline-plugin');
 
@@ -221,8 +220,7 @@ module.exports = {
       },
       {
         test: /\.(eot|png|ttf|woff|svg|jpeg|jpg)$/,
-        loader: isDevelopment ? 'file-loader' : 'url-loader',
-        options: { limit: 10000, outputPath: 'assets' },
+        type: 'asset',
       },
     ],
   },
@@ -236,16 +234,13 @@ module.exports = {
       : productionPlugins),
   ],
   optimization: {
+    minimize: true,
     minimizer: [
-      new TerserJsPlugin({
-        cache: true,
-        parallel: true,
-        sourceMap: true, // set to true if you want JS source maps
-      }),
-      new OptimizeCSSAssetsPlugin({}),
+      // > use the `...` syntax to extend existing minimizers
+      `...`,
+      new CssMinimizerPlugin(),
     ],
-    moduleIds: 'named',
-    chunkIds: 'named',
+    // todo
     splitChunks: {
       chunks: isProduction ? 'all' : 'async',
       cacheGroups: {
@@ -264,13 +259,12 @@ module.exports = {
     runtimeChunk: isProduction,
   },
   performance: { hints: false },
-  node: {
-    net: 'empty',
-    tls: 'empty',
-  },
   cache: true,
   resolve: {
     mainFields: ['browser', 'module', 'jsnext:main', 'main'],
+    fallback: {
+      url: require.resolve('url'),
+    },
     alias: {
       lodash: 'lodash-es',
       'lodash.merge': 'lodash-es/merge',

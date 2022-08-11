@@ -73,11 +73,8 @@ function faviconPluginFromConfig(config) {
     // Your source logo
     logo,
     // The prefix for all image files (might be a folder or a name)
-    prefix: `assets/icons-${config.CONFIG}-[hash]/`,
-    // Emit all stats of the generated icons
-    emitStats: true,
-    // The name of the json containing all favicon information
-    statsFilename: `assets/iconstats-${config.CONFIG}.json`,
+    prefix: `assets/icons-${config.CONFIG}-[contenthash]/`,
+
     inject: false,
     // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
     // This matches the application background color
