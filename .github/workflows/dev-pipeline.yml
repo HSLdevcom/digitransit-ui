@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10.x]
+        node-version: [16.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10.x]
+        node-version: [16.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -60,7 +60,7 @@ jobs:
   #   runs-on: ubuntu-18.04
   #   strategy:
   #     matrix:
-  #       node-version: [10.x]
+  #       node-version: [16.x]
   #   steps:
   #     - name: Checkout
   #       uses: actions/checkout@v2
@@ -92,7 +92,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [ 10.x ]
+        node-version: [16.x]
     steps:
       - uses: actions/checkout@v2
       - name: Set time zone to Europe/Helsinki
