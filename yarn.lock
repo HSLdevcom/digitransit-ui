@@ -7494,24 +7494,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"autoprefixer@npm:9.8.6":
-  version: 9.8.6
-  resolution: "autoprefixer@npm:9.8.6"
-  dependencies:
-    browserslist: ^4.12.0
-    caniuse-lite: ^1.0.30001109
-    colorette: ^1.2.1
-    normalize-range: ^0.1.2
-    num2fraction: ^1.2.2
-    postcss: ^7.0.32
-    postcss-value-parser: ^4.1.0
-  bin:
-    autoprefixer: bin/autoprefixer
-  checksum: b406d8047a97fcc39c9c6d208fd6f1974e5957800461d9a79457a3ecaca2c0ea090bd06f30c8653f48f751c31115c63a80502ff8c9a6bb7b8a5a5063021827d4
-  languageName: node
-  linkType: hard
-
-"autoprefixer@npm:^9.8.6":
+"autoprefixer@npm:^9.8.6, autoprefixer@npm:^9.8.8":
   version: 9.8.8
   resolution: "autoprefixer@npm:9.8.8"
   dependencies:
@@ -11025,7 +11008,7 @@ __metadata:
     "@rollup/plugin-node-resolve": 11.0.1
     "@testing-library/react-hooks": ^8.0.0
     async: ^3.2.2
-    autoprefixer: 9.8.6
+    autoprefixer: ^9.8.8
     axe-core: ^4.2.1
     axios: 0.26.0
     babel-eslint: 10.1.0

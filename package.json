@@ -232,7 +232,7 @@
     "@rollup/plugin-node-resolve": "11.0.1",
     "@testing-library/react-hooks": "^8.0.0",
     "async": "^3.2.2",
-    "autoprefixer": "9.8.6",
+    "autoprefixer": "^9.8.8",
     "axe-core": "^4.2.1",
     "babel-eslint": "10.1.0",
     "babel-loader": "^8.2.5",
