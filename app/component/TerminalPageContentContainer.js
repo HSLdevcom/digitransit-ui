@@ -64,7 +64,13 @@ class TerminalPageContent extends React.Component {
 
     const { stoptimes } = this.props.station;
     // eslint-disable-next-line prefer-destructuring
-    const mode = this.props.station.stops[0].patterns[0].route.mode;
+    const stopsWithPatterns = this.props.station.stops.filter(
+      stop => stop.patterns.length > 0,
+    );
+    const mode =
+      stopsWithPatterns.length > 0
+        ? stopsWithPatterns[0].patterns[0].route.mode
+        : 'BUS';
     if (!stoptimes || stoptimes.length === 0) {
       return (
         <div className="stop-no-departures-container">
@@ -74,9 +80,7 @@ class TerminalPageContent extends React.Component {
       );
     }
     const isStreetTrafficTerminal = () =>
-      this.props.station.stops.some(
-        stop => stop.patterns[0].route.mode === 'BUS',
-      );
+      stopsWithPatterns.some(stop => stop.patterns[0].route.mode === 'BUS');
     return (
       <ScrollableWrapper>
         <div className="stop-page-departure-wrapper stop-scroll-container">
