@@ -105,7 +105,7 @@ const BikeParkContent = ({ match }, { intl }) => {
             />
           )}
           <div className="text-light">
-            <FormattedMessage id="datasources" defaultMessage="data sources" />{' '}
+            <FormattedMessage id="datasource" defaultMessage="data source" />{' '}
             {`: ${source || 'OpenStreetMap'}`}
           </div>
         </div>
