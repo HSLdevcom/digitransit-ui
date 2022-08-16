@@ -6,7 +6,7 @@ import LocationStateShape from '../../../prop-types/LocationStateShape';
 import LocationShape from '../../../prop-types/LocationShape';
 import ErrorShape from '../../../prop-types/ErrorShape';
 import findErrorMessageIds from './findErrorMessageIds';
-import RoutingErrorShape from './prop-types/RoutingErrorShape';
+import RoutingErrorShape from '../../../prop-types/RoutingErrorShape';
 import ErrorCard from './components/ErrorCard';
 import errorCardProps from './errorCardProperties';
 
