@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable prefer-template */
 
-import { addParamToUrl } from '../util/path';
-
 export default {
   HSL: {
     // Gets updated when server starts with {routeName: timetableName}
@@ -27,7 +25,10 @@ export default {
       }
 
       const url = new URL(`${baseURL}${routePDFUrlName}.pdf`);
-      return addParamToUrl(url, subscriptionParam, subscriptionToken);
+      if (subscriptionParam && subscriptionToken) {
+        url.searchParams.set(subscriptionParam, subscriptionToken);
+      }
+      return url;
     },
     setAvailableRouteTimetables: function setAvailableRouteTimetables(
       timetables,
@@ -42,7 +43,10 @@ export default {
     ) {
       const stopIdSplitted = stop.gtfsId.split(':');
       const url = new URL(`${baseURL}${stopIdSplitted[1]}.pdf`);
-      return addParamToUrl(url, subscriptionParam, subscriptionToken);
+      if (subscriptionParam && subscriptionToken) {
+        url.searchParams.set(subscriptionParam, subscriptionToken);
+      }
+      return url;
     },
   },
   tampere: {

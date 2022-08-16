@@ -220,19 +220,3 @@ export const getHomeUrl = (origin, indexPath) => {
 
   return homeUrl;
 };
-
-/**
- * Adds a param to URL if the param and its value are defined.
- * @param  {URL} url url to which the param is added.
- * @param  {String} paramName name of the param.
- * @param  {String} paramValue name of the token.
- * @returns {URL}
- *
- */
-export const addParamToUrl = (url, paramName, paramValue) => {
-  const newUrl = url;
-  if (paramName && paramValue) {
-    newUrl.searchParams.set(paramName, paramValue);
-  }
-  return newUrl;
-};
