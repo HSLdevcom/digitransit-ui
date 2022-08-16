@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { pathJoin } from '../../../app/util/path';
+import { pathJoin, addParamToUrl } from '../../../app/util/path';
 
 describe('path', () => {
   describe('pathJoin()', () => {
@@ -34,6 +34,15 @@ describe('path', () => {
       expect(pathJoin(['my', '/path/'])).to.equal('my/path/');
       expect(pathJoin(['my/', 'path/'])).to.equal('my/path/');
       expect(pathJoin(['/my/', '/path/'])).to.equal('/my/path/');
+    });
+  });
+
+  describe('addParamToUrl()', () => {
+    it('should add new param to url when param is defined', () => {
+      const url = new URL('http://foo.bar');
+      expect(addParamToUrl(url, 'foo', 'bar').href).to.equal(
+        'http://foo.bar/?foo=bar',
+      );
     });
   });
 });

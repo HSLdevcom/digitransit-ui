@@ -167,7 +167,13 @@ function setUpAvailableRouteTimetables() {
     // route that contains timetables
     if (config.timetables.HSL) {
       // try to fetch available route timetables every four seconds with 4 retries
-      retryFetch(`${config.URL.ROUTE_TIMETABLES.HSL}routes.json`, {}, 4, 4000)
+      retryFetch(
+        `${config.URL.ROUTE_TIMETABLES.HSL}routes.json`,
+        {},
+        4,
+        4000,
+        config,
+      )
         .then(res => res.json())
         .then(
           result => {
@@ -186,6 +192,7 @@ function setUpAvailableRouteTimetables() {
               {},
               1440,
               60000,
+              config,
             )
               .then(res => res.json())
               .then(
