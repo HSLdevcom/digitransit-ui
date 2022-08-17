@@ -76,25 +76,21 @@ function faviconPluginFromConfig(config) {
     prefix: `assets/icons-${config.CONFIG}-[contenthash]/`,
 
     inject: false,
-    // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
-    // This matches the application background color
-    background: '#eef1f3',
-    theme_color: config.colors ? config.colors.primary : '#eef1f3',
-    // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
-    title: config.title,
-    appName: config.title,
-    appDescription: config.meta.description,
-    icons: {
-      android: true,
-      appleIcon: true,
-      appleStartup: true,
-      coast: false,
-      favicons: true,
-      firefox: true,
-      opengraph: false,
-      twitter: false,
-      yandex: false,
-      windows: false,
+    favicons: {
+      appName: config.title,
+      appDescription: config.meta.description,
+      background: '#eef1f3',
+      theme_color: config.colors ? config.colors.primary : '#eef1f3',
+      icons: {
+        android: true,
+        appleIcon: true,
+        appleStartup: true,
+        coast: false,
+        favicons: true,
+        firefox: true,
+        windows: false,
+        yandex: false,
+      },
     },
   });
 }

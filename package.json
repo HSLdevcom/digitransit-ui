@@ -261,7 +261,7 @@
     "eslint-plugin-prettier": "3.1.4",
     "eslint-plugin-react": "7.20.6",
     "favicons": "^6.2.2",
-    "favicons-webpack-plugin": "0.0.9",
+    "favicons-webpack-plugin": "^5.0.2",
     "fetch-mock": "9.10.7",
     "file-loader": "^6.0.0",
     "git-precommit-checks": "3.0.0",
