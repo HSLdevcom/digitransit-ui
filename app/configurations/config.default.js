@@ -10,7 +10,14 @@ const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const MAP_VERSION = process.env.MAP_VERSION || 'v2';
 const APP_PATH = process.env.APP_CONTEXT || '';
-const { SENTRY_DSN, AXE, NODE_ENV } = process.env;
+const {
+  SENTRY_DSN,
+  AXE,
+  NODE_ENV,
+  API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
+  API_SUBSCRIPTION_HEADER_NAME,
+  API_SUBSCRIPTION_TOKEN,
+} = process.env;
 const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
 const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 12000;
@@ -57,6 +64,16 @@ export default {
       'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::hirlam::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
     EMBEDDED_SEARCH_GENERATION: '/reittihakuelementti',
   },
+
+  API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
+  API_SUBSCRIPTION_HEADER_NAME,
+  API_SUBSCRIPTION_TOKEN,
+
+  hasAPISubscriptionQueryParameter:
+    API_SUBSCRIPTION_QUERY_PARAMETER_NAME && API_SUBSCRIPTION_TOKEN,
+
+  hasAPISubscriptionHeader:
+    API_SUBSCRIPTION_HEADER_NAME && API_SUBSCRIPTION_TOKEN,
 
   APP_PATH: `${APP_PATH}`,
   indexPath: '',

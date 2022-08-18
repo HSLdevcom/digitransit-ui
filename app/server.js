@@ -148,6 +148,9 @@ const RELAY_FETCH_TIMEOUT =
 function getEnvironment(config, agent) {
   const relaySSRMiddleware = new RelayServerSSR();
   relaySSRMiddleware.debug = false;
+  const queryParameters = config.hasAPISubscriptionQueryParameter
+    ? `?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
+    : '';
 
   const layer = new RelayNetworkLayer([
     next => req => next(req).catch(() => ({ payload: { data: null } })),
@@ -157,10 +160,14 @@ function getEnvironment(config, agent) {
       ttl: 60 * 60 * 1000,
     }),
     urlMiddleware({
-      url: () => Promise.resolve(`${config.URL.OTP}index/graphql`),
+      url: () =>
+        Promise.resolve(`${config.URL.OTP}index/graphql${queryParameters}`),
     }),
     batchMiddleware({
-      batchUrl: () => Promise.resolve(`${config.URL.OTP}index/graphql/batch`),
+      batchUrl: () =>
+        Promise.resolve(
+          `${config.URL.OTP}index/graphql/batch${queryParameters}`,
+        ),
     }),
     errorMiddleware(),
     retryMiddleware({
