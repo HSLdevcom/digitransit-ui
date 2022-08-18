@@ -154,7 +154,7 @@ export default configMerger(walttiConfig, {
           sv: 'Cykelrutter',
           en: 'Bike routes',
         },
-        url: 'https://ckan.saita.fi/geojson/pyorailyreitit_lpr.geojson',
+        url: 'https://ckanlpr.meitademo.fi/geojson/pyorailyreitit_lpr.geojson',
         isOffByDefault: true,
       },
       {
