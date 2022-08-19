@@ -5300,14 +5300,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*":
-  version: 17.0.39
-  resolution: "@types/react@npm:17.0.39"
+"@types/react@npm:*, @types/react@npm:^18.0.17":
+  version: 18.0.17
+  resolution: "@types/react@npm:18.0.17"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 5da17ca45d18d834ccb194092f68790bb5e25b13fb0a8f56818ac3f523967397fdda14b6c4efa6a5213aab0e0da19cca25de259d53e856aa4723cd8223e37bbc
+  checksum: 8dd29d33ea1a52331ea63079c480b3320d0173ad5840dde2efb522f54bba6cfb6303ce121338d41d25966460c1f997b6e53d38c9c133f2fd3cf5caf2868c63d3
   languageName: node
   linkType: hard
 
@@ -5319,17 +5319,6 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: 7a338df1242980113dbb8350deb069f337670f8e19a2f7b58af772f7e1d19d8eba5df7975ee53b860dc7a167e6fab1f0b3094fe86c66a0b2a6c0f4ad7c1faf87
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:^18.0.17":
-  version: 18.0.17
-  resolution: "@types/react@npm:18.0.17"
-  dependencies:
-    "@types/prop-types": "*"
-    "@types/scheduler": "*"
-    csstype: ^3.0.2
-  checksum: 8dd29d33ea1a52331ea63079c480b3320d0173ad5840dde2efb522f54bba6cfb6303ce121338d41d25966460c1f997b6e53d38c9c133f2fd3cf5caf2868c63d3
   languageName: node
   linkType: hard
 
@@ -10418,7 +10407,7 @@ __metadata:
     suncalc: 1.8.0
     swipe-js-iso: 2.1.5
     terser-webpack-plugin: 4.1.0
-    typescript: ^4.7.4
+    typescript: 4.4.4
     universal-cookie: 4.0.4
     url-loader: 3.0.0
     uuid: 8.3.0
