@@ -240,6 +240,7 @@
     "@types/react-dom": "^18.0.6",
     "@types/react-relay": "^14.1.1",
     "@types/relay-runtime": "^14.1.1",
+    "@types/selenium-webdriver": "^4.1.2",
     "@types/serve-static": "^1.15.0",
     "@types/ws": "^8.5.3",
     "async": "^3.2.2",

@@ -5354,6 +5354,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/selenium-webdriver@npm:^4.1.2":
+  version: 4.1.2
+  resolution: "@types/selenium-webdriver@npm:4.1.2"
+  dependencies:
+    "@types/ws": "*"
+  checksum: 88a41c03ebaac17eb9e1e626c14a1cf8eb3b3fec90e14bcb5960b405e6355b96038921d86ec6fe3c4ee6506478dd04239defd6b1e3269fe0aeeef259c56c730a
+  languageName: node
+  linkType: hard
+
 "@types/serve-static@npm:^1.15.0":
   version: 1.15.0
   resolution: "@types/serve-static@npm:1.15.0"
@@ -5412,7 +5421,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ws@npm:^8.5.3":
+"@types/ws@npm:*, @types/ws@npm:^8.5.3":
   version: 8.5.3
   resolution: "@types/ws@npm:8.5.3"
   dependencies:
@@ -10267,6 +10276,7 @@ __metadata:
     "@types/react-dom": ^18.0.6
     "@types/react-relay": ^14.1.1
     "@types/relay-runtime": ^14.1.1
+    "@types/selenium-webdriver": ^4.1.2
     "@types/serve-static": ^1.15.0
     "@types/ws": ^8.5.3
     async: ^3.2.2
