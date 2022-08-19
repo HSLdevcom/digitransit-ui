@@ -10093,6 +10093,7 @@ __metadata:
     suncalc: 1.8.0
     swipe-js-iso: 2.1.5
     terser-webpack-plugin: 4.1.0
+    typescript: ^4.7.4
     universal-cookie: 4.0.4
     url-loader: 3.0.0
     uuid: 8.3.0
@@ -26278,6 +26279,26 @@ resolve@1.1.7:
   version: 0.0.6
   resolution: "typedarray@npm:0.0.6"
   checksum: c9ef0176aaf32593514c31e5c6edc1db970847aff6e1f0a0570a6ac0cc996335792f394c2fcec59cc76691d22a01888ea073a2f3c6930cfcf7c519addf4e2ad7
+  languageName: node
+  linkType: hard
+
+"typescript@npm:4.4.4":
+  version: 4.4.4
+  resolution: "typescript@npm:4.4.4"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 8c5455b860a69f05d4730f54bcd0c380dae34bb1ae1b0d6ac5f16fb9d3c445834dff563eccc8c970cd15e7c9d2aa8183851a0d35d62bac1e24260bf805c23af4
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@npm%3A4.4.4#builtin<compat/typescript>":
+  version: 4.4.4
+  resolution: "typescript@patch:typescript@npm%3A4.4.4#builtin<compat/typescript>::version=4.4.4&hash=8133ad"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: d1c6c0a705893112dc19979fa58dd96b1b9395bf4cb9b013bdfe4badb31320c39187f2ff6088568e6742b66624c1bcf49c8d7ef1f443fbd64d4225752c09f065
   languageName: node
   linkType: hard
 

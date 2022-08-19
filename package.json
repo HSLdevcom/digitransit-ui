@@ -65,6 +65,9 @@
     "build-store": "lerna run clean --scope '@digitransit-store/*' && NODE_ENV=production SCOPE='@digitransit-store/*' rollup -c ./config/rollup.config.js",
     "node14-patch": "rm -f ./node_modules/react-leaflet/node_modules/@babel/runtime/helpers/esm/package.json"
   },
+  "resolutions": {
+    "typescript": "4.4.4"
+  },
   "main": "server.js",
   "repository": {
     "type": "git",
@@ -300,6 +303,7 @@
     "stylelint": "13.7.0",
     "stylelint-scss": "3.18.0",
     "terser-webpack-plugin": "4.1.0",
+    "typescript": "^4.7.4",
     "url-loader": "3.0.0",
     "webpack": "4.44.1",
     "webpack-assets-manifest": "3.1.1",
