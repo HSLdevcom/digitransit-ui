@@ -19,6 +19,8 @@ import {
   BIKEAVL_UNKNOWN,
 } from '../../../util/citybikes';
 
+import { fetchWithSubscription } from '../../../util/fetchUtils';
+
 const timeOfLastFetch = {};
 
 const query = graphql`
@@ -46,10 +48,11 @@ class CityBikes {
   }
 
   fetchWithAction = actionFn =>
-    fetch(
+    fetchWithSubscription(
       `${this.config.URL.CITYBIKE_MAP}` +
         `${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}/` +
         `${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
+      this.config,
     ).then(res => {
       if (res.status !== 200) {
         return undefined;
