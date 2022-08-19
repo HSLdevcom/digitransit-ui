@@ -166,7 +166,7 @@
     "found-relay": "0.8.2",
     "foundation-apps": "1.2.0",
     "helmet": "4.1.0",
-    "hoist-non-react-statics": "2.5.4",
+    "hoist-non-react-statics": "^3.3.2",
     "htm-to-json": "0.1.4",
     "i18next": "19.8.4",
     "intl": "1.2.5",

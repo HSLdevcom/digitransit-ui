@@ -10335,7 +10335,7 @@ __metadata:
     git-precommit-checks: 3.0.0
     graphql: 15.5.0
     helmet: 4.1.0
-    hoist-non-react-statics: 2.5.4
+    hoist-non-react-statics: ^3.3.2
     htm-to-json: 0.1.4
     husky: 4.3.0
     i18next: 19.8.4
@@ -14119,13 +14119,6 @@ fsevents@~2.1.2:
     minimalistic-assert: ^1.0.0
     minimalistic-crypto-utils: ^1.0.1
   checksum: 729d5a55bf793619830aca5e62d101dfdb4164fe30c056cdcaecb32b1a69a23aa663d88e876d9d56cb69b1c3d95395ea60b0a715763c461188b37dca3dea930d
-  languageName: node
-  linkType: hard
-
-"hoist-non-react-statics@npm:2.5.4":
-  version: 2.5.4
-  resolution: "hoist-non-react-statics@npm:2.5.4"
-  checksum: 24be39e489632075e4a58bf638df25293c74a9b27641016ab04c918705376952262cec6fc774f78cded5ed034b30e6c4ab27f6e33ac98ef762d92a073dfdefca
   languageName: node
   linkType: hard
 
