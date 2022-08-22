@@ -73,7 +73,7 @@ export default {
       );
     },
 
-    mqtt: 'wss://mqtt.hsl.fi',
+    mqtt: 'wss://hsl-mqtt-lab-d.cinfra.fi', // 'wss://mqtt.hsl.fi'
 
     gtfsrt: false,
 
