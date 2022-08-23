@@ -169,7 +169,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|ts)$/,
+        test: /\.(js|ts)x?$/,
         include: [path.resolve(__dirname, 'app')],
         loader: 'babel-loader',
         options: {

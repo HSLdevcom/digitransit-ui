@@ -65,7 +65,7 @@
     "digitransit-store-tests": "lerna run build:test --scope '@digitransit-store/*' && lerna run test --scope '@digitransit-store/*'",
     "build-store": "lerna run clean --scope '@digitransit-store/*' && NODE_ENV=production SCOPE='@digitransit-store/*' rollup -c ./config/rollup.config.js",
     "node14-patch": "rm -f ./node_modules/react-leaflet/node_modules/@babel/runtime/helpers/esm/package.json",
-    "ts-migrate": "ts-migrate"
+    "ts-migrate": "ts-migrate migrate . --sources app/**/*.ts"
   },
   "resolutions": {
     "typescript": "4.4.4"
