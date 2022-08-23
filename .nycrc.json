@@ -5,8 +5,16 @@
   "require": [
     "@babel/register"
   ],
+  "extensions": [
+    ".js",
+    ".ts",
+    ".tsx"
+  ],
   "include": [
     "app/**/*.js"
+  ],
+  "exclude": [
+    "**/*.d.ts"
   ],
   "reporter": [
     "lcovonly",
