@@ -36,8 +36,8 @@ class Stops {
       feature.properties.type === 'BUS' &&
       this.config.useExtendedRouteTypes
     ) {
-      const patterns = JSON.parse(feature.properties.patterns);
-      if (patterns.some(p => p.gtfsType === ExtendedRouteTypes.BusExpress)) {
+      const routes = JSON.parse(feature.properties.routes);
+      if (routes.some(p => p.gtfsType === ExtendedRouteTypes.BusExpress)) {
         hasTrunkRoute = true;
       }
     }
