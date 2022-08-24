@@ -9,7 +9,7 @@ import FuzzyTripLink from './FuzzyTripLink';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { fromStopTime } from './DepartureTime';
 import ZoneIcon from './ZoneIcon';
-import { getActiveAlertSeverityLevel } from '../util/alertUtils';
+import { getActiveAlertSeverityLevel } from '../util/alertUtils.ts';
 import { PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { getZoneLabel } from '../util/legUtils';

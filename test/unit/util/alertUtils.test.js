@@ -4,7 +4,7 @@ import {
   RealtimeStateType,
 } from '../../../app/constants';
 import { disruptions, serviceAlerts } from '../test-data/dt3138';
-import * as utils from '../../../app/util/alertUtils';
+import * as utils from '../../../app/util/alertUtils.ts';
 
 describe('alertUtils', () => {
   describe('routeHasServiceAlert', () => {

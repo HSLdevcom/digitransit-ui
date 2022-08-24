@@ -7,7 +7,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { intlShape, FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import DepartureRow from './DepartureRow';
-import { patternIdPredicate } from '../util/alertUtils';
+import { patternIdPredicate } from '../util/alertUtils.ts';
 import { isBrowser } from '../util/browser';
 import {
   stopRealTimeClient,

@@ -16,7 +16,7 @@ import {
   getServiceAlertHeader,
   getServiceAlertUrl,
   mapAlertSource,
-} from '../util/alertUtils';
+} from '../util/alertUtils.ts';
 import { isIe, isKeyboardSelectionEvent } from '../util/browser';
 import hashCode from '../util/hashUtil';
 

@@ -14,7 +14,7 @@ import {
   getCancelationsForRoute,
   getServiceAlertsForRoute,
   getServiceAlertsForRouteStops,
-} from '../util/alertUtils';
+} from '../util/alertUtils.ts';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {

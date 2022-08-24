@@ -3,7 +3,7 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 import StopAlerts from './StopAlerts';
-import { otpServiceAlertShape } from '../util/alertUtils';
+import { otpServiceAlertShape } from '../util/alertUtils.ts';
 
 const StopAlertsContainer = ({ stop }) => {
   return <StopAlerts stop={stop} />;

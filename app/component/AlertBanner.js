@@ -7,7 +7,7 @@ import Icon from './Icon';
 import {
   getServiceAlertDescription,
   alertSeverityCompare,
-} from '../util/alertUtils';
+} from '../util/alertUtils.ts';
 
 const AlertBanner = ({ alerts, linkAddress, language }, { config }) => {
   const alert = [...alerts].sort(alertSeverityCompare)[0];

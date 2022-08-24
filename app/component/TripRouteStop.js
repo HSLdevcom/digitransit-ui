@@ -9,7 +9,7 @@ import AddressRow from './AddressRow';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { fromStopTime } from './DepartureTime';
 import { PREFIX_STOPS } from '../util/path';
-import { getActiveAlertSeverityLevel } from '../util/alertUtils';
+import { getActiveAlertSeverityLevel } from '../util/alertUtils.ts';
 import { estimateItineraryDistance } from '../util/geo-utils';
 import ZoneIcon from './ZoneIcon';
 import { getZoneLabel } from '../util/legUtils';
