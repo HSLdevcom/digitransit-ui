@@ -100,7 +100,7 @@
     ]
   },
   "lint-staged": {
-    "*.{js,jsx}": [
+    "*.{js,jsx,ts,tsx}": [
       "eslint"
     ],
     "*.scss": [
@@ -114,7 +114,7 @@
         "regex": "/^[<>|=]{4,}/m"
       },
       {
-        "filter": "\\.js$",
+        "filter": "\\.(js|ts)x?$",
         "nonBlocking": "true",
         "message": "You are using `console.log` in your JavaScripts",
         "regex": "console\\.log"
@@ -245,6 +245,8 @@
     "@types/selenium-webdriver": "^4.1.2",
     "@types/serve-static": "^1.15.0",
     "@types/ws": "^8.5.3",
+    "@typescript-eslint/eslint-plugin": "^5.34.0",
+    "@typescript-eslint/parser": "^5.34.0",
     "async": "^3.2.2",
     "autoprefixer": "9.8.6",
     "axe-core": "^4.2.1",
