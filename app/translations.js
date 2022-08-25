@@ -1390,7 +1390,6 @@ const translations = {
     'route-to-park': 'Route to the park',
     'route-to-station': 'Route to the station',
     'route-to-stop': 'Route to the stop',
-    // begin
     'router-change-departure-time': 'Change departure time',
     'router-location-not-found':
       'Please select location on the road network or at a stop.',
@@ -1420,7 +1419,6 @@ const translations = {
     'router-transit-connection-in-search-window':
       'There are no services available at the selected time.',
     'router-unable': 'Unable to show route options',
-    // end
     routes: 'Routes',
     'routes-platforms': 'Routes and platforms',
     'routes-tracks': 'Routes and tracks',
@@ -2525,9 +2523,9 @@ const translations = {
     'router-outside-service-period':
       'Valitsemaasi ajankohtaan ei ole saatavilla aikatalutietoja.',
     'router-stops-in-range-1':
-      'Joukkoliikennepysäkkejä ei ole riittävän lähellä valittua lähtöpaikkaa.',
-    'router-stops-in-range-2':
       'Joukkoliikennepysäkkejä ei ole riittävän lähellä valittua määränpäätä.',
+    'router-stops-in-range-2':
+      'Joukkoliikennepysäkkejä ei ole riittävän lähellä valittua lähtöpaikkaa.',
     'router-stops-in-range-3':
       'Joukkoliikennepysäkkejä ei ole riittävän lähellä valittua lähtöpaikkaa eikä määränpäätä.',
     'router-system-error':
@@ -4413,35 +4411,34 @@ const translations = {
     'route-to-park': 'Rutt till parken',
     'route-to-station': 'Rutt till stationen',
     'route-to-stop': 'Rutt till hållplatsen',
-    'router-change-departure-time': 'Change departure time',
+    'router-change-departure-time': 'Ändra avgångstid',
     'router-location-not-found':
-      'Please select location on the road network or at a stop.',
+      'Var god och välj en plats på vägnätet eller på hållplatsen.',
     'router-location-not-found-title-1':
-      'There is no defined access to the destination',
+      'Det finns ingen definierad förbindelse till destinationen',
     'router-location-not-found-title-2':
-      'There is no defined access to the origin',
+      'Det finns ingen difinierad förbindelse till avgångsplatsen',
     'router-location-not-found-title-3':
-      'There is no defined access to the origin and the destination',
-    'router-only-walk':
-      'No faster alternatives than walking are available for the route you searched for.',
-    'router-only-walk-title': 'Walk the route',
+      'Det finns ingen difinierad förbindelse till avgångsplatsen eller destinationen',
+    'router-only-walk': 'Kunde inte hitta snabbare alternativ än promenad.',
+    'router-only-walk-title': 'Gå rutten till fots',
     'router-outside-bounds-3':
-      'No route suggestions were found because the origin and destination are outside the service area.',
+      'Kunde inte hitta ruttförslag eftersom avgångsplatsen och destinationen ligger utanför serviceområdet.',
     'router-outside-service-period':
-      'Timetable information is not available for the time you selected.',
+      'Det valda datumet ligger inom en sådan tidtabellsperiod att det inte finns tidtabeller tillgängliga.',
     'router-stops-in-range-1':
-      'There are no public transport stops close enough to the selected destination.',
+      'Det finns inte kollektivtrafikhållplatser tillräckligt nära till den valda destinationen.',
     'router-stops-in-range-2':
-      'There are no public transport stops close enough to the selected origin.',
+      'Det finns inte kollektivtrafikhållplatser tillräckligt nära till den valda avgångsplatsen.',
     'router-stops-in-range-3':
-      'There are no public transport stops close enough to the selected origin and destination.',
+      'Det finns inte kollektivtrafikhållplatser tillräckligt nära till den valda avgångsplatsen eller destinationen.',
     'router-system-error':
-      'An error occurred in the system. Please try again later.',
+      'Det skedde ett fel i systemet. Försök på nytt senare.',
     'router-transit-connection':
       'Please try changing the origin or destination.',
     'router-transit-connection-in-search-window':
       'There are no services available at the selected time.',
-    'router-unable': 'Unable to show route options',
+    'router-unable': 'Kan inte visa ruttalternativ',
     routes: 'Linjer',
     'routes-platforms': 'Linjer och plattformer',
     'routes-tracks': 'Linjer och spår',
