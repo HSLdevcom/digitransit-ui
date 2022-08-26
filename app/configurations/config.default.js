@@ -42,8 +42,10 @@ export default {
       default: `${MAP_URL}/map/${MAP_VERSION}/hsl-map/`,
       sv: `${MAP_URL}/map/${MAP_VERSION}/hsl-map-sv/`,
     },
-    STOP_MAP: `${MAP_URL}/map/v1/finland-stop-map/`,
-    CITYBIKE_MAP: `${MAP_URL}/map/v1/finland-citybike-map/`,
+    STOP_MAP: `${MAP_URL}/map/${MAP_VERSION}/finland-stop-map/`,
+    CITYBIKE_MAP: `${MAP_URL}/map/${MAP_VERSION}/finland-citybike-map/`,
+    PARK_AND_RIDE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-parkandride-map/`,
+
     FONT:
       'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700',
     PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
