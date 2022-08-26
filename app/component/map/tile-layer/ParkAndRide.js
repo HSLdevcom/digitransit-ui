@@ -8,6 +8,7 @@ import Protobuf from 'pbf';
 import { drawParkAndRideIcon } from '../../../util/mapIconUtils';
 import { Contour } from '../../../util/geo-utils';
 import { isBrowser } from '../../../util/browser';
+import { fetchWithSubscription } from '../../../util/fetchUtils';
 
 import carParksQuery from './carParks';
 import carParkQuery from './carPark';
@@ -28,10 +29,11 @@ export default class ParkAndRide {
   static getName = () => 'parkAndRide';
 
   getPromise() {
-    return fetch(
+    return fetchWithSubscription(
       `${this.config.URL.PARK_AND_RIDE_MAP}${
         this.tile.coords.z + (this.tile.props.zoomOffset || 0)
       }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
+      this.config,
     ).then(res => {
       if (res.status !== 200) {
         return undefined;

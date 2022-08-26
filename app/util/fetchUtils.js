@@ -53,4 +53,15 @@ export const retryFetch = (
   });
 };
 
-export default retryFetch;
+/**
+ * Uses fetch with subscription header with subscription header
+ * if it is configured.
+ *
+ * @param {String} URL the url to fetch
+ * @param {*} config The configuration for the software installation
+ * @returns fetch's promise
+ */
+export const fetchWithSubscription = (URL, config) =>
+  fetch(URL, {
+    headers: addSubscriptionHeader({}, config),
+  });
