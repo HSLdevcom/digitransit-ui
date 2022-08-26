@@ -1,3 +1,11 @@
+const fs = require('fs');
+const path = require('path');
+
+const graphqlSchemaString = fs.readFileSync(
+  path.resolve(__dirname, './build/schema.graphql'),
+  { encoding: 'utf-8' },
+);
+
 module.exports = {
   parser: 'babel-eslint',
   extends: [
@@ -48,8 +56,7 @@ module.exports = {
       'error',
       {
         env: 'relay',
-        // eslint-disable-next-line global-require
-        schemaJson: require('./build/schema.json').data,
+        schemaString: graphqlSchemaString,
         tagName: 'graphql',
       },
     ],

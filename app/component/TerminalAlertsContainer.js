@@ -45,7 +45,6 @@ const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
     @argumentDefinitions(
       startTime: { type: "Long" }
       timeRange: { type: "Int", defaultValue: 900 }
-      date: { type: "String" }
     ) {
       routes {
         gtfsId

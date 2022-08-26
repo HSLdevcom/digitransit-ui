@@ -941,6 +941,7 @@ class SummaryPage extends React.Component {
     );
 
     fetchQuery(this.props.relayEnvironment, query, planParams)
+      .toPromise()
       .then(result => {
         this.setState(
           {
@@ -1081,21 +1082,23 @@ class SummaryPage extends React.Component {
     );
     fetchQuery(this.props.relayEnvironment, query, planParams, {
       force: true,
-    }).then(({ plan: results }) => {
-      this.setState(
-        {
-          alternativePlan: results,
-          earlierItineraries: [],
-          laterItineraries: [],
-          separatorPosition: undefined,
-        },
-        () => {
-          this.setLoading(false);
-          this.isFetching = false;
-          this.setParamsAndQuery();
-        },
-      );
-    });
+    })
+      .toPromise()
+      .then(({ plan: results }) => {
+        this.setState(
+          {
+            alternativePlan: results,
+            earlierItineraries: [],
+            laterItineraries: [],
+            separatorPosition: undefined,
+          },
+          () => {
+            this.setLoading(false);
+            this.isFetching = false;
+            this.setParamsAndQuery();
+          },
+        );
+      });
   };
 
   onLater = (itineraries, reversed) => {
@@ -1149,45 +1152,43 @@ class SummaryPage extends React.Component {
 
     this.setModeToParkRideIfSelected(tunedParams);
 
-    fetchQuery(
-      this.props.relayEnvironment,
-      moreItinerariesQuery,
-      tunedParams,
-    ).then(({ plan: result }) => {
-      this.showScreenreaderLoadedAlert();
-      if (reversed) {
-        const reversedItineraries = result.itineraries
-          .slice() // Need to copy because result is readonly
-          .reverse()
-          .filter(
-            itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-          );
-        // We need to filter only walk itineraries out to place the "separator" accurately between itineraries
-        this.setState(prevState => {
-          return {
-            earlierItineraries: [
-              ...reversedItineraries,
-              ...prevState.earlierItineraries,
-            ],
-            loadingMoreItineraries: undefined,
-            separatorPosition: prevState.separatorPosition
-              ? prevState.separatorPosition + reversedItineraries.length
-              : reversedItineraries.length,
-          };
-        });
-        this.resetSummaryPageSelection();
-      } else {
-        this.setState(prevState => {
-          return {
-            laterItineraries: [
-              ...prevState.laterItineraries,
-              ...result.itineraries,
-            ],
-            loadingMoreItineraries: undefined,
-          };
-        });
-      }
-      /*
+    fetchQuery(this.props.relayEnvironment, moreItinerariesQuery, tunedParams)
+      .toPromise()
+      .then(({ plan: result }) => {
+        this.showScreenreaderLoadedAlert();
+        if (reversed) {
+          const reversedItineraries = result.itineraries
+            .slice() // Need to copy because result is readonly
+            .reverse()
+            .filter(
+              itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+            );
+          // We need to filter only walk itineraries out to place the "separator" accurately between itineraries
+          this.setState(prevState => {
+            return {
+              earlierItineraries: [
+                ...reversedItineraries,
+                ...prevState.earlierItineraries,
+              ],
+              loadingMoreItineraries: undefined,
+              separatorPosition: prevState.separatorPosition
+                ? prevState.separatorPosition + reversedItineraries.length
+                : reversedItineraries.length,
+            };
+          });
+          this.resetSummaryPageSelection();
+        } else {
+          this.setState(prevState => {
+            return {
+              laterItineraries: [
+                ...prevState.laterItineraries,
+                ...result.itineraries,
+              ],
+              loadingMoreItineraries: undefined,
+            };
+          });
+        }
+        /*
           const max = result.itineraries.reduce(
             (previous, { endTime }) =>
               endTime > previous ? endTime : previous,
@@ -1203,11 +1204,11 @@ class SummaryPage extends React.Component {
             newTime = moment(max).add(1, 'minutes');
           }
           */
-      // this.props.setLoading(false);
-      /* replaceQueryParams(this.context.router, this.context.match, {
+        // this.props.setLoading(false);
+        /* replaceQueryParams(this.context.router, this.context.match, {
             time: newTime.unix(),
           }); */
-    });
+      });
     // }
   };
 
@@ -1259,52 +1260,50 @@ class SummaryPage extends React.Component {
 
     this.setModeToParkRideIfSelected(tunedParams);
 
-    fetchQuery(
-      this.props.relayEnvironment,
-      moreItinerariesQuery,
-      tunedParams,
-    ).then(({ plan: result }) => {
-      if (result.itineraries.length === 0) {
-        // Could not find routes arriving at original departure time
-        // --> cannot calculate earlier start time
-        this.setError('no-route-start-date-too-early');
-      }
-      this.showScreenreaderLoadedAlert();
-      if (reversed) {
-        this.setState(prevState => {
-          return {
-            laterItineraries: [
-              ...prevState.laterItineraries,
-              ...result.itineraries,
-            ],
-            loadingMoreItineraries: undefined,
-          };
-        });
-      } else {
-        // Reverse the results so that route suggestions are in ascending order
-        const reversedItineraries = result.itineraries
-          .slice() // Need to copy because result is readonly
-          .reverse()
-          .filter(
-            itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-          );
-        // We need to filter only walk itineraries out to place the "separator" accurately between itineraries
-        this.setState(prevState => {
-          return {
-            earlierItineraries: [
-              ...reversedItineraries,
-              ...prevState.earlierItineraries,
-            ],
-            loadingMoreItineraries: undefined,
-            separatorPosition: prevState.separatorPosition
-              ? prevState.separatorPosition + reversedItineraries.length
-              : reversedItineraries.length,
-          };
-        });
+    fetchQuery(this.props.relayEnvironment, moreItinerariesQuery, tunedParams)
+      .toPromise()
+      .then(({ plan: result }) => {
+        if (result.itineraries.length === 0) {
+          // Could not find routes arriving at original departure time
+          // --> cannot calculate earlier start time
+          this.setError('no-route-start-date-too-early');
+        }
+        this.showScreenreaderLoadedAlert();
+        if (reversed) {
+          this.setState(prevState => {
+            return {
+              laterItineraries: [
+                ...prevState.laterItineraries,
+                ...result.itineraries,
+              ],
+              loadingMoreItineraries: undefined,
+            };
+          });
+        } else {
+          // Reverse the results so that route suggestions are in ascending order
+          const reversedItineraries = result.itineraries
+            .slice() // Need to copy because result is readonly
+            .reverse()
+            .filter(
+              itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+            );
+          // We need to filter only walk itineraries out to place the "separator" accurately between itineraries
+          this.setState(prevState => {
+            return {
+              earlierItineraries: [
+                ...reversedItineraries,
+                ...prevState.earlierItineraries,
+              ],
+              loadingMoreItineraries: undefined,
+              separatorPosition: prevState.separatorPosition
+                ? prevState.separatorPosition + reversedItineraries.length
+                : reversedItineraries.length,
+            };
+          });
 
-        this.resetSummaryPageSelection();
-      }
-    });
+          this.resetSummaryPageSelection();
+        }
+      });
   };
 
   // save url-defined location to old searches

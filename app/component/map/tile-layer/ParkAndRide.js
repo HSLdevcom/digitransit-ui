@@ -51,20 +51,22 @@ export default class ParkAndRide {
                 ids: JSON.parse(feature.properties.facilityIds).map(id =>
                   id.toString(),
                 ),
-              }).then(data => {
-                const result = compact(data.carParks);
-                if (!isEmpty(result)) {
-                  feature.properties.facilities = result;
-                  [[feature.geom]] = feature.loadGeometry();
-                  this.features.push(pick(feature, ['geom', 'properties']));
-                  drawParkAndRideIcon(
-                    this.tile,
-                    feature.geom,
-                    this.width,
-                    this.height,
-                  );
-                }
-              });
+              })
+                .toPromise()
+                .then(data => {
+                  const result = compact(data.carParks);
+                  if (!isEmpty(result)) {
+                    feature.properties.facilities = result;
+                    [[feature.geom]] = feature.loadGeometry();
+                    this.features.push(pick(feature, ['geom', 'properties']));
+                    drawParkAndRideIcon(
+                      this.tile,
+                      feature.geom,
+                      this.width,
+                      this.height,
+                    );
+                  }
+                });
             }
           } else if (
             this.tile.coords.z >= showFacilities &&
@@ -78,28 +80,30 @@ export default class ParkAndRide {
               const feature = vt.layers.facilities.feature(i);
               fetchQuery(this.relayEnvironment, carParkQuery, {
                 id: feature.id.toString(),
-              }).then(data => {
-                const result = data.carPark;
-                if (result != null && result.id != null) {
-                  feature.properties.facility = result;
-                  const isHilighted =
-                    this.tile.hilightedStops &&
-                    this.tile.hilightedStops.includes(
-                      feature.properties?.facility?.carParkId,
+              })
+                .toPromise()
+                .then(data => {
+                  const result = data.carPark;
+                  if (result != null && result.id != null) {
+                    feature.properties.facility = result;
+                    const isHilighted =
+                      this.tile.hilightedStops &&
+                      this.tile.hilightedStops.includes(
+                        feature.properties?.facility?.carParkId,
+                      );
+                    feature.geom = new Contour(
+                      feature.loadGeometry()[0],
+                    ).centroid();
+                    this.features.push(feature);
+                    drawParkAndRideIcon(
+                      this.tile,
+                      feature.geom,
+                      this.width,
+                      this.height,
+                      isHilighted,
                     );
-                  feature.geom = new Contour(
-                    feature.loadGeometry()[0],
-                  ).centroid();
-                  this.features.push(feature);
-                  drawParkAndRideIcon(
-                    this.tile,
-                    feature.geom,
-                    this.width,
-                    this.height,
-                    isHilighted,
-                  );
-                }
-              });
+                  }
+                });
             }
           }
         },

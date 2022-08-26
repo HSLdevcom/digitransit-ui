@@ -190,7 +190,7 @@ module.exports = {
             '@babel/preset-typescript',
           ],
           plugins: [
-            ['relay', { compat: true, schema: 'build/schema.json' }],
+            'relay',
             [
               '@babel/plugin-transform-runtime',
               {

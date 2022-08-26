@@ -97,11 +97,13 @@ const StopPageMap = (
               }
             }
           `;
-          fetchQuery(environment, query, variables).then(({ plan: result }) => {
-            if (isMounted) {
-              setPlan({ plan: result, isFetching: false });
-            }
-          });
+          fetchQuery(environment, query, variables)
+            .toPromise()
+            .then(({ plan: result }) => {
+              if (isMounted) {
+                setPlan({ plan: result, isFetching: false });
+              }
+            });
         }
       }
     };
