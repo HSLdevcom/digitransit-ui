@@ -1,11 +1,135 @@
-name: Deploy v3-dev
+name: Process v3 push or PR
+
 on:
   push:
     branches:
       - v3
+  pull_request:
+    branches:
+      - v3
+
 jobs:
-  docker-push:
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: "Set time zone to Europe/Helsinki"
+        uses: zcong1993/setup-timezone@master
+        with:
+          timezone: "Europe/Helsinki"
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn
+      - name: Install dependencies and build shared components
+        run: yarn setup
+      - name: Run linters
+        run: yarn lint
+
+  unit-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: "Set time zone to Europe/Helsinki"
+        uses: zcong1993/setup-timezone@master
+        with:
+          timezone: "Europe/Helsinki"
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn
+      - name: Install dependencies and build shared components
+        run: yarn setup
+      - name: build relay queries
+        run: yarn relay
+      - name: Run unit tests
+        run: yarn run test-coverage
+      - name: Send test coverage report
+        run: yarn run test-report
+
+  accessibility-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: "Set time zone to Europe/Helsinki"
+        uses: zcong1993/setup-timezone@master
+        with:
+          timezone: "Europe/Helsinki"
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn
+      - name: Install dependencies and build shared components
+        run: yarn setup
+      - name: build relay queries
+        run: yarn relay
+      - name: Build UI
+        run: yarn build
+      - name: Run accessibility tests
+        run: yarn test-accessibility
+
+  e2e-test-desktop:
+    runs-on: ubuntu-latest
+    strategy:
+      # don't cancel running jobs even if one fails
+      fail-fast: false
+      matrix:
+        node-version: [10.x]
+        config: [matka]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: "Set time zone to Europe/Helsinki"
+        uses: zcong1993/setup-timezone@master
+        with:
+          timezone: "Europe/Helsinki"
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn
+      - name: Build shared components
+        run: yarn setup
+      - name: Build relay queries
+        run: yarn relay
+      - name: Build UI
+        run: yarn build
+      - uses: microsoft/playwright-github-action@v1.5.0
+      - name: Run End to End tests
+        id: 'test_e2e'
+        env:
+          CONFIG: ${{matrix.config}}
+          REF: ${{github.head_ref}}
+          STORAGESASTOKEN: ${{ secrets.STORAGESASTOKEN }}
+          STORAGERESOURCENAME: "visualtestsnapshots"
+        run: yarn test:e2e
+
+  docker-push-v3:
     if: github.ref == 'refs/heads/v3'
+    needs:
+      - lint
+      - unit-test
+      - accessibility-test
+      - e2e-test-desktop
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout
@@ -16,10 +140,20 @@ jobs:
         with:
           timezone: "Europe/Helsinki"
 
-      - name: configure Docker Buildx
+      - name: Create buildInfo.js file content
+        id: build-info
+        run: echo "::set-output name=content::export const COMMIT_ID = \"${GITHUB_SHA}\";\nexport const BUILD_TIME = \"$(date -Iminutes -u)\";"
+
+      - name: Create buildInfo.js file
+        uses: finnp/create-file-action@1.0.0
+        env:
+          FILE_NAME: "app/buildInfo.js"
+          FILE_DATA: ${{ steps.build-info.outputs.content }}
+
+      - name: Configure Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: log in to DockerHub
+      - name: Log in to DockerHub
         uses: docker/login-action@v1 
         with:
           username: ${{ secrets.DOCKER_USER }}
