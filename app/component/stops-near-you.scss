@@ -310,8 +310,12 @@
         margin-right: 10px;
         width: 3em;
         height: 1.25em;
-        padding: 0 4px;
         position: relative;
+        padding: 0 2px;
+        &.long {
+          width: unset;
+          min-width: 48px;
+        }
       }
       .route-headsign {
         font-family: $font-family-narrow;

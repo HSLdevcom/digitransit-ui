@@ -307,7 +307,11 @@
       height: 1.5em;
       margin-top: 2px;
       min-width: 2.25em;
-      padding: 0 4px;
+      padding: 0 2px;
+      &.long {
+        width: unset;
+        min-width: 48px;
+      }
       .route-number {
         .icon-container {
           font-size: 1.5em;
