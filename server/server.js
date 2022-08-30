@@ -17,8 +17,6 @@ require('@babel/register')({
 global.fetch = require('node-fetch');
 const proxy = require('express-http-proxy');
 
-global.self = { fetch: global.fetch };
-
 let Raven;
 const devhost = '';
 
@@ -161,6 +159,7 @@ function setUpRoutes() {
 }
 
 function setUpAvailableRouteTimetables() {
+  // eslint-disable-next-line compat/compat
   return new Promise(resolve => {
     // Stores available route pdf names to config.availableRouteTimetables.HSL
     // All routes don't have available pdf and some have their timetable inside other route

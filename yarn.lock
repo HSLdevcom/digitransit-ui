@@ -2756,7 +2756,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime-corejs3@npm:^7.10.2, @babel/runtime-corejs3@npm:^7.6.2, @babel/runtime-corejs3@npm:^7.6.3":
+"@babel/runtime-corejs3@npm:^7.10.2":
   version: 7.17.2
   resolution: "@babel/runtime-corejs3@npm:7.17.2"
   dependencies:
@@ -2784,7 +2784,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.18.9":
+"@babel/runtime@npm:^7.16.5, @babel/runtime@npm:^7.17.9, @babel/runtime@npm:^7.18.9":
   version: 7.18.9
   resolution: "@babel/runtime@npm:7.18.9"
   dependencies:
@@ -5780,6 +5780,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@restart/hooks@npm:^0.4.5":
+  version: 0.4.7
+  resolution: "@restart/hooks@npm:0.4.7"
+  dependencies:
+    dequal: ^2.0.2
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 35fd8f2733dff11d86c923458a443680e3812d9621a74543a7fe1614a1c027fcb72be06b98c69f590fc271427931efa08eb9c51fd2198fffd20f5a14853287a5
+  languageName: node
+  linkType: hard
+
 "@rollup/plugin-babel@npm:5.2.2":
   version: 5.2.2
   resolution: "@rollup/plugin-babel@npm:5.2.2"
@@ -6329,7 +6340,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18.0.17":
+"@types/react@npm:*, @types/react@npm:>=17.0.37, @types/react@npm:^18.0.17":
   version: 18.0.17
   resolution: "@types/react@npm:18.0.17"
   dependencies:
@@ -6337,17 +6348,6 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: 8dd29d33ea1a52331ea63079c480b3320d0173ad5840dde2efb522f54bba6cfb6303ce121338d41d25966460c1f997b6e53d38c9c133f2fd3cf5caf2868c63d3
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:^16.9.31":
-  version: 16.14.23
-  resolution: "@types/react@npm:16.14.23"
-  dependencies:
-    "@types/prop-types": "*"
-    "@types/scheduler": "*"
-    csstype: ^3.0.2
-  checksum: 7a338df1242980113dbb8350deb069f337670f8e19a2f7b58af772f7e1d19d8eba5df7975ee53b860dc7a167e6fab1f0b3094fe86c66a0b2a6c0f4ad7c1faf87
   languageName: node
   linkType: hard
 
@@ -11353,6 +11353,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dequal@npm:^2.0.2":
+  version: 2.0.3
+  resolution: "dequal@npm:2.0.3"
+  checksum: 9140d3b9d36a5a29cb9907800ca2c482ff91cdf55b5e64d56d5951f48a232599373f615c4517238c52acccbcf5b3c562977ada44d0d0a9ba7955b26ccc42d6ca
+  languageName: node
+  linkType: hard
+
 "des.js@npm:^1.0.0":
   version: 1.0.1
   resolution: "des.js@npm:1.0.1"
@@ -11560,8 +11567,8 @@ __metadata:
     file-loader: 5.0.2
     fluxible: 1.4.0
     fluxible-addons-react: 0.2.16
-    found: 0.5.9
-    found-relay: 0.8.2
+    found: ^1.1.1
+    found-relay: ^1.0.2
     foundation-apps: 1.2.0
     git-precommit-checks: 3.0.0
     graphql: 15.5.0
@@ -11608,9 +11615,10 @@ __metadata:
     postcss-loader: 4.0.1
     prettier: 2.1.1
     prop-types: 15.7.2
+    proxyquire: ^2.1.3
     raven: 2.6.4
     raven-js: 3.27.0
-    react: 16.13.0
+    react: 16.14.0
     react-autosuggest: 10.0.3
     react-autowhatever: 10.2.1
     react-click-outside: 3.0.1
@@ -13461,7 +13469,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"farce@npm:0.4.5, farce@npm:^0.4.3":
+"farce@npm:0.4.5, farce@npm:^0.4.5":
   version: 0.4.5
   resolution: "farce@npm:0.4.5"
   dependencies:
@@ -13784,6 +13792,16 @@ __metadata:
   version: 3.6.1
   resolution: "filesize@npm:3.6.1"
   checksum: 9fb54113c906f0b7aecc05440185dc8b8dac83bd73b839a5298ce02500a487151b3a4735784bfab027fc58776f5281ec4c31e60f59b9173d62f47838dae31783
+  languageName: node
+  linkType: hard
+
+"fill-keys@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "fill-keys@npm:1.0.2"
+  dependencies:
+    is-object: ~1.0.1
+    merge-descriptors: ~1.0.0
+  checksum: 1c625a38f5b38dfe6cd941fb4e48a351d36a6b3ba40e926782d1a66ff151cc7f34966284365805fcadbfb4afa070f9f4eb1499a75927ab4cbd12607b4e1bd327
   languageName: node
   linkType: hard
 
@@ -14124,44 +14142,51 @@ __metadata:
   languageName: node
   linkType: hard
 
-"found-relay@npm:0.8.2":
-  version: 0.8.2
-  resolution: "found-relay@npm:0.8.2"
+"found-relay@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "found-relay@npm:1.0.2"
   dependencies:
-    "@babel/runtime-corejs3": ^7.6.3
+    "@babel/runtime": ^7.17.9
+    dequal: ^2.0.2
     is-promise: ^4.0.0
-    lodash: ^4.17.15
     prop-types: ^15.7.2
     warning: ^4.0.3
   peerDependencies:
+    "@types/react-relay": ">=11.0.1"
+    "@types/relay-runtime": ">=12.0.0"
     found: ">=0.5.1"
     react: ">=16.9.0"
-    react-relay: ">=9.0.0"
-    relay-runtime: ">=9.0.0"
-  checksum: 250526e19cea3d75395c66f9b6cedc213b99f8d2495d925b3997af97f628bfbe74fdbbbfb537d3c526cbd4072e5bd429b5921a607e350b92d37295070753631b
+    react-relay: ">=12.0.0"
+    relay-runtime: ">=12.0.0"
+  peerDependenciesMeta:
+    "@types/react-relay":
+      optional: true
+    "@types/relay-runtime":
+      optional: true
+  checksum: cc6927e95dab980fb7b607692c1c099e4368fd4967bcd70839dc311561cd3630b1a34d6fbac5d51eafe229c2e2d10286f382b20d583a95acffbd6ab473e88186
   languageName: node
   linkType: hard
 
-"found@npm:0.5.9":
-  version: 0.5.9
-  resolution: "found@npm:0.5.9"
+"found@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "found@npm:1.1.1"
   dependencies:
-    "@babel/runtime-corejs3": ^7.6.2
+    "@babel/runtime": ^7.16.5
     "@restart/context": ^2.1.4
-    "@types/react": ^16.9.31
-    farce: ^0.4.3
-    invariant: ^2.2.4
+    "@restart/hooks": ^0.4.5
+    "@types/react": ">=17.0.37"
+    dequal: ^2.0.2
+    farce: ^0.4.5
     is-promise: ^4.0.0
-    lodash: ^4.17.15
-    path-to-regexp: ^1.7.0
     prop-types: ^15.7.2
-    react-redux: ^7.0.0
-    react-static-container: ^1.0.2
-    redux: ^4.0.4
-    warning: ^4.0.3
+    react-redux: ^7.2.6
+    redux: ^4.1.2
+    tiny-set-immediate: ^1.0.2
+    tiny-warning: ^1.0.3
   peerDependencies:
     react: ">=16.8.0"
-  checksum: 8c0d51fbc5237ed9a271d6f7b7f4e24ff2c43c7e875c1e5706a5c008f2ef31092b82252a9c5bbabfa1b571c644b421f1cb792a327daba5f4dcac474e24650777
+    react-dom: ">=16.8.0"
+  checksum: a0dcc7a8215a85caa736c8eb21bba1d97103076400c5c0dac2012a164b478f715e3c891c1265965c8484d8dc27207cb6320cf72a90c45a370ce8dd30a4a6bc8d
   languageName: node
   linkType: hard
 
@@ -16819,6 +16844,13 @@ fsevents@~2.1.2:
   version: 2.0.0
   resolution: "is-obj@npm:2.0.0"
   checksum: ffa67ed5df66e37757876cd976380737a0430551789a0457b8c031eaedef8f5c6bc4ab6d903e529efb777545f8718ab73d9badde61c8b08720a3747ccff0b2a0
+  languageName: node
+  linkType: hard
+
+"is-object@npm:~1.0.1":
+  version: 1.0.2
+  resolution: "is-object@npm:1.0.2"
+  checksum: dd87744edde5c9664e7ae133e965454bf684d6adeea4746fb03cf7f6a3206f39ac59f9e14e4eeffc72f6fcef7800671780632e62a8419825f1d7f873292825a4
   languageName: node
   linkType: hard
 
@@ -19773,7 +19805,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"merge-descriptors@npm:1.0.1":
+"merge-descriptors@npm:1.0.1, merge-descriptors@npm:~1.0.0":
   version: 1.0.1
   resolution: "merge-descriptors@npm:1.0.1"
   checksum: 2d2a09eaac840a7ceac7a13b44b7c8abf3ecccd93a609c3525d8290cb5d814336cc7c0b1dd485ae3bc471ed354eeefb153475ce2e1604ccdf79eebe74021c192
@@ -20365,6 +20397,13 @@ fsevents@~2.1.2:
   bin:
     module-deps: bin/cmd.js
   checksum: 1ba634f6e13ea40b2cb9e8825c97f2b8a47ca972f6a899fcf80a780b1a3df1d8ab423abdb2c093896809eb9a01c2ad3a6d961eb0161c219326b672ec494752c1
+  languageName: node
+  linkType: hard
+
+"module-not-found-error@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "module-not-found-error@npm:1.0.1"
+  checksum: dcf30a111dcb8ae6530a3724276c8ddcd55372d254fd6da03987e42628423ba4baf56b69db4171ed06e8621480f76df7b70aac7909fe0a69839562816b0a3570
   languageName: node
   linkType: hard
 
@@ -23603,6 +23642,17 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"proxyquire@npm:^2.1.3":
+  version: 2.1.3
+  resolution: "proxyquire@npm:2.1.3"
+  dependencies:
+    fill-keys: ^1.0.2
+    module-not-found-error: ^1.0.1
+    resolve: ^1.11.1
+  checksum: 5065f3db2ba0e080245050849582bae8c09559334c0ea419fa1ea45f0dbea20ead66db1496fd6209d4b2d56457d45a6ba755cc3882cc7e5b706b6b6bc588d380
+  languageName: node
+  linkType: hard
+
 "prr@npm:~1.0.1":
   version: 1.0.1
   resolution: "prr@npm:1.0.1"
@@ -24160,9 +24210,9 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"react-redux@npm:^7.0.0":
-  version: 7.2.6
-  resolution: "react-redux@npm:7.2.6"
+"react-redux@npm:^7.2.6":
+  version: 7.2.8
+  resolution: "react-redux@npm:7.2.8"
   dependencies:
     "@babel/runtime": ^7.15.4
     "@types/react-redux": ^7.1.20
@@ -24171,13 +24221,13 @@ fsevents@~2.1.2:
     prop-types: ^15.7.2
     react-is: ^17.0.2
   peerDependencies:
-    react: ^16.8.3 || ^17
+    react: ^16.8.3 || ^17 || ^18
   peerDependenciesMeta:
     react-dom:
       optional: true
     react-native:
       optional: true
-  checksum: 32952c3fa1fbc12a28e93a6a116f320319c3d82ded71af053e7d405d760e96bccbc1d939ad06848ed6f088819d490f3180a31975c53ce23248934de906f2b27c
+  checksum: 0f07c6886c5aad0d21844b0cf3b2e417d24199a9f0fc1ddafe4d1a51445f0e4d79cd9ac25f96687608f1bb044df13aed8402af89d80696985ff52aa04b7857b2
   languageName: node
   linkType: hard
 
@@ -24261,15 +24311,6 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"react-static-container@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "react-static-container@npm:1.0.2"
-  peerDependencies:
-    react: ^0.13.0 || ^0.14.0 || ^15.0.0 || ^16.0.0
-  checksum: 1e012b5b4d6cecf588bae1346fcef5bd217d6d87b18a970e8295445b48170528ea8afa4913d9b853b16ff21a0d6d1dc0f588a407a14c8b32cabc3b169c1d7b4c
-  languageName: node
-  linkType: hard
-
 "react-swipe@npm:6.0.4":
   version: 6.0.4
   resolution: "react-swipe@npm:6.0.4"
@@ -24333,14 +24374,14 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"react@npm:16.13.0":
-  version: 16.13.0
-  resolution: "react@npm:16.13.0"
+"react@npm:16.14.0":
+  version: 16.14.0
+  resolution: "react@npm:16.14.0"
   dependencies:
     loose-envify: ^1.1.0
     object-assign: ^4.1.1
     prop-types: ^15.6.2
-  checksum: a0513b3303ebbbcc4e44d404215d94165b821e01db26d5000a7b37f6e74cace142b516e21cba30a5e5b1923ed41d877995c4e665bf130ee8ec34527e671234b2
+  checksum: 2769580b22952a52de3b5b2ea0f09cb904030b762d759739f49ab4da0b1f550e5c087ce3728c4be90f423d09481e0c075483c0c30b1ea9c549445c8b12020fd3
   languageName: node
   linkType: hard
 
@@ -24707,6 +24748,15 @@ fsevents@~2.1.2:
   dependencies:
     "@babel/runtime": ^7.9.2
   checksum: 39aba0fc41c0187cb46b38e52dcb9dc039b785cae772bad9c30cd1d24c67942739285fc013bf804d286aad3c660c1d74cdab5923e1c1535839c5f996d1491365
+  languageName: node
+  linkType: hard
+
+"redux@npm:^4.1.2":
+  version: 4.2.0
+  resolution: "redux@npm:4.2.0"
+  dependencies:
+    "@babel/runtime": ^7.9.2
+  checksum: c84709d78a23ee0dd4b5e8295a5ded77de875c51ddc471a79ab8b73c3cff60ac259f8fd620b952c5ab062907d44dbcc94778d2539d4d572a55446d6a6f369c22
   languageName: node
   linkType: hard
 
@@ -25278,7 +25328,7 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-resolve@^1.14.2:
+"resolve@^1.11.1, resolve@^1.14.2":
   version: 1.22.1
   resolution: "resolve@npm:1.22.1"
   dependencies:
@@ -25311,7 +25361,7 @@ resolve@^1.14.2:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@^1.14.2#builtin<compat/resolve>":
+"resolve@patch:resolve@^1.11.1#builtin<compat/resolve>, resolve@patch:resolve@^1.14.2#builtin<compat/resolve>":
   version: 1.22.1
   resolution: "resolve@patch:resolve@npm%3A1.22.1#builtin<compat/resolve>::version=1.22.1&hash=3388aa"
   dependencies:
@@ -27857,6 +27907,20 @@ resolve@^1.14.2:
     object-assign: ^4.1.0
     qs: ^6.4.0
   checksum: e3d6d958da297eb3cc27cedd94362f2dd681902cb930119a50c0c7768b8b33a466f46e06a67286b9c1bebdbf132ce390251ae618d8b3e84bbc002745a3c560d3
+  languageName: node
+  linkType: hard
+
+"tiny-set-immediate@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "tiny-set-immediate@npm:1.0.2"
+  checksum: 29f1a76071b26da7ec0c555c20a6c1bc7f86e4dceddacbff728a05aa2bed663493fc89769dd68ad2efb9544b1fbd656570e805e6d3c7c2142d6246a8e741a74e
+  languageName: node
+  linkType: hard
+
+"tiny-warning@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "tiny-warning@npm:1.0.3"
+  checksum: 6cf9f66cb765b893976b8cd1c1310338861f30fb04d02ef2c8e0a748cbc2ed5acd8bb1954b78c15f640ad4116def67134d7d705f2a0c9bf27e6e2eb3e92bff29
   languageName: node
   linkType: hard
 

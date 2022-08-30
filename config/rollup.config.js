@@ -20,8 +20,12 @@ const globals = {
   i18next: 'i18next',
   'moment-timezone': 'moment',
   'react-autosuggest': 'Autosuggest',
+  'react-cookie': 'reactCookie',
+  'react-select': 'Select',
   'react-sortablejs': 'reactSortablejs',
   'react-modal': 'ReactModal',
+  '@babel/runtime/helpers/interopRequireDefault': 'interopRequireDefault',
+  '@babel/runtime/helpers/inheritsLoose': 'inheritsLoose',
   '@hsl-fi/modal': 'Modal',
   '@hsl-fi/shimmer': 'Shimmer',
   '@hsl-fi/container-spinner': 'ContainerSpinner',
@@ -50,6 +54,7 @@ const globals = {
   'lodash/compact': 'compact',
   moment: 'moment',
   'react-relay': 'reactRelay',
+  'prop-types/checkPropTypes': 'checkPropTypes',
 };
 
 async function getSortedPackages() {
@@ -97,7 +102,6 @@ export default async () => {
           globals,
         },
       ],
-      context: 'self',
       plugins: [
         peerDepsExternal({
           packageJsonPath: path.join(__dirname, basePath, 'package.json'),

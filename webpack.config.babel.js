@@ -156,7 +156,7 @@ const productionPlugins = [
 module.exports = {
   mode,
   entry: {
-    main: ['./app/util/publicPath', './app/client'],
+    main: ['./app/util/publicPath.js', './app/client.js'],
     ...(isProduction ? themeEntries : {}),
   },
   output: {
