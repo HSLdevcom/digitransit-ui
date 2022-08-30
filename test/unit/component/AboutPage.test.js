@@ -1,9 +1,18 @@
 import React from 'react';
-import { Component as AboutPage } from '../../../app/component/AboutPage';
+import proxyquire from 'proxyquire';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 import { mockChildContextTypes } from '../helpers/mock-context';
+import { MockLink } from '../helpers/MockLink';
 
 describe('<AboutPage />', () => {
+  // setup Link component mock to avoid excessive test fixtures
+  const { Component: AboutPage } = proxyquire(
+    '../../../app/component/AboutPage',
+    {
+      'found/Link': MockLink,
+    },
+  );
+
   const context = {
     config: {
       aboutThisService: {

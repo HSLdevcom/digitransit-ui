@@ -1,11 +1,20 @@
 import React from 'react';
+import proxyquire from 'proxyquire';
 
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
-import RouteStop from '../../../app/component/RouteStop';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../../../app/constants';
+import { MockLink } from '../helpers/MockLink';
 
 describe('<RouteStop />', () => {
+  // setup Link component mock to avoid excessive test fixtures
+  const { default: RouteStop } = proxyquire(
+    '../../../app/component/RouteStop',
+    {
+      'found/Link': MockLink,
+    },
+  );
+
   it('should not render a service alert icon for the stop', () => {
     const props = {
       currentTime: 1471515614,
