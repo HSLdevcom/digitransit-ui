@@ -116,7 +116,9 @@ const DepartureRow = (
       key={uuid()}
     >
       <td
-        className="route-number-container"
+        className={cx('route-number-container', {
+          long: shortName.length <= 6 && shortName.length >= 5,
+        })}
         style={{ backgroundColor: `#${departure.trip.route.color}` }}
       >
         {renderWithLink(
