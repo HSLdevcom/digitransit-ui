@@ -47,28 +47,30 @@ export default class ParkAndRideForBikes {
               const feature = vt.layers.facilities.feature(i);
               fetchQuery(this.relayEnvironment, bikeParkQuery, {
                 id: feature.id.toString(),
-              }).then(data => {
-                const result = data.bikePark;
-                if (result != null && result.id != null) {
-                  feature.properties.facility = result;
-                  const isHilighted =
-                    this.tile.hilightedStops &&
-                    this.tile.hilightedStops.includes(
-                      feature.properties?.facility?.bikeParkId,
+              })
+                .toPromise()
+                .then(data => {
+                  const result = data.bikePark;
+                  if (result != null && result.id != null) {
+                    feature.properties.facility = result;
+                    const isHilighted =
+                      this.tile.hilightedStops &&
+                      this.tile.hilightedStops.includes(
+                        feature.properties?.facility?.bikeParkId,
+                      );
+                    feature.geom = new Contour(
+                      feature.loadGeometry()[0],
+                    ).centroid();
+                    this.features.push(feature);
+                    drawParkAndRideForBikesIcon(
+                      this.tile,
+                      feature.geom,
+                      this.width,
+                      this.height,
+                      isHilighted,
                     );
-                  feature.geom = new Contour(
-                    feature.loadGeometry()[0],
-                  ).centroid();
-                  this.features.push(feature);
-                  drawParkAndRideForBikesIcon(
-                    this.tile,
-                    feature.geom,
-                    this.width,
-                    this.height,
-                    isHilighted,
-                  );
-                }
-              });
+                  }
+                });
             }
           }
         },

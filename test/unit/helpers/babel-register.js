@@ -4,4 +4,5 @@ require('@babel/register')({
   ignore: [
     /node_modules\/(?!react-leaflet|@babel\/runtime\/helpers\/esm|lodash-es|@digitransit-util|@digitransit-component)/,
   ],
+  extensions: ['.ts', '.js', '.tsx', '.mjs'],
 });

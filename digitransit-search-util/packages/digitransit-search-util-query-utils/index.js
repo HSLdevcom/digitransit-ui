@@ -4,155 +4,26 @@ import flatten from 'lodash/flatten';
 import uniq from 'lodash/uniq';
 import compact from 'lodash/compact';
 import moment from 'moment';
-import { fetchQuery, graphql } from 'react-relay';
+import { fetchQuery } from 'react-relay';
 import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
 import {
   mapRoute,
   isStop,
 } from '@digitransit-search-util/digitransit-search-util-helpers';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
+import {
+  stopsQuery,
+  stationsQuery,
+  alertsQuery,
+  searchBikeRentalStationsQuery,
+  searchRoutesQuery,
+  favouriteBikeRentalQuery,
+  favouriteRoutesQuery,
+  favouriteStopsQuery,
+  favouriteStationsQuery,
+} from './digitransitSearchUtilQueryUtils';
 
 let relayEnvironment = null;
-
-const stopsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsStopsQuery($ids: [String!]!) {
-    stops(ids: $ids) {
-      gtfsId
-      lat
-      lon
-      name
-      code
-      stoptimesWithoutPatterns(numberOfDepartures: 1) {
-        trip {
-          route {
-            mode
-          }
-        }
-      }
-    }
-  }
-`;
-
-const stationsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsStationsQuery($ids: [String!]!) {
-    stations(ids: $ids) {
-      gtfsId
-      lat
-      lon
-      name
-      code
-      stoptimesWithoutPatterns(numberOfDepartures: 1) {
-        trip {
-          route {
-            mode
-          }
-        }
-      }
-    }
-  }
-`;
-
-const alertsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsAlertsQuery($feedIds: [String!]) {
-    alerts(severityLevel: [SEVERE], feeds: $feedIds) {
-      route {
-        mode
-      }
-      effectiveStartDate
-      effectiveEndDate
-    }
-  }
-`;
-
-const searchBikeRentalStationsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsSearchBikeRentalStationsQuery {
-    bikeRentalStations {
-      name
-      stationId
-      lon
-      lat
-    }
-  }
-`;
-
-const searchRoutesQuery = graphql`
-  query digitransitSearchUtilQueryUtilsSearchRoutesQuery(
-    $feeds: [String!]!
-    $name: String
-    $modes: [Mode]
-  ) {
-    viewer {
-      routes(feeds: $feeds, name: $name, transportModes: $modes) {
-        gtfsId
-        agency {
-          name
-        }
-        type
-        shortName
-        mode
-        longName
-        patterns {
-          code
-        }
-      }
-    }
-  }
-`;
-
-const favouriteStationsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsFavouriteStationsQuery(
-    $ids: [String!]!
-  ) {
-    stations(ids: $ids) {
-      gtfsId
-      lat
-      lon
-      name
-    }
-  }
-`;
-
-const favouriteStopsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsFavouriteStopsQuery($ids: [String!]!) {
-    stops(ids: $ids) {
-      gtfsId
-      lat
-      lon
-      name
-      code
-    }
-  }
-`;
-
-const favouriteRoutesQuery = graphql`
-  query digitransitSearchUtilQueryUtilsFavouriteRoutesQuery($ids: [String!]!) {
-    routes(ids: $ids) {
-      gtfsId
-      agency {
-        name
-      }
-      shortName
-      mode
-      longName
-      patterns {
-        code
-      }
-    }
-  }
-`;
-
-const favouriteBikeRentalQuery = graphql`
-  query digitransitSearchUtilQueryUtilsFavouriteBikeRentalStationsQuery(
-    $ids: [String!]!
-  ) {
-    bikeRentalStations(ids: $ids) {
-      name
-      stationId
-      lat
-      lon
-    }
-  }
-`;
 
 /** Verifies that the data for favourites is coherent and current and fixes errors */
 function verify(stopStationMap, favourites) {
@@ -192,6 +63,7 @@ export function getModesWithAlerts(currentTime, feedIds = null) {
     return Promise.resolve([]);
   }
   return fetchQuery(relayEnvironment, alertsQuery, { feedIds })
+    .toPromise()
     .then(res => {
       const modes = res.alerts.map(i => {
         if (
@@ -226,7 +98,7 @@ export function getStopAndStationsQuery(favourites) {
     queries.push(
       fetchQuery(relayEnvironment, favouriteStopsQuery, {
         ids: stopIds,
-      }),
+      }).toPromise(),
     );
   }
   const stationIds = favourites
@@ -236,12 +108,13 @@ export function getStopAndStationsQuery(favourites) {
     queries.push(
       fetchQuery(relayEnvironment, favouriteStationsQuery, {
         ids: stationIds,
-      }),
+      }).toPromise(),
     );
   }
   if (queries.length === 0) {
     return Promise.resolve([]);
   }
+  // eslint-disable-next-line compat/compat
   return Promise.all(queries)
     .then(qres =>
       qres.map(stopOrStation => {
@@ -284,7 +157,10 @@ export function getAllBikeRentalStations() {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
-  return fetchQuery(relayEnvironment, searchBikeRentalStationsQuery);
+  return fetchQuery(
+    relayEnvironment,
+    searchBikeRentalStationsQuery,
+  ).toPromise();
 }
 
 /**
@@ -319,14 +195,14 @@ export function filterStopsAndStationsByMode(stopsToFilter, mode) {
     queries.push(
       fetchQuery(relayEnvironment, stopsQuery, {
         ids: stopIds,
-      }),
+      }).toPromise(),
     );
   }
   if (stationIds.length > 0) {
     queries.push(
       fetchQuery(relayEnvironment, stationsQuery, {
         ids: stationIds,
-      }),
+      }).toPromise(),
     );
   }
   if (queries.length === 0) {
@@ -383,6 +259,7 @@ export function getFavouriteRoutesQuery(
     return Promise.resolve([]);
   }
   return fetchQuery(relayEnvironment, favouriteRoutesQuery, { ids: favourites })
+    .toPromise()
     .then(data => data.routes.map(r => mapRoute(r, pathOpts)))
     .then(routes => routes.filter(route => !!route))
     .then(routes =>
@@ -427,6 +304,7 @@ export function getFavouriteBikeRentalStationsQuery(favourites, input) {
   return fetchQuery(relayEnvironment, favouriteBikeRentalQuery, {
     ids: favouriteIds,
   })
+    .toPromise()
     .then(data => data.bikeRentalStations)
     .then(stations => stations.filter(station => !!station))
     .then(stations =>
@@ -475,6 +353,7 @@ export function getRoutesQuery(input, feedIds, transportMode, pathOpts) {
     name: input,
     modes: transportMode ? modes : null,
   })
+    .toPromise()
     .then(data =>
       data.viewer.routes
         .map(r => mapRoute(r, pathOpts))

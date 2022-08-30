@@ -9,7 +9,7 @@ import LocalTime from './LocalTime';
 import RelativeDuration from './RelativeDuration';
 import RouteNumber from './RouteNumber';
 import RouteNumberContainer from './RouteNumberContainer';
-import { getActiveLegAlertSeverityLevel } from '../util/alertUtils';
+import { getActiveLegAlertSeverityLevel } from '../util/alertUtils.ts';
 import {
   getLegMode,
   compressLegs,

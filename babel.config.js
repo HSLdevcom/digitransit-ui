@@ -10,16 +10,11 @@ module.exports = {
       },
     ],
     '@babel/preset-react',
+    '@babel/preset-typescript',
   ],
   plugins: [
     'dynamic-import-node',
-    [
-      'relay',
-      {
-        compat: true,
-        schema: 'build/schema.json',
-      },
-    ],
+    'relay',
     '@babel/plugin-syntax-dynamic-import',
     ['@babel/plugin-proposal-class-properties', { loose: true }],
     '@babel/plugin-proposal-json-strings',

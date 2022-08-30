@@ -9,6 +9,9 @@ import { getFarceResult } from 'found/server';
 import makeRouteConfig from 'found/makeRouteConfig';
 import { Resolver } from 'found-relay';
 import { Helmet } from 'react-helmet';
+
+// see: https://github.com/relay-tools/react-relay-network-modern#what-if-regeneratorruntime-is-not-defined
+import 'regenerator-runtime/runtime';
 import {
   RelayNetworkLayer,
   urlMiddleware,

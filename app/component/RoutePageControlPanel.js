@@ -26,7 +26,7 @@ import {
   getServiceAlertsForStop,
   getCancelationsForStop,
   getServiceAlertsForStopRoutes,
-} from '../util/alertUtils';
+} from '../util/alertUtils.ts';
 import { isActiveDate } from '../util/patternUtils';
 import {
   PREFIX_DISRUPTION,

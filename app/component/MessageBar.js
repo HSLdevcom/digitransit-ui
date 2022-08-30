@@ -16,7 +16,7 @@ import {
   getServiceAlertHeader,
   getServiceAlertUrl,
   mapAlertSource,
-} from '../util/alertUtils';
+} from '../util/alertUtils.ts';
 import { isIe, isKeyboardSelectionEvent } from '../util/browser';
 import hashCode from '../util/hashUtil';
 
@@ -54,7 +54,9 @@ const fetchServiceAlerts = async (feedids, relayEnvironment) => {
     }
   `;
 
-  const result = await fetchQuery(relayEnvironment, query, { feedids });
+  const result = await fetchQuery(relayEnvironment, query, {
+    feedids,
+  }).toPromise();
   return result && Array.isArray(result.alerts) ? result.alerts : [];
 };
 

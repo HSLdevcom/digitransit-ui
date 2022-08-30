@@ -9,7 +9,7 @@ import Icon from './Icon';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import PlatformNumber from './PlatformNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
-import { getActiveAlertSeverityLevel } from '../util/alertUtils';
+import { getActiveAlertSeverityLevel } from '../util/alertUtils.ts';
 import { PREFIX_STOPS } from '../util/path';
 import {
   CityBikeNetworkType,

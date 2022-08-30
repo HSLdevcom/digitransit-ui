@@ -9,7 +9,7 @@ import {
   getServiceAlertDescription,
   getServiceAlertHeader,
   mapAlertSource,
-} from '../util/alertUtils';
+} from '../util/alertUtils.ts';
 
 const DisruptionBannerAlert = (
   { language, alert, openAllAlerts, truncate, onClose },

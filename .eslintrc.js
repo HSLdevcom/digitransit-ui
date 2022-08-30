@@ -1,3 +1,11 @@
+const fs = require('fs');
+const path = require('path');
+
+const graphqlSchemaString = fs.readFileSync(
+  path.resolve(__dirname, './build/schema.graphql'),
+  { encoding: 'utf-8' },
+);
+
 module.exports = {
   parser: 'babel-eslint',
   extends: [
@@ -18,7 +26,7 @@ module.exports = {
     // react
     'react/button-has-type': 'warn',
     'react/destructuring-assignment': 'off',
-    'react/jsx-filename-extension': ['error', { extensions: ['.js'] }],
+    'react/jsx-filename-extension': ['error', { extensions: ['.js', 'tsx'] }],
     'react/jsx-fragments': 'off',
     'react/jsx-key': 'error',
     'react/jsx-props-no-spreading': 'off',
@@ -48,8 +56,7 @@ module.exports = {
       'error',
       {
         env: 'relay',
-        // eslint-disable-next-line global-require
-        schemaJson: require('./build/schema.json').data,
+        schemaString: graphqlSchemaString,
         tagName: 'graphql',
       },
     ],
@@ -72,4 +79,15 @@ module.exports = {
   settings: {
     polyfills: ['fetch', 'promises'],
   },
+  overrides: [
+    {
+      files: ['*.{ts,tsx}'],
+      parser: '@typescript-eslint/parser',
+      plugins: ['@typescript-eslint'],
+      extends: ['plugin:@typescript-eslint/recommended'],
+      rules: {
+        '@typescript-eslint/no-explicit-any': 'off',
+      },
+    },
+  ],
 };

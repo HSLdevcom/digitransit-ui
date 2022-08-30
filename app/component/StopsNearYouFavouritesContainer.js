@@ -89,8 +89,7 @@ const refetchContainer = createFragmentContainer(
   {
     stops: graphql`
       fragment StopsNearYouFavouritesContainer_stops on Stop
-      @relay(plural: true)
-      @argumentDefinitions(startTime: { type: "Long!", defaultValue: 0 }) {
+      @relay(plural: true) {
         ...StopNearYouContainer_stop
         gtfsId
         lat
@@ -99,8 +98,7 @@ const refetchContainer = createFragmentContainer(
     `,
     stations: graphql`
       fragment StopsNearYouFavouritesContainer_stations on Stop
-      @relay(plural: true)
-      @argumentDefinitions(startTime: { type: "Long!", defaultValue: 0 }) {
+      @relay(plural: true) {
         ...StopNearYouContainer_stop
         gtfsId
         lat

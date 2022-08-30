@@ -13,7 +13,7 @@ import {
   getServiceAlertUrl,
   isAlertValid,
   createUniqueAlertList,
-} from '../util/alertUtils';
+} from '../util/alertUtils.ts';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import withBreakpoint from '../util/withBreakpoint';
 

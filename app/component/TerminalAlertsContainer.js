@@ -3,7 +3,7 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 import StopAlerts from './StopAlerts';
-import { otpServiceAlertShape } from '../util/alertUtils';
+import { otpServiceAlertShape } from '../util/alertUtils.ts';
 
 const TerminalAlertsContainer = ({ station }) => {
   return <StopAlerts stop={station} />;
@@ -45,7 +45,6 @@ const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
     @argumentDefinitions(
       startTime: { type: "Long" }
       timeRange: { type: "Int", defaultValue: 900 }
-      date: { type: "String" }
     ) {
       routes {
         gtfsId

@@ -156,7 +156,7 @@ const productionPlugins = [
 module.exports = {
   mode,
   entry: {
-    main: ['./app/util/publicPath', './app/client'],
+    main: ['./app/util/publicPath.js', './app/client.js'],
     ...(isProduction ? themeEntries : {}),
   },
   output: {
@@ -169,7 +169,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|ts)x?$/,
         include: [path.resolve(__dirname, 'app')],
         loader: 'babel-loader',
         options: {
@@ -187,9 +187,10 @@ module.exports = {
               '@babel/preset-react',
               { development: isDevelopment, useBuiltIns: true },
             ],
+            '@babel/preset-typescript',
           ],
           plugins: [
-            ['relay', { compat: true, schema: 'build/schema.json' }],
+            'relay',
             [
               '@babel/plugin-transform-runtime',
               {
@@ -272,6 +273,7 @@ module.exports = {
   },
   cache: true,
   resolve: {
+    extensions: ['.ts', '.js', '.tsx', '.mjs', '.jsx'],
     mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     alias: {
       lodash: 'lodash-es',

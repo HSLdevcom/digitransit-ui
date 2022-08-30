@@ -136,11 +136,13 @@ class CityBikes {
         false,
       );
     } else if (lastFetch && currentTime - lastFetch <= 30000) {
-      fetchQuery(this.relayEnvironment, query, { id }).then(callback);
+      fetchQuery(this.relayEnvironment, query, { id })
+        .toPromise()
+        .then(callback);
     } else {
-      fetchQuery(this.relayEnvironment, query, { id }, { force: true }).then(
-        callback,
-      );
+      fetchQuery(this.relayEnvironment, query, { id }, { force: true })
+        .toPromise()
+        .then(callback);
     }
   };
 

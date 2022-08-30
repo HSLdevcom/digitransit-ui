@@ -1,12 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import proxyquire from 'proxyquire';
 
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
-import TripRouteStop from '../../../app/component/TripRouteStop';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../../../app/constants';
+import { MockLink } from '../helpers/MockLink';
 
 describe('<TripRouteStop />', () => {
+  // setup Link component mock to avoid excessive test fixtures
+  const { default: TripRouteStop } = proxyquire(
+    '../../../app/component/TripRouteStop',
+    {
+      'found/Link': MockLink,
+    },
+  );
+
   it('should not render a service alert icon for the trip route stop if the alert is not active', () => {
     const props = {
       currentTime: 1471515614,

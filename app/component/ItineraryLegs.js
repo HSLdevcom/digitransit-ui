@@ -22,7 +22,7 @@ import CarLeg from './CarLeg';
 import CarParkLeg from './CarParkLeg';
 import ViaLeg from './ViaLeg';
 import CallAgencyLeg from './CallAgencyLeg';
-import { itineraryHasCancelation } from '../util/alertUtils';
+import { itineraryHasCancelation } from '../util/alertUtils.ts';
 import { compressLegs, isCallAgencyPickupType } from '../util/legUtils';
 import updateShowCanceledLegsBannerState from '../action/CanceledLegsBarActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';

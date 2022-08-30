@@ -11,7 +11,7 @@ import {
   getServiceAlertsForRouteStops,
   otpServiceAlertShape,
   tripHasCancelation,
-} from '../util/alertUtils';
+} from '../util/alertUtils.ts';
 import { getRouteMode } from '../util/modeUtils';
 
 function RouteAlertsContainer({ route }, { intl, match }) {
