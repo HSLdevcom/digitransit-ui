@@ -361,7 +361,7 @@ export default class FavouriteStore extends Store {
         null,
         null,
         null,
-        this.config,
+        this.config.URL.pelias,
       ).then(res => {
         const data = find(
           res,
