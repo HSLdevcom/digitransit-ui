@@ -75,9 +75,23 @@ const asDepartures = stoptimes =>
         };
       });
 
+const StopShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+});
+
+const TripShape = PropTypes.shape({
+  stops: PropTypes.arrayOf(StopShape),
+});
+
+const StopTimeShape = PropTypes.shape({
+  dropoffType: PropTypes.string.isRequired,
+  pickupType: PropTypes.string.isRequired,
+  trip: TripShape,
+});
+
 class DepartureListContainer extends Component {
   static propTypes = {
-    stoptimes: PropTypes.array.isRequired,
+    stoptimes: PropTypes.arrayOf(StopTimeShape).isRequired,
     mode: PropTypes.string.isRequired,
     currentTime: PropTypes.number.isRequired,
     limit: PropTypes.number,
@@ -85,6 +99,14 @@ class DepartureListContainer extends Component {
     className: PropTypes.string,
     isTerminal: PropTypes.bool,
     isStopPage: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    limit: 0,
+    infiniteScroll: false,
+    className: undefined,
+    isTerminal: false,
+    isStopPage: false,
   };
 
   static contextTypes = {
