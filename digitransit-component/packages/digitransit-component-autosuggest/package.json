@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-autosuggest",
-  "version": "1.8.11",
+  "version": "1.8.12",
   "description": "digitransit-component autosuggest module",
   "main": "index.js",
   "files": [
@@ -32,7 +32,7 @@
     "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "^1.2.2",
     "@digitransit-search-util/digitransit-search-util-get-label": "^0.1.2",
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "^1.0.0",
-    "@hsl-fi/hooks": "^1.1.2"
+    "@hsl-fi/hooks": "^1.2.0"
   },
   "peerDependencies": {
     "@digitransit-component/digitransit-component-dialog-modal": "^0.3.4",
