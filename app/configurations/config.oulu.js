@@ -14,7 +14,7 @@ export default configMerger(walttiConfig, {
 
   appBarLink: {
     name: 'Oulun seudun liikenne',
-    href: 'http://www.oulunjoukkoliikenne.fi',
+    href: 'http://www.oulunseudunliikenne.fi/',
   },
 
   colors: {
