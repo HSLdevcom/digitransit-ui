@@ -1,5 +1,4 @@
 import find from 'lodash/find';
-import get from 'lodash/get';
 import isNumber from 'lodash/isNumber';
 import uniqBy from 'lodash/uniqBy';
 import isEmpty from 'lodash/isEmpty';
@@ -15,15 +14,22 @@ import {
 } from '../constants';
 
 /**
- * Checks if the alert is for the given pattern.
+ * Checks if the alert is for the given pattern code.
  *
  * @param {*} alert the alert object to check.
  * @param {*} patternId the pattern's id, optional.
  */
 export const patternIdPredicate = (alert, patternId = undefined) =>
   patternId
-    ? (alert && !alert.trip) ||
-      get(alert, 'trip.pattern.code', undefined) === patternId
+    ? // eslint-disable-next-line no-underscore-dangle
+      Boolean(
+        alert?.entities?.find(
+          alertEntity =>
+            // eslint-disable-next-line no-underscore-dangle
+            alertEntity.__typename === 'Pattern' &&
+            alertEntity.code === patternId,
+        ),
+      )
     : true;
 
 /**

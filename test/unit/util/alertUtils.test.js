@@ -28,11 +28,12 @@ describe('alertUtils', () => {
       const patternId = 'foo';
       const alerts = [
         {
-          trip: {
-            pattern: {
+          entities: [
+            {
+              __typename: 'Pattern',
               code: patternId,
             },
-          },
+          ],
         },
       ];
       expect(utils.routeHasServiceAlert({ alerts }, patternId)).to.equal(true);
@@ -43,7 +44,7 @@ describe('alertUtils', () => {
       const patternId = 'foo';
       const alerts = [
         {
-          trip: null,
+          entities: [{}, {}],
         },
       ];
       expect(utils.routeHasServiceAlert({ alerts }, patternId)).to.equal(true);
@@ -54,6 +55,7 @@ describe('alertUtils', () => {
       const alerts = [
         {
           trip: {},
+          __typename: 'Pattern',
         },
         {
           trip: {
@@ -1252,14 +1254,36 @@ describe('alertUtils', () => {
       expect(utils.patternIdPredicate({}, undefined)).to.equal(true);
     });
 
+    it('should return true if alert exists but patternId does not', () => {
+      expect(
+        utils.patternIdPredicate(
+          { entities: [{}, { __typename: 'Stop' }] },
+          undefined,
+        ),
+      ).to.equal(true);
+    });
+
     it('should return false if patternId exists but alert does not', () => {
       expect(utils.patternIdPredicate(undefined, 'foobar')).to.equal(false);
+    });
+
+    it('should return false if patternId exists but alert entity is not for pattern', () => {
+      expect(utils.patternIdPredicate({ entities: [{}] }, 'foobar')).to.equal(
+        false,
+      );
     });
 
     it('should return true if the path alert.trip.pattern.code matches the given patternId', () => {
       expect(
         utils.patternIdPredicate(
-          { trip: { pattern: { code: 'foobar' } } },
+          { entities: [{ __typename: 'Pattern', code: 'foobar' }] },
+          'foobar',
+        ),
+      ).to.equal(true);
+
+      expect(
+        utils.patternIdPredicate(
+          { entities: [{}, { __typename: 'Pattern', code: 'foobar' }] },
           'foobar',
         ),
       ).to.equal(true);
@@ -1268,18 +1292,13 @@ describe('alertUtils', () => {
     it('should return false if the path alert.trip.pattern.code does not match the given patternId', () => {
       expect(
         utils.patternIdPredicate(
-          { trip: { pattern: { code: 'foobaz' } } },
+          { entities: [{ __typename: 'Pattern', code: 'foobaz' }] },
           'foobar',
         ),
       ).to.equal(false);
     });
-
-    it('should return true if trip information is not available', () => {
-      expect(utils.patternIdPredicate({ trip: undefined }, 'foobar')).to.equal(
-        true,
-      );
-    });
   });
+
   describe('createUniqueAlertList', () => {
     it('should group disruptions under unique headers', () => {
       expect(
