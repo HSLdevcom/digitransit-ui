@@ -213,6 +213,8 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
             return confidence - 0.05;
           case LayerType.BikePark:
             return confidence - 0.05;
+          case LayerType.BikeRentalStation:
+            return confidence - 0.02;
         }
       },
     ],
