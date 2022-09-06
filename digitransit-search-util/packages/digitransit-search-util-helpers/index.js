@@ -190,12 +190,10 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
         // Normal confidence range from geocoder is about 0.3 .. 1
         if (!confidence) {
           // not from geocoder, estimate confidence ourselves
-          const estimatedConfidence =
+          return (
             getLayerRank(layer, source) +
-            match(normalizedTerm, result.properties);
-          return layer === LayerType.BikeRentalStation
-            ? estimatedConfidence - 0.8
-            : estimatedConfidence;
+            match(normalizedTerm, result.properties)
+          );
         }
         // geocoded items with confidence, just adjust a little
         switch (layer) {
