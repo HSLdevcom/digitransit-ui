@@ -203,7 +203,7 @@
     "react-swipe": "6.0.4",
     "react-truncate-markup": "5.1.0",
     "recompose": "0.30.0",
-    "redis": "2.8.0",
+    "redis": "3.1.1",
     "relay-runtime": "10.0.1",
     "serialize-javascript": "4.0.0",
     "suncalc": "1.8.0",
