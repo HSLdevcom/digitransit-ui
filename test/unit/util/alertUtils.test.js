@@ -30,8 +30,12 @@ describe('alertUtils', () => {
         {
           entities: [
             {
-              __typename: 'Pattern',
-              code: patternId,
+              __typename: 'Route',
+              patterns: [
+                {
+                  code: patternId,
+                },
+              ],
             },
           ],
         },
@@ -44,7 +48,7 @@ describe('alertUtils', () => {
       const patternId = 'foo';
       const alerts = [
         {
-          entities: [{}, {}],
+          hash: 'mock',
         },
       ];
       expect(utils.routeHasServiceAlert({ alerts }, patternId)).to.equal(true);
@@ -54,20 +58,32 @@ describe('alertUtils', () => {
       const patternId = 'foo';
       const alerts = [
         {
-          trip: {},
-          __typename: 'Pattern',
-        },
-        {
-          trip: {
-            pattern: {},
-          },
-        },
-        {
-          trip: {
-            pattern: {
-              code: undefined,
+          entities: [
+            {
+              __typename: 'Route',
+              patterns: [
+                {
+                  code: 'not-match',
+                },
+              ],
             },
-          },
+            {
+              __typename: 'Route',
+              patterns: [{}],
+            },
+          ],
+        },
+        {
+          entities: [
+            {
+              __typename: 'Route',
+              patterns: [
+                {
+                  code: undefined,
+                },
+              ],
+            },
+          ],
         },
       ];
       expect(utils.routeHasServiceAlert({ alerts }, patternId)).to.equal(false);
@@ -1053,7 +1069,7 @@ describe('alertUtils', () => {
       expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(undefined);
     });
 
-    it('should return "WARNING" if there is an active trip alert', () => {
+    it('should return "WARNING" if there is an active route alert', () => {
       const leg = {
         route: {
           alerts: [
@@ -1061,11 +1077,16 @@ describe('alertUtils', () => {
               alertSeverityLevel: AlertSeverityLevelType.Warning,
               effectiveEndDate: 1553778000,
               effectiveStartDate: 1553754595,
-              trip: {
-                pattern: {
-                  code: 'HSL:3001I:0:01',
+              entities: [
+                {
+                  __typename: 'Route',
+                  patterns: [
+                    {
+                      code: 'HSL:3001I:0:01',
+                    },
+                  ],
                 },
-              },
+              ],
             },
           ],
         },
@@ -1081,7 +1102,31 @@ describe('alertUtils', () => {
       );
     });
 
-    it('should return undefined if there is an active trip alert for another trip', () => {
+    it('should return "WARNING" if there is an active trip alert', () => {
+      const leg = {
+        route: {
+          gtfsId: 'HSL:3001I',
+        },
+        startTime: 1553769600000,
+        trip: {
+          pattern: {
+            code: 'HSL:3001I:0:01',
+          },
+          alerts: [
+            {
+              alertSeverityLevel: AlertSeverityLevelType.Warning,
+              effectiveEndDate: 1553778000,
+              effectiveStartDate: 1553754595,
+            },
+          ],
+        },
+      };
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
+        AlertSeverityLevelType.Warning,
+      );
+    });
+
+    it('should return undefined if there is an active route alert for another pattern', () => {
       const leg = {
         route: {
           alerts: [
@@ -1089,11 +1134,16 @@ describe('alertUtils', () => {
               alertSeverityLevel: AlertSeverityLevelType.Warning,
               effectiveEndDate: 1553778000,
               effectiveStartDate: 1553754595,
-              trip: {
-                pattern: {
-                  code: 'HSL:3001I:0:02',
+              entities: [
+                {
+                  __typename: 'Route',
+                  patterns: [
+                    {
+                      code: 'HSL:3001I:0:02',
+                    },
+                  ],
                 },
-              },
+              ],
             },
           ],
         },
@@ -1276,14 +1326,18 @@ describe('alertUtils', () => {
     it('should return true if the path alert.trip.pattern.code matches the given patternId', () => {
       expect(
         utils.patternIdPredicate(
-          { entities: [{ __typename: 'Pattern', code: 'foobar' }] },
+          {
+            entities: [{ __typename: 'Route', patterns: [{ code: 'foobar' }] }],
+          },
           'foobar',
         ),
       ).to.equal(true);
 
       expect(
         utils.patternIdPredicate(
-          { entities: [{}, { __typename: 'Pattern', code: 'foobar' }] },
+          {
+            entities: [{ __typename: 'Route', patterns: [{ code: 'foobar' }] }],
+          },
           'foobar',
         ),
       ).to.equal(true);
@@ -1292,7 +1346,9 @@ describe('alertUtils', () => {
     it('should return false if the path alert.trip.pattern.code does not match the given patternId', () => {
       expect(
         utils.patternIdPredicate(
-          { entities: [{ __typename: 'Pattern', code: 'foobaz' }] },
+          {
+            entities: [{ __typename: 'Route', patterns: [{ code: 'foobaz' }] }],
+          },
           'foobar',
         ),
       ).to.equal(false);
