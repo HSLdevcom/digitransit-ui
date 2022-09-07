@@ -647,14 +647,14 @@ export const getActiveLegAlerts = (leg, legStartTime, locale = 'en') => {
   if (!leg) {
     return undefined;
   }
+
+  const { route, trip } = leg;
+
   const serviceAlerts = [
-    ...getServiceAlertsForRoute(
-      leg.route,
-      leg.trip && leg.trip.pattern && leg.trip.pattern.code,
-      locale,
-    ),
-    ...getServiceAlertsForStop(leg.from && leg.from.stop, locale),
-    ...getServiceAlertsForStop(leg.to && leg.to.stop, locale),
+    ...getServiceAlertsForRoute(route, trip?.pattern?.code, locale),
+    ...getServiceAlertsForStop(leg?.from.stop, locale),
+    ...getServiceAlertsForStop(leg?.to.stop, locale),
+    ...getServiceAlertsForTrip(trip, route),
   ].filter(alert => isAlertActive([{}], alert, legStartTime) !== false);
 
   return serviceAlerts;
