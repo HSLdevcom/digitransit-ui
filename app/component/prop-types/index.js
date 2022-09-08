@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 
-// eslint-disable-next-line import/prefer-default-export
 export const FareShape = PropTypes.shape({
   agency: PropTypes.shape({
     fareUrl: PropTypes.string,
@@ -11,4 +10,12 @@ export const FareShape = PropTypes.shape({
   isUnknown: PropTypes.bool,
   routeName: PropTypes.string,
   ticketName: PropTypes.string,
+});
+
+export const PatternShape = PropTypes.shape({
+  code: PropTypes.string.isRequired,
+  route: PropTypes.shape({
+    mode: PropTypes.string,
+    type: PropTypes.number,
+  }),
 });
