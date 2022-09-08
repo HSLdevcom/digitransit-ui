@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
+import { ServiceAlertShape } from './prop-types';
 
 import StopAlerts from './StopAlerts';
-import { otpServiceAlertShape } from '../util/alertUtils';
 
 const TerminalAlertsContainer = ({ station }) => {
   return <StopAlerts stop={station} />;
@@ -11,7 +11,7 @@ const TerminalAlertsContainer = ({ station }) => {
 
 TerminalAlertsContainer.propTypes = {
   station: PropTypes.shape({
-    alerts: PropTypes.arrayOf(otpServiceAlertShape).isRequired,
+    alerts: PropTypes.arrayOf(ServiceAlertShape).isRequired,
     stoptimes: PropTypes.arrayOf(
       PropTypes.shape({
         headsign: PropTypes.string.isRequired,
@@ -23,7 +23,7 @@ TerminalAlertsContainer.propTypes = {
             code: PropTypes.string,
           }),
           route: PropTypes.shape({
-            alerts: PropTypes.arrayOf(otpServiceAlertShape).isRequired,
+            alerts: PropTypes.arrayOf(ServiceAlertShape).isRequired,
             color: PropTypes.string,
             mode: PropTypes.string.isRequired,
             shortName: PropTypes.string.isRequired,

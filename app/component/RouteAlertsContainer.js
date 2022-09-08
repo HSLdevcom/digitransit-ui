@@ -9,10 +9,10 @@ import DepartureCancelationInfo from './DepartureCancelationInfo';
 import {
   getServiceAlertsForRoute,
   getServiceAlertsForRouteStops,
-  otpServiceAlertShape,
   tripHasCancelation,
 } from '../util/alertUtils';
 import { getRouteMode } from '../util/modeUtils';
+import { ServiceAlertShape } from './prop-types';
 
 function RouteAlertsContainer({ route }, { intl, match }) {
   const { shortName } = route;
@@ -60,7 +60,7 @@ function RouteAlertsContainer({ route }, { intl, match }) {
 
 RouteAlertsContainer.propTypes = {
   route: PropTypes.shape({
-    alerts: PropTypes.arrayOf(otpServiceAlertShape).isRequired,
+    alerts: PropTypes.arrayOf(ServiceAlertShape).isRequired,
     color: PropTypes.string,
     mode: PropTypes.string.isRequired,
     shortName: PropTypes.string.isRequired,
@@ -69,7 +69,7 @@ RouteAlertsContainer.propTypes = {
         code: PropTypes.string,
         stops: PropTypes.arrayOf(
           PropTypes.shape({
-            alerts: PropTypes.arrayOf(otpServiceAlertShape).isRequired,
+            alerts: PropTypes.arrayOf(ServiceAlertShape).isRequired,
           }),
         ),
         trips: PropTypes.arrayOf(

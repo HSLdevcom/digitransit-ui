@@ -19,3 +19,35 @@ export const PatternShape = PropTypes.shape({
     type: PropTypes.number,
   }),
 });
+
+export const RouteShape = PropTypes.shape({
+  gtfsId: PropTypes.string,
+  mode: PropTypes.string,
+  shortName: PropTypes.string,
+  color: PropTypes.string,
+  type: PropTypes.number,
+});
+
+/**
+ * Describes the type information for an OTP Service Alert object.
+ */
+export const ServiceAlertShape = PropTypes.shape({
+  alertDescriptionText: PropTypes.string,
+  alertDescriptionTextTranslations: PropTypes.arrayOf(
+    PropTypes.shape({
+      language: PropTypes.string,
+      text: PropTypes.string,
+    }),
+  ),
+  alertHash: PropTypes.number,
+  alertHeaderText: PropTypes.string,
+  alertHeaderTextTranslations: PropTypes.arrayOf(
+    PropTypes.shape({
+      language: PropTypes.string,
+      text: PropTypes.string,
+    }),
+  ),
+  alertSeverityLevel: PropTypes.string,
+  effectiveEndDate: PropTypes.number,
+  effectiveStartDate: PropTypes.number,
+});

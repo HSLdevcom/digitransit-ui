@@ -7,7 +7,6 @@ import DepartureCancelationInfo from './DepartureCancelationInfo';
 import {
   getCancelationsForStop,
   getServiceAlertsForStop,
-  otpServiceAlertShape,
   getServiceAlertsForStopRoutes,
   getServiceAlertsForTerminalStops,
   routeHasServiceAlert,
@@ -15,6 +14,7 @@ import {
   routeHasCancelation,
   getCancelationsForRoute,
 } from '../util/alertUtils';
+import { RouteShape, ServiceAlertShape } from './prop-types';
 
 const StopAlerts = ({ stop }, { intl }) => {
   const cancelations = getCancelationsForStop(stop).map(stoptime => {
@@ -81,8 +81,8 @@ StopAlerts.propTypes = {
   stop: PropTypes.shape({
     name: PropTypes.string,
     code: PropTypes.string,
-    routes: PropTypes.array,
-    alerts: PropTypes.arrayOf(otpServiceAlertShape).isRequired,
+    routes: PropTypes.arrayOf(RouteShape).isRequired,
+    alerts: PropTypes.arrayOf(ServiceAlertShape).isRequired,
     stoptimes: PropTypes.arrayOf(
       PropTypes.shape({
         headsign: PropTypes.string.isRequired,
@@ -94,7 +94,7 @@ StopAlerts.propTypes = {
             code: PropTypes.string,
           }),
           route: PropTypes.shape({
-            alerts: PropTypes.arrayOf(otpServiceAlertShape).isRequired,
+            alerts: PropTypes.arrayOf(ServiceAlertShape).isRequired,
             color: PropTypes.string,
             mode: PropTypes.string.isRequired,
             shortName: PropTypes.string.isRequired,

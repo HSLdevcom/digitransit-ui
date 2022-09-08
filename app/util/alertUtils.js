@@ -3,7 +3,6 @@ import isNumber from 'lodash/isNumber';
 import uniqBy from 'lodash/uniqBy';
 import isEmpty from 'lodash/isEmpty';
 import groupBy from 'lodash/groupBy';
-import PropTypes from 'prop-types';
 import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
 import { getRouteMode } from './modeUtils';
 
@@ -822,30 +821,6 @@ export const createUniqueAlertList = (
 
   return groupedAlerts.sort(alertCompare);
 };
-
-/**
- * Describes the type information for an OTP Service Alert object.
- */
-export const otpServiceAlertShape = PropTypes.shape({
-  alertDescriptionText: PropTypes.string,
-  alertDescriptionTextTranslations: PropTypes.arrayOf(
-    PropTypes.shape({
-      language: PropTypes.string,
-      text: PropTypes.string,
-    }),
-  ),
-  alertHash: PropTypes.number,
-  alertHeaderText: PropTypes.string,
-  alertHeaderTextTranslations: PropTypes.arrayOf(
-    PropTypes.shape({
-      language: PropTypes.string,
-      text: PropTypes.string,
-    }),
-  ),
-  alertSeverityLevel: PropTypes.string,
-  effectiveEndDate: PropTypes.number,
-  effectiveStartDate: PropTypes.number,
-});
 
 export const mapAlertSource = (config, lang, feedName) => {
   if (
