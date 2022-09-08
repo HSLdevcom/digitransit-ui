@@ -74,9 +74,12 @@ const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
             language
             text
           }
-          trip {
-            pattern {
-              code
+          entities {
+            __typename
+            ... on Route {
+              patterns {
+                code
+              }
             }
           }
         }
@@ -172,11 +175,6 @@ const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
               alertUrlTranslations {
                 language
                 text
-              }
-              trip {
-                pattern {
-                  code
-                }
               }
             }
           }
