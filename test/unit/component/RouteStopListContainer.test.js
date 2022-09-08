@@ -11,6 +11,7 @@ describe('<RouteStopListContainer />', () => {
       currentTime: moment(1573135114),
       pattern: {
         directionId: 0,
+        code: 'feed:1',
         route: {
           mode: 'BUS',
           color: null,

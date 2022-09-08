@@ -7,6 +7,7 @@ import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
+import moment from 'moment';
 
 import RouteStop from './RouteStop';
 import withBreakpoint from '../util/withBreakpoint';
@@ -17,13 +18,13 @@ class RouteStopListContainer extends React.PureComponent {
   static propTypes = {
     pattern: PatternShape.isRequired,
     className: PropTypes.string,
-    vehicles: PropTypes.arrayOf(
+    vehicles: PropTypes.objectOf(
       PropTypes.shape({
         timestamp: PropTypes.number.isRequired,
         next_stop: PropTypes.string,
       }),
     ),
-    currentTime: PropTypes.instanceOf(Date).isRequired,
+    currentTime: PropTypes.instanceOf(moment).isRequired,
     relay: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
     }).isRequired,

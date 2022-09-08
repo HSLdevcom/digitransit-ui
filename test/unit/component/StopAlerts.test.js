@@ -113,6 +113,7 @@ describe('<StopAlerts />', () => {
       stop: {
         code: '431',
         alerts: [],
+        routes: [],
         stoptimes: [
           {
             headsign: 'Kamppi',
@@ -146,6 +147,7 @@ describe('<StopAlerts />', () => {
             alertSeverityLevel: AlertSeverityLevelType.Warning,
           },
         ],
+        routes: [],
         stoptimes: [],
       },
     };
@@ -158,6 +160,7 @@ describe('<StopAlerts />', () => {
       stop: {
         code: '321',
         alerts: [],
+        routes: [],
         stoptimes: [
           {
             headsign: 'Kamppi',
@@ -191,6 +194,7 @@ describe('<StopAlerts />', () => {
       stop: {
         code: '321',
         alerts: [],
+        routes: [],
         stoptimes: [
           {
             headsign: 'Kamppi',
