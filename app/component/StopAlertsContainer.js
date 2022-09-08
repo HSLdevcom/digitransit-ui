@@ -54,6 +54,9 @@ const containerComponent = createFragmentContainer(StopAlertsContainer, {
         mode
         type
         color
+        patterns {
+          code
+        }
         alerts {
           id
           alertDescriptionText
@@ -75,9 +78,12 @@ const containerComponent = createFragmentContainer(StopAlertsContainer, {
             language
             text
           }
-          trip {
-            pattern {
-              code
+          entities {
+            __typename
+            ... on Route {
+              patterns {
+                code
+              }
             }
           }
         }

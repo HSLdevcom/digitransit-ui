@@ -11,10 +11,38 @@ import {
   getServiceAlertsForTerminalStops,
   routeHasServiceAlert,
   getServiceAlertsForRoute,
-  routeHasCancelation,
-  getCancelationsForRoute,
 } from '../util/alertUtils';
-import { RouteShape, ServiceAlertShape } from './prop-types';
+import { ServiceAlertShape } from './prop-types';
+
+/**
+ * @param {Object.<string,*>} stop
+ * @param {Object.<string,*>} intl
+ * @returns {Array.<Object>}
+ */
+export const findCancellationsAndServiceAlerts = (stop, locale) => {
+  const serviceAlertsForRoutes = [];
+
+  if (stop.routes) {
+    stop.routes.forEach(route => {
+      route.patterns.forEach(pattern => {
+        if (routeHasServiceAlert(route)) {
+          serviceAlertsForRoutes.push(
+            ...getServiceAlertsForRoute(route, pattern.code, locale),
+          );
+        }
+      });
+    });
+  }
+
+  const isTerminal = !stop.code;
+  return [
+    // Alerts for terminal's stops.
+    ...getServiceAlertsForTerminalStops(isTerminal, stop, locale),
+    ...getServiceAlertsForStop(stop, locale),
+    ...getServiceAlertsForStopRoutes(stop, locale),
+    ...serviceAlertsForRoutes,
+  ];
+};
 
 const StopAlerts = ({ stop }, { intl }) => {
   const cancelations = getCancelationsForStop(stop).map(stoptime => {
@@ -41,32 +69,7 @@ const StopAlerts = ({ stop }, { intl }) => {
     };
   });
 
-  const serviceAlertsForRoutes = [];
-  const disruptionsForRoutes = [];
-
-  if (stop.routes) {
-    stop.routes.forEach(
-      route =>
-        routeHasServiceAlert(route) &&
-        serviceAlertsForRoutes.push(
-          ...getServiceAlertsForRoute(route, route.gtfsId, intl.locale),
-        ) &&
-        routeHasCancelation(route) &&
-        disruptionsForRoutes.push(
-          ...getCancelationsForRoute(route, route.gtfsId, intl.locale),
-        ),
-    );
-  }
-
-  const isTerminal = !stop.code;
-  const serviceAlerts = [
-    // Alerts for terminal's stops.
-    ...getServiceAlertsForTerminalStops(isTerminal, stop, intl.locale),
-    ...getServiceAlertsForStop(stop, intl.locale),
-    ...getServiceAlertsForStopRoutes(stop, intl.locale),
-    ...serviceAlertsForRoutes,
-    ...disruptionsForRoutes,
-  ];
+  const serviceAlerts = findCancellationsAndServiceAlerts(stop, intl.locale);
 
   return (
     <AlertList
@@ -81,7 +84,15 @@ StopAlerts.propTypes = {
   stop: PropTypes.shape({
     name: PropTypes.string,
     code: PropTypes.string,
-    routes: PropTypes.arrayOf(RouteShape).isRequired,
+    routes: PropTypes.arrayOf(
+      PropTypes.shape({
+        gtfsId: PropTypes.string,
+        mode: PropTypes.string,
+        shortName: PropTypes.string,
+        color: PropTypes.string,
+        type: PropTypes.number,
+      }),
+    ).isRequired,
     alerts: PropTypes.arrayOf(ServiceAlertShape).isRequired,
     stoptimes: PropTypes.arrayOf(
       PropTypes.shape({
