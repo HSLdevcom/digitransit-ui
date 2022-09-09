@@ -74,13 +74,13 @@ class StopsNearYouPage extends React.Component {
 
   static propTypes = {
     breakpoint: PropTypes.string.isRequired,
-    relayEnvironment: PropTypes.object.isRequired,
+    relayEnvironment: PropTypes.shape({}).isRequired,
     position: dtLocationShape.isRequired,
     lang: PropTypes.string.isRequired,
     match: matchShape.isRequired,
-    favouriteStopIds: PropTypes.array.isRequired,
-    favouriteStationIds: PropTypes.array.isRequired,
-    favouriteBikeStationIds: PropTypes.array.isRequired,
+    favouriteStopIds: PropTypes.arrayOf(PropTypes.string),
+    favouriteStationIds: PropTypes.arrayOf(PropTypes.string),
+    favouriteBikeStationIds: PropTypes.arrayOf(PropTypes.string),
     mapLayers: mapLayerShape.isRequired,
   };
 
