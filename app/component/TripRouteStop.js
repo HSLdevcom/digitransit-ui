@@ -168,9 +168,9 @@ const TripRouteStop = (props, { config }) => {
 };
 
 TripRouteStop.propTypes = {
-  vehicles: PropTypes.arrayOf(VehicleShape).isRequired,
+  vehicles: PropTypes.arrayOf(VehicleShape),
   mode: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
+  color: PropTypes.string,
   stopPassed: PropTypes.bool.isRequired,
   stop: PropTypes.shape({
     code: PropTypes.string,
@@ -190,10 +190,10 @@ TripRouteStop.propTypes = {
   }).isRequired,
   nextStop: PropTypes.shape({
     name: PropTypes.string,
-  }).isRequired,
+  }),
   prevStop: PropTypes.shape({
     name: PropTypes.string,
-  }).isRequired,
+  }),
   stoptime: PropTypes.shape({
     realtimeDeparture: PropTypes.number,
     realtimeArrival: PropTypes.number,
@@ -207,7 +207,7 @@ TripRouteStop.propTypes = {
     PropTypes.object,
     PropTypes.oneOf([false]),
   ]).isRequired,
-  shortName: PropTypes.string.isRequired,
+  shortName: PropTypes.string,
   setHumanScrolling: PropTypes.func.isRequired,
   keepTracking: PropTypes.bool,
   first: PropTypes.bool,
@@ -217,8 +217,13 @@ TripRouteStop.propTypes = {
 TripRouteStop.defaultProps = {
   keepTracking: false,
   className: undefined,
+  color: null,
   first: false,
   last: false,
+  vehicles: [],
+  nextStop: null,
+  prevStop: null,
+  shortName: undefined,
 };
 
 TripRouteStop.contextTypes = {

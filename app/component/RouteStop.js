@@ -269,8 +269,8 @@ const RouteStop = (
 };
 
 RouteStop.propTypes = {
-  color: PropTypes.string.isRequired,
-  vehicle: VehicleShape.isRequired,
+  color: PropTypes.string,
+  vehicle: VehicleShape,
   stop: PropTypes.shape({
     code: PropTypes.string,
     name: PropTypes.string,
@@ -288,32 +288,44 @@ RouteStop.propTypes = {
         }),
       }),
     ),
-    stopTimesForPattern: PropTypes.arrayOf({
-      realtimeDeparture: PropTypes.number,
-      realtimeArrival: PropTypes.number,
-      serviceDay: PropTypes.number,
-    }),
+    stopTimesForPattern: PropTypes.arrayOf(
+      PropTypes.shape({
+        realtimeDeparture: PropTypes.number,
+        realtimeArrival: PropTypes.number,
+        serviceDay: PropTypes.number,
+        pickupType: PropTypes.string,
+        stop: PropTypes.shape({
+          platformCode: PropTypes.string,
+        }),
+      }),
+    ),
   }).isRequired,
   nextStop: PropTypes.shape({
     name: PropTypes.string,
-  }).isRequired,
+  }),
   prevStop: PropTypes.shape({
     name: PropTypes.string,
-  }).isRequired,
-  mode: PropTypes.string.isRequired,
+  }),
+  mode: PropTypes.string,
   className: PropTypes.string,
   currentTime: PropTypes.number.isRequired,
   first: PropTypes.bool,
   last: PropTypes.bool,
   displayNextDeparture: PropTypes.bool,
-  shortName: PropTypes.string.isRequired,
+  shortName: PropTypes.string,
 };
 
 RouteStop.defaultProps = {
-  displayNextDeparture: true,
   className: undefined,
+  color: null,
+  displayNextDeparture: true,
   first: false,
   last: false,
+  mode: undefined,
+  nextStop: null,
+  prevStop: null,
+  shortName: undefined,
+  vehicle: undefined,
 };
 
 RouteStop.contextTypes = {

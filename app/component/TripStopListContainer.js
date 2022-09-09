@@ -22,24 +22,28 @@ class TripStopListContainer extends React.PureComponent {
         mode: PropTypes.string,
         color: PropTypes.string,
       }),
-      stoptimesForDate: PropTypes.arrayOf({
-        stop: PropTypes.shape({
-          gtfsId: PropTypes.string,
+      stoptimesForDate: PropTypes.arrayOf(
+        PropTypes.shape({
+          stop: PropTypes.shape({
+            gtfsId: PropTypes.string,
+          }),
+          realtimeDeparture: PropTypes.number,
+          serviceDay: PropTypes.number,
         }),
-        realtimeDeparture: PropTypes.number,
-        serviceDay: PropTypes.number,
-      }).isRequired,
+      ).isRequired,
       pattern: PropTypes.shape({
         code: PropTypes.string.isRequired,
         directionId: PropTypes.number.isRequired,
       }).isRequired,
     }).isRequired,
     className: PropTypes.string,
-    vehicles: PropTypes.objectOf({
-      id: PropTypes.string,
-      next_stop: PropTypes.string,
-      timestamp: PropTypes.number,
-    }),
+    vehicles: PropTypes.objectOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        next_stop: PropTypes.string,
+        timestamp: PropTypes.number,
+      }),
+    ),
     currentTime: PropTypes.instanceOf(moment).isRequired,
     tripStart: PropTypes.string.isRequired,
     breakpoint: PropTypes.string.isRequired,

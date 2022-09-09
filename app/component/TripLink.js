@@ -89,8 +89,13 @@ TripLink.propTypes = {
     }),
   }).isRequired,
   vehicle: VehicleShape.isRequired,
-  shortName: PropTypes.string.isRequired,
-  vehicleState: PropTypes.string.isRequired,
+  shortName: PropTypes.string,
+  vehicleState: PropTypes.string,
+};
+
+TripLink.defaultProps = {
+  shortName: undefined,
+  vehicleState: undefined,
 };
 
 export default TripLink;
