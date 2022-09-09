@@ -51,3 +51,20 @@ export const ServiceAlertShape = PropTypes.shape({
   effectiveEndDate: PropTypes.number,
   effectiveStartDate: PropTypes.number,
 });
+
+export const VehicleShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  route: PropTypes.string.isRequired,
+  direction: PropTypes.number.isRequired,
+  tripStartTime: PropTypes.string.isRequired,
+  operatingDay: PropTypes.string.isRequired,
+  mode: PropTypes.string.isRequired,
+  next_stop: PropTypes.string.isRequired,
+  timestamp: PropTypes.number.isRequired,
+  lat: PropTypes.number,
+  lon: PropTypes.number,
+  shortName: PropTypes.string.isRequired,
+  color: PropTypes.string,
+  heading: PropTypes.number,
+  headsign: PropTypes.string,
+});

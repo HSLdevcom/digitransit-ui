@@ -24,6 +24,13 @@ describe('<TripRouteStop />', () => {
         ],
       },
       stoptime: {},
+      nextStop: {
+        name: '2',
+      },
+      prevStop: {
+        name: '0',
+      },
+      setHumanScrolling: () => {},
     };
     const wrapper = mountWithIntl(<TripRouteStop {...props} />, {
       context: { config: { zones: { stops: true } } },

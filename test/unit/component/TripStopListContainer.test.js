@@ -121,6 +121,9 @@ describe('<TripStopListContainer />', () => {
           heading: 140,
         },
       },
+      nextStop: {
+        name: '2',
+      },
     };
     const wrapper = shallowWithIntl(<TripStopListContainer {...props} />, {
       context: {

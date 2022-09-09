@@ -16,6 +16,7 @@ import { getZoneLabel } from '../util/legUtils';
 import { estimateItineraryDistance } from '../util/geo-utils';
 import getVehicleState from '../util/vehicleStateUtils';
 import Icon from './Icon';
+import { VehicleShape } from './prop-types';
 
 const RouteStop = (
   {
@@ -268,22 +269,51 @@ const RouteStop = (
 };
 
 RouteStop.propTypes = {
-  color: PropTypes.string,
-  vehicle: PropTypes.object,
-  stop: PropTypes.object,
-  nextStop: PropTypes.object,
-  prevStop: PropTypes.object,
-  mode: PropTypes.string,
+  color: PropTypes.string.isRequired,
+  vehicle: VehicleShape.isRequired,
+  stop: PropTypes.shape({
+    code: PropTypes.string,
+    name: PropTypes.string,
+    desc: PropTypes.string,
+    gtfsId: PropTypes.string,
+    zoneId: PropTypes.string,
+    scheduledDeparture: PropTypes.number,
+    platformCode: PropTypes.string,
+    alerts: PropTypes.arrayOf(
+      PropTypes.shape({
+        severityLevel: PropTypes.string,
+        validityPeriod: PropTypes.shape({
+          startTime: PropTypes.number,
+          endTime: PropTypes.number,
+        }),
+      }),
+    ),
+    stopTimesForPattern: PropTypes.arrayOf({
+      realtimeDeparture: PropTypes.number,
+      realtimeArrival: PropTypes.number,
+      serviceDay: PropTypes.number,
+    }),
+  }).isRequired,
+  nextStop: PropTypes.shape({
+    name: PropTypes.string,
+  }).isRequired,
+  prevStop: PropTypes.shape({
+    name: PropTypes.string,
+  }).isRequired,
+  mode: PropTypes.string.isRequired,
   className: PropTypes.string,
   currentTime: PropTypes.number.isRequired,
   first: PropTypes.bool,
   last: PropTypes.bool,
   displayNextDeparture: PropTypes.bool,
-  shortName: PropTypes.string,
+  shortName: PropTypes.string.isRequired,
 };
 
 RouteStop.defaultProps = {
   displayNextDeparture: true,
+  className: undefined,
+  first: false,
+  last: false,
 };
 
 RouteStop.contextTypes = {

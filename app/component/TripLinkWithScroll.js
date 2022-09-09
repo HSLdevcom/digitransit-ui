@@ -114,12 +114,23 @@ TripLinkWithScroll.propTypes = {
   selected: PropTypes.bool,
   vehicleNumber: PropTypes.string,
   color: PropTypes.string,
-  setHumanScrolling: PropTypes.func,
+  setHumanScrolling: PropTypes.func.isRequired,
   keepTracking: PropTypes.bool,
   stopName: PropTypes.string,
   nextStopName: PropTypes.string,
   tripId: PropTypes.string,
   vehicleState: PropTypes.string,
+};
+
+TripLinkWithScroll.defaultProps = {
+  vehicleState: '',
+  tripId: '',
+  keepTracking: false,
+  color: '',
+  selected: false,
+  vehicleNumber: '',
+  nextStopName: '',
+  stopName: '',
 };
 
 TripLinkWithScroll.contextTypes = {

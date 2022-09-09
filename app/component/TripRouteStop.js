@@ -14,6 +14,7 @@ import { estimateItineraryDistance } from '../util/geo-utils';
 import ZoneIcon from './ZoneIcon';
 import { getZoneLabel } from '../util/legUtils';
 import getVehicleState from '../util/vehicleStateUtils';
+import { VehicleShape } from './prop-types';
 
 const TripRouteStop = (props, { config }) => {
   const {
@@ -167,14 +168,37 @@ const TripRouteStop = (props, { config }) => {
 };
 
 TripRouteStop.propTypes = {
-  vehicles: PropTypes.array,
+  vehicles: PropTypes.arrayOf(VehicleShape).isRequired,
   mode: PropTypes.string.isRequired,
-  color: PropTypes.string,
-  stopPassed: PropTypes.bool,
-  stop: PropTypes.object.isRequired,
-  nextStop: PropTypes.object,
-  prevStop: PropTypes.object,
-  stoptime: PropTypes.object.isRequired,
+  color: PropTypes.string.isRequired,
+  stopPassed: PropTypes.bool.isRequired,
+  stop: PropTypes.shape({
+    code: PropTypes.string,
+    name: PropTypes.string,
+    desc: PropTypes.string,
+    gtfsId: PropTypes.string,
+    alerts: PropTypes.arrayOf(
+      PropTypes.shape({
+        severityLevel: PropTypes.string,
+        validityPeriod: PropTypes.shape({
+          startTime: PropTypes.number,
+          endTime: PropTypes.number,
+        }),
+      }),
+    ),
+    zoneId: PropTypes.string,
+  }).isRequired,
+  nextStop: PropTypes.shape({
+    name: PropTypes.string,
+  }).isRequired,
+  prevStop: PropTypes.shape({
+    name: PropTypes.string,
+  }).isRequired,
+  stoptime: PropTypes.shape({
+    realtimeDeparture: PropTypes.number,
+    realtimeArrival: PropTypes.number,
+    serviceDay: PropTypes.number,
+  }).isRequired,
   currentTime: PropTypes.number.isRequired,
   pattern: PropTypes.string.isRequired,
   route: PropTypes.string.isRequired,
@@ -183,11 +207,18 @@ TripRouteStop.propTypes = {
     PropTypes.object,
     PropTypes.oneOf([false]),
   ]).isRequired,
-  shortName: PropTypes.string,
-  setHumanScrolling: PropTypes.func,
+  shortName: PropTypes.string.isRequired,
+  setHumanScrolling: PropTypes.func.isRequired,
   keepTracking: PropTypes.bool,
   first: PropTypes.bool,
   last: PropTypes.bool,
+};
+
+TripRouteStop.defaultProps = {
+  keepTracking: false,
+  className: undefined,
+  first: false,
+  last: false,
 };
 
 TripRouteStop.contextTypes = {
