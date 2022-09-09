@@ -12,22 +12,6 @@ export const FareShape = PropTypes.shape({
   ticketName: PropTypes.string,
 });
 
-export const PatternShape = PropTypes.shape({
-  code: PropTypes.string.isRequired,
-  route: PropTypes.shape({
-    mode: PropTypes.string,
-    type: PropTypes.number,
-  }),
-});
-
-export const RouteShape = PropTypes.shape({
-  gtfsId: PropTypes.string,
-  mode: PropTypes.string,
-  shortName: PropTypes.string,
-  color: PropTypes.string,
-  type: PropTypes.number,
-});
-
 /**
  * Describes the type information for an OTP Service Alert object.
  */
@@ -50,6 +34,24 @@ export const ServiceAlertShape = PropTypes.shape({
   alertSeverityLevel: PropTypes.string,
   effectiveEndDate: PropTypes.number,
   effectiveStartDate: PropTypes.number,
+});
+
+export const PatternShape = PropTypes.shape({
+  code: PropTypes.string.isRequired,
+  route: PropTypes.shape({
+    mode: PropTypes.string,
+    type: PropTypes.number,
+  }),
+});
+
+export const RouteShape = PropTypes.shape({
+  gtfsId: PropTypes.string,
+  mode: PropTypes.string,
+  shortName: PropTypes.string,
+  longName: PropTypes.string,
+  color: PropTypes.string,
+  type: PropTypes.number,
+  alerts: PropTypes.arrayOf(ServiceAlertShape),
 });
 
 export const VehicleShape = PropTypes.shape({
