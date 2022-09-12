@@ -2,7 +2,7 @@
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'oulu';
-const APP_DESCRIPTION = 'Oulun seudun uusi reittiopas';
+const APP_DESCRIPTION = 'Oulun seudun reittiopas';
 const APP_TITLE = 'Reittiopas';
 
 const walttiConfig = require('./config.waltti').default;
@@ -13,8 +13,8 @@ export default configMerger(walttiConfig, {
   feedIds: ['OULU'],
 
   appBarLink: {
-    name: 'Oulun joukkoliikenne',
-    href: 'http://www.oulunjoukkoliikenne.fi',
+    name: 'Oulun seudun liikenne',
+    href: 'http://www.oulunseudunliikenne.fi/',
   },
 
   colors: {
@@ -123,7 +123,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'Tietoja palvelusta',
         paragraphs: [
-          'Tämän palvelun tarjoaa Oulun joukkoliikenne joukkoliikenteen reittisuunnittelua varten Oulun, Iin, Kempeleen, Limingan, Lumijoen, Muhoksen ja Tyrnävän alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit-palvelualustaan.',
+          'Tämän palvelun tarjoaa Oulun seudun liikenne joukkoliikenteen reittisuunnittelua varten Oulun, Iin, Kempeleen, Limingan, Lumijoen, Muhoksen ja Tyrnävän alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit-palvelualustaan.',
         ],
       },
     ],
@@ -132,7 +132,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'Om tjänsten',
         paragraphs: [
-          'Den här tjänsten erbjuds av Oulun joukkoliikenne för reseplanering inom Oulu, Ii, Kempele, Liminka, Lumijoki, Muhos och Tyrnävä region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
+          'Den här tjänsten erbjuds av Uleåborgregionens trafik för reseplanering inom Oulu, Ii, Kempele, Liminka, Lumijoki, Muhos och Tyrnävä region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
         ],
       },
     ],
@@ -141,7 +141,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'About this service',
         paragraphs: [
-          'This service is provided by Oulun joukkoliikenne for route planning in Oulu, Ii, Kempele, Liminka, Lumijoki, Muhos and Tyrnävä region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
+          'This service is provided by Oulu Region Transport for route planning in Oulu, Ii, Kempele, Liminka, Lumijoki, Muhos and Tyrnävä region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
         ],
       },
     ],

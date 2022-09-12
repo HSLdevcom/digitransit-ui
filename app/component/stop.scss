@@ -294,7 +294,7 @@
       padding-top: 12px;
       align-items: baseline;
       .drop-off-container {
-        margin-top: 5px;
+        margin-top: 3px;
       }
     }
     .route-arrival {
@@ -305,7 +305,6 @@
     .route-number-container {
       width: 3em;
       height: 1.5em;
-      margin-top: 2px;
       min-width: 2.25em;
       padding: 0 2px;
       &.long {
@@ -340,7 +339,6 @@
     padding-left: $padding-medium;
     overflow: clip;
     white-space: normal;
-    margin-bottom: -2px;
   }
   .route-time {
     font-size: $font-size-small;
@@ -389,7 +387,6 @@
       flex: 1;
       overflow: clip;
       white-space: normal;
-      margin-bottom: -2px;
     }
   }
 }
