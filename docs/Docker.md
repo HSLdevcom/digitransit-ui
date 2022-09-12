@@ -40,6 +40,9 @@ There are also optional variables:
 - `-e RELAY_FETCH_TIMEOUT=<..>`
 - `-e NODE_OPTS=<..>`
 - `-e BASE_CONFIG=true`
+- `-e API_SUBSCRIPTION_QUERY_PARAMETER_NAME=<..>`
+- `-e API_SUBSCRIPTION_HEADER_NAME=<..>`
+- `-e API_SUBSCRIPTION_TOKEN=<..>`
 
 ## Build new snapshot image
 Only Linux and Mac OS are supported.

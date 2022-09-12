@@ -5,12 +5,30 @@ const delay = ms =>
     }, ms);
   });
 
+const addSubscriptionHeader = (headers, config) => {
+  const updatedHeaders = headers || {};
+  if (config.hasAPISubscriptionHeader) {
+    updatedHeaders[config.API_SUBSCRIPTION_HEADER_NAME] =
+      config.API_SUBSCRIPTION_TOKEN;
+  }
+  return updatedHeaders;
+};
+
 // Tries to fetch 1 + retryCount times until 200 is returned.
 // Uses retryDelay (ms) between requests. url and options are normal fetch parameters
-export const retryFetch = (URL, options = {}, retryCount, retryDelay) =>
-  new Promise((resolve, reject) => {
+export const retryFetch = (
+  URL,
+  options = {},
+  retryCount,
+  retryDelay,
+  config = {},
+) => {
+  return new Promise((resolve, reject) => {
     const retry = retriesLeft => {
-      fetch(URL, options)
+      fetch(URL, {
+        ...options,
+        headers: addSubscriptionHeader(options.headers, config),
+      })
         .then(res => {
           if (res.ok) {
             resolve(res);
@@ -33,5 +51,17 @@ export const retryFetch = (URL, options = {}, retryCount, retryDelay) =>
     };
     retry(retryCount);
   });
+};
 
-export default retryFetch;
+/**
+ * Uses fetch with subscription header with subscription header
+ * if it is configured.
+ *
+ * @param {String} URL the url to fetch
+ * @param {*} config The configuration for the software installation
+ * @returns fetch's promise
+ */
+export const fetchWithSubscription = (URL, config) =>
+  fetch(URL, {
+    headers: addSubscriptionHeader({}, config),
+  });

@@ -243,7 +243,7 @@ class RouteScheduleContainer extends PureComponent {
 
   openRoutePDF = (e, routePDFUrl) => {
     e.stopPropagation();
-    window.open(routePDFUrl);
+    window.open(routePDFUrl.href);
   };
 
   printRouteTimetable = e => {
@@ -884,6 +884,8 @@ class RouteScheduleContainer extends PureComponent {
       routeTimetableHandler.timetableUrlResolver(
         this.context.config.URL.ROUTE_TIMETABLES[routeIdSplitted[0]],
         this.props.route,
+        this.context.config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
+        this.context.config.API_SUBSCRIPTION_TOKEN,
       );
 
     const showTrips = this.getTrips(

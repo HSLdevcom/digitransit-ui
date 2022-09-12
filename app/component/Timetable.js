@@ -186,7 +186,7 @@ class Timetable extends React.Component {
 
   printStopPDF = (e, stopPDFURL) => {
     e.stopPropagation();
-    window.open(stopPDFURL);
+    window.open(stopPDFURL.href);
   };
 
   formTimeRow = (timetableMap, hour) => {
@@ -284,6 +284,8 @@ class Timetable extends React.Component {
         ? stopTimetableHandler.stopPdfUrlResolver(
             this.context.config.URL.STOP_TIMETABLES[stopIdSplitted[0]],
             this.props.stop,
+            this.context.config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
+            this.context.config.API_SUBSCRIPTION_TOKEN,
           )
         : null;
     const virtualMonitorUrl =

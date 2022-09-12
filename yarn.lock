@@ -1989,11 +1989,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest-panel@^1.4.10, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
+"@digitransit-component/digitransit-component-autosuggest-panel@^1.4.11, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel"
   peerDependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^1.8.11
+    "@digitransit-component/digitransit-component-autosuggest": ^1.8.12
     "@digitransit-component/digitransit-component-icon": ^0.1.18
     "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
@@ -2009,14 +2009,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest@^1.8.11, @digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
+"@digitransit-component/digitransit-component-autosuggest@^1.8.12, @digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest"
   dependencies:
-    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": ^1.2.2
+    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": ^1.2.3
     "@digitransit-search-util/digitransit-search-util-get-label": ^0.1.2
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": ^1.0.0
-    "@hsl-fi/hooks": ^1.1.2
+    "@hsl-fi/hooks": ^1.2.0
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": ^0.3.4
     "@digitransit-component/digitransit-component-icon": ^0.1.18
@@ -2186,8 +2186,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component@workspace:digitransit-component/packages/digitransit-component"
   dependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^1.8.11
-    "@digitransit-component/digitransit-component-autosuggest-panel": ^1.4.10
+    "@digitransit-component/digitransit-component-autosuggest": ^1.8.12
+    "@digitransit-component/digitransit-component-autosuggest-panel": ^1.4.11
     "@digitransit-component/digitransit-component-control-panel": ^1.0.4
     "@digitransit-component/digitransit-component-favourite-bar": 1.0.16
     "@digitransit-component/digitransit-component-favourite-editing-modal": ^1.0.4
@@ -2204,14 +2204,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@^1.2.2, @digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate":
+"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@^1.2.3, @digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate":
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": 0.0.3
     "@digitransit-search-util/digitransit-search-util-get-geocoding-results": 0.0.5
     "@digitransit-search-util/digitransit-search-util-get-json": 0.0.4
-    "@digitransit-search-util/digitransit-search-util-helpers": 1.0.3
+    "@digitransit-search-util/digitransit-search-util-helpers": 1.0.4
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": ^1.0.0
     lodash: 4.17.21
   languageName: unknown
@@ -2250,7 +2250,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-helpers@1.0.3, @digitransit-search-util/digitransit-search-util-helpers@workspace:digitransit-search-util/packages/digitransit-search-util-helpers":
+"@digitransit-search-util/digitransit-search-util-helpers@1.0.4, @digitransit-search-util/digitransit-search-util-helpers@workspace:digitransit-search-util/packages/digitransit-search-util-helpers":
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-helpers@workspace:digitransit-search-util/packages/digitransit-search-util-helpers"
   dependencies:
@@ -2272,7 +2272,7 @@ __metadata:
   resolution: "@digitransit-search-util/digitransit-search-util-query-utils@workspace:digitransit-search-util/packages/digitransit-search-util-query-utils"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": 0.0.3
-    "@digitransit-search-util/digitransit-search-util-helpers": 1.0.3
+    "@digitransit-search-util/digitransit-search-util-helpers": 1.0.4
     "@digitransit-search-util/digitransit-search-util-route-name-compare": 0.0.2
     babel-plugin-relay: 10.0.1
     relay-compiler: 10.0.1
@@ -2975,7 +2975,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/hooks@npm:1.1.2, @hsl-fi/hooks@npm:^1.0.0, @hsl-fi/hooks@npm:^1.1.2":
+"@hsl-fi/hooks@npm:1.2.0, @hsl-fi/hooks@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@hsl-fi/hooks@npm:1.2.0"
+  checksum: 2bf10a2db81279f2f42db86fce8f479ca7676e48fc5f57d6be6413935bb5447da187072520ea404b7586ac1b7c5747ec61ae1e3cc992563bc4864bb982fb6a6a
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/hooks@npm:^1.0.0":
   version: 1.1.2
   resolution: "@hsl-fi/hooks@npm:1.1.2"
   checksum: 3493652aca0d6c52f30c2b297b32c91057beb4543399bb3bf04abdff1b64a767984f18e1a1689a62e11a8ad5a22cb4087d7309e12cc3bd01c2a0e116ac111e21
@@ -3069,15 +3076,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/site-header@npm:4.0.0-rc17":
-  version: 4.0.0-rc17
-  resolution: "@hsl-fi/site-header@npm:4.0.0-rc17"
+"@hsl-fi/site-header@npm:4.2.0":
+  version: 4.2.0
+  resolution: "@hsl-fi/site-header@npm:4.2.0"
   dependencies:
     "@hsl-fi/animated-spinner": ^0.2.0
     "@hsl-fi/button": ^1.2.3
     "@hsl-fi/container-spinner": ^0.3.1
     "@hsl-fi/content-delivery-api-types": ^0.1.5
-    "@hsl-fi/hooks": ^1.1.2
+    "@hsl-fi/hooks": ^1.2.0
     "@hsl-fi/hsl-link": 1.0.0
     "@hsl-fi/icons": ^1.0.4
     "@hsl-fi/sass": ^0.2.0
@@ -3088,7 +3095,7 @@ __metadata:
     "@hsl-fi/utilities": ^0.2.14
     lodash: 4.17.21
     react-animate-height: ^2.0.21
-  checksum: aea13452731d5d34fbc4d25d40102c287ceb1e11dcc07f9abcb497de62e8f43d9d09e695ada62dec5db30d0e79e444b7a9bffbf2ec6008117c7df585786df22d
+  checksum: 232ab4e043defc1c6e515cd1e47c3a0ecc33b880830941c5aae5c3c2d5c22375715f7c735fb3de4bf9cff013f6971c5f0f6aa573086c3f4ace5c2c81cd0224fd
   languageName: node
   linkType: hard
 
@@ -9940,12 +9947,12 @@ __metadata:
     "@commitlint/cli": 9.1.2
     "@commitlint/config-conventional": 9.1.2
     "@hsl-fi/container-spinner": 0.3.1
-    "@hsl-fi/hooks": 1.1.2
+    "@hsl-fi/hooks": 1.2.0
     "@hsl-fi/modal": " ^0.3.1"
     "@hsl-fi/sass": " ^0.2.0"
     "@hsl-fi/shared-local-storage": 0.4.0
     "@hsl-fi/shimmer": 0.1.2
-    "@hsl-fi/site-header": 4.0.0-rc17
+    "@hsl-fi/site-header": 4.2.0
     "@lerna/batch-packages": 3.16.0
     "@lerna/filter-packages": 3.18.0
     "@lerna/project": 3.21.0

@@ -10,7 +10,16 @@ const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const MAP_VERSION = process.env.MAP_VERSION || 'v2';
 const APP_PATH = process.env.APP_CONTEXT || '';
-const { SENTRY_DSN, AXE, NODE_ENV } = process.env;
+const {
+  SENTRY_DSN,
+  AXE,
+  NODE_ENV,
+  API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
+  API_SUBSCRIPTION_HEADER_NAME,
+  API_SUBSCRIPTION_TOKEN,
+} = process.env;
+const hasAPISubscriptionQueryParameter =
+  API_SUBSCRIPTION_QUERY_PARAMETER_NAME && API_SUBSCRIPTION_TOKEN;
 const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
 const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 12000;
@@ -35,17 +44,31 @@ export default {
       default: `${MAP_URL}/map/${MAP_VERSION}/hsl-map/`,
       sv: `${MAP_URL}/map/${MAP_VERSION}/hsl-map-sv/`,
     },
-    STOP_MAP: `${MAP_URL}/map/v1/finland-stop-map/`,
-    CITYBIKE_MAP: `${MAP_URL}/map/v1/finland-citybike-map/`,
+    STOP_MAP: `${MAP_URL}/map/${MAP_VERSION}/finland-stop-map/`,
+    CITYBIKE_MAP: `${MAP_URL}/map/${MAP_VERSION}/finland-citybike-map/`,
+    PARK_AND_RIDE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-parkandride-map/`,
+
     FONT:
       'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700',
-    PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
+    PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search${
+      hasAPISubscriptionQueryParameter
+        ? `?${API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${API_SUBSCRIPTION_TOKEN}`
+        : ''
+    }`,
     PELIAS_REVERSE_GEOCODER: `${
       process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
-    }/reverse`,
+    }/reverse${
+      hasAPISubscriptionQueryParameter
+        ? `?${API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${API_SUBSCRIPTION_TOKEN}`
+        : ''
+    }`,
     PELIAS_PLACE: `${
       process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
-    }/place`,
+    }/place${
+      hasAPISubscriptionQueryParameter
+        ? `?${API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${API_SUBSCRIPTION_TOKEN}`
+        : ''
+    }`,
     ROUTE_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/routes/`,
       tampere: 'https://www.nysse.fi/aikataulut-ja-reitit/linjat/',
@@ -57,6 +80,15 @@ export default {
       'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::hirlam::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
     EMBEDDED_SEARCH_GENERATION: '/reittihakuelementti',
   },
+
+  API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
+  API_SUBSCRIPTION_HEADER_NAME,
+  API_SUBSCRIPTION_TOKEN,
+
+  hasAPISubscriptionQueryParameter,
+
+  hasAPISubscriptionHeader:
+    API_SUBSCRIPTION_HEADER_NAME && API_SUBSCRIPTION_TOKEN,
 
   APP_PATH: `${APP_PATH}`,
   indexPath: '',
