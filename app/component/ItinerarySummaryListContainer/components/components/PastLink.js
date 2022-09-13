@@ -1,9 +1,12 @@
 import React from 'react';
 import { matchShape } from 'found';
-import Link from './Link';
+import ExternalLink from './ExternalLink';
 
 const PastLink = ({ match }) => (
-  <Link href={match.location.pathname} msgId="itinerary-in-the-past-link" />
+  <ExternalLink
+    href={match.location.pathname}
+    msgId="itinerary-in-the-past-link"
+  />
 );
 
 PastLink.propTypes = {
