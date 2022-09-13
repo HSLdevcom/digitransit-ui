@@ -27,32 +27,6 @@ Visual tests are run with jest and playwright.
 
 More information about [testing](docs/Tests.md).
 
-### Unit testing
-
-Run all unit tests:
-
-```sh
-yarn test_unit
-```
-
-Run unit tests for `digitransit-component/*` packages:
-
-```sh
-yarn test-unit:components
-```
-
-Run unit tests for main app components:
-
-```sh
-yarn test-unit:app
-```
-
-Run unit tests for a _single_ main app component:
-
-```sh
-yarn test-unit:app -g 'ComponentName'
-```
-
 ## Documentation
 
 - [Terms](docs/Terms.md)
