@@ -4044,7 +4044,7 @@ const translations = {
     'destination-defined': 'Destination definierat',
     'destination-label-change': 'Byt destination',
     'destination-outside-service':
-      'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra destination, som ligger utanför serviceområde.',
+      'Kunde inte hitta ruttförslag eftersom destinationen ligger utanför serviceområdet.',
     'destination-placeholder': 'Destination, linje eller hållplats',
     'dialog-return-to-map': 'Tillbaka till kartan',
     'digitransit-platform': 'Digitransit-serviceplattformen',
@@ -4323,7 +4323,7 @@ const translations = {
     'origin-defined': 'Avfärdsplats definierat',
     'origin-label-change': 'Byt avfärdsplats',
     'origin-outside-service':
-      'Kunde inte hitta ruttförslag eftersom avgångsplatsen ligger utanför vårt serviceområde.',
+      'Kunde inte hitta ruttförslag eftersom avgångsplatsen ligger utanför serviceområdet',
     'origin-placeholder': 'Från - adress eller hållplats',
     'other-dates': 'Andra datum',
     'own-position': 'Min position',
@@ -4435,9 +4435,9 @@ const translations = {
     'router-system-error':
       'Det skedde ett fel i systemet. Försök på nytt senare.',
     'router-transit-connection':
-      'Please try changing the origin or destination.',
+      'Var god och försök ändra avgångsplats eller destination.',
     'router-transit-connection-in-search-window':
-      'There are no services available at the selected time.',
+      'Ingen trafik under det valda datumet.',
     'router-unable': 'Kan inte visa ruttalternativ',
     routes: 'Linjer',
     'routes-platforms': 'Linjer och plattformer',
@@ -4604,9 +4604,9 @@ const translations = {
     'try-again': 'Försök igen',
     'use-citybike': 'Ta i bruk',
     'use-national-service': 'Du kan också använda national tjänsten:',
-    'use-national-service-postfix': '-tjänsten.',
+    'use-national-service-postfix': '.',
     'use-national-service-prefix':
-      'Vi rekommenderar att du använder ruttsökning',
+      'Vi rekommenderar att du använder ruttsökning i tjänsten ',
     'use-own-position': 'Använd min position',
     userinfo: 'Mina uppgifter',
     usermenu: 'Användarmeny',
