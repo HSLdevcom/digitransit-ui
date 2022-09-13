@@ -1,12 +1,14 @@
 import React from 'react';
 import { matchShape } from 'found';
-import ExternalLink from './ExternalLink';
+import { FormattedMessage } from 'react-intl';
+import cx from 'classnames';
 
 const PastLink = ({ match }) => (
-  <ExternalLink
-    href={match.location.pathname}
-    msgId="itinerary-in-the-past-link"
-  />
+  <div>
+    <a className={cx('no-decoration', 'medium')} href={match.location.pathname}>
+      <FormattedMessage id="itinerary-in-the-past-link" defaultMessage="" />
+    </a>
+  </div>
 );
 
 PastLink.propTypes = {

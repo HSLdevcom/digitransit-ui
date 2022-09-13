@@ -1,16 +1,18 @@
 import React from 'react';
+import cx from 'classnames';
 import { matchShape } from 'found';
-import ExternalLink from './ExternalLink';
+import { FormattedMessage } from 'react-intl';
 
-const PastLink = ({ match }) => (
-  <ExternalLink
-    href={match.location.pathname}
-    msgId="router-change-departure-time"
-  />
+const ChangeDepartureTimeLink = ({ match }) => (
+  <div>
+    <a className={cx('no-decoration', 'medium')} href={match.location.pathname}>
+      <FormattedMessage id="router-change-departure-time" defaultMessage="" />
+    </a>
+  </div>
 );
 
-PastLink.propTypes = {
+ChangeDepartureTimeLink.propTypes = {
   match: matchShape.isRequired,
 };
 
-export default PastLink;
+export default ChangeDepartureTimeLink;
