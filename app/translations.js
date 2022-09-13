@@ -1390,7 +1390,7 @@ const translations = {
     'route-to-park': 'Route to the park',
     'route-to-station': 'Route to the station',
     'route-to-stop': 'Route to the stop',
-    'router-change-departure-time': 'Change departure time',
+    'router-change-departure-time': 'Change departure time ›',
     'router-location-not-found':
       'Please select location on the road network or at a stop.',
     'router-location-not-found-title-1':
@@ -2506,7 +2506,7 @@ const translations = {
     'route-to-park': 'Reitti parkille',
     'route-to-station': 'Reitti asemalle',
     'route-to-stop': 'Reitti pysäkille',
-    'router-change-departure-time': 'Muuta lähtöaikaa',
+    'router-change-departure-time': 'Muuta lähtöaikaa ›',
     'router-location-not-found':
       'Ole hyvä ja valitse paikka tieverkolta tai pysäkiltä.',
     'router-location-not-found-title-1':
@@ -4411,7 +4411,7 @@ const translations = {
     'route-to-park': 'Rutt till parken',
     'route-to-station': 'Rutt till stationen',
     'route-to-stop': 'Rutt till hållplatsen',
-    'router-change-departure-time': 'Ändra avgångstid',
+    'router-change-departure-time': 'Ändra avgångstid ›',
     'router-location-not-found':
       'Var god och välj en plats på vägnätet eller på hållplatsen.',
     'router-location-not-found-title-1':
