@@ -11,6 +11,7 @@ require('@babel/register')({
   ignore: [
     /node_modules\/(?!react-leaflet|@babel\/runtime\/helpers\/esm|@digitransit-util)/,
   ],
+  extensions: ['.ts', '.js', '.tsx', '.mjs'],
 });
 
 global.fetch = require('node-fetch');

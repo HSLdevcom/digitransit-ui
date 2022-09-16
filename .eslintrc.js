@@ -18,7 +18,7 @@ module.exports = {
     // react
     'react/button-has-type': 'warn',
     'react/destructuring-assignment': 'off',
-    'react/jsx-filename-extension': ['error', { extensions: ['.js'] }],
+    'react/jsx-filename-extension': ['error', { extensions: ['.js', 'tsx'] }],
     'react/jsx-fragments': 'off',
     'react/jsx-key': 'error',
     'react/jsx-props-no-spreading': 'off',
@@ -72,4 +72,15 @@ module.exports = {
   settings: {
     polyfills: ['fetch', 'promises'],
   },
+  overrides: [
+    {
+      files: ['*.{ts,tsx}'],
+      parser: '@typescript-eslint/parser',
+      plugins: ['@typescript-eslint'],
+      extends: ['plugin:@typescript-eslint/recommended'],
+      rules: {
+        '@typescript-eslint/no-explicit-any': 'off',
+      },
+    },
+  ],
 };

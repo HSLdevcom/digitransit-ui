@@ -14,7 +14,7 @@ import {
   getServiceAlertsForRoute,
   routeHasCancelation,
   getCancelationsForRoute,
-} from '../util/alertUtils';
+} from '../util/alertUtils.ts';
 
 const StopAlerts = ({ stop }, { intl }) => {
   const cancelations = getCancelationsForStop(stop).map(stoptime => {

@@ -169,7 +169,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|ts)x?$/,
         include: [path.resolve(__dirname, 'app')],
         loader: 'babel-loader',
         options: {
@@ -187,6 +187,7 @@ module.exports = {
               '@babel/preset-react',
               { development: isDevelopment, useBuiltIns: true },
             ],
+            '@babel/preset-typescript',
           ],
           plugins: [
             ['relay', { compat: true, schema: 'build/schema.json' }],
@@ -272,6 +273,7 @@ module.exports = {
   },
   cache: true,
   resolve: {
+    extensions: ['.ts', '.js', '.tsx', '.mjs', '.jsx'],
     mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     alias: {
       lodash: 'lodash-es',

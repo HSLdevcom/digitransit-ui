@@ -12,7 +12,7 @@ import Icon from './Icon';
 import RouteNumber from './RouteNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
-import { mapAlertSource } from '../util/alertUtils';
+import { mapAlertSource } from '../util/alertUtils.ts';
 
 export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
   const at = intl.formatMessage({

@@ -20,7 +20,7 @@ import {
  * @param {*} alert the alert object to check.
  * @param {*} patternId the pattern's id, optional.
  */
-export const patternIdPredicate = (alert, patternId = undefined) =>
+export const patternIdPredicate = (alert: any, patternId = undefined) =>
   patternId
     ? (alert && !alert.trip) ||
       get(alert, 'trip.pattern.code', undefined) === patternId
@@ -31,7 +31,7 @@ export const patternIdPredicate = (alert, patternId = undefined) =>
  *
  * @param {*} stop the stop object to check.
  */
-export const stopHasServiceAlert = stop => {
+export const stopHasServiceAlert = (stop: any) => {
   if (!stop || !Array.isArray(stop.alerts)) {
     return false;
   }
@@ -44,11 +44,13 @@ export const stopHasServiceAlert = stop => {
  * @param {*} route the route object to check.
  * @param {string} patternId the pattern's id, optional.
  */
-export const routeHasServiceAlert = (route, patternId = undefined) => {
+export const routeHasServiceAlert = (route: any, patternId = undefined) => {
   if (!route || !Array.isArray(route.alerts)) {
     return false;
   }
-  return route.alerts.some(alert => patternIdPredicate(alert, patternId));
+  return route.alerts.some((alert: any) =>
+    patternIdPredicate(alert, patternId),
+  );
 };
 
 /**
@@ -56,7 +58,7 @@ export const routeHasServiceAlert = (route, patternId = undefined) => {
  *
  * @param {*} pattern the pattern object to check.
  */
-export const patternHasServiceAlert = pattern => {
+export const patternHasServiceAlert = (pattern: any) => {
   if (!pattern) {
     return false;
   }
@@ -68,7 +70,7 @@ export const patternHasServiceAlert = pattern => {
  *
  * @param {*} stoptime the stoptime object to check.
  */
-export const stoptimeHasCancelation = stoptime => {
+export const stoptimeHasCancelation = (stoptime: any) => {
   if (!stoptime) {
     return false;
   }
@@ -81,7 +83,7 @@ export const stoptimeHasCancelation = stoptime => {
  * @param {*} trip the trip object to check.
  * @param {*} stop the stop object to look a cancelation for.
  */
-export const tripHasCancelationForStop = (trip, stop) => {
+export const tripHasCancelationForStop = (trip: any, stop: any) => {
   if (
     !trip ||
     (!Array.isArray(trip.stoptimes) && !Array.isArray(trip.stoptimesForDate)) ||
@@ -93,11 +95,11 @@ export const tripHasCancelationForStop = (trip, stop) => {
   if (Array.isArray(trip.stoptimesForDate)) {
     return trip.stoptimesForDate
       .filter(stoptimeHasCancelation)
-      .some(st => st.stop && st.stop.gtfsId === stop.gtfsId);
+      .some((st: any) => st.stop && st.stop.gtfsId === stop.gtfsId);
   }
   return trip.stoptimes
     .filter(stoptimeHasCancelation)
-    .some(st => st.stop && st.stop.gtfsId === stop.gtfsId);
+    .some((st: any) => st.stop && st.stop.gtfsId === stop.gtfsId);
 };
 
 /**
@@ -105,7 +107,7 @@ export const tripHasCancelationForStop = (trip, stop) => {
  *
  * @param {*} trip the trip object to check.
  */
-export const tripHasCancelation = trip => {
+export const tripHasCancelation = (trip: any) => {
   if (
     !trip ||
     (!Array.isArray(trip.stoptimes) && !Array.isArray(trip.stoptimesForDate))
@@ -123,7 +125,7 @@ export const tripHasCancelation = trip => {
  *
  * @param {*} pattern the pattern object to check.
  */
-export const patternHasCancelation = pattern => {
+export const patternHasCancelation = (pattern: any) => {
   if (!pattern || !Array.isArray(pattern.trips)) {
     return false;
   }
@@ -136,12 +138,12 @@ export const patternHasCancelation = pattern => {
  * @param {*} route the route object to check.
  * @param {string} patternId the pattern's id, optional.
  */
-export const routeHasCancelation = (route, patternId = undefined) => {
+export const routeHasCancelation = (route: any, patternId = undefined) => {
   if (!route || !Array.isArray(route.patterns)) {
     return false;
   }
   return route.patterns
-    .filter(pattern => (patternId ? patternId === pattern.code : true))
+    .filter((pattern: any) => (patternId ? patternId === pattern.code : true))
     .some(patternHasCancelation);
 };
 
@@ -150,7 +152,7 @@ export const routeHasCancelation = (route, patternId = undefined) => {
  *
  * @param {*} leg the leg object to check.
  */
-export const legHasCancelation = leg => {
+export const legHasCancelation = (leg: any) => {
   if (!leg) {
     return false;
   }
@@ -170,8 +172,8 @@ export const DEFAULT_VALIDITY = 5 * 60;
  * @param {number} defaultValidity the default validity period length in seconds.
  */
 export const isAlertValid = (
-  alert,
-  referenceUnixTime,
+  alert: any,
+  referenceUnixTime: any,
   { defaultValidity = DEFAULT_VALIDITY, isFutureValid = false } = {},
 ) => {
   if (!alert) {
@@ -202,8 +204,8 @@ export const isAlertValid = (
  * @param {*} referenceUnixTime the reference unix time stamp (in seconds).
  */
 export const cancelationHasExpired = (
-  { scheduledArrival, scheduledDeparture, serviceDay } = {},
-  referenceUnixTime,
+  { scheduledArrival, scheduledDeparture, serviceDay }: any = {},
+  referenceUnixTime: any,
 ) =>
   !isAlertValid(
     {
@@ -221,7 +223,7 @@ export const cancelationHasExpired = (
  *
  * @param {*} itinerary the itinerary object to check.
  */
-export const itineraryHasCancelation = itinerary => {
+export const itineraryHasCancelation = (itinerary: any) => {
   if (!itinerary || !Array.isArray(itinerary.legs)) {
     return false;
   }
@@ -234,16 +236,16 @@ export const itineraryHasCancelation = itinerary => {
  * @param {*} route the route to get cancelations for.
  * @param {*} patternId the pattern's id, optional.
  */
-export const getCancelationsForRoute = (route, patternId = undefined) => {
+export const getCancelationsForRoute = (route: any, patternId = undefined) => {
   if (!route || !Array.isArray(route.patterns)) {
     return [];
   }
   return route.patterns
-    .filter(pattern => (patternId ? pattern.code === patternId : true))
-    .map(pattern => pattern.trips || [])
-    .reduce((a, b) => a.concat(b), [])
-    .map(trip => trip.stoptimes || [])
-    .reduce((a, b) => a.concat(b), [])
+    .filter((pattern: any) => (patternId ? pattern.code === patternId : true))
+    .map((pattern: any) => pattern.trips || [])
+    .reduce((a: any, b: any) => a.concat(b), [])
+    .map((trip: any) => trip.stoptimes || [])
+    .reduce((a: any, b: any) => a.concat(b), [])
     .filter(stoptimeHasCancelation);
 };
 
@@ -252,14 +254,14 @@ export const getCancelationsForRoute = (route, patternId = undefined) => {
  *
  * @param {*} stop the stop to get cancelations for.
  */
-export const getCancelationsForStop = stop => {
+export const getCancelationsForStop = (stop: any) => {
   if (!stop || !Array.isArray(stop.stoptimes)) {
     return [];
   }
   return stop.stoptimes.filter(stoptimeHasCancelation);
 };
 
-const getTranslation = (translations, defaultValue, locale) => {
+const getTranslation = (translations: any, defaultValue: any, locale: any) => {
   if (!Array.isArray(translations)) {
     return defaultValue;
   }
@@ -276,7 +278,7 @@ const getTranslation = (translations, defaultValue, locale) => {
  * @param {*} alert the alert object to look into.
  * @param {*} locale the locale to use, defaults to 'en'.
  */
-export const getServiceAlertHeader = (alert, locale = 'en') =>
+export const getServiceAlertHeader = (alert: any, locale = 'en') =>
   getTranslation(
     alert.alertHeaderTextTranslations,
     alert.alertHeaderText || '',
@@ -289,7 +291,7 @@ export const getServiceAlertHeader = (alert, locale = 'en') =>
  * @param {*} alert the alert object to look into.
  * @param {*} locale the locale to use, defaults to 'en'.
  */
-export const getServiceAlertDescription = (alert, locale = 'en') =>
+export const getServiceAlertDescription = (alert: any, locale = 'en') =>
   getTranslation(
     alert.alertDescriptionTextTranslations,
     alert.alertDescriptionText || '',
@@ -302,7 +304,7 @@ export const getServiceAlertDescription = (alert, locale = 'en') =>
  * @param {*} alert the alert object to look into.
  * @param {*} locale the locale to use, defaults to 'en'.
  */
-export const getServiceAlertUrl = (alert, locale = 'en') =>
+export const getServiceAlertUrl = (alert: any, locale = 'en') =>
   getTranslation(alert.alertUrlTranslations, alert.alertUrl || '', locale);
 
 /**
@@ -313,16 +315,19 @@ export const getServiceAlertUrl = (alert, locale = 'en') =>
  * @param {*} alert the Service Alert to map.
  */
 export const getServiceAlertMetadata = (alert = {}) => ({
+  // @ts-expect-error TS(2339): Property 'alertSeverityLevel' does not exist on ty... Remove this comment to see the full error message
   severityLevel: alert.alertSeverityLevel,
   validityPeriod: {
+    // @ts-expect-error TS(2339): Property 'effectiveStartDate' does not exist on ty... Remove this comment to see the full error message
     startTime: alert.effectiveStartDate,
+    // @ts-expect-error TS(2339): Property 'effectiveEndDate' does not exist on type... Remove this comment to see the full error message
     endTime: alert.effectiveEndDate,
   },
 });
 
 const getServiceAlerts = (
-  { alerts } = {},
-  { color, mode, shortName, routeGtfsId, stopGtfsId, type } = {},
+  { alerts }: any = {},
+  { color, mode, shortName, routeGtfsId, stopGtfsId, type }: any = {},
   locale = 'en',
 ) =>
   Array.isArray(alerts)
@@ -354,7 +359,7 @@ const getServiceAlerts = (
  * @param {*} locale the locale to use, defaults to 'en'.
  */
 export const getServiceAlertsForRoute = (
-  route,
+  route: any,
   patternId = undefined,
   locale = 'en',
 ) => {
@@ -363,7 +368,7 @@ export const getServiceAlertsForRoute = (
   }
   return getServiceAlerts(
     {
-      alerts: route.alerts.filter(alert =>
+      alerts: route.alerts.filter((alert: any) =>
         patternIdPredicate(alert, patternId),
       ),
     },
@@ -379,7 +384,7 @@ export const getServiceAlertsForRoute = (
  * @param {*} stop the stop object to retrieve alerts from.
  * @param {*} locale the locale to use, defaults to 'en'.
  */
-export const getServiceAlertsForStop = (stop, locale = 'en') =>
+export const getServiceAlertsForStop = (stop: any, locale = 'en') =>
   getServiceAlerts(stop, { stopGtfsId: stop && stop.gtfsId }, locale);
 
 /**
@@ -391,17 +396,19 @@ export const getServiceAlertsForStop = (stop, locale = 'en') =>
  * @param {*} locale the locale to use, defaults to 'en'.
  */
 export const getServiceAlertsForTerminalStops = (
-  isTerminal,
-  stop,
+  isTerminal: any,
+  stop: any,
   locale = 'en',
 ) => {
   const alerts =
     isTerminal && stop.stops
       ? stop.stops
-          .map(terminalStop => getServiceAlertsForStop(terminalStop, locale))
-          .filter(arr => arr.length > 0)
+          .map((terminalStop: any) =>
+            getServiceAlertsForStop(terminalStop, locale),
+          )
+          .filter((arr: any) => arr.length > 0)
       : [];
-  return alerts.reduce((a, b) => a.concat(b), []);
+  return alerts.reduce((a: any, b: any) => a.concat(b), []);
 };
 
 /**
@@ -413,19 +420,19 @@ export const getServiceAlertsForTerminalStops = (
  * @param {*} locale the locale to use, defaults to 'en'.
  */
 export const getServiceAlertsForRouteStops = (
-  route,
-  patternId,
+  route: any,
+  patternId: any,
   locale = 'en',
 ) => {
   if (!route || !Array.isArray(route.patterns)) {
     return [];
   }
   return route.patterns
-    .filter(pattern => patternId === pattern.code)
-    .map(pattern => pattern.stops)
-    .reduce((a, b) => a.concat(b), [])
-    .map(stop => getServiceAlerts(stop, route, locale))
-    .reduce((a, b) => a.concat(b), []);
+    .filter((pattern: any) => patternId === pattern.code)
+    .map((pattern: any) => pattern.stops)
+    .reduce((a: any, b: any) => a.concat(b), [])
+    .map((stop: any) => getServiceAlerts(stop, route, locale))
+    .reduce((a: any, b: any) => a.concat(b), []);
 };
 
 /**
@@ -436,24 +443,28 @@ export const getServiceAlertsForRouteStops = (
  * @param {*} stop the stop object to retrieve alerts from.
  * @param {*} locale the locale to use, defaults to 'en'.
  */
-export const getServiceAlertsForStopRoutes = (stop, locale = 'en') => {
+export const getServiceAlertsForStopRoutes = (stop: any, locale = 'en') => {
   if (!stop || !Array.isArray(stop.stoptimes)) {
     return [];
   }
-  return uniqBy(
-    stop.stoptimes
-      .map(stoptime => stoptime.trip)
-      .map(trip => ({
-        ...trip.route,
-        patternId: (trip.pattern && trip.pattern.code) || undefined,
-      })),
-    route => route.shortName,
-  )
-    .map(route => getServiceAlertsForRoute(route, route.patternId, locale))
-    .reduce((a, b) => a.concat(b), []);
+  return (
+    uniqBy(
+      stop.stoptimes
+        .map((stoptime: any) => stoptime.trip)
+        .map((trip: any) => ({
+          ...trip.route,
+          patternId: (trip.pattern && trip.pattern.code) || undefined,
+        })),
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
+      route => route.shortName,
+    )
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
+      .map(route => getServiceAlertsForRoute(route, route.patternId, locale))
+      .reduce((a, b) => a.concat(b), [])
+  );
 };
 
-const isValidArray = array => Array.isArray(array) && array.length > 0;
+const isValidArray = (array: any) => Array.isArray(array) && array.length > 0;
 
 /**
  * Iterates through the alerts and returns the highest severity level found.
@@ -462,13 +473,13 @@ const isValidArray = array => Array.isArray(array) && array.length > 0;
  *
  * @param {*} alerts the alerts to check.
  */
-export const getMaximumAlertSeverityLevel = alerts => {
+export const getMaximumAlertSeverityLevel = (alerts: any) => {
   if (!isValidArray(alerts)) {
     return undefined;
   }
   const levels = alerts
-    .map(alert => alert.alertSeverityLevel || alert.severityLevel)
-    .reduce((obj, level) => {
+    .map((alert: any) => alert.alertSeverityLevel || alert.severityLevel)
+    .reduce((obj: any, level: any) => {
       if (level) {
         obj[level] = level; // eslint-disable-line no-param-reassign
       }
@@ -490,17 +501,20 @@ export const getMaximumAlertSeverityLevel = alerts => {
  * @param {*} alerts the alerts to check.
  * @param {*} referenceUnixTime the reference unix time stamp (in seconds).
  */
-export const getActiveAlertSeverityLevel = (alerts, referenceUnixTime) => {
+export const getActiveAlertSeverityLevel = (
+  alerts: any,
+  referenceUnixTime: any,
+) => {
   if (!isValidArray(alerts)) {
     return undefined;
   }
   return getMaximumAlertSeverityLevel(
     alerts
-      .filter(alert => !!alert)
-      .map(alert =>
+      .filter((alert: any) => !!alert)
+      .map((alert: any) =>
         alert.validityPeriod ? { ...alert } : getServiceAlertMetadata(alert),
       )
-      .filter(alert => isAlertValid(alert, referenceUnixTime)),
+      .filter((alert: any) => isAlertValid(alert, referenceUnixTime)),
   );
 };
 
@@ -512,13 +526,13 @@ export const getActiveAlertSeverityLevel = (alerts, referenceUnixTime) => {
  *
  * @param {*} alerts the alerts to check.
  */
-export const getMaximumAlertEffect = alerts => {
+export const getMaximumAlertEffect = (alerts: any) => {
   if (!isValidArray(alerts)) {
     return undefined;
   }
   const effects = alerts
-    .map(alert => alert.alertEffect)
-    .reduce((obj, effect) => {
+    .map((alert: any) => alert.alertEffect)
+    .reduce((obj: any, effect: any) => {
       if (effect) {
         obj[effect] = effect; // eslint-disable-line no-param-reassign
       }
@@ -541,7 +555,7 @@ export const getMaximumAlertEffect = alerts => {
 export const isAlertActive = (
   cancelations = [],
   alerts = [],
-  referenceUnixTime,
+  referenceUnixTime: any,
 ) => {
   if (
     cancelations.some(
@@ -570,7 +584,7 @@ export const isAlertActive = (
  *
  * @param {*} leg the itinerary leg to check.
  */
-export const getActiveLegAlertSeverityLevel = leg => {
+export const getActiveLegAlertSeverityLevel = (leg: any) => {
   if (!leg) {
     return undefined;
   }
@@ -599,7 +613,11 @@ export const getActiveLegAlertSeverityLevel = leg => {
  * @param {*} legStartTime the reference unix time stamp (in seconds).
  * @param {*} locale the locale to use, defaults to 'en'.
  */
-export const getActiveLegAlerts = (leg, legStartTime, locale = 'en') => {
+export const getActiveLegAlerts = (
+  leg: any,
+  legStartTime: any,
+  locale = 'en',
+) => {
   if (!leg) {
     return undefined;
   }
@@ -611,6 +629,7 @@ export const getActiveLegAlerts = (leg, legStartTime, locale = 'en') => {
     ),
     ...getServiceAlertsForStop(leg.from && leg.from.stop, locale),
     ...getServiceAlertsForStop(leg.to && leg.to.stop, locale),
+    // @ts-expect-error TS(2322): Type '{}' is not assignable to type 'never'.
   ].filter(alert => isAlertActive([{}], alert, legStartTime) !== false);
 
   return serviceAlerts;
@@ -622,7 +641,7 @@ export const getActiveLegAlerts = (leg, legStartTime, locale = 'en') => {
  * @param {*} a the first alert to compare.
  * @param {*} b the second alert to compare.
  */
-export const alertCompare = (a, b) => {
+export const alertCompare = (a: any, b: any) => {
   // sort by expiration status
   if (a.expired !== b.expired) {
     return a.expired ? 1 : -1;
@@ -655,7 +674,7 @@ export const alertCompare = (a, b) => {
  * @param {*} a the first alert to compare.
  * @param {*} b the second alert to compare.
  */
-export const alertSeverityCompare = (a, b) => {
+export const alertSeverityCompare = (a: any, b: any) => {
   const severityLevels = [
     AlertSeverityLevelType.Info,
     AlertSeverityLevelType.Unknown,
@@ -686,32 +705,32 @@ export const alertSeverityCompare = (a, b) => {
   @param {*} showExpired If the expired alerts need to be shown,
  */
 export const createUniqueAlertList = (
-  serviceAlerts,
-  cancelations,
-  currentTime,
-  showExpired,
+  serviceAlerts: any,
+  cancelations: any,
+  currentTime: any,
+  showExpired: any,
 ) => {
-  const hasRoute = alert => alert && !isEmpty(alert.route);
-  const hasStop = alert => alert && !isEmpty(alert.stop);
+  const hasRoute = (alert: any) => alert && !isEmpty(alert.route);
+  const hasStop = (alert: any) => alert && !isEmpty(alert.stop);
 
-  const getRoute = alert => alert.route || {};
-  const getMode = alert => getRoute(alert).mode;
-  const getShortName = alert => getRoute(alert).shortName;
-  const getRouteGtfsId = alert => getRoute(alert).gtfsId;
-  const getRouteColor = alert => getRoute(alert).color;
+  const getRoute = (alert: any) => alert.route || {};
+  const getMode = (alert: any) => getRoute(alert).mode;
+  const getShortName = (alert: any) => getRoute(alert).shortName;
+  const getRouteGtfsId = (alert: any) => getRoute(alert).gtfsId;
+  const getRouteColor = (alert: any) => getRoute(alert).color;
 
-  const getStop = alert => alert.stop || {};
-  const getVehicleMode = alert => getStop(alert).vehicleMode;
-  const getCode = alert => getStop(alert).code;
-  const getStopGtfsId = alert => getStop(alert).gtfsId;
-  const getStopName = alert => getStop(alert).name;
+  const getStop = (alert: any) => alert.stop || {};
+  const getVehicleMode = (alert: any) => getStop(alert).vehicleMode;
+  const getCode = (alert: any) => getStop(alert).code;
+  const getStopGtfsId = (alert: any) => getStop(alert).gtfsId;
+  const getStopName = (alert: any) => getStop(alert).name;
 
-  const getGroupKey = alert =>
+  const getGroupKey = (alert: any) =>
     `${alert.severityLevel}${
       (hasRoute(alert) && `route_${getMode(alert)}`) ||
       (hasStop(alert) && `stop_${getVehicleMode(alert)}`)
     }${alert.header}${alert.description}`;
-  const getUniqueId = alert =>
+  const getUniqueId = (alert: any) =>
     `${getShortName(alert) || getCode(alert)}${getGroupKey(alert)}`;
 
   const uniqueAlerts = uniqBy(
@@ -803,7 +822,7 @@ export const otpServiceAlertShape = PropTypes.shape({
   effectiveStartDate: PropTypes.number,
 });
 
-export const mapAlertSource = (config, lang, feedName) => {
+export const mapAlertSource = (config: any, lang: any, feedName: any) => {
   if (
     config &&
     config.sourceForAlertsAndDisruptions &&

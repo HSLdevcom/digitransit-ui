@@ -36,7 +36,7 @@ import {
 import { planQuery, moreItinerariesQuery } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { isIOS } from '../util/browser';
-import { itineraryHasCancelation } from '../util/alertUtils';
+import { itineraryHasCancelation } from '../util/alertUtils.ts';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
   parseLatLon,

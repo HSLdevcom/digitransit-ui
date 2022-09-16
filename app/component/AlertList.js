@@ -6,7 +6,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import RouteAlertsRow from './RouteAlertsRow';
-import { createUniqueAlertList } from '../util/alertUtils';
+import { createUniqueAlertList } from '../util/alertUtils.ts';
 import withBreakpoint from '../util/withBreakpoint';
 import { getRouteMode } from '../util/modeUtils';
 

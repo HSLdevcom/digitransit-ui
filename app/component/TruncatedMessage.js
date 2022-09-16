@@ -4,7 +4,14 @@ import { intlShape } from 'react-intl';
 import TruncateMarkup from 'react-truncate-markup';
 
 const TruncatedMessage = (
-  { lines, message, className, truncate, onShowMore, onTruncate = () => {} },
+  {
+    lines,
+    message,
+    className,
+    truncate,
+    onShowMore,
+    onTruncate = didTruncate => didTruncate,
+  },
   { intl },
 ) => {
   const [isTruncated, setTruncated] = useState(true);

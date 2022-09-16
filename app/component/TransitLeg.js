@@ -22,7 +22,7 @@ import {
   getActiveLegAlerts,
   alertSeverityCompare,
   getMaximumAlertSeverityLevel,
-} from '../util/alertUtils';
+} from '../util/alertUtils.ts';
 import { PREFIX_ROUTES, PREFIX_STOPS, PREFIX_DISRUPTION } from '../util/path';
 import { durationToString } from '../util/timeUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';

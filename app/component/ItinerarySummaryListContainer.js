@@ -14,7 +14,7 @@ import SummaryRow from './SummaryRow';
 import { isBrowser } from '../util/browser';
 import { getZones } from '../util/legUtils';
 import CanceledItineraryToggler from './CanceledItineraryToggler';
-import { itineraryHasCancelation } from '../util/alertUtils';
+import { itineraryHasCancelation } from '../util/alertUtils.ts';
 import { getCurrentSettings, getDefaultSettings } from '../util/planParamUtil';
 import { ItinerarySummarySubtitle } from './ItinerarySummarySubtitle';
 import Loading from './Loading';

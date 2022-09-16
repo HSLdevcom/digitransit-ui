@@ -7,7 +7,7 @@ import { v4 as uuid } from 'uuid';
 import { Link } from 'found';
 import LocalTime from './LocalTime';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
-import { alertSeverityCompare } from '../util/alertUtils';
+import { alertSeverityCompare } from '../util/alertUtils.ts';
 import Icon from './Icon';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
