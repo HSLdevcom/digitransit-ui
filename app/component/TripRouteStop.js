@@ -14,6 +14,7 @@ import { estimateItineraryDistance } from '../util/geo-utils';
 import ZoneIcon from './ZoneIcon';
 import { getZoneLabel } from '../util/legUtils';
 import getVehicleState from '../util/vehicleStateUtils';
+import { VehicleShape } from '../util/shapes';
 
 const TripRouteStop = (props, { config }) => {
   const {
@@ -167,14 +168,37 @@ const TripRouteStop = (props, { config }) => {
 };
 
 TripRouteStop.propTypes = {
-  vehicles: PropTypes.array,
+  vehicles: PropTypes.arrayOf(VehicleShape),
   mode: PropTypes.string.isRequired,
   color: PropTypes.string,
-  stopPassed: PropTypes.bool,
-  stop: PropTypes.object.isRequired,
-  nextStop: PropTypes.object,
-  prevStop: PropTypes.object,
-  stoptime: PropTypes.object.isRequired,
+  stopPassed: PropTypes.bool.isRequired,
+  stop: PropTypes.shape({
+    code: PropTypes.string,
+    name: PropTypes.string,
+    desc: PropTypes.string,
+    gtfsId: PropTypes.string,
+    alerts: PropTypes.arrayOf(
+      PropTypes.shape({
+        severityLevel: PropTypes.string,
+        validityPeriod: PropTypes.shape({
+          startTime: PropTypes.number,
+          endTime: PropTypes.number,
+        }),
+      }),
+    ),
+    zoneId: PropTypes.string,
+  }).isRequired,
+  nextStop: PropTypes.shape({
+    name: PropTypes.string,
+  }),
+  prevStop: PropTypes.shape({
+    name: PropTypes.string,
+  }),
+  stoptime: PropTypes.shape({
+    realtimeDeparture: PropTypes.number,
+    realtimeArrival: PropTypes.number,
+    serviceDay: PropTypes.number,
+  }).isRequired,
   currentTime: PropTypes.number.isRequired,
   pattern: PropTypes.string.isRequired,
   route: PropTypes.string.isRequired,
@@ -184,10 +208,22 @@ TripRouteStop.propTypes = {
     PropTypes.oneOf([false]),
   ]).isRequired,
   shortName: PropTypes.string,
-  setHumanScrolling: PropTypes.func,
+  setHumanScrolling: PropTypes.func.isRequired,
   keepTracking: PropTypes.bool,
   first: PropTypes.bool,
   last: PropTypes.bool,
+};
+
+TripRouteStop.defaultProps = {
+  keepTracking: false,
+  className: undefined,
+  color: null,
+  first: false,
+  last: false,
+  vehicles: [],
+  nextStop: null,
+  prevStop: null,
+  shortName: undefined,
 };
 
 TripRouteStop.contextTypes = {
