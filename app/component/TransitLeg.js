@@ -682,6 +682,7 @@ TransitLeg.propTypes = {
 
 TransitLeg.defaultProps = {
   omitDivider: false,
+  interliningLegs: [],
 };
 
 TransitLeg.contextTypes = {

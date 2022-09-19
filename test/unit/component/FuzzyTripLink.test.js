@@ -28,6 +28,8 @@ describe('<FuzzyTripLink />', () => {
         tripStartTime: '2143',
         shortName: '550',
       },
+      stopName: '1',
+      nextStopName: '2',
     };
     const environment = {};
 

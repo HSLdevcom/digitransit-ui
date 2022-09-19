@@ -25,6 +25,12 @@ describe('<TripLink />', () => {
         id: 'OULU:1074',
         tripId: 'OULU:0000075602101021',
         shortName: '74',
+        route: 'feed:1',
+        direction: 0,
+        tripStartTime: '0600',
+        operatingDay: '0',
+        next_stop: '2',
+        timestamp: 0,
       },
     };
     const environment = {};

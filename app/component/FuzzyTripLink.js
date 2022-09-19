@@ -120,7 +120,15 @@ function FuzzyTripLink({ vehicle, stopName, nextStopName, ...rest }, context) {
 }
 
 FuzzyTripLink.propTypes = {
-  trip: PropTypes.object,
+  trip: PropTypes.shape({
+    gtfsId: PropTypes.string,
+    route: PropTypes.shape({
+      gtfsId: PropTypes.string,
+    }),
+    pattern: PropTypes.shape({
+      code: PropTypes.string,
+    }),
+  }).isRequired,
   vehicle: PropTypes.shape({
     mode: PropTypes.string.isRequired,
     route: PropTypes.string.isRequired,
@@ -130,8 +138,8 @@ FuzzyTripLink.propTypes = {
     shortName: PropTypes.string.isRequired,
     color: PropTypes.string,
   }).isRequired,
-  stopName: PropTypes.string,
-  nextStopName: PropTypes.string,
+  stopName: PropTypes.string.isRequired,
+  nextStopName: PropTypes.string.isRequired,
 };
 
 FuzzyTripLink.contextTypes = {

@@ -428,9 +428,12 @@ const containerComponent = createFragmentContainer(
               alertSeverityLevel
               effectiveEndDate
               effectiveStartDate
-              trip {
-                pattern {
-                  code
+              entities {
+                __typename
+                ... on Route {
+                  patterns {
+                    code
+                  }
                 }
               }
             }
@@ -445,6 +448,11 @@ const containerComponent = createFragmentContainer(
                 gtfsId
               }
               pickupType
+            }
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
             }
           }
           from {

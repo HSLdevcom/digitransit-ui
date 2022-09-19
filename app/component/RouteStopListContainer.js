@@ -7,21 +7,28 @@ import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
+import moment from 'moment';
 
 import RouteStop from './RouteStop';
 import withBreakpoint from '../util/withBreakpoint';
 import { getRouteMode } from '../util/modeUtils';
+import { PatternShape, VehicleShape } from '../util/shapes';
 
 class RouteStopListContainer extends React.PureComponent {
   static propTypes = {
-    pattern: PropTypes.object.isRequired,
+    pattern: PatternShape.isRequired,
     className: PropTypes.string,
-    vehicles: PropTypes.object,
-    currentTime: PropTypes.object.isRequired,
+    vehicles: PropTypes.objectOf(VehicleShape),
+    currentTime: PropTypes.instanceOf(moment).isRequired,
     relay: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
     }).isRequired,
     breakpoint: PropTypes.string.isRequired,
+  };
+
+  static defaultProps = {
+    className: undefined,
+    vehicles: [],
   };
 
   static contextTypes = {

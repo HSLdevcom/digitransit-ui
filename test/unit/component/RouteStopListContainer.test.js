@@ -11,6 +11,7 @@ describe('<RouteStopListContainer />', () => {
       currentTime: moment(1573135114),
       pattern: {
         directionId: 0,
+        code: 'feed:1',
         route: {
           mode: 'BUS',
           color: null,
@@ -24,14 +25,16 @@ describe('<RouteStopListContainer />', () => {
             lat: 60.17164,
             lon: 24.94299,
             name: 'Rautatientori',
-            stopTimesForPattern: {
-              pickupType: 'SCHEDULED',
-              reatime: false,
-              realtimeDeparture: 57540,
-              realtimeState: 'SCHEDULED',
-              scheduledDeparture: 57540,
-              serviceDay: 1573077600,
-            },
+            stopTimesForPattern: [
+              {
+                pickupType: 'SCHEDULED',
+                realtime: false,
+                realtimeDeparture: 57540,
+                realtimeState: 'SCHEDULED',
+                scheduledDeparture: 57540,
+                serviceDay: 1573077600,
+              },
+            ],
           },
           {
             alerts: [],
@@ -41,14 +44,16 @@ describe('<RouteStopListContainer />', () => {
             lat: 60.2197,
             lon: 24.96428,
             name: 'Koskela',
-            stopTimesForPattern: {
-              pickupType: 'NONE',
-              reatime: true,
-              realtimeDeparture: 57234,
-              realtimeState: 'UPDATED',
-              scheduledDeparture: 56820,
-              serviceDay: 1573077600,
-            },
+            stopTimesForPattern: [
+              {
+                pickupType: 'NONE',
+                realtime: true,
+                realtimeDeparture: 57234,
+                realtimeState: 'UPDATED',
+                scheduledDeparture: 56820,
+                serviceDay: 1573077600,
+              },
+            ],
           },
         ],
       },
@@ -75,6 +80,7 @@ describe('<RouteStopListContainer />', () => {
           route: 'HSL:1055',
           timestamp: 1573135114,
           tripStartTime: '1530',
+          shortName: '55',
         },
         HSL_00594: {
           direction: 0,
@@ -89,6 +95,7 @@ describe('<RouteStopListContainer />', () => {
           route: 'HSL:1055',
           timestamp: 1573135114,
           tripStartTime: '1530',
+          shortName: '55',
         },
       },
       patternId: 'HSL:1055:0:01',

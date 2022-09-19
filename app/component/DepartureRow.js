@@ -13,11 +13,16 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { getRouteMode } from '../util/modeUtils';
 
+const getMostSevereAlert = (route, trip) => {
+  const alerts = [...(route?.alerts || []), ...(trip?.alerts || [])];
+  return alerts.sort(alertSeverityCompare)[0];
+};
+
 const DepartureRow = (
   { departure, departureTime, showPlatformCode, canceled, ...props },
   { config, intl },
 ) => {
-  const { route } = departure.trip;
+  const { trip, trip: { route } = {} } = departure;
   const mode = getRouteMode(route);
 
   const timeDiffInMinutes = Math.floor(
@@ -28,7 +33,7 @@ const DepartureRow = (
   let backgroundShape;
   let sr;
   if (route?.alerts?.length > 0) {
-    const alert = route.alerts.slice().sort(alertSeverityCompare)[0];
+    const alert = getMostSevereAlert(route, trip);
     sr = (
       <span className="sr-only">
         {intl.formatMessage({
@@ -47,7 +52,7 @@ const DepartureRow = (
   const headsign =
     departure.headsign ||
     departure.trip.tripHeadsign ||
-    getHeadsignFromRouteLongName(departure.trip.route);
+    getHeadsignFromRouteLongName(trip.route);
   let shownTime;
   if (timeDiffInMinutes <= 0) {
     shownTime = intl.formatMessage({

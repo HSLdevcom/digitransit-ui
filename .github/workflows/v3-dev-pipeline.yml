@@ -103,14 +103,14 @@ jobs:
       - name: Create Docker image tag
         id: docker-tags
         run: |
-          echo "::set-output name=permanent-tag::v3-dev-$(date +"%Y-%m-%dT%H.%M.%S")-${GITHUB_SHA:0:7}"
+          echo "::set-output name=permanent-tag::v3-$(date +"%Y-%m-%dT%H.%M.%S")-${GITHUB_SHA:0:7}"
 
       - name: build and push Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
           tags: |
-            hsldevcom/digitransit-ui:v3-dev
+            hsldevcom/digitransit-ui:v3
             hsldevcom/digitransit-ui:${{ steps.docker-tags.outputs.permanent-tag }}
           # https://github.com/docker/build-push-action/blob/9472e9021074a3cb3279ba431598b8836d40433f/docs/advanced/cache.md#github-cache
           # https://github.com/moby/buildkit#registry-push-image-and-cache-separately

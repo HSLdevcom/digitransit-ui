@@ -13,6 +13,7 @@ describe('<StopAlerts />', () => {
       stop: {
         code: '321',
         alerts: [],
+        routes: [],
         stoptimes: [
           {
             headsign: 'Kamppi',
@@ -41,11 +42,48 @@ describe('<StopAlerts />', () => {
     });
   });
 
+  it('should indicate that there is a direct service alert on a route', () => {
+    const props = {
+      stop: {
+        code: '321',
+        alerts: [],
+        stoptimes: [],
+        routes: [
+          {
+            gtfsId: 'feed:101',
+            alerts: [
+              {
+                entities: [
+                  {
+                    __typename: 'Route',
+                    patterns: [
+                      {
+                        code: 'feed:101:02:01',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+            patterns: [
+              {
+                code: 'feed:101:02:01',
+              },
+            ],
+          },
+        ],
+      },
+    };
+    const wrapper = shallowWithIntl(<StopAlerts {...props} />);
+    expect(wrapper.find(AlertList).prop('serviceAlerts')).to.have.lengthOf(1);
+  });
+
   it('should indicate that there is a service alert on a route', () => {
     const props = {
       stop: {
         code: '321',
         alerts: [],
+        routes: [],
         stoptimes: [
           {
             headsign: 'Kamppi',
@@ -75,6 +113,7 @@ describe('<StopAlerts />', () => {
       stop: {
         code: '431',
         alerts: [],
+        routes: [],
         stoptimes: [
           {
             headsign: 'Kamppi',
@@ -108,6 +147,7 @@ describe('<StopAlerts />', () => {
             alertSeverityLevel: AlertSeverityLevelType.Warning,
           },
         ],
+        routes: [],
         stoptimes: [],
       },
     };
@@ -120,6 +160,7 @@ describe('<StopAlerts />', () => {
       stop: {
         code: '321',
         alerts: [],
+        routes: [],
         stoptimes: [
           {
             headsign: 'Kamppi',
@@ -153,6 +194,7 @@ describe('<StopAlerts />', () => {
       stop: {
         code: '321',
         alerts: [],
+        routes: [],
         stoptimes: [
           {
             headsign: 'Kamppi',
