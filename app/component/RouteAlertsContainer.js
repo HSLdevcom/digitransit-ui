@@ -12,7 +12,7 @@ import {
   tripHasCancelation,
 } from '../util/alertUtils';
 import { getRouteMode } from '../util/modeUtils';
-import { ServiceAlertShape } from './prop-types';
+import { ServiceAlertShape } from '../util/shapes';
 
 function RouteAlertsContainer({ route }, { intl, match }) {
   const { shortName } = route;

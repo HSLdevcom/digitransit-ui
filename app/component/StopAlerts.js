@@ -12,7 +12,7 @@ import {
   routeHasServiceAlert,
   getServiceAlertsForRoute,
 } from '../util/alertUtils';
-import { ServiceAlertShape } from './prop-types';
+import { ServiceAlertShape } from '../util/shapes';
 
 /**
  * @param {Object.<string,*>} stop

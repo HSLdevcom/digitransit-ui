@@ -16,7 +16,7 @@ import { getZoneLabel } from '../util/legUtils';
 import { estimateItineraryDistance } from '../util/geo-utils';
 import getVehicleState from '../util/vehicleStateUtils';
 import Icon from './Icon';
-import { VehicleShape } from './prop-types';
+import { VehicleShape } from '../util/shapes';
 
 const RouteStop = (
   {

@@ -10,7 +10,7 @@ import {
   getServiceAlertHeader,
   mapAlertSource,
 } from '../util/alertUtils';
-import { ServiceAlertShape } from './prop-types';
+import { ServiceAlertShape } from '../util/shapes';
 
 const DisruptionBannerAlert = (
   { language, alert, openAllAlerts, truncate, onClose },

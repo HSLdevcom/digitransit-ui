@@ -37,7 +37,7 @@ import {
 } from '../util/timeUtils';
 import CityBikeDurationInfo from './CityBikeDurationInfo';
 import { getCityBikeNetworkId } from '../util/citybikes';
-import { FareShape } from './prop-types';
+import { FareShape } from '../util/shapes';
 
 const AlertShape = PropTypes.shape({ alertSeverityLevel: PropTypes.string });
 

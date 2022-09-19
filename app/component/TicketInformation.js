@@ -7,7 +7,7 @@ import { v4 as uuid } from 'uuid';
 import { renderZoneTicket } from './ZoneTicket';
 import Icon from './Icon';
 import { getAlternativeFares } from '../util/fareUtils';
-import { FareShape } from './prop-types';
+import { FareShape } from '../util/shapes';
 
 const getUnknownFareRoute = (fares, route) => {
   for (let i = 0; i < fares.length; i++) {

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { ServiceAlertShape } from './prop-types';
+import { ServiceAlertShape } from '../util/shapes';
 
 import StopAlerts from './StopAlerts';
 

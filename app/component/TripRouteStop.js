@@ -14,7 +14,7 @@ import { estimateItineraryDistance } from '../util/geo-utils';
 import ZoneIcon from './ZoneIcon';
 import { getZoneLabel } from '../util/legUtils';
 import getVehicleState from '../util/vehicleStateUtils';
-import { VehicleShape } from './prop-types';
+import { VehicleShape } from '../util/shapes';
 
 const TripRouteStop = (props, { config }) => {
   const {

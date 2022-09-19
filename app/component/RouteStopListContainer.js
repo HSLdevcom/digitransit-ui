@@ -12,7 +12,7 @@ import moment from 'moment';
 import RouteStop from './RouteStop';
 import withBreakpoint from '../util/withBreakpoint';
 import { getRouteMode } from '../util/modeUtils';
-import { PatternShape, VehicleShape } from './prop-types';
+import { PatternShape, VehicleShape } from '../util/shapes';
 
 class RouteStopListContainer extends React.PureComponent {
   static propTypes = {

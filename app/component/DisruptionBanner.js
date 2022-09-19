@@ -7,7 +7,7 @@ import { isAlertValid, getServiceAlertMetadata } from '../util/alertUtils';
 import DisruptionBannerAlert from './DisruptionBannerAlert';
 import SwipeableTabs from './SwipeableTabs';
 import withBreakpoint from '../util/withBreakpoint';
-import { ServiceAlertShape } from './prop-types';
+import { ServiceAlertShape } from '../util/shapes';
 
 class DisruptionBanner extends React.Component {
   constructor(props) {

@@ -8,7 +8,7 @@ import VehicleIcon from './VehicleIcon';
 import TripLinkWithScroll from './TripLinkWithScroll';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { VehicleShape } from './prop-types';
+import { VehicleShape } from '../util/shapes';
 
 function TripLink({ vehicleState, vehicle, shortName, ...rest }) {
   const { environment } = useContext(ReactRelayContext);

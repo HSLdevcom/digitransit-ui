@@ -11,7 +11,7 @@ import { getStartTime } from '../util/timeUtils';
 import TripStopListContainer from './TripStopListContainer';
 import withBreakpoint from '../util/withBreakpoint';
 import ScrollableWrapper from './ScrollableWrapper';
-import { RouteShape } from './prop-types';
+import { RouteShape } from '../util/shapes';
 
 function TripStopsContainer({ breakpoint, match, trip, route }) {
   const [keepTracking, setTracking] = useState(true);
