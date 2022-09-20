@@ -1267,7 +1267,7 @@ const translations = {
       'The timetable does not include later departures.',
     'no-route-found':
       'Unfortunately, route {shortName} ({longName}) could not be found.',
-    'no-route-msg': 'Unfortunately, no route suggestions were found.',
+    'no-route-msg': 'Unfortunately, no route suggestions were found',
     'no-route-msg-with-changes':
       'Unfortunately, no route suggestions were found. Please check your search settings or try changing the origin or destination.',
     'no-route-origin-near-destination':
@@ -1805,7 +1805,7 @@ const translations = {
     'no-route-end-date-not-in-range':
       'Los horarios actuales no incluyen rutas saliendo más tarde.',
     'no-route-msg':
-      'Desafortunadamente no se encontraron rutas para su viaje. Por favor cambie el origen o el destino.',
+      'Desafortunadamente no se encontraron rutas para su viaje. Por favor cambie el origen o el destino',
     'no-route-msg-with-changes':
       'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
     'no-route-origin-near-destination':
@@ -2384,7 +2384,7 @@ const translations = {
       'Aikataulu ei sisällä myöhäisempiä reittejä.',
     'no-route-found':
       'Linjaa {shortName} ({longName}) ei valitettavasti löytynyt.',
-    'no-route-msg': 'Reittiehdotuksia ei valitettavasti löytynyt.',
+    'no-route-msg': 'Reittiehdotuksia ei valitettavasti löytynyt',
     'no-route-msg-with-changes':
       'Reittiehdotuksia ei valitettavasti löytynyt. Ole hyvä ja tarkasta asettamasi hakuasetukset tai yritä muuttaa lähtöpaikkaa tai määränpäätä.',
     'no-route-origin-near-destination':
@@ -2939,7 +2939,7 @@ const translations = {
     'no-route-end-date-not-in-range':
       'Current timetable does not include routes departing later.',
     'no-route-msg':
-      "Impossible de trouver un itinéraire dans cette zone. Changer le point de départ ou d'arrivée.",
+      "Impossible de trouver un itinéraire dans cette zone. Changer le point de départ ou d'arrivée",
     'no-route-msg-with-changes':
       'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
     'no-route-origin-near-destination':
@@ -3633,7 +3633,7 @@ const translations = {
     'no-route-already-at-destination': 'Sunteți deja la destinație.',
     'no-route-end-date-not-in-range': 'Nu am găsit rute mai târziu în orar.',
     'no-route-msg':
-      'Nu s-a găsit nicio rută conform selecției. Schimbați punctul de plecare sau destinație.',
+      'Nu s-a găsit nicio rută conform selecției. Schimbați punctul de plecare sau destinație',
     'no-route-msg-with-changes':
       'Nu s-a găsit nicio rută conform selecției. Schimbați plecarea, destinația sau parametrii introduși ca preferințe.',
     'no-route-origin-near-destination':
@@ -4287,7 +4287,7 @@ const translations = {
     'no-route-end-date-not-in-range':
       'Tidtabellen har inga resor som avgår senare.',
     'no-route-found': 'Kunde tyvärr inte hitta linje {shortName} ({longName})',
-    'no-route-msg': 'Kunde tyvärr inte hitta ruttförslag',
+    'no-route-msg': 'Kunde tyvärr inte hitta ruttalternativ',
     'no-route-msg-with-changes':
       'Kunde tyvärr inte hitta ruttförslag Var god och kontrollera dina val eller försök ändra avgångsplats eller destination.',
     'no-route-origin-near-destination':
