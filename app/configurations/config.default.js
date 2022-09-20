@@ -796,7 +796,7 @@ export default {
     itinerary: false,
   },
 
-  viaPointsEnabled: true,
+  viaPointsEnabled: false,
 
   // DT-4802 Toggling this off shows the alert bodytext instead of the header
   showAlertHeader: true,
