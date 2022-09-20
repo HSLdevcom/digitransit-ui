@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import Icon from './Icon';
+import Icon from '../Icon';
 
 const SettingsChangedNotification = props => {
   return (

@@ -1,12 +1,15 @@
 import PropTypes from 'prop-types';
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ReactRelayContext } from 'react-relay';
 import { matchShape } from 'found';
+import { intlShape } from 'react-intl';
+
 import Loading from './Loading';
 import { validateServiceTimeRange } from '../util/timeUtils';
 import { planQuery } from '../util/queryUtils';
 import { preparePlanParams } from '../util/planParamUtil';
 import LazilyLoad, { importLazy } from './LazilyLoad';
+import useScreenReaderAlert from '../hooks/useScreenReaderAlert';
 
 const modules = {
   QueryRenderer: () =>
@@ -14,24 +17,16 @@ const modules = {
   SummaryPage: () => importLazy(import('./SummaryPage')),
 };
 
-const SummaryPageContainer = ({ content, match }, { config }) => {
+const SummaryPageContainer = ({ content, match }, { config, intl }) => {
   const { environment } = useContext(ReactRelayContext);
   const [isClient, setClient] = useState(false);
-  const alertRef = useRef();
-
-  const screenReaderAlert = (
-    <div
-      className="sr-only"
-      role="alert"
-      ref={alertRef}
-      id="summarypage-screenreader-alert"
-    />
-  );
+  const sr = useScreenReaderAlert({ intl });
 
   useEffect(() => {
     // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
     setClient(true);
   });
+
   return isClient ? (
     <LazilyLoad modules={modules}>
       {({ QueryRenderer, SummaryPage }) => (
@@ -42,19 +37,19 @@ const SummaryPageContainer = ({ content, match }, { config }) => {
           render={({ props: innerProps, error }) => {
             return innerProps ? (
               <>
-                {screenReaderAlert}
+                {sr.element}
                 <SummaryPage
                   {...innerProps}
                   content={content}
                   match={match}
                   error={error}
                   loading={false}
-                  alertRef={alertRef}
+                  srPushAlert={sr.pushAlert}
                 />
               </>
             ) : (
               <>
-                {screenReaderAlert}
+                {sr.element}
                 <SummaryPage
                   content={content}
                   match={match}
@@ -62,7 +57,7 @@ const SummaryPageContainer = ({ content, match }, { config }) => {
                   serviceTimeRange={validateServiceTimeRange()}
                   loading
                   error={error}
-                  alertRef={alertRef}
+                  srPushAlert={sr.pushAlert}
                 />
               </>
             );
@@ -77,6 +72,7 @@ const SummaryPageContainer = ({ content, match }, { config }) => {
 
 SummaryPageContainer.contextTypes = {
   config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 };
 
 SummaryPageContainer.propTypes = {

@@ -12,22 +12,22 @@ import { matchShape, routerShape } from 'found';
 import getContext from 'recompose/getContext';
 
 import { intlShape, FormattedMessage } from 'react-intl';
-import Icon from './Icon';
-import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
-import TimeStore from '../store/TimeStore';
-import PositionStore from '../store/PositionStore';
-import { otpToLocation, getIntermediatePlaces } from '../util/otpStrings';
-import { getSummaryPath } from '../util/path';
-import { replaceQueryParams } from '../util/queryUtils';
-import withBreakpoint from '../util/withBreakpoint';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { isIOS, isSafari } from '../util/browser';
+import Icon from '../Icon';
+import ItinerarySummaryListContainer from '../ItinerarySummaryListContainer';
+import TimeStore from '../../store/TimeStore';
+import PositionStore from '../../store/PositionStore';
+import { otpToLocation, getIntermediatePlaces } from '../../util/otpStrings';
+import { getSummaryPath } from '../../util/path';
+import { replaceQueryParams } from '../../util/queryUtils';
+import withBreakpoint from '../../util/withBreakpoint';
+import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import { isIOS, isSafari } from '../../util/browser';
 import SettingsChangedNotification from './SettingsChangedNotification';
-import ItineraryShape from '../prop-types/ItineraryShape';
-import ErrorShape from '../prop-types/ErrorShape';
-import LocationStateShape from '../prop-types/LocationStateShape';
-import RoutingErrorShape from '../prop-types/RoutingErrorShape';
-import ChildrenShape from '../prop-types/ChildrenShape';
+import ItineraryShape from '../../prop-types/ItineraryShape';
+import ErrorShape from '../../prop-types/ErrorShape';
+import LocationStateShape from '../../prop-types/LocationStateShape';
+import RoutingErrorShape from '../../prop-types/RoutingErrorShape';
+import ChildrenShape from '../../prop-types/ChildrenShape';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
@@ -173,7 +173,7 @@ class SummaryPlanContainer extends React.Component {
     });
   };
 
-  laterButton(reversed = false) {
+  laterButton(arriveBy = false) {
     return (
       <>
         <button
@@ -183,13 +183,13 @@ class SummaryPlanContainer extends React.Component {
             defaultMessage: 'Set travel time to later',
           })}
           className={`time-navigation-btn ${
-            reversed ? 'top-btn' : 'bottom-btn'
-          } ${!reversed && isIOS && isSafari ? 'extra-whitespace' : ''} `}
-          onClick={() => this.props.onLater(this.props.itineraries, reversed)}
+            arriveBy ? 'top-btn' : 'bottom-btn'
+          } ${!arriveBy && isIOS && isSafari ? 'extra-whitespace' : ''} `}
+          onClick={() => this.props.onLater(this.props.itineraries, arriveBy)}
         >
           <Icon
             img="icon-icon_arrow-collapse"
-            className={`cursor-pointer back ${reversed ? 'arrow-up' : ''}`}
+            className={`cursor-pointer back ${arriveBy ? 'arrow-up' : ''}`}
           />
           <FormattedMessage
             id="later"
@@ -201,7 +201,7 @@ class SummaryPlanContainer extends React.Component {
     );
   }
 
-  earlierButton(reversed = false) {
+  earlierButton(arriveBy = false) {
     return (
       <>
         <button
@@ -211,13 +211,13 @@ class SummaryPlanContainer extends React.Component {
             defaultMessage: 'Set travel time to earlier',
           })}
           className={`time-navigation-btn ${
-            reversed ? 'bottom-btn' : 'top-btn'
-          } ${reversed && isIOS && isSafari ? 'extra-whitespace' : ''}`}
-          onClick={() => this.props.onEarlier(this.props.itineraries, reversed)}
+            arriveBy ? 'bottom-btn' : 'top-btn'
+          } ${arriveBy && isIOS && isSafari ? 'extra-whitespace' : ''}`}
+          onClick={() => this.props.onEarlier(this.props.itineraries, arriveBy)}
         >
           <Icon
             img="icon-icon_arrow-collapse"
-            className={`cursor-pointer ${reversed ? '' : 'arrow-up'}`}
+            className={`cursor-pointer ${arriveBy ? '' : 'arrow-up'}`}
           />
           <FormattedMessage
             id="earlier"
