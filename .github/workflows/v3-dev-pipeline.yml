@@ -59,77 +59,11 @@ jobs:
       - name: Send test coverage report
         run: yarn run test-report
 
-  accessibility-test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [10.x]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: "Set time zone to Europe/Helsinki"
-        uses: zcong1993/setup-timezone@master
-        with:
-          timezone: "Europe/Helsinki"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: yarn
-      - name: Install dependencies and build shared components
-        run: yarn setup
-      - name: build relay queries
-        run: yarn relay
-      - name: Build UI
-        run: yarn build
-      - name: Run accessibility tests
-        run: yarn test-accessibility
-
-  e2e-test-desktop:
-    runs-on: ubuntu-latest
-    strategy:
-      # don't cancel running jobs even if one fails
-      fail-fast: false
-      matrix:
-        node-version: [10.x]
-        config: [matka]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: "Set time zone to Europe/Helsinki"
-        uses: zcong1993/setup-timezone@master
-        with:
-          timezone: "Europe/Helsinki"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: yarn
-      - name: Build shared components
-        run: yarn setup
-      - name: Build relay queries
-        run: yarn relay
-      - name: Build UI
-        run: yarn build
-      - uses: microsoft/playwright-github-action@v1.5.0
-      - name: Run End to End tests
-        id: 'test_e2e'
-        env:
-          CONFIG: ${{matrix.config}}
-          REF: ${{github.head_ref}}
-          STORAGESASTOKEN: ${{ secrets.STORAGESASTOKEN }}
-          STORAGERESOURCENAME: "visualtestsnapshots"
-        run: yarn test:e2e
-
   docker-push-v3:
     if: github.ref == 'refs/heads/v3'
     needs:
       - lint
       - unit-test
-      - accessibility-test
-      - e2e-test-desktop
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout
@@ -169,14 +103,14 @@ jobs:
       - name: Create Docker image tag
         id: docker-tags
         run: |
-          echo "::set-output name=permanent-tag::v3-dev-$(date +"%Y-%m-%dT%H.%M.%S")-${GITHUB_SHA:0:7}"
+          echo "::set-output name=permanent-tag::v3-$(date +"%Y-%m-%dT%H.%M.%S")-${GITHUB_SHA:0:7}"
 
       - name: build and push Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
           tags: |
-            hsldevcom/digitransit-ui:v3-dev
+            hsldevcom/digitransit-ui:v3
             hsldevcom/digitransit-ui:${{ steps.docker-tags.outputs.permanent-tag }}
           # https://github.com/docker/build-push-action/blob/9472e9021074a3cb3279ba431598b8836d40433f/docs/advanced/cache.md#github-cache
           # https://github.com/moby/buildkit#registry-push-image-and-cache-separately

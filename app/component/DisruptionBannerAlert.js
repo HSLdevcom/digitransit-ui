@@ -10,6 +10,7 @@ import {
   getServiceAlertHeader,
   mapAlertSource,
 } from '../util/alertUtils';
+import { ServiceAlertShape } from '../util/shapes';
 
 const DisruptionBannerAlert = (
   { language, alert, openAllAlerts, truncate, onClose },
@@ -103,11 +104,16 @@ const DisruptionBannerAlert = (
 };
 
 DisruptionBannerAlert.propTypes = {
-  alert: PropTypes.object.isRequired,
+  alert: ServiceAlertShape.isRequired,
   language: PropTypes.string.isRequired,
   truncate: PropTypes.bool,
   openAllAlerts: PropTypes.func,
   onClose: PropTypes.func.isRequired,
+};
+
+DisruptionBannerAlert.defaultProps = {
+  truncate: false,
+  openAllAlerts: () => {},
 };
 
 DisruptionBannerAlert.contextTypes = {

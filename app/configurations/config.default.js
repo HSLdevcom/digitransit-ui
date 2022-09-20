@@ -39,7 +39,7 @@ export default {
     API_URL,
     ASSET_URL: process.env.ASSET_URL,
     MAP_URL,
-    OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/finland/`,
+    OTP: process.env.OTP_URL || `${API_URL}/routing/v2/routers/finland/`,
     MAP: {
       default: `${MAP_URL}/map/${MAP_VERSION}/hsl-map/`,
       sv: `${MAP_URL}/map/${MAP_VERSION}/hsl-map-sv/`,

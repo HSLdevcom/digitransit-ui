@@ -183,9 +183,12 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
           language
           text
         }
-        trip {
-          pattern {
-            code
+        entities {
+          __typename
+          ... on Route {
+            patterns {
+              code
+            }
           }
         }
       }

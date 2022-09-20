@@ -179,9 +179,12 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
             language
             text
           }
-          trip {
-            pattern {
-              code
+          entities {
+            __typename
+            ... on Route {
+              patterns {
+                code
+              }
             }
           }
         }

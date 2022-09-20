@@ -9,6 +9,7 @@ describe('<RouteStop />', () => {
   it('should not render a service alert icon for the stop', () => {
     const props = {
       currentTime: 1471515614,
+      color: '',
       stop: {
         alerts: [],
       },
@@ -33,6 +34,7 @@ describe('<RouteStop />', () => {
           },
         ],
       },
+      color: '',
     };
     const context = {
       config: {
@@ -47,6 +49,9 @@ describe('<RouteStop />', () => {
   it('should not render a service alert icon for the stop if the alert is not active', () => {
     const props = {
       currentTime: 1471515614,
+      color: '',
+      shortName: '',
+      mode: 'BUS',
       stop: {
         alerts: [
           {

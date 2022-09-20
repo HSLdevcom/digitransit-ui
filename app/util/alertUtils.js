@@ -1,10 +1,8 @@
 import find from 'lodash/find';
-import get from 'lodash/get';
 import isNumber from 'lodash/isNumber';
 import uniqBy from 'lodash/uniqBy';
 import isEmpty from 'lodash/isEmpty';
 import groupBy from 'lodash/groupBy';
-import PropTypes from 'prop-types';
 import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
 import { getRouteMode } from './modeUtils';
 
@@ -15,16 +13,33 @@ import {
 } from '../constants';
 
 /**
- * Checks if the alert is for the given pattern.
+ * Checks if the alert is for the given pattern code.
  *
- * @param {*} alert the alert object to check.
- * @param {*} patternId the pattern's id, optional.
+ * @param {Object.<string, *>} alert the alert object to check.
+ * @param {string} patternId the pattern's id, optional.
  */
-export const patternIdPredicate = (alert, patternId = undefined) =>
-  patternId
-    ? (alert && !alert.trip) ||
-      get(alert, 'trip.pattern.code', undefined) === patternId
-    : true;
+export const patternIdPredicate = (alert, patternId = undefined) => {
+  if (!alert) {
+    return false;
+  }
+
+  if (!patternId) {
+    return true;
+  }
+
+  if (!alert.entities) {
+    return true;
+  }
+
+  return Boolean(
+    alert.entities?.find(
+      alertEntity =>
+        // eslint-disable-next-line no-underscore-dangle
+        alertEntity.__typename === 'Route' &&
+        alertEntity?.patterns?.some(({ code }) => code === patternId),
+    ),
+  );
+};
 
 /**
  * Checks if the stop has any alerts.
@@ -320,6 +335,12 @@ export const getServiceAlertMetadata = (alert = {}) => ({
   },
 });
 
+/**
+ * @param {Object.<string, *>} entityWithAlert
+ * @param {Object.<atring, *>} route
+ * @param {string} [locale]
+ * @returns {Array.<Object.<string,*>>} formatted alerts
+ */
 const getServiceAlerts = (
   { alerts } = {},
   { color, mode, shortName, routeGtfsId, stopGtfsId, type } = {},
@@ -349,9 +370,9 @@ const getServiceAlerts = (
  * Retrieves OTP-style Service Alerts from the given route and
  * maps them to the format understood by the UI.
  *
- * @param {*} route the route object to retrieve alerts from.
+ * @param {Object.<string,*>} route the route object to retrieve alerts from.
  * @param {string} patternId the pattern's id, optional.
- * @param {*} locale the locale to use, defaults to 'en'.
+ * @param {string} [locale] the locale to use, defaults to 'en'.
  */
 export const getServiceAlertsForRoute = (
   route,
@@ -361,6 +382,7 @@ export const getServiceAlertsForRoute = (
   if (!route || !Array.isArray(route.alerts)) {
     return [];
   }
+
   return getServiceAlerts(
     {
       alerts: route.alerts.filter(alert =>
@@ -452,6 +474,25 @@ export const getServiceAlertsForStopRoutes = (stop, locale = 'en') => {
     .map(route => getServiceAlertsForRoute(route, route.patternId, locale))
     .reduce((a, b) => a.concat(b), []);
 };
+
+/**
+ * Retrieves OTP-style Service Alerts for trip on route and maps them
+ * to the format understood by the UI.
+ *
+ * @param {Object.<string,*>} trip
+ * @param {Object.<string,*>} route
+ * @param {string} [locale]
+ *
+ * @returns {Array.<Object.<string,*>>}
+ */
+const getServiceAlertsForTrip = (trip, route, locale = 'en') =>
+  trip?.alerts
+    ? getServiceAlerts(
+        trip,
+        { ...(route || []), routeGtfsId: route?.gtfsId },
+        locale,
+      )
+    : [];
 
 const isValidArray = array => Array.isArray(array) && array.length > 0;
 
@@ -568,24 +609,26 @@ export const isAlertActive = (
  * Checks whether the given leg has an active cancelation or an active
  * service alert.
  *
- * @param {*} leg the itinerary leg to check.
+ * @param {Object.<string.*>} leg the itinerary leg to check.
  */
 export const getActiveLegAlertSeverityLevel = leg => {
   if (!leg) {
     return undefined;
   }
+
   if (legHasCancelation(leg)) {
     return AlertSeverityLevelType.Warning;
   }
 
+  const { route, trip } = leg;
+
   const serviceAlerts = [
-    ...getServiceAlertsForRoute(
-      leg.route,
-      leg.trip && leg.trip.pattern && leg.trip.pattern.code,
-    ),
-    ...getServiceAlertsForStop(leg.from && leg.from.stop),
-    ...getServiceAlertsForStop(leg.to && leg.to.stop),
+    ...getServiceAlertsForRoute(route, trip?.pattern?.code),
+    ...getServiceAlertsForStop(leg?.from?.stop),
+    ...getServiceAlertsForStop(leg?.to?.stop),
+    ...getServiceAlertsForTrip(trip, route),
   ];
+
   return getActiveAlertSeverityLevel(
     serviceAlerts,
     leg.startTime / 1000, // this field is in ms format
@@ -603,14 +646,14 @@ export const getActiveLegAlerts = (leg, legStartTime, locale = 'en') => {
   if (!leg) {
     return undefined;
   }
+
+  const { route, trip } = leg;
+
   const serviceAlerts = [
-    ...getServiceAlertsForRoute(
-      leg.route,
-      leg.trip && leg.trip.pattern && leg.trip.pattern.code,
-      locale,
-    ),
-    ...getServiceAlertsForStop(leg.from && leg.from.stop, locale),
-    ...getServiceAlertsForStop(leg.to && leg.to.stop, locale),
+    ...getServiceAlertsForRoute(route, trip?.pattern?.code, locale),
+    ...getServiceAlertsForStop(leg?.from.stop, locale),
+    ...getServiceAlertsForStop(leg?.to.stop, locale),
+    ...getServiceAlertsForTrip(trip, route),
   ].filter(alert => isAlertActive([{}], alert, legStartTime) !== false);
 
   return serviceAlerts;
@@ -778,30 +821,6 @@ export const createUniqueAlertList = (
 
   return groupedAlerts.sort(alertCompare);
 };
-
-/**
- * Describes the type information for an OTP Service Alert object.
- */
-export const otpServiceAlertShape = PropTypes.shape({
-  alertDescriptionText: PropTypes.string,
-  alertDescriptionTextTranslations: PropTypes.arrayOf(
-    PropTypes.shape({
-      language: PropTypes.string,
-      text: PropTypes.string,
-    }),
-  ),
-  alertHash: PropTypes.number,
-  alertHeaderText: PropTypes.string,
-  alertHeaderTextTranslations: PropTypes.arrayOf(
-    PropTypes.shape({
-      language: PropTypes.string,
-      text: PropTypes.string,
-    }),
-  ),
-  alertSeverityLevel: PropTypes.string,
-  effectiveEndDate: PropTypes.number,
-  effectiveStartDate: PropTypes.number,
-});
 
 export const mapAlertSource = (config, lang, feedName) => {
   if (

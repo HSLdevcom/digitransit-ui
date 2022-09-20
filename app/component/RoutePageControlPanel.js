@@ -68,14 +68,24 @@ class RoutePageControlPanel extends React.Component {
   };
 
   static propTypes = {
-    route: PropTypes.object.isRequired,
+    route: PropTypes.shape({
+      mode: PropTypes.string.isRequired,
+      gtfsId: PropTypes.string.isRequired,
+      longName: PropTypes.string,
+      shortName: PropTypes.string,
+      patterns: PropTypes.arrayOf(PropTypes.shape({})),
+      type: PropTypes.number.isRequired,
+      agency: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
     match: matchShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
     noInitialServiceDay: PropTypes.bool,
     language: PropTypes.string,
   };
 
-  static defaultProps = { language: 'fi' };
+  static defaultProps = { language: 'fi', noInitialServiceDay: false };
 
   constructor(props) {
     super(props);
