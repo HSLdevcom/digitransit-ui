@@ -12,7 +12,7 @@ console.log(`Testing against benchmark: ${!onlyTestLocal}`);
 
 const LOCAL = 'http://127.0.0.1:8080';
 const BENCHMARK = 'https://reittiopas.hsl.fi';
-const RERUN_COUNT = 1;
+const RERUN_COUNT = 3;
 
 let CURRENT_RUN = 0;
 
