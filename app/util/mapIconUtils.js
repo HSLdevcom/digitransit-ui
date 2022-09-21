@@ -205,6 +205,9 @@ function getImageFromSpriteSync(icon, width, height, fill) {
     return null;
   }
   const symbol = document.getElementById(icon);
+  if (!symbol) {
+    return null;
+  }
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('width', width);
   svg.setAttribute('height', height);
@@ -237,6 +240,10 @@ function getImageFromSpriteAsync(icon, width, height, fill) {
   return new Promise(resolve => {
     // TODO: check that icon exists using MutationObserver
     const image = getImageFromSpriteSync(icon, width, height, fill);
+    if (!image) {
+      resolve(null);
+      return;
+    }
     image.onload = () => resolve(image);
   });
 }
