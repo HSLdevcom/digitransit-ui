@@ -15,7 +15,7 @@ const AlertBanner = ({ alerts, linkAddress, language }, { config }) => {
   const message = getServiceAlertDescription(alert, language);
   const header = getServiceAlertHeader(alert, language);
   if (!message && !header) {
-    return <></>;
+    return null;
   }
   const icon =
     alert.alertSeverityLevel !== 'INFO'
