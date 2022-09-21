@@ -18,7 +18,6 @@ import {
   cacheMiddleware,
 } from 'react-relay-network-modern';
 import RelayClientSSR from 'react-relay-network-modern-ssr/lib/client';
-import OfflinePlugin from 'offline-plugin/runtime';
 import { Helmet } from 'react-helmet';
 import { Environment, RecordSource, Store } from 'relay-runtime';
 import { ReactRelayContext } from 'react-relay';
@@ -32,7 +31,6 @@ import configureMoment from './util/configure-moment';
 import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
 import appCreator from './app';
 import translations from './translations';
-import { BUILD_TIME } from './buildInfo';
 import ErrorBoundary from './component/ErrorBoundary';
 import oldParamParser from './util/oldParamParser';
 import { ClientProvider as ClientBreakpointProvider } from './util/withBreakpoint';
@@ -269,14 +267,7 @@ async function init() {
     </ClientBreakpointProvider>
   );
 
-  ReactDOM.hydrate(content, root, () => {
-    // Run only in production mode and when built in a docker container
-    if (process.env.NODE_ENV === 'production' && BUILD_TIME !== 'unset') {
-      OfflinePlugin.install({
-        onUpdateReady: () => OfflinePlugin.applyUpdate(),
-      });
-    }
-  });
+  ReactDOM.hydrate(content, root);
 
   // Listen for Web App Install Banner events
   window.addEventListener('beforeinstallprompt', e => {
