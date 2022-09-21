@@ -68,6 +68,9 @@ function faviconPluginFromConfig(config) {
     logo = './app/configurations/images/default/favicon.png';
   }
 
+  // Newer versions of this plugin don't support `statsFilename` anymore, but
+  // this file is being used by app/config.js.
+  // todo: find a different way to implement this
   return new FaviconsWebpackPlugin({
     // Your source logo
     logo,
@@ -95,6 +98,7 @@ function faviconPluginFromConfig(config) {
 }
 
 function getAllFaviconPlugins() {
+  // return [];
   return getAllConfigs().map(faviconPluginFromConfig);
 }
 

@@ -188,6 +188,7 @@ $ npm install @digitransit-store/digitransit-store
 \`\`\`
 `);
 
+// todo: remove this?
 writeFileSync(join(folderPath, 'webpack.config.babel.js'), `const path = require('path');
 
 const mode = process.env.ENV;
@@ -214,6 +215,7 @@ module.exports = {
             [
               '@babel/preset-env',
               {
+                // todo?
                 // loose is needed by older Androids < 4.3 and IE10
                 loose: true,
                 modules: false,
