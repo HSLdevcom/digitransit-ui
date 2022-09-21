@@ -42,23 +42,6 @@ const errorCardProps = [
     },
   },
   {
-    id: 'outside-service-period',
-    props: {
-      titleId: 'router-unable',
-      bodyId: 'router-outside-service-period',
-      LinkComponent: PastLink,
-      ...info,
-    },
-  },
-  {
-    id: 'no-transit-connection',
-    props: {
-      titleId: 'no-route-msg',
-      bodyId: 'router-transit-connection',
-      ...info,
-    },
-  },
-  {
     id: 'outside-bounds-1',
     props: {
       titleId: 'router-unable',
@@ -82,6 +65,23 @@ const errorCardProps = [
       titleId: 'router-unable',
       bodyId: 'router-outside-bounds-3',
       LinkComponent: NationalServiceLink,
+      ...info,
+    },
+  },
+  {
+    id: 'outside-service-period',
+    props: {
+      titleId: 'router-unable',
+      bodyId: 'router-outside-service-period',
+      LinkComponent: PastLink,
+      ...info,
+    },
+  },
+  {
+    id: 'no-transit-connection',
+    props: {
+      titleId: 'no-route-msg',
+      bodyId: 'router-transit-connection',
       ...info,
     },
   },
@@ -189,7 +189,7 @@ const errorCardProps = [
     id: 'system-error',
     props: {
       titleId: 'router-unable',
-      bodyId: 'no-route-system-error',
+      bodyId: 'router-system-error',
       ...caution,
     },
   },

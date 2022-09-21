@@ -130,5 +130,56 @@ describe('findErrorMessageIds', () => {
       );
       expectSingleValue(msgIds, 'itinerary-in-the-past');
     });
+
+    describe('out-of-bounds', () => {
+      const areaPolygon = [
+        [0, 0],
+        [50, 0],
+        [50, 50],
+        [0, 50],
+      ];
+
+      it('should return outside-bounds-1 if destination is outside areaPolygon', () => {
+        const msgIds = findErrorMessageIds(
+          [],
+          {
+            from: { lat: 25, lon: 25 },
+            to: { lat: 100, lon: 100 },
+          },
+          {
+            areaPolygon,
+          },
+        );
+        expectSingleValue(msgIds, 'outside-bounds-1');
+      });
+
+      it('should return outside-bounds-2 if origin is outside areaPolygon', () => {
+        const msgIds = findErrorMessageIds(
+          [],
+          {
+            from: { lat: 100, lon: 100 },
+            to: { lat: 25, lon: 25 },
+          },
+          {
+            areaPolygon,
+          },
+        );
+        expectSingleValue(msgIds, 'outside-bounds-2');
+      });
+
+      it('should return outside-bounds-3 if origin and destination are outside areaPolygon', () => {
+        const msgIds = findErrorMessageIds(
+          [],
+          {
+            from: { lat: 110, lon: 110 },
+            to: { lat: 100, lon: 100 },
+          },
+          {
+            areaPolygon,
+          },
+        );
+        expectSingleValue(msgIds, 'outside-bounds-3');
+      });
+    });
   });
 });

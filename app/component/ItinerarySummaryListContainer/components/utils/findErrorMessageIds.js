@@ -1,4 +1,4 @@
-import startsWith from 'lodash/startsWith';
+import inside from 'point-in-polygon';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { PlannerMessageType } from '../../../../constants';
 
@@ -22,14 +22,14 @@ const INPUT_FIELD_FROM = 'FROM';
 const INPUT_FIELD_TO = 'TO';
 
 /**
- * Lookup
+ * Lookup to numerate if TO, FROM or both are defined in *inputFields*
  *  TO   -> 1
  *  FROM -> 2
  *  BOTH -> 3
  * @param {Object} inputFields
  * @returns {Number}
  */
-const getTargetField = inputFields => {
+const getFieldNumerator = inputFields => {
   return (
     (inputFields[INPUT_FIELD_TO] ? 1 : 0) +
     (inputFields[INPUT_FIELD_FROM] ? 2 : 0)
@@ -63,7 +63,7 @@ const findRoutingErrors = routingErrors => {
   );
 
   const msgIds = Object.entries(errorLookup).map(([code, inputFields]) => {
-    const targetField = getTargetField(inputFields);
+    const fieldNumerator = getFieldNumerator(inputFields);
 
     switch (code) {
       case PlannerMessageType.NoTransitConnection:
@@ -75,11 +75,11 @@ const findRoutingErrors = routingErrors => {
       case PlannerMessageType.OutsideServicePeriod:
         return 'outside-service-period';
       case PlannerMessageType.OutsideBounds:
-        return `outside-bounds-${targetField}`;
+        return `outside-bounds-${fieldNumerator}`;
       case PlannerMessageType.LocationNotFound:
-        return `location-not-found-${targetField}`;
+        return `location-not-found-${fieldNumerator}`;
       case PlannerMessageType.NoStopsInRange:
-        return `no-stops-in-range-${targetField}`;
+        return `no-stops-in-range-${fieldNumerator}`;
       default:
         return 'system-error';
     }
@@ -90,6 +90,48 @@ const findRoutingErrors = routingErrors => {
 
 const isLocationEqual = (loc1, loc2) =>
   loc1.lat === loc2.lat && loc1.lon === loc2.lon;
+
+/**
+ * @typedef {Object} Location
+ * @property {number} lon
+ * @property {number} lat
+ */
+
+/**
+ * @typedef {[number, number]} Point
+ */
+
+/**
+ * @typedef {Object} Location
+ * @property {number} lon
+ * @property {number} lat
+ */
+
+/**
+ * Returns the out-of-bounds query field as number:
+ *
+ *  if both 'to' and 'from' inside  -> 0
+ *  if 'to' is outside              -> 1
+ *  if 'from' is outside            -> 2
+ *  if both are outside             -> 3
+ *
+ * @param {Array.<Point>} polygon Area polygon
+ * @param {Location} from
+ * @param {Location} to
+ * @returns {number}
+ */
+const getOutsideBoundsNumerator = (polygon, from, to) => {
+  if (!polygon) {
+    return 0;
+  }
+
+  const originPoint = [from.lon, from.lat];
+  const destinationPoint = [to.lon, to.lat];
+  return (
+    (inside(destinationPoint, polygon) ? 0 : 1) +
+    (inside(originPoint, polygon) ? 0 : 2)
+  );
+};
 
 /**
  * Find error message ids for user query and application state.
@@ -105,12 +147,24 @@ const findQueryError = (query, queryContext) => {
     error,
     currentTime,
     hasSettingsChanges,
+    areaPolygon,
   } = queryContext;
 
-  // If error starts with "Error" it's not a message id, it's an error message
-  // from OTP
-  if (error && !startsWith(error, 'Error')) {
-    return 'no-route-msg';
+  if (error) {
+    return 'system-error';
+  }
+
+  if (query.from && query.to) {
+    // test if query origin and/or destination are outside service area polygon
+    const outsideNumerator = getOutsideBoundsNumerator(
+      areaPolygon,
+      query.from,
+      query.to,
+    );
+
+    if (outsideNumerator > 0) {
+      return `outside-bounds-${outsideNumerator}`;
+    }
   }
 
   if (

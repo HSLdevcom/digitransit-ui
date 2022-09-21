@@ -31,6 +31,13 @@ const TestLocation = {
   },
 };
 
+const HelsinkiRegionBounds = [
+  [24.0049, 59.78402],
+  [24.0049, 60.5806],
+  [25.5345, 60.5806],
+  [25.5345, 59.78402],
+];
+
 const defaultProps = {
   locationState: {
     type: 'CurrentLocation',
@@ -43,7 +50,7 @@ const defaultProps = {
     locationingFailed: false,
   },
   error: undefined,
-  areaPolygon: [],
+  areaPolygon: HelsinkiRegionBounds,
   minDistanceBetweenFromAndTo: 100.0,
   nationalServiceLink: {
     name: 'Matka',
@@ -163,7 +170,7 @@ describe('<ItinerarySummaryMessage />', () => {
       expectElementWithId(
         {
           ...defaultProps,
-          from: TestLocation.Rautatientori,
+          from: TestLocation.Outside,
           to: TestLocation.Outside,
           routingErrors: [
             { code: PlannerMessageType.OutsideBounds, inputField: 'TO' },
