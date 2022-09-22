@@ -5,6 +5,7 @@ import compose from 'recompose/compose';
 import getContext from 'recompose/getContext';
 import mapProps from 'recompose/mapProps';
 
+import { isEqual } from 'lodash';
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
 import BicycleLeg from './BicycleLeg';
@@ -147,6 +148,36 @@ class ItineraryLegs extends React.Component {
           previousLeg?.mode === 'SUBWAY'
         );
       };
+
+      if (
+        previousLeg &&
+        !isEqual(previousLeg.to?.stop?.gtfsId, leg?.from?.stop?.gtfsId)
+      ) {
+        const artificialWalkLeg = {
+          mode: 'WALK',
+          realTime: false,
+          distance: 0,
+          duration: 0,
+          from: previousLeg.to,
+          to: leg.from,
+          startTime: previousLeg.endTime,
+          endTime: leg.startTime,
+        };
+        legs.push(
+          <WalkLeg
+            index={j}
+            leg={artificialWalkLeg}
+            previousLeg={leg}
+            focusAction={this.focus(artificialWalkLeg.from)}
+            focusToLeg={this.focusToLeg(artificialWalkLeg)}
+            artificial
+          >
+            {this.stopCode(leg.from.stop)}
+          </WalkLeg>,
+        );
+        previousLeg = artificialWalkLeg;
+      }
+
       if (fromCarPark && !this.isLegOnFoot(leg)) {
         legs.push(
           <CarParkLeg
@@ -351,7 +382,7 @@ class ItineraryLegs extends React.Component {
           leg.mode !== 'CAR' &&
           !nextLeg.intermediatePlace &&
           !isNextLegInterlining &&
-          leg.to.stop
+          isEqual(leg?.to?.stop?.gtfsId, nextLeg?.from?.stop?.gtfsId)
         ) {
           legs.push(
             <WaitLeg
