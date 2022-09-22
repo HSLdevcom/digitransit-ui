@@ -52,6 +52,7 @@ class RoutePage extends React.Component {
     const { breakpoint, router, route, error } = this.props;
     const { config } = this.context;
     const tripId = this.props.match.params?.tripId;
+    const patternId = this.props.match.params?.patternId;
 
     // Render something in client side to clear SSR
     if (isBrowser && error && !route) {
@@ -71,6 +72,8 @@ class RoutePage extends React.Component {
     }
     const mode = getRouteMode(route);
     const label = route.shortName ? route.shortName : route.longName || '';
+    const headsign =
+      patternId && route.patterns.find(p => p.code === patternId).headsign;
 
     return (
       <div className={cx('route-page-container')}>
@@ -113,19 +116,12 @@ class RoutePage extends React.Component {
                 </span>
                 {label}
               </h1>
-              {tripId &&
-                route.patterns[1]?.headsign &&
-                !label.includes(route.patterns[1].headsign) && (
-                  <div className="trip-destination">
-                    <Icon
-                      className="in-text-arrow"
-                      img="icon-icon_arrow-right"
-                    />
-                    <div className="destination-headsign">
-                      {route.patterns[1].headsign}
-                    </div>
-                  </div>
-                )}
+              {tripId && headsign && (
+                <div className="trip-destination">
+                  <Icon className="in-text-arrow" img="icon-icon_arrow-right" />
+                  <div className="destination-headsign">{headsign}</div>
+                </div>
+              )}
             </div>
             {!tripId && (
               <LazilyLoad modules={modules}>

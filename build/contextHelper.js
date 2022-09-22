@@ -2,12 +2,12 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 
 const fs = require('fs');
-
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const { getNamedConfiguration } = require('../app/config');
 
 function getAllConfigs() {
   if (process.env.CONFIG && process.env.CONFIG !== '') {
-    return [require('../app/config').getNamedConfiguration(process.env.CONFIG)];
+    return [getNamedConfiguration(process.env.CONFIG)];
   }
 
   const srcDirectory = './app/configurations';
@@ -16,7 +16,7 @@ function getAllConfigs() {
     .filter(file => /^config\.\w+\.js$/.test(file))
     .map(file => {
       const theme = file.replace('config.', '').replace('.js', '');
-      return require('../app/config').getNamedConfiguration(theme);
+      return getNamedConfiguration(theme);
     });
 }
 
@@ -43,12 +43,11 @@ function getEntries(theme, sprites) {
 
 function getAllThemeEntries() {
   if (process.env.CONFIG && process.env.CONFIG !== '') {
-    const config = require('../app/config').getNamedConfiguration(
-      process.env.CONFIG,
-    );
+    const defaultConfig = getNamedConfiguration('default');
+    const config = getNamedConfiguration(process.env.CONFIG);
 
     return {
-      ...getEntries('default'),
+      ...getEntries('default', defaultConfig.sprites),
       ...getEntries(process.env.CONFIG, config.sprites),
     };
   }
@@ -69,40 +68,37 @@ function faviconPluginFromConfig(config) {
     logo = './app/configurations/images/default/favicon.png';
   }
 
+  // Newer versions of this plugin don't support `statsFilename` anymore, but
+  // this file is being used by app/config.js.
+  // todo: find a different way to implement this
   return new FaviconsWebpackPlugin({
     // Your source logo
     logo,
     // The prefix for all image files (might be a folder or a name)
-    prefix: `assets/icons-${config.CONFIG}-[hash]/`,
-    // Emit all stats of the generated icons
-    emitStats: true,
-    // The name of the json containing all favicon information
-    statsFilename: `assets/iconstats-${config.CONFIG}.json`,
+    prefix: `assets/icons-${config.CONFIG}-[contenthash]/`,
+
     inject: false,
-    // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
-    // This matches the application background color
-    background: '#eef1f3',
-    theme_color: config.colors ? config.colors.primary : '#eef1f3',
-    // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
-    title: config.title,
-    appName: config.title,
-    appDescription: config.meta.description,
-    icons: {
-      android: true,
-      appleIcon: true,
-      appleStartup: true,
-      coast: false,
-      favicons: true,
-      firefox: true,
-      opengraph: false,
-      twitter: false,
-      yandex: false,
-      windows: false,
+    favicons: {
+      appName: config.title,
+      appDescription: config.meta.description,
+      background: '#eef1f3',
+      theme_color: config.colors ? config.colors.primary : '#eef1f3',
+      icons: {
+        android: true,
+        appleIcon: true,
+        appleStartup: true,
+        coast: false,
+        favicons: true,
+        firefox: true,
+        windows: false,
+        yandex: false,
+      },
     },
   });
 }
 
 function getAllFaviconPlugins() {
+  // return [];
   return getAllConfigs().map(faviconPluginFromConfig);
 }
 

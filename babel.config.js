@@ -21,7 +21,7 @@ module.exports = {
       },
     ],
     '@babel/plugin-syntax-dynamic-import',
-    ['@babel/plugin-proposal-class-properties', { loose: true }],
+    '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-json-strings',
   ],
   env: {
@@ -29,4 +29,5 @@ module.exports = {
       plugins: ['istanbul'],
     },
   },
+  ignore: ['.yarn'],
 };
