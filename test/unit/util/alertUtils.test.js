@@ -1352,4 +1352,41 @@ describe('alertUtils', () => {
       expect(sortedAlerts[0].stop.gtfsId).to.equal('foo:1');
     });
   });
+  describe('hasMeaningfulData', () => {
+    it('should return false if there are no alerts', () => {
+      const alerts = [];
+      expect(utils.hasMeaningfulData(alerts)).to.equal(false);
+    });
+    it('should return true if header or description present', () => {
+      const alerts = [
+        { severityLevel: AlertSeverityLevelType.Warning },
+        {
+          severityLevel: AlertSeverityLevelType.Severe,
+          alertDescriptionText: 'foo',
+        },
+      ];
+      expect(utils.hasMeaningfulData(alerts)).to.equal(true);
+    });
+    it('should return false if neither header or description are present', () => {
+      const alerts = [
+        { severityLevel: AlertSeverityLevelType.Warning },
+        { severityLevel: AlertSeverityLevelType.Severe },
+      ];
+      expect(utils.hasMeaningfulData(alerts)).to.equal(false);
+    });
+    it('should return false if no meaningful data is included in header or description fields', () => {
+      const alerts = [
+        {
+          severityLevel: AlertSeverityLevelType.Warning,
+          alertDescriptionText: 'meaningful but not priority',
+        },
+        {
+          severityLevel: AlertSeverityLevelType.Severe,
+          alertDescriptionText: '',
+          alertHeaderText: '',
+        },
+      ];
+      expect(utils.hasMeaningfulData(alerts)).to.equal(false);
+    });
+  });
 });
