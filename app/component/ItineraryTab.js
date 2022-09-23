@@ -37,6 +37,31 @@ import {
 } from '../util/timeUtils';
 import CityBikeDurationInfo from './CityBikeDurationInfo';
 import { getCityBikeNetworkId } from '../util/citybikes';
+import { FareShape } from '../util/shapes';
+
+const AlertShape = PropTypes.shape({ alertSeverityLevel: PropTypes.string });
+
+const RouteShape = PropTypes.shape({
+  alerts: PropTypes.arrayOf(AlertShape),
+});
+
+const TripShape = PropTypes.shape({
+  pattern: PropTypes.shape({
+    code: PropTypes.string,
+  }),
+});
+
+const ItineraryShape = PropTypes.shape({
+  legs: PropTypes.arrayOf(
+    PropTypes.shape({
+      route: RouteShape,
+      trip: TripShape,
+      distance: PropTypes.number,
+      fares: PropTypes.arrayOf(FareShape),
+    }),
+  ),
+  fares: PropTypes.arrayOf(FareShape),
+});
 
 /* eslint-disable prettier/prettier */
 class ItineraryTab extends React.Component {
@@ -44,12 +69,16 @@ class ItineraryTab extends React.Component {
     plan: PropTypes.shape({
       date: PropTypes.number.isRequired,
     }).isRequired,
-    itinerary: PropTypes.object.isRequired,
+    itinerary: ItineraryShape.isRequired,
     focusToPoint: PropTypes.func.isRequired,
     focusToLeg: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
     currentTime: PropTypes.number.isRequired,
     hideTitle: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    hideTitle: false,
   };
 
   static contextTypes = {
@@ -113,9 +142,14 @@ class ItineraryTab extends React.Component {
     const bikingDuration = getTotalBikingDuration(compressedItinerary);
     const drivingDuration = getTotalDrivingDuration(compressedItinerary);
     const drivingDistance = getTotalDrivingDistance(compressedItinerary);
-    const futureText = this.getFutureText(itinerary.startTime, this.props.currentTime);
+    const futureText = this.getFutureText(
+      itinerary.startTime,
+      this.props.currentTime,
+    );
     const isMultiRow =
-      walkingDistance > 0 && (bikingDistance > 0 || drivingDistance > 0) && futureText !== '';
+      walkingDistance > 0 &&
+      (bikingDistance > 0 || drivingDistance > 0) &&
+      futureText !== '';
     const extraProps = {
       walking: {
         duration: walkingDuration,
@@ -145,23 +179,35 @@ class ItineraryTab extends React.Component {
 
     const fares = getFares(itinerary.fares, getRoutes(itinerary.legs), config);
     const extraProps = this.setExtraProps(itinerary);
-    const legsWithRentalBike = compressLegs(itinerary.legs).filter(leg => legContainsRentalBike(leg));
+    const legsWithRentalBike = compressLegs(itinerary.legs).filter(leg =>
+      legContainsRentalBike(leg),
+    );
     const rentalBikeNetworks = new Set();
     let showRentalBikeDurationWarning = false;
     if (legsWithRentalBike.length > 0) {
-      for (let i=0; i < legsWithRentalBike.length; i++) {
+      for (let i = 0; i < legsWithRentalBike.length; i++) {
         const leg = legsWithRentalBike[i];
-        const network = getCityBikeNetworkId(leg.from.bikeRentalStation?.networks);
-        if (config.cityBike.networks[network]?.timeBeforeSurcharge && config.cityBike.networks[network]?.durationInstructions) {
-          const rentDurationOverSurchargeLimit = leg.duration > config.cityBike.networks[network].timeBeforeSurcharge;
+        const network = getCityBikeNetworkId(
+          leg.from.bikeRentalStation?.networks,
+        );
+        if (
+          config.cityBike.networks[network]?.timeBeforeSurcharge &&
+          config.cityBike.networks[network]?.durationInstructions
+        ) {
+          const rentDurationOverSurchargeLimit =
+            leg.duration >
+            config.cityBike.networks[network].timeBeforeSurcharge;
           if (rentDurationOverSurchargeLimit) {
             rentalBikeNetworks.add(network);
-            showRentalBikeDurationWarning = rentDurationOverSurchargeLimit || showRentalBikeDurationWarning;
+            showRentalBikeDurationWarning =
+              rentDurationOverSurchargeLimit || showRentalBikeDurationWarning;
           }
         }
       }
     }
-    const suggestionIndex = this.context.match.params.secondHash ? Number(this.context.match.params.secondHash) + 1 : Number(this.context.match.params.hash) + 1
+    const suggestionIndex = this.context.match.params.secondHash
+      ? Number(this.context.match.params.secondHash) + 1
+      : Number(this.context.match.params.hash) + 1;
     return (
       <div className="itinerary-tab">
         <h2 className="sr-only">
@@ -218,7 +264,12 @@ class ItineraryTab extends React.Component {
                 </div>
               </>
             ),
-            showRentalBikeDurationWarning && <CityBikeDurationInfo networks={Array.from(rentalBikeNetworks)} config={config} />,
+            showRentalBikeDurationWarning && (
+              <CityBikeDurationInfo
+                networks={Array.from(rentalBikeNetworks)}
+                config={config}
+              />
+            ),
             shouldShowFareInfo(config) && (
               <TicketInformation
                 fares={fares}
@@ -282,71 +333,186 @@ class ItineraryTab extends React.Component {
 }
 
 const withRelay = createFragmentContainer(
-  connectToStores(
-    ItineraryTab,
-    ['TimeStore'],
-  context => ({
+  connectToStores(ItineraryTab, ['TimeStore'], context => ({
     currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
-  })), {
-  plan: graphql`
-    fragment ItineraryTab_plan on Plan {
-      date
-    }
-  `,
-  itinerary: graphql`
-    fragment ItineraryTab_itinerary on Itinerary {
-      walkDistance
-      duration
-      startTime
-      endTime
-      fares {
-        cents
-        components {
+  })),
+  {
+    plan: graphql`
+      fragment ItineraryTab_plan on Plan {
+        date
+      }
+    `,
+    itinerary: graphql`
+      fragment ItineraryTab_itinerary on Itinerary {
+        walkDistance
+        duration
+        startTime
+        endTime
+        fares {
           cents
-          fareId
-          routes {
+          components {
+            cents
+            fareId
+            routes {
+              agency {
+                gtfsId
+                fareUrl
+                name
+              }
+              gtfsId
+            }
+          }
+          type
+        }
+        legs {
+          mode
+          ...LegAgencyInfo_leg
+          from {
+            lat
+            lon
+            name
+            vertexType
+            bikePark {
+              bikeParkId
+              name
+            }
+            bikeRentalStation {
+              networks
+              bikesAvailable
+              lat
+              lon
+              stationId
+            }
+            stop {
+              gtfsId
+              code
+              platformCode
+              vehicleMode
+              zoneId
+              alerts {
+                alertSeverityLevel
+                effectiveEndDate
+                effectiveStartDate
+                alertHeaderText
+                alertHeaderTextTranslations {
+                  text
+                  language
+                }
+                alertDescriptionText
+                alertDescriptionTextTranslations {
+                  text
+                  language
+                }
+                alertUrl
+                alertUrlTranslations {
+                  text
+                  language
+                }
+              }
+            }
+          }
+          to {
+            lat
+            lon
+            name
+            vertexType
+            bikeRentalStation {
+              lat
+              lon
+              stationId
+              networks
+              bikesAvailable
+            }
+            stop {
+              gtfsId
+              code
+              platformCode
+              zoneId
+              name
+              vehicleMode
+              alerts {
+                alertSeverityLevel
+                effectiveEndDate
+                effectiveStartDate
+                alertSeverityLevel
+                effectiveEndDate
+                effectiveStartDate
+                alertHeaderText
+                alertHeaderTextTranslations {
+                  text
+                  language
+                }
+                alertDescriptionText
+                alertDescriptionTextTranslations {
+                  text
+                  language
+                }
+                alertUrl
+                alertUrlTranslations {
+                  text
+                  language
+                }
+              }
+            }
+            bikePark {
+              bikeParkId
+              name
+            }
+            carPark {
+              carParkId
+              name
+            }
+          }
+          legGeometry {
+            length
+            points
+          }
+          intermediatePlaces {
+            arrivalTime
+            stop {
+              gtfsId
+              lat
+              lon
+              name
+              code
+              platformCode
+              zoneId
+            }
+          }
+          realTime
+          realtimeState
+          transitLeg
+          rentedBike
+          startTime
+          endTime
+          mode
+          interlineWithPreviousLeg
+          distance
+          duration
+          intermediatePlace
+          route {
+            shortName
+            color
+            gtfsId
+            type
+            longName
+            desc
             agency {
               gtfsId
               fareUrl
               name
+              phone
             }
-            gtfsId
-          }
-        }
-        type
-      }
-      legs {
-        mode
-        ...LegAgencyInfo_leg
-        from {
-          lat
-          lon
-          name
-          vertexType
-          bikePark {
-            bikeParkId
-            name
-          }
-          bikeRentalStation {
-            networks
-            bikesAvailable
-            lat
-            lon
-            stationId
-          }
-          stop {
-            gtfsId
-            code
-            platformCode
-            vehicleMode
-            zoneId
             alerts {
               alertSeverityLevel
               effectiveEndDate
               effectiveStartDate
-              trip {
-                pattern {
-                  code
+              entities {
+                __typename
+                ... on Route {
+                  patterns {
+                    code
+                  }
                 }
               }
               alertHeaderText
@@ -366,148 +532,25 @@ const withRelay = createFragmentContainer(
               }
             }
           }
-        }
-        to {
-          lat
-          lon
-          name
-          vertexType
-          bikeRentalStation {
-            lat
-            lon
-            stationId
-            networks
-            bikesAvailable
-          }
-          stop {
+          trip {
             gtfsId
-            code
-            platformCode
-            zoneId
-            name
-            vehicleMode
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-              trip {
-                pattern {
-                  code
-                }
-              }
-              alertHeaderText
-              alertHeaderTextTranslations {
-                text
-                language
-              }
-              alertDescriptionText
-              alertDescriptionTextTranslations {
-                text
-                language
-              }
-              alertUrl
-              alertUrlTranslations {
-                text
-                language
-              }
+            tripHeadsign
+            pattern {
+              code
             }
-          }
-          bikePark {
-            bikeParkId
-            name
-          }
-          carPark {
-            carParkId 
-            name
-          }
-        }
-        legGeometry {
-          length
-          points
-        }
-        intermediatePlaces {
-          arrivalTime
-          stop {
-            gtfsId
-            lat
-            lon
-            name
-            code
-            platformCode
-            zoneId
-          }
-        }
-        realTime
-        realtimeState
-        transitLeg
-        rentedBike
-        startTime
-        endTime
-        mode
-        interlineWithPreviousLeg
-        distance
-        duration
-        intermediatePlace
-        route {
-          shortName
-          color
-          gtfsId
-          type
-          longName
-          desc
-          agency {
-            gtfsId
-            fareUrl
-            name
-            phone
-          }
-          alerts {
-            alertSeverityLevel
-            effectiveEndDate
-            effectiveStartDate
-            trip {
-              pattern {
-                code
+            stoptimesForDate {
+              headsign
+              pickupType
+              realtimeState
+              stop {
+                gtfsId
               }
-            }
-            alertHeaderText
-            alertHeaderTextTranslations {
-              text
-              language
-            }
-            alertDescriptionText
-            alertDescriptionTextTranslations {
-              text
-              language
-            }
-            alertUrl
-            alertUrlTranslations {
-              text
-              language
-            }
-          }
-        }
-        trip {
-          gtfsId
-          tripHeadsign
-          pattern {
-            code
-          }
-          stoptimesForDate {
-            headsign
-            pickupType
-            realtimeState
-            stop {
-              gtfsId
             }
           }
         }
       }
-    }
-  `,
-});
+    `,
+  },
+);
 
 export { ItineraryTab as Component, withRelay as default };

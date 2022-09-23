@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import get from 'lodash/get';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -7,7 +6,6 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { intlShape, FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import DepartureRow from './DepartureRow';
-import { patternIdPredicate } from '../util/alertUtils';
 import { isBrowser } from '../util/browser';
 import {
   stopRealTimeClient,
@@ -56,9 +54,6 @@ const asDepartures = stoptimes =>
 
         const { pattern } = stoptime.trip;
         return {
-          alerts: get(pattern, 'route.alerts', []).filter(alert =>
-            patternIdPredicate(alert, get(pattern, 'code', undefined)),
-          ),
           canceled,
           isArrival,
           hasNoStop,
@@ -75,9 +70,23 @@ const asDepartures = stoptimes =>
         };
       });
 
+const StopShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+});
+
+const TripShape = PropTypes.shape({
+  stops: PropTypes.arrayOf(StopShape),
+});
+
+const StopTimeShape = PropTypes.shape({
+  dropoffType: PropTypes.string.isRequired,
+  pickupType: PropTypes.string.isRequired,
+  trip: TripShape,
+});
+
 class DepartureListContainer extends Component {
   static propTypes = {
-    stoptimes: PropTypes.array.isRequired,
+    stoptimes: PropTypes.arrayOf(StopTimeShape).isRequired,
     mode: PropTypes.string.isRequired,
     currentTime: PropTypes.number.isRequired,
     limit: PropTypes.number,
@@ -85,6 +94,14 @@ class DepartureListContainer extends Component {
     className: PropTypes.string,
     isTerminal: PropTypes.bool,
     isStopPage: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    limit: undefined,
+    infiniteScroll: false,
+    className: undefined,
+    isTerminal: false,
+    isStopPage: false,
   };
 
   static contextTypes = {
@@ -433,6 +450,11 @@ const containerComponent = createFragmentContainer(DepartureListContainer, {
         stops {
           id
         }
+        alerts {
+          alertSeverityLevel
+          effectiveEndDate
+          effectiveStartDate
+        }
         pattern {
           route {
             gtfsId
@@ -448,11 +470,6 @@ const containerComponent = createFragmentContainer(DepartureListContainer, {
               alertSeverityLevel
               effectiveEndDate
               effectiveStartDate
-              trip {
-                pattern {
-                  code
-                }
-              }
             }
           }
           code
@@ -466,8 +483,4 @@ const containerComponent = createFragmentContainer(DepartureListContainer, {
   `,
 });
 
-export {
-  containerComponent as default,
-  DepartureListContainer as Component,
-  asDepartures,
-};
+export { containerComponent as default, DepartureListContainer as Component };

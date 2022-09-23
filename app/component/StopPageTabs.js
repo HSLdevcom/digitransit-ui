@@ -88,22 +88,26 @@ function StopPageTabs({ stop }, { intl, match }) {
 
   const modesByRoute = []; // DT-3387
 
-  if (stop.routes && stop.routes.length > 0) {
+  if (stop.routes?.length > 0) {
     stop.routes.forEach(route => {
       modesByRoute.push(route.mode); // DT-3387
-      const patternId = route.patterns.code;
-      const hasActiveRouteAlert = isAlertActive(
-        getCancelationsForRoute(route, patternId),
-        [
-          ...getServiceAlertsForRoute(route, patternId),
-          ...getServiceAlertsForRouteStops(route, patternId),
-        ],
-        currentTime,
+      const hasActiveRouteAlert = route.patterns.some(({ code }) =>
+        isAlertActive(
+          getCancelationsForRoute(route, code),
+          [
+            ...getServiceAlertsForRoute(route, code),
+            ...getServiceAlertsForRouteStops(route, code),
+          ],
+          currentTime,
+        ),
       );
-      const hasActiveRouteServiceAlerts = getActiveAlertSeverityLevel(
-        getServiceAlertsForRoute(route, patternId),
-        currentTime,
+      const hasActiveRouteServiceAlerts = route.patterns.some(({ code }) =>
+        getActiveAlertSeverityLevel(
+          getServiceAlertsForRoute(route, code),
+          currentTime,
+        ),
       );
+
       return (
         (hasActiveRouteAlert || hasActiveRouteServiceAlerts) &&
         stopRoutesWithAlerts.push(...route.alerts)
@@ -262,7 +266,15 @@ const alertArrayShape = PropTypes.arrayOf(
 
 StopPageTabs.propTypes = {
   stop: PropTypes.shape({
-    routes: PropTypes.array,
+    routes: PropTypes.arrayOf(
+      PropTypes.shape({
+        code: PropTypes.string.isRequired,
+        mode: PropTypes.string.isRequired,
+        patterns: PropTypes.arrayOf({
+          code: PropTypes.string.isRequired,
+        }).isRequired,
+      }),
+    ),
     alerts: alertArrayShape,
     vehicleMode: PropTypes.string,
     stoptimes: PropTypes.arrayOf(

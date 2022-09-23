@@ -207,12 +207,14 @@ export default class Map extends React.Component {
     if (this.props.mapBottomPadding) {
       boundsOptions.paddingBottomRight = [0, this.props.mapBottomPadding];
     }
-    let mapUrl =
+    const mapBaseUrl =
       (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/`) ||
-      config.URL.MAP;
-    if (mapUrl !== null && typeof mapUrl === 'object') {
-      mapUrl = mapUrl[this.props.lang] || config.URL.MAP.default;
-    }
+      config.URL.MAP[this.props.lang] ||
+      config.URL.MAP.default;
+    const mapUrl = config.hasAPISubscriptionQueryParameter
+      ? `${mapBaseUrl}{z}/{x}/{y}{size}.png?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
+      : `${mapBaseUrl}{z}/{x}/{y}{size}.png`;
+
     const leafletObjNew = leafletObjs.concat([
       <VectorTileLayerContainer
         key="vectorTileLayerContainer"
@@ -295,7 +297,7 @@ export default class Map extends React.Component {
           closePopupOnClick={false}
         >
           <TileLayer
-            url={`${mapUrl}{z}/{x}/{y}{size}.png`}
+            url={mapUrl}
             tileSize={config.map.tileSize || 256}
             zoomOffset={config.map.zoomOffset || 0}
             updateWhenIdle={false}

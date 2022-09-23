@@ -220,11 +220,16 @@ describe('<SummaryRow />', () => {
                   alertSeverityLevel: AlertSeverityLevelType.Warning,
                   effectiveEndDate: 1553778000,
                   effectiveStartDate: 1553754595,
-                  trip: {
-                    pattern: {
-                      code: 'HSL:3001I:0:02',
+                  entities: [
+                    {
+                      __typename: 'Route',
+                      patterns: [
+                        {
+                          code: 'HSL:3001I:0:02',
+                        },
+                      ],
                     },
-                  },
+                  ],
                 },
               ],
               mode: 'RAIL',

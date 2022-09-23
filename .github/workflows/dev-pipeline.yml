@@ -55,32 +55,6 @@ jobs:
         run: yarn run test-coverage
       - name: Send test coverage report
         run: yarn run test-report
-  accessibility-test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [10.x]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: "Set time zone to Europe/Helsinki"
-        uses: zcong1993/setup-timezone@master
-        with:
-          timezone: "Europe/Helsinki"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: yarn
-      - name: Install dependencies and build shared components
-        run: yarn setup
-      - name: build relay queries
-        run: yarn relay
-      - name: Build UI
-        run: yarn build
-      - name: Run accessibility tests
-        run: yarn test-accessibility
   # build:
   #   needs: install
   #   runs-on: ubuntu-18.04
@@ -110,49 +84,11 @@ jobs:
   #           '**/_static'
   #           './manifest.json'
   #         key: ${{ runner.os }}-build-${{ github.run_id }}
-  e2e-test-desktop:
-    runs-on: ubuntu-latest
-    strategy:
-      # don't cancel running jobs even if one fails
-      fail-fast: false
-      matrix:
-        node-version: [10.x]
-        config: [matka]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: "Set time zone to Europe/Helsinki"
-        uses: zcong1993/setup-timezone@master
-        with:
-          timezone: "Europe/Helsinki"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: yarn
-      - name: Build shared components
-        run: yarn setup
-      - name: Build relay queries
-        run: yarn relay
-      - name: Build UI
-        run: yarn build
-      - uses: microsoft/playwright-github-action@v1.5.0
-      - name: Run End to End tests
-        id: 'test_e2e'
-        env:
-          CONFIG: ${{matrix.config}}
-          REF: ${{github.head_ref}}
-          STORAGESASTOKEN: ${{ secrets.STORAGESASTOKEN }}
-          STORAGERESOURCENAME: "visualtestsnapshots"
-        run: yarn test:e2e
   publish-npm:
     if: github.ref == 'refs/heads/v2'
     needs:
       - lint
       - unit-test
-      - accessibility-test
-      - e2e-test-desktop
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -201,8 +137,6 @@ jobs:
       - lint
       - publish-npm
       - unit-test
-      - accessibility-test
-      - e2e-test-desktop
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

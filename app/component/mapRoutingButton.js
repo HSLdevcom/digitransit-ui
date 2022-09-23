@@ -11,7 +11,7 @@ import {
   PREFIX_ITINERARY_SUMMARY,
 } from '../util/path';
 
-const MapRoutingButton = ({ stop }, { intl, router, match }) => {
+const MapRoutingButton = ({ stop }, { intl, router, match, config }) => {
   const [showModal, setShowModal] = useState(false);
   const [buttonText, setButtonText] = useState(null);
   useEffect(() => {
@@ -107,18 +107,20 @@ const MapRoutingButton = ({ stop }, { intl, router, match }) => {
             >
               <FormattedMessage id="as-origin" defaultMessage="Route to stop" />
             </button>
-            <button
-              type="button"
-              className="map-routing-modal-button"
-              onClick={() => {
-                onSelectLocation(stop, 'via');
-              }}
-            >
-              <FormattedMessage
-                id="as-viapoint"
-                defaultMessage="Route to stop"
-              />
-            </button>
+            {config.viaPointsEnabled && (
+              <button
+                type="button"
+                className="map-routing-modal-button"
+                onClick={() => {
+                  onSelectLocation(stop, 'via');
+                }}
+              >
+                <FormattedMessage
+                  id="as-viapoint"
+                  defaultMessage="Route to stop"
+                />
+              </button>
+            )}
             <button
               type="button"
               className="map-routing-modal-button"

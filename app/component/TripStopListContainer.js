@@ -6,24 +6,56 @@ import isEmpty from 'lodash/isEmpty';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
+import moment from 'moment';
 import { getRouteMode } from '../util/modeUtils';
 import TripRouteStop from './TripRouteStop';
 import withBreakpoint from '../util/withBreakpoint';
 
 class TripStopListContainer extends React.PureComponent {
   static propTypes = {
-    trip: PropTypes.object.isRequired,
+    trip: PropTypes.shape({
+      gtfsId: PropTypes.string.isRequired,
+      route: PropTypes.shape({
+        gtfsId: PropTypes.string,
+        shortName: PropTypes.string,
+        type: PropTypes.number,
+        mode: PropTypes.string,
+        color: PropTypes.string,
+      }),
+      stoptimesForDate: PropTypes.arrayOf(
+        PropTypes.shape({
+          stop: PropTypes.shape({
+            gtfsId: PropTypes.string,
+          }),
+          realtimeDeparture: PropTypes.number,
+          serviceDay: PropTypes.number,
+        }),
+      ).isRequired,
+      pattern: PropTypes.shape({
+        code: PropTypes.string.isRequired,
+        directionId: PropTypes.number.isRequired,
+      }).isRequired,
+    }).isRequired,
     className: PropTypes.string,
-    vehicles: PropTypes.object,
-    currentTime: PropTypes.object.isRequired,
+    vehicles: PropTypes.objectOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        next_stop: PropTypes.string,
+        timestamp: PropTypes.number,
+      }),
+    ),
+    currentTime: PropTypes.instanceOf(moment).isRequired,
     tripStart: PropTypes.string.isRequired,
-    breakpoint: PropTypes.string,
+    breakpoint: PropTypes.string.isRequired,
     keepTracking: PropTypes.bool,
     setHumanScrolling: PropTypes.func,
   };
 
   static defaultProps = {
     vehicles: {},
+    className: undefined,
+    keepTracking: false,
+    setHumanScrolling: () => {},
   };
 
   static contextTypes = {

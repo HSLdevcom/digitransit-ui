@@ -7,6 +7,7 @@ import { v4 as uuid } from 'uuid';
 import { renderZoneTicket } from './ZoneTicket';
 import Icon from './Icon';
 import { getAlternativeFares } from '../util/fareUtils';
+import { FareShape } from '../util/shapes';
 
 const getUnknownFareRoute = (fares, route) => {
   for (let i = 0; i < fares.length; i++) {
@@ -119,19 +120,7 @@ export default function TicketInformation(
 
 TicketInformation.propTypes = {
   legs: PropTypes.array,
-  fares: PropTypes.arrayOf(
-    PropTypes.shape({
-      agency: PropTypes.shape({
-        fareUrl: PropTypes.string,
-        name: PropTypes.string,
-      }),
-      fareId: PropTypes.string,
-      cents: PropTypes.number,
-      isUnknown: PropTypes.bool,
-      routeName: PropTypes.string,
-      ticketName: PropTypes.string,
-    }),
-  ),
+  fares: PropTypes.arrayOf(FareShape),
   zones: PropTypes.arrayOf(PropTypes.string),
 };
 

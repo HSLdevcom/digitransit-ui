@@ -48,7 +48,7 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'walttiOpas/waltti-logo.png',
 
-  feedIds: ['Kotka', 'Kouvola', 'Salo'],
+  feedIds: ['Kotka', 'Kouvola', 'Salo', 'Kajaani'],
 
   defaultEndpoint: {
     address: 'Helsinki-Vantaan Lentoasema',
@@ -153,6 +153,11 @@ export default configMerger(walttiConfig, {
       fi: 'Kouvola',
       sv: 'Kouvola',
       en: 'Kouvola',
+    },
+    Kajaani: {
+      fi: 'Kajaani',
+      sv: 'Kajaani',
+      en: 'Kajaani',
     },
     Salo: {
       fi: 'Salo',

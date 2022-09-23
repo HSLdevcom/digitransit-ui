@@ -28,7 +28,7 @@ const LayerType = {
   Stop: 'stop',
   Street: 'street',
   Venue: 'venue',
-  BikeRentalStation: 'bikeRentalStation',
+  BikeRentalStation: 'bikestation',
   CarPark: 'carpark',
   BikePark: 'bikepark',
 };
@@ -161,7 +161,6 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
   if (!Array.isArray(results)) {
     return results;
   }
-
   const isLineIdentifier = value =>
     isString(value) && lineRegexp && lineRegexp.test(value);
 
@@ -191,28 +190,27 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
         // Normal confidence range from geocoder is about 0.3 .. 1
         if (!confidence) {
           // not from geocoder, estimate confidence ourselves
-          const estimatedConfidence =
+          return (
             getLayerRank(layer, source) +
-            match(normalizedTerm, result.properties);
-          return layer === LayerType.BikeRentalStation
-            ? estimatedConfidence - 0.8
-            : estimatedConfidence;
+            match(normalizedTerm, result.properties)
+          );
         }
-
         // geocoded items with confidence, just adjust a little
         switch (layer) {
           case LayerType.Station: {
             const boost = source.indexOf('gtfs') === 0 ? 0.02 : 0.01;
             return confidence + boost;
           }
-          default:
-            return confidence;
           case LayerType.Stop:
             return confidence - 0.05;
           case LayerType.CarPark:
             return confidence - 0.05;
           case LayerType.BikePark:
             return confidence - 0.05;
+          case LayerType.BikeRentalStation:
+            return confidence - 0.04;
+          default:
+            return confidence;
         }
       },
     ],

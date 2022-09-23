@@ -15,9 +15,10 @@ describe('<TripStopListContainer />', () => {
         forceFetch: () => {},
       },
       trip: {
+        gtfsId: 'feed:1',
         pattern: {
           code: 'foobar-1-1',
-          directionId: '1',
+          directionId: 1,
         },
         route: {
           gtfsId: 'foobar-1',
@@ -42,7 +43,9 @@ describe('<TripStopListContainer />', () => {
           },
         ],
       },
+      vehicles: {},
       tripStart: '',
+      breakpoint: 'large',
     };
     const wrapper = shallowWithIntl(<TripStopListContainer {...props} />, {
       context: {
@@ -64,6 +67,7 @@ describe('<TripStopListContainer />', () => {
         forceFetch: () => {},
       },
       trip: {
+        gtfsId: 'HSL:1',
         pattern: {
           code: 'HSL:6172:0:01',
           directionId: 0,
@@ -121,6 +125,8 @@ describe('<TripStopListContainer />', () => {
           heading: 140,
         },
       },
+      color: '',
+      breakpoint: 'large',
     };
     const wrapper = shallowWithIntl(<TripStopListContainer {...props} />, {
       context: {
