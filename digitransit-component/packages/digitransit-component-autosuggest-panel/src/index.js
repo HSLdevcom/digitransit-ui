@@ -483,6 +483,9 @@ class DTAutosuggestPanel extends React.Component {
             <Icon img="opposite" color={this.props.color} />
           </ItinerarySearchControl>
         </div>
+        <div className={styles['rectangle-container']}>
+          <div className={styles.rectangle} />
+        </div>
         {/* {viaPoints.length === 0 && (
           <div className={styles['rectangle-container']}>
             <div className={styles.rectangle} />
