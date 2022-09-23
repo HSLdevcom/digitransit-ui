@@ -64,13 +64,13 @@ class CityBikes {
 
           this.features = [];
 
-          if (vt.layers.stations != null) {
+          if (vt.layers.vehicleRentals != null) {
             for (
-              let i = 0, ref = vt.layers.stations.length - 1;
+              let i = 0, ref = vt.layers.vehicleRentals.length - 1;
               i <= ref;
               i++
             ) {
-              const feature = vt.layers.stations.feature(i);
+              const feature = vt.layers.vehicleRentals.feature(i);
               [[feature.geom]] = feature.loadGeometry();
               this.features.push(pick(feature, ['geom', 'properties']));
             }
