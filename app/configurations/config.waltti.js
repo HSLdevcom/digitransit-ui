@@ -1,16 +1,14 @@
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const MAP_URL =
-  process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const MAP_VERSION = process.env.MAP_VERSION || 'v2';
+const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/waltti/`;
 const APP_DESCRIPTION = 'Uusi Reittiopas';
 const YEAR = 1900 + new Date().getYear();
 
 export default {
   YEAR,
   URL: {
-    OTP: process.env.OTP_URL || `${API_URL}/routing/v2/routers/waltti/`,
-    STOP_MAP: `${MAP_URL}/map/${MAP_VERSION}/waltti-stop-map/`,
-    CITYBIKE_MAP: `${MAP_URL}/map/${MAP_VERSION}/waltti-citybike-map/`,
+    OTP: OTP_URL,
+    STOP_MAP: `${OTP_URL}vectorTiles/stops,stations/`,
+    CITYBIKE_MAP: `${OTP_URL}vectorTiles/vehicleRentals/`,
   },
 
   contactName: {
