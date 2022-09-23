@@ -17,6 +17,7 @@ import { isBrowser } from '../util/browser';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { getRouteMode } from '../util/modeUtils';
 import AlertBanner from './AlertBanner';
+import { hasMeaningfulData } from '../util/alertUtils';
 
 const modules = {
   FavouriteRouteContainer: () =>
@@ -134,7 +135,7 @@ class RoutePage extends React.Component {
               </LazilyLoad>
             )}
           </div>
-          {tripId && route.alerts.length > 0 && (
+          {tripId && hasMeaningfulData(route.alerts) && (
             <div className="trip-page-alert-container">
               <AlertBanner
                 alerts={route.alerts}
