@@ -97,3 +97,8 @@ export const ExtendedRouteTypes = {
   BusExpress: 702,
   BusLocal: 704,
 };
+
+export const ParkTypes = {
+  Bicycle: 'BICYCLE',
+  Car: 'CAR',
+};

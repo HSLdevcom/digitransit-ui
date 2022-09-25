@@ -6,6 +6,7 @@ import {
   BIKESTATION_OFF,
   BIKESTATION_CLOSED,
 } from './citybikes';
+import { ParkTypes } from '../constants';
 
 /**
  * Corresponds to an arc forming a full circle (Math.PI * 2).
@@ -778,14 +779,15 @@ export function drawHybridStationIcon(tile, geom, isHilighted) {
 }
 
 export function drawParkAndRideIcon(
+  type,
   tile,
   geom,
   width,
   height,
   isHilighted = false,
-  isBikePark = false,
 ) {
-  const img = isBikePark ? 'icon-icon_bike-park' : 'icon-icon_car-park';
+  const img =
+    type === ParkTypes.Bicycle ? 'icon-icon_bike-park' : 'icon-icon_car-park';
   getImageFromSpriteCache(img, width, height).then(image => {
     drawIconImage(image, tile, geom, width, height);
   });
@@ -802,16 +804,6 @@ export function drawParkAndRideIcon(
       },
     );
   }
-}
-
-export function drawParkAndRideForBikesIcon(
-  tile,
-  geom,
-  width,
-  height,
-  isHighlighted = false,
-) {
-  drawParkAndRideIcon(tile, geom, width, height, isHighlighted, true);
 }
 
 export function drawAvailabilityBadge(
