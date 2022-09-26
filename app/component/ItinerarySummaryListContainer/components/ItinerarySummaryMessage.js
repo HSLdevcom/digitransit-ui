@@ -86,10 +86,12 @@ const ItinerarySummaryMessage = (
 };
 
 const PolygonPropType = PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number));
-const LinkShape = PropTypes.shape({
-  href: PropTypes.string,
-  name: PropTypes.string,
-});
+const LinkShape = PropTypes.objectOf(
+  PropTypes.shape({
+    href: PropTypes.string,
+    name: PropTypes.string,
+  }),
+);
 
 ItinerarySummaryMessage.propTypes = {
   areaPolygon: PolygonPropType.isRequired,

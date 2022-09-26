@@ -117,7 +117,20 @@ export default {
 
   appBarStyle: 'hsl',
 
-  nationalServiceLink: { name: 'matka.fi', href: 'https://opas.matka.fi/' },
+  nationalServiceLink: {
+    fi: {
+      name: 'matka.fi',
+      href: 'https://opas.matka.fi/',
+    },
+    sv: {
+      name: 'matka.fi',
+      href: 'https://opas.matka.fi/?locale=sv',
+    },
+    en: {
+      name: 'matka.fi',
+      href: 'https://opas.matka.fi/?locale=en',
+    },
+  },
 
   agency: {
     show: false,

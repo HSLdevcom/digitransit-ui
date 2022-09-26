@@ -53,9 +53,20 @@ const defaultProps = {
   areaPolygon: HelsinkiRegionBounds,
   minDistanceBetweenFromAndTo: 100.0,
   nationalServiceLink: {
-    name: 'Matka',
-    href: 'https://opas.matka.fi',
+    fi: {
+      name: 'matka.fi',
+      href: 'https://opas.matka.fi/',
+    },
+    sv: {
+      name: 'matka.fi',
+      href: 'https://opas.matka.fi/?locale=sv',
+    },
+    en: {
+      name: 'matka.fi',
+      href: 'https://opas.matka.fi/?locale=en',
+    },
   },
+
   from: {},
   to: {},
   searchTime: 123456780,
@@ -91,11 +102,24 @@ const expectElementWithId = (
   ).to.have.length(1, assertErrorMessage);
 };
 
-const expectElement = (props, componentName) => {
-  const wrapper = shallowWithIntl(<ItinerarySummaryMessage {...props} />, {
+/**
+ * Expect rendered *<ItinerarySummaryMessage {...props}/>* component to
+ * contain a child component *componentName*.
+ * @param {Object.<String, *>} props Properties for ItinerarySummaryMessage.
+ * @param {String} componentName Component name to expect.
+ * @param {String} [mountMethod] Should Enzyme render component by 'shallow'
+ *                               (default) or 'mount'.
+ */
+const expectElement = (props, componentName, mountMethod = 'shallow') => {
+  const opts = {
     context: mockContext,
     childContextTypes: mockChildContextTypes,
-  });
+  };
+
+  const wrapper =
+    mountMethod === 'shallow'
+      ? shallowWithIntl(<ItinerarySummaryMessage {...props} />, opts)
+      : mountWithIntl(<ItinerarySummaryMessage {...props} />, opts);
 
   const assertErrorMessage = `<${componentName} .../> not found.`;
   expect(
@@ -131,7 +155,7 @@ describe('<ItinerarySummaryMessage />', () => {
         from: TestLocation.Outside,
         to: TestLocation.Rautatientori,
       };
-      expectElement(props, 'NationalServiceLink');
+      expectElement(props, 'NationalServiceLink', false);
     });
 
     it('renders message when origin out of bounds', () => {
