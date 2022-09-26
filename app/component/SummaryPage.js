@@ -2396,7 +2396,7 @@ class SummaryPage extends React.Component {
               activeIndex={activeIndex}
               plan={this.selectedPlan}
               serviceTimeRange={serviceTimeRange}
-              routingErrors={this.originalPlan.routingErrors}
+              routingErrors={this.selectedPlan.routingErrors}
               itineraries={selectedItineraries}
               params={match.params}
               error={error || this.state.error}
@@ -2610,6 +2610,7 @@ class SummaryPage extends React.Component {
               }
               plan={this.selectedPlan}
               serviceTimeRange={serviceTimeRange}
+              routingErrors={this.selectedPlan.routingErrors}
               itineraries={combinedItineraries}
               params={match.params}
               error={error || this.state.error}
