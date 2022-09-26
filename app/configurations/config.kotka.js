@@ -66,6 +66,11 @@ export default configMerger(walttiConfig, {
           sv: 'https://kaakau.fi/kotka/?lang=sv',
           en: 'https://kaakau.fi/kotka/?lang=en',
         },
+        returnInstructions: {
+          fi: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+          sv: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+          en: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+        },
       },
       donkey_hamina: {
         enabled: true,
@@ -86,6 +91,11 @@ export default configMerger(walttiConfig, {
           fi: 'https://kaakau.fi/hamina/',
           sv: 'https://kaakau.fi/hamina/?lang=sv',
           en: 'https://kaakau.fi/hamina/?lang=en',
+        },
+        returnInstructions: {
+          fi: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+          sv: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+          en: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
         },
       },
     },
