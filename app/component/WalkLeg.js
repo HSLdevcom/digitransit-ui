@@ -23,7 +23,15 @@ import { splitStringToAddressAndPlace } from '../util/otpStrings';
 import CityBikeLeg from './CityBikeLeg';
 
 function WalkLeg(
-  { children, focusAction, focusToLeg, index, leg, previousLeg },
+  {
+    children,
+    focusAction,
+    focusToLeg,
+    index,
+    leg,
+    previousLeg,
+    artificial = false,
+  },
   { config, intl },
 ) {
   const distance = displayDistance(
@@ -238,28 +246,32 @@ function WalkLeg(
         )}
 
         <div className="itinerary-leg-action">
-          <div className="itinerary-leg-action-content">
-            <FormattedMessage
-              id="walk-distance-duration"
-              values={{ distance, duration }}
-              defaultMessage="Walk {distance} ({duration})"
-            />
-            <div
-              className="itinerary-map-action"
-              onClick={focusToLeg}
-              onKeyPress={e => isKeyboardSelectionEvent(e) && focusToLeg(e)}
-              role="button"
-              tabIndex="0"
-              aria-label={intl.formatMessage({
-                id: 'itinerary-summary-row.clickable-area-description',
-              })}
-            >
-              <Icon
-                img="icon-icon_show-on-map"
-                className="itinerary-search-icon"
+          {artificial ? (
+            <></>
+          ) : (
+            <div className="itinerary-leg-action-content">
+              <FormattedMessage
+                id="walk-distance-duration"
+                values={{ distance, duration }}
+                defaultMessage="Walk {distance} ({duration})"
               />
+              <div
+                className="itinerary-map-action"
+                onClick={focusToLeg}
+                onKeyPress={e => isKeyboardSelectionEvent(e) && focusToLeg(e)}
+                role="button"
+                tabIndex="0"
+                aria-label={intl.formatMessage({
+                  id: 'itinerary-summary-row.clickable-area-description',
+                })}
+              >
+                <Icon
+                  img="icon-icon_show-on-map"
+                  className="itinerary-search-icon"
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
@@ -308,6 +320,7 @@ WalkLeg.propTypes = {
   leg: walkLegShape.isRequired,
   previousLeg: walkLegShape,
   focusToLeg: PropTypes.func.isRequired,
+  artificial: PropTypes.bool,
 };
 
 WalkLeg.defaultProps = {
