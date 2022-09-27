@@ -63,7 +63,7 @@ const defaultProps = {
     },
     en: {
       name: 'matka.fi',
-      href: 'https://opas.matka.fi/?locale=en',
+      href: 'https://opas.matka.fi/en/',
     },
   },
 
