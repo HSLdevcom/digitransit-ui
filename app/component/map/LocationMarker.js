@@ -58,7 +58,7 @@ LocationMarker.propTypes = {
   position: IconMarker.propTypes.position,
   className: PropTypes.string,
   isLarge: PropTypes.bool,
-  type: PropTypes.oneOf(['from', 'via', 'to']),
+  type: PropTypes.oneOf(['from', 'via', 'to', 'favourite']),
   disabled: PropTypes.bool,
 };
 
