@@ -2,22 +2,27 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
-import inside from 'point-in-polygon';
 import cx from 'classnames';
-import startsWith from 'lodash/startsWith';
 import { matchShape } from 'found';
-import isEqual from 'lodash/isEqual';
 
-import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import Icon from './Icon';
-import SummaryRow from './SummaryRow';
-import { isBrowser } from '../util/browser';
-import { getZones } from '../util/legUtils';
-import CanceledItineraryToggler from './CanceledItineraryToggler';
-import { itineraryHasCancelation } from '../util/alertUtils';
-import { getCurrentSettings, getDefaultSettings } from '../util/planParamUtil';
-import { ItinerarySummarySubtitle } from './ItinerarySummarySubtitle';
-import Loading from './Loading';
+import isEqual from 'lodash/isEqual';
+import {
+  getCurrentSettings,
+  getDefaultSettings,
+} from '../../util/planParamUtil';
+
+import Icon from '../Icon';
+import SummaryRow from '../SummaryRow';
+import { isBrowser } from '../../util/browser';
+import { getZones } from '../../util/legUtils';
+import CanceledItineraryToggler from '../CanceledItineraryToggler';
+import { itineraryHasCancelation } from '../../util/alertUtils';
+import { ItinerarySummarySubtitle } from '../ItinerarySummarySubtitle';
+import Loading from '../Loading';
+import ItinerarySummaryMessage from './components/ItinerarySummaryMessage';
+import LocationShape from '../../prop-types/LocationShape';
+import ErrorShape from '../../prop-types/ErrorShape';
+import RoutingErrorShape from '../../prop-types/RoutingErrorShape';
 
 function ItinerarySummaryListContainer(
   {
@@ -41,11 +46,12 @@ function ItinerarySummaryListContainer(
     loadingMoreItineraries,
     loading,
     driving,
+    routingErrors,
   },
   context,
 ) {
   const [showCancelled, setShowCancelled] = useState(false);
-  const { config, match } = context;
+  const { config } = context;
 
   if (
     !error &&
@@ -224,145 +230,44 @@ function ItinerarySummaryListContainer(
     return null;
   }
 
-  let msgId;
-  let outside;
-  let iconType = 'caution';
-  let iconImg = 'icon-icon_caution';
-  // If error starts with "Error" it's not a message id, it's an error message
-  // from OTP
-  if (error && !startsWith(error, 'Error')) {
-    msgId = 'no-route-msg';
-  } else if (!inside([from.lon, from.lat], config.areaPolygon)) {
-    msgId = 'origin-outside-service';
-    outside = true;
-  } else if (!inside([to.lon, to.lat], config.areaPolygon)) {
-    msgId = 'destination-outside-service';
-    outside = true;
-  } else if (distance(from, to) < config.minDistanceBetweenFromAndTo) {
-    iconType = 'info';
-    iconImg = 'icon-icon_info';
-    if (
-      locationState &&
-      locationState.hasLocation &&
-      ((from.lat === locationState.lat && from.lon === locationState.lon) ||
-        (to.lat === locationState.lat && to.lon === locationState.lon))
-    ) {
-      msgId = 'no-route-already-at-destination';
-    } else if (to && from && from.lat === to.lat && from.lon === to.lon) {
-      msgId = 'no-route-origin-same-as-destination';
-    } else {
-      msgId = 'no-route-origin-near-destination';
-    }
-  } else if (walking || biking || driving) {
-    iconType = 'info';
-    iconImg = 'icon-icon_info';
-    const yesterday = currentTime - 24 * 60 * 60 * 1000;
-    if (searchTime < yesterday) {
-      msgId = 'itinerary-in-the-past';
-    } else if (driving) {
-      msgId = 'walk-bike-itinerary-4';
-    } else if (walking && !biking) {
-      msgId = 'walk-bike-itinerary-1';
-    } else if (!walking && biking) {
-      msgId = 'walk-bike-itinerary-2';
-    } else {
-      msgId = 'walk-bike-itinerary-3';
-    }
-  } else {
-    const hasChanges = !isEqual(
-      getCurrentSettings(config),
-      getDefaultSettings(config),
-    );
-    if (hasChanges) {
-      msgId = 'no-route-msg-with-changes';
-    } else {
-      msgId = 'no-route-msg';
-    }
-  }
+  const hasSettingsChanges = !isEqual(
+    getCurrentSettings(config),
+    getDefaultSettings(config),
+  );
 
-  let linkPart = null;
-  if (outside && config.nationalServiceLink) {
-    linkPart = (
-      <div>
-        <FormattedMessage
-          id="use-national-service-prefix"
-          defaultMessage="You can also try the national service available at"
-        />
-        <a className="no-decoration" href={config.nationalServiceLink.href}>
-          {config.nationalServiceLink.name}
-        </a>
-        <FormattedMessage id="use-national-service-postfix" defaultMessage="" />
-      </div>
-    );
-  }
-
-  let titlePart = null;
-  if (msgId === 'itinerary-in-the-past') {
-    titlePart = (
-      <div className="in-the-past">
-        <FormattedMessage id={`${msgId}-title`} defaultMessage="" />
-      </div>
-    );
-    linkPart = (
-      <div>
-        <a
-          className={cx('no-decoration', 'medium')}
-          href={match.location.pathname}
-        >
-          <FormattedMessage id={`${msgId}-link`} defaultMessage="" />
-        </a>
-      </div>
-    );
-  }
-
-  const background = iconImg.replace('icon-icon_', '');
   return (
-    <div className="summary-list-container summary-no-route-found">
-      <div
-        className={cx('flex-horizontal', 'summary-notification', background)}
-      >
-        <Icon
-          className={cx('no-route-icon', iconType)}
-          img={iconImg}
-          color={iconImg === 'icon-icon_info' ? '#0074be' : null}
-        />
-        <div>
-          {titlePart}
-          <FormattedMessage
-            id={msgId}
-            defaultMessage={
-              'Unfortunately no routes were found for your journey. ' +
-              'Please change your origin or destination address.'
-            }
-          />
-          {linkPart}
-        </div>
-      </div>
-    </div>
+    <ItinerarySummaryMessage
+      areaPolygon={config.areaPolygon}
+      biking={biking}
+      driving={driving}
+      error={error}
+      from={from}
+      locationState={locationState}
+      routingErrors={routingErrors}
+      minDistanceBetweenFromAndTo={config.minDistanceBetweenFromAndTo}
+      nationalServiceLink={config.nationalServiceLink}
+      searchTime={searchTime}
+      currentTime={currentTime}
+      to={to}
+      walking={walking}
+      hasSettingsChanges={hasSettingsChanges}
+    />
   );
 }
-
-const locationShape = PropTypes.shape({
-  lat: PropTypes.number,
-  lon: PropTypes.number,
-  address: PropTypes.string,
-});
 
 ItinerarySummaryListContainer.propTypes = {
   activeIndex: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
-  error: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.shape({ message: PropTypes.string }),
-  ]),
-  from: locationShape.isRequired,
-  intermediatePlaces: PropTypes.arrayOf(locationShape),
-  itineraries: PropTypes.array,
-  locationState: PropTypes.object,
+  error: ErrorShape,
+  routingErrors: PropTypes.arrayOf(RoutingErrorShape),
+  from: LocationShape.isRequired,
+  intermediatePlaces: PropTypes.arrayOf(LocationShape),
+  itineraries: PropTypes.arrayOf(PropTypes.object),
+  locationState: LocationShape.isRequired,
   onSelect: PropTypes.func.isRequired,
   onSelectImmediately: PropTypes.func.isRequired,
   searchTime: PropTypes.number.isRequired,
-  to: locationShape.isRequired,
+  to: LocationShape.isRequired,
   bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
   bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
   walking: PropTypes.bool,
@@ -380,9 +285,11 @@ ItinerarySummaryListContainer.defaultProps = {
   itineraries: [],
   walking: false,
   biking: false,
+  driving: false,
   showAlternativePlan: false,
   separatorPosition: undefined,
   loadingMoreItineraries: undefined,
+  routingErrors: [],
 };
 
 ItinerarySummaryListContainer.contextTypes = {
