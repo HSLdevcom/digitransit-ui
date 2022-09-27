@@ -286,6 +286,16 @@ export function getSearchResults(
   ) {
     searchComponents.push(getCurrentPositionIfEmpty(input, position));
   }
+  if (targets.includes('SelectFromMap')) {
+    const selectFromMap = {
+      type: 'SelectFromMap',
+      properties: {
+        labelId: 'select-from-map',
+        layer: 'selectFromMap',
+      },
+    };
+    searchComponents.push(selectFromMap);
+  }
   if (allTargets || targets.includes('MapPosition')) {
     searchComponents.push(selectPositionFomMap(input));
   }
