@@ -323,7 +323,7 @@ class FavouritesContainer extends React.Component {
     const isLoading =
       this.props.favouriteStatus === FavouriteStore.STATUS_FETCHING_OR_UPDATING;
     const { requireLoggedIn, isLoggedIn } = this.props;
-    const targets = ['Locations', 'CurrentPosition'];
+    const targets = ['Locations', 'CurrentPosition', 'MapPosition'];
     const { fontWeights } = this.context.config;
     const favouritePlaces = this.props.favourites.filter(
       item => item.type === 'place',
@@ -391,6 +391,7 @@ class FavouritesContainer extends React.Component {
               fontWeights={fontWeights}
               required
               modeSet={this.context.config.iconModeSet}
+              favouriteContext
             />
           }
           color={this.props.color}
