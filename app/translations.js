@@ -1018,6 +1018,10 @@ const translations = {
     departures: 'Departures',
     'departures-by-hour': 'Departures by hour',
     'departures-by-hour-minutes-route': '(minutes/route)',
+    'departures-not-found':
+      'Unfortunately, no timetable was found for the stop you selected',
+    'departures-not-found-time-threshold':
+      'Unfortunately, no timetable was found for the stop you selected. It is possible that the day you searched for is too ar in the future. Please try again nearer to the time of your journey',
     description: 'Find public transport services to locations near and far.',
     destination: 'Destination',
     'destination-defined': 'Destination defined',
@@ -1269,6 +1273,8 @@ const translations = {
     'no-route-found':
       'Unfortunately, route {shortName} ({longName}) could not be found.',
     'no-route-msg': 'Unfortunately, no route suggestions were found.',
+    'no-route-msg-time-threshold':
+      'Unfortunately, no route suggestions were found. It is possible that no timetables can yet be found for the day you selected. Please try again nearer to the time of your journey',
     'no-route-msg-with-changes':
       'Unfortunately, no route suggestions were found. Please check your search settings or try changing the origin or destination.',
     'no-route-origin-near-destination':
@@ -2112,6 +2118,10 @@ const translations = {
     departures: 'Lähdöt',
     'departures-by-hour': 'Lähdöt tunneittain',
     'departures-by-hour-minutes-route': '(minuutit/linja)',
+    'departures-not-found':
+      'Valitsemallesi pysäkille ei valitettavasti löytynyt aikataulua',
+    'departures-not-found-time-threshold':
+      'Valitsemallesi pysäkille ei valitettavasti löytynyt aikataulua. Syynä voi olla se, että hakemasi päivämäärä on niin pitkällä tulevaisuudessa. Ole hyvä ja yritä uudelleen lähempänä matkasi ajankohtaa',
     description: 'Löydä joukkoliikennetarjonta lähelle ja kauas.',
     destination: 'Määränpää',
     'destination-defined': 'Määränpää määritetty',
@@ -2358,6 +2368,8 @@ const translations = {
     'no-route-found':
       'Linjaa {shortName} ({longName}) ei valitettavasti löytynyt.',
     'no-route-msg': 'Reittiehdotuksia ei valitettavasti löytynyt.',
+    'no-route-msg-time-threshold':
+      'Reittiehdotuksia ei valitettavasti löytynyt. On mahdollista, ettei aikatauluja löydy vielä valitsemallesi päivälle. Ole hyvä ja yritä uudelleen lähempänä matkasi ajankohtaa',
     'no-route-msg-with-changes':
       'Reittiehdotuksia ei valitettavasti löytynyt. Ole hyvä ja tarkasta asettamasi hakuasetukset tai yritä muuttaa lähtöpaikkaa tai määränpäätä.',
     'no-route-origin-near-destination':
@@ -3983,6 +3995,10 @@ const translations = {
     departures: 'Avgångar',
     'departures-by-hour': 'Avgångar per timme',
     'departures-by-hour-minutes-route': '(minuter/rad)',
+    'departures-not-found':
+      'Kunda tyvärr inte hitta tidtabell för den valda hållplatsen',
+    'departures-not-found-time-threshold':
+      'Kunde tyvärr inte hitta tidtabell för den valda hållplatsen. Det kan bero på det att det valda datumet ligger så långt in i framtiden. Försök på nytt senare',
     description: 'Res kollektivt när och fjärran.',
     destination: 'Destination',
     'destination-defined': 'Destination definierat',
@@ -4232,6 +4248,8 @@ const translations = {
       'Tidtabellen har inga resor som avgår senare.',
     'no-route-found': 'Kunde tyvärr inte hitta linje {shortName} ({longName})',
     'no-route-msg': 'Kunde tyvärr inte hitta ruttförslag',
+    'no-route-msg-time-threshold':
+      'Kunde tyvärr inte hitta ruttförslag. Det kan bero på att det ännu inte finnd tidtabeller för den valda dagen. Försök på nytt senare',
     'no-route-msg-with-changes':
       'Kunde tyvärr inte hitta ruttförslag Var god och kontrollera dina val eller försök ändra avgångsplats eller destination.',
     'no-route-origin-near-destination':

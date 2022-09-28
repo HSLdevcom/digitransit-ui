@@ -247,7 +247,7 @@ export default {
       enableButtonArrows: false,
     },
     // Number of days to include to the service time range from the future (DT-3317)
-    serviceTimeRange: 30,
+    serviceTimeRange: 60,
   },
 
   map: {
@@ -592,6 +592,8 @@ export default {
   availableRouteTimetables: {},
 
   routeTimetableUrlResolver: {},
+
+  showTenWeeksOnRouteSchedule: true,
 
   aboutThisService: {
     fi: [

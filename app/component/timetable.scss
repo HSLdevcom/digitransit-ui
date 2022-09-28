@@ -176,3 +176,41 @@
     margin: 0em 16px 8px;
   }
 }
+
+.no-timetable-found-container {
+  border-top: 1px solid $light-gray;
+  margin-top: 8px;
+  font-weight: $font-weight-medium;
+  font-size: $font-size-normal;
+  line-height: 18px;
+  letter-spacing: -0.03em;
+}
+
+.no-timetable-found {
+  display: flex;
+  justify-content: center;
+  padding-top: 1em;
+  .no-timetable-icon {
+    margin-right: 1em;
+    margin-top: 0.5em;
+    color: white;
+    width: 2em;
+    height: 2em;
+  }
+  .info {
+    fill: $gray-blue
+  }
+}
+
+.timetable-notification {
+  margin: 0 auto;
+  width: calc(100% - 2em);
+  max-width: 400px;
+  border-radius: 5px;
+  padding: 18px 32px 18px 16px;
+  font-weight: normal;
+  font-size: 14px;
+  &.info {
+    background: #e5f1f9;
+  }
+}
