@@ -179,7 +179,7 @@
 
 .no-timetable-found-container {
   border-top: 1px solid $light-gray;
-  margin: 8px 64px 0 64px;
+  margin-top: 8px;
   font-weight: $font-weight-medium;
   font-size: $font-size-normal;
   line-height: 18px;
@@ -189,7 +189,7 @@
 .no-timetable-found {
   display: flex;
   justify-content: center;
-  padding: 1em;
+  padding-top: 1em;
   .no-timetable-icon {
     margin-right: 1em;
     margin-top: 0.5em;
