@@ -7,6 +7,7 @@ import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
 import { FormattedMessage } from 'react-intl';
 import { matchShape, routerShape } from 'found';
+import cx from 'classnames';
 import Icon from './Icon';
 import FilterTimeTableModal from './FilterTimeTableModal';
 import TimeTableOptionsPanel from './TimeTableOptionsPanel';
@@ -291,6 +292,12 @@ class Timetable extends React.Component {
     const virtualMonitorUrl =
       this.context.config?.stopCard?.header?.virtualMonitorBaseUrl &&
       `${this.context.config.stopCard.header.virtualMonitorBaseUrl}${this.props.stop.gtfsId}`;
+    const timeTableRows = this.createTimeTableRows(timetableMap);
+    const timeDifferenceDays = moment
+      .duration(
+        moment(this.props.propsForDateSelect.selectedDate).diff(moment()),
+      )
+      .asDays();
     return (
       <>
         <ScrollableWrapper>
@@ -335,18 +342,50 @@ class Timetable extends React.Component {
             <div className="timetable-for-printing">
               {this.dateForPrinting()}
             </div>
-            <div className="timetable-note">
-              <h2>
-                <FormattedMessage
-                  id="departures-by-hour"
-                  defaultMessage="Departures by hour"
-                />{' '}
-                <FormattedMessage
-                  id="departures-by-hour-minutes-route"
-                  defaultMessage="(minutes/route)"
-                />
-              </h2>
-            </div>
+
+            {timeTableRows.length > 0 ? (
+              <div className="timetable-note">
+                <h2>
+                  <FormattedMessage
+                    id="departures-by-hour"
+                    defaultMessage="Departures by hour"
+                  />{' '}
+                  <FormattedMessage
+                    id="departures-by-hour-minutes-route"
+                    defaultMessage="(minutes/route)"
+                  />
+                </h2>
+              </div>
+            ) : (
+              <div className="no-timetable-found-container">
+                <div className="no-timetable-found">
+                  <div
+                    className={cx(
+                      'flex-horizontal',
+                      'timetable-notification',
+                      'info',
+                    )}
+                  >
+                    <Icon
+                      className={cx('no-timetable-icon', 'caution')}
+                      img="icon-icon_info"
+                      color="#0074be"
+                    />
+                    {timeDifferenceDays > 30 ? (
+                      <FormattedMessage
+                        id="departures-not-found-time-threshold"
+                        defaultMessage="No departures found"
+                      />
+                    ) : (
+                      <FormattedMessage
+                        id="departures-not-found"
+                        defaultMessage="No departures found"
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
             <div className="momentum-scroll timetable-content-container">
               <div className="timetable-time-headers">
                 <div className="hour">
@@ -359,7 +398,7 @@ class Timetable extends React.Component {
                   />
                 </div>
               </div>
-              {this.createTimeTableRows(timetableMap)}
+              {timeTableRows}
               <div
                 className="route-remarks"
                 style={{

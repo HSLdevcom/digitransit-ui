@@ -9,6 +9,7 @@ import { matchShape } from 'found';
 import isEqual from 'lodash/isEqual';
 
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import moment from 'moment';
 import Icon from './Icon';
 import SummaryRow from './SummaryRow';
 import { isBrowser } from '../util/browser';
@@ -267,6 +268,13 @@ function ItinerarySummaryListContainer(
       msgId = 'walk-bike-itinerary-2';
     } else {
       msgId = 'walk-bike-itinerary-3';
+    }
+    // Show different message if trip is >30 days in the future
+    const timeDifferenceDays = moment
+      .duration(moment(searchTime).diff(moment()))
+      .asDays();
+    if (timeDifferenceDays > 30) {
+      msgId = 'no-route-msg-time-threshold';
     }
   } else {
     const hasChanges = !isEqual(
