@@ -262,6 +262,18 @@ describe('<ItinerarySummaryMessage />', () => {
         'itinerary-in-the-past',
       );
     });
+
+    it('renders message when given an error message string prop', () => {
+      expectElementWithId(
+        {
+          ...defaultProps,
+          error: 'other-message-id',
+        },
+        'ErrorCard',
+        'msgId',
+        'other-message-id',
+      );
+    });
   });
 });
 

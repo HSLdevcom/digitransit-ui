@@ -11,6 +11,12 @@ import ChangeDepartureTimeLink from '../components/ChangeDepartureTimeLink';
 const info = { iconType: ICON_TYPE_INFO, iconImg: ICON_INFO };
 const caution = { iconImg: ICON_CAUTION, iconType: ICON_TYPE_CAUTION };
 
+export const getCautionCardProps = bodyId => ({
+  bodyId,
+  iconImg: ICON_CAUTION,
+  iconType: ICON_TYPE_CAUTION,
+});
+
 /**
  * Priority-ordered list of properties to describe error card rendering.
  * If many error messages match the user's query, first in the 'errorCardProps'

@@ -8,7 +8,9 @@ import ErrorShape from '../../../prop-types/ErrorShape';
 import RoutingErrorShape from '../../../prop-types/RoutingErrorShape';
 import ErrorCard from './components/ErrorCard';
 import findErrorMessageIds from './utils/findErrorMessageIds';
-import errorCardProps from './utils/errorCardProperties';
+import errorCardProps, {
+  getCautionCardProps,
+} from './utils/errorCardProperties';
 
 /**
  * Get error message visual properties.
@@ -16,12 +18,20 @@ import errorCardProps from './utils/errorCardProperties';
  * @param {Array.<String>} summaryMessageIds
  * @return {Object} { titleId, bodyId, linkComponent, iconType, iconImg, LinkComponent }
  */
-const getErrorCardProps = summaryMessageIds => {
+const findErrorCard = summaryMessageIds => {
   // match to priority-ordered props list
-  return (
-    errorCardProps.find(({ id }) => summaryMessageIds.indexOf(id) >= 0)
-      ?.props || {}
-  );
+  return errorCardProps.find(({ id }) => summaryMessageIds.indexOf(id) >= 0);
+};
+
+const getErrorCardProps = summaryMessageIds => {
+  const match = findErrorCard(summaryMessageIds);
+
+  if (match) {
+    return match.props;
+  }
+
+  const defaultId = (summaryMessageIds || [])[0];
+  return defaultId ? getCautionCardProps(defaultId) : 'system-error';
 };
 
 const ItinerarySummaryMessage = (
