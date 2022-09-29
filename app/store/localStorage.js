@@ -128,6 +128,10 @@ export function setCustomizedSettings(data) {
       data.includeParkAndRideSuggestions,
       oldSettings.includeParkAndRideSuggestions,
     ),
+    includeBikeParkSuggestions: getValueOrDefault(
+      data.includeBikeParkSuggestions,
+      oldSettings.includeBikeParkSuggestions,
+    ),
   };
 
   setItem('customizedSettings', newSettings);
