@@ -111,8 +111,6 @@ const withItineraryPaging = WrappedComponent => {
         plan: { itineraries },
       } = data;
 
-      showScreenreaderLoadedAlert();
-
       if (state.arriveBy) {
         setLaterItineraries([...laterItineraries, ...itineraries]);
       } else {
@@ -143,8 +141,6 @@ const withItineraryPaging = WrappedComponent => {
         plan: { itineraries },
       } = data;
 
-      showScreenreaderLoadedAlert();
-
       if (state.arriveBy) {
         const reversedItineraries = itineraries
           .slice() // Need to copy because result is readonly
@@ -170,6 +166,7 @@ const withItineraryPaging = WrappedComponent => {
 
     const onComplete = () => {
       setLoadingMoreItineraries(undefined);
+      showScreenreaderLoadedAlert();
     };
 
     const fetchEarlier = useAutofetchEarlier(
