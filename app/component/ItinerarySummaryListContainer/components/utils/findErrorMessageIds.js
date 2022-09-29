@@ -150,8 +150,13 @@ const findQueryError = (query, queryContext) => {
     areaPolygon,
   } = queryContext;
 
-  if (error) {
+  if (typeof error === 'object') {
     return 'system-error';
+  }
+
+  // error message injected from a parent component
+  if (typeof error === 'string') {
+    return error;
   }
 
   if (query.from && query.to) {

@@ -200,6 +200,20 @@ const errorCardProps = [
       ...caution,
     },
   },
+  {
+    id: 'no-route-end-date-not-in-range',
+    props: {
+      bodyId: 'no-route-end-date-not-in-range',
+      ...caution,
+    },
+  },
+  {
+    id: 'no-route-start-date-too-early',
+    props: {
+      bodyId: 'no-route-start-date-too-early',
+      ...caution,
+    },
+  },
 ];
 
 export default errorCardProps;
