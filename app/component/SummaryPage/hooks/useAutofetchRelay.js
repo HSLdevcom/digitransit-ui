@@ -1,6 +1,7 @@
 import { useEffect, useReducer } from 'react';
 import isEqual from 'lodash/isEqual';
 import getUniqItineraries from '../utils/uniqItineraries';
+import createCancelable from '../utils/createCancelable';
 
 const ACTION_MOUNTED = 'MOUNTED';
 const ACTION_DATA_UPDATE = 'DATA_UPDATE';
@@ -143,6 +144,9 @@ const useAutofetchRelay = (
    * Respond to reducer state status changes with side-effect functionality.
    */
   useEffect(() => {
+    // create cancelable callback function wrapper
+    const { cancel: cancelRefetch, cancelable } = createCancelable();
+
     switch (state.status) {
       case STATUS_FETCHING:
         break;
@@ -157,7 +161,7 @@ const useAutofetchRelay = (
               : state.nextPageCursor,
           }),
           undefined,
-          onRefetchComplete,
+          cancelable(onRefetchComplete),
         );
         break;
 
@@ -168,6 +172,10 @@ const useAutofetchRelay = (
       default:
         break;
     }
+
+    return () => {
+      cancelRefetch();
+    };
   }, [state]);
 
   /**
