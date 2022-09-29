@@ -2,25 +2,67 @@ import { useEffect, useReducer } from 'react';
 import { fetchQuery } from 'react-relay';
 
 /**
- * Relay runtime query result re-fetch hook.
+ * Relay runtime query result re-fetch hook. Hook user must provide the set of callback functions
+ * which describe how graphql refetching should be done.
+ *
  *
  * @typedef {AutofetchInitializer}
  * @property {RelayEnvironment} relayEnvironment
- * @prop {Object.<String,*>} initialState
  * @prop {GraphQLQuery} query
- * @prop {Function} getPageCursor
- * @prop {Function} onData
- * @prop {Function} onComplete
- * @prop {Function} updateState
- * @prop {Function} updateVariables
- * @prop {function} shouldFetchMore
+ * @prop {Object.<String,*>} initialState
+ * @prop {Function} getPageCursor Getter function: getPageCursor(data, state) --> next query cursor string
+ * @prop {Function} onData Callback on query data received: onData(data)
+ * @prop {Function} onComplete Callback when fetch is complete and no refetching is required.
+ * @prop {Function} updateState State updater: updateState(data, state) --> new state
+ * @prop {Function} updateVariables New query variables updater: updateVariables(previousVariable, state). This is called after `updateState`.
+ * @prop {function} shouldFetchMore Predicate for refetch: shouldFetchMore(state). This is called after `updateState`.
  *
  * @param {AutofetchInitializer} opts
+ *
+ * @example
+ * const fetchPlan = useAutofetchQuery({
+ *   relayEnvironment,
+ *   query: PlanQuery
+ *
+ *   // initial user state
+ *   initialState: {
+ *      missingCount: 5,
+ *   },
+ *
+ *   // getter
+ *   getPageCursor: data => data.plan.previousPageCursor,
+ *
+ *   // callback
+ *   onData,
+ *
+ *   // callback
+ *   onComplete,
+ *
+ *   // update missingCount by new data
+ *   updateState: (data, state) => ({
+ *     ...state,
+ *     missingCount: clamp(state.missingCount - data.plan.itineraries.length),
+ *   }),
+ *
+ *   // update graphql query variables for refetch query
+ *   updateVariables: (variables, state) => ({
+ *     ...variables,
+ *     numItineraries: state.missingCount,
+ *   }),
+ *
+ *   // refetch condition
+ *   shouldFetchMore: state => state.missingCount > 0,
+ * })
+ *
+ * // fetch with graphql query variables
+ * fetchPlan({
+ *    time: "18:00" from: "65.1230,24.1230", to: "66.0000,35.0000"
+ *  })
  */
 const useAutofetchQuery = ({
   relayEnvironment,
-  initialState,
   query,
+  initialState,
   getPageCursor,
   onData,
   onComplete,
@@ -166,7 +208,7 @@ const useAutofetchQuery = ({
       default:
         break;
     }
-  }, [state]);
+  }, [state.status]);
 
   const fetch = (variables, fetchInitState) => {
     const queryUserState = {

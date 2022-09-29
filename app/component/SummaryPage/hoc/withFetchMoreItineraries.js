@@ -20,6 +20,7 @@ import {
   findEarliestArrival,
   findLatestDeparture,
 } from '../utils/refetchUtils';
+import getUniqItineraries from '../utils/uniqItineraries';
 import useAutofetchQuery from '../hooks/useAutofetchQuery';
 
 const NUMBER_MORE_ITINERARIES = 3;
@@ -124,11 +125,14 @@ const withItineraryPaging = WrappedComponent => {
           );
 
         // We need to filter only walk itineraries out to place the "separator" accurately between itineraries
-        setEarlierItineraries([...reversedItineraries, ...earlierItineraries]);
+        const merged = getUniqItineraries([
+          ...reversedItineraries,
+          ...earlierItineraries,
+        ]);
+        const newUniqCount = merged.length - earlierItineraries.length;
+        setEarlierItineraries(merged);
         setSeparatorPosition(
-          separatorPosition
-            ? separatorPosition + reversedItineraries.length
-            : reversedItineraries.length,
+          separatorPosition ? separatorPosition + newUniqCount : newUniqCount,
         );
         resetSummaryPageSelection();
       }
@@ -149,11 +153,14 @@ const withItineraryPaging = WrappedComponent => {
             itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
           );
         // We need to filter only walk itineraries out to place the "separator" accurately between itineraries
-        setEarlierItineraries([...reversedItineraries, ...earlierItineraries]);
+        const merged = getUniqItineraries([
+          ...reversedItineraries,
+          ...earlierItineraries,
+        ]);
+        const newUniqCount = merged.length - earlierItineraries.length;
+        setEarlierItineraries(merged);
         setSeparatorPosition(
-          separatorPosition
-            ? separatorPosition + reversedItineraries.length
-            : reversedItineraries.length,
+          separatorPosition ? separatorPosition + newUniqCount : newUniqCount,
         );
         resetSummaryPageSelection();
       } else {
