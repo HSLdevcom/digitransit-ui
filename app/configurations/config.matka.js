@@ -288,7 +288,9 @@ export default {
 
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
-
+  // DT-5469
+  includeBikeParkSuggestions: true,
+  showBikeAndParkItineraries: true,
   parkingAreaSources: ['liipi'],
 
   parkAndRide: {

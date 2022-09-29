@@ -23,14 +23,9 @@ const StreetModeSelectorPanel = (
     executeAction(saveRoutingSettings, action);
   };
 
-  const prId =
-    config.includeParkAndRideSuggestions && config.includeCarSuggestions
-      ? 'park-and-ride'
-      : 'car';
-  const prIcon =
-    config.includeParkAndRideSuggestions && config.includeCarSuggestions
-      ? 'icon-icon_car_park-withoutBox'
-      : 'icon-icon_car-withoutBox';
+  const overrideStyle = config.includeBikeParkSuggestions
+    ? { borderBottom: '1px solid #e3e3e3' }
+    : {};
 
   return (
     <React.Fragment>
@@ -67,38 +62,39 @@ const StreetModeSelectorPanel = (
               bikeSpeed={currentSettings.bikeSpeed}
               defaultSettings={defaultSettings}
               bikeSpeedOptions={config.defaultOptions.bikeSpeed}
+              overrideStyle={overrideStyle}
             />
           ) : null}
-        </div>
-        {config.includeParkAndRideSuggestions && (
-          <div key="mode-option-park-and-ride">
-            <div className="mode-option-container">
-              <div className="mode-option-block">
-                <div className="mode-icon">
-                  <Icon className="car-icon" img={prIcon} />
-                </div>
-                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                <label
-                  className="mode-name"
-                  htmlFor="settings-toggle-parkAndRide"
-                >
+          {currentSettings.includeBikeSuggestions &&
+          config.includeBikeParkSuggestions ? (
+            <div className="settings-mode-option-container">
+              <label
+                className="settings-mode-option-label"
+                htmlFor="settings-toggle-bikeAndPark"
+              >
+                <p className="settings-mode-option-label-text">
                   <FormattedMessage
                     className="mode-name"
-                    id={prId}
-                    defaultMessage="Park & Ride"
+                    id="park-and-ride"
+                    defaultMessage="Park and ride"
                   />
+                </p>
+                <span className="settings-mode-option-label-text-container">
+                  <p className="settings-mode-option-label-value">
+                    {/* eslint-disable-next-line no-nested-ternary */}
+                  </p>
                   <Toggle
-                    id="settings-toggle-parkAndRide"
-                    toggled={currentSettings.includeParkAndRideSuggestions}
+                    id="settings-toggle-bikeAndPark"
+                    toggled={currentSettings.includeBikeParkSuggestions}
                     onToggle={() =>
-                      onToggle('includeParkAndRideSuggestions', 'ParkAndRide')
+                      onToggle('includeBikeParkSuggestions', 'BikeAndPark')
                     }
                   />
-                </label>
-              </div>
+                </span>
+              </label>
             </div>
-          </div>
-        )}
+          ) : null}
+        </div>
         {config.includeCarSuggestions && (
           <div key="mode-option-car">
             <div className="mode-option-container">
@@ -121,6 +117,35 @@ const StreetModeSelectorPanel = (
                 </label>
               </div>
             </div>
+            {currentSettings.includeCarSuggestions &&
+            config.includeParkAndRideSuggestions ? (
+              <div className="settings-mode-option-container">
+                <label
+                  className="settings-mode-option-label"
+                  htmlFor="settings-toggle-parkAndRide"
+                >
+                  <p className="settings-mode-option-label-text">
+                    <FormattedMessage
+                      className="mode-name"
+                      id="park-and-ride"
+                      defaultMessage="Park and ride"
+                    />
+                  </p>
+                  <span className="settings-mode-option-label-text-container">
+                    <p className="settings-mode-option-label-value">
+                      {/* eslint-disable-next-line no-nested-ternary */}
+                    </p>
+                    <Toggle
+                      id="settings-toggle-parkAndRide"
+                      toggled={currentSettings.includeParkAndRideSuggestions}
+                      onToggle={() =>
+                        onToggle('includeParkAndRideSuggestions', 'ParkAndRide')
+                      }
+                    />
+                  </span>
+                </label>
+              </div>
+            ) : null}
           </div>
         )}
       </div>
