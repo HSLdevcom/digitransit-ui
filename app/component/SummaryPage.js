@@ -2118,7 +2118,7 @@ class SummaryPage extends React.Component {
       );
       if (
         !this.state.isFetchingWalkAndBike &&
-        !this.context.config.includeBikeParkSuggestions &&
+        !this.context.config.showBikeAndParkItineraries &&
         (!hasBikeAndPublicPlan || !Array.isArray(bikeParkPlan?.itineraries))
       ) {
         this.toggleStreetMode(''); // go back to showing normal itineraries
@@ -2217,11 +2217,10 @@ class SummaryPage extends React.Component {
       bikeParkPlan,
     );
     const showBikeAndPublicOptionButton = this.context.config
-      .includeBikeParkSuggestions
+      .showBikeAndParkItineraries
       ? bikeParkPlanHasItineraries &&
         !currentSettings.accessibilityOption &&
-        currentSettings.includeBikeSuggestions &&
-        currentSettings.includeBikeParkSuggestions
+        currentSettings.showBikeAndParkItineraries
       : (bikeAndPublicPlanHasItineraries || bikeParkPlanHasItineraries) &&
         !currentSettings.accessibilityOption &&
         currentSettings.includeBikeSuggestions;
@@ -2238,7 +2237,6 @@ class SummaryPage extends React.Component {
     const showParkRideOptionButton =
       this.context.config.includeParkAndRideSuggestions &&
       currentSettings.includeParkAndRideSuggestions &&
-      currentSettings.includeCarSuggestions &&
       hasParkAndRideItineraries;
 
     const showStreetModeSelector =

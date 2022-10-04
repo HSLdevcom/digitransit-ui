@@ -23,9 +23,18 @@ const StreetModeSelectorPanel = (
     executeAction(saveRoutingSettings, action);
   };
 
-  const overrideStyle = config.includeBikeParkSuggestions
+  const overrideStyle = config.showBikeAndParkItineraries
     ? { borderBottom: '1px solid #e3e3e3' }
     : {};
+
+  const prId =
+    config.includeParkAndRideSuggestions && config.includeCarSuggestions
+      ? 'park-and-ride'
+      : 'car';
+  const prIcon =
+    config.includeParkAndRideSuggestions && config.includeCarSuggestions
+      ? 'icon-icon_car_park-withoutBox'
+      : 'icon-icon_car-withoutBox';
 
   return (
     <React.Fragment>
@@ -57,7 +66,8 @@ const StreetModeSelectorPanel = (
               </label>
             </div>
           </div>
-          {currentSettings.includeBikeSuggestions ? (
+          {config.CONFIG === 'matka' ||
+          currentSettings.includeBikeSuggestions ? (
             <BikingOptionsSection
               bikeSpeed={currentSettings.bikeSpeed}
               defaultSettings={defaultSettings}
@@ -65,8 +75,7 @@ const StreetModeSelectorPanel = (
               overrideStyle={overrideStyle}
             />
           ) : null}
-          {currentSettings.includeBikeSuggestions &&
-          config.includeBikeParkSuggestions ? (
+          {config.showBikeAndParkItineraries && config.CONFIG === 'matka' ? (
             <div className="settings-mode-option-container">
               <label
                 className="settings-mode-option-label"
@@ -85,9 +94,9 @@ const StreetModeSelectorPanel = (
                   </p>
                   <Toggle
                     id="settings-toggle-bikeAndPark"
-                    toggled={currentSettings.includeBikeParkSuggestions}
+                    toggled={currentSettings.showBikeAndParkItineraries}
                     onToggle={() =>
-                      onToggle('includeBikeParkSuggestions', 'BikeAndPark')
+                      onToggle('showBikeAndParkItineraries', 'BikeAndPark')
                     }
                   />
                 </span>
@@ -95,6 +104,35 @@ const StreetModeSelectorPanel = (
             </div>
           ) : null}
         </div>
+        {config.includeParkAndRideSuggestions && config.CONFIG !== 'matka' && (
+          <div key="mode-option-park-and-ride">
+            <div className="mode-option-container">
+              <div className="mode-option-block">
+                <div className="mode-icon">
+                  <Icon className="car-icon" img={prIcon} />
+                </div>
+                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+                <label
+                  className="mode-name"
+                  htmlFor="settings-toggle-parkAndRide"
+                >
+                  <FormattedMessage
+                    className="mode-name"
+                    id={prId}
+                    defaultMessage="Park & Ride"
+                  />
+                  <Toggle
+                    id="settings-toggle-parkAndRide"
+                    toggled={currentSettings.includeParkAndRideSuggestions}
+                    onToggle={() =>
+                      onToggle('includeParkAndRideSuggestions', 'ParkAndRide')
+                    }
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+        )}
         {config.includeCarSuggestions && (
           <div key="mode-option-car">
             <div className="mode-option-container">
@@ -117,8 +155,8 @@ const StreetModeSelectorPanel = (
                 </label>
               </div>
             </div>
-            {currentSettings.includeCarSuggestions &&
-            config.includeParkAndRideSuggestions ? (
+            {config.includeParkAndRideSuggestions &&
+            config.CONFIG === 'matka' ? (
               <div className="settings-mode-option-container">
                 <label
                   className="settings-mode-option-label"

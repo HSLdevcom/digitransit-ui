@@ -174,7 +174,7 @@ export default {
     includeBikeSuggestions: true,
     includeParkAndRideSuggestions: false,
     includeCarSuggestions: false,
-    includeBikeParkSuggestions: false,
+    showBikeAndParkItineraries: false,
   },
 
   /**

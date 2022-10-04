@@ -128,9 +128,9 @@ export function setCustomizedSettings(data) {
       data.includeParkAndRideSuggestions,
       oldSettings.includeParkAndRideSuggestions,
     ),
-    includeBikeParkSuggestions: getValueOrDefault(
-      data.includeBikeParkSuggestions,
-      oldSettings.includeBikeParkSuggestions,
+    showBikeAndParkItineraries: getValueOrDefault(
+      data.showBikeAndParkItineraries,
+      oldSettings.showBikeAndParkItineraries,
     ),
   };
 
