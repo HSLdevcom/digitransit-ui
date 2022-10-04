@@ -788,7 +788,7 @@ export const hasMeaningfulData = alerts => {
   if (alerts.length === 0) {
     return false;
   }
-  const alertForDisplaying = alerts.sort(alertSeverityCompare)[0];
+  const alertForDisplaying = [...alerts].sort(alertSeverityCompare)[0];
   const header = getServiceAlertHeader(alertForDisplaying);
   const description = getServiceAlertDescription(alertForDisplaying);
   if (
