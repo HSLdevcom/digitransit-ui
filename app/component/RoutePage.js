@@ -117,7 +117,7 @@ class RoutePage extends React.Component {
                 </span>
                 {label}
               </h1>
-              {headsign && (
+              {tripId && headsign && (
                 <div className="trip-destination">
                   <Icon className="in-text-arrow" img="icon-icon_arrow-right" />
                   <div className="destination-headsign">{headsign}</div>
