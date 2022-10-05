@@ -2113,15 +2113,19 @@ class SummaryPage extends React.Component {
           </>
         );
       }
+      const hasBikeAndPublicPlan = Array.isArray(
+        bikeAndPublicPlan?.itineraries,
+      );
       if (
         !this.state.isFetchingWalkAndBike &&
-        (!Array.isArray(bikeAndPublicPlan?.itineraries) ||
-          !Array.isArray(bikeParkPlan?.itineraries))
+        !this.context.config.showBikeAndParkItineraries &&
+        (!hasBikeAndPublicPlan || !Array.isArray(bikeParkPlan?.itineraries))
       ) {
         this.toggleStreetMode(''); // go back to showing normal itineraries
         return <Loading />;
       }
       if (
+        hasBikeAndPublicPlan &&
         this.hasItinerariesContainingPublicTransit(bikeAndPublicPlan) &&
         this.hasItinerariesContainingPublicTransit(bikeParkPlan)
       ) {
@@ -2132,16 +2136,16 @@ class SummaryPage extends React.Component {
           ],
         };
       } else if (
+        hasBikeAndPublicPlan &&
         this.hasItinerariesContainingPublicTransit(bikeAndPublicPlan)
       ) {
         this.selectedPlan = bikeAndPublicPlan;
       } else if (this.hasItinerariesContainingPublicTransit(bikeParkPlan)) {
         this.selectedPlan = bikeParkPlan;
       }
-      this.bikeAndPublicItinerariesToShow = Math.min(
-        bikeAndPublicPlan.itineraries.length,
-        3,
-      );
+      this.bikeAndPublicItinerariesToShow = hasBikeAndPublicPlan
+        ? Math.min(bikeAndPublicPlan.itineraries.length, 3)
+        : 0;
       this.bikeAndParkItinerariesToShow = Math.min(
         bikeParkPlan.itineraries.length,
         3,
@@ -2212,10 +2216,14 @@ class SummaryPage extends React.Component {
     const bikeParkPlanHasItineraries = this.hasItinerariesContainingPublicTransit(
       bikeParkPlan,
     );
-    const showBikeAndPublicOptionButton =
-      (bikeAndPublicPlanHasItineraries || bikeParkPlanHasItineraries) &&
-      !currentSettings.accessibilityOption &&
-      currentSettings.includeBikeSuggestions;
+    const showBikeAndPublicOptionButton = !this.context.config
+      .includePublicWithBikePlan
+      ? bikeParkPlanHasItineraries &&
+        !currentSettings.accessibilityOption &&
+        currentSettings.showBikeAndParkItineraries
+      : (bikeAndPublicPlanHasItineraries || bikeParkPlanHasItineraries) &&
+        !currentSettings.accessibilityOption &&
+        currentSettings.includeBikeSuggestions;
 
     const hasCarItinerary = !isEmpty(get(carPlan, 'itineraries'));
     const showCarOptionButton =

@@ -161,6 +161,7 @@ export const getSettings = config => {
     includeBikeSuggestions: custSettings.includeBikeSuggestions,
     includeCarSuggestions: custSettings.includeCarSuggestions,
     includeParkAndRideSuggestions: custSettings.includeParkAndRideSuggestions,
+    showBikeAndParkItineraries: custSettings.showBikeAndParkItineraries,
   };
 };
 
@@ -321,7 +322,10 @@ export const preparePlanParams = (config, useDefaultModes) => (
       !wheelchair &&
       config.showBikeAndParkItineraries &&
       modesOrDefault.length > 1 &&
-      includeBikeSuggestions,
+      !config.includePublicWithBikePlan
+        ? settings.showBikeAndParkItineraries ||
+          defaultSettings.showBikeAndParkItineraries
+        : includeBikeSuggestions,
     bikeAndPublicMaxWalkDistance: config.suggestBikeAndPublicMaxDistance,
     bikeandPublicDisableRemainingWeightHeuristic:
       Array.isArray(intermediatePlaceLocations) &&
