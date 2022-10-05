@@ -2216,14 +2216,14 @@ class SummaryPage extends React.Component {
     const bikeParkPlanHasItineraries = this.hasItinerariesContainingPublicTransit(
       bikeParkPlan,
     );
-    const showBikeAndPublicOptionButton =
-      this.context.config.CONFIG === 'matka'
-        ? bikeParkPlanHasItineraries &&
-          !currentSettings.accessibilityOption &&
-          currentSettings.showBikeAndParkItineraries
-        : (bikeAndPublicPlanHasItineraries || bikeParkPlanHasItineraries) &&
-          !currentSettings.accessibilityOption &&
-          currentSettings.includeBikeSuggestions;
+    const showBikeAndPublicOptionButton = !this.context.config
+      .includePublicWithBikePlan
+      ? bikeParkPlanHasItineraries &&
+        !currentSettings.accessibilityOption &&
+        currentSettings.showBikeAndParkItineraries
+      : (bikeAndPublicPlanHasItineraries || bikeParkPlanHasItineraries) &&
+        !currentSettings.accessibilityOption &&
+        currentSettings.includeBikeSuggestions;
 
     const hasCarItinerary = !isEmpty(get(carPlan, 'itineraries'));
     const showCarOptionButton =

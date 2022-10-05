@@ -254,9 +254,6 @@ export const preparePlanParams = (config, useDefaultModes) => (
     toLocation,
     intermediatePlaceLocations,
   );
-  const matkaBikeAndParkItineraries = settings.showBikeAndParkItineraries
-    ? settings.showBikeAndParkItineraries
-    : defaultSettings.showBikeAndParkItineraries;
 
   const cookies = new Cookies();
   return {
@@ -325,8 +322,9 @@ export const preparePlanParams = (config, useDefaultModes) => (
       !wheelchair &&
       config.showBikeAndParkItineraries &&
       modesOrDefault.length > 1 &&
-      config.CONFIG === 'matka'
-        ? matkaBikeAndParkItineraries
+      !config.includePublicWithBikePlan
+        ? settings.showBikeAndParkItineraries ||
+          defaultSettings.showBikeAndParkItineraries
         : includeBikeSuggestions,
     bikeAndPublicMaxWalkDistance: config.suggestBikeAndPublicMaxDistance,
     bikeandPublicDisableRemainingWeightHeuristic:

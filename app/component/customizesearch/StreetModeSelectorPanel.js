@@ -23,7 +23,7 @@ const StreetModeSelectorPanel = (
     executeAction(saveRoutingSettings, action);
   };
 
-  const overrideStyle = config.showBikeAndParkItineraries
+  const overrideStyle = config.separatedParkAndRideSwitch
     ? { borderBottom: '1px solid #e3e3e3' }
     : {};
 
@@ -66,7 +66,7 @@ const StreetModeSelectorPanel = (
               </label>
             </div>
           </div>
-          {config.CONFIG === 'matka' ||
+          {!config.includePublicWithBikePlan ||
           currentSettings.includeBikeSuggestions ? (
             <BikingOptionsSection
               bikeSpeed={currentSettings.bikeSpeed}
@@ -75,7 +75,8 @@ const StreetModeSelectorPanel = (
               overrideStyle={overrideStyle}
             />
           ) : null}
-          {config.showBikeAndParkItineraries && config.CONFIG === 'matka' ? (
+          {config.showBikeAndParkItineraries &&
+          !config.includePublicWithBikePlan ? (
             <div className="settings-mode-option-container">
               <label
                 className="settings-mode-option-label"
@@ -104,35 +105,36 @@ const StreetModeSelectorPanel = (
             </div>
           ) : null}
         </div>
-        {config.includeParkAndRideSuggestions && config.CONFIG !== 'matka' && (
-          <div key="mode-option-park-and-ride">
-            <div className="mode-option-container">
-              <div className="mode-option-block">
-                <div className="mode-icon">
-                  <Icon className="car-icon" img={prIcon} />
-                </div>
-                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                <label
-                  className="mode-name"
-                  htmlFor="settings-toggle-parkAndRide"
-                >
-                  <FormattedMessage
+        {config.includeParkAndRideSuggestions &&
+          !config.separatedParkAndRideSwitch && (
+            <div key="mode-option-park-and-ride">
+              <div className="mode-option-container">
+                <div className="mode-option-block">
+                  <div className="mode-icon">
+                    <Icon className="car-icon" img={prIcon} />
+                  </div>
+                  {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+                  <label
                     className="mode-name"
-                    id={prId}
-                    defaultMessage="Park & Ride"
-                  />
-                  <Toggle
-                    id="settings-toggle-parkAndRide"
-                    toggled={currentSettings.includeParkAndRideSuggestions}
-                    onToggle={() =>
-                      onToggle('includeParkAndRideSuggestions', 'ParkAndRide')
-                    }
-                  />
-                </label>
+                    htmlFor="settings-toggle-parkAndRide"
+                  >
+                    <FormattedMessage
+                      className="mode-name"
+                      id={prId}
+                      defaultMessage="Park & Ride"
+                    />
+                    <Toggle
+                      id="settings-toggle-parkAndRide"
+                      toggled={currentSettings.includeParkAndRideSuggestions}
+                      onToggle={() =>
+                        onToggle('includeParkAndRideSuggestions', 'ParkAndRide')
+                      }
+                    />
+                  </label>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
         {config.includeCarSuggestions && (
           <div key="mode-option-car">
             <div className="mode-option-container">
@@ -156,7 +158,7 @@ const StreetModeSelectorPanel = (
               </div>
             </div>
             {config.includeParkAndRideSuggestions &&
-            config.CONFIG === 'matka' ? (
+            config.separatedParkAndRideSwitch ? (
               <div className="settings-mode-option-container">
                 <label
                   className="settings-mode-option-label"
