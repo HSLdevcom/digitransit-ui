@@ -331,6 +331,9 @@ class FavouritesContainer extends React.Component {
     if (useCitybikes(this.context.config.cityBike?.networks)) {
       targets.push('BikeRentalStations');
     }
+    if (this.context.config.includeParkAndRideSuggestions) {
+      targets.push('ParkingAreas');
+    }
     return (
       <React.Fragment>
         <FavouriteBar
