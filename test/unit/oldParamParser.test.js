@@ -4,6 +4,7 @@ import fetchMock from 'fetch-mock';
 import oldParamParser from '../../app/util/oldParamParser';
 
 import config from '../../app/configurations/config.default';
+import configureMoment from '../../app/util/configure-moment';
 // import { PREFIX_ITINERARY_SUMMARY } from '../../app/util/path';
 
 const largeMaxAgeConf = {
@@ -110,6 +111,10 @@ describe('oldParamParser', () => {
       'begin:https://dev-api.digitransit.fi/geocoding/v1/search?text=koivikkotie',
       resTo,
     );
+  });
+
+  beforeEach(() => {
+    configureMoment('fi', config);
   });
 
   after(() => {
