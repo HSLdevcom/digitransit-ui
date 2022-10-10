@@ -47,7 +47,7 @@ export default {
     },
     STOP_MAP: `${OTP_URL}vectorTiles/stops,stations/`,
     CITYBIKE_MAP: `${OTP_URL}vectorTiles/vehicleRentals/`,
-    PARK_AND_RIDE_MAP: `${OTP_URL}vectorTiles/vehicleParkings,vehicleParkingGroups/`,
+    PARK_AND_RIDE_MAP: `${OTP_URL}vectorTiles/vehicleParking,vehicleParkingGroups/`,
 
     FONT:
       'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700',
