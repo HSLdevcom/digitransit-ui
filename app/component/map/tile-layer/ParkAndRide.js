@@ -7,7 +7,7 @@ import { isBrowser } from '../../../util/browser';
 import { fetchWithSubscription } from '../../../util/fetchUtils';
 import { ParkTypes } from '../../../constants';
 
-const showFacilities = 17;
+const showParking = 17;
 
 export default class ParkAndRide {
   constructor(tile, config, relayEnvironment) {
@@ -21,6 +21,19 @@ export default class ParkAndRide {
   }
 
   fetchAndDrawParks(parkType) {
+    const hubHasSpaces = (type, feature) => {
+      const { vehicleParking } = feature.properties;
+      if (Array.isArray(vehicleParking)) {
+        for (let i = 0; i < vehicleParking.length; i++) {
+          const park = vehicleParking[i];
+          if (type === ParkTypes.Car ? park.carPlaces : park.bicyclePlaces) {
+            return true;
+          }
+        }
+      }
+      return false;
+    };
+
     const hasSpaces = (type, feature) => {
       return type === ParkTypes.Car
         ? feature.properties.anyCarPlaces
@@ -42,14 +55,17 @@ export default class ParkAndRide {
           const vt = new VectorTile(new Protobuf(buf));
           this.features = [];
 
-          // TODO use vehicle parking groups here
           if (
-            this.tile.coords.z < showFacilities &&
-            vt.layers.vehicleParkings != null
+            this.tile.coords.z < showParking &&
+            vt.layers.vehicleParkingGroups != null
           ) {
-            for (let i = 0; i < vt.layers.vehicleParkings.length; i++) {
-              const feature = vt.layers.vehicleParkings.feature(i);
-              if (hasSpaces(parkType, feature)) {
+            for (let i = 0; i < vt.layers.vehicleParkingGroups.length; i++) {
+              const feature = vt.layers.vehicleParkingGroups.feature(i);
+              feature.properties.vehicleParking = feature.properties
+                .vehicleParking
+                ? JSON.parse(feature.properties.vehicleParking)
+                : undefined;
+              if (hubHasSpaces(parkType, feature)) {
                 [[feature.geom]] = feature.loadGeometry();
                 this.features.push(pick(feature, ['geom', 'properties']));
                 drawParkAndRideIcon(
@@ -62,11 +78,11 @@ export default class ParkAndRide {
               }
             }
           } else if (
-            this.tile.coords.z >= showFacilities &&
-            vt.layers.vehicleParkings != null
+            this.tile.coords.z >= showParking &&
+            vt.layers.vehicleParking != null
           ) {
-            for (let i = 0; i < vt.layers.vehicleParkings.length; i++) {
-              const feature = vt.layers.vehicleParkings.feature(i);
+            for (let i = 0; i < vt.layers.vehicleParking.length; i++) {
+              const feature = vt.layers.vehicleParking.feature(i);
               if (hasSpaces(parkType, feature)) {
                 [[feature.geom]] = feature.loadGeometry();
                 this.features.push(feature);

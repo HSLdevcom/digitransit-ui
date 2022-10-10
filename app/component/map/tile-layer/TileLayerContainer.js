@@ -207,34 +207,38 @@ class TileLayerContainer extends GridLayer {
         );
         return;
       }
+
       if (
         selectableTargets.length === 1 &&
-        selectableTargets[0].layer === 'parkAndRide' &&
-        (selectableTargets[0].feature.properties.facility ||
-          selectableTargets[0].feature.properties.facilities.length === 1)
+        (selectableTargets[0].layer === 'parkAndRide' ||
+          selectableTargets[0].layer === 'parkAndRideForBikes')
       ) {
-        const carParkId =
-          selectableTargets[0].feature.properties?.facility?.carParkId ||
-          selectableTargets[0].feature.properties?.facilities[0]?.carParkId;
-        if (carParkId) {
+        const { layer } = selectableTargets[0];
+        let parkingId;
+        // hubs have nested vehicleParking
+        if (selectableTargets[0].feature.properties?.vehicleParking) {
+          const parksInHub = selectableTargets[0].feature.properties?.vehicleParking?.filter(
+            parking =>
+              layer === 'parkAndRide'
+                ? parking.carPlaces
+                : parking.bicyclePlaces,
+          );
+          if (parksInHub.length === 1) {
+            parkingId = parksInHub[0].id;
+          }
+        } else {
+          parkingId = selectableTargets[0].feature.properties?.id;
+        }
+        if (parkingId) {
           this.context.router.push(
-            `/${PREFIX_CARPARK}/${encodeURIComponent(carParkId)}`,
+            `/${
+              layer === 'parkAndRide' ? PREFIX_CARPARK : PREFIX_BIKEPARK
+            }/${encodeURIComponent(parkingId)}`,
           );
           return;
         }
       }
-      if (
-        selectableTargets.length === 1 &&
-        selectableTargets[0].layer === 'parkAndRideForBikes' &&
-        selectableTargets[0].feature.properties.facility
-      ) {
-        this.context.router.push(
-          `/${PREFIX_BIKEPARK}/${encodeURIComponent(
-            selectableTargets[0].feature.properties.facility.bikeParkId,
-          )}`,
-        );
-        return;
-      }
+
       if (
         popup &&
         popup.isOpen() &&
@@ -311,10 +315,16 @@ class TileLayerContainer extends GridLayer {
       if (this.state.selectableTargets.length === 1) {
         let id;
         if (
-          this.state.selectableTargets[0].layer === 'parkAndRide' &&
-          this.state.selectableTargets[0].feature.properties.facilityIds
+          (this.state.selectableTargets[0].layer === 'parkAndRide' &&
+            this.state.selectableTargets[0].feature.properties.vehicleParking?.filter(
+              parking => parking.carPlaces,
+            ).length > 1) ||
+          (this.state.selectableTargets[0].layer === 'parkAndRideForBikes' &&
+            this.state.selectableTargets[0].feature.properties.vehicleParking?.filter(
+              parking => parking.bicyclePlaces,
+            ).length > 1)
         ) {
-          id = this.state.selectableTargets[0].feature.properties.facilityIds;
+          id = `parkAndRide_${this.state.selectableTargets[0].feature.properties.vehicleParking[0].id}`;
           contents = (
             <MarkerSelectPopup
               selectRow={this.selectRow}
