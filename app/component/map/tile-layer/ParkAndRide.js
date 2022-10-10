@@ -40,6 +40,48 @@ export default class ParkAndRide {
         : feature.properties.bicyclePlaces;
     };
 
+    if (this.tile.coords.z < showParking) {
+      return fetchWithSubscription(
+        `${this.config.URL.PARK_AND_RIDE_GROUP_MAP}${
+          this.tile.coords.z + (this.tile.props.zoomOffset || 0)
+        }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
+        this.config,
+      ).then(res => {
+        if (res.status !== 200) {
+          return undefined;
+        }
+
+        return res.arrayBuffer().then(
+          buf => {
+            const vt = new VectorTile(new Protobuf(buf));
+            this.features = [];
+
+            if (vt.layers.vehicleParkingGroups != null) {
+              for (let i = 0; i < vt.layers.vehicleParkingGroups.length; i++) {
+                const feature = vt.layers.vehicleParkingGroups.feature(i);
+                feature.properties.vehicleParking = feature.properties
+                  .vehicleParking
+                  ? JSON.parse(feature.properties.vehicleParking)
+                  : undefined;
+                if (hubHasSpaces(parkType, feature)) {
+                  [[feature.geom]] = feature.loadGeometry();
+                  this.features.push(pick(feature, ['geom', 'properties']));
+                  drawParkAndRideIcon(
+                    parkType,
+                    this.tile,
+                    feature.geom,
+                    this.width,
+                    this.height,
+                  );
+                }
+              }
+            }
+          },
+          err => console.log(err), // eslint-disable-line no-console
+        );
+      });
+    }
+
     return fetchWithSubscription(
       `${this.config.URL.PARK_AND_RIDE_MAP}${
         this.tile.coords.z + (this.tile.props.zoomOffset || 0)
@@ -55,32 +97,7 @@ export default class ParkAndRide {
           const vt = new VectorTile(new Protobuf(buf));
           this.features = [];
 
-          if (
-            this.tile.coords.z < showParking &&
-            vt.layers.vehicleParkingGroups != null
-          ) {
-            for (let i = 0; i < vt.layers.vehicleParkingGroups.length; i++) {
-              const feature = vt.layers.vehicleParkingGroups.feature(i);
-              feature.properties.vehicleParking = feature.properties
-                .vehicleParking
-                ? JSON.parse(feature.properties.vehicleParking)
-                : undefined;
-              if (hubHasSpaces(parkType, feature)) {
-                [[feature.geom]] = feature.loadGeometry();
-                this.features.push(pick(feature, ['geom', 'properties']));
-                drawParkAndRideIcon(
-                  parkType,
-                  this.tile,
-                  feature.geom,
-                  this.width,
-                  this.height,
-                );
-              }
-            }
-          } else if (
-            this.tile.coords.z >= showParking &&
-            vt.layers.vehicleParking != null
-          ) {
+          if (vt.layers.vehicleParking != null) {
             for (let i = 0; i < vt.layers.vehicleParking.length; i++) {
               const feature = vt.layers.vehicleParking.feature(i);
               if (hasSpaces(parkType, feature)) {

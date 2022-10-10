@@ -19,7 +19,8 @@ export default {
   URL: {
     OTP: OTP_URL,
     STOP_MAP: `${OTP_URL}vectorTiles/stops,stations/`,
-    PARK_AND_RIDE_MAP: `${OTP_URL}vectorTiles/vehicleParking,vehicleParkingGroups/`,
+    PARK_AND_RIDE_MAP: `${OTP_URL}vectorTiles/vehicleParking/`,
+    PARK_AND_RIDE_GROUP_MAP: `${OTP_URL}vectorTiles/vehicleParkingGroups/`,
     FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
     CITYBIKE_MAP: `${OTP_URL}vectorTiles/vehicleRentals/`,
     ROOTLINK: rootLink,
