@@ -18,6 +18,8 @@ import {
 
 import { fetchWithSubscription } from '../../../util/fetchUtils';
 
+const lastFetch = {};
+
 const query = graphql`
   query CityBikesQuery($ids: [String!]) {
     stations: bikeRentalStations(ids: $ids) {
@@ -89,6 +91,7 @@ class CityBikes {
     // Draw stops in callback after fetch
     const callback = ({ stations }) => {
       stations.forEach(station => {
+        lastFetch[station.stationId] = new Date().getTime();
         const vtGeom = features.find(
           feature => feature.properties.id === station.stationId,
         ).geom;
@@ -124,7 +127,26 @@ class CityBikes {
       });
     };
 
-    fetchQuery(this.relayEnvironment, query, { ids: stationIds }).then(
+    // Force refetch for stations that are new or haven't been queried in 30 seconds, normal for others
+    const currentTime = new Date().getTime();
+    const forceStationIds = stationIds.filter(
+      stationId =>
+        !lastFetch[stationId] || currentTime - lastFetch[stationId] >= 30000,
+    );
+    const upToDateStations = stationIds.filter(
+      stationId => !forceStationIds.includes(stationId),
+    );
+
+    if (forceStationIds.length > 0) {
+      fetchQuery(
+        this.relayEnvironment,
+        query,
+        { ids: forceStationIds },
+        { force: true },
+      ).then(callback);
+    }
+
+    fetchQuery(this.relayEnvironment, query, { ids: upToDateStations }).then(
       callback,
     );
   };
