@@ -6,6 +6,7 @@ import SelectStopRow from './SelectStopRow';
 import SelectCityBikeRow from './SelectCityBikeRow';
 import SelectParkAndRideRow from './SelectParkAndRideRow';
 import SelectVehicleContainer from './SelectVehicleContainer';
+import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 
 function MarkerSelectPopup(props) {
   const hasStop = () =>
@@ -14,14 +15,21 @@ function MarkerSelectPopup(props) {
   const hasVehicle = () =>
     props.options.find(option => option.layer === 'realTimeVehicle');
 
+  // TODO use feedScopedIds
   const getRowForParking = (parking, layer) =>
     ((layer === 'parkAndRide' && parking.carPlaces) ||
       (layer === 'parkAndRideForBikes' && parking.bicyclePlaces)) && (
       <SelectParkAndRideRow
         key={parking.id}
         name={parking.name}
-        carParkId={layer === 'parkAndRide' ? parking.id : undefined}
-        bikeParkId={layer === 'parkAndRideForBikes' ? parking.id : undefined}
+        carParkId={
+          layer === 'parkAndRide' ? getIdWithoutFeed(parking.id) : undefined
+        }
+        bikeParkId={
+          layer === 'parkAndRideForBikes'
+            ? getIdWithoutFeed(parking.id)
+            : undefined
+        }
       />
     );
 
