@@ -56,6 +56,7 @@ const productionPlugins = [
         '*.png',
         'css/*.css',
         'assets/*.svg',
+        'emitter/*.js',
         'assets/geojson/*.geojson',
         ':externals:',
       ],

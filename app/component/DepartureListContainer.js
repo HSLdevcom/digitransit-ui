@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import get from 'lodash/get';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -7,7 +6,6 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { intlShape, FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import DepartureRow from './DepartureRow';
-import { patternIdPredicate } from '../util/alertUtils';
 import { isBrowser } from '../util/browser';
 import {
   stopRealTimeClient,
@@ -16,63 +14,100 @@ import {
 } from '../action/realTimeClientAction';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
 
-const asDepartures = stoptimes =>
-  !stoptimes
-    ? []
-    : stoptimes
-        // it seems that OTP2 GTFS-RT handling sometimes adds weird zero stop trips, we filter them out
-        .filter(s => s.trip.stops.length > 0)
-        .map(stoptime => {
-          const isArrival = stoptime.pickupType === 'NONE';
-          let isLastStop = false;
-          if (stoptime.trip && stoptime.trip.stops) {
-            const lastStop = stoptime.trip.stops.slice(-1).pop();
-            isLastStop = stoptime.stop.id === lastStop.id;
-          }
-          /* OTP returns either scheduled time or realtime prediction in
-           * 'realtimeDeparture' and 'realtimeArrival' fields.
-           * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
-          const canceled = stoptime.realtimeState === 'CANCELED';
-          const arrivalTime =
-            stoptime.serviceDay +
-            (!canceled ? stoptime.realtimeArrival : stoptime.scheduledArrival);
-          const departureTime =
-            stoptime.serviceDay +
-            (!canceled
-              ? stoptime.realtimeDeparture
-              : stoptime.scheduledDeparture);
-          const stoptimeTime = isArrival ? arrivalTime : departureTime;
+const getDropoffMessage = (hasOnlyDropoff, hasNoStop) => {
+  if (hasNoStop) {
+    return 'route-no-stop';
+  }
+  if (hasOnlyDropoff) {
+    return 'route-destination-arrives';
+  }
+  return undefined;
+};
 
-          const { pattern } = stoptime.trip;
-          return {
-            alerts: get(pattern, 'route.alerts', []).filter(alert =>
-              patternIdPredicate(alert, get(pattern, 'code', undefined)),
-            ),
-            canceled,
-            isArrival,
-            isLastStop,
-            stoptime: stoptimeTime,
-            stop: stoptime.stop,
-            realtime: stoptime.realtime,
-            pattern,
-            headsign: stoptime.headsign,
-            trip: stoptime.trip,
-            pickupType: stoptime.pickupType,
-            serviceDay: stoptime.serviceDay,
-          };
-        });
+const asDepartures = stoptimes => {
+  // it seems that OTP2 GTFS-RT handling sometimes adds weird zero stop trips, we filter them out
+  // todo: fix OTP instead of working around the issue here
+  // eslint-disable-next-line no-param-reassign
+  stoptimes = stoptimes.filter(s => s.trip.stops.length > 0);
+
+  return !stoptimes
+    ? []
+    : stoptimes.map(stoptime => {
+        const hasDropoff = stoptime.dropoffType !== 'NONE';
+        const hasPickup = stoptime.pickupType !== 'NONE';
+        const hasNoStop = !hasPickup && !hasDropoff;
+        const isArrival = !hasPickup;
+        let isLastStop = false;
+        if (stoptime.trip && stoptime.trip.stops) {
+          const lastStop = stoptime.trip.stops.slice(-1).pop();
+          isLastStop = stoptime.stop.id === lastStop.id;
+        }
+        const hasOnlyDropoff = !hasPickup && !isLastStop;
+        /* OTP returns either scheduled time or realtime prediction in
+         * 'realtimeDeparture' and 'realtimeArrival' fields.
+         * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
+        const canceled = stoptime.realtimeState === 'CANCELED';
+        const arrivalTime =
+          stoptime.serviceDay +
+          (!canceled ? stoptime.realtimeArrival : stoptime.scheduledArrival);
+        const departureTime =
+          stoptime.serviceDay +
+          (!canceled
+            ? stoptime.realtimeDeparture
+            : stoptime.scheduledDeparture);
+        const stoptimeTime = isArrival ? arrivalTime : departureTime;
+
+        const { pattern } = stoptime.trip;
+        return {
+          canceled,
+          isArrival,
+          hasNoStop,
+          hasOnlyDropoff,
+          isLastStop,
+          stoptime: stoptimeTime,
+          stop: stoptime.stop,
+          realtime: stoptime.realtime,
+          pattern,
+          headsign: stoptime.headsign,
+          trip: stoptime.trip,
+          pickupType: stoptime.pickupType,
+          serviceDay: stoptime.serviceDay,
+        };
+      });
+};
+
+const StopShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+});
+
+const TripShape = PropTypes.shape({
+  stops: PropTypes.arrayOf(StopShape),
+});
+
+const StopTimeShape = PropTypes.shape({
+  dropoffType: PropTypes.string.isRequired,
+  pickupType: PropTypes.string.isRequired,
+  trip: TripShape,
+});
 
 class DepartureListContainer extends Component {
   static propTypes = {
-    stoptimes: PropTypes.array.isRequired,
+    stoptimes: PropTypes.arrayOf(StopTimeShape).isRequired,
     mode: PropTypes.string.isRequired,
     currentTime: PropTypes.number.isRequired,
     limit: PropTypes.number,
     infiniteScroll: PropTypes.bool,
-    routeLinks: PropTypes.bool,
     className: PropTypes.string,
     isTerminal: PropTypes.bool,
     isStopPage: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    limit: undefined,
+    infiniteScroll: false,
+    className: undefined,
+    isTerminal: false,
+    isStopPage: false,
   };
 
   static contextTypes = {
@@ -93,7 +128,9 @@ class DepartureListContainer extends Component {
         },
       );
       setTimeout(() => {
-        this.pageLoadedAlertRef.current.innerHTML = null;
+        if (this.pageLoadedAlertRef?.current) {
+          this.pageLoadedAlertRef.current.innerHTML = null;
+        }
       }, 100);
     }
     if (this.context.config.showVehiclesOnStopPage && this.props.isStopPage) {
@@ -278,33 +315,46 @@ class DepartureListContainer extends Component {
 
       if (departure.addDayDivider) {
         departureObjs.push(
-          <div key={departureDate} className="date-row border-bottom">
-            {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
-          </div>,
+          <tr key={departureDate}>
+            <td colSpan={isTerminal ? 4 : 3}>
+              <div className="date-row border-bottom">
+                {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
+              </div>
+            </td>
+          </tr>,
         );
       } else if (departure.addServiceDayDivider) {
-        departureObjs.push(<div className="departure-day-divider" />);
+        departureObjs.push(
+          <tr key={`${departureDate}_divider`}>
+            <td colSpan={isTerminal ? 4 : 3}>
+              <div className="departure-day-divider" />
+            </td>
+          </tr>,
+        );
       }
 
       const id = `${departure.pattern.code}:${departure.stoptime}`;
+      const dropoffMessage = getDropoffMessage(
+        departure.hasOnlyDropoff,
+        departure.hasNoStop,
+      );
       const row = {
         headsign: this.getHeadsign(departure),
         trip: { ...departure.trip, ...{ route: departure.trip.pattern.route } },
         stop: departure.stop,
         realtime: departure.realtime,
-        bottomRow:
-          departure.isArrival && !departure.isLastStop ? (
-            <div className="drop-off-container">
-              <Icon
-                img="icon-icon_info"
-                color={this.context.config.colors.primary}
-              />
-              <FormattedMessage
-                id="route-destination-arrives"
-                defaultMessage="Drop-off only"
-              />
-            </div>
-          ) : null,
+        bottomRow: dropoffMessage ? (
+          <div className="drop-off-container">
+            <Icon
+              img="icon-icon_info"
+              color={this.context.config.colors.primary}
+            />
+            <FormattedMessage
+              id={dropoffMessage}
+              defaultMessage="Drop-off only"
+            />
+          </div>
+        ) : null,
       };
 
       const nextDeparture = departuresWithDayDividers[index + 1];
@@ -313,7 +363,6 @@ class DepartureListContainer extends Component {
         <DepartureRow
           key={id}
           departure={row}
-          showLink={this.props.routeLinks}
           departureTime={departure.stoptime}
           currentTime={this.props.currentTime}
           showPlatformCode={isTerminal}
@@ -393,6 +442,7 @@ const containerComponent = createFragmentContainer(DepartureListContainer, {
       realtime
       serviceDay
       pickupType
+      dropoffType
       headsign
       stop {
         id
@@ -406,12 +456,18 @@ const containerComponent = createFragmentContainer(DepartureListContainer, {
         stops {
           id
         }
+        alerts {
+          alertSeverityLevel
+          effectiveEndDate
+          effectiveStartDate
+        }
         pattern {
           route {
             gtfsId
             shortName
             longName
             mode
+            type
             color
             agency {
               name
@@ -420,11 +476,6 @@ const containerComponent = createFragmentContainer(DepartureListContainer, {
               alertSeverityLevel
               effectiveEndDate
               effectiveStartDate
-              trip {
-                pattern {
-                  code
-                }
-              }
             }
           }
           code
@@ -438,8 +489,4 @@ const containerComponent = createFragmentContainer(DepartureListContainer, {
   `,
 });
 
-export {
-  containerComponent as default,
-  DepartureListContainer as Component,
-  asDepartures,
-};
+export { containerComponent as default, DepartureListContainer as Component };

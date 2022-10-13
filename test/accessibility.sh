@@ -8,12 +8,12 @@ cleanup() {
 trap "exit $TESTSTATUS" INT TERM
 trap cleanup EXIT
 
-GECKODRIVER_URL="https://github.com/mozilla/geckodriver/releases/download/v0.29.1/geckodriver-v0.29.1-linux64.tar.gz"
+GECKODRIVER_URL="https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz"
 GECKODRIVER_FILENAME=$(echo $GECKODRIVER_URL | awk -F/ '{print $NF}')
 
 # Silence output and send to background
 set -m; (
-    CONFIG=hsl yarn run dev >/dev/null 2>&1 &
+    CONFIG=hsl NODE_OPTS=--max_old_space_size=1000 yarn start >/dev/null 2>&1 &
 ) & set +m; NODE_PID=$!
 
 # Install firefox if needed

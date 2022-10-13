@@ -49,7 +49,6 @@ const express = require('express');
 const expressStaticGzip = require('express-static-gzip');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const request = require('request');
 const logger = require('morgan');
 const { postCarpoolOffer, bodySchema } = require('./carpool');
 const { retryFetch } = require('../app/util/fetchUtils');
@@ -125,6 +124,13 @@ function setUpStaticFolders() {
       },
     }),
   );
+
+  if (config.localStorageEmitter) {
+    app.use(
+      '/local-storage-emitter',
+      express.static(path.join(staticFolder, 'emitter')),
+    );
+  }
 }
 
 function setUpMiddleware() {
@@ -194,7 +200,13 @@ function setUpAvailableRouteTimetables() {
     // route that contains timetables
     if (config.timetables.HSL) {
       // try to fetch available route timetables every four seconds with 4 retries
-      retryFetch(`${config.URL.ROUTE_TIMETABLES.HSL}routes.json`, {}, 4, 4000)
+      retryFetch(
+        `${config.URL.ROUTE_TIMETABLES.HSL}routes.json`,
+        {},
+        4,
+        4000,
+        config,
+      )
         .then(res => res.json())
         .then(
           result => {
@@ -213,6 +225,7 @@ function setUpAvailableRouteTimetables() {
               {},
               1440,
               60000,
+              config,
             )
               .then(res => res.json())
               .then(
@@ -266,8 +279,16 @@ function setUpAvailableTickets() {
       body: '{ ticketTypes { price fareId zones } }',
       headers: { 'Content-Type': 'application/graphql' },
     };
+    const queryParameters = config.hasAPISubscriptionQueryParameter
+      ? `?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
+      : '';
     // try to fetch available ticketTypes every four seconds with 4 retries
-    retryFetch(`${config.URL.OTP}index/graphql`, options, 4, 4000)
+    retryFetch(
+      `${config.URL.OTP}index/graphql${queryParameters}`,
+      options,
+      4,
+      4000,
+    )
       .then(res => res.json())
       .then(
         result => {
@@ -286,7 +307,12 @@ function setUpAvailableTickets() {
             resolve();
             console.log('failed to load availableTickets at launch, retrying');
             // Continue attempts to fetch available ticketTypes in the background for one day once every minute
-            retryFetch(`${config.URL.OTP}index/graphql`, options, 1440, 60000)
+            retryFetch(
+              `${config.URL.OTP}index/graphql${queryParameters}`,
+              options,
+              1440,
+              60000,
+            )
               .then(res => res.json())
               .then(
                 result => {

@@ -39,14 +39,14 @@ class TerminalPageContent extends React.Component {
 
   componentDidMount() {
     // Throw error in client side if relay fails to fetch data
-    if (this.props.error) {
+    if (this.props.error && !this.props.station) {
       throw this.props.error.message;
     }
   }
 
   render() {
     // Render something in client side to clear SSR
-    if (isBrowser && this.props.error) {
+    if (isBrowser && this.props.error && !this.props.station) {
       return <Loading />;
     }
 
@@ -64,7 +64,13 @@ class TerminalPageContent extends React.Component {
 
     const { stoptimes } = this.props.station;
     // eslint-disable-next-line prefer-destructuring
-    const mode = this.props.station.stops[0].patterns[0].route.mode;
+    const stopsWithPatterns = this.props.station.stops.filter(
+      stop => stop.patterns.length > 0,
+    );
+    const mode =
+      stopsWithPatterns.length > 0
+        ? stopsWithPatterns[0].patterns[0].route.mode
+        : 'BUS';
     if (!stoptimes || stoptimes.length === 0) {
       return (
         <div className="stop-no-departures-container">
@@ -73,7 +79,8 @@ class TerminalPageContent extends React.Component {
         </div>
       );
     }
-
+    const isStreetTrafficTerminal = () =>
+      stopsWithPatterns.some(stop => stop.patterns[0].route.mode === 'BUS');
     return (
       <ScrollableWrapper>
         <div className="stop-page-departure-wrapper stop-scroll-container">
@@ -92,8 +99,16 @@ class TerminalPageContent extends React.Component {
             </span>
             <span className="track-header">
               <FormattedMessage
-                id={mode === 'BUS' ? 'platform' : 'track'}
-                defaultMessage={mode === 'BUS' ? 'Platform' : 'Track'}
+                id={
+                  mode === 'BUS' || isStreetTrafficTerminal()
+                    ? 'platform'
+                    : 'track'
+                }
+                defaultMessage={
+                  mode === 'BUS' || isStreetTrafficTerminal()
+                    ? 'Platform'
+                    : 'Track'
+                }
               />
             </span>
           </div>
@@ -102,7 +117,6 @@ class TerminalPageContent extends React.Component {
             mode={mode}
             key="departures"
             className="stop-page"
-            routeLinks
             infiniteScroll
             isTerminal
             currentTime={this.props.currentTime}

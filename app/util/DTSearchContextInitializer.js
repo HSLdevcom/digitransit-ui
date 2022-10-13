@@ -21,7 +21,7 @@ import {
 import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch } from '../action/SearchActions';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
-import { showCityBikes } from './modeUtils';
+import { useCitybikes } from './modeUtils';
 import { getDefaultNetworks } from './citybikes';
 
 export default function intializeSearchContext(context, searchContext) {
@@ -39,10 +39,13 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.URL_PELIAS_PLACE = config.URL.PELIAS_PLACE;
   // FeedId's like  [HSL, HSLLautta]
   searchContext.feedIDs = config.feedIds;
-  searchContext.cityBikeNetworks = showCityBikes(config.cityBike.networks)
+  searchContext.cityBikeNetworks = useCitybikes(config.cityBike.networks)
     ? getDefaultNetworks(config).map(t => `citybikes${t}`)
     : [];
   // searchSources e.g. [oa,osm,nlsfi.]
+  searchContext.parkingAreaSources = config.parkingAreaSources
+    ? config.parkingAreaSources.map(s => `parks${s}`)
+    : undefined;
   searchContext.geocodingSources = config.searchSources;
   searchContext.geocodingSearchParams = config.searchParams;
   searchContext.getOldSearches = getOldSearches;

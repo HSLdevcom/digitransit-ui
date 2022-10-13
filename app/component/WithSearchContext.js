@@ -23,7 +23,10 @@ const PATH_OPTS = {
   itinerarySummaryPrefix: PREFIX_ITINERARY_SUMMARY,
 };
 
-export default function withSearchContext(WrappedComponent) {
+export default function withSearchContext(
+  WrappedComponent,
+  embeddedSearch = false,
+) {
   class ComponentWithSearchContext extends React.Component {
     static contextTypes = {
       config: PropTypes.object.isRequired,
@@ -126,6 +129,20 @@ export default function withSearchContext(WrappedComponent) {
       } else if (id !== 'stop-route-station' && item.type !== 'FutureRoute') {
         let location;
         if (item.type === 'CurrentLocation') {
+          if (embeddedSearch) {
+            this.props.selectHandler(
+              {
+                type: 'CurrentLocation',
+                status: 'no-location',
+                address: this.context.intl.formatMessage({
+                  id: 'own-position',
+                  defaultMessage: 'Own Location',
+                }),
+              },
+              id,
+            );
+            return;
+          }
           // item is already a location.
           location = item;
           if (

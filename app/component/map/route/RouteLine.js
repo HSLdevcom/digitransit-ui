@@ -7,7 +7,7 @@ import StopMarker from '../non-tile-layer/StopMarker';
 import LocationMarker from '../LocationMarker';
 import Line from '../Line';
 import { getClosestPoint } from '../../../util/geo-utils';
-
+import { getRouteMode } from '../../../util/modeUtils';
 import { isBrowser } from '../../../util/browser';
 
 /**
@@ -46,7 +46,7 @@ function RouteLine(props) {
   }
 
   const objs = [];
-  const modeClass = props.pattern.route.mode.toLowerCase();
+  const modeClass = getRouteMode(props.pattern.route);
 
   if (!props.thin) {
     // We are drawing a background line under an itinerary line,
@@ -217,6 +217,7 @@ export default createFragmentContainer(RouteLine, {
       }
       route {
         mode
+        type
         color
       }
       stops {

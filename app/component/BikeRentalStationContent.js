@@ -6,14 +6,14 @@ import { FormattedMessage } from 'react-intl';
 import { routerShape, RedirectException } from 'found';
 
 import CityBikeStopContent from './CityBikeStopContent';
-import BikeRentalStationHeader from './BikeRentalStationHeader';
+import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
+import { isBrowser, isMobile, isAndroid, isIOS } from '../util/browser';
 import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkName,
 } from '../util/citybikes';
-import { isBrowser, isMobile, isAndroid, isIOS } from '../util/browser';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import CargoBikeContent from './map/sidebar/CargoBikeContent';
 
@@ -28,7 +28,7 @@ const BikeRentalStationContent = (
   });
 
   // throw error in client side relay query fails
-  if (isClient && error) {
+  if (isClient && error && !bikeRentalStation) {
     throw error.message;
   }
 
@@ -47,22 +47,6 @@ const BikeRentalStationContent = (
     bikeRentalStation.networks[0],
     config,
   );
-  let url = networkConfig?.url ? networkConfig.url[language] : '';
-  if (bikeRentalStation.rentalUris) {
-    if (isMobile && isIOS && bikeRentalStation.rentalUris.ios) {
-      url = bikeRentalStation.rentalUris.ios;
-    } else if (isMobile && isAndroid && bikeRentalStation.rentalUris.android) {
-      url = bikeRentalStation.rentalUris.android;
-    } else if (bikeRentalStation.rentalUris.web) {
-      url = bikeRentalStation.rentalUris.web;
-    }
-  }
-  let returnInstructionsUrl;
-  if (networkConfig.returnInstructions) {
-    returnInstructionsUrl = networkConfig.returnInstructions[language];
-  }
-  const { cityBike } = config;
-  const cityBikeBuyUrl = cityBike.buyUrl;
 
   // todo: remove Stadtnavi Herrenberg-specific stuff?
   if (
@@ -72,16 +56,39 @@ const BikeRentalStationContent = (
     return <CargoBikeContent slug={bikeRentalStation.stationId} />;
   }
 
+  let cityBikeNetworkUrl = networkConfig?.url
+    ? networkConfig.url[language]
+    : '';
+  if (bikeRentalStation.rentalUris) {
+    if (isMobile && isIOS && bikeRentalStation.rentalUris.ios) {
+      cityBikeNetworkUrl = bikeRentalStation.rentalUris.ios;
+    } else if (isMobile && isAndroid && bikeRentalStation.rentalUris.android) {
+      cityBikeNetworkUrl = bikeRentalStation.rentalUris.android;
+    } else if (bikeRentalStation.rentalUris.web) {
+      cityBikeNetworkUrl = bikeRentalStation.rentalUris.web;
+    }
+  }
+  let returnInstructionsUrl;
+  if (networkConfig.returnInstructions) {
+    returnInstructionsUrl = networkConfig.returnInstructions[language];
+  }
+  const { cityBike } = config;
+  const cityBikeBuyUrl = cityBike.buyUrl?.[language];
+  const buyInstructions = cityBikeBuyUrl
+    ? cityBike.buyInstructions?.[language]
+    : undefined;
+
   const formFactor = networkConfig.type || 'citybike';
   const networkName = getCityBikeNetworkName(networkConfig, language);
+
   return (
     <div className="bike-station-page-container">
-      <BikeRentalStationHeader
-        bikeRentalStation={bikeRentalStation}
+      <ParkOrStationHeader
+        parkOrStation={bikeRentalStation}
         breakpoint={breakpoint}
       />
       <CityBikeStopContent bikeRentalStation={bikeRentalStation} />
-      {config.cityBike.showFullInfo && isFull && (
+      {cityBike.showFullInfo && isFull && (
         <div className="citybike-full-station-guide">
           <FormattedMessage id="citybike-return-full" />
           <a
@@ -96,16 +103,14 @@ const BikeRentalStationContent = (
           </a>
         </div>
       )}
-      {url && (
+      {cityBikeNetworkUrl && (
         <div className="citybike-use-disclaimer">
-          <div className="disclaimer-header">
+          <h2 className="disclaimer-header">
             <FormattedMessage id={`${formFactor}-start-using`} />
-          </div>
+          </h2>
           <div className="disclaimer-content">
-            {cityBikeBuyUrl ? (
-              <FormattedMessage id="citybike-buy-season" />
-            ) : (
-              <a className="external-link-citybike" href={url}>
+            {buyInstructions || (
+              <a className="external-link-citybike" href={cityBikeNetworkUrl}>
                 <FormattedMessage id={`${formFactor}-start-using-info`} />{' '}
                 {networkName}
               </a>
@@ -119,7 +124,7 @@ const BikeRentalStationContent = (
               className="external-link"
               target="_blank"
               rel="noreferrer"
-              href={url}
+              href={cityBikeBuyUrl}
             >
               <FormattedMessage id="citybike-purchase-link" />
               <Icon img="icon-icon_external-link-box" />

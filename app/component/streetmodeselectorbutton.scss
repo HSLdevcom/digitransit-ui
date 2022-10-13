@@ -67,18 +67,36 @@
         .street-mode-selector-button-icon {
             padding-right: 8px;
             padding-top: 8px;
-            z-index: 1;
             .icon-container {
 		        .icon {
                     width: 30px;
                     height: 30px;
                 }
             }
+            &.car-park-primary {
+                padding-top: 12px;
+                .icon-container {
+                    .icon {
+                        width: 22px;
+                        height: 22px;
+                    }
+                }
+            }
+            &.bike-and-vehicle-primary {
+                .icon-container {
+                    .icon {
+                        width: 27px;
+                        height: 27px;
+                    }
+                }
+            }
             &.secondary-icon {
                 margin-bottom: 20px;
                 margin-left: -18px;
                 padding-top: 0px;
-                z-index: 0;
+                &.car-park-secondary {
+                    margin-left: -12px;
+                }
                 .icon-container {
                     .icon {
                         width: 12px;

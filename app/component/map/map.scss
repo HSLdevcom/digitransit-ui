@@ -442,7 +442,8 @@ div.leaflet-marker-icon.vehicle-icon {
     border-top: solid 1px #ddd;
 
     div,
-    a {
+    a,
+    button {
       display: block;
       padding: 0.5em 12px;
       flex-grow: 1;
@@ -506,6 +507,7 @@ div.leaflet-marker-icon.vehicle-icon {
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
     padding: 0;
     margin-bottom: 5px;
+    border-radius: 5px;
   }
   .leaflet-popup-content {
     margin: 0;
@@ -533,6 +535,9 @@ div.leaflet-marker-icon.vehicle-icon {
     .card-row .no-margin:last-child hr {
       display: none;
     }
+  }
+  .card.no-margin {
+    margin: 0;
   }
   .card-header {
     border-radius: $border-radius;
@@ -564,7 +569,8 @@ div.leaflet-marker-icon.vehicle-icon {
     border: solid 1px #ddd;
 
     div,
-    a {
+    a,
+    button {
       height: 26px;
       min-width: 100px;
       display: flex;
@@ -578,6 +584,9 @@ div.leaflet-marker-icon.vehicle-icon {
       &:first-child {
         border-left: none;
       }
+    }
+    button {
+      @include font-medium;
     }
   }
 

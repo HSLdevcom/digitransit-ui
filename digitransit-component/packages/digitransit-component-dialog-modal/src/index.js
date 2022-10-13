@@ -19,6 +19,18 @@ i18next.init({
 Object.keys(translations).forEach(lang => {
   i18next.addResourceBundle(lang, 'translation', translations[lang]);
 });
+
+const isKeyboardSelectionEvent = event => {
+  const space = [13, ' ', 'Spacebar'];
+  const enter = [32, 'Enter'];
+  const key = (event && (event.key || event.which || event.keyCode)) || '';
+
+  if (!key || !space.concat(enter).includes(key)) {
+    return false;
+  }
+  event.preventDefault();
+  return true;
+};
 /**
  * General component description in JSDoc format. Markdown is *supported*.
  *
@@ -80,6 +92,12 @@ const DialogModal = ({
                 styles.primary,
               )}
               href={href}
+              onKeyDown={e => {
+                if (isKeyboardSelectionEvent(e)) {
+                  e.stopPropagation();
+                  primaryButtonOnClick(e);
+                }
+              }}
               onClick={e => {
                 e.stopPropagation();
                 primaryButtonOnClick(e);

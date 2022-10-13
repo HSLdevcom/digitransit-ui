@@ -69,6 +69,12 @@ function ViaLeg(props, { config, intl }) {
                 }
                 values={{
                   time: moment(props.leg.startTime).format('HH:mm'),
+                  to: intl.formatMessage({
+                    id: `modes.to-${
+                      props.leg.to.stop?.vehicleMode.toLowerCase() || 'place'
+                    }`,
+                    defaultMessage: 'modes.to-stop',
+                  }),
                   distance,
                   origin: props.leg.from ? props.leg.from.name : '',
                   destination: props.leg.to ? props.leg.to.name : '',
@@ -188,6 +194,7 @@ ViaLeg.propTypes = {
     }).isRequired,
     to: PropTypes.shape({
       name: PropTypes.string.isRequired,
+      stop: PropTypes.object,
     }),
   }).isRequired,
   index: PropTypes.number.isRequired,

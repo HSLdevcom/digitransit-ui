@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Toggle from '../Toggle';
+import Toggle from './Toggle';
 import Icon from '../Icon';
 import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 import BikingOptionsSection from './BikingOptionsSection';
@@ -23,6 +23,11 @@ const StreetModeSelectorPanel = (
     executeAction(saveRoutingSettings, action);
   };
 
+  const prId =
+    config.includeParkAndRideSuggestions && config.includeCarSuggestions
+      ? 'park-and-ride'
+      : 'car';
+
   return (
     <React.Fragment>
       <div className="street-modes-container">
@@ -32,38 +37,38 @@ const StreetModeSelectorPanel = (
             defaultMessage="Your own transportation modes"
           />
         </div>
-        {!!config.streetModes.bicycle.availableForSelection && (
-          <div key="mode-option-bicycle">
-            <div className="mode-option-container">
-              <div className="mode-option-block">
-                <div className="mode-icon">
-                  <Icon className="bicycle-icon" img="icon-icon_bike" />
-                </div>
-                <div className="mode-name">
-                  <FormattedMessage
-                    className="mode-name"
-                    id="bicycle"
-                    defaultMessage="bicycle"
-                  />
-                </div>
+        <div key="mode-option-bicycle">
+          <div className="mode-option-container">
+            <div className="mode-option-block">
+              <div className="mode-icon">
+                <Icon className="bicycle-icon" img="icon-icon_bike" />
               </div>
-              <div>
-                <Toggle
-                  toggled={currentSettings.includeBikeSuggestions}
-                  onToggle={() => onToggle('includeBikeSuggestions', 'OwnBike')}
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+              <label className="mode-name" htmlFor="settings-toggle-bicycle">
+                <FormattedMessage
+                  className="mode-name"
+                  id="bicycle"
+                  defaultMessage="bicycle"
                 />
-              </div>
+              </label>
             </div>
-            {currentSettings.includeBikeSuggestions ? (
-              <BikingOptionsSection
-                bikeSpeed={currentSettings.bikeSpeed}
-                bicycleParkingFilter={currentSettings.bicycleParkingFilter}
-                defaultSettings={defaultSettings}
-                bikeSpeedOptions={config.defaultOptions.bikeSpeed}
+            <div>
+              <Toggle
+                id="settings-toggle-bicycle"
+                toggled={currentSettings.includeBikeSuggestions}
+                onToggle={() => onToggle('includeBikeSuggestions', 'OwnBike')}
               />
-            ) : null}
+            </div>
           </div>
-        )}
+          {currentSettings.includeBikeSuggestions ? (
+            <BikingOptionsSection
+              bikeSpeed={currentSettings.bikeSpeed}
+              bicycleParkingFilter={currentSettings.bicycleParkingFilter}
+              defaultSettings={defaultSettings}
+              bikeSpeedOptions={config.defaultOptions.bikeSpeed}
+            />
+          ) : null}
+        </div>
         {config.includeParkAndRideSuggestions && (
           <div key="mode-option-park-and-ride">
             <div className="mode-option-container">
@@ -74,45 +79,48 @@ const StreetModeSelectorPanel = (
                     img="icon-icon_park-and-ride-subicon"
                   />
                 </div>
-                <div className="mode-name">
+                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+                <label
+                  className="mode-name"
+                  htmlFor="settings-toggle-parkAndRide"
+                >
                   <FormattedMessage
                     className="mode-name"
-                    id="park-and-ride"
+                    id={prId}
                     defaultMessage="Park & Ride"
                   />
-                </div>
-              </div>
-              <div>
-                <Toggle
-                  toggled={currentSettings.includeParkAndRideSuggestions}
-                  onToggle={() =>
-                    onToggle('includeParkAndRideSuggestions', 'ParkAndRide')
-                  }
-                />
+                  <Toggle
+                    id="settings-toggle-parkAndRide"
+                    toggled={currentSettings.includeParkAndRideSuggestions}
+                    onToggle={() =>
+                      onToggle('includeParkAndRideSuggestions', 'ParkAndRide')
+                    }
+                  />
+                </label>
               </div>
             </div>
           </div>
         )}
         {config.includeCarSuggestions && (
-          <div key="mode-car">
+          <div key="mode-option-car">
             <div className="mode-option-container">
               <div className="mode-option-block">
                 <div className="mode-icon">
                   <Icon className="car-icon" img="icon-icon_car-withoutBox" />
                 </div>
-                <div className="mode-name">
+                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+                <label className="mode-name" htmlFor="settings-toggle-car">
                   <FormattedMessage
                     className="mode-name"
                     id="car"
-                    defaultMessage="car"
+                    defaultMessage="Car"
                   />
-                </div>
-              </div>
-              <div>
-                <Toggle
-                  toggled={currentSettings.includeCarSuggestions}
-                  onToggle={() => onToggle('includeCarSuggestions', 'OwnCar')}
-                />
+                  <Toggle
+                    id="settings-toggle-car"
+                    toggled={currentSettings.includeCarSuggestions}
+                    onToggle={() => onToggle('includeCarSuggestions', 'OwnCar')}
+                  />
+                </label>
               </div>
             </div>
           </div>

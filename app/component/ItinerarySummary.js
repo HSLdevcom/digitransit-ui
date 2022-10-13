@@ -8,6 +8,7 @@ const ItinerarySummary = ({
   itinerary,
   walking,
   biking,
+  driving,
   futureText,
   isMultiRow,
   isMobile,
@@ -28,6 +29,7 @@ const ItinerarySummary = ({
           className="distance--itinerary-summary"
           walkDistance={walking.distance}
           walkDuration={walking.duration}
+          mode="walk"
         />
       )}
       {biking && biking.distance > 0 && (
@@ -36,13 +38,19 @@ const ItinerarySummary = ({
           icon="icon_cyclist"
           walkDistance={biking.distance}
           walkDuration={biking.duration}
+          mode="bike"
         />
       )}
-      <div
-        className={cx('divider-bottom', {
-          multirow: isMultiRow,
-        })}
-      />
+      {driving && driving.distance > 0 && (
+        <WalkDistance
+          className="distance--itinerary-summary driving-summary"
+          icon="icon_car-withoutBox"
+          walkDistance={driving.distance}
+          walkDuration={driving.duration}
+          mode="car"
+        />
+      )}
+      <div className={cx('divider-bottom')} />
     </div>
   );
 };
@@ -54,6 +62,7 @@ ItinerarySummary.propTypes = {
   itinerary: PropTypes.object.isRequired,
   walking: PropTypes.object,
   biking: PropTypes.object,
+  driving: PropTypes.object,
   futureText: PropTypes.string,
   isMultiRow: PropTypes.bool,
   isMobile: PropTypes.bool,
@@ -62,6 +71,7 @@ ItinerarySummary.propTypes = {
 ItinerarySummary.defaultTypes = {
   walking: {},
   biking: {},
+  driving: {},
   futureText: '',
   isMultiRow: false,
   isMobile: false,

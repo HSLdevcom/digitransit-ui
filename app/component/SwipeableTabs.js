@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactSwipe from 'react-swipe';
 import { intlShape } from 'react-intl';
+import cx from 'classnames';
 import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import ScrollableWrapper from './ScrollableWrapper';
@@ -274,15 +275,21 @@ export default class SwipeableTabs extends React.Component {
           {this.props.classname === 'swipe-desktop-view' && (
             <div className="desktop-view-divider" />
           )}
-          <div
-            className={`swipe-header ${this.props.classname}`}
-            role="row"
+          <button
+            className="sr-only"
+            type="button"
             onKeyDown={e => this.handleKeyPress(e, reactSwipeEl)}
             aria-label={ariaHeader}
-            tabIndex="0"
           >
+            {ariaHeader}
+          </button>
+          <div className={`swipe-header ${this.props.classname}`}>
             {!hideArrows && (
-              <div className="swipe-button-container">
+              <div
+                className={cx('swipe-button-container', {
+                  active: !(disabled || this.state.tabIndex <= 0),
+                })}
+              >
                 <div
                   className="swipe-button"
                   onClick={() => reactSwipeEl.prev()}
@@ -318,7 +325,11 @@ export default class SwipeableTabs extends React.Component {
               {disabled ? null : tabBalls}
             </div>
             {!hideArrows && (
-              <div className="swipe-button-container">
+              <div
+                className={cx('swipe-button-container', {
+                  active: !(disabled || this.state.tabIndex >= tabs.length - 1),
+                })}
+              >
                 <div
                   className="swipe-button"
                   onClick={() => reactSwipeEl.next()}

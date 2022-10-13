@@ -23,7 +23,9 @@ import Datetimepicker from './helpers/Datetimepicker';
  * @param {node} props.embedWhenOpen                JSX element to render when input is open
  * @param {string} props.lang                       Language selection. Default 'en'
  * @param {number} props.serviceTimeRange           Determine number of days shown in timepicker. Optional. default is 30.
- *
+ * @param {function} props.onOpen                   Determine what to do when timepicker is open. Optional. no default implementation.
+ * @param {function} props.onClose                  Determine what to do when timepicker is closed. Optional. no default implementation.
+ * @param {function} props.openPicker               Determine if timepicker should be open in intial render. Optional. Default is undefined.
  * @example
  * <Datetimepicker
  *   realtime={true}
@@ -55,6 +57,9 @@ function DatetimepickerStateContainer({
   timeZone,
   fontWeights,
   serviceTimeRange,
+  onOpen,
+  onClose,
+  openPicker,
 }) {
   moment.locale(lang);
   moment.tz.setDefault(timeZone);
@@ -157,7 +162,7 @@ function DatetimepickerStateContainer({
   const onModalSubmit = (time, mode) => {
     changeTimestampState(time);
     changeDepartureOrArrival(mode);
-    onTimeChange(time / 1000, mode === 'arrival');
+    onTimeChange(time / 1000, mode === 'arrival', true);
   };
 
   return (
@@ -177,6 +182,9 @@ function DatetimepickerStateContainer({
       onModalSubmit={onModalSubmit}
       fontWeights={fontWeights}
       serviceTimeRange={serviceTimeRange}
+      onOpen={onOpen}
+      onClose={onClose}
+      openPicker={openPicker}
     />
   );
 }
@@ -199,6 +207,9 @@ DatetimepickerStateContainer.propTypes = {
     medium: PropTypes.number,
   }),
   serviceTimeRange: PropTypes.number,
+  onOpen: PropTypes.func,
+  onClose: PropTypes.func,
+  openPicker: PropTypes.bool,
 };
 
 DatetimepickerStateContainer.defaultProps = {
@@ -213,6 +224,9 @@ DatetimepickerStateContainer.defaultProps = {
   fontWeights: {
     medium: 500,
   },
+  onOpen: null,
+  onClose: null,
+  openPicker: undefined,
 };
 
 export default DatetimepickerStateContainer;

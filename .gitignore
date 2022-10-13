@@ -9,6 +9,7 @@ test/credentials.json
 test/binaries
 *.swp
 .idea
+.vscode
 *.iml
 *~
 test_output
@@ -22,8 +23,8 @@ run*.sh
 app/**/__generated__
 digitransit-component/packages/**/*.generated
 digitransit-component/packages/**/lib
-digitransit-search-util/packages/**/*.generated
 digitransit-search-util/packages/**/__generated__
+digitransit-search-util/packages/**/lib/
 digitransit-store/packages/**/*.generated
 digitransit-store/packages/**/lib
 yarn-error.log

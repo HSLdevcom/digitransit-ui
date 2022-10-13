@@ -9,6 +9,7 @@ import {
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
   getCitybikeCapacity,
+  hasStationCode,
 } from '../util/citybikes';
 
 import withBreakpoint from '../util/withBreakpoint';
@@ -79,6 +80,11 @@ function CityBikeLeg(
                 id: `${formFactor}-station-no-id`,
                 defaultMessage: 'Bike station',
               })}
+              {hasStationCode(bikeRentalStation) && (
+                <span className="itinerary-stop-code">
+                  {bikeRentalStation.stationId}
+                </span>
+              )}
             </span>
           </div>
         </div>

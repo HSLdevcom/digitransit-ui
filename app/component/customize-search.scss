@@ -131,11 +131,10 @@
 
   .toggle-container {
     .settings-header {
-      padding-top: 0.5em;
-    }
-    span {
-      padding-top: 1em;
+      display: flex;
       width: 100%;
+      justify-content: space-between;
+      padding-top: 0.5em;
     }
     .icon-container {
       width: auto;
@@ -146,6 +145,7 @@
     font-weight: $font-weight-medium;
 
     .walk-option-inner {
+      min-height: 51px;
       padding: 0 16px 0 16px;
     }
 
@@ -153,36 +153,13 @@
       border-bottom: 1px solid #e3e3e3;
     }
 
-    .toggle-container {
+    label.toggle-label {
       display: flex;
       justify-content: space-between;
-      height: 51px;
-    }
-    label.toggle-label {
-      padding-top: 17px;
-      line-height: 16px;
-    }
-  }
-  .mode-option-block.citybike-network-container:nth-child(2) {
-    border-bottom: 1px solid #e3e3e3;
-  }
-  .mode-option-block.citybike-network-container {
-    margin-bottom: 0.75em;
-    label.toggle-label {
-      display: flex;
-      flex-grow: 1;
-      line-height: 35px;
-      .network-name {
-        margin-top: 4px;
+
+      .toggle-label-text {
+        padding-top: 5px;
       }
-    }
-    .option-toggle-container {
-      .toggle {
-        top: 0px;
-      }
-    }
-    .icon-container {
-      margin-right: 0.5em;
     }
   }
 }
@@ -242,21 +219,18 @@
   padding: 0 0 0 1em;
 }
 
-.settings-header-citybike {
-  padding-left: 0;
-  position: relative;
-  top: 10px;
-}
-
 .mode-option-container {
-  display: flex;
-  justify-content: space-between;
   border-bottom: 1px solid #e3e3e3;
   font-size: $font-size-small;
   flex-wrap: wrap;
 
   .icon-container {
     width: auto;
+  }
+
+  .car-icon {
+    width: 0.8em;
+    height: 0.8em;
   }
 
   .option-checkbox {
@@ -266,6 +240,7 @@
   label.toggle-label {
     font-size: 0.92rem;
     font-weight: $font-weight-medium;
+    align-items: center;
   }
 
   .mode-option-block {
@@ -289,14 +264,17 @@
         margin-top: -0.8em;
       }
     }
-    .mode-name {
+    label.mode-name  {
       display: flex;
-      flex-direction: column;
-      margin-top: 1.2em;
+      justify-content: space-between;
+      font-weight: $font-weight-medium;
+      font-size: $font-size-small;
+    }
+    .mode-name {
       width:100%;
-      span {
-        color: #000;
+      > span {
         line-height: 1.1em;
+        margin-top: 1.2em;
       }
       .span-bike-not-allowed {
         font-size: $font-size-xxsmall;
@@ -363,10 +341,13 @@
   height: 3.5em;
 
   label.toggle-label {
-    flex-grow: 1;
     display:flex;
+    justify-content: space-between;
     line-height: 35px;
     color: #333;
+    .accessibility-label {
+      flex-grow: 1;
+    }
   }
 }
 

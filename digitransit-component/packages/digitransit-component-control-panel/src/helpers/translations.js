@@ -1,5 +1,6 @@
 const translations = {
   de: {
+    'close-teaser-modal': 'Schließen',
     'pick-mode': 'Wählen Sie ein Verkehrsmittel',
     'pick-mode-airplane': 'Flug',
     'pick-mode-bus': 'Bus',
@@ -16,6 +17,7 @@ const translations = {
     'use-own-position': 'Verwende aktuelle Position',
   },
   en: {
+    'close-teaser-modal': 'Close',
     'pick-mode': 'Select a transport mode',
     'pick-mode-airplane': 'Flight',
     'pick-mode-bus': 'Bus',
@@ -35,6 +37,7 @@ const translations = {
       'Real-time timetables for nearby stops and vehicles on map.',
   },
   fi: {
+    'close-teaser-modal': 'Sulje',
     'pick-mode': 'Valitse joukkoliikennevälineistä',
     'pick-mode-airplane': 'Lentokone',
     'pick-mode-bus': 'Bussi',
@@ -54,6 +57,7 @@ const translations = {
       'Reaaliaikaiset lähipysäkkiesi aikataulut ja ajoneuvot kartalla.',
   },
   sv: {
+    'close-teaser-modal': 'Stäng',
     'pick-mode': 'Välj ett transportläge',
     'pick-mode-airplane': 'Flyg',
     'pick-mode-bus': 'Buss',

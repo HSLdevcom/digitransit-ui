@@ -63,6 +63,10 @@ export const getMapLayerOptions = (options = {}) => {
       isLocked: false,
       isSelected: false,
     },
+    parkAndRideForBikes: {
+      isLocked: false,
+      isSelected: false,
+    },
     stop: {
       bus: {
         isLocked: false,

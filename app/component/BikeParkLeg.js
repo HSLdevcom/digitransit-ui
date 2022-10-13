@@ -9,7 +9,7 @@ import { durationToString } from '../util/timeUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import Icon from './Icon';
-import { PREFIX_BIKE_PARKS } from '../util/path';
+import { PREFIX_BIKEPARK } from '../util/path';
 
 const BikeParkLeg = (
   { leg, index, focusAction, bikePark },
@@ -23,6 +23,24 @@ const BikeParkLeg = (
   const duration = durationToString(leg.duration * 1000);
   return (
     <div key={index} className="row itinerary-row">
+      <span className="sr-only">
+        <FormattedMessage
+          id="itinerary-details.walk-leg"
+          values={{
+            time: moment(leg.startTime).format('HH:mm'),
+            distance,
+            to: intl.formatMessage({
+              id: `modes.to-${
+                leg.to.stop?.vehicleMode?.toLowerCase() || 'place'
+              }`,
+              defaultMessage: 'modes.to-stop',
+            }),
+            origin: leg.from ? leg.from.name : '',
+            destination: leg.to ? leg.to.name : '',
+            duration,
+          }}
+        />
+      </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
           {moment(leg.startTime).format('HH:mm')}
@@ -40,7 +58,7 @@ const BikeParkLeg = (
               onClick={e => {
                 e.stopPropagation();
               }}
-              to={`/${PREFIX_BIKE_PARKS}?id=${bikePark.bikeParkId}&lat=${leg.from.lat}&lng=${leg.from.lon}`}
+              to={`/${PREFIX_BIKEPARK}?id=${bikePark.bikeParkId}&lat=${leg.from.lat}&lng=${leg.from.lon}`}
             >
               <div className="address">
                 <FormattedMessage id="bike-park" />
@@ -127,6 +145,7 @@ BikeParkLeg.propTypes = {
     }).isRequired,
     to: PropTypes.shape({
       name: PropTypes.string.isRequired,
+      stop: PropTypes.object,
     }).isRequired,
     mode: PropTypes.string.isRequired,
     rentedBike: PropTypes.bool.isRequired,

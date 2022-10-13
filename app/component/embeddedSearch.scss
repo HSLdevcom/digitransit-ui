@@ -1,0 +1,58 @@
+.embedded-seach-container {
+    display: grid;
+    padding: 10px;
+    height: 250px;
+    width: 100vw;
+    max-width: 100%;
+    overflow: hidden;
+    .background-container, .control-panel-container{
+        grid-column: 1;
+        grid-row: 1;
+    }
+    h1 {
+        margin-top: 25px;
+    }
+    .main-left {
+        max-width: 100%;
+    }
+    .control-panel-container > div:first-of-type {
+        max-width: 100%;
+    }
+    .embedded-search-button-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        .search-button {
+            background-color: $primary-color;
+            font-family: $button-font-family;
+            border: 2px solid $primary-color;
+            color: white;
+            border-radius: 40px;
+            font-weight: 500;
+            width: 128px;
+            height: 40px;
+            font-size: $font-size-small;
+        }
+        .brand-logo {
+            object-fit: contain;
+            height: 40px;
+            max-width: 55%;
+        }
+    }
+    .background {
+        width: auto;
+        float: right;
+        height: 340px;
+        margin-top: -40px;
+        &.bike {
+            margin-right: -30px;
+            margin-top: -35px;
+            height: 275px;
+        }
+    }
+    @media only screen and (min-width: 600px) {
+        .background {
+            right: -26%;
+        }
+    }
+}

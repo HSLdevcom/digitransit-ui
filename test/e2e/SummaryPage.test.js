@@ -2,6 +2,7 @@
 /* eslint-disable no-undef */
 import fs from 'fs';
 import getConfig from './helpers/image-snapshot-config';
+import * as MockHelper from './helpers/mock-request-helper';
 import summaryPageMockData from './mock-data/SummaryPageQueryResponse.json';
 import walkBikeMockData from './mock-data/WalkBikeQueryResponse.json';
 
@@ -14,28 +15,31 @@ const isMobile = platform === 'mobile';
 
 const mockRoutes = async page => {
   await page.route('**/graphql', async (route, request) => {
-    if (
-      request.postData().includes('queryUtils_SummaryPage_Query') &&
-      request.method() === 'POST'
-    ) {
-      await route.fulfill({
-        headers: { 'access-control-allow-origin': '*' },
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify(summaryPageMockData),
-      });
+    const matched = MockHelper.matchGraphQLRequest(request, [
+      {
+        matchBody: MockHelper.createPropertyRegex({
+          id: 'queryUtils_SummaryPage_Query',
+          fromPlace: 'Rautatientori.*',
+        }),
+        data: summaryPageMockData,
+      },
+      {
+        matchBody: MockHelper.createPropertyRegex({
+          id: 'queryUtils_SummaryPage_Query',
+          toPlace: 'Valittu sijanti::10,10',
+        }),
+      },
+      {
+        matchBody: MockHelper.createPropertyRegex({
+          id: 'SummaryPage_WalkBike_Query',
+        }),
+        data: walkBikeMockData,
+      },
+    ]);
+    if (!matched) {
+      return;
     }
-    if (
-      request.postData().includes('SummaryPage_WalkBike_Query') &&
-      request.method() === 'POST'
-    ) {
-      await route.fulfill({
-        headers: { 'access-control-allow-origin': '*' },
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify(walkBikeMockData),
-      });
-    }
+    await route.fulfill(MockHelper.buildMockResponse(matched));
   });
 
   await page.route('https://opendata.fmi.fi/*', async route => {
@@ -49,73 +53,88 @@ const mockRoutes = async page => {
   });
 };
 
+/**
+ * Encodes URI path from components.
+ *
+ * @param {Array.<String>} ...args
+ * @returns {String}
+ */
+const encodeComponents = (...args) => args.map(encodeURIComponent).join('/');
+
 describe(`Summary page with ${config} config`, () => {
   beforeEach(async () => {
     await mockRoutes(page);
   });
-  const path =
-    '/reitti/Rautatientori%2C%20Helsinki%3A%3A60.170384%2C24.939846/Mannerheimintie%2089%2C%20Helsinki%3A%3A60.194445473775644%2C24.904975891113285';
-  test(`itinerary suggestions on ${platform}`, async () => {
-    const snapshotName = `itinerary-suggestions-${platform}`;
-    const response = await page.goto(`http://localhost:8080${path}`);
 
-    expect(response.status()).toBe(200);
-
-    await Promise.all([
-      page.waitForSelector('.summary-list-container'),
-      page.waitForSelector('.street-mode-button-row'),
-      page.waitForSelector('.street-mode-selector-weather-container'),
-      new Promise(res => setTimeout(res, 2000)),
-    ]);
-
-    let image;
-    if (!isMobile) {
-      const mainContent = await page.$(
-        '#app > #mainContent > .desktop > .main-content',
-      );
-      image = await mainContent.screenshot({
-        fullPage: true,
-      });
-    } else {
-      image = await page.screenshot({ fullPage: true });
-    }
-    const snapshotConfig = getConfig(
-      snapshotName,
-      `${customSnapshotsDir}/${browserName}/${config}/`,
-      `${customDiffDir}/${browserName}/${config}/`,
+  describe('normal query', () => {
+    const path = encodeComponents(
+      'reitti',
+      'Rautatientori, Helsinki::60.170384,24.939846',
+      'Mannerheimintie 89, Helsinki::60.194445473775644,24.904975891113285',
     );
-    expect(image).toMatchImageSnapshot(snapshotConfig);
-  });
 
-  test(`itinerary details on ${platform}`, async () => {
-    const snapshotName = `itinerary-details-${platform}`;
-    const response = await page.goto(`http://localhost:8080${path}/2`);
+    test(`itinerary suggestions on ${platform}`, async () => {
+      const snapshotName = `itinerary-suggestions-${platform}`;
+      const response = await page.goto(`http://localhost:8080/${path}`);
 
-    expect(response.status()).toBe(200);
+      expect(response.status()).toBe(200);
 
-    let mainContent;
-    if (!isMobile) {
-      await page.waitForSelector(
-        '#mainContent > .desktop > .main-content > .scrollable-content-wrapper',
+      await Promise.all([
+        page.waitForSelector('.summary-list-container'),
+        page.waitForSelector('.street-mode-button-row'),
+        page.waitForSelector('.street-mode-selector-weather-container'),
+        new Promise(res => setTimeout(res, 2000)),
+      ]);
+
+      let image;
+      if (!isMobile) {
+        const mainContent = await page.$(
+          '#app > #mainContent > .desktop > .main-content',
+        );
+        image = await mainContent.screenshot({
+          fullPage: true,
+        });
+      } else {
+        image = await page.screenshot({ fullPage: true });
+      }
+      const snapshotConfig = getConfig(
+        snapshotName,
+        `${customSnapshotsDir}/${browserName}/${config}/`,
+        `${customDiffDir}/${browserName}/${config}/`,
       );
-      mainContent = await page.$('#mainContent > .desktop > .main-content');
-    } else {
-      await page.waitForSelector(
-        '#app > #mainContent > .mobile > .drawer-container > .drawer-content',
-      );
-      mainContent = await page.$(
-        '#app > #mainContent > .mobile > .drawer-container > .drawer-content',
-      );
-    }
-    const image = await mainContent.screenshot({
-      fullPage: true,
+      expect(image).toMatchImageSnapshot(snapshotConfig);
     });
 
-    const snapshotConfig = getConfig(
-      snapshotName,
-      `${customSnapshotsDir}/${browserName}/${config}/`,
-      `${customDiffDir}/${browserName}/${config}/`,
-    );
-    expect(image).toMatchImageSnapshot(snapshotConfig);
+    test(`itinerary details on ${platform}`, async () => {
+      const snapshotName = `itinerary-details-${platform}`;
+      const response = await page.goto(`http://localhost:8080/${path}/2`);
+
+      expect(response.status()).toBe(200);
+
+      let mainContent;
+      if (!isMobile) {
+        await page.waitForSelector(
+          '#mainContent > .desktop > .main-content > .scrollable-content-wrapper',
+        );
+        mainContent = await page.$('#mainContent > .desktop > .main-content');
+      } else {
+        await page.waitForSelector(
+          '#app > #mainContent > .mobile > .drawer-container > .drawer-content',
+        );
+        mainContent = await page.$(
+          '#app > #mainContent > .mobile > .drawer-container > .drawer-content',
+        );
+      }
+      const image = await mainContent.screenshot({
+        fullPage: true,
+      });
+
+      const snapshotConfig = getConfig(
+        snapshotName,
+        `${customSnapshotsDir}/${browserName}/${config}/`,
+        `${customDiffDir}/${browserName}/${config}/`,
+      );
+      expect(image).toMatchImageSnapshot(snapshotConfig);
+    });
   });
 });

@@ -10,6 +10,7 @@ $hsl-pink: #f092cd;
 $hsl-alert: #dc0451;
 $hsl-tram-green: #008151;
 $hsl-metro-orange: #CA4000;
+$hsl-bus-express: #CA4000;
 $hsl-rail-red: #8c4799;
 $hsl-ferry-blue: #007A97;
 
@@ -34,6 +35,7 @@ $top-bar-color: $primary-color;
 /* Vehicle palette */
 $airplane-color: #0046ad;
 $bus-color: $hsl-blue;
+$bus-express-color: $hsl-bus-express;
 $tram-color: $hsl-tram-green;
 $metro-color: $hsl-metro-orange;
 $rail-color: $hsl-rail-red;

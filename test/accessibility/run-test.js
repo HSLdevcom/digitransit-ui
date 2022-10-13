@@ -3,7 +3,7 @@
 /* eslint-disable no-console */
 const parallel = require('async/parallel');
 const AxeBuilder = require('@axe-core/webdriverjs');
-const { Builder, By, Key } = require('selenium-webdriver');
+const { Builder, By, Key, until } = require('selenium-webdriver');
 const firefox = require('selenium-webdriver/firefox');
 
 const args = process.argv.slice(2);
@@ -11,8 +11,8 @@ const onlyTestLocal = args.includes('local');
 console.log(`Testing against benchmark: ${!onlyTestLocal}`);
 
 const LOCAL = 'http://127.0.0.1:8080';
-const BENCHMARK = 'https://next-dev.digitransit.fi';
-const RERUN_COUNT = 1;
+const BENCHMARK = 'https://reittiopas.hsl.fi';
+const RERUN_COUNT = 3;
 
 let CURRENT_RUN = 0;
 
@@ -36,6 +36,8 @@ const color = {
   minor: '\x1b[33m',
 };
 
+process.exitCode = 1;
+
 const createDriver = () => {
   return new Builder()
     .forBrowser('firefox')
@@ -44,7 +46,10 @@ const createDriver = () => {
 };
 
 const createBuilder = driver => {
-  return new AxeBuilder(driver).exclude('.map').disableRules('color-contrast'); // Color-contrast checks seem inconsistent, can be possibly enabled in newer axe versions
+  return new AxeBuilder(driver)
+    .setLegacyMode()
+    .exclude('.map')
+    .disableRules('color-contrast'); // Color-contrast checks seem inconsistent, can be possibly enabled in newer axe versions
 };
 
 const createTestEnv = () => {
@@ -127,10 +132,6 @@ async function terminalPageTimetableTest(
   const [driver, builder] = createTestEnv();
   const url = `${rootUrl}${path}`;
   await driver.get(url);
-  // Open route select menu
-  await driver
-    .findElement(By.id('timetable-showroutes-button'))
-    .sendKeys(Key.RETURN);
   await analyzeWithAxe(builder, printResults, benchmark, path);
   driver.quit();
 }
@@ -148,16 +149,18 @@ async function ItineraryTest(rootUrl, printResults, benchmark, path) {
   const url = `${rootUrl}${path}`;
   await driver.get(url);
   // Open settings menu
-  await driver
-    .findElement(By.className('open-advanced-settings-window-button'))
-    .sendKeys(Key.RETURN);
+  const el = await driver.findElement(
+    By.className('open-advanced-settings-window-button'),
+  );
+  await driver.wait(until.elementIsVisible(el), 1000);
+  await el.sendKeys(Key.RETURN);
   await analyzeWithAxe(builder, printResults, benchmark, path);
   driver.quit();
 }
 
 const TEST_CASES = {
   '/etusivu': frontPageTest,
-  '/linjat/HSL:3002P': routePageTest,
+  '/linjat/HSL:3002P/pysakit/HSL:3002P:0:01': routePageTest,
   '/linjat/HSL:3002P/aikataulu/HSL:3002P:0:01': routePageTimetableTest,
   '/terminaalit/HSL%3A2000102/aikataulu': terminalPageTimetableTest,
   '/lahellasi/BUS/Rautatientori%2C%20Helsinki::60.170384,24.939846': stopsNearYouTest,
@@ -247,35 +250,42 @@ const wrapup = () => {
           '\x1b[0m',
         );
       }
-      process.exitCode = 1;
     } else {
+      process.exitCode = 0;
       console.log('No new erros');
     }
+  }
+  if (onlyTestLocal && localResults.violations.length === 0) {
+    process.exitCode = 0;
   }
 };
 
 const runTests = (printResults, pathsToTest = undefined) => {
-  console.time('Execution time');
-  parallel(
-    [
-      callback => {
-        runTestCases(LOCAL, false, callback, printResults, pathsToTest);
-      },
-      callback => {
-        if (!onlyTestLocal) {
-          runTestCases(BENCHMARK, true, callback, false, pathsToTest);
-        } else {
-          callback(null);
+  try {
+    console.time('Execution time');
+    parallel(
+      [
+        callback => {
+          runTestCases(LOCAL, false, callback, printResults, pathsToTest);
+        },
+        callback => {
+          if (!onlyTestLocal) {
+            runTestCases(BENCHMARK, true, callback, false, pathsToTest);
+          } else {
+            callback(null);
+          }
+        },
+      ],
+      err => {
+        if (err) {
+          throw new Error(err);
         }
+        wrapup();
       },
-    ],
-    err => {
-      if (err) {
-        console.error(err);
-      }
-      wrapup();
-    },
-  );
+    );
+  } catch (e) {
+    throw new Error(e);
+  }
 };
 
 runTests(true);

@@ -53,6 +53,7 @@ $favourite-highlight-background-color: #F4F4F5;
     flex-grow: 1;
     height: 100%;
     position: relative;
+    padding: 0;
     margin-right: 8px;
     overflow: hidden;
 
@@ -145,6 +146,7 @@ $favourite-highlight-background-color: #F4F4F5;
     width: 42px;
     flex-shrink: 0;
     overflow: hidden;
+    padding: 0;
 
     & > div {
       @extend .shimmer-shared;
@@ -199,14 +201,13 @@ $favourite-highlight-background-color: #F4F4F5;
     overflow-y: scroll;
   }
   .favourite-suggestion-item {
-    cursor: pointer;
-    &.highlighted {
-      background-color: $favourite-highlight-background-color;
-    }
     &.custom {
       font-size: 15px;
       font-weight: var(--font-weight-medium);
       letter-spacing: -0.5;
     }
+  }
+  .favourite-suggestion-item:hover {
+    background-color: $favourite-highlight-background-color;
   }
 }

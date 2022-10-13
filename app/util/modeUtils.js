@@ -7,6 +7,7 @@ import inside from 'point-in-polygon';
 import { getCustomizedSettings } from '../store/localStorage';
 import { isInBoundingBox } from './geo-utils';
 import { addAnalyticsEvent } from './analyticsUtils';
+import { ExtendedRouteTypes, TransportMode } from '../constants';
 
 export const isCitybikeSeasonActive = season => {
   if (!season) {
@@ -23,8 +24,46 @@ export const isCitybikeSeasonActive = season => {
   return false;
 };
 
+export const isCitybikePreSeasonActive = season => {
+  if (!season || !season.preSeasonStart) {
+    return false;
+  }
+  const currentDate = new Date();
+
+  if (
+    currentDate.getTime() <= season.start.getTime() &&
+    currentDate.getTime() >= season.preSeasonStart.getTime()
+  ) {
+    return true;
+  }
+  return false;
+};
+
 export const showCitybikeNetwork = network => {
-  return network.enabled && isCitybikeSeasonActive(network.season);
+  return (
+    network?.enabled &&
+    (isCitybikeSeasonActive(network?.season) ||
+      isCitybikePreSeasonActive(network?.season))
+  );
+};
+
+export const citybikeRoutingIsActive = network => {
+  return network?.enabled && isCitybikeSeasonActive(network?.season);
+};
+
+export const networkIsActive = (config, networkName) => {
+  const networks = config?.cityBike?.networks;
+
+  return citybikeRoutingIsActive(networks[networkName]);
+};
+
+export const useCitybikes = networks => {
+  if (!networks) {
+    return false;
+  }
+  return Object.values(networks).some(network =>
+    citybikeRoutingIsActive(network),
+  );
 };
 
 export const showCityBikes = networks => {
@@ -38,7 +77,7 @@ export const getNearYouModes = config => {
   if (!config.cityBike || !config.cityBike.networks) {
     return config.nearYouModes;
   }
-  if (!showCityBikes(config.cityBike.networks)) {
+  if (!useCitybikes(config.cityBike.networks)) {
     return config.nearYouModes.filter(mode => mode !== 'citybike');
   }
   return config.nearYouModes;
@@ -48,7 +87,7 @@ export const getTransportModes = config => {
   if (
     config.cityBike &&
     config.cityBike.networks &&
-    !showCityBikes(config.cityBike.networks)
+    !useCitybikes(config.cityBike.networks)
   ) {
     return {
       ...config.transportModes,
@@ -56,6 +95,17 @@ export const getTransportModes = config => {
     };
   }
   return config.transportModes || {};
+};
+
+export const getRouteMode = route => {
+  switch (route.type) {
+    case ExtendedRouteTypes.BusExpress:
+      return 'bus-express';
+    case ExtendedRouteTypes.BusLocal:
+      return 'bus-local';
+    default:
+      return route.mode?.toLowerCase();
+  }
 };
 
 /**
@@ -215,12 +265,31 @@ export const showModeSettings = config =>
  * @returns {String[]} returns user set modes or default modes
  */
 export const getModes = config => {
-  const { modes } = getCustomizedSettings();
+  const { modes, allowedBikeRentalNetworks } = getCustomizedSettings();
+  const activeAndAllowedBikeRentalNetworks = allowedBikeRentalNetworks
+    ? allowedBikeRentalNetworks.filter(x => networkIsActive(config, x))
+    : [];
   if (showModeSettings(config) && Array.isArray(modes) && modes.length > 0) {
     const transportModes = modes.filter(mode =>
       isTransportModeAvailable(config, mode),
     );
-    return [...transportModes, 'WALK'];
+    const modesWithWalk = [...transportModes, 'WALK'];
+    if (
+      activeAndAllowedBikeRentalNetworks &&
+      activeAndAllowedBikeRentalNetworks.length > 0 &&
+      modesWithWalk.indexOf(TransportMode.Citybike) === -1
+    ) {
+      modesWithWalk.push(TransportMode.Citybike);
+    }
+    return modesWithWalk;
+  }
+  if (
+    Array.isArray(activeAndAllowedBikeRentalNetworks) &&
+    activeAndAllowedBikeRentalNetworks.length > 0
+  ) {
+    const modesWithCitybike = getDefaultModes(config);
+    modesWithCitybike.push(TransportMode.Citybike);
+    return modesWithCitybike;
   }
   return getDefaultModes(config);
 };

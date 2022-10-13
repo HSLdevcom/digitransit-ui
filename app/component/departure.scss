@@ -213,124 +213,6 @@
   padding-bottom: inherit;
 }
 
-.next-departure-row {
-  background: $white;
-  line-height: $line-height-normal;
-  position: relative;
-  overflow-y: visible;
-  white-space: nowrap;
-  margin: 0;
-  padding-left: 0;
-
-  color: $black;
-  @include font-narrow-book;
-  font-size: $font-size-normal;
-
-  a {
-    color: inherit;
-  }
-
-  .route-number {
-    padding-left: 0.35em;
-    padding-bottom: 4px;
-    width: 3.5em;
-    vertical-align: middle;
-    margin-bottom: -6px;
-    overflow-x: hidden;
-    overflow-y: visible;
-  }
-
-  .icon {
-    font-size: 1.15em;
-  }
-
-  .distance {
-    width: 3em;
-    color: $gray;
-    text-align: right;
-    margin-right: 0.5em;
-    font-size: $font-size-small;
-  }
-  .route-headsign {
-    width: 100%;
-    padding-left: 0.5em;
-    vertical-align: bottom;
-  }
-  .city-bike-station-name {
-    width: calc(100% - 10.5em);
-    vertical-align: middle;
-    padding-left: 0.5em;
-  }
-  .bicycle-rental-station {
-    display: inline-flex;
-    position: relative;
-    width: calc(100% - 3.5em);
-    background-color: rgb(238, 241, 243);
-    margin-top: -0.6em;
-    margin-bottom: -0.5em;
-    margin-left: -0.25em;
-    padding: 0.3em 0.25em;
-    border-radius: $border-radius;
-  }
-  .city-bike-station-availability {
-    text-align: right;
-    width: 7em;
-    padding-right: 0.25em;
-    .icon {
-      margin-left: 0.5em;
-      font-size: 12px;
-    }
-  }
-  .bikes-label {
-    font-size: $font-size-small;
-    color: $gray;
-  }
-  .bikes-available {
-    padding-left: 0.25em;
-    font-weight: $font-weight-medium;
-  }
-
-  & > div,
-  & > span {
-    vertical-align: middle;
-  }
-}
-
-.next-departures-list-header {
-  color: $gray;
-  @include font-narrow-book;
-  font-size: $font-size-normal;
-  white-space: nowrap;
-  margin: 0;
-  line-height: 1em;
-
-  & > span {
-    display: inline-block;
-    vertical-align: top;
-    & > span {
-      font-size: $font-size-small;
-    }
-  }
-  .distance-header {
-    width: 3em;
-    margin-right: 0.5em;
-    text-align: right;
-  }
-  .route-number-header {
-    width: 3.5em;
-  }
-  .route-destination-header {
-    font-size: $font-size-xsmall;
-  }
-  .time-header {
-    float: right;
-    font-weight: inherit;
-    width: 3.5em;
-    margin-right: 0.5em;
-    text-align: right;
-  }
-}
-
 .stop-page .departure {
   .time {
     width: 50px;
@@ -342,5 +224,94 @@
   }
   & .route-number {
     width: 100px;
+  }
+}
+
+.departure-row:focus-within {
+  outline: 2px auto #333 !important;
+}
+
+.departure-row {
+  @include font-narrow-book;
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  td {
+    position: relative;
+    a {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      z-index: 1;
+    }
+    a:focus {
+      outline: none;
+    }
+    .platform-code {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .headsign {
+    color: #333;
+  }
+  .route-arrival {
+    color: #333;
+    @include font-medium;
+    font-size: 0.75rem;
+    padding-right: 8px;
+    position: relative;
+    top: -1px;
+    &.realtime {
+      color: $realtime-color;
+    }
+    &.canceled {
+      color: $cancelation-red;
+    }
+  }
+  .route-number-container {
+    background-color: currentColor;
+    position: relative;
+    border-radius: 3px;
+    a {
+      justify-content: center;
+    }
+    .route-number {
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      height: 100%;
+      line-height: 1;
+      color: $white;
+      min-width: unset;
+      white-space: nowrap;
+      overflow: hidden;
+      .icon-container {
+        position: unset;
+      }
+    }
+    .icon-container {
+      position: absolute;
+      left: -3px;
+      bottom: -5px;
+      .icon-circle {
+        stroke-width: 12;
+        stroke: white;
+      }
+      .icon {
+        width: 1em;
+        height: 1em;
+        display: block;
+        overflow: visible;
+        &.circle {
+          width: 0.75em;
+          height: 0.75em;
+        }
+      }
+    }
   }
 }

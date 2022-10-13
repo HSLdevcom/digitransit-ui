@@ -20,6 +20,7 @@ const StopNearYouDepartureRowContainer = ({ stopTimes, mode, ...props }) => {
         departureTime={departureTime}
         currentTime={props.currentTime}
         showPlatformCode={props.isStation}
+        showLink
       />
     );
   });

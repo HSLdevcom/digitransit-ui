@@ -8,6 +8,7 @@ import Protobuf from 'pbf';
 import { drawParkAndRideIcon } from '../../../util/mapIconUtils';
 import { Contour } from '../../../util/geo-utils';
 import { isBrowser } from '../../../util/browser';
+import { fetchWithSubscription } from '../../../util/fetchUtils';
 
 import carParksQuery from './carParks';
 import carParkQuery from './carPark';
@@ -21,17 +22,18 @@ export default class ParkAndRide {
     this.relayEnvironment = relayEnvironment;
     const scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.width = 24 * scaleratio;
-    this.height = 12 * scaleratio;
+    this.height = 24 * scaleratio;
     this.promise = this.getPromise();
   }
 
   static getName = () => 'parkAndRide';
 
   getPromise() {
-    return fetch(
+    return fetchWithSubscription(
       `${this.config.URL.PARK_AND_RIDE_MAP}${
         this.tile.coords.z + (this.tile.props.zoomOffset || 0)
       }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
+      this.config,
     ).then(res => {
       if (res.status !== 200) {
         return undefined;
@@ -40,7 +42,6 @@ export default class ParkAndRide {
       return res.arrayBuffer().then(
         buf => {
           const vt = new VectorTile(new Protobuf(buf));
-
           this.features = [];
 
           if (this.tile.coords.z < showFacilities && vt.layers.hubs != null) {
@@ -81,6 +82,11 @@ export default class ParkAndRide {
                 const result = data.carPark;
                 if (result != null && result.id != null) {
                   feature.properties.facility = result;
+                  const isHilighted =
+                    this.tile.hilightedStops &&
+                    this.tile.hilightedStops.includes(
+                      feature.properties?.facility?.carParkId,
+                    );
                   feature.geom = new Contour(
                     feature.loadGeometry()[0],
                   ).centroid();
@@ -90,6 +96,7 @@ export default class ParkAndRide {
                     feature.geom,
                     this.width,
                     this.height,
+                    isHilighted,
                   );
                 }
               });

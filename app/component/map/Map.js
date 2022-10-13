@@ -259,6 +259,20 @@ class Map extends React.Component {
       }
     }
 
+    // When this option is set, the map restricts the view to the given geographical bounds,
+    // bouncing the user back if the user tries to pan outside the view.
+    const mapAreaBounds = L.latLngBounds(
+      L.latLng(
+        config.map.areaBounds.corner1[0],
+        config.map.areaBounds.corner1[1],
+      ),
+      L.latLng(
+        config.map.areaBounds.corner2[0],
+        config.map.areaBounds.corner2[1],
+      ),
+    );
+    naviProps.maxBounds = mapAreaBounds;
+
     if (naviProps.bounds || (naviProps.center && naviProps.zoom)) {
       this.ready = true;
     }
@@ -398,10 +412,16 @@ class Map extends React.Component {
   }
 
   getMapUrls = (config, currentMapMode) => {
+    const mapBaseUrl =
+      (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/`) ||
+      config.URL.MAP[this.props.lang] ||
+      config.URL.MAP.default;
+    const defaultMapUrl = config.hasAPISubscriptionQueryParameter
+      ? `${mapBaseUrl}{z}/{x}/{y}{size}.png?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
+      : `${mapBaseUrl}{z}/{x}/{y}{size}.png`;
+
     const mapUrls = [];
-    if (isDebugTiles) {
-      mapUrls.push(`${config.URL.OTP}inspector/tile/traversal/{z}/{x}/{y}.png`);
-    } else if (currentMapMode === MapMode.Satellite) {
+    if (currentMapMode === MapMode.Satellite) {
       mapUrls.push(config.URL.MAP.satellite_eu);
       mapUrls.push(config.URL.MAP.satellite);
       mapUrls.push(config.URL.MAP.semiTransparent);
@@ -410,7 +430,7 @@ class Map extends React.Component {
     } else if (currentMapMode === MapMode.OSM) {
       mapUrls.push(config.URL.MAP.osm);
     } else {
-      mapUrls.push(config.URL.MAP.default);
+      mapUrls.push(defaultMapUrl);
     }
     return mapUrls;
   };

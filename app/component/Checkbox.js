@@ -29,6 +29,14 @@ const Checkbox = (
     <div className={cx('option-checkbox-container', { large })} title={title}>
       <div
         aria-checked={checked}
+        aria-label={
+          labelId
+            ? intl.formatMessage({
+                id: labelId,
+                defaultMessage,
+              })
+            : defaultMessage
+        }
         className={cx('option-checkbox', { large })}
         onKeyPress={e =>
           !disabled &&

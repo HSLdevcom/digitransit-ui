@@ -74,7 +74,7 @@ class RoutePageMap extends React.Component {
 
   componentDidMount() {
     // Throw error in client side if relay fails to fetch data
-    if (this.props.error) {
+    if (this.props.error && !this.props.pattern) {
       throw this.props.error.message;
     }
   }
@@ -149,6 +149,7 @@ class RoutePageMap extends React.Component {
           direction={pattern.directionId}
           pattern={pattern.code}
           headsign={pattern.headsign}
+          topics={[pattern.route]}
           tripStart={tripStart}
         />,
       );
@@ -234,6 +235,11 @@ export default createFragmentContainer(RoutePageMapWithVehicles, {
       code
       directionId
       headsign
+      route {
+        type
+        mode
+        shortName
+      }
       geometry {
         lat
         lon

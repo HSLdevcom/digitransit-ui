@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import Icon from './Icon';
+import { isBrowser } from '../util/browser';
 
 class ItineraryCircleLine extends React.Component {
   static defaultProps = {
@@ -16,7 +17,24 @@ class ItineraryCircleLine extends React.Component {
     isVia: PropTypes.bool,
     color: PropTypes.string,
     renderBottomMarker: PropTypes.bool,
+    carPark: PropTypes.bool,
   };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      imageUrl: 'none',
+    };
+  }
+
+  componentDidMount() {
+    import(
+      /* webpackChunkName: "dotted-line" */ `../configurations/images/default/dotted-line.svg`
+    ).then(imageUrl => {
+      this.setState({ imageUrl: `url(${imageUrl.default})` });
+    });
+  }
 
   isFirstChild = () => {
     return this.props.index === 0 && this.props.isVia === false;
@@ -52,6 +70,13 @@ class ItineraryCircleLine extends React.Component {
         </>
       );
     }
+    if (this.props.carPark) {
+      return (
+        <div className="itinerary-icon-container car-park">
+          <Icon img="icon-icon_car-park" />
+        </div>
+      );
+    }
     if (this.props.isVia === true) {
       return (
         <div className="itinerary-icon-container">
@@ -84,6 +109,10 @@ class ItineraryCircleLine extends React.Component {
     const topMarker = this.getMarker(true);
     const bottomMarker = this.getMarker(false);
     const legBeforeLineStyle = { color: this.props.color };
+    if (isBrowser && this.props.modeClassName === 'car-park-walk') {
+      // eslint-disable-next-line global-require
+      legBeforeLineStyle.backgroundImage = this.state.imageUrl;
+    }
 
     return (
       <div

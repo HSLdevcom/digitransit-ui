@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
+import { mockContext } from '../helpers/mock-context';
 
 import Timetable from '../../../app/component/Timetable';
 import TimetableRow from '../../../app/component/TimetableRow';
@@ -52,6 +53,7 @@ describe('<Timetable />', () => {
   it('should set isCanceled to true for rows that have RealtimeState CANCELED', () => {
     const wrapper = shallowWithIntl(<Timetable {...props} />, {
       context: {
+        ...mockContext,
         config: {
           URL: {},
         },
@@ -67,6 +69,7 @@ describe('<Timetable />', () => {
     const baseTimetableURL = 'https://timetabletest.com/stops/';
     const wrapper = shallowWithIntl(<Timetable {...props} />, {
       context: {
+        ...mockContext,
         config: {
           URL: { STOP_TIMETABLES: { HSL: baseTimetableURL } },
           timetables: { HSL: timetables.default.HSL },

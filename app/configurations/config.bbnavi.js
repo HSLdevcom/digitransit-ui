@@ -61,6 +61,7 @@ export default configMerger(walttiConfig, {
 
     mainMenu: {
         showDisruptions: false,
+        showEmbeddedSearch: false,
     },
 
     availableLanguages: ['de', 'en'],
@@ -611,6 +612,8 @@ export default configMerger(walttiConfig, {
         };
     },
     displayFareInfoTop: false,
+
+    showWeatherInformation: false,
 
     // the route to stop button in when you select an individual stop/bike rental station
     showMapRoutingButton: false,

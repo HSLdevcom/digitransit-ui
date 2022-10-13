@@ -14,7 +14,6 @@ function WalkDistance(props, { config, intl }) {
   );
 
   const icon = `icon-${props.icon || 'icon_walk'}`;
-  const mode = props.icon === 'icon_cyclist' ? 'bike' : 'walk';
 
   const walkDuration = durationToString(props.walkDuration * 1000);
 
@@ -22,11 +21,11 @@ function WalkDistance(props, { config, intl }) {
     <span className={cx(props.className)} style={{ whiteSpace: 'nowrap' }}>
       <span className="sr-only">
         <FormattedMessage
-          id={`aria-itinerary-summary-${mode}-distance`}
+          id={`aria-itinerary-summary-${props.mode}-distance`}
           values={{ distance: walkDistance, duration: walkDuration }}
         />
       </span>
-      <Icon img={icon} className={cx(mode)} />
+      <Icon img={icon} className={cx(props.mode)} />
       <span aria-hidden className="walk-distance">
         {walkDuration}
         <span data-text={walkDistance} />
@@ -44,6 +43,7 @@ WalkDistance.propTypes = {
   icon: PropTypes.string,
   className: PropTypes.string,
   walkDuration: PropTypes.number.isRequired,
+  mode: PropTypes.string.isRequired,
 };
 
 WalkDistance.contextTypes = {

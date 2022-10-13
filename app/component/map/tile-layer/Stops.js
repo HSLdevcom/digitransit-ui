@@ -1,14 +1,20 @@
 import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
 import pick from 'lodash/pick';
-
 import {
   drawTerminalIcon,
   drawStopIcon,
   drawHybridStopIcon,
   drawHybridStationIcon,
 } from '../../../util/mapIconUtils';
+import { ExtendedRouteTypes } from '../../../constants';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
+import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from '../../../util/path';
+import { fetchWithSubscription } from '../../../util/fetchUtils';
+
+function isNull(val) {
+  return val === 'null' || val === undefined || val === null;
+}
 
 class Stops {
   constructor(tile, config, mapLayers, relayEnvironment, mergeStops) {
@@ -23,18 +29,31 @@ class Stops {
   static getName = () => 'stop';
 
   drawStop(feature, isHybrid, zoom, minZoom) {
-    const isHilighted = false;
-    /* this.tile.hilightedStops &&
-      this.tile.hilightedStops.includes(feature.properties.gtfsId); */
     if (!isFeatureLayerEnabled(feature, Stops.getName(), this.mapLayers)) {
       return;
     }
 
+    // In bbnavi, we don't want selected stops to be highlighted.
+    const isHilighted = false;
+    /* this.tile.hilightedStops &&
+      this.tile.hilightedStops.includes(feature.properties.gtfsId); */
+
+    let hasTrunkRoute = false;
+    if (
+      feature.properties.type === 'BUS' &&
+      this.config.useExtendedRouteTypes
+    ) {
+      const patterns = feature.properties.patterns
+        ? JSON.parse(feature.properties.patterns)
+        : [];
+      if (patterns.some(p => p.gtfsType === ExtendedRouteTypes.BusExpress)) {
+        hasTrunkRoute = true;
+      }
+    }
     const ignoreMinZoomLevel =
       feature.properties.type === 'FERRY' ||
       feature.properties.type === 'RAIL' ||
       feature.properties.type === 'SUBWAY';
-
     if (ignoreMinZoomLevel || zoom >= minZoom) {
       if (isHybrid) {
         drawHybridStopIcon(
@@ -42,6 +61,7 @@ class Stops {
           feature.geom,
           isHilighted,
           this.config.colors.iconColors,
+          hasTrunkRoute,
         );
         return;
       }
@@ -49,14 +69,14 @@ class Stops {
       drawStopIcon(
         this.tile,
         feature.geom,
-        feature.properties.type,
-        feature.properties.platform !== 'null'
+        hasTrunkRoute ? 'bus-express' : feature.properties.type,
+        !isNull(feature.properties.platform)
           ? feature.properties.platform
           : false,
         isHilighted,
         !!(
           feature.properties.type === 'FERRY' &&
-          feature.properties.code !== 'null'
+          !isNull(feature.properties.code)
         ),
         this.config.colors.iconColors,
       );
@@ -79,11 +99,30 @@ class Stops {
     );
   };
 
+  shouldRenderTerminalIcon = (mode, path, vehicles) => {
+    const modesWithoutIcon = ['SUBWAY'];
+    const viewsWithoutIcon = [PREFIX_ITINERARY_SUMMARY];
+    const selectedMode = vehicles
+      ? Object.values(vehicles)[0]?.mode
+      : undefined;
+    if (
+      modesWithoutIcon.includes(mode) &&
+      (viewsWithoutIcon.some(view => path.includes(view)) ||
+        (!!selectedMode &&
+          modesWithoutIcon.includes(selectedMode.toUpperCase()) &&
+          path.includes(PREFIX_ROUTES)))
+    ) {
+      return false;
+    }
+    return true;
+  };
+
   getPromise() {
-    return fetch(
+    return fetchWithSubscription(
       `${this.config.URL.STOP_MAP}${
         this.tile.coords.z + (this.tile.props.zoomOffset || 0)
       }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
+      this.config,
     ).then(res => {
       if (res.status !== 200) {
         return undefined;
@@ -92,7 +131,6 @@ class Stops {
       return res.arrayBuffer().then(
         buf => {
           const vt = new VectorTile(new Protobuf(buf));
-
           this.features = [];
 
           // draw highlighted stops on lower zoom levels
@@ -125,7 +163,7 @@ class Stops {
               if (
                 isFeatureLayerEnabled(feature, 'stop', this.mapLayers) &&
                 feature.properties.type &&
-                (feature.properties.parentStation === 'null' ||
+                (isNull(feature.properties.parentStation) ||
                   drawPlatforms ||
                   (feature.properties.type === 'RAIL' && drawRailPlatforms))
               ) {
@@ -163,16 +201,23 @@ class Stops {
                     f.geom.x === prevFeature.geom.x &&
                     f.geom.y === prevFeature.geom.y
                   ) {
-                    // save only one gtfsId per hybrid stop
-                    hybridGtfsIdByCode[f.properties.code] = f.properties.gtfsId;
-                    // Also change hilighted stopId in hybrid stop cases
+                    // save only one gtfsId per hybrid stop, always save the gtfsId for the bus stop to fetch extended route types
+                    const featWithBus =
+                      prevFeature.properties.type === 'BUS' ? prevFeature : f;
+                    const featWithoutBus =
+                      prevFeature.properties.type === 'BUS' ? f : prevFeature;
+                    hybridGtfsIdByCode[featWithBus.properties.code] =
+                      featWithBus.properties.gtfsId;
+                    // Also change hilighted stopId to the stop with type = BUS in hybrid stop cases
                     if (
                       this.tile.hilightedStops &&
                       this.tile.hilightedStops.includes(
-                        prevFeature.properties.gtfsId,
+                        featWithoutBus.properties.gtfsId,
                       )
                     ) {
-                      this.tile.hilightedStops = [f.properties.gtfsId];
+                      this.tile.hilightedStops = [
+                        featWithBus.properties.gtfsId,
+                      ];
                     }
                   }
                 }
@@ -246,7 +291,12 @@ class Stops {
                 if (
                   !isHybridStation &&
                   (isHilighted ||
-                    this.tile.coords.z >= this.config.terminalStopsMinZoom)
+                    this.tile.coords.z >= this.config.terminalStopsMinZoom) &&
+                  this.shouldRenderTerminalIcon(
+                    feature.properties.type,
+                    window.location.pathname,
+                    this.tile?.vehicles,
+                  )
                 ) {
                   drawTerminalIcon(
                     this.tile,

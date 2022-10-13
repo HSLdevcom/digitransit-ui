@@ -12,13 +12,13 @@ import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
 
 function MainMenu(props, { config, intl, executeAction }) {
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
-    <div aria-hidden={!props.visible} className="main-menu no-select">
+    <div className="main-menu no-select">
       <div className="main-menu-top-section">
         <button
+          type="button"
           ref={input => input && input.focus()}
-          onClick={props.toggleVisibility}
+          onClick={props.closeMenu}
           className="close-button cursor-pointer"
           aria-label={intl.formatMessage({
             id: 'main-menu-label-close',
@@ -46,6 +46,7 @@ function MainMenu(props, { config, intl, executeAction }) {
                     action: 'Home',
                     name: null,
                   });
+                  props.closeMenu();
                 }}
               >
                 <FormattedMessage id="frontpage" defaultMessage="Frontpage" />
@@ -53,9 +54,31 @@ function MainMenu(props, { config, intl, executeAction }) {
             )}
           </div>
         )}
-        {config.mainMenu.showDisruptions && props.showDisruptionInfo && (
+        {config.mainMenu.showDisruptions && (
           <div className="offcanvas-section">
-            <DisruptionInfoButtonContainer />
+            <DisruptionInfoButtonContainer
+              setDisruptionInfoOpen={props.setDisruptionInfoOpen}
+            />
+          </div>
+        )}
+        {config.mainMenu.stopMonitor.show && (
+          <div className="offcanvas-section">
+            <a href={config.mainMenu.stopMonitor.url}>
+              <FormattedMessage id="create-stop-monitor" />
+            </a>
+          </div>
+        )}
+        {config.mainMenu.showEmbeddedSearch && (
+          <div className="offcanvas-section">
+            <Link
+              to={`${config.URL.EMBEDDED_SEARCH_GENERATION}`}
+              onClick={props.closeMenu}
+            >
+              <FormattedMessage
+                id="create-embedded-search"
+                defaultMessage="Create a route search element"
+              />
+            </Link>
           </div>
         )}
         {config.appBarLink && config.appBarLink.name && config.appBarLink.href && (
@@ -97,14 +120,9 @@ function MainMenu(props, { config, intl, executeAction }) {
 }
 
 MainMenu.propTypes = {
-  showDisruptionInfo: PropTypes.bool,
-  toggleVisibility: PropTypes.func.isRequired,
-  visible: PropTypes.bool,
+  setDisruptionInfoOpen: PropTypes.func.isRequired,
+  closeMenu: PropTypes.func.isRequired,
   homeUrl: PropTypes.string.isRequired,
-};
-
-MainMenu.defaultProps = {
-  visible: true,
 };
 
 MainMenu.contextTypes = {

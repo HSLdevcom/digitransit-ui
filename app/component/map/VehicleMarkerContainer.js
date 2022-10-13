@@ -1,13 +1,20 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-
 import moment from 'moment';
+import { ExtendedRouteTypes } from '../../constants';
 import VehicleIcon from '../VehicleIcon';
 import IconMarker from './IconMarker';
 import { isBrowser } from '../../util/browser';
 
-const MODES_WITH_ICONS = ['bus', 'tram', 'rail', 'subway', 'ferry'];
+const MODES_WITH_ICONS = [
+  'bus',
+  'bus-express',
+  'tram',
+  'rail',
+  'subway',
+  'ferry',
+];
 
 function getVehicleIcon(
   mode,
@@ -58,38 +65,42 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
   );
 }
 
-function VehicleMarkerContainer(containerProps) {
-  const visibleVehicles = Object.entries(
-    containerProps.vehicles,
-  ).filter(([, message]) =>
+function VehicleMarkerContainer(props) {
+  const visibleVehicles = Object.entries(props.vehicles).filter(([, message]) =>
     shouldShowVehicle(
       message,
-      containerProps.direction,
-      containerProps.tripStart,
-      containerProps.pattern,
-      containerProps.headsign,
+      props.direction,
+      props.tripStart,
+      props.pattern,
+      props.headsign,
     ),
   );
   const visibleVehicleIds = visibleVehicles.map(([id]) => id);
-  containerProps.setVisibleVehicles(visibleVehicleIds);
+  props.setVisibleVehicles(visibleVehicleIds);
 
-  return visibleVehicles.map(([id, message]) => (
-    <IconMarker
-      key={id}
-      position={{
-        lat: message.lat,
-        lon: message.long,
-      }}
-      zIndexOffset={10000}
-      icon={getVehicleIcon(
-        message.mode,
-        message.heading,
-        message.shortName ? message.shortName : message.route.split(':')[1],
-        message.color,
-        containerProps.useLargeIcon,
-      )}
-    />
-  ));
+  return visibleVehicles.map(([id, message]) => {
+    const type = props.topics?.find(t => t.shortName === message.shortName)
+      ?.type;
+    const mode =
+      type === ExtendedRouteTypes.BusExpress ? 'bus-express' : message.mode;
+    return (
+      <IconMarker
+        key={id}
+        position={{
+          lat: message.lat,
+          lon: message.long,
+        }}
+        zIndexOffset={10000}
+        icon={getVehicleIcon(
+          mode,
+          message.heading,
+          message.shortName ? message.shortName : message.route.split(':')[1],
+          message.color,
+          props.useLargeIcon,
+        )}
+      />
+    );
+  });
 }
 
 VehicleMarkerContainer.propTypes = {

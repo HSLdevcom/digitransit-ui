@@ -1,9 +1,9 @@
-Digitransit-ui is a React based web application. The following bullet point describe the architecture on a overview level and provide guidelines on how the code should be.
+Digitransit-ui is a React based web application. The following bullet points describe the architecture on a overview level and provide guidelines on how the code should be.
 
 # Logic (i.e. HTML + JS in traditional web)
  - Front-end is written using modern JavaScript (ES2015)
  - Use Babel to transpile it into ES5
-  - We could provide a different bundle for modern browsers using widely-supported ES6 syntax
+ - We could provide a different bundle for modern browsers using widely-supported ES6 syntax
  - Use polyfills for older browsers by polyfill-service
  - React + JSX
  - Airbnb styleguide for ES6 and React
@@ -15,23 +15,23 @@ Digitransit-ui is a React based web application. The following bullet point desc
   - Three types of components
   - Views
     - Simple views that transform props to JSX
-    - Views must contain only dom elements and other Views
-      - i.e. no no references to containers
+    - Views must contain only DOM elements and other Views
+      - i.e. no references to containers
     - Views should preferably be created using stateless functional components
     - Views mustn't hold any state
       - If state is needed you should either store it using fluxible or in a container
   - RelayConnector
-    - Data from server should be fetched by adding a relay fragment and wrapping it with Relay.createContainer
+    - Data from server should be fetched by adding a relay fragment and wrapping it with `Relay.createContainer`
     - The file should have the pure view as default export and the <View>RelayConnector as named export
       - Alternatively both components can be placed in separate files
-    - The view should use RelayContainers in its render method if props.relay is defined. If props.relay is not defined, then the pure view should be used instead.
+    - The view should use RelayContainers in its render method if `props.relay` is defined. If `props.relay` is not defined, then the pure view should be used instead.
   - Containers
     - Two types of containers
     - "Traditional" containers
       - Containers are components that do complex transformations of props data in order to show one or more views or containers
       - Containers should only contain only other containers and views
-        - i.e. no dom components
-      - Continers must include Container in their name
+        - i.e. no DOM components
+      - Continers must include `Container` in their name
     - StoreConnectors
       - Data from stores should be loaded using fluxible connectToStores
       - Higher order component that wraps another component to provide store state to other component props

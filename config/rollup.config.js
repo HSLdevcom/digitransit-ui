@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 import autoprefixer from 'autoprefixer';
 import commonjs from 'rollup-plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
@@ -45,6 +46,10 @@ const globals = {
   'lodash/memoize': 'memoize',
   'lodash/cloneDeep': 'cloneDeep',
   'lodash/get': 'get',
+  'lodash/uniq': 'uniq',
+  'lodash/compact': 'compact',
+  moment: 'moment',
+  'react-relay': 'reactRelay',
 };
 
 async function getSortedPackages() {
@@ -66,8 +71,10 @@ export default async () => {
   packages.forEach(pkg => {
     /* Absolute path to package directory */
     const basePath = path.relative(__dirname, pkg.location);
-    /* Absolute path to input file */
-    const input = path.join(__dirname, basePath, 'src/index.js');
+    let input = path.join(__dirname, basePath, 'src/index.js');
+    if (!fs.existsSync(input)) {
+      input = path.join(__dirname, basePath, 'index.js');
+    }
     const buildConfig = {
       input,
       output: [
@@ -76,6 +83,15 @@ export default async () => {
           dir: path.join(__dirname, basePath, 'lib'),
           format: 'umd',
           sourcemap: true,
+          inlineDynamicImports: true,
+          exports: 'named',
+          globals,
+        },
+        {
+          name: pkg.name,
+          file: path.join(__dirname, basePath, 'lib', 'index.development.js'),
+          format: 'umd',
+          sourcemap: 'inline',
           inlineDynamicImports: true,
           exports: 'named',
           globals,

@@ -6,7 +6,6 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape, routerShape, RedirectException } from 'found';
 import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
-import keyBy from 'lodash/keyBy';
 import sortBy from 'lodash/sortBy';
 import cx from 'classnames';
 import { dayRangePattern } from '@digitransit-util/digitransit-util';
@@ -26,30 +25,31 @@ import RoutePageControlPanel from './RoutePageControlPanel';
 import { PREFIX_ROUTES, PREFIX_TIMETABLE } from '../util/path';
 import { isBrowser } from '../util/browser';
 import ScrollableWrapper from './ScrollableWrapper';
+import getTestData from './RouteScheduleDebugData';
 
 const DATE_FORMAT2 = 'D.M.YYYY';
 
 const isTripCanceled = trip =>
   trip.stoptimes &&
-  Object.keys(trip.stoptimes)
-    .map(key => trip.stoptimes[key])
-    .every(st => st.realtimeState === RealtimeStateType.Canceled);
+  trip.stoptimes.length > 0 &&
+  trip.stoptimes.every(st => st.realtimeState === RealtimeStateType.Canceled);
 
 class RouteScheduleContainer extends PureComponent {
-  static transformTrips(trips, stops) {
+  static sortTrips(trips) {
     if (trips == null) {
       return null;
     }
-    let transformedTrips = trips.map(trip => {
-      const newTrip = { ...trip };
-      newTrip.stoptimes = keyBy(trip.stoptimes, 'stop.id');
-      return newTrip;
+    return [...trips].sort((a, b) => {
+      if (!Array.isArray(b.stoptimes) || b.stoptimes.length === 0) {
+        return -1;
+      }
+      if (!Array.isArray(a.stoptimes) || a.stoptimes.length === 0) {
+        return 1;
+      }
+      return (
+        a.stoptimes[0].scheduledDeparture - b.stoptimes[0].scheduledDeparture
+      );
     });
-    transformedTrips = sortBy(
-      transformedTrips,
-      trip => trip.stoptimes[stops[0].id].scheduledDeparture,
-    );
-    return transformedTrips;
   }
 
   static propTypes = {
@@ -123,15 +123,32 @@ class RouteScheduleContainer extends PureComponent {
     });
   };
 
-  getTrips = (currentPattern, from, to, newServiceDay) => {
-    const { stops } = currentPattern;
-    const trips = RouteScheduleContainer.transformTrips(
-      currentPattern.trips,
-      stops,
-    );
+  getTrips = (patternIn, from, to, newServiceDay, wantedDay) => {
+    let currentPattern = patternIn;
+    let queryParams = newServiceDay ? `?serviceDay=${newServiceDay}` : '';
+
+    if (this.testing && this.testNum && currentPattern) {
+      currentPattern = {
+        ...currentPattern,
+        trips: currentPattern.trips?.filter((s, i) => i < 2),
+      };
+      if (
+        moment(wantedDay, 'YYYYMMDD', true).isValid() &&
+        moment(this.testNoDataDay, 'YYYYMMDD', true).isValid() &&
+        wantedDay.format(DATE_FORMAT) === this.testNoDataDay
+      ) {
+        currentPattern = {
+          ...currentPattern,
+          trips: [],
+        };
+      }
+      queryParams = queryParams.concat(`&test=${this.testNum}`);
+    }
+
+    const trips = RouteScheduleContainer.sortTrips(currentPattern.trips);
 
     if (trips.length === 0 && newServiceDay) {
-      return `/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_TIMETABLE}/${currentPattern.code}?serviceDay=${newServiceDay}`;
+      return `/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_TIMETABLE}/${currentPattern.code}${queryParams}`;
     }
 
     if (trips !== null && !this.state.hasLoaded) {
@@ -144,19 +161,30 @@ class RouteScheduleContainer extends PureComponent {
         </div>
       );
     }
+
     if (trips.length === 0) {
       return (
         <div className="text-center">
-          {this.context.intl.formatMessage({
-            id: 'no-trips-found',
-            defaultMessage: 'No journeys found for the selected date.',
-          })}
+          {this.context.intl.formatMessage(
+            {
+              id: 'no-trips-found',
+              defaultMessage: `No journeys found for the selected date ${moment(
+                this.context.match.location.query.serviceDay,
+              ).format(DATE_FORMAT2)}`,
+            },
+            {
+              selectedDate: moment(
+                this.context.match.location.query.serviceDay,
+              ).format(DATE_FORMAT2),
+            },
+          )}
         </div>
       );
     }
+
     return trips.map(trip => {
-      const fromSt = trip.stoptimes[stops[from].id];
-      const toSt = trip.stoptimes[stops[to].id];
+      const fromSt = trip.stoptimes[from];
+      const toSt = trip.stoptimes[to];
       const departureTime = this.formatTime(
         fromSt.serviceDay + fromSt.scheduledDeparture,
       );
@@ -178,14 +206,16 @@ class RouteScheduleContainer extends PureComponent {
   formatTime = timestamp => moment(timestamp * 1000).format('HH:mm');
 
   changeDate = newServiceDay => {
+    const { location } = this.context.match;
     addAnalyticsEvent({
       category: 'Route',
       action: 'ChangeTimetableDay',
       name: null,
     });
     const newPath = {
-      ...this.context.match.location,
+      ...location,
       query: {
+        ...location.query,
         serviceDay: newServiceDay,
       },
     };
@@ -213,7 +243,7 @@ class RouteScheduleContainer extends PureComponent {
 
   openRoutePDF = (e, routePDFUrl) => {
     e.stopPropagation();
-    window.open(routePDFUrl);
+    window.open(routePDFUrl.href);
   };
 
   printRouteTimetable = e => {
@@ -260,9 +290,11 @@ class RouteScheduleContainer extends PureComponent {
             return c;
           }, {}),
         );
-        modifiedDepartures.push(result.sort().filter(x => x[2].length > 0));
+        modifiedDepartures.push(result.sort());
       }
-      return modifiedDepartures;
+      if (modifiedDepartures.length > 0) {
+        return modifiedDepartures;
+      }
     }
     return departures;
   };
@@ -417,8 +449,51 @@ class RouteScheduleContainer extends PureComponent {
     return '';
   };
 
+  isEmptyWeek = departures => {
+    return (
+      departures[0][0] === '1234567' &&
+      departures[0][1] === 0 &&
+      departures[0][2] === ''
+    );
+  };
+
+  getFirstDepartureDate = (departures, dateIn) => {
+    if (departures.length > 0) {
+      const date = dateIn || moment();
+      const dayNo = moment(date).isoWeekday();
+      const idx = departures.findIndex(
+        departure => departure[0].indexOf(dayNo) !== -1,
+      );
+      if (idx > 0 && departures[idx][1] === 0 && departures[idx][2] === '') {
+        // get departure day on current week
+        if (departures[idx - 1][1] !== 0 && departures[idx - 1][2] !== '') {
+          const newDayNo = Number(departures[idx - 1][0].substring(0, 1));
+          return moment(date)
+            .subtract(dayNo - newDayNo, 'd')
+            .format(DATE_FORMAT);
+        }
+      } else if (
+        idx === 0 &&
+        departures[idx][1] !== 0 &&
+        departures[idx][2] !== ''
+      ) {
+        if (
+          !isEqual(
+            moment(date).startOf('isoWeek').format(DATE_FORMAT),
+            moment().startOf('isoWeek').format(DATE_FORMAT),
+          )
+        ) {
+          return moment(date).format(DATE_FORMAT);
+        }
+        return moment().format(DATE_FORMAT);
+      }
+    }
+    return undefined;
+  };
+
   populateData = (wantedDayIn, departures, isMerged, dataExistsDay) => {
-    const departureCount = departures.filter(d => d.length > 0).length;
+    const departureCount = departures.length;
+
     const wantedDay = wantedDayIn || moment();
     const startOfWeek = moment().startOf('isoWeek');
     const today = moment();
@@ -450,7 +525,20 @@ class RouteScheduleContainer extends PureComponent {
     const weekEnds = [startOfWeek.clone().endOf('isoWeek').format(DATE_FORMAT)];
     const days = [[]];
     const indexToRemove = [];
+    const emptyWeek = [];
     for (let x = 1; x < departures.length; x++) {
+      // check also first week
+      if (this.isEmptyWeek(departures[x - 1])) {
+        emptyWeek.push(
+          startOfWeek
+            .clone()
+            .add(x - 1, 'w')
+            .format(DATE_FORMAT),
+        );
+      }
+      if (this.isEmptyWeek(departures[x])) {
+        emptyWeek.push(startOfWeek.clone().add(x, 'w').format(DATE_FORMAT));
+      }
       weekStarts.push(startOfWeek.clone().add(x, 'w').format(DATE_FORMAT));
       weekEnds.push(
         startOfWeek.clone().endOf('isoWeek').add(x, 'w').format(DATE_FORMAT),
@@ -459,11 +547,27 @@ class RouteScheduleContainer extends PureComponent {
     }
 
     // find empty and populate days
+    let notEmptyWeekFound = false;
     departures.forEach((d, idx) => {
       if (d.length === 0) {
         indexToRemove.push(idx);
       } else {
-        d.forEach(x => days[idx].push(x[0]));
+        if (d.length === 1) {
+          if (d[0][1] === 0) {
+            if (!notEmptyWeekFound) {
+              indexToRemove.push(idx);
+            }
+          } else {
+            notEmptyWeekFound = true;
+          }
+        } else {
+          notEmptyWeekFound = true;
+          // remove days with no departures otherwise showing later on tabs
+          d = d.filter(z => z[1] !== 0);
+        }
+        d.forEach(x => {
+          days[idx].push(x[0]);
+        });
       }
     });
 
@@ -481,11 +585,7 @@ class RouteScheduleContainer extends PureComponent {
     indexToRemove.splice(0, indexToRemove.length);
 
     departures.forEach((d, idx) => {
-      if (
-        idx > 0 &&
-        departures[idx - 1][0][0] === d[0][0] &&
-        departures[idx - 1][0][1] === d[0][1]
-      ) {
+      if (idx > 0 && isEqual(departures[idx - 1], d)) {
         indexToRemove.push(idx);
       }
     });
@@ -518,15 +618,16 @@ class RouteScheduleContainer extends PureComponent {
           ? moment(w)
               .clone()
               .add(firstServiceDay[0] - 1, 'd')
-              .format(DATE_FORMAT2)
-          : moment(w).format(DATE_FORMAT2);
+          : moment(w);
       const timeRange =
         days.length === 1 &&
         days[idx][0].length === 1 &&
         wantedDayIn &&
         !isMerged
           ? wantedDay.format(DATE_FORMAT2)
-          : `${timeRangeStart} - ${moment(weekEnds[idx]).format(DATE_FORMAT2)}`;
+          : `${timeRangeStart.format(DATE_FORMAT2)} - ${moment(
+              weekEnds[idx],
+            ).format(DATE_FORMAT2)}`;
       if (
         !(wantedDay.isSameOrAfter(w) && wantedDay.isSameOrBefore(weekEnds[idx]))
       ) {
@@ -568,10 +669,49 @@ class RouteScheduleContainer extends PureComponent {
       weekStarts,
       days,
       range,
-      options.filter(o => o),
+      options
+        .filter(o => o)
+        .filter(o => {
+          return !emptyWeek.includes(o.value);
+        }),
       currentAndNextWeekAreSame,
       pastDate,
     ];
+  };
+
+  redirectWithServiceDay = serviceDay => {
+    const { location } = this.context.match;
+    const newPath = {
+      ...location,
+      query: {
+        ...location.query,
+        serviceDay,
+      },
+    };
+    if (isBrowser) {
+      this.props.match.router.replace(newPath);
+    } else {
+      throw new RedirectException(newPath);
+    }
+  };
+
+  getMostFrequent = arr => {
+    const hashmap = arr.reduce((acc, val) => {
+      acc[hashCode(val.map(v => v[0]).join())] =
+        (acc[hashCode(val.map(v => v[0]).join())] || 0) + 1;
+      return acc;
+    }, {});
+    const hash = Object.keys(hashmap).reduce((a, b) =>
+      hashmap[a] > hashmap[b] ? a : b,
+    );
+    let retValue;
+    arr.forEach(a => {
+      const tmpHash = hashCode(a.map(v => v[0]).join());
+      if (!retValue && Number(hash) === tmpHash) {
+        retValue = a;
+      }
+    });
+    return retValue;
   };
 
   render() {
@@ -579,6 +719,10 @@ class RouteScheduleContainer extends PureComponent {
     const { intl } = this.context;
     this.hasMergedData = false;
     this.dataExistsDay = 1; // 1 = monday
+    // USE FOR TESTING PURPOSE
+    this.testing = process.env.ROUTEPAGETESTING || false;
+    this.testNum = this.testing && query && query.test;
+    this.testNoDataDay = ''; // set to next week's Thursday
 
     if (!this.props.pattern) {
       if (this.props.match.params.routeId) {
@@ -603,43 +747,55 @@ class RouteScheduleContainer extends PureComponent {
       p => p.code === this.props.pattern.code,
     );
 
-    const firstDepartures = this.modifyDepartures(this.props.firstDepartures);
+    let dataToHandle;
 
+    if (this.testing && this.testNum) {
+      dataToHandle = getTestData(this.testNum);
+    } else {
+      dataToHandle = this.props.firstDepartures;
+    }
+    const firstDepartures = this.modifyDepartures(dataToHandle);
+    const firstWeekEmpty = this.isEmptyWeek(firstDepartures[0]);
     // If we are missing data from the start of the week, see if we can merge it with next week
     if (
+      !firstWeekEmpty &&
       firstDepartures[0].length !== 0 &&
-      this.props.firstDepartures.wk1mon.length === 0
+      dataToHandle.wk1mon.length === 0
     ) {
-      const [thisWeekData, nextWeekData] = firstDepartures;
+      const [thisWeekData, normalWeekData] =
+        Number(this.testNum) === 0
+          ? firstDepartures
+          : [firstDepartures[0], this.getMostFrequent(firstDepartures)];
       const thisWeekHashes = [];
       const nextWeekHashes = [];
+
       for (let i = 0; i < thisWeekData.length; i++) {
         thisWeekHashes.push(thisWeekData[i][1]);
       }
-      for (let i = 0; i < nextWeekData.length; i++) {
-        nextWeekHashes.push(nextWeekData[i][1]);
+      for (let i = 0; i < normalWeekData.length; i++) {
+        nextWeekHashes.push(normalWeekData[i][1]);
       }
 
-      // If this weeks data is a subset of next weeks data, merge them
+      // If this weeks data is a subset of normal weeks data, merge them
       if (thisWeekHashes.every(hash => nextWeekHashes.includes(hash))) {
         // eslint-disable-next-line prefer-destructuring
-        firstDepartures[0] = firstDepartures[1];
+        firstDepartures[0] = normalWeekData;
         this.hasMergedData = true;
       }
     }
 
     if (this.hasMergedData) {
-      if (this.props.firstDepartures.wk1tue.length !== 0) {
+      if (dataToHandle.wk1tue.length !== 0) {
         this.dataExistsDay = 2;
-      } else if (this.props.firstDepartures.wk1wed.length !== 0) {
+      } else if (dataToHandle.wk1wed.length !== 0) {
         this.dataExistsDay = 3;
-      } else if (this.props.firstDepartures.wk1thu.length !== 0) {
+      } else if (dataToHandle.wk1thu.length !== 0) {
         this.dataExistsDay = 4;
-      } else if (this.props.firstDepartures.wk1fri.length !== 0) {
+      } else if (dataToHandle.wk1fri.length !== 0) {
         this.dataExistsDay = 5;
-      } else if (this.props.firstDepartures.wk1sat.length !== 0) {
+      } else if (dataToHandle.wk1sat.length !== 0) {
         this.dataExistsDay = 6;
-      } else if (this.props.firstDepartures.wk1sun.length !== 0) {
+      } else if (dataToHandle.wk1sun.length !== 0) {
         this.dataExistsDay = 7;
       }
     }
@@ -650,6 +806,44 @@ class RouteScheduleContainer extends PureComponent {
       moment(query.serviceDay, 'YYYYMMDD', true).isValid()
         ? moment(query.serviceDay)
         : undefined;
+
+    const firstDataDate = moment()
+      .startOf('isoWeek')
+      .add(this.dataExistsDay - 1, 'd')
+      .format(DATE_FORMAT);
+
+    // check if first week is empty and redirect if is
+    const nextMonday = moment()
+      .startOf('isoWeek')
+      .add(1, 'w')
+      .format(DATE_FORMAT);
+
+    const firstDepartureDate = this.getFirstDepartureDate(
+      firstDepartures[0],
+      wantedDay,
+    );
+    const isBeforeNextWeek = wantedDay
+      ? moment(wantedDay).isBefore(moment(nextMonday))
+      : false;
+    const isSameOrAfterNextWeek = wantedDay
+      ? moment(wantedDay).isSameOrAfter(moment(nextMonday))
+      : false;
+
+    // Checking is wanted day is before first available day when data is found
+    const isBeforeFirstDataDate = wantedDay
+      ? moment(wantedDay).isBefore(moment(firstDataDate))
+      : false;
+
+    if ((!this.testNum || this.testNum !== 0) && isBeforeFirstDataDate) {
+      this.redirectWithServiceDay(firstDataDate);
+    } else if ((isBeforeNextWeek && firstWeekEmpty) || firstDepartureDate) {
+      if (
+        !isEqual(moment().format(DATE_FORMAT), firstDepartureDate) &&
+        !isSameOrAfterNextWeek
+      ) {
+        this.redirectWithServiceDay(firstDepartureDate || nextMonday);
+      }
+    }
 
     const data = this.populateData(
       wantedDay,
@@ -690,6 +884,8 @@ class RouteScheduleContainer extends PureComponent {
       routeTimetableHandler.timetableUrlResolver(
         this.context.config.URL.ROUTE_TIMETABLES[routeIdSplitted[0]],
         this.props.route,
+        this.context.config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
+        this.context.config.API_SUBSCRIPTION_TOKEN,
       );
 
     const showTrips = this.getTrips(
@@ -697,6 +893,7 @@ class RouteScheduleContainer extends PureComponent {
       newFromTo[0],
       newFromTo[1],
       newServiceDay,
+      wantedDay,
     );
 
     const tabs = this.renderDayTabs(data);
@@ -847,9 +1044,12 @@ const containerComponent = createFragmentContainer(
           alertSeverityLevel
           effectiveEndDate
           effectiveStartDate
-          trip {
-            pattern {
-              code
+          entities {
+            __typename
+            ... on Route {
+              patterns {
+                code
+              }
             }
           }
         }

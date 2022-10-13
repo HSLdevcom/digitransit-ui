@@ -13,8 +13,8 @@ import { matchShape, routerShape } from 'found';
 import pickBy from 'lodash/pickBy';
 import { mapLayerShape } from '../../../store/MapLayerStore';
 import MarkerSelectPopup from './MarkerSelectPopup';
-import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopupContainer';
-import ParkAndRideFacilityPopup from '../popups/ParkAndRideFacilityPopupContainer';
+import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopup';
+import ParkAndRideFacilityPopup from '../popups/ParkAndRideFacilityPopup';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
@@ -27,8 +27,8 @@ import {
   PREFIX_TERMINALS,
   PREFIX_ROADWORKS,
   PREFIX_CHARGING_STATIONS,
-  PREFIX_BIKE_PARKS,
-  PREFIX_DYNAMIC_PARKING_LOTS,
+  PREFIX_BIKEPARK,
+  PREFIX_CARPARK,
   PREFIX_ROAD_WEATHER,
   PREFIX_DATAHUB_POI,
 } from '../../../util/path';
@@ -113,6 +113,9 @@ class TileLayerContainer extends GridLayer {
       this.context.popupContainer.openPopup();
     }
     if (!isEqual(prevProps.mapLayers, this.props.mapLayers)) {
+      this.leafletElement.redraw();
+    }
+    if (!isEqual(prevProps.hilightedStops, this.props.hilightedStops)) {
       this.leafletElement.redraw();
     }
   }
@@ -212,6 +215,34 @@ class TileLayerContainer extends GridLayer {
         return;
       }
       if (
+        selectableTargets.length === 1 &&
+        selectableTargets[0].layer === 'parkAndRide' &&
+        (selectableTargets[0].feature.properties.facility ||
+          selectableTargets[0].feature.properties.facilities.length === 1)
+      ) {
+        const carParkId =
+          selectableTargets[0].feature.properties?.facility?.carParkId ||
+          selectableTargets[0].feature.properties?.facilities[0]?.carParkId;
+        if (carParkId) {
+          this.context.router.push(
+            `/${PREFIX_CARPARK}/${encodeURIComponent(carParkId)}`,
+          );
+          return;
+        }
+      }
+      if (
+        selectableTargets.length === 1 &&
+        selectableTargets[0].layer === 'parkAndRideForBikes' &&
+        selectableTargets[0].feature.properties.facility
+      ) {
+        this.context.router.push(
+          `/${PREFIX_BIKEPARK}/${encodeURIComponent(
+            selectableTargets[0].feature.properties.facility.bikeParkId,
+          )}`,
+        );
+        return;
+      }
+      if (
         popup &&
         popup.isOpen() &&
         (!forceOpen || (coords && coords.equals(prevCoords)))
@@ -224,12 +255,7 @@ class TileLayerContainer extends GridLayer {
         selectableTargets: selectableTargets.filter(
           target =>
             target.layer === 'realTimeVehicle' ||
-            isFeatureLayerEnabled(
-              target.feature,
-              target.layer,
-              mapLayers,
-              this.context.config,
-            ),
+            isFeatureLayerEnabled(target.feature, target.layer, mapLayers),
         ),
         coords,
       });
@@ -386,7 +412,7 @@ class TileLayerContainer extends GridLayer {
             value => value !== undefined,
           );
           this.context.router.push(
-            `/${PREFIX_DYNAMIC_PARKING_LOTS}/${encodeURIComponent(
+            `/${PREFIX_CARPARK}/${encodeURIComponent(
               vehicleParkingId,
             )}?${new URLSearchParams(params).toString()}`,
           );
@@ -410,7 +436,7 @@ class TileLayerContainer extends GridLayer {
           );
           this.setState({ selectableTargets: undefined });
           this.context.router.push(
-            `/${PREFIX_BIKE_PARKS}?${new URLSearchParams(params).toString()}`,
+            `/${PREFIX_BIKEPARK}?${new URLSearchParams(params).toString()}`,
           );
           showPopup = false;
         } else if (
@@ -469,7 +495,8 @@ class TileLayerContainer extends GridLayer {
           showPopup = false;
         } else if (this.state.selectableTargets[0].layer === 'datahubTiles') {
           const { lat, lng } = this.state.coords;
-          const datahubId = this.state.selectableTargets[0].feature.properties.datahub_id;
+          const datahubId = this.state.selectableTargets[0].feature.properties
+            .datahub_id;
           const name = this.state.selectableTargets[0].feature.properties?.name;
           const params = pickBy(
             {
@@ -490,8 +517,12 @@ class TileLayerContainer extends GridLayer {
           <Popup
             {...this.PopupOptions}
             key={id}
-            position={this.state.coords}
-            className={`${this.PopupOptions.className} single-popup`}
+            position={latlng}
+            className={`${this.PopupOptions.className} ${
+              this.PopupOptions.className === 'vehicle-popup'
+                ? 'single-popup'
+                : 'choice-popup'
+            }`}
           >
             {contents}
           </Popup>

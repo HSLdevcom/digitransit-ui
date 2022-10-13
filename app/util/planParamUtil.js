@@ -15,7 +15,7 @@ import {
   isTransportModeAvailable,
 } from './modeUtils';
 import { otpToLocation, getIntermediatePlaces } from './otpStrings';
-import { getDefaultNetworks } from './citybikes';
+import { getCitybikeNetworks, getDefaultNetworks } from './citybikes';
 import { getCustomizedSettings } from '../store/localStorage';
 import { estimateItineraryDistance } from './geo-utils';
 import { BicycleParkingFilter } from '../constants';
@@ -32,8 +32,10 @@ export const getDefaultSettings = config => {
   return {
     ...config.defaultSettings,
     modes: getDefaultModes(config).sort(),
-    allowedVehicleRentalNetworks: getDefaultNetworks(config),
-    useCarParkAvailabilityInformation: null,
+    allowedVehicleRentalNetworks: config.transportModes.citybike.defaultValue
+      ? getDefaultNetworks(config)
+      : [],
+    useVehicleParkingAvailabilityInformation: null,
   };
 };
 
@@ -57,6 +59,7 @@ export const getCurrentSettings = config => {
           'WALK',
         ].sort()
       : defaultSettings.modes,
+    allowedVehicleRentalNetworks: getCitybikeNetworks(),
   };
 };
 
@@ -164,8 +167,8 @@ export const getSettings = config => {
     includeBikeSuggestions: custSettings.includeBikeSuggestions,
     includeCarSuggestions: custSettings.includeCarSuggestions,
     includeParkAndRideSuggestions: custSettings.includeParkAndRideSuggestions,
-    useCarParkAvailabilityInformation:
-      custSettings.useCarParkAvailabilityInformation,
+    useVehicleParkingAvailabilityInformation:
+      custSettings.useVehicleParkingAvailabilityInformation,
     bicycleParkingFilter: custSettings.bicycleParkingFilter,
   };
 };
@@ -214,7 +217,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
         intermediatePlaces,
         time,
         locale,
-        useCarParkAvailabilityInformation,
+        useVehicleParkingAvailabilityInformation,
         bannedVehicleParkingTags,
       },
     },
@@ -226,7 +229,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
   const intermediatePlaceLocations = getIntermediatePlaces({
     intermediatePlaces,
   });
-  const modesOrDefault = useDefaultModes
+  let modesOrDefault = useDefaultModes
     ? getDefaultModes(config)
     : filterModes(
         config,
@@ -236,26 +239,30 @@ export const preparePlanParams = (config, useDefaultModes) => (
         intermediatePlaceLocations,
       );
   const defaultSettings = { ...getDefaultSettings(config) };
-  // network Id is handled case sensitive by OTP, so don't switch case
-  const allowedVehicleRentalNetworksMapped = Array.isArray(
-    settings.allowedVehicleRentalNetworks,
-  )
-    ? settings.allowedVehicleRentalNetworks
-        .filter(
-          network =>
-            defaultSettings.allowedVehicleRentalNetworks.includes(network) ||
-            defaultSettings.allowedVehicleRentalNetworks.includes(
-              network.toLowerCase(),
-            ),
-        )
-        .map(network =>
-          defaultSettings.allowedVehicleRentalNetworks.includes(
-            network.toLowerCase(),
+  const allowedVehicleRentalNetworks = getDefaultNetworks(config);
+  // legacy settings used to set network name in uppercase in localstorage
+  const allowedVehicleRentalNetworksMapped =
+    Array.isArray(settings.allowedVehicleRentalNetworks) &&
+    settings.allowedVehicleRentalNetworks.length > 0
+      ? settings.allowedVehicleRentalNetworks
+          .filter(
+            network =>
+              allowedVehicleRentalNetworks.includes(network) ||
+              allowedVehicleRentalNetworks.includes(network.toLowerCase()),
           )
-            ? network.toLowerCase()
-            : network,
-        )
-    : defaultSettings.allowedVehicleRentalNetworks;
+          .map(network =>
+            allowedVehicleRentalNetworks.includes(network.toLowerCase())
+              ? network.toLowerCase()
+              : network,
+          )
+      : defaultSettings.allowedVehicleRentalNetworks;
+  if (
+    !allowedVehicleRentalNetworksMapped ||
+    !allowedVehicleRentalNetworksMapped.length
+  ) {
+    // do not ask citybike routes if no networks are allowed
+    modesOrDefault = modesOrDefault.filter(mode => mode !== 'BICYCLE_RENT');
+  }
   const formattedModes = modesAsOTPModes(modesOrDefault);
   const wheelchair =
     getNumberValueOrDefault(settings.accessibilityOption, defaultSettings) ===
@@ -269,14 +276,6 @@ export const preparePlanParams = (config, useDefaultModes) => (
     toLocation,
     intermediatePlaceLocations,
   );
-  const isDepartureTimeWithin15Minutes = parsedTime => {
-    const timeFromNowInMin = parsedTime.diff(new Date(), 'minutes');
-    return (
-      parsedTime.isSame(new Date(), 'day') &&
-      timeFromNowInMin >= -15 &&
-      timeFromNowInMin <= 15
-    );
-  };
   const parsedTime = time ? moment(time * 1000) : moment();
 
   let bannedBicycleParkingTags = [];
@@ -323,17 +322,12 @@ export const preparePlanParams = (config, useDefaultModes) => (
           timeFactor: config.defaultSettings.timeFactor,
         },
         itineraryFiltering: config.itineraryFiltering,
-        unpreferred: {
-          useUnpreferredRoutesPenalty: config.useUnpreferredRoutesPenalty,
-        },
         disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
           modesOrDefault,
         ),
         locale: locale || cookies.get('lang') || 'fi',
-        useCarParkAvailabilityInformation,
-        useVehicleParkingAvailabilityInformation: isDepartureTimeWithin15Minutes(
-          parsedTime,
-        ),
+        // todo
+        useVehicleParkingAvailabilityInformation,
 
         bannedVehicleParkingTags: bannedVehicleParkingTags
           ? [bannedVehicleParkingTags].concat(
@@ -361,9 +355,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
     shouldMakeBikeQuery:
       !wheelchair &&
       linearDistance < config.suggestBikeMaxDistance &&
-      (settings.includeBikeSuggestions
-        ? settings.includeBikeSuggestions
-        : defaultSettings.includeBikeSuggestions),
+      includeBikeSuggestions,
     shouldMakeCarQuery: getShouldMakeCarQuery(
       linearDistance,
       config,

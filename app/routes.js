@@ -8,7 +8,8 @@ import createRender from 'found/createRender';
 
 import Error404 from './component/404';
 import TopLevel from './component/TopLevel';
-import LocalStorageEmitter from './component/LocalStorageEmitter';
+
+import { prepareWeekDays } from './util/dateParamUtils';
 
 import {
   PREFIX_ITINERARY_SUMMARY,
@@ -16,18 +17,19 @@ import {
   PREFIX_BIKESTATIONS,
   PREFIX_ROADWORKS,
   PREFIX_CHARGING_STATIONS,
-  PREFIX_BIKE_PARKS,
-  PREFIX_DYNAMIC_PARKING_LOTS,
+  PREFIX_BIKEPARK,
+  PREFIX_CARPARK,
   PREFIX_ROAD_WEATHER,
   PREFIX_DATAHUB_POI,
   PREFIX_GEOJSON,
-  LOCAL_STORAGE_EMITTER_PATH,
   createReturnPath,
   TAB_NEARBY,
   TAB_FAVOURITES,
+  EMBEDDED_SEARCH_PATH,
 } from './util/path';
 import {
   getDefault,
+  errorLoading,
   getComponentOrLoadingRenderer,
   getComponentOrNullRenderer,
 } from './util/routerUtils';
@@ -106,36 +108,6 @@ export default config => {
           ),
         }}
       </Route>
-      <Route path={`/${PREFIX_DYNAMIC_PARKING_LOTS}/:id`}>
-        {{
-          content: (
-            <Route
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "parking lots" */ './component/map/sidebar/DynamicParkingLotsContent'
-                ).then(getDefault)
-              }
-              // TODO
-              query={graphql`
-                query routes_DynamicParkingLot_Query($id: String!) {
-                  vehicleParking(id: $id) {
-                    ...DynamicParkingLotsContent_vehicleParking
-                  }
-                }
-              `}
-            />
-          ),
-          map: (
-            <Route
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "map" */ './component/map/SidebarMap.js'
-                ).then(getDefault)
-              }
-            />
-          ),
-        }}
-      </Route>
       <Route path={`/${PREFIX_ROAD_WEATHER}`}>
         {{
           content: (
@@ -165,28 +137,6 @@ export default config => {
               getComponent={() =>
                 import(
                   /* webpackChunkName: "road weather" */ './component/map/sidebar/bbnavi/DatahubTileContent'
-                ).then(getDefault)
-              }
-            />
-          ),
-          map: (
-            <Route
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "map" */ './component/map/SidebarMap.js'
-                ).then(getDefault)
-              }
-            />
-          ),
-        }}
-      </Route>
-      <Route path={`/${PREFIX_BIKE_PARKS}`}>
-        {{
-          content: (
-            <Route
-              getComponent={() =>
-                import(
-                  /* webpackChunkName: "bike park" */ './component/map/sidebar/BikeParkContent'
                 ).then(getDefault)
               }
             />
@@ -262,11 +212,16 @@ export default config => {
                   }
                 }
               `}
-              render={({ Component, props, error, match }) => {
+              render={({ Component, props, error, match, retry }) => {
                 if (Component && (props || error)) {
                   return <Component {...props} match={match} error={error} />;
                 }
-                return null;
+                return getComponentOrLoadingRenderer({
+                  Component,
+                  props,
+                  error,
+                  retry,
+                });
               }}
             />
           ),
@@ -289,6 +244,119 @@ export default config => {
             />
           ),
         }}
+      </Route>
+      <Route path={`/${PREFIX_BIKEPARK}`}>
+        <Route Component={Error404} />
+        <Route path=":id">
+          {{
+            content: (
+              <Route
+                getComponent={() =>
+                  import(
+                    /* webpackChunkName: "bikepark" */ './component/BikeParkContent'
+                  )
+                    .then(getDefault)
+                    .catch(errorLoading)
+                }
+                prepareVariables={prepareWeekDays}
+                query={graphql`
+                  query routes_BikePark_Query(
+                    $id: String!
+                    $dates: [String!]!
+                  ) {
+                    bikePark(id: $id) {
+                      ...BikeParkContent_bikePark @arguments(dates: $dates)
+                    }
+                  }
+                `}
+                render={({ Component, props, error, match, retry }) => {
+                  if (Component && (props || error)) {
+                    return <Component {...props} match={match} error={error} />;
+                  }
+                  return getComponentOrLoadingRenderer({
+                    Component,
+                    props,
+                    error,
+                    retry,
+                  });
+                }}
+              />
+            ),
+            map: (
+              <Route
+                path="(.*)?"
+                getComponent={() =>
+                  import(
+                    /* webpackChunkName: "bikepark" */ './component/BikeParkMapContainer'
+                  ).then(getDefault)
+                }
+                query={graphql`
+                  query routes_BikeParkMap_Query($id: String!) {
+                    bikePark(id: $id) {
+                      ...BikeParkMapContainer_bikePark
+                    }
+                  }
+                `}
+                render={getComponentOrNullRenderer}
+              />
+            ),
+          }}
+        </Route>
+      </Route>
+      <Route path={`/${PREFIX_CARPARK}`}>
+        <Route Component={Error404} />
+        <Route path=":id">
+          {{
+            content: (
+              <Route
+                getComponent={() =>
+                  import(
+                    /* webpackChunkName: "carpark" */ './component/CarParkContent'
+                  )
+                    .then(getDefault)
+                    .catch(errorLoading)
+                }
+                query={graphql`
+                  query routes_CarPark_Query($id: String!, $dates: [String!]!) {
+                    carPark(id: $id) {
+                      ...CarParkContent_carPark @arguments(dates: $dates)
+                    }
+                  }
+                `}
+                prepareVariables={prepareWeekDays}
+                render={({ Component, props, error, match, retry }) => {
+                  if (Component && (props || error)) {
+                    return <Component {...props} match={match} error={error} />;
+                  }
+                  return getComponentOrLoadingRenderer({
+                    Component,
+                    props,
+                    error,
+                    retry,
+                  });
+                }}
+              />
+            ),
+            map: (
+              <Route
+                path="(.*)?"
+                getComponent={() =>
+                  import(
+                    /* webpackChunkName: "carpark" */ './component/CarParkMapContainer'
+                  ).then(getDefault)
+                }
+                query={graphql`
+                  query routes_CarParkMap_Query($id: String!) {
+                    carPark(id: $id) {
+                      ...CarParkMapContainer_carPark
+                    }
+                  }
+                `}
+                render={getComponentOrNullRenderer}
+              />
+            ),
+          }}
+        </Route>
       </Route>
       <Route path={`/${PREFIX_NEARYOU}/:mode/:place/:origin?`}>
         {{
@@ -349,7 +417,47 @@ export default config => {
         }}
       />
       <Route
+        path={`/${PREFIX_ITINERARY_SUMMARY}/POS/:to/:hash`}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "itinerary" */ './component/Geolocator'
+          ).then(getDefault)
+        }
+        render={({ Component, props }) => {
+          if (Component) {
+            return (
+              <Component
+                {...props}
+                createReturnPath={createReturnPath}
+                path={PREFIX_ITINERARY_SUMMARY}
+              />
+            );
+          }
+          return undefined;
+        }}
+      />
+      <Route
         path={`/${PREFIX_ITINERARY_SUMMARY}/:from/POS`}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "itinerary" */ './component/Geolocator'
+          ).then(getDefault)
+        }
+        render={({ Component, props }) => {
+          if (Component) {
+            return (
+              <Component
+                {...props}
+                createReturnPath={createReturnPath}
+                path={PREFIX_ITINERARY_SUMMARY}
+              />
+            );
+          }
+          return undefined;
+        }}
+      />
+      <Route
+        path={`/${PREFIX_ITINERARY_SUMMARY}/:from/POS/:hash`}
         getComponent={() =>
           import(
             /* webpackChunkName: "itinerary" */ './component/Geolocator'
@@ -432,8 +540,20 @@ export default config => {
         }
       />
       <Route
-        path={LOCAL_STORAGE_EMITTER_PATH}
-        Component={LocalStorageEmitter}
+        path={config.URL.EMBEDDED_SEARCH_GENERATION}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "embedded-search-generator" */ './component/EmbeddedSearchGenerator'
+          ).then(getDefault)
+        }
+      />
+      <Route
+        path={EMBEDDED_SEARCH_PATH}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "embedded-search" */ './component/EmbeddedSearchContainer'
+          ).then(getDefault)
+        }
         topBarOptions={{ hidden: true }}
       />
       <Route path="/js/*" Component={Error404} />

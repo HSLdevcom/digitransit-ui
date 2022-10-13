@@ -36,6 +36,7 @@ const AppBarContainer = ({
   logo,
   logoSmall,
   user,
+  favourites,
   style,
   lang,
   breakpoint,
@@ -68,7 +69,7 @@ const AppBarContainer = ({
               className="hsl-header-container"
               style={{ display: isClient ? 'block' : 'none' }}
             >
-              <AppBarHsl user={user} lang={lang} />
+              <AppBarHsl user={user} lang={lang} favourites={favourites} />
               <MessageBar breakpoint={breakpoint} />{' '}
             </div>
           ) : navigator?.userAgent?.endsWith('smart-village-app') &&
@@ -114,8 +115,9 @@ AppBarContainer.propTypes = {
   logo: PropTypes.string,
   logoSmall: PropTypes.string,
   user: PropTypes.object,
-  style: PropTypes.string.isRequired, // DT-3375
-  lang: PropTypes.string, // DT-3376
+  favourites: PropTypes.array,
+  style: PropTypes.string.isRequired,
+  lang: PropTypes.string,
   breakpoint: PropTypes.string.isRequired,
 };
 
@@ -127,10 +129,11 @@ const WithContext = connectToStores(
     router: routerShape.isRequired,
     executeAction: PropTypes.func,
   })(AppBarContainerWithBreakpoint),
-  ['UserStore', 'PreferencesStore'],
+  ['FavouriteStore', 'UserStore', 'PreferencesStore'],
   context => ({
     user: context.getStore('UserStore').getUser(),
-    lang: context.getStore('PreferencesStore').getLanguage(), // DT-3376
+    lang: context.getStore('PreferencesStore').getLanguage(),
+    favourites: context.getStore('FavouriteStore').getFavourites(),
   }),
 );
 

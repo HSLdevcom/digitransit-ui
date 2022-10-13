@@ -3,10 +3,10 @@ import React, { useEffect, useContext, useState } from 'react';
 import { matchShape, routerShape } from 'found';
 import moment from 'moment';
 import { connectToStores } from 'fluxible-addons-react';
-
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { graphql, fetchQuery } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
+import { getSettings } from '../../util/planParamUtil';
 import TimeStore from '../../store/TimeStore';
 import PositionStore from '../../store/PositionStore';
 import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
@@ -22,6 +22,22 @@ import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
 import { getMapLayerOptions } from '../../util/mapLayerUtils';
 import MapRoutingButton from '../mapRoutingButton';
+
+const getModeFromProps = props => {
+  if (props.citybike) {
+    return 'citybike';
+  }
+  if (props.stop.bikeParkId) {
+    return 'parkAndRideForBikes';
+  }
+  if (props.stop.carParkId) {
+    return 'parkAndRide';
+  }
+  if (props.stop.vehicleMode) {
+    return props.stop.vehicleMode.toLowerCase();
+  }
+  return 'stop';
+};
 
 const StopPageMap = (
   { stop, breakpoint, currentTime, locationState, mapLayers, mapLayerOptions },
@@ -45,11 +61,14 @@ const StopPageMap = (
             lon: targetStop.lon,
             lat: targetStop.lat,
           };
+          const settings = getSettings(config);
           const variables = {
             fromPlace: addressToItinerarySearch(locationState),
             toPlace: addressToItinerarySearch(toPlace),
             date: moment(currentTime * 1000).format('YYYY-MM-DD'),
             time: moment(currentTime * 1000).format('HH:mm:ss'),
+            walkSpeed: settings.walkSpeed,
+            wheelchair: !!settings.accessibilityOption,
           };
           const query = graphql`
             query StopPageMapQuery(
@@ -57,6 +76,8 @@ const StopPageMap = (
               $toPlace: String!
               $date: String!
               $time: String!
+              $walkSpeed: Float
+              $wheelchair: Boolean
             ) {
               plan: plan(
                 fromPlace: $fromPlace
@@ -64,6 +85,8 @@ const StopPageMap = (
                 date: $date
                 time: $time
                 transportModes: [{ mode: WALK }]
+                walkSpeed: $walkSpeed
+                wheelchair: $wheelchair
               ) {
                 itineraries {
                   legs {
@@ -212,10 +235,7 @@ const StopPageMapWithStores = connectToStores(
       ml.force = ['terminal'];
     }
     const mapLayers = getStore(MapLayerStore).getMapLayers(ml);
-    const mode = props.citybike
-      ? 'citybike'
-      : (props.stop.vehicleMode && props.stop.vehicleMode.toLowerCase()) ||
-        'stop';
+    const mode = getModeFromProps(props);
     const mapLayerOptions = getMapLayerOptions({
       lockedMapLayers: ['vehicles', mode],
       selectedMapLayers: ['vehicles', mode],

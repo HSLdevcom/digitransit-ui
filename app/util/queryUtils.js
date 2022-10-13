@@ -316,6 +316,8 @@ export const moreItinerariesQuery = graphql`
           }
           route {
             gtfsId
+            shortName
+            type
           }
           trip {
             gtfsId

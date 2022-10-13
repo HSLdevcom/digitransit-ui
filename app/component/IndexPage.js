@@ -33,7 +33,7 @@ import LazilyLoad, { importLazy } from './LazilyLoad';
 import {
   getTransportModes,
   getNearYouModes,
-  showCityBikes,
+  useCitybikes,
 } from '../util/modeUtils';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
@@ -139,6 +139,7 @@ class IndexPage extends React.Component {
       if (newLocation.query.time === undefined) {
         newLocation.query.time = moment().unix();
       }
+      delete newLocation.query.setTime;
       router.push(newLocation);
     } else {
       const path = getPathWithEndpointObjects(
@@ -212,6 +213,7 @@ class IndexPage extends React.Component {
     const { trafficNowLink, colors, fontWeights } = config;
     const color = colors.primary;
     const hoverColor = colors.hover || LightenDarkenColor(colors.primary, -20);
+    const accessiblePrimaryColor = colors.accessiblePrimary || colors.primary;
     const { breakpoint, lang } = this.props;
     const origin = this.pendingOrigin || this.props.origin;
     const destination = this.pendingDestination || this.props.destination;
@@ -224,9 +226,13 @@ class IndexPage extends React.Component {
       'Stops',
     ];
 
-    if (showCityBikes(this.context.config.cityBike?.networks)) {
+    if (useCitybikes(this.context.config.cityBike?.networks)) {
       stopAndRouteSearchTargets.push('BikeRentalStations');
       locationSearchTargets.push('BikeRentalStations');
+    }
+    if (this.context.config.includeParkAndRideSuggestions) {
+      stopAndRouteSearchTargets.push('ParkingAreas');
+      locationSearchTargets.push('ParkingAreas');
     }
     const locationSearchTargetsMobile = [
       ...locationSearchTargets,
@@ -257,14 +263,18 @@ class IndexPage extends React.Component {
       sources,
       color,
       hoverColor,
+      accessiblePrimaryColor,
       refPoint,
       searchPanelText,
       originPlaceHolder: 'search-origin-index',
       destinationPlaceHolder: 'search-destination-index',
       selectHandler: this.onSelectLocation,
+      getAutoSuggestIcons: config.getAutoSuggestIcons,
       onGeolocationStart: this.onSelectLocation,
       fromMap: this.props.fromMap,
       fontWeights,
+      modeIconColors: config.colors.iconColors,
+      modeSet: config.iconModeSet,
     };
 
     const stopRouteSearchProps = {
@@ -274,16 +284,18 @@ class IndexPage extends React.Component {
       className: 'destination',
       placeholder: 'stop-near-you',
       selectHandler: this.onSelectStopRoute,
+      getAutoSuggestIcons: config.getAutoSuggestIcons,
       value: '',
       lang,
       color,
       hoverColor,
+      accessiblePrimaryColor,
       sources,
       targets: stopAndRouteSearchTargets,
       fontWeights,
       modeIconColors: config.colors.iconColors,
+      modeSet: config.iconModeSet,
     };
-
     const transportModes = getTransportModes(config);
     const nearYouModes = getNearYouModes(config);
 
@@ -312,6 +324,7 @@ class IndexPage extends React.Component {
             }
             title={btnWithoutLabel ? undefined : transportModes?.nearYouTitle}
             modes={btnWithoutLabel ? undefined : modeTitles}
+            modeSet={config.nearbyModeSet || config.iconModeSet}
             modeIconColors={config.colors.iconColors}
             fontWeights={fontWeights}
           />

@@ -6,15 +6,16 @@ import cx from 'classnames';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import { intlShape } from 'react-intl';
 import VehicleIcon from './VehicleIcon';
+import TripLinkWithScroll from './TripLinkWithScroll';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-function FuzzyTripLink({ vehicle, stopName, nextStopName }, context) {
+function FuzzyTripLink({ vehicle, stopName, nextStopName, ...rest }, context) {
   const { environment } = useContext(ReactRelayContext);
   const icon = (
     <VehicleIcon
-      className={cx(vehicle.mode, 'tail-icon')}
-      mode={vehicle.mode}
+      className={cx(rest.mode, 'tail-icon')}
+      mode={rest.mode}
       rotate={180}
       vehicleNumber={vehicle.shortName}
       useLargeIcon
@@ -60,6 +61,16 @@ function FuzzyTripLink({ vehicle, stopName, nextStopName }, context) {
         if (!props || props.trip === null) {
           return <span className="route-now-content">{icon}</span>;
         }
+        if (rest.setHumanScrolling) {
+          return (
+            <TripLinkWithScroll
+              {...rest}
+              stopName={stopName}
+              nextStopName={nextStopName}
+              tripId={props.trip.gtfsId}
+            />
+          );
+        }
 
         const route = props.trip.route.gtfsId;
         const pattern = props.trip.pattern.code;
@@ -70,7 +81,7 @@ function FuzzyTripLink({ vehicle, stopName, nextStopName }, context) {
           id: `${mode}`,
           defaultMessage: `${mode}`,
         });
-        const ariaMessage = nextStopName
+        const ariaMessage = !(rest.vehicleState === 'arrived')
           ? context.intl.formatMessage(
               {
                 id: 'route-page-vehicle-position-between',
@@ -109,7 +120,15 @@ function FuzzyTripLink({ vehicle, stopName, nextStopName }, context) {
 }
 
 FuzzyTripLink.propTypes = {
-  trip: PropTypes.object,
+  trip: PropTypes.shape({
+    gtfsId: PropTypes.string,
+    route: PropTypes.shape({
+      gtfsId: PropTypes.string,
+    }),
+    pattern: PropTypes.shape({
+      code: PropTypes.string,
+    }),
+  }).isRequired,
   vehicle: PropTypes.shape({
     mode: PropTypes.string.isRequired,
     route: PropTypes.string.isRequired,
@@ -119,8 +138,8 @@ FuzzyTripLink.propTypes = {
     shortName: PropTypes.string.isRequired,
     color: PropTypes.string,
   }).isRequired,
-  stopName: PropTypes.string,
-  nextStopName: PropTypes.string,
+  stopName: PropTypes.string.isRequired,
+  nextStopName: PropTypes.string.isRequired,
 };
 
 FuzzyTripLink.contextTypes = {

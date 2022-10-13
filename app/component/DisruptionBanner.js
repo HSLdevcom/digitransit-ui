@@ -7,6 +7,7 @@ import { isAlertValid, getServiceAlertMetadata } from '../util/alertUtils';
 import DisruptionBannerAlert from './DisruptionBannerAlert';
 import SwipeableTabs from './SwipeableTabs';
 import withBreakpoint from '../util/withBreakpoint';
+import { ServiceAlertShape } from '../util/shapes';
 
 class DisruptionBanner extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class DisruptionBanner extends React.Component {
   }
 
   static propTypes = {
-    alerts: PropTypes.arrayOf(PropTypes.object),
+    alerts: PropTypes.arrayOf(ServiceAlertShape).isRequired,
     currentTime: PropTypes.number.isRequired,
     language: PropTypes.string.isRequired,
     mode: PropTypes.string.isRequired,
@@ -47,8 +48,10 @@ class DisruptionBanner extends React.Component {
         ...getServiceAlertMetadata(alert),
       };
       if (
-        alert.route &&
-        alert.route.mode === this.props.mode &&
+        alert?.entities.some(
+          // eslint-disable-next-line no-underscore-dangle
+          e => e.__typename === 'Route' && e.mode === this.props.mode,
+        ) &&
         !isEmpty(alert.alertDescriptionText) &&
         isAlertValid(currAlert, this.props.currentTime)
       ) {
@@ -122,6 +125,7 @@ const containerComponent = createFragmentContainer(
   {
     alerts: graphql`
       fragment DisruptionBanner_alerts on Alert @relay(plural: true) {
+        feed
         id
         alertSeverityLevel
         alertHeaderText
@@ -138,16 +142,16 @@ const containerComponent = createFragmentContainer(
         }
         effectiveStartDate
         effectiveEndDate
-        route {
-          mode
-          shortName
+        entities {
+          __typename
+          ... on Route {
+            mode
+            shortName
+          }
         }
       }
     `,
   },
 );
 
-export {
-  containerComponent as default,
-  DisruptionBannerWithBreakpoint as Component,
-};
+export { containerComponent as default, DisruptionBanner as Component };

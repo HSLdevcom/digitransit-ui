@@ -2,7 +2,7 @@
 const passport = require('passport');
 const session = require('express-session');
 const redis = require('redis');
-const request = require('request');
+const axios = require('axios');
 const moment = require('moment');
 const RedisStore = require('connect-redis')(session);
 const LoginStrategy = require('./Strategy').Strategy;
@@ -10,6 +10,8 @@ const LoginStrategy = require('./Strategy').Strategy;
 const clearAllUserSessions = false; // set true if logout should erase all user's sessions
 
 const debugLogging = process.env.DEBUGLOGGING;
+
+axios.defaults.timeout = 12000;
 
 export default function setUpOIDC(app, port, indexPath, hostnames) {
   /* ********* Setup OpenID Connect ********* */
@@ -19,6 +21,10 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
   const OIDCHost = process.env.OIDCHOST || 'https://hslid-dev.t5.fi';
   const FavouriteHost =
     process.env.FAVOURITE_HOST || 'https://dev-api.digitransit.fi/favourites';
+
+  const NotificationHost =
+    process.env.NOTIFICATION_HOST ||
+    'https://test.hslfi.hsldev.com/user/api/v1/notifications';
 
   const RedisHost = process.env.REDIS_HOST || 'localhost';
   const RedisPort = process.env.REDIS_PORT || 6379;
@@ -244,60 +250,97 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     }
   });
 
+  const errorHandler = function (res, err) {
+    const status = err?.message && err.message.includes('timeout') ? 408 : 500;
+
+    if (err?.response) {
+      res
+        .status(err.response.status || status)
+        .send(err.response.data || err?.message || 'Unknown err');
+    } else {
+      res.status(status).send(err?.message || 'Unknown error');
+    }
+  };
+
   /* GET the profile of the current authenticated user */
   app.get('/api/user', function (req, res) {
-    request.get(
-      `${OIDCHost}/openid/userinfo`,
-      {
-        auth: {
-          bearer: req.user.token.access_token,
-        },
-      },
-      function (err, response, body) {
-        if (!err && response.statusCode === 200) {
-          res.status(response.statusCode).send(body);
+    axios
+      .get(`${OIDCHost}/openid/userinfo`, {
+        headers: { Authorization: `Bearer ${req.user.token.access_token}` },
+      })
+      .then(function (response) {
+        if (response && response.status && response.data) {
+          res.status(response.status).send(response.data);
         } else {
-          res.status(401).send('Unauthorized');
+          errorHandler(res);
         }
-      },
-    );
+      })
+      .catch(function (err) {
+        errorHandler(res, err);
+      });
   });
 
   // Temporary solution for checking if user is authenticated
   const userAuthenticated = function (req, res, next) {
-    request.get(
-      `${OIDCHost}/openid/userinfo`,
-      {
-        auth: {
-          bearer: req.user.token.access_token,
-        },
-      },
-      function (err, response) {
-        if (!err && response.statusCode === 200) {
-          next();
-        } else {
-          res.status(401).send('Unauthorized');
-        }
-      },
-    );
+    axios
+      .get(`${OIDCHost}/openid/userinfo`, {
+        headers: { Authorization: `Bearer ${req.user.token.access_token}` },
+      })
+      .then(function () {
+        next();
+      })
+      .catch(function (err) {
+        errorHandler(res, err);
+      });
   };
+
   app.use('/api/user/favourites', userAuthenticated, function (req, res) {
-    request(
-      {
-        auth: {
-          bearer: req.user.token.access_token,
-        },
-        method: req.method,
-        url: `${FavouriteHost}/${req.user.data.sub}`,
-        body: JSON.stringify(req.body),
-      },
-      function (err, response, body) {
-        if (!err) {
-          res.status(response.statusCode).send(body);
+    axios({
+      headers: { Authorization: `Bearer ${req.user.token.access_token}` },
+      method: req.method,
+      url: `${FavouriteHost}/${req.user.data.sub}`,
+      data: JSON.stringify(req.body),
+    })
+      .then(function (response) {
+        if (response && response.status && response.data) {
+          res.status(response.status).send(response.data);
         } else {
-          res.status(response.statusCode).send(body);
+          errorHandler(res);
         }
+      })
+      .catch(function (err) {
+        errorHandler(res, err);
+      });
+  });
+
+  app.use('/api/user/notifications', userAuthenticated, function (req, res) {
+    const params = Object.keys(req.query)
+      .map(k => `${k}=${req.query[k]}`)
+      .join('&');
+
+    const url =
+      req.method === 'POST'
+        ? `${NotificationHost}/read?${params}`
+        : `${NotificationHost}?${params}`;
+
+    axios({
+      headers: {
+        'content-type': 'application/json',
+        'x-hslid-token': req.user.token.access_token,
       },
-    );
+      method: req.method,
+      url,
+      data: JSON.stringify(req.body),
+    })
+      .then(function (response) {
+        if (response && response.status && response.data) {
+          res.status(response.status).send(response.data);
+        } else {
+          errorHandler(res);
+        }
+      })
+      .catch(function (err) {
+        errorHandler(res, err);
+      });
   });
 }

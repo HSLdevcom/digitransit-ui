@@ -309,13 +309,25 @@ export default {
 
     active: true,
   },
-  bbnavi: {
-    mqttTopicResolver: function mqttTopicResolver() {
-      return '/gtfsrt/vp/#';
-    },
+  Kouvola: {
+    mqttTopicResolver: walttiTopicResolver,
 
-    // this value is overridden in config.bbnavi.js
-    mqtt: 'wss://api.dev.stadtnavi.eu/mqtt/',
+    mqtt: 'wss://mqtt.waltti.fi/mqtt',
+
+    credentials: { username: 'user', password: 'userpass' },
+
+    gtfsrt: true,
+
+    routeSelector: defaultRouteSelector,
+
+    active: true,
+  },
+  Kotka: {
+    mqttTopicResolver: walttiTopicResolver,
+
+    mqtt: 'wss://mqtt.waltti.fi/mqtt',
+
+    credentials: { username: 'user', password: 'userpass' },
 
     gtfsrt: true,
 

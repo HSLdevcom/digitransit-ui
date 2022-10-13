@@ -6,8 +6,8 @@ import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import SearchSettingsDropdown, {
   getThreeStepOptions,
-} from '../SearchSettingsDropdown';
-import Toggle from '../Toggle';
+} from './SearchSettingsDropdown';
+import Toggle from './Toggle';
 import { findNearestOption } from '../../util/planParamUtil';
 
 const WalkingOptionsSection = (
@@ -49,26 +49,30 @@ const WalkingOptionsSection = (
         htmlFor="settings-toggle-avoid-walking"
         className="settings-header toggle-label"
       >
-        {intl.formatMessage({ id: 'avoid-walking' })}
+        <div className="toggle-label-text">
+          {intl.formatMessage({ id: 'avoid-walking' })}
+        </div>
+        <Toggle
+          id="settings-toggle-avoid-walking"
+          toggled={
+            currentSettings.walkReluctance === walkReluctanceOptions.least
+          }
+          onToggle={() => {
+            const avoid =
+              currentSettings.walkReluctance !== walkReluctanceOptions.least;
+            executeAction(saveRoutingSettings, {
+              walkReluctance: avoid
+                ? walkReluctanceOptions.least
+                : defaultSettings.walkReluctance,
+            });
+            addAnalyticsEvent({
+              category: 'ItinerarySettings',
+              action: 'ChangeAmountOfWalking',
+              name: avoid ? 'avoid' : 'default',
+            });
+          }}
+        />
       </label>
-      <Toggle
-        id="settings-toggle-avoid-walking"
-        toggled={currentSettings.walkReluctance === walkReluctanceOptions.least}
-        onToggle={() => {
-          const avoid =
-            currentSettings.walkReluctance !== walkReluctanceOptions.least;
-          executeAction(saveRoutingSettings, {
-            walkReluctance: avoid
-              ? walkReluctanceOptions.least
-              : defaultSettings.walkReluctance,
-          });
-          addAnalyticsEvent({
-            category: 'ItinerarySettings',
-            action: 'ChangeAmountOfWalking',
-            name: avoid ? 'avoid' : 'default',
-          });
-        }}
-      />
     </div>
   </div>
 );

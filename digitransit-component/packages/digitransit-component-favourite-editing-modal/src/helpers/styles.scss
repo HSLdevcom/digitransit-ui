@@ -39,6 +39,20 @@
         min-width: 69px;
         height: 100%;
         align-items: center;
+
+        .favourite-edit-list-arrow-hidden {
+          z-index: -999;
+          opacity: 0;
+          width: 0;
+          padding: 0;
+          border: 0;
+        }
+        .favourite-edit-list-arrow-hidden:focus {
+          font-weight: bold;
+          z-index: 10;
+          opacity: 1;
+        }
+
         .favourite-edit-list-item-drag {
           display: flex;
           align-items: center;

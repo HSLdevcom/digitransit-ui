@@ -68,16 +68,20 @@ export const StreetModeSelectorButton = (
       }
     }
   } else if (name === 'parkAndRide') {
-    const publicModes = plan.itineraries[0].legs.filter(
-      obj =>
-        obj.mode !== 'WALK' && obj.mode !== 'BICYCLE' && obj.mode !== 'CAR',
-    );
-    if (publicModes.length > 0) {
-      const firstMode = publicModes[0].mode.toLowerCase();
-      secondaryIcon = `icon-icon_${firstMode}`;
-      if (firstMode === 'subway') {
-        metroColor = '#CA4000';
+    let mode = 'rail';
+    for (let i = 0; i < plan.itineraries.length; i++) {
+      const publicModes = plan.itineraries[i].legs.filter(
+        obj =>
+          obj.mode !== 'WALK' && obj.mode !== 'BICYCLE' && obj.mode !== 'CAR',
+      );
+      if (publicModes.length > 0) {
+        mode = publicModes[0].mode.toLowerCase();
+        break;
       }
+    }
+    secondaryIcon = `icon-icon_${mode}`;
+    if (mode === 'subway') {
+      metroColor = '#CA4000';
     }
   }
   return (
@@ -102,12 +106,18 @@ export const StreetModeSelectorButton = (
         <div
           className={`street-mode-selector-button-icon ${
             secondaryIcon ? 'primary-icon' : ''
+          } ${name === 'parkAndRide' ? 'car-park-primary' : ''} ${
+            name === 'bikeAndVehicle' ? 'bike-and-vehicle-primary' : ''
           }`}
         >
           <Icon img={icon} />
         </div>
         {name === 'bikeAndVehicle' || name === 'parkAndRide' ? (
-          <div className="street-mode-selector-button-icon secondary-icon">
+          <div
+            className={`street-mode-selector-button-icon secondary-icon ${
+              name === 'parkAndRide' ? 'car-park-secondary' : ''
+            }`}
+          >
             <Icon img={secondaryIcon} color={metroColor || ''} />
           </div>
         ) : (

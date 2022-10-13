@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
+import { ServiceAlertShape } from '../util/shapes';
 
 import StopAlerts from './StopAlerts';
-import { otpServiceAlertShape } from '../util/alertUtils';
 
 const StopAlertsContainer = ({ stop }) => {
   return <StopAlerts stop={stop} />;
@@ -11,7 +11,7 @@ const StopAlertsContainer = ({ stop }) => {
 
 StopAlertsContainer.propTypes = {
   stop: PropTypes.shape({
-    alerts: PropTypes.arrayOf(otpServiceAlertShape).isRequired,
+    alerts: PropTypes.arrayOf(ServiceAlertShape).isRequired,
     stoptimes: PropTypes.arrayOf(
       PropTypes.shape({
         headsign: PropTypes.string.isRequired,
@@ -23,7 +23,7 @@ StopAlertsContainer.propTypes = {
             code: PropTypes.string,
           }),
           route: PropTypes.shape({
-            alerts: PropTypes.arrayOf(otpServiceAlertShape).isRequired,
+            alerts: PropTypes.arrayOf(ServiceAlertShape).isRequired,
             color: PropTypes.string,
             mode: PropTypes.string.isRequired,
             shortName: PropTypes.string.isRequired,
@@ -52,7 +52,11 @@ const containerComponent = createFragmentContainer(StopAlertsContainer, {
         shortName
         longName
         mode
+        type
         color
+        patterns {
+          code
+        }
         alerts {
           id
           alertDescriptionText
@@ -74,9 +78,12 @@ const containerComponent = createFragmentContainer(StopAlertsContainer, {
             language
             text
           }
-          trip {
-            pattern {
-              code
+          entities {
+            __typename
+            ... on Route {
+              patterns {
+                code
+              }
             }
           }
         }
@@ -150,6 +157,7 @@ const containerComponent = createFragmentContainer(StopAlertsContainer, {
           route {
             color
             mode
+            type
             shortName
             gtfsId
             alerts {

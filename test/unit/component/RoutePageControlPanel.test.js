@@ -8,7 +8,7 @@ import { mockContext } from '../helpers/mock-context';
 import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { startRealTimeClient } from '../../../app/action/realTimeClientAction';
-import { default as RoutePageControlPanel } from '../../../app/component/RoutePageControlPanel';
+import { Component as RoutePageControlPanel } from '../../../app/component/RoutePageControlPanel';
 import { AlertSeverityLevelType } from '../../../app/constants';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../app/util/path';
 
@@ -20,6 +20,8 @@ describe('<RoutePageControlPanel />', () => {
         gtfsId: 'HSL:1063',
         mode: 'BUS',
         alerts: [{ id: 'foobar' }],
+        agency: { name: 'mock' },
+        type: 0,
       },
       router: mockRouter,
       match: {
@@ -58,6 +60,8 @@ describe('<RoutePageControlPanel />', () => {
             },
           },
         ],
+        agency: { name: 'mock' },
+        type: 0,
       },
       router: mockRouter,
       match: {
@@ -89,13 +93,20 @@ describe('<RoutePageControlPanel />', () => {
         mode: 'BUS',
         alerts: [
           {
-            trip: {
-              pattern: {
-                code: 'HSL:1063:1:01',
+            entities: [
+              {
+                __typename: 'Route',
+                patterns: [
+                  {
+                    code: 'HSL:1063:1:01', // code for pattern of opposite direction
+                  },
+                ],
               },
-            },
+            ],
           },
         ],
+        agency: { name: 'mock' },
+        type: 3,
       },
       router: mockRouter,
       match: {
@@ -143,6 +154,8 @@ describe('<RoutePageControlPanel />', () => {
             ],
           },
         ],
+        agency: { name: 'mock' },
+        type: 3,
       },
       router: mockRouter,
       match: {
@@ -186,6 +199,8 @@ describe('<RoutePageControlPanel />', () => {
       route: {
         gtfsId: 'tampere:32',
         mode: 'BUS',
+        type: 3,
+        agency: { name: 'mock' },
       },
       router: mockRouter,
       match: {
@@ -243,6 +258,8 @@ describe('<RoutePageControlPanel />', () => {
             ],
           },
         ],
+        type: 3,
+        agency: { name: 'mock' },
       },
       router: mockRouter,
       match: {
@@ -287,6 +304,8 @@ describe('<RoutePageControlPanel />', () => {
             ],
           },
         ],
+        type: 3,
+        agency: { name: 'mock' },
       },
       router: mockRouter,
       match: {
@@ -328,6 +347,8 @@ describe('<RoutePageControlPanel />', () => {
             },
           },
         ],
+        type: 3,
+        agency: { name: 'mock' },
       },
       router: mockRouter,
       match: {
@@ -363,6 +384,8 @@ describe('<RoutePageControlPanel />', () => {
               code: 'HSL:1063:0:01',
             },
           ],
+          type: 3,
+          agency: { name: 'mock' },
         },
         router: mockRouter,
         match: {
@@ -403,6 +426,8 @@ describe('<RoutePageControlPanel />', () => {
               code: 'HSL:1063:0:01',
             },
           ],
+          type: 3,
+          agency: { name: 'mock' },
         },
         router: mockRouter,
         match: {
@@ -441,6 +466,8 @@ describe('<RoutePageControlPanel />', () => {
         alerts: [
           { id: 'foobar', alertSeverityLevel: AlertSeverityLevelType.Info },
         ],
+        type: 3,
+        agency: { name: 'mock' },
       },
       router: mockRouter,
       match: {
@@ -480,6 +507,8 @@ describe('<RoutePageControlPanel />', () => {
         alerts: [
           { id: 'foobar', alertSeverityLevel: AlertSeverityLevelType.Warning },
         ],
+        type: 3,
+        agency: { name: 'mock' },
       },
       router: mockRouter,
       match: {
@@ -519,6 +548,8 @@ describe('<RoutePageControlPanel />', () => {
         alerts: [
           { id: 'foobar', alertSeverityLevel: AlertSeverityLevelType.Severe },
         ],
+        type: 3,
+        agency: { name: 'mock' },
       },
       router: mockRouter,
       match: {

@@ -16,8 +16,10 @@ class ItineraryCircleLineWithIcon extends React.Component {
     modeClassName: PropTypes.string.isRequired,
     isVia: PropTypes.bool,
     bikePark: PropTypes.bool,
+    carPark: PropTypes.bool,
     color: PropTypes.string,
     appendClass: PropTypes.string,
+    icon: PropTypes.string,
   };
 
   state = {
@@ -61,6 +63,13 @@ class ItineraryCircleLineWithIcon extends React.Component {
       return (
         <div className="itinerary-icon-container bike-park">
           <Icon img="icon-bike_parking" />
+        </div>
+      );
+    }
+    if (this.props.carPark) {
+      return (
+        <div className="itinerary-icon-container car-park">
+          <Icon img="icon-icon_car-park" />
         </div>
       );
     }
@@ -120,6 +129,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
         <RouteNumber
           appendClass={this.props.appendClass}
           mode={this.props.modeClassName}
+          icon={this.props.icon}
           vertical
         />
         <div

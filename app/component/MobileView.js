@@ -98,7 +98,7 @@ export default function MobileView({
   return (
     <div className="mobile">
       {selectFromMapHeader}
-      {searchBox && <span>{searchBox}</span>}
+      {searchBox && <>{searchBox}</>}
       {map ? (
         <>
           <MapBottomsheetContext.Provider value={bottomsheetState.context}>

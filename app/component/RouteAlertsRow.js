@@ -12,6 +12,7 @@ import Icon from './Icon';
 import RouteNumber from './RouteNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
+import { mapAlertSource } from '../util/alertUtils';
 
 export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
   const at = intl.formatMessage({
@@ -56,8 +57,9 @@ export default function RouteAlertsRow(
     gtfsIds,
     showRouteNameLink,
     header,
+    source,
   },
-  { intl },
+  { intl, config },
 ) {
   const showTime = startTime && endTime && currentTime;
   const gtfsIdList = gtfsIds ? gtfsIds.split(',') : [];
@@ -99,24 +101,31 @@ export default function RouteAlertsRow(
   }
 
   let genericCancellation;
-  if (!description && header) {
-    const {
-      headsign,
-      routeMode,
-      shortName,
-      scheduledDepartureTime,
-    } = header.props;
-    const mode = intl.formatMessage({ id: routeMode.toLowerCase() });
-    genericCancellation = intl.formatMessage(
-      { id: 'generic-cancelation' },
-      {
-        mode,
-        route: shortName,
+  if (!description) {
+    if (typeof header === 'string') {
+      genericCancellation = header;
+    } else if (header.props) {
+      const {
         headsign,
-        time: moment.unix(scheduledDepartureTime).format('HH:mm'),
-      },
-    );
+        routeMode,
+        shortName,
+        scheduledDepartureTime,
+      } = header.props;
+      if (headsign && routeMode && shortName && scheduledDepartureTime) {
+        const mode = intl.formatMessage({ id: routeMode.toLowerCase() });
+        genericCancellation = intl.formatMessage(
+          { id: 'generic-cancelation' },
+          {
+            mode,
+            route: shortName,
+            headsign,
+            time: moment.unix(scheduledDepartureTime).format('HH:mm'),
+          },
+        );
+      }
+    }
   }
+
   return (
     <div
       className={cx('route-alert-row', { expired })}
@@ -147,6 +156,7 @@ export default function RouteAlertsRow(
           </div>
         )}
       <div className="route-alert-contents">
+        {mapAlertSource(config, intl.locale, source)}
         {(entityIdentifier || showTime) && (
           <div className="route-alert-top-row">
             {entityIdentifier &&
@@ -209,9 +219,11 @@ RouteAlertsRow.propTypes = {
   gtfsIds: PropTypes.string,
   showRouteNameLink: PropTypes.bool,
   header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
+  source: PropTypes.string,
 };
 
 RouteAlertsRow.contextTypes = {
+  config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 };
 

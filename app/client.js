@@ -133,6 +133,12 @@ async function init() {
 
   relaySSRMiddleware.debug = false;
 
+  // Query parameter is used instead of header because browsers send
+  // OPTIONS queries where you can't define headers
+  const queryParameters = config.hasAPISubscriptionQueryParameter
+    ? `?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
+    : '';
+
   const network = new RelayNetworkLayer([
     relaySSRMiddleware.getMiddleware(),
     // Cache middleware currently causes previuosly requested routes to be not shown to the user again.
@@ -142,10 +148,14 @@ async function init() {
       ttl: 60 * 60 * 1000,
     }), */
     urlMiddleware({
-      url: () => Promise.resolve(`${config.URL.OTP}index/graphql`),
+      url: () =>
+        Promise.resolve(`${config.URL.OTP}index/graphql${queryParameters}`),
     }),
     batchMiddleware({
-      batchUrl: () => Promise.resolve(`${config.URL.OTP}index/graphql/batch`),
+      batchUrl: () =>
+        Promise.resolve(
+          `${config.URL.OTP}index/graphql/batch${queryParameters}`,
+        ),
     }),
     errorMiddleware(),
     retryMiddleware({

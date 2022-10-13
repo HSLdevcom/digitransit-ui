@@ -36,6 +36,7 @@ const TimetableRow = ({ title, stoptimes, showRoutes, timerows }, { intl }) => (
             key={`${time.id}-${time.name}-${time.scheduledDeparture}`}
           >
             <div className="sr-only">
+              {time.isCanceled ? intl.formatMessage({ id: 'canceled' }) : ''}
               {`${moment
                 .unix(time.serviceDay + time.scheduledDeparture)
                 .format('hh:mm')}, ${intl.formatMessage({

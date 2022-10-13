@@ -196,10 +196,13 @@
     width: 100%;
     margin-bottom: 10px;
     animation: fadeIn 0.7s;
+    .alert-container {
+      margin: 0 14px 4px;
+    }
     .stop-near-you-header-container {
       display: flex;
       .stop-near-you-name {
-        font-size: 1rem;
+        font-size: 1.125rem;
         line-height: 24px;
         letter-spacing: -0.4px;
         margin: 0;
@@ -281,12 +284,19 @@
     margin: 0;
     width: 100%;
     table-layout: fixed;
+    a {
+      text-decoration: none;
+    }
     tr, td {
       margin: 0;
       padding: 0;
       border-spacing: 0;
     }
+    .departure-row:first-child {
+      border-top: 1px solid #ddd;
+    }
     .departure-row {
+      height: 40px;
       .platform-cell {
         display: flex;
       }
@@ -314,20 +324,14 @@
         }
       }
       .route-number-container {
-        background-color: currentColor;
         margin-right: 10px;
-        border-radius: 3px;
         width: 3em;
         height: 1.25em;
-        padding: 0 4px;
-        text-align: center;
-        .route-number {
-          color: $white;
-          line-height: 1.24;
-          min-width: unset;
-          display: block;
-          white-space: nowrap;
-          overflow: hidden;
+        position: relative;
+        padding: 0 2px;
+        &.long {
+          width: unset;
+          min-width: 48px;
         }
       }
       .route-headsign {
@@ -335,6 +339,24 @@
         font-weight: $font-weight-book;
         color: #333;
         flex: 1;
+        overflow: hidden;
+        white-space: nowrap;
+        mask-image:
+          linear-gradient(
+            to left,
+            transparent,
+            rgba(0, 0, 0, 0.2) 5px,
+            rgba(0, 0, 0, 1) 25px,
+            rgba(0, 0, 0, 1)
+          );
+        -webkit-mask-image:
+          linear-gradient(
+            to left,
+            transparent,
+            rgba(0, 0, 0, 0.2) 5px,
+            rgba(0, 0, 0, 1) 25px,
+            rgba(0, 0, 0, 1)
+          );
       }
       .route-time {
         color: #333;
@@ -345,6 +367,16 @@
           color: $late-color;
         }
       }
+    }
+  }
+}
+.desktop {
+  .scrollable-content-wrapper .react-swipe-container {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    >div {
+      flex: 1;
     }
   }
 }
@@ -434,6 +466,9 @@
     .disruption-show-more {
       font-weight: $font-weight-medium;
     }
+    .disruption-source-label {
+      font-weight: $font-weight-medium;
+    }
   }
   .disruption-show-more {
     font-weight: $font-weight-medium;
@@ -452,6 +487,7 @@
   .stops-near-you-location-search {
     width: 145px;
     margin: 25px 15px 0 0;
+    z-index: 5;
     div > div > .origin-stop-near-you-selector {
       height: 34px;
     }

@@ -6,24 +6,56 @@ import isEmpty from 'lodash/isEmpty';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
-
+import moment from 'moment';
+import { getRouteMode } from '../util/modeUtils';
 import TripRouteStop from './TripRouteStop';
 import withBreakpoint from '../util/withBreakpoint';
 
 class TripStopListContainer extends React.PureComponent {
   static propTypes = {
-    trip: PropTypes.object.isRequired,
+    trip: PropTypes.shape({
+      gtfsId: PropTypes.string.isRequired,
+      route: PropTypes.shape({
+        gtfsId: PropTypes.string,
+        shortName: PropTypes.string,
+        type: PropTypes.number,
+        mode: PropTypes.string,
+        color: PropTypes.string,
+      }),
+      stoptimesForDate: PropTypes.arrayOf(
+        PropTypes.shape({
+          stop: PropTypes.shape({
+            gtfsId: PropTypes.string,
+          }),
+          realtimeDeparture: PropTypes.number,
+          serviceDay: PropTypes.number,
+        }),
+      ).isRequired,
+      pattern: PropTypes.shape({
+        code: PropTypes.string.isRequired,
+        directionId: PropTypes.number.isRequired,
+      }).isRequired,
+    }).isRequired,
     className: PropTypes.string,
-    vehicles: PropTypes.object,
-    currentTime: PropTypes.object.isRequired,
+    vehicles: PropTypes.objectOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        next_stop: PropTypes.string,
+        timestamp: PropTypes.number,
+      }),
+    ),
+    currentTime: PropTypes.instanceOf(moment).isRequired,
     tripStart: PropTypes.string.isRequired,
-    breakpoint: PropTypes.string,
+    breakpoint: PropTypes.string.isRequired,
     keepTracking: PropTypes.bool,
     setHumanScrolling: PropTypes.func,
   };
 
   static defaultProps = {
     vehicles: {},
+    className: undefined,
+    keepTracking: false,
+    setHumanScrolling: () => {},
   };
 
   static contextTypes = {
@@ -39,7 +71,7 @@ class TripStopListContainer extends React.PureComponent {
       vehicles: propVehicles,
     } = this.props;
 
-    const mode = trip.route.mode.toLowerCase();
+    const mode = getRouteMode(trip.route);
 
     const vehicles = groupBy(
       values(propVehicles).filter(
@@ -80,6 +112,7 @@ class TripStopListContainer extends React.PureComponent {
         stopPassed = false;
       }
       const nextStoptimeForDate = trip.stoptimesForDate[index + 1];
+      const prevStop = trip.stoptimesForDate[index - 1]?.stop;
 
       return (
         <TripRouteStop
@@ -87,6 +120,7 @@ class TripStopListContainer extends React.PureComponent {
           stoptime={stoptime}
           stop={stoptime.stop}
           nextStop={nextStoptimeForDate ? nextStoptimeForDate.stop : null}
+          prevStop={prevStop || null}
           mode={mode}
           color={trip.route && trip.route.color ? `#${trip.route.color}` : null}
           vehicles={vehicles[stoptime.stop.gtfsId]}
@@ -111,7 +145,11 @@ class TripStopListContainer extends React.PureComponent {
   render() {
     return (
       <>
-        <div className={cx('route-stop-list', this.props.className)}>
+        <div
+          className={cx('route-stop-list', this.props.className)}
+          role="tabpanel"
+          aria-labelledby="route-tab"
+        >
           {this.getStops()}
         </div>
         <div className="bottom-whitespace" />
@@ -134,6 +172,7 @@ const connectedComponent = createFragmentContainer(
       fragment TripStopListContainer_trip on Trip {
         route {
           mode
+          type
           gtfsId
           color
           shortName

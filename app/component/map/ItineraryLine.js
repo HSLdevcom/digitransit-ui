@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import polyUtil from 'polyline-encoded';
-
+import { getRouteMode } from '../../util/modeUtils';
 import StopMarker from './non-tile-layer/StopMarker';
 import LegMarker from './non-tile-layer/LegMarker';
 import Line from './Line';
@@ -12,7 +12,11 @@ import Icon from '../Icon';
 import CityBikeMarker from './non-tile-layer/CityBikeMarker';
 import { getMiddleOf } from '../../util/geo-utils';
 import { isBrowser } from '../../util/browser';
-import { isCallAgencyPickupType, getLegText } from '../../util/legUtils';
+import {
+  isCallAgencyPickupType,
+  getLegText,
+  getInterliningLegs,
+} from '../../util/legUtils';
 import IconMarker from './IconMarker';
 import SpeechBubble from './SpeechBubble';
 import { durationToString } from '../../util/timeUtils';
@@ -54,9 +58,14 @@ class ItineraryLine extends React.Component {
       }
       const nextLeg = this.props.legs[i + 1];
 
-      let { mode } = leg;
-      const interliningWithRoute =
-        nextLeg?.interlineWithPreviousLeg && nextLeg.route.shortName;
+      let mode = getRouteMode({ mode: leg.mode, type: leg.route?.type });
+
+      const [interliningLines, interliningLegs] = getInterliningLegs(
+        this.props.legs,
+        i,
+      );
+
+      const interliningWithRoute = interliningLines.join(' / ');
 
       if (leg.rentedBike && leg.mode !== 'WALK') {
         mode = 'CITYBIKE';
@@ -68,11 +77,13 @@ class ItineraryLine extends React.Component {
       const geometry = polyUtil.decode(leg.legGeometry.points);
       let middle = getMiddleOf(geometry);
 
-      if (nextLeg?.interlineWithPreviousLeg) {
-        const interlinedGeometry = [
-          ...geometry,
-          ...polyUtil.decode(nextLeg.legGeometry.points),
-        ];
+      if (interliningLegs.length > 0) {
+        // merge the geometries of legs where user can wait in the vehicle and find the middle point
+        // of the new geometry
+        const points = interliningLegs
+          .map(iLeg => polyUtil.decode(iLeg.legGeometry.points))
+          .flat();
+        const interlinedGeometry = [...geometry, ...points];
         middle = getMiddleOf(interlinedGeometry);
       }
 
@@ -122,7 +133,7 @@ class ItineraryLine extends React.Component {
           objs.push(
             <CityBikeMarker
               key={leg.from.bikeRentalStation.stationId}
-              showBikeAvailability={leg.rentedBike}
+              showBikeAvailability={leg.mode === 'BICYCLE'}
               station={leg.from.bikeRentalStation}
               transit
             />,
@@ -240,6 +251,7 @@ export default createFragmentContainer(ItineraryLine, {
       route {
         shortName
         color
+        type
         agency {
           name
         }

@@ -5,12 +5,22 @@ import { BicycleParkingFilter } from '../constants';
 
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const GEOCODING_BASE_URL = `${API_URL}/geocoding/v1`;
+const GEOCODING_BASE_URL =
+  process.env.GEOCODING_BASE_URL || `${API_URL}/geocoding/v1`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
+const MAP_VERSION = process.env.MAP_VERSION || 'v2';
 const APP_PATH = process.env.APP_CONTEXT || '';
-const { SENTRY_DSN, AXE, NODE_ENV } = process.env;
+const {
+  SENTRY_DSN,
+  AXE,
+  NODE_ENV,
+  API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
+  API_SUBSCRIPTION_HEADER_NAME,
+  API_SUBSCRIPTION_TOKEN,
+} = process.env;
+const hasAPISubscriptionQueryParameter =
+  API_SUBSCRIPTION_QUERY_PARAMETER_NAME && API_SUBSCRIPTION_TOKEN;
 const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
 const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 12000;
@@ -30,22 +40,36 @@ export default {
     API_URL,
     ASSET_URL: process.env.ASSET_URL,
     MAP_URL,
-    OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/finland/`,
+    OTP: process.env.OTP_URL || `${API_URL}/routing/v2/routers/finland/`,
     MAP: {
-      default: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-map/{z}/{x}/{y}{r}.png`,
-      sv: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-map-sv/{z}/{x}/{y}{r}.png`,
+      default: `${MAP_URL}/map/${MAP_VERSION}/hsl-map/`,
+      sv: `${MAP_URL}/map/${MAP_VERSION}/hsl-map-sv/`,
     },
-    STOP_MAP: `${MAP_URL}/map/v1/finland-stop-map/`,
-    CITYBIKE_MAP: `${MAP_URL}/map/v1/finland-citybike-map/`,
+    STOP_MAP: `${MAP_URL}/map/${MAP_VERSION}/finland-stop-map/`,
+    CITYBIKE_MAP: `${MAP_URL}/map/${MAP_VERSION}/finland-citybike-map/`,
+    PARK_AND_RIDE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-parkandride-map/`,
+
     FONT:
       'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700',
-    PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
+    PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search${
+      hasAPISubscriptionQueryParameter
+        ? `?${API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${API_SUBSCRIPTION_TOKEN}`
+        : ''
+    }`,
     PELIAS_REVERSE_GEOCODER: `${
       process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
-    }/reverse`,
+    }/reverse${
+      hasAPISubscriptionQueryParameter
+        ? `?${API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${API_SUBSCRIPTION_TOKEN}`
+        : ''
+    }`,
     PELIAS_PLACE: `${
       process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
-    }/place`,
+    }/place${
+      hasAPISubscriptionQueryParameter
+        ? `?${API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${API_SUBSCRIPTION_TOKEN}`
+        : ''
+    }`,
     ROUTE_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/routes/`,
       tampere: 'https://www.nysse.fi/aikataulut-ja-reitit/linjat/',
@@ -53,8 +77,19 @@ export default {
     STOP_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/stops/`,
     },
-    // WEATHER_DATA: 'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::hirlam::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
+    WEATHER_DATA:
+      'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::hirlam::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
+    EMBEDDED_SEARCH_GENERATION: '/reittihakuelementti',
   },
+
+  API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
+  API_SUBSCRIPTION_HEADER_NAME,
+  API_SUBSCRIPTION_TOKEN,
+
+  hasAPISubscriptionQueryParameter,
+
+  hasAPISubscriptionHeader:
+    API_SUBSCRIPTION_HEADER_NAME && API_SUBSCRIPTION_TOKEN,
 
   APP_PATH: `${APP_PATH}`,
   indexPath: '',
@@ -82,7 +117,17 @@ export default {
 
   // Google Tag Manager id
   GTMid: process.env.GTM_ID || null,
-
+  /*
+   * Define the icon and icon color used for each citybike station. Two icons are available,
+   * 'citybike-stop-digitransit' and 'citybike-stop-digitransit-secondary'. For the first icon
+   * the color controls the color of the background and for the second the color of the bicycle
+   */
+  getAutoSuggestIcons: {
+    // eslint-disable-next-line no-unused-vars
+    citybikes: station => {
+      return ['citybike-stop-digitransit', '#f2b62d'];
+    },
+  },
   /*
    * by default search endpoints from all but gtfs sources, correct gtfs source
    * figured based on feedIds config variable
@@ -173,7 +218,6 @@ export default {
   suggestCarMinDistance: 2000,
   maxBikingDistance: 100000,
   itineraryFiltering: 1.5, // drops 66% worse routes
-  useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
   minTransferTime: 120,
   optimize: 'GREENWAYS',
   transferPenalty: 0,
@@ -186,7 +230,7 @@ export default {
 
   allowLogin: false,
   allowFavouritesFromLocalstorage: true,
-
+  useExtendedRouteTypes: false,
   mainMenu: {
     // Whether to show the left menu toggle button at all
     show: true,
@@ -194,6 +238,10 @@ export default {
     showLoginCreateAccount: true,
     showOffCanvasList: true,
     showFrontPageLink: true,
+    stopMonitor: {
+      show: false,
+    },
+    showEmbeddedSearch: true,
   },
 
   itinerary: {
@@ -259,6 +307,12 @@ export default {
       '<a tabIndex="-1" href="http://osm.org/copyright">© OpenStreetMap</a>', // DT-3470, DT-3397
 
     useModeIconsInNonTileLayer: false,
+    // areBounds is for keeping map and user inside given area
+    // Finland + Stockholm
+    areaBounds: {
+      corner1: [70.25, 32.25],
+      corner2: [58.99, 17.75],
+    },
   },
 
   stopCard: {
@@ -278,13 +332,17 @@ export default {
     // Config for map features. NOTE: availability for routing is controlled by
     // transportModes.citybike.availableForSelection
     showFullInfo: false,
-    showStationId: true,
     cityBikeMinZoom: 14,
     cityBikeSmallIconZoom: 14,
     // When should bikeshare availability be rendered in orange rather than green
     fewAvailableCount: 3,
     networks: {},
     capacity: BIKEAVL_WITHMAX,
+    buyInstructions: {
+      fi: 'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi',
+      sv: 'Köp ett abonnemang för en dag, en vecka eller för en hel säsong',
+      en: 'Buy a daily, weekly or season pass',
+    },
   },
 
   // Lowest level for stops and terminals are rendered
@@ -314,11 +372,11 @@ export default {
       'mode-tram': '#6a8925',
       'mode-metro': '#ed8c00',
       'mode-rail': '#af8dbc',
-      'mode-ferry': '#35b5b3',
+      'mode-ferry': '#247C7B',
       'mode-citybike': '#f2b62d',
     },
   },
-
+  iconModeSet: 'digitransit',
   fontWeights: {
     medium: 700,
   },
@@ -535,12 +593,10 @@ export default {
     content: [
       {
         name: 'menu-feedback',
-        nameEn: 'Submit feedback',
         href: 'https://github.com/HSLdevcom/digitransit-ui/issues',
       },
       {
         name: 'about-this-service',
-        nameEn: 'About this service',
         route: '/tietoja-palvelusta',
       },
     ],
@@ -574,7 +630,7 @@ export default {
       {
         header: 'Tietolähteet',
         paragraphs: [
-          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut ladataan Traficomin valtakunnallisesta joukkoliikenteen tietokannasta.',
+          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Digi- ja väestötietoviraston rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut ladataan Traficomin valtakunnallisesta joukkoliikenteen tietokannasta.',
         ],
       },
     ],
@@ -701,6 +757,8 @@ export default {
       },
     },
   ],
+
+  /* Do not change order of theme map lines */
   themeMap: {
     hsl: 'reittiopas',
     turku: '(turku|foli)',
@@ -763,7 +821,7 @@ export default {
     itinerary: false,
   },
 
-  viaPointsEnabled: true,
+  viaPointsEnabled: false,
 
   // DT-4802 Toggling this off shows the alert bodytext instead of the header
   showAlertHeader: true,
@@ -776,5 +834,23 @@ export default {
     enabled: false,
     heading: 'Welcome to Digitransit',
     paragraphs: [],
+  },
+
+  routeNotifications: [],
+
+  embeddedSearch: {
+    title: {
+      fi: 'Reittihakuelementti',
+      en: 'Route search element',
+      sv: 'Ruttsökningselement',
+    },
+    infoText: {
+      fi:
+        'Luo reittihakuelementti ja lisää se omaan palveluusi. Hakukomponentin Hae reitti -painikkeesta siirrytään Reittioppaaseen.',
+      en:
+        'Create a route search element and add it to your own service. The Find route button in the search component will transfer you to the journey planner.',
+      sv:
+        'Skapa ett ruttsökningselement och lägg det till din egen tjänst. Sök rutt-knappen i sökkomponenten tar dig till reseplaneraren.',
+    },
   },
 };

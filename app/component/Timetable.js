@@ -6,6 +6,7 @@ import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
 import { FormattedMessage } from 'react-intl';
+import { matchShape, routerShape } from 'found';
 import Icon from './Icon';
 import FilterTimeTableModal from './FilterTimeTableModal';
 import TimeTableOptionsPanel from './TimeTableOptionsPanel';
@@ -15,6 +16,7 @@ import SecondaryButton from './SecondaryButton';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import DateSelect from './DateSelect';
 import ScrollableWrapper from './ScrollableWrapper';
+import { replaceQueryParams } from '../util/queryUtils';
 
 class Timetable extends React.Component {
   static propTypes = {
@@ -48,9 +50,12 @@ class Timetable extends React.Component {
       selectedDate: PropTypes.string,
       onDateChange: PropTypes.func,
     }).isRequired,
+    date: PropTypes.string,
   };
 
   static contextTypes = {
+    router: routerShape.isRequired,
+    match: matchShape.isRequired,
     config: PropTypes.object.isRequired,
   };
 
@@ -71,6 +76,21 @@ class Timetable extends React.Component {
     if (this.props.stop.gtfsId !== this.state.oldStopId) {
       this.resetStopOptions(this.props.stop.gtfsId);
     }
+  };
+
+  componentDidMount = () => {
+    if (this.context.match.location.query.routes) {
+      this.setState({
+        showRoutes: this.context.match.location.query.routes?.split(',') || [],
+      });
+    }
+  };
+
+  setParams = (routes, date) => {
+    replaceQueryParams(this.context.router, this.context.match, {
+      routes,
+      date,
+    });
   };
 
   getDuplicatedRoutes = () => {
@@ -103,6 +123,10 @@ class Timetable extends React.Component {
 
   setRouteVisibilityState = val => {
     this.setState({ showRoutes: val.showRoutes });
+    const showRoutes = val.showRoutes.length
+      ? val.showRoutes.join(',')
+      : undefined;
+    this.setParams(showRoutes, this.props.date);
   };
 
   resetStopOptions = id => {
@@ -162,7 +186,7 @@ class Timetable extends React.Component {
 
   printStopPDF = (e, stopPDFURL) => {
     e.stopPropagation();
-    window.open(stopPDFURL);
+    window.open(stopPDFURL.href);
   };
 
   formTimeRow = (timetableMap, hour) => {
@@ -260,8 +284,13 @@ class Timetable extends React.Component {
         ? stopTimetableHandler.stopPdfUrlResolver(
             this.context.config.URL.STOP_TIMETABLES[stopIdSplitted[0]],
             this.props.stop,
+            this.context.config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
+            this.context.config.API_SUBSCRIPTION_TOKEN,
           )
         : null;
+    const virtualMonitorUrl =
+      this.context.config?.stopCard?.header?.virtualMonitorBaseUrl &&
+      `${this.context.config.stopCard.header.virtualMonitorBaseUrl}${this.props.stop.gtfsId}`;
     return (
       <>
         <ScrollableWrapper>
@@ -280,6 +309,10 @@ class Timetable extends React.Component {
                 selectedDate={this.props.propsForDateSelect.selectedDate}
                 onDateChange={e => {
                   this.props.propsForDateSelect.onDateChange(e);
+                  const showRoutes = this.state.showRoutes.length
+                    ? this.state.showRoutes.join(',')
+                    : undefined;
+                  this.setParams(showRoutes, e);
                   addAnalyticsEvent({
                     category: 'Stop',
                     action: 'ChangeTimetableDay',
@@ -384,6 +417,17 @@ class Timetable extends React.Component {
                   });
                 }}
                 buttonIcon="icon-icon_print"
+                smallSize
+              />
+            )}
+            {virtualMonitorUrl && (
+              <SecondaryButton
+                ariaLabel="stop-virtual-monitor"
+                buttonName="stop-virtual-monitor"
+                buttonClickAction={e => {
+                  e.preventDefault();
+                  window.open(virtualMonitorUrl, '_blank ');
+                }}
                 smallSize
               />
             )}

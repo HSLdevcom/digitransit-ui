@@ -16,6 +16,7 @@ import { getZoneLabel } from '../util/legUtils';
 import { estimateItineraryDistance } from '../util/geo-utils';
 import getVehicleState from '../util/vehicleStateUtils';
 import Icon from './Icon';
+import { VehicleShape } from '../util/shapes';
 
 const RouteStop = (
   {
@@ -30,6 +31,7 @@ const RouteStop = (
     vehicle,
     displayNextDeparture,
     shortName,
+    prevStop,
   },
   { config, intl },
 ) => {
@@ -147,11 +149,19 @@ const RouteStop = (
         last,
       );
       vehicleTripLink = vehicle.tripId ? (
-        <TripLink key={vehicle.id} vehicle={vehicle} shortName={shortName} />
+        <TripLink
+          key={vehicle.id}
+          vehicle={vehicle}
+          shortName={shortName}
+          mode={mode}
+        />
       ) : (
         <FuzzyTripLink
-          stopName={stop.name}
-          nextStopName={nextStop ? nextStop.name : null}
+          stopName={vehicleState === 'arriving' ? prevStop?.name : stop?.name}
+          nextStopName={
+            vehicleState === 'arriving' ? stop?.name : nextStop?.name
+          }
+          mode={mode}
           key={vehicle.id}
           vehicle={vehicle}
         />
@@ -190,6 +200,8 @@ const RouteStop = (
       </div>
       <div className="route-stop-row_content-container">
         <Link
+          as="button"
+          type="button"
           to={`/${PREFIX_STOPS}/${encodeURIComponent(stop.gtfsId)}`}
           onClick={() => {
             addAnalyticsEvent({
@@ -273,9 +285,42 @@ const RouteStop = (
 
 RouteStop.propTypes = {
   color: PropTypes.string,
-  vehicle: PropTypes.object,
-  stop: PropTypes.object,
-  nextStop: PropTypes.object,
+  vehicle: VehicleShape,
+  stop: PropTypes.shape({
+    code: PropTypes.string,
+    name: PropTypes.string,
+    desc: PropTypes.string,
+    gtfsId: PropTypes.string,
+    zoneId: PropTypes.string,
+    scheduledDeparture: PropTypes.number,
+    platformCode: PropTypes.string,
+    alerts: PropTypes.arrayOf(
+      PropTypes.shape({
+        severityLevel: PropTypes.string,
+        validityPeriod: PropTypes.shape({
+          startTime: PropTypes.number,
+          endTime: PropTypes.number,
+        }),
+      }),
+    ),
+    stopTimesForPattern: PropTypes.arrayOf(
+      PropTypes.shape({
+        realtimeDeparture: PropTypes.number,
+        realtimeArrival: PropTypes.number,
+        serviceDay: PropTypes.number,
+        pickupType: PropTypes.string,
+        stop: PropTypes.shape({
+          platformCode: PropTypes.string,
+        }),
+      }),
+    ),
+  }).isRequired,
+  nextStop: PropTypes.shape({
+    name: PropTypes.string,
+  }),
+  prevStop: PropTypes.shape({
+    name: PropTypes.string,
+  }),
   mode: PropTypes.string,
   className: PropTypes.string,
   currentTime: PropTypes.number.isRequired,
@@ -286,7 +331,16 @@ RouteStop.propTypes = {
 };
 
 RouteStop.defaultProps = {
+  className: undefined,
+  color: null,
   displayNextDeparture: true,
+  first: false,
+  last: false,
+  mode: undefined,
+  nextStop: null,
+  prevStop: null,
+  shortName: undefined,
+  vehicle: undefined,
 };
 
 RouteStop.contextTypes = {

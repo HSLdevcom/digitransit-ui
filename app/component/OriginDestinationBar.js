@@ -17,7 +17,7 @@ import { dtLocationShape } from '../util/shapes';
 import { setViaPoints } from '../action/ViaPointActions';
 import { LightenDarkenColor } from '../util/colorUtils';
 import { getRefPoint } from '../util/apiUtils';
-import { showCityBikes } from '../util/modeUtils';
+import { useCitybikes } from '../util/modeUtils';
 
 const DTAutosuggestPanelWithSearchContext = withSearchContext(
   DTAutosuggestPanel,
@@ -33,6 +33,7 @@ class OriginDestinationBar extends React.Component {
     showFavourites: PropTypes.bool.isRequired,
     viaPoints: PropTypes.array,
     locationState: dtLocationShape.isRequired,
+    modeSet: PropTypes.string,
   };
 
   static contextTypes = {
@@ -49,6 +50,7 @@ class OriginDestinationBar extends React.Component {
     language: 'fi',
     isMobile: false,
     viaPoints: [],
+    modeSet: undefined,
   };
 
   constructor(props) {
@@ -123,11 +125,10 @@ class OriginDestinationBar extends React.Component {
       this.props.locationState,
     );
     const desktopTargets = ['Locations', 'CurrentPosition', 'Stops'];
-    if (showCityBikes(this.context.config.cityBike?.networks)) {
+    if (useCitybikes(this.context.config.cityBike?.networks)) {
       desktopTargets.push('BikeRentalStations');
     }
     const mobileTargets = [...desktopTargets, 'MapPosition'];
-
     return (
       <div
         className={cx(
@@ -143,7 +144,7 @@ class OriginDestinationBar extends React.Component {
           refPoint={refPoint}
           originPlaceHolder="search-origin-index"
           destinationPlaceHolder="search-destination-index"
-          showMultiPointControls={this.context.config.viaPointsEnabled}
+          showMultiPointControls
           viaPoints={this.props.viaPoints}
           updateViaPoints={this.updateViaPoints}
           addAnalyticsEvent={addAnalyticsEvent}
@@ -164,6 +165,8 @@ class OriginDestinationBar extends React.Component {
             this.context.config.colors.hover ||
             LightenDarkenColor(this.context.config.colors.primary, -20)
           }
+          modeSet={this.props.modeSet}
+          onFocusChange={() => {}}
         />{' '}
       </div>
     );

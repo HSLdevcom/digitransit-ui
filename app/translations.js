@@ -136,7 +136,7 @@ const translations = {
       'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Venligst vælg udgangspunkt og destination.',
     'no-transfers-margin': 'Ingen',
-    'no-trips-found': 'Ingen rejser tilgænglig for denne dag.',
+    'no-trips-found': 'Ingen rejser tilgænglig for denne dag ({selectedDate}).',
     now: 'Nu',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ingen stop} other {{number} stop} }',
@@ -171,6 +171,7 @@ const translations = {
     'route-destination-arrives': 'Destination / Sidste holdeplads',
     'route-from-here': 'Find rute herfra',
     'route-here': 'Find rute hertil',
+    'route-no-stop': 'Ingen stop',
     'route-not-possible':
       'Desværre kan vi ikke finde et rejseforslag til dig. Teknisk feil: "{error}"',
     'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
@@ -563,9 +564,9 @@ const translations = {
     'itinerary-details.biking-leg':
       'Um {time} {distance} mit dem Rad von {origin} nach {destination} fahren. Geschätzte Dauer: {duration}',
     'itinerary-details.car-leg':
-      'Um {time} {distance} mit dem Auto von {origin} nach {destination} fahren. Geschätzte Dauer: {duration}',
+      'Um {time} {distance} mit dem Auto von {origin} {to} {destination} fahren. Geschätzte Dauer: {duration}',
     'itinerary-details.carpool-leg':
-      'Um {time} {distance} mit dem Auto von {origin} nach {destination} minfahren. Geschätzte Dauer: {duration}',
+      'Um {time} {distance} mit dem Auto von {origin} {to} {destination} mitfahren. Geschätzte Dauer: {duration}',
     'itinerary-details.end-leg': 'Um {time} am Ziel {destination} ankommen.',
     'itinerary-details.route-has-info-alert': 'Route enthält Warnungen.',
     'itinerary-details.route-has-severe-alert': 'Route enthält Störungen.',
@@ -585,6 +586,9 @@ const translations = {
     'itinerary-page.description': 'Reisebeschreibung',
     'itinerary-page.hide-details': 'Details ausblenden',
     'itinerary-page.itineraries-loaded': 'Weitere Suchergebnisse geladen',
+    'itinerary-page.itineraries-updated': 'Suchergebnisse aktualisiert',
+    'itinerary-page.loading-itineraries':
+      'Weitere Suchergebnisse werden geladen',
     'itinerary-page.show-details': 'Details zeigen',
     'itinerary-page.show-details-label':
       'Zeige Details zu Routenvorschlag {number}',
@@ -681,6 +685,15 @@ const translations = {
     minutes: 'min',
     'minutes-or-route': 'Min / Strecke',
     'missing-price-info-disclaimer': 'Keine Preisangabe möglich',
+    'modes.to-bike': 'zur Leihrad-Station',
+    'modes.to-bike-park': 'zum Fahrradstellplatz',
+    'modes.to-bus': 'zur Bushaltestelle',
+    'modes.to-car-park': 'zum Parkplatz',
+    'modes.to-place': 'zum Ziel',
+    'modes.to-rail': 'zum Bahnhof',
+    'modes.to-stop': 'zur Haltestelle',
+    'modes.to-subway': 'zum U-Bahnhof',
+    'modes.to-tram': 'zur Tramhaltestelle',
     'more-departures': 'Weitere Abfahrten',
     'more-settings': 'Erweiterte Einstellungen',
     'move-to-tab': 'Zur Registerkarte {number}',
@@ -732,7 +745,7 @@ const translations = {
       'Der aktuelle Fahrplan enthält keine früheren Abfahrten.',
     'no-route-start-end': 'Bitte Start und Ziel auswählen.',
     'no-transfers-margin': 'Keine',
-    'no-trips-found': 'Keine Reisen für diesen Tag gefunden.',
+    'no-trips-found': 'Keine Reisen für diesen Tag gefunden ({selectedDate}).',
     now: 'Jetzt',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Keine Zwischenstopps} one {1 Zwischenstopp} other {{number} Zwischenstopps} }',
@@ -842,6 +855,7 @@ const translations = {
     'route-least-elevation-changes': 'Höhenunterschiede vermeiden',
     'route-least-transfers': 'Umstiege vermeiden',
     'route-least-walking': 'Wenig zu Fuß',
+    'route-no-stop': 'Kein Halten',
     'route-not-possible':
       'Leider konnte keine Route berechnet werden. Technischer Fehler: "{error}"',
     'route-page.similar-routes': 'Vielleicht interessiert Sie auch',
@@ -1031,6 +1045,8 @@ const translations = {
     'walk-bike-itinerary-3': 'Ihre Suche ergab nur Fußweg- und Fahrrad-Routen.',
     'on-demand-taxi-itinerary': 'Nur Routen mit Ruftaxi-Anteil gefunden.',
     'car-park-ride-itinerary': 'Es wurde keine Route gefunden, die ausschließlich öffentliche Verkehrsmittel nutzt.',
+    'walk-bike-itinerary-4':
+      'Ihre Suche ergab nur Fußweg- Fahrrad- und Auto-Routen.',
     'walk-distance-duration': 'Gehen {duration} ({distance})',
     walking: 'Gehen',
     'walking-speed': 'Laufgeschwindigkeit',
@@ -1134,11 +1150,14 @@ const translations = {
     'map-layer-category-sharing': 'Sharing',
     'map-layer-category-car': 'Car',
     'map-layer-category-others': 'Others',
+    'about-service-feedback': 'About the service and feedback',
+    'about-these-pages': 'About the web pages',
     'about-this-service': 'About the service',
     'car-park-capacity-alert': 'This car park is close to capacity. Please allow additional time for your journey',
     'exclude-full-carparks': 'Exclude full car parks',
     'accept-carpool-policy':
       'I have read and agreed to Fahrgemeinschaft.de\'s <a href="{policyUrl}" target="_blank" style="color: #92bc05">privacy policy</a> and <a href="{termsUrl}" target="_blank" style="color: #92bc05">terms of use</a>.',
+    access_with: 'access with',
     accessibility: 'Accessibility',
     'accessibility-limited': 'Wheelchair',
     'accessibility-nolimit': 'No limits',
@@ -1164,10 +1183,13 @@ const translations = {
     'air-temperature': 'Air temperature',
     'alert:bikerental:free-floating-drop-off':
       'Destination is not a designated drop-off area. Rental cannot be completed here. Please check terms & conditions for additional fees.',
+    all: 'All',
     'aria-itinerary-summary':
       'Total journey time {duration}. Departing at {inFuture} {departureTime} and arriving at {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
       'Total cycling {duration}, {distance} ',
+    'aria-itinerary-summary-car-distance':
+      'Total driving {duration}, {distance} ',
     'aria-itinerary-summary-walk-distance':
       'Total walking {duration}, {distance} ',
     'arrive-leave': 'Arrive or leave at selected time',
@@ -1215,8 +1237,13 @@ const translations = {
     'bicycle-distance-duration': 'Bike {duration} ({distance})',
     'bicycle-walk-from-transit':
       'Take your bike off the {transportMode} and walk it for {distance} ({duration})',
+    'bicycle-walk-from-transit-no-duration':
+      'Walk your bike off the {transportMode}',
     'bicycle-walk-to-transit':
       'Walk your bike for {distance} ({duration}) and take it on the {transportMode}',
+    'bicycle-walk-to-transit-no-duration':
+      'Walk your bike to the {transportMode}',
+    bicycle_frame_lock: 'Frame locking',
     bicycle_walk: 'Walking a bike',
     "bicycle-parking": "Bicycle parking",
     "bicycle-parking-covered": "covered",
@@ -1224,14 +1251,21 @@ const translations = {
     'taxi-availability': 'Taxis available at the station right now',
     'bike-not-allowed-bus': 'Bikes are not allowed on the bus',
     'bike-not-allowed-tram': 'Bikes are not allowed on the tram',
+    'bike-only': 'Cycling only',
     'bike-park': 'Park & Ride for bikes',
-    'bike-station-disabled': 'Bike station is closed.',
+    'bike-park-disclaimer':
+      'You can conveniently combine cycling and public transport: leave your bike at a Park & Ride and continue by train, bus, metro or tram. Bike parking is free of charge and there are no time limits.',
+    'bike-park-disclaimer-header': 'Park your bike',
+    'bike-park-disclaimer-link': 'Read more about Park & Ride for bikes',
+    'bike-station-disabled': 'The bike station is out of service.',
     'bikes-available': '{amount} bikes at the station ',
     'biketransport-citybike': "I'm using a citybike",
     'biketransport-only-bike': "I'm travelling only by bike",
     'biking-amount': 'Amount of biking',
     'biking-speed': 'Biking speed',
     bus: 'Bus',
+    'bus-express': 'Trunk bus',
+    'bus-local': 'Neighbourhood bus',
     'bus-with-route-number': 'Bus {routeNumber} {headSign}',
     buy: 'Buy',
     'buy-ticket': 'Buy tickets',
@@ -1247,6 +1281,10 @@ const translations = {
     'car-charging-station': 'Car charging station',
     'car-distance-duration': 'Drive {duration} ({distance})',
     'car-park-full': 'Exclude car parks with few spaces',
+    'car-park-disclaimer':
+      'You can conveniently combine car and public transport: leave your car at a Park & Ride and continue by train, bus, metro or tram. Car parking is free of charge and there are no time limits.',
+    'car-park-disclaimer-header': 'Park your car',
+    'car-park-disclaimer-link': 'Read more about Park & Ride',
     car_park: 'Park & ride',
     carpool: 'Carpool',
     'carpool-legal-notice': 'This is a service of the external provider ride2Go GmbH.',
@@ -1260,6 +1298,7 @@ const translations = {
     'charging-spaces-available': '{available} of {capacity} charging slots available',
     'charging-spaces-in-total': '{capacity} charging slots',
     'charging-spaces-no-data' : 'No capacity data available',
+    'choose-freely': 'Optional',
     'choose-stop': 'Select stop',
     'choose-stop-or-vehicle': 'Select vehicle or stop',
     'choose-vehicle': 'Select vehicle',
@@ -1290,7 +1329,11 @@ const translations = {
     'close-settings': 'Close window and save settings',
     'contact-information': '{contactName} contact details',
     continue: 'Continue',
+    'copy-code': 'Copy the code',
+    covered: 'Sheltered',
     'create-account': 'Create {contactName} account',
+    'create-embedded-search': 'Create a route search element',
+    'create-stop-monitor': 'Create a stop display',
     'cycle-distance-duration': 'Cycle {duration} ({distance})',
     'cyclewalk-distance-duration': 'Walk your bike {duration} ({distance})',
     // eslint-disable-next-line sort-keys
@@ -1310,12 +1353,15 @@ const translations = {
     'departure-is-canceled-tram': 'Tram {shortName}',
     'departure-list-update.sr-instructions':
       'The list of upcoming departures and departure times will update in real time.',
+    'departure-page-sr': 'Trip {shortName} {destination} {time} information',
     'departure-time-in-minutes': '{minutes} min',
+    'departure-time-sr': '{when} clock {time}. {realTime}',
     departures: 'Departures',
     'departures-by-hour': 'Departures by hour',
     'departures-by-hour-minutes-route': '(minutes/route)',
     description: 'Find public transport services to locations near and far.',
     destination: 'Destination',
+    'destination-defined': 'Destination defined',
     'destination-outside-service':
       'No route suggestions were found because the destination is outside the service area.',
     'destination-placeholder': 'Enter destination, route or stop',
@@ -1339,6 +1385,12 @@ const translations = {
     'edit-favourites': 'Edit the location in the Favorites',
     'elevation-gained-total': 'Elevation gained',
     'elevation-lost-total': 'Elevation lost',
+    'embedded-search.choose-language': 'Language',
+    'embedded-search.choose-mode': 'Means of transport',
+    'embedded-search.choose-width-component': 'Width of the embedding',
+    'embedded-search.form-heading': 'Embedding tools',
+    engine_ignition_aid: 'Engine starting aid',
+    english: 'English',
     explanations: 'Explanations',
     'extra-info': 'More info',
     'favourite-failed-text': 'Please try again in a while.',
@@ -1346,6 +1398,8 @@ const translations = {
     ferry: 'Ferry',
     'ferry-with-route-number': 'Ferry {routeNumber} {headSign}',
     'fetch-new-route': 'Fetch a new route',
+    finnish: 'Finnish',
+    'free-of-charge': 'Free',
     'from-ferry': 'ferry',
     'from-rail': 'train',
     'from-station': 'from station',
@@ -1375,16 +1429,20 @@ const translations = {
     hour: 'Hour',
     'hour-short': 'h',
     'how-to-rate-service': 'How would you rate the service?',
+    hsl_mobile_ticket: 'HSL mobile ticket',
+    hsl_ticket: 'HSL ticket',
+    hsl_travel_card: 'HSL card',
     'in-addition': 'In addition',
     'index.title': 'Journey Planner',
     inquiry: 'How did you find the new Journey Planner? Please tell us!',
     instructions: 'Instructions',
+    'is-open': 'Open:',
     'itinerary-details.biking-leg':
-      'At {time} cycle {distance} from {origin} to {destination}. Estimated time {duration}',
+      'At {time} cycle {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-details.car-leg':
-      'At {time} drive {distance} from {origin} to {destination}. Estimated time {duration}',
-    'itinerary-details.car-leg':
-      'At {time} travel {distance} via carpool from {origin} to {destination}. Estimated time {duration}',
+      'At {time} drive {distance} from {origin} to {to} {destination}. Estimated time {duration}',
+    'itinerary-details.carpool-leg':
+      'At {time} travel {distance} via carpool from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-details.end-leg':
       'At {time} arrive to destination {destination}.',
     'itinerary-details.route-has-info-alert': 'Route has alerts.',
@@ -1396,15 +1454,22 @@ const translations = {
     'itinerary-details.transit-leg-part-1': 'At {time} take',
     'itinerary-details.transit-leg-part-2':
       'from stop {startStop} {startZoneInfo} {trackInfo} to stop {endStop} {endZoneInfo}. Estimated duration {duration}',
+    'itinerary-details.via-leg':
+      '{arrivalTime} arrive to via point {viaPoint}. {leaveAction}',
     'itinerary-details.walk-leg':
-      'At {time} walk {distance} from {origin} to {destination}. Estimated time {duration}',
+      'At {time} walk {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-feedback-button': 'Send feedback',
     'itinerary-feedback-message': 'Couldn’t find what you were looking for?',
     'itinerary-feedback-placeholder': 'Description (optional)',
     'itinerary-hide-stops': 'Hide stops',
+    'itinerary-in-the-past':
+      'The route search falls within a period that is in the past.',
+    'itinerary-in-the-past-link': 'Depart now ›',
+    'itinerary-in-the-past-title': 'The route options cannot be displayed',
     'itinerary-page.description': 'Itinerary',
     'itinerary-page.hide-details': 'Hide itinerary details',
     'itinerary-page.itineraries-loaded': 'More search results downloaded',
+    'itinerary-page.itineraries-updated': 'Search results updated',
     'itinerary-page.loading-itineraries': 'Downloading more search results',
     'itinerary-page.show-details': 'Show itinerary details',
     'itinerary-page.show-details-label': 'Show itinerary {number} details',
@@ -1440,6 +1505,8 @@ const translations = {
     'itinerary-summary.bikePark-title': 'Leave your bike at a Park & Ride',
     'itinerary-summary.interline-wait':
       'The route number ({shortName}) and destination ({destination}) will change at the {stop} stop. Waiting time at the stop is {time}. Please wait onboard.',
+    'itinerary-summary.interline-wait-multiple-legs':
+      'The route number ({shortName}) and destination will change several times during the journey. Total waiting time is {time}. Please do not leave the vehicle.',
     'itinerary-summary.show-on-map': 'Show on map {target}',
     'itinerary-ticket.title': 'Required ticket',
     'itinerary-tickets.title': 'Required tickets',
@@ -1447,9 +1514,12 @@ const translations = {
     'itinerary-walk.title': 'Total walking distance',
     'journeyplanner.title': 'HSL Journey Planner',
     'last-updated': 'Last updated {time}',
+    'language-selection': 'Language: {language}',
     later: 'Later departures',
+    'leave-your-car-park-and-ride': 'Leave your car at Park & Ride site',
     leaves: 'Leaves',
     'leaving-at': 'Leaving at',
+    lighting: 'Lighting',
     'likely-to-recommend':
       'How likely are you to recommend our service to your friends or colleagues?',
     'likely-to-use':
@@ -1469,7 +1539,6 @@ const translations = {
     'login-content':
       'To save and utilize places, routes and stops, you must log in using your HSL account.',
     'login-header': 'Log in First',
-
     logout: 'Log out',
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Close the main menu',
@@ -1501,6 +1570,15 @@ const translations = {
     minutes: 'min',
     'minutes-or-route': 'Min / Route',
     'missing-price-info-disclaimer': 'No price information',
+    'modes.to-bike': 'city bike station',
+    'modes.to-bike-park': 'bike park',
+    'modes.to-bus': 'bus stop',
+    'modes.to-car-park': 'car park',
+    'modes.to-place': 'destination',
+    'modes.to-rail': 'train station',
+    'modes.to-stop': 'stop',
+    'modes.to-subway': 'subway station',
+    'modes.to-tram': 'tram stop',
     'more-departures': 'More departures',
     'more-settings': 'More settings',
     'move-on-map': 'Move on the map',
@@ -1541,7 +1619,9 @@ const translations = {
     'no-route-end': 'Please select destination',
     'no-route-end-date-not-in-range':
       'The timetable does not include later departures.',
-    'no-route-msg': 'Unfortunately, no route suggestions were found.',
+    'no-route-found':
+      'Unfortunately, route {shortName} ({longName}) could not be found.',
+    'no-route-msg': 'Unfortunately, no route suggestions were found',
     'no-route-msg-with-changes':
       'Unfortunately, no route suggestions were found. Please check your search settings or try changing the origin or destination.',
     'no-route-origin-near-destination':
@@ -1554,12 +1634,16 @@ const translations = {
     'no-route-start-date-too-early': 'There are no earlier departures.',
     'no-route-start-end': 'Please select origin and destination',
     'no-transfers-margin': '1 min',
-    'no-trips-found': 'No journeys found for the selected date.',
+    'no-trips-found':
+      'No journeys found for the selected date ({selectedDate}).',
+    'notification-minimize': 'Close message',
+    'notification-open': 'Open message',
     now: 'Now',
     'number-of-intermediate-stops':
       '{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }',
     'number-of-minutes':
       '{number, plural, =0 {0 minutes} one {1 minute} other {{number} minutes}}',
+    'number-of-spaces': 'Number of spaces:',
     'off-canvas-info':
       'Log in to the service to save your favorites and utilize them on other devices',
     'occupancy-status-FEW_SEATS_AVAILABLE': 'medium occupancy',
@@ -1575,15 +1659,19 @@ const translations = {
     'option-most': 'Fast',
     or: 'or',
     origin: 'Origin',
+    'origin-and-destination': 'Origin and destination',
+    'origin-defined': 'Origin defined',
     'origin-outside-service':
       'No route suggestions were found because the origin is outside the service area.',
     'origin-placeholder': 'From? - address or stop',
     'other-dates': 'Other dates',
     'own-position': 'Your current location',
     'page-not-found': 'The page cannot be found.',
+    paid: 'Paid',
     'park-and-ride': 'Park and Ride',
-    'park-and-ride-availability': 'Spaces available',
+    'park-and-ride-availability': 'Spaces available:',
     'pay-attention': 'N.B.',
+    payment_at_gate: 'Payment at the gate ',
     'pick-icon': 'Select icon',
     'pick-mode': 'Transport modes',
     'pick-mode-airplane-disabled': 'Flight not selected',
@@ -1617,9 +1705,11 @@ const translations = {
     'precipitation-snow': 'snow',
     'precipitation-unknown': 'unknown',
     'prefer-walking': 'Prefer walking',
+    preview: 'Preview',
     previous: 'Previous',
     print: 'Print',
     'print-timetable': 'Weekly timetable',
+    'privacy-statement': 'Privacy statement',
     'public-transport': 'Public transport',
     rail: 'Commuter train',
     'rail-with-route-number': 'Train {routeNumber} {headSign}',
@@ -1659,12 +1749,14 @@ const translations = {
     'route-least-elevation-changes': 'Avoid changes in elevation',
     'route-least-transfers': 'Avoid transfers',
     'route-least-walking': 'Avoid walking',
+    'route-no-stop': 'No stop',
     'route-not-possible':
       'Unfortunately, your route is not available. Technical error: "{error}"',
     'route-page-vehicle-position':
       '{mode} {shortName} is at the {stopName} stop',
     'route-page-vehicle-position-between':
       '{mode} {shortName} is between the {stopName} stop and the {nextStopName} stop.',
+    'route-page-vehicle-selected': 'Current selection.',
     'route-page.description': 'Route {shortName} - {longName}',
     'route-page.future-routes': 'Future routes',
     'route-page.pattern-chosen': 'Selected',
@@ -1673,7 +1765,39 @@ const translations = {
     'route-page.special-routes': 'Other routes',
     'route-page.title': 'Route {shortName}',
     'route-page.title-short': 'Route',
+    'route-to-ferry': 'Route to the pier',
+    'route-to-park': 'Route to the park',
+    'route-to-station': 'Route to the station',
     'route-to-stop': 'Route to the stop',
+    'router-change-departure-time': 'Change departure time ›',
+    'router-location-not-found':
+      'Please select location on the road network or at a stop.',
+    'router-location-not-found-title-1':
+      'There is no defined access to the destination',
+    'router-location-not-found-title-2':
+      'There is no defined access to the origin',
+    'router-location-not-found-title-3':
+      'There is no defined access to the origin and the destination',
+    'router-only-walk':
+      'No faster alternatives than walking are available for the route you searched for.',
+    'router-only-walk-title': 'Walk the route',
+    'router-outside-bounds-3':
+      'No route suggestions were found because the origin and destination are outside the service area.',
+    'router-outside-service-period':
+      'Timetable information is not available for the time you selected.',
+    'router-stops-in-range-1':
+      'There are no public transport stops close enough to the selected destination.',
+    'router-stops-in-range-2':
+      'There are no public transport stops close enough to the selected origin.',
+    'router-stops-in-range-3':
+      'There are no public transport stops close enough to the selected origin and destination.',
+    'router-system-error':
+      'An error occurred in the system. Please try again later.',
+    'router-transit-connection':
+      'Please try changing the origin or destination.',
+    'router-transit-connection-in-search-window':
+      'There are no services available at the selected time.',
+    'router-unable': 'Unable to show route options',
     routes: 'Routes',
     'routes-platforms': 'Routes and platforms',
     'routes-tracks': 'Routes and tracks',
@@ -1713,11 +1837,17 @@ const translations = {
     'set-specific-settings': 'Set more specific settings',
     'set-stop-as-routes': "Set the stop as route's",
     settings: 'Settings',
+    'settings-alternative-name-rail': 'Train',
+    'settings-change-itinerary-settings': 'Change settings',
     'settings-dropdown-close-label': 'Close options',
     'settings-dropdown-open-label': 'Open options',
     'layer-dropdown-close-label': 'Close layer options',
     'layer-dropdown-open-label': 'Open layer options',
     'settings-label-change': 'Change settings',
+    'settings-missing-itineraries-body':
+      'Some selections in the settings exclude certain route alternatives.',
+    'settings-missing-itineraries-header':
+      'Are some route alternatives missing?',
     share: 'Share itinerary',
     show: 'Show',
     'show-departures': 'Show departures',
@@ -1753,7 +1883,7 @@ const translations = {
     'stop-page.right-now.loaded': 'stop page loaded',
     'stop-page.title': 'Stop {name} - {code}',
     'stop-page.title-short': 'Stop',
-    'stop-virtual-monitor': 'Virtual monitor',
+    'stop-virtual-monitor': 'Stop display',
     stops: 'Stops',
     'stops-near-you.description': 'Stop timetables and vehicles near your',
     'stops-near-you.title': 'Near by stops timetables',
@@ -1763,7 +1893,11 @@ const translations = {
     'street-mode-bikeandvehicle-aria':
       'Show a combination of cycling and public transport. Duration {duration}, distance {length}',
     'street-mode-car': 'Car',
+    'street-mode-car-aria':
+      'Show driving route. Duration {duration}, distance {length}',
     'street-mode-car_park': 'Park & ride',
+    'street-mode-parkandride-aria':
+      'Show park and ride route. Duration {duration}, distance {length}',
     'street-mode-public_transport': 'Public transport',
     'street-mode-walk': 'Walking',
     'street-mode-walk-aria':
@@ -1777,7 +1911,9 @@ const translations = {
     'summary-page.description': '{from} - {to}',
     'summary-page.row-label': 'Itinerary suggestion {number}',
     'summary-page.title': 'Itinerary suggestions',
+    surveillance_cameras: 'Camera surveillance',
     'swap-order-button-label': 'Reverse origin and destination',
+    swedish: 'Swedish',
     'swipe-disruption-info': 'Disruption info  swipe result tabs',
     'swipe-disruption-info-header': 'Disruption info swipe result tabs.',
     'swipe-message-bar': 'Message swipe result tabs',
@@ -1803,6 +1939,8 @@ const translations = {
     'time-selector-minutes-label': 'Minute',
     timetable: 'Timetable',
     'to-frontpage': 'To the front page',
+    'to-rail': 'train',
+    'to-subway': 'subway',
     today: 'Today',
     tomorrow: 'Tomorrow',
     track: 'Track',
@@ -1840,6 +1978,7 @@ const translations = {
     'view-route': 'View Route',
     // eslint-disable-next-line sort-keys
     venue: 'Venue',
+    vr_ticket: 'VR ticket',
     wait: 'Wait',
     'wait-amount-of-time': 'Wait {duration}',
     walk: 'walking',
@@ -1849,7 +1988,10 @@ const translations = {
       'Your search returned only walking and cycling routes.',
     'on-demand-taxi-itinerary': 'Only routes involving on-demand taxis found.',
     'car-park-ride-itinerary': 'No route using public transport only found.',
+    'walk-bike-itinerary-4':
+      'Your search only returned routes requiring cycling or driving.',
     'walk-distance-duration': 'Walk {duration} ({distance})',
+    'walk-only': 'Walking only',
     walking: 'Amount of walking',
     'walking-speed': 'Walking speed',
     'warning-call-agency':
@@ -2050,7 +2192,7 @@ const translations = {
     'no-route-end-date-not-in-range':
       'Los horarios actuales no incluyen rutas saliendo más tarde.',
     'no-route-msg':
-      'Desafortunadamente no se encontraron rutas para su viaje. Por favor cambie el origen o el destino.',
+      'Desafortunadamente no se encontraron rutas para su viaje. Por favor cambie el origen o el destino',
     'no-route-msg-with-changes':
       'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
     'no-route-origin-near-destination':
@@ -2059,7 +2201,8 @@ const translations = {
       'Los horarios actuales no incluyen rutas saliendo antes.',
     'no-route-start-end': 'Por favor seleccione origen y destino.',
     'no-transfers-margin': '1 min',
-    'no-trips-found': 'No se han encontrado viajes para la fecha seleccionada.',
+    'no-trips-found':
+      'No se han encontrado viajes para la fecha seleccionada ({selectedDate}).',
     now: 'Ahora',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Sin paradas} one {1 parada} other {{number} paradas} }',
@@ -2099,6 +2242,7 @@ const translations = {
     'route-here': 'Ruta hacia aquí',
     'route-least-transfers': 'Evitar transbordos',
     'route-least-walking': 'Evitar andar',
+    'route-no-stop': 'No se detiene',
     'route-not-possible':
       'Desafortunadamente, su ruta no está disponible. Error: "{error}"',
     'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
@@ -2195,7 +2339,10 @@ const translations = {
   },
 
   fi: {
+    'about-service-feedback': 'Tietoja palvelusta ja palaute',
+    'about-these-pages': 'Tietoja sivustosta',
     'about-this-service': 'Tietoja palvelusta',
+    access_with: 'pääsy',
     accessibility: 'Esteettömyys',
     'accessibility-limited': 'Pyörätuoli',
     'accessibility-nolimit': 'Ei rajoitusta',
@@ -2214,10 +2361,13 @@ const translations = {
     'add-to-favourites': 'Lisää suosikiksi',
     'add-via-button-label': 'Lisää välipiste',
     'add-work': 'Lisää työ',
+    all: 'Kaikki',
     'aria-itinerary-summary':
       'Matkan kokonaiskesto {duration}. Lähtö {inFuture} kello {departureTime}. Perillä kello {arrivalTime}.',
     'aria-itinerary-summary-bike-distance':
       'pyöräilyä yhteensä {duration}, {distance} ',
+    'aria-itinerary-summary-car-distance':
+      'ajamista yhteensä {duration}, {distance} ',
     'aria-itinerary-summary-walk-distance':
       'kävelyä yhteensä {duration}, {distance} ',
     'arrive-leave': 'Saavu tai lähde valittuna aikana',
@@ -2271,13 +2421,21 @@ const translations = {
     'bicycle-distance-duration': 'Pyöräile {duration} ({distance})',
     'bicycle-walk-from-transit':
       'Ota pyörä {transportMode} ja taluta {distance} ({duration})',
+    'bicycle-walk-from-transit-no-duration': 'Taluta pyörä {transportMode}',
     'bicycle-walk-to-transit':
       'Taluta {distance} ({duration}) ja ota pyörä mukaan {transportMode}',
+    'bicycle-walk-to-transit-no-duration': 'Taluta pyörä {transportMode}',
+    bicycle_frame_lock: 'Runkolukitus',
     bicycle_walk: 'Polkupyörän talutus',
     'citybike-availability': 'Pyöriä asemalla juuri nyt',
     'bike-not-allowed-bus': 'Pyörää ei voi kuljettaa bussissa',
     'bike-not-allowed-tram': 'Pyörää ei voi kuljettaa raitiovaunussa',
+    'bike-only': 'Vain pyöräily',
     'bike-park': 'Liityntäpyöräparkki',
+    'bike-park-disclaimer':
+      'Voit yhdistää kätevästi joukkoliikenteen ja pyöräilyn, kun jätät pyöräsi liityntäpysäköintiin ja jatkat matkaasi junalla, bussilla, metrolla tai ratikalla. Pyörän pysäköinti on maksutonta eikä siinä ole aikarajaa.',
+    'bike-park-disclaimer-header': 'Jätä pyörä parkkiin',
+    'bike-park-disclaimer-link': 'Lue lisää liityntäpyöräpysäköinnistä',
     'bike-station-disabled': 'Pyöräasema ei ole käytössä.',
     'bikes-available': 'Pyöriä asemalla {amount}',
     'biketransport-citybike': 'Käytän kaupunkipyörää',
@@ -2285,6 +2443,8 @@ const translations = {
     'biking-amount': 'Pyöräilyn määrä',
     'biking-speed': 'Pyöräilynopeus',
     bus: 'Bussi',
+    'bus-express': 'Runkolinjabussi',
+    'bus-local': 'Lähibussi',
     'bus-with-route-number': 'Bussi {routeNumber} {headSign}',
     buy: 'Osta',
     'buy-ticket': 'Näin ostat lipun',
@@ -2297,16 +2457,19 @@ const translations = {
       'Piilota perutut reittiehdotukset ({itineraryAmount})',
     'canceled-legs': 'Reitillä peruttuja vuoroja',
     car: 'Auto',
-    'car-distance-duration': 'Aja {duration} ({distance})',
+    'car-distance-duration': 'Autoile {duration} ({distance})',
+    'car-park-disclaimer':
+      'Voit yhdistää kätevästi joukkoliikenteen ja autoilun, kun jätät autosi liityntäpysäköintiin ja jatkat matkaasi junalla, bussilla, metrolla tai ratikalla. Auton pysäköinti on useissa paikoissa maksutonta eikä siinä ole aikarajaa.',
+    'car-park-disclaimer-header': 'Jätä auto parkkiin',
+    'car-park-disclaimer-link': 'Lue lisää liityntäpysäköinnistä',
     car_park: 'Liityntäpysäköinti',
     cause: 'syy',
     'char-left': 'merkkiä',
+    'choose-freely': 'Vapaasti valittavat',
     'choose-stop': 'Valitse pysäkki',
     'choose-stop-or-vehicle': 'Valitse linja tai pysäkki',
     'choose-vehicle': 'Valitse linja',
     citybike: 'Kaupunkipyörä',
-    'citybike-buy-season':
-      'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi',
     'citybike-distance-duration': 'Pyöräile {duration} ({distance})',
     'citybike-duration-general-header':
       'Useampi reitin kaupunkipyöräosuuksista sisältää lisämaksuja.',
@@ -2333,7 +2496,11 @@ const translations = {
     'close-settings': 'Sulje ikkuna ja tallenna asetukset',
     'contact-information': '{contactName}:n yhteystiedot',
     continue: 'Jatka',
+    'copy-code': 'Kopioi koodi',
+    covered: 'Katettu',
     'create-account': 'Luo {contactName} tunnus',
+    'create-embedded-search': 'Luo reittihakuelementti',
+    'create-stop-monitor': 'Luo pysäkkinäyttö',
     'cycle-distance-duration': 'Pyöräile {duration} ({distance})',
     'cyclewalk-distance-duration': 'Taluta pyörää {duration} ({distance})',
     // eslint-disable-next-line sort-keys
@@ -2354,12 +2521,15 @@ const translations = {
     'departure-is-canceled-tram': 'Raitiolinjan {shortName}',
     'departure-list-update.sr-instructions':
       'Tulevien lähtöjen lista ja lähtöajat päivittyvät reaaliajassa.',
+    'departure-page-sr': 'Lähdön {shortName} {destination} {time} tiedot',
     'departure-time-in-minutes': '{minutes} min',
+    'departure-time-sr': '{when} kello {time}. {realTime}',
     departures: 'Lähdöt',
     'departures-by-hour': 'Lähdöt tunneittain',
     'departures-by-hour-minutes-route': '(minuutit/linja)',
     description: 'Löydä joukkoliikennetarjonta lähelle ja kauas.',
     destination: 'Määränpää',
+    'destination-defined': 'Määränpää määritetty',
     'destination-label-change': 'Vaihda määränpää',
     'destination-outside-service':
       'Reittiehdotuksia ei löytynyt, koska määränpää sijaitsee palvelualueen ulkopuolella.',
@@ -2385,6 +2555,12 @@ const translations = {
     'edit-favourites': 'Muokkaa paikkaa Suosikkisi-välilehdellä',
     'elevation-gained-total': 'Nousua yhteensä',
     'elevation-lost-total': 'Laskua yhteensä',
+    'embedded-search.choose-language': 'Näkymän kieli',
+    'embedded-search.choose-mode': 'Liikkumistapa',
+    'embedded-search.choose-width-component': 'Upotuksen leveys',
+    'embedded-search.form-heading': 'Upotusvalinnat',
+    engine_ignition_aid: 'Käynnistysapu',
+    english: 'Englanti',
     explanations: 'Selitykset',
     'extra-info': 'Lisätiedot',
     'favourite-failed-text': 'Yritä hetken päästä uudelleen.',
@@ -2392,6 +2568,8 @@ const translations = {
     ferry: 'Lautta',
     'ferry-with-route-number': 'Lautta {routeNumber} {headSign}',
     'fetch-new-route': 'Hae uusi reitti',
+    finnish: 'Suomi',
+    'free-of-charge': 'Maksuton',
     'from-ferry': 'lautasta',
     'from-rail': 'junasta',
     'from-station': 'asemalta',
@@ -2418,14 +2596,18 @@ const translations = {
     hour: 'Tunti',
     'hour-short': 'h',
     'how-to-rate-service': 'Kuinka arvioisit palvelua?',
+    hsl_mobile_ticket: 'HSL-mobiililipulla',
+    hsl_ticket: 'HSL-lipulla',
+    hsl_travel_card: 'HSL-kortilla',
     'in-addition': 'Lisäksi',
     'index.title': 'Reittiopas',
     inquiry: 'Mitä pidät uudesta Reittioppaasta? Kerro se meille! ',
     instructions: 'Ohjeet',
+    'is-open': 'Avoinna:',
     'itinerary-details.biking-leg':
-      '{time} pyöräile kohteesta {origin} {distance} kohteeseen {destination}. Matka-aika {duration}',
+      '{time} pyöräile kohteesta {origin} {distance} {to} {destination}. Matka-aika {duration}',
     'itinerary-details.car-leg':
-      '{time} aja {distance} kohteesta {origin} kohteeseen {destination}. Matka-aika {duration}',
+      '{time} aja {distance} kohteesta {origin} {to} {destination}. Matka-aika {duration}',
     'itinerary-details.end-leg': '{time} saavu kohteeseen {destination}.',
     'itinerary-details.route-has-info-alert': 'Reitillä on tiedotteita.',
     'itinerary-details.route-has-severe-alert': 'Reitillä on poikkeuksia.',
@@ -2435,16 +2617,22 @@ const translations = {
       '{time} potkulautaile {distance} kohteesta {origin} kohteeseen {destination}. Matka-aika {duration}',
     'itinerary-details.transit-leg-part-1': '{time} ota',
     'itinerary-details.transit-leg-part-2':
-      'pysäkiltä {startStop} {startZoneInfo} {trackInfo} Pysäkille {endStop} {endZoneInfo}. Arvioitu matka-aika {duration}',
+      'pysäkiltä {startStop} {startZoneInfo} {trackInfo} pysäkille {endStop} {endZoneInfo}. Arvioitu matka-aika {duration}',
+    'itinerary-details.via-leg':
+      '{arrivalTime} saavu välipisteeseen {viaPoint}. {leaveAction}',
     'itinerary-details.walk-leg':
-      '{time} kävele {distance} kohteesta {origin} kohteeseen {destination}. Matka-aika {duration}',
+      '{time} kävele kohteesta {origin} {to} {destination}. Matka-aika {duration}',
     'itinerary-feedback-button': 'Lähetä palautetta',
     'itinerary-feedback-message': 'Etkö löytänyt mitä etsit?',
     'itinerary-feedback-placeholder': 'Kuvaus (valinnainen)',
     'itinerary-hide-stops': 'Piilota pysäkit',
+    'itinerary-in-the-past': 'Reittihaun ajankohta on menneisyydessä.',
+    'itinerary-in-the-past-link': 'Muuta lähtöajaksi nyt ›',
+    'itinerary-in-the-past-title': 'Reittivaihtoehtoja ei voida näyttää',
     'itinerary-page.description': 'Reittiohje',
     'itinerary-page.hide-details': 'Piilota reittiohje',
     'itinerary-page.itineraries-loaded': 'Lisää hakutuloksia ladattu',
+    'itinerary-page.itineraries-updated': 'Hakutulokset päivitetty',
     'itinerary-page.loading-itineraries': 'Ladataan lisää hakutuloksia',
     'itinerary-page.show-details': 'Näytä reittiohje',
     'itinerary-page.show-details-label': 'Näytä reittiohje {number}',
@@ -2478,15 +2666,20 @@ const translations = {
     'itinerary-summary.bikePark-title': 'Jätä pyöräsi liityntäpysäköintiin',
     'itinerary-summary.interline-wait':
       'Linjatunnus ({shortName}) ja määränpää ({destination}) vaihtuvat pysäkillä {stop}. Matka jatkuu {time} odotuksen jälkeen. Odota kulkuneuvossa.',
+    'itinerary-summary.interline-wait-multiple-legs':
+      'Linjatunnus ({shortName}) ja määränpää vaihtuvat useita kertoja matkan aikana. Odotusta yhteensä {time}. Odota ajoneuvossa.',
     'itinerary-summary.show-on-map': 'Näytä kartalla {target}',
-    'itinerary-ticket.title': 'Tarvittava lippu',
-    'itinerary-tickets.title': 'Tarvittavat liput',
+    'itinerary-ticket.title': 'Reitillä tarvittava lippu',
+    'itinerary-tickets.title': 'Reitillä tarvittavat liput',
     'itinerary-time.title': 'Matka-aika',
     'itinerary-walk.title': 'Kävelyä',
     'journeyplanner.title': 'HSL Reittiopas',
+    'language-selection': 'Kieli: {language}',
     later: 'Myöhempiä lähtöjä',
+    'leave-your-car-park-and-ride': 'Jätä autosi liityntäpysäköintiin',
     leaves: 'Lähtee',
     'leaving-at': 'Lähtöaika',
+    lighting: 'Valaistus',
     'likely-to-recommend':
       'Kuinka todennäköistä on, että suosittelisit palveluamme ystävälle tai kollegallesi?',
     'likely-to-use':
@@ -2529,6 +2722,15 @@ const translations = {
     'minute-short': 'min',
     minutes: 'min',
     'minutes-or-route': 'Min / Linja',
+    'modes.to-bike': 'kaupunkipyöräasemalle',
+    'modes.to-bike-park': 'liityntäpyöräparkkiin',
+    'modes.to-bus': 'bussipysäkille',
+    'modes.to-car-park': 'liityntäpysäköintiin',
+    'modes.to-place': 'kohteeseen',
+    'modes.to-rail': 'juna-asemalle',
+    'modes.to-stop': 'pysäkille',
+    'modes.to-subway': 'metroasemalle',
+    'modes.to-tram': 'raitiovaunupysäkille',
     'more-departures': 'Lisää lähtöjä',
     'more-settings': 'Lisäasetukset',
     'move-on-map': 'Siirry kartalla',
@@ -2568,7 +2770,9 @@ const translations = {
     'no-route-end': 'Syötä vielä määränpää',
     'no-route-end-date-not-in-range':
       'Aikataulu ei sisällä myöhäisempiä reittejä.',
-    'no-route-msg': 'Reittiehdotuksia ei valitettavasti löytynyt.',
+    'no-route-found':
+      'Linjaa {shortName} ({longName}) ei valitettavasti löytynyt.',
+    'no-route-msg': 'Reittiehdotuksia ei valitettavasti löytynyt',
     'no-route-msg-with-changes':
       'Reittiehdotuksia ei valitettavasti löytynyt. Ole hyvä ja tarkasta asettamasi hakuasetukset tai yritä muuttaa lähtöpaikkaa tai määränpäätä.',
     'no-route-origin-near-destination':
@@ -2581,12 +2785,15 @@ const translations = {
     'no-route-start-date-too-early': 'Aikataulu ei sisällä aiempia reittejä.',
     'no-route-start-end': 'Syötä lähtöpaikka ja määränpää',
     'no-transfers-margin': '1 min',
-    'no-trips-found': 'Valitulle päivälle ei löydy matkoja.',
+    'no-trips-found': 'Valitulle päivälle ({selectedDate}) ei löydy matkoja.',
+    'notification-minimize': 'Sulje ilmoitus',
+    'notification-open': 'Avaa ilmoitus',
     now: 'Nyt',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other {{number} pysäkkiä} }',
     'number-of-minutes':
       '{number, plural, =0 {0 minuuttia} one {1 minuutti} other {{number} minuuttia}}',
+    'number-of-spaces': 'Paikkojen määrä:',
     'off-canvas-info':
       'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
     'option-default': 'Keskimääräinen',
@@ -2596,6 +2803,8 @@ const translations = {
     'option-most': 'Nopea',
     or: 'tai',
     origin: 'Lähtöpaikka',
+    'origin-and-destination': 'Lähtöpaikka ja määränpää',
+    'origin-defined': 'Lähtöpaikka määritetty',
     'origin-label-change': 'Vaihda lähtöpaikka',
     'origin-outside-service':
       'Reittiehdotuksia ei löytynyt, koska lähtöpaikka sijaitsee palvelualueen ulkopuolella.',
@@ -2603,9 +2812,11 @@ const translations = {
     'other-dates': 'Muut ajankohdat',
     'own-position': 'Nykyinen sijaintisi',
     'page-not-found': 'Etsimääsi sivua ei löytynyt.',
+    paid: 'Maksullinen',
     'park-and-ride': 'Liityntäpysäköinti',
-    'park-and-ride-availability': 'Pysäköintipaikkoja vapaana',
+    'park-and-ride-availability': 'Paikkoja vapaana:',
     'pay-attention': 'Huom!',
+    payment_at_gate: 'Maksu portilla',
     'pick-icon': 'Valitse kuvake',
     'pick-mode': 'Liikennevälineet',
     'pick-mode-airplane-disabled': 'Lentokone ei valittu',
@@ -2631,9 +2842,11 @@ const translations = {
     'platform-short-no-num': 'Lait.',
     position: 'Sijainti',
     'prefer-walking': 'Suosi kävelyä',
+    preview: 'Esikatselu',
     previous: 'Edelliset',
     print: 'Tulosta',
     'print-timetable': 'Viikkoaikataulu',
+    'privacy-statement': 'Tietosuojaseloste',
     'public-transport': 'Joukkoliikenne',
     rail: 'Lähijuna',
     'rail-with-route-number': 'Juna {routeNumber} {headSign}',
@@ -2662,11 +2875,13 @@ const translations = {
     'route-least-elevation-changes': 'Vältä korkeuseroja',
     'route-least-transfers': 'Vältä vaihtoja',
     'route-least-walking': 'Vältä kävelyä',
+    'route-no-stop': 'Ei pysähdystä',
     'route-not-possible':
       'Valitettavasti reittisi ei ole mahdollinen. Tekninen virhe: "{error}"',
     'route-page-vehicle-position': '{mode} {shortName} on pysäkillä {stopName}',
     'route-page-vehicle-position-between':
       '{mode} {shortName} on pysäkin {stopName} ja pysäkin {nextStopName} välissä.',
+    'route-page-vehicle-selected': 'Tämänhetkinen valinta.',
     'route-page.description': 'Linja {shortName}, {longName}',
     'route-page.future-routes': 'Tulevat reitit',
     'route-page.pattern-chosen': 'Valittu',
@@ -2675,7 +2890,39 @@ const translations = {
     'route-page.special-routes': 'Muut reitit',
     'route-page.title': 'Linja {shortName}',
     'route-page.title-short': 'Linja',
+    'route-to-ferry': 'Reitti laiturille',
+    'route-to-park': 'Reitti parkille',
+    'route-to-station': 'Reitti asemalle',
     'route-to-stop': 'Reitti pysäkille',
+    'router-change-departure-time': 'Muuta lähtöaikaa ›',
+    'router-location-not-found':
+      'Ole hyvä ja valitse paikka tieverkolta tai pysäkiltä.',
+    'router-location-not-found-title-1':
+      'Määränpäähän ei ole määritelty kulkuyhteyttä',
+    'router-location-not-found-title-2':
+      'Lähtöpaikkaan ei ole määritelty kulkuyhteyttä',
+    'router-location-not-found-title-3':
+      'Lähtöpaikkaan eikä määränpäähän ole määritelty kulkuyhteyttä',
+    'router-only-walk':
+      'Haetulle reitille ei löydy kävelyä nopeampaa vaihtoehtoa.',
+    'router-only-walk-title': 'Kulje reitti kävellen',
+    'router-outside-bounds-3':
+      'Reittiehdotuksia ei löytynyt, koska lähtöpaikka ja määränpää sijaistevat palvelun ulkopuolella.',
+    'router-outside-service-period':
+      'Valitsemaasi ajankohtaan ei ole saatavilla aikatalutietoja.',
+    'router-stops-in-range-1':
+      'Joukkoliikennepysäkkejä ei ole riittävän lähellä valittua määränpäätä.',
+    'router-stops-in-range-2':
+      'Joukkoliikennepysäkkejä ei ole riittävän lähellä valittua lähtöpaikkaa.',
+    'router-stops-in-range-3':
+      'Joukkoliikennepysäkkejä ei ole riittävän lähellä valittua lähtöpaikkaa eikä määränpäätä.',
+    'router-system-error':
+      'Järjestelmässä tapahtui virhe. Yritä myöhemmin uudelleen.',
+    'router-transit-connection':
+      'Ole hyvä ja yritä muuttaa lähtöpaikkaa tai määränpäätä.',
+    'router-transit-connection-in-search-window':
+      'Valittuna ajankohtana ei ole liikennöintiä.',
+    'router-unable': 'Reittivaihtoehtoja ei voida näyttää',
     routes: 'Linjat',
     'routes-platforms': 'Linjat ja laiturit',
     'routes-tracks': 'Linjat ja raiteet',
@@ -2715,9 +2962,14 @@ const translations = {
     'set-specific-settings': 'Aseta tarkemmat asetukset',
     'set-stop-as-routes': 'Aseta pysäkki reitin',
     settings: 'Asetukset',
+    'settings-alternative-name-rail': 'Juna',
+    'settings-change-itinerary-settings': 'Muuta asetuksia',
     'settings-dropdown-close-label': 'Sulje vaihtoehdot',
     'settings-dropdown-open-label': 'Avaa vaihtoehdot',
     'settings-label-change': 'Muuta reittihaun asetuksia',
+    'settings-missing-itineraries-body':
+      'Asetuksissa on päällä valintoja, jotka rajaavat pois joitain reittivaihtoehtoja.',
+    'settings-missing-itineraries-header': 'Puuttuuko reittivaihtoehtoja?',
     share: 'Jaa ohje',
     show: 'Näytä',
     'show-departures': 'Näytä lähdöt',
@@ -2753,7 +3005,7 @@ const translations = {
     'stop-page.right-now.loaded': 'pysäkkisivu ladattu',
     'stop-page.title': 'Pysäkki - {name} {code}',
     'stop-page.title-short': 'Pysäkki',
-    'stop-virtual-monitor': 'Virtuaalimonitori',
+    'stop-virtual-monitor': 'Pysäkkinäyttö',
     stops: 'Pysäkit',
     'stops-near-you.description':
       'Lähialueesi pysäkkiaikataulut ja ajoneuvot kartalla.',
@@ -2764,7 +3016,11 @@ const translations = {
     'street-mode-bikeandvehicle-aria':
       'Näytä pyöräilyn ja julkisen liikenteen yhdistelmä. Kesto {duration}, pyöräilyn pituus {length}',
     'street-mode-car': 'Auto',
+    'street-mode-car-aria':
+      'Näytä ajoreitti. Kesto {duration}, pituus {length}',
     'street-mode-car_park': 'Liityntä\u00ADpysäköinti',
+    'street-mode-parkandride-aria':
+      'Näytä liityntäpysäköintireitti. Kesto {duration}, pituus {length}',
     'street-mode-public_transport': 'Julkinen liikenne',
     'street-mode-walk': 'Kävely',
     'street-mode-walk-aria':
@@ -2776,7 +3032,9 @@ const translations = {
     'summary-page.description': '{from} - {to}',
     'summary-page.row-label': 'Reittiehdotus {number}',
     'summary-page.title': 'Reittiehdotukset',
+    surveillance_cameras: 'Kameravalvonta',
     'swap-order-button-label': 'Käännä reitin suunta vastakkaiseksi',
+    swedish: 'Ruotsi',
     'swipe-disruption-info': 'Poikkeustietovälilehtien',
     'swipe-disruption-info-header': 'Poikkeustietovälilehdet.',
     'swipe-message-bar': 'Viestivälilehtien',
@@ -2804,6 +3062,8 @@ const translations = {
     'time-selector-minutes-label': 'Minuutti',
     timetable: 'Aikataulu',
     'to-frontpage': 'Etusivulle',
+    'to-rail': 'junaan',
+    'to-subway': 'metroon',
     today: 'Tänään',
     tomorrow: 'Huomenna',
     track: 'Raide',
@@ -2840,6 +3100,7 @@ const translations = {
     'view-route': 'Linjan tiedot',
     // eslint-disable-next-line sort-keys
     venue: 'Paikka',
+    vr_ticket: 'VR-lipulla',
     wait: 'Odota',
     'wait-amount-of-time': 'Odota {duration}',
     walk: 'kävelyn',
@@ -2849,7 +3110,10 @@ const translations = {
       'Löysimme valitsemallesi reitille vain pyöräilyyn liittyviä reittiehdotuksia.',
     'walk-bike-itinerary-3':
       'Löysimme valitsemallesi reitille vain kävelyyn ja pyöräilyyn liittyviä reittiehdotuksia.',
+    'walk-bike-itinerary-4':
+      'Löysimme valitsemallesi reitille vain omiin kulkuneuvoihin liittyviä reittiehdotuksia.',
     'walk-distance-duration': 'Kävele {duration} ({distance})',
+    'walk-only': 'Vain kävely',
     walking: 'Kävelyn määrä',
     'walking-speed': 'Kävelynopeus',
     'warning-call-agency': `Liikennöidään kutsujoukkoliikenteenä: {routeName},
@@ -3064,7 +3328,7 @@ const translations = {
     'no-route-end-date-not-in-range':
       'Current timetable does not include routes departing later.',
     'no-route-msg':
-      "Impossible de trouver un itinéraire dans cette zone. Changer le point de départ ou d'arrivée.",
+      "Impossible de trouver un itinéraire dans cette zone. Changer le point de départ ou d'arrivée",
     'no-route-msg-with-changes':
       'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
     'no-route-origin-near-destination':
@@ -3073,7 +3337,8 @@ const translations = {
       'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Choisir un point de départ et une destination',
     'no-transfers-margin': 'Aucune',
-    'no-trips-found': "Il n'y a pas de trajet possible au jour choisi.",
+    'no-trips-found':
+      "Il n'y a pas de trajet possible au jour choisi ({selectedDate}).",
     now: 'Maintenant',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Sans arrêt} =1 {{number} arrêt} other {{number} arrêts} }',
@@ -3126,6 +3391,7 @@ const translations = {
     'route-here': 'Arriver ici',
     'route-least-transfers': 'Éviter les correspondances',
     'route-least-walking': 'Éviter la marche',
+    'route-no-stop': "Pas d'arrêt",
     'route-not-possible':
       'Impossible de calculer un itinéraire. Information technique : "{error}"',
     'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
@@ -3368,7 +3634,8 @@ const translations = {
       'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Vennligst velg avgangssted og destinasjon.',
     'no-transfers-margin': 'Ingen',
-    'no-trips-found': 'Ingen reiser tilgjenelig for denne dagen.',
+    'no-trips-found':
+      'Ingen reiser tilgjenelig for denne dagen ({selectedDate}).',
     now: 'Nå',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ingen stopp} other {{number} stopp} }',
@@ -3403,6 +3670,7 @@ const translations = {
     'route-destination-arrives': 'Destinasjon / Siste holdeplass',
     'route-from-here': 'Finn rute herfra',
     'route-here': 'Finn rute hit',
+    'route-no-stop': 'Ingen stopp',
     'route-not-possible':
       'Dessverre kan vi ikke finne et reiseforslag til deg. Teknisk feil: "{error}"',
     'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
@@ -3756,7 +4024,7 @@ const translations = {
     'no-route-already-at-destination': 'Sunteți deja la destinație.',
     'no-route-end-date-not-in-range': 'Nu am găsit rute mai târziu în orar.',
     'no-route-msg':
-      'Nu s-a găsit nicio rută conform selecției. Schimbați punctul de plecare sau destinație.',
+      'Nu s-a găsit nicio rută conform selecției. Schimbați punctul de plecare sau destinație',
     'no-route-msg-with-changes':
       'Nu s-a găsit nicio rută conform selecției. Schimbați plecarea, destinația sau parametrii introduși ca preferințe.',
     'no-route-origin-near-destination':
@@ -3764,7 +4032,8 @@ const translations = {
     'no-route-start-date-too-early': 'Nu am găsit curse mai devreme în orar.',
     'no-route-start-end': 'Selectați punctele de plecare și destinație.',
     'no-transfers-margin': '1 min',
-    'no-trips-found': 'Nicio călătorie găsită pentru data respectivă.',
+    'no-trips-found':
+      'Nicio călătorie găsită pentru data respectivă ({selectedDate}).',
     now: 'Now',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Nicio stație intermediară} O {1 stație} altă {{number} opriri} }',
@@ -3838,6 +4107,7 @@ const translations = {
     'route-least-elevation-changes': 'Evitați variația de altitudine',
     'route-least-transfers': 'Evitați schimbările de vehicul',
     'route-least-walking': 'Evitați mersul pe jos',
+    'route-no-stop': 'Fara oprire',
     'route-not-possible': 'Rută indisponibiă. Cod eroare: "{error}"',
     'route-page-vehicle-position': '{mode} {shortName} is at {stopName}',
     'route-page-vehicle-position-between':
@@ -3981,7 +4251,10 @@ const translations = {
   },
 
   sv: {
+    'about-service-feedback': 'Om tjänsten och respons',
+    'about-these-pages': 'Om webbplatsen',
     'about-this-service': 'Om tjänsten',
+    access_with: 'åtgång med',
     accessibility: 'Tillgänglighet',
     'accessibility-limited': 'Med rullstolen',
     'accessibility-nolimit': 'Ingen begränsning',
@@ -4005,10 +4278,13 @@ const translations = {
     'add-via-duration-button-label-open':
       'Öppna väljaren för varaktighet vid via-punkten',
     'add-work': 'Lägg till arbete',
+    all: 'Allt',
     'aria-itinerary-summary':
       'Den totala restiden {duration}. Avgång {inFuture} klockan {departureTime}. Framme klockan {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
       'cykling sammanlagt {duration}, {distance}',
+    'aria-itinerary-summary-car-distance':
+      'körning sammanlagt {duration}, {distance} ',
     'aria-itinerary-summary-walk-distance':
       'promenad sammanlagt {duration}, {distance}',
     'arrive-leave': 'Anländer eller lämnar vid vald tid',
@@ -4050,13 +4326,21 @@ const translations = {
     'bicycle-distance-duration': 'Cykla {duration} ({distance})',
     'bicycle-walk-from-transit':
       'Ta cykeln från {transportMode} och led cykeln {distance} ({duration})',
+    'bicycle-walk-from-transit-no-duration': 'Led cykeln från {transportMode}',
     'bicycle-walk-to-transit':
       'Led cykeln {distance} ({duration}) och ta cykeln med på {transportMode}',
+    'bicycle-walk-to-transit-no-duration': 'Led cykeln på {transportMode}',
+    bicycle_frame_lock: 'Ramlås',
     bicycle_walk: 'Leder en cykel',
     'citybike-availability': 'Antal cyklar just nu',
     'bike-not-allowed-bus': 'Cyklar är inte tillåtna på bussen',
     'bike-not-allowed-tram': 'Cyklar är inte tillåtna på spårvagnen',
+    'bike-only': 'Endast cykling',
     'bike-park': 'Anslutningsparkering för cyklar',
+    'bike-park-disclaimer':
+      'Du kan enkelt kombinera kollektivtrafiken med cykling, när du lämnar din cykel i anslutningsparkering och fortsätter din resa med tåg, buss, metro eller spårvagn. Cykelparkeringen är gratis och den har inte en begränsad parkeringstid.',
+    'bike-park-disclaimer-header': 'Lämna din cykel i parkeringen',
+    'bike-park-disclaimer-link': 'Läs mer om anslutningsparkeringen för cyklar',
     'bike-station-disabled': 'Stadscykelstationen är ur bruk.',
     'bikes-available': '{amount} cyklar vid stationen',
     'biketransport-citybike': 'Jag använder en stadscykel',
@@ -4064,6 +4348,8 @@ const translations = {
     'biking-amount': 'Antal cyklar',
     'biking-speed': 'Cykling hastighet',
     bus: 'Buss',
+    'bus-express': 'Stombuss',
+    'bus-local': 'närbuss',
     'bus-with-route-number': 'Buss {routeNumber} {headSign}',
     buy: 'Köp',
     'buy-ticket': 'Så här köper du biljetten',
@@ -4077,15 +4363,18 @@ const translations = {
     'canceled-legs': 'Inställda avgångar på linjen',
     car: 'Bil',
     'car-distance-duration': 'Kör {duration} ({distance})',
-    car_park: 'infartsparkering',
+    'car-park-disclaimer':
+      'Du kan enkelt kombinera kollektivtrafiken med bilkörning, när du lämnar din bil i anslutningsparkering och fortsätter din resa med tåg, buss, metro eller spårvagn. Parkeringen är gratis och den har inte en begränsad parkeringstid.',
+    'car-park-disclaimer-header': 'Lämna din bil i parkeringen',
+    'car-park-disclaimer-link': 'Läs mer om anslutningsparkeringen',
+    car_park: 'Infartsparkering',
     cause: 'Orsak',
     'char-left': 'tecken',
+    'choose-freely': 'Valfria',
     'choose-stop': 'Välj hållplats',
     'choose-stop-or-vehicle': 'Select vehicle or stop',
     'choose-vehicle': 'Select vehicle',
     citybike: 'Stadscykel',
-    'citybike-buy-season':
-      'Köp ett abonnemang för en dag, en vecka eller för en hel säsong',
     'citybike-distance-duration': 'Cykla {duration} ({distance})',
     'citybike-duration-general-header':
       'Rutten har flera sträckor med stadscykel som inkluderar tilläggsavgifter.',
@@ -4112,7 +4401,11 @@ const translations = {
     'close-settings': 'Stäng fönstret och spara inställningar',
     'contact-information': '{contactName} Kontaktuppgifter',
     continue: 'Fortsätt',
+    'copy-code': 'Kopiera koden',
+    covered: 'Tak',
     'create-account': 'Skapa {contactName} konto',
+    'create-embedded-search': 'Skapa ett ruttsökningselement',
+    'create-stop-monitor': 'Skapa hållplatsskärm',
     'cycle-distance-duration': 'Cykla {duration} ({distance})',
     'cyclewalk-distance-duration': 'Led cykeln {duration} ({distance})',
     // eslint-disable-next-line sort-keys
@@ -4133,15 +4426,18 @@ const translations = {
     'departure-is-canceled-tram': 'spårvagnslinje {shortName}',
     'departure-list-update.sr-instructions':
       'Listan på avgångar och avgångstider uppdateras i realtid.',
+    'departure-page-sr': 'Visa avgång {shortName} {destination} {time}',
     'departure-time-in-minutes': '{minutes} min',
+    'departure-time-sr': '{when} klockan {time}. {realTime}',
     departures: 'Avgångar',
     'departures-by-hour': 'Avgångar per timme',
     'departures-by-hour-minutes-route': '(minuter/rad)',
     description: 'Res kollektivt när och fjärran.',
     destination: 'Destination',
+    'destination-defined': 'Destination definierat',
     'destination-label-change': 'Byt destination',
     'destination-outside-service':
-      'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra destination, som ligger utanför serviceområde.',
+      'Kunde inte hitta ruttförslag eftersom destinationen ligger utanför serviceområdet.',
     'destination-placeholder': 'Destination, linje eller hållplats',
     'dialog-return-to-map': 'Tillbaka till kartan',
     'digitransit-platform': 'Digitransit-serviceplattformen',
@@ -4163,6 +4459,12 @@ const translations = {
     'edit-favourites': 'Redigera favoritdestination',
     'elevation-gained-total': 'Uppförsbacke totalt',
     'elevation-lost-total': 'Nedförsbacke totalt',
+    'embedded-search.choose-language': 'Språk',
+    'embedded-search.choose-mode': 'Färdsätt',
+    'embedded-search.choose-width-component': 'Inbäddningens bredd',
+    'embedded-search.form-heading': 'Inbäddningsverktyg',
+    engine_ignition_aid: 'Starthjälp',
+    english: 'Engelsk',
     explanations: 'Förklaringar',
     'extra-info': 'Mer info',
     'favourite-failed-text': 'Försök på nytt senare.',
@@ -4170,11 +4472,13 @@ const translations = {
     ferry: 'Färja',
     'ferry-with-route-number': 'Färja {routeNumber} {headSign}',
     'fetch-new-route': 'Sök en ny rutt',
-    'from-ferry': 'lautasta',
-    'from-rail': 'junasta',
+    finnish: 'Finska',
+    'free-of-charge': 'Kostnadsfri',
+    'from-ferry': 'färjan',
+    'from-rail': 'tåget',
     'from-station': 'från stationen',
     'from-stop': 'från hållplats',
-    'from-subway': 'metrosta',
+    'from-subway': 'metron',
     frontpage: 'Framsidan',
     'generic-cancelation': '{mode} {route} {headsign} kl. {time} ställs in.',
     'generic-error': 'Det hände ett fel',
@@ -4197,14 +4501,18 @@ const translations = {
     hour: 'Timme',
     'hour-short': 'h',
     'how-to-rate-service': 'Hur skulle du utvärdera tjänsten?',
+    hsl_mobile_ticket: 'HRT-mobilbiljetten',
+    hsl_ticket: 'HRT-biljetten',
+    hsl_travel_card: 'HRT-kortet',
     'in-addition': 'Även',
     'index.title': 'Reseplaneraren',
     inquiry: 'Vad tycker du om den nya Reseplaneraren. Berätta för oss!',
     instructions: 'Anvisningar',
+    'is-open': 'Öppet:',
     'itinerary-details.biking-leg':
-      '{time} cykla {distance} från {origin} till destinationen {destination}. Restid {duration}',
+      '{time} cykla {distance} från {origin} till {to} {destination}. Restid {duration}',
     'itinerary-details.car-leg':
-      '{time} kör {distance} från {origin} till destinationen {destination}. Restid {duration}',
+      '{time} kör {distance} från {origin} till {to} {destination}. Restid {duration}',
     'itinerary-details.end-leg':
       '{time} du anländer till destinationen {destination}',
     'itinerary-details.route-has-info-alert':
@@ -4217,15 +4525,21 @@ const translations = {
     'itinerary-details.transit-leg-part-1': '{time} ta',
     'itinerary-details.transit-leg-part-2':
       'från hållplats {startStop} {startZoneInfo} {trackInfo} till hållplats {endStop} {endZoneInfo}. Beräknad restid {duration}',
+    'itinerary-details.via-leg':
+      '{arrivalTime} du anländer till mellanstopp {viaPoint}. {leaveAction}',
     'itinerary-details.walk-leg':
-      '{time} promenera {distance} från {origin} till destinationen {destination}. Restid {duration}',
+      '{time} promenera {distance} från {origin} till {to} {destination}. Restid {duration}',
     'itinerary-feedback-button': 'Skicka respons',
     'itinerary-feedback-message': 'Hittade du inte vad du sökte?',
     'itinerary-feedback-placeholder': 'Beskrivning (valfri)',
     'itinerary-hide-stops': 'Dölj hållplatserna',
+    'itinerary-in-the-past': 'Datumet kan inte vara i det förflutna.',
+    'itinerary-in-the-past-link': 'Jag vill åka nu ›',
+    'itinerary-in-the-past-title': 'Ruttalternativen kan inte visas',
     'itinerary-page.description': 'Ruttinformation',
     'itinerary-page.hide-details': 'Göm ruttbeskrivningen',
     'itinerary-page.itineraries-loaded': 'Flera ruttbeskrivningen laddade',
+    'itinerary-page.itineraries-updated': 'ruttbeskrivningen uppdaterade',
     'itinerary-page.loading-itineraries': 'Laddar fler ruttbeskrivningar',
     'itinerary-page.show-details': 'Visa ruttbeskrivningen',
     'itinerary-page.show-details-label': 'Visa ruttbeskrivningen {number}',
@@ -4261,15 +4575,20 @@ const translations = {
       'Lämna din cykel till anslutningsparkeringen',
     'itinerary-summary.interline-wait':
       'Linjenumret ({shortName}) och destinationen ({destination}) ändras vid hållplats {stop}. Resan fortsätter om {time}. Vänta ombord på bussen.',
+    'itinerary-summary.interline-wait-multiple-legs':
+      'Linjenumret ({shortName}) och destinationen ändras många gånger under resan. Väntetiden är sammanlagt {time}. Vänta på fordon.',
     'itinerary-summary.show-on-map': 'Visa på kartan {target}',
     'itinerary-ticket.title': 'Biljett som behövs',
     'itinerary-tickets.title': 'Biljetter som behövs',
     'itinerary-time.title': 'Restid',
     'itinerary-walk.title': 'Gång totalt',
     'journeyplanner.title': 'HRT Reseplaneraren',
+    'language-selection': 'Språk: {language}',
     later: 'Senare avgångar',
+    'leave-your-car-park-and-ride': 'Lämna din bil på anslutningsparkering',
     leaves: 'Avgår',
     'leaving-at': 'Avgångstid',
+    lighting: 'Belysning',
     'likely-to-recommend':
       'Hur sannolikt är det att du skulle rekommendera den här tjänsten åt en vän eller kollega?',
     'likely-to-use':
@@ -4312,6 +4631,15 @@ const translations = {
     'minute-short': 'min',
     minutes: 'min',
     'minutes-or-route': 'Min / Linje',
+    'modes.to-bike': 'stadscykelstation',
+    'modes.to-bike-park': 'anslutningsparkering för cyklar',
+    'modes.to-bus': 'busshållplats',
+    'modes.to-car-park': 'infartsparkering',
+    'modes.to-place': 'destination',
+    'modes.to-rail': 'tågstation',
+    'modes.to-stop': 'hållplats',
+    'modes.to-subway': 'metrostation',
+    'modes.to-tram': 'spårvagnshållplats',
     'more-departures': 'Fler avgångar',
     'more-settings': 'Fler inställningar',
     'move-on-map': 'Flytta på kartan',
@@ -4351,7 +4679,8 @@ const translations = {
     'no-route-end': 'Välj destination',
     'no-route-end-date-not-in-range':
       'Tidtabellen har inga resor som avgår senare.',
-    'no-route-msg': 'Kunde tyvärr inte hitta ruttförslag',
+    'no-route-found': 'Kunde tyvärr inte hitta linje {shortName} ({longName})',
+    'no-route-msg': 'Kunde tyvärr inte hitta ruttalternativ',
     'no-route-msg-with-changes':
       'Kunde tyvärr inte hitta ruttförslag Var god och kontrollera dina val eller försök ändra avgångsplats eller destination.',
     'no-route-origin-near-destination':
@@ -4365,12 +4694,15 @@ const translations = {
       'I tidtabellen ingår inte tidigare rutter.',
     'no-route-start-end': 'Välj avfärdsplats och destination',
     'no-transfers-margin': '1 min',
-    'no-trips-found': 'Inga resor på den valda dagen.',
+    'no-trips-found': 'Inga resor på den valda dagen ({selectedDate}).',
+    'notification-minimize': 'Stäng meddelande',
+    'notification-open': 'Öppna meddelande',
     now: 'Nu',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Inga hållplatser} one {1 hållplats} other {{number} hållplatser} }',
     'number-of-minutes':
       '{number, plural, =0 {0 minuter} one {1 minut} other {{number} minuter}}',
+    'number-of-spaces': 'Antalet platser:',
     'off-canvas-info':
       'Genom att logga in kan du spara dina favoriter och använda dem med dina andra enheter.',
     'option-default': 'Standard',
@@ -4380,16 +4712,20 @@ const translations = {
     'option-most': 'Mest',
     or: 'eller',
     origin: 'Avfärdsplats',
+    'origin-and-destination': 'Avfärdsplats och destination',
+    'origin-defined': 'Avfärdsplats definierat',
     'origin-label-change': 'Byt avfärdsplats',
     'origin-outside-service':
-      'Kunde inte hitta ruttförslag eftersom avgångsplatsen ligger utanför vårt serviceområde.',
+      'Kunde inte hitta ruttförslag eftersom avgångsplatsen ligger utanför serviceområdet',
     'origin-placeholder': 'Från - adress eller hållplats',
     'other-dates': 'Andra datum',
     'own-position': 'Min position',
     'page-not-found': 'Sidan kunde inte hittas.',
+    paid: 'Avgiftsbelagd',
     'park-and-ride': 'Infartsparkering',
-    'park-and-ride-availability': 'Lediga parkeringsplatser',
+    'park-and-ride-availability': 'Lediga platser:',
     'pay-attention': 'Obs!',
+    payment_at_gate: 'Betalning vid porten',
     'pick-icon': 'Välj en ikon',
     'pick-mode': 'Trafikslag',
     'pick-mode-airplane-disabled': 'Flyg inte vald',
@@ -4415,9 +4751,11 @@ const translations = {
     'platform-short-no-num': 'Plattf.',
     position: 'Position',
     'prefer-walking': 'Främja gång',
+    preview: 'Förhandsgranskning',
     previous: 'Senaste',
     print: 'Skriv ut',
     'print-timetable': 'Veckans tidtabell',
+    'privacy-statement': 'Dataskyddsbeskrivning',
     'public-transport': 'Kollektivtrafik',
     rail: 'Närtåg',
     'rail-with-route-number': 'Tåg {routeNumber} {headSign}',
@@ -4446,12 +4784,14 @@ const translations = {
     'route-least-elevation-changes': 'Undvik höjdskillnader',
     'route-least-transfers': 'Minsta överföringar',
     'route-least-walking': 'Minsta gången',
+    'route-no-stop': 'Inget stopp',
     'route-not-possible':
       'Tyvärr är din rutt inte möjlig. Tekniskt fel: "{error}"',
     'route-page-vehicle-position':
       '{mode} {shortName} är vid hållplatsen {stopName}',
     'route-page-vehicle-position-between':
       '{mode} {shortName} är mellan hållplats {stopName} och hållplats {nextStopName}.',
+    'route-page-vehicle-selected': 'Nuvarande urval.',
     'route-page.description': 'Linje {shortName} - {longName}',
     'route-page.future-routes': 'Framtida rutter',
     'route-page.pattern-chosen': 'Vald',
@@ -4460,7 +4800,38 @@ const translations = {
     'route-page.special-routes': 'Andra rutter',
     'route-page.title': 'Linje {shortName}',
     'route-page.title-short': 'Linje',
+    'route-to-ferry': 'Rutt till piren',
+    'route-to-park': 'Rutt till parken',
+    'route-to-station': 'Rutt till stationen',
     'route-to-stop': 'Rutt till hållplatsen',
+    'router-change-departure-time': 'Ändra avgångstid ›',
+    'router-location-not-found':
+      'Var god och välj en plats på vägnätet eller på hållplatsen.',
+    'router-location-not-found-title-1':
+      'Det finns ingen definierad förbindelse till destinationen',
+    'router-location-not-found-title-2':
+      'Det finns ingen difinierad förbindelse till avgångsplatsen',
+    'router-location-not-found-title-3':
+      'Det finns ingen difinierad förbindelse till avgångsplatsen eller destinationen',
+    'router-only-walk': 'Kunde inte hitta snabbare alternativ än promenad.',
+    'router-only-walk-title': 'Gå rutten till fots',
+    'router-outside-bounds-3':
+      'Kunde inte hitta ruttförslag eftersom avgångsplatsen och destinationen ligger utanför serviceområdet.',
+    'router-outside-service-period':
+      'Det valda datumet ligger inom en sådan tidtabellsperiod att det inte finns tidtabeller tillgängliga.',
+    'router-stops-in-range-1':
+      'Det finns inte kollektivtrafikhållplatser tillräckligt nära till den valda destinationen.',
+    'router-stops-in-range-2':
+      'Det finns inte kollektivtrafikhållplatser tillräckligt nära till den valda avgångsplatsen.',
+    'router-stops-in-range-3':
+      'Det finns inte kollektivtrafikhållplatser tillräckligt nära till den valda avgångsplatsen eller destinationen.',
+    'router-system-error':
+      'Det skedde ett fel i systemet. Försök på nytt senare.',
+    'router-transit-connection':
+      'Var god och försök ändra avgångsplats eller destination.',
+    'router-transit-connection-in-search-window':
+      'Ingen trafik under det valda datumet.',
+    'router-unable': 'Kan inte visa ruttalternativ',
     routes: 'Linjer',
     'routes-platforms': 'Linjer och plattformer',
     'routes-tracks': 'Linjer och spår',
@@ -4503,9 +4874,14 @@ const translations = {
     'set-specific-settings': 'Ställa avancerade inställningar',
     'set-stop-as-routes': 'Ställa hållplats som rutter',
     settings: 'Anpassa',
+    'settings-alternative-name-rail': 'Tåg',
+    'settings-change-itinerary-settings': 'Anpassa sökning',
     'settings-dropdown-close-label': 'Stäng alternativen',
     'settings-dropdown-open-label': 'Öppna alternativen',
     'settings-label-change': 'Anpassa sökning',
+    'settings-missing-itineraries-body':
+      'Dina val i inställningar utesluter vissa ruttalternativ.',
+    'settings-missing-itineraries-header': 'Saknas det några ruttförslag?',
     share: 'Dela resan',
     show: 'Visa',
     'show-departures': 'Visa avgångarna',
@@ -4542,7 +4918,7 @@ const translations = {
     'stop-page.right-now.loaded': 'hållplats sidan laddad',
     'stop-page.title': 'Hållplats {name} - {code}',
     'stop-page.title-short': 'Hållplats',
-    'stop-virtual-monitor': 'Virtuell monitor',
+    'stop-virtual-monitor': 'Stoppdisplay',
     stops: 'Hållplatser',
     'stops-near-you.description': 'Stop timetables and vehicles near your',
     'stops-near-you.title': 'Near by stops timetables',
@@ -4551,7 +4927,10 @@ const translations = {
     'street-mode-bikeandvehicle-aria':
       'Visa kombinationen av cykling och kollektivtrafik. Tid {duration}, längd {length}',
     'street-mode-car': 'Bil',
+    'street-mode-car-aria': 'Visa bilrutt. Tid {duration}, längd {length}',
     'street-mode-car_park': 'Infarts\u00ADparkering',
+    'street-mode-parkandride-aria':
+      'Visa anslutningsparkeringrutt. Tid {duration}, längd {length}',
     'street-mode-public_transport': 'Kollektiv\u00ADtrafik',
     'street-mode-walk': 'Gång',
     'street-mode-walk-aria':
@@ -4563,7 +4942,9 @@ const translations = {
     'summary-page.description': '{from} - {to}',
     'summary-page.row-label': 'Ruttförslag {number}',
     'summary-page.title': 'Ruttförslag',
+    surveillance_cameras: 'Kameraövervakning',
     'swap-order-button-label': 'Sväng ruttens riktning till den motsatta',
+    swedish: 'Svenska',
     'swipe-disruption-info': 'Navigeringsknapp för att kunna bläddra störning',
     'swipe-disruption-info-header': 'Störning.',
     'swipe-message-bar': 'Navigeringsknapp för att kunna bläddra stäng banner',
@@ -4591,10 +4972,10 @@ const translations = {
     'time-selector-hours-label': 'Timme',
     'time-selector-minutes-label': 'Minut',
     timetable: 'Tidtabell',
-    'to-ferry': 'lauttaan',
+    'to-ferry': 'färjan',
     'to-frontpage': 'Till startsidan',
-    'to-rail': 'junaan',
-    'to-subway': 'metroon',
+    'to-rail': 'tåget',
+    'to-subway': 'metron',
     today: 'I dag',
     tomorrow: 'I morgon',
     track: 'Spår',
@@ -4616,9 +4997,9 @@ const translations = {
     'try-again': 'Försök igen',
     'use-citybike': 'Ta i bruk',
     'use-national-service': 'Du kan också använda national tjänsten:',
-    'use-national-service-postfix': '-tjänsten.',
+    'use-national-service-postfix': '.',
     'use-national-service-prefix':
-      'Vi rekommenderar att du använder ruttsökning: ',
+      'Vi rekommenderar att du använder ruttsökning i tjänsten ',
     'use-own-position': 'Använd min position',
     userinfo: 'Mina uppgifter',
     usermenu: 'Användarmeny',
@@ -4632,6 +5013,7 @@ const translations = {
     'view-route': 'Visa linje',
     // eslint-disable-next-line sort-keys
     venue: 'Mötesplats',
+    vr_ticket: 'VR-biljetten',
     wait: 'Vänta',
     'wait-amount-of-time': 'Vänta {duration}',
     walk: 'gång',
@@ -4641,7 +5023,10 @@ const translations = {
       'Vi har endast hittat ruttförslag i vilka ingår cykling.',
     'walk-bike-itinerary-3':
       'Vi har endast hittat ruttförslag i vilka ingår promenad och cykling.',
+    'walk-bike-itinerary-4':
+      'Vi har endast hittat ruttförslag i vilka ingår cykling eller körning.',
     'walk-distance-duration': 'Gå {duration} ({distance})',
+    'walk-only': 'Endast gång',
     walking: 'Gång',
     'walking-speed': 'Promenadhastighet',
     'warning-call-agency':

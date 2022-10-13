@@ -30,11 +30,6 @@ TerminalPageTabContainer.propTypes = {
           }),
           route: PropTypes.shape({
             alerts: alertArrayShape,
-            trip: PropTypes.shape({
-              pattern: PropTypes.shape({
-                code: PropTypes.string,
-              }),
-            }),
           }),
         }),
       }),
@@ -142,11 +137,6 @@ const containerComponent = createFragmentContainer(TerminalPageTabContainer, {
               alertUrlTranslations {
                 language
                 text
-              }
-              trip {
-                pattern {
-                  code
-                }
               }
             }
           }

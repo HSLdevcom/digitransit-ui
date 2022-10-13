@@ -1,0 +1,74 @@
+.dtmodal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    background-color: #ffffff;
+}
+
+.windowed {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0);
+    height: 70vh;
+    width: 60vw;
+}
+
+.from-map-modal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+}
+
+.closed {
+    transition: 0.5s;
+    opacity: 0;
+}
+
+.modal-closed {
+    transition: 0.5s;
+    opacity: 0;
+    top: 20%;
+}
+
+.modal-main {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    display: block;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+.from-map-modal-title {
+    width: 100%;
+    align-self: center;
+    font-size: $font-size-large;
+}
+
+.from-map-modal-nav-button {
+    margin: 0 1.25em 0 1.25em;
+    width: 16px;
+    color: $top-navigation-icon-color;
+}
+
+.no-pointer {
+    cursor: initial;
+}
+
+.display-block {
+    display: block;
+}
+
+.display-none {
+    display: none;
+}

@@ -7,8 +7,10 @@ import cx from 'classnames';
 import sortBy from 'lodash/sortBy'; // DT-3182
 import { matchShape, routerShape } from 'found';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import CallAgencyWarning from './CallAgencyWarning';
 import RoutePatternSelect from './RoutePatternSelect';
+import RouteNotification from './routeNotification';
 import { AlertSeverityLevelType, DATE_FORMAT } from '../constants';
 import {
   startRealTimeClient,
@@ -66,11 +68,24 @@ class RoutePageControlPanel extends React.Component {
   };
 
   static propTypes = {
-    route: PropTypes.object.isRequired,
+    route: PropTypes.shape({
+      mode: PropTypes.string.isRequired,
+      gtfsId: PropTypes.string.isRequired,
+      longName: PropTypes.string,
+      shortName: PropTypes.string,
+      patterns: PropTypes.arrayOf(PropTypes.shape({})),
+      type: PropTypes.number.isRequired,
+      agency: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
     match: matchShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
     noInitialServiceDay: PropTypes.bool,
+    language: PropTypes.string,
   };
+
+  static defaultProps = { language: 'fi', noInitialServiceDay: false };
 
   constructor(props) {
     super(props);
@@ -274,8 +289,7 @@ class RoutePageControlPanel extends React.Component {
     const { config, executeAction } = this.context;
     const { match, route } = this.props;
     const { realTime } = config;
-
-    if (!realTime) {
+    if (config.NODE_ENV === 'test' || !realTime) {
       return;
     }
 
@@ -340,9 +354,32 @@ class RoutePageControlPanel extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/anchor-is-valid */
   render() {
-    const { breakpoint, match, route } = this.props;
+    const { breakpoint, match, route, language } = this.props;
     const { patternId } = match.params;
     const { config } = this.context;
+
+    const routeNotifications = [];
+    if (
+      config.NODE_ENV !== 'test' &&
+      config.routeNotifications &&
+      config.routeNotifications.length > 0
+    ) {
+      for (let i = 0; i < config.routeNotifications.length; i++) {
+        const notification = config.routeNotifications[i];
+        if (notification.showForRoute(route)) {
+          routeNotifications.push(
+            <RouteNotification
+              key={notification.id}
+              header={notification.header[language]}
+              content={notification.content[language]}
+              link={notification.link[language]}
+              id={notification.id}
+              closeButtonLabel={notification.closeButtonLabel[language]}
+            />,
+          );
+        }
+      }
+    }
 
     const activeTab = getActiveTab(match.location.pathname);
     const currentTime = moment().unix();
@@ -435,6 +472,7 @@ class RoutePageControlPanel extends React.Component {
           })}
           aria-live="polite"
         >
+          {routeNotifications}
           {patternId && (
             <RoutePatternSelect
               params={match.params}
@@ -479,6 +517,7 @@ class RoutePageControlPanel extends React.Component {
               }}
               tabIndex={activeTab === Tab.Stops ? 0 : -1}
               role="tab"
+              {...(activeTab === Tab.Stops ? { id: 'route-tab' } : {})}
               ref={this.stopTabRef}
               aria-selected={activeTab === Tab.Stops}
               style={{
@@ -550,4 +589,12 @@ class RoutePageControlPanel extends React.Component {
   }
 }
 
-export default RoutePageControlPanel;
+const connectedComponent = connectToStores(
+  RoutePageControlPanel,
+  ['PreferencesStore'],
+  context => ({
+    language: context.getStore('PreferencesStore').getLanguage(),
+  }),
+);
+
+export { connectedComponent as default, RoutePageControlPanel as Component };

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import Modal from '@hsl-fi/modal';
@@ -11,18 +11,30 @@ import {
   PREFIX_ITINERARY_SUMMARY,
 } from '../util/path';
 
-const MapRoutingButton = ({ stop }, { intl, router, match }) => {
+const MapRoutingButton = ({ stop }, { intl, router, match, config }) => {
   const [showModal, setShowModal] = useState(false);
-
+  const [buttonText, setButtonText] = useState(null);
+  useEffect(() => {
+    if (!!stop?.carParkId || !!stop?.bikeParkId) {
+      setButtonText('route-to-park');
+    } else if (stop?.vehicleMode === 'FERRY') {
+      setButtonText('route-to-ferry');
+    } else if (stop?.locationType === 'STATION') {
+      setButtonText('route-to-station');
+    } else {
+      setButtonText('route-to-stop');
+    }
+  }, [stop]);
   const { location } = match;
   const closeModal = () => setShowModal(false);
-
+  // Reset query parameters from timetablepage  that is not needed in summary page
+  const locationWithoutQuery = { ...location, query: {}, search: '' };
   const onSelectLocation = (item, id) => {
     // eslint-disable-next-line no-param-reassign
     item = { ...item, address: item.name };
     if (id === 'origin') {
       const newLocation = {
-        ...location,
+        ...locationWithoutQuery,
         pathname: getPathWithEndpointObjects(
           item,
           {},
@@ -32,7 +44,7 @@ const MapRoutingButton = ({ stop }, { intl, router, match }) => {
       router.push(newLocation);
     } else if (id === 'destination') {
       const newLocation = {
-        ...location,
+        ...locationWithoutQuery,
         pathname: getPathWithEndpointObjects(
           {},
           item,
@@ -65,7 +77,9 @@ const MapRoutingButton = ({ stop }, { intl, router, match }) => {
         }}
       >
         <Icon className="map-routing-button-icon" img="icon-icon_route" />
-        <FormattedMessage id="route-to-stop" defaultMessage="Route to stop" />
+        {buttonText && (
+          <FormattedMessage id={buttonText} defaultMessage="Route to stop" />
+        )}
       </button>
       {showModal && (
         <Modal
@@ -93,18 +107,20 @@ const MapRoutingButton = ({ stop }, { intl, router, match }) => {
             >
               <FormattedMessage id="as-origin" defaultMessage="Route to stop" />
             </button>
-            <button
-              type="button"
-              className="map-routing-modal-button"
-              onClick={() => {
-                onSelectLocation(stop, 'via');
-              }}
-            >
-              <FormattedMessage
-                id="as-viapoint"
-                defaultMessage="Route to stop"
-              />
-            </button>
+            {config.viaPointsEnabled && (
+              <button
+                type="button"
+                className="map-routing-modal-button"
+                onClick={() => {
+                  onSelectLocation(stop, 'via');
+                }}
+              >
+                <FormattedMessage
+                  id="as-viapoint"
+                  defaultMessage="Route to stop"
+                />
+              </button>
+            )}
             <button
               type="button"
               className="map-routing-modal-button"

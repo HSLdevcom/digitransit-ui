@@ -45,6 +45,7 @@ describe('<MessageBar />', () => {
           alertSeverityLevel: AlertSeverityLevelType.Severe,
           effectiveStartDate: defaultProps.currentTime - 100,
           effectiveEndDate: defaultProps.currentTime + 100,
+          feed: 'Foo',
         },
       ],
     };
@@ -55,8 +56,8 @@ describe('<MessageBar />', () => {
     expect(wrapper.find(Icon)).to.have.lengthOf(2);
   });
 
-  it('should not show a closed service alert  again', async () => {
-    const alertId = 1375604289;
+  it('should not show a closed service alert again', async () => {
+    const alertId = -1298241169;
     const alerts = [
       {
         alertDescriptionText: 'bar',
@@ -65,6 +66,7 @@ describe('<MessageBar />', () => {
         alertSeverityLevel: AlertSeverityLevelType.Severe,
         effectiveStartDate: defaultProps.currentTime - 100,
         effectiveEndDate: defaultProps.currentTime + 100,
+        feed: 'Foo',
       },
       {
         alertDescriptionText: 'text',
@@ -73,6 +75,7 @@ describe('<MessageBar />', () => {
         alertSeverityLevel: AlertSeverityLevelType.Severe,
         effectiveStartDate: defaultProps.currentTime - 100,
         effectiveEndDate: defaultProps.currentTime + 100,
+        feed: 'Foo',
       },
     ];
 
@@ -99,6 +102,7 @@ describe('<MessageBar />', () => {
         alertSeverityLevel: AlertSeverityLevelType.Severe,
         effectiveEndDate: 1558610381,
         effectiveStartDate: 1558610380,
+        feed: 'Foo',
       },
     ];
     const props = {
@@ -123,6 +127,7 @@ describe('<MessageBar />', () => {
           alertSeverityLevel: AlertSeverityLevelType.Severe,
           effectiveStartDate: defaultProps.currentTime - 100,
           effectiveEndDate: defaultProps.currentTime + 100,
+          feed: 'Foo',
         },
       ],
     };
