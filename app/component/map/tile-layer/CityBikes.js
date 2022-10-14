@@ -49,7 +49,7 @@ class CityBikes {
 
   fetchWithAction = actionFn =>
     fetchWithSubscription(
-      `${this.config.URL.CITYBIKE_MAP}` +
+      `${this.config.URL.RENTAL_STATION_MAP}` +
         `${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}/` +
         `${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
       this.config,
@@ -64,13 +64,13 @@ class CityBikes {
 
           this.features = [];
 
-          if (vt.layers.vehicleRentals != null) {
+          if (vt.layers.rentalStations != null) {
             for (
-              let i = 0, ref = vt.layers.vehicleRentals.length - 1;
+              let i = 0, ref = vt.layers.rentalStations.length - 1;
               i <= ref;
               i++
             ) {
-              const feature = vt.layers.vehicleRentals.feature(i);
+              const feature = vt.layers.rentalStations.feature(i);
               [[feature.geom]] = feature.loadGeometry();
               this.features.push(pick(feature, ['geom', 'properties']));
             }
@@ -82,10 +82,10 @@ class CityBikes {
       );
     });
 
-  fetchAndDrawStatus = ({ geom, properties: { id, networks } }) => {
+  fetchAndDrawStatus = ({ geom, properties: { id, network } }) => {
     if (
       (this.tile.stopsToShow && !this.tile.stopsToShow.includes(id)) ||
-      !showCitybikeNetwork(this.config.cityBike.networks[networks])
+      !showCitybikeNetwork(this.config.cityBike.networks[network])
     ) {
       return;
     }
@@ -93,9 +93,9 @@ class CityBikes {
     const currentTime = new Date().getTime();
 
     const iconName = getCityBikeNetworkIcon(
-      getCityBikeNetworkConfig(getCityBikeNetworkId(networks), this.config),
+      getCityBikeNetworkConfig(getCityBikeNetworkId(network), this.config),
     );
-    const citybikeCapacity = getCitybikeCapacity(this.config, networks);
+    const citybikeCapacity = getCitybikeCapacity(this.config, network);
     const iconColor =
       iconName.includes('secondary') &&
       this.config.colors.iconColors['mode-citybike-secondary']

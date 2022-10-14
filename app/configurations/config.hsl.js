@@ -22,7 +22,7 @@ export default {
     PARK_AND_RIDE_MAP: `${OTP_URL}vectorTiles/vehicleParking/`,
     PARK_AND_RIDE_GROUP_MAP: `${OTP_URL}vectorTiles/vehicleParkingGroups/`,
     FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
-    CITYBIKE_MAP: `${OTP_URL}vectorTiles/vehicleRentals/`,
+    RENTAL_STATION_MAP: `${OTP_URL}vectorTiles/rentalStations/`,
     ROOTLINK: rootLink,
     BANNERS: BANNER_URL,
     HSL_FI_SUGGESTIONS: 'https://content.hsl.fi/api/v1/search/suggestions',

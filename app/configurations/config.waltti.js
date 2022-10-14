@@ -8,7 +8,7 @@ export default {
   URL: {
     OTP: OTP_URL,
     STOP_MAP: `${OTP_URL}vectorTiles/stops,stations/`,
-    CITYBIKE_MAP: `${OTP_URL}vectorTiles/vehicleRentals/`,
+    RENTAL_STATION_MAP: `${OTP_URL}vectorTiles/rentalStations/`,
   },
 
   contactName: {

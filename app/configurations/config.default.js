@@ -46,7 +46,7 @@ export default {
       sv: `${MAP_URL}/map/${MAP_VERSION}/hsl-map-sv/`,
     },
     STOP_MAP: `${OTP_URL}vectorTiles/stops,stations/`,
-    CITYBIKE_MAP: `${OTP_URL}vectorTiles/vehicleRentals/`,
+    RENTAL_STATION_MAP: `${OTP_URL}vectorTiles/rentalStations/`,
     PARK_AND_RIDE_MAP: `${OTP_URL}vectorTiles/vehicleParking/`,
     PARK_AND_RIDE_GROUP_MAP: `${OTP_URL}vectorTiles/vehicleParkingGroups/`,
 
