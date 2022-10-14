@@ -3,7 +3,6 @@ import Protobuf from 'pbf';
 import { graphql, fetchQuery } from 'react-relay';
 import pick from 'lodash/pick';
 
-import { isEqual } from 'lodash';
 import { isBrowser } from '../../../util/browser';
 import { getMapIconScale, drawCitybikeIcon } from '../../../util/mapIconUtils';
 import { showCitybikeNetwork } from '../../../util/modeUtils';
@@ -18,7 +17,8 @@ import {
 
 import { fetchWithSubscription } from '../../../util/fetchUtils';
 
-const lastFetch = {};
+const fetchedStations = {};
+let lastFetch = new Date().getTime();
 
 const query = graphql`
   query CityBikesQuery($ids: [String!]) {
@@ -41,10 +41,10 @@ class CityBikes {
       20 * this.scaleratio * getMapIconScale(this.tile.coords.z);
     this.availabilityImageSize =
       14 * this.scaleratio * getMapIconScale(this.tile.coords.z);
-    this.promise = this.fetchWithAction(this.fetchStations);
+    this.promise = this.fetchWithAction();
   }
 
-  fetchWithAction = actionFn =>
+  fetchWithAction = () =>
     fetchWithSubscription(
       `${this.config.URL.CITYBIKE_MAP}` +
         `${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}/` +
@@ -60,6 +60,7 @@ class CityBikes {
           const vt = new VectorTile(new Protobuf(buf));
 
           this.features = [];
+          this.featureGeoms = {};
 
           if (vt.layers.stations != null) {
             for (
@@ -68,92 +69,94 @@ class CityBikes {
               i++
             ) {
               const feature = vt.layers.stations.feature(i);
-              [[feature.geom]] = feature.loadGeometry();
-              this.features.push(pick(feature, ['geom', 'properties']));
+              if (
+                showCitybikeNetwork(
+                  this.config.cityBike.networks[feature.properties.networks],
+                )
+              ) {
+                [[feature.geom]] = feature.loadGeometry();
+                if (!this.featureGeoms[feature.properties.id]) {
+                  this.featureGeoms[feature.properties.id] = feature.geom;
+                }
+                this.features.push(pick(feature, ['geom', 'properties']));
+              }
             }
           }
-          actionFn(this.features);
+          const currentTime = new Date().getTime();
+          const stationIds = this.features.map(
+            feature => feature.properties.id,
+          );
+          const shouldFetch = !stationIds.every(
+            stationId => fetchedStations[stationId],
+          );
+
+          const drawCitybikeIcons = station => {
+            const iconName = getCityBikeNetworkIcon(
+              getCityBikeNetworkConfig(
+                getCityBikeNetworkId(station.networks),
+                this.config,
+              ),
+            );
+            const citybikeCapacity = getCitybikeCapacity(
+              this.config,
+              station.networks,
+            );
+            const iconColor =
+              iconName.includes('secondary') &&
+              this.config.colors.iconColors['mode-citybike-secondary']
+                ? this.config.colors.iconColors['mode-citybike-secondary']
+                : this.config.colors.iconColors['mode-citybike'];
+            const isHilighted = this.tile.hilightedStops?.includes(
+              station.stationId,
+            );
+            const vtGeom = this.featureGeoms[station.stationId];
+            drawCitybikeIcon(
+              this.tile,
+              vtGeom,
+              station.state,
+              station.bikesAvailable,
+              iconName,
+              citybikeCapacity !== BIKEAVL_UNKNOWN,
+              iconColor,
+              isHilighted,
+            );
+          };
+
+          // Fetch if stations haven't been fetched at all or more than 30 seconds ago
+          if (
+            (stationIds.length > 0 && shouldFetch) ||
+            !lastFetch ||
+            currentTime - lastFetch > 30000
+          ) {
+            fetchQuery(
+              this.relayEnvironment,
+              query,
+              { ids: stationIds },
+              { force: true },
+            ).then(({ stations }) => {
+              lastFetch = currentTime;
+              stations.forEach(station => {
+                if (!fetchedStations[station.stationId]) {
+                  fetchedStations[station.stationId] = station;
+                }
+                drawCitybikeIcons(station);
+              });
+            });
+          } else {
+            // Only draw if nothing needs to be fetched
+            stationIds.forEach(id => {
+              const fetchedStation = fetchedStations[id];
+              drawCitybikeIcons(fetchedStation);
+            });
+          }
         },
         err => console.log(err), // eslint-disable-line no-console
       );
     });
 
-  fetchStations = features => {
-    const stationIds = features.map(feature => feature.properties.id);
-    const networks = features[0] && features[0].properties?.networks;
-    if (
-      (this.tile.stopsToShow && !isEqual(this.tile.stopsToShow, stationIds)) ||
-      !showCitybikeNetwork(this.config.cityBike.networks[networks])
-    ) {
-      return;
-    }
-
-    // Draw stops in callback after fetch
-    const callback = ({ stations }) => {
-      stations.forEach(station => {
-        lastFetch[station.stationId] = new Date().getTime();
-        const vtGeom = features.find(
-          feature => feature.properties.id === station.stationId,
-        ).geom;
-        const iconName = getCityBikeNetworkIcon(
-          getCityBikeNetworkConfig(
-            getCityBikeNetworkId(station.networks),
-            this.config,
-          ),
-        );
-        const citybikeCapacity = getCitybikeCapacity(
-          this.config,
-          station.networks,
-        );
-        const iconColor =
-          iconName.includes('secondary') &&
-          this.config.colors.iconColors['mode-citybike-secondary']
-            ? this.config.colors.iconColors['mode-citybike-secondary']
-            : this.config.colors.iconColors['mode-citybike'];
-
-        const isHilighted = this.tile.hilightedStops?.includes(
-          station.stationId,
-        );
-        drawCitybikeIcon(
-          this.tile,
-          vtGeom,
-          station.state,
-          station.bikesAvailable,
-          iconName,
-          citybikeCapacity !== BIKEAVL_UNKNOWN,
-          iconColor,
-          isHilighted,
-        );
-      });
-    };
-
-    // Force refetch for stations that are new or haven't been queried in 30 seconds, normal for others
-    const currentTime = new Date().getTime();
-    const forceStationIds = stationIds.filter(
-      stationId =>
-        !lastFetch[stationId] || currentTime - lastFetch[stationId] >= 30000,
-    );
-    const upToDateStations = stationIds.filter(
-      stationId => !forceStationIds.includes(stationId),
-    );
-
-    if (forceStationIds.length > 0) {
-      fetchQuery(
-        this.relayEnvironment,
-        query,
-        { ids: forceStationIds },
-        { force: true },
-      ).then(callback);
-    }
-
-    fetchQuery(this.relayEnvironment, query, { ids: upToDateStations }).then(
-      callback,
-    );
-  };
-
   onTimeChange = () => {
     if (this.tile.coords.z > this.config.cityBike.cityBikeSmallIconZoom) {
-      this.fetchWithAction(this.fetchStations);
+      this.fetchWithAction();
     }
   };
 
