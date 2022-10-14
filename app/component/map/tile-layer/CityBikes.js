@@ -18,6 +18,7 @@ import {
   getCitybikeCapacity,
   BIKEAVL_UNKNOWN,
 } from '../../../util/citybikes';
+import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 
 import { fetchWithSubscription } from '../../../util/fetchUtils';
 
@@ -72,6 +73,8 @@ class CityBikes {
             ) {
               const feature = vt.layers.rentalStations.feature(i);
               [[feature.geom]] = feature.loadGeometry();
+              // TODO use feedScopedId here
+              feature.properties.id = getIdWithoutFeed(feature.properties.id);
               this.features.push(pick(feature, ['geom', 'properties']));
             }
           }
