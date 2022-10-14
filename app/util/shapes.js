@@ -20,6 +20,7 @@ const mapLayerOptionStopOrTerminalShape = PropTypes.shape({
   tram: PropTypes.shape(mapLayerOptionShape),
   subway: PropTypes.shape(mapLayerOptionShape),
   ferry: PropTypes.shape(mapLayerOptionShape),
+  funicular: PropTypes.shape(mapLayerOptionShape),
 });
 
 export const mapLayerOptionsShape = PropTypes.shape({

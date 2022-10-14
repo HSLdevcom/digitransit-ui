@@ -217,91 +217,93 @@ function NearStopsAndRoutes({
     urlParts.splice(urlParts.length - 1, 0, language);
     urlStart = urlParts.join('/');
   }
-  const buttons = modeArray.map(mode => {
-    const withAlert = modesWithAlerts.includes(mode.toUpperCase());
-    let url = `${urlStart}/${mode.toUpperCase()}/POS`;
-    if (origin.lat && origin.lon) {
-      url += `/${encodeURIComponent(origin.address)}::${origin.lat},${
-        origin.lon
-      }`;
-    }
+  const buttons = modeArray
+    .filter(mode => mode !== 'funicular')
+    .map(mode => {
+      const withAlert = modesWithAlerts.includes(mode.toUpperCase());
+      let url = `${urlStart}/${mode.toUpperCase()}/POS`;
+      if (origin.lat && origin.lon) {
+        url += `/${encodeURIComponent(origin.address)}::${origin.lat},${
+          origin.lon
+        }`;
+      }
 
-    const modeButton = !modes ? (
-      <>
-        <span className={styles['sr-only']}>
-          {i18next.t(`pick-mode-${mode}`, { lng: language })}
-        </span>
-        <span className={styles['transport-mode-icon-container']}>
-          <span className={styles['transport-mode-icon-with-icon']}>
-            <Icon
-              img={mode === 'favorite' ? 'star' : getIconName(mode, modeSet)}
-              color={modeIconColors[`mode-${mode}`]}
-            />
-            {withAlert && (
-              <span className={styles['transport-mode-alert-icon']}>
-                <Icon img="caution" color="#dc0451" />
-              </span>
-            )}
+      const modeButton = !modes ? (
+        <>
+          <span className={styles['sr-only']}>
+            {i18next.t(`pick-mode-${mode}`, { lng: language })}
           </span>
-        </span>
-      </>
-    ) : (
-      <>
-        <span className={styles['sr-only']}>
-          {i18next.t(`pick-mode-${mode}`, { lng: language })}
-        </span>
-        <span className={styles['transport-mode-icon-container']}>
-          <span
-            className={styles['transport-mode-icon-with-icon']}
-            style={{
-              '--bckColor': `${
-                modes[mode]['color']
-                  ? modes[mode]['color']
-                  : modeIconColors[`mode-${mode}`] || buttonStyle['color']
-              }`,
-              '--borderRadius': `${buttonStyle.borderRadius}`,
-            }}
+          <span className={styles['transport-mode-icon-container']}>
+            <span className={styles['transport-mode-icon-with-icon']}>
+              <Icon
+                img={mode === 'favorite' ? 'star' : getIconName(mode, modeSet)}
+                color={modeIconColors[`mode-${mode}`]}
+              />
+              {withAlert && (
+                <span className={styles['transport-mode-alert-icon']}>
+                  <Icon img="caution" color="#dc0451" />
+                </span>
+              )}
+            </span>
+          </span>
+        </>
+      ) : (
+        <>
+          <span className={styles['sr-only']}>
+            {i18next.t(`pick-mode-${mode}`, { lng: language })}
+          </span>
+          <span className={styles['transport-mode-icon-container']}>
+            <span
+              className={styles['transport-mode-icon-with-icon']}
+              style={{
+                '--bckColor': `${
+                  modes[mode]['color']
+                    ? modes[mode]['color']
+                    : modeIconColors[`mode-${mode}`] || buttonStyle['color']
+                }`,
+                '--borderRadius': `${buttonStyle.borderRadius}`,
+              }}
+            >
+              <Icon img={getIconName(mode, modeSet)} />
+              {withAlert && (
+                <span className={styles['transport-mode-alert-icon']}>
+                  <Icon img="caution" color="#dc0451" />
+                </span>
+              )}
+            </span>
+            <span className={styles['transport-mode-title']}>
+              {modes[mode]['nearYouLabel'][language]}
+            </span>
+          </span>
+        </>
+      );
+
+      if (onClick) {
+        return (
+          <div
+            key={mode}
+            role="link"
+            tabIndex="0"
+            onKeyDown={e => onClick(url, e)}
+            onClick={() => onClick(url)}
           >
-            <Icon img={getIconName(mode, modeSet)} />
-            {withAlert && (
-              <span className={styles['transport-mode-alert-icon']}>
-                <Icon img="caution" color="#dc0451" />
-              </span>
-            )}
-          </span>
-          <span className={styles['transport-mode-title']}>
-            {modes[mode]['nearYouLabel'][language]}
-          </span>
-        </span>
-      </>
-    );
-
-    if (onClick) {
+            {modeButton}
+          </div>
+        );
+      }
+      if (LinkComponent) {
+        return (
+          <LinkComponent to={url} key={mode}>
+            {modeButton}
+          </LinkComponent>
+        );
+      }
       return (
-        <div
-          key={mode}
-          role="link"
-          tabIndex="0"
-          onKeyDown={e => onClick(url, e)}
-          onClick={() => onClick(url)}
-        >
+        <a href={url} key={mode}>
           {modeButton}
-        </div>
+        </a>
       );
-    }
-    if (LinkComponent) {
-      return (
-        <LinkComponent to={url} key={mode}>
-          {modeButton}
-        </LinkComponent>
-      );
-    }
-    return (
-      <a href={url} key={mode}>
-        {modeButton}
-      </a>
-    );
-  });
+    });
 
   return (
     <div

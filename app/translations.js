@@ -2188,6 +2188,7 @@ const translations = {
     'from-stop': 'pysäkiltä',
     'from-subway': 'metrosta',
     frontpage: 'Etusivu',
+    funicular: 'Funikulaari',
     'generic-cancelation': '{mode} {route} {headsign} kello {time} on peruttu.',
     'generic-error': 'Tapahtui virhe',
     'geolocate-yourself': 'Paikanna',

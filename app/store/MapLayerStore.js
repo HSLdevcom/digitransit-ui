@@ -13,6 +13,7 @@ class MapLayerStore extends Store {
       rail: true,
       subway: true,
       tram: true,
+      funicular: true,
     },
     terminal: {
       bus: true,

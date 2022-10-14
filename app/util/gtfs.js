@@ -5,5 +5,6 @@ export const typeToName = {
   2: 'rail',
   3: 'bus',
   4: 'ferry',
+  7: 'funicular',
   109: 'rail',
 };

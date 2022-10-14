@@ -312,6 +312,7 @@ class DTAutosuggest extends React.Component {
       'mode-metro': '#ed8c00',
       'mode-ferry': '#007A97',
       'mode-citybike': '#f2b62d',
+      'mode-funicular': '#ff00ff',
     },
     required: false,
     modeSet: undefined,

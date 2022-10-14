@@ -30,6 +30,8 @@ export const TransportMode = Object.freeze({
   Subway: 'Subway',
   /** Taking the tram */
   Tram: 'TRAM',
+  /** Taking the funicular */
+  Funicular: 'FUNICULAR',
 });
 
 /**

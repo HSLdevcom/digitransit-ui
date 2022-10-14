@@ -426,6 +426,7 @@ export default {
     citybike: 'BICYCLE_RENT',
     airplane: 'AIRPLANE',
     ferry: 'FERRY',
+    funicular: 'FUNICULAR',
     walk: 'WALK',
   },
 
@@ -458,6 +459,11 @@ export default {
     },
 
     ferry: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+
+    funicular: {
       availableForSelection: true,
       defaultValue: true,
     },
