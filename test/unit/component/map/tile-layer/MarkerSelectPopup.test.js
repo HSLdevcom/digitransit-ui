@@ -35,7 +35,7 @@ describe('<MarkerSelectPopup />', () => {
             properties: {
               id: '114',
               name: 'Ratapihantie',
-              networks: ['foobar'],
+              network: 'foobar',
             },
           },
         },
