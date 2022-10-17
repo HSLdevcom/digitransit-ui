@@ -1855,7 +1855,7 @@ class SummaryPage extends React.Component {
     } else {
       mwtProps.bounds = getBounds(filteredItineraries, from, to, viaPoints);
     }
-
+    const onlyHasWalkingItineraries = this.onlyHasWalkingItineraries();
     return (
       <ItineraryPageMap
         {...mwtProps}
@@ -1870,8 +1870,9 @@ class SummaryPage extends React.Component {
         itineraries={filteredItineraries}
         topics={this.state.itineraryTopics}
         active={activeIndex}
-        showActive={detailView}
+        showActive={detailView} // {onlyHasWalkingItineraries || detailView}
         showVehicles={this.showVehicles()}
+        onlyHasWalkingItineraries={onlyHasWalkingItineraries}
       />
     );
   }
@@ -2050,6 +2051,54 @@ class SummaryPage extends React.Component {
         this.tabHeaderRef.current.focus();
       }
     }, 500);
+  };
+
+  onlyHasWalkingItineraries = () => {
+    return (
+      this.planHasNoItineraries() &&
+      (!(
+        this.state.bikePlan ||
+        this.state.carPlan ||
+        this.state.parkRidePlan ||
+        (this.context.config.includePublicWithBikePlan
+          ? this.state.bikeAndPublicPlan || this.state.bikeParkPlan
+          : this.state.bikeParkPlan)
+      ) ||
+        this.isWalkingFastest())
+    );
+  };
+
+  isWalkingFastest = () => {
+    const walkDuration = this.getDuration(this.state.walkPlan);
+    const bikeDuration = this.getDuration(this.state.bikePlan);
+    const carDuration = this.getDuration(this.state.carPlan);
+    const parkAndRideDuration = this.getDuration(this.state.parkAndRide);
+    const bikeParkDuration = this.getDuration(this.state.bikeParkPlan);
+    let bikeAndPublicDuration;
+    if (this.context.config.includePublicWithBikePlan) {
+      bikeAndPublicDuration = this.getDuration(this.state.bikeAndPublicPlan);
+    }
+    if (
+      (bikeDuration && bikeDuration < walkDuration) ||
+      (carDuration && carDuration < walkDuration) ||
+      (parkAndRideDuration && parkAndRideDuration < walkDuration) ||
+      (bikeParkDuration && bikeParkDuration < walkDuration) ||
+      (bikeAndPublicDuration && bikeAndPublicDuration < walkDuration)
+    ) {
+      return false;
+    }
+    return true;
+  };
+
+  getDuration = plan => {
+    if (!plan) {
+      return null;
+    }
+    let sum = 0;
+    plan.itineraries.forEach(itin => {
+      sum += itin.duration;
+    });
+    return sum;
   };
 
   render() {
@@ -2266,15 +2315,29 @@ class SummaryPage extends React.Component {
       });
     }
     let combinedItineraries = this.getCombinedItineraries();
+    const onlyHasWalkingItineraries = this.onlyHasWalkingItineraries();
+    // Don't show only walking alternative itineraries
+    if (onlyHasWalkingItineraries && this.state.alternativePlan) {
+      let onlyWalkingItineraries = true;
+      this.state.alternativePlan.itineraries.forEach(itin => {
+        if (!itin.legs.every(leg => leg.mode === 'WALK')) {
+          onlyWalkingItineraries = false;
+        }
+      });
+      if (onlyWalkingItineraries) {
+        this.setState({ alternativePlan: undefined });
+      }
+    }
 
     if (
       combinedItineraries.length > 0 &&
       this.props.match.params.hash !== 'walk' &&
-      this.props.match.params.hash !== 'bikeAndVehicle'
+      this.props.match.params.hash !== 'bikeAndVehicle' &&
+      !onlyHasWalkingItineraries
     ) {
       combinedItineraries = combinedItineraries.filter(
         itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-      ); // exclude itineraries that have only walking legs from the summary
+      ); // exclude itineraries that have only walking legs from the summary if other itineraries are found
     }
 
     // Remove old itineraries if new query cannot find a route
@@ -2422,6 +2485,7 @@ class SummaryPage extends React.Component {
               openSettingsModal={this.toggleCustomizeSearchOffcanvas}
               alternativePlan={this.state.alternativePlan}
               driving={showCarOptionButton}
+              onlyHasWalkingItineraries={onlyHasWalkingItineraries}
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {
@@ -2622,7 +2686,9 @@ class SummaryPage extends React.Component {
               walking={showWalkOptionButton}
               biking={showBikeOptionButton}
               showAlternativePlan={
-                planHasNoItineraries && hasAlternativeItineraries
+                planHasNoItineraries &&
+                hasAlternativeItineraries &&
+                !onlyHasWalkingItineraries
               }
               separatorPosition={this.state.separatorPosition}
               loading={this.state.isFetchingWalkAndBike && !error}

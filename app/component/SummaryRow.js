@@ -214,7 +214,14 @@ const bikeWasParked = legs => {
 };
 
 const SummaryRow = (
-  { data, breakpoint, intermediatePlaces, zones, ...props },
+  {
+    data,
+    breakpoint,
+    intermediatePlaces,
+    zones,
+    onlyHasWalkingItineraries,
+    ...props
+  },
   { intl, intl: { formatMessage }, config },
 ) => {
   const isTransitLeg = leg => leg.transitLeg;
@@ -632,6 +639,7 @@ const SummaryRow = (
       passive: props.passive,
       'bp-large': breakpoint === 'large',
       'cancelled-itinerary': props.isCancelled,
+      'no-border': onlyHasWalkingItineraries,
     },
   ]);
 
@@ -812,7 +820,7 @@ const SummaryRow = (
                   </div>
                 ))}
             </div>
-            {mobile(breakpoint) !== true && (
+            {mobile(breakpoint) !== true && !onlyHasWalkingItineraries && (
               <div
                 tabIndex="0"
                 role="button"
@@ -857,6 +865,7 @@ SummaryRow.propTypes = {
   isCancelled: PropTypes.bool,
   showCancelled: PropTypes.bool,
   zones: PropTypes.arrayOf(PropTypes.string),
+  onlyHasWalkingItineraries: PropTypes.bool,
 };
 
 SummaryRow.defaultProps = {

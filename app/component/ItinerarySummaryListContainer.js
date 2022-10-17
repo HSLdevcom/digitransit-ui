@@ -42,11 +42,17 @@ function ItinerarySummaryListContainer(
     loadingMoreItineraries,
     loading,
     driving,
+    onlyHasWalkingItineraries,
   },
   context,
 ) {
   const [showCancelled, setShowCancelled] = useState(false);
   const { config, match } = context;
+
+  // Don't let SummaryRow render if the only itinerary is a walking one and itineraries are being queried
+  if (loading && onlyHasWalkingItineraries) {
+    return null;
+  }
 
   if (
     !error &&
@@ -67,6 +73,7 @@ function ItinerarySummaryListContainer(
         intermediatePlaces={intermediatePlaces}
         isCancelled={itineraryHasCancelation(itinerary)}
         showCancelled={showCancelled}
+        onlyHasWalkingItineraries={onlyHasWalkingItineraries}
         zones={
           config.zones.stops && itinerary.legs ? getZones(itinerary.legs) : []
         }
@@ -134,52 +141,73 @@ function ItinerarySummaryListContainer(
     const canceledItinerariesCount = itineraries.filter(itineraryHasCancelation)
       .length;
     return (
-      <div className="summary-list-container" role="list">
-        {showAlternativePlan && (
-          <div
-            className={cx(
-              'flex-horizontal',
-              'summary-notification',
-              'show-alternatives',
-            )}
-          >
-            <Icon className="icon-icon_settings" img="icon-icon_settings" />
-            <div>
-              <FormattedMessage
-                id="no-route-showing-alternative-options"
-                defaultMessage="No routes with current settings found. Here are some alternative options:"
-              />
+      <>
+        <div className="summary-list-container" role="list">
+          {showAlternativePlan && (
+            <div
+              className={cx(
+                'flex-horizontal',
+                'summary-notification',
+                'show-alternatives',
+              )}
+            >
+              <Icon className="icon-icon_settings" img="icon-icon_settings" />
+              <div>
+                <FormattedMessage
+                  id="no-route-showing-alternative-options"
+                  defaultMessage="No routes with current settings found. Here are some alternative options:"
+                />
+              </div>
             </div>
+          )}
+          {loadingMoreItineraries === 'top' && (
+            <div className="summary-list-spinner-container">
+              <Loading />
+            </div>
+          )}
+          {isBrowser && (
+            <div
+              className={cx('summary-list-items', {
+                'summary-list-items-loading-top':
+                  loadingMoreItineraries === 'top',
+              })}
+            >
+              {summaries}
+            </div>
+          )}
+          {loadingMoreItineraries === 'bottom' && (
+            <div className="summary-list-spinner-container">
+              <Loading />
+            </div>
+          )}
+          {isBrowser && canceledItinerariesCount > 0 && (
+            <CanceledItineraryToggler
+              showItineraries={showCancelled}
+              toggleShowCanceled={() => setShowCancelled(!showCancelled)}
+              canceledItinerariesAmount={canceledItinerariesCount}
+            />
+          )}
+        </div>
+        {onlyHasWalkingItineraries && (
+          <div className="summary-no-route-found" style={{ marginTop: 0 }}>
+            <div
+              className={cx('flex-horizontal', 'summary-notification', 'info')}
+            >
+              <Icon
+                className={cx('no-route-icon', 'info')}
+                img="icon-icon_info"
+                color="#0074be"
+              />
+              <div>
+                <FormattedMessage
+                  id="walk-bike-itinerary-1"
+                  defaultMessage="Unfortunately, only walking routes were found for your journey."
+                />
+              </div>
+            </div>{' '}
           </div>
         )}
-        {loadingMoreItineraries === 'top' && (
-          <div className="summary-list-spinner-container">
-            <Loading />
-          </div>
-        )}
-        {isBrowser && (
-          <div
-            className={cx('summary-list-items', {
-              'summary-list-items-loading-top':
-                loadingMoreItineraries === 'top',
-            })}
-          >
-            {summaries}
-          </div>
-        )}
-        {loadingMoreItineraries === 'bottom' && (
-          <div className="summary-list-spinner-container">
-            <Loading />
-          </div>
-        )}
-        {isBrowser && canceledItinerariesCount > 0 && (
-          <CanceledItineraryToggler
-            showItineraries={showCancelled}
-            toggleShowCanceled={() => setShowCancelled(!showCancelled)}
-            canceledItinerariesAmount={canceledItinerariesCount}
-          />
-        )}
-      </div>
+      </>
     );
   }
   if (!error) {
@@ -380,6 +408,7 @@ ItinerarySummaryListContainer.propTypes = {
   separatorPosition: PropTypes.number,
   loadingMoreItineraries: PropTypes.string,
   loading: PropTypes.bool.isRequired,
+  onlyHasWalkingItineraries: PropTypes.bool,
 };
 
 ItinerarySummaryListContainer.defaultProps = {
