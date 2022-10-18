@@ -820,7 +820,7 @@ const SummaryRow = (
                   </div>
                 ))}
             </div>
-            {mobile(breakpoint) !== true && !onlyHasWalkingItineraries && (
+            {mobile(breakpoint) !== true && (
               <div
                 tabIndex="0"
                 role="button"

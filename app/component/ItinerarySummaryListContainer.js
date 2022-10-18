@@ -49,11 +49,6 @@ function ItinerarySummaryListContainer(
   const [showCancelled, setShowCancelled] = useState(false);
   const { config, match } = context;
 
-  // Don't let SummaryRow render if the only itinerary is a walking one and itineraries are being queried
-  if (loading && onlyHasWalkingItineraries) {
-    return null;
-  }
-
   if (
     !error &&
     itineraries &&
@@ -136,6 +131,10 @@ function ItinerarySummaryListContainer(
           key={`summary-list-separator-${separatorPosition}`}
         />,
       );
+    }
+
+    if (loading) {
+      return null;
     }
 
     const canceledItinerariesCount = itineraries.filter(itineraryHasCancelation)
@@ -247,10 +246,6 @@ function ItinerarySummaryListContainer(
         </div>
       );
     }
-  }
-
-  if (loading) {
-    return null;
   }
 
   let msgId;

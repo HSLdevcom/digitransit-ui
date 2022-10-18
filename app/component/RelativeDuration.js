@@ -21,7 +21,7 @@ function RelativeDuration(props) {
     <FormattedMessage
       id="travel-time"
       values={{
-        min: duration.minutes(),
+        min: duration.minutes() === 0 ? '< 1' : duration.minutes(),
       }}
     />
   );
