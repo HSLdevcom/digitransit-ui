@@ -47,6 +47,7 @@ import ModeCitybike from './assets/mode_citybike.svg';
 import ModeAirplane from './assets/mode_airplane.svg';
 import ModeDigiTram from './assets/mode_digi_tram.svg';
 import ModeDigiCitybike from './assets/mode_digi_citybike.svg';
+import ModeDigiFunicular from './assets/mode_digi_funicular.svg';
 import FutureRoute from './assets/icon-route.svg';
 import Position from './assets/position.svg';
 import SearchStreetName from './assets/search-streetname.svg';
@@ -125,20 +126,18 @@ const IconMap = style => {
     'mode-tram': <ModeTram style={style} />,
     'mode-subway': <Subway style={style} />,
     'mode-ferry': <ModeFerry style={style} />,
-    'mode-funicular': <ModeFerry style={style} />,
     'mode-citybike': <ModeCitybike style={style} />,
     'mode-digitransit-bus': <SearchBusStationDigitransit style={style} />,
     'mode-digitransit-rail': <SearchRailStationDigitransit style={style} />,
     'mode-digitransit-ferry': <SearchFerryDigitransit style={style} />,
-    'mode-digitransit-funicular': <SearchFerryDigitransit style={style} />,
     'mode-digitransit-tram': <ModeDigiTram style={style} />,
     'mode-digitransit-citybike': <ModeDigiCitybike style={style} />,
     'mode-digitransit-airplane': <ModeAirplane style={style} />,
     'mode-digitransit-subway': <Subway style={style} />,
+    'mode-digitransit-funicular': <ModeDigiFunicular style={style} />,
     'mode-waltti-bus': <BusWaltti style={style} />,
     'mode-waltti-citybike': <CitybikeWaltti style={style} />,
     'mode-waltti-ferry': <FerryWaltti style={style} />,
-    'mode-waltti-funicular': <FerryWaltti style={style} />,
     'mode-waltti-rail': <RailWaltti style={style} />,
     'mode-waltti-tram': <TramWaltti style={style} />,
     'future-route': <FutureRoute style={style} />,
@@ -152,8 +151,6 @@ const IconMap = style => {
     'search-rail-stop-default': <SearchRailStopDefault style={style} />,
     'search-ferry-default': <SearchFerryDefault style={style} />,
     'search-ferry-stop-default': <SearchFerryStopDefault style={style} />,
-    'search-funicular-default': <SearchFerryDefault style={style} />,
-    'search-funicular-stop-default': <SearchFerryStopDefault style={style} />,
     'search-tram-stop-default': <SearchTramStopDefault style={style} />,
     'citybike-stop-digitransit': <CityBikeStopDigitransit style={style} />,
     'citybike-stop-digitransit-secondary': (
@@ -172,12 +169,10 @@ const IconMap = style => {
       <SearchBusTramStopDigitransit style={style} />
     ),
     'search-ferry-digitransit': <SearchFerryDigitransit style={style} />,
-    'search-funicular-digitransit': <SearchFerryDigitransit style={style} />,
     'search-ferry-stop-digitransit': (
       <SearchFerryStopDigitransit style={style} />
     ),
-    'search-funicular-stop-digitransit': <Funicular style={style} />,
-    'search-funicular-station-digitransit': <Funicular style={style} />,
+    'search-funicular-stop-digitransit': <ModeDigiFunicular style={style} />,
     'search-rail-stop-digitransit': <SearchRailStopDigitransit style={style} />,
     'search-rail-station-digitransit': (
       <SearchRailStationDigitransit style={style} />
