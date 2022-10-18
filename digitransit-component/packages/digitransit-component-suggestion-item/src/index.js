@@ -134,20 +134,8 @@ function getIconProperties(
       { icon: 'search-bus-station-digitransit', color: 'mode-bus' },
     ],
     [
-      'FUNICULAR-default',
-      { icon: 'search-funicular-stop-default', color: 'mode-funicular' },
-    ],
-    [
       'FUNICULAR-digitransit',
       { icon: 'search-funicular-stop-digitransit', color: 'mode-funicular' },
-    ],
-    [
-      'FUNICULAR-STATION-default',
-      { icon: 'funicular-bus', color: 'funicular-bus' },
-    ],
-    [
-      'FUNICULAR-STATION-digitransit',
-      { icon: 'search-funicular-station-digitransit', color: 'funicular-bus' },
     ],
     ['RAIL-default', { icon: 'search-rail-stop-default', color: 'mode-rail' }],
     [

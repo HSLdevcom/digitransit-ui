@@ -464,8 +464,8 @@ export default {
     },
 
     funicular: {
-      availableForSelection: true,
-      defaultValue: true,
+      availableForSelection: false,
+      defaultValue: false,
     },
 
     citybike: {

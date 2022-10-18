@@ -106,6 +106,7 @@ export const mapLayerShape = PropTypes.shape({
     rail: PropTypes.bool,
     subway: PropTypes.bool,
     tram: PropTypes.bool,
+    funicular: PropTypes.bool,
   }).isRequired,
   terminal: PropTypes.shape({
     bus: PropTypes.bool,
