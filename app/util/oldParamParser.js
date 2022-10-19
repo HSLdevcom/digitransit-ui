@@ -1,5 +1,5 @@
 // Parse from, to and time parameters from old reittiopas searches
-import moment from 'moment-timezone/moment-timezone';
+import moment from 'moment-timezone';
 import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
 import { locationToOTP } from './otpStrings';
 import { kkj2ToWgs84 } from './geo-utils';
