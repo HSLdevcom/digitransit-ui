@@ -36,13 +36,16 @@ class ChargingStations {
   }
 
   fetchWithAction = actionFn => {
-    const url = this.config.URL.CHARGING_STATIONS_MAP.replace(
+    const url = this.config.URL.CHARGING_STATIONS_MAP.replaceAll(
       '{x}',
       this.tile.coords.x,
     )
-      .replace('{y}', this.tile.coords.y)
-      .replace('{z}', this.tile.coords.z + (this.tile.props.zoomOffset || 0));
-    fetch(url).then(res => {
+      .replaceAll('{y}', this.tile.coords.y)
+      .replaceAll(
+        '{z}',
+        this.tile.coords.z + (this.tile.props.zoomOffset || 0),
+      );
+    return fetch(url).then(res => {
       if (res.status !== 200) {
         return undefined;
       }
@@ -102,7 +105,7 @@ class ChargingStations {
 
   onTimeChange = () => {
     if (this.tile.coords.z > this.config.chargingStations.minZoom) {
-      this.fetchWithAction(this.drawStatus);
+      this.promise = this.fetchWithAction(this.drawStatus);
     }
   };
 
