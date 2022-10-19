@@ -100,7 +100,7 @@ const resTo = {
 
 // oldParamParser parses old reittiopas format URL, also parses requests coming from hsl.fi
 
-describe('oldParamParser', () => {
+describe.skip('oldParamParser', () => {
   before(() => {
     fetchMock.get(
       'begin:https://dev-api.digitransit.fi/geocoding/v1/search?text=lapinlahdenkatu',
