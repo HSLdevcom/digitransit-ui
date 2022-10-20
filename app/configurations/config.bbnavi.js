@@ -207,7 +207,7 @@ export default configMerger(walttiConfig, {
         showCityBikes: true,
         networks: {
             'nextbike_dc': {
-                icon: 'regiorad',
+                icon: 'nextbike',
                 name: {
                     de: 'Nextbike (Potsdam)',
                     en: 'Nextbike (Potsdam)',
@@ -221,7 +221,7 @@ export default configMerger(walttiConfig, {
                 enabled: true,
             },
             'nextbike_bn': {
-                icon: 'regiorad',
+                icon: 'nextbike',
                 name: {
                     de: 'Nextbike (Berlin)',
                     en: 'Nextbike (Berlin)',
@@ -272,6 +272,20 @@ export default configMerger(walttiConfig, {
                 url: {
                     de: 'https://www.barshare.de/barshare-standorte',
                     en: 'https://www.barshare.de/barshare-standorte',
+                },
+                visibleInSettingsUi: true,
+                enabled: true,
+            },
+            'donkey_berlin': {
+                icon: 'donkeyrepublic',
+                name: {
+                    de: 'Donkey Republic',
+                    en: 'Donkey Republic',
+                },
+                type: 'citybike',
+                url: {
+                    de: 'https://www.donkey.bike/de/stadte/fahrradverleih-berlin/',
+                    en: 'https://www.donkey.bike/cities/bike-rental-berlin/',
                 },
                 visibleInSettingsUi: true,
                 enabled: true,
