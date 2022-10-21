@@ -991,7 +991,7 @@ const PositioningWrapper = connectToStores(
       favouriteStopIds,
       favouriteBikeStationIds,
       favouriteStationIds,
-      favouritesFetched: status === FavouriteStore.STATUS_HAS_DATA,
+      favouritesFetched: status !== FavouriteStore.STATUS_FETCHING_OR_UPDATING,
     };
   },
 );
