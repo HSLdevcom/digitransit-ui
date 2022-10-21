@@ -4,7 +4,7 @@ import Protobuf from 'pbf';
 
 import { drawParkAndRideIcon } from '../../../util/mapIconUtils';
 import { isBrowser } from '../../../util/browser';
-import { fetchWithSubscription } from '../../../util/fetchUtils';
+import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 import { ParkTypes } from '../../../constants';
 
@@ -18,10 +18,9 @@ export default class ParkAndRide {
     const scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.width = 24 * scaleratio;
     this.height = 24 * scaleratio;
-    this.promise = this.getPromise();
   }
 
-  fetchAndDrawParks(parkType) {
+  fetchAndDrawParks(parkType, lang) {
     const hubHasSpaces = (type, feature) => {
       const { vehicleParking } = feature.properties;
       if (Array.isArray(vehicleParking)) {
@@ -42,11 +41,12 @@ export default class ParkAndRide {
     };
 
     if (this.tile.coords.z < showParking) {
-      return fetchWithSubscription(
+      return fetchWithLanguageAndSubscription(
         `${this.config.URL.PARK_AND_RIDE_GROUP_MAP}${
           this.tile.coords.z + (this.tile.props.zoomOffset || 0)
         }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
         this.config,
+        lang,
       ).then(res => {
         if (res.status !== 200) {
           return undefined;
@@ -83,11 +83,12 @@ export default class ParkAndRide {
       });
     }
 
-    return fetchWithSubscription(
+    return fetchWithLanguageAndSubscription(
       `${this.config.URL.PARK_AND_RIDE_MAP}${
         this.tile.coords.z + (this.tile.props.zoomOffset || 0)
       }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
       this.config,
+      lang,
     ).then(res => {
       if (res.status !== 200) {
         return undefined;

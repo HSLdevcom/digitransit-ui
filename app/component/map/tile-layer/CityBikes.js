@@ -20,7 +20,7 @@ import {
 } from '../../../util/citybikes';
 import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 
-import { fetchWithSubscription } from '../../../util/fetchUtils';
+import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 
 const timeOfLastFetch = {};
 
@@ -45,15 +45,17 @@ class CityBikes {
       20 * this.scaleratio * getMapIconScale(this.tile.coords.z);
     this.availabilityImageSize =
       14 * this.scaleratio * getMapIconScale(this.tile.coords.z);
-    this.promise = this.fetchWithAction(this.fetchAndDrawStatus);
   }
 
-  fetchWithAction = actionFn =>
-    fetchWithSubscription(
+  getPromise = lang => this.fetchWithAction(lang, this.fetchAndDrawStatus);
+
+  fetchWithAction = (lang, actionFn) =>
+    fetchWithLanguageAndSubscription(
       `${this.config.URL.RENTAL_STATION_MAP}` +
         `${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}/` +
         `${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
       this.config,
+      lang,
     ).then(res => {
       if (res.status !== 200) {
         return undefined;

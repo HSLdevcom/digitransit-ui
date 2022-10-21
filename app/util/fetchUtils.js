@@ -63,12 +63,17 @@ export const retryFetch = (
 };
 
 /**
- * Uses fetch with subscription header with subscription header
- * if it is configured.
+ * Uses fetch with subscription URL parameter if it is configured.
+ * Also adds Accept-Language header based on the given lang.
  *
  * @param {String} URL the url to fetch
  * @param {*} config The configuration for the software installation
+ * @param {String} lang the user's language
  * @returns fetch's promise
  */
-export const fetchWithSubscription = (URL, config) =>
-  fetch(addSubscriptionParam(URL, config));
+
+export const fetchWithLanguageAndSubscription = (URL, config, lang) => {
+  return fetch(addSubscriptionParam(URL, config), {
+    headers: { 'Accept-Language': lang },
+  });
+};

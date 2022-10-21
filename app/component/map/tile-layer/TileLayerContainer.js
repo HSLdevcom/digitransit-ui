@@ -16,6 +16,7 @@ import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 import RealTimeInformationStore from '../../../store/RealTimeInformationStore';
+import PreferencesStore from '../../../store/PreferencesStore';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { getClientBreakpoint } from '../../../util/withBreakpoint';
 import {
@@ -60,6 +61,7 @@ class TileLayerContainer extends GridLayer {
     hilightedStops: PropTypes.arrayOf(PropTypes.string),
     stopsToShow: PropTypes.arrayOf(PropTypes.string),
     vehicles: PropTypes.object,
+    lang: PropTypes.string,
   };
 
   static contextTypes = {
@@ -169,6 +171,7 @@ class TileLayerContainer extends GridLayer {
       this.props.hilightedStops,
       this.props.vehicles,
       this.props.stopsToShow,
+      this.props.lang,
     );
     tile.onSelectableTargetClicked = (
       selectableTargets,
@@ -431,9 +434,10 @@ const connectedComponent = withLeaflet(
         )}
       </ReactRelayContext.Consumer>
     ),
-    [RealTimeInformationStore],
+    [RealTimeInformationStore, PreferencesStore],
     context => ({
       vehicles: context.getStore(RealTimeInformationStore).vehicles,
+      lang: context.getStore(PreferencesStore).getLanguage(),
     }),
   ),
 );
