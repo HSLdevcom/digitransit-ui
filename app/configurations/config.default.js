@@ -47,6 +47,7 @@ export default {
     },
     STOP_MAP: `${OTP_URL}vectorTiles/stops,stations/`,
     RENTAL_STATION_MAP: `${OTP_URL}vectorTiles/rentalStations/`,
+    REALTIME_RENTAL_STATION_MAP: `${OTP_URL}vectorTiles/realtimeRentalStations/`,
     PARK_AND_RIDE_MAP: `${OTP_URL}vectorTiles/vehicleParking/`,
     PARK_AND_RIDE_GROUP_MAP: `${OTP_URL}vectorTiles/vehicleParkingGroups/`,
 

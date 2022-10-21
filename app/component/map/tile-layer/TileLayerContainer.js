@@ -136,7 +136,7 @@ class TileLayerContainer extends GridLayer {
           tile.el.layers &&
           tile.el.layers.forEach(layer => {
             if (layer.onTimeChange) {
-              layer.onTimeChange();
+              layer.onTimeChange(this.props.lang);
             }
           }),
       );

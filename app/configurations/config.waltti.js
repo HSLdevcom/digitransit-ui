@@ -9,6 +9,7 @@ export default {
     OTP: OTP_URL,
     STOP_MAP: `${OTP_URL}vectorTiles/stops,stations/`,
     RENTAL_STATION_MAP: `${OTP_URL}vectorTiles/rentalStations/`,
+    REALTIME_RENTAL_STATION_MAP: `${OTP_URL}vectorTiles/realtimeRentalStations/`,
   },
 
   contactName: {
