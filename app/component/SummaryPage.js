@@ -2168,10 +2168,12 @@ class SummaryPage extends React.Component {
       const hasBikeAndPublicPlan = Array.isArray(
         bikeAndPublicPlan?.itineraries,
       );
+      const hasBikeParkPlan = Array.isArray(bikeParkPlan?.itineraries);
+
       if (
         !this.state.isFetchingWalkAndBike &&
         !this.context.config.showBikeAndParkItineraries &&
-        (!hasBikeAndPublicPlan || !Array.isArray(bikeParkPlan?.itineraries))
+        (!hasBikeAndPublicPlan || !hasBikeParkPlan)
       ) {
         this.toggleStreetMode(''); // go back to showing normal itineraries
         return <Loading />;
@@ -2198,10 +2200,9 @@ class SummaryPage extends React.Component {
       this.bikeAndPublicItinerariesToShow = hasBikeAndPublicPlan
         ? Math.min(bikeAndPublicPlan.itineraries.length, 3)
         : 0;
-      this.bikeAndParkItinerariesToShow = Math.min(
-        bikeParkPlan.itineraries.length,
-        3,
-      );
+      this.bikeAndParkItinerariesToShow = hasBikeAndPublicPlan
+        ? Math.min(bikeParkPlan.itineraries.length, 3)
+        : 0;
     } else if (this.props.match.params.hash === 'car') {
       this.stopClient();
       if (this.state.isFetchingWalkAndBike) {
