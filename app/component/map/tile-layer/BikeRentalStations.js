@@ -22,8 +22,6 @@ import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 
 import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 
-let timeOfLastFetch;
-
 const query = graphql`
   query BikeRentalStationsQuery($id: String!) {
     station: vehicleRentalStation(id: $id) {
@@ -43,6 +41,8 @@ class BikeRentalStations {
       20 * this.scaleratio * getMapIconScale(this.tile.coords.z);
     this.availabilityImageSize =
       14 * this.scaleratio * getMapIconScale(this.tile.coords.z);
+    this.timeOfLastFetch = undefined;
+    this.canHaveStationUpdates = true;
   }
 
   getPromise = lang => this.fetchAndDraw(lang);
@@ -81,7 +81,22 @@ class BikeRentalStations {
               }
             }
 
-            this.features.forEach(feature => this.draw(feature, zoomedIn));
+            if (
+              this.features.length === 0 ||
+              !this.features.some(feature =>
+                this.shouldShowStation(
+                  feature.properties.id,
+                  feature.properties.network,
+                ),
+              )
+            ) {
+              this.canHaveStationUpdates = false;
+            } else {
+              // if zoomed out and there is a highlighted station,
+              // this value will be later reset to true
+              this.canHaveStationUpdates = zoomedIn;
+              this.features.forEach(feature => this.draw(feature, zoomedIn));
+            }
           },
           err => console.log(err), // eslint-disable-line no-console
         );
@@ -103,6 +118,7 @@ class BikeRentalStations {
     if (zoomedIn) {
       this.drawLargeIcon(feature, iconName, isHilighted);
     } else if (isHilighted) {
+      this.canHaveStationUpdates = true;
       this.drawHighlighted(feature, iconName);
     } else {
       this.drawSmallMarker(feature.geom, iconName);
@@ -128,7 +144,7 @@ class BikeRentalStations {
   };
 
   drawHighlighted = ({ geom, properties: { id, network } }, iconName) => {
-    const lastFetch = timeOfLastFetch;
+    const lastFetch = this.timeOfLastFetch;
     const currentTime = new Date().getTime();
 
     const citybikeCapacity = getCitybikeCapacity(this.config, network);
@@ -155,7 +171,7 @@ class BikeRentalStations {
         callback,
       );
     } else {
-      timeOfLastFetch = new Date().getTime();
+      this.timeOfLastFetch = new Date().getTime();
       fetchQuery(
         this.relayEnvironment,
         query,
@@ -175,7 +191,9 @@ class BikeRentalStations {
   };
 
   onTimeChange = lang => {
-    this.fetchAndDraw(lang);
+    if (this.canHaveStationUpdates) {
+      this.fetchAndDraw(lang);
+    }
   };
 
   shouldShowStation = (id, network) =>
