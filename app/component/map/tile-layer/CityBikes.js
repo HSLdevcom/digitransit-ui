@@ -28,6 +28,9 @@ const query = graphql`
   }
 `;
 
+const fetchedStations = {};
+let fetchedAt;
+
 class CityBikes {
   constructor(tile, config, mapLayers, relayEnvironment) {
     this.tile = tile;
@@ -87,18 +90,53 @@ class CityBikes {
 
   updateStations = () => {
     this.lastFetch = new Date().getTime();
+    const currentTime = new Date().getTime();
+    if (!fetchedAt) {
+      fetchedAt = currentTime;
+    }
     if (this.features?.length) {
-      const stationIds = this.features.map(feature => feature.properties.id);
-      fetchQuery(
-        this.relayEnvironment,
-        query,
-        { ids: stationIds },
-        { force: true },
-      ).then(({ stations }) => {
-        stations.forEach(station => {
-          this.drawIcon(station, this.featureMap[station.stationId].geom);
+      let stationIds;
+      // Check fetchedAt. If it has been over 30 seconds since cache refetch, refetch. Else, fetch those that haven't been fetched yet
+      if (currentTime - fetchedAt > 30000) {
+        stationIds = Object.keys(fetchedStations).concat(
+          this.features.filter(
+            feature => !fetchedStations[feature.properties.id],
+          ),
+        );
+        fetchedAt = currentTime;
+      } else {
+        stationIds = this.features
+          .filter(feature => !fetchedStations[feature.properties.id])
+          .map(feature => feature.properties.id);
+      }
+      if (stationIds.length > 0) {
+        fetchQuery(
+          this.relayEnvironment,
+          query,
+          { ids: stationIds },
+          { force: true },
+        ).then(({ stations }) => {
+          stations.forEach(station => {
+            // Cache fetched stations
+            if (!fetchedStations[station.stationId]) {
+              fetchedStations[station.stationId] = station;
+            }
+            // Draw this tile's stations
+            if (this.featureMap[station.stationId]) {
+              this.drawIcon(station, this.featureMap[station.stationId].geom);
+            }
+          });
         });
-      });
+      }
+      // Draw those that are cached
+      this.features
+        .filter(feature => fetchedStations[feature.properties.id])
+        .forEach(feature => {
+          this.drawIcon(
+            fetchedStations[feature.properties.id],
+            this.featureMap[feature.properties.id].geom,
+          );
+        });
     }
     return true;
   };
