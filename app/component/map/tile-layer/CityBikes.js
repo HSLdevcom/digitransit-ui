@@ -29,7 +29,7 @@ const query = graphql`
 `;
 
 const fetchedStations = {};
-let fetchedAt;
+let lastFetch;
 
 class CityBikes {
   constructor(tile, config, mapLayers, relayEnvironment) {
@@ -42,7 +42,6 @@ class CityBikes {
     this.availabilityImageSize =
       14 * this.scaleratio * getMapIconScale(this.tile.coords.z);
     this.promise = this.fetchWithAction();
-    this.lastFetch = new Date().getTime();
   }
 
   fetchWithAction = () => {
@@ -81,64 +80,50 @@ class CityBikes {
               }
             }
           }
-          this.updateStations();
+          // Fetch those that haven't been fetched
+          const stationIds = this.features
+            .filter(feature => !fetchedStations[feature.properties.id])
+            .map(feature => feature.properties.id);
+          if (stationIds.length > 0) {
+            this.updateStations(stationIds);
+          } else {
+            this.drawIcons();
+          }
         },
         err => console.log(err), // eslint-disable-line no-console
       );
     });
   };
 
-  updateStations = () => {
-    this.lastFetch = new Date().getTime();
-    const currentTime = new Date().getTime();
-    if (!fetchedAt) {
-      fetchedAt = currentTime;
+  updateStations = stationIds => {
+    // Initial fetch
+    if (!lastFetch) {
+      lastFetch = new Date().getTime();
     }
     if (this.features?.length) {
-      let stationIds;
-      // Check fetchedAt. If it has been over 30 seconds since cache refetch, refetch. Else, fetch those that haven't been fetched yet
-      if (currentTime - fetchedAt > 30000) {
-        stationIds = Object.keys(fetchedStations).concat(
-          this.features.filter(
-            feature => !fetchedStations[feature.properties.id],
-          ),
-        );
-        fetchedAt = currentTime;
-      } else {
-        stationIds = this.features
-          .filter(feature => !fetchedStations[feature.properties.id])
-          .map(feature => feature.properties.id);
-      }
-      if (stationIds.length > 0) {
-        fetchQuery(
-          this.relayEnvironment,
-          query,
-          { ids: stationIds },
-          { force: true },
-        ).then(({ stations }) => {
-          stations.forEach(station => {
-            // Cache fetched stations
-            if (!fetchedStations[station.stationId]) {
-              fetchedStations[station.stationId] = station;
-            }
-            // Draw this tile's stations
-            if (this.featureMap[station.stationId]) {
-              this.drawIcon(station, this.featureMap[station.stationId].geom);
-            }
-          });
+      fetchQuery(
+        this.relayEnvironment,
+        query,
+        { ids: stationIds },
+        { force: true },
+      ).then(({ stations }) => {
+        stations.forEach(station => {
+          // Cache fetched stations
+          fetchedStations[station.stationId] = station;
         });
-      }
-      // Draw those that are cached
-      this.features
-        .filter(feature => fetchedStations[feature.properties.id])
-        .forEach(feature => {
-          this.drawIcon(
-            fetchedStations[feature.properties.id],
-            this.featureMap[feature.properties.id].geom,
-          );
-        });
+        this.drawIcons();
+      });
     }
     return true;
+  };
+
+  drawIcons = () => {
+    this.features.forEach(feature => {
+      const station = fetchedStations[feature.properties.id];
+      if (station) {
+        this.drawIcon(station, this.featureMap[feature.properties.id].geom);
+      }
+    });
   };
 
   drawIcon = (station, geom) => {
@@ -171,9 +156,10 @@ class CityBikes {
     const currentTime = new Date().getTime();
     if (
       this.tile.coords.z > this.config.cityBike.cityBikeSmallIconZoom &&
-      currentTime - this.lastFetch > 30000
+      currentTime - lastFetch > 30000
     ) {
-      this.updateStations();
+      lastFetch = new Date().getTime();
+      this.updateStations(Object.keys(fetchedStations));
     }
   };
 
