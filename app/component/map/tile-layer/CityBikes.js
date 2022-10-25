@@ -29,7 +29,7 @@ const query = graphql`
 `;
 
 const fetchedStations = {};
-let lastFetch;
+let lastFetch = 0;
 
 class CityBikes {
   constructor(tile, config, mapLayers, relayEnvironment) {
@@ -42,6 +42,7 @@ class CityBikes {
     this.availabilityImageSize =
       14 * this.scaleratio * getMapIconScale(this.tile.coords.z);
     this.promise = this.fetchWithAction();
+    this.lastDraw = new Date().getTime();
   }
 
   fetchWithAction = () => {
@@ -96,11 +97,8 @@ class CityBikes {
   };
 
   updateStations = stationIds => {
-    // Initial fetch
-    if (!lastFetch) {
-      lastFetch = new Date().getTime();
-    }
     if (this.features?.length) {
+      lastFetch = new Date().getTime();
       fetchQuery(
         this.relayEnvironment,
         query,
@@ -118,6 +116,7 @@ class CityBikes {
   };
 
   drawIcons = () => {
+    this.lastDraw = new Date().getTime();
     this.features.forEach(feature => {
       const station = fetchedStations[feature.properties.id];
       if (station) {
@@ -154,12 +153,12 @@ class CityBikes {
 
   onTimeChange = () => {
     const currentTime = new Date().getTime();
-    if (
-      this.tile.coords.z > this.config.cityBike.cityBikeSmallIconZoom &&
-      currentTime - lastFetch > 30000
-    ) {
-      lastFetch = new Date().getTime();
-      this.updateStations(Object.keys(fetchedStations));
+    if (this.tile.coords.z > this.config.cityBike.cityBikeSmallIconZoom) {
+      if (currentTime - lastFetch > 30000) {
+        this.updateStations(Object.keys(fetchedStations));
+      } else if (currentTime - this.lastDraw > 30000) {
+        this.drawIcons();
+      }
     }
   };
 
