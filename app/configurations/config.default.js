@@ -174,6 +174,7 @@ export default {
     includeBikeSuggestions: true,
     includeParkAndRideSuggestions: false,
     includeCarSuggestions: false,
+    showBikeAndParkItineraries: false,
   },
 
   /**
@@ -246,7 +247,7 @@ export default {
       enableButtonArrows: false,
     },
     // Number of days to include to the service time range from the future (DT-3317)
-    serviceTimeRange: 30,
+    serviceTimeRange: 60,
   },
 
   map: {
@@ -592,6 +593,8 @@ export default {
 
   routeTimetableUrlResolver: {},
 
+  showTenWeeksOnRouteSchedule: true,
+
   aboutThisService: {
     fi: [
       {
@@ -781,6 +784,10 @@ export default {
   includeBikeSuggestions: true,
   includeCarSuggestions: false,
   includeParkAndRideSuggestions: false,
+  // Include both bike and park and bike and public
+  includePublicWithBikePlan: false,
+  // Park and ride and car suggestions separated
+  separatedParkAndRideSwitch: false,
 
   showNearYouButtons: false,
   nearYouModes: [],

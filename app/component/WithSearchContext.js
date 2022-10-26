@@ -42,6 +42,7 @@ export default function withSearchContext(
       fromMap: PropTypes.string,
       isMobile: PropTypes.bool,
       showMultiPointControls: PropTypes.bool,
+      favouriteContext: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -222,6 +223,8 @@ export default function withSearchContext(
         titleId = 'select-from-map-origin';
       } else if (id === 'destination') {
         titleId = 'select-from-map-destination';
+      } else if (id === 'favourite') {
+        titleId = 'select-from-map-favourite';
       } else if (id === parseInt(id, 10)) {
         // id = via point index
         titleId = 'select-from-map-viaPoint';
@@ -232,6 +235,7 @@ export default function withSearchContext(
           <FromMapModal
             onClose={() => this.setState({ fromMap: undefined })}
             titleId={titleId}
+            favouriteContext={this.props.favouriteContext}
           >
             <SelectFromMap type={id} onConfirm={this.confirmMapSelection} />
           </FromMapModal>

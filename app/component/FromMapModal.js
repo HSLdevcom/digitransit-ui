@@ -7,6 +7,7 @@ export default class FromMapModal extends React.Component {
     children: PropTypes.node,
     onClose: PropTypes.func,
     titleId: PropTypes.string,
+    favouriteContext: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -46,6 +47,11 @@ export default class FromMapModal extends React.Component {
   };
 
   render() {
+    // Override parent style if map is created based on FavouriteModal
+    let overrideStyle = {};
+    if (this.props.favouriteContext) {
+      overrideStyle = { width: '60vw', height: '70vh' };
+    }
     return (
       <div
         role="button"
@@ -55,7 +61,7 @@ export default class FromMapModal extends React.Component {
         onKeyDown={this.onKeyDownHandle}
       >
         <div className={this.state.modalClassName}>
-          <section className="modal-main">
+          <section className="modal-main" style={overrideStyle}>
             <SelectFromMapHeader
               titleId={this.props.titleId}
               onCloseBtnClick={() => this.handleClose()}

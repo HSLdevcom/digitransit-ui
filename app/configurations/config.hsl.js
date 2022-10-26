@@ -568,6 +568,10 @@ export default {
 
   includeCarSuggestions: false,
   includeParkAndRideSuggestions: true,
+  // Include both bike and park and bike and public
+  includePublicWithBikePlan: true,
+  // Park and ride and car suggestions separated into two switches
+  separatedParkAndRideSwitch: false,
 
   parkingAreaSources: ['liipi'],
 
