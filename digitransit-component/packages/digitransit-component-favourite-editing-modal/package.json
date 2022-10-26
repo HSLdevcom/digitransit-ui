@@ -29,7 +29,7 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@digitransit-search-util/digitransit-search-util-uniq-by-label": "^1.0.0"
+    "@digitransit-search-util/digitransit-search-util-uniq-by-label": "^1.1.0"
   },
   "peerDependencies": {
     "@digitransit-component/digitransit-component-dialog-modal": "^0.3.4",
