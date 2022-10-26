@@ -4,6 +4,7 @@ const MAP_URL =
 const MAP_VERSION = process.env.MAP_VERSION || 'v2';
 const APP_DESCRIPTION = 'Uusi Reittiopas';
 const YEAR = 1900 + new Date().getYear();
+const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 
 export default {
   YEAR,
@@ -145,6 +146,24 @@ export default {
   allowLogin: false,
 
   messageBarAlerts: true,
+
+  // DT-5494
+  includeCarSuggestions: true,
+  includeParkAndRideSuggestions: true,
+  // Include both bike and park and bike and public
+  includePublicWithBikePlan: false,
+  // Park and ride and car suggestions separated into two switches
+  separatedParkAndRideSwitch: true,
+  showBikeAndParkItineraries: true,
+  parkingAreaSources: ['liipi'],
+
+  parkAndRide: {
+    showParkAndRide: false,
+    parkAndRideMinZoom: 13,
+    pageContent: {
+      default: HSLParkAndRideUtils,
+    },
+  },
 
   hostnames: [
     // DEV hostnames
