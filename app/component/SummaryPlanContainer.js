@@ -70,6 +70,7 @@ class SummaryPlanContainer extends React.Component {
     showSettingsChangedNotification: PropTypes.func.isRequired,
     openSettingsModal: PropTypes.func.isRequired,
     driving: PropTypes.bool,
+    onlyHasWalkingItineraries: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -246,6 +247,7 @@ class SummaryPlanContainer extends React.Component {
       loading,
       loadingMoreItineraries,
       driving,
+      onlyHasWalkingItineraries,
     } = this.props;
     const searchTime =
       this.props.plan?.date ||
@@ -266,7 +268,8 @@ class SummaryPlanContainer extends React.Component {
         </h2>
         {(this.context.match.params.hash &&
           this.context.match.params.hash === 'bikeAndVehicle') ||
-        disableButtons
+        disableButtons ||
+        onlyHasWalkingItineraries
           ? null
           : arriveBy
           ? this.laterButton(true)
@@ -293,6 +296,7 @@ class SummaryPlanContainer extends React.Component {
           loadingMoreItineraries={loadingMoreItineraries}
           loading={loading}
           driving={driving}
+          onlyHasWalkingItineraries={onlyHasWalkingItineraries}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>
@@ -306,7 +310,8 @@ class SummaryPlanContainer extends React.Component {
         )}
         {(this.context.match.params.hash &&
           this.context.match.params.hash === 'bikeAndVehicle') ||
-        disableButtons
+        disableButtons ||
+        onlyHasWalkingItineraries
           ? null
           : arriveBy
           ? this.earlierButton(true)

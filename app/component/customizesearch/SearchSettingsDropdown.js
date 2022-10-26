@@ -77,6 +77,7 @@ class SearchSettingsDropdown extends React.Component {
     formatOptions: PropTypes.bool,
     name: PropTypes.string.isRequired,
     translateLabels: PropTypes.bool,
+    overrideStyle: PropTypes.object,
   };
 
   static defaultProps = {
@@ -174,6 +175,7 @@ class SearchSettingsDropdown extends React.Component {
       defaultValue,
       formatOptions,
       translateLabels,
+      overrideStyle,
     } = this.props;
     const { intl } = this.context;
     const { showDropdown } = this.state || {};
@@ -239,6 +241,7 @@ class SearchSettingsDropdown extends React.Component {
         <button
           type="button"
           className="settings-dropdown-label"
+          style={overrideStyle}
           onClick={() => this.toggleDropdown(this.state.showDropdown)}
         >
           <p className="settings-dropdown-label-text">{labelText}</p>

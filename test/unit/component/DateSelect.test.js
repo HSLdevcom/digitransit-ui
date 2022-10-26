@@ -21,9 +21,9 @@ describe('<DateSelect />', () => {
     moment.tz.setDefault();
   });
 
-  it('should render 30 options', () => {
+  it('should render 60 options', () => {
     const wrapper = shallowWithIntl(<DateSelect {...defaultProps} />);
-    expect(wrapper.find(Select).props().options).to.have.lengthOf(30);
+    expect(wrapper.find(Select).props().options).to.have.lengthOf(60);
   });
 
   it('should render today and tomorrow as text, others as weekday abbreviation with date', () => {

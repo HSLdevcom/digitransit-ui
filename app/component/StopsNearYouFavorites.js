@@ -15,7 +15,11 @@ function StopsNearYouFavorites({
   searchPosition,
   breakpoint,
   noFavorites,
+  favouritesFetched,
 }) {
+  if (!favouritesFetched) {
+    return <Loading />;
+  }
   if (noFavorites) {
     return (
       <div className="no-favorites-container">
@@ -92,6 +96,7 @@ StopsNearYouFavorites.propTypes = {
   bikeStations: PropTypes.array,
   breakpoint: PropTypes.string,
   noFavorites: PropTypes.bool,
+  favouritesFetched: PropTypes.bool,
 };
 
 const StopsNearYouFavoritesWithBreakpoint = withBreakpoint(props => (

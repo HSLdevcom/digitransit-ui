@@ -11,7 +11,7 @@ const walttiConfig = require('./config.waltti').default;
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  appBarLink: { name: 'Kuopio', href: 'https://vilkku.kuopio.fi/' },
+  appBarLink: { name: 'Vilkku', href: 'https://vilkku.kuopio.fi/' },
 
   colors: {
     primary: '#0ab1c8',

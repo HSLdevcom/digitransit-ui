@@ -822,6 +822,27 @@ export const createUniqueAlertList = (
   return groupedAlerts.sort(alertCompare);
 };
 
+/**
+ * Checks whether the alert to be displayed has meaningful data (header or description) or not.
+ * Used to decide whether to render the box for the alert or not.
+ * @param {*} alerts list of alerts.
+ */
+export const hasMeaningfulData = alerts => {
+  if (alerts.length === 0) {
+    return false;
+  }
+  const alertForDisplaying = [...alerts].sort(alertSeverityCompare)[0];
+  const header = getServiceAlertHeader(alertForDisplaying);
+  const description = getServiceAlertDescription(alertForDisplaying);
+  if (
+    (header && header.length > 0) ||
+    (description && description.length > 0)
+  ) {
+    return true;
+  }
+  return false;
+};
+
 export const mapAlertSource = (config, lang, feedName) => {
   if (
     config &&

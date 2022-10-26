@@ -28,7 +28,7 @@ function DateSelect(props, context) {
     value: date.add(1, 'd').format(props.dateFormat),
   });
 
-  for (let i = 0; i < 28; i++) {
+  for (let i = 0; i < 58; i++) {
     dates.push({
       value: date.add(1, 'd').format(props.dateFormat),
       label: date.format('dd D.M.'),

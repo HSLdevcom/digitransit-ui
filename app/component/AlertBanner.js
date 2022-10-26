@@ -7,11 +7,16 @@ import Icon from './Icon';
 import {
   getServiceAlertDescription,
   alertSeverityCompare,
+  getServiceAlertHeader,
 } from '../util/alertUtils';
 
 const AlertBanner = ({ alerts, linkAddress, language }, { config }) => {
   const alert = [...alerts].sort(alertSeverityCompare)[0];
   const message = getServiceAlertDescription(alert, language);
+  const header = getServiceAlertHeader(alert, language);
+  if (!message && !header) {
+    return <></>;
+  }
   const icon =
     alert.alertSeverityLevel !== 'INFO'
       ? 'icon-icon_caution_white_exclamation'
@@ -29,7 +34,7 @@ const AlertBanner = ({ alerts, linkAddress, language }, { config }) => {
         <Icon img={icon} color={iconColor} />
         <div className="alert-text">
           <TruncateMarkup lines={2} ellipsis={<span>... </span>}>
-            <div>{message}</div>
+            <div>{header || message}</div>
           </TruncateMarkup>
         </div>
         <div className="arrow-icon">
