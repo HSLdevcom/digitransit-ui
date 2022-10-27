@@ -57,6 +57,7 @@ import {
   getCurrentSettings,
   preparePlanParams,
   getDefaultSettings,
+  hasStartAndDestination,
 } from '../util/planParamUtil';
 import { getTotalBikingDistance } from '../util/legUtils';
 import { userHasChangedModes } from '../util/modeUtils';
@@ -389,7 +390,7 @@ class SummaryPage extends React.Component {
       parkRidePlan: undefined,
       loadingMoreItineraries: undefined,
       itineraryTopics: undefined,
-      isFetchingWalkAndBike: true,
+      isFetchingWalkAndBike: hasStartAndDestination(props.match.params),
       settingsChangedRecently: false,
     };
     if (this.props.match.params.hash === 'walk') {
@@ -410,7 +411,10 @@ class SummaryPage extends React.Component {
     } else {
       this.selectedPlan = this.props.viewer && this.props.viewer.plan;
     }
-    if (relevantRoutingSettingsChanged(context.config)) {
+    if (
+      relevantRoutingSettingsChanged(context.config) &&
+      hasStartAndDestination(context.match.params)
+    ) {
       this.makeQueryWithAllModes();
     }
   }
@@ -1526,7 +1530,10 @@ class SummaryPage extends React.Component {
           alternativePlan: undefined,
         },
         () => {
-          if (relevantRoutingSettingsChanged(this.context.config)) {
+          if (
+            relevantRoutingSettingsChanged(this.context.config) &&
+            hasStartAndDestination(this.context.match.params)
+          ) {
             this.makeQueryWithAllModes();
           }
         },
