@@ -5,7 +5,10 @@ import { matchShape } from 'found';
 import Loading from './Loading';
 import { validateServiceTimeRange } from '../util/timeUtils';
 import { planQuery } from '../util/queryUtils';
-import { preparePlanParams } from '../util/planParamUtil';
+import {
+  hasStartAndDestination,
+  preparePlanParams,
+} from '../util/planParamUtil';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 
 const modules = {
@@ -28,13 +31,6 @@ const SummaryPageContainer = ({ content, match }, { config }) => {
     />
   );
 
-  const { fromPlace, toPlace } = preparePlanParams(config, false)(
-    match.params,
-    match,
-  );
-  const hasStartAndDestination =
-    fromPlace && toPlace && fromPlace !== '-' && toPlace !== '-';
-
   useEffect(() => {
     // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
     setClient(true);
@@ -43,7 +39,7 @@ const SummaryPageContainer = ({ content, match }, { config }) => {
     <LazilyLoad modules={modules}>
       {({ QueryRenderer, SummaryPage }) =>
         /* Don't make a query if start or destination is invalid, only render */
-        !hasStartAndDestination ? (
+        !hasStartAndDestination(match.params) ? (
           <>
             {screenReaderAlert}
             <SummaryPage
