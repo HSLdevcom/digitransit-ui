@@ -28,47 +28,69 @@ const SummaryPageContainer = ({ content, match }, { config }) => {
     />
   );
 
+  const { fromPlace, toPlace } = preparePlanParams(config, false)(
+    match.params,
+    match,
+  );
+  const hasStartAndDestination =
+    fromPlace && toPlace && fromPlace !== '-' && toPlace !== '-';
+
   useEffect(() => {
     // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
     setClient(true);
   });
   return isClient ? (
     <LazilyLoad modules={modules}>
-      {({ QueryRenderer, SummaryPage }) => (
-        <QueryRenderer
-          query={planQuery}
-          variables={preparePlanParams(config, false)(match.params, match)}
-          environment={environment}
-          render={({ props: innerProps, error }) => {
-            return innerProps ? (
-              <>
-                {screenReaderAlert}
-                <SummaryPage
-                  {...innerProps}
-                  content={content}
-                  match={match}
-                  error={error}
-                  loading={false}
-                  alertRef={alertRef}
-                />
-              </>
-            ) : (
-              <>
-                {screenReaderAlert}
-                <SummaryPage
-                  content={content}
-                  match={match}
-                  viewer={{ plan: {} }}
-                  serviceTimeRange={validateServiceTimeRange()}
-                  loading
-                  error={error}
-                  alertRef={alertRef}
-                />
-              </>
-            );
-          }}
-        />
-      )}
+      {({ QueryRenderer, SummaryPage }) =>
+        /* Don't make a query if start or destination is invalid, only render */
+        !hasStartAndDestination ? (
+          <>
+            {screenReaderAlert}
+            <SummaryPage
+              content={content}
+              match={match}
+              viewer={{ plan: {} }}
+              serviceTimeRange={validateServiceTimeRange()}
+              loading={false}
+              alertRef={alertRef}
+            />
+          </>
+        ) : (
+          <QueryRenderer
+            query={planQuery}
+            variables={preparePlanParams(config, false)(match.params, match)}
+            environment={environment}
+            render={({ props: innerProps, error }) => {
+              return innerProps ? (
+                <>
+                  {screenReaderAlert}
+                  <SummaryPage
+                    {...innerProps}
+                    content={content}
+                    match={match}
+                    error={error}
+                    loading={false}
+                    alertRef={alertRef}
+                  />
+                </>
+              ) : (
+                <>
+                  {screenReaderAlert}
+                  <SummaryPage
+                    content={content}
+                    match={match}
+                    viewer={{ plan: {} }}
+                    serviceTimeRange={validateServiceTimeRange()}
+                    loading
+                    error={error}
+                    alertRef={alertRef}
+                  />
+                </>
+              );
+            }}
+          />
+        )
+      }
     </LazilyLoad>
   ) : (
     <Loading />

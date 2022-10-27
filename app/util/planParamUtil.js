@@ -193,6 +193,9 @@ const getShouldMakeCarQuery = (
   );
 };
 
+export const hasStartAndDestination = ({ from, to }) =>
+  from && to && from !== '-' && to !== '-';
+
 export const preparePlanParams = (config, useDefaultModes) => (
   { from, to },
   {
