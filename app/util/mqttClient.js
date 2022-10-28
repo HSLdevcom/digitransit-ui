@@ -112,9 +112,16 @@ export function changeTopics(settings, actionContext) {
   if (Array.isArray(oldTopics) && oldTopics.length > 0) {
     client.unsubscribe(oldTopics);
   }
-  const topics = settings.options.map(option => getTopic(option, settings));
+  // Also generate hash to be used to validate topics later
+  const topicsHash = {};
+  const topics = [];
+  settings.options.forEach(option => {
+    const topicString = getTopic(option, settings);
+    topicsHash[option.route] = topicString;
+    topics.push(topicString);
+  });
   // set new topic to store
-  actionContext.dispatch('RealTimeClientNewTopics', topics);
+  actionContext.dispatch('RealTimeClientNewTopics', { topics, topicsHash });
   client.subscribe(topics);
 }
 
