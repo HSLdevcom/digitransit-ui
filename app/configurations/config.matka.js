@@ -92,6 +92,7 @@ export default {
     'MatkahuoltoVantaa',
     'MatkahuoltoVarsinais',
     'digitraffic',
+    'fintraffic',
   ],
 
   meta: {
