@@ -14,7 +14,7 @@ import {
   urlMiddleware,
   retryMiddleware,
   errorMiddleware,
-  cacheMiddleware,
+//  cacheMiddleware,
 } from 'react-relay-network-modern';
 import RelayServerSSR from 'react-relay-network-modern-ssr/lib/server';
 import { ReactRelayContext } from 'react-relay';
@@ -154,10 +154,6 @@ function getEnvironment(config, agent) {
   const layer = new RelayNetworkLayer([
     next => req => next(req).catch(() => ({ payload: { data: null } })),
     relaySSRMiddleware.getMiddleware(),
-    cacheMiddleware({
-      size: 200,
-      ttl: 60 * 60 * 1000,
-    }),
     urlMiddleware({
       url: () =>
         Promise.resolve(`${config.URL.OTP}index/graphql${queryParameters}`),

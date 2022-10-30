@@ -20,8 +20,8 @@ const parseQueryVars = props => ({
 });
 
 const withNumberOfItineraries = requiredCount => WrappedComponent => {
-  const HOCWrapperComponent = props => {
-    const { itineraries, status } = useAutofetchRelay(
+  const HOCWrapperComponentInit = props => {
+    const { itineraries, status, error } = useAutofetchRelay(
       props.relay,
       parseQueryVars(props),
       props.viewer?.plan,
@@ -39,12 +39,14 @@ const withNumberOfItineraries = requiredCount => WrappedComponent => {
     };
 
     const { nextPageCursor, previousPageCursor } = props.viewer?.plan || {};
+    const isLoading = status !== 'COMPLETE' && status !== 'ERROR';
 
     return (
       <WrappedComponent
         {...props}
         viewer={viewer}
-        loading={status !== 'COMPLETE' || props.loading}
+        loading={isLoading || props.loading}
+        error={props.error || error}
         itineraryCount={viewer.plan.itineraries.length}
         nextPageCursor={nextPageCursor}
         previousPageCursor={previousPageCursor}
@@ -52,11 +54,11 @@ const withNumberOfItineraries = requiredCount => WrappedComponent => {
     );
   };
 
-  HOCWrapperComponent.displayName = `withFetchInitialItineraries(${
+  HOCWrapperComponentInit.displayName = `withFetchInitialItineraries(${
     WrappedComponent.displayName || 'Component'
   })`;
 
-  HOCWrapperComponent.propTypes = {
+  HOCWrapperComponentInit.propTypes = {
     viewer: PropTypes.shape({
       plan: PropTypes.shape({
         itineraries: PropTypes.arrayOf(PropTypes.shape({})),
@@ -75,12 +77,12 @@ const withNumberOfItineraries = requiredCount => WrappedComponent => {
     match: matchShape.isRequired,
   };
 
-  HOCWrapperComponent.defaultProps = {
+  HOCWrapperComponentInit.defaultProps = {
     loading: false,
     error: undefined,
   };
 
-  return HOCWrapperComponent;
+  return HOCWrapperComponentInit;
 };
 
 export default withNumberOfItineraries;

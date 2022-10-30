@@ -6,6 +6,7 @@ const refetchFn = (...args) => {
 
   // 3rd argument must be a function
   expect(typeof onComplete).to.equal('function');
+  console.log("refetchFn");
 
   // simulate request delay
   setTimeout(onComplete, 10);
@@ -62,7 +63,7 @@ describe('useAutofetchRelay()', () => {
     );
   });
 
-  it('should refetch 5 itineraries in 2 parts', () => {
+  it('should refetch 5 itineraries in 2 parts', async () => {
     const hook = renderHook(
       ({ relay, queryVars, plan }) =>
         useAutofetchRelay(relay, queryVars, plan, undefined, 5),
@@ -72,12 +73,12 @@ describe('useAutofetchRelay()', () => {
     );
 
     expect(hook.result.current.itineraries.length).to.equal(0);
-
     // simulate react-relay response
     hook.rerender({
       ...initialProps,
       plan: MockPlans.query_3,
     });
+    await hook.waitForNextUpdate();
 
     expect(hook.result.current.status).to.equal('REFETCHING');
     expect(hook.result.current.itineraries.length).to.equal(3);
@@ -87,6 +88,7 @@ describe('useAutofetchRelay()', () => {
       ...initialProps,
       plan: MockPlans.query_2,
     });
+    await hook.waitForNextUpdate();
 
     expect(hook.result.current.status).to.equal('COMPLETE');
     expect(hook.result.current.itineraries.length).to.equal(
@@ -115,7 +117,7 @@ describe('useAutofetchRelay()', () => {
     );
   });
 
-  it('should compute queried itineraries correctly', () => {
+  it('should compute numItineraries correctly', () => {
     let numItineraries;
 
     const mockFn = refetchVariablesFn => {
@@ -136,5 +138,38 @@ describe('useAutofetchRelay()', () => {
     );
 
     expect(numItineraries).to.equal(5);
+  });
+
+  it('should process new results on query props change', () => {
+    const hook = renderHook(
+      ({ relay, queryVars, plan }) =>
+        useAutofetchRelay(relay, queryVars, plan, undefined, 5),
+      {
+        initialProps,
+      },
+    );
+
+    expect(hook.result.current.itineraries.length).to.equal(0);
+
+    // simulate react-relay response
+    hook.rerender({
+      ...initialProps,
+      plan: MockPlans.query_5,
+    });
+
+    expect(hook.result.current.status).to.equal('COMPLETE');
+    expect(hook.result.current.itineraries.length).to.equal(5);
+
+    // simulate react-relay response
+    /*    hook.rerender({
+      ...initialProps,
+      plan: MockPlans.query_2,
+    });
+
+    expect(hook.result.current.status).to.equal('COMPLETE');
+    expect(hook.result.current.itineraries.length).to.equal(
+      NUM_REQUIRE_ITINERARIES,
+    );
+    */
   });
 });

@@ -11,6 +11,7 @@ const ACTION_ERROR = 'ERROR';
 const STATUS_FETCHING = 'FETCHING';
 const STATUS_REFETCHING = 'REFETCHING';
 const STATUS_COMPLETE = 'COMPLETE';
+const STATUS_ERROR = 'ERROR';
 
 /**
  * Clamp value under zero to zero.
@@ -24,6 +25,7 @@ const isInitialFetch = plan => typeof plan?.itineraries === 'undefined';
 
 const dataUpdateReducer = (state, action) => {
   const { payload } = action;
+
   const updatedItineraries = getUniqItineraries([
     ...(state.itineraries || []),
     ...(payload.plan?.itineraries || []),
@@ -73,9 +75,10 @@ const reducer = (state, action) => {
     case ACTION_ERROR:
       return {
         ...state,
-        status: STATUS_COMPLETE,
+        status: STATUS_ERROR,
         nextPageCursor: undefined,
         previousPageCursor: undefined,
+        error: payload,
       };
 
     default:
@@ -92,7 +95,11 @@ const reducer = (state, action) => {
  * - User-provided plan queryVariables updates are detected by deep-compare.
  *
  *  Status state diagram:
- *
+ *                                                            ____________
+ *                                                           |            |
+ *         +-----------------+------------------+----------->|   ERROR    |
+ *         |                 |                  |            |____________|
+ *         |                 |                  |
  *   _____________      ____________      ______________      ____________
  *  |             |    |            |    |              |    |            |
  *  |  undefined  |--->|  FETCHING  |--->|  REFETCHING  |--->|  COMPLETE  |
@@ -128,15 +135,17 @@ const useAutofetchRelay = (
 
   useEffect(() => {
     dispatch({
-      action: ACTION_MOUNTED,
-      plan,
-      queryVariables,
+      type: ACTION_MOUNTED,
+      payload: {
+        plan,
+        queryVariables,
+      },
     });
   }, []);
 
   useEffect(() => {
     if (error) {
-      dispatch({ type: ACTION_ERROR });
+      dispatch({ type: ACTION_ERROR, payload: error });
     }
   }, [error]);
 
@@ -178,35 +187,35 @@ const useAutofetchRelay = (
     };
   }, [state]);
 
-  /**
-   * Detect user-made updates to query variables eg. from, to, arriveBy.
-   */
   useEffect(() => {
-    if (isEqual(state.queryVariables, queryVariables)) {
+    // either detect user-made updates to query variables eg. from, to, arriveBy...
+    const isQueryUpdated = !isEqual(state.queryVariables, queryVariables);
+    if (isQueryUpdated) {
+      // reset itinerary listing when query variables change
+      dispatch({
+        type: ACTION_MOUNTED,
+        payload: {
+          plan,
+          queryVariables,
+        },
+      });
       return;
     }
 
-    // reset itinerary listing when query variables change
-    dispatch({ type: ACTION_QUERY_UPDATE, payload: queryVariables });
-  });
-
-  /**
-   * Detect updates to query response data.
-   */
-  useEffect(() => {
+    // ...or detect updates to query response data.
     const isDataUpdated = !isEqual(state.itineraries, plan?.itineraries);
-
     if (isDataUpdated) {
       dispatch({
         type: ACTION_DATA_UPDATE,
         payload: { plan },
       });
     }
-  }, [plan]);
+  });
 
   return {
     itineraries: state.itineraries,
     status: state.status,
+    error: state.error,
   };
 };
 
