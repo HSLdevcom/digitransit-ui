@@ -1,5 +1,8 @@
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/waltti/`;
+const MAP_URL =
+  process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
+const POI_MAP_PREFIX = `${MAP_URL}/map/v3/waltti`;
 const APP_DESCRIPTION = 'Uusi Reittiopas';
 const YEAR = 1900 + new Date().getYear();
 const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
@@ -8,9 +11,11 @@ export default {
   YEAR,
   URL: {
     OTP: OTP_URL,
-    STOP_MAP: `${OTP_URL}vectorTiles/stops,stations/`,
-    RENTAL_STATION_MAP: `${OTP_URL}vectorTiles/rentalStations/`,
-    REALTIME_RENTAL_STATION_MAP: `${OTP_URL}vectorTiles/realtimeRentalStations/`,
+    STOP_MAP: `${POI_MAP_PREFIX}/stops,stations/`,
+    PARK_AND_RIDE_MAP: `${POI_MAP_PREFIX}/vehicleParking/`,
+    PARK_AND_RIDE_GROUP_MAP: `${POI_MAP_PREFIX}/vehicleParkingGroups/`,
+    RENTAL_STATION_MAP: `${POI_MAP_PREFIX}/rentalStations/`,
+    REALTIME_RENTAL_STATION_MAP: `${POI_MAP_PREFIX}/realtimeRentalStations/`,
   },
 
   contactName: {
