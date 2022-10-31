@@ -117,7 +117,14 @@ export function changeTopics(settings, actionContext) {
   const topics = [];
   settings.options.forEach(option => {
     const topicString = getTopic(option, settings);
-    topicsHash[option.route] = topicString;
+    if (option.route) {
+      topicsHash[option.route] = topicString;
+    } else if (option.tripId) {
+      if (!topicsHash.stop_page_show_all) {
+        topicsHash.stop_page_show_all = true;
+      }
+      topicsHash[option.tripId] = topicString;
+    }
     topics.push(topicString);
   });
   // set new topic to store
