@@ -2,6 +2,7 @@ const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/waltti/`;
 const APP_DESCRIPTION = 'Uusi Reittiopas';
 const YEAR = 1900 + new Date().getYear();
+const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 
 export default {
   YEAR,
@@ -125,12 +126,43 @@ export default {
   redirectReittiopasParams: true,
   queryMaxAgeDays: 14,
 
-  nationalServiceLink: { name: 'matka.fi', href: 'https://opas.matka.fi/' },
+  nationalServiceLink: {
+    fi: {
+      name: 'matka.fi',
+      href: 'https://opas.matka.fi/',
+    },
+    sv: {
+      name: 'matka.fi',
+      href: 'https://opas.matka.fi/sv/',
+    },
+    en: {
+      name: 'matka.fi',
+      href: 'https://opas.matka.fi/en/',
+    },
+  },
 
   showNearYouButtons: true,
   allowLogin: false,
 
   messageBarAlerts: true,
+
+  // DT-5494
+  includeCarSuggestions: true,
+  includeParkAndRideSuggestions: true,
+  // Include both bike and park and bike and public
+  includePublicWithBikePlan: false,
+  // Park and ride and car suggestions separated into two switches
+  separatedParkAndRideSwitch: true,
+  showBikeAndParkItineraries: true,
+  parkingAreaSources: ['liipi'],
+
+  parkAndRide: {
+    showParkAndRide: false,
+    parkAndRideMinZoom: 13,
+    pageContent: {
+      default: HSLParkAndRideUtils,
+    },
+  },
 
   hostnames: [
     // DEV hostnames

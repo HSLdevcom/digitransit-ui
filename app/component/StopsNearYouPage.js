@@ -46,6 +46,7 @@ import {
   getNearYouModes,
   useCitybikes,
 } from '../util/modeUtils';
+import FavouriteStore from '../store/FavouriteStore';
 
 // component initialization phases
 const PH_START = 'start';
@@ -82,6 +83,7 @@ class StopsNearYouPage extends React.Component {
     favouriteStationIds: PropTypes.arrayOf(PropTypes.string),
     favouriteBikeStationIds: PropTypes.arrayOf(PropTypes.string),
     mapLayers: mapLayerShape.isRequired,
+    favouritesFetched: PropTypes.bool,
   };
 
   constructor(props) {
@@ -90,9 +92,6 @@ class StopsNearYouPage extends React.Component {
       phase: PH_START,
       centerOfMap: null,
       centerOfMapChanged: false,
-      favouriteStopIds: props.favouriteStopIds,
-      favouriteStationIds: props.favouriteStationIds,
-      favouriteBikeStationIds: props.favouriteBikeStationIds,
       showCityBikeTeaser: true,
       searchPosition: {},
       mapLayerOptions: null,
@@ -174,21 +173,6 @@ class StopsNearYouPage extends React.Component {
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
     let newState = null;
-    if (
-      (nextProps.match.params.mode !== 'FAVORITE' &&
-        prevState.favouriteStopIds.length !==
-          nextProps.favouriteStopIds.length) ||
-      prevState.favouriteStationIds.length !==
-        nextProps.favouriteStationIds.length ||
-      prevState.favouriteBikeStationIds.length !==
-        nextProps.favouriteBikeStationIds.length
-    ) {
-      newState = {
-        favouriteStopIds: nextProps.favouriteStopIds,
-        favouriteStationIds: nextProps.favouriteStationIds,
-        favouriteBikeStationIds: nextProps.favouriteBikeStationIds,
-      };
-    }
     if (prevState.phase === PH_GEOLOCATIONING) {
       if (nextProps.position.locationingFailed) {
         newState = { phase: PH_USEDEFAULTPOS };
@@ -391,9 +375,9 @@ class StopsNearYouPage extends React.Component {
 
   noFavorites = () => {
     return (
-      !this.state.favouriteStopIds.length &&
-      !this.state.favouriteStationIds.length &&
-      !this.state.favouriteBikeStationIds.length
+      !this.props.favouriteStopIds.length &&
+      !this.props.favouriteStationIds.length &&
+      !this.props.favouriteBikeStationIds.length
     );
   };
 
@@ -429,10 +413,11 @@ class StopsNearYouPage extends React.Component {
             <StopsNearYouFavorites
               searchPosition={this.state.searchPosition}
               match={this.props.match}
-              favoriteStops={this.state.favouriteStopIds}
-              favoriteStations={this.state.favouriteStationIds}
-              favoriteBikeRentalStationIds={this.state.favouriteBikeStationIds}
+              favoriteStops={this.props.favouriteStopIds}
+              favoriteStations={this.props.favouriteStationIds}
+              favoriteBikeRentalStationIds={this.props.favouriteBikeStationIds}
               noFavorites={noFavs}
+              favouritesFetched={this.props.favouritesFetched}
             />
           </div>
         );
@@ -683,9 +668,9 @@ class StopsNearYouPage extends React.Component {
             }
           `}
           variables={{
-            stopIds: this.state.favouriteStopIds,
-            stationIds: this.state.favouriteStationIds,
-            bikeRentalStationIds: this.state.favouriteBikeStationIds,
+            stopIds: this.props.favouriteStopIds,
+            stationIds: this.props.favouriteStationIds,
+            bikeRentalStationIds: this.props.favouriteBikeStationIds,
           }}
           environment={this.props.relayEnvironment}
           render={({ props }) => {
@@ -705,9 +690,9 @@ class StopsNearYouPage extends React.Component {
                   stations={props.stations}
                   bikeStations={props.bikeStations}
                   favouriteIds={[
-                    ...this.state.favouriteStopIds,
-                    ...this.state.favouriteStationIds,
-                    ...this.state.favouriteBikeStationIds,
+                    ...this.props.favouriteStopIds,
+                    ...this.props.favouriteStationIds,
+                    ...this.props.favouriteBikeStationIds,
                   ]}
                   breakpoint={this.props.breakpoint}
                 />
@@ -995,6 +980,7 @@ const PositioningWrapper = connectToStores(
         .getBikeRentalStations()
         .map(station => station.stationId);
     }
+    const status = context.getStore('FavouriteStore').getStatus();
     return {
       ...props,
       position: context.getStore('PositionStore').getLocationState(),
@@ -1005,6 +991,7 @@ const PositioningWrapper = connectToStores(
       favouriteStopIds,
       favouriteBikeStationIds,
       favouriteStationIds,
+      favouritesFetched: status !== FavouriteStore.STATUS_FETCHING_OR_UPDATING,
     };
   },
 );

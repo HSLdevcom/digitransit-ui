@@ -14,7 +14,7 @@ import { findNearestOption } from '../../util/planParamUtil';
 // eslint-disable-next-line react/prefer-stateless-function
 class BikingOptionsSection extends React.Component {
   render() {
-    const { defaultSettings, bikeSpeed } = this.props;
+    const { defaultSettings, bikeSpeed, overrideStyle } = this.props;
     const { intl } = this.context;
     const options = getFiveStepOptionsNumerical(this.props.bikeSpeedOptions);
     const currentSelection =
@@ -44,6 +44,7 @@ class BikingOptionsSection extends React.Component {
           formatOptions
           labelText={intl.formatMessage({ id: 'biking-speed' })}
           translateLabels={false}
+          overrideStyle={overrideStyle}
         />
       </React.Fragment>
     );
@@ -53,6 +54,7 @@ class BikingOptionsSection extends React.Component {
 BikingOptionsSection.propTypes = {
   bikeSpeed: valueShape.isRequired,
   bikeSpeedOptions: PropTypes.array.isRequired,
+  overrideStyle: PropTypes.object,
   defaultSettings: PropTypes.shape({
     bikeSpeed: PropTypes.number.isRequired,
   }).isRequired,

@@ -23,20 +23,20 @@ import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { isIOS, isSafari } from '../util/browser';
 import SettingsChangedNotification from './SettingsChangedNotification';
+import ItineraryShape from '../prop-types/ItineraryShape';
+import ErrorShape from '../prop-types/ErrorShape';
+import LocationStateShape from '../prop-types/LocationStateShape';
+import RoutingErrorShape from '../prop-types/RoutingErrorShape';
+import ChildrenShape from '../prop-types/ChildrenShape';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
     activeIndex: PropTypes.number,
-    children: PropTypes.node,
+    children: ChildrenShape,
     currentTime: PropTypes.number.isRequired,
-    error: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    itineraries: PropTypes.arrayOf(
-      PropTypes.shape({
-        endTime: PropTypes.number,
-        startTime: PropTypes.number,
-      }),
-    ).isRequired,
-    locationState: PropTypes.object,
+    error: ErrorShape,
+    itineraries: PropTypes.arrayOf(ItineraryShape).isRequired,
+    locationState: LocationStateShape.isRequired,
     params: PropTypes.shape({
       from: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
@@ -45,14 +45,9 @@ class SummaryPlanContainer extends React.Component {
     }).isRequired,
     plan: PropTypes.shape({
       date: PropTypes.number,
-      itineraries: PropTypes.arrayOf(
-        PropTypes.shape({
-          endTime: PropTypes.number,
-          startTime: PropTypes.number,
-          legs: PropTypes.array,
-        }),
-      ),
+      itineraries: PropTypes.arrayOf(ItineraryShape),
     }).isRequired,
+    routingErrors: PropTypes.arrayOf(RoutingErrorShape),
     serviceTimeRange: PropTypes.shape({
       start: PropTypes.number.isRequired,
       end: PropTypes.number.isRequired,
@@ -70,27 +65,25 @@ class SummaryPlanContainer extends React.Component {
     loadingMoreItineraries: PropTypes.string,
     alternativePlan: PropTypes.shape({
       date: PropTypes.number,
-      itineraries: PropTypes.arrayOf(
-        PropTypes.shape({
-          endTime: PropTypes.number,
-          startTime: PropTypes.number,
-          legs: PropTypes.array,
-        }),
-      ),
+      itineraries: PropTypes.arrayOf(ItineraryShape),
     }).isRequired,
     showSettingsChangedNotification: PropTypes.func.isRequired,
     openSettingsModal: PropTypes.func.isRequired,
     driving: PropTypes.bool,
+    onlyHasWalkingItineraries: PropTypes.bool,
   };
 
   static defaultProps = {
     activeIndex: 0,
+    children: null,
     error: undefined,
     walking: false,
     biking: false,
     showAlternativePlan: false,
     loadingMoreItineraries: undefined,
     driving: false,
+    routingErrors: [],
+    separatorPosition: undefined,
   };
 
   static contextTypes = {
@@ -133,6 +126,7 @@ class SummaryPlanContainer extends React.Component {
 
   onSelectImmediately = index => {
     const subpath = this.getSubPath('/');
+    // eslint-disable-next-line compat/compat
     const momentumScroll = document.getElementsByClassName(
       'momentum-scroll',
     )[0];
@@ -253,6 +247,7 @@ class SummaryPlanContainer extends React.Component {
       loading,
       loadingMoreItineraries,
       driving,
+      onlyHasWalkingItineraries,
     } = this.props;
     const searchTime =
       this.props.plan?.date ||
@@ -273,7 +268,8 @@ class SummaryPlanContainer extends React.Component {
         </h2>
         {(this.context.match.params.hash &&
           this.context.match.params.hash === 'bikeAndVehicle') ||
-        disableButtons
+        disableButtons ||
+        onlyHasWalkingItineraries
           ? null
           : arriveBy
           ? this.laterButton(true)
@@ -283,6 +279,7 @@ class SummaryPlanContainer extends React.Component {
           currentTime={currentTime}
           locationState={locationState}
           error={this.props.error}
+          routingErrors={this.props.routingErrors}
           from={otpToLocation(from)}
           intermediatePlaces={getIntermediatePlaces(location.query)}
           itineraries={itineraries}
@@ -299,6 +296,7 @@ class SummaryPlanContainer extends React.Component {
           loadingMoreItineraries={loadingMoreItineraries}
           loading={loading}
           driving={driving}
+          onlyHasWalkingItineraries={onlyHasWalkingItineraries}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>
@@ -312,7 +310,8 @@ class SummaryPlanContainer extends React.Component {
         )}
         {(this.context.match.params.hash &&
           this.context.match.params.hash === 'bikeAndVehicle') ||
-        disableButtons
+        disableButtons ||
+        onlyHasWalkingItineraries
           ? null
           : arriveBy
           ? this.earlierButton(true)

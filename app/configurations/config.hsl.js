@@ -117,7 +117,20 @@ export default {
 
   appBarStyle: 'hsl',
 
-  nationalServiceLink: { name: 'matka.fi', href: 'https://opas.matka.fi/' },
+  nationalServiceLink: {
+    fi: {
+      name: 'matka.fi',
+      href: 'https://opas.matka.fi/',
+    },
+    sv: {
+      name: 'matka.fi',
+      href: 'https://opas.matka.fi/sv/',
+    },
+    en: {
+      name: 'matka.fi',
+      href: 'https://opas.matka.fi/en/',
+    },
+  },
 
   agency: {
     show: false,
@@ -555,6 +568,10 @@ export default {
 
   includeCarSuggestions: false,
   includeParkAndRideSuggestions: true,
+  // Include both bike and park and bike and public
+  includePublicWithBikePlan: true,
+  // Park and ride and car suggestions separated into two switches
+  separatedParkAndRideSwitch: false,
 
   parkingAreaSources: ['liipi'],
 

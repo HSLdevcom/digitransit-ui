@@ -13,7 +13,6 @@ import {
   RelayNetworkLayer,
   urlMiddleware,
   retryMiddleware,
-  batchMiddleware,
   errorMiddleware,
   cacheMiddleware,
 } from 'react-relay-network-modern';
@@ -162,12 +161,6 @@ function getEnvironment(config, agent) {
     urlMiddleware({
       url: () =>
         Promise.resolve(`${config.URL.OTP}index/graphql${queryParameters}`),
-    }),
-    batchMiddleware({
-      batchUrl: () =>
-        Promise.resolve(
-          `${config.URL.OTP}index/graphql/batch${queryParameters}`,
-        ),
     }),
     errorMiddleware(),
     retryMiddleware({

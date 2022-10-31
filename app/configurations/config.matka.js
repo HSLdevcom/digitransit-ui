@@ -70,6 +70,7 @@ export default {
       'mode-ferry': '#247C7B',
       'mode-ferry-pier': '#666666',
       'mode-citybike': '#FCBC19',
+      'mode-citybike-secondary': '#333333',
     },
   },
   feedIds: [
@@ -235,6 +236,96 @@ export default {
           en: 'https://kaakau.fi/lappeenranta/?lang=en',
         },
       },
+      donkey_kotka: {
+        enabled: true,
+        season: {
+          // 14.4. - 31.10.
+          start: new Date(new Date().getFullYear(), 3, 14),
+          end: new Date(new Date().getFullYear(), 10, 1),
+        },
+        capacity: BIKEAVL_WITHMAX,
+        icon: 'citybike',
+        name: {
+          fi: 'Kotka',
+          sv: 'Kotka',
+          en: 'Kotka',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://kaakau.fi/kotka/',
+          sv: 'https://kaakau.fi/kotka/?lang=sv',
+          en: 'https://kaakau.fi/kotka/?lang=en',
+        },
+        returnInstructions: {
+          fi: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+          sv: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+          en: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+        },
+      },
+      donkey_hamina: {
+        enabled: true,
+        season: {
+          // 14.4. - 31.10.
+          start: new Date(new Date().getFullYear(), 3, 14),
+          end: new Date(new Date().getFullYear(), 10, 1),
+        },
+        capacity: BIKEAVL_WITHMAX,
+        icon: 'citybike-secondary',
+        name: {
+          fi: 'Hamina',
+          sv: 'Hamina',
+          en: 'Hamina',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://kaakau.fi/hamina/',
+          sv: 'https://kaakau.fi/hamina/?lang=sv',
+          en: 'https://kaakau.fi/hamina/?lang=en',
+        },
+        returnInstructions: {
+          fi: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+          sv: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+          en: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+        },
+      },
+      donkey_kouvola: {
+        enabled: true,
+        season: {
+          // 20.4. - 31.10.
+          start: new Date(new Date().getFullYear(), 3, 20),
+          end: new Date(new Date().getFullYear(), 10, 1),
+        },
+        capacity: BIKEAVL_WITHMAX,
+        icon: 'citybike',
+        name: {
+          fi: 'Kouvola',
+          sv: 'Kouvola',
+          en: 'Kouvola',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://kaakau.fi/kouvola/',
+          sv: 'https://kaakau.fi/kouvola/?lang=sv',
+          en: 'https://kaakau.fi/kouvola/?lang=en',
+        },
+        returnInstructions: {
+          fi: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+          sv: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+          en: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+        },
+      },
+    },
+  },
+
+  getAutoSuggestIcons: {
+    citybikes: station => {
+      if (
+        station.properties.source === 'citybikesdonkey_hamina' ||
+        station.properties.source === 'vantaa'
+      ) {
+        return ['citybike-stop-digitransit-secondary', '#FCBC19'];
+      }
+      return ['citybike-stop-digitransit', '#FCBC19'];
     },
   },
 
@@ -288,6 +379,11 @@ export default {
 
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
+  // Include both bike and park and bike and public
+  includePublicWithBikePlan: false,
+  // Park and ride and car suggestions separated into two switches
+  separatedParkAndRideSwitch: true,
+  showBikeAndParkItineraries: true,
 
   parkingAreaSources: ['liipi'],
 

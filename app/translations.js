@@ -879,6 +879,7 @@ const translations = {
     'search-current-suggestion': 'Current selection: {selection}',
     'select-date': 'Select date',
     'select-from-map-destination': 'Select destination',
+    'select-from-map-favourite': 'Select from map',
     'select-from-map-no-title': 'No title',
     'select-from-map-origin': 'Select origin',
     'select-from-map-viaPoint': 'Select viapoint',
@@ -1017,6 +1018,10 @@ const translations = {
     departures: 'Departures',
     'departures-by-hour': 'Departures by hour',
     'departures-by-hour-minutes-route': '(minutes/route)',
+    'departures-not-found':
+      'Unfortunately, no timetable was found for the stop you selected',
+    'departures-not-found-time-threshold':
+      'Unfortunately, no timetable was found for the stop you selected. It is possible that the day you searched for is too ar in the future. Please try again nearer to the time of your journey',
     description: 'Find public transport services to locations near and far.',
     destination: 'Destination',
     'destination-defined': 'Destination defined',
@@ -1120,7 +1125,7 @@ const translations = {
     'itinerary-hide-stops': 'Hide stops',
     'itinerary-in-the-past':
       'The route search falls within a period that is in the past.',
-    'itinerary-in-the-past-link': 'I want to travel now ›',
+    'itinerary-in-the-past-link': 'Depart now ›',
     'itinerary-in-the-past-title': 'The route options cannot be displayed',
     'itinerary-page.description': 'Itinerary',
     'itinerary-page.hide-details': 'Hide itinerary details',
@@ -1267,7 +1272,9 @@ const translations = {
       'The timetable does not include later departures.',
     'no-route-found':
       'Unfortunately, route {shortName} ({longName}) could not be found.',
-    'no-route-msg': 'Unfortunately, no route suggestions were found.',
+    'no-route-msg': 'Unfortunately, no route suggestions were found',
+    'no-route-msg-time-threshold':
+      'Unfortunately, no route suggestions were found. It is possible that no timetables can yet be found for the day you selected. Please try again nearer to the time of your journey',
     'no-route-msg-with-changes':
       'Unfortunately, no route suggestions were found. Please check your search settings or try changing the origin or destination.',
     'no-route-origin-near-destination':
@@ -1390,6 +1397,35 @@ const translations = {
     'route-to-park': 'Route to the park',
     'route-to-station': 'Route to the station',
     'route-to-stop': 'Route to the stop',
+    'router-change-departure-time': 'Change departure time ›',
+    'router-location-not-found':
+      'Please select location on the road network or at a stop.',
+    'router-location-not-found-title-1':
+      'There is no defined access to the destination',
+    'router-location-not-found-title-2':
+      'There is no defined access to the origin',
+    'router-location-not-found-title-3':
+      'There is no defined access to the origin and the destination',
+    'router-only-walk':
+      'No faster alternatives than walking are available for the route you searched for.',
+    'router-only-walk-title': 'Walk the route',
+    'router-outside-bounds-3':
+      'No route suggestions were found because the origin and destination are outside the service area.',
+    'router-outside-service-period':
+      'Timetable information is not available for the time you selected.',
+    'router-stops-in-range-1':
+      'There are no public transport stops close enough to the selected destination.',
+    'router-stops-in-range-2':
+      'There are no public transport stops close enough to the selected origin.',
+    'router-stops-in-range-3':
+      'There are no public transport stops close enough to the selected origin and destination.',
+    'router-system-error':
+      'An error occurred in the system. Please try again later.',
+    'router-transit-connection':
+      'Please try changing the origin or destination.',
+    'router-transit-connection-in-search-window':
+      'There are no services available at the selected time.',
+    'router-unable': 'Unable to show route options',
     routes: 'Routes',
     'routes-platforms': 'Routes and platforms',
     'routes-tracks': 'Routes and tracks',
@@ -1776,7 +1812,7 @@ const translations = {
     'no-route-end-date-not-in-range':
       'Los horarios actuales no incluyen rutas saliendo más tarde.',
     'no-route-msg':
-      'Desafortunadamente no se encontraron rutas para su viaje. Por favor cambie el origen o el destino.',
+      'Desafortunadamente no se encontraron rutas para su viaje. Por favor cambie el origen o el destino',
     'no-route-msg-with-changes':
       'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
     'no-route-origin-near-destination':
@@ -1972,6 +2008,7 @@ const translations = {
       'Sulje välipisteen {index} pysähdyksen kesto valitsin',
     'select-date': 'Valitse päivä',
     'select-from-map-destination': 'Valitse määränpää',
+    'select-from-map-favourite': 'Valitse kartalta',
     'select-from-map-no-title': 'Ei otsikkoa',
     'select-from-map-origin': 'Valitse lähtöpaikka',
     'select-from-map-viaPoint': 'Valitse välipiste',
@@ -2110,6 +2147,10 @@ const translations = {
     departures: 'Lähdöt',
     'departures-by-hour': 'Lähdöt tunneittain',
     'departures-by-hour-minutes-route': '(minuutit/linja)',
+    'departures-not-found':
+      'Valitsemallesi pysäkille ei valitettavasti löytynyt aikataulua',
+    'departures-not-found-time-threshold':
+      'Valitsemallesi pysäkille ei valitettavasti löytynyt aikataulua. Syynä voi olla se, että hakemasi päivämäärä on niin pitkällä tulevaisuudessa. Ole hyvä ja yritä uudelleen lähempänä matkasi ajankohtaa',
     description: 'Löydä joukkoliikennetarjonta lähelle ja kauas.',
     destination: 'Määränpää',
     'destination-defined': 'Määränpää määritetty',
@@ -2355,7 +2396,9 @@ const translations = {
       'Aikataulu ei sisällä myöhäisempiä reittejä.',
     'no-route-found':
       'Linjaa {shortName} ({longName}) ei valitettavasti löytynyt.',
-    'no-route-msg': 'Reittiehdotuksia ei valitettavasti löytynyt.',
+    'no-route-msg': 'Reittiehdotuksia ei valitettavasti löytynyt',
+    'no-route-msg-time-threshold':
+      'Reittiehdotuksia ei valitettavasti löytynyt. On mahdollista, ettei aikatauluja löydy vielä valitsemallesi päivälle. Ole hyvä ja yritä uudelleen lähempänä matkasi ajankohtaa',
     'no-route-msg-with-changes':
       'Reittiehdotuksia ei valitettavasti löytynyt. Ole hyvä ja tarkasta asettamasi hakuasetukset tai yritä muuttaa lähtöpaikkaa tai määränpäätä.',
     'no-route-origin-near-destination':
@@ -2477,6 +2520,35 @@ const translations = {
     'route-to-park': 'Reitti parkille',
     'route-to-station': 'Reitti asemalle',
     'route-to-stop': 'Reitti pysäkille',
+    'router-change-departure-time': 'Muuta lähtöaikaa ›',
+    'router-location-not-found':
+      'Ole hyvä ja valitse paikka tieverkolta tai pysäkiltä.',
+    'router-location-not-found-title-1':
+      'Määränpäähän ei ole määritelty kulkuyhteyttä',
+    'router-location-not-found-title-2':
+      'Lähtöpaikkaan ei ole määritelty kulkuyhteyttä',
+    'router-location-not-found-title-3':
+      'Lähtöpaikkaan eikä määränpäähän ole määritelty kulkuyhteyttä',
+    'router-only-walk':
+      'Haetulle reitille ei löydy kävelyä nopeampaa vaihtoehtoa.',
+    'router-only-walk-title': 'Kulje reitti kävellen',
+    'router-outside-bounds-3':
+      'Reittiehdotuksia ei löytynyt, koska lähtöpaikka ja määränpää sijaistevat palvelun ulkopuolella.',
+    'router-outside-service-period':
+      'Valitsemaasi ajankohtaan ei ole saatavilla aikatalutietoja.',
+    'router-stops-in-range-1':
+      'Joukkoliikennepysäkkejä ei ole riittävän lähellä valittua määränpäätä.',
+    'router-stops-in-range-2':
+      'Joukkoliikennepysäkkejä ei ole riittävän lähellä valittua lähtöpaikkaa.',
+    'router-stops-in-range-3':
+      'Joukkoliikennepysäkkejä ei ole riittävän lähellä valittua lähtöpaikkaa eikä määränpäätä.',
+    'router-system-error':
+      'Järjestelmässä tapahtui virhe. Yritä myöhemmin uudelleen.',
+    'router-transit-connection':
+      'Ole hyvä ja yritä muuttaa lähtöpaikkaa tai määränpäätä.',
+    'router-transit-connection-in-search-window':
+      'Valittuna ajankohtana ei ole liikennöintiä.',
+    'router-unable': 'Reittivaihtoehtoja ei voida näyttää',
     routes: 'Linjat',
     'routes-platforms': 'Linjat ja laiturit',
     'routes-tracks': 'Linjat ja raiteet',
@@ -2881,7 +2953,7 @@ const translations = {
     'no-route-end-date-not-in-range':
       'Current timetable does not include routes departing later.',
     'no-route-msg':
-      "Impossible de trouver un itinéraire dans cette zone. Changer le point de départ ou d'arrivée.",
+      "Impossible de trouver un itinéraire dans cette zone. Changer le point de départ ou d'arrivée",
     'no-route-msg-with-changes':
       'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
     'no-route-origin-near-destination':
@@ -3575,7 +3647,7 @@ const translations = {
     'no-route-already-at-destination': 'Sunteți deja la destinație.',
     'no-route-end-date-not-in-range': 'Nu am găsit rute mai târziu în orar.',
     'no-route-msg':
-      'Nu s-a găsit nicio rută conform selecției. Schimbați punctul de plecare sau destinație.',
+      'Nu s-a găsit nicio rută conform selecției. Schimbați punctul de plecare sau destinație',
     'no-route-msg-with-changes':
       'Nu s-a găsit nicio rută conform selecției. Schimbați plecarea, destinația sau parametrii introduși ca preferințe.',
     'no-route-origin-near-destination':
@@ -3981,12 +4053,16 @@ const translations = {
     departures: 'Avgångar',
     'departures-by-hour': 'Avgångar per timme',
     'departures-by-hour-minutes-route': '(minuter/rad)',
+    'departures-not-found':
+      'Kunda tyvärr inte hitta tidtabell för den valda hållplatsen',
+    'departures-not-found-time-threshold':
+      'Kunde tyvärr inte hitta tidtabell för den valda hållplatsen. Det kan bero på det att det valda datumet ligger så långt in i framtiden. Försök på nytt senare',
     description: 'Res kollektivt när och fjärran.',
     destination: 'Destination',
     'destination-defined': 'Destination definierat',
     'destination-label-change': 'Byt destination',
     'destination-outside-service':
-      'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra destination, som ligger utanför serviceområde.',
+      'Kunde inte hitta ruttförslag eftersom destinationen ligger utanför serviceområdet.',
     'destination-placeholder': 'Destination, linje eller hållplats',
     'dialog-return-to-map': 'Tillbaka till kartan',
     'digitransit-platform': 'Digitransit-serviceplattformen',
@@ -4229,7 +4305,9 @@ const translations = {
     'no-route-end-date-not-in-range':
       'Tidtabellen har inga resor som avgår senare.',
     'no-route-found': 'Kunde tyvärr inte hitta linje {shortName} ({longName})',
-    'no-route-msg': 'Kunde tyvärr inte hitta ruttförslag',
+    'no-route-msg': 'Kunde tyvärr inte hitta ruttalternativ',
+    'no-route-msg-time-threshold':
+      'Kunde tyvärr inte hitta ruttförslag. Det kan bero på att det ännu inte finnd tidtabeller för den valda dagen. Försök på nytt senare',
     'no-route-msg-with-changes':
       'Kunde tyvärr inte hitta ruttförslag Var god och kontrollera dina val eller försök ändra avgångsplats eller destination.',
     'no-route-origin-near-destination':
@@ -4265,7 +4343,7 @@ const translations = {
     'origin-defined': 'Avfärdsplats definierat',
     'origin-label-change': 'Byt avfärdsplats',
     'origin-outside-service':
-      'Kunde inte hitta ruttförslag eftersom avgångsplatsen ligger utanför vårt serviceområde.',
+      'Kunde inte hitta ruttförslag eftersom avgångsplatsen ligger utanför serviceområdet',
     'origin-placeholder': 'Från - adress eller hållplats',
     'other-dates': 'Andra datum',
     'own-position': 'Min position',
@@ -4353,6 +4431,34 @@ const translations = {
     'route-to-park': 'Rutt till parken',
     'route-to-station': 'Rutt till stationen',
     'route-to-stop': 'Rutt till hållplatsen',
+    'router-change-departure-time': 'Ändra avgångstid ›',
+    'router-location-not-found':
+      'Var god och välj en plats på vägnätet eller på hållplatsen.',
+    'router-location-not-found-title-1':
+      'Det finns ingen definierad förbindelse till destinationen',
+    'router-location-not-found-title-2':
+      'Det finns ingen difinierad förbindelse till avgångsplatsen',
+    'router-location-not-found-title-3':
+      'Det finns ingen difinierad förbindelse till avgångsplatsen eller destinationen',
+    'router-only-walk': 'Kunde inte hitta snabbare alternativ än promenad.',
+    'router-only-walk-title': 'Gå rutten till fots',
+    'router-outside-bounds-3':
+      'Kunde inte hitta ruttförslag eftersom avgångsplatsen och destinationen ligger utanför serviceområdet.',
+    'router-outside-service-period':
+      'Det valda datumet ligger inom en sådan tidtabellsperiod att det inte finns tidtabeller tillgängliga.',
+    'router-stops-in-range-1':
+      'Det finns inte kollektivtrafikhållplatser tillräckligt nära till den valda destinationen.',
+    'router-stops-in-range-2':
+      'Det finns inte kollektivtrafikhållplatser tillräckligt nära till den valda avgångsplatsen.',
+    'router-stops-in-range-3':
+      'Det finns inte kollektivtrafikhållplatser tillräckligt nära till den valda avgångsplatsen eller destinationen.',
+    'router-system-error':
+      'Det skedde ett fel i systemet. Försök på nytt senare.',
+    'router-transit-connection':
+      'Var god och försök ändra avgångsplats eller destination.',
+    'router-transit-connection-in-search-window':
+      'Ingen trafik under det valda datumet.',
+    'router-unable': 'Kan inte visa ruttalternativ',
     routes: 'Linjer',
     'routes-platforms': 'Linjer och plattformer',
     'routes-tracks': 'Linjer och spår',
@@ -4380,6 +4486,7 @@ const translations = {
     'searching-position': 'Söker position...',
     'select-all-routes': 'Välj alla rutter',
     'select-from-map-destination': 'Välj destination',
+    'select-from-map-favourite': 'Välj från kartan',
     'select-from-map-no-title': 'Ingen rubrik',
     'select-from-map-origin': 'Välj avfärdsplats',
     'select-from-map-viaPoint': 'Välj mellanpunkt',
@@ -4518,9 +4625,9 @@ const translations = {
     'try-again': 'Försök igen',
     'use-citybike': 'Ta i bruk',
     'use-national-service': 'Du kan också använda national tjänsten:',
-    'use-national-service-postfix': '-tjänsten.',
+    'use-national-service-postfix': '.',
     'use-national-service-prefix':
-      'Vi rekommenderar att du använder ruttsökning',
+      'Vi rekommenderar att du använder ruttsökning i tjänsten ',
     'use-own-position': 'Använd min position',
     userinfo: 'Mina uppgifter',
     usermenu: 'Användarmeny',
