@@ -11,7 +11,7 @@ const walttiConfig = require('./config.waltti').default;
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  feedIds: ['FOLI'],
+  feedIds: ['FOLI', 'FUNI'],
 
   searchParams: {
     'boundary.rect.min_lat': 59.963388,
@@ -28,6 +28,7 @@ export default configMerger(walttiConfig, {
       'mode-rail': '#8c4799',
       'mode-ferry': '#35b5b3',
       'mode-ferry-pier': '#666666',
+      'mode-funicular': '#ff00ff',
     },
   },
 
@@ -86,6 +87,12 @@ export default configMerger(walttiConfig, {
       availableForSelection: true,
       defaultValue: true,
       color: '#35b5b3',
+    },
+
+    funicular: {
+      availableForSelection: true,
+      defaultValue: true,
+      color: '#ff00ff',
     },
 
     citybike: {

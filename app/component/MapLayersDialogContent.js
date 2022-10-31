@@ -219,6 +219,19 @@ class MapLayersDialogContent extends React.Component {
               }}
             />
           )}
+          {isTransportModeEnabled(transportModes.funicular) && (
+            <Checkbox
+              large
+              checked={stop.funicular}
+              disabled={!!this.props.mapLayerOptions?.stop?.funicular?.isLocked}
+              defaultMessage="Funicular"
+              labelId="map-layer-stop-funicular"
+              onChange={e => {
+                this.updateStopSetting({ funicular: e.target.checked });
+                this.sendLayerChangeAnalytic('FunicularStop', e.target.checked);
+              }}
+            />
+          )}
           {this.context.config.parkAndRide &&
             this.context.config.parkAndRide.showParkAndRide && (
               <Checkbox

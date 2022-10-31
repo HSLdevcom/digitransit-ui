@@ -120,6 +120,11 @@ export default {
         en: 'The closest ferry piers',
       },
     },
+
+    funicular: {
+      availableForSelection: false,
+      defaultValue: false,
+    },
   },
 
   nearbyModeSet: 'waltti',

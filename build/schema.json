@@ -2545,6 +2545,16 @@
                             "defaultValue": null
                         },
                         {
+                            "name": "FUNICULAR",
+                            "description": "The weight of FUNICULAR traverse mode. Values over 1 add cost to funicular travel and values under 1 decrease cost",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Float",
+                                "ofType": null
+                            },
+                            "defaultValue": null
+                        },
+                        {
                             "name": "CABLE_CAR",
                             "description": "The weight of CABLE_CAR traverse mode. Values over 1 add cost to cable car travel and values under 1 decrease cost",
                             "type": {
@@ -3460,6 +3470,12 @@
                         {
                             "name": "FERRY",
                             "description": "FERRY",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "FUNICULAR",
+                            "description": "FUNICULAR",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
