@@ -31,7 +31,7 @@ const query = graphql`
   }
 `;
 
-const REALTIME_REFETCH_FREQUENCY = 30000; // 30 seconds
+const REALTIME_REFETCH_FREQUENCY = 60000; // 60 seconds
 
 class BikeRentalStations {
   constructor(tile, config, mapLayers, relayEnvironment) {
