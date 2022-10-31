@@ -31,6 +31,8 @@ const query = graphql`
   }
 `;
 
+const REALTIME_REFETCH_FREQUENCY = 30000; // 30 seconds
+
 class BikeRentalStations {
   constructor(tile, config, mapLayers, relayEnvironment) {
     this.tile = tile;
@@ -56,8 +58,9 @@ class BikeRentalStations {
     const tileUrl = `${baseUrl}${
       this.tile.coords.z + (this.tile.props.zoomOffset || 0)
     }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`;
-    return fetchWithLanguageAndSubscription(tileUrl, this.config, lang).then(
-      res => {
+    return fetchWithLanguageAndSubscription(tileUrl, this.config, lang)
+      .then(res => {
+        this.timeOfLastFetch = new Date().getTime();
         if (res.status !== 200) {
           return undefined;
         }
@@ -100,8 +103,11 @@ class BikeRentalStations {
           },
           err => console.log(err), // eslint-disable-line no-console
         );
-      },
-    );
+      })
+      .catch(err => {
+        this.timeOfLastFetch = new Date().getTime();
+        console.log(err); // eslint-disable-line no-console
+      });
   };
 
   draw = (feature, zoomedIn) => {
@@ -144,9 +150,6 @@ class BikeRentalStations {
   };
 
   drawHighlighted = ({ geom, properties: { id, network } }, iconName) => {
-    const lastFetch = this.timeOfLastFetch;
-    const currentTime = new Date().getTime();
-
     const citybikeCapacity = getCitybikeCapacity(this.config, network);
 
     const callback = ({ station: result }) => {
@@ -166,19 +169,12 @@ class BikeRentalStations {
 
     const idForFetching = `${network}:${id}`;
 
-    if (lastFetch && currentTime - lastFetch <= 30000) {
-      fetchQuery(this.relayEnvironment, query, { id: idForFetching }).then(
-        callback,
-      );
-    } else {
-      this.timeOfLastFetch = new Date().getTime();
-      fetchQuery(
-        this.relayEnvironment,
-        query,
-        { id: idForFetching },
-        { force: true },
-      ).then(callback);
-    }
+    fetchQuery(
+      this.relayEnvironment,
+      query,
+      { id: idForFetching },
+      { force: true },
+    ).then(callback);
   };
 
   drawSmallMarker = (geom, iconName) => {
@@ -191,7 +187,12 @@ class BikeRentalStations {
   };
 
   onTimeChange = lang => {
-    if (this.canHaveStationUpdates) {
+    const currentTime = new Date().getTime();
+    if (
+      this.canHaveStationUpdates &&
+      (!this.timeOfLastFetch ||
+        currentTime - this.timeOfLastFetch > REALTIME_REFETCH_FREQUENCY)
+    ) {
       this.fetchAndDraw(lang);
     }
   };
