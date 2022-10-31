@@ -55,6 +55,7 @@ describe('<TileLayerContainer />', () => {
               stop: {},
               terminal: {},
             }),
+            getLanguage: () => 'fi',
             on: () => {},
           }),
         },
