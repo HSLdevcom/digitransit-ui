@@ -63,18 +63,18 @@ class RealTimeInformationStore extends Store {
       if (Array.isArray(message)) {
         message.forEach(msg => {
           if (
-            !this.topicsHash ||
-            Object.keys(this.topicsHash).length === 0 ||
-            this.topicsHash[msg.route.split(':')[1]]
+            !this.topicsByRoute ||
+            Object.keys(this.topicsByRoute).length === 0 ||
+            this.topicsByRoute[msg.route.split(':')[1]]
           ) {
             // Filter out old messages
             this.vehicles[msg.id] = { ...msg, receivedAt };
           }
         });
       } else if (
-        !this.topicsHash ||
-        Object.keys(this.topicsHash).length === 0 ||
-        this.topicsHash[message.route.split(':')[1]]
+        !this.topicsByRoute ||
+        Object.keys(this.topicsByRoute).length === 0 ||
+        this.topicsByRoute[message.route.split(':')[1]]
       ) {
         this.vehicles[message.id] = { ...message, receivedAt };
       }
@@ -82,9 +82,9 @@ class RealTimeInformationStore extends Store {
     }
   }
 
-  setTopics({ topics, topicsHash }) {
+  setTopics({ topics, topicsByRoute }) {
     this.topics = topics;
-    this.topicsHash = topicsHash;
+    this.topicsByRoute = topicsByRoute;
   }
 
   getVehicle = id => this.vehicles[id];
