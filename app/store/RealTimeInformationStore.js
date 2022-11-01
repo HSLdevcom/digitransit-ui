@@ -62,17 +62,27 @@ class RealTimeInformationStore extends Store {
       const receivedAt = moment().unix();
       if (Array.isArray(message)) {
         message.forEach(msg => {
-          this.vehicles[msg.id] = { ...msg, receivedAt };
+          if (
+            !this.topicsByRoute ||
+            this.topicsByRoute[msg.route.split(':')[1]]
+          ) {
+            // Filter out old messages
+            this.vehicles[msg.id] = { ...msg, receivedAt };
+          }
         });
-      } else {
+      } else if (
+        !this.topicsByRoute ||
+        this.topicsByRoute[message.route.split(':')[1]]
+      ) {
         this.vehicles[message.id] = { ...message, receivedAt };
       }
       this.conditionalEmit();
     }
   }
 
-  setTopics(topics) {
+  setTopics({ topics, topicsByRoute }) {
     this.topics = topics;
+    this.topicsByRoute = topicsByRoute;
   }
 
   getVehicle = id => this.vehicles[id];
