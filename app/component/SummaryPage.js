@@ -1887,6 +1887,7 @@ class SummaryPage extends React.Component {
         showActive={detailView}
         showVehicles={this.showVehicles()}
         onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+        loading={this.props.loading || this.state.isFetchingWalkAndBike}
       />
     );
   }

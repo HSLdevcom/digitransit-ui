@@ -21,6 +21,7 @@ function ItineraryPageMap(
     showVehicles,
     topics,
     onlyHasWalkingItineraries,
+    loading,
     ...rest
   },
   { match, router, executeAction, config },
@@ -57,6 +58,7 @@ function ItineraryPageMap(
         showTransferLabels={showActive}
         showIntermediateStops
         onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+        loading={loading}
       />,
     );
   }
@@ -110,6 +112,7 @@ ItineraryPageMap.propTypes = {
   to: PropTypes.object.isRequired,
   viaPoints: PropTypes.array.isRequired,
   onlyHasWalkingItineraries: PropTypes.bool,
+  loading: PropTypes.bool,
 };
 
 ItineraryPageMap.contextTypes = {
