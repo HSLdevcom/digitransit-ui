@@ -112,23 +112,18 @@ export function changeTopics(settings, actionContext) {
   if (Array.isArray(oldTopics) && oldTopics.length > 0) {
     client.unsubscribe(oldTopics);
   }
-  // Also generate hash to be used to validate topics later
-  const topicsHash = {};
+  const topicsByRoute = {};
   const topics = [];
   settings.options.forEach(option => {
     const topicString = getTopic(option, settings);
     if (option.route) {
-      topicsHash[option.route] = topicString;
-    } else if (option.tripId) {
-      if (!topicsHash.stop_page_show_all) {
-        topicsHash.stop_page_show_all = true;
-      }
-      topicsHash[option.tripId] = topicString;
+      topicsByRoute[option.route] = topicString;
     }
     topics.push(topicString);
   });
+
   // set new topic to store
-  actionContext.dispatch('RealTimeClientNewTopics', { topics, topicsHash });
+  actionContext.dispatch('RealTimeClientNewTopics', { topics, topicsByRoute });
   client.subscribe(topics);
 }
 

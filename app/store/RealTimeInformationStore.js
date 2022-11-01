@@ -64,7 +64,7 @@ class RealTimeInformationStore extends Store {
         message.forEach(msg => {
           if (
             !this.topicsHash ||
-            this.topicsHash.stop_page_show_all ||
+            Object.keys(this.topicsHash).length === 0 ||
             this.topicsHash[msg.route.split(':')[1]]
           ) {
             // Filter out old messages
@@ -73,7 +73,7 @@ class RealTimeInformationStore extends Store {
         });
       } else if (
         !this.topicsHash ||
-        this.topicsHash.stop_page_show_all ||
+        Object.keys(this.topicsHash).length === 0 ||
         this.topicsHash[message.route.split(':')[1]]
       ) {
         this.vehicles[message.id] = { ...message, receivedAt };
