@@ -64,7 +64,6 @@ class RealTimeInformationStore extends Store {
         message.forEach(msg => {
           if (
             !this.topicsByRoute ||
-            Object.keys(this.topicsByRoute).length === 0 ||
             this.topicsByRoute[msg.route.split(':')[1]]
           ) {
             // Filter out old messages
@@ -73,7 +72,6 @@ class RealTimeInformationStore extends Store {
         });
       } else if (
         !this.topicsByRoute ||
-        Object.keys(this.topicsByRoute).length === 0 ||
         this.topicsByRoute[message.route.split(':')[1]]
       ) {
         this.vehicles[message.id] = { ...message, receivedAt };

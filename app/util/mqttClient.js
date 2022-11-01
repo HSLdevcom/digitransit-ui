@@ -112,11 +112,14 @@ export function changeTopics(settings, actionContext) {
   if (Array.isArray(oldTopics) && oldTopics.length > 0) {
     client.unsubscribe(oldTopics);
   }
-  const topicsByRoute = {};
+  let topicsByRoute;
   const topics = [];
   settings.options.forEach(option => {
     const topicString = getTopic(option, settings);
     if (option.route) {
+      if (!topicsByRoute) {
+        topicsByRoute = {};
+      }
       topicsByRoute[option.route] = topicString;
     }
     topics.push(topicString);
