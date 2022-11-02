@@ -252,6 +252,9 @@ function ItinerarySummaryListContainer(
   let outside;
   let iconType = 'caution';
   let iconImg = 'icon-icon_caution';
+  const timeDifferenceDays = moment
+    .duration(moment(searchTime).diff(moment()))
+    .asDays();
   // If error starts with "Error" it's not a message id, it's an error message
   // from OTP
   if (error && !startsWith(error, 'Error')) {
@@ -293,9 +296,6 @@ function ItinerarySummaryListContainer(
       msgId = 'walk-bike-itinerary-3';
     }
     // Show different message if trip is >30 days in the future
-    const timeDifferenceDays = moment
-      .duration(moment(searchTime).diff(moment()))
-      .asDays();
     if (timeDifferenceDays > 30) {
       msgId = 'no-route-msg-time-threshold';
     }
@@ -304,8 +304,12 @@ function ItinerarySummaryListContainer(
       getCurrentSettings(config),
       getDefaultSettings(config),
     );
-    if (hasChanges) {
+    if (hasChanges && timeDifferenceDays <= 30) {
       msgId = 'no-route-msg-with-changes';
+    } else if (hasChanges && timeDifferenceDays > 30) {
+      iconType = 'info';
+      iconImg = 'icon-icon_info';
+      msgId = 'no-route-msg-time-threshold';
     } else {
       msgId = 'no-route-msg';
     }
