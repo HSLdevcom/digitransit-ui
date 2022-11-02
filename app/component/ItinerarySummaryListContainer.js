@@ -304,12 +304,12 @@ function ItinerarySummaryListContainer(
       getCurrentSettings(config),
       getDefaultSettings(config),
     );
-    if (hasChanges && timeDifferenceDays <= 30) {
-      msgId = 'no-route-msg-with-changes';
-    } else if (hasChanges && timeDifferenceDays > 30) {
+    if (timeDifferenceDays > 30) {
       iconType = 'info';
       iconImg = 'icon-icon_info';
       msgId = 'no-route-msg-time-threshold';
+    } else if (hasChanges) {
+      msgId = 'no-route-msg-with-changes';
     } else {
       msgId = 'no-route-msg';
     }
