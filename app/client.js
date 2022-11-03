@@ -135,6 +135,11 @@ async function init() {
     ? `?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
     : '';
 
+  const language = context
+    .getComponentContext()
+    .getStore('PreferencesStore')
+    .getLanguage();
+
   const network = new RelayNetworkLayer([
     relaySSRMiddleware.getMiddleware(),
     cacheMiddleware({
@@ -152,6 +157,7 @@ async function init() {
     next => async req => {
       // eslint-disable-next-line no-param-reassign
       req.fetchOpts.headers.OTPTimeout = config.OTPTimeout;
+      req.fetchOpts.headers['Accept-Language'] = language;
       return next(req);
     },
   ]);
@@ -194,11 +200,6 @@ async function init() {
     .getComponentContext()
     .getStore('MessageStore')
     .addConfigMessages(config);
-
-  const language = context
-    .getComponentContext()
-    .getStore('PreferencesStore')
-    .getLanguage();
 
   configureMoment(language, config);
 
