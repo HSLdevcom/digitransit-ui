@@ -35,7 +35,7 @@ describe('<MarkerSelectPopup />', () => {
             properties: {
               id: '114',
               name: 'Ratapihantie',
-              networks: ['foobar'],
+              network: 'foobar',
             },
           },
         },
@@ -47,15 +47,10 @@ describe('<MarkerSelectPopup />', () => {
               y: 2778,
             },
             properties: {
-              name: '{"fi":"Tapiola","sv":"Hagalund","en":"Tapiola"}',
-              facility: {
-                id: 'Q2FyUGFyazo5OTA=',
-                carParkId: '990',
-                name: 'Tapiola Park',
-                maxCapacity: 1365,
-                spacesAvailable: 1123,
-                realtime: true,
-              },
+              name:
+                '{"fi":"Tapiola Park","sv":"Tapiola Park","en":"Tapiola Park"}',
+              id: 'hslpark:990',
+              carPlaces: true,
             },
           },
         },
@@ -67,15 +62,10 @@ describe('<MarkerSelectPopup />', () => {
               y: 2778,
             },
             properties: {
-              name: '{"fi":"Tapiola","sv":"Hagalund","en":"Tapiola"}',
-              facility: {
-                id: 'Q2FyUGFyazo5OTA=',
-                bikeParkId: '990',
-                name: 'Tapiola Park',
-                maxCapacity: 1365,
-                spacesAvailable: 1123,
-                realtime: true,
-              },
+              name:
+                '{"fi":"Tapiola Bicycle Park","sv":"Tapiola Bicycle Park","en":"Tapiola Bicycle Park"}',
+              id: 'hslpark:995',
+              bicyclePlaces: true,
             },
           },
         },

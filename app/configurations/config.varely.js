@@ -7,6 +7,9 @@ const APP_TITLE = 'Seutu+ reittiopas';
 const APP_DESCRIPTION = 'Varsinais-Suomen ELY-keskuksen reittiopas';
 const OTP_URL =
   process.env.DEV_OTP_URL || `${API_URL}/routing/v2/routers/varely/`;
+const MAP_URL =
+  process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
+const POI_MAP_PREFIX = `${MAP_URL}/map/v3/varely`;
 
 const walttiConfig = require('./config.waltti').default;
 
@@ -19,7 +22,7 @@ export default configMerger(walttiConfig, {
     OTP: OTP_URL,
 
     // read stops and stations OTP2 vector map tile server
-    STOP_MAP: `${OTP_URL}vectorTiles/stops,stations/`,
+    STOP_MAP: `${POI_MAP_PREFIX}/stops,stations/`,
   },
 
   feedIds: ['VARELY', 'FOLI'],

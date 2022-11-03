@@ -9,6 +9,8 @@ const GEOCODING_BASE_URL =
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const MAP_VERSION = process.env.MAP_VERSION || 'v2';
+const POI_MAP_PREFIX = `${MAP_URL}/map/v3/finland`;
+const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/finland/`;
 const APP_PATH = process.env.APP_CONTEXT || '';
 const {
   SENTRY_DSN,
@@ -39,14 +41,16 @@ export default {
     API_URL,
     ASSET_URL: process.env.ASSET_URL,
     MAP_URL,
-    OTP: process.env.OTP_URL || `${API_URL}/routing/v2/routers/finland/`,
+    OTP: OTP_URL,
     MAP: {
       default: `${MAP_URL}/map/${MAP_VERSION}/hsl-map/`,
       sv: `${MAP_URL}/map/${MAP_VERSION}/hsl-map-sv/`,
     },
-    STOP_MAP: `${MAP_URL}/map/${MAP_VERSION}/finland-stop-map/`,
-    CITYBIKE_MAP: `${MAP_URL}/map/${MAP_VERSION}/finland-citybike-map/`,
-    PARK_AND_RIDE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-parkandride-map/`,
+    STOP_MAP: `${POI_MAP_PREFIX}/stops,stations/`,
+    RENTAL_STATION_MAP: `${POI_MAP_PREFIX}/rentalStations/`,
+    REALTIME_RENTAL_STATION_MAP: `${POI_MAP_PREFIX}/realtimeRentalStations/`,
+    PARK_AND_RIDE_MAP: `${POI_MAP_PREFIX}/vehicleParking/`,
+    PARK_AND_RIDE_GROUP_MAP: `${POI_MAP_PREFIX}/vehicleParkingGroups/`,
 
     FONT:
       'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700',

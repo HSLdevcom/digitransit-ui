@@ -3,9 +3,10 @@ import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
+const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/hsl/`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const MAP_VERSION = process.env.MAP_VERSION || 'v2';
+const POI_MAP_PREFIX = `${MAP_URL}/map/v3/hsl`;
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
@@ -19,11 +20,13 @@ export default {
   CONFIG,
 
   URL: {
-    OTP: process.env.OTP_URL || `${API_URL}/routing/v2/routers/hsl/`,
-    STOP_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-stop-map/`,
-    PARK_AND_RIDE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-parkandride-map/`,
+    OTP: OTP_URL,
+    STOP_MAP: `${POI_MAP_PREFIX}/stops,stations/`,
+    PARK_AND_RIDE_MAP: `${POI_MAP_PREFIX}/vehicleParking/`,
+    PARK_AND_RIDE_GROUP_MAP: `${POI_MAP_PREFIX}/vehicleParkingGroups/`,
+    RENTAL_STATION_MAP: `${POI_MAP_PREFIX}/rentalStations/`,
+    REALTIME_RENTAL_STATION_MAP: `${POI_MAP_PREFIX}/realtimeRentalStations/`,
     FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
-    CITYBIKE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-citybike-map/`,
     ROOTLINK: rootLink,
     BANNERS: BANNER_URL,
     HSL_FI_SUGGESTIONS: 'https://content.hsl.fi/api/v1/search/suggestions',

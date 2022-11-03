@@ -16,6 +16,7 @@ import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 import RealTimeInformationStore from '../../../store/RealTimeInformationStore';
+import PreferencesStore from '../../../store/PreferencesStore';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { getClientBreakpoint } from '../../../util/withBreakpoint';
 import {
@@ -25,6 +26,7 @@ import {
   PREFIX_CARPARK,
   PREFIX_BIKEPARK,
 } from '../../../util/path';
+import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 import SelectVehicleContainer from './SelectVehicleContainer';
 
 const initialState = {
@@ -59,6 +61,7 @@ class TileLayerContainer extends GridLayer {
     hilightedStops: PropTypes.arrayOf(PropTypes.string),
     stopsToShow: PropTypes.arrayOf(PropTypes.string),
     vehicles: PropTypes.object,
+    lang: PropTypes.string,
   };
 
   static contextTypes = {
@@ -133,7 +136,7 @@ class TileLayerContainer extends GridLayer {
           tile.el.layers &&
           tile.el.layers.forEach(layer => {
             if (layer.onTimeChange) {
-              layer.onTimeChange();
+              layer.onTimeChange(this.props.lang);
             }
           }),
       );
@@ -168,6 +171,7 @@ class TileLayerContainer extends GridLayer {
       this.props.hilightedStops,
       this.props.vehicles,
       this.props.stopsToShow,
+      this.props.lang,
     );
     tile.onSelectableTargetClicked = (
       selectableTargets,
@@ -207,34 +211,39 @@ class TileLayerContainer extends GridLayer {
         );
         return;
       }
+
       if (
         selectableTargets.length === 1 &&
-        selectableTargets[0].layer === 'parkAndRide' &&
-        (selectableTargets[0].feature.properties.facility ||
-          selectableTargets[0].feature.properties.facilities.length === 1)
+        (selectableTargets[0].layer === 'parkAndRide' ||
+          selectableTargets[0].layer === 'parkAndRideForBikes')
       ) {
-        const carParkId =
-          selectableTargets[0].feature.properties?.facility?.carParkId ||
-          selectableTargets[0].feature.properties?.facilities[0]?.carParkId;
-        if (carParkId) {
+        const { layer } = selectableTargets[0];
+        let parkingId;
+        // hubs have nested vehicleParking
+        if (selectableTargets[0].feature.properties?.vehicleParking) {
+          const parksInHub = selectableTargets[0].feature.properties?.vehicleParking?.filter(
+            parking =>
+              layer === 'parkAndRide'
+                ? parking.carPlaces
+                : parking.bicyclePlaces,
+          );
+          if (parksInHub.length === 1) {
+            parkingId = parksInHub[0].id;
+          }
+        } else {
+          parkingId = selectableTargets[0].feature.properties?.id;
+        }
+        if (parkingId) {
+          // TODO use feedScopedId here
           this.context.router.push(
-            `/${PREFIX_CARPARK}/${encodeURIComponent(carParkId)}`,
+            `/${
+              layer === 'parkAndRide' ? PREFIX_CARPARK : PREFIX_BIKEPARK
+            }/${encodeURIComponent(getIdWithoutFeed(parkingId))}`,
           );
           return;
         }
       }
-      if (
-        selectableTargets.length === 1 &&
-        selectableTargets[0].layer === 'parkAndRideForBikes' &&
-        selectableTargets[0].feature.properties.facility
-      ) {
-        this.context.router.push(
-          `/${PREFIX_BIKEPARK}/${encodeURIComponent(
-            selectableTargets[0].feature.properties.facility.bikeParkId,
-          )}`,
-        );
-        return;
-      }
+
       if (
         popup &&
         popup.isOpen() &&
@@ -311,10 +320,16 @@ class TileLayerContainer extends GridLayer {
       if (this.state.selectableTargets.length === 1) {
         let id;
         if (
-          this.state.selectableTargets[0].layer === 'parkAndRide' &&
-          this.state.selectableTargets[0].feature.properties.facilityIds
+          (this.state.selectableTargets[0].layer === 'parkAndRide' &&
+            this.state.selectableTargets[0].feature.properties.vehicleParking?.filter(
+              parking => parking.carPlaces,
+            ).length > 1) ||
+          (this.state.selectableTargets[0].layer === 'parkAndRideForBikes' &&
+            this.state.selectableTargets[0].feature.properties.vehicleParking?.filter(
+              parking => parking.bicyclePlaces,
+            ).length > 1)
         ) {
-          id = this.state.selectableTargets[0].feature.properties.facilityIds;
+          id = `parkAndRide_${this.state.selectableTargets[0].feature.properties.vehicleParking[0].id}`;
           contents = (
             <MarkerSelectPopup
               selectRow={this.selectRow}
@@ -419,9 +434,10 @@ const connectedComponent = withLeaflet(
         )}
       </ReactRelayContext.Consumer>
     ),
-    [RealTimeInformationStore],
+    [RealTimeInformationStore, PreferencesStore],
     context => ({
       vehicles: context.getStore(RealTimeInformationStore).vehicles,
+      lang: context.getStore(PreferencesStore).getLanguage(),
     }),
   ),
 );

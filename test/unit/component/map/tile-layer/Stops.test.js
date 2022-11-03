@@ -26,7 +26,7 @@ describe('Stops', () => {
       const mock = fetchMock.get(`${config.URL.STOP_MAP}3/1/2.pbf`, {
         status: 404,
       });
-      new Stops(tile, config, []); // eslint-disable-line no-new
+      new Stops(tile, config, []).getPromise(); // eslint-disable-line no-new
       expect(mock.called()).to.equal(true);
     });
 
@@ -34,7 +34,7 @@ describe('Stops', () => {
       const mock = fetchMock.get(`${config.URL.STOP_MAP}4/1/2.pbf`, {
         status: 404,
       });
-      new Stops({ ...tile, props: { zoomOffset: 1 } }, config, []); // eslint-disable-line no-new
+      new Stops({ ...tile, props: { zoomOffset: 1 } }, config, []).getPromise(); // eslint-disable-line no-new
       expect(mock.called()).to.equal(true);
     });
   });

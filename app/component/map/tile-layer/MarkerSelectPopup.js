@@ -6,6 +6,7 @@ import SelectStopRow from './SelectStopRow';
 import SelectCityBikeRow from './SelectCityBikeRow';
 import SelectParkAndRideRow from './SelectParkAndRideRow';
 import SelectVehicleContainer from './SelectVehicleContainer';
+import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 
 function MarkerSelectPopup(props) {
   const hasStop = () =>
@@ -13,6 +14,24 @@ function MarkerSelectPopup(props) {
 
   const hasVehicle = () =>
     props.options.find(option => option.layer === 'realTimeVehicle');
+
+  // TODO use feedScopedIds
+  const getRowForParking = (parking, layer) =>
+    ((layer === 'parkAndRide' && parking.carPlaces) ||
+      (layer === 'parkAndRideForBikes' && parking.bicyclePlaces)) && (
+      <SelectParkAndRideRow
+        key={parking.id}
+        name={parking.name}
+        carParkId={
+          layer === 'parkAndRide' ? getIdWithoutFeed(parking.id) : undefined
+        }
+        bikeParkId={
+          layer === 'parkAndRideForBikes'
+            ? getIdWithoutFeed(parking.id)
+            : undefined
+        }
+      />
+    );
 
   const rows = props.options.map(option => {
     if (option.layer === 'stop') {
@@ -33,38 +52,27 @@ function MarkerSelectPopup(props) {
         />
       );
     }
+
     if (
       option.layer === 'parkAndRide' ||
       option.layer === 'parkAndRideForBikes'
     ) {
-      if (
-        Array.isArray(option.feature.properties?.facilities) &&
-        option.feature.properties.facilities.length > 0
-      ) {
-        return (
-          <>
-            {option.feature.properties.facilities.map(facility => {
-              return (
-                <SelectParkAndRideRow
-                  key={facility.id}
-                  name={facility.name}
-                  bikeParkId={facility?.bikeParkId}
-                  carParkId={facility?.carParkId}
-                />
-              );
-            })}
-          </>
-        );
+      if (option.feature.properties.vehicleParking) {
+        const { vehicleParking } = option.feature.properties;
+        if (Array.isArray(vehicleParking) && vehicleParking.length > 0) {
+          return (
+            <React.Fragment key="parkAndRideOptions">
+              {vehicleParking.map(parking => {
+                return getRowForParking(parking, option.layer);
+              })}
+            </React.Fragment>
+          );
+        }
+      } else {
+        return getRowForParking(option.feature.properties, option.layer);
       }
-      return (
-        <SelectParkAndRideRow
-          key={option.feature.properties.facility.id}
-          name={option.feature.properties.facility.name}
-          bikeParkId={option.feature.properties.facility?.bikeParkId}
-          carParkId={option.feature.properties.facility?.carParkId}
-        />
-      );
     }
+
     if (option.layer === 'realTimeVehicle') {
       return (
         <SelectVehicleContainer

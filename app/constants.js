@@ -100,6 +100,11 @@ export const ExtendedRouteTypes = Object.freeze({
   BusLocal: 704,
 });
 
+export const ParkTypes = {
+  Bicycle: 'BICYCLE',
+  Car: 'CAR',
+};
+
 /**
  * OpenTripPlanner (v2) plan message enumerations.
  */

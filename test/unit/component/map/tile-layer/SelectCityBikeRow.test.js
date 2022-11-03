@@ -8,7 +8,7 @@ describe('<SelectCityBikeRow />', () => {
   it('should use the citybike icon by default', () => {
     const props = {
       name: 'foobar',
-      networks: 'some_network',
+      network: 'some_network',
       id: '001',
     };
     const wrapper = shallowWithIntl(<SelectCityBikeRow {...props} />);
@@ -18,7 +18,7 @@ describe('<SelectCityBikeRow />', () => {
   it('should use the configured icon for the network', () => {
     const props = {
       name: 'foobar',
-      networks: 'scooter_network',
+      network: 'scooter_network',
       id: '001',
     };
     const wrapper = shallowWithIntl(<SelectCityBikeRow {...props} />, {

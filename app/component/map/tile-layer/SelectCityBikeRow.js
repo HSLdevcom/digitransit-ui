@@ -12,9 +12,9 @@ import {
 import { PREFIX_BIKESTATIONS } from '../../../util/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function SelectCityBikeRow({ name, networks, id, desc }, { config }) {
+function SelectCityBikeRow({ name, network, id, desc }, { config }) {
   const img = `${getCityBikeNetworkIcon(
-    getCityBikeNetworkConfig(getCityBikeNetworkId(networks), config),
+    getCityBikeNetworkConfig(getCityBikeNetworkId(network), config),
   )}-stop-lollipop`;
   const address = desc || <FormattedMessage id="citybike-station-no-id" />;
   return (
@@ -45,10 +45,7 @@ SelectCityBikeRow.displayName = 'SelectCityBikeRow';
 
 SelectCityBikeRow.propTypes = {
   name: PropTypes.string.isRequired,
-  networks: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(PropTypes.string),
-  ]).isRequired,
+  network: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   desc: PropTypes.string,
 };
