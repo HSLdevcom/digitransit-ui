@@ -8476,10 +8476,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"connect-redis@npm:5.0.0":
-  version: 5.0.0
-  resolution: "connect-redis@npm:5.0.0"
-  checksum: b65b99ee71449a3ecd741c76f4fe4f9937269202f4ae6277998b8645292e11afd866d98313823e614c281187e47146c373a7f94adf36e7bbd94d0c1e833423a9
+"connect-redis@npm:5.2.0":
+  version: 5.2.0
+  resolution: "connect-redis@npm:5.2.0"
+  checksum: 65de57dd62e39f07d4f4f124a1d235e60a6df3429e29a15988c8c44e0f909402455be0209c3dd43937acc1bc3cda79d2f0c3a1c4417935052dc2b5789f5226bf
   languageName: node
   linkType: hard
 
@@ -9804,6 +9804,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"denque@npm:^1.5.0":
+  version: 1.5.1
+  resolution: "denque@npm:1.5.1"
+  checksum: 85c649f914c4f17cef9fd7b6bfa5dd023ce13062dc2fdc31da77757ee8246e1e52062d0e04f0f042c6f2798adac5266d0b536f4d82c8d0f37b0ad5f369f60ea6
+  languageName: node
+  linkType: hard
+
 "depd@npm:^1.1.2, depd@npm:~1.1.2":
   version: 1.1.2
   resolution: "depd@npm:1.1.2"
@@ -9981,7 +9988,7 @@ __metadata:
     classnames: 2.2.6
     codecov: 3.7.2
     compression-webpack-plugin: 5.0.2
-    connect-redis: 5.0.0
+    connect-redis: 5.2.0
     cookie-parser: 1.4.5
     copy-webpack-plugin: 6.1.0
     css-loader: 3.6.0
@@ -10080,7 +10087,7 @@ __metadata:
     react-swipe: 6.0.4
     react-truncate-markup: 5.1.0
     recompose: 0.30.0
-    redis: 2.8.0
+    redis: 3.1.2
     relay-compiler: 10.0.1
     relay-runtime: 10.0.1
     rollup: 2.35.1
@@ -10461,13 +10468,6 @@ __metadata:
     find-up: ^3.0.0
     minimatch: ^3.0.4
   checksum: 31d16bbd7e08bac8d006096a6b9181db091aa50efc6d2dd42287e44d3719103c09440ff7e12822381277f9679d93431a37662cb3c70bacff837a1acfb393cce3
-  languageName: node
-  linkType: hard
-
-"double-ended-queue@npm:^2.1.0-0":
-  version: 2.1.0-0
-  resolution: "double-ended-queue@npm:2.1.0-0"
-  checksum: 102d1da1aa4f307792b3431f47f383880c3e36a3d6a41481864b2363dfc6bee720e2dcf7ad535881a78aa3dd598d2b4e91e42cb987a1edf7a1da3e4c4dd637cd
   languageName: node
   linkType: hard
 
@@ -22715,28 +22715,38 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"redis-commands@npm:^1.2.0":
+"redis-commands@npm:^1.7.0":
   version: 1.7.0
   resolution: "redis-commands@npm:1.7.0"
   checksum: cbf5d33768b1c8e1001e2a7ffdaeb6ef830c538ef812d803a1c5e6038cf03482cf0a22b29eadf1182aa02a522331826e3af0967ae75fa7883da8a139ad2fc77b
   languageName: node
   linkType: hard
 
-"redis-parser@npm:^2.6.0":
-  version: 2.6.0
-  resolution: "redis-parser@npm:2.6.0"
-  checksum: a5e845e3d48e49c3b3b03f4a64c431d106fa130ac63d32694b2365e989580608f4e5c167548ebc2f6810c0c81316ece10ae84650d80ebe7b6a52c83e255cc8e7
+"redis-errors@npm:^1.0.0, redis-errors@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "redis-errors@npm:1.2.0"
+  checksum: b260bb64a1c8523d32a56701681ac3e5cc6bb0a4eb09f1d30729ebba397021d274216ff189909c08fe3c6b706ec8b74948e20ea410b6f69d31b35bda3fb82a59
   languageName: node
   linkType: hard
 
-"redis@npm:2.8.0":
-  version: 2.8.0
-  resolution: "redis@npm:2.8.0"
+"redis-parser@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "redis-parser@npm:3.0.0"
   dependencies:
-    double-ended-queue: ^2.1.0-0
-    redis-commands: ^1.2.0
-    redis-parser: ^2.6.0
-  checksum: d81b1b815461995140764e99294455c74a33451531a036001d64f8a0f321e64a84167e2f9b7cb0e218835c9b637e34b8dc317ca6c730bbc9c11ea4a4dd1f8a1f
+    redis-errors: ^1.0.0
+  checksum: 45dbcb05bed2c80a4aac288bbefed2347ecf3508c24d542ab42efa21fd63b5aaca4208b206f05818835a2ac43abe09250c2638c11c3b0b66a5d67e83985e350f
+  languageName: node
+  linkType: hard
+
+"redis@npm:3.1.2":
+  version: 3.1.2
+  resolution: "redis@npm:3.1.2"
+  dependencies:
+    denque: ^1.5.0
+    redis-commands: ^1.7.0
+    redis-errors: ^1.2.0
+    redis-parser: ^3.0.0
+  checksum: af9b5162aa98e3894fab9914e622019ba3e557c6e2285db419354b83fad30e971defb84600191c48985657d2c33d0c0549990fa4efdb9352e81c9727a309f691
   languageName: node
   linkType: hard
 
