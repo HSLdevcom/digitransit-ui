@@ -10056,7 +10056,7 @@ __metadata:
     offline-plugin: 5.0.7
     openid-client: 4.9.1
     optimize-css-assets-webpack-plugin: 5.0.4
-    passport: 0.4.1
+    passport: 0.6.0
     pbf: 3.2.1
     playwright: 1.16.2
     point-in-polygon: 1.0.1
@@ -20265,13 +20265,14 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"passport@npm:0.4.1":
-  version: 0.4.1
-  resolution: "passport@npm:0.4.1"
+"passport@npm:0.6.0":
+  version: 0.6.0
+  resolution: "passport@npm:0.6.0"
   dependencies:
     passport-strategy: 1.x.x
     pause: 0.0.1
-  checksum: f26e8debe6397c3600d0172d8c4eb2b6eb3b5081a46da8db72877d341c0c734c35aff789282e36974733485c6e192051771c2e541a1c7f59da69ccac55c937e1
+    utils-merge: ^1.0.1
+  checksum: 39145e5907730b8438dda02c848a02f628e7a916eeab38f80143fb61444678a551fae4d4d678d4a3ebae1dc836ee89e0f05f4e9e9bd34952003dfe9035ac0244
   languageName: node
   linkType: hard
 
@@ -26811,7 +26812,7 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"utils-merge@npm:1.0.1":
+"utils-merge@npm:1.0.1, utils-merge@npm:^1.0.1":
   version: 1.0.1
   resolution: "utils-merge@npm:1.0.1"
   checksum: a457956ebc09efbda05da8bf213ab89140bb9dffa3c42b3315dd8fc3c45d67a1b802741f58b7bba4872113201fc275fc86470289d8bd32b74297b5e5b5980705

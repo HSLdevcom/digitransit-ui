@@ -177,7 +177,7 @@
     "node-fetch": "2.6.0",
     "offline-plugin": "5.0.7",
     "openid-client": "4.9.1",
-    "passport": "0.4.1",
+    "passport": "0.6.0",
     "pbf": "3.2.1",
     "point-in-polygon": "1.0.1",
     "polyfill-library": "3.96.0",
