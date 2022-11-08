@@ -115,7 +115,7 @@ export function getNamedConfiguration(configName) {
         }
       }
     }
-
+    config.disableBatchQueries = process.env.DISABLEBATCHQUERIES;
     configs[configName] = config;
   }
   if (!process.env.OIDC_CLIENT_ID && configs[configName].allowLogin) {

@@ -152,7 +152,7 @@ function getEnvironment(config, agent) {
     ? `?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
     : '';
 
-  const layer = new RelayNetworkLayer([
+  let middleware = [
     next => req => next(req).catch(() => ({ payload: { data: null } })),
     relaySSRMiddleware.getMiddleware(),
     cacheMiddleware({
@@ -163,18 +163,26 @@ function getEnvironment(config, agent) {
       url: () =>
         Promise.resolve(`${config.URL.OTP}index/graphql${queryParameters}`),
     }),
-    batchMiddleware({
-      batchUrl: () =>
-        Promise.resolve(
-          `${config.URL.OTP}index/graphql/batch${queryParameters}`,
-        ),
-    }),
+  ];
+  if (!config.disableBatchQueries) {
+    middleware.push(
+      batchMiddleware({
+        batchUrl: () =>
+          Promise.resolve(
+            `${config.URL.OTP}index/graphql/batch${queryParameters}`,
+          ),
+      }),
+    );
+  }
+  middleware = middleware.concat([
     errorMiddleware(),
     retryMiddleware({
       fetchTimeout: isRobotRequest(agent) ? 10000 : RELAY_FETCH_TIMEOUT,
       retryDelays: [],
     }),
   ]);
+
+  const layer = new RelayNetworkLayer(middleware);
 
   const environment = new Environment({
     network: layer,
