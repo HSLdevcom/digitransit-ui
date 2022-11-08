@@ -10045,7 +10045,7 @@ __metadata:
     mock-local-storage: 1.1.15
     mockdate: 3.0.2
     moment: 2.29.1
-    moment-timezone: 0.5.34
+    moment-timezone: 0.5.35
     morgan: 1.10.0
     mqtt: 4.3.7
     name-all-modules-plugin: 1.0.1
@@ -18497,12 +18497,12 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"moment-timezone@npm:0.5.34":
-  version: 0.5.34
-  resolution: "moment-timezone@npm:0.5.34"
+"moment-timezone@npm:0.5.35":
+  version: 0.5.35
+  resolution: "moment-timezone@npm:0.5.35"
   dependencies:
     moment: ">= 2.9.0"
-  checksum: 403165bf5a58858e4428f66aaece7bcb52d072474a74a68361ad63023092cc9cf0369bea95fafea67410ff52bd6e6e3402ab7375adb72d276360e021d83bb15f
+  checksum: b719cdc313830cf1964929c5bc69fed231ca185212f6e0825b0faf605cfa462e8fe9f98a26a5dd9f3f3b6970a58129ae65df66a717e7bb8f69c11665909825b0
   languageName: node
   linkType: hard
 
