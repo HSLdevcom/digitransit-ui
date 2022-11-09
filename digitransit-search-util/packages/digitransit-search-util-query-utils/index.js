@@ -10,9 +10,10 @@ import {
   mapRoute,
   isStop,
   getLayerRank,
+  match,
 } from '@digitransit-search-util/digitransit-search-util-helpers';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
-import { orderBy } from 'lodash';
+import { isString, orderBy } from 'lodash';
 
 let relayEnvironment = null;
 
@@ -480,12 +481,20 @@ export function getRoutesQuery(input, feedIds, transportMode, pathOpts) {
     const results = data.viewer.routes
       .map(r => mapRoute(r, pathOpts))
       .filter(route => !!route);
+    const normalizedTerm = !isString(input) ? '' : input.toLowerCase();
     const orderedResults = orderBy(
       results,
       [
         result => {
           const { layer, source } = result.properties;
-          return getLayerRank(layer, source);
+          if (normalizedTerm.length === 0) {
+            // Search with an empty string
+            return getLayerRank(layer, source);
+          }
+          return (
+            getLayerRank(layer, source) +
+            match(normalizedTerm, result.properties)
+          );
         },
       ],
       ['desc', 'desc'],
