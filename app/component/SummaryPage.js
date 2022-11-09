@@ -2387,12 +2387,13 @@ class SummaryPage extends React.Component {
       this.context.config.itinerary.serviceTimeRange,
       this.props.serviceTimeRange,
     );
+    const loadingPublicDone =
+      this.state.loading === false && (error || this.props.loading === false);
+    const waitForBikeAndWalk = () =>
+      planHasNoItineraries && this.state.isFetchingWalkAndBike;
     if (this.props.breakpoint === 'large') {
       let content;
-      if (
-        this.state.loading === false &&
-        (error || this.props.loading === false)
-      ) {
+      if (loadingPublicDone && !waitForBikeAndWalk()) {
         const activeIndex =
           hash || getActiveIndex(match.location, combinedItineraries);
         const selectedItineraries = combinedItineraries;
@@ -2480,7 +2481,7 @@ class SummaryPage extends React.Component {
                 !onlyWalkingAlternatives
               }
               separatorPosition={this.state.separatorPosition}
-              loading={this.state.isFetchingWalkAndBike && !error}
+              loading={this.isFetching}
               onLater={this.onLater}
               onEarlier={this.onEarlier}
               onDetailsTabFocused={() => {
@@ -2622,6 +2623,7 @@ class SummaryPage extends React.Component {
     let isLoading = false;
 
     if (
+      waitForBikeAndWalk() ||
       (!error && (!this.selectedPlan || this.props.loading === true)) ||
       this.state.loading !== false
     ) {
@@ -2699,7 +2701,7 @@ class SummaryPage extends React.Component {
                 !onlyWalkingAlternatives
               }
               separatorPosition={this.state.separatorPosition}
-              loading={this.state.isFetchingWalkAndBike && !error}
+              loading={this.isFetching}
               onLater={this.onLater}
               onEarlier={this.onEarlier}
               onDetailsTabFocused={() => {
