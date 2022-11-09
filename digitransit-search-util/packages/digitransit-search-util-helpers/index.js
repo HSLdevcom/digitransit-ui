@@ -13,7 +13,7 @@ const normalize = str => {
 /**
  * LayerType depicts the type of the point-of-interest.
  */
-export const LayerType = {
+const LayerType = {
   Address: 'address',
   Back: 'back',
   CurrentPosition: 'currentPosition',

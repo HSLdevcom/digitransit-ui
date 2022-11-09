@@ -9,7 +9,6 @@ import routeNameCompare from '@digitransit-search-util/digitransit-search-util-r
 import {
   mapRoute,
   isStop,
-  getLayerRank,
   match,
 } from '@digitransit-search-util/digitransit-search-util-helpers';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
@@ -484,19 +483,7 @@ export function getRoutesQuery(input, feedIds, transportMode, pathOpts) {
     const normalizedTerm = !isString(input) ? '' : input.toLowerCase();
     const orderedResults = orderBy(
       results,
-      [
-        result => {
-          const { layer, source } = result.properties;
-          if (normalizedTerm.length === 0) {
-            // Search with an empty string
-            return getLayerRank(layer, source);
-          }
-          return (
-            getLayerRank(layer, source) +
-            match(normalizedTerm, result.properties)
-          );
-        },
-      ],
+      [result => match(normalizedTerm, result.properties)],
       ['desc', 'desc'],
     );
     return take(orderedResults, 100);
