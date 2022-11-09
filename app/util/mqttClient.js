@@ -1,6 +1,7 @@
 import ceil from 'lodash/ceil';
 import moment from 'moment';
 import { parseFeedMQTT } from './gtfsRtParser';
+import { convertTo24HourFormat } from './timeUtils';
 
 const standardModes = ['bus', 'tram', 'ferry'];
 
@@ -31,7 +32,9 @@ function getTopic(options, settings) {
     options.headsign && options.headsign.indexOf('/') === -1
       ? options.headsign
       : '+';
-  const tripStartTime = options.tripStartTime ? options.tripStartTime : '+';
+  const tripStartTime = options.tripStartTime
+    ? convertTo24HourFormat(options.tripStartTime)
+    : '+';
   const topic = settings.mqttTopicResolver(
     route,
     direction,
