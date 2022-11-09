@@ -10,11 +10,9 @@ import {
   mapRoute,
   isStop,
   getLayerRank,
-  match,
-  LayerType,
 } from '@digitransit-search-util/digitransit-search-util-helpers';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
-import { isString, orderBy } from 'lodash';
+import { orderBy } from 'lodash';
 
 let relayEnvironment = null;
 
@@ -482,42 +480,12 @@ export function getRoutesQuery(input, feedIds, transportMode, pathOpts) {
     const results = data.viewer.routes
       .map(r => mapRoute(r, pathOpts))
       .filter(route => !!route);
-    const normalizedTerm = !isString(input) ? '' : input.toLowerCase();
     const orderedResults = orderBy(
       results,
       [
         result => {
-          const { confidence, layer, source } = result.properties;
-          if (normalizedTerm.length === 0) {
-            // Search with an empty string
-            return getLayerRank(layer, source);
-          }
-
-          if (!confidence) {
-            // not from geocoder
-            return (
-              getLayerRank(layer, source) +
-              match(normalizedTerm, result.properties)
-            );
-          }
-
-          // geocoded items with confidence, just adjust a little
-          switch (layer) {
-            case LayerType.Station: {
-              const boost = source.indexOf('gtfs') === 0 ? 0.02 : 0.01;
-              return confidence + boost;
-            }
-            case LayerType.Stop:
-              return confidence - 0.05;
-            case LayerType.CarPark:
-              return confidence - 0.05;
-            case LayerType.BikePark:
-              return confidence - 0.05;
-            case LayerType.BikeRentalStation:
-              return confidence - 0.04;
-            default:
-              return confidence;
-          }
+          const { layer, source } = result.properties;
+          return getLayerRank(layer, source);
         },
       ],
       ['desc', 'desc'],
