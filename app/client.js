@@ -136,7 +136,7 @@ async function init() {
     ? `?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
     : '';
 
-  const network = new RelayNetworkLayer([
+  let middleware = [
     relaySSRMiddleware.getMiddleware(),
     cacheMiddleware({
       size: 200,
@@ -146,12 +146,18 @@ async function init() {
       url: () =>
         Promise.resolve(`${config.URL.OTP}index/graphql${queryParameters}`),
     }),
-    batchMiddleware({
-      batchUrl: () =>
-        Promise.resolve(
-          `${config.URL.OTP}index/graphql/batch${queryParameters}`,
-        ),
-    }),
+  ];
+  if (!config.disableBatchQueries) {
+    middleware.push(
+      batchMiddleware({
+        batchUrl: () =>
+          Promise.resolve(
+            `${config.URL.OTP}index/graphql/batch${queryParameters}`,
+          ),
+      }),
+    );
+  }
+  middleware = middleware.concat([
     errorMiddleware(),
     retryMiddleware({
       fetchTimeout: config.OTPTimeout + 1000,
@@ -162,6 +168,8 @@ async function init() {
       return next(req);
     },
   ]);
+
+  const network = new RelayNetworkLayer(middleware);
 
   const environment = new Environment({
     network,
