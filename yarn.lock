@@ -1989,11 +1989,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest-panel@^1.5.0, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
+"@digitransit-component/digitransit-component-autosuggest-panel@^1.5.1, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel"
   peerDependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^1.9.0
+    "@digitransit-component/digitransit-component-autosuggest": ^1.9.1
     "@digitransit-component/digitransit-component-icon": ^0.2.0
     "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
@@ -2009,7 +2009,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest@^1.9.0, @digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
+"@digitransit-component/digitransit-component-autosuggest@^1.9.1, @digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest"
   dependencies:
@@ -2186,8 +2186,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component@workspace:digitransit-component/packages/digitransit-component"
   dependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^1.9.0
-    "@digitransit-component/digitransit-component-autosuggest-panel": ^1.5.0
+    "@digitransit-component/digitransit-component-autosuggest": ^1.9.1
+    "@digitransit-component/digitransit-component-autosuggest-panel": ^1.5.1
     "@digitransit-component/digitransit-component-control-panel": ^1.1.0
     "@digitransit-component/digitransit-component-favourite-bar": 1.1.0
     "@digitransit-component/digitransit-component-favourite-editing-modal": ^1.1.0
@@ -3076,9 +3076,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/site-header@npm:4.2.0":
-  version: 4.2.0
-  resolution: "@hsl-fi/site-header@npm:4.2.0"
+"@hsl-fi/site-header@npm:4.2.2":
+  version: 4.2.2
+  resolution: "@hsl-fi/site-header@npm:4.2.2"
   dependencies:
     "@hsl-fi/animated-spinner": ^0.2.0
     "@hsl-fi/button": ^1.2.3
@@ -3095,7 +3095,7 @@ __metadata:
     "@hsl-fi/utilities": ^0.2.14
     lodash: 4.17.21
     react-animate-height: ^2.0.21
-  checksum: 232ab4e043defc1c6e515cd1e47c3a0ecc33b880830941c5aae5c3c2d5c22375715f7c735fb3de4bf9cff013f6971c5f0f6aa573086c3f4ace5c2c81cd0224fd
+  checksum: 106d3a627254767673565c1d41037013cab5f8e031b4d8a06a0b4aa6c6ae475834cdb0fcbbb90f866b6bb3bc10ee16aef179b7e15d552dfdb51a576daf32f7c1
   languageName: node
   linkType: hard
 
@@ -9952,7 +9952,7 @@ __metadata:
     "@hsl-fi/sass": " ^0.2.0"
     "@hsl-fi/shared-local-storage": 0.4.0
     "@hsl-fi/shimmer": 0.1.2
-    "@hsl-fi/site-header": 4.2.0
+    "@hsl-fi/site-header": 4.2.2
     "@lerna/batch-packages": 3.16.0
     "@lerna/filter-packages": 3.18.0
     "@lerna/project": 3.21.0
