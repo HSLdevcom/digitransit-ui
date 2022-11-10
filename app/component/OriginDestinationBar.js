@@ -167,6 +167,7 @@ class OriginDestinationBar extends React.Component {
           }
           modeSet={this.props.modeSet}
           onFocusChange={() => {}}
+          showViaPointEdit={this.context.config.viaPointsEnabled}
         />{' '}
       </div>
     );

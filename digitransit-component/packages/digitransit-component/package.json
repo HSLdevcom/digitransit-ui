@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "a JavaScript library for Digitransit",
   "main": "digitransit-component",
   "module": "digitransit-component.mjs",
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@digitransit-component/digitransit-component-autosuggest": "^1.9.1",
-    "@digitransit-component/digitransit-component-autosuggest-panel": "^1.5.1",
+    "@digitransit-component/digitransit-component-autosuggest-panel": "^1.5.2",
     "@digitransit-component/digitransit-component-control-panel": "^1.1.0",
     "@digitransit-component/digitransit-component-favourite-bar": "1.1.0",
     "@digitransit-component/digitransit-component-favourite-editing-modal": "^1.1.0",
