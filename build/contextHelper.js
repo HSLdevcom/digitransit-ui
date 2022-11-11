@@ -35,10 +35,13 @@ function getEntries(theme, sprites) {
   if (!fs.existsSync(themeCss)) {
     themeCss = './sass/themes/default/main.scss';
   }
-  return {
+  const entries = {
     [`${theme}_theme`]: themeCss,
-    [sprites]: `./static/${sprites}`,
   };
+  if (sprites !== null) {
+    entries[sprites] = `./static/${sprites}`;
+  }
+  return entries;
 }
 
 function getAllThemeEntries() {
@@ -48,7 +51,13 @@ function getAllThemeEntries() {
     );
 
     return {
-      ...getEntries('default'),
+      // Even though this code looks like we want to include the default
+      // config's sprites, we actually *don't* want this.
+      // Therefore, we pass `null`.
+      // We do this to stay backwards-compatible with how it has worked
+      // before 🙈; A better fix would be to change each config to
+      // explicitly enumerate *all* theme entrypoints and sprites it needs.
+      ...getEntries('default', null),
       ...getEntries(process.env.CONFIG, config.sprites),
     };
   }
