@@ -1175,10 +1175,12 @@ class SummaryPage extends React.Component {
           allowedVehicleRentalNetworks: $allowedVehicleRentalNetworks
           locale: $locale
         ) {
-          routingErrors {
-            code
-            inputField
-          }
+          # The bbnavi OTP deployments don't have this feature yet.
+          # todo: merge upstream OTP code, deploy, re-enable the code here
+          # routingErrors {
+          #   code
+          #   inputField
+          # }
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
           itineraries {
@@ -2589,7 +2591,7 @@ class SummaryPage extends React.Component {
               activeIndex={activeIndex}
               plan={this.selectedPlan}
               serviceTimeRange={serviceTimeRange}
-              routingErrors={this.selectedPlan.routingErrors}
+              /*routingErrors={this.selectedPlan.routingErrors}*/
               itineraries={selectedItineraries}
               params={match.params}
               error={error || this.state.error}
@@ -2809,7 +2811,7 @@ class SummaryPage extends React.Component {
               }
               plan={this.selectedPlan}
               serviceTimeRange={serviceTimeRange}
-              routingErrors={this.selectedPlan.routingErrors}
+              /*routingErrors={this.selectedPlan.routingErrors}*/
               itineraries={combinedItineraries}
               params={match.params}
               error={error || this.state.error}
@@ -3015,10 +3017,12 @@ const containerComponent = createRefetchContainer(
         ) {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
-          routingErrors {
-            code
-            inputField
-          }
+          # The bbnavi OTP deployments don't have this feature yet.
+          # todo: merge upstream OTP code, deploy, re-enable the code here
+          # routingErrors {
+          #   code
+          #   inputField
+          # }
           itineraries {
             duration
             startTime
