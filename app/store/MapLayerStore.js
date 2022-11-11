@@ -26,7 +26,7 @@ class MapLayerStore extends Store {
     vehicles: false,
     geoJson: {},
     bikeParks: true,
-    datahubTiles: true,
+    datahubTiles: {},
     weatherStations: false,
     chargingStations: false,
     roadworks: false,
