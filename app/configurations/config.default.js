@@ -42,9 +42,10 @@ export default {
     MAP_URL,
     OTP: process.env.OTP_URL || `${API_URL}/routing/v2/routers/finland/`,
     MAP: {
-      default: `${MAP_URL}/map/${MAP_VERSION}/hsl-map/`,
-      sv: `${MAP_URL}/map/${MAP_VERSION}/hsl-map-sv/`,
+      default: `${MAP_URL}/map/${MAP_VERSION}/hsl-map/{z}/{x}/{y}{size}.png`,
+      sv: `${MAP_URL}/map/${MAP_VERSION}/hsl-map-sv/{z}/{x}/{y}{size}.png`,
     },
+    // todo: add `{z}/{x}/{y}{size}.png`?
     STOP_MAP: `${MAP_URL}/map/${MAP_VERSION}/finland-stop-map/`,
     CITYBIKE_MAP: `${MAP_URL}/map/${MAP_VERSION}/finland-citybike-map/`,
     PARK_AND_RIDE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-parkandride-map/`,

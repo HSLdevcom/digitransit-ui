@@ -412,13 +412,14 @@ class Map extends React.Component {
   }
 
   getMapUrls = (config, currentMapMode) => {
+    // todo: refactor using URI Templates
     const mapBaseUrl =
-      (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/`) ||
+      (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/{z}/{x}/{y}{r}.png`) ||
       config.URL.MAP[this.props.lang] ||
       config.URL.MAP.default;
     const defaultMapUrl = config.hasAPISubscriptionQueryParameter
-      ? `${mapBaseUrl}{z}/{x}/{y}{size}.png?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
-      : `${mapBaseUrl}{z}/{x}/{y}{size}.png`;
+      ? `${mapBaseUrl}?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
+      : mapBaseUrl;
 
     const mapUrls = [];
     if (currentMapMode === MapMode.Satellite) {

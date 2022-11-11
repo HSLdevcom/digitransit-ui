@@ -39,7 +39,7 @@ class ChargingStations {
     fetch(
       `${this.config.URL.CHARGING_STATIONS_MAP}` +
         `${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}/` +
-        `${this.tile.coords.x}/${this.tile.coords.y}.mvt`,
+        `${this.tile.coords.x}/${this.tile.coords.y}.mvt?static=1`,
     ).then(res => {
       if (res.status !== 200) {
         return undefined;
