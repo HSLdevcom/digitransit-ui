@@ -19,9 +19,16 @@ export default configMerger(walttiConfig, {
 
   URL: {
     OTP: OTP_URL,
-    STOP_MAP: `${POI_MAP_PREFIX}/stops,stations/`,
-    RENTAL_STATION_MAP: `${POI_MAP_PREFIX}/rentalStations/`,
-    REALTIME_RENTAL_STATION_MAP: `${POI_MAP_PREFIX}/realtimeRentalStations/`,
+    STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
+    },
+    RENTAL_STATION_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
+    },
+    REALTIME_RENTAL_STATION_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
+    }
   },
 
   appBarLink: { name: 'Waltti', href: 'https://waltti.fi/' },

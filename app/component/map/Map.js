@@ -22,6 +22,7 @@ import { boundWithMinimumArea } from '../../util/geo-utils';
 import { isDebugTiles } from '../../util/browser';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
 import events from '../../util/events';
+import { getLayerBaseUrl } from '../../util/mapLayerUtils';
 
 import GeoJSON from './GeoJSON';
 
@@ -209,8 +210,7 @@ export default class Map extends React.Component {
     }
     const mapBaseUrl =
       (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/`) ||
-      config.URL.MAP[this.props.lang] ||
-      config.URL.MAP.default;
+      getLayerBaseUrl(config.URL.MAP, this.props.lang);
     const mapUrl = config.hasAPISubscriptionQueryParameter
       ? `${mapBaseUrl}{z}/{x}/{y}{size}.png?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
       : `${mapBaseUrl}{z}/{x}/{y}{size}.png`;

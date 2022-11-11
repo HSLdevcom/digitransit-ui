@@ -8,7 +8,10 @@ import {
   drawHybridStationIcon,
 } from '../../../util/mapIconUtils';
 import { ExtendedRouteTypes } from '../../../constants';
-import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
+import {
+  isFeatureLayerEnabled,
+  getLayerBaseUrl,
+} from '../../../util/mapLayerUtils';
 import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from '../../../util/path';
 import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 
@@ -101,7 +104,7 @@ class Stops {
 
   getPromise(lang) {
     return fetchWithLanguageAndSubscription(
-      `${this.config.URL.STOP_MAP}${
+      `${getLayerBaseUrl(this.config.URL.STOP_MAP, lang)}${
         this.tile.coords.z + (this.tile.props.zoomOffset || 0)
       }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
       this.config,

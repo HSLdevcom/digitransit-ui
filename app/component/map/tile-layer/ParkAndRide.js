@@ -7,6 +7,7 @@ import { isBrowser } from '../../../util/browser';
 import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 import { ParkTypes } from '../../../constants';
+import { getLayerBaseUrl } from '../../../util/mapLayerUtils';
 
 const showParking = 17;
 
@@ -42,7 +43,7 @@ export default class ParkAndRide {
 
     if (this.tile.coords.z < showParking) {
       return fetchWithLanguageAndSubscription(
-        `${this.config.URL.PARK_AND_RIDE_GROUP_MAP}${
+        `${getLayerBaseUrl(this.config.URL.PARK_AND_RIDE_GROUP_MAP, lang)}${
           this.tile.coords.z + (this.tile.props.zoomOffset || 0)
         }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
         this.config,
@@ -84,7 +85,7 @@ export default class ParkAndRide {
     }
 
     return fetchWithLanguageAndSubscription(
-      `${this.config.URL.PARK_AND_RIDE_MAP}${
+      `${getLayerBaseUrl(this.config.URL.PARK_AND_RIDE_MAP, lang)}${
         this.tile.coords.z + (this.tile.props.zoomOffset || 0)
       }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
       this.config,

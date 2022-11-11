@@ -21,11 +21,26 @@ export default {
 
   URL: {
     OTP: OTP_URL,
-    STOP_MAP: `${POI_MAP_PREFIX}/stops,stations/`,
-    PARK_AND_RIDE_MAP: `${POI_MAP_PREFIX}/vehicleParking/`,
-    PARK_AND_RIDE_GROUP_MAP: `${POI_MAP_PREFIX}/vehicleParkingGroups/`,
-    RENTAL_STATION_MAP: `${POI_MAP_PREFIX}/rentalStations/`,
-    REALTIME_RENTAL_STATION_MAP: `${POI_MAP_PREFIX}/realtimeRentalStations/`,
+    STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
+    },
+    RENTAL_STATION_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
+    },
+    REALTIME_RENTAL_STATION_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
+    },
+    PARK_AND_RIDE_MAP: {
+      default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
+      sv: `${POI_MAP_PREFIX}/sv/vehicleParking/`,
+      fi: `${POI_MAP_PREFIX}/fi/vehicleParking/`,
+    },
+    PARK_AND_RIDE_GROUP_MAP: {
+      default: `${POI_MAP_PREFIX}/en/vehicleParkingGroups/`,
+      sv: `${POI_MAP_PREFIX}/sv/vehicleParkingGroups/`,
+      fi: `${POI_MAP_PREFIX}/fi/vehicleParkingGroups/`,
+    },
     FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
     ROOTLINK: rootLink,
     BANNERS: BANNER_URL,

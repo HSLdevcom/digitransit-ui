@@ -129,3 +129,17 @@ export const getMapLayerOptions = (options = {}) => {
   });
   return layerOptions;
 };
+
+/**
+ * Return correct map URL based on defined lang. If no URL for lang is found,
+ * returns default.
+ *
+ * @param {*} urlOrUrlMap Object containing urls with locale keys and a default URL
+ *                   with 'default' key or just an URL.
+ * @param {String} lang The preferred language.
+ */
+export const getLayerBaseUrl = (urlOrUrlMap, lang) => {
+  return urlOrUrlMap instanceof String
+    ? urlOrUrlMap
+    : urlOrUrlMap[lang] || urlOrUrlMap.default;
+};
