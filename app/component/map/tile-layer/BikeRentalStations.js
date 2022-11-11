@@ -19,8 +19,8 @@ import {
   BIKEAVL_UNKNOWN,
 } from '../../../util/citybikes';
 import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
-
 import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
+import { getLayerBaseUrl } from '../../../util/mapLayerUtils';
 
 const query = graphql`
   query BikeRentalStationsQuery($id: String!) {
@@ -53,8 +53,8 @@ class BikeRentalStations {
     const zoomedIn =
       this.tile.coords.z > this.config.cityBike.cityBikeSmallIconZoom;
     const baseUrl = zoomedIn
-      ? this.config.URL.REALTIME_RENTAL_STATION_MAP
-      : this.config.URL.RENTAL_STATION_MAP;
+      ? getLayerBaseUrl(this.config.URL.REALTIME_RENTAL_STATION_MAP, lang)
+      : getLayerBaseUrl(this.config.URL.RENTAL_STATION_MAP, lang);
     const tileUrl = `${baseUrl}${
       this.tile.coords.z + (this.tile.props.zoomOffset || 0)
     }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`;

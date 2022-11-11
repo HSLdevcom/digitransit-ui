@@ -22,7 +22,10 @@ export default configMerger(walttiConfig, {
     OTP: OTP_URL,
 
     // read stops and stations OTP2 vector map tile server
-    STOP_MAP: `${POI_MAP_PREFIX}/stops,stations/`,
+    STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
+    },
   },
 
   feedIds: ['VARELY', 'FOLI'],
