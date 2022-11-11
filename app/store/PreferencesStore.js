@@ -27,7 +27,7 @@ class PreferencesStore extends Store {
     } else {
       this.language = language;
     }
-    this.settingsOpen = null;
+    this.settingsOpen = false;
   }
 
   getLanguage() {
