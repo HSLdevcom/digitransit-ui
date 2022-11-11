@@ -81,7 +81,7 @@ function WalkLeg(
             time: moment(leg.startTime).format('HH:mm'),
             to: intl.formatMessage({
               id: `modes.to-${
-                leg.to.stop?.vehicleMode.toLowerCase() || 'place'
+                leg.to.stop?.vehicleMode?.toLowerCase() || 'place'
               }`,
               defaultMessage: 'modes.to-stop',
             }),
