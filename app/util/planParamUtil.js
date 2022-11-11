@@ -59,7 +59,7 @@ export const getCurrentSettings = config => {
           'WALK',
         ].sort()
       : defaultSettings.modes,
-    allowedVehicleRentalNetworks: getCitybikeNetworks(),
+    allowedVehicleRentalNetworks: getCitybikeNetworks(config),
   };
 };
 
