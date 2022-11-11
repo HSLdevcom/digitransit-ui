@@ -76,7 +76,7 @@ class Map extends React.Component {
     topButtons: PropTypes.node,
     geoJson: PropTypes.object,
     mapLayers: PropTypes.object,
-    mapMode: PropTypes.oneOf(Object.keys(MapMode)),
+    mapMode: PropTypes.oneOf(Object.values(MapMode)),
   };
 
   static defaultProps = {
