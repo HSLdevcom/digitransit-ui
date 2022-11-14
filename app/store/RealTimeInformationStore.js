@@ -47,12 +47,14 @@ class RealTimeInformationStore extends Store {
     }
     this.client = undefined;
     this.topics = undefined;
+    this.topicsByRoute = undefined;
     this.vehicles = {};
     this.emitChange();
   }
 
   resetClient() {
     this.topics = undefined;
+    this.topicsByRoute = undefined;
     this.vehicles = {};
     this.emitChange();
   }
