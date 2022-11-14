@@ -252,6 +252,7 @@ export default config => {
             content: (
               <Route
                 getComponent={() =>
+                  // todo: use bbnavi code
                   import(
                     /* webpackChunkName: "bikepark" */ './component/BikeParkContent'
                   )
@@ -310,6 +311,7 @@ export default config => {
             content: (
               <Route
                 getComponent={() =>
+                  // todo: use bbnavi code
                   import(
                     /* webpackChunkName: "carpark" */ './component/CarParkContent'
                   )
