@@ -5,8 +5,8 @@ import { showCityBikes } from '../util/modeUtils';
 
 class MapLayerStore extends Store {
   static defaultLayers = {
-    parkAndRide: false,
-    parkAndRideForBikes: false,
+    parkAndRide: true,
+    parkAndRideForBikes: true,
     stop: {
       bus: true,
       ferry: true,
@@ -25,7 +25,6 @@ class MapLayerStore extends Store {
     },
     vehicles: false,
     geoJson: {},
-    bikeParks: true,
     datahubTiles: {},
     weatherStations: false,
     chargingStations: false,
