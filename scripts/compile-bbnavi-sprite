@@ -1,6 +1,10 @@
 #! /bin/sh
 
+set -e
+set -o pipefail
+
 path=$(dirname "$0")
+set -x
 
 ${path}/update-bbnavi-sprite
 ${path}/reformat-sprites
