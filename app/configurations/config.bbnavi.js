@@ -336,7 +336,7 @@ export default configMerger(walttiConfig, {
         showZoomControl: true, // DT-3470, DT-3397
         showStreetModeSelector: false, // DT-3470
         showLayerSelector: true, // DT-3470
-        showStopMarkerPopupOnMobile: false, // DT-3470
+        showStopMarkerPopupOnMobile: true, // DT-3470
         showScaleBar: true, // DT-3470, DT-3397
         genericMarker: {
             popup: {
