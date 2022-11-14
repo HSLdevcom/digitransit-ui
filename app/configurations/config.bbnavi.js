@@ -41,11 +41,10 @@ export default configMerger(walttiConfig, {
             bicycle: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png',
         },
         STOP_MAP: `${API_URL}/otp/routers/default/vectorTiles/stops/`,
-        DYNAMICPARKINGLOTS_MAP: `${API_URL}/otp/routers/default/vectorTiles/parking/`,
+        PARK_AND_RIDE_MAP: `${API_URL}/otp/routers/default/vectorTiles/parking/`,
         ROADWORKS_MAP: `${API_URL}/map/v1/cifs/`,
         COVID19_MAP: '', // `https://tiles.caresteouvert.fr/public.poi_osm_light/{z}/{x}/{y}.pbf`,
         CITYBIKE_MAP: `${API_URL}/otp/routers/default/vectorTiles/citybikes/`,
-        BIKE_PARKS_MAP: `${API_URL}/otp/routers/default/vectorTiles/parking/`,
         WEATHER_STATIONS_MAP: '', // `${API_URL}/map/v1/weather-stations/`,
         CHARGING_STATIONS_MAP: `https://api.ocpdb.de/tiles/`,
         PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
@@ -135,13 +134,13 @@ export default configMerger(walttiConfig, {
         },
     },
 
-    dynamicParkingLots: {
-        showDynamicParkingLots: true,
-        dynamicParkingLotsSmallIconZoom: 14,
-        dynamicParkingLotsMinZoom: 14
+    parkAndRide: {
+        show: true,
+        smallIconZoom: 14,
+        minZoom: 14,
     },
 
-    bikeParks: {
+    parkAndRideForBikes: {
         show: true,
         smallIconZoom: 14,
         minZoom: 14

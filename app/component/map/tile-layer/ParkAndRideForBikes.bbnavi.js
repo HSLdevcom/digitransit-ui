@@ -38,7 +38,7 @@ const BikeParkingType = {
   },
 };
 
-class BikeParks {
+class ParkAndRideForBikes {
   constructor(tile, config) {
     this.tile = tile;
     this.config = config;
@@ -53,7 +53,7 @@ class BikeParks {
 
   fetchWithAction = actionFn =>
     fetch(
-      `${this.config.URL.BIKE_PARKS_MAP}` +
+      `${this.config.URL.PARK_AND_RIDE_MAP}` +
         `${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}/` +
         `${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
     ).then(res => {
@@ -92,7 +92,7 @@ class BikeParks {
     });
 
   static getIcon = ({ tags }) => {
-    const type = BikeParks.getBikeParkType(tags);
+    const type = ParkAndRideForBikes.getBikeParkType(tags);
     return `icon-${type.icon}`;
   };
 
@@ -127,7 +127,7 @@ class BikeParks {
   }
 
   drawStatus = ({ geom, properties }) => {
-    const type = BikeParks.getBikeParkType(properties.tags);
+    const type = ParkAndRideForBikes.getBikeParkType(properties.tags);
     if (this.tile.coords.z <= type.smallIconZoom) {
       const mode = `mode-bike-park`;
       const color = this.config.colors.iconColors[mode];
@@ -141,11 +141,11 @@ class BikeParks {
         this.tile.ctx.drawImage(image, x, y);
       });
     } else {
-      const icon = BikeParks.getIcon(properties);
+      const icon = ParkAndRideForBikes.getIcon(properties);
       drawIcon(icon, this.tile, geom, this.iconSize).then(() => {
         if (typeof properties['availability.bicyclePlaces'] === 'number') {
           drawAvailabilityBadge(
-            BikeParks.getAvailability(properties),
+            ParkAndRideForBikes.getAvailability(properties),
             this.tile,
             geom,
             this.iconSize,
@@ -158,12 +158,12 @@ class BikeParks {
   };
 
   onTimeChange = () => {
-    if (this.tile.coords.z > this.config.bikeParks.minZoom) {
+    if (this.tile.coords.z > this.config.parkAndRideForBikes.minZoom) {
       this.fetchWithAction(this.drawStatus);
     }
   };
 
-  static getName = () => 'bikeParks';
+  static getName = () => 'parkAndRideForBikes';
 }
 
-export default BikeParks;
+export default ParkAndRideForBikes;

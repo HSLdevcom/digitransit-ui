@@ -22,7 +22,7 @@ const getScale = glfun({
   ],
 });
 
-class DynamicParkingLots {
+class ParkAndRide {
   constructor(tile, config) {
     this.tile = tile;
     this.config = config;
@@ -38,7 +38,7 @@ class DynamicParkingLots {
 
   fetchWithAction = actionFn =>
     fetch(
-      `${this.config.URL.DYNAMICPARKINGLOTS_MAP}` +
+      `${this.config.URL.PARK_AND_RIDE_MAP}` +
         `${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}/` +
         `${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
     ).then(res => {
@@ -91,7 +91,7 @@ class DynamicParkingLots {
   fetchAndDrawStatus = ({ geom, properties }) => {
     if (
       this.tile.coords.z <=
-      this.config.dynamicParkingLots.dynamicParkingLotsSmallIconZoom
+      this.config.parkAndRide.smallIconZoom
     ) {
       return drawStopIcon(
         this.tile,
@@ -173,7 +173,7 @@ class DynamicParkingLots {
     }
   };
 
-  static getName = () => 'dynamicParkingLots';
+  static getName = () => 'parkAndRide';
 }
 
-export default DynamicParkingLots;
+export default ParkAndRide;

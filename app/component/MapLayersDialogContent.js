@@ -42,7 +42,7 @@ const mapLayersConfigShape = PropTypes.shape({
     ),
   }),
   parkAndRide: PropTypes.shape({
-    showParkAndRide: PropTypes.bool,
+    show: PropTypes.bool,
   }),
   transportModes: PropTypes.shape({
     bus: transportModeConfigShape,
@@ -132,13 +132,12 @@ class MapLayersDialogContent extends React.Component {
     const {
       citybike,
       parkAndRide,
+      parkAndRideForBikes,
       stop,
       terminal,
       geoJson,
       vehicles,
-      bikeParks,
       roadworks,
-      dynamicParkingLots,
       weatherStations,
       datahubTiles,
       chargingStations,
@@ -276,13 +275,13 @@ class MapLayersDialogContent extends React.Component {
                 this.updateSetting(merge(this.props.mapLayers, newSettings));
               }}
               options={[
-                this.context.config.bikeParks &&
-                  this.context.config.bikeParks.show && {
-                    checked: bikeParks,
+                this.context.config.parkAndRideForBikes &&
+                  this.context.config.parkAndRideForBikes.show && {
+                    checked: parkAndRideForBikes,
                     defaultMessage: 'Bike parks',
-                    labelId: 'map-layer-bike-parks',
+                    labelId: 'map-layer-bike-parks', // todo: rename?
                     icon: 'icon-bike-park',
-                    settings: 'bikeParks',
+                    settings: 'parkAndRideForBikes',
                   },
                 bikeServiceLayer && {
                   checked:
@@ -346,17 +345,8 @@ class MapLayersDialogContent extends React.Component {
                 this.updateSetting(merge(this.props.mapLayers, newSettings));
               }}
               options={[
-                this.context.config.dynamicParkingLots &&
-                  this.context.config.dynamicParkingLots
-                    .showDynamicParkingLots && {
-                    checked: dynamicParkingLots,
-                    defaultMessage: 'Parking',
-                    labelId: 'map-layer-dynamic-parking-lots',
-                    icon: 'icon-icon_open_carpark',
-                    settings: 'dynamicParkingLots',
-                  },
                 this.context.config.parkAndRide &&
-                  this.context.config.parkAndRide.showParkAndRide && {
+                  this.context.config.parkAndRide.show && {
                     checked: parkAndRide,
                     disabled: !!this.props.mapLayerOptions?.parkAndRide
                       ?.isLocked,
