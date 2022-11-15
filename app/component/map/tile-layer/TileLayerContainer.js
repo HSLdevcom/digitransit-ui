@@ -216,13 +216,9 @@ class TileLayerContainer extends GridLayer {
       }
       if (
         selectableTargets.length === 1 &&
-        selectableTargets[0].layer === 'parkAndRide' &&
-        (selectableTargets[0].feature.properties.facility ||
-          selectableTargets[0].feature.properties.facilities.length === 1)
+        selectableTargets[0].layer === 'parkAndRide'
       ) {
-        const carParkId =
-          selectableTargets[0].feature.properties?.facility?.carParkId ||
-          selectableTargets[0].feature.properties?.facilities[0]?.carParkId;
+        const carParkId = selectableTargets[0].feature.properties.id;
         if (carParkId) {
           this.context.router.push(
             `/${PREFIX_CARPARK}/${encodeURIComponent(carParkId)}`,
@@ -232,14 +228,14 @@ class TileLayerContainer extends GridLayer {
       }
       if (
         selectableTargets.length === 1 &&
-        selectableTargets[0].layer === 'parkAndRideForBikes' &&
-        selectableTargets[0].feature.properties.facility
+        selectableTargets[0].layer === 'parkAndRideForBikes'
       ) {
-        this.context.router.push(
-          `/${PREFIX_BIKEPARK}/${encodeURIComponent(
-            selectableTargets[0].feature.properties.facility.bikeParkId,
-          )}`,
-        );
+        const bikeParkId = selectableTargets[0].feature.properties.id;
+        if (bikeParkId) {
+          this.context.router.push(
+            `/${PREFIX_BIKEPARK}/${encodeURIComponent(bikeParkId)}`,
+          );
+        }
         return;
       }
       if (
