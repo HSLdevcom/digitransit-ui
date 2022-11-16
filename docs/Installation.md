@@ -2,9 +2,12 @@
 - [Run application in Docker](Docker.md).
 
 ## Install requirements
-You need Node, yarn (or npm3) and watchman.
 
-- `node -v` should be >= 10.19. There might be problems it is 12 or above
+You need [Node](https://nodejs.org/), [Yarn](https://yarnpkg.com) (or npm) and watchman.
+
+- `node -v` should be >= 10.19.
+  - We recommend that you use [`nvm`](https://github.com/nvm-sh/nvm) to install a specific Node.js version.
+  - With Node.js versions >= 12, there might be problems.
 - `yarn --version` should be >= 1.22.0. The project will then use yarn 2 from the included file. (or `npm -v` should be >= 3)
 
 You also need a C compiler:
