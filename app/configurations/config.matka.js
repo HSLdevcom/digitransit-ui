@@ -86,8 +86,8 @@ export default {
   stopSearchFilter: stop => {
     const props = stop.properties;
     if (
-      props.id.includes('GTFS:HSL') &&
-      props.addendum?.GTFS?.modes?.includes('RAIL')
+      props?.id?.includes('GTFS:HSL') &&
+      props?.addendum?.GTFS?.modes?.includes('RAIL')
     ) {
       return false;
     }
