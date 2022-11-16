@@ -38,7 +38,7 @@ function WalkLeg(
   // If mode is not WALK, WalkLeg should get information from "to".
   const toOrFrom = leg.mode !== 'WALK' ? 'to' : 'from';
   const modeClassName = 'walk';
-  const fromMode = leg[toOrFrom].stop ? leg[toOrFrom].stop.vehicleMode : '';
+  const fromMode = (leg[toOrFrom].stop && leg[toOrFrom].stop.vehicleMode) || '';
   const isFirstLeg = i => i === 0;
   const [address, place] = splitStringToAddressAndPlace(leg[toOrFrom].name);
 
@@ -79,7 +79,7 @@ function WalkLeg(
             time: moment(leg.startTime).format('HH:mm'),
             to: intl.formatMessage({
               id: `modes.to-${
-                leg.to.stop?.vehicleMode.toLowerCase() || 'place'
+                leg.to.stop?.vehicleMode?.toLowerCase() || 'place'
               }`,
               defaultMessage: 'modes.to-stop',
             }),
