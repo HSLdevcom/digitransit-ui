@@ -696,6 +696,7 @@ class DTAutosuggest extends React.Component {
 
   inputClicked = inputValue => {
     this.input.focus();
+    this.onFocus(); // clears 'own location' text
     if (this.props.isMobile) {
       this.props.lock();
     }
@@ -791,6 +792,7 @@ class DTAutosuggest extends React.Component {
         value: this.props.value,
       },
       () => {
+        // console.log('restore scroll Y ' + this.state.scrollY );
         window.scrollTo(0, this.state.scrollY);
         this.onSuggestionsClearRequested();
       },
@@ -892,9 +894,11 @@ class DTAutosuggest extends React.Component {
       this.clearInput();
     }
     const scrollY = window.pageYOffset;
-    return this.setState({
-      scrollY,
-    });
+    if (scrollY !== this.state.scrollY) {
+      this.setState({ scrollY });
+      // console.log('scrll Y ' + this.state.scrollY);
+    }
+    return true;
   };
 
   render() {
