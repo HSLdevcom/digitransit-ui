@@ -792,7 +792,6 @@ class DTAutosuggest extends React.Component {
         value: this.props.value,
       },
       () => {
-        // console.log('restore scroll Y ' + this.state.scrollY );
         window.scrollTo(0, this.state.scrollY);
         this.onSuggestionsClearRequested();
       },
@@ -896,7 +895,6 @@ class DTAutosuggest extends React.Component {
     const scrollY = window.pageYOffset;
     if (scrollY !== this.state.scrollY) {
       this.setState({ scrollY });
-      // console.log('scrll Y ' + this.state.scrollY);
     }
     return true;
   };
