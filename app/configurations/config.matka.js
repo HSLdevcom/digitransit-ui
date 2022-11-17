@@ -82,6 +82,17 @@ export default {
     'digitraffic',
   ],
 
+  stopSearchFilter: stop => {
+    const props = stop.properties;
+    if (
+      props?.id?.includes('GTFS:HSL') &&
+      props?.addendum?.GTFS?.modes?.includes('RAIL')
+    ) {
+      return false;
+    }
+    return true;
+  },
+
   meta: {
     description: APP_DESCRIPTION,
     keywords: `reitti,reitit,opas,reittiopas,joukkoliikenne`,
