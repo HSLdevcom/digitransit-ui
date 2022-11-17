@@ -893,9 +893,8 @@ class DTAutosuggest extends React.Component {
       this.clearInput();
     }
     const scrollY = window.pageYOffset;
-    if (scrollY !== this.state.scrollY) {
-      this.setState({ scrollY });
-    }
+    this.setState({ scrollY });
+
     return true;
   };
 
