@@ -165,6 +165,17 @@ BubbleDialog.propTypes = {
  *
  */
 
+const validNearYouModes = [
+  'favorite',
+  'bus',
+  'tram',
+  'rail',
+  'subway',
+  'airplane',
+  'ferry',
+  'citybike',
+];
+
 function getIconName(mode, modeSet) {
   return modeSet === 'default' ? `mode-${mode}` : `mode-${modeSet}-${mode}`;
 }
@@ -218,7 +229,7 @@ function NearStopsAndRoutes({
     urlStart = urlParts.join('/');
   }
   const buttons = modeArray
-    .filter(mode => mode !== 'funicular')
+    .filter(mode => validNearYouModes.includes(mode))
     .map(mode => {
       const withAlert = modesWithAlerts.includes(mode.toUpperCase());
       let url = `${urlStart}/${mode.toUpperCase()}/POS`;
