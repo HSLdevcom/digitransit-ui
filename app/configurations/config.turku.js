@@ -101,6 +101,8 @@ export default configMerger(walttiConfig, {
     },
   },
 
+  nearYouModes: ['bus', 'ferry', 'citybike'],
+
   areaPolygon: [
     [21.145557, 59.963388],
     [21.145557, 60.950777],
