@@ -324,7 +324,6 @@ export function getSearchResults(
           URL_PELIAS,
           minimalRegexp,
           geocodingLayers,
-          refPoint,
         ),
       );
     }

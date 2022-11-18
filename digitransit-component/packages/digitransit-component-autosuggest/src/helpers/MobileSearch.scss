@@ -48,6 +48,8 @@ input[type='text'] {
   justify-content: center;
   height: 100%;
   width: 52px;
+  border: 0;
+  background: none;
   svg {
     fill: $primary-color;
     width: 14px;
@@ -172,6 +174,7 @@ button.clear-input {
 
 .clear-search-history {
   display: flex;
+  font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
   margin-top: auto;
   align-items: center;
   justify-content: center;
@@ -182,6 +185,7 @@ button.clear-input {
   font-size: 15px;
   font-weight: var(--font-weight-medium);
   letter-spacing: -0.42px;
+  border: none;
   border-top: 1px solid #ddd;
 }
 
